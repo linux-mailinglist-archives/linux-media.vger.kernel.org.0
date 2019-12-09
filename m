@@ -2,118 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56324116DD0
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2019 14:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E05B2116DED
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2019 14:28:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727715AbfLINSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Dec 2019 08:18:08 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39888 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727513AbfLINSI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Dec 2019 08:18:08 -0500
-Received: by mail-lj1-f196.google.com with SMTP id e10so15584222ljj.6
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2019 05:18:06 -0800 (PST)
+        id S1727502AbfLIN2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Dec 2019 08:28:53 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:35152 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727200AbfLIN2x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Dec 2019 08:28:53 -0500
+Received: by mail-qk1-f193.google.com with SMTP id v23so13021994qkg.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2019 05:28:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aU5mgHvICgEwTorqhLzb99Mw6hzmxrQTFSmnY+KJ2vI=;
-        b=Vouz7gqfAYNl/KFfR2THaISgv6Ffw+z15nsU7RTu06/4cDBOeE56GJwz2FmEJGkhcv
-         TF7MG4Rf+Tw9B/nSs2q8JLopeHOSmBzEsZQIi9srlD/NzYYXfi6PuDsxk9cGTkTu6BHu
-         t90CGSOVegeORKVyJE8ouqKNpcpjystGq0X2Q=
+        bh=mC6dwDgkbul0tC4W3oYHo0MUwTVlgHpSFyYWvGZWy04=;
+        b=N1mzvRHof22zXGuK3MIAUfFxdkYuctiHnxB3Y2Rm/JnwD2RKte8a1MdhwaY3Xv+ctQ
+         jk+upea9/BF7RSkgeJLddkcjgV7yZashiKd23SVNx+n1zps6Y3JO+Ng+sAS9etoSmg1K
+         1hdG0dCngPMSFVPYMIQwiwI00n2ZYGVUnzDAcLW8e7XNBhBpH2n+azm1j0xQnIzpPcAL
+         vBghGmfMgkV56SwYKpcyfTos7NNgKO7LSSfY7HlZOLVeUq2yruN0TgQSaDp9tLNQ3W55
+         i3Waukz5MbNN+GWeSav+7bcR+QEnw13OF7dI8ECisajS0FxVutXrNSZTw8aNBouIYms3
+         EjfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aU5mgHvICgEwTorqhLzb99Mw6hzmxrQTFSmnY+KJ2vI=;
-        b=jvvGK+/2D4hnhWto9qOYIT5ZLhi7Cg/YucO6p7R9MD4GXMMOBHHGue311AlttN0fpH
-         6n1juRH+IMaO8ascWG+NP6KyG3P9qlURlFCW2t/UMm0zYteAcuO52kdbjvERFeZgP7w4
-         nJKmcf+KiTbg56rDzuKJnvreiBWI3MGtqk1xeO/W2+LlCpBLvXxivSQmBFG1BRyXvPlh
-         XFKuINOTz19DIvsUO0iJRul+Fo3avS69U7ee6b3AnDGHoGzJh2N9AB/1zHgjvrg0BOwY
-         se8MyXu/r9abaiqbHn94ApPLbaHb3og/fTHPZBCUCaur2GnVDuWN8DEIh8EK/13B93Om
-         dByA==
-X-Gm-Message-State: APjAAAXYrNh3a/nwU1w0VFD/RRqxXkKObQih+h9u+ypNLPsy3cqqIBII
-        VFFPI2+pxqaXbCfe9W4V6NM0AznSwrBEgA6KuDcDig==
-X-Google-Smtp-Source: APXvYqyZQu2ty/E2nm7Vb+3Cns3sk8tjbBs5CjQdwQUoFU+aaSLsoPkYLv27wb2mNzIPxhncxOtDstcfAhgQxkTYMow=
-X-Received: by 2002:a2e:2e14:: with SMTP id u20mr3103849lju.120.1575897485920;
- Mon, 09 Dec 2019 05:18:05 -0800 (PST)
+        bh=mC6dwDgkbul0tC4W3oYHo0MUwTVlgHpSFyYWvGZWy04=;
+        b=J9qjtdgHJHzotAbExruu1OqvK+vKHMkAcHPLvyIvC27PxbaeoJfWlYOVrw717eBgzU
+         WKe6KoztYPnH3PTJPNV5eJwkl5VDAjyiwT5Mn9CwQStFpLCy8gAL9SpjVc5JoNpj2u+A
+         DYf/zck89HhTJSxxd/+J+zZv2WlCqPsU7RvhskSGEriFBjrB5nEAKA713kPtp6KEIPOI
+         OQPO6ebsXgAr5x3WlcEHh3TtKX7UaNdAOVWD8fo5cMNmNl34i2fQ8kVcWTisslvNMBG1
+         mUsz4Yi27M0KRsjDKojVgIMkiJpPr9MSIwXb6ZuPLy3mzRzfamXJbTco7L5YgORquqqR
+         nQQQ==
+X-Gm-Message-State: APjAAAWBxZtUKxchIiED1lhtMHOukbcAmHjSFw8AzcNjh0+NvRPlFF6c
+        sjmVoodU261xpT3ghli7lHR3SWeJE7mp9waK9NjwWQ==
+X-Google-Smtp-Source: APXvYqzH0Y8On7tJb5v/ufXT6FjZXEJDhs1YZV7EcVwaOIORHRukhbnPNwcL4VQWMWkgQhS7JRhd12/E5FzRgAp2RmM=
+X-Received: by 2002:a37:76c5:: with SMTP id r188mr26750469qkc.256.1575898132089;
+ Mon, 09 Dec 2019 05:28:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
- <CAD90VcY1QgJGYYXTWDFMVshtV0ZnwLjYUzf3uHcDR=FNA2mMEw@mail.gmail.com>
- <20191209104615.ulct6p34cn7ypvrz@sirius.home.kraxel.org> <1970145.L65FEUb58e@os-lin-dmo>
-In-Reply-To: <1970145.L65FEUb58e@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Mon, 9 Dec 2019 22:17:54 +0900
-Message-ID: <CAD90VcaeEti2BW4BoVfP9Qm9J7QtTVPp0wFJAMdgeiCFf2U-Ag@mail.gmail.com>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
-        Enrico Granata <egranata@google.com>,
-        virtio-dev@lists.oasis-open.org, Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
+References: <35ac3fe74b30f6ac2ba9bd1f0a9acb7184c1c6b9.camel@collabora.com>
+In-Reply-To: <35ac3fe74b30f6ac2ba9bd1f0a9acb7184c1c6b9.camel@collabora.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Mon, 9 Dec 2019 14:28:41 +0100
+Message-ID: <CACT4Y+YpWu6gm7qrZWQ3VOe0WKPmNoPfy5dPfmJXSq8XrWpeCA@mail.gmail.com>
+Subject: Re: Fuzzing media before changes hit upstream
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     syzkaller <syzkaller@googlegroups.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
+        linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Thu, Dec 5, 2019 at 11:31 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+>
+> Hi Dmitry,
+>
+> My name is Ezequiel Garcia, I work for Collabora
+> as a Kernel developer. Currently, we are helping the
+> ChromeOS team with media subsystem driver
+> upstreaming and other upstream core changes.
+>
+> I've been following syzkaller media fuzzing
+> progress on vivid, vimc and other drivers, and I'd
+> like to thank you for your hard work. It's very
+> impressive.
+>
+> I'm currently exploring the possibility of using
+> syzkaller as part of our development process,
+> fuzzing core changes, new ioctls, etc.
+>
+> The configuration allows to restrict the syscalls
+> used, but I fail to see if there is a way to
+> restrict the devices nodes syzkaller will use.
+>
+> Also, someone mentioned that it was possible
+> to "train" the system, so subsequent runs
+> would be shorter. Is that the case or maybe
+> I got the wrong idea?
+>
+> Ideally, if we can have something that can
+> run on a developer's laptop for just a few hours
+> (say 6, 8 or even 24 hours) then we could run
+> this before submitting patches, and somehow
+> increase the level of confidence on the changes.
+>
+> Thanks,
+> Ezequiel
 
-On Mon, Dec 9, 2019 at 8:38 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi,
->
-> On Montag, 9. Dezember 2019 11:46:15 CET Gerd Hoffmann wrote:
-> >   Hi,
-> >
-> > > > For (1) you'll simply do a QUEUE_BUFFER.  The command carries references
-> > > > to the buffer pages.  No resource management needed.
-> > > >
-> > > > For (2) you'll have RESOURCE_CREATE + RESOURCE_DESTROY + QUEUE_RESOURCE,
-> > > > where RESOURCE_CREATE passes the scatter list of buffer pages to the
-> > > > host and QUEUE_RESOURCE will carry just the resource id.
-> > > >
-> > > > For (3) you'll have RESOURCE_IMPORT + RESOURCE_DESTROY + QUEUE_RESOURCE.
-> > >
-> > > Thanks for the clarification.
-> > > On second thought, however, I'm wondering if we should keep all
-> > > RESOURCE controls.
-> > > This should be an option (4).
-> >
-> > Well, that's actually (2), aka "we use RESOURCE_* commands to manage
-> > resources".  With the commands in the latest draft that would be:
-> >
-> >   (1) RESOURCE_CREATE
-> >   (2) RESOURCE_ATTACH_BACKING
-> >   (3) RESOURCE_QUEUE (resource can be used multiple times here)
-> >   (4) RESOURCE_DETACH_BACKING
-> >   (5) RESOURCE_DESTROY
-> >
-> > I'm not sure we need the separate *_BACKING commands.  I think we could
-> > also have RESOURCE_CREATE pass the buffer pages scatter list instead.
-> >
-> > Why it is done this way?  Just because the design was copied from
-> > virtio-gpu?  Or is there some specific reason?
->
-> Yes, the design was just derived from virtio-gpu at early stages.
->
-> I do agree we should merge the two steps.
++syzkaller, linux-media mailing list
 
-Thanks for the explanation.  Merging them sounds good to me.
+Hi Ezequiel,
 
--Keiichi
+Great to hear! Thanks.
 
->
-> >
-> > cheers,
-> >   Gerd
->
->
+Re restricting device nodes. The set of device nodes accessed is
+dictated by the set of enabled syscalls.
+Say, if you enable only "openat$vim2m" and "ioctl*", then syzkaller
+will only access /dev/video35 and ioctls applicable to it. So
+restricting set of syscalls should do what you want.
+
+Re training. Generally every syzkaller run is infinite, so there is no
+shorter or longer :)
+But, yes, while it runs it collects corpus of interesting inputs and
+persistent them. Then, on the subsequent  runs it will use the
+collected corpus to more-or-less "continue" from where it stopped. If
+you will get this automatically provided you have code coverage
+enabled (which you should for efficiency anyway). A 6-24h run should
+be good enough (esp provided you already accumulated some corpus).
+Corpus is a single local file, so it can be copied across machines.
+But also we have the syz-hub thing, that may allow a team to connect
+all their local instances together and always reuse each other
+progress:
+https://github.com/google/syzkaller/blob/master/docs/hub.md
+
+But note that syzkaller will not auto-magically test just every piece
+of kernel code. It needs descriptions of the tested interfaces and
+some special setup for some subsystems, e.g. dev nodes present and
+arranged in some particular way. Have you looked at the current syzbot
+coverage on the media subsystem by any chance? That's coverage links
+on the dashboard:
+https://syzkaller.appspot.com/upstream
+Have you checked the existing syzkaller descriptions?
+https://github.com/google/syzkaller/blob/master/sys/linux/dev_video4linux.txt
+I can't guarantee any completeness nor quality of media coverage and
+as far as I know none of kernel developers looked at the
+coverage/descriptions.
+
+If you run syzkaller locally to test a particular piece of kernel
+code, it always helps to check coverage report to assess achieved
+coverage.
+
+This may be useful for configuring kernel:
+https://github.com/google/syzkaller/blob/master/docs/linux/kernel_configs.md
