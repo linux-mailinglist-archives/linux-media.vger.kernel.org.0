@@ -2,70 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3115C1164C1
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2019 02:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E086116544
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2019 04:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726769AbfLIBSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Dec 2019 20:18:14 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50014 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726621AbfLIBSN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Dec 2019 20:18:13 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7A8299A;
-        Mon,  9 Dec 2019 02:18:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575854292;
-        bh=gMGIeU4wtqaWFsz+sVHshUd1vNGh2FdFDnoFYEXXX+k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K8aDITAfBI3X+2rvcxbb5UALevp2O0Ji52NzhGd8Qh1P3ASjsrwAFHf0qX6piQeyP
-         G2yjoCbYTK6XK5g4WKk1leq0YD+42r4TrUsbKiS/IGkfjYE8S/OkXvY0BQgaeuzi7q
-         6/Zejz2tmtdXJU3IoIWVT556/j7f08KxiUDLf8yY=
-Date:   Mon, 9 Dec 2019 03:18:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jeffrin Jose <jeffrin@rajagiritech.edu.in>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PROBLEM] uvcvideo: Failed to query (GET_INFO) UVC control
-Message-ID: <20191209011804.GM14311@pendragon.ideasonboard.com>
-References: <20191207182152.GB5280@debian>
+        id S1726955AbfLIDSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Dec 2019 22:18:55 -0500
+Received: from mail-40134.protonmail.ch ([185.70.40.134]:50126 "EHLO
+        mail-40134.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726748AbfLIDSz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Dec 2019 22:18:55 -0500
+X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Dec 2019 22:18:54 EST
+Date:   Mon, 09 Dec 2019 03:02:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=philipmolloy.com;
+        s=protonmail; t=1575860524;
+        bh=mmaUrEev5g68O/d2PziYoUYpHHxOOVOuVJxCUq9SuBE=;
+        h=Date:To:From:Reply-To:Subject:Feedback-ID:From;
+        b=BEN6P3jObKOjcvVvPVFLPZs1WTsYTxLoMolxKIYhQ9Fv+MS0aN/2+KWsF1VpH78Gp
+         5798mmEEQ8mhgRPP3OvCn+W15Y2azGnaev8FV1/LLLAZi7A5CSCwfqzWOSFB+inijx
+         KZEHGvoZxDCTcwcG/f8eTQazy7ueBJtGTnj/860A=
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Philip Molloy <philip@philipmolloy.com>
+Reply-To: Philip Molloy <philip@philipmolloy.com>
+Subject: Consolidating the interface for camera components
+Message-ID: <jHfajW7oigZg3UJ-yRAkP1gl9fI03ZyJu6BeOIPQqDkzXCdrYIf_dpkSXmN4soXveqqrfV4udXUKGX7yZp6OKkfjNC_zcQgKasgGdVrEL2U=@philipmolloy.com>
+Feedback-ID: GJt-tMfvxqs0QQBY3TE43pQhGJvmgUyYcaVNLwpOk7zQA3Z8eEn7lfwmGEZNv6-1MJvpWrQYi2j-a_XpfopQjA==:Ext:ProtonMail
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191207182152.GB5280@debian>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF autolearn=ham
+        autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jeffrin,
+Hello,
 
-On Sat, Dec 07, 2019 at 11:51:52PM +0530, Jeffrin Jose wrote:
-> hello,
-> 
-> i get this  output piece from "dmesg -l err" of kernel 5.4.2
-> 
-> 
-> -------------------x---------------------------x------------------
-> uvcvideo: Failed to query (GET_INFO) UVC control 6 on unit 1: -32 (exp. 1).
-> uvcvideo: Failed to query (GET_INFO) UVC control 7 on unit 1: -32 (exp. 1).
-> -------------------x----------------------------x-----------------
-> 
-> Additional information:
-> Linux debian 5.4.2 #17 SMP Sat Dec 7 01:39:12 IST 2019 x86_64 GNU/Linux
-> 
-> Relevant file:
-> drivers/media/usb/uvc/uvc_video.c
+I'm trying to consolidate the interface for several camera components into =
+one place to represent a single camera. Note the camera module is a special=
+ized custom device, not a general purpose camera, in case that matters.
 
-Does the camera otherwise fail to operate correctly ? Was the problem
-present in older kernel versions, or did it appear with v5.4.2 ? Are the
-above messages output every time you plug the camera (or load the driver
-in case the camera is built in), or only randomly ? What is the exact
-camera model, and could you please send me the lsusb -v output for it
-(running as root if possible) ?
+Each of the camera modules includes a LED driver (0x63) and camera (0x3c) t=
+hat sit behind a couple muxes. For example:
 
--- 
-Regards,
+/sys/devices/platform/amba/ff030000.i2c/i2c-1/i2c-3/i2c-5/5-003c/
+/sys/devices/platform/amba/ff030000.i2c/i2c-1/i2c-3/i2c-7/7-0063/
 
-Laurent Pinchart
+The LEDs are also available under /sys/class/leds/ based on their labels as=
+ defined in the devicetree.
+
+The image data captured by the camera passes through two soft IP blocks. Th=
+e driver for the second block maps the image into memory and exposes it as =
+a block device in /dev.
+
+Is there a way to consolidate that into one place rather than having it spr=
+ead across /sys/devices/platform, /sys/class/leds, and /dev?
+
+Best,
+Philip
+
+
+
