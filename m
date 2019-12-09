@@ -2,129 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBBE011667E
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2019 06:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A49DB11684D
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2019 09:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726297AbfLIFmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Dec 2019 00:42:07 -0500
-Received: from mailgw02.mediatek.com ([216.200.240.185]:39297 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbfLIFmH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Dec 2019 00:42:07 -0500
-X-UUID: f68b681b6ee64dd8b21073ba3f887546-20191208
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=IfbqGrd5rrP8sh9a0nWcVEhjpDGUtdEIy6n7ea6KzZ4=;
-        b=boUCfZIdSJ/9DWCp6nuTkpNiIU2FGTRS0vx8r72kqWPe7iiBnqymypHrcOMHg82YHw1/HV6ciTFCqgAchs58jgtAiafI2PBXYbXimJeKnYNVC7JHfO6VTVAb7PDMcl/NzsDRzIrJ+394T7jagw/xYif3D5xaZBssKuKc32niLoc=;
-X-UUID: f68b681b6ee64dd8b21073ba3f887546-20191208
-Received: from mtkcas66.mediatek.inc [(172.29.193.44)] by mailgw02.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (musrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 1996030212; Sun, 08 Dec 2019 21:42:02 -0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS62N1.mediatek.inc (172.29.193.41) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Sun, 8 Dec 2019 21:35:44 -0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 9 Dec 2019 13:34:52 +0800
-Message-ID: <1575869682.7013.14.camel@mtksdaap41>
-Subject: Re: [resend PATCH v6 12/12] drm/mediatek: Add support for mmsys
- through a pdev
-From:   CK Hu <ck.hu@mediatek.com>
-To:     <matthias.bgg@kernel.org>
-CC:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <p.zabel@pengutronix.de>, <airlied@linux.ie>,
-        <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <ulrich.hecht+renesas@gmail.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        <enric.balletbo@collabora.com>, <sean.wang@mediatek.com>,
-        <sean.wang@kernel.org>, <rdunlap@infradead.org>, <wens@csie.org>,
-        <hsinyi@chromium.org>, <frank-w@public-files.de>,
-        <drinkcat@chromium.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <linux-clk@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <mbrugger@suse.com>
-Date:   Mon, 9 Dec 2019 13:34:42 +0800
-In-Reply-To: <20191207224740.24536-13-matthias.bgg@kernel.org>
-References: <20191207224740.24536-1-matthias.bgg@kernel.org>
-         <20191207224740.24536-13-matthias.bgg@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        id S1727249AbfLIIjJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Dec 2019 03:39:09 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:38942 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727244AbfLIIjJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Dec 2019 03:39:09 -0500
+Received: by mail-lj1-f194.google.com with SMTP id e10so14590943ljj.6
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2019 00:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=N3RpZCRpKUtgoEtKAWxxbXAbpUsrQdnPIi7268knFtw=;
+        b=dULvsJi+k8JTBXayTBi+s3SshIdVsHL29YXMyJjjgMwbPPXEyS8/YN0HcPA8jIJds2
+         VSkpKhtaM6e5vO5CwrYNZjoPvfd37sSFsDvXmAqZR9HqQNRkBORQByFPWgULxD79Q+km
+         +qCWIf+GuDYPlz8B+LwdsNUa0+3nydUVkBdVywCCi0GNte3iV+gdPwETx+4XDB1AZonl
+         Gi6qZFmImHXrWbDr4jPOzBdwdtDLZtNdVWaCa9OBkpXH1wyu4ptcUAJ5SPr/PvLD0/jp
+         OCxwZA5n6HL9rq7/TpX8n3c6ECcyOaUYknjBeuDIOoXLt4mBnxvn05VLVzVC8lCWXXRa
+         QXVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=N3RpZCRpKUtgoEtKAWxxbXAbpUsrQdnPIi7268knFtw=;
+        b=TzSNAuLVAEvUub9ufkFemOBEGRkxxuo/RgJdZBX1bITwRgYFlwSxhdLEjgIVT8PDGj
+         XcPOOCCn5Lj995zSi8HFcvdmG5wZbylNfpQpqf490qOfCNbb1xLlHWMevxePvWLTxx2C
+         p5jOjK96R2YCBUZC0oEivVL6pS+7gslasqDJNyNITfrk3lfKwy8CnFCuLZuOyBjGsljw
+         bVInjiyFMRqUf+z9hiLKL/+GNzCcPXFPyAt8BHBt0RtVicN4rQT7FeMg56GmjSAJAcul
+         cAyuz4D+8C8eqpIqukLefqHqVTM3QmM+Cqs1fkbXQINoXxvSZZ1528rjKccCzmUIuKJZ
+         xqEg==
+X-Gm-Message-State: APjAAAVfMqbEW+IMq0MBDQUz28Vd416XlYTMvH5wCNZNA76YB28HzoZ7
+        mUiKz7TRWLLVUjdud5TZ2cRZ6drV8Zc=
+X-Google-Smtp-Source: APXvYqzfCH0I9Ovyj5f+TMFVnPqL5ozOvcPC73LrFZoO5BOKdJyYYtrIAEvcbVn/Ls/d8ipWd8juuw==
+X-Received: by 2002:a2e:9906:: with SMTP id v6mr16255037lji.90.1575880747094;
+        Mon, 09 Dec 2019 00:39:07 -0800 (PST)
+Received: from localhost.localdomain ([37.157.136.193])
+        by smtp.gmail.com with ESMTPSA id r26sm10438971lfm.82.2019.12.09.00.39.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2019 00:39:06 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 0/6] Venus new features
+Date:   Mon,  9 Dec 2019 10:38:18 +0200
+Message-Id: <20191209083824.806-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGksIE1hdHRoaWFzOg0KDQpPbiBTYXQsIDIwMTktMTItMDcgYXQgMjM6NDcgKzAxMDAsIG1hdHRo
-aWFzLmJnZ0BrZXJuZWwub3JnIHdyb3RlOg0KPiBGcm9tOiBNYXR0aGlhcyBCcnVnZ2VyIDxtYnJ1
-Z2dlckBzdXNlLmNvbT4NCj4gDQo+IFRoZSBNTVNZUyBzdWJzeXN0ZW0gaW5jbHVkZXMgY2xvY2tz
-IGFuZCBkcm0gY29tcG9uZW50cy4NCj4gVGhpcyBwYXRjaCBhZGRzIGFuIGluaXRhaWxpemF0aW9u
-IHBhdGggdGhyb3VnaCBhIHBsYXRmb3JtIGRldmljZQ0KPiBmb3IgdGhlIGNsb2NrIHBhcnQsIHNv
-IHRoYXQgYm90aCBkcml2ZXJzIGdldCBwcm9iZWQgZnJvbSB0aGUgc2FtZQ0KPiBkZXZpY2UgdHJl
-ZSBjb21wYXRpYmxlLg0KDQpZb3UndmUgc3dpdGNoZWQgbXQ2Nzc5IGFuZCBtdDY3OTcgY2xvY2sg
-ZHJpdmVyIHRvIHBsYXRmb3JtIGRldmljZQ0KcHJvYmluZywgYnV0IHlvdSBkb2VzIG5vdCBwcm9i
-ZSB0aGVuIGluIGRybSBkcml2ZXIsIHNvIHlvdXIgZGVzaWduIGlzIHRvDQpsZXQgbW1zeXMgY2xv
-Y2sgbm90IHdvcmsgaWYgZHJtIGRyaXZlciBpcyBub3QgZW5hYmxlZD8gSXQncyBmaW5lIGZvciBt
-ZQ0KYmVjYXVzZSBpdCBzZWVtcyB0aGF0IGRybSBkcml2ZXIgaXMgdGhlIG9ubHkgdXNlciBvZiBt
-bXN5cyBjbG9jayBub3cuDQoNClJlZ2FyZHMsDQpDSw0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBN
-YXR0aGlhcyBCcnVnZ2VyIDxtYnJ1Z2dlckBzdXNlLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyB8IDI0ICsrKysrKysrKysrKysrKysrKysrKysr
-Kw0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmggfCAgMiArKw0KPiAg
-MiBmaWxlcyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2RybV9kcnYuYw0KPiBpbmRleCAyMTA0NTVlOWY0NmMuLjVhZGE3NGQ4ZDBjOSAx
-MDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMNCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMNCj4gQEAgLTE4Niw2
-ICsxODYsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG10a19tbXN5c19kcml2ZXJfZGF0YSBtdDI3
-MDFfbW1zeXNfZHJpdmVyX2RhdGEgPSB7DQo+ICAJLmV4dF9wYXRoID0gbXQyNzAxX210a19kZHBf
-ZXh0LA0KPiAgCS5leHRfbGVuID0gQVJSQVlfU0laRShtdDI3MDFfbXRrX2RkcF9leHQpLA0KPiAg
-CS5zaGFkb3dfcmVnaXN0ZXIgPSB0cnVlLA0KPiArCS5jbGtfZHJ2X25hbWUgPSAiY2xrLW10Mjcw
-MS1tbSIsDQo+ICB9Ow0KPiAgDQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG10a19tbXN5c19kcml2
-ZXJfZGF0YSBtdDI3MTJfbW1zeXNfZHJpdmVyX2RhdGEgPSB7DQo+IEBAIC0xOTUsNiArMTk2LDcg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgbXQyNzEyX21tc3lz
-X2RyaXZlcl9kYXRhID0gew0KPiAgCS5leHRfbGVuID0gQVJSQVlfU0laRShtdDI3MTJfbXRrX2Rk
-cF9leHQpLA0KPiAgCS50aGlyZF9wYXRoID0gbXQyNzEyX210a19kZHBfdGhpcmQsDQo+ICAJLnRo
-aXJkX2xlbiA9IEFSUkFZX1NJWkUobXQyNzEyX210a19kZHBfdGhpcmQpLA0KPiArCS5jbGtfZHJ2
-X25hbWUgPSAiY2xrLW10MjcxMi1tbSIsDQo+ICB9Ow0KPiAgDQo+ICBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IG10a19tbXN5c19kcml2ZXJfZGF0YSBtdDgxNzNfbW1zeXNfZHJpdmVyX2RhdGEgPSB7DQo+
-IEBAIC0yMDIsNiArMjA0LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVy
-X2RhdGEgbXQ4MTczX21tc3lzX2RyaXZlcl9kYXRhID0gew0KPiAgCS5tYWluX2xlbiA9IEFSUkFZ
-X1NJWkUobXQ4MTczX210a19kZHBfbWFpbiksDQo+ICAJLmV4dF9wYXRoID0gbXQ4MTczX210a19k
-ZHBfZXh0LA0KPiAgCS5leHRfbGVuID0gQVJSQVlfU0laRShtdDgxNzNfbXRrX2RkcF9leHQpLA0K
-PiArCS5jbGtfZHJ2X25hbWUgPSAiY2xrLW10ODE3My1tbSIsDQo+ICB9Ow0KPiAgDQo+ICBzdGF0
-aWMgaW50IG10a19kcm1fa21zX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkNCj4gQEAgLTQ5
-OSw2ICs1MDIsMjQgQEAgc3RhdGljIGludCBtdGtfZHJtX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9k
-ZXZpY2UgKnBkZXYpDQo+ICAJSU5JVF9XT1JLKCZwcml2YXRlLT5jb21taXQud29yaywgbXRrX2F0
-b21pY193b3JrKTsNCj4gIAlwcml2YXRlLT5kYXRhID0gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRh
-KGRldik7DQo+ICANCj4gKwkvKg0KPiArCSAqIE1NU1lTIGluY2x1ZGVzIGFwYXJ0IGZyb20gY29t
-cG9uZW50cyBtYW5hZ2VtZW50IGEgYmxvY2sgcHJvdmlkaW5nDQo+ICsJICogY2xvY2tzIGZvciB0
-aGUgc3Vic3lzdGVtLiBXZSBwcm9iZSB0aGlzIGNsb2NrIGRyaXZlciB2aWEgYSBwbGF0Zm9ybQ0K
-PiArCSAqIGRldmljZS4NCj4gKwkgKi8NCj4gKwlpZiAocHJpdmF0ZS0+ZGF0YS0+Y2xrX2Rydl9u
-YW1lKSB7DQo+ICsJCXByaXZhdGUtPmNsa19kZXYgPSBwbGF0Zm9ybV9kZXZpY2VfcmVnaXN0ZXJf
-ZGF0YShkZXYsDQo+ICsJCQkJCQlwcml2YXRlLT5kYXRhLT5jbGtfZHJ2X25hbWUsIC0xLA0KPiAr
-CQkJCQkJTlVMTCwgMCk7DQo+ICsNCj4gKwkJaWYgKElTX0VSUihwcml2YXRlLT5jbGtfZGV2KSkg
-ew0KPiArCQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gcmVnaXN0ZXIgJXMgcGxhdGZvcm0gZGV2
-aWNlXG4iLA0KPiArCQkJCXByaXZhdGUtPmRhdGEtPmNsa19kcnZfbmFtZSk7DQo+ICsNCj4gKwkJ
-CXJldHVybiBQVFJfRVJSKHByaXZhdGUtPmNsa19kZXYpOw0KPiArCQl9DQo+ICsJfQ0KPiArDQo+
-ICAJcHJpdmF0ZS0+Y29uZmlnX3JlZ3MgPSBzeXNjb25fbm9kZV90b19yZWdtYXAoZGV2LT5vZl9u
-b2RlKTsNCj4gIAlpZiAoSVNfRVJSKHByaXZhdGUtPmNvbmZpZ19yZWdzKSkNCj4gIAkJcmV0dXJu
-IFBUUl9FUlIocHJpdmF0ZS0+Y29uZmlnX3JlZ3MpOw0KPiBAQCAtNjA1LDYgKzYyNiw5IEBAIHN0
-YXRpYyBpbnQgbXRrX2RybV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4g
-IAlmb3IgKGkgPSAwOyBpIDwgRERQX0NPTVBPTkVOVF9JRF9NQVg7IGkrKykNCj4gIAkJb2Zfbm9k
-ZV9wdXQocHJpdmF0ZS0+Y29tcF9ub2RlW2ldKTsNCj4gIA0KPiArCWlmIChwcml2YXRlLT5jbGtf
-ZGV2KQ0KPiArCQlwbGF0Zm9ybV9kZXZpY2VfdW5yZWdpc3Rlcihwcml2YXRlLT5jbGtfZGV2KTsN
-Cj4gKw0KPiAgCXJldHVybiAwOw0KPiAgfQ0KPiAgDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZHJtX2Rydi5oDQo+IGluZGV4IDYzYTEyMTU3N2RjYi4uOGZlOTEzNmFkYzM4IDEwMDY0NA0K
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaA0KPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaA0KPiBAQCAtMjksMTEgKzI5LDEz
-IEBAIHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgew0KPiAgCXVuc2lnbmVkIGludCB0aGly
-ZF9sZW47DQo+ICANCj4gIAlib29sIHNoYWRvd19yZWdpc3RlcjsNCj4gKwljb25zdCBjaGFyICpj
-bGtfZHJ2X25hbWU7DQo+ICB9Ow0KPiAgDQo+ICBzdHJ1Y3QgbXRrX2RybV9wcml2YXRlIHsNCj4g
-IAlzdHJ1Y3QgZHJtX2RldmljZSAqZHJtOw0KPiAgCXN0cnVjdCBkZXZpY2UgKmRtYV9kZXY7DQo+
-ICsJc3RydWN0IHBsYXRmb3JtX2RldmljZSAqY2xrX2RldjsNCj4gIA0KPiAgCXVuc2lnbmVkIGlu
-dCBudW1fcGlwZXM7DQo+ICANCg0K
+Hello,
+
+The patchset contains two new features:
+
+The first one is the so called core-selection (for Venus on sdm845)
+where we adding a mechanism in the driver to select the minimum
+loaded core (sdm845 has two cores, aka hardware pipelines) for the
+given driver instance. This feature should improve power management
+and thermal mitigation as well. 
+
+The second one is related to the decoder 10bit bitstream playback.
+
+Aniket Masule (2):
+  media: venus: introduce core selection
+  media: venus: vdec: handle 10bit bitstreams
+
+Stanimir Varbanov (4):
+  venus: redesign clocks and pm domains control
+  arm64: dts: sdm845: move venus clocks and pmdomains in parent
+  dt-bindings: media: venus: describe sdm845 with optional pmdomains
+  v4l: Add source event change for bit-depth
+
+ .../devicetree/bindings/media/qcom,venus.txt  |  22 +-
+ .../media/uapi/v4l/vidioc-dqevent.rst         |   8 +-
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |  23 +-
+ drivers/media/platform/qcom/venus/Makefile    |   2 +-
+ drivers/media/platform/qcom/venus/core.c      |  89 +-
+ drivers/media/platform/qcom/venus/core.h      |   9 +
+ drivers/media/platform/qcom/venus/helpers.c   | 435 ++------
+ drivers/media/platform/qcom/venus/helpers.h   |   4 -
+ .../media/platform/qcom/venus/hfi_helper.h    |   6 +
+ .../media/platform/qcom/venus/hfi_parser.h    |   5 +
+ .../media/platform/qcom/venus/pm_helpers.c    | 947 ++++++++++++++++++
+ .../media/platform/qcom/venus/pm_helpers.h    |  65 ++
+ drivers/media/platform/qcom/venus/vdec.c      |  88 +-
+ drivers/media/platform/qcom/venus/venc.c      |  75 +-
+ include/uapi/linux/videodev2.h                |   1 +
+ 16 files changed, 1262 insertions(+), 518 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/venus/pm_helpers.c
+ create mode 100644 drivers/media/platform/qcom/venus/pm_helpers.h
+
+-- 
+2.17.1
 
