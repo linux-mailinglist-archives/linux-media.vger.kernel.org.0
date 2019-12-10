@@ -2,292 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3F50118961
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 14:16:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B68118A05
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 14:39:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfLJNQP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 08:16:15 -0500
-Received: from plasma6.jpberlin.de ([80.241.56.68]:36683 "EHLO
-        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727211AbfLJNQO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 08:16:14 -0500
-Received: from spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116])
-        by plasma.jpberlin.de (Postfix) with ESMTP id 553B5B9102;
-        Tue, 10 Dec 2019 14:16:09 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id VZrZoxJO0aEf; Tue, 10 Dec 2019 14:16:04 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id 0567FB9057;
-        Tue, 10 Dec 2019 14:16:03 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 10 Dec
- 2019 14:16:06 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Enrico Granata <egranata@google.com>
-CC:     Changyeon Jo <changyeon@google.com>,
-        <virtio-dev@lists.oasis-open.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
-Date:   Tue, 10 Dec 2019 14:16:03 +0100
-Message-ID: <2278645.2VI2HTiyL8@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAPR809t2X3eEZj14Y-0CdnmzGZFhWKt2vwFSZBrEZbChQpmU_w@mail.gmail.com>
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com> <9280087.Px4QY1m31c@os-lin-dmo> <CAPR809t2X3eEZj14Y-0CdnmzGZFhWKt2vwFSZBrEZbChQpmU_w@mail.gmail.com>
+        id S1727420AbfLJNjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 08:39:41 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40646 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727145AbfLJNjk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 08:39:40 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 816B4B016;
+        Tue, 10 Dec 2019 13:39:35 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id AF0221E0B23; Tue, 10 Dec 2019 14:39:32 +0100 (CET)
+Date:   Tue, 10 Dec 2019 14:39:32 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v8 24/26] mm/gup: track FOLL_PIN pages
+Message-ID: <20191210133932.GH1551@quack2.suse.cz>
+References: <20191209225344.99740-1-jhubbard@nvidia.com>
+ <20191209225344.99740-25-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191209225344.99740-25-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-Just to start, let's consider this v4l2 control: 
-V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE.
-As I can see, this control is referenced as a mandatory one in the Chromium 
-sources [1].
-
-So could someone from the Chromium team please explain why it is mandatory? 
-(YouTube?) In fact, almost no encoders implement this control. Do we need it 
-in virtio-video?
-
-[1] https://chromium.googlesource.com/chromium/src/media/+/refs/heads/master/
-gpu/v4l2/v4l2_video_encode_accelerator.cc#1500
-
-Regards,
-Dmitry.
-
-On Montag, 9. Dezember 2019 22:12:28 CET Enrico Granata wrote:
-> +Changyeon Jo <changyeon@google.com> for his awareness
+On Mon 09-12-19 14:53:42, John Hubbard wrote:
+> Add tracking of pages that were pinned via FOLL_PIN.
 > 
-> Thanks,
-> - Enrico
+> As mentioned in the FOLL_PIN documentation, callers who effectively set
+> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
+> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
+> for DIO and/or RDMA use".
 > 
+> Pages that have been pinned via FOLL_PIN are identifiable via a
+> new function call:
 > 
-> On Mon, Dec 9, 2019 at 6:20 AM Dmitry Sepp <dmitry.sepp@opensynergy.com>
+>    bool page_dma_pinned(struct page *page);
 > 
-> wrote:
-> > Hello,
-> > 
-> > I'd like to invite everyone to share ideas regarding required encoder
-> > features
-> > in this separate sub-tree.
-> > 
-> > In general, encoder devices are more complex compared to decoders. So the
-> > question I'd like to rise is in what way we define the minimal subset of
-> > features to be implemented by the virtio-video.
-> > 
-> > We may look at the following to define the set of features:
-> > 1. USB video, 2.3.6 Encoding Unit [1].
-> > 2. Android 10 Compatibility Definition [2].
-> > 
-> > Would be nice to hear about any specific requirements from the Chromium
-> > team as
-> > well.
-> > 
-> > [1] https://www.usb.org/sites/default/files/USB_Video_Class_1_5.zip
-> > [2]
-> > https://source.android.com/compatibility/android-cdd#5_2_video_encoding
-> > 
-> > Thank you.
-> > 
-> > Best regards,
-> > Dmitry.
-> > 
-> > On Mittwoch, 4. Dezember 2019 10:16:20 CET Gerd Hoffmann wrote:
-> > >   Hi,
-> > >   
-> > > > 1. Focus on only decoder/encoder functionalities first.
-> > > > 
-> > > > As Tomasz said earlier in this thread, it'd be too complicated to
-> > 
-> > support
-> > 
-> > > > camera usage at the same time. So, I'd suggest to make it just a
-> > 
-> > generic
-> > 
-> > > > mem-to-mem video processing device protocol for now.
-> > > > If we finally decide to support camera in this protocol, we can add it
-> > > > later.
-> > > 
-> > > Agree.
-> > > 
-> > > > 2. Only one feature bit can be specified for one device.
-> > > > 
-> > > > I'd like to have a decoder device and encoder device separately.
-> > > > It'd be natural to assume it because a decoder and an encoder are
-> > 
-> > provided
-> > 
-> > > > as different hardware.
-> > > 
-> > > Hmm, modern GPUs support both encoding and decoding ...
-> > > 
-> > > I don't think we should bake that restriction into the specification.
-> > > It probably makes sense to use one virtqueue per function though, that
-> > > will simplify dispatching in both host and guest.
-> > > 
-> > > > 3. Separate buffer allocation functionalities from virtio-video
-> > 
-> > protocol.
-> > 
-> > > > To support various ways of guest/host buffer sharing, we might want to
-> > > > have a dedicated buffer sharing device as we're discussing in another
-> > > > thread. Until we reach consensus there, it'd be good not to have
-> > > > buffer
-> > > > allocation
-> > > > functionalities in virtio-video.
-> > > 
-> > > I think virtio-video should be able to work as stand-alone device,
-> > > so we need some way to allocate buffers ...
-> > > 
-> > > Buffer sharing with other devices can be added later.
-> > > 
-> > > > > +The virtio video device is a virtual video streaming device that
-> > > > > supports the +following functions: encoder, decoder, capture,
-> > > > > output.
-> > > > > +
-> > > > > +\subsection{Device ID}\label{sec:Device Types / Video Device /
-> > 
-> > Device
-> > 
-> > > > > ID}
-> > > > > +
-> > > > > +TBD.
-> > > > 
-> > > > I'm wondering how and when we can determine and reserve this ID?
-> > > 
-> > > Grab the next free, update the spec accordingly, submit the one-line
-> > > patch.
-> > > 
-> > > > > +\begin{lstlisting}
-> > > > > +enum virtio_video_pixel_format {
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_UNDEFINED = 0,
-> > > > > +
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_H264 = 0x0100,
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_NV12,
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_NV21,
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_I420,
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_I422,
-> > > > > +       VIRTIO_VIDEO_PIX_FMT_XBGR,
-> > > > > +};
-> > > > 
-> > > > I'm wondering if we can use FOURCC instead. So, we can avoid
-> > 
-> > reinventing a
-> > 
-> > > > mapping from formats to integers.
-> > > > Also, I suppose the word "pixel formats" means only raw (decoded)
-> > 
-> > formats.
-> > 
-> > > > But, it can be encoded format like H.264. So, I guess "image format"
-> > > > or
-> > > > "fourcc" is a better word choice.
-> > > 
-> > > Use separate pixel_format (fourcc) and stream_format (H.264 etc.) enums?
-> > > 
-> > > > > +\begin{lstlisting}
-> > > > > +struct virtio_video_function {
-> > > > > +       struct virtio_video_desc desc;
-> > > > > +       __le32 function_type; /* One of VIRTIO_VIDEO_FUNC_* types */
-> > > > > +       __le32 function_id;
-> > > > > +       struct virtio_video_params in_params;
-> > > > > +       struct virtio_video_params out_params;
-> > > > > +       __le32 num_caps;
-> > > > > +       __u8 padding[4];
-> > > > > +       /* Followed by struct virtio_video_capability video_caps[];
-> > 
-> > */
-> > 
-> > > > > +};
-> > > > > +\end{lstlisting}
-> > > > 
-> > > > If one device only has one functionality, virtio_video_function's
-> > 
-> > fields
-> > 
-> > > > will be no longer needed except in_params and out_params. So, we'd be
-> > > > able to remove virtio_video_function and have in_params and out_params
-> > 
-> > in
-> > 
-> > > > virtio_video_capability instead.
-> > > 
-> > > Same goes for per-function virtqueues (used virtqueue implies function).
-> > > 
-> > > > > +\begin{lstlisting}
-> > > > > +struct virtio_video_resource_detach_backing {
-> > > > > +       struct virtio_video_ctrl_hdr hdr;
-> > > > > +       __le32 resource_id;
-> > > > > +       __u8 padding[4];
-> > > > > +};
-> > > > > +\end{lstlisting}
-> > > > > +
-> > > > > +\begin{description}
-> > > > > +\item[\field{resource_id}] internal id of the resource.
-> > > > > +\end{description}
-> > > > 
-> > > > I suppose that it'd be better not to have the above series of
-> > 
-> > T_RESOURCE
-> > 
-> > > > controls at least until we reach a conclusion in the thread of
-> > > > buffer-sharing device. If we end up concluding this type of controls
-> > > > is
-> > > > the best way, we'll be able to revisit here.
-> > > 
-> > > Well.  For buffer management there are a bunch of options.
-> > > 
-> > >  (1) Simply stick the buffers (well, pointers to the buffer pages) into
-> > >  
-> > >      the virtqueue.  This is the standard virtio way.
-> > >  
-> > >  (2) Create resources, then put the resource ids into the virtqueue.
-> > >  
-> > >      virtio-gpu uses that model.  First, because virtio-gpu needs an id
-> > >      to reference resources in the rendering command stream
-> > >      (virtio-video doesn't need this).  Also because (some kinds of)
-> > >      resources are around for a long time and the guest-physical ->
-> > >      host-virtual mapping needs to be done only once that way (which
-> > >      I think would be the case for virtio-video too because v4l2
-> > >      re-uses buffers in robin-round fashion).  Drawback is this
-> > >      assumes shared memory between host and guest (which is the case
-> > >      in typical use cases but it is not mandated by the virtio spec).
-> > >  
-> > >  (3) Import external resources (from virtio-gpu for example).
-> > >  
-> > >      Out of scope for now, will probably added as optional feature
-> > >      later.
-> > > 
-> > > I guess long-term we want support either (1)+(3) or (2)+(3).
-> > > 
-> > > cheers,
-> > > 
-> > >   Gerd
-> > 
-> > ---------------------------------------------------------------------
-> > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+> What to do in response to encountering such a page, is left to later
+> patchsets. There is discussion about this in [1], [2], and [3].
+> 
+> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
+> 
+> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
+>     https://lwn.net/Articles/784574/
+> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
+>     https://lwn.net/Articles/774411/
+> [3] The trouble with get_user_pages() (Apr 30, 2018):
+>     https://lwn.net/Articles/753027/
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Suggested-by: Jérôme Glisse <jglisse@redhat.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
+Looks nice, some comments below...
 
+> +/*
+> + * try_grab_compound_head() - attempt to elevate a page's refcount, by a
+> + * flags-dependent amount.
+> + *
+> + * This has a default assumption of "use FOLL_GET behavior, if FOLL_PIN is not
+> + * set".
+> + *
+> + * "grab" names in this file mean, "look at flags to decide with to use FOLL_PIN
+> + * or FOLL_GET behavior, when incrementing the page's refcount.
+> + */
+> +static struct page *try_grab_compound_head(struct page *page, int refs,
+> +					   unsigned int flags)
+> +{
+> +	if (flags & FOLL_PIN)
+> +		return try_pin_compound_head(page, refs);
+> +
+> +	return try_get_compound_head(page, refs);
+> +}
+> +
+> +/**
+> + * grab_page() - elevate a page's refcount by a flag-dependent amount
+> + *
+> + * This might not do anything at all, depending on the flags argument.
+> + *
+> + * "grab" names in this file mean, "look at flags to decide with to use FOLL_PIN
+                                                               ^^^ whether
+
+> + * or FOLL_GET behavior, when incrementing the page's refcount.
+> + *
+> + * @page:	pointer to page to be grabbed
+> + * @flags:	gup flags: these are the FOLL_* flag values.
+> + *
+> + * Either FOLL_PIN or FOLL_GET (or neither) may be set, but not both at the same
+> + * time. (That's true throughout the get_user_pages*() and pin_user_pages*()
+> + * APIs.) Cases:
+> + *
+> + *	FOLL_GET: page's refcount will be incremented by 1.
+> + *	FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
+> + */
+> +void grab_page(struct page *page, unsigned int flags)
+> +{
+> +	if (flags & FOLL_GET)
+> +		get_page(page);
+> +	else if (flags & FOLL_PIN) {
+> +		get_page(page);
+> +		WARN_ON_ONCE(flags & FOLL_GET);
+> +		/*
+> +		 * Use get_page(), above, to do the refcount error
+> +		 * checking. Then just add in the remaining references:
+> +		 */
+> +		page_ref_add(page, GUP_PIN_COUNTING_BIAS - 1);
+
+This is wrong for two reasons:
+
+1) You miss compound_head() indirection from get_page() for this
+page_ref_add().
+
+2) page_ref_add() could overflow the counter without noticing.
+
+Especially with GUP_PIN_COUNTING_BIAS being non-trivial, it is realistic
+that an attacker might try to overflow the page refcount and we have to
+protect the kernel against that. So I think that all the places that would
+use grab_page() actually need to use try_grab_page() and then gracefully
+deal with the failure.
+
+> @@ -278,11 +425,23 @@ static struct page *follow_page_pte(struct vm_area_struct *vma,
+>  		goto retry;
+>  	}
+>  
+> -	if (flags & FOLL_GET) {
+> +	if (flags & (FOLL_PIN | FOLL_GET)) {
+> +		/*
+> +		 * Allow try_get_page() to take care of error handling, for
+> +		 * both cases: FOLL_GET or FOLL_PIN:
+> +		 */
+>  		if (unlikely(!try_get_page(page))) {
+>  			page = ERR_PTR(-ENOMEM);
+>  			goto out;
+>  		}
+> +
+> +		if (flags & FOLL_PIN) {
+> +			WARN_ON_ONCE(flags & FOLL_GET);
+> +
+> +			/* We got a +1 refcount from try_get_page(), above. */
+> +			page_ref_add(page, GUP_PIN_COUNTING_BIAS - 1);
+> +			__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, 1);
+> +		}
+>  	}
+
+The same problem here as above, plus this place should use the same
+try_grab..() helper, shouldn't it?
+
+> @@ -544,8 +703,8 @@ static struct page *follow_page_mask(struct vm_area_struct *vma,
+>  	/* make this handle hugepd */
+>  	page = follow_huge_addr(mm, address, flags & FOLL_WRITE);
+>  	if (!IS_ERR(page)) {
+> -		BUG_ON(flags & FOLL_GET);
+> -		return page;
+> +		WARN_ON_ONCE(flags & (FOLL_GET | FOLL_PIN));
+> +		return NULL;
+
+I agree with the change to WARN_ON_ONCE but why is correct the change of
+the return value? Note that this is actually a "success branch".
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
