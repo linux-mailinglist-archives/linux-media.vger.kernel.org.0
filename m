@@ -2,29 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBC74118045
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 07:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D219A118139
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 08:18:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbfLJGTC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 01:19:02 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:42248 "EHLO www.linuxtv.org"
+        id S1727119AbfLJHS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 02:18:57 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:48382 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726085AbfLJGTC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 01:19:02 -0500
+        id S1726819AbfLJHS5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 02:18:57 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ieYr4-006pjq-7W; Tue, 10 Dec 2019 06:18:42 +0000
+        id 1ieZn2-006sV2-Nz; Tue, 10 Dec 2019 07:18:37 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ieYsB-0002FC-G7; Tue, 10 Dec 2019 06:19:51 +0000
-Date:   Tue, 10 Dec 2019 06:19:51 +0000 (UTC)
+        id 1ieZoA-0003AH-Lg; Tue, 10 Dec 2019 07:19:46 +0000
+Date:   Tue, 10 Dec 2019 07:19:46 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1922857480.0.1575958791377.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2891
+Message-ID: <1911640165.1.1575962386661.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1922857480.0.1575958791377.JavaMail.jenkins@builder.linuxtv.org>
+References: <1922857480.0.1575958791377.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2892
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -37,15 +39,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2891/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/2892/display/redirect>
 
 Changes:
 
 
 ------------------------------------------
-[...truncated 34.23 KB...]
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv090x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6110x.o>
+[...truncated 24.24 KB...]
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m88ds3103.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88472.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88473.o>
@@ -278,6 +278,8 @@ Changes:
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
   CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
 <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.c>:724:18: error: 'compat_ptr_ioctl' undeclared here (not in a function); did you mean 'compat_blkdev_ioctl'?
   .compat_ioctl = compat_ptr_ioctl,
                   ^~~~~~~~~~~~~~~~
