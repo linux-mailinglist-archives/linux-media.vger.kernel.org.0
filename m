@@ -2,37 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54B9311932E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 22:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBB4111933C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 22:08:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727524AbfLJVHr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 16:07:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54296 "EHLO mail.kernel.org"
+        id S1727805AbfLJVIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 16:08:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55252 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727398AbfLJVHq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:07:46 -0500
+        id S1727800AbfLJVIK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:08:10 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EC18D20836;
-        Tue, 10 Dec 2019 21:07:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B18E2077B;
+        Tue, 10 Dec 2019 21:08:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012065;
-        bh=wsJErOlEJj8NVasY0qcfuXIC3T5Btp8ye5MSynVvqc8=;
+        s=default; t=1576012089;
+        bh=PQnaO16yEfIOBCWFcGEaFc+ZV6bUgyC5DyPZ8fTgcfM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=No3E1rpf3YFBg8rjo5bGavSvBkPckLqVqppfyqS/Pv0m1lobWdCkyZ7uRsTGAlyCD
-         Z+IBXN2d5ztVyDczxrzc/QDLTgvsEvGoRm4q2KRf+tTF3ID4f+EXAh4ud9qbWeaZAh
-         hvkOZBPlvYJAgIhNUjs3MMeaaLG2tZTfOboIXnxo=
+        b=eFrJKVEvdiJ3K9JbraLlGUq0+7ChPznXv4gl0M4jr1GDKSItGLST9oYtnllCDhhpO
+         O/AV7vPk9pEdNPWvas1YaiB+74jLBn3cA6aBaiOufrVrjksvDYgKMNuPBRfqE907tO
+         j/RVrCWeo+PXEABA94DKmJ0MnwRaK0+IknKk33qU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Loic Poulain <loic.poulain@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 047/350] media: venus: core: Fix msm8996 frequency table
-Date:   Tue, 10 Dec 2019 16:02:32 -0500
-Message-Id: <20191210210735.9077-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 067/350] media: cec-funcs.h: add status_req checks
+Date:   Tue, 10 Dec 2019 16:02:52 -0500
+Message-Id: <20191210210735.9077-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -45,60 +43,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Loic Poulain <loic.poulain@linaro.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit c690435ed07901737e5c007a65ec59f53b33eb71 ]
+[ Upstream commit 9b211f9c5a0b67afc435b86f75d78273b97db1c5 ]
 
-In downstream driver, there are two frequency tables defined,
-one for the encoder and one for the decoder:
+The CEC_MSG_GIVE_DECK_STATUS and CEC_MSG_GIVE_TUNER_DEVICE_STATUS commands
+both have a status_req argument: ON, OFF, ONCE. If ON or ONCE, then the
+follower will reply with a STATUS message. Either once or whenever the
+status changes (status_req == ON).
 
-/* Encoders /
-<972000 490000000 0x55555555>, / 4k UHD @ 30 /
-<489600 320000000 0x55555555>, / 1080p @ 60 /
-<244800 150000000 0x55555555>, / 1080p @ 30 /
-<108000 75000000 0x55555555>, / 720p @ 30 */
+If status_req == OFF, then it will stop sending continuous status updates,
+but the follower will *not* send a STATUS message in that case.
 
-/* Decoders /
-<1944000 490000000 0xffffffff>, / 4k UHD @ 60 /
-< 972000 320000000 0xffffffff>, / 4k UHD @ 30 /
-< 489600 150000000 0xffffffff>, / 1080p @ 60 /
-< 244800 75000000 0xffffffff>; / 1080p @ 30 */
+This means that if status_req == OFF, then msg->reply should be 0 as well
+since no reply is expected in that case.
 
-It shows that encoder always needs a higher clock than decoder.
-
-In current venus driver, the unified frequency table is aligned
-with the downstream decoder table which causes performance issues
-in encoding scenarios. Fix that by aligning frequency table on
-worst case (encoding).
-
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/uapi/linux/cec-funcs.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index e6eff512a8a14..84e982f259a06 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -427,10 +427,11 @@ static const struct venus_resources msm8916_res = {
- };
+diff --git a/include/uapi/linux/cec-funcs.h b/include/uapi/linux/cec-funcs.h
+index 8997d5068c085..4511b85c84dfc 100644
+--- a/include/uapi/linux/cec-funcs.h
++++ b/include/uapi/linux/cec-funcs.h
+@@ -923,7 +923,8 @@ static inline void cec_msg_give_deck_status(struct cec_msg *msg,
+ 	msg->len = 3;
+ 	msg->msg[1] = CEC_MSG_GIVE_DECK_STATUS;
+ 	msg->msg[2] = status_req;
+-	msg->reply = reply ? CEC_MSG_DECK_STATUS : 0;
++	msg->reply = (reply && status_req != CEC_OP_STATUS_REQ_OFF) ?
++				CEC_MSG_DECK_STATUS : 0;
+ }
  
- static const struct freq_tbl msm8996_freq_table[] = {
--	{ 1944000, 490000000 },	/* 4k UHD @ 60 */
--	{  972000, 320000000 },	/* 4k UHD @ 30 */
--	{  489600, 150000000 },	/* 1080p @ 60 */
--	{  244800,  75000000 },	/* 1080p @ 30 */
-+	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
-+	{  972000, 520000000 },	/* 4k UHD @ 30 */
-+	{  489600, 346666667 },	/* 1080p @ 60 */
-+	{  244800, 150000000 },	/* 1080p @ 30 */
-+	{  108000,  75000000 },	/* 720p @ 30 */
- };
+ static inline void cec_ops_give_deck_status(const struct cec_msg *msg,
+@@ -1027,7 +1028,8 @@ static inline void cec_msg_give_tuner_device_status(struct cec_msg *msg,
+ 	msg->len = 3;
+ 	msg->msg[1] = CEC_MSG_GIVE_TUNER_DEVICE_STATUS;
+ 	msg->msg[2] = status_req;
+-	msg->reply = reply ? CEC_MSG_TUNER_DEVICE_STATUS : 0;
++	msg->reply = (reply && status_req != CEC_OP_STATUS_REQ_OFF) ?
++				CEC_MSG_TUNER_DEVICE_STATUS : 0;
+ }
  
- static const struct reg_val msm8996_reg_preset[] = {
+ static inline void cec_ops_give_tuner_device_status(const struct cec_msg *msg,
 -- 
 2.20.1
 
