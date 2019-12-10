@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3154119AB4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC7C119BF4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:13:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727700AbfLJWDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 17:03:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33508 "EHLO mail.kernel.org"
+        id S1727885AbfLJWDe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 17:03:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33772 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727666AbfLJWDZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:03:25 -0500
+        id S1727859AbfLJWDd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 17:03:33 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C7DF320637;
-        Tue, 10 Dec 2019 22:03:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 59AB12077B;
+        Tue, 10 Dec 2019 22:03:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576015404;
-        bh=7Dc4axMlf7o0Iscg6wxMmGHMCOp0oY38gUotoCDzxbM=;
+        s=default; t=1576015413;
+        bh=gzsRijTBLbGffTkr/3RSSwqpOYqXsGL36XWokYSnePQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HZs9bmrbARVB1iEmsyXNPGL/SK8/fQAi/1I/pk9W92QCHvoUeK5tgCn8URK2h9HFV
-         OoL7R74Lrrs9L3ot9t8bhs2E/xDySh7HxziZX+3Qn6iDdQCS34vubKk05YYrvKCBgl
-         C1wagIfogQuWKdbhp+78z8tcQ19C9Uz8UtjmnOk4=
+        b=ORfXtELHdt675oGAI8htOFEDl1HG2vRewtHGBt+k1rXA6+OmltP53NSZL9Dr7i3fx
+         Hahoa3cvzTMKgmYKtQ1x05dho6Ud3EKf5NrKY6Mejnp8vUnRQQciV4Av1hXMrQAJQI
+         1549map0LyFUP1iR9V4Dbxu22NUYz2cvyq3ln99U=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Loic Poulain <loic.poulain@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 019/130] media: venus: core: Fix msm8996 frequency table
-Date:   Tue, 10 Dec 2019 17:01:10 -0500
-Message-Id: <20191210220301.13262-19-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 026/130] media: flexcop-usb: fix NULL-ptr deref in flexcop_usb_transfer_init()
+Date:   Tue, 10 Dec 2019 17:01:17 -0500
+Message-Id: <20191210220301.13262-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
 References: <20191210220301.13262-1-sashal@kernel.org>
@@ -45,60 +44,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Loic Poulain <loic.poulain@linaro.org>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit c690435ed07901737e5c007a65ec59f53b33eb71 ]
+[ Upstream commit 649cd16c438f51d4cd777e71ca1f47f6e0c5e65d ]
 
-In downstream driver, there are two frequency tables defined,
-one for the encoder and one for the decoder:
+If usb_set_interface() failed, iface->cur_altsetting will
+not be assigned and it will be used in flexcop_usb_transfer_init()
+It may lead a NULL pointer dereference.
 
-/* Encoders /
-<972000 490000000 0x55555555>, / 4k UHD @ 30 /
-<489600 320000000 0x55555555>, / 1080p @ 60 /
-<244800 150000000 0x55555555>, / 1080p @ 30 /
-<108000 75000000 0x55555555>, / 720p @ 30 */
+Check usb_set_interface() return value in flexcop_usb_init()
+and return failed to avoid using this NULL pointer.
 
-/* Decoders /
-<1944000 490000000 0xffffffff>, / 4k UHD @ 60 /
-< 972000 320000000 0xffffffff>, / 4k UHD @ 30 /
-< 489600 150000000 0xffffffff>, / 1080p @ 60 /
-< 244800 75000000 0xffffffff>; / 1080p @ 30 */
-
-It shows that encoder always needs a higher clock than decoder.
-
-In current venus driver, the unified frequency table is aligned
-with the downstream decoder table which causes performance issues
-in encoding scenarios. Fix that by aligning frequency table on
-worst case (encoding).
-
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/qcom/venus/core.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/media/usb/b2c2/flexcop-usb.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 769e9e68562df..9360b36b82cd8 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -345,10 +345,11 @@ static const struct venus_resources msm8916_res = {
- };
- 
- static const struct freq_tbl msm8996_freq_table[] = {
--	{ 1944000, 490000000 },	/* 4k UHD @ 60 */
--	{  972000, 320000000 },	/* 4k UHD @ 30 */
--	{  489600, 150000000 },	/* 1080p @ 60 */
--	{  244800,  75000000 },	/* 1080p @ 30 */
-+	{ 1944000, 520000000 },	/* 4k UHD @ 60 (decode only) */
-+	{  972000, 520000000 },	/* 4k UHD @ 30 */
-+	{  489600, 346666667 },	/* 1080p @ 60 */
-+	{  244800, 150000000 },	/* 1080p @ 30 */
-+	{  108000,  75000000 },	/* 720p @ 30 */
- };
- 
- static const struct reg_val msm8996_reg_preset[] = {
+diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+index ac4fddfd0a43f..f1807c16438dd 100644
+--- a/drivers/media/usb/b2c2/flexcop-usb.c
++++ b/drivers/media/usb/b2c2/flexcop-usb.c
+@@ -503,7 +503,13 @@ static int flexcop_usb_transfer_init(struct flexcop_usb *fc_usb)
+ static int flexcop_usb_init(struct flexcop_usb *fc_usb)
+ {
+ 	/* use the alternate setting with the larges buffer */
+-	usb_set_interface(fc_usb->udev,0,1);
++	int ret = usb_set_interface(fc_usb->udev, 0, 1);
++
++	if (ret) {
++		err("set interface failed.");
++		return ret;
++	}
++
+ 	switch (fc_usb->udev->speed) {
+ 	case USB_SPEED_LOW:
+ 		err("cannot handle USB speed because it is too slow.");
 -- 
 2.20.1
 
