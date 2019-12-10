@@ -2,37 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABC50119AC0
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62733119B89
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:12:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728213AbfLJWDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 17:03:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34226 "EHLO mail.kernel.org"
+        id S1729382AbfLJWJR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 17:09:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35410 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728165AbfLJWDu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:03:50 -0500
+        id S1728868AbfLJWEa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 17:04:30 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9E3AF214AF;
-        Tue, 10 Dec 2019 22:03:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4A0C620828;
+        Tue, 10 Dec 2019 22:04:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576015429;
-        bh=SGz8r9eKX9gBJ68+HikN3ji8vq9hVDcvAiYpnhVEZjQ=;
+        s=default; t=1576015470;
+        bh=Kyspyl1ZOtu0CnBtIvJzbvCwRWXO6zZXmW9x+KxeQ08=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yIY4Xr4IKiZFaO8AYc7dyPYIOSM4IYM599z7OCBRJCPGhmXKN4lXsMuJplOpYnHAd
-         PRigRA90Q5r/oqMpdCY6OPkAIrL2RsKz0X0jmvACeU9BGodaj04C1PiPp9FELrLwY9
-         1nq1iZbtC4KCuUgIUqCng9xbpxlmP1sWQ7VPKmzI=
+        b=Cnu5CxHz2sD+Yzyhsu0OHbJCWcsyOU95UwxEzb3R2RFcLV0IafyF0AazqQ2OglKy5
+         ik2tsPzhduyw4NJid2DQ/91866oB9Rm3oBgB6klQpVRPNgfARvRdu4f2d8/bdrDnkY
+         tQcyXviNpJDo/S5cDLzhDzaS0hRJ9y+/IHyps4SU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Benoit Parrot <bparrot@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+Cc:     Kangjie Lu <kjlu@umn.edu>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 040/130] media: ti-vpe: vpe: fix a v4l2-compliance failure about invalid sizeimage
-Date:   Tue, 10 Dec 2019 17:01:31 -0500
-Message-Id: <20191210220301.13262-40-sashal@kernel.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 075/130] media: rcar_drif: fix a memory disclosure
+Date:   Tue, 10 Dec 2019 17:02:06 -0500
+Message-Id: <20191210220301.13262-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
 References: <20191210220301.13262-1-sashal@kernel.org>
@@ -45,61 +46,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Benoit Parrot <bparrot@ti.com>
+From: Kangjie Lu <kjlu@umn.edu>
 
-[ Upstream commit 0bac73adea4df8d34048b38f6ff24dc3e73e90b6 ]
+[ Upstream commit d39083234c60519724c6ed59509a2129fd2aed41 ]
 
-v4l2-compliance fails with this message:
+"f->fmt.sdr.reserved" is uninitialized. As other peer drivers
+like msi2500 and airspy do, the fix initializes it to avoid
+memory disclosures.
 
-   fail: v4l2-test-formats.cpp(463): !pfmt.sizeimage
-   fail: v4l2-test-formats.cpp(736): \
-	Video Capture Multiplanar is valid, \
-	but TRY_FMT failed to return a format
-   test VIDIOC_TRY_FMT: FAIL
-
-This failure is causd by the driver failing to handle out range
-'bytesperline' values from user space applications.
-
-VPDMA hardware is limited to 64k line stride (16 bytes aligned, so 65520
-bytes). So make sure the provided or calculated 'bytesperline' is
-smaller than the maximum value.
-
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/ti-vpe/vpdma.h | 1 +
- drivers/media/platform/ti-vpe/vpe.c   | 4 ++++
- 2 files changed, 5 insertions(+)
+ drivers/media/platform/rcar_drif.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/ti-vpe/vpdma.h b/drivers/media/platform/ti-vpe/vpdma.h
-index 7e611501c2916..f29074c849155 100644
---- a/drivers/media/platform/ti-vpe/vpdma.h
-+++ b/drivers/media/platform/ti-vpe/vpdma.h
-@@ -60,6 +60,7 @@ struct vpdma_data_format {
- 						 * line stride of source and dest
- 						 * buffers should be 16 byte aligned
- 						 */
-+#define VPDMA_MAX_STRIDE		65520	/* Max line stride 16 byte aligned */
- #define VPDMA_DTD_DESC_SIZE		32	/* 8 words */
- #define VPDMA_CFD_CTD_DESC_SIZE		16	/* 4 words */
+diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
+index 522364ff0d5d8..3871ed6a1fcbf 100644
+--- a/drivers/media/platform/rcar_drif.c
++++ b/drivers/media/platform/rcar_drif.c
+@@ -915,6 +915,7 @@ static int rcar_drif_g_fmt_sdr_cap(struct file *file, void *priv,
+ {
+ 	struct rcar_drif_sdr *sdr = video_drvdata(file);
  
-diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
-index 7af66fe95a542..2e8970c7e22da 100644
---- a/drivers/media/platform/ti-vpe/vpe.c
-+++ b/drivers/media/platform/ti-vpe/vpe.c
-@@ -1702,6 +1702,10 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
- 		if (stride > plane_fmt->bytesperline)
- 			plane_fmt->bytesperline = stride;
- 
-+		plane_fmt->bytesperline = clamp_t(u32, plane_fmt->bytesperline,
-+						  stride,
-+						  VPDMA_MAX_STRIDE);
-+
- 		plane_fmt->bytesperline = ALIGN(plane_fmt->bytesperline,
- 						VPDMA_STRIDE_ALIGN);
++	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	f->fmt.sdr.pixelformat = sdr->fmt->pixelformat;
+ 	f->fmt.sdr.buffersize = sdr->fmt->buffersize;
  
 -- 
 2.20.1
