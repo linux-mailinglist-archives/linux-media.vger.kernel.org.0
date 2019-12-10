@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E79B9119AEA
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E70E8119B10
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728922AbfLJWEc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 17:04:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35446 "EHLO mail.kernel.org"
+        id S1728894AbfLJWFC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 17:05:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728898AbfLJWEc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:04:32 -0500
+        id S1727559AbfLJWFA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 17:05:00 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 91D202073B;
-        Tue, 10 Dec 2019 22:04:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC2D0208C3;
+        Tue, 10 Dec 2019 22:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576015471;
-        bh=JnDPBteSPfoKYU5K30yWrhOA4rIidwmx0Sg+aQdsUGs=;
+        s=default; t=1576015499;
+        bh=YOu9UTBZrMAjtalmh5Wl+lzo8vM3nHebKvu8uuaFI7Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dDNf8gHmZUHDP9FcA++d/pdNM4yvgShi7UAD8tmdz2+qqNpkuydhVF3569ksPwyX/
-         XD8NvYJm++2U+L1BmyMOl3ym1fq5whxFl/wpQcZ5j/7LvCIS4gjS5WSMgsfXs9iVUy
-         jWMQ+cxPHuaAAQ7iLbnrJOd5sZROtumzeICXOTG4=
+        b=REGXdGXG5Q0ZfUcY8E93nT0KgtGfFfE6KnzngQs26PL8YSv+am7wzZi9ah1zzyyKT
+         TAyjFexpUvPZZHdlaIGeGCJtwl57qwPnpbLpKOGmjm0bdiULasn7ubMZYJ4w0vUkHR
+         7oqOC8TVdEPpDO3yxLWl1GFFA0cCFBk7zl6eInng=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vandana BN <bnvandana@gmail.com>,
+Cc:     Mike Isely <isely@pobox.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 076/130] media: v4l2-core: fix touch support in v4l_g_fmt
-Date:   Tue, 10 Dec 2019 17:02:07 -0500
-Message-Id: <20191210220301.13262-76-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 099/130] media: pvrusb2: Fix oops on tear-down when radio support is not present
+Date:   Tue, 10 Dec 2019 17:02:30 -0500
+Message-Id: <20191210220301.13262-99-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
 References: <20191210220301.13262-1-sashal@kernel.org>
@@ -44,85 +44,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Vandana BN <bnvandana@gmail.com>
+From: Mike Isely <isely@pobox.com>
 
-[ Upstream commit 545b618cfb5cadacd00c25066b9a36540e5ca9e9 ]
+[ Upstream commit 7f404ae9cf2a285f73b3c18ab9303d54b7a3d8e1 ]
 
-v4l_s_fmt, for VFL_TYPE_TOUCH, sets unneeded members of
-the v4l2_pix_format structure to default values.This was
-missing in v4l_g_fmt, which would lead to failures in
-v4l2-compliance tests.
+In some device configurations there's no radio or radio support in the
+driver.  That's OK, as the driver sets itself up accordingly.  However
+on tear-down in these caes it's still trying to tear down radio
+related context when there isn't anything there, leading to
+dereferences through a null pointer and chaos follows.
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
+How this bug survived unfixed for 11 years in the pvrusb2 driver is a
+mystery to me.
+
+[hverkuil: fix two checkpatch warnings]
+
+Signed-off-by: Mike Isely <isely@pobox.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 33 +++++++++++++++-------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 681eef972e63b..7cafc8a57950a 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1363,10 +1363,26 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
- 	return ret;
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
+index 4320bda9352df..e0413db267816 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
+@@ -915,8 +915,12 @@ static void pvr2_v4l2_internal_check(struct pvr2_channel *chp)
+ 	pvr2_v4l2_dev_disassociate_parent(vp->dev_video);
+ 	pvr2_v4l2_dev_disassociate_parent(vp->dev_radio);
+ 	if (!list_empty(&vp->dev_video->devbase.fh_list) ||
+-	    !list_empty(&vp->dev_radio->devbase.fh_list))
++	    (vp->dev_radio &&
++	     !list_empty(&vp->dev_radio->devbase.fh_list))) {
++		pvr2_trace(PVR2_TRACE_STRUCT,
++			   "pvr2_v4l2 internal_check exit-empty id=%p", vp);
+ 		return;
++	}
+ 	pvr2_v4l2_destroy_no_lock(vp);
  }
  
-+static void v4l_pix_format_touch(struct v4l2_pix_format *p)
-+{
-+	/*
-+	 * The v4l2_pix_format structure contains fields that make no sense for
-+	 * touch. Set them to default values in this case.
-+	 */
-+
-+	p->field = V4L2_FIELD_NONE;
-+	p->colorspace = V4L2_COLORSPACE_RAW;
-+	p->flags = 0;
-+	p->ycbcr_enc = 0;
-+	p->quantization = 0;
-+	p->xfer_func = 0;
-+}
-+
- static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
- 	struct v4l2_format *p = arg;
-+	struct video_device *vfd = video_devdata(file);
- 	int ret = check_fmt(file, p->type);
- 
- 	if (ret)
-@@ -1404,6 +1420,8 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
- 		ret = ops->vidioc_g_fmt_vid_cap(file, fh, arg);
- 		/* just in case the driver zeroed it again */
- 		p->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
-+		if (vfd->vfl_type == VFL_TYPE_TOUCH)
-+			v4l_pix_format_touch(&p->fmt.pix);
- 		return ret;
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
- 		return ops->vidioc_g_fmt_vid_cap_mplane(file, fh, arg);
-@@ -1439,21 +1457,6 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
- 	return -EINVAL;
- }
- 
--static void v4l_pix_format_touch(struct v4l2_pix_format *p)
--{
--	/*
--	 * The v4l2_pix_format structure contains fields that make no sense for
--	 * touch. Set them to default values in this case.
--	 */
--
--	p->field = V4L2_FIELD_NONE;
--	p->colorspace = V4L2_COLORSPACE_RAW;
--	p->flags = 0;
--	p->ycbcr_enc = 0;
--	p->quantization = 0;
--	p->xfer_func = 0;
--}
--
- static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
- 				struct file *file, void *fh, void *arg)
- {
+@@ -990,7 +994,8 @@ static int pvr2_v4l2_release(struct file *file)
+ 	kfree(fhp);
+ 	if (vp->channel.mc_head->disconnect_flag &&
+ 	    list_empty(&vp->dev_video->devbase.fh_list) &&
+-	    list_empty(&vp->dev_radio->devbase.fh_list)) {
++	    (!vp->dev_radio ||
++	     list_empty(&vp->dev_radio->devbase.fh_list))) {
+ 		pvr2_v4l2_destroy_no_lock(vp);
+ 	}
+ 	return 0;
 -- 
 2.20.1
 
