@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF40119D61
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CEE7119D24
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 23:37:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729962AbfLJWdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 17:33:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54732 "EHLO mail.kernel.org"
+        id S1729570AbfLJWeU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 17:34:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55652 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729141AbfLJWdn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:33:43 -0500
+        id S1730240AbfLJWeS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 17:34:18 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 432452465A;
-        Tue, 10 Dec 2019 22:33:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4D8C0208C3;
+        Tue, 10 Dec 2019 22:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576017223;
-        bh=r+NypDNZURabW4kCbzxm0/LgMO1dxVuCWLi+SUBHybo=;
+        s=default; t=1576017258;
+        bh=WQ3Li1psb4hv/QIV9QWOgQ+DgDXxIcwAt7zduwsnj0s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UlyH4tbvDbwTYonIqek0QxiF/fRcATJ0b/BD4L20kYTVQwJt7PVpX3YjbV9ep4Fwp
-         haNTyzzvjV7RQvErA/W01FDI+A9eki6nuzr/a6cQ0tdp64xgiHvAKGHdi1lwLFufYn
-         wkVEdHChI0sG9u6yVBQJnsqdu1vbeGuMxYGK7bbA=
+        b=ftmJPGBPdEA92M/Cwx9VcwKaUMygs1gsAnyRcRBwAw2pjnd7PyxgsVWGDxcORnfG4
+         GCsQkmC+beUaqXZpcz9ijONlBtttGj6DYtRzS3rDlUdXWEzGYDBM1G9q3MfZD0DESX
+         ggBEaCH0heaZemNAaawozvmQYwfdyHxzZVWbuPlA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Benoit Parrot <bparrot@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+Cc:     Mike Isely <isely@pobox.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 22/71] media: ti-vpe: vpe: Make sure YUYV is set as default format
-Date:   Tue, 10 Dec 2019 17:32:27 -0500
-Message-Id: <20191210223316.14988-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 52/71] media: pvrusb2: Fix oops on tear-down when radio support is not present
+Date:   Tue, 10 Dec 2019 17:32:57 -0500
+Message-Id: <20191210223316.14988-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210223316.14988-1-sashal@kernel.org>
 References: <20191210223316.14988-1-sashal@kernel.org>
@@ -45,51 +44,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Benoit Parrot <bparrot@ti.com>
+From: Mike Isely <isely@pobox.com>
 
-[ Upstream commit e20b248051ca0f90d84b4d9378e4780bc31f16c6 ]
+[ Upstream commit 7f404ae9cf2a285f73b3c18ab9303d54b7a3d8e1 ]
 
-v4l2-compliance fails with this message:
+In some device configurations there's no radio or radio support in the
+driver.  That's OK, as the driver sets itself up accordingly.  However
+on tear-down in these caes it's still trying to tear down radio
+related context when there isn't anything there, leading to
+dereferences through a null pointer and chaos follows.
 
-   fail: v4l2-test-formats.cpp(672): \
-	Video Capture Multiplanar: TRY_FMT(G_FMT) != G_FMT
-   fail: v4l2-test-formats.cpp(672): \
-	Video Output Multiplanar: TRY_FMT(G_FMT) != G_FMT
-	...
-   test VIDIOC_TRY_FMT: FAIL
+How this bug survived unfixed for 11 years in the pvrusb2 driver is a
+mystery to me.
 
-The default pixel format was setup as pointing to a specific offset in
-the vpe_formats table assuming it was pointing to the V4L2_PIX_FMT_YUYV
-entry. This became false after the addition on the NV21 format (see
-above commid-id)
+[hverkuil: fix two checkpatch warnings]
 
-So instead of hard-coding an offset which might change over time we need
-to use a lookup helper instead so we know the default will always be what
-we intended.
-
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
-Fixes: 40cc823f7005 ("media: ti-vpe: Add support for NV21 format")
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Signed-off-by: Mike Isely <isely@pobox.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/ti-vpe/vpe.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
-index aa2870e864f9c..b5f8c425cd2ef 100644
---- a/drivers/media/platform/ti-vpe/vpe.c
-+++ b/drivers/media/platform/ti-vpe/vpe.c
-@@ -2000,7 +2000,7 @@ static int vpe_open(struct file *file)
- 	v4l2_ctrl_handler_setup(hdl);
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
+index 1c5f85bf7ed4b..2d6195e9a1953 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-v4l2.c
+@@ -886,8 +886,12 @@ static void pvr2_v4l2_internal_check(struct pvr2_channel *chp)
+ 	pvr2_v4l2_dev_disassociate_parent(vp->dev_video);
+ 	pvr2_v4l2_dev_disassociate_parent(vp->dev_radio);
+ 	if (!list_empty(&vp->dev_video->devbase.fh_list) ||
+-	    !list_empty(&vp->dev_radio->devbase.fh_list))
++	    (vp->dev_radio &&
++	     !list_empty(&vp->dev_radio->devbase.fh_list))) {
++		pvr2_trace(PVR2_TRACE_STRUCT,
++			   "pvr2_v4l2 internal_check exit-empty id=%p", vp);
+ 		return;
++	}
+ 	pvr2_v4l2_destroy_no_lock(vp);
+ }
  
- 	s_q_data = &ctx->q_data[Q_DATA_SRC];
--	s_q_data->fmt = &vpe_formats[2];
-+	s_q_data->fmt = __find_format(V4L2_PIX_FMT_YUYV);
- 	s_q_data->width = 1920;
- 	s_q_data->height = 1080;
- 	s_q_data->bytesperline[VPE_LUMA] = (s_q_data->width *
+@@ -961,7 +965,8 @@ static int pvr2_v4l2_release(struct file *file)
+ 	kfree(fhp);
+ 	if (vp->channel.mc_head->disconnect_flag &&
+ 	    list_empty(&vp->dev_video->devbase.fh_list) &&
+-	    list_empty(&vp->dev_radio->devbase.fh_list)) {
++	    (!vp->dev_radio ||
++	     list_empty(&vp->dev_radio->devbase.fh_list))) {
+ 		pvr2_v4l2_destroy_no_lock(vp);
+ 	}
+ 	return 0;
 -- 
 2.20.1
 
