@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9736A11820E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 09:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 091BB118247
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 09:33:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbfLJITA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 03:19:00 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:53268 "EHLO www.linuxtv.org"
+        id S1726888AbfLJIdq convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 10 Dec 2019 03:33:46 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:54756 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726391AbfLJIS7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 03:18:59 -0500
+        id S1726750AbfLJIdp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 03:33:45 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ieaj9-006vIj-A1; Tue, 10 Dec 2019 08:18:39 +0000
+        id 1ieaxR-006w0N-9q; Tue, 10 Dec 2019 08:33:25 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1ieakH-0004Ay-98; Tue, 10 Dec 2019 08:19:49 +0000
-Date:   Tue, 10 Dec 2019 08:19:49 +0000 (UTC)
+        id 1ieayZ-0004Ta-9y; Tue, 10 Dec 2019 08:34:35 +0000
+Date:   Tue, 10 Dec 2019 08:34:35 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <140368326.2.1575965989273.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <1911640165.1.1575962386661.JavaMail.jenkins@builder.linuxtv.org>
-References: <1911640165.1.1575962386661.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2893
+Message-ID: <1906997936.3.1575966875299.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <140368326.2.1575965989273.JavaMail.jenkins@builder.linuxtv.org>
+References: <140368326.2.1575965989273.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2894
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
 X-Jenkins-Job: media-build
 X-Jenkins-Result: FAILURE
@@ -39,253 +39,255 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2893/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/2894/display/redirect?page=changes>
 
 Changes:
 
+[hverkuil-cisco] Add compat_ptr_ioctl to compat.h
+
 
 ------------------------------------------
-[...truncated 24.31 KB...]
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88472.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88473.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6423.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ec100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ds3000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ts2020.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mb86a16.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxj.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mb86a20s.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ix2505v.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0367.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_t2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2841er.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxk_hard.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda18271c2dd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mxl5xx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si2165.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/a8293.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10071.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2830.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2832.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2832_sdr.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m88rs2000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/af9033.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/as102_fe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gp8psk-fe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc90522.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88443x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/horus3a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ascot2e.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/helene.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zd1301_demod.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2099.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_devio_spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_integ.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_io.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_spi_device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_top.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-devnode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-entity.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-request.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fwnode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-clk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-async.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dv-timings.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mem2mem.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-sg.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-contig.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-vmalloc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvbdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dmxdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-apac-viewcomp.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-astrometa-t2hybrid.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-pc39.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-ps3-100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-tv-wonder-hd-600.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-x10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-a16d.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-cardbus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-dvbt.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m135a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m733a-rm-k6.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-rm-ks.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avertv-303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-azurewave-ad-tu700.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-beelink-gs1.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold-columbus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-budget-ci-old.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy-1400.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-d680-dmb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-delock-61959.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-rc5.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digitalnow-tinytwin.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digittrade.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dm1105-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvb-t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvbt-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dtt200u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvbsky.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-portable.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-em-terratec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv-fm53.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-evga-indtube.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-eztv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flydvb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flyvideo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-fusionhdtv-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gadmei-rm008z.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-geekbox.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tango.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.c>:724:18: error: 'compat_ptr_ioctl' undeclared here (not in a function); did you mean 'compat_blkdev_ioctl'?
-  .compat_ioctl = compat_ptr_ioctl,
-                  ^~~~~~~~~~~~~~~~
-                  compat_blkdev_ioctl
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o]> Error 1
+[...truncated 2.17 KB...]
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2019-12-10 08:33:38--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2019-12-10 08:33:38--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  205M=0s
+
+2019-12-10 08:33:39 (205 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-5-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
+Preparing to compile for kernel version 4.19.0
+
+***WARNING:*** You do not have the full kernel sources installed.
+This does not prevent you from building the v4l-dvb tree if you have the
+kernel headers, but the full kernel source may be required in order to use
+make menuconfig / xconfig / qconfig.
+
+If you are experiencing problems building the v4l-dvb tree, please try
+building against a vanilla kernel before reporting a bug.
+
+Vanilla kernels are available at http://kernel.org.
+On most distros, this will compile a newly downloaded kernel:
+
+cp /boot/config-`uname -r` <your kernel dir>/.config
+cd <your kernel dir>
+make all modules_install install
+
+Please see your distro's web site for instructions to build a new kernel.
+
+WARNING: This is the V4L/DVB backport tree, with experimental drivers
+	 backported to run on legacy kernels from the development tree at:
+		http://git.linuxtv.org/media-tree.git.
+	 It is generally safe to use it for testing a new driver or
+	 feature, but its usage on production environments is risky.
+	 Don't use it in production. You've been warned.
+VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
+VIDEO_OMAP3: Requires at least kernel 9.255.255
+VIDEO_DW9714: Requires at least kernel 9.255.255
+VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
+Created default (all yes) .config file
+./scripts/fix_kconfig.pl
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+./scripts/make_myconfig.pl
+[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
+creating symbolic links...
+perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
+Kernel build directory is /lib/modules/4.19.0-5-amd64/build
+make -C ../linux apply_patches
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Patches for 4.19.0-5-amd64 already applied.
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
+make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-regs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-quirk.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-limits.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o]> Error 1
 make[5]: *** Waiting for unfinished jobs....
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-limits.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-regs.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-quirk.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-core.o]> Error 1
+In file included from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
+         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+                                                                     ^~~~~~~~~~
+                                                                     complete
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o]> Error 1
 make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
 make[3]: *** [Makefile:146: sub-make] Error 2
 make[2]: *** [Makefile:8: all] Error 2
