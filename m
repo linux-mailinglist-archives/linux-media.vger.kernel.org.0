@@ -2,36 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 072681196EF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 22:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A30231193C0
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 22:15:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728324AbfLJVJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 16:09:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58968 "EHLO mail.kernel.org"
+        id S1728317AbfLJVJ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 16:09:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59058 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728307AbfLJVJx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:09:53 -0500
+        id S1728310AbfLJVJy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:09:54 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CD4E3246AF;
-        Tue, 10 Dec 2019 21:09:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB29C2077B;
+        Tue, 10 Dec 2019 21:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012192;
-        bh=RY7/22cQdS0rro6ZXYKwL+zVZFVFfSfqinoLihuH4yI=;
+        s=default; t=1576012193;
+        bh=P0/PbYyyDZsUZPAxA/S55Zz6WtpgAvbR5ywx9JD0LyA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W19lcYS8Vr0O4/QJC5SOil5QqDrt1R+xNj27gZgF6ipfOxpF9rSeqXhQoKScw1YuJ
-         jY5EAOOtv4PnbRoiy3cufZbz0C3+sotlGUy3+U/I6EnQ6rbDm9CwPE6WafmNVDeGRR
-         U8BQpGPOlyFPQc89maZJP8zJC2n7fCAGfIClcICA=
+        b=CIYBjoFHcAE2uhzaoxdt512OiD88B9Gr1mJW5GkXN9TXIFyNtFx2ZmDRBqs98194X
+         qHemsVnTRbm6e1C3PwNvYwDd4UqjYEKn7FGMedhYVuw0me4E7Yot3x7s9vU1sj1+se
+         7FxPeC0/vMK9drEopVLKMFKxX2AEWEYNYaY7dOcc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 147/350] media: ov6650: Fix stored frame interval not in sync with hardware
-Date:   Tue, 10 Dec 2019 16:04:12 -0500
-Message-Id: <20191210210735.9077-108-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 148/350] media: ad5820: Define entity function
+Date:   Tue, 10 Dec 2019 16:04:13 -0500
+Message-Id: <20191210210735.9077-109-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -44,84 +46,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+From: Ricardo Ribalda Delgado <ribalda@kernel.org>
 
-[ Upstream commit 57822068dd120386b98891cb151dc20107b63ba7 ]
+[ Upstream commit 801ef7c4919efba6b96b5aed1e72844ca69e26d3 ]
 
-The driver stores a frame interval value supposed to be in line with
-hardware state in a device private structure.  Since the driver initial
-submission, the respective field of the structure has never been
-initialised on device probe.  Moreover, if updated from
-.s_frame_interval(), a new value is stored before it is applied on
-hardware.  If an error occurs during device update, the stored value
-may no longer reflect hardware state and consecutive calls to
-.g_frame_interval() may return incorrect information.
+Without this patch, media_device_register_entity throws a warning:
 
-Assuming a failed update of the device means its actual state hasn't
-changed, update the frame interval field of the device private
-structure with a new value only after it is successfully applied on
-hardware so it always reflects actual hardware state to the extent
-possible.  Also, initialise the field with hardware default frame
-interval on device probe.
+dev_warn(mdev->dev,
+	 "Entity type for entity %s was not initialized!\n",
+	 entity->name);
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov6650.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ drivers/media/i2c/ad5820.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-index 43c3f1b6e19ac..a5b2448c0abc2 100644
---- a/drivers/media/i2c/ov6650.c
-+++ b/drivers/media/i2c/ov6650.c
-@@ -130,6 +130,7 @@
- #define CLKRC_24MHz		0xc0
- #define CLKRC_DIV_MASK		0x3f
- #define GET_CLKRC_DIV(x)	(((x) & CLKRC_DIV_MASK) + 1)
-+#define DEF_CLKRC		0x00
+diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
+index 925c171e77976..7a49651f4d1f2 100644
+--- a/drivers/media/i2c/ad5820.c
++++ b/drivers/media/i2c/ad5820.c
+@@ -309,6 +309,7 @@ static int ad5820_probe(struct i2c_client *client,
+ 	v4l2_i2c_subdev_init(&coil->subdev, client, &ad5820_ops);
+ 	coil->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	coil->subdev.internal_ops = &ad5820_internal_ops;
++	coil->subdev.entity.function = MEDIA_ENT_F_LENS;
+ 	strscpy(coil->subdev.name, "ad5820 focus", sizeof(coil->subdev.name));
  
- #define COMA_RESET		BIT(7)
- #define COMA_QCIF		BIT(5)
-@@ -758,19 +759,17 @@ static int ov6650_s_frame_interval(struct v4l2_subdev *sd,
- 	else if (div > GET_CLKRC_DIV(CLKRC_DIV_MASK))
- 		div = GET_CLKRC_DIV(CLKRC_DIV_MASK);
- 
--	/*
--	 * Keep result to be used as tpf limit
--	 * for subsequent clock divider calculations
--	 */
--	priv->tpf.numerator = div;
--	priv->tpf.denominator = FRAME_RATE_MAX;
-+	tpf->numerator = div;
-+	tpf->denominator = FRAME_RATE_MAX;
- 
--	clkrc = to_clkrc(&priv->tpf, priv->pclk_limit, priv->pclk_max);
-+	clkrc = to_clkrc(tpf, priv->pclk_limit, priv->pclk_max);
- 
- 	ret = ov6650_reg_rmw(client, REG_CLKRC, clkrc, CLKRC_DIV_MASK);
- 	if (!ret) {
--		tpf->numerator = GET_CLKRC_DIV(clkrc);
--		tpf->denominator = FRAME_RATE_MAX;
-+		priv->tpf.numerator = GET_CLKRC_DIV(clkrc);
-+		priv->tpf.denominator = FRAME_RATE_MAX;
-+
-+		*tpf = priv->tpf;
- 	}
- 
- 	return ret;
-@@ -1011,6 +1010,10 @@ static int ov6650_probe(struct i2c_client *client,
- 	priv->code	  = MEDIA_BUS_FMT_YUYV8_2X8;
- 	priv->colorspace  = V4L2_COLORSPACE_JPEG;
- 
-+	/* Hardware default frame interval */
-+	priv->tpf.numerator   = GET_CLKRC_DIV(DEF_CLKRC);
-+	priv->tpf.denominator = FRAME_RATE_MAX;
-+
- 	priv->subdev.internal_ops = &ov6650_internal_ops;
- 
- 	ret = v4l2_async_register_subdev(&priv->subdev);
+ 	ret = media_entity_pads_init(&coil->subdev.entity, 0, NULL);
 -- 
 2.20.1
 
