@@ -2,35 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 026D21195E8
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 22:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C805F11957F
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 22:21:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728673AbfLJVLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 16:11:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33404 "EHLO mail.kernel.org"
+        id S1727854AbfLJVVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 16:21:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35070 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727988AbfLJVLE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:11:04 -0500
+        id S1728859AbfLJVLx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:11:53 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 462B4246B4;
-        Tue, 10 Dec 2019 21:11:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 591F5246A8;
+        Tue, 10 Dec 2019 21:11:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576012263;
-        bh=ItzrCzmoXwho6L3fQDMb7steDSBDAVn1faujaAaRIfU=;
+        s=default; t=1576012312;
+        bh=MnjkOJzQpeys/zJdC8tULjlZdIzXW7jVsRu4TsHrD9k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OmdG9Dym7RyhNVMdBhpXqOPgXeWMpg1U1OAf/EzDlg30a2ps41+1asp+Ud/stMhf/
-         L31LFm2tCO51EYNO8xYLkU/YexpuzOB2Umtz2T0G2DopF101op/S6oRhGLH4Qr6hBO
-         85MpvQDOE2TPf6++PvbiD0zanO3jK4lnim/S2fo4=
+        b=YBNw3FRXIgSAB5/1mbeqZzh8gJyq0B/LsZ5FuXS75EsqT3EZ+Va2oLBsJonlMPfbE
+         +V74QoafMGXn9c4Uuw1wVQJ19JK7XrZenDpYvQsu/gooGxqyq4Y9Ysx1okG1AIZEad
+         +y6ejDOm/cFyoxEzHLvLMGL9Z1+gS87Em/WrmB+E=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 209/350] media: vivid: media_device_cleanup was called too early
-Date:   Tue, 10 Dec 2019 16:05:14 -0500
-Message-Id: <20191210210735.9077-170-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 247/350] media: exynos4-is: fix wrong mdev and v4l2 dev order in error path
+Date:   Tue, 10 Dec 2019 16:05:52 -0500
+Message-Id: <20191210210735.9077-208-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
 References: <20191210210735.9077-1-sashal@kernel.org>
@@ -43,105 +47,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Seung-Woo Kim <sw0312.kim@samsung.com>
 
-[ Upstream commit 8ffd573c25e5fac1daeeffc592e2ed6bc6a3d947 ]
+[ Upstream commit 4d741cbd58bf889c8a68cf6e592a7892b5c2802e ]
 
-Running the contrib/test/test-media script in v4l-utils with the vivid argument
-will cause this kernel warning:
+When driver is built as module and probe during insmod is deferred
+because of sensor subdevs, there is NULL pointer deference because
+mdev is cleaned up and then access it from v4l2_device_unregister().
+Fix the wrong mdev and v4l2 dev order in error path of probe.
 
-[  104.748720] videodev: v4l2_release
-[  104.748731] ------------[ cut here ]------------
-[  104.748750] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-[  104.748790] WARNING: CPU: 6 PID: 1823 at kernel/locking/mutex.c:938 __mutex_lock+0x919/0xc10
-[  104.748800] Modules linked in: rc_cec vivid v4l2_tpg videobuf2_dma_contig cec rc_core v4l2_dv_timings videobuf2_vmalloc videobuf2_memops
-videobuf2_v4l2 videobuf2_common videodev mc vmw_balloon vmw_vmci button vmwgfx
-[  104.748845] CPU: 6 PID: 1823 Comm: sleep Not tainted 5.4.0-rc1-test-no #150
-[  104.748853] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 07/29/2019
-[  104.748867] RIP: 0010:__mutex_lock+0x919/0xc10
-[  104.748878] Code: 59 83 e8 9a fc 16 ff 44 8b 05 23 61 38 01 45 85 c0 0f 85 ef f7 ff ff 48 c7 c6 a0 1f 87 82 48 c7 c7 a0 1e 87 82 e8 cd bb
-f7 fe <0f> 0b e9 d5 f7 ff ff f6 c3 04 0f 84 3b fd ff ff 49 89 df 41 83 e7
-[  104.748886] RSP: 0018:ffff88811a357b80 EFLAGS: 00010286
-[  104.748895] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-[  104.748902] RDX: 0000000000000003 RSI: 0000000000000004 RDI: ffffed102346af62
-[  104.748910] RBP: ffff88811a357cf0 R08: ffffffff81217c91 R09: fffffbfff061c271
-[  104.748917] R10: fffffbfff061c270 R11: ffffffff830e1383 R12: ffff8881a46103c0
-[  104.748924] R13: 0000000000000000 R14: ffff8881a4614f90 R15: ffff8881a46153d0
-[  104.748933] FS:  0000000000000000(0000) GS:ffff8881b6780000(0000) knlGS:0000000000000000
-[  104.748940] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  104.748949] CR2: 00007f163fc9ca20 CR3: 0000000003013004 CR4: 00000000001606e0
-[  104.749036] Call Trace:
-[  104.749051]  ? _raw_spin_unlock+0x1f/0x30
-[  104.749067]  ? llist_add_batch+0x33/0x50
-[  104.749081]  ? tick_nohz_tick_stopped+0x19/0x30
-[  104.749130]  ? v4l2_release.cold+0x6c/0xd6 [videodev]
-[  104.749143]  ? mutex_lock_io_nested+0xb80/0xb80
-[  104.749153]  ? vprintk_emit+0xf2/0x220
-[  104.749191]  ? vivid_req_validate+0x40/0x40 [vivid]
-[  104.749201]  ? printk+0xad/0xde
-[  104.749211]  ? kmsg_dump_rewind_nolock+0x54/0x54
-[  104.749226]  ? locks_remove_file+0x78/0x2b0
-[  104.749248]  ? __fsnotify_update_child_dentry_flags.part.0+0x170/0x170
-[  104.749281]  ? vivid_req_validate+0x40/0x40 [vivid]
-[  104.749321]  ? v4l2_release.cold+0x6c/0xd6 [videodev]
-[  104.749361]  v4l2_release.cold+0x6c/0xd6 [videodev]
-[  104.749378]  __fput+0x15a/0x390
-[  104.749393]  task_work_run+0xb2/0xe0
-[  104.749407]  do_exit+0x4d0/0x1200
-[  104.749422]  ? do_user_addr_fault+0x367/0x610
-[  104.749431]  ? release_task+0x990/0x990
-[  104.749449]  ? rwsem_spin_on_owner+0x170/0x170
-[  104.749463]  ? vmacache_find+0xb2/0x100
-[  104.749476]  do_group_exit+0x85/0x130
-[  104.749487]  __x64_sys_exit_group+0x23/0x30
-[  104.749500]  do_syscall_64+0x5e/0x1c0
-[  104.749511]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  104.749520] RIP: 0033:0x7f163fc5c9d6
-[  104.749536] Code: Bad RIP value.
-[  104.749543] RSP: 002b:00007ffe6f3bec58 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-[  104.749553] RAX: ffffffffffffffda RBX: 00007f163fd4d760 RCX: 00007f163fc5c9d6
-[  104.749560] RDX: 0000000000000000 RSI: 000000000000003c RDI: 0000000000000000
-[  104.749567] RBP: 0000000000000000 R08: 00000000000000e7 R09: ffffffffffffff80
-[  104.749574] R10: 00007ffe6f3beb24 R11: 0000000000000246 R12: 00007f163fd4d760
-[  104.749581] R13: 0000000000000002 R14: 00007f163fd56428 R15: 0000000000000000
-[  104.749597] ---[ end trace 66f20f73fc0daf79 ]---
+This fixes below null pointer deference:
+   Unable to handle kernel NULL pointer dereference at virtual address 00000000
+   pgd = ca026f68
+   [00000000] *pgd=00000000
+   Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+   [...]
+   Hardware name: SAMSUNG EXYNOS (Flattened Device Tree)
+   PC is at ida_free+0x7c/0x160
+   LR is at xas_start+0x44/0x204
+   [...]
+   [<c0dafd60>] (ida_free) from [<c083c20c>] (__media_device_unregister_entity+0x18/0xc0)
+   [<c083c20c>] (__media_device_unregister_entity) from [<c083c2e0>] (media_device_unregister_entity+0x2c/0x38)
+   [<c083c2e0>] (media_device_unregister_entity) from [<c0843404>] (v4l2_device_release+0xd0/0x104)
+   [<c0843404>] (v4l2_device_release) from [<c0632558>] (device_release+0x28/0x98)
+   [<c0632558>] (device_release) from [<c0db1204>] (kobject_put+0xa4/0x208)
+   [<c0db1204>] (kct_put) from [<bf00bac4>] (fimc_capture_subdev_unregistered+0x58/0x6c [s5p_fimc])
+   [<bf00bac4>] (fimc_capture_subdev_unregistered [s5p_fimc]) from [<c084a1cc>] (v4l2_device_unregister_subdev+0x6c/0xa8)
+   [<c084a1cc>] (v4l2_device_unregister_subdev) from [<c084a350>] (v4l2_device_unregister+0x64/0x94)
+   [<c084a350>] (v4l2_device_unregister) from [<bf0101ac>] (fimc_md_probe+0x4ec/0xaf8 [s5p_fimc])
+   [...]
 
-This is caused by media_device_cleanup() which destroys
-v4l2_dev->mdev->req_queue_mutex. But v4l2_release() tries to lock
-that mutex after media_device_cleanup() is called.
-
-By moving media_device_cleanup() to the v4l2_device's release function it is
-guaranteed that the mutex is valid whenever v4l2_release is called.
-
+Signed-off-by: Seung-Woo Kim <sw0312.kim@samsung.com>
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Fixes: 9832e155f1ed ("[media] media-device: split media initialization and registration")
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/vivid/vivid-core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/platform/exynos4-is/media-dev.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-index 53315c8dd2bbc..f6a5cdbd74e74 100644
---- a/drivers/media/platform/vivid/vivid-core.c
-+++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -616,6 +616,9 @@ static void vivid_dev_release(struct v4l2_device *v4l2_dev)
+diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+index a838189d44902..9aaf3b8060d50 100644
+--- a/drivers/media/platform/exynos4-is/media-dev.c
++++ b/drivers/media/platform/exynos4-is/media-dev.c
+@@ -1457,12 +1457,12 @@ static int fimc_md_probe(struct platform_device *pdev)
+ 	ret = v4l2_device_register(dev, &fmd->v4l2_dev);
+ 	if (ret < 0) {
+ 		v4l2_err(v4l2_dev, "Failed to register v4l2_device: %d\n", ret);
+-		return ret;
++		goto err_md;
+ 	}
  
- 	vivid_free_controls(dev);
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	media_device_cleanup(&dev->mdev);
-+#endif
- 	vfree(dev->scaled_line);
- 	vfree(dev->blended_line);
- 	vfree(dev->edid);
-@@ -1580,7 +1583,6 @@ static int vivid_remove(struct platform_device *pdev)
+ 	ret = fimc_md_get_clocks(fmd);
+ 	if (ret)
+-		goto err_md;
++		goto err_v4l2dev;
  
- #ifdef CONFIG_MEDIA_CONTROLLER
- 		media_device_unregister(&dev->mdev);
--		media_device_cleanup(&dev->mdev);
- #endif
+ 	ret = fimc_md_get_pinctrl(fmd);
+ 	if (ret < 0) {
+@@ -1519,9 +1519,10 @@ static int fimc_md_probe(struct platform_device *pdev)
+ 	fimc_md_unregister_entities(fmd);
+ err_clk:
+ 	fimc_md_put_clocks(fmd);
++err_v4l2dev:
++	v4l2_device_unregister(&fmd->v4l2_dev);
+ err_md:
+ 	media_device_cleanup(&fmd->media_dev);
+-	v4l2_device_unregister(&fmd->v4l2_dev);
+ 	return ret;
+ }
  
- 		if (dev->has_vid_cap) {
 -- 
 2.20.1
 
