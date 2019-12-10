@@ -2,298 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 091BB118247
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 09:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A62D11829C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2019 09:41:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726888AbfLJIdq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 10 Dec 2019 03:33:46 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:54756 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726750AbfLJIdp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 03:33:45 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ieaxR-006w0N-9q; Tue, 10 Dec 2019 08:33:25 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ieayZ-0004Ta-9y; Tue, 10 Dec 2019 08:34:35 +0000
-Date:   Tue, 10 Dec 2019 08:34:35 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1906997936.3.1575966875299.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <140368326.2.1575965989273.JavaMail.jenkins@builder.linuxtv.org>
-References: <140368326.2.1575965989273.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2894
+        id S1726974AbfLJIlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 03:41:52 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:39703 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbfLJIlw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 03:41:52 -0500
+Received: by mail-ed1-f68.google.com with SMTP id v16so15226170edy.6
+        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2019 00:41:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BapN+mqvvqkIREkBzQtrQe2NlcTvEKNzg8SbCbikvEM=;
+        b=TyHlp/9o6RmgZWQ9OdMTHRTg33dURWkbT7RhZ0VvLQoxDBshZlgfbnaNAQ1EBrIeiR
+         6p6CTrksiYuorY9/JZ26Gt2f3IJsGyj+c80u3bTsA0IKEBM3gqYznPhreYgc0k2M9kKq
+         ejEHPnCej6s5HCaTF7c5yaInyCFg6P05h79q/4XhM1n356KmdKclGKmul+h0tAqEYOP/
+         soTgc77rUzb08/Id1jkZDTxEFsGN2IvKhKq5713FbUss3yIda9xplgt/jyc6d0gsFUYI
+         HjxbIrJdWFkVIBREeulPwQVtA1UvhOXpJixaKu12SpArCsNnK673wHySZLoYVWKEB7Dq
+         uBUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BapN+mqvvqkIREkBzQtrQe2NlcTvEKNzg8SbCbikvEM=;
+        b=hfqBgKQo6QQg/vRHiWpTih/nKmZvRxtUUKqPRCO1y/9K0yNs72DAza3utBym+LJmPR
+         HZUIbDgAZXxOl3ClK67vh7gV6oWLobFf0cjoDre9RoHHmpXAZIBOej9SyulT+URhaYrQ
+         Xuj58ZbOdmCxM2fVGp3MZqkZei5NMQwGsSNHzAzYVJvBkqfPP0U4V47WODqK8vYKM9zM
+         Ip+T5jnv2IILpGLYApXBCexiyk1kwQMe1zISJGG5HvP4FjXQmCzUR1JbrbzlDSsSTtAK
+         4WnQh0LRFf9NB7J3OGKepvmvHegWC72XGaXwKSD5HaGwGnuvZGj3aZH1YcdWmP8cOnde
+         5j2w==
+X-Gm-Message-State: APjAAAXiFnIBINolei4GD4uv/00aWgf1qnmM/M6ia6J3I0la9uI4iOn9
+        lYOkueyATKNUInxmq+vp0Tg1xw==
+X-Google-Smtp-Source: APXvYqxkrixkXEZmwLLK+fVnCJG0Rp9RCISTpuDg24vcflyHiDHcn215F0VicvvGIWwv4m5ULaa0uw==
+X-Received: by 2002:aa7:c3d7:: with SMTP id l23mr37263172edr.82.1575967310708;
+        Tue, 10 Dec 2019 00:41:50 -0800 (PST)
+Received: from [192.168.27.209] ([37.157.136.193])
+        by smtp.googlemail.com with ESMTPSA id bs4sm77128ejb.39.2019.12.10.00.41.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Dec 2019 00:41:50 -0800 (PST)
+Subject: Re: [PATCH] media: venus: hfi_parser: Ignore HEVC encoding for V1
+To:     Stephan Gerhold <stephan@gerhold.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20191209191652.222576-1-stephan@gerhold.net>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <fdac0a86-e055-3c81-64e1-0b80c6aebb3b@linaro.org>
+Date:   Tue, 10 Dec 2019 10:41:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <20191209191652.222576-1-stephan@gerhold.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2894/display/redirect?page=changes>
+Hi Stephan,
 
-Changes:
+Thanks for the patch!
 
-[hverkuil-cisco] Add compat_ptr_ioctl to compat.h
+On 12/9/19 9:16 PM, Stephan Gerhold wrote:
+> Some older MSM8916 Venus firmware versions also seem to indicate
+> support for encoding HEVC, even though they really can't.
+> This will lead to errors later because hfi_session_init() fails
+> in this case.
+> 
+> HEVC is already ignored for "dec_codecs", so add the same for
+> "enc_codecs" to make these old firmware versions work correctly.
+> 
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> ---
+> This makes Venus work on the Samsung Galaxy S4 Mini VE (MSM8916),
+> which is stuck on a rather old Venus firmware version (1.6-00040).
+> The firmware is signed, so unfortunately I'm not aware of a way to upgrade it...
+> ---
+>  drivers/media/platform/qcom/venus/hfi_parser.c | 1 +
+>  1 file changed, 1 insertion(+)
 
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-------------------------------------------
-[...truncated 2.17 KB...]
-* the license                                              *
-************************************************************
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 2293d936e49c..7f515a4b9bd1 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -181,6 +181,7 @@ static void parse_codecs(struct venus_core *core, void *data)
+>  	if (IS_V1(core)) {
+>  		core->dec_codecs &= ~HFI_VIDEO_CODEC_HEVC;
+>  		core->dec_codecs &= ~HFI_VIDEO_CODEC_SPARK;
+> +		core->enc_codecs &= ~HFI_VIDEO_CODEC_HEVC;
+>  	}
+>  }
+>  
+> 
 
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2019-12-10 08:33:38--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2019-12-10 08:33:38--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100%  205M=0s
-
-2019-12-10 08:33:39 (205 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-5-amd64/build /lib/modules/4.19.0-5-amd64/source 1
-Preparing to compile for kernel version 4.19.0
-
-***WARNING:*** You do not have the full kernel sources installed.
-This does not prevent you from building the v4l-dvb tree if you have the
-kernel headers, but the full kernel source may be required in order to use
-make menuconfig / xconfig / qconfig.
-
-If you are experiencing problems building the v4l-dvb tree, please try
-building against a vanilla kernel before reporting a bug.
-
-Vanilla kernels are available at http://kernel.org.
-On most distros, this will compile a newly downloaded kernel:
-
-cp /boot/config-`uname -r` <your kernel dir>/.config
-cd <your kernel dir>
-make all modules_install install
-
-Please see your distro's web site for instructions to build a new kernel.
-
-WARNING: This is the V4L/DVB backport tree, with experimental drivers
-	 backported to run on legacy kernels from the development tree at:
-		http://git.linuxtv.org/media-tree.git.
-	 It is generally safe to use it for testing a new driver or
-	 feature, but its usage on production environments is risky.
-	 Don't use it in production. You've been warned.
-VIDEO_IPU3_CIO2: Requires at least kernel 9.255.255
-VIDEO_OMAP3: Requires at least kernel 9.255.255
-VIDEO_DW9714: Requires at least kernel 9.255.255
-VIDEO_IPU3_IMGU: Requires at least kernel 9.255.255
-Created default (all yes) .config file
-./scripts/fix_kconfig.pl
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> 
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-./scripts/make_myconfig.pl
-[ ! -f "./config-mycompat.h" ] && echo "/* empty config-mycompat.h */" > "./config-mycompat.h" || true
-creating symbolic links...
-perl scripts/make_config_compat.pl /lib/modules/4.19.0-5-amd64/source ./.myconfig ./config-compat.h
-Kernel build directory is /lib/modules/4.19.0-5-amd64/build
-make -C ../linux apply_patches
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Patches for 4.19.0-5-amd64 already applied.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make -C /lib/modules/4.19.0-5-amd64/build M=<https://builder.linuxtv.org/job/media-build/ws/v4l>  modules
-make[2]: Entering directory '/usr/src/linux-headers-4.19.0-5-amd64'
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-regs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-quirk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-limits.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o>
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_mode.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-limits.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-regs.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-driver.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-quirk.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/et8ek8_driver.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/msp3400-kthreads.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/smiapp-core.o]> Error 1
-In file included from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>: In function 'compat_ptr_ioctl':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:2769:69: error: implicit declaration of function 'compat_ptr'; did you mean 'complete'? [-Werror=implicit-function-declaration]
-         return file->f_op->unlocked_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-                                                                     ^~~~~~~~~~
-                                                                     complete
-cc1: some warnings being treated as errors
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/cx25840-core.o]> Error 1
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 526
-Build step 'Execute shell' marked build as failure
+-- 
+regards,
+Stan
