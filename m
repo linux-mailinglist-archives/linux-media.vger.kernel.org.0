@@ -2,122 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 171A011A6F3
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 10:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BC6411A79E
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 10:42:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728617AbfLKJ0f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 04:26:35 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59033 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728500AbfLKJ0e (ORCPT
+        id S1728516AbfLKJmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 04:42:06 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:42035 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728030AbfLKJmG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 04:26:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576056393;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zUEA3DTpeyiTMO4yFUvbCE27cpRyI0YDYGh3YmWkd7U=;
-        b=Qak2G5podDRIDFHapDDYvx+n5oM+vcEbjD/XSqGiZ9qglKYsySbCt6LCAl9M2JIKJefJKW
-        5c53QFggSGD4NukFF8TF8dLqCxL8xoaPss+sMZ2Syu5ao25mFRg2WTsKAi3S4PlcXal+80
-        fVOIgW5H6Uxor0G/Vg4iHAbeqVLSnHo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-DXrrFDgMP86Y1baJfLsJvg-1; Wed, 11 Dec 2019 04:26:30 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48198107ACFA;
-        Wed, 11 Dec 2019 09:26:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com [10.36.116.67])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8B1695C1B5;
-        Wed, 11 Dec 2019 09:26:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 9C6C416E05; Wed, 11 Dec 2019 10:26:25 +0100 (CET)
-Date:   Wed, 11 Dec 2019 10:26:25 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     David Stevens <stevensd@chromium.org>
-Cc:     Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
-        Zach Reizner <zachr@chromium.org>,
-        Geoffrey McRae <geoff@hostfission.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: guest / host buffer sharing ...
-Message-ID: <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
- <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org>
- <72712fe048af1489368f7416faa92c45@hostfission.com>
- <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
- <d65bec5074eda5f389668e28922c1609@hostfission.com>
- <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
- <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
- <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
+        Wed, 11 Dec 2019 04:42:06 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 7679524000D;
+        Wed, 11 Dec 2019 09:42:02 +0000 (UTC)
+Date:   Wed, 11 Dec 2019 10:44:11 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] rcar-vin: Move hardware buffer tracking to own
+ struct
+Message-ID: <20191211094411.kub2m6qhxtjoxalc@uno.localdomain>
+References: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+ <20191210020559.170594-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: DXrrFDgMP86Y1baJfLsJvg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bqt4f5c3iitqmbqv"
 Content-Disposition: inline
+In-Reply-To: <20191210020559.170594-2-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
 
-> None of the proposals directly address the use case of sharing host
-> allocated buffers between devices, but I think they can be extended to
-> support it. Host buffers can be identified by the following tuple:
-> (transport type enum, transport specific device address, shmid,
-> offset). I think this is sufficient even for host-allocated buffers
-> that aren't visible to the guest (e.g. protected memory, vram), since
-> they can still be given address space in some shared memory region,
-> even if those addresses are actually inaccessible to the guest. At
-> this point, the host buffer identifier can simply be passed in place
-> of the guest ram scatterlist with either proposed buffer sharing
-> mechanism.
+--bqt4f5c3iitqmbqv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I think the main question here is whether or not the complexity of
-> generic buffers and a buffer sharing device is worth it compared to
-> the more implicit definition of buffers.
+Hi Niklas,
 
-Here are two issues mixed up.  First is, whenever we'll go define a
-buffer sharing device or not.  Second is how we are going to address
-buffers.
+On Tue, Dec 10, 2019 at 03:05:58AM +0100, Niklas S=C3=B6derlund wrote:
+> To support SEQ_TB/BT not all buffers given to the hardware will be
+> equal, the driver needs to keep track of different buffer types. Move
+> the tracking of buffers given to hardware into a struct so additional
+> tracking fields can be associated with each buffer.
+>
 
-I think defining (and addressing) buffers implicitly is a bad idea.
-First the addressing is non-trivial, especially with the "transport
-specific device address" in the tuple.  Second I think it is a bad idea
-from the security point of view.  When explicitly exporting buffers it
-is easy to restrict access to the actual exports.
+This change alone does not make sense by itself. I cannot judge if
+it's a good idea or not if not looking at 2/2. Why have you kept it
+separate ?
 
-Instead of using a dedicated buffer sharing device we can also use
-virtio-gpu (or any other driver which supports dma-buf exports) to
-manage buffers.  virtio-gpu would create an identifier when exporting a
-buffer (dma-buf exports inside the guest), attach the identifier to the
-dma-buf so other drivers importing the buffer can see and use it.  Maybe
-add an ioctl to query, so guest userspace can query the identifier too.
-Also send the identifier to the host so it can also be used on the host
-side to lookup and access the buffer.
+Thanks
+   j
 
-With no central instance (buffer sharing device) being there managing
-the buffer identifiers I think using uuids as identifiers would be a
-good idea, to avoid clashes.  Also good for security because it's pretty
-much impossible to guess buffer identifiers then.
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 27 +++++++++++-----------
+>  drivers/media/platform/rcar-vin/rcar-vin.h |  9 ++++----
+>  2 files changed, 19 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/p=
+latform/rcar-vin/rcar-dma.c
+> index cf9029efeb0450cb..cd1778977b2ba56e 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -844,20 +844,20 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin,=
+ int slot)
+>  	dma_addr_t phys_addr;
+>
+>  	/* A already populated slot shall never be overwritten. */
+> -	if (WARN_ON(vin->queue_buf[slot] !=3D NULL))
+> +	if (WARN_ON(vin->buf_hw[slot].buffer !=3D NULL))
+>  		return;
+>
+>  	vin_dbg(vin, "Filling HW slot: %d\n", slot);
+>
+>  	if (list_empty(&vin->buf_list)) {
+> -		vin->queue_buf[slot] =3D NULL;
+> +		vin->buf_hw[slot].buffer =3D NULL;
+>  		phys_addr =3D vin->scratch_phys;
+>  	} else {
+>  		/* Keep track of buffer we give to HW */
+>  		buf =3D list_entry(vin->buf_list.next, struct rvin_buffer, list);
+>  		vbuf =3D &buf->vb;
+>  		list_del_init(to_buf_list(vbuf));
+> -		vin->queue_buf[slot] =3D vbuf;
+> +		vin->buf_hw[slot].buffer =3D vbuf;
+>
+>  		/* Setup DMA */
+>  		phys_addr =3D vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+> @@ -953,13 +953,14 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>  	}
+>
+>  	/* Capture frame */
+> -	if (vin->queue_buf[slot]) {
+> -		vin->queue_buf[slot]->field =3D rvin_get_active_field(vin, vnms);
+> -		vin->queue_buf[slot]->sequence =3D vin->sequence;
+> -		vin->queue_buf[slot]->vb2_buf.timestamp =3D ktime_get_ns();
+> -		vb2_buffer_done(&vin->queue_buf[slot]->vb2_buf,
+> +	if (vin->buf_hw[slot].buffer) {
+> +		vin->buf_hw[slot].buffer->field =3D
+> +			rvin_get_active_field(vin, vnms);
+> +		vin->buf_hw[slot].buffer->sequence =3D vin->sequence;
+> +		vin->buf_hw[slot].buffer->vb2_buf.timestamp =3D ktime_get_ns();
+> +		vb2_buffer_done(&vin->buf_hw[slot].buffer->vb2_buf,
+>  				VB2_BUF_STATE_DONE);
+> -		vin->queue_buf[slot] =3D NULL;
+> +		vin->buf_hw[slot].buffer =3D NULL;
+>  	} else {
+>  		/* Scratch buffer was used, dropping frame. */
+>  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
+> @@ -983,10 +984,10 @@ static void return_all_buffers(struct rvin_dev *vin,
+>  	int i;
+>
+>  	for (i =3D 0; i < HW_BUFFER_NUM; i++) {
+> -		if (vin->queue_buf[i]) {
+> -			vb2_buffer_done(&vin->queue_buf[i]->vb2_buf,
+> +		if (vin->buf_hw[i].buffer) {
+> +			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
+>  					state);
+> -			vin->queue_buf[i] =3D NULL;
+> +			vin->buf_hw[i].buffer =3D NULL;
+>  		}
+>  	}
+>
+> @@ -1291,7 +1292,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+>  	vin->state =3D STOPPED;
+>
+>  	for (i =3D 0; i < HW_BUFFER_NUM; i++)
+> -		vin->queue_buf[i] =3D NULL;
+> +		vin->buf_hw[i].buffer =3D NULL;
+>
+>  	/* buffer queue */
+>  	q->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/p=
+latform/rcar-vin/rcar-vin.h
+> index a36b0824f81d171d..0aa904a4af5b0a97 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> @@ -164,9 +164,8 @@ struct rvin_info {
+>   * @scratch:		cpu address for scratch buffer
+>   * @scratch_phys:	physical address of the scratch buffer
+>   *
+> - * @qlock:		protects @queue_buf, @buf_list, @sequence
+> - *			@state
+> - * @queue_buf:		Keeps track of buffers given to HW slot
+> + * @qlock:		protects @buf_hw, @buf_list, @sequence and @state
+> + * @buf_hw:		Keeps track of buffers given to HW slot
+>   * @buf_list:		list of queued buffers
+>   * @sequence:		V4L2 buffers sequence number
+>   * @state:		keeps track of operation state
+> @@ -205,7 +204,9 @@ struct rvin_dev {
+>  	dma_addr_t scratch_phys;
+>
+>  	spinlock_t qlock;
+> -	struct vb2_v4l2_buffer *queue_buf[HW_BUFFER_NUM];
+> +	struct {
+> +		struct vb2_v4l2_buffer *buffer;
+> +	} buf_hw[HW_BUFFER_NUM];
+>  	struct list_head buf_list;
+>  	unsigned int sequence;
+>  	enum rvin_dma_state state;
+> --
+> 2.24.0
+>
 
-cheers,
-  Gerd
+--bqt4f5c3iitqmbqv
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3wumcACgkQcjQGjxah
+VjwT+g/9GlaY82o+OR57LiAwzbE5rq+CZ4akMkEONGaP5ueBwpNDRU8HPjGuhepb
+M+my6K+TJJO3/6FoENWITLm1aVJVx2DYj0M8VNYBYsRVZPOKvrfGR7zwn14hhmJs
+ZYegnT+Kv04kRMXIDccqCZwaNSkfWUYjEhyxnRZ1SAQVw0PVBXtaZRmiDipCLV98
+1TedEZUCwQUfOzOvbpiZ2Wgo2ARNXidTTRkgpu3oxGD0wmYEqbg5Z/Xt+ude/tJ/
+8aSlU289wXl2VSoxb5D+Y8jOwX/faif6UU/jfaxbdUi3DcWdOROBfVhFS/qPz0Fg
+AMM6L7ci4VDv5ealYzadp95Y6XJ//ulQQRB+Nh4874Qo2x2YjpGKGGXW/2mn4ehk
+ap3yuwzwHv40KZcg1gl7xUCt/eCj8wWmZ/PJXlYKisBiHdI38b9/QFktnRE6Q3UI
+BP/4eNCQxWtcM+ummfJUhEK5Azurc9cZbHx5NpMLHL/JtVPJXb2WXohT4m6RBZCV
+q/H0UGOhdVuGTs2xG4xa79SmZRQSoZaxhiVVi83J0RddnNXXaYy30liiWKYv+iHo
+Rt2pVGKuDbEF8sDGmzNhLGOA0Uxq4nfSYuyY4oRSKToKgHeG2zkHX69QxDsmtt/S
+YhRe7+JILPdhaXAhvxQ5wMmnXCpZctSfl4GyJhbVjAyXJoNg4po=
+=QsFe
+-----END PGP SIGNATURE-----
+
+--bqt4f5c3iitqmbqv--
