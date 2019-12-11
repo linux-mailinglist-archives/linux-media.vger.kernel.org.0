@@ -2,84 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A90311A034
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 01:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA4511A0E1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 02:56:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbfLKAtd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Dec 2019 19:49:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34076 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725999AbfLKAtc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Dec 2019 19:49:32 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2ACEC206D5;
-        Wed, 11 Dec 2019 00:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576025371;
-        bh=mS7zyk9RzK8MLQp+5nvdMy6P3ysyYQCDC3Bah6kmlfs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UvC0RIny6iqVEumpqrPw6rq1+xZGMHezDVxIFrfIHyEiEEKaKQc5hGaYaeoZSLVqv
-         OiKjZB9JvOrs5D8lM5PO+WX7OQOLW/u0awaO48QIwAJPLeFa0zJF2HELO5AISWbm2x
-         nMOoibFNiErcex5Kfzt1sOkhZk08/M0uQclzXbn4=
-Date:   Tue, 10 Dec 2019 16:49:29 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?ISO-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?ISO-8859-1?Q?J=E9r?= =?ISO-8859-1?Q?=F4me?= Glisse 
-        <jglisse@redhat.com>, Magnus Karlsson <magnus.karlsson@intel.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Paul Mackerras" <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v8 20/26] powerpc: book3s64: convert to pin_user_pages()
- and put_user_page()
-Message-Id: <20191210164929.b3f54fe95c3fc4b6c756e65e@linux-foundation.org>
-In-Reply-To: <61e0c3a5-992e-4571-e22d-d63286ce10ec@nvidia.com>
-References: <20191209225344.99740-1-jhubbard@nvidia.com>
-        <20191209225344.99740-21-jhubbard@nvidia.com>
-        <08f5d716-8b31-b016-4994-19fbe829dc28@nvidia.com>
-        <61e0c3a5-992e-4571-e22d-d63286ce10ec@nvidia.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+        id S1726769AbfLKBz7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Dec 2019 20:55:59 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:28213 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726364AbfLKBz7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Dec 2019 20:55:59 -0500
+Date:   11 Dec 2019 10:55:57 +0900
+X-IronPort-AV: E=Sophos;i="5.69,301,1571670000"; 
+   d="scan'208";a="33835483"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 11 Dec 2019 10:55:57 +0900
+Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C24CC4137913;
+        Wed, 11 Dec 2019 10:55:57 +0900 (JST)
+Message-ID: <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
+User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
+        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
+        hien.dang.eb@renesas.com
+In-Reply-To: <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
+References: <redmine.issue-245033.20191211005426@dm.renesas.com>
+        <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 9 Dec 2019 21:53:00 -0800 John Hubbard <jhubbard@nvidia.com> wrote:
 
-> > Correction: this is somehow missing the fixes that resulted from Jan Kara's review (he
-> > noted that we can't take a page lock in this context). I must have picked up the
-> > wrong version of it, when I rebased for -rc1.
-> > 
-> 
-> Andrew, given that the series is now in -mm, what's the preferred way for me to fix this?
-> Send a v9 version of the whole series? Or something else?
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-I think a full resend is warranted at this time - it's only been in
-there a day and there seem to be quite a number of changes to be made.
+The address of VSP2_VI6_HGT_LBx_H are
+	VSP2_VI6_HGT_LB0_H : 0x3428
+	VSP2_VI6_HGT_LB1_H : 0x3430
+	VSP2_VI6_HGT_LB2_H : 0x3438
+	VSP2_VI6_HGT_LB3_H : 0x3440
+
+Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
+This patch fixup it.
+
+Reported-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+ drivers/media/platform/vsp1/vsp1_regs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
+index 5c67ff9..fe3130d 100644
+--- a/drivers/media/platform/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/vsp1/vsp1_regs.h
+@@ -706,7 +706,7 @@
+ #define VI6_HGT_HUE_AREA_LOWER_SHIFT	16
+ #define VI6_HGT_HUE_AREA_UPPER_SHIFT	0
+ #define VI6_HGT_LB_TH			0x3424
+-#define VI6_HGT_LBn_H(n)		(0x3438 + (n) * 8)
++#define VI6_HGT_LBn_H(n)		(0x3428 + (n) * 8)
+ #define VI6_HGT_LBn_V(n)		(0x342c + (n) * 8)
+ #define VI6_HGT_HISTO(m, n)		(0x3450 + (m) * 128 + (n) * 4)
+ #define VI6_HGT_MAXMIN			0x3750
+-- 
+2.7.4
 
