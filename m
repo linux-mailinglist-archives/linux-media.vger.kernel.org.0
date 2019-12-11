@@ -2,126 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6176D11B7FA
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E982B11B882
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:22:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730798AbfLKQLi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 11:11:38 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51583 "EHLO
+        id S1730449AbfLKQWe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 11:22:34 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:54875 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729941AbfLKQLh (ORCPT
+        by vger.kernel.org with ESMTP id S1728912AbfLKQWe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 11:11:37 -0500
-Received: from [IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946]
- ([IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946])
+        Wed, 11 Dec 2019 11:22:34 -0500
+Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id f4aMiY3vRapzpf4aNiSLes; Wed, 11 Dec 2019 17:11:35 +0100
+        id f4kxiY8tRapzpf4kziSRbM; Wed, 11 Dec 2019 17:22:33 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576080695; bh=0cLYbm7/E1jA6Ms/bRxLpWmkEHbdPJoThGeSLhAvwQw=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=e75lpRZhAhUMtKW1yQwiAPBP+utNYdC8FYXrKVFg0Qzd0q50kZjdjWmiUF31LfTdE
-         LRtp6/NkOV71xyQXAJy9WKZ4msYX06h+3iIJbFHsAkIBZe8vTpPOuHmKfRJ50SEzgr
-         NUnWe9hSqQRNzQZVso27LRTGe+QVaKyJQtirK5PHrAzEBAAfrWI0QLApyEL6N14TIm
-         m6C0A7Z8pW+TeGThFOgmIvvej7B9TsjIKYmGgaPh6fWXerOqBaaocobVOiWgdnvU5z
-         /TL5DJnCCKRCMqNNT9qYwuYQ+p1JAW/G2SlIFrRfLchMqYEvNthk8DC++nZprcEmGg
-         kLkTjwPz0mpkg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH for v5.5] pulse8-cec: fix lost cec_transmit_attempt_done()
- call
-Message-ID: <08cd3c10-d160-225f-0d42-f831f5c1b032@xs4all.nl>
-Date:   Wed, 11 Dec 2019 17:11:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        t=1576081353; bh=/QI3szXiTodpyYpNLtOwEe7wUmJMB+C09GP6S++vOgc=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=hL5sVkFAjJw63eSWqG3fUSgaXR8Q7GvU4tLz/TWduTDZTUSvT+irpciX9bBtRanQV
+         fN/F00rR8H8MQyM5hdQHWtit/7EkyikSMvH4MwOzobffk7xnF54i4AgaaUUf3Pgw5f
+         9nERZUOKKR+g8HdtVT3Re63ac4eeONYPfyumPkfdZbzgT5MI6SlcxpMtc0Iece0qCc
+         QCIRDukvTOnGOzfYUffjHER9CJy843NH6Ldp2zcw7qijxlVSknDUiGgcUkUMl+f8eS
+         71HSmTNFGlQFJxoytyRGpvsG0zvw4wQKrMsi+0fLFkHQF/A2El2lhIxRq3W1p4QE46
+         ri+S1JC9Za8Pw==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 00/10] pulse8-cec: improvements and many fixes
+Date:   Wed, 11 Dec 2019 17:22:21 +0100
+Message-Id: <20191211162231.99978-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPpyzo7f5Keks/zDxNWr11JZwgCtohOr0rmsKKo+n80MP4YeJmKEnHr9NLW35EON6Qg7yOK8Z3evtZVShT+TLiLgGA5QU86lXrvSrILCsd+Ppn2TXUDm
- MUtGrbTaQJnbxLR210QsE98ouPizScibdGBOuM9DE5ZlIESGsJ4y2TYdtMqCMD0J5AGjVJXDpnKoMmVJX2RcW+9WW4+w7XJR9QcTCTPw+84LSAjKMR4Vt4ur
- Lm+tW3wg2ZZjEQ+ErRe3SRqWv9kkqePrPed9uHYCcc0=
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfLIuqXjK/nGb1Cb9ikFROFqZEzmt2J7yWvtecDDS5F8o0dP/p5K1rS7xn74w8YDg+F2LT4hgg+nqsiYVn6jFki0p7KwOiFZnBesw3h0xLBDnPalo5IY5
+ VE+BRsUOL/dTfjcMEXZaO0UO85SHdk3joVWdbVzGvBitF0wQ/jRdl3yVeoOAHWlm/vId6aznsElobC1r/XpgePWueqm+waHgGm5CIUQYqRfSMB8vudgTsglz
+ W10d7CHX7ZOY+vG2b574wA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From be15796dc20ceb83e76de319b6382f6f7945c595 Mon Sep 17 00:00:00 2001
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Date: Sat, 7 Dec 2019 23:43:23 +0100
-Subject: [PATCH 04/14] pulse8-cec: fix lost cec_transmit_attempt_done() call
+This series assumes this v5.5 patch has been applied first:
 
-The periodic PING command could interfere with the result of
-a CEC transmit, causing a lost cec_transmit_attempt_done()
-call. This messed up the CEC framework state, leaving it unresponsive.
+https://patchwork.linuxtv.org/patch/60641/
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: <stable@vger.kernel.org>      # for v4.10 and up
----
- drivers/media/usb/pulse8-cec/pulse8-cec.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+This series improves the code and fixes many issues that would
+only appear during stress testing.
 
-diff --git a/drivers/media/usb/pulse8-cec/pulse8-cec.c b/drivers/media/usb/pulse8-cec/pulse8-cec.c
-index ac88ade94cda..59609556d969 100644
---- a/drivers/media/usb/pulse8-cec/pulse8-cec.c
-+++ b/drivers/media/usb/pulse8-cec/pulse8-cec.c
-@@ -116,6 +116,7 @@ struct pulse8 {
- 	unsigned int vers;
- 	struct completion cmd_done;
- 	struct work_struct work;
-+	u8 work_result;
- 	struct delayed_work ping_eeprom_work;
- 	struct cec_msg rx_msg;
- 	u8 data[DATA_SIZE];
-@@ -137,8 +138,10 @@ static void pulse8_irq_work_handler(struct work_struct *work)
- {
- 	struct pulse8 *pulse8 =
- 		container_of(work, struct pulse8, work);
-+	u8 result = pulse8->work_result;
+Part of it was trial-and-error based on observing how the USB device
+acted in corner cases. But after this series was applied this driver
+now passes the 'cec-compliance --test-adapter' tests.
 
--	switch (pulse8->data[0] & 0x3f) {
-+	pulse8->work_result = 0;
-+	switch (result & 0x3f) {
- 	case MSGCODE_FRAME_DATA:
- 		cec_received_msg(pulse8->adap, &pulse8->rx_msg);
- 		break;
-@@ -172,12 +175,12 @@ static irqreturn_t pulse8_interrupt(struct serio *serio, unsigned char data,
- 		pulse8->escape = false;
- 	} else if (data == MSGEND) {
- 		struct cec_msg *msg = &pulse8->rx_msg;
-+		u8 msgcode = pulse8->buf[0];
+The stress testing was done by connecting two Pulse-Eight devices
+together and running this in one shell:
 
- 		if (debug)
- 			dev_info(pulse8->dev, "received: %*ph\n",
- 				 pulse8->idx, pulse8->buf);
--		pulse8->data[0] = pulse8->buf[0];
--		switch (pulse8->buf[0] & 0x3f) {
-+		switch (msgcode & 0x3f) {
- 		case MSGCODE_FRAME_START:
- 			msg->len = 1;
- 			msg->msg[0] = pulse8->buf[1];
-@@ -186,14 +189,20 @@ static irqreturn_t pulse8_interrupt(struct serio *serio, unsigned char data,
- 			if (msg->len == CEC_MAX_MSG_SIZE)
- 				break;
- 			msg->msg[msg->len++] = pulse8->buf[1];
--			if (pulse8->buf[0] & MSGCODE_FRAME_EOM)
-+			if (msgcode & MSGCODE_FRAME_EOM) {
-+				WARN_ON(pulse8->work_result);
-+				pulse8->work_result = msgcode;
- 				schedule_work(&pulse8->work);
-+				break;
-+			}
- 			break;
- 		case MSGCODE_TRANSMIT_SUCCEEDED:
- 		case MSGCODE_TRANSMIT_FAILED_LINE:
- 		case MSGCODE_TRANSMIT_FAILED_ACK:
- 		case MSGCODE_TRANSMIT_FAILED_TIMEOUT_DATA:
- 		case MSGCODE_TRANSMIT_FAILED_TIMEOUT_LINE:
-+			WARN_ON(pulse8->work_result);
-+			pulse8->work_result = msgcode;
- 			schedule_work(&pulse8->work);
- 			break;
- 		case MSGCODE_HIGH_ERROR:
+	cec-ctl --playback
+	cec-ctl -d1 --tv -p0
+
+	while true; do date; cec-ctl -s -p f.f.f.f; sleep 2; cec-ctl -s -p 1.0.0.0; sleep 2; done
+
+This in another:
+
+	while true ; do cec-ctl -s -t0 --image-view-on -v; done
+
+And this in a third:
+
+	while true; do date; cec-ctl -s -d1 --tv; sleep .3; done
+
+This tests continuously unconfiguring and reconfiguring the logical
+addresses for both Pulse-Eights, and continuously sending the Image View On
+message.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (10):
+  pulse8-cec: improve debugging
+  pulse8-cec: reorganize function order
+  pulse8-cec: locking improvements
+  pulse8-cec: add 2nd debug level
+  pulse8-cec: set tx_done_status for transmit_done status
+  pulse8-cec: move the transmit to a workqueue
+  pulse8-cec: queue received messages in an array
+  pulse8-cec: use adap_free callback
+  pulse8-cec: schedule next ping after current ping finished
+  pulse8-cec: log when a CEC message is received
+
+ drivers/media/usb/pulse8-cec/pulse8-cec.c | 769 +++++++++++++---------
+ 1 file changed, 457 insertions(+), 312 deletions(-)
+
 -- 
 2.23.0
 
