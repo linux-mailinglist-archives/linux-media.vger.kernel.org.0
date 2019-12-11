@@ -2,72 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6550A11B887
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBD411B89A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:23:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730470AbfLKQWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 11:22:37 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34291 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730444AbfLKQWf (ORCPT
+        id S1730595AbfLKQXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 11:23:00 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:55628 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729118AbfLKQW7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 11:22:35 -0500
-Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id f4kxiY8tRapzpf4kziSRbz; Wed, 11 Dec 2019 17:22:33 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576081353; bh=91Pp/xlqgHQhMlbUKyzt2r2PC3wZAE4NfY5s25Qxx6M=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=Z4bzCVzCr4kEZWTbgKSvnz+Jj4eFZa60H/Q1JJFkW5iSbzXEKF0lNShmjMk8u9KWb
-         U3hVZgfB5SRATzIlguHq3vAGHtLollQGU+tazj50Y0Xrf1BQ6Xw6zXxgzFvPpOLvJ4
-         0sA/OzqCXxx9ndHyBfihC1GPwKuKDU1IbaGQEpCp8UtU54rgjn+O8hwWYzyEBEapNi
-         pey/w8H6ufaS8yttjz/++N39/THfFBwBAj/ukWcLSJrkgz6cbeQBuXOq/0vPVizt2+
-         yeuFAG+kOJnNKQKk4SjHd4Gn8NxcNgyVfkOF8toELdMCXePch4AMypi9YgXAIUxx7L
-         ttI8NQYf9XGHA==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 10/10] pulse8-cec: log when a CEC message is received
-Date:   Wed, 11 Dec 2019 17:22:31 +0100
-Message-Id: <20191211162231.99978-11-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191211162231.99978-1-hverkuil-cisco@xs4all.nl>
-References: <20191211162231.99978-1-hverkuil-cisco@xs4all.nl>
+        Wed, 11 Dec 2019 11:22:59 -0500
+Received: (qmail 4502 invoked by uid 2102); 11 Dec 2019 11:22:58 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 11 Dec 2019 11:22:58 -0500
+Date:   Wed, 11 Dec 2019 11:22:58 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Dmitry Vyukov <dvyukov@google.com>
+cc:     Andrey Konovalov <andreyknvl@google.com>,
+        syzbot <syzbot+c7b0ec009a216143df30@syzkaller.appspotmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: KASAN: use-after-free Read in usbvision_v4l2_open
+In-Reply-To: <CACT4Y+ZSmwr4y2VrUxZSvFCL0Ws4cp6T5FwyVRg_CqhCf354HQ@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1912111111510.1549-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfLIuqXjK/nGb1Cb9ikFROFqZEzmt2J7yWvtecDDS5F8o0dP/p5K1rS7xn74w8YDg+F2LT4hgg+nqsiYVn6jFki0p7KwOiFZnBesw3h0xLBDnPalo5IY5
- VE+BRsUOL/dTfjcMEXZaO0UO85SHdk3joVWdbVzGvBitF0wQ/jRdl3yVeoOAHWlm/vId6aznsElobMYLfIEpn3iaJQofMu7Ff0yBVsZU13kbY/HhVOPo+iWy
- g37kMwDBkMBOeTCpyTbJCXcq6WTZP2Nx9SBniQpCoEQXnYw0jbEhMLZgFEue0gc4
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Log (if debug > 0) when a CEC message is received.
+On Wed, 11 Dec 2019, Dmitry Vyukov wrote:
 
-This is done for transmits already, so it makes sense to do the
-same for receives.
+> > > By the way, do you know why syzbot sent _two_ reply messages?  One with
+> > > message ID <00000000000031a0af05995eca0b@google.com> and the other with
+> > > message ID <000000000000441a4205995eca11@google.com>?  It seems like
+> > > overkill.
+> >
+> > Hm, I'm not sure. Dmitry?
+> 
+> I would assume it received 2 emails (second from syzkaller-bugs@
+> mailing list) and deduplication logic did not work somehow. So it
+> replied to both.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/usb/pulse8-cec/pulse8-cec.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Does that mean when I send in a test request, it's better to omit 
+syzkaller-bugs from the CC: list?
 
-diff --git a/drivers/media/usb/pulse8-cec/pulse8-cec.c b/drivers/media/usb/pulse8-cec/pulse8-cec.c
-index 17fcaf7e558a..afda438d4e0a 100644
---- a/drivers/media/usb/pulse8-cec/pulse8-cec.c
-+++ b/drivers/media/usb/pulse8-cec/pulse8-cec.c
-@@ -333,6 +333,10 @@ static void pulse8_irq_work_handler(struct work_struct *work)
- 	spin_lock_irqsave(&pulse8->msg_lock, flags);
- 	while (pulse8->rx_msg_num) {
- 		spin_unlock_irqrestore(&pulse8->msg_lock, flags);
-+		if (debug)
-+			dev_info(pulse8->dev, "adap received %*ph\n",
-+				 pulse8->rx_msg[pulse8->rx_msg_cur_idx].len,
-+				 pulse8->rx_msg[pulse8->rx_msg_cur_idx].msg);
- 		cec_received_msg(pulse8->adap,
- 				 &pulse8->rx_msg[pulse8->rx_msg_cur_idx]);
- 		spin_lock_irqsave(&pulse8->msg_lock, flags);
--- 
-2.23.0
+Also, whatever did happen to the most recent test request (the one sent 
+to syzbot+7fa38a608b1075dfd634 even though it was meant to test the 
+bug reported by syzbot+c7b0ec009a216143df30)?  Did it truly fail to 
+build?  I can't find anything about it in the dashboard link for either 
+bug report, and I haven't gotten a reply from syzbot.
+
+Alan Stern
 
