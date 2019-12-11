@@ -2,101 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B669C11AB70
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 14:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD40411AD4C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 15:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729281AbfLKNAC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 08:00:02 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46824 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727402AbfLKNAC (ORCPT
+        id S1729856AbfLKOXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 09:23:09 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35040 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729763AbfLKOXI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 08:00:02 -0500
-Received: from [192.168.0.239] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A78889D0;
-        Wed, 11 Dec 2019 13:59:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576069200;
-        bh=lKEz6Z8NRASclAzwJR4kRXkYGtMfsuGfi7KEZ6mogfw=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=sMtZvl98Y3m0cmwA4LJP7WTI66ESHgC5vEWUOY2v3NptpftyBymBaFVI6x3vQ2TXk
-         wVP6EiVGsUceygub7sOSojgm5+5bWVECh3oW2HWcfK8SDKuWGB5UotONMNZtg3++ya
-         LDe8iVSJMM5lpKxaQDjQpjq+HBU+JXKmDOlF9d9g=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
-Date:   Wed, 11 Dec 2019 12:59:57 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 11 Dec 2019 09:23:08 -0500
+Received: by mail-pf1-f193.google.com with SMTP id b19so1900582pfo.2
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2019 06:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/QWzNDzzrfxQTmZnQXAnuGOpRW2t5ObwF4zriIuU40Y=;
+        b=X+BARLPnnb5Z0xTDzxhmbC3H9nKkYVim4Rh4phE9EBm7qNO7aIUaJGuD1TC9KIUIzm
+         XTbb0b69nRjKZAUnvb2lPL1NgxsVRCsWAxY9+bewiEBcSjDmyYURfskgytpo9lkqF9UI
+         ewq0eeSIIBhDWGuDL9ls7sulVX7i3SCfU1FuIXgdC+kTP2QNU0X8P6HI59thze0Fw5Z1
+         CC7Vi5z5iDvdTn4YUjm6IJ3jx3eDpb9J2NjXaLgGdvFOzunh1x56XR0vK0OkO3M4FlaO
+         fmo1UspdQF/4Z1pua/UZ0ObIWIOjHLCgQ2dngWCIr+z958SLHosToJDAGJXqhpWimXwh
+         6hWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/QWzNDzzrfxQTmZnQXAnuGOpRW2t5ObwF4zriIuU40Y=;
+        b=o5awb2xAymkKusuvnABeJ+dx289/ajbf/uDJCvfArVIxrcuS8iJqvaUVz6u2rggb5L
+         UK64DaPNvKwalY8nntYPRJiJ5S94CjowVSJH5mPv7P+HHKrn+bPqDetbxPksi45qNKhI
+         Z546GVLwpSW/Kl3N9bdC023u3gVEYAYqy4Czrn2wSABi9YXCLncKmW5yhyRHjYHJpWEK
+         RaI/h0/VP2bU1O1/FEY6cRs9lE+t49dM4ZVMxwgfoQgzZeb8mJxPsjdrTi+4mK4xBL6p
+         VmvlIrkNb2Pxs8nzXUXfyRzPL2hIC4Lr/slIWwzcG+I0UwSTpCTK268Q1csE58tkFQmg
+         L1Hg==
+X-Gm-Message-State: APjAAAVCcS2VoTBebGpHT0ctR1ocPlnv7l9+FGfXZWVGtF3mUb0yWJUN
+        jlKLEjK6LYmcm+ZpoW3LucfuvDkPCz8l2gvoXdRfAQ==
+X-Google-Smtp-Source: APXvYqyC3Yj5w8PRUHoADlHDrvA7T1UCFsuw0q62MHrJCRrNQF+pmIjqG0dinlqqjVMygtBbuXda+56UkHWlZ16Mb2M=
+X-Received: by 2002:a65:678f:: with SMTP id e15mr4437984pgr.130.1576074187917;
+ Wed, 11 Dec 2019 06:23:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <CAAeHK+wY+35uBvr0=FnKsWOj91QhXuVE++V7frn5AihAPLvo5Q@mail.gmail.com>
+ <Pine.LNX.4.44L0.1912101508470.1647-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1912101508470.1647-100000@iolanthe.rowland.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 11 Dec 2019 15:22:56 +0100
+Message-ID: <CAAeHK+xTjUdP5D+DzRD-ZBd-8MmhWxT5n=CqO5u37FrEy6T-8Q@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in usbvision_v4l2_open
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Dmitry Vyukov <dvyukov@google.com>
+Cc:     syzbot <syzbot+c7b0ec009a216143df30@syzkaller.appspotmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Morimoto-san,
+On Tue, Dec 10, 2019 at 9:13 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> On Tue, 10 Dec 2019, Andrey Konovalov wrote:
+>
+> > On Tue, Dec 10, 2019 at 8:48 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> > > This looks like a race in v4l2_open(): The function drops the
+> > > videodev_lock mutex before calling the video driver's open routine, and
+> > > the device can be unregistered during the short time between.
+> > >
+> > > This patch tries to make the race much more likely to happen, for
+> > > testing and verification.
+> > >
+> > > Andrey, will syzbot run the same test with this patch, even though it
+> > > says it doesn't have a reproducer?
+> >
+> > Hi Alan,
+> >
+> > No, unfortunately there's nothing to run if there's no reproducer.
+> > It's technically possible to run the same program log that triggered
+> > the bug initially, but since the bug wasn't reproduced with this log
+> > even without the patch, there isn't much sense in running it with the
+> > patch applied.
+>
+> Actually it does make sense.  That bug was caused by a race, and the
+> patch tries to make the race much more likely to happen, so the same
+> test should fail again.
+>
+> But never mind; I'll try a different approach.  There's another syzbot
+> bug report, one with a reproducer, and with this patch in place it
+> should trigger the same race.  I'll try submitting it that way.
+>
+> By the way, do you know why syzbot sent _two_ reply messages?  One with
+> message ID <00000000000031a0af05995eca0b@google.com> and the other with
+> message ID <000000000000441a4205995eca11@google.com>?  It seems like
+> overkill.
 
-Thank you for the patch,
-
-On 11/12/2019 01:55, Kuninori Morimoto wrote:
-> 
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> 
-> The address of VSP2_VI6_HGT_LBx_H are
-> 	VSP2_VI6_HGT_LB0_H : 0x3428
-> 	VSP2_VI6_HGT_LB1_H : 0x3430
-> 	VSP2_VI6_HGT_LB2_H : 0x3438
-> 	VSP2_VI6_HGT_LB3_H : 0x3440
-> 
-> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
-> This patch fixup it.
-
-I think this deserves a fixes tag:
-
-Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
-
-> Reported-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-Otherwise,
-
-Yes I can clearly see that this offset is marked as H'3428 at page 32-39
-within the Gen3 datasheet.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/platform/vsp1/vsp1_regs.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> index 5c67ff9..fe3130d 100644
-> --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> @@ -706,7 +706,7 @@
->  #define VI6_HGT_HUE_AREA_LOWER_SHIFT	16
->  #define VI6_HGT_HUE_AREA_UPPER_SHIFT	0
->  #define VI6_HGT_LB_TH			0x3424
-> -#define VI6_HGT_LBn_H(n)		(0x3438 + (n) * 8)
-> +#define VI6_HGT_LBn_H(n)		(0x3428 + (n) * 8)
->  #define VI6_HGT_LBn_V(n)		(0x342c + (n) * 8)
->  #define VI6_HGT_HISTO(m, n)		(0x3450 + (m) * 128 + (n) * 4)
->  #define VI6_HGT_MAXMIN			0x3750
-> 
-
+Hm, I'm not sure. Dmitry?
