@@ -2,85 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC97311A57B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 08:57:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C2C111A581
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 08:59:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727187AbfLKH5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 02:57:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56736 "EHLO mail.kernel.org"
+        id S1728154AbfLKH7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 02:59:04 -0500
+Received: from sauhun.de ([88.99.104.3]:47760 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726983AbfLKH5s (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 02:57:48 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2BDBE2077B;
-        Wed, 11 Dec 2019 07:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576051067;
-        bh=MynNlQMAxU4Bskpq1nSDu6V8FrDtd2NELJMdOdt6L1Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eAqfjEeLnF/N7Q4JpAEtxc/csi1AbWGay9jV9aTzjBgx2k0XjgjaYvLEbKuHQcRHE
-         BUr1lR4b9YF9It/WnwVO9oH+8Tzx99/gEgFHOoDdmnOdCoVVH9mszG3tf6gm5vQQ4N
-         MgCrhYldxj4DSiIInXodpGSSxZRkCYXnyBLwmI3A=
-Date:   Wed, 11 Dec 2019 08:57:45 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Zhiqiang Liu <liuzhiqiang26@huawei.com>
-Cc:     tglx@linutronix.de, crope@iki.fi, linux-media@vger.kernel.org,
-        rfontana@redhat.com, erik.andren@gmail.com, hverkuil@xs4all.nl,
-        brijohn@gmail.com, lcostantino@gmail.com, suweifeng1@huawei.com,
-        Mingfangsen <mingfangsen@huawei.com>, guiyao@huawei.com
-Subject: Re: [PATCH] media: usb/cpia2: fix start_offset+size Integer Overflow
- in, cpia2_remap_buffer
-Message-ID: <20191211075745.GA403571@kroah.com>
-References: <83ed0748-634d-4146-d216-53681bc3b553@huawei.com>
+        id S1726983AbfLKH7E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Dec 2019 02:59:04 -0500
+Received: from localhost (p54B33103.dip0.t-ipconnect.de [84.179.49.3])
+        by pokefinder.org (Postfix) with ESMTPSA id 3F4D72C05C1;
+        Wed, 11 Dec 2019 08:59:02 +0100 (CET)
+Date:   Wed, 11 Dec 2019 08:59:01 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/17] i2c: add helper to check if a client has a driver
+ attached
+Message-ID: <20191211075901.GB1161@ninjato>
+References: <20191106212120.27983-1-wsa+renesas@sang-engineering.com>
+ <20191106212120.27983-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
 Content-Disposition: inline
-In-Reply-To: <83ed0748-634d-4146-d216-53681bc3b553@huawei.com>
+In-Reply-To: <20191106212120.27983-2-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 10:47:58AM +0800, Zhiqiang Liu wrote:
-> From: Weifeng Su <suweifeng1@huawei.com>
-> 
-> CVE-2019-18675: The Linux kernel through 5.3.13 has a start_offset+size
-> IntegerOverflow in cpia2_remap_buffer in drivers/media/usb/cpia2/cpia2_core.c
-> because cpia2 has its own mmap implementation. This allows local users
-> (with /dev/video0 access) to obtain read and write permissions on kernel
-> physical pages, which can possibly result in a privilege escalation.
-> 
-> Here, we fix it through proper start_offset value check.
-> 
-> CVE Link: https://nvd.nist.gov/vuln/detail/CVE-2019-18675
-> Signed-off-by: Weifeng Su <suweifeng1@huawei.com>
-> Reviewed-by: Zhiqiang Liu <liuzhiqiang26@huawei.com>
-> ---
->  drivers/media/usb/cpia2/cpia2_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/cpia2/cpia2_core.c b/drivers/media/usb/cpia2/cpia2_core.c
-> index 20c50c2d042e..26ae7a5e3783 100644
-> --- a/drivers/media/usb/cpia2/cpia2_core.c
-> +++ b/drivers/media/usb/cpia2/cpia2_core.c
-> @@ -2401,7 +2401,7 @@ int cpia2_remap_buffer(struct camera_data *cam, struct vm_area_struct *vma)
-> 
->  	if (size > cam->frame_size*cam->num_frames  ||
->  	    (start_offset % cam->frame_size) != 0 ||
-> -	    (start_offset+size > cam->frame_size*cam->num_frames))
-> +	    (start_offset > cam->frame_size*cam->num_frames - size))
 
-I thought we discussed this already, and the checks in the core kernel
-will prevent this from happening, right?
+--wzJLGUyc3ArbnUjN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What did I miss?
+On Wed, Nov 06, 2019 at 10:21:01PM +0100, Wolfram Sang wrote:
+> Factoring out something used in the media subsystem. As an improvement,
+> it bails out on both, NULL and ERRPTR.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Or was that research not correct?  Can you really trigger this?  If so,
-we should fix the core kernel checks instead, and not rely on it being
-in every individual driver.
+I picked it up myself now, so we can start using it right away.
 
-thanks,
+Applied to for-current, thanks!
 
-greg k-h
+
+--wzJLGUyc3ArbnUjN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3wocEACgkQFA3kzBSg
+KbZ43hAAqz+5fi6ryOKPqPuTqiq7QeV1g8DyDLaJNKtBdeZfaSWXezGbkF/x3gsb
+0jP38WFTqBQn2GrsY0PyCgeAVYrxZfiU7B9yIuOUb/INElibFyvWwGg/ApvHQ0Uz
+lzzuFaRNvyNccwmgE96s0TXlrQJLWmIfH3edtAajiOWG0DgxyW0RzuMTiT3Gg8rY
+dZfUJYuregJbUZpTSjGlno6ANJp1TYRXtFWbtIBqlV8EwRVuVPzXRrui9+GDQzYs
+19cK292jttoBLLHLHMh3JXAgtZfiMSKMk70kC1JZTKZOohscFn6KYkvUqSMR7QzI
+jtaytTNhGsiT5tfZZzO0V7vfEE5pw/MBEr5AHxrtpG2t9lcrjGOXnys96P+mei1W
+pTPWOkH20+YUPsmgr5Ri2H9AUF0qgsGj+jkThVpO6+iGNS5RavXs/QWXkzDlWkT8
+csgR+u3r4xSPGZT/+RxgHbDUIU305kVwWOewAa7A3sYfZIG8qnHGrDbxIqHqnxTD
+wMq6MSAevLTBAvF5LDPUOqrofniu9ROHKTMeh64ZlE7qj4cDcD9/Wnz3smmHqi/b
+FngQQ6CL4LQ2FszNDPoEchwxfWyfh7pkBwWwBTEITHws1Sl50FXdbV8wU99+MLoB
+h73PWflvKagFNtgvsy3gHryPj0gLOtX+aNWq8zWq2JdxQHvBts4=
+=l2uc
+-----END PGP SIGNATURE-----
+
+--wzJLGUyc3ArbnUjN--
