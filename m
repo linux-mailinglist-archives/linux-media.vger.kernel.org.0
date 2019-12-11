@@ -2,90 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEA9311A5F4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 09:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 171A011A6F3
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 10:26:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728008AbfLKIhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 03:37:18 -0500
-Received: from a27-18.smtp-out.us-west-2.amazonses.com ([54.240.27.18]:37556
-        "EHLO a27-18.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726845AbfLKIhS (ORCPT
+        id S1728617AbfLKJ0f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 04:26:35 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59033 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728500AbfLKJ0e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 03:37:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1576053437;
-        h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Message-ID;
-        bh=vOD0y0bF78anF7hD1xvYENe8jRmoFPCWo9m4+Hl5kg0=;
-        b=XYwoG17euKFknVR1q8nz7qYWf4/w62cKQDhuVsB40wA2FqHuwdVLHArGygzMQWVM
-        WxRhfvKg5oPLlNVKubpKw5s9nfwkVKpx235mMKLCvY33GTQAhCXj4A79eza6O/ybXr+
-        PqBlhk9AyHppSQVtd3J0EnY4+wE95yyWQVZCZmm8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1576053437;
-        h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Subject:Message-ID:Feedback-ID;
-        bh=vOD0y0bF78anF7hD1xvYENe8jRmoFPCWo9m4+Hl5kg0=;
-        b=XMjY7/E+z8Ne8qK2MeVzKkA1LcsD0B2z3nomLQLkz9Huh24XxYlwXX1w9emiU48/
-        WxBXsr9/nY+6uvn+EoeX5tpDKfKTzn6PX6whB37EkZKi+misC1CCb4FarBwFn436dG2
-        liIWRVxuuzXj7m8ngQLkjjZZAUY0x/czayco3oyQ=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
-        autolearn=unavailable autolearn_force=no version=3.4.0
+        Wed, 11 Dec 2019 04:26:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1576056393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zUEA3DTpeyiTMO4yFUvbCE27cpRyI0YDYGh3YmWkd7U=;
+        b=Qak2G5podDRIDFHapDDYvx+n5oM+vcEbjD/XSqGiZ9qglKYsySbCt6LCAl9M2JIKJefJKW
+        5c53QFggSGD4NukFF8TF8dLqCxL8xoaPss+sMZ2Syu5ao25mFRg2WTsKAi3S4PlcXal+80
+        fVOIgW5H6Uxor0G/Vg4iHAbeqVLSnHo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-DXrrFDgMP86Y1baJfLsJvg-1; Wed, 11 Dec 2019 04:26:30 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48198107ACFA;
+        Wed, 11 Dec 2019 09:26:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8B1695C1B5;
+        Wed, 11 Dec 2019 09:26:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 9C6C416E05; Wed, 11 Dec 2019 10:26:25 +0100 (CET)
+Date:   Wed, 11 Dec 2019 10:26:25 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Geoffrey McRae <geoff@hostfission.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: guest / host buffer sharing ...
+Message-ID: <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
+ <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org>
+ <72712fe048af1489368f7416faa92c45@hostfission.com>
+ <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+ <d65bec5074eda5f389668e28922c1609@hostfission.com>
+ <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 11 Dec 2019 08:37:17 +0000
-From:   dikshita@codeaurora.org
-To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
-        mchehab@infradead.org, linux-media@vger.kernel.org,
-        stanimir.varbanov@linaro.org, acourbot@google.com,
-        linux-media-owner@vger.kernel.org
-Subject: qcom: add firmware file for Venus on SC7180
-Message-ID: <0101016ef41af542-553255b1-8b20-4d9a-a21b-271f28953afb-000000@us-west-2.amazonses.com>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-SES-Outgoing: 2019.12.11-54.240.27.18
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
+In-Reply-To: <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: DXrrFDgMP86Y1baJfLsJvg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+  Hi,
 
-This pull request adds firmware files for Venus h/w codec found on the
-Qualcomm SC7180 Chipset
+> None of the proposals directly address the use case of sharing host
+> allocated buffers between devices, but I think they can be extended to
+> support it. Host buffers can be identified by the following tuple:
+> (transport type enum, transport specific device address, shmid,
+> offset). I think this is sufficient even for host-allocated buffers
+> that aren't visible to the guest (e.g. protected memory, vram), since
+> they can still be given address space in some shared memory region,
+> even if those addresses are actually inaccessible to the guest. At
+> this point, the host buffer identifier can simply be passed in place
+> of the guest ram scatterlist with either proposed buffer sharing
+> mechanism.
 
-The following changes since commit 
-e8a0f4c9314754d8b2cbe9840357d88a861c438a:
+> I think the main question here is whether or not the complexity of
+> generic buffers and a buffer sharing device is worth it compared to
+> the more implicit definition of buffers.
 
-   rtl_nic: add firmware rtl8168fp-3 (2019-11-18 16:16:01 -0500)
+Here are two issues mixed up.  First is, whenever we'll go define a
+buffer sharing device or not.  Second is how we are going to address
+buffers.
 
-are available in the git repository at:
+I think defining (and addressing) buffers implicitly is a bad idea.
+First the addressing is non-trivial, especially with the "transport
+specific device address" in the tuple.  Second I think it is a bad idea
+from the security point of view.  When explicitly exporting buffers it
+is easy to restrict access to the actual exports.
 
-   https://github.com/dikshitaagarwal/video_firmware_5.4.git master
+Instead of using a dedicated buffer sharing device we can also use
+virtio-gpu (or any other driver which supports dma-buf exports) to
+manage buffers.  virtio-gpu would create an identifier when exporting a
+buffer (dma-buf exports inside the guest), attach the identifier to the
+dma-buf so other drivers importing the buffer can see and use it.  Maybe
+add an ioctl to query, so guest userspace can query the identifier too.
+Also send the identifier to the host so it can also be used on the host
+side to lookup and access the buffer.
 
-for you to fetch changes up to e10ed2126e33582c6c9c5896ca7c16907980784c:
+With no central instance (buffer sharing device) being there managing
+the buffer identifiers I think using uuids as identifiers would be a
+good idea, to avoid clashes.  Also good for security because it's pretty
+much impossible to guess buffer identifiers then.
 
-   qcom: update venus firmware files for v5.4 (2019-12-11 13:53:22 +0530)
+cheers,
+  Gerd
 
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-       qcom: update venus firmware files for v5.4
-
-  WHENCE                   |  10 ++++++++++
-  qcom/venus-5.4/venus.b00 | Bin 0 -> 212 bytes
-  qcom/venus-5.4/venus.b01 | Bin 0 -> 6808 bytes
-  qcom/venus-5.4/venus.b02 | Bin 0 -> 870812 bytes
-  qcom/venus-5.4/venus.b03 | Bin 0 -> 33792 bytes
-  qcom/venus-5.4/venus.b04 |   1 +
-  qcom/venus-5.4/venus.mbn | Bin 0 -> 916924 bytes
-  qcom/venus-5.4/venus.mdt | Bin 0 -> 7020 bytes
-  8 files changed, 11 insertions(+)
-  create mode 100644 qcom/venus-5.4/venus.b00
-  create mode 100644 qcom/venus-5.4/venus.b01
-  create mode 100644 qcom/venus-5.4/venus.b02
-  create mode 100644 qcom/venus-5.4/venus.b03
-  create mode 100644 qcom/venus-5.4/venus.b04
-  create mode 100644 qcom/venus-5.4/venus.mbn
-  create mode 100644 qcom/venus-5.4/venus.mdt
