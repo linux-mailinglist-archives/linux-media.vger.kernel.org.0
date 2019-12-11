@@ -2,257 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECF4111AD9F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 15:36:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DB6211B5F1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 16:57:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729823AbfLKOgz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 09:36:55 -0500
-Received: from mga04.intel.com ([192.55.52.120]:41331 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729513AbfLKOgz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 09:36:55 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Dec 2019 06:36:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,301,1571727600"; 
-   d="scan'208";a="220476305"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2019 06:36:41 -0800
-Received: from andy by smile with local (Exim 4.93-RC7)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1if36W-0000CJ-VS; Wed, 11 Dec 2019 16:36:40 +0200
-Date:   Wed, 11 Dec 2019 16:36:40 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V6, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
-Message-ID: <20191211143640.GU32742@smile.fi.intel.com>
-References: <20191211112849.16705-1-dongchun.zhu@mediatek.com>
- <20191211112849.16705-3-dongchun.zhu@mediatek.com>
+        id S1731702AbfLKPO7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 10:14:59 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:55098 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1731694AbfLKPO6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Dec 2019 10:14:58 -0500
+Received: (qmail 1776 invoked by uid 2102); 11 Dec 2019 10:14:57 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 11 Dec 2019 10:14:57 -0500
+Date:   Wed, 11 Dec 2019 10:14:57 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Andrey Konovalov <andreyknvl@google.com>
+cc:     syzbot <syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: Re: KASAN: use-after-free Read in usbvision_v4l2_open
+In-Reply-To: <CAAeHK+wFBYX8-L-D8w_nep3W=QjYoLAZbc=-0eoWK684wnuayA@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1912111010490.1549-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191211112849.16705-3-dongchun.zhu@mediatek.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 07:28:49PM +0800, Dongchun Zhu wrote:
-> Add a V4L2 sub-device driver for OV02A10 image sensor. The OV02A10 is a
-> 1/5" CMOS sensor from Omnivision, asupporting output format: 10-bit Raw.
+On Wed, 11 Dec 2019, Andrey Konovalov wrote:
+
+> On Tue, Dec 10, 2019 at 9:17 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Tue, 10 Dec 2019, syzbot wrote:
+> >
+> > > > On Mon, 9 Dec 2019, syzbot wrote:
+> > >
+> > > >> Hello,
+> > >
+> > > >> syzbot found the following crash on:
+> > >
+> > > >> HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
+> > > >> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > > >> console output: https://syzkaller.appspot.com/x/log.txt?x=1296f42ae00000
+> > > >> kernel config:
+> > > >> https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
+> > > >> dashboard link:
+> > > >> https://syzkaller.appspot.com/bug?extid=c7b0ec009a216143df30
+> > > >> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > >
+> > > >> Unfortunately, I don't have any reproducer for this crash yet.
+> > >
+> > > >> IMPORTANT: if you fix the bug, please add the following tag to the
+> > > >> commit:
+> > > >> Reported-by: syzbot+c7b0ec009a216143df30@syzkaller.appspotmail.com
+
+> > > This crash does not have a reproducer. I cannot test it.
+> >
+> > Let's try the same patch with a different bug report -- one that has a
+> > reproducer.  I assume that syzbot gets the bug identity from the
+> > email's From: line (which has been updated acoordingly) rather than the
+> > Subject: line.
 > 
-> This chip has a single MIPI lane interface and use the I2C bus for
-> control and the CSI-2 bus for data.
+> Did you get a response for this test? I see the test attempt on the
+> dashboard (the patch failed to build), but I didn't get an email with
+> the result.
 
-...
+No response so far.  On the other hand, syzbot has been a bit slow to 
+respond to my tests recently (typical turnaround time is several 
+hours).  I don't know what's going on.
 
-> +#define OV02A10_MASK_8_BITS                            0xff
-
-Besides GENMASK() why do you need a definition here? What's the point?
-
-...
-
-> +static int ov02a10_entity_init_cfg(struct v4l2_subdev *sd,
-> +				   struct v4l2_subdev_pad_config *cfg)
-> +{
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = cfg ? V4L2_SUBDEV_FORMAT_TRY
-> +			     : V4L2_SUBDEV_FORMAT_ACTIVE,
-> +		.format = {
-> +			.width = 1600,
-
-> +			.height = 1200
-
-Leave comma here.
-
-> +		}
-> +	};
-> +
-> +	ov02a10_set_fmt(sd, cfg, &fmt);
-> +
-> +	return 0;
-> +}
-
-...
-
-> +	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_GAIN,
-> +					(val & OV02A10_MASK_8_BITS));
-
-Too many parentheses.
-
-> +	if (ret < 0)
-> +		return ret;
-
-...
-
-> +static int ov02a10_set_vblank(struct ov02a10 *ov02a10, int val)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-
-if you do
-
-	int vts = val + ov02a10->cur_mode->height - OV02A10_BASIC_LINE;
-
-you may increase readability below...
-
-> +	int ret;
-> +
-> +	ret = i2c_smbus_write_byte_data(client, REG_PAGE_SWITCH, REG_ENABLE);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_VTS_H,
-> +					(((val + ov02a10->cur_mode->height -
-> +					OV02A10_BASIC_LINE) >>
-> +					OV02A10_VTS_SHIFT) &
-> +					OV02A10_MASK_8_BITS));
-
-	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_VTS_H,
-					(vts >> OV02A10_VTS_SHIFT) &
-					OV02A10_MASK_8_BITS));
-
-And actually why do you need this mask here? Isn't enough to call
-
-	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_VTS_H,
-					vts >> OV02A10_VTS_SHIFT);
-
-here...
-
-
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_VTS_L,
-> +					((val + ov02a10->cur_mode->height -
-> +					OV02A10_BASIC_LINE) &
-> +					OV02A10_MASK_8_BITS));
-
-...and
-
-	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_VTS_L, vts);
-
-here?
-
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return i2c_smbus_write_byte_data(client, REG_GLOBAL_EFFECTIVE,
-> +					 REG_ENABLE);
-> +}
-
-...
-
-> +static int ov02a10_check_hwcfg(struct device *dev, struct ov02a10 *ov02a10)
-> +{
-> +	struct fwnode_handle *ep;
-> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY
-
-Leave comma here.
-
-> +	};
-> +	unsigned int i, j;
-> +	int ret;
-
-> +	if (!fwnode)
-> +		return -ENXIO;
-
-A bit strange error code here.
-
-> +
-> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> +	if (!ep)
-> +		return -ENXIO;
-> +
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> +	fwnode_handle_put(ep);
-> +	if (ret)
-> +		return ret;
-
-> +	if (!bus_cfg.nr_of_link_frequencies) {
-> +		dev_err(dev, "no link frequencies defined");
-> +		ret = -EINVAL;
-> +		goto check_hwcfg_error;
-> +	}
-
-I still think it's redundant check, though it's up to maintainers.
-
-> +
-> +	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
-> +		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
-> +			if (link_freq_menu_items[i] ==
-> +				bus_cfg.link_frequencies[j])
-> +				break;
-> +		}
-> +
-> +		if (j == bus_cfg.nr_of_link_frequencies) {
-> +			dev_err(dev, "no link frequency %lld supported",
-> +				link_freq_menu_items[i]);
-> +			ret = -EINVAL;
-> +			goto check_hwcfg_error;
-> +		}
-> +	}
-> +
-> +check_hwcfg_error:
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int ov02a10_probe(struct i2c_client *client)
-> +{
-
-> +	/* Optional indication of physical rotation of sensor */
-> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "rotation", &rotation);
-
-> +	if (!ret) {
-
-Why not positive conditional?
-
-> +		ov02a10->upside_down = rotation == 180;
-> +		if (rotation == 180) {
-> +			ov02a10->upside_down = true;
-> +			ov02a10->fmt.code = MEDIA_BUS_FMT_SRGGB10_1X10;
-> +		}
-> +	} else {
-> +		dev_warn(dev, "failed to get rotation\n");
-> +	}
-> +
-> +	/* Optional indication of mipi TX speed */
-> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "ovti,mipi-tx-speed",
-> +				       &clock_lane_tx_speed);
-> +
-
-> +	if (!ret)
-
-Ditto.
-
-> +		ov02a10->mipi_clock_tx_speed = clock_lane_tx_speed;
-> +	else
-> +		dev_warn(dev, "failed to get mipi tx speed, using default...\n");
-> +
-
-> +	return ret;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Alan Stern
 
