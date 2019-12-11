@@ -2,94 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F14CD11A7AF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 10:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEE011A926
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 11:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728534AbfLKJnT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 04:43:19 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:57187 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728265AbfLKJnT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 04:43:19 -0500
-X-Originating-IP: 93.34.114.233
-Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id A5F2E1BF204;
-        Wed, 11 Dec 2019 09:43:16 +0000 (UTC)
-Date:   Wed, 11 Dec 2019 10:45:24 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] rcar-vin: Support V4L2_FIELD_SEQ_{TB,BT}
-Message-ID: <20191211094524.5jruiyuftyh77z7a@uno.localdomain>
-References: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+        id S1729006AbfLKKmn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 05:42:43 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59588 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728030AbfLKKmn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Dec 2019 05:42:43 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D483FB178;
+        Wed, 11 Dec 2019 10:42:38 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id F3EB81E0B23; Wed, 11 Dec 2019 11:42:36 +0100 (CET)
+Date:   Wed, 11 Dec 2019 11:42:36 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v9 20/25] powerpc: book3s64: convert to pin_user_pages()
+ and put_user_page()
+Message-ID: <20191211104236.GM1551@quack2.suse.cz>
+References: <20191211025318.457113-1-jhubbard@nvidia.com>
+ <20191211025318.457113-21-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wzszm6cgjwy6wcce"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191211025318.457113-21-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue 10-12-19 18:53:13, John Hubbard wrote:
+> 1. Convert from get_user_pages() to pin_user_pages().
+> 
+> 2. As required by pin_user_pages(), release these pages via
+> put_user_page().
+> 
+> Cc: Jan Kara <jack@suse.cz>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
---wzszm6cgjwy6wcce
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch looks good to me. You can add:
 
-Hi Niklas,
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-On Tue, Dec 10, 2019 at 03:05:57AM +0100, Niklas S=C3=B6derlund wrote:
-> Hi,
->
-> This series add support for sequential filed formats to rcar-vin. The
-> series is based on the media-tree and tested on both R-Car Gen2 and Gen3
-> boards without regressions.
->
-> Patch 1/2 prepares for the new filed formats by reworking and renaming
-> an existing struct member while 2/2 adds support for the two new field
-> formats.
+I'd just note that mm_iommu_do_alloc() has a pre-existing bug that the last
+jump to 'free_exit' (at line 157) happens already after converting page
+pointers to physical addresses so put_page() calls there will just crash.
+But that's completely unrelated to your change. I'll send a fix separately.
 
-Please try to add a changelog, otherwise I have to read my comments in v2
-and manually check what has been addressed or not
+								Honza
 
->
-> Niklas S=C3=B6derlund (2):
->   rcar-vin: Move hardware buffer tracking to own struct
->   rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT}
->
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 91 ++++++++++++++++-----
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  5 ++
->  drivers/media/platform/rcar-vin/rcar-vin.h  | 28 ++++++-
->  3 files changed, 100 insertions(+), 24 deletions(-)
->
-> --
+> ---
+>  arch/powerpc/mm/book3s64/iommu_api.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/powerpc/mm/book3s64/iommu_api.c b/arch/powerpc/mm/book3s64/iommu_api.c
+> index 56cc84520577..a86547822034 100644
+> --- a/arch/powerpc/mm/book3s64/iommu_api.c
+> +++ b/arch/powerpc/mm/book3s64/iommu_api.c
+> @@ -103,7 +103,7 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, unsigned long ua,
+>  	for (entry = 0; entry < entries; entry += chunk) {
+>  		unsigned long n = min(entries - entry, chunk);
+>  
+> -		ret = get_user_pages(ua + (entry << PAGE_SHIFT), n,
+> +		ret = pin_user_pages(ua + (entry << PAGE_SHIFT), n,
+>  				FOLL_WRITE | FOLL_LONGTERM,
+>  				mem->hpages + entry, NULL);
+>  		if (ret == n) {
+> @@ -167,9 +167,8 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, unsigned long ua,
+>  	return 0;
+>  
+>  free_exit:
+> -	/* free the reference taken */
+> -	for (i = 0; i < pinned; i++)
+> -		put_page(mem->hpages[i]);
+> +	/* free the references taken */
+> +	put_user_pages(mem->hpages, pinned);
+>  
+>  	vfree(mem->hpas);
+>  	kfree(mem);
+> @@ -215,7 +214,8 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+>  		if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
+>  			SetPageDirty(page);
+>  
+> -		put_page(page);
+> +		put_user_page(page);
+> +
+>  		mem->hpas[i] = 0;
+>  	}
+>  }
+> -- 
 > 2.24.0
->
-
---wzszm6cgjwy6wcce
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3wurQACgkQcjQGjxah
-VjzeAhAAt8Qg5K/pjxpoTkCq2qD2ZB71a2zOmPmotrIScjqCvKSOv6GJ/3Bx2GQD
-brbVJDYoayN0EfmCN1HivUHroHRo3eYQie6Y6MAiYCoE2iIKvIv54tZArG7wB8M8
-0XctJKcEQmp0Wzc8cyVqroyvW0SN+MfrxMnaSScfO/TLW4L5tzrgPcxKVVu3BcK0
-S0V00HBJalmhUliupGaWmQ9urrbNfTi66B4Ne+DAtPqJzwnjKVuN4J8p0mdS7+Pi
-fqbagWFxUy8+ylP7lUGlTqU1Fka691Fu1hA0HxTfLvjWZbNUSEIKYkgRtCRrsEI/
-2iZlstxjkLJbK8/p7rHPBwnG/AP8i/ajtEeUrv/t6+U6uBilcY8+D7bK00hauR2W
-vlJdARX0qZev9KeWqqdLahyd7bHgkFjlZKMlH1Y2WEvNsxGZmvTvgvggANnzcfn8
-pCf3TJ/LRsPlfrbxDvR7btTpX141gRIdvavypAB0GuXW9BiAL+ERF8FceWE9xKQU
-KDEJqAb+JVZiDzThSTyQmVdVf6/Z9mdVufSRPHMeltiYTgRR8e7/3iwuLiyGJLgX
-YpUE2HVoCCJx/UurMGRLf0u2eEdi6JSyiEaSncEwEHtnpUhM3DXi8m8GaRFuVztK
-Qv+uMWo3a3CyJPzVoz1J3nJ9p0o+1MMs0hRaIdtk05RJ43EtX1E=
-=HfLo
------END PGP SIGNATURE-----
-
---wzszm6cgjwy6wcce--
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
