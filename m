@@ -2,215 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 407CD11A9DD
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 12:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DEAA11A9DB
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 12:28:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728959AbfLKL2P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 06:28:15 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60980 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727469AbfLKL2O (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 06:28:14 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 4E902AD0E;
-        Wed, 11 Dec 2019 11:28:10 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 63C461E0B23; Wed, 11 Dec 2019 12:28:07 +0100 (CET)
-Date:   Wed, 11 Dec 2019 12:28:07 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v9 23/25] mm/gup: track FOLL_PIN pages
-Message-ID: <20191211112807.GN1551@quack2.suse.cz>
-References: <20191211025318.457113-1-jhubbard@nvidia.com>
- <20191211025318.457113-24-jhubbard@nvidia.com>
+        id S1729022AbfLKL2V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 06:28:21 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41135 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727469AbfLKL2U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Dec 2019 06:28:20 -0500
+Received: by mail-lf1-f68.google.com with SMTP id m30so16369520lfp.8
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2019 03:28:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=T5sktuIISRm6ZZvKoozJxL+dEAmOqziDFJXtFnzJEw0=;
+        b=KFWGmYgdKjci6cbCKEGlJhb7x1KwzHHrphcdxVvbieI3D1r6x/CeXvBKGH7fLaKRRl
+         NBRqsG4uTM03IYlYXX5+yHY9nSmeKsKVhDghXi1dDw0s56JxvvIYdnowqeeDqJzgs7CK
+         MzqR51mL8hbixkN0w3lH+FNhn1vF56Nw4HCb1v2kCVR7e+j03q+2BhKhQf6Wy+T9edQh
+         XNn0xvOPgCy8knkQUg6SzV8XKSG+o5hHAsLGxX06MDTdQt8tBochBtV5zT67uNfi66rW
+         q5y1WYMYze9M9f/Cj7u1jYeG6hEE/OccUoQYL5Aj2X5WKTIQg2RRXz5ZmwcMlWDL+uib
+         mL9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=T5sktuIISRm6ZZvKoozJxL+dEAmOqziDFJXtFnzJEw0=;
+        b=FL6yNgEwATsLy7gaAEnfzrUa3FIsxahxtO4VRSpSHh09DeP2suytick99dX3s7vREb
+         qE+mRnbY70JD9JjYtzSgiNG6qjimpuNjxiMpyWw6K25NLnLZNAWsTXLLc51ZLWo9lK0s
+         /CGIwOt7x5O/5x250Djv9rCR6C9fZQszxecsAq1AH3N1D+CxtAorXqoQz9zq8clIb6/X
+         18PMbyvhD91ocd+N0UN6qx4a/FheHyA7fA4kAEVpeAL1TWYxPg+KIvfhJ3DaisHP7drR
+         icNiW/OUOewTw5GcHkzOZtAmZ6J+690r1kasxarPX09/e0lP8ewmd5f5SLKFyDMXybor
+         58MA==
+X-Gm-Message-State: APjAAAXBmZ7j7zoKd822KvmHj2R1NOD1Vd/PRwZgLSZivyrN58pwmP4e
+        hPnOXIKdN8kX8ZbwU2UgMCkLHrj0+ic=
+X-Google-Smtp-Source: APXvYqzDuzF8wqqNP4PECKsoJ/1AmvLv4OAJGfwc+cdSjzDPQIe75dra2S0mgfc8A5TjIsOnt7tFGQ==
+X-Received: by 2002:ac2:5635:: with SMTP id b21mr1823510lff.127.1576063697807;
+        Wed, 11 Dec 2019 03:28:17 -0800 (PST)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id u16sm1109280lfi.36.2019.12.11.03.28.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2019 03:28:16 -0800 (PST)
+Date:   Wed, 11 Dec 2019 12:28:16 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] rcar-vin: Move hardware buffer tracking to own
+ struct
+Message-ID: <20191211112816.GC6956@bigcity.dyn.berto.se>
+References: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+ <20191210020559.170594-2-niklas.soderlund+renesas@ragnatech.se>
+ <20191211094411.kub2m6qhxtjoxalc@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191211025318.457113-24-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191211094411.kub2m6qhxtjoxalc@uno.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 10-12-19 18:53:16, John Hubbard wrote:
-> Add tracking of pages that were pinned via FOLL_PIN.
+Hi Jacopo,
+
+Thanks for your feedback.
+
+On 2019-12-11 10:44:11 +0100, Jacopo Mondi wrote:
+> Hi Niklas,
 > 
-> As mentioned in the FOLL_PIN documentation, callers who effectively set
-> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
-> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
-> for DIO and/or RDMA use".
+> On Tue, Dec 10, 2019 at 03:05:58AM +0100, Niklas Söderlund wrote:
+> > To support SEQ_TB/BT not all buffers given to the hardware will be
+> > equal, the driver needs to keep track of different buffer types. Move
+> > the tracking of buffers given to hardware into a struct so additional
+> > tracking fields can be associated with each buffer.
+> >
 > 
-> Pages that have been pinned via FOLL_PIN are identifiable via a
-> new function call:
+> This change alone does not make sense by itself. I cannot judge if
+> it's a good idea or not if not looking at 2/2. Why have you kept it
+> separate ?
+
+That's why they are grouped in a series and not sent as two separate 
+patches. I split things as I would like to review them. If there is a 
+rename of a variable or other no functional change that takes up a lot 
+of screen space I will split it out into it's own patch and make it 
+clear that's all that's in there and then follow up with the series real 
+change. I find this allows for a better review of the real change in the 
+series as the preparation step is quiet uninteresting.
+
 > 
->    bool page_dma_pinned(struct page *page);
+> Thanks
+>    j
 > 
-> What to do in response to encountering such a page, is left to later
-> patchsets. There is discussion about this in [1], [2], and [3].
-> 
-> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
-> 
-> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
->     https://lwn.net/Articles/784574/
-> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
->     https://lwn.net/Articles/774411/
-> [3] The trouble with get_user_pages() (Apr 30, 2018):
->     https://lwn.net/Articles/753027/
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-dma.c | 27 +++++++++++-----------
+> >  drivers/media/platform/rcar-vin/rcar-vin.h |  9 ++++----
+> >  2 files changed, 19 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index cf9029efeb0450cb..cd1778977b2ba56e 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -844,20 +844,20 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
+> >  	dma_addr_t phys_addr;
+> >
+> >  	/* A already populated slot shall never be overwritten. */
+> > -	if (WARN_ON(vin->queue_buf[slot] != NULL))
+> > +	if (WARN_ON(vin->buf_hw[slot].buffer != NULL))
+> >  		return;
+> >
+> >  	vin_dbg(vin, "Filling HW slot: %d\n", slot);
+> >
+> >  	if (list_empty(&vin->buf_list)) {
+> > -		vin->queue_buf[slot] = NULL;
+> > +		vin->buf_hw[slot].buffer = NULL;
+> >  		phys_addr = vin->scratch_phys;
+> >  	} else {
+> >  		/* Keep track of buffer we give to HW */
+> >  		buf = list_entry(vin->buf_list.next, struct rvin_buffer, list);
+> >  		vbuf = &buf->vb;
+> >  		list_del_init(to_buf_list(vbuf));
+> > -		vin->queue_buf[slot] = vbuf;
+> > +		vin->buf_hw[slot].buffer = vbuf;
+> >
+> >  		/* Setup DMA */
+> >  		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+> > @@ -953,13 +953,14 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> >  	}
+> >
+> >  	/* Capture frame */
+> > -	if (vin->queue_buf[slot]) {
+> > -		vin->queue_buf[slot]->field = rvin_get_active_field(vin, vnms);
+> > -		vin->queue_buf[slot]->sequence = vin->sequence;
+> > -		vin->queue_buf[slot]->vb2_buf.timestamp = ktime_get_ns();
+> > -		vb2_buffer_done(&vin->queue_buf[slot]->vb2_buf,
+> > +	if (vin->buf_hw[slot].buffer) {
+> > +		vin->buf_hw[slot].buffer->field =
+> > +			rvin_get_active_field(vin, vnms);
+> > +		vin->buf_hw[slot].buffer->sequence = vin->sequence;
+> > +		vin->buf_hw[slot].buffer->vb2_buf.timestamp = ktime_get_ns();
+> > +		vb2_buffer_done(&vin->buf_hw[slot].buffer->vb2_buf,
+> >  				VB2_BUF_STATE_DONE);
+> > -		vin->queue_buf[slot] = NULL;
+> > +		vin->buf_hw[slot].buffer = NULL;
+> >  	} else {
+> >  		/* Scratch buffer was used, dropping frame. */
+> >  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
+> > @@ -983,10 +984,10 @@ static void return_all_buffers(struct rvin_dev *vin,
+> >  	int i;
+> >
+> >  	for (i = 0; i < HW_BUFFER_NUM; i++) {
+> > -		if (vin->queue_buf[i]) {
+> > -			vb2_buffer_done(&vin->queue_buf[i]->vb2_buf,
+> > +		if (vin->buf_hw[i].buffer) {
+> > +			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
+> >  					state);
+> > -			vin->queue_buf[i] = NULL;
+> > +			vin->buf_hw[i].buffer = NULL;
+> >  		}
+> >  	}
+> >
+> > @@ -1291,7 +1292,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+> >  	vin->state = STOPPED;
+> >
+> >  	for (i = 0; i < HW_BUFFER_NUM; i++)
+> > -		vin->queue_buf[i] = NULL;
+> > +		vin->buf_hw[i].buffer = NULL;
+> >
+> >  	/* buffer queue */
+> >  	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > index a36b0824f81d171d..0aa904a4af5b0a97 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > @@ -164,9 +164,8 @@ struct rvin_info {
+> >   * @scratch:		cpu address for scratch buffer
+> >   * @scratch_phys:	physical address of the scratch buffer
+> >   *
+> > - * @qlock:		protects @queue_buf, @buf_list, @sequence
+> > - *			@state
+> > - * @queue_buf:		Keeps track of buffers given to HW slot
+> > + * @qlock:		protects @buf_hw, @buf_list, @sequence and @state
+> > + * @buf_hw:		Keeps track of buffers given to HW slot
+> >   * @buf_list:		list of queued buffers
+> >   * @sequence:		V4L2 buffers sequence number
+> >   * @state:		keeps track of operation state
+> > @@ -205,7 +204,9 @@ struct rvin_dev {
+> >  	dma_addr_t scratch_phys;
+> >
+> >  	spinlock_t qlock;
+> > -	struct vb2_v4l2_buffer *queue_buf[HW_BUFFER_NUM];
+> > +	struct {
+> > +		struct vb2_v4l2_buffer *buffer;
+> > +	} buf_hw[HW_BUFFER_NUM];
+> >  	struct list_head buf_list;
+> >  	unsigned int sequence;
+> >  	enum rvin_dma_state state;
+> > --
+> > 2.24.0
+> >
 
-The patch looks mostly good to me now. Just a few smaller comments below.
 
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Suggested-by: Jérôme Glisse <jglisse@redhat.com>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Reviewed-by: Jérôme Glisse <jglisse@redhat.com>
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
-I think you inherited here the Reviewed-by tags from the "add flags" patch
-you've merged into this one but that's not really fair since this patch
-does much more... In particular I didn't give my Reviewed-by tag for this
-patch yet.
-
-> +/*
-> + * try_grab_compound_head() - attempt to elevate a page's refcount, by a
-> + * flags-dependent amount.
-> + *
-> + * This has a default assumption of "use FOLL_GET behavior, if FOLL_PIN is not
-> + * set".
-> + *
-> + * "grab" names in this file mean, "look at flags to decide whether to use
-> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
-> + */
-> +static __maybe_unused struct page *try_grab_compound_head(struct page *page,
-> +							  int refs,
-> +							  unsigned int flags)
-> +{
-> +	if (flags & FOLL_PIN)
-> +		return try_pin_compound_head(page, refs);
-> +
-> +	return try_get_compound_head(page, refs);
-> +}
-
-I somewhat wonder about the asymmetry of try_grab_compound_head() vs
-try_grab_page() in the treatment of 'flags'. How costly would it be to make
-them symmetric (i.e., either set FOLL_GET for try_grab_compound_head()
-callers or make sure one of FOLL_GET, FOLL_PIN is set for try_grab_page())?
-
-Because this difference looks like a subtle catch in the long run...
-
-> +
-> +/**
-> + * try_grab_page() - elevate a page's refcount by a flag-dependent amount
-> + *
-> + * This might not do anything at all, depending on the flags argument.
-> + *
-> + * "grab" names in this file mean, "look at flags to decide whether to use
-> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
-> + *
-> + * @page:	pointer to page to be grabbed
-> + * @flags:	gup flags: these are the FOLL_* flag values.
-> + *
-> + * Either FOLL_PIN or FOLL_GET (or neither) may be set, but not both at the same
-> + * time. (That's true throughout the get_user_pages*() and pin_user_pages*()
-> + * APIs.) Cases:
-> + *
-> + *	FOLL_GET: page's refcount will be incremented by 1.
-> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
-> + *
-> + * Return: true for success, or if no action was required (if neither FOLL_PIN
-> + * nor FOLL_GET was set, nothing is done). False for failure: FOLL_GET or
-> + * FOLL_PIN was set, but the page could not be grabbed.
-> + */
-> +bool __must_check try_grab_page(struct page *page, unsigned int flags)
-> +{
-> +	if (flags & FOLL_GET)
-> +		return try_get_page(page);
-> +	else if (flags & FOLL_PIN) {
-> +		page = compound_head(page);
-> +		WARN_ON_ONCE(flags & FOLL_GET);
-> +
-> +		if (WARN_ON_ONCE(page_ref_zero_or_close_to_bias_overflow(page)))
-> +			return false;
-> +
-> +		page_ref_add(page, GUP_PIN_COUNTING_BIAS);
-> +		__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, 1);
-> +	}
-> +
-> +	return true;
-> +}
-
-...
-
-> @@ -1522,8 +1536,8 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
->  skip_mlock:
->  	page += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
->  	VM_BUG_ON_PAGE(!PageCompound(page) && !is_zone_device_page(page), page);
-> -	if (flags & FOLL_GET)
-> -		get_page(page);
-> +	if (!try_grab_page(page, flags))
-> +		page = ERR_PTR(-EFAULT);
-
-I think you need to also move the try_grab_page() earlier in the function.
-At this point the page may be marked as mlocked and you'd need to undo that
-in case try_grab_page() fails.
-
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index ac65bb5e38ac..0aab6fe0072f 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -4356,7 +4356,13 @@ long follow_hugetlb_page(struct mm_struct *mm, struct vm_area_struct *vma,
->  same_page:
->  		if (pages) {
->  			pages[i] = mem_map_offset(page, pfn_offset);
-> -			get_page(pages[i]);
-> +			if (!try_grab_page(pages[i], flags)) {
-> +				spin_unlock(ptl);
-> +				remainder = 0;
-> +				err = -ENOMEM;
-> +				WARN_ON_ONCE(1);
-> +				break;
-> +			}
->  		}
-
-This function does a refcount overflow check early so that it doesn't have
-to do try_get_page() here. So that check can be now removed when you do
-try_grab_page() here anyway since that early check seems to be just a tiny
-optimization AFAICT.
-
-								Honza
 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Regards,
+Niklas Söderlund
