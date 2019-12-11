@@ -2,94 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E982B11B882
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F81E11B883
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:22:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730449AbfLKQWe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 11:22:34 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:54875 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728912AbfLKQWe (ORCPT
+        id S1730454AbfLKQWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 11:22:35 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59027 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730106AbfLKQWf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 11:22:34 -0500
+        Wed, 11 Dec 2019 11:22:35 -0500
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id f4kxiY8tRapzpf4kziSRbM; Wed, 11 Dec 2019 17:22:33 +0100
+        id f4kxiY8tRapzpf4kziSRbR; Wed, 11 Dec 2019 17:22:33 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576081353; bh=/QI3szXiTodpyYpNLtOwEe7wUmJMB+C09GP6S++vOgc=;
+        t=1576081353; bh=FxRdh2a6QTokfqEvvc9OPn9VVCwjmX3Pu23sY4TvB3Y=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=hL5sVkFAjJw63eSWqG3fUSgaXR8Q7GvU4tLz/TWduTDZTUSvT+irpciX9bBtRanQV
-         fN/F00rR8H8MQyM5hdQHWtit/7EkyikSMvH4MwOzobffk7xnF54i4AgaaUUf3Pgw5f
-         9nERZUOKKR+g8HdtVT3Re63ac4eeONYPfyumPkfdZbzgT5MI6SlcxpMtc0Iece0qCc
-         QCIRDukvTOnGOzfYUffjHER9CJy843NH6Ldp2zcw7qijxlVSknDUiGgcUkUMl+f8eS
-         71HSmTNFGlQFJxoytyRGpvsG0zvw4wQKrMsi+0fLFkHQF/A2El2lhIxRq3W1p4QE46
-         ri+S1JC9Za8Pw==
+        b=cCq3f1zQrrjZ/E6K9DHQo6EYCmNB5TfmGZfWgRkqUmXZ5KnqpK62YrQ03EDrSvZZR
+         6tyJo7OQtblIbGTuIrpQxae8JqwHLezQyK2ykeiUCeZ+CB991pgjSghDIDBixkqxZE
+         dtGdEvl+ozqOcdg5S15ut/2Ii90zsuqJjw+faq3hxo1RQropI6eL2GnAthCB+GkXYU
+         /vwG5ZgOIAKPVdmwtE6AHMuNG8Xf1OL5N9hNhW7BQkFz5XT9Zj8tHpbkJ6WU7rQIfe
+         2Gfev9dvspsFOFDIWl2Ym/hEqsgrTbQaxyiE9lws376ofbucSR1x+tTsigersDZMmf
+         mhRliC2ULIfVA==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 00/10] pulse8-cec: improvements and many fixes
-Date:   Wed, 11 Dec 2019 17:22:21 +0100
-Message-Id: <20191211162231.99978-1-hverkuil-cisco@xs4all.nl>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 01/10] pulse8-cec: improve debugging
+Date:   Wed, 11 Dec 2019 17:22:22 +0100
+Message-Id: <20191211162231.99978-2-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191211162231.99978-1-hverkuil-cisco@xs4all.nl>
+References: <20191211162231.99978-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CMAE-Envelope: MS4wfLIuqXjK/nGb1Cb9ikFROFqZEzmt2J7yWvtecDDS5F8o0dP/p5K1rS7xn74w8YDg+F2LT4hgg+nqsiYVn6jFki0p7KwOiFZnBesw3h0xLBDnPalo5IY5
- VE+BRsUOL/dTfjcMEXZaO0UO85SHdk3joVWdbVzGvBitF0wQ/jRdl3yVeoOAHWlm/vId6aznsElobC1r/XpgePWueqm+waHgGm5CIUQYqRfSMB8vudgTsglz
- W10d7CHX7ZOY+vG2b574wA==
+ VE+BRsUOL/dTfjcMEXZaO0UO85SHdk3joVWdbVzGvBitF0wQ/jRdl3yVeoOAHWlm/vId6aznsElobMYLfIEpn3iaJQofMu7Ff0yBVsZU13kbY/HhVOPo+iWy
+ g37kMwDBkMBOeTCpyTbJCXcq6WTZP2Nx9SBniQpCoEQXnYw0jbEhMLZgFEue0gc4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series assumes this v5.5 patch has been applied first:
+Add and use pulse8_msgname() to show the message codes as a
+human readable text instead of a number.
 
-https://patchwork.linuxtv.org/patch/60641/
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/usb/pulse8-cec/pulse8-cec.c | 65 +++++++++++++++++++++--
+ 1 file changed, 60 insertions(+), 5 deletions(-)
 
-This series improves the code and fixes many issues that would
-only appear during stress testing.
-
-Part of it was trial-and-error based on observing how the USB device
-acted in corner cases. But after this series was applied this driver
-now passes the 'cec-compliance --test-adapter' tests.
-
-The stress testing was done by connecting two Pulse-Eight devices
-together and running this in one shell:
-
-	cec-ctl --playback
-	cec-ctl -d1 --tv -p0
-
-	while true; do date; cec-ctl -s -p f.f.f.f; sleep 2; cec-ctl -s -p 1.0.0.0; sleep 2; done
-
-This in another:
-
-	while true ; do cec-ctl -s -t0 --image-view-on -v; done
-
-And this in a third:
-
-	while true; do date; cec-ctl -s -d1 --tv; sleep .3; done
-
-This tests continuously unconfiguring and reconfiguring the logical
-addresses for both Pulse-Eights, and continuously sending the Image View On
-message.
-
-Regards,
-
-	Hans
-
-Hans Verkuil (10):
-  pulse8-cec: improve debugging
-  pulse8-cec: reorganize function order
-  pulse8-cec: locking improvements
-  pulse8-cec: add 2nd debug level
-  pulse8-cec: set tx_done_status for transmit_done status
-  pulse8-cec: move the transmit to a workqueue
-  pulse8-cec: queue received messages in an array
-  pulse8-cec: use adap_free callback
-  pulse8-cec: schedule next ping after current ping finished
-  pulse8-cec: log when a CEC message is received
-
- drivers/media/usb/pulse8-cec/pulse8-cec.c | 769 +++++++++++++---------
- 1 file changed, 457 insertions(+), 312 deletions(-)
-
+diff --git a/drivers/media/usb/pulse8-cec/pulse8-cec.c b/drivers/media/usb/pulse8-cec/pulse8-cec.c
+index 59609556d969..ea9d42d19bfd 100644
+--- a/drivers/media/usb/pulse8-cec/pulse8-cec.c
++++ b/drivers/media/usb/pulse8-cec/pulse8-cec.c
+@@ -100,6 +100,61 @@ enum pulse8_msgcodes {
+ 	MSGCODE_FRAME_ACK = 0x40,
+ };
+ 
++static const char * const pulse8_msgnames[] = {
++	"NOTHING",
++	"PING",
++	"TIMEOUT_ERROR",
++	"HIGH_ERROR",
++	"LOW_ERROR",
++	"FRAME_START",
++	"FRAME_DATA",
++	"RECEIVE_FAILED",
++	"COMMAND_ACCEPTED",
++	"COMMAND_REJECTED",
++	"SET_ACK_MASK",
++	"TRANSMIT",
++	"TRANSMIT_EOM",
++	"TRANSMIT_IDLETIME",
++	"TRANSMIT_ACK_POLARITY",
++	"TRANSMIT_LINE_TIMEOUT",
++	"TRANSMIT_SUCCEEDED",
++	"TRANSMIT_FAILED_LINE",
++	"TRANSMIT_FAILED_ACK",
++	"TRANSMIT_FAILED_TIMEOUT_DATA",
++	"TRANSMIT_FAILED_TIMEOUT_LINE",
++	"FIRMWARE_VERSION",
++	"START_BOOTLOADER",
++	"GET_BUILDDATE",
++	"SET_CONTROLLED",
++	"GET_AUTO_ENABLED",
++	"SET_AUTO_ENABLED",
++	"GET_DEFAULT_LOGICAL_ADDRESS",
++	"SET_DEFAULT_LOGICAL_ADDRESS",
++	"GET_LOGICAL_ADDRESS_MASK",
++	"SET_LOGICAL_ADDRESS_MASK",
++	"GET_PHYSICAL_ADDRESS",
++	"SET_PHYSICAL_ADDRESS",
++	"GET_DEVICE_TYPE",
++	"SET_DEVICE_TYPE",
++	"GET_HDMI_VERSION",
++	"SET_HDMI_VERSION",
++	"GET_OSD_NAME",
++	"SET_OSD_NAME",
++	"WRITE_EEPROM",
++	"GET_ADAPTER_TYPE",
++	"SET_ACTIVE_SOURCE",
++};
++
++static const char *pulse8_msgname(u8 cmd)
++{
++	static char unknown_msg[5];
++
++	if ((cmd & 0x3f) < ARRAY_SIZE(pulse8_msgnames))
++		return pulse8_msgnames[cmd & 0x3f];
++	snprintf(unknown_msg, sizeof(unknown_msg), "0x%02x", cmd);
++	return unknown_msg;
++}
++
+ #define MSGSTART	0xff
+ #define MSGEND		0xfe
+ #define MSGESC		0xfd
+@@ -178,8 +233,8 @@ static irqreturn_t pulse8_interrupt(struct serio *serio, unsigned char data,
+ 		u8 msgcode = pulse8->buf[0];
+ 
+ 		if (debug)
+-			dev_info(pulse8->dev, "received: %*ph\n",
+-				 pulse8->idx, pulse8->buf);
++			dev_info(pulse8->dev, "received %s: %*ph\n",
++				 pulse8_msgname(msgcode), pulse8->idx, pulse8->buf);
+ 		switch (msgcode & 0x3f) {
+ 		case MSGCODE_FRAME_START:
+ 			msg->len = 1;
+@@ -278,7 +333,7 @@ static int pulse8_send_and_wait_once(struct pulse8 *pulse8,
+ {
+ 	int err;
+ 
+-	/*dev_info(pulse8->dev, "transmit: %*ph\n", cmd_len, cmd);*/
++	/* dev_info(pulse8->dev, "transmit %s: %*ph\n", pulse8_msgname(cmd[0]), cmd_len, cmd); */
+ 	init_completion(&pulse8->cmd_done);
+ 
+ 	err = pulse8_send(pulse8->serio, cmd, cmd_len);
+@@ -294,8 +349,8 @@ static int pulse8_send_and_wait_once(struct pulse8 *pulse8,
+ 		return -ENOTTY;
+ 	if (response &&
+ 	    ((pulse8->data[0] & 0x3f) != response || pulse8->len < size + 1)) {
+-		dev_info(pulse8->dev, "transmit: failed %02x\n",
+-			 pulse8->data[0] & 0x3f);
++		dev_info(pulse8->dev, "transmit %s: failed %s\n",
++			 pulse8_msgname(cmd[0]), pulse8_msgname(pulse8->data[0]));
+ 		return -EIO;
+ 	}
+ 	return 0;
 -- 
 2.23.0
 
