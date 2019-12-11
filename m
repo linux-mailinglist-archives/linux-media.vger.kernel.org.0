@@ -2,115 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2C7111BACF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 18:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF23611BEB1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 21:57:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730593AbfLKR6W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 12:58:22 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49996 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729228AbfLKR6W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 12:58:22 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D3C652B;
-        Wed, 11 Dec 2019 18:58:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576087100;
-        bh=w6hxSAYFaBlRN3FRpDpJY4p+b3nFU7gY3PN6ltgvz4A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PN1FKI5TiIvv/X9HxZ/rCbJCusFSWiVoQIcMyyXWTVexwWOwVxfDlWQCzeLB4qCHb
-         nn2dooqa/8nUaEBg4/IaipTr3wbrv7KrEhG9WnY9qwsCkyre3wBrrVrluClI4rrjdH
-         7Yz30r0KvyXtytM+1XkAq51B7Whdw6sXikWXlxSE=
-Date:   Wed, 11 Dec 2019 19:58:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        id S1726890AbfLKU5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 15:57:42 -0500
+Received: from ms.lwn.net ([45.79.88.28]:58190 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726141AbfLKU5l (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Dec 2019 15:57:41 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7D799739;
+        Wed, 11 Dec 2019 20:57:38 +0000 (UTC)
+Date:   Wed, 11 Dec 2019 13:57:37 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFQ=?= =?UTF-8?B?w7ZwZWw=?= 
+        <bjorn.topel@intel.com>, Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-Message-ID: <20191211175811.GC4863@pendragon.ideasonboard.com>
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
- <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v9 10/25] mm/gup: introduce pin_user_pages*() and
+ FOLL_PIN
+Message-ID: <20191211135737.581add2f@lwn.net>
+In-Reply-To: <20191211025318.457113-11-jhubbard@nvidia.com>
+References: <20191211025318.457113-1-jhubbard@nvidia.com>
+        <20191211025318.457113-11-jhubbard@nvidia.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Tue, 10 Dec 2019 18:53:03 -0800
+John Hubbard <jhubbard@nvidia.com> wrote:
 
-On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
-> Hi Morimoto-san,
-> 
-> Thank you for the patch,
+> Introduce pin_user_pages*() variations of get_user_pages*() calls,
+> and also pin_longterm_pages*() variations.
 
-Likewise :-)
+Just a couple of nits on the documentation patch
 
-> On 11/12/2019 01:55, Kuninori Morimoto wrote:
-> > 
-> > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > 
-> > The address of VSP2_VI6_HGT_LBx_H are
-> > 	VSP2_VI6_HGT_LB0_H : 0x3428
-> > 	VSP2_VI6_HGT_LB1_H : 0x3430
-> > 	VSP2_VI6_HGT_LB2_H : 0x3438
-> > 	VSP2_VI6_HGT_LB3_H : 0x3440
-> > 
-> > Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
-> > This patch fixup it.
-> 
-> I think this deserves a fixes tag:
-> 
-> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
+> +++ b/Documentation/core-api/pin_user_pages.rst
+> @@ -0,0 +1,232 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================================================
+> +pin_user_pages() and related calls
+> +====================================================
+> +
+> +.. contents:: :local:
+> +
+> +Overview
+> +========
+> +
+> +This document describes the following functions: ::
+> +
+> + pin_user_pages
+> + pin_user_pages_fast
+> + pin_user_pages_remote
 
-Given that this macro is not used, we could argue that it doesn't fix
-anything yet :-) I'd rather avoid having this backported to stable
-kernels as it's not useful to have it there, and thus not add a Fixes
-tag. Kieran, would that be OK with you ?
+You could just say "the following functions::" and get the result you're
+after with a slightly less alien plain-text reading experience.
 
-> > Reported-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> 
-> Otherwise,
-> 
-> Yes I can clearly see that this offset is marked as H'3428 at page 32-39
-> within the Gen3 datasheet.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Of course, you could also just say "This document describes
+pin_user_pages(), pin_user_pages_fast(), and pin_user_pages_remote()." But
+that's a matter of personal taste, I guess.  Using the function() notation
+will cause the docs system to automatically link to the kerneldoc info,
+though.  
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +Basic description of FOLL_PIN
+> +=============================
+> +
+> +FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
+> +("gup") family of functions. FOLL_PIN has significant interactions and
+> +interdependencies with FOLL_LONGTERM, so both are covered here.
+> +
+> +FOLL_PIN is internal to gup, meaning that it should not appear at the gup call
+> +sites. This allows the associated wrapper functions  (pin_user_pages*() and
+> +others) to set the correct combination of these flags, and to check for problems
+> +as well.
+> +
+> +FOLL_LONGTERM, on the other hand, *is* allowed to be set at the gup call sites.
+> +This is in order to avoid creating a large number of wrapper functions to cover
+> +all combinations of get*(), pin*(), FOLL_LONGTERM, and more. Also, the
+> +pin_user_pages*() APIs are clearly distinct from the get_user_pages*() APIs, so
+> +that's a natural dividing line, and a good point to make separate wrapper calls.
+> +In other words, use pin_user_pages*() for DMA-pinned pages, and
+> +get_user_pages*() for other cases. There are four cases described later on in
+> +this document, to further clarify that concept.
+> +
+> +FOLL_PIN and FOLL_GET are mutually exclusive for a given gup call. However,
+> +multiple threads and call sites are free to pin the same struct pages, via both
+> +FOLL_PIN and FOLL_GET. It's just the call site that needs to choose one or the
+> +other, not the struct page(s).
+> +
+> +The FOLL_PIN implementation is nearly the same as FOLL_GET, except that FOLL_PIN
+> +uses a different reference counting technique.
+> +
+> +FOLL_PIN is a prerequisite to FOLL_LONGTGERM. Another way of saying that is,
 
-and taken in my branch.
+FOLL_LONGTERM typoed there.
 
-> > ---
-> >  drivers/media/platform/vsp1/vsp1_regs.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> > index 5c67ff9..fe3130d 100644
-> > --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> > +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> > @@ -706,7 +706,7 @@
-> >  #define VI6_HGT_HUE_AREA_LOWER_SHIFT	16
-> >  #define VI6_HGT_HUE_AREA_UPPER_SHIFT	0
-> >  #define VI6_HGT_LB_TH			0x3424
-> > -#define VI6_HGT_LBn_H(n)		(0x3438 + (n) * 8)
-> > +#define VI6_HGT_LBn_H(n)		(0x3428 + (n) * 8)
-> >  #define VI6_HGT_LBn_V(n)		(0x342c + (n) * 8)
-> >  #define VI6_HGT_HISTO(m, n)		(0x3450 + (m) * 128 + (n) * 4)
-> >  #define VI6_HGT_MAXMIN			0x3750
+Thanks,
 
--- 
-Regards,
-
-Laurent Pinchart
+jon
