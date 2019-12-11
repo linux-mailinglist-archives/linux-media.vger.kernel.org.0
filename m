@@ -2,115 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C5A11B334
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 16:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA6B411B727
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:06:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388109AbfLKPlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 10:41:23 -0500
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:34665 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388100AbfLKPfT (ORCPT
+        id S2388102AbfLKQF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 11:05:56 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:39725 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732793AbfLKQFy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:35:19 -0500
-Received: by mail-qt1-f196.google.com with SMTP id 5so6639213qtz.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2019 07:35:19 -0800 (PST)
+        Wed, 11 Dec 2019 11:05:54 -0500
+Received: by mail-qk1-f193.google.com with SMTP id c16so11660381qko.6
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2019 08:05:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=EEZbVUZTmwHpEhj5IiLNVT7HoJJ6hK9o2EwOkcWd0R0=;
-        b=ByyfeRJbC64U8giuaSJyBfvkHapBhK2qAxMJttshjcpu4q7X5Gfa5KndB3Rsx+FfUi
-         2f5Chh4ed41jCL/yUvEAObJLLvxAKzSB3oX9f4i85dEtBwM69NnnT1HWQccG3lMNxg2B
-         0HxtpM2Bu3pbI0Mll/70NUJy6kuGduaNXfpbgt550b3TM2wZOmIXmZmDdat432CbG13Y
-         QnOUIs7h+1UPahghLzsw89qEGjuu+VUedXyzVqknuDAvXHP5Xm8tsXdnalMqEsczvEva
-         l2NRBcXAfvXC70PbdFm3ngvap4BqrNr7M9AZr7YXRhuTCxeiTPjTNLqUt1SKt0BGxnlV
-         ti+Q==
+        bh=rehiyiPENjIb3TkGzxdImMUheY4m13it4HkAOv4ifvA=;
+        b=vTsmwQUGn0PUh4gMKS4wWcvmJG9Rls92dzR7yu3qn9LK1XT3kD28mO+CU67Z6t3Kjg
+         Hdg1fiVHJmBBtpaFSWqVTc8/bEFywDYGJH/GPAe+PvySrIKunzLxecQ5DxeXrtNn04T7
+         MZbJXaN6QLLDpvIJFkZoeoYorXVI56DjLDfGXfmV9VXgzcEvimD1OsJ/ObTAkyFpTK9j
+         Bh4zi2aWz1IAadMIXSNWBe7WEjdVJM963QzpsU8/fprO8FZ2t6aMpI+3qrBcCClsTg7s
+         fIaIr27QMj1Um5In/gi8No9JpBYd1pH9esdh8Wg/nVdRbFKofD6BOkla/vA26Wpq3lR9
+         trzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EEZbVUZTmwHpEhj5IiLNVT7HoJJ6hK9o2EwOkcWd0R0=;
-        b=m701eAGJz6DIsVQJzSKUwvESjFw4MR4Geb8TpeT1qn10dmn8ddk07gyUchcI8dhyok
-         UTOKpPi0CaI39cbZy4hOSHopUjQTwnQ644Ty8tOxiK2oi10eqxCa2FU5lgiWzS+j5pL9
-         3gGEjr30trSB63ry3Qb29lUUDpKPBPMzxBc5YqNpUXxLklin5hnBMXL+bXEKYyHLZrMU
-         myZdEVCtGgsbzX2y6Jiasa3fLOyNSvCcbN5jeTJYrbv5nHAwsvTCByENhirGTrgaLDd1
-         vDtslEUE5d3thnJgX1F4M76hSXnVBdD3+iqnU4tyYB81E2GXfP1crw9YhTc8Hkk3L46h
-         crFg==
-X-Gm-Message-State: APjAAAWlDPPK3muz6sgOS25hbKRKawHTxtM10kZiLEC/7rf8To6YY0Bm
-        jl3X72nqCD+CamA0FdsVjyLiqS5/EXVtgff+ibD7VQ==
-X-Google-Smtp-Source: APXvYqzPgmO02LvwPR3MASeJmUeTLUSOMZa+8nNfTg7jaNAriHFXi9CTAzkRdwS2y9fl/VgOUeUZWqYTOIkuaCIyzmE=
-X-Received: by 2002:aed:2465:: with SMTP id s34mr3283883qtc.158.1576078518501;
- Wed, 11 Dec 2019 07:35:18 -0800 (PST)
+        bh=rehiyiPENjIb3TkGzxdImMUheY4m13it4HkAOv4ifvA=;
+        b=MSpAAbXjNZ/KUauztmatZB4eG8Wu+78L0uhSRoZXxHDKpZKDLpsORrgqEUfBu88UjQ
+         OfXs7OLJ6sIU+jCeoFkTa5MKJA8JXQ/4f6qor/ddTInn8uQf7alD6rgPBnYuavhekOme
+         zjyvZur/n8AhShnQwt5NTm2GqjCQqOQvkfNS1SjtebraUjqFfC3w8YKoIyf2dxGGCZvZ
+         VO4W7FbI5CuZmW4puJKmTSPMQIryR9zEGxZ9A6iY1XamSbdtTxNxKcBrUXmK46gFMLCY
+         hIext33qksKvZjflRYobInA0VrHgP6rZYf9uDGfPjMlCGxwQQ4DKh01N0ajTJtCXK5R+
+         jPsg==
+X-Gm-Message-State: APjAAAUQklro4tHurWq2D3yPU03ai3yz5egc03kX3kTHkrBGuqEz+XIs
+        QT7kYTR8cqI1xJERwISdY6Kkt+Jr/cYuP1YseefTKw==
+X-Google-Smtp-Source: APXvYqwfhmkuQ3K22hYcRkCOlEFPEw9qgU3YRMBjW3CG9Yuk+ek1oqXWKsbNqkZQBQzVDCnoEwkSWILGRpBU8BTNRKM=
+X-Received: by 2002:a37:48f:: with SMTP id 137mr3663089qke.25.1576080352362;
+ Wed, 11 Dec 2019 08:05:52 -0800 (PST)
 MIME-Version: 1.0
-References: <CAAeHK+wFBYX8-L-D8w_nep3W=QjYoLAZbc=-0eoWK684wnuayA@mail.gmail.com>
- <Pine.LNX.4.44L0.1912111010490.1549-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1912111010490.1549-100000@iolanthe.rowland.org>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 11 Dec 2019 16:35:07 +0100
-Message-ID: <CACT4Y+aTq7iThhikGNGKsLF61RHcWMY5mh=oTGc6FHv02f1BBQ@mail.gmail.com>
-Subject: Re: Re: KASAN: use-after-free Read in usbvision_v4l2_open
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        syzbot <syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com>,
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
+ <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org> <72712fe048af1489368f7416faa92c45@hostfission.com>
+ <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+ <d65bec5074eda5f389668e28922c1609@hostfission.com> <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com> <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+In-Reply-To: <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+From:   Enrico Granata <egranata@google.com>
+Date:   Wed, 11 Dec 2019 08:05:40 -0800
+Message-ID: <CAPR809tr7cY_ONLgc2Gq2hzuR+FZrtJ5nsLsq-UmV0LxFu0CRA@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     David Stevens <stevensd@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Geoffrey McRae <geoff@hostfission.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        Souptick Joarder <jrdr.linux@gmail.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Thomas Gleixner <tglx@linutronix.de>
+        Daniel Vetter <daniel@ffwll.ch>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 4:15 PM Alan Stern <stern@rowland.harvard.edu> wrote
+On Wed, Dec 11, 2019 at 1:26 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On Wed, 11 Dec 2019, Andrey Konovalov wrote:
+>   Hi,
 >
-> > On Tue, Dec 10, 2019 at 9:17 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > >
-> > > On Tue, 10 Dec 2019, syzbot wrote:
-> > >
-> > > > > On Mon, 9 Dec 2019, syzbot wrote:
-> > > >
-> > > > >> Hello,
-> > > >
-> > > > >> syzbot found the following crash on:
-> > > >
-> > > > >> HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
-> > > > >> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > > > >> console output: https://syzkaller.appspot.com/x/log.txt?x=1296f42ae00000
-> > > > >> kernel config:
-> > > > >> https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
-> > > > >> dashboard link:
-> > > > >> https://syzkaller.appspot.com/bug?extid=c7b0ec009a216143df30
-> > > > >> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > > >
-> > > > >> Unfortunately, I don't have any reproducer for this crash yet.
-> > > >
-> > > > >> IMPORTANT: if you fix the bug, please add the following tag to the
-> > > > >> commit:
-> > > > >> Reported-by: syzbot+c7b0ec009a216143df30@syzkaller.appspotmail.com
+> > None of the proposals directly address the use case of sharing host
+> > allocated buffers between devices, but I think they can be extended to
+> > support it. Host buffers can be identified by the following tuple:
+> > (transport type enum, transport specific device address, shmid,
+> > offset). I think this is sufficient even for host-allocated buffers
+> > that aren't visible to the guest (e.g. protected memory, vram), since
+> > they can still be given address space in some shared memory region,
+> > even if those addresses are actually inaccessible to the guest. At
+> > this point, the host buffer identifier can simply be passed in place
+> > of the guest ram scatterlist with either proposed buffer sharing
+> > mechanism.
 >
-> > > > This crash does not have a reproducer. I cannot test it.
-> > >
-> > > Let's try the same patch with a different bug report -- one that has a
-> > > reproducer.  I assume that syzbot gets the bug identity from the
-> > > email's From: line (which has been updated acoordingly) rather than the
-> > > Subject: line.
-> >
-> > Did you get a response for this test? I see the test attempt on the
-> > dashboard (the patch failed to build), but I didn't get an email with
-> > the result.
+> > I think the main question here is whether or not the complexity of
+> > generic buffers and a buffer sharing device is worth it compared to
+> > the more implicit definition of buffers.
 >
-> No response so far.  On the other hand, syzbot has been a bit slow to
-> respond to my tests recently (typical turnaround time is several
-> hours).  I don't know what's going on.
+> Here are two issues mixed up.  First is, whenever we'll go define a
+> buffer sharing device or not.  Second is how we are going to address
+> buffers.
+>
+> I think defining (and addressing) buffers implicitly is a bad idea.
+> First the addressing is non-trivial, especially with the "transport
+> specific device address" in the tuple.  Second I think it is a bad idea
+> from the security point of view.  When explicitly exporting buffers it
+> is easy to restrict access to the actual exports.
+>
 
-The system is busy with bisections. Patch testing takes precedence
-over bisection, but only after the current one finished. Bisections
-can take a long time, up to days. The way it all works is a total hack
-that one can put together in a few days.
+Strong +1 to the above. There are definitely use cases of interest
+where it makes sense to be able to attach security attributes to
+buffers.
+Having an explicit interface that can handle all of this, instead of
+duplicating logic in several subsystems, seems a worthy endeavor to
+me.
+
+> Instead of using a dedicated buffer sharing device we can also use
+> virtio-gpu (or any other driver which supports dma-buf exports) to
+> manage buffers.  virtio-gpu would create an identifier when exporting a
+> buffer (dma-buf exports inside the guest), attach the identifier to the
+> dma-buf so other drivers importing the buffer can see and use it.  Maybe
+> add an ioctl to query, so guest userspace can query the identifier too.
+> Also send the identifier to the host so it can also be used on the host
+> side to lookup and access the buffer.
+>
+> With no central instance (buffer sharing device) being there managing
+> the buffer identifiers I think using uuids as identifiers would be a
+> good idea, to avoid clashes.  Also good for security because it's pretty
+> much impossible to guess buffer identifiers then.
+>
+> cheers,
+>   Gerd
+>
+>
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
