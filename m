@@ -2,123 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A55711B723
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98F8E11B7C8
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2019 17:10:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387460AbfLKQFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Dec 2019 11:05:50 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44057 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388831AbfLKQFr (ORCPT
+        id S2387650AbfLKQKP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Dec 2019 11:10:15 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58077 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730701AbfLKQKO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Dec 2019 11:05:47 -0500
+        Wed, 11 Dec 2019 11:10:14 -0500
 Received: from [IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946]
  ([IPv6:2001:983:e9a7:1:d0c4:2b08:27a4:6946])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id f4UhiY1cFapzpf4UiiSJjr; Wed, 11 Dec 2019 17:05:45 +0100
+        id f4Z1iY3QXapzpf4Z2iSLDu; Wed, 11 Dec 2019 17:10:12 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576080345; bh=FNuAvw/X9ch9uUZgR9b1d/RIrYyBDMC32pLXN+WugkE=;
+        t=1576080612; bh=MaQBzeeOchKNMsCa1kTCBJOs6orHhbBr5JcwI/rwbCE=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=EgDLPjdsaIpCJShCik/tbGuxlhTc8MixXGaAXCyeQMON+0bl5cBGp2agzM5a2/sKx
-         wgYCqsIaQ+g60otVvZa2QHApN7ZNfELHSG1ewqLtFhUzPKMqP3+hSwycKhFjwbRtDh
-         QL09zDLuOIddKl8R8A9XHEl2RU5AfNbUTxiqbNC4bpMXCWisnfXPp1dMCwb06rJVA0
-         oQwU2Pu66S0P6hSaVbjKUBjSo2wjA6XyZjSscZWnXkwh5sXDkd6i74qY8mVqLnjk8F
-         ACk6/ZFy7SgIqaakt2MlarDOUdtqzkxe3vcCJxIL3z4S5EX280GDdpS0ODcX/71k4C
-         fV+e7NRuW3saQ==
+        b=rf7jgxv0s7s0Zlj8dYe0JRUAGsmx/OQqfiVyT61EvLNkdE5IWohdUygBkB16UT/WI
+         mh6cPFOs2AaLe+Za3G/SMs+r3qBuat5WHmiAgrCHXGSbqqgfFXFTuA35M3qanYA+V/
+         XPbydWWznWnIFe+mCLCVxFFw5bSdgeQNTnOIcAqChleK3yNIrEVWVxRbxja9ie53Bc
+         THgHqaD+1zTomVVbWx8ziULYOwPA4246rBdWPAVwGoYigx6YDlBAX/zRdNZIeFH2v1
+         9/u3VPAMSrLCStRWOZzo3RrQCUdgkyJVcGTlJ5r9ulA9gjSCc5tq6FY+ZI+zBMMA1n
+         dvZBfOh2aGG3A==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH for v5.5] cec: check 'transmit_in_progress', not
- 'transmitting'
-Message-ID: <dd8ed8f2-9199-8bde-1a0c-571fcee71011@xs4all.nl>
-Date:   Wed, 11 Dec 2019 17:05:43 +0100
+Subject: [PATCH for v5.5] cec: avoid decrementing transmit_queue_sz if it is 0
+Message-ID: <2209c858-bbe3-fd0f-3e6d-c799888dd404@xs4all.nl>
+Date:   Wed, 11 Dec 2019 17:10:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNxso/pSf3kLEC39DgeXF2c/D3g5xCmTD2XGTrjKfTrKf6mFsLjC2Sm5MokrAa/mig64Xj45IgmLPLehQUsOtjyR7Dl8ZnEc5pYQQgO2CA22396zKHuA
- bojDEDHi2tgcdvw7MuDBZp0wStmDtZyNDqxj7MNDnKErl44+KA7m86ReVDNacy3p6u9/+BKyrkMN+VGs9E8pDbiWHwCV5m6T3V1pVtRQpybMxnwrridxmKEv
- hHMtnEunizLccJTVKkOfOTN4oHuKRxxvJTW+QaDMyhw=
+X-CMAE-Envelope: MS4wfAEunf+732qZ87a/9sagY9+kUm0JVrdGbPG5VGRvNiQ43ZxGXyBDh51AdIyAYh2pMA31Ijdp5zgiHYA28EvwQFxHVBcjtZutc+cJ/J70pCq0MZmHBrya
+ hE+DVUAeOCwpXuNBmClJmmSsxamBaLEdrEKhTXMuYPH7GCE/EJQfP3YphTa10mpx/Z810tn6+t+c4h1ACUqgjqV3bVvv5bYZLVkMLClTFGzVTFyb4ZhotVsp
+ Wrvpz4Hrf2Tuydw5Bnmkvcbt9A9bOwT6VNM9lTLAGT0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently wait_event_interruptible_timeout is called in cec_thread_func()
-when adap->transmitting is set. But if the adapter is unconfigured
-while transmitting, then adap->transmitting is set to NULL. But the
-hardware is still actually transmitting the message, and that's
-indicated by adap->transmit_in_progress and we should wait until that
-is finished or times out before transmitting new messages.
+WARN if transmit_queue_sz is 0 but do not decrement it.
+The CEC adapter will become unresponsive if it goes below
+0 since then it thinks there are 4 billion messages in the
+queue.
 
-As the original commit says: adap->transmitting is the userspace view,
-adap->transmit_in_progress reflects the hardware state.
-
-However, if adap->transmitting is NULL and adap->transmit_in_progress
-is true, then wait_event_interruptible is called (no timeout), which
-can get stuck indefinitely if the CEC driver is flaky and never marks
-the transmit-in-progress as 'done'.
-
-So test against transmit_in_progress when deciding whether to use
-the timeout variant or not, instead of testing against adap->transmitting.
+Obviously this should not happen, but a driver bug could
+cause this.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 32804fcb612b ("media: cec: keep track of outstanding transmits")
-Cc: <stable@vger.kernel.org>      # for v4.19 and up
+Cc: <stable@vger.kernel.org>      # for v4.12 and up
 ---
- drivers/media/cec/cec-adap.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/media/cec/cec-adap.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/cec-adap.c
-index d96add70b293..cf251f753b10 100644
+index 9340435a94a0..d96add70b293 100644
 --- a/drivers/media/cec/cec-adap.c
 +++ b/drivers/media/cec/cec-adap.c
-@@ -465,7 +465,7 @@ int cec_thread_func(void *_adap)
- 		bool timeout = false;
- 		u8 attempts;
+@@ -380,7 +380,8 @@ static void cec_data_cancel(struct cec_data *data, u8 tx_status)
+ 	} else {
+ 		list_del_init(&data->list);
+ 		if (!(data->msg.tx_status & CEC_TX_STATUS_OK))
+-			data->adap->transmit_queue_sz--;
++			if (!WARN_ON(!data->adap->transmit_queue_sz))
++				data->adap->transmit_queue_sz--;
+ 	}
 
--		if (adap->transmitting) {
-+		if (adap->transmit_in_progress) {
- 			int err;
+ 	if (data->msg.tx_status & CEC_TX_STATUS_OK) {
+@@ -432,6 +433,14 @@ static void cec_flush(struct cec_adapter *adap)
+ 		 * need to do anything special in that case.
+ 		 */
+ 	}
++	/*
++	 * If something went wrong and this counter isn't what it should
++	 * be, then this will reset it back to 0. Warn if it is not 0,
++	 * since it indicates a bug, either in this framework or in a
++	 * CEC driver.
++	 */
++	if (WARN_ON(adap->transmit_queue_sz))
++		adap->transmit_queue_sz = 0;
+ }
 
- 			/*
-@@ -500,7 +500,7 @@ int cec_thread_func(void *_adap)
- 			goto unlock;
- 		}
+ /*
+@@ -522,7 +531,8 @@ int cec_thread_func(void *_adap)
+ 		data = list_first_entry(&adap->transmit_queue,
+ 					struct cec_data, list);
+ 		list_del_init(&data->list);
+-		adap->transmit_queue_sz--;
++		if (!WARN_ON(!data->adap->transmit_queue_sz))
++			adap->transmit_queue_sz--;
 
--		if (adap->transmitting && timeout) {
-+		if (adap->transmit_in_progress && timeout) {
- 			/*
- 			 * If we timeout, then log that. Normally this does
- 			 * not happen and it is an indication of a faulty CEC
-@@ -509,14 +509,18 @@ int cec_thread_func(void *_adap)
- 			 * so much traffic on the bus that the adapter was
- 			 * unable to transmit for CEC_XFER_TIMEOUT_MS (2.1s).
- 			 */
--			pr_warn("cec-%s: message %*ph timed out\n", adap->name,
--				adap->transmitting->msg.len,
--				adap->transmitting->msg.msg);
-+			if (adap->transmitting) {
-+				pr_warn("cec-%s: message %*ph timed out\n", adap->name,
-+					adap->transmitting->msg.len,
-+					adap->transmitting->msg.msg);
-+				/* Just give up on this. */
-+				cec_data_cancel(adap->transmitting,
-+						CEC_TX_STATUS_TIMEOUT);
-+			} else {
-+				pr_warn("cec-%s: transmit timed out\n", adap->name);
-+			}
- 			adap->transmit_in_progress = false;
- 			adap->tx_timeouts++;
--			/* Just give up on this. */
--			cec_data_cancel(adap->transmitting,
--					CEC_TX_STATUS_TIMEOUT);
- 			goto unlock;
- 		}
-
+ 		/* Make this the current transmitting message */
+ 		adap->transmitting = data;
 -- 
 2.23.0
-
 
