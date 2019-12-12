@@ -2,97 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC6D211CBF8
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 12:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F18E11CC49
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 12:34:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728946AbfLLLND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 06:13:03 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:53825 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728648AbfLLLNC (ORCPT
+        id S1729020AbfLLLeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 06:34:05 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54363 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729014AbfLLLeF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 06:13:02 -0500
+        Thu, 12 Dec 2019 06:34:05 -0500
 Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
  ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id fMOxiZ3wpGyJwfMOyixrTo; Thu, 12 Dec 2019 12:13:01 +0100
+        id fMjIiZATUGyJwfMjJixvan; Thu, 12 Dec 2019 12:34:02 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576149181; bh=+VQaP794ePGo5+zfNi4CTKIEOERLgy6mhtOiP/3eaCs=;
+        t=1576150442; bh=OKCpeFi5DoqJE6NWtMpQWIWKvSSGpGz8TupfDamuRC0=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=MCP/8IpBi+o2auGWAMmJCnEv4NHqZX6Gohi+T4doY9HmFMtJ6HrgbIT6yGw6WNhwM
-         gf2oUg9HYaDPEe54SGJidZYXZ1B51YZjkoxGXXdeD+YZkKfsbgDSCOBuT7RKXn+QVZ
-         wSpc+84aJWmIQRa37u6EEd1xnlBw3yxI/404iXpFmFLRRnkozVmFcw9POYYWNI4bDG
-         vmWBVPun7KIjhC2TUBX45P7ct1a+si6sjkN+K0iRjOrstJ4JLnN5377jU945ptPDR3
-         PB3xU9r9Ydp29zELqvGWAnE4ZKJJoIpeVdcxc4Xv/QDHIj3y5IU4Vpn/ewU8OoMv/1
-         0DaI5o0PMVcWA==
-Subject: Re: [PATCH] media: coda: jpeg: fix platform_get_irq.cocci warnings
-To:     Julia Lawall <julia.lawall@lip6.fr>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de,
-        kbuild-all@lists.01.org
-References: <alpine.DEB.2.21.1911171210230.2641@hadrien>
+        b=QQm1tvnXMaB8eQETcibkZHG7cfU5QXrNBF/Q0VRxwwq8FBPNFHPt+dbW1AL0ycKoB
+         +zdJ4rnY7wYgb3lk4KIBiMaCnIWwvC98bay09Gsldwar8O0UbaB6Iyn5noITuYjs8h
+         lnsC9fT7v8MP9QDCvDthuXoT0+SJlHHPUfWwxk+qQFBi+K6oAoM06f/wy0LSBoAeLk
+         CqJqA7JNziaiXfN4hB7wL0ZvefHZeK8HiTSt3gfGXXSwDDQ3WrXbdxRRK84fPx/eSD
+         yQYEs3E4lX4SdN8otglq5jvNvNxsqSY+1Cw0bghqACVNtwDz5K9sy+FLDMxxyNn2OU
+         GMZfvnqogyfGQ==
+Subject: Re: [PATCH] media: imx7-mipi-csis: Add the missed
+ v4l2_async_notifier_cleanup in remove
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Chuhong Yuan <hslester96@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20191209085828.16183-1-hslester96@gmail.com>
+ <20191211105908.dw4lnuble3ejlnil@arch-thunder.localdomain>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <54b30f19-05ba-b54f-115f-0106e6db6b63@xs4all.nl>
-Date:   Thu, 12 Dec 2019 12:12:59 +0100
+Message-ID: <5013c486-3713-6e40-49a1-2fe452ba254f@xs4all.nl>
+Date:   Thu, 12 Dec 2019 12:34:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1911171210230.2641@hadrien>
+In-Reply-To: <20191211105908.dw4lnuble3ejlnil@arch-thunder.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIc3fs9hj7nEOjhkxSv9u5MX6vTUf1eMOvu0NAkrAn3a32dyLRqaB6eCQNEKl+IgMQB5aNOW4thPzvmpVDJXT58zs80Q7wXm/kEhk2qTDOfL3BZ9mZDu
- tqZJYsD3XZZ5rBjLOp3UzN4iJEDZs+QZDWrxPSczIfPr+9lYmCU8MIQL51HP9qRj9My6ZNNORGCTw8/4zBean2Il6IoolL5ld40R2jzMwvQqjZzanokj5wOC
- L5W7jSaMW95fuzGT+B597TnNgNQITGSGy07PY9u89TMLIgd9zgP5ShMLfxGacsqpkfa54O2wF7DcZi9Yz/pbLe8zjYLJ/oHOqa8uASKQLbxzhRPmA6/T9//i
- zo6eKifSkF5C7Conp3JKX8TXtNtpSH3RlPRUeJ2xm5OtlKuPe7RzZXgdxrgBgB0r+zVa8Ugi
+X-CMAE-Envelope: MS4wfKETIfBTI/Tow7zgY3i+e6lZwyq1XB1sOoDGL8WE5K6A7cM4MbKL9xtk6FSy+6hw3TL/fvtm1yzilRaba0DZeD7w7P4Kc3Zs1u1f2esQgam74drqWtoK
+ KiuoQjq2rRiEH8UYJ54YWrx/9ExmJC/5pkAOY2pfs7sKtEvOKUsTQpvI1QF4QPf9fkGRvvLogtojkUxleao9rKMmO1lbK0O2JHpyTAEDBGWh12vzRsstU8YV
+ azp2JXso9caELQQRsQYLVUa39eRzOR060Tzucn4GWvPTPhWdewD7IkSzB21EHyPyxRlWh2SwqtL5ZzKlonq/+XyUs/UUvbbCBl6P/n26Dt51PRL6kd76U16L
+ OgwaEtNoijOrKalJdxgfFNZed9tWyeRWC/UwFnIwwvo5t++uaNSjgOF77f4+HP2DwivU+1Nc4Ge7mP+DTHHReA8cX7CwKOAu64tAQnRP10VY63mGitE1MuDK
+ Ug7OJrn/4AaDINufittAK/Nf+trKMTrGkeqbX5sAAnDycM1u7p8jqT87DrSbV/Z8Zf5FfqpFxHLQotMFGLL5fdJ58WP6tfKFsQcXJ9gcMDy/s6wUDQH5J93h
+ bNinzyLZUbqSYJ9aXSUcxM4a3LY1RATlOkQuHt5o5cAPW9XWxN7PGzh0vEa/eV325orLMRjZaylWOYBQ4S9iEPsRJ8rxmV8/3tXIFQIDJTFCtgUHyvDXWu9A
+ FclNahOMPGQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Julia,
+Steve, Philipp,
 
-On 11/17/19 12:11 PM, Julia Lawall wrote:
-> From: kbuild test robot <lkp@intel.com>
-> 
-> Error report is redundant because platform_get_irq() already prints an
-> error
-> 
-> Generated by: scripts/coccinelle/api/platform_get_irq.cocci
-> 
-> Fixes: fb3a8aa62186 ("media: coda: jpeg: add CODA960 JPEG encoder support")
-> CC: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Julia Lawall <julia.lawall@lip6.fr>
-> ---
-> 
-> The {} will need to be removed as well.
-> 
-> url:    https://github.com/0day-ci/linux/commits/Philipp-Zabel/media-coda-do-not-skip-finish_run-if-aborting/20191114-025803
-> base:   git://linuxtv.org/media_tree.git master
-> :::::: branch date: 4 days ago
-> :::::: commit date: 4 days ago
-> 
-> Please take the patch only if it's a positive warning. Thanks!
-> 
->  coda-common.c |    1 -
->  1 file changed, 1 deletion(-)
-> 
-> --- a/drivers/media/platform/coda/coda-common.c
-> +++ b/drivers/media/platform/coda/coda-common.c
-> @@ -3019,7 +3019,6 @@ static int coda_probe(struct platform_de
->  	if (dev->devtype->product == CODA_960) {
->  		irq = platform_get_irq_byname(pdev, "jpeg");
->  		if (irq < 0) {
-> -			dev_err(&pdev->dev, "failed to get jpeg irq resource\n");
->  			return irq;
->  		}
-> 
+I'd like one (or both) of you to look over this first.
 
-Can you remove the {} as well? Those are no longer needed/wanted after removing
-the dev_err.
+It looks as if the subdev_notifier field of struct csi_state is never used,
+except by the existing v4l2_async_notifier_unregister() call.
 
-Thanks!
+If I am right, then the real issue is that that field should be removed.
+
+Regards,
 
 	Hans
+
+
+On 12/11/19 11:59 AM, Rui Miguel Silva wrote:
+> Hi Chuhong,
+> Thanks for the patch.
+> 
+> On Mon, Dec 09, 2019 at 04:58:28PM +0800, Chuhong Yuan wrote:
+>> All drivers in imx call v4l2_async_notifier_cleanup() after unregistering
+>> the notifier except this driver.
+>> This should be a miss and we need to add the call to fix it.
+>>
+>> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> 
+> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> 
+> ------
+> Cheers,
+>      Rui
+>> ---
+>>  drivers/staging/media/imx/imx7-mipi-csis.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+>> index 99166afca071..2bfa85bb84e7 100644
+>> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+>> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+>> @@ -1105,6 +1105,7 @@ static int mipi_csis_remove(struct platform_device *pdev)
+>>  	mipi_csis_debugfs_exit(state);
+>>  	v4l2_async_unregister_subdev(&state->mipi_sd);
+>>  	v4l2_async_notifier_unregister(&state->subdev_notifier);
+>> +	v4l2_async_notifier_cleanup(&state->subdev_notifier);
+>>  
+>>  	pm_runtime_disable(&pdev->dev);
+>>  	mipi_csis_pm_suspend(&pdev->dev, true);
+>> -- 
+>> 2.24.0
+>>
+
