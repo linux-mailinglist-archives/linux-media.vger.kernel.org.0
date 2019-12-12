@@ -2,108 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 988D811CBC6
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 12:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC6D211CBF8
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 12:13:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728857AbfLLLDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 06:03:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52980 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728613AbfLLLDv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 06:03:51 -0500
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E722122B48;
-        Thu, 12 Dec 2019 11:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576148630;
-        bh=RlQYE4ISnB8w71cVPWrVxWmmiBw1vv7db6O06zPNTEg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qNHGjkNNfqbO/iMeXj8vAZpZYJ8k+Y0WPRnnKuM4Pf8VuXrW7AhgfhGO4LUE6HiOu
-         blPA7D7ic9Ty1uJUHM5vCOuzfgCP28aU3Pa87e9a2XhCQ7xXOShup8BjrRdhR14jtU
-         +ZblW4z0tyJeNYEmpZ0RB+p5B5Jkv/7nrfYLUgM4=
-Received: by mail-lf1-f43.google.com with SMTP id b15so1373439lfc.4;
-        Thu, 12 Dec 2019 03:03:49 -0800 (PST)
-X-Gm-Message-State: APjAAAUEWlCU5DXCXKu1M4vfAIaVNFhORK/RiPhAHEsMJ1gWYQbgkfd8
-        sqduhwSq1/wl+2XBlONreAGQFIPklV2gNmjp8e8=
-X-Google-Smtp-Source: APXvYqxdSYzPggRDnt0KWf86ulCn6elVREWxE1DfX8yzjxQqmOd7sEsDF55jGJFa+FUUT8TXBVfOjvz0/2nUFepPM/I=
-X-Received: by 2002:ac2:5dc7:: with SMTP id x7mr5301381lfq.24.1576148628033;
- Thu, 12 Dec 2019 03:03:48 -0800 (PST)
+        id S1728946AbfLLLND (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 06:13:03 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:53825 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728648AbfLLLNC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Dec 2019 06:13:02 -0500
+Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
+ ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id fMOxiZ3wpGyJwfMOyixrTo; Thu, 12 Dec 2019 12:13:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576149181; bh=+VQaP794ePGo5+zfNi4CTKIEOERLgy6mhtOiP/3eaCs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=MCP/8IpBi+o2auGWAMmJCnEv4NHqZX6Gohi+T4doY9HmFMtJ6HrgbIT6yGw6WNhwM
+         gf2oUg9HYaDPEe54SGJidZYXZ1B51YZjkoxGXXdeD+YZkKfsbgDSCOBuT7RKXn+QVZ
+         wSpc+84aJWmIQRa37u6EEd1xnlBw3yxI/404iXpFmFLRRnkozVmFcw9POYYWNI4bDG
+         vmWBVPun7KIjhC2TUBX45P7ct1a+si6sjkN+K0iRjOrstJ4JLnN5377jU945ptPDR3
+         PB3xU9r9Ydp29zELqvGWAnE4ZKJJoIpeVdcxc4Xv/QDHIj3y5IU4Vpn/ewU8OoMv/1
+         0DaI5o0PMVcWA==
+Subject: Re: [PATCH] media: coda: jpeg: fix platform_get_irq.cocci warnings
+To:     Julia Lawall <julia.lawall@lip6.fr>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de,
+        kbuild-all@lists.01.org
+References: <alpine.DEB.2.21.1911171210230.2641@hadrien>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <54b30f19-05ba-b54f-115f-0106e6db6b63@xs4all.nl>
+Date:   Thu, 12 Dec 2019 12:12:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191104154942.8935-1-hslester96@gmail.com> <29590e4f-cb9e-c9ac-608c-b7b72c308d25@xs4all.nl>
-In-Reply-To: <29590e4f-cb9e-c9ac-608c-b7b72c308d25@xs4all.nl>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Thu, 12 Dec 2019 12:03:36 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPctbuM_vZJPLORiyOh_8884Q3SEeEBmOmm7ON8xOp7m3w@mail.gmail.com>
-Message-ID: <CAJKOXPctbuM_vZJPLORiyOh_8884Q3SEeEBmOmm7ON8xOp7m3w@mail.gmail.com>
-Subject: Re: [PATCH] media: exynos4-is: add missed clk_disable_unprepare in remove
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Chuhong Yuan <hslester96@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        "linux-samsung-soc@vger.kernel.org" 
-        <linux-samsung-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <alpine.DEB.2.21.1911171210230.2641@hadrien>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIc3fs9hj7nEOjhkxSv9u5MX6vTUf1eMOvu0NAkrAn3a32dyLRqaB6eCQNEKl+IgMQB5aNOW4thPzvmpVDJXT58zs80Q7wXm/kEhk2qTDOfL3BZ9mZDu
+ tqZJYsD3XZZ5rBjLOp3UzN4iJEDZs+QZDWrxPSczIfPr+9lYmCU8MIQL51HP9qRj9My6ZNNORGCTw8/4zBean2Il6IoolL5ld40R2jzMwvQqjZzanokj5wOC
+ L5W7jSaMW95fuzGT+B597TnNgNQITGSGy07PY9u89TMLIgd9zgP5ShMLfxGacsqpkfa54O2wF7DcZi9Yz/pbLe8zjYLJ/oHOqa8uASKQLbxzhRPmA6/T9//i
+ zo6eKifSkF5C7Conp3JKX8TXtNtpSH3RlPRUeJ2xm5OtlKuPe7RzZXgdxrgBgB0r+zVa8Ugi
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 12 Dec 2019 at 11:39, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 11/4/19 4:49 PM, Chuhong Yuan wrote:
-> > This driver forgets to disable and unprepare clock when remove.
-> > Add a call to clk_disable_unprepare to fix it.
->
-> I'd like an Ack from Samsung before I apply this. I see this in the probe() in fimc-lite.c:
->
->        if (!pm_runtime_enabled(dev)) {
->                 ret = clk_prepare_enable(fimc->clock);
->                 if (ret < 0)
->                         goto err_sd;
->         }
->
-> So is it right to always call clk_disable_unprepare in the remove()?
->
-> I suspect it is correct, but I would like someone else to take a look as well.
->
-> Regards,
->
->         Hans
->
-> >
-> > Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> > ---
-> >  drivers/media/platform/exynos4-is/fimc-lite.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-> > index e87c6a09205b..6748bd96aada 100644
-> > --- a/drivers/media/platform/exynos4-is/fimc-lite.c
-> > +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-> > @@ -1614,6 +1614,7 @@ static int fimc_lite_remove(struct platform_device *pdev)
-> >       struct fimc_lite *fimc = platform_get_drvdata(pdev);
-> >       struct device *dev = &pdev->dev;
-> >
-> > +     clk_disable_unprepare(fimc->clock);
-> >       pm_runtime_disable(dev);
-> >       pm_runtime_set_suspended(dev);
-> >       fimc_lite_unregister_capture_subdev(fimc);
+Hi Julia,
 
-No, it is wrong. The clock is enabled in probe only if
-!pm_runtime_enabled(). This will matter only if PM is disabled but now
-it leads to unbalanced disables. This was clearly not tested because I
-believe any test would trigger error. In such case, please mark the
-patches as RFT.
+On 11/17/19 12:11 PM, Julia Lawall wrote:
+> From: kbuild test robot <lkp@intel.com>
+> 
+> Error report is redundant because platform_get_irq() already prints an
+> error
+> 
+> Generated by: scripts/coccinelle/api/platform_get_irq.cocci
+> 
+> Fixes: fb3a8aa62186 ("media: coda: jpeg: add CODA960 JPEG encoder support")
+> CC: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Julia Lawall <julia.lawall@lip6.fr>
+> ---
+> 
+> The {} will need to be removed as well.
+> 
+> url:    https://github.com/0day-ci/linux/commits/Philipp-Zabel/media-coda-do-not-skip-finish_run-if-aborting/20191114-025803
+> base:   git://linuxtv.org/media_tree.git master
+> :::::: branch date: 4 days ago
+> :::::: commit date: 4 days ago
+> 
+> Please take the patch only if it's a positive warning. Thanks!
+> 
+>  coda-common.c |    1 -
+>  1 file changed, 1 deletion(-)
+> 
+> --- a/drivers/media/platform/coda/coda-common.c
+> +++ b/drivers/media/platform/coda/coda-common.c
+> @@ -3019,7 +3019,6 @@ static int coda_probe(struct platform_de
+>  	if (dev->devtype->product == CODA_960) {
+>  		irq = platform_get_irq_byname(pdev, "jpeg");
+>  		if (irq < 0) {
+> -			dev_err(&pdev->dev, "failed to get jpeg irq resource\n");
+>  			return irq;
+>  		}
+> 
 
-There is some tendency to post small "fixes" like this without
-testing... ok, not everyone has hardware but then just mark it as
-not-tested or RFT...
+Can you remove the {} as well? Those are no longer needed/wanted after removing
+the dev_err.
 
-Best regards,
-Krzysztof
+Thanks!
+
+	Hans
