@@ -2,329 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68E2F11CA6A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 11:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C132B11CA9B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 11:24:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728612AbfLLKRw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 05:17:52 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33086 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726382AbfLLKRv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 05:17:51 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 340DEB16C;
-        Thu, 12 Dec 2019 10:17:45 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 66CA41E0B8F; Thu, 12 Dec 2019 11:17:41 +0100 (CET)
-Date:   Thu, 12 Dec 2019 11:17:41 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v10 23/25] mm/gup: track FOLL_PIN pages
-Message-ID: <20191212101741.GD10065@quack2.suse.cz>
-References: <20191212081917.1264184-1-jhubbard@nvidia.com>
- <20191212081917.1264184-24-jhubbard@nvidia.com>
+        id S1728573AbfLLKYP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 05:24:15 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:52983 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728339AbfLLKYP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Dec 2019 05:24:15 -0500
+Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
+ ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id fLdjiYmsvGyJwfLdkixg5f; Thu, 12 Dec 2019 11:24:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576146253; bh=h7SHLMHrD8uj41X4wnpu6GqJYOqSsd1mpxSu3eljAjs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=TRmr5LVEZcatS8B7CYupHY4TV/M7SzJrsswMibhxJy+M47pVBdknl76cz8JPpl7AC
+         QgHpbr3G6gUu6d1Tr4QvLZU/AxjlMImZAB+Iy/tzRe49ZD/qREBplansx5TnE0Ag/f
+         APddN6PE2CoDpgd6g57UHa5ZRNJkY0FZg2RDmyUBX8F0x19NkjeAjm8INgtJ8OfjjO
+         KffT66G323XdBrcyml0Bn9x9/fLg5K1XHmbNQ2es7HLAG8aBfpecJwVxUjD7xT4dUb
+         Xa8ILXqBHzyzKj/oook8u/WJ80M3x6gqhFx+t6CbxQBo0GajDI3AJexet50y65sc7c
+         0E9FKeypiJ78g==
+Subject: Re: [PATCH v2] media: atmel: atmel-isc-base: expose white balance as
+ v4l2 controls
+To:     Eugen.Hristev@microchip.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <1574157784-6505-1-git-send-email-eugen.hristev@microchip.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <738cd3a2-f221-c6b9-b500-630c66f1ce6b@xs4all.nl>
+Date:   Thu, 12 Dec 2019 11:24:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191212081917.1264184-24-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1574157784-6505-1-git-send-email-eugen.hristev@microchip.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFFOp/7uh4osBacccShPvaSKPtr2ykypnBjBXeSmYJAkZbghO8P1yvYY9KNyk2L+5Ua0CD47TacpeGmJ0yV3tuJYfNKVn+ylQfXLD0wiTP6gmJfv0dKm
+ W3il8bljRRLhV+rQJsZpDgj7/2qZQLfTEP0gDhpAcSuS+dqdaj63dUO2dbshBiPNP9SR+hnqOur5t++mb5L/zoxvsskRHpjwgzid2ntYpl5aQjHwpMwdiLmz
+ rYwk8VBvMg6DPMjWXLsbRgZnByAeV68RTkdifey/LFAhHfmDB8qbl52HqGx1DREEExWTKX82IJqmxS8WGF7uHfqn4A0kJ5tRiLrM78EDVa0+qQ+twl+rwZwd
+ rmvlI5/9NML1GMT8FGvdMV5n5d76iuO6WVqhelD3zVQ4zZdTvEbZI2W4p2Gqjk0LqbKaGZaK
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu 12-12-19 00:19:15, John Hubbard wrote:
-> Add tracking of pages that were pinned via FOLL_PIN.
+On 11/19/19 11:03 AM, Eugen.Hristev@microchip.com wrote:
+> From: Eugen Hristev <eugen.hristev@microchip.com>
 > 
-> As mentioned in the FOLL_PIN documentation, callers who effectively set
-> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
-> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
-> for DIO and/or RDMA use".
+> This exposes the white balance configuration of the ISC as v4l2 controls
+> into userspace.
+> There are 8 controls available:
+> 4 gain controls , sliders, for each of the BAYER components: R, B, GR, GB.
+> These gains are multipliers for each component, in format unsigned 0:4:9 with
+> a default value of 512 (1.0 multiplier).
+> 4 offset controls, sliders, for each of the BAYER components: R, B, GR, GB.
+> These offsets are added/substracted from each component, in format signed
+> 1:12:0 with a default value of 0 (+/- 0)
 > 
-> Pages that have been pinned via FOLL_PIN are identifiable via a
-> new function call:
+> To expose this to userspace, added 8 custom controls, in an auto cluster.
 > 
->    bool page_dma_pinned(struct page *page);
+> To summarize the functionality:
+> The auto cluster switch is the auto white balance control, and it works
+> like this:
+> AWB ==1 : autowhitebalance is on, the do_white_balance button is inactive,
+> the gains/offsets are inactive, but volatile and readable.
+> Thus, the results of the whitebalance algorithm are available to userspace to
+> read at any time.
+> AWB ==0: autowhitebalance is off, cluster is in manual mode, user can configure
+> the gain/offsets directly. More than that, if the do_white_balance button is
+> pressed, the driver will perform one-time-adjustment, (preferably with color
+> checker card) and the userspace can read again the new values.
 > 
-> What to do in response to encountering such a page, is left to later
-> patchsets. There is discussion about this in [1], [2], and [3].
+> With this feature, the userspace can save the coefficients and reinstall them
+> for example after reboot or reprobing the driver.
 > 
-> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
-> 
-> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
->     https://lwn.net/Articles/784574/
-> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
->     https://lwn.net/Articles/774411/
-> [3] The trouble with get_user_pages() (Apr 30, 2018):
->     https://lwn.net/Articles/753027/
-> 
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Suggested-by: Jérôme Glisse <jglisse@redhat.com>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+> ---
 
-Thanks for the patch. As a side note, given this series is rather big, it
-may be better to send just individual updated patches (as replies to the
-review comments) instead of resending the whole series every time. And then
-you can resend the whole series once enough changes accumulate or we reach
-seemingly final state.  That way people don't have to crawl through lots of
-uninteresing emails...  Just something to keep in mind for the future.
+<snip>
 
-I've spotted just one issue in this patch (see below), the rest are just
-small style nits.
-
-> +#define page_ref_zero_or_close_to_bias_overflow(page) \
-> +	((unsigned int) page_ref_count(page) + \
-> +		GUP_PIN_COUNTING_BIAS <= GUP_PIN_COUNTING_BIAS)
-> +
-
-...
-
-> +/**
-> + * page_dma_pinned() - report if a page is pinned for DMA.
-> + *
-> + * This function checks if a page has been pinned via a call to
-> + * pin_user_pages*().
-> + *
-> + * The return value is partially fuzzy: false is not fuzzy, because it means
-> + * "definitely not pinned for DMA", but true means "probably pinned for DMA, but
-> + * possibly a false positive due to having at least GUP_PIN_COUNTING_BIAS worth
-> + * of normal page references".
-> + *
-> + * False positives are OK, because: a) it's unlikely for a page to get that many
-> + * refcounts, and b) all the callers of this routine are expected to be able to
-> + * deal gracefully with a false positive.
-> + *
-> + * For more information, please see Documentation/vm/pin_user_pages.rst.
-> + *
-> + * @page:	pointer to page to be queried.
-> + * @Return:	True, if it is likely that the page has been "dma-pinned".
-> + *		False, if the page is definitely not dma-pinned.
-> + */
-> +static inline bool page_dma_pinned(struct page *page)
-> +{
-> +	return (page_ref_count(compound_head(page))) >= GUP_PIN_COUNTING_BIAS;
-> +}
-> +
-
-I realized one think WRT handling of page refcount overflow: Page refcount is
-signed and e.g. try_get_page() fails once the refcount is negative. That
-means that:
-
-a) page_ref_zero_or_close_to_bias_overflow() is not necessary - all places
-that use pinning (i.e., advance refcount by GUP_PIN_COUNTING_BIAS) are not
-necesary, we should just rely on the check for negative value for
-consistency.
-
-b) page_dma_pinned() has to be careful and type page_ref_count() to
-unsigned type for comparison as otherwise overflowed refcount would
-suddently appear as not-pinned.
-
-> +/**
-> + * try_pin_compound_head() - mark a compound page as being used by
-> + * pin_user_pages*().
-> + *
-> + * This is the FOLL_PIN counterpart to try_get_compound_head().
-> + *
-> + * @page:	pointer to page to be marked
-> + * @Return:	the compound head page, with ref appropriately incremented,
-> + * or NULL upon failure.
-> + */
-> +__must_check struct page *try_pin_compound_head(struct page *page, int refs)
-> +{
-> +	struct page *head = try_get_compound_head(page,
-> +						  GUP_PIN_COUNTING_BIAS * refs);
-> +	if (!head)
-> +		return NULL;
-> +
-> +	__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, refs);
-> +	return head;
-> +}
-> +
-> +/*
-> + * try_grab_compound_head() - attempt to elevate a page's refcount, by a
-> + * flags-dependent amount.
-> + *
-> + * "grab" names in this file mean, "look at flags to decide whether to use
-> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
-> + *
-> + * Either FOLL_PIN or FOLL_GET (or neither) must be set, but not both at the
-> + * same time. (That's true throughout the get_user_pages*() and
-> + * pin_user_pages*() APIs.) Cases:
-> + *
-> + *	FOLL_GET: page's refcount will be incremented by 1.
-> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
-
-Some tab vs space issue here... Generally we don't use tabs inside comments
-for indenting so I'd wote for using just spaces.
-
-> + *
-> + * Return: head page (with refcount appropriately incremented) for success, or
-> + * NULL upon failure. If neither FOLL_GET nor FOLL_PIN was set, that's
-> + * considered failure, and furthermore, a likely bug in the caller, so a warning
-> + * is also emitted.
-> + */
-> +static __maybe_unused struct page *try_grab_compound_head(struct page *page,
-> +							  int refs,
-> +							  unsigned int flags)
-> +{
-> +	if (flags & FOLL_GET)
-> +		return try_get_compound_head(page, refs);
-> +	else if (flags & FOLL_PIN)
-> +		return try_pin_compound_head(page, refs);
-> +
-> +	WARN_ON_ONCE((flags & (FOLL_GET | FOLL_PIN)) == 0);
-
-This could be just WARN_ON_ONCE(1), right?
-
-> +	return NULL;
-> +}
-> +
-> +/**
-> + * try_grab_page() - elevate a page's refcount by a flag-dependent amount
-> + *
-> + * This might not do anything at all, depending on the flags argument.
-> + *
-> + * "grab" names in this file mean, "look at flags to decide whether to use
-> + * FOLL_PIN or FOLL_GET behavior, when incrementing the page's refcount.
-> + *
-> + * @page:	pointer to page to be grabbed
-> + * @flags:	gup flags: these are the FOLL_* flag values.
-> + *
-> + * Either FOLL_PIN or FOLL_GET (or neither) may be set, but not both at the same
-> + * time. Cases:
-> + *
-> + *	FOLL_GET: page's refcount will be incremented by 1.
-> + *      FOLL_PIN: page's refcount will be incremented by GUP_PIN_COUNTING_BIAS.
-
-Again tab vs space difference here.
-
-> + *
-> + * Return: true for success, or if no action was required (if neither FOLL_PIN
-> + * nor FOLL_GET was set, nothing is done). False for failure: FOLL_GET or
-> + * FOLL_PIN was set, but the page could not be grabbed.
-> + */
-> +bool __must_check try_grab_page(struct page *page, unsigned int flags)
-> +{
-> +	if (flags & FOLL_GET)
-> +		return try_get_page(page);
-> +	else if (flags & FOLL_PIN) {
-> +		page = compound_head(page);
-> +		WARN_ON_ONCE(flags & FOLL_GET);
-> +
-> +		if (WARN_ON_ONCE(page_ref_zero_or_close_to_bias_overflow(page)))
-> +			return false;
-
-As I mentioned above, this will need "negative refcount" check instead...
-
-> +
-> +		page_ref_add(page, GUP_PIN_COUNTING_BIAS);
-> +		__update_proc_vmstat(page, NR_FOLL_PIN_REQUESTED, 1);
-> +	}
-> +
-> +	return true;
-> +}
-
-...
-
-> @@ -1468,6 +1482,7 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
->  {
->  	struct mm_struct *mm = vma->vm_mm;
->  	struct page *page = NULL;
-> +	struct page *subpage = NULL;
+> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
+> index bfaed2f..23adb4e 100644
+> --- a/drivers/media/platform/atmel/atmel-isc.h
+> +++ b/drivers/media/platform/atmel/atmel-isc.h
+> @@ -213,7 +213,6 @@ struct isc_device {
+>  	struct fmt_config	try_config;
 >  
->  	assert_spin_locked(pmd_lockptr(mm, pmd));
+>  	struct isc_ctrls	ctrls;
+> -	struct v4l2_ctrl	*do_wb_ctrl;
+>  	struct work_struct	awb_work;
 >  
-> @@ -1486,6 +1501,14 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
->  	VM_BUG_ON_PAGE(!PageHead(page) && !is_zone_device_page(page), page);
->  	if (flags & FOLL_TOUCH)
->  		touch_pmd(vma, addr, pmd, flags);
+>  	struct mutex		lock; /* serialize access to file operations */
+> @@ -223,6 +222,28 @@ struct isc_device {
+>  
+>  	struct isc_subdev_entity	*current_subdev;
+>  	struct list_head		subdev_entities;
 > +
-> +	subpage = page;
-> +	subpage += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
-> +	VM_BUG_ON_PAGE(!PageCompound(subpage) &&
-> +		       !is_zone_device_page(subpage), subpage);
-> +	if (!try_grab_page(subpage, flags))
-> +		return ERR_PTR(-EFAULT);
+> +	struct {
+> +#define ISC_CTRL_DO_WB 1
+> +#define ISC_CTRL_R_BAL 2
+> +#define ISC_CTRL_B_BAL 3
+> +#define ISC_CTRL_GR_BAL 4
+> +#define ISC_CTRL_GB_BAL 5
+> +#define ISC_CTRL_R_OFF 6
+> +#define ISC_CTRL_B_OFF 7
+> +#define ISC_CTRL_GR_OFF 8
+> +#define ISC_CTRL_GB_OFF 9
+> +		struct v4l2_ctrl	*awb_ctrl;
+> +		struct v4l2_ctrl	*do_wb_ctrl;
+> +		struct v4l2_ctrl	*r_bal_ctrl;
+> +		struct v4l2_ctrl	*b_bal_ctrl;
+> +		struct v4l2_ctrl	*gr_bal_ctrl;
+> +		struct v4l2_ctrl	*gb_bal_ctrl;
+> +		struct v4l2_ctrl	*r_off_ctrl;
+> +		struct v4l2_ctrl	*b_off_ctrl;
+> +		struct v4l2_ctrl	*gr_off_ctrl;
+> +		struct v4l2_ctrl	*gb_off_ctrl;
+> +	};
+>  };
+>  
+>  #define GAMMA_MAX	2
+> @@ -242,4 +263,13 @@ int isc_clk_init(struct isc_device *isc);
+>  void isc_subdev_cleanup(struct isc_device *isc);
+>  void isc_clk_cleanup(struct isc_device *isc);
+>  
+> +#define ISC_CID_R_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1000)
+> +#define ISC_CID_B_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1001)
+> +#define ISC_CID_GR_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1002)
+> +#define ISC_CID_GB_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1003)
+> +#define ISC_CID_R_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1004)
+> +#define ISC_CID_B_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1005)
+> +#define ISC_CID_GR_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1006)
+> +#define ISC_CID_GB_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1007)
+
+1) You need to document what these controls actually do in this header.
+
+2) You need to claim a range for these controls in v4l2-controls.h.
+   Search for "The base for" in that header to see how it is done.
+   Currently private controls are all for USER_BASE. I think that should
+   be done here as well since these controls all relate to the white balance
+   control. In fact, control clusters whose controls are in different control
+   classes are a bit weird.
+
+Regards,
+
+	Hans
+
 > +
+>  #endif
+> 
 
-Hum, I think you've made this change more complex than it has to be.
-try_grab_page() is the same for head page or subpage because we increment
-the refcount on the compound_head(page) anyway. So I'd leave this function
-as is (not add subpage or move VM_BUG_ON_PAGE()), just have at this place:
-
-	if (!try_grab_page(page, flags))
-		return ERR_PTR(-EFAULT);
-
-Also one comment regarding the error code. Some places seem to return -ENOMEM
-when they fail to grab page reference. Shouldn't we rather return that one
-for consistency?
-
->  	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
->  		/*
->  		 * We don't mlock() pte-mapped THPs. This way we can avoid
-> @@ -1509,24 +1532,18 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
->  		 */
->  
->  		if (PageAnon(page) && compound_mapcount(page) != 1)
-> -			goto skip_mlock;
-> +			goto out;
->  		if (PageDoubleMap(page) || !page->mapping)
-> -			goto skip_mlock;
-> +			goto out;
->  		if (!trylock_page(page))
-> -			goto skip_mlock;
-> +			goto out;
->  		lru_add_drain();
->  		if (page->mapping && !PageDoubleMap(page))
->  			mlock_vma_page(page);
->  		unlock_page(page);
->  	}
-> -skip_mlock:
-> -	page += (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
-> -	VM_BUG_ON_PAGE(!PageCompound(page) && !is_zone_device_page(page), page);
-> -	if (flags & FOLL_GET)
-> -		get_page(page);
-> -
->  out:
-> -	return page;
-> +	return subpage;
->  }
->  
-
-									Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
