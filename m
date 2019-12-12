@@ -2,27 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC8311CF1D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 15:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 042DD11CF1A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 15:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729648AbfLLOD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 09:03:27 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:36437 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729567AbfLLOD0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S1729606AbfLLOD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 12 Dec 2019 09:03:26 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:43365 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729568AbfLLODZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Dec 2019 09:03:25 -0500
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1ifP3s-0007e8-Iz; Thu, 12 Dec 2019 15:03:24 +0100
+        id 1ifP3s-0007e8-JQ; Thu, 12 Dec 2019 15:03:24 +0100
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@pengutronix.de
-Subject: [PATCH v2 1/4] media: coda: do not skip finish_run if aborting
-Date:   Thu, 12 Dec 2019 15:02:52 +0100
-Message-Id: <20191212140255.8766-1-p.zabel@pengutronix.de>
+Subject: [PATCH v2 2/4] media: coda: jpeg: merge Huffman table bits and values
+Date:   Thu, 12 Dec 2019 15:02:53 +0100
+Message-Id: <20191212140255.8766-2-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191212140255.8766-1-p.zabel@pengutronix.de>
+References: <20191212140255.8766-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -34,53 +36,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Always call finish_run when the hardware signals completion. This
-will allow JPEG contexts to clean up even if job_abort was called
-during the device_run.
+The Huffman bits tables are always 16 bytes long, and they are always
+followed directly by the values tables, both in hardware and in JPEG
+files. Just merge the two tables.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/coda/coda-bit.c    | 6 ++++++
- drivers/media/platform/coda/coda-common.c | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/platform/coda/coda-jpeg.c | 40 ++++++++++---------------
+ 1 file changed, 16 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
-index 00c7bed3dd57..5475de176ce3 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -1629,6 +1629,9 @@ static void coda_finish_encode(struct coda_ctx *ctx)
- 	struct coda_dev *dev = ctx->dev;
- 	u32 wr_ptr, start_ptr;
+diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
+index bf61a3ecc580..27e20aee1a8c 100644
+--- a/drivers/media/platform/coda/coda-jpeg.c
++++ b/drivers/media/platform/coda/coda-jpeg.c
+@@ -19,32 +19,29 @@
+  * chrominance from JPEG ITU-T.81 (ISO/IEC 10918-1) Annex K.3
+  */
  
-+	if (ctx->aborting)
-+		return;
-+
- 	/*
- 	 * Lock to make sure that an encoder stop command running in parallel
- 	 * will either already have marked src_buf as last, or it will wake up
-@@ -2266,6 +2269,9 @@ static void coda_finish_decode(struct coda_ctx *ctx)
- 	int err_vdoa = 0;
- 	u32 val;
+-static const unsigned char luma_dc_bits[16] = {
++static const unsigned char luma_dc[16 + 12] = {
++	/* bits */
+ 	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
+ 	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-};
+-
+-static const unsigned char luma_dc_value[12] = {
++	/* values */
+ 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+ 	0x08, 0x09, 0x0a, 0x0b,
+ };
  
-+	if (ctx->aborting)
-+		return;
-+
- 	/* Update kfifo out pointer from coda bitstream read pointer */
- 	coda_kfifo_sync_from_device(ctx);
+-static const unsigned char chroma_dc_bits[16] = {
++static const unsigned char chroma_dc[16 + 12] = {
++	/* bits */
+ 	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+ 	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+-};
+-
+-static const unsigned char chroma_dc_value[12] = {
++	/* values */
+ 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+ 	0x08, 0x09, 0x0a, 0x0b,
+ };
  
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 94fb4d2ecc43..556f8e0f52d7 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -1421,7 +1421,7 @@ static void coda_pic_run_work(struct work_struct *work)
+-static const unsigned char luma_ac_bits[16] = {
++static const unsigned char luma_ac[16 + 162 + 2] = {
++	/* bits */
+ 	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
+ 	0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d,
+-};
+-
+-static const unsigned char luma_ac_value[162 + 2] = {
++	/* values */
+ 	0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
+ 	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
+ 	0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xa1, 0x08,
+@@ -68,12 +65,11 @@ static const unsigned char luma_ac_value[162 + 2] = {
+ 	0xf9, 0xfa, /* padded to 32-bit */
+ };
  
- 		if (ctx->ops->run_timeout)
- 			ctx->ops->run_timeout(ctx);
--	} else if (!ctx->aborting) {
-+	} else {
- 		ctx->ops->finish_run(ctx);
- 	}
- 
+-static const unsigned char chroma_ac_bits[16] = {
++static const unsigned char chroma_ac[16 + 162 + 2] = {
++	/* bits */
+ 	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
+ 	0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
+-};
+-
+-static const unsigned char chroma_ac_value[162 + 2] = {
++	/* values */
+ 	0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
+ 	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
+ 	0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91,
+@@ -148,14 +144,10 @@ int coda_jpeg_write_tables(struct coda_ctx *ctx)
+ {
+ 	int i;
+ 	static const struct coda_memcpy_desc huff[8] = {
+-		{ 0,   luma_dc_bits,    sizeof(luma_dc_bits)    },
+-		{ 16,  luma_dc_value,   sizeof(luma_dc_value)   },
+-		{ 32,  luma_ac_bits,    sizeof(luma_ac_bits)    },
+-		{ 48,  luma_ac_value,   sizeof(luma_ac_value)   },
+-		{ 216, chroma_dc_bits,  sizeof(chroma_dc_bits)  },
+-		{ 232, chroma_dc_value, sizeof(chroma_dc_value) },
+-		{ 248, chroma_ac_bits,  sizeof(chroma_ac_bits)  },
+-		{ 264, chroma_ac_value, sizeof(chroma_ac_value) },
++		{ 0,   luma_dc,    sizeof(luma_dc)    },
++		{ 32,  luma_ac,    sizeof(luma_ac)    },
++		{ 216, chroma_dc,  sizeof(chroma_dc)  },
++		{ 248, chroma_ac,  sizeof(chroma_ac)  },
+ 	};
+ 	struct coda_memcpy_desc qmat[3] = {
+ 		{ 512, ctx->params.jpeg_qmat_tab[0], 64 },
 -- 
 2.20.1
 
