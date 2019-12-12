@@ -2,192 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C949011C5B1
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 06:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F136511C60A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 07:41:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbfLLF4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 00:56:38 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14305 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbfLLF4h (ORCPT
+        id S1728000AbfLLGk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 01:40:56 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:34561 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727972AbfLLGk4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 00:56:37 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5df1d68d0000>; Wed, 11 Dec 2019 21:56:29 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 11 Dec 2019 21:56:36 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 11 Dec 2019 21:56:36 -0800
-Received: from [10.2.165.195] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 12 Dec
- 2019 05:56:35 +0000
-Subject: Re: [PATCH v9 23/25] mm/gup: track FOLL_PIN pages
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20191211025318.457113-1-jhubbard@nvidia.com>
- <20191211025318.457113-24-jhubbard@nvidia.com>
- <20191211112807.GN1551@quack2.suse.cz>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <f961d0b6-c660-85b9-ad01-53bce74e39e9@nvidia.com>
-Date:   Wed, 11 Dec 2019 21:53:45 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Thu, 12 Dec 2019 01:40:56 -0500
+Received: by mail-qk1-f194.google.com with SMTP id d202so759816qkb.1
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2019 22:40:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AXRap6BBWQzWAyS8XpX73+bYNdrI0cAeZpXa9H/bRAc=;
+        b=MA51rQXW0kUy/eH8a+CHW4cprcJcqsH2HDzbo+OKNkS1fIXDmPWFSH3Msg+CjLkt0o
+         Hn/0mqSAS7p59uvMv2wKRkhzzpGh/xZo8lBVIiBJppJf7GsAmMMTWL+CZJ5TtspASJzS
+         NaTGJFY7ayj0hAf+odDLpymBHQaz1OrCu/eC4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AXRap6BBWQzWAyS8XpX73+bYNdrI0cAeZpXa9H/bRAc=;
+        b=UXaCXdXmNljSCU0GR4FC8Kgdomwe5wOs1QVVjMHImhu+e6tcd8sloW0gRxO/A+lG63
+         Ou4dl8Ij/P7PJPirXg86qox0dRlYnMxBSFWBQi4nIYf1CUw07ddzMLm5uF1CmbeaDyvw
+         zKL57VjtbUyDdkpA+oFj1fBXCxTGQuc6jtnjbF3HcRbkUvCwYGHQG0EM4NhvH40BrNyi
+         vZ5gy04WPCsS62sC5ODdT7CpiSd62uk1n/UPd1qy5o8+MXLF37OK2k6EZiM2ZqJVJDgz
+         fXTBBOtaP621EzTrdIrXCJ0bPGBEn96m8t7uE8cQAU8Aj/KFLpfADWuFwnw3sXc4YJJT
+         zRKg==
+X-Gm-Message-State: APjAAAXPxLcFHKiMJSuouUQUQ/WUHEmVS/knAF5vIJsvrFZWdcldYAaT
+        s3hME5Etm0xr4D/Zh6PM3PofiPQXlh31ZsrdWB0dSA==
+X-Google-Smtp-Source: APXvYqxMMjzivuQZLMAX1uEdLyogQxiS5pr/nUVktTqgng9NiXTmVutloTIAjZEQhboxEVr3pF5DU82GdhtuG5OkV90=
+X-Received: by 2002:a05:620a:101b:: with SMTP id z27mr6394282qkj.241.1576132855363;
+ Wed, 11 Dec 2019 22:40:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191211112807.GN1551@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576130189; bh=WUvMFBOwsTbLT+9CzNbxGtAponFsFsmTJOyg8MjL8ds=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=lsWfVOx2mYuCSEqMXkqo0p3SpKqw9VwSL+20QlVcuyoMSELQtTCN0YxM6RzLVo9oa
-         uq4Hl9KFn70q6l1bzqmgaiV5HLk4+H2168Aq1l5uWc+mWWgNKPzhftF1QMyxl40GPe
-         nNNgDtbzvAru+MjxE1MbEaMe+90vfqRYKPVuX/JzejQXCe2EVI5eyYy9CwInRuqtjp
-         2idGFh4dXFAMfDwQiKAN1Pz/TUuUoswEkyfXdQEyWp7z5jAlzfpntkPH8s96FOaimZ
-         1olYa+8gPiG8ccYKitvEKwCbv3GPr0UXUD+T0zjEzw7D9d6fQ9awWSzCOfMJ4VZl20
-         16ivttgOjkh4A==
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
+ <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org> <72712fe048af1489368f7416faa92c45@hostfission.com>
+ <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+ <d65bec5074eda5f389668e28922c1609@hostfission.com> <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com> <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+In-Reply-To: <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Thu, 12 Dec 2019 15:40:44 +0900
+Message-ID: <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Geoffrey McRae <geoff@hostfission.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/11/19 3:28 AM, Jan Kara wrote:
-...
->=20
-> The patch looks mostly good to me now. Just a few smaller comments below.
->=20
->> Suggested-by: Jan Kara <jack@suse.cz>
->> Suggested-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
->> Reviewed-by: Jan Kara <jack@suse.cz>
->> Reviewed-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
->> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
->=20
-> I think you inherited here the Reviewed-by tags from the "add flags" patc=
-h
-> you've merged into this one but that's not really fair since this patch
-> does much more... In particular I didn't give my Reviewed-by tag for this
-> patch yet.
+> First the addressing is non-trivial, especially with the "transport
+> specific device address" in the tuple.
 
-OK, I've removed those reviewed-by's. (I felt bad about dropping them, afte=
-r
-people had devoted time to reviewing, but I do see that it's wrong to imply
-that they've reviewed this much much larger thing.)
+There is complexity here, but I think it would also be present in the
+buffer sharing device case. With a buffer sharing device, the same
+identifying information would need to be provided from the exporting
+driver to the buffer sharing driver, so the buffer sharing device
+would be able to identify the right device in the vmm. And then in
+both import cases, the buffer is just identified by some opaque bytes
+that need to be given to a buffer manager in the vmm to resolve the
+actual buffer.
 
-...
->=20
-> I somewhat wonder about the asymmetry of try_grab_compound_head() vs
-> try_grab_page() in the treatment of 'flags'. How costly would it be to ma=
-ke
-> them symmetric (i.e., either set FOLL_GET for try_grab_compound_head()
-> callers or make sure one of FOLL_GET, FOLL_PIN is set for try_grab_page()=
-)?
->=20
-> Because this difference looks like a subtle catch in the long run...
+> Second I think it is a bad idea
+> from the security point of view.  When explicitly exporting buffers it
+> is easy to restrict access to the actual exports.
 
-Done. It is only a modest code-level change, at least the way I've done it,=
- which is
-setting FOLL_GET for try_grab_compound_head(). In order to do that, I set
-it at the top of the internal gup fast calling stacks, which is actually a =
-good
-design anyway: gup fast is logically doing FOLL_GET in all cases. So settin=
-g
-the flag internally is accurate and consistent with the overall design.
+Restricting access to actual exports could perhaps help catch bugs.
+However, I don't think it provides any security guarantees, since the
+guest can always just export every buffer before using it. Using
+implicit addresses doesn't mean that the buffer import actually has to
+be allowed - it can be thought of as fusing the buffer export and
+buffer import operations into a single operation. The vmm can still
+perform exactly the same security checks.
 
+> Instead of using a dedicated buffer sharing device we can also use
+> virtio-gpu (or any other driver which supports dma-buf exports) to
+> manage buffers.
 
-> ...
->=20
->> @@ -1522,8 +1536,8 @@ struct page *follow_trans_huge_pmd(struct vm_area_=
-struct *vma,
->>   skip_mlock:
->>   	page +=3D (addr & ~HPAGE_PMD_MASK) >> PAGE_SHIFT;
->>   	VM_BUG_ON_PAGE(!PageCompound(page) && !is_zone_device_page(page), pag=
-e);
->> -	if (flags & FOLL_GET)
->> -		get_page(page);
->> +	if (!try_grab_page(page, flags))
->> +		page =3D ERR_PTR(-EFAULT);
->=20
-> I think you need to also move the try_grab_page() earlier in the function=
-.
-> At this point the page may be marked as mlocked and you'd need to undo th=
-at
-> in case try_grab_page() fails.
+I don't think adding generic buffer management to virtio-gpu (or any
+specific device type) is a good idea, since that device would then
+become a requirement for buffer sharing between unrelated devices. For
+example, it's easy to imagine a device with a virtio-camera and a
+virtio-encoder (although such protocols don't exist today). It
+wouldn't make sense to require a virtio-gpu device to allow those two
+devices to share buffers.
 
+> With no central instance (buffer sharing device) being there managing
+> the buffer identifiers I think using uuids as identifiers would be a
+> good idea, to avoid clashes.  Also good for security because it's pretty
+> much impossible to guess buffer identifiers then.
 
-OK, I've moved it up, adding a "subpage" variable in order to make that wor=
-k.
+Using uuids to identify buffers would work. The fact that it provides
+a single way to refer to both guest and host allocated buffers is
+nice. And it could also directly apply to sharing resources other than
+buffers (e.g. fences). Although unless we're positing that there are
+different levels of trust within the guest, I don't think uuids really
+provides much security.
 
->=20
->> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->> index ac65bb5e38ac..0aab6fe0072f 100644
->> --- a/mm/hugetlb.c
->> +++ b/mm/hugetlb.c
->> @@ -4356,7 +4356,13 @@ long follow_hugetlb_page(struct mm_struct *mm, st=
-ruct vm_area_struct *vma,
->>   same_page:
->>   		if (pages) {
->>   			pages[i] =3D mem_map_offset(page, pfn_offset);
->> -			get_page(pages[i]);
->> +			if (!try_grab_page(pages[i], flags)) {
->> +				spin_unlock(ptl);
->> +				remainder =3D 0;
->> +				err =3D -ENOMEM;
->> +				WARN_ON_ONCE(1);
->> +				break;
->> +			}
->>   		}
->=20
-> This function does a refcount overflow check early so that it doesn't hav=
-e
-> to do try_get_page() here. So that check can be now removed when you do
-> try_grab_page() here anyway since that early check seems to be just a tin=
-y
-> optimization AFAICT.
->=20
-> 								Honza
->=20
+If we're talking about uuids, they could also be used to simplify my
+proposed implicit addressing scheme. Each device could be assigned a
+uuid, which would simplify the shared resource identifier to
+(device-uuid, shmid, offset).
 
-Yes. I've removed it, good spot.
+In my opinion, the implicit buffer addressing scheme is fairly similar
+to the uuid proposal. As I see it, the difference is that one is
+referring to resources as uuids in a global namespace, whereas the
+other is referring to resources with fully qualified names. Beyond
+that, the implementations would be fairly similar.
 
-
-thanks,
---=20
-John Hubbard
-NVIDIA
+-David
