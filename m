@@ -2,72 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50A2611D73F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 20:38:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D63A311D792
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 20:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730638AbfLLTim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 14:38:42 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43788 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730365AbfLLTim (ORCPT
+        id S1730771AbfLLT6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 14:58:09 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:36797 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730753AbfLLT6I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 14:38:42 -0500
-Received: by mail-pg1-f195.google.com with SMTP id k197so27435pga.10
-        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2019 11:38:42 -0800 (PST)
+        Thu, 12 Dec 2019 14:58:08 -0500
+Received: by mail-ot1-f67.google.com with SMTP id i4so3264408otr.3;
+        Thu, 12 Dec 2019 11:58:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=nO1Xvte7AHlIbFQy+ePVzlUeHQ3CsGcG48YlqFHOTlw=;
-        b=sL9QHEKUW7AQpOsREX++fq+CABCPzEVaWhNpvN+2nVXu97o+mwotR0gpjkBNB0WDCc
-         BoZLZld9YORyrUkh1GWkJoK4M+o50hULQuYMjuSvr7+WHJy3Q76DF0xyzyJjzow+gI81
-         CS/44yThSAuTvgNo+qTEf/JNSns4UqYQJP4hYjOWLmA1EOmlTEfDmsAtCfFZD8k5pqsW
-         H+gDh1HVb8dee7euqzphzNu16t4IJufA/2nWid3ePpjh7Nym6pDnbXge6dutrXncdvrv
-         1CwP9xRoj9eLlFP0YOOs2oWye36ZnrTAv58m6A1CwE31VsIOMI+TxUZ9lpf+5QoHJvdj
-         tFtQ==
+        d=googlemail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DFLlahyHI5CWddupsVreSqNy/vA0cEJats5492jOSIs=;
+        b=TD7g7jwnUfDkDTZXvxve3OJXxK3GHfe5bBkdC7pt5OmvM0NMo9LVvJUmtVK+yMpQgy
+         vQgMoNCRNgIPGk6R5mhXxZWioE7nsHSI6ypVusSjEl7CjyUu3EgqXGSybzS7OkzpOsSb
+         mcmhXX1vYjnkVSefiLRylfhtoyJ9Vy39jDMVZLuZYqVTpzRQWrobagHQbcOPc1HsXqqF
+         y/kSNaw3ZaaGT3WDFKb/HmEQ8tHXojg9ICTqbAEDBP/HnjJ5Rbzd8E4ODkxLXWOHxQgZ
+         kjs1aVUkYxcYB1+tQil4sFBJqJe4E+3ubKfq45Cxfg8dyMV0PoAWKl+Ix78PTZOq33op
+         TL1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=nO1Xvte7AHlIbFQy+ePVzlUeHQ3CsGcG48YlqFHOTlw=;
-        b=L78FSnGcxp9h6DFQT05VLO+C9oSC18AVfgJVlA4hpFkfWOMa4QLpjDeaEOUsBuIEzW
-         aFL4Knrrix3I0z0Y6ogQ0w0PEwNJTWXoD3cWzZDfdLvU3g9z9v6RCpd/m+hZnWMmoVGd
-         k6wEVLNu0p70glUfBrfHAqRF+X3N1rTteF8hw6pI1TFtDzl8wr5YaD26YDg9JhHuOW9S
-         Sj+Z1TG9hbyxdVZRmEGDKm3NsGucSxQh5hkONUAoYfcJ66QhVA/NkSlZXYwLVxdObBB6
-         U73xyM+D8XTwJBj/LU+YFV4d6BOUpXlgE/BwthUTmsM+F122fwH1pTWUup9lT5ZpfeUO
-         4sgA==
-X-Gm-Message-State: APjAAAV5+k2qPID1noIot8KY/iJkzNJR964+Ky1USaLk6NUJbyP9kK6f
-        SmG6vqN8RyF3J3h5iDBJW0uQwA==
-X-Google-Smtp-Source: APXvYqzLzdjr2HqsdVrX5PuBO0uJYGQpjtYnz8xrey+lYpgLwL0QgLIlxLijTHUj4J1SIZPlrthuyA==
-X-Received: by 2002:a63:cc4f:: with SMTP id q15mr12527612pgi.159.1576179521721;
-        Thu, 12 Dec 2019 11:38:41 -0800 (PST)
-Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
-        by smtp.gmail.com with ESMTPSA id x7sm3542837pfp.93.2019.12.12.11.38.40
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 12 Dec 2019 11:38:41 -0800 (PST)
-From:   Kevin Hilman <khilman@baylibre.com>
-To:     Guillaume La Roque <glaroque@baylibre.com>,
-        narmstrong@baylibre.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, devicetree@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Add support of CEC wakeup on Amlogic G12 and SM1 SoCs
-In-Reply-To: <20191212145925.32123-1-glaroque@baylibre.com>
-References: <20191212145925.32123-1-glaroque@baylibre.com>
-Date:   Thu, 12 Dec 2019 11:38:40 -0800
-Message-ID: <7hpngtjpvj.fsf@baylibre.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DFLlahyHI5CWddupsVreSqNy/vA0cEJats5492jOSIs=;
+        b=unx/b/p803mFfIaldC6Mbv0Uvp0bBq8c9AvbCmwF3iNIahcmFJYA2d4GKACAw4nzvj
+         hv7ObH2L5fgBsqRxVoynu8x+oR6+JnwbQKNvY4VrXUvP7+WjaMt1nn+qF+FpkTS6PfF7
+         AWB/N9Cfu17THiEhXeR0GMKxJKDEngaSd0ayP46b0uOA1GqeuFRGDy4T4qQXCoFN0o+l
+         S6CYcBR1Muo5nX3OKqhxPkPozNKuyZFhhfcL7DNPN2j8nje6Q/2c3qYLgUa+vAbnuGNd
+         l+CeHirhfUeh4jp9LgsyFY2QcwL9lqnXqFxeBW65szEJipp592a/pXv41lOOpm6a9Yzi
+         Nd4Q==
+X-Gm-Message-State: APjAAAVPKKop0m2fkhdpfbYU6amms6RiuSAWmJ4WR0xRQsxbOZrVhksx
+        r32eSVoDF1qiOeXpFRSS+8MJFBjQ+HnsrAt86hc=
+X-Google-Smtp-Source: APXvYqzBv7wgx408g13iewCw+znrFEZiUL++7s01qX7XO3cSWn27p9E1tGYyz8Gwyf9GVrZPOlySmA8XV5OfmM/myAQ=
+X-Received: by 2002:a9d:6a4c:: with SMTP id h12mr10313165otn.81.1576180687595;
+ Thu, 12 Dec 2019 11:58:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20191212145925.32123-1-glaroque@baylibre.com> <20191212145925.32123-4-glaroque@baylibre.com>
+In-Reply-To: <20191212145925.32123-4-glaroque@baylibre.com>
+From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date:   Thu, 12 Dec 2019 20:57:56 +0100
+Message-ID: <CAFBinCDjfzQX=ZG=cgTYo=icGNU-t4Kqnu0Bu5qRLsRk_s6S_Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: platform: meson-ao-cec-g12a: add wakeup support
+To:     Guillaume La Roque <glaroque@baylibre.com>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, khilman@baylibre.com,
+        devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Guillaume La Roque <glaroque@baylibre.com> writes:
+Hi Guillaume,
 
-> this patchset add support of CEC wakeup.
-> We need to set logical address and activate some options in registers before going in suspend.
-> Registers address and options values come from amlogic driver.
+(I don't know the specifics of this hardware but I have two general
+comments below)
 
-Tested-by: Kevin Hilman <khilman@baylibre.com>
+On Thu, Dec 12, 2019 at 4:00 PM Guillaume La Roque
+<glaroque@baylibre.com> wrote:
+> +#define CECB_FUNC_CFG_REG              0xA0
+> +#define CECB_FUNC_CFG_MASK             GENMASK(6, 0)
+> +#define CECB_FUNC_CFG_CEC_ON           0x01
+> +#define CECB_FUNC_CFG_OTP_ON           0x02
+> +#define CECB_FUNC_CFG_AUTO_STANDBY     0x04
+> +#define CECB_FUNC_CFG_AUTO_POWER_ON    0x08
+> +#define CECB_FUNC_CFG_ALL              0x2f
+> +#define CECB_FUNC_CFG_NONE             0x0
+> +
+> +#define CECB_LOG_ADDR_REG      0xA4
+> +#define CECB_LOG_ADDR_MASK     GENMASK(22, 16)
+do these registers have some RTI_* prefix in the datasheet?
+that would make it easier to spot that these registers belong to AO /
+RTI (while all other registers belong to the CEC controller)
 
+[...]
+> +       if (ao_cec->regmap_ao_sysctrl)
+> +               ret |= regmap_update_bits(ao_cec->regmap_ao_sysctrl,
+> +                                        CECB_LOG_ADDR_REG,
+> +                                         CECB_FUNC_CFG_MASK,
+why do we need to mask CECB_FUNC_CFG_MASK (from register 0xa0) in the
+CECB_LOG_ADDR_REG register (0xa4)?
+
+> +                                         logical_addr << CECB_LOG_ADDR_SHIFT);
+FIELD_PREP(CECB_FUNC_CFG_MASK, logical_addr) would make it consistent
+with the rest of the driver
+then you can also drop the #define CECB_LOG_ADDR_SHIFT
+
+
+Martin
