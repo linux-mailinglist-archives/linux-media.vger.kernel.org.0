@@ -2,49 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0F3A11CCDB
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 13:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FC3911CCEE
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 13:19:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729118AbfLLMNs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 07:13:48 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:47711 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729004AbfLLMNs (ORCPT
+        id S1729140AbfLLMTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 07:19:41 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:40846 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728996AbfLLMTl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 07:13:48 -0500
-Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
- ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id fNLliZMcVGyJwfNLmiy3mk; Thu, 12 Dec 2019 13:13:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576152826; bh=HaSaAJePIqE6f6tFF4A2GBGHvTYDxolXLEHNLjPMmkY=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=JGEtqu+r3C1ZrDOyEQpn0t/KjYnXk3p0VpwJbepOdJnzxBvHgzgl66IyC2q87OFdv
-         WJY8Dvp3rUhg3Z66VXIKX1n/4pYf5aZr0/G4JQ2z16sGIRtpHgKrxBDAFeoAWo9SxQ
-         GcCs1Lt4lu+FHEiDJbS1FeI9x0cv/TUYdtaovn9akt2jSIjr2+7lKlcJOEHx2h9kv6
-         /71hT11/JiAF5ZNAvs+V/dfd/hqEWV8dHqsSnT/0WWJK1nuRoaU3bgWl+boCjeNUIY
-         DMx/EmzkJDOyeu8ouRYz/UD/zOedNUSY01/IYcOGrloOD/lVgGyBy8bTs8BRVirpb+
-         b37swlg+E+ynA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Test email, please ignore
-Message-ID: <dca43c74-03d4-cb7f-7c8a-5ae0652a76db@xs4all.nl>
-Date:   Thu, 12 Dec 2019 13:13:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 12 Dec 2019 07:19:41 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 178C51C246E; Thu, 12 Dec 2019 13:19:39 +0100 (CET)
+Date:   Thu, 12 Dec 2019 13:19:38 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.4 148/350] media: ad5820: Define entity function
+Message-ID: <20191212121938.GB17876@duo.ucw.cz>
+References: <20191210210735.9077-1-sashal@kernel.org>
+ <20191210210735.9077-109-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfD+JYW/8z36hIAEzdGMi8lKacq4qWWdsbyOxBsQXyWncTfANjnfdlZBFF+fKLSp0SueHQIY5V4VYxp74QT6e5uHreOX08MJjg5FPz3rmecp4DafrSEdG
- nrEulvrYlIMXHZUUcuQKgB87lVBFVznMhF7+QBeo7qqnueW3+etLK/rz5N0c9cHJcjsDvld5vsHwT1+bX879nTq/KfoEelN8JEzxuyFpWCsrKJSA0fl6Jgcj
- AZLIUhyU33tL+BqMkT5VxXNnBkitNfyv2VIk64VBusIsZXqBHWIrUGPs/q149svg
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="XOIedfhf+7KOe/yw"
+Content-Disposition: inline
+In-Reply-To: <20191210210735.9077-109-sashal@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Just ignore!
 
-    Hans
+--XOIedfhf+7KOe/yw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue 2019-12-10 16:04:13, Sasha Levin wrote:
+> From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+>=20
+> [ Upstream commit 801ef7c4919efba6b96b5aed1e72844ca69e26d3 ]
+>=20
+> Without this patch, media_device_register_entity throws a warning:
+>=20
+> dev_warn(mdev->dev,
+> 	 "Entity type for entity %s was not initialized!\n",
+> 	 entity->name);
+
+This fixes warning, not a serious bug. Thus it is against stable
+rules.
+
+Please either update the rules to the real rules in use, or stop
+pushing such pages to stable.
+
+Best regards,
+								Pavel
+
+
+> index 925c171e77976..7a49651f4d1f2 100644
+> --- a/drivers/media/i2c/ad5820.c
+> +++ b/drivers/media/i2c/ad5820.c
+> @@ -309,6 +309,7 @@ static int ad5820_probe(struct i2c_client *client,
+>  	v4l2_i2c_subdev_init(&coil->subdev, client, &ad5820_ops);
+>  	coil->subdev.flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  	coil->subdev.internal_ops =3D &ad5820_internal_ops;
+> +	coil->subdev.entity.function =3D MEDIA_ENT_F_LENS;
+>  	strscpy(coil->subdev.name, "ad5820 focus", sizeof(coil->subdev.name));
+> =20
+>  	ret =3D media_entity_pads_init(&coil->subdev.entity, 0, NULL);
+> --=20
+> 2.20.1
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--XOIedfhf+7KOe/yw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXfIwWgAKCRAw5/Bqldv6
+8mPuAKCTD2vWmTbZq6rDI/hxj2csiiW8GgCgwgqev2YgRPLpjjjb134mrnrnfEs=
+=N+Yw
+-----END PGP SIGNATURE-----
+
+--XOIedfhf+7KOe/yw--
