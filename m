@@ -2,75 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E384C11CEB8
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 14:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACC8311CF1D
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 15:03:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729518AbfLLNsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 08:48:22 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:49670 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729425AbfLLNsW (ORCPT
+        id S1729648AbfLLOD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 09:03:27 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:36437 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729567AbfLLOD0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 08:48:22 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1EEFF1C25CE; Thu, 12 Dec 2019 14:48:20 +0100 (CET)
-Date:   Thu, 12 Dec 2019 14:48:20 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Greg KH <greg@kroah.com>
-Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.4 148/350] media: ad5820: Define entity function
-Message-ID: <20191212134820.yfwkamocjxumz6ci@ucw.cz>
-References: <20191210210735.9077-1-sashal@kernel.org>
- <20191210210735.9077-109-sashal@kernel.org>
- <20191212121938.GB17876@duo.ucw.cz>
- <20191212122437.GA1541615@kroah.com>
+        Thu, 12 Dec 2019 09:03:26 -0500
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1ifP3s-0007e8-Iz; Thu, 12 Dec 2019 15:03:24 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@pengutronix.de
+Subject: [PATCH v2 1/4] media: coda: do not skip finish_run if aborting
+Date:   Thu, 12 Dec 2019 15:02:52 +0100
+Message-Id: <20191212140255.8766-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191212122437.GA1541615@kroah.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> On Thu, Dec 12, 2019 at 01:19:38PM +0100, Pavel Machek wrote:
-> > On Tue 2019-12-10 16:04:13, Sasha Levin wrote:
-> > > From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> > > 
-> > > [ Upstream commit 801ef7c4919efba6b96b5aed1e72844ca69e26d3 ]
-> > > 
-> > > Without this patch, media_device_register_entity throws a warning:
-> > > 
-> > > dev_warn(mdev->dev,
-> > > 	 "Entity type for entity %s was not initialized!\n",
-> > > 	 entity->name);
-> > 
-> > This fixes warning, not a serious bug. Thus it is against stable
-> > rules.
-> 
-> That's a good enough fix for a real issue.  We take patches in stable
-> for this all the time.
+Always call finish_run when the hardware signals completion. This
+will allow JPEG contexts to clean up even if job_abort was called
+during the device_run.
 
-I know you do this all the time...
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/platform/coda/coda-bit.c    | 6 ++++++
+ drivers/media/platform/coda/coda-common.c | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-But that's not what the documentation says you should be doing!
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+index 00c7bed3dd57..5475de176ce3 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -1629,6 +1629,9 @@ static void coda_finish_encode(struct coda_ctx *ctx)
+ 	struct coda_dev *dev = ctx->dev;
+ 	u32 wr_ptr, start_ptr;
+ 
++	if (ctx->aborting)
++		return;
++
+ 	/*
+ 	 * Lock to make sure that an encoder stop command running in parallel
+ 	 * will either already have marked src_buf as last, or it will wake up
+@@ -2266,6 +2269,9 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 	int err_vdoa = 0;
+ 	u32 val;
+ 
++	if (ctx->aborting)
++		return;
++
+ 	/* Update kfifo out pointer from coda bitstream read pointer */
+ 	coda_kfifo_sync_from_device(ctx);
+ 
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index 94fb4d2ecc43..556f8e0f52d7 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -1421,7 +1421,7 @@ static void coda_pic_run_work(struct work_struct *work)
+ 
+ 		if (ctx->ops->run_timeout)
+ 			ctx->ops->run_timeout(ctx);
+-	} else if (!ctx->aborting) {
++	} else {
+ 		ctx->ops->finish_run(ctx);
+ 	}
+ 
+-- 
+2.20.1
 
- - It must fix a problem that causes a build error (but not for things
-    marked CONFIG_BROKEN), an oops, a hang, data corruption, a real
-       security issue, or some "oh, that's not good" issue.  In short,
-       something
-          critical.
-
-I'd prefer you to act as the documentation says you would, but even
-just fixing the documentation would be improvement over current
-situation.
-
-Thanks,
-								Pavel
