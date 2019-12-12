@@ -2,98 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00AC911CD12
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 13:24:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ACFD11CD1C
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 13:26:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729144AbfLLMYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 07:24:42 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:50819 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729093AbfLLMYm (ORCPT
+        id S1729174AbfLLM0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 07:26:44 -0500
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:46348 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729159AbfLLM0o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 07:24:42 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0858B226DA;
-        Thu, 12 Dec 2019 07:24:41 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 12 Dec 2019 07:24:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=2scdUPQH6/S737X9bHyYedRxXFA
-        +cGGK7uaXn+cxR+4=; b=bssJTdkTRgSmIe3wKmne6OBDU2GO0mfk6A1uHln3c3i
-        HtNDCklTVoX7NJ62q7TwoLViFTsMomNCru86QkHHj332x5gXQZKNL3/XK8oyQQsl
-        Yer8jWGngrSc7kmGZ9kM6GmTf96ARhcRLcHCX3Xjp2UQeRgwR/VgB/0XJH2eTc1n
-        nXxi3LzZXTB6BA5gSqZGq9mu/5OQ1t8LDBEl2pMjIpjSuRjwuo+GaKw7XJhwEPXn
-        eIgHDyQHoXBke4TzdZ1kV47Bmg9I1aTOCtj0ubvC61gwaubmpd/fzPb+PC8dru+0
-        0u1zFOTPcvQnMsD+dZsKJCyK8u7dB/jr7r1Sqhq36NA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=2scdUP
-        QH6/S737X9bHyYedRxXFA+cGGK7uaXn+cxR+4=; b=OmKz87wUNQgdgCH5WvFKSk
-        H2/SxdW7+AIJpvCjbMZldFW5Q0ID/mnhEHlaQMGEXeM6YVWED381FbrWHcrdqZVU
-        LX9MGrlBD1bpwof1V5mwR/FbaFDwOlbMVVIRSzua4HK1oEtVeBsOqDIf5DmcMmVZ
-        aywwnuh43WqJabPFginNLHF9T8l/XsB41uQuGwo+oOqMIfTR2Ody4OgqsdIu5PXu
-        xgNlh0+CM7YhV2UMHV8VCSJnIidFw0Ak8vlRF/Bs+lPtY4AwOC14ogtN486Wb7o7
-        RwofC1TOAiFW0NWGKyP2UGF72zKoMB7Gu7ZE8x7GFk+TwuTdOdPgvO2nOV6/Dx5w
-        ==
-X-ME-Sender: <xms:iDHyXcLPrTdhTlFqv6IXHo9BPM06m_9npGWD8deQZB94lKJ96jvrlQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeljedggeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrkeelrddutd
-    ejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
-    lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:iDHyXTuRE_fxWf0NgawgyjAQYf3n4X58vH7cpgkBKrxto7qUiQ7h3g>
-    <xmx:iDHyXcXi3u4IdmKtPWOaP-mBj8sU_tHRwha42oPMziD1ANugwEIklA>
-    <xmx:iDHyXWLr8os-CNAIGOVHZVoMefFf8Uh1MqTKlEs5BvLLguELjL9hGA>
-    <xmx:iTHyXUXMqI0zLC85pkp8IKhjH3GSL_8074Qn_g-SbiZRbtBoa9KIww>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id CF6CA80059;
-        Thu, 12 Dec 2019 07:24:39 -0500 (EST)
-Date:   Thu, 12 Dec 2019 13:24:37 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.4 148/350] media: ad5820: Define entity function
-Message-ID: <20191212122437.GA1541615@kroah.com>
-References: <20191210210735.9077-1-sashal@kernel.org>
- <20191210210735.9077-109-sashal@kernel.org>
- <20191212121938.GB17876@duo.ucw.cz>
+        Thu, 12 Dec 2019 07:26:44 -0500
+Received: by mail-qt1-f193.google.com with SMTP id 38so2068205qtb.13
+        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2019 04:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zzuaDacu5BFhoisZaoQtnflxPHTSJ1BMzYrW5oVhp6A=;
+        b=ccGurdDWOjVoQeL3FLvqQ+fVjvam+gDriu9+NtKrTWLFwG7hAdq/96uznle/g7ot87
+         zkuNY4KDorEuL4NVOkq6tFOB8S4Zcs0tcbdhvvOUhJlQ6YDUyfl6Dvg5yzOwHNUeokxE
+         VKkje5Uql4RRBOtKUD6+7/lHTHFe6sm2xdo2U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zzuaDacu5BFhoisZaoQtnflxPHTSJ1BMzYrW5oVhp6A=;
+        b=AAN3QYyBdMr6H10qm8dLUh2zqm5sruxlVs+Vep3CmES+wA54GWOeCnDvFHPlCVEVju
+         9Cv3i08Sw6tcwlxNPqsetyQvBzjXcUGFkQKHXYfyDR+6Snaol/FzMYkKwtdVP7ltV1yr
+         izYp8NCKZTzjmwVoNnEQV5DQSve4ZOslCawl74nyTuB1h+aXtKjgmI4SWmWBPX+zQA3D
+         usd+uvC5i7kWis6mLV2X+X3S+zhjtySwldDjGKq4qE1StfFTz3I5sXfYnFMAb3QIj5gf
+         G3CUoX26AU7FXJeXUP6We3DVF7Fvv0ddnsmcE22E9nlYJ3bn8wa6NcFyFzF+mo8TkHsy
+         K3hQ==
+X-Gm-Message-State: APjAAAW7AoHFc0hlhfKAZKqnJB8pDSDk6UkoeNzWWJy92MHVt4mUvKT+
+        p3vTbIhfZEAm5/UBJJ7RBEvwil5wcmUgYvbss1/+1A==
+X-Google-Smtp-Source: APXvYqyyW9xksRz10OUFM4sUWiAeVJQVc8sXvXBShkOf1bK8grmGt1MOoQHtahVrRAWGVxDTH6FRr9lamDi8qA2+Pt8=
+X-Received: by 2002:aed:2344:: with SMTP id i4mr7392923qtc.136.1576153603247;
+ Thu, 12 Dec 2019 04:26:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191212121938.GB17876@duo.ucw.cz>
+References: <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
+ <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org> <72712fe048af1489368f7416faa92c45@hostfission.com>
+ <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+ <d65bec5074eda5f389668e28922c1609@hostfission.com> <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
+ <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
+ <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
+ <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org> <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
+ <20191212094121.by7w7fywlzdfoktn@sirius.home.kraxel.org>
+In-Reply-To: <20191212094121.by7w7fywlzdfoktn@sirius.home.kraxel.org>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Thu, 12 Dec 2019 21:26:32 +0900
+Message-ID: <CAD=HUj6YYupjdxxz2mgMmE2DcKhXP-qdhRORvUNTmzcORRrLzg@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Geoffrey McRae <geoff@hostfission.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 01:19:38PM +0100, Pavel Machek wrote:
-> On Tue 2019-12-10 16:04:13, Sasha Levin wrote:
-> > From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> > 
-> > [ Upstream commit 801ef7c4919efba6b96b5aed1e72844ca69e26d3 ]
-> > 
-> > Without this patch, media_device_register_entity throws a warning:
-> > 
-> > dev_warn(mdev->dev,
-> > 	 "Entity type for entity %s was not initialized!\n",
-> > 	 entity->name);
-> 
-> This fixes warning, not a serious bug. Thus it is against stable
-> rules.
+> > > Second I think it is a bad idea
+> > > from the security point of view.  When explicitly exporting buffers it
+> > > is easy to restrict access to the actual exports.
+> >
+> > Restricting access to actual exports could perhaps help catch bugs.
+> > However, I don't think it provides any security guarantees, since the
+> > guest can always just export every buffer before using it.
+>
+> Probably not on the guest/host boundary.
+>
+> It's important for security inside the guest though.  You don't want
+> process A being able to access process B private resources via buffer
+> sharing support, by guessing implicit buffer identifiers.
 
-That's a good enough fix for a real issue.  We take patches in stable
-for this all the time.
+At least for the linux guest implementation, I wouldn't think the
+uuids would be exposed from the kernel. To me, it seems like something
+that should be handled internally by the virtio drivers. Especially
+since the 'export' process would be very much a virtio-specific
+action, so it's likely that it wouldn't fit nicely into existing
+userspace software. If you use some other guest with untrusted
+userspace drivers, or if you're pulling the uuids out of the kernel to
+give to some non-virtio transport, then I can see it being a concern.
 
-thanks,
+> > > Instead of using a dedicated buffer sharing device we can also use
+> > > virtio-gpu (or any other driver which supports dma-buf exports) to
+> > > manage buffers.
 
-greg k-h
+Ah, okay. I misunderstood the original statement. I read the sentence
+as 'we can use virtio-gpu in place of the dedicated buffer sharing
+device', rather than 'every device can manage its own buffers'. I can
+agree with the second meaning.
+
+> Without buffer sharing support the driver importing a virtio-gpu dma-buf
+> can send the buffer scatter list to the host.  So both virtio-gpu and
+> the other device would actually access the same guest pages, but they
+> are not aware that the buffer is shared between devices.
+
+With the uuid approach, how should this case be handled? Should it be
+equivalent to exporting and importing the buffer which was created
+first? Should the spec say it's undefined behavior that might work as
+expected but might not, depending on the device implementation? Does
+the spec even need to say anything about it?
+
+> With buffer sharing virtio-gpu would attach a uuid to the dma-buf, and
+> the importing driver can send the uuid (instead of the scatter list) to
+> the host.  So the device can simply lookup the buffer on the host side
+> and use it directly.  Another advantage is that this enables some more
+> use cases like sharing buffers between devices which are not backed by
+> guest ram.
+
+Not just buffers not backed by guest ram, but things like fences. I
+would suggest the uuids represent 'exported resources' rather than
+'exported buffers'.
+
+> Well, security-wise you want have buffer identifiers which can't be
+> easily guessed.  And guessing uuid is pretty much impossible due to
+> the namespace being huge.
+
+I guess this depends on what you're passing around within the guest.
+If you're passing around the raw uuids, sure. But I would argue it's
+better to pass around unforgeable identifiers (e.g. fds), and to
+restrict the uuids to when talking directly to the virtio transport.
+But I guess there are likely situations where that's not possible.
+
+-David
