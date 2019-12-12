@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F93411C85C
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 09:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4EC11C87C
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 09:50:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728137AbfLLImG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 03:42:06 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55799 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728110AbfLLImF (ORCPT
+        id S1728256AbfLLIu1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 03:50:27 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:59507 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728229AbfLLIu1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 03:42:05 -0500
+        Thu, 12 Dec 2019 03:50:27 -0500
 Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
  ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id fK2siYDkSGyJwfK2tixK90; Thu, 12 Dec 2019 09:42:04 +0100
+        id fKAyiYGZ6GyJwfKAzixLrU; Thu, 12 Dec 2019 09:50:25 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576140124; bh=AzglUBD1Tln9oM5STPFj4gFfvEGRLMtUBvGDhz2y2VU=;
+        t=1576140625; bh=8xB88MUTfHBdmGkmkMKhVlu1WApEvPvs8TwQznuLwLU=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=kbw4oy209Ip2kyFkkh7KIzk+PLPIE4jNguKU/zaTpNfqJq7fjyxVCndWfXuubZYEJ
-         wOhwvZM7E7maho1w7Z6JxSQIc4bGlw5lFzyoBXmkTmYnYMAvK2jw8qImNF9h0SINF9
-         aY1glexpFDkCGmHxHTAjkT8N+98klvxffpKOPWg2vqc993KRW31Qmg8UwUGzQ6X+Cm
-         lsYLBrJdlgNgRi9IgNbgPrpPKzB9vGf7tE4tMn1noPZVw5L4OPmhiMqdtRm4D8Yawv
-         VdP9XUz/suZzj41nGjovpVWSnGnXzaYlk8iceUIxexzqQab3WykEwNI1RuzKwfaMOe
-         64//n7E2ZGzgQ==
+        b=bwyM047TQQGsUWUVNInO58//FCplWC6hZQmwcYQDJ1YSFOoBSFuRHTBR4HATnU9V3
+         NNdCSvrwrt2zD7B2F35THsIrtPfZw5MhKV3/Nm/oQcnbImpMM9CeaiqbOS6Xz6zumH
+         Tb5EogFAgEqzS9h/Up6iLaL8HnqYxujp17OsT/cTPZGuD8R5vqCY+mQPWD2mmfaKha
+         vkvWEhF0WXxBdFuyp0mMA0B8BeToToSCyXJv8HrXmse4vnLb+B5d0E6aEVv3Nbnvud
+         Pb2cxa93LzAh4O0t9zMWNqZdA7egdcpF3vpspOdgoOttZ8s+X740ESW5IX1MRIt4V5
+         hgFYAP5WWWBSg==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT FIXES FOR v5.5] cec: four fixes
-Message-ID: <d12cd8de-0ee0-7f8a-c970-bda9949b3d84@xs4all.nl>
-Date:   Thu, 12 Dec 2019 09:42:02 +0100
+Subject: [GIT FIXES FOR v5.5 (v2)] cec: four fixes
+Message-ID: <adef53aa-ee1c-392e-4961-f6b39d662dcd@xs4all.nl>
+Date:   Thu, 12 Dec 2019 09:50:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfA4aLiAbIl95ENQnaCjbO4yxHKGuNMVIujaAAU88kRe5gUOZlDVwLuS8f5dmcHl9u0LEGHdmJI8j4RMYxX1nTVyN4/3dssq4/ey+0iHuxxL0S24SfEcy
- J8TgzbH1uY639ChBKk+9B7hxE8Mfl3yACG955e350uMDu0ZgkI2N58RbT/8SX+f6KnhA8jGWB5wKJYvdlF+L0q8/6x9x395DaF87PCwjt6ZPIjYD5rDX9IBd
- fN7zHPYXpZEKMO0N/RzYmcycpcPBD3ovdKfUcS0GRxg=
+X-CMAE-Envelope: MS4wfL75RcwM6eSNuP5DqEXXcfIEtZSz/zX8Reg7sRDFA1XjQHqETcFEFiTEm10hWaY8dhVDhjiTHZ7QpCuPuvtCVK9VQSR87Svv1O7UDvFn8GZyveAM8DtW
+ illygdiswM8eo9dCP8WCLPfbSupYVJd9fAG7tyJU+FEqBRas+snwJT742y73qeaSvAJ9viwPc6phxVPTYYnHcVw6tmDqhWxk1kUWFS4ZeZlTgE2k2aoOyxBp
+ PntNloR4bl2l3YoX6/tLXvld5ysFqBQTja0MgW9lRjc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -56,6 +56,9 @@ Regards,
 
 	Hans
 
+Changes since v1: realized that patch 2 was missing a CC to stable.
+
+
 The following changes since commit 2099ef02c6c024751e4d16ace67dd6b910c875e4:
 
   media: dt-bindings: media: cal: convert binding to yaml (2019-12-09 11:43:47 +0100)
@@ -64,9 +67,9 @@ are available in the Git repository at:
 
   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5a
 
-for you to fetch changes up to fea8ea467c7d488dd5c2448dc2d0f1fe57b6064e:
+for you to fetch changes up to f63b69719cbe0297d5dd24298258122218c509cd:
 
-  pulse8-cec: fix lost cec_transmit_attempt_done() call (2019-12-11 17:27:50 +0100)
+  pulse8-cec: fix lost cec_transmit_attempt_done() call (2019-12-12 09:46:52 +0100)
 
 ----------------------------------------------------------------
 Tag branch
