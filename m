@@ -2,157 +2,346 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C132B11CA9B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 11:24:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3AF11CAF3
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 11:34:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728573AbfLLKYP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 05:24:15 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:52983 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728339AbfLLKYP (ORCPT
+        id S1728703AbfLLKeO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 05:34:14 -0500
+Received: from plasma31.jpberlin.de ([80.241.56.82]:28875 "EHLO
+        plasma31.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728561AbfLLKeO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 05:24:15 -0500
-Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
- ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id fLdjiYmsvGyJwfLdkixg5f; Thu, 12 Dec 2019 11:24:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576146253; bh=h7SHLMHrD8uj41X4wnpu6GqJYOqSsd1mpxSu3eljAjs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=TRmr5LVEZcatS8B7CYupHY4TV/M7SzJrsswMibhxJy+M47pVBdknl76cz8JPpl7AC
-         QgHpbr3G6gUu6d1Tr4QvLZU/AxjlMImZAB+Iy/tzRe49ZD/qREBplansx5TnE0Ag/f
-         APddN6PE2CoDpgd6g57UHa5ZRNJkY0FZg2RDmyUBX8F0x19NkjeAjm8INgtJ8OfjjO
-         KffT66G323XdBrcyml0Bn9x9/fLg5K1XHmbNQ2es7HLAG8aBfpecJwVxUjD7xT4dUb
-         Xa8ILXqBHzyzKj/oook8u/WJ80M3x6gqhFx+t6CbxQBo0GajDI3AJexet50y65sc7c
-         0E9FKeypiJ78g==
-Subject: Re: [PATCH v2] media: atmel: atmel-isc-base: expose white balance as
- v4l2 controls
-To:     Eugen.Hristev@microchip.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <1574157784-6505-1-git-send-email-eugen.hristev@microchip.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <738cd3a2-f221-c6b9-b500-630c66f1ce6b@xs4all.nl>
-Date:   Thu, 12 Dec 2019 11:24:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 12 Dec 2019 05:34:14 -0500
+Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
+        by plasma.jpberlin.de (Postfix) with ESMTP id B439A100F19;
+        Thu, 12 Dec 2019 11:34:06 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.76])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id cIDOSnfqyqFI; Thu, 12 Dec 2019 11:34:02 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 463CA10077C;
+        Thu, 12 Dec 2019 11:34:01 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
+ (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 12 Dec
+ 2019 11:33:53 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+CC:     Enrico Granata <egranata@google.com>,
+        Changyeon Jo <changyeon@google.com>,
+        <virtio-dev@lists.oasis-open.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        "Tomasz Figa" <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
+Date:   Thu, 12 Dec 2019 11:34:00 +0100
+Message-ID: <1862141.aebO5lr7J1@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAD90VcbnUtJ5sG4R6P9iPOE7QWXbBsRYHrR80+XJcN+_O3nghQ@mail.gmail.com>
+References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com> <2278645.2VI2HTiyL8@os-lin-dmo> <CAD90VcbnUtJ5sG4R6P9iPOE7QWXbBsRYHrR80+XJcN+_O3nghQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1574157784-6505-1-git-send-email-eugen.hristev@microchip.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFFOp/7uh4osBacccShPvaSKPtr2ykypnBjBXeSmYJAkZbghO8P1yvYY9KNyk2L+5Ua0CD47TacpeGmJ0yV3tuJYfNKVn+ylQfXLD0wiTP6gmJfv0dKm
- W3il8bljRRLhV+rQJsZpDgj7/2qZQLfTEP0gDhpAcSuS+dqdaj63dUO2dbshBiPNP9SR+hnqOur5t++mb5L/zoxvsskRHpjwgzid2ntYpl5aQjHwpMwdiLmz
- rYwk8VBvMg6DPMjWXLsbRgZnByAeV68RTkdifey/LFAhHfmDB8qbl52HqGx1DREEExWTKX82IJqmxS8WGF7uHfqn4A0kJ5tRiLrM78EDVa0+qQ+twl+rwZwd
- rmvlI5/9NML1GMT8FGvdMV5n5d76iuO6WVqhelD3zVQ4zZdTvEbZI2W4p2Gqjk0LqbKaGZaK
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/19/19 11:03 AM, Eugen.Hristev@microchip.com wrote:
-> From: Eugen Hristev <eugen.hristev@microchip.com>
-> 
-> This exposes the white balance configuration of the ISC as v4l2 controls
-> into userspace.
-> There are 8 controls available:
-> 4 gain controls , sliders, for each of the BAYER components: R, B, GR, GB.
-> These gains are multipliers for each component, in format unsigned 0:4:9 with
-> a default value of 512 (1.0 multiplier).
-> 4 offset controls, sliders, for each of the BAYER components: R, B, GR, GB.
-> These offsets are added/substracted from each component, in format signed
-> 1:12:0 with a default value of 0 (+/- 0)
-> 
-> To expose this to userspace, added 8 custom controls, in an auto cluster.
-> 
-> To summarize the functionality:
-> The auto cluster switch is the auto white balance control, and it works
-> like this:
-> AWB ==1 : autowhitebalance is on, the do_white_balance button is inactive,
-> the gains/offsets are inactive, but volatile and readable.
-> Thus, the results of the whitebalance algorithm are available to userspace to
-> read at any time.
-> AWB ==0: autowhitebalance is off, cluster is in manual mode, user can configure
-> the gain/offsets directly. More than that, if the do_white_balance button is
-> pressed, the driver will perform one-time-adjustment, (preferably with color
-> checker card) and the userspace can read again the new values.
-> 
-> With this feature, the userspace can save the coefficients and reinstall them
-> for example after reboot or reprobing the driver.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
+Hi Keiichi,
 
-<snip>
-
-> diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/media/platform/atmel/atmel-isc.h
-> index bfaed2f..23adb4e 100644
-> --- a/drivers/media/platform/atmel/atmel-isc.h
-> +++ b/drivers/media/platform/atmel/atmel-isc.h
-> @@ -213,7 +213,6 @@ struct isc_device {
->  	struct fmt_config	try_config;
->  
->  	struct isc_ctrls	ctrls;
-> -	struct v4l2_ctrl	*do_wb_ctrl;
->  	struct work_struct	awb_work;
->  
->  	struct mutex		lock; /* serialize access to file operations */
-> @@ -223,6 +222,28 @@ struct isc_device {
->  
->  	struct isc_subdev_entity	*current_subdev;
->  	struct list_head		subdev_entities;
-> +
-> +	struct {
-> +#define ISC_CTRL_DO_WB 1
-> +#define ISC_CTRL_R_BAL 2
-> +#define ISC_CTRL_B_BAL 3
-> +#define ISC_CTRL_GR_BAL 4
-> +#define ISC_CTRL_GB_BAL 5
-> +#define ISC_CTRL_R_OFF 6
-> +#define ISC_CTRL_B_OFF 7
-> +#define ISC_CTRL_GR_OFF 8
-> +#define ISC_CTRL_GB_OFF 9
-> +		struct v4l2_ctrl	*awb_ctrl;
-> +		struct v4l2_ctrl	*do_wb_ctrl;
-> +		struct v4l2_ctrl	*r_bal_ctrl;
-> +		struct v4l2_ctrl	*b_bal_ctrl;
-> +		struct v4l2_ctrl	*gr_bal_ctrl;
-> +		struct v4l2_ctrl	*gb_bal_ctrl;
-> +		struct v4l2_ctrl	*r_off_ctrl;
-> +		struct v4l2_ctrl	*b_off_ctrl;
-> +		struct v4l2_ctrl	*gr_off_ctrl;
-> +		struct v4l2_ctrl	*gb_off_ctrl;
-> +	};
->  };
->  
->  #define GAMMA_MAX	2
-> @@ -242,4 +263,13 @@ int isc_clk_init(struct isc_device *isc);
->  void isc_subdev_cleanup(struct isc_device *isc);
->  void isc_clk_cleanup(struct isc_device *isc);
->  
-> +#define ISC_CID_R_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1000)
-> +#define ISC_CID_B_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1001)
-> +#define ISC_CID_GR_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1002)
-> +#define ISC_CID_GB_BAL			(V4L2_CID_CAMERA_CLASS_BASE + 1003)
-> +#define ISC_CID_R_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1004)
-> +#define ISC_CID_B_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1005)
-> +#define ISC_CID_GR_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1006)
-> +#define ISC_CID_GB_OFFSET		(V4L2_CID_CAMERA_CLASS_BASE + 1007)
-
-1) You need to document what these controls actually do in this header.
-
-2) You need to claim a range for these controls in v4l2-controls.h.
-   Search for "The base for" in that header to see how it is done.
-   Currently private controls are all for USER_BASE. I think that should
-   be done here as well since these controls all relate to the white balance
-   control. In fact, control clusters whose controls are in different control
-   classes are a bit weird.
+Thank you for your comment.
+What do you thing about selection/crop rectangles? Should this be defined as a 
+must have? Or we just assume the device always sticks to the stream 
+resolution.
 
 Regards,
+Dmitry.
 
-	Hans
-
-> +
->  #endif
+On Donnerstag, 12. Dezember 2019 06:39:11 CET Keiichi Watanabe wrote:
+> On Tue, Dec 10, 2019 at 10:16 PM Dmitry Sepp
 > 
+> <dmitry.sepp@opensynergy.com> wrote:
+> > Hi,
+> > 
+> > Just to start, let's consider this v4l2 control:
+> > V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE.
+> > As I can see, this control is referenced as a mandatory one in the
+> > Chromium
+> > sources [1].
+> > 
+> > So could someone from the Chromium team please explain why it is
+> > mandatory?
+> > (YouTube?) In fact, almost no encoders implement this control. Do we need
+> > it in virtio-video?
+> 
+> That control is used to encode videos in constant bitrate (CBR) mode,
+> which is critical for
+> real-time use case like video conferencing.
+> 
+> However, that Chromium source code just requires *host-side* drivers
+> to have the v4l2
+> control. Also, I guess it's rare that a guest app wants to use CQP
+> instead of CBR from our
+> experience.
+> So, I suppose we can omit this control in virtio spec for now by
+> assuming that guests
+> always use CBR mode.
+> 
+> Best regards,
+> Keiichi
+> 
+> > [1]
+> > https://chromium.googlesource.com/chromium/src/media/+/refs/heads/master/
+> > gpu/v4l2/v4l2_video_encode_accelerator.cc#1500
+> > 
+> > Regards,
+> > Dmitry.
+> > 
+> > On Montag, 9. Dezember 2019 22:12:28 CET Enrico Granata wrote:
+> > > +Changyeon Jo <changyeon@google.com> for his awareness
+> > > 
+> > > Thanks,
+> > > - Enrico
+> > > 
+> > > 
+> > > On Mon, Dec 9, 2019 at 6:20 AM Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> > > 
+> > > wrote:
+> > > > Hello,
+> > > > 
+> > > > I'd like to invite everyone to share ideas regarding required encoder
+> > > > features
+> > > > in this separate sub-tree.
+> > > > 
+> > > > In general, encoder devices are more complex compared to decoders. So
+> > > > the
+> > > > question I'd like to rise is in what way we define the minimal subset
+> > > > of
+> > > > features to be implemented by the virtio-video.
+> > > > 
+> > > > We may look at the following to define the set of features:
+> > > > 1. USB video, 2.3.6 Encoding Unit [1].
+> > > > 2. Android 10 Compatibility Definition [2].
+> > > > 
+> > > > Would be nice to hear about any specific requirements from the
+> > > > Chromium
+> > > > team as
+> > > > well.
+> > > > 
+> > > > [1] https://www.usb.org/sites/default/files/USB_Video_Class_1_5.zip
+> > > > [2]
+> > > > https://source.android.com/compatibility/android-cdd#5_2_video_encodin
+> > > > g
+> > > > 
+> > > > Thank you.
+> > > > 
+> > > > Best regards,
+> > > > Dmitry.
+> > > > 
+> > > > On Mittwoch, 4. Dezember 2019 10:16:20 CET Gerd Hoffmann wrote:
+> > > > >   Hi,
+> > > > >   
+> > > > > > 1. Focus on only decoder/encoder functionalities first.
+> > > > > > 
+> > > > > > As Tomasz said earlier in this thread, it'd be too complicated to
+> > > > 
+> > > > support
+> > > > 
+> > > > > > camera usage at the same time. So, I'd suggest to make it just a
+> > > > 
+> > > > generic
+> > > > 
+> > > > > > mem-to-mem video processing device protocol for now.
+> > > > > > If we finally decide to support camera in this protocol, we can
+> > > > > > add it
+> > > > > > later.
+> > > > > 
+> > > > > Agree.
+> > > > > 
+> > > > > > 2. Only one feature bit can be specified for one device.
+> > > > > > 
+> > > > > > I'd like to have a decoder device and encoder device separately.
+> > > > > > It'd be natural to assume it because a decoder and an encoder are
+> > > > 
+> > > > provided
+> > > > 
+> > > > > > as different hardware.
+> > > > > 
+> > > > > Hmm, modern GPUs support both encoding and decoding ...
+> > > > > 
+> > > > > I don't think we should bake that restriction into the
+> > > > > specification.
+> > > > > It probably makes sense to use one virtqueue per function though,
+> > > > > that
+> > > > > will simplify dispatching in both host and guest.
+> > > > > 
+> > > > > > 3. Separate buffer allocation functionalities from virtio-video
+> > > > 
+> > > > protocol.
+> > > > 
+> > > > > > To support various ways of guest/host buffer sharing, we might
+> > > > > > want to
+> > > > > > have a dedicated buffer sharing device as we're discussing in
+> > > > > > another
+> > > > > > thread. Until we reach consensus there, it'd be good not to have
+> > > > > > buffer
+> > > > > > allocation
+> > > > > > functionalities in virtio-video.
+> > > > > 
+> > > > > I think virtio-video should be able to work as stand-alone device,
+> > > > > so we need some way to allocate buffers ...
+> > > > > 
+> > > > > Buffer sharing with other devices can be added later.
+> > > > > 
+> > > > > > > +The virtio video device is a virtual video streaming device
+> > > > > > > that
+> > > > > > > supports the +following functions: encoder, decoder, capture,
+> > > > > > > output.
+> > > > > > > +
+> > > > > > > +\subsection{Device ID}\label{sec:Device Types / Video Device /
+> > > > 
+> > > > Device
+> > > > 
+> > > > > > > ID}
+> > > > > > > +
+> > > > > > > +TBD.
+> > > > > > 
+> > > > > > I'm wondering how and when we can determine and reserve this ID?
+> > > > > 
+> > > > > Grab the next free, update the spec accordingly, submit the one-line
+> > > > > patch.
+> > > > > 
+> > > > > > > +\begin{lstlisting}
+> > > > > > > +enum virtio_video_pixel_format {
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_UNDEFINED = 0,
+> > > > > > > +
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_H264 = 0x0100,
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV12,
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV21,
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I420,
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I422,
+> > > > > > > +       VIRTIO_VIDEO_PIX_FMT_XBGR,
+> > > > > > > +};
+> > > > > > 
+> > > > > > I'm wondering if we can use FOURCC instead. So, we can avoid
+> > > > 
+> > > > reinventing a
+> > > > 
+> > > > > > mapping from formats to integers.
+> > > > > > Also, I suppose the word "pixel formats" means only raw (decoded)
+> > > > 
+> > > > formats.
+> > > > 
+> > > > > > But, it can be encoded format like H.264. So, I guess "image
+> > > > > > format"
+> > > > > > or
+> > > > > > "fourcc" is a better word choice.
+> > > > > 
+> > > > > Use separate pixel_format (fourcc) and stream_format (H.264 etc.)
+> > > > > enums?
+> > > > > 
+> > > > > > > +\begin{lstlisting}
+> > > > > > > +struct virtio_video_function {
+> > > > > > > +       struct virtio_video_desc desc;
+> > > > > > > +       __le32 function_type; /* One of VIRTIO_VIDEO_FUNC_*
+> > > > > > > types */
+> > > > > > > +       __le32 function_id;
+> > > > > > > +       struct virtio_video_params in_params;
+> > > > > > > +       struct virtio_video_params out_params;
+> > > > > > > +       __le32 num_caps;
+> > > > > > > +       __u8 padding[4];
+> > > > > > > +       /* Followed by struct virtio_video_capability
+> > > > > > > video_caps[];
+> > > > 
+> > > > */
+> > > > 
+> > > > > > > +};
+> > > > > > > +\end{lstlisting}
+> > > > > > 
+> > > > > > If one device only has one functionality, virtio_video_function's
+> > > > 
+> > > > fields
+> > > > 
+> > > > > > will be no longer needed except in_params and out_params. So, we'd
+> > > > > > be
+> > > > > > able to remove virtio_video_function and have in_params and
+> > > > > > out_params
+> > > > 
+> > > > in
+> > > > 
+> > > > > > virtio_video_capability instead.
+> > > > > 
+> > > > > Same goes for per-function virtqueues (used virtqueue implies
+> > > > > function).
+> > > > > 
+> > > > > > > +\begin{lstlisting}
+> > > > > > > +struct virtio_video_resource_detach_backing {
+> > > > > > > +       struct virtio_video_ctrl_hdr hdr;
+> > > > > > > +       __le32 resource_id;
+> > > > > > > +       __u8 padding[4];
+> > > > > > > +};
+> > > > > > > +\end{lstlisting}
+> > > > > > > +
+> > > > > > > +\begin{description}
+> > > > > > > +\item[\field{resource_id}] internal id of the resource.
+> > > > > > > +\end{description}
+> > > > > > 
+> > > > > > I suppose that it'd be better not to have the above series of
+> > > > 
+> > > > T_RESOURCE
+> > > > 
+> > > > > > controls at least until we reach a conclusion in the thread of
+> > > > > > buffer-sharing device. If we end up concluding this type of
+> > > > > > controls
+> > > > > > is
+> > > > > > the best way, we'll be able to revisit here.
+> > > > > 
+> > > > > Well.  For buffer management there are a bunch of options.
+> > > > > 
+> > > > >  (1) Simply stick the buffers (well, pointers to the buffer pages)
+> > > > >  into
+> > > > >  
+> > > > >      the virtqueue.  This is the standard virtio way.
+> > > > >  
+> > > > >  (2) Create resources, then put the resource ids into the virtqueue.
+> > > > >  
+> > > > >      virtio-gpu uses that model.  First, because virtio-gpu needs an
+> > > > >      id
+> > > > >      to reference resources in the rendering command stream
+> > > > >      (virtio-video doesn't need this).  Also because (some kinds of)
+> > > > >      resources are around for a long time and the guest-physical ->
+> > > > >      host-virtual mapping needs to be done only once that way (which
+> > > > >      I think would be the case for virtio-video too because v4l2
+> > > > >      re-uses buffers in robin-round fashion).  Drawback is this
+> > > > >      assumes shared memory between host and guest (which is the case
+> > > > >      in typical use cases but it is not mandated by the virtio
+> > > > >      spec).
+> > > > >  
+> > > > >  (3) Import external resources (from virtio-gpu for example).
+> > > > >  
+> > > > >      Out of scope for now, will probably added as optional feature
+> > > > >      later.
+> > > > > 
+> > > > > I guess long-term we want support either (1)+(3) or (2)+(3).
+> > > > > 
+> > > > > cheers,
+> > > > > 
+> > > > >   Gerd
+> > > > 
+> > > > ---------------------------------------------------------------------
+> > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+
 
