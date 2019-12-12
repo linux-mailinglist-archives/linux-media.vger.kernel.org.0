@@ -2,116 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F18E11CC49
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 12:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ED1611CC69
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 12:40:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729020AbfLLLeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 06:34:05 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54363 "EHLO
+        id S1729028AbfLLLko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 06:40:44 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50919 "EHLO
         lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729014AbfLLLeF (ORCPT
+        by vger.kernel.org with ESMTP id S1728920AbfLLLkn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 06:34:05 -0500
+        Thu, 12 Dec 2019 06:40:43 -0500
 Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
  ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id fMjIiZATUGyJwfMjJixvan; Thu, 12 Dec 2019 12:34:02 +0100
+        id fMpkiZCNqGyJwfMplixwud; Thu, 12 Dec 2019 12:40:41 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576150442; bh=OKCpeFi5DoqJE6NWtMpQWIWKvSSGpGz8TupfDamuRC0=;
+        t=1576150841; bh=TgBSkF7ZsEf0UN7XS+XfNv5acIUvAzZgjyw1JptP8uU=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=QQm1tvnXMaB8eQETcibkZHG7cfU5QXrNBF/Q0VRxwwq8FBPNFHPt+dbW1AL0ycKoB
-         +zdJ4rnY7wYgb3lk4KIBiMaCnIWwvC98bay09Gsldwar8O0UbaB6Iyn5noITuYjs8h
-         lnsC9fT7v8MP9QDCvDthuXoT0+SJlHHPUfWwxk+qQFBi+K6oAoM06f/wy0LSBoAeLk
-         CqJqA7JNziaiXfN4hB7wL0ZvefHZeK8HiTSt3gfGXXSwDDQ3WrXbdxRRK84fPx/eSD
-         yQYEs3E4lX4SdN8otglq5jvNvNxsqSY+1Cw0bghqACVNtwDz5K9sy+FLDMxxyNn2OU
-         GMZfvnqogyfGQ==
-Subject: Re: [PATCH] media: imx7-mipi-csis: Add the missed
- v4l2_async_notifier_cleanup in remove
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Chuhong Yuan <hslester96@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
+        b=ZKMtI6g6xnxieVz6jwQU9Gp6ZUKi2K61PA3KeaNfLcF4iUc4C7oIj8dpQLpxeQhYk
+         o6y5eRCc3EQjBvACwpLq6suwPfYADtUBjHGCYUBkFyoJaQS9USbRB6tdO0w2Kmj+vn
+         PEa8DbKlf6w6Y6agGQUxLN0bM2PGJWoQxln7h50mOQc9G6J/0Cc0/KXjC6xWtscLLa
+         /ILUuWJUMXtdiJPMMQA59bcG+4NtD/bbZd5fLES9IVthHwYyY3s/b+0Fgr+72nZgu9
+         8cF91xBXB70ptLtq3D9vbDJs0OfEAG5wghA4z7j+/u4rssk20ast/QTM8qD3KvexB+
+         TqjD3hIwYLl1A==
+Subject: Re: [PATCH v2] media: allegro: add the missed check for
+ v4l2_m2m_ctx_init
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     Michael Tretter <m.tretter@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20191209085828.16183-1-hslester96@gmail.com>
- <20191211105908.dw4lnuble3ejlnil@arch-thunder.localdomain>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5013c486-3713-6e40-49a1-2fe452ba254f@xs4all.nl>
-Date:   Thu, 12 Dec 2019 12:34:00 +0100
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
+References: <20191210031532.18603-1-hslester96@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <e07fe842-4a2b-30da-c7e0-91401d7ba531@xs4all.nl>
+Date:   Thu, 12 Dec 2019 12:40:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191211105908.dw4lnuble3ejlnil@arch-thunder.localdomain>
+In-Reply-To: <20191210031532.18603-1-hslester96@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKETIfBTI/Tow7zgY3i+e6lZwyq1XB1sOoDGL8WE5K6A7cM4MbKL9xtk6FSy+6hw3TL/fvtm1yzilRaba0DZeD7w7P4Kc3Zs1u1f2esQgam74drqWtoK
- KiuoQjq2rRiEH8UYJ54YWrx/9ExmJC/5pkAOY2pfs7sKtEvOKUsTQpvI1QF4QPf9fkGRvvLogtojkUxleao9rKMmO1lbK0O2JHpyTAEDBGWh12vzRsstU8YV
- azp2JXso9caELQQRsQYLVUa39eRzOR060Tzucn4GWvPTPhWdewD7IkSzB21EHyPyxRlWh2SwqtL5ZzKlonq/+XyUs/UUvbbCBl6P/n26Dt51PRL6kd76U16L
- OgwaEtNoijOrKalJdxgfFNZed9tWyeRWC/UwFnIwwvo5t++uaNSjgOF77f4+HP2DwivU+1Nc4Ge7mP+DTHHReA8cX7CwKOAu64tAQnRP10VY63mGitE1MuDK
- Ug7OJrn/4AaDINufittAK/Nf+trKMTrGkeqbX5sAAnDycM1u7p8jqT87DrSbV/Z8Zf5FfqpFxHLQotMFGLL5fdJ58WP6tfKFsQcXJ9gcMDy/s6wUDQH5J93h
- bNinzyLZUbqSYJ9aXSUcxM4a3LY1RATlOkQuHt5o5cAPW9XWxN7PGzh0vEa/eV325orLMRjZaylWOYBQ4S9iEPsRJ8rxmV8/3tXIFQIDJTFCtgUHyvDXWu9A
- FclNahOMPGQ=
+X-CMAE-Envelope: MS4wfCzJ1/HiYYZqfIq8DK2wwHyEitGyv7CU4DnbyAW8a66qOTStaRDiDQpdt3Q7ifJ8VxrYEqEWArtS7AUJOv7bdDkOFyvkr7dI+BsdniNBFKMft9Ftq1lu
+ KY9/o4eq/CIO46UIreir/mpyj1DXawibsGgD2dhF6uAgfClMnqClfMoW85WDf9qpcavFwSpYZ195kR4P5RZlPEZUYo6hPbXVr0hvjE6J0a4DuE7Q4PATukcE
+ sOWpAIXxeSwhpPjRSaYJg1E9FCA/eisSzprRAq2HUiZ1tOOoetqbgyAAvJOOh/EFUZcbo9/zFbSjyaYpqrOAkPoXzYo6VKOrGacJFFdDFPcAVr3OHt/Pln5D
+ wJ19alNnWOWGXLaPowHtuCmUI31e+T5ttJ4br36/oRgsL2qBNeysiNIWkH9/GnFXnsSHSkn2hm1Zl+w4O+P1/eUcZrvDGF4aJAf4EUhxoFh82xSwYbxJW1fS
+ vKFtusIJMkb6afMgvFsK7zJwcTdcQ08nq4fvIg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Steve, Philipp,
+On 12/10/19 4:15 AM, Chuhong Yuan wrote:
+> allegro_open() misses a check for v4l2_m2m_ctx_init().
+> Add a check and error handling code to fix it.
+> 
+> Fixes: f20387dfd065 ("media: allegro: add Allegro DVT video IP core driver")
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> ---
+> Changes in v2:
+>   - Fix the use-after-free in v1.
+> 
+>  drivers/staging/media/allegro-dvt/allegro-core.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
+> index 6f0cd0784786..66736beb67af 100644
+> --- a/drivers/staging/media/allegro-dvt/allegro-core.c
+> +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
+> @@ -2270,6 +2270,7 @@ static int allegro_open(struct file *file)
+>  	struct allegro_channel *channel = NULL;
+>  	struct v4l2_ctrl_handler *handler;
+>  	u64 mask;
+> +	int ret;
+>  
+>  	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+>  	if (!channel)
+> @@ -2341,6 +2342,14 @@ static int allegro_open(struct file *file)
+>  	channel->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, channel,
+>  						allegro_queue_init);
+>  
+> +	if (IS_ERR(channel->fh.m2m_ctx)) {
+> +		ret = PTR_ERR(channel->fh.m2m_ctx);
+> +		v4l2_fh_del(&channel->fh);
+> +		v4l2_fh_exit(&channel->fh);
 
-I'd like one (or both) of you to look over this first.
+Just move the v4l2_fh_init/add calls to just before the return 0, i.e. when everything
+is right. Then you don't need to call del/exit on error.
 
-It looks as if the subdev_notifier field of struct csi_state is never used,
-except by the existing v4l2_async_notifier_unregister() call.
+Also, I see that the result of all the v4l2_ctrl_new* calls isn't checked.
 
-If I am right, then the real issue is that that field should be removed.
+Just after the last v4l2_ctrl_new_std() call you need to check handler->error:
+if not 0, then there was an error and you need to call v4l2_ctrl_handler_free
+to clean it up.
 
 Regards,
 
 	Hans
 
-
-On 12/11/19 11:59 AM, Rui Miguel Silva wrote:
-> Hi Chuhong,
-> Thanks for the patch.
+> +		kfree(channel);
+> +		return ret;
+> +	}
+> +
+>  	return 0;
+>  }
+>  
 > 
-> On Mon, Dec 09, 2019 at 04:58:28PM +0800, Chuhong Yuan wrote:
->> All drivers in imx call v4l2_async_notifier_cleanup() after unregistering
->> the notifier except this driver.
->> This should be a miss and we need to add the call to fix it.
->>
->> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> 
-> Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> 
-> ------
-> Cheers,
->      Rui
->> ---
->>  drivers/staging/media/imx/imx7-mipi-csis.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
->> index 99166afca071..2bfa85bb84e7 100644
->> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
->> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
->> @@ -1105,6 +1105,7 @@ static int mipi_csis_remove(struct platform_device *pdev)
->>  	mipi_csis_debugfs_exit(state);
->>  	v4l2_async_unregister_subdev(&state->mipi_sd);
->>  	v4l2_async_notifier_unregister(&state->subdev_notifier);
->> +	v4l2_async_notifier_cleanup(&state->subdev_notifier);
->>  
->>  	pm_runtime_disable(&pdev->dev);
->>  	mipi_csis_pm_suspend(&pdev->dev, true);
->> -- 
->> 2.24.0
->>
 
