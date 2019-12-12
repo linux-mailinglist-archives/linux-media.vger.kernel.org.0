@@ -2,94 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A68211CD63
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 13:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F18F111CD96
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 13:54:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729157AbfLLMnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 07:43:53 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:47743 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729092AbfLLMnx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 07:43:53 -0500
-Received: from [IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65]
- ([IPv6:2001:983:e9a7:1:1c4a:480a:7ba1:9c65])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id fNoqiZWGlGyJwfNosiyAKz; Thu, 12 Dec 2019 13:43:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576154630; bh=M8q42La2aoIo3d0AV49CaAjrlZO1k0y0IFPGZdp7R14=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=X0oCmUXP9+S7pIl05v5s+RkVjrurZ2mr3Kgfi3AgMefOiq5sH6IAWpB83PBqbgQwc
-         mcS+4pyy3LgHohmvjXcOxyC6EDtBOjpocWP5eVUx2hFGMTyX/+eZqZuFo4NyE2Cm53
-         Rg1ADVjLmpGvUQQTrcVI1ZBc/GU335Itkd6ZhVmIc06jmdYaodZENBY/q/xOOsJW4W
-         QDA4cvIxzJscFOX/cUjyj5+PqNjzBAhYjBJaGNA7+8EzVnBiwD8paCfwQF8TxSx5uU
-         vX3ZEg9lkjVueQWxQyGtdPjH2uJbZ5nmVBTfFg1qrtfHNHv4MZX6qHbcPSs28tYtew
-         JwgdOGNFdomGw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Takashi Iwai <tiwai@suse.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.6] ALSA PCM API updates
-Message-ID: <babeeeca-d646-d313-ee47-e8b7f2caa57d@xs4all.nl>
-Date:   Thu, 12 Dec 2019 13:43:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1729318AbfLLMyX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 07:54:23 -0500
+Received: from mail2.skidata.com ([91.230.2.91]:20914 "EHLO mail2.skidata.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729257AbfLLMyW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Dec 2019 07:54:22 -0500
+X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Dec 2019 07:54:22 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+  t=1576155262; x=1607691262;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=CeP9xLEzQPGjS8P8hHC5BLd1UCEi49a28dXbvXBRo7E=;
+  b=pdD1qBIIV2Zs3tDVUrSv4Vv5dZ/iB6IEjkkqR14oBfjCVY5wuw17jrgR
+   V3z26clUN7WE4lq1eN1cepTx3rZYhyUywaKqekVN8e0dwUub60K1Jd1VE
+   FhfgOh50OWH+l3aP47vC6tnsGkwkKvDqKx5mXZdxASktCL3F4xX14+9bP
+   kdyGrgUod5hdaiILgFiW3TeShCFJty4+vsPcHvAg5QFAH1PJE2hV304+q
+   z1Kzn4fWOo7iipwruemY+WRHA2ebA31/XqDrgq3hmwiECKYmkvatq/gzm
+   n1D6Ry8WpVGRTN+PZ0TYXHp0KZARs9/XCoyodZISMDqtNnSf7VljBwGTw
+   A==;
+IronPort-SDR: YyL4FbLM+gVa4IrkZzSI5Tk3BVDyDdd8ufvjXFieYwOtZLUmNylagJgWqdUsyULahBYBN5G3uP
+ hdBBODqqZdnaNrnFmtziQU3x+7kHFZOthY6P3tw5przT2spglkJ7GcVvKC3Fi1Uv8GK87Jf7Lm
+ F71VbemB314ZTzX99/XC8itDkE2ei3Gk6fxTMQt/ma67gyFqSsQRUlvg1il4T2DW2sjb5f6lIi
+ 16Z2kvXw9W+j2rXoTfJTdOKCCxHGbDg1uwn6GojRMtOLwhd0PkCcAkJgsWCpnUUYIqiAhRoFRc
+ UCM=
+X-IronPort-AV: E=Sophos;i="5.69,305,1571695200"; 
+   d="scan'208";a="2458609"
+Subject: Re: [PATCH 4/4] media: coda: jpeg: add CODA960 JPEG encoder support
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        <linux-media@vger.kernel.org>
+CC:     <kernel@pengutronix.de>
+References: <20191113125824.19547-1-p.zabel@pengutronix.de>
+ <20191113125824.19547-4-p.zabel@pengutronix.de>
+From:   Richard Leitner <richard.leitner@skidata.com>
+Message-ID: <b65a18e8-c66f-8e6c-71a5-6c025297e283@skidata.com>
+Date:   Thu, 12 Dec 2019 13:47:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191113125824.19547-4-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAm34ayAFPWxyvqp1K4tDn/TbRASPzJsiHmiU0TtD1ZbOTyFCLDpiD10VZHq/baJH8X3H2wWOpIj7KgfU6A+qau1J97C2m/ZHfrnN4HF3H5+20ECYQoK
- 43ur/4jtbRRYMe0EMumMnuxDOIQ0FvcjJT2ulbVNotnZyb3EbHVSJgwuueuNm/T9dO+dhdeix+VlUcG+Wx9XS6aDZX4Do8FSfhkny+zdsU4qULZWKxOlkcDw
- alpeyGqDyxXz6VX7wEp8vTVxVL+/3LEGRQrAuyFSUWI67iZuNN8pt319uzbE2dMu
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex3srv.skidata.net (192.168.111.81) To
+ sdex5srv.skidata.net (192.168.111.83)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 2099ef02c6c024751e4d16ace67dd6b910c875e4:
+Hi Philipp,
+thank you very much for this series!
 
-  media: dt-bindings: media: cal: convert binding to yaml (2019-12-09 11:43:47 +0100)
+On 13/11/2019 13:58, Philipp Zabel wrote:
+> This patch adds JPEG encoding support for CODA960, handling the JPEG
+> hardware directly. A separate JPEG encoder video device is created due
+> to the separate hardware unit and different supported pixel formats.
+> While the hardware can not change subsampling on the fly, it can encode
+> 4:2:2 subsampled images into JPEGs of the same subsampling.
+> 
+> There are two additional tracepoints added to the coda driver that can
+> be used together with the v4l2:v4l2_qbuf and v4l2:v4l2_dqbuf tracepoints
+> to to follow video frames through the mem2mem device when encoding or
+> decoding with the CODA960 JPEG codec:
+>      coda:coda_jpeg_run
+>      coda:coda_jpeg_done
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> ---
+>   drivers/media/platform/coda/coda-common.c |  41 +-
+>   drivers/media/platform/coda/coda-jpeg.c   | 685 ++++++++++++++++++++++
+>   drivers/media/platform/coda/coda.h        |   2 +
+>   drivers/media/platform/coda/trace.h       |  10 +
+>   4 files changed, 736 insertions(+), 2 deletions(-)
+> 
 
-are available in the Git repository at:
+I've successfully tested this series for 1920x1080 30fps MJPEG encoding 
+on top of the 5.4.2 kernel with custom i.MX6DL and i.MX6Q boards.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.6c
+Therefore feel free to add:
 
-for you to fetch changes up to c8c450ba4381186a302417e2e9e6284b86d2a8a3:
+Tested-by: Richard Leitner <richard.leitner@skidata.com>
 
-  media: Drop superfluous ioctl PCM ops (2019-12-12 13:28:47 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Takashi Iwai (14):
-      media: solo6x10: Use managed buffer allocation
-      media: tw686x: Use managed buffer allocation
-      media: usbtv: Use managed buffer allocation
-      media: cobalt: Clean up ALSA PCM API usages
-      media: cx18: Clean up ALSA PCM API usages
-      media: ivtv: Clean up ALSA PCM API usages
-      media: cs231xx: Clean up ALSA PCM API usages
-      media: em28xx: Clean up ALSA PCM API usages
-      media: go7007: Clean up ALSA PCM API usages
-      media: tm6000: Clean up ALSA PCM API usages
-      media: cobalt: Drop superfluous ioctl PCM ops
-      media: cx18: Drop superfluous ioctl PCM ops
-      media: ivtv: Drop superfluous ioctl PCM ops
-      media: Drop superfluous ioctl PCM ops
-
- drivers/media/pci/cobalt/cobalt-alsa-pcm.c | 69 +++---------------------------------------------
- drivers/media/pci/cx18/cx18-alsa-pcm.c     | 75 +---------------------------------------------------
- drivers/media/pci/cx23885/cx23885-alsa.c   |  1 -
- drivers/media/pci/cx25821/cx25821-alsa.c   |  1 -
- drivers/media/pci/cx88/cx88-alsa.c         |  1 -
- drivers/media/pci/ivtv/ivtv-alsa-pcm.c     | 76 +----------------------------------------------------
- drivers/media/pci/saa7134/saa7134-alsa.c   |  1 -
- drivers/media/pci/solo6x10/solo6x10-g723.c | 24 ++++-------------
- drivers/media/pci/tw686x/tw686x-audio.c    | 16 +-----------
- drivers/media/usb/cx231xx/cx231xx-audio.c  | 79 +------------------------------------------------------
- drivers/media/usb/em28xx/em28xx-audio.c    | 87 +------------------------------------------------------------
- drivers/media/usb/go7007/snd-go7007.c      | 25 +++---------------
- drivers/media/usb/tm6000/tm6000-alsa.c     | 82 +--------------------------------------------------------
- drivers/media/usb/usbtv/usbtv-audio.c      | 29 +--------------------
- 14 files changed, 19 insertions(+), 547 deletions(-)
+regards;richard.l
