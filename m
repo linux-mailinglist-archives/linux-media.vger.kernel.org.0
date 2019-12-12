@@ -2,118 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C35411C671
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 08:35:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63C5911C6A0
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 08:47:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbfLLHdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 02:33:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57830 "EHLO mail.kernel.org"
+        id S1728101AbfLLHr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 02:47:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33368 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728072AbfLLHdK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 02:33:10 -0500
+        id S1728095AbfLLHr0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Dec 2019 02:47:26 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5FBB524656;
-        Thu, 12 Dec 2019 07:33:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A7F9206A5;
+        Thu, 12 Dec 2019 07:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576135989;
-        bh=p12HIynD9FdwHF+0wBqafDSonAXyb1SgrBSwbjgba2k=;
+        s=default; t=1576136845;
+        bh=I29U8J8RgiIJjcxRn+HIm+YV7gF7OtQva/1a1ME1kZ0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WeeJAVaKEcQ79OCKF1uE2gMatc9ftJQESVzr7N51pSimXsoOUrl+5gATZmvX59JKi
-         e14oruK9gl4gVqy/j2zvltEVVeU/XBJbTzg5wOGRtmQMAUbSymS0KQNYmcFDydfEAm
-         TbL+eYw0/M27oW6kYE5GQ0TenwSb9MxC6751v7UE=
-Date:   Thu, 12 Dec 2019 08:33:06 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-Message-ID: <20191212073306.GB1364286@kroah.com>
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
- <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
- <20191211175811.GC4863@pendragon.ideasonboard.com>
- <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
+        b=vi5k8+ZvG9NudpSuZAaQlggCh8I6PEbHS72qhMSDHBtOotnpxZmaZ2OWag/K8l2cQ
+         k+r4XtG5NpxThsKA6oaa1hL4EFXKL5SBN6LFd/EReMcJMIkg4yH6Tg6yfqSQ9jy0yk
+         a7hbfxbwNVpl3fU90Rd0dYhxKIv74L3JsEbkAt3w=
+Date:   Thu, 12 Dec 2019 08:47:23 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Zhiqiang Liu <liuzhiqiang26@huawei.com>
+Cc:     tglx@linutronix.de, crope@iki.fi, linux-media@vger.kernel.org,
+        rfontana@redhat.com, erik.andren@gmail.com, hverkuil@xs4all.nl,
+        brijohn@gmail.com, lcostantino@gmail.com, suweifeng1@huawei.com,
+        Mingfangsen <mingfangsen@huawei.com>, guiyao@huawei.com
+Subject: Re: [PATCH] media: usb/cpia2: fix start_offset+size Integer Overflow
+ in, cpia2_remap_buffer
+Message-ID: <20191212074723.GC1368279@kroah.com>
+References: <83ed0748-634d-4146-d216-53681bc3b553@huawei.com>
+ <20191211075745.GA403571@kroah.com>
+ <adcdd513-0d94-be6c-96e3-7f8e30174b76@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
+In-Reply-To: <adcdd513-0d94-be6c-96e3-7f8e30174b76@huawei.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
-> Hi Laurent,
-> 
-> +Greg, +Sasha to opine on the merit of whether this should go to stable
-> trees (for my future learning and understanding more so than this
-> specific case)
-> 
-> On 11/12/2019 17:58, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
-> >> Hi Morimoto-san,
+On Thu, Dec 12, 2019 at 09:48:44AM +0800, Zhiqiang Liu wrote:
+> On 2019/12/11 15:57, Greg KH wrote:
+> > On Wed, Dec 11, 2019 at 10:47:58AM +0800, Zhiqiang Liu wrote:
+> >> From: Weifeng Su <suweifeng1@huawei.com>
 > >>
-> >> Thank you for the patch,
-> > 
-> > Likewise :-)
-> > 
-> >> On 11/12/2019 01:55, Kuninori Morimoto wrote:
-> >>>
-> >>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> >>>
-> >>> The address of VSP2_VI6_HGT_LBx_H are
-> >>> 	VSP2_VI6_HGT_LB0_H : 0x3428
-> >>> 	VSP2_VI6_HGT_LB1_H : 0x3430
-> >>> 	VSP2_VI6_HGT_LB2_H : 0x3438
-> >>> 	VSP2_VI6_HGT_LB3_H : 0x3440
-> >>>
-> >>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
-> >>> This patch fixup it.
-> 
-> s/fixup/fixes/
-> 
-> 
-> >> I think this deserves a fixes tag:
+> >> CVE-2019-18675: The Linux kernel through 5.3.13 has a start_offset+size
+> >> IntegerOverflow in cpia2_remap_buffer in drivers/media/usb/cpia2/cpia2_core.c
+> >> because cpia2 has its own mmap implementation. This allows local users
+> >> (with /dev/video0 access) to obtain read and write permissions on kernel
+> >> physical pages, which can possibly result in a privilege escalation.
 > >>
-> >> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
+> >> Here, we fix it through proper start_offset value check.
+> >>
+> >> CVE Link: https://nvd.nist.gov/vuln/detail/CVE-2019-18675
+> >> Signed-off-by: Weifeng Su <suweifeng1@huawei.com>
+> >> Reviewed-by: Zhiqiang Liu <liuzhiqiang26@huawei.com>
+> >> ---
+> >>  drivers/media/usb/cpia2/cpia2_core.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/media/usb/cpia2/cpia2_core.c b/drivers/media/usb/cpia2/cpia2_core.c
+> >> index 20c50c2d042e..26ae7a5e3783 100644
+> >> --- a/drivers/media/usb/cpia2/cpia2_core.c
+> >> +++ b/drivers/media/usb/cpia2/cpia2_core.c
+> >> @@ -2401,7 +2401,7 @@ int cpia2_remap_buffer(struct camera_data *cam, struct vm_area_struct *vma)
+> >>
+> >>  	if (size > cam->frame_size*cam->num_frames  ||
+> >>  	    (start_offset % cam->frame_size) != 0 ||
+> >> -	    (start_offset+size > cam->frame_size*cam->num_frames))
+> >> +	    (start_offset > cam->frame_size*cam->num_frames - size))
 > > 
-> > Given that this macro is not used, we could argue that it doesn't fix
-> > anything yet :-) I'd rather avoid having this backported to stable
-> > kernels as it's not useful to have it there, and thus not add a Fixes
-> 
-> I'm sorry - I'm not sure I can agree here, Do you know that no one will
-> use this macro when they back port the HGT functionality to an LTSI kernel?
-> 
-> We know the Renesas BSP uses LTSI kernels, and the very nature of the
-> fact that this typo has been spotted by the Renesas BSP team suggests
-> that they are indeed looking at/using this functionality ...
-> 
-> (Ok, so maybe they will thus apply the fix themselves, but that's not my
-> point, and if they 'have' to apply the fix - it should be in stable?)
-> 
-> It feels a bit presumptuous to state that we shouldn't fix this because
-> /we/ don't utilise it yet, when this issue is in mainline regardless ...
+> > I thought we discussed this already, and the checks in the core kernel
+> > will prevent this from happening, right?
+> > What did I miss?
+> > 
+> Thanks for your reply.
+> It is me who missed the discussion. Could you sent me the mails or links about
+> the discussion?
 
-Nothing should be in the kernel tree that is not already used by
-something in that specific kernel tree.  We don't care about out-of-tree
-code, and especially for stable kernel patches, it does not matter in
-the least.
+See Omer's email thread on the linux-kernel mailing list where he asks
+about this very issue.  You can find it in the archives:
+	https://lore.kernel.org/lkml/20191108215038.59170-1-omerdeshalev@gmail.com/
 
-If you have out-of-tree code, you are on your own here, sorry.
+> > Or was that research not correct?  Can you really trigger this?  If so,
+> > we should fix the core kernel checks instead, and not rely on it being
+> > in every individual driver.
+> > 
+> > thanks,
+> > 
+> Omer Shalev have given a example which can trigger the CVE.
+> Example link: https://deshal3v.github.io/blog/kernel-research/mmap_exploitation
 
-So no, no backporting of stuff that no one actually uses in the codebase
-itself.
+That "example" was run on a kernel without the above mentioned commit to
+fix all of this.
+
+Have you tried this on the latest kernel release and succeeded?
 
 thanks,
 
