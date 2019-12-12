@@ -2,133 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F136511C60A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 07:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C35411C671
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 08:35:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728000AbfLLGk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 01:40:56 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:34561 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727972AbfLLGk4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 01:40:56 -0500
-Received: by mail-qk1-f194.google.com with SMTP id d202so759816qkb.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2019 22:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AXRap6BBWQzWAyS8XpX73+bYNdrI0cAeZpXa9H/bRAc=;
-        b=MA51rQXW0kUy/eH8a+CHW4cprcJcqsH2HDzbo+OKNkS1fIXDmPWFSH3Msg+CjLkt0o
-         Hn/0mqSAS7p59uvMv2wKRkhzzpGh/xZo8lBVIiBJppJf7GsAmMMTWL+CZJ5TtspASJzS
-         NaTGJFY7ayj0hAf+odDLpymBHQaz1OrCu/eC4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AXRap6BBWQzWAyS8XpX73+bYNdrI0cAeZpXa9H/bRAc=;
-        b=UXaCXdXmNljSCU0GR4FC8Kgdomwe5wOs1QVVjMHImhu+e6tcd8sloW0gRxO/A+lG63
-         Ou4dl8Ij/P7PJPirXg86qox0dRlYnMxBSFWBQi4nIYf1CUw07ddzMLm5uF1CmbeaDyvw
-         zKL57VjtbUyDdkpA+oFj1fBXCxTGQuc6jtnjbF3HcRbkUvCwYGHQG0EM4NhvH40BrNyi
-         vZ5gy04WPCsS62sC5ODdT7CpiSd62uk1n/UPd1qy5o8+MXLF37OK2k6EZiM2ZqJVJDgz
-         fXTBBOtaP621EzTrdIrXCJ0bPGBEn96m8t7uE8cQAU8Aj/KFLpfADWuFwnw3sXc4YJJT
-         zRKg==
-X-Gm-Message-State: APjAAAXPxLcFHKiMJSuouUQUQ/WUHEmVS/knAF5vIJsvrFZWdcldYAaT
-        s3hME5Etm0xr4D/Zh6PM3PofiPQXlh31ZsrdWB0dSA==
-X-Google-Smtp-Source: APXvYqxMMjzivuQZLMAX1uEdLyogQxiS5pr/nUVktTqgng9NiXTmVutloTIAjZEQhboxEVr3pF5DU82GdhtuG5OkV90=
-X-Received: by 2002:a05:620a:101b:: with SMTP id z27mr6394282qkj.241.1576132855363;
- Wed, 11 Dec 2019 22:40:55 -0800 (PST)
+        id S1728119AbfLLHdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 02:33:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57830 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728072AbfLLHdK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Dec 2019 02:33:10 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5FBB524656;
+        Thu, 12 Dec 2019 07:33:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576135989;
+        bh=p12HIynD9FdwHF+0wBqafDSonAXyb1SgrBSwbjgba2k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WeeJAVaKEcQ79OCKF1uE2gMatc9ftJQESVzr7N51pSimXsoOUrl+5gATZmvX59JKi
+         e14oruK9gl4gVqy/j2zvltEVVeU/XBJbTzg5wOGRtmQMAUbSymS0KQNYmcFDydfEAm
+         TbL+eYw0/M27oW6kYE5GQ0TenwSb9MxC6751v7UE=
+Date:   Thu, 12 Dec 2019 08:33:06 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
+        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
+        hien.dang.eb@renesas.com
+Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
+Message-ID: <20191212073306.GB1364286@kroah.com>
+References: <redmine.issue-245033.20191211005426@dm.renesas.com>
+ <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
+ <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
+ <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
+ <20191211175811.GC4863@pendragon.ideasonboard.com>
+ <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
 MIME-Version: 1.0
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
- <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org> <72712fe048af1489368f7416faa92c45@hostfission.com>
- <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
- <d65bec5074eda5f389668e28922c1609@hostfission.com> <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
- <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
- <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com> <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
-In-Reply-To: <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org>
-From:   David Stevens <stevensd@chromium.org>
-Date:   Thu, 12 Dec 2019 15:40:44 +0900
-Message-ID: <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
-        Zach Reizner <zachr@chromium.org>,
-        Geoffrey McRae <geoff@hostfission.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> First the addressing is non-trivial, especially with the "transport
-> specific device address" in the tuple.
+On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
+> Hi Laurent,
+> 
+> +Greg, +Sasha to opine on the merit of whether this should go to stable
+> trees (for my future learning and understanding more so than this
+> specific case)
+> 
+> On 11/12/2019 17:58, Laurent Pinchart wrote:
+> > Hello,
+> > 
+> > On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
+> >> Hi Morimoto-san,
+> >>
+> >> Thank you for the patch,
+> > 
+> > Likewise :-)
+> > 
+> >> On 11/12/2019 01:55, Kuninori Morimoto wrote:
+> >>>
+> >>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> >>>
+> >>> The address of VSP2_VI6_HGT_LBx_H are
+> >>> 	VSP2_VI6_HGT_LB0_H : 0x3428
+> >>> 	VSP2_VI6_HGT_LB1_H : 0x3430
+> >>> 	VSP2_VI6_HGT_LB2_H : 0x3438
+> >>> 	VSP2_VI6_HGT_LB3_H : 0x3440
+> >>>
+> >>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
+> >>> This patch fixup it.
+> 
+> s/fixup/fixes/
+> 
+> 
+> >> I think this deserves a fixes tag:
+> >>
+> >> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
+> > 
+> > Given that this macro is not used, we could argue that it doesn't fix
+> > anything yet :-) I'd rather avoid having this backported to stable
+> > kernels as it's not useful to have it there, and thus not add a Fixes
+> 
+> I'm sorry - I'm not sure I can agree here, Do you know that no one will
+> use this macro when they back port the HGT functionality to an LTSI kernel?
+> 
+> We know the Renesas BSP uses LTSI kernels, and the very nature of the
+> fact that this typo has been spotted by the Renesas BSP team suggests
+> that they are indeed looking at/using this functionality ...
+> 
+> (Ok, so maybe they will thus apply the fix themselves, but that's not my
+> point, and if they 'have' to apply the fix - it should be in stable?)
+> 
+> It feels a bit presumptuous to state that we shouldn't fix this because
+> /we/ don't utilise it yet, when this issue is in mainline regardless ...
 
-There is complexity here, but I think it would also be present in the
-buffer sharing device case. With a buffer sharing device, the same
-identifying information would need to be provided from the exporting
-driver to the buffer sharing driver, so the buffer sharing device
-would be able to identify the right device in the vmm. And then in
-both import cases, the buffer is just identified by some opaque bytes
-that need to be given to a buffer manager in the vmm to resolve the
-actual buffer.
+Nothing should be in the kernel tree that is not already used by
+something in that specific kernel tree.  We don't care about out-of-tree
+code, and especially for stable kernel patches, it does not matter in
+the least.
 
-> Second I think it is a bad idea
-> from the security point of view.  When explicitly exporting buffers it
-> is easy to restrict access to the actual exports.
+If you have out-of-tree code, you are on your own here, sorry.
 
-Restricting access to actual exports could perhaps help catch bugs.
-However, I don't think it provides any security guarantees, since the
-guest can always just export every buffer before using it. Using
-implicit addresses doesn't mean that the buffer import actually has to
-be allowed - it can be thought of as fusing the buffer export and
-buffer import operations into a single operation. The vmm can still
-perform exactly the same security checks.
+So no, no backporting of stuff that no one actually uses in the codebase
+itself.
 
-> Instead of using a dedicated buffer sharing device we can also use
-> virtio-gpu (or any other driver which supports dma-buf exports) to
-> manage buffers.
+thanks,
 
-I don't think adding generic buffer management to virtio-gpu (or any
-specific device type) is a good idea, since that device would then
-become a requirement for buffer sharing between unrelated devices. For
-example, it's easy to imagine a device with a virtio-camera and a
-virtio-encoder (although such protocols don't exist today). It
-wouldn't make sense to require a virtio-gpu device to allow those two
-devices to share buffers.
-
-> With no central instance (buffer sharing device) being there managing
-> the buffer identifiers I think using uuids as identifiers would be a
-> good idea, to avoid clashes.  Also good for security because it's pretty
-> much impossible to guess buffer identifiers then.
-
-Using uuids to identify buffers would work. The fact that it provides
-a single way to refer to both guest and host allocated buffers is
-nice. And it could also directly apply to sharing resources other than
-buffers (e.g. fences). Although unless we're positing that there are
-different levels of trust within the guest, I don't think uuids really
-provides much security.
-
-If we're talking about uuids, they could also be used to simplify my
-proposed implicit addressing scheme. Each device could be assigned a
-uuid, which would simplify the shared resource identifier to
-(device-uuid, shmid, offset).
-
-In my opinion, the implicit buffer addressing scheme is fairly similar
-to the uuid proposal. As I see it, the difference is that one is
-referring to resources as uuids in a global namespace, whereas the
-other is referring to resources with fully qualified names. Beyond
-that, the implementations would be fairly similar.
-
--David
+greg k-h
