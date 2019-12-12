@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 042DD11CF1A
+	by mail.lfdr.de (Postfix) with ESMTP id 792EC11CF1B
 	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2019 15:03:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729606AbfLLOD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1729614AbfLLOD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 12 Dec 2019 09:03:26 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:43365 "EHLO
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:57607 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729568AbfLLODZ (ORCPT
+        with ESMTP id S1729570AbfLLOD0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 09:03:25 -0500
+        Thu, 12 Dec 2019 09:03:26 -0500
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1ifP3s-0007e8-JQ; Thu, 12 Dec 2019 15:03:24 +0100
+        id 1ifP3s-0007e8-LP; Thu, 12 Dec 2019 15:03:24 +0100
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@pengutronix.de
-Subject: [PATCH v2 2/4] media: coda: jpeg: merge Huffman table bits and values
-Date:   Thu, 12 Dec 2019 15:02:53 +0100
-Message-Id: <20191212140255.8766-2-p.zabel@pengutronix.de>
+Subject: [PATCH v2 3/4] media: coda: jpeg: add JPEG register definitions for CODA960
+Date:   Thu, 12 Dec 2019 15:02:54 +0100
+Message-Id: <20191212140255.8766-3-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191212140255.8766-1-p.zabel@pengutronix.de>
 References: <20191212140255.8766-1-p.zabel@pengutronix.de>
@@ -36,96 +36,120 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Huffman bits tables are always 16 bytes long, and they are always
-followed directly by the values tables, both in hardware and in JPEG
-files. Just merge the two tables.
+The CODA960 JPEG codec is controlled directly from the host, there is no
+support in the BIT processor firmware. This patch adds the necessary
+register definitions.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/coda/coda-jpeg.c | 40 ++++++++++---------------
- 1 file changed, 16 insertions(+), 24 deletions(-)
+ drivers/media/platform/coda/coda_regs.h | 83 +++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
-diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
-index bf61a3ecc580..27e20aee1a8c 100644
---- a/drivers/media/platform/coda/coda-jpeg.c
-+++ b/drivers/media/platform/coda/coda-jpeg.c
-@@ -19,32 +19,29 @@
-  * chrominance from JPEG ITU-T.81 (ISO/IEC 10918-1) Annex K.3
-  */
+diff --git a/drivers/media/platform/coda/coda_regs.h b/drivers/media/platform/coda/coda_regs.h
+index b17464b56d3d..da5bb3212528 100644
+--- a/drivers/media/platform/coda/coda_regs.h
++++ b/drivers/media/platform/coda/coda_regs.h
+@@ -451,12 +451,21 @@
+ #define CODA9_CMD_FIRMWARE_CODE_REV		0x1c4
  
--static const unsigned char luma_dc_bits[16] = {
-+static const unsigned char luma_dc[16 + 12] = {
-+	/* bits */
- 	0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
- 	0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--};
--
--static const unsigned char luma_dc_value[12] = {
-+	/* values */
- 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
- 	0x08, 0x09, 0x0a, 0x0b,
- };
+ #define CODA9_GDMA_BASE				0x1000
++#define CODA9_GDI_CONTROL			(CODA9_GDMA_BASE + 0x034)
++#define CODA9_GDI_PIC_INIT_HOST			(CODA9_GDMA_BASE + 0x038)
++#define CODA9_GDI_STATUS			(CODA9_GDMA_BASE + 0x080)
+ #define CODA9_GDI_WPROT_ERR_CLR			(CODA9_GDMA_BASE + 0x0a0)
+ #define CODA9_GDI_WPROT_RGN_EN			(CODA9_GDMA_BASE + 0x0ac)
  
--static const unsigned char chroma_dc_bits[16] = {
-+static const unsigned char chroma_dc[16 + 12] = {
-+	/* bits */
- 	0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
- 	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
--};
--
--static const unsigned char chroma_dc_value[12] = {
-+	/* values */
- 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
- 	0x08, 0x09, 0x0a, 0x0b,
- };
+ #define CODA9_GDI_BUS_CTRL			(CODA9_GDMA_BASE + 0x0f0)
+ #define CODA9_GDI_BUS_STATUS			(CODA9_GDMA_BASE + 0x0f4)
  
--static const unsigned char luma_ac_bits[16] = {
-+static const unsigned char luma_ac[16 + 162 + 2] = {
-+	/* bits */
- 	0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
- 	0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d,
--};
--
--static const unsigned char luma_ac_value[162 + 2] = {
-+	/* values */
- 	0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
- 	0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
- 	0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xa1, 0x08,
-@@ -68,12 +65,11 @@ static const unsigned char luma_ac_value[162 + 2] = {
- 	0xf9, 0xfa, /* padded to 32-bit */
- };
++#define CODA9_GDI_INFO_CONTROL			(CODA9_GDMA_BASE + 0x400)
++#define CODA9_GDI_INFO_PIC_SIZE			(CODA9_GDMA_BASE + 0x404)
++#define CODA9_GDI_INFO_BASE_Y			(CODA9_GDMA_BASE + 0x408)
++#define CODA9_GDI_INFO_BASE_CB			(CODA9_GDMA_BASE + 0x40c)
++#define CODA9_GDI_INFO_BASE_CR			(CODA9_GDMA_BASE + 0x410)
++
+ #define CODA9_GDI_XY2_CAS_0			(CODA9_GDMA_BASE + 0x800)
+ #define CODA9_GDI_XY2_CAS_F			(CODA9_GDMA_BASE + 0x83c)
  
--static const unsigned char chroma_ac_bits[16] = {
-+static const unsigned char chroma_ac[16 + 162 + 2] = {
-+	/* bits */
- 	0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
- 	0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
--};
--
--static const unsigned char chroma_ac_value[162 + 2] = {
-+	/* values */
- 	0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
- 	0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
- 	0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91,
-@@ -148,14 +144,10 @@ int coda_jpeg_write_tables(struct coda_ctx *ctx)
- {
- 	int i;
- 	static const struct coda_memcpy_desc huff[8] = {
--		{ 0,   luma_dc_bits,    sizeof(luma_dc_bits)    },
--		{ 16,  luma_dc_value,   sizeof(luma_dc_value)   },
--		{ 32,  luma_ac_bits,    sizeof(luma_ac_bits)    },
--		{ 48,  luma_ac_value,   sizeof(luma_ac_value)   },
--		{ 216, chroma_dc_bits,  sizeof(chroma_dc_bits)  },
--		{ 232, chroma_dc_value, sizeof(chroma_dc_value) },
--		{ 248, chroma_ac_bits,  sizeof(chroma_ac_bits)  },
--		{ 264, chroma_ac_value, sizeof(chroma_ac_value) },
-+		{ 0,   luma_dc,    sizeof(luma_dc)    },
-+		{ 32,  luma_ac,    sizeof(luma_ac)    },
-+		{ 216, chroma_dc,  sizeof(chroma_dc)  },
-+		{ 248, chroma_ac,  sizeof(chroma_ac)  },
- 	};
- 	struct coda_memcpy_desc qmat[3] = {
- 		{ 512, ctx->params.jpeg_qmat_tab[0], 64 },
+@@ -477,4 +486,78 @@
+ #define CODA9_GDI_RBC2_AXI_1F			(CODA9_GDMA_BASE + 0x91c)
+ #define	CODA9_GDI_TILEDBUF_BASE			(CODA9_GDMA_BASE + 0x920)
+ 
++#define CODA9_JPEG_BASE				0x3000
++#define CODA9_REG_JPEG_PIC_START		(CODA9_JPEG_BASE + 0x000)
++#define CODA9_REG_JPEG_PIC_STATUS		(CODA9_JPEG_BASE + 0x004)
++#define		CODA9_JPEG_STATUS_OVERFLOW		BIT(3)
++#define		CODA9_JPEG_STATUS_BBC_INT		BIT(2)
++#define		CODA9_JPEG_STATUS_ERROR			BIT(1)
++#define		CODA9_JPEG_STATUS_DONE			BIT(0)
++#define CODA9_REG_JPEG_PIC_ERRMB		(CODA9_JPEG_BASE + 0x008)
++#define		CODA9_JPEG_ERRMB_RESTART_IDX_MASK	(0xf << 24)
++#define		CODA9_JPEG_ERRMB_MCU_POS_X_MASK		(0xfff << 12)
++#define		CODA9_JPEG_ERRMB_MCU_POS_Y_MASK		0xfff
++#define CODA9_REG_JPEG_PIC_CTRL			(CODA9_JPEG_BASE + 0x010)
++#define		CODA9_JPEG_PIC_CTRL_USER_HUFFMAN_EN	BIT(6)
++#define		CODA9_JPEG_PIC_CTRL_TC_DIRECTION	BIT(4)
++#define		CODA9_JPEG_PIC_CTRL_ENCODER_EN		BIT(3)
++#define CODA9_REG_JPEG_PIC_SIZE			(CODA9_JPEG_BASE + 0x014)
++#define CODA9_REG_JPEG_MCU_INFO			(CODA9_JPEG_BASE + 0x018)
++#define		CODA9_JPEG_MCU_BLOCK_NUM_OFFSET		16
++#define		CODA9_JPEG_COMP_NUM_OFFSET		12
++#define		CODA9_JPEG_COMP0_INFO_OFFSET		8
++#define		CODA9_JPEG_COMP1_INFO_OFFSET		4
++#define		CODA9_JPEG_COMP2_INFO_OFFSET		0
++#define CODA9_REG_JPEG_ROT_INFO			(CODA9_JPEG_BASE + 0x01c)
++#define		CODA9_JPEG_ROT_MIR_ENABLE		BIT(4)
++#define		CODA9_JPEG_ROT_MIR_MODE_MASK		0xf
++#define CODA9_REG_JPEG_SCL_INFO			(CODA9_JPEG_BASE + 0x020)
++#define		CODA9_JPEG_SCL_ENABLE			BIT(4)
++#define		CODA9_JPEG_SCL_HOR_MODE_MASK		(0x3 << 2)
++#define		CODA9_JPEG_SCL_VER_MODE_MASK		(0x3 << 0)
++#define CODA9_REG_JPEG_IF_INFO			(CODA9_JPEG_BASE + 0x024)
++#define		CODA9_JPEG_SENS_IF_CLR			BIT(1)
++#define		CODA9_JPEG_DISP_IF_CLR			BIT(0)
++#define CODA9_REG_JPEG_OP_INFO			(CODA9_JPEG_BASE + 0x02c)
++#define		CODA9_JPEG_BUS_REQ_NUM_OFFSET		0
++#define		CODA9_JPEG_BUS_REQ_NUM_MASK		0x7
++#define CODA9_REG_JPEG_DPB_CONFIG		(CODA9_JPEG_BASE + 0x030)
++#define CODA9_REG_JPEG_DPB_BASE00		(CODA9_JPEG_BASE + 0x040)
++#define CODA9_REG_JPEG_HUFF_CTRL		(CODA9_JPEG_BASE + 0x080)
++#define CODA9_REG_JPEG_HUFF_ADDR		(CODA9_JPEG_BASE + 0x084)
++#define CODA9_REG_JPEG_HUFF_DATA		(CODA9_JPEG_BASE + 0x088)
++#define CODA9_REG_JPEG_QMAT_CTRL		(CODA9_JPEG_BASE + 0x090)
++#define CODA9_REG_JPEG_QMAT_ADDR		(CODA9_JPEG_BASE + 0x094)
++#define CODA9_REG_JPEG_QMAT_DATA		(CODA9_JPEG_BASE + 0x098)
++#define CODA9_REG_JPEG_RST_INTVAL		(CODA9_JPEG_BASE + 0x0b0)
++#define CODA9_REG_JPEG_RST_INDEX		(CODA9_JPEG_BASE + 0x0b4)
++#define CODA9_REG_JPEG_RST_COUNT		(CODA9_JPEG_BASE + 0x0b8)
++#define CODA9_REG_JPEG_DPCM_DIFF_Y		(CODA9_JPEG_BASE + 0x0f0)
++#define CODA9_REG_JPEG_DPCM_DIFF_CB		(CODA9_JPEG_BASE + 0x0f4)
++#define CODA9_REG_JPEG_DPCM_DIFF_CR		(CODA9_JPEG_BASE + 0x0f8)
++#define CODA9_REG_JPEG_GBU_CTRL			(CODA9_JPEG_BASE + 0x100)
++#define CODA9_REG_JPEG_GBU_BT_PTR		(CODA9_JPEG_BASE + 0x110)
++#define CODA9_REG_JPEG_GBU_WD_PTR		(CODA9_JPEG_BASE + 0x114)
++#define CODA9_REG_JPEG_GBU_TT_CNT		(CODA9_JPEG_BASE + 0x118)
++#define CODA9_REG_JPEG_GBU_BBSR			(CODA9_JPEG_BASE + 0x140)
++#define CODA9_REG_JPEG_GBU_BBER			(CODA9_JPEG_BASE + 0x144)
++#define CODA9_REG_JPEG_GBU_BBIR			(CODA9_JPEG_BASE + 0x148)
++#define CODA9_REG_JPEG_GBU_BBHR			(CODA9_JPEG_BASE + 0x14c)
++#define CODA9_REG_JPEG_GBU_BCNT			(CODA9_JPEG_BASE + 0x158)
++#define CODA9_REG_JPEG_GBU_FF_RPTR		(CODA9_JPEG_BASE + 0x160)
++#define CODA9_REG_JPEG_GBU_FF_WPTR		(CODA9_JPEG_BASE + 0x164)
++#define CODA9_REG_JPEG_BBC_END_ADDR		(CODA9_JPEG_BASE + 0x208)
++#define CODA9_REG_JPEG_BBC_WR_PTR		(CODA9_JPEG_BASE + 0x20c)
++#define CODA9_REG_JPEG_BBC_RD_PTR		(CODA9_JPEG_BASE + 0x210)
++#define CODA9_REG_JPEG_BBC_EXT_ADDR		(CODA9_JPEG_BASE + 0x214)
++#define CODA9_REG_JPEG_BBC_INT_ADDR		(CODA9_JPEG_BASE + 0x218)
++#define CODA9_REG_JPEG_BBC_DATA_CNT		(CODA9_JPEG_BASE + 0x21c)
++#define CODA9_REG_JPEG_BBC_COMMAND		(CODA9_JPEG_BASE + 0x220)
++#define CODA9_REG_JPEG_BBC_BUSY			(CODA9_JPEG_BASE + 0x224)
++#define CODA9_REG_JPEG_BBC_CTRL			(CODA9_JPEG_BASE + 0x228)
++#define CODA9_REG_JPEG_BBC_CUR_POS		(CODA9_JPEG_BASE + 0x22c)
++#define CODA9_REG_JPEG_BBC_BAS_ADDR		(CODA9_JPEG_BASE + 0x230)
++#define CODA9_REG_JPEG_BBC_STRM_CTRL		(CODA9_JPEG_BASE + 0x234)
++#define CODA9_REG_JPEG_BBC_FLUSH_CMD		(CODA9_JPEG_BASE + 0x238)
++
+ #endif
 -- 
 2.20.1
 
