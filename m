@@ -2,377 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37AB711E573
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 15:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C05A11E575
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 15:21:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727569AbfLMOU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 09:20:56 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33928 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727559AbfLMOU4 (ORCPT
+        id S1727607AbfLMOVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 09:21:11 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57969 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727559AbfLMOVK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 09:20:56 -0500
-Received: by mail-lj1-f195.google.com with SMTP id m6so2760983ljc.1
-        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2019 06:20:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=74xh0l7LjI/84Db3IbaweOEywr0Jx636lzaOGbfUeuQ=;
-        b=SgThjhnqpUe0eYtntrBjhEHdmc1HdjnEjQYg8G9YCVO3f7K+ACFhyJ8GdHR1JxBhi/
-         liA6Be6M6CAmQBpApCbs69zIAvkkyptz0HAUe+XUOn4JDMjsf5CH1P/97KfwIFJAjjYt
-         8iWbfsxLq2ZxBK21XoQsFqR3DfUd6idYdYrCg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=74xh0l7LjI/84Db3IbaweOEywr0Jx636lzaOGbfUeuQ=;
-        b=ueuSPwyD145WO4Cg/sA4pYzjPO7sNO1yD4K0656lXDSPQZl3MJrJOMkVzcZ057w14P
-         1hhn0PJi49IohzE97eHHT4RTkWsQcrI9R4ELdmxt/BRZZGXHbWHMnXMrG3UGeAskyBKP
-         dNGW+/aso+X2zSmtRhvBMK1WiItR9+jC7LuxduYI+6KyVmORqcMIW9OavdCs9klTHQVc
-         Qsq/xrn1Jm1epFJl1x8MEZS7PHbHLTgJ0wB0BZ1k49HuQVR+eRPW8OajlPTWH9ChSGoi
-         s49y10FvsWl2IXjhjlIYCWN5V6yo23s1KrX6lCns55eNqIAeMskHVqT/EtoEUZ3aebzs
-         yjBg==
-X-Gm-Message-State: APjAAAXLQzn29/0Of9cZmHCazA8/9scUncjCb3WUB5VraEekPMsVr1y9
-        s7n3eLPMjBNuWjKsWfQFQq0I0tPRKKbALlBO3k90cg==
-X-Google-Smtp-Source: APXvYqx+5TG8KVzEyWFOo3QHESCsKkhhnEw5jEHFbH0QBF+/apeXqsBe24LLhZvInt+Rj12jaiqxucX5LAhmjnI9oEw=
-X-Received: by 2002:a2e:721a:: with SMTP id n26mr10070332ljc.128.1576246853516;
- Fri, 13 Dec 2019 06:20:53 -0800 (PST)
+        Fri, 13 Dec 2019 09:21:10 -0500
+Received: from [IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478]
+ ([IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id floXiiAUNGyJwfloZi1Qyu; Fri, 13 Dec 2019 15:21:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576246868; bh=EVs39wM1SwWqHyQP+lYgjYWUHJlRDdSAOaHxxT//L8A=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=CIrxn26H0loiThE1yt7dbDn4i72GENeo8RIsif2X1PfAFJEbKLiauLUyJye5kEw5G
+         9AnCLDwePcQM+az04XhwwJSLCJcOWxowEyBzuZgFGuNS91Il+PKPSP9sDaRLue1IOj
+         R2rpi//Eq1qzdZM6Vf0yg3w+jBrJ3lrTXxL+IIjMIfp6zIDr3ZfRg3YnCTTuGmhDhM
+         BVMAD+s5IXaRhP1CR963pR5xXjoV6bbhHxiyZdlSVsbfK6VnhB0I4XvUTxGU/Ulw6r
+         jgOOuLaZxEbCMP8z50Mb2xuT29ziMc0dpPjY8lBFV0B46ROeTX/tIcKkmaQo+saX3K
+         IiP4L1HutrJDQ==
+Subject: Re: [PATCH v3 6/7] media: rkvdec: Add the rkvdec driver
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>
+References: <20191213125414.90725-1-boris.brezillon@collabora.com>
+ <20191213125414.90725-7-boris.brezillon@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <036d3ecb-2307-4e8c-eaad-3c70c8cbda22@xs4all.nl>
+Date:   Fri, 13 Dec 2019 15:21:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
- <2278645.2VI2HTiyL8@os-lin-dmo> <CAD90VcbnUtJ5sG4R6P9iPOE7QWXbBsRYHrR80+XJcN+_O3nghQ@mail.gmail.com>
- <1862141.aebO5lr7J1@os-lin-dmo>
-In-Reply-To: <1862141.aebO5lr7J1@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Fri, 13 Dec 2019 23:20:41 +0900
-Message-ID: <CAD90VcY_CUVNpq6w06HPRknHtT+WhT3gPnaLtMe2yHS1dCHMzQ@mail.gmail.com>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Enrico Granata <egranata@google.com>,
-        Changyeon Jo <changyeon@google.com>,
-        virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191213125414.90725-7-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNNDQz/4AyS67jgm+85BN/fuNAN4iC7sM/1YLh40BBLBYzRZt5j0NxbH/OFEYSAVp1XE9YFzzjwMyc0k8W7qAuN3yMATA2ew6dcFIoQVZMcggh2IUzMW
+ N2zm+5S0EEQF8njxUnE/2xY7dMiXc936HQ2i29C2NnuR0muZQkW7TqG1tesE3MHGIrZ2wV4pOzN5PbtTplZ4USBavZzSWxws3O8q6rNfp1eEJXSGpa+uSaNK
+ 1+3iRbFWmiRWV8dkWqd1bRCdSn6wz+epA+S1xRvdKkvPUsIQXdPbRGVaVTC1rbLFHBgDbYnrJEHaDz230kybJLgKJI73pVZ9OppbgODCjNpb099zTcSuHg4s
+ lWPv6xdDmG7ytipehZlEXmj8JGeFFHlgqyaKkv41cnNqwfBB1t3cbpl9nf9bxAaFDoPQDchv0qtOoC96+ZsMxR1yU+P6Mxf7VaFJBdHIqf+DqzppEGf0NzFX
+ mzqolGYjUZwNOd9DvFKLVsTausOnizB8TxWg8ceX1MKizhXzbzq278/wV9eN6q5thi4v/9sic57E1dHhDYRbZa7Errr0Yyp3UftLsGFXdWDQwZkrSDERakFS
+ Ua7filIWcn2z4QQbSRBJqGv31W93k3TBhlVjnNMLKyhxC1SMndA1cuAbpcVNMMgRE/Szf6UenGZYdaTlI1E11BW/ssjU4sLZ4O3QxetDqkSzoxSWuZZ26b8p
+ Kq/fCMhCSOYzEWUTGIWUH1IGUY5RbfaadbAVK1GtFBrwyjt6/ZCfORQHqC8dmy6GAcuPAWxFmC7YePO/Fcy68JiKqhAz/JgaS3dy3zrbyLhugQ/BkJJPBqT1
+ QrfaSmUt1ML6HTJY5Kw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 7:34 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Keiichi,
->
-> Thank you for your comment.
-> What do you thing about selection/crop rectangles? Should this be defined as a
-> must have? Or we just assume the device always sticks to the stream
-> resolution.
->
+Hi Boris,
 
-For decoding, the device needs to tell the driver crop rectangle when
-a resolution change happens, as virtio-vdec has
-virtio_vdec_host_req_stream_crop.
-So, we should add a new field in virtio_video_param for it.
+A few small comments:
 
-For what it's worth, we have C-headers that exposes Chrome's video
-codec functionalities. So, our virtio-video device will do
-decoding/encoding by calling these functions.
-Decoder: https://chromium.git.corp.google.com/chromiumos/platform2/+/00ad71fa640c018c1d014f467c50b9a7dc962a10/arc/vm/libvda/libvda_decode.h
-Encoder: https://chromium.git.corp.google.com/chromiumos/platform2/+/00ad71fa640c018c1d014f467c50b9a7dc962a10/arc/vm/libvda/libvda_encode.h
+On 12/13/19 1:54 PM, Boris Brezillon wrote:
+> The rockchip vdec block is a stateless decoder that's able to decode
+> H264, HEVC and VP9 content. This commit adds the core infrastructure
+> and the H264 backend. Support for VP9 and HEVS will be added later on.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+> Changes in v3:
+> * Move the driver to drivers/staging/media/rkvdec/
+> * Fix copy&paste error in the Kconfig desc
+> * Use REC709 color space when resetting the capture format
+> * Prepare things to support VP9
+> * Move H264 priv-table field definition out of rkvdec-regs.h
+> * Clarify the provenance of the CABAC table
+> * Ease RPS,PPS_FIELD() definition/manipulation
+> * Take DPB field flags into account
+> * Use the generic H264 helpers to build the reflists
+> ---
+>  drivers/staging/media/Kconfig              |    2 +
+>  drivers/staging/media/Makefile             |    1 +
+>  drivers/staging/media/rkvdec/Kconfig       |   15 +
+>  drivers/staging/media/rkvdec/Makefile      |    3 +
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 1154 ++++++++++++++++++++
+>  drivers/staging/media/rkvdec/rkvdec-regs.h |  239 ++++
+>  drivers/staging/media/rkvdec/rkvdec.c      | 1130 +++++++++++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.h      |  124 +++
+>  8 files changed, 2668 insertions(+)
+>  create mode 100644 drivers/staging/media/rkvdec/Kconfig
+>  create mode 100644 drivers/staging/media/rkvdec/Makefile
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
+> 
 
-BTW, I'm preparing the next version of virtio-video spec by addressing
-points we discussed in this thread. I'll send it here next week,
-hopefully.
+<snip>
 
-Best,
-Keiichi
+> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+> new file mode 100644
+> index 000000000000..6de4bd39f286
+> --- /dev/null
+> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+
+<snip>
+
+> +/*
+> + * dpb poc related registers table
+> + */
+
+Shouldn't the next two arrays be const?
+
+> +static u32 poc_reg_tbl_top_field[16] = {
+> +	RKVDEC_REG_H264_POC_REFER0(0),
+> +	RKVDEC_REG_H264_POC_REFER0(2),
+> +	RKVDEC_REG_H264_POC_REFER0(4),
+> +	RKVDEC_REG_H264_POC_REFER0(6),
+> +	RKVDEC_REG_H264_POC_REFER0(8),
+> +	RKVDEC_REG_H264_POC_REFER0(10),
+> +	RKVDEC_REG_H264_POC_REFER0(12),
+> +	RKVDEC_REG_H264_POC_REFER0(14),
+> +	RKVDEC_REG_H264_POC_REFER1(1),
+> +	RKVDEC_REG_H264_POC_REFER1(3),
+> +	RKVDEC_REG_H264_POC_REFER1(5),
+> +	RKVDEC_REG_H264_POC_REFER1(7),
+> +	RKVDEC_REG_H264_POC_REFER1(9),
+> +	RKVDEC_REG_H264_POC_REFER1(11),
+> +	RKVDEC_REG_H264_POC_REFER1(13),
+> +	RKVDEC_REG_H264_POC_REFER2(0)
+> +};
+> +
+> +static u32 poc_reg_tbl_bottom_field[16] = {
+> +	RKVDEC_REG_H264_POC_REFER0(1),
+> +	RKVDEC_REG_H264_POC_REFER0(3),
+> +	RKVDEC_REG_H264_POC_REFER0(5),
+> +	RKVDEC_REG_H264_POC_REFER0(7),
+> +	RKVDEC_REG_H264_POC_REFER0(9),
+> +	RKVDEC_REG_H264_POC_REFER0(11),
+> +	RKVDEC_REG_H264_POC_REFER0(13),
+> +	RKVDEC_REG_H264_POC_REFER1(0),
+> +	RKVDEC_REG_H264_POC_REFER1(2),
+> +	RKVDEC_REG_H264_POC_REFER1(4),
+> +	RKVDEC_REG_H264_POC_REFER1(6),
+> +	RKVDEC_REG_H264_POC_REFER1(8),
+> +	RKVDEC_REG_H264_POC_REFER1(10),
+> +	RKVDEC_REG_H264_POC_REFER1(12),
+> +	RKVDEC_REG_H264_POC_REFER1(14),
+> +	RKVDEC_REG_H264_POC_REFER2(1)
+> +};
+
+<snip>
 
 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> new file mode 100644
+> index 000000000000..97698be9072e
+> --- /dev/null
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -0,0 +1,1130 @@
 
-> Regards,
-> Dmitry.
->
-> On Donnerstag, 12. Dezember 2019 06:39:11 CET Keiichi Watanabe wrote:
-> > On Tue, Dec 10, 2019 at 10:16 PM Dmitry Sepp
-> >
-> > <dmitry.sepp@opensynergy.com> wrote:
-> > > Hi,
-> > >
-> > > Just to start, let's consider this v4l2 control:
-> > > V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE.
-> > > As I can see, this control is referenced as a mandatory one in the
-> > > Chromium
-> > > sources [1].
-> > >
-> > > So could someone from the Chromium team please explain why it is
-> > > mandatory?
-> > > (YouTube?) In fact, almost no encoders implement this control. Do we need
-> > > it in virtio-video?
-> >
-> > That control is used to encode videos in constant bitrate (CBR) mode,
-> > which is critical for
-> > real-time use case like video conferencing.
-> >
-> > However, that Chromium source code just requires *host-side* drivers
-> > to have the v4l2
-> > control. Also, I guess it's rare that a guest app wants to use CQP
-> > instead of CBR from our
-> > experience.
-> > So, I suppose we can omit this control in virtio spec for now by
-> > assuming that guests
-> > always use CBR mode.
-> >
-> > Best regards,
-> > Keiichi
-> >
-> > > [1]
-> > > https://chromium.googlesource.com/chromium/src/media/+/refs/heads/master/
-> > > gpu/v4l2/v4l2_video_encode_accelerator.cc#1500
-> > >
-> > > Regards,
-> > > Dmitry.
-> > >
-> > > On Montag, 9. Dezember 2019 22:12:28 CET Enrico Granata wrote:
-> > > > +Changyeon Jo <changyeon@google.com> for his awareness
-> > > >
-> > > > Thanks,
-> > > > - Enrico
-> > > >
-> > > >
-> > > > On Mon, Dec 9, 2019 at 6:20 AM Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> > > >
-> > > > wrote:
-> > > > > Hello,
-> > > > >
-> > > > > I'd like to invite everyone to share ideas regarding required encoder
-> > > > > features
-> > > > > in this separate sub-tree.
-> > > > >
-> > > > > In general, encoder devices are more complex compared to decoders. So
-> > > > > the
-> > > > > question I'd like to rise is in what way we define the minimal subset
-> > > > > of
-> > > > > features to be implemented by the virtio-video.
-> > > > >
-> > > > > We may look at the following to define the set of features:
-> > > > > 1. USB video, 2.3.6 Encoding Unit [1].
-> > > > > 2. Android 10 Compatibility Definition [2].
-> > > > >
-> > > > > Would be nice to hear about any specific requirements from the
-> > > > > Chromium
-> > > > > team as
-> > > > > well.
-> > > > >
-> > > > > [1] https://www.usb.org/sites/default/files/USB_Video_Class_1_5.zip
-> > > > > [2]
-> > > > > https://source.android.com/compatibility/android-cdd#5_2_video_encodin
-> > > > > g
-> > > > >
-> > > > > Thank you.
-> > > > >
-> > > > > Best regards,
-> > > > > Dmitry.
-> > > > >
-> > > > > On Mittwoch, 4. Dezember 2019 10:16:20 CET Gerd Hoffmann wrote:
-> > > > > >   Hi,
-> > > > > >
-> > > > > > > 1. Focus on only decoder/encoder functionalities first.
-> > > > > > >
-> > > > > > > As Tomasz said earlier in this thread, it'd be too complicated to
-> > > > >
-> > > > > support
-> > > > >
-> > > > > > > camera usage at the same time. So, I'd suggest to make it just a
-> > > > >
-> > > > > generic
-> > > > >
-> > > > > > > mem-to-mem video processing device protocol for now.
-> > > > > > > If we finally decide to support camera in this protocol, we can
-> > > > > > > add it
-> > > > > > > later.
-> > > > > >
-> > > > > > Agree.
-> > > > > >
-> > > > > > > 2. Only one feature bit can be specified for one device.
-> > > > > > >
-> > > > > > > I'd like to have a decoder device and encoder device separately.
-> > > > > > > It'd be natural to assume it because a decoder and an encoder are
-> > > > >
-> > > > > provided
-> > > > >
-> > > > > > > as different hardware.
-> > > > > >
-> > > > > > Hmm, modern GPUs support both encoding and decoding ...
-> > > > > >
-> > > > > > I don't think we should bake that restriction into the
-> > > > > > specification.
-> > > > > > It probably makes sense to use one virtqueue per function though,
-> > > > > > that
-> > > > > > will simplify dispatching in both host and guest.
-> > > > > >
-> > > > > > > 3. Separate buffer allocation functionalities from virtio-video
-> > > > >
-> > > > > protocol.
-> > > > >
-> > > > > > > To support various ways of guest/host buffer sharing, we might
-> > > > > > > want to
-> > > > > > > have a dedicated buffer sharing device as we're discussing in
-> > > > > > > another
-> > > > > > > thread. Until we reach consensus there, it'd be good not to have
-> > > > > > > buffer
-> > > > > > > allocation
-> > > > > > > functionalities in virtio-video.
-> > > > > >
-> > > > > > I think virtio-video should be able to work as stand-alone device,
-> > > > > > so we need some way to allocate buffers ...
-> > > > > >
-> > > > > > Buffer sharing with other devices can be added later.
-> > > > > >
-> > > > > > > > +The virtio video device is a virtual video streaming device
-> > > > > > > > that
-> > > > > > > > supports the +following functions: encoder, decoder, capture,
-> > > > > > > > output.
-> > > > > > > > +
-> > > > > > > > +\subsection{Device ID}\label{sec:Device Types / Video Device /
-> > > > >
-> > > > > Device
-> > > > >
-> > > > > > > > ID}
-> > > > > > > > +
-> > > > > > > > +TBD.
-> > > > > > >
-> > > > > > > I'm wondering how and when we can determine and reserve this ID?
-> > > > > >
-> > > > > > Grab the next free, update the spec accordingly, submit the one-line
-> > > > > > patch.
-> > > > > >
-> > > > > > > > +\begin{lstlisting}
-> > > > > > > > +enum virtio_video_pixel_format {
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_UNDEFINED = 0,
-> > > > > > > > +
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_H264 = 0x0100,
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV12,
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV21,
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I420,
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I422,
-> > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_XBGR,
-> > > > > > > > +};
-> > > > > > >
-> > > > > > > I'm wondering if we can use FOURCC instead. So, we can avoid
-> > > > >
-> > > > > reinventing a
-> > > > >
-> > > > > > > mapping from formats to integers.
-> > > > > > > Also, I suppose the word "pixel formats" means only raw (decoded)
-> > > > >
-> > > > > formats.
-> > > > >
-> > > > > > > But, it can be encoded format like H.264. So, I guess "image
-> > > > > > > format"
-> > > > > > > or
-> > > > > > > "fourcc" is a better word choice.
-> > > > > >
-> > > > > > Use separate pixel_format (fourcc) and stream_format (H.264 etc.)
-> > > > > > enums?
-> > > > > >
-> > > > > > > > +\begin{lstlisting}
-> > > > > > > > +struct virtio_video_function {
-> > > > > > > > +       struct virtio_video_desc desc;
-> > > > > > > > +       __le32 function_type; /* One of VIRTIO_VIDEO_FUNC_*
-> > > > > > > > types */
-> > > > > > > > +       __le32 function_id;
-> > > > > > > > +       struct virtio_video_params in_params;
-> > > > > > > > +       struct virtio_video_params out_params;
-> > > > > > > > +       __le32 num_caps;
-> > > > > > > > +       __u8 padding[4];
-> > > > > > > > +       /* Followed by struct virtio_video_capability
-> > > > > > > > video_caps[];
-> > > > >
-> > > > > */
-> > > > >
-> > > > > > > > +};
-> > > > > > > > +\end{lstlisting}
-> > > > > > >
-> > > > > > > If one device only has one functionality, virtio_video_function's
-> > > > >
-> > > > > fields
-> > > > >
-> > > > > > > will be no longer needed except in_params and out_params. So, we'd
-> > > > > > > be
-> > > > > > > able to remove virtio_video_function and have in_params and
-> > > > > > > out_params
-> > > > >
-> > > > > in
-> > > > >
-> > > > > > > virtio_video_capability instead.
-> > > > > >
-> > > > > > Same goes for per-function virtqueues (used virtqueue implies
-> > > > > > function).
-> > > > > >
-> > > > > > > > +\begin{lstlisting}
-> > > > > > > > +struct virtio_video_resource_detach_backing {
-> > > > > > > > +       struct virtio_video_ctrl_hdr hdr;
-> > > > > > > > +       __le32 resource_id;
-> > > > > > > > +       __u8 padding[4];
-> > > > > > > > +};
-> > > > > > > > +\end{lstlisting}
-> > > > > > > > +
-> > > > > > > > +\begin{description}
-> > > > > > > > +\item[\field{resource_id}] internal id of the resource.
-> > > > > > > > +\end{description}
-> > > > > > >
-> > > > > > > I suppose that it'd be better not to have the above series of
-> > > > >
-> > > > > T_RESOURCE
-> > > > >
-> > > > > > > controls at least until we reach a conclusion in the thread of
-> > > > > > > buffer-sharing device. If we end up concluding this type of
-> > > > > > > controls
-> > > > > > > is
-> > > > > > > the best way, we'll be able to revisit here.
-> > > > > >
-> > > > > > Well.  For buffer management there are a bunch of options.
-> > > > > >
-> > > > > >  (1) Simply stick the buffers (well, pointers to the buffer pages)
-> > > > > >  into
-> > > > > >
-> > > > > >      the virtqueue.  This is the standard virtio way.
-> > > > > >
-> > > > > >  (2) Create resources, then put the resource ids into the virtqueue.
-> > > > > >
-> > > > > >      virtio-gpu uses that model.  First, because virtio-gpu needs an
-> > > > > >      id
-> > > > > >      to reference resources in the rendering command stream
-> > > > > >      (virtio-video doesn't need this).  Also because (some kinds of)
-> > > > > >      resources are around for a long time and the guest-physical ->
-> > > > > >      host-virtual mapping needs to be done only once that way (which
-> > > > > >      I think would be the case for virtio-video too because v4l2
-> > > > > >      re-uses buffers in robin-round fashion).  Drawback is this
-> > > > > >      assumes shared memory between host and guest (which is the case
-> > > > > >      in typical use cases but it is not mandated by the virtio
-> > > > > >      spec).
-> > > > > >
-> > > > > >  (3) Import external resources (from virtio-gpu for example).
-> > > > > >
-> > > > > >      Out of scope for now, will probably added as optional feature
-> > > > > >      later.
-> > > > > >
-> > > > > > I guess long-term we want support either (1)+(3) or (2)+(3).
-> > > > > >
-> > > > > > cheers,
-> > > > > >
-> > > > > >   Gerd
-> > > > >
-> > > > > ---------------------------------------------------------------------
-> > > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> > > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
->
->
+<snip>
+
+> +static int rkvdec_queue_setup(struct vb2_queue *vq, unsigned int *num_buffers,
+> +			      unsigned int *num_planes, unsigned int sizes[],
+> +			      struct device *alloc_devs[])
+> +{
+> +	struct rkvdec_ctx *ctx = vb2_get_drv_priv(vq);
+> +	struct v4l2_pix_format_mplane *pixfmt;
+> +	struct v4l2_format *f;
+> +	unsigned int i;
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(vq->type))
+> +		f = &ctx->coded_fmt;
+> +	else
+> +		f = &ctx->decoded_fmt;
+> +
+> +	if (*num_planes) {
+> +		if (*num_planes != f->fmt.pix_mp.num_planes)
+> +			return -EINVAL;
+> +
+> +		for (i = 0; i < f->fmt.pix_mp.num_planes; i++) {
+> +			if (sizes[i] < f->fmt.pix_mp.plane_fmt[i].sizeimage)
+> +				return -EINVAL;
+> +		}
+
+Shouldn't there be a 'return 0' here? In the CREATE_BUFS case all you do is check
+if the given size is large enough, and if so then you are done.
+
+> +	} else {
+> +		*num_planes = f->fmt.pix_mp.num_planes;
+> +		for (i = 0; i < f->fmt.pix_mp.num_planes; i++)
+> +			sizes[i] = f->fmt.pix_mp.plane_fmt[i].sizeimage;
+> +	}
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(vq->type))
+> +		return 0;
+> +
+> +	pixfmt = &ctx->decoded_fmt.fmt.pix_mp;
+> +	sizes[0] += 128 * DIV_ROUND_UP(pixfmt->width, 16) *
+> +		    DIV_ROUND_UP(pixfmt->height, 16);
+> +	return 0;
+> +}
+
+<snip>
+
+Regards,
+
+	Hans
