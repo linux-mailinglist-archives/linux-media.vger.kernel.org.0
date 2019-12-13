@@ -2,58 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4703A11E038
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 10:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C115411E05F
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 10:12:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbfLMJGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 04:06:11 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55955 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbfLMJGK (ORCPT
+        id S1726170AbfLMJMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 04:12:39 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38579 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725980AbfLMJMi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 04:06:10 -0500
-Received: by mail-wm1-f65.google.com with SMTP id q9so5448203wmj.5
-        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2019 01:06:08 -0800 (PST)
+        Fri, 13 Dec 2019 04:12:38 -0500
+Received: by mail-wr1-f66.google.com with SMTP id y17so5801668wrh.5
+        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2019 01:12:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:openpgp:autocrypt:organization
          :message-id:date:user-agent:mime-version:in-reply-to;
-        bh=BnL7wFdIIpwLlWxCNoBdlAb6P7EoaznAWReKkpclf+8=;
-        b=KBvYMGdFpJgGv60XgxuelptBGX9purpJfNjUSehI7j8Bu5jQrEdjrZEubEoWmrR79Y
-         7pnkWZQRkyzkSmIDN6T8jN7Mh3HOnwKxUf8M/5WOOvXmY+gXvAc2vBF26Lx02TboHvAL
-         yqnK0p/6prs0B4ZQIQJfPoiuVozfHulYscMSvuB6mrx1K0XfEYnDrhGjm71/QJkh1058
-         /5ijLEbMH7b4BLmToA/gWbBZPW59p2N73zs5DBkeqtH7hf4UZkK1XSTL1HnWBkn2TJCY
-         mT0RtNL4E9teA6VrEh/LsRHZT8rPU1hn4v1TiJ6Ikzux807qzU+34i8/qreKyoD4mYxV
-         9q8A==
+        bh=rWt1q/vEeEVbF+yEnz16jeMd6eO5L70OARQdrU8zDtc=;
+        b=B5LRz1m2ghh2MOK6JEprWxfTaaYDrFyxx8C9wgAFPtkw2omP3OyKFzU99hQAT1JSAV
+         2WFu8knXt2TaD2VBML6R3Uxoxa1iO2sU+0bDWhZUKWFiuJhfBM6iGwj4PS+mjBA61r0x
+         nb/h3K9DlkJdhgPEnn0oT/JHjqGdT5n9hDeZmL3XMtiOa7tRj2B+B2W0cdQUAFAgMEI8
+         P7p7lgOIxWABPULt+wtVhxMblUgUMr0MURHh1EPGDYYVyLWjuks/lEFteuDjUfTZ+LIb
+         poMbVzMUNctno9WVMt884uIR+/K2Tho0apR1IoEKD+H6ng0VND08at7qBCqQf/yHIliM
+         eXog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=BnL7wFdIIpwLlWxCNoBdlAb6P7EoaznAWReKkpclf+8=;
-        b=dd8KHj1JPIgH+Clk4BYJTCHuB9d5i3+RW2ENzLUGEnNNtFSrd3MXzljmliLMMmFcSO
-         p3nOl2fDVQ8DsNsPiYFlKrAeGjBo1O7WwrEXdqj1XgR08UQTI2hDYi9uhGDUL08eyOcS
-         wJ4gJoxFMgKDDOjIoGG6FG+6k6wq3MV4iqsU9/T7ZHwMX7++Pkh5SDc5jeF/rRyA5Ems
-         LHB8kwlRvf2EZTxAE0i+yfkbRLURc6qeWy8vTQZ+p5Oewtrdx7f55jhBUMZ/HeyY4WFa
-         RugNrzMGxgKvNyLewOiMRiK0ICbzBRZzQJ/3LwBXNL34a28MHggCsR+QCDMTlwwjDcJp
-         /l6w==
-X-Gm-Message-State: APjAAAWkmyYnob+6QHkv1jBXRQecPR5a8uSb6g5zNZtDgf2iNRFiHOlF
-        gmhr7+iDhl0b6tkI86cZMurKzw==
-X-Google-Smtp-Source: APXvYqyfl5GuoZl819aBWFwVu/5bxZeIE1Rny+PUCfwgpkvCyY1mmA7hbRfMKxaWwYNhcLNWyZs7qQ==
-X-Received: by 2002:a05:600c:21da:: with SMTP id x26mr11680506wmj.4.1576227967330;
-        Fri, 13 Dec 2019 01:06:07 -0800 (PST)
+        bh=rWt1q/vEeEVbF+yEnz16jeMd6eO5L70OARQdrU8zDtc=;
+        b=k0oVNidyYFidOMX6I8ta/Ofpq5H6WYkFMaRARpi6pbBPTBFEpZNijIjxIiqys6YdyC
+         UWineAMjYHaUDcF5lXc0ipkk1I3PjWMPO7zmepy3xcOvSfdtXsydQ4Ml2U6umcIBfJjk
+         MjvC0DENXshiC4rnw10foKTsYh/qGQ5PJx9gTe/HBEK+ifqJVYeNzfeGCHZ0rUqcd0Mj
+         se0Pvx2KG056bjw8JSEhuRfR8gZbvFM+0cLDrUdDnscGkYBx6sDHbScdYj9EzDmQ87jK
+         qBXneiPIR2QpnAN7KNeIDHr41UaXacdr1OuyhseqmA6dG82s/VkbV755FanD0xTRErmc
+         994Q==
+X-Gm-Message-State: APjAAAUY2Vu21yvAHP08+uowCe6gF+H94v3/ivAVqneaZkPthsogqbnC
+        p9PBap7wgfmd5UshMJ2vzGtAlA==
+X-Google-Smtp-Source: APXvYqyDC/XuqVmKwI1n82QjbC1znUmVQ7yMVLQ/fY+owmA0HzULjEesXcgdW3/pymDvmYUol36xug==
+X-Received: by 2002:a5d:5307:: with SMTP id e7mr11845072wrv.146.1576228354430;
+        Fri, 13 Dec 2019 01:12:34 -0800 (PST)
 Received: from [10.2.4.229] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr. [90.116.92.157])
-        by smtp.gmail.com with ESMTPSA id l17sm9243081wro.77.2019.12.13.01.06.06
+        by smtp.gmail.com with ESMTPSA id g21sm10197750wmh.17.2019.12.13.01.12.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Dec 2019 01:06:06 -0800 (PST)
-Subject: Re: [PATCH 4/5] media: meson: vdec: add VP9 input support
+        Fri, 13 Dec 2019 01:12:33 -0800 (PST)
+Subject: Re: [PATCH 0/5] media: meson: vdec: Add VP9 decoding support
 To:     Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
         hans.verkuil@cisco.com
-Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
 References: <20191205092454.26075-1-narmstrong@baylibre.com>
- <20191205092639.26330-1-narmstrong@baylibre.com>
- <63a630f0760083d735ae02f5797ecd00530c7608.camel@ndufresne.ca>
+ <4ee20fdf5182b7bfe338e9ae044424b6125fed15.camel@ndufresne.ca>
+ <60fa8f55-de40-13fa-b584-ad9f020cde12@baylibre.com>
+ <1a570c6e07fcd0d0ddc401a3640dfca07f22304d.camel@ndufresne.ca>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -106,298 +107,318 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <d80fa827-1ffe-7d2d-85a0-09e00f8bd2a1@baylibre.com>
-Date:   Fri, 13 Dec 2019 10:06:03 +0100
+Message-ID: <ba2cefa3-1ab8-6eb9-8e69-93d6a3ef68d9@baylibre.com>
+Date:   Fri, 13 Dec 2019 10:12:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <63a630f0760083d735ae02f5797ecd00530c7608.camel@ndufresne.ca>
+In-Reply-To: <1a570c6e07fcd0d0ddc401a3640dfca07f22304d.camel@ndufresne.ca>
 Content-Type: multipart/signed; micalg=pgp-sha512;
  protocol="application/pgp-signature";
- boundary="f95FvdYd4hYaMzThMHsdNsdfaUN7Quiqg"
+ boundary="H6Y9TyX5Bl7bwWDy8BWI7XoBTgjeltSAh"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---f95FvdYd4hYaMzThMHsdNsdfaUN7Quiqg
-Content-Type: multipart/mixed; boundary="KumHwTnDbKdFYLKgNdmBeoIb3KjF5kEa8";
+--H6Y9TyX5Bl7bwWDy8BWI7XoBTgjeltSAh
+Content-Type: multipart/mixed; boundary="BySJcvjvxfZ1gJyoSuVoZUxjIRCmOaxPz";
  protected-headers="v1"
 From: Neil Armstrong <narmstrong@baylibre.com>
 To: Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
  hans.verkuil@cisco.com
-Cc: Maxime Jourdan <mjourdan@baylibre.com>, linux-media@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Message-ID: <d80fa827-1ffe-7d2d-85a0-09e00f8bd2a1@baylibre.com>
-Subject: Re: [PATCH 4/5] media: meson: vdec: add VP9 input support
+Cc: linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <ba2cefa3-1ab8-6eb9-8e69-93d6a3ef68d9@baylibre.com>
+Subject: Re: [PATCH 0/5] media: meson: vdec: Add VP9 decoding support
 References: <20191205092454.26075-1-narmstrong@baylibre.com>
- <20191205092639.26330-1-narmstrong@baylibre.com>
- <63a630f0760083d735ae02f5797ecd00530c7608.camel@ndufresne.ca>
-In-Reply-To: <63a630f0760083d735ae02f5797ecd00530c7608.camel@ndufresne.ca>
+ <4ee20fdf5182b7bfe338e9ae044424b6125fed15.camel@ndufresne.ca>
+ <60fa8f55-de40-13fa-b584-ad9f020cde12@baylibre.com>
+ <1a570c6e07fcd0d0ddc401a3640dfca07f22304d.camel@ndufresne.ca>
+In-Reply-To: <1a570c6e07fcd0d0ddc401a3640dfca07f22304d.camel@ndufresne.ca>
 
---KumHwTnDbKdFYLKgNdmBeoIb3KjF5kEa8
+--BySJcvjvxfZ1gJyoSuVoZUxjIRCmOaxPz
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 05/12/2019 19:40, Nicolas Dufresne wrote:
-> Le jeudi 05 d=C3=A9cembre 2019 =C3=A0 10:26 +0100, Neil Armstrong a =C3=
+On 05/12/2019 19:46, Nicolas Dufresne wrote:
+> Le jeudi 05 d=C3=A9cembre 2019 =C3=A0 16:49 +0100, Neil Armstrong a =C3=
 =A9crit :
->> From: Maxime Jourdan <mjourdan@baylibre.com>
+>> On 05/12/2019 16:42, Nicolas Dufresne wrote:
+>>> Hi Neil,
+>>>
+>>> Le jeudi 05 d=C3=A9cembre 2019 =C3=A0 10:24 +0100, Neil Armstrong a =C3=
+=A9crit :
+>>>> Hello,
+>>>>
+>>>> This patchset aims to bring VP9 decoding support to Amlogic GXL, G12=
+A & SM1
+>>>> platforms for the amlogic stateful video decoder driver.
+>>>>
+>>>> With this, it passes v4l2-compliance with streaming on Amlogic G12A =
+and
+>>>> Amlogic SM1 SoCs successfully using the stream at [1] with a fixed
+>>>> pyv4l2compliance script for VP9 at [2].
+>>>>
+>>>> The original script kept the IVF headers in the stream, confusing th=
+e
+>>>> decoder. The fixed script only extracts the payload from the IVF con=
+tainer.
+>>>>
+>>>> The decoder has been tested using the Google CTS TestVectorsIttiam V=
+P9 yuv420
+>>>> samples, passing 82 resolutions test streams, with 13 fails by pixel=
+
+>>>> differences and 3 timeouts.
+>>>
+>>> How do you handle resolution changes on delta frames ? It's a bit of =
+a
+>>> challenge since the reference frames are not at the same resolution a=
+s
+>>> the frames to be decoded. This breaks the assumption for the resoluti=
+on
+>>> changes mechanism as described in the spec.
 >>
->> Amlogic VP9 decoder requires an additional 16-byte payload before ever=
-y
->> frame header.
+>> I don't have a lot of experience on the subject, but in the vendor imp=
+lementation,
+>> they store the resolution along the reference frames and when loading =
+all the
+>> reference frames to the HW, the original resolution is also loaded.
+>> But we don't handle it.
+>>
+>>> On stateless side, Boris is introducing DESTROY_BUFS, so we can free
+>>> the references when they are not used anymore. But the reference are
+>>> managed by userspace and are not queued. While on stateful side so fa=
+r,
+>>> it was assumed that references are queued, and the semantic of S_FMT =
+is
+>>> that it must apply to the entire set of queued buffer.
+>>
+>> yes
+>>
+>>> I think most streams will work and won't use this feature, but I'm
+>>> worried that writing a compliant VP9 decoder is currently not possibl=
+e.
+>>
+>> Indeed, but I don't have a clear enough view on the subject, and it do=
+esn't seem
+>> I have any test stream with such feature.
 >=20
-> When I first saw this patch, I assumed data_offset was to be used (like=
+> https://www.webmproject.org/vp9/levels/
+>=20
+> I believe in the performance suite, the FRM_RESIZE sample is what
+> should exercise this.
 
-> for venus), but I think what I'm reading is that the bitstream is
-> bounce into another buffer (ring buffer ?) and for this reason such an
-> offset is not needed. Maybe worth referring to how the header is being
-> added (e.g. while copying the data) ?=20
+Thanks for pointing this test suite... all samples were failing :-p
 
-The source buffer is updates in-situ, then given to the Parser, copied in=
-to
-the parser ring buffer, then parses and copies the slice into the decoder=
- "workspace".
+Now we added the probability handling and all samples works (except the u=
+nsupported level).
+The ref handling was tricky aswell, anyway it's all fixed except FRM_RESI=
+ZE which will
+be a hell of hacking to tackle.
 
-I'll specify it the commit log.
+The hack would be to keep the refs buffers we still need after frame resi=
+zing on drain,
+then use the max(old_frame_size, new_frame_size) as capture buffer size, =
+then copy back
+the old refs buffers into the newly queued buffers and continue.
+
+It's a ugly hack, but won't break the drain + S_FMT semantic.
+But I will fix this _after_ the v2 of this serie is merged.
 
 Neil
 
 >=20
 >>
->> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
->> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->> ---
->>  drivers/staging/media/meson/vdec/esparser.c | 142 +++++++++++++++++++=
--
->>  1 file changed, 138 insertions(+), 4 deletions(-)
+>> Neil
 >>
->> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/sta=
-ging/media/meson/vdec/esparser.c
->> index adc5c1e81a4c..aeb68f6c732a 100644
->> --- a/drivers/staging/media/meson/vdec/esparser.c
->> +++ b/drivers/staging/media/meson/vdec/esparser.c
->> @@ -52,6 +52,7 @@
->>  #define PARSER_VIDEO_HOLE	0x90
->> =20
->>  #define SEARCH_PATTERN_LEN	512
->> +#define VP9_HEADER_SIZE		16
->> =20
->>  static DECLARE_WAIT_QUEUE_HEAD(wq);
->>  static int search_done;
->> @@ -74,14 +75,121 @@ static irqreturn_t esparser_isr(int irq, void *de=
-v)
->>  	return IRQ_HANDLED;
->>  }
->> =20
->> +/**
->> + * VP9 frame headers need to be appended by a 16-byte long
->=20
-> nit: Maybe the use of "appending" is not appropriate as the header is
-> documented in the commit as being "before every frame header" ?
->=20
->> + * Amlogic custom header
->> + */
->> +static int vp9_update_header(struct amvdec_core *core, struct vb2_buf=
-fer *buf)
->> +{
->> +	u8 *dp;
->> +	u8 marker;
->> +	int dsize;
->> +	int num_frames, cur_frame;
->> +	int cur_mag, mag, mag_ptr;
->> +	int frame_size[8], tot_frame_size[8];
->> +	int total_datasize =3D 0;
->> +	int new_frame_size;
->> +	unsigned char *old_header =3D NULL;
->> +
->> +	dp =3D (uint8_t *)vb2_plane_vaddr(buf, 0);
->> +	dsize =3D vb2_get_plane_payload(buf, 0);
->> +
->> +	if (dsize =3D=3D vb2_plane_size(buf, 0)) {
->> +		dev_warn(core->dev, "%s: unable to update header\n", __func__);
->> +		return 0;
->> +	}
->> +
->> +	marker =3D dp[dsize - 1];
->> +	if ((marker & 0xe0) =3D=3D 0xc0) {
->> +		num_frames =3D (marker & 0x7) + 1;
->> +		mag =3D ((marker >> 3) & 0x3) + 1;
->> +		mag_ptr =3D dsize - mag * num_frames - 2;
->> +		if (dp[mag_ptr] !=3D marker)
->> +			return 0;
->> +
->> +		mag_ptr++;
->> +		for (cur_frame =3D 0; cur_frame < num_frames; cur_frame++) {
->> +			frame_size[cur_frame] =3D 0;
->> +			for (cur_mag =3D 0; cur_mag < mag; cur_mag++) {
->> +				frame_size[cur_frame] |=3D
->> +					(dp[mag_ptr] << (cur_mag * 8));
->> +				mag_ptr++;
->> +			}
->> +			if (cur_frame =3D=3D 0)
->> +				tot_frame_size[cur_frame] =3D
->> +					frame_size[cur_frame];
->> +			else
->> +				tot_frame_size[cur_frame] =3D
->> +					tot_frame_size[cur_frame - 1] +
->> +					frame_size[cur_frame];
->> +			total_datasize +=3D frame_size[cur_frame];
->> +		}
->> +	} else {
->> +		num_frames =3D 1;
->> +		frame_size[0] =3D dsize;
->> +		tot_frame_size[0] =3D dsize;
->> +		total_datasize =3D dsize;
->> +	}
->> +
->> +	new_frame_size =3D total_datasize + num_frames * VP9_HEADER_SIZE;
->> +
->> +	if (new_frame_size >=3D vb2_plane_size(buf, 0)) {
->> +		dev_warn(core->dev, "%s: unable to update header\n", __func__);
->> +		return 0;
->> +	}
->> +
->> +	for (cur_frame =3D num_frames - 1; cur_frame >=3D 0; cur_frame--) {
->> +		int framesize =3D frame_size[cur_frame];
->> +		int framesize_header =3D framesize + 4;
->> +		int oldframeoff =3D tot_frame_size[cur_frame] - framesize;
->> +		int outheaderoff =3D  oldframeoff + cur_frame * VP9_HEADER_SIZE;
->> +		u8 *fdata =3D dp + outheaderoff;
->> +		u8 *old_framedata =3D dp + oldframeoff;
->> +
->> +		memmove(fdata + VP9_HEADER_SIZE, old_framedata, framesize);
->> +
->> +		fdata[0] =3D (framesize_header >> 24) & 0xff;
->> +		fdata[1] =3D (framesize_header >> 16) & 0xff;
->> +		fdata[2] =3D (framesize_header >> 8) & 0xff;
->> +		fdata[3] =3D (framesize_header >> 0) & 0xff;
->> +		fdata[4] =3D ((framesize_header >> 24) & 0xff) ^ 0xff;
->> +		fdata[5] =3D ((framesize_header >> 16) & 0xff) ^ 0xff;
->> +		fdata[6] =3D ((framesize_header >> 8) & 0xff) ^ 0xff;
->> +		fdata[7] =3D ((framesize_header >> 0) & 0xff) ^ 0xff;
->> +		fdata[8] =3D 0;
->> +		fdata[9] =3D 0;
->> +		fdata[10] =3D 0;
->> +		fdata[11] =3D 1;
->> +		fdata[12] =3D 'A';
->> +		fdata[13] =3D 'M';
->> +		fdata[14] =3D 'L';
->> +		fdata[15] =3D 'V';
->> +
->> +		if (!old_header) {
->> +			/* nothing */
->> +		} else if (old_header > fdata + 16 + framesize) {
->> +			dev_dbg(core->dev, "%s: data has gaps, setting to 0\n",
->> +				__func__);
->> +			memset(fdata + 16 + framesize, 0,
->> +			       (old_header - fdata + 16 + framesize));
->> +		} else if (old_header < fdata + 16 + framesize) {
->> +			dev_err(core->dev, "%s: data overwritten\n", __func__);
->> +		}
->> +		old_header =3D fdata;
->> +	}
->> +
->> +	return new_frame_size;
->> +}
->> +
->>  /* Pad the packet to at least 4KiB bytes otherwise the VDEC unit won'=
-t trigger
->>   * ISRs.
->>   * Also append a start code 000001ff at the end to trigger
->>   * the ESPARSER interrupt.
->>   */
->> -static u32 esparser_pad_start_code(struct amvdec_core *core, struct v=
-b2_buffer *vb)
->> +static u32 esparser_pad_start_code(struct amvdec_core *core,
->> +				   struct vb2_buffer *vb,
->> +				   u32 payload_size)
->>  {
->> -	u32 payload_size =3D vb2_get_plane_payload(vb, 0);
->>  	u32 pad_size =3D 0;
->>  	u8 *vaddr =3D vb2_plane_vaddr(vb, 0);
->> =20
->> @@ -186,13 +294,27 @@ esparser_queue(struct amvdec_session *sess, stru=
-ct vb2_v4l2_buffer *vbuf)
->>  	int ret;
->>  	struct vb2_buffer *vb =3D &vbuf->vb2_buf;
->>  	struct amvdec_core *core =3D sess->core;
->> +	struct amvdec_codec_ops *codec_ops =3D sess->fmt_out->codec_ops;
->>  	u32 payload_size =3D vb2_get_plane_payload(vb, 0);
->>  	dma_addr_t phy =3D vb2_dma_contig_plane_dma_addr(vb, 0);
->> +	u32 num_dst_bufs =3D 0;
->>  	u32 offset;
->>  	u32 pad_size;
->> =20
->> -	if (esparser_vififo_get_free_space(sess) < payload_size)
->> +	if (sess->fmt_out->pixfmt =3D=3D V4L2_PIX_FMT_VP9) {
->> +		if (codec_ops->num_pending_bufs)
->> +			num_dst_bufs =3D codec_ops->num_pending_bufs(sess);
->> +
->> +		num_dst_bufs +=3D v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
->> +		if (sess->fmt_out->pixfmt =3D=3D V4L2_PIX_FMT_VP9)
->> +			num_dst_bufs -=3D 2;
->> +
->> +		if (esparser_vififo_get_free_space(sess) < payload_size ||
->> +		    atomic_read(&sess->esparser_queued_bufs) >=3D num_dst_bufs)
->> +			return -EAGAIN;
->> +	} else if (esparser_vififo_get_free_space(sess) < payload_size) {
->>  		return -EAGAIN;
->> +	}
->> =20
->>  	v4l2_m2m_src_buf_remove_by_buf(sess->m2m_ctx, vbuf);
->> =20
->> @@ -206,7 +328,19 @@ esparser_queue(struct amvdec_session *sess, struc=
-t vb2_v4l2_buffer *vbuf)
->>  	vbuf->field =3D V4L2_FIELD_NONE;
->>  	vbuf->sequence =3D sess->sequence_out++;
->> =20
->> -	pad_size =3D esparser_pad_start_code(core, vb);
->> +	if (sess->fmt_out->pixfmt =3D=3D V4L2_PIX_FMT_VP9) {
->> +		payload_size =3D vp9_update_header(core, vb);
->> +
->> +		/* If unable to alter buffer to add headers */
->> +		if (payload_size =3D=3D 0) {
->> +			amvdec_remove_ts(sess, vb->timestamp);
->> +			v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
->> +
->> +			return 0;
->> +		}
->> +	}
->> +
->> +	pad_size =3D esparser_pad_start_code(core, vb, payload_size);
->>  	ret =3D esparser_write_data(core, phy, payload_size + pad_size);
->> =20
->>  	if (ret <=3D 0) {
+>>>> This patchset depends on :
+>>>> - G12A enablement at [3]
+>>>> - SM1 enablement at [4]
+>>>> - H.264 and compliance at [5]
+>>>>
+>>>> [1] https://github.com/superna9999/pyv4l2compliance/raw/tests/output=
+/Jellyfish_1080_10s_5MB.vp9.hdr
+>>>> [2] https://github.com/superna9999/pyv4l2compliance
+>>>> [3] https://lore.kernel.org/linux-media/20191120111430.29552-1-narms=
+trong@baylibre.com
+>>>> [4] https://lore.kernel.org/linux-media/20191121101429.23831-1-narms=
+trong@baylibre.com
+>>>> [5] https://lore.kernel.org/linux-media/20191126093733.32404-1-narms=
+trong@baylibre.com
+>>>>
+>>>> The compliance log is:
+>>>> # v4l2-compliance --stream-from-hdr Jellyfish_1080_10s_5MB.vp9.hdr -=
+s 200
+>>>> v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bi=
+ts
+>>>>
+>>>> Compliance test for meson-vdec device /dev/video0:
+>>>>
+>>>> Driver Info:
+>>>> 	Driver name      : meson-vdec
+>>>> 	Card type        : Amlogic Video Decoder
+>>>> 	Bus info         : platform:meson-vdec
+>>>> 	Driver version   : 5.4.0
+>>>> 	Capabilities     : 0x84204000
+>>>> 		Video Memory-to-Memory Multiplanar
+>>>> 		Streaming
+>>>> 		Extended Pix Format
+>>>> 		Device Capabilities
+>>>> 	Device Caps      : 0x04204000
+>>>> 		Video Memory-to-Memory Multiplanar
+>>>> 		Streaming
+>>>> 		Extended Pix Format
+>>>> 	Detected Stateful Decoder
+>>>>
+>>>> Required ioctls:
+>>>> 	test VIDIOC_QUERYCAP: OK
+>>>>
+>>>> Allow for multiple opens:
+>>>> 	test second /dev/video0 open: OK
+>>>> 	test VIDIOC_QUERYCAP: OK
+>>>> 	test VIDIOC_G/S_PRIORITY: OK
+>>>> 	test for unlimited opens: OK
+>>>>
+>>>> Debug ioctls:
+>>>> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>>
+>>>> Input ioctls:
+>>>> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>>>> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
+>>>>
+>>>> Output ioctls:
+>>>> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>>
+>>>> Input/Output configuration ioctls:
+>>>> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>> 	test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>>
+>>>> Control ioctls:
+>>>> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>>>> 	test VIDIOC_QUERYCTRL: OK
+>>>> 	test VIDIOC_G/S_CTRL: OK
+>>>> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>>>> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>>>> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>> 	Standard Controls: 2 Private Controls: 0
+>>>>
+>>>> Format ioctls:
+>>>> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>> 	test VIDIOC_G/S_PARM: OK (Not Supported)
+>>>> 	test VIDIOC_G_FBUF: OK (Not Supported)
+>>>> 	test VIDIOC_G_FMT: OK
+>>>> 	test VIDIOC_TRY_FMT: OK
+>>>> 	test VIDIOC_S_FMT: OK
+>>>> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>> 	test Cropping: OK (Not Supported)
+>>>> 	test Composing: OK (Not Supported)
+>>>> 	test Scaling: OK (Not Supported)
+>>>>
+>>>> Codec ioctls:
+>>>> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>>>> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>> 	test VIDIOC_(TRY_)DECODER_CMD: OK
+>>>>
+>>>> Buffer ioctls:
+>>>> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>> 	test VIDIOC_EXPBUF: OK
+>>>> 	test Requests: OK (Not Supported)
+>>>>
+>>>> Test input 0:
+>>>>
+>>>> Streaming ioctls:
+>>>> 	test read/write: OK (Not Supported)
+>>>> 	test blocking wait: OK
+>>>> 	Video Capture Multiplanar: Captured 200 buffers  =20
+>>>> 	test MMAP (select): OK
+>>>> 	Video Capture Multiplanar: Captured 200 buffers  =20
+>>>> 	test MMAP (epoll): OK
+>>>> 	test USERPTR (select): OK (Not Supported)
+>>>> 	test DMABUF: Cannot test, specify --expbuf-device
+>>>>
+>>>> Total for meson-vdec device /dev/video0: 49, Succeeded: 49, Failed: =
+0, Warnings: 0
+>>>>
+>>>> Maxime Jourdan (4):
+>>>>   media: meson: vdec: add helpers for lossless framebuffer compressi=
+on
+>>>>     buffers
+>>>>   media: meson: vdec: add common HEVC decoder support
+>>>>   media: meson: vdec: add VP9 input support
+>>>>   media: meson: vdec: add VP9 decoder support
+>>>>
+>>>> Neil Armstrong (1):
+>>>>   media: meson: vdec: align stride on 32 bytes
+>>>>
+>>>>  drivers/staging/media/meson/vdec/Makefile     |    4 +-
+>>>>  .../media/meson/vdec/codec_hevc_common.c      |  285 ++++
+>>>>  .../media/meson/vdec/codec_hevc_common.h      |   77 ++
+>>>>  drivers/staging/media/meson/vdec/codec_vp9.c  | 1192 ++++++++++++++=
++++
+>>>>  drivers/staging/media/meson/vdec/codec_vp9.h  |   13 +
+>>>>  drivers/staging/media/meson/vdec/esparser.c   |  142 +-
+>>>>  drivers/staging/media/meson/vdec/hevc_regs.h  |  218 +++
+>>>>  drivers/staging/media/meson/vdec/vdec.c       |   10 +-
+>>>>  .../staging/media/meson/vdec/vdec_helpers.c   |   31 +-
+>>>>  .../staging/media/meson/vdec/vdec_helpers.h   |    4 +
+>>>>  drivers/staging/media/meson/vdec/vdec_hevc.c  |  231 ++++
+>>>>  drivers/staging/media/meson/vdec/vdec_hevc.h  |   13 +
+>>>>  .../staging/media/meson/vdec/vdec_platform.c  |   38 +
+>>>>  13 files changed, 2245 insertions(+), 13 deletions(-)
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/codec_hevc_comm=
+on.c
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/codec_hevc_comm=
+on.h
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.c
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.h
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/hevc_regs.h
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/vdec_hevc.c
+>>>>  create mode 100644 drivers/staging/media/meson/vdec/vdec_hevc.h
+>>>>
+>>
+>>
 
 
 
---KumHwTnDbKdFYLKgNdmBeoIb3KjF5kEa8--
+--BySJcvjvxfZ1gJyoSuVoZUxjIRCmOaxPz--
 
---f95FvdYd4hYaMzThMHsdNsdfaUN7Quiqg
+--H6Y9TyX5Bl7bwWDy8BWI7XoBTgjeltSAh
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEPVPGJshWBf4d9CyLd9zb2sjISdEFAl3zVHsACgkQd9zb2sjI
-SdGmyQ/+ILUSn2U13rbSmaXhjKZ/SDVEu1IZZBYHNHqDkQdQw2S/23oaum4t4sxM
-bm7e3d4potvZD87xLoMJeIerkr+e2HiQuUMpOolNxHqkDq0WBqte2rRHVTxMUK/i
-hT+H3nAIBqJV6gs1E8sRw5+k+UoMjfh+TfhxK8Bf01uIJ9pSWAdKRwVshIOnUdEL
-hue+JMkVRe0sCIjL8H3l3WrtH38zJg2zxExMUhz3otLFSpx7aNwFPVfW5YyUm+GH
-n/xX1ykttGtoJe+quLCTcafS24dzDuaerSjvwh5g50weeQ4xBMBM1FDnGsX+7vW2
-xwpomt7gi8DELtOeS8wGkq8T9NhdZy4iFVxcccD5gtUrmiCTEdJT7NYuzkKkX/69
-4TAPGHg7akU06Xrt4setbHMMUXPCjyOVwNSLtWSzsduDNLcbJBjx5nSITCrXjFpT
-WTOUzUpMBvw3XBKPPts7tXjEgG7eh5NXojhEdWjYc77qPdrvsE0licdnGdPAHn3K
-FQIreNf5/L8x5fNAk7Uf9q47r4B25WUkW3tH4JgW25+PFJowHwC9GTlvhc1I5v78
-J8nmREdBtwR7psTUoMARfCVa/vVK6ztvPJ9PHaRY6PuhmLtzQsjX+D1u8oeA6sfE
-rcggihJMUtfIOEJ7N+9LNG64XX4iLbpm/VqkktdWy0Q76JJHmwc=
-=h8Zb
+iQIzBAEBCgAdFiEEPVPGJshWBf4d9CyLd9zb2sjISdEFAl3zVf0ACgkQd9zb2sjI
+SdE92g/9EV9jmSpc6UEnZyrrQ8j5Ltvzte/JyREj7VhEyBY/hNjikfldte1VhNe+
+sP8EyUOnunZ6dLwHqqaHlGQgOcIk4rhD4NLv1BK+78w2N2s8VXg+p8sh2N08x3Qc
+WPBdsfNAyFAIEpRiWoDhVoUcDwcd3v0uQursZ2rF5NuI2f1uP3BuO+g3bRMPZ2hq
+Xn+Xg1WzrzBEAc7CEHaJs818G/3Yr5UArcVvDtaq4DB1JEV6nrBKYlghrjGmdcNX
+X6Tu+e1E7i6QY8lPOGGNGXkv7FdmebPtTMkU71x97Bb4GZyNqal2LdL5RHCs2x3/
+5JR83jRoIf+Kw6dNO94yKTRwSmM/qtgU7HFG2qtvmIR3xNaHeV63VwKLpYMQbo7E
+q2kM7khr1T0TQp/ie2g4AtFVfFrbw+3uMFPHKUB1zPvngt12P/GskQnQQ04L4QsU
+3ndwvADBrPn29MTDHn91rWy4e7xmBx3tgtjDZMi95fCI2lgV/zlxRLcQv7B/T4Cq
+ot+pKKyNvxXJpoL6dioEhiatIOznNxZJH6sbOg/G4/RFt48swHFi0mk1hKdKmVUu
+n2844fvpiZCxJBdE6S+j2Q7dGfyToUZS8NzmWIYJiKpyRU7NZ5H4rB4h6IbMXo3I
+cO/ePpDY4s9X+tyG5WFHHsKPHtJGjZB5PV0dZAl0+mgrX+w598g=
+=xujm
 -----END PGP SIGNATURE-----
 
---f95FvdYd4hYaMzThMHsdNsdfaUN7Quiqg--
+--H6Y9TyX5Bl7bwWDy8BWI7XoBTgjeltSAh--
