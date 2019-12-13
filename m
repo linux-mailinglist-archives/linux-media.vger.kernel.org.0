@@ -2,123 +2,704 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1408B11E232
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 11:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E957C11E241
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 11:46:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbfLMKlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 05:41:39 -0500
-Received: from mga06.intel.com ([134.134.136.31]:44851 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725890AbfLMKlj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 05:41:39 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Dec 2019 02:41:39 -0800
-X-IronPort-AV: E=Sophos;i="5.69,309,1571727600"; 
-   d="scan'208";a="204291289"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Dec 2019 02:41:36 -0800
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org
-Cc:     intel-gfx@lists.freedesktop.org,
-        Andy Walls <awalls@md.metrocast.net>,
-        linux-media@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v3 10/12] media: constify fb ops across all drivers
-In-Reply-To: <966b9db7-b6c2-d3a2-0842-574186418860@xs4all.nl>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1575390740.git.jani.nikula@intel.com> <71794337f8611271f2c1fdb3882119a58e743a87.1575390741.git.jani.nikula@intel.com> <966b9db7-b6c2-d3a2-0842-574186418860@xs4all.nl>
-Date:   Fri, 13 Dec 2019 12:41:33 +0200
-Message-ID: <87a77w33tu.fsf@intel.com>
+        id S1726016AbfLMKqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 05:46:12 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:33441 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725945AbfLMKqM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Dec 2019 05:46:12 -0500
+Received: from [IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478]
+ ([IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id fiSVil2ijapzpfiSWidtzx; Fri, 13 Dec 2019 11:46:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576233968; bh=WtSYmu0MRefvlmF3TqMlfkz9ncQO9UmxmxZEn7imrTU=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=lJXr8Cf09EH0lxbmu8IszS7NbckJx75WOj5YEBZtuiybSShLr3Qp/0G7zRC3AJAuW
+         PzD8xHCUXm+kInnQd5zBChJjy9XTmvJFVBe4l0pwTGnObJNNgOE2t2VaEGeiXhM5N/
+         +YOZJBk9E0werkcMkBscT3ugTECmbCm5eM0sBvCmjqTeD/xbHbWL8YdFnkrpAA5GP+
+         BVkbwwO0wF4peCDxRifTvI9itX+zdBwDtsL4WxTO18q+b1NDv4MjeY1w6cprlVA+PD
+         nMpTN1nvm0Ge38AcWlh88je8BxWIhU8nkUEEKKh0gkQHL+V6Zni9XZxyr1MwpIBK/u
+         D2GloafJvL5KA==
+Subject: Re: [PATCH v2 4/4] media: coda: jpeg: add CODA960 JPEG encoder
+ support
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     kernel@pengutronix.de
+References: <20191212140255.8766-1-p.zabel@pengutronix.de>
+ <20191212140255.8766-4-p.zabel@pengutronix.de>
+ <a12fd0ed-a90d-51d2-0fce-2e064ca303a5@xs4all.nl>
+Message-ID: <9f73185f-5bff-e235-7117-4e5440daca75@xs4all.nl>
+Date:   Fri, 13 Dec 2019 11:46:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <a12fd0ed-a90d-51d2-0fce-2e064ca303a5@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfG67tFa3gn56bDt1BkbUbKBMXAss/6ixKKFK0i9+heke4JCkrPlcV1kLz4xWhsU4k7fg9/5MBg4Agj3Ga52gPDbCuFyHmUHUaOvuuw42tJ13IbGWiyEQ
+ +89DcDCOF8wkhWBvdXOzSGSnVI4qvhGZbnwaJEZxCzQQd7M7GvU6c2MQSvrMOYl1K6oOzYCrxv7VweCXkOI+SqKYavzQa/GZW7zIEDWAsY7RqB8usg+nmxLZ
+ POpOGEBvpiCrFJDkxDp+2ychXPvP38NP963mVVUwJ32fj/UQtX5ERr2OMAlh2EcKWADd+jZUreEn1yegh571JoRnccUU1+t2dDjzs59p6p40W/NZz9xjF78q
+ OSbmZN1e
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 12 Dec 2019, Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> On 12/3/19 5:38 PM, Jani Nikula wrote:
->> Now that the fbops member of struct fb_info is const, we can start
->> making the ops const as well.
->> 
->> Remove the redundant fbops assignments while at it.
->> 
->> v2:
->> - actually add const in vivid
->> - fix typo (Christophe de Dinechin)
->> 
->> Cc: Hans Verkuil <hverkuil@xs4all.nl>
->> Cc: Andy Walls <awalls@md.metrocast.net>
->> Cc: linux-media@vger.kernel.org
->> Cc: ivtv-devel@ivtvdriver.org
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+On 12/13/19 9:33 AM, Hans Verkuil wrote:
+> Hi Philipp,
+> 
+> Two small comments:
 
-Pushed to drm-misc-next, thanks for the reviews and acks.
+I've removed those two unused variables myself, so no need to do anything.
+Unless they actually shouldn't have been unused and something else is
+going on; in that case please post a follow-up patch.
 
-BR,
-Jani.
+Regards,
 
->
-> Thanks!
->
-> 	Hans
->
+	Hans
+
+> 
+> On 12/12/19 3:02 PM, Philipp Zabel wrote:
+>> This patch adds JPEG encoding support for CODA960, handling the JPEG
+>> hardware directly. A separate JPEG encoder video device is created due
+>> to the separate hardware unit and different supported pixel formats.
+>> While the hardware can not change subsampling on the fly, it can encode
+>> 4:2:2 subsampled images into JPEGs of the same subsampling.
+>>
+>> There are two additional tracepoints added to the coda driver that can
+>> be used together with the v4l2:v4l2_qbuf and v4l2:v4l2_dqbuf tracepoints
+>> to to follow video frames through the mem2mem device when encoding or
+>> decoding with the CODA960 JPEG codec:
+>>     coda:coda_jpeg_run
+>>     coda:coda_jpeg_done
+>>
+>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> Tested-by: Richard Leitner <richard.leitner@skidata.com>
 >> ---
->>  drivers/media/pci/ivtv/ivtvfb.c          | 3 +--
->>  drivers/media/platform/vivid/vivid-osd.c | 3 +--
->>  2 files changed, 2 insertions(+), 4 deletions(-)
->> 
->> diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
->> index 95a56cce9b65..f2922b554b09 100644
->> --- a/drivers/media/pci/ivtv/ivtvfb.c
->> +++ b/drivers/media/pci/ivtv/ivtvfb.c
->> @@ -925,7 +925,7 @@ static int ivtvfb_blank(int blank_mode, struct fb_info *info)
->>  	return 0;
+>> Changes since v1 [1]:
+>> - fixed platform_get_irq.cocci warnings
+>> - fixed encoder Huffman table generation, replaced broken pointer
+>>   arithmetic with a structure definition
+>> - moved encoder Huffman table generation to start_streaming
+>> - dropped coda9_jpeg_load_qmat_tab return value
+>>
+>> [1] https://patchwork.linuxtv.org/patch/60107/
+>> ---
+>>  drivers/media/platform/coda/coda-common.c |  39 +-
+>>  drivers/media/platform/coda/coda-jpeg.c   | 708 ++++++++++++++++++++++
+>>  drivers/media/platform/coda/coda.h        |   3 +
+>>  drivers/media/platform/coda/trace.h       |  10 +
+>>  4 files changed, 758 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+>> index 556f8e0f52d7..0b5abae11012 100644
+>> --- a/drivers/media/platform/coda/coda-common.c
+>> +++ b/drivers/media/platform/coda/coda-common.c
+>> @@ -155,6 +155,7 @@ static const struct coda_codec coda7_codecs[] = {
+>>  static const struct coda_codec coda9_codecs[] = {
+>>  	CODA_CODEC(CODA9_MODE_ENCODE_H264, V4L2_PIX_FMT_YUV420, V4L2_PIX_FMT_H264,   1920, 1088),
+>>  	CODA_CODEC(CODA9_MODE_ENCODE_MP4,  V4L2_PIX_FMT_YUV420, V4L2_PIX_FMT_MPEG4,  1920, 1088),
+>> +	CODA_CODEC(CODA9_MODE_ENCODE_MJPG, V4L2_PIX_FMT_YUV420, V4L2_PIX_FMT_JPEG,   8192, 8192),
+>>  	CODA_CODEC(CODA9_MODE_DECODE_H264, V4L2_PIX_FMT_H264,   V4L2_PIX_FMT_YUV420, 1920, 1088),
+>>  	CODA_CODEC(CODA9_MODE_DECODE_MP2,  V4L2_PIX_FMT_MPEG2,  V4L2_PIX_FMT_YUV420, 1920, 1088),
+>>  	CODA_CODEC(CODA9_MODE_DECODE_MP4,  V4L2_PIX_FMT_MPEG4,  V4L2_PIX_FMT_YUV420, 1920, 1088),
+>> @@ -235,6 +236,22 @@ static const struct coda_video_device coda_bit_jpeg_decoder = {
+>>  	},
+>>  };
+>>  
+>> +static const struct coda_video_device coda9_jpeg_encoder = {
+>> +	.name = "coda-jpeg-encoder",
+>> +	.type = CODA_INST_ENCODER,
+>> +	.ops = &coda9_jpeg_encode_ops,
+>> +	.direct = true,
+>> +	.src_formats = {
+>> +		V4L2_PIX_FMT_NV12,
+>> +		V4L2_PIX_FMT_YUV420,
+>> +		V4L2_PIX_FMT_YVU420,
+>> +		V4L2_PIX_FMT_YUV422P,
+>> +	},
+>> +	.dst_formats = {
+>> +		V4L2_PIX_FMT_JPEG,
+>> +	},
+>> +};
+>> +
+>>  static const struct coda_video_device *codadx6_video_devices[] = {
+>>  	&coda_bit_encoder,
+>>  };
+>> @@ -252,6 +269,7 @@ static const struct coda_video_device *coda7_video_devices[] = {
+>>  };
+>>  
+>>  static const struct coda_video_device *coda9_video_devices[] = {
+>> +	&coda9_jpeg_encoder,
+>>  	&coda_bit_encoder,
+>>  	&coda_bit_decoder,
+>>  };
+>> @@ -721,7 +739,8 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
+>>  		ctx->tiled_map_type = GDI_TILED_FRAME_MB_RASTER_MAP;
+>>  		break;
+>>  	case V4L2_PIX_FMT_NV12:
+>> -		if (!disable_tiling && ctx->dev->devtype->product == CODA_960) {
+>> +		if (!disable_tiling && ctx->use_bit &&
+>> +		    ctx->dev->devtype->product == CODA_960) {
+>>  			ctx->tiled_map_type = GDI_TILED_FRAME_MB_RASTER_MAP;
+>>  			break;
+>>  		}
+>> @@ -1787,7 +1806,7 @@ static void coda_buf_queue(struct vb2_buffer *vb)
+>>  				coda_queue_source_change_event(ctx);
+>>  		}
+>>  	} else {
+>> -		if (ctx->inst_type == CODA_INST_ENCODER &&
+>> +		if ((ctx->inst_type == CODA_INST_ENCODER || !ctx->use_bit) &&
+>>  		    vq->type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+>>  			vbuf->sequence = ctx->qsequence++;
+>>  		v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+>> @@ -2996,6 +3015,22 @@ static int coda_probe(struct platform_device *pdev)
+>>  		return ret;
+>>  	}
+>>  
+>> +	/* JPEG IRQ */
+>> +	if (dev->devtype->product == CODA_960) {
+>> +		irq = platform_get_irq_byname(pdev, "jpeg");
+>> +		if (irq < 0)
+>> +			return irq;
+>> +
+>> +		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+>> +						coda9_jpeg_irq_handler,
+>> +						IRQF_ONESHOT, CODA_NAME " jpeg",
+>> +						dev);
+>> +		if (ret < 0) {
+>> +			dev_err(&pdev->dev, "failed to request jpeg irq\n");
+>> +			return ret;
+>> +		}
+>> +	}
+>> +
+>>  	dev->rstc = devm_reset_control_get_optional_exclusive(&pdev->dev,
+>>  							      NULL);
+>>  	if (IS_ERR(dev->rstc)) {
+>> diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
+>> index 27e20aee1a8c..983fac80a5a5 100644
+>> --- a/drivers/media/platform/coda/coda-jpeg.c
+>> +++ b/drivers/media/platform/coda/coda-jpeg.c
+>> @@ -5,15 +5,40 @@
+>>   * Copyright (C) 2014 Philipp Zabel, Pengutronix
+>>   */
+>>  
+>> +#include <asm/unaligned.h>
+>> +#include <linux/irqreturn.h>
+>>  #include <linux/kernel.h>
+>> +#include <linux/ktime.h>
+>> +#include <linux/slab.h>
+>>  #include <linux/swab.h>
+>> +#include <linux/videodev2.h>
+>> +
+>> +#include <media/v4l2-common.h>
+>> +#include <media/v4l2-fh.h>
+>> +#include <media/v4l2-mem2mem.h>
+>> +#include <media/videobuf2-core.h>
+>> +#include <media/videobuf2-dma-contig.h>
+>>  
+>>  #include "coda.h"
+>>  #include "trace.h"
+>>  
+>>  #define SOI_MARKER	0xffd8
+>> +#define DRI_MARKER	0xffdd
+>> +#define DQT_MARKER	0xffdb
+>> +#define DHT_MARKER	0xffc4
+>> +#define SOF_MARKER	0xffc0
+>>  #define EOI_MARKER	0xffd9
+>>  
+>> +enum {
+>> +	CODA9_JPEG_FORMAT_420,
+>> +	CODA9_JPEG_FORMAT_422,
+>> +	CODA9_JPEG_FORMAT_224,
+>> +	CODA9_JPEG_FORMAT_444,
+>> +	CODA9_JPEG_FORMAT_400,
+>> +};
+>> +
+>> +#define CODA9_JPEG_ENC_HUFF_DATA_SIZE	(256 + 256 + 16 + 16)
+>> +
+>>  /*
+>>   * Typical Huffman tables for 8-bit precision luminance and
+>>   * chrominance from JPEG ITU-T.81 (ISO/IEC 10918-1) Annex K.3
+>> @@ -120,6 +145,38 @@ static unsigned char chroma_q[64] = {
+>>  	0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c, 0x0c,
+>>  };
+>>  
+>> +static const unsigned char width_align[] = {
+>> +	[CODA9_JPEG_FORMAT_420] = 16,
+>> +	[CODA9_JPEG_FORMAT_422] = 16,
+>> +	[CODA9_JPEG_FORMAT_224] = 8,
+>> +	[CODA9_JPEG_FORMAT_444] = 8,
+>> +	[CODA9_JPEG_FORMAT_400] = 8,
+>> +};
+>> +
+>> +static const unsigned char height_align[] = {
+>> +	[CODA9_JPEG_FORMAT_420] = 16,
+>> +	[CODA9_JPEG_FORMAT_422] = 8,
+>> +	[CODA9_JPEG_FORMAT_224] = 16,
+>> +	[CODA9_JPEG_FORMAT_444] = 8,
+>> +	[CODA9_JPEG_FORMAT_400] = 8,
+>> +};
+>> +
+>> +static int coda9_jpeg_chroma_format(u32 pixfmt)
+>> +{
+>> +	switch (pixfmt) {
+>> +	case V4L2_PIX_FMT_YUV420:
+>> +	case V4L2_PIX_FMT_NV12:
+>> +		return CODA9_JPEG_FORMAT_420;
+>> +	case V4L2_PIX_FMT_YUV422P:
+>> +		return CODA9_JPEG_FORMAT_422;
+>> +	case V4L2_PIX_FMT_YUV444:
+>> +		return CODA9_JPEG_FORMAT_444;
+>> +	case V4L2_PIX_FMT_GREY:
+>> +		return CODA9_JPEG_FORMAT_400;
+>> +	}
+>> +	return -EINVAL;
+>> +}
+>> +
+>>  struct coda_memcpy_desc {
+>>  	int offset;
+>>  	const void *src;
+>> @@ -190,6 +247,380 @@ bool coda_jpeg_check_buffer(struct coda_ctx *ctx, struct vb2_buffer *vb)
+>>  	return false;
 >>  }
 >>  
->> -static struct fb_ops ivtvfb_ops = {
->> +static const struct fb_ops ivtvfb_ops = {
->>  	.owner = THIS_MODULE,
->>  	.fb_write       = ivtvfb_write,
->>  	.fb_check_var   = ivtvfb_check_var,
->> @@ -1049,7 +1049,6 @@ static int ivtvfb_init_vidmode(struct ivtv *itv)
->>  
->>  	oi->ivtvfb_info.node = -1;
->>  	oi->ivtvfb_info.flags = FBINFO_FLAG_DEFAULT;
->> -	oi->ivtvfb_info.fbops = &ivtvfb_ops;
->>  	oi->ivtvfb_info.par = itv;
->>  	oi->ivtvfb_info.var = oi->ivtvfb_defined;
->>  	oi->ivtvfb_info.fix = oi->ivtvfb_fix;
->> diff --git a/drivers/media/platform/vivid/vivid-osd.c b/drivers/media/platform/vivid/vivid-osd.c
->> index f2e789bdf4a6..fbaec8acc161 100644
->> --- a/drivers/media/platform/vivid/vivid-osd.c
->> +++ b/drivers/media/platform/vivid/vivid-osd.c
->> @@ -244,7 +244,7 @@ static int vivid_fb_blank(int blank_mode, struct fb_info *info)
->>  	return 0;
+>> +static const int bus_req_num[] = {
+>> +	[CODA9_JPEG_FORMAT_420] = 2,
+>> +	[CODA9_JPEG_FORMAT_422] = 3,
+>> +	[CODA9_JPEG_FORMAT_224] = 3,
+>> +	[CODA9_JPEG_FORMAT_444] = 4,
+>> +	[CODA9_JPEG_FORMAT_400] = 4,
+>> +};
+>> +
+>> +#define MCU_INFO(mcu_block_num, comp_num, comp0_info, comp1_info, comp2_info) \
+>> +	(((mcu_block_num) << CODA9_JPEG_MCU_BLOCK_NUM_OFFSET) | \
+>> +	 ((comp_num) << CODA9_JPEG_COMP_NUM_OFFSET) | \
+>> +	 ((comp0_info) << CODA9_JPEG_COMP0_INFO_OFFSET) | \
+>> +	 ((comp1_info) << CODA9_JPEG_COMP1_INFO_OFFSET) | \
+>> +	 ((comp2_info) << CODA9_JPEG_COMP2_INFO_OFFSET))
+>> +
+>> +static const u32 mcu_info[] = {
+>> +	[CODA9_JPEG_FORMAT_420] = MCU_INFO(6, 3, 10, 5, 5),
+>> +	[CODA9_JPEG_FORMAT_422] = MCU_INFO(4, 3, 9, 5, 5),
+>> +	[CODA9_JPEG_FORMAT_224] = MCU_INFO(4, 3, 6, 5, 5),
+>> +	[CODA9_JPEG_FORMAT_444] = MCU_INFO(3, 3, 5, 5, 5),
+>> +	[CODA9_JPEG_FORMAT_400] = MCU_INFO(1, 1, 5, 0, 0),
+>> +};
+>> +
+>> +/*
+>> + * Convert Huffman table specifcations to tables of codes and code lengths.
+>> + * For reference, see JPEG ITU-T.81 (ISO/IEC 10918-1) [1]
+>> + *
+>> + * [1] https://www.w3.org/Graphics/JPEG/itu-t81.pdf
+>> + */
+>> +static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
+>> +				       int *ehufsi, int *ehufco)
+>> +{
+>> +	int i, j, k, lastk, si, code, maxsymbol;
+>> +	const u8 *bits, *huffval;
+>> +	struct {
+>> +		int size[256];
+>> +		int code[256];
+>> +	} *huff;
+>> +	static const unsigned char *huff_tabs[4] = {
+>> +		luma_dc, luma_ac, chroma_dc, chroma_ac,
+>> +	};
+>> +	int ret = -EINVAL;
+>> +
+>> +	huff = kzalloc(sizeof(*huff), GFP_KERNEL);
+>> +	if (!huff)
+>> +		return -ENOMEM;
+>> +
+>> +	bits = huff_tabs[tab_num];
+>> +	huffval = huff_tabs[tab_num] + 16;
+>> +
+>> +	maxsymbol = tab_num & 1 ? 256 : 16;
+>> +
+>> +	/* Figure C.1 - Generation of table of Huffman code sizes */
+>> +	k = 0;
+>> +	for (i = 1; i <= 16; i++) {
+>> +		j = bits[i - 1];
+>> +		if (k + j > maxsymbol)
+>> +			goto out;
+>> +		while (j--)
+>> +			huff->size[k++] = i;
+>> +	}
+>> +	lastk = k;
+>> +
+>> +	/* Figure C.2 - Generation of table of Huffman codes */
+>> +	k = 0;
+>> +	code = 0;
+>> +	si = huff->size[0];
+>> +	while (k < lastk) {
+>> +		while (huff->size[k] == si) {
+>> +			huff->code[k++] = code;
+>> +			code++;
+>> +		}
+>> +		if (code >= (1 << si))
+>> +			goto out;
+>> +		code <<= 1;
+>> +		si++;
+>> +	}
+>> +
+>> +	/* Figure C.3 - Ordering procedure for encoding procedure code tables */
+>> +	for (k = 0; k < lastk; k++) {
+>> +		i = huffval[k];
+>> +		if (i >= maxsymbol || ehufsi[i])
+>> +			goto out;
+>> +		ehufco[i] = huff->code[k];
+>> +		ehufsi[i] = huff->size[k];
+>> +	}
+>> +
+>> +	ret = 0;
+>> +out:
+>> +	kfree(huff);
+>> +	return ret;
+>> +}
+>> +
+>> +#define DC_TABLE_INDEX0		    0
+>> +#define AC_TABLE_INDEX0		    1
+>> +#define DC_TABLE_INDEX1		    2
+>> +#define AC_TABLE_INDEX1		    3
+>> +
+>> +static int coda9_jpeg_load_huff_tab(struct coda_ctx *ctx)
+>> +{
+>> +	struct {
+>> +		int size[4][256];
+>> +		int code[4][256];
+>> +	} *huff;
+>> +	u32 *huff_data;
+>> +	int i, j, k;
+>> +	int ret;
+>> +
+>> +	huff = kzalloc(sizeof(*huff), GFP_KERNEL);
+>> +	if (!huff)
+>> +		return -ENOMEM;
+>> +
+>> +	/* Generate all four (luma/chroma DC/AC) code/size lookup tables */
+>> +	for (i = 0; i < 4; i++) {
+>> +		ret = coda9_jpeg_gen_enc_huff_tab(ctx, i, huff->size[i],
+>> +						  huff->code[i]);
+>> +		if (ret)
+>> +			goto out;
+>> +	}
+>> +
+>> +	if (!ctx->params.jpeg_huff_data) {
+>> +		ctx->params.jpeg_huff_data =
+>> +			kzalloc(sizeof(u32) * CODA9_JPEG_ENC_HUFF_DATA_SIZE,
+>> +				GFP_KERNEL);
+>> +		if (!ctx->params.jpeg_huff_data) {
+>> +			ret = -ENOMEM;
+>> +			goto out;
+>> +		}
+>> +	}
+>> +	huff_data = ctx->params.jpeg_huff_data;
+>> +
+>> +	k = 0;
+> 
+> k is set to 0 here, but never used elsewhere. Can it be removed?
+> 
+>> +	for (j = 0; j < 4; j++) {
+>> +		/* Store Huffman lookup tables in AC0, AC1, DC0, DC1 order */
+>> +		int t = (j == 0) ? AC_TABLE_INDEX0 :
+>> +			(j == 1) ? AC_TABLE_INDEX1 :
+>> +			(j == 2) ? DC_TABLE_INDEX0 :
+>> +				   DC_TABLE_INDEX1;
+>> +		/* DC tables only have 16 entries */
+>> +		int len = (j < 2) ? 256 : 16;
+>> +
+>> +		for (i = 0; i < len; i++) {
+>> +			if (huff->size[t][i] == 0 && huff->code[t][i] == 0)
+>> +				*(huff_data++) = 0;
+>> +			else
+>> +				*(huff_data++) =
+>> +					((huff->size[t][i] - 1) << 16) |
+>> +					huff->code[t][i];
+>> +		}
+>> +	}
+>> +
+>> +	ret = 0;
+>> +out:
+>> +	kfree(huff);
+>> +	return ret;
+>> +}
+>> +
+>> +static void coda9_jpeg_write_huff_tab(struct coda_ctx *ctx)
+>> +{
+>> +	struct coda_dev *dev = ctx->dev;
+>> +	u32 *huff_data = ctx->params.jpeg_huff_data;
+>> +	int i;
+>> +
+>> +	/* Write Huffman size/code lookup tables in AC0, AC1, DC0, DC1 order */
+>> +	coda_write(dev, 0x3, CODA9_REG_JPEG_HUFF_CTRL);
+>> +	for (i = 0; i < CODA9_JPEG_ENC_HUFF_DATA_SIZE; i++)
+>> +		coda_write(dev, *(huff_data++), CODA9_REG_JPEG_HUFF_DATA);
+>> +	coda_write(dev, 0x0, CODA9_REG_JPEG_HUFF_CTRL);
+>> +}
+>> +
+>> +static inline void coda9_jpeg_write_qmat_quotients(struct coda_dev *dev,
+>> +						   u8 *qmat, int index)
+>> +{
+>> +	int i;
+>> +
+>> +	coda_write(dev, index | 0x3, CODA9_REG_JPEG_QMAT_CTRL);
+>> +	for (i = 0; i < 64; i++)
+>> +		coda_write(dev, 0x80000 / qmat[i], CODA9_REG_JPEG_QMAT_DATA);
+>> +	coda_write(dev, index, CODA9_REG_JPEG_QMAT_CTRL);
+>> +}
+>> +
+>> +static void coda9_jpeg_load_qmat_tab(struct coda_ctx *ctx)
+>> +{
+>> +	struct coda_dev *dev = ctx->dev;
+>> +	u8 *luma_tab;
+>> +	u8 *chroma_tab;
+>> +
+>> +	luma_tab = ctx->params.jpeg_qmat_tab[0];
+>> +	if (!luma_tab)
+>> +		luma_tab = luma_q;
+>> +
+>> +	chroma_tab = ctx->params.jpeg_qmat_tab[1];
+>> +	if (!chroma_tab)
+>> +		chroma_tab = chroma_q;
+>> +
+>> +	coda9_jpeg_write_qmat_quotients(dev, luma_tab, 0x00);
+>> +	coda9_jpeg_write_qmat_quotients(dev, chroma_tab, 0x40);
+>> +	coda9_jpeg_write_qmat_quotients(dev, chroma_tab, 0x80);
+>> +}
+>> +
+>> +struct coda_jpeg_stream {
+>> +	u8 *curr;
+>> +	u8 *end;
+>> +};
+>> +
+>> +static inline int coda_jpeg_put_byte(u8 byte, struct coda_jpeg_stream *stream)
+>> +{
+>> +	if (stream->curr >= stream->end)
+>> +		return -EINVAL;
+>> +
+>> +	*stream->curr++ = byte;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static inline int coda_jpeg_put_word(u16 word, struct coda_jpeg_stream *stream)
+>> +{
+>> +	if (stream->curr + sizeof(__be16) > stream->end)
+>> +		return -EINVAL;
+>> +
+>> +	put_unaligned_be16(word, stream->curr);
+>> +	stream->curr += sizeof(__be16);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int coda_jpeg_put_table(u16 marker, u8 index, const u8 *table,
+>> +			       size_t len, struct coda_jpeg_stream *stream)
+>> +{
+>> +	int i, ret;
+>> +
+>> +	ret = coda_jpeg_put_word(marker, stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_put_word(3 + len, stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_put_byte(index, stream);
+>> +	for (i = 0; i < len && ret == 0; i++)
+>> +		ret = coda_jpeg_put_byte(table[i], stream);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int coda_jpeg_define_quantization_table(struct coda_ctx *ctx, u8 index,
+>> +					       struct coda_jpeg_stream *stream)
+>> +{
+>> +	return coda_jpeg_put_table(DQT_MARKER, index,
+>> +				   ctx->params.jpeg_qmat_tab[index], 64,
+>> +				   stream);
+>> +}
+>> +
+>> +static int coda_jpeg_define_huffman_table(u8 index, const u8 *table, size_t len,
+>> +					  struct coda_jpeg_stream *stream)
+>> +{
+>> +	return coda_jpeg_put_table(DHT_MARKER, index, table, len, stream);
+>> +}
+>> +
+>> +static int coda9_jpeg_encode_header(struct coda_ctx *ctx, int len, u8 *buf)
+>> +{
+>> +	struct coda_jpeg_stream stream = { buf, buf + len };
+>> +	struct coda_q_data *q_data_src;
+>> +	int chroma_format, comp_num;
+>> +	int i, ret, pad;
+>> +
+>> +	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+>> +	chroma_format = coda9_jpeg_chroma_format(q_data_src->fourcc);
+>> +	if (chroma_format < 0)
+>> +		return 0;
+>> +
+>> +	/* Start Of Image */
+>> +	ret = coda_jpeg_put_word(SOI_MARKER, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	/* Define Restart Interval */
+>> +	if (ctx->params.jpeg_restart_interval) {
+>> +		ret = coda_jpeg_put_word(DRI_MARKER, &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		ret = coda_jpeg_put_word(4, &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		ret = coda_jpeg_put_word(ctx->params.jpeg_restart_interval,
+>> +					 &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +	}
+>> +
+>> +	/* Define Quantization Tables */
+>> +	ret = coda_jpeg_define_quantization_table(ctx, 0x00, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	if (chroma_format != CODA9_JPEG_FORMAT_400) {
+>> +		ret = coda_jpeg_define_quantization_table(ctx, 0x01, &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +	}
+>> +
+>> +	/* Define Huffman Tables */
+>> +	ret = coda_jpeg_define_huffman_table(0x00, luma_dc, 16 + 12, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_define_huffman_table(0x10, luma_ac, 16 + 162, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	if (chroma_format != CODA9_JPEG_FORMAT_400) {
+>> +		ret = coda_jpeg_define_huffman_table(0x01, chroma_dc, 16 + 12,
+>> +						     &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		ret = coda_jpeg_define_huffman_table(0x11, chroma_ac, 16 + 162,
+>> +						     &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +	}
+>> +
+>> +	/* Start Of Frame */
+>> +	ret = coda_jpeg_put_word(SOF_MARKER, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	comp_num = (chroma_format == CODA9_JPEG_FORMAT_400) ? 1 : 3;
+>> +	ret = coda_jpeg_put_word(8 + comp_num * 3, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_put_byte(0x08, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_put_word(q_data_src->height, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_put_word(q_data_src->width, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	ret = coda_jpeg_put_byte(comp_num, &stream);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +	for (i = 0; i < comp_num; i++) {
+>> +		static unsigned char subsampling[5][3] = {
+>> +			[CODA9_JPEG_FORMAT_420] = { 0x22, 0x11, 0x11 },
+>> +			[CODA9_JPEG_FORMAT_422] = { 0x21, 0x11, 0x11 },
+>> +			[CODA9_JPEG_FORMAT_224] = { 0x12, 0x11, 0x11 },
+>> +			[CODA9_JPEG_FORMAT_444] = { 0x11, 0x11, 0x11 },
+>> +			[CODA9_JPEG_FORMAT_400] = { 0x11 },
+>> +		};
+>> +
+>> +		/* Component identifier, matches SOS */
+>> +		ret = coda_jpeg_put_byte(i + 1, &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		ret = coda_jpeg_put_byte(subsampling[chroma_format][i],
+>> +					 &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		/* Chroma table index */
+>> +		ret = coda_jpeg_put_byte((i == 0) ? 0 : 1, &stream);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +	}
+>> +
+>> +	/* Pad to multiple of 8 bytes */
+>> +	pad = (stream.curr - buf) % 8;
+>> +	if (pad) {
+>> +		pad = 8 - pad;
+>> +		while (pad--) {
+>> +			ret = coda_jpeg_put_byte(0x00, &stream);
+>> +			if (ret < 0)
+>> +				return ret;
+>> +		}
+>> +	}
+>> +
+>> +	return stream.curr - buf;
+>> +}
+>> +
+>>  /*
+>>   * Scale quantization table using nonlinear scaling factor
+>>   * u8 qtab[64], scale [50,190]
+>> @@ -239,3 +670,280 @@ void coda_set_jpeg_compression_quality(struct coda_ctx *ctx, int quality)
+>>  		coda_scale_quant_table(ctx->params.jpeg_qmat_tab[1], scale);
+>>  	}
 >>  }
->>  
->> -static struct fb_ops vivid_fb_ops = {
->> +static const struct fb_ops vivid_fb_ops = {
->>  	.owner = THIS_MODULE,
->>  	.fb_check_var   = vivid_fb_check_var,
->>  	.fb_set_par     = vivid_fb_set_par,
->> @@ -311,7 +311,6 @@ static int vivid_fb_init_vidmode(struct vivid_dev *dev)
->>  
->>  	dev->fb_info.node = -1;
->>  	dev->fb_info.flags = FBINFO_FLAG_DEFAULT;
->> -	dev->fb_info.fbops = &vivid_fb_ops;
->>  	dev->fb_info.par = dev;
->>  	dev->fb_info.var = dev->fb_defined;
->>  	dev->fb_info.fix = dev->fb_fix;
->> 
->
+>> +
+>> +/*
+>> + * Encoder context operations
+>> + */
+>> +
+>> +static int coda9_jpeg_start_encoding(struct coda_ctx *ctx)
+>> +{
+>> +	struct coda_dev *dev = ctx->dev;
+>> +	int ret;
+>> +
+>> +	ret = coda9_jpeg_load_huff_tab(ctx);
+>> +	if (ret < 0) {
+>> +		v4l2_err(&dev->v4l2_dev, "error loading Huffman tables\n");
+>> +		return ret;
+>> +	}
+>> +	if (!ctx->params.jpeg_qmat_tab[0])
+>> +		ctx->params.jpeg_qmat_tab[0] = kmalloc(64, GFP_KERNEL);
+>> +	if (!ctx->params.jpeg_qmat_tab[1])
+>> +		ctx->params.jpeg_qmat_tab[1] = kmalloc(64, GFP_KERNEL);
+>> +	coda_set_jpeg_compression_quality(ctx, ctx->params.jpeg_quality);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int coda9_jpeg_prepare_encode(struct coda_ctx *ctx)
+>> +{
+>> +	struct coda_q_data *q_data_src, *q_data_dst;
+> 
+> q_data_dst is unused.
+> 
+>> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+>> +	struct coda_dev *dev = ctx->dev;
+>> +	u32 start_addr, end_addr;
+>> +	u16 aligned_width, aligned_height;
+>> +	bool chroma_interleave;
+>> +	int chroma_format;
+>> +	int header_len;
+>> +	int ret;
+>> +	ktime_t timeout;
+>> +
+> 
+> <snip>
+> 
+> Regards,
+> 
+> 	Hans
+> 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
