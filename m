@@ -2,174 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4F111E47D
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 14:23:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F56511E488
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 14:26:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbfLMNXJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 13 Dec 2019 08:23:09 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:34995 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbfLMNXJ (ORCPT
+        id S1727384AbfLMN0E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 08:26:04 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33151 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726928AbfLMN0E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 08:23:09 -0500
-Received: by mail-ot1-f66.google.com with SMTP id o9so6484185ote.2;
-        Fri, 13 Dec 2019 05:23:08 -0800 (PST)
+        Fri, 13 Dec 2019 08:26:04 -0500
+Received: by mail-wm1-f67.google.com with SMTP id d139so6011787wmd.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2019 05:26:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=95TTKeNptsHmjRNeTiYhUSEDoPaxL2Lysa6poNCdeOY=;
+        b=cqa9VsKrTNXmm8jWTRbXuNB0dAn+UF/lDr+W1eYHicYE4BHyYbIKT0r6opo6q3ug0z
+         oa+eiT9HpN8A6acHUf8oaA8VwUFQgG4ImibBu6ZzDVcAOMfDPvEHCZQQ1VRHEIdQ/7ih
+         lh1sET60jmQzs7VmSwP0stFNFW6tPq34KH1sfDhxRBh/0vAZCT9A2LD5mACdWqcJOad+
+         1ISzQP0pdl0BbMZGmPcYLipGrtxN6OSAyAGhqxPOQk3dLfsgyL4+gkYNKQzKCeney+jt
+         nZ3PO+XB2PALZk5kKcKrs0qLRmeMKfUl772Q8Snt9koB5CZB60dKO3fi+7I4qrc015UP
+         2Fwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6q69/Xgu8tuO7IrrKkcAGU0iqeKU0BMAnJI3v2+Nv5U=;
-        b=bq8ZZ8yGoyF/T7GPjiJ89eGYFkk+GTGF/1bty0fn/H+kVZSx7EL9TStOW6yqeeUA6R
-         Z+EWfl87hD+qKRVvrvgbo5gYA/9gEWvAwn6MSk9UXw2Lx4NKskbuddroSCGACdkhWutb
-         oeEhpl1H5Ob6UPRhn50nK2IsmkrUOk5cNo90lw6sx5X8Nbz6fxYALDjS7TdX62/RDisG
-         HsVQDFni3cTYtM/cqeaQWP7Hce8e5/xZps3btRoZtUw3NnCLBjf5CjZ7/tHwwSBZVuLO
-         qQGO1+NwM74eJUFN9i7w3ldgNesEXZi30DSd8Tbgz+vkAt3/zpZuq4+zG0Ke0y7DMDUy
-         /ibg==
-X-Gm-Message-State: APjAAAX4pHilUmoA8cKgA9+D95/lde4mdjUGJljPtDOqf3Ue1+ZggaJL
-        PQGIudGKhRF0lN83kgkDfmvEfUaZ7eW5rKccVMappjEZ
-X-Google-Smtp-Source: APXvYqxreboSy5xLZrarYnky/v3vggGGl09F70YCvaS5jKJQWA3gxHgM5vr/dniBGLUseFoukOrV6zHPi2nsNkXU+Kw=
-X-Received: by 2002:a9d:6c81:: with SMTP id c1mr14881844otr.39.1576243387716;
- Fri, 13 Dec 2019 05:23:07 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=95TTKeNptsHmjRNeTiYhUSEDoPaxL2Lysa6poNCdeOY=;
+        b=UK9KI+ViIp38CI0z+o/+/KtH4har0dRRVvd3HVytroNeJBNftzMV2J3gxwUWzwSgpj
+         GJ8dddf8Rysao/MkjbOKOwxs/acYY0sJppuPpF0BeJMHGklnJL8J4wKjFzIC1aZ7I7U8
+         sTa3uBMkD90itXxm5kr7QeVoQDdx/b0l7kPW9t+prmgXf7SjpLmldCU6cfjvGe12cRCi
+         BJwGkOWiVMJdDcphYm+Rii8z7Gb+JodUBXYrmZQ/QWQkDonaEHnx/4gKr9oWY4IMjBHj
+         0nVjbYYdt10gY7RYa9jafI6ezcuaFmN6dP5pqqkcJp9+pdbIF5aAxKEIpVKiXYAakPNh
+         8I1w==
+X-Gm-Message-State: APjAAAXXE1GtLUUi+dqNbCrMzlYxAIEh4QsVzzVzWiXWGtIP/FmMYHzw
+        EsbHPkadGZ05EJ+NPOagA3SDeKbruTb53A==
+X-Google-Smtp-Source: APXvYqzexj2CIyiXUk6k9Pbs023wlmbOjmR95/h3tr7hWUu4/VtgvX05v0FshE4PeD3JZECQnoTqHg==
+X-Received: by 2002:a1c:b7c4:: with SMTP id h187mr13539211wmf.105.1576243559706;
+        Fri, 13 Dec 2019 05:25:59 -0800 (PST)
+Received: from [10.2.4.229] (lfbn-nic-1-505-157.w90-116.abo.wanadoo.fr. [90.116.92.157])
+        by smtp.gmail.com with ESMTPSA id u10sm10011222wmd.1.2019.12.13.05.25.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 13 Dec 2019 05:25:59 -0800 (PST)
+Subject: Re: [PATCH v3 2/4] media: vicodec: use v4l2-mem2mem draining, stopped
+ and next-buf-is-last states handling
+To:     Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
+        hans.verkuil@cisco.com
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Maxime Jourdan <mjourdan@baylibre.com>
+References: <20191209122028.13714-1-narmstrong@baylibre.com>
+ <20191209122028.13714-3-narmstrong@baylibre.com>
+ <0eb52de8-97a9-40cf-a926-262b1ecdc3e9@xs4all.nl>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <f7e91a9c-266c-0282-414d-5d0333c97d91@baylibre.com>
+Date:   Fri, 13 Dec 2019 14:25:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com> <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
- <20191211175811.GC4863@pendragon.ideasonboard.com> <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
- <20191212073306.GB1364286@kroah.com> <6808431b-a5d0-0720-b276-ed8333fb26d5@ideasonboard.com>
-In-Reply-To: <6808431b-a5d0-0720-b276-ed8333fb26d5@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Dec 2019 14:22:56 +0100
-Message-ID: <CAMuHMdVEaPQ1r2v=f9RV8roO7T0+z86k18Ka6LYNqR0xwnyrpQ@mail.gmail.com>
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-        Harunobu Kurokawa <harunobu.kurokawa.dn@renesas.com>,
-        Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
-        Hien Dang <hien.dang.eb@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <0eb52de8-97a9-40cf-a926-262b1ecdc3e9@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+On 13/12/2019 14:21, Hans Verkuil wrote:
+> On 12/9/19 1:20 PM, Neil Armstrong wrote:
+>> Use the previously introduced v4l2-mem2mem core APIs to handle the drainig,
+>> stopped and next-buf-is-last states.
+>>
+>> With these changes, the v4l2-compliance still passes with the following
+>> commands :
+>> # v4l2-ctl --stream-mmap --stream-out-mmap --stream-to-hdr out.comp --stream-from in.yuv
+>>>>>> <><><><><><><><><><><><><><><><>< 15.53 fps
+>>  15.53 fps
+>>> <><><><><><><><><><><><>< 13.99 fps
+>>  13.99 fps
+>>> <><><><><><><><><><><>< 13.52 fps
+>>  13.52 fps
+>>> <><><><><><><><><><><><>< 13.41 fps
+>>  13.41 fps
+>>> <><><><><><><><><><><><>< 13.21 fps
+>>  13.21 fps
+>>> <><><><><><><><><><><>< 13.09 fps
+>>  13.09 fps
+>>> <><><><><><><
+>> STOP ENCODER
+>> <<<
+>> EOS EVENT
+>>
+>> # v4l2-compliance --stream-from in.yuv -s
+>> v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
+>> [...]
+>> Total for vicodec device /dev/video0: 50, Succeeded: 50, Failed: 0, Warnings: 0
+>>
+>> The full output is available at [1]
+>>
+>> # v4l2-compliance -d1 --stream-from-hdr out.comp -s
+>> v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
+>> [...]
+>> Total for vicodec device /dev/video1: 50, Succeeded: 50, Failed: 0, Warnings: 0
+>>
+>> The full output is available at [2]
+>>
+>> No functional changes should be noticed.
+> 
+> Ah, unfortunately there *are* functional changes.
+> 
+> There is a (much) more extensive test that is done in the test-media script.
+> 
+> In v4l-utils, go to contrib/test. Now run (as root): test-media vicodec
+> 
+> This test now fails on some tests for the stateful decoder:
+> 
+> Streaming ioctls:
+>         test read/write: OK (Not Supported)
+>         test blocking wait: OK
+>                 fail: v4l2-test-buffers.cpp(943): ret == 0
+>                 fail: v4l2-test-buffers.cpp(1353): captureBufs(node, node_m2m_cap, q, m2m_q, frame_count, pollmode, capture_count)
+>         test MMAP (select): FAIL
+>                 fail: v4l2-test-buffers.cpp(951): ret == 0
+>                 fail: v4l2-test-buffers.cpp(1353): captureBufs(node, node_m2m_cap, q, m2m_q, frame_count, pollmode, capture_count)
+>         test MMAP (epoll): FAIL
+>                 fail: v4l2-test-buffers.cpp(943): ret == 0
+>                 fail: v4l2-test-buffers.cpp(1607): captureBufs(node, node_m2m_cap, q, m2m_q, frame_count, pollmode, capture_count)
+>         test USERPTR (select): FAIL
+>                 fail: v4l2-test-buffers.cpp(943): ret == 0
+>                 fail: v4l2-test-buffers.cpp(1761): captureBufs(node, node_m2m_cap, q, m2m_q, frame_count, pollmode, capture_count)
+>         test DMABUF (select): FAIL
+> 
+> I also see this:
+> 
+> cmp: EOF on /tmp/tmp.7KAXKAIkVZ/raw.yu12.1280.24 after byte 23500800, in line 1
+> 
+> which shouldn't be there either.
+> 
+> I can recommend the test-media script: it can test all the virtual drivers and it is
+> part of the daily build to check for regressions.
 
-On Fri, Dec 13, 2019 at 12:55 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> On 12/12/2019 07:33, Greg Kroah-Hartman wrote:
-> > On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
-> >> +Greg, +Sasha to opine on the merit of whether this should go to stable
-> >> trees (for my future learning and understanding more so than this
-> >> specific case)
-> >>
-> >> On 11/12/2019 17:58, Laurent Pinchart wrote:
-> >>> On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
-> >>>> On 11/12/2019 01:55, Kuninori Morimoto wrote:
-> >>>>>
-> >>>>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> >>>>>
-> >>>>> The address of VSP2_VI6_HGT_LBx_H are
-> >>>>>   VSP2_VI6_HGT_LB0_H : 0x3428
-> >>>>>   VSP2_VI6_HGT_LB1_H : 0x3430
-> >>>>>   VSP2_VI6_HGT_LB2_H : 0x3438
-> >>>>>   VSP2_VI6_HGT_LB3_H : 0x3440
-> >>>>>
-> >>>>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
-> >>>>> This patch fixup it.
-> >>
-> >> s/fixup/fixes/
-> >>
-> >>
-> >>>> I think this deserves a fixes tag:
-> >>>>
-> >>>> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
-> >>>
-> >>> Given that this macro is not used, we could argue that it doesn't fix
-> >>> anything yet :-) I'd rather avoid having this backported to stable
-> >>> kernels as it's not useful to have it there, and thus not add a Fixes
-> >>
-> >> I'm sorry - I'm not sure I can agree here, Do you know that no one will
-> >> use this macro when they back port the HGT functionality to an LTSI kernel?
-> >>
-> >> We know the Renesas BSP uses LTSI kernels, and the very nature of the
-> >> fact that this typo has been spotted by the Renesas BSP team suggests
-> >> that they are indeed looking at/using this functionality ...
-> >>
-> >> (Ok, so maybe they will thus apply the fix themselves, but that's not my
-> >> point, and if they 'have' to apply the fix - it should be in stable?)
-> >>
-> >> It feels a bit presumptuous to state that we shouldn't fix this because
-> >> /we/ don't utilise it yet, when this issue is in mainline regardless ...
-> >
-> > Nothing should be in the kernel tree that is not already used by
-> > something in that specific kernel tree.  We don't care about out-of-tree
-> > code, and especially for stable kernel patches, it does not matter in
-> > the least.
->
-> So perhaps this patch should actually remove this macro rather than fix it?
+Thx for the pointer, I'll analyze the failures.
+> 
+> Regards,
+> 
+> 	Hans
+> 
 
-IMHO removing all unused register and register bit definitions from drivers
-would not improve them. On the contrary.
-These also serve as a kind of documentation, as low-level documentation
-about the hardware is not always available publicly.
-
-> > If you have out-of-tree code, you are on your own here, sorry.
-> >
-> > So no, no backporting of stuff that no one actually uses in the codebase
-> > itself.
->
-> Ok understood, It was really the 'the macro exists in the kernel, but is
-> wrong' part that got me.
-
-There is a difference between code that is not used, and register definitions.
-
-> Along with the fact that we now have various automated machinery that
-> would likely pick this patch up and backport it anyway?
->
-> (Sasha, is that assumption accurate? Or would you/your system have
-> identified that this macro is not used?)
-
-IMHO the real danger lies in not backporting this, and forgetting to
-backport this fix when future code that does use this definition is
-backported.
-This may happen +5 years from now, and the feature may be backported to
-a 10-year old LTS(i) kernel, causing subtle issues in your 8 year old car...
-
-Basically we can do 4 things:
-  1. Fix the buggy definition, and not backport the fix,
-      => may trigger the issue above.
-  2. idem, but backport the fix,
-  3. Remove the buggy definition, and not backport the removal,
-      => may trigger the issue above, if people miss-backport the re-addition.
-      => people may just revert the removal when they need the definition.
-  4. idem, but backport the removal.
-      => same as 3.
-
-So I am in favor of fixing the buggy definition, with a Fixes tag, so
-stable will pick it up, and anyone else (if any not using LTS) can look
-for Fixes tags and know what fixes to backport.
-
-Of course, all of this can be avoided by using the One Way Of Linux ;-)
-https://society.oftrolls.com/@geert/102984898449908163
-
-Just my 2€c.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
