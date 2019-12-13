@@ -2,145 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B59A11E30C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 12:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A14D611E357
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 13:09:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbfLMLzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 06:55:20 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53074 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726750AbfLMLzU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 06:55:20 -0500
-Received: from [192.168.0.239] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FA30A23;
-        Fri, 13 Dec 2019 12:55:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576238118;
-        bh=b//CHFQop3hwx9VLQKcag9slpnqEUgmelQ40alaLRy0=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=VM81bLRHviSijxSoIZILUwmXJ2SdQnhG4WpWfV3ViRZ7hXz6q3Q+lcThgk9A9HXtg
-         ruBuRzB3dWrmw+usonQFBCwMy270HyGfymCxV7St+Pw/yAxCDkz8yMzTAkU8UcY3kH
-         HB0nXKuLw77+OeHNTt1taWzW0ZgN24EhLdAwaLXo=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
- <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
- <20191211175811.GC4863@pendragon.ideasonboard.com>
- <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
- <20191212073306.GB1364286@kroah.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <6808431b-a5d0-0720-b276-ed8333fb26d5@ideasonboard.com>
-Date:   Fri, 13 Dec 2019 11:55:14 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726861AbfLMMJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 07:09:39 -0500
+Received: from mail1.skidata.com ([91.230.2.99]:62445 "EHLO mail1.skidata.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726717AbfLMMJj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Dec 2019 07:09:39 -0500
+X-Greylist: delayed 428 seconds by postgrey-1.27 at vger.kernel.org; Fri, 13 Dec 2019 07:09:38 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+  t=1576238978; x=1607774978;
+  h=from:to:cc:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=Lgf2OgsTxWXOctuDUoDgtroPiX5sMCN8aUGr27H47Kg=;
+  b=Jb3unxtULWEsilRxsbu1SNJPCPHALeIbAHBjqv+W72yWnf00Q14TVkED
+   d0/SvJm17wANiMkikO1Ezgt8rHJFV9M1D7Yc5ESabj8F4z9B7NbT5+zpS
+   VHDp30mLPlAaXCJgod+i5nZvLS9ctqhXgDtuVOf7PSA82hQTshaIWAyTK
+   3ABpPvYpBVM/6/lmVT9YNBm9p+oI0zWAHJKzljWft5I6KRoOpC/aXqQhZ
+   kb99+KM3edfQFlIm993iLl394Y0rJrMBdKFP25LODZc2n5IhCCRotzQ7A
+   bn9vbFGB38QR/3IyaxnMhxRmX1KWXWkgeKBpb6zCrIbGIcTXH5oPQEUuW
+   w==;
+IronPort-SDR: YzpZhNt6dpduNNI1bjBQ+XmOA4ksp3I74ko56LU1yx9LzlvfuEgXqZrc0nlqvejK8MFKWzuHgZ
+ tG1tT0PRoQIusl6klpofBCeMCZQWJlhSnfZR5aC0gSQqzwc7Jqv2hIwRivd2FoE+cBHnkLwfaa
+ +m4Aw029k5twffYtQmIL/MtIh70SnfefqWc7yzGLxX0syoKFxFSkRSRX4Ryq2vymO1Lr72EYl3
+ oRMDxSGjrCPdM8OpDqvUs06avIep3baSK5qPb0oW4JHyq6UKFEqy2qHaKmRX5lqE5vN86tfCaG
+ ua4=
+X-IronPort-AV: E=Sophos;i="5.69,309,1571695200"; 
+   d="scan'208";a="21497936"
+From:   Benjamin Bara - SKIDATA <Benjamin.Bara@skidata.com>
+To:     "linux-arm@lists.infradead.org" <linux-arm@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC:     Richard Leitner - SKIDATA <Richard.Leitner@skidata.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "m.tretter@pengutronix.de" <m.tretter@pengutronix.de>
+Subject: [i.MX6][CODA] certain resolutions are not working in YUYV format
+Thread-Topic: [i.MX6][CODA] certain resolutions are not working in YUYV format
+Thread-Index: AdWxrOwnZuVtf9YcQEOltE2oJImbmA==
+Date:   Fri, 13 Dec 2019 12:02:25 +0000
+Message-ID: <c79be4d41e414ae5b50ba1e26544b6c2@skidata.com>
+Accept-Language: en-US, de-AT
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.111.252]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20191212073306.GB1364286@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Greg, Laurent, Sasha,
+Hey all,
 
-On 12/12/2019 07:33, Greg Kroah-Hartman wrote:
-> On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
->> Hi Laurent,
->>
->> +Greg, +Sasha to opine on the merit of whether this should go to stable
->> trees (for my future learning and understanding more so than this
->> specific case)
->>
->> On 11/12/2019 17:58, Laurent Pinchart wrote:
->>> Hello,
->>>
->>> On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
->>>> Hi Morimoto-san,
->>>>
->>>> Thank you for the patch,
->>>
->>> Likewise :-)
->>>
->>>> On 11/12/2019 01:55, Kuninori Morimoto wrote:
->>>>>
->>>>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->>>>>
->>>>> The address of VSP2_VI6_HGT_LBx_H are
->>>>> 	VSP2_VI6_HGT_LB0_H : 0x3428
->>>>> 	VSP2_VI6_HGT_LB1_H : 0x3430
->>>>> 	VSP2_VI6_HGT_LB2_H : 0x3438
->>>>> 	VSP2_VI6_HGT_LB3_H : 0x3440
->>>>>
->>>>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
->>>>> This patch fixup it.
->>
->> s/fixup/fixes/
->>
->>
->>>> I think this deserves a fixes tag:
->>>>
->>>> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
->>>
->>> Given that this macro is not used, we could argue that it doesn't fix
->>> anything yet :-) I'd rather avoid having this backported to stable
->>> kernels as it's not useful to have it there, and thus not add a Fixes
->>
->> I'm sorry - I'm not sure I can agree here, Do you know that no one will
->> use this macro when they back port the HGT functionality to an LTSI kernel?
->>
->> We know the Renesas BSP uses LTSI kernels, and the very nature of the
->> fact that this typo has been spotted by the Renesas BSP team suggests
->> that they are indeed looking at/using this functionality ...
->>
->> (Ok, so maybe they will thus apply the fix themselves, but that's not my
->> point, and if they 'have' to apply the fix - it should be in stable?)
->>
->> It feels a bit presumptuous to state that we shouldn't fix this because
->> /we/ don't utilise it yet, when this issue is in mainline regardless ...
-> 
-> Nothing should be in the kernel tree that is not already used by
-> something in that specific kernel tree.  We don't care about out-of-tree
-> code, and especially for stable kernel patches, it does not matter in
-> the least.
+we are currently facing a problem with the i.MX6DL and MPEG4-2 encoded vide=
+os.
+The decoder seem to fail to decode videos of certain resolutions (video out=
+put becomes green).
+For the latest test run, we used Linux kernel 5.4.2 and GStreamer version 1=
+.16.1.
 
-So perhaps this patch should actually remove this macro rather than fix it?
+When hunting the problem down, it seems like the problem is related to the =
+YUY2 (=3D YUYV) output format.
+Unfortunately, gst always takes YUY2 as the default format for the v4l2mpeg=
+4dec sink pad and=20
+forcing a different format does not work (video becomes even more green).
 
-> If you have out-of-tree code, you are on your own here, sorry.
-> 
-> So no, no backporting of stuff that no one actually uses in the codebase
-> itself.
+We saw commit d40e98c13b3e7cb1aa16e9c14f35db3c8c3dd033, which added YUYV if=
+ VDOA is used,
+but could not find anything related in the i.MX 6Dual/6Quad VPU API Linux R=
+eference Manual except:
+"One pixel value of a component occupies one byte and the frame data is in =
+YCbCr 4:2:0 format=20
+for H.264, H.264 and MPEG-4 codecs." [sic] (Rev. L3.0.35_1.1.0, 01/2013)
 
-Ok understood, It was really the 'the macro exists in the kernel, but is
-wrong' part that got me.
+For debug purposes, we changed the dst_formats of the decoder driver to onl=
+y support YUV420 (=3D I420).
+All tested resolutions are working with this setup.
 
-Along with the fact that we now have various automated machinery that
-would likely pick this patch up and backport it anyway?
+Does anyone else face similar issues?
 
-(Sasha, is that assumption accurate? Or would you/your system have
-identified that this macro is not used?)
+Please just drop me a mail if we should perform further debug actions or pr=
+ovide further debug output.
 
---
-Kieran
+BR,
+Benjamin
 
 
-> 
-> thanks,
-> 
-> greg k-h
-> 
+*gst-launch pipeline to reproduce the error:*
+gst-launch-1.0 -v videotestsrc ! video/x-raw,width=3D480,height=3D270 ! v4l=
+2mpeg4enc output-io-mode=3D4 ! \
+	v4l2mpeg4dec ! xvimagesink
+
+*failing gst-launch pipeline to force the I420 format:*
+gst-launch-1.0 -v videotestsrc ! video/x-raw,width=3D480,height=3D270 ! v4l=
+2mpeg4enc output-io-mode=3D4 ! \
+	v4l2mpeg4dec ! video/x-raw,format=3DI420 ! xvimagesink
+
+*some other failing resolutions:*
+- 320x200
+- 400x270
+- 400x300
+- 480x250
+- 480x270
+- 480x500
+- 640x200
+- 800x600
+
+*working resolutions:*
+- 320x240
+- 1024x576
+- ...
+
+*resulting dmesg output:*
+[ 6159.838070] coda 2040000.vpu: CODA_COMMAND_SEQ_INIT failed, error code =
+=3D 0x1
+[ 6159.895636] coda 2040000.vpu: errors in 504 macroblocks
+[ 6159.900877] coda 2040000.vpu: decoded frame index out of range: 0
+[ 6160.963450] coda 2040000.vpu: CODA PIC_RUN timeout
+[ 6162.003422] coda 2040000.vpu: CODA PIC_RUN timeout
+
+*verbose output of failing gst-launch pipeline (GST_DEBUG=3D1):*
+Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+/GstPipeline:pipeline0/GstVideoTestSrc:videotestsrc0.GstPad:src: caps =3D v=
+ideo/x-raw, format=3D(string)I420, width=3D(int)480, height=3D(int)270, fra=
+merate=3D(fraction)30/1, multiview-mode=3D(string)mono, interlace-mode=3D(s=
+tring)progressive, colorimetry=3D(string)bt601, pixel-aspect-ratio=3D(fract=
+ion)1/1
+/GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:src: caps =3D video=
+/x-raw, format=3D(string)I420, width=3D(int)480, height=3D(int)270, framera=
+te=3D(fraction)30/1, multiview-mode=3D(string)mono, interlace-mode=3D(strin=
+g)progressive, colorimetry=3D(string)bt601, pixel-aspect-ratio=3D(fraction)=
+1/1
+/GstPipeline:pipeline0/v4l2mpeg4enc:v4l2mpeg4enc0.GstPad:src: caps =3D vide=
+o/mpeg, mpegversion=3D(int)4, systemstream=3D(boolean)false, profile=3D(str=
+ing)simple, level=3D(string)5, width=3D(int)480, height=3D(int)270, pixel-a=
+spect-ratio=3D(fraction)1/1, framerate=3D(fraction)30/1, interlace-mode=3D(=
+string)progressive, colorimetry=3D(string)bt601, multiview-mode=3D(string)m=
+ono, multiview-flags=3D(GstVideoMultiviewFlagsSet)0:ffffffff:/right-view-fi=
+rst/left-flipped/left-flopped/right-flipped/right-flopped/half-aspect/mixed=
+-mono
+/GstPipeline:pipeline0/v4l2mpeg4dec:v4l2mpeg4dec0.GstPad:sink: caps =3D vid=
+eo/mpeg, mpegversion=3D(int)4, systemstream=3D(boolean)false, profile=3D(st=
+ring)simple, level=3D(string)5, width=3D(int)480, height=3D(int)270, pixel-=
+aspect-ratio=3D(fraction)1/1, framerate=3D(fraction)30/1, interlace-mode=3D=
+(string)progressive, colorimetry=3D(string)bt601, multiview-mode=3D(string)=
+mono, multiview-flags=3D(GstVideoMultiviewFlagsSet)0:ffffffff:/right-view-f=
+irst/left-flipped/left-flopped/right-flipped/right-flopped/half-aspect/mixe=
+d-mono
+Redistribute latency...
+/GstPipeline:pipeline0/v4l2mpeg4enc:v4l2mpeg4enc0.GstPad:sink: caps =3D vid=
+eo/x-raw, format=3D(string)I420, width=3D(int)480, height=3D(int)270, frame=
+rate=3D(fraction)30/1, multiview-mode=3D(string)mono, interlace-mode=3D(str=
+ing)progressive, colorimetry=3D(string)bt601, pixel-aspect-ratio=3D(fractio=
+n)1/1
+/GstPipeline:pipeline0/GstCapsFilter:capsfilter0.GstPad:sink: caps =3D vide=
+o/x-raw, format=3D(string)I420, width=3D(int)480, height=3D(int)270, framer=
+ate=3D(fraction)30/1, multiview-mode=3D(string)mono, interlace-mode=3D(stri=
+ng)progressive, colorimetry=3D(string)bt601, pixel-aspect-ratio=3D(fraction=
+)1/1
+/GstPipeline:pipeline0/v4l2mpeg4dec:v4l2mpeg4dec0.GstPad:src: caps =3D vide=
+o/x-raw, format=3D(string)YUY2, width=3D(int)480, height=3D(int)270, interl=
+ace-mode=3D(string)progressive, multiview-mode=3D(string)mono, multiview-fl=
+ags=3D(GstVideoMultiviewFlagsSet)0:ffffffff:/right-view-first/left-flipped/=
+left-flopped/right-flipped/right-flopped/half-aspect/mixed-mono, pixel-aspe=
+ct-ratio=3D(fraction)1/1, chroma-site=3D(string)jpeg, colorimetry=3D(string=
+)bt601, framerate=3D(fraction)30/1
+/GstPipeline:pipeline0/GstXvImageSink:xvimagesink0.GstPad:sink: caps =3D vi=
+deo/x-raw, format=3D(string)YUY2, width=3D(int)480, height=3D(int)270, inte=
+rlace-mode=3D(string)progressive, multiview-mode=3D(string)mono, multiview-=
+flags=3D(GstVideoMultiviewFlagsSet)0:ffffffff:/right-view-first/left-flippe=
+d/left-flopped/right-flipped/right-flopped/half-aspect/mixed-mono, pixel-as=
+pect-ratio=3D(fraction)1/1, chroma-site=3D(string)jpeg, colorimetry=3D(stri=
+ng)bt601, framerate=3D(fraction)30/1
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
 
