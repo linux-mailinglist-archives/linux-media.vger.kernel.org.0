@@ -2,138 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C5C011E249
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 11:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4037811E24D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 11:50:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbfLMKsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 05:48:46 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56673 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725928AbfLMKsq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 05:48:46 -0500
-Received: from [IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478]
- ([IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id fiV0il3nSapzpfiV1idv5z; Fri, 13 Dec 2019 11:48:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576234124; bh=q9WCQnSJK0dN1iObZCsSbodAkz0ILsCmdtkb7tjUKaY=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Wma0y7NwrK71vqGoVGSFFCCwPQSs7OFD042So2JJDYx8V2UqPCAghVl+z5bTp0rmX
-         CkI3RxjoeBb4+lK/Uotm6KdvI2tUtkWmKZ2YgFEuVz7WWr1hgTPTAI6TQ9Omkgaj80
-         nck8tBGGm442E56es/fOvHouE2iW1Skg5AjxdEtChwLSE7OzZlyNogyC9TzKBuKkme
-         V/l5AQrMre0jAo0bHsuI5immXmVGf0bR8P1cp958PeHogMw5z4s7CSJSQM+75R9qG8
-         5Qjr/ugQ7BuTCPc89mQjJHlsOX425ZaqcoJ85E97rXHDW3/op5SIyupzx7vjDqFvo5
-         j3AtWpRxOLrzA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Neil Armstrong <narmstrong@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.6] Various fixes/enhancements
-Message-ID: <e47a67f8-da88-b0af-d59a-bf54f28e56c1@xs4all.nl>
-Date:   Fri, 13 Dec 2019 11:48:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        id S1726492AbfLMKu1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 05:50:27 -0500
+Received: from mail-eopbgr00075.outbound.protection.outlook.com ([40.107.0.75]:4757
+        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725747AbfLMKu1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Dec 2019 05:50:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iNKTPoygfA7Q/fkLCGSja+EIau093LP8/EBj9qyT6GcD0aVswYE5vqpPuDveHNQwkmpuvJthmhJIJxTydbA08YaUD0+lYo054olkW/++g2pYAd9dpT6vQ9+WFYow88hL4QYYul7+9zeHlqf4IARTHp0Nt9fp/mp6Zy9JD8DJ2065PZU1bK7IUU0Ja9NF1LqqJ4WB4l2hubd1pxTyBgA6IxMlgNszMmtO+NETaT9/Pc1TlBjVHSlvI9zg5Cs28doa4DHOlby4ZUjA3JIZKXX3tIM8pmvP0BHzL/NYSmAkbDishrEfYu/O4+VVtzSYulaEbPkz9mpXI+dIgH1TRmDyUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tliwXJ4z++t3MLSWu7/ZJIlKqr6UUKsRiJlDy0oSkKg=;
+ b=g3IfUd4dXOOE2iqyFuZbFG64TtjClzBBra939qM+l1U6o7fOJq8ZbbjIIYF1o6gkHPld8DUkBjsJsx3u8yCjWSiITuPJkplm6LcdemPKGYOOuDORHPI40OUd3jxYM/tlPBBJdWApg2f+hlhCvAy2cbiCBJAmFm8+a5RBtwHZcLhCLnwiE7gessXAi3+OWGO7tX6MFV/FAaN4Xjb63ZGno8bjaubOtnunOB9TlPDuhAFDoXUYKzvuzKo/P83nN76oYWu+m7ldJs32IbK4wYAF3bxwWesAQSmX1AKRYWKcx5z4BxWXEgSDBTb/JmdFQ0XC5lSDoyR3vwoYJY+k6nBNbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tliwXJ4z++t3MLSWu7/ZJIlKqr6UUKsRiJlDy0oSkKg=;
+ b=YkA4rtOSdZi25SjuXgPOHPEuLRHYIYomyR5mR5FnXIkiv5fCn3GkAox/wI/VyT6aVNLIG7fftNPPbDW12RM70+4CWSGQJbLbJ8qvI2G8v/tRlEwROcKbVdMl4SRCpcbGkCvxkAfwSi7ghOiOPleQT8Dm45mMW0le9N9DkdWj+Fw=
+Received: from VI1PR0402MB3839.eurprd04.prod.outlook.com (52.134.16.147) by
+ VI1SPR01MB0372.eurprd04.prod.outlook.com (20.179.28.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2538.15; Fri, 13 Dec 2019 10:49:42 +0000
+Received: from VI1PR0402MB3839.eurprd04.prod.outlook.com
+ ([fe80::453:3c87:9a9:d1ad]) by VI1PR0402MB3839.eurprd04.prod.outlook.com
+ ([fe80::453:3c87:9a9:d1ad%4]) with mapi id 15.20.2516.018; Fri, 13 Dec 2019
+ 10:49:42 +0000
+From:   Daniel Baluta <daniel.baluta@nxp.com>
+To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
+CC:     dl-linux-imx <linux-imx@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+Subject: Re: [PATCH 2/5] firmware: imx: scu-pd: Add power domains for imx-jpeg
+Thread-Topic: [PATCH 2/5] firmware: imx: scu-pd: Add power domains for
+ imx-jpeg
+Thread-Index: AQHVlLXR59MDEepsUUG8Ys9bLL0Zu6e4C66AgAAQ8YA=
+Date:   Fri, 13 Dec 2019 10:49:42 +0000
+Message-ID: <85f114ce723d7ec27f8300243700d3a72c4150da.camel@nxp.com>
+References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
+         <1573053633-21437-3-git-send-email-mirela.rabulea@nxp.com>
+         <64ac7dca-9834-6a33-aa3e-9b7e2156dedc@xs4all.nl>
+In-Reply-To: <64ac7dca-9834-6a33-aa3e-9b7e2156dedc@xs4all.nl>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfJuOf6iWT4V2PE3NjVY5XmI2GfcNbW/+2rv5P2IvlZjb7L7TSElX+IpK289s/f4ZS9zjYDxDL4lPZBd/etkxFpYVsuTw2gT7tXYTLbRqgBFtP2o2apHa
- OWhzGpemHH2HOa72OesEW9G4WsaNzhRloVkBZfNTOMy1Fzb+dnOj/J0wPn5dok3hZ4+t+jmf2C+k80TEOsXCkrjSOafGxduGUBYwr7t7uejiBfZlTsUzrE37
- KrOHzZr9gdttWqLq3NYoIwe5G0ns5rA8hnQ5zM1PIkmvVe1sqCftxkOkx2IVUzTmzMXSxKc3U1pEyEUSmt+TN90k0TQDhtmPoRz799n1+KObZXA+hwz45m+s
- iSffvKuazKwWhMm5yIBJNFqRppYm+b81H+OWIozxBFXA1Ko/c6c=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=daniel.baluta@nxp.com; 
+x-originating-ip: [89.37.124.34]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9accf10d-53d0-4052-e8fa-08d77fba292d
+x-ms-traffictypediagnostic: VI1SPR01MB0372:|VI1SPR01MB0372:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1SPR01MB037225B387C66CA37FF58EC6F9540@VI1SPR01MB0372.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0250B840C1
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(366004)(396003)(346002)(39860400002)(136003)(189003)(199004)(8936002)(76116006)(66446008)(64756008)(66556008)(66476007)(5660300002)(7416002)(8676002)(91956017)(4001150100001)(81166006)(478600001)(81156014)(2906002)(66946007)(316002)(71200400001)(6506007)(4326008)(54906003)(36756003)(186003)(6512007)(86362001)(26005)(110136005)(53546011)(2616005)(6486002)(44832011)(99106002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1SPR01MB0372;H:VI1PR0402MB3839.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6+htQzdwRYwG/xuWFxRcE9j4IYD4h0SE+i+MRp+bWWDgF9Fi/dgxgP8S2dwLT5/EJvN01MKzJT0rYeXBdympk9lnJ0SQV0aYIV2j3QRPsU+L1tJgMpsXbJCBSi2GQdISAt6UOfrymgVM4rW2QRsSTBmi1szneTSwNPT9d41ZMZAZ7aDldK9Ncci08OVOt01wU177nK2O27PWdMJPHrxP05dl8+yd/AJXU5U+NCTLiJKZt44YTLCjyDVNzbvF+UCzpfEIjx3Q70KnipYtL+ByNKjluX3jPK9vMWFXwKMARAo9hXRLWzLZagnfEf2k1rQl77ZgBh4IqeYFz0fmBVVSworUsVDpaMfg0O1y6cTsmuJAlF5MrKRz3hiumKpM732tEUagBgT+numqe8zqqUesjegfOoXqzhaq6tg/wG6UVYGOZrixnZPx/AkEjUT+GbQBX1+V/J8XdF28CONzV0OfENt3DU/ZqHfumGmu+sM2Y+bMFBNtZ1fmgP7Le2/J8b9w
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B3D07B39A3D0424BB8DA1923B08BCD16@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9accf10d-53d0-4052-e8fa-08d77fba292d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2019 10:49:42.6904
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8VbEo+9Kod5wP0DmqXQ0xlV3ntTEXOuvaE9bfTohFrqP3NcEU4NvB3QdTlca7kt+AoT8tyNr8btlhlSYU4eOXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1SPR01MB0372
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit da090bf60370c9ad6ede4e76adbf37ce79b84791:
-
-  media: Drop superfluous ioctl PCM ops (2019-12-13 09:33:22 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.6d
-
-for you to fetch changes up to 425738b4771df9c973bf8d233835b198ba141677:
-
-  media: vimc: Implement get/set selection in sink (2019-12-13 11:37:05 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Eugen Hristev (8):
-      media: atmel: atmel-isc-base: allow 8 bit direct dump
-      media: atmel: atmel-isc-base: add support for Y10 format
-      media: atmel: atmel-isc-base: properly initialize pad_cfg
-      media: atmel: atmel-isc-base: fix enum calls default format
-      media: atmel: atmel-isc-base: initialize the try_crop for the pads in try_fmt
-      media: atmel: atmel-isi: add support for mono sensors, GRAY and Y16
-      media: atmel: atmel-isi: properly initialize pad_cfg
-      media: atmel: atmel-isi: initialize the try_crop for the pads in try_fmt
-
-Guilherme Alcarde Gallo (1):
-      media: vimc: Implement get/set selection in sink
-
-Hans Verkuil (1):
-      pixfmt-tch-td16/tu16.rst: document that this is little endian
-
-Hirokazu Honda (1):
-      media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding
-
-Maxime Jourdan (1):
-      media: meson: vdec: add g12a platform
-
-Neil Armstrong (4):
-      dt-bindings: media: amlogic,vdec: convert to yaml
-      dt-bindings: media: amlogic,gx-vdec: add bindings for G12A family
-      dt-bindings: media: amlogic,gx-vdec: add bindings for SM1 family
-      media: meson: vdec: add sm1 platform
-
-Niklas Söderlund (2):
-      dt-bindings: rcar-vin: Remove paragraph about aliases
-      dt-bindings: rcar-vin: Document compatibility string for R8A77470
-
-Philipp Zabel (6):
-      media: coda: do not skip finish_run if aborting
-      media: coda: jpeg: merge Huffman table bits and values
-      media: coda: jpeg: add JPEG register definitions for CODA960
-      media: coda: jpeg: add CODA960 JPEG encoder support
-      media: coda: remove redundant platform_get_irq error message
-      media: coda: avoid hardware lockups with more than 13 capture buffers
-
-Rui Miguel Silva (1):
-      media: imx7-mipi-csis: remove subdev_notifier
-
-Wei Yongjun (1):
-      media: sun8i: Remove redundant dev_err call in deinterlace_probe()
-
- Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml | 141 ++++++++
- Documentation/devicetree/bindings/media/amlogic,vdec.txt     |  72 ----
- Documentation/devicetree/bindings/media/renesas,vin.txt      |   4 +-
- Documentation/media/uapi/v4l/pixfmt-tch-td16.rst             |  34 +-
- Documentation/media/uapi/v4l/pixfmt-tch-tu16.rst             |  34 +-
- drivers/media/platform/atmel/atmel-isc-base.c                |  94 ++++--
- drivers/media/platform/atmel/atmel-isi.c                     |  42 ++-
- drivers/media/platform/atmel/atmel-isi.h                     |   2 +
- drivers/media/platform/coda/coda-bit.c                       |  29 +-
- drivers/media/platform/coda/coda-common.c                    |  45 ++-
- drivers/media/platform/coda/coda-jpeg.c                      | 746 ++++++++++++++++++++++++++++++++++++++++--
- drivers/media/platform/coda/coda.h                           |   3 +
- drivers/media/platform/coda/coda_regs.h                      |  83 +++++
- drivers/media/platform/coda/trace.h                          |  10 +
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c           |   9 +-
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c             |   5 +-
- drivers/media/platform/vimc/vimc-scaler.c                    | 166 +++++++++-
- drivers/staging/media/imx/imx7-mipi-csis.c                   |   3 -
- drivers/staging/media/meson/vdec/vdec.c                      |  16 +-
- drivers/staging/media/meson/vdec/vdec.h                      |   1 +
- drivers/staging/media/meson/vdec/vdec_1.c                    |  29 +-
- drivers/staging/media/meson/vdec/vdec_platform.c             |  60 ++++
- drivers/staging/media/meson/vdec/vdec_platform.h             |   4 +
- 23 files changed, 1427 insertions(+), 205 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/amlogic,vdec.txt
+T24gRnJpLCAyMDE5LTEyLTEzIGF0IDEwOjQ5ICswMTAwLCBIYW5zIFZlcmt1aWwgd3JvdGU6DQo+
+IE9uIDExLzYvMTkgNDoyMCBQTSwgTWlyZWxhIFJhYnVsZWEgd3JvdGU6DQo+ID4gVGhlIHBvd2Vy
+IGRvbWFpbnMgYXJlIGZvciBpbXg4cXhwL2lteDhxbSBKUEVHIGVuY29kZXIgJiBkZWNvZGVyLg0K
+PiA+IEVhY2ggaGFzIDQgc2xvdHMgYW5kIGEgd3JhcHBlci4NCj4gPiANCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBNaXJlbGEgUmFidWxlYSA8bWlyZWxhLnJhYnVsZWFAbnhwLmNvbT4NCj4gDQo+IFNoYXdu
+LCBEYW5pZWwsIGNhbiBJIGhhdmUgYW4gQWNrIGZyb20geW91PyBJdCBwcm9iYWJseSBtYWtlcyBz
+ZW5zZQ0KPiB0aGF0DQo+IHRoaXMgcGF0Y2ggZ2V0cyBtZXJnZWQgdmlhIHRoZSBtZWRpYSBzdWJz
+eXN0ZW0uDQoNCkkgaG9wZSBJJ20gdGhlIERhbmllbCB5b3UgYXJlIHJlZmVycmluZyB0by4gSXQg
+bG9va3MgZ29vZCB0byAgbWUuDQoNCkFja2VkLWJ5OiBEYW5pZWwgQmFsdXRhIDxkYW5pZWwuYmFs
+dXRhQG54cC5jb20+DQoNCj4gDQo+IFJlZ2FyZHMsDQo+IA0KPiAJSGFucw0KPiANCj4gPiAtLS0N
+Cj4gPiAgZHJpdmVycy9maXJtd2FyZS9pbXgvc2N1LXBkLmMgfCA2ICsrKysrKw0KPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZmlybXdhcmUvaW14L3NjdS1wZC5jDQo+ID4gYi9kcml2ZXJzL2Zpcm13YXJlL2lteC9zY3Ut
+cGQuYw0KPiA+IGluZGV4IGI1NTY2MTIuLmU3YmY0OGEgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVy
+cy9maXJtd2FyZS9pbXgvc2N1LXBkLmMNCj4gPiArKysgYi9kcml2ZXJzL2Zpcm13YXJlL2lteC9z
+Y3UtcGQuYw0KPiA+IEBAIC0xNTgsNiArMTU4LDEyIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaW14
+X3NjX3BkX3JhbmdlDQo+ID4gaW14OHF4cF9zY3VfcGRfcmFuZ2VzW10gPSB7DQo+ID4gIAkvKiBE
+QyBTUyAqLw0KPiA+ICAJeyAiZGMwIiwgSU1YX1NDX1JfRENfMCwgMSwgZmFsc2UsIDAgfSwNCj4g
+PiAgCXsgImRjMC1wbGwiLCBJTVhfU0NfUl9EQ18wX1BMTF8wLCAyLCB0cnVlLCAwIH0sDQo+ID4g
+Kw0KPiA+ICsJLyogSU1BR0UgU1MgKi8NCj4gPiArCXsgImltZy1qcGVnZGVjLW1wIiwgSU1YX1ND
+X1JfTUpQRUdfREVDX01QLCAxLCBmYWxzZSwgMCB9LA0KPiA+ICsJeyAiaW1nLWpwZWdkZWMtczAi
+LCBJTVhfU0NfUl9NSlBFR19ERUNfUzAsIDQsIHRydWUsIDAgfSwNCj4gPiArCXsgImltZy1qcGVn
+ZW5jLW1wIiwgSU1YX1NDX1JfTUpQRUdfRU5DX01QLCAxLCBmYWxzZSwgMCB9LA0KPiA+ICsJeyAi
+aW1nLWpwZWdlbmMtczAiLCBJTVhfU0NfUl9NSlBFR19FTkNfUzAsIDQsIHRydWUsIDAgfSwNCj4g
+PiAgfTsNCj4gPiAgDQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaW14X3NjX3BkX3NvYyBpbXg4
+cXhwX3NjdV9wZCA9IHsNCj4gPiANCj4gDQo+IA0K
