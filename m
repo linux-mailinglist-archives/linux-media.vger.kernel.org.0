@@ -2,76 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEE4511E346
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 13:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4398F11E3E3
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 13:54:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbfLMMHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 07:07:12 -0500
-Received: from inva020.nxp.com ([92.121.34.13]:37230 "EHLO inva020.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727036AbfLMMHM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 07:07:12 -0500
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 436131A0CEC;
-        Fri, 13 Dec 2019 13:07:10 +0100 (CET)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 2D2B31A0801;
-        Fri, 13 Dec 2019 13:07:10 +0100 (CET)
-Received: from fsr-ub1664-134.ea.freescale.net (fsr-ub1664-134.ea.freescale.net [10.171.74.111])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 53887203B1;
-        Fri, 13 Dec 2019 13:07:09 +0100 (CET)
-From:   Mirela Rabulea <mirela.rabulea@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
-        robh+dt@kernel.org
-Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
-        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
-        daniel.baluta@nxp.com, leonard.crestez@nxp.com,
-        robert.chiras@nxp.com, laurentiu.palcu@nxp.com,
-        mark.rutland@arm.com, devicetree@vger.kernel.org,
-        p.zabel@pengutronix.de, laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        dafna.hirschfeld@collabora.com,
-        Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: [PATCH v3 6/6] Add maintainer for IMX jpeg v4l2 driver
-Date:   Fri, 13 Dec 2019 14:06:21 +0200
-Message-Id: <1576238781-5911-7-git-send-email-mirela.rabulea@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1576238781-5911-1-git-send-email-mirela.rabulea@nxp.com>
-References: <1576238781-5911-1-git-send-email-mirela.rabulea@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1727162AbfLMMyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 07:54:22 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57108 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727050AbfLMMyV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Dec 2019 07:54:21 -0500
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2EA78294061;
+        Fri, 13 Dec 2019 12:54:19 +0000 (GMT)
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH v3 0/7] media: rockchip: Add the rkvdec driver
+Date:   Fri, 13 Dec 2019 13:54:07 +0100
+Message-Id: <20191213125414.90725-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added as:
-FREESCALE IMX / MXC JPEG V4L2 DRIVER
+Hello,
 
-Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+This is v3 of the rkvdec driver adding both the core of the driver and
+a backend to decode H24 streams.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d10d732..a4a267d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6609,6 +6609,14 @@ S:	Maintained
- F:	include/linux/platform_data/video-imxfb.h
- F:	drivers/video/fbdev/imxfb.c
- 
-+FREESCALE IMX / MXC JPEG V4L2 DRIVER
-+M:	Mirela Rabulea <mirela.rabulea@nxp.com>
-+R:	NXP Linux Team <linux-imx@nxp.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/imx8-jpeg.yaml
-+F:	drivers/media/platform/imx-jpeg
-+
- FREESCALE QORIQ DPAA ETHERNET DRIVER
- M:	Madalin Bucur <madalin.bucur@nxp.com>
- L:	netdev@vger.kernel.org
+The most notable change in this version is the addition of generic
+helpers to build the reflists, along with Jonas' patch adding new DPB
+flags to express the field being referenced by each DPB entry.
+
+Driver-wise, a few things have been reworked/clarified, but most of the
+code is unchanged. See the changelog attached to each patch for more
+details.
+
+Regards,
+
+Boris
+
+Boris Brezillon (6):
+  media: vb2: Add a helper to get the vb2 buffer attached to a request
+  media: v4l2-core: Add helpers to build the H264 P/B0/B1 reflists
+  media: hantro: h264: Use the generic H264 reflist builder
+  media: dt-bindings: rockchip: Document RK3399 Video Decoder bindings
+  media: rkvdec: Add the rkvdec driver
+  arm64: dts: rockchip: rk3399: Define the rockchip Video Decoder node
+
+Jonas Karlman (1):
+  media: uapi: h264: Add DPB entry field reference flags
+
+ .../bindings/media/rockchip,vdec.yaml         |   71 +
+ .../media/uapi/v4l/ext-ctrls-codec.rst        |   16 +
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |   14 +-
+ .../media/common/videobuf2/videobuf2-core.c   |   23 +
+ drivers/media/v4l2-core/Kconfig               |    4 +
+ drivers/media/v4l2-core/Makefile              |    1 +
+ drivers/media/v4l2-core/v4l2-h264.c           |  258 ++++
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/hantro/hantro_h264.c    |  237 +---
+ drivers/staging/media/rkvdec/Kconfig          |   15 +
+ drivers/staging/media/rkvdec/Makefile         |    3 +
+ drivers/staging/media/rkvdec/rkvdec-h264.c    | 1154 +++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec-regs.h    |  239 ++++
+ drivers/staging/media/rkvdec/rkvdec.c         | 1130 ++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec.h         |  124 ++
+ include/media/h264-ctrls.h                    |    2 +
+ include/media/v4l2-h264.h                     |   86 ++
+ include/media/videobuf2-core.h                |   11 +
+ 19 files changed, 3161 insertions(+), 230 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+ create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
+ create mode 100644 drivers/staging/media/rkvdec/Kconfig
+ create mode 100644 drivers/staging/media/rkvdec/Makefile
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
+ create mode 100644 include/media/v4l2-h264.h
+
 -- 
-2.7.4
+2.23.0
 
