@@ -2,122 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D50EF11DC94
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 04:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DBF911DD4B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 05:55:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731713AbfLMDVQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Dec 2019 22:21:16 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:37209 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731640AbfLMDVQ (ORCPT
+        id S1731878AbfLMEz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Dec 2019 23:55:29 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:33569 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731357AbfLMEz3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Dec 2019 22:21:16 -0500
-Received: by mail-qt1-f193.google.com with SMTP id w47so1125349qtk.4
-        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2019 19:21:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Hu2APQv+IVI+5iybEWjt//7XPT9MTquVNsXr5eKGijw=;
-        b=NbXVTwnsEakgsLDn5trxVEpIqvFPkyT91OGxu6GSmlghAmcQnQGqJZi3cOnahPfSrD
-         2IJNLrAntLb2Vg5yzKRR4QuDDeoYyiy6na2abkFIXUui3mifNSzOyNyMo0Ep0GzowQ8k
-         73kBaxv12ceugNuZDtRCisBAErHfxIMqH+xDk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Hu2APQv+IVI+5iybEWjt//7XPT9MTquVNsXr5eKGijw=;
-        b=U1QxMXV5fsvCK3gmx4R5bqeekap67ZKH/bLH9aL8M4JG6u0qOnAUBvwfsgTKZmSPsV
-         Q+yl6uDHDY0ImDFLUhaxixXy3aEhQIWHI1WkD55966Siv2o8P1YgwzkPCnHty/akDt+s
-         p/k/h7Ifrl5CwQx8betoJHyRZjRO4LA0f76SJe6Gi3edYizrkA4CwcC6pTPrhUq0qHkr
-         q1g3Vb1zVVZaHeJ1zkyGiIJ2q5Exl5grr3cdOdkee8cWJlkFFUl6jkXuRjPg4IDdDGTX
-         QpHOXcAlf3Q+eFg5vMxiABRElwwwvl7DuazpBzSSwZ1Y/i9q+Kz43ZdE6teGn4vp6G94
-         wcRw==
-X-Gm-Message-State: APjAAAVowoZPMay3L47Lf+B0mCa6ftOkE7+LgwKwRogS6lKWr9oTwNRs
-        dgK/kalB500ScRlJZsXjjJzSiJ0xtvmsIb5INeR9JQ==
-X-Google-Smtp-Source: APXvYqxkanE7QbTS//jm2AxQAVONJGlepSsWXOV9cZX2KUxILe5+aXQHWvDwDfO80Q8vQlRxi2+uGt+89jAjHljpaI4=
-X-Received: by 2002:ac8:27a3:: with SMTP id w32mr10895350qtw.234.1576207275087;
- Thu, 12 Dec 2019 19:21:15 -0800 (PST)
-MIME-Version: 1.0
-References: <72712fe048af1489368f7416faa92c45@hostfission.com>
- <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
- <d65bec5074eda5f389668e28922c1609@hostfission.com> <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
- <CAEUnVG77y2DrV5kLTHDy1xio+yzMGv9j=M0c4388vH_LUaiXLg@mail.gmail.com>
- <CAD=HUj40Jb2cy8EP=24coO-CPUvq6ib+01bvXHn1G9GD8KuenA@mail.gmail.com>
- <20191211092625.jzqx2ukphhggwavo@sirius.home.kraxel.org> <CAD=HUj7d3SWqCH=57ymy-BVd6xdJWc=WSqHAFyQXt-3MjchEAA@mail.gmail.com>
- <20191212094121.by7w7fywlzdfoktn@sirius.home.kraxel.org> <CAD=HUj6YYupjdxxz2mgMmE2DcKhXP-qdhRORvUNTmzcORRrLzg@mail.gmail.com>
- <20191212133048.4nbmuwhbq5z2ai6o@sirius.home.kraxel.org>
-In-Reply-To: <20191212133048.4nbmuwhbq5z2ai6o@sirius.home.kraxel.org>
-From:   David Stevens <stevensd@chromium.org>
-Date:   Fri, 13 Dec 2019 12:21:03 +0900
-Message-ID: <CAD=HUj623MyeZ7VmrYTfig9oiyNhipidpvhuuurs3VgGBgjZpQ@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>,
-        Zach Reizner <zachr@chromium.org>,
-        Geoffrey McRae <geoff@hostfission.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 12 Dec 2019 23:55:29 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:c93c:45bd:1710:e478])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id fcz7ivsn0TsDefcz9ihQAe; Fri, 13 Dec 2019 05:55:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576212927; bh=NYty6hhq/49/XqFb22LCcki5Vb9CR4xYzIzwzOkhMcc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=s8hxC8tR99qVHJgigjtIjLRYcaXDksUAp7Rj+M8g640RSXeHFLPiHQc750P/v8FVu
+         NdgySgcIL9Xxa7OZEaek15Dfjg5oBPoeh8pcKA5z3o5WpTZdMPIt7AKfjFFlL9Hgfs
+         QppeX8oMkv41ph7niCJi8hfPVqVWHLTJN9o8ld9P7N2WfGPoXYbIP6U9dxdRTS6TbK
+         +SWxhDY7SAhxXR31KiocYfdJ2ukpBwH5jAn/fDPjRT/T1WcjOG7jSCgHZ/D9Ecz6ff
+         fzd5PDEJXXqDpxF3RykFdnhuj05FiowINViYva3Svr1BvzrOtQruDS3ARO59nONd0W
+         hXZk4ddYfdwTQ==
+Message-ID: <1470083fddc98a724326a9bafd509c97@smtp-cloud8.xs4all.net>
+Date:   Fri, 13 Dec 2019 05:55:25 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfDq4b2mXNEu1hzSguL3QWt/z48UMTKJN0dEsmujg33LBzp8PXoOZrGBpWCuSIhXDlNc94lXxnPDawCmSvBvhLvmVyNi5LDqZiKV4SEn7p/Mx2rYDJbKz
+ ZEQoOqVbESxkRmELce0JOgXFjVLulbm/H5JA+U7bCGACvahdFBJmj/Q7NVKfscBccHyS9S+YhsxqJuVGTsyEaG1zwaxrJIlVM2yhKHRcb6CK56a7qR8YGoSb
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> > > Without buffer sharing support the driver importing a virtio-gpu dma-buf
-> > > can send the buffer scatter list to the host.  So both virtio-gpu and
-> > > the other device would actually access the same guest pages, but they
-> > > are not aware that the buffer is shared between devices.
-> >
-> > With the uuid approach, how should this case be handled? Should it be
-> > equivalent to exporting and importing the buffer which was created
-> > first? Should the spec say it's undefined behavior that might work as
-> > expected but might not, depending on the device implementation? Does
-> > the spec even need to say anything about it?
->
-> Using the uuid is an optional optimization.  I'd expect the workflow be
-> roughly this:
->
->   (1) exporting driver exports a dma-buf as usual, additionally attaches
->       a uuid to it and notifies the host (using device-specific commands).
->   (2) importing driver will ask the host to use the buffer referenced by
->       the given uuid.
->   (3) if (2) fails for some reason use the dma-buf scatter list instead.
->
-> Of course only virtio drivers would try step (2), other drivers (when
-> sharing buffers between intel gvt device and virtio-gpu for example)
-> would go straight to (3).
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-For virtio-gpu as it is today, it's not clear to me that they're
-equivalent. As I read it, the virtio-gpu spec makes a distinction
-between the guest memory and the host resource. If virtio-gpu is
-communicating with non-virtio devices, then obviously you'd just be
-working with guest memory. But if it's communicating with another
-virtio device, then there are potentially distinct guest and host
-buffers that could be used. The spec shouldn't leave any room for
-ambiguity as to how this distinction is handled.
+Results of the daily build of media_tree:
 
-> > Not just buffers not backed by guest ram, but things like fences. I
-> > would suggest the uuids represent 'exported resources' rather than
-> > 'exported buffers'.
->
-> Hmm, I can't see how this is useful.  Care to outline how you envision
-> this to work in a typical use case?
+date:			Fri Dec 13 05:00:10 CET 2019
+media-tree git hash:	2099ef02c6c024751e4d16ace67dd6b910c875e4
+media_build git hash:	ccee44dc23da091e884e2cbdeb3b8b2271cc3095
+v4l-utils git hash:	e9a7593ec6ae98704ecb35ea64948d34c23a5158
+edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Looking at the spec again, it seems like there's some more work that
-would need to be done before this would be possible. But the use case
-I was thinking of would be to export a fence from virtio-gpu and share
-it with a virtio decoder, to set up a decode pipeline that doesn't
-need to go back into the guest for synchronization. I'm fine dropping
-this point for now, though, and revisiting it as a separate proposal.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2793, Succeeded: 2793, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
 
--David
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
