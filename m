@@ -2,277 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B78911DECC
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 08:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEF311DED3
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2019 08:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725770AbfLMHoA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 02:44:00 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:51681 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725468AbfLMHn7 (ORCPT
+        id S1725890AbfLMHrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 02:47:39 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36831 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725810AbfLMHrj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 02:43:59 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id A86F0226EE;
-        Fri, 13 Dec 2019 02:43:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 13 Dec 2019 02:43:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=V/dkQqEhLQZVHxS63i+CEEgpu+
-        G4fLu9zf6DuAwnDME=; b=jlzK9T0XIoe/Cg3kmMNln6fyYPgqy1SZU+C/G0qPCI
-        QWP8B8ofUx2j4AbUo8LnHnA8WV/LU4kOR/q6NEojD0W1AtlJDcRslR6qCKd+MT2s
-        nECl7+V4hppIQeDl5Rsa6S8vAVDwqplSk6TUUFa8XLdzB8qlju6Dsz/1/5OXp/9g
-        qM292p0nsxH0o3wxxL1k1Yr6DdjVWT+ZiFAxg0cqJbWTlKw9mXqnFOtshqYAz/IN
-        OjrL3o5ZzTkgWPf+BJ4WDq3MO3aXvjzyJa4HgbgSRQAPYI9v89NqaMY94GWorY81
-        6Rqxf1ig0JeBi/BFBF7MkpZuY804Dmp294+Xe9+l9H1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=V/dkQqEhLQZVHxS63
-        i+CEEgpu+G4fLu9zf6DuAwnDME=; b=bMzqLlFeomEdXco6mDDOKEXiTwSG07iDX
-        yqSxgZ9Hrh9odYYu5hvj1+yhn9LDUi/4UxpAfHSHDphUPoRdsOPTe9KPh04drkFO
-        eaMMAno4E3WG73E1lUxjWjTD7fMwNNnLkuR1cooqdZg02NbJhlhAFgZNZdCGb+2f
-        T7c13a0curZGYJWbOmHI6nIliIDDsxAE0KrOWwr7U8+/C5Z6+2PbU6ONtmLqoAYn
-        Acw5FJIbUt/mstQUthLUXIBpBYfnQI7ARoxfGpJUTMKJT99lAGKIyJ0d6tqRwh0k
-        G+eBXACnz9TfyRe6HgotzAXNtLM9raXc0Z23lGi9CJL5H0w7pRzIw==
-X-ME-Sender: <xms:PUHzXaZiSYiyxdLF2cPV0vMRdRNFu3VCzkRCfib4wwVXTTdYQZUdFQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgudduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enogevohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffo
-    ggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgi
-    himhgvsegtvghrnhhordhtvggthheqnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdr
-    ohhrghenucfkphepledtrdekledrieekrdejieenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:PkHzXZH7NHZ_NEmPoMIUGdF6mcGEnBNz-YBn76vFDXIWce3o48mQEA>
-    <xmx:PkHzXb1asWJuiPDnn32TS1cOjg6ZId7KLXFFUododURAkW7MwIjKqg>
-    <xmx:PkHzXRcxMjf-B6VLMPTDjFqm8QIwRn2iDGXCxZOrunYjlFyFIj0otQ>
-    <xmx:PkHzXZEJZsKYh823OunFMjqrES31qFRVO3ZEYfHpgcWehTKO3BpK_Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id AF4B03060193;
-        Fri, 13 Dec 2019 02:43:57 -0500 (EST)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] dt-bindings: media: Convert Allwinner A31 CSI to a schema
-Date:   Fri, 13 Dec 2019 08:43:55 +0100
-Message-Id: <20191213074355.26840-1-maxime@cerno.tech>
-X-Mailer: git-send-email 2.23.0
+        Fri, 13 Dec 2019 02:47:39 -0500
+Received: by mail-wm1-f68.google.com with SMTP id p17so5476712wma.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2019 23:47:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vTSxvUqfa6FoEiQTgKaCRKQ961VVqjF3zVcNDPTqeUQ=;
+        b=FygEFXPkvDTEqQFNc95GmEPQFaOALol3FJZVABII8mgatRtgdG31UxBB+q2f85tioV
+         YaDq76YgKg19kavCxLDGCXYdqM9e4pt1+h8vMM1af+h493sGTqtu8x0x0Y7pDZ9rZODl
+         D0Tmu44OHSSAi7XTfiw3ezo4lLtG/fvqKXr9UP1I7ioXEwEcTuWWl+MwWhGJYbEnMq+w
+         ALx7B4du4u7jUwnaaQoo9t+S3X/fO96NeqeTQ28Ffuy5wSsYUMg78UyAtuMEUmLPhSNZ
+         lUUoOAhyKE5fSjw0CUYEi+vy/hxr1Eua69Uhw+w3KzjGJP3OD8JUBE+JCzVqCd/mRebH
+         8ZnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vTSxvUqfa6FoEiQTgKaCRKQ961VVqjF3zVcNDPTqeUQ=;
+        b=Gz0tXOkvOyW72V2hKzC0p1ZQKGRZoohjkZ5qY+Fj6gS/FY5v/dVdyajd5wCh12QIhI
+         jzSkoPhEjrlxvNrU0BHE9B5t7koMGUm7+R5w4NYCpPQWTtGjzescNu/LwnZSFdVjnLFe
+         mXsWEp1gAnmybkQ9NLGLqqWa6jLpVlR6v/+FqIDQCRJffyTgWdUiLZzZfx+iFUmjnzQr
+         trqsKorgFDzWLPzVYLdLvRfUjYMfVmMyJuxNOcsfv2tC5u5n0v3lWnLn4zHC57WjMjeq
+         wnOkZjtAEDZmCG6SndXhl0ql8arbNB58EF3KP4PD8SjvTf/72SVNflmCNXU76SNHtkd8
+         FZ+Q==
+X-Gm-Message-State: APjAAAWyQrUo3WnsJZfsNh2lt/V9dS9OLp0+Cm09pZ3LaGKS8asabYSf
+        x79uu8U/VPRi/7aOY4GvQQ3lT6ERbG+PkPHUyUdlfA==
+X-Google-Smtp-Source: APXvYqwNVH+CrxZcMnxSwclo0S3v7qgeIyd4KN1mrRn3wdEhUWxce27y0yPjv6LZIAM/PDIfAV+2naYwlAPl2eY/5zg=
+X-Received: by 2002:a7b:cd84:: with SMTP id y4mr1059323wmj.57.1576223256882;
+ Thu, 12 Dec 2019 23:47:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191204141159.1432387-1-colin.king@canonical.com> <20191205080611.GY93017@google.com>
+In-Reply-To: <20191205080611.GY93017@google.com>
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+Date:   Fri, 13 Dec 2019 08:47:26 +0100
+Message-ID: <CAMO6naxT0syj74xvcectWXyVGmHfOU341A+15tC+GW4hsq+yJQ@mail.gmail.com>
+Subject: Re: [PATCH] media: meson: add missing allocation failure check on new_buf
+To:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Cc:     Colin King <colin.king@canonical.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The newer Allwinner SoCs have a camera controller that is supported in
-Linux, with a matching Device Tree binding.
+On Thu, Dec 5, 2019 at 9:06 AM Sergey Senozhatsky
+<sergey.senozhatsky.work@gmail.com> wrote:
+>
+> On (19/12/04 14:11), Colin King wrote:
+> [..]
+> > diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+> > index 0a1a04fd5d13..8dd1396909d7 100644
+> > --- a/drivers/staging/media/meson/vdec/vdec.c
+> > +++ b/drivers/staging/media/meson/vdec/vdec.c
+> > @@ -133,6 +133,8 @@ vdec_queue_recycle(struct amvdec_session *sess, struct vb2_buffer *vb)
+> >       struct amvdec_buffer *new_buf;
+> >
+> >       new_buf = kmalloc(sizeof(*new_buf), GFP_KERNEL);
+> > +     if (!new_buf)
+> > +             return;
+> >       new_buf->vb = vb;
 
-Now that we have the DT validation in place, let's convert the device tree
-bindings for that controller over to a YAML schemas.
+Thanks for the patch Colin.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- .../media/allwinner,sun6i-a31-csi.yaml        | 115 ++++++++++++++++++
- .../devicetree/bindings/media/sun6i-csi.txt   |  61 ----------
- 2 files changed, 115 insertions(+), 61 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/sun6i-csi.txt
+>
+> So the buffer is not getting recycled? IOW is leaked?
+>
+>         -ss
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-new file mode 100644
-index 000000000000..1fd9b5532a21
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-@@ -0,0 +1,115 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-csi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner A31 CMOS Sensor Interface (CSI) Device Tree Bindings
-+
-+maintainers:
-+  - Chen-Yu Tsai <wens@csie.org>
-+  - Maxime Ripard <mripard@kernel.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - allwinner,sun6i-a31-csi
-+      - allwinner,sun8i-a83t-csi
-+      - allwinner,sun8i-h3-csi
-+      - allwinner,sun8i-v3s-csi
-+      - allwinner,sun50i-a64-csi
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Bus Clock
-+      - description: Module Clock
-+      - description: DRAM Clock
-+
-+  clock-names:
-+    items:
-+      - const: bus
-+      - const: mod
-+      - const: ram
-+
-+  resets:
-+    maxItems: 1
-+
-+  # See ./video-interfaces.txt for details
-+  port:
-+    type: object
-+
-+    properties:
-+      endpoint:
-+        type: object
-+
-+        properties:
-+          remote-endpoint: true
-+
-+          bus-width:
-+            enum: [ 8, 10, 12, 16 ]
-+
-+          pclk-sample: true
-+          hsync-active: true
-+          vsync-active: true
-+
-+        required:
-+          - bus-width
-+          - remote-endpoint
-+
-+    required:
-+      - endpoint
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-+    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-+
-+    csi1: csi@1cb4000 {
-+        compatible = "allwinner,sun8i-v3s-csi";
-+        reg = <0x01cb4000 0x1000>;
-+        interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&ccu CLK_BUS_CSI>,
-+                 <&ccu CLK_CSI1_SCLK>,
-+                 <&ccu CLK_DRAM_CSI>;
-+        clock-names = "bus",
-+                      "mod",
-+                      "ram";
-+        resets = <&ccu RST_BUS_CSI>;
-+
-+        port {
-+            /* Parallel bus endpoint */
-+            csi1_ep: endpoint {
-+                remote-endpoint = <&adv7611_ep>;
-+                bus-width = <16>;
-+
-+                /*
-+                 * If hsync-active/vsync-active are missing,
-+                 * embedded BT.656 sync is used.
-+                 */
-+                 hsync-active = <0>; /* Active low */
-+                 vsync-active = <0>; /* Active low */
-+                 pclk-sample = <1>;  /* Rising */
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/media/sun6i-csi.txt b/Documentation/devicetree/bindings/media/sun6i-csi.txt
-deleted file mode 100644
-index a2e3e56f0257..000000000000
---- a/Documentation/devicetree/bindings/media/sun6i-csi.txt
-+++ /dev/null
-@@ -1,61 +0,0 @@
--Allwinner V3s Camera Sensor Interface
---------------------------------------
--
--Allwinner V3s SoC features a CSI module(CSI1) with parallel interface.
--
--Required properties:
--  - compatible: value must be one of:
--    * "allwinner,sun6i-a31-csi"
--    * "allwinner,sun8i-a83t-csi"
--    * "allwinner,sun8i-h3-csi"
--    * "allwinner,sun8i-v3s-csi"
--    * "allwinner,sun50i-a64-csi"
--  - reg: base address and size of the memory-mapped region.
--  - interrupts: interrupt associated to this IP
--  - clocks: phandles to the clocks feeding the CSI
--    * bus: the CSI interface clock
--    * mod: the CSI module clock
--    * ram: the CSI DRAM clock
--  - clock-names: the clock names mentioned above
--  - resets: phandles to the reset line driving the CSI
--
--The CSI node should contain one 'port' child node with one child 'endpoint'
--node, according to the bindings defined in
--Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Endpoint node properties for CSI
-----------------------------------
--See the video-interfaces.txt for a detailed description of these properties.
--- remote-endpoint	: (required) a phandle to the bus receiver's endpoint
--			   node
--- bus-width:		: (required) must be 8, 10, 12 or 16
--- pclk-sample		: (optional) (default: sample on falling edge)
--- hsync-active		: (required; parallel-only)
--- vsync-active		: (required; parallel-only)
--
--Example:
--
--csi1: csi@1cb4000 {
--	compatible = "allwinner,sun8i-v3s-csi";
--	reg = <0x01cb4000 0x1000>;
--	interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
--	clocks = <&ccu CLK_BUS_CSI>,
--		 <&ccu CLK_CSI1_SCLK>,
--		 <&ccu CLK_DRAM_CSI>;
--	clock-names = "bus", "mod", "ram";
--	resets = <&ccu RST_BUS_CSI>;
--
--	port {
--		/* Parallel bus endpoint */
--		csi1_ep: endpoint {
--			remote-endpoint = <&adv7611_ep>;
--			bus-width = <16>;
--
--			/* If hsync-active/vsync-active are missing,
--			   embedded BT.656 sync is used */
--			hsync-active = <0>; /* Active low */
--			vsync-active = <0>; /* Active low */
--			pclk-sample = <1>;  /* Rising */
--		};
--	};
--};
--- 
-2.23.0
+The "recycle" mechanism in the meson vdec is a way to tell the
+firmware that "hey, both userspace and kernel are done using this
+buffer, you can start using it again".
 
+Not queuing it for recycling means that the firmware won't use this
+buffer again, it's not desirable of course, but if there is no memory
+left to allocate a simple list element then there are bigger problems
+at hand.
+
+Either way, failing this allocation and returning instantly doesn't
+leak anything or do any damage kernel-side.
