@@ -2,42 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D97011F11B
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2019 10:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D5CF11F189
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2019 12:27:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725876AbfLNJUC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Dec 2019 04:20:02 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:59738 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725372AbfLNJUB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Dec 2019 04:20:01 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ig3aM-00DIJR-0y; Sat, 14 Dec 2019 09:19:38 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ig3ba-0004TY-Dv; Sat, 14 Dec 2019 09:20:54 +0000
-Date:   Sat, 14 Dec 2019 09:20:54 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <341986484.6.1576315254423.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <436368313.5.1576243160506.JavaMail.jenkins@builder.linuxtv.org>
-References: <436368313.5.1576243160506.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Jenkins build is back to normal : media-build #2901
+        id S1725972AbfLNL1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Dec 2019 06:27:52 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57297 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725895AbfLNL1w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 14 Dec 2019 06:27:52 -0500
+Received: from [IPv6:2001:983:e9a7:1:c52:2c9:63c9:e34f]
+ ([IPv6:2001:983:e9a7:1:c52:2c9:63c9:e34f])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id g5aOisLHbapzpg5aQikTpn; Sat, 14 Dec 2019 12:27:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576322870; bh=nzyq0mgltd7eujv6kQMWXRQOAhLD8nHzYbknU6p3W0Q=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=g/errFyks3JBDVrjv45WPQ274sgS32WNO2DcrKMarrejBR26w/P+dpCWMVtrUZcbQ
+         OUu/3aAgdcF1KKaFlCpDvMGc1/TQn96eA61+LR3dazuBkO7woyhM+x53ozmtfVSApp
+         sI2ce6mlm7u1tLUJxQ1VCHhYaBj3BeSfL/pfwg4dx6GgohNLtY9l/PdSdqBtXKNFvX
+         9VIBYG4nlIbvriMrMndfNDSq5zpsty0dnzDyHQwoyLDcd7KrEjy9HuF6Ut3FzXk0YX
+         SfXgTe7S9GiAl+SEWkTR0/XESeWX+9zv3UKaefXopf7XLvTWNmfrhSO0NMyvwghc83
+         mRItAOkyQHs5Q==
+Subject: Re: [PATCH v5 6/8] media: v4l2-core: fix v4l2_buffer handling for
+ time64 ABI
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20191126161824.337724-1-arnd@arndb.de>
+ <20191126161824.337724-7-arnd@arndb.de>
+ <09c664fd-87fb-4fac-f104-9afbe7d33aa2@xs4all.nl>
+ <CAK8P3a1TvFCJf8t9T1yOXjsp088s9dbEOKLVDPinfwJe2B-27g@mail.gmail.com>
+ <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl>
+Message-ID: <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
+Date:   Sat, 14 Dec 2019 12:27:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: SUCCESS
-Auto-submitted: auto-generated
+X-CMAE-Envelope: MS4wfI+6qlEmU4zRwcQGZcQkuwRnTzsDXY+L9CVkVfr2d+0iyXeZkc2nQ0Lec5MhODFFLRZzaxlqZSpd2B1ObmWXwLxnaCmVjLu7vE0j1TlmlJA27t5Wxb+R
+ qUoIOKbcI43VZ8GIuYIYCLbMuol5fT0ArRP4wk6Yo62ULZZTdXkYvbTY17MGrKr2mqCbT21e5VACNaPC6OOlHwIQSahhCFJqoK8rgaJQDCMix0nfjvzVYmTC
+ kTEq/Gzfyz7ESaXDloNOTxeR8GTC4BOeinRrGeuWEAQLoKN3WVaTXFnmIUHNKR6GfWD5MiNn5/KmRGoUS8++cZOudZ4lHwJrL0KNWJKZuYRdBr4WnzpIuoRd
+ 9Mhdg/wNspM+yqS5daY32PFI/zpmiSD8SAgjNwsMMFUzgNLeOpw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2901/display/redirect>
+On 12/13/19 4:32 PM, Hans Verkuil wrote:
+>>> I am unable to test with musl since v4l2-ctl and v4l2-compliance are C++ programs,
+>>> and there doesn't appear to be an easy way to compile a C++ program with musl.
+>>>
+>>> If you happen to have a test environment where you can compile C++ with musl,
+>>> then let me know and I can give instructions on how to run the compliance tests.
+>>>
+>>> If you can't test that, then I can merge this regardless, and hope for the best
+>>> once the Y2038 fixes end up in glibc. But ideally I'd like to have this tested.
+>>
+>> I've heard good things about the prebuilt toolchains from http://musl.cc/.
+>> These seems to come with a libstdc++, but I have not tried that myself.
+> 
+> I'll see if I can give those a spin, but if I can't get it to work quickly,
+> then I don't plan on spending much time on it.
 
+I managed to build v4l2-ctl/compliance with those toolchains, but they seem to be
+still using a 32-bit time_t.
+
+Do I need to get a specific version or do something special?
+
+Regards,
+
+	Hans
