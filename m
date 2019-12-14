@@ -2,69 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 848FC11EEA5
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2019 00:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97A3E11EFFF
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2019 03:32:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbfLMXkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Dec 2019 18:40:02 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33758 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725945AbfLMXkC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Dec 2019 18:40:02 -0500
-Received: by mail-ot1-f65.google.com with SMTP id d17so1104147otc.0;
-        Fri, 13 Dec 2019 15:40:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FMz0fG5gHb4A8KfuLCFEZRIN+DFWIcz4co491YcnvaE=;
-        b=eJx7jISbFwfhcwIqrf7yakqxTx1PQJb1dlq8iYek6Gz0ttbQZf3o7a1GtnUO6YYSki
-         cDt6bm9zOwLt2M4SNCjPzQyR2SYbh7H7895z7kYe4wjgi1ZdP51sPCo6h4F5UQfXH7wf
-         fD554nlBPzlVGDP4ZIw6t/s1lXEWdOVdywOMGP+AFJoXifZhya0djQqd0WNbv7EU29H0
-         onzyczZUbHnSXasNIwNhuplVDqjMKTdXZahLr+XObeyxsxE4LVElD64vim4pmMKBoqW9
-         hBIIK57jc7AU43EcohxW8dbwUwj4wHWt6lU9szNWvgrD2sXiTRnOeASaHX4kxuoqoks9
-         lglg==
-X-Gm-Message-State: APjAAAU19OG1b0XT7me8EP0u1WheyhusmEzs/QZhbyY+7jveryNQo+0S
-        3W8gJT0mM9O/yCvfyoYLIw==
-X-Google-Smtp-Source: APXvYqzNIlI8IKuEgpLyc52LDy7dNmu3ZdM+rQ4zQ3kkkBAw/tZl1kZS7+A7dvDJa6gcoXQDvrnqLg==
-X-Received: by 2002:a9d:7e8a:: with SMTP id m10mr16535422otp.27.1576280401172;
-        Fri, 13 Dec 2019 15:40:01 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id m2sm3845047oim.13.2019.12.13.15.40.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2019 15:40:00 -0800 (PST)
-Date:   Fri, 13 Dec 2019 17:39:59 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Andreas Kemnade <andreas@kemnade.info>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, letux-kernel@openphoenux.org,
-        Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: fsl-pxp: add missing
- imx6sll
-Message-ID: <20191213233959.GA8730@bogus>
-References: <20191202204748.6718-1-andreas@kemnade.info>
- <20191202204748.6718-2-andreas@kemnade.info>
+        id S1726528AbfLNCcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Dec 2019 21:32:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726046AbfLNCcY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Dec 2019 21:32:24 -0500
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE4E724671;
+        Sat, 14 Dec 2019 02:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576290743;
+        bh=Eqc89Omw2jaNSyVCeKQpbJEzJvaQOE+Lhw+SBNFW1as=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jZkbjakqLdjtzYgUNB/HYiBz3IBx4bt7kPaHKKN2tdiyTsc/jpOHeRDwVOQnR+K6Q
+         su3Hi4gSfXWdv4OJ7ZXcgYPwxPVXUMKtoBZHIGiQEZLm+cCpc8+qFZUjagsB56r0Gw
+         XQYDJVWfe4jc6/Tz2U9yjeSzMr2sPxMdZ4YluL8Q=
+Received: by mail-wr1-f45.google.com with SMTP id b6so812910wrq.0;
+        Fri, 13 Dec 2019 18:32:22 -0800 (PST)
+X-Gm-Message-State: APjAAAXC8vFip97N4hbjqo/xPgZO86PeUuCoASHLumyE4GCxj/1l1N6/
+        FTz9D88rTYXgplYFcHorQSsB+rjjDjHExbxB7tk=
+X-Google-Smtp-Source: APXvYqydbgYkBfEkSoHYnoVFyJ9oQyanZL22yafvKiwGMvhkX5QHDVviEUybs0JIej2bMIEu5E4NYaiS2pFxFoLorOM=
+X-Received: by 2002:adf:81e3:: with SMTP id 90mr15946921wra.23.1576290741171;
+ Fri, 13 Dec 2019 18:32:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191202204748.6718-2-andreas@kemnade.info>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191213125414.90725-1-boris.brezillon@collabora.com>
+ <20191213125414.90725-6-boris.brezillon@collabora.com> <20191213152332.GF4860@pendragon.ideasonboard.com>
+ <20191213162550.59730f89@collabora.com>
+In-Reply-To: <20191213162550.59730f89@collabora.com>
+From:   Chen-Yu Tsai <wens@kernel.org>
+Date:   Sat, 14 Dec 2019 10:32:12 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64u34+ukyvGuDWDMyC2L3TE8-sPPx1SOP5RVAPF+ssooA@mail.gmail.com>
+Message-ID: <CAGb2v64u34+ukyvGuDWDMyC2L3TE8-sPPx1SOP5RVAPF+ssooA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] media: dt-bindings: rockchip: Document RK3399
+ Video Decoder bindings
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon,  2 Dec 2019 21:47:47 +0100, Andreas Kemnade wrote:
-> i.MX6SLL also has a pxp, so mention it among others in the bindings doc.
-> 
-> Signed-off-by: Andreas Kemnade <andreas@kemnade.info>
-> ---
->  Documentation/devicetree/bindings/media/fsl-pxp.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+On Sat, Dec 14, 2019 at 4:38 AM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> On Fri, 13 Dec 2019 17:23:32 +0200
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+>
+> > Hi Boris,
+> >
+> > Thank you for the patch.
+> >
+> > On Fri, Dec 13, 2019 at 01:54:12PM +0100, Boris Brezillon wrote:
+> > > Document the Rockchip RK3399 Video Decoder bindings.
+> > >
+> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > ---
+> > > Changes in v3:
+> > > * Fix dtbs_check failures
+> > > ---
+> > >  .../bindings/media/rockchip,vdec.yaml         | 71 +++++++++++++++++++
+> > >  1 file changed, 71 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> > > new file mode 100644
+> > > index 000000000000..7167c3d6a389
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> > > @@ -0,0 +1,71 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/rockchip,vdec.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Rockchip Video Decoder (VDec) Device Tree Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Heiko Stuebner <heiko@sntech.de>
+> > > +
+> > > +description: |-
+> > > +  The Rockchip rk3399 has a stateless Video Decoder that can decodes H.264,
+> > > +  HEVC an VP9 streams.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: rockchip,rk3399-vdec
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: The Video Decoder AXI interface clock
+> > > +      - description: The Video Decoder AHB interface clock
+> > > +      - description: The Video Decoded CABAC clock
+> > > +      - description: The Video Decoder core clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: aclk
+> >
+> > How about calling it "axi" ? None of the other clock names have "clk".
+> >
+> > > +      - const: iface
+> >
+> > And "ahb" here, as the AXI interface clock is also an interface clock ?
+>
+> Sure, I can do that.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Another possibility: "master" for the AXI clock, and "slave" for the AHB clock.
+The AXI interface is likely the DMA master, while the AHB interface is a slave
+interface for the control registers.
+
+This is mostly based on hints from the crypto block.
+
+ChenYu
