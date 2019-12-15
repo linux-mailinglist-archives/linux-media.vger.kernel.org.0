@@ -2,142 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8176411F9A9
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:26:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0276E11F9B7
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:35:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726232AbfLOR0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Dec 2019 12:26:36 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:41807 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726136AbfLOR0g (ORCPT
+        id S1726207AbfLORei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Dec 2019 12:34:38 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:37854 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbfLORei (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Dec 2019 12:26:36 -0500
-Received: from [IPv6:2001:983:e9a7:1:d442:af00:cde4:f6de]
- ([IPv6:2001:983:e9a7:1:d442:af00:cde4:f6de])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id gXf4i0GgoapzpgXf6irRvs; Sun, 15 Dec 2019 18:26:33 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576430793; bh=SUZVUuwpAWRuZkrdpEC1iAwYbz4LNSppNQOWAVq1WJQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=XZDASuRrbbxybBnADx/qFx0pZO/+9iM6N3bPyQ8t5x3rWVTMmNMAnYc7F2YTQA0Cr
-         aCOHlIpnPOAvaEsUHayYkN1TsewmWmaHLvtEpWruzZKJJld5eVc6Jsw5spjmD15+7E
-         vXz/Z0zmR/BsefuqD6qVH+meIHuDoXCyYwew5wgr8T96+g+/AiEcTczwvWb6kGODrJ
-         EfIVv35qXbQ/ENhn9mnbV+FwKeCP0KDJnn4NRR0g8bEysW9jczQSBJQ1r760tJjm60
-         +/g0B+8s3SW2bf47jIFVSjIYyQFvNu3TLYGwwhXgr33eTJsT0KFZMCzK4FoGcBt50U
-         moxJX9lTHSAQA==
-Subject: Re: [PATCH v5 6/8] media: v4l2-core: fix v4l2_buffer handling for
- time64 ABI
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        me@zv.io
-References: <20191126161824.337724-1-arnd@arndb.de>
- <20191126161824.337724-7-arnd@arndb.de>
- <09c664fd-87fb-4fac-f104-9afbe7d33aa2@xs4all.nl>
- <CAK8P3a1TvFCJf8t9T1yOXjsp088s9dbEOKLVDPinfwJe2B-27g@mail.gmail.com>
- <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl>
- <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
- <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <bfc18778-0777-ad49-619b-39e1b9b536f3@xs4all.nl>
-Date:   Sun, 15 Dec 2019 18:26:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Sun, 15 Dec 2019 12:34:38 -0500
+Received: by mail-pf1-f194.google.com with SMTP id p14so2556509pfn.4
+        for <linux-media@vger.kernel.org>; Sun, 15 Dec 2019 09:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6ujSsSDcBK3n4Bqga7fblzha00kGWmWX/mW5knjSwJI=;
+        b=fKV7iVkg13oi3VruUvio7vqK8Q2GWFGCtNPCZ0HOvf1in8V7rly04vSo4vslMzhp06
+         D2KT5fcASGtjlxvFvUuy+dPePqli/AWrf7usu7sXa5Hi2yZD6N3SfMAFgK1Q2btTli3u
+         seQC10OwxDddTwndiPRo0qfBsNqHSBhMeJ2twxVULPp3y+6Vv9fGsz5sghc9VhuymnN0
+         zyqkdkRg5YDRGs2DIBvCUIPs099QX0kWhU+EOE6jBNvieO4yX1rtGTiQoOhblZDKxaYW
+         SUtN0CeytIh2QeBni/yLEIairIY8jrRh9AgcK+oQJRkwePC6+yaJfbbm/LKdL9a9BZmN
+         CznQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6ujSsSDcBK3n4Bqga7fblzha00kGWmWX/mW5knjSwJI=;
+        b=ZKLweJMs3VTHGNwZuIBa/8fXMes6YR8ytdWAUSv6W/qJ3x1pktG/Fj1Dg+nRR8yVlw
+         Y3v/3xlrs9zPRidnzn9iL0K7f9GiMY3znqBkh4S6/j3YHKyFJVF9b9d3rz1EupN/ghwA
+         vnxv5FobA45dGzib09fnX7CvMz0tMOgXY8ScLkbieSWArJ8jqnUo5WQmW1Cb403JBKZG
+         ZwhaSu5X3jmMZ5Rz/O0s8p5gUZ4FuC44WO+WChYEuo/JaC1+Qob2pBH2jM6L/eUC2E05
+         miApy/hVdQw7tQgXRPuwXBi3lUJlmFwl2vpuNvk0XQsxJjxl9KjMw2quaQ5C/lSlc0by
+         vM6g==
+X-Gm-Message-State: APjAAAUTLuCoD9X8F831A8zxr/3QmuZDSntALwqBxycxb9jIJKF70nMu
+        yoUe4H3cxIboHcLZivzkP0z/
+X-Google-Smtp-Source: APXvYqwwXd8GtkKGFw4dphFWy1z9O5IvZPRJrfF08u65UmzJenhFAZT/srpftlljFJd8KFgNGCFA0Q==
+X-Received: by 2002:a63:7045:: with SMTP id a5mr13479457pgn.49.1576431277135;
+        Sun, 15 Dec 2019 09:34:37 -0800 (PST)
+Received: from Mani-XPS-13-9360 ([2409:4072:78f:3e30:ad66:df45:6a09:a260])
+        by smtp.gmail.com with ESMTPSA id q21sm18928635pff.105.2019.12.15.09.34.30
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 15 Dec 2019 09:34:35 -0800 (PST)
+Date:   Sun, 15 Dec 2019 23:04:27 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, c.barrett@framos.com,
+        a.brela@framos.com, peter.griffin@linaro.org
+Subject: Re: [PATCH 1/5] media: i2c: imx290: Add support for 2 data lanes
+Message-ID: <20191215173427.GA11427@Mani-XPS-13-9360>
+References: <20191129190541.30315-1-manivannan.sadhasivam@linaro.org>
+ <20191129190541.30315-2-manivannan.sadhasivam@linaro.org>
+ <20191203084520.GP833@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNGfPPFMFknX7oh+AIE1t8DC5mbtoOwzZceJ6IVkKpfzDOWXpUxGqkQIpqfZxC08/fw7JO41Mhy0H2Tj0JDXUtpRI/aYKZ+EKffqFctn57JSjBf2IJ7t
- T05tpphemaOZluzAEr7aQ/Imm9v7j4gytr3sF6l+kXxiBKO5U1NOyYg/5VQpcM2L6mjmp1Z4RDndYyS88uqK28e7/4un0pEHCeQgWBfNu3rW1KAsWktclLf5
- ZDx4/cAmncCl9TnsD+9jOdP2SdjmhnirswrDs8uFwhyCVTu5bs47Df/ewp9u5VZCWOkXDkhPLdP7XCRWwmHPTDTtLcFE1W2ItBU33vpG11CaWI9RW/SmfeZN
- nfMO+boHS6RH3lP1qqby4Z41l2eoCDs4jT/fp3yXjWvTshv7sBrZa+A8sazICoULSYkpXUGb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191203084520.GP833@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/14/19 10:44 PM, Arnd Bergmann wrote:
-> On Sat, Dec 14, 2019 at 12:27 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 12/13/19 4:32 PM, Hans Verkuil wrote:
->>>>> I am unable to test with musl since v4l2-ctl and v4l2-compliance are C++ programs,
->>>>> and there doesn't appear to be an easy way to compile a C++ program with musl.
->>>>>
->>>>> If you happen to have a test environment where you can compile C++ with musl,
->>>>> then let me know and I can give instructions on how to run the compliance tests.
->>>>>
->>>>> If you can't test that, then I can merge this regardless, and hope for the best
->>>>> once the Y2038 fixes end up in glibc. But ideally I'd like to have this tested.
->>>>
->>>> I've heard good things about the prebuilt toolchains from http://musl.cc/.
->>>> These seems to come with a libstdc++, but I have not tried that myself.
->>>
->>> I'll see if I can give those a spin, but if I can't get it to work quickly,
->>> then I don't plan on spending much time on it.
->>
->> I managed to build v4l2-ctl/compliance with those toolchains, but they seem to be
->> still using a 32-bit time_t.
->>
->> Do I need to get a specific version or do something special?
+Hi Sakari,
+
+On Tue, Dec 03, 2019 at 10:45:20AM +0200, Sakari Ailus wrote:
+> Hi Manivannan,
 > 
-> My mistake: only musl-1.2.0 and up have 64-bit time_t, but this isn't released
-> yet. According to https://wiki.musl-libc.org/roadmap.html, the release
-> was planned
-> for last month, no idea how long it will take.
+> Thanks for the patchset.
 > 
-> It appears that a snapshot build at
-> http://more.musl.cc/7.5.0/x86_64-linux-musl/i686-linux-musl-native.tgz
-> is new enough to have 64-bit time_t (according to include/bits/alltypes.h),
-> but this is a month old as well, so it may have known bugs.
+> On Sat, Nov 30, 2019 at 12:35:37AM +0530, Manivannan Sadhasivam wrote:
+> > The IMX290 sensor can output frames with 2/4 CSI2 data lanes. This commit
+> > adds support for 2 lane mode in addition to the 4 lane and also
+> > configuring the data lane settings in the driver based on system
+> > configuration.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >  drivers/media/i2c/imx290.c | 130 ++++++++++++++++++++++++++++++++++---
+> >  1 file changed, 121 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index f7678e5a5d87..1d49910937fb 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -25,7 +25,18 @@
+> >  #define IMX290_STANDBY 0x3000
+> >  #define IMX290_REGHOLD 0x3001
+> >  #define IMX290_XMSTA 0x3002
+> > +#define IMX290_FR_FDG_SEL 0x3009
+> >  #define IMX290_GAIN 0x3014
+> > +#define IMX290_HMAX_LOW 0x301c
+> > +#define IMX290_HMAX_HIGH 0x301d
+> > +#define IMX290_PHY_LANE_NUM 0x3407
+> > +#define IMX290_CSI_LANE_MODE 0x3443
+> > +
+> > +/* HMAX fields */
+> > +#define IMX290_HMAX_2_1920 0x1130
+> > +#define IMX290_HMAX_4_1920 0x0898
+> > +#define IMX290_HMAX_2_720 0x19C8
+> > +#define IMX290_HMAX_4_720 0x0CE4
+> >  
+> >  #define IMX290_DEFAULT_LINK_FREQ 445500000
+> >  
+> > @@ -56,6 +67,7 @@ struct imx290 {
+> >  	struct device *dev;
+> >  	struct clk *xclk;
+> >  	struct regmap *regmap;
+> > +	int nlanes;
+> 
+> You're using u8 for another small (unsigned) integer later. How about u8
+> here?
+> 
 
-Ah, great, that worked, after applying the patch below.
+Yeah, this is a left over. I was initially trying to use some error
+checking with this! Will change it to u8.
 
-Both struct v4l2_buffer32 and v4l2_event32 need to be packed, otherwise you would
-get an additional 4 bytes since the 64 bit compiler wants to align the 8 byte tv_secs
-to an 8 byte boundary. But that's not what the i686 compiler does.
+> >  
+> >  	struct v4l2_subdev sd;
+> >  	struct v4l2_fwnode_endpoint ep;
+> > @@ -89,14 +101,11 @@ static const struct regmap_config imx290_regmap_config = {
+> >  
+> >  static const struct imx290_regval imx290_global_init_settings[] = {
+> >  	{ 0x3007, 0x00 },
+> > -	{ 0x3009, 0x00 },
+> >  	{ 0x3018, 0x65 },
+> >  	{ 0x3019, 0x04 },
+> >  	{ 0x301a, 0x00 },
+> > -	{ 0x3443, 0x03 },
+> >  	{ 0x3444, 0x20 },
+> >  	{ 0x3445, 0x25 },
+> > -	{ 0x3407, 0x03 },
+> >  	{ 0x303a, 0x0c },
+> >  	{ 0x3040, 0x00 },
+> >  	{ 0x3041, 0x00 },
+> > @@ -169,7 +178,6 @@ static const struct imx290_regval imx290_1080p_settings[] = {
+> >  	{ 0x3164, 0x1a },
+> >  	{ 0x3480, 0x49 },
+> >  	/* data rate settings */
+> > -	{ 0x3009, 0x01 },
+> >  	{ 0x3405, 0x10 },
+> >  	{ 0x3446, 0x57 },
+> >  	{ 0x3447, 0x00 },
+> > @@ -187,8 +195,6 @@ static const struct imx290_regval imx290_1080p_settings[] = {
+> >  	{ 0x3453, 0x00 },
+> >  	{ 0x3454, 0x17 },
+> >  	{ 0x3455, 0x00 },
+> > -	{ 0x301c, 0x98 },
+> > -	{ 0x301d, 0x08 },
+> >  };
+> >  
+> >  static const struct imx290_regval imx290_720p_settings[] = {
+> > @@ -210,7 +216,6 @@ static const struct imx290_regval imx290_720p_settings[] = {
+> >  	{ 0x3164, 0x1a },
+> >  	{ 0x3480, 0x49 },
+> >  	/* data rate settings */
+> > -	{ 0x3009, 0x01 },
+> >  	{ 0x3405, 0x10 },
+> >  	{ 0x3446, 0x4f },
+> >  	{ 0x3447, 0x00 },
+> > @@ -228,8 +233,6 @@ static const struct imx290_regval imx290_720p_settings[] = {
+> >  	{ 0x3453, 0x00 },
+> >  	{ 0x3454, 0x17 },
+> >  	{ 0x3455, 0x00 },
+> > -	{ 0x301c, 0xe4 },
+> > -	{ 0x301d, 0x0c },
+> >  };
+> >  
+> >  static const struct imx290_regval imx290_10bit_settings[] = {
+> > @@ -522,6 +525,25 @@ static int imx290_write_current_format(struct imx290 *imx290,
+> >  	return 0;
+> >  }
+> >  
+> > +static int imx290_set_hmax(struct imx290 *imx290, u32 val)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = imx290_write_reg(imx290, IMX290_HMAX_LOW, (val & 0xff));
+> > +	if (ret) {
+> > +		dev_err(imx290->dev, "Error setting HMAX register\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = imx290_write_reg(imx290, IMX290_HMAX_HIGH, ((val >> 8) & 0xff));
+> > +	if (ret) {
+> > +		dev_err(imx290->dev, "Error setting HMAX register\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /* Start streaming */
+> >  static int imx290_start_streaming(struct imx290 *imx290)
+> >  {
+> > @@ -551,6 +573,40 @@ static int imx290_start_streaming(struct imx290 *imx290)
+> >  		return ret;
+> >  	}
+> >  
+> > +	switch (imx290->nlanes) {
+> > +	case 2:
+> > +		if (imx290->current_mode->width == 1920) {
+> > +			ret = imx290_set_hmax(imx290, IMX290_HMAX_2_1920);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +		} else {
+> > +			ret = imx290_set_hmax(imx290, IMX290_HMAX_2_720);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +		}
+> > +
+> > +		break;
+> > +	case 4:
+> > +		if (imx290->current_mode->width == 1920) {
+> > +			ret = imx290_set_hmax(imx290, IMX290_HMAX_4_1920);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +		} else {
+> > +			ret = imx290_set_hmax(imx290, IMX290_HMAX_4_720);
+> > +			if (ret < 0)
+> > +				return ret;
+> > +		}
+> > +
+> > +		break;
+> > +	default:
+> > +		/*
+> > +		 * We should never hit this since the data lane count is
+> > +		 * validated in probe itself
+> > +		 */
+> > +		dev_err(imx290->dev, "Lane configuration not supported\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> >  	/* Apply customized values from user */
+> >  	ret = v4l2_ctrl_handler_setup(imx290->sd.ctrl_handler);
+> >  	if (ret) {
+> > @@ -607,6 +663,49 @@ static int imx290_get_regulators(struct device *dev, struct imx290 *imx290)
+> >  				       imx290->supplies);
+> >  }
+> >  
+> > +static int imx290_set_data_lanes(struct imx290 *imx290)
+> > +{
+> > +	int ret = 0, laneval, frsel;
+> > +
+> > +	switch (imx290->nlanes) {
+> > +	case 2:
+> > +		laneval = 0x01;
+> > +		frsel = 0x02;
+> > +		break;
+> > +	case 4:
+> > +		laneval = 0x03;
+> > +		frsel = 0x01;
+> > +		break;
+> > +	default:
+> > +		/*
+> > +		 * We should never hit this since the data lane count is
+> > +		 * validated in probe itself
+> > +		 */
+> > +		dev_err(imx290->dev, "Lane configuration not supported\n");
+> > +		ret = -EINVAL;
+> > +		goto exit;
+> > +	}
+> > +
+> > +	ret = imx290_write_reg(imx290, IMX290_PHY_LANE_NUM, laneval);
+> > +	if (ret) {
+> > +		dev_err(imx290->dev, "Error setting Physical Lane number register\n");
+> > +		goto exit;
+> > +	}
+> > +
+> > +	ret = imx290_write_reg(imx290, IMX290_CSI_LANE_MODE, laneval);
+> > +	if (ret) {
+> > +		dev_err(imx290->dev, "Error setting CSI Lane mode register\n");
+> > +		goto exit;
+> > +	}
+> > +
+> > +	ret = imx290_write_reg(imx290, IMX290_FR_FDG_SEL, frsel);
+> > +	if (ret)
+> > +		dev_err(imx290->dev, "Error setting FR/FDG SEL register\n");
+> > +
+> > +exit:
+> > +	return ret;
+> > +}
+> > +
+> >  static int imx290_power_on(struct device *dev)
+> >  {
+> >  	struct i2c_client *client = to_i2c_client(dev);
+> > @@ -703,6 +802,16 @@ static int imx290_probe(struct i2c_client *client)
+> >  		goto free_err;
+> >  	}
+> >  
+> > +	/* Get number of data lanes */
+> > +	imx290->nlanes = imx290->ep.bus.mipi_csi2.num_data_lanes;
+> > +	if (imx290->nlanes != 2 && imx290->nlanes != 4) {
+> > +		dev_err(dev, "Invalid data lanes: %d\n", imx290->nlanes);
+> > +		ret = -EINVAL;
+> > +		goto free_err;
+> > +	}
+> > +
+> > +	dev_dbg(dev, "Using %u data lanes\n", imx290->nlanes);
+> > +
+> >  	if (!imx290->ep.nr_of_link_frequencies) {
+> >  		dev_err(dev, "link-frequency property not found in DT\n");
+> >  		ret = -EINVAL;
+> > @@ -822,6 +931,9 @@ static int imx290_probe(struct i2c_client *client)
+> >  		goto free_entity;
+> >  	}
+> >  
+> > +	/* Set data lane count */
+> > +	imx290_set_data_lanes(imx290);
+> 
+> The sensor is likely (but not necessarily) about to be powered off here.
+> Wouldn't this also belong to be put to the power on sequence?
+> 
 
-If I remember correctly, packed is only needed for CONFIG_X86_64.
+Agree, will add.
 
-With these changes (plus a bunch of fixes for v4l-utils) I was able to do full
-compliance tests for 64-bit, 32-bit time32 under x86_64, 32-bit time64 under x86_64,
-time32 under i686 and time64 under i686.
+Thanks,
+Mani
 
-Arnd, if you can post a v6 with the previous fixes and this fix included, then
-I'll make a pull request for this for kernel 5.6.
-
-Regards,
-
-	Hans
-
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index 3bbf47d950e0..c01492cf6160 100644
---- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -492,7 +492,11 @@ struct v4l2_buffer32 {
- 	__u32			length;
- 	__u32			reserved2;
- 	__s32			request_fd;
-+#ifdef CONFIG_X86_64
-+} __attribute__ ((packed));
-+#else
- };
-+#endif
-
- struct v4l2_buffer32_time32 {
- 	__u32			index;
-@@ -1280,7 +1284,7 @@ struct v4l2_event32 {
- 	struct __kernel_timespec	timestamp;
- 	__u32				id;
- 	__u32				reserved[8];
--};
-+} __attribute__ ((packed));
-
- struct v4l2_event32_time32 {
- 	__u32				type;
+> > +
+> >  	pm_runtime_set_active(dev);
+> >  	pm_runtime_enable(dev);
+> >  	pm_runtime_idle(dev);
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
