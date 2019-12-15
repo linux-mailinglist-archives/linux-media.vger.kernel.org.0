@@ -2,102 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01D7711F44F
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2019 22:44:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 106B111F5C8
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 06:02:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbfLNVor (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Dec 2019 16:44:47 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:44339 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726781AbfLNVor (ORCPT
+        id S1725837AbfLOFB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Dec 2019 00:01:29 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59287 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725788AbfLOFB2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Dec 2019 16:44:47 -0500
-Received: from mail-qk1-f182.google.com ([209.85.222.182]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MKt3r-1iPP9M1Iw1-00LD7V; Sat, 14 Dec 2019 22:44:45 +0100
-Received: by mail-qk1-f182.google.com with SMTP id r14so1774158qke.13;
-        Sat, 14 Dec 2019 13:44:45 -0800 (PST)
-X-Gm-Message-State: APjAAAWoHWvUpzUligr7GIf58RlevG7qJo2WAmeqIGWIdDgpg/++km74
-        lVr0r+yuGmRIHf/QwFUNwGEFcoW7hMwh5F6qaXY=
-X-Google-Smtp-Source: APXvYqydT/aI1eVUSC2fh5nk8LQqgrjkm6mnE++Li0nsYpT7u+kPsRRzzBJPnC2buBmzrEki9e7OaL3LHYdlR4FIKy4=
-X-Received: by 2002:a37:b283:: with SMTP id b125mr20826581qkf.352.1576359884082;
- Sat, 14 Dec 2019 13:44:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20191126161824.337724-1-arnd@arndb.de> <20191126161824.337724-7-arnd@arndb.de>
- <09c664fd-87fb-4fac-f104-9afbe7d33aa2@xs4all.nl> <CAK8P3a1TvFCJf8t9T1yOXjsp088s9dbEOKLVDPinfwJe2B-27g@mail.gmail.com>
- <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl> <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
-In-Reply-To: <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 14 Dec 2019 22:44:27 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
-Message-ID: <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
-Subject: Re: [PATCH v5 6/8] media: v4l2-core: fix v4l2_buffer handling for
- time64 ABI
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        me@zv.io
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:aOYW56AZ9EZCcLLEdxkk61zWiJLkemObnvBwZoel2mqFry9pBD9
- qro/4NIK1OAndgP0VvKonMygUUXGygDfOExeNXAvj/dc8pCoLO+GNucu5aoBUKzH2qkM2l4
- 0UVaiu+FBwLPLvOvDxWqZ6fgx9IsHo2rJO3fdEJ4seeCyHFO+/J5G7V383dWaD3ky2Hrgp3
- eXSjbEQcnktOjcZof3h9Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mfa6iUefP80=:OCO2q/mVk3/zBq+zeXQfmP
- pFU9P97fwlxN47BKaiJ5ksdSMXA86wVVcqubmI65cDnkTJlSrZlFw1Q+gYT2MYEkgyZNMua4/
- 1cOYl8ya5RfEFQisagaikvubyiO5oMxeRN9C3GfwWRIjx8QqXLaQOOFhIkHqLKtZ1mXZrCkyE
- HtlMkDQJQny2nSbwJihF8oxNOIUzDf7IjArtVJBSf/sLnC+Ja4kot5LBiU8aRZFNthlrwb5HL
- qnFrq7Y/J/bsgfNpwyPCwYKTg+mPMqnS8Tsl+0dc6h7K++pGb1llMwkR5Hy2dF+P6Zk8h+Due
- I2AflNzTH/bqPjlPeXvBx3Qe4sSfyUkEG/pmbn1BQ06zWvejOpl98CraqjzJRHkxXdzzdQ1kr
- St57bsx29Zc6m+2svEAe5EKC7C6x8Pxb8Ep1LkZv+qaHPh/A1vq5kEziJKQUjNFmzvnsB9fIZ
- +v0bGkW/PY97pLnfDkVMqbOPs4bt1OjAjUG9EQbtEcRnsjJTTObleHiBuRc27OYaVYn71bZJk
- 3chdUQa1U7weo82oeGXwZxrWcP4UqR2dxhIqFmEOELPTZRfEPgKKTJIFYHUlXfuZyzyLj7Hg6
- Du+leqHsj3GBailCTbjKIgMesVBqH9lY8Pkt4+AJzov01SjCzl82oRtunQHufeH/IMW9FbaYz
- UcFwvBbdw9HBnpQJiivtmM9W+l9PH5aM/msHkMez9U3wFicoJd1vLbjHy6oOMTQ+AOp4OkQQK
- +I1X1wN4VgNlW83r2ZzuHob26eGPEGv300vZPkuJld0xAoHKuprfYjTw6AgQ8LfJvoU0vTy7A
- 8zw0SVKU+onIJPNqZewIkVzbf7XHBw+YnqvHt6R9h9BkEDzuwky0Ufrfs7EVpWVvCnACg5D3c
- 3dn5gQfP/sCqKIS8Cq6w==
+        Sun, 15 Dec 2019 00:01:28 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:d442:af00:cde4:f6de])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id gM21iwpG8apzpgM22ioNRI; Sun, 15 Dec 2019 06:01:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576386086; bh=23eJ47iTrnQm08N8JR6GWhVlYokgFSe+XM1HiImFFjs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=SOUrsQIdOkjozFRMS3O3PfX3y1K6QRXd1i+opnS/F6DiHB7lme/TU44RYXBsEFxTN
+         qD21fWwPA31yJR9g0vs5nUXG/1iKd2QW4r7SHEt8pEhEymopnDbxl5z9wQo18kRH5/
+         GqJUzM+IgjYic0ZZISifb8jk0a2qiRKHCLWSFLmH0fyXx3d5j1EEdwrhe4tYyk3Pf3
+         KhVFudzXXpJv8L5kwxWsftq/jnadNVUzj2UsF/GUCuyQIAYB4xslus8GSyVquH8yGT
+         z3en+VKOjcpqtUgA+PfhsI8YuC0/djOcIAFC4RUfuw00lO87cHgotadgqJOPVQsgJs
+         Clvw/Wct0/EgA==
+Message-ID: <e2373fc97aafdd57e8264d51fff14b32@smtp-cloud7.xs4all.net>
+Date:   Sun, 15 Dec 2019 06:01:25 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfFr4swSGjuoyQCaGyJPG1XZMAqCIAawbn6M8KF2W25vgg3kGz+zvGxHIwyiUhdatVKWPVeBw72RQKzECLUmiiLIQB/j3JUwk/6nk6G0+h7WhebJFeVsp
+ hUOLN1JRZc65Xg4UWgCa7hfeD7/bb7HV14DVUEMSP07/ePnVwsZpVsH0dqaunxD/kUSM91jKOrjwZhHpVAD24Nz3MBObyTDxUzY6foISSuf4KNoGKTvtrL93
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Dec 14, 2019 at 12:27 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 12/13/19 4:32 PM, Hans Verkuil wrote:
-> >>> I am unable to test with musl since v4l2-ctl and v4l2-compliance are C++ programs,
-> >>> and there doesn't appear to be an easy way to compile a C++ program with musl.
-> >>>
-> >>> If you happen to have a test environment where you can compile C++ with musl,
-> >>> then let me know and I can give instructions on how to run the compliance tests.
-> >>>
-> >>> If you can't test that, then I can merge this regardless, and hope for the best
-> >>> once the Y2038 fixes end up in glibc. But ideally I'd like to have this tested.
-> >>
-> >> I've heard good things about the prebuilt toolchains from http://musl.cc/.
-> >> These seems to come with a libstdc++, but I have not tried that myself.
-> >
-> > I'll see if I can give those a spin, but if I can't get it to work quickly,
-> > then I don't plan on spending much time on it.
->
-> I managed to build v4l2-ctl/compliance with those toolchains, but they seem to be
-> still using a 32-bit time_t.
->
-> Do I need to get a specific version or do something special?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-My mistake: only musl-1.2.0 and up have 64-bit time_t, but this isn't released
-yet. According to https://wiki.musl-libc.org/roadmap.html, the release
-was planned
-for last month, no idea how long it will take.
+Results of the daily build of media_tree:
 
-It appears that a snapshot build at
-http://more.musl.cc/7.5.0/x86_64-linux-musl/i686-linux-musl-native.tgz
-is new enough to have 64-bit time_t (according to include/bits/alltypes.h),
-but this is a month old as well, so it may have known bugs.
+date:			Sun Dec 15 05:00:11 CET 2019
+media-tree git hash:	da090bf60370c9ad6ede4e76adbf37ce79b84791
+media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
+v4l-utils git hash:	234a8efbac6a98c0522bafb26d69be1e2a20121b
+edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Adding Zach to Cc here, maybe he already has plans for another build with
-the latest version.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2901, Succeeded: 2889, Failed: 12, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-       Arnd
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
