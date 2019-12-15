@@ -2,141 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B45111F898
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 16:46:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42FAE11F965
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbfLOPqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Dec 2019 10:46:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33128 "EHLO mail.kernel.org"
+        id S1726470AbfLOQ7b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Dec 2019 11:59:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54904 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726204AbfLOPqB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Dec 2019 10:46:01 -0500
-Received: from localhost (unknown [73.61.17.254])
+        id S1726148AbfLOQ7a (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 15 Dec 2019 11:59:30 -0500
+Received: from wens.tw (mirror2.csie.ntu.edu.tw [140.112.30.76])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0A00F206E0;
-        Sun, 15 Dec 2019 15:45:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 757FD2465E;
+        Sun, 15 Dec 2019 16:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576424760;
-        bh=NfrKCM3tIFO2ZvqznB5sHR9LGK5hvYo3yOAuCBRzagk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ETuD1CqWvRvcCfDrJSq14uRk2s3JxN6lKf5Dhm9lBKYeoKwd0VDL4jM+rviRtopBJ
-         Y3wh8ie157epT6EveTikD2fO+0XNdROSc3otg/JHhvkbdHjhNCeo5pDyQWN/X8M/fG
-         F9Jcqw9BU8HLI+eFAo7tJ9Iqs2ynclw6hXnaNLMs=
-Date:   Sun, 15 Dec 2019 10:45:53 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        s=default; t=1576429169;
+        bh=Gd00U8yFwwl+S6X9g/gX+uSdH0+/+1ri3WTiVTHeXXs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=A2ZXDhDk9koYFIl88D6Mf/4V2RRFy/5q2UI+sO847d65qk70b5J6uA+RnF1nyviow
+         aQoCzGBqfD3q5AxcDjueSTEOK4TCJGk49FCtiCx9ABY1ykYfLduCqOqr9b9YSD9fxY
+         Lb0JyooRRdJ2d2U+E+agKEk4x55CibCkZsvsH/mE=
+Received: by wens.tw (Postfix, from userid 1000)
+        id 12FD95FC87; Mon, 16 Dec 2019 00:59:26 +0800 (CST)
+From:   Chen-Yu Tsai <wens@kernel.org>
+To:     Maxime Ripard <mripard@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-Message-ID: <20191215154553.GA18043@sasha-vm>
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
- <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
- <20191211175811.GC4863@pendragon.ideasonboard.com>
- <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
- <20191212073306.GB1364286@kroah.com>
- <6808431b-a5d0-0720-b276-ed8333fb26d5@ideasonboard.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Chen-Yu Tsai <wens@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 00/14] media: sun4i-csi: A10/A20 CSI1 and R40 CSI0 support
+Date:   Mon, 16 Dec 2019 00:59:10 +0800
+Message-Id: <20191215165924.28314-1-wens@kernel.org>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <6808431b-a5d0-0720-b276-ed8333fb26d5@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 13, 2019 at 11:55:14AM +0000, Kieran Bingham wrote:
->Hi Greg, Laurent, Sasha,
->
->On 12/12/2019 07:33, Greg Kroah-Hartman wrote:
->> On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
->>> Hi Laurent,
->>>
->>> +Greg, +Sasha to opine on the merit of whether this should go to stable
->>> trees (for my future learning and understanding more so than this
->>> specific case)
->>>
->>> On 11/12/2019 17:58, Laurent Pinchart wrote:
->>>> Hello,
->>>>
->>>> On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
->>>>> Hi Morimoto-san,
->>>>>
->>>>> Thank you for the patch,
->>>>
->>>> Likewise :-)
->>>>
->>>>> On 11/12/2019 01:55, Kuninori Morimoto wrote:
->>>>>>
->>>>>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->>>>>>
->>>>>> The address of VSP2_VI6_HGT_LBx_H are
->>>>>> 	VSP2_VI6_HGT_LB0_H : 0x3428
->>>>>> 	VSP2_VI6_HGT_LB1_H : 0x3430
->>>>>> 	VSP2_VI6_HGT_LB2_H : 0x3438
->>>>>> 	VSP2_VI6_HGT_LB3_H : 0x3440
->>>>>>
->>>>>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
->>>>>> This patch fixup it.
->>>
->>> s/fixup/fixes/
->>>
->>>
->>>>> I think this deserves a fixes tag:
->>>>>
->>>>> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
->>>>
->>>> Given that this macro is not used, we could argue that it doesn't fix
->>>> anything yet :-) I'd rather avoid having this backported to stable
->>>> kernels as it's not useful to have it there, and thus not add a Fixes
->>>
->>> I'm sorry - I'm not sure I can agree here, Do you know that no one will
->>> use this macro when they back port the HGT functionality to an LTSI kernel?
->>>
->>> We know the Renesas BSP uses LTSI kernels, and the very nature of the
->>> fact that this typo has been spotted by the Renesas BSP team suggests
->>> that they are indeed looking at/using this functionality ...
->>>
->>> (Ok, so maybe they will thus apply the fix themselves, but that's not my
->>> point, and if they 'have' to apply the fix - it should be in stable?)
->>>
->>> It feels a bit presumptuous to state that we shouldn't fix this because
->>> /we/ don't utilise it yet, when this issue is in mainline regardless ...
->>
->> Nothing should be in the kernel tree that is not already used by
->> something in that specific kernel tree.  We don't care about out-of-tree
->> code, and especially for stable kernel patches, it does not matter in
->> the least.
->
->So perhaps this patch should actually remove this macro rather than fix it?
->
->> If you have out-of-tree code, you are on your own here, sorry.
->>
->> So no, no backporting of stuff that no one actually uses in the codebase
->> itself.
->
->Ok understood, It was really the 'the macro exists in the kernel, but is
->wrong' part that got me.
->
->Along with the fact that we now have various automated machinery that
->would likely pick this patch up and backport it anyway?
->
->(Sasha, is that assumption accurate? Or would you/your system have
->identified that this macro is not used?)
+From: Chen-Yu Tsai <wens@csie.org>
 
-No, it would have likely just backported it.
+Hi everyone,
 
-The right thing to do is to just remove the macro if no one is using it.
+This series adds basic support for CSI1 on Allwinner A10/A20 and CSI0 on
+Allwinner R40. The CSI1 block has the same structure and layout as the
+CSI0 block. Differences include:
+
+  - Only one channel in BT.656 instead of four in CSI0
+  - 10-bit raw data input vs 8-bit in CSI0
+  - 24-bit RGB888/YUV444 input vs 16-bit RGB565/YUV422 in CSI0
+  - No ISP hardware (CSI SCLK not needed)
+
+The CSI0 block in the Allwinner R40 SoC looks to be the same as the one
+in the A20. The register maps line up, and they support the same
+features. The R40 appears to support BT.1120 based on the feature
+overview, but it is not mentioned anywhere else. Also like the A20, the
+ISP is not mentioned, but the CSI special clock needs to be enabled for
+the hardware to function. The manual does state that the CSI special
+clock is the TOP clock for all CSI hardware, but currently no hardware
+exists for us to test if CSI1 also depends on it or not.
+
+Included are a couple of fixes for signal polarity and DRAM offset
+handling.
+
+Patches 1 and 2 add compatible strings for the newly supported hardware.
+
+Patches 3 and 4 fix the polarity setting of [HV]sync and data sampling.
+Allwinner hardware uses [HV]ref semantics instead of [HV]sync.
+
+Patch 5 deals with the DRAM offset when the CSI hardware does DMA. The
+hardware does DMA directly to the memory bus, thus requiring the address
+to not be offset like when DMA is done over the system bus.
+
+Patch 6 add support for the CSI1 hardware block. For now this simply
+means not requiring the ISP clock.
+
+Patches 7 and 8 add CSI1 to A10 (sun4i) and A20 (sun7i) dtsi files.
+
+Patch 9 adds I2C pixmuxing options for the R40. Used in the last example
+patch.
+
+Patch 10 adds a compatible string for the R40's MBUS (memory bus).
+
+Patch 11 adds CSI0 to the R40 dtsi file
+
+Patches 12 through 14 are examples of cameras hooked up to boards.
+
+Please have a look. The MBUS compatible patch is likely to conflict
+with a DT binding conversion patch Maxime sent out.
+
+Also, I sent out an email asking about the polarity settings for
+[HV]sync, how to signal the use of [HV]ref instead, and how to pass
+timings from the camera to the capture interface. So far I haven't
+heard back. In particular I think the OV7670 driver has inverted
+polarity settings for HSYNC. Not sure about VSYNC.
+
+
+Regards
+ChenYu
+
+
+Chen-Yu Tsai (14):
+  dt-bindings: media: sun4i-csi: Add compatible for CSI1 on A10/A20
+  dt-bindings: media: sun4i-csi: Add compatible for CSI0 on R40
+  media: sun4i-csi: Fix data sampling polarity handling
+  media: sun4i-csi: Fix [HV]sync polarity handling
+  media: sun4i-csi: Deal with DRAM offset
+  media: sun4i-csi: Add support for A10 CSI1 camera sensor interface
+  ARM: dts: sun4i: Add CSI1 controller and pinmux options
+  ARM: dts: sun7i: Add CSI1 controller and pinmux options
+  ARM: dts: sun8i: r40: Add I2C pinmux options
+  dt-bindings: bus: sunxi: Add R40 MBUS compatible
+  ARM: dts: sun8i: r40: Add device node for CSI0
+  [DO NOT MERGE] ARM: dts: sun4i: cubieboard: Enable OV7670 camera on
+    CSI1
+  [DO NOT MERGE] ARM: dts: sun7i: cubieboard2: Enable OV7670 camera on
+    CSI1
+  [DO NOT MERGE] ARM: dts: sun8i-r40: bananapi-m2-ultra: Enable OV5640
+    camera
+
+ .../bindings/arm/sunxi/sunxi-mbus.txt         |  1 +
+ .../media/allwinner,sun4i-a10-csi.yaml        | 14 +++-
+ arch/arm/boot/dts/sun4i-a10-cubieboard.dts    | 42 ++++++++++++
+ arch/arm/boot/dts/sun4i-a10.dtsi              | 35 ++++++++++
+ arch/arm/boot/dts/sun7i-a20-cubieboard2.dts   | 42 ++++++++++++
+ arch/arm/boot/dts/sun7i-a20.dtsi              | 36 ++++++++++
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 67 +++++++++++++++++++
+ arch/arm/boot/dts/sun8i-r40.dtsi              | 64 ++++++++++++++++++
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 57 ++++++++++++++--
+ .../platform/sunxi/sun4i-csi/sun4i_csi.h      |  6 +-
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      | 20 ++++--
+ 11 files changed, 370 insertions(+), 14 deletions(-)
 
 -- 
-Thanks,
-Sasha
+2.24.0
+
