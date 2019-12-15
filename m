@@ -2,65 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB97C11F9DD
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:48:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD81211F9E1
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:48:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbfLORqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Dec 2019 12:46:15 -0500
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:45218 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbfLORqP (ORCPT
+        id S1726422AbfLORsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Dec 2019 12:48:42 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35078 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726219AbfLORsm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Dec 2019 12:46:15 -0500
-Received: by mail-pj1-f66.google.com with SMTP id r11so1949821pjp.12
-        for <linux-media@vger.kernel.org>; Sun, 15 Dec 2019 09:46:14 -0800 (PST)
+        Sun, 15 Dec 2019 12:48:42 -0500
+Received: by mail-pg1-f194.google.com with SMTP id l24so2336069pgk.2
+        for <linux-media@vger.kernel.org>; Sun, 15 Dec 2019 09:48:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=E0v8BsJYt4cJXe3rlwgSZiboiBQsoAsO6HkNzr+KGMs=;
-        b=IiF1Q9f01EWMfmah72PemS4xhqWeS6mhP/Z6/UoCSOHpoiItwy//QR1eVMpTPP7xIw
-         wnJ1hDanm8rig8mWoCAnUrkezM+9zlBi1/8HaUv9MLZRUsHKL2MGbLFLkyjKWWfzjBqi
-         rtEnQ3A0dCZF8OFgisATogXORgvEKaswDmqided4Y72mJiniKvyEICN0Rf5RU2o3c3c2
-         2zdN+z2mVDTel6OkveifdARpBEiyk88zSYFFBTY88JMIq2851eS05hox5ngYsssOk039
-         seOO7NgogQBDHFy6xDhNP578zwOfDh2OZyMqSzhm7qHXwCequjKjuaiseFJRWeyyMGam
-         5ygg==
+        bh=w9+UiOGVkK1BZoeebEE52j+LZqBaO3qIB0OJdAQ3OHU=;
+        b=nyJy/VlfYg60c83riZ6WZy+M02vBHoiD0UwM5JFAjdZE6E9/2/3sjWO/ZsgaKxoh7b
+         Ss4TZIVXaUZHvc1ujHwyNkGhKa72hKg0l+cTjUg3A09eeGL6dffHqQNnlts5ssGwKXUU
+         00PpDgXuK3QWfFF+F7cs51nZXkB7M/f8r9KF7EsS3JboQnWzs5JiYKd4i0bwf4ANOGLB
+         K1haGK/YeFgz1F9Vl46XR8okDBHBuPkMEvv4Kga3torxhw4sMS/DkHTabIpk77dTIBlK
+         8TwuDCtOAhkb6cprx76UaTnIaX8zx0MT9XF6eP+UOOprX0oCRpiDHVvt0zU0wYAhsE5k
+         4m9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=E0v8BsJYt4cJXe3rlwgSZiboiBQsoAsO6HkNzr+KGMs=;
-        b=OVBg7KdFQslCFWNkZGBSoCjCLQhTBfoJ22iImJuW6ffbej95mk4X5aaFdVI4yzde6N
-         btcIEmEOZ0xSmp39Azai49N2Up0IUGuAsIz3NbBaBy0q0EyOcmUCd4FIHnNV9omkTGaY
-         WH4Usy55sb//Xd+JQEIUYuF8hFoBIyhXQBlyFRhMfaXqdg46k6qA/So0Q8+7teP0Jh6r
-         1ovyW3GvMT1LqKwe2i2Dydhtw8pHWCUr27zhWuniyr1FJZCOP8Vi2yBy8zPzKA1ROt9s
-         MacB8meUMxXIPVqO4dxABkeRPqP6H+EMmZOHmNOjR36q96Bhc1W3ZmJWlPIw3Fl04ov0
-         kAeQ==
-X-Gm-Message-State: APjAAAWs0/EDPDaDyJZuwozMpRBkyVE3b2XtNcEC+yA5oYdSoq6QW45j
-        EjplSKdnWyvlwc0r/U+4/vOr
-X-Google-Smtp-Source: APXvYqxBGgk0qogpfgu/D5jEao5hhISZ5aQbGx9LJNIKdnEsjX1FnOawcpTEMyrJB0DQ2q4N2JkOXw==
-X-Received: by 2002:a17:90a:21a1:: with SMTP id q30mr13335510pjc.8.1576431974335;
-        Sun, 15 Dec 2019 09:46:14 -0800 (PST)
+        bh=w9+UiOGVkK1BZoeebEE52j+LZqBaO3qIB0OJdAQ3OHU=;
+        b=NIIwtmkOfERAwFZjSU+6F6XkxsV5ySZfMhsbSLMLzJzVv97Cm9Uwy/dQlvCNNFrofC
+         zNSWOKXAM/kXLPZP5Osnoi16cdfam+qMC12nSoazVV2lNvSDy+8DuPKfMrMDMeTofHI7
+         2QGccWBHfej3W6r8AHVA6wACrvubaZ/aUr2dVBpqkM0cdVIR7t0zD1BotkLntAnlDxTD
+         mrMmutqpXn05aYSZ4qTZ6Ax/vkuM9i9Cci/tVHwooTr7EVesYwEQs947zGashj28Fjb7
+         YqBvSTdTQC7AyLylhbAJClN9Jnv9l8OTNBylMnZVjVmWLR248f5qBpGMLpeByDo0iB2g
+         DbRQ==
+X-Gm-Message-State: APjAAAXM7M46Pky0fTreU5kgUG1XK7yBusxo00TtKUz++qAxxv9JIieH
+        jgzq/FQfwgoTsMC/akfUZUNk
+X-Google-Smtp-Source: APXvYqzVi9Z9A1Z0HWXzz41ItmKgbO0s5dTv4qor5DHTibPPjPANNo4NnAp94xBbPHWUKBX5WeKHMQ==
+X-Received: by 2002:a63:1f16:: with SMTP id f22mr12724174pgf.2.1576432121814;
+        Sun, 15 Dec 2019 09:48:41 -0800 (PST)
 Received: from Mani-XPS-13-9360 ([2409:4072:78f:3e30:ad66:df45:6a09:a260])
-        by smtp.gmail.com with ESMTPSA id y197sm10426009pfc.79.2019.12.15.09.46.09
+        by smtp.gmail.com with ESMTPSA id g10sm18142126pgh.35.2019.12.15.09.48.37
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 15 Dec 2019 09:46:13 -0800 (PST)
-Date:   Sun, 15 Dec 2019 23:16:06 +0530
+        Sun, 15 Dec 2019 09:48:41 -0800 (PST)
+Date:   Sun, 15 Dec 2019 23:18:34 +0530
 From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To:     Sakari Ailus <sakari.ailus@iki.fi>
 Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, c.barrett@framos.com,
         a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH 3/5] media: i2c: imx290: Add RAW12 mode support
-Message-ID: <20191215174606.GC11427@Mani-XPS-13-9360>
+Subject: Re: [PATCH 4/5] media: i2c: imx290: Add support to enumerate all
+ frame sizes
+Message-ID: <20191215174834.GD11427@Mani-XPS-13-9360>
 References: <20191129190541.30315-1-manivannan.sadhasivam@linaro.org>
- <20191129190541.30315-4-manivannan.sadhasivam@linaro.org>
- <20191203085417.GB5282@valkosipuli.retiisi.org.uk>
+ <20191129190541.30315-5-manivannan.sadhasivam@linaro.org>
+ <20191203085604.GC5282@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191203085417.GB5282@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20191203085604.GC5282@valkosipuli.retiisi.org.uk>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -69,106 +70,65 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Sakari,
 
-On Tue, Dec 03, 2019 at 10:54:17AM +0200, Sakari Ailus wrote:
-> Hi Manivannan,
-> 
-> On Sat, Nov 30, 2019 at 12:35:39AM +0530, Manivannan Sadhasivam wrote:
-> > IMX290 is capable of outputting frames in both Raw Bayer (packed) 10 and
-> > 12 bit formats. Since the driver already supports RAW10 mode, let's add
-> > the missing RAW12 mode as well.
+On Tue, Dec 03, 2019 at 10:56:04AM +0200, Sakari Ailus wrote:
+> On Sat, Nov 30, 2019 at 12:35:40AM +0530, Manivannan Sadhasivam wrote:
+> > Add support to enumerate all frame sizes supported by IMX290. This is
+> > required for using with userspace tools such as libcamera.
 > > 
 > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > > ---
-> >  drivers/media/i2c/imx290.c | 32 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 32 insertions(+)
+> >  drivers/media/i2c/imx290.c | 20 ++++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
 > > 
 > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index e218c959a729..d5bb3a59ac46 100644
+> > index d5bb3a59ac46..f26c4a0ee0a0 100644
 > > --- a/drivers/media/i2c/imx290.c
 > > +++ b/drivers/media/i2c/imx290.c
-> > @@ -75,6 +75,7 @@ struct imx290 {
-> >  	struct clk *xclk;
-> >  	struct regmap *regmap;
-> >  	int nlanes;
-> > +	u8 bpp;
+> > @@ -468,6 +468,25 @@ static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
 > >  
-> >  	struct v4l2_subdev sd;
-> >  	struct v4l2_fwnode_endpoint ep;
-> > @@ -98,6 +99,7 @@ struct imx290_pixfmt {
-> >  
-> >  static const struct imx290_pixfmt imx290_formats[] = {
-> >  	{ MEDIA_BUS_FMT_SRGGB10_1X10 },
-> > +	{ MEDIA_BUS_FMT_SRGGB12_1X12 },
-> >  };
-> >  
-> >  static const struct regmap_config imx290_regmap_config = {
-> > @@ -265,6 +267,18 @@ static const struct imx290_regval imx290_10bit_settings[] = {
-> >  	{ 0x300b, 0x00},
-> >  };
-> >  
-> > +static const struct imx290_regval imx290_12bit_settings[] = {
-> > +	{ 0x3005, 0x01 },
-> > +	{ 0x3046, 0x01 },
-> > +	{ 0x3129, 0x00 },
-> > +	{ 0x317c, 0x00 },
-> > +	{ 0x31ec, 0x0e },
-> > +	{ 0x3441, 0x0c },
-> > +	{ 0x3442, 0x0c },
-> > +	{ 0x300a, 0xf0 },
-> > +	{ 0x300b, 0x00 },
-> > +};
-> > +
-> >  /* supported link frequencies */
-> >  static const s64 imx290_link_freq[] = {
-> >  	IMX290_DEFAULT_LINK_FREQ,
-> > @@ -550,6 +564,21 @@ static int imx290_write_current_format(struct imx290 *imx290,
-> >  			dev_err(imx290->dev, "Could not set format registers\n");
-> >  			return ret;
-> >  		}
-> > +
-> > +		imx290->bpp = 10;
-> > +
-> > +		break;
-> > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
-> > +		ret = imx290_set_register_array(imx290, imx290_12bit_settings,
-> > +						ARRAY_SIZE(
-> > +							imx290_12bit_settings));
-> > +		if (ret < 0) {
-> > +			dev_err(imx290->dev, "Could not set format registers\n");
-> > +			return ret;
-> > +		}
-> > +
-> > +		imx290->bpp = 12;
-> > +
-> >  		break;
-> >  	default:
-> >  		dev_err(imx290->dev, "Unknown pixel format\n");
-> > @@ -910,6 +939,9 @@ static int imx290_probe(struct i2c_client *client)
-> >  		goto free_err;
-> >  	}
-> >  
-> > +	/* Default bits per pixel value */
-> > +	imx290->bpp = 10;
+> > +static int imx290_enum_frame_size(struct v4l2_subdev *subdev,
+> > +				  struct v4l2_subdev_pad_config *cfg,
+> > +				  struct v4l2_subdev_frame_size_enum *fse)
+> > +{
+> > +	if ((fse->code != imx290_formats[0].code) &&
+> > +	    (fse->code != imx290_formats[1].code))
 > 
-> Where is the format being initialised at the moment? Nowhere?
-> 
-> If that is the case, I think it should be fixed before this patch.
+> Please use a loop over imx290_formats instead.
 > 
 
-Sorry, I don't quite understand what you're suggesting here. The bpp
-is initialised because that's the default bit value at power up and
-this value is being used below in imx290_calc_pixel_rate(). I'm not sure
-why we need to initialise the format before set_fmt!
+May I know why? What benefit does it provide over current method?
 
 Thanks,
 Mani
 
+> > +		return -EINVAL;
 > > +
-> >  	mutex_init(&imx290->lock);
-> >  
-> >  	v4l2_ctrl_handler_init(&imx290->ctrls, 4);
+> > +	if (fse->index >= ARRAY_SIZE(imx290_modes))
+> > +		return -EINVAL;
+> > +
+> > +	fse->min_width = imx290_modes[fse->index].width;
+> > +	fse->max_width = imx290_modes[fse->index].width;
+> > +	fse->min_height = imx290_modes[fse->index].height;
+> > +	fse->max_height = imx290_modes[fse->index].height;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int imx290_get_fmt(struct v4l2_subdev *sd,
+> >  			  struct v4l2_subdev_pad_config *cfg,
+> >  			  struct v4l2_subdev_format *fmt)
+> > @@ -820,6 +839,7 @@ static const struct v4l2_subdev_video_ops imx290_video_ops = {
+> >  static const struct v4l2_subdev_pad_ops imx290_pad_ops = {
+> >  	.init_cfg = imx290_entity_init_cfg,
+> >  	.enum_mbus_code = imx290_enum_mbus_code,
+> > +	.enum_frame_size = imx290_enum_frame_size,
+> >  	.get_fmt = imx290_get_fmt,
+> >  	.set_fmt = imx290_set_fmt,
+> >  };
 > 
 > -- 
-> Kind regards,
+> Regards,
 > 
 > Sakari Ailus
