@@ -2,195 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ACA711F9C8
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:42:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB97C11F9DD
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2019 18:48:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726192AbfLORmF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Dec 2019 12:42:05 -0500
-Received: from mga18.intel.com ([134.134.136.126]:22664 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726136AbfLORmF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Dec 2019 12:42:05 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Dec 2019 09:42:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,318,1571727600"; 
-   d="scan'208";a="211853608"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 15 Dec 2019 09:42:02 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1igXu5-000BBE-OX; Mon, 16 Dec 2019 01:42:01 +0800
-Date:   Mon, 16 Dec 2019 01:41:16 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- da090bf60370c9ad6ede4e76adbf37ce79b84791
-Message-ID: <5df6703c.3eebOmVKhAufGYSZ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726620AbfLORqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Dec 2019 12:46:15 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:45218 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726530AbfLORqP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 15 Dec 2019 12:46:15 -0500
+Received: by mail-pj1-f66.google.com with SMTP id r11so1949821pjp.12
+        for <linux-media@vger.kernel.org>; Sun, 15 Dec 2019 09:46:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=E0v8BsJYt4cJXe3rlwgSZiboiBQsoAsO6HkNzr+KGMs=;
+        b=IiF1Q9f01EWMfmah72PemS4xhqWeS6mhP/Z6/UoCSOHpoiItwy//QR1eVMpTPP7xIw
+         wnJ1hDanm8rig8mWoCAnUrkezM+9zlBi1/8HaUv9MLZRUsHKL2MGbLFLkyjKWWfzjBqi
+         rtEnQ3A0dCZF8OFgisATogXORgvEKaswDmqided4Y72mJiniKvyEICN0Rf5RU2o3c3c2
+         2zdN+z2mVDTel6OkveifdARpBEiyk88zSYFFBTY88JMIq2851eS05hox5ngYsssOk039
+         seOO7NgogQBDHFy6xDhNP578zwOfDh2OZyMqSzhm7qHXwCequjKjuaiseFJRWeyyMGam
+         5ygg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=E0v8BsJYt4cJXe3rlwgSZiboiBQsoAsO6HkNzr+KGMs=;
+        b=OVBg7KdFQslCFWNkZGBSoCjCLQhTBfoJ22iImJuW6ffbej95mk4X5aaFdVI4yzde6N
+         btcIEmEOZ0xSmp39Azai49N2Up0IUGuAsIz3NbBaBy0q0EyOcmUCd4FIHnNV9omkTGaY
+         WH4Usy55sb//Xd+JQEIUYuF8hFoBIyhXQBlyFRhMfaXqdg46k6qA/So0Q8+7teP0Jh6r
+         1ovyW3GvMT1LqKwe2i2Dydhtw8pHWCUr27zhWuniyr1FJZCOP8Vi2yBy8zPzKA1ROt9s
+         MacB8meUMxXIPVqO4dxABkeRPqP6H+EMmZOHmNOjR36q96Bhc1W3ZmJWlPIw3Fl04ov0
+         kAeQ==
+X-Gm-Message-State: APjAAAWs0/EDPDaDyJZuwozMpRBkyVE3b2XtNcEC+yA5oYdSoq6QW45j
+        EjplSKdnWyvlwc0r/U+4/vOr
+X-Google-Smtp-Source: APXvYqxBGgk0qogpfgu/D5jEao5hhISZ5aQbGx9LJNIKdnEsjX1FnOawcpTEMyrJB0DQ2q4N2JkOXw==
+X-Received: by 2002:a17:90a:21a1:: with SMTP id q30mr13335510pjc.8.1576431974335;
+        Sun, 15 Dec 2019 09:46:14 -0800 (PST)
+Received: from Mani-XPS-13-9360 ([2409:4072:78f:3e30:ad66:df45:6a09:a260])
+        by smtp.gmail.com with ESMTPSA id y197sm10426009pfc.79.2019.12.15.09.46.09
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 15 Dec 2019 09:46:13 -0800 (PST)
+Date:   Sun, 15 Dec 2019 23:16:06 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, c.barrett@framos.com,
+        a.brela@framos.com, peter.griffin@linaro.org
+Subject: Re: [PATCH 3/5] media: i2c: imx290: Add RAW12 mode support
+Message-ID: <20191215174606.GC11427@Mani-XPS-13-9360>
+References: <20191129190541.30315-1-manivannan.sadhasivam@linaro.org>
+ <20191129190541.30315-4-manivannan.sadhasivam@linaro.org>
+ <20191203085417.GB5282@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20191203085417.GB5282@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: da090bf60370c9ad6ede4e76adbf37ce79b84791  media: Drop superfluous ioctl PCM ops
+Hi Sakari,
 
-elapsed time: 3418m
+On Tue, Dec 03, 2019 at 10:54:17AM +0200, Sakari Ailus wrote:
+> Hi Manivannan,
+> 
+> On Sat, Nov 30, 2019 at 12:35:39AM +0530, Manivannan Sadhasivam wrote:
+> > IMX290 is capable of outputting frames in both Raw Bayer (packed) 10 and
+> > 12 bit formats. Since the driver already supports RAW10 mode, let's add
+> > the missing RAW12 mode as well.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >  drivers/media/i2c/imx290.c | 32 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 32 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index e218c959a729..d5bb3a59ac46 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -75,6 +75,7 @@ struct imx290 {
+> >  	struct clk *xclk;
+> >  	struct regmap *regmap;
+> >  	int nlanes;
+> > +	u8 bpp;
+> >  
+> >  	struct v4l2_subdev sd;
+> >  	struct v4l2_fwnode_endpoint ep;
+> > @@ -98,6 +99,7 @@ struct imx290_pixfmt {
+> >  
+> >  static const struct imx290_pixfmt imx290_formats[] = {
+> >  	{ MEDIA_BUS_FMT_SRGGB10_1X10 },
+> > +	{ MEDIA_BUS_FMT_SRGGB12_1X12 },
+> >  };
+> >  
+> >  static const struct regmap_config imx290_regmap_config = {
+> > @@ -265,6 +267,18 @@ static const struct imx290_regval imx290_10bit_settings[] = {
+> >  	{ 0x300b, 0x00},
+> >  };
+> >  
+> > +static const struct imx290_regval imx290_12bit_settings[] = {
+> > +	{ 0x3005, 0x01 },
+> > +	{ 0x3046, 0x01 },
+> > +	{ 0x3129, 0x00 },
+> > +	{ 0x317c, 0x00 },
+> > +	{ 0x31ec, 0x0e },
+> > +	{ 0x3441, 0x0c },
+> > +	{ 0x3442, 0x0c },
+> > +	{ 0x300a, 0xf0 },
+> > +	{ 0x300b, 0x00 },
+> > +};
+> > +
+> >  /* supported link frequencies */
+> >  static const s64 imx290_link_freq[] = {
+> >  	IMX290_DEFAULT_LINK_FREQ,
+> > @@ -550,6 +564,21 @@ static int imx290_write_current_format(struct imx290 *imx290,
+> >  			dev_err(imx290->dev, "Could not set format registers\n");
+> >  			return ret;
+> >  		}
+> > +
+> > +		imx290->bpp = 10;
+> > +
+> > +		break;
+> > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > +		ret = imx290_set_register_array(imx290, imx290_12bit_settings,
+> > +						ARRAY_SIZE(
+> > +							imx290_12bit_settings));
+> > +		if (ret < 0) {
+> > +			dev_err(imx290->dev, "Could not set format registers\n");
+> > +			return ret;
+> > +		}
+> > +
+> > +		imx290->bpp = 12;
+> > +
+> >  		break;
+> >  	default:
+> >  		dev_err(imx290->dev, "Unknown pixel format\n");
+> > @@ -910,6 +939,9 @@ static int imx290_probe(struct i2c_client *client)
+> >  		goto free_err;
+> >  	}
+> >  
+> > +	/* Default bits per pixel value */
+> > +	imx290->bpp = 10;
+> 
+> Where is the format being initialised at the moment? Nowhere?
+> 
+> If that is the case, I think it should be fixed before this patch.
+> 
 
-configs tested: 141
+Sorry, I don't quite understand what you're suggesting here. The bpp
+is initialised because that's the default bit value at power up and
+this value is being used below in imx290_calc_pixel_rate(). I'm not sure
+why we need to initialise the format before set_fmt!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thanks,
+Mani
 
-csky                 randconfig-a001-20191213
-openrisc             randconfig-a001-20191213
-s390                 randconfig-a001-20191213
-sh                   randconfig-a001-20191213
-xtensa               randconfig-a001-20191213
-alpha                               defconfig
-csky                                defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-x86_64               randconfig-g001-20191213
-x86_64               randconfig-g002-20191213
-x86_64               randconfig-g003-20191213
-i386                 randconfig-g001-20191213
-i386                 randconfig-g002-20191213
-i386                 randconfig-g003-20191213
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                               rhel-7.6
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-i386                             allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-arm                              allmodconfig
-arm64                            allmodconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-x86_64               randconfig-d001-20191215
-x86_64               randconfig-d002-20191215
-x86_64               randconfig-d003-20191215
-i386                 randconfig-d001-20191215
-i386                 randconfig-d002-20191215
-i386                 randconfig-d003-20191215
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-x86_64               randconfig-e001-20191213
-x86_64               randconfig-e002-20191213
-x86_64               randconfig-e003-20191213
-i386                 randconfig-e001-20191213
-i386                 randconfig-e002-20191213
-i386                 randconfig-e003-20191213
-parisc                            allnoconfig
-parisc                            allyesonfig
-parisc                         b180_defconfig
-parisc                        c3000_defconfig
-parisc                              defconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-x86_64               randconfig-h001-20191213
-x86_64               randconfig-h002-20191213
-x86_64               randconfig-h003-20191213
-i386                 randconfig-h001-20191213
-i386                 randconfig-h002-20191213
-i386                 randconfig-h003-20191213
-i386                             alldefconfig
-i386                              allnoconfig
-i386                                defconfig
-x86_64               randconfig-a001-20191213
-x86_64               randconfig-a002-20191213
-x86_64               randconfig-a003-20191213
-i386                 randconfig-a001-20191213
-i386                 randconfig-a002-20191213
-i386                 randconfig-a003-20191213
-x86_64               randconfig-g001-20191215
-x86_64               randconfig-g002-20191215
-x86_64               randconfig-g003-20191215
-i386                 randconfig-g001-20191215
-i386                 randconfig-g002-20191215
-i386                 randconfig-g003-20191215
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arc                              allyesconfig
-powerpc                             defconfig
-microblaze                    nommu_defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-microblaze                      mmu_defconfig
-arc                                 defconfig
-powerpc                           allnoconfig
-x86_64               randconfig-d001-20191213
-x86_64               randconfig-d002-20191213
-x86_64               randconfig-d003-20191213
-i386                 randconfig-d001-20191213
-i386                 randconfig-d002-20191213
-i386                 randconfig-d003-20191213
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-
----
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+> > +
+> >  	mutex_init(&imx290->lock);
+> >  
+> >  	v4l2_ctrl_handler_init(&imx290->ctrls, 4);
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
