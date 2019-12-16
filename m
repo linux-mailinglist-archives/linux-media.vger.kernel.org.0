@@ -2,127 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD26120665
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 13:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13FCF12068B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:03:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727674AbfLPMyA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 07:54:00 -0500
-Received: from mx2.suse.de ([195.135.220.15]:39022 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727550AbfLPMx7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 07:53:59 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 29D62AFAF;
-        Mon, 16 Dec 2019 12:53:55 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 69B531E0B2E; Mon, 16 Dec 2019 13:53:53 +0100 (CET)
-Date:   Mon, 16 Dec 2019 13:53:53 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
-Message-ID: <20191216125353.GF22157@quack2.suse.cz>
-References: <20191212101741.GD10065@quack2.suse.cz>
- <20191214032617.1670759-1-jhubbard@nvidia.com>
+        id S1727805AbfLPNBg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 08:01:36 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:49268 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727553AbfLPNBg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 08:01:36 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBGD1GEB035729;
+        Mon, 16 Dec 2019 07:01:16 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1576501276;
+        bh=qu4CX1xmsIJKNsiSCd4Q7cKnvTPwSjXkFWKSo8iJ+4U=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=IUjovb1voNOw0bGSYt1NM92Pnj8HaGhWHOB/Uf6pgKUahW5o8SeeoMDpJIK5mvJW5
+         SAFt0dkaf5/hQWLjucnoz03cLLQqhlFXLcYDtaJR7Tc8c/NLZNmX8D5s0jHg2AmD/U
+         zLgnkN/DPxAibbOMwYSdxreD4egLXB9aJgPSWWCM=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBGD1Gsn098541
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 16 Dec 2019 07:01:16 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
+ Dec 2019 07:01:16 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 16 Dec 2019 07:01:16 -0600
+Received: from [10.250.79.55] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBGD1EGl118008;
+        Mon, 16 Dec 2019 07:01:14 -0600
+Subject: Re: [PATCH] dma-heap: Make the symbol 'dma_heap_ioctl_cmds' static
+To:     zhong jiang <zhongjiang@huawei.com>, <sumit.semwal@linaro.org>,
+        <benjamin.gaignard@linaro.org>
+CC:     <lmark@codeaurora.org>, <labbott@redhat.com>,
+        <Brian.Starkey@arm.com>, <john.stultz@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1576490904-18069-1-git-send-email-zhongjiang@huawei.com>
+From:   "Andrew F. Davis" <afd@ti.com>
+Message-ID: <c1244a5f-b82a-baee-262a-7241531036ad@ti.com>
+Date:   Mon, 16 Dec 2019 08:01:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191214032617.1670759-1-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1576490904-18069-1-git-send-email-zhongjiang@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri 13-12-19 19:26:17, John Hubbard wrote:
-> Add tracking of pages that were pinned via FOLL_PIN.
+On 12/16/19 5:08 AM, zhong jiang wrote:
+> Fix the following sparse warning.
 > 
-> As mentioned in the FOLL_PIN documentation, callers who effectively set
-> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
-> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
-> for DIO and/or RDMA use".
+> drivers/gpu/drm/ast/ast_main.c:391:22: warning: symbol 'ast_mode_config_mode_valid' was not declared. Should it be static?
 > 
-> Pages that have been pinned via FOLL_PIN are identifiable via a
-> new function call:
-> 
->    bool page_dma_pinned(struct page *page);
-> 
-> What to do in response to encountering such a page, is left to later
-> patchsets. There is discussion about this in [1], [2], and [3].
-> 
-> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
-> 
-> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
->     https://lwn.net/Articles/784574/
-> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
->     https://lwn.net/Articles/774411/
-> [3] The trouble with get_user_pages() (Apr 30, 2018):
->     https://lwn.net/Articles/753027/
-> 
-> Suggested-by: Jan Kara <jack@suse.cz>
-> Suggested-by: Jérôme Glisse <jglisse@redhat.com>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+
+
+The patch looks valid, but this commit message does not seem to match..
+
+Andrew
+
+
+> Signed-off-by: zhong jiang <zhongjiang@huawei.com>
 > ---
+>  drivers/dma-buf/dma-heap.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Hi Jan,
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 4f04d10..da2090e 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -106,7 +106,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
+>  	return 0;
+>  }
+>  
+> -unsigned int dma_heap_ioctl_cmds[] = {
+> +static unsigned int dma_heap_ioctl_cmds[] = {
+>  	DMA_HEAP_IOC_ALLOC,
+>  };
+>  
 > 
-> This should address all of your comments for patch 23!
-
-Thanks. One comment below:
-
-> @@ -1486,6 +1500,10 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
->  	VM_BUG_ON_PAGE(!PageHead(page) && !is_zone_device_page(page), page);
->  	if (flags & FOLL_TOUCH)
->  		touch_pmd(vma, addr, pmd, flags);
-> +
-> +	if (!try_grab_page(page, flags))
-> +		return ERR_PTR(-ENOMEM);
-> +
->  	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
->  		/*
->  		 * We don't mlock() pte-mapped THPs. This way we can avoid
-
-I'd move this still a bit higher - just after VM_BUG_ON_PAGE() and before
-if (flags & FOLL_TOUCH) test. Because touch_pmd() can update page tables
-and we don't won't that if we're going to fail the fault.
-
-With this fixed, the patch looks good to me so you can then add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
