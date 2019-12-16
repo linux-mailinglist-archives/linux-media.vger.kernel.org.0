@@ -2,107 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F1C1202AD
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 11:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3051203DC
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 12:27:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbfLPKcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 05:32:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51839 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727229AbfLPKcp (ORCPT
+        id S1727210AbfLPL0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 06:26:08 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:33834 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727138AbfLPL0I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 05:32:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576492363;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+Tv9lz/9aRTWSuFWFHPRLE9sszc/GHULK3m7iE15C3w=;
-        b=GjFenZ+Vs3Ps1ftckjp3JuzVPU/DD2qcC7CSFcDgz4s3fuHdUrT0/etIQflacc170+LwZC
-        xSlRXvRN/9H/gQxmguukvZsYmOgSWCYd4H1OXsQYmOfthzY246a9ThdS+tzoAlBXmaqrAa
-        06dX7YARjpimbZNqwTWMMsgOk6r/Wcw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-Uf4wU8zTOEeNf_eoge7EZw-1; Mon, 16 Dec 2019 05:32:40 -0500
-X-MC-Unique: Uf4wU8zTOEeNf_eoge7EZw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 401B4800D41;
-        Mon, 16 Dec 2019 10:32:38 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com [10.36.117.39])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 811C95D9C5;
-        Mon, 16 Dec 2019 10:32:37 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id B51049DA3; Mon, 16 Dec 2019 11:32:36 +0100 (CET)
-Date:   Mon, 16 Dec 2019 11:32:36 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
- specification
-Message-ID: <20191216103236.ugjorzq5pntc7gtt@sirius.home.kraxel.org>
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
- <CAD90Vcbr7L2KsyDxPeoKPRt6y_ai8xkJ=J0JCGsW6tGZJGH=0A@mail.gmail.com>
- <20191120112929.gvsne7ykvcyw65lu@sirius.home.kraxel.org>
- <7736193.Whgddqjo8n@os-lin-dmo>
- <CAD90VcbYAhk9CiagSEi=ouNMioR4v71uc40rRHGMe_+wvAm+0g@mail.gmail.com>
- <20191204091620.zpnd7jttkpkduort@sirius.home.kraxel.org>
- <CAAFQd5Bs6NnsoOP1NFLREQSLNJs-K33ZvW5ZcdAZTv95WHmPBA@mail.gmail.com>
+        Mon, 16 Dec 2019 06:26:08 -0500
+Received: by mail-io1-f66.google.com with SMTP id z193so2950303iof.1;
+        Mon, 16 Dec 2019 03:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ELdUONa2ckCb0g92cQe783L5naGON8kZrHYJoYPRMio=;
+        b=XBw5mkBv5ooaIsqGbE/cYqaQZopWtsnyWp6M617AWWh5EAZRLDoGG7nM31k9DZxZr+
+         64gNmCWVlfSEpNVqKyVBxZxhTcuyeP3UW87f8jFHFY6k0mBGKUZ4u+kk10mWnx2Qd7c6
+         xgE3CV7k/tuBGO5qu8fWnKevQpN646HSqPYYfIaPQAVdzmCNA0oBBvMMMfixRqoZf0AN
+         cJilQ7FxTREx4MO73wx1hOMnnRffWlZeMRo5h/kcwbAMx4IrhuxK5HS/eyb6XtiQUfe+
+         uBCeo9VO8HdqE11wzfbLab9U9AQct9YErpfo6OyKRS/OWSs5F3xuOsOYI8zKyfIZLNaq
+         e/qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ELdUONa2ckCb0g92cQe783L5naGON8kZrHYJoYPRMio=;
+        b=qw6ogCaTDf22q/iQX/T+kFMmkJ0XpaYTf6akgwEfIRn7gAwclqXXRDPXdo4o21aRnX
+         6v/4vsNezkl2D24gt81NUX3BVFo2JKkx//KdGBd/WeHiRwzVGENnXi+ddNjteRJOIPO6
+         C5fjHqnKm1HnJRCqzqrMgcySRANW54noiif7ksdyR2GXoK+8kN8JUuKKBIS5kJIcS3U9
+         wjV3N26gUL9OwEp6CslwFuygI/E/6JCPhcVFcb2lUyo5APEDrHuBUpdFxd90UBWoaLY8
+         R3YZEF25Xmn55hpfriBDXPif9V8atgEsSqhUbeJd0ilj6KjUCP4of76g5I47ryu8pb2v
+         B5Dg==
+X-Gm-Message-State: APjAAAVUmW40BdT284IjR8Z2GU4TMEVXj5Izh/u6DUgK4M8A/Ra81koi
+        orzwAdAkaUvBDiO79u2gWgrrI1yXPXrbfwFHsUg=
+X-Google-Smtp-Source: APXvYqyA11cuClnOLO4oeV+SgFJThguY0x2zlrGH9RqOy9cyEprbnVIl37fc0V3tC5HMMwCWqY47vjyKEZER/AJjSDQ=
+X-Received: by 2002:a5e:8505:: with SMTP id i5mr17060768ioj.158.1576495567012;
+ Mon, 16 Dec 2019 03:26:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5Bs6NnsoOP1NFLREQSLNJs-K33ZvW5ZcdAZTv95WHmPBA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20191025190723.21105-1-aford173@gmail.com>
+In-Reply-To: <20191025190723.21105-1-aford173@gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 16 Dec 2019 05:25:55 -0600
+Message-ID: <CAHCN7xJZ2oF-vV87RVygLrcDU5tAee5M+btn+m3gHOewHjmv0Q@mail.gmail.com>
+Subject: Re: [PATCH] media: ov5640: Put max framerate into table and simplify check
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+On Fri, Oct 25, 2019 at 2:07 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> Currently the various modes are placed into a table, but when
+> ov5640_find_mode is called, it has to double check whether
+> or not the requested framerate is tolerated by the mode.
+> The determination is based on checking hact, vact, and frame rate.
+>
+> Only 640x480 is allowed at 60fps and QSXGA is limited to 15fps, but
+> as the number of permitted frame rates change, this will begin to
+> add more and more complexity to the check.
+>
+> This patch simplifies the check by adding the max framerate
+> allowed for each mode into the table of modes.  It then compares
+> the requested framerate to the max permitted in the mode's table.
+> This reduces the number of comparisions to one down from three
+> at run-time.
 
-> > Hmm, modern GPUs support both encoding and decoding ...
-> 
-> Many SoC architectures have completely separate IP blocks for encoding
-> and decoding. Similarly, in GPUs those are usually completely separate
-> parts of the pipeline.
+Gentle nudge on this patch.  It's been nearly two months without any feedback.
+There were some fixes backported to stable kernels which will get ugly
+as this drivers gets more mature and as framerates start to increase.
 
-In the OS there is one driver per GPU handling both ...
+This patch should simplify the check by adding the max frame rate to
+the table and then only having to do to one check later.
 
-> > I don't think we should bake that restriction into the specification.
-> > It probably makes sense to use one virtqueue per function though, that
-> > will simplify dispatching in both host and guest.
-> >
-> 
-> Wouldn't it make the handling easier if we had one virtio device per function?
-
-I don't think there is much of a difference between one device per
-function and one virtqueue per function.  You'll probably have a single
-driver for both anyway, to share common code for buffer management etc.
-
-> > Use separate pixel_format (fourcc) and stream_format (H.264 etc.) enums?
-> 
-> I'd specifically avoid FourCC here, as it's very loosely defined and
-> could introduce confusion.
-
-I don't think using fourcc is a problem, and given that both drm and
-v4l2 use fourcc already this would be a good choice I think.
-
-But the definition should be more specific than just "fourcc".  Best
-would be to explicitly list and define each format supported by the
-spec.
-
-cheers,
-  Gerd
-
+adam
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 5e495c833d32..19e10c59860b 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -189,6 +189,7 @@ struct ov5640_mode_info {
+>         u32 vtot;
+>         const struct reg_value *reg_data;
+>         u32 reg_data_size;
+> +       u32 max_fps;
+>  };
+>
+>  struct ov5640_ctrls {
+> @@ -544,6 +545,7 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
+>         0, SUBSAMPLING, 640, 1896, 480, 984,
+>         ov5640_init_setting_30fps_VGA,
+>         ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
+> +       OV5640_30_FPS,
+>  };
+>
+>  static const struct ov5640_mode_info
+> @@ -551,39 +553,48 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
+>         {OV5640_MODE_QCIF_176_144, SUBSAMPLING,
+>          176, 1896, 144, 984,
+>          ov5640_setting_QCIF_176_144,
+> -        ARRAY_SIZE(ov5640_setting_QCIF_176_144)},
+> +        ARRAY_SIZE(ov5640_setting_QCIF_176_144),
+> +        OV5640_30_FPS},
+>         {OV5640_MODE_QVGA_320_240, SUBSAMPLING,
+>          320, 1896, 240, 984,
+>          ov5640_setting_QVGA_320_240,
+> -        ARRAY_SIZE(ov5640_setting_QVGA_320_240)},
+> +        ARRAY_SIZE(ov5640_setting_QVGA_320_240),
+> +        OV5640_30_FPS},
+>         {OV5640_MODE_VGA_640_480, SUBSAMPLING,
+>          640, 1896, 480, 1080,
+>          ov5640_setting_VGA_640_480,
+> -        ARRAY_SIZE(ov5640_setting_VGA_640_480)},
+> +        ARRAY_SIZE(ov5640_setting_VGA_640_480),
+> +        OV5640_60_FPS},
+>         {OV5640_MODE_NTSC_720_480, SUBSAMPLING,
+>          720, 1896, 480, 984,
+>          ov5640_setting_NTSC_720_480,
+> -        ARRAY_SIZE(ov5640_setting_NTSC_720_480)},
+> +        ARRAY_SIZE(ov5640_setting_NTSC_720_480),
+> +       OV5640_30_FPS},
+>         {OV5640_MODE_PAL_720_576, SUBSAMPLING,
+>          720, 1896, 576, 984,
+>          ov5640_setting_PAL_720_576,
+> -        ARRAY_SIZE(ov5640_setting_PAL_720_576)},
+> +        ARRAY_SIZE(ov5640_setting_PAL_720_576),
+> +        OV5640_30_FPS},
+>         {OV5640_MODE_XGA_1024_768, SUBSAMPLING,
+>          1024, 1896, 768, 1080,
+>          ov5640_setting_XGA_1024_768,
+> -        ARRAY_SIZE(ov5640_setting_XGA_1024_768)},
+> +        ARRAY_SIZE(ov5640_setting_XGA_1024_768),
+> +        OV5640_30_FPS},
+>         {OV5640_MODE_720P_1280_720, SUBSAMPLING,
+>          1280, 1892, 720, 740,
+>          ov5640_setting_720P_1280_720,
+> -        ARRAY_SIZE(ov5640_setting_720P_1280_720)},
+> +        ARRAY_SIZE(ov5640_setting_720P_1280_720),
+> +        OV5640_30_FPS},
+>         {OV5640_MODE_1080P_1920_1080, SCALING,
+>          1920, 2500, 1080, 1120,
+>          ov5640_setting_1080P_1920_1080,
+> -        ARRAY_SIZE(ov5640_setting_1080P_1920_1080)},
+> +        ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
+> +        OV5640_30_FPS},
+>         {OV5640_MODE_QSXGA_2592_1944, SCALING,
+>          2592, 2844, 1944, 1968,
+>          ov5640_setting_QSXGA_2592_1944,
+> -        ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944)},
+> +        ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
+> +        OV5640_15_FPS},
+>  };
+>
+>  static int ov5640_init_slave_id(struct ov5640_dev *sensor)
+> @@ -1606,14 +1617,8 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
+>             (!nearest && (mode->hact != width || mode->vact != height)))
+>                 return NULL;
+>
+> -       /* Only 640x480 can operate at 60fps (for now) */
+> -       if (fr == OV5640_60_FPS &&
+> -           !(mode->hact == 640 && mode->vact == 480))
+> -               return NULL;
+> -
+> -       /* 2592x1944 only works at 15fps max */
+> -       if ((mode->hact == 2592 && mode->vact == 1944) &&
+> -           fr > OV5640_15_FPS)
+> +       /* Check to see if the current mode exceeds the max frame rate */
+> +       if (ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
+>                 return NULL;
+>
+>         return mode;
+> --
+> 2.17.1
+>
