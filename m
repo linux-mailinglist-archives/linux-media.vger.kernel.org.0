@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A34C120749
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F7A2120750
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:38:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727802AbfLPNhG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 08:37:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46068 "EHLO mail.kernel.org"
+        id S1727763AbfLPNiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 08:38:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46614 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727788AbfLPNhG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 08:37:06 -0500
+        id S1727557AbfLPNiR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 08:38:17 -0500
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 00E49206A5;
-        Mon, 16 Dec 2019 13:37:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id CBB5A206A5;
+        Mon, 16 Dec 2019 13:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576503425;
-        bh=OlLjTfGQi5/U4jUE0lWUYWNrQUVkF9ABRFYEb3H6wRM=;
+        s=default; t=1576503496;
+        bh=Iu98Oy5TZm+H1asM/smrTrfPFvEBzeFkzFr8AMmXZXk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UN3eg7bkh56gQzbPJKX92DS2oPbfzk/s8NFCYvwapn+olTsxbwocauo+FhEgEbHcQ
-         oVENs8AlxstW3j1z2VhLfYFGQ6Xhmp7LZh1iQ3H4OC9FogVfZVkmRrIBpGFIyKVQQt
-         e6d4Og6pZ0miFTtZaa0ZOojvY10otamRfSr8r9r8=
-Date:   Mon, 16 Dec 2019 14:37:03 +0100
+        b=qLoRzPiAgHrMoOeQlq47u2JMMsF+kaN6ulynlbG1cRyJ7s2WQ+gZ9zfgmw3qdh7sv
+         myCIG83Rfn3FSh1WmEl5AH2BfMtLbkWPKDglHU66akHYiVDCTmO2Ep7X01WYXQ8I12
+         04mRGGadq8HC3/+ky2NASgJcq/3lws8PZ0xtYJTs=
+Date:   Mon, 16 Dec 2019 14:38:14 +0100
 From:   Maxime Ripard <mripard@kernel.org>
 To:     Chen-Yu Tsai <wens@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -33,57 +33,88 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH 04/14] media: sun4i-csi: Fix [HV]sync polarity handling
-Message-ID: <20191216133703.4udteob37py5s3ms@gilmour.lan>
+Subject: Re: [PATCH 05/14] media: sun4i-csi: Deal with DRAM offset
+Message-ID: <20191216133814.hozcgdrnqe6tim36@gilmour.lan>
 References: <20191215165924.28314-1-wens@kernel.org>
- <20191215165924.28314-5-wens@kernel.org>
+ <20191215165924.28314-6-wens@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2fe4ttno4f4fmseg"
+        protocol="application/pgp-signature"; boundary="f4vwh4csed7tzwjp"
 Content-Disposition: inline
-In-Reply-To: <20191215165924.28314-5-wens@kernel.org>
+In-Reply-To: <20191215165924.28314-6-wens@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---2fe4ttno4f4fmseg
+--f4vwh4csed7tzwjp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Dec 16, 2019 at 12:59:14AM +0800, Chen-Yu Tsai wrote:
+On Mon, Dec 16, 2019 at 12:59:15AM +0800, Chen-Yu Tsai wrote:
 > From: Chen-Yu Tsai <wens@csie.org>
 >
-> The Allwinner camera sensor interface has a different definition of
-> [HV]sync. While the timing diagram uses the names HSYNC and VSYNC,
-> the note following the diagram and register names use HREF and VREF.
-> Combined they imply the hardware uses either [HV]REF or inverted
-> [HV]SYNC. There are also registers to set horizontal skip lengths
-> in pixels and vertical skip lengths in lines, also known as back
-> porches.
+> On Allwinner SoCs, some high memory bandwidth devices do DMA directly
+> over the memory bus (called MBUS), instead of the system bus. These
+> devices include the CSI camera sensor interface, video (codec) engine,
+> display subsystem, etc.. The memory bus has a different addressing
+> scheme without the DRAM starting offset.
 >
-> Fix the polarity handling by using the opposite polarity flag for
-> the checks. Also rename `[hv]sync_pol` to `[hv]ref_pol` to better
-> match the hardware register description.
+> Deal with this using the "interconnects" property from the device tree,
+> or if that is not available, set dev->dma_pfn_offset to PHYS_PFN_OFFSET.
 >
 > Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
 > Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 
-Thanks!
+> ---
+>  .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> index f36dc6258900..b8b07c1de2a8 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+> +#include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> @@ -155,6 +156,27 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+>  	subdev = &csi->subdev;
+>  	vdev = &csi->vdev;
+>
+> +	/*
+> +	 * On Allwinner SoCs, some high memory bandwidth devices do DMA
+> +	 * directly over the memory bus (called MBUS), instead of the
+> +	 * system bus. The memory bus has a different addressing scheme
+> +	 * without the DRAM starting offset.
+> +	 *
+> +	 * In some cases this can be described by an interconnect in
+> +	 * the device tree. In other cases where the hardware is not
+> +	 * fully understood and the interconnect is left out of the
+> +	 * device tree, fall back to a default offset.
+> +	 */
+
+Though we should probably mention the DT-backward-compatibility case
+here too.
+
 Maxime
 
---2fe4ttno4f4fmseg
+--f4vwh4csed7tzwjp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfeIfwAKCRDj7w1vZxhR
-xRA/AP4vF6S6Kyoc+sq1NvPSmvANUDxkredIbI6JCHlMsiFG3QD9H7FUVTe0FnrF
-Al8s9SSOmN2Cb9+DM0+mq5Jb6GxZyQQ=
-=u2Iv
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfeIxgAKCRDj7w1vZxhR
+xSYlAP4uGoz1Ce+9iej57ZZmMWf4/Tv6JmIocroCOLYz9/kGmgEAlLfgpLkvr3sQ
+xO02B/RijIIY2oIzaS23VHo7I+iAtgs=
+=/CRW
 -----END PGP SIGNATURE-----
 
---2fe4ttno4f4fmseg--
+--f4vwh4csed7tzwjp--
