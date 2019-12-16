@@ -2,79 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C41D1120746
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A34C120749
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:37:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727921AbfLPNgR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 08:36:17 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7252 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727834AbfLPNgR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 08:36:17 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 64F7A3C6DE9BC06E0313;
-        Mon, 16 Dec 2019 21:36:15 +0800 (CST)
-Received: from [127.0.0.1] (10.133.219.218) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Mon, 16 Dec 2019
- 21:36:13 +0800
-Message-ID: <5DF7884C.1040108@huawei.com>
-Date:   Mon, 16 Dec 2019 21:36:12 +0800
-From:   zhong jiang <zhongjiang@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+        id S1727802AbfLPNhG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 08:37:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46068 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727788AbfLPNhG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 08:37:06 -0500
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 00E49206A5;
+        Mon, 16 Dec 2019 13:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576503425;
+        bh=OlLjTfGQi5/U4jUE0lWUYWNrQUVkF9ABRFYEb3H6wRM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UN3eg7bkh56gQzbPJKX92DS2oPbfzk/s8NFCYvwapn+olTsxbwocauo+FhEgEbHcQ
+         oVENs8AlxstW3j1z2VhLfYFGQ6Xhmp7LZh1iQ3H4OC9FogVfZVkmRrIBpGFIyKVQQt
+         e6d4Og6pZ0miFTtZaa0ZOojvY10otamRfSr8r9r8=
+Date:   Mon, 16 Dec 2019 14:37:03 +0100
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Chen-Yu Tsai <wens@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 04/14] media: sun4i-csi: Fix [HV]sync polarity handling
+Message-ID: <20191216133703.4udteob37py5s3ms@gilmour.lan>
+References: <20191215165924.28314-1-wens@kernel.org>
+ <20191215165924.28314-5-wens@kernel.org>
 MIME-Version: 1.0
-To:     "Andrew F. Davis" <afd@ti.com>
-CC:     <sumit.semwal@linaro.org>, <benjamin.gaignard@linaro.org>,
-        <lmark@codeaurora.org>, <labbott@redhat.com>,
-        <Brian.Starkey@arm.com>, <john.stultz@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] dma-heap: Make the symbol 'dma_heap_ioctl_cmds' static
-References: <1576490904-18069-1-git-send-email-zhongjiang@huawei.com> <c1244a5f-b82a-baee-262a-7241531036ad@ti.com>
-In-Reply-To: <c1244a5f-b82a-baee-262a-7241531036ad@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.219.218]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2fe4ttno4f4fmseg"
+Content-Disposition: inline
+In-Reply-To: <20191215165924.28314-5-wens@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2019/12/16 21:01, Andrew F. Davis wrote:
-> On 12/16/19 5:08 AM, zhong jiang wrote:
->> Fix the following sparse warning.
->>
->> drivers/gpu/drm/ast/ast_main.c:391:22: warning: symbol 'ast_mode_config_mode_valid' was not declared. Should it be static?
->>
->
-> The patch looks valid, but this commit message does not seem to match..
-Sorry for stupid mistake. Will repost it in v2.
 
-Thanks,
-zhong jiang
->
-> Andrew
->
->
->> Signed-off-by: zhong jiang <zhongjiang@huawei.com>
->> ---
->>  drivers/dma-buf/dma-heap.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
->> index 4f04d10..da2090e 100644
->> --- a/drivers/dma-buf/dma-heap.c
->> +++ b/drivers/dma-buf/dma-heap.c
->> @@ -106,7 +106,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
->>  	return 0;
->>  }
->>  
->> -unsigned int dma_heap_ioctl_cmds[] = {
->> +static unsigned int dma_heap_ioctl_cmds[] = {
->>  	DMA_HEAP_IOC_ALLOC,
->>  };
->>  
->>
-> .
->
+--2fe4ttno4f4fmseg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Mon, Dec 16, 2019 at 12:59:14AM +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> The Allwinner camera sensor interface has a different definition of
+> [HV]sync. While the timing diagram uses the names HSYNC and VSYNC,
+> the note following the diagram and register names use HREF and VREF.
+> Combined they imply the hardware uses either [HV]REF or inverted
+> [HV]SYNC. There are also registers to set horizontal skip lengths
+> in pixels and vertical skip lengths in lines, also known as back
+> porches.
+>
+> Fix the polarity handling by using the opposite polarity flag for
+> the checks. Also rename `[hv]sync_pol` to `[hv]ref_pol` to better
+> match the hardware register description.
+>
+> Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Thanks!
+Maxime
+
+--2fe4ttno4f4fmseg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfeIfwAKCRDj7w1vZxhR
+xRA/AP4vF6S6Kyoc+sq1NvPSmvANUDxkredIbI6JCHlMsiFG3QD9H7FUVTe0FnrF
+Al8s9SSOmN2Cb9+DM0+mq5Jb6GxZyQQ=
+=u2Iv
+-----END PGP SIGNATURE-----
+
+--2fe4ttno4f4fmseg--
