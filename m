@@ -2,131 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C5B1120084
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 10:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF7C91200C6
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 10:18:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726916AbfLPJCb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 04:02:31 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39467 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726818AbfLPJCb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 04:02:31 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 59F9D220E4;
-        Mon, 16 Dec 2019 04:02:29 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 16 Dec 2019 04:02:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=PokdvDG1nIQ/VMznTA7Po0YeHU3
-        1cRXWMuqHfQ3NJtg=; b=YJSTGTO4Tm5092gDSitpZ2D9YojwZmjpYQ4yf17WeaO
-        S62neg2L+plGl78oORgNkUhdvAcnTUI78kAtBN5vmlOcBTBdOACbS55QMWs3277X
-        oEvmsdeWirzh+FyxVrKfeea+pmRSPRScQGvoXjbWFquIhkV3vPfd5h/LZmz0jFI+
-        dJeWiiBO+hpc7ieJCAcEiY91lmhM0ginH4bE3qgquYk9QlWRyHEFHywF4coSIwD8
-        Dq9nWBVMvNnvTLSuqwirjBXNXhpP5dO+4J1uktdS9IdbOX2g9/wl1nuuOMqAhIWz
-        kNGsCU0ogni6rvsUMSKDJzL9jt2Pbz8ZAuRkLxxR0RQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PokdvD
-        G1nIQ/VMznTA7Po0YeHU31cRXWMuqHfQ3NJtg=; b=COi/sBQnSthKVUVXnORwE3
-        IIiNa3F9ZM630Nrca7TW7BqNOJrW6RREmN5/s11eBYP4Ixd0EopdkOAFFAODJ3N9
-        6onFhrHDD0P0ZkzkCb2LW3ujbUepshk9VHvYrq6iaRs63CZ8rzRALudJ+QbhP8Ao
-        pdVjND1Zgs3P93rH+P4YTmRmYC1pf2ZBfaPH4EdeRoGZ3MIBqDhcRv+tBTHZxciR
-        mh/JH9GidEsKebWvExmvACpx7sm43gwA/UDTuRki2UZ08hQY/1M8UuKAtnBXz6SQ
-        kFKYqZNKPKkLoDljTuxKNGGn5VvPoZP/pUSbY7UsZ7SRdBrK/v50OPnmtP4YLSNg
-        ==
-X-ME-Sender: <xms:JEj3XfO3DgPMWtkL0_tEqDpOSL3xmPJpJYXwChYdwvgeTsEuAVlqKg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtgedguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkpheple
-    dtrdekledrieekrdejieenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegt
-    vghrnhhordhtvggthhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:JEj3XS_aAcYxVdfoixy9pTNkh9pOkfOZhCyEI8dE8ASSDpMb5ouHBg>
-    <xmx:JEj3XbDW5p1eeMEya66DYNNbWka8n2oswKd0aNKEJIehGg04Vi3EkA>
-    <xmx:JEj3XSAQ0q1gaQSuE-mmcb6TV9JsOuAxBfBeT0rCLJHat8_SzQ1h1g>
-    <xmx:JUj3XQ70tQjv19i7LTUiFBLM026EyZbjzFx8Zjsz9eQy-UkZJORuvA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id DF7EC8005C;
-        Mon, 16 Dec 2019 04:02:27 -0500 (EST)
-Date:   Mon, 16 Dec 2019 10:02:25 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] dt-bindings: media: Convert Allwinner hardware codec to
- a schema
-Message-ID: <20191216090225.4lll6kpqbrba7ldf@gilmour.lan>
-References: <20191213074055.26193-1-maxime@cerno.tech>
- <CAL_JsqLxGe9sWrTdZhuT69o_LBxQTi6TxcbT28WdC1gsPw5+fQ@mail.gmail.com>
+        id S1727050AbfLPJPy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 04:15:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33818 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726903AbfLPJPy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 04:15:54 -0500
+Received: from X250 (98.142.130.235.16clouds.com [98.142.130.235])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CE279207FF;
+        Mon, 16 Dec 2019 09:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576487754;
+        bh=NS6Ab2pqm6RV26LWudEoqa3Yy/7f6aMKLnkcfmDyJoU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Tk+zfwb764W1ygiYrhMntBTPaSNwClYvqXYHyU9MelUCJaJjvcXSmbYZaeNeWs0zQ
+         MaMOYX+TSMRX6JUFbCql8mTqkOrijFd9NHUXjKh6x/he92KcDh/U3PUEQNQdxJh2Ji
+         iwUvgb2EV0qcQLl+8nSxSUTfchMbDeLOW4Vh9h+8=
+Date:   Mon, 16 Dec 2019 17:15:39 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, paul.kocialkowski@bootlin.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-imx@nxp.com, s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, leonard.crestez@nxp.com,
+        robert.chiras@nxp.com, laurentiu.palcu@nxp.com,
+        mark.rutland@arm.com, devicetree@vger.kernel.org,
+        p.zabel@pengutronix.de, laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com
+Subject: Re: [PATCH 2/5] firmware: imx: scu-pd: Add power domains for imx-jpeg
+Message-ID: <20191216091529.GA23796@X250>
+References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
+ <1573053633-21437-3-git-send-email-mirela.rabulea@nxp.com>
+ <64ac7dca-9834-6a33-aa3e-9b7e2156dedc@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="m6uvfkvcj5remb43"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqLxGe9sWrTdZhuT69o_LBxQTi6TxcbT28WdC1gsPw5+fQ@mail.gmail.com>
+In-Reply-To: <64ac7dca-9834-6a33-aa3e-9b7e2156dedc@xs4all.nl>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
---m6uvfkvcj5remb43
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Dec 13, 2019 at 10:49:03AM +0100, Hans Verkuil wrote:
+> On 11/6/19 4:20 PM, Mirela Rabulea wrote:
+> > The power domains are for imx8qxp/imx8qm JPEG encoder & decoder.
+> > Each has 4 slots and a wrapper.
+> > 
+> > Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> 
+> Shawn, Daniel, can I have an Ack from you? It probably makes sense that
+> this patch gets merged via the media subsystem.
 
-Hi Rob,
+I do not see a hard compile time dependency here. In that case, I prefer
+to still merge it through my tree to avoid possible conflicts.
 
-On Fri, Dec 13, 2019 at 09:25:51AM -0600, Rob Herring wrote:
-> On Fri, Dec 13, 2019 at 1:41 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > The Allwinner SoCs have a hardware video codec that is supported in Linux,
-> > with a matching Device Tree binding.
-> >
-> > Now that we have the DT validation in place, let's convert the device tree
-> > bindings for that controller over to a YAML schemas.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >  .../allwinner,sun4i-a10-video-engine.yaml     | 83 +++++++++++++++++++
-> >  .../devicetree/bindings/media/cedrus.txt      | 57 -------------
-> >  2 files changed, 83 insertions(+), 57 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/media/cedrus.txt
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-> > new file mode 100644
-> > index 000000000000..47c8513555b2
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-> > @@ -0,0 +1,83 @@
-> > +# SPDX-License-Identifier: GPL-2.0+
->
-> Do you have rights to change the license (adding '+' aka '-or-later')?
-> If so, please add BSD-2-Clause. I don't have any other comments, so
-> just confirm and I can change it when applying.
-
-That's a mistake, sorry. I'm not the original author, so I can't
-change that license...
-
-Maxime
-
---m6uvfkvcj5remb43
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfdIHAAKCRDj7w1vZxhR
-xQt4AP4/p/4KNTdKVqnOZrFTUx14YJGw+5ype+Zlt96KJY2C/AEAnAjDE6yL/asL
-hMgtOPL6fesvTr+8PmH7F+3mUWVRqww=
-=bz4j
------END PGP SIGNATURE-----
-
---m6uvfkvcj5remb43--
+Shawn
