@@ -2,84 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6858D120E88
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 16:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B62E4120EE3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 17:11:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727297AbfLPPwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 10:52:11 -0500
-Received: from sauhun.de ([88.99.104.3]:42030 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728655AbfLPPwF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 10:52:05 -0500
-Received: from localhost (p54B33297.dip0.t-ipconnect.de [84.179.50.151])
-        by pokefinder.org (Postfix) with ESMTPSA id 549DC2C2DBC;
-        Mon, 16 Dec 2019 16:52:03 +0100 (CET)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-media@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH V2 16/16] media: v4l2-core: v4l2-i2c: convert to new API with ERRPTR
-Date:   Mon, 16 Dec 2019 16:51:43 +0100
-Message-Id: <20191216155146.8803-17-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191216155146.8803-1-wsa+renesas@sang-engineering.com>
-References: <20191216155146.8803-1-wsa+renesas@sang-engineering.com>
+        id S1726682AbfLPQLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 11:11:11 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:55668 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726633AbfLPQLK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 11:11:10 -0500
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1igsxX-0003nJ-Vx; Mon, 16 Dec 2019 16:11:00 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        "Andrew F . Davis" <afd@ti.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Sandeep Patil <sspatil@android.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] dma-buf: fix resource leak on -ENOTTY error return path
+Date:   Mon, 16 Dec 2019 16:10:59 +0000
+Message-Id: <20191216161059.269492-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the new APIs instead of the deprecated ones.
+From: Colin Ian King <colin.king@canonical.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+The -ENOTTY error return path does not free the allocated
+kdata as it returns directly. Fix this by returning via the
+error handling label err.
+
+Addresses-Coverity: ("Resource leak")
+Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
+ drivers/dma-buf/dma-heap.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Change since last version:
-
-* use more new API (i2c_new_*_device)
-
- drivers/media/v4l2-core/v4l2-i2c.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-i2c.c b/drivers/media/v4l2-core/v4l2-i2c.c
-index 5bf99e7c0c09..b4acca75644b 100644
---- a/drivers/media/v4l2-core/v4l2-i2c.c
-+++ b/drivers/media/v4l2-core/v4l2-i2c.c
-@@ -74,10 +74,10 @@ struct v4l2_subdev
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 4f04d104ae61..80f2f5eac1e4 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -157,7 +157,8 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 		ret = dma_heap_ioctl_allocate(file, kdata);
+ 		break;
+ 	default:
+-		return -ENOTTY;
++		ret = -ENOTTY;
++		goto err;
+ 	}
  
- 	/* Create the i2c client */
- 	if (info->addr == 0 && probe_addrs)
--		client = i2c_new_probed_device(adapter, info, probe_addrs,
--					       NULL);
-+		client = i2c_new_scanned_device(adapter, info, probe_addrs,
-+						NULL);
- 	else
--		client = i2c_new_device(adapter, info);
-+		client = i2c_new_client_device(adapter, info);
- 
- 	/*
- 	 * Note: by loading the module first we are certain that c->driver
-@@ -88,7 +88,7 @@ struct v4l2_subdev
- 	 * want to use the i2c device, so explicitly loading the module
- 	 * is the best alternative.
- 	 */
--	if (!client || !client->dev.driver)
-+	if (!i2c_client_has_driver(client))
- 		goto error;
- 
- 	/* Lock the module so we can safely get the v4l2_subdev pointer */
-@@ -110,7 +110,7 @@ struct v4l2_subdev
- 	 * If we have a client but no subdev, then something went wrong and
- 	 * we must unregister the client.
- 	 */
--	if (client && !sd)
-+	if (!IS_ERR(client) && !sd)
- 		i2c_unregister_device(client);
- 	return sd;
- }
+ 	if (copy_to_user((void __user *)arg, kdata, out_size) != 0)
 -- 
-2.20.1
+2.24.0
 
