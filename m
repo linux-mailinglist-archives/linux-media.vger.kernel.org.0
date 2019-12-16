@@ -2,168 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F77B12026A
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 11:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54D9212026F
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 11:29:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727297AbfLPK2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 05:28:51 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49241 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727099AbfLPK2v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 05:28:51 -0500
-Received: from [IPv6:2001:983:e9a7:1:319d:6a65:b2d0:e9e9]
- ([IPv6:2001:983:e9a7:1:319d:6a65:b2d0:e9e9])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id gncMiGMZ7TsDegncNitaAo; Mon, 16 Dec 2019 11:28:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1576492128; bh=QPnekEio2eThFzmwX19CtbP8Vk3CElMRXAog+X32YZc=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=nMPFxrJ/YFHqsdP4cNnu+1macDSQfWE+HLP79rXsmms6eLpCN8k0qJEkMHWIFivSJ
-         CvUopW9erOyGwYFnwm/6/ELVQNP570NdFdKv6BJ0vAn1Qda4SfgZmt3GjpH0uC5tDy
-         TVabtbV1AjJQclI7ctF8WfnQuTW88AI0BJHkv3Tf2tUSFJZKNPBFq95HgbQUVLNjcN
-         zSUSQG53h9cz7YMPgm4pCHj1hRFeAgh9//WIG5yAz9UocaiLDvhlX+egyFlY15wpJY
-         VKX9OLmtgVz6w4jacNdfu/11+NNMw1MdUxIWmwJ2SnB2PIzs9AkvdKYUfsjoqkkuW0
-         5kTxNCk+aT3mg==
-Subject: Re: [PATCH v5 6/8] media: v4l2-core: fix v4l2_buffer handling for
- time64 ABI
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        me@zv.io
-References: <20191126161824.337724-1-arnd@arndb.de>
- <20191126161824.337724-7-arnd@arndb.de>
- <09c664fd-87fb-4fac-f104-9afbe7d33aa2@xs4all.nl>
- <CAK8P3a1TvFCJf8t9T1yOXjsp088s9dbEOKLVDPinfwJe2B-27g@mail.gmail.com>
- <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl>
- <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
- <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
- <bfc18778-0777-ad49-619b-39e1b9b536f3@xs4all.nl>
- <CAK8P3a0ZwMgXqjAjh7P8B2BR4THd-rMZM0jt5KvxHtxNF_8Nqw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <064e8099-9b5d-94cc-a69a-0a71cb814cfb@xs4all.nl>
-Date:   Mon, 16 Dec 2019 11:28:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727289AbfLPK31 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 05:29:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48086 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727070AbfLPK30 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 05:29:26 -0500
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CD8D9206CB;
+        Mon, 16 Dec 2019 10:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576492166;
+        bh=h4X6AHfGqH1fcCYhsVZLrhBRQ9DB10RQK53ZRJEGw10=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IvVcuSHVLYGMmXZVmzWjp42//mldx+pzhw6/n2ye4z+xgib3qOgAuff+SDPb42z/R
+         wfXre21OOpLxB2OAOi4I2vyhOQHvnESfd1wKswN24x4L31iE3E04U4ynLnDGD25sbv
+         V042YBfc8kD87odpp3NQW1egVmAu9toKR/kAdgAU=
+Date:   Mon, 16 Dec 2019 11:29:23 +0100
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Chen-Yu Tsai <wens@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 09/14] ARM: dts: sun8i: r40: Add I2C pinmux options
+Message-ID: <20191216102923.nezpk2cqastyfpsd@gilmour.lan>
+References: <20191215165924.28314-1-wens@kernel.org>
+ <20191215165924.28314-10-wens@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a0ZwMgXqjAjh7P8B2BR4THd-rMZM0jt5KvxHtxNF_8Nqw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOCDUoACuLeAN0RcNpJFyKptLoOMQoeUitQXe5r7jp33g/qsigpDCzIIhiL7ei3U0QLm9SGujcz7rAVcA16LMvdS9C5nQt5apaM65nyDMmkyycKW3BC5
- vdUYvtidyJ1y9erJfUxQqPBnToKxZ7OT6TMR1PipPlZIJZSWa0iGRtLeyKcfkf5zzOeJUKUARrRwRxmDw2HN9SXiivcbhe0H5QQainS9/luxovizi4PZkNmn
- FyGb4TZFKJ5cR/9Moenx+KThjNmQ1rcRi50dWr5hXMj+CxFbLNHsoz2G0VpSnE8qJHM3ADUOr8sS1ErdfdxhOks8yDitEOb6ZmSex5Wrgp9G+UulUZkp+5u7
- G2QF1elEEgr0p2QbwpcYbKc7eMqfL3Sho0rOnaoFGGdhfQifLhyoV5/ieGOCewTNm9zUQgja
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6lkmrciahlk4lydl"
+Content-Disposition: inline
+In-Reply-To: <20191215165924.28314-10-wens@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/16/19 10:29 AM, Arnd Bergmann wrote:
-> On Sun, Dec 15, 2019 at 6:26 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Ah, great, that worked, after applying the patch below.
->>
->> Both struct v4l2_buffer32 and v4l2_event32 need to be packed, otherwise you would
->> get an additional 4 bytes since the 64 bit compiler wants to align the 8 byte tv_secs
->> to an 8 byte boundary. But that's not what the i686 compiler does.
-> 
-> Thanks so much for the testing and finding this issue. It would be much more
-> embarrassing to find it later, given that I explained how it's supposed to work
-> in the comment above v4l2_event32 and in the documentation I just submitted
-> but got it wrong anyway ;-)
-> 
->> If I remember correctly, packed is only needed for CONFIG_X86_64.
-> 
-> Correct.
-> 
->> diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
->> index 3bbf47d950e0..c01492cf6160 100644
->> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
->> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
->> @@ -492,7 +492,11 @@ struct v4l2_buffer32 {
->>         __u32                   length;
->>         __u32                   reserved2;
->>         __s32                   request_fd;
->> +#ifdef CONFIG_X86_64
->> +} __attribute__ ((packed));
->> +#else
->>  };
->> +#endif
-> 
-> I would prefer to write it like this instead to avoid the #ifdef, the
-> effect should
-> be the same:
-> 
-> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> @@ -475,8 +475,8 @@ struct v4l2_buffer32 {
->         __u32                   flags;
->         __u32                   field;  /* enum v4l2_field */
->         struct {
-> -               long long       tv_sec;
-> -               long long       tv_usec;
-> +               compat_s64      tv_sec;
-> +               compat_s64      tv_usec;
->         }                       timestamp;
->         struct v4l2_timecode    timecode;
->         __u32                   sequence;
-> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> @@ -1277,7 +1277,10 @@ struct v4l2_event32 {
->         } u;
->         __u32                           pending;
->         __u32                           sequence;
-> -       struct __kernel_timespec        timestamp;
-> +       struct {
-> +               compat_s64              tv_sec;
-> +               compat_s64              tv_usec;
-> +       } timestamp;
->         __u32                           id;
->         __u32                           reserved[8];
->  };
-> 
-> If you agree, I'll push out a modified branch with that version and send out
-> that series to the list again.
 
-That's fine. I did a quick test with this and it looks fine.
+--6lkmrciahlk4lydl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> There is one more complication that I just noticed: The "struct v4l2_buffer32"
-> definition has always been defined in a way that works for i386 user space
-> but is broken for x32 user space. The version I used accidentally fixed x32
-> while breaking i386. With the change above, it's back to missing x32 support
-> (so nothing changed).
-> 
-> There is no way to fix the uapi definition of v4l2_buffer to have x32 and i386
-> use the same format, because applications may be using old headers, but
-> I suppose I could add yet another version of the struct to correctly deal with
-> x32, or just add a comment like
-> 
-> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> @@ -468,6 +468,10 @@ struct v4l2_plane32 {
->         __u32                   reserved[11];
->  };
-> 
-> +/*
-> + * This is correct for all architectures including i386, but not x32,
-> + * which has different alignment requirements for timestamp
-> + */
->  struct v4l2_buffer32 {
->         __u32                   index;
->         __u32                   type;   /* enum v4l2_buf_type */
-> 
-> 
->       Arnd
-> 
+On Mon, Dec 16, 2019 at 12:59:19AM +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> The R40 has five I2C controllers. Currently only I2C0 has its pinmux
+> option defined.
+>
+> Add the options for the remaining four, and set them as the default,
+> since each controller has only one possible pinmux configuration.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-Go with a comment. We've never tested with x32 to be honest. There were discussions
-about a year ago of dropping x32 altogether, but that hasn't happened yet.
+Applied, thanks!
+Maxime
 
-Regards,
+--6lkmrciahlk4lydl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	Hans
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfdcgwAKCRDj7w1vZxhR
+xaLdAP9tc7Nm4GYFEAyZVooyptZNGjG4NOL1T9S7EiBgQ3Pz1AEAtO6crXWEEVFr
+ich4eYyroylJ+xW31k+yFo8klXVkSwg=
+=rMnm
+-----END PGP SIGNATURE-----
+
+--6lkmrciahlk4lydl--
