@@ -2,185 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3051203DC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 12:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5020C120549
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 13:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727210AbfLPL0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 06:26:08 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:33834 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727138AbfLPL0I (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 06:26:08 -0500
-Received: by mail-io1-f66.google.com with SMTP id z193so2950303iof.1;
-        Mon, 16 Dec 2019 03:26:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ELdUONa2ckCb0g92cQe783L5naGON8kZrHYJoYPRMio=;
-        b=XBw5mkBv5ooaIsqGbE/cYqaQZopWtsnyWp6M617AWWh5EAZRLDoGG7nM31k9DZxZr+
-         64gNmCWVlfSEpNVqKyVBxZxhTcuyeP3UW87f8jFHFY6k0mBGKUZ4u+kk10mWnx2Qd7c6
-         xgE3CV7k/tuBGO5qu8fWnKevQpN646HSqPYYfIaPQAVdzmCNA0oBBvMMMfixRqoZf0AN
-         cJilQ7FxTREx4MO73wx1hOMnnRffWlZeMRo5h/kcwbAMx4IrhuxK5HS/eyb6XtiQUfe+
-         uBCeo9VO8HdqE11wzfbLab9U9AQct9YErpfo6OyKRS/OWSs5F3xuOsOYI8zKyfIZLNaq
-         e/qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ELdUONa2ckCb0g92cQe783L5naGON8kZrHYJoYPRMio=;
-        b=qw6ogCaTDf22q/iQX/T+kFMmkJ0XpaYTf6akgwEfIRn7gAwclqXXRDPXdo4o21aRnX
-         6v/4vsNezkl2D24gt81NUX3BVFo2JKkx//KdGBd/WeHiRwzVGENnXi+ddNjteRJOIPO6
-         C5fjHqnKm1HnJRCqzqrMgcySRANW54noiif7ksdyR2GXoK+8kN8JUuKKBIS5kJIcS3U9
-         wjV3N26gUL9OwEp6CslwFuygI/E/6JCPhcVFcb2lUyo5APEDrHuBUpdFxd90UBWoaLY8
-         R3YZEF25Xmn55hpfriBDXPif9V8atgEsSqhUbeJd0ilj6KjUCP4of76g5I47ryu8pb2v
-         B5Dg==
-X-Gm-Message-State: APjAAAVUmW40BdT284IjR8Z2GU4TMEVXj5Izh/u6DUgK4M8A/Ra81koi
-        orzwAdAkaUvBDiO79u2gWgrrI1yXPXrbfwFHsUg=
-X-Google-Smtp-Source: APXvYqyA11cuClnOLO4oeV+SgFJThguY0x2zlrGH9RqOy9cyEprbnVIl37fc0V3tC5HMMwCWqY47vjyKEZER/AJjSDQ=
-X-Received: by 2002:a5e:8505:: with SMTP id i5mr17060768ioj.158.1576495567012;
- Mon, 16 Dec 2019 03:26:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20191025190723.21105-1-aford173@gmail.com>
-In-Reply-To: <20191025190723.21105-1-aford173@gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 16 Dec 2019 05:25:55 -0600
-Message-ID: <CAHCN7xJZ2oF-vV87RVygLrcDU5tAee5M+btn+m3gHOewHjmv0Q@mail.gmail.com>
-Subject: Re: [PATCH] media: ov5640: Put max framerate into table and simplify check
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
+        id S1727495AbfLPMQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 07:16:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38716 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727316AbfLPMQ5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 07:16:57 -0500
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4A8C3206CB;
+        Mon, 16 Dec 2019 12:16:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576498617;
+        bh=y3xrqwndnHqBmt8OZzbLzXuw772VMZ49R/W5r6PEWvE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=w67PQUfZe3869rj6TQCOzn3NQLjLbEmBaZAB2QQgE4KmK3kzuDSuXm5bYtSRc9Dmx
+         ve75LPFaZO2PfrlosWyX0XhcHp2QjPAKE2UqfLce6Pq+SfZup9QCOq8/b9vGsPd6Vl
+         01ynwYiYt5S1uNtIu15+fcYr0pCfrQgJgbhv0cxc=
+Date:   Mon, 16 Dec 2019 12:16:52 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        andreyknvl@google.com, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
+Subject: Re: [PATCH RESEND RESEND] media: uvc: Avoid cyclic entity chains due
+ to malformed USB descriptors
+Message-ID: <20191216121651.GA12947@willie-the-truck>
+References: <20191108154838.21487-1-will@kernel.org>
+ <20191108155503.GB15731@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191108155503.GB15731@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 2:07 PM Adam Ford <aford173@gmail.com> wrote:
->
-> Currently the various modes are placed into a table, but when
-> ov5640_find_mode is called, it has to double check whether
-> or not the requested framerate is tolerated by the mode.
-> The determination is based on checking hact, vact, and frame rate.
->
-> Only 640x480 is allowed at 60fps and QSXGA is limited to 15fps, but
-> as the number of permitted frame rates change, this will begin to
-> add more and more complexity to the check.
->
-> This patch simplifies the check by adding the max framerate
-> allowed for each mode into the table of modes.  It then compares
-> the requested framerate to the max permitted in the mode's table.
-> This reduces the number of comparisions to one down from three
-> at run-time.
+Hi Laurent,
 
-Gentle nudge on this patch.  It's been nearly two months without any feedback.
-There were some fixes backported to stable kernels which will get ugly
-as this drivers gets more mature and as framerates start to increase.
+On Fri, Nov 08, 2019 at 05:55:03PM +0200, Laurent Pinchart wrote:
+> Thank you for the patch.
+> 
+> I'm sorry for the delay, and will have to ask you to be a bit more
+> patient I'm afraid. I will leave tomorrow for a week without computer
+> access and will only be able to go through my backlog when I will be
+> back on the 17th.
 
-This patch should simplify the check by adding the max frame rate to
-the table and then only having to do to one check later.
+Gentle reminder on this, now you've been back a month ;)
 
-adam
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
->
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 5e495c833d32..19e10c59860b 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -189,6 +189,7 @@ struct ov5640_mode_info {
->         u32 vtot;
->         const struct reg_value *reg_data;
->         u32 reg_data_size;
-> +       u32 max_fps;
->  };
->
->  struct ov5640_ctrls {
-> @@ -544,6 +545,7 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
->         0, SUBSAMPLING, 640, 1896, 480, 984,
->         ov5640_init_setting_30fps_VGA,
->         ARRAY_SIZE(ov5640_init_setting_30fps_VGA),
-> +       OV5640_30_FPS,
->  };
->
->  static const struct ov5640_mode_info
-> @@ -551,39 +553,48 @@ ov5640_mode_data[OV5640_NUM_MODES] = {
->         {OV5640_MODE_QCIF_176_144, SUBSAMPLING,
->          176, 1896, 144, 984,
->          ov5640_setting_QCIF_176_144,
-> -        ARRAY_SIZE(ov5640_setting_QCIF_176_144)},
-> +        ARRAY_SIZE(ov5640_setting_QCIF_176_144),
-> +        OV5640_30_FPS},
->         {OV5640_MODE_QVGA_320_240, SUBSAMPLING,
->          320, 1896, 240, 984,
->          ov5640_setting_QVGA_320_240,
-> -        ARRAY_SIZE(ov5640_setting_QVGA_320_240)},
-> +        ARRAY_SIZE(ov5640_setting_QVGA_320_240),
-> +        OV5640_30_FPS},
->         {OV5640_MODE_VGA_640_480, SUBSAMPLING,
->          640, 1896, 480, 1080,
->          ov5640_setting_VGA_640_480,
-> -        ARRAY_SIZE(ov5640_setting_VGA_640_480)},
-> +        ARRAY_SIZE(ov5640_setting_VGA_640_480),
-> +        OV5640_60_FPS},
->         {OV5640_MODE_NTSC_720_480, SUBSAMPLING,
->          720, 1896, 480, 984,
->          ov5640_setting_NTSC_720_480,
-> -        ARRAY_SIZE(ov5640_setting_NTSC_720_480)},
-> +        ARRAY_SIZE(ov5640_setting_NTSC_720_480),
-> +       OV5640_30_FPS},
->         {OV5640_MODE_PAL_720_576, SUBSAMPLING,
->          720, 1896, 576, 984,
->          ov5640_setting_PAL_720_576,
-> -        ARRAY_SIZE(ov5640_setting_PAL_720_576)},
-> +        ARRAY_SIZE(ov5640_setting_PAL_720_576),
-> +        OV5640_30_FPS},
->         {OV5640_MODE_XGA_1024_768, SUBSAMPLING,
->          1024, 1896, 768, 1080,
->          ov5640_setting_XGA_1024_768,
-> -        ARRAY_SIZE(ov5640_setting_XGA_1024_768)},
-> +        ARRAY_SIZE(ov5640_setting_XGA_1024_768),
-> +        OV5640_30_FPS},
->         {OV5640_MODE_720P_1280_720, SUBSAMPLING,
->          1280, 1892, 720, 740,
->          ov5640_setting_720P_1280_720,
-> -        ARRAY_SIZE(ov5640_setting_720P_1280_720)},
-> +        ARRAY_SIZE(ov5640_setting_720P_1280_720),
-> +        OV5640_30_FPS},
->         {OV5640_MODE_1080P_1920_1080, SCALING,
->          1920, 2500, 1080, 1120,
->          ov5640_setting_1080P_1920_1080,
-> -        ARRAY_SIZE(ov5640_setting_1080P_1920_1080)},
-> +        ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
-> +        OV5640_30_FPS},
->         {OV5640_MODE_QSXGA_2592_1944, SCALING,
->          2592, 2844, 1944, 1968,
->          ov5640_setting_QSXGA_2592_1944,
-> -        ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944)},
-> +        ARRAY_SIZE(ov5640_setting_QSXGA_2592_1944),
-> +        OV5640_15_FPS},
->  };
->
->  static int ov5640_init_slave_id(struct ov5640_dev *sensor)
-> @@ -1606,14 +1617,8 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
->             (!nearest && (mode->hact != width || mode->vact != height)))
->                 return NULL;
->
-> -       /* Only 640x480 can operate at 60fps (for now) */
-> -       if (fr == OV5640_60_FPS &&
-> -           !(mode->hact == 640 && mode->vact == 480))
-> -               return NULL;
-> -
-> -       /* 2592x1944 only works at 15fps max */
-> -       if ((mode->hact == 2592 && mode->vact == 1944) &&
-> -           fr > OV5640_15_FPS)
-> +       /* Check to see if the current mode exceeds the max frame rate */
-> +       if (ov5640_framerates[fr] > ov5640_framerates[mode->max_fps])
->                 return NULL;
->
->         return mode;
-> --
-> 2.17.1
->
+Will
