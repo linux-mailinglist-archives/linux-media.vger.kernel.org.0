@@ -2,95 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 991E31205B9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 13:30:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD26120665
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 13:55:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727804AbfLPMaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 07:30:14 -0500
-Received: from sauhun.de ([88.99.104.3]:39774 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727697AbfLPM3v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 07:29:51 -0500
-Received: from localhost (p54B33297.dip0.t-ipconnect.de [84.179.50.151])
-        by pokefinder.org (Postfix) with ESMTPSA id 8F1CC2C2D9E;
-        Mon, 16 Dec 2019 13:29:49 +0100 (CET)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sean Young <sean@mess.org>,
-        Andy Walls <awalls@md.metrocast.net>,
+        id S1727674AbfLPMyA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 07:54:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39022 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727550AbfLPMx7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 07:53:59 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 29D62AFAF;
+        Mon, 16 Dec 2019 12:53:55 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 69B531E0B2E; Mon, 16 Dec 2019 13:53:53 +0100 (CET)
+Date:   Mon, 16 Dec 2019 13:53:53 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] media: pci: ivtv: convert to i2c_new_scanned_device
-Date:   Mon, 16 Dec 2019 13:29:45 +0100
-Message-Id: <20191216122946.3495-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191216122946.3495-1-wsa+renesas@sang-engineering.com>
-References: <20191216122946.3495-1-wsa+renesas@sang-engineering.com>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Subject: Re: [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
+Message-ID: <20191216125353.GF22157@quack2.suse.cz>
+References: <20191212101741.GD10065@quack2.suse.cz>
+ <20191214032617.1670759-1-jhubbard@nvidia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191214032617.1670759-1-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move from the deprecated i2c_new_probed_device() to the new
-i2c_new_scanned_device(). Make use of the new ERRPTR if suitable. Change
-the legacy function to simply return void because the retval was never
-used anywhere.
+On Fri 13-12-19 19:26:17, John Hubbard wrote:
+> Add tracking of pages that were pinned via FOLL_PIN.
+> 
+> As mentioned in the FOLL_PIN documentation, callers who effectively set
+> FOLL_PIN are required to ultimately free such pages via unpin_user_page().
+> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
+> for DIO and/or RDMA use".
+> 
+> Pages that have been pinned via FOLL_PIN are identifiable via a
+> new function call:
+> 
+>    bool page_dma_pinned(struct page *page);
+> 
+> What to do in response to encountering such a page, is left to later
+> patchsets. There is discussion about this in [1], [2], and [3].
+> 
+> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
+> 
+> [1] Some slow progress on get_user_pages() (Apr 2, 2019):
+>     https://lwn.net/Articles/784574/
+> [2] DMA and get_user_pages() (LPC: Dec 12, 2018):
+>     https://lwn.net/Articles/774411/
+> [3] The trouble with get_user_pages() (Apr 30, 2018):
+>     https://lwn.net/Articles/753027/
+> 
+> Suggested-by: Jan Kara <jack@suse.cz>
+> Suggested-by: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+> 
+> Hi Jan,
+> 
+> This should address all of your comments for patch 23!
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Acked-by: Sean Young <sean@mess.org>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-Build tested only.
+Thanks. One comment below:
 
- drivers/media/pci/ivtv/ivtv-i2c.c | 6 +++---
- drivers/media/pci/ivtv/ivtv-i2c.h | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+> @@ -1486,6 +1500,10 @@ struct page *follow_trans_huge_pmd(struct vm_area_struct *vma,
+>  	VM_BUG_ON_PAGE(!PageHead(page) && !is_zone_device_page(page), page);
+>  	if (flags & FOLL_TOUCH)
+>  		touch_pmd(vma, addr, pmd, flags);
+> +
+> +	if (!try_grab_page(page, flags))
+> +		return ERR_PTR(-ENOMEM);
+> +
+>  	if ((flags & FOLL_MLOCK) && (vma->vm_flags & VM_LOCKED)) {
+>  		/*
+>  		 * We don't mlock() pte-mapped THPs. This way we can avoid
 
-diff --git a/drivers/media/pci/ivtv/ivtv-i2c.c b/drivers/media/pci/ivtv/ivtv-i2c.c
-index 0772d757a389..982045c4eea8 100644
---- a/drivers/media/pci/ivtv/ivtv-i2c.c
-+++ b/drivers/media/pci/ivtv/ivtv-i2c.c
-@@ -208,12 +208,12 @@ static int ivtv_i2c_new_ir(struct ivtv *itv, u32 hw, const char *type, u8 addr)
- 	info.platform_data = init_data;
- 	strscpy(info.type, type, I2C_NAME_SIZE);
- 
--	return i2c_new_probed_device(adap, &info, addr_list, NULL) == NULL ?
-+	return IS_ERR(i2c_new_scanned_device(adap, &info, addr_list, NULL)) ?
- 	       -1 : 0;
- }
- 
- /* Instantiate the IR receiver device using probing -- undesirable */
--struct i2c_client *ivtv_i2c_new_ir_legacy(struct ivtv *itv)
-+void ivtv_i2c_new_ir_legacy(struct ivtv *itv)
- {
- 	struct i2c_board_info info;
- 	/*
-@@ -235,7 +235,7 @@ struct i2c_client *ivtv_i2c_new_ir_legacy(struct ivtv *itv)
- 
- 	memset(&info, 0, sizeof(struct i2c_board_info));
- 	strscpy(info.type, "ir_video", I2C_NAME_SIZE);
--	return i2c_new_probed_device(&itv->i2c_adap, &info, addr_list, NULL);
-+	i2c_new_scanned_device(&itv->i2c_adap, &info, addr_list, NULL);
- }
- 
- int ivtv_i2c_register(struct ivtv *itv, unsigned idx)
-diff --git a/drivers/media/pci/ivtv/ivtv-i2c.h b/drivers/media/pci/ivtv/ivtv-i2c.h
-index 462f73449a6e..2d9cdaa682c5 100644
---- a/drivers/media/pci/ivtv/ivtv-i2c.h
-+++ b/drivers/media/pci/ivtv/ivtv-i2c.h
-@@ -9,7 +9,7 @@
- #ifndef IVTV_I2C_H
- #define IVTV_I2C_H
- 
--struct i2c_client *ivtv_i2c_new_ir_legacy(struct ivtv *itv);
-+void ivtv_i2c_new_ir_legacy(struct ivtv *itv);
- int ivtv_i2c_register(struct ivtv *itv, unsigned idx);
- struct v4l2_subdev *ivtv_find_hw(struct ivtv *itv, u32 hw);
- 
+I'd move this still a bit higher - just after VM_BUG_ON_PAGE() and before
+if (flags & FOLL_TOUCH) test. Because touch_pmd() can update page tables
+and we don't won't that if we're going to fail the fault.
+
+With this fixed, the patch looks good to me so you can then add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
 -- 
-2.20.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
