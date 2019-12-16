@@ -2,64 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B730120770
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AE5B12075B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 14:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727924AbfLPNnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 08:43:06 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:48610 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727807AbfLPNnG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 08:43:06 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id A6562513F75AAEF470C6;
-        Mon, 16 Dec 2019 21:43:00 +0800 (CST)
-Received: from linux-ibm.site (10.175.102.37) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 16 Dec 2019 21:42:53 +0800
-From:   zhong jiang <zhongjiang@huawei.com>
-To:     <afd@ti.com>, <sumit.semwal@linaro.org>,
-        <benjamin.gaignard@linaro.org>
-CC:     <labbott@redhat.com>, <Brian.Starkey@arm.com>,
-        <john.stultz@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <zhongjiang@huawei.com>
-Subject: [PATCH v2] dma-heap: Make the symbol 'dma_heap_ioctl_cmds' static
-Date:   Mon, 16 Dec 2019 21:38:31 +0800
-Message-ID: <1576503511-27500-1-git-send-email-zhongjiang@huawei.com>
-X-Mailer: git-send-email 1.7.12.4
-In-Reply-To: <c1244a5f-b82a-baee-262a-7241531036ad@ti.com>
-References: <c1244a5f-b82a-baee-262a-7241531036ad@ti.com>
+        id S1727892AbfLPNij (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 08:38:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46848 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727557AbfLPNij (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 08:38:39 -0500
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68705206A5;
+        Mon, 16 Dec 2019 13:38:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576503518;
+        bh=shI0lUnBWDuONPZWYfqSGhPOhXNDA+SfJVRhGbQY6Xw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UttEaSKeMmq7uNC2LPGQ067DE+umu9bQ9JgGGDcjUIl3d40CeYzZFihVV7vaeKa+U
+         XfCAudFleagC55ea2i5XWF84QZer3HDLZc9f1oep55imPczhTnxcbZ1AMYC6o42Acm
+         Ibp/Qt935MDXGb9HDPOFujM1lj2mZrBvdTydBQQI=
+Date:   Mon, 16 Dec 2019 14:38:36 +0100
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Chen-Yu Tsai <wens@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 06/14] media: sun4i-csi: Add support for A10 CSI1 camera
+ sensor interface
+Message-ID: <20191216133836.n4sej7jqhzwxljnl@gilmour.lan>
+References: <20191215165924.28314-1-wens@kernel.org>
+ <20191215165924.28314-7-wens@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.102.37]
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qxmpdqzztr46q3kx"
+Content-Disposition: inline
+In-Reply-To: <20191215165924.28314-7-wens@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following sparse warning.
 
-drivers/dma-buf/dma-heap.c:109:14: warning: symbol 'dma_heap_ioctl_cmds' was not declared. Should it be static?
+--qxmpdqzztr46q3kx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: zhong jiang <zhongjiang@huawei.com>
----
- drivers/dma-buf/dma-heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Dec 16, 2019 at 12:59:16AM +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> The A10/A20 Allwinner SoCs have two camera sensor interface blocks,
+> named CSI0 and CSI1. The two have the same register layouts with
+> slightly different features:
+>
+>   - CSI0 has an image signal processor (ISP); CSI1 doesn't
+>
+>   - CSI0 can support up to four separate channels under CCIR656;
+>     CSI1 can only support one
+>
+>   - CSI0 can support up to 16-bit wide bus with YUV422;
+>     CSI1 can support up to 24-bit wide bus with YUV444
+>
+> For now the driver doesn't support wide busses, nor CCIR656. So the
+> only relevant difference is whether a clock needs to be taken and
+> enabled for the ISP.
+>
+> Add structs to record the differences, tie them to the compatible
+> strings, and deal with the ISP clock. Support for the new CSI1
+> hardware block is added as well.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 4f04d10..da2090e 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -106,7 +106,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
- 	return 0;
- }
- 
--unsigned int dma_heap_ioctl_cmds[] = {
-+static unsigned int dma_heap_ioctl_cmds[] = {
- 	DMA_HEAP_IOC_ALLOC,
- };
- 
--- 
-1.7.12.4
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
+Thanks!
+Maxime
+
+--qxmpdqzztr46q3kx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXfeI3AAKCRDj7w1vZxhR
+xVSBAP9m2gsGlN6svjB7zDFDDm9ZKaScsYn4Qk0eM3z4TyWE/QD/eKqz3SoIImtb
+BN2EcgJHtWC+oJn4pHEYxoCeDYV5IA8=
+=w2qB
+-----END PGP SIGNATURE-----
+
+--qxmpdqzztr46q3kx--
