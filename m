@@ -2,61 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5020C120549
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 13:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9731205C3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 13:30:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727495AbfLPMQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 07:16:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38716 "EHLO mail.kernel.org"
+        id S1727842AbfLPMac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 07:30:32 -0500
+Received: from sauhun.de ([88.99.104.3]:39770 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727316AbfLPMQ5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 07:16:57 -0500
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A8C3206CB;
-        Mon, 16 Dec 2019 12:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576498617;
-        bh=y3xrqwndnHqBmt8OZzbLzXuw772VMZ49R/W5r6PEWvE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=w67PQUfZe3869rj6TQCOzn3NQLjLbEmBaZAB2QQgE4KmK3kzuDSuXm5bYtSRc9Dmx
-         ve75LPFaZO2PfrlosWyX0XhcHp2QjPAKE2UqfLce6Pq+SfZup9QCOq8/b9vGsPd6Vl
-         01ynwYiYt5S1uNtIu15+fcYr0pCfrQgJgbhv0cxc=
-Date:   Mon, 16 Dec 2019 12:16:52 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andreyknvl@google.com, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
-Subject: Re: [PATCH RESEND RESEND] media: uvc: Avoid cyclic entity chains due
- to malformed USB descriptors
-Message-ID: <20191216121651.GA12947@willie-the-truck>
-References: <20191108154838.21487-1-will@kernel.org>
- <20191108155503.GB15731@pendragon.ideasonboard.com>
+        id S1727634AbfLPM3s (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 07:29:48 -0500
+Received: from localhost (p54B33297.dip0.t-ipconnect.de [84.179.50.151])
+        by pokefinder.org (Postfix) with ESMTPSA id 6D1362C2D79;
+        Mon, 16 Dec 2019 13:29:46 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] media: replace i2c_new_probed_device with an ERR_PTR variant
+Date:   Mon, 16 Dec 2019 13:29:40 +0100
+Message-Id: <20191216122946.3495-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191108155503.GB15731@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+In the on-going mission to let i2c_new_* calls return an ERR_PTR instead of
+NULL, here is a series for this subsystem converting i2c_new_probed_device() to
+the newly introduced i2c_new_scanned_device(). Based on v5.5-rc1 and build tested.
+Please apply via your tree.
 
-On Fri, Nov 08, 2019 at 05:55:03PM +0200, Laurent Pinchart wrote:
-> Thank you for the patch.
-> 
-> I'm sorry for the delay, and will have to ask you to be a bit more
-> patient I'm afraid. I will leave tomorrow for a week without computer
-> access and will only be able to go through my backlog when I will be
-> back on the 17th.
+Thanks,
 
-Gentle reminder on this, now you've been back a month ;)
+   Wolfram
 
-Will
+Changes since RFC:
+* changed commit message of cx88 patch to match the change
+  (Thanks Hans!)
+* added acks (Thanks Hans and Sean!)
+* rebased to v5.5-rc1
+
+Wolfram Sang (5):
+  media: pci: cx23885: convert to i2c_new_scanned_device
+  media: pci: cx88: convert to i2c_new_scanned_device
+  media: pci: bt8xx: convert to i2c_new_scanned_device
+  media: pci: cx18: convert to i2c_new_scanned_device
+  media: pci: ivtv: convert to i2c_new_scanned_device
+
+ drivers/media/pci/bt8xx/bttv-input.c    | 6 +++---
+ drivers/media/pci/cx18/cx18-i2c.c       | 2 +-
+ drivers/media/pci/cx23885/cx23885-i2c.c | 4 ++--
+ drivers/media/pci/cx88/cx88-input.c     | 2 +-
+ drivers/media/pci/ivtv/ivtv-i2c.c       | 6 +++---
+ drivers/media/pci/ivtv/ivtv-i2c.h       | 2 +-
+ 6 files changed, 11 insertions(+), 11 deletions(-)
+
+-- 
+2.20.1
+
