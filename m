@@ -2,129 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F265120244
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 11:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F77B12026A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 11:29:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727384AbfLPKWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 05:22:45 -0500
-Received: from mout.web.de ([212.227.17.12]:37281 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727311AbfLPKWp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 05:22:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1576491755;
-        bh=XW4ppRz99iZQYIyfelvMcGJOQPe7rhgDPnBgmb3T10k=;
-        h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
-        b=VxLUt1mVD58vJ48Ow5avfuS0AxqrpnBCVY0EG3C4lEh+v3bn+mEc2mfiUCCFoCzgd
-         Pit328fp7xobq4O2vrTnY8lBoq0gO5sW9VMuVmi+CizUERkRjGeVCZ86O0DHWfE6ud
-         UjxOsQb43NZ9Oq5kUDxo6T9Z0XZNtvWoz+q641Ww=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.3] ([78.48.181.202]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MWj2N-1iDJT60JD9-00XvDk; Mon, 16
- Dec 2019 11:22:35 +0100
-To:     Aditya Pakki <pakki001@umn.edu>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Kangjie Lu <kjlu@umn.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20191215192133.3765-1-pakki001@umn.edu>
-Subject: Re: [PATCH] media: saa7146: Avoid using BUG_ON as an assertion
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <5f75a571-c3f7-4bc1-9f43-a2d0460dab16@web.de>
-Date:   Mon, 16 Dec 2019 11:22:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1727297AbfLPK2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 05:28:51 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49241 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727099AbfLPK2v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 05:28:51 -0500
+Received: from [IPv6:2001:983:e9a7:1:319d:6a65:b2d0:e9e9]
+ ([IPv6:2001:983:e9a7:1:319d:6a65:b2d0:e9e9])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id gncMiGMZ7TsDegncNitaAo; Mon, 16 Dec 2019 11:28:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576492128; bh=QPnekEio2eThFzmwX19CtbP8Vk3CElMRXAog+X32YZc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=nMPFxrJ/YFHqsdP4cNnu+1macDSQfWE+HLP79rXsmms6eLpCN8k0qJEkMHWIFivSJ
+         CvUopW9erOyGwYFnwm/6/ELVQNP570NdFdKv6BJ0vAn1Qda4SfgZmt3GjpH0uC5tDy
+         TVabtbV1AjJQclI7ctF8WfnQuTW88AI0BJHkv3Tf2tUSFJZKNPBFq95HgbQUVLNjcN
+         zSUSQG53h9cz7YMPgm4pCHj1hRFeAgh9//WIG5yAz9UocaiLDvhlX+egyFlY15wpJY
+         VKX9OLmtgVz6w4jacNdfu/11+NNMw1MdUxIWmwJ2SnB2PIzs9AkvdKYUfsjoqkkuW0
+         5kTxNCk+aT3mg==
+Subject: Re: [PATCH v5 6/8] media: v4l2-core: fix v4l2_buffer handling for
+ time64 ABI
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        me@zv.io
+References: <20191126161824.337724-1-arnd@arndb.de>
+ <20191126161824.337724-7-arnd@arndb.de>
+ <09c664fd-87fb-4fac-f104-9afbe7d33aa2@xs4all.nl>
+ <CAK8P3a1TvFCJf8t9T1yOXjsp088s9dbEOKLVDPinfwJe2B-27g@mail.gmail.com>
+ <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl>
+ <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
+ <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
+ <bfc18778-0777-ad49-619b-39e1b9b536f3@xs4all.nl>
+ <CAK8P3a0ZwMgXqjAjh7P8B2BR4THd-rMZM0jt5KvxHtxNF_8Nqw@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <064e8099-9b5d-94cc-a69a-0a71cb814cfb@xs4all.nl>
+Date:   Mon, 16 Dec 2019 11:28:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191215192133.3765-1-pakki001@umn.edu>
+In-Reply-To: <CAK8P3a0ZwMgXqjAjh7P8B2BR4THd-rMZM0jt5KvxHtxNF_8Nqw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:CsfqwkCGjvqZPleVtWehdFpwljyylF/KDrnJoP15AhZZFyQTZQ6
- g9H2oddTC706EjRCOJ/8LP/+lpRdBmR2TdHR2LTSMFf28w3G+D7G6KJ1fgxUe2cr8UTeGpc
- 5j8nLReixiARaXU1Gw6MpTwUXEjmiUdwplHnOkXcU3L5f0LBqERr/pOPACHt0mrf42fPGbg
- rqZW0WqGMLai/ODbFAdyA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sQzsNtfielM=:niL/J81CQspw1wTdi8vFTZ
- vFUZlc/cptixL8s+HB1uSS/pa0TJhqT09ctQcYYAjwat5ljkFm2cdIqU9igAk3b3eHgMFjmmL
- EwsXodhv8M7xCl4MApKH2nM1KfIbN4KAIaT7LB5GeX/alriAfe4+xDctW1N9kdcDMjW/GI5Bc
- MLLvaTsYpAGzYXmsugC8CgpV6YN6GrxvWWnSSBeDQxNOjqpp7NrWNdQETjIEc67J48RKxCj3H
- qZbiilIYgNeGaon9rxn3pPklELaSgT4YZudeNKoVL+wWly2I0CeCg1Bo+IHSfYzfdRiNY+awq
- Jqxd2zFHt5RzqXFDI9n9kkhsF7ZqPUxo4XOndH5YT5SxOKCnhv8BKmAdz9/q/ly96uIoIDubf
- hHxIr0qAFtaIwMHDV7+vB1h8GyrI3l6+xH4yed0iwtzGc3fYXeZKNEkEv4Zzc2qvU/ExEs4E3
- gWpoMqUfzjR81eq/njCMttlZIssM35E45Ja83Pj8+V9RKcPWOzIGKv2uAon8dCytw/1Tv4ojL
- 2Gxgx0Ml6w7lUJUwKn9yDewA7jsgp/jLeTt/9MB1CRQ5yF8F3sRc1mNx/714IuFIS8sKi/CE/
- BrZq2pX/lpYCZE+fEWCmrRr6DG92Na+uApe5I1F+4PULawiv3VX8LSNmUR96y4Y4JWpFVJtua
- RUNgd8XTa/G7/v+Z+YayEL6ZvrrEul/vhvmK4UghIswqyAjnuS4MIz51d8tmVgXWUy25czr1k
- rbWqWU1RZ2viqpAudQszFEzZOPgOU+XofER4RABKY3o+g4yx1zwb3rKOHZerjPmsSb7tRKqUB
- HUkvu+9nx2ezCF4ZeMKpQaBnGy4Wg8wFok8pbejwdz7HBM0fcux13Nc5o+TEw8IVs1iIQFXLh
- BkU6I2urGIHKBJsIsv26MB9joz/xznyKpZi9jFGjCqtCmfsSZNMWnvTiGmoACJzS+kUWVSGxq
- SyFXwcD0nSrZnTI+UyesHDraa4n82h2IcisSXoOKt38G/JrwEeDDK3xIcpbK5jLmCkURC91Fw
- VSAGXNRgBA4wuFcsd/zvQUEkupRyb2wuWDADYKb9KDSrj9PTeCqkysKv3Ork+qu6dRytlsNMM
- xzGppCq1midN1NsVJ0XfuraqTB9kq/m7RC5wQ55zNNHuWea8jjq08KGseo7isnOysO5Umk22M
- Hqz5iuYNzK01bLupn6QglAWnu1dVKXm/9QP+h3B6qI5/1bUVipUD2vNSX5kxuB/tTcjRLKlrx
- eRmZftdOpuFa+YODOt3CQZxO1noGAd8b239upY2J4So/uonzPIbom/89C0dU=
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOCDUoACuLeAN0RcNpJFyKptLoOMQoeUitQXe5r7jp33g/qsigpDCzIIhiL7ei3U0QLm9SGujcz7rAVcA16LMvdS9C5nQt5apaM65nyDMmkyycKW3BC5
+ vdUYvtidyJ1y9erJfUxQqPBnToKxZ7OT6TMR1PipPlZIJZSWa0iGRtLeyKcfkf5zzOeJUKUARrRwRxmDw2HN9SXiivcbhe0H5QQainS9/luxovizi4PZkNmn
+ FyGb4TZFKJ5cR/9Moenx+KThjNmQ1rcRi50dWr5hXMj+CxFbLNHsoz2G0VpSnE8qJHM3ADUOr8sS1ErdfdxhOks8yDitEOb6ZmSex5Wrgp9G+UulUZkp+5u7
+ G2QF1elEEgr0p2QbwpcYbKc7eMqfL3Sho0rOnaoFGGdhfQifLhyoV5/ieGOCewTNm9zUQgja
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-=E2=80=A6
-> +++ b/drivers/media/common/saa7146/saa7146_video.c
-@@ -345,7 +345,8 @@ static int video_begin(struct saa7146_fh *fh)
-=E2=80=A6
--	BUG_ON(NULL =3D=3D fmt);
-+	if (NULL =3D=3D fmt)
-=E2=80=A6
+On 12/16/19 10:29 AM, Arnd Bergmann wrote:
+> On Sun, Dec 15, 2019 at 6:26 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> Ah, great, that worked, after applying the patch below.
+>>
+>> Both struct v4l2_buffer32 and v4l2_event32 need to be packed, otherwise you would
+>> get an additional 4 bytes since the 64 bit compiler wants to align the 8 byte tv_secs
+>> to an 8 byte boundary. But that's not what the i686 compiler does.
+> 
+> Thanks so much for the testing and finding this issue. It would be much more
+> embarrassing to find it later, given that I explained how it's supposed to work
+> in the comment above v4l2_event32 and in the documentation I just submitted
+> but got it wrong anyway ;-)
+> 
+>> If I remember correctly, packed is only needed for CONFIG_X86_64.
+> 
+> Correct.
+> 
+>> diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+>> index 3bbf47d950e0..c01492cf6160 100644
+>> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+>> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+>> @@ -492,7 +492,11 @@ struct v4l2_buffer32 {
+>>         __u32                   length;
+>>         __u32                   reserved2;
+>>         __s32                   request_fd;
+>> +#ifdef CONFIG_X86_64
+>> +} __attribute__ ((packed));
+>> +#else
+>>  };
+>> +#endif
+> 
+> I would prefer to write it like this instead to avoid the #ifdef, the
+> effect should
+> be the same:
+> 
+> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> @@ -475,8 +475,8 @@ struct v4l2_buffer32 {
+>         __u32                   flags;
+>         __u32                   field;  /* enum v4l2_field */
+>         struct {
+> -               long long       tv_sec;
+> -               long long       tv_usec;
+> +               compat_s64      tv_sec;
+> +               compat_s64      tv_usec;
+>         }                       timestamp;
+>         struct v4l2_timecode    timecode;
+>         __u32                   sequence;
+> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> @@ -1277,7 +1277,10 @@ struct v4l2_event32 {
+>         } u;
+>         __u32                           pending;
+>         __u32                           sequence;
+> -       struct __kernel_timespec        timestamp;
+> +       struct {
+> +               compat_s64              tv_sec;
+> +               compat_s64              tv_usec;
+> +       } timestamp;
+>         __u32                           id;
+>         __u32                           reserved[8];
+>  };
+> 
+> If you agree, I'll push out a modified branch with that version and send out
+> that series to the list again.
 
-Would you like to express a null pointer check in a succinct way?
+That's fine. I did a quick test with this and it looks fine.
 
-+	if (!fmt)
+> 
+> There is one more complication that I just noticed: The "struct v4l2_buffer32"
+> definition has always been defined in a way that works for i386 user space
+> but is broken for x32 user space. The version I used accidentally fixed x32
+> while breaking i386. With the change above, it's back to missing x32 support
+> (so nothing changed).
+> 
+> There is no way to fix the uapi definition of v4l2_buffer to have x32 and i386
+> use the same format, because applications may be using old headers, but
+> I suppose I could add yet another version of the struct to correctly deal with
+> x32, or just add a comment like
+> 
+> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> @@ -468,6 +468,10 @@ struct v4l2_plane32 {
+>         __u32                   reserved[11];
+>  };
+> 
+> +/*
+> + * This is correct for all architectures including i386, but not x32,
+> + * which has different alignment requirements for timestamp
+> + */
+>  struct v4l2_buffer32 {
+>         __u32                   index;
+>         __u32                   type;   /* enum v4l2_buf_type */
+> 
+> 
+>       Arnd
+> 
 
-
-Will the tag =E2=80=9CFixes=E2=80=9D become helpful for the change descrip=
-tion?
+Go with a comment. We've never tested with x32 to be honest. There were discussions
+about a year ago of dropping x32 altogether, but that hasn't happened yet.
 
 Regards,
-Markus
+
+	Hans
