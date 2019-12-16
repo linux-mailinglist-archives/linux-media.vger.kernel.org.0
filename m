@@ -2,220 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6317711FF4F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 09:03:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 498EB11FF6A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 09:09:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfLPIDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 03:03:47 -0500
-Received: from aer-iport-4.cisco.com ([173.38.203.54]:23637 "EHLO
-        aer-iport-4.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726692AbfLPIDr (ORCPT
+        id S1726742AbfLPIJe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 03:09:34 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:33006 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726730AbfLPIJe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 03:03:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=6007; q=dns/txt; s=iport;
-  t=1576483424; x=1577693024;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Xn5LvvjxldzR9DoYKqUEM3A+BawUQJPVCHOD/pwzZiM=;
-  b=Xl4LMZbt52ACiuBB7aCxWsFJUGxyN3tFmfSYK4mfw/UBAcrIVMgPT1Iu
-   XvUt8P9zR2xGHn0nCklarUpDGwILcZbvq7ckKlTKBjWBRVdzPze2tclXu
-   GzDN2BJZ4dModQkBKOd0v/q2fTN4nJ8UGkeqblg8kRaG72uP4wqosTJ33
-   Y=;
-X-IronPort-AV: E=Sophos;i="5.69,321,1571702400"; 
-   d="scan'208";a="20375986"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com) ([173.38.203.22])
-  by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 16 Dec 2019 08:03:43 +0000
-Received: from BWintherLinux.rd.cisco.com ([10.47.77.148])
-        by aer-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id xBG83gKF003549;
-        Mon, 16 Dec 2019 08:03:42 GMT
-From:   bwinther@cisco.com
-To:     linux-media@vger.kernel.org
-Cc:     =?UTF-8?q?B=C3=A5rd=20Eirik=20Winther?= <bwinther@cisco.com>
-Subject: [PATCH v2] qvidcap: Add stride option to command line
-Date:   Mon, 16 Dec 2019 09:03:48 +0100
-Message-Id: <20191216080348.6600-1-bwinther@cisco.com>
-X-Mailer: git-send-email 2.20.1
+        Mon, 16 Dec 2019 03:09:34 -0500
+Received: by mail-ed1-f66.google.com with SMTP id r21so4290349edq.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Dec 2019 00:09:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FXBJjgBpQIqOlKcHGWsOidr5Zv5TRZ2+IRButCzdYM8=;
+        b=mScIwG6gsx6C4WvdHtw+bjisFPpxtNH0zfst8/CppopdzWfg5RhQ5EvCHrjsXEudnJ
+         DsRcDxjya5MaaxiU6zwcfn8zq1vTOYNzhoOWQAODxkdnJxSGafuCYRQDxDq0tj5NZEky
+         CSQk1IqrYlHXAwDItgPrZZsxTb15oi4aBdlic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FXBJjgBpQIqOlKcHGWsOidr5Zv5TRZ2+IRButCzdYM8=;
+        b=ujEzSB156qEISS9CxRO0pz62yIEa3FzPpeHQewb/O2h9uPto91vdVVic8cmvqmG4Dl
+         ZIoRMmVkQQ5J4X4ITU2DznZxB652JmjulfTpnO5oFEyXV53jaMvuPf+RlFJptm+n0Nmt
+         Xe8gT+n1GRn/dQhMRWmShPUt/Bp4Yjj1OlJ8e1azarpOhjSB9Eqi2ZsXMVLXv5tfsuC6
+         d+eCkFIW24lxpPSoyPPMLf2jYdGOUXtzEddv4h+uFdVoRuHMrYZ6rQLEGtpxZBk4A+b7
+         5dYScUjftob7jsU0IFViRyeqIeip0RmV+wDpBzFIgGryCHatfj86vwVEI/X7IqCxgfio
+         uEaQ==
+X-Gm-Message-State: APjAAAWYXLf0e9ov/rTSHuVyJhEP2UmpfWhaj18U2IoBCyFP7d+wIRqj
+        yFCxgJzyPMbUO+cNY7STQzB/WWbHih0kTQ==
+X-Google-Smtp-Source: APXvYqykGYAyez/BludVWnlm1gqEEPBsSY5qnjnUPJw8i8cixlveL27f/nneSP0WMkv7ZEnqjUVmxQ==
+X-Received: by 2002:a17:906:c441:: with SMTP id ck1mr32523593ejb.60.1576483771567;
+        Mon, 16 Dec 2019 00:09:31 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id a12sm1087374eje.70.2019.12.16.00.09.30
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Dec 2019 00:09:31 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id y17so6038816wrh.5
+        for <linux-media@vger.kernel.org>; Mon, 16 Dec 2019 00:09:30 -0800 (PST)
+X-Received: by 2002:a5d:49c3:: with SMTP id t3mr28508338wrs.113.1576483769453;
+ Mon, 16 Dec 2019 00:09:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.47.77.148, [10.47.77.148]
-X-Outbound-Node: aer-core-4.cisco.com
+References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
+ <CAD90Vcbr7L2KsyDxPeoKPRt6y_ai8xkJ=J0JCGsW6tGZJGH=0A@mail.gmail.com>
+ <20191120112929.gvsne7ykvcyw65lu@sirius.home.kraxel.org> <7736193.Whgddqjo8n@os-lin-dmo>
+ <CAD90VcbYAhk9CiagSEi=ouNMioR4v71uc40rRHGMe_+wvAm+0g@mail.gmail.com> <20191204091620.zpnd7jttkpkduort@sirius.home.kraxel.org>
+In-Reply-To: <20191204091620.zpnd7jttkpkduort@sirius.home.kraxel.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 16 Dec 2019 17:09:17 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Bs6NnsoOP1NFLREQSLNJs-K33ZvW5ZcdAZTv95WHmPBA@mail.gmail.com>
+Message-ID: <CAAFQd5Bs6NnsoOP1NFLREQSLNJs-K33ZvW5ZcdAZTv95WHmPBA@mail.gmail.com>
+Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        virtio-dev@lists.oasis-open.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bård Eirik Winther <bwinther@cisco.com>
+On Wed, Dec 4, 2019 at 6:16 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+>   Hi,
+>
+> > 1. Focus on only decoder/encoder functionalities first.
+> >
+> > As Tomasz said earlier in this thread, it'd be too complicated to support camera
+> > usage at the same time. So, I'd suggest to make it just a generic mem-to-mem
+> > video processing device protocol for now.
+> > If we finally decide to support camera in this protocol, we can add it later.
+>
+> Agree.
+>
+> > 2. Only one feature bit can be specified for one device.
+> >
+> > I'd like to have a decoder device and encoder device separately.
+> > It'd be natural to assume it because a decoder and an encoder are provided as
+> > different hardware.
+>
+> Hmm, modern GPUs support both encoding and decoding ...
+>
 
-Add new hotkeys Shift+Left and Shift+Right to decrase or increase stride.
+Many SoC architectures have completely separate IP blocks for encoding
+and decoding. Similarly, in GPUs those are usually completely separate
+parts of the pipeline.
 
-Signed-off-by: Bård Eirik Winther <bwinther@cisco.com>
----
- utils/qvidcap/capture.cpp  | 38 ++++++++++++++++++++++++++++++++++----
- utils/qvidcap/capture.h    |  2 ++
- utils/qvidcap/qvidcap.1.in |  3 +++
- utils/qvidcap/qvidcap.cpp  |  6 ++++++
- 4 files changed, 45 insertions(+), 4 deletions(-)
+> I don't think we should bake that restriction into the specification.
+> It probably makes sense to use one virtqueue per function though, that
+> will simplify dispatching in both host and guest.
+>
 
-diff --git a/utils/qvidcap/capture.cpp b/utils/qvidcap/capture.cpp
-index a76dd2b6..6c8536be 100644
---- a/utils/qvidcap/capture.cpp
-+++ b/utils/qvidcap/capture.cpp
-@@ -571,6 +571,7 @@ void CaptureWin::keyPressEvent(QKeyEvent *event)
- {
- 	unsigned w = m_v4l_fmt.g_width();
- 	unsigned h = m_v4l_fmt.g_frame_height();
-+	unsigned p = m_overrideHorPadding;
- 	bool hasShift = event->modifiers() & Qt::ShiftModifier;
- 	bool hasCtrl = event->modifiers() & Qt::ControlModifier;
- 	bool scalingEnabled = m_canOverrideResolution &&
-@@ -587,12 +588,22 @@ void CaptureWin::keyPressEvent(QKeyEvent *event)
- 		if (!m_scrollArea->isFullScreen())
- 			return;
- 	case Qt::Key_Left:
--		if (scalingEnabled && w > 16)
--			w -= 2;
-+		if (hasShift) {
-+			if (scalingEnabled && p >= 2)
-+				p -= 2;
-+		} else {
-+			if (scalingEnabled && w > 16)
-+				w -= 2;
-+		}
- 		break;
- 	case Qt::Key_Right:
--		if (scalingEnabled && w < 10240)
--			w += 2;
-+		if (hasShift) {
-+			if (scalingEnabled && p < 10240)
-+				p += 2;
-+		} else {
-+			if (scalingEnabled && w < 10240)
-+				w += 2;
-+		}
- 		break;
- 	case Qt::Key_Up:
- 		if (scalingEnabled && h > 16)
-@@ -675,6 +686,12 @@ void CaptureWin::keyPressEvent(QKeyEvent *event)
- 			m_scrollArea->resize(w, h);
- 		else
- 			resize(w, h);
-+
-+		if ((w + p) != m_v4l_fmt.g_bytesperline()) {
-+			printf("New horizontal resolution: %u + %u (%u)\n", w, p, w + p);
-+			setOverrideHorPadding(p);
-+			updateShader();
-+		}
- 	}
- }
- 
-@@ -747,6 +764,14 @@ void CaptureWin::setOverrideHeight(__u32 h)
- 		m_resolutionOverride->setChecked(true);
- }
- 
-+void CaptureWin::setOverrideHorPadding(__u32 p)
-+{
-+	m_overrideHorPadding = p;
-+
-+	if (!m_overrideHorPadding && m_canOverrideResolution)
-+		m_resolutionOverride->setChecked(true);
-+}
-+
- void CaptureWin::setModeV4L2(cv4l_fd *fd)
- {
- 	m_mode = AppModeV4L2;
-@@ -953,6 +978,8 @@ bool CaptureWin::setV4LFormat(cv4l_fmt &fmt)
- 	}
- 	if (m_mode == AppModeFile && m_overrideWidth)
- 		fmt.s_width(m_overrideWidth);
-+	if (m_mode == AppModeFile && m_overrideHorPadding)
-+		fmt.s_bytesperline(fmt.g_bytesperline() + m_overrideHorPadding);
- 	if (m_mode == AppModeFile && m_overrideField != 0xffffffff)
- 		fmt.s_field(m_overrideField);
- 	if (m_mode == AppModeFile && m_overrideHeight)
-@@ -1350,6 +1377,9 @@ void CaptureWin::initImageFormat()
- 	tpg_s_quantization(&m_tpg, m_v4l_fmt.g_quantization());
- 	m_v4l_fmt.s_num_planes(tpg_g_buffers(&m_tpg));
- 	for (unsigned p = 0; p < m_v4l_fmt.g_num_planes(); p++) {
-+		if (m_mode == AppModeFile && m_overrideHorPadding)
-+			tpg_s_bytesperline(&m_tpg, p, tpg_g_bytesperline(&m_tpg, p) + m_overrideHorPadding);
-+
- 		m_v4l_fmt.s_bytesperline(tpg_g_bytesperline(&m_tpg, p), p);
- 		m_v4l_fmt.s_sizeimage(tpg_calc_plane_size(&m_tpg, p), p);
- 	}
-diff --git a/utils/qvidcap/capture.h b/utils/qvidcap/capture.h
-index 19e845a8..a6debb47 100644
---- a/utils/qvidcap/capture.h
-+++ b/utils/qvidcap/capture.h
-@@ -82,6 +82,7 @@ public:
- 	bool updateV4LFormat(const cv4l_fmt &fmt);
- 	void setOverrideWidth(__u32 w);
- 	void setOverrideHeight(__u32 h);
-+	void setOverrideHorPadding(__u32 p);
- 	void setCount(unsigned cnt) { m_cnt = cnt; }
- 	void setReportTimings(bool report) { m_reportTimings = report; }
- 	void setVerbose(bool verbose) { m_verbose = verbose; }
-@@ -192,6 +193,7 @@ private:
- 	__u32 m_overridePixelFormat;
- 	__u32 m_overrideWidth;
- 	__u32 m_overrideHeight;
-+	__u32 m_overrideHorPadding;
- 	__u32 m_overrideField;
- 	__u32 m_overrideColorspace;
- 	__u32 m_overrideYCbCrEnc;
-diff --git a/utils/qvidcap/qvidcap.1.in b/utils/qvidcap/qvidcap.1.in
-index d7f4af66..10f6fab2 100644
---- a/utils/qvidcap/qvidcap.1.in
-+++ b/utils/qvidcap/qvidcap.1.in
-@@ -80,6 +80,9 @@ Set width
- \fB\-H,-\-height\fR=\fI<height>\fR
- Set frame (not field!) height
- .TP
-+\fB\-A,-\-padding\fR=\fI<bytes>\fR
-+set additional horizontal padding (after width)
-+.TP
- \fB--fps\fR=\fI<fps>\fR
- Set frames-per-second (default is 30)
- .TP
-diff --git a/utils/qvidcap/qvidcap.cpp b/utils/qvidcap/qvidcap.cpp
-index a8a5905d..5c1356c1 100644
---- a/utils/qvidcap/qvidcap.cpp
-+++ b/utils/qvidcap/qvidcap.cpp
-@@ -72,6 +72,7 @@ static void usage()
- 	       "\n"
- 	       "  -W, --width=<width>      set width\n"
- 	       "  -H, --height=<height>    set frame (not field!) height\n"
-+	       "  -A, --padding=<bytes>    set additional horizontal padding (after width)\n"
- 	       "  --fps=<fps>              set frames-per-second (default is 30)\n"
- 	       "\n"
- 	       "  The following option is only valid when reading from a file:\n"
-@@ -446,6 +447,7 @@ int main(int argc, char **argv)
- 	__u32 overridePixelFormat = 0;
- 	__u32 overrideWidth = 0;
- 	__u32 overrideHeight = 0;
-+	__u32 overrideHorPadding = 0;
- 	__u32 overrideField = 0xffffffff;
- 	__u32 overrideColorspace = 0xffffffff;
- 	__u32 overrideYCbCrEnc = 0xffffffff;
-@@ -516,6 +518,9 @@ int main(int argc, char **argv)
- 		} else if (isOptArg(args[i], "--height", "-H")) {
- 			if (!processOption(args, i, overrideHeight))
- 				return 0;
-+		} else if (isOptArg(args[i], "--padding", "-A")) {
-+			if (!processOption(args, i, overrideHorPadding))
-+				return 0;
- 		} else if (isOptArg(args[i], "--field", "-F")) {
- 			if (!processOption(args, i, s))
- 				return 0;
-@@ -749,6 +754,7 @@ int main(int argc, char **argv)
- 	}
- 	win.setOverrideWidth(overrideWidth);
- 	win.setOverrideHeight(overrideHeight);
-+	win.setOverrideHorPadding(overrideHorPadding);
- 	win.setFps(fps);
- 	win.setFormat(format);
- 	win.setReportTimings(report_timings);
--- 
-2.20.1
+Wouldn't it make the handling easier if we had one virtio device per function?
 
+[snip]
+
+> > > +\begin{lstlisting}
+> > > +enum virtio_video_pixel_format {
+> > > +       VIRTIO_VIDEO_PIX_FMT_UNDEFINED = 0,
+> > > +
+> > > +       VIRTIO_VIDEO_PIX_FMT_H264 = 0x0100,
+> > > +       VIRTIO_VIDEO_PIX_FMT_NV12,
+> > > +       VIRTIO_VIDEO_PIX_FMT_NV21,
+> > > +       VIRTIO_VIDEO_PIX_FMT_I420,
+> > > +       VIRTIO_VIDEO_PIX_FMT_I422,
+> > > +       VIRTIO_VIDEO_PIX_FMT_XBGR,
+> > > +};
+> >
+> > I'm wondering if we can use FOURCC instead. So, we can avoid reinventing a
+> > mapping from formats to integers.
+> > Also, I suppose the word "pixel formats" means only raw (decoded) formats.
+> > But, it can be encoded format like H.264. So, I guess "image format" or
+> > "fourcc" is a better word choice.
+>
+> Use separate pixel_format (fourcc) and stream_format (H.264 etc.) enums?
+>
+
+I'd specifically avoid FourCC here, as it's very loosely defined and
+could introduce confusion. A separate enum for "image formats",
+including both  sounds good to me.
+
+> > > +\begin{lstlisting}
+> > > +struct virtio_video_function {
+> > > +       struct virtio_video_desc desc;
+> > > +       __le32 function_type; /* One of VIRTIO_VIDEO_FUNC_* types */
+> > > +       __le32 function_id;
+> > > +       struct virtio_video_params in_params;
+> > > +       struct virtio_video_params out_params;
+> > > +       __le32 num_caps;
+> > > +       __u8 padding[4];
+> > > +       /* Followed by struct virtio_video_capability video_caps[]; */
+> > > +};
+> > > +\end{lstlisting}
+> >
+> > If one device only has one functionality, virtio_video_function's fields will be
+> > no longer needed except in_params and out_params. So, we'd be able to remove
+> > virtio_video_function and have in_params and out_params in
+> > virtio_video_capability instead.
+>
+> Same goes for per-function virtqueues (used virtqueue implies function).
+>
+> > > +\begin{lstlisting}
+> > > +struct virtio_video_resource_detach_backing {
+> > > +       struct virtio_video_ctrl_hdr hdr;
+> > > +       __le32 resource_id;
+> > > +       __u8 padding[4];
+> > > +};
+> > > +\end{lstlisting}
+> > > +
+> > > +\begin{description}
+> > > +\item[\field{resource_id}] internal id of the resource.
+> > > +\end{description}
+> >
+> > I suppose that it'd be better not to have the above series of T_RESOURCE
+> > controls at least until we reach a conclusion in the thread of buffer-sharing
+> > device. If we end up concluding this type of controls is the best way, we'll be
+> > able to revisit here.
+>
+> Well.  For buffer management there are a bunch of options.
+>
+>  (1) Simply stick the buffers (well, pointers to the buffer pages) into
+>      the virtqueue.  This is the standard virtio way.
+>
+>  (2) Create resources, then put the resource ids into the virtqueue.
+>      virtio-gpu uses that model.  First, because virtio-gpu needs an id
+>      to reference resources in the rendering command stream
+>      (virtio-video doesn't need this).  Also because (some kinds of)
+>      resources are around for a long time and the guest-physical ->
+>      host-virtual mapping needs to be done only once that way (which
+>      I think would be the case for virtio-video too because v4l2
+>      re-uses buffers in robin-round fashion).  Drawback is this
+>      assumes shared memory between host and guest (which is the case
+>      in typical use cases but it is not mandated by the virtio spec).
+>
+>  (3) Import external resources (from virtio-gpu for example).
+>      Out of scope for now, will probably added as optional feature
+>      later.
+>
+> I guess long-term we want support either (1)+(3) or (2)+(3).
+
+What this protocol has been proposing is a twist of (1), where there
+is a "resource create" call that generates a local "resource ID" for
+the given list of guest pages. I think that's a sane approach, given
+that the number of pages to describe a buffer worth of 4K video would
+be more than 3000. We don't want to send so long lists of pages every
+frame, especially since we normally recycle the buffers.
+
+Best regards,
+Tomasz
