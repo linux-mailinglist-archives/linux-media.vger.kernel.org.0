@@ -2,93 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD6212159D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 19:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66FE21218C1
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 19:46:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732065AbfLPSUX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 13:20:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50370 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732064AbfLPSUW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 13:20:22 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B723E20409;
-        Mon, 16 Dec 2019 18:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576520422;
-        bh=Zt9UsHwhVTa1hLUu0QlnF2a3b8p7cUxQiiGQdtFVePU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nkFqGUApPUZSmtYY0ubGc5kijDJ8pDPuwoH/v/1zUGh6RtW5SOKFwZeoa59HtblWZ
-         9ZIEsP+PPkWbAvUsDqNZKyZhEH67lZVUt2YOPSGJxHxT6TGZlIRf7UWRbMWeNBjn/A
-         6OHsaeLNmSduJ0gspxrlP7Cm7KcpcsbPBFg/iyUA=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, linux-media@vger.kernel.org,
-        Martin Bugge <marbugge@cisco.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>
-Subject: [PATCH 5.4 148/177] video/hdmi: Fix AVI bar unpack
-Date:   Mon, 16 Dec 2019 18:50:04 +0100
-Message-Id: <20191216174847.621564864@linuxfoundation.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191216174811.158424118@linuxfoundation.org>
-References: <20191216174811.158424118@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S1728630AbfLPSqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 13:46:13 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36813 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728203AbfLPR41 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 12:56:27 -0500
+Received: by mail-oi1-f194.google.com with SMTP id c16so3255618oic.3;
+        Mon, 16 Dec 2019 09:56:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NSxjmaL8rqoc8+SB0zsgyZ8fRQmy0mATs46EIZXgEyk=;
+        b=Qgl2b+TMaU7LakVluiTrx/MNWV6P2Cm6yJabsMTMGvoFFRKQVm+OjFJ6CgQBO7vpiI
+         zn5szxT3LbEbR6D6HcZckJKkZzQhyZwBu6wtSyEA6s8QsxQIUXAQ+DAJYCAfmKGjKas+
+         ADAWTJrwGa+an5BPjC33tH+4t5I/5tBOO7qqzqxcWBVS6UvvniXIaU3XGdcD89sVbdn2
+         L+CI7Xukyd0eWTy+3zJeAqlsq+tkdY90Qqziv/+LNjzzrOFYTePOa9agC+XKxFyktjQm
+         EPVajn0YhB4+8A0SyvodES8eHLxiHvbGvifRzprvH0P47HeEzRDyQChwvmc/g0P04LHY
+         WEqg==
+X-Gm-Message-State: APjAAAV43tivx9hOjjQ8YJQ1NH29MVP7LydvwA6geS5Wqnbvby+NeIFB
+        g0DQflpE8BwHuf+S+iHMIrWzbLg=
+X-Google-Smtp-Source: APXvYqyXP65Nz9zaHaZk148ttbC2NvwuE+K2RDevNtaBL+faMyDiMYmBW9qIEqPRu2uHBQ6qq8iWfA==
+X-Received: by 2002:aca:498e:: with SMTP id w136mr146134oia.103.1576518986288;
+        Mon, 16 Dec 2019 09:56:26 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id k5sm6960322oif.24.2019.12.16.09.56.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2019 09:56:25 -0800 (PST)
+Date:   Mon, 16 Dec 2019 11:56:24 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
+        robh+dt@kernel.org, paul.kocialkowski@bootlin.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-imx@nxp.com, s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, leonard.crestez@nxp.com,
+        robert.chiras@nxp.com, laurentiu.palcu@nxp.com,
+        mark.rutland@arm.com, devicetree@vger.kernel.org,
+        p.zabel@pengutronix.de, laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+Subject: Re: [PATCH v3 3/6] media: dt-bindings: Add bindings for i.MX8QXP/QM
+ JPEG driver
+Message-ID: <20191216175624.GA24066@bogus>
+References: <1576238781-5911-1-git-send-email-mirela.rabulea@nxp.com>
+ <1576238781-5911-4-git-send-email-mirela.rabulea@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1576238781-5911-4-git-send-email-mirela.rabulea@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Fri, 13 Dec 2019 14:06:18 +0200, Mirela Rabulea wrote:
+> Add bindings documentation for i.MX8QXP/QM JPEG decoder & encoder driver.
+> 
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> ---
+>  .../devicetree/bindings/media/imx8-jpeg.yaml       | 83 ++++++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/imx8-jpeg.yaml
+> 
 
-commit 6039f37dd6b76641198e290f26b31c475248f567 upstream.
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
-The bar values are little endian, not big endian. The pack
-function did it right but the unpack got it wrong. Fix it.
-
-Cc: stable@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: Martin Bugge <marbugge@cisco.com>
-Cc: Hans Verkuil <hans.verkuil@cisco.com>
-Cc: Thierry Reding <treding@nvidia.com>
-Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
-Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions for InfoFrames")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190919132853.30954-1-ville.syrjala@linux.intel.com
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- drivers/video/hdmi.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -1576,12 +1576,12 @@ static int hdmi_avi_infoframe_unpack(str
- 	if (ptr[0] & 0x10)
- 		frame->active_aspect = ptr[1] & 0xf;
- 	if (ptr[0] & 0x8) {
--		frame->top_bar = (ptr[5] << 8) + ptr[6];
--		frame->bottom_bar = (ptr[7] << 8) + ptr[8];
-+		frame->top_bar = (ptr[6] << 8) | ptr[5];
-+		frame->bottom_bar = (ptr[8] << 8) | ptr[7];
- 	}
- 	if (ptr[0] & 0x4) {
--		frame->left_bar = (ptr[9] << 8) + ptr[10];
--		frame->right_bar = (ptr[11] << 8) + ptr[12];
-+		frame->left_bar = (ptr[10] << 8) | ptr[9];
-+		frame->right_bar = (ptr[12] << 8) | ptr[11];
- 	}
- 	frame->scan_mode = ptr[0] & 0x3;
- 
-
-
+If a tag was not added on purpose, please state why and what changed.
