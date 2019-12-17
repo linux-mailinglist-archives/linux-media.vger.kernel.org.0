@@ -2,198 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D91121EA8
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2019 23:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA6F1221F3
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2019 03:27:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726833AbfLPW5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Dec 2019 17:57:51 -0500
-Received: from iodev.co.uk ([193.29.56.124]:39924 "EHLO iodev.co.uk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726705AbfLPW5v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Dec 2019 17:57:51 -0500
-Date:   Tue, 17 Dec 2019 00:43:17 +0100
-From:   Ismael Luceno <ismael@iodev.co.uk>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     linux-media@vger.kernel.org, alsa-devel@alsa-project.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH for-5.6 14/14] media: Drop superfluous ioctl PCM ops
-Message-ID: <20191216234317.GB32004@pirotess.home>
-References: <20191210135849.15607-1-tiwai@suse.de>
- <20191210135849.15607-15-tiwai@suse.de>
+        id S1726725AbfLQC1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Dec 2019 21:27:02 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:8132 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726716AbfLQC1C (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Dec 2019 21:27:02 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id DF19655929F85BFEED91;
+        Tue, 17 Dec 2019 10:26:56 +0800 (CST)
+Received: from [127.0.0.1] (10.133.219.218) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Tue, 17 Dec 2019
+ 10:26:53 +0800
+Message-ID: <5DF83CEC.5060002@huawei.com>
+Date:   Tue, 17 Dec 2019 10:26:52 +0800
+From:   zhong jiang <zhongjiang@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20120428 Thunderbird/12.0.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191210135849.15607-15-tiwai@suse.de>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+To:     John Stultz <john.stultz@linaro.org>
+CC:     "Andrew F. Davis" <afd@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2] dma-heap: Make the symbol 'dma_heap_ioctl_cmds' static
+References: <c1244a5f-b82a-baee-262a-7241531036ad@ti.com> <1576503511-27500-1-git-send-email-zhongjiang@huawei.com> <CALAqxLWAWc6NZDnixWhmHg6BtGHXTy6pZ6GXM0F=SkoYH8DiQw@mail.gmail.com>
+In-Reply-To: <CALAqxLWAWc6NZDnixWhmHg6BtGHXTy6pZ6GXM0F=SkoYH8DiQw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.133.219.218]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/Dec/2019 14:58, Takashi Iwai wrote:
-> PCM core deals the empty ioctl field now as default.
-> Let's kill the redundant lines.
-> 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
-> Cc: Anton Sviridenko <anton@corp.bluecherry.net>
-> Cc: Andrey Utkin <andrey.utkin@corp.bluecherry.net>
-> Cc: Ismael Luceno <ismael@iodev.co.uk>
-> Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  drivers/media/pci/cx23885/cx23885-alsa.c   | 1 -
->  drivers/media/pci/cx25821/cx25821-alsa.c   | 1 -
->  drivers/media/pci/cx88/cx88-alsa.c         | 1 -
->  drivers/media/pci/saa7134/saa7134-alsa.c   | 1 -
->  drivers/media/pci/solo6x10/solo6x10-g723.c | 1 -
->  drivers/media/pci/tw686x/tw686x-audio.c    | 1 -
->  drivers/media/usb/cx231xx/cx231xx-audio.c  | 1 -
->  drivers/media/usb/em28xx/em28xx-audio.c    | 1 -
->  drivers/media/usb/go7007/snd-go7007.c      | 1 -
->  drivers/media/usb/tm6000/tm6000-alsa.c     | 1 -
->  drivers/media/usb/usbtv/usbtv-audio.c      | 1 -
->  11 files changed, 11 deletions(-)
-> 
-> diff --git a/drivers/media/pci/cx23885/cx23885-alsa.c b/drivers/media/pci/cx23885/cx23885-alsa.c
-> index a8e980c6dacb..df44ed7393a0 100644
-> --- a/drivers/media/pci/cx23885/cx23885-alsa.c
-> +++ b/drivers/media/pci/cx23885/cx23885-alsa.c
-> @@ -495,7 +495,6 @@ static struct page *snd_cx23885_page(struct snd_pcm_substream *substream,
->  static const struct snd_pcm_ops snd_cx23885_pcm_ops = {
->  	.open = snd_cx23885_pcm_open,
->  	.close = snd_cx23885_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.hw_params = snd_cx23885_hw_params,
->  	.hw_free = snd_cx23885_hw_free,
->  	.prepare = snd_cx23885_prepare,
-> diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
-> index c2f2d7c782c7..301616426d8a 100644
-> --- a/drivers/media/pci/cx25821/cx25821-alsa.c
-> +++ b/drivers/media/pci/cx25821/cx25821-alsa.c
-> @@ -639,7 +639,6 @@ static struct page *snd_cx25821_page(struct snd_pcm_substream *substream,
->  static const struct snd_pcm_ops snd_cx25821_pcm_ops = {
->  	.open = snd_cx25821_pcm_open,
->  	.close = snd_cx25821_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.hw_params = snd_cx25821_hw_params,
->  	.hw_free = snd_cx25821_hw_free,
->  	.prepare = snd_cx25821_prepare,
-> diff --git a/drivers/media/pci/cx88/cx88-alsa.c b/drivers/media/pci/cx88/cx88-alsa.c
-> index e1e71ae293ed..7d7aceecc985 100644
-> --- a/drivers/media/pci/cx88/cx88-alsa.c
-> +++ b/drivers/media/pci/cx88/cx88-alsa.c
-> @@ -585,7 +585,6 @@ static struct page *snd_cx88_page(struct snd_pcm_substream *substream,
->  static const struct snd_pcm_ops snd_cx88_pcm_ops = {
->  	.open = snd_cx88_pcm_open,
->  	.close = snd_cx88_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.hw_params = snd_cx88_hw_params,
->  	.hw_free = snd_cx88_hw_free,
->  	.prepare = snd_cx88_prepare,
-> diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
-> index 0385127dd7ff..544ca57eee75 100644
-> --- a/drivers/media/pci/saa7134/saa7134-alsa.c
-> +++ b/drivers/media/pci/saa7134/saa7134-alsa.c
-> @@ -865,7 +865,6 @@ static struct page *snd_card_saa7134_page(struct snd_pcm_substream *substream,
->  static const struct snd_pcm_ops snd_card_saa7134_capture_ops = {
->  	.open =			snd_card_saa7134_capture_open,
->  	.close =		snd_card_saa7134_capture_close,
-> -	.ioctl =		snd_pcm_lib_ioctl,
->  	.hw_params =		snd_card_saa7134_hw_params,
->  	.hw_free =		snd_card_saa7134_hw_free,
->  	.prepare =		snd_card_saa7134_capture_prepare,
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
-> index ca349d447610..d6d16e8fd997 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-g723.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
-> @@ -259,7 +259,6 @@ static int snd_solo_pcm_copy_kernel(struct snd_pcm_substream *ss, int channel,
->  static const struct snd_pcm_ops snd_solo_pcm_ops = {
->  	.open = snd_solo_pcm_open,
->  	.close = snd_solo_pcm_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.prepare = snd_solo_pcm_prepare,
->  	.trigger = snd_solo_pcm_trigger,
->  	.pointer = snd_solo_pcm_pointer,
-> diff --git a/drivers/media/pci/tw686x/tw686x-audio.c b/drivers/media/pci/tw686x/tw686x-audio.c
-> index f5065c72bb28..54144e23a487 100644
-> --- a/drivers/media/pci/tw686x/tw686x-audio.c
-> +++ b/drivers/media/pci/tw686x/tw686x-audio.c
-> @@ -258,7 +258,6 @@ static snd_pcm_uframes_t tw686x_pcm_pointer(struct snd_pcm_substream *ss)
->  static const struct snd_pcm_ops tw686x_pcm_ops = {
->  	.open = tw686x_pcm_open,
->  	.close = tw686x_pcm_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.prepare = tw686x_pcm_prepare,
->  	.trigger = tw686x_pcm_trigger,
->  	.pointer = tw686x_pcm_pointer,
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-audio.c b/drivers/media/usb/cx231xx/cx231xx-audio.c
-> index d46efea53370..de42db6f6ad1 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-audio.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-audio.c
-> @@ -551,7 +551,6 @@ static snd_pcm_uframes_t snd_cx231xx_capture_pointer(struct snd_pcm_substream
->  static const struct snd_pcm_ops snd_cx231xx_pcm_capture = {
->  	.open = snd_cx231xx_capture_open,
->  	.close = snd_cx231xx_pcm_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.prepare = snd_cx231xx_prepare,
->  	.trigger = snd_cx231xx_capture_trigger,
->  	.pointer = snd_cx231xx_capture_pointer,
-> diff --git a/drivers/media/usb/em28xx/em28xx-audio.c b/drivers/media/usb/em28xx/em28xx-audio.c
-> index a5215fb1d36a..6833b5bfe293 100644
-> --- a/drivers/media/usb/em28xx/em28xx-audio.c
-> +++ b/drivers/media/usb/em28xx/em28xx-audio.c
-> @@ -626,7 +626,6 @@ static int em28xx_cvol_new(struct snd_card *card, struct em28xx *dev,
->  static const struct snd_pcm_ops snd_em28xx_pcm_capture = {
->  	.open      = snd_em28xx_capture_open,
->  	.close     = snd_em28xx_pcm_close,
-> -	.ioctl     = snd_pcm_lib_ioctl,
->  	.prepare   = snd_em28xx_prepare,
->  	.trigger   = snd_em28xx_capture_trigger,
->  	.pointer   = snd_em28xx_capture_pointer,
-> diff --git a/drivers/media/usb/go7007/snd-go7007.c b/drivers/media/usb/go7007/snd-go7007.c
-> index 40dbf081ef6b..ae27e988e578 100644
-> --- a/drivers/media/usb/go7007/snd-go7007.c
-> +++ b/drivers/media/usb/go7007/snd-go7007.c
-> @@ -175,7 +175,6 @@ static snd_pcm_uframes_t go7007_snd_pcm_pointer(struct snd_pcm_substream *substr
->  static const struct snd_pcm_ops go7007_snd_capture_ops = {
->  	.open		= go7007_snd_capture_open,
->  	.close		= go7007_snd_capture_close,
-> -	.ioctl		= snd_pcm_lib_ioctl,
->  	.hw_params	= go7007_snd_hw_params,
->  	.hw_free	= go7007_snd_hw_free,
->  	.prepare	= go7007_snd_pcm_prepare,
-> diff --git a/drivers/media/usb/tm6000/tm6000-alsa.c b/drivers/media/usb/tm6000/tm6000-alsa.c
-> index 2bfa5abc1b49..c26a0ff60a64 100644
-> --- a/drivers/media/usb/tm6000/tm6000-alsa.c
-> +++ b/drivers/media/usb/tm6000/tm6000-alsa.c
-> @@ -306,7 +306,6 @@ static snd_pcm_uframes_t snd_tm6000_pointer(struct snd_pcm_substream *substream)
->  static const struct snd_pcm_ops snd_tm6000_pcm_ops = {
->  	.open = snd_tm6000_pcm_open,
->  	.close = snd_tm6000_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.prepare = snd_tm6000_prepare,
->  	.trigger = snd_tm6000_card_trigger,
->  	.pointer = snd_tm6000_pointer,
-> diff --git a/drivers/media/usb/usbtv/usbtv-audio.c b/drivers/media/usb/usbtv/usbtv-audio.c
-> index b27009875758..b57e94fb1977 100644
-> --- a/drivers/media/usb/usbtv/usbtv-audio.c
-> +++ b/drivers/media/usb/usbtv/usbtv-audio.c
-> @@ -312,7 +312,6 @@ static snd_pcm_uframes_t snd_usbtv_pointer(struct snd_pcm_substream *substream)
->  static const struct snd_pcm_ops snd_usbtv_pcm_ops = {
->  	.open = snd_usbtv_pcm_open,
->  	.close = snd_usbtv_pcm_close,
-> -	.ioctl = snd_pcm_lib_ioctl,
->  	.prepare = snd_usbtv_prepare,
->  	.trigger = snd_usbtv_card_trigger,
->  	.pointer = snd_usbtv_pointer,
-> -- 
-> 2.16.4
-> 
+On 2019/12/17 5:13, John Stultz wrote:
+> On Mon, Dec 16, 2019 at 5:43 AM zhong jiang <zhongjiang@huawei.com> wrote:
+>> Fix the following sparse warning.
+>>
+>> drivers/dma-buf/dma-heap.c:109:14: warning: symbol 'dma_heap_ioctl_cmds' was not declared. Should it be static?
+>>
+>> Signed-off-by: zhong jiang <zhongjiang@huawei.com>
+>> ---
+>>  drivers/dma-buf/dma-heap.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+>> index 4f04d10..da2090e 100644
+>> --- a/drivers/dma-buf/dma-heap.c
+>> +++ b/drivers/dma-buf/dma-heap.c
+>> @@ -106,7 +106,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
+>>         return 0;
+>>  }
+>>
+>> -unsigned int dma_heap_ioctl_cmds[] = {
+>> +static unsigned int dma_heap_ioctl_cmds[] = {
+>>         DMA_HEAP_IOC_ALLOC,
+>>  };
+> Acked-by: John Stultz <john.stultz@linaro.org>
+>
+> This patch will collide with Andrew's _IOCTL_ naming change, but its a
+> fairly simple thing to resolve.
+>
+> Sumit: If you're comfortable resolving the collision, please queue
+> with the rest of the recent changes for drm-misc-next.
+> Otherwise, I'm happy to submit the resolution I tested with here
+> afterwards. Let me know.
+As it is an fairly simple patch, I hope you can resolve the issue directly.
 
-Signed-off-by: Ismael Luceno <ismael@iodev.co.uk>
+Thanks,
+zhong jiang
+> thanks
+> -john
+>
+> .
+>
+
+
