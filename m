@@ -2,107 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C985122D17
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2019 14:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 113DC122DCA
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2019 14:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728337AbfLQNjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Dec 2019 08:39:53 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45049 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726164AbfLQNjx (ORCPT
+        id S1728740AbfLQN7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Dec 2019 08:59:51 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:15008 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728539AbfLQN7u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Dec 2019 08:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576589991;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=M5Ll0y0T3AHPX2/5owjoB4bNcgMaPHTd+rCp31Z6XeI=;
-        b=L3ahLs9IlMq7vio3ITLlCF3M+ql/BSXEda/esgoe8WIJy4HFb4ngMUfkFKpSiyKHQkNNGk
-        4zzSgLcxkQ/GtOeeGOsYKeVAyIV941SH8bGM6SpsXoHwuJPiFjkNpKn0qyyce/Zg78PZy7
-        zDRB0aQgdS546DwgIQZ/WSwu42hvhNU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-Fjzg1kUwOhSm_8kPyEb6Gw-1; Tue, 17 Dec 2019 08:39:48 -0500
-X-MC-Unique: Fjzg1kUwOhSm_8kPyEb6Gw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64551593A0;
-        Tue, 17 Dec 2019 13:39:46 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com [10.36.117.39])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DEA4E60C63;
-        Tue, 17 Dec 2019 13:39:45 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 17AA89DA3; Tue, 17 Dec 2019 14:39:45 +0100 (CET)
-Date:   Tue, 17 Dec 2019 14:39:45 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
- specification
-Message-ID: <20191217133945.oxnassyjr6hwtjbf@sirius.home.kraxel.org>
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
- <CAD90Vcbr7L2KsyDxPeoKPRt6y_ai8xkJ=J0JCGsW6tGZJGH=0A@mail.gmail.com>
- <20191120112929.gvsne7ykvcyw65lu@sirius.home.kraxel.org>
- <7736193.Whgddqjo8n@os-lin-dmo>
- <CAD90VcbYAhk9CiagSEi=ouNMioR4v71uc40rRHGMe_+wvAm+0g@mail.gmail.com>
- <20191204091620.zpnd7jttkpkduort@sirius.home.kraxel.org>
- <CAAFQd5Bs6NnsoOP1NFLREQSLNJs-K33ZvW5ZcdAZTv95WHmPBA@mail.gmail.com>
- <20191216103236.ugjorzq5pntc7gtt@sirius.home.kraxel.org>
- <CAAFQd5BN+enTk3-4aUCCB+ZUA+7ZsOP=zndXh4Y=a8faoRk1Pw@mail.gmail.com>
+        Tue, 17 Dec 2019 08:59:50 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5df8df4b0000>; Tue, 17 Dec 2019 05:59:40 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 17 Dec 2019 05:59:49 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 17 Dec 2019 05:59:49 -0800
+Received: from [10.2.165.11] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 17 Dec
+ 2019 13:59:48 +0000
+Subject: Re: [RFC PATCH] mm/gup: try_pin_compound_head() can be static
+To:     kbuild test robot <lkp@intel.com>
+CC:     <kbuild-all@lists.01.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20191211025318.457113-24-jhubbard@nvidia.com>
+ <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <7828a101-e422-8e2a-ef9b-9c0285065ed5@nvidia.com>
+Date:   Tue, 17 Dec 2019 05:56:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5BN+enTk3-4aUCCB+ZUA+7ZsOP=zndXh4Y=a8faoRk1Pw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20191217080358.q3k57ta62txvip5h@4978f4969bb8>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1576591180; bh=+kY6WrbKA7lSfaR6JiJsMhpW0kY3DW4edAlAk5Ve1Ws=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=GbGZzaEh7giluV7bpN/IIAOj3Mc18AXcjLeuEGsTgM8/schRNFGUqCq00YAc4ARRK
+         0PVe1s7+qdvFmh1Ttru614AJtLodM6wJzZ2UNnA1jIm2+JCvQssDVh7rwrwji91hSp
+         Dmomrx8a2mkRdKDi+zuehTjS+cK+ceZUGuV2qS+Q00TgS6unnj2J/spZ+jPwNEGl3X
+         xJTAKof+O0alRzDH3cC7VTlXjNJwIWhcBZya8mbb62MvfcrAHYE78VekfobHefcZXx
+         ueLyg5p/jxUNWHBbbcLlFxuQBAi3TiHxhM/GsO23RipjSLUTZwruxA+61/WfeUhUby
+         xcvllM2I0K27A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
-
-> On the host side, the encode and decode APIs are different as well, so
-> having separate implementation decoder and encoder, possibly just
-> sharing some helper code, would make much more sense.
-
-When going down that route I'd suggest to use two device ids (even when
-specifying both variants in one spec section and one header file due to
-the overlaps) instead of feature flags.
-
-> > I don't think using fourcc is a problem, and given that both drm and
-> > v4l2 use fourcc already this would be a good choice I think.
+On 12/17/19 12:03 AM, kbuild test robot wrote:
 > 
-> Both DRM and V4L2 use two mutually incompatible sets of FourCCs, so
-> I'm not sure how it could be a good choice. At least unless we decide
-> to pick a specific set of FourCC. It doesn't help that Windows/DirectX
-> has its own set of FourCCs that's again slightly different than the
-> two mentioned before.
-
-Ouch, wasn't aware of that.  That makes reusing fourcc codes much less
-useful.
-
-> > But the definition should be more specific than just "fourcc".  Best
-> > would be to explicitly list and define each format supported by the
-> > spec.
+> Fixes: 8086d1c61970 ("mm/gup: track FOLL_PIN pages")
+> Signed-off-by: kbuild test robot <lkp@intel.com>
+> ---
+>   gup.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Why not be consistent with virtio-gpu and just define new formats as
-> we add support for them as sequential integers?
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 038b71165a761..849a6f55938e6 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -75,7 +75,7 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
+>    * @Return:	the compound head page, with ref appropriately incremented,
+>    * or NULL upon failure.
+>    */
+> -__must_check struct page *try_pin_compound_head(struct page *page, int refs)
+> +static __must_check struct page *try_pin_compound_head(struct page *page, int refs)
+>   {
+>   	struct page *head = try_get_compound_head(page,
+>   						  GUP_PIN_COUNTING_BIAS * refs);
+> 
 
-Yes, lets do that.
+Yes, it should have been declared static. And this also applies to the latest version
+(v11). The preferred fix would stay within 80 columns, like this:
 
-cheers,
-  Gerd
+diff --git a/mm/gup.c b/mm/gup.c
+index c2793a86450e..39b2f683bd2e 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -75,7 +75,8 @@ static inline struct page *try_get_compound_head(struct page *page, int refs)
+   * @Return:    the compound head page, with ref appropriately incremented,
+   * or NULL upon failure.
+   */
+-__must_check struct page *try_pin_compound_head(struct page *page, int refs)
++static __must_check struct page *try_pin_compound_head(struct page *page,
++                                                      int refs)
+  {
+         struct page *head = try_get_compound_head(page,
+                                                   GUP_PIN_COUNTING_BIAS * refs);
 
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
