@@ -2,48 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFC3E12290A
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2019 11:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2375312290E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2019 11:41:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbfLQKkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Dec 2019 05:40:15 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:60208 "EHLO
+        id S1726905AbfLQKlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Dec 2019 05:41:37 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:60380 "EHLO
         lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbfLQKkP (ORCPT
+        with ESMTP id S1725940AbfLQKlh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Dec 2019 05:40:15 -0500
+        Tue, 17 Dec 2019 05:41:37 -0500
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBHAeCwB114330;
-        Tue, 17 Dec 2019 04:40:12 -0600
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBHAfNk5114661;
+        Tue, 17 Dec 2019 04:41:23 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1576579212;
-        bh=V1JmF9ix8iZEnPqA63zPzUT60yfRxIKuz/XAj8YrYlc=;
+        s=ti-com-17Q1; t=1576579283;
+        bh=6kGmIjNfHqdZqSSE4L9c9Vu8ITPfcmfBO4lOVpn5rIo=;
         h=From:To:CC:Subject:Date;
-        b=TVVQSbuxj1fHsYHgf5JSJI3T7lG3NKaVLOPPTcdJJ5R9AjdN6NCzM1LeUYeztNx5W
-         IwWSNCz77Eftgk3ZZWskPyG0Z3lLrO36VDT6intt1iLxGauVmw5ULMLT/3+tjy8SxR
-         jssdOyC42JcmXxiYwdmrXAD+jTG8tY0tDvHU86I4=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBHAeCjv050933
+        b=DM7GS2seHa5rf/EfwTB+fD3tjq47Ud8WDX5NkT62OavFHE5zixnKBANet9d02Y2kV
+         VkoRqRTjo9nbiR309GNIzbCAHNcJD58Ns39eUR0ECYzJoQ65vTjqnI6rwcpMuZ8hU9
+         KNttiuzYataLDZ6231gcQdD5wH8Lg7Yx3RxkLgr8=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBHAfN5x052907
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 17 Dec 2019 04:40:12 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+        Tue, 17 Dec 2019 04:41:23 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
- Dec 2019 04:40:12 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2019 04:41:22 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 17 Dec 2019 04:40:12 -0600
+ Frontend Transport; Tue, 17 Dec 2019 04:41:22 -0600
 Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHAeALb006727;
-        Tue, 17 Dec 2019 04:40:10 -0600
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBHAfJta008859;
+        Tue, 17 Dec 2019 04:41:20 -0600
 From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
-To:     <mchehab@kernel.org>, <rashanmu@gmail.com>
+To:     <mchehab@kernel.org>, <hugues.fruchet@st.com>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>
 CC:     <vkoul@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH] media: rcar_drif: Use dma_request_chan() instead dma_request_slave_channel()
-Date:   Tue, 17 Dec 2019 12:40:25 +0200
-Message-ID: <20191217104025.23318-1-peter.ujfalusi@ti.com>
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH] media: stm32-dcmi: Use dma_request_chan() instead dma_request_slave_channel()
+Date:   Tue, 17 Dec 2019 12:41:35 +0200
+Message-ID: <20191217104135.23554-1-peter.ujfalusi@ti.com>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,27 +65,27 @@ probing against DMA.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 ---
- drivers/media/platform/rcar_drif.c | 6 +++---
+ drivers/media/platform/stm32/stm32-dcmi.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-index 0f267a237b42..02ee0e2a09e9 100644
---- a/drivers/media/platform/rcar_drif.c
-+++ b/drivers/media/platform/rcar_drif.c
-@@ -275,10 +275,10 @@ static int rcar_drif_alloc_dmachannels(struct rcar_drif_sdr *sdr)
- 	for_each_rcar_drif_channel(i, &sdr->cur_ch_mask) {
- 		struct rcar_drif *ch = sdr->ch[i];
+diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+index 9392e3409fba..55351872b0c7 100644
+--- a/drivers/media/platform/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/stm32/stm32-dcmi.c
+@@ -1910,10 +1910,10 @@ static int dcmi_probe(struct platform_device *pdev)
+ 		return PTR_ERR(mclk);
+ 	}
  
--		ch->dmach = dma_request_slave_channel(&ch->pdev->dev, "rx");
--		if (!ch->dmach) {
-+		ch->dmach = dma_request_chan(&ch->pdev->dev, "rx");
-+		if (IS_ERR(ch->dmach)) {
- 			rdrif_err(sdr, "ch%u: dma channel req failed\n", i);
--			ret = -ENODEV;
-+			ret = PTR_ERR(ch->dmach);
- 			goto dmach_error;
- 		}
+-	chan = dma_request_slave_channel(&pdev->dev, "tx");
+-	if (!chan) {
++	chan = dma_request_chan(&pdev->dev, "tx");
++	if (IS_ERR(chan)) {
+ 		dev_info(&pdev->dev, "Unable to request DMA channel, defer probing\n");
+-		return -EPROBE_DEFER;
++		return PTR_ERR(chan);
+ 	}
  
+ 	spin_lock_init(&dcmi->irqlock);
 -- 
 Peter
 
