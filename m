@@ -2,122 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 574E012491B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 15:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D47AF124B0E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 16:13:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbfLROIy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Dec 2019 09:08:54 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:36252 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726984AbfLROIx (ORCPT
+        id S1727323AbfLRPNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Dec 2019 10:13:55 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:46466 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727329AbfLRPNy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Dec 2019 09:08:53 -0500
-Received: by mail-ed1-f68.google.com with SMTP id j17so1768021edp.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2019 06:08:53 -0800 (PST)
+        Wed, 18 Dec 2019 10:13:54 -0500
+Received: by mail-il1-f193.google.com with SMTP id t17so1949436ilm.13
+        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2019 07:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=evrYOOuomFe9tdD3KBiTjInS7pmV9ulXAvfxRSVoT44=;
-        b=KCDwxgP4MCuwW63X1ZGCm58bnN4StTkBk/96kX7113sj/Vqadn+mWQcrRs3KlAYiuF
-         7lnsppmTXqHYJoqAnGqyUS1RixRodmF+MbiwGBFDCXretq3LqFdouwqVCV+kSD+pLCSB
-         hgEIdbgl0RE5Z1ie4ze7X7ub3G0raWHaIPads=
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=Q3vp2fJ40VWpq9rX2ikiWTUrhuiQJXzCeUu43e1oIIOk8rzGCPMljco+W3g3Sdt7mK
+         0zMp27lNXT81ott0dYeyE6wCdI4c1wfi5qCqRmoGIMvdtgle/6NMWI0GJrkD30CBojRq
+         hZbdgtbn9F/6uhvfSLkMdN7NhUpQoMVScRn9uDFKZJxofy0MWDF6kZw53YXeVt8sjWjA
+         Dd9TBzj4Ogplv/txGap2r0I252pQP7l7XSY4YOVhZ7qL539zlqhtO9W4mad505PIZ9Xp
+         yYy+XyL34oyC2pvEIWTDP8EMj+Gj6Cu0eHyc7GTPTD7Enq1rjLHU3JyAyX8LQzaLW/WP
+         +a+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=evrYOOuomFe9tdD3KBiTjInS7pmV9ulXAvfxRSVoT44=;
-        b=s7NUf7VYH4U4nSgm337StB+yuvdd3KOXUmbsfVacnZom87sr1V8GD3T8zLc1QUbVv8
-         PYM55Wuv99nsBMeScm3+BpXaRoxMkKVFfO7xLtezZ1xqddpmbiRCUulB4Cq5ENlT7usr
-         jmrPGe0ZcnpsFVyYIarpwWMK+y0InEC9kCaIbvciYvoa5XRyVU/Xfb0TuSY6cKmDCAsv
-         YbHDHsX8yKmo/ran/fqbNngUgHw549rHWC5CNER09DNZ22k3kXE/qWlITB8SlGGBrenv
-         rd73+M0EM8sq+BiuUeSYGybkk7anskUsyWh7s+pvEL6VTv2TTwkdrzRFecWQsAKPYNxm
-         tsNg==
-X-Gm-Message-State: APjAAAXrsS6+yMK+Xf7kPLkRTBcQuRG9S+3FMXOuLC3e4LJMsM8KKEt9
-        eA4fILi6mOgvG+MK0iOagY6CUMzCDKulOg==
-X-Google-Smtp-Source: APXvYqwVpzYJvMfqmuFu1kSlRN6LsEv3+Tgq2BHvB/3+Sz8zFwbIF7KVl1ch7DoOlItHIrHTz2Wnjw==
-X-Received: by 2002:a50:d69a:: with SMTP id r26mr2639963edi.148.1576678131538;
-        Wed, 18 Dec 2019 06:08:51 -0800 (PST)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
-        by smtp.gmail.com with ESMTPSA id l26sm38996edq.5.2019.12.18.06.08.50
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2019 06:08:50 -0800 (PST)
-Received: by mail-wm1-f42.google.com with SMTP id 20so1924443wmj.4
-        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2019 06:08:50 -0800 (PST)
-X-Received: by 2002:a7b:c4c5:: with SMTP id g5mr3560459wmk.85.1576678129975;
- Wed, 18 Dec 2019 06:08:49 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=K9ANDtPSb2ZEhq8psOQOPGV5OVbkLPLmoM34mO+sK3BH5oo9OG6+QSkbkmafdXJsUo
+         jHU5VEl9xeRpeqlNphzpDYPe7W4yh8iReHKmqQj6EwdArY9Ivp5l2bdtRX095BJGQ1im
+         vNW/P8qmQ3BAAIhM6tCN0Vj/8AeQ81uflEva5vY8+YZZNBeeFpp4iNp7ShfLuDSDgRYx
+         Ss8hRQWa0P8LIocZ1VgfGA0k91Cm48rcgLEJN5QJki7GDKx3HZGlaLQrUoLRXWV638N0
+         0HwxuSDCVS7t78RZEw8CZHZAFQLFpmU9ctC5HddpPhtj9U6pghspz9R46YfRAvhQGZ5j
+         CWow==
+X-Gm-Message-State: APjAAAU+al35fGHs/+ryCDi5QJZhwlvwNuvFeSWIx5cDwsbPzCBcBUya
+        cxg99Q7vqQk7SECnkA+6SJBJFpjuGBIl8ioUaQ==
+X-Google-Smtp-Source: APXvYqzpDMY1kfzvQTGFYFDuSf5Wkv4RFsY3uCP+mpqq6wLn7kqjCTzLCYufYBbbmMCBsVo5PHwr9dpQEEDI7K8RY00=
+X-Received: by 2002:a92:cc90:: with SMTP id x16mr2363556ilo.269.1576682033220;
+ Wed, 18 Dec 2019 07:13:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <20191218130214.170703-2-keiichiw@chromium.org> <20191218134037.3jbouht52bxqwfyy@sirius.home.kraxel.org>
-In-Reply-To: <20191218134037.3jbouht52bxqwfyy@sirius.home.kraxel.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 18 Dec 2019 23:08:37 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AEJ0sUzqrXJAmFnBn0aU8Ef6FwXYo0LgK0NO_CdWXRVg@mail.gmail.com>
-Message-ID: <CAAFQd5AEJ0sUzqrXJAmFnBn0aU8Ef6FwXYo0LgK0NO_CdWXRVg@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video
- device specification
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Enrico Granata <egranata@google.com>, fziglio@redhat.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
+Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:13:52
+ -0800 (PST)
+Reply-To: dhl.expresscourier102156@outlook.fr
+From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
+Date:   Wed, 18 Dec 2019 16:13:52 +0100
+Message-ID: <CABHzvrnY8Lhdw4Y2q97jvAVrRpM9CVLFkw=Ved7y1GhGqHiAdw@mail.gmail.com>
+Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 10:40 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > +The device MUST mark the last buffer with the
-> > +VIRTIO_VIDEO_BUFFER_F_EOS flag to denote completion of the drain
-> > +sequence.
->
-> No, that would build a race condition into the protocol.  The device
-> could complete the last buffer after the driver has sent the drain
-> command but before the device saw it.  So the flag would not be
-> reliable.
->
-> I also can't see why the flag is needed in the first place.  The driver
-> should know which buffers are queued still and be able to figure
-> whenever the drain is complete or not without depending on that flag.
-> So I'd suggest to simply drop it.
+Attn Dear.
 
-Unfortunately video decoders are not that simple. There are always
-going to be some buffers on the decoder side used as reference frames.
-Only the decoder knows when to release them, as it continues decoding
-the stream. Moreover, with certain features of certain codecs (e.g.
-framebuffer reordering in H.264), there could be decoded frames that
-need to be held by decoder, because later bitstream may contain
-earlier frames.
+Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
+ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
+=9900, as
+approved this morning, Date, 18/12/2019. Through the Intruction from
+INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
 
-How we defined this in the V4L2 stateful decoder interface is that if
-the decoder happened to return the last framebuffer before the drain
-request arrived, it would return one more, empty. From our experience
-that was the easiest thing to deal with from both the driver and the
-application, so I believe the same should apply to the host device
-implementation and the guest driver.
+REGISTRATION NO :EG58945
+PARCEL NUMBER: 140479
+Delivery Schuleded now,
+Finally all we required from you is your ATM Card Proccessing Delivery
+fees $19.00 only which you must send to this DHL service to enable us
+dispatch the parcel to your destination today.
 
->
-> That is the only issue I've spotted in the protocol on a first quick
-> look.  There are a few places where the spec text could be improved.
-> I'll try to set aside some time to go over this in detail, but I can't
-> promise I'll find the time to do that before xmas and new year.
+Here is our receiving payment details.
+You are advised to send it Via Money Gram Service.
 
-Thanks a lot for review.
+Receiver's Name--------Alan Ude
+Country-------Benin Republic.
+City/ Address--------Cotonou
+Test Question--------In God
+Answer-------We Trust
+Amount------------$US19.00 only
+Mtcn-------------
+Sender's Name-------
 
-Best regards,
-Tomasz
+Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
+Is Due for delivery to your address today upon confirmation of
+required fee from you asap.
+
+Call us on this phone number for any inquiry. +229 62819378
+Awaiting your urgent response.
+
+MS. MARYANNA B. THOMASON, Shipment director, DHL Express
+Courier Company-Benin
