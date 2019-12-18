@@ -2,188 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACCC3124E08
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 17:40:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35DDD124E34
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 17:45:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbfLRQkb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Dec 2019 11:40:31 -0500
-Received: from mailoutvs56.siol.net ([185.57.226.247]:50590 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726931AbfLRQkb (ORCPT
+        id S1727628AbfLRQpW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Dec 2019 11:45:22 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49562 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726980AbfLRQpW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Dec 2019 11:40:31 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 161B1521E9F;
-        Wed, 18 Dec 2019 17:40:28 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id xfVEE8OS8Kem; Wed, 18 Dec 2019 17:40:27 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 9BF6A523FB0;
-        Wed, 18 Dec 2019 17:40:27 +0100 (CET)
-Received: from jernej-laptop.localnet (cpe-86-58-102-7.static.triera.net [86.58.102.7])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id 799165236CB;
-        Wed, 18 Dec 2019 17:40:26 +0100 (CET)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     mchehab@kernel.org, mripard@kernel.org, hverkuil@xs4all.nl,
-        gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/2] media: cedrus: Fix decoding for some HEVC videos
-Date:   Wed, 18 Dec 2019 17:40:25 +0100
-Message-ID: <2234008.mhVpxdDc1K@jernej-laptop>
-In-Reply-To: <20191218084047.GA2900@aptenodytes>
-References: <20191213161516.54688-1-jernej.skrabec@siol.net> <20191213161516.54688-2-jernej.skrabec@siol.net> <20191218084047.GA2900@aptenodytes>
+        Wed, 18 Dec 2019 11:45:22 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB8F4B23;
+        Wed, 18 Dec 2019 17:45:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1576687519;
+        bh=+rFvCnuyUfb8hn/2XZmZLZuDfYK/voDNcYHQJdgf3yo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A35IEB1ygboMBB/qlL2uNePkuGFQ3N2Ol1/sq+9Ye27fbe00Z+lobVWfVsuQw+4yA
+         2eCvy2kbQziA7sMhNtEAPjihV482e1Pp1wzD3DOyb24Fr98pwCDKz1iXpadmaXMNK9
+         hezArnfMZbhhW3gb4DsosTPOajWDiq46uvHOGztU=
+Date:   Wed, 18 Dec 2019 18:45:07 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        andreyknvl@google.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] media: uvc: Avoid cyclic entity chains due to malformed
+ USB descriptors
+Message-ID: <20191218164507.GB17876@pendragon.ideasonboard.com>
+References: <20191002112753.21630-1-will@kernel.org>
+ <20191002130913.GA5262@pendragon.ideasonboard.com>
+ <20191002131928.yp5r4tyvtvwvuoba@willie-the-truck>
+ <20191002185604.GF5262@pendragon.ideasonboard.com>
+ <20191007162709.3vrtbcpoymmnqikl@willie-the-truck>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191007162709.3vrtbcpoymmnqikl@willie-the-truck>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Hi Will,
 
-Dne sreda, 18. december 2019 ob 09:40:47 CET je Paul Kocialkowski napisal(a):
-> Hi,
+On Mon, Oct 07, 2019 at 05:27:10PM +0100, Will Deacon wrote:
+> On Wed, Oct 02, 2019 at 09:56:04PM +0300, Laurent Pinchart wrote:
+> > On Wed, Oct 02, 2019 at 02:19:29PM +0100, Will Deacon wrote:
+> > > > uvc_scan_chain_forward() is then called (from uvc_scan_chain()), and
+> > > > iterates over all entities connected to the entity being scanned.
+> > > > 
+> > > > 	while (1) {
+> > > > 		forward = uvc_entity_by_reference(chain->dev, entity->id,
+> > > > 			forward);
+> > > 
+> > > Yes.
+> > > 
+> > > > At this point forward may be equal to entity, if entity references
+> > > > itself.
+> > > 
+> > > Correct -- that's indicative of a malformed entity which we want to reject,
+> > > right?
+> > 
+> > Right. We can reject the whole chain in that case. There's one case
+> > where we still want to succeed though, which is handled by
+> > uvc_scan_fallback().
+> > 
+> > Looking at the code, uvc_scan_device() does
+> > 
+> >                 if (uvc_scan_chain(chain, term) < 0) {
+> >                         kfree(chain);
+> >                         continue;
+> >                 }
+> > 
+> > It seems that's missing removal of all entities that would have been
+> > successfully added to the chain. This prevents, I think,
+> > uvc_scan_fallback() from working properly in some cases.
 > 
-> On Fri 13 Dec 19, 17:15, Jernej Skrabec wrote:
-> > It seems that for some HEVC videos at least one bitstream parsing
-> > trigger must be called in order to be decoded correctly. There is no
-> > explanation why this helps, but it was observed that several videos
-> > with this fix are now decoded correctly and there is no regression with
-> > others.
-> > 
-> > Without this fix, those same videos totally crash HEVC decoder (other
-> > decoder engines are unaffected). After decoding those problematic
-> > videos, HEVC decoder always returns only green image (all zeros).
-> > Only complete HW reset helps.
-> > 
-> > This fix is similar to that for H264.
+> I started trying to hack something up here, but I'm actually not sure
+> there's anything to do!
 > 
-> Thanks for the fix, interesting that the same issue shows up on HEVC!
-> I suspect that Allwinner folks never really tested the engine without
-> using it for bitstream parsing.
-
-That thought also crossed my mind. It's even worse with VP8. There you can't 
-have proper decoding at all without calling one specific bitstream parsing 
-function.
-
+> I agree that 'uvc_scan_chain()' can fail after adding entities to the
+> chain, however, 'uvc_scan_fallback()' allocates a new chain and calls
+> only 'uvc_scan_chain_entity()' to add entities to it. This doesn't fail
+> on pre-existing 'list_head' structures, so the dangling pointers shouldn't
+> pose a problem there. My patch only adds the checks to
+> 'uvc_scan_chain_forward()' and 'uvc_scan_chain_backward()', neither of
+> which are invoked on the fallback path.
 > 
-> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Thanks!
-
-Best regards,
-Jernej
-
+> The fallback also seems like a best-effort thing, since it isn't even
+> invoked if we managed to initialise *any* chains successfully.
 > 
-> Cheers,
+> Does that make sense, or did you have another failure case in mind?
+
+No, I think you're right. It may still be good to remove the entities
+from the chain before freeing it to avoid dangling pointers, but that's
+not handled properly anywhere in the driver anyway, so your patch
+doesn't introduce any issue.
+
+> > > > 		if (forward == NULL)
+> > > > 			break;
+> > > > 		if (forward == prev)
+> > > > 			continue;
+> > > > 		if (forward->chain.next || forward->chain.prev) {
+> > > > 			uvc_trace(UVC_TRACE_DESCR, "Found reference to "
+> > > > 				"entity %d already in chain.\n", forward->id);
+> > > > 			return -EINVAL;
+> > > > 		}
+> > > > 
+> > > > But then this check should trigger, as forward == entity and entity is
+> > > > in the chain's list of entities.
+> > > 
+> > > Right, but this code is added by my patch, no? In mainline, the code only
+> > > has the first two checks, which both end up comparing against NULL the first
+> > > time around:
+> > > 
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_driver.c#n1489
+> > > 
+> > > Or are you referring to somewhere else?
+> > 
+> > Oops. This is embarassing... :-) You're of course right. The second hunk
+> > seems fine too, even if I would have preferred centralising the check in
+> > a single place. That should be possible, but it would involve
+> > refactoring that isn't worth it at the moment.
 > 
-> Paul
-> 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 25 ++++++++++++++++---
-> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  1 +
-> >  2 files changed, 23 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > 109d3289418c..5a207f1e137c 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -7,6 +7,7 @@
-> > 
-> >   * Copyright (C) 2018 Bootlin
-> >   */
-> > 
-> > +#include <linux/delay.h>
-> > 
-> >  #include <linux/types.h>
-> >  
-> >  #include <media/videobuf2-dma-contig.h>
-> > 
-> > @@ -283,6 +284,23 @@ static void cedrus_h265_write_scaling_list(struct
-> > cedrus_ctx *ctx,> 
-> >  		}
-> >  
-> >  }
-> > 
-> > +static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-> > +{
-> > +	int count = 0;
-> > +
-> > +	while (count < num) {
-> > +		int tmp = min(num - count, 32);
-> > +
-> > +		cedrus_write(dev, VE_DEC_H265_TRIGGER,
-> > +			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
-> > +			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
-> > +		while (cedrus_read(dev, VE_DEC_H265_STATUS) &
-> > VE_DEC_H265_STATUS_VLD_BUSY) +			udelay(1);
-> > +
-> > +		count += tmp;
-> > +	}
-> > +}
-> > +
-> > 
-> >  static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> >  
-> >  			      struct cedrus_run *run)
-> >  
-> >  {
-> > 
-> > @@ -347,10 +365,9 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > 
-> >  	/* Source offset and length in bits. */
-> > 
-> > -	reg = slice_params->data_bit_offset;
-> > -	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, reg);
-> > +	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
-> > 
-> > -	reg = slice_params->bit_size - slice_params->data_bit_offset;
-> > +	reg = slice_params->bit_size;
-> > 
-> >  	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
-> >  	
-> >  	/* Source beginning and end addresses. */
-> > 
-> > @@ -385,6 +402,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > 
-> >  	/* Initialize bitstream access. */
-> >  	cedrus_write(dev, VE_DEC_H265_TRIGGER, 
-VE_DEC_H265_TRIGGER_INIT_SWDEC);
-> > 
-> > +	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
-> > +
-> > 
-> >  	/* Bitstream parameters. */
-> >  	
-> >  	reg = VE_DEC_H265_DEC_NAL_HDR_NAL_UNIT_TYPE(slice_params-
->nal_unit_type)
-> >  	|
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h index
-> > 0d9449fe2b28..df1cceef8d93 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > @@ -424,6 +424,7 @@
-> > 
-> >  #define VE_DEC_H265_TRIGGER			(VE_ENGINE_DEC_H265 + 
-0x34)
-> > 
-> > +#define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
-> > 
-> >  #define VE_DEC_H265_TRIGGER_STCD_VC1		(0x02 << 4)
-> >  #define VE_DEC_H265_TRIGGER_STCD_AVS		(0x01 << 4)
-> >  #define VE_DEC_H265_TRIGGER_STCD_HEVC		(0x00 << 4)
+> Agreed, thanks.
 
+-- 
+Regards,
 
-
-
+Laurent Pinchart
