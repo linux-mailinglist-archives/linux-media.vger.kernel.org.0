@@ -2,99 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FCC5123FC8
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 07:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C3A01241F0
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 09:41:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725955AbfLRGoA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Dec 2019 01:44:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57407 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725797AbfLRGoA (ORCPT
+        id S1726707AbfLRIk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Dec 2019 03:40:58 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:54153 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726682AbfLRIk6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Dec 2019 01:44:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576651438;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=MWWPVk1Mn5UqEuYqBkdrxKiG5uNiUL897VhoZETgHCM=;
-        b=IWRxwLX46zrH5yVrizc3ZrEsRfewBtTslJovEMQsa9G7zwCRZX0DvAyMZJBykfABi+moun
-        g4gkFBR8ANm8P7U+sXxsH4C/om0sgKXNocEqB1AqmVbunEBHkciRcaNPIgUYd71euOGCVD
-        AkLVLgQY2a37KKWk3M19uaCR3j10lzg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-3E3GPwp_O8-pAs9I6aKUVg-1; Wed, 18 Dec 2019 01:43:15 -0500
-X-MC-Unique: 3E3GPwp_O8-pAs9I6aKUVg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B1E610054E3;
-        Wed, 18 Dec 2019 06:43:13 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com [10.36.117.39])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 512D226DC3;
-        Wed, 18 Dec 2019 06:43:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 82DB931E2B; Wed, 18 Dec 2019 07:43:10 +0100 (CET)
-Date:   Wed, 18 Dec 2019 07:43:10 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
- specification
-Message-ID: <20191218064310.kf5gl4zxdfvihm5d@sirius.home.kraxel.org>
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
- <20191217133945.oxnassyjr6hwtjbf@sirius.home.kraxel.org>
- <CAD90VcaXDXgmJ1-aDMu-o_zFCaJ4+rxN0FxHh7x6Q8MTPAr-jw@mail.gmail.com>
- <15520793.X85Ks0aH1j@os-lin-dmo>
+        Wed, 18 Dec 2019 03:40:58 -0500
+X-Originating-IP: 109.190.253.16
+Received: from aptenodytes (unknown [109.190.253.16])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 58A6B1BF203;
+        Wed, 18 Dec 2019 08:40:49 +0000 (UTC)
+Date:   Wed, 18 Dec 2019 09:40:47 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     mchehab@kernel.org, mripard@kernel.org, hverkuil@xs4all.nl,
+        gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/2] media: cedrus: Fix decoding for some HEVC videos
+Message-ID: <20191218084047.GA2900@aptenodytes>
+References: <20191213161516.54688-1-jernej.skrabec@siol.net>
+ <20191213161516.54688-2-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
 Content-Disposition: inline
-In-Reply-To: <15520793.X85Ks0aH1j@os-lin-dmo>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20191213161516.54688-2-jernej.skrabec@siol.net>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 05:13:59PM +0100, Dmitry Sepp wrote:
-> Hi,
-> 
-> On Dienstag, 17. Dezember 2019 15:09:16 CET Keiichi Watanabe wrote:
-> > Hi,
-> > 
-> > Thanks Tomasz and Gerd for the suggestions and information.
-> > 
-> > On Tue, Dec 17, 2019 at 10:39 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >   Hi,
-> > >   
-> > > > On the host side, the encode and decode APIs are different as well, so
-> > > > having separate implementation decoder and encoder, possibly just
-> > > > sharing some helper code, would make much more sense.
-> > > 
-> > > When going down that route I'd suggest to use two device ids (even when
-> > > specifying both variants in one spec section and one header file due to
-> > > the overlaps) instead of feature flags.
-> > 
-> > Sounds good. It makes sense to use different device IDs for different
-> > devices.
-> Does this mean one driver handles both? Or we have two separate drivers?
 
-That is the driver writers choice.  You can have a single kernel module
-registering as driver for both IDs.  Or you can have two kernel modules,
-each registering for one of the IDs, possibly with a third library
-module with helper code for common bits like buffer management.
+--Kj7319i9nmIyA2yE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-cheers,
-  Gerd
+Hi,
 
+On Fri 13 Dec 19, 17:15, Jernej Skrabec wrote:
+> It seems that for some HEVC videos at least one bitstream parsing
+> trigger must be called in order to be decoded correctly. There is no
+> explanation why this helps, but it was observed that several videos
+> with this fix are now decoded correctly and there is no regression with
+> others.
+>=20
+> Without this fix, those same videos totally crash HEVC decoder (other
+> decoder engines are unaffected). After decoding those problematic
+> videos, HEVC decoder always returns only green image (all zeros).
+> Only complete HW reset helps.
+>=20
+> This fix is similar to that for H264.
+
+Thanks for the fix, interesting that the same issue shows up on HEVC!
+I suspect that Allwinner folks never really tested the engine without
+using it for bitstream parsing.
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 25 ++++++++++++++++---
+>  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  1 +
+>  2 files changed, 23 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 109d3289418c..5a207f1e137c 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -7,6 +7,7 @@
+>   * Copyright (C) 2018 Bootlin
+>   */
+> =20
+> +#include <linux/delay.h>
+>  #include <linux/types.h>
+> =20
+>  #include <media/videobuf2-dma-contig.h>
+> @@ -283,6 +284,23 @@ static void cedrus_h265_write_scaling_list(struct ce=
+drus_ctx *ctx,
+>  		}
+>  }
+> =20
+> +static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+> +{
+> +	int count =3D 0;
+> +
+> +	while (count < num) {
+> +		int tmp =3D min(num - count, 32);
+> +
+> +		cedrus_write(dev, VE_DEC_H265_TRIGGER,
+> +			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+> +			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+> +		while (cedrus_read(dev, VE_DEC_H265_STATUS) & VE_DEC_H265_STATUS_VLD_B=
+USY)
+> +			udelay(1);
+> +
+> +		count +=3D tmp;
+> +	}
+> +}
+> +
+>  static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  			      struct cedrus_run *run)
+>  {
+> @@ -347,10 +365,9 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+> =20
+>  	/* Source offset and length in bits. */
+> =20
+> -	reg =3D slice_params->data_bit_offset;
+> -	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, reg);
+> +	cedrus_write(dev, VE_DEC_H265_BITS_OFFSET, 0);
+> =20
+> -	reg =3D slice_params->bit_size - slice_params->data_bit_offset;
+> +	reg =3D slice_params->bit_size;
+>  	cedrus_write(dev, VE_DEC_H265_BITS_LEN, reg);
+> =20
+>  	/* Source beginning and end addresses. */
+> @@ -385,6 +402,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  	/* Initialize bitstream access. */
+>  	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
+> =20
+> +	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
+> +
+>  	/* Bitstream parameters. */
+> =20
+>  	reg =3D VE_DEC_H265_DEC_NAL_HDR_NAL_UNIT_TYPE(slice_params->nal_unit_ty=
+pe) |
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_regs.h
+> index 0d9449fe2b28..df1cceef8d93 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+> @@ -424,6 +424,7 @@
+> =20
+>  #define VE_DEC_H265_TRIGGER			(VE_ENGINE_DEC_H265 + 0x34)
+> =20
+> +#define VE_DEC_H265_TRIGGER_TYPE_N_BITS(x)	(((x) & 0x3f) << 8)
+>  #define VE_DEC_H265_TRIGGER_STCD_VC1		(0x02 << 4)
+>  #define VE_DEC_H265_TRIGGER_STCD_AVS		(0x01 << 4)
+>  #define VE_DEC_H265_TRIGGER_STCD_HEVC		(0x00 << 4)
+> --=20
+> 2.24.0
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Kj7319i9nmIyA2yE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl355g8ACgkQ3cLmz3+f
+v9F0uwf/R/7HIpAkOCE+eajb2oib3qb5ln2OZ7fCjMlLQDlRZ1bcsz1oTGipGarM
+dYR0EkPQBmnMNeNb6ETU2fUcchrvZPSaaC5LcU/qhFVEFH/gL7B4bkzOihBnGtSQ
+MABZstZZMDLgq6zos5bfzUrCYgFJ3J2xeLupendqeQoHOoOssMrAsjoXsZ6pmeQg
+q6u6PXxv/SEb/PB32iNyq1ryvaTMs4dvQzF0LB0Ds5nKStG7zzbcj3lCNT/azRdR
+8xk9AXbf9jpdfb0zeqOkC92jODe8hytbX7FCQmZpZiKNaNbde9XV2+wG83hJuHW5
+090NQ6+4oit/hO9RMuSSDq6fR2P4+g==
+=plwW
+-----END PGP SIGNATURE-----
+
+--Kj7319i9nmIyA2yE--
