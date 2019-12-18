@@ -2,76 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC6E123CEA
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 03:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E67F123DB8
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 04:11:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbfLRCLS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Dec 2019 21:11:18 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38499 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726296AbfLRCLS (ORCPT
+        id S1726623AbfLRDLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Dec 2019 22:11:02 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:56358 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726512AbfLRDLC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Dec 2019 21:11:18 -0500
-Received: by mail-ot1-f65.google.com with SMTP id h20so402846otn.5;
-        Tue, 17 Dec 2019 18:11:17 -0800 (PST)
+        Tue, 17 Dec 2019 22:11:02 -0500
+Received: by mail-il1-f198.google.com with SMTP id 12so612861iln.23
+        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2019 19:11:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZcqLEa5n7h3ikutpdSd3t6thjVHG/YAZxYICg213uf4=;
-        b=jIqnk4dJ30b5rqQSmB/mTqNdbf0LqXeWPCSpIKRyVf1iLXSYJJ4coFZvAKM6FqVK3P
-         wgyIxTMmkghkw45l1HsCm1GPu7EW68S4t6XEqLbCWPtbPwtBPvASi+xvmIwC23cW8wBl
-         9jTkdPoC3HqYGbpgMn5GEbcndaWDitO82b/lUbguXPs1VEgMlZGEXh5rpr4ttxA/T14k
-         ZWMo2VwlC06WjKg++Il4SG4AKpI+79C+8WU13+LMU0S8N2QLUpvXD3JT/uwoL/41sX2h
-         JcCxpquDu/TxkFW0enKin4dOtxz6fjAK3/Al6EvdtymnQaZUj8qMO8WtdNgFLtTR2YAQ
-         Wtlg==
-X-Gm-Message-State: APjAAAXw78Lg1SQtuAD8w8FuVtTC6vM6NKyXgySbpiOg1VWYKyZ5821i
-        2nTY/bojeVRhvxjr87drLw==
-X-Google-Smtp-Source: APXvYqwNcQwVqUwr8FXCji1vP3issJ1yUDzKoqK0jsEeQj5heCaceaFAzEMZxWYmnxxHXcOyZolM/w==
-X-Received: by 2002:a9d:eea:: with SMTP id 97mr367606otj.177.1576635077244;
-        Tue, 17 Dec 2019 18:11:17 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a65sm245302otb.68.2019.12.17.18.11.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2019 18:11:16 -0800 (PST)
-Date:   Tue, 17 Dec 2019 20:11:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] dt-bindings: media: Convert Allwinner A31 CSI to a schema
-Message-ID: <20191218021115.GA23294@bogus>
-References: <20191213074355.26840-1-maxime@cerno.tech>
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=B/UHccQy2GUPLjKClLjPB9mKSYRSTTFVhiFG9ktmLyQ=;
+        b=XHKwHwHi4hflBceENMro7OJykqZFqDWIeKGFDJ6kYhSpuWwEZQbUWcFoaMiTSeVL6U
+         elsVu5NbR3DZawSsvu3q3CnSvOVRUqN0xGLXzelg9kP4cb8V4/f5xdts/55wbLrvPm6V
+         r3y0Fv0NQwnQGYbHbR+jRE7QEFlM3iECwMY42ufpORs14Zd/Qpasn8ZDJfwytvfR8sU/
+         WG0F+WXXCmQPgxuy1lnleE2MQsSuWgEeVkE8/Kt90VS+60WTJb1RjbgARNf2h9Axc0O6
+         QOv9SmL+mkI7xXyELqmUZZiWJ4DBtpSsW4snSo11O4caCy1H1MKaqJUlJCeLJOPoog4Q
+         Z7CA==
+X-Gm-Message-State: APjAAAXiAACdguy54OZyywLKFUAkDpjKM6EhYqS8OYrxXkpMXutUuPjQ
+        A3qkhrMnxc3hXA2wv0uuN0MMIcqrOkZ4mkkf520m1R5tzkRG
+X-Google-Smtp-Source: APXvYqyMCK4p3QJRNreOaLBgYJejAM1cYoWdGoPJ26FTPuaQyelg3Sjap478JDrBsEezCSHSp7yUtmv244NHO0fzr3UX5/+ddebT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191213074355.26840-1-maxime@cerno.tech>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a02:cdcb:: with SMTP id m11mr361306jap.125.1576638661887;
+ Tue, 17 Dec 2019 19:11:01 -0800 (PST)
+Date:   Tue, 17 Dec 2019 19:11:01 -0800
+In-Reply-To: <000000000000b6b450059870d703@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000618d6a0599f1cb49@google.com>
+Subject: Re: KASAN: global-out-of-bounds Read in precalculate_color
+From:   syzbot <syzbot+02d9172bf4c43104cd70@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, ericvh@gmail.com, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        lucho@ionkov.net, mchehab@kernel.org, netdev@vger.kernel.org,
+        rminnich@sandia.gov, syzkaller-bugs@googlegroups.com,
+        v9fs-developer@lists.sourceforge.net, viro@zeniv.linux.org.uk,
+        vivek.kasireddy@intel.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 13 Dec 2019 08:43:55 +0100, Maxime Ripard wrote:
-> The newer Allwinner SoCs have a camera controller that is supported in
-> Linux, with a matching Device Tree binding.
-> 
-> Now that we have the DT validation in place, let's convert the device tree
-> bindings for that controller over to a YAML schemas.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../media/allwinner,sun6i-a31-csi.yaml        | 115 ++++++++++++++++++
->  .../devicetree/bindings/media/sun6i-csi.txt   |  61 ----------
->  2 files changed, 115 insertions(+), 61 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/sun6i-csi.txt
-> 
+syzbot has bisected this bug to:
 
-Applied, thanks.
+commit 7594bf37ae9ffc434da425120c576909eb33b0bc
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Date:   Mon Jul 17 02:53:08 2017 +0000
 
-Rob
+     9p: untangle ->poll() mess
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15e323a6e00000
+start commit:   d7688697 Merge tag 'for-linus' of git://git.kernel.org/pub..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13e323a6e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=121b4285bac421fe
+dashboard link: https://syzkaller.appspot.com/bug?extid=02d9172bf4c43104cd70
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119c517ae00000
+
+Reported-by: syzbot+02d9172bf4c43104cd70@syzkaller.appspotmail.com
+Fixes: 7594bf37ae9f ("9p: untangle ->poll() mess")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
