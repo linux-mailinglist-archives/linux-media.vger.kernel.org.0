@@ -2,77 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4491125450
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 22:10:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD16512562E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2019 23:03:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726188AbfLRVKS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Dec 2019 16:10:18 -0500
-Received: from mout.gmx.net ([212.227.17.20]:44535 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725990AbfLRVKS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Dec 2019 16:10:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1576703416;
-        bh=aZX82ztaN/nBBORWnh5+vMpNRzT/4NIR6q20QNyy/lM=;
-        h=X-UI-Sender-Class:From:To:Subject:Date;
-        b=RUiRYDhBlNN/EXP/fyQZUBZ4n5JqRBrLnydwUfneAaeSi7mvmjVc5Zfect1Jz1dzz
-         1XesPVStDs1IIiH0XJp6fssXcrrbJSF/hjN6WOoBrlaXE/CZwPGlPSXmuz2hUo4+Mu
-         8GszunZ2cmUEo2WEjSuR5JcsLWWWnKhqWuqaxT4I=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.fritz.box ([62.216.208.25]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEm27-1iS2Rn2iVP-00GIkw for
- <linux-media@vger.kernel.org>; Wed, 18 Dec 2019 22:10:16 +0100
-From:   Peter Seiderer <ps.report@gmx.net>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v4l-utils] keymap.h needs sys/types.h and argp.h
-Date:   Wed, 18 Dec 2019 22:10:16 +0100
-Message-Id: <20191218211016.18796-1-ps.report@gmx.net>
-X-Mailer: git-send-email 2.24.0
+        id S1726569AbfLRWDf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Dec 2019 17:03:35 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35886 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726530AbfLRWDf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Dec 2019 17:03:35 -0500
+Received: by mail-ot1-f67.google.com with SMTP id w1so4336805otg.3;
+        Wed, 18 Dec 2019 14:03:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qCCYItpj+3VsG3DKSCp5gCe88YZojJMWbpQw+wbr1Yw=;
+        b=m1a8r1P9BThRZjKdWvPmFtYMOgxuhDxP1KA0d2bmLS4Ib9GtiG5Tv4c7+MiXpCCXZ3
+         CKfzgOM0l/y0IKz4qd9Ct/EPbZQTQSpk2hTYNLuQ09CZw+Keshol2EJcSbGFid5Ryt8w
+         pwybKVRXz74Q92NZJRzZslM7K7kgDAeg5XlZBtews3oyVMevEEoYjT338eoGtE39J3X0
+         oX/26QgrQdNWZ4zigIoh7vjGp1T5Thlrf5Hv5+Ag76iKWFn9vPxhsNLfFQQk8063qc4V
+         4aSzr7WK8w4xXsM97IXGgqE0eCbOG/OhatxlDDj+xnECGucLhr5S+xZxZivFgE8E2e2N
+         zgRA==
+X-Gm-Message-State: APjAAAUpuWSee0jSk2SMwuh5N1xiXEpWLHeJZ8GAAb0KTxhYFTJqC4iz
+        JpUmynJQpLeYfslHB1CU4Q==
+X-Google-Smtp-Source: APXvYqwkQ1gEbk+bOgm2/fXfvDu4L5fE9n6LUxXNNWIUZdfBZtYFpFr/3T3xbcmVF7Tzj5vHc26FTg==
+X-Received: by 2002:a05:6830:1499:: with SMTP id s25mr4838252otq.223.1576706614162;
+        Wed, 18 Dec 2019 14:03:34 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m2sm1253207oim.13.2019.12.18.14.03.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 14:03:33 -0800 (PST)
+Date:   Wed, 18 Dec 2019 16:03:32 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-media@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 5/7] media: dt-bindings: rockchip: Document RK3399
+ Video Decoder bindings
+Message-ID: <20191218220332.GA3813@bogus>
+References: <20191213125414.90725-1-boris.brezillon@collabora.com>
+ <20191213125414.90725-6-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:uLMvZC55dFm6Hw0REw6l36uxL96OiizHJVlr6eX3QOgI0dYdFeN
- Es9LTQ9PyT2qmRQulfCCGzvcO/o4bHV5psnnijeEERaQX9tY/uMhJdS4W3IPSr4oBLOATFh
- icR8Un2pyBU8HKM6JooD/3YxiBVl08K3IZwCzdNxZlWOPqyYVyxrOcIubV17NkvSgCFWFWF
- Z6h8eqV4yUZ9d3gji57qQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8sMQssdYF/w=:9KegBsW0yfw9wAs6zmQ+h/
- upb27iLrUpSg7TTHOwQoEDntgGGtojSpAAjdXrlvP7PZNt8Pe1ONMYTAj9mobegOKrDgyInR3
- ZUO8yHMyCXrnCDDDvNapbHItA0AnBOqkNWnmeOmDfUsdn9SVidjDrBnMB019RLP6Mbdy9v4cT
- zGExL0GsXlA9/issVk8JRsMBut3l8dNVncqR1NA3Hg+gKi0XXpvPWLdE6Ji4uCNqjznuaG41+
- Z4cK5Q8HOG8g89nIDsNn1ElZI7SRHaihokz8d0P9PF3MySd1SvwXa4kKCO5Sfe/Wx1ORC480N
- mUWx3d3RIPY99YuA9QRsilT53KBUHMIlvixfABxvcRUZSdFeBgzTY4FWABWch3RomsrUeolFG
- 72ABF7HIhcmg8P1N2SoLLLo6yjcYkOCnR+mWrvz1rO4l18n1mqHcC5ovWDiP8m/s7ezphidpo
- o3ynEm01ab0qYjD8sAgFaXtt9q9lEDxog11h+VNshGuR+OwoIteItPA+L92Umtvh5s+HNNUk5
- xImURmOukP7iLJVgLDpTaU/5bTbgxw6uOcti2Yg4hWq3ScKsA7tRfKDjBnbar+hqAdTAMsWJ0
- CGsF3pRiYBCysn1tEsqneyyIwQ+poyLHs10+nzFDEOEnWQig59sDgHJ80lkBeKhF4gahjVJg8
- KwIJfeZ3p17tnJzQPqckHVSV38Bl2H+hQiRkC4W1mlgibd1ceUTLFIMVHqDVBbbPpxG4hQzvi
- luLIzRFe716jhqTFlHNNE1JFCWit6ZlHBOiVp8zXWsSp4jlx57awzr13tHSex2x7vXDV6lFCV
- I2DWFEgUkxIeJTbSVqxeJZOoX6Tg6f5XMFvF7SipzyjejvepxW2SqvIKCDCwYLD7Inb5i0itR
- vHEiFWTqTNc65DQxLsp/MyEqhZzR82bHDSGMlmaCNuw0jnJ4rVvhGGcvTzkie1Zip8Bt04wOo
- oaZzAg4mFmSsOqpSb3e6yTrlKkgHdBH2e0saL3SbPSDqL+ltwMQ41o437W/TwJHRVATFlwF7o
- 3u92lT5L6SIOacH8+WyTQmWfx+Eo7LrFWP/nW587h2kvNgWKyNmqRyX63tpIXoWjKZibN3Jod
- rO04oLnO4iCFBFJ3usOVAkSGsHjMLz3XxuCFpB+LRcEEv/uapPJPIRdliS1M7KrRmRUggsAse
- y+PHLJZ2esPJ2EbbQI+4QpBXVN30k659QC+PRfkzDmx5UACs/dknRJDYKHyu9zO917hlIgEPZ
- Fip94TMvajsQYnFX+Qv+5NCvretNTrb0ZLZGBUsmfL/TOiAgUuaqG4ppgna8=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191213125414.90725-6-boris.brezillon@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rml4ZXM6CgogIGtleW1hcC5oOjIzOjI6IGVycm9yOiB1bmtub3duIHR5cGUgbmFtZSDigJh1X2lu
-dDMyX3TigJkKICBrZXltYXAuaDozNjoxOiBlcnJvcjogdW5rbm93biB0eXBlIG5hbWUg4oCYZXJy
-b3JfdOKAmQoKU2lnbmVkLW9mZi1ieTogUGV0ZXIgU2VpZGVyZXIgPHBzLnJlcG9ydEBnbXgubmV0
-PgotLS0KIHV0aWxzL2NvbW1vbi9rZXltYXAuYyAgICAgIHwgMiArKwogdXRpbHMvaXItY3RsL2Jw
-Zl9lbmNvZGVyLmMgfCAxICsKIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZm
-IC0tZ2l0IGEvdXRpbHMvY29tbW9uL2tleW1hcC5jIGIvdXRpbHMvY29tbW9uL2tleW1hcC5jCmlu
-ZGV4IGY1NzRmMjRmLi5kMDZkZWI1OSAxMDA2NDQKLS0tIGEvdXRpbHMvY29tbW9uL2tleW1hcC5j
-CisrKyBiL3V0aWxzL2NvbW1vbi9rZXltYXAuYwpAQCAtOSw2ICs5LDggQEAKICNpbmNsdWRlIDxz
-dHJpbmcuaD4KICNpbmNsdWRlIDxsaW1pdHMuaD4KICNpbmNsdWRlIDxzdGRib29sLmg+CisjaW5j
-bHVkZSA8c3lzL3R5cGVzLmg+CisjaW5jbHVkZSA8YXJncC5oPgogCiAjaW5jbHVkZSAia2V5bWFw
-LmgiCiAjaW5jbHVkZSAidG9tbC5oIgpkaWZmIC0tZ2l0IGEvdXRpbHMvaXItY3RsL2JwZl9lbmNv
-ZGVyLmMgYi91dGlscy9pci1jdGwvYnBmX2VuY29kZXIuYwppbmRleCA4MmQxMmNjMC4uZTNlNzA1
-ZTcgMTAwNjQ0Ci0tLSBhL3V0aWxzL2lyLWN0bC9icGZfZW5jb2Rlci5jCisrKyBiL3V0aWxzL2ly
-LWN0bC9icGZfZW5jb2Rlci5jCkBAIC01LDYgKzUsNyBAQAogI2luY2x1ZGUgPGVycm5vLmg+CiAj
-aW5jbHVkZSA8c3RyaW5nLmg+CiAjaW5jbHVkZSA8c3lzL3R5cGVzLmg+CisjaW5jbHVkZSA8YXJn
-cC5oPgogCiAjaW5jbHVkZSAia2V5bWFwLmgiCiAKLS0gCjIuMjQuMAoK
+On Fri, 13 Dec 2019 13:54:12 +0100, Boris Brezillon wrote:
+> Document the Rockchip RK3399 Video Decoder bindings.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+> Changes in v3:
+> * Fix dtbs_check failures
+> ---
+>  .../bindings/media/rockchip,vdec.yaml         | 71 +++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
