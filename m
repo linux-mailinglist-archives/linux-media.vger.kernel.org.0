@@ -2,117 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A336A125C38
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 08:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C1C2125C42
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 08:48:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfLSHqz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 02:46:55 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47468 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726463AbfLSHqz (ORCPT
+        id S1726701AbfLSHsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 02:48:42 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:55414 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726303AbfLSHsm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 02:46:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1576741613;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2qMUuEdHbCyE5LmQaU7+dO3dylUln+w0m/kNdNRwPUM=;
-        b=guD/BA1c/QfJkwZxZg1C+CD5XtAz/3L7j9jTOtwTtH6jA/k2MKPLojXLVau7J+VqVxta/m
-        /4Eihy/ZwLdraZyZ2bUCWNlo0+rscZke9O6cFAhTTIGll1Te0RmEALBvRzCau/95kG8y2H
-        sCZPj3ah87kjqh5hdKgOlPDptaEQc38=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-tCqENUe0O2uu0fCG-VWlUA-1; Thu, 19 Dec 2019 02:46:45 -0500
-X-MC-Unique: tCqENUe0O2uu0fCG-VWlUA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22895800D41;
-        Thu, 19 Dec 2019 07:46:43 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com [10.36.116.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 24D2360C81;
-        Thu, 19 Dec 2019 07:46:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 3908811AAA; Thu, 19 Dec 2019 08:46:39 +0100 (CET)
-Date:   Thu, 19 Dec 2019 08:46:39 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Enrico Granata <egranata@google.com>, fziglio@redhat.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video
- device specification
-Message-ID: <20191219074639.kdkrqxwb6fdb67hu@sirius.home.kraxel.org>
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <20191218130214.170703-2-keiichiw@chromium.org>
- <20191218134037.3jbouht52bxqwfyy@sirius.home.kraxel.org>
- <CAAFQd5AEJ0sUzqrXJAmFnBn0aU8Ef6FwXYo0LgK0NO_CdWXRVg@mail.gmail.com>
+        Thu, 19 Dec 2019 02:48:42 -0500
+Received: by mail-pj1-f65.google.com with SMTP id d5so2106191pjz.5;
+        Wed, 18 Dec 2019 23:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hTBaTcwtZhnl+1WkSjy+81B8m71lqLhfOOtaR07ioF4=;
+        b=mmRldR65wsCwcUz+D5TDJCVDB3Zu/CH++jZeFoIYNHub11F6SsqtqgyIA833Zfw12o
+         dRP73VgdDhN65zuf1j7Pw2MQqzP2wZ0PBkC18lFuGpUlWvLxd8MpYUKGgSaKVucH/rvS
+         4I/hDdTs4wrOG16MXCcxxHTQM9rY8uoR1GikHk8osZrHiAv87+hWyhWzpAlblc0lwACN
+         c0fFob9gu3Ww+cHNYBFmwSrrhsc1no2fyiU/bWmju7USIpI7hHR9YGa/dEIcObbOsC1d
+         NLzdUR1HxYRW7tF9jc0PXRCLnDiI3occbF02kqtzLCtXIxPl0Adl/K63hYg/pbEeL0Hc
+         x/Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hTBaTcwtZhnl+1WkSjy+81B8m71lqLhfOOtaR07ioF4=;
+        b=LtjiH0deKzshzrNsORHNZMkGjCuhk2V7cPCvYUmzxeCjBjBdnDkOVIuJ2d12aPRMnB
+         KZPrtZPr89qZKe4ZHs82E9FucPVNktVuiPILZidliz2LQI4Ng/ZMQhDVd+Xc+pIZVWy7
+         jQwEeZjFoXtcRK2NhIEvsdKX+bTBgH2ia5CPKC2gxMAaUrW4WD4NrpRnYb3uyw1VCVXa
+         l/ddetAN51bRMzO1oLOC4ICTux0ZFOKi50pv5cSOcX0xd+rSGNXtCp9Ygdr/s90IbFyO
+         itdLv/AgHm9Bk7ymCsyWun7malvZAgNlsFnnZt83d2v03B6EQeJr4KUOFNMRsB/6K89H
+         GMHg==
+X-Gm-Message-State: APjAAAWTCJvU3ixMaJltGyWO0mNgxf9Ff6fUvfttP8ADvQacLddi32kZ
+        BUv68UHauChoRvZcupaFbnU=
+X-Google-Smtp-Source: APXvYqxlwqlRSa81G37VFitvZnHoRsAlv+Q1y8BTY/ZxpMKTj73l4WKLRWW6Uj1BStb9PikmK4/czw==
+X-Received: by 2002:a17:902:ac8b:: with SMTP id h11mr7742793plr.87.1576741721330;
+        Wed, 18 Dec 2019 23:48:41 -0800 (PST)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.gmail.com with ESMTPSA id k4sm6423315pfk.11.2019.12.18.23.48.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 23:48:40 -0800 (PST)
+From:   Chuhong Yuan <hslester96@gmail.com>
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH v2 RFT] media: exynos4-is: add missed clk_disable_unprepare in remove
+Date:   Thu, 19 Dec 2019 15:48:24 +0800
+Message-Id: <20191219074824.15047-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5AEJ0sUzqrXJAmFnBn0aU8Ef6FwXYo0LgK0NO_CdWXRVg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 11:08:37PM +0900, Tomasz Figa wrote:
-> On Wed, Dec 18, 2019 at 10:40 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> >   Hi,
-> >
-> > > +The device MUST mark the last buffer with the
-> > > +VIRTIO_VIDEO_BUFFER_F_EOS flag to denote completion of the drain
-> > > +sequence.
-> >
-> > No, that would build a race condition into the protocol.  The device
-> > could complete the last buffer after the driver has sent the drain
-> > command but before the device saw it.  So the flag would not be
-> > reliable.
-> >
-> > I also can't see why the flag is needed in the first place.  The driver
-> > should know which buffers are queued still and be able to figure
-> > whenever the drain is complete or not without depending on that flag.
-> > So I'd suggest to simply drop it.
-> 
-> Unfortunately video decoders are not that simple. There are always
-> going to be some buffers on the decoder side used as reference frames.
-> Only the decoder knows when to release them, as it continues decoding
-> the stream.
+This driver forgets to disable and unprepare clock when remove.
+Add a call to clk_disable_unprepare() to fix it.
 
-Not clearly defined in the spec:  When is the decoder supposed to send
-the response for a queue request?  When it finished decoding (i.e. frame
-is ready for playback), or when it doesn't need the buffer any more for
-decoding (i.e. buffer can be re-queued or pages can be released)?
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+---
+Changes in v2:
+  - Add a check of pm_runtime_enable() to match enable in probe.
+  - Add RFT tag.
 
-> How we defined this in the V4L2 stateful decoder interface is that if
-> the decoder happened to return the last framebuffer before the drain
-> request arrived, it would return one more, empty.
+ drivers/media/platform/exynos4-is/fimc-lite.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Ok.  That is not clear from the spec.  I've read the drain request as as
-"please stop decoding and complete all queue requests which are in the
-virtqueue, even when you didn't process them yet".  In which case
-completing the last pending queue request would clearly indicate the
-draining request is complete.  Also completing the drain request should
-only happen when the operation is finished.
-
-I think the various states a buffer can have and how queuing & deciding
-& draining changes these states should be clarified in the
-specification.
-
-cheers,
-  Gerd
+diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+index e87c6a09205b..17de14fbba31 100644
+--- a/drivers/media/platform/exynos4-is/fimc-lite.c
++++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+@@ -1614,6 +1614,9 @@ static int fimc_lite_remove(struct platform_device *pdev)
+ 	struct fimc_lite *fimc = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
+ 
++	if (!pm_runtime_enabled(dev))
++		clk_disable_unprepare(fimc->clock);
++
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_set_suspended(dev);
+ 	fimc_lite_unregister_capture_subdev(fimc);
+-- 
+2.24.0
 
