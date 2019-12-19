@@ -2,110 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2E1125E69
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 11:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EB52125F1C
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 11:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbfLSKAQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 05:00:16 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:37585 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726618AbfLSKAP (ORCPT
+        id S1726741AbfLSKeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 05:34:12 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34430 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726656AbfLSKeM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 05:00:15 -0500
-Received: by mail-ed1-f68.google.com with SMTP id cy15so4256694edb.4
-        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2019 02:00:14 -0800 (PST)
+        Thu, 19 Dec 2019 05:34:12 -0500
+Received: by mail-pf1-f195.google.com with SMTP id l127so2994913pfl.1;
+        Thu, 19 Dec 2019 02:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kptvJQiwY0f0jKPZaorew/kszDrUaorltfUPXLGjup4=;
-        b=nO0b7djIoFaOvx66XsstxLKhuKj0P8rEKwUMKYwb0zRK9ftZR4GmE5ExTT7jO1V5DV
-         JuKTws8eHMuGgBuyAHWvFyf+jiivO0ykarHkxypviMNkqDfKt1aozB12FqzBeFTZV/hh
-         /wrtx1UVos9y2NibHVStuulHHWoaZZVXKjJ2s=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=BAIlE7DMaDGBVXpBNBOtzHm8RlaK5xCd8x7R/wAcGNI=;
+        b=fPLIxbkSfXYkwypUHxgrQoRCFHxrEKjirZPQC18UFlxp+lgXCi3e/Ce91ydWZlshwU
+         bmZnTU69j0FnT760dwJB/OI1Cfy4kgHn9m1cbcBN9G+3uGfyDFnfNFralhTltGDBnCIt
+         mEhAnUf9OJGEvRCED0gfO27fylMoTwysbsUOX06tjEim2jMAni8ohICfHJ45hglCpNGm
+         u3TXnLExef8+MjzV4Ga8FAZLUUgU0cqEoam1N7NfM9XWUO14n8L1pyjQrrLQ455XDjK0
+         cYo9d6KifrTTL2L04lwhNuUOGRTmk/q+r1HswwtAJm0Eb5jWpqIjjCmHfyCG1c/yMINL
+         GsDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kptvJQiwY0f0jKPZaorew/kszDrUaorltfUPXLGjup4=;
-        b=Uun+LwKZf9ve1CxJHt/xV49DVLR/xAZvSC927BgSjGl8DFRY53LgjtFZYSHzze8nqA
-         TMHCLKyCE+r04mklhiO68JMdC+z/GUkvMvznsnor1CFSNcVJSZtMmZThprAtOZirxoi7
-         JvLU5GLDedwPzy3jESCZ7e99lJuJMkq85t9SelJnWQOw1k62R1CE6R1FSsYzjACa4OlY
-         i2o09iLDrEf6+bj6SV0I6Bz2pFS34stxKybqxYsMI8LXVZ8QhfBcw7b9CLLyHxSerAhM
-         6x1kkVbFUiIkDXr+bYe9j81YqPclNbsO8iz7V2XyKlE5iqS2DP3Sdfi22ijUdld8WOgE
-         kqXA==
-X-Gm-Message-State: APjAAAX4XpsS37DNKbs22SU74zEZR9KCUTG4VBI1k6jfwMVblo5+11MI
-        jrL6lA1Vo/pwj0h+fFt6QvLHxVL2IAGbKg==
-X-Google-Smtp-Source: APXvYqw9uP5CVg3Uv4i+y25Obv+008X3dAd00rieWhII2RcnmQJ4pPDlJXf1SKDPcLEF1QoI7HQaaA==
-X-Received: by 2002:a17:906:af8d:: with SMTP id mj13mr8414393ejb.156.1576749613677;
-        Thu, 19 Dec 2019 02:00:13 -0800 (PST)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
-        by smtp.gmail.com with ESMTPSA id x41sm268194ede.27.2019.12.19.02.00.12
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 02:00:12 -0800 (PST)
-Received: by mail-wm1-f44.google.com with SMTP id f129so4938205wmf.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2019 02:00:12 -0800 (PST)
-X-Received: by 2002:a7b:c4c5:: with SMTP id g5mr9136717wmk.85.1576749612032;
- Thu, 19 Dec 2019 02:00:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <20191218130214.170703-2-keiichiw@chromium.org> <20191218134037.3jbouht52bxqwfyy@sirius.home.kraxel.org>
- <2570078.xtWa8k4VtA@os-lin-dmo>
-In-Reply-To: <2570078.xtWa8k4VtA@os-lin-dmo>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 19 Dec 2019 18:59:59 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CVkcQmMt=H74E4uHE26jidTfg2neJ6sYGKRa9XRxYxwQ@mail.gmail.com>
-Message-ID: <CAAFQd5CVkcQmMt=H74E4uHE26jidTfg2neJ6sYGKRa9XRxYxwQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>, fziglio@redhat.com,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=BAIlE7DMaDGBVXpBNBOtzHm8RlaK5xCd8x7R/wAcGNI=;
+        b=QCDhDL4oo6f86C5vShArxSMqIQbuZkR0I+oXOr1LqMZNjdgzoqkS11NqEFY/AuP0yU
+         ghJhofgTNA6zFbWUHu42TV/382ekOFBX2UYlJdIr+Y1hpa45q7uvpBAhQnzQu7u11E1V
+         G2l3Ilzt+wxKcwkcv+iqEwFki1ZKTYP1mr2Suw7MmIDEZ8lEcEaNB4gSLCY0JdTK8WgR
+         so27cXMTgDY1tYuttQhVZ+V8vgUPEQDoOU+U32FHHu/nAW2cdCK7kQu9SSGpQarhiBOL
+         XZKa62zUEoHteA1hfZFlrBzrWCxwrwtj8Nzl4hwq9ddMf9hIYx+9dINBS5Iq6IoSbfwS
+         BnAQ==
+X-Gm-Message-State: APjAAAXnNNomDZgbzsD0dExT90LQzoL05hG2Agr3ab1uCDfFQsBa+fRE
+        OsyYavAda8j4oPV7R7ZHz4Q=
+X-Google-Smtp-Source: APXvYqxaSmxfpFZxq4SV0bc4KGc9zAFwbYtPo3wGd6OBZqZduudwqsv5TLWgLCbp41LQIElLjdq7pg==
+X-Received: by 2002:a63:7705:: with SMTP id s5mr8134161pgc.379.1576751651603;
+        Thu, 19 Dec 2019 02:34:11 -0800 (PST)
+Received: from oslab.tsinghua.edu.cn ([166.111.139.172])
+        by smtp.gmail.com with ESMTPSA id d26sm6596181pgv.66.2019.12.19.02.34.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 02:34:10 -0800 (PST)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+To:     fabien.dessenne@st.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [PATCH v2] media: sti: bdisp: fix a possible sleep-in-atomic-context bug in bdisp_device_run()
+Date:   Thu, 19 Dec 2019 18:34:01 +0800
+Message-Id: <20191219103401.13630-1-baijiaju1990@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 6:26 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Gerd,
->
-> On Mittwoch, 18. Dezember 2019 14:40:37 CET Gerd Hoffmann wrote:
-> >   Hi,
-> >
-> > > +The device MUST mark the last buffer with the
-> > > +VIRTIO_VIDEO_BUFFER_F_EOS flag to denote completion of the drain
-> > > +sequence.
-> >
-> > No, that would build a race condition into the protocol.  The device
-> > could complete the last buffer after the driver has sent the drain
-> > command but before the device saw it.  So the flag would not be
-> > reliable.
-> No, then it means the device was not in drain, but, for example, hit a
-> resolution change in the stream and tells us that this is the last buffer with
-> the old resolution.
->
-> >
-> > I also can't see why the flag is needed in the first place.  The driver
-> > should know which buffers are queued still and be able to figure
-> > whenever the drain is complete or not without depending on that flag.
-> > So I'd suggest to simply drop it.
-> This flag is used not for drain only. In marks the completion of whatever
-> specific buffer sequence, like a full end-of-stream, resolution change, drain
-> etc. We also need this to handle nested sequences. For instance, a resolution
-> change event might happen while in drain.
+The driver may sleep while holding a spinlock.
+The function call path (from bottom to top) in Linux 4.19 is:
 
-Good point. The resolution change event is in a different virtqueue,
-so it's not serialized with the request completions.
+drivers/media/platform/sti/bdisp/bdisp-hw.c, 385:
+    msleep in bdisp_hw_reset
+drivers/media/platform/sti/bdisp/bdisp-v4l2.c, 341:
+    bdisp_hw_reset in bdisp_device_run
+drivers/media/platform/sti/bdisp/bdisp-v4l2.c, 317:
+    _raw_spin_lock_irqsave in bdisp_device_run
+
+To fix this bug, msleep() is replaced with udelay().
+
+This bug is found by a static analysis tool STCheck written by myself.
+
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+---
+v2:
+* Use udelay() instead of mdelay().
+  Thank Fabien for good advice.
+
+---
+ drivers/media/platform/sti/bdisp/bdisp-hw.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/sti/bdisp/bdisp-hw.c b/drivers/media/platform/sti/bdisp/bdisp-hw.c
+index 4372abbb5950..a74e9fd65238 100644
+--- a/drivers/media/platform/sti/bdisp/bdisp-hw.c
++++ b/drivers/media/platform/sti/bdisp/bdisp-hw.c
+@@ -14,8 +14,8 @@
+ #define MAX_SRC_WIDTH           2048
+ 
+ /* Reset & boot poll config */
+-#define POLL_RST_MAX            50
+-#define POLL_RST_DELAY_MS       20
++#define POLL_RST_MAX            500
++#define POLL_RST_DELAY_MS       2
+ 
+ enum bdisp_target_plan {
+ 	BDISP_RGB,
+@@ -382,7 +382,7 @@ int bdisp_hw_reset(struct bdisp_dev *bdisp)
+ 	for (i = 0; i < POLL_RST_MAX; i++) {
+ 		if (readl(bdisp->regs + BLT_STA1) & BLT_STA1_IDLE)
+ 			break;
+-		msleep(POLL_RST_DELAY_MS);
++		udelay(POLL_RST_DELAY_MS * 1000);
+ 	}
+ 	if (i == POLL_RST_MAX)
+ 		dev_err(bdisp->dev, "Reset timeout\n");
+-- 
+2.17.1
+
