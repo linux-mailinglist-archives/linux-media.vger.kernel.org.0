@@ -2,114 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 180931271A9
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 00:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39DB9127199
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 00:39:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727128AbfLSXlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 18:41:39 -0500
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21169 "EHLO
-        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726992AbfLSXlj (ORCPT
+        id S1727129AbfLSXjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 18:39:08 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45957 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726967AbfLSXjI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 18:41:39 -0500
-X-Greylist: delayed 903 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Dec 2019 18:41:38 EST
-ARC-Seal: i=1; a=rsa-sha256; t=1576797983; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=Inz6YHSYhC779548yK6cPFAYkj1L6vFEDExMEGkTZFEfNqb+yuiWIFLTSzj0lMF4ksjpiqRGr8D6utPqQyjLGPRg4EqSSOiSnGU0RHVzezzQ1sZbMiIWv0g6zChqPaUmGiKTDWjRJPce6gK08WgReO2UxM0z0NTs/r4SeY+RaDw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1576797983; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-        bh=YRwMCe3+7E5yL5rCzLP2abaTZ1SGUf1q183PkTOBBBU=; 
-        b=HeAPxRLUuUDKJnJaSXxWlZaKAsWPT3LweVlf9nBcuReGrhEpUhWwsJXo9xwZmh7E47q/J572kGQCsMVS8wXOGcp9SbW3fnEVkFObY+B4Q1ImlEfsOC/iTOIzkk4v3+BBk8svsvleWa+iDEQ9GYAuVIQdPtd1IloKngISI4DWwws=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=zv.io;
-        spf=pass  smtp.mailfrom=me@zv.io;
-        dmarc=pass header.from=<me@zv.io> header.from=<me@zv.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1576797983;
-        s=zoho; d=zv.io; i=me@zv.io;
-        h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Content-Type:Mime-Version:Content-Transfer-Encoding;
-        bh=YRwMCe3+7E5yL5rCzLP2abaTZ1SGUf1q183PkTOBBBU=;
-        b=iuvrt6wT4Yin5Ozj9gAnzkOUjr2JJrFPULCIr3ZIQdGTRqFP8cq/U+F+i/NhdGGH
-        zjxEsXKWm64CmkgpUa+KjTUNcMXDKeAI7aOdyoHpmLdHW87ZSPjQB6hxMhPrX0ik9Zm
-        mkw8KE905hUFEck5K37QbEAq5VBufSJAynk6iEkY=
-Received: from lighthouse (cpe-70-114-218-141.austin.res.rr.com [70.114.218.141]) by mx.zohomail.com
-        with SMTPS id 1576797982566959.8883413676132; Thu, 19 Dec 2019 15:26:22 -0800 (PST)
-Message-ID: <1576797980.31912.110.camel@zv.io>
-Subject: Re: [PATCH v5 6/8] media: v4l2-core: fix v4l2_buffer handling for
- time64 ABI
-From:   Zach van Rijn <me@zv.io>
-To:     Arnd Bergmann <arnd@arndb.de>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Thu, 19 Dec 2019 17:26:20 -0600
-In-Reply-To: <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
-References: <20191126161824.337724-1-arnd@arndb.de>
-         <20191126161824.337724-7-arnd@arndb.de>
-         <09c664fd-87fb-4fac-f104-9afbe7d33aa2@xs4all.nl>
-         <CAK8P3a1TvFCJf8t9T1yOXjsp088s9dbEOKLVDPinfwJe2B-27g@mail.gmail.com>
-         <81bb5da1-6b84-8473-4ada-c174f43bbae2@xs4all.nl>
-         <0843718f-1391-3379-38be-41fa9558ea6d@xs4all.nl>
-         <CAK8P3a1-xLUn368Lajia1=2GEXa92srQ2s9wH--MrRHj+kSTtQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+        Thu, 19 Dec 2019 18:39:08 -0500
+Received: by mail-ot1-f66.google.com with SMTP id 59so9314524otp.12;
+        Thu, 19 Dec 2019 15:39:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=49NkEdPVUTrClJQG9wypO7j+KSvP2cMEHBxilTCm4Oo=;
+        b=RjUEkO+cKjVfqoGzr0G5WphvcZBMEx+n4wXH8DpnNwmt7fUpX0BuhS0P6CYrbOq6Vx
+         LzGAe6q4BpJY4LOePLzOTxidpvwDX7xIuzK4aSErraDbrCkLYxJP5tFTQBIPi6ig/IMz
+         nqjHNqzSwCflmt2JXYNzarJQCLmrE667BIwt/a8Xdw9nQpmwI22jf/jsdVoSI5AWRFEt
+         uF1+hQ1nP9LibNRf/GJIR83PbeP5GI6HPLIAKWhxSXxFGvrKb8uDVQXOxe8ZtmdiO+RY
+         ZnZ7wcuwSXnqjWLXvnTW12dx5gn2enTZpdBVc4Q9BiHo0I3hAh7zsP7kWnmr7TmBNEZ9
+         s1IA==
+X-Gm-Message-State: APjAAAXQ3S0LI/qf62jqqvcvuUGfaybwpaCnby32A+n1tX1sroIFG0VF
+        uOh4OTX0+rOmNxKTPG4KwK73i24=
+X-Google-Smtp-Source: APXvYqxzLHH4qXGeUb8cHj1eoRujkYAF2qvTXqb8zLYaI8LIyC64mQDJGqWuHCRdXoGlm/z+AQnO2w==
+X-Received: by 2002:a9d:8f1:: with SMTP id 104mr9303245otf.107.1576798747100;
+        Thu, 19 Dec 2019 15:39:07 -0800 (PST)
+Received: from localhost (ip-184-205-174-147.ftwttx.spcsdns.net. [184.205.174.147])
+        by smtp.gmail.com with ESMTPSA id w192sm842206oiw.8.2019.12.19.15.39.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 15:39:06 -0800 (PST)
+Date:   Thu, 19 Dec 2019 17:39:04 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Guillaume La Roque <glaroque@baylibre.com>
+Cc:     narmstrong@baylibre.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, khilman@baylibre.com,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: media: meson-ao-cec: Add
+ support of ao-sysctrl syscon
+Message-ID: <20191219233904.GA18354@bogus>
+References: <20191213132956.11074-1-glaroque@baylibre.com>
+ <20191213132956.11074-2-glaroque@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191213132956.11074-2-glaroque@baylibre.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 2019-12-14 at 22:44 +0100, Arnd Bergmann wrote:
-> On Sat, Dec 14, 2019 at 12:27 PM Hans Verkuil <hverkuil@xs4all
-> .nl> wrote:
-> > 
-> > On 12/13/19 4:32 PM, Hans Verkuil wrote:
-> > > > > ...
-> > > > 
-> > > > I've heard good things about the prebuilt toolchains
-> > > > from http://musl.cc/.
-> > > > These seems to come with a libstdc++, but I have not
-> > > > tried that myself.
-> > > 
-> > > I'll see if I can give those a spin, but if I can't get it
-> > > to work quickly,
-> > > then I don't plan on spending much time on it.
-> > 
-> > I managed to build v4l2-ctl/compliance with those
-> > toolchains, but they seem to be
-> > still using a 32-bit time_t.
-> > 
-> > Do I need to get a specific version or do something special?
+On Fri, 13 Dec 2019 14:29:54 +0100, Guillaume La Roque wrote:
+> ao-sysctrl syscon phandle property is needed for CEC wakeup support.
+> This property is optional.
 > 
-> My mistake: only musl-1.2.0 and up have 64-bit time_t, but
-> this isn't released yet. According to https://wiki.musl-
-> libc.org/roadmap.html, the release was planned for last month,
-> no idea how long it will take.
+> Tested-by: Kevin Hilman <khilman@baylibre.com>
+> Signed-off-by: Guillaume La Roque <glaroque@baylibre.com>
+> ---
+>  .../devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml    | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> It appears that a snapshot build at
-> http://more.musl.cc/7.5.0/x86_64-linux-musl/i686-linux-musl-
-> native.tgz is new enough to have 64-bit time_t (according to
-> include/bits/alltypes.h), but this is a month old as well, so
-> it may have known bugs.
-> 
-> Adding Zach to Cc here, maybe he already has plans for another
-> build with the latest version.
 
-Yes, that's correct. The current (as of 2019-12-19) GCC 9.2.1
-offering is based on musl 1.1.24, though the 7.5.0 release is
-using a more recent git tag only due to timing/availability.
-
-Within reason, I'm happy to bump versions with justification.
-Rebuilding takes about a full day but no time on my end.
-
-Rich sent out a message [1] just today suggesting there is still
-some time64 work to be done, so once he pushes those patches
-I'll build and release new toolchains for 9.2, 8.3, and 7.5.
-
-
-ZV
-
-[1]: https://www.openwall.com/lists/musl/2019/12/19/6
-
+Reviewed-by: Rob Herring <robh@kernel.org>
