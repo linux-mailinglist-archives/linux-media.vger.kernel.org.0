@@ -2,93 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFB1A126D47
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 20:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA4BF126EE8
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 21:29:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728301AbfLSSjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 13:39:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58410 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728294AbfLSSjx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 13:39:53 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727406AbfLSU33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 15:29:29 -0500
+Received: from mta-p5.oit.umn.edu ([134.84.196.205]:45446 "EHLO
+        mta-p5.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726981AbfLSU33 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Dec 2019 15:29:29 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p5.oit.umn.edu (Postfix) with ESMTP id 47f3Q02Q7Yz9vZ2B
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2019 20:29:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id wYqbWLWQpacj for <linux-media@vger.kernel.org>;
+        Thu, 19 Dec 2019 14:29:28 -0600 (CST)
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com [209.85.219.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BD3E424650;
-        Thu, 19 Dec 2019 18:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576780792;
-        bh=3K4N9OE0RaryNp4KTlU4FXDaW7UdwQ7b4wXkp9IHSQQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NHq03vZOAKEsz8nKbxqwuOHc1IT7mUuBzXR3/VLaIvOR27K0iONojZd+z3TfgnURb
-         EVSz/EnMvhbVHKDNizuqjjUSflIhyZ9KAh7vY9Hg6YE++bJIgPHcvZD3HxSI5L8Vpp
-         +qGUrnr1G+Tbxwf5de1KVyjABATiZPHdNkwmCeME=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, linux-media@vger.kernel.org,
-        Martin Bugge <marbugge@cisco.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>
-Subject: [PATCH 4.4 120/162] video/hdmi: Fix AVI bar unpack
-Date:   Thu, 19 Dec 2019 19:33:48 +0100
-Message-Id: <20191219183215.056079256@linuxfoundation.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191219183150.477687052@linuxfoundation.org>
-References: <20191219183150.477687052@linuxfoundation.org>
-User-Agent: quilt/0.66
+        by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 47f3Q01Dyhz9vZ1w
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2019 14:29:28 -0600 (CST)
+Received: by mail-yb1-f200.google.com with SMTP id b5so5012838ybq.23
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2019 12:29:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0ku3WkybWuYyol2wbhhnHdNuHA1Lkwj9hheWjbC7/44=;
+        b=mpjePlJ9nPLL6pMoZa3NMUzvBxSAij80+5mlgV8hUi54WoJWZLHaB1FG/vLn1EdBgz
+         OTQFltozEQxjVG/v/d+TIY4qH29YAaXEY0GdZ2Q4m5H8GdzRVH9Nn8cpJbJQ0qogLXwe
+         fRlU+87eCFwqfnjW5fD0j+z3TEeAPkk4uj8j5XOKPhm+A4NS/OFNixKQ9/vIVigktPov
+         GqCbDQtgf/KX+CaXiwU/2SxPjeuyl6JKhlV7VAufsEeGYAlMDiMuUVUGGzrMgCuHPMFr
+         cvLxMHOQElgXGKMUieRTJXPAD8XZ1CXyKvIrNR7SHpIKHTB8LrehERXROw5KIOlGtLpz
+         dcSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0ku3WkybWuYyol2wbhhnHdNuHA1Lkwj9hheWjbC7/44=;
+        b=r9T1ODEDNFvNN+hIrE5diEHpkoxEUz4VFpsImUe3/xenwjmR1gKFYlcsdtCtvPWYwi
+         3pfhxlYjaF9s21SYk9FidvD/BLsP0PkUTnbSK8uXI7PsAZJ//qZyWIMxzV4systzI+Fd
+         6WYE/yhJvqqSExMOCXFgfDCqXKiVxQJFBachrnpR5QX+d1zzjUjFOyOv9slcPj6C6Q4l
+         t94OhcJ4iYYg5t/xMUV3f5AO0b6UlbIGWh+/5yMcb0aqRJek69yd+KrlM/OFcRTCn8Js
+         pRybIJ3T8gqzMqzhm4DVkV9Mj1b9B5e1JFfQkaiaoT1qKwTRMKT/LgyxiR+8VPVYu1O+
+         Ujbg==
+X-Gm-Message-State: APjAAAVrYeeQGfz+4D9oCtdrW+ySlK6Qo7O5wnQ7ucSzCoQ+qyLAoP9O
+        uwMfUclnWtff7TVdq+aWLa+ig5ebR8GDlDSzt3ULqg3inZMXDu1u+NW7i3DVwMrIV1IDwrphN+2
+        6A0svCJa9exwJOIUyrgsN4uqXtSQ=
+X-Received: by 2002:a81:3a0b:: with SMTP id h11mr7820046ywa.217.1576787367604;
+        Thu, 19 Dec 2019 12:29:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz/xa8tB8qV6esn82AbEH4SgpvqcB9j6GjxQw3qqRE8q4mJtWFsv0+QkciV590Lu76NnF8KkA==
+X-Received: by 2002:a81:3a0b:: with SMTP id h11mr7820030ywa.217.1576787367403;
+        Thu, 19 Dec 2019 12:29:27 -0800 (PST)
+Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
+        by smtp.gmail.com with ESMTPSA id w128sm2827126ywf.72.2019.12.19.12.29.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2019 12:29:27 -0800 (PST)
+From:   Aditya Pakki <pakki001@umn.edu>
+To:     pakki001@umn.edu
+Cc:     kjlu@umn.edu, Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: media/saa7146: fix incorrect assertion in saa7146_buffer_finish
+Date:   Thu, 19 Dec 2019 14:29:24 -0600
+Message-Id: <20191219202924.24194-1-pakki001@umn.edu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+In saa7146_buffer_finish, the code for q->curr to be NULL is
+already present and asserting for NULL is unnecessary. This patch
+elimiates such a check.
 
-commit 6039f37dd6b76641198e290f26b31c475248f567 upstream.
-
-The bar values are little endian, not big endian. The pack
-function did it right but the unpack got it wrong. Fix it.
-
-Cc: stable@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: Martin Bugge <marbugge@cisco.com>
-Cc: Hans Verkuil <hans.verkuil@cisco.com>
-Cc: Thierry Reding <treding@nvidia.com>
-Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
-Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions for InfoFrames")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190919132853.30954-1-ville.syrjala@linux.intel.com
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 ---
- drivers/video/hdmi.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/common/saa7146/saa7146_fops.c | 2 --
+ 1 file changed, 2 deletions(-)
 
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -1032,12 +1032,12 @@ static int hdmi_avi_infoframe_unpack(str
- 	if (ptr[0] & 0x10)
- 		frame->active_aspect = ptr[1] & 0xf;
- 	if (ptr[0] & 0x8) {
--		frame->top_bar = (ptr[5] << 8) + ptr[6];
--		frame->bottom_bar = (ptr[7] << 8) + ptr[8];
-+		frame->top_bar = (ptr[6] << 8) | ptr[5];
-+		frame->bottom_bar = (ptr[8] << 8) | ptr[7];
- 	}
- 	if (ptr[0] & 0x4) {
--		frame->left_bar = (ptr[9] << 8) + ptr[10];
--		frame->right_bar = (ptr[11] << 8) + ptr[12];
-+		frame->left_bar = (ptr[10] << 8) | ptr[9];
-+		frame->right_bar = (ptr[12] << 8) | ptr[11];
- 	}
- 	frame->scan_mode = ptr[0] & 0x3;
+diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
+index aabb830e7468..d7e83b55ddca 100644
+--- a/drivers/media/common/saa7146/saa7146_fops.c
++++ b/drivers/media/common/saa7146/saa7146_fops.c
+@@ -97,8 +97,6 @@ void saa7146_buffer_finish(struct saa7146_dev *dev,
+ 	DEB_EE("dev:%p, dmaq:%p, state:%d\n", dev, q, state);
+ 	DEB_EE("q->curr:%p\n", q->curr);
  
-
+-	BUG_ON(!q->curr);
+-
+ 	/* finish current buffer */
+ 	if (NULL == q->curr) {
+ 		DEB_D("aiii. no current buffer\n");
+-- 
+2.20.1
 
