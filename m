@@ -2,70 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39DB9127199
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 00:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99A4E1271E0
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 00:56:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727129AbfLSXjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 18:39:08 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45957 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726967AbfLSXjI (ORCPT
+        id S1727002AbfLSX4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 18:56:18 -0500
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:41101 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726964AbfLSX4S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 18:39:08 -0500
-Received: by mail-ot1-f66.google.com with SMTP id 59so9314524otp.12;
-        Thu, 19 Dec 2019 15:39:07 -0800 (PST)
+        Thu, 19 Dec 2019 18:56:18 -0500
+Received: by mail-yw1-f68.google.com with SMTP id l22so2888679ywc.8;
+        Thu, 19 Dec 2019 15:56:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=49NkEdPVUTrClJQG9wypO7j+KSvP2cMEHBxilTCm4Oo=;
-        b=RjUEkO+cKjVfqoGzr0G5WphvcZBMEx+n4wXH8DpnNwmt7fUpX0BuhS0P6CYrbOq6Vx
-         LzGAe6q4BpJY4LOePLzOTxidpvwDX7xIuzK4aSErraDbrCkLYxJP5tFTQBIPi6ig/IMz
-         nqjHNqzSwCflmt2JXYNzarJQCLmrE667BIwt/a8Xdw9nQpmwI22jf/jsdVoSI5AWRFEt
-         uF1+hQ1nP9LibNRf/GJIR83PbeP5GI6HPLIAKWhxSXxFGvrKb8uDVQXOxe8ZtmdiO+RY
-         ZnZ7wcuwSXnqjWLXvnTW12dx5gn2enTZpdBVc4Q9BiHo0I3hAh7zsP7kWnmr7TmBNEZ9
-         s1IA==
-X-Gm-Message-State: APjAAAXQ3S0LI/qf62jqqvcvuUGfaybwpaCnby32A+n1tX1sroIFG0VF
-        uOh4OTX0+rOmNxKTPG4KwK73i24=
-X-Google-Smtp-Source: APXvYqxzLHH4qXGeUb8cHj1eoRujkYAF2qvTXqb8zLYaI8LIyC64mQDJGqWuHCRdXoGlm/z+AQnO2w==
-X-Received: by 2002:a9d:8f1:: with SMTP id 104mr9303245otf.107.1576798747100;
-        Thu, 19 Dec 2019 15:39:07 -0800 (PST)
+        bh=ARCZQqxf+0FzEB5iVazPT6aK74bYUEn3HXg9HU6qLcQ=;
+        b=ft4CGVGj9P3ADcFH2s0rWIZqKgjcZUAA3MNbf05NPZY1mM00zhiVvN3jLvPpb0R6pt
+         x0dfNuNC1ocn2NFfsusOGDrZZndPGS7VHWjI5p/bW5Omi+gW+m66YyjHihnPnaeA3MAo
+         eqjYbQp6cN6r8NFjkL2Pp57Q1/tKYIoW6cX0drdwMONW8en25UwQOedK8uyxp/7K5RLP
+         qUUkVTsHmHUImGghHFxgc10q0VPKZbygYyXYinLRUatc+UgiWQ4DOt0MqOiYG+fvN6E/
+         5LsNC9J5zmRNIqjeVoPXxmSZmRzb7LC5Zcgp0BXYjj06cgtPm2Xofwg94E6nEK7qNTDV
+         g4cg==
+X-Gm-Message-State: APjAAAXlE5zB2Inxl/qOD11wKhG4NmYG0ATeotWUo+1Ud98tdeJ/CtJq
+        bPlosmROMD1xgSJ2gIHjYzSd/Rg=
+X-Google-Smtp-Source: APXvYqywBAQDOyS21IT+zvRVl4XolNmnzFYexAWz8fo5ibiktWXARwDGoYAPr7Xhqa1RU911jzX1Pg==
+X-Received: by 2002:a9d:5885:: with SMTP id x5mr11347193otg.132.1576799776295;
+        Thu, 19 Dec 2019 15:56:16 -0800 (PST)
 Received: from localhost (ip-184-205-174-147.ftwttx.spcsdns.net. [184.205.174.147])
-        by smtp.gmail.com with ESMTPSA id w192sm842206oiw.8.2019.12.19.15.39.05
+        by smtp.gmail.com with ESMTPSA id z12sm2730992oti.22.2019.12.19.15.56.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2019 15:39:06 -0800 (PST)
-Date:   Thu, 19 Dec 2019 17:39:04 -0600
+        Thu, 19 Dec 2019 15:56:15 -0800 (PST)
+Date:   Thu, 19 Dec 2019 17:56:13 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Guillaume La Roque <glaroque@baylibre.com>
-Cc:     narmstrong@baylibre.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, khilman@baylibre.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: media: meson-ao-cec: Add
- support of ao-sysctrl syscon
-Message-ID: <20191219233904.GA18354@bogus>
-References: <20191213132956.11074-1-glaroque@baylibre.com>
- <20191213132956.11074-2-glaroque@baylibre.com>
+To:     Chen-Yu Tsai <wens@kernel.org>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Chen-Yu Tsai <wens@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 01/14] dt-bindings: media: sun4i-csi: Add compatible for
+ CSI1 on A10/A20
+Message-ID: <20191219235613.GA9523@bogus>
+References: <20191215165924.28314-1-wens@kernel.org>
+ <20191215165924.28314-2-wens@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191213132956.11074-2-glaroque@baylibre.com>
+In-Reply-To: <20191215165924.28314-2-wens@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 13 Dec 2019 14:29:54 +0100, Guillaume La Roque wrote:
-> ao-sysctrl syscon phandle property is needed for CEC wakeup support.
-> This property is optional.
+On Mon, 16 Dec 2019 00:59:11 +0800, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> Tested-by: Kevin Hilman <khilman@baylibre.com>
-> Signed-off-by: Guillaume La Roque <glaroque@baylibre.com>
+> The CSI1 block has the same structure and layout as the CSI0 block.
+> Differences include:
+> 
+>   - Only one channel in BT.656 instead of four in CSI0
+>   - 10-bit raw data input vs 8-bit in CSI0
+>   - 24-bit RGB888/YUV444 input vs 16-bit RGB565/YUV422 in CSI0
+>   - No ISP hardware
+> 
+> The hardware found in the A20 is the same as in the A10.
+> 
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 > ---
->  .../devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml    | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../bindings/media/allwinner,sun4i-a10-csi.yaml       | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
