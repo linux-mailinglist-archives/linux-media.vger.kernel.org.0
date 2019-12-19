@@ -2,223 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB713126F47
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 22:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 228EC126F5F
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 22:07:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbfLSVBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 16:01:03 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43190 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726880AbfLSVBD (ORCPT
+        id S1727209AbfLSVHr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 16:07:47 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:43958 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726981AbfLSVHq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 16:01:03 -0500
-Received: by mail-ot1-f66.google.com with SMTP id p8so8836419oth.10;
-        Thu, 19 Dec 2019 13:01:02 -0800 (PST)
+        Thu, 19 Dec 2019 16:07:46 -0500
+Received: by mail-qt1-f196.google.com with SMTP id d18so3570224qtj.10
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2019 13:07:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=b1m6ooTcPBF03IyS8tXbQFWmui5q38MZyl7sgcWDrVc=;
+        b=I0eeHPXEKyhR6F3+w0uZp8nZL74lZ+A5yJ1jcW4KB5MO7vY9ONwJPcIUEGlT8SbUeO
+         LH81YaW3GC7SMUuObdRRRlnGzTOYLS475Sg1mUPvLmi4JlCQaPrNqV+lDtlEr4ByHobI
+         ZOHWHIxyfXKwjF07HIG3BbuRvW3BGN4Y76jyGe62WEFR0v3gEx92h1yDdyRSLYhNDwBJ
+         tpCIZrQ8KxYH2/vN+ZSvjy5imMLbf+TFj3Y+cP0N+OLWwhHVLOxCMvkJX7OZ7EDojcBc
+         GAxbNt0FBcreyN8pFhlQHApx98BWQ2R7K6v8eS90taP+fCjutUcn9h1snaULI5tTj6Dz
+         Afvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ON8eGjdOxXDNxXRbcSo/zXFn8dAXPmlNBuT1v9QHzVI=;
-        b=gOYZaPMLL6OtfUWfTkipWvfJE0jY/Ruxl1Pt9NbR2GlfgSEgg6VXiPeoFdCKkAZbF0
-         I/pDoW8CebzKqgJajr5TNUMOJiFrPgPVrbraeIORiPYA7YB9qsaKruQuugHXmvVq5b2p
-         9Pv6+CLaLWbMa6QahJkNhHj502ulZPJw0VU/uMFFvOYqS3xBEajXWOKarCwJRD9KuY1K
-         hrVZNBonARBPJfRLipngluLJKezbih+obAAxmXL7OdDzEF8poAUnYWUZl71CeBhk3muI
-         FNKYKJGfxmH6AWQjX/MtUF9BM8j/YoEmFCPINqBZJcQdAMx7lghaVyYHbTEKIFXptdey
-         Lfjw==
-X-Gm-Message-State: APjAAAV065/3zEDH+H6SPsgm0TZOEcoT2z5DEh6TYE6MLW9omT6OC3CX
-        llRA+LBloe9RcXTVK20+LQ==
-X-Google-Smtp-Source: APXvYqymkyfBQbbE6mbUJpRdoEUTa5HJV/Tz+rBwksGN5tWKB0xiojoCFA5+NT3bUfNmrK77J5+/Fg==
-X-Received: by 2002:a9d:760f:: with SMTP id k15mr10786676otl.65.1576789261369;
-        Thu, 19 Dec 2019 13:01:01 -0800 (PST)
-Received: from localhost (ip-184-205-110-29.ftwttx.spcsdns.net. [184.205.110.29])
-        by smtp.gmail.com with ESMTPSA id b81sm2432958oia.0.2019.12.19.13.01.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2019 13:01:00 -0800 (PST)
-Date:   Thu, 19 Dec 2019 15:00:59 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, dave.stevenson@raspberrypi.com,
-        peter.griffin@linaro.org
-Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor
- binding
-Message-ID: <20191219205934.GA19011@bogus>
-References: <20191211115441.10637-1-andrey.konovalov@linaro.org>
- <20191211115441.10637-2-andrey.konovalov@linaro.org>
+        bh=b1m6ooTcPBF03IyS8tXbQFWmui5q38MZyl7sgcWDrVc=;
+        b=eV88qB+rq2i2WCmZiMHbTnYe176b7v72fW5Abp6eG2LdTu4r4kqwzMUbJl9PsW13f3
+         h9bkZg+sOxOZPzwJ57QQeSxSJ776HYwSgOm3nZzJHsg7iP8e6KjnNOvERQO+4MdHOJiD
+         kUgAo2tKpCmvigjG25B7oUtAHwC2Av32F7Q8kBwbklqODpPNLG4iZbNWuIjTrGAkeBIN
+         X/4C96XZEsyj+T8Vcf8+dGB5L4D5MNTo+Uj7H0NwDG9+spUcrbxaA745qBWPQ3VwVugK
+         uFt2ZvT9wYPULL3rWGAqj60CD+uKQhkmdCTW3TE1qXLYenbtwMZnInoqMMFQn2FGLOmu
+         fkQA==
+X-Gm-Message-State: APjAAAVg7fMsH0VqmuA2re4g7/g28JXTNg9qWe1Ybrk82KiW8GqU+g6l
+        zMHI/DjkDA9BHDb12uHdUvDAog==
+X-Google-Smtp-Source: APXvYqxVnwIXGsi0o/bO9dZGQ7XuTOfFwgCWi/4t790OZPxPymgdPJt3SfFmZqkv2903tXMsYUoGBQ==
+X-Received: by 2002:ac8:2d30:: with SMTP id n45mr8586782qta.203.1576789665577;
+        Thu, 19 Dec 2019 13:07:45 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id m20sm2085982qkk.15.2019.12.19.13.07.44
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 19 Dec 2019 13:07:44 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1ii31L-0007mU-Uf; Thu, 19 Dec 2019 17:07:43 -0400
+Date:   Thu, 19 Dec 2019 17:07:43 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+Message-ID: <20191219210743.GN17227@ziepe.ca>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191211115441.10637-2-andrey.konovalov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 02:54:40PM +0300, Andrey Konovalov wrote:
-> Add YAML device tree binding for IMX219 CMOS image sensor, and
-> the relevant MAINTAINERS entries.
+On Thu, Dec 19, 2019 at 12:30:31PM -0800, John Hubbard wrote:
+> On 12/19/19 5:26 AM, Leon Romanovsky wrote:
+> > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
+> > > Hi,
+> > > 
+> > > This implements an API naming change (put_user_page*() -->
+> > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
+> > > extends that tracking to a few select subsystems. More subsystems will
+> > > be added in follow up work.
+> > 
+> > Hi John,
+> > 
+> > The patchset generates kernel panics in our IB testing. In our tests, we
+> > allocated single memory block and registered multiple MRs using the single
+> > block.
+> > 
+> > The possible bad flow is:
+> >   ib_umem_geti() ->
+> >    pin_user_pages_fast(FOLL_WRITE) ->
+> >     internal_get_user_pages_fast(FOLL_WRITE) ->
+> >      gup_pgd_range() ->
+> >       gup_huge_pd() ->
+> >        gup_hugepte() ->
+> >         try_grab_compound_head() ->
 > 
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> ---
->  .../devicetree/bindings/media/i2c/imx219.yaml | 112 ++++++++++++++++++
->  MAINTAINERS                                   |   8 ++
->  2 files changed, 120 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> Hi Leon,
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> new file mode 100644
-> index 000000000000..5e4293c21933
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> @@ -0,0 +1,112 @@
-> +# SPDX-License-Identifier: GPL-2.0
-
-Dual license new bindings:
-
-(GPL-2.0-only OR BSD-2-Clause)
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
-> +
-> +description: |-
-> +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
-> +  with an active array size of 3280H x 2464V. It is programmable through
-> +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
-> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-> +  4 data lanes.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx219
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: xclk
-> +
-> +  VDIG-supply:
-> +    description:
-> +      Digital I/O voltage supply, 1.8 volts
-> +
-> +  VANA-supply:
-> +    description:
-> +      Analog voltage supply, 2.8 volts
-> +
-> +  VDDL-supply:
-> +    description:
-> +      Digital core voltage supply, 1.2 volts
-> +
-> +  xclr-gpios:
-> +    description: |-
-> +      Reference to the GPIO connected to the xclr pin, if any.
-> +      Must be released after all supplies are applied.
-> +      This is an active high signal to the imx219.
-> +
-> +  clock-noncontinuous:
-> +    description: |-
-> +      Presence of this boolean property decides whether the MIPI CSI-2 clock
-> +      is continuous or non-continuous.
-> +
-> +  camera-clk: true
-
-Not a standard prop. Needs a type, description, etc.
-
-> +
-> +  port: true
-> +
-> +  data-lanes:
-> +    description: |-
-> +      Should be <1 2 3 4> for four-lane operation, or <1 2> for two-lane
-> +      operation.
-> +    const: <1 2>
-
-Not valid json-schema. Run 'make dt_binding_check' and fix the errors.
-
-These also go under the 'endpoint' node.
-
-> +  clock-lanes:
-> +    const: <0>
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - VANA-supply
-> +  - VDIG-supply
-> +  - VDDL-supply
-
-port required?
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        imx219: sensor@10 {
-> +            compatible = "sony,imx219";
-> +            reg = <0x10>;
-> +            clocks = <&imx219_clk>;
-> +            clock-names = "xclk";
-> +            VANA-supply = <&imx219_vana>;   /* 2.8v */
-> +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-> +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-> +
-> +            imx219_clk: camera-clk {
-> +                compatible = "fixed-clock";
-> +                #clock-cells = <0>;
-> +                clock-frequency = <24000000>;
-> +            };
-> +
-> +            port {
-> +                imx219_0: endpoint {
-> +                    remote-endpoint = <&csi1_ep>;
-> +                    clock-lanes = <0>;
-> +                    data-lanes = <1 2>;
-> +                    clock-noncontinuous;
-> +                    bus-type = <4>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 02d5278a4c9a..3baf2954d2f4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15339,6 +15339,14 @@ S:	Maintained
->  F:	drivers/media/i2c/imx214.c
->  F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
->  
-> +SONY IMX219 SENSOR DRIVER
-> +M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
-> +L:	linux-media@vger.kernel.org
-> +T:	git git://linuxtv.org/media_tree.git
-> +S:	Maintained
-> +F:	drivers/media/i2c/imx219.c
-> +F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> +
->  SONY IMX258 SENSOR DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:	linux-media@vger.kernel.org
-> -- 
-> 2.17.1
+> Thanks very much for the detailed report! So we're overflowing...
 > 
+> At first look, this seems likely to be hitting a weak point in the
+> GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
+> (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
+> 99-121). Basically it's pretty easy to overflow the page->_refcount
+> with huge pages if the pages have a *lot* of subpages.
+> 
+> We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
+
+Considering that establishing these pins is entirely under user
+control, we can't have a limit here.
+
+If the number of allowed pins are exhausted then the
+pin_user_pages_fast() must fail back to the user.
+
+> 3. It would be nice if I could reproduce this. I have a two-node mlx5 Infiniband
+> test setup, but I have done only the tiniest bit of user space IB coding, so
+> if you have any test programs that aren't too hard to deal with that could
+> possibly hit this, or be tweaked to hit it, I'd be grateful. Keeping in mind
+> that I'm not an advanced IB programmer. At all. :)
+
+Clone this:
+
+https://github.com/linux-rdma/rdma-core.git
+
+Install all the required deps to build it (notably cython), see the README.md
+
+$ ./build.sh
+$ build/bin/run_tests.py 
+
+If you get things that far I think Leon can get a reproduction for you
+
+Jason
