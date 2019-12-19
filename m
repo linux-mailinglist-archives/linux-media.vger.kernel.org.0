@@ -2,93 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB13B125DA2
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 10:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1125A125DB0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 10:30:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbfLSJ0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 04:26:44 -0500
-Received: from plasma6.jpberlin.de ([80.241.56.68]:48947 "EHLO
-        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726633AbfLSJ0o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 04:26:44 -0500
-Received: from spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123])
-        by plasma.jpberlin.de (Postfix) with ESMTP id 25C60B9C33;
-        Thu, 19 Dec 2019 10:26:40 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de [80.241.56.123]) (amavisd-new, port 10030)
-        with ESMTP id KTstFXxyl3Vg; Thu, 19 Dec 2019 10:26:39 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id 609A8B9C9D;
-        Thu, 19 Dec 2019 10:26:38 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
- (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 19 Dec
- 2019 10:26:37 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-CC:     Keiichi Watanabe <keiichiw@chromium.org>,
-        <virtio-dev@lists.oasis-open.org>, <linux-media@vger.kernel.org>,
-        <acourbot@chromium.org>, <alexlau@chromium.org>, <daniel@ffwll.ch>,
-        <dgreid@chromium.org>, <egranata@google.com>, <fziglio@redhat.com>,
-        <hverkuil@xs4all.nl>, <marcheu@chromium.org>,
-        <posciak@chromium.org>, <spice-devel@lists.freedesktop.org>,
-        <stevensd@chromium.org>, <tfiga@chromium.org>, <uril@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio-video: Add virtio video device specification
-Date:   Thu, 19 Dec 2019 10:26:37 +0100
-Message-ID: <2570078.xtWa8k4VtA@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <20191218134037.3jbouht52bxqwfyy@sirius.home.kraxel.org>
-References: <20191218130214.170703-1-keiichiw@chromium.org> <20191218130214.170703-2-keiichiw@chromium.org> <20191218134037.3jbouht52bxqwfyy@sirius.home.kraxel.org>
+        id S1726622AbfLSJap (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 04:30:45 -0500
+Received: from mga06.intel.com ([134.134.136.31]:5412 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726609AbfLSJap (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Dec 2019 04:30:45 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Dec 2019 01:30:44 -0800
+X-IronPort-AV: E=Sophos;i="5.69,331,1571727600"; 
+   d="scan'208";a="298658033"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Dec 2019 01:30:43 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 62E802066A; Thu, 19 Dec 2019 11:30:41 +0200 (EET)
+Date:   Thu, 19 Dec 2019 11:30:41 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Shawnx Tu <shawnx.tu@intel.com>
+Cc:     linux-media@vger.kernel.org, andy.yeh@intel.com
+Subject: Re: [PATCH v1] ov5675: add vflip/hflip control support
+Message-ID: <20191219093041.GJ21246@paasikivi.fi.intel.com>
+References: <1576734366-5313-1-git-send-email-shawnx.tu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1576734366-5313-1-git-send-email-shawnx.tu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gerd,
+Hi Shawn,
 
-On Mittwoch, 18. Dezember 2019 14:40:37 CET Gerd Hoffmann wrote:
->   Hi,
-> 
-> > +The device MUST mark the last buffer with the
-> > +VIRTIO_VIDEO_BUFFER_F_EOS flag to denote completion of the drain
-> > +sequence.
-> 
-> No, that would build a race condition into the protocol.  The device
-> could complete the last buffer after the driver has sent the drain
-> command but before the device saw it.  So the flag would not be
-> reliable.
-No, then it means the device was not in drain, but, for example, hit a 
-resolution change in the stream and tells us that this is the last buffer with 
-the old resolution.
+Thank you for the patch.
+
+On Thu, Dec 19, 2019 at 01:46:06PM +0800, Shawnx Tu wrote:
+> From: Shawnx <shawnx.tu@intel.com>
+
+Could you fix your name here? It seems to be correct in the Sob tag.
 
 > 
-> I also can't see why the flag is needed in the first place.  The driver
-> should know which buffers are queued still and be able to figure
-> whenever the drain is complete or not without depending on that flag.
-> So I'd suggest to simply drop it.
-This flag is used not for drain only. In marks the completion of whatever 
-specific buffer sequence, like a full end-of-stream, resolution change, drain 
-etc. We also need this to handle nested sequences. For instance, a resolution 
-change event might happen while in drain.
-
-Regards,
-Dmitry.
-
+> Add V4L2 controls: horizontal/vertical flip
 > 
-> That is the only issue I've spotted in the protocol on a first quick
-> look.  There are a few places where the spec text could be improved.
-> I'll try to set aside some time to go over this in detail, but I can't
-> promise I'll find the time to do that before xmas and new year.
+> Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
+> ---
+>  drivers/media/i2c/ov5675.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
 > 
-> cheers,
->   Gerd
+> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> index 1ae2523..16874f5 100644
+> --- a/drivers/media/i2c/ov5675.c
+> +++ b/drivers/media/i2c/ov5675.c
+> @@ -63,6 +63,11 @@
+>  #define OV5675_TEST_PATTERN_ENABLE	BIT(7)
+>  #define OV5675_TEST_PATTERN_BAR_SHIFT	2
+>  
+> +/* Flip Mirror Controls from sensor */
+> +#define OV5675_REG_FORMAT1		0x3820
+> +#define OV5675_REG_FORMAT1_HFLIP	BIT(3)
+> +#define OV5675_REG_FORMAT1_VFLIP	BIT(4)
+> +
+>  #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
+>  
+>  enum {
+> @@ -604,6 +609,40 @@ static int ov5675_test_pattern(struct ov5675 *ov5675, u32 pattern)
+>  				OV5675_REG_VALUE_08BIT, pattern);
+>  }
+>  
+> +static int ov5675_set_ctrl_hflip(struct ov5675 *ov5675, u32 ctrl_val)
+> +{
+> +	int ret;
+> +	u32 val;
+> +
+> +	ret = ov5675_read_reg(ov5675, OV5675_REG_FORMAT1,
+> +			      OV5675_REG_VALUE_08BIT, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ctrl_val)
+> +		val &= ~OV5675_REG_FORMAT1_HFLIP;
 
+Shouldn't this be:
 
+	val = (val & ~OV5675_REG_FORMAT1_HFLIP) |
+	      (ctrl_val ? OV5675_REG_FORMAT1_HFLIP : 0);
+
+Or something alike? Same below.
+
+> +
+> +	return ov5675_write_reg(ov5675, OV5675_REG_FORMAT1,
+> +				OV5675_REG_VALUE_08BIT, val);
+> +}
+> +
+> +static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
+> +{
+> +	int ret;
+> +	u32 val;
+> +
+> +	ret = ov5675_read_reg(ov5675, OV5675_REG_FORMAT1,
+> +			      OV5675_REG_VALUE_08BIT, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ctrl_val)
+> +		val |= OV5675_REG_FORMAT1_VFLIP;
+> +
+> +	return ov5675_write_reg(ov5675, OV5675_REG_FORMAT1,
+> +				OV5675_REG_VALUE_08BIT, val);
+> +}
+
+As this is a raw Bayer sensor, the pattern changes as a function of the
+flip controls. Could you take that into account, please?
+
+> +
+>  static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct ov5675 *ov5675 = container_of(ctrl->handler,
+> @@ -654,6 +693,14 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		ret = ov5675_test_pattern(ov5675, ctrl->val);
+>  		break;
+>  
+> +	case V4L2_CID_HFLIP:
+> +		ov5675_set_ctrl_hflip(ov5675, ctrl->val);
+> +		break;
+> +
+> +	case V4L2_CID_VFLIP:
+> +		ov5675_set_ctrl_vflip(ov5675, ctrl->val);
+> +		break;
+> +
+>  	default:
+>  		ret = -EINVAL;
+>  		break;
+> @@ -722,6 +769,11 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
+>  				     V4L2_CID_TEST_PATTERN,
+>  				     ARRAY_SIZE(ov5675_test_pattern_menu) - 1,
+>  				     0, 0, ov5675_test_pattern_menu);
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
+> +			  V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
+> +			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +
+>  	if (ctrl_hdlr->error)
+>  		return ctrl_hdlr->error;
+>  
+
+-- 
+Kind regards,
+
+Sakari Ailus
