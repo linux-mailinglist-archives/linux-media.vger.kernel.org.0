@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A62EA126C85
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 20:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFB1A126D47
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2019 20:10:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729469AbfLSSr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Dec 2019 13:47:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40352 "EHLO mail.kernel.org"
+        id S1728301AbfLSSjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Dec 2019 13:39:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58410 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727897AbfLSSr2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Dec 2019 13:47:28 -0500
+        id S1728294AbfLSSjx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Dec 2019 13:39:53 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 608B5206D7;
-        Thu, 19 Dec 2019 18:47:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BD3E424650;
+        Thu, 19 Dec 2019 18:39:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576781247;
+        s=default; t=1576780792;
         bh=3K4N9OE0RaryNp4KTlU4FXDaW7UdwQ7b4wXkp9IHSQQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YzBqfSdLlQ7Anlqif0sYhL6I2rea6sCwEOd9TlhCbhZTr75YDTBdv7H24YNOKIqlH
-         4/pk2DyKxoW8g4VFbdADSq+dW/ecgOQFHs6OB96v+TEiJM3ZTvBASA7mxOU7yhwkCZ
-         tNp0c0R75rhf8dOL24GYM4nmlBMoArerKBvCuvcI=
+        b=NHq03vZOAKEsz8nKbxqwuOHc1IT7mUuBzXR3/VLaIvOR27K0iONojZd+z3TfgnURb
+         EVSz/EnMvhbVHKDNizuqjjUSflIhyZ9KAh7vY9Hg6YE++bJIgPHcvZD3HxSI5L8Vpp
+         +qGUrnr1G+Tbxwf5de1KVyjABATiZPHdNkwmCeME=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -33,12 +33,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
         =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
         <ville.syrjala@linux.intel.com>
-Subject: [PATCH 4.9 143/199] video/hdmi: Fix AVI bar unpack
-Date:   Thu, 19 Dec 2019 19:33:45 +0100
-Message-Id: <20191219183223.107627157@linuxfoundation.org>
+Subject: [PATCH 4.4 120/162] video/hdmi: Fix AVI bar unpack
+Date:   Thu, 19 Dec 2019 19:33:48 +0100
+Message-Id: <20191219183215.056079256@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191219183214.629503389@linuxfoundation.org>
-References: <20191219183214.629503389@linuxfoundation.org>
+In-Reply-To: <20191219183150.477687052@linuxfoundation.org>
+References: <20191219183150.477687052@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
