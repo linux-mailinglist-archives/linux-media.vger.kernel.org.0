@@ -2,642 +2,435 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D175A127C40
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 15:05:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7860D127C7A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 15:25:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727435AbfLTOFR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 09:05:17 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34516 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727344AbfLTOFR (ORCPT
+        id S1727359AbfLTOZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 09:25:05 -0500
+Received: from plasma6.jpberlin.de ([80.241.56.68]:46303 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727347AbfLTOZF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 09:05:17 -0500
-Received: by mail-lf1-f65.google.com with SMTP id l18so587503lfc.1
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2019 06:05:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=K/a6oe3p2OG/qhSJhg9SBkb9LHbdoNpNfJolt6CMldA=;
-        b=TVMaUQcH517NLj0eXhipxHewP7GMkQyD1ciWEbQTasDr9sFWDf3E+4TD2b45jnBDyV
-         z7ybgsJ/08ca52jA8Bu47Qm6Epc5G66SzkhXh/LLHdOKiv3i9RSeOtOjPCxsBNlb+eJk
-         /YeqwNQ/b5k/4n5HG9+KMc7YFrraC08+V87ms=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=K/a6oe3p2OG/qhSJhg9SBkb9LHbdoNpNfJolt6CMldA=;
-        b=E/5XNCzre1xUyUTGhLmG6DU8UBenNUNQFCofaGCqY4wemVT3fxgqUIL6I8cc0z8Mgk
-         Sv4gAmDhEwR+jBJn5c/GuyKmITBmVSPzi/aB/aDH30kTSjp/zRWOGDagNN0ZomKQzOr4
-         9mT9RRhLZAmN2yFt+9PHe9HCa5fW9doOTBeDgLO2Npq7VKi35YK2/3jO3vq42MPw5VI8
-         HVOM81WsB2cW8J+g9Rj8VhLC6RLZzBr8I0H5//jZkXabOc2qwDK3I45bJbYCyNvz3ITd
-         p5/CzaakKVeenjphtSztTUpFn1ELKz3fLnq4IvnPfKbsaH06x0AilPS8CKU6wo5iyJLE
-         4f0g==
-X-Gm-Message-State: APjAAAUcDuyTU/h6RrgKWOBwZPJ5zxSzBC1rWp4tAPjRvhPtwawJ+4Ke
-        O44rF6OXGlvY+kCVx0COix+OdiPj6DeF/5uALN7Qe7bXU8w=
-X-Google-Smtp-Source: APXvYqwdYNiK0tavcwuqFsCxwP9JICc3MZteva6KRcqU2dif0Ey23VnaqxwE5AlT852n0dJnTcl1TjfI2V1uT/JLIz4=
-X-Received: by 2002:ac2:44a2:: with SMTP id c2mr9294303lfm.105.1576850714104;
- Fri, 20 Dec 2019 06:05:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <20191218130214.170703-2-keiichiw@chromium.org> <718815324.16531975.1576690180746.JavaMail.zimbra@redhat.com>
-In-Reply-To: <718815324.16531975.1576690180746.JavaMail.zimbra@redhat.com>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Fri, 20 Dec 2019 23:05:02 +0900
-Message-ID: <CAD90Vcb4BD5QzXg74Ao1wu6W7a_93swp9oQzzkAx=dxSpXCeWw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] virtio-video: Add virtio video device specification
-To:     Frediano Ziglio <fziglio@redhat.com>
-Cc:     virtio-dev@lists.oasis-open.org,
+        Fri, 20 Dec 2019 09:25:05 -0500
+Received: from spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115])
+        by plasma.jpberlin.de (Postfix) with ESMTP id EF664A06E0;
+        Fri, 20 Dec 2019 15:24:56 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
+        with ESMTP id POlhlPN8OqCs; Fri, 20 Dec 2019 15:24:54 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 1D9C2AAAC0;
+        Fri, 20 Dec 2019 15:24:54 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
+ (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 20 Dec
+ 2019 15:24:53 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+CC:     Enrico Granata <egranata@google.com>,
+        Changyeon Jo <changyeon@google.com>,
+        <virtio-dev@lists.oasis-open.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Tomasz Figa <tfiga@chromium.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Alexandre Courbot <acourbot@chromium.org>,
         Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
         Dylan Reid <dgreid@chromium.org>,
-        dmitry sepp <dmitry.sepp@opensynergy.com>,
-        Enrico Granata <egranata@google.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
         Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
         David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
+Date:   Fri, 20 Dec 2019 15:24:53 +0100
+Message-ID: <6979954.MWBlvXQWzh@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAD90VcaCWUmXBkkrGdH=-BJKmoXRKGxa+NK7x9qz1K28h5cLJw@mail.gmail.com>
+References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com> <CAD90VcY_CUVNpq6w06HPRknHtT+WhT3gPnaLtMe2yHS1dCHMzQ@mail.gmail.com> <CAD90VcaCWUmXBkkrGdH=-BJKmoXRKGxa+NK7x9qz1K28h5cLJw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Frediano,
-Thanks for reviewing!
+Hi Keiichi,
 
-On Thu, Dec 19, 2019 at 2:29 AM Frediano Ziglio <fziglio@redhat.com> wrote:
->
-> >
-> > From: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> >
-> > The virtio video encoder device and decoder device provide functionalities to
-> > encode and decode video stream respectively.
-> > Though video encoder and decoder are provided as different devices, they use
-> > a
-> > same protocol.
-> >
-> > Signed-off-by: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> > Signed-off-by: Keiichi Watanabe <keiichiw@chromium.org>
-> > ---
-> >  content.tex      |   1 +
-> >  virtio-video.tex | 579 +++++++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 580 insertions(+)
-> >  create mode 100644 virtio-video.tex
-> >
-> > diff --git a/content.tex b/content.tex
-> > index 556b373..9e56839 100644
-> > --- a/content.tex
-> > +++ b/content.tex
-> > @@ -5743,6 +5743,7 @@ \subsubsection{Legacy Interface: Framing
-> > Requirements}\label{sec:Device
-> >  \input{virtio-vsock.tex}
-> >  \input{virtio-fs.tex}
-> >  \input{virtio-rpmb.tex}
-> > +\input{virtio-video.tex}
-> >
-> >  \chapter{Reserved Feature Bits}\label{sec:Reserved Feature Bits}
-> >
-> > diff --git a/virtio-video.tex b/virtio-video.tex
-> > new file mode 100644
-> > index 0000000..30e728d
-> > --- /dev/null
-> > +++ b/virtio-video.tex
-> > @@ -0,0 +1,579 @@
-> > +\section{Video Device}\label{sec:Device Types / Video Device}
-> > +
-> > +The virtio video encoder device and decoder device are virtual devices that
-> > +supports encoding and decoding respectively. Though the encoder and the
-> > decoder
-> > +are different devices, they use the same protocol.
-> > +
-> > +\subsection{Device ID}\label{sec:Device Types / Video Device / Device ID}
-> > +
-> > +\begin{description}
-> > +\item[30] encoder device
-> > +\item[31] decoder device
-> > +\end{description}
-> > +
-> > +\subsection{Virtqueues}\label{sec:Device Types / Video Device / Virtqueues}
-> > +
-> > +\begin{description}
-> > +\item[0] controlq - queue for sending control commands.
-> > +\item[1] eventq - queue for sending events happened in the device.
-> > +\end{description}
-> > +
-> > +\subsection{Feature bits}\label{sec:Device Types / Video Device / Feature
-> > bits}
-> > +
-> > +\begin{description}
-> > +\item[VIRTIO_VIDEO_F_RESOURCE_GUEST_PAGES (0)] Guest pages can be used for
-> > video
-> > +  buffers.
-> > +\end{description}
-> > +
-> > +\devicenormative{\subsubsection}{Feature bits}{Device Types / Video Device /
-> > Feature bits}
-> > +
-> > +The device MUST offer at least one of feature bits.
-> > +
-> > +\subsection{Device configuration layout}\label{sec:Device Types / Video
-> > Device / Device configuration layout}
-> > +
-> > +Video device configuration uses the following layout structure:
-> > +
-> > +\begin{lstlisting}
-> > +struct virtio_video_config {
-> > +        le32 max_cap_len;
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\begin{description}
-> > +\item[\field{max_cap_len}] defines the maximum length of a descriptor
-> > +  required to call VIRTIO_VIDEO_GET_CAPABILITY in bytes. The device
-> > +  MUST set this value.
-> > +\end{description}
-> > +
-> > +\subsection{Device Initialization}\label{sec:Device Types / Video Device /
-> > Device Initialization}
-> > +
-> > +\devicenormative{\subsubsection}{Device Initialization}{Device Types / Video
-> > Device / Device Initialization}
-> > +
-> > +The driver SHOULD query device capability by using the
-> > +VIRTIO_VIDEO_T_GET_CAPABILITY and use that information for the initial
-> > +setup.
-> > +
-> > +\subsection{Device Operation}\label{sec:Device Types / Video Device / Device
-> > Operation}
-> > +
-> > +The driver allocates input and output buffers and queues the buffers
-> > +to the device. The device performs operations on the buffers according
-> > +to the function in question.
-> > +
-> > +\subsubsection{Device Operation: Create stream}
-> > +
-> > +To process buffers, the device needs to associate them with a certain
-> > +video stream (essentially, a context). Streams are created by
-> > +VIRTIO_VIDEO_T_STREAM_CREATE with a default set of parameters
-> > +determined by the device.
-> > +
-> > +\subsubsection{Device Operation: Create buffers}
-> > +
-> > +Buffers are used to store the actual data as well as the relevant
-> > +metadata. Scatter lists are supported, so the buffer doesn't need to
-> > +be contiguous in guest physical memory.
-> > +
-> > +\begin{itemize*}
-> > +\item Use VIRTIO_VIDEO_T_RESOURCE_CREATE to create a virtio video
-> > +  resource that is backed by a buffer allocated from the driver's
-> > +  memory.
-> > +\item Use VIRTIO_VIDEO_T_RESOURCE_DESTROY to destroy a resource that
-> > +  is no longer needed.
-> > +\end{itemize*}
-> > +
-> > +\subsubsection{Device Operation: Stream parameter control}
-> > +
-> > +\begin{itemize*}
-> > +\item Use VIRTIO_VIDEO_T_GET_PARAMS to get the current stream parameters for
-> > +  input and output streams from the device.
-> > +\item Use VIRTIO_VIDEO_T_SET_PARAMS to provide new stream parameters to the
-> > +  device.
-> > +\item After setting stream parameters, the driver may issue
-> > +  VIRTIO_VIDEO_T_GET_PARAMS as some parameters of both input and output can
-> > be
-> > +  changed implicitly by the device during the set operation.
-> > +\end{itemize*}
-> > +
-> > +\subsubsection{Device Operation: Process buffers}
-> > +
-> > +\begin{itemize*}
-> > +\item If the function and the buffer type require so, write data to
-> > +the buffer memory.
-> > +\item Use VIRTIO_VIDEO_T_RESOURCE_QUEUE to queue the buffer for
-> > +processing in the device.
-> > +\item The request completes asynchronously when the device has
-> > +finished with the buffer.
-> > +\end{itemize*}
-> > +
-> > +\subsubsection{Device Operation: Buffer processing control}
-> > +
-> > +\begin{itemize*}
-> > +\item Use VIRTIO_VIDEO_T_STREAM_DRAIN to ask the device to process and
-> > +  return all of the already queued buffers.
-> > +\item Use VIRTIO_VIDEO_T_QUEUE_CLEAR to ask the device to return back
-> > +  already queued buffers from the input or the output queue. This also
-> > +  includes input or output buffers that can be currently owned by the
-> > +  device's processing pipeline.
-> > +\end{itemize*}
-> > +
-> > +\subsubsection{Device Operation: Asynchronous events}
-> > +
-> > +While processing buffers, the device can send asynchronous event
-> > +notifications to the driver. The behaviour depends on the exact
-> > +stream. For example, the decoder device sends a resolution change
-> > +event when it encounters new resolution metadata in the stream.
-> > +
-> > +\subsubsection{Device Operation: Request header}
-> > +
-> > +All requests and responses on the control virt queue have a fixed
-> > +header using the following layout structure and definitions:
-> > +
-> > +\begin{lstlisting}
-> > +enum virtio_video_ctrl_type {
-> > +        VIRTIO_VIDEO_CTRL_UNDEFINED = 0,
-> > +
-> > +        /* request */
-> > +        VIRTIO_VIDEO_T_GET_CAPABILITY = 0x0100,
-> > +        VIRTIO_VIDEO_T_STREAM_CREATE,
-> > +        VIRTIO_VIDEO_T_STREAM_DESTROY,
-> > +        VIRTIO_VIDEO_T_STREAM_DRAIN,
-> > +        VIRTIO_VIDEO_T_RESOURCE_CREATE,
-> > +        VIRTIO_VIDEO_T_RESOURCE_DESTROY,
-> > +        VIRTIO_VIDEO_T_RESOURCE_QUEUE,
-> > +        VIRTIO_VIDEO_T_QUEUE_CLEAR,
-> > +        VIRTIO_VIDEO_T_SET_PARAMS,
-> > +        VIRTIO_VIDEO_T_GET_PARAMS,
-> > +
-> > +        /* response */
-> > +        VIRTIO_VIDEO_S_OK = 0x0200,
-> > +        VIRTIO_VIDEO_S_OK_RESOURCE_QUEUE,
-> > +        VIRTIO_VIDEO_S_OK_GET_PARAMS,
-> > +
-> > +        VIRTIO_VIDEO_S_ERR_UNSPEC = 0x0300,
-> > +        VIRTIO_VIDEO_S_ERR_OUT_OF_MEMORY,
-> > +        VIRTIO_VIDEO_S_ERR_INVALID_RESOURCE_ID,
-> > +        VIRTIO_VIDEO_S_ERR_INVALID_STREAM_ID,
-> > +        VIRTIO_VIDEO_S_ERR_INVALID_PARAMETER,
-> > +};
-> > +
-> > +struct virtio_video_ctrl_hdr {
-> > +        le32 type;
-> > +        le32 stream_id;
-> > +        le32 len; /* Length of the structure in bytes. */
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\begin{description}
-> > +\item[\field{type}] is the type of the driver request or the device
-> > +response.
-> > +\item[\field{stream_id}] specifies a target stream.
-> > +\item[\field{len}] is the length of data in bytes, which includes
-> > +length of the header.
->
-> I suppose is implicit that it's the size of the container structure.
->
+Could you please explain in a more detailed way what exactly CROP is used for? 
+Is it equivalent to G/S_CROP or G/S_SELECTION in v4l2? Do you only need to get 
+it, or to set as well? Can it also be useful for the encoder?
 
-You're right. All struct except virtio_video_get_capability_resp have
-fixed size and virtio_video_get_capability_resp has num_descs. So, no
-need to have len.
-Let me remove this in the next iteration.
+Regrds,
+Dmitry.
+
+On Freitag, 13. Dezember 2019 17:31:24 CET Keiichi Watanabe wrote:
+> On Fri, Dec 13, 2019 at 11:20 PM Keiichi Watanabe <keiichiw@chromium.org> 
+wrote:
+> > On Thu, Dec 12, 2019 at 7:34 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> 
+wrote:
+> > > Hi Keiichi,
+> > > 
+> > > Thank you for your comment.
+> > > What do you thing about selection/crop rectangles? Should this be
+> > > defined as a must have? Or we just assume the device always sticks to
+> > > the stream resolution.
+> > 
+> > For decoding, the device needs to tell the driver crop rectangle when
+> > a resolution change happens, as virtio-vdec has
+> > virtio_vdec_host_req_stream_crop.
+> > So, we should add a new field in virtio_video_param for it.
+> > 
+> > For what it's worth, we have C-headers that exposes Chrome's video
+> > codec functionalities. So, our virtio-video device will do
+> > decoding/encoding by calling these functions.
+> > Decoder:
+> > https://chromium.git.corp.google.com/chromiumos/platform2/+/00ad71fa640c0
+> > 18c1d014f467c50b9a7dc962a10/arc/vm/libvda/libvda_decode.h Encoder:
+> > https://chromium.git.corp.google.com/chromiumos/platform2/+/00ad71fa640c0
+> > 18c1d014f467c50b9a7dc962a10/arc/vm/libvda/libvda_encode.h
+> Oops, the links were not accesible...
+> The correct links are:
+> Decoder:
+> https://chromium.googlesource.com/chromiumos/platform2/+/00ad71fa640c018c1d
+> 014f467c50b9a7dc962a10/arc/vm/libvda/libvda_decode.h Encoder:
+> https://chromium.googlesource.com/chromiumos/platform2/+/00ad71fa640c018c1d
+> 014f467c50b9a7dc962a10/arc/vm/libvda/libvda_encode.h
+> 
+> Best,
+> Keiichi
+> 
+> > BTW, I'm preparing the next version of virtio-video spec by addressing
+> > points we discussed in this thread. I'll send it here next week,
+> > hopefully.
+> > 
+> > Best,
+> > Keiichi
+> > 
+> > > Regards,
+> > > Dmitry.
+> > > 
+> > > On Donnerstag, 12. Dezember 2019 06:39:11 CET Keiichi Watanabe wrote:
+> > > > On Tue, Dec 10, 2019 at 10:16 PM Dmitry Sepp
+> > > > 
+> > > > <dmitry.sepp@opensynergy.com> wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > Just to start, let's consider this v4l2 control:
+> > > > > V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE.
+> > > > > As I can see, this control is referenced as a mandatory one in the
+> > > > > Chromium
+> > > > > sources [1].
+> > > > > 
+> > > > > So could someone from the Chromium team please explain why it is
+> > > > > mandatory?
+> > > > > (YouTube?) In fact, almost no encoders implement this control. Do we
+> > > > > need
+> > > > > it in virtio-video?
+> > > > 
+> > > > That control is used to encode videos in constant bitrate (CBR) mode,
+> > > > which is critical for
+> > > > real-time use case like video conferencing.
+> > > > 
+> > > > However, that Chromium source code just requires *host-side* drivers
+> > > > to have the v4l2
+> > > > control. Also, I guess it's rare that a guest app wants to use CQP
+> > > > instead of CBR from our
+> > > > experience.
+> > > > So, I suppose we can omit this control in virtio spec for now by
+> > > > assuming that guests
+> > > > always use CBR mode.
+> > > > 
+> > > > Best regards,
+> > > > Keiichi
+> > > > 
+> > > > > [1]
+> > > > > https://chromium.googlesource.com/chromium/src/media/+/refs/heads/ma
+> > > > > ster/
+> > > > > gpu/v4l2/v4l2_video_encode_accelerator.cc#1500
+> > > > > 
+> > > > > Regards,
+> > > > > Dmitry.
+> > > > > 
+> > > > > On Montag, 9. Dezember 2019 22:12:28 CET Enrico Granata wrote:
+> > > > > > +Changyeon Jo <changyeon@google.com> for his awareness
+> > > > > > 
+> > > > > > Thanks,
+> > > > > > - Enrico
+> > > > > > 
+> > > > > > 
+> > > > > > On Mon, Dec 9, 2019 at 6:20 AM Dmitry Sepp
+> > > > > > <dmitry.sepp@opensynergy.com>
+> > > > > > 
+> > > > > > wrote:
+> > > > > > > Hello,
+> > > > > > > 
+> > > > > > > I'd like to invite everyone to share ideas regarding required
+> > > > > > > encoder
+> > > > > > > features
+> > > > > > > in this separate sub-tree.
+> > > > > > > 
+> > > > > > > In general, encoder devices are more complex compared to
+> > > > > > > decoders. So
+> > > > > > > the
+> > > > > > > question I'd like to rise is in what way we define the minimal
+> > > > > > > subset
+> > > > > > > of
+> > > > > > > features to be implemented by the virtio-video.
+> > > > > > > 
+> > > > > > > We may look at the following to define the set of features:
+> > > > > > > 1. USB video, 2.3.6 Encoding Unit [1].
+> > > > > > > 2. Android 10 Compatibility Definition [2].
+> > > > > > > 
+> > > > > > > Would be nice to hear about any specific requirements from the
+> > > > > > > Chromium
+> > > > > > > team as
+> > > > > > > well.
+> > > > > > > 
+> > > > > > > [1]
+> > > > > > > https://www.usb.org/sites/default/files/USB_Video_Class_1_5.zip
+> > > > > > > [2]
+> > > > > > > https://source.android.com/compatibility/android-cdd#5_2_video_e
+> > > > > > > ncodin
+> > > > > > > g
+> > > > > > > 
+> > > > > > > Thank you.
+> > > > > > > 
+> > > > > > > Best regards,
+> > > > > > > Dmitry.
+> > > > > > > 
+> > > > > > > On Mittwoch, 4. Dezember 2019 10:16:20 CET Gerd Hoffmann wrote:
+> > > > > > > >   Hi,
+> > > > > > > >   
+> > > > > > > > > 1. Focus on only decoder/encoder functionalities first.
+> > > > > > > > > 
+> > > > > > > > > As Tomasz said earlier in this thread, it'd be too
+> > > > > > > > > complicated to
+> > > > > > > 
+> > > > > > > support
+> > > > > > > 
+> > > > > > > > > camera usage at the same time. So, I'd suggest to make it
+> > > > > > > > > just a
+> > > > > > > 
+> > > > > > > generic
+> > > > > > > 
+> > > > > > > > > mem-to-mem video processing device protocol for now.
+> > > > > > > > > If we finally decide to support camera in this protocol, we
+> > > > > > > > > can
+> > > > > > > > > add it
+> > > > > > > > > later.
+> > > > > > > > 
+> > > > > > > > Agree.
+> > > > > > > > 
+> > > > > > > > > 2. Only one feature bit can be specified for one device.
+> > > > > > > > > 
+> > > > > > > > > I'd like to have a decoder device and encoder device
+> > > > > > > > > separately.
+> > > > > > > > > It'd be natural to assume it because a decoder and an
+> > > > > > > > > encoder are
+> > > > > > > 
+> > > > > > > provided
+> > > > > > > 
+> > > > > > > > > as different hardware.
+> > > > > > > > 
+> > > > > > > > Hmm, modern GPUs support both encoding and decoding ...
+> > > > > > > > 
+> > > > > > > > I don't think we should bake that restriction into the
+> > > > > > > > specification.
+> > > > > > > > It probably makes sense to use one virtqueue per function
+> > > > > > > > though,
+> > > > > > > > that
+> > > > > > > > will simplify dispatching in both host and guest.
+> > > > > > > > 
+> > > > > > > > > 3. Separate buffer allocation functionalities from
+> > > > > > > > > virtio-video
+> > > > > > > 
+> > > > > > > protocol.
+> > > > > > > 
+> > > > > > > > > To support various ways of guest/host buffer sharing, we
+> > > > > > > > > might
+> > > > > > > > > want to
+> > > > > > > > > have a dedicated buffer sharing device as we're discussing
+> > > > > > > > > in
+> > > > > > > > > another
+> > > > > > > > > thread. Until we reach consensus there, it'd be good not to
+> > > > > > > > > have
+> > > > > > > > > buffer
+> > > > > > > > > allocation
+> > > > > > > > > functionalities in virtio-video.
+> > > > > > > > 
+> > > > > > > > I think virtio-video should be able to work as stand-alone
+> > > > > > > > device,
+> > > > > > > > so we need some way to allocate buffers ...
+> > > > > > > > 
+> > > > > > > > Buffer sharing with other devices can be added later.
+> > > > > > > > 
+> > > > > > > > > > +The virtio video device is a virtual video streaming
+> > > > > > > > > > device
+> > > > > > > > > > that
+> > > > > > > > > > supports the +following functions: encoder, decoder,
+> > > > > > > > > > capture,
+> > > > > > > > > > output.
+> > > > > > > > > > +
+> > > > > > > > > > +\subsection{Device ID}\label{sec:Device Types / Video
+> > > > > > > > > > Device /
+> > > > > > > 
+> > > > > > > Device
+> > > > > > > 
+> > > > > > > > > > ID}
+> > > > > > > > > > +
+> > > > > > > > > > +TBD.
+> > > > > > > > > 
+> > > > > > > > > I'm wondering how and when we can determine and reserve this
+> > > > > > > > > ID?
+> > > > > > > > 
+> > > > > > > > Grab the next free, update the spec accordingly, submit the
+> > > > > > > > one-line
+> > > > > > > > patch.
+> > > > > > > > 
+> > > > > > > > > > +\begin{lstlisting}
+> > > > > > > > > > +enum virtio_video_pixel_format {
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_UNDEFINED = 0,
+> > > > > > > > > > +
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_H264 = 0x0100,
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV12,
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV21,
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I420,
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I422,
+> > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_XBGR,
+> > > > > > > > > > +};
+> > > > > > > > > 
+> > > > > > > > > I'm wondering if we can use FOURCC instead. So, we can avoid
+> > > > > > > 
+> > > > > > > reinventing a
+> > > > > > > 
+> > > > > > > > > mapping from formats to integers.
+> > > > > > > > > Also, I suppose the word "pixel formats" means only raw
+> > > > > > > > > (decoded)
+> > > > > > > 
+> > > > > > > formats.
+> > > > > > > 
+> > > > > > > > > But, it can be encoded format like H.264. So, I guess "image
+> > > > > > > > > format"
+> > > > > > > > > or
+> > > > > > > > > "fourcc" is a better word choice.
+> > > > > > > > 
+> > > > > > > > Use separate pixel_format (fourcc) and stream_format (H.264
+> > > > > > > > etc.)
+> > > > > > > > enums?
+> > > > > > > > 
+> > > > > > > > > > +\begin{lstlisting}
+> > > > > > > > > > +struct virtio_video_function {
+> > > > > > > > > > +       struct virtio_video_desc desc;
+> > > > > > > > > > +       __le32 function_type; /* One of
+> > > > > > > > > > VIRTIO_VIDEO_FUNC_*
+> > > > > > > > > > types */
+> > > > > > > > > > +       __le32 function_id;
+> > > > > > > > > > +       struct virtio_video_params in_params;
+> > > > > > > > > > +       struct virtio_video_params out_params;
+> > > > > > > > > > +       __le32 num_caps;
+> > > > > > > > > > +       __u8 padding[4];
+> > > > > > > > > > +       /* Followed by struct virtio_video_capability
+> > > > > > > > > > video_caps[];
+> > > > > > > 
+> > > > > > > */
+> > > > > > > 
+> > > > > > > > > > +};
+> > > > > > > > > > +\end{lstlisting}
+> > > > > > > > > 
+> > > > > > > > > If one device only has one functionality,
+> > > > > > > > > virtio_video_function's
+> > > > > > > 
+> > > > > > > fields
+> > > > > > > 
+> > > > > > > > > will be no longer needed except in_params and out_params.
+> > > > > > > > > So, we'd
+> > > > > > > > > be
+> > > > > > > > > able to remove virtio_video_function and have in_params and
+> > > > > > > > > out_params
+> > > > > > > 
+> > > > > > > in
+> > > > > > > 
+> > > > > > > > > virtio_video_capability instead.
+> > > > > > > > 
+> > > > > > > > Same goes for per-function virtqueues (used virtqueue implies
+> > > > > > > > function).
+> > > > > > > > 
+> > > > > > > > > > +\begin{lstlisting}
+> > > > > > > > > > +struct virtio_video_resource_detach_backing {
+> > > > > > > > > > +       struct virtio_video_ctrl_hdr hdr;
+> > > > > > > > > > +       __le32 resource_id;
+> > > > > > > > > > +       __u8 padding[4];
+> > > > > > > > > > +};
+> > > > > > > > > > +\end{lstlisting}
+> > > > > > > > > > +
+> > > > > > > > > > +\begin{description}
+> > > > > > > > > > +\item[\field{resource_id}] internal id of the resource.
+> > > > > > > > > > +\end{description}
+> > > > > > > > > 
+> > > > > > > > > I suppose that it'd be better not to have the above series
+> > > > > > > > > of
+> > > > > > > 
+> > > > > > > T_RESOURCE
+> > > > > > > 
+> > > > > > > > > controls at least until we reach a conclusion in the thread
+> > > > > > > > > of
+> > > > > > > > > buffer-sharing device. If we end up concluding this type of
+> > > > > > > > > controls
+> > > > > > > > > is
+> > > > > > > > > the best way, we'll be able to revisit here.
+> > > > > > > > 
+> > > > > > > > Well.  For buffer management there are a bunch of options.
+> > > > > > > > 
+> > > > > > > >  (1) Simply stick the buffers (well, pointers to the buffer
+> > > > > > > >  pages)
+> > > > > > > >  into
+> > > > > > > >  
+> > > > > > > >      the virtqueue.  This is the standard virtio way.
+> > > > > > > >  
+> > > > > > > >  (2) Create resources, then put the resource ids into the
+> > > > > > > >  virtqueue.
+> > > > > > > >  
+> > > > > > > >      virtio-gpu uses that model.  First, because virtio-gpu
+> > > > > > > >      needs an
+> > > > > > > >      id
+> > > > > > > >      to reference resources in the rendering command stream
+> > > > > > > >      (virtio-video doesn't need this).  Also because (some
+> > > > > > > >      kinds of)
+> > > > > > > >      resources are around for a long time and the
+> > > > > > > >      guest-physical ->
+> > > > > > > >      host-virtual mapping needs to be done only once that way
+> > > > > > > >      (which
+> > > > > > > >      I think would be the case for virtio-video too because
+> > > > > > > >      v4l2
+> > > > > > > >      re-uses buffers in robin-round fashion).  Drawback is
+> > > > > > > >      this
+> > > > > > > >      assumes shared memory between host and guest (which is
+> > > > > > > >      the case
+> > > > > > > >      in typical use cases but it is not mandated by the virtio
+> > > > > > > >      spec).
+> > > > > > > >  
+> > > > > > > >  (3) Import external resources (from virtio-gpu for example).
+> > > > > > > >  
+> > > > > > > >      Out of scope for now, will probably added as optional
+> > > > > > > >      feature
+> > > > > > > >      later.
+> > > > > > > > 
+> > > > > > > > I guess long-term we want support either (1)+(3) or (2)+(3).
+> > > > > > > > 
+> > > > > > > > cheers,
+> > > > > > > > 
+> > > > > > > >   Gerd
+> > > > > > > 
+> > > > > > > ----------------------------------------------------------------
+> > > > > > > -----
+> > > > > > > To unsubscribe, e-mail:
+> > > > > > > virtio-dev-unsubscribe@lists.oasis-open.org
+> > > > > > > For additional commands, e-mail:
+> > > > > > > virtio-dev-help@lists.oasis-open.org
 
 
-> > +\end{description}
-> > +
-> > +\subsubsection{Device Operation: controlq}
-> > +
-> > +\begin{description}
-> > +
-> > +\item[VIRTIO_VIDEO_T_GET_CAPABILITY] Retrieve information about
-> > +supported formats.
-> > +
-> > +The driver uses \field{struct virtio_video_get_capability} to send a
-> > +query request.
-> > +
-> > +\begin{lstlisting}
-> > +enum virtio_video_buf_type {
-> > +        VIRTIO_VIDEO_BUF_TYPE_INPUT,
-> > +        VIRTIO_VIDEO_BUF_TYPE_OUTPUT,
-> > +};
-> > +
-> > +struct virtio_video_get_capability {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +        enum virtio_video_buf_type buf_type;
->
-> Here you used an enumeration but later you are using just le32 type
-> with a comment. Why this difference?
-
-No difference. I will change this to use le32 since virtio-gpu's spec does so.
-
->
-> > +};
-> > +\end{lstlisting}
-> > +\begin{description}
-> > +\item[\field{buf_type}] is the buffer type that the driver asks
-> > +information about. The driver MUST set either
-> > +\field{VIRTIO_VIDEO_BUF_TYPE_INPUT} or \field{VIRTIO_VIDEO_BUF_TYPE_OUTPUT}.
-> > +\end{description}
-> > +
-> > +The device responds a capability by using \field{struct
-> > +virtio_video_get_capability_resp}.
-> > +\begin{lstlisting}
-> > +enum virtio_video_format {
-> > +        VIRTIO_VIDEO_FORMAT_UNDEFINED = 0,
->
-> Really minor: maybe you want to insert an empty line to be coherent
-> with other enumerations?
-
-Yes. Thanks.
-
->
-> > +        /* Raw formats */
-> > +        VIRTIO_VIDEO_FORMAT_NV12 = 1,
-> > +        VIRTIO_VIDEO_FORMAT_YUV420,
-> > +        VIRTIO_VIDEO_FORMAT_YVU420,
-> > +
-> > +        /* Compressed formats */
-> > +        VIRTIO_VIDEO_FORMAT_H264 = 0x1001,
-> > +        VIRTIO_VIDEO_FORMAT_VP8 =  0x1002,
-> > +        VIRTIO_VIDEO_FORMAT_VP9 =  0x1003,
-> > +};
-> > +
-> > +enum virtio_video_profile {
-> > +        VIRTIO_VIDEO_PROFILE_UNDEFINED = 0,
-> > +
-> > +        /* H.264 */
-> > +        VIRTIO_VIDEO_PROFILE_H264_MIN = 0x100,
-> > +        VIRTIO_VIDEO_PROFILE_H264_BASELINE =
-> > VIRTIO_VIDEO_PROFILE_H264_BASELINE,
->
-> Maybe you want
->
-> VIRTIO_VIDEO_PROFILE_H264_BASELINE = VIRTIO_VIDEO_PROFILE_H264_MIN,
->
-> like others?
-
-Thanks for catching this. I think we can find this kind of errors once
-we update the driver implementation.
-
->
-> > +        VIRTIO_VIDEO_PROFILE_H264_MAIN,
-> > +        VIRTIO_VIDEO_PROFILE_H264_EXTENDED,
-> > +        VIRTIO_VIDEO_PROFILE_H264_HIGH,
-> > +        VIRTIO_VIDEO_PROFILE_H264_HIGH10PROFILE,
-> > +        VIRTIO_VIDEO_PROFILE_H264_HIGH422PROFILE,
-> > +        VIRTIO_VIDEO_PROFILE_H264_HIGH444PREDICTIVEPROFILE,
-> > +        VIRTIO_VIDEO_PROFILE_H264_SCALABLEBASELINE,
-> > +        VIRTIO_VIDEO_PROFILE_H264_SCALABLEHIGH,
-> > +        VIRTIO_VIDEO_PROFILE_H264_STEREOHIGH,
-> > +        VIRTIO_VIDEO_PROFILE_H264_MULTIVIEWHIGH,
-> > +        VIRTIO_VIDEO_PROFILE_H264_MAX =
-> > VIRTIO_VIDEO_PROFILE_H264_MULTIVIEWHIGH,
-> > +
-> > +        /* VP8 */
-> > +        VIRTIO_VIDEO_PROFILE_VP8_MIN = 0x200,
-> > +        VIRTIO_VIDEO_PROFILE_VP8_ANY = VIRTIO_VIDEO_PROFILE_VP8_MIN,
-> > +        VIRTIO_VIDEO_PROFILE_VP8_MAX = VIRTIO_VIDEO_PROFILE_VP8_ANY,
-> > +
-> > +        /* VP9 */
-> > +        VIRTIO_VIDEO_PROFILE_VP9_MIN = 0x300,
-> > +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE0 = VIRTIO_VIDEO_PROFILE_VP9_MIN,
-> > +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE1,
-> > +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE2,
-> > +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE3,
-> > +        VIRTIO_VIDEO_PROFILE_VP9_MAX = VIRTIO_VIDEO_PROFILE_VP9_PROFILE3,
-> > +};
-> > +
-> > +struct virtio_video_format_range {
-> > +        le32 min;
-> > +        le32 max;
-> > +        le32 step;
-> > +        u8 paddings[4];
->
-> Here you padded at 8-byte like many other structures but not for
-> virtio_video_ctrl_hdr. Is this expected?
-
-I padded here for 64-bits alignment. So, I should have padded for
-ctrl_hdr as you said. But, no need anymore as we will remove |len|
-from the struct as you suggested above:)
-
->
-> > +};
-> > +
-> > +struct virtio_video_format_desc {
-> > +        le32 format;  /* One of VIRTIO_VIDEO_FORMAT_* types */
-> > +        le32 profile; /* One of VIRTIO_VIDEO_PROFILE_* types */
-> > +        le64 mask;
->
-> This will limit the formats to 64 while "num_descs" below is a
-> 32 bit.
-
-It's my intention. I will explicitly write that "num_desc" must not exceed 64.
-I guess 64 is big enough as a number of supported input/output format
-and couldn't find a better idea to represent this bipartite graph. If
-you have another idea, please let me hear.
-
->
-> > +        struct virtio_video_format_range width;
-> > +        struct virtio_video_format_range height;
-> > +        le32 num_rates;
-> > +        u8 padding[4];
-> > +        /* Followed by struct virtio_video_frame_rate frame_rates[] */
-> > +};
-> > +
-> > +struct virtio_video_get_capability_resp {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +        le32 num_descs;
-> > +        /* Followed by struct virtio_video_format_desc desc[] */
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +The format description \field{struct virtio_video_format_desc}
-> > +includes the following fields:
-> > +\begin{description}
-> > +\item[\field{format}] specifies an image format. The device MUST set one
-> > +  of \field{enum virtio_video_format}.
-> > +\item[\field{profile}] specifies a profile of the compressed image format
-> > +  specified in \field{format}. The driver SHOULD ignore this value if
-> > +  \field{format} is a raw format.
->
-> Why not documenting that MUST be VIRTIO_VIDEO_PROFILE_UNDEFINED for
-> raw formats so the field could be extended in the future?
-
-Sounds good. Will do.
-
->
-> > +\item[\field{mask}] is a bitset that represents the supported
-> > +  combination of input and output format. If \textit{i}-th bit is set
-> > +  in \field{mask} of \textit{j}-th \field{struct
-> > +  virtio_video_format_desc} for input, the device supports encoding or
-> > +  decoding from the \textit{j}-th input format to \textit{i}-th output
-> > +  format.
-> > +\item[\field{width, height}] represents a range of resolutions
-> > +  supported by the device. If its \field{step} is not applicable, its
-> > +  \field{min} is equal to its \field{max}.
-> > +\item[\field{num_rates}] is the length of an array \field{frame_rates}. In
-> > case of decoder, the driver SHOULD ignore this value.
-> > +\item[\field{frame_rates}] is an array of supported frame rates.
->
-> I suppose here we are talking about bitrates, right? Could be confused by
-> FPS.
-
-Nope. This is for frame rates or frame intervals. In V4L2 driver, the
-values will be used for VIDIOC_ENUM_FRAMEINTERVALS ioctl.
-(Dmitry, please correct me if I am wrong)
-
->
-> > +\end{description}
-> > +
-> > +\item[VIRTIO_VIDEO_T_STREAM_CREATE] create a video stream (context)
-> > +  within the device.
-> > +
-> > +\begin{lstlisting}
-> > +enum virtio_video_mem_type {
-> > +        VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES,
-> > +};
-> > +
-> > +struct virtio_video_stream_create {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +        le32 in_mem_type;  /* One of VIRTIO_VIDEO_MEM_TYPE_* types */
-> > +        le32 out_mem_type; /* One of VIRTIO_VIDEO_MEM_TYPE_* types */
-> > +        char debug_name[64];
-> > +};
->
-> This structure has a size not multiple of 8-bytes. Not an issue, but
-> the same apply to other structures that instead are padded to 8-byte size.
-
-It's my fault. I tried to add paddings to make all structs' size
-multiple of 8-bytes, I overlooked some.
-
->
-> > +\end{lstlisting}
-> > +
-> > +\begin{description}
-> > +\item[\field{in_mem_type}] is a type of buffer management for input
-> > +buffers. The driver MUST set a value in \field{enum
-> > +virtio_video_mem_type}.
-> > +\item[\field{out_mem_type}] is a type of buffer management for output
-> > +buffers. The driver MUST set a value in \field{enum
-> > +virtio_video_mem_type}.
-> > +\item[\field{debug_name}] is a text string for a debug purpose.
->
-> Must be NUL-terminated ? UTF-8 ?
-
-Yeah, I will add a description similar to one for "tag" in virtio_fs_config.
-
->
-> > +\end{description}
-> > +
-> > +\item[VIRTIO_VIDEO_T_STREAM_DESTROY] destroy a video stream (context)
-> > +  within the device.
-> > +
-> > +\begin{lstlisting}
-> > +struct virtio_video_stream_destroy {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\item[VIRTIO_VIDEO_T_STREAM_DRAIN] ask the device to push all the
-> > +  queued buffers through the pipeline.
-> > +
-> > +\begin{lstlisting}
-> > +struct virtio_video_stream_drain {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\item[VIRTIO_VIDEO_T_RESOURCE_CREATE] create a resource descriptor
-> > +  within the device.
-> > +
-> > +\begin{lstlisting}
-> > +struct virtio_video_mem_entry {
-> > +        le64 addr;
-> > +        le32 length;
-> > +        u8 padding[4];
-> > +};
-> > +
-> > +struct virtio_video_resource_create {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +        le32 resource_id;
-> > +        le32 nr_entries;
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\begin{description}
-> > +\item[\field{resource_id}] internal id of the resource.
->
-> Is it input or output?
-
-Will add a field for it.
-
->
-> > +\item[\field{nr_entries}] number of \field{struct
-> > +  virtio_video_mem_entry} memory entries.
->
-> I suppose that the structure is followed by an array of
-> virtio_video_mem_entry after a padding of 4-bytes for
-> alignment.
->
-> > +\end{description}
-> > +
-> > +\item[VIRTIO_VIDEO_T_RESOURCE_DESTROY] destroy a resource descriptor
-> > +  within the device.
-> > +
-> > +\begin{lstlisting}
-> > +struct virtio_video_resource_destroy {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +        le32 resource_id;
-> > +        u8 padding[4];
->
-> Is this padding for future extensions?
-
-Nope, it's mistake. When I was editing structs, I forgot to add/remove
-padding. I hope we will not have such mistakes after we have an
-updated driver implementation.
-
->
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\begin{description}
-> > +\item[\field{resource_id}] internal id of the resource.
-> > +\end{description}
-> > +
-> > +\item[VIRTIO_VIDEO_T_RESOURCE_QUEUE] Add a buffer to the device's
-> > +queue.
-> > +
-> > +\begin{lstlisting}
-> > +#define VIRTIO_VIDEO_MAX_PLANES 8
-> > +
-> > +struct virtio_video_resource_queue {
-> > +        struct virtio_video_ctrl_hdr hdr;
-> > +        le32 buf_type;
-> > +        le32 resource_id;
-> > +        le64 timestamp;
->
-> I suppose you would like this field aligned to avoid
-> hidden paddings.
-
-Thanks.
-
-Best regards,
-Keiichi
-
->
-> > +        le32 nr_data_size;
-> > +        le32 data_size[VIRTIO_VIDEO_MAX_PLANES];
-> > +};
-> > +\end{lstlisting}
-> > +
-> > +\begin{description}
-> > +\item[\field{buf_type}] buf_type of the .
-> > +\item[\field{resource_id}] internal id of the resource.
-> > +\item[\field{timestamp}] an abstract sequence counter that can be used
-> > +  for synchronisation.
-> > +\item[\field{nr_data_size}] number of \field{data_size} entries.
-> > +\item[\field{data_size}] number of data bytes within a plane.
-> > +\end{description}
-> > +
-> ... omissis ...
-> > --
-> > 2.24.1.735.g03f4e72817-goog
-> >
-> >
->
-> Frediano
->
