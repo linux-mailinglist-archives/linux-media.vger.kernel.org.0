@@ -2,125 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04DC1128034
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 16:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E63771280F3
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 17:53:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfLTP7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 10:59:04 -0500
-Received: from plasma6.jpberlin.de ([80.241.56.68]:45211 "EHLO
-        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727181AbfLTP7E (ORCPT
+        id S1727400AbfLTQw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 11:52:59 -0500
+Received: from mail-io1-f68.google.com ([209.85.166.68]:42089 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727181AbfLTQw7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 10:59:04 -0500
-Received: from hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
-        by plasma.jpberlin.de (Postfix) with ESMTP id F39A4B4C1F;
-        Fri, 20 Dec 2019 16:58:59 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([91.198.250.140])
-        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
-        with ESMTP id zlMr6YNraOhu; Fri, 20 Dec 2019 16:58:58 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id E23C5B7B9A;
-        Fri, 20 Dec 2019 16:58:57 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 20 Dec
- 2019 16:58:57 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-CC:     <virtio-dev@lists.oasis-open.org>, <linux-media@vger.kernel.org>,
-        <acourbot@chromium.org>, <alexlau@chromium.org>, <daniel@ffwll.ch>,
-        <dgreid@chromium.org>, <egranata@google.com>, <fziglio@redhat.com>,
-        <hverkuil@xs4all.nl>, <kraxel@redhat.com>, <marcheu@chromium.org>,
-        <posciak@chromium.org>, <spice-devel@lists.freedesktop.org>,
-        <stevensd@chromium.org>, <tfiga@chromium.org>, <uril@redhat.com>
-Subject: Re: [PATCH v2 0/1] VirtIO video device specification
-Date:   Fri, 20 Dec 2019 16:58:57 +0100
-Message-ID: <2730251.jGmEEvB50I@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <20191218130214.170703-1-keiichiw@chromium.org>
-References: <20191218130214.170703-1-keiichiw@chromium.org>
+        Fri, 20 Dec 2019 11:52:59 -0500
+Received: by mail-io1-f68.google.com with SMTP id n11so3320432iom.9;
+        Fri, 20 Dec 2019 08:52:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ndHzsNMeOrrxjTjbncU3QaDZ3rrlbXY6z57guIALSrc=;
+        b=O3SUifF2KdavJEOmR+c7IFeapv5LO67FDptELAjawFJpV/ZRMjaJWbp7dOEflCzZiN
+         Mww++8bwxW6qsJ6LwMGjWWagaDaZFgft1At9n2MvBZfYhSScJR9Liit/tFx54+3tlYGg
+         ePHQAZSXAbIJRsBVJY+P7erLP7q6nWmnO9ffttbDfi+GxvlwrpGPkiIrQ9sJ8KapdM05
+         PLcdbDTmbyhPAWoPKpz9FYrTNNLUa+VtIYpkKsN4fr0sj9bzcTvjnmLSsjTOW9lZqj8L
+         YhLByHoVecmF0sMsvGlk480DrR5mmOIIfel+PjGahuSgh8UFXef55BK4y0bgVCESZs6k
+         N0gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ndHzsNMeOrrxjTjbncU3QaDZ3rrlbXY6z57guIALSrc=;
+        b=rXcjv+5jv41thqFttHApIEf4hviDx0heMEk/CMWUikE8g+nK39rSZna2jOIbtbs7pu
+         dcz/ovlwLcPbamYfo+GOhDYaGM+YEzSzN/cKj7VPBJ+i5tollv91PrsIJqAWKww13UZF
+         gM+QtgSNWemjfbEonTCio9n/TxSThBjV0ICBTtctefQXjfaK3HetQFp9nua320KqZ2+Z
+         cPk0yBnpKO3v4bxWGnr5R7EI4SFBhbFtxJuGaf/1qCJ2CEjhsIkniKSEYgfIemNx4aA8
+         NmfkMWL7SMc1x4TVKyuBXByjL1pYigl0rsReNGHDNHBAGD7IRxV7ErnW/gQ/jcMnSQYJ
+         IfoA==
+X-Gm-Message-State: APjAAAU3SUj0jzGmi7LB4LH8rMMxksKjmXOFA/LiVVBfDhvPFNL005bP
+        +hV4ZXXtXdrVqYqEvXK+mokN8T4br0vsfSrLuTY=
+X-Google-Smtp-Source: APXvYqw3N9lze1UCJupGScpsgHgYH4lkik2+KjpGxrR1N9odwIYIxfVR708G/MdkSwn23Y2DsEnLB/OXCx5b+qSFM6Y=
+X-Received: by 2002:a02:3409:: with SMTP id x9mr12957487jae.3.1576860778063;
+ Fri, 20 Dec 2019 08:52:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
+References: <20190612093915.18973-1-p.zabel@pengutronix.de>
+ <20190612093915.18973-9-p.zabel@pengutronix.de> <20190709142555.GA14360@bogus>
+In-Reply-To: <20190709142555.GA14360@bogus>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Fri, 20 Dec 2019 10:52:41 -0600
+Message-ID: <CAHCN7xJCGu1-XzJkqgxeMAbdSbBrVbeRC=nysHmUCQZ_Myf-qA@mail.gmail.com>
+Subject: Re: [PATCH v5 08/10] media: dt-bindings: Document i.MX8MQ and i.MX8MM
+ VPU bindings
+To:     Rob Herring <robh@kernel.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        devicetree <devicetree@vger.kernel.org>,
+        Sascha Hauer <kernel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Keiichi,
+On Tue, Jul 9, 2019 at 9:26 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Jun 12, 2019 at 11:39:13AM +0200, Philipp Zabel wrote:
+> > Add devicetree binding documentation for the Hantro G1/G2 VPU on i.MX8MQ
+> > and for the Hantro G1/G2/H1 VPU on i.MX8MM.
+> >
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-On Mittwoch, 18. Dezember 2019 14:02:13 CET Keiichi Watanabe wrote:
-> Hi,
-> This is the 2nd version of virtio-video patch. The PDF is available in [1].
-> The first version was sent at [2].
-> 
-> Any feedback would be appreciated. Thank you.
-> 
-> Best,
-> Keiichi
-> 
-> [1]:
-> https://drive.google.com/drive/folders/1eT5fEckBoor2iHZR4f4GLxYzFMVapOFx?us
-> p=sharing [2]: https://markmail.org/message/gc6h25acct22niut
-> 
-> Change log:
-> 
-> v2:
-> * Removed functionalities except encoding and decoding.
-> * Splited encoder and decoder into different devices that use the same
-> protocol. * Replaced GET_FUNCS with GET_CAPABILITY.
-> * Updated structs for capabilities.
->   - Defined new structs and enums such as image formats, profiles, range
-> (min, max, step), etc
->     * For virtio_video_pixel_format, chose a naming convention that is used
->       in DRM. We removed XBGR, NV21 and I422, as they are not used in the
->       current draft implementation. https://lwn.net/Articles/806416/
->   - Removed virtio_video_control, whose usage was not documented yet and
-> which is not necessary for the simplest decoding scenario.
->   - Removed virtio_video_desc, as it is no longer needed.
-> * Updated struct virtio_video_config for changes around capabilities.
-> * Added a way to represent supported combinations of formats.
->   - A field "mask" in virtio_video_format_desc plays this role.
-> * Removed VIRTIO_VIDEO_T_STREAM_{START,STOP} because they don't play any
-> meaningful roles. * Removed VIRTIO_VIDEO_T_STREAM_{ATTACH, DETACH}_BACKING
-> and merged them into RESOURCE_{CREATE, DESTROY}. * Added a way to
-> notify/specify resource creation method.
->   - Added a feature flag.
->   - Defined enum virtio_video_mem_type.
->   - Added new fields in video_stream_create.
-> * Modified fields in virtio_video_params.
->   - Added crop information.
-> * Removed enum virtio_video_channel_type because we can get this information
-> by image format. 
-Could you please explain this? How do you get the information?
+Are there any updates to this?  It would be nice to have the VPU
+working in the mainline, but it seems to have stalled.
 
-Suppose you have some piece of HW on the host side that wants I420 as one 
-contig buffer w/ some offsets. But on the driver side, say, gralloc gives you 
-three separate buffers, one per channel. How do we pass those to the device 
-then?
-
-Best regards,
-Dmitry.
-
-> * Renamed virtio_video_pin to virtio_video_buf_type.
->   - It's similar to V4L2_BUF_TYPE_VIDEO_{OUTPUT, CAPTURE}.
-> * Added an error event.
-> * Reordered some subsections.
-> * Changed styles to make it consistent with other devices.
-> 
-> Dmitry Sepp (1):
->   virtio-video: Add virtio video device specification
-> 
->  content.tex      |   1 +
->  virtio-video.tex | 579 +++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 580 insertions(+)
->  create mode 100644 virtio-video.tex
-> 
-> --
-> 2.24.1.735.g03f4e72817-goog
-
-
+adam
+> > ---
+> >  .../devicetree/bindings/media/imx8m-vpu.txt   | 56 +++++++++++++++++++
+> >  1 file changed, 56 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/imx8m-vpu.txt
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/imx8m-vpu.txt b/Documentation/devicetree/bindings/media/imx8m-vpu.txt
+> > new file mode 100644
+> > index 000000000000..659bd28dd002
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/imx8m-vpu.txt
+> > @@ -0,0 +1,56 @@
+> > +device-tree bindings for Hantro G1/G2/H1 VPU codecs implemented on i.MX8M SoCs
+> > +
+> > +Required properties:
+> > +- compatible: value should be one of the following
+> > +             "nxp,imx8mq-vpu",
+> > +             "nxp,imx8mm-vpu";
+> > +- regs: VPU core and control block register ranges
+> > +- reg-names: should be
+> > +             "g1", "g2", "ctrl" on i.MX8MQ,
+> > +             "g1", "g2", "h1", "ctrl" on i.MX8MM.
+>
+> Would be nicer to put h1 at the end, so the indexes don't change.
+>
+> > +- interrupts: encoding and decoding interrupt specifiers
+> > +- interrupt-names: should be
+> > +             "g1", "g2" on i.MX8MQ,
+> > +             "g1", "g2", "h1" on i.MX8MM.
+> > +- clocks: phandle to VPU core clocks and bus clock
+> > +- clock-names: should be
+> > +             "g1", "g2", "bus" on i.MX8MQ,
+> > +             "g1", "g2", "h1", "bus" on i.MX8MM.
+>
+> Here too.
+>
+> > +- power-domains: phandle to power domain node
+> > +
+> > +Examples:
+> > +
+> > +     vpu: vpu@38300000 {
+>
+> video-codec@...
+>
+> > +             compatible = "nxp,imx8mq-vpu";
+> > +             reg = <0x38300000 0x10000>,
+> > +                   <0x38310000 0x10000>,
+> > +                   <0x38320000 0x10000>;
+> > +             reg-names = "g1", "g2", "ctrl";
+> > +             interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> > +                          <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > +             interrupt-names = "g1", "g2";
+> > +             clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> > +                      <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> > +                      <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > +             clock-names = "g1", "g2", "bus";
+> > +             power-domains = <&pgc_vpu>;
+> > +     };
+> > +
+> > +     vpu: vpu@38300000 {
+>
+> Are 2 examples really necessary?
+>
+> > +             compatible = "nxp,imx8mm-vpu";
+> > +             reg = <0x38300000 0x10000>,
+> > +                   <0x38310000 0x10000>,
+> > +                   <0x38320000 0x10000>;
+> > +                   <0x38330000 0x10000>;
+> > +             reg-names = "g1", "g2", "h1", "ctrl";
+> > +             interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> > +                          <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> > +                          <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+> > +             interrupt-names = "g1", "g2", "h1";
+> > +             clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> > +                      <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> > +                      <&clk IMX8MQ_CLK_VPU_H1_ROOT>,
+> > +                      <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> > +             clock-names = "g1", "g2", "h1", "bus";
+> > +             power-domains = <&pgc_vpu>;
+> > +     };
+> > --
+> > 2.20.1
+> >
