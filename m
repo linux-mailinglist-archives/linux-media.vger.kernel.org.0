@@ -2,161 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54231127BC3
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 14:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9FE4127BEA
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 14:47:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfLTNe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 08:34:27 -0500
-Received: from mail-qv1-f66.google.com ([209.85.219.66]:42502 "EHLO
-        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727382AbfLTNe0 (ORCPT
+        id S1727359AbfLTNrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 08:47:36 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:46481 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727344AbfLTNrg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 08:34:26 -0500
-Received: by mail-qv1-f66.google.com with SMTP id dc14so3597288qvb.9
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2019 05:34:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
-        b=gS91bsS4NjRyWzEDV454oc5qOgomjYBCltRmKzH7Nu9vdI8tQd65a6Yp2TVGSlgA1T
-         37v5Lb1zFtvOvSi94i0Yt83/4AqEpVzmzRwSkFPiESUgqKx4PUFqFCjV/s3xXBOVi9U4
-         w+ZUvVeXy6xbZ8B7zSi+DLnr0w1yjX7v6UIJiebq6UOkRZYcGvU4/THsXU/G/ZDo26P9
-         Xc2y8nF265eAeIX5xgl66hBVWEixNbJ1XzQjNRNan6ViT+Wn6RFHm+C8bWOAWNCFyUU3
-         D0D+BCr//3+mjkgiCcFfBfObTFOz8gI7nHowmgBdF1XYr9LIFcBR6SXbWA6e0W7l8hfH
-         tNRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
-        b=M42t8fb4GUkpEVj+6YqSmkjArFesrJN3LFwz+04ho5z4lIvpGO2Qo1Lh042SqOoFSo
-         Qnjus5JkzxraH6h0k0Aj1FOqjuYE+RRLFZSDCLNRKB6LgRQtEra8Pa4vDSbWTaEzXCZS
-         kgJ3wGllHpHiCu3oU4NoWqNc9lOpMR0xaEk5bcKbI4mXSY9M5KSRL4Uwn/bBMCm7JHoX
-         A14MwP0deVw5Q9St9e2hV7cCGd7FBjXwvCoK8K5tawNsvSAocJlAZt0tm/jf5/8zwhjN
-         5MHlm71AQ8vEn8yOzi59JQfcZ06B3yiKEz29y8iVlS5zALdwyqVfqaCgffWTRPQ7TUn8
-         SyWg==
-X-Gm-Message-State: APjAAAXv0i5BlzaBDnYUxaLsq6K9+npvqS+PS84pt+8XbDuJc4ajxAtc
-        MTd0mq2+6N3Nif9mXbmW0udScg==
-X-Google-Smtp-Source: APXvYqz9az5JjtCMEl1OLVSzBMZYIFm7RbLMGJ3PjpAUx1pKMUVrf5ynor78RCoLoFWtbwHwcCO7NQ==
-X-Received: by 2002:a0c:893d:: with SMTP id 58mr4949386qvp.4.1576848864984;
-        Fri, 20 Dec 2019 05:34:24 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id q73sm2786969qka.56.2019.12.20.05.34.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 20 Dec 2019 05:34:24 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iiIQB-0003cq-Co; Fri, 20 Dec 2019 09:34:23 -0400
-Date:   Fri, 20 Dec 2019 09:34:23 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191220133423.GA13506@ziepe.ca>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
- <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
+        Fri, 20 Dec 2019 08:47:36 -0500
+Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <m.tretter@pengutronix.de>)
+        id 1iiIcx-0007Q5-40; Fri, 20 Dec 2019 14:47:35 +0100
+Date:   Fri, 20 Dec 2019 14:47:34 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 0/5] Stateful Encoding: final bits
+Message-ID: <20191220144734.31667e9c@litschi.hi.pengutronix.de>
+In-Reply-To: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+Organization: Pengutronix
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 01:13:54PM -0800, John Hubbard wrote:
-> On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
-> > On Thu, Dec 19, 2019 at 12:30:31PM -0800, John Hubbard wrote:
-> > > On 12/19/19 5:26 AM, Leon Romanovsky wrote:
-> > > > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > This implements an API naming change (put_user_page*() -->
-> > > > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
-> > > > > extends that tracking to a few select subsystems. More subsystems will
-> > > > > be added in follow up work.
-> > > > 
-> > > > Hi John,
-> > > > 
-> > > > The patchset generates kernel panics in our IB testing. In our tests, we
-> > > > allocated single memory block and registered multiple MRs using the single
-> > > > block.
-> > > > 
-> > > > The possible bad flow is:
-> > > >    ib_umem_geti() ->
-> > > >     pin_user_pages_fast(FOLL_WRITE) ->
-> > > >      internal_get_user_pages_fast(FOLL_WRITE) ->
-> > > >       gup_pgd_range() ->
-> > > >        gup_huge_pd() ->
-> > > >         gup_hugepte() ->
-> > > >          try_grab_compound_head() ->
-> > > 
-> > > Hi Leon,
-> > > 
-> > > Thanks very much for the detailed report! So we're overflowing...
-> > > 
-> > > At first look, this seems likely to be hitting a weak point in the
-> > > GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
-> > > (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
-> > > 99-121). Basically it's pretty easy to overflow the page->_refcount
-> > > with huge pages if the pages have a *lot* of subpages.
-> > > 
-> > > We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
-> > 
-> > Considering that establishing these pins is entirely under user
-> > control, we can't have a limit here.
+Hello Hans,
+
+On Tue, 19 Nov 2019 12:34:52 +0100, Hans Verkuil wrote:
+> This series adds support for fractions in the control framework,
+> and a way to obtain the min and max values of compound controls
+> such as v4l2_fract.
 > 
-> There's already a limit, it's just a much larger one. :) What does "no limit"
-> really mean, numerically, to you in this case?
-
-I guess I mean 'hidden limit' - hitting the limit and failing would
-be managable.
-
-I think 7 is probably too low though, but we are not using 1GB huge
-pages, only 2M..
-
-> > If the number of allowed pins are exhausted then the
-> > pin_user_pages_fast() must fail back to the user.
+> Next it adds the V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to
+> set the framerate for the encoder.
 > 
-> I'll poke around the IB call stack and see how much of that return
-> path is in place, if any. Because it's the same situation for
-> get_user_pages_fast().  This code just added a warning on overflow
-> so we could spot it early.
+> The next patch adds support for the V4L2_BUF_FLAG_TOO_SMALL flag
+> to signal that the capture buffer was too small.
+> 
+> The final patch adds the encoder spec (unchanged from v3).
+> 
+> Michael, can you add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+> to your encoder driver? Let me know if something isn't working.
 
-All GUP callers must be prepared for failure, IB should be fine...
+I implemented the control and hooked it up with S_PARM as well. The
+implementation was straightforward without any real issues. I'll send a
+patch in reply to this mail. Having a control for configuring the frame
+rate that is encoded into the SPS feels correct. This is in line with
+configuring the bitrate, level, etc.
 
-Jason
+However, after seeing the implementation and fiddling around with it in
+userspace, I am not convinced that S_PARM should be used signal the
+rate at which frames are submitted.
+
+Setting the frame submission rate to something different than the
+frame rate of the stream would be most interesting for transcoding use
+cases. The user space would either want to run the encoding as fast as
+possible or, if there are multiple encoding processes, as fast as
+possible with properly shared resources. Boiling this information down
+into a single number (and calling is "rate at which frames are
+submitted") sounds kind of wrong, because the userspace does not know
+which submission rate would lead to a good result.
+
+Using the frame rate for such a setting seems pretty unique to the
+allegro encoder. Other encoders might use different mechanisms to boost
+the encoding speed, e.g., might be able to temporarily increase the
+clock rate of the codec. In these cases, the driver would need to
+translate the "framerate" set via S_PARM to a clock rate for the codec.
+This does not sound right.
+
+However, in the end, this would lead to exposing single parameters that
+allow to tune the codec via generic controls. This does not seem to be
+the right way, at all. Maybe we could have a control that tells the
+encoder to "run as fast as possible" or to "run with as little
+resources as possible", which would be applicable to more encoders and
+the driver would have to decide how to implement this "profile".
+
+Still, I am not really sure, if this is the proper way to solve this.
+
+> I need to add a test control for this to vivid as well and add support
+> for this to v4l2-ctl, that's on my TODO list.
+> 
+> Open questions:
+> 
+> 1) Existing encoder drivers use S_PARM to signal the frameperiod,
+> but as discussed in Lyon this should be the rate at which frames are
+> submitted for encoding, which can be different from
+> V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE. But given the current use-cases
+> I was wondering if calling S_PARM should set the ENC_FRAME_RATE
+> control as well, and you would need to explicitly set the control
+> after S_PARM if the two are not the same. This would mean that
+> existing applications that don't know about the control can keep working.
+
+In the patch I did exactly that and we should be backwards compatible
+to applications that use only S_PARM.
+
+Michael
