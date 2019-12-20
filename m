@@ -2,463 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81687127EE8
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 16:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79779127F26
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 16:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbfLTPBo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 10:01:44 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46047 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727362AbfLTPBo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 10:01:44 -0500
-Received: by mail-lf1-f67.google.com with SMTP id 203so7235665lfa.12
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2019 07:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=khhxlK/BD+aaK/RfllH1ttrxap+YkXW7DG8EbqT8Paw=;
-        b=fDi5SFk8RP2+NUBT90EPPCcL38W/5rTaYbHlRcB+W8wb4vwITaCTz9j6wyBvJPa8Mf
-         5SPr1RM59JMyB238rR5PTDgBoqBUhWCXpLLTFzluHjiD+zUehwhE/BqRpXi9yKSyTCDX
-         Qbbhia+gy54tayStJNpas5XCKkVkC4EgrtZ8o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=khhxlK/BD+aaK/RfllH1ttrxap+YkXW7DG8EbqT8Paw=;
-        b=lfVpBGgiDzqMmfBZlMg56XzW9Yce7jzME6GXVekKMmlzH7vmGRHm3q8BpQL+WtSYdS
-         sBJluhP2kOdXzc2GOyIR8/Irzco/+BaD9Ri7BBTeFDzND4vIG+7JxIDV48uPwFfRhLoQ
-         D2Q0+woQ5RRmL0Fx4pc8wH8bBJInTpX9LR2h5FpHe6lDvXtX10g44avd5YJZUz2Xb81H
-         qjU2a+KC8RVEzWOf35Vb/ou/COL9NZjtBan0VMbDHc7ZfglT1MVQD1+7M05ZQUG1CXhM
-         eATuHOoiSHpKx2ngX9UxMijYiyzXSy+I8SGxASe1vAweDMuwJU2wLiKix8SMHP0zlIMI
-         Yoqw==
-X-Gm-Message-State: APjAAAWpG4pQu5ti3z8Am5xNGqzQlO7CWvAWi0tISRLcfIPHpTmls/Fn
-        hJRn6XUVoMnJ5Fgrb3VhWt/5rKq/S7IowSQHS7C0tw==
-X-Google-Smtp-Source: APXvYqy6sxE+Bgqlxgz5D/1f7FdbMis/vvMqsTnY/iMGm1VqYydGeB7Hfp6ti2za8y+sSJ/E3G/NwYOI45i72jIT3ck=
-X-Received: by 2002:a19:7502:: with SMTP id y2mr9124814lfe.55.1576854099566;
- Fri, 20 Dec 2019 07:01:39 -0800 (PST)
+        id S1727404AbfLTPTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 10:19:44 -0500
+Received: from mga01.intel.com ([192.55.52.88]:52666 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727233AbfLTPTo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Dec 2019 10:19:44 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Dec 2019 07:19:43 -0800
+X-IronPort-AV: E=Sophos;i="5.69,336,1571727600"; 
+   d="scan'208";a="299040892"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Dec 2019 07:19:41 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id CAF87209B3; Fri, 20 Dec 2019 17:19:39 +0200 (EET)
+Date:   Fri, 20 Dec 2019 17:19:39 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>
+Subject: Re: [PATCH] media: i2c: ov5695: Fix power on and off sequences
+Message-ID: <20191220151939.GA19828@paasikivi.fi.intel.com>
+References: <20191220130800.61589-1-tfiga@chromium.org>
 MIME-Version: 1.0
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
- <CAD90VcY_CUVNpq6w06HPRknHtT+WhT3gPnaLtMe2yHS1dCHMzQ@mail.gmail.com>
- <CAD90VcaCWUmXBkkrGdH=-BJKmoXRKGxa+NK7x9qz1K28h5cLJw@mail.gmail.com> <6979954.MWBlvXQWzh@os-lin-dmo>
-In-Reply-To: <6979954.MWBlvXQWzh@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Sat, 21 Dec 2019 00:01:27 +0900
-Message-ID: <CAD90VcZg49E+eZ5c-6vL1jKKQuJLVxS9vDn3Egn-=9R7AEcwxQ@mail.gmail.com>
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Enrico Granata <egranata@google.com>,
-        Changyeon Jo <changyeon@google.com>,
-        virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191220130800.61589-1-tfiga@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+Hi Tomasz,
 
-On Fri, Dec 20, 2019 at 11:25 PM Dmitry Sepp
-<dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Keiichi,
->
-> Could you please explain in a more detailed way what exactly CROP is used for?
-> Is it equivalent to G/S_CROP or G/S_SELECTION in v4l2? Do you only need to get
-> it, or to set as well? Can it also be useful for the encoder?
+On Fri, Dec 20, 2019 at 10:08:00PM +0900, Tomasz Figa wrote:
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> 
+> From the measured hardware signal, OV5695 reset pin goes high for a
+> short period of time during boot-up. From the sensor specification, the
+> reset pin is active low and the DT binding defines the pin as active
+> low, which means that the values set by the driver are inverted and thus
+> the value requested in probe ends up high.
+> 
+> Fix it by changing probe to request the reset GPIO initialized to high,
+> which makes the initial state of the physical signal low.
+> 
+> In addition, DOVDD rising must occur before DVDD rising from spec., but
+> regulator_bulk_enable() API enables all the regulators asynchronously.
+> Use an explicit loops of regulator_enable() instead.
+> 
+> For power off sequence, it is required that DVDD falls first. Given the
+> bulk API does not give any guarantee about the order of regulators,
+> change the driver to use regulator_disable() instead.
+> 
+> The sensor also requires a delay between reset high and first I2C
+> transaction, which was assumed to be 8192 XVCLK cycles, but 1ms is
+> recommended by the vendor. Fix this as well.
+> 
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> ---
+>  drivers/media/i2c/ov5695.c | 41 +++++++++++++++++++++-----------------
+>  1 file changed, 23 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
+> index d6cd15bb699ac..8d0cc3893fcfc 100644
+> --- a/drivers/media/i2c/ov5695.c
+> +++ b/drivers/media/i2c/ov5695.c
+> @@ -971,16 +971,9 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
+>  	return ret;
+>  }
+>  
+> -/* Calculate the delay in us by clock rate and clock cycles */
+> -static inline u32 ov5695_cal_delay(u32 cycles)
+> -{
+> -	return DIV_ROUND_UP(cycles, OV5695_XVCLK_FREQ / 1000 / 1000);
+> -}
+> -
+>  static int __ov5695_power_on(struct ov5695 *ov5695)
+>  {
+> -	int ret;
+> -	u32 delay_us;
+> +	int i, ret;
+>  	struct device *dev = &ov5695->client->dev;
+>  
+>  	ret = clk_prepare_enable(ov5695->xvclk);
+> @@ -991,21 +984,24 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+>  
+>  	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
+>  
+> -	ret = regulator_bulk_enable(OV5695_NUM_SUPPLIES, ov5695->supplies);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to enable regulators\n");
+> -		goto disable_clk;
+> +	for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
+> +		ret = regulator_enable(ov5695->supplies[i].consumer);
 
-It corresponds to struct v4l2_rect in V4L2, which is used in
-G/S_SELECTION. IIUC, G/S_SELECTION is a kind of super set of G/S_CROP.
-Both decoder and encoder can utilize both G_SELECTION and S_SELECTION.
-Their usages are documented in the specs of V4L2 stateful
-decoder/encoder API.
+The regulator voltage takes some time before it settles. If the hardware
+requires a particular order, then presumably there should be a small delay
+to ensure that. 1 ms should be plenty.
 
-stateful decoder spec:
-https://linuxtv.org/downloads/v4l-dvb-apis/uapi/v4l/dev-decoder.html
-stateful encoder spec (in maintainer's tree):
-https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-encoder.html
+I also think it'd be necessary to add a comment here explaining the
+requirements for enabling regulators, as otherwise I expect someone to
+"fix" this sooner or later.
 
-Best regards,
-Keiichi
+Same for powering off.
 
->
-> Regrds,
-> Dmitry.
->
-> On Freitag, 13. Dezember 2019 17:31:24 CET Keiichi Watanabe wrote:
-> > On Fri, Dec 13, 2019 at 11:20 PM Keiichi Watanabe <keiichiw@chromium.org>
-> wrote:
-> > > On Thu, Dec 12, 2019 at 7:34 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> wrote:
-> > > > Hi Keiichi,
-> > > >
-> > > > Thank you for your comment.
-> > > > What do you thing about selection/crop rectangles? Should this be
-> > > > defined as a must have? Or we just assume the device always sticks to
-> > > > the stream resolution.
-> > >
-> > > For decoding, the device needs to tell the driver crop rectangle when
-> > > a resolution change happens, as virtio-vdec has
-> > > virtio_vdec_host_req_stream_crop.
-> > > So, we should add a new field in virtio_video_param for it.
-> > >
-> > > For what it's worth, we have C-headers that exposes Chrome's video
-> > > codec functionalities. So, our virtio-video device will do
-> > > decoding/encoding by calling these functions.
-> > > Decoder:
-> > > https://chromium.git.corp.google.com/chromiumos/platform2/+/00ad71fa640c0
-> > > 18c1d014f467c50b9a7dc962a10/arc/vm/libvda/libvda_decode.h Encoder:
-> > > https://chromium.git.corp.google.com/chromiumos/platform2/+/00ad71fa640c0
-> > > 18c1d014f467c50b9a7dc962a10/arc/vm/libvda/libvda_encode.h
-> > Oops, the links were not accesible...
-> > The correct links are:
-> > Decoder:
-> > https://chromium.googlesource.com/chromiumos/platform2/+/00ad71fa640c018c1d
-> > 014f467c50b9a7dc962a10/arc/vm/libvda/libvda_decode.h Encoder:
-> > https://chromium.googlesource.com/chromiumos/platform2/+/00ad71fa640c018c1d
-> > 014f467c50b9a7dc962a10/arc/vm/libvda/libvda_encode.h
-> >
-> > Best,
-> > Keiichi
-> >
-> > > BTW, I'm preparing the next version of virtio-video spec by addressing
-> > > points we discussed in this thread. I'll send it here next week,
-> > > hopefully.
-> > >
-> > > Best,
-> > > Keiichi
-> > >
-> > > > Regards,
-> > > > Dmitry.
-> > > >
-> > > > On Donnerstag, 12. Dezember 2019 06:39:11 CET Keiichi Watanabe wrote:
-> > > > > On Tue, Dec 10, 2019 at 10:16 PM Dmitry Sepp
-> > > > >
-> > > > > <dmitry.sepp@opensynergy.com> wrote:
-> > > > > > Hi,
-> > > > > >
-> > > > > > Just to start, let's consider this v4l2 control:
-> > > > > > V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE.
-> > > > > > As I can see, this control is referenced as a mandatory one in the
-> > > > > > Chromium
-> > > > > > sources [1].
-> > > > > >
-> > > > > > So could someone from the Chromium team please explain why it is
-> > > > > > mandatory?
-> > > > > > (YouTube?) In fact, almost no encoders implement this control. Do we
-> > > > > > need
-> > > > > > it in virtio-video?
-> > > > >
-> > > > > That control is used to encode videos in constant bitrate (CBR) mode,
-> > > > > which is critical for
-> > > > > real-time use case like video conferencing.
-> > > > >
-> > > > > However, that Chromium source code just requires *host-side* drivers
-> > > > > to have the v4l2
-> > > > > control. Also, I guess it's rare that a guest app wants to use CQP
-> > > > > instead of CBR from our
-> > > > > experience.
-> > > > > So, I suppose we can omit this control in virtio spec for now by
-> > > > > assuming that guests
-> > > > > always use CBR mode.
-> > > > >
-> > > > > Best regards,
-> > > > > Keiichi
-> > > > >
-> > > > > > [1]
-> > > > > > https://chromium.googlesource.com/chromium/src/media/+/refs/heads/ma
-> > > > > > ster/
-> > > > > > gpu/v4l2/v4l2_video_encode_accelerator.cc#1500
-> > > > > >
-> > > > > > Regards,
-> > > > > > Dmitry.
-> > > > > >
-> > > > > > On Montag, 9. Dezember 2019 22:12:28 CET Enrico Granata wrote:
-> > > > > > > +Changyeon Jo <changyeon@google.com> for his awareness
-> > > > > > >
-> > > > > > > Thanks,
-> > > > > > > - Enrico
-> > > > > > >
-> > > > > > >
-> > > > > > > On Mon, Dec 9, 2019 at 6:20 AM Dmitry Sepp
-> > > > > > > <dmitry.sepp@opensynergy.com>
-> > > > > > >
-> > > > > > > wrote:
-> > > > > > > > Hello,
-> > > > > > > >
-> > > > > > > > I'd like to invite everyone to share ideas regarding required
-> > > > > > > > encoder
-> > > > > > > > features
-> > > > > > > > in this separate sub-tree.
-> > > > > > > >
-> > > > > > > > In general, encoder devices are more complex compared to
-> > > > > > > > decoders. So
-> > > > > > > > the
-> > > > > > > > question I'd like to rise is in what way we define the minimal
-> > > > > > > > subset
-> > > > > > > > of
-> > > > > > > > features to be implemented by the virtio-video.
-> > > > > > > >
-> > > > > > > > We may look at the following to define the set of features:
-> > > > > > > > 1. USB video, 2.3.6 Encoding Unit [1].
-> > > > > > > > 2. Android 10 Compatibility Definition [2].
-> > > > > > > >
-> > > > > > > > Would be nice to hear about any specific requirements from the
-> > > > > > > > Chromium
-> > > > > > > > team as
-> > > > > > > > well.
-> > > > > > > >
-> > > > > > > > [1]
-> > > > > > > > https://www.usb.org/sites/default/files/USB_Video_Class_1_5.zip
-> > > > > > > > [2]
-> > > > > > > > https://source.android.com/compatibility/android-cdd#5_2_video_e
-> > > > > > > > ncodin
-> > > > > > > > g
-> > > > > > > >
-> > > > > > > > Thank you.
-> > > > > > > >
-> > > > > > > > Best regards,
-> > > > > > > > Dmitry.
-> > > > > > > >
-> > > > > > > > On Mittwoch, 4. Dezember 2019 10:16:20 CET Gerd Hoffmann wrote:
-> > > > > > > > >   Hi,
-> > > > > > > > >
-> > > > > > > > > > 1. Focus on only decoder/encoder functionalities first.
-> > > > > > > > > >
-> > > > > > > > > > As Tomasz said earlier in this thread, it'd be too
-> > > > > > > > > > complicated to
-> > > > > > > >
-> > > > > > > > support
-> > > > > > > >
-> > > > > > > > > > camera usage at the same time. So, I'd suggest to make it
-> > > > > > > > > > just a
-> > > > > > > >
-> > > > > > > > generic
-> > > > > > > >
-> > > > > > > > > > mem-to-mem video processing device protocol for now.
-> > > > > > > > > > If we finally decide to support camera in this protocol, we
-> > > > > > > > > > can
-> > > > > > > > > > add it
-> > > > > > > > > > later.
-> > > > > > > > >
-> > > > > > > > > Agree.
-> > > > > > > > >
-> > > > > > > > > > 2. Only one feature bit can be specified for one device.
-> > > > > > > > > >
-> > > > > > > > > > I'd like to have a decoder device and encoder device
-> > > > > > > > > > separately.
-> > > > > > > > > > It'd be natural to assume it because a decoder and an
-> > > > > > > > > > encoder are
-> > > > > > > >
-> > > > > > > > provided
-> > > > > > > >
-> > > > > > > > > > as different hardware.
-> > > > > > > > >
-> > > > > > > > > Hmm, modern GPUs support both encoding and decoding ...
-> > > > > > > > >
-> > > > > > > > > I don't think we should bake that restriction into the
-> > > > > > > > > specification.
-> > > > > > > > > It probably makes sense to use one virtqueue per function
-> > > > > > > > > though,
-> > > > > > > > > that
-> > > > > > > > > will simplify dispatching in both host and guest.
-> > > > > > > > >
-> > > > > > > > > > 3. Separate buffer allocation functionalities from
-> > > > > > > > > > virtio-video
-> > > > > > > >
-> > > > > > > > protocol.
-> > > > > > > >
-> > > > > > > > > > To support various ways of guest/host buffer sharing, we
-> > > > > > > > > > might
-> > > > > > > > > > want to
-> > > > > > > > > > have a dedicated buffer sharing device as we're discussing
-> > > > > > > > > > in
-> > > > > > > > > > another
-> > > > > > > > > > thread. Until we reach consensus there, it'd be good not to
-> > > > > > > > > > have
-> > > > > > > > > > buffer
-> > > > > > > > > > allocation
-> > > > > > > > > > functionalities in virtio-video.
-> > > > > > > > >
-> > > > > > > > > I think virtio-video should be able to work as stand-alone
-> > > > > > > > > device,
-> > > > > > > > > so we need some way to allocate buffers ...
-> > > > > > > > >
-> > > > > > > > > Buffer sharing with other devices can be added later.
-> > > > > > > > >
-> > > > > > > > > > > +The virtio video device is a virtual video streaming
-> > > > > > > > > > > device
-> > > > > > > > > > > that
-> > > > > > > > > > > supports the +following functions: encoder, decoder,
-> > > > > > > > > > > capture,
-> > > > > > > > > > > output.
-> > > > > > > > > > > +
-> > > > > > > > > > > +\subsection{Device ID}\label{sec:Device Types / Video
-> > > > > > > > > > > Device /
-> > > > > > > >
-> > > > > > > > Device
-> > > > > > > >
-> > > > > > > > > > > ID}
-> > > > > > > > > > > +
-> > > > > > > > > > > +TBD.
-> > > > > > > > > >
-> > > > > > > > > > I'm wondering how and when we can determine and reserve this
-> > > > > > > > > > ID?
-> > > > > > > > >
-> > > > > > > > > Grab the next free, update the spec accordingly, submit the
-> > > > > > > > > one-line
-> > > > > > > > > patch.
-> > > > > > > > >
-> > > > > > > > > > > +\begin{lstlisting}
-> > > > > > > > > > > +enum virtio_video_pixel_format {
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_UNDEFINED = 0,
-> > > > > > > > > > > +
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_H264 = 0x0100,
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV12,
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_NV21,
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I420,
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_I422,
-> > > > > > > > > > > +       VIRTIO_VIDEO_PIX_FMT_XBGR,
-> > > > > > > > > > > +};
-> > > > > > > > > >
-> > > > > > > > > > I'm wondering if we can use FOURCC instead. So, we can avoid
-> > > > > > > >
-> > > > > > > > reinventing a
-> > > > > > > >
-> > > > > > > > > > mapping from formats to integers.
-> > > > > > > > > > Also, I suppose the word "pixel formats" means only raw
-> > > > > > > > > > (decoded)
-> > > > > > > >
-> > > > > > > > formats.
-> > > > > > > >
-> > > > > > > > > > But, it can be encoded format like H.264. So, I guess "image
-> > > > > > > > > > format"
-> > > > > > > > > > or
-> > > > > > > > > > "fourcc" is a better word choice.
-> > > > > > > > >
-> > > > > > > > > Use separate pixel_format (fourcc) and stream_format (H.264
-> > > > > > > > > etc.)
-> > > > > > > > > enums?
-> > > > > > > > >
-> > > > > > > > > > > +\begin{lstlisting}
-> > > > > > > > > > > +struct virtio_video_function {
-> > > > > > > > > > > +       struct virtio_video_desc desc;
-> > > > > > > > > > > +       __le32 function_type; /* One of
-> > > > > > > > > > > VIRTIO_VIDEO_FUNC_*
-> > > > > > > > > > > types */
-> > > > > > > > > > > +       __le32 function_id;
-> > > > > > > > > > > +       struct virtio_video_params in_params;
-> > > > > > > > > > > +       struct virtio_video_params out_params;
-> > > > > > > > > > > +       __le32 num_caps;
-> > > > > > > > > > > +       __u8 padding[4];
-> > > > > > > > > > > +       /* Followed by struct virtio_video_capability
-> > > > > > > > > > > video_caps[];
-> > > > > > > >
-> > > > > > > > */
-> > > > > > > >
-> > > > > > > > > > > +};
-> > > > > > > > > > > +\end{lstlisting}
-> > > > > > > > > >
-> > > > > > > > > > If one device only has one functionality,
-> > > > > > > > > > virtio_video_function's
-> > > > > > > >
-> > > > > > > > fields
-> > > > > > > >
-> > > > > > > > > > will be no longer needed except in_params and out_params.
-> > > > > > > > > > So, we'd
-> > > > > > > > > > be
-> > > > > > > > > > able to remove virtio_video_function and have in_params and
-> > > > > > > > > > out_params
-> > > > > > > >
-> > > > > > > > in
-> > > > > > > >
-> > > > > > > > > > virtio_video_capability instead.
-> > > > > > > > >
-> > > > > > > > > Same goes for per-function virtqueues (used virtqueue implies
-> > > > > > > > > function).
-> > > > > > > > >
-> > > > > > > > > > > +\begin{lstlisting}
-> > > > > > > > > > > +struct virtio_video_resource_detach_backing {
-> > > > > > > > > > > +       struct virtio_video_ctrl_hdr hdr;
-> > > > > > > > > > > +       __le32 resource_id;
-> > > > > > > > > > > +       __u8 padding[4];
-> > > > > > > > > > > +};
-> > > > > > > > > > > +\end{lstlisting}
-> > > > > > > > > > > +
-> > > > > > > > > > > +\begin{description}
-> > > > > > > > > > > +\item[\field{resource_id}] internal id of the resource.
-> > > > > > > > > > > +\end{description}
-> > > > > > > > > >
-> > > > > > > > > > I suppose that it'd be better not to have the above series
-> > > > > > > > > > of
-> > > > > > > >
-> > > > > > > > T_RESOURCE
-> > > > > > > >
-> > > > > > > > > > controls at least until we reach a conclusion in the thread
-> > > > > > > > > > of
-> > > > > > > > > > buffer-sharing device. If we end up concluding this type of
-> > > > > > > > > > controls
-> > > > > > > > > > is
-> > > > > > > > > > the best way, we'll be able to revisit here.
-> > > > > > > > >
-> > > > > > > > > Well.  For buffer management there are a bunch of options.
-> > > > > > > > >
-> > > > > > > > >  (1) Simply stick the buffers (well, pointers to the buffer
-> > > > > > > > >  pages)
-> > > > > > > > >  into
-> > > > > > > > >
-> > > > > > > > >      the virtqueue.  This is the standard virtio way.
-> > > > > > > > >
-> > > > > > > > >  (2) Create resources, then put the resource ids into the
-> > > > > > > > >  virtqueue.
-> > > > > > > > >
-> > > > > > > > >      virtio-gpu uses that model.  First, because virtio-gpu
-> > > > > > > > >      needs an
-> > > > > > > > >      id
-> > > > > > > > >      to reference resources in the rendering command stream
-> > > > > > > > >      (virtio-video doesn't need this).  Also because (some
-> > > > > > > > >      kinds of)
-> > > > > > > > >      resources are around for a long time and the
-> > > > > > > > >      guest-physical ->
-> > > > > > > > >      host-virtual mapping needs to be done only once that way
-> > > > > > > > >      (which
-> > > > > > > > >      I think would be the case for virtio-video too because
-> > > > > > > > >      v4l2
-> > > > > > > > >      re-uses buffers in robin-round fashion).  Drawback is
-> > > > > > > > >      this
-> > > > > > > > >      assumes shared memory between host and guest (which is
-> > > > > > > > >      the case
-> > > > > > > > >      in typical use cases but it is not mandated by the virtio
-> > > > > > > > >      spec).
-> > > > > > > > >
-> > > > > > > > >  (3) Import external resources (from virtio-gpu for example).
-> > > > > > > > >
-> > > > > > > > >      Out of scope for now, will probably added as optional
-> > > > > > > > >      feature
-> > > > > > > > >      later.
-> > > > > > > > >
-> > > > > > > > > I guess long-term we want support either (1)+(3) or (2)+(3).
-> > > > > > > > >
-> > > > > > > > > cheers,
-> > > > > > > > >
-> > > > > > > > >   Gerd
-> > > > > > > >
-> > > > > > > > ----------------------------------------------------------------
-> > > > > > > > -----
-> > > > > > > > To unsubscribe, e-mail:
-> > > > > > > > virtio-dev-unsubscribe@lists.oasis-open.org
-> > > > > > > > For additional commands, e-mail:
-> > > > > > > > virtio-dev-help@lists.oasis-open.org
->
->
+> +		if (ret) {
+> +			dev_err(dev, "Failed to enable %s: %d\n",
+> +				ov5695->supplies[i].supply, ret);
+> +			goto disable_reg_clk;
+> +		}
+>  	}
+>  
+>  	gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
+>  
+> -	/* 8192 cycles prior to first SCCB transaction */
+> -	delay_us = ov5695_cal_delay(8192);
+> -	usleep_range(delay_us, delay_us * 2);
+> +	usleep_range(1000, 1200);
+>  
+>  	return 0;
+>  
+> -disable_clk:
+> +disable_reg_clk:
+> +	for (--i; i >= 0; i--)
+> +		regulator_disable(ov5695->supplies[i].consumer);
+>  	clk_disable_unprepare(ov5695->xvclk);
+>  
+>  	return ret;
+> @@ -1013,9 +1009,18 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
+>  
+>  static void __ov5695_power_off(struct ov5695 *ov5695)
+>  {
+> +	struct device *dev = &ov5695->client->dev;
+> +	int i, ret;
+> +
+>  	clk_disable_unprepare(ov5695->xvclk);
+>  	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
+> -	regulator_bulk_disable(OV5695_NUM_SUPPLIES, ov5695->supplies);
+> +
+> +	for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
+> +		ret = regulator_disable(ov5695->supplies[i].consumer);
+> +		if (ret)
+> +			dev_err(dev, "Failed to disable %s: %d\n",
+> +				ov5695->supplies[i].supply, ret);
+> +	}
+>  }
+>  
+>  static int __maybe_unused ov5695_runtime_resume(struct device *dev)
+> @@ -1285,7 +1290,7 @@ static int ov5695_probe(struct i2c_client *client,
+>  	if (clk_get_rate(ov5695->xvclk) != OV5695_XVCLK_FREQ)
+>  		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+>  
+> -	ov5695->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +	ov5695->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(ov5695->reset_gpio)) {
+>  		dev_err(dev, "Failed to get reset-gpios\n");
+>  		return -EINVAL;
+
+-- 
+Kind regards,
+
+Sakari Ailus
