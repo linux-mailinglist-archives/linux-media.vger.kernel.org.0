@@ -2,178 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C7F2127B7F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 14:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54231127BC3
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 14:34:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbfLTNIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 08:08:12 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:47064 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727399AbfLTNIM (ORCPT
+        id S1727381AbfLTNe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 08:34:27 -0500
+Received: from mail-qv1-f66.google.com ([209.85.219.66]:42502 "EHLO
+        mail-qv1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727382AbfLTNe0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 08:08:12 -0500
-Received: by mail-pg1-f194.google.com with SMTP id z124so4910307pgb.13
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2019 05:08:11 -0800 (PST)
+        Fri, 20 Dec 2019 08:34:26 -0500
+Received: by mail-qv1-f66.google.com with SMTP id dc14so3597288qvb.9
+        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2019 05:34:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=meDitHt8qyvVvhpt+x/CzgZZK4BHEUE/N3YzuDpyS6w=;
-        b=GzcrcTUta+EBedAj8mVaPAO2+l2jkXwr/govHhy8/tR7y0KjEyEfKUkYnUljmc2hq5
-         YicK+EEf3JdJVmLP1s9H6mmtSkxGeLSpFuvTTwY3lA/Ypf5O9YcVWfseHPmgQSOuowcD
-         XfrbDzKTLRKq9NUos+8PPmpmiIC9PbrP9GAYs=
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
+        b=gS91bsS4NjRyWzEDV454oc5qOgomjYBCltRmKzH7Nu9vdI8tQd65a6Yp2TVGSlgA1T
+         37v5Lb1zFtvOvSi94i0Yt83/4AqEpVzmzRwSkFPiESUgqKx4PUFqFCjV/s3xXBOVi9U4
+         w+ZUvVeXy6xbZ8B7zSi+DLnr0w1yjX7v6UIJiebq6UOkRZYcGvU4/THsXU/G/ZDo26P9
+         Xc2y8nF265eAeIX5xgl66hBVWEixNbJ1XzQjNRNan6ViT+Wn6RFHm+C8bWOAWNCFyUU3
+         D0D+BCr//3+mjkgiCcFfBfObTFOz8gI7nHowmgBdF1XYr9LIFcBR6SXbWA6e0W7l8hfH
+         tNRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=meDitHt8qyvVvhpt+x/CzgZZK4BHEUE/N3YzuDpyS6w=;
-        b=dBPkIabxiATUTPBL9E1Uc2wIDkeSuPJsypKnu0xF1Dz0OKy7LgMQqfH97r9Eo97uJe
-         ccK3CtqNJlYsY1zqoBv8ZfTephoRLrMjRyfVrkw7LSMM8ZXDBe79UNoVcVajK2e7pZnI
-         knC18lu9XdZZWXuaLQVtxl98q2MeqpgieudGK+QmRLytLrfFwhZXWhbkQI8Y6urioHE2
-         wShq4EYe6BnMBoOwbIa25CzCy/Lx549ObGc4/6T4wsruPtHkA/Xs9kmpIuuchdo/4wbP
-         v13cX/w43MQ0EH5+DH+mblQTandS7hnKmQmC5eAG0+emxTIJhiz+jaFwaj5LIoHeNQnD
-         tUlQ==
-X-Gm-Message-State: APjAAAW/BOLbSmAdoOZCrsiEwC7B6eSCQtZB9o0k7/sbEpGdm7J59URL
-        t20pBSra0hGVgHWFRK0yiTXgnvmTdY0=
-X-Google-Smtp-Source: APXvYqwFRwyu5QWdevIerg75X3jjqVtRPPDstapmZRlXiLTdYC4bUNnX0Tqvl8NLkavB185wI0tplQ==
-X-Received: by 2002:a65:4242:: with SMTP id d2mr1422153pgq.166.1576847291041;
-        Fri, 20 Dec 2019 05:08:11 -0800 (PST)
-Received: from tfiga.tok.corp.google.com ([2401:fa00:8f:203:f5fe:2a5e:f953:c0ed])
-        by smtp.gmail.com with ESMTPSA id 100sm10273862pjo.17.2019.12.20.05.08.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2019 05:08:10 -0800 (PST)
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     Shunqian Zheng <zhengsq@rock-chips.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5r9Zi+Au/gtKbsFaE0fKhn5Z9mh4Uiv+qjM4b27ESt8=;
+        b=M42t8fb4GUkpEVj+6YqSmkjArFesrJN3LFwz+04ho5z4lIvpGO2Qo1Lh042SqOoFSo
+         Qnjus5JkzxraH6h0k0Aj1FOqjuYE+RRLFZSDCLNRKB6LgRQtEra8Pa4vDSbWTaEzXCZS
+         kgJ3wGllHpHiCu3oU4NoWqNc9lOpMR0xaEk5bcKbI4mXSY9M5KSRL4Uwn/bBMCm7JHoX
+         A14MwP0deVw5Q9St9e2hV7cCGd7FBjXwvCoK8K5tawNsvSAocJlAZt0tm/jf5/8zwhjN
+         5MHlm71AQ8vEn8yOzi59JQfcZ06B3yiKEz29y8iVlS5zALdwyqVfqaCgffWTRPQ7TUn8
+         SyWg==
+X-Gm-Message-State: APjAAAXv0i5BlzaBDnYUxaLsq6K9+npvqS+PS84pt+8XbDuJc4ajxAtc
+        MTd0mq2+6N3Nif9mXbmW0udScg==
+X-Google-Smtp-Source: APXvYqz9az5JjtCMEl1OLVSzBMZYIFm7RbLMGJ3PjpAUx1pKMUVrf5ynor78RCoLoFWtbwHwcCO7NQ==
+X-Received: by 2002:a0c:893d:: with SMTP id 58mr4949386qvp.4.1576848864984;
+        Fri, 20 Dec 2019 05:34:24 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id q73sm2786969qka.56.2019.12.20.05.34.23
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 20 Dec 2019 05:34:24 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iiIQB-0003cq-Co; Fri, 20 Dec 2019 09:34:23 -0400
+Date:   Fri, 20 Dec 2019 09:34:23 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH] media: i2c: ov5695: Fix power on and off sequences
-Date:   Fri, 20 Dec 2019 22:08:00 +0900
-Message-Id: <20191220130800.61589-1-tfiga@chromium.org>
-X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+Message-ID: <20191220133423.GA13506@ziepe.ca>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+ <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+On Thu, Dec 19, 2019 at 01:13:54PM -0800, John Hubbard wrote:
+> On 12/19/19 1:07 PM, Jason Gunthorpe wrote:
+> > On Thu, Dec 19, 2019 at 12:30:31PM -0800, John Hubbard wrote:
+> > > On 12/19/19 5:26 AM, Leon Romanovsky wrote:
+> > > > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > This implements an API naming change (put_user_page*() -->
+> > > > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
+> > > > > extends that tracking to a few select subsystems. More subsystems will
+> > > > > be added in follow up work.
+> > > > 
+> > > > Hi John,
+> > > > 
+> > > > The patchset generates kernel panics in our IB testing. In our tests, we
+> > > > allocated single memory block and registered multiple MRs using the single
+> > > > block.
+> > > > 
+> > > > The possible bad flow is:
+> > > >    ib_umem_geti() ->
+> > > >     pin_user_pages_fast(FOLL_WRITE) ->
+> > > >      internal_get_user_pages_fast(FOLL_WRITE) ->
+> > > >       gup_pgd_range() ->
+> > > >        gup_huge_pd() ->
+> > > >         gup_hugepte() ->
+> > > >          try_grab_compound_head() ->
+> > > 
+> > > Hi Leon,
+> > > 
+> > > Thanks very much for the detailed report! So we're overflowing...
+> > > 
+> > > At first look, this seems likely to be hitting a weak point in the
+> > > GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
+> > > (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
+> > > 99-121). Basically it's pretty easy to overflow the page->_refcount
+> > > with huge pages if the pages have a *lot* of subpages.
+> > > 
+> > > We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
+> > 
+> > Considering that establishing these pins is entirely under user
+> > control, we can't have a limit here.
+> 
+> There's already a limit, it's just a much larger one. :) What does "no limit"
+> really mean, numerically, to you in this case?
 
-From the measured hardware signal, OV5695 reset pin goes high for a
-short period of time during boot-up. From the sensor specification, the
-reset pin is active low and the DT binding defines the pin as active
-low, which means that the values set by the driver are inverted and thus
-the value requested in probe ends up high.
+I guess I mean 'hidden limit' - hitting the limit and failing would
+be managable.
 
-Fix it by changing probe to request the reset GPIO initialized to high,
-which makes the initial state of the physical signal low.
+I think 7 is probably too low though, but we are not using 1GB huge
+pages, only 2M..
 
-In addition, DOVDD rising must occur before DVDD rising from spec., but
-regulator_bulk_enable() API enables all the regulators asynchronously.
-Use an explicit loops of regulator_enable() instead.
+> > If the number of allowed pins are exhausted then the
+> > pin_user_pages_fast() must fail back to the user.
+> 
+> I'll poke around the IB call stack and see how much of that return
+> path is in place, if any. Because it's the same situation for
+> get_user_pages_fast().  This code just added a warning on overflow
+> so we could spot it early.
 
-For power off sequence, it is required that DVDD falls first. Given the
-bulk API does not give any guarantee about the order of regulators,
-change the driver to use regulator_disable() instead.
+All GUP callers must be prepared for failure, IB should be fine...
 
-The sensor also requires a delay between reset high and first I2C
-transaction, which was assumed to be 8192 XVCLK cycles, but 1ms is
-recommended by the vendor. Fix this as well.
-
-Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-Signed-off-by: Tomasz Figa <tfiga@chromium.org>
----
- drivers/media/i2c/ov5695.c | 41 +++++++++++++++++++++-----------------
- 1 file changed, 23 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-index d6cd15bb699ac..8d0cc3893fcfc 100644
---- a/drivers/media/i2c/ov5695.c
-+++ b/drivers/media/i2c/ov5695.c
-@@ -971,16 +971,9 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
- 	return ret;
- }
- 
--/* Calculate the delay in us by clock rate and clock cycles */
--static inline u32 ov5695_cal_delay(u32 cycles)
--{
--	return DIV_ROUND_UP(cycles, OV5695_XVCLK_FREQ / 1000 / 1000);
--}
--
- static int __ov5695_power_on(struct ov5695 *ov5695)
- {
--	int ret;
--	u32 delay_us;
-+	int i, ret;
- 	struct device *dev = &ov5695->client->dev;
- 
- 	ret = clk_prepare_enable(ov5695->xvclk);
-@@ -991,21 +984,24 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
- 
- 	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
- 
--	ret = regulator_bulk_enable(OV5695_NUM_SUPPLIES, ov5695->supplies);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable regulators\n");
--		goto disable_clk;
-+	for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
-+		ret = regulator_enable(ov5695->supplies[i].consumer);
-+		if (ret) {
-+			dev_err(dev, "Failed to enable %s: %d\n",
-+				ov5695->supplies[i].supply, ret);
-+			goto disable_reg_clk;
-+		}
- 	}
- 
- 	gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
- 
--	/* 8192 cycles prior to first SCCB transaction */
--	delay_us = ov5695_cal_delay(8192);
--	usleep_range(delay_us, delay_us * 2);
-+	usleep_range(1000, 1200);
- 
- 	return 0;
- 
--disable_clk:
-+disable_reg_clk:
-+	for (--i; i >= 0; i--)
-+		regulator_disable(ov5695->supplies[i].consumer);
- 	clk_disable_unprepare(ov5695->xvclk);
- 
- 	return ret;
-@@ -1013,9 +1009,18 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
- 
- static void __ov5695_power_off(struct ov5695 *ov5695)
- {
-+	struct device *dev = &ov5695->client->dev;
-+	int i, ret;
-+
- 	clk_disable_unprepare(ov5695->xvclk);
- 	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
--	regulator_bulk_disable(OV5695_NUM_SUPPLIES, ov5695->supplies);
-+
-+	for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
-+		ret = regulator_disable(ov5695->supplies[i].consumer);
-+		if (ret)
-+			dev_err(dev, "Failed to disable %s: %d\n",
-+				ov5695->supplies[i].supply, ret);
-+	}
- }
- 
- static int __maybe_unused ov5695_runtime_resume(struct device *dev)
-@@ -1285,7 +1290,7 @@ static int ov5695_probe(struct i2c_client *client,
- 	if (clk_get_rate(ov5695->xvclk) != OV5695_XVCLK_FREQ)
- 		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
- 
--	ov5695->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	ov5695->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(ov5695->reset_gpio)) {
- 		dev_err(dev, "Failed to get reset-gpios\n");
- 		return -EINVAL;
--- 
-2.24.1.735.g03f4e72817-goog
-
+Jason
