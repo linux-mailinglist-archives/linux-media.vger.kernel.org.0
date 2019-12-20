@@ -2,135 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51F871277F5
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 10:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0416B12783C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 10:34:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbfLTJWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 04:22:02 -0500
-Received: from mx2.suse.de ([195.135.220.15]:46708 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727188AbfLTJWB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 04:22:01 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 98BD2AE00;
-        Fri, 20 Dec 2019 09:21:57 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 38E621E0B44; Fri, 20 Dec 2019 10:21:54 +0100 (CET)
-Date:   Fri, 20 Dec 2019 10:21:54 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191220092154.GA10068@quack2.suse.cz>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+        id S1727344AbfLTJdn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 04:33:43 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42135 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727184AbfLTJdn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Dec 2019 04:33:43 -0500
+Received: by mail-ed1-f66.google.com with SMTP id e10so7605572edv.9
+        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2019 01:33:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IdRAcGLRRg8iKt3mImCAWyzVNXDNfr3GQXuYmx9xEBc=;
+        b=c/r8EebMIT04qDRK32za4rw3kkCHqeJihYbC/JuIH5uKb2pINtIbYx1BMVb5HlGgrA
+         rZ04UxrGuKKVmEhy/6vrlAkCcQLHFSPNVEZ+5fs5aBufrHW9sVug77pRH7b/+c3251/O
+         NOxG9SzKAzUzdjhSCk7pugFRACejjYiHeq9Y3zgbR8M4LxtfdtAp7mQm77rqbw/Kg+YA
+         +MYNSgLiJdU488X7zdi/Nz7EgIGIXOIcp+wtV2g9gFe5GtZnP4/Gl2hSJbnSWRJzb83k
+         itY4K+L7MhblfKTmWCQ0CIDMs7g14Dyyt+q3QYPXGECwHgPyO0foPFqpY3icWZDVVpTS
+         RPyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IdRAcGLRRg8iKt3mImCAWyzVNXDNfr3GQXuYmx9xEBc=;
+        b=eAcZRNDcMoy1EZcVNMEg2wEe9QL/4IuksYc28PhPyjCCimvS+A2oRRsaGk9ZfYPaUm
+         CR+Gtc9X+6904tRsitJhIpjttJUMgCTFzsvkQ6FiSqtHDKdsLkqCy14Fp2dv+0BvzfMD
+         TGmG28DRTITNuflrPkQi6MrOUFywSahJOQQfEWKqU5NRBxTm56b8Hgnri5k1lgnxdq1Y
+         ikWSvcpf2gvUHPjOGa1NO/7v+HGedxLZ1cN7PWVUB68zZ4beFHOqLwkv0VnbMIq7mx7/
+         cxTr9+6o4MyWQUjhuQx1kzpvkSpx68uevI0DIKXsqZiQFKQfyNH5fU+LBKVklQLW3Mqz
+         zEOA==
+X-Gm-Message-State: APjAAAVEbarBQ4CQelq0sLmoLuQeqFrzSRMIMwXIn2mVN5+BKo8zCu8K
+        sfQOBMW1QOwdwz86NBdCY0hj/Q==
+X-Google-Smtp-Source: APXvYqzWCfqm8KGSdm+UnLUG2XwPn5sKlp0oZPiMWYuaTmOCE/DBPs/XpccD3F2EzBw03B9ho0xHAA==
+X-Received: by 2002:a50:e108:: with SMTP id h8mr14849903edl.196.1576834421273;
+        Fri, 20 Dec 2019 01:33:41 -0800 (PST)
+Received: from [192.168.27.209] ([37.157.136.193])
+        by smtp.googlemail.com with ESMTPSA id ay24sm856223edb.29.2019.12.20.01.33.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Dec 2019 01:33:40 -0800 (PST)
+Subject: Re: [PATCH 3/3] venus: core: add sc7180 DT compatible and resource
+ struct
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, vgarodia@codeaurora.org
+References: <1576828760-13176-1-git-send-email-dikshita@codeaurora.org>
+ <1576828760-13176-4-git-send-email-dikshita@codeaurora.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <b1b5ee06-bc39-cfc0-b2c8-8073f8857fde@linaro.org>
+Date:   Fri, 20 Dec 2019 11:33:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1576828760-13176-4-git-send-email-dikshita@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu 19-12-19 12:30:31, John Hubbard wrote:
-> On 12/19/19 5:26 AM, Leon Romanovsky wrote:
-> > On Mon, Dec 16, 2019 at 02:25:12PM -0800, John Hubbard wrote:
-> > > Hi,
-> > > 
-> > > This implements an API naming change (put_user_page*() -->
-> > > unpin_user_page*()), and also implements tracking of FOLL_PIN pages. It
-> > > extends that tracking to a few select subsystems. More subsystems will
-> > > be added in follow up work.
-> > 
-> > Hi John,
-> > 
-> > The patchset generates kernel panics in our IB testing. In our tests, we
-> > allocated single memory block and registered multiple MRs using the single
-> > block.
-> > 
-> > The possible bad flow is:
-> >   ib_umem_geti() ->
-> >    pin_user_pages_fast(FOLL_WRITE) ->
-> >     internal_get_user_pages_fast(FOLL_WRITE) ->
-> >      gup_pgd_range() ->
-> >       gup_huge_pd() ->
-> >        gup_hugepte() ->
-> >         try_grab_compound_head() ->
-> 
-> Hi Leon,
-> 
-> Thanks very much for the detailed report! So we're overflowing...
-> 
-> At first look, this seems likely to be hitting a weak point in the
-> GUP_PIN_COUNTING_BIAS-based design, one that I believed could be deferred
-> (there's a writeup in Documentation/core-api/pin_user_page.rst, lines
-> 99-121). Basically it's pretty easy to overflow the page->_refcount
-> with huge pages if the pages have a *lot* of subpages.
-> 
-> We can only do about 7 pins on 1GB huge pages that use 4KB subpages.
-> Do you have any idea how many pins (repeated pins on the same page, which
-> it sounds like you have) might be involved in your test case,
-> and the huge page and system page sizes? That would allow calculating
-> if we're likely overflowing for that reason.
-> 
-> So, ideas and next steps:
-> 
-> 1. Assuming that you *are* hitting this, I think I may have to fall back to
-> implementing the "deferred" part of this design, as part of this series, after
-> all. That means:
-> 
->   For the pin/unpin calls at least, stop treating all pages as if they are
->   a cluster of PAGE_SIZE pages; instead, retrieve a huge page as one page.
->   That's not how it works now, and the need to hand back a huge array of
->   subpages is part of the problem. This affects the callers too, so it's not
->   a super quick change to make. (I was really hoping not to have to do this
->   yet.)
+Hi Dikshita,
 
-Does that mean that you would need to make all GUP users huge page aware?
-Otherwise I don't see how what you suggest would work... And I don't think
-making all GUP users huge page aware is realistic (effort-wise) or even
-wanted (maintenance overhead in all those places).
+Thanks for the patch!
 
-I believe there might be also a different solution for this: For
-transparent huge pages, we could find a space in 'struct page' of the
-second page in the huge page for proper pin counter and just account pins
-there so we'd have full width of 32-bits for it.
+On 12/20/19 9:59 AM, Dikshita Agarwal wrote:
+> This add DT compatible string and resource structure for sc7180.
+> 
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 58 +++++++++++++++++++++++++++++++-
+>  1 file changed, 57 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index c7525d9..e8c8b28 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -469,7 +469,7 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+>  	{ 2073600, 3929000, 0, 5551000, 0 },	/* 4096x2160@60 */
+>  	{ 1036800, 1987000, 0, 2797000, 0 },	/* 4096x2160@30 */
+>  	{  489600, 1040000, 0, 1298000, 0 },	/* 1920x1080@60 */
+> -	{  244800,  530000, 0,  659000, 0 },	/* 1920x1080@30 */
+> +	{  244800,  442000, 0,  659000, 0 },	/* 1920x1080@30 */
 
-								Honza
+unrelated change, please drop it
+
+>  };
+>  
+>  static const struct venus_resources sdm845_res = {
+> @@ -521,11 +521,67 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+>  	.fwname = "qcom/venus-5.2/venus.mdt",
+>  };
+>  
+> +static const struct freq_tbl sc7180_freq_table[] = {
+> +	{  0, 380000000 },
+> +	{  0, 340000000 },
+> +	{  0, 270000000 },
+> +	{  0, 150000000 },
+
+why .load is zero?
+
+> +};
+> +
+> +static struct codec_freq_data sc7180_codec_freq_data[] =  {
+> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> +	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> +	{ V4L2_PIX_FMT_MPEG2, VIDC_SESSION_TYPE_DEC, 200, 10 },
+> +	{ V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_DEC, 200, 10 },
+> +	{ V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_DEC, 200, 10 },
+> +	{ V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_DEC, 200, 10 },
+> +	{ V4L2_PIX_FMT_VP9, VIDC_SESSION_TYPE_DEC, 200, 10 },
+> +};
+
+the table is exactly the same as sdm845 one, please reuse it.
+
+> +
+> +static const struct bw_tbl sc7180_bw_table_enc[] = {
+> +	{  972000,  750000, 0, 0, 0 },	/* 3840x2160@30 */
+> +	{  489600,  451000, 0, 0, 0 },	/* 1920x1080@60 */
+> +	{  244800,  234000, 0, 0, 0 },	/* 1920x1080@30 */
+> +};
+> +
+> +static const struct bw_tbl sc7180_bw_table_dec[] = {
+> +	{ 1036800, 1386000, 0, 1875000, 0 },	/* 4096x2160@30 */
+> +	{  489600,  865000, 0, 1146000, 0 },	/* 1920x1080@60 */
+> +	{  244800,  530000, 0,  583000, 0 },	/* 1920x1080@30 */
+> +};
+> +
+> +static const struct venus_resources sc7180_res = {
+> +	.freq_tbl = sc7180_freq_table,
+> +	.freq_tbl_size = ARRAY_SIZE(sc7180_freq_table),
+> +	.bw_tbl_enc = sc7180_bw_table_enc,
+> +	.bw_tbl_enc_size = ARRAY_SIZE(sc7180_bw_table_enc),
+> +	.bw_tbl_dec = sc7180_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(sc7180_bw_table_dec),
+> +	.codec_freq_data = sc7180_codec_freq_data,
+> +	.codec_freq_data_size = ARRAY_SIZE(sc7180_codec_freq_data),
+> +	.clks = {"core", "iface", "bus" },
+> +	.clks_num = 3,
+> +	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+> +	.vcodec_clks_num = 2,
+> +	.vcodec_pmdomains = { "venus", "vcodec0" },
+> +	.vcodec_pmdomains_num = 2,
+> +	.vcodec_num = 1,
+> +	.max_load = 3110400,	/* 4096x2160@90 */
+
+Looking into above bandwidth tables I can guess that the maximimum load
+is reached at 4096x2160@30? If so you have to change it here.
+
+<cut>
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+regards,
+Stan
