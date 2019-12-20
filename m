@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9FE4127BEA
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 14:47:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99BDF127BEF
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2019 14:48:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727359AbfLTNrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Dec 2019 08:47:36 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:46481 "EHLO
+        id S1727401AbfLTNsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Dec 2019 08:48:46 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:50419 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727344AbfLTNrg (ORCPT
+        with ESMTP id S1727344AbfLTNsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Dec 2019 08:47:36 -0500
-Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        Fri, 20 Dec 2019 08:48:46 -0500
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
-        (envelope-from <m.tretter@pengutronix.de>)
-        id 1iiIcx-0007Q5-40; Fri, 20 Dec 2019 14:47:35 +0100
-Date:   Fri, 20 Dec 2019 14:47:34 +0100
+        (envelope-from <mtr@pengutronix.de>)
+        id 1iiIe4-0007TZ-HA; Fri, 20 Dec 2019 14:48:44 +0100
+Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1iiIe4-0006li-9R; Fri, 20 Dec 2019 14:48:44 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 0/5] Stateful Encoding: final bits
-Message-ID: <20191220144734.31667e9c@litschi.hi.pengutronix.de>
-In-Reply-To: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
-References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
-Organization: Pengutronix
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+To:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org
+Cc:     kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
+Subject: [RFC PATCH] media: allegro: implement V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+Date:   Fri, 20 Dec 2019 14:48:43 +0100
+Message-Id: <20191220134843.25977-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191220144734.31667e9c@litschi.hi.pengutronix.de>
+References: <20191220144734.31667e9c@litschi.hi.pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mtr@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
@@ -39,74 +40,196 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hans,
+Implement the new V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to set the
+framerate in the encoded H.264 stream.
 
-On Tue, 19 Nov 2019 12:34:52 +0100, Hans Verkuil wrote:
-> This series adds support for fractions in the control framework,
-> and a way to obtain the min and max values of compound controls
-> such as v4l2_fract.
-> 
-> Next it adds the V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to
-> set the framerate for the encoder.
-> 
-> The next patch adds support for the V4L2_BUF_FLAG_TOO_SMALL flag
-> to signal that the capture buffer was too small.
-> 
-> The final patch adds the encoder spec (unchanged from v3).
-> 
-> Michael, can you add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
-> to your encoder driver? Let me know if something isn't working.
+The current implementation conflicts with the specification. The
+specification states that S_PARM sets the rate at which frames are
+submitted to the encoder and V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE only
+influences the frame rate that is put into the encoded stream. However,
+the implementation uses the frame rate of the control in msg.framerate
+for configuring the codec as well.
 
-I implemented the control and hooked it up with S_PARM as well. The
-implementation was straightforward without any real issues. I'll send a
-patch in reply to this mail. Having a control for configuring the frame
-rate that is encoded into the SPS feels correct. This is in line with
-configuring the bitrate, level, etc.
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+---
+ .../staging/media/allegro-dvt/allegro-core.c  | 72 +++++++++++++++++--
+ 1 file changed, 67 insertions(+), 5 deletions(-)
 
-However, after seeing the implementation and fiddling around with it in
-userspace, I am not convinced that S_PARM should be used signal the
-rate at which frames are submitted.
+diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
+index 6f0cd0784786..5631c56420cc 100644
+--- a/drivers/staging/media/allegro-dvt/allegro-core.c
++++ b/drivers/staging/media/allegro-dvt/allegro-core.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/firmware.h>
++#include <linux/gcd.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+@@ -40,6 +41,8 @@
+ #define ALLEGRO_HEIGHT_DEFAULT 1080
+ #define ALLEGRO_HEIGHT_MAX 2160
+ 
++#define ALLEGRO_FRAMERATE_DEFAULT (struct v4l2_fract) { 30, 1 };
++
+ #define ALLEGRO_GOP_SIZE_DEFAULT 25
+ #define ALLEGRO_GOP_SIZE_MAX 1000
+ 
+@@ -176,6 +179,7 @@ struct allegro_channel {
+ 	unsigned int width;
+ 	unsigned int height;
+ 	unsigned int stride;
++	struct v4l2_fract framerate;
+ 
+ 	enum v4l2_colorspace colorspace;
+ 	enum v4l2_ycbcr_encoding ycbcr_enc;
+@@ -205,6 +209,7 @@ struct allegro_channel {
+ 	struct v4l2_ctrl *mpeg_video_bitrate_peak;
+ 	struct v4l2_ctrl *mpeg_video_cpb_size;
+ 	struct v4l2_ctrl *mpeg_video_gop_size;
++	struct v4l2_ctrl *mpeg_video_enc_frame_rate;
+ 
+ 	/* user_id is used to identify the channel during CREATE_CHANNEL */
+ 	/* not sure, what to set here and if this is actually required */
+@@ -1048,8 +1053,9 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
+ 	/* Encoder expects cpb_size in units of a 90 kHz clock. */
+ 	msg.cpb_size =
+ 		((channel->cpb_size * 1000) / channel->bitrate_peak) * 90000;
+-	msg.framerate = 25;
+-	msg.clk_ratio = 1000;
++	msg.framerate = DIV_ROUND_UP(channel->framerate.numerator,
++				     channel->framerate.denominator);
++	msg.clk_ratio = channel->framerate.denominator == 1001 ? 1001 : 1000;
+ 	msg.target_bitrate = channel->bitrate;
+ 	msg.max_bitrate = channel->bitrate_peak;
+ 	msg.initial_qp = 25;
+@@ -1360,9 +1366,11 @@ static ssize_t allegro_h264_write_sps(struct allegro_channel *channel,
+ 	sps->vui.chroma_loc_info_present_flag = 1;
+ 	sps->vui.chroma_sample_loc_type_top_field = 0;
+ 	sps->vui.chroma_sample_loc_type_bottom_field = 0;
++
+ 	sps->vui.timing_info_present_flag = 1;
+-	sps->vui.num_units_in_tick = 1;
+-	sps->vui.time_scale = 50;
++	sps->vui.num_units_in_tick = channel->framerate.denominator;
++	sps->vui.time_scale = 2 * channel->framerate.numerator;
++
+ 	sps->vui.fixed_frame_rate_flag = 1;
+ 	sps->vui.nal_hrd_parameters_present_flag = 0;
+ 	sps->vui.vcl_hrd_parameters_present_flag = 1;
+@@ -2000,7 +2008,8 @@ static int allegro_create_channel(struct allegro_channel *channel)
+ 	v4l2_dbg(1, debug, &dev->v4l2_dev,
+ 		 "user %d: creating channel (%4.4s, %dx%d@%d)\n",
+ 		 channel->user_id,
+-		 (char *)&channel->codec, channel->width, channel->height, 25);
++		 (char *)&channel->codec, channel->width, channel->height,
++		 DIV_ROUND_UP(channel->framerate.numerator, channel->framerate.denominator));
+ 
+ 	min_level = select_minimum_h264_level(channel->width, channel->height);
+ 	if (channel->level < min_level) {
+@@ -2046,6 +2055,7 @@ static void allegro_set_default_params(struct allegro_channel *channel)
+ 	channel->width = ALLEGRO_WIDTH_DEFAULT;
+ 	channel->height = ALLEGRO_HEIGHT_DEFAULT;
+ 	channel->stride = round_up(channel->width, 32);
++	channel->framerate = ALLEGRO_FRAMERATE_DEFAULT;
+ 
+ 	channel->colorspace = V4L2_COLORSPACE_REC709;
+ 	channel->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+@@ -2231,6 +2241,7 @@ static int allegro_s_ctrl(struct v4l2_ctrl *ctrl)
+ 						       struct allegro_channel,
+ 						       ctrl_handler);
+ 	struct allegro_dev *dev = channel->dev;
++	int div;
+ 
+ 	v4l2_dbg(1, debug, &dev->v4l2_dev,
+ 		 "s_ctrl: %s = %d\n", v4l2_ctrl_get_name(ctrl->id), ctrl->val);
+@@ -2254,6 +2265,11 @@ static int allegro_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_MPEG_VIDEO_GOP_SIZE:
+ 		channel->gop_size = ctrl->val;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE:
++		div = gcd(channel->framerate.numerator, channel->framerate.denominator);
++		channel->framerate.numerator = ctrl->p_new.p_fract->numerator / div;
++		channel->framerate.denominator = ctrl->p_new.p_fract->denominator / div;
++		break;
+ 	}
+ 
+ 	return 0;
+@@ -2270,6 +2286,8 @@ static int allegro_open(struct file *file)
+ 	struct allegro_channel *channel = NULL;
+ 	struct v4l2_ctrl_handler *handler;
+ 	u64 mask;
++	struct v4l2_fract framerate_min = { 1, U32_MAX};
++	struct v4l2_fract framerate_max = { U32_MAX, 1};
+ 
+ 	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+ 	if (!channel)
+@@ -2323,6 +2341,12 @@ static int allegro_open(struct file *file)
+ 			V4L2_CID_MPEG_VIDEO_GOP_SIZE,
+ 			0, ALLEGRO_GOP_SIZE_MAX,
+ 			1, channel->gop_size);
++	channel->mpeg_video_enc_frame_rate = v4l2_ctrl_new_std_compound(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE,
++			v4l2_ctrl_ptr_create(&channel->framerate),
++			v4l2_ctrl_ptr_create(&framerate_min),
++			v4l2_ctrl_ptr_create(&framerate_max));
+ 	v4l2_ctrl_new_std(handler,
+ 			&allegro_ctrl_ops,
+ 			V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
+@@ -2636,6 +2660,41 @@ static int allegro_ioctl_streamon(struct file *file, void *priv,
+ 	return v4l2_m2m_streamon(file, fh->m2m_ctx, type);
+ }
+ 
++static int allegro_g_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
++{
++	struct allegro_channel *channel = fh_to_channel(fh);
++	struct v4l2_fract *timeperframe;
++
++	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		return -EINVAL;
++
++	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
++	timeperframe = &a->parm.output.timeperframe;
++	timeperframe->numerator = channel->framerate.denominator;
++	timeperframe->denominator = channel->framerate.numerator;
++
++	return 0;
++}
++
++static int allegro_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
++{
++	struct allegro_channel *channel = fh_to_channel(fh);
++	struct v4l2_fract *timeperframe;
++	struct v4l2_fract framerate;
++
++	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		return -EINVAL;
++
++	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
++	timeperframe = &a->parm.output.timeperframe;
++	framerate.numerator = timeperframe->denominator;
++	framerate.denominator = timeperframe->numerator;
++
++	v4l2_ctrl_s_ctrl_fract(channel->mpeg_video_enc_frame_rate, &framerate);
++
++	return 0;
++}
++
+ static int allegro_subscribe_event(struct v4l2_fh *fh,
+ 				   const struct v4l2_event_subscription *sub)
+ {
+@@ -2674,6 +2733,9 @@ static const struct v4l2_ioctl_ops allegro_ioctl_ops = {
+ 	.vidioc_encoder_cmd = allegro_encoder_cmd,
+ 	.vidioc_enum_framesizes = allegro_enum_framesizes,
+ 
++	.vidioc_g_parm		= allegro_g_parm,
++	.vidioc_s_parm		= allegro_s_parm,
++
+ 	.vidioc_subscribe_event = allegro_subscribe_event,
+ 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+ };
+-- 
+2.20.1
 
-Setting the frame submission rate to something different than the
-frame rate of the stream would be most interesting for transcoding use
-cases. The user space would either want to run the encoding as fast as
-possible or, if there are multiple encoding processes, as fast as
-possible with properly shared resources. Boiling this information down
-into a single number (and calling is "rate at which frames are
-submitted") sounds kind of wrong, because the userspace does not know
-which submission rate would lead to a good result.
-
-Using the frame rate for such a setting seems pretty unique to the
-allegro encoder. Other encoders might use different mechanisms to boost
-the encoding speed, e.g., might be able to temporarily increase the
-clock rate of the codec. In these cases, the driver would need to
-translate the "framerate" set via S_PARM to a clock rate for the codec.
-This does not sound right.
-
-However, in the end, this would lead to exposing single parameters that
-allow to tune the codec via generic controls. This does not seem to be
-the right way, at all. Maybe we could have a control that tells the
-encoder to "run as fast as possible" or to "run with as little
-resources as possible", which would be applicable to more encoders and
-the driver would have to decide how to implement this "profile".
-
-Still, I am not really sure, if this is the proper way to solve this.
-
-> I need to add a test control for this to vivid as well and add support
-> for this to v4l2-ctl, that's on my TODO list.
-> 
-> Open questions:
-> 
-> 1) Existing encoder drivers use S_PARM to signal the frameperiod,
-> but as discussed in Lyon this should be the rate at which frames are
-> submitted for encoding, which can be different from
-> V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE. But given the current use-cases
-> I was wondering if calling S_PARM should set the ENC_FRAME_RATE
-> control as well, and you would need to explicitly set the control
-> after S_PARM if the two are not the same. This would mean that
-> existing applications that don't know about the control can keep working.
-
-In the patch I did exactly that and we should be backwards compatible
-to applications that use only S_PARM.
-
-Michael
