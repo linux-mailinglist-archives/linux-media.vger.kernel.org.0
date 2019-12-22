@@ -2,138 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C28B128C04
-	for <lists+linux-media@lfdr.de>; Sun, 22 Dec 2019 01:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73BA1128C96
+	for <lists+linux-media@lfdr.de>; Sun, 22 Dec 2019 05:56:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726726AbfLVACZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Dec 2019 19:02:25 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3582 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbfLVACY (ORCPT
+        id S1726564AbfLVE4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Dec 2019 23:56:02 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:45413 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726486AbfLVE4C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Dec 2019 19:02:24 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dfeb2820001>; Sat, 21 Dec 2019 16:02:11 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sat, 21 Dec 2019 16:02:22 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sat, 21 Dec 2019 16:02:22 -0800
-Received: from [10.2.167.41] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 22 Dec
- 2019 00:02:18 +0000
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-To:     Leon Romanovsky <leon@kernel.org>
-CC:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca> <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
- <20191221100843.GB13335@unreal>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <9261f37b-5932-4580-cbc8-f591b0b33b2a@nvidia.com>
-Date:   Sat, 21 Dec 2019 15:59:24 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <20191221100843.GB13335@unreal>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1576972931; bh=95pYs1E9YJXlQbksWpOmj6qddfnejBQ8umGtr6ZpFwY=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=Ih1gQcFIGgKg5n193VWHK/fpuYOWnxEAjDWwUpeL0db+IZfCrijIZXMmxlXytkJAy
-         GyHybquB0rAC4PSC5fyYYOxPtnlJHJXbYbE1OnuToKQzSNtOX1E6jCjMDILoLbqZ4V
-         OX5Q1eZnL4jcgn4z6z9ok9K0mg+OyYm6pC3L/Y0Cn97KIjBe5Xa80wOPiCj7nBJ7Qf
-         tzyFw5L1dY/NfwyZ7ZrE7k0OMtxXiptqvzxEOmfi4Y/W4Mi7z2d4dMo373vMb2W5ZL
-         8xmwOO+L537Cy6K9gc3OcvyItc0amK8uE6k5ZFJ8R4rau7j4DfEX/idektDGaSQXw9
-         Z/MQNsIwlLFsA==
+        Sat, 21 Dec 2019 23:56:02 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:18c6:989d:c89b:a5ca])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id itHZijOH1apzpitHaiZD1X; Sun, 22 Dec 2019 05:55:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1576990559; bh=9HsZwYM/QmtcvQYEuxLXoPTrMNsmQwZEq6732Sd1Y1g=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Ud6INkCxQ6TuF1GNz2pv2ZBxxFiB5/wNWo5qEddYSr/fvXKvS+QoeHeVRj7kCX7hm
+         8ltkXskNe9LQio2hWEWg1U6dYePvFytOWUIubzuVX5QQS4BMt7GxvIZPlq8Y2N1p0H
+         FTXCInfdBdiW/gPta0XxPnC6BxyRzF8iTq0FLT5nBSnNXq0NiOpGbeOG1uJQZU+deq
+         wQHnI+zrl6OoPu7ccgiOA8D9PqoRRGWSprJg9wLCzB7lCXIgY47o5S/xx2OXL8KQRR
+         NhCP209wMD8OSa7UVShAJkLM4EDjKqDwBus57jkXdyUdBmD3L3GvWmUS82XnkJRKJB
+         EON80WqjLCGpg==
+Message-ID: <6de6e03f4515218989299d57e024424f@smtp-cloud7.xs4all.net>
+Date:   Sun, 22 Dec 2019 05:55:57 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfDgbwvYOZaE5Exz4Yf1rdRUWg5PkshNKbo3jdTG8R7j8S1R2Y7HkotwgzrOs+HlBRvfcf6sbVdaHdMQKDxqZ4uxIznsICFOQVlsUUvsqq684713ubsr+
+ JGOtYmnEK4SdhlnYUW22qq2XAQxRKnJh/V2tiOkmM62tvQk4LnctM/zWkdN8F8fxh0cj+J69lhaAbAyPEvXFk0HAyIoZfwMqUb+EEtCu5heg5NG+VoqHaUBK
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/21/19 2:08 AM, Leon Romanovsky wrote:
-> On Fri, Dec 20, 2019 at 03:54:55PM -0800, John Hubbard wrote:
->> On 12/20/19 10:29 AM, Leon Romanovsky wrote:
->> ...
->>>> $ ./build.sh
->>>> $ build/bin/run_tests.py
->>>>
->>>> If you get things that far I think Leon can get a reproduction for you
->>>
->>> I'm not so optimistic about that.
->>>
->>
->> OK, I'm going to proceed for now on the assumption that I've got an overflow
->> problem that happens when huge pages are pinned. If I can get more information,
->> great, otherwise it's probably enough.
->>
->> One thing: for your repro, if you know the huge page size, and the system
->> page size for that case, that would really help. Also the number of pins per
->> page, more or less, that you'd expect. Because Jason says that only 2M huge
->> pages are used...
->>
->> Because the other possibility is that the refcount really is going negative,
->> likely due to a mismatched pin/unpin somehow.
->>
->> If there's not an obvious repro case available, but you do have one (is it easy
->> to repro, though?), then *if* you have the time, I could point you to a github
->> branch that reduces GUP_PIN_COUNTING_BIAS by, say, 4x, by applying this:
-> 
-> I'll see what I can do this Sunday.
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-The other data point that might shed light on whether it's a mismatch (this only
-works if the system is not actually crashing, though), is checking the new
-vmstat items, like this:
+Results of the daily build of media_tree:
 
-$ grep foll_pin /proc/vmstat
-nr_foll_pin_requested 16288188
-nr_foll_pin_returned 16288188
+date:			Sun Dec 22 05:00:10 CET 2019
+media-tree git hash:	0885acd77eb4644fd88f6d9f41e433f4ee9bc37a
+media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
+v4l-utils git hash:	21c474bfca2d9167489d87a06fa9f1698b3c80bd
+edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-...but OTOH, if you've got long-term pins, then those are *supposed* to be
-mismatched, so it only really helps in between tests.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2901, Succeeded: 2900, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
