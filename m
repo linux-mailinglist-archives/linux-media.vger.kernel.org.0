@@ -2,199 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81CD712952D
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2019 12:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 845CD1299D7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2019 19:24:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbfLWLeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Dec 2019 06:34:11 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:39107 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727175AbfLWLeH (ORCPT
+        id S1726890AbfLWSYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Dec 2019 13:24:51 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:33933 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbfLWSYv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Dec 2019 06:34:07 -0500
-Received: by mail-lf1-f66.google.com with SMTP id y1so12361127lfb.6
-        for <linux-media@vger.kernel.org>; Mon, 23 Dec 2019 03:34:06 -0800 (PST)
+        Mon, 23 Dec 2019 13:24:51 -0500
+Received: by mail-qv1-f65.google.com with SMTP id o18so6673322qvf.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Dec 2019 10:24:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=T1y8MMPNkqcrm20up1WtHiDJ34NUPmK2DHqDsNPyhC4=;
-        b=ADm3wWZImcglGNzePYJDfnN8M0JUlQ5PtPe5E50RqqFWTmMTtETsAvZo4NeNhckwqd
-         E28GFEn43RSTWd6NisqrDH6TTSBVK5M0of3J/cfGmfvVbTI8Ex7zk0866p/pJXK5wqiS
-         +C28+fUx1PYlT1Rr5ZIlZn6DM99d+5JVZ7ModYadUCL9hnaOzWcgF4UZfUSEgPdXuP5i
-         h9ewBJhPXtlBoXiWfYZavGFP3+SUEgwnpmM31PCPfUe4wy2RE428/xp6tJQZ5xfGB2OC
-         otmTsqRcJS4I5o9bvWDho29L9S8Vbm5p/bcZGVkvKSKkVdXEUwv4Ul6n8Z6KJ/eT4ZiS
-         CGxQ==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=KNSp0xKzXXca6h2YP8X3emLAqK9GuJuCbstCZTI5ulI=;
+        b=FctYOOrJ074bGu2erxfD+ggi+amf34vJ2+/SB/OaLs8ZFEcoEOPSKxrX7J7vfW72iX
+         iaD1ph6XI9oWEr/nnku4Pr+MbBh9He5Xr+rBPzoju6TBhM7n5pqaYtl/oqkKFK9Nr8fH
+         Us04jbJ3zTX0WDIVdGhJyQO5EPn2JUvIhBvTug4ZRXtCzaFxharK0qUYwO9ZIkwiEqhS
+         c9Aa/tUvtqh3RdzKBnkDvwefmOBkVu9RUXlbwmdawA3jtTcA8wQCgHrvBfiWYN8r7VQg
+         T/hlkSjI6vXJcCVxYIXrbbrRmfsaCa4t09oEgSwlogc3AYXQW7LtDW06LM/jq8bAmut6
+         WCJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=T1y8MMPNkqcrm20up1WtHiDJ34NUPmK2DHqDsNPyhC4=;
-        b=rX3J6Y552R9TjsynMBwJC6p9kM/U8LmOf5agUq9lJjifPcK2vgR81ftTrtVuo5Gm9j
-         iSr7M+hH7UbdZj6wABPijhAMLOuzjQuAYROmIX0aVCiizGL3DrkO5T0cLWlciK4P51fM
-         f9AKCmYtJZTlQU3q7BH1Z77LIW++x4vkx/vc9mslD6bMt3fnB85ycteceTquZr7kC4fM
-         CNBwMuRR1PkJyaNDCMS4USu8iitpLn4tdTXbXg+2v79A2Ygm82SE2K+n+TQSWLACFYxB
-         6i3arBx0w0f0T627Ej2Jasv1NNOa2MYQK3moB6UquUfyireg82Y/1S+rrQcAooNrnLQc
-         HuDQ==
-X-Gm-Message-State: APjAAAX4IcpesdNjfgoqgZEQAPhxfE91vbGbou35EV2YeZCHfn+nA7Eo
-        cQUWmJZNXfqvCJGaFkasWK/PXuRxNR0=
-X-Google-Smtp-Source: APXvYqz2kQqY/39Q+EZKqXZwbPvv6tw98YGX97VVrwhkh+SlFQbNfb7b4baKAf9tTl7Z0bnVOKJcpA==
-X-Received: by 2002:ac2:4a91:: with SMTP id l17mr16799912lfp.75.1577100845219;
-        Mon, 23 Dec 2019 03:34:05 -0800 (PST)
-Received: from localhost.localdomain ([37.157.136.193])
-        by smtp.gmail.com with ESMTPSA id g15sm8381500ljk.8.2019.12.23.03.34.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2019 03:34:04 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>, dikshita@codeaurora.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v3 12/12] dt-bindings: media: venus: delete old binding document
-Date:   Mon, 23 Dec 2019 13:33:11 +0200
-Message-Id: <20191223113311.20602-13-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191223113311.20602-1-stanimir.varbanov@linaro.org>
-References: <20191223113311.20602-1-stanimir.varbanov@linaro.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KNSp0xKzXXca6h2YP8X3emLAqK9GuJuCbstCZTI5ulI=;
+        b=GlHUUBkKjRaydlVoGuXX2DD167KVJBCUyDaJiUyn1EMeQM27Kcfj3Bn9Tx3zqDYz23
+         qvbtdYaDO5LJdKIXbpfUYJQDwmc6naNiSk3Hhh1J9gq02NuqU3xkG6g9uxm2t/FuoL07
+         KMtrforKANUhKX8/BJ0aUR2CL3E3aGncQ+gLdLXa5tRQMRAA26V8m/0DpEgMXzIi+J2Q
+         j8RWi5tWC5eNtEbmzelERnLPBDDgTPFlVUcAgBxyA5lulWT/Y6JF6bJd3dkULjiVcLXo
+         +fLIEhk9vpXfSH0vxf7pdttXzOGKI38KEU5FP3t4TxMoPkBmu8q/JMo0JwWWOEF9s7kk
+         AUTg==
+X-Gm-Message-State: APjAAAXPabcWoMfJRwebBctCdI7cF+mou2SpqAy6Zz078eI/DlUYIIsf
+        f6VyRSi4shrdNNiIjIY6Rpgsag==
+X-Google-Smtp-Source: APXvYqyOJm+HA/OOXOk1TxOLC8pk6pJEfZhfUy8M7as0rtMhyNSoNfAsriRZZomXf9eRLN7qDrjm+A==
+X-Received: by 2002:a0c:e150:: with SMTP id c16mr25637620qvl.51.1577125488455;
+        Mon, 23 Dec 2019 10:24:48 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id b7sm6449933qtj.15.2019.12.23.10.24.47
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 23 Dec 2019 10:24:47 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1ijSNq-0007Pv-LV; Mon, 23 Dec 2019 14:24:46 -0400
+Date:   Mon, 23 Dec 2019 14:24:46 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
+        linux-block@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+Message-ID: <20191223182446.GA28321@ziepe.ca>
+References: <20191216222537.491123-1-jhubbard@nvidia.com>
+ <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+ <42a3e5c1-6301-db0b-5d09-212edf5ecf2a@nvidia.com>
+ <20191220133423.GA13506@ziepe.ca>
+ <CAPcyv4hX9TsTMjsv2hnbEM-TpkC9abtWGSVskr9nPwpR8c5E1Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPcyv4hX9TsTMjsv2hnbEM-TpkC9abtWGSVskr9nPwpR8c5E1Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After transitioning to YAML DT schema we don't need this old-style
-document.
+On Fri, Dec 20, 2019 at 04:32:13PM -0800, Dan Williams wrote:
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- .../devicetree/bindings/media/qcom,venus.txt  | 120 ------------------
- 1 file changed, 120 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/qcom,venus.txt
+> > > There's already a limit, it's just a much larger one. :) What does "no limit"
+> > > really mean, numerically, to you in this case?
+> >
+> > I guess I mean 'hidden limit' - hitting the limit and failing would
+> > be managable.
+> >
+> > I think 7 is probably too low though, but we are not using 1GB huge
+> > pages, only 2M..
+> 
+> What about RDMA to 1GB-hugetlbfs and 1GB-device-dax mappings?
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,venus.txt b/Documentation/devicetree/bindings/media/qcom,venus.txt
-deleted file mode 100644
-index b602c4c025e7..000000000000
---- a/Documentation/devicetree/bindings/media/qcom,venus.txt
-+++ /dev/null
-@@ -1,120 +0,0 @@
--* Qualcomm Venus video encoder/decoder accelerators
--
--- compatible:
--	Usage: required
--	Value type: <stringlist>
--	Definition: Value should contain one of:
--		- "qcom,msm8916-venus"
--		- "qcom,msm8996-venus"
--		- "qcom,sdm845-venus"
--- reg:
--	Usage: required
--	Value type: <prop-encoded-array>
--	Definition: Register base address and length of the register map.
--- interrupts:
--	Usage: required
--	Value type: <prop-encoded-array>
--	Definition: Should contain interrupt line number.
--- clocks:
--	Usage: required
--	Value type: <prop-encoded-array>
--	Definition: A List of phandle and clock specifier pairs as listed
--		    in clock-names property.
--- clock-names:
--	Usage: required for msm8916
--	Value type: <stringlist>
--	Definition: Should contain the following entries:
--		- "core"	Core video accelerator clock
--		- "iface"	Video accelerator AHB clock
--		- "bus"		Video accelerator AXI clock
--- clock-names:
--	Usage: required for msm8996
--	Value type: <stringlist>
--	Definition: Should contain the following entries:
--		- "core"	Core video accelerator clock
--		- "iface"	Video accelerator AHB clock
--		- "bus"		Video accelerator AXI clock
--		- "mbus"	Video MAXI clock
--- power-domains:
--	Usage: required
--	Value type: <prop-encoded-array>
--	Definition: A phandle and power domain specifier pairs to the
--		    power domain which is responsible for collapsing
--		    and restoring power to the peripheral.
--- iommus:
--	Usage: required
--	Value type: <prop-encoded-array>
--	Definition: A list of phandle and IOMMU specifier pairs.
--- memory-region:
--	Usage: required
--	Value type: <phandle>
--	Definition: reference to the reserved-memory for the firmware
--		    memory region.
--
--* Subnodes
--The Venus video-codec node must contain two subnodes representing
--video-decoder and video-encoder, and one optional firmware subnode.
--Firmware subnode is needed when the platform does not have TrustZone.
--
--Every of video-encoder or video-decoder subnode should have:
--
--- compatible:
--	Usage: required
--	Value type: <stringlist>
--	Definition: Value should contain "venus-decoder" or "venus-encoder"
--- clocks:
--	Usage: required for msm8996
--	Value type: <prop-encoded-array>
--	Definition: A List of phandle and clock specifier pairs as listed
--		    in clock-names property.
--- clock-names:
--	Usage: required for msm8996
--	Value type: <stringlist>
--	Definition: Should contain the following entries:
--		- "core"	Subcore video accelerator clock
--
--- power-domains:
--	Usage: required for msm8996
--	Value type: <prop-encoded-array>
--	Definition: A phandle and power domain specifier pairs to the
--		    power domain which is responsible for collapsing
--		    and restoring power to the subcore.
--
--The firmware subnode must have:
--
--- iommus:
--	Usage: required
--	Value type: <prop-encoded-array>
--	Definition: A list of phandle and IOMMU specifier pairs.
--
--* An Example
--	video-codec@1d00000 {
--		compatible = "qcom,msm8916-venus";
--		reg = <0x01d00000 0xff000>;
--		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&gcc GCC_VENUS0_VCODEC0_CLK>,
--			 <&gcc GCC_VENUS0_AHB_CLK>,
--			 <&gcc GCC_VENUS0_AXI_CLK>;
--		clock-names = "core", "iface", "bus";
--		power-domains = <&gcc VENUS_GDSC>;
--		iommus = <&apps_iommu 5>;
--		memory-region = <&venus_mem>;
--
--		video-decoder {
--			compatible = "venus-decoder";
--			clocks = <&mmcc VIDEO_SUBCORE0_CLK>;
--			clock-names = "core";
--			power-domains = <&mmcc VENUS_CORE0_GDSC>;
--		};
--
--		video-encoder {
--			compatible = "venus-encoder";
--			clocks = <&mmcc VIDEO_SUBCORE1_CLK>;
--			clock-names = "core";
--			power-domains = <&mmcc VENUS_CORE1_GDSC>;
--		};
--
--		video-firmware {
--			iommus = <&apps_iommu 0x10b2 0x0>;
--		};
--	};
--- 
-2.17.1
+I don't think the failing testing is doing that.
 
+It is also less likely that 1GB regions will need multi-mapping, IMHO.
+
+Jason
