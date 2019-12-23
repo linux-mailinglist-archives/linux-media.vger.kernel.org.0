@@ -2,226 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2271E129476
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2019 11:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE68A129510
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2019 12:33:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbfLWK4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Dec 2019 05:56:37 -0500
-Received: from mail25.static.mailgun.info ([104.130.122.25]:35958 "EHLO
-        mail25.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726717AbfLWK4h (ORCPT
+        id S1726717AbfLWLda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Dec 2019 06:33:30 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46329 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbfLWLda (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Dec 2019 05:56:37 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1577098596; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=NiJfAY1Jaqnfgr+KNz/woUb2dC2lG4O1oUiFhjKVbSI=;
- b=jZRaRg/EqnDI9Hg+0PcjwQdPCGF7OVCfryy9JTk+wsMW59XYS9MijhhMfvpTKV6LLcwGR3wH
- L1XWBRqg5n2VKpBbeNQoLvReMz9K2+vP2Dr1jVT2sKuSrbWJt30Vu3pFgFFGHlR7gexk/2uv
- IaK+Dp6lR/xjzH+XgqVLaYY79L4=
-X-Mailgun-Sending-Ip: 104.130.122.25
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e009d62.7f2672f31928-smtp-out-n03;
- Mon, 23 Dec 2019 10:56:34 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id CE398C433CB; Mon, 23 Dec 2019 10:56:34 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: dikshita)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 25FA9C43383;
-        Mon, 23 Dec 2019 10:56:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 23 Dec 2019 16:26:34 +0530
-From:   dikshita@codeaurora.org
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vgarodia@codeaurora.org
-Subject: Re: [PATCH 2/3] dt-bindings: media: venus: Add sc7180 DT schema
-In-Reply-To: <0b38ad39-4601-2b1b-2710-63796ed0c730@linaro.org>
-References: <1576828760-13176-1-git-send-email-dikshita@codeaurora.org>
- <1576828760-13176-3-git-send-email-dikshita@codeaurora.org>
- <0b38ad39-4601-2b1b-2710-63796ed0c730@linaro.org>
-Message-ID: <98d3b2e393eec448b96ac520108688a8@codeaurora.org>
-X-Sender: dikshita@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+        Mon, 23 Dec 2019 06:33:30 -0500
+Received: by mail-lj1-f195.google.com with SMTP id m26so14978957ljc.13
+        for <linux-media@vger.kernel.org>; Mon, 23 Dec 2019 03:33:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=W86PjKWMp0DXo0oqU8GNbupPzD4JvnNKtjFCMr2/NeY=;
+        b=NdccdyXLPkXmuyhQhYpFznqNVNxOoSsQFB6qZE+cGCN/yafZMxkrGX0vWu+TxIsXW/
+         X5BGr3a08PLAYMNKPk/W2RNBFvKi062Fy0T4WRkjPVBQTpKEkYFbAv7ZMAYw+R/2YrT9
+         UGJ46wZHvNC6WDA9XZS7gBWDVCB31c93auJxUMVpu0QsAJwj3Mhvxp+Bopcqu7p5Aajj
+         v1YibMM54480J3Qh7wX7BLOSZMEigllisVovl2hKKF9ck7cUrijaKtfHSczq7eIdwtm5
+         +duB5ivl1vG4Eshuy2LtdzkuhTKtCGtOujbkafb06ml+1+gIV9k1KhjG6oAnGCBp1su0
+         ZUyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=W86PjKWMp0DXo0oqU8GNbupPzD4JvnNKtjFCMr2/NeY=;
+        b=fYSDSwHsejh4ELkrOW7PHvUkH6ErtD5hrRi00Szngu/kFXDRVqxLz/Doek8lLmDXPP
+         a61xJwyZomXY1q3viySCAnHOPYYdjsr8q0QGDHVSIvk3mdz8BmDvbDBmkJZlGv1ICOV5
+         a0dFt84V0aP4o8WWa5pcC9gaZF0Fni8ETIf+LpNE7hrADxIoIl4A+fpwwvLFCg3Wz6Wh
+         QIZBuy+AzeqfznnD53MTbdkAbNdhn5zqYtNaHYdwxwozrJVVDZm66e6Mv+evXNPkMtxD
+         OQfcOoEbR21T0G46iyF/COODJxjZrwMINk+vbXQSubi8FHzaM7+BncmDhUCZcyhMZEb3
+         vfmQ==
+X-Gm-Message-State: APjAAAUk4RpWIKd+j6T0BcsIEmnd8ahGH7moF5mmt2YQDB7MZbT7wpZT
+        21kCrlWftjRNDUp/f2/GKzdTNA==
+X-Google-Smtp-Source: APXvYqyvE4LFXz14TEeueaK3Hw30PRJx8l5ut0WQKynuK1BG5vv7bGEblHk4zcQqosmEsfb6sqn3Mw==
+X-Received: by 2002:a2e:2d01:: with SMTP id t1mr12640896ljt.36.1577100808204;
+        Mon, 23 Dec 2019 03:33:28 -0800 (PST)
+Received: from localhost.localdomain ([37.157.136.193])
+        by smtp.gmail.com with ESMTPSA id g15sm8381500ljk.8.2019.12.23.03.33.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Dec 2019 03:33:27 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>, dikshita@codeaurora.org,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH v3 00/12] Venus new features
+Date:   Mon, 23 Dec 2019 13:32:59 +0200
+Message-Id: <20191223113311.20602-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stan,
+Hello,
 
-Thanks for the review.
-Sure, I will apply the same changes to this file as well once
-you update DT schema for msm8916 in the next version.
+Chnages since v2:
 
-On 2019-12-20 15:07, Stanimir Varbanov wrote:
-> Hi Dikshita,
-> 
-> Thanks for the patch!
-> 
-> Please see Rob's comments about DT schema for msm8916. You have to
-> address them too.
-> 
-> On 12/20/19 9:59 AM, Dikshita Agarwal wrote:
->> Add new qcom,sc7180-venus DT binding schema.
->> 
->> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
->> ---
->>  .../bindings/media/qcom,venus-sc7180.yaml          | 131 
->> +++++++++++++++++++++
->>  1 file changed, 131 insertions(+)
->>  create mode 100644 
->> Documentation/devicetree/bindings/media/qcom,venus-sc7180.yaml
->> 
->> diff --git 
->> a/Documentation/devicetree/bindings/media/qcom,venus-sc7180.yaml 
->> b/Documentation/devicetree/bindings/media/qcom,venus-sc7180.yaml
->> new file mode 100644
->> index 0000000..a609739
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/qcom,venus-sc7180.yaml
->> @@ -0,0 +1,131 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +
->> +%YAML 1.2
->> +---
->> +$id: "http://devicetree.org/schemas/media/qcom,venus-sc7180.yaml#"
->> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->> +
->> +title: Qualcomm Venus video encode and decode accelerators
->> +
->> +maintainers:
->> +  - Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> +
->> +description: |
->> +  The Venus IP is a video encode and decode accelerator present
->> +  on Qualcomm platforms
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - qcom,sc7180-venus
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  power-domains:
->> +    maxItems: 2
->> +
->> +  power-domain-names:
->> +    maxItems: 2
->> +    items:
->> +      - const: venus
->> +      - const: vcodec0
->> +
->> +  clocks:
->> +    maxItems: 5
->> +
->> +  clock-names:
->> +    maxItems: 5
->> +    items:
->> +      - const: core
->> +      - const: iface
->> +      - const: bus
->> +      - const: vcodec0_core
->> +      - const: vcodec0_bus
->> +
->> +  iommus:
->> +    minItems: 1
->> +    maxItems: 20
->> +
->> +  memory-region:
->> +    maxItems: 1
->> +
->> +  video-core0:
->> +    type: object
->> +
->> +    properties:
->> +      compatible:
->> +        const: "venus-decoder"
->> +
->> +    required:
->> +      - compatible
->> +
->> +  video-core1:
->> +    type: object
->> +
->> +    properties:
->> +      compatible:
->> +        const: "venus-encoder"
->> +
->> +    required:
->> +      - compatible
->> +
->> +  video-firmware:
->> +    type: object
->> +
->> +    description: |
->> +      Firmware subnode is needed when the platform does not
->> +      have TrustZone.
->> +
->> +    properties:
->> +      iommus:
->> +        minItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - power-domains
->> +  - power-domain-names
->> +  - clocks
->> +  - clock-names
->> +  - iommus
->> +  - memory-region
->> +  - video-core0
->> +  - video-core1
->> +
->> +examples:
->> +  - |
->> +        #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +        #include <dt-bindings/clock/qcom,videocc-sc7180.h>
->> +
->> +		venus: video-codec@aa00000 {
->> +			compatible = "qcom,sc7180-venus";
->> +			reg = <0 0x0aa00000 0 0xff000>;
->> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
->> +			power-domains = <&videocc VENUS_GDSC>,
->> +					<&videocc VCODEC0_GDSC>;
->> +
->> +			power-domain-names = "venus", "vcodec0";
->> +			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
->> +				<&videocc VIDEO_CC_VENUS_AHB_CLK>,
->> +				<&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
->> +				<&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
->> +				<&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
->> +			clock-names = "core", "iface", "bus",
->> +					"vcodec0_core", "vcodec0_bus";
->> +			iommus = <&apps_smmu 0x0C00 0x60>;
->> +			memory-region = <&venus_mem>;
->> +			video-core0 {
->> +					compatible = "venus-decoder";
->> +			};
->> +			video-core1 {
->> +					compatible = "venus-encoder";
->> +			};
->> +			video-firmware {
->> +					iommus = <&apps_smmu 0x0C42 0x0>;
->> +			};
->> +		};
->> 
+  - addressed DT schema review comments in patches 6/12 to 9/12
+
+
+v2 can be found at [1].
+
+regards,
+Stan
+
+[1] https://lkml.org/lkml/2019/12/18/444
+
+Aniket Masule (2):
+  media: venus: introduce core selection
+  media: venus: vdec: handle 10bit bitstreams
+
+Stanimir Varbanov (10):
+  venus: redesign clocks and pm domains control
+  venus: venc: blacklist two encoder properties
+  v4l: Add source event change for bit-depth
+  dt-bindings: media: venus: Convert msm8916 to DT schema
+  dt-bindings: media: venus: Convert msm8996 to DT schema
+  dt-bindings: media: venus: Convert sdm845 to DT schema
+  dt-bindings: media: venus: Add sdm845v2 DT schema
+  venus: core: add sdm845-v2 DT compatible and resource struct
+  arm64: dts: sdm845: follow venus-sdm845v2 DT binding
+  dt-bindings: media: venus: delete old binding document
+
+ .../bindings/media/qcom,msm8916-venus.yaml    | 117 +++
+ .../bindings/media/qcom,msm8996-venus.yaml    | 153 +++
+ .../bindings/media/qcom,sdm845-venus-v2.yaml  | 139 +++
+ .../bindings/media/qcom,sdm845-venus.yaml     | 157 +++
+ .../devicetree/bindings/media/qcom,venus.txt  | 120 ---
+ .../media/uapi/v4l/vidioc-dqevent.rst         |   8 +-
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |  25 +-
+ drivers/media/platform/qcom/venus/Makefile    |   2 +-
+ drivers/media/platform/qcom/venus/core.c      | 122 ++-
+ drivers/media/platform/qcom/venus/core.h      |  31 +-
+ drivers/media/platform/qcom/venus/helpers.c   | 435 ++------
+ drivers/media/platform/qcom/venus/helpers.h   |   4 -
+ drivers/media/platform/qcom/venus/hfi_cmds.c  |   2 +
+ .../media/platform/qcom/venus/hfi_helper.h    |   6 +
+ .../media/platform/qcom/venus/hfi_parser.h    |   5 +
+ .../media/platform/qcom/venus/pm_helpers.c    | 964 ++++++++++++++++++
+ .../media/platform/qcom/venus/pm_helpers.h    |  65 ++
+ drivers/media/platform/qcom/venus/vdec.c      |  88 +-
+ drivers/media/platform/qcom/venus/venc.c      |  75 +-
+ include/uapi/linux/videodev2.h                |   1 +
+ 21 files changed, 1873 insertions(+), 647 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/qcom,venus.txt
+ create mode 100644 drivers/media/platform/qcom/venus/pm_helpers.c
+ create mode 100644 drivers/media/platform/qcom/venus/pm_helpers.h
+
+-- 
+2.17.1
+
