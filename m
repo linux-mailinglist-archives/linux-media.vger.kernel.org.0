@@ -2,280 +2,509 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F377212A625
-	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2019 06:26:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 865C112A7B9
+	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2019 12:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbfLYF0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Dec 2019 00:26:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54772 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725784AbfLYF0R (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Dec 2019 00:26:17 -0500
-Received: from localhost (unknown [5.29.147.182])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B55D2071E;
-        Wed, 25 Dec 2019 05:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577251576;
-        bh=XecFfsaVDZ9xwmzIy/JIRjF1C/8kAWJZBoR2IY+F2RA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bq/liqXfuKDGJm/bGg4q9hFXMmE+Y/AuB7AQqgBxYhO1C6nmQsQelIzCX1v5I5WAy
-         wsBPrYaZwpLUi6WCN7S+YTK/tktc66fQ/jur1rAeqVmCtqwwKEWcnC46thxPwqkyMA
-         SXjSVJZNN56CsSF4ioskprUfCvid80SsCXRVwzPk=
-Date:   Wed, 25 Dec 2019 07:26:12 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Maor Gottlieb <maorg@mellanox.com>,
-        Ran Rozenstein <ranro@mellanox.com>
-Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
-Message-ID: <20191225052612.GA212002@unreal>
-References: <20191216222537.491123-1-jhubbard@nvidia.com>
- <20191219132607.GA410823@unreal>
- <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
- <20191219210743.GN17227@ziepe.ca>
- <20191220182939.GA10944@unreal>
- <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
- <20191222132357.GF13335@unreal>
- <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
+        id S1726185AbfLYLjM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Dec 2019 06:39:12 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42560 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726025AbfLYLjL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Dec 2019 06:39:11 -0500
+Received: by mail-lf1-f66.google.com with SMTP id y19so16734460lfl.9
+        for <linux-media@vger.kernel.org>; Wed, 25 Dec 2019 03:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=reijZ513zvM/iaJ1COqJLeP7XDNb76d2PY7cxXK54GA=;
+        b=HyVakwxQ2XzRUKj4xXNozgJTJtz66EIIS32NLmfu22IMUMiCS2fsRtFjbcV3cllaav
+         y7I60vZ2Boui+Jb9uhTLDqPCGKQehl+2l50/2P9jd9uMcrPnhx1qHPRMrj4k/TCGFjP4
+         6jUoU5OdWgxlTVuxQKrNUGUKDfnmpeOwhwG5k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=reijZ513zvM/iaJ1COqJLeP7XDNb76d2PY7cxXK54GA=;
+        b=QdpPM2Mzp17IEPr1SwONScOs+cFRyfV9iPukYbJ+SNaJUIr5j/chQJz4aKPxp/jUGk
+         B+2MfU+oSOBeAmzrnG18HUkx/8/HB1ywn1WI6bpFcxheHFpMODSD55YaNw106zdxytYo
+         LedEm15fyvVRRnCd5I5OKm1fo1BSEGzHfN2DrZ3AA/A8pG1/mJ4IBi2wgsErenVKlnNh
+         8tfpZjMgJdoxp+VYw1IUajf0L+yixfmCg40PBFIs5uBPcKH+D7nEoG1m2JWXrICaB+6q
+         emIlZBbVqjsXQIxll1Tjv+w4hIeBMmUnMN/pg17SytzgmsrJE+2gY57PanzdPdKzKoU4
+         WA9Q==
+X-Gm-Message-State: APjAAAWiL2EVHmjZ6POYYV+pt7Why1QAqrBi+E44QQrVBbfv6rxHISch
+        w2k8PLfuLbxdhvbFevO1I+IKwmOKhHgAACaC2/6iuqC8pzw=
+X-Google-Smtp-Source: APXvYqxzny7LvY8oBiam+nr35TOv2eEstw1G2UFWsHyNbcm6T2l7TPzUkVAa98ID3pXzCCdGlWrVQMyj3m2wc/K3+RY=
+X-Received: by 2002:ac2:44a2:: with SMTP id c2mr23566797lfm.105.1577273947157;
+ Wed, 25 Dec 2019 03:39:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
+References: <4595464.3jghpSLKuc@os-lin-dmo> <616A957C6824E5468EC44010E4F1DA4801477DA25C@MXS02.open-synergy.com>
+In-Reply-To: <616A957C6824E5468EC44010E4F1DA4801477DA25C@MXS02.open-synergy.com>
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+Date:   Wed, 25 Dec 2019 20:38:55 +0900
+Message-ID: <CAD90Vcb-36R+frqxBnmnGJsE+1=qC4txSQOD_pexxiyOkEMgEg@mail.gmail.com>
+Subject: Re: [RFC] virtio video driver
+To:     Dmitry Sepp <Dmitry.Sepp@opensynergy.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "virtio-dev@lists.oasis-open.org" <virtio-dev@lists.oasis-open.org>,
+        "kraxel@redhat.com" <kraxel@redhat.com>,
+        "tfiga@chromium.org" <tfiga@chromium.org>,
+        "acourbot@chromium.org" <acourbot@chromium.org>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        "posciak@chromium.org" <posciak@chromium.org>,
+        "marcheu@chromium.org" <marcheu@chromium.org>,
+        "stevensd@chromium.org" <stevensd@chromium.org>,
+        "dgreid@chromium.org" <dgreid@chromium.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "egranata@google.com" <egranata@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 24, 2019 at 06:03:50PM -0800, John Hubbard wrote:
-> On 12/22/19 5:23 AM, Leon Romanovsky wrote:
-> > On Fri, Dec 20, 2019 at 03:54:55PM -0800, John Hubbard wrote:
-> > > On 12/20/19 10:29 AM, Leon Romanovsky wrote:
-> > > ...
-> > > > > $ ./build.sh
-> > > > > $ build/bin/run_tests.py
-> > > > >
-> > > > > If you get things that far I think Leon can get a reproduction for you
-> > > >
-> > > > I'm not so optimistic about that.
-> > > >
-> > >
-> > > OK, I'm going to proceed for now on the assumption that I've got an overflow
-> > > problem that happens when huge pages are pinned. If I can get more information,
-> > > great, otherwise it's probably enough.
-> > >
-> > > One thing: for your repro, if you know the huge page size, and the system
-> > > page size for that case, that would really help. Also the number of pins per
-> > > page, more or less, that you'd expect. Because Jason says that only 2M huge
-> > > pages are used...
-> > >
-> > > Because the other possibility is that the refcount really is going negative,
-> > > likely due to a mismatched pin/unpin somehow.
-> > >
-> > > If there's not an obvious repro case available, but you do have one (is it easy
-> > > to repro, though?), then *if* you have the time, I could point you to a github
-> > > branch that reduces GUP_PIN_COUNTING_BIAS by, say, 4x, by applying this:
-> > >
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index bb44c4d2ada7..8526fd03b978 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -1077,7 +1077,7 @@ static inline void put_page(struct page *page)
-> > >    * get_user_pages and page_mkclean and other calls that race to set up page
-> > >    * table entries.
-> > >    */
-> > > -#define GUP_PIN_COUNTING_BIAS (1U << 10)
-> > > +#define GUP_PIN_COUNTING_BIAS (1U << 8)
-> > >
-> > >   void unpin_user_page(struct page *page);
-> > >   void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages,
-> > >
-> > > If that fails to repro, then we would be zeroing in on the root cause.
-> > >
-> > > The branch is here (I just tested it and it seems healthy):
-> > >
-> > > git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
-> >
-> > Hi,
-> >
-> > We tested the following branch and here comes results:
->
-> Thanks for this testing run!
->
-> > [root@server consume_mtts]# (master) $ grep foll_pin /proc/vmstat
-> > nr_foll_pin_requested 0
-> > nr_foll_pin_returned 0
-> >
->
-> Zero pinned pages!
+Hi Dmitry,
 
-Maybe we are missing some CONFIG_* option?
-https://lore.kernel.org/linux-rdma/12a28917-f8c9-5092-2f01-92bb74714cae@nvidia.com/T/#mf900896f5dfc86cdee9246219990c632ed77115f
+Thanks for sharing the driver implementation.
+Since the virtio protocol specification is still under discussion in
+virtio-dev@ ML separately, let me add comments only about
+implementation that are irrelevant to the protocol details.
+Please find my comments inline.
 
+On Fri, Dec 6, 2019 at 1:33 AM Dmitry Sepp <Dmitry.Sepp@opensynergy.com> wrote:
 >
-> ...now I'm confused. Somehow FOLL_PIN and pin_user_pages*() calls are
-> not happening. And although the backtraces below show some of my new
-> routines (like try_grab_page), they also confirm the above: there is no
-> pin_user_page*() call in the stack.
+> From: Kiran Pawar <kiran.pawar@opensynergy.com>
 >
-> In particular, it looks like ib_umem_get() is calling through to
-> get_user_pages*(), rather than pin_user_pages*(). I don't see how this
-> is possible, because the code on my screen shows ib_umem_get() calling
-> pin_user_pages_fast().
+> This adds a Virtio based video driver for video streaming device that
+> operates input and/or output data buffers to share video devices with
+> several guests. The current implementation consist of V4L2 based video
+> driver supporting video functions of decoder and encoder. This can be
+> extended for other functions e.g. processor, capture and output.
+> The device uses descriptor structures to advertise and negotiate stream
+> formats and controls. This allows the driver to modify the processing
+> logic of the device on a per stream basis.
 >
-> Any thoughts or ideas are welcome here.
+> Signed-off-by: Dmitry Sepp <Dmitry.Sepp@opensynergy.com>
+> Signed-off-by: Kiran Pawar <Kiran.Pawar@opensynergy.com>
+> Signed-off-by: Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>
+> ---
+>  drivers/media/Kconfig                      |    1 +
+>  drivers/media/Makefile                     |    2 +
+>  drivers/media/virtio/Kconfig               |   11 +
+>  drivers/media/virtio/Makefile              |   12 +
+>  drivers/media/virtio/virtio_video.h        |  372 +++++++
+>  drivers/media/virtio/virtio_video_caps.c   |  618 +++++++++++
+>  drivers/media/virtio/virtio_video_dec.c    |  947 +++++++++++++++++
+>  drivers/media/virtio/virtio_video_dec.h    |   30 +
+>  drivers/media/virtio/virtio_video_device.c |  747 +++++++++++++
+>  drivers/media/virtio/virtio_video_driver.c |  278 +++++
+>  drivers/media/virtio/virtio_video_enc.c    | 1124 ++++++++++++++++++++
+>  drivers/media/virtio/virtio_video_enc.h    |   30 +
+>  drivers/media/virtio/virtio_video_vq.c     |  950 +++++++++++++++++
+>  include/uapi/linux/virtio_ids.h            |    2 +
+>  include/uapi/linux/virtio_video.h          |  456 ++++++++
+>  15 files changed, 5580 insertions(+)
+>  create mode 100644 drivers/media/virtio/Kconfig
+>  create mode 100644 drivers/media/virtio/Makefile
+>  create mode 100644 drivers/media/virtio/virtio_video.h
+>  create mode 100644 drivers/media/virtio/virtio_video_caps.c
+>  create mode 100644 drivers/media/virtio/virtio_video_dec.c
+>  create mode 100644 drivers/media/virtio/virtio_video_dec.h
+>  create mode 100644 drivers/media/virtio/virtio_video_device.c
+>  create mode 100644 drivers/media/virtio/virtio_video_driver.c
+>  create mode 100644 drivers/media/virtio/virtio_video_enc.c
+>  create mode 100644 drivers/media/virtio/virtio_video_enc.h
+>  create mode 100644 drivers/media/virtio/virtio_video_vq.c
+>  create mode 100644 include/uapi/linux/virtio_video.h
 >
-> However, glossing over all of that and assuming that the new
-> GUP_PIN_COUNTING_BIAS of 256 is applied, it's interesting that we still
-> see any overflow. I'm less confident now that this is a true refcount
-> overflow.
+> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> index b36a41332867..cc95806e8f8b 100644
+> --- a/drivers/media/Kconfig
+> +++ b/drivers/media/Kconfig
+> @@ -170,6 +170,7 @@ source "drivers/media/pci/Kconfig"
+>  source "drivers/media/platform/Kconfig"
+>  source "drivers/media/mmc/Kconfig"
+>  source "drivers/media/radio/Kconfig"
+> +source "drivers/media/virtio/Kconfig"
+>
+>  comment "Supported FireWire (IEEE 1394) Adapters"
+>         depends on DVB_CORE && FIREWIRE
+> diff --git a/drivers/media/Makefile b/drivers/media/Makefile
+> index f215f0a89f9e..9517a6f724d1 100644
+> --- a/drivers/media/Makefile
+> +++ b/drivers/media/Makefile
+> @@ -25,6 +25,8 @@ obj-y += rc/
+>
+>  obj-$(CONFIG_CEC_CORE) += cec/
+>
+> +obj-$(CONFIG_VIDEO_VIRTIO)  += virtio/
+> +
+>  #
+>  # Finally, merge the drivers that require the core
+>  #
+> diff --git a/drivers/media/virtio/Kconfig b/drivers/media/virtio/Kconfig
+> new file mode 100644
+> index 000000000000..3289bcf233f0
+> --- /dev/null
+> +++ b/drivers/media/virtio/Kconfig
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0+
+> +# Video driver for virtio
+> +
+> +config VIDEO_VIRTIO
 
-Earlier in this email thread, I posted possible function call chain which
-doesn't involve refcount overflow, but for some reason the refcount
-overflow was chosen as a way to explore.
+"VIRTIO_VIDEO" would be better like VIRTIO_NET and VIRTIO_PCI.
 
->
-> Also, any information that would get me closer to being able to attempt
-> my own reproduction of the problem are *very* welcome. :)
+> +       tristate "Virtio video V4L2 driver"
+> +       depends on VIRTIO && VIDEO_DEV && VIDEO_V4L2
+> +       select VIDEOBUF2_DMA_SG
+> +       select V4L2_MEM2MEM_DEV
 
-It is ancient verification test (~10y) which is not an easy task to
-make it understandable and standalone :).
+I suppose you also need "select VIDEOBUF2_V4L2", as struct
+vb2_v4l2_buffer is used.
 
->
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
->
-> > [root@serer consume_mtts]# (master) $ dmesg
-> > [  425.221459] ------------[ cut here ]------------
-> > [  425.225894] WARNING: CPU: 1 PID: 6738 at mm/gup.c:61 try_grab_compound_head+0x90/0xa0
-> > [  425.228021] Modules linked in: mlx5_ib mlx5_core mlxfw mlx4_ib mlx4_en ptp pps_core mlx4_core bonding ip6_gre ip6_tunnel tunnel6 ip_gre gre ip_tunnel rdma_rxe ip6_udp_tunnel udp_tunnel rdma_ucm ib_uverbs ib_ipoib ib_umad ib_srp scsi_transport_srp rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core [last unloaded: mlxfw]
-> > [  425.235266] CPU: 1 PID: 6738 Comm: consume_mtts Tainted: G           O      5.5.0-rc2+ #1
-> > [  425.237480] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
-> > [  425.239738] RIP: 0010:try_grab_compound_head+0x90/0xa0
-> > [  425.241170] Code: 06 48 8d 4f 34 f0 0f b1 57 34 74 cd 85 c0 74 cf 8d 14 06 f0 0f b1 11 74 c0 eb f1 8d 14 06 f0 0f b1 11 74 b5 85 c0 75 f3 eb b5 <0f> 0b 31 c0 c3 90 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41
-> > [  425.245739] RSP: 0018:ffffc900006878a8 EFLAGS: 00010082
-> > [  425.247124] RAX: 0000000080000001 RBX: 00007f780488a000 RCX: 0000000000000bb0
-> > [  425.248956] RDX: ffffea000e031087 RSI: 0000000000008a00 RDI: ffffea000dc58000
-> > [  425.250761] RBP: ffffea000e031080 R08: ffffc90000687974 R09: 000fffffffe00000
-> > [  425.252661] R10: 0000000000000000 R11: ffff888362560000 R12: 000000000000008a
-> > [  425.254487] R13: 80000003716000e7 R14: 00007f780488a000 R15: ffffc90000687974
-> > [  425.256309] FS:  00007f780d9d3740(0000) GS:ffff8883b1c80000(0000) knlGS:0000000000000000
-> > [  425.258401] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [  425.259949] CR2: 0000000002334048 CR3: 000000039c68c001 CR4: 00000000001606a0
-> > [  425.261884] Call Trace:
-> > [  425.262735]  gup_pgd_range+0x517/0x5a0
-> > [  425.263819]  internal_get_user_pages_fast+0x210/0x250
-> > [  425.265193]  ib_umem_get+0x298/0x550 [ib_uverbs]
-> > [  425.266476]  mr_umem_get+0xc9/0x260 [mlx5_ib]
-> > [  425.267699]  mlx5_ib_reg_user_mr+0xcc/0x7e0 [mlx5_ib]
-> > [  425.269134]  ? xas_load+0x8/0x80
-> > [  425.270074]  ? xa_load+0x48/0x90
-> > [  425.271038]  ? lookup_get_idr_uobject.part.10+0x12/0x70 [ib_uverbs]
-> > [  425.272757]  ib_uverbs_reg_mr+0x127/0x280 [ib_uverbs]
-> > [  425.274120]  ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
-> > [  425.276058]  ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
-> > [  425.277657]  ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
-> > [  425.279155]  ? __alloc_pages_nodemask+0x148/0x2b0
-> > [  425.280445]  ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
-> > [  425.281755]  do_vfs_ioctl+0x9d/0x650
-> > [  425.282766]  ksys_ioctl+0x70/0x80
-> > [  425.283745]  __x64_sys_ioctl+0x16/0x20
-> > [  425.284912]  do_syscall_64+0x42/0x130
-> > [  425.285973]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > [  425.287377] RIP: 0033:0x7f780d2df267
-> > [  425.288449] Code: b3 66 90 48 8b 05 19 3c 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 3b 2c 00 f7 d8 64 89 01 48
-> > [  425.293073] RSP: 002b:00007ffce49a88a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > [  425.295034] RAX: ffffffffffffffda RBX: 00007ffce49a8938 RCX: 00007f780d2df267
-> > [  425.296895] RDX: 00007ffce49a8920 RSI: 00000000c0181b01 RDI: 0000000000000003
-> > [  425.298689] RBP: 00007ffce49a8900 R08: 0000000000000003 R09: 00007f780d9a1010
-> > [  425.300480] R10: 00000000ffffffff R11: 0000000000000246 R12: 00007f780d9a1150
-> > [  425.302290] R13: 00007ffce49a8900 R14: 00007ffce49a8ad8 R15: 00007f780468a000
-> > [  425.304113] ---[ end trace 1ecbefdb403190dd ]---
-> > [  425.305434] ------------[ cut here ]------------
-> > [  425.307147] WARNING: CPU: 1 PID: 6738 at mm/gup.c:150 try_grab_page+0x56/0x60
-> > [  425.309111] Modules linked in: mlx5_ib mlx5_core mlxfw mlx4_ib mlx4_en ptp pps_core mlx4_core bonding ip6_gre ip6_tunnel tunnel6 ip_gre gre ip_tunnel rdma_rxe ip6_udp_tunnel udp_tunnel rdma_ucm ib_uverbs ib_ipoib ib_umad ib_srp scsi_transport_srp rpcrdma ib_iser libiscsi scsi_transport_iscsi rdma_cm iw_cm ib_cm ib_core [last unloaded: mlxfw]
-> > [  425.316461] CPU: 1 PID: 6738 Comm: consume_mtts Tainted: G        W  O      5.5.0-rc2+ #1
-> > [  425.318582] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
-> > [  425.320958] RIP: 0010:try_grab_page+0x56/0x60
-> > [  425.322167] Code: 7e 28 f0 81 47 34 00 01 00 00 c3 48 8b 47 08 48 8d 50 ff a8 01 48 0f 45 fa 8b 47 34 85 c0 7e 0f f0 ff 47 34 b8 01 00 00 00 c3 <0f> 0b 31 c0 c3 0f 0b 31 c0 c3 0f 1f 44 00 00 41 57 41 56 41 55 41
-> > [  425.326814] RSP: 0018:ffffc90000687830 EFLAGS: 00010282
-> > [  425.328226] RAX: 0000000000000001 RBX: ffffea000dc58000 RCX: ffffea000e031087
-> > [  425.330104] RDX: 0000000080000001 RSI: 0000000000040000 RDI: ffffea000dc58000
-> > [  425.331980] RBP: 00007f7804800000 R08: 000ffffffffff000 R09: 80000003716000e7
-> > [  425.333898] R10: ffff88834af80120 R11: ffff8883ac16f000 R12: ffff88834af80120
-> > [  425.335704] R13: ffff88837c0915c0 R14: 0000000000050201 R15: 00007f7804800000
-> > [  425.337638] FS:  00007f780d9d3740(0000) GS:ffff8883b1c80000(0000) knlGS:0000000000000000
-> > [  425.339734] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [  425.341369] CR2: 0000000002334048 CR3: 000000039c68c001 CR4: 00000000001606a0
-> > [  425.343160] Call Trace:
-> > [  425.343967]  follow_trans_huge_pmd+0x16f/0x2e0
-> > [  425.345263]  follow_p4d_mask+0x51c/0x630
-> > [  425.346344]  __get_user_pages+0x1a1/0x6c0
-> > [  425.347463]  internal_get_user_pages_fast+0x17b/0x250
-> > [  425.348918]  ib_umem_get+0x298/0x550 [ib_uverbs]
-> > [  425.350174]  mr_umem_get+0xc9/0x260 [mlx5_ib]
-> > [  425.351383]  mlx5_ib_reg_user_mr+0xcc/0x7e0 [mlx5_ib]
-> > [  425.352849]  ? xas_load+0x8/0x80
-> > [  425.353776]  ? xa_load+0x48/0x90
-> > [  425.354730]  ? lookup_get_idr_uobject.part.10+0x12/0x70 [ib_uverbs]
-> > [  425.356410]  ib_uverbs_reg_mr+0x127/0x280 [ib_uverbs]
-> > [  425.357843]  ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
-> > [  425.359749]  ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
-> > [  425.361405]  ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
-> > [  425.362898]  ? __alloc_pages_nodemask+0x148/0x2b0
-> > [  425.364206]  ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
-> > [  425.365564]  do_vfs_ioctl+0x9d/0x650
-> > [  425.366567]  ksys_ioctl+0x70/0x80
-> > [  425.367537]  __x64_sys_ioctl+0x16/0x20
-> > [  425.368698]  do_syscall_64+0x42/0x130
-> > [  425.369782]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > [  425.371117] RIP: 0033:0x7f780d2df267
-> > [  425.372159] Code: b3 66 90 48 8b 05 19 3c 2c 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d e9 3b 2c 00 f7 d8 64 89 01 48
-> > [  425.376774] RSP: 002b:00007ffce49a88a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> > [  425.378740] RAX: ffffffffffffffda RBX: 00007ffce49a8938 RCX: 00007f780d2df267
-> > [  425.380598] RDX: 00007ffce49a8920 RSI: 00000000c0181b01 RDI: 0000000000000003
-> > [  425.382411] RBP: 00007ffce49a8900 R08: 0000000000000003 R09: 00007f780d9a1010
-> > [  425.384312] R10: 00000000ffffffff R11: 0000000000000246 R12: 00007f780d9a1150
-> > [  425.386132] R13: 00007ffce49a8900 R14: 00007ffce49a8ad8 R15: 00007f780468a000
-> > [  425.387964] ---[ end trace 1ecbefdb403190de ]---
-> >
-> > Thanks
-> >
-> > >
-> > >
-> > >
-> > > thanks,
-> > > --
-> > > John Hubbard
-> > > NVIDIA
+> +       help
+> +          This is the virtual video driver for virtio.
+> +          Say Y or M.
+> diff --git a/drivers/media/virtio/Makefile b/drivers/media/virtio/Makefile
+> new file mode 100644
+> index 000000000000..6bc48fde57b4
+> --- /dev/null
+> +++ b/drivers/media/virtio/Makefile
+> @@ -0,0 +1,12 @@
+> +# SPDX-License-Identifier: GPL-2.0+
+> +
+> +obj-$(CONFIG_VIDEO_VIRTIO) += virtio-video.o
+> +
+> +virtio-video-objs := \
+> +    virtio_video_driver.o \
+> +    virtio_video_vq.o \
+> +    virtio_video_device.o \
+> +    virtio_video_dec.o \
+> +    virtio_video_enc.o \
+> +    virtio_video_caps.o
+> +
+> diff --git a/drivers/media/virtio/virtio_video.h b/drivers/media/virtio/virtio_video.h
+> new file mode 100644
+> index 000000000000..23c77dc0cb93
+> --- /dev/null
+> +++ b/drivers/media/virtio/virtio_video.h
+> @@ -0,0 +1,372 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/* Common header for virtio video driver.
+> + *
+> + * Copyright 2019 OpenSynergy GmbH.
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef _VIRTIO_VIDEO_H
+> +#define _VIRTIO_VIDEO_H
+> +
+> +#include <linux/virtio.h>
+> +#include <linux/virtio_ids.h>
+> +#include <linux/virtio_config.h>
+> +#include <linux/virtio_video.h>
+> +#include <linux/list.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-mem2mem.h>
+> +#include <media/v4l2-ctrls.h>
+> +
+> +#define DRIVER_NAME "virtio-video"
+> +
+> +#ifndef VIRTIO_ID_VIDEO
+> +#define VIRTIO_ID_VIDEO 29
+> +#endif
+> +
+> +enum video_pin_type {
+> +       VIDEO_PIN_TYPE_INPUT = 0,
+> +       VIDEO_PIN_TYPE_OUTPUT,
+> +};
+
+Why don't you use enums and structs defined in
+/include/uapi/linux/virtio_video.h?
+For example, I suppose we don't need this video_pin_type, as we can
+use enum virtio_video_pin_type defined there.
+Same for other enums and structs in this file.
+
+[snip]
+
+
+> diff --git a/drivers/media/virtio/virtio_video_dec.c b/drivers/media/virtio/virtio_video_dec.c
+> new file mode 100644
+> index 000000000000..c2ad62229d21
+> --- /dev/null
+> +++ b/drivers/media/virtio/virtio_video_dec.c
+> @@ -0,0 +1,947 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/* Decoder for virtio video device.
+> + *
+> + * Copyright 2019 OpenSynergy GmbH.
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-dma-sg.h>
+> +
+> +#include "virtio_video.h"
+> +
+> +static int virtio_video_queue_setup(struct vb2_queue *vq,
+> +                                   unsigned int *num_buffers,
+> +                                   unsigned int *num_planes,
+> +                                   unsigned int sizes[],
+> +                                   struct device *alloc_devs[])
+
+We have functions named "virtio_video_queue_setup" both in
+virtio_video_dec.c and virtio_video_enc.c.
+How about calling them "virtio_video_{dec,enc}_queue_setup" or
+"virtvideo_{dec,enc}_queue_setup"?
+Though the naming conflicts of static functions shouldn't cause any
+problem when building a kernel, indexing tools, such as ctags, should
+be confused.
+
+Same for other functions.
+
+[snip]
+
+> +int virtio_video_init_dec_queues(void *priv, struct vb2_queue *src_vq,
+> +                                struct vb2_queue *dst_vq)
+> +{
+> +       int ret;
+> +       struct virtio_video_stream *stream = priv;
+> +       struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
+> +       struct device *dev = vvd->vv->v4l2_dev.dev;
+> +
+> +       src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +       src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+
+I suppose this driver doesn't support DMABUF mode yet.
+IIUC, VB_DMABUF should be specified only when a driver supports DMA
+buffer importing.
+
+[snip]
+
+
+> +static int virtio_video_s_fmt(struct virtio_video_stream *stream,
+> +                             struct v4l2_format *f)
+> +{
+> +       int i, ret;
+> +       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> +       struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
+> +       struct virtio_video *vv = vvd->vv;
+> +       struct video_format_info info;
+> +       struct video_format_info *p_info;
+> +       enum video_pin_type pin = VIDEO_PIN_TYPE_INPUT;
+> +
+> +       ret = virtio_video_try_fmt(stream, f);
+> +       if (ret)
+> +               return ret;
+> +
+> +       info.frame_width = pix_mp->width;
+> +       info.frame_height = pix_mp->height;
+> +       info.num_planes = pix_mp->num_planes;
+> +       info.fourcc_format = pix_mp->pixelformat;
+> +
+> +       for (i = 0; i < info.num_planes; i++) {
+> +               info.plane_format[i].stride =
+> +                                        pix_mp->plane_fmt[i].bytesperline;
+> +               info.plane_format[i].plane_size =
+> +                                        pix_mp->plane_fmt[i].sizeimage;
+> +       }
+> +
+> +       if (!V4L2_TYPE_IS_OUTPUT(f->type))
+> +               pin = VIDEO_PIN_TYPE_OUTPUT;
+> +
+> +       virtio_video_req_set_params(vv, vvd->id, &info, pin,
+> +                                   VIDEO_PARAMS_SCOPE_STREAM, stream);
+> +
+> +       virtio_video_req_get_params(vv, vvd->id, VIDEO_PIN_TYPE_INPUT,
+> +                                   VIDEO_PARAMS_SCOPE_STREAM, stream);
+> +
+> +       virtio_video_req_get_params(vv, vvd->id, VIDEO_PIN_TYPE_OUTPUT,
+> +                                   VIDEO_PARAMS_SCOPE_STREAM, stream);
+> +
+
+nit: GET_PARAMS must be called for both queues after SET_PARAMS.
+So, how about defining a function to call these three functions?
+
+[snip]
+
+> +static int virtio_video_device_open(struct file *file)
+> +{
+> +       int ret;
+> +       uint32_t stream_id;
+> +       char name[TASK_COMM_LEN];
+> +       struct virtio_video_stream *stream;
+> +       struct video_device *video_dev = video_devdata(file);
+> +       struct virtio_video_device *vvd = video_drvdata(file);
+> +       struct virtio_video *vv = vvd->vv;
+> +
+> +       stream = kzalloc(sizeof(*stream), GFP_KERNEL);
+> +       if (!stream)
+> +               return -ENOMEM;
+> +
+> +       get_task_comm(name, current);
+> +       virtio_video_stream_id_get(vv, stream, &stream_id);
+> +       ret = virtio_video_req_stream_create(vv, vvd->id, stream_id, name);
+
+It'd be better not to send virtio requests in open callback to avoid
+unnecessary overhead. For example, we often open and close /dev/videoX
+just to check its capabilities. In that case, we don't need to create
+a stream.
+
+Instead, it'd make more sense to send the request when REQBUFS is
+called by passing a non-zero value as "count" and no stream is created
+yet.
+Please see comments for stream_destroy in release callback, too.
+
+> +       if (ret) {
+> +               v4l2_err(&vv->v4l2_dev, "failed to create stream\n");
+> +               goto err_stream_create;
+> +       }
+> +
+> +       stream->video_dev = video_dev;
+> +       stream->stream_id = stream_id;
+> +       stream->state = STREAM_STATE_IDLE;
+> +       mutex_init(&stream->vq_mutex);
+> +       INIT_WORK(&stream->work, virtio_video_worker);
+> +       v4l2_fh_init(&stream->fh, video_dev);
+> +       stream->fh.ctrl_handler = &stream->ctrl_handler;
+> +
+> +       if (vvd->type == VIRTIO_VIDEO_FUNC_DECODER) {
+
+nit: How about using switch statements? Same for other if-else
+statements for vvd->type.
+
+[snip]
+
+> +
+> +static int virtio_video_device_release(struct file *file)
+> +{
+> +       struct virtio_video_stream *stream = file2stream(file);
+> +       struct video_device *video_dev = video_devdata(file);
+> +       struct virtio_video_device *vvd = video_drvdata(file);
+> +       struct virtio_video *vv = vvd->vv;
+> +
+> +       v4l2_fh_del(&stream->fh);
+> +       v4l2_fh_exit(&stream->fh);
+> +       mutex_lock(video_dev->lock);
+> +       v4l2_m2m_ctx_release(stream->fh.m2m_ctx);
+> +       mutex_unlock(video_dev->lock);
+> +
+> +       virtio_video_req_stream_destroy(vv, vvd->id, stream->stream_id);
+
+As with STREAM_CREATE requests, STREAM_DESTROY should be sent in
+REQBUFS callback as well.
+We can call it in REQBUFS when "v4l2_requestbuffers.count" is 0 and an
+active stream already exists (i.e. stream_id > 0).
+Still, it'd be good to keep STREAM_DESTROY here, as users can forget
+to free buffers via REQBUFS.
+
+[snip]
+
+> +void virtio_video_resource_id_get(struct virtio_video *vv, uint32_t *id)
+> +{
+> +       int handle;
+> +
+> +       idr_preload(GFP_KERNEL);
+> +       spin_lock(&vv->resource_idr_lock);
+> +       handle = idr_alloc(&vv->resource_idr, NULL, 1, 0, GFP_NOWAIT);
+
+We should check if idr_alloc returns no error here or caller-side.
+
+[snip]
+
+> +static int
+> +virtio_video_queue_ctrl_buffer_locked(struct virtio_video *vv,
+> +                                     struct virtio_video_vbuffer *vbuf)
+> +{
+> +       struct virtqueue *vq = vv->ctrlq.vq;
+> +       struct scatterlist *sgs[3], vreq, vout, vresp;
+> +       int outcnt = 0, incnt = 0;
+> +       int ret;
+
+How about adding WARN_ON(!mutex_is_locked(&vv->ctrlq.qlock)) to
+prevent misuse and show which lock must be used?
+
+> +
+> +       if (!vv->vq_ready)
+> +               return -ENODEV;
+> +
+> +       sg_init_one(&vreq, vbuf->buf, vbuf->size);
+> +       sgs[outcnt + incnt] = &vreq;
+> +       outcnt++;
+> +
+> +       if (vbuf->data_size) {
+> +               sg_init_one(&vout, vbuf->data_buf, vbuf->data_size);
+> +               sgs[outcnt + incnt] = &vout;
+> +               outcnt++;
+> +       }
+> +
+> +       if (vbuf->resp_size) {
+> +               sg_init_one(&vresp, vbuf->resp_buf, vbuf->resp_size);
+> +               sgs[outcnt + incnt] = &vresp;
+> +               incnt++;
+> +       }
+> +
+> +retry:
+> +       ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
+> +       if (ret == -ENOSPC) {
+> +               spin_unlock(&vv->ctrlq.qlock);
+> +               wait_event(vv->ctrlq.ack_queue, vq->num_free);
+
+wait_event_timeout would be better to avoid getting stuck.
+
+> +               spin_lock(&vv->ctrlq.qlock);
+> +               goto retry;
+
+I'd use while-loop instead of goto.
+
+[snip]
+
+> +int virtio_video_req_stream_create(struct virtio_video *vv,
+> +                                  uint32_t function_id, uint32_t stream_id,
+> +                                  const char *name)
+> +{
+> +       struct virtio_video_stream_create *req_p;
+> +       struct virtio_video_vbuffer *vbuf;
+> +
+> +       req_p = virtio_video_alloc_req(vv, &vbuf, sizeof(*req_p));
+> +       if (IS_ERR(req_p))
+> +               return PTR_ERR(req_p);
+> +       memset(req_p, 0, sizeof(*req_p));
+
+I'm wondering if we don't need to call memset here, as
+virtio_video_get_vbuf calls memset for vbuf.
+If it's not true, it'd make sense to call memset in
+virtio_video_alloc_req instead because we always want to have
+zero-initialized structs.
+
+[snip]
+
+Best regards,
+Keiichi
