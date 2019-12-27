@@ -2,549 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D18DB12B50E
-	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2019 15:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9317B12B51A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2019 15:18:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfL0OFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Dec 2019 09:05:19 -0500
-Received: from plasma6.jpberlin.de ([80.241.56.68]:58215 "EHLO
-        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726053AbfL0OFT (ORCPT
+        id S1726538AbfL0OSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Dec 2019 09:18:17 -0500
+Received: from retiisi.org.uk ([95.216.213.190]:58858 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726053AbfL0OSQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Dec 2019 09:05:19 -0500
-Received: from spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115])
-        by plasma.jpberlin.de (Postfix) with ESMTP id D748CB92C7;
-        Fri, 27 Dec 2019 15:05:12 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
-        with ESMTP id 4Bdnt4srsV_P; Fri, 27 Dec 2019 15:05:10 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id 33E45A723E;
-        Fri, 27 Dec 2019 15:05:10 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 27 Dec
- 2019 15:05:09 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "virtio-dev@lists.oasis-open.org" <virtio-dev@lists.oasis-open.org>,
-        "kraxel@redhat.com" <kraxel@redhat.com>,
-        "tfiga@chromium.org" <tfiga@chromium.org>,
-        "acourbot@chromium.org" <acourbot@chromium.org>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        "posciak@chromium.org" <posciak@chromium.org>,
-        "marcheu@chromium.org" <marcheu@chromium.org>,
-        "stevensd@chromium.org" <stevensd@chromium.org>,
-        "dgreid@chromium.org" <dgreid@chromium.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "egranata@google.com" <egranata@google.com>
-Subject: Re: [RFC] virtio video driver
-Date:   Fri, 27 Dec 2019 15:05:09 +0100
-Message-ID: <3224757.fp6Gbkv8E8@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAD90Vcb-36R+frqxBnmnGJsE+1=qC4txSQOD_pexxiyOkEMgEg@mail.gmail.com>
-References: <4595464.3jghpSLKuc@os-lin-dmo> <616A957C6824E5468EC44010E4F1DA4801477DA25C@MXS02.open-synergy.com> <CAD90Vcb-36R+frqxBnmnGJsE+1=qC4txSQOD_pexxiyOkEMgEg@mail.gmail.com>
+        Fri, 27 Dec 2019 09:18:16 -0500
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 8EDE9634C86;
+        Fri, 27 Dec 2019 16:17:39 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1ikqQt-00017H-TA; Fri, 27 Dec 2019 16:17:39 +0200
+Date:   Fri, 27 Dec 2019 16:17:39 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        peter.griffin@linaro.org, ezequiel@collabora.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor
+ binding
+Message-ID: <20191227141739.GD861@valkosipuli.retiisi.org.uk>
+References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
+ <20191227122114.23075-2-andrey.konovalov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191227122114.23075-2-andrey.konovalov@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Keiichi,
+Hi Andrey,
 
-On Mittwoch, 25. Dezember 2019 12:38:55 CET Keiichi Watanabe wrote:
-> Hi Dmitry,
-> 
-> Thanks for sharing the driver implementation.
-> Since the virtio protocol specification is still under discussion in
-> virtio-dev@ ML separately, let me add comments only about
-> implementation that are irrelevant to the protocol details.
-> Please find my comments inline.
-> 
-> On Fri, Dec 6, 2019 at 1:33 AM Dmitry Sepp <Dmitry.Sepp@opensynergy.com> 
-wrote:
-> > From: Kiran Pawar <kiran.pawar@opensynergy.com>
-> > 
-> > This adds a Virtio based video driver for video streaming device that
-> > operates input and/or output data buffers to share video devices with
-> > several guests. The current implementation consist of V4L2 based video
-> > driver supporting video functions of decoder and encoder. This can be
-> > extended for other functions e.g. processor, capture and output.
-> > The device uses descriptor structures to advertise and negotiate stream
-> > formats and controls. This allows the driver to modify the processing
-> > logic of the device on a per stream basis.
-> > 
-> > Signed-off-by: Dmitry Sepp <Dmitry.Sepp@opensynergy.com>
-> > Signed-off-by: Kiran Pawar <Kiran.Pawar@opensynergy.com>
-> > Signed-off-by: Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>
-> > ---
-> > 
-> >  drivers/media/Kconfig                      |    1 +
-> >  drivers/media/Makefile                     |    2 +
-> >  drivers/media/virtio/Kconfig               |   11 +
-> >  drivers/media/virtio/Makefile              |   12 +
-> >  drivers/media/virtio/virtio_video.h        |  372 +++++++
-> >  drivers/media/virtio/virtio_video_caps.c   |  618 +++++++++++
-> >  drivers/media/virtio/virtio_video_dec.c    |  947 +++++++++++++++++
-> >  drivers/media/virtio/virtio_video_dec.h    |   30 +
-> >  drivers/media/virtio/virtio_video_device.c |  747 +++++++++++++
-> >  drivers/media/virtio/virtio_video_driver.c |  278 +++++
-> >  drivers/media/virtio/virtio_video_enc.c    | 1124 ++++++++++++++++++++
-> >  drivers/media/virtio/virtio_video_enc.h    |   30 +
-> >  drivers/media/virtio/virtio_video_vq.c     |  950 +++++++++++++++++
-> >  include/uapi/linux/virtio_ids.h            |    2 +
-> >  include/uapi/linux/virtio_video.h          |  456 ++++++++
-> >  15 files changed, 5580 insertions(+)
-> >  create mode 100644 drivers/media/virtio/Kconfig
-> >  create mode 100644 drivers/media/virtio/Makefile
-> >  create mode 100644 drivers/media/virtio/virtio_video.h
-> >  create mode 100644 drivers/media/virtio/virtio_video_caps.c
-> >  create mode 100644 drivers/media/virtio/virtio_video_dec.c
-> >  create mode 100644 drivers/media/virtio/virtio_video_dec.h
-> >  create mode 100644 drivers/media/virtio/virtio_video_device.c
-> >  create mode 100644 drivers/media/virtio/virtio_video_driver.c
-> >  create mode 100644 drivers/media/virtio/virtio_video_enc.c
-> >  create mode 100644 drivers/media/virtio/virtio_video_enc.h
-> >  create mode 100644 drivers/media/virtio/virtio_video_vq.c
-> >  create mode 100644 include/uapi/linux/virtio_video.h
-> > 
-> > diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-> > index b36a41332867..cc95806e8f8b 100644
-> > --- a/drivers/media/Kconfig
-> > +++ b/drivers/media/Kconfig
-> > @@ -170,6 +170,7 @@ source "drivers/media/pci/Kconfig"
-> > 
-> >  source "drivers/media/platform/Kconfig"
-> >  source "drivers/media/mmc/Kconfig"
-> >  source "drivers/media/radio/Kconfig"
-> > 
-> > +source "drivers/media/virtio/Kconfig"
-> > 
-> >  comment "Supported FireWire (IEEE 1394) Adapters"
-> >  
-> >         depends on DVB_CORE && FIREWIRE
-> > 
-> > diff --git a/drivers/media/Makefile b/drivers/media/Makefile
-> > index f215f0a89f9e..9517a6f724d1 100644
-> > --- a/drivers/media/Makefile
-> > +++ b/drivers/media/Makefile
-> > @@ -25,6 +25,8 @@ obj-y += rc/
-> > 
-> >  obj-$(CONFIG_CEC_CORE) += cec/
-> > 
-> > +obj-$(CONFIG_VIDEO_VIRTIO)  += virtio/
-> > +
-> > 
-> >  #
-> >  # Finally, merge the drivers that require the core
-> >  #
-> > 
-> > diff --git a/drivers/media/virtio/Kconfig b/drivers/media/virtio/Kconfig
-> > new file mode 100644
-> > index 000000000000..3289bcf233f0
-> > --- /dev/null
-> > +++ b/drivers/media/virtio/Kconfig
-> > @@ -0,0 +1,11 @@
-> > +# SPDX-License-Identifier: GPL-2.0+
-> > +# Video driver for virtio
-> > +
-> > +config VIDEO_VIRTIO
-> 
-> "VIRTIO_VIDEO" would be better like VIRTIO_NET and VIRTIO_PCI.
-> 
-Ok, I agree.
+Thanks for the patchset.
 
-> > +       tristate "Virtio video V4L2 driver"
-> > +       depends on VIRTIO && VIDEO_DEV && VIDEO_V4L2
-> > +       select VIDEOBUF2_DMA_SG
-> > +       select V4L2_MEM2MEM_DEV
+On Fri, Dec 27, 2019 at 03:21:13PM +0300, Andrey Konovalov wrote:
+> Add YAML device tree binding for IMX219 CMOS image sensor, and
+> the relevant MAINTAINERS entries.
 > 
-> I suppose you also need "select VIDEOBUF2_V4L2", as struct
-> vb2_v4l2_buffer is used.
->
-It is selected automatically by VIDEO_V4L2. Also, there are no drivers that 
-set it explicitly.
- 
-> > +       help
-> > +          This is the virtual video driver for virtio.
-> > +          Say Y or M.
-> > diff --git a/drivers/media/virtio/Makefile b/drivers/media/virtio/Makefile
-> > new file mode 100644
-> > index 000000000000..6bc48fde57b4
-> > --- /dev/null
-> > +++ b/drivers/media/virtio/Makefile
-> > @@ -0,0 +1,12 @@
-> > +# SPDX-License-Identifier: GPL-2.0+
-> > +
-> > +obj-$(CONFIG_VIDEO_VIRTIO) += virtio-video.o
-> > +
-> > +virtio-video-objs := \
-> > +    virtio_video_driver.o \
-> > +    virtio_video_vq.o \
-> > +    virtio_video_device.o \
-> > +    virtio_video_dec.o \
-> > +    virtio_video_enc.o \
-> > +    virtio_video_caps.o
-> > +
-> > diff --git a/drivers/media/virtio/virtio_video.h
-> > b/drivers/media/virtio/virtio_video.h new file mode 100644
-> > index 000000000000..23c77dc0cb93
-> > --- /dev/null
-> > +++ b/drivers/media/virtio/virtio_video.h
-> > @@ -0,0 +1,372 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/* Common header for virtio video driver.
-> > + *
-> > + * Copyright 2019 OpenSynergy GmbH.
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify
-> > + * it under the terms of the GNU General Public License as published by
-> > + * the Free Software Foundation; either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License
-> > + * along with this program; if not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +#ifndef _VIRTIO_VIDEO_H
-> > +#define _VIRTIO_VIDEO_H
-> > +
-> > +#include <linux/virtio.h>
-> > +#include <linux/virtio_ids.h>
-> > +#include <linux/virtio_config.h>
-> > +#include <linux/virtio_video.h>
-> > +#include <linux/list.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-mem2mem.h>
-> > +#include <media/v4l2-ctrls.h>
-> > +
-> > +#define DRIVER_NAME "virtio-video"
-> > +
-> > +#ifndef VIRTIO_ID_VIDEO
-> > +#define VIRTIO_ID_VIDEO 29
-> > +#endif
-> > +
-> > +enum video_pin_type {
-> > +       VIDEO_PIN_TYPE_INPUT = 0,
-> > +       VIDEO_PIN_TYPE_OUTPUT,
-> > +};
+> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+> ---
+>  .../devicetree/bindings/media/i2c/imx219.yaml | 134 ++++++++++++++++++
+>  MAINTAINERS                                   |   8 ++
+>  2 files changed, 142 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
 > 
-> Why don't you use enums and structs defined in
-> /include/uapi/linux/virtio_video.h?
-> For example, I suppose we don't need this video_pin_type, as we can
-> use enum virtio_video_pin_type defined there.
-> Same for other enums and structs in this file.
-The idea was to have some extra layer of parameter verification. But I also 
-agree this might be excessive.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> new file mode 100644
+> index 000000000000..b58aa49a7c03
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> @@ -0,0 +1,134 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+> +
+> +description: |-
+> +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
+> +  with an active array size of 3280H x 2464V. It is programmable through
+> +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
+> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> +  4 data lanes.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx219
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: xclk
 
-> 
-> [snip]
-> 
-> > diff --git a/drivers/media/virtio/virtio_video_dec.c
-> > b/drivers/media/virtio/virtio_video_dec.c new file mode 100644
-> > index 000000000000..c2ad62229d21
-> > --- /dev/null
-> > +++ b/drivers/media/virtio/virtio_video_dec.c
-> > @@ -0,0 +1,947 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/* Decoder for virtio video device.
-> > + *
-> > + * Copyright 2019 OpenSynergy GmbH.
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify
-> > + * it under the terms of the GNU General Public License as published by
-> > + * the Free Software Foundation; either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License
-> > + * along with this program; if not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +#include <media/v4l2-event.h>
-> > +#include <media/v4l2-ioctl.h>
-> > +#include <media/videobuf2-dma-sg.h>
-> > +
-> > +#include "virtio_video.h"
-> > +
-> > +static int virtio_video_queue_setup(struct vb2_queue *vq,
-> > +                                   unsigned int *num_buffers,
-> > +                                   unsigned int *num_planes,
-> > +                                   unsigned int sizes[],
-> > +                                   struct device *alloc_devs[])
-> 
-> We have functions named "virtio_video_queue_setup" both in
-> virtio_video_dec.c and virtio_video_enc.c.
-> How about calling them "virtio_video_{dec,enc}_queue_setup" or
-> "virtvideo_{dec,enc}_queue_setup"?
-> Though the naming conflicts of static functions shouldn't cause any
-> problem when building a kernel, indexing tools, such as ctags, should
-> be confused.
-> 
-> Same for other functions.
-There are some functions that simply can be moved to common code, we'll look 
-into this as well.
+There's a single clock. Does it need a name? I'd just omit it.
 
-> 
-> [snip]
-> 
-> > +int virtio_video_init_dec_queues(void *priv, struct vb2_queue *src_vq,
-> > +                                struct vb2_queue *dst_vq)
-> > +{
-> > +       int ret;
-> > +       struct virtio_video_stream *stream = priv;
-> > +       struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
-> > +       struct device *dev = vvd->vv->v4l2_dev.dev;
-> > +
-> > +       src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> > +       src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-> 
-> I suppose this driver doesn't support DMABUF mode yet.
-> IIUC, VB_DMABUF should be specified only when a driver supports DMA
-> buffer importing.
-We do support DMABUF. This is exactly how virtio-video works in Android with 
-gralloc handles. But ideally the driver needs to know device restrictions and 
-alloc accordingly. This is why we needed struct virtio_video_plane_format. I 
-guess we'll need to get it back.
+> +
+> +  VDIG-supply:
+> +    description:
+> +      Digital I/O voltage supply, 1.8 volts
+> +
+> +  VANA-supply:
+> +    description:
+> +      Analog voltage supply, 2.8 volts
+> +
+> +  VDDL-supply:
+> +    description:
+> +      Digital core voltage supply, 1.2 volts
+> +
+> +  xclr-gpios:
+> +    description: |-
+> +      Reference to the GPIO connected to the xclr pin, if any.
+> +      Must be released (set high) after all supplies are applied.
 
-> 
-> [snip]
-> 
-> > +static int virtio_video_s_fmt(struct virtio_video_stream *stream,
-> > +                             struct v4l2_format *f)
-> > +{
-> > +       int i, ret;
-> > +       struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> > +       struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
-> > +       struct virtio_video *vv = vvd->vv;
-> > +       struct video_format_info info;
-> > +       struct video_format_info *p_info;
-> > +       enum video_pin_type pin = VIDEO_PIN_TYPE_INPUT;
-> > +
-> > +       ret = virtio_video_try_fmt(stream, f);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       info.frame_width = pix_mp->width;
-> > +       info.frame_height = pix_mp->height;
-> > +       info.num_planes = pix_mp->num_planes;
-> > +       info.fourcc_format = pix_mp->pixelformat;
-> > +
-> > +       for (i = 0; i < info.num_planes; i++) {
-> > +               info.plane_format[i].stride =
-> > +                                       
-> > pix_mp->plane_fmt[i].bytesperline;
-> > +               info.plane_format[i].plane_size =
-> > +                                        pix_mp->plane_fmt[i].sizeimage;
-> > +       }
-> > +
-> > +       if (!V4L2_TYPE_IS_OUTPUT(f->type))
-> > +               pin = VIDEO_PIN_TYPE_OUTPUT;
-> > +
-> > +       virtio_video_req_set_params(vv, vvd->id, &info, pin,
-> > +                                   VIDEO_PARAMS_SCOPE_STREAM, stream);
-> > +
-> > +       virtio_video_req_get_params(vv, vvd->id, VIDEO_PIN_TYPE_INPUT,
-> > +                                   VIDEO_PARAMS_SCOPE_STREAM, stream);
-> > +
-> > +       virtio_video_req_get_params(vv, vvd->id, VIDEO_PIN_TYPE_OUTPUT,
-> > +                                   VIDEO_PARAMS_SCOPE_STREAM, stream);
-> > +
-> 
-> nit: GET_PARAMS must be called for both queues after SET_PARAMS.
-> So, how about defining a function to call these three functions?
-Yes, might be useful.
+A common name for this in camera sensors is xshutdown. I'd suggest to use
+that.
 
-> 
-> [snip]
-> 
-> > +static int virtio_video_device_open(struct file *file)
-> > +{
-> > +       int ret;
-> > +       uint32_t stream_id;
-> > +       char name[TASK_COMM_LEN];
-> > +       struct virtio_video_stream *stream;
-> > +       struct video_device *video_dev = video_devdata(file);
-> > +       struct virtio_video_device *vvd = video_drvdata(file);
-> > +       struct virtio_video *vv = vvd->vv;
-> > +
-> > +       stream = kzalloc(sizeof(*stream), GFP_KERNEL);
-> > +       if (!stream)
-> > +               return -ENOMEM;
-> > +
-> > +       get_task_comm(name, current);
-> > +       virtio_video_stream_id_get(vv, stream, &stream_id);
-> > +       ret = virtio_video_req_stream_create(vv, vvd->id, stream_id,
-> > name);
-> 
-> It'd be better not to send virtio requests in open callback to avoid
-> unnecessary overhead. For example, we often open and close /dev/videoX
-> just to check its capabilities. In that case, we don't need to create
-> a stream.
-> 
-> Instead, it'd make more sense to send the request when REQBUFS is
-> called by passing a non-zero value as "count" and no stream is created
-> yet.
-> Please see comments for stream_destroy in release callback, too.
-> 
-We probably just don't need to open too often. I know udev does this once on 
-boot. This is pretty much it.
+> +
+> +  camera-clk:
+> +    type: object
+> +
+> +    description: Clock source for imx219
+> +
+> +    properties:
+> +      clock-frequency: true
+> +
+> +    required:
+> +      - clock-frequency
 
-> > +       if (ret) {
-> > +               v4l2_err(&vv->v4l2_dev, "failed to create stream\n");
-> > +               goto err_stream_create;
-> > +       }
-> > +
-> > +       stream->video_dev = video_dev;
-> > +       stream->stream_id = stream_id;
-> > +       stream->state = STREAM_STATE_IDLE;
-> > +       mutex_init(&stream->vq_mutex);
-> > +       INIT_WORK(&stream->work, virtio_video_worker);
-> > +       v4l2_fh_init(&stream->fh, video_dev);
-> > +       stream->fh.ctrl_handler = &stream->ctrl_handler;
-> > +
-> > +       if (vvd->type == VIRTIO_VIDEO_FUNC_DECODER) {
-> 
-> nit: How about using switch statements? Same for other if-else
-> statements for vvd->type.
-I agree. It will look more neat.
+Hmm. The driver doesn't seem to use this for anything.
 
-> 
-> [snip]
-> 
-> > +
-> > +static int virtio_video_device_release(struct file *file)
-> > +{
-> > +       struct virtio_video_stream *stream = file2stream(file);
-> > +       struct video_device *video_dev = video_devdata(file);
-> > +       struct virtio_video_device *vvd = video_drvdata(file);
-> > +       struct virtio_video *vv = vvd->vv;
-> > +
-> > +       v4l2_fh_del(&stream->fh);
-> > +       v4l2_fh_exit(&stream->fh);
-> > +       mutex_lock(video_dev->lock);
-> > +       v4l2_m2m_ctx_release(stream->fh.m2m_ctx);
-> > +       mutex_unlock(video_dev->lock);
-> > +
-> > +       virtio_video_req_stream_destroy(vv, vvd->id, stream->stream_id);
-> 
-> As with STREAM_CREATE requests, STREAM_DESTROY should be sent in
-> REQBUFS callback as well.
-> We can call it in REQBUFS when "v4l2_requestbuffers.count" is 0 and an
-> active stream already exists (i.e. stream_id > 0).
-> Still, it'd be good to keep STREAM_DESTROY here, as users can forget
-> to free buffers via REQBUFS.
-> 
-> [snip]
-> 
-> > +void virtio_video_resource_id_get(struct virtio_video *vv, uint32_t *id)
-> > +{
-> > +       int handle;
-> > +
-> > +       idr_preload(GFP_KERNEL);
-> > +       spin_lock(&vv->resource_idr_lock);
-> > +       handle = idr_alloc(&vv->resource_idr, NULL, 1, 0, GFP_NOWAIT);
-> 
-> We should check if idr_alloc returns no error here or caller-side.
-> 
-> [snip]
-> 
-> > +static int
-> > +virtio_video_queue_ctrl_buffer_locked(struct virtio_video *vv,
-> > +                                     struct virtio_video_vbuffer *vbuf)
-> > +{
-> > +       struct virtqueue *vq = vv->ctrlq.vq;
-> > +       struct scatterlist *sgs[3], vreq, vout, vresp;
-> > +       int outcnt = 0, incnt = 0;
-> > +       int ret;
-> 
-> How about adding WARN_ON(!mutex_is_locked(&vv->ctrlq.qlock)) to
-> prevent misuse and show which lock must be used?
-Makes sense.
+There are two approaches to this; either you can get and check the
+frequency, or specify it in DT bindings, set and then check it.
 
-> 
-> > +
-> > +       if (!vv->vq_ready)
-> > +               return -ENODEV;
-> > +
-> > +       sg_init_one(&vreq, vbuf->buf, vbuf->size);
-> > +       sgs[outcnt + incnt] = &vreq;
-> > +       outcnt++;
-> > +
-> > +       if (vbuf->data_size) {
-> > +               sg_init_one(&vout, vbuf->data_buf, vbuf->data_size);
-> > +               sgs[outcnt + incnt] = &vout;
-> > +               outcnt++;
-> > +       }
-> > +
-> > +       if (vbuf->resp_size) {
-> > +               sg_init_one(&vresp, vbuf->resp_buf, vbuf->resp_size);
-> > +               sgs[outcnt + incnt] = &vresp;
-> > +               incnt++;
-> > +       }
-> > +
-> > +retry:
-> > +       ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
-> > +       if (ret == -ENOSPC) {
-> > +               spin_unlock(&vv->ctrlq.qlock);
-> > +               wait_event(vv->ctrlq.ack_queue, vq->num_free);
-> 
-> wait_event_timeout would be better to avoid getting stuck.
-True.
+See e.g. Documentation/devicetree/bindings/media/i2c/nokia,smia.txt (not in
+YAML though).
 
-> 
-> > +               spin_lock(&vv->ctrlq.qlock);
-> > +               goto retry;
-> 
-> I'd use while-loop instead of goto.
-> 
-The code was derived from virtio-gpu. Doesn't make too much difference in the 
-end.
+> +
+> +  # See ../video-interfaces.txt for more details
+> +  port:
+> +    type: object
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          clock-lanes:
+> +            const: 0
 
-> [snip]
-> 
-> > +int virtio_video_req_stream_create(struct virtio_video *vv,
-> > +                                  uint32_t function_id, uint32_t
-> > stream_id, +                                  const char *name)
-> > +{
-> > +       struct virtio_video_stream_create *req_p;
-> > +       struct virtio_video_vbuffer *vbuf;
-> > +
-> > +       req_p = virtio_video_alloc_req(vv, &vbuf, sizeof(*req_p));
-> > +       if (IS_ERR(req_p))
-> > +               return PTR_ERR(req_p);
-> > +       memset(req_p, 0, sizeof(*req_p));
-> 
-> I'm wondering if we don't need to call memset here, as
-> virtio_video_get_vbuf calls memset for vbuf.
-> If it's not true, it'd make sense to call memset in
-> virtio_video_alloc_req instead because we always want to have
-> zero-initialized structs.
->
-I agree.
+If the hardware does not support lane reordering, you can omit the
+clock-lanes property as it provides no information.
 
-Best regards,
-Dmitry.
- 
-> [snip]
-> 
-> Best regards,
-> Keiichi
+> +
+> +          data-lanes:
+> +            description: |-
+> +              Should be <1 2> for two-lane operation, or <1 2 3 4> for
+> +              four-lane operation.
+> +            oneOf:
+> +              - const: [[ 1, 2 ]]
+> +              - const: [[ 1, 2, 3, 4 ]]
+> +
+> +          clock-noncontinuous:
+> +            type: boolean
+> +            description: |-
+> +              Presence of this boolean property decides whether the MIPI CSI-2
+> +              clock is continuous or non-continuous.
 
+How about: MIPI CSI-2 clock will be non-continuous if this property is
+present, otherwise it's continuous.
 
+> +
+> +        required:
+> +          - clock-lanes
+> +          - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - VANA-supply
+> +  - VDIG-supply
+> +  - VDDL-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx219: sensor@10 {
+> +            compatible = "sony,imx219";
+> +            reg = <0x10>;
+> +            clocks = <&imx219_clk>;
+> +            clock-names = "xclk";
+> +            VANA-supply = <&imx219_vana>;   /* 2.8v */
+> +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
+> +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
+> +
+> +            imx219_clk: camera-clk {
+> +                compatible = "fixed-clock";
+> +                #clock-cells = <0>;
+> +                clock-frequency = <24000000>;
+> +            };
+> +
+> +            port {
+> +                imx219_0: endpoint {
+> +                    remote-endpoint = <&csi1_ep>;
+> +                    clock-lanes = <0>;
+> +                    data-lanes = <1 2>;
+> +                    clock-noncontinuous;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ffa3371bc750..f7b6c24ec081 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15350,6 +15350,14 @@ S:	Maintained
+>  F:	drivers/media/i2c/imx214.c
+>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+>  
+> +SONY IMX219 SENSOR DRIVER
+> +M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Is Dave aware of this? :-)
+
+> +L:	linux-media@vger.kernel.org
+> +T:	git git://linuxtv.org/media_tree.git
+> +S:	Maintained
+> +F:	drivers/media/i2c/imx219.c
+> +F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> +
+>  SONY IMX258 SENSOR DRIVER
+>  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>  L:	linux-media@vger.kernel.org
+
+-- 
+Regards,
+
+Sakari Ailus
