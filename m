@@ -2,193 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7E6112B769
-	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2019 18:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC7F712BA9F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2019 19:26:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727764AbfL0RtQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Dec 2019 12:49:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42710 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728476AbfL0Rod (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Dec 2019 12:44:33 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 51CEC21D7E;
-        Fri, 27 Dec 2019 17:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577468672;
-        bh=mPn76qigQFXAk42nyDMxZBq97KxsmKqNaE7EZDYfODU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IXcV+eisEcVYQr3oLc/7XSR7iUwkh4W7cyJCbiWKb/d0JzJ4PeXh3RQ05hq5DOVjF
-         Ju6v4YoG2T0xqgAIc4mYLlXqBIT/S70F8vNWuZuWc2N2amnoB7p5+7Qwm0mAYhBi0+
-         Y65PuXZP98Q5fXUjE3jawztuXRykGt3L2HliHIaA=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vasundhara Volam <vasundhara-v.volam@broadcom.com>,
-        Michael Chan <michael.chan@broadcom.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 4.19 32/84] bnxt_en: Return error if FW returns more data than dump length
-Date:   Fri, 27 Dec 2019 12:43:00 -0500
-Message-Id: <20191227174352.6264-32-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227174352.6264-1-sashal@kernel.org>
-References: <20191227174352.6264-1-sashal@kernel.org>
+        id S1726995AbfL0S0a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Dec 2019 13:26:30 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:38272 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726920AbfL0S0a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Dec 2019 13:26:30 -0500
+Received: by mail-lj1-f196.google.com with SMTP id w1so5765159ljh.5
+        for <linux-media@vger.kernel.org>; Fri, 27 Dec 2019 10:26:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lNP4sjt0XGHW1tW75qU+ERy0n0xK7DZ2dAFjglxzBts=;
+        b=GNNZpErtvyrGI8AyO2o+z5Rw5hPdUYlrjx2pIFfgf3pq6bhquOEh6E8cyrWpqh91jw
+         CC06KOgaKErjznAA4By4uEpxbxF4NjAmB/hgQLNvwLYw4NLy5qL/i0drRiMtTdBK4vMU
+         dUG+a0k14GxEOuXQMHQxZaezkxJyJaNABcfpGRMyASB7It9D2CGcKFdlB/7h21ZbQV+y
+         ZQOPvLz6PsM9bJsZtQnGvuV6Tnd9oKhzipcCCb2tCqeF4APrH39qHupkDsQyeqtPudgP
+         7uE9Gmg6tQMQIud+l3t3HJ6RHe61h/Mw/AXMdpWL5CRDWLKUK41Sfq54CvwhWexc/waW
+         O0EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lNP4sjt0XGHW1tW75qU+ERy0n0xK7DZ2dAFjglxzBts=;
+        b=KGBHd54wj0vySAade3ttNBznbW0Zi9YJzU8Fe8BpQT6bh4aOluTm0fs2rX5PPB77X6
+         T5uW9W/mtMy7/CSUxeEhM7hIWI0dqyWeWpUDwn9RqKjOWhy6jEeU0jqVt5SgFYt/3EbT
+         4lLuCFoBpiMvcCaOFQZyITwrZjBl09AH1yW8Tdd9aHS307KFod6gJQcR5QBwJQ47gIQ9
+         uRy9YVkj90Ng898I/KEQC7O0xFwTAjFCgEOUoyXHAmMXvgdJnq8LrVr8YhqICrAh4ZeC
+         92xidEQocxR3mHD1Jhvrr31pmq4bOas1+tSCTqtySVXJoTloZe356cagFnO1iQ4Pvu2k
+         WCcA==
+X-Gm-Message-State: APjAAAXhbsSbd5NuOW/25dja6+BWarhjev5vdtK5hWBfeQR7q8EIbxS2
+        RSuQov9cjx9QHu3e8vjLGtmMqg==
+X-Google-Smtp-Source: APXvYqytPSpKME42DErgjRyyntYM6YBMk6p9pzIlwPBRvAY7yEJHtiTPxcoSHcStMHcbSFFuR/81GA==
+X-Received: by 2002:a2e:9708:: with SMTP id r8mr29214892lji.92.1577471186829;
+        Fri, 27 Dec 2019 10:26:26 -0800 (PST)
+Received: from [192.168.119.5] (office.dev.rtsoft.ru. [62.117.114.130])
+        by smtp.gmail.com with ESMTPSA id c189sm15096409lfg.75.2019.12.27.10.26.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Dec 2019 10:26:26 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor
+ binding
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        peter.griffin@linaro.org, ezequiel@collabora.com
+References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
+ <20191227122114.23075-2-andrey.konovalov@linaro.org>
+ <20191227141739.GD861@valkosipuli.retiisi.org.uk>
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+Message-ID: <e3a9161a-feaf-f4a4-5122-871e68409698@linaro.org>
+Date:   Fri, 27 Dec 2019 21:26:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191227141739.GD861@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
+Hi Sakari,
 
-[ Upstream commit c74751f4c39232c31214ec6a3bc1c7e62f5c728b ]
+Thank you for reviewing the patchset, and for the pointers on improving the driver (nokia,smia.txt etc)!
+I'll write a separate email later, or just fix what you suggested in v3 (I agree with the proposed changes
+I didn't comment on in this email).
 
-If any change happened in the configuration of VF in VM while
-collecting live dump, there could be a race and firmware can return
-more data than allocated dump length. Fix it by keeping track of
-the accumulated core dump length copied so far and abort the copy
-with error code if the next chunk of core dump will exceed the
-original dump length.
+Just few quick answers below.
 
-Fixes: 6c5657d085ae ("bnxt_en: Add support for ethtool get dump.")
-Signed-off-by: Vasundhara Volam <vasundhara-v.volam@broadcom.com>
-Signed-off-by: Michael Chan <michael.chan@broadcom.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 38 +++++++++++++++----
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.h |  4 ++
- 2 files changed, 34 insertions(+), 8 deletions(-)
+Thanks,
+Andrey
 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index 2240c23b0a4c..0a409ba4012a 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -2778,8 +2778,15 @@ static int bnxt_hwrm_dbg_dma_data(struct bnxt *bp, void *msg, int msg_len,
- 			}
- 		}
- 
--		if (info->dest_buf)
--			memcpy(info->dest_buf + off, dma_buf, len);
-+		if (info->dest_buf) {
-+			if ((info->seg_start + off + len) <=
-+			    BNXT_COREDUMP_BUF_LEN(info->buf_len)) {
-+				memcpy(info->dest_buf + off, dma_buf, len);
-+			} else {
-+				rc = -ENOBUFS;
-+				break;
-+			}
-+		}
- 
- 		if (cmn_req->req_type ==
- 				cpu_to_le16(HWRM_DBG_COREDUMP_RETRIEVE))
-@@ -2833,7 +2840,7 @@ static int bnxt_hwrm_dbg_coredump_initiate(struct bnxt *bp, u16 component_id,
- 
- static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
- 					   u16 segment_id, u32 *seg_len,
--					   void *buf, u32 offset)
-+					   void *buf, u32 buf_len, u32 offset)
- {
- 	struct hwrm_dbg_coredump_retrieve_input req = {0};
- 	struct bnxt_hwrm_dbg_dma_info info = {NULL};
-@@ -2848,8 +2855,11 @@ static int bnxt_hwrm_dbg_coredump_retrieve(struct bnxt *bp, u16 component_id,
- 				seq_no);
- 	info.data_len_off = offsetof(struct hwrm_dbg_coredump_retrieve_output,
- 				     data_len);
--	if (buf)
-+	if (buf) {
- 		info.dest_buf = buf + offset;
-+		info.buf_len = buf_len;
-+		info.seg_start = offset;
-+	}
- 
- 	rc = bnxt_hwrm_dbg_dma_data(bp, &req, sizeof(req), &info);
- 	if (!rc)
-@@ -2939,14 +2949,17 @@ bnxt_fill_coredump_record(struct bnxt *bp, struct bnxt_coredump_record *record,
- static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- {
- 	u32 ver_get_resp_len = sizeof(struct hwrm_ver_get_output);
-+	u32 offset = 0, seg_hdr_len, seg_record_len, buf_len = 0;
- 	struct coredump_segment_record *seg_record = NULL;
--	u32 offset = 0, seg_hdr_len, seg_record_len;
- 	struct bnxt_coredump_segment_hdr seg_hdr;
- 	struct bnxt_coredump coredump = {NULL};
- 	time64_t start_time;
- 	u16 start_utc;
- 	int rc = 0, i;
- 
-+	if (buf)
-+		buf_len = *dump_len;
-+
- 	start_time = ktime_get_real_seconds();
- 	start_utc = sys_tz.tz_minuteswest * 60;
- 	seg_hdr_len = sizeof(seg_hdr);
-@@ -2979,6 +2992,12 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- 		u32 duration = 0, seg_len = 0;
- 		unsigned long start, end;
- 
-+		if (buf && ((offset + seg_hdr_len) >
-+			    BNXT_COREDUMP_BUF_LEN(buf_len))) {
-+			rc = -ENOBUFS;
-+			goto err;
-+		}
-+
- 		start = jiffies;
- 
- 		rc = bnxt_hwrm_dbg_coredump_initiate(bp, comp_id, seg_id);
-@@ -2991,9 +3010,11 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- 
- 		/* Write segment data into the buffer */
- 		rc = bnxt_hwrm_dbg_coredump_retrieve(bp, comp_id, seg_id,
--						     &seg_len, buf,
-+						     &seg_len, buf, buf_len,
- 						     offset + seg_hdr_len);
--		if (rc)
-+		if (rc && rc == -ENOBUFS)
-+			goto err;
-+		else if (rc)
- 			netdev_err(bp->dev,
- 				   "Failed to retrieve coredump for seg = %d\n",
- 				   seg_record->segment_id);
-@@ -3023,7 +3044,8 @@ static int bnxt_get_coredump(struct bnxt *bp, void *buf, u32 *dump_len)
- 					  rc);
- 	kfree(coredump.data);
- 	*dump_len += sizeof(struct bnxt_coredump_record);
--
-+	if (rc == -ENOBUFS)
-+		netdev_err(bp->dev, "Firmware returned large coredump buffer");
- 	return rc;
- }
- 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-index b5b65b3f8534..3998f6e809a9 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-@@ -31,6 +31,8 @@ struct bnxt_coredump {
- 	u16		total_segs;
- };
- 
-+#define BNXT_COREDUMP_BUF_LEN(len) ((len) - sizeof(struct bnxt_coredump_record))
-+
- struct bnxt_hwrm_dbg_dma_info {
- 	void *dest_buf;
- 	int dest_buf_size;
-@@ -38,6 +40,8 @@ struct bnxt_hwrm_dbg_dma_info {
- 	u16 seq_off;
- 	u16 data_len_off;
- 	u16 segs;
-+	u32 seg_start;
-+	u32 buf_len;
- };
- 
- struct hwrm_dbg_cmn_input {
--- 
-2.20.1
+On 27.12.2019 17:17, Sakari Ailus wrote:
+> Hi Andrey,
+> 
+> Thanks for the patchset.
+> 
+> On Fri, Dec 27, 2019 at 03:21:13PM +0300, Andrey Konovalov wrote:
+>> Add YAML device tree binding for IMX219 CMOS image sensor, and
+>> the relevant MAINTAINERS entries.
+>>
+>> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+>> ---
+>>   .../devicetree/bindings/media/i2c/imx219.yaml | 134 ++++++++++++++++++
+>>   MAINTAINERS                                   |   8 ++
+>>   2 files changed, 142 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+>> new file mode 100644
+>> index 000000000000..b58aa49a7c03
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+>> @@ -0,0 +1,134 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
+>> +
+>> +maintainers:
+>> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+>> +
+>> +description: |-
+>> +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
+>> +  with an active array size of 3280H x 2464V. It is programmable through
+>> +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
+>> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+>> +  4 data lanes.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: sony,imx219
+>> +
+>> +  reg:
+>> +    description: I2C device address
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: xclk
+> 
+> There's a single clock. Does it need a name? I'd just omit it.
+> 
+>> +
+>> +  VDIG-supply:
+>> +    description:
+>> +      Digital I/O voltage supply, 1.8 volts
+>> +
+>> +  VANA-supply:
+>> +    description:
+>> +      Analog voltage supply, 2.8 volts
+>> +
+>> +  VDDL-supply:
+>> +    description:
+>> +      Digital core voltage supply, 1.2 volts
+>> +
+>> +  xclr-gpios:
+>> +    description: |-
+>> +      Reference to the GPIO connected to the xclr pin, if any.
+>> +      Must be released (set high) after all supplies are applied.
+> 
+> A common name for this in camera sensors is xshutdown. I'd suggest to use
+> that.
 
+Indeed, "xshutdown" is the pin name commonly used by OmniVision for their sensors.
+(In older sensors they used "pwdn" which is similar, but the polarity is reversed.)
+
+In their sensor datasheets Sony consistently use "xclr" for the pin and signal otherwise
+very similar to OmniVision's "xshutdown".
+
+Wouldn't using the signal name from the sensor by the different vendor just add more confusion
+instead?
+
+>> +
+>> +  camera-clk:
+>> +    type: object
+>> +
+>> +    description: Clock source for imx219
+>> +
+>> +    properties:
+>> +      clock-frequency: true
+>> +
+>> +    required:
+>> +      - clock-frequency
+> 
+> Hmm. The driver doesn't seem to use this for anything.
+> 
+> There are two approaches to this; either you can get and check the
+> frequency, or specify it in DT bindings, set and then check it.
+> 
+> See e.g. Documentation/devicetree/bindings/media/i2c/nokia,smia.txt (not in
+> YAML though).
+> 
+>> +
+>> +  # See ../video-interfaces.txt for more details
+>> +  port:
+>> +    type: object
+>> +    properties:
+>> +      endpoint:
+>> +        type: object
+>> +        properties:
+>> +          clock-lanes:
+>> +            const: 0
+> 
+> If the hardware does not support lane reordering, you can omit the
+> clock-lanes property as it provides no information.
+> 
+>> +
+>> +          data-lanes:
+>> +            description: |-
+>> +              Should be <1 2> for two-lane operation, or <1 2 3 4> for
+>> +              four-lane operation.
+>> +            oneOf:
+>> +              - const: [[ 1, 2 ]]
+>> +              - const: [[ 1, 2, 3, 4 ]]
+>> +
+>> +          clock-noncontinuous:
+>> +            type: boolean
+>> +            description: |-
+>> +              Presence of this boolean property decides whether the MIPI CSI-2
+>> +              clock is continuous or non-continuous.
+> 
+> How about: MIPI CSI-2 clock will be non-continuous if this property is
+> present, otherwise it's continuous.
+
+This statement is more clear than the original. Thanks!
+
+>> +
+>> +        required:
+>> +          - clock-lanes
+>> +          - data-lanes
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+>> +  - VANA-supply
+>> +  - VDIG-supply
+>> +  - VDDL-supply
+>> +  - port
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    i2c0 {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        imx219: sensor@10 {
+>> +            compatible = "sony,imx219";
+>> +            reg = <0x10>;
+>> +            clocks = <&imx219_clk>;
+>> +            clock-names = "xclk";
+>> +            VANA-supply = <&imx219_vana>;   /* 2.8v */
+>> +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
+>> +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
+>> +
+>> +            imx219_clk: camera-clk {
+>> +                compatible = "fixed-clock";
+>> +                #clock-cells = <0>;
+>> +                clock-frequency = <24000000>;
+>> +            };
+>> +
+>> +            port {
+>> +                imx219_0: endpoint {
+>> +                    remote-endpoint = <&csi1_ep>;
+>> +                    clock-lanes = <0>;
+>> +                    data-lanes = <1 2>;
+>> +                    clock-noncontinuous;
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> +
+>> +...
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index ffa3371bc750..f7b6c24ec081 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -15350,6 +15350,14 @@ S:	Maintained
+>>   F:	drivers/media/i2c/imx214.c
+>>   F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+>>   
+>> +SONY IMX219 SENSOR DRIVER
+>> +M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> Is Dave aware of this? :-)
+
+Yes, he is :)
+
+But I forgot to add him to Cc this time. My bad..
+
+Thanks,
+Andrey
+
+>> +L:	linux-media@vger.kernel.org
+>> +T:	git git://linuxtv.org/media_tree.git
+>> +S:	Maintained
+>> +F:	drivers/media/i2c/imx219.c
+>> +F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
+>> +
+>>   SONY IMX258 SENSOR DRIVER
+>>   M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>>   L:	linux-media@vger.kernel.org
+> 
