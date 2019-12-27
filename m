@@ -2,85 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64ED012AEEF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2019 22:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E507112B114
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2019 05:57:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfLZV3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Dec 2019 16:29:15 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:56301 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726105AbfLZV3P (ORCPT
+        id S1727072AbfL0E4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Dec 2019 23:56:16 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:47409 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727028AbfL0E4Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Dec 2019 16:29:15 -0500
-Received: from be1.lan ([89.245.193.48]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MHoAg-1ixDTT0Ezu-00EqxB; Thu, 26
- Dec 2019 22:29:13 +0100
-Received: from 7eggert by be1.lan with local (Exim 4.92.2)
-        (envelope-from <7eggert@online.de>)
-        id 1ikagv-0002Un-FA; Thu, 26 Dec 2019 22:29:10 +0100
-From:   Bodo Eggert <7eggert@gmx.de>
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org
-Cc:     Bodo Eggert <7eggert@gmx.de>
-Subject: [PATCH] serial_ir: change "ignoring spike" to debug level
-Date:   Thu, 26 Dec 2019 22:28:45 +0100
-Message-Id: <20191226212845.9545-1-7eggert@gmx.de>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191226172937.GB24174@gofer.mess.org>
-References: <20191226172937.GB24174@gofer.mess.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:N7mL9PaoJSUm4ff+6qjvkJwkx4frrlN++hs2TBgl59Jo+JDmRaC
- bfgzavFUV2WNsOVLSiC6mKyeDleiTwtxo+AuR3kIKT9abyc/5wDslUSObElXJlq+ZbOUeCC
- rct70MuMHFrxN+XoRqce1NZ0093V03wK0bpLkKL6Nq1kZWDSVd9fkBWHmc6ork6kvnKQNOO
- TkoAp+OQW00lWAMCQbvkw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AY7VYmzZ2gI=:H35VALtiRu+u0Gi5fRfLZR
- AYA34fA+kEhLo4A/W8wVUzpo1t5nH1e7gYuOiyrGUov4XjC7cnMkIz5OB3LlXZkxmHhfbTzru
- h9jpKkE1ItRxINQgMTD864EMuuNWM0nibmx1G+YCYkpe9hUcDReYLp5lMaQ614NaKkmfSuckT
- IMxARCQmhkxVaNnMjs2VOTeDsXT6P+Ak8WBxsBViEKGGpOCsDs4sPWJUw4Eub5RQ2NKxCRXRl
- mOXWaakE8awbdJ9Ts736ViIkefl4xbrUSne311PDbBHw5NhOfNZQIfuqt2Vc94bzLdI6NgxZG
- /nQlYwLHOvODWX4QDEg6KYx1rxvnVU2GFo5hsHGf81KpyYgRdddRr9OYkEDyufIdklQImPKH5
- L9tMUs00FB/sEabI/3Vne1gkN4R/7Dkje7xl6rjEryTtirnJay+LUoRzeBhNsLv+Yg2hRgXZH
- tb1KighkgjpY+yQW4Q/FZxxUPea2BZ00YnPIJGksUfL703hNFDmNUSrpQWktciXQ0/GJpITZU
- OFc/2RU3ePfvBnv6F9gBvz/bH5iV0/B8p3LvohlByb/6jEu0FNY8bPZByqQ3ft5xa1JJ6zSD+
- tOj6QX2oB+VsPmTap75BuU86PqiJTYnQHfVJBCvFBmbaR2Qrl8p2T/JuXvzwJuVVe6vCQ6WG3
- Vru5ycx6PXlaZsvpGulfl4zrVN7VarNbLxvUhtEL9o8Xse5wl/d7mgc0ZSxrRx8SrC3tUZ9Qw
- ILzbVQOTw15n0dqn3YgL/hmXp0KAJg2l+KNGd661rF9PAla3+pAGyTgRMnzGxRvDU9D0zt+sY
- B84YJKjzaVcjnp4mfedxoNj4V1R24JNtsS1OVud/BJhGYzmI/+GlW9pz9xv+d1e2R/fnqCdaf
- oR2uY1cicAbf8ZVAyalQ==
+        Thu, 26 Dec 2019 23:56:16 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:64a3:ba14:927e:c3fd])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id khfXitsmYGyJwkhfYiWRcE; Fri, 27 Dec 2019 05:56:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1577422572; bh=flZhMpKjQ/duGmVk5s5VURygOx0ku6fHnNPdbhStb1Q=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=TaOTns2fOB/eS4fG4E4+amnqfVJvURKVN3IteANRfZwToBLFGEp7KaaxB23/CND0z
+         yc6AVb4+5RWQA02QxCTGCNj6Q0D/sg4pCpCpUi+q2/WdKxKN07cDGd9kFtAWszZ+PS
+         4UBtLKK8k2a220mvipr7711FhHkDKZepOEDxv3Ip7s0XREmuf6eN7mcdZ+vDP546Pv
+         vkYlsvCQOQGxcBlPjLhq47lRTuH1X1h3Lao6S3kyyhxKuj19qSn/IR6QtrBPVR47g1
+         sbN73phpos9qAiNRXsLtPchOVZi83BT1IVO268BVwYtQe5905VlLKwppF/64uOArUk
+         MQitbKwjQg5Eg==
+Message-ID: <037f871c4d48491958f0550e9875eac0@smtp-cloud9.xs4all.net>
+Date:   Fri, 27 Dec 2019 05:56:11 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfCpexmhHbUip65ETmvfxSfYRELaqZnV8s9866/BjWPim9E5Zesvo0HtoEWht6MKLR4wbKSi05LONJcxmiF+vj1DOOpB7DMRnRgySsAsKJgJ+C2OYLkqB
+ HfpcnR+6UqejEGVyV9yZwDwUsayLc8+pVCs37jA4e2sYsr2h2snaOW/t5yf/gItZhASwJX1YaQFI7vKtLd/5sCahZvgQyOh48UhVBi722E8U/8RyN/8IOV3t
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-At least on my system with a self-made IR receiver, my kernel log is filled with:
-serial_ir serial_ir.0: ignoring spike: 1 1 1419988034627194ns 1419956080709377ns
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-These messages happen at random and do not prevent the receiver from
-working. Also I cannot change the features of the IC, therefore they are not
-useful. Probably they are not useful at all.
+Results of the daily build of media_tree:
 
-However they fill the console, they accumulate and fill the dmesg log, by
-doing this, they prevent me from seeing important message.
+date:			Fri Dec 27 05:00:09 CET 2019
+media-tree git hash:	0885acd77eb4644fd88f6d9f41e433f4ee9bc37a
+media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
+v4l-utils git hash:	21c474bfca2d9167489d87a06fa9f1698b3c80bd
+edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Signed-Off-By: Bodo Eggert <7eggert@gmx.de>
----
- drivers/media/rc/serial_ir.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2901, Succeeded: 2901, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-diff --git a/drivers/media/rc/serial_ir.c b/drivers/media/rc/serial_ir.c
-index 7652e982173f..d77507ba0fb5 100644
---- a/drivers/media/rc/serial_ir.c
-+++ b/drivers/media/rc/serial_ir.c
-@@ -353,7 +353,7 @@ static irqreturn_t serial_ir_irq_handler(int i, void *blah)
- 			dcd = (status & hardware[type].signal_pin) ? 1 : 0;
- 
- 			if (dcd == last_dcd) {
--				dev_err(&serial_ir.pdev->dev,
-+				dev_dbg(&serial_ir.pdev->dev,
- 					"ignoring spike: %d %d %lldns %lldns\n",
- 					dcd, sense, ktime_to_ns(kt),
- 					ktime_to_ns(serial_ir.lastkt));
--- 
-2.24.0
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
