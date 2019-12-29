@@ -2,164 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98E8E12BC8D
-	for <lists+linux-media@lfdr.de>; Sat, 28 Dec 2019 05:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 042DF12C041
+	for <lists+linux-media@lfdr.de>; Sun, 29 Dec 2019 04:18:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbfL1E4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Dec 2019 23:56:18 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47013 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725957AbfL1E4S (ORCPT
+        id S1726406AbfL2DS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Dec 2019 22:18:57 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:44507 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726293AbfL2DS4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Dec 2019 23:56:18 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:4c69:9432:463a:7cd8])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id l498iKCnPapzpl499iB6GK; Sat, 28 Dec 2019 05:56:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1577508976; bh=R9dtJYL4yBSq4LneX5E9mN019o0pLNYUCJIDlMr3v2c=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OtnkuxnyWAT6y4fhoKTwHgYahMYQctT2Yvi06+Oa23as23bq/IM4Bv16pm3Yoa8Vf
-         OObdVqOmZCMfv914AOTj81LQ42YJvkigmLRw8kMkzMOlzKf+dSXcNZ2Rc+lDy5YfyT
-         xgbEsZvRF6i1XomxiZj/+hjqbCyoGCPUXkY5Ic5NX8VmVGVBtYDXRl9/XkYmLwL3eX
-         1ohIyQI9Qw31O3prPoY0rxPJH6Emk/KcRUZjX+0gITbQUG98HZFtS6NoSniO8Tyqz/
-         2f4rYebXIsIUzS9QB/4k7I0SQGvvUoAO7fzAsPBs8R4FDtDw2SeBbgINCD+cZxFNSz
-         3lwPBTsLmHYMg==
-Message-ID: <7fdad3d17b3ecc69a48748065dcc1ee4@smtp-cloud7.xs4all.net>
-Date:   Sat, 28 Dec 2019 05:56:14 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfPGARZ/0l98MabdU4edH+qkDPbTBAxF4EV36HYxr7cMIunDrpMW5bVIhhnegfuYYlugzVI8WrtBv8PXJ3K3Mv6jolisU3oqVzMNsxsxq5KIkxwJE7YpH
- yMoPCTD6AXR2rJBoz1LDRAmdFP+Z4OB0O5w+XasOI3gjfUsb08YR/G/uG4qKQzy/S6FCbUBHWKUhobzk/SbLK21UIS3QQvQ+bmVCh6NDos8xxOM5JbsS0NY7
+        Sat, 28 Dec 2019 22:18:56 -0500
+Received: by mail-pl1-f195.google.com with SMTP id az3so13334358plb.11
+        for <linux-media@vger.kernel.org>; Sat, 28 Dec 2019 19:18:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=fJBQZ6q3+2lZpk+M9I6LDvvhdKjGpOfzDinaq2pqIgA=;
+        b=pRvRA2I6QSL3plHmxs23DCx7OVMNeFWKizs7qkhPQ4lsfqvJ9VnJBNOV7CFjeRk9vC
+         Ii0rFrga8vUWviVzCzkAdP80imrz117TO76H+LH1L8ExqcVdYDI69xSJimqVo6bmdqIk
+         oRbQ+Tb3XfeuFpcHvjsb3UycX0ML7/00qbaYgXHjeuglW0z9VvhK9dx0pIe0AGovXH1t
+         Bvc5UAppa3Fr8RHqElyi6bMHNPMDu5y0dfjPGV7u3zbE5GoYUjdqXsy3c39SiM5fWmjF
+         oeMYAOmDy6cNmvwlzYaVQA68wRx3Js4gCWAoJEbCVEqAyd5cj1hJz370UJZdxGVUloTV
+         56BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fJBQZ6q3+2lZpk+M9I6LDvvhdKjGpOfzDinaq2pqIgA=;
+        b=U9yJIj40oT08H51Gi34/rHqDq8X2RGej7Vv3ckpQRlsCYpanKo4okqNvVpdL+A/++h
+         gJcv00fTPCxAUaqRjAr1tvJRFd1DC22cT2zy0RSeYFh74tdMzo3HZmp9DsqBpL9MGmBb
+         pxUvVXTTYOrzSHO06O+jGAXyTqSRW1eQBM0fE2JpKS/E+GWAZoC3yVAMvy+jjUsDYJSo
+         o1s15hsNZyGrbgFgpRpb1ybFIyHaEEUFUC54N4AEoFxyzO/fiG87GGnB+kc9HaE8OMsK
+         dHuCPfMXf4F8eGgqlLPtKCZn6eV2xuS0S1zlX8NXvr9q6ZkMAWeB5iwXYBjBvl+1Hsm6
+         vyWg==
+X-Gm-Message-State: APjAAAXZ19urftKc+WmMxogYalSZu/Pg2ipQj52Ne0KmaGvU6AlTMyg1
+        VeEh1kkz+9X5VLE4q41tWZeMAA==
+X-Google-Smtp-Source: APXvYqxPapWvKkYX16lehlOKRxG2uLZL6TiZv9y9GqwIxrLile80wxO9ddaWADvxBHLMzsc5BaLkpg==
+X-Received: by 2002:a17:902:6b03:: with SMTP id o3mr39105245plk.331.1577589536058;
+        Sat, 28 Dec 2019 19:18:56 -0800 (PST)
+Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+        by smtp.gmail.com with ESMTPSA id u128sm24121926pfu.60.2019.12.28.19.18.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Dec 2019 19:18:55 -0800 (PST)
+Date:   Sat, 28 Dec 2019 19:18:53 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Dikshita Agarwal <dikshita@codeaurora.org>
+Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vgarodia@codeaurora.org
+Subject: Re: [PATCH 1/3] arm64: dts: sc7180: Add Venus video codec DT node
+Message-ID: <20191229031853.GL3755841@builder>
+References: <1576828760-13176-1-git-send-email-dikshita@codeaurora.org>
+ <1576828760-13176-2-git-send-email-dikshita@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1576828760-13176-2-git-send-email-dikshita@codeaurora.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu 19 Dec 23:59 PST 2019, Dikshita Agarwal wrote:
 
-Results of the daily build of media_tree:
+> This adds Venus video codec DT node for sc7180.
+> 
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index 6876aae2..42c70f5 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -10,6 +10,7 @@
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/phy/phy-qcom-qusb2.h>
+>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+> +#include <dt-bindings/clock/qcom,videocc-sc7180.h>
+>  
+>  / {
+>  	interrupt-parent = <&intc>;
+> @@ -66,6 +67,11 @@
+>  			compatible = "qcom,cmd-db";
+>  			no-map;
+>  		};
+> +
+> +		venus_mem: memory@8F600000 {
+> +			reg = <0 0x8F600000 0 0x500000>;
+> +			no-map;
+> +		};
+>  	};
+>  
+>  	cpus {
+> @@ -1042,6 +1048,36 @@
+>  			};
+>  		};
+>  
+> +		venus: video-codec@aa00000 {
+> +			compatible = "qcom,sc7180-venus";
+> +			reg = <0 0x0aa00000 0 0xff000>;
+> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +			power-domains = <&videocc VENUS_GDSC>,
 
-date:			Sat Dec 28 05:00:10 CET 2019
-media-tree git hash:	0885acd77eb4644fd88f6d9f41e433f4ee9bc37a
-media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
-v4l-utils git hash:	21c474bfca2d9167489d87a06fa9f1698b3c80bd
-edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Should this be aligned with the DT refactoring done for sdm845, where
+the GDSC is moved into the *-core subnodes etc?
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2901, Succeeded: 2901, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Regards,
+Bjorn
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> +					<&videocc VCODEC0_GDSC>;
+> +			power-domain-names = "venus", "vcodec0";
+> +			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
+> +				<&videocc VIDEO_CC_VENUS_AHB_CLK>,
+> +				<&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
+> +				<&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
+> +				<&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
+> +			clock-names = "core", "iface", "bus",
+> +					"vcodec0_core", "vcodec0_bus";
+> +			iommus = <&apps_smmu 0x0C00 0x60>;
+> +			memory-region = <&venus_mem>;
+> +
+> +			video-core0 {
+> +					compatible = "venus-decoder";
+> +			};
+> +
+> +			video-core1 {
+> +					compatible = "venus-encoder";
+> +			};
+> +
+> +			video-firmware {
+> +					iommus = <&apps_smmu 0x0C42 0x0>;
+> +			};
+> +		};
+> +
+>  		pdc: interrupt-controller@b220000 {
+>  			compatible = "qcom,sc7180-pdc", "qcom,pdc";
+>  			reg = <0 0x0b220000 0 0x30000>;
+> -- 
+> 1.9.1
+> 
