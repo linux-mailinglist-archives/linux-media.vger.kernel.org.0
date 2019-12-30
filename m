@@ -2,31 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B69F512D206
-	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2019 17:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8443912D337
+	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2019 19:14:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbfL3QdU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Dec 2019 11:33:20 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38404 "EHLO
+        id S1727518AbfL3SN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Dec 2019 13:13:56 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39130 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726597AbfL3QdU (ORCPT
+        with ESMTP id S1727389AbfL3SN4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Dec 2019 11:33:20 -0500
+        Mon, 30 Dec 2019 13:13:56 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id D5E4C28DAE0
-Message-ID: <5be4728254c820bfaf99f385dc7b7ecb4f65d795.camel@collabora.com>
-Subject: Re: [PATCH v2 2/2] media: i2c: Add driver for Sony IMX219 sensor
+        with ESMTPSA id 5E5DD28DF09
+Message-ID: <f5e8afbbd46a25b752890880621be95971023f2e.camel@collabora.com>
+Subject: Re: [PATCH v12 02/11] media: staging: rkisp1: add Rockchip ISP1
+ base driver
 From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>, mchehab@kernel.org,
-        robh+dt@kernel.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        peter.griffin@linaro.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 30 Dec 2019 13:33:07 -0300
-In-Reply-To: <20191227122114.23075-3-andrey.konovalov@linaro.org>
-References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
-         <20191227122114.23075-3-andrey.konovalov@linaro.org>
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org
+Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        gregkh@linuxfoundation.org, andrey.konovalov@linaro.org,
+        linux-kernel@vger.kernel.org, tfiga@chromium.org,
+        robh+dt@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        joacim.zetterling@gmail.com, kernel@collabora.com,
+        linux-media@vger.kernel.org, jacob-chen@iotwrt.com,
+        linux-arm-kernel@lists.infradead.org,
+        Jacob Chen <jacob2.chen@rock-chips.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Yichong Zhong <zyc@rock-chips.com>,
+        Jacob Chen <cc@rock-chips.com>,
+        Jeffy Chen <jeffy.chen@rock-chips.com>,
+        Allon Huang <allon.huang@rock-chips.com>
+Date:   Mon, 30 Dec 2019 15:13:41 -0300
+In-Reply-To: <20191227200116.2612137-3-helen.koike@collabora.com>
+References: <20191227200116.2612137-1-helen.koike@collabora.com>
+         <20191227200116.2612137-3-helen.koike@collabora.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.1-2 
@@ -37,129 +50,119 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2019-12-27 at 15:21 +0300, Andrey Konovalov wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> 
-> Adds a driver for the 8MPix Sony IMX219 CSI2 sensor.
-> Whilst the sensor supports 2 or 4 CSI2 data lanes, this driver
-> currently only supports 2 lanes.
-> 8MPix @ 15fps, 1080P @ 30fps (cropped FOV), and 1640x1232 (2x2 binned)
-> @ 30fps are currently supported.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> ---
->  drivers/media/i2c/Kconfig  |   12 +
->  drivers/media/i2c/Makefile |    1 +
->  drivers/media/i2c/imx219.c | 1240 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 1253 insertions(+)
->  create mode 100644 drivers/media/i2c/imx219.c
-> 
-> 
+Hi Helen,
+
+Just spotted a small thing.
+
+On Fri, 2019-12-27 at 17:01 -0300, Helen Koike wrote:
 [..]
-> +
-> +static int imx219_probe(struct i2c_client *client,
-> +			const struct i2c_device_id *id)
+> +static int rkisp1_probe(struct platform_device *pdev)
 > +{
-> +	struct device *dev = &client->dev;
-> +	struct fwnode_handle *endpoint;
-> +	struct imx219 *imx219;
-> +	int ret;
+> +       struct device_node *node = pdev->dev.of_node;
+> +       const struct rkisp1_match_data *clk_data;
+> +       const struct of_device_id *match;
+> +       struct device *dev = &pdev->dev;
+> +       struct rkisp1_device *rkisp1;
+> +       struct v4l2_device *v4l2_dev;
+> +       unsigned int i;
+> +       int ret, irq;
 > +
-> +	imx219 = devm_kzalloc(&client->dev, sizeof(*imx219), GFP_KERNEL);
-> +	if (!imx219)
-> +		return -ENOMEM;
+> +       match = of_match_node(rkisp1_of_match, node);
+> +       rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
+> +       if (!rkisp1)
+> +               return -ENOMEM;
 > +
-> +	imx219->dev = dev;
+> +       dev_set_drvdata(dev, rkisp1);
+> +       rkisp1->dev = dev;
 > +
-> +	v4l2_i2c_subdev_init(&imx219->sd, client, &imx219_subdev_ops);
+> +       rkisp1_debug_init(rkisp1);
 > +
-> +	/* Get CSI2 bus config */
-> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> +						  NULL);
-> +	if (!endpoint) {
-> +		dev_err(dev, "endpoint node not found\n");
-> +		return -EINVAL;
-> +	}
+> +       rkisp1->base_addr = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(rkisp1->base_addr))
+> +               return PTR_ERR(rkisp1->base_addr);
 > +
-> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &imx219->ep);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret) {
-> +		dev_err(dev, "Could not parse endpoint\n");
-> +		return ret;
-> +	}
+> +       irq = platform_get_irq(pdev, 0);
+> +       if (irq < 0)
+> +               return irq;
 > +
-> +	/* Get system clock (xclk) */
-> +	imx219->xclk = devm_clk_get(dev, "xclk");
-> +	if (IS_ERR(imx219->xclk)) {
-> +		dev_err(dev, "failed to get xclk\n");
-> +		return PTR_ERR(imx219->xclk);
-> +	}
+> +       ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
+> +                              dev_driver_string(dev), dev);
+> +       if (ret) {
+> +               dev_err(dev, "request irq failed: %d\n", ret);
+> +               return ret;
+> +       }
 > +
-> +	imx219->xclk_freq = clk_get_rate(imx219->xclk);
-> +	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
-> +		dev_err(dev, "xclk frequency not supported: %d Hz\n",
-> +			imx219->xclk_freq);
-> +		return -EINVAL;
-> +	}
+> +       rkisp1->irq = irq;
+> +       clk_data = match->data;
 > +
-> +	ret = imx219_get_regulators(imx219);
-> +	if (ret)
-> +		return ret;
+> +       for (i = 0; i < clk_data->size; i++)
+> +               rkisp1->clks[i].id = clk_data->clks[i];
+> +       ret = devm_clk_bulk_get(dev, clk_data->size, rkisp1->clks);
+> +       if (ret)
+> +               return ret;
+> +       rkisp1->clk_size = clk_data->size;
 > +
+> +       pm_runtime_enable(&pdev->dev);
+> +
+> +       strscpy(rkisp1->media_dev.model, RKISP1_DRIVER_NAME,
+> +               sizeof(rkisp1->media_dev.model));
+> +       rkisp1->media_dev.dev = &pdev->dev;
+> +       strscpy(rkisp1->media_dev.bus_info,
+> +               "platform: " RKISP1_DRIVER_NAME,
+> +               sizeof(rkisp1->media_dev.bus_info));
+> +       media_device_init(&rkisp1->media_dev);
+> +
+> +       v4l2_dev = &rkisp1->v4l2_dev;
+> +       v4l2_dev->mdev = &rkisp1->media_dev;
+> +       strscpy(v4l2_dev->name, RKISP1_DRIVER_NAME, sizeof(v4l2_dev->name));
+> +
+> +       ret = v4l2_device_register(rkisp1->dev, &rkisp1->v4l2_dev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = media_device_register(&rkisp1->media_dev);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to register media device: %d\n", ret);
+> +               goto err_unreg_v4l2_dev;
+> +       }
+> +
+> +       ret = rkisp1_entities_register(rkisp1);
+> +       if (ret)
+> +               goto err_unreg_media_dev;
+> +
+> +       return 0;
+> +
+> +err_unreg_media_dev:
+> +       media_device_unregister(&rkisp1->media_dev);
+> +err_unreg_v4l2_dev:
+> +       v4l2_device_unregister(&rkisp1->v4l2_dev);
+> +       pm_runtime_disable(&pdev->dev);
 
-I think printing an error if you can't regulators
-(as the core will stay silent), is a good idea.
+There's a missing call to debugfs_remove_recursive here.
 
-Just got bitten by this while trying the driver with
-a RPI camera module v2, and the RKISP1 patches that
-we recently posted on this mailing list.
-
-(did _very_ limited testing, but working nicely so far).
-
-> +	/* Request optional enable pin */
-> +	imx219->xclr_gpio = devm_gpiod_get_optional(dev, "xclr",
-> +						    GPIOD_OUT_HIGH);
+> +       return ret;
+> +}
 > +
-> +	/*
-> +	 * The sensor must be powered for imx219_identify_module()
-> +	 * to be able to read the CHIP_ID register
-> +	 */
-> +	ret = imx219_power_on(dev);
-> +	if (ret)
-> +		return ret;
+> +static int rkisp1_remove(struct platform_device *pdev)
+> +{
+> +       struct rkisp1_device *rkisp1 = platform_get_drvdata(pdev);
 > +
-> +	ret = imx219_identify_module(imx219);
-> +	if (ret)
-> +		goto error_power_off;
+> +       v4l2_async_notifier_unregister(&rkisp1->notifier);
+> +       v4l2_async_notifier_cleanup(&rkisp1->notifier);
 > +
-> +	/* Set default mode to max resolution */
-> +	imx219->mode = &supported_modes[0];
+> +       rkisp1_isp_unregister(rkisp1);
 > +
-> +	ret = imx219_init_controls(imx219);
-> +	if (ret)
-> +		goto error_power_off;
+> +       media_device_unregister(&rkisp1->media_dev);
+> +       v4l2_device_unregister(&rkisp1->v4l2_dev);
 > +
-> +	/* Initialize subdev */
-> +	imx219->sd.internal_ops = &imx219_internal_ops;
-> +	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +       pm_runtime_disable(&pdev->dev);
 > +
-> +	/* Initialize source pad */
-> +	imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +       debugfs_remove_recursive(rkisp1->debug.debugfs_dir);
+> +       return 0;
+> +}
 > +
-> +	ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
-> +	if (ret)
-> +		goto error_handler_free;
-> +
-> +	ret = v4l2_async_register_subdev_sensor_common(&imx219->sd);
-> +	if (ret < 0)
-> +		goto error_media_entity;
-> +
-
-Ditto on these last two, it's possible to get silent
-failures here, which are a bit annoying to debug.
 
 Thanks,
 Ezequiel
+
 
