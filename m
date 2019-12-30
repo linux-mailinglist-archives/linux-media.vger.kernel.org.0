@@ -2,243 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FBB12CDC8
-	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2019 09:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A685A12CE35
+	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2019 10:25:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727273AbfL3Ikw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Dec 2019 03:40:52 -0500
-Received: from mga11.intel.com ([192.55.52.93]:25678 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727175AbfL3Ikw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Dec 2019 03:40:52 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Dec 2019 00:40:50 -0800
-X-IronPort-AV: E=Sophos;i="5.69,374,1571727600"; 
-   d="scan'208";a="221084586"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Dec 2019 00:40:48 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id BFD3020628; Mon, 30 Dec 2019 10:40:46 +0200 (EET)
-Date:   Mon, 30 Dec 2019 10:40:46 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, tfiga@chromium.org,
-        bingbu.cao@linux.intel.com
-Subject: Re: [PATCH] media: staging/intel-ipu3: make imgu use fixed running
- mode
-Message-ID: <20191230084046.GE19828@paasikivi.fi.intel.com>
-References: <1577683024-25937-1-git-send-email-bingbu.cao@intel.com>
+        id S1727290AbfL3JZT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Dec 2019 04:25:19 -0500
+Received: from retiisi.org.uk ([95.216.213.190]:43510 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727243AbfL3JZT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Dec 2019 04:25:19 -0500
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 662DD634C86;
+        Mon, 30 Dec 2019 11:24:30 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1ilrHq-0001XR-LZ; Mon, 30 Dec 2019 11:24:30 +0200
+Date:   Mon, 30 Dec 2019 11:24:30 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        peter.griffin@linaro.org, ezequiel@collabora.com
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor
+ binding
+Message-ID: <20191230092430.GB5050@valkosipuli.retiisi.org.uk>
+References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
+ <20191227122114.23075-2-andrey.konovalov@linaro.org>
+ <20191227141739.GD861@valkosipuli.retiisi.org.uk>
+ <e3a9161a-feaf-f4a4-5122-871e68409698@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1577683024-25937-1-git-send-email-bingbu.cao@intel.com>
+In-Reply-To: <e3a9161a-feaf-f4a4-5122-871e68409698@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Hi Andrey,
 
-Thank you for the patch.
-
-On Mon, Dec 30, 2019 at 01:17:04PM +0800, Bingbu Cao wrote:
-> Currently, the imgu running mode need user to set by v4l2 ctrl.
-> However, imgu only support 2 pipes and 2 operation modes - video and
-> still. This patch make the first imgu subdev running as video and second
-> one running as still, it will make the user understand easily, it can
-> also cover current camera use cases requirement. The running mode is set
-> during subdev registering, no race-condition after change, so it is safe
-> to change the mode data type to integer.
+On Fri, Dec 27, 2019 at 09:26:25PM +0300, Andrey Konovalov wrote:
+> Hi Sakari,
 > 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  Documentation/media/v4l-drivers/ipu3.rst        |  6 +--
->  drivers/staging/media/ipu3/include/intel-ipu3.h |  4 --
->  drivers/staging/media/ipu3/ipu3-v4l2.c          | 64 +++----------------------
->  drivers/staging/media/ipu3/ipu3.h               |  4 +-
->  4 files changed, 11 insertions(+), 67 deletions(-)
+> Thank you for reviewing the patchset, and for the pointers on improving the driver (nokia,smia.txt etc)!
+> I'll write a separate email later, or just fix what you suggested in v3 (I agree with the proposed changes
+> I didn't comment on in this email).
+
+Ack.
+
+Please wrap the lines around 72 chars or so.
+
 > 
-> diff --git a/Documentation/media/v4l-drivers/ipu3.rst b/Documentation/media/v4l-drivers/ipu3.rst
-> index e4904ab44e60..50bd264a3408 100644
-> --- a/Documentation/media/v4l-drivers/ipu3.rst
-> +++ b/Documentation/media/v4l-drivers/ipu3.rst
-> @@ -234,9 +234,9 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
->  Firmware binary selection
->  -------------------------
->  
-> -The firmware binary is selected using the V4L2_CID_INTEL_IPU3_MODE, currently
-> -defined in drivers/staging/media/ipu3/include/intel-ipu3.h . "VIDEO" and "STILL"
-> -modes are available.
-> +The firmware binary is selected according to the running mode of imgu. There are
-> +2 modes are available - "video" and "still". "ipu3-imgu video" are running under
-> +"video" mode and "ipu3-imgu still" is running under "still" mode.
->  
->  Processing the image in raw Bayer format
->  ----------------------------------------
-> diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> index 08eaa0bad0de..d30d9d6c92db 100644
-> --- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-> +++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-> @@ -12,10 +12,6 @@
->  #define V4L2_META_FMT_IPU3_PARAMS	v4l2_fourcc('i', 'p', '3', 'p') /* IPU3 processing parameters */
->  #define V4L2_META_FMT_IPU3_STAT_3A	v4l2_fourcc('i', 'p', '3', 's') /* IPU3 3A statistics */
->  
-> -/* from include/uapi/linux/v4l2-controls.h */
-> -#define V4L2_CID_INTEL_IPU3_BASE	(V4L2_CID_USER_BASE + 0x10c0)
-> -#define V4L2_CID_INTEL_IPU3_MODE	(V4L2_CID_INTEL_IPU3_BASE + 1)
-> -
->  /******************* ipu3_uapi_stats_3a *******************/
->  
->  #define IPU3_UAPI_MAX_STRIPES				2
-> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> index 3c7ad1eed434..4d9c3dde5036 100644
-> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> @@ -67,8 +67,6 @@ static int imgu_subdev_s_stream(struct v4l2_subdev *sd, int enable)
->  	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
->  
->  	dev_dbg(dev, "%s %d for pipe %u", __func__, enable, pipe);
-> -	/* grab ctrl after streamon and return after off */
-> -	v4l2_ctrl_grab(imgu_sd->ctrl, enable);
->  
->  	if (!enable) {
->  		imgu_sd->active = false;
-> @@ -96,7 +94,7 @@ static int imgu_subdev_s_stream(struct v4l2_subdev *sd, int enable)
->  	if (imgu_pipe->nodes[IMGU_NODE_VF].enabled)
->  		css_pipe->vf_output_en = true;
->  
-> -	if (atomic_read(&imgu_sd->running_mode) == IPU3_RUNNING_MODE_VIDEO)
-> +	if (imgu_sd->running_mode == IPU3_RUNNING_MODE_VIDEO)
->  		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_VIDEO;
->  	else
->  		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_CAPTURE;
-> @@ -668,7 +666,7 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
->  	if (imgu_pipe->nodes[IMGU_NODE_VF].enabled)
->  		css_pipe->vf_output_en = true;
->  
-> -	if (atomic_read(&imgu_sd->running_mode) == IPU3_RUNNING_MODE_VIDEO)
-> +	if (imgu_sd->running_mode == IPU3_RUNNING_MODE_VIDEO)
->  		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_VIDEO;
->  	else
->  		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_CAPTURE;
-> @@ -1011,44 +1009,6 @@ static const struct v4l2_ioctl_ops imgu_v4l2_meta_ioctl_ops = {
->  	.vidioc_expbuf = vb2_ioctl_expbuf,
->  };
->  
-> -static int imgu_sd_s_ctrl(struct v4l2_ctrl *ctrl)
-> -{
-> -	struct imgu_v4l2_subdev *imgu_sd =
-> -		container_of(ctrl->handler, struct imgu_v4l2_subdev, ctrl_handler);
-> -	struct imgu_device *imgu = v4l2_get_subdevdata(&imgu_sd->subdev);
-> -	struct device *dev = &imgu->pci_dev->dev;
-> -
-> -	dev_dbg(dev, "set val %d to ctrl 0x%8x for subdev %u",
-> -		ctrl->val, ctrl->id, imgu_sd->pipe);
-> -
-> -	switch (ctrl->id) {
-> -	case V4L2_CID_INTEL_IPU3_MODE:
-> -		atomic_set(&imgu_sd->running_mode, ctrl->val);
-> -		return 0;
-> -	default:
-> -		return -EINVAL;
-> -	}
-> -}
-> -
-> -static const struct v4l2_ctrl_ops imgu_subdev_ctrl_ops = {
-> -	.s_ctrl = imgu_sd_s_ctrl,
-> -};
-> -
-> -static const char * const imgu_ctrl_mode_strings[] = {
-> -	"Video mode",
-> -	"Still mode",
-> -};
-> -
-> -static const struct v4l2_ctrl_config imgu_subdev_ctrl_mode = {
-> -	.ops = &imgu_subdev_ctrl_ops,
-> -	.id = V4L2_CID_INTEL_IPU3_MODE,
-> -	.name = "IPU3 Pipe Mode",
-> -	.type = V4L2_CTRL_TYPE_MENU,
-> -	.max = ARRAY_SIZE(imgu_ctrl_mode_strings) - 1,
-> -	.def = IPU3_RUNNING_MODE_VIDEO,
-> -	.qmenu = imgu_ctrl_mode_strings,
-> -};
-> -
->  /******************** Framework registration ********************/
->  
->  /* helper function to config node's video properties */
-> @@ -1094,7 +1054,6 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
->  				     unsigned int pipe)
->  {
->  	int i, r;
-> -	struct v4l2_ctrl_handler *hdl = &imgu_sd->ctrl_handler;
->  	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
->  
->  	/* Initialize subdev media entity */
-> @@ -1118,18 +1077,10 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
->  	imgu_sd->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
->  				V4L2_SUBDEV_FL_HAS_EVENTS;
+> Just few quick answers below.
+> 
+> Thanks,
+> Andrey
+> 
+> On 27.12.2019 17:17, Sakari Ailus wrote:
+> > Hi Andrey,
+> > 
+> > Thanks for the patchset.
+> > 
+> > On Fri, Dec 27, 2019 at 03:21:13PM +0300, Andrey Konovalov wrote:
+> > > Add YAML device tree binding for IMX219 CMOS image sensor, and
+> > > the relevant MAINTAINERS entries.
+> > > 
+> > > Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+> > > ---
+> > >   .../devicetree/bindings/media/i2c/imx219.yaml | 134 ++++++++++++++++++
+> > >   MAINTAINERS                                   |   8 ++
+> > >   2 files changed, 142 insertions(+)
+> > >   create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> > > new file mode 100644
+> > > index 000000000000..b58aa49a7c03
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> > > @@ -0,0 +1,134 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > +
+> > > +description: |-
+> > > +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
+> > > +  with an active array size of 3280H x 2464V. It is programmable through
+> > > +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
+> > > +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> > > +  4 data lanes.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: sony,imx219
+> > > +
+> > > +  reg:
+> > > +    description: I2C device address
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: xclk
+> > 
+> > There's a single clock. Does it need a name? I'd just omit it.
+> > 
+> > > +
+> > > +  VDIG-supply:
+> > > +    description:
+> > > +      Digital I/O voltage supply, 1.8 volts
+> > > +
+> > > +  VANA-supply:
+> > > +    description:
+> > > +      Analog voltage supply, 2.8 volts
+> > > +
+> > > +  VDDL-supply:
+> > > +    description:
+> > > +      Digital core voltage supply, 1.2 volts
+> > > +
+> > > +  xclr-gpios:
+> > > +    description: |-
+> > > +      Reference to the GPIO connected to the xclr pin, if any.
+> > > +      Must be released (set high) after all supplies are applied.
+> > 
+> > A common name for this in camera sensors is xshutdown. I'd suggest to use
+> > that.
+> 
+> Indeed, "xshutdown" is the pin name commonly used by OmniVision for their sensors.
 
-As the driver only supported control events, you can remove the support for
-events, too, as there are none left now. I.e. the event (un)subscription
-callback plus this flag, and the associated headers if any.
+Some Aptina (OnSemi) devices also use xshutdown, and so does the CCS
+standard.
 
->  	snprintf(imgu_sd->subdev.name, sizeof(imgu_sd->subdev.name),
-> -		 "%s %u", IMGU_NAME, pipe);
-> +		 "%s %s", IMGU_NAME, pipe ? "still" : "video");
->  	v4l2_set_subdevdata(&imgu_sd->subdev, imgu);
-> -	atomic_set(&imgu_sd->running_mode, IPU3_RUNNING_MODE_VIDEO);
-> -	v4l2_ctrl_handler_init(hdl, 1);
-> -	imgu_sd->subdev.ctrl_handler = hdl;
-> -	imgu_sd->ctrl = v4l2_ctrl_new_custom(hdl, &imgu_subdev_ctrl_mode, NULL);
-> -	if (hdl->error) {
-> -		r = hdl->error;
-> -		dev_err(&imgu->pci_dev->dev,
-> -			"failed to create subdev v4l2 ctrl with err %d", r);
-> -		goto fail_subdev;
-> -	}
-> +	imgu_sd->running_mode =
-> +		pipe ? IPU3_RUNNING_MODE_STILL : IPU3_RUNNING_MODE_VIDEO;
->  	r = v4l2_device_register_subdev(&imgu->v4l2_dev, &imgu_sd->subdev);
->  	if (r) {
->  		dev_err(&imgu->pci_dev->dev,
-> @@ -1141,7 +1092,6 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
->  	return 0;
->  
->  fail_subdev:
-> -	v4l2_ctrl_handler_free(imgu_sd->subdev.ctrl_handler);
->  	media_entity_cleanup(&imgu_sd->subdev.entity);
->  
->  	return r;
-> @@ -1236,8 +1186,8 @@ static int imgu_v4l2_node_setup(struct imgu_device *imgu, unsigned int pipe,
->  	}
->  
->  	/* Initialize vdev */
-> -	snprintf(vdev->name, sizeof(vdev->name), "%s %u %s",
-> -		 IMGU_NAME, pipe, node->name);
-> +	snprintf(vdev->name, sizeof(vdev->name), "%s %s %s",
-> +		 IMGU_NAME, pipe ? "still" : "video", node->name);
->  	vdev->release = video_device_release_empty;
->  	vdev->fops = &imgu_v4l2_fops;
->  	vdev->lock = &node->lock;
-> diff --git a/drivers/staging/media/ipu3/ipu3.h b/drivers/staging/media/ipu3/ipu3.h
-> index 73b123b2b8a2..63db6fe544ef 100644
-> --- a/drivers/staging/media/ipu3/ipu3.h
-> +++ b/drivers/staging/media/ipu3/ipu3.h
-> @@ -96,9 +96,7 @@ struct imgu_v4l2_subdev {
->  		struct v4l2_rect bds; /* bayer-domain scaled resolution*/
->  		struct v4l2_rect gdc; /* gdc output resolution */
->  	} rect;
-> -	struct v4l2_ctrl_handler ctrl_handler;
-> -	struct v4l2_ctrl *ctrl;
-> -	atomic_t running_mode;
-> +	unsigned int running_mode;
->  	bool active;
->  };
->  
+> (In older sensors they used "pwdn" which is similar, but the polarity is reversed.)
+
+Some devices have both xshutdown and pwdn. I don't see why; they're
+controlled together in practice anyway.
+
+> 
+> In their sensor datasheets Sony consistently use "xclr" for the pin and signal otherwise
+> very similar to OmniVision's "xshutdown".
+> 
+> Wouldn't using the signal name from the sensor by the different vendor just add more confusion
+> instead?
+
+What matters is the functionality really. I checked the existing bindings,
+and it seems devices using "xshutdown" document reset-gpios property under
+Documentation/devicetree/bindings/media/i2c . None refers to xclr.
+
+So "reset-gpios" is the right name. The vast majority are active low (i.e.
+lifting the sensor from reset requires high output) but there's at least
+one that is active high. 
+
+> 
+> > > +
+> > > +  camera-clk:
+> > > +    type: object
+> > > +
+> > > +    description: Clock source for imx219
+> > > +
+> > > +    properties:
+> > > +      clock-frequency: true
+> > > +
+> > > +    required:
+> > > +      - clock-frequency
+> > 
+> > Hmm. The driver doesn't seem to use this for anything.
+> > 
+> > There are two approaches to this; either you can get and check the
+> > frequency, or specify it in DT bindings, set and then check it.
+> > 
+> > See e.g. Documentation/devicetree/bindings/media/i2c/nokia,smia.txt (not in
+> > YAML though).
+> > 
+> > > +
+> > > +  # See ../video-interfaces.txt for more details
+> > > +  port:
+> > > +    type: object
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +        properties:
+> > > +          clock-lanes:
+> > > +            const: 0
+> > 
+> > If the hardware does not support lane reordering, you can omit the
+> > clock-lanes property as it provides no information.
+> > 
+> > > +
+> > > +          data-lanes:
+> > > +            description: |-
+> > > +              Should be <1 2> for two-lane operation, or <1 2 3 4> for
+> > > +              four-lane operation.
+> > > +            oneOf:
+> > > +              - const: [[ 1, 2 ]]
+> > > +              - const: [[ 1, 2, 3, 4 ]]
+> > > +
+> > > +          clock-noncontinuous:
+> > > +            type: boolean
+> > > +            description: |-
+> > > +              Presence of this boolean property decides whether the MIPI CSI-2
+> > > +              clock is continuous or non-continuous.
+> > 
+> > How about: MIPI CSI-2 clock will be non-continuous if this property is
+> > present, otherwise it's continuous.
+> 
+> This statement is more clear than the original. Thanks!
+
+Perhaps:
+
+s/will be/is/
+
+In order to keep the same tense.
 
 -- 
 Kind regards,
