@@ -2,124 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18CE812D838
-	for <lists+linux-media@lfdr.de>; Tue, 31 Dec 2019 12:27:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93FD512DAE0
+	for <lists+linux-media@lfdr.de>; Tue, 31 Dec 2019 19:14:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfLaL05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Dec 2019 06:26:57 -0500
-Received: from gofer.mess.org ([88.97.38.141]:57223 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726643AbfLaL05 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Dec 2019 06:26:57 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id DD10D11A001; Tue, 31 Dec 2019 11:26:55 +0000 (GMT)
-Date:   Tue, 31 Dec 2019 11:26:55 +0000
-From:   Sean Young <sean@mess.org>
-To:     "Andreas W. Wieland" <awwieland@gmx.de>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: ir-ctl: invalid scancode '0x857a3a45' for protocol 'nec32'
-Message-ID: <20191231112655.GA8659@gofer.mess.org>
-References: <9ea5a12d-b981-2289-3f0a-b614378a4bda@gmx.de>
+        id S1727075AbfLaSOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Dec 2019 13:14:10 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41925 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726720AbfLaSOK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 31 Dec 2019 13:14:10 -0500
+Received: by mail-pg1-f196.google.com with SMTP id x8so19803605pgk.8;
+        Tue, 31 Dec 2019 10:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=g813j+cV+hC6rv01dsrq/G6Qcx07y9VOTfu785zP8Fc=;
+        b=iYsxEFmSqc1vjKd/72A/TEAF+x9KGTV/n50r8Z1HiaUyincVLa+AmNTIMLV7pBDjjG
+         a96zUvolCc1bqlBL6Om1OCT7vFPojSUrMgqcfNUTGt09SKke214YkB8l3q8SIFhUy+Ui
+         Z7C/3DQF0EVQ0OCJXZG6y9/Qh/yVi+KoRNocZ/cH/IZ6XbQ0t7KwDifvLr/4+dwhUTVw
+         1zORcRE/J+ZtNNG1F6rtJIeZALTHa/PuA5o3rd5DOz4Q0sSo0oGGVXaHkungyAK+GsR7
+         oR0p7ZEMoxV71Jp0dE+NwUVqwwFNdfq10zJ/QXDKtJn2RP/2KZ/yrK7hIaULy+Kr5dye
+         kT3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=g813j+cV+hC6rv01dsrq/G6Qcx07y9VOTfu785zP8Fc=;
+        b=LnSYkVxKQE7IoDlL71C8Ccs1PDwnaLzzmw/DmFiEwts/2n1Ip0oR0dnzWLD/Eh22v6
+         r5AeNmai06VHsUXqHzM1PGQXPPW6KlFSfeHSYN1ccZoPm9Ih1sELvCL2HYt3iEWyQtqC
+         nouB+qJFzaafciKK16yO6GR5fkJYfIqhmrm5a66EJeGkg5bitoBiBFmoNhyw5uW6aaVp
+         nbAOLPGtCTY0xKu9l6IHdI5VyvmFjEtNvNzK9yZPX3zCR95M51sjaaHdHUXPmZRXMbS2
+         eDYhElIK2MVN585628qAX0D82S68N4Rt6OS1gTJ0haz/YcxTOVlQ16jfHcYKY5zleuEH
+         3EkQ==
+X-Gm-Message-State: APjAAAW6plO/nPnEu7L95+GqJaH/kxhWDobZ8boWFGxOLrGU7q1/dUGe
+        SybOHYsJ0HGqcWxz33mSAHkk+7k+9tA=
+X-Google-Smtp-Source: APXvYqxsE1BoB3cWWMLU3TaQas/JRabldExcmeLzt+Wy+EafQ+1UWtq3EfvJ7C2BsBTe/DCnTS+32A==
+X-Received: by 2002:aa7:9af1:: with SMTP id y17mr78663987pfp.21.1577816049919;
+        Tue, 31 Dec 2019 10:14:09 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac? ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id b65sm54420669pgc.18.2019.12.31.10.14.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Dec 2019 10:14:09 -0800 (PST)
+Subject: Re: [PATCH 3/6] media: dvb_dummy_fe: Fix ERROR: POINTER_LOCATION
+To:     Sean Young <sean@mess.org>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        rfontana@redhat.com, kstewart@linuxfoundation.org,
+        tglx@linutronix.de, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191201161542.69535-1-dwlsalmeida@gmail.com>
+ <20191201161542.69535-4-dwlsalmeida@gmail.com>
+ <20191231100802.GE24469@gofer.mess.org>
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <1be10ca9-4bfc-72f0-971a-cc366417a9b4@gmail.com>
+Date:   Tue, 31 Dec 2019 15:14:04 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ea5a12d-b981-2289-3f0a-b614378a4bda@gmx.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191231100802.GE24469@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andreas,
+Hi Sean, thanks for reviewing this!
 
-On Sun, Dec 01, 2019 at 06:15:56PM +0100, Andreas W. Wieland wrote:
-> Dear Developers!
-> 
-> I think I have discovered a bug in ir-ctl. My application is pretty
-> simple: I want to change certain settings on my Yamaha surround receiver
-> via a Raspberry Pi. For this, I have to transmit keycodes with ir-ctl to
-> the Yamaha. While this works fine for most keycodes, for some keycodes
-> errors are thrown.
-> 
-> Basically, I record the scancodes of all functions that I need with
-> ir-keytable, and later use the recorded scancodes for transmitting, for
-> example:
-> 
-> root@raspberrypi:~# ir-keytable -v -t
-> Found device /sys/class/rc/rc1/
-> Found device /sys/class/rc/rc0/
-> Parsing uevent /sys/class/rc/rc0/lirc0/uevent
-> /sys/class/rc/rc0/lirc0/uevent uevent MAJOR=252
-> /sys/class/rc/rc0/lirc0/uevent uevent MINOR=0
-> /sys/class/rc/rc0/lirc0/uevent uevent DEVNAME=lirc0
-> Input sysfs node is /sys/class/rc/rc0/input0/
-> Event sysfs node is /sys/class/rc/rc0/input0/event0/
-> Parsing uevent /sys/class/rc/rc0/input0/event0/uevent
-> /sys/class/rc/rc0/input0/event0/uevent uevent MAJOR=13
-> /sys/class/rc/rc0/input0/event0/uevent uevent MINOR=64
-> /sys/class/rc/rc0/input0/event0/uevent uevent DEVNAME=input/event0
-> Parsing uevent /sys/class/rc/rc0/uevent
-> /sys/class/rc/rc0/uevent uevent NAME=rc-rc6-mce
-> /sys/class/rc/rc0/uevent uevent DRV_NAME=gpio_ir_recv
-> /sys/class/rc/rc0/uevent uevent DEV_NAME=gpio_ir_recv
-> input device is /dev/input/event0
-> /sys/class/rc/rc0/protocols protocol rc-5 (enabled)
-> /sys/class/rc/rc0/protocols protocol nec (enabled)
-> /sys/class/rc/rc0/protocols protocol rc-6 (enabled)
-> /sys/class/rc/rc0/protocols protocol jvc (enabled)
-> /sys/class/rc/rc0/protocols protocol sony (enabled)
-> /sys/class/rc/rc0/protocols protocol rc-5-sz (enabled)
-> /sys/class/rc/rc0/protocols protocol sanyo (enabled)
-> /sys/class/rc/rc0/protocols protocol sharp (enabled)
-> /sys/class/rc/rc0/protocols protocol mce_kbd (enabled)
-> /sys/class/rc/rc0/protocols protocol xmp (enabled)
-> /sys/class/rc/rc0/protocols protocol imon (enabled)
-> /sys/class/rc/rc0/protocols protocol lirc (enabled)
-> Opening /dev/input/event0
-> Input Protocol version: 0x00010001
-> Testing events. Please, press CTRL-C to abort.
-> 30063.090086: lirc protocol(nec32): scancode = 0x857a3a45
-> 30063.140081: lirc protocol(nec32): scancode = 0x857a3a45 repeat
-> 30063.250082: lirc protocol(nec32): scancode = 0x857a3a45 repeat
-> 
-> I now try to transmit exactly that keycode via ir-ctl and get an error
-> message. Nothing is transmitted:
-> 
-> root@raspberrypi:~# ir-ctl -d /dev/lirc1 -S nec32:0x857a3a45
-> error: invalid scancode '0x857a3a45' for protocol 'nec32'
 
-ir-ctl is doing a test to see if the scancode can be represented as 
-nec-x, the 24 bit nec variant. This test is broken.
+> The comments from Mauro in the previous version of this patch have not been
+> addressed:
+>
+> https://patchwork.linuxtv.org/patch/60048/#114016
+>
+> Thanks,
+>
+> Sean
 
-The test was fixed in v4l-utils 1.18.0, the exact commit was:
+As you've also noted, I have these as separate patches, i.e.
 
-https://git.linuxtv.org/v4l-utils.git/commit/?id=be940713a6e29652d4440cebc78e8381606646bd
+https://patchwork.linuxtv.org/patch/60430/
 
-Possibly we should push this to the 1.16 branch. Before we do this, it would
-be great if you could verify that things now work as you would expect. There
-is a lot of bit fiddling in this commit which can easily be wrong.
+https://patchwork.linuxtv.org/patch/60432/
 
-Thank you in advance!
 
-Best,
+I will squash them with this one and send v2. I will also drop this from 
+the series:
 
-Sean
+https://patchwork.linuxtv.org/patch/60428/
 
-> 
-> As I said, this works fine for most of the keycodes I need, only some
-> cause this error message. All of the key codes that cause the error are
-> protocol nec32 and start with 0x8.
-> 
-> My hardware is a Raspberry Pi Zero (latest Raspbian Buster, freshly
-> updated this morning), a homebrew ir receiver with gpio_ir, a homebrew
-> transmitter with pwm-ir-tx and the Yamaha Remote is an RAV423 (shipped
-> with my RX-A3030). IR keytable and ir-ctl both have version number 1.16.3.
-> 
-> If you need further information, please let me know.
-> 
-> I'd like to thank you already in advance for your efforts, and I wish you
-> Good Luck in finding the problem!
-> 
-> Best Regards,
-> 
-> Andreas
+
+Is this OK with you?
+
