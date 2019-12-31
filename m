@@ -2,116 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1479712D7D8
-	for <lists+linux-media@lfdr.de>; Tue, 31 Dec 2019 11:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F1112D812
+	for <lists+linux-media@lfdr.de>; Tue, 31 Dec 2019 11:44:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbfLaKUX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Dec 2019 05:20:23 -0500
-Received: from gofer.mess.org ([88.97.38.141]:37603 "EHLO gofer.mess.org"
+        id S1726659AbfLaKog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Dec 2019 05:44:36 -0500
+Received: from gofer.mess.org ([88.97.38.141]:54629 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726334AbfLaKUW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Dec 2019 05:20:22 -0500
+        id S1726421AbfLaKog (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 31 Dec 2019 05:44:36 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id CCC0111A001; Tue, 31 Dec 2019 10:20:20 +0000 (GMT)
-Date:   Tue, 31 Dec 2019 10:20:20 +0000
+        id AD3C311A001; Tue, 31 Dec 2019 10:44:34 +0000 (GMT)
+Date:   Tue, 31 Dec 2019 10:44:34 +0000
 From:   Sean Young <sean@mess.org>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        rfontana@redhat.com, kstewart@linuxfoundation.org,
-        tglx@linutronix.de, skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] media: dvb_dummy_fe: Add error messages in case of
- attach failure
-Message-ID: <20191231102020.GG24469@gofer.mess.org>
-References: <20191201161542.69535-1-dwlsalmeida@gmail.com>
- <20191201161542.69535-3-dwlsalmeida@gmail.com>
+To:     Mohammad Rasim <mohammad.rasim96@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2] media: rc: add keymap for Videostrong KII Pro
+Message-ID: <20191231104434.GA1515@gofer.mess.org>
+References: <20191120114153.17676-1-mohammad.rasim96@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191201161542.69535-3-dwlsalmeida@gmail.com>
+In-Reply-To: <20191120114153.17676-1-mohammad.rasim96@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Dec 01, 2019 at 01:15:38PM -0300, Daniel W. S. Almeida wrote:
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> Complain if the attach functions fail, for any reason. This is helpful
-> when debugging.
-> 
-> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+Hi Mohammad,
+
+On Wed, Nov 20, 2019 at 02:41:53PM +0300, Mohammad Rasim wrote:
+> Changes since v1:
+> - fix styling issues
+> Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
 > ---
->  drivers/media/dvb-frontends/dvb_dummy_fe.c | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
+>  drivers/media/rc/keymaps/Makefile             |  1 +
+>  .../media/rc/keymaps/rc-videostrong-kii-pro.c | 84 +++++++++++++++++++
+>  include/media/rc-map.h                        |  1 +
+>  3 files changed, 86 insertions(+)
+>  create mode 100644 drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
 > 
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> index 909dac2345c4..987c3488fe6c 100644
-> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> @@ -114,12 +114,16 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
->  	/* allocate memory for the internal state */
->  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
->  	if (!state)
-> -		return NULL;
-> +		goto err;
->  
->  	/* create dvb_frontend */
->  	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
->  	state->frontend.demodulator_priv = state;
->  	return &state->frontend;
+> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+> index a56fc634d2d6..ea91a9afa6a0 100644
+> --- a/drivers/media/rc/keymaps/Makefile
+> +++ b/drivers/media/rc/keymaps/Makefile
+> @@ -117,6 +117,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+>  			rc-videomate-m1f.o \
+>  			rc-videomate-s350.o \
+>  			rc-videomate-tv-pvr.o \
+> +			rc-videostrong-kii-pro.o \
+>  			rc-wetek-hub.o \
+>  			rc-wetek-play2.o \
+>  			rc-winfast.o \
+> diff --git a/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
+> new file mode 100644
+> index 000000000000..2b94c28ed5d7
+> --- /dev/null
+> +++ b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
+> @@ -0,0 +1,84 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +//
+> +// Copyright (C) 2019 Mohammad Rasim <mohammad.rasim96@gmail.com>
 > +
-> +err:
-> +	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
-> +	return NULL;
-
-No need to log anything after k[zm]alloc() failures.
-
-Thanks
-
-Sean
-
->  }
->  EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
->  
-> @@ -132,12 +136,16 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
->  	/* allocate memory for the internal state */
->  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
->  	if (!state)
-> -		return NULL;
-> +		goto err;
->  
->  	/* create dvb_frontend */
->  	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
->  	state->frontend.demodulator_priv = state;
->  	return &state->frontend;
+> +#include <media/rc-map.h>
+> +#include <linux/module.h>
 > +
-> +err:
-> +	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
-> +	return NULL;
->  }
->  EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
->  
-> @@ -150,12 +158,16 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
->  	/* allocate memory for the internal state */
->  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
->  	if (!state)
-> -		return NULL;
-> +		goto err;
->  
->  	/* create dvb_frontend */
->  	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
->  	state->frontend.demodulator_priv = state;
->  	return &state->frontend;
+> +//
+> +// Keytable for the Videostrong KII Pro STB remote control
+> +//
 > +
-> +err:
-> +	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
-> +	return NULL;
->  }
->  EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
->  
+
+I assume it's this remote:
+
+https://i1.wp.com/www.eyalo.com/wp-content/uploads/2016/10/KIIPro-items1.jpg
+
+or
+
+https://www.cnx-software.com/2016/08/26/videostrong-kii-pro-android-set-top-box-with-dvb-t2-dvb-s2-tuners-comes-with-2gb-ram/
+
+> +static struct rc_map_table kii_pro[] = {
+> +	{ 0x59, KEY_POWER },
+> +	{ 0x19, KEY_MUTE },
+> +	{ 0x42, KEY_RED },
+> +	{ 0x40, KEY_GREEN },
+> +	{ 0x00, KEY_YELLOW },
+> +	{ 0x03, KEY_BLUE },
+> +	{ 0x4a, KEY_BACK },
+> +	{ 0x48, KEY_FORWARD },
+> +	{ 0x08, KEY_PREVIOUSSONG},
+> +	{ 0x0b, KEY_NEXTSONG},
+> +	{ 0x46, KEY_PLAYPAUSE },
+> +	{ 0x44, KEY_STOP },
+> +	{ 0x1f, KEY_FAVORITES},	//KEY_F5?
+> +	{ 0x04, KEY_RECORD},
+
+KEY_PVR?
+
+> +	{ 0x4d, KEY_EPG},
+> +	{ 0x02, KEY_INFO},
+> +	{ 0x09, KEY_SUBTITLE},
+> +	{ 0x01, KEY_AUDIO},
+> +	{ 0x0d, KEY_HOMEPAGE},
+> +	{ 0x11, KEY_G},		// DTV ?
+
+KEY_TV?
+
+> +	{ 0x06, KEY_UP},
+> +	{ 0x5a, KEY_LEFT},
+> +	{ 0x1a, KEY_ENTER},	// KEY_OK ?
+> +	{ 0x1b, KEY_RIGHT},
+> +	{ 0x16, KEY_DOWN},
+> +	{ 0x45, KEY_MENU},
+> +	{ 0x05, KEY_ESC},
+> +	{ 0x13, KEY_VOLUMEUP },
+> +	{ 0x17, KEY_VOLUMEDOWN },
+> +	{ 0x58, KEY_F6},
+
+KEY_APPSELECT?
+
+> +	{ 0x12, KEY_KATAKANA},	// mouse
+
+I realise mouse doesn't have a good mapping. However katakana, the
+Japanese script, seems a little odd.
+
+> +	{ 0x55, KEY_PAGEUP},	// KEY_CHANNELUP ?
+> +	{ 0x15, KEY_PAGEDOWN},	//KEY_CHANNELDOWN ?
+> +	{ 0x52, KEY_1},
+> +	{ 0x50, KEY_2},
+> +	{ 0x10, KEY_3},
+> +	{ 0x56, KEY_4},
+> +	{ 0x54, KEY_5},
+> +	{ 0x14, KEY_6},
+> +	{ 0x4e, KEY_7},
+> +	{ 0x4c, KEY_8},
+> +	{ 0x0c, KEY_9},
+> +	{ 0x18, KEY_F7},
+> +	{ 0x0f, KEY_0},
+> +	{ 0x51, KEY_BACKSPACE},
+> +
+
+Please remove this blank line.
+
+> +};
+> +
+> +static struct rc_map_list kii_pro_map = {
+> +	.map = {
+> +		.scan     = kii_pro,
+> +		.size     = ARRAY_SIZE(kii_pro),
+> +		.rc_proto = RC_PROTO_NEC,
+> +		.name     = RC_MAP_KII_PRO,
+> +	}
+> +};
+> +
+> +static int __init init_rc_map_kii_pro(void)
+> +{
+> +	return rc_map_register(&kii_pro_map);
+> +}
+> +
+> +static void __exit exit_rc_map_kii_pro(void)
+> +{
+> +	rc_map_unregister(&kii_pro_map);
+> +}
+> +
+> +module_init(init_rc_map_kii_pro)
+> +module_exit(exit_rc_map_kii_pro)
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Mohammad Rasim <mohammad.rasim96@gmail.com>");
+> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+> index afd2ab31bdf2..c2ef3906e1cd 100644
+> --- a/include/media/rc-map.h
+> +++ b/include/media/rc-map.h
+> @@ -271,6 +271,7 @@ struct rc_map *rc_map_get(const char *name);
+>  #define RC_MAP_VIDEOMATE_K100            "rc-videomate-k100"
+>  #define RC_MAP_VIDEOMATE_S350            "rc-videomate-s350"
+>  #define RC_MAP_VIDEOMATE_TV_PVR          "rc-videomate-tv-pvr"
+> +#define RC_MAP_KII_PRO                   "rc-videostrong-kii-pro"
+>  #define RC_MAP_WETEK_HUB                 "rc-wetek-hub"
+>  #define RC_MAP_WETEK_PLAY2               "rc-wetek-play2"
+>  #define RC_MAP_WINFAST                   "rc-winfast"
 > -- 
 > 2.24.0
