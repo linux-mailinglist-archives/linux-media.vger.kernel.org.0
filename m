@@ -2,57 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5193512DE2B
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jan 2020 09:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5FC12DE53
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jan 2020 10:27:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727234AbgAAIUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jan 2020 03:20:17 -0500
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:56920 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727186AbgAAIUR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Jan 2020 03:20:17 -0500
-X-IronPort-AV: E=Sophos;i="5.69,382,1571695200"; 
-   d="scan'208";a="429578761"
-Received: from palace.rsr.lip6.fr (HELO palace.lip6.fr) ([132.227.105.202])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/AES128-SHA256; 01 Jan 2020 09:20:08 +0100
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 11/16] media: cx231xx: constify copied structure
-Date:   Wed,  1 Jan 2020 08:43:29 +0100
-Message-Id: <1577864614-5543-12-git-send-email-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1577864614-5543-1-git-send-email-Julia.Lawall@inria.fr>
-References: <1577864614-5543-1-git-send-email-Julia.Lawall@inria.fr>
+        id S1725809AbgAAJ12 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jan 2020 04:27:28 -0500
+Received: from gofer.mess.org ([88.97.38.141]:38363 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725783AbgAAJ12 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Jan 2020 04:27:28 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 2B36C11A001; Wed,  1 Jan 2020 09:27:27 +0000 (GMT)
+Date:   Wed, 1 Jan 2020 09:27:26 +0000
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.6] DVB & RC
+Message-ID: <20200101092726.GA15659@gofer.mess.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The hauppauge_955q_lgdt3306a_config structure is only copied
-into another structure, so make it const.
+Hi Mauro,
 
-The opportunity for this change was found using Coccinelle.
+Here are the first set of changes for dvb and rc.
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+Thanks,
+Sean
 
----
- drivers/media/usb/cx231xx/cx231xx-dvb.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 0885acd77eb4644fd88f6d9f41e433f4ee9bc37a:
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-dvb.c b/drivers/media/usb/cx231xx/cx231xx-dvb.c
-index e205f7f0a56a..0037b4b1381e 100644
---- a/drivers/media/usb/cx231xx/cx231xx-dvb.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-dvb.c
-@@ -147,7 +147,7 @@ static struct tda18271_config pv_tda18271_config = {
- 	.small_i2c = TDA18271_03_BYTE_CHUNK_INIT,
- };
- 
--static struct lgdt3306a_config hauppauge_955q_lgdt3306a_config = {
-+static const struct lgdt3306a_config hauppauge_955q_lgdt3306a_config = {
- 	.qam_if_khz         = 4000,
- 	.vsb_if_khz         = 3250,
- 	.spectral_inversion = 1,
+  media: vivid: support multiplanar touch devices (2019-12-16 13:24:16 +0100)
 
+are available in the Git repository at:
+
+  git://linuxtv.org/syoung/media_tree.git tags/v5.6a
+
+for you to fetch changes up to 7f539aff71435d56f374912935565ee8efb287f4:
+
+  media: dvb: add support for TerraTec TC2 Stick (193534) (2020-01-01 08:27:23 +0000)
+
+----------------------------------------------------------------
+v5.6a
+
+----------------------------------------------------------------
+Bodo Eggert (1):
+      media: serial_ir: change "ignoring spike" to debug level
+
+Daniel W. S. Almeida (2):
+      media: dvb_dummy_fe: place EXPORT_SYMBOL below corresponding function
+      media: dvb_dummy_fe: Add blank line after declaration
+
+David J. Fiddes (1):
+      media: rtl28xxu: Add support for PROlectrix DV107669 DVB-T dongle
+
+James Hogan (1):
+      MAINTAINERS: Orphan img-ir driver
+
+Sean Young (5):
+      media: digitv: don't continue if remote control state can't be read
+      media: af9005: uninitialized variable printked
+      media: vp7045: do not read uninitialized values if usb transfer fails
+      media: cxusb: use dev_dbg() rather than hand-rolled debug
+      media: rc: ensure lirc is initialized before registering input device
+
+Tomasz Maciej Nowak (1):
+      media: dvb: add support for TerraTec TC2 Stick (193534)
+
+ MAINTAINERS                                |  3 +--
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 10 ++++-----
+ drivers/media/rc/rc-main.c                 | 27 ++++++++++++++----------
+ drivers/media/rc/serial_ir.c               |  2 +-
+ drivers/media/usb/dvb-usb-v2/af9035.c      | 15 +++++++++-----
+ drivers/media/usb/dvb-usb-v2/rtl28xxu.c    |  2 ++
+ drivers/media/usb/dvb-usb/af9005.c         |  2 +-
+ drivers/media/usb/dvb-usb/cxusb.c          | 33 ++++++++++++++----------------
+ drivers/media/usb/dvb-usb/digitv.c         | 10 ++++++---
+ drivers/media/usb/dvb-usb/vp7045.c         | 21 ++++++++++++-------
+ include/media/dvb-usb-ids.h                |  2 ++
+ 11 files changed, 74 insertions(+), 53 deletions(-)
