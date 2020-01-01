@@ -2,86 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5FC12DE53
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jan 2020 10:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77E8D12DE57
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jan 2020 10:34:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725809AbgAAJ12 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jan 2020 04:27:28 -0500
-Received: from gofer.mess.org ([88.97.38.141]:38363 "EHLO gofer.mess.org"
+        id S1725970AbgAAJef (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jan 2020 04:34:35 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:48884 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbgAAJ12 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Jan 2020 04:27:28 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 2B36C11A001; Wed,  1 Jan 2020 09:27:27 +0000 (GMT)
-Date:   Wed, 1 Jan 2020 09:27:26 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.6] DVB & RC
-Message-ID: <20200101092726.GA15659@gofer.mess.org>
+        id S1725783AbgAAJef (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Jan 2020 04:34:35 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1imaNz-007UVI-90; Wed, 01 Jan 2020 09:33:51 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1imaPe-0007xN-5P; Wed, 01 Jan 2020 09:35:34 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.6] DVB & RC
+Date:   Wed,  1 Jan 2020 09:35:34 +0000
+Message-Id: <20200101093534.30544-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200101092726.GA15659@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here are the first set of changes for dvb and rc.
+Pull request: https://patchwork.linuxtv.org/patch/60957/
+Build log: https://builder.linuxtv.org/job/patchwork/31734/
+Build time: 00:05:22
+Link: https://lore.kernel.org/linux-media/20200101092726.GA15659@gofer.mess.org
 
-Thanks,
-Sean
+gpg: Signature made Wed 01 Jan 2020 08:30:04 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-The following changes since commit 0885acd77eb4644fd88f6d9f41e433f4ee9bc37a:
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-  media: vivid: support multiplanar touch devices (2019-12-16 13:24:16 +0100)
+Error/warnings:
 
-are available in the Git repository at:
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.6a
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-serial_ir-change-ignoring-spike-to-debug-level.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-serial_ir-change-ignoring-spike-to-debug-level.patch
+patches/0010-media-serial_ir-change-ignoring-spike-to-debug-level.patch:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-for you to fetch changes up to 7f539aff71435d56f374912935565ee8efb287f4:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0011-media-dvb-add-support-for-TerraTec-TC2-Stick-193534.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0011-media-dvb-add-support-for-TerraTec-TC2-Stick-193534.patch
+patches/0011-media-dvb-add-support-for-TerraTec-TC2-Stick-193534.patch:44: WARNING: line over 80 characters
 
-  media: dvb: add support for TerraTec TC2 Stick (193534) (2020-01-01 08:27:23 +0000)
-
-----------------------------------------------------------------
-v5.6a
-
-----------------------------------------------------------------
-Bodo Eggert (1):
-      media: serial_ir: change "ignoring spike" to debug level
-
-Daniel W. S. Almeida (2):
-      media: dvb_dummy_fe: place EXPORT_SYMBOL below corresponding function
-      media: dvb_dummy_fe: Add blank line after declaration
-
-David J. Fiddes (1):
-      media: rtl28xxu: Add support for PROlectrix DV107669 DVB-T dongle
-
-James Hogan (1):
-      MAINTAINERS: Orphan img-ir driver
-
-Sean Young (5):
-      media: digitv: don't continue if remote control state can't be read
-      media: af9005: uninitialized variable printked
-      media: vp7045: do not read uninitialized values if usb transfer fails
-      media: cxusb: use dev_dbg() rather than hand-rolled debug
-      media: rc: ensure lirc is initialized before registering input device
-
-Tomasz Maciej Nowak (1):
-      media: dvb: add support for TerraTec TC2 Stick (193534)
-
- MAINTAINERS                                |  3 +--
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 10 ++++-----
- drivers/media/rc/rc-main.c                 | 27 ++++++++++++++----------
- drivers/media/rc/serial_ir.c               |  2 +-
- drivers/media/usb/dvb-usb-v2/af9035.c      | 15 +++++++++-----
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c    |  2 ++
- drivers/media/usb/dvb-usb/af9005.c         |  2 +-
- drivers/media/usb/dvb-usb/cxusb.c          | 33 ++++++++++++++----------------
- drivers/media/usb/dvb-usb/digitv.c         | 10 ++++++---
- drivers/media/usb/dvb-usb/vp7045.c         | 21 ++++++++++++-------
- include/media/dvb-usb-ids.h                |  2 ++
- 11 files changed, 74 insertions(+), 53 deletions(-)
