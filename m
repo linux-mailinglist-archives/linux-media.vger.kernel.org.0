@@ -2,163 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3157F12DE87
-	for <lists+linux-media@lfdr.de>; Wed,  1 Jan 2020 11:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2623912DFBD
+	for <lists+linux-media@lfdr.de>; Wed,  1 Jan 2020 18:28:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725916AbgAAKUX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Jan 2020 05:20:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33998 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725783AbgAAKUX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Jan 2020 05:20:23 -0500
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B43C0206DB;
-        Wed,  1 Jan 2020 10:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577874022;
-        bh=loySFV+1No4UURYPX1PiQoRkdoL7jCSrVNRiVe2Ay7U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vJKdmpVoVliMKfQ9/EqIQ6l/bJQxbUA3PLLf5DtkC9ivcovKamHhsc1U7woqUmCoF
-         6u8zwmMsqKc0DuVH2MM9Kym/cp2Q/qIQpfymya7DB/eRULV4L25FoEjnM3//bKJ4yo
-         BNmlXlnCS7y6UfJme+vnPCfakKerHguIjSJOQrFg=
-Received: by mail-wr1-f44.google.com with SMTP id q10so36747687wrm.11;
-        Wed, 01 Jan 2020 02:20:21 -0800 (PST)
-X-Gm-Message-State: APjAAAXf9Q2OfIpL2rdhQuEMvyjSuH68HI6CtzpTkB1P246yGyDbXSeY
-        pWZLeN2NVz9gD0j7ymMrNxiJqnL4UkflMXasbPQ=
-X-Google-Smtp-Source: APXvYqzh5wHLqjlcU5A/ZD5QRw8rK2s/y+6ksfYFN5O7FNyf1M1xi1TNzp8b9mNSXqfr3PwCJlbHmm4GVvyZb8/RaXA=
-X-Received: by 2002:a05:6000:11c6:: with SMTP id i6mr78369163wrx.178.1577874020171;
- Wed, 01 Jan 2020 02:20:20 -0800 (PST)
+        id S1727300AbgAAR2p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Jan 2020 12:28:45 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43550 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727215AbgAAR2p (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Jan 2020 12:28:45 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16497516;
+        Wed,  1 Jan 2020 18:28:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1577899723;
+        bh=u6UQvtxASWHHS98zayG3UpaqfxUzm1Mm80eyeU/xmRk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hzDwoFMZhgsXNgAR07SPfUuT4q0jzmFBXqitvXOiqDS1u/VpFrzAf917qU5kYcMLJ
+         fXcCcwGQCBWZGU8ns7S2S/tkoh5xriPqRw4kiTm5i/DY6lokm+KRE35otQcIlTOB//
+         7QqGPiD9npPfZYgxhuUMSUxa8Dj2jf5pS8pmPA1E=
+Date:   Wed, 1 Jan 2020 19:28:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jun Chen <ptchentw@gmail.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jun Chen <jun.chen@vatics.com>
+Subject: Re: [PATCH] media: uvcvideo: Fix annotation for
+ uvc_video_clock_update()
+Message-ID: <20200101172833.GG6226@pendragon.ideasonboard.com>
+References: <1577241257-9203-1-git-send-email-ptchentw@gmail.com>
 MIME-Version: 1.0
-References: <20191215165924.28314-1-wens@kernel.org>
-In-Reply-To: <20191215165924.28314-1-wens@kernel.org>
-From:   Chen-Yu Tsai <wens@kernel.org>
-Date:   Wed, 1 Jan 2020 18:20:08 +0800
-X-Gmail-Original-Message-ID: <CAGb2v645ZGy4M80bDNnuwg7LybqyOTkZTzwvzVbb3HrF9A687w@mail.gmail.com>
-Message-ID: <CAGb2v645ZGy4M80bDNnuwg7LybqyOTkZTzwvzVbb3HrF9A687w@mail.gmail.com>
-Subject: Re: [PATCH 00/14] media: sun4i-csi: A10/A20 CSI1 and R40 CSI0 support
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Chen-Yu Tsai <wens@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1577241257-9203-1-git-send-email-ptchentw@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hello Jun,
 
+Thank you for the patch.
 
-On Mon, Dec 16, 2019 at 12:59 AM Chen-Yu Tsai <wens@kernel.org> wrote:
->
-> From: Chen-Yu Tsai <wens@csie.org>
->
-> Hi everyone,
->
-> This series adds basic support for CSI1 on Allwinner A10/A20 and CSI0 on
-> Allwinner R40. The CSI1 block has the same structure and layout as the
-> CSI0 block. Differences include:
->
->   - Only one channel in BT.656 instead of four in CSI0
->   - 10-bit raw data input vs 8-bit in CSI0
->   - 24-bit RGB888/YUV444 input vs 16-bit RGB565/YUV422 in CSI0
->   - No ISP hardware (CSI SCLK not needed)
->
-> The CSI0 block in the Allwinner R40 SoC looks to be the same as the one
-> in the A20. The register maps line up, and they support the same
-> features. The R40 appears to support BT.1120 based on the feature
-> overview, but it is not mentioned anywhere else. Also like the A20, the
-> ISP is not mentioned, but the CSI special clock needs to be enabled for
-> the hardware to function. The manual does state that the CSI special
-> clock is the TOP clock for all CSI hardware, but currently no hardware
-> exists for us to test if CSI1 also depends on it or not.
->
-> Included are a couple of fixes for signal polarity and DRAM offset
-> handling.
->
-> Patches 1 and 2 add compatible strings for the newly supported hardware.
->
-> Patches 3 and 4 fix the polarity setting of [HV]sync and data sampling.
-> Allwinner hardware uses [HV]ref semantics instead of [HV]sync.
->
-> Patch 5 deals with the DRAM offset when the CSI hardware does DMA. The
-> hardware does DMA directly to the memory bus, thus requiring the address
-> to not be offset like when DMA is done over the system bus.
->
-> Patch 6 add support for the CSI1 hardware block. For now this simply
-> means not requiring the ISP clock.
->
-> Patches 7 and 8 add CSI1 to A10 (sun4i) and A20 (sun7i) dtsi files.
->
-> Patch 9 adds I2C pixmuxing options for the R40. Used in the last example
-> patch.
->
-> Patch 10 adds a compatible string for the R40's MBUS (memory bus).
->
-> Patch 11 adds CSI0 to the R40 dtsi file
->
-> Patches 12 through 14 are examples of cameras hooked up to boards.
->
-> Please have a look. The MBUS compatible patch is likely to conflict
-> with a DT binding conversion patch Maxime sent out.
->
-> Also, I sent out an email asking about the polarity settings for
-> [HV]sync, how to signal the use of [HV]ref instead, and how to pass
-> timings from the camera to the capture interface. So far I haven't
-> heard back. In particular I think the OV7670 driver has inverted
-> polarity settings for HSYNC. Not sure about VSYNC.
->
->
-> Regards
-> ChenYu
->
->
-> Chen-Yu Tsai (14):
->   dt-bindings: media: sun4i-csi: Add compatible for CSI1 on A10/A20
->   dt-bindings: media: sun4i-csi: Add compatible for CSI0 on R40
->   media: sun4i-csi: Fix data sampling polarity handling
->   media: sun4i-csi: Fix [HV]sync polarity handling
->   media: sun4i-csi: Deal with DRAM offset
->   media: sun4i-csi: Add support for A10 CSI1 camera sensor interface
+On Wed, Dec 25, 2019 at 10:34:17AM +0800, Jun Chen wrote:
+> From: Jun Chen <jun.chen@vatics.com>
+> 
+> The formula (2) is to convert from SOF to host clock,
+> it should be fix as
+> "TS = ((TS2 - TS1) * SOF + TS1 * SOF2 - TS2 * SOF1) / (SOF2 - SOF1)"
+> 
+> Signed-off-by: Jun Chen <jun.chen@vatics.com>
 
-Any news on these 6 patches? I believe they have the required acks.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-We (sunxi maintainers) will take the remain patches once these are in.
+and applied to my tree.
 
-ChenYu
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 8fa77a8..a3150da 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -622,7 +622,7 @@ static u16 uvc_video_clock_host_sof(const struct uvc_clock_sample *sample)
+>   * to avoid losing precision in the division. Similarly, the host timestamp is
+>   * computed with
+>   *
+> - * TS = ((TS2 - TS1) * PTS + TS1 * SOF2 - TS2 * SOF1) / (SOF2 - SOF1)	     (2)
+> + * TS = ((TS2 - TS1) * SOF + TS1 * SOF2 - TS2 * SOF1) / (SOF2 - SOF1)	     (2)
+>   *
+>   * SOF values are coded on 11 bits by USB. We extend their precision with 16
+>   * decimal bits, leading to a 11.16 coding.
 
->   ARM: dts: sun4i: Add CSI1 controller and pinmux options
->   ARM: dts: sun7i: Add CSI1 controller and pinmux options
->   ARM: dts: sun8i: r40: Add I2C pinmux options
->   dt-bindings: bus: sunxi: Add R40 MBUS compatible
->   ARM: dts: sun8i: r40: Add device node for CSI0
->   [DO NOT MERGE] ARM: dts: sun4i: cubieboard: Enable OV7670 camera on
->     CSI1
->   [DO NOT MERGE] ARM: dts: sun7i: cubieboard2: Enable OV7670 camera on
->     CSI1
->   [DO NOT MERGE] ARM: dts: sun8i-r40: bananapi-m2-ultra: Enable OV5640
->     camera
->
->  .../bindings/arm/sunxi/sunxi-mbus.txt         |  1 +
->  .../media/allwinner,sun4i-a10-csi.yaml        | 14 +++-
->  arch/arm/boot/dts/sun4i-a10-cubieboard.dts    | 42 ++++++++++++
->  arch/arm/boot/dts/sun4i-a10.dtsi              | 35 ++++++++++
->  arch/arm/boot/dts/sun7i-a20-cubieboard2.dts   | 42 ++++++++++++
->  arch/arm/boot/dts/sun7i-a20.dtsi              | 36 ++++++++++
->  .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 67 +++++++++++++++++++
->  arch/arm/boot/dts/sun8i-r40.dtsi              | 64 ++++++++++++++++++
->  .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 57 ++++++++++++++--
->  .../platform/sunxi/sun4i-csi/sun4i_csi.h      |  6 +-
->  .../platform/sunxi/sun4i-csi/sun4i_dma.c      | 20 ++++--
->  11 files changed, 370 insertions(+), 14 deletions(-)
->
-> --
-> 2.24.0
->
+-- 
+Regards,
+
+Laurent Pinchart
