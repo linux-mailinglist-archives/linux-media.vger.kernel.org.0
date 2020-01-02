@@ -2,62 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5D7412E6BA
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2020 14:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF9B412E6EB
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2020 14:47:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728424AbgABN0Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Jan 2020 08:26:24 -0500
-Received: from alexa-out-blr-01.qualcomm.com ([103.229.18.197]:7301 "EHLO
-        alexa-out-blr-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728398AbgABN0Y (ORCPT
+        id S1728395AbgABNr7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Jan 2020 08:47:59 -0500
+Received: from retiisi.org.uk ([95.216.213.190]:56656 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728378AbgABNr7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Jan 2020 08:26:24 -0500
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA; 02 Jan 2020 18:55:47 +0530
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 02 Jan 2020 18:55:38 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id 2E19B34E1; Thu,  2 Jan 2020 18:55:37 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, vgarodia@codeaurora.org,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH V3 4/4] arm64: dts: sc7180: Add Venus firmware subnode
-Date:   Thu,  2 Jan 2020 18:55:01 +0530
-Message-Id: <1577971501-3732-5-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1577971501-3732-1-git-send-email-dikshita@codeaurora.org>
-References: <1577971501-3732-1-git-send-email-dikshita@codeaurora.org>
+        Thu, 2 Jan 2020 08:47:59 -0500
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 09A3E634C86;
+        Thu,  2 Jan 2020 15:46:58 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1in0oU-0001sr-AW; Thu, 02 Jan 2020 15:46:58 +0200
+Date:   Thu, 2 Jan 2020 15:46:58 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+Subject: [GIT PULL for 5.6] Smiapp PM patches and omap3isp fixes
+Message-ID: <20200102134658.GH5050@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds Venus firmware subnode for non-TZ platform.
+Hi Mauro,
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7180-idp.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+Here's a few fixes for omap3isp plus cleanups for the smiapp driver.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-index 388f50a..2f82510 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-@@ -287,6 +287,12 @@
- 	vdda-pll-supply = <&vreg_l4a_0p8>;
- };
- 
-+&venus {
-+	video-firmware {
-+		iommus = <&apps_smmu 0x0c42 0x0>;
-+	};
-+};
-+
- /* PINCTRL - additions to nodes defined in sc7180.dtsi */
- 
- &qspi_clk {
+Please pull.
+
+
+The following changes since commit 0885acd77eb4644fd88f6d9f41e433f4ee9bc37a:
+
+  media: vivid: support multiplanar touch devices (2019-12-16 13:24:16 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/smiapp-pm-5.6-1-signed
+
+for you to fetch changes up to 5836ef92ac0205bfb6d354b39aabf2fab54f6666:
+
+  smiapp: Put the device again if starting streaming fails (2020-01-02 14:59:35 +0200)
+
+----------------------------------------------------------------
+smiapp patches for 5.6
+
+----------------------------------------------------------------
+Sakari Ailus (4):
+      omap3isp: Ignore failure of stopping streaming on external subdev
+      omap3isp: Don't restart CCDC if we're about to stop
+      smiapp: Avoid maintaining power state information
+      smiapp: Put the device again if starting streaming fails
+
+ drivers/media/i2c/smiapp/smiapp-core.c    | 198 +++++++++++++++++-------------
+ drivers/media/i2c/smiapp/smiapp-regs.c    |   3 -
+ drivers/media/i2c/smiapp/smiapp.h         |   1 -
+ drivers/media/platform/omap3isp/isp.c     |   8 +-
+ drivers/media/platform/omap3isp/ispccdc.c |  12 +-
+ 5 files changed, 126 insertions(+), 96 deletions(-)
+
 -- 
-1.9.1
-
+Sakari Ailus
