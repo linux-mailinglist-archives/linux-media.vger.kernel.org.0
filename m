@@ -2,83 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1A9912F88E
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2020 13:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 183E812F898
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2020 14:06:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727542AbgACM5P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jan 2020 07:57:15 -0500
-Received: from mxa1.seznam.cz ([77.75.78.90]:43374 "EHLO mxa1.seznam.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727350AbgACM5O (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Jan 2020 07:57:14 -0500
-X-Greylist: delayed 774 seconds by postgrey-1.27 at vger.kernel.org; Fri, 03 Jan 2020 07:57:13 EST
-Received: from email.seznam.cz
-        by email-smtpc3a.ko.seznam.cz (email-smtpc3a.ko.seznam.cz [10.53.10.75])
-        id 501caf9687a716f350b4b151;
-        Fri, 03 Jan 2020 13:57:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz; s=beta;
-        t=1578056231; bh=gmJYERsgZXJhuLAyaeMIXNvdxqStI1Z1MY1ZIeFMQL8=;
-        h=Received:From:To:Date:MIME-Version:Subject:Message-ID:Priority:
-         X-mailer:Content-type:Content-transfer-encoding:
-         Content-description;
-        b=VyhgMTl7w3boxkFxgAhQa9ihsYrxOmUANMgmGoF1SPNjEbUmCfjOnnvZOGvjM6KtP
-         5JGF3mWfAezetpl1kWikmRR2mdGGG1Mf3sjCNKB/w25IOwSUA135J+BN7x8a4U988N
-         4bNwL6NKl+zMzrTOF4DWhXogA9f+Xv0Lq+kCy/EU=
-Received: from [192.168.2.14] (250.68.pool1.tetanet.cz [109.202.68.250])
-        by email-relay1.ko.seznam.cz (Seznam SMTPD 1.3.108) with ESMTP;
-        Fri, 03 Jan 2020 13:44:15 +0100 (CET)  
-From:   "Frantisek Rysanek" <Frantisek.Rysanek@post.cz>
-To:     linux-media@vger.kernel.org
-Date:   Fri, 03 Jan 2020 13:44:13 +0100
+        id S1727628AbgACNF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jan 2020 08:05:56 -0500
+Received: from plasma6.jpberlin.de ([80.241.56.68]:38313 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727587AbgACNF4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Jan 2020 08:05:56 -0500
+Received: from spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116])
+        by plasma.jpberlin.de (Postfix) with ESMTP id D70A5C2130;
+        Fri,  3 Jan 2020 14:05:51 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id C0D58mG9R_l0; Fri,  3 Jan 2020 14:05:47 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id BB0B7C20E2;
+        Fri,  3 Jan 2020 14:05:46 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 3 Jan 2020
+ 14:05:46 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Keiichi Watanabe <keiichiw@chromium.org>,
+        <virtio-dev@lists.oasis-open.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>, <uril@redhat.com>
+Subject: Re: [PATCH v2 0/1] VirtIO video device specification
+Date:   Fri, 3 Jan 2020 14:05:45 +0100
+Message-ID: <3016670.ToaXtcqt80@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAAFQd5BxpOjAXV2TtF3GZfuZUJb65bECUn3VGtOxBOMz=bmnFg@mail.gmail.com>
+References: <20191218130214.170703-1-keiichiw@chromium.org> <CAAFQd5DbYC1P-nOCUxEtZfy5jGDoUb467nciHC9_A_H_6TwvoA@mail.gmail.com> <CAAFQd5BxpOjAXV2TtF3GZfuZUJb65bECUn3VGtOxBOMz=bmnFg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: FYI: Mygica T230C v2 works for me in 5.4.6 vanilla
-Message-ID: <5E0F371D.25003.17A93399@Frantisek.Rysanek.post.cz>
-X-mailer: Pegasus Mail for Windows (4.73.639)
-Content-type: text/plain; charset=US-ASCII
-Content-transfer-encoding: 7BIT
-Content-description: Mail message body
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear gentlemen (you know who you are),
+Hi Tomasz, Keiichi,
 
-I'm back to "T230C v2" and things look significantly better than half 
-a year ago. As far as I can tell, the vanilla driver (dvbsky) works 
-just fine, I can receive DVB-T and DVB-T2. I haven't tested the IR 
-remote yet, I actually have a wireless mini-keyboard, will get to IR 
-later. I have a few further small issues to polish in the user space 
-config and mechanical integration, before "production phase-in" :-)
+On Samstag, 21. Dezember 2019 07:19:23 CET Tomasz Figa wrote:
+> On Sat, Dec 21, 2019 at 3:18 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> > On Sat, Dec 21, 2019 at 1:36 PM Keiichi Watanabe <keiichiw@chromium.org> 
+wrote:
+> > > Hi Dmitry,
+> > > 
+> > > On Sat, Dec 21, 2019 at 12:59 AM Dmitry Sepp
+> > > 
+> > > <dmitry.sepp@opensynergy.com> wrote:
+> > > > Hi Keiichi,
+> > > > 
+> > > > On Mittwoch, 18. Dezember 2019 14:02:13 CET Keiichi Watanabe wrote:
+> > > > > Hi,
+> > > > > This is the 2nd version of virtio-video patch. The PDF is available
+> > > > > in [1].
+> > > > > The first version was sent at [2].
+> > > > > 
+> > > > > Any feedback would be appreciated. Thank you.
+> > > > > 
+> > > > > Best,
+> > > > > Keiichi
+> > > > > 
+> > > > > [1]:
+> > > > > https://drive.google.com/drive/folders/1eT5fEckBoor2iHZR4f4GLxYzFMVa
+> > > > > pOFx?us
+> > > > > p=sharing [2]: https://markmail.org/message/gc6h25acct22niut
+> > > > > 
+> > > > > Change log:
+> > > > > 
+> > > > > v2:
+> > > > > * Removed functionalities except encoding and decoding.
+> > > > > * Splited encoder and decoder into different devices that use the
+> > > > > same
+> > > > > protocol. * Replaced GET_FUNCS with GET_CAPABILITY.
+> > > > > * Updated structs for capabilities.
+> > > > > 
+> > > > >   - Defined new structs and enums such as image formats, profiles,
+> > > > >   range
+> > > > > 
+> > > > > (min, max, step), etc
+> > > > > 
+> > > > >     * For virtio_video_pixel_format, chose a naming convention that
+> > > > >     is used
+> > > > >     
+> > > > >       in DRM. We removed XBGR, NV21 and I422, as they are not used
+> > > > >       in the
+> > > > >       current draft implementation. https://lwn.net/Articles/806416/
+> > > > >   
+> > > > >   - Removed virtio_video_control, whose usage was not documented yet
+> > > > >   and
+> > > > > 
+> > > > > which is not necessary for the simplest decoding scenario.
+> > > > > 
+> > > > >   - Removed virtio_video_desc, as it is no longer needed.
+> > > > > 
+> > > > > * Updated struct virtio_video_config for changes around
+> > > > > capabilities.
+> > > > > * Added a way to represent supported combinations of formats.
+> > > > > 
+> > > > >   - A field "mask" in virtio_video_format_desc plays this role.
+> > > > > 
+> > > > > * Removed VIRTIO_VIDEO_T_STREAM_{START,STOP} because they don't play
+> > > > > any
+> > > > > meaningful roles. * Removed VIRTIO_VIDEO_T_STREAM_{ATTACH,
+> > > > > DETACH}_BACKING
+> > > > > and merged them into RESOURCE_{CREATE, DESTROY}. * Added a way to
+> > > > > notify/specify resource creation method.
+> > > > > 
+> > > > >   - Added a feature flag.
+> > > > >   - Defined enum virtio_video_mem_type.
+> > > > >   - Added new fields in video_stream_create.
+> > > > > 
+> > > > > * Modified fields in virtio_video_params.
+> > > > > 
+> > > > >   - Added crop information.
+> > > > > 
+> > > > > * Removed enum virtio_video_channel_type because we can get this
+> > > > > information by image format.
+> > > > 
+> > > > Could you please explain this? How do you get the information?
+> > > 
+> > > It means that if image formats are well-defined, channel information
+> > > (e.g. the order of channels) is uniquely determined.
+> > > 
+> > > > Suppose you have some piece of HW on the host side that wants I420 as
+> > > > one
+> > > > contig buffer w/ some offsets. But on the driver side, say, gralloc
+> > > > gives you three separate buffers, one per channel. How do we pass
+> > > > those to the device then?
+> > > 
+> > > You're talking about CrOS use case where buffers are allocated by
+> > > virtio-gpu, right?
+> > > In this case, virtio-gpu allocates one contiguous host-side buffer and
+> > > the client regards a pair of (buffer FD, offset) as one channel.
+> > > And, we can register this pair to the device when the buffer is
+> > > imported.
+> > > In the virtio-vdec spec draft, this pair corresponds to struct
+> > > virtio_vdec_plane in struct virtio_vdec_plane.
+> > > 
+> > > So, I suppose we will need similar structs when we add a control to
+> > > import buffers. However, I don't think it's necessary when guest pages
+> > > are used.
+> > 
+> > I think we need some way for the guest to know whether it can allocate
+> > the planes in separate buffers, even when guest pages are used. This
+> > would be equivalent to V4L2 M and non-M formats, but mixing this into
+> > FourCC in V4L2 is an acknowledged mistake, so we should add a query or
+> > something.
+> > 
 
-Namely I'd like to thank the following people for making this 
-possible:
+Yes, this is what I mean. In fact, we already do face the situation when the 
+device side is not happy with the sgt and wants contig. I think we'll add a 
+module parameter for now.
 
-Antti Palosaari
-Jan Pieter van Woerkom
-Sean Young
-and of course MCC the master maintainer.
-Plus a few further people in the user space department: 
-Klaus Schmidinger, Rolf Ahrenberg to name just two - but there are 
-many others.
+Regards,
+Dmitry.
 
-FYI: I'm aiming for DVR as the TV viewer and recorder app, with 
-vdr-vaapidevice-plugin as the front-end part, or maybe the latest 
-developments of the softhddevice (also with VAAPI support).
-Just about yesterday I've become aware of a few friendly 
-German-speaking hackers at vdr-portal.de who seem to have quite a bit 
-going on at that software front.
-I've compiled fresh VDR and about 5 of its dependency packages, all 
-without significant compile-time errors, in Debian 10.
-I have a shiny new J4105-ITX to test on and over the last month I've 
-spent a few happy evenings hacking away at the funny little hardware 
-(mechanical integration, custom-length cabling, power supply stuff).
-I'm not taking the easy mainstream route :-) It's all starting to 
-take shape and make sense, and to my surprise, the Gemini Lake 
-apparently renders the picture better than the temporary Skylake 
-machine I used to test on in the summer.
+> > For future V4L2 development we came up with the idea of a format flag
+> > which could mean that the hardware allows putting planes in separate
+> > buffers. We could have a similar per-format flag in the capabilities,
+> > as we already have a list of all the supported formats there.
+> 
+> Sorry, forgot to paste the link from future V4L2 work notes from this year
+> ELCE: https://www.spinics.net/lists/linux-media/msg159789.html
+> 
+> > Best regards,
+> > Tomasz
+> > 
+> > > Best regards,
+> > > Keiichi
+> > > 
+> > > > Best regards,
+> > > > Dmitry.
+> > > > 
+> > > > > * Renamed virtio_video_pin to virtio_video_buf_type.
+> > > > > 
+> > > > >   - It's similar to V4L2_BUF_TYPE_VIDEO_{OUTPUT, CAPTURE}.
+> > > > > 
+> > > > > * Added an error event.
+> > > > > * Reordered some subsections.
+> > > > > * Changed styles to make it consistent with other devices.
+> > > > > 
+> > > > > Dmitry Sepp (1):
+> > > > >   virtio-video: Add virtio video device specification
+> > > > >  
+> > > > >  content.tex      |   1 +
+> > > > >  virtio-video.tex | 579
+> > > > >  +++++++++++++++++++++++++++++++++++++++++++++++
+> > > > >  2 files changed, 580 insertions(+)
+> > > > >  create mode 100644 virtio-video.tex
+> > > > > 
+> > > > > --
+> > > > > 2.24.1.735.g03f4e72817-goog
 
-All the best in the new year, thank you, keep having fun :-)
-
-Frank Rysanek
 
