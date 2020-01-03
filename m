@@ -2,71 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BABC612F4FE
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2020 08:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D45612F6DF
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2020 11:49:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727392AbgACHiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Jan 2020 02:38:02 -0500
-Received: from sonic301-30.consmr.mail.ne1.yahoo.com ([66.163.184.199]:37926
-        "EHLO sonic301-30.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727059AbgACHiA (ORCPT
+        id S1727498AbgACKtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jan 2020 05:49:07 -0500
+Received: from retiisi.org.uk ([95.216.213.190]:35464 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727220AbgACKtG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Jan 2020 02:38:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1578037079; bh=MJdpASvZnpj3gXKZxrNskiGAl+hYYwdjGUMDZ9fMpsI=; h=Date:From:Reply-To:Subject:References:From:Subject; b=QSzh+FyK+PQqbNd1K5cuBfArUFqLiHiJAQkXv9ezOJqgEXC8QGQMQgZAHUyU4Q0YcLWtuY4D2Sr0/dr6OjadKmrFpRakTwV7xCp1Dw9f3Q8q2/NkQ+4lnuwCSU6ZzF+/SD5BmTiB2snpNWbd/vjroSKHRXVe13Ijb3DEHq61gm+41ZOBxaPDbGxUDpkZ8SREJ0VaTp1sKxjjUlqQ71XhzeDKepMbeP55ACCKICPw3k8vC84jh5JeEVKUf4+ADYt70sDmqegTPKmZMC9QOWyFjc5PX3rjn6/D10NDWKEFrjS7h/8J9Y+dKohuMDQAzRvoNR6eF6qw7FzJN6TwUm1t6Q==
-X-YMail-OSG: yXnmVBcVM1nFNSolob2gHkbHPZ3yfZSyZjIbiwo.24pXbh3OORIC9CiEzjjKfH6
- 8rSqYYnETRF7LhGLdUPzfYxNL6Gya8Ka3CCZWTtjqUbND6M5a2wBG3Y7vYCztdFqeu78uLMNZC5m
- b7EeHWZ4xaoadYgjjjfuitcXMc36jsOezDOKkecQ9TRe6DtHyC5EvQqVsYwapO8tlf4JYG6EG.FO
- fpu2auCbIRLs2MMA4vMibGMiLjZrSyX1kCZbgDexAdD_u8b6KDCrEjd.8YF8F5qs3Fs_VGdMsOR0
- jZsb6E8Efoq_Si6fVJggXbZQTFHf8MpBVXhO5euMma_ZBUlsoQi2o0U1Odi4aNmPfRfOEgmR90h.
- jdRum8_.6VtYtI_pOGkH2YCHRtFFd476aeEECdrF.AFtyXeOxs2o7H749gRc9BNV6sXxBwgMOj2E
- ShP09eiehvu.hKrhwu6x6yrDIIpsTqX7LCK0nHuyzZs1uvNd2EfdAbHabW7zBrJJLPT5PaIY4ovG
- p0Szss.hm_6Pz4O9p5anMdPoK43XMHT03yxf6swDbirj_O98EUYSPd9C6B1LXMD0iWHjuSl4tu4z
- GIkIvc5lErAM8tTr24dgvhNxDUiJjvDKO8aA9jRuhSAko29MJ2iRVxJezRLqhuWEeVdzlkskH9EI
- ZD_4G3.v4_qxcPOSs4ITL4lFHkQ3bJ1Y3Sy7rM5os5jjdtpUycMyD5TDpD__0Zyv.rpIlc3Kp6oq
- ina.QJE1E6rtxYYhIcDId1NSX8jEd6EvQxUOBktCleihXRVNPm2g0PWI_eEw1eFFFD7gOcvtR7WD
- BH75SicEpJ4UxtblvYRCgbF4nBbu07TsJlDBqpoYhXjSllQlGGLt66pzu0itIp62Il08vY2UkuvB
- 47aUc1oLbRxxjU.ZjgJiYHzj6rspZAMCHXwdber4wpv4kbkhO7B1ErJ9czk266z92WRVUmIXubFy
- xoCO4fNiGxGSeULLlJXDzuatxKFNeZOshtAHHZsIYIpy8hqudstdD960GzqSzolnSothWFrZ9lPk
- fdpDXQjhh_Bhq4AyRjbclegvE0E2Q6oVs48sZAx4e9.9jOD53UK9T51iW.8Qg4gQ7WDyjiFU097R
- zRDteTFA2hFNqSihVhw0S70tRmOJUBWFF02lceT0zzN5czDm.R0ujSijrvskZZ8FRh6voapbwD2b
- 2ZlGVZU0NAjdPxBL5xsAIPzLSSlYf_w7Z.xyZ7MCtzl.LRHZTR7.FX2iNvzladPYgxttJZOgLMCI
- m7qk3S8Vtp3MqstvSjUF8K5e9axmV8qc4Htq4lQZhpUQ8zddeP2QVwyQbhsfIP2LKdUbWexqI
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Fri, 3 Jan 2020 07:37:59 +0000
-Date:   Fri, 3 Jan 2020 07:37:55 +0000 (UTC)
-From:   Brian Gilvary <1brian.gilvary@gmail.com>
-Reply-To: gilvarybrian@aol.com
-Message-ID: <466166173.6197256.1578037075711@mail.yahoo.com>
-Subject: Happy New Year For Our Mutual Benefits
+        Fri, 3 Jan 2020 05:49:06 -0500
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 57E00634C8C
+        for <linux-media@vger.kernel.org>; Fri,  3 Jan 2020 12:48:02 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1inKUs-0001zC-O5
+        for linux-media@vger.kernel.org; Fri, 03 Jan 2020 12:48:02 +0200
+Date:   Fri, 3 Jan 2020 12:48:02 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.6] Sensor and bridge driver patches
+Message-ID: <20200103104802.GK5050@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <466166173.6197256.1578037075711.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.14873 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hi Mauro,
 
-As the Chief Financial Officer, British Petroleum Company plc (BP), I am in=
- a position to facilitate immediate transfer of =C2=A3 48,000,000.00 (Forty=
- Eight Million British Pounds Sterling), to any of your nominated Bank Acco=
-unt.
+Here's a set of sensor and bridge driver patches for 5.6. Included are
+support for additional sun4i receiver hardware plus fixes here and there.
 
-Source of Funds: An over-invoiced payment from a past project executed in m=
-y department. I cannot successfully achieve this transaction without presen=
-ting you as foreign contractor who will provide the bank account to receive=
- the funds. Every documentation for the claim of the funds will be legally =
-processed and documented, so I will need your full co-operation for our mut=
-ual benefits.
+Please pull.
 
-We will discuss details if you are interested to work with me to secure thi=
-s funds, as I said for our mutual benefits. I will be looking forward to yo=
-ur prompt response.
 
-Best regards
-Brian Gilvary
-Chief financial officer
-BP, Plc.
+The following changes since commit 0885acd77eb4644fd88f6d9f41e433f4ee9bc37a:
+
+  media: vivid: support multiplanar touch devices (2019-12-16 13:24:16 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.6-1.1-signed
+
+for you to fetch changes up to 5774c3adcaff4993dd5c4d5056620c4808f554e3:
+
+  media: sun4i-csi: Add support for A10 CSI1 camera sensor interface (2020-01-03 12:43:58 +0200)
+
+----------------------------------------------------------------
+Sensor and CSI-2 driver patches for 5.6
+
+----------------------------------------------------------------
+Adam Ford (2):
+      media: ov5640: Put max framerate into table and simplify check
+      media: ov5640: Fix check for PLL1 exceeding max allowed rate
+
+Bingbu Cao (2):
+      media: staging/intel-ipu3: set the main output as mandatory
+      media: staging/intel-ipu3: make imgu use fixed running mode
+
+Chen-Yu Tsai (6):
+      dt-bindings: media: sun4i-csi: Add compatible for CSI1 on A10/A20
+      dt-bindings: media: sun4i-csi: Add compatible for CSI0 on R40
+      media: sun4i-csi: Fix data sampling polarity handling
+      media: sun4i-csi: Fix [HV]sync polarity handling
+      media: sun4i-csi: Deal with DRAM offset
+      media: sun4i-csi: Add support for A10 CSI1 camera sensor interface
+
+Eugen Hristev (1):
+      media: i2c: mt9v032: fix enum mbus codes and frame sizes
+
+Jules Irenge (1):
+      staging: ipu3: replace 0 with false
+
+ .../bindings/media/allwinner,sun4i-a10-csi.yaml    | 14 +++-
+ Documentation/media/v4l-drivers/ipu3.rst           |  6 +-
+ drivers/media/i2c/mt9v032.c                        | 10 ++-
+ drivers/media/i2c/ov5640.c                         | 41 ++++++-----
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 57 ++++++++++++++--
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h |  6 +-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 20 ++++--
+ drivers/staging/media/ipu3/TODO                    |  3 -
+ drivers/staging/media/ipu3/include/intel-ipu3.h    |  4 --
+ drivers/staging/media/ipu3/ipu3-css.c              |  2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c             | 79 ++++------------------
+ drivers/staging/media/ipu3/ipu3.h                  |  5 +-
+ 12 files changed, 132 insertions(+), 115 deletions(-)
+
+-- 
+Sakari Ailus
