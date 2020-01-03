@@ -2,164 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13E9212F3F0
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2020 05:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 748D012F4B3
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2020 07:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727325AbgACE42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Jan 2020 23:56:28 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59613 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725890AbgACE41 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Jan 2020 23:56:27 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:5c8e:dba5:8c1c:1972])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id nF0ZiSHdJGyJwnF0aiilfx; Fri, 03 Jan 2020 05:56:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578027384; bh=2lztsQBnqkaBNVg0MudWCbJ7Wb4eO21aYBtoOIMTFqk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=TloBcgBzFdPO9nSCbMqIQDHJbVZ7OJhev4GbzUER5KpG2ZvmP7FZl3HGWUVHIbAnQ
-         BrVjTqGs3lVY7Vc305ja4nFwBTz9Vtcka4qkmvj4ihYBI8RrT4E1C4ctIdloBtyHo3
-         0sax+aRPc4MoSSRJb29MA9ag6YbkDn7EdfxbQGUF6ZD8ZHb61twQIiYBZAWSBSpOUI
-         /TJqK+CRh0VsJjxNvtKVZt0XZTIwXB33G4Ykg/efExYjNZq/YKS8u8qH8efdX9f2sW
-         ZBlfwzM5I1SQXUkFXPmUfnVJoJhdmS3LBpzG8zSjhvxrWFcAlY3v8eJuYss3f9gvsY
-         7rM8jJLQepAFw==
-Message-ID: <540d3738cdd6ed6023036b5d6d6a5d4b@smtp-cloud9.xs4all.net>
-Date:   Fri, 03 Jan 2020 05:56:23 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfIVQFqGoBAie0HLXOEl+7JumGfho2JsH2BbwFXXQb2Sff2G4y3hu6ijBYX7nfZ1Rpux9csGm6Cb9o5qMNicpFeF/pOP75IT388JMTAbIknAsmdL9SUHE
- kH3gqfZ+QrteNPb2gEBvraYu2/RUnZ8lH2gN3d4I4F7N1Y02/7mu8EmaATH4tgxjCJHzle8PYKouykgfN9X371uWXTb6tbIUeGZegxAT+l8v0ytnELVYcLZk
+        id S1726445AbgACGpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Jan 2020 01:45:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37644 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725890AbgACGpm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Jan 2020 01:45:42 -0500
+Received: from wens.tw (mirror2.csie.ntu.edu.tw [140.112.30.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BC72B2084D;
+        Fri,  3 Jan 2020 06:45:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578033940;
+        bh=uTSF6E4wwyqWFXkFFslDg6+jXPOT+pfOXx94ZxAaOqo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Yb3/TzPTWyYXoQM41bfm2ZRmCBK65n3C29E8EUgXMauc7zHjjQn3jeQoXPaAPktG2
+         bnOU0GR+9Ic/PS1Ki/5+TrwlczvGcH+RjGIHVytZvcykRn1CTu7GdLrvlh7XYl4Z2+
+         dIoU00t/wPvEqH0qHuS0T4MDaHxPJeiAHxlPOj88=
+Received: by wens.tw (Postfix, from userid 1000)
+        id 6447B5FC7C; Fri,  3 Jan 2020 14:45:38 +0800 (CST)
+From:   Chen-Yu Tsai <wens@kernel.org>
+To:     Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: sun4i-csi: Add support for A10 CSI1 camera sensor interface
+Date:   Fri,  3 Jan 2020 14:45:33 +0800
+Message-Id: <20200103064533.14864-1-wens@kernel.org>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Chen-Yu Tsai <wens@csie.org>
 
-Results of the daily build of media_tree:
+The A10/A20 Allwinner SoCs have two camera sensor interface blocks,
+named CSI0 and CSI1. The two have the same register layouts with
+slightly different features:
 
-date:			Fri Jan  3 05:00:10 CET 2020
-media-tree git hash:	0885acd77eb4644fd88f6d9f41e433f4ee9bc37a
-media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
-v4l-utils git hash:	934a1b9bebccf9b9e4b390c3ba0198374e4a9199
-edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+  - CSI0 has an image signal processor (ISP); CSI1 doesn't
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2901, Succeeded: 2901, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+  - CSI0 can support up to four separate channels under CCIR656;
+    CSI1 can only support one
 
-Detailed results are available here:
+  - CSI0 can support up to 16-bit wide bus with YUV422;
+    CSI1 can support up to 24-bit wide bus with YUV444
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+For now the driver doesn't support wide busses, nor CCIR656. So the
+only relevant difference is whether a clock needs to be taken and
+enabled for the ISP.
 
-Detailed regression test results are available here:
+Add structs to record the differences, tie them to the compatible
+strings, and deal with the ISP clock. Support for the new CSI1
+hardware block is added as well.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+---
+Hi Sakari,
 
-Full logs are available here:
+As requested, v2 of patch 6 from the "media: sun4i-csi: A10/A20 CSI1
+and R40 CSI0 support" patch series.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+Changes since v1:
 
-The Media Infrastructure API from this daily build is here:
+   - make traits structures static const
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks
+---
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 35 ++++++++++++++++---
+ .../platform/sunxi/sun4i-csi/sun4i_csi.h      |  2 ++
+ 2 files changed, 32 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index b8b07c1de2a8..eff34ded6305 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -29,6 +29,12 @@
+ 
+ #include "sun4i_csi.h"
+ 
++struct sun4i_csi_traits {
++	unsigned int channels;
++	unsigned int max_width;
++	bool has_isp;
++};
++
+ static const struct media_entity_operations sun4i_csi_video_entity_ops = {
+ 	.link_validate = v4l2_subdev_link_validate,
+ };
+@@ -156,6 +162,10 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	subdev = &csi->subdev;
+ 	vdev = &csi->vdev;
+ 
++	csi->traits = of_device_get_match_data(&pdev->dev);
++	if (!csi->traits)
++		return -EINVAL;
++
+ 	/*
+ 	 * On Allwinner SoCs, some high memory bandwidth devices do DMA
+ 	 * directly over the memory bus (called MBUS), instead of the
+@@ -199,10 +209,12 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 		return PTR_ERR(csi->bus_clk);
+ 	}
+ 
+-	csi->isp_clk = devm_clk_get(&pdev->dev, "isp");
+-	if (IS_ERR(csi->isp_clk)) {
+-		dev_err(&pdev->dev, "Couldn't get our ISP clock\n");
+-		return PTR_ERR(csi->isp_clk);
++	if (csi->traits->has_isp) {
++		csi->isp_clk = devm_clk_get(&pdev->dev, "isp");
++		if (IS_ERR(csi->isp_clk)) {
++			dev_err(&pdev->dev, "Couldn't get our ISP clock\n");
++			return PTR_ERR(csi->isp_clk);
++		}
+ 	}
+ 
+ 	csi->ram_clk = devm_clk_get(&pdev->dev, "ram");
+@@ -280,8 +292,21 @@ static int sun4i_csi_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static const struct sun4i_csi_traits sun4i_a10_csi1_traits = {
++	.channels = 1,
++	.max_width = 24,
++	.has_isp = false,
++};
++
++static const struct sun4i_csi_traits sun7i_a20_csi0_traits = {
++	.channels = 4,
++	.max_width = 16,
++	.has_isp = true,
++};
++
+ static const struct of_device_id sun4i_csi_of_match[] = {
+-	{ .compatible = "allwinner,sun7i-a20-csi0" },
++	{ .compatible = "allwinner,sun4i-a10-csi1", .data = &sun4i_a10_csi1_traits },
++	{ .compatible = "allwinner,sun7i-a20-csi0", .data = &sun7i_a20_csi0_traits },
+ 	{ /* Sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sun4i_csi_of_match);
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+index 88d39b3554c4..0f67ff652c2e 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+@@ -108,6 +108,8 @@ struct sun4i_csi {
+ 	/* Device resources */
+ 	struct device			*dev;
+ 
++	const struct sun4i_csi_traits	*traits;
++
+ 	void __iomem			*regs;
+ 	struct clk			*bus_clk;
+ 	struct clk			*isp_clk;
+-- 
+2.24.1
+
