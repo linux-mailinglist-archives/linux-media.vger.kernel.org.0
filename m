@@ -2,87 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE76613019E
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jan 2020 10:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA1E1301AA
+	for <lists+linux-media@lfdr.de>; Sat,  4 Jan 2020 10:53:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbgADJb4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Jan 2020 04:31:56 -0500
-Received: from gofer.mess.org ([88.97.38.141]:46263 "EHLO gofer.mess.org"
+        id S1726290AbgADJx6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Jan 2020 04:53:58 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:37628 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726094AbgADJb4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 Jan 2020 04:31:56 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 4EC0711A001; Sat,  4 Jan 2020 09:31:54 +0000 (GMT)
-Date:   Sat, 4 Jan 2020 09:31:54 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.6] More RC & DVB
-Message-ID: <20200104093154.GA10172@gofer.mess.org>
+        id S1726191AbgADJx5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 4 Jan 2020 04:53:57 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ing7K-00BQSO-Vf; Sat, 04 Jan 2020 09:53:10 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ing95-00075X-W6; Sat, 04 Jan 2020 09:55:00 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.6] More RC & DVB
+Date:   Sat,  4 Jan 2020 09:54:59 +0000
+Message-Id: <20200104095459.27206-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200104093154.GA10172@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Building the kernel with clang produces some useful warnings, which I've
-started patching up. There are a bunch of formatting changes and some new
-hardware support.
+Pull request: https://patchwork.linuxtv.org/patch/60979/
+Build log: https://builder.linuxtv.org/job/patchwork/32167/
+Build time: 00:14:48
+Link: https://lore.kernel.org/linux-media/20200104093154.GA10172@gofer.mess.org
 
-Thanks
-Sean
+gpg: Signature made Sat 04 Jan 2020 09:19:06 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-The following changes since commit 51e40a0dbe53cebe1f4b85bb47e250dc5a89b254:
+Summary: 3 patches and/or PDF generation with issues, being 0 at build time
 
-  media: sun4i-csi: Add support for A10 CSI1 camera sensor interface (2020-01-04 08:21:35 +0100)
+Error/warnings:
 
-are available in the Git repository at:
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.6b
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-dib0070-incorrect-format-specifiers-detected-b.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-dib0070-incorrect-format-specifiers-detected-b.patch
+patches/0003-media-dib0070-incorrect-format-specifiers-detected-b.patch:7: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+patches/0003-media-dib0070-incorrect-format-specifiers-detected-b.patch:119: CHECK: Avoid CamelCase: <Rest>
 
-for you to fetch changes up to 642048081c8618f4b7ae9f0aa3f2c644f9578956:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-dib0090-incorrect-format-specifier-detected-by.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-dib0090-incorrect-format-specifier-detected-by.patch
+patches/0004-media-dib0090-incorrect-format-specifier-detected-by.patch:7: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+patches/0004-media-dib0090-incorrect-format-specifier-detected-by.patch:35: WARNING: line over 80 characters
 
-  media: rc: ir-hix5hd2: add hi3796cv300-ir support (2020-01-04 08:41:39 +0000)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-dvb_dummy_fe-Fix-ERROR-POINTER_LOCATION-AVOID_.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-dvb_dummy_fe-Fix-ERROR-POINTER_LOCATION-AVOID_.patch
+patches/0005-media-dvb_dummy_fe-Fix-ERROR-POINTER_LOCATION-AVOID_.patch:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-----------------------------------------------------------------
-v5.6b
-
-----------------------------------------------------------------
-Daniel W. S. Almeida (6):
-      media: dvb_dummy_fe: Fix ERROR: POINTER_LOCATION, AVOID_EXTERN and long lines
-      media: dvb_dummy_fe: Add blank line after declaration
-      media: dvb_dummy_fe: change printk to pr_warn
-      media: as102: improve formatting
-      Documentation: media: dtv-frontend.rst: fix a few minor typos
-      media: au8522: improve formatting
-
-Johann Friedrichs (1):
-      media: dvb-core: Fix receiving invalid EIT-sections
-
-Sean Young (4):
-      media: dib7000m: incorrect format specifier detected by clang
-      media: dib7000p: incorrect format specifier detected by clang
-      media: dib0070: incorrect format specifiers detected by clang
-      media: dib0090: incorrect format specifier detected by clang
-
-Shawn Guo (2):
-      dt-bindings: media: add "hisilicon,hi3796cv300-ir" compatible
-      media: rc: ir-hix5hd2: add hi3796cv300-ir support
-
- .../devicetree/bindings/media/hix5hd2-ir.txt       |  3 +-
- Documentation/media/kapi/dtv-frontend.rst          | 16 ++---
- drivers/media/dvb-core/dvb_demux.c                 |  1 +
- drivers/media/dvb-frontends/as102_fe.c             |  3 +-
- drivers/media/dvb-frontends/au8522_decoder.c       |  2 +-
- drivers/media/dvb-frontends/dib0070.c              | 23 +++---
- drivers/media/dvb-frontends/dib0090.c              |  3 +-
- drivers/media/dvb-frontends/dib7000m.c             |  2 +-
- drivers/media/dvb-frontends/dib7000p.c             |  2 +-
- drivers/media/dvb-frontends/dvb_dummy_fe.c         | 81 ++++++++++++++--------
- drivers/media/dvb-frontends/dvb_dummy_fe.h         | 12 ++--
- drivers/media/rc/ir-hix5hd2.c                      | 79 ++++++++++++++++-----
- 12 files changed, 154 insertions(+), 73 deletions(-)
