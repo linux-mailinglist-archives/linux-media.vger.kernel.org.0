@@ -2,257 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDF911304C7
-	for <lists+linux-media@lfdr.de>; Sat,  4 Jan 2020 22:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 658651305B4
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jan 2020 05:46:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbgADVx0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Jan 2020 16:53:26 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:33151 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbgADVx0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 4 Jan 2020 16:53:26 -0500
-Received: by mail-il1-f194.google.com with SMTP id v15so39442910iln.0
-        for <linux-media@vger.kernel.org>; Sat, 04 Jan 2020 13:53:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UMQ6SzTkDLHhnu1QumBptfeZocUfO6/rt1OW+mwTDDs=;
-        b=AsGSpANJ95bqBAxMhuvjrxKaRO7sv67d1nTqF7FHwNST56RacmbLUOCqyCVUoXhF90
-         yDaJiYAVegzIw62UxAp3u/Lhs9ubvtvAfJP1tXF0+EBxX3ic3cZOEX2B4SFyywtb9nSl
-         /9evzV0LYWiknUoFw6PUHYDYLfqKtihQDbfMotxwTURmDb2WRYaCUM8dHe4AuOYYEryz
-         aFp5E06QRumsREEkqFc6ohy1nBQokLc44e69rtmRaWcDZgiWwMyfrRAIN5DGEKLw48iY
-         6tlCBZnpqnopKJfPk7MuZicyaSj8PpC6zs/HaD5iqh6eECYPWXEiij6VZHC/udVtLT+u
-         jB6A==
-X-Gm-Message-State: APjAAAXQcwso3ofx9ckd3e6BlnPYEjBC9J8iGN6WXZ6twT8fbrfUzQ02
-        rrrLhjafdeu/8f+kfbqa2rOYbHc=
-X-Google-Smtp-Source: APXvYqyhnhxSjOA/dj0kMTZLR+BFMhSqM68qyXJCxIKX4hZwoXm4SzYXGnSI4gyEr/ilPga64TPPKw==
-X-Received: by 2002:a92:ce85:: with SMTP id r5mr83197460ilo.301.1578174805275;
-        Sat, 04 Jan 2020 13:53:25 -0800 (PST)
-Received: from rob-hp-laptop ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id l17sm20432795ilc.49.2020.01.04.13.53.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2020 13:53:24 -0800 (PST)
-Received: from rob (uid 1000)
-        (envelope-from rob@rob-hp-laptop)
-        id 2219b7
-        by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Sat, 04 Jan 2020 14:53:22 -0700
-Date:   Sat, 4 Jan 2020 14:53:22 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, peter.griffin@linaro.org,
-        ezequiel@collabora.com
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor
- binding
-Message-ID: <20200104215322.GA548@bogus>
-References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
- <20191227122114.23075-2-andrey.konovalov@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191227122114.23075-2-andrey.konovalov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726313AbgAEEqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 4 Jan 2020 23:46:19 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53873 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726240AbgAEEqT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 4 Jan 2020 23:46:19 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:55e5:9c12:ee5f:5f6e])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id nxnriBSy0VPvpnxnsihvXj; Sun, 05 Jan 2020 05:46:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578199576; bh=6LJjgaZo/94pQjTovtNbQuyHIPPc5yJXghji+q3qioE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=hVSTXEwHJR/3Q62Dc2e4O7d86eg8+ODD8Vmu3iXcTyt7R44F7hxkRLVoBttF6Ganp
+         HFnL3D7b+5SSopA6/znZ7pzb6a4m4RviRnFezpb0RkkwtMQxBgA7IUhHsIW4tx6tLK
+         WHC5c9POB04hDo8L+SFOJGXN8Ek4HCxrCM3YySPbsAXxXO2pLY8iwu/NstuNCD/I6f
+         t/gGOHVRA/JNybUWNQqpY9n1X20oCF/KDaqwWfUDw2k+3jFRC85+Qh7c1QUDq03KlS
+         HEmyeQ0aWejIaxzfayzwkX4nGep5wiiKHmhoZfD00IBPYxFZnLcFacbGIAZ/qbL755
+         59Hnk7zTs5ajQ==
+Message-ID: <15a5ecaddb74f0459db53cbf180f262f@smtp-cloud9.xs4all.net>
+Date:   Sun, 05 Jan 2020 05:46:15 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfFI7getwOGxAByJJaHgi6qLvOMt8JXJVWO3egJgWmHnZHyUuv0WHaRs4ddWPW5+bo9iocOFZ1Z698K8ODJt8B3vzuD7mnz2uA0KzUZF7KzGvYImlRPbl
+ 6GIjubkQBqf/iGTDdWhZFGZorT2fCe9Mmk+wc3lfL7rauRJL7B36ttLTMpniI8JZHCxNtMQqGzYa/GeIOkoyKKN41omQUcYelQPPv+je8W9qKoJwMDlwmBG0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 27, 2019 at 03:21:13PM +0300, Andrey Konovalov wrote:
-> Add YAML device tree binding for IMX219 CMOS image sensor, and
-> the relevant MAINTAINERS entries.
-> 
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> ---
->  .../devicetree/bindings/media/i2c/imx219.yaml | 134 ++++++++++++++++++
->  MAINTAINERS                                   |   8 ++
->  2 files changed, 142 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> new file mode 100644
-> index 000000000000..b58aa49a7c03
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> @@ -0,0 +1,134 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
-> +
-> +description: |-
-> +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
-> +  with an active array size of 3280H x 2464V. It is programmable through
-> +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
-> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-> +  4 data lanes.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx219
-> +
-> +  reg:
-> +    description: I2C device address
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: xclk
-> +
-> +  VDIG-supply:
-> +    description:
-> +      Digital I/O voltage supply, 1.8 volts
-> +
-> +  VANA-supply:
-> +    description:
-> +      Analog voltage supply, 2.8 volts
-> +
-> +  VDDL-supply:
-> +    description:
-> +      Digital core voltage supply, 1.2 volts
-> +
-> +  xclr-gpios:
-> +    description: |-
-> +      Reference to the GPIO connected to the xclr pin, if any.
-> +      Must be released (set high) after all supplies are applied.
-> +
-> +  camera-clk:
-> +    type: object
-> +
-> +    description: Clock source for imx219
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This clock is external to the sensor, so a node for a fixed clock should 
-be too.
+Results of the daily build of media_tree:
 
-> +
-> +    properties:
-> +      clock-frequency: true
-> +
-> +    required:
-> +      - clock-frequency
-> +
-> +  # See ../video-interfaces.txt for more details
-> +  port:
-> +    type: object
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          clock-lanes:
-> +            const: 0
-> +
-> +          data-lanes:
-> +            description: |-
-> +              Should be <1 2> for two-lane operation, or <1 2 3 4> for
-> +              four-lane operation.
-> +            oneOf:
-> +              - const: [[ 1, 2 ]]
-> +              - const: [[ 1, 2, 3, 4 ]]
+date:			Sun Jan  5 05:00:12 CET 2020
+media-tree git hash:	51e40a0dbe53cebe1f4b85bb47e250dc5a89b254
+media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
+v4l-utils git hash:	934a1b9bebccf9b9e4b390c3ba0198374e4a9199
+edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Not sure if this actually works. If it does, it exposes how we encode 
-the DT yaml format which we don't want to do here.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.167-i686: ERRORS
+linux-4.4.167-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.162-i686: ERRORS
+linux-4.9.162-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.105-i686: ERRORS
+linux-4.14.105-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.28-i686: ERRORS
+linux-4.19.28-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: WARNINGS
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2901, Succeeded: 2901, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-It should be:
+Logs weren't copied as they are too large (4088 kB)
 
-oneOf:
-  - items:
-      - const: 1
-      - const: 2
-  - items:
-      - const: 1
-      - const: 2
-      - const: 3
-      - const: 4
+The Media Infrastructure API from this daily build is here:
 
-Really, I think you shouldn't need the 2nd case as that should be the 
-default.
-
-> +
-> +          clock-noncontinuous:
-> +            type: boolean
-> +            description: |-
-> +              Presence of this boolean property decides whether the MIPI CSI-2
-> +              clock is continuous or non-continuous.
-> +
-> +        required:
-> +          - clock-lanes
-> +          - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - VANA-supply
-> +  - VDIG-supply
-> +  - VDDL-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        imx219: sensor@10 {
-> +            compatible = "sony,imx219";
-> +            reg = <0x10>;
-> +            clocks = <&imx219_clk>;
-> +            clock-names = "xclk";
-> +            VANA-supply = <&imx219_vana>;   /* 2.8v */
-> +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-> +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-> +
-> +            imx219_clk: camera-clk {
-> +                compatible = "fixed-clock";
-> +                #clock-cells = <0>;
-> +                clock-frequency = <24000000>;
-> +            };
-> +
-> +            port {
-> +                imx219_0: endpoint {
-> +                    remote-endpoint = <&csi1_ep>;
-> +                    clock-lanes = <0>;
-> +                    data-lanes = <1 2>;
-> +                    clock-noncontinuous;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ffa3371bc750..f7b6c24ec081 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15350,6 +15350,14 @@ S:	Maintained
->  F:	drivers/media/i2c/imx214.c
->  F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
->  
-> +SONY IMX219 SENSOR DRIVER
-> +M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
-> +L:	linux-media@vger.kernel.org
-> +T:	git git://linuxtv.org/media_tree.git
-> +S:	Maintained
-> +F:	drivers/media/i2c/imx219.c
-> +F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> +
->  SONY IMX258 SENSOR DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:	linux-media@vger.kernel.org
-> -- 
-> 2.17.1
-> 
+http://www.xs4all.nl/~hverkuil/spec/index.html
