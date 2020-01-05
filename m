@@ -2,296 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2E891306EC
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jan 2020 10:18:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DD6313070A
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jan 2020 11:25:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbgAEJSp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Jan 2020 04:18:45 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:43064 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725535AbgAEJSp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 5 Jan 2020 04:18:45 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1io22m-00D2B6-1Z; Sun, 05 Jan 2020 09:17:56 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1io24Y-0004Ph-Em; Sun, 05 Jan 2020 09:19:46 +0000
-Date:   Sun, 5 Jan 2020 09:19:46 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <389799608.12.1578215986441.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <1459554354.11.1578129596606.JavaMail.jenkins@builder.linuxtv.org>
-References: <1459554354.11.1578129596606.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2923
+        id S1726292AbgAEKZD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Jan 2020 05:25:03 -0500
+Received: from mail-io1-f41.google.com ([209.85.166.41]:33090 "EHLO
+        mail-io1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbgAEKZD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Jan 2020 05:25:03 -0500
+Received: by mail-io1-f41.google.com with SMTP id z8so45806437ioh.0
+        for <linux-media@vger.kernel.org>; Sun, 05 Jan 2020 02:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Oqfx7yzANjdi+/LXKB7YUnki5hFtBTYwyLEEfw1Qp8g=;
+        b=NMOeD5+yWzUH0yGCsiYWhsdoLaudjw8mjwXt4gNZL01giVgHjMC+vYWE4AC7e05GDw
+         /LaIrlqZ6CgmlB2wZRYr9iuSjMCPBgVp+GR8NY+HVGRdIxJY+pb+7rV1+7hX7i4+OMwZ
+         zoEpJldcIQX7F855XHUbMclREOyza8w+hQAQEibO9WSvc3XlUl+meEZZnv74mgHv3S4E
+         DbJ+BZ6d9KzsmG+VdMQbneLCONl1ugliYwW/4uI+X1LfBjrjOneHamco/tRrdzuDvhyn
+         q6qRkeD44Fvs/KBrzWPLLXVoyxjfPctAlbTdiBerjiT/n6lXscrXxrqDoufSDJ/tT2lm
+         OlfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Oqfx7yzANjdi+/LXKB7YUnki5hFtBTYwyLEEfw1Qp8g=;
+        b=qkfy17dSwL9A85oNMw3n8vKTkvbHDipVffYBnpFU2RnDHz+fF1lrQTTN9em4w/00ru
+         YKyvxMPg5H76K+PehJxcCq1fUD5EsHfEP//GxnfaAr9/HoGSyfoTAAR79kfGJFJfmW6B
+         87KCXsbt1kBvNF1P8mK8hT/l4REbk27r5LSnmPm/XHgQxoZ1peV6IBjDGSvXGisFm2Ci
+         Vlh6Y5STw30Vtzhcb/wXGUdVq8JguPpXTlWRPYL8U8z7UCp8QWXbkUwH6h2OCk2MzIVD
+         5FzIpKI8Da75bQe+Z0yYVdO2JnGovCy+Qe70zES6xUDV1G4j0blUe/qM7JC2KZ8EaNKA
+         Tjvw==
+X-Gm-Message-State: APjAAAWaMM/sCexBQJ1eig/BG8/ojBBMX3KcAZFR5oa7HtkRc8ta+bGr
+        wCUZgpDPyDXZxeCNZuimVZRHuxiqYkJaehtHwMQ=
+X-Google-Smtp-Source: APXvYqyyDIQ60hWbaXuOAqkoy5amv9NV3UDr2zUC6C3j6wWPqiyOQtobBlcP2BVtXkFRdhrTmdgryRoJlZ389CNlLTM=
+X-Received: by 2002:a05:6638:34e:: with SMTP id x14mr77746914jap.38.1578219902037;
+ Sun, 05 Jan 2020 02:25:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+References: <5E10AA68.13836.1D538E25@Frantisek.Rysanek.post.cz>
+In-Reply-To: <5E10AA68.13836.1D538E25@Frantisek.Rysanek.post.cz>
+From:   Michal Zatloukal <myxal.mxl@gmail.com>
+Date:   Sun, 5 Jan 2020 11:24:26 +0100
+Message-ID: <CAKKZj2CL+WcztAj4aM+Go7ghpPbUXUzL9VXx=COzumP0BQN=AQ@mail.gmail.com>
+Subject: Re: Building own DVB-T channel file from frequencies (w_scan issues)?
+To:     Frantisek Rysanek <Frantisek.Rysanek@post.cz>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2923/display/redirect>
+Thanks for the detailed response. I think I'll start with building
+w_scan2 when I have the time, since Ubuntu (and by extension, Debian,
+I assume) have none of the suggested tools (wirbelscan, w2_scan,
+t2scan)
 
-Changes:
+Regarding "managing to add other transponders by hand"  - how does
+that work? Looking at the existing file, there are quite few fields
+which I don't know the values for. Do you mean using one of the
+zap/tune utilities?
+
+MZ
 
 
-------------------------------------------
-[...truncated 29.44 KB...]
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb0899_algo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb6100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp8870.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx22700.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1432.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda8083.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/l64781.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib3000mb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib3000mc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dibx000_common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib7000m.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib7000p.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib8000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib9000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt312.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ves1820.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ves1x93.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1004x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp887x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nxt6000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt352.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zl10036.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zl10039.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zl10353.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx22702.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxd_firm.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxd_hard.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10021.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10023.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0297.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nxt200x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/or51211.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/or51132.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bcm3510.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1420.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgdt330x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgdt3305.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgdt3306a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lg2160.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24123.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbh25.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbh29.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbp21.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbp22.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6405.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6421.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10086.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda826x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda8261.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib0070.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib0090.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tua6100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1409.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/itd1000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au8522_common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au8522_dig.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au8522_decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10048.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24113.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1411.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgs8gl5.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda665x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgs8gxx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/atbm8830.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_dummy_fe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/af9013.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24116.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24117.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24120.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si21xx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si2168.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0288.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb6000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s921.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6110.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0900_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0900_sw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv090x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6110x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m88ds3103.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88472.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88473.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6423.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ec100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ds3000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ts2020.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mb86a16.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxj.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mb86a20s.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ix2505v.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0367.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_t2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2841er.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxk_hard.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda18271c2dd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0910.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6111.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mxl5xx.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si2165.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/a8293.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10071.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2830.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2832.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2832_sdr.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m88rs2000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/af9033.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/as102_fe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gp8psk-fe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc90522.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88443x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/horus3a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ascot2e.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/helene.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zd1301_demod.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2099.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_devio_spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_integ.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_io.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_spi_device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_top.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-devnode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-entity.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-request.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fwnode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
-In file included from /usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:7,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/kernel.h:14,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/asm-generic/bug.h:18,
-                 from /usr/src/linux-headers-4.19.0-5-common/arch/x86/include/asm/bug.h:83,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/bug.h:5,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/mmdebug.h:5,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/config-compat.h>:12,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:10,
-                 from <command-line>:
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>: In function 'v4l_print_event':
-/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__kernel_time_t' {aka 'const long int'} [-Wformat=]
- #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                  ^~~~~~
-/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:24:19: note: in expansion of macro 'KERN_SOH'
- #define KERN_CONT KERN_SOH "c"
-                   ^~~~~~~~
-/usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:322:9: note: in expansion of macro 'KERN_CONT'
-  printk(KERN_CONT fmt, ##__VA_ARGS__)
-         ^~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:2: note: in expansion of macro 'pr_cont'
-  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
-  ^~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:67: note: format string is defined here
-  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
-                                                                ~~~^
-                                                                %lu
-In file included from /usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:7,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/kernel.h:14,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/asm-generic/bug.h:18,
-                 from /usr/src/linux-headers-4.19.0-5-common/arch/x86/include/asm/bug.h:83,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/bug.h:5,
-                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/mmdebug.h:5,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/config-compat.h>:12,
-                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:10,
-                 from <command-line>:
-/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type 'long int' [-Wformat=]
- #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                  ^~~~~~
-/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:24:19: note: in expansion of macro 'KERN_SOH'
- #define KERN_CONT KERN_SOH "c"
-                   ^~~~~~~~
-/usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:322:9: note: in expansion of macro 'KERN_CONT'
-  printk(KERN_CONT fmt, ##__VA_ARGS__)
-         ^~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:2: note: in expansion of macro 'pr_cont'
-  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
-  ^~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:75: note: format string is defined here
-  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
-                                                                     ~~~~~~^
-                                                                     %9.9lu
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-clk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-async.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'bufsize_v4l2_buffer_time32':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:619:34: error: macro "access_ok" requires 3 arguments, but only 2 given
-  if (!access_ok(p32, sizeof(*p32)) ||
-                                  ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:619:7: error: 'access_ok' undeclared (first use in this function)
-  if (!access_ok(p32, sizeof(*p32)) ||
-       ^~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:619:7: note: each undeclared identifier is reported only once for each function it appears in
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'get_v4l2_buffer32_time32':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:752:34: error: macro "access_ok" requires 3 arguments, but only 2 given
-  if (!access_ok(p32, sizeof(*p32)) ||
-                                  ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:752:7: error: 'access_ok' undeclared (first use in this function)
-  if (!access_ok(p32, sizeof(*p32)) ||
-       ^~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:792:41: error: macro "access_ok" requires 3 arguments, but only 2 given
-           num_planes * sizeof(*uplane32)))
-                                         ^
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dv-timings.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'put_v4l2_buffer32_time32':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:930:34: error: macro "access_ok" requires 3 arguments, but only 2 given
-  if (!access_ok(p32, sizeof(*p32)) ||
-                                  ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:930:7: error: 'access_ok' undeclared (first use in this function)
-  if (!access_ok(p32, sizeof(*p32)) ||
-       ^~~~~~~~~
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'put_v4l2_event32_time32':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:1323:34: error: macro "access_ok" requires 3 arguments, but only 2 given
-  if (!access_ok(p32, sizeof(*p32)) ||
-                                  ^
-<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:1323:7: error: 'access_ok' undeclared (first use in this function)
-  if (!access_ok(p32, sizeof(*p32)) ||
-       ^~~~~~~~~
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mem2mem.o>
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 526
-Build step 'Execute shell' marked build as failure
+On Sat, 4 Jan 2020 at 16:08, Frantisek Rysanek
+<Frantisek.Rysanek@post.cz> wrote:
+>
+> ...just for the sake of completeness, t2scan seems to face some
+> misunderstanding with my Mygica T230C2, w_scan2 works fine...
+>
+> [LOG SAMPLE of t2scan]
+> Info: using DVB adapter auto detection.
+>         /dev/dvb/adapter0/frontend0 -> TERRESTRIAL "Silicon Labs
+> Si2168": very good :-))
+>
+> Using TERRESTRIAL frontend (adapter /dev/dvb/adapter0/frontend0)
+> -_-_-_-_ Getting frontend capabilities-_-_-_-_
+> main:2852: FATAL: FE_READ_STATUS failed: 121 Remote I/O error
+> [/SAMPLE]
+>
+> Apparently, compared to w_scan and w_scan2, t2scan is more pedantic
+> about checking the state of the tuner before starting its scan.
+> And, I understand that these tuners have a fair share of their own HW
+> quirks.
+>
+> I've already reported this to the author of t2scan.
+>
+> Frank
+>
+> On 3 Jan 2020 at 22:33, linux-media@vger.kernel.org wrote:
+>
+> > Hi Michal,
+> >
+> > first of all there's a fork called w_scan2:
+> > https://github.com/stefantalpalaru/w_scan2
+> > this has got me "unstuck" last summer when I was starting with T2 in
+> > Linux. It still isn't perfect, has skipped some transponders in my
+> > spectrum based on some false assumptions... (but I managed to add
+> > them by hand, into an initial channel file for DVR).
+> >
+> > And even more recently, there's t2scan - whose author specifically
+> > mentions that the first thing he "sorted out" was: he got away with
+> > following the clues about "neighboring transponders in the DVB
+> > network".
+> > https://github.com/mighty-p/t2scan
+> > I have yet to test t2scan, but the early reviews are positive.
+> >
+> > Another remake of the w_scan appears to exist in the VDR universe, in
+> > the form of vdr-plugin-wirbelscan. This solves some format mismatch
+> > between VDR and the stand-alone w_scan that previously used to cause
+> > EPG malfunctions and whatnot... I've seen this one in action, half a
+> > year ago. Worked like a charm.
+> >
+> > Yes I heartily agree - following those metadata/clues as a primary or
+> > even valid source of info has IMO been wrong all along. Unless you're
+> > a vehicle-mounted receiver, typically you won't ever see any other
+> > transponders in the "network", because all you ever see is a single
+> > transponder of any mux. At this moment (transition from T to T2),
+> > there are about 9 different muxes in the air where I live. And, SFN's
+> > are not a strict rule. Quite on the contrary, in our country, channel
+> > frequencies are often (re)used for different networks/multiplexes at
+> > different towers throughout the country... so, skipping a radio
+> > channel "because you know there's just another transmitter of the
+> > MUX=network you already know" is just plain wrong, it results in
+> > skipping some frequencies that you really need to have scanned...
+> > t2scan should finally take care of that for good.
+> >
+> > And I also agree that relying on an external "transponder seed file"
+> > to even be able to scan the band feels counter-productive.
+> > Fortunately it seems that the situation is improving.
+> >
+> > Looking back, in my notes, I have snippets of info of some route from
+> > w_scan to dvb_tools (dvbv5-scan) to VDR... I recall observing erratic
+> > behaviors along that route. In my VDR seed file, I got just a single
+> > transponder written by w_scan2... I ended up writing about five other
+> > transponders by hand, following the simple format. And then VDR's
+> > wirbelscan plugin would pick up from there.
+> > And right now I'm wondering why a freshly compiled VDR with a freshly
+> > compiled wirbelscan plugin doesn't present me with a  choice to scan
+> > the band again :-) Maybe I should erase the old channels.conf to
+> > provoke the wirbelscan plugin into action, not sure...
+> >
+> > Frank
+> >
+> > P.S.: I'm sticking to English for obvious reasons - answering into a
+> > mailing list. Feel free to contact me directly in our mother tongue
+> > :-)
+> >
+> >
+> > On 3 Jan 2020 at 19:30, Michal Zatloukal wrote:
+> > > Hi all.
+> > > I dusted off my old AF9015 no-name DVB-T stick (15a4:9016) to check
+> > > which stations I can receive (dissatisfied with IPTV). Seeing that the
+> > > package's channel list (provided by Ubuntu 19.10, version
+> > > 0+git20171226.07b18ec-1) is outdated and/or incomplete, I wanted to
+> > > either run full channel scan, or just probe the frequencies of the
+> > > MUXes published by the local (and not-so-local[0]) operators. The
+> > > LinuxTV wiki only lists w_scan as a utility capable of scanning
+> > > without existing channel file (edit: shortly after typing up this
+> > > message, I came across dvbtune, where the wiki page suggests the tool
+> > > is outdated - is that tool supported or not?)
+> > >
+> > > The problem I'm having is very similar to this debian bugreport [1].
+> > > As I understand it, w_scan is using NIT data in preference to the
+> > > actual frequency it used to receive said data. As a result, 1
+> > > frequency where another MUX [2] should be broadcast, is skipped in the
+> > > 1st pass, and the original frequency is lost in the 2nd pass (522 ->
+> > > 754 MHz), and another MUX (658 -> 834 MHz) is redirected to a
+> > > long-outdated frequency at the end of the spectrum, where the 2nd pass
+> > > finds nothing. [3] Score: 1/3 (expected) MUXes found.
+> > >
+> > > Is there something that works like manual tuning in VLC, or NextPVR,
+> > > ie. enter frequency, bandwidth, and see if you get a signal + program
+> > > listing? (edit: dvbtune can do this apparently, though the format is
+> > > different from the normal channel list). Or perhaps an option to
+> > > w_scan to ignore NIT frequency if delta from scanning frequency is >
+> > > BW?
+> > >
+> > > Thanks,
+> > > MZ
+> > >
+> > > [0] <rant> On that note, I find the whole idea of
+> > > transponder-site-based channel lists weird. By one operator's own
+> > > maps, the range of a common 100kW tower is >100km, so I'm probably
+> > > within range of transponders from 3 other countries. Am I expected to
+> > > cat all applicable channel files from the package, or what?</rant>
+> > > [1] https://bugs.debian.org/cgi-bin/bugreport.cgi?att=0;bug=788100
+> > > [2] I'm referring to what wiki calls "bouquet".
+> > > [3] Output below:
+> > > w_scan -ft -c sk
+> > > w_scan version 20170107 (compiled for DVB API 5.10)
+> > > using settings for SLOVAKIA
+> > > DVB aerial
+> > > DVB-T Europe
+> > > scan type TERRESTRIAL, channellist 4
+> > > output format vdr-2.0
+> > > WARNING: could not guess your codepage. Falling back to 'UTF-8'
+> > > output charset 'UTF-8', use -C <charset> to override
+> > > Info: using DVB adapter auto detection.
+> > > /dev/dvb/adapter0/frontend0 -> TERRESTRIAL "Afatech AF9013": good :-)
+> > > Using TERRESTRIAL frontend (adapter /dev/dvb/adapter0/frontend0)
+> > > -_-_-_-_ Getting frontend capabilities-_-_-_-_
+> > > Using DVB API 5.11
+> > > frontend 'Afatech AF9013' supports
+> > > INVERSION_AUTO
+> > > QAM_AUTO
+> > > TRANSMISSION_MODE_AUTO
+> > > GUARD_INTERVAL_AUTO
+> > > HIERARCHY_AUTO
+> > > FEC_AUTO
+> > > BANDWIDTH_AUTO not supported, trying 6/7/8 MHz.
+> > > FREQ (174.00MHz ... 862.00MHz)
+> > > -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+> > > Scanning DVB-T...
+> > > Scanning 8MHz frequencies...
+> > > 474000: (time: 00:00.163)
+> > > 482000: (time: 00:02.183)
+> > > 490000: (time: 00:04.199)
+> > > 498000: (time: 00:06.215)
+> > > 506000: (time: 00:08.231)
+> > > 514000: (time: 00:10.247)
+> > > 522000: (time: 00:12.263)         signal ok: QAM_AUTO f = 522000 kHz
+> > > I999B8C999D999T999G999Y999 (0:0:0)
+> > >         QAM_AUTO f = 522000 kHz I999B8C999D999T999G999Y999 (0:0:0) :
+> > > updating transport_stream_id: -> (0:0:259)
+> > >         QAM_AUTO f = 522000 kHz I999B8C999D999T999G999Y999 (0:0:259) :
+> > > updating network_id -> (0:12290:259)
+> > >         updating transponder:
+> > >            (QAM_AUTO f = 522000 kHz I999B8C999D999T999G999Y999
+> > > (0:12290:259)) 0x0000
+> > >         to (QAM_64   f = 754000 kHz I999B8C23D0T8G4Y0 (8895:12290:259)) 0x405A
+> > > 530000: (time: 00:22.119)
+> > > 538000: (time: 00:24.135)
+> > > 546000: (time: 00:28.691)
+> > > 554000: (time: 00:30.727)
+> > > 562000: (time: 00:32.743)
+> > > 570000: (time: 00:34.759)
+> > > 578000: (time: 00:36.775)
+> > > 586000: (time: 00:38.791)
+> > > 594000: (time: 00:40.807)
+> > > 602000: (time: 00:42.823)
+> > > 610000: (time: 00:44.839)
+> > > 618000: (time: 00:46.855)
+> > > 626000: (time: 00:48.871)
+> > > 634000: (time: 00:53.379)
+> > > 642000: (time: 00:55.399)
+> > > 650000: (time: 00:57.415)
+> > > 658000: (time: 00:59.431)         signal ok: QAM_AUTO f = 658000 kHz
+> > > I999B8C999D999T999G999Y999 (0:0:0)
+> > >         QAM_AUTO f = 658000 kHz I999B8C999D999T999G999Y999 (0:0:0) :
+> > > updating transport_stream_id: -> (0:0:257)
+> > >         QAM_AUTO f = 658000 kHz I999B8C999D999T999G999Y999 (0:0:257) :
+> > > updating network_id -> (0:12544:257)
+> > >         updating transponder:
+> > >            (QAM_AUTO f = 658000 kHz I999B8C999D999T999G999Y999
+> > > (0:12544:257)) 0x0000
+> > >         to (QAM_64   f = 834000 kHz I999B8C23D0T8G4Y0 (8895:12544:257)) 0x405A
+> > > 666000: (time: 01:00.127)
+> > > 674000: (time: 01:02.151)
+> > > 682000: (time: 01:04.167)
+> > > 690000: (time: 01:06.183)
+> > > 698000: (time: 01:08.199)
+> > > 706000: (time: 01:10.215)
+> > > 714000: (time: 01:12.231)
+> > > 722000: (time: 01:14.247)
+> > > 730000: (time: 01:16.263)
+> > > 738000: (time: 01:18.279)
+> > > 746000: (time: 01:20.295)
+> > > 754000: skipped (already known transponder)
+> > > 762000: (time: 01:22.311)
+> > > 770000: (time: 01:24.327)
+> > > 778000: (time: 01:26.343)
+> > > 786000: (time: 01:28.359)
+> > > 794000: (time: 01:30.375)
+> > > 802000: (time: 01:32.391)
+> > > 810000: (time: 01:34.407)
+> > > 818000: (time: 01:36.423)
+> > > 826000: (time: 01:38.439)
+> > > 834000: skipped (already known transponder)
+> > > 842000: (time: 01:40.455)
+> > > 850000: (time: 01:42.471)
+> > > 858000: (time: 01:44.487)
+> > > tune to: QAM_64   f = 754000 kHz I999B8C23D0T8G4Y0 (8895:12290:259)
+> > > (time: 01:46.503)
+> > >         QAM_64   f = 754000 kHz I999B8C23D0T8G4Y0 (8895:12290:259) :
+> > > updating transport_stream_id: -> (8895:12290:258)
+> > > service = TV JOJ (Towercom)
+> > > service = JOJ Plus (Towercom)
+> > > service = Prima Plus Promo (Towercom)
+> > > service = WAU (Towercom)
+> > > service = TA3 (Towercom)
+> > > service = otta - interaktivna sluzba (Towercom)
+> > >         QAM_64   f = 754000 kHz I999B8C23D0T8G4Y0 (8895:12290:258) :
+> > > updating network_id -> (8895:12289:258)
+> > > tune to: QAM_64   f = 834000 kHz I999B8C23D0T8G4Y0 (8895:12544:257)
+> > > (time: 02:00.703)
+> > > ----------no signal----------
+> > > tune to: QAM_AUTO f = 834000 kHz I999B8C999D0T999G999Y0
+> > > (8895:12544:257) (time: 02:06.747)  (no signal)
+> > > ----------no signal----------
+> > > (time: 02:12.791) dumping lists (5 services)
+> > > ..
+> > > TV JOJ;Towercom:754000:B8C23D0G4M64T8Y0:T:27500:2102=2:2111=slo@3,2134=mul:2130:0:2001:8895:258:0
+> > > JOJ Plus;Towercom:754000:B8C23D0G4M64T8Y0:T:27500:2202=2:2211=slo@3,2234=mul:2230:0:2002:8895:258:0
+> > > Prima Plus Promo;Towercom:754000:B8C23D0G4M64T8Y0:T:27500:2302=27:2311=slo@17:0:0:2003:8895:258:0
+> > > WAU;Towercom:754000:B8C23D0G4M64T8Y0:T:27500:2402=2:2411=slo@3,2434=qaa:2431:0:2004:8895:258:0
+> > > TA3;Towercom:754000:B8C23D0G4M64T8Y0:T:27500:2502=2:2511=slo@3:0:0:2005:8895:258:0
+> > > Done, scan time: 02:12.791
+> >
+> >
+>
+>
