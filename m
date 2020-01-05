@@ -2,153 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 658651305B4
-	for <lists+linux-media@lfdr.de>; Sun,  5 Jan 2020 05:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2E891306EC
+	for <lists+linux-media@lfdr.de>; Sun,  5 Jan 2020 10:18:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbgAEEqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 4 Jan 2020 23:46:19 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:53873 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726240AbgAEEqT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 4 Jan 2020 23:46:19 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:55e5:9c12:ee5f:5f6e])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id nxnriBSy0VPvpnxnsihvXj; Sun, 05 Jan 2020 05:46:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578199576; bh=6LJjgaZo/94pQjTovtNbQuyHIPPc5yJXghji+q3qioE=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=hVSTXEwHJR/3Q62Dc2e4O7d86eg8+ODD8Vmu3iXcTyt7R44F7hxkRLVoBttF6Ganp
-         HFnL3D7b+5SSopA6/znZ7pzb6a4m4RviRnFezpb0RkkwtMQxBgA7IUhHsIW4tx6tLK
-         WHC5c9POB04hDo8L+SFOJGXN8Ek4HCxrCM3YySPbsAXxXO2pLY8iwu/NstuNCD/I6f
-         t/gGOHVRA/JNybUWNQqpY9n1X20oCF/KDaqwWfUDw2k+3jFRC85+Qh7c1QUDq03KlS
-         HEmyeQ0aWejIaxzfayzwkX4nGep5wiiKHmhoZfD00IBPYxFZnLcFacbGIAZ/qbL755
-         59Hnk7zTs5ajQ==
-Message-ID: <15a5ecaddb74f0459db53cbf180f262f@smtp-cloud9.xs4all.net>
-Date:   Sun, 05 Jan 2020 05:46:15 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfFI7getwOGxAByJJaHgi6qLvOMt8JXJVWO3egJgWmHnZHyUuv0WHaRs4ddWPW5+bo9iocOFZ1Z698K8ODJt8B3vzuD7mnz2uA0KzUZF7KzGvYImlRPbl
- 6GIjubkQBqf/iGTDdWhZFGZorT2fCe9Mmk+wc3lfL7rauRJL7B36ttLTMpniI8JZHCxNtMQqGzYa/GeIOkoyKKN41omQUcYelQPPv+je8W9qKoJwMDlwmBG0
+        id S1725948AbgAEJSp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Jan 2020 04:18:45 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:43064 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725535AbgAEJSp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 5 Jan 2020 04:18:45 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1io22m-00D2B6-1Z; Sun, 05 Jan 2020 09:17:56 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1io24Y-0004Ph-Em; Sun, 05 Jan 2020 09:19:46 +0000
+Date:   Sun, 5 Jan 2020 09:19:46 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <389799608.12.1578215986441.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1459554354.11.1578129596606.JavaMail.jenkins@builder.linuxtv.org>
+References: <1459554354.11.1578129596606.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2923
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+See <https://builder.linuxtv.org/job/media-build/2923/display/redirect>
 
-Results of the daily build of media_tree:
+Changes:
 
-date:			Sun Jan  5 05:00:12 CET 2020
-media-tree git hash:	51e40a0dbe53cebe1f4b85bb47e250dc5a89b254
-media_build git hash:	2555f73ab11b9936171fc31d38498818922c2f7a
-v4l-utils git hash:	934a1b9bebccf9b9e4b390c3ba0198374e4a9199
-edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.63-i686: ERRORS
-linux-3.16.63-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.167-i686: ERRORS
-linux-4.4.167-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.162-i686: ERRORS
-linux-4.9.162-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.105-i686: ERRORS
-linux-4.14.105-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.28-i686: ERRORS
-linux-4.19.28-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: WARNINGS
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2901, Succeeded: 2901, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-
-Logs weren't copied as they are too large (4088 kB)
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+------------------------------------------
+[...truncated 29.44 KB...]
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb0899_algo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb6100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp8870.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx22700.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1432.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24110.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda8083.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/l64781.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib3000mb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib3000mc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dibx000_common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib7000m.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib7000p.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib8000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib9000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt312.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ves1820.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ves1x93.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda1004x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp887x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nxt6000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mt352.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zl10036.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zl10039.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zl10353.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx22702.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxd_firm.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxd_hard.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10021.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10023.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0297.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nxt200x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/or51211.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/or51132.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/bcm3510.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1420.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgdt330x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgdt3305.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgdt3306a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lg2160.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24123.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbh25.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbh29.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbp21.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lnbp22.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6405.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6421.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10086.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda826x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda8261.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib0070.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dib0090.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tua6100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1409.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/itd1000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au8522_common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au8522_dig.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/au8522_decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10048.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24113.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s5h1411.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgs8gl5.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda665x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lgs8gxx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/atbm8830.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_dummy_fe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/af9013.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24116.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24117.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx24120.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si21xx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si2168.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0288.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stb6000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/s921.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6110.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0900_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0900_sw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv090x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6110x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m88ds3103.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88472.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88473.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/isl6423.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ec100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ds3000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ts2020.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mb86a16.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxj.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mb86a20s.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ix2505v.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0367.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2820r_t2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2841er.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/drxk_hard.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda18271c2dd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv0910.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/stv6111.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mxl5xx.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/si2165.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/a8293.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sp2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tda10071.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2830.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2832.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rtl2832_sdr.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/m88rs2000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/af9033.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/as102_fe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/gp8psk-fe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc90522.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88443x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/horus3a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ascot2e.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/helene.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zd1301_demod.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2099.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_devio_spi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_integ.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_io.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_spi_device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2_mon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt_mon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_mon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_top.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-devnode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-entity.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-request.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fwnode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
+In file included from /usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:7,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/kernel.h:14,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/asm-generic/bug.h:18,
+                 from /usr/src/linux-headers-4.19.0-5-common/arch/x86/include/asm/bug.h:83,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/bug.h:5,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/mmdebug.h:5,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/config-compat.h>:12,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:10,
+                 from <command-line>:
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>: In function 'v4l_print_event':
+/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 6 has type '__kernel_time_t' {aka 'const long int'} [-Wformat=]
+ #define KERN_SOH "\001"  /* ASCII Start Of Header */
+                  ^~~~~~
+/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:24:19: note: in expansion of macro 'KERN_SOH'
+ #define KERN_CONT KERN_SOH "c"
+                   ^~~~~~~~
+/usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:322:9: note: in expansion of macro 'KERN_CONT'
+  printk(KERN_CONT fmt, ##__VA_ARGS__)
+         ^~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:2: note: in expansion of macro 'pr_cont'
+  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+  ^~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:67: note: format string is defined here
+  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+                                                                ~~~^
+                                                                %lu
+In file included from /usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:7,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/kernel.h:14,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/asm-generic/bug.h:18,
+                 from /usr/src/linux-headers-4.19.0-5-common/arch/x86/include/asm/bug.h:83,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/bug.h:5,
+                 from /usr/src/linux-headers-4.19.0-5-common/include/linux/mmdebug.h:5,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/config-compat.h>:12,
+                 from <https://builder.linuxtv.org/job/media-build/ws/v4l/compat.h>:10,
+                 from <command-line>:
+/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:5:18: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 7 has type 'long int' [-Wformat=]
+ #define KERN_SOH "\001"  /* ASCII Start Of Header */
+                  ^~~~~~
+/usr/src/linux-headers-4.19.0-5-common/include/linux/kern_levels.h:24:19: note: in expansion of macro 'KERN_SOH'
+ #define KERN_CONT KERN_SOH "c"
+                   ^~~~~~~~
+/usr/src/linux-headers-4.19.0-5-common/include/linux/printk.h:322:9: note: in expansion of macro 'KERN_CONT'
+  printk(KERN_CONT fmt, ##__VA_ARGS__)
+         ^~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:2: note: in expansion of macro 'pr_cont'
+  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+  ^~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.c>:824:75: note: format string is defined here
+  pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+                                                                     ~~~~~~^
+                                                                     %9.9lu
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-clk.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-async.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'bufsize_v4l2_buffer_time32':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:619:34: error: macro "access_ok" requires 3 arguments, but only 2 given
+  if (!access_ok(p32, sizeof(*p32)) ||
+                                  ^
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:619:7: error: 'access_ok' undeclared (first use in this function)
+  if (!access_ok(p32, sizeof(*p32)) ||
+       ^~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:619:7: note: each undeclared identifier is reported only once for each function it appears in
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'get_v4l2_buffer32_time32':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:752:34: error: macro "access_ok" requires 3 arguments, but only 2 given
+  if (!access_ok(p32, sizeof(*p32)) ||
+                                  ^
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:752:7: error: 'access_ok' undeclared (first use in this function)
+  if (!access_ok(p32, sizeof(*p32)) ||
+       ^~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:792:41: error: macro "access_ok" requires 3 arguments, but only 2 given
+           num_planes * sizeof(*uplane32)))
+                                         ^
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dv-timings.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'put_v4l2_buffer32_time32':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:930:34: error: macro "access_ok" requires 3 arguments, but only 2 given
+  if (!access_ok(p32, sizeof(*p32)) ||
+                                  ^
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:930:7: error: 'access_ok' undeclared (first use in this function)
+  if (!access_ok(p32, sizeof(*p32)) ||
+       ^~~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>: In function 'put_v4l2_event32_time32':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:1323:34: error: macro "access_ok" requires 3 arguments, but only 2 given
+  if (!access_ok(p32, sizeof(*p32)) ||
+                                  ^
+<https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.c>:1323:7: error: 'access_ok' undeclared (first use in this function)
+  if (!access_ok(p32, sizeof(*p32)) ||
+       ^~~~~~~~~
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mem2mem.o>
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
+make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[3]: *** [Makefile:146: sub-make] Error 2
+make[2]: *** [Makefile:8: all] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 526
+Build step 'Execute shell' marked build as failure
