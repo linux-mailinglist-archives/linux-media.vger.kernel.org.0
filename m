@@ -2,77 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F1B130EE4
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 09:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94F16130F19
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 10:02:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725843AbgAFIrS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jan 2020 03:47:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29688 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725446AbgAFIrS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 03:47:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578300436;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LuwmtFiuk4QC6AlCiv2QuDvl6ZNYkiBQJ/wWpvPHom0=;
-        b=SLxAWrN2T5lktIaY+V0PuNTxElms5HK1+m6RXCB0tEs0DYQbKX80zlMG9Biq60JV507FpR
-        +nX/tWCaOWI0VOurkj1Kv2SCmOqebAjLvYKWLo7rJuxyrdOgaO/TYHmnPd7SGECzX1WrKq
-        ZnQS1Dx+/SelmuNSEveyRsbA8RKMpIk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-Xg-vGluqNHK1In-eZEA4YA-1; Mon, 06 Jan 2020 03:47:13 -0500
-X-MC-Unique: Xg-vGluqNHK1In-eZEA4YA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D070100550E;
-        Mon,  6 Jan 2020 08:47:10 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com [10.36.116.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 876D660F89;
-        Mon,  6 Jan 2020 08:47:02 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 66A356DF9; Mon,  6 Jan 2020 09:47:01 +0100 (CET)
-Date:   Mon, 6 Jan 2020 09:47:01 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org, linux-media@vger.kernel.org,
-        acourbot@chromium.org, alexlau@chromium.org, daniel@ffwll.ch,
-        dgreid@chromium.org, egranata@google.com, fziglio@redhat.com,
-        hverkuil@xs4all.nl, marcheu@chromium.org, posciak@chromium.org,
-        spice-devel@lists.freedesktop.org, stevensd@chromium.org,
-        tfiga@chromium.org, uril@redhat.com
-Subject: Re: [PATCH v2 1/1] virtio-video: Add virtio video device
- specification
-Message-ID: <20200106084701.3v5eew3bh4nh67sc@sirius.home.kraxel.org>
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <20191218130214.170703-2-keiichiw@chromium.org>
- <2358784.0s52YacUgI@os-lin-dmo>
+        id S1726454AbgAFJCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jan 2020 04:02:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50152 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725446AbgAFJCA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Jan 2020 04:02:00 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id B2328B027;
+        Mon,  6 Jan 2020 09:01:55 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 821931E0B47; Mon,  6 Jan 2020 10:01:47 +0100 (CET)
+Date:   Mon, 6 Jan 2020 10:01:47 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Maor Gottlieb <maorg@mellanox.com>,
+        Ran Rozenstein <ranro@mellanox.com>
+Subject: Re: [PATCH v11 00/25] mm/gup: track dma-pinned pages: FOLL_PIN
+Message-ID: <20200106090147.GA9176@quack2.suse.cz>
+References: <20191219132607.GA410823@unreal>
+ <a4849322-8e17-119e-a664-80d9f95d850b@nvidia.com>
+ <20191219210743.GN17227@ziepe.ca>
+ <20191220182939.GA10944@unreal>
+ <1001a5fc-a71d-9c0f-1090-546c4913d8a2@nvidia.com>
+ <20191222132357.GF13335@unreal>
+ <49d57efe-85e1-6910-baf5-c18df1382206@nvidia.com>
+ <20191225052612.GA212002@unreal>
+ <b879d191-a07c-e808-e48f-2b9bd8ba4fa3@nvidia.com>
+ <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2358784.0s52YacUgI@os-lin-dmo>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <612aa292-ec45-295c-b56c-c622876620fa@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+On Sat 28-12-19 20:33:32, John Hubbard wrote:
+> On 12/27/19 1:56 PM, John Hubbard wrote:
+> ...
+> >> It is ancient verification test (~10y) which is not an easy task to
+> >> make it understandable and standalone :).
+> >>
+> > 
+> > Is this the only test that fails, btw? No other test failures or hints of
+> > problems?
+> > 
+> > (Also, maybe hopeless, but can *anyone* on the RDMA list provide some
+> > characterization of the test, such as how many pins per page, what page
+> > sizes are used? I'm still hoping to write a test to trigger something
+> > close to this...)
+> > 
+> > I do have a couple more ideas for test runs:
+> > 
+> > 1. Reduce GUP_PIN_COUNTING_BIAS to 1. That would turn the whole override of
+> > page->_refcount into a no-op, and so if all is well (it may not be!) with the
+> > rest of the patch, then we'd expect this problem to not reappear.
+> > 
+> > 2. Active /proc/vmstat *foll_pin* statistics unconditionally (just for these
+> > tests, of course), so we can see if there is a get/put mismatch. However, that
+> > will change the timing, and so it must be attempted independently of (1), in
+> > order to see if it ends up hiding the repro.
+> > 
+> > I've updated this branch to implement (1), but not (2), hoping you can give
+> > this one a spin?
+> > 
+> >     git@github.com:johnhubbard/linux.git  pin_user_pages_tracking_v11_with_diags
+> > 
+> > 
+> 
+> Also, looking ahead:
+> 
+> a) if the problem disappears with the latest above test, then we likely have
+>    a huge page refcount overflow, and there are a couple of different ways to
+>    fix it. 
+> 
+> b) if it still reproduces with the above, then it's some other random mistake,
+>    and in that case I'd be inclined to do a sort of guided (or classic, unguided)
+>    git bisect of the series. Because it could be any of several patches.
+> 
+>    If that's too much trouble, then I'd have to fall back to submitting a few
+>    patches at a time and working my way up to the tracking patch...
 
-> How should one deal with multiplanar formats? Do we create one resource per 
-> plane? Otherwise we need a way to send mem entries for each plane in one 
-> request.
+It could also be that an ordinary page reference is dropped with 'unpin'
+thus underflowing the page refcount...
 
-DRM uses arrays of handles and offsets (see struct drm_framebuffer).  A
-handle references a gem object (roughly the same as a resource), and the
-offset specifies the start of the plane within the gem object.  That
-allows both a single gem object with planes stored at different offsets
-and one gem object per plane.  virtio-video could do the same, or pick
-one of the two approaches and support only that.
+								Honza
 
-cheers,
-  Gerd
-
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
