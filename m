@@ -2,33 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9584D1312C6
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 14:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13CF41312C7
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 14:26:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbgAFN0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jan 2020 08:26:00 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35330 "EHLO
+        id S1726382AbgAFN0B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jan 2020 08:26:01 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35334 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725821AbgAFN0A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 08:26:00 -0500
+        with ESMTP id S1726292AbgAFN0B (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 08:26:01 -0500
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 765AC52F;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E84AE123D;
         Mon,  6 Jan 2020 14:25:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1578317158;
+        s=mail; t=1578317159;
         bh=ofZPijIR8ecYEwO2gxOKaASjlKLd8pAxV64+E7oe5SU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YXZbZSIh3bADYqLHVeJfaqLwHHCXSvkAlKaPzaEkSUwXCI3c/8msPpRM7xu7UQ6j6
-         6yh9+lhIy8/np9lJv3VaQd4qnnGHroTrtZXTheia+1kb3DF8OQ4kwKEg+Q3VNZGj4/
-         /oTNIF/5AuGAXdbBM/qwhkoWBOGqDXrH1wXZ7znA=
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jgAcDWk6eya5XYAUYajzHC2I7BTQAeaoohN6Gr6bYwnQk+D6aVWNJfiAYeY96vXue
+         eU+lJm0yCck+n+gq33r6rJYJlEuUMdafY8NeXBxzsy+ta9acniyYvPeTKI0/o9G2kp
+         7c8Pj1c8doYmS7St0oR3bmG6W8SH8kabVznwvq3A=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Paul Elder <paul.elder@ideasonboard.com>
 Subject: [v4l-utils] [PATCH] qv4l2: Use C library file operations with v4lconvert for raw mode devices
-Date:   Mon,  6 Jan 2020 15:25:43 +0200
-Message-Id: <20200106132544.9991-1-laurent.pinchart@ideasonboard.com>
+Date:   Mon,  6 Jan 2020 15:25:44 +0200
+Message-Id: <20200106132544.9991-2-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200106132544.9991-1-laurent.pinchart@ideasonboard.com>
+References: <20200106132544.9991-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
