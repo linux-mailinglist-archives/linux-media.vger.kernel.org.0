@@ -2,174 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B89C130CAB
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 05:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74551130CE0
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 06:07:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727488AbgAFEAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Jan 2020 23:00:43 -0500
-Received: from mga09.intel.com ([134.134.136.24]:34937 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727446AbgAFEAn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 5 Jan 2020 23:00:43 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jan 2020 20:00:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,401,1571727600"; 
-   d="scan'208";a="225373753"
-Received: from shawn-bm6650-pc.itwn.intel.com ([10.5.230.127])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2020 20:00:41 -0800
-From:   Shawnx Tu <shawnx.tu@intel.com>
+        id S1726300AbgAFFHa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jan 2020 00:07:30 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:35557 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725446AbgAFFHa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Jan 2020 00:07:30 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:21c9:f995:f54a:9d8f])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id oKbuitUo6FqKBoKbviK5HW; Mon, 06 Jan 2020 06:07:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578287247; bh=GXq1Mt20YWPzUj2xfnMP/AuZBmeUKhcernOQRupucnI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=M3GqxV/xuft2ah4dq3S+m9+3GIz/qdB4bMnt2BkWFFHmApqtpjA+M42epiunkdxOo
+         /ItBk1N2/nJ97dgO6BamD9hbtRrv0rqKHxLuk6OC9FPCUkWK3DJI9vrWwQvbUXIxWz
+         9Ovn4A8KbcqMj7mj+kW0Lm7orMGlZOY2kEh81N6Jh/HXWdyqhOZ7t8w2y4J3h+V96H
+         w6zHPMAO0aahQAedUelQLLivudbQLgx8e3ZHSEwmvfWHK84baWQcLEuwBAr0YZQB2r
+         jY615FBkjI6QUlEMeUo28dY52e+aij4kZaP3gRijQ2g7LD68RI3Apmjv85CSfMeNVn
+         7Bp9DLKhn1qaA==
+Message-ID: <fd38604cf4c724a725f0967c4f1dbad7@smtp-cloud8.xs4all.net>
+Date:   Mon, 06 Jan 2020 06:07:26 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
-        shawnx.tu@intel.com
-Subject: [PATCH v3] ov5675: add vflip/hflip control support
-Date:   Mon,  6 Jan 2020 12:01:22 +0800
-Message-Id: <1578283282-10081-1-git-send-email-shawnx.tu@intel.com>
-X-Mailer: git-send-email 2.7.4
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfHVWcSC/5BKIJDWyJlbbpBAYtsM0tJzd/0morBSxbjSf2MztR5il8S0632p8wAx0ffdHfQw/GHx4QOHWNDC6PChiYTdF5F30ZPqRgJfPdDMq7U8/sbfJ
+ 6ARPojSerUAHPDR9tdajHjTeAEa6/AKbA685YpbweMFygZf3xZEvIABv65uoXRf4EtwG/beu5EFvXnNQFYy1VpIy/qAIZq7tgR8NeyI9wZA2a+mQBA6SV45k
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shawn Tu <shawnx.tu@intel.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-- Add V4L2 controls: horizontal/vertical flip
-- Fix Bayer order output in 1296x972 binning registers
+Results of the daily build of media_tree:
 
-Signed-off-by: Shawn Tu <shawnx.tu@intel.com>
----
- drivers/media/i2c/ov5675.c | 82 +++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 73 insertions(+), 9 deletions(-)
+date:			Mon Jan  6 05:00:09 CET 2020
+media-tree git hash:	51e40a0dbe53cebe1f4b85bb47e250dc5a89b254
+media_build git hash:	9130b5f6a4375b19dbd5398b2a4f73cf0921eaf5
+v4l-utils git hash:	934a1b9bebccf9b9e4b390c3ba0198374e4a9199
+edid-decode git hash:	e719d04077d098eb51d9494f41060eba2419d4bc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2bba801e0e7dfc02308d972580fab46d27aaaffe
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
-index 1ae2523..dcb703cc 100644
---- a/drivers/media/i2c/ov5675.c
-+++ b/drivers/media/i2c/ov5675.c
-@@ -63,6 +63,14 @@
- #define OV5675_TEST_PATTERN_ENABLE	BIT(7)
- #define OV5675_TEST_PATTERN_BAR_SHIFT	2
- 
-+/* Flip Mirror Controls from sensor */
-+#define OV5675_REG_FORMAT1		0x3820
-+#define OV5675_REG_FORMAT2		0x373d
-+#define OV5675_REG_FORMAT1_HFLIP	BIT(3)
-+#define OV5675_REG_FORMAT1_VFLIP	BIT(4)
-+#define OV5675_REG_FORMAT1_VFLIP_BLC	BIT(5)
-+#define OV5675_REG_FORMAT2_VBLK_FLIP	BIT(1)
-+
- #define to_ov5675(_sd)			container_of(_sd, struct ov5675, sd)
- 
- enum {
-@@ -314,21 +322,21 @@ static const struct ov5675_reg mode_1296x972_regs[] = {
- 	{0x3800, 0x00},
- 	{0x3801, 0x00},
- 	{0x3802, 0x00},
--	{0x3803, 0xf4},
-+	{0x3803, 0x00},
- 	{0x3804, 0x0a},
- 	{0x3805, 0x3f},
--	{0x3806, 0x06},
--	{0x3807, 0xb3},
-+	{0x3806, 0x07},
-+	{0x3807, 0xb7},
- 	{0x3808, 0x05},
--	{0x3809, 0x00},
--	{0x380a, 0x02},
--	{0x380b, 0xd0},
-+	{0x3809, 0x10},
-+	{0x380a, 0x03},
-+	{0x380b, 0xcc},
- 	{0x380c, 0x02},
- 	{0x380d, 0xee},
- 	{0x380e, 0x07},
--	{0x380f, 0xe4},
--	{0x3811, 0x10},
--	{0x3813, 0x09},
-+	{0x380f, 0xd0},
-+	{0x3811, 0x08},
-+	{0x3813, 0x0d},
- 	{0x3814, 0x03},
- 	{0x3815, 0x01},
- 	{0x3816, 0x03},
-@@ -604,6 +612,49 @@ static int ov5675_test_pattern(struct ov5675 *ov5675, u32 pattern)
- 				OV5675_REG_VALUE_08BIT, pattern);
- }
- 
-+static int ov5675_set_ctrl_hflip(struct ov5675 *ov5675, u32 ctrl_val)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = ov5675_read_reg(ov5675, OV5675_REG_FORMAT1,
-+			      OV5675_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	return ov5675_write_reg(ov5675, OV5675_REG_FORMAT1,
-+				OV5675_REG_VALUE_08BIT,
-+				ctrl_val ? val & ~OV5675_REG_FORMAT1_HFLIP : val);
-+}
-+
-+static int ov5675_set_ctrl_vflip(struct ov5675 *ov5675, u8 ctrl_val)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = ov5675_read_reg(ov5675, OV5675_REG_FORMAT1,
-+			      OV5675_REG_VALUE_08BIT, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov5675_write_reg(ov5675, OV5675_REG_FORMAT1,
-+			       OV5675_REG_VALUE_08BIT,
-+			       ctrl_val ? val | OV5675_REG_FORMAT1_VFLIP | OV5675_REG_FORMAT1_VFLIP_BLC  : val);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = ov5675_read_reg(ov5675, OV5675_REG_FORMAT2,
-+			      OV5675_REG_VALUE_08BIT, &val);
-+
-+	if (ret)
-+		return ret;
-+
-+	return ov5675_write_reg(ov5675, OV5675_REG_FORMAT2,
-+				OV5675_REG_VALUE_08BIT,
-+				ctrl_val ? val | OV5675_REG_FORMAT2_VBLK_FLIP : val);
-+}
-+
- static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct ov5675 *ov5675 = container_of(ctrl->handler,
-@@ -654,6 +705,14 @@ static int ov5675_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = ov5675_test_pattern(ov5675, ctrl->val);
- 		break;
- 
-+	case V4L2_CID_HFLIP:
-+		ov5675_set_ctrl_hflip(ov5675, ctrl->val);
-+		break;
-+
-+	case V4L2_CID_VFLIP:
-+		ov5675_set_ctrl_vflip(ov5675, ctrl->val);
-+		break;
-+
- 	default:
- 		ret = -EINVAL;
- 		break;
-@@ -722,6 +781,11 @@ static int ov5675_init_controls(struct ov5675 *ov5675)
- 				     V4L2_CID_TEST_PATTERN,
- 				     ARRAY_SIZE(ov5675_test_pattern_menu) - 1,
- 				     0, 0, ov5675_test_pattern_menu);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
-+			  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov5675_ctrl_ops,
-+			  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
- 	if (ctrl_hdlr->error)
- 		return ctrl_hdlr->error;
- 
--- 
-2.7.4
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2901, Succeeded: 2901, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
