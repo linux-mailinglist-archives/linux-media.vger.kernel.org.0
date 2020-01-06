@@ -2,277 +2,687 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84337131432
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 15:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 160F813143E
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 15:59:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbgAFO5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jan 2020 09:57:08 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50334 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbgAFO5I (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 09:57:08 -0500
-Received: by mail-wm1-f66.google.com with SMTP id a5so15262943wmb.0
-        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2020 06:57:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4XoQkxgkZAvdX4n0R/Hf5buiUEi1NTKRWp+mFuPF3iU=;
-        b=ttwGoU/jg/8vRQEm82RGRSdOMth62CiJWTJd5O76BMxtEZOJa/X/vfRdvIZdiUpMmE
-         tJJlPwxMdK/JvDENuuX8oFDIb2C+HKR9raEm2Q36uKS7VBy5kLyHQ8FK2fg7uRAsPCqt
-         /il6xeIHcOiBniwkPpgZVSiZ6liurl9j8hOkgnvL8BvkRJEGDGUXhBdc/t8BBKpmj8cB
-         2LyENU0ASOA/VaciTp5GQQxLGVaoNNuNqUn5OYAIS5zeMSAb6EA7SVqvHVLLryafyFys
-         Ox8TZFwWtsAMDSJC929xfbCtr6KiS/ftFQAo9iJeFsKSIN1GPkbziItKCYLnw15hKF/q
-         0FFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4XoQkxgkZAvdX4n0R/Hf5buiUEi1NTKRWp+mFuPF3iU=;
-        b=loWhVEp5MNQZRfUg3zHEFAvWum/JJsxWk7PMgnQOgTBYfBT5JULJffVnMUEsHAaKcp
-         +36DI9ZehiHmrA9Hm0aFgj/zo4LdoLMw1//y49gdb6RU839bFI7fYRKx/LMD8bxg3Gom
-         gvyX7srJZDI+rR694/+cE6Ol2x4wkNkgIi7sCgNucCVoSicn1NKmtpbSbiXMalsTDDoG
-         4YYCF+E31ahRlQhxi2XbYNv/7qi02ZBrWCJI4QJ3tcen3bGRFFULM6CX0Q26W9PXgz8J
-         c36eTkIZ+Sw46vsiQS8Tvm0AUKezDu3I2VxJ7uODPA9Ne8dBOrr6JlyI8xOShY6e7eNh
-         LW+w==
-X-Gm-Message-State: APjAAAU9AUUEaL9FIKLOL6Y6ONAZW0mojJOzHzSEYzZ5FwqyPvuIUOp4
-        PWxSEWXJ6An6X21F3SFgI22c8RuVlcKUZt6clhzTfQ==
-X-Google-Smtp-Source: APXvYqxfMwtQJoldMTRdltl3qv6Hgh73aLyhtwnyvgopmbyIZqd67/g0U4D/zDjh4yS9nl1GNCZMzjf38Wezasw1a3Y=
-X-Received: by 2002:a1c:9814:: with SMTP id a20mr33759928wme.94.1578322623741;
- Mon, 06 Jan 2020 06:57:03 -0800 (PST)
+        id S1726536AbgAFO74 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jan 2020 09:59:56 -0500
+Received: from plasma6.jpberlin.de ([80.241.56.68]:44527 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726303AbgAFO7z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 09:59:55 -0500
+Received: from spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116])
+        by plasma.jpberlin.de (Postfix) with ESMTP id AA267BC715;
+        Mon,  6 Jan 2020 15:59:49 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
+        with ESMTP id IaOU05kvCFi6; Mon,  6 Jan 2020 15:59:48 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id A2B3FBC474;
+        Mon,  6 Jan 2020 15:59:47 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 6 Jan 2020
+ 15:59:47 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+CC:     <virtio-dev@lists.oasis-open.org>, <linux-media@vger.kernel.org>,
+        <acourbot@chromium.org>, <alexlau@chromium.org>, <daniel@ffwll.ch>,
+        <dgreid@chromium.org>, <egranata@google.com>, <fziglio@redhat.com>,
+        <hverkuil@xs4all.nl>, <kraxel@redhat.com>, <marcheu@chromium.org>,
+        <posciak@chromium.org>, <spice-devel@lists.freedesktop.org>,
+        <stevensd@chromium.org>, <tfiga@chromium.org>, <uril@redhat.com>
+Subject: Re: [PATCH v2 1/1] virtio-video: Add virtio video device specification
+Date:   Mon, 6 Jan 2020 15:59:46 +0100
+Message-ID: <2467657.7ilU13zpCy@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <20191218130214.170703-2-keiichiw@chromium.org>
+References: <20191218130214.170703-1-keiichiw@chromium.org> <20191218130214.170703-2-keiichiw@chromium.org>
 MIME-Version: 1.0
-References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
- <20191227122114.23075-2-andrey.konovalov@linaro.org> <20191227141739.GD861@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20191227141739.GD861@valkosipuli.retiisi.org.uk>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 6 Jan 2020 14:56:47 +0000
-Message-ID: <CAPY8ntDRWOXass1Et-bybw-e0YLvk6VJEqjR4ULh739LcrNudQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor binding
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Andrey Konovalov <andrey.konovalov@linaro.org>, mchehab@kernel.org,
-        robh+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Hi,
 
-On Fri, 27 Dec 2019 at 14:18, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Andrey,
->
-> Thanks for the patchset.
->
-> On Fri, Dec 27, 2019 at 03:21:13PM +0300, Andrey Konovalov wrote:
-> > Add YAML device tree binding for IMX219 CMOS image sensor, and
-> > the relevant MAINTAINERS entries.
-> >
-> > Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> > ---
-> >  .../devicetree/bindings/media/i2c/imx219.yaml | 134 ++++++++++++++++++
-> >  MAINTAINERS                                   |   8 ++
-> >  2 files changed, 142 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > new file mode 100644
-> > index 000000000000..b58aa49a7c03
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > @@ -0,0 +1,134 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
-> > +
-> > +maintainers:
-> > +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > +
-> > +description: |-
-> > +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
-> > +  with an active array size of 3280H x 2464V. It is programmable through
-> > +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
-> > +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-> > +  4 data lanes.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sony,imx219
-> > +
-> > +  reg:
-> > +    description: I2C device address
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: xclk
->
-> There's a single clock. Does it need a name? I'd just omit it.
->
-> > +
-> > +  VDIG-supply:
-> > +    description:
-> > +      Digital I/O voltage supply, 1.8 volts
-> > +
-> > +  VANA-supply:
-> > +    description:
-> > +      Analog voltage supply, 2.8 volts
-> > +
-> > +  VDDL-supply:
-> > +    description:
-> > +      Digital core voltage supply, 1.2 volts
-> > +
-> > +  xclr-gpios:
-> > +    description: |-
-> > +      Reference to the GPIO connected to the xclr pin, if any.
-> > +      Must be released (set high) after all supplies are applied.
->
-> A common name for this in camera sensors is xshutdown. I'd suggest to use
-> that.
->
-> > +
-> > +  camera-clk:
-> > +    type: object
-> > +
-> > +    description: Clock source for imx219
-> > +
-> > +    properties:
-> > +      clock-frequency: true
-> > +
-> > +    required:
-> > +      - clock-frequency
->
-> Hmm. The driver doesn't seem to use this for anything.
->
-> There are two approaches to this; either you can get and check the
-> frequency, or specify it in DT bindings, set and then check it.
->
-> See e.g. Documentation/devicetree/bindings/media/i2c/nokia,smia.txt (not in
-> YAML though).
->
-> > +
-> > +  # See ../video-interfaces.txt for more details
-> > +  port:
-> > +    type: object
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        properties:
-> > +          clock-lanes:
-> > +            const: 0
->
-> If the hardware does not support lane reordering, you can omit the
-> clock-lanes property as it provides no information.
->
-> > +
-> > +          data-lanes:
-> > +            description: |-
-> > +              Should be <1 2> for two-lane operation, or <1 2 3 4> for
-> > +              four-lane operation.
-> > +            oneOf:
-> > +              - const: [[ 1, 2 ]]
-> > +              - const: [[ 1, 2, 3, 4 ]]
-> > +
-> > +          clock-noncontinuous:
-> > +            type: boolean
-> > +            description: |-
-> > +              Presence of this boolean property decides whether the MIPI CSI-2
-> > +              clock is continuous or non-continuous.
->
-> How about: MIPI CSI-2 clock will be non-continuous if this property is
-> present, otherwise it's continuous.
->
-> > +
-> > +        required:
-> > +          - clock-lanes
-> > +          - data-lanes
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - VANA-supply
-> > +  - VDIG-supply
-> > +  - VDDL-supply
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c0 {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        imx219: sensor@10 {
-> > +            compatible = "sony,imx219";
-> > +            reg = <0x10>;
-> > +            clocks = <&imx219_clk>;
-> > +            clock-names = "xclk";
-> > +            VANA-supply = <&imx219_vana>;   /* 2.8v */
-> > +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-> > +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-> > +
-> > +            imx219_clk: camera-clk {
-> > +                compatible = "fixed-clock";
-> > +                #clock-cells = <0>;
-> > +                clock-frequency = <24000000>;
-> > +            };
-> > +
-> > +            port {
-> > +                imx219_0: endpoint {
-> > +                    remote-endpoint = <&csi1_ep>;
-> > +                    clock-lanes = <0>;
-> > +                    data-lanes = <1 2>;
-> > +                    clock-noncontinuous;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index ffa3371bc750..f7b6c24ec081 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -15350,6 +15350,14 @@ S:   Maintained
-> >  F:   drivers/media/i2c/imx214.c
-> >  F:   Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> >
-> > +SONY IMX219 SENSOR DRIVER
-> > +M:   Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> Is Dave aware of this? :-)
+a couple of new comments:
 
-Yes, I'm aware, and happy to be listed as maintainer.
-I'm very grateful to Andrey for his efforts in upstreaming this - it's
-a task that I simply haven't the time for at present.
+On Mittwoch, 18. Dezember 2019 14:02:14 CET Keiichi Watanabe wrote:
+> From: Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> 
+> The virtio video encoder device and decoder device provide functionalities
+> to encode and decode video stream respectively.
+> Though video encoder and decoder are provided as different devices, they use
+> a same protocol.
+> 
+> Signed-off-by: Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> Signed-off-by: Keiichi Watanabe <keiichiw@chromium.org>
+> ---
+>  content.tex      |   1 +
+>  virtio-video.tex | 579 +++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 580 insertions(+)
+>  create mode 100644 virtio-video.tex
+> 
+> diff --git a/content.tex b/content.tex
+> index 556b373..9e56839 100644
+> --- a/content.tex
+> +++ b/content.tex
+> @@ -5743,6 +5743,7 @@ \subsubsection{Legacy Interface: Framing
+> Requirements}\label{sec:Device \input{virtio-vsock.tex}
+>  \input{virtio-fs.tex}
+>  \input{virtio-rpmb.tex}
+> +\input{virtio-video.tex}
+> 
+>  \chapter{Reserved Feature Bits}\label{sec:Reserved Feature Bits}
+> 
+> diff --git a/virtio-video.tex b/virtio-video.tex
+> new file mode 100644
+> index 0000000..30e728d
+> --- /dev/null
+> +++ b/virtio-video.tex
+> @@ -0,0 +1,579 @@
+> +\section{Video Device}\label{sec:Device Types / Video Device}
+> +
+> +The virtio video encoder device and decoder device are virtual devices that
+> +supports encoding and decoding respectively. Though the encoder and the
+> decoder +are different devices, they use the same protocol.
+> +
+> +\subsection{Device ID}\label{sec:Device Types / Video Device / Device ID}
+> +
+> +\begin{description}
+> +\item[30] encoder device
+> +\item[31] decoder device
+> +\end{description}
+> +
+> +\subsection{Virtqueues}\label{sec:Device Types / Video Device / Virtqueues}
+> +
+> +\begin{description}
+> +\item[0] controlq - queue for sending control commands.
+> +\item[1] eventq - queue for sending events happened in the device.
+> +\end{description}
+> +
+> +\subsection{Feature bits}\label{sec:Device Types / Video Device / Feature
+> bits} +
+> +\begin{description}
+> +\item[VIRTIO_VIDEO_F_RESOURCE_GUEST_PAGES (0)] Guest pages can be used for
+> video +  buffers.
+> +\end{description}
+> +
+> +\devicenormative{\subsubsection}{Feature bits}{Device Types / Video Device
+> / Feature bits} +
+> +The device MUST offer at least one of feature bits.
+> +
+> +\subsection{Device configuration layout}\label{sec:Device Types / Video
+> Device / Device configuration layout} +
+> +Video device configuration uses the following layout structure:
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_config {
+> +        le32 max_cap_len;
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{max_cap_len}] defines the maximum length of a descriptor
+> +  required to call VIRTIO_VIDEO_GET_CAPABILITY in bytes. The device
+> +  MUST set this value.
+> +\end{description}
+> +
+> +\subsection{Device Initialization}\label{sec:Device Types / Video Device /
+> Device Initialization} +
+> +\devicenormative{\subsubsection}{Device Initialization}{Device Types /
+> Video Device / Device Initialization} +
+> +The driver SHOULD query device capability by using the
+> +VIRTIO_VIDEO_T_GET_CAPABILITY and use that information for the initial
+> +setup.
+> +
+> +\subsection{Device Operation}\label{sec:Device Types / Video Device /
+> Device Operation} +
+> +The driver allocates input and output buffers and queues the buffers
+> +to the device. The device performs operations on the buffers according
+> +to the function in question.
+> +
+> +\subsubsection{Device Operation: Create stream}
+> +
+> +To process buffers, the device needs to associate them with a certain
+> +video stream (essentially, a context). Streams are created by
+> +VIRTIO_VIDEO_T_STREAM_CREATE with a default set of parameters
+> +determined by the device.
+> +
+> +\subsubsection{Device Operation: Create buffers}
+> +
+> +Buffers are used to store the actual data as well as the relevant
+> +metadata. Scatter lists are supported, so the buffer doesn't need to
+> +be contiguous in guest physical memory.
+> +
+> +\begin{itemize*}
+> +\item Use VIRTIO_VIDEO_T_RESOURCE_CREATE to create a virtio video
+> +  resource that is backed by a buffer allocated from the driver's
+> +  memory.
+> +\item Use VIRTIO_VIDEO_T_RESOURCE_DESTROY to destroy a resource that
+> +  is no longer needed.
+> +\end{itemize*}
+> +
+> +\subsubsection{Device Operation: Stream parameter control}
+> +
+> +\begin{itemize*}
+> +\item Use VIRTIO_VIDEO_T_GET_PARAMS to get the current stream parameters
+> for +  input and output streams from the device.
+> +\item Use VIRTIO_VIDEO_T_SET_PARAMS to provide new stream parameters to the
+> +  device.
+> +\item After setting stream parameters, the driver may issue
+> +  VIRTIO_VIDEO_T_GET_PARAMS as some parameters of both input and output can
+> be +  changed implicitly by the device during the set operation.
+> +\end{itemize*}
+> +
+> +\subsubsection{Device Operation: Process buffers}
+> +
+> +\begin{itemize*}
+> +\item If the function and the buffer type require so, write data to
+> +the buffer memory.
+> +\item Use VIRTIO_VIDEO_T_RESOURCE_QUEUE to queue the buffer for
+> +processing in the device.
+> +\item The request completes asynchronously when the device has
+> +finished with the buffer.
+> +\end{itemize*}
+> +
+> +\subsubsection{Device Operation: Buffer processing control}
+> +
+> +\begin{itemize*}
+> +\item Use VIRTIO_VIDEO_T_STREAM_DRAIN to ask the device to process and
+> +  return all of the already queued buffers.
+> +\item Use VIRTIO_VIDEO_T_QUEUE_CLEAR to ask the device to return back
+> +  already queued buffers from the input or the output queue. This also
+> +  includes input or output buffers that can be currently owned by the
+> +  device's processing pipeline.
+> +\end{itemize*}
+> +
+> +\subsubsection{Device Operation: Asynchronous events}
+> +
+> +While processing buffers, the device can send asynchronous event
+> +notifications to the driver. The behaviour depends on the exact
+> +stream. For example, the decoder device sends a resolution change
+> +event when it encounters new resolution metadata in the stream.
+> +
+> +\subsubsection{Device Operation: Request header}
+> +
+> +All requests and responses on the control virt queue have a fixed
+> +header using the following layout structure and definitions:
+> +
+> +\begin{lstlisting}
+> +enum virtio_video_ctrl_type {
+> +        VIRTIO_VIDEO_CTRL_UNDEFINED = 0,
+> +
+> +        /* request */
+> +        VIRTIO_VIDEO_T_GET_CAPABILITY = 0x0100,
+> +        VIRTIO_VIDEO_T_STREAM_CREATE,
+> +        VIRTIO_VIDEO_T_STREAM_DESTROY,
+> +        VIRTIO_VIDEO_T_STREAM_DRAIN,
+> +        VIRTIO_VIDEO_T_RESOURCE_CREATE,
+> +        VIRTIO_VIDEO_T_RESOURCE_DESTROY,
+> +        VIRTIO_VIDEO_T_RESOURCE_QUEUE,
+> +        VIRTIO_VIDEO_T_QUEUE_CLEAR,
+> +        VIRTIO_VIDEO_T_SET_PARAMS,
+> +        VIRTIO_VIDEO_T_GET_PARAMS,
+> +
+> +        /* response */
+> +        VIRTIO_VIDEO_S_OK = 0x0200,
+> +        VIRTIO_VIDEO_S_OK_RESOURCE_QUEUE,
+> +        VIRTIO_VIDEO_S_OK_GET_PARAMS,
+> +
+> +        VIRTIO_VIDEO_S_ERR_UNSPEC = 0x0300,
+> +        VIRTIO_VIDEO_S_ERR_OUT_OF_MEMORY,
+> +        VIRTIO_VIDEO_S_ERR_INVALID_RESOURCE_ID,
+> +        VIRTIO_VIDEO_S_ERR_INVALID_STREAM_ID,
+> +        VIRTIO_VIDEO_S_ERR_INVALID_PARAMETER,
+> +};
+> +
+> +struct virtio_video_ctrl_hdr {
+> +        le32 type;
+> +        le32 stream_id;
+> +        le32 len; /* Length of the structure in bytes. */
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{type}] is the type of the driver request or the device
+> +response.
+> +\item[\field{stream_id}] specifies a target stream.
+> +\item[\field{len}] is the length of data in bytes, which includes
+> +length of the header.
+> +\end{description}
+> +
+> +\subsubsection{Device Operation: controlq}
+> +
+> +\begin{description}
+> +
+> +\item[VIRTIO_VIDEO_T_GET_CAPABILITY] Retrieve information about
+> +supported formats.
+> +
+> +The driver uses \field{struct virtio_video_get_capability} to send a
+> +query request.
+> +
+> +\begin{lstlisting}
+> +enum virtio_video_buf_type {
+> +        VIRTIO_VIDEO_BUF_TYPE_INPUT,
+> +        VIRTIO_VIDEO_BUF_TYPE_OUTPUT,
+> +};
+> +
+> +struct virtio_video_get_capability {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        enum virtio_video_buf_type buf_type;
+> +};
+> +\end{lstlisting}
+> +\begin{description}
+> +\item[\field{buf_type}] is the buffer type that the driver asks
+> +information about. The driver MUST set either
+> +\field{VIRTIO_VIDEO_BUF_TYPE_INPUT} or
+> \field{VIRTIO_VIDEO_BUF_TYPE_OUTPUT}. +\end{description}
+> +
+> +The device responds a capability by using \field{struct
+> +virtio_video_get_capability_resp}.
+> +\begin{lstlisting}
+> +enum virtio_video_format {
+> +        VIRTIO_VIDEO_FORMAT_UNDEFINED = 0,
+> +        /* Raw formats */
+> +        VIRTIO_VIDEO_FORMAT_NV12 = 1,
+> +        VIRTIO_VIDEO_FORMAT_YUV420,
+> +        VIRTIO_VIDEO_FORMAT_YVU420,
+> +
+> +        /* Compressed formats */
+> +        VIRTIO_VIDEO_FORMAT_H264 = 0x1001,
+> +        VIRTIO_VIDEO_FORMAT_VP8 =  0x1002,
+> +        VIRTIO_VIDEO_FORMAT_VP9 =  0x1003,
+> +};
+> +
+> +enum virtio_video_profile {
+> +        VIRTIO_VIDEO_PROFILE_UNDEFINED = 0,
+> +
+> +        /* H.264 */
+> +        VIRTIO_VIDEO_PROFILE_H264_MIN = 0x100,
+> +        VIRTIO_VIDEO_PROFILE_H264_BASELINE =
+> VIRTIO_VIDEO_PROFILE_H264_BASELINE, +       
+> VIRTIO_VIDEO_PROFILE_H264_MAIN,
+> +        VIRTIO_VIDEO_PROFILE_H264_EXTENDED,
+> +        VIRTIO_VIDEO_PROFILE_H264_HIGH,
+> +        VIRTIO_VIDEO_PROFILE_H264_HIGH10PROFILE,
+> +        VIRTIO_VIDEO_PROFILE_H264_HIGH422PROFILE,
+> +        VIRTIO_VIDEO_PROFILE_H264_HIGH444PREDICTIVEPROFILE,
+> +        VIRTIO_VIDEO_PROFILE_H264_SCALABLEBASELINE,
+> +        VIRTIO_VIDEO_PROFILE_H264_SCALABLEHIGH,
+> +        VIRTIO_VIDEO_PROFILE_H264_STEREOHIGH,
+> +        VIRTIO_VIDEO_PROFILE_H264_MULTIVIEWHIGH,
+> +        VIRTIO_VIDEO_PROFILE_H264_MAX =
+> VIRTIO_VIDEO_PROFILE_H264_MULTIVIEWHIGH, +
+> +        /* VP8 */
+> +        VIRTIO_VIDEO_PROFILE_VP8_MIN = 0x200,
+> +        VIRTIO_VIDEO_PROFILE_VP8_ANY = VIRTIO_VIDEO_PROFILE_VP8_MIN,
+> +        VIRTIO_VIDEO_PROFILE_VP8_MAX = VIRTIO_VIDEO_PROFILE_VP8_ANY,
+> +
+> +        /* VP9 */
+> +        VIRTIO_VIDEO_PROFILE_VP9_MIN = 0x300,
+> +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE0 = VIRTIO_VIDEO_PROFILE_VP9_MIN,
+> +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE1,
+> +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE2,
+> +        VIRTIO_VIDEO_PROFILE_VP9_PROFILE3,
+> +        VIRTIO_VIDEO_PROFILE_VP9_MAX = VIRTIO_VIDEO_PROFILE_VP9_PROFILE3,
+> +};
+> +
+> +struct virtio_video_format_range {
+> +        le32 min;
+> +        le32 max;
+> +        le32 step;
+> +        u8 paddings[4];
+> +};
+> +
+> +struct virtio_video_format_desc {
+> +        le32 format;  /* One of VIRTIO_VIDEO_FORMAT_* types */
+> +        le32 profile; /* One of VIRTIO_VIDEO_PROFILE_* types */
+> +        le64 mask;
+> +        struct virtio_video_format_range width;
+> +        struct virtio_video_format_range height;
+> +        le32 num_rates;
+> +        u8 padding[4];
+> +        /* Followed by struct virtio_video_frame_rate frame_rates[] */
+> +};
+> +
+> +struct virtio_video_get_capability_resp {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 num_descs;
+> +        /* Followed by struct virtio_video_format_desc desc[] */
+> +};
+> +\end{lstlisting}
+> +
+> +The format description \field{struct virtio_video_format_desc}
+> +includes the following fields:
+> +\begin{description}
+> +\item[\field{format}] specifies an image format. The device MUST set one
+> +  of \field{enum virtio_video_format}.
+> +\item[\field{profile}] specifies a profile of the compressed image format
+> +  specified in \field{format}. The driver SHOULD ignore this value if
+> +  \field{format} is a raw format.
 
-  Dave
+So how should this be used? The spec does not define any way to set profile for 
+the device. It is very important for encoder.
 
-> > +L:   linux-media@vger.kernel.org
-> > +T:   git git://linuxtv.org/media_tree.git
-> > +S:   Maintained
-> > +F:   drivers/media/i2c/imx219.c
-> > +F:   Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > +
-> >  SONY IMX258 SENSOR DRIVER
-> >  M:   Sakari Ailus <sakari.ailus@linux.intel.com>
-> >  L:   linux-media@vger.kernel.org
->
-> --
-> Regards,
->
-> Sakari Ailus
+Also, shouldn't the profile come together with level? Would make sense for 
+encoders.
+
+> +\item[\field{mask}] is a bitset that represents the supported
+> +  combination of input and output format. If \textit{i}-th bit is set
+> +  in \field{mask} of \textit{j}-th \field{struct
+> +  virtio_video_format_desc} for input, the device supports encoding or
+> +  decoding from the \textit{j}-th input format to \textit{i}-th output
+> +  format.
+> +\item[\field{width, height}] represents a range of resolutions
+> +  supported by the device. If its \field{step} is not applicable, its
+> +  \field{min} is equal to its \field{max}.
+> +\item[\field{num_rates}] is the length of an array \field{frame_rates}. In
+> case of decoder, the driver SHOULD ignore this value.
+> +\item[\field{frame_rates}] is an array of supported frame rates.
+> +\end{description}
+> +
+
+I'd guess frame rates depend on the resolution as well. This dependency was 
+clear in the v1 spec, but in the v2 there is no dependency anymore. I think we 
+need to update this.
+
+Best regards,
+Dmitry.
+
+> +\item[VIRTIO_VIDEO_T_STREAM_CREATE] create a video stream (context)
+> +  within the device.
+> +
+> +\begin{lstlisting}
+> +enum virtio_video_mem_type {
+> +        VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES,
+> +};
+> +
+> +struct virtio_video_stream_create {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 in_mem_type;  /* One of VIRTIO_VIDEO_MEM_TYPE_* types */
+> +        le32 out_mem_type; /* One of VIRTIO_VIDEO_MEM_TYPE_* types */
+> +        char debug_name[64];
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{in_mem_type}] is a type of buffer management for input
+> +buffers. The driver MUST set a value in \field{enum
+> +virtio_video_mem_type}.
+> +\item[\field{out_mem_type}] is a type of buffer management for output
+> +buffers. The driver MUST set a value in \field{enum
+> +virtio_video_mem_type}.
+> +\item[\field{debug_name}] is a text string for a debug purpose.
+> +\end{description}
+> +
+> +\item[VIRTIO_VIDEO_T_STREAM_DESTROY] destroy a video stream (context)
+> +  within the device.
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_stream_destroy {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +};
+> +\end{lstlisting}
+> +
+> +\item[VIRTIO_VIDEO_T_STREAM_DRAIN] ask the device to push all the
+> +  queued buffers through the pipeline.
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_stream_drain {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +};
+> +\end{lstlisting}
+> +
+> +\item[VIRTIO_VIDEO_T_RESOURCE_CREATE] create a resource descriptor
+> +  within the device.
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_mem_entry {
+> +        le64 addr;
+> +        le32 length;
+> +        u8 padding[4];
+> +};
+> +
+> +struct virtio_video_resource_create {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 resource_id;
+> +        le32 nr_entries;
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{resource_id}] internal id of the resource.
+> +\item[\field{nr_entries}] number of \field{struct
+> +  virtio_video_mem_entry} memory entries.
+> +\end{description}
+> +
+> +\item[VIRTIO_VIDEO_T_RESOURCE_DESTROY] destroy a resource descriptor
+> +  within the device.
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_resource_destroy {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 resource_id;
+> +        u8 padding[4];
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{resource_id}] internal id of the resource.
+> +\end{description}
+> +
+> +\item[VIRTIO_VIDEO_T_RESOURCE_QUEUE] Add a buffer to the device's
+> +queue.
+> +
+> +\begin{lstlisting}
+> +#define VIRTIO_VIDEO_MAX_PLANES 8
+> +
+> +struct virtio_video_resource_queue {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 buf_type;
+> +        le32 resource_id;
+> +        le64 timestamp;
+> +        le32 nr_data_size;
+> +        le32 data_size[VIRTIO_VIDEO_MAX_PLANES];
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{buf_type}] buf_type of the .
+> +\item[\field{resource_id}] internal id of the resource.
+> +\item[\field{timestamp}] an abstract sequence counter that can be used
+> +  for synchronisation.
+> +\item[\field{nr_data_size}] number of \field{data_size} entries.
+> +\item[\field{data_size}] number of data bytes within a plane.
+> +\end{description}
+> +
+> +\begin{lstlisting}
+> +enum virtio_video_buffer_flag {
+> +        VIRTIO_VIDEO_BUFFER_F_ERR        = 0x0001,
+> +        VIRTIO_VIDEO_BUFFER_F_EOS        = 0x0002,
+> +        /* Encoder only */
+> +        VIRTIO_VIDEO_BUFFER_IFRAME        = 0x0004,
+> +        VIRTIO_VIDEO_BUFFER_PFRAME        = 0x0008,
+> +        VIRTIO_VIDEO_BUFFER_BFRAME        = 0x0010,
+> +};
+> +
+> +struct virtio_video_resource_queue_resp {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le64 timestamp;
+> +        le32 flags; /* One of VIRTIO_VIDEO_BUFFER_* flags */
+> +        le32 size;  /* Encoded size */
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{timestamp}] an abstract sequence counter that can be used
+> +  for synchronisation.
+> +\item[\field{flags}] mark specific buffers in the sequence.
+> +\item[\field{size}] data size in the buffer (encoder only).
+> +\end{description}
+> +
+> +The device sends a response to the queue request asynchronously when
+> +it has finished processing the buffer.
+> +
+> +The device SHOULD mark a buffer that triggered a processing error with
+> +the VIRTIO_VIDEO_BUFFER_F_ERR flag.
+> +
+> +The device MUST mark the last buffer with the
+> +VIRTIO_VIDEO_BUFFER_F_EOS flag to denote completion of the drain
+> +sequence.
+> +
+> +In case of encoder, to denote a particular frame type the devie MUST
+> +mark the respective buffer with VIRTIO_VIDEO_BUFFER_IFRAME,
+> +VIRTIO_VIDEO_BUFFER_PFRAME, VIRTIO_VIDEO_BUFFER_BFRAME.
+> +
+> +\item[VIRTIO_VIDEO_T_RESOURCE_QUEUE_CLEAR] Return already queued
+> +  buffers back from the input or the output queue of the device. The
+> +  device SHOULD return all of the buffers from the respective queue as
+> +  soon as possible without pushing the buffers through the processing
+> +  pipeline.
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_queue_clear {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 buf_type;
+> +        u8 padding[4];
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{buf_type}] buffer type.
+> +\end{description}
+> +
+> +\item[VIRTIO_VIDEO_T_GET_PARAMS] Get parameters of the input or the
+> +  output of a stream.
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_plane_format {
+> +        le32 plane_size;
+> +        le32 stride;
+> +        u8 padding[4];
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{plane_size}] size of the plane in bytes.
+> +\item[\field{stride}] stride used for the plane in bytes.
+> +\end{description}
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_params {
+> +        le32 buf_type; /* One of VIRTIO_VIDEO_BUF_TYPE_* types */
+> +        le32 fourcc;   /* One of VIRTIO_VIDEO_FOURCC_* types */
+> +        le32 frame_width;
+> +        le32 frame_height;
+> +        le32 min_buffers;
+> +        le32 max_buffers;
+> +        le32 frame_rate;
+> +        struct virtio_video_crop {
+> +                le32 left;
+> +                le32 top;
+> +                le32 width;
+> +                le32 height;
+> +        } crop;
+> +        le32 num_planes;
+> +        struct virtio_video_plane_format
+> plane_formats[VIRTIO_VIDEO_MAX_PLANES]; +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{frame_width}] the value to get/set.
+> +\item[\field{frame_height}] the value to get/set.
+> +\item[\field{pixel_format}] the value to get/set.
+> +\item[\field{min_buffers}] minimum buffers required to handle the
+> +  format (r/o).
+> +\item[\field{max_buffers}] maximum buffers required to handle the
+> +  format (r/o).
+> +\item[\field{frame_rate}] the value to get/set.
+> +\item[\field{crop}] cropping (composing) rectangle.
+> +\item[\field{num_planes}] number of planes used to store pixel data
+> +(r/o).
+> +\item[\field{plane_formats}] description of each plane.
+> +\end{description}
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_get_params {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        le32 buf_type; /* One of VIRTIO_VIDEO_BUF_TYPE_* types */
+> +};
+> +
+> +struct virtio_video_get_params_resp {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        struct virtio_video_params params;
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{buf_type}] buffer type.
+> +\item[\field{params}] parameter values.
+> +\end{description}
+> +
+> +\item[VIRTIO_VIDEO_T_SET_PARAMS] Change parameters of a stream.
+> +
+> +
+> +\begin{lstlisting}
+> +struct virtio_video_set_params {
+> +        struct virtio_video_ctrl_hdr hdr;
+> +        struct virtio_video_params params;
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{params}] parameters to set.
+> +\end{description}
+> +
+> +Setting stream parameters might have side effects within the device.
+> +For example, the device MAY perform alignment of width and height,
+> +change the number of planes it uses for the format, or do whatever
+> +changes that are required to continue normal operation using the
+> +updated parameters. It is up to the driver to check the parameter set
+> +after the VIRTIO_VIDEO_T_SET_PARAMS request has been issued.
+> +
+> +\end{description}
+> +
+> +\subsubsection{Device Operation: eventq}
+> +
+> +The device can report events on the event queue. The driver initially
+> +populates the queue with device-writeable buffers. When the device
+> +needs to report an event, it fills a buffer and notifies the driver.
+> +The driver consumes the report and adds a new buffer to the virtqueue.
+> +
+> +\begin{lstlisting}
+> +enum virtio_video_event_type {
+> +        VIRTIO_VIDEO_EVENT_T_UNDEFINED = 0,
+> +        /* For all functions */
+> +        VIRTIO_VIDEO_EVENT_T_ERROR_UNSPEC = 0x0100,
+> +        /* For decoder only */
+> +        VIRTIO_VIDEO_EVENT_T_DECODER_RESOLUTION_CHANGED = 0x0200,
+> +};
+> +
+> +struct virtio_video_event {
+> +        le32 event_type; /* One of VIRTIO_VIDEO_EVENT_T_* types */
+> +        le32 stream_id;
+> +        u8 padding[4];
+> +};
+> +\end{lstlisting}
+> +
+> +\begin{description}
+> +\item[\field{event_type}] type of the triggered event .
+> +\item[\field{stream_id}] id of the source stream.
+> +\end{description}
+> +
+> +The device MUST send VIRTIO_VIDEO_EVENT_T_DECODER_RESOLUTION_CHANGED
+> +whenever it encounters new resolution data in the stream. This
+> +includes the case of the initial device configuration after metadata
+> +has been parsed and the case of dynamic resolution change.
+
+
