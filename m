@@ -2,138 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25F2C1313A3
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 15:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84337131432
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2020 15:57:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726494AbgAFOc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Jan 2020 09:32:58 -0500
-Received: from mta-p7.oit.umn.edu ([134.84.196.207]:43342 "EHLO
-        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbgAFOc6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 09:32:58 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 47ryfK3DVzz9vYkC
-        for <linux-media@vger.kernel.org>; Mon,  6 Jan 2020 14:32:57 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id MvVYQxA6SP6P for <linux-media@vger.kernel.org>;
-        Mon,  6 Jan 2020 08:32:57 -0600 (CST)
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com [209.85.219.198])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 47ryfK28rtz9vYkv
-        for <linux-media@vger.kernel.org>; Mon,  6 Jan 2020 08:32:57 -0600 (CST)
-Received: by mail-yb1-f198.google.com with SMTP id a14so40069463ybh.14
-        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2020 06:32:57 -0800 (PST)
+        id S1726497AbgAFO5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Jan 2020 09:57:08 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50334 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbgAFO5I (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Jan 2020 09:57:08 -0500
+Received: by mail-wm1-f66.google.com with SMTP id a5so15262943wmb.0
+        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2020 06:57:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5l0p/vFRPZk6guP1BnAdEk2ZYGrbFqodbRjZ+j59qOY=;
-        b=Kq7Cs7IZotx/82WeJdfwB9MXJggXXaHssfFQoQTrFQaJzvY7GPa/fMpe/4kUCTqmzc
-         gK/zkpKz5SLclirD9vhP4CpBEXiww7a1/Ic8JubeyQU/BL0zqPfVUXYZrgUz5XVQGYax
-         Dk/fwd/EGzATrxMizGpvFosb4bhr9w0iMVaUmOr0+eV54OLfeS9bpUfsyDYBbG4VITan
-         nLB9pRBiSgkcTJ/vwobgF/tWqU12sYsZLGaJui38RUlDEJ6VUPi6/orZ2S2dWvSF/NeV
-         fQ2npo/MLkGGwWx3lGGUNBcvdahsa70Ud+h2lFu9rXahpD1kFB3LGy3WR34HsYWX+rUY
-         Yh1A==
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4XoQkxgkZAvdX4n0R/Hf5buiUEi1NTKRWp+mFuPF3iU=;
+        b=ttwGoU/jg/8vRQEm82RGRSdOMth62CiJWTJd5O76BMxtEZOJa/X/vfRdvIZdiUpMmE
+         tJJlPwxMdK/JvDENuuX8oFDIb2C+HKR9raEm2Q36uKS7VBy5kLyHQ8FK2fg7uRAsPCqt
+         /il6xeIHcOiBniwkPpgZVSiZ6liurl9j8hOkgnvL8BvkRJEGDGUXhBdc/t8BBKpmj8cB
+         2LyENU0ASOA/VaciTp5GQQxLGVaoNNuNqUn5OYAIS5zeMSAb6EA7SVqvHVLLryafyFys
+         Ox8TZFwWtsAMDSJC929xfbCtr6KiS/ftFQAo9iJeFsKSIN1GPkbziItKCYLnw15hKF/q
+         0FFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5l0p/vFRPZk6guP1BnAdEk2ZYGrbFqodbRjZ+j59qOY=;
-        b=Rg7sHEb7kWI8Kwcc4mqeYvnTLJeqadfacic+BZDDCbiBK9WxYpUtImkjWBgRDICazO
-         +nzFnxBmyd3R0EnEyvKyJDPJYHaMhKe6a0oA8g4VqHaDifdxDKChDSdnnwWCRPQAgSjz
-         Y9E5S+MZuKAxOvbUxC16iz8Jz30px/rOKjdGhbVBJlXRohIsxkufB+Z3TZFC9UNoohy4
-         CVsw8DsDZnxQAO0CloU3JT82VRY9AIGcT5dRxtHH4sqxFDQwL1PQtuznuIOXEGe4pC9w
-         hok7/ZCWtyEv5iNN2HeQX+qg8NWvZVeQr4gsv9UNvzTsooSsVNdJKs1wFpfa0Uu6Pb2/
-         HvgA==
-X-Gm-Message-State: APjAAAWF7SiYJpvgJ0hWKss3buEfrPuMFE4Q+UOuVIOQqgwjHVm2Ho+H
-        Ov46pED97tZ8mVNQ4ERCU0bRbLL/NL8adV2kxr3BThFMQBNZ9aECMmOdyOZPZabqmLXuyxfgNi4
-        9F8q9zDY+pIl2eLOI/0CoV3QCVoI=
-X-Received: by 2002:a81:6c55:: with SMTP id h82mr77451862ywc.311.1578321176372;
-        Mon, 06 Jan 2020 06:32:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzkV68WEDTQEyoyXmVebbHWiYnKmmEY9oPOGZeSJpiKfLcQmzj74d8oPwzY9h6TRNWXkKX1Xg==
-X-Received: by 2002:a81:6c55:: with SMTP id h82mr77451819ywc.311.1578321175824;
-        Mon, 06 Jan 2020 06:32:55 -0800 (PST)
-Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
-        by smtp.gmail.com with ESMTPSA id w74sm27845121ywa.71.2020.01.06.06.32.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2020 06:32:55 -0800 (PST)
-From:   Aditya Pakki <pakki001@umn.edu>
-To:     pakki001@umn.edu
-Cc:     kjlu@umn.edu, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: davinci/vpfe_capture.c: Avoid BUG_ON for register failure
-Date:   Mon,  6 Jan 2020 08:32:51 -0600
-Message-Id: <20200106143251.11684-1-pakki001@umn.edu>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4XoQkxgkZAvdX4n0R/Hf5buiUEi1NTKRWp+mFuPF3iU=;
+        b=loWhVEp5MNQZRfUg3zHEFAvWum/JJsxWk7PMgnQOgTBYfBT5JULJffVnMUEsHAaKcp
+         +36DI9ZehiHmrA9Hm0aFgj/zo4LdoLMw1//y49gdb6RU839bFI7fYRKx/LMD8bxg3Gom
+         gvyX7srJZDI+rR694/+cE6Ol2x4wkNkgIi7sCgNucCVoSicn1NKmtpbSbiXMalsTDDoG
+         4YYCF+E31ahRlQhxi2XbYNv/7qi02ZBrWCJI4QJ3tcen3bGRFFULM6CX0Q26W9PXgz8J
+         c36eTkIZ+Sw46vsiQS8Tvm0AUKezDu3I2VxJ7uODPA9Ne8dBOrr6JlyI8xOShY6e7eNh
+         LW+w==
+X-Gm-Message-State: APjAAAU9AUUEaL9FIKLOL6Y6ONAZW0mojJOzHzSEYzZ5FwqyPvuIUOp4
+        PWxSEWXJ6An6X21F3SFgI22c8RuVlcKUZt6clhzTfQ==
+X-Google-Smtp-Source: APXvYqxfMwtQJoldMTRdltl3qv6Hgh73aLyhtwnyvgopmbyIZqd67/g0U4D/zDjh4yS9nl1GNCZMzjf38Wezasw1a3Y=
+X-Received: by 2002:a1c:9814:: with SMTP id a20mr33759928wme.94.1578322623741;
+ Mon, 06 Jan 2020 06:57:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
+ <20191227122114.23075-2-andrey.konovalov@linaro.org> <20191227141739.GD861@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20191227141739.GD861@valkosipuli.retiisi.org.uk>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 6 Jan 2020 14:56:47 +0000
+Message-ID: <CAPY8ntDRWOXass1Et-bybw-e0YLvk6VJEqjR4ULh739LcrNudQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor binding
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Andrey Konovalov <andrey.konovalov@linaro.org>, mchehab@kernel.org,
+        robh+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In vpfe_register_ccdc_device(), failure to allocate dev->hw_ops
-fields calls BUG_ON(). This patch returns the error to callers
-instead of crashing. The issue was identified by a static
-analysis tool, written by us.
+Hi Sakari
 
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
----
-v2: Fix alignment of checks within the condition, as suggested by
-Hans Verkuil
+On Fri, 27 Dec 2019 at 14:18, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+> Hi Andrey,
+>
+> Thanks for the patchset.
+>
+> On Fri, Dec 27, 2019 at 03:21:13PM +0300, Andrey Konovalov wrote:
+> > Add YAML device tree binding for IMX219 CMOS image sensor, and
+> > the relevant MAINTAINERS entries.
+> >
+> > Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+> > ---
+> >  .../devicetree/bindings/media/i2c/imx219.yaml | 134 ++++++++++++++++++
+> >  MAINTAINERS                                   |   8 ++
+> >  2 files changed, 142 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> > new file mode 100644
+> > index 000000000000..b58aa49a7c03
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> > @@ -0,0 +1,134 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
+> > +
+> > +maintainers:
+> > +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > +
+> > +description: |-
+> > +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
+> > +  with an active array size of 3280H x 2464V. It is programmable through
+> > +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
+> > +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> > +  4 data lanes.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sony,imx219
+> > +
+> > +  reg:
+> > +    description: I2C device address
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: xclk
+>
+> There's a single clock. Does it need a name? I'd just omit it.
+>
+> > +
+> > +  VDIG-supply:
+> > +    description:
+> > +      Digital I/O voltage supply, 1.8 volts
+> > +
+> > +  VANA-supply:
+> > +    description:
+> > +      Analog voltage supply, 2.8 volts
+> > +
+> > +  VDDL-supply:
+> > +    description:
+> > +      Digital core voltage supply, 1.2 volts
+> > +
+> > +  xclr-gpios:
+> > +    description: |-
+> > +      Reference to the GPIO connected to the xclr pin, if any.
+> > +      Must be released (set high) after all supplies are applied.
+>
+> A common name for this in camera sensors is xshutdown. I'd suggest to use
+> that.
+>
+> > +
+> > +  camera-clk:
+> > +    type: object
+> > +
+> > +    description: Clock source for imx219
+> > +
+> > +    properties:
+> > +      clock-frequency: true
+> > +
+> > +    required:
+> > +      - clock-frequency
+>
+> Hmm. The driver doesn't seem to use this for anything.
+>
+> There are two approaches to this; either you can get and check the
+> frequency, or specify it in DT bindings, set and then check it.
+>
+> See e.g. Documentation/devicetree/bindings/media/i2c/nokia,smia.txt (not in
+> YAML though).
+>
+> > +
+> > +  # See ../video-interfaces.txt for more details
+> > +  port:
+> > +    type: object
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +        properties:
+> > +          clock-lanes:
+> > +            const: 0
+>
+> If the hardware does not support lane reordering, you can omit the
+> clock-lanes property as it provides no information.
+>
+> > +
+> > +          data-lanes:
+> > +            description: |-
+> > +              Should be <1 2> for two-lane operation, or <1 2 3 4> for
+> > +              four-lane operation.
+> > +            oneOf:
+> > +              - const: [[ 1, 2 ]]
+> > +              - const: [[ 1, 2, 3, 4 ]]
+> > +
+> > +          clock-noncontinuous:
+> > +            type: boolean
+> > +            description: |-
+> > +              Presence of this boolean property decides whether the MIPI CSI-2
+> > +              clock is continuous or non-continuous.
+>
+> How about: MIPI CSI-2 clock will be non-continuous if this property is
+> present, otherwise it's continuous.
+>
+> > +
+> > +        required:
+> > +          - clock-lanes
+> > +          - data-lanes
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - VANA-supply
+> > +  - VDIG-supply
+> > +  - VDDL-supply
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        imx219: sensor@10 {
+> > +            compatible = "sony,imx219";
+> > +            reg = <0x10>;
+> > +            clocks = <&imx219_clk>;
+> > +            clock-names = "xclk";
+> > +            VANA-supply = <&imx219_vana>;   /* 2.8v */
+> > +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
+> > +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
+> > +
+> > +            imx219_clk: camera-clk {
+> > +                compatible = "fixed-clock";
+> > +                #clock-cells = <0>;
+> > +                clock-frequency = <24000000>;
+> > +            };
+> > +
+> > +            port {
+> > +                imx219_0: endpoint {
+> > +                    remote-endpoint = <&csi1_ep>;
+> > +                    clock-lanes = <0>;
+> > +                    data-lanes = <1 2>;
+> > +                    clock-noncontinuous;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index ffa3371bc750..f7b6c24ec081 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -15350,6 +15350,14 @@ S:   Maintained
+> >  F:   drivers/media/i2c/imx214.c
+> >  F:   Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+> >
+> > +SONY IMX219 SENSOR DRIVER
+> > +M:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+>
+> Is Dave aware of this? :-)
 
-v1: Fixed the type to a regular variable instead of a pointer,
-also added fixes suggested by Ezequiel Garcia.
----
- drivers/media/platform/davinci/vpfe_capture.c | 31 ++++++++++---------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+Yes, I'm aware, and happy to be listed as maintainer.
+I'm very grateful to Andrey for his efforts in upstreaming this - it's
+a task that I simply haven't the time for at present.
 
-diff --git a/drivers/media/platform/davinci/vpfe_capture.c b/drivers/media/platform/davinci/vpfe_capture.c
-index 916ed743d716..9b1d9643589b 100644
---- a/drivers/media/platform/davinci/vpfe_capture.c
-+++ b/drivers/media/platform/davinci/vpfe_capture.c
-@@ -168,21 +168,22 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
- 	int ret = 0;
- 	printk(KERN_NOTICE "vpfe_register_ccdc_device: %s\n", dev->name);
- 
--	BUG_ON(!dev->hw_ops.open);
--	BUG_ON(!dev->hw_ops.enable);
--	BUG_ON(!dev->hw_ops.set_hw_if_params);
--	BUG_ON(!dev->hw_ops.configure);
--	BUG_ON(!dev->hw_ops.set_buftype);
--	BUG_ON(!dev->hw_ops.get_buftype);
--	BUG_ON(!dev->hw_ops.enum_pix);
--	BUG_ON(!dev->hw_ops.set_frame_format);
--	BUG_ON(!dev->hw_ops.get_frame_format);
--	BUG_ON(!dev->hw_ops.get_pixel_format);
--	BUG_ON(!dev->hw_ops.set_pixel_format);
--	BUG_ON(!dev->hw_ops.set_image_window);
--	BUG_ON(!dev->hw_ops.get_image_window);
--	BUG_ON(!dev->hw_ops.get_line_length);
--	BUG_ON(!dev->hw_ops.getfid);
-+	if (!dev->hw_ops.open ||
-+	    !dev->hw_ops.enable ||
-+	    !dev->hw_ops.set_hw_if_params ||
-+	    !dev->hw_ops.configure ||
-+	    !dev->hw_ops.set_buftype ||
-+	    !dev->hw_ops.get_buftype ||
-+	    !dev->hw_ops.enum_pix ||
-+	    !dev->hw_ops.set_frame_format ||
-+	    !dev->hw_ops.get_frame_format ||
-+	    !dev->hw_ops.get_pixel_format ||
-+	    !dev->hw_ops.set_pixel_format ||
-+	    !dev->hw_ops.set_image_window ||
-+	    !dev->hw_ops.get_image_window ||
-+	    !dev->hw_ops.get_line_length ||
-+	    !dev->hw_ops.getfid)
-+		return -EINVAL;
- 
- 	mutex_lock(&ccdc_lock);
- 	if (!ccdc_cfg) {
--- 
-2.20.1
+  Dave
 
+> > +L:   linux-media@vger.kernel.org
+> > +T:   git git://linuxtv.org/media_tree.git
+> > +S:   Maintained
+> > +F:   drivers/media/i2c/imx219.c
+> > +F:   Documentation/devicetree/bindings/media/i2c/imx219.yaml
+> > +
+> >  SONY IMX258 SENSOR DRIVER
+> >  M:   Sakari Ailus <sakari.ailus@linux.intel.com>
+> >  L:   linux-media@vger.kernel.org
+>
+> --
+> Regards,
+>
+> Sakari Ailus
