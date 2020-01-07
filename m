@@ -2,100 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB3D1328A8
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 15:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 611531328FB
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 15:34:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728286AbgAGORz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jan 2020 09:17:55 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:39485 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727658AbgAGORz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 09:17:55 -0500
-Received: from mail-qv1-f42.google.com ([209.85.219.42]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MlwJv-1jXY6E1mKJ-00iyZU; Tue, 07 Jan 2020 15:17:53 +0100
-Received: by mail-qv1-f42.google.com with SMTP id y8so20562979qvk.6;
-        Tue, 07 Jan 2020 06:17:53 -0800 (PST)
-X-Gm-Message-State: APjAAAVeY5/9RThue05d/4MfEEzkJzkPPHbNbWYwRq29moJYmxjhsmH7
-        JjOFlpn7kSl6BBezwoB7fmlENYCpthq3sMxjOFs=
-X-Google-Smtp-Source: APXvYqy51UL4Zeay2TwOyIQycEzFRWrZb+DrqwPiR6CAwZxpyKtTIzW5iI+bGs5sCSE61a3nBD3KM024WJ6UxuEBNYs=
-X-Received: by 2002:a0c:e7c7:: with SMTP id c7mr84471578qvo.222.1578406672121;
- Tue, 07 Jan 2020 06:17:52 -0800 (PST)
+        id S1728332AbgAGOe2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jan 2020 09:34:28 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46806 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728200AbgAGOe1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 09:34:27 -0500
+Received: by mail-pf1-f194.google.com with SMTP id n9so20822796pff.13
+        for <linux-media@vger.kernel.org>; Tue, 07 Jan 2020 06:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oyhzAHfoljmVmjnkI9lNRmSbLeJffd7zCPcm12fwKsY=;
+        b=Ylxjn1iFB6Nsv1iNzIrG39vSWDowFcpsxBInwnIrBFTeoOmWvlZ05SEwLKIEfxAv78
+         Wf76kEVdIZIdWo1+aJjvrOwwCe7aPRrm4gJUVlA7fmqYMbd44+qb9oNsDlJzGZelIGod
+         m8/j8ZamcQuywlsabrSQvqsGXU/2I4gn4l8q4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oyhzAHfoljmVmjnkI9lNRmSbLeJffd7zCPcm12fwKsY=;
+        b=e0Tnmkpts+GeiYExzNN76F7Zql8Y/tPgYAoa5NesZKI0jdu9VcTdMgcfsZsHMR2Bsx
+         romfj2jg9aKb+nK7hkwwI6QUOGwCsMOl+lD4nhXdq16/cmaVs0xxkax8LZ+I4LCgf2Q+
+         rhbNtTB3Z/tPyFv5fqYK1BH5LSaUVbInrqRQp8lRSDEQgNNg6OWoh/2qBp55Vtj/RhuS
+         cNCdtSZ6pWNwEDGGVx13r7wZBl63QebNowsl0gprQETvJZ3aTGBiQkV6nnTgXWoNfvTE
+         UMtnsyHrul9+Ngv6hnTRhFbpXpIYVdeASyFPmYsZveqS9C4XtI8tXV1W6b44jOj09M+3
+         fnBQ==
+X-Gm-Message-State: APjAAAUD+ha8ihDTGyo6Oc57T9YjBmeW2W3yEr0PDq1EJMdpSW0urupf
+        fDRdTlaIWp74iFVIgbDzjyKLZQ==
+X-Google-Smtp-Source: APXvYqzNSykcM6yoTNp/9hwi45skb77ZtLlkW7Napf7i3caLd9iZ2+B/ZPvi2kG2lFbcs84V3l7Mew==
+X-Received: by 2002:a62:1552:: with SMTP id 79mr114424104pfv.156.1578407667283;
+        Tue, 07 Jan 2020 06:34:27 -0800 (PST)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:93d9:de4d:e834:3086])
+        by smtp.gmail.com with ESMTPSA id a19sm28594808pju.11.2020.01.07.06.34.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jan 2020 06:34:26 -0800 (PST)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH] arm64: dts: qcom: add Venus firmware node on Cheza
+Date:   Tue,  7 Jan 2020 23:34:02 +0900
+Message-Id: <20200107143402.122455-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 MIME-Version: 1.0
-References: <20200107140206.103711-1-colin.king@canonical.com>
-In-Reply-To: <20200107140206.103711-1-colin.king@canonical.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 7 Jan 2020 15:17:36 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0bJdKiX+=OMgCgmF158zEdgW9jYL85WqHWefhFk=ZF8Q@mail.gmail.com>
-Message-ID: <CAK8P3a0bJdKiX+=OMgCgmF158zEdgW9jYL85WqHWefhFk=ZF8Q@mail.gmail.com>
-Subject: Re: [PATCH][next] media: v4l2-core: fix uninitialized structure
- fields being returned to userspace
-To:     Colin King <colin.king@canonical.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:DWrDb/Q0NjT0yWOGZE1jy/FzS9fcImgrM1hxfU3Oa5o8X3P7rMq
- cJcj2cVMAfI3MqyZdRygMTvlWMQZpgI+fDUlSir2hHyixIZIWGzoFNa4RZXt56QQPLKU2tv
- 8364jchyNM5qJXhVl2VUxL8NigDx+eB04khNQ1HExuCf/GRl44jm4Dag5pWoJWWDQ2dkAQ9
- 9n5Oh92iUr5Fqvd4CD3vg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xT0TWYcULic=:hkRLwd1O+0mIih0c6pRCvQ
- e5UZCFcqGIe5UK4Mn09Cqf1pHfjVa3MvE9BMBMjfM5goz8yJhkakzSk3iFeq+gZNEz6BT6PNs
- lwGqJZAcsCoYtIRNVSwd7eLp9U6DsfwoDVFb6VnmnZxlCnjxtciKuLhzrasawyn2mBeNZIuRb
- ui3BG2T+Ad4K83vi7sZ86ewx7OynVP5UObhDkNqWbxfOYjQ4T14vfwbiSw5wIHUrTe2yF741D
- xShsapng5bgtYTRTAkz8pk4JC+UkCsxjpJ54HuvWL40sJl86JJ2XEBO/+8/nVMf7UUyZ3UssU
- tB1WEHaTtltEwe7G/TTuugVaouFWiQ4YjtyrkiOVcGqj/4/sr2BzqrbxFIcsG/Mrl/zrAQNmL
- ThW511uvkEmea8d6D55MAultYpCWWWasyFdmDwyE0GQ0VI4HsirXY17YVFg7WMbgiAzY2cECQ
- ztVapzX/FgDdjwLHJ+dcu1wY3MmdKu0hXAgqU7kkKRPtv53DXs+FenkoZyPrHMHWjNkmJjHne
- LGhz1w5gaiLOokjx4IKQ3Yf/oWrg6uuvMfGIEO7phqBJarV29MToHHMdGiN/20x/DQx3Cnq+C
- LTsDRH4ZQU+vt2DKZ1nVdV84l7dNbtWW/Lo20Xn6i7YumQzYjzTqfFt6AsT7/hFAplcyWeXN1
- QeGJ7GdQw/mhGPqUG+FuCsw3CsSG8HvY5SxL8oSxpqAd3H28nnYzEzpUx+p7khSJFbGrqpqmt
- Fk4sffIRhHtMa6kMwHzyXUvpsVlsglqjuyuMdcOv2iIiLhJJwfcB/8hJCvT1SDWL107YOf9Uj
- FRlBVvQK9C3uzEwXnTVKSpHAIWMYmVfx5re/pigbxxcvSLI43013dtkmb1DGkVNBToxLR6gX8
- X0zflAgm4pdUcZ+qYrrw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 7, 2020 at 3:02 PM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> In the case where v4l2_event_dequeue fails the structure ev is not
-> being filled and this garbage data from the stack is being copied
-> to the ev32 structure and being copied back to userspace on the
-> VIDIOC_DQEVENT_TIME32 ioctl.  Fix this by ensuring the ev structure
-> is zero'd to ensure uninitialized data is not leaked back.
->
-> Addresses-Coverity: ("Uninitialized scalar variable")
-> Fixes: 1a6c0b36dd19 ("media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Cheza boards require this node to probe, so add it.
 
-Good catch, thanks for fixing!
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+---
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 6 ++++++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi       | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+index 9a4ff57fc877..35ba65cd9822 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+@@ -1279,3 +1279,9 @@ config {
+ 		};
+ 	};
+ };
++
++&venus_codec {
++	video-firmware {
++		iommus = <&apps_smmu 0x10b2 0x0>;
++	};
++};
+diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+index ddb1f23c936f..7b913688cc6d 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+@@ -2567,7 +2567,7 @@ usb_2_dwc3: dwc3@a800000 {
+ 			};
+ 		};
+ 
+-		video-codec@aa00000 {
++		venus_codec: video-codec@aa00000 {
+ 			compatible = "qcom,sdm845-venus";
+ 			reg = <0 0x0aa00000 0 0xff000>;
+ 			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+-- 
+2.24.1.735.g03f4e72817-goog
 
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index de926e311348..a376b351135f 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -394,7 +394,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->
->         case VIDIOC_DQEVENT_TIME32: {
->                 struct v4l2_event_time32 *ev32 = arg;
-> -               struct v4l2_event ev;
-> +               struct v4l2_event ev = { };
->
->                 if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
->                         return -ENOIOCTLCMD;
-> --
-> 2.24.0
->
