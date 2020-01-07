@@ -2,226 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9DEA132979
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 16:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D404D132990
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 16:03:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727968AbgAGPBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jan 2020 10:01:24 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51407 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727559AbgAGPBY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jan 2020 10:01:24 -0500
-Received: from [IPv6:2001:420:44c1:2577:cd88:93ae:ae73:3d6c]
- ([IPv6:2001:420:44c1:2577:cd88:93ae:ae73:3d6c])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id oqM8iLQnaN9dwoqMCiVvtj; Tue, 07 Jan 2020 16:01:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578409281; bh=dlauqvpQGYg8gIzE7vt8zEOQtKQRNLpz0TQmKxid07E=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=v8NiblhlR4I4zf8BhwkynPxs+nkGAGPktfWgiHivQwkx7TB+rzag5U979DVi4ZXCe
-         1yaoGIh3JzsfAv0i8+c7U9BjMFDmwuSQuudtjjDjyMI3XQyl0xc/0J/79sJ+MmjrXH
-         kUUO3XY+/WTVBzXDfEYkZAxj7VmqmlcaFEAiIglPOlNkPhepLHJRU8GZ7Ysxm7orSU
-         HaZB0hjCKJyf7t8Bo/X7K7a5Lbj0ZYVSFUSZ3mTN+umHbNG0Sofz8QnKFDR8usZYXk
-         7+J50Zx7Rsgfj+AWbOIQmweCO/pGvJacXvUtYg1L+Wn/6+4Z+J0zOVf//pIeczWBKl
-         IPSWSUB5Wtnig==
-Subject: Re: [PATCH v2 2/4] media: cedrus: hevc: Add support for scaling
- matrix
-To:     Jernej Skrabec <jernej.skrabec@siol.net>, mchehab@kernel.org,
-        mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
-References: <20191213160428.54303-1-jernej.skrabec@siol.net>
- <20191213160428.54303-3-jernej.skrabec@siol.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4ac91ed5-a220-6a04-b1da-de27a306f8f2@xs4all.nl>
-Date:   Tue, 7 Jan 2020 16:01:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728289AbgAGPDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jan 2020 10:03:33 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:58503 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728274AbgAGPDd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 10:03:33 -0500
+Received: from mail-qk1-f182.google.com ([209.85.222.182]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1Mate1-1jQvAP3sBX-00cNvl; Tue, 07 Jan 2020 16:03:31 +0100
+Received: by mail-qk1-f182.google.com with SMTP id w127so42868755qkb.11;
+        Tue, 07 Jan 2020 07:03:30 -0800 (PST)
+X-Gm-Message-State: APjAAAUZcDZqsBnvCqHjXLq2022+QYAXa1yxiQNBCz+OoxvnzY/w02RF
+        JURfhEQuIjxdEYpGwfOrnoVDfI9pBx6EF0ZV3G0=
+X-Google-Smtp-Source: APXvYqwxdv3CnMffWGROluzyN8EtJmt7Qv/zjpuKacZX6xIGNgJJhH/toXHoHDyX4yJa7VVmd4RmZ3zE3NyXULry9c8=
+X-Received: by 2002:a37:84a:: with SMTP id 71mr85970792qki.138.1578409409535;
+ Tue, 07 Jan 2020 07:03:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191213160428.54303-3-jernej.skrabec@siol.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJY5ZdhhQ3Y8+/P4/PuY0Rn2kVBZ9dF7xWsX+alTuLCOoBo1MAlmbGpH0BJQwiEfcX6mzWQWrw43Fjb6azKuPYOyiu4d7kpHVAdU3P3+owyW7rCWaFj9
- Yo5I5K9KdiH4FpoxJ+LNc/gaGo0Vrm1HKcYty/e1/OWe2fLePr0Yg4he6atVOFXLCuYNa0BQXJLxW7mcgahVHXT2/kH8YuSLKSkukPeJBGY0p3w7saI+EqQL
- RHN6+VAvLPX977K6NMUM0h2VFDoP2P41iZ+3OdacAJwmhtnaf2//gGMpgFqPGODlM4GKippmALkM2OU+3GVbmfHTWHKHgDNZvlITCZSJidsoi/jM/9Uavk9b
- XizEZJO1Z2s4FRuEgwrNEu7oHOZLO7QIyguPGRmyp30KQK9eGABAVwfBgsskrnRAWyjOLP0bZeh8kzgQiJqRsXPpo9+M7xTSVEIb8wy+VC9XiYiDu1xp6UUL
- NrpAlDKzgUlelznxL9ypi53wqkEnFOsTSHtkMvPzz1sb8dRBFe2YYZt3Wr5BwfskLOaZfy2ORwNKevMohp7mdqwLAxRI1QvTA+1vw52yZtiAef3nTOvU380S
- 3SYh+e9/DzAlmFhzm9iyZ090/WzsYi+xPyzq0CksIxpm6g==
+References: <20200107084659.uyaucu73yd5rhim3@kili.mountain>
+In-Reply-To: <20200107084659.uyaucu73yd5rhim3@kili.mountain>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 7 Jan 2020 16:03:12 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1iUADRcjWEMZjVuCKyESXA7fHEypvFK7vEQ0CseXfmtg@mail.gmail.com>
+Message-ID: <CAK8P3a1iUADRcjWEMZjVuCKyESXA7fHEypvFK7vEQ0CseXfmtg@mail.gmail.com>
+Subject: Re: [bug report] compat_ioctl: move CDROM_SEND_PACKET handling into scsi
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-block <linux-block@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:1FsIxDl1pZiGty+oj37I5iTjE/qZVUHpt3hmugUi8V6vXM7ipyd
+ Kx2fddsPERu70jS9Q9EkbJEbXbEo8nx5SQducp69r+nEOqEU8Rq6sxCpW1pnuk5NAljPZl0
+ wn/Y4M5+54VNFmFQB0E1507usrrMsrx9QwJZUjpFgrmpdNumGfrdDMXkq0R+WEDWSkdfi1B
+ oJxqLu6GtpbC8nF12ZStg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zF73zkrAZrs=:8qFR+EYK7DfV2ThsNMj2i+
+ Do9NH0Id1iCnhXO2bvKjDmke4VMhYq11BkxPYKH69UuJUzke9wS7re2hcHDQN7hkgdJxQvMUD
+ N/2PRatm5ch3LJQha67zqOfaCpBaxFqyp+AtuNFujlC+DO6ExLW20zuXsS5Vwm9AmJWaJRIqb
+ j+f4UgE18IfGmIEkNRwlftHcY7fnXl+bkaby7RxOOOl2CsHbErRVPWXpXtB6yHxkqeV67Q5u2
+ OpFH0w9n9em8o9SnHkfBX+Ra1W//qJ9og+hsL4ZFAprpwv+n/ozlxDB3RgOPT758Q0s21wQNQ
+ R7zMg8cMACEFLrW+e6/FaFoTpVUsQ1Aw78ro+7NF4IF06q1xoPyzS1+rnGJYafHp+jGvHjQ2m
+ PrFq6ZOdRwHljpv2CQFcLTmjYXC/lK8M5Cwh5Shqpa9TKmRwEAggEOYWVxndtcgkvCpwBF/wl
+ yb0B6zDw3Cp/iFfgkUa95LdURUJmtQC7ftiCeZGALRcrqUnbt+TI6g9qF1907yqRMrZFhPuKh
+ 7LYgaU3kGxJNikUTAKmNYdUPTOSDZdsvOH6mz1CuSE3N+rxJcLitI8rXeteZthzpL8Bckywn/
+ zhlNAlQfO+uarE/+21H0YCPDH5qlg/hvRiQM+XmmwlNGsir7k1qoY2kazB4UrHDa6RqxSHkjW
+ J6XMZu9+2QBmjBM/cB/I6CvmMLKnFwgfef8VcSCORJQK3t4EB5zPNB2cDji1nQ7e8gf0/BvPv
+ bXSI5JK+dGwhhTkuAefm+9+BKg73pYslrcdU+ABswwK+6ZIMDDLHBCSKFSfTggkBOAFa9dbtS
+ 1RCc4fOGNJzA32NWHRAYsbiOfDvmseKFnhD2aAjqPoRvuHnQGFpKBOhnUPEws5fcvchoyPBy7
+ +aAyPk3t3qR9TokhlRIg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/13/19 5:04 PM, Jernej Skrabec wrote:
-> HEVC frames may use scaling list feature. Add support for it.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  7 ++
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 +
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 70 ++++++++++++++++++-
->  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  2 +
->  5 files changed, 81 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> index c6ddd46eff82..bf68bc6b20c8 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -116,6 +116,13 @@ static const struct cedrus_control cedrus_controls[] = {
->  		.codec		= CEDRUS_CODEC_H265,
->  		.required	= true,
->  	},
-> +	{
-> +		.cfg = {
-> +			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
-> +		},
-> +		.codec		= CEDRUS_CODEC_H265,
-> +		.required	= true,
+On Tue, Jan 7, 2020 at 9:49 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> Hello Arnd Bergmann,
+>
+> The patch f3ee6e63a9df: "compat_ioctl: move CDROM_SEND_PACKET
+> handling into scsi" from Nov 28, 2019, leads to the following static
+> checker warning:
+>
+>         block/scsi_ioctl.c:703 scsi_put_cdrom_generic_arg()
+>         warn: check that 'cgc32' doesn't leak information (struct has a hole after 'data_direction')
+>
+> block/scsi_ioctl.c
+>    686  static int scsi_put_cdrom_generic_arg(const struct cdrom_generic_command *cgc,
+>    687                                        void __user *arg)
+>    688  {
+>    689  #ifdef CONFIG_COMPAT
+>    690          if (in_compat_syscall()) {
+>    691                  struct compat_cdrom_generic_command cgc32 = {
+>    692                          .buffer         = (uintptr_t)(cgc->buffer),
+>    693                          .buflen         = cgc->buflen,
+>    694                          .stat           = cgc->stat,
+>    695                          .sense          = (uintptr_t)(cgc->sense),
+>    696                          .data_direction = cgc->data_direction,
+>    697                          .quiet          = cgc->quiet,
+>    698                          .timeout        = cgc->timeout,
+>    699                          .reserved[0]    = (uintptr_t)(cgc->reserved[0]),
+>    700                  };
+>
+> It's possible that initializations like this don't clear out the struct
+> hole but I haven't seen a compiler which is affected.  So maybe it's
+> fine?
 
-Should this be true? This means that existing applications are now
-suddenly required to always pass the scaling matrix for every buffer.
+I thlought we already rely on this to initialize the entire structure, but
+trying out a test case shows that it does happen:
 
-Especially since the commit log says: 'HEVC frames *may* use scaling list
-feature', indicating that this is an optional feature.
+int g(void *);
+int f(void)
+{
+    struct x {
+        char a __attribute__((aligned(4096)));
+    } x = { .a = 23 };
+    return g(&x);
+}
 
-Regards,
+0000000000000000 <f>:
+   0: 55                    push   %rbp
+   1: 48 89 e5              mov    %rsp,%rbp
+   4: 48 81 e4 00 f0 ff ff and    $0xfffffffffffff000,%rsp
+   b: 48 81 ec 00 10 00 00 sub    $0x1000,%rsp
+  12: 48 89 e7              mov    %rsp,%rdi
+  15: c6 04 24 17          movb   $0x17,(%rsp)
+  19: e8 00 00 00 00        callq  1e <f+0x1e>
+1a: R_X86_64_PC32 g-0x4
+  1e: c9                    leaveq
+  1f: c3                    retq
 
-	Hans
+This patch should reliably fix it, right?
 
-> +	},
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> index 96765555ab8a..d945f4f0ff2d 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -73,6 +73,7 @@ struct cedrus_h265_run {
->  	const struct v4l2_ctrl_hevc_sps			*sps;
->  	const struct v4l2_ctrl_hevc_pps			*pps;
->  	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
-> +	const struct v4l2_ctrl_hevc_scaling_matrix	*scaling_matrix;
->  };
->  
->  struct cedrus_run {
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> index 4a2fc33a1d79..327ed6c264dc 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -66,6 +66,8 @@ void cedrus_device_run(void *priv)
->  			V4L2_CID_MPEG_VIDEO_HEVC_PPS);
->  		run.h265.slice_params = cedrus_find_control_data(ctx,
->  			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
-> +		run.h265.scaling_matrix = cedrus_find_control_data(ctx,
-> +			V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
->  		break;
->  
->  	default:
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> index 6945dc74e1d7..888bfd5ca224 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -220,6 +220,69 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
->  	}
->  }
->  
-> +static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
-> +					   struct cedrus_run *run)
-> +{
-> +	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
-> +	struct cedrus_dev *dev = ctx->dev;
-> +	u32 i, j, k, val;
-> +
-> +	scaling = run->h265.scaling_matrix;
-> +
-> +	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_DC_COEF0,
-> +		     (scaling->scaling_list_dc_coef_32x32[1] << 24) |
-> +		     (scaling->scaling_list_dc_coef_32x32[0] << 16) |
-> +		     (scaling->scaling_list_dc_coef_16x16[1] << 8) |
-> +		     (scaling->scaling_list_dc_coef_16x16[0] << 0));
-> +
-> +	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_DC_COEF1,
-> +		     (scaling->scaling_list_dc_coef_16x16[5] << 24) |
-> +		     (scaling->scaling_list_dc_coef_16x16[4] << 16) |
-> +		     (scaling->scaling_list_dc_coef_16x16[3] << 8) |
-> +		     (scaling->scaling_list_dc_coef_16x16[2] << 0));
-> +
-> +	cedrus_h265_sram_write_offset(dev, VE_DEC_H265_SRAM_OFFSET_SCALING_LISTS);
-> +
-> +	for (i = 0; i < 6; i++)
-> +		for (j = 0; j < 8; j++)
-> +			for (k = 0; k < 8; k += 4) {
-> +				val = ((u32)scaling->scaling_list_8x8[i][j + (k + 3) * 8] << 24) |
-> +				      ((u32)scaling->scaling_list_8x8[i][j + (k + 2) * 8] << 16) |
-> +				      ((u32)scaling->scaling_list_8x8[i][j + (k + 1) * 8] << 8) |
-> +				      scaling->scaling_list_8x8[i][j + k * 8];
-> +				cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-> +			}
-> +
-> +	for (i = 0; i < 2; i++)
-> +		for (j = 0; j < 8; j++)
-> +			for (k = 0; k < 8; k += 4) {
-> +				val = ((u32)scaling->scaling_list_32x32[i][j + (k + 3) * 8] << 24) |
-> +				      ((u32)scaling->scaling_list_32x32[i][j + (k + 2) * 8] << 16) |
-> +				      ((u32)scaling->scaling_list_32x32[i][j + (k + 1) * 8] << 8) |
-> +				      scaling->scaling_list_32x32[i][j + k * 8];
-> +				cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-> +			}
-> +
-> +	for (i = 0; i < 6; i++)
-> +		for (j = 0; j < 8; j++)
-> +			for (k = 0; k < 8; k += 4) {
-> +				val = ((u32)scaling->scaling_list_16x16[i][j + (k + 3) * 8] << 24) |
-> +				      ((u32)scaling->scaling_list_16x16[i][j + (k + 2) * 8] << 16) |
-> +				      ((u32)scaling->scaling_list_16x16[i][j + (k + 1) * 8] << 8) |
-> +				      scaling->scaling_list_16x16[i][j + k * 8];
-> +				cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-> +			}
-> +
-> +	for (i = 0; i < 6; i++)
-> +		for (j = 0; j < 4; j++) {
-> +			val = ((u32)scaling->scaling_list_4x4[i][j + 12] << 24) |
-> +			      ((u32)scaling->scaling_list_4x4[i][j + 8] << 16) |
-> +			      ((u32)scaling->scaling_list_4x4[i][j + 4] << 8) |
-> +			      scaling->scaling_list_4x4[i][j];
-> +			cedrus_write(dev, VE_DEC_H265_SRAM_DATA, val);
-> +		}
-> +}
-> +
->  static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->  			      struct cedrus_run *run)
->  {
-> @@ -499,7 +562,12 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->  
->  	/* Scaling list. */
->  
-> -	reg = VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT;
-> +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED) {
-> +		cedrus_h265_write_scaling_list(ctx, run);
-> +		reg = VE_DEC_H265_SCALING_LIST_CTRL0_FLAG_ENABLED;
-> +	} else {
-> +		reg = VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT;
-> +	}
->  	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
->  
->  	/* Neightbor information address. */
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> index 7beb03d3bb39..0d9449fe2b28 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> @@ -492,6 +492,8 @@
->  #define VE_DEC_H265_ENTRY_POINT_OFFSET_ADDR	(VE_ENGINE_DEC_H265 + 0x64)
->  #define VE_DEC_H265_TILE_START_CTB		(VE_ENGINE_DEC_H265 + 0x68)
->  #define VE_DEC_H265_TILE_END_CTB		(VE_ENGINE_DEC_H265 + 0x6c)
-> +#define VE_DEC_H265_SCALING_LIST_DC_COEF0	(VE_ENGINE_DEC_H265 + 0x78)
-> +#define VE_DEC_H265_SCALING_LIST_DC_COEF1	(VE_ENGINE_DEC_H265 + 0x7c)
->  
->  #define VE_DEC_H265_LOW_ADDR			(VE_ENGINE_DEC_H265 + 0x80)
->  
-> 
+diff --git a/block/scsi_ioctl.c b/block/scsi_ioctl.c
+index b4e73d5dd5c2..83a709290b18 100644
+--- a/block/scsi_ioctl.c
++++ b/block/scsi_ioctl.c
+@@ -647,6 +647,7 @@ struct compat_cdrom_generic_command {
+        compat_int_t    stat;
+        compat_caddr_t  sense;
+        unsigned char   data_direction;
++       char            __pad[3];
+        compat_int_t    quiet;
+        compat_int_t    timeout;
+        compat_caddr_t  reserved[1];
 
+>    701                  memcpy(&cgc32.cmd, &cgc->cmd, CDROM_PACKET_SIZE);
+>    702
+>    703                  if (copy_to_user(arg, &cgc32, sizeof(cgc32)))
+>    704                          return -EFAULT;
+>    705
+>    706                  return 0;
+>    707          }
+>    708  #endif
+>    709          if (copy_to_user(arg, cgc, sizeof(*cgc)))
+>    710                  return -EFAULT;
+>    711
+>    712          return 0;
+>    713  }
+>
+> See also:
+> drivers/media/v4l2-core/v4l2-ioctl.c:3140 video_put_user() warn: check that 'ev32' doesn't leak information (struct has a hole after 'type')
+> drivers/media/v4l2-core/v4l2-ioctl.c:3165 video_put_user() warn: check that 'vb32' doesn't leak information (struct has a hole after 'memory')
+
+These get a bit uglier when we try not to change the layout:
+
+diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+index 291ec28cdf6b..6556e8eeb65e 100644
+--- a/include/media/v4l2-ioctl.h
++++ b/include/media/v4l2-ioctl.h
+@@ -735,6 +735,7 @@ long int video_ioctl2(struct file *file,
+  */
+ struct v4l2_event_time32 {
+        __u32                           type;
++       __u8                            pad[__alignof(__u64) -
+__alignof(__u32)];
+        union {
+                struct v4l2_event_vsync         vsync;
+                struct v4l2_event_ctrl          ctrl;
+@@ -764,6 +765,7 @@ struct v4l2_buffer_time32 {
+
+        /* memory location */
+        __u32                   memory;
++       __u8                    pad[__alignof(void *) - __alignof(__u32)];
+        union {
+                __u32           offset;
+                unsigned long   userptr;
+
+I liked the way the current solution looks, but maybe it's better to use
+an explicit memset and compound expression to force the compiler
+to do the right thing here. This should also be safe and lead to the
+same object code in most cases, right?
+
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c
+b/drivers/media/v4l2-core/v4l2-ioctl.c
+index b68ff06009cd..cb1b66463402 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -3125,7 +3125,10 @@ static int video_put_user(void __user *arg,
+void *parg, unsigned int cmd)
+ #ifdef CONFIG_COMPAT_32BIT_TIME
+        case VIDIOC_DQEVENT_TIME32: {
+                struct v4l2_event *ev = parg;
+-               struct v4l2_event_time32 ev32 = {
++               struct v4l2_event_time32 ev32;
++
++               memset(ev32, 0, sizeof(ev32));
++               ev32 = (struct v4l2_event_time32){
+                        .type           = ev->type,
+                        .pending        = ev->pending,
+                        .sequence       = ev->sequence,
+
+        Arnd
