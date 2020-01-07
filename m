@@ -2,29 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FE8133557
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 22:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDA5013356C
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 23:04:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727080AbgAGV5y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jan 2020 16:57:54 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46808 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbgAGV5x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 16:57:53 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0643852F;
-        Tue,  7 Jan 2020 22:57:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1578434271;
-        bh=P35fKrt/dB02G14EwAgMdPETX01nTBUtFrYN35CPF48=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SpUnAHB3FZa89YS6khrpYSLHAgai/HIRd3QwKnYZmKVP3ldmbLTjPNXTJTjphs2du
-         dE9aLqglcbK4VpJT76yZE3SFzoNGqgRaETFuWbz32YeQsh1PJ/xGQWFOnJXck8oVEl
-         VZkJlVea8x8GwLZSP+rmiea6Pza/TxScg23u+LUU=
-Date:   Tue, 7 Jan 2020 23:57:39 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        id S1727183AbgAGWEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jan 2020 17:04:08 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49178 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727080AbgAGWEI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 17:04:08 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id E9BE52927FC
+Message-ID: <4d5a896ee0f40908365800dcd0554eb39c5d68c1.camel@collabora.com>
+Subject: Re: [PATCH v12 09/11] media: staging: dt-bindings: add Rockchip
+ MIPI RX D-PHY yaml bindings
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Helen Koike <helen.koike@collabora.com>,
         linux-rockchip@lists.infradead.org, mark.rutland@arm.com,
         devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
@@ -34,28 +29,28 @@ Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         sakari.ailus@linux.intel.com, joacim.zetterling@gmail.com,
         kernel@collabora.com, linux-media@vger.kernel.org,
         jacob-chen@iotwrt.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v12 09/11] media: staging: dt-bindings: add Rockchip MIPI
- RX D-PHY yaml bindings
-Message-ID: <20200107215739.GB7869@pendragon.ideasonboard.com>
-References: <20191227200116.2612137-1-helen.koike@collabora.com>
- <2549505.MsbA2le1sL@diego>
- <657de953782be2514849bc8bd12a3fbcb6794427.camel@collabora.com>
- <2299954.gvZHxIxoM0@diego>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Date:   Tue, 07 Jan 2020 19:03:54 -0300
 In-Reply-To: <2299954.gvZHxIxoM0@diego>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191227200116.2612137-1-helen.koike@collabora.com>
+         <2549505.MsbA2le1sL@diego>
+         <657de953782be2514849bc8bd12a3fbcb6794427.camel@collabora.com>
+         <2299954.gvZHxIxoM0@diego>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
-
-On Tue, Jan 07, 2020 at 10:30:28PM +0100, Heiko Stübner wrote:
+On Tue, 2020-01-07 at 22:30 +0100, Heiko Stübner wrote:
+> Hi Ezequiel,
+> 
 > Am Dienstag, 7. Januar 2020, 14:20:10 CET schrieb Ezequiel Garcia:
+> > Hi Heiko, Laurent,
+> > 
 > > On Tue, 2020-01-07 at 10:28 +0100, Heiko Stübner wrote:
 > > > Am Dienstag, 7. Januar 2020, 03:37:21 CET schrieb Laurent Pinchart:
 > > > > On Mon, Jan 06, 2020 at 11:06:12PM -0300, Ezequiel Garcia wrote:
@@ -143,6 +138,8 @@ On Tue, Jan 07, 2020 at 10:30:28PM +0100, Heiko Stübner wrote:
 > > > 
 > > > With the actual "logic" picked from the vendor kernel, that just double-
 > > > maps the dsi1-registers in both dsi and dphy driver, which was strange.
+> > > 
+> > > 
 > > 
 > > Describing each PHY in its own device node (as we currently do)
 > > results in:
@@ -160,10 +157,11 @@ On Tue, Jan 07, 2020 at 10:30:28PM +0100, Heiko Stübner wrote:
 > So when it's used in combination with drm and a panel or so it will
 > behave as dsi controller, but when requested via the phy-framework
 > it will expose the dphy functionality.
+> 
 
-Doesn't RX1/TX1 also expose controls through GRF ? For instance
-GRF_SOC_CON9 has a dphy_rx1_clk_inv_sel bit.
+Hm, and will this driver also support RX1?
 
+> 
 > >         grf: syscon@ff770000 {
 > >                 mipi_dphy_rx0: mipi-dphy-rx0 {
 > >                         compatible = "rockchip,rk3399-mipi-dphy";
@@ -179,8 +177,21 @@ GRF_SOC_CON9 has a dphy_rx1_clk_inv_sel bit.
 > 
 > so I really think we shouldn't merge these two things together,
 > especially to not break the dsi1 controller part.
+> 
 
--- 
-Regards,
+I don't think it would necesarily break the dsi1 controller part.
 
-Laurent Pinchart
+You can declare both device nodes as sharing the address region,
+and then the driver can request the I/O resource only when it needs to,
+i.e. in the PHY .init hook.
+
+It's not super nice, but there's no real reason two devices
+can't share an I/O memory resource.
+
+I like this approach because it exposes the different PHYs
+explicitly, instead of implicitly.
+
+Thanks,
+Ezequiel
+
+
