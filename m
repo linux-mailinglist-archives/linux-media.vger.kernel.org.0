@@ -2,119 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 977F11322D0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 10:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EDD9132387
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 11:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727671AbgAGJq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jan 2020 04:46:56 -0500
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:3320 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726485AbgAGJq4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jan 2020 04:46:56 -0500
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0079hXZE002027;
-        Tue, 7 Jan 2020 10:46:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=PbJCZFncQBZH/BlAK8ELONqW5LqwKaEvIZc7w5b0OYI=;
- b=RCbEkKpltn980AU8jCPraagLch9+XkO2So8RCosC4vLxjWoswqVX78LebnrISoiwapKm
- JuZlqJt+r+uy7BJtymA2T/56uij5CmU6ncVS9S/AYkKDPl2jNyhfVpNZ9bTfLHRHzQAW
- lUFlxbq8pQ/dpU4/9thGZxZPcOS68rSnmiE84fhiEIQjrSahRsjx/3UuTOr0GXrRuDnp
- bTT+gCrwIaQWjK+Iby3JMHagMY24XdafhZ5eVOcMVpaBRGWXTKagH1N1zBdnwHScu535
- Z28CSxglPzWQqcYFDBXwn8GcStcvYEb4QnMNo61rGubr5/LfAr5SmLb3BUhrWSjGuphW JQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2xakm5d5km-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 07 Jan 2020 10:46:41 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 414D0100034;
-        Tue,  7 Jan 2020 10:46:41 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2EE722A8204;
-        Tue,  7 Jan 2020 10:46:41 +0100 (CET)
-Received: from SFHDAG5NODE2.st.com (10.75.127.14) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 7 Jan
- 2020 10:46:40 +0100
-Received: from SFHDAG5NODE2.st.com ([fe80::1cb5:6767:370b:9af0]) by
- SFHDAG5NODE2.st.com ([fe80::1cb5:6767:370b:9af0%20]) with mapi id
- 15.00.1473.003; Tue, 7 Jan 2020 10:46:40 +0100
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>
-CC:     "vkoul@kernel.org" <vkoul@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] media: stm32-dcmi: Use dma_request_chan() instead
- dma_request_slave_channel()
-Thread-Topic: [PATCH] media: stm32-dcmi: Use dma_request_chan() instead
- dma_request_slave_channel()
-Thread-Index: AQHVtMaOm1nAskP+t06Lg3ivGfEhOKe/qEeAgB9cIQA=
-Date:   Tue, 7 Jan 2020 09:46:40 +0000
-Message-ID: <8229c7ed-b513-6bf8-5684-60d87a92d41f@st.com>
-References: <20191217104135.23554-1-peter.ujfalusi@ti.com>
- <84946ffd-8e90-7b6a-6667-a10e27d31655@st.com>
-In-Reply-To: <84946ffd-8e90-7b6a-6667-a10e27d31655@st.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.47]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7CF506707FC8704EA5378A1A551351F2@st.com>
-Content-Transfer-Encoding: base64
+        id S1727177AbgAGK0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jan 2020 05:26:10 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41020 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727589AbgAGK0K (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 05:26:10 -0500
+Received: by mail-lf1-f68.google.com with SMTP id m30so38475681lfp.8
+        for <linux-media@vger.kernel.org>; Tue, 07 Jan 2020 02:26:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xd8fa9SPUbV549yE1f/26W4MiJd3NRvcxsgdrP9AAig=;
+        b=h2LwyyrncrsKin6b07Ir2k0hkaxv16zpsxHzULjlIkS5bOaoLo9lvxnJ8YLkiL2ZSl
+         lHfoXtaGq/MmNZoNAz9Af1+qtcH6fuW32o0+xpA9fEfT9qNZ1X/YOR2BXJJKSvPFB+yY
+         CongndD2vtdPe9983Ltb3bcGXjtusgw7fBCMs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xd8fa9SPUbV549yE1f/26W4MiJd3NRvcxsgdrP9AAig=;
+        b=hJLatUuTw25C4VAQHm63pQnRlHPtugVd/FMvFdhQR9X+H4M/4A7U6ioTEkJYp3YWrE
+         YushgKmQOgetng38qsRXcty5wR7y1X/jSPAQB46kICkuKszW3wgI780LQgpWtjrXUJSO
+         UTZ6Im+IactHptvj58QPzTkAm2ySdKGEREcgASdHdvr8BHusendeb7pA7q+8RH5gU4ir
+         Exl+TqNgvYJOMDRF8ZNOUCxhWR5F+PQvRhxVUOXn6pra/QYOVNiI+OXdildOedUKzwlt
+         qd3hnG703VvKM3njRvv1Fwp8xp8cxJh8y5JkNlEG3OkK8oEVObfVJS6qV3pJ3IAhEj5+
+         jz5g==
+X-Gm-Message-State: APjAAAVeytq4aD0QI+m37r/uIxUNcmvTThPOICYtzDhCwxC0mMJXWLEG
+        8FUJGIBsQoK7EuIfO1iSadhdrIGDpMJRkW4j2xLY3w==
+X-Google-Smtp-Source: APXvYqzazncdhHk64X4LNsP6C0KzMbTRDlZbsPuHD4IAZmhkjrdiAanD5j7r4+kIQag1gtm/rncvUo7McqSqUWHvSLI=
+X-Received: by 2002:a19:a408:: with SMTP id q8mr57650934lfc.174.1578392767884;
+ Tue, 07 Jan 2020 02:26:07 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2020-01-07_02:2020-01-06,2020-01-07 signatures=0
+References: <20191218130214.170703-1-keiichiw@chromium.org>
+ <3016670.ToaXtcqt80@os-lin-dmo> <CAD90VcYtS1ZRdikyHGZPcXQMVC7MuNsAhBGAWwiVpGgO3Yittg@mail.gmail.com>
+ <2751629.YRu87Tu1Bo@os-lin-dmo>
+In-Reply-To: <2751629.YRu87Tu1Bo@os-lin-dmo>
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+Date:   Tue, 7 Jan 2020 19:25:56 +0900
+Message-ID: <CAD90VcaQCSFTv-JyxZ7cO+Qnc0U2NRGikcYmmy=zitJby9NfXg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/1] VirtIO video device specification
+To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>, virtio-dev@lists.oasis-open.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        spice-devel@lists.freedesktop.org,
+        David Stevens <stevensd@chromium.org>, uril@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgUGV0ZXIsDQoNCklmIG5vdCB0b28gbGF0ZSwgY291bGQgeW91IGNoYW5nZSB0cmFjZSB0byBv
-bmx5IHRyaWcgZXJyb3IgdHJhY2Ugd2hlbg0KZXJyb3IgaXMgbm90ICJwcm9iZSBkZWZlcmVkIiA/
-IFNlZSBiZWxvdzoNCg0KLQljaGFuID0gZG1hX3JlcXVlc3Rfc2xhdmVfY2hhbm5lbCgmcGRldi0+
-ZGV2LCAidHgiKTsNCi0JaWYgKCFjaGFuKSB7DQotCQlkZXZfaW5mbygmcGRldi0+ZGV2LCAiVW5h
-YmxlIHRvIHJlcXVlc3QgRE1BIGNoYW5uZWwsIGRlZmVyIHByb2JpbmdcbiIpOw0KLQkJcmV0dXJu
-IC1FUFJPQkVfREVGRVI7DQorCWNoYW4gPSBkbWFfcmVxdWVzdF9jaGFuKCZwZGV2LT5kZXYsICJ0
-eCIpOw0KKwlpZiAoSVNfRVJSKGNoYW4pKSB7DQorCQlpZiAoUFRSX0VSUihjaGFuKSAhPSAtRVBS
-T0JFX0RFRkVSKQ0KKwkJCWRldl9lcnIoJnBkZXYtPmRldiwgIlVuYWJsZSB0byByZXF1ZXN0IERN
-QSBjaGFubmVsXG4iKTsNCisJCXJldHVybiBQVFJfRVJSKGNoYW4pOw0KDQoNCkJlc3QgcmVnYXJk
-cywNCkh1Z3Vlcy4NCg0KT24gMTIvMTgvMTkgMTE6NTIgQU0sIEh1Z3VlcyBGUlVDSEVUIHdyb3Rl
-Og0KPiBUaGFua3MgZm9yIHBhdGNoaW5nIFBldGVyLA0KPiANCj4gTm8gcmVncmVzc2lvbiBvYnNl
-cnZlZCBvbiBteSBzaWRlLg0KPiANCj4gQWNrZWQtYnk6IEh1Z3VlcyBGcnVjaGV0IDxodWd1ZXMu
-ZnJ1Y2hldEBzdC5jb20+DQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IEh1Z3Vlcy4NCj4gDQo+IE9u
-IDEyLzE3LzE5IDExOjQxIEFNLCBQZXRlciBVamZhbHVzaSB3cm90ZToNCj4+IGRtYV9yZXF1ZXN0
-X3NsYXZlX2NoYW5uZWwoKSBpcyBhIHdyYXBwZXIgb24gdG9wIG9mIGRtYV9yZXF1ZXN0X2NoYW4o
-KQ0KPj4gZWF0aW5nIHVwIHRoZSBlcnJvciBjb2RlLg0KPj4NCj4+IEJ5IHVzaW5nIGRtYV9yZXF1
-ZXN0X2NoYW4oKSBkaXJlY3RseSB0aGUgZHJpdmVyIGNhbiBzdXBwb3J0IGRlZmVycmVkDQo+PiBw
-cm9iaW5nIGFnYWluc3QgRE1BLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFBldGVyIFVqZmFsdXNp
-IDxwZXRlci51amZhbHVzaUB0aS5jb20+DQo+PiAtLS0NCj4+IMKgIGRyaXZlcnMvbWVkaWEvcGxh
-dGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jIHwgNiArKystLS0NCj4+IMKgIDEgZmlsZSBjaGFuZ2Vk
-LCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jIA0KPj4gYi9kcml2ZXJzL21l
-ZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPj4gaW5kZXggOTM5MmUzNDA5ZmJhLi41
-NTM1MTg3MmIwYzcgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMy
-L3N0bTMyLWRjbWkuYw0KPj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdG0zMi9zdG0z
-Mi1kY21pLmMNCj4+IEBAIC0xOTEwLDEwICsxOTEwLDEwIEBAIHN0YXRpYyBpbnQgZGNtaV9wcm9i
-ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlIA0KPj4gKnBkZXYpDQo+PiDCoMKgwqDCoMKgwqDCoMKg
-wqAgcmV0dXJuIFBUUl9FUlIobWNsayk7DQo+PiDCoMKgwqDCoMKgIH0NCj4+IC3CoMKgwqAgY2hh
-biA9IGRtYV9yZXF1ZXN0X3NsYXZlX2NoYW5uZWwoJnBkZXYtPmRldiwgInR4Iik7DQo+PiAtwqDC
-oMKgIGlmICghY2hhbikgew0KPj4gK8KgwqDCoCBjaGFuID0gZG1hX3JlcXVlc3RfY2hhbigmcGRl
-di0+ZGV2LCAidHgiKTsNCj4+ICvCoMKgwqAgaWYgKElTX0VSUihjaGFuKSkgew0KPj4gwqDCoMKg
-wqDCoMKgwqDCoMKgIGRldl9pbmZvKCZwZGV2LT5kZXYsICJVbmFibGUgdG8gcmVxdWVzdCBETUEg
-Y2hhbm5lbCwgZGVmZXIgDQo+PiBwcm9iaW5nXG4iKTsNCj4+IC3CoMKgwqDCoMKgwqDCoCByZXR1
-cm4gLUVQUk9CRV9ERUZFUjsNCj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gUFRSX0VSUihjaGFu
-KTsNCj4+IMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDCoCBzcGluX2xvY2tfaW5pdCgmZGNtaS0+
-aXJxbG9jayk7DQo+Pg==
+Hi Dmitry,
+
+On Mon, Jan 6, 2020 at 8:28 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
+>
+> Hi,
+>
+> On Montag, 6. Januar 2020 11:30:22 CET Keiichi Watanabe wrote:
+> > Hi Dmitry, Tomasz,
+> >
+> > On Fri, Jan 3, 2020 at 10:05 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> wrote:
+> > > Hi Tomasz, Keiichi,
+> > >
+> > > On Samstag, 21. Dezember 2019 07:19:23 CET Tomasz Figa wrote:
+> > > > On Sat, Dec 21, 2019 at 3:18 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> > > > > On Sat, Dec 21, 2019 at 1:36 PM Keiichi Watanabe
+> > > > > <keiichiw@chromium.org>
+> > >
+> > > wrote:
+> > > > > > Hi Dmitry,
+> > > > > >
+> > > > > > On Sat, Dec 21, 2019 at 12:59 AM Dmitry Sepp
+> > > > > >
+> > > > > > <dmitry.sepp@opensynergy.com> wrote:
+> > > > > > > Hi Keiichi,
+> > > > > > >
+> > > > > > > On Mittwoch, 18. Dezember 2019 14:02:13 CET Keiichi Watanabe
+> wrote:
+> > > > > > > > Hi,
+> > > > > > > > This is the 2nd version of virtio-video patch. The PDF is
+> > > > > > > > available
+> > > > > > > > in [1].
+> > > > > > > > The first version was sent at [2].
+> > > > > > > >
+> > > > > > > > Any feedback would be appreciated. Thank you.
+> > > > > > > >
+> > > > > > > > Best,
+> > > > > > > > Keiichi
+> > > > > > > >
+> > > > > > > > [1]:
+> > > > > > > > https://drive.google.com/drive/folders/1eT5fEckBoor2iHZR4f4GLxYz
+> > > > > > > > FMVa
+> > > > > > > > pOFx?us
+> > > > > > > > p=sharing [2]: https://markmail.org/message/gc6h25acct22niut
+> > > > > > > >
+> > > > > > > > Change log:
+> > > > > > > >
+> > > > > > > > v2:
+> > > > > > > > * Removed functionalities except encoding and decoding.
+> > > > > > > > * Splited encoder and decoder into different devices that use
+> > > > > > > > the
+> > > > > > > > same
+> > > > > > > > protocol. * Replaced GET_FUNCS with GET_CAPABILITY.
+> > > > > > > > * Updated structs for capabilities.
+> > > > > > > >
+> > > > > > > >   - Defined new structs and enums such as image formats,
+> > > > > > > >   profiles,
+> > > > > > > >   range
+> > > > > > > >
+> > > > > > > > (min, max, step), etc
+> > > > > > > >
+> > > > > > > >     * For virtio_video_pixel_format, chose a naming convention
+> > > > > > > >     that
+> > > > > > > >     is used
+> > > > > > > >
+> > > > > > > >       in DRM. We removed XBGR, NV21 and I422, as they are not
+> > > > > > > >       used
+> > > > > > > >       in the
+> > > > > > > >       current draft implementation.
+> > > > > > > >       https://lwn.net/Articles/806416/
+> > > > > > > >
+> > > > > > > >   - Removed virtio_video_control, whose usage was not documented
+> > > > > > > >   yet
+> > > > > > > >   and
+> > > > > > > >
+> > > > > > > > which is not necessary for the simplest decoding scenario.
+> > > > > > > >
+> > > > > > > >   - Removed virtio_video_desc, as it is no longer needed.
+> > > > > > > >
+> > > > > > > > * Updated struct virtio_video_config for changes around
+> > > > > > > > capabilities.
+> > > > > > > > * Added a way to represent supported combinations of formats.
+> > > > > > > >
+> > > > > > > >   - A field "mask" in virtio_video_format_desc plays this role.
+> > > > > > > >
+> > > > > > > > * Removed VIRTIO_VIDEO_T_STREAM_{START,STOP} because they don't
+> > > > > > > > play
+> > > > > > > > any
+> > > > > > > > meaningful roles. * Removed VIRTIO_VIDEO_T_STREAM_{ATTACH,
+> > > > > > > > DETACH}_BACKING
+> > > > > > > > and merged them into RESOURCE_{CREATE, DESTROY}. * Added a way
+> > > > > > > > to
+> > > > > > > > notify/specify resource creation method.
+> > > > > > > >
+> > > > > > > >   - Added a feature flag.
+> > > > > > > >   - Defined enum virtio_video_mem_type.
+> > > > > > > >   - Added new fields in video_stream_create.
+> > > > > > > >
+> > > > > > > > * Modified fields in virtio_video_params.
+> > > > > > > >
+> > > > > > > >   - Added crop information.
+> > > > > > > >
+> > > > > > > > * Removed enum virtio_video_channel_type because we can get this
+> > > > > > > > information by image format.
+> > > > > > >
+> > > > > > > Could you please explain this? How do you get the information?
+> > > > > >
+> > > > > > It means that if image formats are well-defined, channel information
+> > > > > > (e.g. the order of channels) is uniquely determined.
+> > > > > >
+> > > > > > > Suppose you have some piece of HW on the host side that wants I420
+> > > > > > > as
+> > > > > > > one
+> > > > > > > contig buffer w/ some offsets. But on the driver side, say,
+> > > > > > > gralloc
+> > > > > > > gives you three separate buffers, one per channel. How do we pass
+> > > > > > > those to the device then?
+> > > > > >
+> > > > > > You're talking about CrOS use case where buffers are allocated by
+> > > > > > virtio-gpu, right?
+> > > > > > In this case, virtio-gpu allocates one contiguous host-side buffer
+> > > > > > and
+> > > > > > the client regards a pair of (buffer FD, offset) as one channel.
+> > > > > > And, we can register this pair to the device when the buffer is
+> > > > > > imported.
+> > > > > > In the virtio-vdec spec draft, this pair corresponds to struct
+> > > > > > virtio_vdec_plane in struct virtio_vdec_plane.
+> > > > > >
+> > > > > > So, I suppose we will need similar structs when we add a control to
+> > > > > > import buffers. However, I don't think it's necessary when guest
+> > > > > > pages
+> > > > > > are used.
+> > > > >
+> > > > > I think we need some way for the guest to know whether it can allocate
+> > > > > the planes in separate buffers, even when guest pages are used. This
+> > > > > would be equivalent to V4L2 M and non-M formats, but mixing this into
+> > > > > FourCC in V4L2 is an acknowledged mistake, so we should add a query or
+> > > > > something.
+> > >
+> > > Yes, this is what I mean. In fact, we already do face the situation when
+> > > the device side is not happy with the sgt and wants contig. I think we'll
+> > > add a module parameter for now.
+> >
+> > Okay. So, I suppose we'll be able to update structs:
+> > * Add a flag in virtio_video_format_desc that indicates whether planes
+> > can be in separate buffers, and
+> > * Add a flag in virtio_video_format_desc that indicates that the
+> > device requires contiguous buffers for this format.
+> >
+> > Does it make sense?
+> >
+> Sorry, I don't understand the difference between the two above: isn't the first
+> case is just when the flag is not set?
+
+Ah, I was confused and wrote something strange. Yeah,  these two are the same.
+Sorry for that.
+
+So, the suggestion is to add a field "planes_layout" in
+virtio_video_format_desc, which is one of the following enums:
+
+enum virtio_video_planes_layout {
+    VIRTIO_VIDEO_PLANES_LAYOUT_UNSPEC = 0,  /* no special requirement */
+    VIRTIO_VIDEO_PLANES_LAYOUT_CONTIGUOUS,
+};
+
+If we have a better idea or naming, please let me know.
+
+Best regards,
+Keiichi
+
+>
+> Regards,
+> Dmitry.
+>
+> > Best regards,
+> > Keiichi
+> >
+> > > Regards,
+> > > Dmitry.
+> > >
+> > > > > For future V4L2 development we came up with the idea of a format flag
+> > > > > which could mean that the hardware allows putting planes in separate
+> > > > > buffers. We could have a similar per-format flag in the capabilities,
+> > > > > as we already have a list of all the supported formats there.
+> > > >
+> > > > Sorry, forgot to paste the link from future V4L2 work notes from this
+> > > > year
+> > > > ELCE: https://www.spinics.net/lists/linux-media/msg159789.html
+> > > >
+> > > > > Best regards,
+> > > > > Tomasz
+> > > > >
+> > > > > > Best regards,
+> > > > > > Keiichi
+> > > > > >
+> > > > > > > Best regards,
+> > > > > > > Dmitry.
+> > > > > > >
+> > > > > > > > * Renamed virtio_video_pin to virtio_video_buf_type.
+> > > > > > > >
+> > > > > > > >   - It's similar to V4L2_BUF_TYPE_VIDEO_{OUTPUT, CAPTURE}.
+> > > > > > > >
+> > > > > > > > * Added an error event.
+> > > > > > > > * Reordered some subsections.
+> > > > > > > > * Changed styles to make it consistent with other devices.
+> > > > > > > >
+> > > > > > > > Dmitry Sepp (1):
+> > > > > > > >   virtio-video: Add virtio video device specification
+> > > > > > > >
+> > > > > > > >  content.tex      |   1 +
+> > > > > > > >  virtio-video.tex | 579
+> > > > > > > >  +++++++++++++++++++++++++++++++++++++++++++++++
+> > > > > > > >  2 files changed, 580 insertions(+)
+> > > > > > > >  create mode 100644 virtio-video.tex
+> > > > > > > >
+> > > > > > > > --
+> > > > > > > > 2.24.1.735.g03f4e72817-goog
+>
+>
