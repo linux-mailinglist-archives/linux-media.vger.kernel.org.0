@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20EEE13358B
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 23:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B4321335AA
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 23:25:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727286AbgAGWMy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 7 Jan 2020 17:12:54 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:37410 "EHLO gloria.sntech.de"
+        id S1727289AbgAGWZa convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 7 Jan 2020 17:25:30 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:37546 "EHLO gloria.sntech.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726142AbgAGWMx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jan 2020 17:12:53 -0500
+        id S1726558AbgAGWZa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 Jan 2020 17:25:30 -0500
 Received: from ip5f5a5f74.dynamic.kabel-deutschland.de ([95.90.95.116] helo=phil.localnet)
         by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.89)
         (envelope-from <heiko@sntech.de>)
-        id 1iox5Y-0004yI-O7; Tue, 07 Jan 2020 23:12:36 +0100
+        id 1ioxHq-00051T-Rh; Tue, 07 Jan 2020 23:25:18 +0100
 From:   Heiko Stuebner <heiko@sntech.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Helen Koike <helen.koike@collabora.com>,
         linux-rockchip@lists.infradead.org, mark.rutland@arm.com,
         devicetree@vger.kernel.org, eddie.cai.linux@gmail.com,
@@ -29,10 +29,10 @@ Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         kernel@collabora.com, linux-media@vger.kernel.org,
         jacob-chen@iotwrt.com, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH v12 09/11] media: staging: dt-bindings: add Rockchip MIPI RX D-PHY yaml bindings
-Date:   Tue, 07 Jan 2020 23:12:35 +0100
-Message-ID: <1854581.byi6MNbzft@phil>
-In-Reply-To: <20200107215739.GB7869@pendragon.ideasonboard.com>
-References: <20191227200116.2612137-1-helen.koike@collabora.com> <2299954.gvZHxIxoM0@diego> <20200107215739.GB7869@pendragon.ideasonboard.com>
+Date:   Tue, 07 Jan 2020 23:25:17 +0100
+Message-ID: <3869290.WS1K4CcMg6@phil>
+In-Reply-To: <4d5a896ee0f40908365800dcd0554eb39c5d68c1.camel@collabora.com>
+References: <20191227200116.2612137-1-helen.koike@collabora.com> <2299954.gvZHxIxoM0@diego> <4d5a896ee0f40908365800dcd0554eb39c5d68c1.camel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Type: text/plain; charset="iso-8859-1"
@@ -41,11 +41,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, 7. Januar 2020, 22:57:39 CET schrieb Laurent Pinchart:
-> Hi Heiko,
-> 
-> On Tue, Jan 07, 2020 at 10:30:28PM +0100, Heiko Stübner wrote:
+Am Dienstag, 7. Januar 2020, 23:03:54 CET schrieb Ezequiel Garcia:
+> On Tue, 2020-01-07 at 22:30 +0100, Heiko Stübner wrote:
+> > Hi Ezequiel,
+> > 
 > > Am Dienstag, 7. Januar 2020, 14:20:10 CET schrieb Ezequiel Garcia:
+> > > Hi Heiko, Laurent,
+> > > 
 > > > On Tue, 2020-01-07 at 10:28 +0100, Heiko Stübner wrote:
 > > > > Am Dienstag, 7. Januar 2020, 03:37:21 CET schrieb Laurent Pinchart:
 > > > > > On Mon, Jan 06, 2020 at 11:06:12PM -0300, Ezequiel Garcia wrote:
@@ -133,6 +135,8 @@ Am Dienstag, 7. Januar 2020, 22:57:39 CET schrieb Laurent Pinchart:
 > > > > 
 > > > > With the actual "logic" picked from the vendor kernel, that just double-
 > > > > maps the dsi1-registers in both dsi and dphy driver, which was strange.
+> > > > 
+> > > > 
 > > > 
 > > > Describing each PHY in its own device node (as we currently do)
 > > > results in:
@@ -150,22 +154,24 @@ Am Dienstag, 7. Januar 2020, 22:57:39 CET schrieb Laurent Pinchart:
 > > So when it's used in combination with drm and a panel or so it will
 > > behave as dsi controller, but when requested via the phy-framework
 > > it will expose the dphy functionality.
+> > 
 > 
-> Doesn't RX1/TX1 also expose controls through GRF ? For instance
-> GRF_SOC_CON9 has a dphy_rx1_clk_inv_sel bit.
+> Hm, and will this driver also support RX1?
 
-There are parts in the GRF but the whole phy-write stuff is inside
-the dsi controller area. See the vendor kernel at
-	https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/phy/rockchip/phy-rockchip-mipi-rx.c#L1427
+what is RX1 in your book? :-)
 
-where you get write_grf_reg() for GRF bits but also the write_txrx_reg()
-and mipidphy1_wr_reg() calls that access registers inside the dsi1
-controller space.
+According to the TRM the rk3399 has 3 DPHYs,
+tx0 - connected exclusively to dsi0
+      (this is handled internally by the dw-mipi-dsi driver with controls
+       in the dsi0 register space)
+rx0 - connected exclusively to isp0
+      (this is handled by the individual dphy driver from Helen's series)
+tx1rx1 - shared between dsi1 and isp1
+      (again inside the dsi1 register space)
 
-
-Heiko
 
 > 
+> > 
 > > >         grf: syscon@ff770000 {
 > > >                 mipi_dphy_rx0: mipi-dphy-rx0 {
 > > >                         compatible = "rockchip,rk3399-mipi-dphy";
@@ -181,9 +187,39 @@ Heiko
 > > 
 > > so I really think we shouldn't merge these two things together,
 > > especially to not break the dsi1 controller part.
+> > 
 > 
+> I don't think it would necesarily break the dsi1 controller part.
 > 
+> You can declare both device nodes as sharing the address region,
+> and then the driver can request the I/O resource only when it needs to,
+> i.e. in the PHY .init hook.
+
+dsi1 is of course a dw-mipi-dsi one, which in turn shares a common bridge
+driver over multiple variants (non-rockchip), which expects its registers
+mapped during probe.
+
+I think it would not really work well if you need to make the whole world
+follow that idea ;-) .
 
 
+Hence my approach with exposing the phy interface from the dsi driver.
+If you look at the dts part, it also just looks like it should be ... as
+a regular phy:
+	https://github.com/mmind/linux-rockchip/blob/wip/tc358749/arch/arm64/boot/dts/rockchip/rk3399.dtsi#L1764
+
+And on the driver side there is even some short circuit protection.
+When used as phy, it won't allow to be used as a component and
+vice versa.
+
+
+> It's not super nice, but there's no real reason two devices
+> can't share an I/O memory resource.
+
+Counter argument, devicetree is not a means to handle Linux
+peculiarites - instead it should describe the hardware ...
+and the area there _is_ the dsi1 controller ;-)
+
+Heiko
 
 
