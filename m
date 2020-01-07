@@ -2,114 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 280D9132C47
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 17:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E98D132CA9
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2020 18:10:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728684AbgAGQzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jan 2020 11:55:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44234 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728391AbgAGQzn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Jan 2020 11:55:43 -0500
-Received: from PC-kkoz.proceq.com (unknown [213.160.61.66])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4236B2467F;
-        Tue,  7 Jan 2020 16:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578416142;
-        bh=zdByYEGMS3ESVQ5qOHN1kIYsWdU38BLlIlo+0ZPdrE4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B9XX5z37aO9kO6TkoMZBWRljecz6mxaLsnUJweo1Opz89I73sTah4aguq2M+qbAtk
-         jJqm5ERlXNfIDH66LmWHTiUD9ISWyzlIjrcT5hLgLk+5mFBneKkY4HBIjWPl8jboDN
-         drdv6nwNwT+gPU/NfUpzBRq4v5bgiFQUyIlD1qE4=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jiri Slaby <jirislaby@gmail.com>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        virtualization@lists.linux-foundation.org,
-        linux-arch@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RFT 13/13] virtio: pci: Constify ioreadX() iomem argument (as in generic implementation)
-Date:   Tue,  7 Jan 2020 17:53:12 +0100
-Message-Id: <1578415992-24054-16-git-send-email-krzk@kernel.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1578415992-24054-1-git-send-email-krzk@kernel.org>
-References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
+        id S1728407AbgAGRKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jan 2020 12:10:49 -0500
+Received: from mailoutvs62.siol.net ([185.57.226.253]:40806 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728266AbgAGRKt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 12:10:49 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id BFDFE5230E8;
+        Tue,  7 Jan 2020 18:10:44 +0100 (CET)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id c4f-rLiq8ZIz; Tue,  7 Jan 2020 18:10:44 +0100 (CET)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 1CC93522F8A;
+        Tue,  7 Jan 2020 18:10:44 +0100 (CET)
+Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net [194.152.20.232])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id BE7DE522FC5;
+        Tue,  7 Jan 2020 18:10:42 +0100 (CET)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     mchehab@kernel.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] media: cedrus: hevc: Add support for scaling matrix
+Date:   Tue, 07 Jan 2020 18:10:42 +0100
+Message-ID: <2627039.Y6S9NjorxK@jernej-laptop>
+In-Reply-To: <4ac91ed5-a220-6a04-b1da-de27a306f8f2@xs4all.nl>
+References: <20191213160428.54303-1-jernej.skrabec@siol.net> <20191213160428.54303-3-jernej.skrabec@siol.net> <4ac91ed5-a220-6a04-b1da-de27a306f8f2@xs4all.nl>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ioreadX() helpers have inconsistent interface.  On some architectures
-void *__iomem address argument is a pointer to const, on some not.
+Hi!
 
-Implementations of ioreadX() do not modify the memory under the address
-so they can be converted to a "const" version for const-safety and
-consistency among architectures.
+Dne torek, 07. januar 2020 ob 16:01:16 CET je Hans Verkuil napisal(a):
+> On 12/13/19 5:04 PM, Jernej Skrabec wrote:
+> > HEVC frames may use scaling list feature. Add support for it.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  7 ++
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
+> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  2 +
+> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 70 ++++++++++++++++++-
+> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  2 +
+> >  5 files changed, 81 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > c6ddd46eff82..bf68bc6b20c8 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > @@ -116,6 +116,13 @@ static const struct cedrus_control cedrus_controls[]
+> > = {> 
+> >  		.codec		= CEDRUS_CODEC_H265,
+> >  		.required	= true,
+> >  	
+> >  	},
+> > 
+> > +	{
+> > +		.cfg = {
+> > +			.id	= 
+V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX,
+> > +		},
+> > +		.codec		= CEDRUS_CODEC_H265,
+> > +		.required	= true,
+> 
+> Should this be true? This means that existing applications are now
+> suddenly required to always pass the scaling matrix for every buffer.
+> 
+> Especially since the commit log says: 'HEVC frames *may* use scaling list
+> feature', indicating that this is an optional feature.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/virtio/virtio_pci_modern.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+True. Can you fix this when applying if this is the only issue?
 
-diff --git a/drivers/virtio/virtio_pci_modern.c b/drivers/virtio/virtio_pci_modern.c
-index 7abcc50838b8..fc58db4ab6c3 100644
---- a/drivers/virtio/virtio_pci_modern.c
-+++ b/drivers/virtio/virtio_pci_modern.c
-@@ -26,16 +26,16 @@
-  * method, i.e. 32-bit accesses for 32-bit fields, 16-bit accesses
-  * for 16-bit fields and 8-bit accesses for 8-bit fields.
-  */
--static inline u8 vp_ioread8(u8 __iomem *addr)
-+static inline u8 vp_ioread8(const u8 __iomem *addr)
- {
- 	return ioread8(addr);
- }
--static inline u16 vp_ioread16 (__le16 __iomem *addr)
-+static inline u16 vp_ioread16 (const __le16 __iomem *addr)
- {
- 	return ioread16(addr);
- }
- 
--static inline u32 vp_ioread32(__le32 __iomem *addr)
-+static inline u32 vp_ioread32(const __le32 __iomem *addr)
- {
- 	return ioread32(addr);
- }
--- 
-2.7.4
+Best regards,
+Jernej
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > +	},
+> > 
+> >  	{
+> >  	
+> >  		.cfg = {
+> >  		
+> >  			.id	= 
+V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE,
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > 96765555ab8a..d945f4f0ff2d 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > @@ -73,6 +73,7 @@ struct cedrus_h265_run {
+> > 
+> >  	const struct v4l2_ctrl_hevc_sps			*sps;
+> >  	const struct v4l2_ctrl_hevc_pps			*pps;
+> >  	const struct v4l2_ctrl_hevc_slice_params	*slice_params;
+> > 
+> > +	const struct v4l2_ctrl_hevc_scaling_matrix	
+*scaling_matrix;
+> > 
+> >  };
+> >  
+> >  struct cedrus_run {
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > 4a2fc33a1d79..327ed6c264dc 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > @@ -66,6 +66,8 @@ void cedrus_device_run(void *priv)
+> > 
+> >  			V4L2_CID_MPEG_VIDEO_HEVC_PPS);
+> >  		
+> >  		run.h265.slice_params = cedrus_find_control_data(ctx,
+> >  		
+> >  			V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS);
+> > 
+> > +		run.h265.scaling_matrix = cedrus_find_control_data(ctx,
+> > +			V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
+> > 
+> >  		break;
+> >  	
+> >  	default:
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > 6945dc74e1d7..888bfd5ca224 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > @@ -220,6 +220,69 @@ static void cedrus_h265_pred_weight_write(struct
+> > cedrus_dev *dev,> 
+> >  	}
+> >  
+> >  }
+> > 
+> > +static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
+> > +					   struct cedrus_run 
+*run)
+> > +{
+> > +	const struct v4l2_ctrl_hevc_scaling_matrix *scaling;
+> > +	struct cedrus_dev *dev = ctx->dev;
+> > +	u32 i, j, k, val;
+> > +
+> > +	scaling = run->h265.scaling_matrix;
+> > +
+> > +	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_DC_COEF0,
+> > +		     (scaling->scaling_list_dc_coef_32x32[1] << 24) |
+> > +		     (scaling->scaling_list_dc_coef_32x32[0] << 16) |
+> > +		     (scaling->scaling_list_dc_coef_16x16[1] << 8) |
+> > +		     (scaling->scaling_list_dc_coef_16x16[0] << 0));
+> > +
+> > +	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_DC_COEF1,
+> > +		     (scaling->scaling_list_dc_coef_16x16[5] << 24) |
+> > +		     (scaling->scaling_list_dc_coef_16x16[4] << 16) |
+> > +		     (scaling->scaling_list_dc_coef_16x16[3] << 8) |
+> > +		     (scaling->scaling_list_dc_coef_16x16[2] << 0));
+> > +
+> > +	cedrus_h265_sram_write_offset(dev,
+> > VE_DEC_H265_SRAM_OFFSET_SCALING_LISTS); +
+> > +	for (i = 0; i < 6; i++)
+> > +		for (j = 0; j < 8; j++)
+> > +			for (k = 0; k < 8; k += 4) {
+> > +				val = ((u32)scaling-
+>scaling_list_8x8[i][j + (k + 3) * 8] << 24) |
+> > +				      ((u32)scaling-
+>scaling_list_8x8[i][j + (k + 2) * 8] << 16) |
+> > +				      ((u32)scaling-
+>scaling_list_8x8[i][j + (k + 1) * 8] << 8) |
+> > +				      scaling-
+>scaling_list_8x8[i][j + k * 8];
+> > +				cedrus_write(dev, 
+VE_DEC_H265_SRAM_DATA, val);
+> > +			}
+> > +
+> > +	for (i = 0; i < 2; i++)
+> > +		for (j = 0; j < 8; j++)
+> > +			for (k = 0; k < 8; k += 4) {
+> > +				val = ((u32)scaling-
+>scaling_list_32x32[i][j + (k + 3) * 8] << 24) |
+> > +				      ((u32)scaling-
+>scaling_list_32x32[i][j + (k + 2) * 8] << 16) |
+> > +				      ((u32)scaling-
+>scaling_list_32x32[i][j + (k + 1) * 8] << 8) |
+> > +				      scaling-
+>scaling_list_32x32[i][j + k * 8];
+> > +				cedrus_write(dev, 
+VE_DEC_H265_SRAM_DATA, val);
+> > +			}
+> > +
+> > +	for (i = 0; i < 6; i++)
+> > +		for (j = 0; j < 8; j++)
+> > +			for (k = 0; k < 8; k += 4) {
+> > +				val = ((u32)scaling-
+>scaling_list_16x16[i][j + (k + 3) * 8] << 24) |
+> > +				      ((u32)scaling-
+>scaling_list_16x16[i][j + (k + 2) * 8] << 16) |
+> > +				      ((u32)scaling-
+>scaling_list_16x16[i][j + (k + 1) * 8] << 8) |
+> > +				      scaling-
+>scaling_list_16x16[i][j + k * 8];
+> > +				cedrus_write(dev, 
+VE_DEC_H265_SRAM_DATA, val);
+> > +			}
+> > +
+> > +	for (i = 0; i < 6; i++)
+> > +		for (j = 0; j < 4; j++) {
+> > +			val = ((u32)scaling->scaling_list_4x4[i][j + 
+12] << 24) |
+> > +			      ((u32)scaling->scaling_list_4x4[i][j + 
+8] << 16) |
+> > +			      ((u32)scaling->scaling_list_4x4[i][j + 
+4] << 8) |
+> > +			      scaling->scaling_list_4x4[i][j];
+> > +			cedrus_write(dev, VE_DEC_H265_SRAM_DATA, 
+val);
+> > +		}
+> > +}
+> > +
+> > 
+> >  static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+> >  
+> >  			      struct cedrus_run *run)
+> >  
+> >  {
+> > 
+> > @@ -499,7 +562,12 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+> > 
+> >  	/* Scaling list. */
+> > 
+> > -	reg = VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT;
+> > +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED) {
+> > +		cedrus_h265_write_scaling_list(ctx, run);
+> > +		reg = VE_DEC_H265_SCALING_LIST_CTRL0_FLAG_ENABLED;
+> > +	} else {
+> > +		reg = VE_DEC_H265_SCALING_LIST_CTRL0_DEFAULT;
+> > +	}
+> > 
+> >  	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
+> >  	
+> >  	/* Neightbor information address. */
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h index
+> > 7beb03d3bb39..0d9449fe2b28 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+> > @@ -492,6 +492,8 @@
+> > 
+> >  #define VE_DEC_H265_ENTRY_POINT_OFFSET_ADDR	(VE_ENGINE_DEC_H265 + 
+0x64)
+> >  #define VE_DEC_H265_TILE_START_CTB		(VE_ENGINE_DEC_H265 + 
+0x68)
+> >  #define VE_DEC_H265_TILE_END_CTB		(VE_ENGINE_DEC_H265 + 
+0x6c)
+> > 
+> > +#define VE_DEC_H265_SCALING_LIST_DC_COEF0	(VE_ENGINE_DEC_H265 + 
+0x78)
+> > +#define VE_DEC_H265_SCALING_LIST_DC_COEF1	(VE_ENGINE_DEC_H265 + 
+0x7c)
+> > 
+> >  #define VE_DEC_H265_LOW_ADDR			(VE_ENGINE_DEC_H265 + 
+0x80)
+
+
+
 
