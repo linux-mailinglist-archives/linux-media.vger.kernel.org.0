@@ -2,77 +2,383 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E01D134DB0
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 21:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D5B4134F23
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 22:52:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbgAHUdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 15:33:25 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41950 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbgAHUdZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 15:33:25 -0500
-Received: by mail-oi1-f196.google.com with SMTP id i1so3864148oie.8
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 12:33:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=u9lGx1KGncwRhu5gmclKsigxLVgAIjFaP4Z6LNjc8ZM=;
-        b=cobpn1oY5Fg0wnkuLIWbGGtlwfl6+jofZ6RCtMJYuMnJoy2F6OU5SX78mqWYVI9pEX
-         0+ciDP9QagcTFuxFSGMdo+csI5EQIGmXaZcgEIco5WfU+77He3QH+h22jaTbflKRP404
-         6aRDAueR8fASMlM8DDes/A+A8r6cz8bdh6U1QvghbOzalCL0q6un2YBN0Tln0b9FAB5+
-         wNu+nAQDeMPXKw0vqqP69phy+mrF/AFlgMb750KMSZ6TC8rs3nLsLCpXHTm+nZEeBdCr
-         P1ynk6toeB4rYx9jMFoVi8R3Z0m5Z9uXeoG5yDroY32t9RwWT0a+6F8O6ws1iYf3BOpk
-         bynw==
-X-Gm-Message-State: APjAAAXwK9pJISriI4eKYOPP8sgYZPgeC30P1tktG1GOcJWCnRmSEl8z
-        gIqd6q6RcydlRfvJkemIXHGkJuo=
-X-Google-Smtp-Source: APXvYqzH4MMz6SnDDiPYtRqw9azvGikjo6MVnkZibf4MROV/g2wAMZb2ZIVdkt8TW3n5anaTrkESFA==
-X-Received: by 2002:aca:50cd:: with SMTP id e196mr365307oib.178.1578515604808;
-        Wed, 08 Jan 2020 12:33:24 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 69sm1514737oth.17.2020.01.08.12.33.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2020 12:33:24 -0800 (PST)
-Received: from rob (uid 1000)
-        (envelope-from rob@rob-hp-laptop)
-        id 2208fa
-        by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Wed, 08 Jan 2020 14:33:23 -0600
-Date:   Wed, 8 Jan 2020 14:33:23 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Cc:     Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: Re: [PATCH 2/3] Documentation: dt-bindings: media: add AST2600 Video
- Engine support
-Message-ID: <20200108203323.GA18757@bogus>
-References: <20200107011503.17435-1-jae.hyun.yoo@linux.intel.com>
- <20200107011503.17435-3-jae.hyun.yoo@linux.intel.com>
+        id S1727063AbgAHVwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 16:52:25 -0500
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:2895 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726758AbgAHVwZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Jan 2020 16:52:25 -0500
+X-Halon-ID: 200c5d8a-3261-11ea-a00b-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p54ac5d7b.dip0.t-ipconnect.de [84.172.93.123])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 200c5d8a-3261-11ea-a00b-005056917a89;
+        Wed, 08 Jan 2020 22:52:22 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] dt-bindings: rcar-csi2: Convert bindings to json-schema
+Date:   Wed,  8 Jan 2020 22:52:09 +0100
+Message-Id: <20200108215209.1825544-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200107011503.17435-3-jae.hyun.yoo@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon,  6 Jan 2020 17:15:02 -0800, Jae Hyun Yoo wrote:
-> The AST2600 has Video Engine so add the compatible string into the
-> document.
-> 
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
->  Documentation/devicetree/bindings/media/aspeed-video.txt | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
+Convert Renesas R-Car MIPI CSI-2 receiver bindings documentation to
+json-schema.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ .../bindings/media/renesas,csi2.txt           | 107 ----------
+ .../bindings/media/renesas,csi2.yaml          | 198 ++++++++++++++++++
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 199 insertions(+), 108 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/renesas,csi2.txt
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,csi2.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.txt b/Documentation/devicetree/bindings/media/renesas,csi2.txt
+deleted file mode 100644
+index 2da6f60b2b5659f6..0000000000000000
+--- a/Documentation/devicetree/bindings/media/renesas,csi2.txt
++++ /dev/null
+@@ -1,107 +0,0 @@
+-Renesas R-Car MIPI CSI-2
+-------------------------
+-
+-The R-Car CSI-2 receiver device provides MIPI CSI-2 capabilities for the
+-Renesas R-Car and RZ/G2 family of devices. It is used in conjunction with the
+-R-Car VIN module, which provides the video capture capabilities.
+-
+-Mandatory properties
+---------------------
+- - compatible: Must be one or more of the following
+-   - "renesas,r8a774a1-csi2" for the R8A774A1 device.
+-   - "renesas,r8a774b1-csi2" for the R8A774B1 device.
+-   - "renesas,r8a774c0-csi2" for the R8A774C0 device.
+-   - "renesas,r8a7795-csi2" for the R8A7795 device.
+-   - "renesas,r8a7796-csi2" for the R8A7796 device.
+-   - "renesas,r8a77965-csi2" for the R8A77965 device.
+-   - "renesas,r8a77970-csi2" for the R8A77970 device.
+-   - "renesas,r8a77980-csi2" for the R8A77980 device.
+-   - "renesas,r8a77990-csi2" for the R8A77990 device.
+-
+- - reg: the register base and size for the device registers
+- - interrupts: the interrupt for the device
+- - clocks: A phandle + clock specifier for the module clock
+- - resets: A phandle + reset specifier for the module reset
+-
+-The device node shall contain two 'port' child nodes according to the
+-bindings defined in Documentation/devicetree/bindings/media/
+-video-interfaces.txt. port@0 shall connect to the CSI-2 source. port@1
+-shall connect to all the R-Car VIN modules that have a hardware
+-connection to the CSI-2 receiver.
+-
+-- port@0- Video source (mandatory)
+-	- endpoint@0 - sub-node describing the endpoint that is the video source
+-
+-- port@1 - VIN instances (optional)
+-	- One endpoint sub-node for every R-Car VIN instance which is connected
+-	  to the R-Car CSI-2 receiver.
+-
+-Example:
+-
+-	csi20: csi2@fea80000 {
+-		compatible = "renesas,r8a7796-csi2";
+-		reg = <0 0xfea80000 0 0x10000>;
+-		interrupts = <0 184 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&cpg CPG_MOD 714>;
+-		power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+-		resets = <&cpg 714>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-
+-				reg = <0>;
+-
+-				csi20_in: endpoint@0 {
+-					reg = <0>;
+-					clock-lanes = <0>;
+-					data-lanes = <1>;
+-					remote-endpoint = <&adv7482_txb>;
+-				};
+-			};
+-
+-			port@1 {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-
+-				reg = <1>;
+-
+-				csi20vin0: endpoint@0 {
+-					reg = <0>;
+-					remote-endpoint = <&vin0csi20>;
+-				};
+-				csi20vin1: endpoint@1 {
+-					reg = <1>;
+-					remote-endpoint = <&vin1csi20>;
+-				};
+-				csi20vin2: endpoint@2 {
+-					reg = <2>;
+-					remote-endpoint = <&vin2csi20>;
+-				};
+-				csi20vin3: endpoint@3 {
+-					reg = <3>;
+-					remote-endpoint = <&vin3csi20>;
+-				};
+-				csi20vin4: endpoint@4 {
+-					reg = <4>;
+-					remote-endpoint = <&vin4csi20>;
+-				};
+-				csi20vin5: endpoint@5 {
+-					reg = <5>;
+-					remote-endpoint = <&vin5csi20>;
+-				};
+-				csi20vin6: endpoint@6 {
+-					reg = <6>;
+-					remote-endpoint = <&vin6csi20>;
+-				};
+-				csi20vin7: endpoint@7 {
+-					reg = <7>;
+-					remote-endpoint = <&vin7csi20>;
+-				};
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+new file mode 100644
+index 0000000000000000..408442a0c389a5d2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
+@@ -0,0 +1,198 @@
++# SPDX-License-Identifier: GPL-2.0-only
++# Copyright (C) 2020 Renesas Electronics Corp.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/renesas,csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car MIPI CSI-2 receiver
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++description:
++  The R-Car CSI-2 receiver device provides MIPI CSI-2 capabilities for the
++  Renesas R-Car and RZ/G2 family of devices. It is used in conjunction with the
++  R-Car VIN module, which provides the video capture capabilities.
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - renesas,r8a774a1-csi2 # RZ/G2M
++        - renesas,r8a774b1-csi2 # RZ/G2N
++        - renesas,r8a774c0-csi2 # RZ/G2E
++        - renesas,r8a7795-csi2  # R-Car H3
++        - renesas,r8a7796-csi2  # R-Car M3-W
++        - renesas,r8a77965-csi2 # R-Car M3-N
++        - renesas,r8a77970-csi2 # R-Car V3M
++        - renesas,r8a77980-csi2 # R-Car V3H
++        - renesas,r8a77990-csi2 # R-Car E3
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  ports:
++    type: object
++    description:
++      A node containing input and output port nodes with endpoint definitions
++      as documented in
++      Documentation/devicetree/bindings/media/video-interfaces.txt
++
++    properties:
++      port@0:
++        type: object
++        description:
++          Input port node, single endpoint describing the CSI-2 transmitter.
++
++        properties:
++          reg:
++            const: 0
++
++          endpoint:
++            type: object
++
++            properties:
++              clock-lanes:
++                maxItems: 1
++
++              data-lanes:
++                maxItems: 1
++
++              remote-endpoint: true
++
++            required:
++              - clock-lanes
++              - data-lanes
++              - remote-endpoint
++
++            additionalProperties: false
++
++        additionalProperties: false
++
++      port@1:
++        type: object
++        description:
++          Output port node, multiple endpoints describing all the R-Car VIN
++          modules connected the CSI-2 receiver.
++
++        properties:
++          '#address-cells':
++            const: 1
++
++          '#size-cells':
++            const: 0
++
++          reg:
++            const: 1
++
++        patternProperties:
++          "^endpoint@[0-9a-f]$":
++            type: object
++
++            properties:
++              reg:
++                maxItems: 1
++
++              remote-endpoint: true
++
++            required:
++              - reg
++              - remote-endpoint
++
++            additionalProperties: false
++
++        additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - power-domains
++  - resets
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7796-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7796-sysc.h>
++
++    csi20: csi2@fea80000 {
++            compatible = "renesas,r8a7796-csi2";
++            reg = <0 0xfea80000 0 0x10000>;
++            interrupts = <0 184 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 714>;
++            power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++            resets = <&cpg 714>;
++
++            ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                            reg = <0>;
++
++                            csi20_in: endpoint {
++                                    clock-lanes = <0>;
++                                    data-lanes = <1>;
++                                    remote-endpoint = <&adv7482_txb>;
++                            };
++                    };
++
++                    port@1 {
++                            #address-cells = <1>;
++                            #size-cells = <0>;
++
++                            reg = <1>;
++
++                            csi20vin0: endpoint@0 {
++                                    reg = <0>;
++                                    remote-endpoint = <&vin0csi20>;
++                            };
++                            csi20vin1: endpoint@1 {
++                                    reg = <1>;
++                                    remote-endpoint = <&vin1csi20>;
++                            };
++                            csi20vin2: endpoint@2 {
++                                    reg = <2>;
++                                    remote-endpoint = <&vin2csi20>;
++                            };
++                            csi20vin3: endpoint@3 {
++                                    reg = <3>;
++                                    remote-endpoint = <&vin3csi20>;
++                            };
++                            csi20vin4: endpoint@4 {
++                                    reg = <4>;
++                                    remote-endpoint = <&vin4csi20>;
++                            };
++                            csi20vin5: endpoint@5 {
++                                    reg = <5>;
++                                    remote-endpoint = <&vin5csi20>;
++                            };
++                            csi20vin6: endpoint@6 {
++                                    reg = <6>;
++                                    remote-endpoint = <&vin6csi20>;
++                            };
++                            csi20vin7: endpoint@7 {
++                                    reg = <7>;
++                                    remote-endpoint = <&vin7csi20>;
++                            };
++                    };
++            };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0dd2431bf239110d..c0d5c37c7f7b3b1b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10309,7 +10309,7 @@ L:	linux-media@vger.kernel.org
+ L:	linux-renesas-soc@vger.kernel.org
+ T:	git git://linuxtv.org/media_tree.git
+ S:	Supported
+-F:	Documentation/devicetree/bindings/media/renesas,csi2.txt
++F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+ F:	Documentation/devicetree/bindings/media/renesas,vin.txt
+ F:	drivers/media/platform/rcar-vin/
+ 
+-- 
+2.24.1
+
