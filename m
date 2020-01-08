@@ -2,91 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD8D9133EEF
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 11:10:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5701D133F6E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 11:40:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbgAHKKJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 05:10:09 -0500
-Received: from mga09.intel.com ([134.134.136.24]:52442 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726368AbgAHKKJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jan 2020 05:10:09 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 02:10:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,409,1571727600"; 
-   d="scan'208";a="395696582"
-Received: from jochenh-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.51.76])
-  by orsmga005.jf.intel.com with ESMTP; 08 Jan 2020 02:10:06 -0800
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id B38A021EDA; Wed,  8 Jan 2020 12:10:04 +0200 (EET)
-Date:   Wed, 8 Jan 2020 12:10:04 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        syzbot+54fd8cca4b7226c94b8e@syzkaller.appspotmail.com,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Vandana BN <bnvandana@gmail.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-core: only zero-out ioctl-read buffers
-Message-ID: <20200108101004.GC4383@kekkonen.localdomain>
-References: <20200108100013.284108-1-arnd@arndb.de>
+        id S1727337AbgAHKkK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 05:40:10 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54205 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726955AbgAHKkK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Jan 2020 05:40:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1578480008;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Gk5FuMwr+1rqCqZ5AZAcPgLfCDw7n+uF6yKOUI46XaM=;
+        b=I8wfAXaDW+Y3vgM+rX2zzIWKDAJlhzv/sffNmifcZFoliRmw/IuR0iyCD6NcPbNxFOfgAX
+        4dG6+3tJnkdvc8F+XKcGdyY4AJ3yTTi3UxqAsTXI/nNoIfIueswEFncuVtIwmvz2k8J15i
+        8D6Yfs83VQqrrlKMVNxI5fiz+xJThXU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-s9ud41kuO-qesu25yrPp8A-1; Wed, 08 Jan 2020 05:40:05 -0500
+X-MC-Unique: s9ud41kuO-qesu25yrPp8A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FE171005502;
+        Wed,  8 Jan 2020 10:40:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com [10.36.116.98])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E854B10016DA;
+        Wed,  8 Jan 2020 10:40:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 23E7611AAA; Wed,  8 Jan 2020 11:40:02 +0100 (CET)
+Date:   Wed, 8 Jan 2020 11:40:02 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     virtio-dev@lists.oasis-open.org, Dylan Reid <dgreid@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [virtio-dev][RFC PATCH v1 1/2] content: define what exporting a
+ resource is
+Message-ID: <20200108104002.jxh6amnrazhnamej@sirius.home.kraxel.org>
+References: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200108100013.284108-1-arnd@arndb.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 11:00:00AM +0100, Arnd Bergmann wrote:
-> The memset() got moved out of the check for _IOC_NONE, so passing a
-> made-up command number with a size but no direction would allow clearing
-> data on user-provided pointers.
+On Wed, Jan 08, 2020 at 06:01:58PM +0900, David Stevens wrote:
+> Define a mechanism for sharing resources between different virtio
+> devices.
 > 
-> Move video_get_user() back into the _IOC_NONE check where it belongs.
-> 
-> Reported-by: syzbot+54fd8cca4b7226c94b8e@syzkaller.appspotmail.com
-> Fixes: 6c625c01c7a6 ("media: v4l2-core: split out data copy from video_usercopy")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Thanks for the fix, Arnd!
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
+> Signed-off-by: David Stevens <stevensd@chromium.org>
 > ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  content.tex | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index b0d670715c27..0f11fc6b5447 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -3208,12 +3208,12 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->  			parg = mbuf;
->  		}
->  
-> +		err = video_get_user((void __user *)arg, parg, orig_cmd,
-> +				     &always_copy);
-> +		if (err)
-> +			goto out;
->  	}
->  
-> -	err = video_get_user((void __user *)arg, parg, orig_cmd, &always_copy);
-> -	if (err)
-> -		goto out;
-> -
->  	err = check_array_args(cmd, parg, &array_size, &user_ptr, &kernel_ptr);
->  	if (err < 0)
->  		goto out;
+> diff --git a/content.tex b/content.tex
+> index b1ea9b9..73bd28e 100644
+> --- a/content.tex
+> +++ b/content.tex
+> @@ -373,6 +373,24 @@ \section{Driver Notifications}
+> \label{sec:Virtqueues / Driver notifications}
+> 
+>  \input{shared-mem.tex}
+> 
+> +\section{Exporting Resources}\label{sec:Basic Facilities of a Virtio
+> Device / Exporting Resources}
+> +
+> +When a resource created by one virtio device needs to be
+> +shared with a seperate virtio device, the first device can
+> +export the resource by generating a \field{uuid} which the
+> +guest can pass to the second device to identify the resource.
+> +
+> +What constitutes a resource, how to export resources, and
+> +how to import resources are defined by the individual device
+> +types. The generation method of a \field{uuid} is dependent
+> +upon the implementation of the exporting device.
+> +
+> +Whether a particular exported resource can be imported into
+> +a device is dependent upon the implementations of the exporting
+> +and importing devices. Generally speaking, the guest should
+> +have some knowledge of the host configuration before trying to
+> +use exported resources.
 
--- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+Hmm, I'd suggest to move the whole thing into the virtio-gpu section.
+There is no such thing as a "resource" in general virtio context ...
+
+cheers,
+  Gerd
+
