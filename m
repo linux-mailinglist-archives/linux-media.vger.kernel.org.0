@@ -2,122 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0BD2133919
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 03:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D9BA1339A2
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 04:26:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbgAHC1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Jan 2020 21:27:44 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:37087 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726111AbgAHC1n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 21:27:43 -0500
-Received: by mail-pj1-f65.google.com with SMTP id m13so402927pjb.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Jan 2020 18:27:43 -0800 (PST)
+        id S1726210AbgAHD0d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Jan 2020 22:26:33 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:44391 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726145AbgAHD0d (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Jan 2020 22:26:33 -0500
+Received: by mail-pf1-f196.google.com with SMTP id 195so869962pfw.11
+        for <linux-media@vger.kernel.org>; Tue, 07 Jan 2020 19:26:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=TxCBIIGREavpCVrRs9QNlaW6niSLc1GB+TRhNf+Qpmo=;
-        b=R842ZIDzQUYEND1R5s7cntI/r/5WU1Mlc62dtk1Wrbk7IdDkynyqhS/SeUXFyzPXUN
-         1Nk47N4euErxEnpMFOUkTdtGvi/lQ41Dwo0VbusHkEI+5/LaHz45hTiKDFAap8hgdFg4
-         CEB/UqMZtUqwfpExLHBKwe2lYBXPb0fMW5L4A=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1xOSp/kO5RUHbhgM95X1/1jyAywCmLEOyBUx87fFFtw=;
+        b=YfjvWjsaaKSbVwMhWV4e2o2UhVmKdwk3YsOZGjWpCogvoGsPWrQNsyJorRN6s8wfgN
+         A85ZEmclMJYvt2/41/sVuGiUkdi/SXwXQY6qW7HuF+q9QkWp2hRZRITST6+4z4vW9W3c
+         SONMWPY5/FwsyIQDvtO00HuOxmyjd1HOhKXis=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=TxCBIIGREavpCVrRs9QNlaW6niSLc1GB+TRhNf+Qpmo=;
-        b=DFkqBbs84/i1PeKpS6TQd5dpQZ9lCFL7CsoG1/kBusiENAqrujPsD2aadHPcxqFVpD
-         UPetVXj7ghkZ33Og9E5ClLT108onjJLyK5h9t7BUXlsp548U1YtMiKV+FqL62TkhxQlK
-         lguP7Gvi1m+HCRNoS47kY5RnHVF6s6q5yXZpLlxgnmLAli4PuYkquMxtiwWsVxVW7LWR
-         2QHvvU3TA9n1sx/nfq9Gm5s465unrj6VjAxZgc1/vKqdD5iurcA08DfdPsVXco+e9Kns
-         spWmTYJCY4F+w+6k5qESNKJNfm0t0G4HD+vDZciRlr9xveOI31ZIC1V1Id56PWHVd7bX
-         LtEg==
-X-Gm-Message-State: APjAAAWHob+0cxFc6f3m27lx1MkH7SSeDr3+L4XUHdcQdkSU1m5G9MJt
-        ZHXbFcF/fp090h0bjxrCzYLSXg==
-X-Google-Smtp-Source: APXvYqyApuWFuZqGIyOf5rbM7brHnaEX2kHU+YLA3DErCW/+r7iApFECfrvpBxwUNNbksYTQ0nXytg==
-X-Received: by 2002:a17:90b:f0f:: with SMTP id br15mr1822086pjb.138.1578450463118;
-        Tue, 07 Jan 2020 18:27:43 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
-        by smtp.gmail.com with ESMTPSA id b15sm925307pft.58.2020.01.07.18.27.42
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1xOSp/kO5RUHbhgM95X1/1jyAywCmLEOyBUx87fFFtw=;
+        b=b9TAfaukz7RdoHzDfI3wYUa3Wz80SupUnNHy61KVKoFLCtsg/O3fBOQjWDzR/HAeGe
+         wMji96uzL4KhdQI92yr6Yrk2fCc557brLwAk8UO9RoE3fWAqeyMzxJmKcaG+fSBWGZk9
+         yf9ojJnuUAof/gYpdTLL+RZBpKGcAKmSjkZ8olNQ30NC0aHgpn6fFLo6pWv/496naKzY
+         qWbj/tu6O+tE7++FlVVoSfy/Jw/SujIYxN1jeReYLi5GbkCm9OmmTmMNx7igwETc3EhZ
+         bVz1oSPuF3FlFlWXGQeCFF/HKZ1gyn5umviF5DWLOSPg8m5BtQSqu6vRmikpwnhk6meB
+         mRHg==
+X-Gm-Message-State: APjAAAVS1zAxfuak2U6SU8kAo9MKxZtyKpFLHhY/hlyiv3J0o04Tdjki
+        GR0N8VMNSeh8o1DvOGTwVCoKoA==
+X-Google-Smtp-Source: APXvYqyUT6VsXxCtYuElv5Y3o6IQMdGzsPCyousxOHbeS/ntlyTO3M2XSD2NtvvArGznvirU2k991Q==
+X-Received: by 2002:a62:3086:: with SMTP id w128mr2755138pfw.58.1578453992605;
+        Tue, 07 Jan 2020 19:26:32 -0800 (PST)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:93d9:de4d:e834:3086])
+        by smtp.gmail.com with ESMTPSA id 80sm1056157pfw.123.2020.01.07.19.26.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2020 18:27:42 -0800 (PST)
-Date:   Wed, 8 Jan 2020 11:27:41 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH 00/15] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
-Message-ID: <20200108022741.GA7366@google.com>
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
+        Tue, 07 Jan 2020 19:26:31 -0800 (PST)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH v2] arm64: dts: qcom: add Venus firmware node on Cheza
+Date:   Wed,  8 Jan 2020 12:26:23 +0900
+Message-Id: <20200108032623.113921-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191217032034.54897-1-senozhatsky@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (19/12/17 12:20), Sergey Senozhatsky wrote:
-> Hello,
-> 
-> 	RFC
-> 
-> 	This is a reworked version of the vb2 cache hints
-> (V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
-> support patch series which previsouly was developed by Sakari and
-> Laurent [0].
-> 
-> The patch set attempts to preserve the existing behvaiour - cache
-> sync is performed in ->prepare() and ->finish() (unless the buffer
-> is DMA exported). User space can request “default behavior” override
-> with cache management hints, which are handled on a per-buffer basis
-> and should be supplied with v4l2_buffer ->flags during buffer
-> preparation. There are two possible hints:
-> 
-> - V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
-> 	No cache sync on ->finish()
-> 
-> - V4L2_BUF_FLAG_NO_CACHE_CLEAN
-> 	No cache sync on ->prepare()
-> 
-> In order to keep things on the safe side, we also require driver
-> to explicitly state which of its queues (if any) support user space
-> cache management hints (such queues should have ->allow_cache_hints
-> bit set).
-> 
-> The patch set also (to some extent) simplifies allocators' ->prepare()
-> and ->finish() callbacks. Namely, we move cache management decision
-> making to the upper - core - layer. For example, if, previously, we
-> would have something like this
-> 
-> 	vb2_buffer_done()
-> 	  vb2_dc_finish()
-> 	    if (buf->db_attach)
-> 	       return;
-> 
-> where each allocators' ->finish() callback would either bail
-> out (DMA exported buffer, for instance) or sync, now that "bail
-> out or sync" decision is made before we call into the allocator.
-> 
-> Along with cache management hints, user space is also able to
-> adjust queue's memory consistency attributes. Memory consistency
-> attribute (dma_attrs) is per-queue, yet it plays its role on the
-> allocator level, when we allocate buffers’ private memory (planes).
-> For the time being, only one consistency attribute is supported:
-> DMA_ATTR_NON_CONSISTENT.
+Cheza boards require this node to probe, so add it.
 
-Gentle ping.
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+---
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 6 ++++++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi       | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-	-ss
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+index 9a4ff57fc877..8c2e3aeacac4 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+@@ -1279,3 +1279,9 @@ config {
+ 		};
+ 	};
+ };
++
++&venus {
++	video-firmware {
++		iommus = <&apps_smmu 0x10b2 0x0>;
++	};
++};
+diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+index ddb1f23c936f..8f1d19c5a098 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+@@ -2567,7 +2567,7 @@ usb_2_dwc3: dwc3@a800000 {
+ 			};
+ 		};
+ 
+-		video-codec@aa00000 {
++		venus: video-codec@aa00000 {
+ 			compatible = "qcom,sdm845-venus";
+ 			reg = <0 0x0aa00000 0 0xff000>;
+ 			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+-- 
+2.24.1.735.g03f4e72817-goog
+
