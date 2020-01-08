@@ -2,50 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B711D134449
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 14:51:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7327B13444E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 14:52:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728391AbgAHNvN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 08:51:13 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:33629 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbgAHNvM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 08:51:12 -0500
-Received: by mail-lj1-f193.google.com with SMTP id y6so3443901lji.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 05:51:11 -0800 (PST)
+        id S1728430AbgAHNw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 08:52:29 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:43625 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727456AbgAHNw3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 08:52:29 -0500
+Received: by mail-lf1-f67.google.com with SMTP id 9so2486167lfq.10
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 05:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=j2tbKyq2TJuMrRgt3tLabvZZ7HDbQHaIINM/EQteRrE=;
-        b=QvhtXlgwALbRSIkFIh+z8nhyio+0jkI8xfs2zTf2Vk+w5YCHv6RFeXYrHcoqreGyfN
-         keKfDlQxzWDLUPrrXuxjo7qlVy7kPkZEqorZ46fcP4oj4PmgIOQRqFc4OdT1MrOGYVVH
-         fFqHLpQhtz/arlwgBv2VFJrvZHENZn49U7m9c=
+        bh=gREgVfNHkrnImh18R6g4ghj10okoL/GHfD2UjRLPdA0=;
+        b=A11jpJ+00gSOHB4pIP5SpNG4HWfLUBIhw2k0vgU4zLFNCAj1WTdiYRswhhwTccNk3i
+         WZutgP0MR+iN7hzA2QZYi0GcFgtEGZCGiHR2GsPsRLEyOdY6psdkhHmrNiDmJie7/T1Y
+         wuZb0IILLOH6DcaDOSCSRhg3W1DBx1ofXWLlY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=j2tbKyq2TJuMrRgt3tLabvZZ7HDbQHaIINM/EQteRrE=;
-        b=iszkCBFhDTLagSlfMANP8fZFFdorF8EzPyEE6tRNDl57PMv/hZutmDLw6yqbqovEwz
-         uCr6DKmOj1LfWYyxFr6aXmiIYz8VYsg/wD+1puCsbOXMI76fH1KAFyBJ5CF7W0dndB7B
-         9X67PVyfBQC7OwgFU7ov1f/qfA24P4PQS4upNu2vjQik+QJSU2oo6rhrrLLJBcaV6Abq
-         J8H/2PtH6j16kJxGQ1FsqsW0l4A9OFI+k+lKZWYksjaeVp8ZCUrPJEDFGu+q/YTJ1+X3
-         KykHBM9eMqMDK8tKqon13rGPOXCA2qOlfkMyt4alTVLUqmC5NI58aFdh0wdr51xPhQmc
-         wGkg==
-X-Gm-Message-State: APjAAAVAOLTBQlbVw7RpfOSATFpcSVdfy8Z7oLHHGnpev4D2WHQ/KX3x
-        cniiMGTyU7ZYlZJQRz9Oz+F2WybyMsaOHFEIih/omw==
-X-Google-Smtp-Source: APXvYqzAqTuo6bT4pNcKKL/sbaXHTO9l8rt9Z1w/LBzLQ0DT4qTftXan2TkzSFVCaphzTNcDj/6OZOE97YR+mLjrQw0=
-X-Received: by 2002:a2e:9cd8:: with SMTP id g24mr2921078ljj.243.1578491470700;
- Wed, 08 Jan 2020 05:51:10 -0800 (PST)
+        bh=gREgVfNHkrnImh18R6g4ghj10okoL/GHfD2UjRLPdA0=;
+        b=mCXmlnAG5DcFpDy8UYltp5JgEDgzUhuvKpszN4PkzaDXzXIEJyzUtJrOOnOR6xXtHA
+         XsCpeN8sGWoFivb57c/upF5jYcDCYE1BiQKYgZzWXJZjvoMwSTRtkzTYtZQ9/WXv8PYM
+         RYzUSQeB6H+lC46TxnqHTishHh5ArwsPhkHq6gqU0U00yM7iC7bbthy719faYgxMUWyt
+         gJz1fjCZgdWs6it2H7QoR1RjN5I8JFUSGrOMjL5U8yGkCn/LnIjvsTFp1g6Q91d2KMjp
+         G+gWIfyypx54UGIq6a2eHthFUoVqWVgDPh/In+xHPoqnIKnuZv4SvAFtl1hMGpmowLQQ
+         SYow==
+X-Gm-Message-State: APjAAAUB3goE2YbfvGb2TnclP3JcxplxcpL50XDqNp5n/Nloxx3K1xL5
+        p6fhM2dfaoltLYCxh4PTMtOYeEihXQamKWlda/VdPA==
+X-Google-Smtp-Source: APXvYqxT0+1T5zXeB+Bka51eCtxJvOSOH6wawbBWn4yF/znOVkEXzEw9qpv/KD/+IXn5iC3Lw09Y4IPbxGkInxQyYeE=
+X-Received: by 2002:a19:a408:: with SMTP id q8mr2843544lfc.174.1578491547417;
+ Wed, 08 Jan 2020 05:52:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20191218130214.170703-1-keiichiw@chromium.org>
- <CAAFQd5AEJ0sUzqrXJAmFnBn0aU8Ef6FwXYo0LgK0NO_CdWXRVg@mail.gmail.com>
- <20191219074639.kdkrqxwb6fdb67hu@sirius.home.kraxel.org> <3550989.gzE5nMqd4t@os-lin-dmo>
- <20191219130158.7rzdkyemupreudko@sirius.home.kraxel.org>
-In-Reply-To: <20191219130158.7rzdkyemupreudko@sirius.home.kraxel.org>
+ <3550989.gzE5nMqd4t@os-lin-dmo> <CAAFQd5BgkEUwBFWdv2ZH98egjm=u0dBRgtexqkzjES+J1SEmag@mail.gmail.com>
+ <3878267.TzG3DlCiay@os-lin-dmo> <20191219131234.wm24cazvc7zrnhpn@sirius.home.kraxel.org>
+In-Reply-To: <20191219131234.wm24cazvc7zrnhpn@sirius.home.kraxel.org>
 From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Wed, 8 Jan 2020 22:50:59 +0900
-Message-ID: <CAD90VcYcXniT-HV09LJoMkm8JWZ1c9et829wBdHUx9xwx3ya=Q@mail.gmail.com>
+Date:   Wed, 8 Jan 2020 22:52:16 +0900
+Message-ID: <CAD90Vcb4Vb49uHGRRg0nJaKo=goH6zOxdQR2d7piLH_byxDYyw@mail.gmail.com>
 Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video
  device specification
 To:     Gerd Hoffmann <kraxel@redhat.com>
@@ -71,42 +70,48 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Gerd,
-Thank you so much for the review. I'm sorry for not replying earlier.
 
-On Thu, Dec 19, 2019 at 10:02 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Thu, Dec 19, 2019 at 10:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
 >   Hi,
 >
-> > > Not clearly defined in the spec:  When is the decoder supposed to send
-> > > the response for a queue request?  When it finished decoding (i.e. frame
-> > > is ready for playback), or when it doesn't need the buffer any more for
-> > > decoding (i.e. buffer can be re-queued or pages can be released)?
+> > > However that still doesn't let the driver know which buffers will be
+> > > dequeued when. A simple example of this scenario is when the guest is
+> > > done displaying a frame and requeues the buffer back to the decoder.
+> > > Then the decoder will not choose it for decoding next frames into as
+> > > long as the frame in that buffer is still used as a reference frame,
+> > > even if one sends the drain request.
+> > It might be that I'm getting your point wrong, but do you mean some hardware
+> > can mark a buffer as ready to be displayed yet still using the underlying
+> > memory to decode other frames?
+>
+> Yes, this is how I understand Tomasz Figa.
+>
+> > This means, if you occasionally/intentionally
+> > write to the buffer you mess up the whole decoding pipeline.
+>
+> And to avoid this the buffer handling aspect must be clarified in the
+> specification.  Is the device allowed to continue using the buffer after
+> finishing decoding and completing the queue request?  If so, how do we
+> hand over buffer ownership back to the driver so it can free the pages?
+> drain request?  How do we handle re-using buffers?  Can the driver
+> simply re-queue them and expect the device figures by itself whenever it
+> can use the buffer or whenever it is still needed as reference frame?
 
-The answer is "when it doesn't need the buffer any more for decoding".
-The device can access buffer contents from when a queue request is
-sent until the device responds it. So, the device must not responds a
-queue request before finishing all process that requires the buffer
-content.
+The device shouldn't be able to access buffers after it completes a
+queue request.
+The device can touch buffer contents from when a queue request is sent
+until the device responds it.
+In contrast, the driver must not modify buffer contents in that period.
 
-Actually, the first one "When it finished decoding (i.e. frame is
-ready for playback)" doesn't make much sense, as it's not necessary to
-have a one-to-one correspondence between an input bitstream buffer and
-a decoded frame.
-It's okay to decode one input buffer contains bitstream data for two
-frames. Also, a user can pass bitstream for one frame as two input
-buffers.
-
-I'll document it in the spec.
+Regarding re-using, the driver can simply re-queue buffers returned by
+the device. If the device needs a buffer as reference frame, it must
+not return the buffer.
+I'll describe this rule in the next version of the patch.
 
 Best regards,
 Keiichi
 
-> > In my eyes the both statements mean almost the same and both are valid.
->
-> Well, no.  When the device decoded a P-Frame it can notify the device,
-> saying "here is your decoded frame".  But the device might still need
-> the buffer with the decoded frame to properly decode the following B/I
-> Frames which reference the P-Frame.
 >
 > cheers,
 >   Gerd
