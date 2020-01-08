@@ -2,124 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BF3E13422C
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 13:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 106B713425F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 13:56:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727911AbgAHMuN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 07:50:13 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:35461 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727119AbgAHMuN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jan 2020 07:50:13 -0500
-Received: from [IPv6:2001:420:44c1:2577:919a:30e7:f323:4bf1]
- ([IPv6:2001:420:44c1:2577:919a:30e7:f323:4bf1])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id pAmliVll0pLtbpAmoiGecW; Wed, 08 Jan 2020 13:50:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578487811; bh=H2+t43okaBIKRvGIOuP5kmsW5BwgjyZnoQGSGxkQ8Ig=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vt+FE/ZJGKKE0J79ujxDBd0pb5/6evfq2arQ6xZOxP0nFfDSXDRe0/+SDdzBmWwu1
-         GuKWQ/EzygccQi1GCh3jG0oimwXIsXtKuMu+0onF6XtSTC7oH7vAwcEjrPu+uavzDI
-         rdwLnI7jMYM39ypT4EzlYwEXj4umSPU/7GDwUH+OiLBEsZyyVlmh32Z4MslmUtizJ/
-         TskJ2nh6R5zhOanj/SOuin9dtGw0ClY/KIBPa8kTxcPR45MSbw6RL8XnE6KoaSreG+
-         o+tzFdhReZ+f039i+ekaEIirmuvXMrVbB6Gc5ul8vTusgFKL67xx2RsUi49rzVAiQi
-         4RyNJjybL8yiQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.6] v2: Various fixes
-Message-ID: <8dc5aad1-ae76-85f5-de05-8a7d2b340a3e@xs4all.nl>
-Date:   Wed, 8 Jan 2020 13:50:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727585AbgAHM4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 07:56:05 -0500
+Received: from esa4.microchip.iphmx.com ([68.232.154.123]:31331 "EHLO
+        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726254AbgAHM4F (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 07:56:05 -0500
+Received-SPF: Pass (esa4.microchip.iphmx.com: domain of
+  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="Claudiu.Beznea@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
+  include:servers.mcsv.net include:mktomail.com
+  include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa4.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa4.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: feLro1JNCFp1+UpYxfUe+bG2IPLSvnlmgEXzWgR/sW3uX4OwPBSjnIj8qhK2OnwOjjDOqzVpbt
+ g8bZUzYBbwpp+khpk6/ata/+DQPt9aBwtnPADf6kO2iqyJour8APSLqAWRCsC61k0Iv5val3AB
+ +w32RZ3p2/hGM7Abr6FCBcun5Lp4TmpY9srfoUiBepWiL5KArSMVzb6N8wh8mTDnlI4CxH7Kr6
+ OQwyP26353aBoemlTeFG5Bpj+fE3wiMJjSz0Au3d7cS/SPDHITUHuvh3QHOPTtmyV4EvzqeVnH
+ K3Q=
+X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
+   d="scan'208";a="60517506"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 08 Jan 2020 05:56:03 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 8 Jan 2020 05:56:02 -0700
+Received: from m18063-ThinkPad-T460p.microchip.com (10.10.85.251) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Wed, 8 Jan 2020 05:55:55 -0700
+From:   Claudiu Beznea <claudiu.beznea@microchip.com>
+To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <ludovic.desroches@microchip.com>, <vkoul@kernel.org>,
+        <eugen.hristev@microchip.com>, <jic23@kernel.org>,
+        <knaack.h@gmx.de>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
+        <mchehab@kernel.org>, <lee.jones@linaro.org>,
+        <richard.genoud@gmail.com>, <radu_nicolae.pirea@upb.ro>,
+        <tudor.ambarus@microchip.com>, <miquel.raynal@bootlin.com>,
+        <richard@nod.at>, <vigneshr@ti.com>, <wg@grandegger.com>,
+        <mkl@pengutronix.de>, <a.zummo@towertech.it>, <broonie@kernel.org>
+CC:     <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        <linux-can@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-rtc@vger.kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: [PATCH 00/16] add device tree for SAM9X60 SoC and SAM9X60-EK board
+Date:   Wed, 8 Jan 2020 14:55:07 +0200
+Message-ID: <1578488123-26127-1-git-send-email-claudiu.beznea@microchip.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFFsELe5PleO0EwHpZJvTBlVRQ24Tr1AENmtPu6s02t1vin72zVEikWtlzFjrtTVG2S8UrNmnUcrAXoH/Fm/e4gGWvaXa/9lGDeLUA/gdKl0ozLdmdyf
- kqloC41u5FHbR4iwbrLOyIl13/23WAgzvXOk97qmI+dAKcI2Px11g+AcYXVP5TG82WygN3Nc+cDYUloBUHRxBclz2+mxBBn1HYqD1QXmuaotdx4VQRf6imNg
- UsfRjzSR72rbhwQRkFECsKszadE6AeIX5kkuCb3PEDoIKBW0SaAnrCFt1XGJXuDp
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v1 (https://patchwork.linuxtv.org/patch/60987/):
+This series add device tree for SAM9X60 SoC and SAM9X60-EK board.
+Allong with these, there are patches that documents some compatibles
+for SAM9X60's IPs.
 
-Added missing Signed-off-by for my revert patch.
+Claudiu Beznea (15):
+  dt-bindings: at_xdmac: add entry for microchip compatibles
+  dt-bindings: atmel-can: add microchip,sam9x60-can
+  dt-bindings: atmel-tcb: add microchip,<chip>-tcb
+  dt-bindings: atmel-isi: add microchip,sam9x60-isi
+  dt-bindings: at91-sama5d2_adc: add microchip,sam9x60-adc
+  dt-bindings: atmel-matrix: add microchip,sam9x60-matrix
+  dt-bindings: atmel-nand: add microchip,sam9x60-pmecc
+  dt-bindings: atmel-sysreg: add microchip,sam9x60-ddramc
+  dt-bindings: atmel-smc: add microchip,sam9x60-smc
+  dt-bindings: atmel-gpbr: add microchip,sam9x60-gpbr
+  dt-bindings: atmel,at91rm9200-rtc: add microchip,sam9x60-rtc
+  dt-bindings: spi_atmel: add microchip,sam9x60-spi
+  dt-bindings: atmel-usart: add microchip,<chip>-usart
+  dt-bindings: arm: add sam9x60-ek board
+  ARM: at91/defconfig: enable MMC_SDHCI_OF_AT91 and MICROCHIP_PIT64B
 
-Regards,
+Sandeep Sheriker Mallikarjun (1):
+  ARM: dts: at91: sam9x60: add device tree for soc and board
 
-	Hans
+ .../devicetree/bindings/arm/atmel-at91.yaml        |   6 +
+ .../devicetree/bindings/arm/atmel-sysregs.txt      |   1 +
+ .../devicetree/bindings/dma/atmel-xdma.txt         |   3 +-
+ .../bindings/iio/adc/at91-sama5d2_adc.txt          |   2 +-
+ .../devicetree/bindings/media/atmel-isi.txt        |   2 +-
+ .../devicetree/bindings/mfd/atmel-gpbr.txt         |   4 +-
+ .../devicetree/bindings/mfd/atmel-matrix.txt       |   1 +
+ .../devicetree/bindings/mfd/atmel-smc.txt          |   1 +
+ .../devicetree/bindings/mfd/atmel-tcb.txt          |   5 +-
+ .../devicetree/bindings/mfd/atmel-usart.txt        |   6 +-
+ .../devicetree/bindings/mtd/atmel-nand.txt         |   1 +
+ .../devicetree/bindings/net/can/atmel-can.txt      |   3 +-
+ .../bindings/rtc/atmel,at91rm9200-rtc.txt          |   3 +-
+ .../devicetree/bindings/spi/spi_atmel.txt          |   2 +-
+ arch/arm/boot/dts/Makefile                         |   2 +
+ arch/arm/boot/dts/at91-sam9x60ek.dts               | 647 +++++++++++++++++++
+ arch/arm/boot/dts/sam9x60.dtsi                     | 691 +++++++++++++++++++++
+ arch/arm/configs/at91_dt_defconfig                 |   4 +
+ 18 files changed, 1373 insertions(+), 11 deletions(-)
+ create mode 100644 arch/arm/boot/dts/at91-sam9x60ek.dts
+ create mode 100644 arch/arm/boot/dts/sam9x60.dtsi
 
-The following changes since commit 1dc8b65c944e5cfce3d830a5b97b42be185a1984:
+-- 
+2.7.4
 
-  media: v4l2-core: only zero-out ioctl-read buffers (2020-01-08 13:27:58 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.6h
-
-for you to fetch changes up to 15ae773937f42867ea965cf6d0358b7bf88d05c2:
-
-  cec: remove unused functions (2020-01-08 13:46:29 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Aditya Pakki (2):
-      media: cx231xx: replace BUG_ON with recovery code
-      media: saa7146: Avoid using BUG_ON as an assertion
-
-Daniel Gomez (1):
-      media: v4l2: Fix fourcc names for 12b and 14b packed bayer
-
-Dmitry Osipenko (3):
-      media: staging: tegra-vde: Select IOVA unconditionally in Kconfig
-      media: staging: tegra-vde: Sort headers alphabetically
-      media: staging: tegra-vde: Use __maybe_unused attribute instead of ifdef
-
-Hans Verkuil (2):
-      Revert "media: v4l2: Fix fourcc names for BAYER12P"
-      cec: remove unused functions
-
-Helen Koike (1):
-      media: v4l2-rect.h: fix v4l2_rect_map_inside() top/left adjustments
-
-Jia-Ju Bai (1):
-      media: sti: bdisp: fix a possible sleep-in-atomic-context bug in bdisp_device_run()
-
-Ma Feng (1):
-      media: pvrusb2: Remove unneeded semicolon and add newline
-
-Wolfram Sang (5):
-      media: pci: cx23885: convert to i2c_new_scanned_device
-      media: pci: cx88: convert to i2c_new_scanned_device
-      media: pci: bt8xx: convert to i2c_new_scanned_device
-      media: pci: cx18: convert to i2c_new_scanned_device
-      media: pci: ivtv: convert to i2c_new_scanned_device
-
- Documentation/media/uapi/v4l/pixfmt-srggb12p.rst |  2 +-
- Documentation/media/uapi/v4l/pixfmt-srggb14p.rst |  2 +-
- drivers/media/cec/cec-core.c                     | 21 +--------------------
- drivers/media/cec/cec-notifier.c                 | 37 ++-----------------------------------
- drivers/media/cec/cec-priv.h                     |  2 +-
- drivers/media/common/saa7146/saa7146_video.c     |  6 ++++--
- drivers/media/pci/bt8xx/bttv-input.c             |  6 +++---
- drivers/media/pci/cx18/cx18-i2c.c                |  2 +-
- drivers/media/pci/cx23885/cx23885-i2c.c          |  4 ++--
- drivers/media/pci/cx88/cx88-input.c              |  2 +-
- drivers/media/pci/ivtv/ivtv-i2c.c                |  6 +++---
- drivers/media/pci/ivtv/ivtv-i2c.h                |  2 +-
- drivers/media/platform/sti/bdisp/bdisp-hw.c      |  6 +++---
- drivers/media/usb/cx231xx/cx231xx-i2c.c          |  3 ++-
- drivers/media/usb/pvrusb2/pvrusb2-encoder.c      |  4 ++--
- drivers/staging/media/tegra-vde/Kconfig          |  2 +-
- drivers/staging/media/tegra-vde/vde.c            |  6 ++----
- drivers/staging/media/tegra-vde/vde.h            |  2 +-
- include/media/cec-notifier.h                     | 27 ---------------------------
- include/media/cec.h                              | 46 ----------------------------------------------
- include/media/v4l2-rect.h                        |  8 ++++----
- 21 files changed, 36 insertions(+), 160 deletions(-)
