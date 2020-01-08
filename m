@@ -2,117 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7327B13444E
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 14:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2521C13447B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 15:02:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728430AbgAHNw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 08:52:29 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:43625 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727456AbgAHNw3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 08:52:29 -0500
-Received: by mail-lf1-f67.google.com with SMTP id 9so2486167lfq.10
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 05:52:28 -0800 (PST)
+        id S1728603AbgAHOCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 09:02:24 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43088 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728602AbgAHOCY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 09:02:24 -0500
+Received: by mail-ed1-f66.google.com with SMTP id dc19so2610990edb.10
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 06:02:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gREgVfNHkrnImh18R6g4ghj10okoL/GHfD2UjRLPdA0=;
-        b=A11jpJ+00gSOHB4pIP5SpNG4HWfLUBIhw2k0vgU4zLFNCAj1WTdiYRswhhwTccNk3i
-         WZutgP0MR+iN7hzA2QZYi0GcFgtEGZCGiHR2GsPsRLEyOdY6psdkhHmrNiDmJie7/T1Y
-         wuZb0IILLOH6DcaDOSCSRhg3W1DBx1ofXWLlY=
+        d=linaro.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=ds+dq9f0s0dxXv1nBND8TITp4Nv8HF77iael9SL7DN8=;
+        b=QAK824DgB7qAYCvs7/tap5J/t3fDYH+VSEWid67loZP0Qk5QS6Wrib1nrqQ7qu+0Vx
+         BVpfURCkazWbj2k/mWJw9AJ6+K46VciP7XekHoG0hxH5gmQFNnnpIsP5J3ayYL8z4S7X
+         /sgv/GMOe+MksZV4bf+GLa7kLSCvVIlFz5VMaKkQSmPQgb8bXT30u7umv4QOwwHyF6TI
+         ouaf0RJ7ULblCRc2nHvPaev/97QXMGYJKyFBVNcID/kIhmrRwhZLc6KiMnUuFcYWSsSm
+         +BHENqd+qn8tduEn+8IwgYBL6U4AXkyP7EZsFNLxWaHzzS2fVy6fEl3KLL9yFm0JlhEc
+         f7kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gREgVfNHkrnImh18R6g4ghj10okoL/GHfD2UjRLPdA0=;
-        b=mCXmlnAG5DcFpDy8UYltp5JgEDgzUhuvKpszN4PkzaDXzXIEJyzUtJrOOnOR6xXtHA
-         XsCpeN8sGWoFivb57c/upF5jYcDCYE1BiQKYgZzWXJZjvoMwSTRtkzTYtZQ9/WXv8PYM
-         RYzUSQeB6H+lC46TxnqHTishHh5ArwsPhkHq6gqU0U00yM7iC7bbthy719faYgxMUWyt
-         gJz1fjCZgdWs6it2H7QoR1RjN5I8JFUSGrOMjL5U8yGkCn/LnIjvsTFp1g6Q91d2KMjp
-         G+gWIfyypx54UGIq6a2eHthFUoVqWVgDPh/In+xHPoqnIKnuZv4SvAFtl1hMGpmowLQQ
-         SYow==
-X-Gm-Message-State: APjAAAUB3goE2YbfvGb2TnclP3JcxplxcpL50XDqNp5n/Nloxx3K1xL5
-        p6fhM2dfaoltLYCxh4PTMtOYeEihXQamKWlda/VdPA==
-X-Google-Smtp-Source: APXvYqxT0+1T5zXeB+Bka51eCtxJvOSOH6wawbBWn4yF/znOVkEXzEw9qpv/KD/+IXn5iC3Lw09Y4IPbxGkInxQyYeE=
-X-Received: by 2002:a19:a408:: with SMTP id q8mr2843544lfc.174.1578491547417;
- Wed, 08 Jan 2020 05:52:27 -0800 (PST)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ds+dq9f0s0dxXv1nBND8TITp4Nv8HF77iael9SL7DN8=;
+        b=ObbEe8OPH3hFqAGDF4kGt48p0lNfxERFEDO/ddLRzGD8NW6kwIH6zuVVpR5uQR6BMT
+         WcpAhB2TCFaSJKVXfSjwJFO/PqJZTi9GN+hVtFUCT9gVPhjlCzPMmL1DYl8ZEer75IW3
+         /n9vNtwVsLxb42VJuPz0FTV46yx4o/vl1+HWdJCYMDLWGDEtb4qH1rO0pwJ8bAId0yJL
+         nZS14Requ5EiOC7uEUpAW7EffsOshJrdrmjmQoe3ZXZKjini8cnS37Dbp6nSOjQsLNyM
+         17lNNNBI94trc2p4VAHKVAjaGaAXy99iqYA5ztyBH+Df5sUkziu9SeMJ1JbIDDxcUJ89
+         gfig==
+X-Gm-Message-State: APjAAAVs2IZ0U/D75DpNYVLUERNJvjC89wIOqACo4NMc435PVRAhKbDK
+        nH5gf7jxxVy7BzWvmqKhlNQQFA==
+X-Google-Smtp-Source: APXvYqzS9RGXGFkjwgm40AM4nuzPQXYvInePHpf3fyv+tBEkbo02iH+6UFlDDapNKRADWWLP8p4smA==
+X-Received: by 2002:a17:906:49cd:: with SMTP id w13mr4770281ejv.324.1578492142438;
+        Wed, 08 Jan 2020 06:02:22 -0800 (PST)
+Received: from [192.168.27.209] ([37.157.136.193])
+        by smtp.googlemail.com with ESMTPSA id c19sm81884edu.76.2020.01.08.06.02.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2020 06:02:20 -0800 (PST)
+Subject: Re: [PATCH v1] media: venus: firmware: Use %pR to print IO resource
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20191115143044.55512-1-andriy.shevchenko@linux.intel.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <c31790ae-f604-e44f-3282-2d83c9f7e569@linaro.org>
+Date:   Wed, 8 Jan 2020 16:02:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <3550989.gzE5nMqd4t@os-lin-dmo> <CAAFQd5BgkEUwBFWdv2ZH98egjm=u0dBRgtexqkzjES+J1SEmag@mail.gmail.com>
- <3878267.TzG3DlCiay@os-lin-dmo> <20191219131234.wm24cazvc7zrnhpn@sirius.home.kraxel.org>
-In-Reply-To: <20191219131234.wm24cazvc7zrnhpn@sirius.home.kraxel.org>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Wed, 8 Jan 2020 22:52:16 +0900
-Message-ID: <CAD90Vcb4Vb49uHGRRg0nJaKo=goH6zOxdQR2d7piLH_byxDYyw@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video
- device specification
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191115143044.55512-1-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gerd,
+Hi Andy,
 
-On Thu, Dec 19, 2019 at 10:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > However that still doesn't let the driver know which buffers will be
-> > > dequeued when. A simple example of this scenario is when the guest is
-> > > done displaying a frame and requeues the buffer back to the decoder.
-> > > Then the decoder will not choose it for decoding next frames into as
-> > > long as the frame in that buffer is still used as a reference frame,
-> > > even if one sends the drain request.
-> > It might be that I'm getting your point wrong, but do you mean some hardware
-> > can mark a buffer as ready to be displayed yet still using the underlying
-> > memory to decode other frames?
->
-> Yes, this is how I understand Tomasz Figa.
->
-> > This means, if you occasionally/intentionally
-> > write to the buffer you mess up the whole decoding pipeline.
->
-> And to avoid this the buffer handling aspect must be clarified in the
-> specification.  Is the device allowed to continue using the buffer after
-> finishing decoding and completing the queue request?  If so, how do we
-> hand over buffer ownership back to the driver so it can free the pages?
-> drain request?  How do we handle re-using buffers?  Can the driver
-> simply re-queue them and expect the device figures by itself whenever it
-> can use the buffer or whenever it is still needed as reference frame?
+Thanks for the patch!
 
-The device shouldn't be able to access buffers after it completes a
-queue request.
-The device can touch buffer contents from when a queue request is sent
-until the device responds it.
-In contrast, the driver must not modify buffer contents in that period.
+On 11/15/19 4:30 PM, Andy Shevchenko wrote:
+> Replace explicit use of members of struct resource by %pR to print
+> the resource.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Regarding re-using, the driver can simply re-queue buffers returned by
-the device. If the device needs a buffer as reference frame, it must
-not return the buffer.
-I'll describe this rule in the next version of the patch.
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-Best regards,
-Keiichi
+> 
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index d3d1748a7ef6..de6812fb55f4 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -100,8 +100,7 @@ static int venus_load_fw(struct venus_core *core, const char *fwname,
+>  
+>  	mem_va = memremap(r.start, *mem_size, MEMREMAP_WC);
+>  	if (!mem_va) {
+> -		dev_err(dev, "unable to map memory region: %pa+%zx\n",
+> -			&r.start, *mem_size);
+> +		dev_err(dev, "unable to map memory region: %pR\n", &r);
+>  		ret = -ENOMEM;
+>  		goto err_release_fw;
+>  	}
+> 
 
->
-> cheers,
->   Gerd
->
+-- 
+regards,
+Stan
