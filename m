@@ -2,159 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE668133D96
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 09:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46049133DA8
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 09:54:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgAHIsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 03:48:50 -0500
-Received: from pegase1.c-s.fr ([93.17.236.30]:9734 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727313AbgAHIsu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jan 2020 03:48:50 -0500
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 47t2wF6zpLz9v3Hd;
-        Wed,  8 Jan 2020 09:48:45 +0100 (CET)
-Authentication-Results: localhost; dkim=pass
-        reason="1024-bit key; insecure key"
-        header.d=c-s.fr header.i=@c-s.fr header.b=Cd0z8iC9; dkim-adsp=pass;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id eHCnKMUwPC8j; Wed,  8 Jan 2020 09:48:45 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 47t2wF5Z8xz9v3Hc;
-        Wed,  8 Jan 2020 09:48:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
-        t=1578473325; bh=kWCAIl6qlr/NQhjX84pOmCSHzIhFMSBDwvFc83ztIuI=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Cd0z8iC9RC8pjwPeyNjKHDYp8ooejNu3HGALPmb6+R1rGPni1Gqd3Osr1pzBr++DW
-         qVroJ655pO9/GIgcKq73QC5BW2ualhxp5CandPHCNUTG1TbQ4ytfyemBB8YchvhikW
-         Jys4zIMmlSAmxqdhihc3mS1nPdn3QvL04p1qUK10=
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id BCA2B8B7ED;
-        Wed,  8 Jan 2020 09:48:46 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id Z-k90vSTB5Ao; Wed,  8 Jan 2020 09:48:46 +0100 (CET)
-Received: from [172.25.230.100] (po15451.idsi0.si.c-s.fr [172.25.230.100])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 2CC498B7EA;
-        Wed,  8 Jan 2020 09:48:46 +0100 (CET)
-Subject: Re: [RFT 00/13] iomap: Constify ioreadX() iomem argument
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Rich Felker <dalias@libc.org>,
-        Jiri Slaby <jirislaby@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Jason Wang <jasowang@redhat.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        virtualization@lists.linux-foundation.org,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        netdev <netdev@vger.kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Helge Deller <deller@gmx.de>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
-        Dave Airlie <airlied@redhat.com>,
-        Matt Turner <mattst88@gmail.com>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Allen Hubbe <allenbh@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>, Jon Mason <jdmason@kudzu.us>,
-        linux-ntb@googlegroups.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        "David S. Miller" <davem@davemloft.net>
-References: <1578415992-24054-1-git-send-email-krzk@kernel.org>
- <CAMuHMdW4ek0OYQDrrbcpZjNUTTP04nSbwkmiZvBmKcU=PQM9qA@mail.gmail.com>
- <CAMuHMdUBmYtJKtSYzS_5u67hVZOqcKSgFY1rDGme6gLNRBJ_gA@mail.gmail.com>
- <CAJKOXPfq9vS4kSyx1jOPHBvi9_HjviRv0LU2A8ZwdmqgUuebHQ@mail.gmail.com>
- <2355489c-a207-1927-54cf-85c04b62f18f@c-s.fr>
- <CAMuHMdV=-m-eN4rOa=XQhk2oBDZZwgXXMU6RMVQRVsc6ALyeoA@mail.gmail.com>
-From:   Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <00a43e5c-0708-d49a-9cc4-eb2ce8b4cf99@c-s.fr>
-Date:   Wed, 8 Jan 2020 09:48:46 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        id S1727369AbgAHIyI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 03:54:08 -0500
+Received: from mail-io1-f70.google.com ([209.85.166.70]:51797 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727089AbgAHIyI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 03:54:08 -0500
+Received: by mail-io1-f70.google.com with SMTP id t18so1579337iob.18
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 00:54:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=CFhRXBAPkp3HOw0zFSFHjSLWMRlV6H8zc3Zr+P2zvJI=;
+        b=LHcGrB8vT7VPr2LCCKraOxiagyJRuTd3uZrT6Q9yKm9gr4vvqOLMSjm3AKhKLeJAbR
+         yT34j9HzA79ZUXhSgqtR4PvcJOOyvMgx2kvfVEaeYeB2ZVpMFRip4i8yaV/QVEEAUN5J
+         A8+2Q2GyVtbL4JmpFBSQ69g5qkfSuwyTON2FG2mpOvD1jyRQ4yOmN/ZpiQ13J5lL1n9F
+         pv9r85gWY2B1nTdnIe/++iTBkwg5tefkkFUiNTGvJS92q6BhfW5N1pgSiSdiZlA84tAf
+         iZYTjoD0uhlMeHLKDGwIcdzDG2t3l3uHMIWphX4QLYUDx0Y9mVQ4qO3ImXYEtQk9nbXH
+         gR+g==
+X-Gm-Message-State: APjAAAUj9IADlL+WlFDRtosHyrsqUea7+8GGJyWKVSUh2WEq0yEbEkWe
+        RX7W2BpB06sODM08/ufpClIo4U8rCTp1gpiH6Md2IlcyYAB5
+X-Google-Smtp-Source: APXvYqxIMvUyuBh2ReGUwTb13pBBDUHNhkCI9ta1jVx8scKpG3zpnYjyuai5epnORcO/yAcLDUyDVBlxcFJ9nZCb+1MGOIJjnxeW
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdV=-m-eN4rOa=XQhk2oBDZZwgXXMU6RMVQRVsc6ALyeoA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a02:b703:: with SMTP id g3mr3187063jam.101.1578473647870;
+ Wed, 08 Jan 2020 00:54:07 -0800 (PST)
+Date:   Wed, 08 Jan 2020 00:54:07 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000119c91059b9d092f@google.com>
+Subject: KASAN: null-ptr-deref Write in video_usercopy
+From:   syzbot <syzbot+9240c422be249a8422bd@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab+huawei@kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Hello,
 
-Le 08/01/2020 à 09:43, Geert Uytterhoeven a écrit :
-> Hi Christophe,
-> 
-> On Wed, Jan 8, 2020 at 9:35 AM Christophe Leroy <christophe.leroy@c-s.fr> wrote:
->> Le 08/01/2020 à 09:18, Krzysztof Kozlowski a écrit :
->>> On Wed, 8 Jan 2020 at 09:13, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>> On Wed, Jan 8, 2020 at 9:07 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>>>> On Tue, Jan 7, 2020 at 5:53 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>>> The ioread8/16/32() and others have inconsistent interface among the
->>>>>> architectures: some taking address as const, some not.
->>>>>>
->>>>>> It seems there is nothing really stopping all of them to take
->>>>>> pointer to const.
->>>>>
->>>>> Shouldn't all of them take const volatile __iomem pointers?
->>>>> It seems the "volatile" is missing from all but the implementations in
->>>>> include/asm-generic/io.h.
->>>>
->>>> As my "volatile" comment applies to iowrite*(), too, probably that should be
->>>> done in a separate patch.
->>>>
->>>> Hence with patches 1-5 squashed, and for patches 11-13:
->>>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>>
->>> I'll add to this one also changes to ioreadX_rep() and add another
->>> patch for volatile for reads and writes. I guess your review will be
->>> appreciated once more because of ioreadX_rep()
->>
->> volatile should really only be used where deemed necessary:
->>
->> https://www.kernel.org/doc/html/latest/process/volatile-considered-harmful.html
->>
->> It is said: " ...  accessor functions might use volatile on
->> architectures where direct I/O memory access does work. Essentially,
->> each accessor call becomes a little critical section on its own and
->> ensures that the access happens as expected by the programmer."
-> 
-> That is exactly the use case here: all above are accessor functions.
-> 
-> Why would ioreadX() not need volatile, while readY() does?
-> 
+syzbot found the following crash on:
 
-My point was: it might be necessary for some arches and not for others.
+HEAD commit:    26467385 Add linux-next specific files for 20200107
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=14160915e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2265a716722be976
+dashboard link: https://syzkaller.appspot.com/bug?extid=9240c422be249a8422bd
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15d162aee00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16b9c469e00000
 
-And as pointed by Arnd, the volatile is really only necessary for the 
-dereference itself, should the arch use dereferencing.
+The bug was bisected to:
 
-So I guess the best would be to go in the other direction: remove 
-volatile keyword wherever possible instead of adding it where it is not 
-needed.
+commit c8ef1a6076bfb986052ff8fd8f5eb3b3a3f1048e
+Author: Arnd Bergmann <arnd@arndb.de>
+Date:   Mon Dec 16 14:15:02 2019 +0000
 
-Christophe
+     media: v4l2-core: split out data copy from video_usercopy
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13442bc1e00000
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=10c42bc1e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17442bc1e00000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+9240c422be249a8422bd@syzkaller.appspotmail.com
+Fixes: c8ef1a6076bf ("media: v4l2-core: split out data copy from  
+video_usercopy")
+
+==================================================================
+BUG: KASAN: null-ptr-deref in memset include/linux/string.h:411 [inline]
+BUG: KASAN: null-ptr-deref in video_get_user+0x67f/0x890  
+drivers/media/v4l2-core/v4l2-ioctl.c:3053
+Write of size 512 at addr 0000000000000000 by task syz-executor806/9573
+
+CPU: 0 PID: 9573 Comm: syz-executor806 Not tainted  
+5.5.0-rc5-next-20200107-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  __kasan_report.cold+0x5/0x32 mm/kasan/report.c:510
+  kasan_report+0x12/0x20 mm/kasan/common.c:641
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
+  memset+0x24/0x40 mm/kasan/common.c:108
+  memset include/linux/string.h:411 [inline]
+  video_get_user+0x67f/0x890 drivers/media/v4l2-core/v4l2-ioctl.c:3053
+  video_usercopy+0x21f/0x10b0 drivers/media/v4l2-core/v4l2-ioctl.c:3210
+  video_ioctl2+0x2d/0x35 drivers/media/v4l2-core/v4l2-ioctl.c:3274
+  v4l2_ioctl+0x1ac/0x230 drivers/media/v4l2-core/v4l2-dev.c:360
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  ksys_ioctl+0x123/0x180 fs/ioctl.c:747
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x440189
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 fb 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffffba225e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 0000000000440189
+RDX: 0000000000000000 RSI: 0000001002008914 RDI: 0000000000000003
+RBP: 00000000006ca018 R08: 00000000004002c8 R09: 00000000004002c8
+R10: 00000000004002c8 R11: 0000000000000246 R12: 0000000000401a10
+R13: 0000000000401aa0 R14: 0000000000000000 R15: 0000000000000000
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
