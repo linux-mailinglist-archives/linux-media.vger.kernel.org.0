@@ -2,163 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5BF13465B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 16:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D19134741
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 17:09:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728955AbgAHPgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 10:36:38 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:50363 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728952AbgAHPgi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 10:36:38 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ipDNj-0007qN-VJ; Wed, 08 Jan 2020 16:36:27 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ipDNi-0002vF-3B; Wed, 08 Jan 2020 16:36:26 +0100
-Date:   Wed, 8 Jan 2020 16:36:26 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v11 04/15] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20200108153626.we3zasacpriksczs@pengutronix.de>
-References: <20190930093900.16524-1-m.felsch@pengutronix.de>
- <20190930093900.16524-5-m.felsch@pengutronix.de>
- <20191115233439.GB2696@mara.localdomain>
+        id S1729103AbgAHQJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 11:09:39 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49271 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726922AbgAHQJj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Jan 2020 11:09:39 -0500
+Received: from [192.168.2.10] ([62.249.185.68])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id pDtjiXEm4pLtbpDtmiHdt5; Wed, 08 Jan 2020 17:09:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578499775; bh=kmsCylMQnvNLljjtH/5R6Qd+4IWFqilvWA3W0idMQLA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=fTMbiHxB2zt4MZxGlsWVKDEqwXrLP8SZBRCUGfA9Jpe4MA0p0Qvap7o0A7x/DejNn
+         cjYXCYUzfs2TKzFqemb9CrkLroMmWjmbP033MuWFNVCzDVlRgpn0My0/f9LWUwzN6i
+         R4gM9jw+nwd+DcT9FExDM5POEFKAu2IwFRPREezB9//v8D+AQjqe/+o/dH0GgyWAxM
+         VJOcrb4X6R4PrkXFuvFw6Xi3E/rjX+epyGNOWw3nMEWRP/Z8XOKGas0ppH21UIqcAV
+         M/33YPRt3n97/V00gygIvTsnS99tQK+UTGi2jiGhd+MbtOpXuVkHzcKt43V5fO9XnT
+         Qe/4rE1R383Qg==
+Subject: Re: [PATCH v4 04/12] v4l: Add source event change for bit-depth
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>, dikshita@codeaurora.org
+References: <20200106154929.4331-1-stanimir.varbanov@linaro.org>
+ <20200106154929.4331-5-stanimir.varbanov@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c3b02589-1d7a-a476-7d33-7e555fbe276d@xs4all.nl>
+Date:   Wed, 8 Jan 2020 17:09:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191115233439.GB2696@mara.localdomain>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:42:59 up 54 days,  5:01, 46 users,  load average: 0.01, 0.03,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20200106154929.4331-5-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLZOPd7nEc6mtz3KkR3z8WAv5nebYzc6GaZPifyqG8SDLEYK+/cZcgiZj1m8Mp2HsvqxYBIh6PDz+ME2Wm31Ob0+/Pt4jCULg9nqdbDtyOWlZf89Flgn
+ wHJe3KHP6oEFsyqoJIbiDfk0lalpJahBN8ZGTAkXJVFW60qQlMiSEownruBt7/WJfQo1IeRwuNhNBCm19ldTcQd7+7s3tdPLrX5hWj2+4ZC3wmsoDHyoZnGp
+ WVpp9IxdbqmtNOapjPTnkroI6ks6CCIwe/vRR7AA+7HRZeiwXLjeDYuKiqh7bev+uPkKIUOZ4tPWyqTao9RYreTkiRBLt4UQNbq1sRxU2lwyzvsQglv3Gwix
+ IusukogpwVb+GvIeGMTxwXMsg1mEdoOrGYYmsfRtV29mS+SYlHgVFDrwRt0Yl+CzJV/gZtby
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On 19-11-16 01:34, Sakari Ailus wrote:
-> Hi Marco,
+On 1/6/20 4:49 PM, Stanimir Varbanov wrote:
+> This event indicate that the source color bit-depth is changed
+> during run-time. The client must get the new format and re-allocate
+> buffers for it. This can usually happens with video decoder (encoders)
+> when the bit-stream color bit-depth is changed from 8 to 10bits
+> or vice versa.
 > 
-> On Mon, Sep 30, 2019 at 11:38:49AM +0200, Marco Felsch wrote:
-
-...
-
-> > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > +				      struct v4l2_fwnode_connector *connector)
-> > +{
-> > +	struct fwnode_handle *remote_pp, *remote_ep;
-> > +	const char *type_name;
-> > +	unsigned int i = 0, ep_num = 0;
-> > +	int err;
-> > +
-> > +	memset(connector, 0, sizeof(*connector));
-> > +
-> > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
-> > +	if (!remote_pp)
-> > +		return -ENOLINK;
-
-I will align the API with the v4l2_fwnode_endpoint_alloc_parse()
-function so the caller need to pass the connector fwnode handle.
-
-> > +
-> > +	/* Parse all common properties first. */
-> > +	fwnode_graph_for_each_endpoint(remote_pp, remote_ep)
-> > +		ep_num++;
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  Documentation/media/uapi/v4l/vidioc-dqevent.rst | 8 +++++++-
+>  Documentation/media/videodev2.h.rst.exceptions  | 1 +
+>  include/uapi/linux/videodev2.h                  | 1 +
+>  3 files changed, 9 insertions(+), 1 deletion(-)
 > 
-> If there are no endpoints, ep_num will be zero and kmalloc_array() will
-> return NULL? There should be a way there are no endpoints, rather than
-> returning -ENOMEM.
-> 
-> > +
-> > +	connector->nr_of_links = ep_num;
-> > +	connector->links = kmalloc_array(ep_num, sizeof(*connector->links),
-> > +					 GFP_KERNEL);
-> > +	if (!connector->links) {
-> > +		err = -ENOMEM;
-> > +		goto err_put_fwnode;
-> > +	}
-> > +
-> > +	fwnode_graph_for_each_endpoint(remote_pp, remote_ep) {
-> > +		err = v4l2_fwnode_parse_link(remote_ep, &connector->links[i]);
-> 
-> If you start parsing a connector starting from another device connected to
-> it, nothing seems to prevent parsing the same links twice, in case the
-> connector is connected to more than one sub-device.
-> 
-> Or do I miss something crucial here?
+> diff --git a/Documentation/media/uapi/v4l/vidioc-dqevent.rst b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+> index 42659a3d1705..fad853d440cf 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+> @@ -402,7 +402,13 @@ call.
+>  	that many Video Capture devices are not able to recover from a temporary
+>  	loss of signal and so restarting streaming I/O is required in order for
+>  	the hardware to synchronize to the video signal.
+> -
+> +    * - ``V4L2_EVENT_SRC_CH_COLOR_DEPTH``
+> +      - 0x0002
+> +      - This event gets triggered when color bit-depth change is detected
+> +	from a video decoder. Applications will have to query the new pixel
+> +	format and re-negotiate the queue. In most cases the streaming must be
+> +	stopped and restarted (:ref:`VIDIOC_STREAMOFF <VIDIOC_STREAMON>`
+> +	followed by :ref:`VIDIOC_STREAMON <VIDIOC_STREAMON>`).
 
-Yes thats right but it seems that sharing connectors isn't supported at
-all. All bridge drivers using connectors implementing the connector
-handling by their self. Anyway, I will add a function parameter to check
-that we parse only the endpoints connected to the calling sub-dev.
+I think this is too specific for decoders. Something similar to the
+CH_RESOLUTION description would be more appropriate:
+
+      - This event gets triggered when a color bit-depth change (but not a
+	resolution change!) is detected	at an input. This can come from an
+	input connector or from a video decoder. Applications will have to query
+	the new pixel format and re-negotiate the queue.
+
+	For stateful decoders follow the guidelines in :ref:`decoder`.
+	Video capture devices will in most cases have to stop and restart
+	streaming (:ref:`VIDIOC_STREAMOFF <VIDIOC_STREAMON>` followed by
+	:ref:`VIDIOC_STREAMON <VIDIOC_STREAMON>`).
+
+And update dev-decoder.rst where needed with this new event flag.
+
+As to your question on irc: once I've acked this patch it can be merged
+via a venus PR.
 
 Regards,
-  Marco
 
-> > +		if (err) {
-> > +			fwnode_handle_put(remote_ep);
-> > +			goto err_free_links;
-> > +		}
-> > +		i++;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Links reference counting guarantees access -> no duplication needed
-> > +	 */
-> > +	fwnode_property_read_string(remote_pp, "label", &connector->label);
-> > +
-> > +	/* The connector-type is stored within the compatible string. */
-> > +	err = fwnode_property_read_string(remote_pp, "compatible", &type_name);
-> > +	if (err) {
-> > +		err = -EINVAL;
-> > +		goto err_free_links;
-> > +	}
-> > +	connector->type = v4l2_fwnode_string_to_connector_type(type_name);
-> > +
-> > +	/* Now parse the connector specific properties. */
-> > +	switch (connector->type) {
-> > +	case V4L2_CONN_COMPOSITE:
-> > +	case V4L2_CONN_SVIDEO:
-> > +		err = v4l2_fwnode_connector_parse_analog(remote_pp, connector);
-> > +		break;
-> > +	case V4L2_CONN_UNKNOWN:
-> > +	default:
-> > +		pr_err("Unknown connector type\n");
-> > +		err = -EINVAL;
-> > +		goto err_free_links;
-> > +	}
-> > +
-> > +	fwnode_handle_put(remote_pp);
-> > +
-> > +	return err;
-> > +
-> > +err_free_links:
-> > +	for (i = 0; i < ep_num; i++)
-> > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > +	kfree(connector->links);
-> > +err_put_fwnode:
-> > +	fwnode_handle_put(remote_pp);
-> > +
-> > +	return err;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_alloc_parse);
-> > +
+	Hans
+
+>  
+>  Return Value
+>  ============
+> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
+> index cb6ccf91776e..209709114378 100644
+> --- a/Documentation/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/media/videodev2.h.rst.exceptions
+> @@ -490,6 +490,7 @@ replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
+>  replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+>  
+>  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+> +replace define V4L2_EVENT_SRC_CH_COLOR_DEPTH src-changes-flags
+>  
+>  replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 5f9357dcb060..1d349c9d57a7 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -2332,6 +2332,7 @@ struct v4l2_event_frame_sync {
+>  };
+>  
+>  #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
+> +#define V4L2_EVENT_SRC_CH_COLOR_DEPTH		(1 << 1)
+>  
+>  struct v4l2_event_src_change {
+>  	__u32 changes;
+> 
+
