@@ -2,143 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A405134D95
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 21:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E01D134DB0
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 21:33:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726825AbgAHU3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 15:29:13 -0500
-Received: from mga06.intel.com ([134.134.136.31]:45383 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725446AbgAHU3M (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jan 2020 15:29:12 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 12:29:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,411,1571727600"; 
-   d="scan'208";a="223034363"
-Received: from djiang5-desk3.ch.intel.com ([143.182.136.137])
-  by orsmga006.jf.intel.com with ESMTP; 08 Jan 2020 12:29:09 -0800
-Subject: Re: [PATCH v2 3/9] ntb: intel: Constify ioreadX() iomem argument (as
- in generic implementation)
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ben Skeggs <bskeggs@redhat.com>,
+        id S1726439AbgAHUdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 15:33:25 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41950 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbgAHUdZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 15:33:25 -0500
+Received: by mail-oi1-f196.google.com with SMTP id i1so3864148oie.8
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 12:33:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=u9lGx1KGncwRhu5gmclKsigxLVgAIjFaP4Z6LNjc8ZM=;
+        b=cobpn1oY5Fg0wnkuLIWbGGtlwfl6+jofZ6RCtMJYuMnJoy2F6OU5SX78mqWYVI9pEX
+         0+ciDP9QagcTFuxFSGMdo+csI5EQIGmXaZcgEIco5WfU+77He3QH+h22jaTbflKRP404
+         6aRDAueR8fASMlM8DDes/A+A8r6cz8bdh6U1QvghbOzalCL0q6un2YBN0Tln0b9FAB5+
+         wNu+nAQDeMPXKw0vqqP69phy+mrF/AFlgMb750KMSZ6TC8rs3nLsLCpXHTm+nZEeBdCr
+         P1ynk6toeB4rYx9jMFoVi8R3Z0m5Z9uXeoG5yDroY32t9RwWT0a+6F8O6ws1iYf3BOpk
+         bynw==
+X-Gm-Message-State: APjAAAXwK9pJISriI4eKYOPP8sgYZPgeC30P1tktG1GOcJWCnRmSEl8z
+        gIqd6q6RcydlRfvJkemIXHGkJuo=
+X-Google-Smtp-Source: APXvYqzH4MMz6SnDDiPYtRqw9azvGikjo6MVnkZibf4MROV/g2wAMZb2ZIVdkt8TW3n5anaTrkESFA==
+X-Received: by 2002:aca:50cd:: with SMTP id e196mr365307oib.178.1578515604808;
+        Wed, 08 Jan 2020 12:33:24 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 69sm1514737oth.17.2020.01.08.12.33.23
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2020 12:33:24 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 2208fa
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Wed, 08 Jan 2020 14:33:23 -0600
+Date:   Wed, 8 Jan 2020 14:33:23 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Eddie James <eajames@linux.ibm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jiri Slaby <jirislaby@gmail.com>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        virtualization@lists.linux-foundation.org,
-        linux-arch@vger.kernel.org
-References: <20200108200528.4614-1-krzk@kernel.org>
- <20200108200528.4614-4-krzk@kernel.org>
-From:   Dave Jiang <dave.jiang@intel.com>
-Message-ID: <64659f77-f807-7c8e-7595-731056c73bf4@intel.com>
-Date:   Wed, 8 Jan 2020 13:29:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Mark Rutland <mark.rutland@arm.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: Re: [PATCH 2/3] Documentation: dt-bindings: media: add AST2600 Video
+ Engine support
+Message-ID: <20200108203323.GA18757@bogus>
+References: <20200107011503.17435-1-jae.hyun.yoo@linux.intel.com>
+ <20200107011503.17435-3-jae.hyun.yoo@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200108200528.4614-4-krzk@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200107011503.17435-3-jae.hyun.yoo@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 1/8/20 1:05 PM, Krzysztof Kozlowski wrote:
-> The ioreadX() helpers have inconsistent interface.  On some architectures
-> void *__iomem address argument is a pointer to const, on some not.
+On Mon,  6 Jan 2020 17:15:02 -0800, Jae Hyun Yoo wrote:
+> The AST2600 has Video Engine so add the compatible string into the
+> document.
 > 
-> Implementations of ioreadX() do not modify the memory under the address
-> so they can be converted to a "const" version for const-safety and
-> consistency among architectures.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Acked-by: Dave Jiang <dave.jiang@intel.com>
-
-> 
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > ---
+>  Documentation/devicetree/bindings/media/aspeed-video.txt | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> Changes since v1:
-> 1. Add Geert's review.
-> ---
->   drivers/ntb/hw/intel/ntb_hw_gen1.c  | 2 +-
->   drivers/ntb/hw/intel/ntb_hw_gen3.h  | 2 +-
->   drivers/ntb/hw/intel/ntb_hw_intel.h | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/ntb/hw/intel/ntb_hw_gen1.c b/drivers/ntb/hw/intel/ntb_hw_gen1.c
-> index bb57ec239029..9202502a9787 100644
-> --- a/drivers/ntb/hw/intel/ntb_hw_gen1.c
-> +++ b/drivers/ntb/hw/intel/ntb_hw_gen1.c
-> @@ -1202,7 +1202,7 @@ int intel_ntb_peer_spad_write(struct ntb_dev *ntb, int pidx, int sidx,
->   			       ndev->peer_reg->spad);
->   }
->   
-> -static u64 xeon_db_ioread(void __iomem *mmio)
-> +static u64 xeon_db_ioread(const void __iomem *mmio)
->   {
->   	return (u64)ioread16(mmio);
->   }
-> diff --git a/drivers/ntb/hw/intel/ntb_hw_gen3.h b/drivers/ntb/hw/intel/ntb_hw_gen3.h
-> index 75fb86ca27bb..d1455f24ec99 100644
-> --- a/drivers/ntb/hw/intel/ntb_hw_gen3.h
-> +++ b/drivers/ntb/hw/intel/ntb_hw_gen3.h
-> @@ -91,7 +91,7 @@
->   #define GEN3_DB_TOTAL_SHIFT		33
->   #define GEN3_SPAD_COUNT			16
->   
-> -static inline u64 gen3_db_ioread(void __iomem *mmio)
-> +static inline u64 gen3_db_ioread(const void __iomem *mmio)
->   {
->   	return ioread64(mmio);
->   }
-> diff --git a/drivers/ntb/hw/intel/ntb_hw_intel.h b/drivers/ntb/hw/intel/ntb_hw_intel.h
-> index e071e28bca3f..3c0a5a2da241 100644
-> --- a/drivers/ntb/hw/intel/ntb_hw_intel.h
-> +++ b/drivers/ntb/hw/intel/ntb_hw_intel.h
-> @@ -102,7 +102,7 @@ struct intel_ntb_dev;
->   struct intel_ntb_reg {
->   	int (*poll_link)(struct intel_ntb_dev *ndev);
->   	int (*link_is_up)(struct intel_ntb_dev *ndev);
-> -	u64 (*db_ioread)(void __iomem *mmio);
-> +	u64 (*db_ioread)(const void __iomem *mmio);
->   	void (*db_iowrite)(u64 db_bits, void __iomem *mmio);
->   	unsigned long			ntb_ctl;
->   	resource_size_t			db_size;
-> 
+
+Acked-by: Rob Herring <robh@kernel.org>
