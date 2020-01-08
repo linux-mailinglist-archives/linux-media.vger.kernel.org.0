@@ -2,123 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD98C133DC3
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 10:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B57F133E5D
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 10:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727200AbgAHJCO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 04:02:14 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:44673 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726891AbgAHJCO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 04:02:14 -0500
-Received: by mail-qk1-f193.google.com with SMTP id w127so1929915qkb.11
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 01:02:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=YLJj0mJcsiWZwcGJQfC2/Am8KkGfccyx1B+T1mfpzBE=;
-        b=B7I9lf3X8OH5s2QgLQ3VUszD2IKt6VUU85pFa9iNMdrEj2Pb0cry/HqqJQpH+smc2Q
-         XWZzpInO4EfR2e6sPAErnlfGEfgLOJjoRhNbWmR1bf/PoNeaizCLcjabgqTUol9rlAYT
-         ma76CbkvnWwjeFxZbl5yNP/fLZ1eyjohAIafU=
+        id S1727578AbgAHJdK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 04:33:10 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:48596 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727205AbgAHJdJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 04:33:09 -0500
+Received: by mail-il1-f199.google.com with SMTP id u14so1664926ilq.15
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 01:33:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=YLJj0mJcsiWZwcGJQfC2/Am8KkGfccyx1B+T1mfpzBE=;
-        b=jQi8RSUF+Hk/sMSHi+2YJgSCznGRYlTTPLgAsrTn/hLFq1MNnk/HZydSuofIMCKc3j
-         jb8SiVSb5IVNDkubrK3dyl6zOgPSQVUm41kftt4aUWLK0kI8OzwlJx1D2wLFFliaXvhH
-         9nX+AgFrAj0qDqWc81ZcAxRC2GDm4Njsm+xKT0bZydd+vJX6akC9HTB7pUMZZuUQF6GZ
-         tOWar1cwLp5gupkVXVUy6sOKMFeRur/aHvdNoYY0ZlE8qXtnchx9Q8OumlEzDc3McPGB
-         1mcLQS1g1gB7QEpSBFZY/4NRb/hizRheaREaoyDxcnTEUYlRhjMwkM+qeH7kKvlK5B87
-         Ywmg==
-X-Gm-Message-State: APjAAAViHktADGsigCgwUd9mMmJXBjVwnS/KBsk1Jmxx5Ibyqww+XNGf
-        t2qx1VdtUVNLGfCsW9AAyy0f3ZhZr+3wThLhi0jJqw==
-X-Google-Smtp-Source: APXvYqyOhO7E4NDMVSLVTTWbMjBEmnBCWdbVQupSDkJ7fdK3WLAPNZj4EXc3WCQxkYsMxMB5lMPtNcFY2kFCzAPiZ2w=
-X-Received: by 2002:a05:620a:817:: with SMTP id s23mr3310134qks.391.1578474133357;
- Wed, 08 Jan 2020 01:02:13 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=LY7RClBCfw36dmo/Xb3qBZZhHQ24q33KuEw9ptEq/VY=;
+        b=iBQ3lEA5UmrpSdSKGRyOz6Cg09cIsoCSwTghOtJVH9R3muRR7jze3GOYBhuCZH9H3t
+         yvXm4WZ8pEOoVJ5Bv3o0ytZcjpztwwpOfEnKWXPG/tOIKunbV4kC7nYQ7b12FG/cPR4K
+         ezm0o6lDXm/Wr9uWYv1ZgJ6ZY0pdt73SOY15r782QzOn4qHbpdHJBoTDh2bpQTy4IyBY
+         ZVlXkiOpMPskj5MDKrCDWIBTb1hg9fu5MqKy09mxwPZ53vRP7odNe5sXEXPnxytfXLg9
+         i7ZDvsTvnigO1rC1Nqh6v2cxPA9WobRaNCqFMepotiXitwKMBlta+Leac++ka072am1e
+         H2ag==
+X-Gm-Message-State: APjAAAWke6t62yED/DaPnqLXwns6Jtg2kCWRl6wGHEGkfTK/QMkKtxzj
+        UGRuCCoxnhycIPjgzR7ERvYQpOKHW82pJhubluTQbh6Bnbxx
+X-Google-Smtp-Source: APXvYqz4G2FuO9r54eh6MgioK3Oua2a3RF//e0XLPpt69iO1kgDvnoaLdTEXLQKYTjvPm3hSO2XRC2R14Ll9S1elVUIz/79dNKS2
 MIME-Version: 1.0
-From:   David Stevens <stevensd@chromium.org>
-Date:   Wed, 8 Jan 2020 18:02:02 +0900
-Message-ID: <CAD=HUj5U-TxqbPJiRRbyMHON21sht75q3nisvwvKrO+Bf=n8ng@mail.gmail.com>
-Subject: [virtio-dev][RFC PATCH v1 2/2] virtio-gpu: add the ability to export resources
-To:     virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
-        Dylan Reid <dgreid@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Zach Reizner <zachr@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Stefan Hajnoczi <stefanha@gmail.com>,
-        qemu-devel <qemu-devel@nongnu.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a05:6e02:1014:: with SMTP id n20mr3071778ilj.172.1578475989335;
+ Wed, 08 Jan 2020 01:33:09 -0800 (PST)
+Date:   Wed, 08 Jan 2020 01:33:09 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a185d8059b9d94be@google.com>
+Subject: KASAN: user-memory-access Write in video_usercopy
+From:   syzbot <syzbot+54fd8cca4b7226c94b8e@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: David Stevens <stevensd@chromium.org>
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    26467385 Add linux-next specific files for 20200107
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=10d44076e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2265a716722be976
+dashboard link: https://syzkaller.appspot.com/bug?extid=54fd8cca4b7226c94b8e
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+54fd8cca4b7226c94b8e@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: user-memory-access in memset include/linux/string.h:411 [inline]
+BUG: KASAN: user-memory-access in video_get_user+0x67f/0x890  
+drivers/media/v4l2-core/v4l2-ioctl.c:3053
+Write of size 512 at addr 00000000200001c0 by task syz-executor.2/1523
+
+CPU: 1 PID: 1523 Comm: syz-executor.2 Not tainted  
+5.5.0-rc5-next-20200107-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  __kasan_report.cold+0x5/0x32 mm/kasan/report.c:510
+  kasan_report+0x12/0x20 mm/kasan/common.c:641
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
+  memset+0x24/0x40 mm/kasan/common.c:108
+  memset include/linux/string.h:411 [inline]
+  video_get_user+0x67f/0x890 drivers/media/v4l2-core/v4l2-ioctl.c:3053
+  video_usercopy+0x21f/0x10b0 drivers/media/v4l2-core/v4l2-ioctl.c:3210
+  video_ioctl2+0x2d/0x35 drivers/media/v4l2-core/v4l2-ioctl.c:3274
+  v4l2_ioctl+0x1ac/0x230 drivers/media/v4l2-core/v4l2-dev.c:360
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  ksys_ioctl+0x123/0x180 fs/ioctl.c:747
+  __do_sys_ioctl fs/ioctl.c:756 [inline]
+  __se_sys_ioctl fs/ioctl.c:754 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
+  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x45af49
+Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f5917b07c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 000000000045af49
+RDX: 00000000200001c0 RSI: 0000001002008914 RDI: 0000000000000006
+RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f5917b086d4
+R13: 00000000004c2837 R14: 00000000004d8b30 R15: 00000000ffffffff
+==================================================================
+
+
 ---
- virtio-gpu.tex | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/virtio-gpu.tex b/virtio-gpu.tex
-index af4ca61..522f478 100644
---- a/virtio-gpu.tex
-+++ b/virtio-gpu.tex
-@@ -186,12 +186,16 @@ \subsubsection{Device Operation: Request
-header}\label{sec:Device Types / GPU De
-         VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
-         VIRTIO_GPU_CMD_MOVE_CURSOR,
-
-+        /* misc commands */
-+        VIRTIO_GPU_CMD_EXPORT_RESOURCE = 0x0400,
-+
-         /* success responses */
-         VIRTIO_GPU_RESP_OK_NODATA = 0x1100,
-         VIRTIO_GPU_RESP_OK_DISPLAY_INFO,
-         VIRTIO_GPU_RESP_OK_CAPSET_INFO,
-         VIRTIO_GPU_RESP_OK_CAPSET,
-         VIRTIO_GPU_RESP_OK_EDID,
-+        VIRTIO_GPU_RESP_OK_EXPORT_RESOURCE,
-
-         /* error responses */
-         VIRTIO_GPU_RESP_ERR_UNSPEC = 0x1200,
-@@ -454,6 +458,31 @@ \subsubsection{Device Operation:
-controlq}\label{sec:Device Types / GPU Device /
- This detaches any backing pages from a resource, to be used in case of
- guest swapping or object destruction.
-
-+\item[VIRTIO_GPU_CMD_EXPORT_RESOURCE] Exports a resource for use by other
-+  virtio devices. Request data is \field{struct
-+    virtio_gpu_export_resource}.  Response type is
-+  VIRTIO_GPU_RESP_OK_EXPORT_RESOURCE, response data is \field{struct
-+    virtio_gpu_resp_export_resource}.
-+
-+\begin{lstlisting}
-+struct virtio_gpu_export_resource {
-+        struct virtio_gpu_ctrl_hdr hdr;
-+        le32 resource_id;
-+        le32 padding;
-+};
-+
-+struct virtio_gpu_resp_export_resource {
-+        struct virtio_gpu_ctrl_hdr hdr;
-+        le64 uuid_low;
-+        le64 uuid_high;
-+};
-+\end{lstlisting}
-+
-+The response contains a uuid which identifies the host private resource to
-+other virtio devices. Note that if the resource has an attached backing,
-+modifications made to an exported resource by other devices are not visible
-+in the attached backing until they are transferred into the backing.
-+
- \end{description}
-
- \subsubsection{Device Operation: cursorq}\label{sec:Device Types /
-GPU Device / Device Operation / Device Operation: cursorq}
--- 
-2.24.1.735.g03f4e72817-goog
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
