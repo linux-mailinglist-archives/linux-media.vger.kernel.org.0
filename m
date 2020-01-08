@@ -2,100 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06B34133CBF
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 09:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69609133D22
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 09:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgAHIMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 03:12:37 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40343 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726210AbgAHIMh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Jan 2020 03:12:37 -0500
-Received: from [192.168.2.10] ([62.249.185.68])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id p6S7iZivST6sRp6SBiGmZG; Wed, 08 Jan 2020 09:12:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578471155; bh=MRsCPLqUx0U6XquyzuoCx/+j3uFFxbzQFPKp/UPSf2Y=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=bD17dxJM45eegGeCgeAJTCmyzlyxGry5MZHCqyRKz8GpfZeppmFR8wg9MQQmQ6kkk
-         UWwEFWR7+lrydJFsdrDXuZui2RWbKAVbHImUJCXPx+GIGYaxWDif2DQrtOF9P9nVMj
-         UsRJNtAZqg9cwTYV1jUhbc5WwJOwrHcctL+DIipEYf7TuWlEwuSqlEG3yHv2TCnOpn
-         jPAmgn0Ey+1/TWtD16PnG9b4DRuMrVZ5aLGFguPNacvX0FrAMfwwXtZ51nHA9baEwu
-         2zSic0iZeAUCLC8qNZ1PIXhHN+iD4rxCdTyn1ze08o1bjptgXIptE9Z9d5EcTdr/YI
-         9oeLKETrooA2w==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.6] hevc fixes, various other fixes
-Message-ID: <b6b0321c-5f12-a41f-4959-00e728cbd61b@xs4all.nl>
-Date:   Wed, 8 Jan 2020 09:12:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727244AbgAHIbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 03:31:14 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:44673 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727221AbgAHIbK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 03:31:10 -0500
+Received: by mail-ed1-f68.google.com with SMTP id bx28so1831315edb.11
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 00:31:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nDs1T93B8v5O40q4fibGGoHo0SYxTJ1NHmqT2ydaTtQ=;
+        b=b9NjNWMouhdpSZtVq012+7zvznVTp6QoZw51rmP4BNezumhjhJquZYaI6v/glUqFFc
+         D9A4WNgMg18sR1bYHIAYMamQSAr+wbCD7vS4JxSqtjLGsQahp9fjoLWJgSAbiN4WTo4O
+         Tmf9quFCyhzeh4Qs15QxtY1pnKC96mV0T6W5ESv/IlqMHhYm7SZkYLjz87po6wHuXMip
+         35vnLTT4gwexuJRzIbJearbTuSjvYO3tzzCv7zRRV77JK/VHOPdORCSRvCpxA+kxWuNi
+         /15egs5vLzmfJA8llCr/BnDfHwPZ/DDKAYAGSn4R+JDWCXW+7Hl7WcQMBE3n5z+yghjb
+         O9tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nDs1T93B8v5O40q4fibGGoHo0SYxTJ1NHmqT2ydaTtQ=;
+        b=aQ1Vomp4QmeyfYefMbxH4WSc0cw2zj5Ao7usiMZ536jcWszBykT/3VPRFzTHLKEQTa
+         uLAAcEZOPyIViXm0ZbkitaBLM8ZRNtsS3COnE8oiYiv+oe2tKQOY+p0PpEVR+Ngv4Uog
+         Jt9DROYM5pXoWrSY6YF/znyp5eKQ4b63AaAwUMHpwRYeac+4QT3zinHoSI0+JhTNLeyW
+         jaNf1TfzsN36NSwvjAb4EGwxWz5A4QLoozhE6uWq75mOW49L2MV3QYzBF/jd8TqQWZOQ
+         C7YjUhAdt0xnapx+wftnI10StmPECN+OBFKdmJrrwW8TQIjHCsHkGuMJO2x11r7+ha3R
+         bgvg==
+X-Gm-Message-State: APjAAAWRk7VB08QWB8hTipe1lT1LtBt8OMOXs0J8xucWdddktfhNT+Nr
+        a+hPOaDdTurO5ztaVxTH+K1Rzw==
+X-Google-Smtp-Source: APXvYqwPCVmrHuNQsu+V3IVoJ6JlOom1LqJ0JNrlLBv+rc79vCsB3yVJlQZi8FK9es6qo7D5qIk82Q==
+X-Received: by 2002:a17:906:c44a:: with SMTP id ck10mr3605843ejb.149.1578472268962;
+        Wed, 08 Jan 2020 00:31:08 -0800 (PST)
+Received: from [192.168.27.209] ([37.157.136.193])
+        by smtp.googlemail.com with ESMTPSA id u21sm58393edv.43.2020.01.08.00.31.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2020 00:31:07 -0800 (PST)
+Subject: Re: [PATCH] arm64: dts: qcom: add Venus firmware node on Cheza
+To:     Rob Clark <robdclark@gmail.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        linux-media@vger.kernel.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Vikash Garodia <vgarodia@codeaurora.org>
+References: <20200107143402.122455-1-acourbot@chromium.org>
+ <3aef91ea-30c1-530f-0c18-ea52b92347f9@linaro.org>
+ <CAF6AEGvgYB8w_GD-6_XywKk4XkS6bFFCiJHeY-CSz71Foz7JTg@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <1d31b609-9bae-8bbd-0329-f27f59b4533e@linaro.org>
+Date:   Wed, 8 Jan 2020 10:31:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <CAF6AEGvgYB8w_GD-6_XywKk4XkS6bFFCiJHeY-CSz71Foz7JTg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfINzcOmwOzo5bfF+WNSQozkFBP6dCmnTf8ZqmAqtNGz141kLa/x8JLNuMey1BLM7H7KO/2b6iHUtU2ECniidNEQSauTCxpaokQnQsBAEpIvF6Vdw92ZK
- sFRkI2Em8aybeoYdvgABi+S4VIVr8aQSxS8mCHrB4SgTRza0tFZ85+AkguTtoudjLiRwcS2cVf8H4gM55+aATWugjwBCe5u5n+0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 51e40a0dbe53cebe1f4b85bb47e250dc5a89b254:
 
-  media: sun4i-csi: Add support for A10 CSI1 camera sensor interface (2020-01-04 08:21:35 +0100)
 
-are available in the Git repository at:
+On 1/7/20 7:42 PM, Rob Clark wrote:
+> On Tue, Jan 7, 2020 at 6:51 AM Stanimir Varbanov
+> <stanimir.varbanov@linaro.org> wrote:
+>>
+>> Hi Alex,
+>>
+>> On 1/7/20 4:34 PM, Alexandre Courbot wrote:
+>>> Cheza boards require this node to probe, so add it.
+>>>
+>>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+>>> ---
+>>>  arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 6 ++++++
+>>>  arch/arm64/boot/dts/qcom/sdm845.dtsi       | 2 +-
+>>>  2 files changed, 7 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+>>> index 9a4ff57fc877..35ba65cd9822 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+>>> @@ -1279,3 +1279,9 @@ config {
+>>>               };
+>>>       };
+>>>  };
+>>> +
+>>> +&venus_codec {
+>>
+>> We have similar patch for sc7180 and call it just "venus". Do you think
+>> we should shorten it here too?
+>>
+>>> +     video-firmware {
+>>> +             iommus = <&apps_smmu 0x10b2 0x0>;
+>>> +     };
+> 
+> 
+> btw Stan, not sure if you noticed, but Bjorn started adding
+> firmware-name properties so we can have different device specific
+> subdirectories for signed fw (ie. so one /lib/firmware can work on
+> multiple different devices).  I'm just looking at doing the same thing
+> for gpu zap fw.  Afaiu the venus fw is also signed, so I guess it
+> could benefit from the same treatment?  Not sure if that is something
+> you've already talked with Bjorn about?
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.6i
+I have to check does Venus fw is signed with device specific keys or
+with something else (like HMAC).
 
-for you to fetch changes up to a79cf7ac3a4830399c53f90677dc5958a210a746:
+Cc: Vikash for opinion
 
-  media: hantro: remove a pointless NULL check (2020-01-08 09:04:17 +0100)
+> 
+> BR,
+> -R
+> 
+>>> +};
+>>> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+>>> index ddb1f23c936f..7b913688cc6d 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+>>> @@ -2567,7 +2567,7 @@ usb_2_dwc3: dwc3@a800000 {
+>>>                       };
+>>>               };
+>>>
+>>> -             video-codec@aa00000 {
+>>> +             venus_codec: video-codec@aa00000 {
+>>>                       compatible = "qcom,sdm845-venus";
+>>>                       reg = <0 0x0aa00000 0 0xff000>;
+>>>                       interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+>>>
+>>
+>> --
+>> regards,
+>> Stan
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Aditya Pakki (1):
-      media: davinci/vpfe_capture.c: Avoid BUG_ON for register failure
-
-Alexandre Courbot (1):
-      media: mtk-vcodec: use v4l2_m2m_buffer where appropriate
-
-Colin Ian King (1):
-      media: v4l2-core: fix uninitialized structure fields being returned to userspace
-
-Dan Carpenter (1):
-      media: hantro: remove a pointless NULL check
-
-Jernej Skrabec (6):
-      media: uapi: hevc: Add scaling matrix control
-      media: cedrus: hevc: Add support for scaling matrix
-      media: uapi: hevc: Add segment address field
-      media: cedrus: hevc: Add support for multiple slices
-      media: cedrus: Fix decoding for some HEVC videos
-      media: cedrus: hevc: Add luma bit depth
-
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst       |  46 ++++++++++++++++-
- Documentation/media/uapi/v4l/pixfmt-compressed.rst     |   1 +
- drivers/media/platform/davinci/vpfe_capture.c          |  31 ++++++------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c     |  66 +++++++++++++-----------
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.h     |   7 ++-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c |   2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c     |  14 +++---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.h     |   8 +--
- drivers/media/v4l2-core/v4l2-ctrls.c                   |  10 ++++
- drivers/media/v4l2-core/v4l2-subdev.c                  |   2 +-
- drivers/staging/media/hantro/hantro_v4l2.c             |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus.c            |   7 +++
- drivers/staging/media/sunxi/cedrus/cedrus.h            |   1 +
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c        |   2 +
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c       | 122 +++++++++++++++++++++++++++++++++++++++------
- drivers/staging/media/sunxi/cedrus/cedrus_regs.h       |   3 ++
- drivers/staging/media/sunxi/cedrus/cedrus_video.c      |   1 +
- include/media/hevc-ctrls.h                             |  16 +++++-
- 18 files changed, 263 insertions(+), 78 deletions(-)
+-- 
+regards,
+Stan
