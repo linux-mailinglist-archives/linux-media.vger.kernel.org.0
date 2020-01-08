@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63A381344B5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 15:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89363134505
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 15:31:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728782AbgAHOMV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 09:12:21 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:57434 "EHLO
+        id S1728354AbgAHObs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 09:31:48 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:38064 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727600AbgAHOMV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 09:12:21 -0500
+        with ESMTP id S1726651AbgAHObs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 09:31:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fr9fRlz5jxrgjkeY4j9Bve4Yqtw4Ip+E2iegvsEk9jk=; b=PBzy4YDRvknqyOdLQyAz3OMtm
-        VKkkh+lcwJHiQz+AfDbo+JFL3kwsaJHo0GP4eQ8xuTmZMbnDEP1UIVlsYdY9sYN3rs+1rf0xxZbiZ
-        uX3ZrF1B8p/4OBrNzTU8JIOyEnxcyNQP+IfxRWacyHfRad6gde1Zo/Gpf56CeHm/wldNEzh8Hmso0
-        XfCRsmv1Lov+rld2P3P20MUTPD68Xk90QyZS3/2/tyX9XLhmtQHR77JFpnkYnsibTNaOFMihoeAqR
-        zQ51DvLE3lb5zfsz3bVNcIcFgF2uu/bE/q82ktdyTec8YZnpCyVysC1o0iBO3Wtj9V4iO+U8ERZq8
-        3wHU2WqDw==;
+         bh=cNdj1XMavqHERd1iC1GAYe1krXO6lCtmsBqdFjLoV6M=; b=PbopclKfzaHTWMFWXvcjUw6nY
+        J+aSr1Gq0dnWbRWG/b/BUdLz0FgWrxtH1Ky2Exq9dMwHsD1FihCk1yKNMrHYhS0KAUlMstssxS1S7
+        bSeO8i98ugtMsFXZ5gyrnEUGecnRfG/RGaJP17soQOqp50h3X60C6m2PXIiqUjAU4exeelCJnJ9ix
+        rjTQKpssdvimmIXCGSS5rV3wDyYZ2Ywgo73XxYp4kTs0kxILBBt99U8RXc2lDNHEFc1OTUEZhpVcO
+        UNMHxDaXlUx3NcOqT2jYUGE7CdeCNl9+ApbyKdu+5OhSvep5nLjyKS9kVIId2oNVHl+PsuytLEtbt
+        wt4BQ5lsA==;
 Received: from 177.206.132.169.dynamic.adsl.gvt.net.br ([177.206.132.169] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ipC4B-0002T4-CD; Wed, 08 Jan 2020 14:12:12 +0000
-Date:   Wed, 8 Jan 2020 15:11:57 +0100
+        id 1ipCN2-0002Z1-Py; Wed, 08 Jan 2020 14:31:41 +0000
+Date:   Wed, 8 Jan 2020 15:31:26 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jernej Skrabec <jernej.skrabec@siol.net>
 Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
         hverkuil@xs4all.nl, gregkh@linuxfoundation.org, wens@csie.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/4] media: uapi: hevc: Add scaling matrix control
-Message-ID: <20200108151157.17cf9774@kernel.org>
-In-Reply-To: <20191213160428.54303-2-jernej.skrabec@siol.net>
+Subject: Re: [PATCH v2 3/4] media: uapi: hevc: Add segment address field
+Message-ID: <20200108153126.49698491@kernel.org>
+In-Reply-To: <20191213160428.54303-4-jernej.skrabec@siol.net>
 References: <20191213160428.54303-1-jernej.skrabec@siol.net>
-        <20191213160428.54303-2-jernej.skrabec@siol.net>
+        <20191213160428.54303-4-jernej.skrabec@siol.net>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,57 +47,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 13 Dec 2019 17:04:25 +0100
+Em Fri, 13 Dec 2019 17:04:27 +0100
 Jernej Skrabec <jernej.skrabec@siol.net> escreveu:
 
-> HEVC has a scaling matrix concept. Add support for it.
+> If HEVC frame consists of multiple slices, segment address has to be
+> known in order to properly decode it.
+> 
+> Add segment address field to slice parameters.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> ---
+>  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 5 ++++-
+>  include/media/hevc-ctrls.h                       | 5 ++++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> index aab1451e54d4..5415d5babcc2 100644
+> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+> @@ -3975,6 +3975,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u32
+>        - ``data_bit_offset``
+>        - Offset (in bits) to the video data in the current slice data.
+> +    * - __u32
+> +      - ``slice_segment_addr``
+> +      -
+>      * - __u8
+>        - ``nal_unit_type``
+>        -
+> @@ -4052,7 +4055,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``num_rps_poc_lt_curr``
+>        - The number of reference pictures in the long-term set.
+>      * - __u8
+> -      - ``padding[7]``
+> +      - ``padding[5]``
+>        - Applications and drivers must set this to zero.
+>      * - struct :c:type:`v4l2_hevc_dpb_entry`
+>        - ``dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 1592e52c3614..3e2e32098312 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -167,6 +167,9 @@ struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+>  	__u32	data_bit_offset;
+>  
+> +	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+> +	__u32	slice_segment_addr;
+> +
 
-> +struct v4l2_ctrl_hevc_scaling_matrix {
-> +	__u8	scaling_list_4x4[6][16];
-> +	__u8	scaling_list_8x8[6][64];
-> +	__u8	scaling_list_16x16[6][64];
-> +	__u8	scaling_list_32x32[2][64];
-> +	__u8	scaling_list_dc_coef_16x16[6];
-> +	__u8	scaling_list_dc_coef_32x32[2];
-> +};
+Why are you adding it in the middle of the data? This will break any 
+existing userspace code that might be relying on it.
 
-I never looked at HEVC spec, but the above seems really weird.
+Ok, I know that this header is not yet under include/uapi,and there's a
+warning on it for letting people know that it shouldn't be used anywhere.
 
-Please correct me if I am wrong, but each of the above matrixes
-is independent, and the driver will use just one of the above on
-any specific time (for a given video output node), right?
+Still, people might be using it.
 
-If so, why would userspace be forced to update lots of matrixes, if would
-likely use just one at a given time?
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
+>  	__u8	nuh_temporal_id_plus1;
+> @@ -200,7 +203,7 @@ struct v4l2_ctrl_hevc_slice_params {
+>  	__u8	num_rps_poc_st_curr_after;
+>  	__u8	num_rps_poc_lt_curr;
+>  
+> -	__u8	padding;
+> +	__u8	padding[5];
+>  
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: General slice segment header */
+>  	struct v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
 
-IMO, the proper way would be, instead, to use an uAPI like:
-
-/*
- * Actually, as this is uAPI, we will use a fixed size integer type, like
- *  unsigned int
- */
-enum hevc_scaling_matrix_type {
-	HEVC_SCALING_MATRIX_4x4,
-	HEVC_SCALING_MATRIX_8x8,
-...
-	HEVC_SCALING_MATRIX_DC_COEF_32x32,
-};
-
-struct v4l2_ctrl_hevc_scaling_matrix {
-	__u32	scaling_type 		/* as defined by enum hevc_scaling_matrix_type */
-
-	union {
-		__u8	scaling_list_4x4[6][16];
-		__u8	scaling_list_8x8[6][64];
-		__u8	scaling_list_16x16[6][64];
-		__u8	scaling_list_32x32[2][64];
-		__u8	scaling_list_dc_coef_16x16[6];
-		__u8	scaling_list_dc_coef_32x32[2];
-	};
-};
-
-And let the core use a default for each scaling matrix, if userspace doesn't
-set it.
 
 
 
