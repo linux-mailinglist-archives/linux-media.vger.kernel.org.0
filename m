@@ -2,45 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D450133DC2
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 10:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD98C133DC3
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2020 10:02:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727174AbgAHJCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Jan 2020 04:02:10 -0500
-Received: from mail-qk1-f181.google.com ([209.85.222.181]:41803 "EHLO
-        mail-qk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726891AbgAHJCJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 04:02:09 -0500
-Received: by mail-qk1-f181.google.com with SMTP id x129so1949962qke.8
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 01:02:09 -0800 (PST)
+        id S1727200AbgAHJCO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Jan 2020 04:02:14 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:44673 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbgAHJCO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Jan 2020 04:02:14 -0500
+Received: by mail-qk1-f193.google.com with SMTP id w127so1929915qkb.11
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2020 01:02:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:from:date:message-id:subject:to;
-        bh=MvBXFmubHjfTSZqX6gGxSDOdnp6QUUqOLQUXD/uSqGE=;
-        b=DYbgTGSP4mdzTCAqDQe0ONLDdXBCvCrs3Gf/qEYQ3nonNazP44qqR3UAJhoN3bcQWX
-         bQ2M/rSn1WnKbQ+SA+qoy1OFUAwukrU7HbG4Inels53VYSIMMPYpRV2TcKUFdlz7IZ+s
-         BlgcIAJI+EA2lI+1aLJOK0EB7NrpI9sWVCWq0=
+        bh=YLJj0mJcsiWZwcGJQfC2/Am8KkGfccyx1B+T1mfpzBE=;
+        b=B7I9lf3X8OH5s2QgLQ3VUszD2IKt6VUU85pFa9iNMdrEj2Pb0cry/HqqJQpH+smc2Q
+         XWZzpInO4EfR2e6sPAErnlfGEfgLOJjoRhNbWmR1bf/PoNeaizCLcjabgqTUol9rlAYT
+         ma76CbkvnWwjeFxZbl5yNP/fLZ1eyjohAIafU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=MvBXFmubHjfTSZqX6gGxSDOdnp6QUUqOLQUXD/uSqGE=;
-        b=mbp1wO/0BwOYNiZqXTU0KhT7orLJEXYL2e3pAXnp32Q8iHZQqLWlawGoRL2EQHo6yr
-         o6hP2V2iomHcmAfClWN/uvt08TrDJY3GITZzMf1iuWrfFeSsca1uXEB7h0klWbQE39no
-         r7z7/xzejy/KhI2FqRzE8tAy6jDOArzW5a192olOvqY+IT+MDM1j3mDZ3OVnrnoKJu9c
-         uZ1a6UupdSyZm8Df06wuwzFhRkIJwbItQwuKngU+++0ysOQXJwZR3mm7Ko05qTRot1rz
-         hdfc37A3Pfvm6bzi4FojB0fPZbnSXHza/tHlI6yqdlCfkmz267x5BKJ417/jqJj9vO7w
-         vdAA==
-X-Gm-Message-State: APjAAAXdydAYIlqOxbM6PZ2UOtKwS0a3TxilNNMmT5GTKVBKVEQP0IBF
-        V8I3Ny+jb3mQI8ZX9YB8guGpD3Ti5LqLj0PcreZVqw==
-X-Google-Smtp-Source: APXvYqweJlXV88c+PKT192DC2KihUtPe6TwZU6GCiLW50z8aM6eR4XRmfbWIQhisZ6FPS+0icbkxvHNLUyZA9fpTYc4=
-X-Received: by 2002:a05:620a:101b:: with SMTP id z27mr3076885qkj.241.1578474128857;
- Wed, 08 Jan 2020 01:02:08 -0800 (PST)
+        bh=YLJj0mJcsiWZwcGJQfC2/Am8KkGfccyx1B+T1mfpzBE=;
+        b=jQi8RSUF+Hk/sMSHi+2YJgSCznGRYlTTPLgAsrTn/hLFq1MNnk/HZydSuofIMCKc3j
+         jb8SiVSb5IVNDkubrK3dyl6zOgPSQVUm41kftt4aUWLK0kI8OzwlJx1D2wLFFliaXvhH
+         9nX+AgFrAj0qDqWc81ZcAxRC2GDm4Njsm+xKT0bZydd+vJX6akC9HTB7pUMZZuUQF6GZ
+         tOWar1cwLp5gupkVXVUy6sOKMFeRur/aHvdNoYY0ZlE8qXtnchx9Q8OumlEzDc3McPGB
+         1mcLQS1g1gB7QEpSBFZY/4NRb/hizRheaREaoyDxcnTEUYlRhjMwkM+qeH7kKvlK5B87
+         Ywmg==
+X-Gm-Message-State: APjAAAViHktADGsigCgwUd9mMmJXBjVwnS/KBsk1Jmxx5Ibyqww+XNGf
+        t2qx1VdtUVNLGfCsW9AAyy0f3ZhZr+3wThLhi0jJqw==
+X-Google-Smtp-Source: APXvYqyOhO7E4NDMVSLVTTWbMjBEmnBCWdbVQupSDkJ7fdK3WLAPNZj4EXc3WCQxkYsMxMB5lMPtNcFY2kFCzAPiZ2w=
+X-Received: by 2002:a05:620a:817:: with SMTP id s23mr3310134qks.391.1578474133357;
+ Wed, 08 Jan 2020 01:02:13 -0800 (PST)
 MIME-Version: 1.0
 From:   David Stevens <stevensd@chromium.org>
-Date:   Wed, 8 Jan 2020 18:01:58 +0900
-Message-ID: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
-Subject: [virtio-dev][RFC PATCH v1 1/2] content: define what exporting a
- resource is
+Date:   Wed, 8 Jan 2020 18:02:02 +0900
+Message-ID: <CAD=HUj5U-TxqbPJiRRbyMHON21sht75q3nisvwvKrO+Bf=n8ng@mail.gmail.com>
+Subject: [virtio-dev][RFC PATCH v1 2/2] virtio-gpu: add the ability to export resources
 To:     virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
         Dylan Reid <dgreid@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>,
@@ -60,45 +59,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Define a mechanism for sharing resources between different virtio
-devices.
-
 Signed-off-by: David Stevens <stevensd@chromium.org>
 ---
- content.tex | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ virtio-gpu.tex | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/content.tex b/content.tex
-index b1ea9b9..73bd28e 100644
---- a/content.tex
-+++ b/content.tex
-@@ -373,6 +373,24 @@ \section{Driver Notifications}
-\label{sec:Virtqueues / Driver notifications}
+diff --git a/virtio-gpu.tex b/virtio-gpu.tex
+index af4ca61..522f478 100644
+--- a/virtio-gpu.tex
++++ b/virtio-gpu.tex
+@@ -186,12 +186,16 @@ \subsubsection{Device Operation: Request
+header}\label{sec:Device Types / GPU De
+         VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
+         VIRTIO_GPU_CMD_MOVE_CURSOR,
 
- \input{shared-mem.tex}
++        /* misc commands */
++        VIRTIO_GPU_CMD_EXPORT_RESOURCE = 0x0400,
++
+         /* success responses */
+         VIRTIO_GPU_RESP_OK_NODATA = 0x1100,
+         VIRTIO_GPU_RESP_OK_DISPLAY_INFO,
+         VIRTIO_GPU_RESP_OK_CAPSET_INFO,
+         VIRTIO_GPU_RESP_OK_CAPSET,
+         VIRTIO_GPU_RESP_OK_EDID,
++        VIRTIO_GPU_RESP_OK_EXPORT_RESOURCE,
 
-+\section{Exporting Resources}\label{sec:Basic Facilities of a Virtio
-Device / Exporting Resources}
-+
-+When a resource created by one virtio device needs to be
-+shared with a seperate virtio device, the first device can
-+export the resource by generating a \field{uuid} which the
-+guest can pass to the second device to identify the resource.
-+
-+What constitutes a resource, how to export resources, and
-+how to import resources are defined by the individual device
-+types. The generation method of a \field{uuid} is dependent
-+upon the implementation of the exporting device.
-+
-+Whether a particular exported resource can be imported into
-+a device is dependent upon the implementations of the exporting
-+and importing devices. Generally speaking, the guest should
-+have some knowledge of the host configuration before trying to
-+use exported resources.
-+
- \chapter{General Initialization And Device
-Operation}\label{sec:General Initialization And Device Operation}
+         /* error responses */
+         VIRTIO_GPU_RESP_ERR_UNSPEC = 0x1200,
+@@ -454,6 +458,31 @@ \subsubsection{Device Operation:
+controlq}\label{sec:Device Types / GPU Device /
+ This detaches any backing pages from a resource, to be used in case of
+ guest swapping or object destruction.
 
- We start with an overview of device initialization, then expand on the
++\item[VIRTIO_GPU_CMD_EXPORT_RESOURCE] Exports a resource for use by other
++  virtio devices. Request data is \field{struct
++    virtio_gpu_export_resource}.  Response type is
++  VIRTIO_GPU_RESP_OK_EXPORT_RESOURCE, response data is \field{struct
++    virtio_gpu_resp_export_resource}.
++
++\begin{lstlisting}
++struct virtio_gpu_export_resource {
++        struct virtio_gpu_ctrl_hdr hdr;
++        le32 resource_id;
++        le32 padding;
++};
++
++struct virtio_gpu_resp_export_resource {
++        struct virtio_gpu_ctrl_hdr hdr;
++        le64 uuid_low;
++        le64 uuid_high;
++};
++\end{lstlisting}
++
++The response contains a uuid which identifies the host private resource to
++other virtio devices. Note that if the resource has an attached backing,
++modifications made to an exported resource by other devices are not visible
++in the attached backing until they are transferred into the backing.
++
+ \end{description}
+
+ \subsubsection{Device Operation: cursorq}\label{sec:Device Types /
+GPU Device / Device Operation / Device Operation: cursorq}
 -- 
 2.24.1.735.g03f4e72817-goog
