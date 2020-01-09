@@ -2,184 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F5713537C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 08:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43F5C13538D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 08:12:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728132AbgAIHHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jan 2020 02:07:24 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:36801 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726541AbgAIHHY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jan 2020 02:07:24 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ipRuR-00076j-6t; Thu, 09 Jan 2020 08:07:11 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ipRuO-0005HR-BR; Thu, 09 Jan 2020 08:07:08 +0100
-Date:   Thu, 9 Jan 2020 08:07:08 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     devicetree@vger.kernel.org, robh+dt@kernel.org,
-        jacopo+renesas@jmondi.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de, hans.verkuil@cisco.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v11 04/15] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20200109070708.arel6nepqs5ucl7b@pengutronix.de>
-References: <20190930093900.16524-1-m.felsch@pengutronix.de>
- <20190930093900.16524-5-m.felsch@pengutronix.de>
- <20191115233439.GB2696@mara.localdomain>
- <20200108153626.we3zasacpriksczs@pengutronix.de>
+        id S1728164AbgAIHMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jan 2020 02:12:39 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:32930 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726541AbgAIHMj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jan 2020 02:12:39 -0500
+Received: by mail-oi1-f193.google.com with SMTP id v140so5057762oie.0;
+        Wed, 08 Jan 2020 23:12:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PtYcl3mEZpFfv+hVyRqACv4DmdKEL3AkiUrvutZDkU4=;
+        b=nQJ2jR6M1/7L783AsKTMhfbGHaRibZk4nBEplMejjh6/KywRXGsTzZj8l8TcWD8GSN
+         cYJJlK07P7MQq6YyPp3+lstTpLa8irsdleOzWl8qhKyFQsEZsxJiPKT3qXDMuYv9SQQR
+         artx3bofnj7nJyv4ir7cz6XihS3/PGEZ4lmga3/haJgkIZ2sRI/1aWzao+7+3QsntTN4
+         lghYCj2yYiV9I+xZlaZiL7Q7j3B73gxiiuodchsuzQZ2yX0ygrlbRdtEc/K/VP7O/pEp
+         3M3kJZbuCY0bgNuhVkc3osLPwBllwQ5gcUvGMeMp0mhLk1TXUERMXbeq4CgsiOL30anm
+         BIEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PtYcl3mEZpFfv+hVyRqACv4DmdKEL3AkiUrvutZDkU4=;
+        b=VSP+e1IhgWiR10nAbNcFb9jc56Z3MUoP+UwDBaFBJZcKYY/eng8+xnQ4OoV7ydJuSu
+         ABv+tUjm9T41iIgG5c529OewnUw8BahdNh0aJEboBMvzYTjxu9iS5syf+v76sE3gbSDO
+         5UwjCx5tGGP3maEwn6gOvmn09E7peNTozFqVukNTDyUgStD+v/mq9OY7ZgjutRB4DCyB
+         Tuz26ikwse6owYMFwOybxpY+LBwwQKngP6f3H/aCW8Yu0XhOnPUkYcl7/bCGgyBoy7UU
+         tnasEXUZNCtGALJG72G7te2qMSkqAnOu6DjHKCSkx9nyEKe40twyYRcYkTuEXdVUifNm
+         SJCA==
+X-Gm-Message-State: APjAAAWZ7GO3bw8RMgJBcT4O70pOZxH1uUCkniDYH6b2/wrDlIli6Tay
+        +jGdE6cBeVqlkHvyYEyyqoi4ac+M5Zre7/Pdavul0Cjt1h0=
+X-Google-Smtp-Source: APXvYqw3YWkVF4G8KXcHhZNidvaugeK5/KWOtE8nts6to96ggdiuj6pdORYQUM5EjdxaISH4b0mqhXn1ipHoQvgqYC0=
+X-Received: by 2002:a54:401a:: with SMTP id x26mr1950875oie.101.1578553958766;
+ Wed, 08 Jan 2020 23:12:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200108153626.we3zasacpriksczs@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 07:58:36 up 54 days, 22:17, 46 users,  load average: 0.00, 0.04,
- 0.02
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20200106143251.11684-1-pakki001@umn.edu>
+In-Reply-To: <20200106143251.11684-1-pakki001@umn.edu>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 9 Jan 2020 07:12:12 +0000
+Message-ID: <CA+V-a8sJEdXm7Ocs-9N2_-F42N4nLrOq=CGvrUh0Hghoh=JhoA@mail.gmail.com>
+Subject: Re: [PATCH v3] media: davinci/vpfe_capture.c: Avoid BUG_ON for
+ register failure
+To:     Aditya Pakki <pakki001@umn.edu>
+Cc:     Kangjie Lu <kjlu@umn.edu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Mon, Jan 6, 2020 at 2:32 PM Aditya Pakki <pakki001@umn.edu> wrote:
+>
+> In vpfe_register_ccdc_device(), failure to allocate dev->hw_ops
+> fields calls BUG_ON(). This patch returns the error to callers
+> instead of crashing. The issue was identified by a static
+> analysis tool, written by us.
+>
+> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
 
-just a few questions about the below helper.
+Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
 
-On 20-01-08 16:36, Marco Felsch wrote:
-> Hi Sakari,
-> 
-> On 19-11-16 01:34, Sakari Ailus wrote:
-> > Hi Marco,
-> > 
-> > On Mon, Sep 30, 2019 at 11:38:49AM +0200, Marco Felsch wrote:
-> 
-> ...
-> 
-> > > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > > +				      struct v4l2_fwnode_connector *connector)
-> > > +{
-> > > +	struct fwnode_handle *remote_pp, *remote_ep;
-> > > +	const char *type_name;
-> > > +	unsigned int i = 0, ep_num = 0;
-> > > +	int err;
-> > > +
-> > > +	memset(connector, 0, sizeof(*connector));
-> > > +
-> > > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
-> > > +	if (!remote_pp)
-> > > +		return -ENOLINK;
-> 
-> I will align the API with the v4l2_fwnode_endpoint_alloc_parse()
-> function so the caller need to pass the connector fwnode handle.
+Cheers,
+--Prabhakar Lad
 
-Should we really align this with v4l2_fwnode_endpoint_alloc_parse()? I
-have some concerns because this moves the step to the user. Using the
-current approach makes it easier for the user.
-
-Regards,
-  Marco
-
-> > > +
-> > > +	/* Parse all common properties first. */
-> > > +	fwnode_graph_for_each_endpoint(remote_pp, remote_ep)
-> > > +		ep_num++;
-> > 
-> > If there are no endpoints, ep_num will be zero and kmalloc_array() will
-> > return NULL? There should be a way there are no endpoints, rather than
-> > returning -ENOMEM.
-> > 
-> > > +
-> > > +	connector->nr_of_links = ep_num;
-> > > +	connector->links = kmalloc_array(ep_num, sizeof(*connector->links),
-> > > +					 GFP_KERNEL);
-> > > +	if (!connector->links) {
-> > > +		err = -ENOMEM;
-> > > +		goto err_put_fwnode;
-> > > +	}
-> > > +
-> > > +	fwnode_graph_for_each_endpoint(remote_pp, remote_ep) {
-> > > +		err = v4l2_fwnode_parse_link(remote_ep, &connector->links[i]);
-> > 
-> > If you start parsing a connector starting from another device connected to
-> > it, nothing seems to prevent parsing the same links twice, in case the
-> > connector is connected to more than one sub-device.
-> > 
-> > Or do I miss something crucial here?
-> 
-> Yes thats right but it seems that sharing connectors isn't supported at
-> all. All bridge drivers using connectors implementing the connector
-> handling by their self. Anyway, I will add a function parameter to check
-> that we parse only the endpoints connected to the calling sub-dev.
-> 
-> Regards,
->   Marco
-> 
-> > > +		if (err) {
-> > > +			fwnode_handle_put(remote_ep);
-> > > +			goto err_free_links;
-> > > +		}
-> > > +		i++;
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Links reference counting guarantees access -> no duplication needed
-> > > +	 */
-> > > +	fwnode_property_read_string(remote_pp, "label", &connector->label);
-> > > +
-> > > +	/* The connector-type is stored within the compatible string. */
-> > > +	err = fwnode_property_read_string(remote_pp, "compatible", &type_name);
-> > > +	if (err) {
-> > > +		err = -EINVAL;
-> > > +		goto err_free_links;
-> > > +	}
-> > > +	connector->type = v4l2_fwnode_string_to_connector_type(type_name);
-> > > +
-> > > +	/* Now parse the connector specific properties. */
-> > > +	switch (connector->type) {
-> > > +	case V4L2_CONN_COMPOSITE:
-> > > +	case V4L2_CONN_SVIDEO:
-> > > +		err = v4l2_fwnode_connector_parse_analog(remote_pp, connector);
-> > > +		break;
-> > > +	case V4L2_CONN_UNKNOWN:
-> > > +	default:
-> > > +		pr_err("Unknown connector type\n");
-> > > +		err = -EINVAL;
-> > > +		goto err_free_links;
-> > > +	}
-> > > +
-> > > +	fwnode_handle_put(remote_pp);
-> > > +
-> > > +	return err;
-> > > +
-> > > +err_free_links:
-> > > +	for (i = 0; i < ep_num; i++)
-> > > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > > +	kfree(connector->links);
-> > > +err_put_fwnode:
-> > > +	fwnode_handle_put(remote_pp);
-> > > +
-> > > +	return err;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_alloc_parse);
-> > > +
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> ---
+> v2: Fix alignment of checks within the condition, as suggested by
+> Hans Verkuil
+>
+> v1: Fixed the type to a regular variable instead of a pointer,
+> also added fixes suggested by Ezequiel Garcia.
+> ---
+>  drivers/media/platform/davinci/vpfe_capture.c | 31 ++++++++++---------
+>  1 file changed, 16 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/media/platform/davinci/vpfe_capture.c b/drivers/media/platform/davinci/vpfe_capture.c
+> index 916ed743d716..9b1d9643589b 100644
+> --- a/drivers/media/platform/davinci/vpfe_capture.c
+> +++ b/drivers/media/platform/davinci/vpfe_capture.c
+> @@ -168,21 +168,22 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
+>         int ret = 0;
+>         printk(KERN_NOTICE "vpfe_register_ccdc_device: %s\n", dev->name);
+>
+> -       BUG_ON(!dev->hw_ops.open);
+> -       BUG_ON(!dev->hw_ops.enable);
+> -       BUG_ON(!dev->hw_ops.set_hw_if_params);
+> -       BUG_ON(!dev->hw_ops.configure);
+> -       BUG_ON(!dev->hw_ops.set_buftype);
+> -       BUG_ON(!dev->hw_ops.get_buftype);
+> -       BUG_ON(!dev->hw_ops.enum_pix);
+> -       BUG_ON(!dev->hw_ops.set_frame_format);
+> -       BUG_ON(!dev->hw_ops.get_frame_format);
+> -       BUG_ON(!dev->hw_ops.get_pixel_format);
+> -       BUG_ON(!dev->hw_ops.set_pixel_format);
+> -       BUG_ON(!dev->hw_ops.set_image_window);
+> -       BUG_ON(!dev->hw_ops.get_image_window);
+> -       BUG_ON(!dev->hw_ops.get_line_length);
+> -       BUG_ON(!dev->hw_ops.getfid);
+> +       if (!dev->hw_ops.open ||
+> +           !dev->hw_ops.enable ||
+> +           !dev->hw_ops.set_hw_if_params ||
+> +           !dev->hw_ops.configure ||
+> +           !dev->hw_ops.set_buftype ||
+> +           !dev->hw_ops.get_buftype ||
+> +           !dev->hw_ops.enum_pix ||
+> +           !dev->hw_ops.set_frame_format ||
+> +           !dev->hw_ops.get_frame_format ||
+> +           !dev->hw_ops.get_pixel_format ||
+> +           !dev->hw_ops.set_pixel_format ||
+> +           !dev->hw_ops.set_image_window ||
+> +           !dev->hw_ops.get_image_window ||
+> +           !dev->hw_ops.get_line_length ||
+> +           !dev->hw_ops.getfid)
+> +               return -EINVAL;
+>
+>         mutex_lock(&ccdc_lock);
+>         if (!ccdc_cfg) {
+> --
+> 2.20.1
+>
