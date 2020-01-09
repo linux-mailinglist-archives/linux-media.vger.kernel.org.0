@@ -2,110 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C542A135EC1
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 17:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 967231360DE
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 20:16:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731414AbgAIQyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jan 2020 11:54:01 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47004 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727738AbgAIQyB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jan 2020 11:54:01 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C5D3F52F;
-        Thu,  9 Jan 2020 17:53:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1578588839;
-        bh=sOC8mik59yBJH+Ojdmaq5uVi1sLgq4RG29ymvZmJjzc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rNYxP1oi3fClt3LDl93WQ3Ybt5/HuHty+5P/KtrXWipsEjipStzncldV5Lnv8yY7V
-         dXPT/rRRo9HGE6n9p2GqEXsV5fT/gbPwMVy5dP+Bw4GdDvHlxmB0vyBrbqMnTvhEL/
-         jTXO9KrEe06aGTp0a0YjBqU3DcGp3uwUcVo35U6Q=
-Date:   Thu, 9 Jan 2020 18:53:48 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc:     mchehab@kernel.org, hyun.kwon@xilinx.com, vkoul@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        michal.simek@xilinx.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: xilinx: Use dma_request_chan() instead
- dma_request_slave_channel()
-Message-ID: <20200109165348.GG31792@pendragon.ideasonboard.com>
-References: <20191217104235.23771-1-peter.ujfalusi@ti.com>
- <20200109164847.GF31792@pendragon.ideasonboard.com>
+        id S1729041AbgAITQw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 9 Jan 2020 14:16:52 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:59229 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728971AbgAITQw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jan 2020 14:16:52 -0500
+X-Originating-IP: 91.224.148.103
+Received: from xps13 (unknown [91.224.148.103])
+        (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 6E53C240003;
+        Thu,  9 Jan 2020 19:16:45 +0000 (UTC)
+Date:   Thu, 9 Jan 2020 20:16:44 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <ludovic.desroches@microchip.com>, <vkoul@kernel.org>,
+        <eugen.hristev@microchip.com>, <jic23@kernel.org>,
+        <knaack.h@gmx.de>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
+        <mchehab@kernel.org>, <lee.jones@linaro.org>,
+        <richard.genoud@gmail.com>, <radu_nicolae.pirea@upb.ro>,
+        <tudor.ambarus@microchip.com>, <richard@nod.at>, <vigneshr@ti.com>,
+        <wg@grandegger.com>, <mkl@pengutronix.de>, <a.zummo@towertech.it>,
+        <broonie@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        <linux-can@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-rtc@vger.kernel.org>
+Subject: Re: [PATCH 07/16] dt-bindings: atmel-nand: add
+ microchip,sam9x60-pmecc
+Message-ID: <20200109201644.34c6b936@xps13>
+In-Reply-To: <1578488123-26127-8-git-send-email-claudiu.beznea@microchip.com>
+References: <1578488123-26127-1-git-send-email-claudiu.beznea@microchip.com>
+        <1578488123-26127-8-git-send-email-claudiu.beznea@microchip.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200109164847.GF31792@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello again,
+Hi Claudiu,
 
-On Thu, Jan 09, 2020 at 06:48:47PM +0200, Laurent Pinchart wrote:
-> On Tue, Dec 17, 2019 at 12:42:35PM +0200, Peter Ujfalusi wrote:
-> > dma_request_slave_channel() is a wrapper on top of dma_request_chan()
-> > eating up the error code.
-> > 
-> > By using dma_request_chan() directly the driver can support deferred
-> > probing against DMA.
-> > 
-> > Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Claudiu Beznea <claudiu.beznea@microchip.com> wrote on Wed, 8 Jan 2020
+14:55:14 +0200:
+
+> Add microchip,sam9x60-pmecc to DT bindings documentation.
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> ---
+>  Documentation/devicetree/bindings/mtd/atmel-nand.txt | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Vinod, could you please pick this up ?
+> diff --git a/Documentation/devicetree/bindings/mtd/atmel-nand.txt b/Documentation/devicetree/bindings/mtd/atmel-nand.txt
+> index 68b51dc58816..3aa297c97ab6 100644
+> --- a/Documentation/devicetree/bindings/mtd/atmel-nand.txt
+> +++ b/Documentation/devicetree/bindings/mtd/atmel-nand.txt
+> @@ -57,6 +57,7 @@ Required properties:
+>  	"atmel,at91sam9g45-pmecc"
+>  	"atmel,sama5d4-pmecc"
+>  	"atmel,sama5d2-pmecc"
+> +	"microchip,sam9x60-pmecc"
+>  - reg: should contain 2 register ranges. The first one is pointing to the PMECC
+>         block, and the second one to the PMECC_ERRLOC block.
+>  
 
-I spoke too fast.
+Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
-> > ---
-> >  drivers/media/platform/xilinx/xilinx-dma.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-> > index b211380a11f2..9ce515ff9c0a 100644
-> > --- a/drivers/media/platform/xilinx/xilinx-dma.c
-> > +++ b/drivers/media/platform/xilinx/xilinx-dma.c
-> > @@ -725,10 +725,10 @@ int xvip_dma_init(struct xvip_composite_device *xdev, struct xvip_dma *dma,
-> >  
-> >  	/* ... and the DMA channel. */
-> >  	snprintf(name, sizeof(name), "port%u", port);
-> > -	dma->dma = dma_request_slave_channel(dma->xdev->dev, name);
-> > -	if (dma->dma == NULL) {
-> > +	dma->dma = dma_request_chan(dma->xdev->dev, name);
-> > +	if (IS_ERR(dma->dma)) {
-> >  		dev_err(dma->xdev->dev, "no VDMA channel found\n");
-> > -		ret = -ENODEV;
-> > +		ret = PTR_ERR(dma->dma);
-> >  		goto error;
-
-At the error label, we have
-
-error:
-	xvip_dma_cleanup(dma);
-	return ret;
-
-and xvip_dma_cleanup() contains
-
-	if (dma->dma)
-		dma_release_channel(dma->dma);
-
-You need to turn this into
-
-	if (!IS_ERR_OR_NULL(dma->dma))
-
-or add a
-
-		dma->dma = NULL;
-
-in the error case in xvip_dma_init().
-
-> >  	}
-> >  
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Miquèl
