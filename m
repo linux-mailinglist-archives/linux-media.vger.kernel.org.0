@@ -2,103 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B128013628C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 22:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7B83136305
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 23:07:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728984AbgAIVbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jan 2020 16:31:08 -0500
-Received: from foss.arm.com ([217.140.110.172]:37060 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725763AbgAIVbI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Jan 2020 16:31:08 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59B6931B;
-        Thu,  9 Jan 2020 13:31:07 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB1DB3F534;
-        Thu,  9 Jan 2020 13:31:06 -0800 (PST)
-Date:   Thu, 09 Jan 2020 21:31:05 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc:     alexandre.belloni@bootlin.com, a.zummo@towertech.it,
-        broonie@kernel.org, devicetree@vger.kernel.org,
-        dmaengine@vger.kernel.org, eugen.hristev@microchip.com,
-        jic23@kernel.org, knaack.h@gmx.de, lars@metafoo.de,
-        lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-can@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, ludovic.desroches@microchip.com,
-        Mark Brown <broonie@kernel.org>, mark.rutland@arm.com,
-        mchehab@kernel.org, miquel.raynal@bootlin.com, mkl@pengutronix.de,
-        netdev@vger.kernel.org, nicolas.ferre@microchip.com,
-        pmeerw@pmeerw.net, radu_nicolae.pirea@upb.ro,
-        richard.genoud@gmail.com, richard@nod.at, robh+dt@kernel.org,
-        tudor.ambarus@microchip.com, vigneshr@ti.com, vkoul@kernel.org,
-        wg@grandegger.com
-Subject: Applied "dt-bindings: spi_atmel: add microchip,sam9x60-spi" to the spi tree
-In-Reply-To: <1578488123-26127-13-git-send-email-claudiu.beznea@microchip.com>
-Message-Id: <applied-1578488123-26127-13-git-send-email-claudiu.beznea@microchip.com>
-X-Patchwork-Hint: ignore
+        id S1729028AbgAIWHl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jan 2020 17:07:41 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:12965 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgAIWHk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jan 2020 17:07:40 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e17a4190000>; Thu, 09 Jan 2020 14:07:21 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 09 Jan 2020 14:07:39 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 09 Jan 2020 14:07:39 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Jan
+ 2020 22:07:38 +0000
+Subject: Re: [PATCH v12 00/22] mm/gup: prereqs to track dma-pinned pages:
+ FOLL_PIN
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
+Date:   Thu, 9 Jan 2020 14:07:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <20200107224558.2362728-1-jhubbard@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578607641; bh=+NEvkiCKN4muU9xEMv7O0vL5DDgA+srq0dD5KyM2g5Y=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=pAGT+6E4t/5Sgzls83W8rrhD73PbNnbQX0v+uLgN6NdK6ox1s0YILXA5+Q9WkB7U5
+         Qgdq4MfQKXM00HXiVUvw/MN1+0Npjsn2yckDImY4OPUy9vKTHUQrRr5b/32qyPv6Y4
+         G8uphKhloBfTQ9ova5uKctNKv/z/ybtCLuSP2dniMP6oLwVdc9frqv+uSdiahegES7
+         HZtKpaUzMnUGCyRfUKLB2LXhSyGZIEwOR/UkaAhKUOx0B4NaRtt8Qz56svVPCLTYZD
+         6dBjR9cwNa9He9WTH1/ZpC5nBgZ5v8YIJX6cYUd/1MLjMgnC8wrJfdT7uC+HoO76Fq
+         StnhQb6FNJNXA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The patch
+On 1/7/20 2:45 PM, John Hubbard wrote:
+> Hi,
+> 
+> The "track FOLL_PIN pages" would have been the very next patch, but it is
+> not included here because I'm still debugging a bug report from Leon.
+> Let's get all of the prerequisite work (it's been reviewed) into the tree
+> so that future reviews are easier. It's clear that any fixes that are
+> required to the tracking patch, won't affect these patches here.
+> 
+> This implements an API naming change (put_user_page*() -->
+> unpin_user_page*()), and also adds FOLL_PIN page support, up to
+> *but not including* actually tracking FOLL_PIN pages. It extends
+> the FOLL_PIN support to a few select subsystems. More subsystems will
+> be added in follow up work.
+> 
 
-   dt-bindings: spi_atmel: add microchip,sam9x60-spi
+Hi Andrew and all,
 
-has been applied to the spi tree at
+To clarify: I'm hoping that this series can go into 5.6.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.6
+Meanwhile, I'm working on tracking down and solving the problem that Leon
+reported, in the "track FOLL_PIN pages" patch, and that patch is not part of
+this series.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 0a1eb761ff30cdc089bcc94e1bd540b6956487c5 Mon Sep 17 00:00:00 2001
-From: Claudiu Beznea <claudiu.beznea@microchip.com>
-Date: Wed, 8 Jan 2020 14:55:19 +0200
-Subject: [PATCH] dt-bindings: spi_atmel: add microchip,sam9x60-spi
-
-Add microchip,sam9x60-spi to DT bindings documentation.
-
-Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-Link: https://lore.kernel.org/r/1578488123-26127-13-git-send-email-claudiu.beznea@microchip.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/devicetree/bindings/spi/spi_atmel.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/spi/spi_atmel.txt b/Documentation/devicetree/bindings/spi/spi_atmel.txt
-index f99c733d75c1..5bb4a8f1df7a 100644
---- a/Documentation/devicetree/bindings/spi/spi_atmel.txt
-+++ b/Documentation/devicetree/bindings/spi/spi_atmel.txt
-@@ -1,7 +1,7 @@
- Atmel SPI device
- 
- Required properties:
--- compatible : should be "atmel,at91rm9200-spi".
-+- compatible : should be "atmel,at91rm9200-spi" or "microchip,sam9x60-spi".
- - reg: Address and length of the register set for the device
- - interrupts: Should contain spi interrupt
- - cs-gpios: chipselects (optional for SPI controller version >= 2 with the
+thanks,
 -- 
-2.20.1
-
+John Hubbard
+NVIDIA
