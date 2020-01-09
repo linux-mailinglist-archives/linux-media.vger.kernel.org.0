@@ -2,92 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 827C4135A67
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 14:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A305135A77
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2020 14:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729523AbgAINlJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Jan 2020 08:41:09 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39490 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725839AbgAINlJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Jan 2020 08:41:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578577268;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DjXy+AfQxT5oKb1npjG/N/1uhSjMUf7kBqPATvqX9mE=;
-        b=UEE5Cic2CKebTJSye/hXiiWTuI85hOT7Ucwg8ZQ4ln7YT7Ve0j4HalGYsri20K9nSxE2W2
-        g+btYACPcABfo1r8InYoJ5veu8zk0vgzTy6rWveMSxw8B33gH64pzCgGNy4rB6AVFsTFmh
-        xjRROcd73LyUfs1cATVjoV89as9zriE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-okpr7GUaP9KNpZzaPf-FrQ-1; Thu, 09 Jan 2020 08:41:05 -0500
-X-MC-Unique: okpr7GUaP9KNpZzaPf-FrQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69730477;
-        Thu,  9 Jan 2020 13:41:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-98.ams2.redhat.com [10.36.116.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CE1315DA7C;
-        Thu,  9 Jan 2020 13:40:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id CD43431F29; Thu,  9 Jan 2020 14:40:52 +0100 (CET)
-Date:   Thu, 9 Jan 2020 14:40:52 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-Cc:     Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        id S1731163AbgAINoi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Jan 2020 08:44:38 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:47009 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725839AbgAINoi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Jan 2020 08:44:38 -0500
+Received: by mail-qv1-f65.google.com with SMTP id u1so2925563qvk.13
+        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2020 05:44:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xnUuj/R1pZ9BEEfeZC13Q/U2+y+Js++Xk5V7ipUCERI=;
+        b=mNZwe0FrvBkpwSRGK9efMB2D/wuloasVh9w9E62/+Jsf3lV7g4JJyZ/tezUdJwTo4U
+         wk/t5wwOsL2Wt/IRA0uE2cbvakkhnlqi4SCvz+UZwTGx2X7QpI9+0ZneU1C++i42fCnW
+         EzXoWW8lSXYoQvhPlgZa5dQWEk+omDGNzZoC0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xnUuj/R1pZ9BEEfeZC13Q/U2+y+Js++Xk5V7ipUCERI=;
+        b=ppu7S8ohUQxXIfnsUaOFXI0UWAffroQ9DYTs5K6dAGBaeA84jOC7ztiIy25veR2Oj2
+         XkDbVStmVSaGE90rLT/Xlj2NetPx6qxgSanHQ4QrUvXDuqYpWzyuYdiZyVJlBYWFkPX1
+         t02xOfXiZ9SsnbDa/gduo/vuThgNG8lAno1F6G0J2WzA2kreiUIafLCtEd1PG0Bc7HVT
+         yGObBD/KmA75MY1eXwZn+Le2lMLJ6uLuDsIHDa9GHXvWrfVT+Ne3R783hL01aKOwyv4y
+         vRUXB4LdVNmB0L65g4W8nS4DUYU1uRGaKjVdJKBVqLwcmdwPAae8U2t8gIU9HdWofJWD
+         1fpQ==
+X-Gm-Message-State: APjAAAUuLO/A+IJsn7f4O5jJm8Ps673F4CYE9nHhjOB/6SePlLyVoG60
+        S8jKxmjTXlviwhRfZ8JOYsCWXiWvfHkQ6ngsO0CwkA==
+X-Google-Smtp-Source: APXvYqyB7mN7odCMCXeENZw0NmznYgYh4877oqe/I4JbXNyp7VXZ8ZMts+tt8zqupb3L5+UuzxKv2blZz2YsY1x14Rg=
+X-Received: by 2002:a0c:fc12:: with SMTP id z18mr8995655qvo.17.1578577477214;
+ Thu, 09 Jan 2020 05:44:37 -0800 (PST)
+MIME-Version: 1.0
+References: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
+ <20200108104002.jxh6amnrazhnamej@sirius.home.kraxel.org> <CAOiLmNHMAz6UqxuEsiq6Y_dSNcCvtBrFR-FHG6voJAhpF8SeeA@mail.gmail.com>
+ <20200109131218.5xc6zhovbgjavfpv@sirius.home.kraxel.org>
+In-Reply-To: <20200109131218.5xc6zhovbgjavfpv@sirius.home.kraxel.org>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Thu, 9 Jan 2020 22:44:29 +0900
+Message-ID: <CAD=HUj7jdKsWAfmmzO7bpmd3PyHFDA91RKkzKiVbuv8=PT2Qxw@mail.gmail.com>
+Subject: Re: [virtio-dev][RFC PATCH v1 1/2] content: define what exporting a
+ resource is
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     David Stevens <stevensd@google.com>,
+        virtio-dev@lists.oasis-open.org, Dylan Reid <dgreid@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
         Alexandre Courbot <acourbot@chromium.org>,
         Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
         Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video
- device specification
-Message-ID: <20200109134052.iqxw7l2ibjxpzcrz@sirius.home.kraxel.org>
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <3550989.gzE5nMqd4t@os-lin-dmo>
- <CAAFQd5BgkEUwBFWdv2ZH98egjm=u0dBRgtexqkzjES+J1SEmag@mail.gmail.com>
- <3878267.TzG3DlCiay@os-lin-dmo>
- <20191219131234.wm24cazvc7zrnhpn@sirius.home.kraxel.org>
- <CAD90Vcb4Vb49uHGRRg0nJaKo=goH6zOxdQR2d7piLH_byxDYyw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD90Vcb4Vb49uHGRRg0nJaKo=goH6zOxdQR2d7piLH_byxDYyw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+> > that isn't just a leaf node of the spec. I think it's better to define
+> > 'resource' as a top level concept for virtio devices, even if the specifics
+> > of what a 'resource' is are defined by individual device types.
+>
+> Your patch doesn't define what a resource is though.  It only refers to
+> something it calls 'resource' ...
 
-> Regarding re-using, the driver can simply re-queue buffers returned by
-> the device. If the device needs a buffer as reference frame, it must
-> not return the buffer.
+Reading it again, what I wrote was a little ambiguous. Stating things
+more clearly, the top level defines an 'exported resource' as a
+'resource' associated with a uuid for the purpose of sharing between
+different virtio devices. It leaves the definition of what constitutes
+a 'resource' to individual device types. Perhaps it would be better to
+use 'object' or something instead of 'resource', to avoid the
+collision with virtio-gpu resources.
 
-Ok, that'll work.
-
-> I'll describe this rule in the next version of the patch.
-
-Good.  You should also add a note about ordering.  If the device returns
-the buffers as soon as they are no longer needed for decoding they
-might be completed out-of-order, specifically B-Frames might complete
-before the reference I/P frame.  Is the device allowed to do that or
-should it complete the buffers in playback order?
-
-cheers,
-  Gerd
-
+-David
