@@ -2,197 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4387A136A50
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1DB3136A5C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:59:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727339AbgAJJz7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 04:55:59 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55021 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727274AbgAJJz7 (ORCPT
+        id S1727413AbgAJJ7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 04:59:12 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:41631 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727279AbgAJJ7M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 04:55:59 -0500
-Received: from [IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef]
- ([IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id pr1Filiw4pLtbpr1IiPmiA; Fri, 10 Jan 2020 10:55:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578650157; bh=BwacujmROvU6llGx0HTWoJb8ykjGIXGBs8a7e368hXE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=wTFTE5+DiOJnzN+QAgXlzB7b8xWmdpWjJFRHwEXMayIIAFnmOqr2kX1d6kFVofMIE
-         n16bmbEXy0m792lJrH6keJq4I3ibPJComti6pGU/hWSEPhXAYhEJT+xnwaVPRmQ+qI
-         xiaRkiKsRDR1Z7r6LGn3j396s6prqqN9658vGeLMgGeGunhwSIj7bSF5NMELuo89dV
-         Tz6r0rGmohIQOsdaPDLJ7F0HL/gnfhfrHb/XLR2h6HkQeU8BJEOFpn9SiTOIClnQ4t
-         RvS4NU3yYDPiGW1TAceaWolvTuzRRlS5PDcWDFORD9mfIrGDruSeq4IHAl/TLy5XMR
-         XwXs+V5ly1l1g==
-Subject: Re: [RFC][PATCH 05/15] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT in REQBUFS
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-6-senozhatsky@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8d0c95c3-64a2-ec14-0ac2-204b0430b2b4@xs4all.nl>
-Date:   Fri, 10 Jan 2020 10:55:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Fri, 10 Jan 2020 04:59:12 -0500
+X-UUID: 5a7a97646efc45f582630cc7e4b8fa24-20200110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=qE9y63KFMGJo9lPZjvOnTYfvOog5BHCuHzbyq2aAgUc=;
+        b=cy/PptXcHmOQhwX71SO5dGV2FSkwsa/QzF20TeZBx2WmGzY3zhLS7XMvDPDzt3w7P/W21mlP+6Nt9K27ZyHTqZPXwCtTRyHC48FpG9dSI7M7zdz1Fl6L6pfLmLhmjvomCE8z+2CT8WcmeR+K99SylcviI505fyBSkl1ofohYB00=;
+X-UUID: 5a7a97646efc45f582630cc7e4b8fa24-20200110
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <jungo.lin@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 348972074; Fri, 10 Jan 2020 17:59:06 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 10 Jan 2020 17:58:12 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 10 Jan 2020 17:58:33 +0800
+Message-ID: <1578650345.3348.15.camel@mtksdccf07>
+Subject: Re: Re: [v6, 3/5] media: videodev2.h: Add new boottime timestamp
+ type
+From:   Jungo Lin <jungo.lin@mediatek.com>
+To:     <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>
+Date:   Fri, 10 Jan 2020 17:59:05 +0800
+In-Reply-To: <e833b88ba74945c495a102c98cd54725@mtkmbs07n1.mediatek.inc>
+References: <Jungo Lin <jungo.lin@mediatek.com>
+         <20191219054930.29513-1-jungo.lin@mediatek.com>
+         <20191219054930.29513-4-jungo.lin@mediatek.com>
+         <081d7d77-2bf7-0fc2-60ea-8ba8faa5b6af@xs4all.nl>
+         <e833b88ba74945c495a102c98cd54725@mtkmbs07n1.mediatek.inc>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-In-Reply-To: <20191217032034.54897-6-senozhatsky@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCfq+5onDbtpArYan3kYQIhvL/k2PgbaOWvKGHUXgRZZMPAIVvS76/2xObvmreR6fWDyFVYb3hJqsHWGZ+/Hl3xysoBOb1Pynce2WIfEK9ib24wjdWfj
- a64PDx4ydLshJOyO0+X+VLYclDPKnEHY6FmCqIM5ftyeEYIdJXtzsW9YOoxj82eLOGB+Et55MpVvKQeTsYND9N3sFye1B8MDW+041jm0vSRjjPQcTyOE0vKs
- tfxcdDH0kz0QaG0lIIrbeKkLYsmKkq4nvHfRuIX+XTcgBwYA2ETnGm8HUWTxKdMf0NxOARz/LewaPQtCxUqULmVcoMVa9QDY3OpgR3KUxT20VehkrE6tWcZE
- SP6xvvQgLRnqb8/EFcyCbbedfKOZezFnO9dn8gJCaJu9YYAtxaihmNbpIH3KqMhaXjdc0wM5s0mnWh2hxVHVR2QG32ZeAeI/T5/RWdWoK6aTXp9FHGSv7C1j
- aBiveqv8ryuZKshiBvyFHKJZdhdQvwGtHcoSjwqxNikoO3JrA38c15zc+1GBfUpf4kHdUVUOm0kpac1nZLdnPOCMp6HFeR+dwdzihXbYtiyJbOluQ7EFRDn+
- /S7fQU2BT6pHrhHHTvW+B26wg6FxBBc0xkGESpKPeQFd+bc0YnALgC4+yjoWWKWUZjo=
+X-TM-SNTS-SMTP: C40722A5A5AA1F624E1344AD352F0082834728ACDAF7B71B2812386AA5456D0E2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
-> This patch lets user-space to request a non-consistent memory
-> allocation during REQBUFS ioctl call. We use one bit of a
-> ->reserved[1] member of struct v4l2_requestbuffers, which is
-> now renamed to ->flags.
-> 
-> There is just 1 four-byte reserved area in v4l2_requestbuffers
-> struct, therefore for backward compatibility ->reserved and
-> ->flags were put into anonymous union.
-> 
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  Documentation/media/uapi/v4l/vidioc-reqbufs.rst | 14 ++++++++++++--
->  drivers/media/common/videobuf2/videobuf2-v4l2.c | 14 ++++++++++++--
->  drivers/media/v4l2-core/v4l2-ioctl.c            |  3 ---
->  include/uapi/linux/videodev2.h                  |  5 ++++-
->  4 files changed, 28 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
-> index d0c643db477a..9b69a61d9fd4 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
-> @@ -112,10 +112,20 @@ aborting or finishing any DMA in progress, an implicit
->  	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
->  	free any previously allocated buffers, so this is typically something
->  	that will be done at the start of the application.
-> -    * - __u32
-> +    * - union
-> +      - (anonymous)
-> +    * -
-> +      - __u32
-> +      - ``flags``\ [1]
-> +      - Specifies additional buffer management attributes. E.g. when
-> +        ``V4L2_FLAG_MEMORY_NON_CONSISTENT`` set vb2 backends may be allocated
-> +        in non-consistent memory.
-
-This should link to the table with these memory flags, rather than
-effectively documenting V4L2_FLAG_MEMORY_NON_CONSISTENT again.
-
-You also probably meant "vb2 buffers" rather than "vb2 backends".
-
-> +    * -
-> +      - __u32
->        - ``reserved``\ [1]
->        - A place holder for future extensions. Drivers and applications
-> -	must set the array to zero.
-> +	must set the array to zero, unless application wants to specify
-> +        buffer management ``flags``.
-
-I think support for this flag should be signaled as a V4L2_BUF_CAP capability.
-If the capability is not set, then vb2 should set 'flags' to 0 to preserve the
-old 'Drivers and applications must set the array to zero' behavior.
-
-The documentation for 'reserved[1]' should be changed to something like:
-
-	Kept for backwards compatibility. Use ``flags`` instead.
-
-Regards,
-
-	Hans
->  
->  .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
->  
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index f1e88c9398c7..0eabb589684f 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -693,9 +693,15 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
->  {
->  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
-> +	bool consistent = true;
-> +
-> +	if (req->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> +		consistent = false;
->  
->  	fill_buf_caps(q, &req->capabilities);
-> -	return ret ? ret : vb2_core_reqbufs(q, req->memory, true, &req->count);
-> +	if (ret)
-> +		return ret;
-> +	return vb2_core_reqbufs(q, req->memory, consistent, &req->count);
->  }
->  EXPORT_SYMBOL_GPL(vb2_reqbufs);
->  
-> @@ -939,13 +945,17 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
->  {
->  	struct video_device *vdev = video_devdata(file);
->  	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
-> +	bool consistent = true;
->  
->  	fill_buf_caps(vdev->queue, &p->capabilities);
->  	if (res)
->  		return res;
->  	if (vb2_queue_is_busy(vdev, file))
->  		return -EBUSY;
-> -	res = vb2_core_reqbufs(vdev->queue, p->memory, true, &p->count);
-> +	if (p->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> +		consistent = false;
-> +
-> +	res = vb2_core_reqbufs(vdev->queue, p->memory, consistent, &p->count);
->  	/* If count == 0, then the owner has released all buffers and he
->  	   is no longer owner of the queue. Otherwise we have a new owner. */
->  	if (res == 0)
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 003b7422aeef..225d06819bce 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1973,9 +1973,6 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
->  
->  	if (ret)
->  		return ret;
-> -
-> -	CLEAR_AFTER_FIELD(p, capabilities);
-> -
->  	return ops->vidioc_reqbufs(file, fh, p);
->  }
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index d352997f2b62..73a4854f71bd 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -919,7 +919,10 @@ struct v4l2_requestbuffers {
->  	__u32			type;		/* enum v4l2_buf_type */
->  	__u32			memory;		/* enum v4l2_memory */
->  	__u32			capabilities;
-> -	__u32			reserved[1];
-> +	union {
-> +		__u32		flags;
-> +		__u32		reserved[1];
-> +	};
->  };
->  
->  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
-> 
+SGkgSGFuczoNCg0KQXBwcmVjaWF0ZSB5b3VyIGNvbW1lbnRzIG9uIHRoaXMgcGF0Y2guDQoNCj4g
+RnJvbTogSGFucyBWZXJrdWlsIFttYWlsdG86aHZlcmt1aWwtY2lzY29AeHM0YWxsLm5sXQ0KPiBT
+ZW50OiBUdWVzZGF5LCBKYW51YXJ5IDA3LCAyMDIwIDEwOjExIFBNDQo+IFRvOiBqdW5nby5saW5A
+bWVkaWF0ZWsuY29tOyB0ZmlnYUBjaHJvbWl1bS5vcmc7IGxhdXJlbnQucGluY2hhcnRAaWRlYXNv
+bmJvYXJkLmNvbTsgbWF0dGhpYXMuYmdnQGdtYWlsLmNvbTsgbWNoZWhhYkBrZXJuZWwub3JnDQo+
+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1lZGlhdGVrQGxpc3RzLmlu
+ZnJhZGVhZC5vcmc7IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgZGV2aWNl
+dHJlZUB2Z2VyLmtlcm5lbC5vcmc7IHNydl9oZXVwc3RyZWFtQG1lZGlhdGVrLmNvbTsgZGRhdmVu
+cG9ydEBjaHJvbWl1bS5vcmc7IHJvYmhAa2VybmVsLm9yZzsgU2Vhbi5DaGVuZ0BtZWRpYXRlay5j
+b207IHNqLmh1YW5nQG1lZGlhdGVrLmNvbTsgRnJlZGVyaWMuQ2hlbkBtZWRpYXRlay5jb207IEpl
+cnJ5LWNoLkNoZW5AbWVkaWF0ZWsuY29tOyBGcmFua2llLkNoaXVAbWVkaWF0ZWsuY29tOyByeWFu
+Lnl1QG1lZGlhdGVrLmNvbTsgUnlubi5XdUBtZWRpYXRlay5jb207IHl1emhhb0BjaHJvbWl1bS5v
+cmc7IHp3aXNsZXJAY2hyb21pdW0ub3JnOyBzaGlrQGNocm9taXVtLm9yZzsgc3VsZWltYW5AY2hy
+b21pdW0ub3JnDQo+IFN1YmplY3Q6IFJlOiBbdjYsIDMvNV0gbWVkaWE6IHZpZGVvZGV2Mi5oOiBB
+ZGQgbmV3IGJvb3R0aW1lIHRpbWVzdGFtcCB0eXBlDQo+IA0KPiBPbiAxMi8xOS8xOSA2OjQ5IEFN
+LCBKdW5nbyBMaW4gd3JvdGU6DQo+ID4gRm9yIENhbWVyYSBBUihBdWdtZW50ZWQgUmVhbGl0eSkg
+YXBwbGljYXRpb24gcmVxdWlyZXMgY2FtZXJhDQo+ID4gdGltZXN0YW1wcyB0byBiZSByZXBvcnRl
+ZCB3aXRoIENMT0NLX0JPT1RUSU1FIHRvIHN5bmMgdGltZXN0YW1wIHdpdGgNCj4gPiBvdGhlciBz
+ZW5zb3Igc291cmNlcy4NCj4gPg0KPiA+IFRoZSBib290dGltZSB0aW1lc3RhbXAgaXMgaWRlbnRp
+Y2FsIHRvIG1vbm90b25pYyB0aW1lc3RhbXAsIGV4Y2VwdCBpdA0KPiA+IGFsc28gaW5jbHVkZXMg
+YW55IHRpbWUgdGhhdCB0aGUgc3lzdGVtIGlzIHN1c3BlbmRlZC4NCj4gPg0KPiA+IFNpZ25lZC1v
+ZmYtYnk6IEp1bmdvIExpbiA8anVuZ28ubGluQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiBD
+aGFuZ2VzIGZyb20gdjY6DQo+ID4gIC0gTm8gY2hhbmdlLg0KPiA+IC0tLQ0KPiA+ICBEb2N1bWVu
+dGF0aW9uL21lZGlhL3VhcGkvdjRsL2J1ZmZlci5yc3QgfCAxMSArKysrKysrKysrLQ0KPiA+ICBp
+bmNsdWRlL3VhcGkvbGludXgvdmlkZW9kZXYyLmggICAgICAgICAgfCAgMiArKw0KPiA+ICAyIGZp
+bGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL21lZGlhL3VhcGkvdjRsL2J1ZmZlci5yc3QNCj4gPiBi
+L0RvY3VtZW50YXRpb24vbWVkaWEvdWFwaS92NGwvYnVmZmVyLnJzdA0KPiA+IGluZGV4IDkxNDli
+NTc3MjhlNS4uZjQ1YmZjZTdmZGRkIDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vbWVk
+aWEvdWFwaS92NGwvYnVmZmVyLnJzdA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vbWVkaWEvdWFw
+aS92NGwvYnVmZmVyLnJzdA0KPiA+IEBAIC02NjIsMTMgKzY2MiwyMiBAQCBCdWZmZXIgRmxhZ3MN
+Cj4gPiAgICAgICAgLSAweDAwMDAyMDAwDQo+ID4gICAgICAgIC0gVGhlIGJ1ZmZlciB0aW1lc3Rh
+bXAgaGFzIGJlZW4gdGFrZW4gZnJvbSB0aGUgYGBDTE9DS19NT05PVE9OSUNgYA0KPiA+ICBjbG9j
+ay4gVG8gYWNjZXNzIHRoZSBzYW1lIGNsb2NrIG91dHNpZGUgVjRMMiwgdXNlDQo+ID4gLTpjOmZ1
+bmM6YGNsb2NrX2dldHRpbWVgLg0KPiA+ICs6YzpmdW5jOmBjbG9ja19nZXR0aW1lYCB1c2luZyBj
+bG9jayBJRHMgYGBDTE9DS19NT05PVE9OSUNgYC4NCj4gDQo+IElEcyAtPiBJRA0KPiANCg0KT2ss
+IGZpeCBpbiBuZXh0IHZlcnNpb24uDQoNCj4gPiAgICAgICogLi4gX2BWNEwyLUJVRi1GTEFHLVRJ
+TUVTVEFNUC1DT1BZYDoNCj4gPg0KPiA+ICAgICAgICAtIGBgVjRMMl9CVUZfRkxBR19USU1FU1RB
+TVBfQ09QWWBgDQo+ID4gICAgICAgIC0gMHgwMDAwNDAwMA0KPiA+ICAgICAgICAtIFRoZSBDQVBU
+VVJFIGJ1ZmZlciB0aW1lc3RhbXAgaGFzIGJlZW4gdGFrZW4gZnJvbSB0aGUgY29ycmVzcG9uZGlu
+Zw0KPiA+ICBPVVRQVVQgYnVmZmVyLiBUaGlzIGZsYWcgYXBwbGllcyBvbmx5IHRvIG1lbTJtZW0g
+ZGV2aWNlcy4NCj4gPiArICAgICogLi4gX2BWNEwyX0JVRl9GTEFHX1RJTUVTVEFNUF9CT09USU1F
+YDoNCj4gDQo+IFlvdSBtaXN0eXBlZCBCT09UVElNRSBhcyBCT09USU1FIGluIGEgbG90IG9mIHBs
+YWNlcy4gUGxlYXNlIGNoZWNrLg0KPiANCg0KT2ssIGZpeCB0aGlzIHR5cG8gaW4gbmV4dCB2ZXJz
+aW9uLg0KDQo+ID4gKw0KPiA+ICsgICAgICAtIGBgVjRMMl9CVUZfRkxBR19USU1FU1RBTVBfQk9P
+VElNRWBgDQo+ID4gKyAgICAgIC0gMHgwMDAwODAwMA0KPiA+ICsgICAgICAtIFRoZSBidWZmZXIg
+dGltZXN0YW1wIGhhcyBiZWVuIHRha2VuIGZyb20gdGhlIGBgQ0xPQ0tfQk9PVFRJTUVgYA0KPiA+
+ICtjbG9jay4gVG8gYWNjZXNzIHRoZSBzYW1lIGNsb2NrIG91dHNpZGUgVjRMMiwgdXNlDQo+ID4g
+KzpjOmZ1bmM6YGNsb2NrX2dldHRpbWVgIHVzaW5nIGNsb2NrIElEcyBgYENMT0NLX0JPT1RUSU1F
+YGAuDQo+IA0KPiBJRHMgLT4gSUQNCj4gDQoNCkRpdHRvLg0KDQo+ID4gK0lkZW50aWNhbCB0byBD
+TE9DS19NT05PVE9OSUMsIGV4Y2VwdCBpdCBhbHNvIGluY2x1ZGVzIGFueSB0aW1lIHRoYXQNCj4g
+PiArdGhlIHN5c3RlbSBpcyBzdXNwZW5kZWQuDQo+ID4gICAgICAqIC4uIF9gVjRMMi1CVUYtRkxB
+Ry1UU1RBTVAtU1JDLU1BU0tgOg0KPiA+DQo+ID4gICAgICAgIC0gYGBWNEwyX0JVRl9GTEFHX1RT
+VEFNUF9TUkNfTUFTS2BgIGRpZmYgLS1naXQNCj4gPiBhL2luY2x1ZGUvdWFwaS9saW51eC92aWRl
+b2RldjIuaCBiL2luY2x1ZGUvdWFwaS9saW51eC92aWRlb2RldjIuaA0KPiA+IGluZGV4IDA0NDgx
+YzcxN2ZlZS4uNzRlZjk0NzJlNzAyIDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1ZGUvdWFwaS9saW51
+eC92aWRlb2RldjIuaA0KPiA+ICsrKyBiL2luY2x1ZGUvdWFwaS9saW51eC92aWRlb2RldjIuaA0K
+PiA+IEBAIC0xMDYwLDYgKzEwNjAsOCBAQCBzdGF0aWMgaW5saW5lIF9fdTY0IHY0bDJfdGltZXZh
+bF90b19ucyhjb25zdCBzdHJ1Y3QgdGltZXZhbCAqdHYpDQo+ID4gICNkZWZpbmUgVjRMMl9CVUZf
+RkxBR19USU1FU1RBTVBfVU5LTk9XTjB4MDAwMDAwMDANCj4gPiAgI2RlZmluZSBWNEwyX0JVRl9G
+TEFHX1RJTUVTVEFNUF9NT05PVE9OSUMweDAwMDAyMDAwDQo+ID4gICNkZWZpbmUgVjRMMl9CVUZf
+RkxBR19USU1FU1RBTVBfQ09QWTB4MDAwMDQwMDANCj4gPiArI2RlZmluZSBWNEwyX0JVRl9GTEFH
+X1RJTUVTVEFNUF9CT09USU1FMHgwMDAwODAwMA0KPiANCj4gVGhpcyBzaG91bGQgYmUgMHgwMDAw
+NjAwMC4NCj4gDQo+IChmbGFncyAmIFY0TDJfQlVGX0ZMQUdfVElNRVNUQU1QX01BU0spIGlzIGEg
+dmFsdWUgdGhhdCBkZXRlcm1pbmVzIHRoZSB0aW1lc3RhbXAgc291cmNlLCBzbyB0aGVzZSB0aW1l
+c3RhbXAgZGVmaW5lcyBhcmUgdmFsdWVzLCBub3QgYml0bWFza3MuDQo+IA0KPiBIb3dldmVyLCBJ
+IGRvbid0IGxpa2UgeW91ciBhcHByb2FjaC4gV2hldGhlciB0byB1c2UgTU9OT1RPTklDIG9yIEJP
+T1RUSU1FIGlzIHJlYWxseSBhIHVzZXJzcGFjZSBkZWNpc2lvbiwgYW5kIGxvY2tpbmcgYSBkcml2
+ZXIgdG8gb25lIG9mIHRoZXNlIHR3byBvcHRpb25zIHNlZW1zIHdyb25nIHRvIG1lLg0KPiANCj4g
+SW5zdGVhZCBhZGQgbmV3IFY0TDJfQlVGX0ZMQUdfVVNFX0JPT1RUSU1FIGZsYWcgdGhhdCB1c2Vy
+c3BhY2UgY2FuIHNldCB3aGVuIHF1ZXVpbmcgdGhlIGJ1ZmZlciBhbmQgdGhhdCBpbmRpY2F0ZXMg
+dGhhdCBpbnN0ZWFkIG9mIHRoZSBNT05PVE9OSUMgdGltZXN0YW1wLCBpdCBzaG91bGQgcmV0dXJu
+IHRoZSBCT09UVElNRSB0aW1lc3RhbXAuIFRoaXMgcmVxdWlyZXMgYSBzaW1wbGUgaGVscGVyIGZ1
+bmN0aW9uIHRoYXQgcmV0dXJucyBlaXRoZXIga3RpbWVfZ2V0X25zIG9yIGt0aW1lX2dldF9ib290
+dGltZV9ucyBiYXNlZCBvbiB0aGUgdmIyX3Y0bDJfYnVmZmVyIGZsYWdzIGZpZWxkLg0KPiANCj4g
+SXQncyBkZWZpbml0ZWx5IG1vcmUgd29yayAoYWx0aG91Z2ggaXQgY2FuIGJlIGxpbWl0ZWQgdG8g
+ZHJpdmVycyB0aGF0IHVzZSB2YjIpLCBidXQgbXVjaCBtb3JlIHVzZWZ1bC4NCj4gDQo+IFJlZ2Fy
+ZHMsDQo+IA0KPiBIYW5zDQo+IA0KDQpBZ3JlZS4NCldlIHdpbGwgYWRkIG5ldyBWNEwyX0JVRl9G
+TEFHX1VTRV9CT09UVElNRSBmbGFnICgweDAwMDA2MDAwLikgdG8gcmVwbGFjZQ0KdGhpcyBWNEwy
+X0JVRl9GTEFHX1RJTUVTVEFNUF9CT09USU1FIGZsYWcgZm9yIGJldHRlciB1c2FnZS4NCg0KU2lu
+Y2VyZWx5DQoNCkp1bmdvDQoNCj4gPiArDQo+ID4gIC8qIFRpbWVzdGFtcCBzb3VyY2VzLiAqLw0K
+PiA+ICAjZGVmaW5lIFY0TDJfQlVGX0ZMQUdfVFNUQU1QX1NSQ19NQVNLMHgwMDA3MDAwMA0KPiA+
+ICAjZGVmaW5lIFY0TDJfQlVGX0ZMQUdfVFNUQU1QX1NSQ19FT0YweDAwMDAwMDAwDQo+ID4NCg0K
+DQoNCg==
 
