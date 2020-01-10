@@ -2,233 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C6B5136A62
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:59:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94061136A9F
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 11:08:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbgAJJ7t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 04:59:49 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:35433 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727448AbgAJJ7t (ORCPT
+        id S1727540AbgAJKIZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 05:08:25 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:58767 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727539AbgAJKIX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 04:59:49 -0500
-Received: from [IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef]
- ([IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id pr4wilkyYpLtbpr4ziPokh; Fri, 10 Jan 2020 10:59:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578650386; bh=LLhj5g/Wg9RDukj+DENz05SKPksXjmrMPdaz9kXOg+U=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=pZjCzE+bj929eCSTqjWIlko2wY/T0Ux/3+Q3MleRKbtgnoVXh25bByPvAEjR0Urqk
-         lexcVTmtbgrQM0MiNMJVMEu9XK24MdgsSnJhaHCmcJ17zwBQaRGu7AInN/mKcBJybf
-         z2Llk5e+kzftG0aZXD4RIEjRlo/ooC+LK4G1+R7EXzvQc5wk7RTr3GEVvd7q/5Paxs
-         pSmFOX/H2zNvAxfs2dgFPsN9SUos0aSJyEJoBT4H09MQxNX7OegHf8asdR10O+Zv92
-         EM+Cj/PE6PJsmwC+QaqvwNNEeWR7blWtus6/ao9lMflpN/jri7dVVeSrjHsxV7xm6z
-         BzUHvgIngEJeg==
-Subject: Re: [RFC][PATCH 06/15] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT in CREATE_BUFS
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-7-senozhatsky@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <1fedab8f-e9a1-36b1-3dd0-8f1ed782ec4d@xs4all.nl>
-Date:   Fri, 10 Jan 2020 10:59:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Fri, 10 Jan 2020 05:08:23 -0500
+X-UUID: 2ca0150a18fd4d6698ea54d17c03c9c8-20200110
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=FYP5p0wxJ3QFwXLMGPYrw3vhC17+4GD5PVgVtXVVOhQ=;
+        b=q7++ne3AnzWXWNTq4xNmouj5aa2eDIdlw9sI08/AJ9rMRXmfJLWQPH7JNajbssaEgwEInkfipZG1OEArM7j0VrO1/CGzQMcXpfHV7zAsvIzJee/zsfMX4SgzOmBN5TXLN1ngB2npMiEzvkyKPmwgO6F6tcri2K125pg+ug/bR9s=;
+X-UUID: 2ca0150a18fd4d6698ea54d17c03c9c8-20200110
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <jungo.lin@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 568683733; Fri, 10 Jan 2020 18:08:17 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 10 Jan 2020 18:07:49 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 10 Jan 2020 18:08:54 +0800
+Message-ID: <1578650895.3348.18.camel@mtksdccf07>
+Subject: Re: [v6, 3/5] media: videodev2.h: Add new boottime timestamp type
+From:   Jungo Lin <jungo.lin@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <tfiga@chromium.org>, <laurent.pinchart@ideasonboard.com>,
+        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>, <srv_heupstream@mediatek.com>,
+        <ddavenport@chromium.org>, <robh@kernel.org>,
+        <Sean.Cheng@mediatek.com>, <sj.huang@mediatek.com>,
+        <frederic.chen@mediatek.com>, <Jerry-ch.Chen@mediatek.com>,
+        <frankie.chiu@mediatek.com>, <ryan.yu@mediatek.com>,
+        <Rynn.Wu@mediatek.com>, <yuzhao@chromium.org>,
+        <zwisler@chromium.org>, <shik@chromium.org>,
+        <suleiman@chromium.org>
+Date:   Fri, 10 Jan 2020 18:08:15 +0800
+In-Reply-To: <081d7d77-2bf7-0fc2-60ea-8ba8faa5b6af@xs4all.nl>
+References: <Jungo Lin <jungo.lin@mediatek.com>
+         <20191219054930.29513-1-jungo.lin@mediatek.com>
+         <20191219054930.29513-4-jungo.lin@mediatek.com>
+         <081d7d77-2bf7-0fc2-60ea-8ba8faa5b6af@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-In-Reply-To: <20191217032034.54897-7-senozhatsky@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfALt2fSuxg9XeRW0/IyGghVR28gQzeDcHSdiYmVAbndc+DDKVGFJ4c5huIB21MNDZN8mlIXiVGZtihRldcIN2sB64fAvxsnsHGcXxevEcEO2NVZ48yPo
- M3ffEaM2VbEw38TQvB75CXet36DrHcUAScJAkz8jZ4/0KLkdzk9s1m6X6opRYosH+IbZ3wa48bhg+1faVS/Rmof/4XTCF7Pw8boworudnBLDPqMnOpgD6HCj
- Z8mY2MWTKYIttjYed16tn+xxKnWKdl0jmkwm0tXQnJmZJ8IfPge8GMr/waA3mYwDGJNFE78qWHBE/ZIIn00uwniH3HWk9TgjoU5JOJbxF5klyRRcEfunrAed
- tSbnLCiHNrEwzmYONFywdLegjwNDYRCrA2u6gq6TgI1maf2CCaNvLQTalA1SGAqfOTuyXQ/HuUh7M90d9fwOeBzLy2DHdOYsvwzG88MfLaGvW3qpoxi0v3sX
- tUHA2mUdhY6tqPbxxZlvkK1W/eJA6OSDyNbe/Op5zw7sRR2RMMp7Hx6NeN9GEpv3zZQ+TcfceC4wD+Z2TSLBUeACwr3EVIV6iKKd1POJKYYuo4gYwYjdg9HH
- e0l6FR7aje6Hqv21PJZfmotZp7P04XdgkbsH/ekcQHDH9UfGbjoWRgZlZ1G2EJtyU9U=
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
-> This patch lets user-space to request a non-consistent memory
-> allocation during CREATE_BUFS ioctl call. struct v4l2_create_buffers
-> has seven 4-byte reserved areas, so reserved[0] is renamed to ->flags.
-> The struct, thus, now has six reserved 4-byte regions.
-> 
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  .../media/uapi/v4l/vidioc-create-bufs.rst     |  8 +++++-
->  .../media/common/videobuf2/videobuf2-core.c   | 27 +++++++++++++++----
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  7 ++++-
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +-
->  include/media/videobuf2-core.h                |  4 ++-
->  include/uapi/linux/videodev2.h                |  3 ++-
->  6 files changed, 41 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
-> index bd08e4f77ae4..c56e80659b4a 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
-> @@ -121,7 +121,13 @@ than the number requested.
->  	other changes, then set ``count`` to 0, ``memory`` to
->  	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
->      * - __u32
-> -      - ``reserved``\ [7]
-> +      - ``flags``
-> +      - Specifies additional buffer management attributes. E.g. when
-> +        ``V4L2_FLAG_MEMORY_NON_CONSISTENT`` set vb2 backends may be allocated
-> +        in non-consistent memory.
-
-Same comment as for patch 05/15.
-
-> +
-> +    * - __u32
-> +      - ``reserved``\ [6]
->        - A place holder for future extensions. Drivers and applications
->  	must set the array to zero.
->  
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 668c56df13f6..d1012a24755d 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -812,9 +812,21 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
->  
-> +static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
-> +{
-> +	bool queue_attr = q->dma_attrs & DMA_ATTR_NON_CONSISTENT;
-> +
-> +	if (consistent_mem != queue_attr) {
-> +		dprintk(1, "memory consistency model mismatch\n");
-> +		return false;
-> +	}
-> +	return true;
-> +}
-> +
-
-This belongs in patch 04/15. The commit log for that patch makes a lot
-more sense if this code is moved there.
-
->  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
-> -		unsigned int *count, unsigned requested_planes,
-> -		const unsigned requested_sizes[])
-> +			 bool consistent_mem, unsigned int *count,
-> +			 unsigned requested_planes,
-> +			 const unsigned requested_sizes[])
->  {
->  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
-> @@ -832,10 +844,15 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		}
->  		memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->  		q->memory = memory;
-> +		__set_queue_consistency(q, consistent_mem);
->  		q->waiting_for_buffers = !q->is_output;
-> -	} else if (q->memory != memory) {
-> -		dprintk(1, "memory model mismatch\n");
-> -		return -EINVAL;
-> +	} else {
-> +		if (q->memory != memory) {
-> +			dprintk(1, "memory model mismatch\n");
-> +			return -EINVAL;
-> +		}
-> +		if (!verify_consistency_attr(q, consistent_mem))
-> +			return -EINVAL;
->  	}
-
-Ditto.
-
->  
->  	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 0eabb589684f..48d123a1ac2a 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -730,6 +730,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	unsigned requested_sizes[VIDEO_MAX_PLANES];
->  	struct v4l2_format *f = &create->format;
->  	int ret = vb2_verify_memory_type(q, create->memory, f->type);
-> +	bool consistent = true;
->  	unsigned i;
->  
->  	fill_buf_caps(q, &create->capabilities);
-> @@ -775,7 +776,11 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	for (i = 0; i < requested_planes; i++)
->  		if (requested_sizes[i] == 0)
->  			return -EINVAL;
-> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-> +
-> +	if (create->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> +		consistent = false;
-> +
-> +	return ret ? ret : vb2_core_create_bufs(q, create->memory, consistent,
->  		&create->count, requested_planes, requested_sizes);
-
-As mentioned before: we need a V4L2_BUF_CAP capability.
-
->  }
->  EXPORT_SYMBOL_GPL(vb2_create_bufs);
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 225d06819bce..793cb6534de4 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -2012,7 +2012,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
->  	if (ret)
->  		return ret;
->  
-> -	CLEAR_AFTER_FIELD(create, capabilities);
-> +	CLEAR_AFTER_FIELD(create, flags);
->  
->  	v4l_sanitize_format(&create->format);
->  
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 810af5cf5742..5e5450bdabbd 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -757,6 +757,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->   * vb2_core_create_bufs() - Allocate buffers and any required auxiliary structs
->   * @q: pointer to &struct vb2_queue with videobuf2 queue.
->   * @memory: memory type, as defined by &enum vb2_memory.
-> + * @consistent_mem: memory consistency model.
->   * @count: requested buffer count.
->   * @requested_planes: number of planes requested.
->   * @requested_sizes: array with the size of the planes.
-> @@ -774,7 +775,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->   * Return: returns zero on success; an error code otherwise.
->   */
->  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
-> -			 unsigned int *count, unsigned int requested_planes,
-> +			 bool consistent_mem, unsigned int *count,
-> +			 unsigned int requested_planes,
->  			 const unsigned int requested_sizes[]);
->  
->  /**
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 73a4854f71bd..82e2ded5a136 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2419,7 +2419,8 @@ struct v4l2_create_buffers {
->  	__u32			memory;
->  	struct v4l2_format	format;
->  	__u32			capabilities;
-> -	__u32			reserved[7];
-> +	__u32			flags;
-> +	__u32			reserved[6];
->  };
->  
->  /*
-> 
+SGkgSGFuczoNCg0KQXBwcmVjaWF0ZSB5b3VyIGNvbW1lbnRzIG9uIHRoaXMgcGF0Y2guDQoNCk9u
+IFR1ZSwgMjAyMC0wMS0wNyBhdCAxNToxMCArMDEwMCwgSGFucyBWZXJrdWlsIHdyb3RlOg0KPiBP
+biAxMi8xOS8xOSA2OjQ5IEFNLCBKdW5nbyBMaW4gd3JvdGU6DQo+ID4gRm9yIENhbWVyYSBBUihB
+dWdtZW50ZWQgUmVhbGl0eSkgYXBwbGljYXRpb24gcmVxdWlyZXMgY2FtZXJhIHRpbWVzdGFtcHMN
+Cj4gPiB0byBiZSByZXBvcnRlZCB3aXRoIENMT0NLX0JPT1RUSU1FIHRvIHN5bmMgdGltZXN0YW1w
+IHdpdGggb3RoZXIgc2Vuc29yDQo+ID4gc291cmNlcy4NCj4gPiANCj4gPiBUaGUgYm9vdHRpbWUg
+dGltZXN0YW1wIGlzIGlkZW50aWNhbCB0byBtb25vdG9uaWMgdGltZXN0YW1wLA0KPiA+IGV4Y2Vw
+dCBpdCBhbHNvIGluY2x1ZGVzIGFueSB0aW1lIHRoYXQgdGhlIHN5c3RlbSBpcyBzdXNwZW5kZWQu
+DQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogSnVuZ28gTGluIDxqdW5nby5saW5AbWVkaWF0ZWsu
+Y29tPg0KPiA+IC0tLQ0KPiA+IENoYW5nZXMgZnJvbSB2NjoNCj4gPiAgLSBObyBjaGFuZ2UuDQo+
+ID4gLS0tDQo+ID4gIERvY3VtZW50YXRpb24vbWVkaWEvdWFwaS92NGwvYnVmZmVyLnJzdCB8IDEx
+ICsrKysrKysrKystDQo+ID4gIGluY2x1ZGUvdWFwaS9saW51eC92aWRlb2RldjIuaCAgICAgICAg
+ICB8ICAyICsrDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL21lZGlhL3VhcGkv
+djRsL2J1ZmZlci5yc3QgYi9Eb2N1bWVudGF0aW9uL21lZGlhL3VhcGkvdjRsL2J1ZmZlci5yc3QN
+Cj4gPiBpbmRleCA5MTQ5YjU3NzI4ZTUuLmY0NWJmY2U3ZmRkZCAxMDA2NDQNCj4gPiAtLS0gYS9E
+b2N1bWVudGF0aW9uL21lZGlhL3VhcGkvdjRsL2J1ZmZlci5yc3QNCj4gPiArKysgYi9Eb2N1bWVu
+dGF0aW9uL21lZGlhL3VhcGkvdjRsL2J1ZmZlci5yc3QNCj4gPiBAQCAtNjYyLDEzICs2NjIsMjIg
+QEAgQnVmZmVyIEZsYWdzDQo+ID4gICAgICAgIC0gMHgwMDAwMjAwMA0KPiA+ICAgICAgICAtIFRo
+ZSBidWZmZXIgdGltZXN0YW1wIGhhcyBiZWVuIHRha2VuIGZyb20gdGhlIGBgQ0xPQ0tfTU9OT1RP
+TklDYGANCj4gPiAgCWNsb2NrLiBUbyBhY2Nlc3MgdGhlIHNhbWUgY2xvY2sgb3V0c2lkZSBWNEwy
+LCB1c2UNCj4gPiAtCTpjOmZ1bmM6YGNsb2NrX2dldHRpbWVgLg0KPiA+ICsJOmM6ZnVuYzpgY2xv
+Y2tfZ2V0dGltZWAgdXNpbmcgY2xvY2sgSURzIGBgQ0xPQ0tfTU9OT1RPTklDYGAuDQo+IA0KPiBJ
+RHMgLT4gSUQNCj4gDQoNCk9rLCBmaXggaW4gbmV4dCB2ZXJzaW9uLg0KDQo+ID4gICAgICAqIC4u
+IF9gVjRMMi1CVUYtRkxBRy1USU1FU1RBTVAtQ09QWWA6DQo+ID4gIA0KPiA+ICAgICAgICAtIGBg
+VjRMMl9CVUZfRkxBR19USU1FU1RBTVBfQ09QWWBgDQo+ID4gICAgICAgIC0gMHgwMDAwNDAwMA0K
+PiA+ICAgICAgICAtIFRoZSBDQVBUVVJFIGJ1ZmZlciB0aW1lc3RhbXAgaGFzIGJlZW4gdGFrZW4g
+ZnJvbSB0aGUgY29ycmVzcG9uZGluZw0KPiA+ICAJT1VUUFVUIGJ1ZmZlci4gVGhpcyBmbGFnIGFw
+cGxpZXMgb25seSB0byBtZW0ybWVtIGRldmljZXMuDQo+ID4gKyAgICAqIC4uIF9gVjRMMl9CVUZf
+RkxBR19USU1FU1RBTVBfQk9PVElNRWA6DQo+IA0KPiBZb3UgbWlzdHlwZWQgQk9PVFRJTUUgYXMg
+Qk9PVElNRSBpbiBhIGxvdCBvZiBwbGFjZXMuIFBsZWFzZSBjaGVjay4NCj4gDQoNCk9rLCBmaXgg
+dGhpcyB0eXBvIGluIG5leHQgdmVyc2lvbi4NCg0KPiA+ICsNCj4gPiArICAgICAgLSBgYFY0TDJf
+QlVGX0ZMQUdfVElNRVNUQU1QX0JPT1RJTUVgYA0KPiA+ICsgICAgICAtIDB4MDAwMDgwMDANCj4g
+PiArICAgICAgLSBUaGUgYnVmZmVyIHRpbWVzdGFtcCBoYXMgYmVlbiB0YWtlbiBmcm9tIHRoZSBg
+YENMT0NLX0JPT1RUSU1FYGANCj4gPiArCWNsb2NrLiBUbyBhY2Nlc3MgdGhlIHNhbWUgY2xvY2sg
+b3V0c2lkZSBWNEwyLCB1c2UNCj4gPiArCTpjOmZ1bmM6YGNsb2NrX2dldHRpbWVgIHVzaW5nIGNs
+b2NrIElEcyBgYENMT0NLX0JPT1RUSU1FYGAuDQo+IA0KPiBJRHMgLT4gSUQNCj4gDQoNCkRpdHRv
+Lg0KDQo+ID4gKwlJZGVudGljYWwgdG8gQ0xPQ0tfTU9OT1RPTklDLCBleGNlcHQgaXQgYWxzbyBp
+bmNsdWRlcyBhbnkgdGltZSB0aGF0DQo+ID4gKwl0aGUgc3lzdGVtIGlzIHN1c3BlbmRlZC4NCj4g
+PiAgICAgICogLi4gX2BWNEwyLUJVRi1GTEFHLVRTVEFNUC1TUkMtTUFTS2A6DQo+ID4gIA0KPiA+
+ICAgICAgICAtIGBgVjRMMl9CVUZfRkxBR19UU1RBTVBfU1JDX01BU0tgYA0KPiA+IGRpZmYgLS1n
+aXQgYS9pbmNsdWRlL3VhcGkvbGludXgvdmlkZW9kZXYyLmggYi9pbmNsdWRlL3VhcGkvbGludXgv
+dmlkZW9kZXYyLmgNCj4gPiBpbmRleCAwNDQ4MWM3MTdmZWUuLjc0ZWY5NDcyZTcwMiAxMDA2NDQN
+Cj4gPiAtLS0gYS9pbmNsdWRlL3VhcGkvbGludXgvdmlkZW9kZXYyLmgNCj4gPiArKysgYi9pbmNs
+dWRlL3VhcGkvbGludXgvdmlkZW9kZXYyLmgNCj4gPiBAQCAtMTA2MCw2ICsxMDYwLDggQEAgc3Rh
+dGljIGlubGluZSBfX3U2NCB2NGwyX3RpbWV2YWxfdG9fbnMoY29uc3Qgc3RydWN0IHRpbWV2YWwg
+KnR2KQ0KPiA+ICAjZGVmaW5lIFY0TDJfQlVGX0ZMQUdfVElNRVNUQU1QX1VOS05PV04JCTB4MDAw
+MDAwMDANCj4gPiAgI2RlZmluZSBWNEwyX0JVRl9GTEFHX1RJTUVTVEFNUF9NT05PVE9OSUMJMHgw
+MDAwMjAwMA0KPiA+ICAjZGVmaW5lIFY0TDJfQlVGX0ZMQUdfVElNRVNUQU1QX0NPUFkJCTB4MDAw
+MDQwMDANCj4gPiArI2RlZmluZSBWNEwyX0JVRl9GTEFHX1RJTUVTVEFNUF9CT09USU1FCQkweDAw
+MDA4MDAwDQo+IA0KPiBUaGlzIHNob3VsZCBiZSAweDAwMDA2MDAwLg0KPiANCj4gKGZsYWdzICYg
+VjRMMl9CVUZfRkxBR19USU1FU1RBTVBfTUFTSykgaXMgYSB2YWx1ZSB0aGF0IGRldGVybWluZXMg
+dGhlIHRpbWVzdGFtcA0KPiBzb3VyY2UsIHNvIHRoZXNlIHRpbWVzdGFtcCBkZWZpbmVzIGFyZSB2
+YWx1ZXMsIG5vdCBiaXRtYXNrcy4NCj4gDQo+IEhvd2V2ZXIsIEkgZG9uJ3QgbGlrZSB5b3VyIGFw
+cHJvYWNoLiBXaGV0aGVyIHRvIHVzZSBNT05PVE9OSUMgb3IgQk9PVFRJTUUgaXMgcmVhbGx5DQo+
+IGEgdXNlcnNwYWNlIGRlY2lzaW9uLCBhbmQgbG9ja2luZyBhIGRyaXZlciB0byBvbmUgb2YgdGhl
+c2UgdHdvIG9wdGlvbnMgc2VlbXMNCj4gd3JvbmcgdG8gbWUuDQo+IA0KPiBJbnN0ZWFkIGFkZCBu
+ZXcgVjRMMl9CVUZfRkxBR19VU0VfQk9PVFRJTUUgZmxhZyB0aGF0IHVzZXJzcGFjZSBjYW4gc2V0
+IHdoZW4gcXVldWluZw0KPiB0aGUgYnVmZmVyIGFuZCB0aGF0IGluZGljYXRlcyB0aGF0IGluc3Rl
+YWQgb2YgdGhlIE1PTk9UT05JQyB0aW1lc3RhbXAsIGl0IHNob3VsZCByZXR1cm4NCj4gdGhlIEJP
+T1RUSU1FIHRpbWVzdGFtcC4gVGhpcyByZXF1aXJlcyBhIHNpbXBsZSBoZWxwZXIgZnVuY3Rpb24g
+dGhhdCByZXR1cm5zIGVpdGhlcg0KPiBrdGltZV9nZXRfbnMgb3Iga3RpbWVfZ2V0X2Jvb3R0aW1l
+X25zIGJhc2VkIG9uIHRoZSB2YjJfdjRsMl9idWZmZXIgZmxhZ3MgZmllbGQuDQo+IA0KPiBJdCdz
+IGRlZmluaXRlbHkgbW9yZSB3b3JrIChhbHRob3VnaCBpdCBjYW4gYmUgbGltaXRlZCB0byBkcml2
+ZXJzIHRoYXQgdXNlIHZiMiksDQo+IGJ1dCBtdWNoIG1vcmUgdXNlZnVsLg0KPiANCj4gUmVnYXJk
+cywNCj4gDQo+IAlIYW5zDQo+IA0KDQpBZ3JlZS4NCldlIHdpbGwgYWRkIG5ldyBWNEwyX0JVRl9G
+TEFHX1VTRV9CT09UVElNRSBmbGFnICgweDAwMDA2MDAwLikgdG8gcmVwbGFjZQ0KdGhpcyBWNEwy
+X0JVRl9GTEFHX1RJTUVTVEFNUF9CT09USU1FIGZsYWcgZm9yIGJldHRlciB1c2FnZS4NCg0KPiA+
+ICsNCj4gPiAgLyogVGltZXN0YW1wIHNvdXJjZXMuICovDQo+ID4gICNkZWZpbmUgVjRMMl9CVUZf
+RkxBR19UU1RBTVBfU1JDX01BU0sJCTB4MDAwNzAwMDANCj4gPiAgI2RlZmluZSBWNEwyX0JVRl9G
+TEFHX1RTVEFNUF9TUkNfRU9GCQkweDAwMDAwMDAwDQo+ID4gDQo+IA0KDQpTaW5jZXJlbHkNCg0K
+SnVuZ28NCg==
 
