@@ -2,365 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23880136ADB
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 11:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49057136B04
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 11:24:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727457AbgAJKQr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 10 Jan 2020 05:16:47 -0500
-Received: from plasma6.jpberlin.de ([80.241.56.68]:54813 "EHLO
-        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727452AbgAJKQo (ORCPT
+        id S1727364AbgAJKYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 05:24:32 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49467 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727168AbgAJKYc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 05:16:44 -0500
-Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
-        by plasma.jpberlin.de (Postfix) with ESMTP id B6B9EAAB41;
-        Fri, 10 Jan 2020 11:16:37 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id 9ySDSrvZZE_6; Fri, 10 Jan 2020 11:16:36 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id 8240CA08F7;
-        Fri, 10 Jan 2020 11:16:35 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 10 Jan
- 2020 11:16:35 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>,
-        <virtio-dev@lists.oasis-open.org>
-CC:     Tomasz Figa <tfiga@chromium.org>,
-        <virtio-dev@lists.oasis-open.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Fri, 10 Jan 2020 05:24:32 -0500
+Received: from [IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef]
+ ([IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id prSsilw4kpLtbprSviPwG2; Fri, 10 Jan 2020 11:24:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578651870; bh=oJOruGOI/Y+hFDMsJUJEz5BVUPQc/eBntsATfXiA7PE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=VZhVtot9C3ctHD3oxwDihsjcC5QhQ/xbXvsqgatFT4cCUe6Z6Mh834QE3pSz0ZyVP
+         3r80VIXXOOhuVUgcS3DUyqedx+MrUHXdH/bqKSeRaha+xjoeUhxkt/rRpX/ElfqtiY
+         r6PhKgvIXA/L5NFTxayLlYvLjBAs8d4xlaO10nS2wECzWo4EiUDpK3EMFgjBFeut0p
+         UjMtuZiVykKinlknbITrDX4kZSwFWR12et/hyJHwJEDGq/hhrKRaquZoMVlNx57rCF
+         WcMgDMaqV118cV8drmlQcwZnyqNUADkSSyCzwkeAiWmN6E38gIB2UhmFrjULIvxrzC
+         eOD/ieKx2r2AA==
+Subject: Re: [RFC][PATCH 02/15] videobuf2: handle V4L2 buffer cache flags
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pawel Osciak <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>,
-        David Stevens <stevensd@chromium.org>, <uril@redhat.com>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 0/1] VirtIO video device specification
-Date:   Fri, 10 Jan 2020 11:16:34 +0100
-Message-ID: <2137719.ElGaqSPkdT@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <7712151.T7Z3S40VBb@os-lin-dmo>
-References: <20191218130214.170703-1-keiichiw@chromium.org> <CAD90VcaQCSFTv-JyxZ7cO+Qnc0U2NRGikcYmmy=zitJby9NfXg@mail.gmail.com> <7712151.T7Z3S40VBb@os-lin-dmo>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191217032034.54897-1-senozhatsky@chromium.org>
+ <20191217032034.54897-3-senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <ada2381c-2c1c-17c3-c190-48439ae1657a@xs4all.nl>
+Date:   Fri, 10 Jan 2020 11:24:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.25.255.1]
+In-Reply-To: <20191217032034.54897-3-senozhatsky@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJ0SRNrWZnnf7QXyvMOEx3ymNUl2gdlEC5cFu0Qh9z7JR2EsnbXtT4MJnmLPsM93U135VuGtYRqy04ueiqADgivPuL5CH1GqcOObxBhnN5RcVSm4YQEB
+ LnO5iXLq4lrLjOJUubyxLJBaYlSeLc5YJ/3PVVsK41Owz2qkj6jlfka0ocCaL8btdzMZ4TigWRDdnKal2EW8hfGJybgME8bm09fycf2txJNxTgdz7DURVS+4
+ /0rmXQXmLm1NSRSjINM9PwX3btxpE5V9D46s0mlRpTbzVtvrXOglspB4VeHyGwb90RF0Kmc5c7Kyuh90Rpa0n3dd9BtO17vYqgfGtfq8tU08gTggyhK4xDCj
+ jKoucD4jsLYAs01uISET79ouSsJ0K0m1sDSR/xsUOXajld09NJf2O5X07WBIUrkFvqA7iBMBdC5uGIiiRKJigKS88ciPbRozp6pJhNDSgN20LhtDEL6JXQo9
+ eTSrVqkBZYGPLxm/3nNOFvFE1IM0GFXD7T1QDTWiVqQR7wPxMZi9Bw6XpJ+nfxlTKXFaSF9Xtk7H0wPOPCBeLVkg3tWn18ClCxyDdKbRICij/zrW7Np5jHZE
+ hh9gfNGBlpgiwDIrVeFqiO+rM48ZWb1GgCG2V+pw4AtpNdhcCcmB/WImtMSBp6JQnfM=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
+> Set video buffer cache management flags corresponding to V4L2 cache
+> flags.
+> 
+> Both ->prepare() and ->finish() cache management hints should be
+> passed during this stage (buffer preparation), because there is no
+> other way for user-space to skip ->finish() cache flush.
+> 
+> There are two possible alternative approaches:
+> - The first one is to move cache sync from ->finish() to dqbuf().
+>   But this breaks some drivers, that need to fix-up buffers before
+>   dequeueing them.
+> 
+> - The second one is to move ->finish() call from ->done() to dqbuf.
 
-On Donnerstag, 9. Januar 2020 15:56:08 CET Dmitry Sepp wrote:
-> Hi,
+Please combine this patch with patch 13/15!
+
 > 
-> On Dienstag, 7. Januar 2020 11:25:56 CET Keiichi Watanabe wrote:
-> > Hi Dmitry,
-> > 
-> > On Mon, Jan 6, 2020 at 8:28 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> wrote:
-> > > Hi,
-> > > 
-> > > On Montag, 6. Januar 2020 11:30:22 CET Keiichi Watanabe wrote:
-> > > > Hi Dmitry, Tomasz,
-> > > > 
-> > > > On Fri, Jan 3, 2020 at 10:05 PM Dmitry Sepp
-> > > > <dmitry.sepp@opensynergy.com>
-> > > 
-> > > wrote:
-> > > > > Hi Tomasz, Keiichi,
-> > > > > 
-> > > > > On Samstag, 21. Dezember 2019 07:19:23 CET Tomasz Figa wrote:
-> > > > > > On Sat, Dec 21, 2019 at 3:18 PM Tomasz Figa <tfiga@chromium.org>
-> 
-> wrote:
-> > > > > > > On Sat, Dec 21, 2019 at 1:36 PM Keiichi Watanabe
-> > > > > > > <keiichiw@chromium.org>
-> > > > > 
-> > > > > wrote:
-> > > > > > > > Hi Dmitry,
-> > > > > > > > 
-> > > > > > > > On Sat, Dec 21, 2019 at 12:59 AM Dmitry Sepp
-> > > > > > > > 
-> > > > > > > > <dmitry.sepp@opensynergy.com> wrote:
-> > > > > > > > > Hi Keiichi,
-> > > > > > > > > 
-> > > > > > > > > On Mittwoch, 18. Dezember 2019 14:02:13 CET Keiichi Watanabe
-> > > 
-> > > wrote:
-> > > > > > > > > > Hi,
-> > > > > > > > > > This is the 2nd version of virtio-video patch. The PDF is
-> > > > > > > > > > available
-> > > > > > > > > > in [1].
-> > > > > > > > > > The first version was sent at [2].
-> > > > > > > > > > 
-> > > > > > > > > > Any feedback would be appreciated. Thank you.
-> > > > > > > > > > 
-> > > > > > > > > > Best,
-> > > > > > > > > > Keiichi
-> > > > > > > > > > 
-> > > > > > > > > > [1]:
-> > > > > > > > > > https://drive.google.com/drive/folders/1eT5fEckBoor2iHZR4f
-> > > > > > > > > > 4G
-> > > > > > > > > > LxYz
-> > > > > > > > > > FMVa
-> > > > > > > > > > pOFx?us
-> > > > > > > > > > p=sharing [2]:
-> > > > > > > > > > https://markmail.org/message/gc6h25acct22niut
-> > > > > > > > > > 
-> > > > > > > > > > Change log:
-> > > > > > > > > > 
-> > > > > > > > > > v2:
-> > > > > > > > > > * Removed functionalities except encoding and decoding.
-> > > > > > > > > > * Splited encoder and decoder into different devices that
-> > > > > > > > > > use
-> > > > > > > > > > the
-> > > > > > > > > > same
-> > > > > > > > > > protocol. * Replaced GET_FUNCS with GET_CAPABILITY.
-> > > > > > > > > > * Updated structs for capabilities.
-> > > > > > > > > > 
-> > > > > > > > > >   - Defined new structs and enums such as image formats,
-> > > > > > > > > >   profiles,
-> > > > > > > > > >   range
-> > > > > > > > > > 
-> > > > > > > > > > (min, max, step), etc
-> > > > > > > > > > 
-> > > > > > > > > >     * For virtio_video_pixel_format, chose a naming
-> > > > > > > > > >     convention
-> > > > > > > > > >     that
-> > > > > > > > > >     is used
-> > > > > > > > > >     
-> > > > > > > > > >       in DRM. We removed XBGR, NV21 and I422, as they are
-> > > > > > > > > >       not
-> > > > > > > > > >       used
-> > > > > > > > > >       in the
-> > > > > > > > > >       current draft implementation.
-> > > > > > > > > >       https://lwn.net/Articles/806416/
-> > > > > > > > > >   
-> > > > > > > > > >   - Removed virtio_video_control, whose usage was not
-> > > > > > > > > >   documented
-> > > > > > > > > >   yet
-> > > > > > > > > >   and
-> > > > > > > > > > 
-> > > > > > > > > > which is not necessary for the simplest decoding scenario.
-> > > > > > > > > > 
-> > > > > > > > > >   - Removed virtio_video_desc, as it is no longer needed.
-> > > > > > > > > > 
-> > > > > > > > > > * Updated struct virtio_video_config for changes around
-> > > > > > > > > > capabilities.
-> > > > > > > > > > * Added a way to represent supported combinations of
-> > > > > > > > > > formats.
-> > > > > > > > > > 
-> > > > > > > > > >   - A field "mask" in virtio_video_format_desc plays this
-> > > > > > > > > >   role.
-> > > > > > > > > > 
-> > > > > > > > > > * Removed VIRTIO_VIDEO_T_STREAM_{START,STOP} because they
-> > > > > > > > > > don't
-> > > > > > > > > > play
-> > > > > > > > > > any
-> > > > > > > > > > meaningful roles. * Removed VIRTIO_VIDEO_T_STREAM_{ATTACH,
-> > > > > > > > > > DETACH}_BACKING
-> > > > > > > > > > and merged them into RESOURCE_{CREATE, DESTROY}. * Added a
-> > > > > > > > > > way
-> > > > > > > > > > to
-> > > > > > > > > > notify/specify resource creation method.
-> > > > > > > > > > 
-> > > > > > > > > >   - Added a feature flag.
-> > > > > > > > > >   - Defined enum virtio_video_mem_type.
-> > > > > > > > > >   - Added new fields in video_stream_create.
-> > > > > > > > > > 
-> > > > > > > > > > * Modified fields in virtio_video_params.
-> > > > > > > > > > 
-> > > > > > > > > >   - Added crop information.
-> > > > > > > > > > 
-> > > > > > > > > > * Removed enum virtio_video_channel_type because we can
-> > > > > > > > > > get
-> > > > > > > > > > this
-> > > > > > > > > > information by image format.
-> > > > > > > > > 
-> > > > > > > > > Could you please explain this? How do you get the
-> > > > > > > > > information?
-> > > > > > > > 
-> > > > > > > > It means that if image formats are well-defined, channel
-> > > > > > > > information
-> > > > > > > > (e.g. the order of channels) is uniquely determined.
-> > > > > > > > 
-> > > > > > > > > Suppose you have some piece of HW on the host side that
-> > > > > > > > > wants
-> > > > > > > > > I420
-> > > > > > > > > as
-> > > > > > > > > one
-> > > > > > > > > contig buffer w/ some offsets. But on the driver side, say,
-> > > > > > > > > gralloc
-> > > > > > > > > gives you three separate buffers, one per channel. How do we
-> > > > > > > > > pass
-> > > > > > > > > those to the device then?
-> > > > > > > > 
-> > > > > > > > You're talking about CrOS use case where buffers are allocated
-> > > > > > > > by
-> > > > > > > > virtio-gpu, right?
-> > > > > > > > In this case, virtio-gpu allocates one contiguous host-side
-> > > > > > > > buffer
-> > > > > > > > and
-> > > > > > > > the client regards a pair of (buffer FD, offset) as one
-> > > > > > > > channel.
-> > > > > > > > And, we can register this pair to the device when the buffer
-> > > > > > > > is
-> > > > > > > > imported.
-> > > > > > > > In the virtio-vdec spec draft, this pair corresponds to struct
-> > > > > > > > virtio_vdec_plane in struct virtio_vdec_plane.
-> > > > > > > > 
-> > > > > > > > So, I suppose we will need similar structs when we add a
-> > > > > > > > control
-> > > > > > > > to
-> > > > > > > > import buffers. However, I don't think it's necessary when
-> > > > > > > > guest
-> > > > > > > > pages
-> > > > > > > > are used.
-> > > > > > > 
-> > > > > > > I think we need some way for the guest to know whether it can
-> > > > > > > allocate
-> > > > > > > the planes in separate buffers, even when guest pages are used.
-> > > > > > > This
-> > > > > > > would be equivalent to V4L2 M and non-M formats, but mixing this
-> > > > > > > into
-> > > > > > > FourCC in V4L2 is an acknowledged mistake, so we should add a
-> > > > > > > query or
-> > > > > > > something.
-> > > > > 
-> > > > > Yes, this is what I mean. In fact, we already do face the situation
-> > > > > when
-> > > > > the device side is not happy with the sgt and wants contig. I think
-> > > > > we'll
-> > > > > add a module parameter for now.
-> > > > 
-> > > > Okay. So, I suppose we'll be able to update structs:
-> > > > * Add a flag in virtio_video_format_desc that indicates whether planes
-> > > > can be in separate buffers, and
-> > > > * Add a flag in virtio_video_format_desc that indicates that the
-> > > > device requires contiguous buffers for this format.
-> > > > 
-> > > > Does it make sense?
-> > > 
-> > > Sorry, I don't understand the difference between the two above: isn't
-> > > the
-> > > first case is just when the flag is not set?
-> > 
-> > Ah, I was confused and wrote something strange. Yeah,  these two are the
-> > same. Sorry for that.
-> > 
-> > So, the suggestion is to add a field "planes_layout" in
-> > virtio_video_format_desc, which is one of the following enums:
-> > 
-> > enum virtio_video_planes_layout {
-> > 
-> >     VIRTIO_VIDEO_PLANES_LAYOUT_UNSPEC = 0,  /* no special requirement */
-> >     VIRTIO_VIDEO_PLANES_LAYOUT_CONTIGUOUS,
-> > 
-> > };
-> > 
-> > If we have a better idea or naming, please let me know.
-> 
-> The naming looks good for me, I might only change to CONTIG as we have
-> UNSPEC.
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index e652f4318284..2fccfe2a57f8 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -337,6 +337,27 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+>  	return 0;
+>  }
+>  
+> +static void set_buffer_cache_hints(struct vb2_queue *q,
+> +				   struct vb2_buffer *vb,
+> +				   struct v4l2_buffer *b)
+> +{
+> +	vb->need_cache_sync_on_prepare = 1;
+> +
+> +	if (q->dma_dir != DMA_TO_DEVICE)
+
+What should be done when dma_dir == DMA_BIDIRECTIONAL?
+
+> +		vb->need_cache_sync_on_finish = 1;
+> +	else
+> +		vb->need_cache_sync_on_finish = 0;
+> +
+> +	if (!q->allow_cache_hints)
+> +		return;
+> +
+> +	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE)
+> +		vb->need_cache_sync_on_finish = 0;
+> +
+> +	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN)
+> +		vb->need_cache_sync_on_prepare = 0;
+> +}
+> +
+>  static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
+>  				    struct v4l2_buffer *b, bool is_prepare,
+>  				    struct media_request **p_req)
+> @@ -381,6 +402,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+>  	}
+>  
+>  	if (!vb->prepared) {
+> +		set_buffer_cache_hints(q, vb, b);
+>  		/* Copy relevant information provided by the userspace */
+>  		memset(vbuf->planes, 0,
+>  		       sizeof(vbuf->planes[0]) * vb->num_planes);
 > 
 
-So here we are talking about plane layout in memory, am I correct? But I think 
-we also need a way to communicate memory requirements of the device: the 
-device might require CMA buffers or it can be ok with SG lists. What about 
-adding something like this to virtio_video_format_desc:
+Regards,
 
-​​​​​enum virtio_video_mem_layout {
-	VIRTIO_VIDEO_MEM_LAYOUT_UNDEFINED = 0,
-
-	VIRTIO_VIDEO_MEM_LAYOUT_CONTIG = 0x100,
-	VIRTIO_VIDEO_MEM_LAYOUT_NON_CONTIG,
-};
-
-struct virtio_video_format_desc {
-    __le64 mask;
-    __le32 format; /* One of VIRTIO_VIDEO_FORMAT_* types */
-    __le32 planes_layout; /* One of VIRTIO_VIDEO_PLANES_LAYOUT_* types */
-    __le32 mem_layout; /* One of VIRTIO_VIDEO_MEM_LAYOUT_* types */
-    ...
-};
-
-Best regards,
-Dmitry.
-
-> Best regards,
-> Dmitry.
-> 
-> > Best regards,
-> > Keiichi
-> > 
-> > > Regards,
-> > > Dmitry.
-> > > 
-> > > > Best regards,
-> > > > Keiichi
-> > > > 
-> > > > > Regards,
-> > > > > Dmitry.
-> > > > > 
-> > > > > > > For future V4L2 development we came up with the idea of a format
-> > > > > > > flag
-> > > > > > > which could mean that the hardware allows putting planes in
-> > > > > > > separate
-> > > > > > > buffers. We could have a similar per-format flag in the
-> > > > > > > capabilities,
-> > > > > > > as we already have a list of all the supported formats there.
-> > > > > > 
-> > > > > > Sorry, forgot to paste the link from future V4L2 work notes from
-> > > > > > this
-> > > > > > year
-> > > > > > ELCE: https://www.spinics.net/lists/linux-media/msg159789.html
-> > > > > > 
-> > > > > > > Best regards,
-> > > > > > > Tomasz
-> > > > > > > 
-> > > > > > > > Best regards,
-> > > > > > > > Keiichi
-> > > > > > > > 
-> > > > > > > > > Best regards,
-> > > > > > > > > Dmitry.
-> > > > > > > > > 
-> > > > > > > > > > * Renamed virtio_video_pin to virtio_video_buf_type.
-> > > > > > > > > > 
-> > > > > > > > > >   - It's similar to V4L2_BUF_TYPE_VIDEO_{OUTPUT, CAPTURE}.
-> > > > > > > > > > 
-> > > > > > > > > > * Added an error event.
-> > > > > > > > > > * Reordered some subsections.
-> > > > > > > > > > * Changed styles to make it consistent with other devices.
-> > > > > > > > > > 
-> > > > > > > > > > Dmitry Sepp (1):
-> > > > > > > > > >   virtio-video: Add virtio video device specification
-> > > > > > > > > >  
-> > > > > > > > > >  content.tex      |   1 +
-> > > > > > > > > >  virtio-video.tex | 579
-> > > > > > > > > >  +++++++++++++++++++++++++++++++++++++++++++++++
-> > > > > > > > > >  2 files changed, 580 insertions(+)
-> > > > > > > > > >  create mode 100644 virtio-video.tex
-> > > > > > > > > > 
-> > > > > > > > > > --
-> > > > > > > > > > 2.24.1.735.g03f4e72817-goog
-> 
-> ---------------------------------------------------------------------
-> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
-
-
+	Hans
