@@ -2,61 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5552136C1E
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 12:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C25136D10
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 13:31:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbgAJLlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 06:41:31 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40927 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727807AbgAJLlb (ORCPT
+        id S1728123AbgAJMbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 07:31:15 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:46383 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727924AbgAJMbP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 06:41:31 -0500
-Received: by mail-oi1-f195.google.com with SMTP id c77so1584712oib.7
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2020 03:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=LEWm7wDdJq9X0vNbM230lGGzTYZvVY/Vu/f0Hh7nrUzE3NmZIcEI/QNiGniYLUz7Lp
-         UkDU5fpnuoVf6Jl308BuwlGTxmEvASqBRVdEInY8Jpfsd1l5Lezp7lW6sT1S78Qu8Ycy
-         7rQECkxaVkU7S8vQkLKVOVSdikr57toJfshzIxxjQReE5Ih+not3BbzreCGiA74ZV9L1
-         KOHog8ADGEc7x7x6FGtsLLrXJw/gu3N7vGFQiDfoTlTjPy2zkbg6dsftuXKsf7ZVj/i9
-         D2sLJRfR3ttRu+nVmOAs9DpTw4DCMtQlOFMaDBoHdTJBuCMdnH7QynU4SdVPzaUdq/aG
-         iMAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=belHOSy8yNbPSpeOlxopnx1NNhJyM6answTLLLNQGM8XewkB2Zal52E908IVk9IqYO
-         4FtbuQS48AmDRd+pm3vTnCI5Mti7T9jn1XJkSl74mQwhEw9B60oengVPDTWPKSO9Y9MU
-         QDmqdmPmqPNQ6B1YtwND/MN4mF/VGSF2NXXZ2mdz62RkKNL0gQd+U9JwVaAH7NNQQ1eU
-         XHOSKU5UHQ0UUjcibmBJsgiijIGt3LrqpoExWOVsvlTF9ypKTmd+d7/bdkyG9n4HgKzS
-         QUQEgEV89822yVbxZhBAM6GCqDl6xQo89jPPAJEO8MWWV7ZmjrGNIri2RQAjDx5iEDWA
-         Uycg==
-X-Gm-Message-State: APjAAAWjvXhTb1g4wu/UVuFreOkWR47oun/0eaZAS8Bgd3kWPDCUcE1U
-        yK7IElT7DRhrUaaBPhgdXehAN/Xda1OidP8FK/A=
-X-Google-Smtp-Source: APXvYqzcB74Vlmk2Tfnr5nZrkmLZi8nB2LDGBf24FcaJcpOTmJ+9YJNZuqJCp44tHJTEjeWpr8d1j5gtO+G9oBehtbg=
-X-Received: by 2002:aca:af8b:: with SMTP id y133mr1883544oie.73.1578656490810;
- Fri, 10 Jan 2020 03:41:30 -0800 (PST)
+        Fri, 10 Jan 2020 07:31:15 -0500
+Received: from [IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef]
+ ([IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ptRUimnGnpLtbptRXiQX2R; Fri, 10 Jan 2020 13:31:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578659472; bh=Q4tGujyc0qMIli9sFFN1Y2SjsV4ntbfAJ95PuThwHNo=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=wVy1VAbUe9iHSsSMlQRYcvuUGVHHOkYaXBCi0ulHQzsBqeDXnTlWE3dPY3Cd9N1T5
+         ym08+Bx6xkVDafW0WyHGEryJhllacfjUsyH2wbDdc4aYGfP52TKIG5qS//HO3YTP7A
+         6x2hJWc0vaXoRvlK3yxgd201kjp7KNhTnyxZ51jj55d0rRQT8Mg87BhZ+4OwOu36vR
+         uYm8fLnZJEVjmizDcRvj0FL9KLrJxugUppzrEZk6/hTBZPiELHW7Hx0oEA/Agi15xX
+         ongBXCUp69XYdiBOzglUD+FCZy02wl/UhCkWbnhLBTI5Yq99nq/pteqEEZSv7WI9Gu
+         XFHhMzM3GOvDg==
+Subject: Re: [PATCH] media: hantro: Support H264 profile control
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hirokazu Honda <hiroh@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@driverdev.osuosl.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191122051608.128717-1-hiroh@chromium.org>
+ <767528be59275265072896e5c679e97575615fdd.camel@ndufresne.ca>
+ <CAAFQd5D3OpAAtX7_0ktz4-aAgWN_G4YBQMR=Vwp7JPopjvRkRA@mail.gmail.com>
+ <f5341ed837529bd38d466d4b655e261d64065912.camel@ndufresne.ca>
+ <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c88b2822-0dd2-8ea3-eb0b-262df5a30830@xs4all.nl>
+Date:   Fri, 10 Jan 2020 13:31:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:a9d:6e0b:0:0:0:0:0 with HTTP; Fri, 10 Jan 2020 03:41:30
- -0800 (PST)
-Reply-To: martinsandpartners@yandex.com
-From:   Frank Martins <sammande5169@gmail.com>
-Date:   Fri, 10 Jan 2020 03:41:30 -0800
-Message-ID: <CAKeoT+yJFsj1kv+Lkf+usJbK+6A5FG7Wf0R_V8iLpvUs8dQCAQ@mail.gmail.com>
-Subject: =?UTF-8?Q?=C5=A0e_vedno_=C4=8Dakam_na_va=C5=A1_odziv_na_moja_=C5=A1tevilna_e=2Dp?=
-        =?UTF-8?Q?o=C5=A1tna_sporo=C4=8Dila_z_neodgovorom=2C_ki_se_nana=C5=A1ajo_na_va=C5=A1_dru?=
-        =?UTF-8?Q?=C5=BEinski_dedni_sklad_=2814=2C5_milijona_dolarjev=29=2E_Vljudno_mi_pot?=
-        =?UTF-8?Q?rdite_to_pismo_za_ve=C4=8D_podrobnosti=2E_S_spo=C5=A1tovanjem=2E_S_spo=C5=A1?=
-        =?UTF-8?Q?tovanjem=2C_gospod_Frank_Martins=2E?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfCFM+zo00wI7D/Z3xha1mTiaLvB2X7xakAJsEjudm/mMCDqgPaS0ALMhUjD7FGbvE9gaHbDCUeW6n1mMAlU7QRFfJKjoy/BBOSUPUQFvcX/o45cNq4c6
+ 5eZpmXxjvHYyiGX9RlfZvSEvEfdVejRHqa8EPYDEpLHNZxIrFZdBP3+M8/B2npPNo2Jt1GKe4CiPY6HdBF4Zd5tKqTjkcWTCB+Mxo45kl1Lgr/yHvk5OXcas
+ zoKjDuUji2iCldwA4CtG5rwyJROW8e9Ow+nP4xAZKA1smJnTD3I/HL4APkxK4ZAe91FOwEfm7Aft6utF2gb40RLhIxZe4c+egotdX28vGAjX+zy8cOj5TPvW
+ +F31IZeiVZzkbHd6PZ/fwkHt3Q01X919mz3KU9GjzXjLQGHLwSdpmI/+h/CjDNDZHfsq5lO2+dXYP61cEroyLFU5pDOudC66+OuldyAgD10cCKoig7L6P8VZ
+ wvHGZLe4PZGqBMqu404KcZzZiv80OtiP8smSOkHJQp6pubqkkve9gU1cPactlH2ZTufUXax+8bQWNoNO61wqk8N06yA7vkxzkkABaA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 11/29/19 1:16 AM, Tomasz Figa wrote:
+> On Sat, Nov 23, 2019 at 1:52 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>>
+>> Le samedi 23 novembre 2019 à 01:00 +0900, Tomasz Figa a écrit :
+>>> On Sat, Nov 23, 2019 at 12:09 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>>>> Le vendredi 22 novembre 2019 à 14:16 +0900, Hirokazu Honda a écrit :
+>>>>> The Hantro G1 decoder supports H.264 profiles from Baseline to High, with
+>>>>> the exception of the Extended profile.
+>>>>>
+>>>>> Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
+>>>>> applications can query the driver for the list of supported profiles.
+>>>>
+>>>> Thanks for this patch. Do you think we could also add the LEVEL control
+>>>> so the profile/level enumeration becomes complete ?
+>>>>
+>>>> I'm thinking it would be nice if the v4l2 compliance test make sure
+>>>> that codecs do implement these controls (both stateful and stateless),
+>>>> it's essential for stack with software fallback, or multiple capable
+>>>> codec hardware but with different capabilities.
+>>>>
+>>>
+>>> Level is a difficult story, because it also specifies the number of
+>>> macroblocks per second, but for decoders like this the number of
+>>> macroblocks per second it can handle depends on things the driver
+>>> might be not aware of - clock frequencies, DDR throughput, system
+>>> load, etc.
+>>>
+>>> My take on this is that the decoder driver should advertise the
+>>> highest resolution the decoder can handle due to hardware constraints.
+>>> Performance related things depend on the integration details and
+>>> should be managed elsewhere. For example Android and Chrome OS manage
+>>> expected decoding performance in per-board configuration files.
+>>
+>> When you read datasheet, the HW is always rated to maximum level (and
+>> it's a range) with the assumption of a single stream. It seems much
+>> easier to expose this as-is, statically then to start doing some math
+>> with data that isn't fully exposed to the user. This is about filtering
+>> of multiple CODEC instances, it does not need to be rocket science,
+>> specially that the amount of missing data is important (e.g. usage of
+>> tiles, compression, IPP all have an impact on the final performance).
+>> All we want to know in userspace is if this HW is even possibly capable
+>> of LEVEL X, and if not, we'll look for another one.
+>>
+> 
+> Agreed, one could potentially define it this way, but would it be
+> really useful for the userspace and the users? I guess it could enable
+> slightly faster fallback to software decoding in the extreme case of
+> the hardware not supporting the level at all, but I suspect that the
+> majority of cases would be the hardware just being unusably slow.
+> 
+> Also, as I mentioned before, we already return the range of supported
+> resolutions, which in practice should map to the part of the level
+> that may depend on hardware capabilities rather than performance, so
+> exposing levels as well would add redundancy to the information
+> exposed.
+
+There is a lot of discussion here, but it all revolves around a potential
+LEVEL control.
+
+So I gather everyone is OK with merging this patch?
+
+If not, let me know asap.
+
+Regards,
+
+	Hans
+
+> 
+>>>
+>>>>> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+>>>>> ---
+>>>>>  drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
+>>>>>  1 file changed, 10 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>>>>> index 6d9d41170832..9387619235d8 100644
+>>>>> --- a/drivers/staging/media/hantro/hantro_drv.c
+>>>>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+>>>>> @@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] = {
+>>>>>                       .def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+>>>>>                       .max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+>>>>>               },
+>>>>> +     }, {
+>>>>> +             .codec = HANTRO_H264_DECODER,
+>>>>> +             .cfg = {
+>>>>> +                     .id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+>>>>> +                     .min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+>>>>> +                     .max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+>>>>> +                     .menu_skip_mask =
+>>>>> +                     BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
+>>>>> +                     .def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
+>>>>> +             }
+>>>>>       }, {
+>>>>>       },
+>>>>>  };
 
