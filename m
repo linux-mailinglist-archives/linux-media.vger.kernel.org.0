@@ -2,215 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1C611369F9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD4CC136A0E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:36:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbgAJJ3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 04:29:13 -0500
-Received: from gofer.mess.org ([88.97.38.141]:35799 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726759AbgAJJ3M (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 04:29:12 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 6141611A001; Fri, 10 Jan 2020 09:29:10 +0000 (GMT)
-Date:   Fri, 10 Jan 2020 09:29:10 +0000
-From:   Sean Young <sean@mess.org>
-To:     Mohammad Rasim <mohammad.rasim96@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2] media: rc: add keymap for Videostrong KII Pro
-Message-ID: <20200110092910.GA4721@gofer.mess.org>
-References: <20191120114153.17676-1-mohammad.rasim96@gmail.com>
- <20191231104434.GA1515@gofer.mess.org>
- <20200102180258.wg3hxnaaazejhvht@manjaro.localdomain>
+        id S1727169AbgAJJgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 04:36:37 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36697 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726900AbgAJJgh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Jan 2020 04:36:37 -0500
+Received: from [IPv6:2001:420:44c1:2577:c8b4:9150:fb1b:52f6]
+ ([IPv6:2001:420:44c1:2577:c8b4:9150:fb1b:52f6])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id pqiUilZj6pLtbpqiYiPfdz; Fri, 10 Jan 2020 10:36:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578648994; bh=s4atuWRiXh9yWC2skxK0e8ALLvdYO1y0fvYdMvunco4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=KKOcZ+b0+aVDOd2RWLPqG9fB54yBlpc1zMk38tPVbdOSj/S8wApt273E0JFknbCKF
+         BDaKAq1+mR42wYu/ScUaQEtsMJ5s0HrjOha7qzWna0SY9C2y6ULoDQwW1j6QhQ28zT
+         dfthllDdw3LEGUOuqXvLD6b3nf5ORijYKUR0mjVo3uc9IgRyTIpoP78tti44JiL8/e
+         bFpUj1DRWMSz9YG5LBFURwG/QrFq0c2QTHy/weDcCk9D0nTlWwddc1F2MDgpRoXRAm
+         LFOtxciT+mmRFkGrkYeJSaWl1QA6He8nlUFwmknCPDjoRoAjlcmI+A74IQOYcAJEk1
+         Ye2EXfyLBL8zQ==
+Subject: Re: [RFC][PATCH 03/15] videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT
+ flag
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191217032034.54897-1-senozhatsky@chromium.org>
+ <20191217032034.54897-4-senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <750a0c62-0f0f-a5c9-1d7f-f0c5d6b620fa@xs4all.nl>
+Date:   Fri, 10 Jan 2020 10:36:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200102180258.wg3hxnaaazejhvht@manjaro.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191217032034.54897-4-senozhatsky@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCRR/1EIqmeph7/1UlWyTG1z9YK6OF5GcLxUApOJ8INmx3TFMP3S3Wyj0d/J61AuoRObAaj+WxgTLKnEb8//dmqfCL3l8CTwx+XlzzJDnffTAl0oyW+U
+ OcHw2dWWQjc3a8KIVAR/l1uwk3whyZdrIaa0oVUeaWBr5Je5ss9mvfyNKfU9lwUXcyZQLerNN0M0JFw/8EK24e9TkEKyhWvLyn5uY39vrmUcsv677jAwBFOc
+ 05OT8VMpZ0JKcOFFfag0/1kytiKwfTqTXBYu9DL4HfbfpFn38/GZA53LrTFLMZQG7br6481LmultFNoizyEXDK5yHFMVjAaeR4QNDjfLHew+lr6ptCvEIg5G
+ DXizYAvQ8DYMZFbNvxTt9OfxhP38xdkHnYV756+Kod3eHjmOxm9qWNQ1bezGbFpb970H5jDJBS7bZ9kYOdCFQwPI0LPoM9IYGEkCh++uq/2GW3KkmHK00ZFB
+ 4wgQdf91J61sFe7H7IpVsOKtYz2qP/JF3ePm9nKfoty5kq8Yupm//zr8MOJQlR8bHDPvQ8A3r5nOWcFru/RfkaDBLXPvKart3NOVuZEqFAgmXwQhAWiyfEwg
+ ChAyHlRmnrbKv9oRhQzULwVBLMdfx4FoH13OmKMN4TFIdE6Xek5BAL5u3Fs8k+6Njdw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 02, 2020 at 09:02:58PM +0300, Mohammad Rasim wrote:
-> On 19/12/31 10:44AM, Sean Young wrote:
-> > Hi Mohammad,
-> >
-> > On Wed, Nov 20, 2019 at 02:41:53PM +0300, Mohammad Rasim wrote:
-> > > Changes since v1:
-> > > - fix styling issues
-> > > Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
-> > > ---
-> > >  drivers/media/rc/keymaps/Makefile             |  1 +
-> > >  .../media/rc/keymaps/rc-videostrong-kii-pro.c | 84 +++++++++++++++++++
-> > >  include/media/rc-map.h                        |  1 +
-> > >  3 files changed, 86 insertions(+)
-> > >  create mode 100644 drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-> > >
-> > > diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-> > > index a56fc634d2d6..ea91a9afa6a0 100644
-> > > --- a/drivers/media/rc/keymaps/Makefile
-> > > +++ b/drivers/media/rc/keymaps/Makefile
-> > > @@ -117,6 +117,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
-> > >  			rc-videomate-m1f.o \
-> > >  			rc-videomate-s350.o \
-> > >  			rc-videomate-tv-pvr.o \
-> > > +			rc-videostrong-kii-pro.o \
-> > >  			rc-wetek-hub.o \
-> > >  			rc-wetek-play2.o \
-> > >  			rc-winfast.o \
-> > > diff --git a/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-> > > new file mode 100644
-> > > index 000000000000..2b94c28ed5d7
-> > > --- /dev/null
-> > > +++ b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-> > > @@ -0,0 +1,84 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +//
-> > > +// Copyright (C) 2019 Mohammad Rasim <mohammad.rasim96@gmail.com>
-> > > +
-> > > +#include <media/rc-map.h>
-> > > +#include <linux/module.h>
-> > > +
-> > > +//
-> > > +// Keytable for the Videostrong KII Pro STB remote control
-> > > +//
-> > > +
-> >
-> > I assume it's this remote:
-> >
-> > https://i1.wp.com/www.eyalo.com/wp-content/uploads/2016/10/KIIPro-items1.jpg
-> >
-> > or
-> >
-> > https://www.cnx-software.com/2016/08/26/videostrong-kii-pro-android-set-top-box-with-dvb-t2-dvb-s2-tuners-comes-with-2gb-ram/
-> >
-> Yes, your assumption is right
+On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
+> By setting or clearing V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+> user-space should be able to set or clear queue's NON_CONSISTENT
+> ->dma_attrs. Queue's ->dma_attrs are passed to the underlying
+> allocator in __vb2_buf_mem_alloc(), so user-space will be able
+> to request consistent or non-consistent memory allocations.
 > 
-> The vendor driver uses this file to setup keymaps
-> https://github.com/OpenVisionE2/amremote/blob/master/k1pro.conf
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  Documentation/media/uapi/v4l/buffer.rst | 19 +++++++++++++++++++
+>  include/uapi/linux/videodev2.h          |  2 ++
+>  2 files changed, 21 insertions(+)
 > 
-> > > +static struct rc_map_table kii_pro[] = {
-> > > +	{ 0x59, KEY_POWER },
-> > > +	{ 0x19, KEY_MUTE },
-> > > +	{ 0x42, KEY_RED },
-> > > +	{ 0x40, KEY_GREEN },
-> > > +	{ 0x00, KEY_YELLOW },
-> > > +	{ 0x03, KEY_BLUE },
-> > > +	{ 0x4a, KEY_BACK },
-> > > +	{ 0x48, KEY_FORWARD },
-> > > +	{ 0x08, KEY_PREVIOUSSONG},
-> > > +	{ 0x0b, KEY_NEXTSONG},
-> > > +	{ 0x46, KEY_PLAYPAUSE },
-> > > +	{ 0x44, KEY_STOP },
-> > > +	{ 0x1f, KEY_FAVORITES},	//KEY_F5?
-> > > +	{ 0x04, KEY_RECORD},
-> >
-> > KEY_PVR?
-> What's the difference between the two ? on vendor dtv app this button
-> starts recording the current program
+> diff --git a/Documentation/media/uapi/v4l/buffer.rst b/Documentation/media/uapi/v4l/buffer.rst
+> index 9149b57728e5..b08b5609f5f3 100644
+> --- a/Documentation/media/uapi/v4l/buffer.rst
+> +++ b/Documentation/media/uapi/v4l/buffer.rst
+> @@ -705,6 +705,25 @@ Buffer Flags
+>  
+>  .. c:type:: v4l2_memory
+>  
+> +Memory Consistency Flags
+> +========================
+> +
+> +.. tabularcolumns:: |p{7.0cm}|p{2.2cm}|p{8.3cm}|
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       3 1 4
+> +
+> +    * .. _`V4L2_FLAG_MEMORY_NON_CONSISTENT`:
+> +
+> +      - ``V4L2_FLAG_MEMORY_NON_CONSISTENT``
+> +      - 0x00000001
+> +      - Set DMA_ATTR_NON_CONSISTENT queue memory consistency bit,
+> +	so all queue buffers may be allocated in non-consistent memory.
 
-A PVR is a personal video recorder. When pressing the button you expect
-the PVR app to open or start recording. The remote does say PVR.
+This needs much more extensive documentation. This is a userspace API,
+and it shouldn't refer to a kernelspace API. Instead, explain what it
+means from a user perspective. Also, how does this relate to the cache
+buffer flags?
 
-> >
-> > > +	{ 0x4d, KEY_EPG},
-> > > +	{ 0x02, KEY_INFO},
-> > > +	{ 0x09, KEY_SUBTITLE},
-> > > +	{ 0x01, KEY_AUDIO},
-> > > +	{ 0x0d, KEY_HOMEPAGE},
-> > > +	{ 0x11, KEY_G},		// DTV ?
-> >
-> > KEY_TV?
-> Ok, will use this in the next version.
-> >
-> > > +	{ 0x06, KEY_UP},
-> > > +	{ 0x5a, KEY_LEFT},
-> > > +	{ 0x1a, KEY_ENTER},	// KEY_OK ?
-> > > +	{ 0x1b, KEY_RIGHT},
-> > > +	{ 0x16, KEY_DOWN},
-> > > +	{ 0x45, KEY_MENU},
-> > > +	{ 0x05, KEY_ESC},
-> > > +	{ 0x13, KEY_VOLUMEUP },
-> > > +	{ 0x17, KEY_VOLUMEDOWN },
-> > > +	{ 0x58, KEY_F6},
-> >
-> > KEY_APPSELECT?
-> Ok.
-> >
-> > > +	{ 0x12, KEY_KATAKANA},	// mouse
-> >
-> > I realise mouse doesn't have a good mapping. However katakana, the
-> > Japanese script, seems a little odd.
-> >
-> What do you suggest ? I was thinking of using KEY_VENDOR but i don't
-> really know what that code does
+These things are tricky, so it is worth spending some time on writing
+good documentation.
 
-KEY_VENDOR is for a vendor-specific key. Since this button doesn't have
-a good mapping, KEY_VENDOR is fine. Keep the comment though, so it can
-be updated once there is a good mapping for the mouse key.
+Regards,
 
-> > > +	{ 0x55, KEY_PAGEUP},	// KEY_CHANNELUP ?
-> > > +	{ 0x15, KEY_PAGEDOWN},	//KEY_CHANNELDOWN ?
-> > > +	{ 0x52, KEY_1},
-> > > +	{ 0x50, KEY_2},
-> > > +	{ 0x10, KEY_3},
-> > > +	{ 0x56, KEY_4},
-> > > +	{ 0x54, KEY_5},
-> > > +	{ 0x14, KEY_6},
-> > > +	{ 0x4e, KEY_7},
-> > > +	{ 0x4c, KEY_8},
-> > > +	{ 0x0c, KEY_9},
-> > > +	{ 0x18, KEY_F7},
-> > > +	{ 0x0f, KEY_0},
-> > > +	{ 0x51, KEY_BACKSPACE},
-> > > +
-> >
-> > Please remove this blank line.
-> Ok
-> >
-> > > +};
-> > > +
-> > > +static struct rc_map_list kii_pro_map = {
-> > > +	.map = {
-> > > +		.scan     = kii_pro,
-> > > +		.size     = ARRAY_SIZE(kii_pro),
-> > > +		.rc_proto = RC_PROTO_NEC,
-> > > +		.name     = RC_MAP_KII_PRO,
-> > > +	}
-> > > +};
-> > > +
-> > > +static int __init init_rc_map_kii_pro(void)
-> > > +{
-> > > +	return rc_map_register(&kii_pro_map);
-> > > +}
-> > > +
-> > > +static void __exit exit_rc_map_kii_pro(void)
-> > > +{
-> > > +	rc_map_unregister(&kii_pro_map);
-> > > +}
-> > > +
-> > > +module_init(init_rc_map_kii_pro)
-> > > +module_exit(exit_rc_map_kii_pro)
-> > > +
-> > > +MODULE_LICENSE("GPL");
-> > > +MODULE_AUTHOR("Mohammad Rasim <mohammad.rasim96@gmail.com>");
-> > > diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-> > > index afd2ab31bdf2..c2ef3906e1cd 100644
-> > > --- a/include/media/rc-map.h
-> > > +++ b/include/media/rc-map.h
-> > > @@ -271,6 +271,7 @@ struct rc_map *rc_map_get(const char *name);
-> > >  #define RC_MAP_VIDEOMATE_K100            "rc-videomate-k100"
-> > >  #define RC_MAP_VIDEOMATE_S350            "rc-videomate-s350"
-> > >  #define RC_MAP_VIDEOMATE_TV_PVR          "rc-videomate-tv-pvr"
-> > > +#define RC_MAP_KII_PRO                   "rc-videostrong-kii-pro"
-> > >  #define RC_MAP_WETEK_HUB                 "rc-wetek-hub"
-> > >  #define RC_MAP_WETEK_PLAY2               "rc-wetek-play2"
-> > >  #define RC_MAP_WINFAST                   "rc-winfast"
-> > > --
-> > > 2.24.0
+	Hans
 
+> +
+>  enum v4l2_memory
+>  ================
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 04481c717fee..d352997f2b62 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -189,6 +189,8 @@ enum v4l2_memory {
+>  	V4L2_MEMORY_DMABUF           = 4,
+>  };
+>  
+> +#define V4L2_FLAG_MEMORY_NON_CONSISTENT		(1 << 0)
+> +
+>  /* see also http://vektor.theorem.ca/graphics/ycbcr/ */
+>  enum v4l2_colorspace {
+>  	/*
+> 
 
-Thanks
-Sean
