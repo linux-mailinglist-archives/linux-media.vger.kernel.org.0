@@ -2,79 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6703136E48
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 14:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C59CB136E51
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 14:40:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727906AbgAJNkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 08:40:15 -0500
-Received: from relay10.mail.gandi.net ([217.70.178.230]:33685 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727639AbgAJNkO (ORCPT
+        id S1728284AbgAJNk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 08:40:28 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55451 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728192AbgAJNk1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 08:40:14 -0500
-Received: from localhost (lfbn-lyo-1-1670-129.w90-65.abo.wanadoo.fr [90.65.102.129])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 29C1E240016;
-        Fri, 10 Jan 2020 13:40:01 +0000 (UTC)
-Date:   Fri, 10 Jan 2020 14:40:01 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com,
-        nicolas.ferre@microchip.com, ludovic.desroches@microchip.com,
-        vkoul@kernel.org, eugen.hristev@microchip.com, jic23@kernel.org,
-        knaack.h@gmx.de, lars@metafoo.de, pmeerw@pmeerw.net,
-        mchehab@kernel.org, lee.jones@linaro.org, richard.genoud@gmail.com,
-        radu_nicolae.pirea@upb.ro, tudor.ambarus@microchip.com,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        wg@grandegger.com, mkl@pengutronix.de, a.zummo@towertech.it,
-        broonie@kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH 03/16] dt-bindings: atmel-tcb: add microchip,<chip>-tcb
-Message-ID: <20200110134001.GD1027187@piout.net>
-References: <1578488123-26127-1-git-send-email-claudiu.beznea@microchip.com>
- <1578488123-26127-4-git-send-email-claudiu.beznea@microchip.com>
+        Fri, 10 Jan 2020 08:40:27 -0500
+Received: from [IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef]
+ ([IPv6:2001:420:44c1:2577:c967:e1d3:183a:b8ef])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id puWTinFt8pLtbpuWXiQqCI; Fri, 10 Jan 2020 14:40:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578663625; bh=MHkmQDKT0r4fQcBBc2IMAMBUeWf7ULY+mdGIXIE99eE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=O//lvPbN29U0TCDl8YaGRGESV2JX23l8A0Y20wPkKhQ1ks/tuf+x5unexaa6kdXTR
+         FxMWw3eNi7id6vuDo7U48E1X6LmgJLBKrPoQPWPfsU/PWNJY4bvtYyTZRGasAk0q0P
+         STzuC6gf+2lBnFZFBemXD/K6XacpXE6XYveEnTRvJ2QTa+a6kffkPUx8obna9vc9lO
+         BJ0zBVsVzvXvW5MPItBtkSopbqfIgn10T5fUPwg5Qz9Y1BmoSICXRVWr4gdremE3zb
+         qadwjJkbh51NxAENND7Y50fQ2yM7oVYubS3SJNpp+ARUcviojJLb+TKnLttAlW420C
+         QcEGKYTwEG3OA==
+Subject: Re: [PATCH v2 RFT] media: exynos4-is: add missed
+ clk_disable_unprepare in remove
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191219074824.15047-1-hslester96@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f253eb6e-5e21-fd9b-8c2f-371beea66afa@xs4all.nl>
+Date:   Fri, 10 Jan 2020 14:40:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1578488123-26127-4-git-send-email-claudiu.beznea@microchip.com>
+In-Reply-To: <20191219074824.15047-1-hslester96@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJQy4Gzf1IEMxWqhmwovv3bnMJlsGgGc6jsSNp9UlIaXbaOBGCM0fOyz5BB9dlhYab0a2NZJ0/noauOBJA9ZdcBv5EwI55HwlTGDB1ynYVVBZd1h/03T
+ O4hsaRHDYftag8lWWDgwg2HpVXRJhpL0ByqssqOfSMG60XEEof9G1kt9azOy0ZSPZ1lT5/O5D0cQV0zCMgR18p4XLKXVhsMurGXOmIUElYQL9sMt+3lOh/gy
+ jOlDIECumrBQcgjW3o26Y/pWEB8nNRiD9pussXQNgPn0i1MPDERpuPiMuXkE7iNHDV3fykh/PXJfTdoc+86o0WxqlS2T97gne+u6LPaCMLyXZ2pZMcpoStfa
+ vMYM8qzbUzlq0Jpv0evU2P9HgaPtlnkZe9rLpIbtE6PhroHQNgM8R4OxQRQd+pppfk+7G8FlWfBhZZwq2pg0CJ3GZahhjzMO+A9ZABOwepNQp9dwgraqkZAy
+ jjO4/GgJIshj4mQuXHa36d+rkfhKky1U+f4Q1hkns0MAP8Ze2NZXAtWAe6ZBJheqQ60g8ZHgB19XDbOBm0v6ciHUr4sCCbZUMERG+M+o9AE8fWt8oaVS1ofT
+ oS5ReaE/M81QCgIbqU7TVF4GBtAFAtZmMQ1Fn1RYo36CdQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/01/2020 14:55:10+0200, Claudiu Beznea wrote:
-> Add microchip,<chip>-tcb to DT bindings documentation. This is for
-> microchip,sam9x60-tcb.
+Anyone able/willing to test this patch?
+
+Regards,
+
+	Hans
+
+On 12/19/19 8:48 AM, Chuhong Yuan wrote:
+> This driver forgets to disable and unprepare clock when remove.
+> Add a call to clk_disable_unprepare() to fix it.
 > 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 > ---
->  Documentation/devicetree/bindings/mfd/atmel-tcb.txt | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> Changes in v2:
+>   - Add a check of pm_runtime_enable() to match enable in probe.
+>   - Add RFT tag.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/atmel-tcb.txt b/Documentation/devicetree/bindings/mfd/atmel-tcb.txt
-> index c4a83e364cb6..e1713e41f6e0 100644
-> --- a/Documentation/devicetree/bindings/mfd/atmel-tcb.txt
-> +++ b/Documentation/devicetree/bindings/mfd/atmel-tcb.txt
-> @@ -1,6 +1,7 @@
->  * Device tree bindings for Atmel Timer Counter Blocks
-> -- compatible: Should be "atmel,<chip>-tcb", "simple-mfd", "syscon".
-> -  <chip> can be "at91rm9200" or "at91sam9x5"
-> +- compatible: Should be "atmel,<chip>-tcb", "microchip,<chip>-tcb",
-> +  "simple-mfd", "syscon".
-> +  <chip> can be "at91rm9200", "at91sam9x5" or "sam9x60"
+>  drivers/media/platform/exynos4-is/fimc-lite.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
+> index e87c6a09205b..17de14fbba31 100644
+> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
+> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
+> @@ -1614,6 +1614,9 @@ static int fimc_lite_remove(struct platform_device *pdev)
+>  	struct fimc_lite *fimc = platform_get_drvdata(pdev);
+>  	struct device *dev = &pdev->dev;
+>  
+> +	if (!pm_runtime_enabled(dev))
+> +		clk_disable_unprepare(fimc->clock);
+> +
+>  	pm_runtime_disable(dev);
+>  	pm_runtime_set_suspended(dev);
+>  	fimc_lite_unregister_capture_subdev(fimc);
+> 
 
-atmel,sam9x60-tcb, microchip,at91rm9200-tcb and microchip,at91sam9x5-tcb
-are not allowed and the documentation should reflect that.
-
-It would probably be easier to do that on top of the yaml conversion
-here:
-https://lore.kernel.org/lkml/20191009224006.5021-2-alexandre.belloni@bootlin.com/
-
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
