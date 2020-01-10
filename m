@@ -2,227 +2,478 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AF111370B0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 16:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E25A91370CA
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 16:12:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728276AbgAJPGi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 10:06:38 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51210 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728141AbgAJPGi (ORCPT
+        id S1728194AbgAJPL7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 10:11:59 -0500
+Received: from plasma6.jpberlin.de ([80.241.56.68]:40281 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728137AbgAJPL7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 10:06:38 -0500
-Received: by mail-wm1-f68.google.com with SMTP id d73so2359789wmd.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2020 07:06:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=ZVAhaO7TDnAseI4aLa4+t0s+5RJrm76nog/ifK4rxPA=;
-        b=bFgoHw7JJp8GVGZl/T3YZ4eiHv/jBo78Cru6gcpG/9KAzvNQlA/OK5vLKZ6HYSRvvr
-         YDw4lLBKZMesQI/NQNUYtISeX91bwfTyZrmYNL1JPpcsLyYx4YiGwcooXk/wDdJvJwA9
-         MkxegkuuthWTKwiPkZy3y5v1pS7xiufU5S0YA2xdwaGJFgFmEsrYQZFfRYCXpmp5g6Wh
-         MFbOHjzfLmMdysNri/pPq1XjqxzxV4YjApCNUcSJo/3uer1cTemSjYyIEvyrwXmK3uSZ
-         uYsDFJ0wpFqB201rBe0eoiTRcHN922G3aE281jAVxDRRPV1i20JuA8Jt38g9yOfhNIl/
-         PdnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=ZVAhaO7TDnAseI4aLa4+t0s+5RJrm76nog/ifK4rxPA=;
-        b=lab/TtSTBYP5Mh1M3//r4ejFQav+t7/pJnqGNM0LdwwzA2SMWv3m9ug1FZ4MGGJlpK
-         HR0ocvTaxKGeykwq5KODCkXfTPQ25paaxlstH7Uvfa1i7eY+m1zJ3NlxzVuKb6re5/uJ
-         YaoSaiz4C7ZrYJi8dmraSI0D+0Udb1YlFTtF6edylfOxs0v2fnZ8ek6rda0+35HvPvnU
-         v9+jaWRH48ttaLbAVAEZuDEiojNL7ZAV1/xzXRy8ZvVWAh4KydFgBkf7jzc3Is1Ar+Z1
-         AR7VchiI1nL3mI9ZfGCmCMKpex4yqDzu5WWZhmf2vRnl7GHMfg1yTapkey6Vke+Fy+wd
-         MjDg==
-X-Gm-Message-State: APjAAAVsHAgIsuhMpI1Xi4WmBfHpkLmecYSDmtJDdzrsEE7HGua3qI7Z
-        sYrldV/KkKCcA2TVST7FZ7hdBA==
-X-Google-Smtp-Source: APXvYqzdaIwdojvVYENuw7ZWfAleo6eDsYH1yb2itBtPItx5viijEdtcxkQhBbYGecbcjjrO+s/MLQ==
-X-Received: by 2002:a7b:cc82:: with SMTP id p2mr5077382wma.159.1578668796089;
-        Fri, 10 Jan 2020 07:06:36 -0800 (PST)
-Received: from [10.1.4.98] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id c15sm2469320wrt.1.2020.01.10.07.06.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2020 07:06:35 -0800 (PST)
-Subject: Re: [PATCH v2 3/3] media: platform: meson-ao-cec-g12a: add wakeup
- support
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, narmstrong@baylibre.com,
-        mchehab@kernel.org, khilman@baylibre.com,
-        devicetree@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20191213132956.11074-1-glaroque@baylibre.com>
- <20191213132956.11074-4-glaroque@baylibre.com>
- <cccc0cda-7403-1378-40c8-291b11bf868a@xs4all.nl>
-From:   guillaume La Roque <glaroque@baylibre.com>
-Message-ID: <0a07b5cc-a7dc-2983-89de-a1894ae6a469@baylibre.com>
-Date:   Fri, 10 Jan 2020 16:06:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Fri, 10 Jan 2020 10:11:59 -0500
+Received: from spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 2C19CB74D9;
+        Fri, 10 Jan 2020 16:11:54 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
+        with ESMTP id crACyX43_CB4; Fri, 10 Jan 2020 16:11:52 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 19DB4B9693;
+        Fri, 10 Jan 2020 16:11:51 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
+ (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 10 Jan
+ 2020 16:11:55 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+CC:     <virtio-dev@lists.oasis-open.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>, <uril@redhat.com>
+Subject: Re: [virtio-dev] Re: [PATCH v2 0/1] VirtIO video device specification
+Date:   Fri, 10 Jan 2020 16:11:50 +0100
+Message-ID: <7740094.NyiUUSuA9g@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAD90Vcbk5DerrFNQdH1wdAX=HxBjMz9-FoNiWm_ryvwsA_YvYA@mail.gmail.com>
+References: <20191218130214.170703-1-keiichiw@chromium.org> <2137719.ElGaqSPkdT@os-lin-dmo> <CAD90Vcbk5DerrFNQdH1wdAX=HxBjMz9-FoNiWm_ryvwsA_YvYA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cccc0cda-7403-1378-40c8-291b11bf868a@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: fr
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Keiichi,
 
-On 1/7/20 3:36 PM, Hans Verkuil wrote:
-> Hi Guillaume,
->
-> On 12/13/19 2:29 PM, Guillaume La Roque wrote:
->> add register configuration to activate wakeup feature in bl301
->>
->> Tested-by: Kevin Hilman <khilman@baylibre.com>
->> Signed-off-by: Guillaume La Roque <glaroque@baylibre.com>
->> ---
->>  drivers/media/platform/meson/ao-cec-g12a.c | 33 ++++++++++++++++++++++
->>  1 file changed, 33 insertions(+)
->>
->> diff --git a/drivers/media/platform/meson/ao-cec-g12a.c b/drivers/media/platform/meson/ao-cec-g12a.c
->> index 891533060d49..85850b974126 100644
->> --- a/drivers/media/platform/meson/ao-cec-g12a.c
->> +++ b/drivers/media/platform/meson/ao-cec-g12a.c
->> @@ -25,6 +25,7 @@
->>  #include <media/cec.h>
->>  #include <media/cec-notifier.h>
->>  #include <linux/clk-provider.h>
->> +#include <linux/mfd/syscon.h>
->>  
->>  /* CEC Registers */
->>  
->> @@ -168,6 +169,18 @@
->>  
->>  #define CECB_WAKEUPCTRL		0x31
->>  
->> +#define CECB_FUNC_CFG_REG		0xA0
->> +#define CECB_FUNC_CFG_MASK		GENMASK(6, 0)
->> +#define CECB_FUNC_CFG_CEC_ON		0x01
->> +#define CECB_FUNC_CFG_OTP_ON		0x02
->> +#define CECB_FUNC_CFG_AUTO_STANDBY	0x04
->> +#define CECB_FUNC_CFG_AUTO_POWER_ON	0x08
->> +#define CECB_FUNC_CFG_ALL		0x2f
->> +#define CECB_FUNC_CFG_NONE		0x0
->> +
->> +#define CECB_LOG_ADDR_REG	0xA4
->> +#define CECB_LOG_ADDR_MASK	GENMASK(22, 16)
->> +
->>  struct meson_ao_cec_g12a_data {
->>  	/* Setup the internal CECB_CTRL2 register */
->>  	bool				ctrl2_setup;
->> @@ -177,6 +190,7 @@ struct meson_ao_cec_g12a_device {
->>  	struct platform_device		*pdev;
->>  	struct regmap			*regmap;
->>  	struct regmap			*regmap_cec;
->> +	struct regmap			*regmap_ao_sysctrl;
->>  	spinlock_t			cec_reg_lock;
->>  	struct cec_notifier		*notify;
->>  	struct cec_adapter		*adap;
->> @@ -518,6 +532,13 @@ meson_ao_cec_g12a_set_log_addr(struct cec_adapter *adap, u8 logical_addr)
->>  					 BIT(logical_addr - 8));
->>  	}
->>  
->> +	if (ao_cec->regmap_ao_sysctrl)
->> +		ret |= regmap_update_bits(ao_cec->regmap_ao_sysctrl,
->> +					 CECB_LOG_ADDR_REG,
->> +					 CECB_LOG_ADDR_MASK,
->> +					 FIELD_PREP(CECB_LOG_ADDR_MASK,
->> +						    logical_addr));
->> +
->>  	/* Always set Broadcast/Unregistered 15 address */
->>  	ret |= regmap_update_bits(ao_cec->regmap_cec, CECB_LADD_HIGH,
->>  				  BIT(CEC_LOG_ADDR_UNREGISTERED - 8),
->> @@ -618,6 +639,13 @@ static int meson_ao_cec_g12a_adap_enable(struct cec_adapter *adap, bool enable)
->>  		regmap_write(ao_cec->regmap_cec, CECB_CTRL2,
->>  			     FIELD_PREP(CECB_CTRL2_RISE_DEL_MAX, 2));
->>  
->> +	if (ao_cec->regmap_ao_sysctrl) {
->> +		regmap_update_bits(ao_cec->regmap_ao_sysctrl,
->> +				   CECB_FUNC_CFG_REG,
->> +				   CECB_FUNC_CFG_MASK,
->> +				   CECB_FUNC_CFG_ALL);
-> What exactly is enabled here? Looking at CECB_FUNC_CFG_ALL it seems to
-> enable automatic standby (I presume when the STANDBY message is received?)
-> and power on (I presume when SET_STREAM_PATH is received?).
-this register and flags are used by bl301 part.
+On Freitag, 10. Januar 2020 14:53:01 CET Keiichi Watanabe wrote:
+> Hi,
+> 
+> On Fri, Jan 10, 2020 at 7:16 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> 
+wrote:
+> > Hi,
+> > 
+> > On Donnerstag, 9. Januar 2020 15:56:08 CET Dmitry Sepp wrote:
+> > > Hi,
+> > > 
+> > > On Dienstag, 7. Januar 2020 11:25:56 CET Keiichi Watanabe wrote:
+> > > > Hi Dmitry,
+> > > > 
+> > > > On Mon, Jan 6, 2020 at 8:28 PM Dmitry Sepp
+> > > > <dmitry.sepp@opensynergy.com>
+> > > 
+> > > wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > On Montag, 6. Januar 2020 11:30:22 CET Keiichi Watanabe wrote:
+> > > > > > Hi Dmitry, Tomasz,
+> > > > > > 
+> > > > > > On Fri, Jan 3, 2020 at 10:05 PM Dmitry Sepp
+> > > > > > <dmitry.sepp@opensynergy.com>
+> > > > > 
+> > > > > wrote:
+> > > > > > > Hi Tomasz, Keiichi,
+> > > > > > > 
+> > > > > > > On Samstag, 21. Dezember 2019 07:19:23 CET Tomasz Figa wrote:
+> > > > > > > > On Sat, Dec 21, 2019 at 3:18 PM Tomasz Figa
+> > > > > > > > <tfiga@chromium.org>
+> > > 
+> > > wrote:
+> > > > > > > > > On Sat, Dec 21, 2019 at 1:36 PM Keiichi Watanabe
+> > > > > > > > > <keiichiw@chromium.org>
+> > > > > > > 
+> > > > > > > wrote:
+> > > > > > > > > > Hi Dmitry,
+> > > > > > > > > > 
+> > > > > > > > > > On Sat, Dec 21, 2019 at 12:59 AM Dmitry Sepp
+> > > > > > > > > > 
+> > > > > > > > > > <dmitry.sepp@opensynergy.com> wrote:
+> > > > > > > > > > > Hi Keiichi,
+> > > > > > > > > > > 
+> > > > > > > > > > > On Mittwoch, 18. Dezember 2019 14:02:13 CET Keiichi
+> > > > > > > > > > > Watanabe
+> > > > > 
+> > > > > wrote:
+> > > > > > > > > > > > Hi,
+> > > > > > > > > > > > This is the 2nd version of virtio-video patch. The PDF
+> > > > > > > > > > > > is
+> > > > > > > > > > > > available
+> > > > > > > > > > > > in [1].
+> > > > > > > > > > > > The first version was sent at [2].
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Any feedback would be appreciated. Thank you.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Best,
+> > > > > > > > > > > > Keiichi
+> > > > > > > > > > > > 
+> > > > > > > > > > > > [1]:
+> > > > > > > > > > > > https://drive.google.com/drive/folders/1eT5fEckBoor2iH
+> > > > > > > > > > > > ZR4f
+> > > > > > > > > > > > 4G
+> > > > > > > > > > > > LxYz
+> > > > > > > > > > > > FMVa
+> > > > > > > > > > > > pOFx?us
+> > > > > > > > > > > > p=sharing [2]:
+> > > > > > > > > > > > https://markmail.org/message/gc6h25acct22niut
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Change log:
+> > > > > > > > > > > > 
+> > > > > > > > > > > > v2:
+> > > > > > > > > > > > * Removed functionalities except encoding and
+> > > > > > > > > > > > decoding.
+> > > > > > > > > > > > * Splited encoder and decoder into different devices
+> > > > > > > > > > > > that
+> > > > > > > > > > > > use
+> > > > > > > > > > > > the
+> > > > > > > > > > > > same
+> > > > > > > > > > > > protocol. * Replaced GET_FUNCS with GET_CAPABILITY.
+> > > > > > > > > > > > * Updated structs for capabilities.
+> > > > > > > > > > > > 
+> > > > > > > > > > > >   - Defined new structs and enums such as image
+> > > > > > > > > > > >   formats,
+> > > > > > > > > > > >   profiles,
+> > > > > > > > > > > >   range
+> > > > > > > > > > > > 
+> > > > > > > > > > > > (min, max, step), etc
+> > > > > > > > > > > > 
+> > > > > > > > > > > >     * For virtio_video_pixel_format, chose a naming
+> > > > > > > > > > > >     convention
+> > > > > > > > > > > >     that
+> > > > > > > > > > > >     is used
+> > > > > > > > > > > >     
+> > > > > > > > > > > >       in DRM. We removed XBGR, NV21 and I422, as they
+> > > > > > > > > > > >       are
+> > > > > > > > > > > >       not
+> > > > > > > > > > > >       used
+> > > > > > > > > > > >       in the
+> > > > > > > > > > > >       current draft implementation.
+> > > > > > > > > > > >       https://lwn.net/Articles/806416/
+> > > > > > > > > > > >   
+> > > > > > > > > > > >   - Removed virtio_video_control, whose usage was not
+> > > > > > > > > > > >   documented
+> > > > > > > > > > > >   yet
+> > > > > > > > > > > >   and
+> > > > > > > > > > > > 
+> > > > > > > > > > > > which is not necessary for the simplest decoding
+> > > > > > > > > > > > scenario.
+> > > > > > > > > > > > 
+> > > > > > > > > > > >   - Removed virtio_video_desc, as it is no longer
+> > > > > > > > > > > >   needed.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > * Updated struct virtio_video_config for changes
+> > > > > > > > > > > > around
+> > > > > > > > > > > > capabilities.
+> > > > > > > > > > > > * Added a way to represent supported combinations of
+> > > > > > > > > > > > formats.
+> > > > > > > > > > > > 
+> > > > > > > > > > > >   - A field "mask" in virtio_video_format_desc plays
+> > > > > > > > > > > >   this
+> > > > > > > > > > > >   role.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > * Removed VIRTIO_VIDEO_T_STREAM_{START,STOP} because
+> > > > > > > > > > > > they
+> > > > > > > > > > > > don't
+> > > > > > > > > > > > play
+> > > > > > > > > > > > any
+> > > > > > > > > > > > meaningful roles. * Removed
+> > > > > > > > > > > > VIRTIO_VIDEO_T_STREAM_{ATTACH,
+> > > > > > > > > > > > DETACH}_BACKING
+> > > > > > > > > > > > and merged them into RESOURCE_{CREATE, DESTROY}. *
+> > > > > > > > > > > > Added a
+> > > > > > > > > > > > way
+> > > > > > > > > > > > to
+> > > > > > > > > > > > notify/specify resource creation method.
+> > > > > > > > > > > > 
+> > > > > > > > > > > >   - Added a feature flag.
+> > > > > > > > > > > >   - Defined enum virtio_video_mem_type.
+> > > > > > > > > > > >   - Added new fields in video_stream_create.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > * Modified fields in virtio_video_params.
+> > > > > > > > > > > > 
+> > > > > > > > > > > >   - Added crop information.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > * Removed enum virtio_video_channel_type because we
+> > > > > > > > > > > > can
+> > > > > > > > > > > > get
+> > > > > > > > > > > > this
+> > > > > > > > > > > > information by image format.
+> > > > > > > > > > > 
+> > > > > > > > > > > Could you please explain this? How do you get the
+> > > > > > > > > > > information?
+> > > > > > > > > > 
+> > > > > > > > > > It means that if image formats are well-defined, channel
+> > > > > > > > > > information
+> > > > > > > > > > (e.g. the order of channels) is uniquely determined.
+> > > > > > > > > > 
+> > > > > > > > > > > Suppose you have some piece of HW on the host side that
+> > > > > > > > > > > wants
+> > > > > > > > > > > I420
+> > > > > > > > > > > as
+> > > > > > > > > > > one
+> > > > > > > > > > > contig buffer w/ some offsets. But on the driver side,
+> > > > > > > > > > > say,
+> > > > > > > > > > > gralloc
+> > > > > > > > > > > gives you three separate buffers, one per channel. How
+> > > > > > > > > > > do we
+> > > > > > > > > > > pass
+> > > > > > > > > > > those to the device then?
+> > > > > > > > > > 
+> > > > > > > > > > You're talking about CrOS use case where buffers are
+> > > > > > > > > > allocated
+> > > > > > > > > > by
+> > > > > > > > > > virtio-gpu, right?
+> > > > > > > > > > In this case, virtio-gpu allocates one contiguous
+> > > > > > > > > > host-side
+> > > > > > > > > > buffer
+> > > > > > > > > > and
+> > > > > > > > > > the client regards a pair of (buffer FD, offset) as one
+> > > > > > > > > > channel.
+> > > > > > > > > > And, we can register this pair to the device when the
+> > > > > > > > > > buffer
+> > > > > > > > > > is
+> > > > > > > > > > imported.
+> > > > > > > > > > In the virtio-vdec spec draft, this pair corresponds to
+> > > > > > > > > > struct
+> > > > > > > > > > virtio_vdec_plane in struct virtio_vdec_plane.
+> > > > > > > > > > 
+> > > > > > > > > > So, I suppose we will need similar structs when we add a
+> > > > > > > > > > control
+> > > > > > > > > > to
+> > > > > > > > > > import buffers. However, I don't think it's necessary when
+> > > > > > > > > > guest
+> > > > > > > > > > pages
+> > > > > > > > > > are used.
+> > > > > > > > > 
+> > > > > > > > > I think we need some way for the guest to know whether it
+> > > > > > > > > can
+> > > > > > > > > allocate
+> > > > > > > > > the planes in separate buffers, even when guest pages are
+> > > > > > > > > used.
+> > > > > > > > > This
+> > > > > > > > > would be equivalent to V4L2 M and non-M formats, but mixing
+> > > > > > > > > this
+> > > > > > > > > into
+> > > > > > > > > FourCC in V4L2 is an acknowledged mistake, so we should add
+> > > > > > > > > a
+> > > > > > > > > query or
+> > > > > > > > > something.
+> > > > > > > 
+> > > > > > > Yes, this is what I mean. In fact, we already do face the
+> > > > > > > situation
+> > > > > > > when
+> > > > > > > the device side is not happy with the sgt and wants contig. I
+> > > > > > > think
+> > > > > > > we'll
+> > > > > > > add a module parameter for now.
+> > > > > > 
+> > > > > > Okay. So, I suppose we'll be able to update structs:
+> > > > > > * Add a flag in virtio_video_format_desc that indicates whether
+> > > > > > planes
+> > > > > > can be in separate buffers, and
+> > > > > > * Add a flag in virtio_video_format_desc that indicates that the
+> > > > > > device requires contiguous buffers for this format.
+> > > > > > 
+> > > > > > Does it make sense?
+> > > > > 
+> > > > > Sorry, I don't understand the difference between the two above:
+> > > > > isn't
+> > > > > the
+> > > > > first case is just when the flag is not set?
+> > > > 
+> > > > Ah, I was confused and wrote something strange. Yeah,  these two are
+> > > > the
+> > > > same. Sorry for that.
+> > > > 
+> > > > So, the suggestion is to add a field "planes_layout" in
+> > > > virtio_video_format_desc, which is one of the following enums:
+> > > > 
+> > > > enum virtio_video_planes_layout {
+> > > > 
+> > > >     VIRTIO_VIDEO_PLANES_LAYOUT_UNSPEC = 0,  /* no special requirement
+> > > >     */
+> > > >     VIRTIO_VIDEO_PLANES_LAYOUT_CONTIGUOUS,
+> > > > 
+> > > > };
+> > > > 
+> > > > If we have a better idea or naming, please let me know.
+> > > 
+> > > The naming looks good for me, I might only change to CONTIG as we have
+> > > UNSPEC.
+> > 
+> > So here we are talking about plane layout in memory, am I correct? But I
+> > think we also need a way to communicate memory requirements of the
+> > device: the device might require CMA buffers or it can be ok with SG
+> > lists. What about adding something like this to virtio_video_format_desc:
+> > 
+> > enum virtio_video_mem_layout {
+> > 
+> >         VIRTIO_VIDEO_MEM_LAYOUT_UNDEFINED = 0,
+> >         
+> >         VIRTIO_VIDEO_MEM_LAYOUT_CONTIG = 0x100,
+> >         VIRTIO_VIDEO_MEM_LAYOUT_NON_CONTIG,
+> > 
+> > };
+> > 
+> > struct virtio_video_format_desc {
+> > 
+> >     __le64 mask;
+> >     __le32 format; /* One of VIRTIO_VIDEO_FORMAT_* types */
+> >     __le32 planes_layout; /* One of VIRTIO_VIDEO_PLANES_LAYOUT_* types */
+> >     __le32 mem_layout; /* One of VIRTIO_VIDEO_MEM_LAYOUT_* types */
+> >     ...
+> > 
+> > };
+> 
+> Good.
+> I'd not like to call it NON_CONTIG, as it sounds like CMA buffers
+> aren't allowed.
+> Instead, how about this definition?
+> 
+> enum virtio_video_mem_layout {
+>         VIRTIO_VIDEO_MEM_LAYOUT_UNSPEC = 0,  /* no special requirement */
+>         VIRTIO_VIDEO_MEM_LAYOUT_CONTIG = 1,
+> };
 
-amlogic implemented a task to check cec event/message.
+Yes, I agree, that would be more correct. We just need an empty line to be 
+aligned with other enums.
 
-for power on in bl301 it's not only on SET_STREAM_PATH but also on :
+> 
+> With this enum,
+> * the device can simply ignore this field if it doesn't have any
+> requirement and the struct is zero-initialized, and
+> * if we need to add other types of memory layout requirements, we can
+> add them as 2, 4, 8, etc to represent combinations of requirements.
+> 
+> Just to confirm, are the following combination of planes_layout and
+> mem_layout valid?
+> (1) (planes_layout, mem_layout) = (contig, not specified)
+> (2) (planes_layout, mem_layout) = (not specified, contig)
+> 
+> In my understanding, (1) means that each plane must be a contiguous
+> buffer while different planes don't have to be in a contig memory, but
+> (2) is invalid.
+> Is it correct?
 
-USER_CONTROL_PRESSED
-TEXT_VIEW_ON
-ACTIVE_SOURCE
-ROUTING_CHANGE
+Let me tell a bit more about my vision:
 
-when in CECB_FUNC_CFG_REG register we put  CECB_FUNC_CFG_CEC_ON and  CECB_FUNC_CFG_AUTO_POWER_ON
+mem_layout: device can handle SG lists (e.g. using iommu) or it cannot and 
+needs CMA. If it can handle SG, CMA is also ok. So it is ether 'I don't care' 
+or 'give me CMA'.
 
-it's not possible to change this
+planes_layout: some devices might want to see multiplanar data in one buffer. 
+So if we allocate two sets of mem entries (one per each plane) and send them 
+to the host, the device will fail to handle those.
 
->
-> Do you really want to automatically handle STANDBY that way? What does this
-> do on the hardware level anyway? Isn't this something that should be
-> controlled in userspace?
+So from my perspective you example can be interpreted as follows:
+(1) means all your planes are hosted by one buffer instance (we can see it as 
+one fd for all planes plus per-plane offsets inside the buffer), the buffer 
+itself consists of arbitrary pages (or can consist, as it can of course also 
+be CMA, because of UNSPEC).
+(2) valid, means each plane has its own buffer, each buffer is contiguous in 
+memory (must be allocated from CMA), but planes are not necessarily adjacent 
+to each other in memory.
 
-in fact i do a new check in bl301 code amlogic do nothing on STANDBY so i will clean code
+This also means that we cannot have unspec for planes layout. Device either 
+expects planes in separate buffers or in one buffer with some offsets, there 
+cannot be mixed cases. So it should look like this:
 
-and activate real option supported by bl301
+enum virtio_video_planes_layout {
+    VIRTIO_VIDEO_PLANES_LAYOUT_UNSPEC = 0,  /* default, invalid */
 
->
-> Similar questions for power on: you may not always want to enable this feature
-> since it depends very much on the precise use-case.
->
-> And which messages it reacts to in order to do a power-on needs to be
-> documented since this differs depending on whether the CEC adapter is
-> used for a TV or for a playback device. This feature may be hardwired for
-> a playback device only, in which case it should probably be disabled if
-> the CEC adapter is configured as a TV.
->
-> In any case I would like to see some more details about how this works,
-> especially since this is the first implementation of such a feature.
->
-> I suspect that some userspace API might be needed to get the right level
-> of control of such a feature.
+    VIRTIO_VIDEO_PLANES_LAYOUT_CONTIG = 0x100,
+    VIRTIO_VIDEO_PLANES_LAYOUT_NON_CONTIG,
+};
 
-i will send v3 next week with some comments and fix ( disable are missing for example)
+Best regards,
+Dmitry
 
-actual usercase is for android TV.
+> 
+> Best regards,
+> Keiichi
+> 
+> > Best regards,
+> > Dmitry.
+> > 
+> > > Best regards,
+> > > Dmitry.
+> > > 
+> > > > Best regards,
+> > > > Keiichi
+> > > > 
+> > > > > Regards,
+> > > > > Dmitry.
+> > > > > 
+> > > > > > Best regards,
+> > > > > > Keiichi
+> > > > > > 
+> > > > > > > Regards,
+> > > > > > > Dmitry.
+> > > > > > > 
+> > > > > > > > > For future V4L2 development we came up with the idea of a
+> > > > > > > > > format
+> > > > > > > > > flag
+> > > > > > > > > which could mean that the hardware allows putting planes in
+> > > > > > > > > separate
+> > > > > > > > > buffers. We could have a similar per-format flag in the
+> > > > > > > > > capabilities,
+> > > > > > > > > as we already have a list of all the supported formats
+> > > > > > > > > there.
+> > > > > > > > 
+> > > > > > > > Sorry, forgot to paste the link from future V4L2 work notes
+> > > > > > > > from
+> > > > > > > > this
+> > > > > > > > year
+> > > > > > > > ELCE: https://www.spinics.net/lists/linux-media/msg159789.html
+> > > > > > > > 
+> > > > > > > > > Best regards,
+> > > > > > > > > Tomasz
+> > > > > > > > > 
+> > > > > > > > > > Best regards,
+> > > > > > > > > > Keiichi
+> > > > > > > > > > 
+> > > > > > > > > > > Best regards,
+> > > > > > > > > > > Dmitry.
+> > > > > > > > > > > 
+> > > > > > > > > > > > * Renamed virtio_video_pin to virtio_video_buf_type.
+> > > > > > > > > > > > 
+> > > > > > > > > > > >   - It's similar to V4L2_BUF_TYPE_VIDEO_{OUTPUT,
+> > > > > > > > > > > >   CAPTURE}.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > * Added an error event.
+> > > > > > > > > > > > * Reordered some subsections.
+> > > > > > > > > > > > * Changed styles to make it consistent with other
+> > > > > > > > > > > > devices.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Dmitry Sepp (1):
+> > > > > > > > > > > >   virtio-video: Add virtio video device specification
+> > > > > > > > > > > >  
+> > > > > > > > > > > >  content.tex      |   1 +
+> > > > > > > > > > > >  virtio-video.tex | 579
+> > > > > > > > > > > >  +++++++++++++++++++++++++++++++++++++++++++++++
+> > > > > > > > > > > >  2 files changed, 580 insertions(+)
+> > > > > > > > > > > >  create mode 100644 virtio-video.tex
+> > > > > > > > > > > > 
+> > > > > > > > > > > > --
+> > > > > > > > > > > > 2.24.1.735.g03f4e72817-goog
+> > > 
+> > > ---------------------------------------------------------------------
+> > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
 
-when cec was enable android TV want to be wakeup by cec event.
 
-
-> Regards,
->
-> 	Hans
->
-
-thanks for your review
-
-Regards
-
-Guillaume
-
->> +	}
->> +
->>  	meson_ao_cec_g12a_irq_setup(ao_cec, true);
->>  
->>  	return 0;
->> @@ -685,6 +713,11 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
->>  		goto out_probe_adapter;
->>  	}
->>  
->> +	ao_cec->regmap_ao_sysctrl = syscon_regmap_lookup_by_phandle
->> +		(pdev->dev.of_node, "amlogic,ao-sysctrl");
->> +	if (IS_ERR(ao_cec->regmap_ao_sysctrl))
->> +		dev_warn(&pdev->dev, "ao-sysctrl syscon regmap lookup failed.\n");
->> +
->>  	irq = platform_get_irq(pdev, 0);
->>  	ret = devm_request_threaded_irq(&pdev->dev, irq,
->>  					meson_ao_cec_g12a_irq,
->>
