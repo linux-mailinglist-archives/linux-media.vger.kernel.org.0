@@ -2,167 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD8C1371C4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 16:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 624971372B0
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 17:19:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728441AbgAJPvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 10:51:52 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:41200 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728433AbgAJPvw (ORCPT
+        id S1728638AbgAJQSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 11:18:43 -0500
+Received: from esa4.microchip.iphmx.com ([68.232.154.123]:25289 "EHLO
+        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728500AbgAJQSn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 10:51:52 -0500
-Received: by mail-pl1-f193.google.com with SMTP id bd4so1000104plb.8
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2020 07:51:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tfSgAWW92s17Lm3zS9b6QAmYd1YwuToXZtAedHliLH4=;
-        b=JGQ/8gBwd4Hrbb4m2/WNqw/CSu7HcgFfgyOcPgtPt+3VczsbGOV774JYFVZcueMrX4
-         rKY16N2ZqYKf0eRTla92BEl8Vvhlljexp+upVhLY6zqKu8UVwx1Yzb67AKTCR+i0AK3N
-         xUqEnerbsiAFsQP6NXEbbu/lrVNgFsYBYIKgkWnwjDM3pBNhS/0W5EBvTu3B4WcX2QP0
-         bt36cb2r0y1zJcxUm7v+wg7sTstEu5U0mJtausEI22S49J2VM+lk3U8WfXfJoR5HJwTR
-         i3BHo62uZq4LWX42awENLY11ApTjpMLLhfcE4++u29j/2J4I3kIIZom2B0DOmSlgUDHg
-         2Lbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tfSgAWW92s17Lm3zS9b6QAmYd1YwuToXZtAedHliLH4=;
-        b=BMFWTZ+cp6K5tfZ3AOLaUbbb3xtBaf+UNstActeFjSAb3ApB+PF0aj0wMMWQFDZFN/
-         Sev+eSyrRpGbHB8r+o0wZ6U+VWQTcOaQi+4ojTEQMUUDwWBhFRE58KdKFJF+nlPO+n0Q
-         kqs6w7AglIcS2UO8mmSgAQ+3U0+NTXctgZEdVNOf8xRCsHwA+W7j9aiZ9kv3+JXM4uxu
-         24H2zPxlY0f5uxHmLLu8QhR4FGR6LQmAGSm1BQa4eolv/VCaJfftyPNQ4Gso9lsmj3zN
-         qsDfXLsjOXLOfJ+/bEr/RdJQJqQ5wzuE+CbrJBFJtsChEN0axWS006XwdjKmD4fV1Rc4
-         tcnA==
-X-Gm-Message-State: APjAAAWlIVfDROTExqNuZm2QViSZl0RWir75LDw8J4GU7vQ+A4ctJBX0
-        JKzcH0EbmY0sAu8beP+WJogrVHK//nS6FQiQ7BTt5Q==
-X-Google-Smtp-Source: APXvYqzoNlq9RnNOFVy80qFP5fZSHeFTKcM3L/7yN9d9GUSMAA/cRBSSsbQmAfxaoFaQhfll95SZbI2VgDF8qhDJhhU=
-X-Received: by 2002:a17:90a:1a0d:: with SMTP id 13mr5592983pjk.129.1578671511250;
- Fri, 10 Jan 2020 07:51:51 -0800 (PST)
+        Fri, 10 Jan 2020 11:18:43 -0500
+Received-SPF: Pass (esa4.microchip.iphmx.com: domain of
+  Claudiu.Beznea@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="Claudiu.Beznea@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
+  include:servers.mcsv.net include:mktomail.com
+  include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa4.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Claudiu.Beznea@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa4.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Claudiu.Beznea@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: bgvyRviLtSMBagCbW5xU15eyDlYUnS2bKX3SApzPK+ZELkixZqoDg+qhOMwxYIVA+B81vBgAh4
+ ppcuQyjdNHfre+ii56Ui0NDTNRyalmYKsAZwv7Y5N4StRauxz+AIxC6ZeLkAy0WkVr3zZswTpO
+ ycLeK0lAg4BY5nkGnFCiVtmYJlN5R4cebLc3cwgAzPHcX8DmpXiiCQGUGsPhbNv8wX4QPUlWx3
+ 3IlYCASxr2soI/fh9+iytkkHg8n3/Yrz8/wmRBH9CWxEb+H7syfZEGmAnIdK8lyzQeD7gnPaBg
+ a/Q=
+X-IronPort-AV: E=Sophos;i="5.69,417,1571727600"; 
+   d="scan'208";a="60748306"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jan 2020 09:18:41 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 10 Jan 2020 09:18:40 -0700
+Received: from m18063-ThinkPad-T460p.mchp-main.com (10.10.85.251) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Fri, 10 Jan 2020 09:18:32 -0700
+From:   Claudiu Beznea <claudiu.beznea@microchip.com>
+To:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <ludovic.desroches@microchip.com>, <vkoul@kernel.org>,
+        <eugen.hristev@microchip.com>, <jic23@kernel.org>,
+        <knaack.h@gmx.de>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
+        <mchehab@kernel.org>, <lee.jones@linaro.org>,
+        <radu_nicolae.pirea@upb.ro>, <richard.genoud@gmail.com>,
+        <tudor.ambarus@microchip.com>, <miquel.raynal@bootlin.com>,
+        <richard@nod.at>, <vigneshr@ti.com>, <wg@grandegger.com>,
+        <mkl@pengutronix.de>, <a.zummo@towertech.it>
+CC:     <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        <linux-can@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: [PATCH v2 00/17] add device tree for SAM9X60 SoC and SAM9X60-EK board
+Date:   Fri, 10 Jan 2020 18:17:52 +0200
+Message-ID: <1578673089-3484-1-git-send-email-claudiu.beznea@microchip.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <0000000000003a39d50599d200e6@google.com>
-In-Reply-To: <0000000000003a39d50599d200e6@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 10 Jan 2020 16:51:40 +0100
-Message-ID: <CAAeHK+wnE6anSjmoA-Cr4nvx_oujUWH=D_YkhE38eiJurjsCWg@mail.gmail.com>
-Subject: Re: WARNING in uvc_scan_chain_forward
-To:     syzbot <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Dec 16, 2019 at 2:15 PM syzbot
-<syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following crash on:
->
-> HEAD commit:    4cc037ec usb: gadget: add raw-gadget interface
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11b905dee00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=e9c2b6de462bc469
-> dashboard link: https://syzkaller.appspot.com/bug?extid=0a5c96772a9b26f2a876
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10f82546e00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1638ef7ee00000
->
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com
->
-> usb 1-1: New USB device found, idVendor=0bd3, idProduct=0755,
-> bcdDevice=69.6a
-> usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> usb 1-1: config 0 descriptor??
-> usb 1-1: string descriptor 0 read error: -71
-> uvcvideo: Found UVC 0.00 device <unnamed> (0bd3:0755)
-> ------------[ cut here ]------------
-> list_add double add: new=ffff8881d0637010, prev=ffff8881d0637010,
-> next=ffff8881d4e87c18.
-> WARNING: CPU: 1 PID: 22 at lib/list_debug.c:29 __list_add_valid+0xb4/0xf0
-> lib/list_debug.c:29
-> Kernel panic - not syncing: panic_on_warn set ...
-> CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.5.0-rc1-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->   __dump_stack lib/dump_stack.c:77 [inline]
->   dump_stack+0xef/0x16e lib/dump_stack.c:118
->   panic+0x2aa/0x6e1 kernel/panic.c:221
->   __warn.cold+0x2f/0x30 kernel/panic.c:582
->   report_bug+0x27b/0x2f0 lib/bug.c:195
->   fixup_bug arch/x86/kernel/traps.c:174 [inline]
->   fixup_bug arch/x86/kernel/traps.c:169 [inline]
->   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
->   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
->   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-> RIP: 0010:__list_add_valid+0xb4/0xf0 lib/list_debug.c:29
-> Code: 48 c7 c7 e0 f3 da 85 4c 89 e6 e8 ef cf 2b ff 0f 0b 31 c0 eb c5 48 89
-> f2 4c 89 e1 48 89 ee 48 c7 c7 60 f4 da 85 e8 d4 cf 2b ff <0f> 0b 31 c0 eb
-> aa 48 89 34 24 e8 fd 3c 7f ff 48 8b 34 24 e9 60 ff
-> RSP: 0018:ffff8881d8c37080 EFLAGS: 00010286
-> RAX: 0000000000000000 RBX: ffff8881d0637010 RCX: 0000000000000000
-> RDX: 0000000000000000 RSI: ffffffff81295dad RDI: ffffed103b186e02
-> RBP: ffff8881d0637010 R08: ffff8881da24e200 R09: fffffbfff11f1eae
-> R10: fffffbfff11f1ead R11: ffffffff88f8f56f R12: ffff8881d4e87c18
-> R13: ffff8881d0637000 R14: dffffc0000000000 R15: ffff8881d4e87c18
->   __list_add include/linux/list.h:60 [inline]
->   list_add_tail include/linux/list.h:93 [inline]
->   uvc_scan_chain_forward.isra.0+0x4df/0x637
-> drivers/media/usb/uvc/uvc_driver.c:1526
->   uvc_scan_chain drivers/media/usb/uvc/uvc_driver.c:1640 [inline]
->   uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1824 [inline]
->   uvc_probe.cold+0x1aee/0x29de drivers/media/usb/uvc/uvc_driver.c:2197
->   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
->   really_probe+0x281/0x6d0 drivers/base/dd.c:548
->   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
->   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
->   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
->   __device_attach+0x217/0x360 drivers/base/dd.c:894
->   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
->   device_add+0x1480/0x1c20 drivers/base/core.c:2487
->   usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
->   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
->   usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
->   really_probe+0x281/0x6d0 drivers/base/dd.c:548
->   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
->   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
->   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
->   __device_attach+0x217/0x360 drivers/base/dd.c:894
->   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
->   device_add+0x1480/0x1c20 drivers/base/core.c:2487
->   usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
->   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
->   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
->   port_event drivers/usb/core/hub.c:5470 [inline]
->   hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
->   process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
->   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
->   kthread+0x318/0x420 kernel/kthread.c:255
->   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-> Kernel Offset: disabled
-> Rebooting in 86400 seconds..
->
->
-> ---
-> This bug is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this bug report. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this bug, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
+This series add device tree for SAM9X60 SoC and SAM9X60-EK board.
+Allong with these, there are patches that documents some compatibles
+for SAM9X60's IPs.
 
-#syz fix: media: uvc: Avoid cyclic entity chains due to malformed USB
-descriptors
+Changes in v2:
+- replace patch "dt-bindings: at_xdmac: add entry for microchip compatibles"
+  by patches:
+	- dt-bindings: at_xdmac: add microchip,sam9x60-dma
+	- dt-bindings: at_xdmac: remove wildcard.
+- replace patch "dt-bindings: atmel-usart: add microchip,<chip>-usart"
+  by patches:
+	- dt-bindings: atmel-usart: add microchip,sam9x60-{usart, dbgu}
+	- dt-bindings: atmel-usart: remove wildcard
+- remove patch "dt-bindings: spi_atmel: add microchip,sam9x60-spi"
+  as it was accepted
+- collect reviewed-by tags
+
+Claudiu Beznea (16):
+  dt-bindings: at_xdmac: remove wildcard.
+  dt-bindings: at_xdmac: add microchip,sam9x60-dma
+  dt-bindings: atmel-can: add microchip,sam9x60-can
+  dt-bindings: atmel-tcb: add microchip,sam9x60-tcb
+  dt-bindings: atmel-isi: add microchip,sam9x60-isi
+  dt-bindings: at91-sama5d2_adc: add microchip,sam9x60-adc
+  dt-bindings: atmel-matrix: add microchip,sam9x60-matrix
+  dt-bindings: atmel-nand: add microchip,sam9x60-pmecc
+  dt-bindings: atmel-sysreg: add microchip,sam9x60-ddramc
+  dt-bindings: atmel-smc: add microchip,sam9x60-smc
+  dt-bindings: atmel-gpbr: add microchip,sam9x60-gpbr
+  dt-bindings: atmel,at91rm9200-rtc: add microchip,sam9x60-rtc
+  dt-bindings: atmel-usart: remove wildcard
+  dt-bindings: atmel-usart: add microchip,sam9x60-{usart, dbgu}
+  dt-bindings: arm: add sam9x60-ek board
+  ARM: at91/defconfig: enable MMC_SDHCI_OF_AT91 and MICROCHIP_PIT64B
+
+Sandeep Sheriker Mallikarjun (1):
+  ARM: dts: at91: sam9x60: add device tree for soc and board
+
+ .../devicetree/bindings/arm/atmel-at91.yaml        |   6 +
+ .../devicetree/bindings/arm/atmel-sysregs.txt      |   1 +
+ .../devicetree/bindings/dma/atmel-xdma.txt         |   4 +-
+ .../bindings/iio/adc/at91-sama5d2_adc.txt          |   2 +-
+ .../devicetree/bindings/media/atmel-isi.txt        |   2 +-
+ .../devicetree/bindings/mfd/atmel-gpbr.txt         |   4 +-
+ .../devicetree/bindings/mfd/atmel-matrix.txt       |   1 +
+ .../devicetree/bindings/mfd/atmel-smc.txt          |   1 +
+ .../devicetree/bindings/mfd/atmel-tcb.txt          |   4 +-
+ .../devicetree/bindings/mfd/atmel-usart.txt        |  11 +-
+ .../devicetree/bindings/mtd/atmel-nand.txt         |   1 +
+ .../devicetree/bindings/net/can/atmel-can.txt      |   3 +-
+ .../bindings/rtc/atmel,at91rm9200-rtc.txt          |   3 +-
+ arch/arm/boot/dts/Makefile                         |   2 +
+ arch/arm/boot/dts/at91-sam9x60ek.dts               | 647 +++++++++++++++++++
+ arch/arm/boot/dts/sam9x60.dtsi                     | 691 +++++++++++++++++++++
+ arch/arm/configs/at91_dt_defconfig                 |   4 +
+ 17 files changed, 1373 insertions(+), 14 deletions(-)
+ create mode 100644 arch/arm/boot/dts/at91-sam9x60ek.dts
+ create mode 100644 arch/arm/boot/dts/sam9x60.dtsi
+
+-- 
+2.7.4
+
