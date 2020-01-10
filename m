@@ -2,133 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD4CC136A0E
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53071136A26
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2020 10:46:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbgAJJgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Jan 2020 04:36:37 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36697 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726900AbgAJJgh (ORCPT
+        id S1727318AbgAJJqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Jan 2020 04:46:10 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:39689 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727273AbgAJJqK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Jan 2020 04:36:37 -0500
-Received: from [IPv6:2001:420:44c1:2577:c8b4:9150:fb1b:52f6]
- ([IPv6:2001:420:44c1:2577:c8b4:9150:fb1b:52f6])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id pqiUilZj6pLtbpqiYiPfdz; Fri, 10 Jan 2020 10:36:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578648994; bh=s4atuWRiXh9yWC2skxK0e8ALLvdYO1y0fvYdMvunco4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=KKOcZ+b0+aVDOd2RWLPqG9fB54yBlpc1zMk38tPVbdOSj/S8wApt273E0JFknbCKF
-         BDaKAq1+mR42wYu/ScUaQEtsMJ5s0HrjOha7qzWna0SY9C2y6ULoDQwW1j6QhQ28zT
-         dfthllDdw3LEGUOuqXvLD6b3nf5ORijYKUR0mjVo3uc9IgRyTIpoP78tti44JiL8/e
-         bFpUj1DRWMSz9YG5LBFURwG/QrFq0c2QTHy/weDcCk9D0nTlWwddc1F2MDgpRoXRAm
-         LFOtxciT+mmRFkGrkYeJSaWl1QA6He8nlUFwmknCPDjoRoAjlcmI+A74IQOYcAJEk1
-         Ye2EXfyLBL8zQ==
-Subject: Re: [RFC][PATCH 03/15] videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT
- flag
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Fri, 10 Jan 2020 04:46:10 -0500
+Received: by mail-pj1-f68.google.com with SMTP id m1so760264pjv.4
+        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2020 01:46:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kVXjETvA9K8/lP9ZBnbh1cVxAMGV1mSFPntHWPphT5k=;
+        b=ORb+fnTIv6NoPl8sJCI+ZXc5y2kRw21j1E60VarEzwIjLsD3zEzDM192gZFBtTCzqK
+         IdZZLjTJ85iEnkB+4D+TOJrapLFlSrRYTTZcO6L7/AhuRkhMUSdIyluFU0Z3EbAFnQ9i
+         UrmTHtVePJjVBoQCXvdjEiyTlg7PpL4JbelIs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kVXjETvA9K8/lP9ZBnbh1cVxAMGV1mSFPntHWPphT5k=;
+        b=Qh/rE/g0nGMHO+75qtF8UZuHewHrBgvlZFGoCSy7OEJrUfNqlPxkTQ1aELKILNDhVd
+         CgHdTYjZVhzuSTCF57WNElUGsf3jBrEs1PbfpOfDi+TqgOXGRA4udec/8CJ1bwBUqKrD
+         zrjDibpL6gxgwwq21NOOApaHMJ65pHbG9NDOLBJyR04plc3Mz0czw92PSOPHOiORwxhk
+         oYlTIf0yHkwaS7X9RZon9jbgQbgMH9gc1cssVTttqPi/QcO31aw5MpqChUN24VglTu8Y
+         DdCfsJKejarzcpHRvU6vPrqoLNzOcEZasSzxom12pCCRIQ0yTsDxueo31S4epTHjX9N8
+         cqQA==
+X-Gm-Message-State: APjAAAXVpkTTIE87e+clwxxvpqqdyr+qHf15k2keNw8hTdZB5F70Wbg9
+        YQJy4ld7bGgqFb0VRPuIOds7ww==
+X-Google-Smtp-Source: APXvYqzjIJ8v2NA2EXA8o0hEnespVu1na2a2y1A+8wSnIYd+HWQ7dqrnrEH4SIcmpRMCF3yimeILyw==
+X-Received: by 2002:a17:90b:f06:: with SMTP id br6mr3525192pjb.125.1578649569314;
+        Fri, 10 Jan 2020 01:46:09 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:250d:e71d:5a0a:9afe])
+        by smtp.gmail.com with ESMTPSA id g2sm2059453pgn.59.2020.01.10.01.46.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jan 2020 01:46:08 -0800 (PST)
+Date:   Fri, 10 Jan 2020 18:46:07 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCH 03/15] videobuf2: add
+ V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+Message-ID: <20200110094607.GB202391@google.com>
 References: <20191217032034.54897-1-senozhatsky@chromium.org>
  <20191217032034.54897-4-senozhatsky@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <750a0c62-0f0f-a5c9-1d7f-f0c5d6b620fa@xs4all.nl>
-Date:   Fri, 10 Jan 2020 10:36:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <750a0c62-0f0f-a5c9-1d7f-f0c5d6b620fa@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20191217032034.54897-4-senozhatsky@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCRR/1EIqmeph7/1UlWyTG1z9YK6OF5GcLxUApOJ8INmx3TFMP3S3Wyj0d/J61AuoRObAaj+WxgTLKnEb8//dmqfCL3l8CTwx+XlzzJDnffTAl0oyW+U
- OcHw2dWWQjc3a8KIVAR/l1uwk3whyZdrIaa0oVUeaWBr5Je5ss9mvfyNKfU9lwUXcyZQLerNN0M0JFw/8EK24e9TkEKyhWvLyn5uY39vrmUcsv677jAwBFOc
- 05OT8VMpZ0JKcOFFfag0/1kytiKwfTqTXBYu9DL4HfbfpFn38/GZA53LrTFLMZQG7br6481LmultFNoizyEXDK5yHFMVjAaeR4QNDjfLHew+lr6ptCvEIg5G
- DXizYAvQ8DYMZFbNvxTt9OfxhP38xdkHnYV756+Kod3eHjmOxm9qWNQ1bezGbFpb970H5jDJBS7bZ9kYOdCFQwPI0LPoM9IYGEkCh++uq/2GW3KkmHK00ZFB
- 4wgQdf91J61sFe7H7IpVsOKtYz2qP/JF3ePm9nKfoty5kq8Yupm//zr8MOJQlR8bHDPvQ8A3r5nOWcFru/RfkaDBLXPvKart3NOVuZEqFAgmXwQhAWiyfEwg
- ChAyHlRmnrbKv9oRhQzULwVBLMdfx4FoH13OmKMN4TFIdE6Xek5BAL5u3Fs8k+6Njdw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <750a0c62-0f0f-a5c9-1d7f-f0c5d6b620fa@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
-> By setting or clearing V4L2_FLAG_MEMORY_NON_CONSISTENT flag
-> user-space should be able to set or clear queue's NON_CONSISTENT
-> ->dma_attrs. Queue's ->dma_attrs are passed to the underlying
-> allocator in __vb2_buf_mem_alloc(), so user-space will be able
-> to request consistent or non-consistent memory allocations.
+On (20/01/10 10:36), Hans Verkuil wrote:
+[..]
+> > diff --git a/Documentation/media/uapi/v4l/buffer.rst b/Documentation/media/uapi/v4l/buffer.rst
+> > index 9149b57728e5..b08b5609f5f3 100644
+> > --- a/Documentation/media/uapi/v4l/buffer.rst
+> > +++ b/Documentation/media/uapi/v4l/buffer.rst
+> > @@ -705,6 +705,25 @@ Buffer Flags
+> >  
+> >  .. c:type:: v4l2_memory
+> >  
+> > +Memory Consistency Flags
+> > +========================
+> > +
+> > +.. tabularcolumns:: |p{7.0cm}|p{2.2cm}|p{8.3cm}|
+> > +
+> > +.. cssclass:: longtable
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       3 1 4
+> > +
+> > +    * .. _`V4L2_FLAG_MEMORY_NON_CONSISTENT`:
+> > +
+> > +      - ``V4L2_FLAG_MEMORY_NON_CONSISTENT``
+> > +      - 0x00000001
+> > +      - Set DMA_ATTR_NON_CONSISTENT queue memory consistency bit,
+> > +	so all queue buffers may be allocated in non-consistent memory.
 > 
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  Documentation/media/uapi/v4l/buffer.rst | 19 +++++++++++++++++++
->  include/uapi/linux/videodev2.h          |  2 ++
->  2 files changed, 21 insertions(+)
+> This needs much more extensive documentation. This is a userspace API,
+> and it shouldn't refer to a kernelspace API. Instead, explain what it
+> means from a user perspective. Also, how does this relate to the cache
+> buffer flags?
 > 
-> diff --git a/Documentation/media/uapi/v4l/buffer.rst b/Documentation/media/uapi/v4l/buffer.rst
-> index 9149b57728e5..b08b5609f5f3 100644
-> --- a/Documentation/media/uapi/v4l/buffer.rst
-> +++ b/Documentation/media/uapi/v4l/buffer.rst
-> @@ -705,6 +705,25 @@ Buffer Flags
->  
->  .. c:type:: v4l2_memory
->  
-> +Memory Consistency Flags
-> +========================
-> +
-> +.. tabularcolumns:: |p{7.0cm}|p{2.2cm}|p{8.3cm}|
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       3 1 4
-> +
-> +    * .. _`V4L2_FLAG_MEMORY_NON_CONSISTENT`:
-> +
-> +      - ``V4L2_FLAG_MEMORY_NON_CONSISTENT``
-> +      - 0x00000001
-> +      - Set DMA_ATTR_NON_CONSISTENT queue memory consistency bit,
-> +	so all queue buffers may be allocated in non-consistent memory.
+> These things are tricky, so it is worth spending some time on writing
+> good documentation.
 
-This needs much more extensive documentation. This is a userspace API,
-and it shouldn't refer to a kernelspace API. Instead, explain what it
-means from a user perspective. Also, how does this relate to the cache
-buffer flags?
+Agreed. I'll give it a shot, will try to improve it.
 
-These things are tricky, so it is worth spending some time on writing
-good documentation.
-
-Regards,
-
-	Hans
-
-> +
->  enum v4l2_memory
->  ================
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 04481c717fee..d352997f2b62 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -189,6 +189,8 @@ enum v4l2_memory {
->  	V4L2_MEMORY_DMABUF           = 4,
->  };
->  
-> +#define V4L2_FLAG_MEMORY_NON_CONSISTENT		(1 << 0)
-> +
->  /* see also http://vektor.theorem.ca/graphics/ycbcr/ */
->  enum v4l2_colorspace {
->  	/*
-> 
-
+	-ss
