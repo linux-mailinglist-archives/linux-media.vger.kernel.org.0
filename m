@@ -2,70 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4D1D1389F2
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 04:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C41138B3E
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 06:52:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387460AbgAMDw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jan 2020 22:52:29 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:23713 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2387415AbgAMDw2 (ORCPT
+        id S1733312AbgAMFw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 00:52:29 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:45637 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726669AbgAMFw1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jan 2020 22:52:28 -0500
-X-UUID: 755dcea4cc3b43c48f8b3cab63487c60-20200113
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=GEn5TTMvrgKaWqCbybjZ0pxAsz0JFNP9RC57YNtlclc=;
-        b=errFA5cA0MqrasLeU2c7EgGO/8aV41Ke1aMqrEVxSbItW5deywTZf6OhH7Aj6Vpbf4oyN0XR1MwIXCiq4eCtIrzRWcMAWL/5QChr8p24FK2uV+ENWfkVi8pPoEMTf2+Zfw5rrq5ughg55vaIJ5TzKdmP2teiU2RokAsHpboH7Yk=;
-X-UUID: 755dcea4cc3b43c48f8b3cab63487c60-20200113
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-        (envelope-from <maoguang.meng@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1495602143; Mon, 13 Jan 2020 11:52:21 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 13 Jan 2020 11:51:06 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 13 Jan 2020 11:52:35 +0800
-From:   <maoguang.meng@mediatek.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-CC:     Yong Wu <yong.wu@mediatek.com>, Xia Jiang <xia.jiang@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>
-Subject: [PATCH 1/1] media: platform: VIDEO_MEDIATEK_JPEG can also depend on MTK_IOMMU
-Date:   Mon, 13 Jan 2020 11:52:02 +0800
-Message-ID: <20200113035202.7797-1-maoguang.meng@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Mon, 13 Jan 2020 00:52:27 -0500
+Received: by mail-oi1-f195.google.com with SMTP id n16so7171405oie.12
+        for <linux-media@vger.kernel.org>; Sun, 12 Jan 2020 21:52:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=El5YZgtDEXJCHEtZrRB1ujEJT5GnrR9nqQvx3oNXkD1KXWKAy5lE4fahagwXmNRBuY
+         Z373bCStdjZZAvrcMmyjZhqXNYKD7qS8gpQ1uKt4Zm/CJYofbOmd6y2KCfdaIf8lu4gx
+         e04Qq2Wd5k0QzXhgODgXLh9+BTAbr7mIJG1kvrHD2cB5892G2QaMtoQjZ8YbwAsn/v/R
+         qN1ulSwy8kLJzDOOwwvDkEa6g0paOaNUUW6lO8NcaOsOsQMTh2eV34LXY/bnRxfyDcL+
+         OFIAYoYpyWTxvo4nB11oXa8J2BNLiFXnr18VfN4DCPOmpXqWPT8f/9GzmZX8VWLxs4VK
+         s+8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
+        b=tp2lo7WlzaWro6X8CudK685QcVLhvduUu69eiSSiKd5+xp8PNXRfEobqxTNVHeLWf2
+         b1L343lWoTrK3FXcJHhr9UK/0aJg+e4gLbx+khHeeROlWjqDdWSs8lIDk+e8EpGt5LNW
+         PCH5mQgIDu4OuScD06+sAOX+0lqQfqtfs31kH6puZq6v5tVCyM2vzmGzwZJzurQ41T4F
+         s4OZXwwzJUSQNgDBB7snWKLN449Ux+CHOgJhLm83HeFPi+2/H/He+knt0HHn8lF6A6zR
+         EmLE3FDlZUVcoD2JH5W+7cukH2k88p0J9iBw0M9SluWxq14aBi4bXO3izCKWQPB23qW0
+         l7zg==
+X-Gm-Message-State: APjAAAVSXQntJSz/WuLfsptiTW5JkvNHwI51ckayTgiNt1Parvp0O+Qv
+        RAMZuaszlslY4cXpfUlXPDpOL3aEniR3LGEqz94CISmG
+X-Google-Smtp-Source: APXvYqy7JhGBt0ZjJ/1t4CT74GIhTuvbOMnCynReBbsGRcTAfZPwoiLBCe9XiPA9xaK1JAPmy14eucUMWI9DLkbKsUo=
+X-Received: by 2002:a54:4713:: with SMTP id k19mr11513430oik.113.1578894745174;
+ Sun, 12 Jan 2020 21:52:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 6669261D4D362FA0B90A9D2C43FB1733D5513E1AEFCDD470B21449EB489B41AA2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Received: by 2002:a4a:41cb:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:52:24
+ -0800 (PST)
+Reply-To: rickschaech@gmail.com
+From:   Rick Schaech <cathben72@gmail.com>
+Date:   Mon, 13 Jan 2020 01:52:24 -0400
+Message-ID: <CAEcBxO=TAnFn5LzizHa22hUC0Db5FuiZJF28m=yX3_9m--jRqg@mail.gmail.com>
+Subject: I wait for your swift response,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogTWFvZ3VhbmcgTWVuZyA8bWFvZ3VhbmcubWVuZ0BtZWRpYXRlay5jb20+DQoNCm1lZGlh
-dGVrIGpwZWcgY29kZWMgZHJpdmVyIGNhbiBkZXBlbmQgb24gTVRLX0lPTU1VIG9yIE1US19JT01N
-VV9WMQ0KDQpDaGFuZ2UtSWQ6IEk3ODk3OWFmOTI0ZDRmZDUyYTM2NDFlZmYxNDYzYTEwZDZlMWQ0
-NjVmDQpTaWduZWQtb2ZmLWJ5OiBNYW9ndWFuZyBNZW5nIDxtYW9ndWFuZy5tZW5nQG1lZGlhdGVr
-LmNvbT4NCi0tLQ0KIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vS2NvbmZpZyB8IDIgKy0NCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vS2NvbmZpZyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-S2NvbmZpZw0KaW5kZXggZTg0ZjM1ZDNhNjhlLi44NTM3N2M4OGU5MWEgMTAwNjQ0DQotLS0gYS9k
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL0tjb25maWcNCisrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZv
-cm0vS2NvbmZpZw0KQEAgLTIwMCw3ICsyMDAsNyBAQCBjb25maWcgVklERU9fSU1YX1BYUA0KIA0K
-IGNvbmZpZyBWSURFT19NRURJQVRFS19KUEVHDQogCXRyaXN0YXRlICJNZWRpYXRlayBKUEVHIENv
-ZGVjIGRyaXZlciINCi0JZGVwZW5kcyBvbiBNVEtfSU9NTVVfVjEgfHwgQ09NUElMRV9URVNUDQor
-CWRlcGVuZHMgb24gTVRLX0lPTU1VX1YxIHx8IE1US19JT01NVSB8fCBDT01QSUxFX1RFU1QNCiAJ
-ZGVwZW5kcyBvbiBWSURFT19ERVYgJiYgVklERU9fVjRMMg0KIAlkZXBlbmRzIG9uIEFSQ0hfTUVE
-SUFURUsgfHwgQ09NUElMRV9URVNUDQogCXNlbGVjdCBWSURFT0JVRjJfRE1BX0NPTlRJRw0KLS0g
-DQoyLjE4LjANCg==
+Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
+know we have not meet each other before but sometimes in life God have
+a reason of bringing two people from two different countries together
+as business partners or life partners.
 
+My dear friend, I have the sum of 15.7 Million USD i wish to put in
+your name due to the death of my late client who died several years
+ago as his next of kin column still remain blank. Though the internet
+medium is highly abuse these days but am assuring you that this
+transaction is legitimate and I am contacting you that we may have a
+deal, note for your cooperation and collaboration 40% of the sum will
+be for you while the other 60% will be for me as well. I wait for your
+swift response for more details. please forward your response to my
+personal E-mail: rickschaech@gmail.com
+
+Yours sincerely,
+Rick Schaech.
