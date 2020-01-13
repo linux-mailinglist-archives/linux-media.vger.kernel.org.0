@@ -2,63 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 201731389EA
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 04:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4D1D1389F2
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 04:52:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387435AbgAMDtE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Jan 2020 22:49:04 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:42180 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387415AbgAMDtD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Jan 2020 22:49:03 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 0A9B6363CF2ECA1AC0A6;
-        Mon, 13 Jan 2020 11:49:01 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.28) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 13 Jan 2020 11:48:52 +0800
-From:   Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
-To:     <helen.koike@collabora.com>, <mchehab@kernel.org>,
-        <gregkh@linuxfoundation.org>, <zhangxiaoxu5@huawei.com>
-CC:     <linux-media@vger.kernel.org>, <devel@driverdev.osuosl.org>
-Subject: [PATCH] media: staging: rkisp1: Fix undefined reference to `phy_mipi_dphy_get_default_config' in rkisp1_mipi_csi2_start
-Date:   Mon, 13 Jan 2020 11:48:04 +0800
-Message-ID: <20200113034804.24732-1-zhangxiaoxu5@huawei.com>
-X-Mailer: git-send-email 2.17.2
+        id S2387460AbgAMDw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Jan 2020 22:52:29 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:23713 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2387415AbgAMDw2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 12 Jan 2020 22:52:28 -0500
+X-UUID: 755dcea4cc3b43c48f8b3cab63487c60-20200113
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=GEn5TTMvrgKaWqCbybjZ0pxAsz0JFNP9RC57YNtlclc=;
+        b=errFA5cA0MqrasLeU2c7EgGO/8aV41Ke1aMqrEVxSbItW5deywTZf6OhH7Aj6Vpbf4oyN0XR1MwIXCiq4eCtIrzRWcMAWL/5QChr8p24FK2uV+ENWfkVi8pPoEMTf2+Zfw5rrq5ughg55vaIJ5TzKdmP2teiU2RokAsHpboH7Yk=;
+X-UUID: 755dcea4cc3b43c48f8b3cab63487c60-20200113
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+        (envelope-from <maoguang.meng@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1495602143; Mon, 13 Jan 2020 11:52:21 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 13 Jan 2020 11:51:06 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 13 Jan 2020 11:52:35 +0800
+From:   <maoguang.meng@mediatek.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+CC:     Yong Wu <yong.wu@mediatek.com>, Xia Jiang <xia.jiang@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>
+Subject: [PATCH 1/1] media: platform: VIDEO_MEDIATEK_JPEG can also depend on MTK_IOMMU
+Date:   Mon, 13 Jan 2020 11:52:02 +0800
+Message-ID: <20200113035202.7797-1-maoguang.meng@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.175.124.28]
-X-CFilter-Loop: Reflected
+X-TM-SNTS-SMTP: 6669261D4D362FA0B90A9D2C43FB1733D5513E1AEFCDD470B21449EB489B41AA2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If 'GENERIC_PHY_MIPI_DPHY' not configured, there is an error:
-
-drivers/staging/media/rkisp1/rkisp1-isp.o:
-	In function `rkisp1_mipi_csi2_start.isra.5':
-rkisp1-isp.c:(.text+0x1238):
-	undefined reference to `phy_mipi_dphy_get_default_config'
-make: *** [vmlinux] Error 1
-
-Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
----
- drivers/staging/media/rkisp1/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/media/rkisp1/Kconfig b/drivers/staging/media/rkisp1/Kconfig
-index b859a493caba..788bcb703376 100644
---- a/drivers/staging/media/rkisp1/Kconfig
-+++ b/drivers/staging/media/rkisp1/Kconfig
-@@ -8,6 +8,7 @@ config VIDEO_ROCKCHIP_ISP1
- 	select VIDEOBUF2_VMALLOC
- 	select V4L2_FWNODE
- 	select PHY_ROCKCHIP_DPHY_RX0
-+	select GENERIC_PHY_MIPI_DPHY
- 	default n
- 	help
- 	  Enable this to support the Image Signal Processing (ISP) module
--- 
-2.17.2
+RnJvbTogTWFvZ3VhbmcgTWVuZyA8bWFvZ3VhbmcubWVuZ0BtZWRpYXRlay5jb20+DQoNCm1lZGlh
+dGVrIGpwZWcgY29kZWMgZHJpdmVyIGNhbiBkZXBlbmQgb24gTVRLX0lPTU1VIG9yIE1US19JT01N
+VV9WMQ0KDQpDaGFuZ2UtSWQ6IEk3ODk3OWFmOTI0ZDRmZDUyYTM2NDFlZmYxNDYzYTEwZDZlMWQ0
+NjVmDQpTaWduZWQtb2ZmLWJ5OiBNYW9ndWFuZyBNZW5nIDxtYW9ndWFuZy5tZW5nQG1lZGlhdGVr
+LmNvbT4NCi0tLQ0KIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vS2NvbmZpZyB8IDIgKy0NCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vS2NvbmZpZyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
+S2NvbmZpZw0KaW5kZXggZTg0ZjM1ZDNhNjhlLi44NTM3N2M4OGU5MWEgMTAwNjQ0DQotLS0gYS9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL0tjb25maWcNCisrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vS2NvbmZpZw0KQEAgLTIwMCw3ICsyMDAsNyBAQCBjb25maWcgVklERU9fSU1YX1BYUA0KIA0K
+IGNvbmZpZyBWSURFT19NRURJQVRFS19KUEVHDQogCXRyaXN0YXRlICJNZWRpYXRlayBKUEVHIENv
+ZGVjIGRyaXZlciINCi0JZGVwZW5kcyBvbiBNVEtfSU9NTVVfVjEgfHwgQ09NUElMRV9URVNUDQor
+CWRlcGVuZHMgb24gTVRLX0lPTU1VX1YxIHx8IE1US19JT01NVSB8fCBDT01QSUxFX1RFU1QNCiAJ
+ZGVwZW5kcyBvbiBWSURFT19ERVYgJiYgVklERU9fVjRMMg0KIAlkZXBlbmRzIG9uIEFSQ0hfTUVE
+SUFURUsgfHwgQ09NUElMRV9URVNUDQogCXNlbGVjdCBWSURFT0JVRjJfRE1BX0NPTlRJRw0KLS0g
+DQoyLjE4LjANCg==
 
