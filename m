@@ -2,170 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC16C139A39
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 20:34:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A786C139BF5
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 22:55:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728775AbgAMTeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 14:34:11 -0500
-Received: from mail-il1-f197.google.com ([209.85.166.197]:55899 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgAMTeL (ORCPT
+        id S1728801AbgAMVzT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 16:55:19 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52340 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728733AbgAMVzT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 14:34:11 -0500
-Received: by mail-il1-f197.google.com with SMTP id p8so8642447ilp.22
-        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2020 11:34:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=iKgXkUUifDTHe1wYti7XokONx9JjbAC539M6HstQB/k=;
-        b=Sge/uQArCHUmfHrK2sMVS7otLGmVdEheftMAcqcYhv9Adg/RpK+NqxPFs4cLluwzlt
-         j26pX+Wgd6GyecXA4vKACBcsUDZ/5LNNyrvqFjBcnwfbzIqMXL53fb0J3euHvTX/tbyA
-         DxrXlC5eZxn2BtU0e8Jh1uvWKog+S61uPtj9KIdq/uSl59yNSGG3I/L6dQbB5Ex78uDt
-         zw9iGGLOFQw4b6oZUnsLxYYBzN9q+5X5TgOpwONV/2k3UYYsQY1/cONQyX6TB+YxBu+q
-         kh6KCWedODx3WuRu9WG4LbXtx4Sd4UK50Sc4/y+kRn14J0TeSGU9cvp6VquvYZXTDvej
-         leMg==
-X-Gm-Message-State: APjAAAVGesv9woA/4+9Fr6hrd52UZYRcAFxlrYsejLXaNbx4cw9AwxaZ
-        9sAfbzOOWDHbg7bh1QFTa9Qa8smY0jKMEx+yvDgB/R3LaY2W
-X-Google-Smtp-Source: APXvYqzaNcVpE7dne1l1ihiEgfr6Zy2LxQzVYEVdovLQ5xW8OKaJwY513n5SHhDdl21ILG0FBwo9bbP7vlQ9sXE0LfOo+H5i3o5w
-MIME-Version: 1.0
-X-Received: by 2002:a6b:6e06:: with SMTP id d6mr13077449ioh.95.1578944051034;
- Mon, 13 Jan 2020 11:34:11 -0800 (PST)
-Date:   Mon, 13 Jan 2020 11:34:11 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000048427b059c0a8f9d@google.com>
-Subject: WARNING: locking bug in finish_task_switch
-From:   syzbot <syzbot+edec84a8b77e5a0cae31@syzkaller.appspotmail.com>
-To:     coreteam@netfilter.org, davem@davemloft.net,
-        johan.hedberg@gmail.com, kaber@trash.net, kadlec@blackhole.kfki.hu,
-        kernel@stlinux.com, linux-arm-kernel@lists.infradead.org,
-        linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, marcel@holtmann.org,
-        mchehab@kernel.org, mchehab@s-opensource.com,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        pablo@netfilter.org, patrice.chotard@st.com,
-        peter.griffin@linaro.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        Mon, 13 Jan 2020 16:55:19 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 3C8C72912F1
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, skhan@linuxfoundation.org,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
+Subject: [PATCH v4 0/6] media: vimc: race condition fixes
+Date:   Mon, 13 Jan 2020 23:55:00 +0200
+Message-Id: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This is a v4 of the formerly called patchset "media: vimc: release vimc in release cb of v4l2_device"
 
-syzbot found the following crash on:
+It solves several crashes and memory leaks that were detected in vimc when running a code
+that constantly tries to stream the device and in parallel a code that constantly binds
+and unbinds the device.
 
-HEAD commit:    6c09d7db Add linux-next specific files for 20200110
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=150b6a9ee00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7dc7ab9739654fbe
-dashboard link: https://syzkaller.appspot.com/bug?extid=edec84a8b77e5a0cae31
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16d005e1e00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1527b6aee00000
+2 bugs are solved in this patchset:
 
-The bug was bisected to:
+1. Currently when the device is unbounded, the vimc entities are
+released immediately. If the device is streaming,
+the function `vimc_streamer_pipeline_terminate` is called when
+unregistering the streaming capture device and it references the
+already freed vimc entities.
+The patchset solves this by deferring the release
+to the release callback of v4l2_device. This ensures that
+the vimc entities will be released after the last fh is closed
+and so the streaming terminates before.
+The detail of how to reproduce this bug are described in the patch:
+"use-after-free fix - release vimc in the v4l_device release"
+The bug is easily detected with a KASAN report.
 
-commit 7152c88e556bcbee525689063c260cd296f295a8
-Author: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Date:   Tue Oct 18 19:44:11 2016 +0000
+2. Another bug occurs when calling vb2_queue_release from
+vimc_cap_unregister. The call to `vb2_queue_release` cause
+the streaming to stop in case streaming started, this cause race condition
+when it is called in parallel to other system calls that are related to streaming.
+I was able to detect two crashes. One is reported in the commit log of
+"media: vimc: capture: crash fix - synchronize call to vb2_queue_release when unregistering"
 
-     [media] c8sectpfe: don't break long lines
+[  101.912329] RSP: 0018:ffff9b0c42253df0 EFLAGS: 00000286
+    [  101.912557] RAX: ffffffffc03bc1a0 RBX: ffff9095b37e1400 RCX: 0000000000000001
+    [  101.912818] RDX: 0000000000000004 RSI: 0000000000000003 RDI: ffff9b0c4229d000
+    [  101.913088] RBP: ffff9095b37d1480 R08: 0000000000000000 R09: ffff9b0c42253db8
+    [  101.913352] R10: ffff9095b37df858 R11: ffff9095b3444b50 R12: 0000000000000000
+    [  101.913598] R13: ffff9095b371c5b8 R14: 0000000000000004 R15: 0000000000000000
+    [  101.913896] FS:  00007fe62d779240(0000) GS:ffff9095bfc00000(0000) knlGS:0000000000000000
+    [  101.914202] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    [  101.914418] CR2: 0000000000000009 CR3: 0000000233392000 CR4: 00000000000006f0
+    [  101.914738] Call Trace:
+    [  101.915604]  __vb2_queue_free+0xf8/0x210 [videobuf2_common]
+    [  101.915876]  vb2_core_queue_release+0x34/0x40 [videobuf2_common]
+    [  101.916086]  _vb2_fop_release+0x7d/0x90 [videobuf2_v4l2]
+    [  101.916307]  v4l2_release+0x9e/0xf0 [videodev]
+    [  101.916499]  __fput+0xb6/0x250
+    [  101.916688]  task_work_run+0x7e/0xa0
+    [  101.916842]  exit_to_usermode_loop+0xaa/0xb0
+    [  101.917018]  do_syscall_64+0x10b/0x160
+    [  101.917175]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10930c21e00000
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=12930c21e00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=14930c21e00000
+This is because the call to `vb2_core_queue_release` is called in parallel both
+from v4l2_release and from vimc_cap_unregister.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+edec84a8b77e5a0cae31@syzkaller.appspotmail.com
-Fixes: 7152c88e556b ("[media] c8sectpfe: don't break long lines")
+Another is
 
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(1)
-WARNING: CPU: 1 PID: 9970 at kernel/locking/lockdep.c:167 hlock_class  
-kernel/locking/lockdep.c:167 [inline]
-WARNING: CPU: 1 PID: 9970 at kernel/locking/lockdep.c:167 hlock_class  
-kernel/locking/lockdep.c:156 [inline]
-WARNING: CPU: 1 PID: 9970 at kernel/locking/lockdep.c:167  
-__lock_acquire+0x21dd/0x4a00 kernel/locking/lockdep.c:3950
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 9970 Comm: syz-executor719 Not tainted  
-5.5.0-rc5-next-20200110-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  panic+0x2e3/0x75c kernel/panic.c:221
-  __warn.cold+0x2f/0x3e kernel/panic.c:582
-  report_bug+0x289/0x300 lib/bug.c:195
-  fixup_bug arch/x86/kernel/traps.c:176 [inline]
-  fixup_bug arch/x86/kernel/traps.c:171 [inline]
-  do_error_trap+0x11b/0x200 arch/x86/kernel/traps.c:269
-  do_invalid_op+0x37/0x50 arch/x86/kernel/traps.c:288
-  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-RIP: 0010:hlock_class kernel/locking/lockdep.c:167 [inline]
-RIP: 0010:hlock_class kernel/locking/lockdep.c:156 [inline]
-RIP: 0010:__lock_acquire+0x21dd/0x4a00 kernel/locking/lockdep.c:3950
-Code: 05 98 39 4a 09 85 c0 75 a0 48 c7 c6 e0 91 4b 88 48 c7 c7 20 92 4b 88  
-4c 89 9d 30 ff ff ff 4c 89 95 70 ff ff ff e8 b2 ff ea ff <0f> 0b 31 db 4c  
-8b 95 70 ff ff ff 4c 8b 9d 30 ff ff ff e9 22 f8 ff
-RSP: 0018:ffffc90002d87738 EFLAGS: 00010086
-RAX: 0000000000000000 RBX: 00000000000005e3 RCX: 0000000000000000
-RDX: 0000000040000000 RSI: ffffffff815e8546 RDI: fffff520005b0ed9
-RBP: ffffc90002d87850 R08: ffff8880903f8380 R09: fffffbfff13748ed
-R10: fffffbfff13748ec R11: ffffffff89ba4763 R12: 000000009ecb23e7
-R13: ffffffff8aa50270 R14: ffff8880903f8c48 R15: 0000000000000000
-  lock_acquire+0x190/0x410 kernel/locking/lockdep.c:4484
-  finish_lock_switch kernel/sched/core.c:3123 [inline]
-  finish_task_switch+0x13f/0x750 kernel/sched/core.c:3224
-  context_switch kernel/sched/core.c:3388 [inline]
-  __schedule+0x93c/0x1f90 kernel/sched/core.c:4081
-  preempt_schedule_irq+0xb5/0x160 kernel/sched/core.c:4338
-  retint_kernel+0x1b/0x2b
-RIP: 0010:arch_local_irq_restore arch/x86/include/asm/paravirt.h:752  
-[inline]
-RIP: 0010:lock_acquire+0x20b/0x410 kernel/locking/lockdep.c:4487
-Code: 9c 08 00 00 00 00 00 00 48 c1 e8 03 80 3c 10 00 0f 85 d3 01 00 00 48  
-83 3d a9 a4 58 08 00 0f 84 53 01 00 00 48 8b 7d c8 57 9d <0f> 1f 44 00 00  
-48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d c3 65 8b
-RSP: 0018:ffffc90002d87ae0 EFLAGS: 00000286 ORIG_RAX: ffffffffffffff13
-RAX: 1ffffffff13675eb RBX: ffff8880903f8380 RCX: ffffffff815ad05a
-RDX: dffffc0000000000 RSI: 0000000000000004 RDI: 0000000000000286
-RBP: ffffc90002d87b28 R08: 0000000000000004 R09: fffffbfff1708c51
-R10: fffffbfff1708c50 R11: ffff8880903f8380 R12: ffff888094a93d28
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-  flush_workqueue+0x126/0x14c0 kernel/workqueue.c:2775
-  hci_dev_open+0xe0/0x280 net/bluetooth/hci_core.c:1626
-  hci_sock_bind+0x4bf/0x12d0 net/bluetooth/hci_sock.c:1189
-  __sys_bind+0x239/0x290 net/socket.c:1662
-  __do_sys_bind net/socket.c:1673 [inline]
-  __se_sys_bind net/socket.c:1671 [inline]
-  __x64_sys_bind+0x73/0xb0 net/socket.c:1671
-  do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4483b9
-Code: e8 9c e6 ff ff 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 3b 05 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007fb43a523d88 EFLAGS: 00000246 ORIG_RAX: 0000000000000031
-RAX: ffffffffffffffda RBX: 00000000006e4a18 RCX: 00000000004483b9
-RDX: 0000000000000006 RSI: 00000000200007c0 RDI: 0000000000000004
-RBP: 00000000006e4a10 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000006e4a1c
-R13: 00007ffc78f07a4f R14: 00007fb43a5249c0 R15: 20c49ba5e353f7cf
-Shutting down cpus with NMI
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+[  648.499742] vimc vimc.0: first entity in the pipe 'Scaler' is not a source
+[  648.501570] BUG: kernel NULL pointer dereference, address: 0000000000000118
+[  648.501904] #PF: supervisor read access in kernel mode
+[  648.502108] #PF: error_code(0x0000) - not-present page
+[  648.502412] PGD 0 P4D 0 
+[  648.502863] Oops: 0000 [#1] SMP NOPTI
+[  648.503163] CPU: 0 PID: 7039 Comm: v4l2-ctl Not tainted 5.5.0-rc1+ #5
+[  648.503403] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+[  648.504158] RIP: 0010:mutex_lock+0x19/0x30
+[  648.504416] Code: 00 66 66 66 66 90 be 02 00 00 00 e9 31 f8 ff ff 90 66 66 66 66 90 53 48 89 fb e8 32 e0 ff ff 65 48 8b 14 25 80 7d 01 00 31 c0 <3e> 48 0f b1 13 75 02 5b c3 48 89 df 5b eb c8 0f 1f 84 00 00 00 00
+[  648.504953] RSP: 0018:ffffbdc2c08efc68 EFLAGS: 00000246
+[  648.505140] RAX: 0000000000000000 RBX: 0000000000000118 RCX: ffff9e01b3bd7000
+[  648.505363] RDX: ffff9e01b5fc9980 RSI: 0000000000000001 RDI: 0000000000000118
+[  648.505601] RBP: ffff9e01b3bd7020 R08: 0000000000000000 R09: ffffffffc0198500
+[  648.505815] R10: ffff9e01b532a4c0 R11: 0000000000000001 R12: ffff9e01b3bd7020
+[  648.506029] R13: ffff9e01b4ff2dc0 R14: ffff9e01b3bd7810 R15: 0000000000000000
+[  648.506270] FS:  00007fbd56f14240(0000) GS:ffff9e01b7c00000(0000) knlGS:0000000000000000
+[  648.506515] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  648.506686] CR2: 0000000000000118 CR3: 0000000232ff4000 CR4: 00000000000006f0
+[  648.506957] Call Trace:
+[  648.508242]  media_pipeline_stop+0x1c/0x30 [mc]
+[  648.508526]  vimc_cap_start_streaming+0x62/0x80 [vimc]
+[  648.508689]  vb2_start_streaming+0x5c/0x110 [videobuf2_common]
+[  648.508892]  vb2_core_streamon+0xf0/0x110 [videobuf2_common]
+[  648.509116]  __video_do_ioctl+0x194/0x4b0 [videodev]
+[  648.509392]  ? video_put_user+0x210/0x210 [videodev]
+[  648.509561]  video_usercopy+0x1b3/0x510 [videodev]
+[  648.509798]  v4l2_ioctl+0x45/0x50 [videodev]
+[  648.510038]  do_vfs_ioctl+0xa0/0x670
+[  648.510169]  ksys_ioctl+0x70/0x80
+[  648.510282]  __x64_sys_ioctl+0x16/0x20
+[  648.510410]  do_syscall_64+0x48/0x160
+[  648.510537]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  648.510944] RIP: 0033:0x7fbd55e5a5d7
+
+Caused when the call to vb2_core_queue_release is in parallel to the streamon
+ioctl.
+
+The last two patches:
+media: mc-devnode.c: set devnode->media_dev to NULL upon release instead of unregister
+media: vimc: Track the media device by calling v4l2_device_get/put
+
+Make sure that the release callback of v4l2_dev will be called after the last
+fh of the /dev/media* is closed. This is due to Hans Verkuil's comment:
+
+https://lore.kernel.org/linux-media/a713212b-c760-f0c5-da5e-965d4fd87789@xs4all.nl/
+
+The crashes are reproducible by running:
+
+modprobe vimc
+while [ 1 ]; do
+    media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480],"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+    
+    v4l2-ctl -d2 -v width=1920,height=1440
+    v4l2-ctl -d0 -v pixelformat=BA81
+    v4l2-ctl --stream-mmap -d /dev/video2 &
+    echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
+    echo -n vimc.0 >/sys/bus/platform/drivers/vimc/bind
+done
+
+It can be executed with
+git clone https://gitlab.collabora.com/dafna/v4l2-crash-reproducers.git
+cd cd v4l2-crash-reproducers/
+./unbind-while-streaming.sh
+
+Another thing I did in order to increase parallel execution is to add a patch to v4l-utils that deactivates the link
+between "Debayer A" and the Scaler and activates the link between "RGB/YUV Input" and the Scaler.
+https://gitlab.collabora.com/dafna/v4l-utils/commit/da0aa1802ea0b8e75cc1cf0d3bba3a379d58ba2e
+and also load vimc with 'sca_mult=1'
+This way the "RGB/YUV Capture" device is ready to stream right away without any configuration and so the script can be:
+
+modprobe vimc sca_mult=1
+while [ 1 ]; do
+    v4l2-ctl --stream-mmap -d /dev/video2 &
+    echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
+    echo -n vimc.0 >/sys/bus/platform/drivers/vimc/bind
+done
+
+Changes since v3:
+- add a more precise description of the first bug in the third patch and replace the crash report with the KASAN report
+- add a fix to race condition when calling vb2_queue_release from unregistration while streaming.
+- add a patch that makes sure that the release cb of v4l2_dev will execute after the last media fh in closed.
+
+Patches Summary:
+
+- The first patch replaces the usage of vimc_device.pdev.dev with vimc.mdev.dev
+- The second patch allocates the vimc_device dynamically.
+This is needed since the release of the device is deferred
+and might run after the device is initialized again.
+- The third patch solves the use-after-free bug by moving the release of the vimc_device
+and all the vimc entities to the release callback of v4l2_device.
+- The 4th patch locks vcap->lock before calling vb2_queue_release in the unregistration of the capture device
+- The 5th patch is a preparation for the 8th patch - it makes sure that the devnode->media_dev is
+set to null only after the mdev's release callback is called.
+- the 6th patch implements a release callback for the media device that calls v4l2_device_put,
+This make sure that the release callback of the v4l2_dev is called after the last /dev/media0 fh is closed.
 
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Dafna Hirschfeld (6):
+  media: vimc: replace vimc->pdev.dev with vimc->mdev.dev
+  media: vimc: allocate vimc_device dynamically
+  media: vimc: use-after-free fix - release vimc in the v4l_device
+    release
+  media: vimc: capture: crash fix - synchronize call to
+    vb2_queue_release when unregistering
+  media: mc-devnode.c: set devnode->media_dev to NULL upon release
+    instead of unregister
+  media: vimc: Track the media device by calling v4l2_device_get/put
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+ drivers/media/mc/mc-devnode.c              |   3 +-
+ drivers/media/platform/vimc/vimc-capture.c |  20 ++--
+ drivers/media/platform/vimc/vimc-common.c  |   2 -
+ drivers/media/platform/vimc/vimc-common.h  |  30 +++---
+ drivers/media/platform/vimc/vimc-core.c    | 111 +++++++++++++++------
+ drivers/media/platform/vimc/vimc-debayer.c |  19 ++--
+ drivers/media/platform/vimc/vimc-scaler.c  |  19 ++--
+ drivers/media/platform/vimc/vimc-sensor.c  |  18 ++--
+ 8 files changed, 128 insertions(+), 94 deletions(-)
+
+-- 
+2.17.1
+
