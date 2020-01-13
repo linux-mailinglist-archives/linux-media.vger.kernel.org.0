@@ -2,109 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE4BD139897
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 19:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEC461398CB
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 19:23:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728829AbgAMSQE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 13:16:04 -0500
-Received: from [167.172.186.51] ([167.172.186.51]:33636 "EHLO shell.v3.sk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726934AbgAMSQE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 13:16:04 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 37BFEDFE00;
-        Mon, 13 Jan 2020 18:16:06 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id GQk6v_fn2iS5; Mon, 13 Jan 2020 18:16:05 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 8F5BBDF241;
-        Mon, 13 Jan 2020 18:16:05 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 3XGmZ5XrTaCr; Mon, 13 Jan 2020 18:16:05 +0000 (UTC)
-Received: from nedofet.lan (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 282ECDFE19;
-        Mon, 13 Jan 2020 18:16:05 +0000 (UTC)
-Message-ID: <d292dfbb9b10129c76f7a282c5a1015b04b775dd.camel@v3.sk>
-Subject: Re: [PATCH] media: usbtv: fix control-message timeouts
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Johan Hovold <johan@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable <stable@vger.kernel.org>
-Date:   Mon, 13 Jan 2020 19:15:56 +0100
-In-Reply-To: <20200113171818.30715-1-johan@kernel.org>
-References: <20200113171818.30715-1-johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.2 (3.34.2-1.fc31) 
+        id S1728741AbgAMSXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 13:23:09 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:34040 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728633AbgAMSXI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Jan 2020 13:23:08 -0500
+Received: by mail-qk1-f196.google.com with SMTP id j9so9458275qkk.1;
+        Mon, 13 Jan 2020 10:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=YmmSvyn5Ka4mUit6kvopVG0e++A9vopcwQJc+Ac8cPw=;
+        b=g3m860U9KBcklp4Vfp3dHNeOazKl1B5xu7fRIlJZWuhUQz0Cx4K17MuU1Fz+04I6GK
+         f2gKden77W05LeVTFtP/oKlhs+VjKw+BPwbC0lMAKVp5l9VPICVLujTcx7KqtAWxIm5r
+         jpJSMfnCwUdE7zfsmhrLwQI1sF27RKuKhMgVnERPMI9ASwcqNJ8FmfGeGPQk/Ioh4Vas
+         Ju+b9MohiFDL6WYYs3tECijiFTJbJc9MS/F3mMveT9fzC5k966lxdZ/V5/7/6wG3vr8w
+         4SKGcNOfRDCDnAlL75BhVkUi6eH9pX82JMfZkget/d5O/qFBYPs1G9bs2lwnNgjnaPwl
+         xClA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=YmmSvyn5Ka4mUit6kvopVG0e++A9vopcwQJc+Ac8cPw=;
+        b=C+/1Zyi8bVjzMa+l6KOp0vbEhqf550729cZaweSm684QHePXmkY5LRccXTwEf6MuGC
+         p/k6hMXtY8yAW8ugZquSFdLn0PQyrockXJ9CNcTap+jTEyNE8b+RqMW4RyBtFViDa200
+         txBiyIEF7nKoxZ8SiIR1Y/cfvXB07ddclXaNsWaun+/FUL7lpoa2KSL/L3GDadYZ86T+
+         2/BAi5NnZh0XsV/Zgtb3MUVo5dsXGfrTMqI/Ohq87EHQ+kg34mGYpD27FsIJLXGJZgIY
+         wfNYPp48tcv5phimvjP7q5iwfXTSNmjke00pXMEgBe5aA13xViCGkc3isY/ybBVe+gAl
+         fXkw==
+X-Gm-Message-State: APjAAAVVwOccdzpBPt8vT6o3xQylmMLwKGcFBrE5krS6osI8Qbh5l7oY
+        6ucB6o04xq3qskiO9k1y+Ug=
+X-Google-Smtp-Source: APXvYqzpHpCANvGcMQtO+BCaZNdbqhnWjfbggggFs7EUVOZ3FcLytDzEYS3jnGLSYEpcYWgZynigQg==
+X-Received: by 2002:a37:e210:: with SMTP id g16mr17483419qki.413.1578939787671;
+        Mon, 13 Jan 2020 10:23:07 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac? ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id w25sm6098136qts.91.2020.01.13.10.23.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Jan 2020 10:23:07 -0800 (PST)
+Subject: Re: [PATCH v2] media: dvb_dummy_tuner: implement driver skeleton
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mchehab@kernel.org, sean@mess.org, tglx@linutronix.de,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20200109233757.734008-1-dwlsalmeida@gmail.com>
+ <20200110073024.GA156006@kroah.com>
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <d6d119cf-7447-31ce-37db-25503cf2f9bc@gmail.com>
+Date:   Mon, 13 Jan 2020 15:23:02 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <20200110073024.GA156006@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2020-01-13 at 18:18 +0100, Johan Hovold wrote:
-> The driver was issuing synchronous uninterruptible control requests
-> without using a timeout. This could lead to the driver hanging on
-> various user requests due to a malfunctioning (or malicious) device
-> until the device is physically disconnected.
-> 
-> The USB upper limit of five seconds per request should be more than
-> enough.
-> 
-> Fixes: f3d27f34fdd7 ("[media] usbtv: Add driver for Fushicai USBTV007 video frame grabber")
-> Fixes: c53a846c48f2 ("[media] usbtv: add video controls")
-> Cc: stable <stable@vger.kernel.org>     # 3.11
-> Cc: Lubomir Rintel <lkundrak@v3.sk>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+Hi Greg,
 
-Acked-by: Lubomir Rintel <lkundrak@v3.sk>
+I am working on v3. Would you mind clarifying this?
 
-Thank you,
-Lubo
 
-> ---
->  drivers/media/usb/usbtv/usbtv-core.c  | 2 +-
->  drivers/media/usb/usbtv/usbtv-video.c | 5 +++--
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/usb/usbtv/usbtv-core.c b/drivers/media/usb/usbtv/usbtv-core.c
-> index 5095c380b2c1..ee9c656d121f 100644
-> --- a/drivers/media/usb/usbtv/usbtv-core.c
-> +++ b/drivers/media/usb/usbtv/usbtv-core.c
-> @@ -56,7 +56,7 @@ int usbtv_set_regs(struct usbtv *usbtv, const u16 regs[][2], int size)
->  
->  		ret = usb_control_msg(usbtv->udev, pipe, USBTV_REQUEST_REG,
->  			USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-> -			value, index, NULL, 0, 0);
-> +			value, index, NULL, 0, USB_CTRL_GET_TIMEOUT);
->  		if (ret < 0)
->  			return ret;
->  	}
-> diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-> index 3d9284a09ee5..b249f037900c 100644
-> --- a/drivers/media/usb/usbtv/usbtv-video.c
-> +++ b/drivers/media/usb/usbtv/usbtv-video.c
-> @@ -800,7 +800,8 @@ static int usbtv_s_ctrl(struct v4l2_ctrl *ctrl)
->  		ret = usb_control_msg(usbtv->udev,
->  			usb_rcvctrlpipe(usbtv->udev, 0), USBTV_CONTROL_REG,
->  			USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-> -			0, USBTV_BASE + 0x0244, (void *)data, 3, 0);
-> +			0, USBTV_BASE + 0x0244, (void *)data, 3,
-> +			USB_CTRL_GET_TIMEOUT);
->  		if (ret < 0)
->  			goto error;
->  	}
-> @@ -851,7 +852,7 @@ static int usbtv_s_ctrl(struct v4l2_ctrl *ctrl)
->  	ret = usb_control_msg(usbtv->udev, usb_sndctrlpipe(usbtv->udev, 0),
->  			USBTV_CONTROL_REG,
->  			USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-> -			0, index, (void *)data, size, 0);
-> +			0, index, (void *)data, size, USB_CTRL_SET_TIMEOUT);
->  
->  error:
->  	if (ret < 0)
+>> + *
+>> + * The virtual DVB test driver serves as a reference DVB driver and helps
+>> + * validate the existing APIs in the media subsystem. It can also aid developers
+>> + * working on userspace applications.
+>> + *
+>> + * This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
+>> + * ISDB-T and ATSC when completed.
+>> + *
+>> + * Copyright (c) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> Normally this is the first comment line above in this block.
+>
+
+Just so we're clear, do you mean this? e.g.:
+
++ * Copyright (c) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
++ *
++ * The virtual DVB test driver serves as a reference DVB driver and helps
++ * validate the existing APIs in the media subsystem. It can also aid developers
++ * working on userspace applications.
++ *
++ * This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
++ * ISDB-T and ATSC when completed.
++ *
+
+
+> Not the same license as your .c file?  Odd :(
+
+Oops! :(
+
+
+> If you keep this file, same comments as above for the comment block, but
+> really, you don't need this .h file at all, just drop it.
+
+OK.
+
+
+- Daniel
+
 
