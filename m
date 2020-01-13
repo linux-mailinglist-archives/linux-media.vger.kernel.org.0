@@ -2,107 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 286A3139225
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 14:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E6C5139235
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2020 14:30:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726450AbgAMN1G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 08:27:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20638 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726277AbgAMN1G (ORCPT
+        id S1726946AbgAMNao (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 08:30:44 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:57165 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726074AbgAMNao (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 08:27:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1578922024;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Vykt4k4qo/INxJ6O9wmCyfd7P58Y/nieoYyULTzMm3E=;
-        b=KwLq3BNcV5sKkHdDQBN0HtrXQdE202FO0YkRg3n9h5WuASyGRvQvgfF8WKwotyQxwb+AXh
-        dKHSLSSey1CpjtI9zcOlPxZpA0p6mOyw1Kt4bnqOKgeCwpZ50M9vJ2HWLqNkxjhRUt8dTX
-        wf9HamIpICOW5qbjhO5RJz7QERpW/N4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-O64qwIR7OV-8kJcWPu0KEA-1; Mon, 13 Jan 2020 08:27:01 -0500
-X-MC-Unique: O64qwIR7OV-8kJcWPu0KEA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF49E800A02;
-        Mon, 13 Jan 2020 13:26:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com [10.36.116.106])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CF76C60C63;
-        Mon, 13 Jan 2020 13:26:55 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id E0E5931E49; Mon, 13 Jan 2020 14:26:54 +0100 (CET)
-Date:   Mon, 13 Jan 2020 14:26:54 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        spice-devel@lists.freedesktop.org,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Subject: Re: [virtio-dev] Re: [PATCH v2 0/1] VirtIO video device specification
-Message-ID: <20200113132654.r4lhspfx2z7zse2v@sirius.home.kraxel.org>
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <7740094.NyiUUSuA9g@os-lin-dmo>
- <20200113095636.blov62o4gbf27om5@sirius.home.kraxel.org>
- <12433898.dW097sEU6C@os-lin-dmo>
- <20200113110521.5ogc3fcy4zq32yzg@sirius.home.kraxel.org>
- <CAAFQd5D16G0E85BCZVx1LXd1TauQH8Lbgs5-0gLv7tNpm4sp_A@mail.gmail.com>
+        Mon, 13 Jan 2020 08:30:44 -0500
+Received: from [192.168.2.10] ([62.249.185.68])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id qzngi2FHLT6sRqznjiTpoc; Mon, 13 Jan 2020 14:30:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578922241; bh=WIUz0xTfwtLyoV2LJEwr1Uk9Zk7Luj7PT5AamxbjESc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=T5AhSX1P4skXfJwhEsR52BqtUgD/WUR4yOBETHIsTDUICKEuY1mB+o8lJMd0oJYhJ
+         PazS8RgYbWheq5Oqmo6rUSHhsJyavyL98ZdkSdKJhPmpnYjyg4yJyN9RtbhLZ/isXO
+         1WVgDdPH1+dxGd1q/1Khsyo4JI03YenGhYAXVGoDkP9DsQZWEe6BiIh1IlajZPP/Uf
+         E2r1mt6V92cgS+LvvwwjJoBefFNC4OzR4tCc+aeYIdwEvig9JSLYxcRiO+px8fdCF6
+         GX75Ll7rZ91vGeixkuSomh4vsKKq43/u5yDmYyMA95C9G5HwBYxLtMiklHLR9lBzOg
+         I2ypwmDnl8UPg==
+Subject: Re: [PATCH v2 3/3] media: platform: meson-ao-cec-g12a: add wakeup
+ support
+To:     guillaume La Roque <glaroque@baylibre.com>,
+        narmstrong@baylibre.com, mchehab@kernel.org, khilman@baylibre.com,
+        devicetree@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20191213132956.11074-1-glaroque@baylibre.com>
+ <20191213132956.11074-4-glaroque@baylibre.com>
+ <cccc0cda-7403-1378-40c8-291b11bf868a@xs4all.nl>
+ <0a07b5cc-a7dc-2983-89de-a1894ae6a469@baylibre.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <75278f35-c4c2-90bc-cc54-8c3b5bbdd7e1@xs4all.nl>
+Date:   Mon, 13 Jan 2020 14:30:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5D16G0E85BCZVx1LXd1TauQH8Lbgs5-0gLv7tNpm4sp_A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <0a07b5cc-a7dc-2983-89de-a1894ae6a469@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfAg7k4oa41o5OS0rku6ta94gSDgjExAsJ4lPqKm3rl9aL2mf4mm15Fi/g76iZp6EgzdJ9XDyb/ZSPJMq5sPKU7pihjfa0LuVk29TobWKXfAfSefmeKDb
+ zaQFxiVnQ5l3xBs42icgedD7Ry5LegTl+Pfs9kz1Qxs4UrcWx2iKewbBF3++d9bPRU7qUc6R0vJaaHAX5GZWZn4LpvJSLZtdcHYH0JUKK6p4VAONGqO4R27v
+ D7GClt/LyO+Bfkb3QBj+yNaKc9Akhmd9eW9EVOG4gfQ9H1RP0+WlBnUmdylTXgQ3tkmOF/d5z+kaKLteSvVSDaHTz52DDTMTGWo8MW4+eURAjltRLLSSBvK1
+ V9CHGcYtcY9LOF3uS813o4CctPg7y/B6T7DyyC33jyzFIx0fWXifinJHTWQCzqQn08CFc6hvMHo3ZkFyvsyLPmAWL95ZSula3TKH7634bjz+p4K+m+gMHi0o
+ mcCMLuWhT5K/v2WPGL8e+3KXmdCq679m+P5DBA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
-
-> > Well, no.  Tomasz Figa had splitted the devices into three groups:
-> >
-> >   (1) requires single buffer.
-> >   (2) allows any layout (including the one (1) devices want).
-> >   (3) requires per-plane buffers.
-> >
-> > Category (3) devices are apparently rare and old.  Both category (1)+(2)
-> > devices can handle single buffers just fine.  So maybe support only
-> > that?
+On 1/10/20 4:06 PM, guillaume La Roque wrote:
+> Hi Hans,
 > 
-> From the guest implementation point of view, Linux V4L2 currently
-> supports 2 cases, if used in allocation-mode (i.e. the buffers are
-> allocated locally by V4L2):
+> On 1/7/20 3:36 PM, Hans Verkuil wrote:
+>> Hi Guillaume,
+>>
+>> On 12/13/19 2:29 PM, Guillaume La Roque wrote:
+>>> add register configuration to activate wakeup feature in bl301
+>>>
+>>> Tested-by: Kevin Hilman <khilman@baylibre.com>
+>>> Signed-off-by: Guillaume La Roque <glaroque@baylibre.com>
+>>> ---
+>>>  drivers/media/platform/meson/ao-cec-g12a.c | 33 ++++++++++++++++++++++
+>>>  1 file changed, 33 insertions(+)
+>>>
+>>> diff --git a/drivers/media/platform/meson/ao-cec-g12a.c b/drivers/media/platform/meson/ao-cec-g12a.c
+>>> index 891533060d49..85850b974126 100644
+>>> --- a/drivers/media/platform/meson/ao-cec-g12a.c
+>>> +++ b/drivers/media/platform/meson/ao-cec-g12a.c
+>>> @@ -25,6 +25,7 @@
+>>>  #include <media/cec.h>
+>>>  #include <media/cec-notifier.h>
+>>>  #include <linux/clk-provider.h>
+>>> +#include <linux/mfd/syscon.h>
+>>>  
+>>>  /* CEC Registers */
+>>>  
+>>> @@ -168,6 +169,18 @@
+>>>  
+>>>  #define CECB_WAKEUPCTRL		0x31
+>>>  
+>>> +#define CECB_FUNC_CFG_REG		0xA0
+>>> +#define CECB_FUNC_CFG_MASK		GENMASK(6, 0)
+>>> +#define CECB_FUNC_CFG_CEC_ON		0x01
+>>> +#define CECB_FUNC_CFG_OTP_ON		0x02
+>>> +#define CECB_FUNC_CFG_AUTO_STANDBY	0x04
+>>> +#define CECB_FUNC_CFG_AUTO_POWER_ON	0x08
+>>> +#define CECB_FUNC_CFG_ALL		0x2f
+>>> +#define CECB_FUNC_CFG_NONE		0x0
+>>> +
+>>> +#define CECB_LOG_ADDR_REG	0xA4
+>>> +#define CECB_LOG_ADDR_MASK	GENMASK(22, 16)
+>>> +
+>>>  struct meson_ao_cec_g12a_data {
+>>>  	/* Setup the internal CECB_CTRL2 register */
+>>>  	bool				ctrl2_setup;
+>>> @@ -177,6 +190,7 @@ struct meson_ao_cec_g12a_device {
+>>>  	struct platform_device		*pdev;
+>>>  	struct regmap			*regmap;
+>>>  	struct regmap			*regmap_cec;
+>>> +	struct regmap			*regmap_ao_sysctrl;
+>>>  	spinlock_t			cec_reg_lock;
+>>>  	struct cec_notifier		*notify;
+>>>  	struct cec_adapter		*adap;
+>>> @@ -518,6 +532,13 @@ meson_ao_cec_g12a_set_log_addr(struct cec_adapter *adap, u8 logical_addr)
+>>>  					 BIT(logical_addr - 8));
+>>>  	}
+>>>  
+>>> +	if (ao_cec->regmap_ao_sysctrl)
+>>> +		ret |= regmap_update_bits(ao_cec->regmap_ao_sysctrl,
+>>> +					 CECB_LOG_ADDR_REG,
+>>> +					 CECB_LOG_ADDR_MASK,
+>>> +					 FIELD_PREP(CECB_LOG_ADDR_MASK,
+>>> +						    logical_addr));
+>>> +
+>>>  	/* Always set Broadcast/Unregistered 15 address */
+>>>  	ret |= regmap_update_bits(ao_cec->regmap_cec, CECB_LADD_HIGH,
+>>>  				  BIT(CEC_LOG_ADDR_UNREGISTERED - 8),
+>>> @@ -618,6 +639,13 @@ static int meson_ao_cec_g12a_adap_enable(struct cec_adapter *adap, bool enable)
+>>>  		regmap_write(ao_cec->regmap_cec, CECB_CTRL2,
+>>>  			     FIELD_PREP(CECB_CTRL2_RISE_DEL_MAX, 2));
+>>>  
+>>> +	if (ao_cec->regmap_ao_sysctrl) {
+>>> +		regmap_update_bits(ao_cec->regmap_ao_sysctrl,
+>>> +				   CECB_FUNC_CFG_REG,
+>>> +				   CECB_FUNC_CFG_MASK,
+>>> +				   CECB_FUNC_CFG_ALL);
+>> What exactly is enabled here? Looking at CECB_FUNC_CFG_ALL it seems to
+>> enable automatic standby (I presume when the STANDBY message is received?)
+>> and power on (I presume when SET_STREAM_PATH is received?).
+> this register and flags are used by bl301 part.
 > 
-> i) single buffer with plane offsets predetermined by the format, (can
-> be handled by devices from category 1) and 2))
-> ii) per-plane buffers with planes at the beginning of their own
-> buffers. (can be handled by devices from category 2) and 3))
+> amlogic implemented a task to check cec event/message.
 > 
-> Support for ii) is required if one wants to be able to import buffers
-> with arbitrary plane offsets, so I'd consider it unavoidable.
+> for power on in bl301 it's not only on SET_STREAM_PATH but also on :
+> 
+> USER_CONTROL_PRESSED
+> TEXT_VIEW_ON
 
-If you have (1) hardware you simply can't import buffers with arbitrary
-plane offsets, so I'd expect software would prefer the single buffer
-layout (i) over (ii), even when using another driver + dmabuf
-export/import, to be able to support as much hardware as possible.
-So (ii) might end up being unused in practice.
+Not IMAGE_VIEW_ON?
 
-But maybe not, was just an idea, feel free to scratch it.
+> ACTIVE_SOURCE
+> ROUTING_CHANGE
+> 
+> when in CECB_FUNC_CFG_REG register we put  CECB_FUNC_CFG_CEC_ON and  CECB_FUNC_CFG_AUTO_POWER_ON
+> 
+> it's not possible to change this
 
-cheers,
-  Gerd
+Too bad since ACTIVE_SOURCE and ROUTING_CHANGE should not power on a CEC device.
+
+See section 11.5.2 in the HDMI 2.0 Specification for more details, if you have
+that spec.
+
+> 
+>>
+>> Do you really want to automatically handle STANDBY that way? What does this
+>> do on the hardware level anyway? Isn't this something that should be
+>> controlled in userspace?
+> 
+> in fact i do a new check in bl301 code amlogic do nothing on STANDBY so i will clean code
+> 
+> and activate real option supported by bl301
+> 
+>>
+>> Similar questions for power on: you may not always want to enable this feature
+>> since it depends very much on the precise use-case.
+>>
+>> And which messages it reacts to in order to do a power-on needs to be
+>> documented since this differs depending on whether the CEC adapter is
+>> used for a TV or for a playback device. This feature may be hardwired for
+>> a playback device only, in which case it should probably be disabled if
+>> the CEC adapter is configured as a TV.
+>>
+>> In any case I would like to see some more details about how this works,
+>> especially since this is the first implementation of such a feature.
+>>
+>> I suspect that some userspace API might be needed to get the right level
+>> of control of such a feature.
+> 
+> i will send v3 next week with some comments and fix ( disable are missing for example)
+> 
+> actual usercase is for android TV.
+> 
+> when cec was enable android TV want to be wakeup by cec event.
+> 
+> 
+>> Regards,
+>>
+>> 	Hans
+>>
+> 
+> thanks for your review
+
+No problem!
+
+	Hans
+
+> 
+> Regards
+> 
+> Guillaume
+> 
+>>> +	}
+>>> +
+>>>  	meson_ao_cec_g12a_irq_setup(ao_cec, true);
+>>>  
+>>>  	return 0;
+>>> @@ -685,6 +713,11 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
+>>>  		goto out_probe_adapter;
+>>>  	}
+>>>  
+>>> +	ao_cec->regmap_ao_sysctrl = syscon_regmap_lookup_by_phandle
+>>> +		(pdev->dev.of_node, "amlogic,ao-sysctrl");
+>>> +	if (IS_ERR(ao_cec->regmap_ao_sysctrl))
+>>> +		dev_warn(&pdev->dev, "ao-sysctrl syscon regmap lookup failed.\n");
+>>> +
+>>>  	irq = platform_get_irq(pdev, 0);
+>>>  	ret = devm_request_threaded_irq(&pdev->dev, irq,
+>>>  					meson_ao_cec_g12a_irq,
+>>>
 
