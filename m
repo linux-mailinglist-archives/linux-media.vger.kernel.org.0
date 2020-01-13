@@ -2,153 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92EAF139D1C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 00:10:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 720FF139D23
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 00:14:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728961AbgAMXKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 18:10:00 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52924 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728829AbgAMXKA (ORCPT
+        id S1729199AbgAMXOR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 18:14:17 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34699 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728794AbgAMXOR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 18:10:00 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id AF988291409
-Subject: Re: [PATCH] media: vimc: streamer: if kthread_stop fails, ignore the
- error
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@collabora.com, skhan@linuxfoundation.org,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
-References: <20200113185934.15722-1-dafna.hirschfeld@collabora.com>
- <20200113185934.15722-2-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <9ca842bb-4af9-cfc7-58e1-49b5757fa737@collabora.com>
-Date:   Mon, 13 Jan 2020 20:09:51 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Mon, 13 Jan 2020 18:14:17 -0500
+Received: by mail-ot1-f65.google.com with SMTP id a15so10730057otf.1;
+        Mon, 13 Jan 2020 15:14:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UsZ98rCI7PkotKyjeTY7iS3Bvm6JfyKWnW/whK0DyZg=;
+        b=nAGHf/Epi8EvVV6HKtc8h4VOKLsZX2aCiLzTruVWJDs3wKYW1pfb4zmIMlWSj/HpKL
+         x12yC6aY8Co2Br7xxa1pfKib+BxaDxPSqjVZv7jTi5EJHNpfnsejd/8ftdx1e2yhh7lh
+         fAhYZVAF/Ga15a5nY5O6wEAgbS/s9PIsmoUOMR49xmNMrjFyYNKNnyYEFSPpHzYwTrYV
+         aZJ+YufrTK1dxpg/UmB5jRVVMRXl1D/QXUsGGZWIwbyvcX2KcAZNXLOWf7VJPTE1CqMz
+         pnJcqE57t32IXh4SyELJt0q/inz8d7w4jxqN1vAT+IBHKFgCH5aRyFxxtuKBwG32NNqs
+         71Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UsZ98rCI7PkotKyjeTY7iS3Bvm6JfyKWnW/whK0DyZg=;
+        b=SA+k4BOISIkFJroXsiVJsb2eGaBD1vRrym/BYtyI8kD77Qa6tifCLONpBuTKy9h7+X
+         Ca3c/+uODDLpXEWwmiRFoyT+fyjVvvi3JB6IjoER7cmZcXpZg6RJL/NGtxqpv1kJIupn
+         PiOLI2Jqc1u4e+W+YRCdYqs2Ht5gTfHWPEAua401finuFuCOtNQOnZFu6DePqCvgBm9J
+         i62CQ7A6Ovzp6AQ5GyGxTrR7GwAEr142JmwjkdC3ZkNDt1M/C7GzmNqg0revBnru2egY
+         cTlyPQ9/kD8pFfA6fJKSpWiMAkLEO4qEhs6lKXgEHTFm8pISZbRSTV9mo9/22fqWKnnA
+         MJlw==
+X-Gm-Message-State: APjAAAVlFEFNEXSpPM/VHoKAKmkyZUB411XbcWJL70+6WOFh8jKdEUTC
+        kyNC1CxR1TpKcYC1kK4M+z8=
+X-Google-Smtp-Source: APXvYqw1JmIvG6iWu6vPIbvwsWVsMZVyfmrNUDYwfcGB4Ecsie8cdsFDuVCZyrXwgkrK/dKTz2ct2w==
+X-Received: by 2002:a9d:c02:: with SMTP id 2mr15137769otr.183.1578957255384;
+        Mon, 13 Jan 2020 15:14:15 -0800 (PST)
+Received: from ubuntu-x2-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id j10sm4680785otr.64.2020.01.13.15.14.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 13 Jan 2020 15:14:14 -0800 (PST)
+Date:   Mon, 13 Jan 2020 16:14:13 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] media: i2c: adv748x: Fix unsafe macros
+Message-ID: <20200113231413.GA23583@ubuntu-x2-xlarge-x86>
+References: <20191022132522.GA12072@embeddedor>
 MIME-Version: 1.0
-In-Reply-To: <20200113185934.15722-2-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191022132522.GA12072@embeddedor>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 1/13/20 4:59 PM, Dafna Hirschfeld wrote:
-> Ignore errors returned from kthread_stop since the
-> vimc subdevices should still be notified that
-> streaming stopped so they can release the memory for
-> the streaming, and also kthread should be set to NULL.
-> kthread_stop can return -EINTR in case the thread
-> did not yet ran. This can happen if userspace calls
-> streamon and streamoff right after.
+On Tue, Oct 22, 2019 at 08:25:22AM -0500, Gustavo A. R. Silva wrote:
+> Enclose multiple macro parameters in parentheses in order to
+> make such macros safer and fix the Clang warning below:
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> drivers/media/i2c/adv748x/adv748x-afe.c:452:12: warning: operator '?:'
+> has lower precedence than '|'; '|' will be evaluated first
+> [-Wbitwise-conditional-parentheses]
+> 
+> ret = sdp_clrset(state, ADV748X_SDP_FRP, ADV748X_SDP_FRP_MASK, enable
+> ? ctrl->val - 1 : 0);
+> 
+> Fixes: 3e89586a64df ("media: i2c: adv748x: add adv748x driver")
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com
+
+It doesn't look like this was picked up? I still see this warning on
+5.5-rc6 and next-20200113.
+
+If it helps:
+
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+
 > ---
->  drivers/media/platform/vimc/vimc-streamer.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/media/i2c/adv748x/adv748x.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-> index cd6b55433c9e..5c5d3c068398 100644
-> --- a/drivers/media/platform/vimc/vimc-streamer.c
-> +++ b/drivers/media/platform/vimc/vimc-streamer.c
-> @@ -216,8 +216,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+> index 5042f9e94aee..fccb388ce179 100644
+> --- a/drivers/media/i2c/adv748x/adv748x.h
+> +++ b/drivers/media/i2c/adv748x/adv748x.h
+> @@ -394,10 +394,10 @@ int adv748x_write_block(struct adv748x_state *state, int client_page,
 >  
->  		ret = kthread_stop(stream->kthread);
-
-Could you add a comment here too? To make it clean in the code why we are ignoring this error?
-
->  		if (ret)
-> -			return ret;
-> -
-
-No need to remove this line.
-
-> +			dev_warn(ved->dev, "kthread_stop returned '%d'\n", ret);
->  		stream->kthread = NULL;
+>  #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
+>  #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
+> -#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~m) | v)
+> +#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~(m)) | (v))
 >  
->  		vimc_streamer_pipeline_terminate(stream);
+>  #define hdmi_read(s, r) adv748x_read(s, ADV748X_PAGE_HDMI, r)
+> -#define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, r+1)) & m)
+> +#define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, (r)+1)) & (m))
+>  #define hdmi_write(s, r, v) adv748x_write(s, ADV748X_PAGE_HDMI, r, v)
+>  
+>  #define repeater_read(s, r) adv748x_read(s, ADV748X_PAGE_REPEATER, r)
+> @@ -405,11 +405,11 @@ int adv748x_write_block(struct adv748x_state *state, int client_page,
+>  
+>  #define sdp_read(s, r) adv748x_read(s, ADV748X_PAGE_SDP, r)
+>  #define sdp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_SDP, r, v)
+> -#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~m) | v)
+> +#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~(m)) | (v))
+>  
+>  #define cp_read(s, r) adv748x_read(s, ADV748X_PAGE_CP, r)
+>  #define cp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_CP, r, v)
+> -#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~m) | v)
+> +#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~(m)) | (v))
+>  
+>  #define tx_read(t, r) adv748x_read(t->state, t->page, r)
+>  #define tx_write(t, r, v) adv748x_write(t->state, t->page, r, v)
+> -- 
+> 2.23.0
 > 
-
-Thanks
-Helen
