@@ -2,98 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2D6613A75F
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 11:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EBEB13A772
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 11:35:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729016AbgANK1A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jan 2020 05:27:00 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:43113 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725820AbgANK07 (ORCPT
+        id S1729191AbgANKfy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 05:35:54 -0500
+Received: from plasma6.jpberlin.de ([80.241.56.68]:38235 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728998AbgANKfy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jan 2020 05:26:59 -0500
-Received: from [IPv6:2001:420:44c1:2577:11b:d594:936e:b16a]
- ([IPv6:2001:420:44c1:2577:11b:d594:936e:b16a])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id rJPSiufIVrNgyrJPVixhCH; Tue, 14 Jan 2020 11:26:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1578997618; bh=yM9x4oLiJYmJEUneY8lr+ZnckOuJNwJnfgp92Y9VMwQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=IDl3Q7NEDTYd9EdbfyEBAFBdn2FVjUh83aNttNOw+95fm70a0a6XoVNwg5mUYpoCC
-         f3KAxPtRFnTrsSFsuXdI4j4bdIXB2eVKer9LkPY9WH2/bOjuzIaz7OB2vAlXIA4N+t
-         TrvKXxqxT8NgZvbxOrh5KIO3ezYcjmbwVvqt8v/9WeoKzPBNR5mCEu0eBCxf0iDNSs
-         oCUWDRhcF3tq0f+CsawNVrT6mZCchoLXcfiIU2gNN8L0DkqfOts/jU7dLGzmRn1TmF
-         WOdYVOB/4v1d2yP94KK9AfP9gEX7Iapemt5WD9YT2GAOSt8UUFxG3viSUGQBC63Q01
-         qtXZW6MfYAN5w==
-Subject: Re: [PATCH v4 5/6] media: mc-devnode.c: set devnode->media_dev to
- NULL upon release instead of unregister
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
-References: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
- <20200113215506.13329-6-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <207ca066-51e5-1df8-2393-5bbe543c30a2@xs4all.nl>
-Date:   Tue, 14 Jan 2020 11:26:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Tue, 14 Jan 2020 05:35:54 -0500
+Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 245EDB6EBC;
+        Tue, 14 Jan 2020 11:35:49 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id m8Gj-y0MdXBs; Tue, 14 Jan 2020 11:35:47 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id B995FB6E60;
+        Tue, 14 Jan 2020 11:35:46 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
+ (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 14 Jan
+ 2020 11:35:46 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>
+CC:     Gerd Hoffmann <kraxel@redhat.com>,
+        <virtio-dev@lists.oasis-open.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>, <uril@redhat.com>
+Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video device specification
+Date:   Tue, 14 Jan 2020 11:35:46 +0100
+Message-ID: <2337316.Sgy9Pd6rRy@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAD90VcbG6kR1Nw6DTr2RjwFrDja2B=Ohje_2MMeKBwpXGZ_MyA@mail.gmail.com>
+References: <20191218130214.170703-1-keiichiw@chromium.org> <CAAFQd5DcYWymWyzdiyfy18HkUBsEhALYG+DLwjXGCpRGDaJqyQ@mail.gmail.com> <CAD90VcbG6kR1Nw6DTr2RjwFrDja2B=Ohje_2MMeKBwpXGZ_MyA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200113215506.13329-6-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfB9hf7zJxY2vgGqmiUqX5yFD1Oq6RSPFw8HlBiPyvP4pteAO0kUTeDSLwnZNUIxXxnY6E6RZ39pr2Zou1O5FWgsV6T8fL4RqullYfei8qXK0mYJ05AFO
- NPg+BaIuPf8JZSmk/QbLItCt8FRiKeGJO8K1T9kIfb6rVfSzUUET8EGGrvxkBCqQoAp8WJ/EbbIE8VdZFDn0ywLHYvKdbkvi10oQQAkfDkQC3tLtF08eSB3C
- 36YnQBdMsWCPWAQPBx4uX7oD16OZfkqXncArOALA1bz/UYEO72GOBHHgBKLu+02bhHlQLXz8Dm28Z/ckjKhFcU4wYrrT89dyThcyU9cHfoTQqN30T9fD2lHN
- Us4aqmRzHu86+xrJP15EEmYJwYX41H435NeMoXG41IOKl96Vwi82yhV2NMXTEuRTsAM/Hz4+b398Cm+3UuSe/OlM4YnYfMj0YrO0W1e5ClZZcADfdXxgVnUL
- 3bDRuTAb7GgERCsIlhrhK5XGVqo4s85FrQzypg==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/13/20 10:55 PM, Dafna Hirschfeld wrote:
-> media_devnode_release calls a release callback. Currently none of
-> the drivers implement that callback but in the future the vimc
-> driver and maybe others might add implementation for it.
-> The release callback will want to access the driver's private data
-> by using 'container_of(devnode->media_dev' therefore media_dev
-> should be set to NULL only when the release callback returns.
+Hi Keiichi,
+
+thank you for the update.
+
+On Dienstag, 14. Januar 2020 08:18:50 CET Keiichi Watanabe wrote:
+> Hi,
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/media/mc/mc-devnode.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> On Thu, Jan 9, 2020 at 11:21 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> > On Wed, Jan 8, 2020 at 10:52 PM Keiichi Watanabe <keiichiw@chromium.org> 
+wrote:
+> > > Hi Gerd,
+> > > 
+> > > On Thu, Dec 19, 2019 at 10:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > >   Hi,
+> > > >   
+> > > > > > However that still doesn't let the driver know which buffers will
+> > > > > > be
+> > > > > > dequeued when. A simple example of this scenario is when the guest
+> > > > > > is
+> > > > > > done displaying a frame and requeues the buffer back to the
+> > > > > > decoder.
+> > > > > > Then the decoder will not choose it for decoding next frames into
+> > > > > > as
+> > > > > > long as the frame in that buffer is still used as a reference
+> > > > > > frame,
+> > > > > > even if one sends the drain request.
+> > > > > 
+> > > > > It might be that I'm getting your point wrong, but do you mean some
+> > > > > hardware can mark a buffer as ready to be displayed yet still using
+> > > > > the underlying memory to decode other frames?
+> > > > 
+> > > > Yes, this is how I understand Tomasz Figa.
+> > > > 
+> > > > > This means, if you occasionally/intentionally
+> > > > > write to the buffer you mess up the whole decoding pipeline.
+> > > > 
+> > > > And to avoid this the buffer handling aspect must be clarified in the
+> > > > specification.  Is the device allowed to continue using the buffer
+> > > > after
+> > > > finishing decoding and completing the queue request?  If so, how do we
+> > > > hand over buffer ownership back to the driver so it can free the
+> > > > pages?
+> > > > drain request?  How do we handle re-using buffers?  Can the driver
+> > > > simply re-queue them and expect the device figures by itself whenever
+> > > > it
+> > > > can use the buffer or whenever it is still needed as reference frame?
+> > > 
+> > > The device shouldn't be able to access buffers after it completes a
+> > > queue request.
+> > > The device can touch buffer contents from when a queue request is sent
+> > > until the device responds it.
+> > > In contrast, the driver must not modify buffer contents in that period.
+> > > 
+> > > Regarding re-using, the driver can simply re-queue buffers returned by
+> > > the device. If the device needs a buffer as reference frame, it must
+> > > not return the buffer.
+> > 
+> > I think that might not be what we expect. We want the decoder to
+> > return a decoded frame as soon as possible, but that decoded frame may
+> > be also needed for decoding next frames. In V4L2 stateful decoder, the
+> > API is defined that the client must not modify the decoded
+> > framebuffer, otherwise decoding next frames may not be correct.
 > 
-> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-> index f11382afe23b..388c9051152a 100644
-> --- a/drivers/media/mc/mc-devnode.c
-> +++ b/drivers/media/mc/mc-devnode.c
-> @@ -58,7 +58,7 @@ static void media_devnode_release(struct device *cd)
->  	/* Release media_devnode and perform other cleanups as needed. */
->  	if (devnode->release)
->  		devnode->release(devnode);
-> -
-> +	devnode->media_dev = NULL;
-
-This makes no sense since you free the whole devnode in the next line.
-
-Regards,
-
-	Hans
-
->  	kfree(devnode);
->  	pr_debug("%s: Media Devnode Deallocated\n", __func__);
->  }
-> @@ -283,7 +283,6 @@ void media_devnode_unregister(struct media_devnode *devnode)
->  	mutex_lock(&media_devnode_lock);
->  	/* Delete the cdev on this minor as well */
->  	cdev_device_del(&devnode->cdev, &devnode->dev);
-> -	devnode->media_dev = NULL;
->  	mutex_unlock(&media_devnode_lock);
->  
->  	put_device(&devnode->dev);
+> Thanks Tomasz! I didn't know the V4L2's convention.
+> So, the host should be able to read a frame buffer after it is
+> returned by responding RESOURCE_QUEUE command.
 > 
+> > We may
+> > need something similar, with an explicit operation that makes the
+> > buffers not accessible to the host anymore. I think the queue flush
+> > operation could work as such.
+> 
+> After offline discussion with Tomasz, I suspect the queue flush
+> operation (= VIRTIO_VIDEO_CMD_QUEUE_CLEAR) shouldn't work so, as it
+> just forces pending QUEUE requests to be backed for video seek.
+> So, a buffer can be readable from the device once it's queued until
+> STREAM_DESTROY or RESOURCE_DESTROY is called.
+
+Speaking of v4l2, drivers usually get all buffers back on stop_streaming  (this 
+means seek(decoder), reset (encoder)). As per my understanding, this means 
+that the device should not read the buffers anymore after 
+stop_streaming(STREAMOFF) has been called. We can mention that after 
+VIRTIO_VIDEO_CMD_QUEUE_CLEAR no device access is allowed.
+
+So:
+stop_streaming() = VIRTIO_VIDEO_CMD_QUEUE_CLEAR
+REQBUFS(0) = RESOURCE_DESTROY
+
+> 
+> In my understanding, the life cycle of video buffers is defined as
+> this state machine.
+> https://drive.google.com/file/d/1c6oY5S_9bhpJlrOt4UfoQex0CanpG-kZ/view?usp=s
+> haring
+> 
+> ```
+> # The definition of the state machine in DOT language
+> digraph G {
+>   graph [ rankdir = LR, layout = dot ];
+> 
+>   init [shape=point]
+>   created [label="created", shape=circle]
+>   dequeued [label="dequeued", shape=circle]
+>   queued [label="queued", shape=circle]
+> 
+>   init -> created [label="RESOURCE_CREATE"]
+> 
+>   created -> queued [label="RESOURCE_QUEUE \n is sent"]
+>   dequeued -> queued [label="RESOURCE_QUEUE \n is sent"]
+>   queued -> dequeued [label="RESOURCE_QUEUE \n is returned"]
+> 
+>   created -> init [label="DESTROY"]
+>   dequeued -> init [label="DESTROY"]
+> }
+> ```
+> 
+> In each state of this figure, the accessibility of each buffer should
+> be like the following:
+> 
+> # Input buffers
+>  state   |   Guest    |    Host
+> -----------------------------------
+> created  | Read/Write | -
+> queued   | -          | Read
+> dequeued | Read/Write | -
+> 
+> # Output buffers
+>  state   |   Guest    |    Host
+> ----------------------------------
+> created  | Read       | -
+> queued   | -          | Read/Write
+> dequeued | Read       | Read
+> 
+> Does it make sense?
+> If ok, I'll have this state machine and tables in the next version of
+> spec to describe device/driver requirements by adding a subsection
+> about buffer life cycle.
+> 
+
+Yes, I think this is ok.
+
+> 
+> By the way, regarding destruction of buffers, I suspect it doesn't
+> make much sense to have RESOURCE_DESTROY command. Though it was
+> suggested as a per-buffer command, it doesn't match the existing V4L2
+> API, as REQBUFS(0) destroys all buffers at once. I guess per-buffer
+> destruction would require hardware or firmware supports.
+> Even if we want to destroy buffers at once, we can destroy the stream
+> and recreate one. So, I wonder if we can remove RESOURCE_DESTROY
+> command from the first version of spec at least.
+> What do you think?
+
+Stream might have a context behind it (and it in fact does), and the contents 
+of that might depend on the device side implementation. For instance, the 
+context can be used to keep the currently set parameters, controls and so on. 
+So we'd avoid destroyng streams all the time for seek, resolution change, 
+reset and so on.
+
+It still makes sense to use RESOURCE_DESTROY to destroy all resources at once 
+for one particular queue though. We can rename it to something more 
+meaningful.
+
+Best regards,
+Dmitry.
+
+> 
+> Best regards,
+> Keiichi
+> 
+> > > I'll describe this rule in the next version of the patch.
+> > > 
+> > > Best regards,
+> > > Keiichi
+> > > 
+> > > > cheers,
+> > > > 
+> > > >   Gerd
+
 
