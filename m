@@ -2,211 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6125E13A190
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 08:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A835913A30A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 09:33:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728959AbgANHTE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jan 2020 02:19:04 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45548 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728810AbgANHTE (ORCPT
+        id S1727285AbgANIdw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 03:33:52 -0500
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:27324 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725820AbgANIdw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jan 2020 02:19:04 -0500
-Received: by mail-lj1-f196.google.com with SMTP id j26so13070163ljc.12
-        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2020 23:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ospLVYL9sDL8+CsgfHnXVpLCGfOd0unA8100B46a2zQ=;
-        b=alwVWoUZselOA01ZSKqYZHI0l6qc6u1qEpt1qLWVnlTKeEu1+lSGlw2DvZbpHMbDnR
-         ZgdUUnJs/n+NFbLV7pWs6vjPWgUgOu77cs8kvz1G1O6gCe5avBVXQvM/icrARbQG40HS
-         R0xaSXcz3kuVSxAXLNlE0ULfYsP9W+QIN/vVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ospLVYL9sDL8+CsgfHnXVpLCGfOd0unA8100B46a2zQ=;
-        b=WlJPXo97Jt0aCCADeeDPPzBfQLhwbS1pAZUdpRN6ghnWG+cDoc6LHVIryD4curQt6S
-         b/5jyxSURolliQ836mI8jrb/kOnXnCWBUv3s6OPrQnzRlqzUfnYr3Lu0HHC428RA9ZVE
-         gwNDHuvq08U/9PtOJFSkt29KG9QIFiz1KPZbx9nyPTDFm7Pn4t/cQpgUaYSORFRe1GRv
-         tLCpuByEYdr8g35FQWBIZV/JDqD8zq0IOvnx47e1YT8ex6K5P1oee6wABHuKyMT6GNAF
-         W1WPOTpWJTxZHBazIcQwzxzkM/AgjQk3tfI5x2fxsbptQhMOXM9F6yuIbMnKi1D+uIX+
-         qI+g==
-X-Gm-Message-State: APjAAAVumkmf9ul4KnugzeBRH3FxfWOl4r6xetXNiz7TjIo17TCFdwWy
-        vEGi+zAZRzz6DXlLJpiD73kWsramIZiqHRF1xGKAvA==
-X-Google-Smtp-Source: APXvYqzx8NPny6ogCvjHy3itvwHdoD8lDAWNjp1MTxBKtgyNose7YCuW5An+iQS7XB9UTToSFlTn0xBvZsIy/89cI6E=
-X-Received: by 2002:a2e:9d89:: with SMTP id c9mr13271832ljj.129.1578986341768;
- Mon, 13 Jan 2020 23:19:01 -0800 (PST)
+        Tue, 14 Jan 2020 03:33:52 -0500
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 00E8WfYL030731;
+        Tue, 14 Jan 2020 09:33:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=aH+VgKhntPJejCKotmGf4u8BN12HEJsiXYdcTd5+R1Q=;
+ b=1EtTanosCjM10pmbL4b9PdRjwIbEYQqZwmF1pEv5cbonN8fXtrY5/Skitbi1dcu4+lPV
+ DUDM4xap9ruGArtlmbDvrXLPrbixZdal9jAMXpHaOE0U4Ur0jMcSAqKtKqOJq9drVFqS
+ 20eOTtTgu8lnvH8ufLTGhEZ3URSH+KwyrXzWTKG53zwCkcTsQZHj7y6ffrhjCc3KUvF7
+ 3s/Xnvq6yXVoiLMQdIkmQU0lUgc+TZV1gPZ8WwGRsWiT10vGuca7ma1JkB36MBZQbzO0
+ OlCLwq19DOCWYp0aWf6NpTHwpww3eHsQDcGaFbqzv1JkVviV9nDLM7r2OZH4RwDMzojK HQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2xf77avamc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Jan 2020 09:33:41 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AD5EA100039;
+        Tue, 14 Jan 2020 09:33:36 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9400F20C173;
+        Tue, 14 Jan 2020 09:33:36 +0100 (CET)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG6NODE1.st.com
+ (10.75.127.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jan
+ 2020 09:33:36 +0100
+Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
+ SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
+ 15.00.1473.003; Tue, 14 Jan 2020 09:33:36 +0100
+From:   Patrice CHOTARD <patrice.chotard@st.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Subject: Re: [PATCH] media: c8sectpfe: clean up some indenting
+Thread-Topic: [PATCH] media: c8sectpfe: clean up some indenting
+Thread-Index: AQHVypjqlAXDnxjPb0SJzrxmeKcFr6fpxKmA
+Date:   Tue, 14 Jan 2020 08:33:36 +0000
+Message-ID: <5eba4701-3460-5b2b-6fc7-f4f75481fae4@st.com>
+References: <20200114051005.njxf5d6s6ycyxhfi@kili.mountain>
+In-Reply-To: <20200114051005.njxf5d6s6ycyxhfi@kili.mountain>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.49]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <948CCDA2404F4A409317526ADB82D400@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <3550989.gzE5nMqd4t@os-lin-dmo> <CAAFQd5BgkEUwBFWdv2ZH98egjm=u0dBRgtexqkzjES+J1SEmag@mail.gmail.com>
- <3878267.TzG3DlCiay@os-lin-dmo> <20191219131234.wm24cazvc7zrnhpn@sirius.home.kraxel.org>
- <CAD90Vcb4Vb49uHGRRg0nJaKo=goH6zOxdQR2d7piLH_byxDYyw@mail.gmail.com> <CAAFQd5DcYWymWyzdiyfy18HkUBsEhALYG+DLwjXGCpRGDaJqyQ@mail.gmail.com>
-In-Reply-To: <CAAFQd5DcYWymWyzdiyfy18HkUBsEhALYG+DLwjXGCpRGDaJqyQ@mail.gmail.com>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Tue, 14 Jan 2020 16:18:50 +0900
-Message-ID: <CAD90VcbG6kR1Nw6DTr2RjwFrDja2B=Ohje_2MMeKBwpXGZ_MyA@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video
- device specification
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-01-14_02:2020-01-13,2020-01-14 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On Thu, Jan 9, 2020 at 11:21 PM Tomasz Figa <tfiga@chromium.org> wrote:
->
-> On Wed, Jan 8, 2020 at 10:52 PM Keiichi Watanabe <keiichiw@chromium.org> wrote:
-> >
-> > Hi Gerd,
-> >
-> > On Thu, Dec 19, 2019 at 10:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > >   Hi,
-> > >
-> > > > > However that still doesn't let the driver know which buffers will be
-> > > > > dequeued when. A simple example of this scenario is when the guest is
-> > > > > done displaying a frame and requeues the buffer back to the decoder.
-> > > > > Then the decoder will not choose it for decoding next frames into as
-> > > > > long as the frame in that buffer is still used as a reference frame,
-> > > > > even if one sends the drain request.
-> > > > It might be that I'm getting your point wrong, but do you mean some hardware
-> > > > can mark a buffer as ready to be displayed yet still using the underlying
-> > > > memory to decode other frames?
-> > >
-> > > Yes, this is how I understand Tomasz Figa.
-> > >
-> > > > This means, if you occasionally/intentionally
-> > > > write to the buffer you mess up the whole decoding pipeline.
-> > >
-> > > And to avoid this the buffer handling aspect must be clarified in the
-> > > specification.  Is the device allowed to continue using the buffer after
-> > > finishing decoding and completing the queue request?  If so, how do we
-> > > hand over buffer ownership back to the driver so it can free the pages?
-> > > drain request?  How do we handle re-using buffers?  Can the driver
-> > > simply re-queue them and expect the device figures by itself whenever it
-> > > can use the buffer or whenever it is still needed as reference frame?
-> >
-> > The device shouldn't be able to access buffers after it completes a
-> > queue request.
-> > The device can touch buffer contents from when a queue request is sent
-> > until the device responds it.
-> > In contrast, the driver must not modify buffer contents in that period.
-> >
-> > Regarding re-using, the driver can simply re-queue buffers returned by
-> > the device. If the device needs a buffer as reference frame, it must
-> > not return the buffer.
->
-> I think that might not be what we expect. We want the decoder to
-> return a decoded frame as soon as possible, but that decoded frame may
-> be also needed for decoding next frames. In V4L2 stateful decoder, the
-> API is defined that the client must not modify the decoded
-> framebuffer, otherwise decoding next frames may not be correct.
-
-Thanks Tomasz! I didn't know the V4L2's convention.
-So, the host should be able to read a frame buffer after it is
-returned by responding RESOURCE_QUEUE command.
-
-
-> We may
-> need something similar, with an explicit operation that makes the
-> buffers not accessible to the host anymore. I think the queue flush
-> operation could work as such.
-
-After offline discussion with Tomasz, I suspect the queue flush
-operation (= VIRTIO_VIDEO_CMD_QUEUE_CLEAR) shouldn't work so, as it
-just forces pending QUEUE requests to be backed for video seek.
-So, a buffer can be readable from the device once it's queued until
-STREAM_DESTROY or RESOURCE_DESTROY is called.
-
-In my understanding, the life cycle of video buffers is defined as
-this state machine.
-https://drive.google.com/file/d/1c6oY5S_9bhpJlrOt4UfoQex0CanpG-kZ/view?usp=sharing
-
-```
-# The definition of the state machine in DOT language
-digraph G {
-  graph [ rankdir = LR, layout = dot ];
-
-  init [shape=point]
-  created [label="created", shape=circle]
-  dequeued [label="dequeued", shape=circle]
-  queued [label="queued", shape=circle]
-
-  init -> created [label="RESOURCE_CREATE"]
-
-  created -> queued [label="RESOURCE_QUEUE \n is sent"]
-  dequeued -> queued [label="RESOURCE_QUEUE \n is sent"]
-  queued -> dequeued [label="RESOURCE_QUEUE \n is returned"]
-
-  created -> init [label="DESTROY"]
-  dequeued -> init [label="DESTROY"]
-}
-```
-
-In each state of this figure, the accessibility of each buffer should
-be like the following:
-
-# Input buffers
- state   |   Guest    |    Host
------------------------------------
-created  | Read/Write | -
-queued   | -          | Read
-dequeued | Read/Write | -
-
-# Output buffers
- state   |   Guest    |    Host
-----------------------------------
-created  | Read       | -
-queued   | -          | Read/Write
-dequeued | Read       | Read
-
-Does it make sense?
-If ok, I'll have this state machine and tables in the next version of
-spec to describe device/driver requirements by adding a subsection
-about buffer life cycle.
-
-
-By the way, regarding destruction of buffers, I suspect it doesn't
-make much sense to have RESOURCE_DESTROY command. Though it was
-suggested as a per-buffer command, it doesn't match the existing V4L2
-API, as REQBUFS(0) destroys all buffers at once. I guess per-buffer
-destruction would require hardware or firmware supports.
-Even if we want to destroy buffers at once, we can destroy the stream
-and recreate one. So, I wonder if we can remove RESOURCE_DESTROY
-command from the first version of spec at least.
-What do you think?
-
-Best regards,
-Keiichi
-
-
->
-> > I'll describe this rule in the next version of the patch.
-> >
-> > Best regards,
-> > Keiichi
-> >
-> > >
-> > > cheers,
-> > >   Gerd
-> > >
+SGkgRGFuDQoNCk9uIDEvMTQvMjAgNjoxMCBBTSwgRGFuIENhcnBlbnRlciB3cm90ZToNCj4gVGhl
+ICJzZWdfbnVtLCIgbGluZSB3YXNuJ3QgaW5kZW50ZWQuICBBbGwgdGhlIGFyZ3VtZW50cyBjYW4g
+Zml0IG5pY2VseQ0KPiBvbiB0d28gbGluZXMuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IERhbiBDYXJw
+ZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4NCj4gLS0tDQo+ICBkcml2ZXJzL21lZGlh
+L3BsYXRmb3JtL3N0aS9jOHNlY3RwZmUvYzhzZWN0cGZlLWNvcmUuYyB8IDUgKystLS0NCj4gIDEg
+ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0aS9jOHNlY3RwZmUvYzhzZWN0cGZlLWNv
+cmUuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtY29y
+ZS5jDQo+IGluZGV4IDViYWFkYTRmNjVlNS4uZDE1MThhNjc3MGZhIDEwMDY0NA0KPiAtLS0gYS9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0aS9jOHNlY3RwZmUvYzhzZWN0cGZlLWNvcmUuYw0KPiAr
+KysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0aS9jOHNlY3RwZmUvYzhzZWN0cGZlLWNvcmUu
+Yw0KPiBAQCAtMTAzNCw5ICsxMDM0LDggQEAgc3RhdGljIHZvaWQgbG9hZF9pbWVtX3NlZ21lbnQo
+c3RydWN0IGM4c2VjdHBmZWkgKmZlaSwgRWxmMzJfUGhkciAqcGhkciwNCj4gIA0KPiAgCWRldl9k
+YmcoZmVpLT5kZXYsDQo+ICAJCSJMb2FkaW5nIElNRU0gc2VnbWVudCAlZCAweCUwOHhcblx0ICgw
+eCV4IGJ5dGVzKSAtPiAweCVwICgweCV4IGJ5dGVzKVxuIiwNCj4gLXNlZ19udW0sDQo+IC0JCXBo
+ZHItPnBfcGFkZHIsIHBoZHItPnBfZmlsZXN6LA0KPiAtCQlkZXN0LCBwaGRyLT5wX21lbXN6ICsg
+cGhkci0+cF9tZW1zeiAvIDMpOw0KPiArCQlzZWdfbnVtLCBwaGRyLT5wX3BhZGRyLCBwaGRyLT5w
+X2ZpbGVzeiwgZGVzdCwNCj4gKwkJcGhkci0+cF9tZW1zeiArIHBoZHItPnBfbWVtc3ogLyAzKTsN
+Cj4gIA0KPiAgCWZvciAoaSA9IDA7IGkgPCBwaGRyLT5wX2ZpbGVzejsgaSsrKSB7DQo+ICANCg0K
+UmV2aWV3ZWQtYnk6IFBhdHJpY2UgQ2hvdGFyZCA8cGF0cmljZS5jaG90YXJkQHN0LmNvbT4NCg0K
+VGhhbmtzDQo=
