@@ -2,177 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A752C13AD1E
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 16:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81C7313B380
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 21:15:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728755AbgANPHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jan 2020 10:07:12 -0500
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:42846 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729100AbgANPHJ (ORCPT
+        id S1728820AbgANUPM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 15:15:12 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13500 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726839AbgANUPL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jan 2020 10:07:09 -0500
-Received: by mail-qk1-f202.google.com with SMTP id m13so8482198qka.9
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2020 07:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=HCfFN9AUSNuAj3TKhImiUA6PqoYiqyNpjs0bZyhzWxE=;
-        b=R+U82nQw6yFvdQOcBLXdfgS01MqRqJCQQ2RUYp7Bcdzh9S2c3Dha1axAvjGf2YXGIA
-         HfzX13dM0kRcEQcC8MR9/IshU399nY4fjevft2Z2GlOW50ABrYhnx/p9gdtGj3wvJizv
-         1p74pvXaKcwUyvuOLtgGiu4Zw0i+fRQSNEIm1hDtuDsZq/1PT8if55K8E5fdHJf0JFXU
-         gkNXvDyV/2b9NrYT0wUq2NaEyDURuNu3eMpdex1Ujv2cNvAiBwW281pqlVhg46tD28j+
-         rC4fxyJ/1/gyTFyN1ilm9RpAgkMsZqc3PiFGSSDQ+RoTFReoYJ6PXq/2kevO20U5lvda
-         nGbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=HCfFN9AUSNuAj3TKhImiUA6PqoYiqyNpjs0bZyhzWxE=;
-        b=EtB9bzHCB/qKYnWPVLzeLzv71/Hnq9pxCdn+vyxxcgIbYpckzaKpRPNJc45arzmCF3
-         VHyIfFZ0xHlb6TC0ukQlhbeY3UrCST6k56jzdET4d5sK+ffzCsRm3Js83vvpir+XQ23v
-         aXWUKRdmzdVBv8ZITruyHQZVaOpHyjf5322VCxXqO2OxR/lYtSPnQawMzraxu/Fb0LFK
-         lSRDs91KDJKRz+nsAQoAtB5xSvgfslDW0m/deNPWxQFSfm3Kph5YretdZMXi3pr+Yi0H
-         Z58D4kY0ZlO3wTN5XpUqwPJR9eiLAuPaB6DvC7VV5G7+Juib8JIuhdZ303O8YW7Znurp
-         5Cyg==
-X-Gm-Message-State: APjAAAVvvdXv4VGV3o+ByHU+4pqNx4yV0AmHM80wnnsS69W5M9UZQ7tn
-        2CCcD/XGwleP8btRgmrCTmPNRZdN7/z9X88=
-X-Google-Smtp-Source: APXvYqze/Qff909HfT3nlf+Gut70+sQevIasyxi5FKY0wfBcvYLEbbIpkoGOX/J1rJx6YdlmcM6feYWdJplCwQ8=
-X-Received: by 2002:ac8:2f03:: with SMTP id j3mr4056615qta.180.1579014428121;
- Tue, 14 Jan 2020 07:07:08 -0800 (PST)
-Date:   Tue, 14 Jan 2020 23:06:58 +0800
-Message-Id: <20200114150658.205302-1-liumartin@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
-Subject: [PATCH] dma-buf: use spinlock to protect set/get name operation
-From:   Martin Liu <liumartin@google.com>
-To:     sumit.semwal@linaro.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        liumartin@google.com, jenhaochen@google.com
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 14 Jan 2020 15:15:11 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e1e21390001>; Tue, 14 Jan 2020 12:14:49 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 14 Jan 2020 12:15:09 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 14 Jan 2020 12:15:09 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 14 Jan
+ 2020 20:15:09 +0000
+Subject: Re: [PATCH v12 00/22] mm/gup: prereqs to track dma-pinned pages:
+ FOLL_PIN
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20200107224558.2362728-1-jhubbard@nvidia.com>
+ <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <9d7f3c1a-6020-bdec-c513-80c5399e55d7@nvidia.com>
+Date:   Tue, 14 Jan 2020 12:15:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <2a9145d4-586e-6489-64e4-0c54f47afaa1@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1579032890; bh=wLxNzNFRStaOZ7jAQIV4tH1wBKaWmBKZBOUdkq/PVGQ=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=bNQcHd+kt2S6qArSD90PMkNX5LSRoo2toPf1fdY/D3ysgVjnnuMPbcBLvU4mGjBbT
+         LR4uZiIEi3/mAViybdXB1PH001dny/ndD230xDMGlhs7NAYpQR6mGLaj5Fl0H44uol
+         s/WH8SaFGbiYHrC+Jf2F7bChe3A2NqguquLvhseggPHll2epR/FoT6c0YMA6JGSKkp
+         eSDWR40pps95gbxdKKvy2DClT3lBSMdUwcemTQnf2Jrxy6nLuQLIDhcegQ+kyGcscI
+         uknj/1R1Mw2ETSzcXASW/vo/Q3g+SHupTZUPph9j3ZAnq/QlpAxhi10ckpA46Ke/0I
+         HjefW3dJ5Akvg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We introduced setname ioctl in commit bb2bb9030425 ("dma-buf:
-add DMA_BUF_SET_NAME ioctls") that provides userpsace
-to attach a free-form name for tracking and counting shared
-buffers. However the d_dname callback could be called in atomic
-context. This call path comes from selinux that verifies all
-inherited open files from exec call. To verify all inherited
-open files, kernel would iterate all fds which need to hold
-spin_lock to get denty name by calling d_dname operation.
-In dma-buf d_dname callback, we use mutex lock to prevent the
-race from setname causing this issue.
+On 1/9/20 2:07 PM, John Hubbard wrote:
+> On 1/7/20 2:45 PM, John Hubbard wrote:
+>> Hi,
+>>
+>> The "track FOLL_PIN pages" would have been the very next patch, but it is
+>> not included here because I'm still debugging a bug report from Leon.
+>> Let's get all of the prerequisite work (it's been reviewed) into the tree
+>> so that future reviews are easier. It's clear that any fixes that are
+>> required to the tracking patch, won't affect these patches here.
+>>
+>> This implements an API naming change (put_user_page*() -->
+>> unpin_user_page*()), and also adds FOLL_PIN page support, up to
+>> *but not including* actually tracking FOLL_PIN pages. It extends
+>> the FOLL_PIN support to a few select subsystems. More subsystems will
+>> be added in follow up work.
+>>
+> 
+> Hi Andrew and all,
+> 
+> To clarify: I'm hoping that this series can go into 5.6.
+> 
+> Meanwhile, I'm working on tracking down and solving the problem that Leon
+> reported, in the "track FOLL_PIN pages" patch, and that patch is not part of
+> this series.
+> 
 
-This commit adds a spinlock to protect set/get name operation
-to fix this issue.
+Hi Andrew and all,
 
-[  165.617090] Call trace:
-[  165.620504]  ___might_sleep+0x114/0x118
-[  165.625344]  __might_sleep+0x50/0x84
-[  165.629928]  __mutex_lock_common+0x5c/0x10b0
-[  165.635215]  mutex_lock_nested+0x40/0x50
-[  165.640157]  dmabuffs_dname+0x48/0xdc
-[  165.644821]  d_path+0x78/0x1e4
-[  165.648870]  audit_log_d_path+0x68/0x134
-[  165.653807]  common_lsm_audit+0x33c/0x6f4
-[  165.658832]  slow_avc_audit+0xb4/0xf0
-[  165.663503]  avc_has_perm+0xdc/0x1a4
-[  165.668081]  file_has_perm+0x70/0x154
-[  165.672750]  match_file+0x54/0x6c
-[  165.677064]  iterate_fd+0x74/0xac
-[  165.681369]  selinux_bprm_committing_creds+0xfc/0x210
-[  165.687459]  security_bprm_committing_creds+0x2c/0x40
-[  165.693546]  install_exec_creds+0x1c/0x68
-[  165.698569]  load_elf_binary+0x3a0/0x13c8
-[  165.703590]  search_binary_handler+0xb8/0x1e4
-[  165.708964]  __do_execve_file+0x6e4/0x9c8
-[  165.713984]  __arm64_sys_execve+0x44/0x54
-[  165.719008]  el0_svc_common+0xa8/0x168
-[  165.723765]  el0_svc_handler+0x78/0x94
-[  165.728522]  el0_svc+0x8/0xc
+Any thoughts on this?
 
-Signed-off-by: Martin Liu <liumartin@google.com>
----
- drivers/dma-buf/dma-buf.c | 11 +++++++----
- include/linux/dma-buf.h   |  2 ++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+As for the not-included-yet tracking patch, my local testing still suggests the
+need to allow for larger refcounts of huge pages (in other words, I can write a test
+to pin huge pages many times, and overflow with the same backtrace that Leon has
+reported).
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index ce41cd9b758a..7cbcb22ad0e4 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- 	size_t ret = 0;
- 
- 	dmabuf = dentry->d_fsdata;
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
- 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- 
- 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
- 			     dentry->d_name.name, ret > 0 ? name : "");
-@@ -335,6 +335,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 		return PTR_ERR(name);
- 
- 	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (!list_empty(&dmabuf->attachments)) {
- 		ret = -EBUSY;
- 		kfree(name);
-@@ -344,6 +345,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	dmabuf->name = name;
- 
- out_unlock:
-+	spin_unlock(&dmabuf->name_lock);
- 	dma_resv_unlock(dmabuf->resv);
- 	return ret;
- }
-@@ -403,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
- 	/* Don't count the temporary reference taken inside procfs seq_show */
- 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
- 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
--	dma_resv_lock(dmabuf->resv, NULL);
-+	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
- 		seq_printf(m, "name:\t%s\n", dmabuf->name);
--	dma_resv_unlock(dmabuf->resv);
-+	spin_unlock(&dmabuf->name_lock);
- }
- 
- static const struct file_operations dma_buf_fops = {
-@@ -561,6 +563,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	dmabuf->file = file;
- 
- 	mutex_init(&dmabuf->lock);
-+	spin_lock_init(&dmabuf->name_lock);
- 	INIT_LIST_HEAD(&dmabuf->attachments);
- 
- 	mutex_lock(&db_list.lock);
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index af73f835c51c..1b138580f746 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -292,6 +292,7 @@ struct dma_buf_ops {
-  * @exp_name: name of the exporter; useful for debugging.
-  * @name: userspace-provided name; useful for accounting and debugging,
-  *        protected by @resv.
-+ * @name_lock: lock to protect name.
-  * @owner: pointer to exporter module; used for refcounting when exporter is a
-  *         kernel module.
-  * @list_node: node for dma_buf accounting and debugging.
-@@ -320,6 +321,7 @@ struct dma_buf {
- 	void *vmap_ptr;
- 	const char *exp_name;
- 	const char *name;
-+	spinlock_t name_lock;
- 	struct module *owner;
- 	struct list_head list_node;
- 	void *priv;
+The second struct page (I recall Jan suggested) can hold those, so I'm going to proceed
+with that approach, while waiting to see if Leon has any more test data for me.
+
+Again, I think this series is worth getting out of the way, in the meantime.
+
+
+thanks,
 -- 
-2.25.0.rc1.283.g88dfdc4193-goog
-
+John Hubbard
+NVIDIA
