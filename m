@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 992EC139F80
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 03:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1245C139FA3
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 03:57:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729410AbgANC1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 21:27:14 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54578 "EHLO
+        id S1729281AbgANC5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 21:57:17 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54880 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729099AbgANC1O (ORCPT
+        with ESMTP id S1728905AbgANC5R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 21:27:14 -0500
+        Mon, 13 Jan 2020 21:57:17 -0500
 Received: from [IPv6:2804:431:e7cc:c102:5116:df6:dcc9:5754] (unknown [IPv6:2804:431:e7cc:c102:5116:df6:dcc9:5754])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BA41E2914A9;
-        Tue, 14 Jan 2020 02:27:08 +0000 (GMT)
-Subject: Re: [PATCH v4 6/6] media: vimc: Track the media device by calling
- v4l2_device_get/put
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@collabora.com, skhan@linuxfoundation.org,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
-References: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
- <20200113215506.13329-7-dafna.hirschfeld@collabora.com>
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 796A9291348;
+        Tue, 14 Jan 2020 02:57:12 +0000 (GMT)
+Subject: Re: [PATCH] media: staging: rkisp1: Fix undefined reference to
+ `phy_mipi_dphy_get_default_config' in rkisp1_mipi_csi2_start
+To:     "zhangxiaoxu (A)" <zhangxiaoxu5@huawei.com>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org
+References: <20200113034804.24732-1-zhangxiaoxu5@huawei.com>
+ <af2cccbf-56e4-2963-cd38-36fa13f3c571@collabora.com>
+ <9013da2d-f50f-112b-77a1-92123ae25fcd@huawei.com>
 From:   Helen Koike <helen.koike@collabora.com>
 Autocrypt: addr=helen.koike@collabora.com; keydata=
  mQINBFmOMD4BEADb2nC8Oeyvklh+ataw2u/3mrl+hIHL4WSWtii4VxCapl9+zILuxFDrxw1p
@@ -101,12 +101,12 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <62c7bfe8-d663-86d4-4765-9a5fe53e9b4f@collabora.com>
-Date:   Mon, 13 Jan 2020 23:27:03 -0300
+Message-ID: <8676c3c3-5a2a-ed21-e6a8-b7cc14875fbf@collabora.com>
+Date:   Mon, 13 Jan 2020 23:57:08 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200113215506.13329-7-dafna.hirschfeld@collabora.com>
+In-Reply-To: <9013da2d-f50f-112b-77a1-92123ae25fcd@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -115,56 +115,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-On 1/13/20 7:55 PM, Dafna Hirschfeld wrote:
-> After a successful media_device_register call, call v4l2_device_get().
-> and set the media_devnode release callback to a function that
-> calls v4l2_device_put().
-> That should ensure that the v4l2_device's release callback is called
-> when the very last user of any of the registered device nodes has
-> closed its fh.
 
-This patch shouldn't be required if you accept my suggestion in patch 3/6,
-since the release function in v4l2_dev wouldn't be used.
+On 1/13/20 11:53 PM, zhangxiaoxu (A) wrote:
+> 
+> 
+> 在 2020/1/14 1:34, Helen Koike 写道:
+>> Hi Zhang,
+>>
+>> Thank you for the patch.
+>>
+>> On 1/13/20 1:48 AM, Zhang Xiaoxu wrote:
+>>> If 'GENERIC_PHY_MIPI_DPHY' not configured, there is an error:
+>>>
+>>> drivers/staging/media/rkisp1/rkisp1-isp.o:
+>>>     In function `rkisp1_mipi_csi2_start.isra.5':
+>>> rkisp1-isp.c:(.text+0x1238):
+>>>     undefined reference to `phy_mipi_dphy_get_default_config'
+>>> make: *** [vmlinux] Error 1
+>>>
+>>> Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+>>> ---
+>>>   drivers/staging/media/rkisp1/Kconfig | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/staging/media/rkisp1/Kconfig b/drivers/staging/media/rkisp1/Kconfig
+>>> index b859a493caba..788bcb703376 100644
+>>> --- a/drivers/staging/media/rkisp1/Kconfig
+>>> +++ b/drivers/staging/media/rkisp1/Kconfig
+>>> @@ -8,6 +8,7 @@ config VIDEO_ROCKCHIP_ISP1
+>>>       select VIDEOBUF2_VMALLOC
+>>>       select V4L2_FWNODE
+>>>       select PHY_ROCKCHIP_DPHY_RX0
+>>> +    select GENERIC_PHY_MIPI_DPHY
+>>>       default n
+>>>       help
+>>>         Enable this to support the Image Signal Processing (ISP) module
+>>>
+>>
+>> How are you reproducing this?
+>>
+>> VIDEO_ROCKCHIP_ISP1 selects PHY_ROCKCHIP_DPHY_RX0
+>>
+>> and
+>>
+>> PHY_ROCKCHIP_DPHY_RX0 already selects GENERIC_PHY_MIPI_DPHY,
+>>
+>> So it shouldn't be a problem (unless I misunderstood something, which is probably the case).
+> Yes, you are right.
+> 
+> This can be reproduce with the following config:
+> # CONFIG_OF is not set
+> #
+> # soc_camera sensor drivers
+> #
+> CONFIG_PHY_ROCKCHIP_DPHY_RX0=y
+> CONFIG_VIDEO_ROCKCHIP_ISP1=y
+> 
+> I think the cause of the problem is:
+> 'CONFIG_PHY_ROCKCHIP_DPHY_RX0' should also be depended on 'CONFIG_OF'.
+> 
 
-Let me know what you think.
+You probably mean 'CONFIG_VIDEO_ROCKCHIP_ISP1' right? As the phy driver already depends on OF.
+Yes, if I understand correctly it should. Could you send a patching adding it?
 
-Regards,
+Thanks
 Helen
-
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/media/platform/vimc/vimc-core.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
-> index 9d4e8bc89620..0f03e9cec075 100644
-> --- a/drivers/media/platform/vimc/vimc-core.c
-> +++ b/drivers/media/platform/vimc/vimc-core.c
-> @@ -214,6 +214,14 @@ static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
->  	kfree(vimc);
->  }
->  
-> +static void vimc_media_device_release(struct media_devnode *devnode)
-> +{
-> +	struct media_device *mdev = devnode->media_dev;
-> +	struct vimc_device *vimc = container_of(mdev, struct vimc_device, mdev);
-> +
-> +	v4l2_device_put(&vimc->v4l2_dev);
-> +}
-> +
->  static int vimc_register_devices(struct vimc_device *vimc)
->  {
->  	int ret;
-> @@ -252,6 +260,8 @@ static int vimc_register_devices(struct vimc_device *vimc)
->  		goto err_rm_subdevs;
->  	}
->  
-> +	v4l2_device_get(&vimc->v4l2_dev);
-> +	vimc->mdev.devnode->release = vimc_media_device_release;
->  	/* Expose all subdev's nodes*/
->  	ret = v4l2_device_register_subdev_nodes(&vimc->v4l2_dev);
->  	if (ret) {
-> 
