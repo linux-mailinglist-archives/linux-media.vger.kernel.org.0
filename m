@@ -2,371 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F000613A87B
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 12:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89B1713A885
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 12:37:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729508AbgANLfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jan 2020 06:35:05 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52749 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726156AbgANLfF (ORCPT
+        id S1729212AbgANLh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 06:37:57 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59650 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbgANLh5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jan 2020 06:35:05 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p9so13378330wmc.2
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2020 03:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=k8AVVaO7HKE7x0zW0W7TyY5oUqGiTG9X8D5bWOykcck=;
-        b=Qys0t03BNzJF3zJ773pHzLMeM90dkAkHGg78pV1bbGqYUBorYOk90XE0g0bQUounYM
-         b7SFLJc5nZIzTIaakyunrVAyQp+BgWHl0Pm1H+X8DzRbPeso7IZLA0twNJVcUGQ/Cfsv
-         5dHsEMpum9DlyZmGR5JqdDY7it+au8/XQ0PlL2hQqzawvsuQW5v4vsvE6EKxl4Ug6PGl
-         borx5Umpwtk9Fxmqy3h8qqueujamxrCBhGmn2x/gBvfocqLmIKVZlXpuVdcfxk+cdqU7
-         l7DG1jDGapyncw9jc70dKqMbBknPFhWdcuTr9n1E+bDtvI85eO4jnIinmxZlao45LfuS
-         8ErQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k8AVVaO7HKE7x0zW0W7TyY5oUqGiTG9X8D5bWOykcck=;
-        b=qoRGZHx/75rAJaCzrBmDCZf75A661W/ldNiLbEHzeloM0K0zJvBai0uUIv8++OZbIR
-         LLSzameQIxZs3DzuVNk3gwT0CbIWRGNZW6uZUEL63SdaemW0Vavyjqc4iA2ejfdq/L+l
-         2i4FPntUJjbrRxxIQnNdTG/d5WV3x6tjUJGNK6v8Okitix9MEMj/JDtsYGBIs+Q0JUoH
-         WpKgaEd+o5jq5ttRdfoNvhtGpsYN1WcoSy3qyz9aWeROcehe1gQu0xDEHKefASttXx/H
-         /lccd2PfD07uzlEj6Fxox0Yu/BkZLFGLvMYlacoL7mqEq2TkMR5IqoHNX4aUSntU1L2q
-         QXlw==
-X-Gm-Message-State: APjAAAWgEvxp+OYWeE3SEf6kornAOKy+g07iVf5I1TBii9j4ThmJTT45
-        CoZZqlUzL7e6fo9aJbLjJ3O89P7q9ELd4YyRtc2vRw==
-X-Google-Smtp-Source: APXvYqzAYf3XnsT4uLsj3pPqm7yo7SkwtGNrbE8LVt0VZ3j9x/PAVK3RmKkwUPOFPlL1x9kxksGDcs5NrtNkmKQ9wDw=
-X-Received: by 2002:a1c:1f51:: with SMTP id f78mr25342578wmf.60.1579001703203;
- Tue, 14 Jan 2020 03:35:03 -0800 (PST)
+        Tue, 14 Jan 2020 06:37:57 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 4CF4E260E0F
+Subject: Re: [PATCH v4 4/6] media: vimc: capture: crash fix - synchronize call
+ to vb2_queue_release when unregistering
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com, skhan@linuxfoundation.org,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
+References: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
+ <20200113215506.13329-5-dafna.hirschfeld@collabora.com>
+ <0d2f67fd-6bac-3b49-bb04-797e066e457a@collabora.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <397864b2-f1d6-2ce0-79e9-8cf7d87920d7@collabora.com>
+Date:   Tue, 14 Jan 2020 13:37:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191227122114.23075-1-andrey.konovalov@linaro.org>
- <20191227122114.23075-3-andrey.konovalov@linaro.org> <20191227145547.GE861@valkosipuli.retiisi.org.uk>
- <d3f1591b-1a98-e876-b977-96e1210e9c49@linaro.org>
-In-Reply-To: <d3f1591b-1a98-e876-b977-96e1210e9c49@linaro.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 14 Jan 2020 11:34:46 +0000
-Message-ID: <CAPY8ntCwh6KXpx-tMhjVwF97hqayLRKVC8BC6DCZ0hqvkU-boA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] media: i2c: Add driver for Sony IMX219 sensor
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
-        robh+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <0d2f67fd-6bac-3b49-bb04-797e066e457a@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey & Sakari
+Hi
 
-On Mon, 13 Jan 2020 at 19:16, Andrey Konovalov
-<andrey.konovalov@linaro.org> wrote:
->
-> Hi Sakari,
->
-> Sorry for delayed reply..
-> (your email got into a wrong folder, and I might not find it there if Ezequiel
-> did not warn me that I didn't address the comments from your review)
 
-For some reason I missed getting Sakari's email too - apologies.
+On 14.01.20 03:31, Helen Koike wrote:
+> Hi Dafna,
+> 
+> On 1/13/20 7:55 PM, Dafna Hirschfeld wrote:
+>> vb2_queue_release is called from vimc_cap_unregister.
+>> `vb2_queue_release` stops the streaming in case
+>> streaming is on and therefore it should be synchronized
+>> with other streaming ioctls using the vdev's lock.
+>> Currently the call is not synchronized and this cause
+>> race conditions.
+>>
+>> Using the following script:
+>>
+>> while [ 1 ]; do
+>> media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480],"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+>>
+>> v4l2-ctl -d2 -v width=1920,height=1440
+>> v4l2-ctl -d0 -v pixelformat=BA81
+>> v4l2-ctl --stream-mmap -d /dev/video2 &
+>> echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
+>> echo -n vimc.0 >/sys/bus/platform/drivers/vimc/bind
+>> done
+>>
+>> The following crash appeared:
+>>
+>> [  101.909376] BUG: kernel NULL pointer dereference, address: 0000000000000009
+>> [  101.909661] #PF: supervisor read access in kernel mode
+>> [  101.909835] #PF: error_code(0x0000) - not-present page
+>> [  101.910048] PGD 0 P4D 0
+>> [  101.910223] Oops: 0000 [#1] SMP NOPTI
+>> [  101.910475] CPU: 0 PID: 1167 Comm: v4l2-ctl Not tainted 5.5.0-rc1+ #5
+>> [  101.910716] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+>> [  101.911294] RIP: 0010:vb2_vmalloc_put_userptr+0x15/0x90 [videobuf2_vmalloc]
+>> [  101.911671] Code: 89 df 5b e9 0d e6 29 c6 0f 1f 00 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 41 55 41 54 55 48 89 fd 53 4c 8b 65 08 48 8b 3f <41> 80 7c 24 09 00 75 65 48 81 e7 00 f0 ff ff 45 8b 6c 24 04 75 44
+>> [  101.912329] RSP: 0018:ffff9b0c42253df0 EFLAGS: 00000286
+>> [  101.912557] RAX: ffffffffc03bc1a0 RBX: ffff9095b37e1400 RCX: 0000000000000001
+>> [  101.912818] RDX: 0000000000000004 RSI: 0000000000000003 RDI: ffff9b0c4229d000
+>> [  101.913088] RBP: ffff9095b37d1480 R08: 0000000000000000 R09: ffff9b0c42253db8
+>> [  101.913352] R10: ffff9095b37df858 R11: ffff9095b3444b50 R12: 0000000000000000
+>> [  101.913598] R13: ffff9095b371c5b8 R14: 0000000000000004 R15: 0000000000000000
+>> [  101.913896] FS:  00007fe62d779240(0000) GS:ffff9095bfc00000(0000) knlGS:0000000000000000
+>> [  101.914202] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> [  101.914418] CR2: 0000000000000009 CR3: 0000000233392000 CR4: 00000000000006f0
+>> [  101.914738] Call Trace:
+>> [  101.915604]  __vb2_queue_free+0xf8/0x210 [videobuf2_common]
+>> [  101.915876]  vb2_core_queue_release+0x34/0x40 [videobuf2_common]
+>> [  101.916086]  _vb2_fop_release+0x7d/0x90 [videobuf2_v4l2]
+>> [  101.916307]  v4l2_release+0x9e/0xf0 [videodev]
+>> [  101.916499]  __fput+0xb6/0x250
+>> [  101.916688]  task_work_run+0x7e/0xa0
+>> [  101.916842]  exit_to_usermode_loop+0xaa/0xb0
+>> [  101.917018]  do_syscall_64+0x10b/0x160
+>> [  101.917175]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>> [  101.917463] RIP: 0033:0x7fe62cf4c421
+>> [  101.917575] Code: f7 d8 64 89 02 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 8b 05 ea cf 20 00 85 c0 75 16 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 3f f3 c3 0f 1f 44 00 00 53 89 fb 48 83 ec 10
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   drivers/media/platform/vimc/vimc-capture.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+>> index c5a645f98c66..314fda6db112 100644
+>> --- a/drivers/media/platform/vimc/vimc-capture.c
+>> +++ b/drivers/media/platform/vimc/vimc-capture.c
+>> @@ -339,7 +339,9 @@ void vimc_cap_unregister(struct vimc_ent_device *ved)
+>>   	struct vimc_cap_device *vcap =
+>>   		container_of(ved, struct vimc_cap_device, ved);
+>>   
+>> +	mutex_lock(&vcap->lock);
+>>   	vb2_queue_release(&vcap->queue);
+>> +	mutex_unlock(&vcap->lock);
+>>   	video_unregister_device(&vcap->vdev);
+>>   }
+>>   
+>>
+> 
+> Thanks for the patch.
+> 
+> But now I'm wondering how other drivers do it, I didn't find any other driver
+> dealing with concurrency between unbinding and the ioctls like this.
+> 
+hmm, I guess in many drivers it is not so important to handle the case 
+of userspace doing `echo blah-device > 
+/sys/bus/platform/drivers/blah-driver/unbind` but in vimc when hopefully 
+the configfs feature will be implemented it will be part of the API to 
+unregister with `echo 0 > configfs/vimc/dev/hotplug` so the case of 
+unregistering while streaming might be more common in vimc.
+Maybe we can decide it is impossible to unregistered the device through 
+the configfs while it is streaming.
 
-> On 27.12.2019 17:55, Sakari Ailus wrote:
-> > Hi Andrey,
-> >
-> > On Fri, Dec 27, 2019 at 03:21:14PM +0300, Andrey Konovalov wrote:
-> >> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >>
-> >> Adds a driver for the 8MPix Sony IMX219 CSI2 sensor.
-> >> Whilst the sensor supports 2 or 4 CSI2 data lanes, this driver
-> >> currently only supports 2 lanes.
-> >> 8MPix @ 15fps, 1080P @ 30fps (cropped FOV), and 1640x1232 (2x2 binned)
-> >> @ 30fps are currently supported.
-> >>
-> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> >> ---
-> >>   drivers/media/i2c/Kconfig  |   12 +
-> >>   drivers/media/i2c/Makefile |    1 +
-> >>   drivers/media/i2c/imx219.c | 1240 ++++++++++++++++++++++++++++++++++++
-> >>   3 files changed, 1253 insertions(+)
-> >>   create mode 100644 drivers/media/i2c/imx219.c
->
-> <snip>
->
-> >> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> >> new file mode 100644
-> >> index 000000000000..28b55c61cd77
-> >> --- /dev/null
-> >> +++ b/drivers/media/i2c/imx219.c
->
-> <snip>
->
-> >> +/* Power/clock management functions */
-> >> +static int imx219_power_on(struct device *dev)
-> >> +{
-> >> +    struct i2c_client *client = to_i2c_client(dev);
-> >> +    struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >> +    struct imx219 *imx219 = to_imx219(sd);
-> >> +    int ret;
-> >> +
-> >> +    ret = regulator_bulk_enable(IMX219_NUM_SUPPLIES,
-> >> +                                imx219->supplies);
-> >> +    if (ret) {
-> >> +            dev_err(&client->dev, "%s: failed to enable regulators\n",
-> >> +                    __func__);
-> >> +            return ret;
-> >> +    }
-> >> +
-> >> +    ret = clk_prepare_enable(imx219->xclk);
-> >> +    if (ret) {
-> >> +            dev_err(&client->dev, "%s: failed to enable clock\n",
-> >> +                    __func__);
-> >> +            goto reg_off;
-> >> +    }
-> >> +
-> >> +    gpiod_set_value_cansleep(imx219->xclr_gpio, 1);
-> >> +    msleep(IMX219_XCLR_DELAY_MS);
-> >
-> > I guess 10 ms is ok albeit it'd be nicer if you calculated the required
-> > delay instead.
->
-> I think this 10 ms delay actually serves two purposes here. It is
-> not only the delay after XCLR pin is set high (reset de-asserted),
-> but it also lets the camera power supplies voltages to settle after
-> regulator_bulk_enable() called few lines above.
->
-> So I would make the delay a sum of 1) the value which depends on
-> input clock frequency (the driver currently supports 24MHz only)
-> and 2) a fixed value of 8 ms or so to account for the power supplies
-> settle time. So that the sum would be the same 10 ms for 24MHz input
-> clock.
-> Does it makes sense?
+> Also, I see that vivid doesn't even call vb2_queue_release() (is this a bug?).
+> 
+The problem with not calling vb2_queue_release from vimc_cap_unregister 
+is that later when the last fh closes the call to media_pipeline_stop 
+crashes since it it called with a media entity that is not registered. 
+The vivid driver does not call media_pipeline_stop so this crash does 
+not occur in vivid.
 
-Regulator settling times shouldn't really be included here - that
-should be taken care of via the regulator framework (in the case of DT
-for regulator-fixed you define the startup-delay-us property).
-
-What level do you end up computing it to?
-
-This delay covers t4, t5 and t6 from figure 38 on page 77 of the datasheet[1]
-t4 is max 200usecs.
-t5 is 6ms.
-t6 is 32000 cycles of INCK. As you say INCK=24MHz is the only
-supported clock frequency at present, so 1.3ms. Minimum clock is 6MHz
-which will make this 5.3ms.
-
-t6 is in parallel with t5, but it is smaller than t5 even at the
-minimum clock frequency.
-Yes we can be programming the sensor over I2C after t5 but before t6,
-but you'd now want to be computing the number of I2C writes required,
-the speed of the I2C bus, and probably a few other parameters to
-ensure you don't violate t5. The sensor supports 1MHz CCI if INCK is
->11.4MHz. A quick check says we have around 60 register writes to
-initialise the sensor. 38 clocks (4 * (8 data bits + ACK) + start +
-end) to write each register, which I make 2.4ms. It is therefore
-possible to violate t5.
-
-Is it worth that level of computation, or do you just take t4+t5 at 6.2ms?
-
-I have been a bit naughty up until now in not setting startup-delay-us
-on the regulator definition and relying on this delay instead. The
-driver ought to do the right thing though and I'll fix my
-configuration.
-
-  Dave
-
-[1] https://github.com/rellimmot/Sony-IMX219-Raspberry-Pi-V2-CMOS
-
-> <snip>
->
-> >> +static int imx219_probe(struct i2c_client *client,
-> >> +                    const struct i2c_device_id *id)
-> >> +{
-> >> +    struct device *dev = &client->dev;
-> >> +    struct fwnode_handle *endpoint;
-> >> +    struct imx219 *imx219;
-> >> +    int ret;
-> >> +
-> >> +    imx219 = devm_kzalloc(&client->dev, sizeof(*imx219), GFP_KERNEL);
-> >> +    if (!imx219)
-> >> +            return -ENOMEM;
-> >> +
-> >> +    imx219->dev = dev;
-> >
-> > Instead of putting a dev field to struct imx219, you can find the device in
-> > struct i2c_client.dev, which you can get by:
-> >
-> >       v4l2_get_subdevdata(imx219->sd)
-> >
-> >> +
-> >> +    v4l2_i2c_subdev_init(&imx219->sd, client, &imx219_subdev_ops);
-> >> +
-> >> +    /* Get CSI2 bus config */
-> >> +    endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> >> +                                              NULL);
-> >> +    if (!endpoint) {
-> >> +            dev_err(dev, "endpoint node not found\n");
-> >> +            return -EINVAL;
-> >> +    }
-> >> +
-> >> +    ret = v4l2_fwnode_endpoint_parse(endpoint, &imx219->ep);
-> >> +    fwnode_handle_put(endpoint);
-> >> +    if (ret) {
-> >> +            dev_err(dev, "Could not parse endpoint\n");
-> >> +            return ret;
-> >> +    }
-> >> +
-> >> +    /* Get system clock (xclk) */
-> >> +    imx219->xclk = devm_clk_get(dev, "xclk");
-> >> +    if (IS_ERR(imx219->xclk)) {
-> >> +            dev_err(dev, "failed to get xclk\n");
-> >> +            return PTR_ERR(imx219->xclk);
-> >> +    }
-> >> +
-> >> +    imx219->xclk_freq = clk_get_rate(imx219->xclk);
-> >> +    if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
-> >> +            dev_err(dev, "xclk frequency not supported: %d Hz\n",
-> >> +                    imx219->xclk_freq);
-> >> +            return -EINVAL;
-> >> +    }
-> >
-> > Could you also check the link frequencies (the link-frequencies property
-> > that also should be added to DT bindings) matches with what is possible
-> > with the given xclk frequency? Please see e.g. imx319 driver for an
-> > example.
->
-> The driver only supports single xclk frequency and single link-frequency
-> (hardcoded in the registers value tables). So the check will be more like
-> the one in imx290 driver (error out if the link-frequency property isn't
-> equal to the pre#define-d default value).
->
-> >> +
-> >> +    ret = imx219_get_regulators(imx219);
-> >> +    if (ret)
-> >> +            return ret;
-> >> +
-> >> +    /* Request optional enable pin */
-> >> +    imx219->xclr_gpio = devm_gpiod_get_optional(dev, "xclr",
-> >> +                                                GPIOD_OUT_HIGH);
-> >> +
-> >> +    /*
-> >> +     * The sensor must be powered for imx219_identify_module()
-> >> +     * to be able to read the CHIP_ID register
-> >> +     */
-> >> +    ret = imx219_power_on(dev);
-> >> +    if (ret)
-> >> +            return ret;
-> >> +
-> >> +    ret = imx219_identify_module(imx219);
-> >> +    if (ret)
-> >> +            goto error_power_off;
-> >> +
-> >> +    /* Set default mode to max resolution */
-> >> +    imx219->mode = &supported_modes[0];
-> >> +
-> >> +    ret = imx219_init_controls(imx219);
-> >> +    if (ret)
-> >> +            goto error_power_off;
-> >> +
-> >> +    /* Initialize subdev */
-> >> +    imx219->sd.internal_ops = &imx219_internal_ops;
-> >> +    imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >> +    imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> >> +
-> >> +    /* Initialize source pad */
-> >> +    imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
-> >> +
-> >> +    ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
-> >> +    if (ret)
-> >> +            goto error_handler_free;
-> >> +
-> >> +    ret = v4l2_async_register_subdev_sensor_common(&imx219->sd);
-> >> +    if (ret < 0)
-> >> +            goto error_media_entity;
-> >> +
-> >> +    /* Enable runtime PM and turn off the device */
-> >> +    pm_runtime_set_active(dev);
-> >> +    pm_runtime_enable(dev);
-> >> +    pm_runtime_idle(dev);
-> >> +
-> >> +    return 0;
-> >> +
-> >> +error_media_entity:
-> >> +    media_entity_cleanup(&imx219->sd.entity);
-> >> +
-> >> +error_handler_free:
-> >> +    imx219_free_controls(imx219);
-> >> +
-> >> +error_power_off:
-> >> +    imx219_power_off(dev);
-> >> +
-> >> +    return ret;
-> >> +}
-> >> +
-> >> +static int imx219_remove(struct i2c_client *client)
-> >> +{
-> >> +    struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> >> +    struct imx219 *imx219 = to_imx219(sd);
-> >> +
-> >> +    v4l2_async_unregister_subdev(sd);
-> >> +    media_entity_cleanup(&sd->entity);
-> >> +    imx219_free_controls(imx219);
-> >> +
-> >> +    pm_runtime_disable(&client->dev);
-> >> +    pm_runtime_set_suspended(&client->dev);
-> >
-> > imx219_power_off(), if the sensor is powered on here. Please see e.g. the
-> > smiapp driver regarding this.
->
-> It should be powered off here.
->
-> The sensor is powered on when streaming is started, and is powered off when
-> it is stopped: if the enable argument is false, imx219_set_stream() calls
-> pm_runtime_put().
-> IOW, it follows the imx319 driver as the example of power management.
->
-> >> +
-> >> +    return 0;
-> >> +}
-> >> +
-> >> +static const struct of_device_id imx219_dt_ids[] = {
-> >> +    { .compatible = "sony,imx219" },
-> >> +    { /* sentinel */ }
-> >> +};
-> >> +MODULE_DEVICE_TABLE(of, imx219_dt_ids);
-> >> +
-> >> +static const struct dev_pm_ops imx219_pm_ops = {
-> >> +    SET_SYSTEM_SLEEP_PM_OPS(imx219_suspend, imx219_resume)
-> >> +    SET_RUNTIME_PM_OPS(imx219_power_off, imx219_power_on, NULL)
-> >> +};
-> >> +
-> >> +static struct i2c_driver imx219_i2c_driver = {
-> >> +    .driver = {
-> >> +            .name = "imx219",
-> >> +            .of_match_table = imx219_dt_ids,
-> >> +            .pm = &imx219_pm_ops,
-> >> +    },
-> >> +    .probe = imx219_probe,
-> >
-> > Could you use .probe_new, and remove the i2c_device_id argument?
->
-> I'll fix this and all the other issues I didn't comment on in this email
-> in the v4 of the patch set.
->
-> Thanks,
-> Andrey
->
-> >> +    .remove = imx219_remove,
-> >> +};
-> >> +
-> >> +module_i2c_driver(imx219_i2c_driver);
-> >> +
-> >> +MODULE_AUTHOR("Dave Stevenson <dave.stevenson@raspberrypi.com");
-> >> +MODULE_DESCRIPTION("Sony IMX219 sensor driver");
-> >> +MODULE_LICENSE("GPL v2");
-> >
+> Another note is that video_unregister_device() should be called before vb2_queue_release()
+> to avoid any other ioctls from userspace.
+> 
+> 
+> Helen
+> 
