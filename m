@@ -2,239 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EBEB13A772
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 11:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7219E13A7B1
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 11:47:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729191AbgANKfy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jan 2020 05:35:54 -0500
-Received: from plasma6.jpberlin.de ([80.241.56.68]:38235 "EHLO
-        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728998AbgANKfy (ORCPT
+        id S1729164AbgANKrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 05:47:42 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:49733 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726044AbgANKrm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jan 2020 05:35:54 -0500
-Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
-        by plasma.jpberlin.de (Postfix) with ESMTP id 245EDB6EBC;
-        Tue, 14 Jan 2020 11:35:49 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id m8Gj-y0MdXBs; Tue, 14 Jan 2020 11:35:47 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id B995FB6E60;
-        Tue, 14 Jan 2020 11:35:46 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
- (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 14 Jan
- 2020 11:35:46 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>
-CC:     Gerd Hoffmann <kraxel@redhat.com>,
-        <virtio-dev@lists.oasis-open.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>,
-        David Stevens <stevensd@chromium.org>, <uril@redhat.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 1/1] virtio-video: Add virtio video device specification
-Date:   Tue, 14 Jan 2020 11:35:46 +0100
-Message-ID: <2337316.Sgy9Pd6rRy@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAD90VcbG6kR1Nw6DTr2RjwFrDja2B=Ohje_2MMeKBwpXGZ_MyA@mail.gmail.com>
-References: <20191218130214.170703-1-keiichiw@chromium.org> <CAAFQd5DcYWymWyzdiyfy18HkUBsEhALYG+DLwjXGCpRGDaJqyQ@mail.gmail.com> <CAD90VcbG6kR1Nw6DTr2RjwFrDja2B=Ohje_2MMeKBwpXGZ_MyA@mail.gmail.com>
+        Tue, 14 Jan 2020 05:47:42 -0500
+Received: from [IPv6:2001:420:44c1:2577:11b:d594:936e:b16a]
+ ([IPv6:2001:420:44c1:2577:11b:d594:936e:b16a])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id rJjUiummLrNgyrJjXixpOF; Tue, 14 Jan 2020 11:47:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578998860; bh=RImSbumVOqz0CgO3MNvrtKFbdoOd5oafg/KCzGlOyPs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=D7vXB/oAcg2N96H8Jin3CiDZ5un+oG7l7qn1qY0zGWBaLqIFjhZxNDXKh0wd3D5AJ
+         XBqs+HzcyTZS8l6laMRRrTo/3SZ0+YrH2tPG9NW4KlNzYlO5V6vqGC4TKw8pylvc9F
+         U/4g68uiWBwa52E8kZHhvLENczWthEzH/iDEGcLt392Ipxh10Xg6tPF3lc9y6bYnBz
+         +d1T9wb06YNo2FsazaY7yas4Yz39CKgtv6y+JAbXIkuEO3RbmPwSmgxMZfMgjfIbUm
+         5RV1LQWP+HrbzJHtYHcntNOyEWUZcZMkuNzOe2xt57pFl14H/0cbK2rlVVwdFzdO3r
+         YyZ4+a4TNcgaA==
+Subject: Re: [PATCH v4 6/6] media: vimc: Track the media device by calling
+ v4l2_device_get/put
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
+References: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
+ <20200113215506.13329-7-dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6f02119a-a1b4-a543-72a9-efbd11c03474@xs4all.nl>
+Date:   Tue, 14 Jan 2020 11:47:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
+In-Reply-To: <20200113215506.13329-7-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIPBQljO06Ku0AmobTMr5mnWVWgFU3ZpFrRCzG9poGiRGL4CkNp3EzxjhYfcTjRZWYj9j7AtSvPyLhpIVc4NuR86gHaLkBnyAUy40Lepny3Y1n74N5Nh
+ pi2TrEznE2a6vPkCPYeFtgU2zmF/WyUAgnMpzlRVHBCC0ybV8ZFlXK1t50EtWewV9U+RV9l+oLGjmEWMFUEWIigDOZSfRIsb2KvammePw8epIZ9+05r24NOp
+ ZmhL5/pVUCHkLwput3Gbo7Vtbt6bMrAlUFeODjJtz5gIEQdW87eqTl5zx7/t4XTqAbUMQZx7LCMULnZnj2jp24OMzSrCL7/J4mTrLKjeimwgQFiMYHksrdQ0
+ jXb0v3itaCdcZP5dTsSbhgoK2924gKwXeuX8sBDtxpH12ZHLxSuGCw50/ozUKQr4Dx1Sw+fpDCCkfdw+oLR9QlE3XRhEP0h/xJcomHb1ZVCGRH/p4CMLT70N
+ Woh/OXHuXHOraXQqu8NYiCl4eU8QaG1JQJwmsA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Keiichi,
+Hi Dafna,
 
-thank you for the update.
-
-On Dienstag, 14. Januar 2020 08:18:50 CET Keiichi Watanabe wrote:
-> Hi,
+On 1/13/20 10:55 PM, Dafna Hirschfeld wrote:
+> After a successful media_device_register call, call v4l2_device_get().
+> and set the media_devnode release callback to a function that
+> calls v4l2_device_put().
+> That should ensure that the v4l2_device's release callback is called
+> when the very last user of any of the registered device nodes has
+> closed its fh.
 > 
-> On Thu, Jan 9, 2020 at 11:21 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > On Wed, Jan 8, 2020 at 10:52 PM Keiichi Watanabe <keiichiw@chromium.org> 
-wrote:
-> > > Hi Gerd,
-> > > 
-> > > On Thu, Dec 19, 2019 at 10:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > > >   Hi,
-> > > >   
-> > > > > > However that still doesn't let the driver know which buffers will
-> > > > > > be
-> > > > > > dequeued when. A simple example of this scenario is when the guest
-> > > > > > is
-> > > > > > done displaying a frame and requeues the buffer back to the
-> > > > > > decoder.
-> > > > > > Then the decoder will not choose it for decoding next frames into
-> > > > > > as
-> > > > > > long as the frame in that buffer is still used as a reference
-> > > > > > frame,
-> > > > > > even if one sends the drain request.
-> > > > > 
-> > > > > It might be that I'm getting your point wrong, but do you mean some
-> > > > > hardware can mark a buffer as ready to be displayed yet still using
-> > > > > the underlying memory to decode other frames?
-> > > > 
-> > > > Yes, this is how I understand Tomasz Figa.
-> > > > 
-> > > > > This means, if you occasionally/intentionally
-> > > > > write to the buffer you mess up the whole decoding pipeline.
-> > > > 
-> > > > And to avoid this the buffer handling aspect must be clarified in the
-> > > > specification.  Is the device allowed to continue using the buffer
-> > > > after
-> > > > finishing decoding and completing the queue request?  If so, how do we
-> > > > hand over buffer ownership back to the driver so it can free the
-> > > > pages?
-> > > > drain request?  How do we handle re-using buffers?  Can the driver
-> > > > simply re-queue them and expect the device figures by itself whenever
-> > > > it
-> > > > can use the buffer or whenever it is still needed as reference frame?
-> > > 
-> > > The device shouldn't be able to access buffers after it completes a
-> > > queue request.
-> > > The device can touch buffer contents from when a queue request is sent
-> > > until the device responds it.
-> > > In contrast, the driver must not modify buffer contents in that period.
-> > > 
-> > > Regarding re-using, the driver can simply re-queue buffers returned by
-> > > the device. If the device needs a buffer as reference frame, it must
-> > > not return the buffer.
-> > 
-> > I think that might not be what we expect. We want the decoder to
-> > return a decoded frame as soon as possible, but that decoded frame may
-> > be also needed for decoding next frames. In V4L2 stateful decoder, the
-> > API is defined that the client must not modify the decoded
-> > framebuffer, otherwise decoding next frames may not be correct.
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/media/platform/vimc/vimc-core.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> Thanks Tomasz! I didn't know the V4L2's convention.
-> So, the host should be able to read a frame buffer after it is
-> returned by responding RESOURCE_QUEUE command.
-> 
-> > We may
-> > need something similar, with an explicit operation that makes the
-> > buffers not accessible to the host anymore. I think the queue flush
-> > operation could work as such.
-> 
-> After offline discussion with Tomasz, I suspect the queue flush
-> operation (= VIRTIO_VIDEO_CMD_QUEUE_CLEAR) shouldn't work so, as it
-> just forces pending QUEUE requests to be backed for video seek.
-> So, a buffer can be readable from the device once it's queued until
-> STREAM_DESTROY or RESOURCE_DESTROY is called.
-
-Speaking of v4l2, drivers usually get all buffers back on stop_streaming  (this 
-means seek(decoder), reset (encoder)). As per my understanding, this means 
-that the device should not read the buffers anymore after 
-stop_streaming(STREAMOFF) has been called. We can mention that after 
-VIRTIO_VIDEO_CMD_QUEUE_CLEAR no device access is allowed.
-
-So:
-stop_streaming() = VIRTIO_VIDEO_CMD_QUEUE_CLEAR
-REQBUFS(0) = RESOURCE_DESTROY
-
-> 
-> In my understanding, the life cycle of video buffers is defined as
-> this state machine.
-> https://drive.google.com/file/d/1c6oY5S_9bhpJlrOt4UfoQex0CanpG-kZ/view?usp=s
-> haring
-> 
-> ```
-> # The definition of the state machine in DOT language
-> digraph G {
->   graph [ rankdir = LR, layout = dot ];
-> 
->   init [shape=point]
->   created [label="created", shape=circle]
->   dequeued [label="dequeued", shape=circle]
->   queued [label="queued", shape=circle]
-> 
->   init -> created [label="RESOURCE_CREATE"]
-> 
->   created -> queued [label="RESOURCE_QUEUE \n is sent"]
->   dequeued -> queued [label="RESOURCE_QUEUE \n is sent"]
->   queued -> dequeued [label="RESOURCE_QUEUE \n is returned"]
-> 
->   created -> init [label="DESTROY"]
->   dequeued -> init [label="DESTROY"]
-> }
-> ```
-> 
-> In each state of this figure, the accessibility of each buffer should
-> be like the following:
-> 
-> # Input buffers
->  state   |   Guest    |    Host
-> -----------------------------------
-> created  | Read/Write | -
-> queued   | -          | Read
-> dequeued | Read/Write | -
-> 
-> # Output buffers
->  state   |   Guest    |    Host
-> ----------------------------------
-> created  | Read       | -
-> queued   | -          | Read/Write
-> dequeued | Read       | Read
-> 
-> Does it make sense?
-> If ok, I'll have this state machine and tables in the next version of
-> spec to describe device/driver requirements by adding a subsection
-> about buffer life cycle.
+> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+> index 9d4e8bc89620..0f03e9cec075 100644
+> --- a/drivers/media/platform/vimc/vimc-core.c
+> +++ b/drivers/media/platform/vimc/vimc-core.c
+> @@ -214,6 +214,14 @@ static void vimc_v4l2_dev_release(struct v4l2_device *v4l2_dev)
+>  	kfree(vimc);
+>  }
+>  
+> +static void vimc_media_device_release(struct media_devnode *devnode)
+> +{
+> +	struct media_device *mdev = devnode->media_dev;
+> +	struct vimc_device *vimc = container_of(mdev, struct vimc_device, mdev);
+> +
+> +	v4l2_device_put(&vimc->v4l2_dev);
+> +}
+> +
+>  static int vimc_register_devices(struct vimc_device *vimc)
+>  {
+>  	int ret;
+> @@ -252,6 +260,8 @@ static int vimc_register_devices(struct vimc_device *vimc)
+>  		goto err_rm_subdevs;
+>  	}
+>  
+> +	v4l2_device_get(&vimc->v4l2_dev);
+> +	vimc->mdev.devnode->release = vimc_media_device_release;
+>  	/* Expose all subdev's nodes*/
+>  	ret = v4l2_device_register_subdev_nodes(&vimc->v4l2_dev);
+>  	if (ret) {
 > 
 
-Yes, I think this is ok.
+I like the idea, but I think the roles of v4l2_device and media_device should
+be swapped. Logically the media device is the top-level device, and the v4l2_device
+sits below it. So rather than cleaning everything up in the v4l2_device release
+callback, that should be done in the mdev.devnode->release callback.
 
-> 
-> By the way, regarding destruction of buffers, I suspect it doesn't
-> make much sense to have RESOURCE_DESTROY command. Though it was
-> suggested as a per-buffer command, it doesn't match the existing V4L2
-> API, as REQBUFS(0) destroys all buffers at once. I guess per-buffer
-> destruction would require hardware or firmware supports.
-> Even if we want to destroy buffers at once, we can destroy the stream
-> and recreate one. So, I wonder if we can remove RESOURCE_DESTROY
-> command from the first version of spec at least.
-> What do you think?
+So during the probe you need a call to get_device(&mdev.devnode->dev) and in the
+v4l2_device release callback you call put_device(&mdev.devnode->dev). And the
+mdev.devnode->release() callback is then used to clean everything up.
 
-Stream might have a context behind it (and it in fact does), and the contents 
-of that might depend on the device side implementation. For instance, the 
-context can be used to keep the currently set parameters, controls and so on. 
-So we'd avoid destroyng streams all the time for seek, resolution change, 
-reset and so on.
+I think it is a good idea to add helper functions media_device_get/put that take
+a media_device pointer as argument, but I'd do that as a new last patch, replacing
+any get/put_device() calls for mdev.devnode in one go. There may be some
+discussion about that, so having this as the last patch makes it easier to postpone
+merging it if needed.
 
-It still makes sense to use RESOURCE_DESTROY to destroy all resources at once 
-for one particular queue though. We can rename it to something more 
-meaningful.
+Regards,
 
-Best regards,
-Dmitry.
-
-> 
-> Best regards,
-> Keiichi
-> 
-> > > I'll describe this rule in the next version of the patch.
-> > > 
-> > > Best regards,
-> > > Keiichi
-> > > 
-> > > > cheers,
-> > > > 
-> > > >   Gerd
-
-
+	Hans
