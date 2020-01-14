@@ -2,61 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4F9E13A4B1
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 10:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61AC913A759
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 11:26:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729140AbgANJ5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Jan 2020 04:57:47 -0500
-Received: from relay10.mail.gandi.net ([217.70.178.230]:45733 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725842AbgANJ5r (ORCPT
+        id S1728868AbgANKZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 05:25:14 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:54169 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726156AbgANKZN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Jan 2020 04:57:47 -0500
-Received: from localhost (lfbn-lyo-1-1670-129.w90-65.abo.wanadoo.fr [90.65.102.129])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id D8D49240019;
-        Tue, 14 Jan 2020 09:57:42 +0000 (UTC)
-Date:   Tue, 14 Jan 2020 10:57:42 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com,
-        nicolas.ferre@microchip.com, ludovic.desroches@microchip.com,
-        vkoul@kernel.org, eugen.hristev@microchip.com, jic23@kernel.org,
-        knaack.h@gmx.de, lars@metafoo.de, pmeerw@pmeerw.net,
-        mchehab@kernel.org, lee.jones@linaro.org,
-        radu_nicolae.pirea@upb.ro, richard.genoud@gmail.com,
-        tudor.ambarus@microchip.com, miquel.raynal@bootlin.com,
-        richard@nod.at, vigneshr@ti.com, wg@grandegger.com,
-        mkl@pengutronix.de, a.zummo@towertech.it,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-can@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v2 15/17] dt-bindings: arm: add sam9x60-ek board
-Message-ID: <20200114095742.GL3137@piout.net>
-References: <1578673089-3484-1-git-send-email-claudiu.beznea@microchip.com>
- <1578673089-3484-16-git-send-email-claudiu.beznea@microchip.com>
+        Tue, 14 Jan 2020 05:25:13 -0500
+Received: from [IPv6:2001:420:44c1:2577:11b:d594:936e:b16a]
+ ([IPv6:2001:420:44c1:2577:11b:d594:936e:b16a])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id rJNiiueYArNgyrJNmixgOI; Tue, 14 Jan 2020 11:25:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1578997511; bh=ONH2NKkpD6L9IOxuH95o7XzEonnc0LgKJpPRlVSW2d0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=WEG0ew1xnerdSgKsfdU/SnSyQkLDxS4xFlNUnmGczIVWSE0PC0c7aBWVyV/Y/+sbB
+         HRtT+hrFSzpfpkhBvM8ZzDpQtAkqllhF6/RFVF02HsCkoMH1CDoDcnOhq7GRaOyGlt
+         JKfnCBSNgETUB0uIgeZxIApGhq7xxdNJDVIj3aS6bQF+sUPIREgMrMUWurdSsoHWd1
+         CkGPSt0Y59iq9nYpdG7S4/qrty1KfxaGdNwLgz/tdxC3EIZoCFPim1cvqSaqV9FdSk
+         ePgN1jF5QnWuYcM4NRUNzDfNsTfzn54v6qel3WWNxryKMikoAMscio5GVpD476qClj
+         qsHtoTbZmz4vQ==
+Subject: Re: [PATCH v4 4/6] media: vimc: capture: crash fix - synchronize call
+ to vb2_queue_release when unregistering
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
+References: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
+ <20200113215506.13329-5-dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <9355c7cf-74e2-47a4-f5a1-0eb47134b0d6@xs4all.nl>
+Date:   Tue, 14 Jan 2020 11:25:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1578673089-3484-16-git-send-email-claudiu.beznea@microchip.com>
+In-Reply-To: <20200113215506.13329-5-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfN4rYO5UdZkTHw3s6ek1SOjmqwg4qL2xVXyxgKmE418UqtTDhRbica6oEiRJVs8w3/67pOYFn4W+QPMoEr7/uaOhgQuZFVs8EnUz9EExIE76nP+v33RB
+ HmP+LwbeObdxqJajLprW9YguKs0SNS2XJLcyXylInRGKRWczd2WGyjViuRH2Opl1NdDrsaAXY+NU2ZlLJF0tvJ3wQ+xWcXaXX9CtWDuU690FcXdezHHFuPj3
+ hLRNe/svTiWVQN2NtuFObcxrI7RndRD9lZVxBmmOzFVGo3XvtbDfiI34ja2MTf6vYgN6KLmAqpAcr59laLkyB8kEDtCI90WU09z8ys/pbBaIPWWq4ueXewm5
+ lEE7OJ5ko2XDz1xkksNk+w0aIvfjltRmZuP6E1lQd8kEMhMWJJAszgDkEzo+rtrvb9h2OAJB4X8sVgdW0DGoWMY8YJFC5PYoVwkABrlMGirQb/F8mnfedVm1
+ nnJpO/lEQrJkUbNGA7HW4ZZAMqH58M6G4HeXsA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/01/2020 18:18:07+0200, Claudiu Beznea wrote:
-> Add documentation for SAM9X60-EK board.
+On 1/13/20 10:55 PM, Dafna Hirschfeld wrote:
+> vb2_queue_release is called from vimc_cap_unregister.
+> `vb2_queue_release` stops the streaming in case
+> streaming is on and therefore it should be synchronized
+> with other streaming ioctls using the vdev's lock.
+> Currently the call is not synchronized and this cause
+> race conditions.
 > 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> Using the following script:
+> 
+> while [ 1 ]; do
+> media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480],"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+> 
+> v4l2-ctl -d2 -v width=1920,height=1440
+> v4l2-ctl -d0 -v pixelformat=BA81
+> v4l2-ctl --stream-mmap -d /dev/video2 &
+> echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
+> echo -n vimc.0 >/sys/bus/platform/drivers/vimc/bind
+> done
+> 
+> The following crash appeared:
+> 
+> [  101.909376] BUG: kernel NULL pointer dereference, address: 0000000000000009
+> [  101.909661] #PF: supervisor read access in kernel mode
+> [  101.909835] #PF: error_code(0x0000) - not-present page
+> [  101.910048] PGD 0 P4D 0
+> [  101.910223] Oops: 0000 [#1] SMP NOPTI
+> [  101.910475] CPU: 0 PID: 1167 Comm: v4l2-ctl Not tainted 5.5.0-rc1+ #5
+> [  101.910716] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+> [  101.911294] RIP: 0010:vb2_vmalloc_put_userptr+0x15/0x90 [videobuf2_vmalloc]
+> [  101.911671] Code: 89 df 5b e9 0d e6 29 c6 0f 1f 00 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 41 55 41 54 55 48 89 fd 53 4c 8b 65 08 48 8b 3f <41> 80 7c 24 09 00 75 65 48 81 e7 00 f0 ff ff 45 8b 6c 24 04 75 44
+> [  101.912329] RSP: 0018:ffff9b0c42253df0 EFLAGS: 00000286
+> [  101.912557] RAX: ffffffffc03bc1a0 RBX: ffff9095b37e1400 RCX: 0000000000000001
+> [  101.912818] RDX: 0000000000000004 RSI: 0000000000000003 RDI: ffff9b0c4229d000
+> [  101.913088] RBP: ffff9095b37d1480 R08: 0000000000000000 R09: ffff9b0c42253db8
+> [  101.913352] R10: ffff9095b37df858 R11: ffff9095b3444b50 R12: 0000000000000000
+> [  101.913598] R13: ffff9095b371c5b8 R14: 0000000000000004 R15: 0000000000000000
+> [  101.913896] FS:  00007fe62d779240(0000) GS:ffff9095bfc00000(0000) knlGS:0000000000000000
+> [  101.914202] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  101.914418] CR2: 0000000000000009 CR3: 0000000233392000 CR4: 00000000000006f0
+> [  101.914738] Call Trace:
+> [  101.915604]  __vb2_queue_free+0xf8/0x210 [videobuf2_common]
+> [  101.915876]  vb2_core_queue_release+0x34/0x40 [videobuf2_common]
+> [  101.916086]  _vb2_fop_release+0x7d/0x90 [videobuf2_v4l2]
+> [  101.916307]  v4l2_release+0x9e/0xf0 [videodev]
+> [  101.916499]  __fput+0xb6/0x250
+> [  101.916688]  task_work_run+0x7e/0xa0
+> [  101.916842]  exit_to_usermode_loop+0xaa/0xb0
+> [  101.917018]  do_syscall_64+0x10b/0x160
+> [  101.917175]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [  101.917463] RIP: 0033:0x7fe62cf4c421
+> [  101.917575] Code: f7 d8 64 89 02 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 8b 05 ea cf 20 00 85 c0 75 16 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 3f f3 c3 0f 1f 44 00 00 53 89 fb 48 83 ec 10
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 > ---
->  Documentation/devicetree/bindings/arm/atmel-at91.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/media/platform/vimc/vimc-capture.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-Applied, thanks.
+> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> index c5a645f98c66..314fda6db112 100644
+> --- a/drivers/media/platform/vimc/vimc-capture.c
+> +++ b/drivers/media/platform/vimc/vimc-capture.c
+> @@ -339,7 +339,9 @@ void vimc_cap_unregister(struct vimc_ent_device *ved)
+>  	struct vimc_cap_device *vcap =
+>  		container_of(ved, struct vimc_cap_device, ved);
+>  
+> +	mutex_lock(&vcap->lock);
+>  	vb2_queue_release(&vcap->queue);
+> +	mutex_unlock(&vcap->lock);
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I wonder if the vb2_queue_release call is needed at all.
+
+What if you just delete it? When the filehandle is closed eventually, it will
+call vb2_queue_release as well.
+
+If you DO need to call this function here, then you indeed need to take the mutex.
+But I think it is a good idea to add a comment here as well to explain why you
+need to call vb2_queue_release().
+
+Regards,
+
+	Hans
+
+>  	video_unregister_device(&vcap->vdev);
+>  }
+>  
+> 
+
