@@ -2,74 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49CF513A003
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 04:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 182CD13A06C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 06:10:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729384AbgANDg3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 22:36:29 -0500
-Received: from mailgw02.mediatek.com ([1.203.163.81]:39764 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728802AbgANDg3 (ORCPT
+        id S1725994AbgANFKV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Jan 2020 00:10:21 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:60254 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbgANFKV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 22:36:29 -0500
-X-UUID: 4f42a4862b1b48f8958ddc645d1d2871-20200114
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=l1LB1RrzPHfxgwSbc7kiDcv5fjLNgTXp3z5W5A8tXfo=;
-        b=JtRWlBUjUQIdNpKiNDx2hsWyA8AHkZDV8bAX6XuvVKIsCOKQ3yEOPoJw9oGEmnIuOP2pVstWaSHkpYoya/jNqtEqgczp91I02utXVcB9kuppA367wpMK/otlBBLF/JwXGdcDn+zdX8KNh/LOLhJY0GxWctrqIXASVLk7UL7PkVU=;
-X-UUID: 4f42a4862b1b48f8958ddc645d1d2871-20200114
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <maoguang.meng@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 725869208; Tue, 14 Jan 2020 11:36:21 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 14 Jan 2020 11:35:08 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 14 Jan 2020 11:36:31 +0800
-From:   <maoguang.meng@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Maxime Ripard <mripard@kernel.org>, Sean Young <sean@mess.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Xia Jiang <xia.jiang@mediatek.com>
-Subject: media: platform: VIDEO_MEDIATEK_JPEG can also depend on MTK_IOMMU
-Date:   Tue, 14 Jan 2020 11:36:12 +0800
-Message-ID: <20200114033612.16904-1-maoguang.meng@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Tue, 14 Jan 2020 00:10:21 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00E53u6M065284;
+        Tue, 14 Jan 2020 05:10:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=t5sAJiY39rW/ek9JECHLXl/bJS25lwDROySS7gkpZgY=;
+ b=oSvYhbOn4Jg9so5RP4iJt5RjBZb1oE3B06FCvAsf+zps8OPjS3ZjkWKOMbKW4e3tQrvi
+ 8HUEQvjXjIEMzzSH9Zc+Pjt9AKt/6pESaJXqaBRZ7D5F25/qicSg7CwCZosG14ozXLoT
+ /8OEB64kxsG/dA+jqRc+ugx03MAnwZyK8eT5U3t/iTfTuesFhJlg3wz9fNIB0YyxyE4B
+ roMVh0ecyjD5agfQe4h6MOvqBj5c7M2T4UEWZQKB1cz7+nDDb6qlKcR9lLKPfbu0Ivdc
+ B9N/xn16AGPfmVxX5JkMNSm/8w8fV4CywTkS7KReUxZOLLxK2gqXBQZ1v8JoCtXbb6JV AA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 2xf73tkfd7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 14 Jan 2020 05:10:15 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00E53Ubm165187;
+        Tue, 14 Jan 2020 05:10:15 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2xh2tn2g1w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 14 Jan 2020 05:10:15 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00E5AEL0016746;
+        Tue, 14 Jan 2020 05:10:14 GMT
+Received: from kili.mountain (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 13 Jan 2020 21:10:13 -0800
+Date:   Tue, 14 Jan 2020 08:10:05 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Patrice Chotard <patrice.chotard@st.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: c8sectpfe: clean up some indenting
+Message-ID: <20200114051005.njxf5d6s6ycyxhfi@kili.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: D58AFFB3BD81A49B5EFA5B0B1DB085E38D02C470B92696A388E40B4F79B922552000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9499 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001140044
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9499 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001140044
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogTWFvZ3VhbmcgTWVuZyA8bWFvZ3VhbmcubWVuZ0BtZWRpYXRlay5jb20+DQoNCm1lZGlh
-dGVrIGpwZWcgdmNvZGVjIGRyaXZlciBjYW4gZGVwZW5kIG9uIE1US19JT01NVSBvciBNVEtfSU9N
-TVVfVjEuDQoNCg0KU2lnbmVkLW9mZi1ieTogTWFvZ3VhbmcgTWVuZyA8bWFvZ3VhbmcubWVuZ0Bt
-ZWRpYXRlay5jb20+DQotLS0NCiBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL0tjb25maWcgfCAyICst
-DQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL0tjb25maWcgYi9kcml2ZXJzL21lZGlhL3Bs
-YXRmb3JtL0tjb25maWcNCmluZGV4IGU4NGYzNWQzYTY4ZS4uODUzNzdjODhlOTFhIDEwMDY0NA0K
-LS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9LY29uZmlnDQorKysgYi9kcml2ZXJzL21lZGlh
-L3BsYXRmb3JtL0tjb25maWcNCkBAIC0yMDAsNyArMjAwLDcgQEAgY29uZmlnIFZJREVPX0lNWF9Q
-WFANCiANCiBjb25maWcgVklERU9fTUVESUFURUtfSlBFRw0KIAl0cmlzdGF0ZSAiTWVkaWF0ZWsg
-SlBFRyBDb2RlYyBkcml2ZXIiDQotCWRlcGVuZHMgb24gTVRLX0lPTU1VX1YxIHx8IENPTVBJTEVf
-VEVTVA0KKwlkZXBlbmRzIG9uIE1US19JT01NVV9WMSB8fCBNVEtfSU9NTVUgfHwgQ09NUElMRV9U
-RVNUDQogCWRlcGVuZHMgb24gVklERU9fREVWICYmIFZJREVPX1Y0TDINCiAJZGVwZW5kcyBvbiBB
-UkNIX01FRElBVEVLIHx8IENPTVBJTEVfVEVTVA0KIAlzZWxlY3QgVklERU9CVUYyX0RNQV9DT05U
-SUcNCi0tIA0KMi4xOC4wDQo=
+The "seg_num," line wasn't indented.  All the arguments can fit nicely
+on two lines.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+index 5baada4f65e5..d1518a6770fa 100644
+--- a/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
++++ b/drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c
+@@ -1034,9 +1034,8 @@ static void load_imem_segment(struct c8sectpfei *fei, Elf32_Phdr *phdr,
+ 
+ 	dev_dbg(fei->dev,
+ 		"Loading IMEM segment %d 0x%08x\n\t (0x%x bytes) -> 0x%p (0x%x bytes)\n",
+-seg_num,
+-		phdr->p_paddr, phdr->p_filesz,
+-		dest, phdr->p_memsz + phdr->p_memsz / 3);
++		seg_num, phdr->p_paddr, phdr->p_filesz, dest,
++		phdr->p_memsz + phdr->p_memsz / 3);
+ 
+ 	for (i = 0; i < phdr->p_filesz; i++) {
+ 
+-- 
+2.11.0
 
