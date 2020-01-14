@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CB2B139E56
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 01:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1A01139EAC
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2020 02:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728890AbgANAfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Jan 2020 19:35:07 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:32993 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728844AbgANAfH (ORCPT
+        id S1729163AbgANBAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Jan 2020 20:00:07 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38550 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728733AbgANBAH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Jan 2020 19:35:07 -0500
-Received: by mail-oi1-f195.google.com with SMTP id v140so10221042oie.0
-        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2020 16:35:07 -0800 (PST)
+        Mon, 13 Jan 2020 20:00:07 -0500
+Received: by mail-oi1-f194.google.com with SMTP id l9so10222754oii.5
+        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2020 17:00:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UiO2+Fp93HhiZmZTyPCKddyYzvj9rECWLiqMRlRa5BM=;
-        b=GrKLUadW4JSCIofbUA55Y95aqdHlTYKw6/iN9RK3+N5XOLt24Cf3cYiXKN4H+czMaq
-         Z7ykmJKFFuCF47r1y5JbWipVqvnj9BOL7ngGXVCc1XPdImzD+p661Yv/pEPputwSenE8
-         yR/C81x1YSxcVfPYmc6Gg3lChsWJTm4qHhjfR7KSAl8RF0WTxol6Uy/TysLn/5naCkVr
-         TOf7+7rbD8o4gWr5BYINtl/jYxiN97Pa6lFOqvlwO+SsZIXgCGzzWXk8Xvv9YuBAF51W
-         DFyl0qh75hMYX2RewKNThr32hO/41cBWcVOigaijRLDQ9DP7nqdlVdBogXx2VEGCtez4
-         41Cw==
-X-Gm-Message-State: APjAAAX2SLXi4rK9kaik8wq8N7/6Op+6V1h5y2HQR6faWC+y7xdolod+
-        qr9eFamcJJsKAx53H5kAXlJ/9UT8ew==
-X-Google-Smtp-Source: APXvYqxlgNOGYv/iHCKu1oKGq7fayZZR4A0dchaplNvnuedj01N0JsXOZ+JAmwhCj96BVKbyTYTosQ==
-X-Received: by 2002:aca:4ec3:: with SMTP id c186mr14444187oib.53.1578962106431;
-        Mon, 13 Jan 2020 16:35:06 -0800 (PST)
+        bh=+qSm233hBzLTG9G2DIy5d4ytValKHnVbjxr5pAXtlvA=;
+        b=OlqLXInLhA+JFLnOrrAN4fu7/fUt0e86m4v3fFLKsiKrHHztMcXPl098KuwezpS0tA
+         6wl14UzoZDKZ3/HcN7ZYmBysiHRLLmY8iD4CUxIZIx2pI7hSxCzKMbqNiTYV2ggbdGJk
+         J5Iwu2lL6cIcxrrEDZ6yxGk/HjlbqApOD7RV89pLtlXn0gXfaUrvo2sT6KzX8TRJdFwS
+         DspLgocc+NZWXs967l0Bgvd/rFY0HUKkS4bjPOTYqkwQzGLwr0KX6mPTd4G3CbLvrUnJ
+         7OyICEMzk/u4HqOfbloTy4/CHCjwaFDndi2VmlejnCRJw//aBV++jh5OO7riSI/F0Wia
+         CiYA==
+X-Gm-Message-State: APjAAAU8+zOs2yd+qgwAHIOpUD+nhKmXsZtPMbPwzQ6oZu0Vra50dYnH
+        my1hmQ5hyP/Q5tR4JhoH7b/hQKfSHA==
+X-Google-Smtp-Source: APXvYqwnA2vPMUqk3L+8uvPZd2atOiNLfYth0E+AHrPBTBH8xxYJQi7l+HfflROkhilTDLVNqzln2Q==
+X-Received: by 2002:aca:3cd7:: with SMTP id j206mr15426651oia.142.1578963606211;
+        Mon, 13 Jan 2020 17:00:06 -0800 (PST)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id k13sm4076583oig.24.2020.01.13.16.35.04
+        by smtp.gmail.com with ESMTPSA id y196sm4105281oie.1.2020.01.13.17.00.03
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2020 16:35:05 -0800 (PST)
+        Mon, 13 Jan 2020 17:00:03 -0800 (PST)
 Received: from rob (uid 1000)
         (envelope-from rob@rob-hp-laptop)
-        id 220b00
+        id 2219d1
         by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Mon, 13 Jan 2020 18:18:03 -0600
-Date:   Mon, 13 Jan 2020 18:18:03 -0600
+        Mon, 13 Jan 2020 18:21:19 -0600
+Date:   Mon, 13 Jan 2020 18:21:19 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Claudiu Beznea <claudiu.beznea@microchip.com>
 Cc:     robh+dt@kernel.org, mark.rutland@arm.com,
@@ -58,28 +58,39 @@ Cc:     robh+dt@kernel.org, mark.rutland@arm.com,
         linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-can@vger.kernel.org, linux-rtc@vger.kernel.org,
         Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: [PATCH v2 10/17] dt-bindings: atmel-smc: add
- microchip,sam9x60-smc
-Message-ID: <20200114001803.GA13249@bogus>
+Subject: Re: [PATCH v2 12/17] dt-bindings: atmel,at91rm9200-rtc: add
+ microchip,sam9x60-rtc
+Message-ID: <20200114002119.GA18003@bogus>
 References: <1578673089-3484-1-git-send-email-claudiu.beznea@microchip.com>
- <1578673089-3484-11-git-send-email-claudiu.beznea@microchip.com>
+ <1578673089-3484-13-git-send-email-claudiu.beznea@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1578673089-3484-11-git-send-email-claudiu.beznea@microchip.com>
+In-Reply-To: <1578673089-3484-13-git-send-email-claudiu.beznea@microchip.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 10 Jan 2020 18:18:02 +0200, Claudiu Beznea wrote:
-> Add microchip,sam9x60-smc to DT bindings documentation.
+On Fri, 10 Jan 2020 18:18:04 +0200, Claudiu Beznea wrote:
+> Add microchip,sam9x60-rtc to DT bindings documentation.
 > 
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
 > Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
 > ---
->  Documentation/devicetree/bindings/mfd/atmel-smc.txt | 1 +
->  1 file changed, 1 insertion(+)
+> 
+> Hi Alexandre,
+> 
+> I kept this patch as in v1 (same for patch
+> "dt-bindings: atmel-tcb: add microchip,sam9x60-tcb").
+> I'm waiting your response to this version and take an action aftewards.
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+>  Documentation/devicetree/bindings/rtc/atmel,at91rm9200-rtc.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
