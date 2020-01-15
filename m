@@ -2,117 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E82D013CB66
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A27613CB91
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 19:04:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728899AbgAORxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 12:53:15 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48957 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726418AbgAORxP (ORCPT
+        id S1729149AbgAOSDS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 13:03:18 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:36362 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726418AbgAOSDS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 12:53:15 -0500
-Received: from [192.168.2.10] ([62.249.185.68])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id rmqqiQLkqpLtbrmqtin4Fo; Wed, 15 Jan 2020 18:53:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579110792; bh=hNxUaL7qzAbbGfxi4mbhUyWhQYrK8rXKkLCy/OPiN5E=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=tH0R9p5DUUEsfFuKutnBv54Q41nNzswxDZ0tH6uVL8f1DqR7oE4klvpTjrhkBGgvx
-         yAnfaKs4IRsnIbVDrMhZMfQ/X6QyuXY6CjAMoapdm/HhbTPMhLIp/gBHTZ7DwNQ2Qh
-         KJ66Hr0RG8SAMK8oZ/SNiqy0sUiFGCHaTwG/z7K6We32TC+C77Lp6Swi9RCvQb3kN7
-         QLWE0tZMvUX5guYbWMMYK0fXczQlUaTfTAT3TsO/2gfT/vYp8FCl8/C9eHkHLjFp1b
-         oBrk8eqs6LeQ3th52ONZ9qCpWLivfkHg2PH5LBFZdokmkPExPDSNn3jfPxerHUh0Rc
-         Hm3wziH4Y1lMg==
-Subject: Re: [PATCH v3 RESEND] media: vimc: fla: Add virtual flash subdevice
-To:     =?UTF-8?Q?Lucas_A=2e_M=2e_Magalh=c3=a3es?= <lucmaga@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, helen.koike@collabora.com,
-        edusbarretto@gmail.com, lkcamp@lists.libreplanetbr.org
-References: <20191203230148.2442-1-lucmaga@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <96e82f03-99a0-ad24-4145-242c16eacdc4@xs4all.nl>
-Date:   Wed, 15 Jan 2020 18:53:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 15 Jan 2020 13:03:18 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00FHwkeD062666;
+        Wed, 15 Jan 2020 18:02:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=lxeza2C4xQinNBLY8Tn9KuOSwJaqPtPyPnh2SkUU/nw=;
+ b=X6IDYVjxu8uhIlS1dYiBrx7JAbPBXfUwhdaDjmMiqvC4IHCpqXcfUYft2qzrnghqq++g
+ 7HidjRwkKv15dYID4E7SE9GFuqKKxVmHBZKdrHDv767X8qAIxtqyIqP3fH+LmbdtjnoA
+ 3FgTaiHvap7zgWVSWOypboA5Yzf8/d+fAR/dcbu9A9ioGEmUKZ0EfOpdTUq++laMXMCL
+ 0KpxzCoH5H7gR8zZsVR3ZE++4VvReQ5bs46rVpiiWfnvfLL7MasWohBus/lAhCcCa0JK
+ d58naJorccT/fyf1FeVTd3VNW57HOM7qQ+qPFhR3jq7CXeEosPzopQWpmysLlltQ1ObG TQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 2xf73twpp5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 Jan 2020 18:02:50 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00FHxDgx048148;
+        Wed, 15 Jan 2020 18:00:49 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 2xj1prkdg6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 15 Jan 2020 18:00:49 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00FI0cl2026518;
+        Wed, 15 Jan 2020 18:00:39 GMT
+Received: from kadam (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 15 Jan 2020 10:00:38 -0800
+Date:   Wed, 15 Jan 2020 21:01:17 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Sean Young <sean@mess.org>
+Cc:     Phong Tran <tranmanphong@gmail.com>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, allison@lohutok.net,
+        tglx@linutronix.de,
+        syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        glider@google.com, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] media: dvb: check return value digitv_ctrl_msg
+Message-ID: <20200115180116.GA21151@kadam>
+References: <0000000000004f3d820596d8c51c@google.com>
+ <20191203004138.21223-1-tranmanphong@gmail.com>
+ <20200115173226.GA24471@gofer.mess.org>
 MIME-Version: 1.0
-In-Reply-To: <20191203230148.2442-1-lucmaga@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfL3cRDZoxzH9C9M/9R7ddw48BKz64K5U4S34bocYWBdTttlSkFZgyKmLpfw23j7TVs/KPjB4HoQNYvewDaxhoiaXUV/uqPFf+jZM/MdjS3MPy2dzvpFJ
- pK9YdxbegXgWt/mis+LwJSb9MvPeBWAa9nKLXCNQ+8MsBLLucEdsCV3894xU874JPOgJ+4mTefb9/66MvYFvoh4aAmoSewIwqAv5FfTkyHMUkEDxJKuslpm4
- DfP3HuVA6G8xtYpDJLgXiY561A51NUVpqxZf47UzYfqQEfE3Mndcqr2rB7l4HHZdcGK8WxQrvMy+efQPh8JhJqhRgJuxs2JJzUJVj2vkISj/Kl6Bn4+/ZIF5
- 7VY2sJWQj5x1HhqcZmljTHkmPmYgfg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200115173226.GA24471@gofer.mess.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9501 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001150138
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9501 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001150138
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lucas,
-
-On 12/4/19 12:01 AM, Lucas A. M. Magalhães wrote:
-> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
+On Wed, Jan 15, 2020 at 05:32:26PM +0000, Sean Young wrote:
+> Hello,
 > 
-> Add a virtual subdevice to simulate the flash control API.
-> Those are the supported controls:
-> v4l2-ctl -d /dev/v4l-subdev6 -L
-> Flash Controls
+> On Tue, Dec 03, 2019 at 07:41:38AM +0700, Phong Tran wrote:
+> > For fixing syzbot "KMSAN: uninit-value in digitv_rc_query"
+> > 
+> > In scenario testing for syzbot, failure reading from
+> > digitv_ctrl_msg() [1].
+> > 
+> > Eg:
+> > [   91.846657][ T3844] dvb-usb: bulk message failed: -22 (7/0)
+> > 
+> > digitv_rc_query() always return 0. But in this case a wrong thing happens.
+> > 
+> > Reported-by: syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com
+> > Tested-by: syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com
 > 
->                        led_mode 0x009c0901 (menu)   : min=0 max=2 default=1 value=1
->                                 0: Off
->                                 1: Flash
->                                 2: Torch
->                   strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
->                                 0: Software
->                                 1: External
->                          strobe 0x009c0903 (button) : flags=write-only, execute-on-write
->                     stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
->                   strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
->                  strobe_timeout 0x009c0906 (int)    : min=50 max=400 step=50 default=50 value=400
->            intensity_flash_mode 0x009c0907 (int)    : min=23040 max=1499600 step=11718 default=23040 value=23040
->            intensity_torch_mode 0x009c0908 (int)    : min=2530 max=187100 step=1460 default=2530 value=2530
->             intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=0 value=0
->                          faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
+> A fix for this was already merged I'm afraid, see commit eecc70d22ae5
+> ("media: digitv: don't continue if remote control state can't be read").
 > 
-> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
-> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
-> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
+> > [1]: https://syzkaller.appspot.com/text?tag=CrashLog&x=16860a63600000
+> > [2]: https://groups.google.com/d/msg/syzkaller-bugs/-TXIJAZ0J9Q/T4PEUQoeAQAJ
+> > 
+> > Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+> > ---
+> >  drivers/media/usb/dvb-usb/digitv.c | 12 ++++++++----
+> >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/usb/dvb-usb/digitv.c b/drivers/media/usb/dvb-usb/digitv.c
+> > index dd5bb230cec1..61bc8945e6b9 100644
+> > --- a/drivers/media/usb/dvb-usb/digitv.c
+> > +++ b/drivers/media/usb/dvb-usb/digitv.c
+> > @@ -231,17 +231,21 @@ static struct rc_map_table rc_map_digitv_table[] = {
+> >  static int digitv_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
+> >  {
+> >  	int i;
+> > -	u8 key[5];
+> > +	u8 key[5] = { 0 };
 > 
-> ---
-> Hi,
+> The merged commit does not change this line. Why was this changed?
 > 
-> I've copied some values from another driver (lm3646) to make it more
-> realistic, as suggested by Hans. All values except for
-> V4L2_CID_FLASH_INDICATOR_INTENSITY, which I couldn't find any
-> implementation.
-> 
-> The v4l-compliance is failing. From the documentation
-> V4L2_CID_FLASH_STROBE should just work if the
-> V4L2_CID_FLASH_STROBE_SOURCE is "Software" and the
-> V4L2_CID_FLASH_LED_MODE is "Flash", otherwise it should fail. With the
-> standard values configured for the V4L2_CID_FLASH_STROBE will not fail.
-> But during the tests v4l-compliance sets V4L2_CID_FLASH_LED_MODE to
-> "Torch" and V4L2_CID_FLASH_STROBE_SOURCE to "External" which makes
-> V4L2_CID_FLASH_STROBE to fail. How do I proceed? Should the
-> v4l-compliance be changed?
 
-I completely missed this question, my apologies.
+It would fix the problem that key[0] is never initialized...  But the
+correct fix is to make key 4 elements long and delete key[0].
 
-The best way is to set the flash_strobe control V4L2_CTRL_FLAG_GRABBED whenever
-this control is invalid. I'd also return EBUSY instead of EINVAL in
-'case V4L2_CID_FLASH_STROBE:' for consistency with the GRABBED behavior.
+regards,
+dan carpenter
 
-v4l2-compliance will probably still fail since it doesn't check this flag
-when testing S_CTRL/S_EXT_CTRLS, that should be added: in testSimpleControls()
-it should check that the return value of S_CTRL is EBUSY if GRABBED was set.
-In testExtendedControls() it should do the same when it tests VIDIOC_S_EXT_CTRLS
-for a single control. And in the later test where it sets all controls in a single
-VIDIOC_S_EXT_CTRL ioctl it should skip any controls marked GRABBED.
-
-I think that's a reasonable approach.
-
-Regards,
-
-	Hans
