@@ -2,100 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2315313CA4C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EABD813CAF8
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:28:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728913AbgAORGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 12:06:39 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:58071 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726587AbgAORGi (ORCPT
+        id S1728949AbgAOR2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 12:28:42 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58336 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726778AbgAOR2l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 12:06:38 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1irm7b-0000Jl-E9; Wed, 15 Jan 2020 18:06:23 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1irm7Z-0005PA-37; Wed, 15 Jan 2020 18:06:21 +0100
-Date:   Wed, 15 Jan 2020 18:06:21 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v11 04/15] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20200115170621.jszy2p3e4w3b3hpn@pengutronix.de>
-References: <20190930093900.16524-1-m.felsch@pengutronix.de>
- <20190930093900.16524-5-m.felsch@pengutronix.de>
- <20191115233439.GB2696@mara.localdomain>
+        Wed, 15 Jan 2020 12:28:41 -0500
+Received: from pendragon.ideasonboard.com (85-76-106-26-nat.elisa-mobile.fi [85.76.106.26])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BAC62BA;
+        Wed, 15 Jan 2020 18:28:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1579109319;
+        bh=GTgiNckxVZKqQw4JXS+z539Vsk6pXreiOLeWxF8/ceY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SdVmbgcjhqKpJ6Wp78xWcDXte9rFyELUrb4onsnKzjwGOxjSb7NdZ3JO8pgAC+UR4
+         lkH+/JafgnTAVEJLgfP6tAsR8l/X2R9Fj93XpskQSZYhqmL/xpJsuPwW3wzRManz+R
+         yKMhx+dbsUoHh8vfVPbJgYMEiLuvhOciARjT4tLw=
+Date:   Wed, 15 Jan 2020 19:28:22 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
+Cc:     mchehab@kernel.org, hyun.kwon@xilinx.com, vkoul@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        michal.simek@xilinx.com, linux-arm-kernel@lists.infradead.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v2] media: xilinx: Use dma_request_chan() instead
+ dma_request_slave_channel()
+Message-ID: <20200115172822.GB7139@pendragon.ideasonboard.com>
+References: <20200110071648.15690-1-peter.ujfalusi@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191115233439.GB2696@mara.localdomain>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 17:35:42 up 61 days,  7:54, 54 users,  load average: 0.00, 0.01,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20200110071648.15690-1-peter.ujfalusi@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Peter,
 
-On 19-11-16 01:34, Sakari Ailus wrote:
-> Hi Marco,
+(CC'ing Hans)
+
+Thank you for the patch.
+
+On Fri, Jan 10, 2020 at 09:16:48AM +0200, Peter Ujfalusi wrote:
+> dma_request_slave_channel() is a wrapper on top of dma_request_chan()
+> eating up the error code.
 > 
-> On Mon, Sep 30, 2019 at 11:38:49AM +0200, Marco Felsch wrote:
+> By using dma_request_chan() directly the driver can support deferred
+> probing against DMA.
+> 
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 
-...
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Let me sum up our irc discussion about that kAPI.
+and taken in my tree. Hans, you asked me on IRC to review this, did you
+plan to get it merged upstream yourself ? If so I'll drop it.
 
-Our starting point is a fwnode based subdev which has connectors in
-front of there pins. Connectors are used to limit the subdev to some
-device limits e.g. if the device support only PAL-Input streams and the
-subdev has an buggy autodetect mechanism. In that case the connector can
-be used by the subdev to set the possible TV-Norms to PAL. Currently the
-tvp5150 is the only fwnode based subdev implementing connectors.
+> ---
+> Hi,
+> 
+> Changes since v1:
+> - Fix cleanup path when DMA request failed as suggested by Laurent
+> - Print error only in case when the error is not EPROBE_DEFER
+> 
+>  drivers/media/platform/xilinx/xilinx-dma.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
+> index b211380a11f2..3bb54a4db6a4 100644
+> --- a/drivers/media/platform/xilinx/xilinx-dma.c
+> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
+> @@ -725,10 +725,11 @@ int xvip_dma_init(struct xvip_composite_device *xdev, struct xvip_dma *dma,
+>  
+>  	/* ... and the DMA channel. */
+>  	snprintf(name, sizeof(name), "port%u", port);
+> -	dma->dma = dma_request_slave_channel(dma->xdev->dev, name);
+> -	if (dma->dma == NULL) {
+> -		dev_err(dma->xdev->dev, "no VDMA channel found\n");
+> -		ret = -ENODEV;
+> +	dma->dma = dma_request_chan(dma->xdev->dev, name);
+> +	if (IS_ERR(dma->dma)) {
+> +		ret = PTR_ERR(dma->dma);
+> +		if (ret != -EPROBE_DEFER)
+> +			dev_err(dma->xdev->dev, "no VDMA channel found\n");
+>  		goto error;
+>  	}
+>  
+> @@ -752,7 +753,7 @@ void xvip_dma_cleanup(struct xvip_dma *dma)
+>  	if (video_is_registered(&dma->video))
+>  		video_unregister_device(&dma->video);
+>  
+> -	if (dma->dma)
+> +	if (!IS_ERR_OR_NULL(dma->dma))
+>  		dma_release_channel(dma->dma);
+>  
+>  	media_entity_cleanup(&dma->video.entity);
 
-Connectors have common and connector specific properties. All current
-provided connectors can be found here:
-Documentation/devicetree/bindings/display/connector/ .
-
-Parsing the properties is common to all _upcoming_ fwnode based subdevs
-so this should be done within the core. So lets move on to the parsing
-helper.
-
-> > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > +				      struct v4l2_fwnode_connector *connector)
-> > +{
-
-This kAPI seems to fit all current use cases. The API is not responsible
-to alloc the 'struct v4l2_fwnode_connector' instead it is only used to
-fill this struct. The given 'struct fwnode_handle' should be the subdev
-local ep-fwnode because the user already has a reference to this ep.
-
-This helper has two use-cases:
-  1) Parsing the connector properties and add the initial (1st) link.
-  2) Add further n-links upon n-calls to an already parsed connector.
-
-Going this way we need to ensure that the caller init the 'struct
-v4l2_fwnode_connector' to '0' before call this helper. This can be
-documented within the kAPI doc.
-
+-- 
 Regards,
-  Marco
+
+Laurent Pinchart
