@@ -2,52 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D162013BB76
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 09:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED3DA13BB7B
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 09:49:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729012AbgAOIpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 03:45:21 -0500
-Received: from mail-eopbgr1300132.outbound.protection.outlook.com ([40.107.130.132]:36192
-        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        id S1728986AbgAOItY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 03:49:24 -0500
+Received: from mail-eopbgr1310120.outbound.protection.outlook.com ([40.107.131.120]:18466
+        "EHLO APC01-SG2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726472AbgAOIpU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 03:45:20 -0500
+        id S1726472AbgAOItY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Jan 2020 03:49:24 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nAJw23mFa4FDRY6g+FqvByTqd1DabPGZyxtes4iHAl3BgFYM7lSL3EjEJSK8pMgnlFqCkO1przL3C6SWrEsSjcCIyipAJAc8fHXIfZgusu7cYfvw05D5nWzf1YRDQV4H7xz3DK1j7Hkc0v/xS6vEsGs56qnNy1JFGxlq/x2Qr3N4JTgeM5d+9WzjZ1sPfzwjZMJMDBs2hivpFafSXVJeWYFsdwz2xb4fo/dTExXt/FoBi8zkbT4QS1C13u6Wfnzjdjf5Hk6VIP9pnFwuxFyZ61ObWkz8amSMP0AJpAb5xiZspFVGYobeuTD8KnYIBpM/ZybnQ+T/zEsNe0CJvJKYQA==
+ b=lV2SwOC2sFE7EJp9LYFH3E6pgqEjaw1iDoOqUA4pkxgAqniyqff0tGEwstabAvNRwbDAQk/MLYFc7ktb9EDaFnybstmlTFzp15gz9hJn3zc3iPH/amms4HQ6OW458e7IOYI2M/FDl83qhnmQInaQErkxgOis4W4FbNQ4HOjtaVDRJLvBK0L21LrUBF0Qlzjk4pPwZd5GE8C5fbWNEIxp2Qiyujkcrt2DtAn/L8yq6MvBYHlE9gdnrCIsUdBoO7qF3G1/NPtft1ZAvGldw3Ygk96fPkvsF2CtB9FuLmV0hfGkVOfYHb6neOlPDEk4ZT/xCOQ7kQgwin7bH5UHFA9qxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dDveEVqv8BPgWycfFR0l5krCr2wgDaHJ/JB4X8mgO9E=;
- b=ApDMyIvjerYARwuprD9OGciPrBDO/hGyW8scqNE2ZVSp+ciHSouPW2aR/rxqtDrIt1NxN8F+LAIrEokysm85vStK1SgQx7KfFwPxeD60XaMFz1xFlmekhAz2VER6K80VEP9pgnP3aDz/1A9CrS6pVdd9sg1RGF5AJKIg7Z5By2J9eNnr1y0n4gtQE/MobNYX3SCKDniUnFehtOBqd+0Sjpdt8angJTgN2T6225qSOXC0LTJQC3YKkR8nIeIcSQIq11v3VyyLURB1B1VOq3xcP8QebGzb2Or8hCVNgbuyFWasCjFMdWIdnQVDPXCC69Eu2zLDJxl+wkMdIzTOzbLCRg==
+ bh=O98HRAI8i8RzaYpGn5xVKH09lOmjq5t+nwkdrX/RBxQ=;
+ b=DKIqepZxPwUq+Kw970BiHySe3tuNs0og/AKhWczm74LI9cPhhVI7HXiw7yH4M7+U+GLSP95ygsnMpjoN1InWWVGHQj+slLQSEb5twV2HtCxv8sP90cjblWbLNyPZOAkJPsBdwuzPlgvqqtAZB4hdXkD9g7QlDLLmxkafYX2NAFhJsyk6mlCSFM21qHaYnO3P+A9sg1sCQoEdZKv7zmnzDHUJl5WSYfWJdh1ke3jykO8YJ32BVrhJ1nE3wOT56zLy3FXdPruvzqMlWtFclM8xHHQ9wCRHKVgcE8nVEpfPvMALNdyrSC4RAJx+UGJ1VfBfVxlT5LlakZ/mmgU+mObFKQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=tataelxsi.co.in; dmarc=pass action=none
  header.from=tataelxsi.co.in; dkim=pass header.d=tataelxsi.co.in; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tataelxsi.co.in;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dDveEVqv8BPgWycfFR0l5krCr2wgDaHJ/JB4X8mgO9E=;
- b=DGxjrLyxcafHUfF6CZszZWo4FkjEVI2FU8c/Lt+1qdnuvNVfhW1lHlrV2MxpNYEJ1yBubK8zR91aNKzH/Bw9TbyBpZE16je2Q7bBgXrPSE3SvrfuH8Y+xulb1C8CGqRnZxqDz8CHcFczlaULMvpBRf4aTujvsLl1s3dnGlgZw1A=
+ bh=O98HRAI8i8RzaYpGn5xVKH09lOmjq5t+nwkdrX/RBxQ=;
+ b=VQ+s3dqr1eod3R9UGIEKpc5aDeQYO0s8RNTf8LWFogajlEz2nfd1Rs4IgaURSSiWZGMGFZrkE+33hlNaDriFpjn5Xqzjvruc0/MEQ7TFSHG5oLND1ZikNOnyCRyaWQq4Qn0gaT4ADLpgU/4Lg6StUax9jRZjaXPaNtJZc8LD8PE=
 Received: from SG2PR04MB3221.apcprd04.prod.outlook.com (20.177.90.144) by
- SG2PR04MB2332.apcprd04.prod.outlook.com (20.177.1.11) with Microsoft SMTP
+ SG2PR04MB3627.apcprd04.prod.outlook.com (20.178.157.76) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.19; Wed, 15 Jan 2020 08:45:10 +0000
+ 15.20.2623.9; Wed, 15 Jan 2020 08:49:14 +0000
 Received: from SG2PR04MB3221.apcprd04.prod.outlook.com
  ([fe80::5cb3:6ecd:4f54:8e1e]) by SG2PR04MB3221.apcprd04.prod.outlook.com
  ([fe80::5cb3:6ecd:4f54:8e1e%7]) with mapi id 15.20.2623.017; Wed, 15 Jan 2020
- 08:45:10 +0000
+ 08:49:14 +0000
 From:   Anjali S S <anjali.ss@tataelxsi.co.in>
-To:     "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+To:     Stuvart S <lovelinuxdeeply@gmail.com>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Vladimir Barinov <vladimir.barinov@cogentembedded.com>" 
-        <vladimir.barinov@cogentembedded.com>,
-        "Laurent Pinchart <laurent.pinchart@ideasonboard.com>" 
-        <laurent.pinchart@ideasonboard.com>,
-        "Stuvart S <lovelinuxdeeply@gmail.com>" <lovelinuxdeeply@gmail.com>
-Subject: RE: TI Deserializer DT node configuration
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vladimir Barinov <vladimir.barinov@cogentembedded.com>
+Subject: Re: TI Deserializer DT node configuration
 Thread-Topic: TI Deserializer DT node configuration
-Thread-Index: AQHVx3YY/koiNSMo20q3GEPjGbTF+6frcCPR
-Date:   Wed, 15 Jan 2020 08:45:10 +0000
-Message-ID: <SG2PR04MB32218D2E1D82311E78AE892EB5370@SG2PR04MB3221.apcprd04.prod.outlook.com>
+Thread-Index: AQHVx3YY/koiNSMo20q3GEPjGbTF+6frcZok
+Date:   Wed, 15 Jan 2020 08:49:14 +0000
+Message-ID: <SG2PR04MB3221ECE519A6B032814361A4B5370@SG2PR04MB3221.apcprd04.prod.outlook.com>
 References: <CAAMGra5wp8o3DAFQdYk3Ky2oaWaNcX-o4gejW7jro5Rm1pkVug@mail.gmail.com>
  <42a4508d-c199-4ab0-0c62-7387be3b8d55@ideasonboard.com>
  <CAAMGra4cq+hsVcG2A_-WBDiDzkBc+1t8JjEJEhXd8RJb6ocqiw@mail.gmail.com>,<CAAMGra7AVGYSHcqJ1sW30H9ChiSRQq4Tfpx2yfBUkrF4Qf6mEQ@mail.gmail.com>
@@ -61,42 +59,40 @@ authentication-results: spf=none (sender IP is )
 x-originating-ip: [121.244.192.66]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 411808fa-247e-45e7-c0f4-08d799973b44
-x-ms-traffictypediagnostic: SG2PR04MB2332:
-x-microsoft-antispam-prvs: <SG2PR04MB2332D66BB5E05414211473C4B5370@SG2PR04MB2332.apcprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-office365-filtering-correlation-id: d9fc62a2-b70e-460a-503a-08d79997cc96
+x-ms-traffictypediagnostic: SG2PR04MB3627:
+x-microsoft-antispam-prvs: <SG2PR04MB362767F88576AA26749D566FB5370@SG2PR04MB3627.apcprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-forefront-prvs: 02830F0362
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(39850400004)(376002)(396003)(346002)(366004)(189003)(199004)(88996005)(8676002)(81166006)(71200400001)(66446008)(5660300002)(66556008)(81156014)(64756008)(66946007)(66476007)(7696005)(8936002)(478600001)(2906002)(186003)(6506007)(55016002)(110136005)(9686003)(26005)(53546011)(52536014)(33656002)(86362001)(316002);DIR:OUT;SFP:1102;SCL:1;SRVR:SG2PR04MB2332;H:SG2PR04MB3221.apcprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:3;A:0;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(39850400004)(136003)(376002)(396003)(366004)(199004)(189003)(186003)(5660300002)(86362001)(52536014)(81156014)(9686003)(110136005)(8676002)(81166006)(2906002)(316002)(8936002)(478600001)(66946007)(7696005)(66476007)(53546011)(71200400001)(66556008)(66446008)(64756008)(6506007)(26005)(91956017)(33656002)(55016002)(76116006);DIR:OUT;SFP:1102;SCL:1;SRVR:SG2PR04MB3627;H:SG2PR04MB3221.apcprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
 received-spf: None (protection.outlook.com: tataelxsi.co.in does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: n7gDxnBFG3LEc23CMNaidYwOew2JU9Cw88w/neo81enezeuX4iRGhVSDSBRSAnPg8TcMyw/x1iUVvxLYuf8Qibdg8Y8dbvGqRj1e2xIMbIpRFjA+6SXM9f3VjFW5vCV69bG5LoWczuzpaVgY6bv4/7cyK3IFv1V4Hdyd+l0NJrZRO8yR9FBy4LSuvP0aahPNUF7+YdueLFNfIpKtBgrYF45ZMPy5NiC2L03DV/x2Vcj2TelV0lg+c2QLqY5mA/Ehf3rEDzimA3QDB4Lb+yUUXvICXOYlQ/L04d9WXS9tBEm12WIyCC8mZyMxuwFDBYTe9qfXWj05YonF3IWkXkWraYrzaBoYWcmYa9GSHOpeQX6IH3y/uJzteZkDs6L6QXUtSY2ScC5LzPS7+KbNayUYzV97fteFc+7DmZ4paAu2hFrYLdE7U+OFw2SvaWMlJKyF
+x-microsoft-antispam-message-info: XUf1EEIts2YOGbmDcCIPkTKOkiTW3it93gYu6uql7WNYXjKg7N6fvWgoMWPgG9YqZ7aJkt21h49OuIPxHnAJMcm9ZHozIXFF/hAMeKRE69s1otHSyOU1f/LE4mYBoHp+IYaaYaDXJClQupgGEe45WCfbLBT+pJ8m/SWkCZNEYPS5A15Y2N8L5B2n8HBlrj407LJRzVcZcvcn0OvT1sTRDF1SgGRxZdFz2gWMWTJNvZrcnTb6gtgQD6wtNKxVQqo89eUTzlqvIpJKru3Qlj24yqQZNKalZKP917tVABF5QpglrjTJKoAOPQLmDAdzWVcnzizhPwlI21J2IGdmWx1NIa+cjBXlzBvf20Vh64WYnwNHME494FEnCrFoYyxTmoiJyASMeEPoryO0IqeOH+kVlqmYCIN/AiwYSTm8gehGMtRG7gJIm6LgRFYBduQskfm4
 x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: tataelxsi.co.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: 411808fa-247e-45e7-c0f4-08d799973b44
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2020 08:45:10.8488
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9fc62a2-b70e-460a-503a-08d79997cc96
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2020 08:49:14.6839
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: ad6a39dd-96b6-4368-82da-f2ec4d92e26a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ScCse0Ka0TqfPds665orDZotrX38Uz6GEwQOrqjiMOvKjixO5uQQP2kgQ0vIT/NEAPBBcv7NuFAUB29oifn515WojA6SiP7mRlt+ILlxpco=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR04MB2332
+X-MS-Exchange-CrossTenant-userprincipalname: VhRWKY/NPJ01l0nikKpn/gY+lX8aK/wUkH3exUudoM63/tB+XUfQvfZxJEydWNYl/0XBWgKAiWA1PsGSu4h7WG8IfCwmvEQ/t9WSkk7z0zM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR04MB3627
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Stuvart,
-
 Thank you for mentioning me.
 
-Hi Team and Barinov,
-
-Sorry for the late response. Updating the progess of our work.
+Hi Team , Barinov,
+Sorry for the late response. Updating the progress of our work.
 PFB the current status and also the customized devicetree.
 
 root@Alpha:~i2cdetect -y -r 6
@@ -249,120 +245,238 @@ Any suggestion is much more appreciated
 Regards,
 Anjali S S
 
-From: Stuvart S
-Sent: 10 January 2020 10:53
-To: kieran.bingham@ideasonboard.com; linux-media@vger.kernel.org
-Cc: Laurent Pinchart; Vladimir Barinov; Anjali S S
+
+
+
+
+
+From: Stuvart S <lovelinuxdeeply@gmail.com>
+
+Sent: Friday, January 10, 2020 10:53 AM
+
+To: kieran.bingham@ideasonboard.com <kieran.bingham@ideasonboard.com>; linu=
+x-media@vger.kernel.org <linux-media@vger.kernel.org>
+
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Vladimir Barinov =
+<vladimir.barinov@cogentembedded.com>; Anjali S S <anjali.ss@tataelxsi.co.i=
+n>
+
 Subject: Re: TI Deserializer DT node configuration
 
 
-**This is an external email. Please check the sender's full email address (=
-not just the sender name) and exercise caution before you respond or click =
-any embedded link/attachment.**
+
+
+
+
+**This is an external email. Please check the sender=92s full email address=
+ (not just the sender name) and exercise caution before
+ you respond or click any embedded link/attachment.**
+
+
 
 Hello team,
+
+
+
 
 Sorry for the long delay happend.Actually I am in the work bench for the la=
 st few weeks.We have made some progress on this.Now,Deserializer,serializer=
 ,Cameras all are detected
 
+
+
 We are following Barinov's approach who is CC ed here with.Also since I am =
 little busy with some other task,I have included my colleague Anjali in thi=
 s mail chain.She can share the latest log and update the progress.
 
+
+
 Thank you guys in advance.
+
+
+
 
 On Tue, 26 Nov, 2019, 11:24 PM Stuvart S, <lovelinuxdeeply@gmail.com> wrote=
 :
+
+
+
 Hi kieran,
+
 > Do you need assistance on this topic in the shorter term to get a functio=
 nal system?
 
+
+
 yea I need and will be in touch with you for the further assistance
+
+
 
 Regards
 
+
+
 On Tue, 26 Nov 2019 at 22:22, Kieran Bingham
+
 <kieran.bingham@ideasonboard.com> wrote:
+
 >
+
 > Hi Stuvart,
+
 >
+
 > On 26/11/2019 15:55, Stuvart S wrote:
+
 > > Hello team,
+
 > >
+
 > > I am integrating DS90UB964 deserializer into my custom board based on
+
 > > Rcar H3 Salvator XS. Deserializer is connected in i2c6.Also I have my
+
 > > four serializers as DS90UB913 and cameras OV10635.
+
 >
+
 > This sounds like an interesting project.
+
 >
+
 > Our team maintains the RCar H3 multimedia drivers on behalf of Renesas,
+
 > and we have an equivalent system based upon the GMSL (Maxim)
+
 > (de-)serialisers which we have been developing for Renesas.
+
 >
+
 > Can you expand on your use case at all?
+
 >
+
 > Are you creating a product for automotive use cases?
+
 > Or is this something more specific?
+
 >
+
 > Have you selected existing camera modules, or are they also custom design=
 ed?
+
 >
+
 > > Can any one please help with the following?
+
 > >
+
 > > How Deserializer connects to Serializer in DT node?I came accross
+
 > > about the terms remote i2c, i2c-mux,i2c-atr.but I dont understand.I am
+
 > > not using any i2c switches.
+
 >
+
 > The serializer and deserializer usually use I2C as the means of
+
 > programming their registers.
+
 >
+
 > You mention that your deserializer is connected on i2c6, this will allow
+
 > communication with the cameras through the deserializer, and serializer
+
 > on a reverse-channel path over I2C. (The cameras are the "remote i2c"
+
 > devices)
+
 >
+
 > With multiple cameras connected to a single interface chip, which
+
 > bridges the I2C channel, means that in effect, the deserializer acts as
+
 > an i2c-mux.
+
 >
+
 > The term i2c-atr is in regards to needing address translation, as each
+
 > camera will be available with identical addressing, whilst logically
+
 > connected to the same bus.
+
 >
+
 >
+
 > > Any DT example is helpful for me
+
 >
+
 > This topic requires support in linux-media/V4L2 which is not currently
+
 > upstreamed.
+
 >
+
 > Any example is dependant upon the code you are basing your development
+
 > on. Have you taken any development branch as an example starting point?
+
 > Or are you using the BSP from Renesas?
+
 >
+
 > Myself, and the rest of our team have been developing support for
+
 > multiplexed streams over CSI2, and working towards getting an upstream
+
 > compatible solution, though it will take some time to get a result
+
 > integrated into the upstream linux tree.
+
 >
+
 > Do you need assistance on this topic in the shorter term to get a
+
 > functional system? If so I believe we could be of some help with our
+
 > specific experience and expertise in this topic.
+
 >
+
 > --
+
 > Regards
+
 > --
+
 > Kieran
 
 
 
+
+
+
+
 --
+
                         --- Come    Let's enjoy the world of Open Source  -=
 --
 
 
+
+
+
 Best regards,
+
 Stuvart
+
+
 
 ________________________________
  Disclaimer: This email and any files transmitted with it are confidential =
