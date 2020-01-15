@@ -2,66 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD80613CB11
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:33:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F39BD13CB4A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:45:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgAORc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 12:32:59 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:33937 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726418AbgAORc7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 12:32:59 -0500
-Received: from [192.168.2.10] ([62.249.185.68])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id rmXGiQF5xpLtbrmXJin0xF; Wed, 15 Jan 2020 18:32:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579109577; bh=cD6Vr63GioPyEPPlQ9EkTw/mXyOYF4Qzm0PZ3Y6W010=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=WYB9UyXFf/0887E6fSV8qZf8C9a7kI2akBW5SjyhnvPQOifzH0UlElwR0lyQHngUg
-         TiD7SJOLmUHBuxBaoxTbis2qGFb8JrVleyzHi6X483cEII5KDUnm4qiukBPVJBmu4Z
-         +FWHEUcmPPHcdzvqF3xlA01LhP0M7tzesqWOVJvmmUswrlVL2Vo/LIEkb40QTgubab
-         aQFosw7IvjnfDDRMIFI3JQ9hEPXobn7Z39Bsth+Fg3W0fMTqDe/iY7ICSXDldpMvWM
-         nJvI0lNLPcp655R0exH0jAWmBDCRlOF8YLMxGBGFYIZMTqxZ8Ue3LzdR3QP7+O6jhu
-         H/wmCxyrXVhHQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] vidioc-queryctrl.rst: fix error code
-Message-ID: <f4414038-5051-1395-b73b-10900ca8eac3@xs4all.nl>
-Date:   Wed, 15 Jan 2020 18:32:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1729014AbgAORp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 12:45:58 -0500
+Received: from gofer.mess.org ([88.97.38.141]:44637 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728896AbgAORp5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Jan 2020 12:45:57 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DB00F11A001; Wed, 15 Jan 2020 17:45:55 +0000 (GMT)
+Date:   Wed, 15 Jan 2020 17:45:55 +0000
+From:   Sean Young <sean@mess.org>
+To:     Thomas Pantzer <Thomas.Pantzer@gmx.de>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Support for Terratech Grabster MX150/250 and ADStech XPress
+ USBAV-192
+Message-ID: <20200115174555.GB24471@gofer.mess.org>
+References: <5DB62609.3050404@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLwFn8SGruIFpFuRN5t3yDFXhaIfkHhYH1r6GXjW8k15nPh5qSSQwacXGl5+kqxWSDHRxP2RwLPELODaPDuSVfD/AviaEW6uf2VpQ1OXJDmUmrGGO9ob
- U+8I273JJr6Q+x5hJklR+pDjojyg+qa1CU6v4IY4Wqrmbg/RHKlQrcJGd29t15otEJmWZmTliqI2yA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5DB62609.3050404@gmx.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-An attempt to get a BUTTON control returns EACCES, not EINVAL.
+Hi Thomas,
 
-BUTTON controls have V4L2_CTRL_FLAG_WRITE_ONLY set, and the documentation
-for that flag correctly says that getting a write-only control returns
-EACCES. It's the description of the BUTTON type that's wrong, so fix
-that so they are consistent.
+On Mon, Oct 28, 2019 at 12:19:37AM +0100, Thomas Pantzer wrote:
+> - Adds support for USB analog video/audio capture devices
+>     - Terratec Grabster AV 150/250 MX 	USB-ID (0ccd:0079)
+>     - ADS Tech Instant Video XPress USBAV-192  USB-ID (06e1:a192)
+> 
+> - Bugfix: constant TM6000_MAXBOARDS off by one,
+> 	 Grabster was never enumerated
+> 
+> Signed-off-by: Thomas Pantzer <kernel-org@pantzer.net>
+> ---
+>  drivers/media/usb/tm6000/tm6000-cards.c | 79
+> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------
+>  1 file changed, 58 insertions(+), 21 deletions(-)
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-index 6690928e657b..22ff3c6abd9c 100644
---- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-@@ -378,7 +378,7 @@ See also the examples in :ref:`control`.
-       - 0
-       - 0
-       - A control which performs an action when set. Drivers must ignore
--	the value passed with ``VIDIOC_S_CTRL`` and return an ``EINVAL`` error
-+	the value passed with ``VIDIOC_S_CTRL`` and return an ``EACCES`` error
- 	code on a ``VIDIOC_G_CTRL`` attempt.
-     * - ``V4L2_CTRL_TYPE_INTEGER64``
-       - any
+> diff -bBduwp linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-vanilla linux/drivers/media/usb/tm6000/tm6000-cards.c
+> --- linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-vanilla	2015-06-19 18:42:40.000000000 +0200
+
+This is a diff against 3.18.16? Please diff and _test_ against something
+more recent.
+
+> +++ linux/drivers/media/usb/tm6000/tm6000-cards.c	2019-10-28 00:01:45.000000000 +0100
+> @@ -52,13 +52,16 @@
+>  #define TM6010_BOARD_BEHOLD_WANDER_LITE		14
+>  #define TM6010_BOARD_BEHOLD_VOYAGER_LITE	15
+>  #define TM5600_BOARD_TERRATEC_GRABSTER		16
+> +#define TM5600_BOARD_ADSTECH_XPRESS_USBAV_192   17
+> +
+> 
+>  #define is_generic(model) ((model == TM6000_BOARD_UNKNOWN) || \
+>  			   (model == TM5600_BOARD_GENERIC) || \
+
+Your patch got mangled by your email client, and it does not apply any more.
+
+See:
+
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
+
+That doesn't mean the code is wrong.
+
+
+>  			   (model == TM6000_BOARD_GENERIC) || \
+>  			   (model == TM6010_BOARD_GENERIC))
+> 
+> -#define TM6000_MAXBOARDS        16
+> +#define TM6000_MAXBOARDS        18
+
+Indeed that is wrong.
+
+> +
+>  static unsigned int card[]     = {[0 ... (TM6000_MAXBOARDS - 1)] = UNSET };
+> 
+>  module_param_array(card,  int, NULL, 0444);
+> @@ -500,25 +503,6 @@ static struct tm6000_board tm6000_boards
+>  			.amux = TM6000_AMUX_SIF1,
+>  		},
+>  	},
+> -	[TM5600_BOARD_TERRATEC_GRABSTER] = {
+> -		.name         = "Terratec Grabster AV 150/250 MX",
+> -		.type         = TM5600,
+> -		.tuner_type   = TUNER_ABSENT,
+> -		.vinput = { {
+> -			.type	= TM6000_INPUT_TV,
+> -			.vmux	= TM6000_VMUX_VIDEO_B,
+> -			.amux	= TM6000_AMUX_ADC1,
+> -			}, {
+> -			.type	= TM6000_INPUT_COMPOSITE1,
+> -			.vmux	= TM6000_VMUX_VIDEO_A,
+> -			.amux	= TM6000_AMUX_ADC2,
+> -			}, {
+> -			.type	= TM6000_INPUT_SVIDEO,
+> -			.vmux	= TM6000_VMUX_VIDEO_AB,
+> -			.amux	= TM6000_AMUX_ADC2,
+> -			},
+> -		},
+> -	},
+>  	[TM6010_BOARD_TWINHAN_TU501] = {
+>  		.name         = "Twinhan TU501(704D1)",
+>  		.tuner_type   = TUNER_XC2028, /* has a XC3028 */
+> @@ -614,6 +598,58 @@ static struct tm6000_board tm6000_boards
+>  			.amux	= TM6000_AMUX_ADC1,
+>  		},
+>  	},
+> +	[TM5600_BOARD_TERRATEC_GRABSTER] = {
+> +		.name         = "Terratec Grabster AV 150/250 MX",
+> +		.type         = TM5600,
+> +		.tuner_type   = TUNER_ABSENT,
+
+These lines haven't changed so they shouldn't be in the diff.
+
+> +		.gpio = {
+> +			.tuner_reset    = TM6000_GPIO_1,
+> +			/* this GPIO configuration needs to be here due to a
+> +			bug elsewhere, if it is missing the driver fails to
+> +			load, if TUNER_ABSENT or has_tuner==0 is stated, the
+> +			tuner-reset configuration should be ignored */
+> +		},
+> +		.caps = {
+> +			.has_tuner = 0,
+> +			.has_eeprom = 0,
+> +		},
+> +		.vinput = { {
+> +			.type   = TM6000_INPUT_SVIDEO,
+> +			.vmux   = TM6000_VMUX_VIDEO_A,
+> +			.amux   = TM6000_AMUX_ADC1,
+> +			}, {
+> +			.type   = TM6000_INPUT_COMPOSITE1,
+> +			.vmux   = TM6000_VMUX_VIDEO_B,
+> +			.amux   = TM6000_AMUX_ADC2,
+> +			},
+> +		},
+> +	},
+> +	[TM5600_BOARD_ADSTECH_XPRESS_USBAV_192] = {
+> +		.name         = "ADStech XPress USBAV-192",
+> +		.type         = TM5600,
+> +		.tuner_type   = TUNER_ABSENT,
+> +		.caps = {
+> +			.has_eeprom	= 1,
+> +			.has_tuner	= 0,
+> +		},
+> +		.gpio = {
+> +			.tuner_reset	= TM6000_GPIO_1,
+> +			/* this GPIO configuration needs to be here due to a
+> +			bug elsewhere, if it is missing the driver fails to
+> +			load, if TUNER_ABSENT or has_tuner==0 is stated, the
+> +			tuner-reset configuration should be ignored */
+> +		},
+> +		.vinput = { {
+> +			.type	= TM6000_INPUT_SVIDEO,
+> +			.vmux	= TM6000_VMUX_VIDEO_A,
+> +			.amux	= TM6000_AMUX_ADC1,
+> +			}, {
+> +			.type	= TM6000_INPUT_COMPOSITE1,
+> +			.vmux	= TM6000_VMUX_VIDEO_B,
+> +			.amux	= TM6000_AMUX_ADC2,
+> +			},
+> +		},
+> +	},
+>  };
+> 
+>  /* table of devices that work with this driver */
+> @@ -631,13 +667,14 @@ static struct usb_device_id tm6000_id_ta
+>  	{ USB_DEVICE(0x6000, 0xdec1), .driver_info = TM6010_BOARD_BEHOLD_VOYAGER },
+>  	{ USB_DEVICE(0x0ccd, 0x0086), .driver_info = TM6010_BOARD_TERRATEC_CINERGY_HYBRID_XE },
+>  	{ USB_DEVICE(0x0ccd, 0x00A5), .driver_info = TM6010_BOARD_TERRATEC_CINERGY_HYBRID_XE },
+> -	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info = TM5600_BOARD_TERRATEC_GRABSTER },
+>  	{ USB_DEVICE(0x13d3, 0x3240), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+>  	{ USB_DEVICE(0x13d3, 0x3241), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+>  	{ USB_DEVICE(0x13d3, 0x3243), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+>  	{ USB_DEVICE(0x13d3, 0x3264), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+>  	{ USB_DEVICE(0x6000, 0xdec2), .driver_info = TM6010_BOARD_BEHOLD_WANDER_LITE },
+>  	{ USB_DEVICE(0x6000, 0xdec3), .driver_info = TM6010_BOARD_BEHOLD_VOYAGER_LITE },
+> +	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info = TM5600_BOARD_TERRATEC_GRABSTER },
+
+Why is it moved?
+
+> +	{ USB_DEVICE(0x06e1, 0xa192), .driver_info = TM5600_BOARD_ADSTECH_XPRESS_USBAV_192 },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(usb, tm6000_id_table);
+
+
+Thanks
+Sean
