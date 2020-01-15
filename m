@@ -2,381 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F29713C69E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 15:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F6B13C6DD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 16:03:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729173AbgAOOvM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 09:51:12 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58725 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726474AbgAOOvM (ORCPT
+        id S1729127AbgAOPDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 10:03:52 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35947 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726132AbgAOPDw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 09:51:12 -0500
+        Wed, 15 Jan 2020 10:03:52 -0500
 Received: from [IPv6:2001:420:44c1:2577:18d8:d5d6:4408:6200]
  ([IPv6:2001:420:44c1:2577:18d8:d5d6:4408:6200])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id rk0eiEwOhT6sRrk0iiaemI; Wed, 15 Jan 2020 15:51:09 +0100
+        id rkCwiF0uRT6sRrkCziahYK; Wed, 15 Jan 2020 16:03:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579099869; bh=NO5vu+soaXQE7Wso9SZijdneoBnI+zay+KgTCj9phAM=;
+        t=1579100629; bh=11i4n8lMpRQQ+iNfpGyMTy/9CCEdWTY8dDDaQE1zD3Q=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=NKe/OarGU7rxEjhrp8adeoH7VW1w08O7FermPso9zF+iPtYKjovR+IrQfw1dY8kXy
-         zf1uuVVd3PRFcj8q0pYbvECn7fV42bwPr3tUnzAIxglijBB926suEnThZctCq9Ncss
-         +L9bXKKnV0mBrO7SUA+BYxHXE/T5e2NLteLut6PszrB6AE9+yO7TcdTUD6bthziePc
-         q1rf4+ASPsdzR6HG8CTR46NnSBuZ1AzgCREkuM2KhHaSpdyl8waOgPEJStf2BW24mg
-         DRymNvXbDNpHdLjPT4aRvxY61pF78/Dri0A4kBPMZgMoic1pn2hOelrS6heFRpqr0G
-         yfdZstQToKWXg==
-Subject: Re: [PATCH v4] media: vimc: Enable set resolution at the scaler src
- pad
-To:     Helen Koike <helen.koike@collabora.com>,
-        Pedro Terra Delboni <pirate@terraco.de>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org,
-        Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
-        Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-References: <20191229194214.4592-1-pirate@terraco.de>
- <5b0227ba-dd3d-abb9-073f-2b778310cf44@collabora.com>
- <b8a8da93-f36f-6401-75dc-f5cb66a0fa89@collabora.com>
- <CAHKDPP-waoonVmxJ4CMysmCPj50Bt+mtBiD9tvSPcv-=qXTKVA@mail.gmail.com>
- <f45fcab2-b3dd-94ec-4691-12000df1f76e@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <16b7cf85-f4a6-d1a8-f917-ddd4f8d9a9ce@xs4all.nl>
-Date:   Wed, 15 Jan 2020 15:51:04 +0100
+        b=ehvjUxlN9DHLZT26Nm8j/e9pTwnJ708Ao9NzFX7vTZZR+oFYavJXAVvt0uHI8TKLr
+         fYJ+3/hhOTRhwalGlqcgujswc4QOQJ981VVy56LvSjSM04relL8i+jkH2+64EICpz9
+         eC+DkY4ZTtJWKXoIZn6bq7y/JOCGfwqUETOBr4V4dYocxaQyw0Shn+GJ4zVCv7Dstx
+         oI2gbXPtg5stiw4iz0zls7XxweGscUhETyck6ulTHhe1IulMb7VhdlVR8xHj1OIU6u
+         Rkc8K2yKOyiq/uz4IeDsGqyLCP+/5AFQ+q/AFGJMJL4x8GkhhmtqvzxoptZYy1GLFc
+         iKAxVWZIe4EMQ==
+Subject: Re: [PATCH v4 04/12] v4l: Add source event change for bit-depth
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>, dikshita@codeaurora.org
+References: <20200106154929.4331-1-stanimir.varbanov@linaro.org>
+ <20200106154929.4331-5-stanimir.varbanov@linaro.org>
+ <c3b02589-1d7a-a476-7d33-7e555fbe276d@xs4all.nl>
+ <ae233eb1-69fc-6723-0224-0c1fcf786156@linaro.org>
+ <fb27b5cc-0eef-a7b4-f45b-a3986b77c4c9@xs4all.nl>
+ <988e49aa-469d-17a1-ca25-982c63536e6e@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <814252fe-6fa9-595b-92b3-8ef8ef4c0187@xs4all.nl>
+Date:   Wed, 15 Jan 2020 16:03:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <f45fcab2-b3dd-94ec-4691-12000df1f76e@collabora.com>
+In-Reply-To: <988e49aa-469d-17a1-ca25-982c63536e6e@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJ5E89UFrOJhhxOnudL7j+kBVYlS4s671ixqkCht/epsi/TNzHfQHh4Mv4QX77idCJA9rg8zK0/DngJq6bypBMLTKiLNR22oKCiF4CLVS9lGexEuvXB6
- l1jh8XGxv3dGzEa3skQwyvaHNhTkKRlZfuEulFgvpQIdR4TCiTp1i0hlMoiEC2N5wEmgefXKvWOfUu5WDcEfiYfAHJ7PdP+ZKpO/3jNLJL/5ZT2P1yzvtFqc
- gjfxzQNt1Q3IsyCgx/4dIxS7l3QKQnTHaAoAJB/FKf7xsCKqbLSVY5If4eqceKGhMjCsK2Ce2ul7/00WOD/pXhlBaxSIGEs7O9EyXCyl44hHlbE8ztbNqwQC
- Ag06GFXMjXFbgRvuWxSGie9kgvw8q2yYkXOeycWXfbc9FCGs1TYbmAEQ/BFF/0xqAb/v1UhfhevP/NCR2x1+p5vniCnj6Ky04fXbx2qGNJicXtwZX47b4qLp
- +rFxbaEmkCyc1LKHKIo7lXn1K29y0etg4QEurBXmkI8y5R84Ukh1fKF5QOpuMxso/nRDmZ6889DyT55LkAGl5LygluwlR2psrIn/XvjzsHKWl+0UKioC8rSl
- 3s0/PjzwLXRV28/vAUVw2WC8HL6n9UI4KYGUDrj86n8ToCn5K3Zdt1DWQm0YnRyr8Q8=
+X-CMAE-Envelope: MS4wfBWwR3P3/GTdqy8WWZYktsN7pov0YuXInaQkeXKFTdtJjYB94dIrU79LS87bnBLAVaI17ogCLgl4PvIlVkJLVGDmgzFgE2nqWrzOxCfUBd2FWeI0i0B5
+ 5Gg9u3xLqg0nsuMtEXmT7feKF3uUcpzZAFB4PEKxjt5i3mQ6DCkN5ue7t7yKhil8Wy2Nx5I32oJ1/c8+kOJk26gDE+0BNkhepwCdTZ3CgamFwBHOlHy0nQwg
+ ipzeq3DZfq6cgyBEnjhnOOt592HwaZsP283Z0G6ZxRwpHLyq1uSlR7neQqaziq/TeSF230jCKg8yRVNzgilQ/LcvHGBHFiXZtDteK3POlhuJt7rC5iBVueUQ
+ Sl9sOzOgcJa9dD+rrETadFh/JqjRMaMOyYrn21MyYt5JW+LzWAGkAdXaOHjEN2siznRW7tjK0je9h27wEKyZjGdXVhfphTVoY0sMSkrHOCY/mwJcWf4Jyf/T
+ 0ns+7vFWLWTbByemKeaJcI2RG9iQXipUnNetoNCVFFKW7d0KraJcdVrUTkc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/10/20 6:26 PM, Helen Koike wrote:
+On 1/10/20 11:54 AM, Stanimir Varbanov wrote:
+> Hi Hans,
 > 
-> 
-> On 1/10/20 3:21 PM, Pedro Terra Delboni wrote:
->> Hello!
->>
->> On Wed, Jan 1, 2020 at 7:10 AM Dafna Hirschfeld
->> <dafna.hirschfeld@collabora.com> wrote:
+> On 1/9/20 10:57 AM, Hans Verkuil wrote:
+>> On 1/9/20 8:41 AM, Stanimir Varbanov wrote:
+>>> Hi Hans,
 >>>
->>> Hi,
->>>
->>>
->>> On 30.12.19 14:59, Helen Koike wrote:
->>>> Hi,
->>>>
->>>> Thanks for the patch, just minor comments below.
->>>>
->>>> On 12/29/19 5:42 PM, Pedro Terra wrote:
->>>>> Modify the scaler subdevice to accept setting the resolution of the source
->>>>> pad (previously the source resolution would always be 3 times the sink for
->>>>> both dimensions). Now any resolution can be set at src (even smaller ones)
->>>>> and the sink video will be scaled to match it.
+>>> On 1/8/20 6:09 PM, Hans Verkuil wrote:
+>>>> On 1/6/20 4:49 PM, Stanimir Varbanov wrote:
+>>>>> This event indicate that the source color bit-depth is changed
+>>>>> during run-time. The client must get the new format and re-allocate
+>>>>> buffers for it. This can usually happens with video decoder (encoders)
+>>>>> when the bit-stream color bit-depth is changed from 8 to 10bits
+>>>>> or vice versa.
 >>>>>
->>>>> Test example: With the vimc module up (using the default vimc topology)
->>>>> media-ctl -d /dev/media0 -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
->>>>> media-ctl -d /dev/media0 -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
->>>>> media-ctl -d /dev/media0 -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
->>>>> media-ctl -d /dev/media0 -V '"Scaler":0[crop:(100,50)/400x150]'
->>>>> media-ctl -d /dev/media0 -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
->>>>> v4l2-ctl -d /dev/video2 -v width=300,height=700
->>>>> v4l2-ctl -d /dev/video0 -v pixelformat=BA81
->>>>> v4l2-ctl --stream-mmap --stream-count=10 -d /dev/video2 \
->>>>>      --stream-to=test.raw
->>>>> ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
->>>>>      -video_size "300x700" test.raw
->>>>>
->>>>> Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
->>>>> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
->>>>> Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
->>>>> Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
->>>>> Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
->>>>>
+>>>>> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>>>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 >>>>> ---
+>>>>>  Documentation/media/uapi/v4l/vidioc-dqevent.rst | 8 +++++++-
+>>>>>  Documentation/media/videodev2.h.rst.exceptions  | 1 +
+>>>>>  include/uapi/linux/videodev2.h                  | 1 +
+>>>>>  3 files changed, 9 insertions(+), 1 deletion(-)
 >>>>>
->>>>> Changes in V4:
->>>>> * Rebased with media/master
->>>>> * Scaling is now compatible with crop
->>>>> * Updated test example at the commit message
->>>>> * Add vimc prefix to the pad enumeration
->>>>>
->>>>> Changes in V3:
->>>>> * Corrections suggested by Hans:
->>>>>      - Default scaling factor is now 1 (we removed the define and
->>>>>        set the source format equals the sink).
->>>>>      - Removed SCA_COUNT (enum that represents the number of pads)
->>>>>        as there always 2
->>>>>      - Swapped the per byte pixel copy to memcpy.
->>>>> * Corrections suggested by Dafna:
->>>>>      - Removed from the documentation the old scaler parameter which
->>>>>        isn't necessary anymore.
->>>>> * Added a thank you note at the end of the email
->>>>>
->>>>> Changes in V2:
->>>>> * Patch was not sent to media list mail for some reason (even though it
->>>>> was on the Cc list), trying again.
->>>>> * Updating documentation.
->>>>>
->>>>> Hello!
->>>>> This code is the result of friends getting together with too much
->>>>> coffee, sugar and beer trying to get started with some kernel coding.
->>>>> Please, don't go easy on us! s2
->>>>>
->>>>> Running
->>>>> /usr/local/bin/v4l2-compliance -m /dev/media0
->>>>> Gave the following result:
->>>>> v4l2-compliance SHA: b393a5408383b7341883857dfda78537f2f85ef6, 64 bits
->>>>> Grand Total for vimc device /dev/media0: 451, Succeeded: 451, Failed: 0, Warnings: 0
->>>>> ---
->>>>>   Documentation/media/v4l-drivers/vimc.rst  |  21 +-
->>>>>   drivers/media/platform/vimc/vimc-scaler.c | 248 +++++++---------------
->>>>>   2 files changed, 87 insertions(+), 182 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
->>>>> index 8f5d7f8d83bb..af04ebbd4fa1 100644
->>>>> --- a/Documentation/media/v4l-drivers/vimc.rst
->>>>> +++ b/Documentation/media/v4l-drivers/vimc.rst
->>>>> @@ -61,9 +61,11 @@ vimc-debayer:
->>>>>      * 1 Pad source
->>>>>
->>>>>   vimc-scaler:
->>>>> -    Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
->>>>> -        1920x1440 image. (this value can be configured, see at
->>>>> -        `Module options`_).
->>>>> +    Re-size the image to meet the source pad resolution. E.g.: if the sync pad
->>>>> +is configured to 360x480 and the source to 1280x720, the image will be stretched
->>>>> +to fit the source resolution. Works for any resolution within the vimc
->>>>> +limitations (even shrinking the image if necessary).
->>>>> +
->>>>>      Exposes:
->>>>>
->>>>>      * 1 Pad sink
->>>>> @@ -76,19 +78,6 @@ vimc-capture:
->>>>>      * 1 Pad sink
->>>>>      * 1 Pad source
->>>>>
+>>>>> diff --git a/Documentation/media/uapi/v4l/vidioc-dqevent.rst b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+>>>>> index 42659a3d1705..fad853d440cf 100644
+>>>>> --- a/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+>>>>> +++ b/Documentation/media/uapi/v4l/vidioc-dqevent.rst
+>>>>> @@ -402,7 +402,13 @@ call.
+>>>>>  	that many Video Capture devices are not able to recover from a temporary
+>>>>>  	loss of signal and so restarting streaming I/O is required in order for
+>>>>>  	the hardware to synchronize to the video signal.
 >>>>> -
->>>>> -Module options
->>>>> ---------------
->>>>> -
->>>>> -Vimc has a module parameter to configure the driver.
->>>>> -
->>>>> -* ``sca_mult=<unsigned int>``
->>>>> -
->>>>> -        Image size multiplier factor to be used to multiply both width and
->>>>> -        height, so the image size will be ``sca_mult^2`` bigger than the
->>>>> -        original one. Currently, only supports scaling up (the default value
->>>>> -        is 3).
->>>>> -
->>>>>   Source code documentation
->>>>>   -------------------------
->>>>>
->>>>> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
->>>>> index e2e551bc3ded..785009b7ac9e 100644
->>>>> --- a/drivers/media/platform/vimc/vimc-scaler.c
->>>>> +++ b/drivers/media/platform/vimc/vimc-scaler.c
->>>>> @@ -6,6 +6,7 @@
->>>>>    */
->>>>>
->>>>>   #include <linux/moduleparam.h>
->>>>> +#include <linux/string.h>
->>>>>   #include <linux/vmalloc.h>
->>>>>   #include <linux/v4l2-mediabus.h>
->>>>>   #include <media/v4l2-rect.h>
->>>>> @@ -13,11 +14,11 @@
->>>>>
->>>>>   #include "vimc-common.h"
->>>>>
->>>>> -static unsigned int sca_mult = 3;
->>>>> -module_param(sca_mult, uint, 0000);
->>>>> -MODULE_PARM_DESC(sca_mult, " the image size multiplier");
->>>>> -
->>>>> -#define MAX_ZOOM    8
->>>>> +/* Pad identifier */
->>>>> +enum vimc_sca_pad {
->>>>> +    VIMC_SCA_SINK = 0,
->>>>> +    VIMC_SCA_SRC = 1,
->>>>> +};
->>>>>
->>>>>   #define VIMC_SCA_FMT_WIDTH_DEFAULT  640
->>>>>   #define VIMC_SCA_FMT_HEIGHT_DEFAULT 480
->>>>> @@ -25,14 +26,11 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
->>>>>   struct vimc_sca_device {
->>>>>      struct vimc_ent_device ved;
->>>>>      struct v4l2_subdev sd;
->>>>> -    /* NOTE: the source fmt is the same as the sink
->>>>> -     * with the width and hight multiplied by mult
->>>>> -     */
->>>>> -    struct v4l2_mbus_framefmt sink_fmt;
->>>>>      struct v4l2_rect crop_rect;
->>>>> +    /* Frame format for both sink and src pad */
->>>>> +    struct v4l2_mbus_framefmt fmt[2];
->>>>>      /* Values calculated when the stream starts */
->>>>>      u8 *src_frame;
->>>>> -    unsigned int src_line_size;
->>>>>      unsigned int bpp;
->>>>>      struct media_pad pads[2];
->>>>>   };
->>>>> @@ -90,17 +88,15 @@ static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
->>>>>      struct v4l2_rect *r;
->>>>>      unsigned int i;
->>>>>
->>>>> -    mf = v4l2_subdev_get_try_format(sd, cfg, 0);
->>>>> +    mf = v4l2_subdev_get_try_format(sd, cfg, VIMC_SCA_SINK);
->>>>>      *mf = sink_fmt_default;
->>>>>
->>>>> -    r = v4l2_subdev_get_try_crop(sd, cfg, 0);
->>>>> +    r = v4l2_subdev_get_try_crop(sd, cfg, VIMC_SCA_SINK);
->>>>>      *r = crop_rect_default;
->>>>>
->>>>>      for (i = 1; i < sd->entity.num_pads; i++) {
->>>>>              mf = v4l2_subdev_get_try_format(sd, cfg, i);
->>>>>              *mf = sink_fmt_default;
->>>>> -            mf->width = mf->width * sca_mult;
->>>>> -            mf->height = mf->height * sca_mult;
->>>>>      }
->>>>>
->>>>>      return 0;
->>>>> @@ -137,14 +133,8 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
->>>>>
->>>>>      fse->min_width = VIMC_FRAME_MIN_WIDTH;
->>>>>      fse->min_height = VIMC_FRAME_MIN_HEIGHT;
->>>>> -
->>>>> -    if (VIMC_IS_SINK(fse->pad)) {
->>>>> -            fse->max_width = VIMC_FRAME_MAX_WIDTH;
->>>>> -            fse->max_height = VIMC_FRAME_MAX_HEIGHT;
->>>>> -    } else {
->>>>> -            fse->max_width = VIMC_FRAME_MAX_WIDTH * MAX_ZOOM;
->>>>> -            fse->max_height = VIMC_FRAME_MAX_HEIGHT * MAX_ZOOM;
->>>>> -    }
->>>>> +    fse->max_width = VIMC_FRAME_MAX_WIDTH;
->>>>> +    fse->max_height = VIMC_FRAME_MAX_HEIGHT;
->>>>>
->>>>>      return 0;
->>>>>   }
->>>>> @@ -154,95 +144,73 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
->>>>>                          struct v4l2_subdev_format *format)
->>>>>   {
->>>>>      struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->>>>> -    struct v4l2_rect *crop_rect;
->>>>>
->>>>> -    /* Get the current sink format */
->>>>> -    if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->>>>> -            format->format = *v4l2_subdev_get_try_format(sd, cfg, 0);
->>>>> -            crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
->>>>> -    } else {
->>>>> -            format->format = vsca->sink_fmt;
->>>>> -            crop_rect = &vsca->crop_rect;
->>>>> -    }
->>>>> -
->>>>> -    /* Scale the frame size for the source pad */
->>>>> -    if (VIMC_IS_SRC(format->pad)) {
->>>>> -            format->format.width = crop_rect->width * sca_mult;
->>>>> -            format->format.height = crop_rect->height * sca_mult;
->>>>> -    }
->>>>> +    if (format->which == V4L2_SUBDEV_FORMAT_TRY)
->>>>> +            format->format = *v4l2_subdev_get_try_format(sd, cfg,
->>>>> +                                                         format->pad);
->>>>> +    else
->>>>> +            format->format = vsca->fmt[format->pad];
->>>>>
->>>>>      return 0;
->>>>>   }
->>>>>
->>>>> -static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
->>>>> +static void vimc_sca_adjust_fmt(struct v4l2_mbus_framefmt *fmt[], __u32 pad)
->>>>>   {
->>>>> -    const struct vimc_pix_map *vpix;
->>>>> +    if (pad == VIMC_SCA_SINK) {
->>>>> +            const struct vimc_pix_map *vpix;
->>>>>
->>>>> -    /* Only accept code in the pix map table in non bayer format */
->>>>> -    vpix = vimc_pix_map_by_code(fmt->code);
->>>>> -    if (!vpix || vpix->bayer)
->>>>> -            fmt->code = sink_fmt_default.code;
->>>>> +            /* Only accept code in the pix map table in non bayer format */
->>>>> +            vpix = vimc_pix_map_by_code(fmt[VIMC_SCA_SINK]->code);
->>>>> +            if (!vpix || vpix->bayer)
->>>>> +                    fmt[VIMC_SCA_SINK]->code = sink_fmt_default.code;
->>>>> +            if (fmt[VIMC_SCA_SINK]->field == V4L2_FIELD_ANY)
->>>>> +                    fmt[VIMC_SCA_SINK]->field = sink_fmt_default.field;
->>>>>
->>>>> -    fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
->>>>> +            vimc_colorimetry_clamp(fmt[VIMC_SCA_SINK]);
->>>>> +    }
->>>>> +
->>>>> +    fmt[pad]->width = clamp_t(u32, fmt[pad]->width, VIMC_FRAME_MIN_WIDTH,
->>>>>                           VIMC_FRAME_MAX_WIDTH) & ~1;
+>>>>> +    * - ``V4L2_EVENT_SRC_CH_COLOR_DEPTH``
+>>>>> +      - 0x0002
+>>>>> +      - This event gets triggered when color bit-depth change is detected
+>>>>> +	from a video decoder. Applications will have to query the new pixel
+>>>>> +	format and re-negotiate the queue. In most cases the streaming must be
+>>>>> +	stopped and restarted (:ref:`VIDIOC_STREAMOFF <VIDIOC_STREAMON>`
+>>>>> +	followed by :ref:`VIDIOC_STREAMON <VIDIOC_STREAMON>`).
 >>>>
->>>> Could you fix the alignment here?
->>>> For some reason checkpatch doesn't catch this :(
+>>>> I think this is too specific for decoders. Something similar to the
+>>>> CH_RESOLUTION description would be more appropriate:
 >>>>
->>>>> -    fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
->>>>> +    fmt[pad]->height = clamp_t(u32, fmt[pad]->height, VIMC_FRAME_MIN_HEIGHT,
->>>>>                            VIMC_FRAME_MAX_HEIGHT) & ~1;
->>>>
->>>> Also here.
->>>>
->>>>>
->>>>> -    if (fmt->field == V4L2_FIELD_ANY)
->>>>> -            fmt->field = sink_fmt_default.field;
->>>>> -
->>>>> -    vimc_colorimetry_clamp(fmt);
->>>>> +    /* Assure src pad attributes besides dimensions are the same as sink */
->>>>> +    fmt[VIMC_SCA_SRC]->code = fmt[VIMC_SCA_SINK]->code;
->>>>> +    fmt[VIMC_SCA_SRC]->field = fmt[VIMC_SCA_SINK]->field;
->>>>> +    fmt[VIMC_SCA_SRC]->colorspace = fmt[VIMC_SCA_SINK]->colorspace;
->>>>
->>>> Ideally we should propagate all the other fields to src. Maybe save width and height to
->>>> a tmp var, assing the whole sink fmt to src, and restore width and height.
->>>>
->>> Acctually according to the subdevices documentation, when changing the
->>> sink format, the width and height of the src format should reset to the
->>> same values:
+>>>>       - This event gets triggered when a color bit-depth change (but not a
+>>>> 	resolution change!) is detected	at an input. This can come from an
 >>>
->>> ""
->>> -  Sub-devices that scale frames using variable scaling factors should
->>>     reset the scale factors to default values when sink pads formats are
->>>     modified. If the 1:1 scaling ratio is supported, this means that
->>>     source pads formats should be reset to the sink pads formats.
->>> ""
+>>> What you mean by "but not a resolution change" here? Resolution change
+>>> and bit-depth change cannot occur on the same time, or something else.
 >>
->> I have a small question: Should I worry about the crop? I believe that
->> in the current
->> implementation setting the sink does not necessarily reset the crop zone.
->> Should we reset to the sink resolution or to the one determined by the crop?
->> With that said, the way we implemented the scaller, setting a crop
->> does not affect the
->> source resolution (it retains the sink dimensions), should we change this too?
+>> What I was trying to say is that a resolution change implies a possible bit-depth
+>> change as well, whereas V4L2_EVENT_SRC_CH_COLOR_DEPTH is only set if there is
+>> a bit-depth change but no resolution change.
+>>
+>> V4L2_EVENT_SRC_CH_RESOLUTION requires that userspace does a full resync to the
+>> new format, CH_COLOR_DEPTH implies that only the bit depth changed.
 > 
-> From the docs, it seems that the idea is to keep 1:1 scaling ration, so if you
-> have crop in the sink, then the source pad should have dimentions of the crop.
-
-Correct.
-
+> CH_COLOR_DEPTH implies format re-negotiation as well. In Venus case
+> 8->10bit change will change the format of OPB buffers (now it is not
+> possible because of lack of v4l modifiers) and DPB buffers becomes
+> compressed raw buffers (to optimize bandwidth).
 > 
-> At least that is my understanding, and the docs should be updated to make it more
-> clear.
-
-Patches are welcome :-)
-
+>>
+>> Which actually makes me wonder: is there a difference between the two change flags
+>> w.r.t. userspace behavior? If there is, then that should be carefully documented,
+>> if there isn't, then is this new flag really needed?
 > 
-> I would like to hear other people's opinions on this.
+> Looking into semantics of v4l events, CH_COLOR_DEPTH makes sense because
+> it describes what actually changed (similar to CH_RESOLUTION). I would
+> say that v4l2_event::type V4L2_EVENT_SOURCE_CHANGE implies format
+> re-negotiation and v4l2_event::src_change just informs userland what
+> exactly is changed.
+> 
+> I'll postpone this patch until we have clear vision what will be the
+> usage in user-space.
+> 
 
-I agree with you, this is my understanding as well.
+My main problem regarding semantics is what should be done if you disconnect
+and reconnect an HDMI (for example) connector. You get a V4L2_EVENT_SOURCE_CHANGE
+when the new signal is detected, but should it just set V4L2_EVENT_SRC_CH_RESOLUTION
+(as it does today), or also V4L2_EVENT_SRC_CH_COLOR_DEPTH?
+
+In my view V4L2_EVENT_SRC_CH_COLOR_DEPTH only makes sense if the resolution
+stays the same, but only the color depth changes.
+
+BTW, one thing that will be added here as well in the future is a
+V4L2_EVENT_SRC_CH_COLORIMETRY for when the colorspace etc. information changes,
+but nothing else. In that case there is no need to renegotiate the format etc.,
+it's just the interpretation of the video data that changes.
+
+An alternative approach is to define a V4L2_EVENT_SRC_CH_ALL bit mask, OR-ing
+all the V4L2_EVENT_SRC_CH_* defines, and change all drivers that use
+V4L2_EVENT_SRC_CH_RESOLUTION at the moment to use V4L2_EVENT_SRC_CH_ALL instead,
+and only drivers that detect that only one of these changes took place will
+use a specific V4L2_EVENT_SRC_CH_ flag. This will be primarily codec drivers,
+I believe.
+
+There aren't that many of those, so this shouldn't be too difficult to do.
+
+Perhaps this is the cleanest approach to this problem...
 
 Regards,
 
