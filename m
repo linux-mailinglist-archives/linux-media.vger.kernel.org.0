@@ -2,528 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D1C13C808
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 16:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A239413C8EF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 17:15:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbgAOPih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 10:38:37 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:45914 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726474AbgAOPih (ORCPT
+        id S1728909AbgAOQPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 11:15:13 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:41595 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726132AbgAOQPN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 10:38:37 -0500
-Received: by mail-ot1-f68.google.com with SMTP id 59so16441715otp.12
-        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2020 07:38:36 -0800 (PST)
+        Wed, 15 Jan 2020 11:15:13 -0500
+Received: by mail-il1-f199.google.com with SMTP id k9so13551763ili.8
+        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2020 08:15:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=BJ0NYxx4q989BAE4YTr0c3eBStcbmse461fRCdYuon8=;
-        b=CaKwkio7DvGsiA7rdWZ119QxYe2PIEcRG8sJa2T7bRmyWB0XHA9UchR7woLuQ4WmXU
-         +mWwxxyTM74GZgJYs2vOUbHbMzF6b9d6qeiigOA/TaE9KiqO2+Hg/sBr81w0kh+NWwNd
-         eVGQwNstWOen6KkfcYh4tvIeFp3bE4OH9xNGExEAKNkfJ8ZDBH+468I34NHziXvQMDNn
-         SbaLKdMOMhF3g44DsVudy4ozgCzgosjUkz1UzlecbSe72GAMShY/AnTLMOUFxyVSsZTA
-         2m+Rq7+/hPNDSJD7Amq0KFJm/Xb7WBrgciUws8ZZWYAGSW7TyQCZ3I1RSzReu8TkIVSn
-         LLcA==
-X-Gm-Message-State: APjAAAWTimkNp17G22RBUY/UNEE69CJnp95rKQV3+X5QNcDz/GXxazv8
-        SzEnvTP5f2zKttEtjoEY1YMz+iQ=
-X-Google-Smtp-Source: APXvYqwZ0o1IxRD5mdsnoaW3FsdrQOdOM0TZT55xKzZHnO3j22EhOE0kYcS+Lip01md+M596Jl2waA==
-X-Received: by 2002:a9d:67ce:: with SMTP id c14mr3112658otn.106.1579102714480;
-        Wed, 15 Jan 2020 07:38:34 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 6sm5729957oil.43.2020.01.15.07.38.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 07:38:33 -0800 (PST)
-Received: from rob (uid 1000)
-        (envelope-from rob@rob-hp-laptop)
-        id 220379
-        by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Wed, 15 Jan 2020 09:38:33 -0600
-Date:   Wed, 15 Jan 2020 09:38:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v2] dt-bindings: rcar-vin: Convert bindings to json-schema
-Message-ID: <20200115153832.GA19169@bogus>
-References: <20200110201146.2312391-1-niklas.soderlund+renesas@ragnatech.se>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=0Cf6ZphCZYNLk3aMASlUpbTauK9EgyI+kH/XKXJeTh8=;
+        b=P/3BpXI12pVVmCdjeKoSGWnd3Kk42hJ2H62uODpM4x2ghZ8eaJ5piAgcK5N7atFNE8
+         1WeMvOm0dRaz8hsVVmJ7oyBuRa+XqA0oy1MQ9I0T6Kn9BNfv6QafE5DrZjMb3Z7kw7CA
+         YrWIaf+mdPlo+hT2kp1uBgFe0kdBFy7xYr7AwD7P/YCQ43d6sGDeFzyZZ+8hUY0b/cRC
+         yLXt0pOYztX8gkPVPO/GasFm4ippyRqTiGQ2PyYdaoJcpZ6xEWhM9gp3NYd3p3Kdh5IB
+         3Ky9RfbDb+7v8ovrm+2QTu5bQ1KseCUI0fCdHLCBRhgLPXUTD5zf61xLhs4L0spK0Vjr
+         fOHQ==
+X-Gm-Message-State: APjAAAVssDVkDF8j/U2fwBeWh7UpQiQzXfNwK4yNym46ZxbY4Lco9Syy
+        XVbU+itrLjNAXabdD6eecMfsFRCcCP8OnbfH9qNMTeo+lfxT
+X-Google-Smtp-Source: APXvYqwfRsBBbJBifQ7RCfcxQmK6ZLIT8rJpubcScU624bYMWwroDHBbnv0d4FhB+q1u791/Q3siJ2cps49pYQN5i0SrbL5a7ymR
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200110201146.2312391-1-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a6b:8ecd:: with SMTP id q196mr22125597iod.136.1579104912850;
+ Wed, 15 Jan 2020 08:15:12 -0800 (PST)
+Date:   Wed, 15 Jan 2020 08:15:12 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000064c69e059c3003f6@google.com>
+Subject: WARNING in schedule_bh
+From:   syzbot <syzbot+bfc0855888f853dca7ad@syzkaller.appspotmail.com>
+To:     axboe@kernel.dk, dri-devel@lists.freedesktop.org,
+        efremov@linux.com, linaro-mm-sig@lists.linaro.org,
+        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 09:11:46PM +0100, Niklas Söderlund wrote:
-> Convert Renesas R-Car VIN bindings documentation to json-schema.
-> 
-> As the examples in the bindings now can be tested add a new one which
-> describes how the both a parallel and a CSI-2 source can be connected on
-> Gen3 SoCs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
->  .../bindings/media/renesas,vin.yaml           | 397 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 398 insertions(+), 218 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    95e20af9 Merge tag 'nfs-for-5.5-2' of git://git.linux-nfs...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17648c21e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d9290aeb7e6cf1c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=bfc0855888f853dca7ad
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+bfc0855888f853dca7ad@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 3 PID: 12339 at drivers/block/floppy.c:985  
+schedule_bh+0x67/0x70 drivers/block/floppy.c:985
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 3 PID: 12339 Comm: syz-executor.1 Not tainted 5.5.0-rc6-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS  
+rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x197/0x210 lib/dump_stack.c:118
+  panic+0x2e3/0x75c kernel/panic.c:221
+  __warn.cold+0x2f/0x3e kernel/panic.c:582
+  report_bug+0x289/0x300 lib/bug.c:195
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  fixup_bug arch/x86/kernel/traps.c:169 [inline]
+  do_error_trap+0x11b/0x200 arch/x86/kernel/traps.c:267
+  do_invalid_op+0x37/0x50 arch/x86/kernel/traps.c:286
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:schedule_bh+0x67/0x70 drivers/block/floppy.c:985
+Code: fd 48 8b 35 8b 82 ab 07 48 c7 c2 c0 80 00 8a bf 40 00 00 00 4c 89 25  
+98 7d ab 07 e8 93 51 e3 fc 5b 41 5c 5d c3 e8 09 4a 0b fd <0f> 0b eb ce 0f  
+1f 44 00 00 55 48 89 e5 e8 f7 49 0b fd 48 c7 c7 10
+RSP: 0018:ffffc900075774b0 EFLAGS: 00010212
+RAX: 0000000000040000 RBX: 0000000000000001 RCX: ffffc900039f0000
+RDX: 00000000000086ed RSI: ffffffff8469ab77 RDI: 0000000000000007
+RBP: ffffc900075774c0 R08: ffff888028b50d40 R09: fffffbfff1401019
+R10: fffffbfff1401018 R11: ffffffff8a0080c7 R12: ffffffff846a94a0
+R13: ffffffff846a94a0 R14: 0000000000000001 R15: 0000000000000001
+  wait_til_done+0x88/0x370 drivers/block/floppy.c:1977
+  poll_drive+0xd5/0xf0 drivers/block/floppy.c:2939
+  floppy_check_events+0x39f/0x440 drivers/block/floppy.c:4107
+  disk_check_events+0x13b/0x5c0 block/genhd.c:1859
+  disk_clear_events+0x143/0x318 block/genhd.c:1819
+  check_disk_change+0x79/0x140 fs/block_dev.c:1488
+  floppy_open+0x6ba/0xae0 drivers/block/floppy.c:4067
+  __blkdev_get+0x34f/0x1650 fs/block_dev.c:1604
+  blkdev_get+0x47/0x2c0 fs/block_dev.c:1736
+  blkdev_open+0x205/0x290 fs/block_dev.c:1875
+  do_dentry_open+0x4e6/0x1380 fs/open.c:797
+  vfs_open+0xa0/0xd0 fs/open.c:914
+  do_last fs/namei.c:3420 [inline]
+  path_openat+0x10df/0x4500 fs/namei.c:3537
+  do_filp_open+0x1a1/0x280 fs/namei.c:3567
+  do_sys_open+0x3fe/0x5d0 fs/open.c:1097
+  __do_compat_sys_open fs/open.c:1134 [inline]
+  __se_compat_sys_open fs/open.c:1132 [inline]
+  __ia32_compat_sys_open+0x79/0xb0 fs/open.c:1132
+  do_syscall_32_irqs_on arch/x86/entry/common.c:337 [inline]
+  do_fast_syscall_32+0x27b/0xe16 arch/x86/entry/common.c:408
+  entry_SYSENTER_compat+0x70/0x7f arch/x86/entry/entry_64_compat.S:139
+RIP: 0023:0xf7fa9a39
+Code: 00 00 00 89 d3 5b 5e 5f 5d c3 b8 80 96 98 00 eb c4 8b 04 24 c3 8b 1c  
+24 c3 8b 34 24 c3 8b 3c 24 c3 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90  
+90 90 90 eb 0d 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 002b:00000000f5da4c04 EFLAGS: 00000293 ORIG_RAX: 0000000000000005
+RAX: ffffffffffffffda RBX: 00000000f5da4cc0 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000066666667 RDI: 00000000f5da4cc0
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+Kernel Offset: disabled
 
 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> new file mode 100644
-> index 0000000000000000..62a2d75ea72b6597
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -0,0 +1,397 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +# Copyright (C) 2020 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,vin.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas R-Car Video Input (VIN)
-> +
-> +maintainers:
-> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> +
-> +description:
-> +  The R-Car Video Input (VIN) device provides video input capabilities for the
-> +  Renesas R-Car family of devices.
-> +
-> +  Each VIN instance has a single parallel input that supports RGB and YUV video,
-> +  with both external synchronization and BT.656 synchronization for the latter.
-> +  Depending on the instance the VIN input is connected to external SoC pins, or
-> +  on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +        - enum:
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Should be indented 2 more spaces.
-
-> +          - renesas,vin-r8a7743  # RZ/G1M
-
-And then 2 more here.
-
-> +          - renesas,vin-r8a7744  # RZ/G1N
-> +          - renesas,vin-r8a7745  # RZ/G1E
-> +          - renesas,vin-r8a77470 # RZ/G1C
-> +          - renesas,vin-r8a7790  # R-Car H2
-> +          - renesas,vin-r8a7791  # R-Car M2-W
-> +          - renesas,vin-r8a7792  # R-Car V2H
-> +          - renesas,vin-r8a7793  # R-Car M2-N
-> +          - renesas,vin-r8a7794  # R-Car E2
-> +        - const: renesas,rcar-gen2-vin # Generic R-Car Gen2 or RZ/G1
-> +
-> +      - items:
-> +        - enum:
-> +          - renesas,vin-r8a774a1 # RZ/G2M
-> +          - renesas,vin-r8a774b1 # RZ/G2N
-> +          - renesas,vin-r8a774c0 # RZ/G2E
-> +          - renesas,vin-r8a7778  # R-Car M1
-> +          - renesas,vin-r8a7779  # R-Car H1
-> +          - renesas,vin-r8a7795  # R-Car H3
-> +          - renesas,vin-r8a7796  # R-Car M3-W
-> +          - renesas,vin-r8a77965 # R-Car M3-N
-> +          - renesas,vin-r8a77970 # R-Car V3M
-> +          - renesas,vin-r8a77980 # R-Car V3H
-> +          - renesas,vin-r8a77990 # R-Car E3
-> +          - renesas,vin-r8a77995 # R-Car D3
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  #The per-board settings for Gen2 and RZ/G1 platforms:
-> +  port:
-> +    type: object
-> +    description:
-> +      A node containing a parallel input with a singel endpoint definitions as
-
-s/singel/single/
-
-> +      documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      reg:
-> +        const: 1
-
-Node name should be port@1 rather than port then.
-
-> +
-> +      endpoint:
-> +        type: object
-> +
-> +        properties:
-> +          hsync-active:
-> +            description:
-> +              If both HSYNC and VSYNC polarities are not specified, embedded
-> +              synchronization is selected.
-> +            default: 1
-> +
-> +          vsync-active:
-> +            description:
-> +              If both HSYNC and VSYNC polarities are not specified, embedded
-> +              synchronization is selected.
-> +            default: 1
-> +
-> +          field-active-even: true
-> +
-> +          bus-width: true
-> +
-> +          data-shift: true
-> +
-> +          data-enable-active:
-> +            description: Polarity of CLKENB signal
-> +            default: 1
-> +
-> +          pclk-sample: true
-> +
-> +          data-active: true
-> +
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - remote-endpoint
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +  #The per-board settings for Gen3 and RZ/G2 platforms:
-> +  renesas,id:
-> +    description: VIN channel number
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
-
-minimum: 0
-maximum: 15
-
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      A node containing input nodes with endpoint definitions as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description:
-> +          Input port node, single endpoint describing a parallel input source.
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +              hsync-active:
-> +                description:
-> +                  Default is active high. If both HSYNC and VSYNC polarities are not
-> +                  specified, embedded synchronization is selected.
-> +                enum: [ 0, 1 ]
-
-We should assume the values on these common properties are defined 
-elsewhere unless it's a subset.
-
-> +
-> +              vsync-active:
-> +                description:
-> +                  Default is active high. If both HSYNC and VSYNC polarities are not
-> +                  specified, embedded synchronization is selected.
-> +                enum: [ 0, 1 ]
-> +
-> +              field-active-even:
-> +                description: Default is active high.
-> +                enum: [ 0, 1 ]
-> +
-> +              bus-width:
-> +                enum: [ 8, 10, 12, 16, 24, 32 ]
-> +
-> +              data-shift:
-> +                enum: [ 0, 8 ]
-> +
-> +              data-enable-active:
-> +                description: Polarity of CLKENB signal, default is active high.
-
-Use 'default' to describe the default.
-
-> +                enum: [ 0, 1 ]
-> +
-> +              pclk-sample:
-> +                enum: [ 0, 1 ]
-> +
-> +              data-active:
-> +                enum: [ 0, 1 ]
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        type: object
-> +        description:
-> +          Input port node, multiple endpoints describing all the R-Car CSI-2
-> +          modules connected the VIN.
-> +
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint@0:
-> +            type: object
-> +            description: Endpoint connected to CSI20.
-> +
-> +            properties:
-> +              reg:
-> +                const: 0
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@1:
-> +            type: object
-> +            description: Endpoint connected to CSI21.
-> +
-> +            properties:
-> +              reg:
-> +                const: 1
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@2:
-> +            type: object
-> +            description: Endpoint connected to CSI40.
-> +
-> +            properties:
-> +              reg:
-> +                const: 2
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@3:
-> +            type: object
-> +            description: Endpoint connected to CSI41.
-> +
-> +            properties:
-> +              reg:
-> +                const: 3
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-
-None of these ports or endpoints are required?
-
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        anyOf:
-> +          - const: renesas,vin-r8a7778
-> +          - const: renesas,vin-r8a7779
-> +          - const: renesas,rcar-gen2-vin
-
-Use 'enum' instead of anyOf+const.
-
-> +then:
-> +  required:
-> +    - port
-> +else:
-> +  required:
-> +    - renesas,id
-> +    - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Device node example for Gen2 platform
-> +  - |
-> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7790-sysc.h>
-> +
-> +    vin1: vin@e6ef1000 {
-> +            compatible = "renesas,vin-r8a7790",
-> +                         "renesas,rcar-gen2-vin";
-> +            reg = <0 0xe6ef1000 0 0x1000>;
-> +            interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 810>;
-> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +            resets = <&cpg 810>;
-> +
-> +            port {
-> +                    vin1ep0: endpoint {
-> +                            remote-endpoint = <&adv7180>;
-> +                            bus-width = <8>;
-> +                    };
-> +            };
-> +    };
-> +
-> +  # Device node example for Gen3 platform with only CSI-2
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +
-> +    vin0: video@e6ef0000 {
-> +            compatible = "renesas,vin-r8a7795";
-> +            reg = <0 0xe6ef0000 0 0x1000>;
-> +            interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 811>;
-> +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> +            resets = <&cpg 811>;
-> +            renesas,id = <0>;
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            vin0csi20: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    remote-endpoint= <&csi20vin0>;
-> +                            };
-> +                            vin0csi40: endpoint@2 {
-> +                                    reg = <2>;
-> +                                    remote-endpoint= <&csi40vin0>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> +
-> +  # Device node example for Gen3 platform with CSI-2 and parallel
-> +  - |
-> +    #include <dt-bindings/clock/r8a77970-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a77970-sysc.h>
-> +
-> +    vin2: video@e6ef2000 {
-> +            compatible = "renesas,vin-r8a77970";
-> +            reg = <0 0xe6ef2000 0 0x1000>;
-> +            interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 809>;
-> +            power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-> +            resets = <&cpg 809>;
-> +            renesas,id = <2>;
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                            reg = <0>;
-> +
-> +                            vin2_in: endpoint {
-> +                                    remote-endpoint = <&adv7612_out>;
-> +                                    hsync-active = <0>;
-> +                                    vsync-active = <0>;
-> +                            };
-> +                    };
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            vin2csi40: endpoint@2 {
-> +                                    reg = <2>;
-> +                                    remote-endpoint = <&csi40vin2>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e30ba33be8ad833e..d75ad6e3f4e86523 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10315,7 +10315,7 @@ L:	linux-renesas-soc@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Supported
->  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> -F:	Documentation/devicetree/bindings/media/renesas,vin.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
->  F:	drivers/media/platform/rcar-vin/
->  
->  MEDIA DRIVERS FOR RENESAS - VSP1
-> -- 
-> 2.24.1
-> 
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
