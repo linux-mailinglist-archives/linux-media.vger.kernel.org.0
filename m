@@ -2,197 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F39BD13CB4A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E82D013CB66
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:53:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729014AbgAORp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 12:45:58 -0500
-Received: from gofer.mess.org ([88.97.38.141]:44637 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728896AbgAORp5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 12:45:57 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id DB00F11A001; Wed, 15 Jan 2020 17:45:55 +0000 (GMT)
-Date:   Wed, 15 Jan 2020 17:45:55 +0000
-From:   Sean Young <sean@mess.org>
-To:     Thomas Pantzer <Thomas.Pantzer@gmx.de>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Support for Terratech Grabster MX150/250 and ADStech XPress
- USBAV-192
-Message-ID: <20200115174555.GB24471@gofer.mess.org>
-References: <5DB62609.3050404@gmx.de>
+        id S1728899AbgAORxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 12:53:15 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48957 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726418AbgAORxP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Jan 2020 12:53:15 -0500
+Received: from [192.168.2.10] ([62.249.185.68])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id rmqqiQLkqpLtbrmqtin4Fo; Wed, 15 Jan 2020 18:53:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579110792; bh=hNxUaL7qzAbbGfxi4mbhUyWhQYrK8rXKkLCy/OPiN5E=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=tH0R9p5DUUEsfFuKutnBv54Q41nNzswxDZ0tH6uVL8f1DqR7oE4klvpTjrhkBGgvx
+         yAnfaKs4IRsnIbVDrMhZMfQ/X6QyuXY6CjAMoapdm/HhbTPMhLIp/gBHTZ7DwNQ2Qh
+         KJ66Hr0RG8SAMK8oZ/SNiqy0sUiFGCHaTwG/z7K6We32TC+C77Lp6Swi9RCvQb3kN7
+         QLWE0tZMvUX5guYbWMMYK0fXczQlUaTfTAT3TsO/2gfT/vYp8FCl8/C9eHkHLjFp1b
+         oBrk8eqs6LeQ3th52ONZ9qCpWLivfkHg2PH5LBFZdokmkPExPDSNn3jfPxerHUh0Rc
+         Hm3wziH4Y1lMg==
+Subject: Re: [PATCH v3 RESEND] media: vimc: fla: Add virtual flash subdevice
+To:     =?UTF-8?Q?Lucas_A=2e_M=2e_Magalh=c3=a3es?= <lucmaga@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, helen.koike@collabora.com,
+        edusbarretto@gmail.com, lkcamp@lists.libreplanetbr.org
+References: <20191203230148.2442-1-lucmaga@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <96e82f03-99a0-ad24-4145-242c16eacdc4@xs4all.nl>
+Date:   Wed, 15 Jan 2020 18:53:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5DB62609.3050404@gmx.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191203230148.2442-1-lucmaga@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfL3cRDZoxzH9C9M/9R7ddw48BKz64K5U4S34bocYWBdTttlSkFZgyKmLpfw23j7TVs/KPjB4HoQNYvewDaxhoiaXUV/uqPFf+jZM/MdjS3MPy2dzvpFJ
+ pK9YdxbegXgWt/mis+LwJSb9MvPeBWAa9nKLXCNQ+8MsBLLucEdsCV3894xU874JPOgJ+4mTefb9/66MvYFvoh4aAmoSewIwqAv5FfTkyHMUkEDxJKuslpm4
+ DfP3HuVA6G8xtYpDJLgXiY561A51NUVpqxZf47UzYfqQEfE3Mndcqr2rB7l4HHZdcGK8WxQrvMy+efQPh8JhJqhRgJuxs2JJzUJVj2vkISj/Kl6Bn4+/ZIF5
+ 7VY2sJWQj5x1HhqcZmljTHkmPmYgfg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
+Hi Lucas,
 
-On Mon, Oct 28, 2019 at 12:19:37AM +0100, Thomas Pantzer wrote:
-> - Adds support for USB analog video/audio capture devices
->     - Terratec Grabster AV 150/250 MX 	USB-ID (0ccd:0079)
->     - ADS Tech Instant Video XPress USBAV-192  USB-ID (06e1:a192)
+On 12/4/19 12:01 AM, Lucas A. M. Magalhães wrote:
+> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
 > 
-> - Bugfix: constant TM6000_MAXBOARDS off by one,
-> 	 Grabster was never enumerated
+> Add a virtual subdevice to simulate the flash control API.
+> Those are the supported controls:
+> v4l2-ctl -d /dev/v4l-subdev6 -L
+> Flash Controls
 > 
-> Signed-off-by: Thomas Pantzer <kernel-org@pantzer.net>
+>                        led_mode 0x009c0901 (menu)   : min=0 max=2 default=1 value=1
+>                                 0: Off
+>                                 1: Flash
+>                                 2: Torch
+>                   strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
+>                                 0: Software
+>                                 1: External
+>                          strobe 0x009c0903 (button) : flags=write-only, execute-on-write
+>                     stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
+>                   strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
+>                  strobe_timeout 0x009c0906 (int)    : min=50 max=400 step=50 default=50 value=400
+>            intensity_flash_mode 0x009c0907 (int)    : min=23040 max=1499600 step=11718 default=23040 value=23040
+>            intensity_torch_mode 0x009c0908 (int)    : min=2530 max=187100 step=1460 default=2530 value=2530
+>             intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=0 value=0
+>                          faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
+> 
+> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
+> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
+> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
+> 
 > ---
->  drivers/media/usb/tm6000/tm6000-cards.c | 79
-> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------
->  1 file changed, 58 insertions(+), 21 deletions(-)
-
-> diff -bBduwp linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-vanilla linux/drivers/media/usb/tm6000/tm6000-cards.c
-> --- linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-vanilla	2015-06-19 18:42:40.000000000 +0200
-
-This is a diff against 3.18.16? Please diff and _test_ against something
-more recent.
-
-> +++ linux/drivers/media/usb/tm6000/tm6000-cards.c	2019-10-28 00:01:45.000000000 +0100
-> @@ -52,13 +52,16 @@
->  #define TM6010_BOARD_BEHOLD_WANDER_LITE		14
->  #define TM6010_BOARD_BEHOLD_VOYAGER_LITE	15
->  #define TM5600_BOARD_TERRATEC_GRABSTER		16
-> +#define TM5600_BOARD_ADSTECH_XPRESS_USBAV_192   17
-> +
+> Hi,
 > 
->  #define is_generic(model) ((model == TM6000_BOARD_UNKNOWN) || \
->  			   (model == TM5600_BOARD_GENERIC) || \
-
-Your patch got mangled by your email client, and it does not apply any more.
-
-See:
-
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
-
-That doesn't mean the code is wrong.
-
-
->  			   (model == TM6000_BOARD_GENERIC) || \
->  			   (model == TM6010_BOARD_GENERIC))
+> I've copied some values from another driver (lm3646) to make it more
+> realistic, as suggested by Hans. All values except for
+> V4L2_CID_FLASH_INDICATOR_INTENSITY, which I couldn't find any
+> implementation.
 > 
-> -#define TM6000_MAXBOARDS        16
-> +#define TM6000_MAXBOARDS        18
+> The v4l-compliance is failing. From the documentation
+> V4L2_CID_FLASH_STROBE should just work if the
+> V4L2_CID_FLASH_STROBE_SOURCE is "Software" and the
+> V4L2_CID_FLASH_LED_MODE is "Flash", otherwise it should fail. With the
+> standard values configured for the V4L2_CID_FLASH_STROBE will not fail.
+> But during the tests v4l-compliance sets V4L2_CID_FLASH_LED_MODE to
+> "Torch" and V4L2_CID_FLASH_STROBE_SOURCE to "External" which makes
+> V4L2_CID_FLASH_STROBE to fail. How do I proceed? Should the
+> v4l-compliance be changed?
 
-Indeed that is wrong.
+I completely missed this question, my apologies.
 
-> +
->  static unsigned int card[]     = {[0 ... (TM6000_MAXBOARDS - 1)] = UNSET };
-> 
->  module_param_array(card,  int, NULL, 0444);
-> @@ -500,25 +503,6 @@ static struct tm6000_board tm6000_boards
->  			.amux = TM6000_AMUX_SIF1,
->  		},
->  	},
-> -	[TM5600_BOARD_TERRATEC_GRABSTER] = {
-> -		.name         = "Terratec Grabster AV 150/250 MX",
-> -		.type         = TM5600,
-> -		.tuner_type   = TUNER_ABSENT,
-> -		.vinput = { {
-> -			.type	= TM6000_INPUT_TV,
-> -			.vmux	= TM6000_VMUX_VIDEO_B,
-> -			.amux	= TM6000_AMUX_ADC1,
-> -			}, {
-> -			.type	= TM6000_INPUT_COMPOSITE1,
-> -			.vmux	= TM6000_VMUX_VIDEO_A,
-> -			.amux	= TM6000_AMUX_ADC2,
-> -			}, {
-> -			.type	= TM6000_INPUT_SVIDEO,
-> -			.vmux	= TM6000_VMUX_VIDEO_AB,
-> -			.amux	= TM6000_AMUX_ADC2,
-> -			},
-> -		},
-> -	},
->  	[TM6010_BOARD_TWINHAN_TU501] = {
->  		.name         = "Twinhan TU501(704D1)",
->  		.tuner_type   = TUNER_XC2028, /* has a XC3028 */
-> @@ -614,6 +598,58 @@ static struct tm6000_board tm6000_boards
->  			.amux	= TM6000_AMUX_ADC1,
->  		},
->  	},
-> +	[TM5600_BOARD_TERRATEC_GRABSTER] = {
-> +		.name         = "Terratec Grabster AV 150/250 MX",
-> +		.type         = TM5600,
-> +		.tuner_type   = TUNER_ABSENT,
+The best way is to set the flash_strobe control V4L2_CTRL_FLAG_GRABBED whenever
+this control is invalid. I'd also return EBUSY instead of EINVAL in
+'case V4L2_CID_FLASH_STROBE:' for consistency with the GRABBED behavior.
 
-These lines haven't changed so they shouldn't be in the diff.
+v4l2-compliance will probably still fail since it doesn't check this flag
+when testing S_CTRL/S_EXT_CTRLS, that should be added: in testSimpleControls()
+it should check that the return value of S_CTRL is EBUSY if GRABBED was set.
+In testExtendedControls() it should do the same when it tests VIDIOC_S_EXT_CTRLS
+for a single control. And in the later test where it sets all controls in a single
+VIDIOC_S_EXT_CTRL ioctl it should skip any controls marked GRABBED.
 
-> +		.gpio = {
-> +			.tuner_reset    = TM6000_GPIO_1,
-> +			/* this GPIO configuration needs to be here due to a
-> +			bug elsewhere, if it is missing the driver fails to
-> +			load, if TUNER_ABSENT or has_tuner==0 is stated, the
-> +			tuner-reset configuration should be ignored */
-> +		},
-> +		.caps = {
-> +			.has_tuner = 0,
-> +			.has_eeprom = 0,
-> +		},
-> +		.vinput = { {
-> +			.type   = TM6000_INPUT_SVIDEO,
-> +			.vmux   = TM6000_VMUX_VIDEO_A,
-> +			.amux   = TM6000_AMUX_ADC1,
-> +			}, {
-> +			.type   = TM6000_INPUT_COMPOSITE1,
-> +			.vmux   = TM6000_VMUX_VIDEO_B,
-> +			.amux   = TM6000_AMUX_ADC2,
-> +			},
-> +		},
-> +	},
-> +	[TM5600_BOARD_ADSTECH_XPRESS_USBAV_192] = {
-> +		.name         = "ADStech XPress USBAV-192",
-> +		.type         = TM5600,
-> +		.tuner_type   = TUNER_ABSENT,
-> +		.caps = {
-> +			.has_eeprom	= 1,
-> +			.has_tuner	= 0,
-> +		},
-> +		.gpio = {
-> +			.tuner_reset	= TM6000_GPIO_1,
-> +			/* this GPIO configuration needs to be here due to a
-> +			bug elsewhere, if it is missing the driver fails to
-> +			load, if TUNER_ABSENT or has_tuner==0 is stated, the
-> +			tuner-reset configuration should be ignored */
-> +		},
-> +		.vinput = { {
-> +			.type	= TM6000_INPUT_SVIDEO,
-> +			.vmux	= TM6000_VMUX_VIDEO_A,
-> +			.amux	= TM6000_AMUX_ADC1,
-> +			}, {
-> +			.type	= TM6000_INPUT_COMPOSITE1,
-> +			.vmux	= TM6000_VMUX_VIDEO_B,
-> +			.amux	= TM6000_AMUX_ADC2,
-> +			},
-> +		},
-> +	},
->  };
-> 
->  /* table of devices that work with this driver */
-> @@ -631,13 +667,14 @@ static struct usb_device_id tm6000_id_ta
->  	{ USB_DEVICE(0x6000, 0xdec1), .driver_info = TM6010_BOARD_BEHOLD_VOYAGER },
->  	{ USB_DEVICE(0x0ccd, 0x0086), .driver_info = TM6010_BOARD_TERRATEC_CINERGY_HYBRID_XE },
->  	{ USB_DEVICE(0x0ccd, 0x00A5), .driver_info = TM6010_BOARD_TERRATEC_CINERGY_HYBRID_XE },
-> -	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info = TM5600_BOARD_TERRATEC_GRABSTER },
->  	{ USB_DEVICE(0x13d3, 0x3240), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
->  	{ USB_DEVICE(0x13d3, 0x3241), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
->  	{ USB_DEVICE(0x13d3, 0x3243), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
->  	{ USB_DEVICE(0x13d3, 0x3264), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
->  	{ USB_DEVICE(0x6000, 0xdec2), .driver_info = TM6010_BOARD_BEHOLD_WANDER_LITE },
->  	{ USB_DEVICE(0x6000, 0xdec3), .driver_info = TM6010_BOARD_BEHOLD_VOYAGER_LITE },
-> +	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info = TM5600_BOARD_TERRATEC_GRABSTER },
+I think that's a reasonable approach.
 
-Why is it moved?
+Regards,
 
-> +	{ USB_DEVICE(0x06e1, 0xa192), .driver_info = TM5600_BOARD_ADSTECH_XPRESS_USBAV_192 },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(usb, tm6000_id_table);
-
-
-Thanks
-Sean
+	Hans
