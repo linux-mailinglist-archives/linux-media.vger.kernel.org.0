@@ -2,61 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0F813CCE4
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 20:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB88213CD10
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 20:27:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbgAOTN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 14:13:58 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47914 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbgAOTN5 (ORCPT
+        id S1729027AbgAOT1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 14:27:36 -0500
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:31946 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725999AbgAOT1g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 14:13:57 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id D4F7E293475
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, skhan@linuxfoundation.org,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
-Subject: [PATCH v2] media: vimc: streamer: if kthread_stop fails, ignore the error
-Date:   Wed, 15 Jan 2020 21:13:34 +0200
-Message-Id: <20200115191334.27346-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 15 Jan 2020 14:27:36 -0500
+X-Halon-ID: 128a8464-37cd-11ea-a00b-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p54ac5d7b.dip0.t-ipconnect.de [84.172.93.123])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 128a8464-37cd-11ea-a00b-005056917a89;
+        Wed, 15 Jan 2020 20:27:34 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Lars-Peter Clausen <lars@metafoo.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] adv7180: Add init_cfg pad operation
+Date:   Wed, 15 Jan 2020 20:27:19 +0100
+Message-Id: <20200115192719.3276138-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ignore errors returned from kthread_stop since the
-vimc subdevices should still be notified that
-streaming stopped so they can release the memory for
-the streaming, and also kthread should be set to NULL.
-kthread_stop can return -EINTR in case the thread
-did not yet ran. This can happen if userspace calls
-streamon and streamoff right after.
+Add a init_cfg pad operation so that configurations allocated with
+v4l2_subdev_alloc_pad_config() are initialized.
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
-Changes from v1: undo deletion of an empty line
+ drivers/media/i2c/adv7180.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
- drivers/media/platform/vimc/vimc-streamer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-index cd6b55433c9e..417970dbad14 100644
---- a/drivers/media/platform/vimc/vimc-streamer.c
-+++ b/drivers/media/platform/vimc/vimc-streamer.c
-@@ -216,7 +216,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 6528e2343fc89f43..00159daa6fcd6516 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -749,6 +749,17 @@ static int adv7180_set_pad_format(struct v4l2_subdev *sd,
+ 	return ret;
+ }
  
- 		ret = kthread_stop(stream->kthread);
- 		if (ret)
--			return ret;
-+			dev_warn(ved->dev, "kthread_stop returned '%d'\n", ret);
++static int adv7180_init_cfg(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_pad_config *cfg)
++{
++	struct v4l2_subdev_format fmt = {
++		.which = cfg ? V4L2_SUBDEV_FORMAT_TRY
++			: V4L2_SUBDEV_FORMAT_ACTIVE,
++	};
++
++	return adv7180_set_pad_format(sd, cfg, &fmt);
++}
++
+ static int adv7180_g_mbus_config(struct v4l2_subdev *sd,
+ 				 struct v4l2_mbus_config *cfg)
+ {
+@@ -854,6 +865,7 @@ static const struct v4l2_subdev_core_ops adv7180_core_ops = {
+ };
  
- 		stream->kthread = NULL;
- 
+ static const struct v4l2_subdev_pad_ops adv7180_pad_ops = {
++	.init_cfg = adv7180_init_cfg,
+ 	.enum_mbus_code = adv7180_enum_mbus_code,
+ 	.set_fmt = adv7180_set_pad_format,
+ 	.get_fmt = adv7180_get_pad_format,
 -- 
-2.17.1
+2.24.1
 
