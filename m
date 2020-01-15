@@ -2,108 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EABD813CAF8
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B386C13CB0E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 18:32:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728949AbgAOR2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 12:28:42 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58336 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbgAOR2l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 12:28:41 -0500
-Received: from pendragon.ideasonboard.com (85-76-106-26-nat.elisa-mobile.fi [85.76.106.26])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BAC62BA;
-        Wed, 15 Jan 2020 18:28:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1579109319;
-        bh=GTgiNckxVZKqQw4JXS+z539Vsk6pXreiOLeWxF8/ceY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SdVmbgcjhqKpJ6Wp78xWcDXte9rFyELUrb4onsnKzjwGOxjSb7NdZ3JO8pgAC+UR4
-         lkH+/JafgnTAVEJLgfP6tAsR8l/X2R9Fj93XpskQSZYhqmL/xpJsuPwW3wzRManz+R
-         yKMhx+dbsUoHh8vfVPbJgYMEiLuvhOciARjT4tLw=
-Date:   Wed, 15 Jan 2020 19:28:22 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc:     mchehab@kernel.org, hyun.kwon@xilinx.com, vkoul@kernel.org,
+        id S1728921AbgAORc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 12:32:29 -0500
+Received: from gofer.mess.org ([88.97.38.141]:59357 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726418AbgAORc3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Jan 2020 12:32:29 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DD9FE11A001; Wed, 15 Jan 2020 17:32:26 +0000 (GMT)
+Date:   Wed, 15 Jan 2020 17:32:26 +0000
+From:   Sean Young <sean@mess.org>
+To:     Phong Tran <tranmanphong@gmail.com>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        allison@lohutok.net, tglx@linutronix.de,
+        syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        michal.simek@xilinx.com, linux-arm-kernel@lists.infradead.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v2] media: xilinx: Use dma_request_chan() instead
- dma_request_slave_channel()
-Message-ID: <20200115172822.GB7139@pendragon.ideasonboard.com>
-References: <20200110071648.15690-1-peter.ujfalusi@ti.com>
+        glider@google.com, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] media: dvb: check return value digitv_ctrl_msg
+Message-ID: <20200115173226.GA24471@gofer.mess.org>
+References: <0000000000004f3d820596d8c51c@google.com>
+ <20191203004138.21223-1-tranmanphong@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200110071648.15690-1-peter.ujfalusi@ti.com>
+In-Reply-To: <20191203004138.21223-1-tranmanphong@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Peter,
+Hello,
 
-(CC'ing Hans)
-
-Thank you for the patch.
-
-On Fri, Jan 10, 2020 at 09:16:48AM +0200, Peter Ujfalusi wrote:
-> dma_request_slave_channel() is a wrapper on top of dma_request_chan()
-> eating up the error code.
+On Tue, Dec 03, 2019 at 07:41:38AM +0700, Phong Tran wrote:
+> For fixing syzbot "KMSAN: uninit-value in digitv_rc_query"
 > 
-> By using dma_request_chan() directly the driver can support deferred
-> probing against DMA.
+> In scenario testing for syzbot, failure reading from
+> digitv_ctrl_msg() [1].
 > 
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Eg:
+> [   91.846657][ T3844] dvb-usb: bulk message failed: -22 (7/0)
+> 
+> digitv_rc_query() always return 0. But in this case a wrong thing happens.
+> 
+> Reported-by: syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com
+> Tested-by: syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+A fix for this was already merged I'm afraid, see commit eecc70d22ae5
+("media: digitv: don't continue if remote control state can't be read").
 
-and taken in my tree. Hans, you asked me on IRC to review this, did you
-plan to get it merged upstream yourself ? If so I'll drop it.
-
+> [1]: https://syzkaller.appspot.com/text?tag=CrashLog&x=16860a63600000
+> [2]: https://groups.google.com/d/msg/syzkaller-bugs/-TXIJAZ0J9Q/T4PEUQoeAQAJ
+> 
+> Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 > ---
-> Hi,
+>  drivers/media/usb/dvb-usb/digitv.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> Changes since v1:
-> - Fix cleanup path when DMA request failed as suggested by Laurent
-> - Print error only in case when the error is not EPROBE_DEFER
-> 
->  drivers/media/platform/xilinx/xilinx-dma.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
-> index b211380a11f2..3bb54a4db6a4 100644
-> --- a/drivers/media/platform/xilinx/xilinx-dma.c
-> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
-> @@ -725,10 +725,11 @@ int xvip_dma_init(struct xvip_composite_device *xdev, struct xvip_dma *dma,
->  
->  	/* ... and the DMA channel. */
->  	snprintf(name, sizeof(name), "port%u", port);
-> -	dma->dma = dma_request_slave_channel(dma->xdev->dev, name);
-> -	if (dma->dma == NULL) {
-> -		dev_err(dma->xdev->dev, "no VDMA channel found\n");
-> -		ret = -ENODEV;
-> +	dma->dma = dma_request_chan(dma->xdev->dev, name);
-> +	if (IS_ERR(dma->dma)) {
-> +		ret = PTR_ERR(dma->dma);
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_err(dma->xdev->dev, "no VDMA channel found\n");
->  		goto error;
->  	}
->  
-> @@ -752,7 +753,7 @@ void xvip_dma_cleanup(struct xvip_dma *dma)
->  	if (video_is_registered(&dma->video))
->  		video_unregister_device(&dma->video);
->  
-> -	if (dma->dma)
-> +	if (!IS_ERR_OR_NULL(dma->dma))
->  		dma_release_channel(dma->dma);
->  
->  	media_entity_cleanup(&dma->video.entity);
+> diff --git a/drivers/media/usb/dvb-usb/digitv.c b/drivers/media/usb/dvb-usb/digitv.c
+> index dd5bb230cec1..61bc8945e6b9 100644
+> --- a/drivers/media/usb/dvb-usb/digitv.c
+> +++ b/drivers/media/usb/dvb-usb/digitv.c
+> @@ -231,17 +231,21 @@ static struct rc_map_table rc_map_digitv_table[] = {
+>  static int digitv_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
+>  {
+>  	int i;
+> -	u8 key[5];
+> +	u8 key[5] = { 0 };
 
--- 
-Regards,
+The merged commit does not change this line. Why was this changed?
 
-Laurent Pinchart
+Thanks
+
+Sean
+
+>  	u8 b[4] = { 0 };
+> +	int ret;
+>  
+>  	*event = 0;
+>  	*state = REMOTE_NO_KEY_PRESSED;
+>  
+> -	digitv_ctrl_msg(d,USB_READ_REMOTE,0,NULL,0,&key[1],4);
+> -
+> +	ret = digitv_ctrl_msg(d, USB_READ_REMOTE, 0, NULL, 0, &key[1], 4);
+> +	if (ret < 0)
+> +		return ret;
+>  	/* Tell the device we've read the remote. Not sure how necessary
+>  	   this is, but the Nebula SDK does it. */
+> -	digitv_ctrl_msg(d,USB_WRITE_REMOTE,0,b,4,NULL,0);
+> +	ret = digitv_ctrl_msg(d, USB_WRITE_REMOTE, 0, b, 4, NULL, 0);
+> +	if (ret < 0)
+> +		return ret;
+>  
+>  	/* if something is inside the buffer, simulate key press */
+>  	if (key[1] != 0)
+> -- 
+> 2.20.1
