@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C28E813E098
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 17:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87C8D13E0D5
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 17:46:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729320AbgAPQo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 11:44:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52534 "EHLO mail.kernel.org"
+        id S1729332AbgAPQqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 11:46:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55070 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727005AbgAPQo0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:44:26 -0500
+        id S1729701AbgAPQp7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 11:45:59 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C7EA62073A;
-        Thu, 16 Jan 2020 16:44:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B984C20663;
+        Thu, 16 Jan 2020 16:45:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193065;
-        bh=3Bu9Xt7gsNO1n4q+DjARvNjjlYwsFVTl5s/dPAEKF4I=;
+        s=default; t=1579193159;
+        bh=n/jvbSX+FOK8nICkSkn2yXG7e58RQCtU2NcV+14PgJ0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bCStoFXwZ6G1NZkIWYMgQ0RQr36K8QzKPTn8irrhXcdPUCsVq4puUURI1wFF+tNJ7
-         NgAvThgOoE9omhOSVPAhEUbgfv+VzFlw7cjTZg2+YveQKiCYme8zyS5Gpo6MI324y+
-         pAWK0HWBh3hU1DmcmN9KfFfkX1JfBtL5/ONp1+tA=
+        b=mzSIvl+pZ1brJHOhUxnfV9+qYExAu1yz7vWLoMP2pTs8YPKuFXQMgJn7mLpc/u0Ag
+         +5yJacBuR7xMWEpsji11UjPBD3v9Nq5rtccTwERal89XUUy8QCA9chXazbQAQkS7pH
+         wI9dMbab/LJRjlVxMrGPpZfCqEEFcQZFVmKOawRI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 017/205] media: ov6650: Fix default format not applied on device probe
-Date:   Thu, 16 Jan 2020 11:39:52 -0500
-Message-Id: <20200116164300.6705-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 036/205] media: v4l: cadence: Fix how unsued lanes are handled in 'csi2rx_start()'
+Date:   Thu, 16 Jan 2020 11:40:11 -0500
+Message-Id: <20200116164300.6705-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -44,51 +44,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit 5439fa9263cb293e41168bc03711ec18c4f11cba ]
+[ Upstream commit 2eca8e4c1df4864b937752c3aa2f7925114f4806 ]
 
-It is not clear what pixel format is actually configured in hardware on
-reset.  MEDIA_BUS_FMT_YUYV8_2X8, assumed on device probe since the
-driver was intiially submitted, is for sure not the one.
+The 2nd parameter of 'find_first_zero_bit()' is a number of bits, not of
+bytes. So use 'csi2rx->max_lanes' instead of 'sizeof(lanes_used)'.
 
-Fix it by explicitly applying a known, driver default frame format just
-after initial device reset.
-
-Fixes: 2f6e2404799a ("[media] SoC Camera: add driver for OV6650 sensor")
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov6650.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/media/platform/cadence/cdns-csi2rx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-index bbf15644e989..af482620f94a 100644
---- a/drivers/media/i2c/ov6650.c
-+++ b/drivers/media/i2c/ov6650.c
-@@ -877,6 +877,11 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
- 	ret = ov6650_reset(client);
- 	if (!ret)
- 		ret = ov6650_prog_dflt(client);
-+	if (!ret) {
-+		struct v4l2_mbus_framefmt mf = ov6650_def_fmt;
-+
-+		ret = ov6650_s_fmt(sd, &mf);
-+	}
- 	if (!ret)
- 		ret = v4l2_ctrl_handler_setup(&priv->hdl);
- 
-@@ -1031,8 +1036,6 @@ static int ov6650_probe(struct i2c_client *client,
- 	priv->rect.top	  = DEF_VSTRT << 1;
- 	priv->rect.width  = W_CIF;
- 	priv->rect.height = H_CIF;
--	priv->half_scale  = false;
--	priv->code	  = MEDIA_BUS_FMT_YUYV8_2X8;
- 
- 	/* Hardware default frame interval */
- 	priv->tpf.numerator   = GET_CLKRC_DIV(DEF_CLKRC);
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+index 31ace114eda1..be9ec59774d6 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -129,7 +129,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+ 	 */
+ 	for (i = csi2rx->num_lanes; i < csi2rx->max_lanes; i++) {
+ 		unsigned int idx = find_first_zero_bit(&lanes_used,
+-						       sizeof(lanes_used));
++						       csi2rx->max_lanes);
+ 		set_bit(idx, &lanes_used);
+ 		reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, i + 1);
+ 	}
 -- 
 2.20.1
 
