@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E516913E445
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 330B613E463
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:08:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389101AbgAPRHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 12:07:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38604 "EHLO mail.kernel.org"
+        id S2389293AbgAPRII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 12:08:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389089AbgAPRHK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:07:10 -0500
+        id S2389287AbgAPRIH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:08:07 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E20A1217F4;
-        Thu, 16 Jan 2020 17:07:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F2C4F2467C;
+        Thu, 16 Jan 2020 17:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194430;
-        bh=N5ERwiDvrEhKjqvi4Vr6Ok+XCMKgXxIGwQY4H36gUX0=;
+        s=default; t=1579194487;
+        bh=mpGL97m6k814QXjnL2ki81L3W3OZi3I9xyhDVPmMuY8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zU3b24f7I/qJ8SvqTqQtygrPDhdT0zsAD5YGYbh/W0GP0qJzI5xnsYUJKiLXII8yV
-         UcVoHxLBhYP0Cnv+zhR264As5opZ9M+z7ej7Jh3F+gpctWR88MuzcXQ6tiS/mG0PfX
-         MD+77eiWt8LPwTMMI5mWYlVVws8szT2bc7J8tvlQ=
+        b=SbaaxJ3Q+Jzm0nOtelDq9GMhzjTvOZUJg06BXlhfCkgz/SStqP2ZKyJpwLWAn8Fav
+         MTfyZ/F9b9zubMqRpCojSSbfCHd4JNESSd70INixALx1lr0j61Fydx4i77RNb2Pb/9
+         idiy7S71KaIOgSioSGeq3LWK+U9KatuXU4zoLxYk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        "Lad Prabhakar" <prabhakar.csengg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 346/671] media: davinci/vpbe: array underflow in vpbe_enum_outputs()
-Date:   Thu, 16 Jan 2020 11:59:44 -0500
-Message-Id: <20200116170509.12787-83-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: [PATCH AUTOSEL 4.19 387/671] media: Staging: media: Release the correct resource in an error handling path
+Date:   Thu, 16 Jan 2020 12:00:25 -0500
+Message-Id: <20200116170509.12787-124-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -45,52 +44,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit b72845ee5577b227131b1fef23f9d9a296621d7b ]
+[ Upstream commit 3b6471c7becd06325eb5e701cc2602b2edbbc7b6 ]
 
-In vpbe_enum_outputs() we check if (temp_index >= cfg->num_outputs) but
-the problem is that "temp_index" can be negative.  This patch changes
-the types to unsigned to address this array underflow bug.
+'res' is reassigned several times in the function and if we 'goto
+error_unmap', its value is not the returned value of 'request_mem_region()'
+anymore.
 
-Fixes: 66715cdc3224 ("[media] davinci vpbe: VPBE display driver")
+Introduce a new 'struct resource *' variable (i.e. res2) to keep a pointer
+to the right resource, if needed in the error handling path.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Acked-by: "Lad Prabhakar" <prabhakar.csengg@gmail.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 4b4eda001704 ("Staging: media: Unmap and release region obtained by ioremap_nocache")
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/davinci/vpbe.c | 2 +-
- include/media/davinci/vpbe.h          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/davinci_vpfe/dm365_ipipe.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/davinci/vpbe.c b/drivers/media/platform/davinci/vpbe.c
-index df1ae6b5c854..e45e062f4442 100644
---- a/drivers/media/platform/davinci/vpbe.c
-+++ b/drivers/media/platform/davinci/vpbe.c
-@@ -126,7 +126,7 @@ static int vpbe_enum_outputs(struct vpbe_device *vpbe_dev,
- 			     struct v4l2_output *output)
- {
- 	struct vpbe_config *cfg = vpbe_dev->cfg;
--	int temp_index = output->index;
-+	unsigned int temp_index = output->index;
+diff --git a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
+index 95942768639c..7bf2648affc0 100644
+--- a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
++++ b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
+@@ -1777,7 +1777,7 @@ vpfe_ipipe_init(struct vpfe_ipipe_device *ipipe, struct platform_device *pdev)
+ 	struct media_pad *pads = &ipipe->pads[0];
+ 	struct v4l2_subdev *sd = &ipipe->subdev;
+ 	struct media_entity *me = &sd->entity;
+-	struct resource *res, *memres;
++	struct resource *res, *res2, *memres;
  
- 	if (temp_index >= cfg->num_outputs)
- 		return -EINVAL;
-diff --git a/include/media/davinci/vpbe.h b/include/media/davinci/vpbe.h
-index 79a566d7defd..180a05e91497 100644
---- a/include/media/davinci/vpbe.h
-+++ b/include/media/davinci/vpbe.h
-@@ -92,7 +92,7 @@ struct vpbe_config {
- 	struct encoder_config_info *ext_encoders;
- 	/* amplifier information goes here */
- 	struct amp_config_info *amp;
--	int num_outputs;
-+	unsigned int num_outputs;
- 	/* Order is venc outputs followed by LCD and then external encoders */
- 	struct vpbe_output *outputs;
- };
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 4);
+ 	if (!res)
+@@ -1791,11 +1791,11 @@ vpfe_ipipe_init(struct vpfe_ipipe_device *ipipe, struct platform_device *pdev)
+ 	if (!ipipe->base_addr)
+ 		goto error_release;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 6);
+-	if (!res)
++	res2 = platform_get_resource(pdev, IORESOURCE_MEM, 6);
++	if (!res2)
+ 		goto error_unmap;
+-	ipipe->isp5_base_addr = ioremap_nocache(res->start,
+-						resource_size(res));
++	ipipe->isp5_base_addr = ioremap_nocache(res2->start,
++						resource_size(res2));
+ 	if (!ipipe->isp5_base_addr)
+ 		goto error_unmap;
+ 
 -- 
 2.20.1
 
