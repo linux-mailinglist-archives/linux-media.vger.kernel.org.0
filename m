@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD0A813F107
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 19:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D450C13F0F3
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 19:25:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390282AbgAPR0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 12:26:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35320 "EHLO mail.kernel.org"
+        id S2436649AbgAPSZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 13:25:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36462 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392306AbgAPR0a (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:26:30 -0500
+        id S2392384AbgAPR1D (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:27:03 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 05E4F246D3;
-        Thu, 16 Jan 2020 17:26:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 649C1246D5;
+        Thu, 16 Jan 2020 17:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195590;
-        bh=Uwhu3H/KgmOENkQrg66cChrMMjw4TYatdgwUWm6jwyo=;
+        s=default; t=1579195622;
+        bh=g2pj0gi9Ui3WUZYUpszQBhEQoL3MST3QvZu9kt67wxU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UvxTwc3/qjxvPIV2ooOxIJuOPVKt1Jw4ykR8GtBoHTMHoGh6fBl9ZADz+xiygGx8U
-         uNvOJ8eK/10DYXoW0dmqBxMRy0MqiLp/Jgi1DNF3QXCb5mrQ8y4XL7/Gc/eJcdKnGh
-         gDGuNnJd1KS0dl+xc9ZqvjGZJTqFSuszTbY6Z4CE=
+        b=er5rndEdXXH+NEYeuKoalZfr9rAIuDojICj8jd4P+lblFECNMP7dbM9U/JrLjcb5t
+         dMGrmn6Qvhk39OaQCc0W2OBAERPoVD6FIypyyNejU1Akn+GMU2vPYvCh1QOEvxArp3
+         hlkTekS8q+fUOaS2jLAFkMwrFTFuzGn/LhcQxOnY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
-        "Lad Prabhakar" <prabhakar.csengg@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 168/371] media: ov2659: fix unbalanced mutex_lock/unlock
-Date:   Thu, 16 Jan 2020 12:20:40 -0500
-Message-Id: <20200116172403.18149-111-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 193/371] media: omap_vout: potential buffer overflow in vidioc_dqbuf()
+Date:   Thu, 16 Jan 2020 12:21:05 -0500
+Message-Id: <20200116172403.18149-136-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
 References: <20200116172403.18149-1-sashal@kernel.org>
@@ -45,37 +44,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Akinobu Mita <akinobu.mita@gmail.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 384538bda10913e5c94ec5b5d34bd3075931bcf4 ]
+[ Upstream commit dd6e2a981bfe83aa4a493143fd8cf1edcda6c091 ]
 
-Avoid returning with mutex locked.
+The "b->index" is a u32 the comes from the user in the ioctl.  It hasn't
+been checked.  We aren't supposed to use it but we're instead supposed
+to use the value that gets written to it when we call videobuf_dqbuf().
 
-Fixes: fa8cb6444c32 ("[media] ov2659: Don't depend on subdev API")
+The videobuf_dqbuf() first memsets it to zero and then re-initializes it
+inside the videobuf_status() function.  It's this final value which we
+want.
 
-Cc: "Lad Prabhakar" <prabhakar.csengg@gmail.com>
-Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
-Acked-by: Lad Prabhakar <prabhakar.csengg@gmail.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Hans Verkuil pointed out that we need to check the return from
+videobuf_dqbuf().  I ended up doing a little cleanup related to that as
+well.
+
+Fixes: 72915e851da9 ("[media] V4L2: OMAP: VOUT: dma map and unmap v4l2 buffers in qbuf and dqbuf")
+
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov2659.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/omap/omap_vout.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 44b0584eb8a6..e7768ed1ff9c 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -1136,7 +1136,7 @@ static int ov2659_set_fmt(struct v4l2_subdev *sd,
- 		mf = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
- 		*mf = fmt->format;
- #else
--		return -ENOTTY;
-+		ret = -ENOTTY;
- #endif
- 	} else {
- 		s64 val;
+diff --git a/drivers/media/platform/omap/omap_vout.c b/drivers/media/platform/omap/omap_vout.c
+index 4d29860d27b4..18604b608ab2 100644
+--- a/drivers/media/platform/omap/omap_vout.c
++++ b/drivers/media/platform/omap/omap_vout.c
+@@ -1527,23 +1527,20 @@ static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ 	unsigned long size;
+ 	struct videobuf_buffer *vb;
+ 
+-	vb = q->bufs[b->index];
+-
+ 	if (!vout->streaming)
+ 		return -EINVAL;
+ 
+-	if (file->f_flags & O_NONBLOCK)
+-		/* Call videobuf_dqbuf for non blocking mode */
+-		ret = videobuf_dqbuf(q, (struct v4l2_buffer *)b, 1);
+-	else
+-		/* Call videobuf_dqbuf for  blocking mode */
+-		ret = videobuf_dqbuf(q, (struct v4l2_buffer *)b, 0);
++	ret = videobuf_dqbuf(q, b, !!(file->f_flags & O_NONBLOCK));
++	if (ret)
++		return ret;
++
++	vb = q->bufs[b->index];
+ 
+ 	addr = (unsigned long) vout->buf_phy_addr[vb->i];
+ 	size = (unsigned long) vb->size;
+ 	dma_unmap_single(vout->vid_dev->v4l2_dev.dev,  addr,
+ 				size, DMA_TO_DEVICE);
+-	return ret;
++	return 0;
+ }
+ 
+ static int vidioc_streamon(struct file *file, void *fh, enum v4l2_buf_type i)
 -- 
 2.20.1
 
