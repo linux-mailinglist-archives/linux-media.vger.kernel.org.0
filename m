@@ -2,151 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A653113D2EF
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 04:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E3713D351
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 05:59:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730071AbgAPD4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 22:56:18 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:39454 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729110AbgAPD4S (ORCPT
+        id S1731078AbgAPE5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 23:57:06 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37271 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728939AbgAPE5F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 22:56:18 -0500
-Received: by mail-ed1-f66.google.com with SMTP id t17so17629664eds.6
-        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2020 19:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PD6zdpRIP8Vi2FKz5I9i6BS4RJGaiRXuBmZIDbNDHA8=;
-        b=ThNG7h2yPe4UfpOLJJHQW3e5+Qc/HqFyihH3PIkLD+54QGjVJZvc2/nsKO766jQI9g
-         5famgfb9ABU5gfBsTrg4zzszF5hHJe9e4hLS7WovHqYypop2EH/j4V3aH9dVkXJe4XOg
-         HFwSSXrRph2P3Nzo2C2623uQ4Oxp6H1LSxadY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PD6zdpRIP8Vi2FKz5I9i6BS4RJGaiRXuBmZIDbNDHA8=;
-        b=su2lD9pHzxhie6nI8gcAtXApr33q+MuVM/MMt4wfH3GGdAeoGitNgTmWKsq5Oz97nP
-         q9qRBeuGjRHI6yxDUtDGotxs69dYqZ9NjtR9L3PjPX4uBl4Wz4p2sQ+yBmPea4AzXSHT
-         2FnLd/JcABf76kCNGGvWAVuSghYOOn5kU612L8qBgRAFrDUvckjopykMldj+VaWh9x/2
-         NzWwwO1Gid+kl5oioMOIDb9zmn5nAhWoYlbNT26KCKV3aCsh0X2SzDskY0merUX1TRk/
-         /CjYvAGaDJ5bv3OG9aCmAwgXms5/Yj4k0diouIjhiG/uSTwzV36vRL7J84K97Wy79WPy
-         MzaA==
-X-Gm-Message-State: APjAAAX1p4s9uSH16Z7GjL1HEBLrWY6pUzEitwIIFTIiNG9mPOfEb2zx
-        9PHQsLYp6sdD4zLivARKK3tSchOVPSVsCQ==
-X-Google-Smtp-Source: APXvYqwj6jrvv07BKdbgspD1ypVZlZ3aF9FhRJnIGksw7Ha0scsJI2aYP808Sm6+ACSCCcy341lYeg==
-X-Received: by 2002:a50:ed0a:: with SMTP id j10mr33534698eds.215.1579146975736;
-        Wed, 15 Jan 2020 19:56:15 -0800 (PST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id x3sm777175edr.72.2020.01.15.19.56.14
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jan 2020 19:56:14 -0800 (PST)
-Received: by mail-wr1-f48.google.com with SMTP id y11so17693958wrt.6
-        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2020 19:56:14 -0800 (PST)
-X-Received: by 2002:adf:f803:: with SMTP id s3mr741232wrp.7.1579146973778;
- Wed, 15 Jan 2020 19:56:13 -0800 (PST)
-MIME-Version: 1.0
-References: <HE1PR06MB4011EDD5F2686A05BC35F61CAC790@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <20191106223408.2176-1-jonas@kwiboo.se> <HE1PR06MB4011FF930111A869E4645C8CAC790@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <CAAFQd5CSWea=DNjySJxZmVi+2c5U4EKVPa1mf3vHh70+YrAQCA@mail.gmail.com>
- <7b92111b0c6443653de45f1eeec867645c127f32.camel@collabora.com>
- <CAAFQd5CZo5g2gtuvU+OuoRj18ZcCH8XEinGyAjRxqUXRfSQhgg@mail.gmail.com> <9606106c-5c49-cbc1-cb8f-0389ff8281bd@kwiboo.se>
-In-Reply-To: <9606106c-5c49-cbc1-cb8f-0389ff8281bd@kwiboo.se>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 16 Jan 2020 12:56:02 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DMVKH_f6nTohw_7LpLAYNWOv=fN77S_sLPPmYZwskosA@mail.gmail.com>
-Message-ID: <CAAFQd5DMVKH_f6nTohw_7LpLAYNWOv=fN77S_sLPPmYZwskosA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] media: hantro: Reduce H264 extra space for motion vectors
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 15 Jan 2020 23:57:05 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:4d15:c6f6:3132:f9bd])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id rxDJi5o5QrNgyrxDKiA9M5; Thu, 16 Jan 2020 05:57:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579150623; bh=GnxpNOTClLF6NB9dSDRyxF5q4DC2ln1anYwlUanASJQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ZsiEPWbKK2vQqhk3fMShEEGq7yh6xG+RoEHjTWiPCf+6Tltx08s1NEWiaXrpN7P7/
+         RORRrhFw0y9fVsd7LY4yUcxhqonqLke98OY74pq3FWil8JAs7qBlzdV+RrAdiW3Tg+
+         c1KwbCmh/FH++0nOJfgZqDophe0ztCs2vRxsz5TNP3TN4bUV5/WtakXbfH64fIH2AK
+         agPe41clnmqWyXa233nUHc199HEvB9fDRRIvGmXAv7R63Vdlm6uQatcHzBOjr5A34P
+         oS/MaRGlDzx+6TExBsXIb2EqRXi46gN3fFeW296Y+gicabugKaa7hrBaB25xBLCxGQ
+         4/H0lJIS2mKfA==
+Message-ID: <96ad57df52be5a4269d8039f4f665bd9@smtp-cloud7.xs4all.net>
+Date:   Thu, 16 Jan 2020 05:57:01 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfF5FozMrZBX0NSVkGeQA1e/GRsUDvoVQshbJTB8fmm8WK8HFzFWTiN3WzNLMvHvawqkBHC9Q52qdvP5eCVcmTQqKJOn99uAdUDgv9Tr8wEvv9wXUG7dX
+ AoGTauDsEaZJwWDjAByYAk1dik/qmtwSFGJ1xm78Xnn8pP2Nnz8yyrcXotMmi9TIaih+XRR9o+XizhbohDF5WTjOvI5nNroGOs2yXfxOjY9MZKzRlsulKkax
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 9, 2020 at 12:10 AM Jonas Karlman <jonas@kwiboo.se> wrote:
->
-> On 2020-01-08 13:59, Tomasz Figa wrote:
-> > On Tue, Dec 10, 2019 at 3:11 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> >>
-> >> On Wed, 2019-11-20 at 21:44 +0900, Tomasz Figa wrote:
-> >>> Hi Jonas,
-> >>>
-> >>> On Thu, Nov 7, 2019 at 7:34 AM Jonas Karlman <jonas@kwiboo.se> wrote:
-> >>>> A decoded 8-bit 4:2:0 frame need memory for up to 448 bytes per
-> >>>> macroblock with additional 32 bytes on multi-core variants.
-> >>>>
-> >>>> Memory layout is as follow:
-> >>>>
-> >>>> +---------------------------+
-> >>>>> Y-plane   256 bytes x MBs |
-> >>>> +---------------------------+
-> >>>>> UV-plane  128 bytes x MBs |
-> >>>> +---------------------------+
-> >>>>> MV buffer  64 bytes x MBs |
-> >>>> +---------------------------+
-> >>>>> MC sync          32 bytes |
-> >>>> +---------------------------+
-> >>>>
-> >>>> Reduce the extra space allocated now that motion vector buffer offset no
-> >>>> longer is based on the extra space.
-> >>>>
-> >>>> Only allocate extra space for 64 bytes x MBs of motion vector buffer
-> >>>> and 32 bytes for multi-core sync.
-> >>>>
-> >>>> Fixes: a9471e25629b ("media: hantro: Add core bits to support H264 decoding")
-> >>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> >>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >>>> ---
-> >>>> Changes in v3:
-> >>>>   - add memory layout to code comment (Boris)
-> >>>> Changes in v2:
-> >>>>   - updated commit message
-> >>>> ---
-> >>>>  drivers/staging/media/hantro/hantro_v4l2.c | 20 ++++++++++++++++++--
-> >>>>  1 file changed, 18 insertions(+), 2 deletions(-)
-> >>>>
-> >>>
-> >>> Thanks for the patch!
-> >>>
-> >>> What platform did you test it on and how? Was it tested with IOMMU enabled?
-> >>
-> >> Hello Tomasz,
-> >>
-> >> Please note that this series has been picked-up and is merged
-> >> in v5.5-rc1.
-> >>
-> >> IIRC, we tested these patches on RK3399 and RK3288 (that means
-> >> with an IOMMU). I've just ran some more extensive tests on RK3288,
-> >> on media/master; and I plan to test some more on RK3399 later this week.
-> >>
-> >> Do you have any specific concern in mind?
-> >
-> > I specifically want to know whether we're 100% sure that those sizes
-> > are correct. The IOMMU still works on page granularity so it's
-> > possible that the allocation could be just big enough by luck.
->
-> One of my RK3288 TRM [1] contains the following:
->
-> Direct mode motion vector write:
->   Its base addr is right after decode output picture data
->   Its length is mbwidth*mbheight*64
->
-> Also both the mpp library and imx-vpu-hantro code both use mbwidth*mbheight*64.
-> So I feel confident that the buffer size is correct.
->
-> [1] Rockchip RK3288TRM V1.1 Part3-Graphic and multi-media.pdf
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fair enough. Thanks!
+Results of the daily build of media_tree:
 
-Best regards,
-Tomasz
+date:			Thu Jan 16 05:00:10 CET 2020
+media-tree git hash:	2a0a0bc7020ef7e66c9569d8229d79fa72e3d659
+media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
+v4l-utils git hash:	ec55a961487b449bedbe07650674b4965814cf07
+edid-decode git hash:	3188a15e97a23cbccdf7c298e526eca0c40fa228
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
