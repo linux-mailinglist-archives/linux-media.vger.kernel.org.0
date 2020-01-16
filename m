@@ -2,134 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BF2113CF31
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2020 22:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63B8813D2B4
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 04:29:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729454AbgAOVeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Jan 2020 16:34:22 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14312 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbgAOVeV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Jan 2020 16:34:21 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e1f85210000>; Wed, 15 Jan 2020 13:33:21 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Wed, 15 Jan 2020 13:34:16 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Wed, 15 Jan 2020 13:34:16 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 15 Jan
- 2020 21:34:16 +0000
-Subject: Re: [PATCH v12 11/22] mm/gup: introduce pin_user_pages*() and
- FOLL_PIN
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Mike Rapoport <rppt@linux.ibm.com>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
- <20200107224558.2362728-12-jhubbard@nvidia.com>
- <20200115153020.GF19546@infradead.org>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <1a0ee1db-5528-86a8-0713-3d820fbdf4ad@nvidia.com>
-Date:   Wed, 15 Jan 2020 13:34:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200115153020.GF19546@infradead.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579124001; bh=87Rlq6x45ruVW7JTVYUJt0mWD3kN4xgsTUgpHaSTwOs=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=dbP5SmA0QfbUlmT548bubiJAkEQguNXb+B22BE0nnic910e/52B3pTFYwo0R9gnOk
-         /mlFxNBraLMyXPTecP1trRDknv0CWyUqRUhn8AvgRKQEt/OrYnrlJ5ltQrtwu2/iZG
-         uXyWe/Tp3/8o2BssD5h12JhA8/Qf+tvLIUVBAfdgHpiHf/vpXBUQ/a29w86sKWsdhS
-         xLP+ysLSXK1OimxyU8GqDxRUN80ueCmWM+W82ScjqhN2l7u6YLSbkEfUVc40jSw+4n
-         1alFBQ4/aOAizIIaeTPZN6p/1uIoYyQqWqSWRALwuOXb5xR9ZMfEIX7FqzbdBDPZRO
-         IYaka2FAJgWiw==
+        id S1729751AbgAPD32 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Jan 2020 22:29:28 -0500
+Received: from mga01.intel.com ([192.55.52.88]:22543 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726513AbgAPD32 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Jan 2020 22:29:28 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Jan 2020 19:29:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,324,1574150400"; 
+   d="scan'208";a="256059703"
+Received: from ipu5-build.bj.intel.com ([10.238.232.196])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jan 2020 19:29:25 -0800
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
+        tian.shu.qiu@intel.com, bingbu.cao@linux.intel.com
+Subject: [PATCH] Revert "media: staging/intel-ipu3: make imgu use fixed running mode"
+Date:   Thu, 16 Jan 2020 11:34:49 +0800
+Message-Id: <1579145689-23252-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/15/20 7:30 AM, Christoph Hellwig wrote:
-> On Tue, Jan 07, 2020 at 02:45:47PM -0800, John Hubbard wrote:
->> Introduce pin_user_pages*() variations of get_user_pages*() calls,
->> and also pin_longterm_pages*() variations.
->>
->> For now, these are placeholder calls, until the various call sites
->> are converted to use the correct get_user_pages*() or
->> pin_user_pages*() API.
-> 
-> What do the pure placeholders buy us?  The API itself looks ok,
-> but until it actually is properly implemented it doesn't help at
-> all, and we've had all kinds of bad experiences with these sorts
-> of stub APIs.
-> 
+This reverts commit e878742c83ec26ef256ebb6b36a4d44644548f25.
 
-Hi Christoph,
+Imgu should still keep the capability and flexibility to allow user to
+run 2 video pipes, as the user may use the video pipe to capture still
+frames with less system load and power than still pipe.
 
-Absolutely agreed, and in fact, after spending some time in this area I 
-am getting a much better understanding of just how problematic "this will 
-be used soon" APIs really are. However, this is not quite that case.
+Suggested-by: Tomasz Figa <tfiga@chromium.org>
+---
+ Documentation/media/v4l-drivers/ipu3.rst        |  6 +-
+ drivers/staging/media/ipu3/include/intel-ipu3.h |  4 ++
+ drivers/staging/media/ipu3/ipu3-v4l2.c          | 74 ++++++++++++++++++++++---
+ drivers/staging/media/ipu3/ipu3.h               |  5 +-
+ 4 files changed, 77 insertions(+), 12 deletions(-)
 
-The following things make this different from a "pure placeholder" API:
-
-1) These APIs are all exercised in the following patches in this series, 
-unless I've overlooked one, and
-
-2) The pages are actually tracked in the very next patch that I want to
-post. That patch was posted as part of the v11 series [1], but 
-Leon Romanovsky reported a problem with it, and so I'm going to add in
-the ability to handle larger "pin" refcounts for the huge page cases.
-
-Meanwhile, I wanted to get these long-simmering simpler preparatory
-patches submitted, because it's clear that the API is unaffected by the
-huge page refcount fix. (That fix will likely use the second struct page of
-the compound page, to count up higher.)
-
-
-[1] https://lore.kernel.org/r/20191216222537.491123-24-jhubbard@nvidia.com  
-    [PATCH v11 23/25] mm/gup: track FOLL_PIN pages
-
-thanks,
+diff --git a/Documentation/media/v4l-drivers/ipu3.rst b/Documentation/media/v4l-drivers/ipu3.rst
+index 50bd264a3408..e4904ab44e60 100644
+--- a/Documentation/media/v4l-drivers/ipu3.rst
++++ b/Documentation/media/v4l-drivers/ipu3.rst
+@@ -234,9 +234,9 @@ The IPU3 ImgU pipelines can be configured using the Media Controller, defined at
+ Firmware binary selection
+ -------------------------
+ 
+-The firmware binary is selected according to the running mode of imgu. There are
+-2 modes are available - "video" and "still". "ipu3-imgu video" are running under
+-"video" mode and "ipu3-imgu still" is running under "still" mode.
++The firmware binary is selected using the V4L2_CID_INTEL_IPU3_MODE, currently
++defined in drivers/staging/media/ipu3/include/intel-ipu3.h . "VIDEO" and "STILL"
++modes are available.
+ 
+ Processing the image in raw Bayer format
+ ----------------------------------------
+diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+index 37afb8d596d0..1c9c3ba4d518 100644
+--- a/drivers/staging/media/ipu3/include/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+@@ -12,6 +12,10 @@
+ #define V4L2_META_FMT_IPU3_PARAMS	v4l2_fourcc('i', 'p', '3', 'p') /* IPU3 processing parameters */
+ #define V4L2_META_FMT_IPU3_STAT_3A	v4l2_fourcc('i', 'p', '3', 's') /* IPU3 3A statistics */
+ 
++/* from include/uapi/linux/v4l2-controls.h */
++#define V4L2_CID_INTEL_IPU3_BASE	(V4L2_CID_USER_BASE + 0x10c0)
++#define V4L2_CID_INTEL_IPU3_MODE	(V4L2_CID_INTEL_IPU3_BASE + 1)
++
+ /******************* ipu3_uapi_stats_3a *******************/
+ 
+ #define IPU3_UAPI_MAX_STRIPES				2
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index 45de77baf080..569e27b824c8 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -67,6 +67,8 @@ static int imgu_subdev_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+ 
+ 	dev_dbg(dev, "%s %d for pipe %u", __func__, enable, pipe);
++	/* grab ctrl after streamon and return after off */
++	v4l2_ctrl_grab(imgu_sd->ctrl, enable);
+ 
+ 	if (!enable) {
+ 		imgu_sd->active = false;
+@@ -94,7 +96,7 @@ static int imgu_subdev_s_stream(struct v4l2_subdev *sd, int enable)
+ 	if (imgu_pipe->nodes[IMGU_NODE_VF].enabled)
+ 		css_pipe->vf_output_en = true;
+ 
+-	if (imgu_sd->running_mode == IPU3_RUNNING_MODE_VIDEO)
++	if (atomic_read(&imgu_sd->running_mode) == IPU3_RUNNING_MODE_VIDEO)
+ 		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_VIDEO;
+ 	else
+ 		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_CAPTURE;
+@@ -666,7 +668,7 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+ 	if (imgu_pipe->nodes[IMGU_NODE_VF].enabled)
+ 		css_pipe->vf_output_en = true;
+ 
+-	if (imgu_sd->running_mode == IPU3_RUNNING_MODE_VIDEO)
++	if (atomic_read(&imgu_sd->running_mode) == IPU3_RUNNING_MODE_VIDEO)
+ 		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_VIDEO;
+ 	else
+ 		css_pipe->pipe_id = IPU3_CSS_PIPE_ID_CAPTURE;
+@@ -897,6 +899,11 @@ static struct v4l2_subdev_internal_ops imgu_subdev_internal_ops = {
+ 	.open = imgu_subdev_open,
+ };
+ 
++static const struct v4l2_subdev_core_ops imgu_subdev_core_ops = {
++	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
+ static const struct v4l2_subdev_video_ops imgu_subdev_video_ops = {
+ 	.s_stream = imgu_subdev_s_stream,
+ };
+@@ -910,6 +917,7 @@ static const struct v4l2_subdev_pad_ops imgu_subdev_pad_ops = {
+ };
+ 
+ static const struct v4l2_subdev_ops imgu_subdev_ops = {
++	.core = &imgu_subdev_core_ops,
+ 	.video = &imgu_subdev_video_ops,
+ 	.pad = &imgu_subdev_pad_ops,
+ };
+@@ -1003,6 +1011,44 @@ static const struct v4l2_ioctl_ops imgu_v4l2_meta_ioctl_ops = {
+ 	.vidioc_expbuf = vb2_ioctl_expbuf,
+ };
+ 
++static int imgu_sd_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct imgu_v4l2_subdev *imgu_sd =
++		container_of(ctrl->handler, struct imgu_v4l2_subdev, ctrl_handler);
++	struct imgu_device *imgu = v4l2_get_subdevdata(&imgu_sd->subdev);
++	struct device *dev = &imgu->pci_dev->dev;
++
++	dev_dbg(dev, "set val %d to ctrl 0x%8x for subdev %u",
++		ctrl->val, ctrl->id, imgu_sd->pipe);
++
++	switch (ctrl->id) {
++	case V4L2_CID_INTEL_IPU3_MODE:
++		atomic_set(&imgu_sd->running_mode, ctrl->val);
++		return 0;
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct v4l2_ctrl_ops imgu_subdev_ctrl_ops = {
++	.s_ctrl = imgu_sd_s_ctrl,
++};
++
++static const char * const imgu_ctrl_mode_strings[] = {
++	"Video mode",
++	"Still mode",
++};
++
++static const struct v4l2_ctrl_config imgu_subdev_ctrl_mode = {
++	.ops = &imgu_subdev_ctrl_ops,
++	.id = V4L2_CID_INTEL_IPU3_MODE,
++	.name = "IPU3 Pipe Mode",
++	.type = V4L2_CTRL_TYPE_MENU,
++	.max = ARRAY_SIZE(imgu_ctrl_mode_strings) - 1,
++	.def = IPU3_RUNNING_MODE_VIDEO,
++	.qmenu = imgu_ctrl_mode_strings,
++};
++
+ /******************** Framework registration ********************/
+ 
+ /* helper function to config node's video properties */
+@@ -1048,6 +1094,7 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 				     unsigned int pipe)
+ {
+ 	int i, r;
++	struct v4l2_ctrl_handler *hdl = &imgu_sd->ctrl_handler;
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+ 
+ 	/* Initialize subdev media entity */
+@@ -1068,12 +1115,21 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 	v4l2_subdev_init(&imgu_sd->subdev, &imgu_subdev_ops);
+ 	imgu_sd->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_STATISTICS;
+ 	imgu_sd->subdev.internal_ops = &imgu_subdev_internal_ops;
+-	imgu_sd->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
++	imgu_sd->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
++				V4L2_SUBDEV_FL_HAS_EVENTS;
+ 	snprintf(imgu_sd->subdev.name, sizeof(imgu_sd->subdev.name),
+-		 "%s %s", IMGU_NAME, pipe ? "still" : "video");
++		 "%s %u", IMGU_NAME, pipe);
+ 	v4l2_set_subdevdata(&imgu_sd->subdev, imgu);
+-	imgu_sd->running_mode =
+-		pipe ? IPU3_RUNNING_MODE_STILL : IPU3_RUNNING_MODE_VIDEO;
++	atomic_set(&imgu_sd->running_mode, IPU3_RUNNING_MODE_VIDEO);
++	v4l2_ctrl_handler_init(hdl, 1);
++	imgu_sd->subdev.ctrl_handler = hdl;
++	imgu_sd->ctrl = v4l2_ctrl_new_custom(hdl, &imgu_subdev_ctrl_mode, NULL);
++	if (hdl->error) {
++		r = hdl->error;
++		dev_err(&imgu->pci_dev->dev,
++			"failed to create subdev v4l2 ctrl with err %d", r);
++		goto fail_subdev;
++	}
+ 	r = v4l2_device_register_subdev(&imgu->v4l2_dev, &imgu_sd->subdev);
+ 	if (r) {
+ 		dev_err(&imgu->pci_dev->dev,
+@@ -1085,6 +1141,7 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 	return 0;
+ 
+ fail_subdev:
++	v4l2_ctrl_handler_free(imgu_sd->subdev.ctrl_handler);
+ 	media_entity_cleanup(&imgu_sd->subdev.entity);
+ 
+ 	return r;
+@@ -1179,8 +1236,8 @@ static int imgu_v4l2_node_setup(struct imgu_device *imgu, unsigned int pipe,
+ 	}
+ 
+ 	/* Initialize vdev */
+-	snprintf(vdev->name, sizeof(vdev->name), "%s %s %s",
+-		 IMGU_NAME, pipe ? "still" : "video", node->name);
++	snprintf(vdev->name, sizeof(vdev->name), "%s %u %s",
++		 IMGU_NAME, pipe, node->name);
+ 	vdev->release = video_device_release_empty;
+ 	vdev->fops = &imgu_v4l2_fops;
+ 	vdev->lock = &node->lock;
+@@ -1255,6 +1312,7 @@ static void imgu_v4l2_subdev_cleanup(struct imgu_device *imgu, unsigned int i)
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[i];
+ 
+ 	v4l2_device_unregister_subdev(&imgu_pipe->imgu_sd.subdev);
++	v4l2_ctrl_handler_free(imgu_pipe->imgu_sd.subdev.ctrl_handler);
+ 	media_entity_cleanup(&imgu_pipe->imgu_sd.subdev.entity);
+ }
+ 
+diff --git a/drivers/staging/media/ipu3/ipu3.h b/drivers/staging/media/ipu3/ipu3.h
+index de02a244732e..73b123b2b8a2 100644
+--- a/drivers/staging/media/ipu3/ipu3.h
++++ b/drivers/staging/media/ipu3/ipu3.h
+@@ -7,6 +7,7 @@
+ #include <linux/iova.h>
+ #include <linux/pci.h>
+ 
++#include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/videobuf2-dma-sg.h>
+ 
+@@ -95,7 +96,9 @@ struct imgu_v4l2_subdev {
+ 		struct v4l2_rect bds; /* bayer-domain scaled resolution*/
+ 		struct v4l2_rect gdc; /* gdc output resolution */
+ 	} rect;
+-	unsigned int running_mode;
++	struct v4l2_ctrl_handler ctrl_handler;
++	struct v4l2_ctrl *ctrl;
++	atomic_t running_mode;
+ 	bool active;
+ };
+ 
 -- 
-John Hubbard
-NVIDIA
+2.7.4
+
