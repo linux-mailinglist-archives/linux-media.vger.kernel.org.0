@@ -2,132 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF9013FAAC
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 21:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DDAF13FBB7
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 22:53:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387967AbgAPUdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 15:33:25 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3910 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729067AbgAPUdY (ORCPT
+        id S1731404AbgAPVva (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 16:51:30 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37532 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729878AbgAPVva (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 15:33:24 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e20c8570000>; Thu, 16 Jan 2020 12:32:23 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 16 Jan 2020 12:33:20 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 16 Jan 2020 12:33:20 -0800
-Received: from [10.2.160.8] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 Jan
- 2020 20:33:19 +0000
-Subject: Re: [PATCH v12 04/22] mm: devmap: refactor 1-based refcounting for
- ZONE_DEVICE pages
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>
-References: <20200107224558.2362728-1-jhubbard@nvidia.com>
- <20200107224558.2362728-5-jhubbard@nvidia.com>
- <20200115152306.GA19546@infradead.org>
- <4707f191-86f8-db4a-c3de-0a84b415b658@nvidia.com>
- <20200116093712.GA11011@infradead.org>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <ccf2723a-dcce-57d3-f63d-ee96dbf6653a@nvidia.com>
-Date:   Thu, 16 Jan 2020 12:30:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Thu, 16 Jan 2020 16:51:30 -0500
+Received: by mail-pf1-f193.google.com with SMTP id p14so10892432pfn.4
+        for <linux-media@vger.kernel.org>; Thu, 16 Jan 2020 13:51:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RBOCGtg7OqAgrI3CtuSLrCxr9lwFIXwjsb8KVNmSEs0=;
+        b=slq1poX6QT1mdlAs0mhAti1++63GhPd/1Qk3vqW0XPVF/uz8ZSX2EqTBj+ztYuz57q
+         F6wCcqa0sDdCoNiBDtAUTuelE6jMTuaDy8T/eVNq4+sO1Wq1QlSE+rd/vb7wMV/1cxIz
+         4B674XomkdbUPce24vkhYL8Cr+Bl3k6S6dPTnE0HftrgNITEwVKODf3pmxd3ZAUw7JNy
+         SjcDfK+8gcrVzLQeKVS1TZyPlEvENCHpg+gme0El9hTJSG6EWDbEm8obzMf5gP+qhPp3
+         NmviYpuWn3/uBdfUwwt8ZIvXOFU8/KM6Jhmyp/me3T7P1Cbm99O0TEXolBVOUqMu7m/H
+         xugA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RBOCGtg7OqAgrI3CtuSLrCxr9lwFIXwjsb8KVNmSEs0=;
+        b=nprLGcXBneQKD/AlKHVUC04vvYsBklOlb5N7bVlG0pTh7a9csAyFkYTPNGMlw8ckSU
+         j8BcQ1waXAv0JRl/nKQ1klcWG1RPuDOj1mOiC55/VWxc/ANKOWKF/m68qpuGnMoBs5iq
+         l3yxh01USjbtye1fZ9Q8KFMyayoe2HHeQ3MbauMQpNrHA/9+tsXEIFMhIcxmg7XLiWOP
+         gD8JPMxfBh3IWRvzCyb5gPS0malQSB3cn0xxQ/DgoGdM0d/xE8+gqjf3PoE3fsEEyFwu
+         ZyzkUZTAfvg6cJKCuP8pEWN7X7WBJdY1uPf6dF24nDbX65SH2GLZmEI3FX2FjS958fpx
+         3gjQ==
+X-Gm-Message-State: APjAAAWoxWY2ZtPEt2RFgDpC2VCMSostF5KKTNSWxFAQWuUCazthY+NH
+        uMYuTGEhQENHeNdYhzQVZiyvaI2B5nNkG9GxatAvvQ==
+X-Google-Smtp-Source: APXvYqxKRBlPOO6aG5PBNNFYt04sSl1hIoQ9O5cuGjINA6P60NdufKcO1BhAUbbheNUpu4pj8g0xIy1giFyaLijE3vw=
+X-Received: by 2002:a63:f24b:: with SMTP id d11mr40917074pgk.381.1579211489460;
+ Thu, 16 Jan 2020 13:51:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200116093712.GA11011@infradead.org>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1579206743; bh=EQpRDmAadXrYPrWI0G8MSYR7uqZas3jC8zZTGB2Hfnk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=B3a+nJMY1e/PvYKAT7LBGlwa/kugx+AfoqbMvj/EyT3hxrpeJ7sQMsWMdJQlxzKho
-         jy2YJ47pzKLca9QqrMI2qpXvMA46wU1dfzb3yzBY8NTIGraOJl+bg0Pq/59xdUBLNS
-         /bnG7fSxkcGgsGNzlzCgQWOOUXWSDOgkuZxsp+8IlbnfinKUcliv6MqWXSulEsNyXv
-         EIh2GmNEud9hkIp72ZuHMkWrhgwhMDnw4xjgxdJ2+W90cT6UoDxxzOl8PDPrjhQ9p0
-         IklTRq4Mlrg+UVduRNOxi7jCeWI/98S5JYFUwVk8qaaNzULyUj0q2zlHy86g76FXcR
-         ZxTytDejWJDcw==
+References: <20191022132522.GA12072@embeddedor> <20200113231413.GA23583@ubuntu-x2-xlarge-x86>
+ <20200116154503.Horde.MnWaeq-f0qzzp8gx01ERP2p@embeddedor.com>
+In-Reply-To: <20200116154503.Horde.MnWaeq-f0qzzp8gx01ERP2p@embeddedor.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 16 Jan 2020 13:51:18 -0800
+Message-ID: <CAKwvOd=cA7E0MOtFfaQ5-+-v=+YNHYQPgMq6yS517PLLKn=Qpw@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: adv748x: Fix unsafe macros
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/16/20 1:37 AM, Christoph Hellwig wrote:
-> On Wed, Jan 15, 2020 at 01:19:41PM -0800, John Hubbard wrote:
->> On 1/15/20 7:23 AM, Christoph Hellwig wrote:
->> ...
->>>
->>> I'm really not sold on this scheme.  Note that I think it is
->>> particularly bad, but it also doesn't seem any better than what
->>> we had before, and it introduced quite a bit more code.
->>>
->>
->> Hi Christoph,
->>
->> All by itself, yes. But the very next patch (which needs a little
->> rework for other reasons, so not included here) needs to reuse some of
->> these functions within __unpin_devmap_managed_user_page():
-> 
-> Well, then combine it with the series that actually does the change.
+On Thu, Jan 16, 2020 at 1:45 PM Gustavo A. R. Silva
+<gustavo@embeddedor.com> wrote:
+>
+> Hi!
+> Friendly ping:
+>
+> Who can take this?
+>
+> It's been almost three months now since I first sent this patch out.
 
+Kieran is listed as maintainer of:
+  998 F:  drivers/media/i2c/adv748x/*
 
-OK, that makes sense. I just double-checked with a quick test run, that it
-doesn't have dependencies with the rest of this series, and it came out clean,
-so:
+but I'm guessing the tree would be Mauro's.  It would be good if
+Kieran can review, then Mauro can pick up?
 
-Andrew, could you please remove just this one patch from mmotm and linux-next?
-
-
-> 
-> Also my vaguely recollection is that we had some idea on how to get rid
-> of the off by one refcounting for the zone device pages, which would be
-> a much better outcome.
-> 
-
-Yes, I recall that Dan Williams mentioned it, but I don't think he provided
-any details yet.
-
-
-thanks,
 -- 
-John Hubbard
-NVIDIA
+Thanks,
+~Nick Desaulniers
