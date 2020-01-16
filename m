@@ -2,396 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 111A413D7E6
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 11:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4431C13D7EA
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 11:33:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726371AbgAPKa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 05:30:26 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34483 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725800AbgAPKa0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 05:30:26 -0500
-Received: from [IPv6:2001:420:44c1:2577:1825:cb8:c622:6168]
- ([IPv6:2001:420:44c1:2577:1825:cb8:c622:6168])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id s2PniJWzoT6sRs2PricrHs; Thu, 16 Jan 2020 11:30:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579170623; bh=kn7bUSdZ2Fasrf3hZzW73u5tRI6ZSWWaoFUv/HUNxNE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=uC6CkSm7DDqXaHTcgovlMkoa7drUCK8oBD0nrZfV0Cgr8hUqbQqjigPdVPNzflqNl
-         ZwEbkVXMvvj/4P6XcjPj42lj0D537yqJj0aYSR+EmFaq51s4RALOcK8VgsaatGgZRV
-         oxAF5Hz/pHng54iU+u+pqyrj1/343fF/CbYz4AK5zrQXiaDAKMYb/zMKf3vq6BUqRO
-         vWkEODCguvf4MxFXlpvbUuUxxoCN8LaTmhIo5rCBE20IJUs/9NYSUmwsf9GgSo+4ga
-         H5YTo8vnGYDHmKts+MRpIUxuRjLUkbwPQRl6wApEw2ccT5GGz1QVn/RoPfT8eUBz1N
-         u8BEZUnC95USw==
-Subject: Re: [PATCH v5 0/5] Add support for mt2701 JPEG ENC support
-To:     Xia Jiang <xia.jiang@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>, srv_heupstream@mediatek.com
-References: <20191204094424.2562-1-xia.jiang@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e62010b2-a2c1-cf52-139f-5f0134605195@xs4all.nl>
-Date:   Thu, 16 Jan 2020 11:30:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191204094424.2562-1-xia.jiang@mediatek.com>
-Content-Type: text/plain; charset=utf-8
+        id S1726018AbgAPKdM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 05:33:12 -0500
+Received: from mail-eopbgr1390093.outbound.protection.outlook.com ([40.107.139.93]:55276
+        "EHLO IND01-BO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725800AbgAPKdL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 05:33:11 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FHUg89PmvpdS5BWN9oWQM/9iYjl5v4sb00XUHW1OOtlAOgydBGA7mKD1X7BfJUf2eh3APmev97ENLDpQ2nnPmsH7XBfglN7w2TS160Zvo3FbYZgTHPDrLrdtGIYnJyAhv/X8Hy56fsILkZPVY55VdWZh2C3QWarLmwUMhc+bPNaawrFUPB6pSrKYE1N9k5NtO35BrGNyJghMuCgIP1+MbDiQ1Rh59e40Qo3WykVzwn15ZOaN16w0NXasziLmo5s0XU3f+XD1dTbwBuvYed+2oFhZaCjfd437WKstszjQRiMQXsfZKzrfGMYksqyW/6SIho+sOaIJwZhZBg+cZjQV1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/AWbmdXL4dBfOQx6DC6ZrxpV/mgZhUl7sbTtspuRaXE=;
+ b=MkobMIpJ/S/yyFQI1geQK9V0JE6jujIb9QSqPmwSpbtGUdKhktbSxgYU9tey92JIjuVlbsDg91WeOPgULqr+//BoKAHZARJQX/NCbL8LSSrMzXn4TdkVu4Z+fxbQrrDXyb6ZiNnFvpQhqEaaAFCocm1XlQ0mgIuLUccU+ACE0xkLI+9mdvQd/SyDJOzx+/b6hlGYZ7tGJokiq/Qwz0gqYJ3+uQhqplCUPxJONpmBIEwuqsn+Sg8A+m+EIIECnxC9RO7U9L9iWTlFjyYq8wfc9zmWu0qVXwb49FysxzzgVA+iGoENdNrGm6DIwU8evGyV3PFwXd0xmA+XsCxh6pTlFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oceanedata.com; dmarc=pass action=none
+ header.from=oceanedata.com; dkim=pass header.d=oceanedata.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORGFT5553569.onmicrosoft.com;
+ s=selector1-NETORGFT5553569-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/AWbmdXL4dBfOQx6DC6ZrxpV/mgZhUl7sbTtspuRaXE=;
+ b=sRHOTSRxVhAiWhFrk7xOfJR1YD0xTqBNs7VBev6dl6PECRC2wFQHfQU0XlA972pRV+gbH7AE1oTmVoNKrXRUPdAHFxYsneQoPGe4FpPX8IHgb1Do58cHF2pCc4oUHAs07FAvr+dzPiU1V21lh325LK+D13eGrfU8C/xC75Zh1Nw=
+Received: from BMXPR01MB3894.INDPRD01.PROD.OUTLOOK.COM (20.179.243.10) by
+ BMXPR01MB0951.INDPRD01.PROD.OUTLOOK.COM (10.174.217.15) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.19; Thu, 16 Jan 2020 10:33:07 +0000
+Received: from BMXPR01MB3894.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::d960:ff9d:e6e4:2c1]) by BMXPR01MB3894.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::d960:ff9d:e6e4:2c1%5]) with mapi id 15.20.2644.015; Thu, 16 Jan 2020
+ 10:33:06 +0000
+Received: from DESKTOPMPN5UI4 (106.51.17.50) by MAXPR0101CA0027.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:d::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.20 via Frontend Transport; Thu, 16 Jan 2020 10:33:06 +0000
+From:   Mary Smith <mary.smith@oceanedata.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: 2020 Embedded World 
+Thread-Topic: 2020 Embedded World 
+Thread-Index: AdXMWFYlBb60zX6nShiUWL5Xnnns5A==
+Importance: high
+X-Priority: 1
+Date:   Thu, 16 Jan 2020 10:33:06 +0000
+Message-ID: <!&!AAAAAAAAAAAYAAAAAAAAAPfxu8Y9lMVAhLaSR/F6sVHCgAAAEAAAANyDALlzIS5OudG48FSPTLYBAAAAAA==@oceanedata.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLx4+oarlH9NOKPID7K7G8V0SUpdV50ZS509UQ+6bf01fg9VgNH2/YXnhVVenenH8SjBYRQ8/LGm/4twIwDgTbdCNN+sUQwBDJ4Sd0eRC2HMSsjX1DId
- HAbn+UnktBFG9VQkbvguOpWrsdNLs6r3sZgM18LRSawjJgO3nVTYawHDFACK7/anPAz8nOcCeUekFHYouB7n1AGJaBFmkaWDidn51Qgpo0myxHsTq5ZoimAW
- j0QwovbyKwLzGlxoLlYqNWPm4AknlEDzAfP3pCFCUU96NqWUoCB+XPAKSnsZFhBsHE6PmsRpxPfGTFZUFw7vph6uWjNkEOOHF05e7r2X46huel2Ap+K7R6z/
- cjPDJ+ErxDxZLUzs78mScDnt4D/jl6OF8B+4kS0b9X2ZELnYRRim5X4bl5dRIZ9v0S8xoPmoHyAIj/VGfH6EipcSYNx4Tvqa3+uNGgGtdZ0VO83T/8b5XRxb
- 4u30FTHXPsjQlRitJVSugNz1knHJmXVWdZQylILffHO58HVojvh409xnJ7jNdZ8bErxzz0aknpmjTgF9JDdj2zla3EzbVP8vMa/J1idyVz58bcriikLGs9F/
- IPPp7vPA8bkrlLtOdXgLm7BLGpWgRY1JbMCkaev1k8fDBfGLBmx9nHm6g1AIj+7bPu1vp1EMBcqBeLG+2LeYQW3zdkiKrzDa0mKghrAlB6P2ZnlhUMvrBD1x
- abHlHtyzz6dv/feufdly+BF1H/upqJRGUuJQHtwadDEliwLs+zD/Ug==
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MAXPR0101CA0027.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:d::13) To BMXPR01MB3894.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:61::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=mary.smith@oceanedata.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: Microsoft Outlook 15.0
+x-originating-ip: [106.51.17.50]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 85f61d1d-bbc5-41f1-5c8e-08d79a6f798f
+x-ms-traffictypediagnostic: BMXPR01MB0951:
+x-microsoft-antispam-prvs: <BMXPR01MB0951E36FCC4264C900AD340EE4360@BMXPR01MB0951.INDPRD01.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-forefront-prvs: 02843AA9E0
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(136003)(376002)(39840400004)(346002)(366004)(199004)(189003)(8676002)(81166006)(71200400001)(6486002)(52116002)(86362001)(66446008)(4744005)(66556008)(5660300002)(16526019)(508600001)(81156014)(2906002)(64756008)(186003)(66476007)(4743002)(44832011)(956004)(6916009)(6496006)(26005)(1006002)(36756003)(7116003)(8936002)(2616005)(316002)(55236004)(66946007)(32040200004)(130950200001);DIR:OUT;SFP:1102;SCL:1;SRVR:BMXPR01MB0951;H:BMXPR01MB3894.INDPRD01.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: oceanedata.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8V0YpKE8VFdnIOBq61zIYzaTa4VrlHNU7D1f69YDXc2+EkOlhs8VmAeJgJtAuk3JP+AWVecLRIQxzrbY77AcVyTAGYKV7j45tjG6C9GJDOzdZ7aizO1sn9KSpl1t611vCLibcorSdo+wI6wvpqr/Gstbpgr8+iw/9nOfoTh0KzmMZnrfddegmJR7R50Hrac/UjMx8BGyl9mUiw9ib0yv9Bn55J13thzj0v0fOEobRzxCOczADVkpuRKbyvMHA2RQZyfHd9mHKfSrt5pEwWHYiIRAWAwLiqooC/0CMMgey1iYjpcq1kQX3aoY9Wj30N9arDg9ahnHS9iCanC3hS5GsyAPgtma73fxclhrwTengjZkhtBfJ03l3fFJQFgCKOLohtDVuRC5S9EPkCfECwmCl8/vB1QEbD1vacc9pSV7qLmxwMQZWvlw+IZBW46ypARQ3aCQEB0B3644SxNgvkanzzgVOss8fbp/VVJupP6BAmagwdPSvDh5Xv3Z317tjFVyYhtPBifueW4ZoQWTI9cdteyNA/G61b4zzMmjZtMhadg=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <C0BD74FF7C90814EBA8EDBF65EE6A8A7@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: oceanedata.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85f61d1d-bbc5-41f1-5c8e-08d79a6f798f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2020 10:33:06.9079
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 03cbc421-e565-4cc8-bf1c-64e35a1b9e25
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 72+vJ2GgRh1X7+qzyfTp5bh/U7xKfhQjVRDgNanJUqeR1Y2pQq3btHgtoUm/DsFgbjyYYRlzpFgPrU1yr/4xOjKBX9N2sf9gfMK0VEVgUfI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BMXPR01MB0951
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xia,
+Hi,
 
-I get checkpatch, compiler and sparse/smatch warnings when I try to
-compile this series.
+I'm wondering if you would be interested in purchasing Embedded World 2020
+Attendees List.
 
-checkpatch.pl --strict gives:
+Target Audience: Electronic Systems, Embedded Technology, Embedded Systems,
+E-mobility and Distributed Intelligence
 
-0001-media-platform-Fix-jpeg-dec-driver-bug-and-improve-c.patch
----------------------------------------------------------------
-CHECK: Alignment should match open parenthesis
-#221: FILE: drivers/media/platform/mtk-jpeg/mtk_jpeg_hw.c:157:
-+               param->comp_w[i] = round_up(param->comp_w[i],
-                                                  MTK_JPEG_DCTSIZE);
+Venue:  Nuremberg, Germany
 
-0004-media-platform-Add-jpeg-dec-enc-feature.patch
---------------------------------------------------
-CHECK: spaces preferred around that '+' (ctx:VxV)
-#289: FILE: drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:335:
-+                                       pix_mp->width * pix_mp->height / (i+1);
-                                                                           ^
+Please let me know your thoughts, So that I can send you the Number of
+Contacts available and the Cost for it.
 
-CHECK: Alignment should match open parenthesis
-#312: FILE: drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:358:
-+static int mtk_jpeg_try_dec_fmt_mplane(struct v4l2_format *f,
-                                   struct mtk_jpeg_fmt *fmt,
+Best Regards,
+Mary Smith
+B2B Tradeshow Specialist
 
-CHECK: Avoid CamelCase: <mtk_jpeg_enc_set_encFormat>
-#587: FILE: drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1037:
-+       mtk_jpeg_enc_set_encFormat(base, ctx->out_q.fmt->fourcc);
-
-
-Compiler warnings:
-
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c: In function 'vidioc_jpeg_s_ctrl':
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:147:23: warning: unused variable 'jpeg' [-Wunused-variable]
-  147 |  struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-      |                       ^~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c: In function 'mtk_jpeg_try_enc_fmt_mplane':
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:299:18: warning: unused variable 'align_h' [-Wunused-variable]
-  299 |  int i, align_w, align_h;
-      |                  ^~~~~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:299:9: warning: unused variable 'align_w' [-Wunused-variable]
-  299 |  int i, align_w, align_h;
-      |         ^~~~~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:298:23: warning: unused variable 'jpeg' [-Wunused-variable]
-  298 |  struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-      |                       ^~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c: In function 'mtk_jpeg_try_dec_fmt_mplane':
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:362:23: warning: unused variable 'jpeg' [-Wunused-variable]
-  362 |  struct mtk_jpeg_dev *jpeg = ctx->jpeg;
-      |                       ^~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c: In function 'mtk_jpeg_device_run':
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1061:16: warning: unused variable 'flags' [-Wunused-variable]
- 1061 |  unsigned long flags;
-      |                ^~~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c: In function 'mtk_jpeg_enc_set_encFormat':
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:125:6: warning: 'yuv_format' may be used uninitialized in this function [-Wmaybe-uninitialized]
-  125 |  u32 yuv_format, value;
-      |      ^~~~~~~~~~
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c: In function 'mtk_jpeg_enc_set_ctrl_cfg':
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:221:8: warning: 'enc_quality' may be used uninitialized in this function [-Wmaybe-uninitialized]
-  221 |  value = JPEG_ENC_SET_QUALITY(value, enc_quality);
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:211:9: note: 'enc_quality' was declared here
-  211 |  u32 i, enc_quality;
-      |         ^~~~~~~~~~~
-
-Sparse warnings:
-
-SPARSE:drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:169:5:  warning: symbol 'mtk_jpeg_ctrls_setup' was not declared. Should it be static?
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:147:23: warning: unused variable 'jpeg' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:169:5: warning: no previous prototype for 'mtk_jpeg_ctrls_setup' [-Wmissing-prototypes]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:299:18: warning: unused variable 'align_h' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:299:9: warning: unused variable 'align_w' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:298:23: warning: unused variable 'jpeg' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:362:23: warning: unused variable 'jpeg' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1061:16: warning: unused variable 'flags' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:125:6: warning: 'yuv_format' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:221:8: warning: 'enc_quality' may be used uninitialized in this function [-Wmaybe-uninitialized]
-
-Smatch errors/warnings:
-
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c: drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:146 mtk_jpeg_enc_set_encFormat() error: uninitialized symbol 'yuv_format'.
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c: drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:221 mtk_jpeg_enc_set_quality() error: uninitialized symbol 'enc_quality'.
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:125:6: warning: 'yuv_format' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c:221:8: warning: 'enc_quality' may be used uninitialized in this function [-Wmaybe-uninitialized]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:147:23: warning: unused variable 'jpeg' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:169:5: warning: no previous prototype for 'mtk_jpeg_ctrls_setup' [-Wmissing-prototypes]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:299:18: warning: unused variable 'align_h' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:299:9: warning: unused variable 'align_w' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:298:23: warning: unused variable 'jpeg' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:362:23: warning: unused variable 'jpeg' [-Wunused-variable]
-drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1061:16: warning: unused variable 'flags' [-Wunused-variable]
-
-Please fix!
-
-Regards,
-
-	Hans
-
-On 12/4/19 10:44 AM, Xia Jiang wrote:
-> This patchset add support for mt2701 JPEG ENC support.
-> 
-> This is the compliance test result for jpeg dec and enc.
-> 
-> The JPEG dec log:
-> ------------------------------------------------------------
-> v4l2-compliance -d /dev/video0
-> v4l2-compliance SHA: af33cc5ef00177edbb45d466faf9061197767f2b, 32 bits
-> 
-> Compliance test for mtk-jpeg device /dev/video0:
-> 
-> Driver Info:
->         Driver name      : mtk-jpeg
->         Card type        : mtk-jpeg decoder
->         Bus info         : platform:15004000.jpegdec
->         Driver version   : 5.4.0
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected JPEG Decoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 0 Private Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK
->         test Scaling: OK
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for mtk-jpeg device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
-> ------------------------------------------------------------
-> 
-> The JPEG enc log:
-> 
-> ------------------------------------------------------------
-> v4l2-compliance -d /dev/video1 
-> v4l2-compliance SHA: af33cc5ef00177edbb45d466faf9061197767f2b, 32 bits
-> 
-> Compliance test for mtk-jpeg device /dev/video1:
-> 
-> Driver Info:
->         Driver name      : mtk-jpeg
->         Card type        : mtk-jpeg encoder
->         Bus info         : platform:1500a000.jpegenc
->         Driver version   : 5.4.0
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected JPEG Encoder
-> 
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video1 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 4 Private Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK
->         test Composing: OK (Not Supported)
->         test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
-> 
-> Total for mtk-jpeg device /dev/video1: 44, Succeeded: 44, Failed: 0, Warnings: 0
-> ------------------------------------------------------------
-> 
-> Change compared to v4:
-> -improve code quality for the orignal jpeg decode driver in separate patch.
-> -support crop for jpeg encode and compose for jpeg decode separately.
-> -delete jpeg_enc_param/mtk_jpeg_enc_param structure.
-> -delete mtk_jpeg_set_param() for jpeg encode.
-> -use clamp() to replace mtk_jpeg_bound_align_image() and round_up() to
->  replace mtk_jpeg_align().
-> -move macro definition about hw to mtk_jpeg_enc_reg.h.
-> -delete unnecessary V4L2 logs in driver.
-> -cancel spin lock and unlock operation in deviec run function.
-> -change jpeg enc register offset hex numberals from upercase to lowercase.
-> 
-> Xia Jiang (5):
->   media: platform: Fix jpeg dec driver bug and improve code quality
->   media: dt-bindings: Add jpeg enc device tree node document
->   arm: dts: Add jpeg enc device tree node
->   media: platform: Rename jpeg dec file name
->   media: platform: Add jpeg dec/enc feature
-> 
->  .../bindings/media/mediatek-jpeg-encoder.txt  |  37 +
->  arch/arm/boot/dts/mt2701.dtsi                 |  13 +
->  drivers/media/platform/mtk-jpeg/Makefile      |   5 +-
->  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 752 +++++++++++++-----
->  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  50 +-
->  .../{mtk_jpeg_hw.c => mtk_jpeg_dec_hw.c}      |   8 +-
->  .../{mtk_jpeg_hw.h => mtk_jpeg_dec_hw.h}      |  14 +-
->  ...{mtk_jpeg_parse.c => mtk_jpeg_dec_parse.c} |   2 +-
->  ...{mtk_jpeg_parse.h => mtk_jpeg_dec_parse.h} |   2 +-
->  .../{mtk_jpeg_reg.h => mtk_jpeg_dec_reg.h}    |  19 +-
->  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 271 +++++++
->  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h |  86 ++
->  .../platform/mtk-jpeg/mtk_jpeg_enc_reg.h      |  78 ++
->  13 files changed, 1100 insertions(+), 237 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
->  rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_hw.c => mtk_jpeg_dec_hw.c} (98%)
->  rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_hw.h => mtk_jpeg_dec_hw.h} (89%)
->  rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_parse.c => mtk_jpeg_dec_parse.c} (98%)
->  rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_parse.h => mtk_jpeg_dec_parse.h} (92%)
->  rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_reg.h => mtk_jpeg_dec_reg.h} (77%)
->  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
->  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h
->  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_reg.h
-> 
+If you're not interested kindly reply with the subject line "Opt-Out".
 
