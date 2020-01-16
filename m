@@ -2,117 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADF5613DC6E
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 14:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 699F613DD4B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 15:20:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbgAPNwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 08:52:42 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46723 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726084AbgAPNwm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 08:52:42 -0500
-Received: from [IPv6:2001:420:44c1:2577:1825:cb8:c622:6168]
- ([IPv6:2001:420:44c1:2577:1825:cb8:c622:6168])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id s5Zci8RyarNgys5ZgiDCVl; Thu, 16 Jan 2020 14:52:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579182760; bh=RhdCPcmAHGoRU66eAS3Ugj7utaPaZC3vhEUuuimbs/o=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=sH9NbjzbjLs39ub7UXFOno1jePJzsu1fv+iJ5AA3uEfKwOQqQEyTKFZN7AGc0l5gJ
-         QeV0KgOHMCRRAgiX6xogorHq2RlOrAgKhmbnlrcNDLy8TTeMLyPqdimhjYQ42idVJ5
-         CnoHcQEZipVWLTBAjvuQD4tQ9TaOzMgaALcTVB2wvqLLZ1ERUsEs3gHtjM+wBfuHqE
-         haoCUUP2CySgk1v2hNSynwASgvjv1BhvYes7/id7+jEADi+QwE23q9tEyVqUpCIFkp
-         Be44YgaL9d96pPIEynhJ6IH7nKjBGhDp3MEGXduYC3ZNYQsRm5odleCZpnZoHzbXRD
-         DR0cE6aeNjcXQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.6] Various fixes
-Message-ID: <05d43c5d-f0ba-74df-3a95-e424c6b39a79@xs4all.nl>
-Date:   Thu, 16 Jan 2020 14:52:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726853AbgAPOUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 09:20:21 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:53444 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726362AbgAPOUV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 09:20:21 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1is5zU-00Bc3o-5u; Thu, 16 Jan 2020 14:19:20 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1is61X-0001jM-Sb; Thu, 16 Jan 2020 14:21:28 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.6] Various fixes
+Date:   Thu, 16 Jan 2020 14:21:27 +0000
+Message-Id: <20200116142127.6611-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <05d43c5d-f0ba-74df-3a95-e424c6b39a79@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfB7HH/eBC0kNhwfg2qQ3VgTr2yRzmNIJ+enav79fyoB3LZR0Rn9BTY+VR94/hhQGaZzm6vnm3KlFlZ9LonsKgCe0LKs8TPCICi/HDpHZW9CC1aSxe+8S
- 0NbGlSl1uBY5AHSqT5JPewyHXP+qs7aqQO1/GILzztNEG0F5bGP3Usp40jjJK9Ur1U7K2z578jEaROGfffy3+KSPe5jMw0cdMNGEbHJkZA3iZZaYB9HyWxIa
- Avv1OvwdfRgnjWwzeD3lvRJ4Z6SXwQ5n7cvBKIPgCV1vskOG5wPOvFyAhC0GdwSc
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 2a0a0bc7020ef7e66c9569d8229d79fa72e3d659:
+From: builder@linuxtv.org
 
-  media: MAINTAINERS: add entry for Rockchip ISP1 driver (2020-01-09 16:45:01 +0100)
+Pull request: https://patchwork.linuxtv.org/patch/61207/
+Build log: https://builder.linuxtv.org/job/patchwork/33921/
+Build time: 00:21:15
+Link: https://lore.kernel.org/linux-media/05d43c5d-f0ba-74df-3a95-e424c6b39a79@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Thu 16 Jan 2020 01:51:49 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.6m
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-for you to fetch changes up to 14c6e30267c855093778bcec15b53b4051823498:
+Error/warnings:
 
-  rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT} (2020-01-16 14:50:13 +0100)
 
-----------------------------------------------------------------
-Tag branch
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-aspeed-Use-runtime-configuration.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-aspeed-Use-runtime-configuration.patch
+patches/0006-media-aspeed-Use-runtime-configuration.patch:94: WARNING: line over 80 characters
+patches/0006-media-aspeed-Use-runtime-configuration.patch:95: WARNING: line over 80 characters
 
-----------------------------------------------------------------
-Dafna Hirschfeld (1):
-      media: vimc: streamer: fix memory leak in vimc subdevs if kthread_run fails
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:62: CHECK: Macro argument reuse 'x' - possible side-effects?
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:63: CHECK: Macro argument reuse 'x' - possible side-effects?
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:76: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:78: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:80: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:82: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:175: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:177: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:266: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:268: WARNING: line over 80 characters
+patches/0008-media-atmel-atmel-isc-base-expose-white-balance-as-v.patch:412: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-Eugen Hristev (2):
-      media: atmel: atmel-isc-base: expose white balance as v4l2 controls
-      MAINTAINERS: add atmel-isc-media.h file to ATMEL ISC driver
-
-Hans Verkuil (1):
-      vidioc-queryctrl.rst: fix error code
-
-Hirokazu Honda (1):
-      media: hantro: Support H264 profile control
-
-Jae Hyun Yoo (1):
-      Documentation: dt-bindings: media: add AST2600 Video Engine support
-
-Joel Stanley (3):
-      media: aspeed: Rework memory mapping in probe
-      media: aspeed: Use runtime configuration
-      video: aspeed: Update copyright information
-
-Johan Hovold (1):
-      media: usbtv: fix control-message timeouts
-
-Niklas Söderlund (3):
-      adv7180: Add init_cfg pad operation
-      rcar-vin: Move hardware buffer tracking to own struct
-      rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT}
-
-Peter Ujfalusi (3):
-      media: pxa_camera: Use dma_request_chan() instead dma_request_slave_channel()
-      media: rcar_drif: Use dma_request_chan() instead dma_request_slave_channel()
-      media: xilinx: Use dma_request_chan() instead dma_request_slave_channel()
-
- Documentation/devicetree/bindings/media/aspeed-video.txt |   5 +-
- Documentation/media/uapi/v4l/vidioc-queryctrl.rst        |   2 +-
- MAINTAINERS                                              |   1 +
- drivers/media/i2c/adv7180.c                              |  12 +++
- drivers/media/platform/aspeed-video.c                    |  73 +++++++++++------
- drivers/media/platform/atmel/atmel-isc-base.c            | 222 ++++++++++++++++++++++++++++++++++++++++++++-------
- drivers/media/platform/atmel/atmel-isc.h                 |  23 +++++-
- drivers/media/platform/pxa_camera.c                      |  20 ++---
- drivers/media/platform/rcar-vin/rcar-dma.c               |  91 ++++++++++++++++-----
- drivers/media/platform/rcar-vin/rcar-v4l2.c              |   5 ++
- drivers/media/platform/rcar-vin/rcar-vin.h               |  28 ++++++-
- drivers/media/platform/rcar_drif.c                       |   6 +-
- drivers/media/platform/vimc/vimc-streamer.c              |   9 ++-
- drivers/media/platform/xilinx/xilinx-dma.c               |  11 +--
- drivers/media/usb/usbtv/usbtv-core.c                     |   2 +-
- drivers/media/usb/usbtv/usbtv-video.c                    |   5 +-
- drivers/staging/media/hantro/hantro_drv.c                |  10 +++
- include/linux/atmel-isc-media.h                          |  58 ++++++++++++++
- include/uapi/linux/v4l2-controls.h                       |   6 ++
- 19 files changed, 486 insertions(+), 103 deletions(-)
- create mode 100644 include/linux/atmel-isc-media.h
