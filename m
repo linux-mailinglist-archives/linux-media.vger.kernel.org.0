@@ -2,75 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4CF113D9BD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 13:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E197813DA0B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 13:30:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbgAPMPy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 07:15:54 -0500
-Received: from gofer.mess.org ([88.97.38.141]:37813 "EHLO gofer.mess.org"
+        id S1726925AbgAPMaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 07:30:08 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:39300 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726151AbgAPMPy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 07:15:54 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 60F5311A001; Thu, 16 Jan 2020 12:15:53 +0000 (GMT)
-Date:   Thu, 16 Jan 2020 12:15:53 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.6] DVB & RC (d)
-Message-ID: <20200116121553.GA5889@gofer.mess.org>
+        id S1726566AbgAPMaI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 07:30:08 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1is4Gp-00BVcX-KW; Thu, 16 Jan 2020 12:29:07 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1is4Is-00063J-Vc; Thu, 16 Jan 2020 12:31:15 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.6] DVB & RC (d)
+Date:   Thu, 16 Jan 2020 12:31:14 +0000
+Message-Id: <20200116123114.23224-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116121553.GA5889@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Some last small changes for v5.6. Should not be controversial.
+Pull request: https://patchwork.linuxtv.org/patch/61195/
+Build log: https://builder.linuxtv.org/job/patchwork/33911/
+Build time: 00:11:06
+Link: https://lore.kernel.org/linux-media/20200116121553.GA5889@gofer.mess.org
 
-Thanks
-Sean
+gpg: Signature made Thu 16 Jan 2020 12:10:47 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-The following changes since commit 2a0a0bc7020ef7e66c9569d8229d79fa72e3d659:
+Summary: 4 patches and/or PDF generation with issues, being 3 at build time
 
-  media: MAINTAINERS: add entry for Rockchip ISP1 driver (2020-01-09 16:45:01 +0100)
+Error/warnings:
 
-are available in the Git repository at:
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.6d
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
-for you to fetch changes up to 4c0bb9b24a027500803e2635720f00d9a51e9af3:
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
-  arm64: dts: allwinner: h6: tanix-tx6: Add IR remote mapping (2020-01-16 09:10:36 +0000)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-rc-add-keymap-for-Videostrong-KII-Pro.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-rc-add-keymap-for-Videostrong-KII-Pro.patch
+patches/0004-media-rc-add-keymap-for-Videostrong-KII-Pro.patch:31: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-----------------------------------------------------------------
-v5.6d
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
-----------------------------------------------------------------
-Colin Ian King (1):
-      media: drxj: remove redundant assignments to variable rc
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
-Jernej Skrabec (2):
-      media: dt-bindings: media: add new rc map name
-      arm64: dts: allwinner: h6: tanix-tx6: Add IR remote mapping
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
-Johan Hovold (2):
-      media: flexcop-usb: fix endpoint sanity check
-      media: dib0700: fix rc endpoint lookup
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
-Mohammad Rasim (1):
-      media: rc: add keymap for Videostrong KII Pro
-
- Documentation/devicetree/bindings/media/rc.yaml    |  1 +
- .../boot/dts/allwinner/sun50i-h6-tanix-tx6.dts     |  1 +
- drivers/media/dvb-frontends/drx39xyj/drxj.c        |  4 +-
- drivers/media/rc/keymaps/Makefile                  |  1 +
- drivers/media/rc/keymaps/rc-videostrong-kii-pro.c  | 83 ++++++++++++++++++++++
- drivers/media/usb/b2c2/flexcop-usb.c               |  6 +-
- drivers/media/usb/dvb-usb/dib0700_core.c           |  4 +-
- include/media/rc-map.h                             |  1 +
- 8 files changed, 94 insertions(+), 7 deletions(-)
- create mode 100644 drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
