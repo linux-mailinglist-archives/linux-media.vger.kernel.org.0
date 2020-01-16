@@ -2,40 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 330B613E463
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C12F13E534
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389293AbgAPRII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 12:08:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41198 "EHLO mail.kernel.org"
+        id S2390737AbgAPRNX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 12:13:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389287AbgAPRIH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:08:07 -0500
+        id S2390729AbgAPRNW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:13:22 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2C4F2467C;
-        Thu, 16 Jan 2020 17:08:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 549B3246AA;
+        Thu, 16 Jan 2020 17:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194487;
-        bh=mpGL97m6k814QXjnL2ki81L3W3OZi3I9xyhDVPmMuY8=;
+        s=default; t=1579194801;
+        bh=ayTV0SyUH0e2bABLL/2P8fDxp82lebQiM6N7Y8tD5Uw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SbaaxJ3Q+Jzm0nOtelDq9GMhzjTvOZUJg06BXlhfCkgz/SStqP2ZKyJpwLWAn8Fav
-         MTfyZ/F9b9zubMqRpCojSSbfCHd4JNESSd70INixALx1lr0j61Fydx4i77RNb2Pb/9
-         idiy7S71KaIOgSioSGeq3LWK+U9KatuXU4zoLxYk=
+        b=bngEY89dxoMr+tvTWdHEw0wrmfHx4zVUc0R6g0fgSpLaGNbdOIDsGuEmIBRX3qcvW
+         f92MfDRxSzpe+9XzIpEJYXP1x8rSBZwQaa7zpQUo/UVm8gcX3EQNyEzZjkOZEGJmNJ
+         /BTNu54RIf/wC7w8h8LuXzkzmEu9RUvdZrOQynbA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH AUTOSEL 4.19 387/671] media: Staging: media: Release the correct resource in an error handling path
-Date:   Thu, 16 Jan 2020 12:00:25 -0500
-Message-Id: <20200116170509.12787-124-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 612/671] media: rcar-vin: Fix incorrect return statement in rvin_try_format()
+Date:   Thu, 16 Jan 2020 12:04:10 -0500
+Message-Id: <20200116170509.12787-349-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,55 +49,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[ Upstream commit 3b6471c7becd06325eb5e701cc2602b2edbbc7b6 ]
+[ Upstream commit a0862a40364e2f87109317e31c51c9d7bc89e33f ]
 
-'res' is reassigned several times in the function and if we 'goto
-error_unmap', its value is not the returned value of 'request_mem_region()'
-anymore.
+While refactoring code the return statement became corrupted, fix it by
+returning the correct return code.
 
-Introduce a new 'struct resource *' variable (i.e. res2) to keep a pointer
-to the right resource, if needed in the error handling path.
-
-Fixes: 4b4eda001704 ("Staging: media: Unmap and release region obtained by ioremap_nocache")
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Fixes: 897e371389e77514 ("media: rcar-vin: simplify how formats are set and reset"
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/davinci_vpfe/dm365_ipipe.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
-index 95942768639c..7bf2648affc0 100644
---- a/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
-+++ b/drivers/staging/media/davinci_vpfe/dm365_ipipe.c
-@@ -1777,7 +1777,7 @@ vpfe_ipipe_init(struct vpfe_ipipe_device *ipipe, struct platform_device *pdev)
- 	struct media_pad *pads = &ipipe->pads[0];
- 	struct v4l2_subdev *sd = &ipipe->subdev;
- 	struct media_entity *me = &sd->entity;
--	struct resource *res, *memres;
-+	struct resource *res, *res2, *memres;
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 5a54779cfc27..1236e6e8228c 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -196,6 +196,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ 	ret = v4l2_subdev_call(sd, pad, set_fmt, pad_cfg, &format);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		goto done;
++	ret = 0;
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 4);
- 	if (!res)
-@@ -1791,11 +1791,11 @@ vpfe_ipipe_init(struct vpfe_ipipe_device *ipipe, struct platform_device *pdev)
- 	if (!ipipe->base_addr)
- 		goto error_release;
+ 	v4l2_fill_pix_format(pix, &format.format);
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 6);
--	if (!res)
-+	res2 = platform_get_resource(pdev, IORESOURCE_MEM, 6);
-+	if (!res2)
- 		goto error_unmap;
--	ipipe->isp5_base_addr = ioremap_nocache(res->start,
--						resource_size(res));
-+	ipipe->isp5_base_addr = ioremap_nocache(res2->start,
-+						resource_size(res2));
- 	if (!ipipe->isp5_base_addr)
- 		goto error_unmap;
+@@ -230,7 +231,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ done:
+ 	v4l2_subdev_free_pad_config(pad_cfg);
  
+-	return 0;
++	return ret;
+ }
+ 
+ static int rvin_querycap(struct file *file, void *priv,
 -- 
 2.20.1
 
