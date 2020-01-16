@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0207013E76D
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BDD613E7C4
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:28:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392160AbgAPRZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 12:25:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33896 "EHLO mail.kernel.org"
+        id S2392076AbgAPR1r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 12:27:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37938 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392153AbgAPRZp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:25:45 -0500
+        id S2392072AbgAPR1r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:27:47 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 709262053B;
-        Thu, 16 Jan 2020 17:25:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5493A246D0;
+        Thu, 16 Jan 2020 17:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195545;
-        bh=Er9b+hegv+QekdwOFBDM4vu7+PTEEUZ/66FnFh24PYQ=;
+        s=default; t=1579195666;
+        bh=NAW0lDxZxbdXmUcJNQfaYox57i6EhRso58SUUQPAoK8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q8ciJSxw8T6ndVSKFL7k1QZLSfQtAShW25VqUgH68UPB7eZWmIHygweCX/Mk5HQ9F
-         QDEP/zCCm7Tysy6y8zLxZc2WU8PvE2RFamLSccNCQfePI1bDbGu2qZrWfendp0xIzd
-         Ee1ch0C4iVqjxiPzzFpPGI1o+ZIViglTQCrfoMNQ=
+        b=b6UQ89fqFHzkaP4zwBN3nQZpUFWT2+FOtQagphdzVa4d+KRz2CoHKAGPBWNL7neFo
+         vQJGczKs4NTEF9iEzBODSHVfZSxHUZXTFKxAP0BHyZZbe53thVKPDDe6TrvB21j0wr
+         oXx4D6e/aiJpiOqHHWa04Bn2raC2ZFokStg/IEtc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+Cc:     Colin Ian King <colin.king@canonical.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 137/371] media: ivtv: update *pos correctly in ivtv_read_pos()
-Date:   Thu, 16 Jan 2020 12:20:09 -0500
-Message-Id: <20200116172403.18149-80-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 224/371] media: vivid: fix incorrect assignment operation when setting video mode
+Date:   Thu, 16 Jan 2020 12:21:36 -0500
+Message-Id: <20200116172403.18149-167-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
 References: <20200116172403.18149-1-sashal@kernel.org>
@@ -44,35 +44,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-[ Upstream commit f8e579f3ca0973daef263f513da5edff520a6c0d ]
+[ Upstream commit d4ec9550e4b2d2e357a46fdc65d8ef3d4d15984c ]
 
-We had intended to update *pos, but the current code is a no-op.
+The assigment of FB_VMODE_NONINTERLACE to var->vmode should be a
+bit-wise or of FB_VMODE_NONINTERLACE instead of an assignment,
+otherwise the previous clearing of the FB_VMODE_MASK bits of
+var->vmode makes no sense and is redundant.
 
-Fixes: 1a0adaf37c30 ("V4L/DVB (5345): ivtv driver for Conexant cx23416/cx23415 MPEG encoder/decoder")
+Addresses-Coverity: ("Unused value")
+Fixes: ad4e02d5081d ("[media] vivid: add a simple framebuffer device for overlay testing")
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/ivtv/ivtv-fileops.c | 2 +-
+ drivers/media/platform/vivid/vivid-osd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/ivtv/ivtv-fileops.c b/drivers/media/pci/ivtv/ivtv-fileops.c
-index c9bd018e53de..e2b19c3eaa87 100644
---- a/drivers/media/pci/ivtv/ivtv-fileops.c
-+++ b/drivers/media/pci/ivtv/ivtv-fileops.c
-@@ -420,7 +420,7 @@ static ssize_t ivtv_read_pos(struct ivtv_stream *s, char __user *ubuf, size_t co
+diff --git a/drivers/media/platform/vivid/vivid-osd.c b/drivers/media/platform/vivid/vivid-osd.c
+index bdc380b14e0c..a95b7c56569e 100644
+--- a/drivers/media/platform/vivid/vivid-osd.c
++++ b/drivers/media/platform/vivid/vivid-osd.c
+@@ -167,7 +167,7 @@ static int _vivid_fb_check_var(struct fb_var_screeninfo *var, struct vivid_dev *
+ 	var->nonstd = 0;
  
- 	IVTV_DEBUG_HI_FILE("read %zd from %s, got %zd\n", count, s->name, rc);
- 	if (rc > 0)
--		pos += rc;
-+		*pos += rc;
- 	return rc;
- }
+ 	var->vmode &= ~FB_VMODE_MASK;
+-	var->vmode = FB_VMODE_NONINTERLACED;
++	var->vmode |= FB_VMODE_NONINTERLACED;
  
+ 	/* Dummy values */
+ 	var->hsync_len = 24;
 -- 
 2.20.1
 
