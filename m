@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B62013EBD8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C585213EB3D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:49:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406141AbgAPRxE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 12:53:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36662 "EHLO mail.kernel.org"
+        id S2394362AbgAPRsp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 12:48:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406093AbgAPRpJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:45:09 -0500
+        id S2406679AbgAPRqa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:46:30 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1084D2476A;
-        Thu, 16 Jan 2020 17:45:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B6BE2246B8;
+        Thu, 16 Jan 2020 17:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579196708;
-        bh=TDPzQ8lOFzd1TlN4bzqYEgSRNq1zXrEqZe6K0L9fOU0=;
+        s=default; t=1579196789;
+        bh=YRMHKI9DxXsZxyQa/S5HR4EOV7JoY6AVotvoAjzyXCs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aQCYMVVCcVm2Q6avsC/PtMZ4/SVBzX4fkNnRB201j+foxpev4Wry/rJOAvEP3RPtM
-         pTxKDw2jPaSHO3YI8Z3UViKO3zfWrhAvJy3a0zjb+Z6zE7XAQe7SWK0Bxi1jeQKtCA
-         HbuYR5PqyM/IDBbSvSL29bpjRkrRiRG46oGC2krc=
+        b=XZjfycREZ3GGolp3EtGaYmXVYPo+Upzz2SpCw6EsdSyi+/PfepBi6JLeW7MUBR6Uo
+         VKcvWseLCz3jbo4+Uw97CZqYQ+P3HwUIfnfR8xyRrZQi2tosqWdQM0YXYAZ9oM5dFn
+         /mL0gyBukO7DBIHlrebb3Ern940F13fZmRb2VC7U=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Colin Ian King <colin.king@canonical.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 099/174] media: vivid: fix incorrect assignment operation when setting video mode
-Date:   Thu, 16 Jan 2020 12:41:36 -0500
-Message-Id: <20200116174251.24326-99-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 152/174] media: ov6650: Fix incorrect use of JPEG colorspace
+Date:   Thu, 16 Jan 2020 12:42:29 -0500
+Message-Id: <20200116174251.24326-152-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
 References: <20200116174251.24326-1-sashal@kernel.org>
@@ -44,39 +44,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-[ Upstream commit d4ec9550e4b2d2e357a46fdc65d8ef3d4d15984c ]
+[ Upstream commit 12500731895ef09afc5b66b86b76c0884fb9c7bf ]
 
-The assigment of FB_VMODE_NONINTERLACE to var->vmode should be a
-bit-wise or of FB_VMODE_NONINTERLACE instead of an assignment,
-otherwise the previous clearing of the FB_VMODE_MASK bits of
-var->vmode makes no sense and is redundant.
+Since its initial submission, the driver selects V4L2_COLORSPACE_JPEG
+for supported formats other than V4L2_MBUS_FMT_SBGGR8_1X8.  According
+to v4l2-compliance test program, V4L2_COLORSPACE_JPEG applies
+exclusively to V4L2_PIX_FMT_JPEG.  Since the sensor does not support
+JPEG format, fix it to always select V4L2_COLORSPACE_SRGB.
 
-Addresses-Coverity: ("Unused value")
-Fixes: ad4e02d5081d ("[media] vivid: add a simple framebuffer device for overlay testing")
-
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 2f6e2404799a ("[media] SoC Camera: add driver for OV6650 sensor")
+Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/vivid/vivid-osd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/soc_camera/ov6650.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/platform/vivid/vivid-osd.c b/drivers/media/platform/vivid/vivid-osd.c
-index e15eef6a94e5..f3afc74f98ed 100644
---- a/drivers/media/platform/vivid/vivid-osd.c
-+++ b/drivers/media/platform/vivid/vivid-osd.c
-@@ -167,7 +167,7 @@ static int _vivid_fb_check_var(struct fb_var_screeninfo *var, struct vivid_dev *
- 	var->nonstd = 0;
+diff --git a/drivers/media/i2c/soc_camera/ov6650.c b/drivers/media/i2c/soc_camera/ov6650.c
+index bb55ddfbf733..7adbfc57cffa 100644
+--- a/drivers/media/i2c/soc_camera/ov6650.c
++++ b/drivers/media/i2c/soc_camera/ov6650.c
+@@ -203,7 +203,6 @@ struct ov6650 {
+ 	unsigned long		pclk_max;	/* from resolution and format */
+ 	struct v4l2_fract	tpf;		/* as requested with s_parm */
+ 	u32 code;
+-	enum v4l2_colorspace	colorspace;
+ };
  
- 	var->vmode &= ~FB_VMODE_MASK;
--	var->vmode = FB_VMODE_NONINTERLACED;
-+	var->vmode |= FB_VMODE_NONINTERLACED;
  
- 	/* Dummy values */
- 	var->hsync_len = 24;
+@@ -513,7 +512,7 @@ static int ov6650_get_fmt(struct v4l2_subdev *sd,
+ 	mf->width	= priv->rect.width >> priv->half_scale;
+ 	mf->height	= priv->rect.height >> priv->half_scale;
+ 	mf->code	= priv->code;
+-	mf->colorspace	= priv->colorspace;
++	mf->colorspace	= V4L2_COLORSPACE_SRGB;
+ 	mf->field	= V4L2_FIELD_NONE;
+ 
+ 	return 0;
+@@ -623,11 +622,6 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
+ 		priv->pclk_max = 8000000;
+ 	}
+ 
+-	if (code == MEDIA_BUS_FMT_SBGGR8_1X8)
+-		priv->colorspace = V4L2_COLORSPACE_SRGB;
+-	else if (code != 0)
+-		priv->colorspace = V4L2_COLORSPACE_JPEG;
+-
+ 	if (half_scale) {
+ 		dev_dbg(&client->dev, "max resolution: QCIF\n");
+ 		coma_set |= COMA_QCIF;
+@@ -684,7 +678,6 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
+ 		priv->code = code;
+ 
+ 	if (!ret) {
+-		mf->colorspace	= priv->colorspace;
+ 		mf->width = priv->rect.width >> half_scale;
+ 		mf->height = priv->rect.height >> half_scale;
+ 	}
+@@ -707,6 +700,7 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
+ 				&mf->height, 2, H_CIF, 1, 0);
+ 
+ 	mf->field = V4L2_FIELD_NONE;
++	mf->colorspace = V4L2_COLORSPACE_SRGB;
+ 
+ 	switch (mf->code) {
+ 	case MEDIA_BUS_FMT_Y10_1X10:
+@@ -716,12 +710,10 @@ static int ov6650_set_fmt(struct v4l2_subdev *sd,
+ 	case MEDIA_BUS_FMT_YUYV8_2X8:
+ 	case MEDIA_BUS_FMT_VYUY8_2X8:
+ 	case MEDIA_BUS_FMT_UYVY8_2X8:
+-		mf->colorspace = V4L2_COLORSPACE_JPEG;
+ 		break;
+ 	default:
+ 		mf->code = MEDIA_BUS_FMT_SBGGR8_1X8;
+ 	case MEDIA_BUS_FMT_SBGGR8_1X8:
+-		mf->colorspace = V4L2_COLORSPACE_SRGB;
+ 		break;
+ 	}
+ 
+@@ -1048,7 +1040,6 @@ static int ov6650_probe(struct i2c_client *client,
+ 	priv->rect.height = H_CIF;
+ 	priv->half_scale  = false;
+ 	priv->code	  = MEDIA_BUS_FMT_YUYV8_2X8;
+-	priv->colorspace  = V4L2_COLORSPACE_JPEG;
+ 
+ 	ret = ov6650_video_probe(client);
+ 	if (ret)
 -- 
 2.20.1
 
