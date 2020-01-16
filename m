@@ -2,40 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 555FB13F939
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 20:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE66D13F930
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 20:23:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407331AbgAPTXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 14:23:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36532 "EHLO mail.kernel.org"
+        id S1730660AbgAPQxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 11:53:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36574 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730635AbgAPQxD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:53:03 -0500
+        id S1730639AbgAPQxE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 11:53:04 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9DF0721582;
-        Thu, 16 Jan 2020 16:53:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 332462073A;
+        Thu, 16 Jan 2020 16:53:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193582;
-        bh=iIeP+WJZUUTPVSaBgeB7+7rh6VBmmZIcQvVjeJlK2xE=;
+        s=default; t=1579193584;
+        bh=Tnd+SAke6nIVxhIP5axtAjn7GdI/o/v7fMl1nJaRVNs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E4i+soLM8eNLM0+ILS7C5k5/Z20tMT4oDDg/SBzfUUFSoVtF0hHxNTE+BJGNSw/7d
-         hQ2ktvkzNlezit/cVyxN2rUDUK5n9cQtWBdxOGdGdtCYCHM8hqLCUby8/JeAVTCfwe
-         0foSulnEsJOaJ7tP/kHAm9inZtXI1K4QtvB355hk=
+        b=mgcd8RxBJumX0/yNtan2KKToa+Lrfl/tOOjQYGWHifF89aakOk49IPTxeFH26ywZw
+         02jZjsYiA/gFwk1/DqCmPOU5oq7iC0fzlmzgUb+Z1jScL1p8DYqRne8BxfwW5jUFrz
+         I0q9tWpXx4KD4QoRxzhZzv3311/GStToFFHveLCE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Navid Emamdoost <navid.emamdoost@gmail.com>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Eddie James <eajames@linux.ibm.com>,
+Cc:     Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 5.4 124/205] media: aspeed-video: Fix memory leaks in aspeed_video_probe
-Date:   Thu, 16 Jan 2020 11:41:39 -0500
-Message-Id: <20200116164300.6705-124-sashal@kernel.org>
+        devel@driverdev.osuosl.org
+Subject: [PATCH AUTOSEL 5.4 125/205] media: hantro: Set H264 FIELDPIC_FLAG_E flag correctly
+Date:   Thu, 16 Jan 2020 11:41:40 -0500
+Message-Id: <20200116164300.6705-125-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
@@ -48,40 +46,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Navid Emamdoost <navid.emamdoost@gmail.com>
+From: Jonas Karlman <jonas@kwiboo.se>
 
-[ Upstream commit c3df30a01da4955e04fa068c503cd784b31dad92 ]
+[ Upstream commit a2cbf80a842add9663522bf898cf13cb2ac4e423 ]
 
-In the implementation of aspeed_video_probe() the allocated memory for
-video should be released if either devm_ioremap_resource()
-or aspeed_video_init() or aspeed_video_setup_video() fails. Replace
-kzalloc() with devm_kzalloc to avoid explicit release for video.
+The FIELDPIC_FLAG_E bit should be set when field_pic_flag exists in stream,
+it is currently set based on field_pic_flag of current frame.
+The PIC_FIELDMODE_E bit is correctly set based on the field_pic_flag.
 
-Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-Reviewed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+Fix this by setting the FIELDPIC_FLAG_E bit when frame_mbs_only is not set.
+
+Fixes: dea0a82f3d22 ("media: hantro: Add support for H264 decoding on G1")
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/aspeed-video.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 096a7c9a8963..4eaaf39b9223 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -1658,7 +1658,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
- {
- 	int rc;
- 	struct resource *res;
--	struct aspeed_video *video = kzalloc(sizeof(*video), GFP_KERNEL);
-+	struct aspeed_video *video =
-+		devm_kzalloc(&pdev->dev, sizeof(*video), GFP_KERNEL);
+diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+index 636bf972adcf..5f29b7a836db 100644
+--- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+@@ -63,7 +63,7 @@ static void set_params(struct hantro_ctx *ctx)
+ 	/* always use the matrix sent from userspace */
+ 	reg |= G1_REG_DEC_CTRL2_TYPE1_QUANT_E;
  
- 	if (!video)
- 		return -ENOMEM;
+-	if (slices[0].flags &  V4L2_H264_SLICE_FLAG_FIELD_PIC)
++	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+ 		reg |= G1_REG_DEC_CTRL2_FIELDPIC_FLAG_E;
+ 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL2);
+ 
 -- 
 2.20.1
 
