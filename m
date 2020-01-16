@@ -2,36 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13D3613E6E8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4663313E5EC
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2020 18:18:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390816AbgAPRWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 12:22:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58890 "EHLO mail.kernel.org"
+        id S2390826AbgAPRRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 12:17:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60054 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390772AbgAPRNe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:13:34 -0500
+        id S2390859AbgAPRNy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:13:54 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BA2672469E;
-        Thu, 16 Jan 2020 17:13:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 86E5E246A7;
+        Thu, 16 Jan 2020 17:13:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194813;
-        bh=2alawyexEup4tNEDc7koqZfVAReZTW5i3HMWygIn5VY=;
+        s=default; t=1579194833;
+        bh=t3NzLjqky/Ad3i0HuvmURg01ba2B4dUEqMwPsFzQWqo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0iElM7d5i2zJuT3+WJTPxs3zvtcLhMtR5znBf7fuCVFkQAYuWwhXP1mNlPX+z5t/N
-         qyCx5GGlbTlz7vbP8A9qvZeMmN52lyL37jQ5VpwS5f7TCTLlq1GZcJ0n3YTBJ0Cv29
-         AhoI/8TyFYz1pwbWAW4JQ0rtHojAv9/hqnJ2HGZk=
+        b=NUCjHXK64dpBBkIuul/oisKrmjMyYgc/IxOag+nDIo6hMmHZJd2RWhqVivQisyBkn
+         K0qNSRiwfLivIfJQ2WYmEkHNTiHlHXk9pNdqwL3h5Zyw7VK9j60XNLvT2zZJW+o7Dd
+         0PBr1pi+RUU1ypIYMkHmkMN1sR+s23jYxFe9WaX4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+Cc:     Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 620/671] media: v4l: cadence: Fix how unsued lanes are handled in 'csi2rx_start()'
-Date:   Thu, 16 Jan 2020 12:04:18 -0500
-Message-Id: <20200116170509.12787-357-sashal@kernel.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 634/671] media: exynos4-is: Fix recursive locking in isp_video_release()
+Date:   Thu, 16 Jan 2020 12:04:32 -0500
+Message-Id: <20200116170509.12787-371-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -44,35 +47,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: Seung-Woo Kim <sw0312.kim@samsung.com>
 
-[ Upstream commit 2eca8e4c1df4864b937752c3aa2f7925114f4806 ]
+[ Upstream commit 704c6c80fb471d1bb0ef0d61a94617d1d55743cd ]
 
-The 2nd parameter of 'find_first_zero_bit()' is a number of bits, not of
-bytes. So use 'csi2rx->max_lanes' instead of 'sizeof(lanes_used)'.
+>From isp_video_release(), &isp->video_lock is held and subsequent
+vb2_fop_release() tries to lock vdev->lock which is same with the
+previous one. Replace vb2_fop_release() with _vb2_fop_release() to
+fix the recursive locking.
 
-Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Fixes: 1380f5754cb0 ("[media] videobuf2: Add missing lock held on vb2_fop_release")
+Signed-off-by: Seung-Woo Kim <sw0312.kim@samsung.com>
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 2 +-
+ drivers/media/platform/exynos4-is/fimc-isp-video.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 43e43c7b3e98..6f64703d2c7c 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -129,7 +129,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 	 */
- 	for (i = csi2rx->num_lanes; i < csi2rx->max_lanes; i++) {
- 		unsigned int idx = find_first_zero_bit(&lanes_used,
--						       sizeof(lanes_used));
-+						       csi2rx->max_lanes);
- 		set_bit(idx, &lanes_used);
- 		reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, i + 1);
+diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+index a920164f53f1..39340abefd14 100644
+--- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
++++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
+@@ -316,7 +316,7 @@ static int isp_video_release(struct file *file)
+ 		ivc->streaming = 0;
  	}
+ 
+-	vb2_fop_release(file);
++	_vb2_fop_release(file, NULL);
+ 
+ 	if (v4l2_fh_is_singular_file(file)) {
+ 		fimc_pipeline_call(&ivc->ve, close);
 -- 
 2.20.1
 
