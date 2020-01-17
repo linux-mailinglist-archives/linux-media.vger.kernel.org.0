@@ -2,200 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFBAC140000
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2020 00:47:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23AAE14025D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2020 04:37:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389656AbgAPXrG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 16 Jan 2020 18:47:06 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:42188 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729160AbgAPXrF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 18:47:05 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1isEpv-00C7jd-BN; Thu, 16 Jan 2020 23:46:03 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1isEs0-0002Yt-7z; Thu, 16 Jan 2020 23:48:12 +0000
-Date:   Thu, 16 Jan 2020 23:48:12 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <682719554.17.1579218492238.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <231412687.16.1579217594411.JavaMail.jenkins@builder.linuxtv.org>
-References: <231412687.16.1579217594411.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #75
+        id S1729624AbgAQDhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 22:37:48 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42122 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726366AbgAQDhr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Jan 2020 22:37:47 -0500
+Received: by mail-pf1-f195.google.com with SMTP id 4so11269110pfz.9;
+        Thu, 16 Jan 2020 19:37:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IOMBiPn5diyVcn37zND9XcdLr5eqb4ZCuFIh7nwBBvI=;
+        b=h3BN7sJiAE71AxB3UoxhzZdoMzvAZJwC0PFKI2+vsrsqS7BPzxkwyUoh+GsIetXH4k
+         bA820vMnySBgqNkMFJ9f+9HZ2K18puWc3Ap60u2cCslyU9bQiQxA+3d2LQKlfpmjl2CD
+         IgBsqKvaMPMahjbxek0H1r4I7NfHCZ8A5A1VxkZ5euAXNcd+mfF6PPwEAqaD9alEDUHA
+         zu6/x5nztIbewk6FLUsIP+JUhk4YkOONgK9SyU4DDvLw8YdsHIgh5qTkNiuSiE/3Xole
+         m4QcRBXqQaYN9mEe4VI4NXRjO676FePdptdFmNjexyN0d9ol8hyl+L20dTDu35H38V5s
+         xO4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IOMBiPn5diyVcn37zND9XcdLr5eqb4ZCuFIh7nwBBvI=;
+        b=eaVNiD2r6k6A07u7DdYZeRB83ujqvc9mKxG3GsF0bPikyaROQmWH+/FOt1CpasqXOn
+         AdHnPiCuhS0HRvJRhXzsCJJXdhuN5UM+6Z5EAYGdYgNprNHuRHvxHqWgRr0/ebTk241c
+         NECjAw/kTouVakTJS6nbhXlMn9zV69IFhZsFrK5iTUfjobyO5kws2s2NyrUxDoplzohB
+         yiiqtq4EZXcX9SroSLx5i/f2cYlcHXPQl+Z70hnHbgVbiDV5DKyw20qKyFT9GjGLu5px
+         8RY8l+2P/5xikvl1idSRBRr1bgmQcCNWOH5WXnODUFQDSuVjTycB6GL7JZ/g00jJVx6t
+         u14g==
+X-Gm-Message-State: APjAAAXECQY7rh+wxr2uny1Zb+Fyan/KMdRj+n7zF9wEAzCvrecTPsmJ
+        +9z3+inrpGKgKsYCxs/gBK8=
+X-Google-Smtp-Source: APXvYqzNpGV8dUq0SsgrafcwveW1nffkJMFmfmvtFYbyhs7gM/GD6KknMvGcyVkhEDmaMvjMvXjw6w==
+X-Received: by 2002:a65:68d4:: with SMTP id k20mr43739997pgt.142.1579232266878;
+        Thu, 16 Jan 2020 19:37:46 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id k3sm26460240pgc.3.2020.01.16.19.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2020 19:37:46 -0800 (PST)
+Date:   Thu, 16 Jan 2020 19:37:44 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
+        Timo Kaufmann <timokau@zoho.com>, stable@vger.kernel.org
+Subject: Re: [PATCH for v5.5 1/2] Revert "Input: synaptics-rmi4 - don't
+ increment rmiaddr for SMBus transfers"
+Message-ID: <20200117033744.GC47797@dtor-ws>
+References: <20200115124819.3191024-1-hverkuil-cisco@xs4all.nl>
+ <20200115124819.3191024-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200115124819.3191024-2-hverkuil-cisco@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/75/display/redirect?page=changes>
+On Wed, Jan 15, 2020 at 01:48:18PM +0100, Hans Verkuil wrote:
+> This reverts commit a284e11c371e446371675668d8c8120a27227339.
+> 
+> This causes problems (drifting cursor) with at least the F11 function that
+> reads more than 32 bytes.
+> 
+> The real issue is in the F54 driver, and so this should be fixed there, and
+> not in rmi_smbus.c.
+> 
+> So first revert this bad commit, then fix the real problem in F54 in another
+> patch.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reported-by: Timo Kaufmann <timokau@zoho.com>
+> Fixes: a284e11c371e ("Input: synaptics-rmi4 - don't increment rmiaddr for SMBus transfers")
+> Cc: stable@vger.kernel.org
 
-Changes:
+Applied, thank you.
 
-[laurent.pinchart] README: Remove duplicated line
+> ---
+>  drivers/input/rmi4/rmi_smbus.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
+> index b313c579914f..2407ea43de59 100644
+> --- a/drivers/input/rmi4/rmi_smbus.c
+> +++ b/drivers/input/rmi4/rmi_smbus.c
+> @@ -163,6 +163,7 @@ static int rmi_smb_write_block(struct rmi_transport_dev *xport, u16 rmiaddr,
+>  		/* prepare to write next block of bytes */
+>  		cur_len -= SMB_MAX_COUNT;
+>  		databuff += SMB_MAX_COUNT;
+> +		rmiaddr += SMB_MAX_COUNT;
+>  	}
+>  exit:
+>  	mutex_unlock(&rmi_smb->page_mutex);
+> @@ -214,6 +215,7 @@ static int rmi_smb_read_block(struct rmi_transport_dev *xport, u16 rmiaddr,
+>  		/* prepare to read next block of bytes */
+>  		cur_len -= SMB_MAX_COUNT;
+>  		databuff += SMB_MAX_COUNT;
+> +		rmiaddr += SMB_MAX_COUNT;
+>  	}
+>  
+>  	retval = 0;
+> -- 
+> 2.24.0
+> 
 
-
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git --version # timeout=10
- > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision 30f9624f894ae50044dd367c6560198940d9b702 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 30f9624f894ae50044dd367c6560198940d9b702 # timeout=10
-Commit message: "README: Remove duplicated line"
- > git rev-list --no-walk 2de78434ca710bb71590d71cf9d9c2e0aa4b22ba # timeout=10
-[libcamera] $ /bin/sh -xe /tmp/jenkins5343542985076092399.sh
-+ meson build -Dandroid=true
-Directory already configured.
-
-Just run your build command (e.g. ninja) and Meson will regenerate as necessary.
-If ninja fails, run "ninja reconfigure" or "meson --reconfigure"
-to force Meson to regenerate.
-
-If build failures persist, run "meson setup --wipe" to rebuild from scratch
-using the same options as passed when configuring the build.
-To change option values, run "meson configure" instead.
-+ cd build
-+ ninja
-[1/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o' -c ../src/libcamera/bound_method.cpp
-../src/libcamera/bound_method.cpp: In member function ‘bool libcamera::BoundMethodBase::activatePack(std::shared_ptr<libcamera::BoundMethodPackBase>, bool)’:
-../src/libcamera/bound_method.cpp:86:9: error: ‘make_unique’ is not a member of ‘std’
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-         ^~~~~~~~~~~
-../src/libcamera/bound_method.cpp:86:9: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/bound_method.cpp:13:1:
-+#include <memory>
- 
-../src/libcamera/bound_method.cpp:86:9:
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-         ^~~~~~~~~~~
-../src/libcamera/bound_method.cpp:86:34: error: expected primary-expression before ‘>’ token
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                  ^
-../src/libcamera/bound_method.cpp:86:42: error: left operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                          ^~~~
-../src/libcamera/bound_method.cpp:86:48: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                                ^~~~~~~
-../src/libcamera/bound_method.cpp:86:57: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                                         ^~~~~~~~~~~~
-../src/libcamera/bound_method.cpp:95:9: error: ‘make_unique’ is not a member of ‘std’
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-         ^~~~~~~~~~~
-../src/libcamera/bound_method.cpp:95:9: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/bound_method.cpp:95:34: error: expected primary-expression before ‘>’ token
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                  ^
-../src/libcamera/bound_method.cpp:95:42: error: left operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                          ^~~~
-../src/libcamera/bound_method.cpp:95:49: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                                 ^~~~~~~~~
-../src/libcamera/bound_method.cpp:95:48: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                                ^~~~~~~~~~
-cc1plus: all warnings being treated as errors
-[2/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_dispatcher.cpp.o'.
-[3/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/file_descriptor.cpp.o'.
-[4/120] Generating version.cpp with a custom command.
-[5/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o' -c ../src/libcamera/control_serializer.cpp
-../src/libcamera/control_serializer.cpp: In member function ‘T libcamera::ControlSerializer::deserialize(libcamera::ByteStreamBuffer&) [with T = libcamera::ControlInfoMap]’:
-../src/libcamera/control_serializer.cpp:417:33: error: ‘make_unique’ is not a member of ‘std’
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                 ^~~~~~~~~~~
-../src/libcamera/control_serializer.cpp:417:33: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/control_serializer.cpp:20:1:
-+#include <memory>
- 
-../src/libcamera/control_serializer.cpp:417:33:
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                 ^~~~~~~~~~~
-../src/libcamera/control_serializer.cpp:417:54: error: expected primary-expression before ‘>’ token
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                                      ^
-../src/libcamera/control_serializer.cpp:417:62: error: left operand of comma operator has no effect [-Werror=unused-value]
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                                        ~~~~~~^~
-../src/libcamera/control_serializer.cpp:417:70: error: right operand of comma operator has no effect [-Werror=unused-value]
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                                                      ^~~~
-cc1plus: all warnings being treated as errors
-[6/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o' -c ../src/libcamera/device_enumerator.cpp
-../src/libcamera/device_enumerator.cpp: In static member function ‘static std::unique_ptr<libcamera::DeviceEnumerator> libcamera::DeviceEnumerator::create()’:
-../src/libcamera/device_enumerator.cpp:147:20: error: ‘make_unique’ is not a member of ‘std’
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                    ^~~~~~~~~~~
-../src/libcamera/device_enumerator.cpp:147:20: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/device_enumerator.cpp:16:1:
-+#include <memory>
- 
-../src/libcamera/device_enumerator.cpp:147:20:
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                    ^~~~~~~~~~~
-../src/libcamera/device_enumerator.cpp:147:52: error: expected primary-expression before ‘>’ token
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                                                    ^
-../src/libcamera/device_enumerator.cpp:147:54: error: expected primary-expression before ‘)’ token
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                                                      ^
-../src/libcamera/device_enumerator.cpp:156:20: error: ‘make_unique’ is not a member of ‘std’
-  enumerator = std::make_unique<DeviceEnumeratorSysfs>();
-                    ^~~~~~~~~~~
-../src/libcamera/device_enumerator.cpp:156:20: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/device_enumerator.cpp:156:53: error: expected primary-expression before ‘>’ token
-  enumerator = std::make_unique<DeviceEnumeratorSysfs>();
-                                                     ^
-../src/libcamera/device_enumerator.cpp:156:55: error: expected primary-expression before ‘)’ token
-  enumerator = std::make_unique<DeviceEnumeratorSysfs>();
-                                                       ^
-[7/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o' -c ../src/libcamera/ipa_manager.cpp
-../src/libcamera/ipa_manager.cpp: In member function ‘std::unique_ptr<libcamera::IPAInterface> libcamera::IPAManager::createIPA(libcamera::PipelineHandler*, uint32_t, uint32_t)’:
-../src/libcamera/ipa_manager.cpp:267:14: error: ‘make_unique’ is not a member of ‘std’
-  return std::make_unique<IPAContextWrapper>(ctx);
-              ^~~~~~~~~~~
-../src/libcamera/ipa_manager.cpp:267:14: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/ipa_manager.cpp:21:1:
-+#include <memory>
- 
-../src/libcamera/ipa_manager.cpp:267:14:
-  return std::make_unique<IPAContextWrapper>(ctx);
-              ^~~~~~~~~~~
-../src/libcamera/ipa_manager.cpp:267:43: error: expected primary-expression before ‘>’ token
-  return std::make_unique<IPAContextWrapper>(ctx);
-                                           ^
-[8/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_dispatcher_poll.cpp.o'.
-[9/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_module.cpp.o'.
-[10/120] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_proxy.cpp.o'.
-ninja: build stopped: subcommand failed.
-Build step 'Execute shell' marked build as failure
+-- 
+Dmitry
