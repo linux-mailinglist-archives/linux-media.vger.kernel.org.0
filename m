@@ -2,100 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88B5D1402DC
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2020 05:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94F1E14032C
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2020 05:56:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729952AbgAQEPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Jan 2020 23:15:10 -0500
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:39332 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729559AbgAQEPK (ORCPT
+        id S1728925AbgAQE4l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Jan 2020 23:56:41 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:58285 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726230AbgAQE4l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Jan 2020 23:15:10 -0500
-Received: by mail-pj1-f66.google.com with SMTP id e11so2684719pjt.4;
-        Thu, 16 Jan 2020 20:15:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bbL7DykLMjR4IBh+1blOFW3gZb5qagjDzhxfjiFEjd8=;
-        b=qK6PT7KCcMfj1muWed0b3i6ok5ZKMYYZy7gdJlXw2tC6TIleyMD6OJFswgO9BP9mKY
-         MonsjQOW3UlPvlrFcc8IR6PbuKIDt/sevzLXR6HZtEeHXDNyRvTozS9ai7EbRmp/BViv
-         7xnCdScSNi0ISqmUPuD9kGsVQxmogeShbiG5QlyeqUZiFN78tx0Z7oKFNcf8EWqTOOG0
-         m/+YpEWMQ/gfj1SaihNtFZVlqWSthkGsJ+/Nke4+sa+UfwcgvKzt0ljBfO73fVWIe4Q7
-         WBDD7r8USoLe1sZqrBjkxF7WLX6U20qg8Ci+w6lPdwBwgT6zcO3EgYVDKacDOrvbsRdG
-         A8dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bbL7DykLMjR4IBh+1blOFW3gZb5qagjDzhxfjiFEjd8=;
-        b=N3ifG72x9rDuI/5e2etaA6RdH3xeXLL6JKB5RrAvi9fk93wJSBIq8bhB3IQp8JAGQo
-         TMWMP+hn/6iYtQjoUQVntT0TTna7nthUIk4Y1xNVhw0H0jU4k4nwba1FCTmFqXuTT0sV
-         iMkhHNJFXIazPWf1B3VTYt/0X67zDW+E5hNwCc723EeYzn6N9nrfJ3LtLsboLPC1P1S9
-         KoDaEOoCe276eVg3FeWoB3sSIDoEhAjRPgU5ZOdr6gSz/kC2qRYnhqIGM2WV5+oGNWne
-         nvja8l9lBJv4H9b1gkY7zUfh+J6f2pblqGrvbs2Kjdqq9t2SiLFWnysXxzl6XPitPFmp
-         U3VQ==
-X-Gm-Message-State: APjAAAVGiANqmmHFU+iBQ8CDvPofZYNRIcaK4jxoH91UYidUg0v0bfUm
-        F6IrXCgVbLeiMsj63GoSfVY=
-X-Google-Smtp-Source: APXvYqyOwN5MUuJbgblp1NTy+y/gUkoYCTgxAVuPkvbDAV+zy+hv76xpdSI2yFN+nRPwtZvwR+mpYg==
-X-Received: by 2002:a17:90a:fa07:: with SMTP id cm7mr3265779pjb.119.1579234509410;
-        Thu, 16 Jan 2020 20:15:09 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id k23sm25303816pgg.7.2020.01.16.20.15.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2020 20:15:08 -0800 (PST)
-Date:   Thu, 16 Jan 2020 20:15:06 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
-        Timo Kaufmann <timokau@zoho.com>, stable@vger.kernel.org
-Subject: Re: [PATCH for v5.5 2/2] Input: rmi_f54: read from FIFO in 32 byte
- blocks
-Message-ID: <20200117041506.GD47797@dtor-ws>
-References: <20200115124819.3191024-1-hverkuil-cisco@xs4all.nl>
- <20200115124819.3191024-3-hverkuil-cisco@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200115124819.3191024-3-hverkuil-cisco@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 16 Jan 2020 23:56:41 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:54f6:666f:9442:6591])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id sJgTiNpV1T6sRsJgUif6EY; Fri, 17 Jan 2020 05:56:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579236998; bh=j0Jrc8jAOtb3ZxI6E9kPs0ButVM82Sgn9x1fFGl6VdM=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=opYV9OQ/ywvu1gHViNMDkIUdmfyktePyf8OOord/lzexb87g3IppQGxvgmPidjmhk
+         1W2ZmwNL5Wl6HvVvJW6gE9cUvuGztlHvxWkdarnTvlbjAo1SnSW5MA4WJ9sns5r/Qy
+         ZblKUPuowv89Hje+zhBye8V5ejpII9+gjlsyW3D6PdkvARWnUCHXfa586OLDCW8lpY
+         fJYRjScAirr4eQPbYMCITEqkD/1bzNlEDU/luLv6Dv9o5CXgf1iSjHr+g0KxgwJ6iA
+         X7LNZxiSptFN4X00K6o6VYFJ76q2BGnmcTpL9UZ0y12fFu47tuxqrIwS+hyx8DWd7y
+         GiT03RyDuPybA==
+Message-ID: <567459426e1baba3754f7890089a441c@smtp-cloud9.xs4all.net>
+Date:   Fri, 17 Jan 2020 05:56:37 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfBj4SuSyCJGrn6IJR94pxOKhnkeNbUcg+r75icZWJWvi+YLzbXW8w1F1PSMbp7D3oy/ZQSVkgg+g5TckSrOJrnSzXnpqfEIK96sQWmITVo0JZ5VqItJC
+ ch+QJcgQqCRdmnIDkKUWyHWRg1wNttoPSin9isGz/vqNfKVFwD7IabRUnCUy7XfXxc8ieyMi+TydI7slUiT5ff/vj06V8RZNUszatU4dX0TVXOBzosnVL588
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Wed, Jan 15, 2020 at 01:48:19PM +0100, Hans Verkuil wrote:
-> The F54 Report Data is apparently read through a fifo and for
-> the smbus protocol that means that between reading a block of 32
-> bytes the rmiaddr shouldn't be incremented. However, changing
-> that causes other non-fifo reads to fail and so that change was
-> reverted.
-> 
-> This patch changes just the F54 function and it now reads 32 bytes
-> at a time from the fifo, using the F54_FIFO_OFFSET to update the
-> start address that is used when reading from the fifo.
-> 
-> This has only been tested with smbus, not with i2c or spi. But I
-> suspect that the same is needed there since I think similar
-> problems will occur there when reading more than 256 bytes.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: Timo Kaufmann <timokau@zoho.com>
-> Fixes: a284e11c371e ("Input: synaptics-rmi4 - don't increment rmiaddr for SMBus transfers")
-> Cc: stable@vger.kernel.org
+Results of the daily build of media_tree:
 
-As you mentioned this one is not urgent so I dropped the stable
-designation (you may forward to stable once it cooks in 5.5 for a bit)
-and also dropped fixes as it does not fixes this particular commit but
-something that was done before.
+date:			Fri Jan 17 05:00:11 CET 2020
+media-tree git hash:	2a0a0bc7020ef7e66c9569d8229d79fa72e3d659
+media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
+v4l-utils git hash:	ec55a961487b449bedbe07650674b4965814cf07
+edid-decode git hash:	3910b4cb0841d2eafa64ba53e5b9781a2711efcc
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Otherwise applied.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-Thanks.
+Detailed results are available here:
 
--- 
-Dmitry
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
