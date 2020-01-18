@@ -2,60 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C9C3141798
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jan 2020 14:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 638FA1417A8
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jan 2020 14:31:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728813AbgARNOL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Jan 2020 08:14:11 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:40136 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728688AbgARNOL (ORCPT
+        id S1728886AbgARNb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jan 2020 08:31:27 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37719 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728813AbgARNb1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Jan 2020 08:14:11 -0500
-Received: by mail-qk1-f194.google.com with SMTP id c17so25580517qkg.7
-        for <linux-media@vger.kernel.org>; Sat, 18 Jan 2020 05:14:10 -0800 (PST)
+        Sat, 18 Jan 2020 08:31:27 -0500
+Received: by mail-qt1-f195.google.com with SMTP id w47so24055489qtk.4
+        for <linux-media@vger.kernel.org>; Sat, 18 Jan 2020 05:31:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=ipJnENm92tONi4RWbdh0snWRdszAjntq3m+L0rHWSpY=;
-        b=TUtRV/G/AYPFtVTLJq6lYk4DSXJ1qzKNKFFgl640Jx4iRRenK6mJMYrLY0Pss10Tm7
-         WLuCUagKMWaKk4Aanx44WhZewSxKOBlFgZ6x2lOectjiLTPkW0NbnU7ioHVom6ETZNri
-         eRCEwgcOMOunuGOoincA+TmDF2eWJsqlQ0Ogr67Zol01CDIzXYxWpWwn+rbdzuZKFssA
-         HYLY7tvqjwcseFKG4ItnR4fNR0nb5/3ZW4kZXQDkZTCijKblr4UE44gB9pt219MGuTd9
-         qGC4vbBkw4cniDdvjBoz2fZhZBXJc2LUTvi4n11lXxXzgYh1Umyy4s+OfhQLQF2Ic/nf
-         poew==
+        bh=5YxsjwffX9TUC1iOdqN5ynD4NWa9IcR8dkHqJbAF8kc=;
+        b=igvr2dE4tFGDDSG9IfuJJTa+LQ6gBHOYZVtwcTa1EVk2pXDWghwaMukEFiuBAsiJxC
+         awiw39lFSOUZugA6CZd72hN2o1zIYLC6BP2HqZeB0WvUgnIbqvZjVPDc5lRUPxFR0N9o
+         1R9SczDarkvhm5iC0ZJu4CN1nCCrDClmOmzr8+4oNVX8V8KM0h1PVVeDVl0n1lZ0yqJP
+         GRqCHLHhufl3/HN2f38fJ+f5dAOxoctwm7/E5cMuAwb9k2dOGLdNhtBPr59UvvHtGtVf
+         lRV+lxcSBNf4Sp85dAT04HnH8At+8I7m1Bihm0R0aq6esLfZhlBnI2hQwfoEdsk66OQa
+         wBbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ipJnENm92tONi4RWbdh0snWRdszAjntq3m+L0rHWSpY=;
-        b=WKL8sKTrmd7Rcao1REgldoT+SgwPIohRGu1MjzFl8UyafB2Y4XurG6iCcaSQ8eV6OV
-         Q5ZgwHmTtcdoqiheXokdlvcEN0OcUyhGnynleNtNMviqdhU2Y+hULuZzcaLnTT8j1W6u
-         d1o7ZuVUvcEtbCw+yXp/wDqOuUTLOy8HtlSOZNWR5IAG0bDyJEWQnXbIUA+oW5SGMgXS
-         GBSjb9ZcLoyHPs7SDSEioQ2cp6Z3HZG+fcCmKQdmpiYu+t/tULv/WJBYr8LiZwNDuTSi
-         9TMB4YVi53qfllbL2cq7KNXJORSdqb3H3RUvjUidmpa5V3xaXCkzXIooW1kbD+wjgYY/
-         e8tw==
-X-Gm-Message-State: APjAAAXin/eG3ZlJEymYFTMlRWNe/jApfKDw2fpfy+6guMS1rr4mWQbd
-        w4NPBRCgC3Gaw2Xcd6r7yrCIwA==
-X-Google-Smtp-Source: APXvYqwNpMyG5dQ/EEU73vRRsyp0Drr0DaxV6Ougxn/x4c8ND22mF7vR+kfmPEA2quUiZZoFf9rXaA==
-X-Received: by 2002:a37:3d8:: with SMTP id 207mr41865601qkd.335.1579353249670;
-        Sat, 18 Jan 2020 05:14:09 -0800 (PST)
+        bh=5YxsjwffX9TUC1iOdqN5ynD4NWa9IcR8dkHqJbAF8kc=;
+        b=lHW+18Y9BKgZ0KP4fMSX4ZI8dRnCi+wL3iB3zr/p9dqXdWEZBOlX+I4scDRI56c3G1
+         a+g628gPPdegsH6jEZdbCmqWBaVMQaWscUjwVxyR0u4IAhY6RPEEbvf1vZJy6hF/HWd1
+         Ew72w0COPhfM7cIqytJ/F6cdLm0QwVNg6Zpb9EnM0Z302zda3tanp0W92KwzmAoS8hkY
+         0njyDqkpjzSiv+2HUaNHrt52WAla12KC3ZOxDdF5KkjYNAF+3s4kD98UZla2iX+GMNvE
+         cr+hTDpN9pLSk0tZniCJglwxa1AxTiavdchMSNLVVKJ/TCNhGYyM8E9T2hmxHLBt9Ue/
+         Bo/Q==
+X-Gm-Message-State: APjAAAV+R/jG/AsPrKepr8bH+flNZ8rIpwlXf8jXpfMdoY5FzJJjSoi2
+        yfbWTYAVKuD5DeHqZsN1Q2niVw==
+X-Google-Smtp-Source: APXvYqyvWy2BCgLFuugmUzP2XR9m0gX8NeEj+EG8BQTvuGNbWU/DVrIHfL8tymbnGFBbc6yADiKuiQ==
+X-Received: by 2002:ac8:31f0:: with SMTP id i45mr12324308qte.327.1579354285798;
+        Sat, 18 Jan 2020 05:31:25 -0800 (PST)
 Received: from nicolas-tpx395 ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id d26sm13031035qka.28.2020.01.18.05.14.07
+        by smtp.gmail.com with ESMTPSA id e3sm14434223qtj.30.2020.01.18.05.31.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2020 05:14:08 -0800 (PST)
-Message-ID: <ba1205ec1baca58e72e788da3cd0864a2527d059.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/5] Stateful Encoding: final bits
+        Sat, 18 Jan 2020 05:31:25 -0800 (PST)
+Message-ID: <8b10414a1c198a6e3bd5e131a72bd6f68466bea5.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: hantro: Support H264 profile control
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Date:   Sat, 18 Jan 2020 08:14:07 -0500
-In-Reply-To: <eeb55c72-2abd-8ce9-a352-1247a366ce9a@xs4all.nl>
-References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
-         <20191220144734.31667e9c@litschi.hi.pengutronix.de>
-         <eeb55c72-2abd-8ce9-a352-1247a366ce9a@xs4all.nl>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, Tomasz Figa <tfiga@chromium.org>
+Cc:     Hirokazu Honda <hiroh@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@driverdev.osuosl.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Sat, 18 Jan 2020 08:31:22 -0500
+In-Reply-To: <c88b2822-0dd2-8ea3-eb0b-262df5a30830@xs4all.nl>
+References: <20191122051608.128717-1-hiroh@chromium.org>
+         <767528be59275265072896e5c679e97575615fdd.camel@ndufresne.ca>
+         <CAAFQd5D3OpAAtX7_0ktz4-aAgWN_G4YBQMR=Vwp7JPopjvRkRA@mail.gmail.com>
+         <f5341ed837529bd38d466d4b655e261d64065912.camel@ndufresne.ca>
+         <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
+         <c88b2822-0dd2-8ea3-eb0b-262df5a30830@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
 MIME-Version: 1.0
@@ -65,122 +73,110 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 06 janvier 2020 à 16:02 +0100, Hans Verkuil a écrit :
-> (Added Nicolas as I'd like his input as well)
-
-Sorry for the delay, I was pretty far behind on tracking this ML.
-
-> 
-> Reply below:
-> 
-> On 12/20/19 2:47 PM, Michael Tretter wrote:
-> > Hello Hans,
-> > 
-> > On Tue, 19 Nov 2019 12:34:52 +0100, Hans Verkuil wrote:
-> > > This series adds support for fractions in the control framework,
-> > > and a way to obtain the min and max values of compound controls
-> > > such as v4l2_fract.
+Le vendredi 10 janvier 2020 à 13:31 +0100, Hans Verkuil a écrit :
+> On 11/29/19 1:16 AM, Tomasz Figa wrote:
+> > On Sat, Nov 23, 2019 at 1:52 AM Nicolas Dufresne <nicolas@ndufresne.ca>
+> > wrote:
+> > > Le samedi 23 novembre 2019 à 01:00 +0900, Tomasz Figa a écrit :
+> > > > On Sat, Nov 23, 2019 at 12:09 AM Nicolas Dufresne <nicolas@ndufresne.ca>
+> > > > wrote:
+> > > > > Le vendredi 22 novembre 2019 à 14:16 +0900, Hirokazu Honda a écrit :
+> > > > > > The Hantro G1 decoder supports H.264 profiles from Baseline to High,
+> > > > > > with
+> > > > > > the exception of the Extended profile.
+> > > > > > 
+> > > > > > Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
+> > > > > > applications can query the driver for the list of supported
+> > > > > > profiles.
+> > > > > 
+> > > > > Thanks for this patch. Do you think we could also add the LEVEL
+> > > > > control
+> > > > > so the profile/level enumeration becomes complete ?
+> > > > > 
+> > > > > I'm thinking it would be nice if the v4l2 compliance test make sure
+> > > > > that codecs do implement these controls (both stateful and stateless),
+> > > > > it's essential for stack with software fallback, or multiple capable
+> > > > > codec hardware but with different capabilities.
+> > > > > 
+> > > > 
+> > > > Level is a difficult story, because it also specifies the number of
+> > > > macroblocks per second, but for decoders like this the number of
+> > > > macroblocks per second it can handle depends on things the driver
+> > > > might be not aware of - clock frequencies, DDR throughput, system
+> > > > load, etc.
+> > > > 
+> > > > My take on this is that the decoder driver should advertise the
+> > > > highest resolution the decoder can handle due to hardware constraints.
+> > > > Performance related things depend on the integration details and
+> > > > should be managed elsewhere. For example Android and Chrome OS manage
+> > > > expected decoding performance in per-board configuration files.
 > > > 
-> > > Next it adds the V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to
-> > > set the framerate for the encoder.
+> > > When you read datasheet, the HW is always rated to maximum level (and
+> > > it's a range) with the assumption of a single stream. It seems much
+> > > easier to expose this as-is, statically then to start doing some math
+> > > with data that isn't fully exposed to the user. This is about filtering
+> > > of multiple CODEC instances, it does not need to be rocket science,
+> > > specially that the amount of missing data is important (e.g. usage of
+> > > tiles, compression, IPP all have an impact on the final performance).
+> > > All we want to know in userspace is if this HW is even possibly capable
+> > > of LEVEL X, and if not, we'll look for another one.
 > > > 
-> > > The next patch adds support for the V4L2_BUF_FLAG_TOO_SMALL flag
-> > > to signal that the capture buffer was too small.
-> > > 
-> > > The final patch adds the encoder spec (unchanged from v3).
-> > > 
-> > > Michael, can you add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
-> > > to your encoder driver? Let me know if something isn't working.
 > > 
-> > I implemented the control and hooked it up with S_PARM as well. The
-> > implementation was straightforward without any real issues. I'll send a
-> > patch in reply to this mail. Having a control for configuring the frame
-> > rate that is encoded into the SPS feels correct. This is in line with
-> > configuring the bitrate, level, etc.
+> > Agreed, one could potentially define it this way, but would it be
+> > really useful for the userspace and the users? I guess it could enable
+> > slightly faster fallback to software decoding in the extreme case of
+> > the hardware not supporting the level at all, but I suspect that the
+> > majority of cases would be the hardware just being unusably slow.
 > > 
-> > However, after seeing the implementation and fiddling around with it in
-> > userspace, I am not convinced that S_PARM should be used signal the
-> > rate at which frames are submitted.
-> > 
-> > Setting the frame submission rate to something different than the
-> > frame rate of the stream would be most interesting for transcoding use
-> > cases. The user space would either want to run the encoding as fast as
-> > possible or, if there are multiple encoding processes, as fast as
-> > possible with properly shared resources. Boiling this information down
-> > into a single number (and calling is "rate at which frames are
-> > submitted") sounds kind of wrong, because the userspace does not know
-> > which submission rate would lead to a good result.
-> > 
-> > Using the frame rate for such a setting seems pretty unique to the
-> > allegro encoder. Other encoders might use different mechanisms to boost
-> > the encoding speed, e.g., might be able to temporarily increase the
-> > clock rate of the codec. In these cases, the driver would need to
-> > translate the "framerate" set via S_PARM to a clock rate for the codec.
-> > This does not sound right.
-> > 
-> > However, in the end, this would lead to exposing single parameters that
-> > allow to tune the codec via generic controls. This does not seem to be
-> > the right way, at all. Maybe we could have a control that tells the
-> > encoder to "run as fast as possible" or to "run with as little
-> > resources as possible", which would be applicable to more encoders and
-> > the driver would have to decide how to implement this "profile".
-> > 
-> > Still, I am not really sure, if this is the proper way to solve this.
+> > Also, as I mentioned before, we already return the range of supported
+> > resolutions, which in practice should map to the part of the level
+> > that may depend on hardware capabilities rather than performance, so
+> > exposing levels as well would add redundancy to the information
+> > exposed.
 > 
-> I think you raise good points.
+> There is a lot of discussion here, but it all revolves around a potential
+> LEVEL control.
 > 
-> So this means that we need this new control (required for stateful encoders)
-> and optionally allow S_PARM to be used as an alternative way to set the
-> same control.
+> So I gather everyone is OK with merging this patch?
 
-Indeed that rase a strong point. In all scenarios I have in mind you're analyses
-is correct. It's binary:
-
-  a) This is live and then the frame rate and the speed matches
-  b) This is offline processing, and then we'd like to use as much power as possible
-
-What I think is important in what you raise, is that unlike the Allegro encoder,
-other encoders may be able to control usage in a more dynamic ways which indeed
-is not guarantied to correlate with framerate (could be utilisation driver clock
-scaling). Then yes, a control to tell the Allegro encoder that we are doing
-offline processing would work, though it can be optional, as other encoder with
-more dynamic performance scaling won't need that hint to work.
+I'm ok with this. For me, the level reflects the real time performance
+capability as define in the spec, while the width/height constraints usually
+represent an addressing capabicity, which may or may not operate real-time.
 
 > 
-> I prefer to make S_PARM optional and require the control, since I hate S_PARM
-> :-)
+> If not, let me know asap.
 > 
-> It would mean that all existing stateful encoders need to implement this new
-> control, but I think that's a good idea anyway.
-
-I share your preference, but that means more userspace backward compatibility
-code is needed. Notably, I'll have try the new one and fallback for this case to
-stay compatible with older kernel.
-
-> 
-> > > I need to add a test control for this to vivid as well and add support
-> > > for this to v4l2-ctl, that's on my TODO list.
-> > > 
-> > > Open questions:
-> > > 
-> > > 1) Existing encoder drivers use S_PARM to signal the frameperiod,
-> > > but as discussed in Lyon this should be the rate at which frames are
-> > > submitted for encoding, which can be different from
-> > > V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE. But given the current use-cases
-> > > I was wondering if calling S_PARM should set the ENC_FRAME_RATE
-> > > control as well, and you would need to explicitly set the control
-> > > after S_PARM if the two are not the same. This would mean that
-> > > existing applications that don't know about the control can keep working.
-> > 
-> > In the patch I did exactly that and we should be backwards compatible
-> > to applications that use only S_PARM.
-> > 
-> > Michael
-> > 
-> 
-> Thanks for working on this!
-> 
-> Happy New Year,
+> Regards,
 > 
 > 	Hans
+> 
+> > > > > > Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+> > > > > > ---
+> > > > > >  drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
+> > > > > >  1 file changed, 10 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c
+> > > > > > b/drivers/staging/media/hantro/hantro_drv.c
+> > > > > > index 6d9d41170832..9387619235d8 100644
+> > > > > > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > > > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > > > > > @@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] = {
+> > > > > >                       .def =
+> > > > > > V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+> > > > > >                       .max =
+> > > > > > V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+> > > > > >               },
+> > > > > > +     }, {
+> > > > > > +             .codec = HANTRO_H264_DECODER,
+> > > > > > +             .cfg = {
+> > > > > > +                     .id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> > > > > > +                     .min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+> > > > > > +                     .max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > > > > > +                     .menu_skip_mask =
+> > > > > > +                     BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
+> > > > > > +                     .def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
+> > > > > > +             }
+> > > > > >       }, {
+> > > > > >       },
+> > > > > >  };
 
