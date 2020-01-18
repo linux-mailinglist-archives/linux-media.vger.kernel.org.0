@@ -2,164 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB84F1415D9
-	for <lists+linux-media@lfdr.de>; Sat, 18 Jan 2020 05:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C9C3141798
+	for <lists+linux-media@lfdr.de>; Sat, 18 Jan 2020 14:14:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726956AbgARE4Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Jan 2020 23:56:24 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:40213 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726897AbgARE4Y (ORCPT
+        id S1728813AbgARNOL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Jan 2020 08:14:11 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:40136 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728688AbgARNOL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Jan 2020 23:56:24 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:38d4:d3e1:202c:da17])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id sg9kiTgizT6sRsg9lii4W6; Sat, 18 Jan 2020 05:56:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579323381; bh=lZu6D9+cSEksNqp2UEUdvvh4P/sB9zscPp2qQbslb50=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=fDYme5PnSFDho9bx7LLtBR0DK6Y56GtmdiGSzmAOSm6feumTtd+jadJr82tI6xtLa
-         P9vMoQw+ORInTDX3hsTBSBZSUYO67IewEeOkgiN0NuEzZ6xxTaatezpQRwuEZp8qRP
-         N8I40FEKRavIJV/G73jwzdPOZZr+bafwj39MrHeBApe6dOXASnDwRvqGWdWeFKRQdy
-         VyiHF8dOQyH9dtC1Q9ANbMmGt1Cw5jYI0jM/FzL6BmudO57Ay5txJDCj2DGFfJ98bf
-         SQYj3mfrvhb8HgTkgSDUhMww3MEqsFuWBtxjkwKkx5hgm1YdmcjuQAJLKB5tSO+yb2
-         rOXIR1aK6DpEA==
-Message-ID: <96c8659ecc0c129c8e08f63480c748c4@smtp-cloud9.xs4all.net>
-Date:   Sat, 18 Jan 2020 05:56:20 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfMCD4ZLt4JnWarEFLSzcXsfCvbUjxxQVXHUQbcddCDwSt+hehEYtU6mLBZ/iR5wWCAQhvwQI+EOwifdKNJ8uggLIQKqKng1kDgWligXD7F02LXyLg+5W
- +ZV84hM7GQhrKoiMA7DK6pia3KQuslCve14VVoMUHguDCqFBlKmt2NMimNMrgDlqZPf3vHRED/1bWF9rNUm/YPzyQzYOAoLyQW01esmylSacZdRfhnYXKl/u
+        Sat, 18 Jan 2020 08:14:11 -0500
+Received: by mail-qk1-f194.google.com with SMTP id c17so25580517qkg.7
+        for <linux-media@vger.kernel.org>; Sat, 18 Jan 2020 05:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=ipJnENm92tONi4RWbdh0snWRdszAjntq3m+L0rHWSpY=;
+        b=TUtRV/G/AYPFtVTLJq6lYk4DSXJ1qzKNKFFgl640Jx4iRRenK6mJMYrLY0Pss10Tm7
+         WLuCUagKMWaKk4Aanx44WhZewSxKOBlFgZ6x2lOectjiLTPkW0NbnU7ioHVom6ETZNri
+         eRCEwgcOMOunuGOoincA+TmDF2eWJsqlQ0Ogr67Zol01CDIzXYxWpWwn+rbdzuZKFssA
+         HYLY7tvqjwcseFKG4ItnR4fNR0nb5/3ZW4kZXQDkZTCijKblr4UE44gB9pt219MGuTd9
+         qGC4vbBkw4cniDdvjBoz2fZhZBXJc2LUTvi4n11lXxXzgYh1Umyy4s+OfhQLQF2Ic/nf
+         poew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ipJnENm92tONi4RWbdh0snWRdszAjntq3m+L0rHWSpY=;
+        b=WKL8sKTrmd7Rcao1REgldoT+SgwPIohRGu1MjzFl8UyafB2Y4XurG6iCcaSQ8eV6OV
+         Q5ZgwHmTtcdoqiheXokdlvcEN0OcUyhGnynleNtNMviqdhU2Y+hULuZzcaLnTT8j1W6u
+         d1o7ZuVUvcEtbCw+yXp/wDqOuUTLOy8HtlSOZNWR5IAG0bDyJEWQnXbIUA+oW5SGMgXS
+         GBSjb9ZcLoyHPs7SDSEioQ2cp6Z3HZG+fcCmKQdmpiYu+t/tULv/WJBYr8LiZwNDuTSi
+         9TMB4YVi53qfllbL2cq7KNXJORSdqb3H3RUvjUidmpa5V3xaXCkzXIooW1kbD+wjgYY/
+         e8tw==
+X-Gm-Message-State: APjAAAXin/eG3ZlJEymYFTMlRWNe/jApfKDw2fpfy+6guMS1rr4mWQbd
+        w4NPBRCgC3Gaw2Xcd6r7yrCIwA==
+X-Google-Smtp-Source: APXvYqwNpMyG5dQ/EEU73vRRsyp0Drr0DaxV6Ougxn/x4c8ND22mF7vR+kfmPEA2quUiZZoFf9rXaA==
+X-Received: by 2002:a37:3d8:: with SMTP id 207mr41865601qkd.335.1579353249670;
+        Sat, 18 Jan 2020 05:14:09 -0800 (PST)
+Received: from nicolas-tpx395 ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id d26sm13031035qka.28.2020.01.18.05.14.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jan 2020 05:14:08 -0800 (PST)
+Message-ID: <ba1205ec1baca58e72e788da3cd0864a2527d059.camel@ndufresne.ca>
+Subject: Re: [PATCH 0/5] Stateful Encoding: final bits
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Date:   Sat, 18 Jan 2020 08:14:07 -0500
+In-Reply-To: <eeb55c72-2abd-8ce9-a352-1247a366ce9a@xs4all.nl>
+References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+         <20191220144734.31667e9c@litschi.hi.pengutronix.de>
+         <eeb55c72-2abd-8ce9-a352-1247a366ce9a@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Le lundi 06 janvier 2020 à 16:02 +0100, Hans Verkuil a écrit :
+> (Added Nicolas as I'd like his input as well)
 
-Results of the daily build of media_tree:
+Sorry for the delay, I was pretty far behind on tracking this ML.
 
-date:			Sat Jan 18 05:00:11 CET 2020
-media-tree git hash:	2a0a0bc7020ef7e66c9569d8229d79fa72e3d659
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	ec55a961487b449bedbe07650674b4965814cf07
-edid-decode git hash:	3910b4cb0841d2eafa64ba53e5b9781a2711efcc
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+> 
+> Reply below:
+> 
+> On 12/20/19 2:47 PM, Michael Tretter wrote:
+> > Hello Hans,
+> > 
+> > On Tue, 19 Nov 2019 12:34:52 +0100, Hans Verkuil wrote:
+> > > This series adds support for fractions in the control framework,
+> > > and a way to obtain the min and max values of compound controls
+> > > such as v4l2_fract.
+> > > 
+> > > Next it adds the V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to
+> > > set the framerate for the encoder.
+> > > 
+> > > The next patch adds support for the V4L2_BUF_FLAG_TOO_SMALL flag
+> > > to signal that the capture buffer was too small.
+> > > 
+> > > The final patch adds the encoder spec (unchanged from v3).
+> > > 
+> > > Michael, can you add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+> > > to your encoder driver? Let me know if something isn't working.
+> > 
+> > I implemented the control and hooked it up with S_PARM as well. The
+> > implementation was straightforward without any real issues. I'll send a
+> > patch in reply to this mail. Having a control for configuring the frame
+> > rate that is encoded into the SPS feels correct. This is in line with
+> > configuring the bitrate, level, etc.
+> > 
+> > However, after seeing the implementation and fiddling around with it in
+> > userspace, I am not convinced that S_PARM should be used signal the
+> > rate at which frames are submitted.
+> > 
+> > Setting the frame submission rate to something different than the
+> > frame rate of the stream would be most interesting for transcoding use
+> > cases. The user space would either want to run the encoding as fast as
+> > possible or, if there are multiple encoding processes, as fast as
+> > possible with properly shared resources. Boiling this information down
+> > into a single number (and calling is "rate at which frames are
+> > submitted") sounds kind of wrong, because the userspace does not know
+> > which submission rate would lead to a good result.
+> > 
+> > Using the frame rate for such a setting seems pretty unique to the
+> > allegro encoder. Other encoders might use different mechanisms to boost
+> > the encoding speed, e.g., might be able to temporarily increase the
+> > clock rate of the codec. In these cases, the driver would need to
+> > translate the "framerate" set via S_PARM to a clock rate for the codec.
+> > This does not sound right.
+> > 
+> > However, in the end, this would lead to exposing single parameters that
+> > allow to tune the codec via generic controls. This does not seem to be
+> > the right way, at all. Maybe we could have a control that tells the
+> > encoder to "run as fast as possible" or to "run with as little
+> > resources as possible", which would be applicable to more encoders and
+> > the driver would have to decide how to implement this "profile".
+> > 
+> > Still, I am not really sure, if this is the proper way to solve this.
+> 
+> I think you raise good points.
+> 
+> So this means that we need this new control (required for stateful encoders)
+> and optionally allow S_PARM to be used as an alternative way to set the
+> same control.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 0
-sparse: OK
-smatch: OK
+Indeed that rase a strong point. In all scenarios I have in mind you're analyses
+is correct. It's binary:
 
-Detailed results are available here:
+  a) This is live and then the frame rate and the speed matches
+  b) This is offline processing, and then we'd like to use as much power as possible
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+What I think is important in what you raise, is that unlike the Allegro encoder,
+other encoders may be able to control usage in a more dynamic ways which indeed
+is not guarantied to correlate with framerate (could be utilisation driver clock
+scaling). Then yes, a control to tell the Allegro encoder that we are doing
+offline processing would work, though it can be optional, as other encoder with
+more dynamic performance scaling won't need that hint to work.
 
-Detailed regression test results are available here:
+> 
+> I prefer to make S_PARM optional and require the control, since I hate S_PARM
+> :-)
+> 
+> It would mean that all existing stateful encoders need to implement this new
+> control, but I think that's a good idea anyway.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+I share your preference, but that means more userspace backward compatibility
+code is needed. Notably, I'll have try the new one and fallback for this case to
+stay compatible with older kernel.
 
-Full logs are available here:
+> 
+> > > I need to add a test control for this to vivid as well and add support
+> > > for this to v4l2-ctl, that's on my TODO list.
+> > > 
+> > > Open questions:
+> > > 
+> > > 1) Existing encoder drivers use S_PARM to signal the frameperiod,
+> > > but as discussed in Lyon this should be the rate at which frames are
+> > > submitted for encoding, which can be different from
+> > > V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE. But given the current use-cases
+> > > I was wondering if calling S_PARM should set the ENC_FRAME_RATE
+> > > control as well, and you would need to explicitly set the control
+> > > after S_PARM if the two are not the same. This would mean that
+> > > existing applications that don't know about the control can keep working.
+> > 
+> > In the patch I did exactly that and we should be backwards compatible
+> > to applications that use only S_PARM.
+> > 
+> > Michael
+> > 
+> 
+> Thanks for working on this!
+> 
+> Happy New Year,
+> 
+> 	Hans
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
