@@ -2,113 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C82F142127
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 01:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36457142425
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 08:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728911AbgATA6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Jan 2020 19:58:07 -0500
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:43286 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728895AbgATA6H (ORCPT
+        id S1725876AbgATHUS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jan 2020 02:20:18 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:38877 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725851AbgATHUS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Jan 2020 19:58:07 -0500
-Received: by mail-ua1-f66.google.com with SMTP id o42so10884521uad.10
-        for <linux-media@vger.kernel.org>; Sun, 19 Jan 2020 16:58:07 -0800 (PST)
+        Mon, 20 Jan 2020 02:20:18 -0500
+Received: by mail-lf1-f65.google.com with SMTP id r14so23198637lfm.5
+        for <linux-media@vger.kernel.org>; Sun, 19 Jan 2020 23:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KaojyHcqWI4LJpzN8M6IdyMUjveEL4lea69EXS7aAzs=;
-        b=TbRKmBIWG9gzQtuedwlP+NAdCuVOPMwr4AgFPjLRnaQJoK6F5QijFrUewj9k5umKde
-         4fi5SBgG3hPW2eNtfEgKuTeugKgTSrZ3D6uQFyGjrGSr+XayIbX2E4Li9dtvymF8z509
-         QV/RsYLZuzmn6mwaz+ypChXqSqoO2wGdSNjx9Oh+RFG3lNWd38BuNRpTlfigqw9ix10Q
-         CgftWg1Fi/uSg4O1XeY9uxDXs6bBpnm7NafivdSf5iKbp9G3IdG9mEl4GUL33Q5B3zwE
-         VkBT4BPdu23kkwsnmB7Uvs6G/FEr/gdd7x7QlF3s1YK7uFM9tPuX0pKht8SkK16SrWRB
-         qjEg==
+        bh=yvt1rmGce/1VEo6G6EJG7siE0F1HO1l0rw7xbgdOvxc=;
+        b=c658G9XKpYvMasXpniEQjS+S27Oi/4tWg047Q+8jR/nr5k0n0GJAdKg3ab2+SQRiHj
+         pFgDmg7xylJLdlWpEsG8kICU95IbIWATfJaB28kqqfEfYrtj4vWICxZ/qk1ypUZh5WMX
+         xYdYAs2i4j5iLH/YcOaEt+xFPZmPWJZ49kfAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KaojyHcqWI4LJpzN8M6IdyMUjveEL4lea69EXS7aAzs=;
-        b=ny0G2tQxhmwkw79fJ9zmVInlpBY4ByO3vOsZsHdF316Zx0bE4f982E8/lhxA9ba/tR
-         AAelOUDFK4t39PNGg/X5XVSCCDl8h2quyEoMo0lQ8hzXkgBHd5h2FhJKNZOOy/UF2T+B
-         3BNPUqxfe7wjvelsgE4zgkbpjbNMGUsdRkiRVYiLd4kpVHdiZIVT1fRdTKsm8yeVaEPe
-         gIy8HFpCNvtf0Br/4AzSC8VYJVtWmTqIUDzpPz3rvwAl5TXhq3+gHnJnugyjyRx/JuWk
-         WkQbX5O7cC5h30Jq1WE1jlsb0PcCRdNN1DS3F4TsUx+6lveOgm0jF0liochKI4d0tZ8b
-         N6KA==
-X-Gm-Message-State: APjAAAXOxGqZcF7g1QrZ5tg428wxsRgqUJuzQ4Hi+pHRPi1Ne1Vd5xDs
-        +dvVt3xYYEk0OI6C7k0p1zIlpZ6ZZL2i+0BEfgZRfwUP
-X-Google-Smtp-Source: APXvYqyAbYCaa7aB/HrUR4aFjQUKMk1M/4wODTR62A8xNfIH0fruYoGz839aiMKFxDkqyEs3nNlTnvB04qVmopP597Q=
-X-Received: by 2002:ab0:20a:: with SMTP id 10mr27216203uas.19.1579481886542;
- Sun, 19 Jan 2020 16:58:06 -0800 (PST)
+        bh=yvt1rmGce/1VEo6G6EJG7siE0F1HO1l0rw7xbgdOvxc=;
+        b=cARDB1PWX44JUqiPKlDsF31pnWtrNsH4IC3toFk416Wo4/6CqOsXAAQksO/pmsOEEd
+         m0gwir1vuD1l4vj98IDRNe27fKZKMlGwovbTcuqgMxuujGtX58zP31g+5xeHQViCR3+Q
+         Hb4mYU/5XxbtwciUJe2oBmDaaTwTn/EefUZdnr1fjlX501yxDjgAYebzYPcnffu5nO3M
+         9w5OpQg6tVvDslUXXjo181BDPVgl1sxjYawlYLvhLSvJU9I8V+jaY+SfVVjazn54uZlH
+         7zYPfhTSiG1L/h9w3c0VS502rwCU23tnlQFDCDPsipng6+cO+UXMwyd0jEy0CE819s4u
+         1gYg==
+X-Gm-Message-State: APjAAAUysC4rwMx22TUCLq4rgUMOInaYPiKV5W0zFUCul+/sQN76UgP2
+        gk69mDijHikh3MqVo7YLjoA1OFqknLPN6ZyxFFTCWg==
+X-Google-Smtp-Source: APXvYqzn/IYCrYnx6G5lalYOUsF+SfvCRArFZxpsXag1PrIYA5NPUP4ThH6TlISFeo4nZZ6GFU5nsDLOi628M8nBHO8=
+X-Received: by 2002:ac2:485c:: with SMTP id 28mr12293616lfy.118.1579504815235;
+ Sun, 19 Jan 2020 23:20:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20200119123434.17567-1-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20200119123434.17567-1-dafna.hirschfeld@collabora.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sun, 19 Jan 2020 21:57:55 -0300
-Message-ID: <CAAEAJfBn1E10HJ+kEj5dfeE9fvscUQk3D-m0VBR9BS8cpH-Ztw@mail.gmail.com>
-Subject: Re: [PATCH v4] media: vimc: streamer: if kthread_stop fails, ignore
- the error
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        skhan@linuxfoundation.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com, Dafna Hirschfeld <dafna3@gmail.com>
+References: <20191218130214.170703-1-keiichiw@chromium.org>
+ <7740094.NyiUUSuA9g@os-lin-dmo> <20200113095636.blov62o4gbf27om5@sirius.home.kraxel.org>
+ <12433898.dW097sEU6C@os-lin-dmo> <20200113110521.5ogc3fcy4zq32yzg@sirius.home.kraxel.org>
+ <CAAFQd5D16G0E85BCZVx1LXd1TauQH8Lbgs5-0gLv7tNpm4sp_A@mail.gmail.com>
+ <20200113132654.r4lhspfx2z7zse2v@sirius.home.kraxel.org> <CAAFQd5A3=4JC+3bRf2iw8RwsoB1jJz8p5afi6KaHO6ML2LC0Rg@mail.gmail.com>
+ <20200115112640.52kemwg4lncuvvir@sirius.home.kraxel.org>
+In-Reply-To: <20200115112640.52kemwg4lncuvvir@sirius.home.kraxel.org>
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+Date:   Mon, 20 Jan 2020 16:20:03 +0900
+Message-ID: <CAD90VcaAaomTnwVESp9RaBwhjx+cKjXAJv4T7wSkFiCEhOUo5Q@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: [PATCH v2 0/1] VirtIO video device specification
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        spice-devel@lists.freedesktop.org, virtio-dev@lists.oasis-open.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>, uril@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi,
 
-Thanks for the patch.
+On Wed, Jan 15, 2020 at 8:26 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+>   Hi,
+>
+> > > If you have (1) hardware you simply can't import buffers with arbitrary
+> > > plane offsets, so I'd expect software would prefer the single buffer
+> > > layout (i) over (ii), even when using another driver + dmabuf
+> > > export/import, to be able to support as much hardware as possible.
+> > > So (ii) might end up being unused in practice.
+> > >
+> > > But maybe not, was just an idea, feel free to scratch it.
+> >
+> > That's true, simple user space would often do that. However, if more
+> > devices are in the game, often some extra alignment or padding between
+> > planes is needed and that is not allowed by (1), even though all the
+> > planes are in the same buffer.
+> >
+> > My suggestion, based on the latest V4L2 discussion on unifying the
+> > UAPI of i) and ii), is that we may want to instead always specify
+> > buffers on a per-plane basis. Any additional requirements would be
+> > then validated by the host, which could check if the planes end up in
+> > the same buffer (or different buffers for (3)) and/or at the right
+> > offsets.
+>
+> Hmm, using (ii) the API, then check whenever your three plane buffers
+> happen to have the correct layout for (1) hardware looks somewhat
+> backwards to me.
 
-On Sun, 19 Jan 2020 at 09:34, Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
-> Ignore errors returned from kthread_stop since the
-> vimc subdevices should still be notified that
-> streaming stopped so they can release the memory for
-> the streaming, and also kthread should be set to NULL.
-> kthread_stop can return -EINTR in case the thread
-> did not yet run. This can happen if userspace calls
-> streamon and streamoff right after.
->
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
-> Changes from v3: change the comment to explain when kthread fails
->
+Can't this problem be solved by adding "offset" field in virtio_video_mem_entry?
 
-Please keep all the history here, so we'd see the changes
-done to v1, v2, v3.
+struct virtio_video_mem_entry {
+  le64 addr;
+  le32 length;
+  le32 offset;
+  u8 padding[4];
+};
 
->  drivers/media/platform/vimc/vimc-streamer.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-> index cd6b55433c9e..26ec81b265c4 100644
-> --- a/drivers/media/platform/vimc/vimc-streamer.c
-> +++ b/drivers/media/platform/vimc/vimc-streamer.c
-> @@ -215,9 +215,15 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
->                         return 0;
->
->                 ret = kthread_stop(stream->kthread);
-> -               if (ret)
-> -                       return ret;
->
-> +               /*
-> +                * kthread_stop returns -EINTR in cases when streamon was
-> +                * immediately followed by streamoff, and the thread didn't had
-> +                * a chance to run. Ignore errors to stop the stream in the
-> +                * pipeline.
-> +                */
-> +               if (ret)
-> +                       dev_warn(ved->dev, "kthread_stop returned '%d'\n", ret);
+Here, "addr" must be the same in every mem_entry for (1) hardware.
 
-Is this situation serious enough to deserve warning the user?
-If not, perhaps dev_dbg would be better.
+>
+> I'd suggest to use (i) API and allow the device specify alignment
+> requirements.  So (1) hardware would say "need_align=0", whereas (3)
+> hardware would probably say "need_align=PAGE_SIZE" so it can easily
+> split the single buffer into three per-plane buffers.
 
-Regards,
-Ezequiel
+Just to confirm, is "need_align" a field added in virtio_video_format_desc?
+It sounds workable, too.
+
+Best regards,
+Keiichi
+
+
+>
+> cheers,
+>   Gerd
+>
