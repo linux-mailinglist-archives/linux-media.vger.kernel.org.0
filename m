@@ -2,216 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E736F1429D3
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 12:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2E5E142A04
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 13:05:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbgATLsz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jan 2020 06:48:55 -0500
-Received: from retiisi.org.uk ([95.216.213.190]:53796 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726642AbgATLsz (ORCPT
+        id S1726761AbgATMFW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jan 2020 07:05:22 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38670 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726573AbgATMFW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jan 2020 06:48:55 -0500
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id A0B84634C86;
-        Mon, 20 Jan 2020 13:48:42 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1itVXu-0000XL-KJ; Mon, 20 Jan 2020 13:48:42 +0200
-Date:   Mon, 20 Jan 2020 13:48:42 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        peter.griffin@linaro.org, dave.stevenson@raspberrypi.com,
-        ezequiel@collabora.com
-Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add IMX219 CMOS sensor
- binding
-Message-ID: <20200120114842.GF856@valkosipuli.retiisi.org.uk>
-References: <20200120081558.25258-1-andrey.konovalov@linaro.org>
- <20200120081558.25258-2-andrey.konovalov@linaro.org>
- <c3c8c2a7-d21a-6e2d-f4ec-e62cfac1d5d6@linaro.org>
+        Mon, 20 Jan 2020 07:05:22 -0500
+Received: by mail-ot1-f68.google.com with SMTP id z9so26330427oth.5;
+        Mon, 20 Jan 2020 04:05:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8IGISWNwTs2bNmoDODVRHiVGV+QnUc2aI36aOiRfO3A=;
+        b=ehBMNUNSvqJ0oQ91aZxbfu2Lcp9Oy9dECZx1qTD3176riFrhyJvEASm8wXRcC3DKIe
+         ntiqtUUtvxMfw6BWizVAddjEsgZ+wKPs+vOU36vfr7FN0+ycwD2w7Sf5cQtW8tW0Wikg
+         CbFRffcZfcLjPrkmpEU55vPdv8B97Fgr17ZW9y/VpXdIpkhwl3BR1Mm53JXyHqggph2I
+         Ndc/Jp2eDkNwULhhNmLL+5wtJ7o5LmT595km+8wn4o/bhIX77faBXgO49BrbMw9VCFmo
+         ERcwkQdpodHzKUoBtk8gsFc4WNIzvcZalJ/7C9wzgLsno6X7BSmlR1oM+MwausP0mC6c
+         ZIsA==
+X-Gm-Message-State: APjAAAUTi8h2HFQwGuxeTSQZWHkKis5LtErivUdhLiLxl4y+BjAqzoF1
+        JeeFFVg6jUikWvi8riOrKUIg/xkZRCdva8SG4fuXU9MG
+X-Google-Smtp-Source: APXvYqz4OtZxTxDjvqbBlOXznpj0zV6t75mZIt8QDFhI+1zDn4ZTkzfm/BzJLg7d/t4A9sO4EamAcXsetSXbnBkA2OM=
+X-Received: by 2002:a9d:8f1:: with SMTP id 104mr14795679otf.107.1579521920977;
+ Mon, 20 Jan 2020 04:05:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3c8c2a7-d21a-6e2d-f4ec-e62cfac1d5d6@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191217104025.23318-1-peter.ujfalusi@ti.com>
+In-Reply-To: <20191217104025.23318-1-peter.ujfalusi@ti.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Jan 2020 13:05:09 +0100
+Message-ID: <CAMuHMdUPhabZrXJ3UqSVTdy2aWf6VG27q287MizKJ5q5tyRnwA@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar_drif: Use dma_request_chan() instead dma_request_slave_channel()
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Vinod <vkoul@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey,
+On Tue, Dec 17, 2019 at 11:41 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+> dma_request_slave_channel() is a wrapper on top of dma_request_chan()
+> eating up the error code.
+>
+> By using dma_request_chan() directly the driver can support deferred
+> probing against DMA.
+>
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 
-On Mon, Jan 20, 2020 at 02:32:16PM +0300, Andrey Konovalov wrote:
-> v3 of this patch got "Reviewed-by" from Rob Herring.
-> But unfortunately, as one more property had to be added afterwards, my understanding
-> is that that "Reviewed-by" doesn't apply to v4.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I assumed that Rob's Reviewed-by: applies also to v4 as adding the link
-frequency is a small change, and also because the link-frequency property
-is also present in pretty much all other recently added camera sensor DT
-bindings (apart from the one that only supports a single frequency).
+One comment below.
 
-> 
-> Thanks,
-> Andrey
-> 
-> On 20.01.2020 11:15, Andrey Konovalov wrote:
-> > Add YAML device tree binding for IMX219 CMOS image sensor, and
-> > the relevant MAINTAINERS entries.
-> > 
-> > Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> > ---
-> >   .../devicetree/bindings/media/i2c/imx219.yaml | 114 ++++++++++++++++++
-> >   MAINTAINERS                                   |   8 ++
-> >   2 files changed, 122 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > new file mode 100644
-> > index 000000000000..32d6b693274f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > @@ -0,0 +1,114 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
-> > +
-> > +maintainers:
-> > +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > +
-> > +description: |-
-> > +  The Sony imx219 is a 1/4.0-inch CMOS active pixel digital image sensor
-> > +  with an active array size of 3280H x 2464V. It is programmable through
-> > +  I2C interface. The I2C address is fixed to 0x10 as per sensor data sheet.
-> > +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-> > +  4 data lanes.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sony,imx219
-> > +
-> > +  reg:
-> > +    description: I2C device address
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  VDIG-supply:
-> > +    description:
-> > +      Digital I/O voltage supply, 1.8 volts
-> > +
-> > +  VANA-supply:
-> > +    description:
-> > +      Analog voltage supply, 2.8 volts
-> > +
-> > +  VDDL-supply:
-> > +    description:
-> > +      Digital core voltage supply, 1.2 volts
-> > +
-> > +  reset-gpios:
-> > +    description: |-
-> > +      Reference to the GPIO connected to the xclr pin, if any.
-> > +      Must be released (set high) after all supplies are applied.
-> > +
-> > +  # See ../video-interfaces.txt for more details
-> > +  port:
-> > +    type: object
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        properties:
-> > +          data-lanes:
-> > +            description: |-
-> > +              The sensor supports either two-lane, or four-lane operation.
-> > +              If this property is omitted four-lane operation is assumed.
-> > +              For two-lane operation the property must be set to <1 2>.
-> > +            items:
-> > +              - const: 1
-> > +              - const: 2
-> > +
-> > +          clock-noncontinuous:
-> > +            type: boolean
-> > +            description: |-
-> > +              MIPI CSI-2 clock is non-continuous if this property is present,
-> > +              otherwise it's continuous.
-> > +
-> > +          link-frequencies:
-> > +            allOf:
-> > +              - $ref: /schemas/types.yaml#/definitions/uint64-array
-> > +            description:
-> > +              Allowed data bus frequencies.
-> > +
-> > +        required:
-> > +          - link-frequencies
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - VANA-supply
-> > +  - VDIG-supply
-> > +  - VDDL-supply
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c0 {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        imx219: sensor@10 {
-> > +            compatible = "sony,imx219";
-> > +            reg = <0x10>;
-> > +            clocks = <&imx219_clk>;
-> > +            VANA-supply = <&imx219_vana>;   /* 2.8v */
-> > +            VDIG-supply = <&imx219_vdig>;   /* 1.8v */
-> > +            VDDL-supply = <&imx219_vddl>;   /* 1.2v */
-> > +
-> > +            port {
-> > +                imx219_0: endpoint {
-> > +                    remote-endpoint = <&csi1_ep>;
-> > +                    data-lanes = <1 2>;
-> > +                    clock-noncontinuous;
-> > +                    link-frequencies = /bits/ 64 <456000000>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index cf6ccca6e61c..aae83699e146 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -15351,6 +15351,14 @@ S:	Maintained
-> >   F:	drivers/media/i2c/imx214.c
-> >   F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> > +SONY IMX219 SENSOR DRIVER
-> > +M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > +L:	linux-media@vger.kernel.org
-> > +T:	git git://linuxtv.org/media_tree.git
-> > +S:	Maintained
-> > +F:	drivers/media/i2c/imx219.c
-> > +F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > +
-> >   SONY IMX258 SENSOR DRIVER
-> >   M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-> >   L:	linux-media@vger.kernel.org
-> > 
+> --- a/drivers/media/platform/rcar_drif.c
+> +++ b/drivers/media/platform/rcar_drif.c
+> @@ -275,10 +275,10 @@ static int rcar_drif_alloc_dmachannels(struct rcar_drif_sdr *sdr)
+>         for_each_rcar_drif_channel(i, &sdr->cur_ch_mask) {
+>                 struct rcar_drif *ch = sdr->ch[i];
+>
+> -               ch->dmach = dma_request_slave_channel(&ch->pdev->dev, "rx");
+> -               if (!ch->dmach) {
+> +               ch->dmach = dma_request_chan(&ch->pdev->dev, "rx");
+> +               if (IS_ERR(ch->dmach)) {
+>                         rdrif_err(sdr, "ch%u: dma channel req failed\n", i);
+
+Now there is an error code, you might (1) want to print it, and (2) only
+do so when it is not due to probe deferral:
+
+        if (PTR_ERR(ch->dmach) != -EPROBE_DEFER)
+                rdrif_err(sdr, "ch%u: dma channel req failed %pe\n",
+i, ch->dmach);
+
+> -                       ret = -ENODEV;
+> +                       ret = PTR_ERR(ch->dmach);
+>                         goto dmach_error;
+>                 }
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
