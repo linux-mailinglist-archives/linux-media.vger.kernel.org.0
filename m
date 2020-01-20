@@ -2,390 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2796143137
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 19:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D5011432D8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 21:21:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726885AbgATSBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jan 2020 13:01:00 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38740 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726642AbgATSBA (ORCPT
+        id S1726876AbgATUVO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jan 2020 15:21:14 -0500
+Received: from outgoing4.flk.host-h.net ([188.40.0.90]:34885 "EHLO
+        outgoing4.flk.host-h.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726752AbgATUVO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jan 2020 13:01:00 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 3D0FF260E09
-Message-ID: <8791114d471e2c57ce52b8fed29d179d546a4103.camel@collabora.com>
-Subject: Re: [PATCH] media: Split v4l2_pipeline_pm_use into
- v4l2_pipeline_pm_{get, put}
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kernel@collabora.com, Todor Tomov <todor.too@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>
-Date:   Mon, 20 Jan 2020 15:00:49 -0300
-In-Reply-To: <20191125214745.15826-1-ezequiel@collabora.com>
-References: <20191125214745.15826-1-ezequiel@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Mon, 20 Jan 2020 15:21:14 -0500
+X-Greylist: delayed 2147 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Jan 2020 15:21:12 EST
+Received: from www31.flk1.host-h.net ([188.40.1.173])
+        by antispam1-flk1.host-h.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <justin.swartz@risingedge.co.za>)
+        id 1itczB-0004Ot-OT; Mon, 20 Jan 2020 21:45:22 +0200
+Received: from [130.255.73.16] (helo=v01.28459.vpscontrol.net)
+        by www31.flk1.host-h.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <justin.swartz@risingedge.co.za>)
+        id 1itcz9-0004Hk-Dw; Mon, 20 Jan 2020 21:45:19 +0200
+From:   Justin Swartz <justin.swartz@risingedge.co.za>
+To:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     Justin Swartz <justin.swartz@risingedge.co.za>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] media: rockchip/rga: add rk3228-rga to rockchip_rga_match[]
+Date:   Mon, 20 Jan 2020 19:41:54 +0000
+Message-Id: <20200120194158.25357-1-justin.swartz@risingedge.co.za>
+X-Mailer: git-send-email 2.11.0
+X-Authenticated-Sender: justin.swartz@risingedge.co.za
+X-Virus-Scanned: Clear
+X-Originating-IP: 188.40.1.173
+X-SpamExperts-Domain: risingedge.co.za
+X-SpamExperts-Username: 
+Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@risingedge.co.za
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.01)
+X-Recommended-Action: accept
+X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0Xm17NJf4el5vffImWwWrhCpSDasLI4SayDByyq9LIhVc0MzHfOnMfVI
+ AlgH8Xwbq0TNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K7uDjV/sFUXQr+CDrNQuIHgQg
+ mAX8Bxy/iUu0ThNZg0h/RxVysY5Ye6+GGw0VqdJD7ren9RtRNyYim5e3GD8LGfWrcbYvelpuN/Pk
+ qhBpvAyWwieZyauFYqHkIbFa+ipFflSrcyn7M3A1M8P7YyCISF7Ax1jp5415hfbnHhmkWKwQ798N
+ tjgwOHRNrKlsLSLsR2phe2H+VQ5drqtLHIQXdB2sPQC/ZXf7OFUBPjBV0jlRnibyCuwag8UEnjV9
+ dfsBVFAo2VqRJ3PoUK3i2GylNtZWYK6FgocWFgIy83G1Ziw5PsG3ZK/CX16OekmbPreOnw2lIbsC
+ g5hAk2rbw6y01wTJsjWw5+0eZIpQIcK9yrSpnIazZEQP7rhBhxNqNx7Ljd12v0hRQV2TuWFKPYIZ
+ hSoXjZRXPZeF/ozRyNShALTpAuRsQ7f/A1SBbUaDAMpCdiFVwaP90eVaqnDphEW4xGx2bCpzxgBv
+ RJlZffR315YiXq0P29rzRb3/fujGPSO0ZjPN6GBtX9ob7G66M73K7lEBopH59S/bhUmo0Kkx+QUC
+ X/JlYVPK+a5jKpRW4VkG9koSZx4AE7ErDJQIhG9sWvIZWUifSNHSdOCLRQ7jpnXnmAJSLoHk+mB7
+ rvqdepOw2titfOjo27VsmUXl5Dlu0Ez4hiPVrwbHSJw7Xp/7OsyH8g27Tr7mENICHJaR53upNsj0
+ ZNx9ROADUXTdQZTyOamR3KMXZiZ/EdUuc9x8TOdIW6qv7Prfdfuh2V6P2IH+fu/1ze9XG6SFbqNq
+ ARXGm2iH1Wgh6RAenBR+licROGZLSOPJ7pouDn/lmAaZNciLjY4Bum3Cz9zMKWDsCgJgzAyOo8uz
+ gLvzPUQ4WO1VIxT90NysgdUUHBaOGnMZ3fVqqKS4K27k8O0AKLf9g2axxclWHXeuOCUCSaU4vgJw
+ yjPlnmxH7Pd4xT6MyYGIdovMjseuwUIt8Ke1zYmTdImomsn9uPyWahCadieo4QRLnvbNjcvkOxlt
+ YcJZ/YLv0cjthSk55ObUg7TpMbFmZ6g5Ky+1Stg9rJ7bhjXv2caQWgXrjuU3A3io6xJmD59iFVkb
+ kXGPzFwfHhKt2wjdkKIWbyf+T8iepkOFBDDkCgKb9Tgwyo3k9+KsRmFMu5VQ9KBOovIJzflUDtG9
+ b8caIarEvU/OX3xYChUDPsYuWEJtniNfuGO37qWHEu6DA1YYHSc7
+X-Report-Abuse-To: spam@antispammaster.host-h.net
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Add an entry to the rockchip_rga_match array for "rockchip,rk3228-rga"
 
-On Tue, 2019-11-26 at 06:47 +0900, Ezequiel Garcia wrote:
-> Currently, v4l2_pipeline_pm_use() prototype is:
-> 
->   int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
-> 
-> Where the 'use' argument shall only be set to '1' for enable/power-on,
-> or to '0' for disable/power-off. The integer return is specified
-> as only meaningful when 'use' is set to '1'.
-> 
-> Let's enforce this semantic by splitting the function in two:
-> v4l2_pipeline_pm_get and v4l2_pipeline_pm_put. This is done
-> for several reasons.
-> 
-> It makes the API easier to use (or harder to misuse).
-> It removes the constraint on the values the 'use' argument
-> shall take. Also, it removes the need to constraint
-> the return value, by making v4l2_pipeline_pm_put void return.
-> 
-> And last, it's more consistent with other kernel APIs, such
-> as the runtime pm APIs, which makes the code more symmetric.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+---
+ drivers/media/platform/rockchip/rga/rga.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Any feedback on this? No hurries, just pinging in case
-it fell thru the cracks.
-
-Thanks,
-Ezequiel
-
-> ---
->  Documentation/media/kapi/csi2.rst             |  2 +-
->  drivers/media/platform/omap3isp/ispvideo.c    |  4 +-
->  .../media/platform/qcom/camss/camss-video.c   |  4 +-
->  drivers/media/platform/rcar-vin/rcar-v4l2.c   |  6 +--
->  .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  6 +--
->  .../platform/sunxi/sun6i-csi/sun6i_video.c    |  4 +-
->  drivers/media/v4l2-core/v4l2-mc.c             | 18 +++++++--
->  drivers/staging/media/imx/imx-media-capture.c |  4 +-
->  drivers/staging/media/omap4iss/iss_video.c    |  4 +-
->  include/media/v4l2-mc.h                       | 40 ++++++++++++-------
->  10 files changed, 57 insertions(+), 35 deletions(-)
-> 
-> diff --git a/Documentation/media/kapi/csi2.rst b/Documentation/media/kapi/csi2.rst
-> index 030a5c41ec75..e111ff7bfd3d 100644
-> --- a/Documentation/media/kapi/csi2.rst
-> +++ b/Documentation/media/kapi/csi2.rst
-> @@ -74,7 +74,7 @@ Before the receiver driver may enable the CSI-2 transmitter by using
->  the :c:type:`v4l2_subdev_video_ops`->s_stream(), it must have powered
->  the transmitter up by using the
->  :c:type:`v4l2_subdev_core_ops`->s_power() callback. This may take
-> -place either indirectly by using :c:func:`v4l2_pipeline_pm_use` or
-> +place either indirectly by using :c:func:`v4l2_pipeline_pm_get` or
->  directly.
->  
->  Formats
-> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-> index ee183c35ff3b..16efd18f1e88 100644
-> --- a/drivers/media/platform/omap3isp/ispvideo.c
-> +++ b/drivers/media/platform/omap3isp/ispvideo.c
-> @@ -1311,7 +1311,7 @@ static int isp_video_open(struct file *file)
->  		goto done;
->  	}
->  
-> -	ret = v4l2_pipeline_pm_use(&video->video.entity, 1);
-> +	ret = v4l2_pipeline_pm_get(&video->video.entity);
->  	if (ret < 0) {
->  		omap3isp_put(video->isp);
->  		goto done;
-> @@ -1363,7 +1363,7 @@ static int isp_video_release(struct file *file)
->  	vb2_queue_release(&handle->queue);
->  	mutex_unlock(&video->queue_lock);
->  
-> -	v4l2_pipeline_pm_use(&video->video.entity, 0);
-> +	v4l2_pipeline_pm_put(&video->video.entity);
->  
->  	/* Release the file handle. */
->  	v4l2_fh_del(vfh);
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index 1d50dfbbb762..a019dbab5e04 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -745,7 +745,7 @@ static int video_open(struct file *file)
->  
->  	file->private_data = vfh;
->  
-> -	ret = v4l2_pipeline_pm_use(&vdev->entity, 1);
-> +	ret = v4l2_pipeline_pm_get(&vdev->entity);
->  	if (ret < 0) {
->  		dev_err(video->camss->dev, "Failed to power up pipeline: %d\n",
->  			ret);
-> @@ -771,7 +771,7 @@ static int video_release(struct file *file)
->  
->  	vb2_fop_release(file);
->  
-> -	v4l2_pipeline_pm_use(&vdev->entity, 0);
-> +	v4l2_pipeline_pm_put(&vdev->entity);
->  
->  	file->private_data = NULL;
->  
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 9e2e63ffcc47..2a5be6334f72 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -826,7 +826,7 @@ static int rvin_open(struct file *file)
->  		goto err_unlock;
->  
->  	if (vin->info->use_mc)
-> -		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
-> +		ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
->  	else if (v4l2_fh_is_singular_file(file))
->  		ret = rvin_power_parallel(vin, true);
->  
-> @@ -842,7 +842,7 @@ static int rvin_open(struct file *file)
->  	return 0;
->  err_power:
->  	if (vin->info->use_mc)
-> -		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-> +		v4l2_pipeline_pm_put(&vin->vdev.entity);
->  	else if (v4l2_fh_is_singular_file(file))
->  		rvin_power_parallel(vin, false);
->  err_open:
-> @@ -870,7 +870,7 @@ static int rvin_release(struct file *file)
->  	ret = _vb2_fop_release(file, NULL);
->  
->  	if (vin->info->use_mc) {
-> -		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-> +		v4l2_pipeline_pm_put(&vin->vdev.entity);
->  	} else {
->  		if (fh_singular)
->  			rvin_power_parallel(vin, false);
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> index 83a3a0257c7b..8dfc2877d4c6 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> @@ -214,7 +214,7 @@ static int sun4i_csi_open(struct file *file)
->  	if (ret < 0)
->  		goto err_pm_put;
->  
-> -	ret = v4l2_pipeline_pm_use(&csi->vdev.entity, 1);
-> +	ret = v4l2_pipeline_pm_get(&csi->vdev.entity);
->  	if (ret)
->  		goto err_pm_put;
->  
-> @@ -227,7 +227,7 @@ static int sun4i_csi_open(struct file *file)
->  	return 0;
->  
->  err_pipeline_pm_put:
-> -	v4l2_pipeline_pm_use(&csi->vdev.entity, 0);
-> +	v4l2_pipeline_pm_put(&csi->vdev.entity);
->  
->  err_pm_put:
->  	pm_runtime_put(csi->dev);
-> @@ -243,7 +243,7 @@ static int sun4i_csi_release(struct file *file)
->  	mutex_lock(&csi->lock);
->  
->  	v4l2_fh_release(file);
-> -	v4l2_pipeline_pm_use(&csi->vdev.entity, 0);
-> +	v4l2_pipeline_pm_put(&csi->vdev.entity);
->  	pm_runtime_put(csi->dev);
->  
->  	mutex_unlock(&csi->lock);
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-> index f0dfe68486d1..3d619ad08c9f 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-> @@ -474,7 +474,7 @@ static int sun6i_video_open(struct file *file)
->  	if (ret < 0)
->  		goto unlock;
->  
-> -	ret = v4l2_pipeline_pm_use(&video->vdev.entity, 1);
-> +	ret = v4l2_pipeline_pm_get(&video->vdev.entity);
->  	if (ret < 0)
->  		goto fh_release;
->  
-> @@ -507,7 +507,7 @@ static int sun6i_video_close(struct file *file)
->  
->  	_vb2_fop_release(file, NULL);
->  
-> -	v4l2_pipeline_pm_use(&video->vdev.entity, 0);
-> +	v4l2_pipeline_pm_put(&video->vdev.entity);
->  
->  	if (last_fh)
->  		sun6i_csi_set_power(video->csi, false);
-> diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
-> index 014a2a97cadd..0fffdd3ce6a4 100644
-> --- a/drivers/media/v4l2-core/v4l2-mc.c
-> +++ b/drivers/media/v4l2-core/v4l2-mc.c
-> @@ -321,7 +321,7 @@ EXPORT_SYMBOL_GPL(v4l_vb2q_enable_media_source);
->   * use_count field stores the total number of users of all video device nodes
->   * in the pipeline.
->   *
-> - * The v4l2_pipeline_pm_use() function must be called in the open() and
-> + * The v4l2_pipeline_pm_{get, put}() functions must be called in the open() and
->   * close() handlers of video device nodes. It increments or decrements the use
->   * count of all subdev entities in the pipeline.
->   *
-> @@ -423,7 +423,7 @@ static int pipeline_pm_power(struct media_entity *entity, int change,
->  	return ret;
->  }
->  
-> -int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
-> +static int v4l2_pipeline_pm_use(struct media_entity *entity, unsigned int use)
->  {
->  	struct media_device *mdev = entity->graph_obj.mdev;
->  	int change = use ? 1 : -1;
-> @@ -444,7 +444,19 @@ int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
->  
->  	return ret;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_pipeline_pm_use);
-> +
-> +int v4l2_pipeline_pm_get(struct media_entity *entity)
-> +{
-> +	return v4l2_pipeline_pm_use(entity, 1);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_pipeline_pm_get);
-> +
-> +void v4l2_pipeline_pm_put(struct media_entity *entity)
-> +{
-> +	/* Powering off entities shouldn't fail. */
-> +	WARN_ON(v4l2_pipeline_pm_use(entity, 0));
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_pipeline_pm_put);
->  
->  int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
->  			      unsigned int notification)
-> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> index 7712e7be8625..8aac4a3df7ca 100644
-> --- a/drivers/staging/media/imx/imx-media-capture.c
-> +++ b/drivers/staging/media/imx/imx-media-capture.c
-> @@ -643,7 +643,7 @@ static int capture_open(struct file *file)
->  	if (ret)
->  		v4l2_err(priv->src_sd, "v4l2_fh_open failed\n");
->  
-> -	ret = v4l2_pipeline_pm_use(&vfd->entity, 1);
-> +	ret = v4l2_pipeline_pm_get(&vfd->entity);
->  	if (ret)
->  		v4l2_fh_release(file);
->  
-> @@ -664,7 +664,7 @@ static int capture_release(struct file *file)
->  		vq->owner = NULL;
->  	}
->  
-> -	v4l2_pipeline_pm_use(&vfd->entity, 0);
-> +	v4l2_pipeline_pm_put(&vfd->entity);
->  
->  	v4l2_fh_release(file);
->  	mutex_unlock(&priv->mutex);
-> diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-> index 673aa3a5f2bd..9578b8d22f25 100644
-> --- a/drivers/staging/media/omap4iss/iss_video.c
-> +++ b/drivers/staging/media/omap4iss/iss_video.c
-> @@ -1111,7 +1111,7 @@ static int iss_video_open(struct file *file)
->  		goto done;
->  	}
->  
-> -	ret = v4l2_pipeline_pm_use(&video->video.entity, 1);
-> +	ret = v4l2_pipeline_pm_get(&video->video.entity);
->  	if (ret < 0) {
->  		omap4iss_put(video->iss);
->  		goto done;
-> @@ -1160,7 +1160,7 @@ static int iss_video_release(struct file *file)
->  	/* Disable streaming and free the buffers queue resources. */
->  	iss_video_streamoff(file, vfh, video->type);
->  
-> -	v4l2_pipeline_pm_use(&video->video.entity, 0);
-> +	v4l2_pipeline_pm_put(&video->video.entity);
->  
->  	/* Release the videobuf2 queue */
->  	vb2_queue_release(&handle->queue);
-> diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
-> index 384960249f01..5e73eb8e28f6 100644
-> --- a/include/media/v4l2-mc.h
-> +++ b/include/media/v4l2-mc.h
-> @@ -86,23 +86,30 @@ int v4l_vb2q_enable_media_source(struct vb2_queue *q);
->  
->  
->  /**
-> - * v4l2_pipeline_pm_use - Update the use count of an entity
-> - * @entity: The entity
-> - * @use: Use (1) or stop using (0) the entity
-> + * v4l2_pipeline_pm_get - Increase the use count of a pipeline
-> + * @entity: The root entity of a pipeline
->   *
-> - * Update the use count of all entities in the pipeline and power entities on or
-> - * off accordingly.
-> + * Update the use count of all entities in the pipeline and power entities on.
->   *
-> - * This function is intended to be called in video node open (use ==
-> - * 1) and release (use == 0). It uses struct media_entity.use_count to
-> - * track the power status. The use of this function should be paired
-> - * with v4l2_pipeline_link_notify().
-> + * This function is intended to be called in video node open. It uses
-> + * struct media_entity.use_count to track the power status. The use
-> + * of this function should be paired with v4l2_pipeline_link_notify().
->   *
-> - * Return 0 on success or a negative error code on failure. Powering entities
-> - * off is assumed to never fail. No failure can occur when the use parameter is
-> - * set to 0.
-> + * Return 0 on success or a negative error code on failure.
->   */
-> -int v4l2_pipeline_pm_use(struct media_entity *entity, int use);
-> +int v4l2_pipeline_pm_get(struct media_entity *entity);
-> +
-> +/**
-> + * v4l2_pipeline_pm_put - Decrease the use count of a pipeline
-> + * @entity: The root entity of a pipeline
-> + *
-> + * Update the use count of all entities in the pipeline and power entities off.
-> + *
-> + * This function is intended to be called in video node release. It uses
-> + * struct media_entity.use_count to track the power status. The use
-> + * of this function should be paired with v4l2_pipeline_link_notify().
-> + */
-> +void v4l2_pipeline_pm_put(struct media_entity *entity);
->  
->  
->  /**
-> @@ -114,7 +121,7 @@ int v4l2_pipeline_pm_use(struct media_entity *entity, int use);
->   * React to link management on powered pipelines by updating the use count of
->   * all entities in the source and sink sides of the link. Entities are powered
->   * on or off accordingly. The use of this function should be paired
-> - * with v4l2_pipeline_pm_use().
-> + * with v4l2_pipeline_pm_{get,put}().
->   *
->   * Return 0 on success or a negative error code on failure. Powering entities
->   * off is assumed to never fail. This function will not fail for disconnection
-> @@ -144,11 +151,14 @@ static inline int v4l_vb2q_enable_media_source(struct vb2_queue *q)
->  	return 0;
->  }
->  
-> -static inline int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
-> +static inline int v4l2_pipeline_pm_get(struct media_entity *entity)
->  {
->  	return 0;
->  }
->  
-> +static inline void v4l2_pipeline_pm_put(struct media_entity *entity)
-> +{}
-> +
->  static inline int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
->  					    unsigned int notification)
->  {
-> -- 
-> 2.22.0
-> 
-> 
-
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index e9ff12b6b..268116cd5 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -956,6 +956,9 @@ static const struct dev_pm_ops rga_pm = {
+ 
+ static const struct of_device_id rockchip_rga_match[] = {
+ 	{
++		.compatible = "rockchip,rk3228-rga",
++	},
++	{
+ 		.compatible = "rockchip,rk3288-rga",
+ 	},
+ 	{
+-- 
+2.11.0
 
