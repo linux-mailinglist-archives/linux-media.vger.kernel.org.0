@@ -2,99 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78152143317
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2020 21:53:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C60121435C2
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 03:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbgATUxn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jan 2020 15:53:43 -0500
-Received: from outgoing18.flk.host-h.net ([197.242.87.52]:45779 "EHLO
-        outgoing18.flk.host-h.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbgATUxm (ORCPT
+        id S1729014AbgAUCra (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jan 2020 21:47:30 -0500
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:41680 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726890AbgAUCra (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jan 2020 15:53:42 -0500
-X-Greylist: delayed 4094 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Jan 2020 15:53:42 EST
-Received: from www31.flk1.host-h.net ([188.40.1.173])
-        by antispam5-flk1.host-h.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1itczF-00045Z-9N; Mon, 20 Jan 2020 21:45:25 +0200
-Received: from [130.255.73.16] (helo=v01.28459.vpscontrol.net)
-        by www31.flk1.host-h.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1itczA-0004Hk-RM; Mon, 20 Jan 2020 21:45:20 +0200
-From:   Justin Swartz <justin.swartz@risingedge.co.za>
-To:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Justin Swartz <justin.swartz@risingedge.co.za>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] [media] dt-bindings: Add rk3228 to the Rockchip RGA binding doc
-Date:   Mon, 20 Jan 2020 19:41:55 +0000
-Message-Id: <20200120194158.25357-2-justin.swartz@risingedge.co.za>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200120194158.25357-1-justin.swartz@risingedge.co.za>
-References: <20200120194158.25357-1-justin.swartz@risingedge.co.za>
-X-Authenticated-Sender: justin.swartz@risingedge.co.za
-X-Virus-Scanned: Clear
-X-Originating-IP: 188.40.1.173
-X-SpamExperts-Domain: risingedge.co.za
-X-SpamExperts-Username: 
-Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@risingedge.co.za
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.02)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0Xm17NJf4el5vffImWwWrhCpSDasLI4SayDByyq9LIhVjN6Oe0bZSj7x
- nWUgTBxzfkTNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K7uDjV/sFUXQr+CDrNQuIHgQg
- mAX8Bxy/iUu0ThNZg0h/RxVysY5Ye6+GGw0VqdJD7ren9RtRNyYim5e3GD8LGfWrcbYvelpuN/Pk
- qhBpvAyWwieZyauFYqHkIbFa+ipF21HJWO60ZqrvKy/1AXUV5oXt6ymoFHaG7BQtEYvFCSrK5j1T
- Po5/LpleUgQM5/MAHmDvzkMd4joYqrUfcPIQdUYI3fUXyt8g6v09xrG7vu/fdUS1M5thdxxsnOTC
- rRmvZNXA7urqkuRkjn1fyteVYP+HXs9CMbFn9vCz9Z+lGmDQvQDDheqH4lBQpR0ziVlLWDAC1vRC
- hq319+C3vxdCgsyStZRkQwmoMeUp+gQglixgZmTW6H0Uo/QzUeaLOBvNEC1g+U1SXfUhLsTk5wUY
- WaWokZC3JOaEfAcg3rPhhfeK9cZ48uDEoRc5vgP+N4akg5nlaTNYebWa2W6GbNvgwptlhJrsz+8j
- XuMdjIbLZhwoK/VzePATsXS/rFxRypFKMiPLyoQzvILSDO18VtgBXbQkUN2dXl9fJsQYqiZZBuHY
- Ta6/LJzl4pg0ZC9q5gYH7EOMauBWC98ol0xUHcbfIJ9ZJ7PpnPxGejDS+HAMyOjpxOsB8gG0slV7
- ra6jI4BS3XLmxFz+88FWeB7miCnFrS+xkiYMmdOwRIKnLhTyDa49KiI6ApkBL1M2pjeIsNv0i2bz
- nHJ53CHS5fL+CC61pH+Mdi8KDLlrJjQEyoQkvVqjwoXSktopqY7X3mJE1vuavCrJPmnnTHzVkpyb
- MK7ZTZV8hN6hngxqNW/p6/rAjB3Bo9WPi4IE45J8SMIBWsA7tm+5pSj1YjV94R3x16NaT9yCB/zW
- LYsk4/ealtlYzK51KubfNuS9lgsouDG6gpp8iIlTfpXH3eJ/htNFsfRJIIsn2dSUfOon4SSOHnp1
- et/MPu6LuWW8C6xs4jnP0QXTijBi5PZExX8sQXRK2Ohd4N83CNy2/HP4CS/B6ymwJqdrYqktDHCy
- f2KOgPWiC6z4HnV1R/vfaN0C4C3KdSxIKbHYhXQwhXELIBZC+BuxdgK5cVvzDCtuQClUbi7eRJvI
- 01OLeFH4QvqpC2nLfIqdZUeVlVebzZqu+9TcX2V266qVhLwCLj5UzlqDZIb7xEp3klSpLYn5Sshm
- tRDo/ib6qUd+ON9Iwv3fqFcmzUrJkUoL/PyVSe2/DDFq5n7HBuKWYRb2mL6sFaAAW2m3yODQWZ6C
- UzN46xT2FnDD31r1QFs2yPRk3H1E4ANRdN1BlPI5cpunCmbc5xpJVMDSneyWOiQlotRPFwUdX67F
- 3JAjgow=
-X-Report-Abuse-To: spam@antispammaster.host-h.net
+        Mon, 20 Jan 2020 21:47:30 -0500
+Received: by mail-ua1-f67.google.com with SMTP id f7so424812uaa.8
+        for <linux-media@vger.kernel.org>; Mon, 20 Jan 2020 18:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=RgBqxo2OvtGmjVfv3Kepx7wDj7JQ7KQZOP1cmzOYSpc=;
+        b=OXh9Zw1GS5ZXxgN86ruk9d42o3UB+ICDimid4ab7M9Y7BhGlJcXFe1OLXdbJ0dgXGT
+         vIAUHfJkaDWC2CeSs12bzoKdoqCb2bgrfasj3dOeqUYfkj0oOlx777LpOvQ/Qn/7lKgr
+         NSkdajfNHdkCxTLIRVBohZ9hHtxB9RAsLZ8H10+/q2osW4S2PZSSAeLDVzJIfAT8QvtB
+         5SohaTeRX6bdmDKzlpK0Wt6wlgn6XeI7IZ3v4uqkQUWBHIVjNMWoBFPswfYH+EYwZVGK
+         B8tfE8+j+7/4X4n3gqR0KtjJ8+aMolsPnNDQisAhaFP3oikIBOMKRltX5lE9HE3B3bT/
+         JsOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=RgBqxo2OvtGmjVfv3Kepx7wDj7JQ7KQZOP1cmzOYSpc=;
+        b=FFh2ROdXVV906rfna4Bdi8JjzcVmXUEw3dgxr5Lm/qikf8ScEjZGMyeldldahlmP7y
+         i29OpgYklcqNRgy19b3ep+2u3JdYHJFOh6E1mw2UBz85/vrimgR4npWcVAqu/QiBK2C1
+         RiSHWYWBmtUuOkHvMLA8qJ3VAANUNGMHTZvxscdr24KIxgPzP1ZzYixP8CQyiUbYRvEp
+         /idmo1oe4kLRAtDRxirA3fJC4DuSA6zN7oErjcOPC8PlfrAm+8QTv28aJhcADfWD1kiA
+         JgR57QljHcG9D+wo+YTxp4blWdf17x/LhgJlcSur//sZOiUm2/IMekj1Pn7G6mEixA4e
+         lVMw==
+X-Gm-Message-State: APjAAAVZGWgP3xkKLC8pFyOiLPUVJyHUo8BMJIuqTrf7vhgu1DxRl+B1
+        SFifrWA5OAyhuYmcJuImGwlfLXQMOMrc28XWnioR
+X-Google-Smtp-Source: APXvYqwys2B8mxg842m/gqzut9g7DQaQZIKmRTIOuvNqZ84Hcvr/YFEcTcbiDhzDsyll66e2xaEcmizi9ugarJXvNfg=
+X-Received: by 2002:ab0:3085:: with SMTP id h5mr1690000ual.110.1579574849117;
+ Mon, 20 Jan 2020 18:47:29 -0800 (PST)
+MIME-Version: 1.0
+References: <CABkW7JNg-7PNwSH2CsZVFHpqHdnaH5Ha4VS83r8_CaMox3wfQQ@mail.gmail.com>
+In-Reply-To: <CABkW7JNg-7PNwSH2CsZVFHpqHdnaH5Ha4VS83r8_CaMox3wfQQ@mail.gmail.com>
+From:   camden lindsay <camden.lindsay+kernel@gmail.com>
+Date:   Mon, 20 Jan 2020 18:47:17 -0800
+Message-ID: <CABkW7JNw2vzijzPuUVTOEC7oZ-opSgRp7YdpEdmhJrKc=GX7Ow@mail.gmail.com>
+Subject: ir-keytable segfault when writing keymap from file
+To:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add "rockchip,rk3228-rga" to the list of acceptable values for
-the "compatible" property.
+Hello-
+I had a working ir-keytable script that stopped working the other day.
+Investigation led to finding that ir-keytable was segfaulting whenever
+trying to write a keymap from a file.
 
-Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
----
- Documentation/devicetree/bindings/media/rockchip-rga.txt | 1 +
- 1 file changed, 1 insertion(+)
+[kodiuser@kodiarch ~]$ uname -a
+Linux kodiarch 5.4.13-arch1-1 #1 SMP PREEMPT Fri, 17 Jan 2020 23:09:54
++0000 x86_64 GNU/Linux
+[kodiuser@kodiarch ~]$
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.txt b/Documentation/devicetree/bindings/media/rockchip-rga.txt
-index fd5276abf..9bac1782d 100644
---- a/Documentation/devicetree/bindings/media/rockchip-rga.txt
-+++ b/Documentation/devicetree/bindings/media/rockchip-rga.txt
-@@ -6,6 +6,7 @@ BitBLT, alpha blending and image blur/sharpness.
- 
- Required properties:
- - compatible: value should be one of the following
-+		"rockchip,rk3228-rga";
- 		"rockchip,rk3288-rga";
- 		"rockchip,rk3399-rga";
- 
--- 
-2.11.0
+[kodiuser@kodiarch ~]$ ir-keytable -V
+IR keytable control version 1.18.0
+[kodiuser@kodiarch ~]$
 
+Here's an example of grabbing an existing keytable entry, putting it
+in a file, but showing that after clearing and trying to load that
+file the segfault.  Segfault also occurs if not clearing first.
+
+[kodiuser@kodiarch ir-keytable]$ sudo ir-keytable -r | grep KEY_DOWN
+Enabled kernel protocols: lirc nec
+scancode 0x800f041f = KEY_DOWN (0x6c)
+[kodiuser@kodiarch ir-keytable]$ cat /etc/ir-keytable/keymap.txt
+scancode 0x800f041f = KEY_DOWN (0x6c)
+[kodiuser@kodiarch ir-keytable]$ sudo ir-keytable -c
+Old keytable cleared
+[kodiuser@kodiarch ir-keytable]$ sudo ir-keytable -w /etc/ir-keytable/keymap.txt
+Segmentation fault
+[kodiuser@kodiarch ir-keytable]$ sudo ir-keytable -r | grep KEY_DOWN
+Enabled kernel protocols: lirc nec
+[kodiuser@kodiarch ir-keytable]$ sudo ir-keytable -r
+Enabled kernel protocols: lirc nec
+[kodiuser@kodiarch ir-keytable]$
+
+
+
+And this shows that the segfault still occurs even if i don't clear
+the keytable first (but of course the existing contents of the table
+still exist)
+[kodiuser@kodiarch ~]$ sudo ir-keytable -r | grep KEY_DOWN
+Enabled kernel protocols: lirc nec
+scancode 0x800f041f = KEY_DOWN (0x6c)
+[kodiuser@kodiarch ~]$ cat /etc/ir-keytable/keymap.txt
+scancode 0x800f041f = KEY_DOWN (0x6c)
+[kodiuser@kodiarch ~]$ sudo ir-keytable -w /etc/ir-keytable/keymap.txt
+Segmentation fault
+[kodiuser@kodiarch ~]$ sudo ir-keytable -r | grep KEY_DOWN
+Enabled kernel protocols: lirc nec
+scancode 0x800f041f = KEY_DOWN (0x6c)
+[kodiuser@kodiarch ~]$
+
+
+Here is the example syslog output of the segfault:
+Jan 20 18:15:33 kodiarch kernel: ir-keytable[817]: segfault at 0 ip
+00007f1a958436f5 sp 00007ffe039a5aa8 error 4 in
+libc-2.30.so[7f1a95707000+14d000]
+Jan 20 18:15:33 kodiarch kernel: Code: 00 00 0f 1f 00 31 c0 c5 f8 77
+c3 66 2e 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 89 f9 48 89 fa c5 f9 ef
+c0 83 e1 3f 83 f9 20 77 2b <c5> fd 74 0f c5 fd d7 c1 85 c0 0f 85 eb 00
+00 00 48 83 c7 20 83 e1
+Jan 20 18:15:33 kodiarch systemd[1]: Started Process Core Dump (PID 818/UID 0).
+Jan 20 18:15:34 kodiarch systemd-coredump[819]: Process 817
+(ir-keytable) of user 0 dumped core.
+
+                                                Stack trace of thread 817:
+                                                #0  0x00007f1a958436f5
+__strlen_avx2 (libc.so.6 + 0x1616f5)
+                                                #1  0x00007f1a95770be3
+__strdup (libc.so.6 + 0x8ebe3)
+                                                #2  0x0000563150aa43b7
+n/a (ir-keytable + 0x83b7)
+                                                #3  0x0000563150aa44c6
+n/a (ir-keytable + 0x84c6)
+                                                #4  0x00007f1a957edfc0
+argp_parse (libc.so.6 + 0x10bfc0)
+                                                #5  0x0000563150aa2099
+n/a (ir-keytable + 0x6099)
+                                                #6  0x00007f1a95709153
+__libc_start_main (libc.so.6 + 0x27153)
+                                                #7  0x0000563150aa325e
+n/a (ir-keytable + 0x725e)
+Jan 20 18:15:34 kodiarch systemd[1]: systemd-coredump@3-818-0.service:
+Succeeded.
+
+
+Thoughts/troiubleshooting suggestions?
+
+Many thanks
+Camden
