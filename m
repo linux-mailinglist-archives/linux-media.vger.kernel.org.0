@@ -2,119 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F500143F80
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 15:28:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE01D144103
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 16:54:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728709AbgAUO2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jan 2020 09:28:20 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:42362 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727508AbgAUO2U (ORCPT
+        id S1728992AbgAUPyI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jan 2020 10:54:08 -0500
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:39835 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728186AbgAUPyH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jan 2020 09:28:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=T9Vym10ZYiJ3JrTDmycxHGNFN/lQQVOsbqkuKAqRN1w=; b=PEg+MU9LMAo/p/5LQWiCiSTHL
-        VIl3WTbtYszoscDkSs5Vwn+E8Lt14SytpnnMCIo+DqRW1/pK4YH16IQSSqdhu/IdrsZF5Ns7flKjn
-        pd0DVmNmmswiQRs5McQzixBzxz6U6YcsF8gdjGADYjtvlpNoaNjhaxqEWzx0uL6Hpqta2IgUVDCD/
-        Oi0Rj/WIyU17fcqpDJp1ZD17Q6Ohmc1S/NbZYRxg6uHVGWkEvT2k9EpNW1CBvcK5Lcno+/S0suQkl
-        X/nfERLfjnU8fvzZSboI0TbFWW4fBs6PcRpdFlHJKI9xgMaMB1orRYZmrCDrtal9X5uGvUbp/ENeF
-        xnVgM3Enw==;
-Received: from [179.179.33.167] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1ituVs-0002O3-8K; Tue, 21 Jan 2020 14:28:18 +0000
-Date:   Tue, 21 Jan 2020 15:28:03 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        LibCamera Devel <libcamera-devel@lists.libcamera.org>,
-        Jenkins Builder Robot <jenkins@linuxtv.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [libcamera-devel] Build failed in Jenkins: libcamera #72
-Message-ID: <20200121152718.44c60a8a@kernel.org>
-In-Reply-To: <20200121135149.GA7686@pendragon.ideasonboard.com>
-References: <659134945.14.1579046596894.JavaMail.jenkins@builder.linuxtv.org>
-        <263aa6e2-9b6c-5939-687d-005ae8fc2059@ideasonboard.com>
-        <20200121141246.4d1b2ac5@kernel.org>
-        <20200121135149.GA7686@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Tue, 21 Jan 2020 10:54:07 -0500
+Received: by mail-ua1-f67.google.com with SMTP id 73so1172092uac.6
+        for <linux-media@vger.kernel.org>; Tue, 21 Jan 2020 07:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v8QWfIEIdtn232zgfzNj4ZjFfvfLxT5XeORw3qCL8xU=;
+        b=ptwpJXy8ClJDOLXhpRk9bq0yLC4VM4P/cyMMLOyjshgNdzobUcCVbymL7/ogTVGzPq
+         c1PWX36gJz9XeH3eeozW4AuGuFwK4+yz28RcCsyVnrhT4BIRd3eDMjXP6LiXWohxnOwa
+         6ZcMdXYJ8hJonWlsbS+fgTclFL0FRcLfHDheFKu4ce024LlKlyPAR6zHea5APDEB/m77
+         pjXO5AoRGWDxF/vkcO38Dmt3OLof5wzeDAPf/mP5kYKhVuVOAdiABdZibv6f3NYnDNRi
+         jKxWcbqnPlD+BnouJgtu4NlYBxXnUEROIM7L1PbHVzHSPmTBOUsLjxnoOwm1aJ0dJ0Um
+         wnZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v8QWfIEIdtn232zgfzNj4ZjFfvfLxT5XeORw3qCL8xU=;
+        b=YCI6sKN2q7E+rhHP2U4kznJ/Nq9+yyLIN+JMYWnUxNMb63IAOAhDrCJgRcIlkAU0h8
+         AYOGeLIGhm5gNGcxRgwqt1sHtSHHgLwi5zdfYuBKXPLRwfyu2qJefBLzhNzMIkKkEw8x
+         CwukqTmhqq1ZiAGwrmKSsjo/Q96oTl0oOdbpeybIiPZsb8g3DZ085W/brPmtuc03CEes
+         lGgYZgmBAEukE/tGmWEp3mpDDnnE1nyBzX5sIdCBMow9Q8QAiyM2RhMWuDR/H+Sedgml
+         jWELex0XK1XwDSXUx/9aFFhDVL0ewVfRZeHkJibtcNj2tB30Qd0qEp//yhmQ70PH4n9u
+         yFCA==
+X-Gm-Message-State: APjAAAVfuwELj+scvoImPxuY0FQzWcbs+42UHQ7QLc+0iCpZrmHMnU+L
+        T0ZMx4jOjNoz+dNyCWPEPJAlugX0g585+XOn8NcO4CQ=
+X-Google-Smtp-Source: APXvYqzI2XG9LXT0MpWLnUhOcCRBAR02+XmxTSoHo9TAvd/OmtA8y2m/tO+tg+VT1msZ+muTjRDPt2C0nDEv3nXKNJ4=
+X-Received: by 2002:ab0:6954:: with SMTP id c20mr3213444uas.82.1579622046894;
+ Tue, 21 Jan 2020 07:54:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CABkW7JNg-7PNwSH2CsZVFHpqHdnaH5Ha4VS83r8_CaMox3wfQQ@mail.gmail.com>
+ <CABkW7JNw2vzijzPuUVTOEC7oZ-opSgRp7YdpEdmhJrKc=GX7Ow@mail.gmail.com> <5E26B74F.31588.1CB7D4B3@Frantisek.Rysanek.post.cz>
+In-Reply-To: <5E26B74F.31588.1CB7D4B3@Frantisek.Rysanek.post.cz>
+From:   camden lindsay <camden.lindsay+kernel@gmail.com>
+Date:   Tue, 21 Jan 2020 07:53:55 -0800
+Message-ID: <CABkW7JNd=Tu7m=X9RqCU2VfQB_M2CE6PQnq0onjR_+x-w78kdw@mail.gmail.com>
+Subject: Re: ir-keytable segfault when writing keymap from file
+To:     Frantisek Rysanek <Frantisek.Rysanek@post.cz>
+Cc:     linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 21 Jan 2020 15:51:49 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+On Tue, Jan 21, 2020 at 12:33 AM Frantisek Rysanek
+<Frantisek.Rysanek@post.cz> wrote:
 
-> > I added a clean step, just to be sure, e. g. the current build script is:
-> > 
-> > 	ninja -C build clean
-> > 	meson build -Dandroid=true
-> > 	ninja -C build  
-> 
-> The recommended steps are
-> 
-> meson -Dandroid=true build
-> ninja -C build clean
-> ninja -C build
-> 
-> This will ensure the build directory is created if it doesn't exist
-> before trying to run ninja in it. However, the meson step will will be a
-> no-op in case the directory exists. If you want to change options for an
-> existing build directory, you have to run
-> 
-> meson --reconfigure -Dandroid=true build
+> Initially I was wondering if the format of the keytable file was
+> correct for your version of ir-keytable (because I believe I've seen
+> two different formats in the recent past) but looking at that stack
+> trace, currently I'm wondering about two possible theories:
+>
+> a) either ir-keytable is using strlen (by calling strdup(), actually)
+> in an unsafe way, trying to find a null character in a buffer that is
+> not null-terminated for some reason
+>
+> b) or, avx2 sounds like something rather hot off the press. Sounds
+> like the libc contains several versions of the strlen function and
+> patches the fastest flavour in at runtime, depending on the hardware
+> it finds itself running on. But... is this avx2-based strlen()
+> variant the culprit here? Who knows... I am assuming that your CPU is
+> capable of avx2 = that the CPU feature detection in libc works
+> fine... And I'm assuming that strlen() is so ubiquitous throughout
+> the user space, that it's hardly the culprit here. Your distro
+> probably wouldn't be able to boot if this was the problem.
+>
+> Unfortunately I have no hard data :-) just guesses.
+>
+> Also, at a more superficial level, what distro is this? Arch? I don't
+> know Arch, I'm conservative, most of my machines run Debian oldstable
+> :-)  You seem to be using a pretty new kernel, that's why I'm asking.
+> Not that the kernel would seem to be implicated in this misbehavior.
+> But if you're using some bleeding-edge "rolling release", that might
+> be a part of the explanation (= perhaps not as thoroughly tested as
+> my favourite late-adopter relics).
+>
+> Frank
+>
 
-I tried it. Didn't work: it keeps preserving c++11 instead of using c++17.
+Hello, Frank-
 
-> 
-> This will fail if the build directory doesn't exist. The following
-> script should work in all cases.
-> 
-> options="-Dandroid=true"
-> 
-> if [[ -d build ]] ; then
-> 	meson --reconfigure $options build
-> else
-> 	meson $options build
-> fi
-> 
-> ninja -C build clean
-> ninja -C build
-> 
-> > But it still produces errors when trying to build.  
-> 
-> Clean is a good idea, but won't be enough when core configuration
-> options of the project change I'm afraid :-( We need to wipe out the
-> build directory completely, or run
-> 
-> meson configure -Dcpp_std=c++14 build
+CPU is
+[kodiuser@kodiarch ~]$ grep "model name" /proc/cpuinfo | head -1
+model name    : Intel(R) Core(TM) i3-6100U CPU @ 2.30GHz
+[kodiuser@kodiarch ~]$
 
-I prefer not doing that. As you're saying below, if the build changes
-default to some later version, build will break again.
+/proc/cpuinfo shows cpu is capable of it, i believe
+[kodiuser@kodiarch ~]$ grep flags /proc/cpuinfo | head -1 | grep avx2
+flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge
+mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe
+syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts
+rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq
+dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid
+sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx
+f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single
+pti tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust
+bmi1 hle avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap
+clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln
+pts hwp hwp_notify hwp_act_window hwp_epp
+[kodiuser@kodiarch ~]$
 
-> 
-> However, the only configuration option that requires such an operation
-> to prevent breakages is cpp_std, and we don't envision switching to
-> C++17 very soon. Even if we did, that would be a one time change, as
-> there's no other published C++ version after that :-)
-> 
-> Could you handle this manually to fix the build ? No further action
-> should be needed after that.
-> 
-> While at it, could you also set -Dv4l2=true to compile-test the V4L2
-> compatibility layer ?
+Any pointers on how to check to see if the feature detection for that
+is working correctly in libc?
 
-After doing a 'mason setup --wipe', v4l2=true is automatically set. Anyway,
-I added an option that will display the configuration. This way, someone can
-check that all options that should be enabled are there.
+Yes, this is Arch.  Problem was first noticed while running a slightly
+older kernel, but don't know if that is the initial cause.  Did a full
+upgrade before posting this bug (where it picked up the current
+kernel).
 
-Cheers,
-Mauro
+Thank you for the input :)
+
+c
