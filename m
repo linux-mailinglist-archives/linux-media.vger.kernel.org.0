@@ -2,103 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76408143E23
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 14:39:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B41F6143E45
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 14:42:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728733AbgAUNjd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jan 2020 08:39:33 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:36552 "EHLO www.linuxtv.org"
+        id S1729236AbgAUNmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jan 2020 08:42:08 -0500
+Received: from mga17.intel.com ([192.55.52.151]:4186 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726968AbgAUNjd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jan 2020 08:39:33 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ittjf-000Uxe-1B; Tue, 21 Jan 2020 13:38:27 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ittlq-00027y-Rh; Tue, 21 Jan 2020 13:40:42 +0000
-Date:   Tue, 21 Jan 2020 13:40:42 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Message-ID: <1451039710.2.1579614042852.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #80
+        id S1728982AbgAUNlp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Jan 2020 08:41:45 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2020 05:41:44 -0800
+X-IronPort-AV: E=Sophos;i="5.70,346,1574150400"; 
+   d="scan'208";a="307199828"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Jan 2020 05:41:40 -0800
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id BE67F20435;
+        Tue, 21 Jan 2020 15:41:38 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1ittn3-0005Jn-5L; Tue, 21 Jan 2020 15:41:57 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH v4 0/6] Support running driver's probe for a device powered off
+Date:   Tue, 21 Jan 2020 15:41:51 +0200
+Message-Id: <20200121134157.20396-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/80/display/redirect>
+Hi all,
 
-Changes:
+These patches enable calling (and finishing) a driver's probe function
+without powering on the respective device on busses where the practice is
+to power on the device for probe. While it generally is a driver's job to
+check the that the device is there, there are cases where it might be
+undesirable. (In this case it stems from a combination of hardware design
+and user expectations; see below.) The downside with this change is that
+if there is something wrong with the device, it will only be found at the
+time the device is used. In this case (the camera sensors + EEPROM in a
+sensor) I don't see any tangible harm from that though.
+
+An indication both from the driver and the firmware is required to allow
+the device's power state to remain off during probe (see the first patch).
 
 
-------------------------------------------
-Started by user Mauro Carvalho Chehab
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git --version # timeout=10
- > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision 9977fc3fcbfa0a6aaab04118fc67f0b9b9627570 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 9977fc3fcbfa0a6aaab04118fc67f0b9b9627570 # timeout=10
-Commit message: "qcam: Support scaling of the viewfinder"
- > git rev-list --no-walk 9977fc3fcbfa0a6aaab04118fc67f0b9b9627570 # timeout=10
-[libcamera] $ /bin/sh -xe /tmp/jenkins8218803920890772055.sh
-+ meson setup --wipe build
-The Meson build system
-Version: 0.49.2
-Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
-Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
-Build type: native build
-Project name: libcamera
-Project version: 0.0.0
-Native C compiler: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
-Native C++ compiler: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
-Build machine cpu family: x86_64
-Build machine cpu: x86_64
-Header <execinfo.h> has symbol "backtrace" : YES
-Header <stdlib.h> has symbol "secure_getenv" : YES
-Configuring version.h using configuration
-Found pkg-config: /usr/bin/pkg-config (0.29)
-Dependency libudev found: YES 241
-Library atomic found: YES
-Library dl found: YES
-Dependency threads found: YES 
-WARNING: rcc dependencies will not work reliably until this upstream issue is fixed: https://bugreports.qt.io/browse/QTBUG-45460
-Dependency qt5 (modules: Core, Gui, Widgets) found: YES 5.11.3 (pkg-config)
-Detecting Qt5 tools
- moc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/moc, 5.11.3)
- uic: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/uic, 5.11.3)
- rcc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/rcc, 5.11.3)
- lrelease: NO
-Program doxygen found: YES (/usr/bin/doxygen)
-Configuring Doxyfile using configuration
-Program sphinx-build-3 found: NO
-Program sphinx-build found: YES (/usr/bin/sphinx-build)
-Configuring config.h using configuration
-Build targets in project: 69
-Option werror is: True [default: true]
-Found ninja-1.8.2 at /usr/bin/ninja
-+ meson configure
-Meson configurator encountered an error:
+The use case is such that there is a privacy LED next to an integrated
+user-facing laptop camera, and this LED is there to signal the user that
+the camera is recording a video or capturing images. That LED also happens
+to be wired to one of the power supplies of the camera, so whenever you
+power on the camera, the LED will be lit, whether images are captured from
+the camera --- or not. There's no way to implement this differently
+without additional software control (allowing of which is itself a
+hardware design decision) on most CSI-2-connected camera sensors as they
+simply have no pin to signal the camera streaming state.
 
-ERROR: Directory <https://builder.linuxtv.org/job/libcamera/ws/> does not seem to be a Meson build directory.
-Build step 'Execute shell' marked build as failure
+This is also what happens during driver probe: the camera will be powered
+on by the I²C subsystem calling dev_pm_domain_attach() and the device is
+already powered on when the driver's own probe function is called. To the
+user this visible during the boot process as a blink of the privacy LED,
+suggesting that the camera is recording without the user having used an
+application to do that. From the end user's point of view the behaviour is
+not expected and for someone unfamiliar with internal workings of a
+computer surely seems quite suspicious --- even if images are not being
+actually captured.
+
+I've tested these on Linux-next, Bartosz's at24/for-next, Wolfram's
+i2c/for-next as well as Linux media master today; the patches apply to all
+without trouble.
+
+
+since v3 <URL:https://lore.kernel.org/linux-acpi/20200109154529.19484-1-sakari.ailus@linux.intel.com/T/#t>:
+
+- Rework the 2nd patch based on Rafael's comments
+
+	- Rework description of the ACPI low power state helper function,
+	  according to Rafael's text.
+
+	- Rename and rework the same function as
+	  acpi_dev_state_low_power().
+
+	- Reflect the changes in commit message as well.
+
+- Added a patch to document the probe-low-power _DSD property.
+
+since v2 <URL:https://patchwork.kernel.org/cover/11114255/>:
+
+- Remove extra CONFIG_PM ifdefs; these are not needed.
+
+- Move the checks for power state hints from drivers/base/dd.c to
+  drivers/i2c/i2c-base-core.c; these are I²C devices anyway.
+
+- Move the probe_low_power field from struct device_driver to struct
+  i2c_driver.
+
+since v1:
+
+- Rename probe_powered_off struct device field as probe_low_power and
+  reflect the similar naming to the patches overall.
+
+- Work with CONFIG_PM disabled, too.
+
+Rajmohan Mani (1):
+  media: i2c: imx319: Support probe while the device is off
+
+Sakari Ailus (5):
+  i2c: Allow driver to manage the device's power state during probe
+  ACPI: Add a convenience function to tell a device is in low power
+    state
+  ov5670: Support probe whilst the device is in a low power state
+  at24: Support probing while off
+  Documentation: ACPI: Document probe-low-power _DSD property
+
+ .../acpi/dsd/probe-low-power.rst              | 28 +++++++++++++++++
+ Documentation/firmware-guide/acpi/index.rst   |  1 +
+ drivers/acpi/device_pm.c                      | 31 +++++++++++++++++++
+ drivers/i2c/i2c-core-base.c                   | 15 +++++++--
+ drivers/media/i2c/imx319.c                    | 23 ++++++++------
+ drivers/media/i2c/ov5670.c                    | 23 ++++++++------
+ drivers/misc/eeprom/at24.c                    | 31 +++++++++++++------
+ include/linux/acpi.h                          |  5 +++
+ include/linux/i2c.h                           |  3 ++
+ 9 files changed, 129 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/firmware-guide/acpi/dsd/probe-low-power.rst
+
+-- 
+2.20.1
+
