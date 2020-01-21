@@ -2,128 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19A971435C3
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 03:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF9A143660
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 05:56:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729047AbgAUCre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Jan 2020 21:47:34 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:39204 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726890AbgAUCre (ORCPT
+        id S1728665AbgAUE4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Jan 2020 23:56:11 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50259 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728093AbgAUE4L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Jan 2020 21:47:34 -0500
-Received: by mail-lf1-f67.google.com with SMTP id y1so911811lfb.6
-        for <linux-media@vger.kernel.org>; Mon, 20 Jan 2020 18:47:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=u+pn4ui6Ng1mXgrGseSlzDVL23QH8gYAt0SNyPFDv94=;
-        b=k5Y/zRI6Wpse+DVtUn6DWcc3oHOaKMJi8rO8oUf0yr3k7vwSfyqGe3o17AVJwHwnWc
-         /13egervIl3dHHvuRG6d+X08x0TUflRFlekOxVyke/Br5rQ4bBkqp4ZCHo+urJE2JNKn
-         R4QzmJpL8X4FcVQRfuGv/BTc/ZGf9b2JJwzhQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=u+pn4ui6Ng1mXgrGseSlzDVL23QH8gYAt0SNyPFDv94=;
-        b=QRs4XxBIez4FylqOYCDMLURUKfwliJ8ReDjQKKZiD6LQMFuo43EJYgm9Ze5MXJ9uC8
-         E4pICEG+uLdhNf+g6mAtDBXpFUR8HVYbN3ZepjAOcfxlhhWyG01+TdYna7y8A4befip6
-         nCcT/j/uv1p7Q5EheJkHcEmuTM83nwJS5VZi4Dt1hA32M64tiVofG6XU8+dGJFttRYGk
-         a69bgjJ0xXyIsPVV2N6Ps7/0/mWUsmAEZVCqigkurnecBWzQyLKgapf4kfrTZMDv/Zp3
-         D8sbVXO6ABPwmtY47PGcPfDvS+aI9wbyysw/YmhraMwYnYBVOntKHfXu9tXE/CQfbVzl
-         50kQ==
-X-Gm-Message-State: APjAAAX/fD9COHN4etvnp6Q0N9yDPCoTwwHrFBTsxib5icfoqg+vH2w3
-        gDHdHGLMkO20/3Gx5S64MgvuEZRuqcVmmV2Js/0cCQ==
-X-Google-Smtp-Source: APXvYqz+Ie2Hk3Qp7MF/iN7GrivJEAQgQCuAnCKG3YCbPWbBc0x+hWlAEllhS5hJQfgoBPtmRrFzQSC78RwYWttwHk4=
-X-Received: by 2002:ac2:5a43:: with SMTP id r3mr1297798lfn.150.1579574852798;
- Mon, 20 Jan 2020 18:47:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20191218130214.170703-1-keiichiw@chromium.org>
- <7740094.NyiUUSuA9g@os-lin-dmo> <20200113095636.blov62o4gbf27om5@sirius.home.kraxel.org>
- <12433898.dW097sEU6C@os-lin-dmo> <20200113110521.5ogc3fcy4zq32yzg@sirius.home.kraxel.org>
- <CAAFQd5D16G0E85BCZVx1LXd1TauQH8Lbgs5-0gLv7tNpm4sp_A@mail.gmail.com>
- <20200113132654.r4lhspfx2z7zse2v@sirius.home.kraxel.org> <CAAFQd5A3=4JC+3bRf2iw8RwsoB1jJz8p5afi6KaHO6ML2LC0Rg@mail.gmail.com>
- <20200115112640.52kemwg4lncuvvir@sirius.home.kraxel.org> <CAD90VcaAaomTnwVESp9RaBwhjx+cKjXAJv4T7wSkFiCEhOUo5Q@mail.gmail.com>
- <20200120104755.3hhxlx6x6o32bagf@sirius.home.kraxel.org>
-In-Reply-To: <20200120104755.3hhxlx6x6o32bagf@sirius.home.kraxel.org>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Tue, 21 Jan 2020 11:47:20 +0900
-Message-ID: <CAD90Vcak0iohLny9UjkqtBmM0px7Rz1mqQE6jw1wdu66QB4U3Q@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 0/1] VirtIO video device specification
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        spice-devel@lists.freedesktop.org, virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 20 Jan 2020 23:56:11 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:8d11:39b7:9609:848e])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id tlaAijpDlT6sRtlaCipHZm; Tue, 21 Jan 2020 05:56:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579582568; bh=CdsXAjL+PF3j16WkHNGkBTfvAYbVmlZ9k+U9ypGxFOU=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=gFyh/P1Wuyiqrz+H3u3LYrFybtr3giGNMKELZL53LQawIKKet1S7pjGrN9rES0/IU
+         DBEE9DAvSo6uM7FzF4sR0/+AoUucpjhWZNScD9ye8If8otg3fYXrgy8xefgmU8H82k
+         f96O2n9D92zpcqqS2I/72oo9iClSpUB1kdxR+oqo56HU9aHUsA4mX9V5t3heY/Yov1
+         dAUfakuUYnIfvI93D4KU8YjZRaMcWuJsfdVbLiSy0fAuGr27a5vpUiDU62BZ84woOL
+         oSx7SsshWn19SAdp2vZT4cVjpmjbYUVotOkAb5a22HzDZO/nQWEEGdOcfxiJpxi7Y3
+         tS4z5ZhiAvnXQ==
+Message-ID: <1f9299e814c48f4044c9ea29c08417db@smtp-cloud9.xs4all.net>
+Date:   Tue, 21 Jan 2020 05:56:06 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfCedfFrTMQ4q9zi+1LO5d0tfyOU6kCmrBsltIwBbUX3X5DA7m38OI6yhyqBaUnw8wjaxBcBVaHhqIObmFSgomh34xfk4qDVMAtFMrLfyhKMPXelKQzrE
+ 8UKo823VqBAV7KXmanZsa/fA2ufGUm0eMMyVcTsOe9g1/2msk09MhyPtZbkbWrrtDoz8wrx1DzkPFl/VOoX96YUIWRDzpwf2S2NPQTgSVWivXkZwJgVhClLU
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Mon, Jan 20, 2020 at 7:48 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > Hmm, using (ii) the API, then check whenever your three plane buffers
-> > > happen to have the correct layout for (1) hardware looks somewhat
-> > > backwards to me.
-> >
-> > Can't this problem be solved by adding "offset" field in virtio_video_mem_entry?
-> >
-> > struct virtio_video_mem_entry {
-> >   le64 addr;
-> >   le32 length;
-> >   le32 offset;
-> >   u8 padding[4];
-> > };
-> >
-> > Here, "addr" must be the same in every mem_entry for (1) hardware.
->
-> No.  virtio_video_mem_entry is basically a scatter list entry, you use
-> an *array* of these entries to describe your buffer (unless you are
-> using CMA due to hardware requirements, in this special case you have
-> only one entry in your array).
+Results of the daily build of media_tree:
 
-I see. I forgot about scatter list.
-However, I'm still not sure about the usage for CMA.
-if we're using CMA for a multiplanar format, how can the device know
-where the second plane start from?
-In my understanding, the number of entries in this case should be the
-same with the number of planes and
-"entries[0].addr + entries[0].length == entries[1].addr" should hold.
+date:			Tue Jan 21 05:00:10 CET 2020
+media-tree git hash:	2a0a0bc7020ef7e66c9569d8229d79fa72e3d659
+media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
+v4l-utils git hash:	ec55a961487b449bedbe07650674b4965814cf07
+edid-decode git hash:	c42616dd4a4deacd12f4de202763af5e3a9625e8
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
->
-> > > I'd suggest to use (i) API and allow the device specify alignment
-> > > requirements.  So (1) hardware would say "need_align=0", whereas (3)
-> > > hardware would probably say "need_align=PAGE_SIZE" so it can easily
-> > > split the single buffer into three per-plane buffers.
-> >
-> > Just to confirm, is "need_align" a field added in virtio_video_format_desc?
->
-> Given that different formats might have different alignment
-> requirements this looks like a good place to me.  Maybe rename to
-> plane_align to make clear what kind of alignment this is.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-"plane_align" sounds better. Thanks.
+Detailed results are available here:
 
-Best regards,
-Keiichi
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
->
-> cheers,
->   Gerd
->
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
