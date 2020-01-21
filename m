@@ -2,297 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 306E9143DF8
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 14:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E20B8143E17
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 14:36:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbgAUNZU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 21 Jan 2020 08:25:20 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:34844 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727817AbgAUNZU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jan 2020 08:25:20 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ittVs-000U4v-QA; Tue, 21 Jan 2020 13:24:13 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ittY4-0001oe-0S; Tue, 21 Jan 2020 13:26:28 +0000
-Date:   Tue, 21 Jan 2020 13:26:27 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Message-ID: <1649517221.0.1579613187983.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <703931466.19.1579539790752.JavaMail.jenkins@builder.linuxtv.org>
-References: <703931466.19.1579539790752.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #78
+        id S1728792AbgAUNgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jan 2020 08:36:16 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48700 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728680AbgAUNgQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Jan 2020 08:36:16 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 305D5263976
+Subject: Re: [PATCH v4] media: vimc: streamer: if kthread_stop fails, ignore
+ the error
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        skhan@linuxfoundation.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com, Dafna Hirschfeld <dafna3@gmail.com>
+References: <20200119123434.17567-1-dafna.hirschfeld@collabora.com>
+ <CAAEAJfBn1E10HJ+kEj5dfeE9fvscUQk3D-m0VBR9BS8cpH-Ztw@mail.gmail.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <723c6519-e6d5-59a5-fc18-988e3228cd2b@collabora.com>
+Date:   Tue, 21 Jan 2020 10:36:08 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <CAAEAJfBn1E10HJ+kEj5dfeE9fvscUQk3D-m0VBR9BS8cpH-Ztw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/78/display/redirect>
-
-Changes:
 
 
-------------------------------------------
-[...truncated 1.66 KB...]
-[2/2] Cleaning.
-Cleaning... 50 files.
-+ meson build -Dandroid=true
-Directory already configured.
+On 1/19/20 10:57 PM, Ezequiel Garcia wrote:
+> Hi Dafna,
+> 
+> Thanks for the patch.
+> 
+> On Sun, 19 Jan 2020 at 09:34, Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+>>
+>> Ignore errors returned from kthread_stop since the
+>> vimc subdevices should still be notified that
+>> streaming stopped so they can release the memory for
+>> the streaming, and also kthread should be set to NULL.
+>> kthread_stop can return -EINTR in case the thread
+>> did not yet run. This can happen if userspace calls
+>> streamon and streamoff right after.
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>> Changes from v3: change the comment to explain when kthread fails
+>>
+> 
+> Please keep all the history here, so we'd see the changes
+> done to v1, v2, v3.
+> 
+>>  drivers/media/platform/vimc/vimc-streamer.c | 10 ++++++++--
+>>  1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+>> index cd6b55433c9e..26ec81b265c4 100644
+>> --- a/drivers/media/platform/vimc/vimc-streamer.c
+>> +++ b/drivers/media/platform/vimc/vimc-streamer.c
+>> @@ -215,9 +215,15 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+>>                         return 0;
+>>
+>>                 ret = kthread_stop(stream->kthread);
+>> -               if (ret)
+>> -                       return ret;
+>>
 
-Just run your build command (e.g. ninja) and Meson will regenerate as necessary.
-If ninja fails, run "ninja reconfigure" or "meson --reconfigure"
-to force Meson to regenerate.
+no new line is required here.
+The idea is to keep the error check as close as possible of the function
+who generated the error.
 
-If build failures persist, run "meson setup --wipe" to rebuild from scratch
-using the same options as passed when configuring the build.
-To change option values, run "meson configure" instead.
-+ ninja -C build
-ninja: Entering directory `build'
-[1/212] Compiling C object 'utils/ipu3/5b60d53@@ipu3-unpack@exe/ipu3-unpack.c.o'.
-[2/212] Compiling C object 'src/android/e7e5733@@camera_metadata@sta/metadata_camera_metadata.c.o'.
-[3/212] Linking static target src/android/libcamera_metadata.a.
-[4/212] Generating gen-header with a custom command.
-[5/212] Linking target utils/ipu3/ipu3-unpack.
-[6/212] Generating control_ids_h with a custom command.
-[7/212] Generating control_ids_cpp with a custom command.
-[8/212] Generating 'src/qcam/9916d8b@@qcam@exe/moc_main_window.cpp'.
-[9/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/buffer.cpp.o'.
-[10/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/byte_stream_buffer.cpp.o'.
-[11/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera_controls.cpp.o'.
-[12/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera_manager.cpp.o'.
-[13/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera.cpp.o'.
-[14/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/control_validator.cpp.o'.
-[15/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/controls.cpp.o'.
-[16/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/camera_sensor.cpp.o'.
-[17/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/device_enumerator_sysfs.cpp.o'.
-[18/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_dispatcher.cpp.o'.
-[19/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_dispatcher_poll.cpp.o'.
-[20/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/event_notifier.cpp.o'.
-[21/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/formats.cpp.o'.
-[22/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/file_descriptor.cpp.o'.
-[23/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/geometry.cpp.o'.
-[24/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_controls.cpp.o'.
-[25/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/framebuffer_allocator.cpp.o'.
-[26/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_interface.cpp.o'.
-[27/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/meson-generated_.._control_ids.cpp.o'.
-[28/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_context_wrapper.cpp.o'.
-[29/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_module.cpp.o'.
-[30/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipc_unixsocket.cpp.o'.
-[31/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_proxy.cpp.o'.
-[32/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/log.cpp.o'.
-[33/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/media_device.cpp.o'.
-[34/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/media_object.cpp.o'.
-[35/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/message.cpp.o'.
-[36/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/object.cpp.o'.
-[37/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pixelformats.cpp.o'.
-[38/212] Compiling C++ object 'src/qcam/9916d8b@@qcam@exe/meson-generated_moc_main_window.cpp.o'.
-[39/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_handler.cpp.o'.
-[40/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/process.cpp.o'.
-[41/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/request.cpp.o'.
-[42/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/semaphore.cpp.o'.
-[43/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/signal.cpp.o'.
-[44/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/stream.cpp.o'.
-[45/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/thread.cpp.o'.
-[46/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/utils.cpp.o'.
-[47/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/timer.cpp.o'.
-[48/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_controls.cpp.o'.
-[49/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_subdevice.cpp.o'.
-[50/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/bound_method.cpp.o' -c ../src/libcamera/bound_method.cpp
-../src/libcamera/bound_method.cpp: In member function ‘bool libcamera::BoundMethodBase::activatePack(std::shared_ptr<libcamera::BoundMethodPackBase>, bool)’:
-../src/libcamera/bound_method.cpp:86:9: error: ‘make_unique’ is not a member of ‘std’
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-         ^~~~~~~~~~~
-../src/libcamera/bound_method.cpp:86:9: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/bound_method.cpp:13:1:
-+#include <memory>
- 
-../src/libcamera/bound_method.cpp:86:9:
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-         ^~~~~~~~~~~
-../src/libcamera/bound_method.cpp:86:34: error: expected primary-expression before ‘>’ token
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                  ^
-../src/libcamera/bound_method.cpp:86:42: error: left operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                          ^~~~
-../src/libcamera/bound_method.cpp:86:48: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                                ^~~~~~~
-../src/libcamera/bound_method.cpp:86:57: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, nullptr, deleteMethod);
-                                                         ^~~~~~~~~~~~
-../src/libcamera/bound_method.cpp:95:9: error: ‘make_unique’ is not a member of ‘std’
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-         ^~~~~~~~~~~
-../src/libcamera/bound_method.cpp:95:9: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/bound_method.cpp:95:34: error: expected primary-expression before ‘>’ token
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                  ^
-../src/libcamera/bound_method.cpp:95:42: error: left operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                          ^~~~
-../src/libcamera/bound_method.cpp:95:49: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                                 ^~~~~~~~~
-../src/libcamera/bound_method.cpp:95:48: error: right operand of comma operator has no effect [-Werror=unused-value]
-    std::make_unique<InvokeMessage>(this, pack, &semaphore, deleteMethod);
-                                                ^~~~~~~~~~
-cc1plus: all warnings being treated as errors
-[51/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/device_enumerator.cpp.o' -c ../src/libcamera/device_enumerator.cpp
-../src/libcamera/device_enumerator.cpp: In static member function ‘static std::unique_ptr<libcamera::DeviceEnumerator> libcamera::DeviceEnumerator::create()’:
-../src/libcamera/device_enumerator.cpp:147:20: error: ‘make_unique’ is not a member of ‘std’
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                    ^~~~~~~~~~~
-../src/libcamera/device_enumerator.cpp:147:20: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/device_enumerator.cpp:16:1:
-+#include <memory>
- 
-../src/libcamera/device_enumerator.cpp:147:20:
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                    ^~~~~~~~~~~
-../src/libcamera/device_enumerator.cpp:147:52: error: expected primary-expression before ‘>’ token
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                                                    ^
-../src/libcamera/device_enumerator.cpp:147:54: error: expected primary-expression before ‘)’ token
-  enumerator = std::make_unique<DeviceEnumeratorUdev>();
-                                                      ^
-../src/libcamera/device_enumerator.cpp:156:20: error: ‘make_unique’ is not a member of ‘std’
-  enumerator = std::make_unique<DeviceEnumeratorSysfs>();
-                    ^~~~~~~~~~~
-../src/libcamera/device_enumerator.cpp:156:20: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/device_enumerator.cpp:156:53: error: expected primary-expression before ‘>’ token
-  enumerator = std::make_unique<DeviceEnumeratorSysfs>();
-                                                     ^
-../src/libcamera/device_enumerator.cpp:156:55: error: expected primary-expression before ‘)’ token
-  enumerator = std::make_unique<DeviceEnumeratorSysfs>();
-                                                       ^
-[52/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/control_serializer.cpp.o' -c ../src/libcamera/control_serializer.cpp
-../src/libcamera/control_serializer.cpp: In member function ‘T libcamera::ControlSerializer::deserialize(libcamera::ByteStreamBuffer&) [with T = libcamera::ControlInfoMap]’:
-../src/libcamera/control_serializer.cpp:417:33: error: ‘make_unique’ is not a member of ‘std’
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                 ^~~~~~~~~~~
-../src/libcamera/control_serializer.cpp:417:33: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/control_serializer.cpp:20:1:
-+#include <memory>
- 
-../src/libcamera/control_serializer.cpp:417:33:
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                 ^~~~~~~~~~~
-../src/libcamera/control_serializer.cpp:417:54: error: expected primary-expression before ‘>’ token
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                                      ^
-../src/libcamera/control_serializer.cpp:417:62: error: left operand of comma operator has no effect [-Werror=unused-value]
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                                        ~~~~~~^~
-../src/libcamera/control_serializer.cpp:417:70: error: right operand of comma operator has no effect [-Werror=unused-value]
-   controlIds_.emplace_back(std::make_unique<ControlId>(entry.id, "", type));
-                                                                      ^~~~
-cc1plus: all warnings being treated as errors
-[53/212] Generating version.cpp with a custom command.
-[54/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/ipa_manager.cpp.o' -c ../src/libcamera/ipa_manager.cpp
-../src/libcamera/ipa_manager.cpp: In member function ‘std::unique_ptr<libcamera::IPAInterface> libcamera::IPAManager::createIPA(libcamera::PipelineHandler*, uint32_t, uint32_t)’:
-../src/libcamera/ipa_manager.cpp:267:14: error: ‘make_unique’ is not a member of ‘std’
-  return std::make_unique<IPAContextWrapper>(ctx);
-              ^~~~~~~~~~~
-../src/libcamera/ipa_manager.cpp:267:14: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/ipa_manager.cpp:21:1:
-+#include <memory>
- 
-../src/libcamera/ipa_manager.cpp:267:14:
-  return std::make_unique<IPAContextWrapper>(ctx);
-              ^~~~~~~~~~~
-../src/libcamera/ipa_manager.cpp:267:43: error: expected primary-expression before ‘>’ token
-  return std::make_unique<IPAContextWrapper>(ctx);
-                                           ^
-[55/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_device.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/v4l2_device.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/v4l2_device.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/v4l2_device.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/v4l2_device.cpp.o' -c ../src/libcamera/v4l2_device.cpp
-../src/libcamera/v4l2_device.cpp: In member function ‘void libcamera::V4L2Device::listControls()’:
-../src/libcamera/v4l2_device.cpp:383:33: error: ‘make_unique’ is not a member of ‘std’
-   controlIds_.emplace_back(std::make_unique<V4L2ControlId>(ctrl));
-                                 ^~~~~~~~~~~
-../src/libcamera/v4l2_device.cpp:383:33: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/v4l2_device.cpp:20:1:
-+#include <memory>
- 
-../src/libcamera/v4l2_device.cpp:383:33:
-   controlIds_.emplace_back(std::make_unique<V4L2ControlId>(ctrl));
-                                 ^~~~~~~~~~~
-../src/libcamera/v4l2_device.cpp:383:58: error: expected primary-expression before ‘>’ token
-   controlIds_.emplace_back(std::make_unique<V4L2ControlId>(ctrl));
-                                                          ^
-[56/212] Generating documentation with a custom command.
-[57/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/v4l2_videodevice.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/v4l2_videodevice.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/v4l2_videodevice.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/v4l2_videodevice.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/v4l2_videodevice.cpp.o' -c ../src/libcamera/v4l2_videodevice.cpp
-../src/libcamera/v4l2_videodevice.cpp: In member function ‘std::unique_ptr<libcamera::FrameBuffer> libcamera::V4L2VideoDevice::createBuffer(const v4l2_buffer&)’:
-../src/libcamera/v4l2_videodevice.cpp:1057:14: error: ‘make_unique’ is not a member of ‘std’
-  return std::make_unique<FrameBuffer>(std::move(planes));
-              ^~~~~~~~~~~
-../src/libcamera/v4l2_videodevice.cpp:1057:14: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/v4l2_videodevice.cpp:30:1:
-+#include <memory>
- 
-../src/libcamera/v4l2_videodevice.cpp:1057:14:
-  return std::make_unique<FrameBuffer>(std::move(planes));
-              ^~~~~~~~~~~
-../src/libcamera/v4l2_videodevice.cpp:1057:37: error: expected primary-expression before ‘>’ token
-  return std::make_unique<FrameBuffer>(std::move(planes));
-                                     ^
-[58/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_uvcvideo.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/pipeline_uvcvideo.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/pipeline_uvcvideo.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/pipeline_uvcvideo.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/pipeline_uvcvideo.cpp.o' -c ../src/libcamera/pipeline/uvcvideo.cpp
-../src/libcamera/pipeline/uvcvideo.cpp: In member function ‘virtual bool libcamera::PipelineHandlerUVC::match(libcamera::DeviceEnumerator*)’:
-../src/libcamera/pipeline/uvcvideo.cpp:299:45: error: ‘make_unique’ is not a member of ‘std’
-  std::unique_ptr<UVCCameraData> data = std::make_unique<UVCCameraData>(this);
-                                             ^~~~~~~~~~~
-../src/libcamera/pipeline/uvcvideo.cpp:299:45: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/pipeline/uvcvideo.cpp:26:1:
-+#include <memory>
- 
-../src/libcamera/pipeline/uvcvideo.cpp:299:45:
-  std::unique_ptr<UVCCameraData> data = std::make_unique<UVCCameraData>(this);
-                                             ^~~~~~~~~~~
-../src/libcamera/pipeline/uvcvideo.cpp:299:70: error: expected primary-expression before ‘>’ token
-  std::unique_ptr<UVCCameraData> data = std::make_unique<UVCCameraData>(this);
-                                                                      ^
-[59/212] Compiling C++ object 'src/libcamera/4ab8042@@camera@sha/pipeline_vimc.cpp.o'.
-FAILED: src/libcamera/4ab8042@@camera@sha/pipeline_vimc.cpp.o 
-ccache c++ -Isrc/libcamera/4ab8042@@camera@sha -Isrc/libcamera -I../src/libcamera -Iinclude -I../include -Isrc/libcamera/include -I../src/libcamera/include -I../include/android/hardware/libhardware/include/ -I../include/android/metadata/ -I../include/android/system/core/include -Iinclude/libcamera -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++11 -g -Wno-unused-parameter -include config.h -fPIC -pthread  -MD -MQ 'src/libcamera/4ab8042@@camera@sha/pipeline_vimc.cpp.o' -MF 'src/libcamera/4ab8042@@camera@sha/pipeline_vimc.cpp.o.d' -o 'src/libcamera/4ab8042@@camera@sha/pipeline_vimc.cpp.o' -c ../src/libcamera/pipeline/vimc.cpp
-../src/libcamera/pipeline/vimc.cpp: In member function ‘virtual bool libcamera::PipelineHandlerVimc::match(libcamera::DeviceEnumerator*)’:
-../src/libcamera/pipeline/vimc.cpp:368:46: error: ‘make_unique’ is not a member of ‘std’
-  std::unique_ptr<VimcCameraData> data = std::make_unique<VimcCameraData>(this);
-                                              ^~~~~~~~~~~
-../src/libcamera/pipeline/vimc.cpp:368:46: note: ‘std::make_unique’ is defined in header ‘<memory>’; did you forget to ‘#include <memory>’?
-../src/libcamera/pipeline/vimc.cpp:34:1:
-+#include <memory>
- 
-../src/libcamera/pipeline/vimc.cpp:368:46:
-  std::unique_ptr<VimcCameraData> data = std::make_unique<VimcCameraData>(this);
-                                              ^~~~~~~~~~~
-../src/libcamera/pipeline/vimc.cpp:368:72: error: expected primary-expression before ‘>’ token
-  std::unique_ptr<VimcCameraData> data = std::make_unique<VimcCameraData>(this);
-                                                                        ^
-ninja: build stopped: subcommand failed.
-Build step 'Execute shell' marked build as failure
+>> +               /*
+>> +                * kthread_stop returns -EINTR in cases when streamon was
+>> +                * immediately followed by streamoff, and the thread didn't had
+>> +                * a chance to run. Ignore errors to stop the stream in the
+>> +                * pipeline.
+>> +                */
+>> +               if (ret)
+>> +                       dev_warn(ved->dev, "kthread_stop returned '%d'\n", ret);
+
+Please, re-add the new line here (I thought you had already done this in
+a previous version).
+
+> 
+> Is this situation serious enough to deserve warning the user?
+> If not, perhaps dev_dbg would be better.
+
+I agree, this is a normal usecase, please change to dev_dgb().
+
+With these changes
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+Thanks
+Helen
+
+> 
+> Regards,
+> Ezequiel
+> 
