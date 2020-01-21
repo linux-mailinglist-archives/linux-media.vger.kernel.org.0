@@ -2,147 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84A7F143C69
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 13:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD1F6143CDE
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 13:31:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728797AbgAUL77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jan 2020 06:59:59 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:39732 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726052AbgAUL77 (ORCPT
+        id S1729133AbgAUMa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jan 2020 07:30:57 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:41879 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728816AbgAUMa5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jan 2020 06:59:59 -0500
-Received: by mail-ed1-f66.google.com with SMTP id t17so2694772eds.6;
-        Tue, 21 Jan 2020 03:59:57 -0800 (PST)
+        Tue, 21 Jan 2020 07:30:57 -0500
+Received: by mail-ed1-f67.google.com with SMTP id c26so2769624eds.8
+        for <linux-media@vger.kernel.org>; Tue, 21 Jan 2020 04:30:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jSiX5zz2vTnaHZTIQllFhI97EGPFguXdFsKsb3rblZU=;
-        b=YQF+nryIbreDYQKsT+Vq6cVYKB1amnD6IVTr+9uTtsF+yqoC3cfr4Z9t6vm3CGzgg1
-         Rod6OvZ4ZO7hP1kac7Su+H8AmWibUMZ5SAJPijfaKgw9US5cVTDn7KWlyJxEJ5nEsosR
-         yKkDmcMrUUSvJC97OpqSQ8ZvWxTAJtgb/htEkobsRFkYu/lcqPWl5jHhfbFLYW8G103L
-         cu2owgWO9EynKOvZQmbtA4NkcUpC+THGqQiH9Un8VhxbiEpHqFALTYbSOhj7OjsMf11J
-         fxPkAO79PugLl4Xfzk3WCljXb1zt8YjZBfSmX32gMYYzusJjJPfXFO0UvUMfiyTahVzD
-         6XYw==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=jNbiAMxqqOj55GSDQKDWmBh++d71tG7ldeLAk9zmd6A=;
+        b=UoarV1BVm2Btqxccp5b5Ri5nQVCi4Ed1USfuvenRzygLxhAnESncPto4TO3kZatVli
+         QJA3MCg+PyaCkzLmTwafsRywirHdNWFoQxU1wuHF34s95eo+ODIJNmBeU67HHB9UdH4b
+         1WJNGQAtjgmvSTg/+Y26fXK2c56Szm+bAp2UvGxtHky9FxucphpRDNM1F4BnTP7mRhbP
+         sbsi+STGoHLSUFCC6Z9bfVTtE/tMwSEzGW9UFnrs1V07S6DwMcBEOOS590K0Jaqg6Kwy
+         CfeyldwuK79EoSWeqzGv1fQ1qSlfbLqN3ALcxWqca3eywyApnMS82jIPkP0Dl2X9pGwJ
+         RhSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jSiX5zz2vTnaHZTIQllFhI97EGPFguXdFsKsb3rblZU=;
-        b=A8Y1NpSLoaegheqNS2UWxgyVWGs6MSAI4RlMsK/Bml9qFaAmBJnURXXbGQkrj/nKzX
-         REoyg6PB+bNdkhzUtL3dX8EiaqJTJ+ybBjAbQZpp65t2oU/thZghcpES4NDDmhhn2R/Y
-         XJLaA6WJfxQ/qxhvZ01ovuc9vy9JxgOrPYFyr/M7wpMlKaIIPxsSw2179Pvo3r3pQ3Nn
-         fMuxis+0i0B7Nt3Hnko9xseg8OTEc728zS21YccZPcc9t6AwPFPIIR4cUwavNtErjFSr
-         h6KVY4mabDPMrYILBr06DTSp5XGiUCeA0RhBETcP7KrP6VBxdMa3CI9yoQh1mF+xtamr
-         iwvQ==
-X-Gm-Message-State: APjAAAVPXz1gq6BpUP7RnomuCTmuHRoIUQ2H3Lhb5l/YR7+DwrNkZBWo
-        kmYIbGkJBF/pCo/IHnwCPTEibBW9rsDI2KdozAo=
-X-Google-Smtp-Source: APXvYqxcFMRXWdad6Y1h3Chdzl/WPDJb1l2gynDLkt+Yf+IZ7vOD0hP5KCX5RWVNMnIGdpPCR6KEIodoncuVQA3mijI=
-X-Received: by 2002:aa7:ce13:: with SMTP id d19mr3426381edv.296.1579607997278;
- Tue, 21 Jan 2020 03:59:57 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jNbiAMxqqOj55GSDQKDWmBh++d71tG7ldeLAk9zmd6A=;
+        b=BOUTwDIGBwNcdJvfXZALeXfzOx/BpTsF+ZN0mzxtJ4rN/llKeRE2CQmm0LH+gtF1JG
+         Yc72MqDwgZbbKYoTlkxhAtfM0prdSMVb75hqJVLtxNZ7uiVlsL1NS2qWAtdncGYoPdvO
+         vKlUU0eKJOP6LOcB5N2wRNKrFhctkSpaxYFPKd6fmwEy5HVAZe1D6XffttUJkv8gSEBB
+         Ik2AZ+L+HZjuyFd9ROtiUfXZ7Vn8tDuEi4zLE0lBebSIqJAeR/uGAzXBt7CkEB81puTU
+         /ivqUOBFVoumAo7dlpMlvaYMVFjbB+I2PF1jpYgsa7SBdSMIxU8kvGd6eyxVi8LrXIeD
+         gZBA==
+X-Gm-Message-State: APjAAAXQ/Qi+xPStn5wOjxXzoCJsLL2r+PEmElV9QVHyrZKHQrgkhWCw
+        Ky121y1acxqIynIFME15u7yfGA==
+X-Google-Smtp-Source: APXvYqxOZnZWPEscqDETn75LsvLIexfMmx0NUCw7dFoO8A8E4cUz1jWb7ytPgjienQN4l3NNB7qxjw==
+X-Received: by 2002:aa7:da13:: with SMTP id r19mr3580963eds.188.1579609855545;
+        Tue, 21 Jan 2020 04:30:55 -0800 (PST)
+Received: from [192.168.27.209] ([37.157.136.193])
+        by smtp.googlemail.com with ESMTPSA id t1sm1277494ejg.32.2020.01.21.04.30.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jan 2020 04:30:54 -0800 (PST)
+Subject: Re: [PATCH V4 1/4] arm64: dts: sc7180: Add Venus video codec DT node
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, vgarodia@codeaurora.org
+References: <1579006416-11599-1-git-send-email-dikshita@codeaurora.org>
+ <1579006416-11599-2-git-send-email-dikshita@codeaurora.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <fff8744d-05cf-f7a3-6d1f-78111fd85deb@linaro.org>
+Date:   Tue, 21 Jan 2020 14:30:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200113055951.8718-1-hslester96@gmail.com> <20200121092350.466f62a8@litschi.hi.pengutronix.de>
-In-Reply-To: <20200121092350.466f62a8@litschi.hi.pengutronix.de>
-From:   Chuhong Yuan <hslester96@gmail.com>
-Date:   Tue, 21 Jan 2020 19:59:46 +0800
-Message-ID: <CANhBUQ25dp5kt3EGijLUC1LEjQon5wS8MHJqEiBNcAXSLdvjQw@mail.gmail.com>
-Subject: Re: [PATCH v3] media: allegro: add missed checks in allegro_open()
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1579006416-11599-2-git-send-email-dikshita@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 4:23 PM Michael Tretter
-<m.tretter@pengutronix.de> wrote:
->
-> On Mon, 13 Jan 2020 13:59:51 +0800, Chuhong Yuan wrote:
-> > allegro_open() misses checks for v4l2_m2m_ctx_init() and results of
-> > v4l2_ctrl_new* calls.
-> > Add checks and error handlers to fix the problems.
-> >
-> > Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> > ---
-> > Changes in v3:
-> >   - Make code cleaner.
-> >   - Add a check for handler->error.
-> >
-> >  .../staging/media/allegro-dvt/allegro-core.c  | 24 +++++++++++++++----
-> >  1 file changed, 20 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-> > index 6f0cd0784786..e86001e42963 100644
-> > --- a/drivers/staging/media/allegro-dvt/allegro-core.c
-> > +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-> > @@ -2270,15 +2270,12 @@ static int allegro_open(struct file *file)
-> >       struct allegro_channel *channel = NULL;
-> >       struct v4l2_ctrl_handler *handler;
-> >       u64 mask;
-> > +     int ret;
-> >
-> >       channel = kzalloc(sizeof(*channel), GFP_KERNEL);
-> >       if (!channel)
-> >               return -ENOMEM;
-> >
-> > -     v4l2_fh_init(&channel->fh, vdev);
-> > -     file->private_data = &channel->fh;
-> > -     v4l2_fh_add(&channel->fh);
-> > -
-> >       init_completion(&channel->completion);
-> >
-> >       channel->dev = dev;
-> > @@ -2328,6 +2325,11 @@ static int allegro_open(struct file *file)
-> >                       V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
-> >                       1, 32,
-> >                       1, 1);
-> > +     if (handler->error != 0) {
-> > +             ret = handler->error;
-> > +             goto error;
-> > +     }
-> > +
-> >       channel->fh.ctrl_handler = handler;
-> >
-> >       channel->mcu_channel_id = -1;
-> > @@ -2341,7 +2343,21 @@ static int allegro_open(struct file *file)
-> >       channel->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, channel,
-> >                                               allegro_queue_init);
-> >
-> > +     if (IS_ERR(channel->fh.m2m_ctx)) {
-> > +             ret = PTR_ERR(channel->fh.m2m_ctx);
-> > +             goto error;
-> > +     }
-> > +
-> > +     v4l2_fh_init(&channel->fh, vdev);
->
-> This call sets channel->fh.ctrl_handler to vdev->ctrl_handler, which
-> has previously been overriden by the driver to handler. Therefore, this
-> patch breaks all controls. I think we should initialize channel->fh
-> before setting any fields of this struct.
->
+Hi,
 
-I'm not very clear about this issue.
-In my second version, Hans replied that init could be moved before return 0.
-I have sent this mail to him.
+On 1/14/20 2:53 PM, Dikshita Agarwal wrote:
+> This adds Venus video codec DT node for sc7180.
+> 
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
 
-> Michael
->
-> > +     file->private_data = &channel->fh;
-> > +     v4l2_fh_add(&channel->fh);
-> > +
-> >       return 0;
-> > +
-> > +error:
-> > +     v4l2_ctrl_handler_free(handler);
-> > +     kfree(channel);
-> > +     return ret;
-> >  }
-> >
-> >  static int allegro_release(struct file *file)
+Reviewed-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index 3676bfd..6ecacca 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -10,6 +10,7 @@
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/phy/phy-qcom-qusb2.h>
+>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+> +#include <dt-bindings/clock/qcom,videocc-sc7180.h>
+>  
+>  / {
+>  	interrupt-parent = <&intc>;
+> @@ -66,6 +67,11 @@
+>  			compatible = "qcom,cmd-db";
+>  			no-map;
+>  		};
+> +
+> +		venus_mem: memory@8f600000 {
+> +			reg = <0 0x8f600000 0 0x500000>;
+> +			no-map;
+> +		};
+>  	};
+>  
+>  	cpus {
+> @@ -1043,6 +1049,36 @@
+>  			};
+>  		};
+>  
+> +		venus: video-codec@aa00000 {
+> +			compatible = "qcom,sc7180-venus";
+> +			reg = <0 0x0aa00000 0 0xff000>;
+> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +			power-domains = <&videocc VENUS_GDSC>,
+> +					<&videocc VCODEC0_GDSC>;
+> +			power-domain-names = "venus", "vcodec0";
+> +			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
+> +				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
+> +				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
+> +				 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
+> +				 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
+> +			clock-names = "core", "iface", "bus",
+> +				      "vcodec0_core", "vcodec0_bus";
+> +			iommus = <&apps_smmu 0x0c00 0x60>;
+> +			memory-region = <&venus_mem>;
+> +
+> +			interconnects = <&mmss_noc MASTER_VIDEO_P0 &mc_virt SLAVE_EBI1>,
+> +					<&gem_noc MASTER_APPSS_PROC &config_noc SLAVE_VENUS_CFG>;
+> +			interconnect-names = "video-mem", "cpu-cfg";
+> +
+> +			video-decoder {
+> +				compatible = "venus-decoder";
+> +			};
+> +
+> +			video-encoder {
+> +				compatible = "venus-encoder";
+> +			};
+> +		};
+> +
+>  		pdc: interrupt-controller@b220000 {
+>  			compatible = "qcom,sc7180-pdc", "qcom,pdc";
+>  			reg = <0 0x0b220000 0 0x30000>;
+> 
+
+-- 
+regards,
+Stan
