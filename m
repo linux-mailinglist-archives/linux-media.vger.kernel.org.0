@@ -2,113 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21231143C51
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 12:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84A7F143C69
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2020 13:00:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729384AbgAULvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jan 2020 06:51:31 -0500
-Received: from outgoing6.flk.host-h.net ([188.40.0.77]:49631 "EHLO
-        outgoing6.flk.host-h.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726052AbgAULva (ORCPT
+        id S1728797AbgAUL77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jan 2020 06:59:59 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:39732 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbgAUL77 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jan 2020 06:51:30 -0500
-Received: from www31.flk1.host-h.net ([188.40.1.173])
-        by antispam2-flk1.host-h.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1its43-0002cm-Jb; Tue, 21 Jan 2020 13:51:25 +0200
-Received: from roundcubeweb1.flk1.host-h.net ([138.201.244.33] helo=webmail9.konsoleh.co.za)
-        by www31.flk1.host-h.net with esmtpa (Exim 4.89)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1its3v-0002hz-ED; Tue, 21 Jan 2020 13:51:15 +0200
+        Tue, 21 Jan 2020 06:59:59 -0500
+Received: by mail-ed1-f66.google.com with SMTP id t17so2694772eds.6;
+        Tue, 21 Jan 2020 03:59:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jSiX5zz2vTnaHZTIQllFhI97EGPFguXdFsKsb3rblZU=;
+        b=YQF+nryIbreDYQKsT+Vq6cVYKB1amnD6IVTr+9uTtsF+yqoC3cfr4Z9t6vm3CGzgg1
+         Rod6OvZ4ZO7hP1kac7Su+H8AmWibUMZ5SAJPijfaKgw9US5cVTDn7KWlyJxEJ5nEsosR
+         yKkDmcMrUUSvJC97OpqSQ8ZvWxTAJtgb/htEkobsRFkYu/lcqPWl5jHhfbFLYW8G103L
+         cu2owgWO9EynKOvZQmbtA4NkcUpC+THGqQiH9Un8VhxbiEpHqFALTYbSOhj7OjsMf11J
+         fxPkAO79PugLl4Xfzk3WCljXb1zt8YjZBfSmX32gMYYzusJjJPfXFO0UvUMfiyTahVzD
+         6XYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jSiX5zz2vTnaHZTIQllFhI97EGPFguXdFsKsb3rblZU=;
+        b=A8Y1NpSLoaegheqNS2UWxgyVWGs6MSAI4RlMsK/Bml9qFaAmBJnURXXbGQkrj/nKzX
+         REoyg6PB+bNdkhzUtL3dX8EiaqJTJ+ybBjAbQZpp65t2oU/thZghcpES4NDDmhhn2R/Y
+         XJLaA6WJfxQ/qxhvZ01ovuc9vy9JxgOrPYFyr/M7wpMlKaIIPxsSw2179Pvo3r3pQ3Nn
+         fMuxis+0i0B7Nt3Hnko9xseg8OTEc728zS21YccZPcc9t6AwPFPIIR4cUwavNtErjFSr
+         h6KVY4mabDPMrYILBr06DTSp5XGiUCeA0RhBETcP7KrP6VBxdMa3CI9yoQh1mF+xtamr
+         iwvQ==
+X-Gm-Message-State: APjAAAVPXz1gq6BpUP7RnomuCTmuHRoIUQ2H3Lhb5l/YR7+DwrNkZBWo
+        kmYIbGkJBF/pCo/IHnwCPTEibBW9rsDI2KdozAo=
+X-Google-Smtp-Source: APXvYqxcFMRXWdad6Y1h3Chdzl/WPDJb1l2gynDLkt+Yf+IZ7vOD0hP5KCX5RWVNMnIGdpPCR6KEIodoncuVQA3mijI=
+X-Received: by 2002:aa7:ce13:: with SMTP id d19mr3426381edv.296.1579607997278;
+ Tue, 21 Jan 2020 03:59:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 21 Jan 2020 13:51:14 +0200
-From:   Justin Swartz <justin.swartz@risingedge.co.za>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
+References: <20200113055951.8718-1-hslester96@gmail.com> <20200121092350.466f62a8@litschi.hi.pengutronix.de>
+In-Reply-To: <20200121092350.466f62a8@litschi.hi.pengutronix.de>
+From:   Chuhong Yuan <hslester96@gmail.com>
+Date:   Tue, 21 Jan 2020 19:59:46 +0800
+Message-ID: <CANhBUQ25dp5kt3EGijLUC1LEjQon5wS8MHJqEiBNcAXSLdvjQw@mail.gmail.com>
+Subject: Re: [PATCH v3] media: allegro: add missed checks in allegro_open()
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: rockchip/rga: add rk3228-rga to
- rockchip_rga_match[]
-Organization: Rising Edge Consulting (Pty) Ltd.
-In-Reply-To: <241033bf82fc7e955dd20c0084bfd4f6fc9fc75b.camel@collabora.com>
-References: <20200120194158.25357-1-justin.swartz@risingedge.co.za>
- <241033bf82fc7e955dd20c0084bfd4f6fc9fc75b.camel@collabora.com>
-Message-ID: <effbaba7b62edde87cd698c9f93fc63f@risingedge.co.za>
-X-Sender: justin.swartz@risingedge.co.za
-User-Agent: Roundcube Webmail/1.2.3
-X-Authenticated-Sender: justin.swartz@risingedge.co.za
-X-Virus-Scanned: Clear
-X-Originating-IP: 188.40.1.173
-X-SpamExperts-Domain: risingedge.co.za
-X-SpamExperts-Username: 
-Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@risingedge.co.za
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.02)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0Xm17NJf4el5vffImWwWrhCpSDasLI4SayDByyq9LIhVmXu3SDcz3sFo
- J0gu11cVyETNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K7uDjV/sFUXQr+CDrNQuIHgQg
- mAX8Bxy/iUu0ThNZg0h/RxVysY5Ye6+GGw0VqdJD7ren9RtRNyYim5e3GD8LGfWrcbYvelpuN/Pk
- qhBpvAyWwieZyauFYqHkIbFa+ipFflSrcyn7M3A1M8P7YyCISF7Ax1jp5415hfbnHhmkWKwQ798N
- tjgwOHRNrKlsLSLsR2phe2H+VQ5drqtLHIQXdB2sPQC/ZXf7OFUBPjBV0jlmSIpVkQ8AaVZZyclT
- jN5hBEBytmRO9E6AWc5pLuLpWQAKNOWaeaRaLa7FmrJWQzsgLgGrRTwS6j1hXmKLDYUs37FOZ6yX
- Sqr+ov8uUflH8QTJsjWw5+0eZIpQIcK9yrSpnIazZEQP7rhBhxNqNx7Ljd12v0hRQV2TuWFKPYIZ
- hSoXjZRXPZeF/ozRyNShALRVmsv8saqL9IWYZ/7McakodiFVwaP90eVaqnDphEW4xGx2bCpzxgBv
- RJlZffR315YiXq0P29rzRb3/fujGPSO0ZjPN6GBtX9ob7G66M73K7lEBopH59S/bhUmo0Kkx+QUC
- X/JlYVPK+a5jKpRW4VkG9koSZx4AE7ErDJQIhG9sWvIZWUifSNHSdOCLRQ7jpnXnmAJSLoHk+mB7
- rvqdepOw2titfOjo27VsmUXl5Dlu0Ez4hiPVrwbHSJw7Xp/7OsyH8g27Tr7mENICHJaR53upNsj0
- ZNx9ROADUXTdQZTyOamR3KMXZiZ/EdUuc9x8TOdIW6qv7Prfdfuh2V6P2IH+fu/1ze9XG6SFbqNq
- ARXGm2iH1Wgh6RAenBR+licROGZLSOPJ7pouDn/lmAaZNciLnfvtO1PVtIUXLeqBTDtSvZT+XhI4
- nesBJg1eKG706Wf90NysgdUUHBaOGnMZ3fVqqKS4K27k8O0AKLf9g2axxclWHXeuOCUCSaU4vgJw
- yjPlnmxH7Pd4xT6MyYGIdovMjseuwUIt8Ke1zYmTdImommOsTx6n1Q+SG7OG2yVRVB0+/K1/SK/q
- 4gW8qcSdMq7QhSk55ObUg7TpMbFmZ6g5Ky+1Stg9rJ7bhjXv2caQWgXrjuU3A3io6xJmD59iFVkb
- kXGPzFwfHhKt2wjdkKIWbyf+T8iepkOFBDDkCgKb9Tgwyo3k9+KsRmFMu5VQ9KBOovIJzflUDtG9
- b8caIarEvU/OX3xYChUDPsYuWEJtniNfuGO37qWHEu6DA1YYHSc7
-X-Report-Abuse-To: spam@antispammaster.host-h.net
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+On Tue, Jan 21, 2020 at 4:23 PM Michael Tretter
+<m.tretter@pengutronix.de> wrote:
+>
+> On Mon, 13 Jan 2020 13:59:51 +0800, Chuhong Yuan wrote:
+> > allegro_open() misses checks for v4l2_m2m_ctx_init() and results of
+> > v4l2_ctrl_new* calls.
+> > Add checks and error handlers to fix the problems.
+> >
+> > Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> > ---
+> > Changes in v3:
+> >   - Make code cleaner.
+> >   - Add a check for handler->error.
+> >
+> >  .../staging/media/allegro-dvt/allegro-core.c  | 24 +++++++++++++++----
+> >  1 file changed, 20 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
+> > index 6f0cd0784786..e86001e42963 100644
+> > --- a/drivers/staging/media/allegro-dvt/allegro-core.c
+> > +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
+> > @@ -2270,15 +2270,12 @@ static int allegro_open(struct file *file)
+> >       struct allegro_channel *channel = NULL;
+> >       struct v4l2_ctrl_handler *handler;
+> >       u64 mask;
+> > +     int ret;
+> >
+> >       channel = kzalloc(sizeof(*channel), GFP_KERNEL);
+> >       if (!channel)
+> >               return -ENOMEM;
+> >
+> > -     v4l2_fh_init(&channel->fh, vdev);
+> > -     file->private_data = &channel->fh;
+> > -     v4l2_fh_add(&channel->fh);
+> > -
+> >       init_completion(&channel->completion);
+> >
+> >       channel->dev = dev;
+> > @@ -2328,6 +2325,11 @@ static int allegro_open(struct file *file)
+> >                       V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
+> >                       1, 32,
+> >                       1, 1);
+> > +     if (handler->error != 0) {
+> > +             ret = handler->error;
+> > +             goto error;
+> > +     }
+> > +
+> >       channel->fh.ctrl_handler = handler;
+> >
+> >       channel->mcu_channel_id = -1;
+> > @@ -2341,7 +2343,21 @@ static int allegro_open(struct file *file)
+> >       channel->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, channel,
+> >                                               allegro_queue_init);
+> >
+> > +     if (IS_ERR(channel->fh.m2m_ctx)) {
+> > +             ret = PTR_ERR(channel->fh.m2m_ctx);
+> > +             goto error;
+> > +     }
+> > +
+> > +     v4l2_fh_init(&channel->fh, vdev);
+>
+> This call sets channel->fh.ctrl_handler to vdev->ctrl_handler, which
+> has previously been overriden by the driver to handler. Therefore, this
+> patch breaks all controls. I think we should initialize channel->fh
+> before setting any fields of this struct.
+>
 
-On 2020-01-21 12:45, Ezequiel Garcia wrote:
+I'm not very clear about this issue.
+In my second version, Hans replied that init could be moved before return 0.
+I have sent this mail to him.
 
-> On Mon, 2020-01-20 at 19:41 +0000, Justin Swartz wrote:
-> 
->> Add an entry to the rockchip_rga_match array for "rockchip,rk3228-rga"
->> 
->> Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
->> ---
->> drivers/media/platform/rockchip/rga/rga.c | 3 +++
->> 1 file changed, 3 insertions(+)
->> 
->> diff --git a/drivers/media/platform/rockchip/rga/rga.c 
->> b/drivers/media/platform/rockchip/rga/rga.c
->> index e9ff12b6b..268116cd5 100644
->> --- a/drivers/media/platform/rockchip/rga/rga.c
->> +++ b/drivers/media/platform/rockchip/rga/rga.c
->> @@ -956,6 +956,9 @@ static const struct dev_pm_ops rga_pm = {
->> 
->> static const struct of_device_id rockchip_rga_match[] = {
->> {
->> +        .compatible = "rockchip,rk3228-rga",
->> +    },
-> 
-> Unless you need to tune something in the driver
-> specifically for rk3228, then you don't need a
-> new compatible string.
-> 
-> As the name implies, it's just a "compatible",
-> so you may simply declare your rga dts node as
-> compatible to "rockchip,rk3288-rga".
-> 
-> (Of course, this means we shouldn't have added
-> the rk3399 compatible string.)
-
-Thank you for the clarification.
+> Michael
+>
+> > +     file->private_data = &channel->fh;
+> > +     v4l2_fh_add(&channel->fh);
+> > +
+> >       return 0;
+> > +
+> > +error:
+> > +     v4l2_ctrl_handler_free(handler);
+> > +     kfree(channel);
+> > +     return ret;
+> >  }
+> >
+> >  static int allegro_release(struct file *file)
