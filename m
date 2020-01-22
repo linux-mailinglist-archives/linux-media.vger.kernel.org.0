@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8807144964
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 02:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FAC61449B1
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 03:05:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728921AbgAVBjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Jan 2020 20:39:41 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:35972 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728816AbgAVBjl (ORCPT
+        id S1728809AbgAVCF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Jan 2020 21:05:58 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:54796 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726584AbgAVCF6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Jan 2020 20:39:41 -0500
-Received: by mail-pl1-f193.google.com with SMTP id a6so2184174plm.3
-        for <linux-media@vger.kernel.org>; Tue, 21 Jan 2020 17:39:41 -0800 (PST)
+        Tue, 21 Jan 2020 21:05:58 -0500
+Received: by mail-pj1-f65.google.com with SMTP id kx11so2316700pjb.4
+        for <linux-media@vger.kernel.org>; Tue, 21 Jan 2020 18:05:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=GR5h1tt2wJy5kG2UEKPuOm//LxmTSWIE80O9BC6vjqA=;
-        b=W333QISVONGD08j00/Y3QQwYv0ParIpCj6sdrKhnnuuTcSuDqKiL420+3RE+GuwwGs
-         hnjJKbHvMWu8cZ1a4c2TBFaiQ994byvcG5nIQSz4JYvaVaVEnAeEaMGIUxblvg7naCbm
-         aO+dVJLE9HoeG0xzjx6R0naDuqgvOiTEYRPbU=
+        bh=Vu0P+TqydFlkgIras7hArFCb2ZMbDqBdR1PlF/mHkkk=;
+        b=en+8NfQnj4d/v6++rQTMh+iPxXPOddhceEF9O29VgX2zAafqp+1/oeqPPQaTZe8NhR
+         yDkezigSS7KDcdzSjepQ5NwS7JK6oM1dB9thLNtTDgrPgv1y/rhjkSvE/6yljqsWPXeY
+         kb/Y0GUpyaj/Vm9Wrcf3pMuvLhkIKsbJ9uA/U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GR5h1tt2wJy5kG2UEKPuOm//LxmTSWIE80O9BC6vjqA=;
-        b=U3mRNu4YwKdnxXZC7k9n3+x3bK76TTors17TyZNxkw3sYMVq1JSA2HNTHEGGGOqaqr
-         l5nzK8dXGsqrCpgej7kBWNkWECW7S5PredWagzsGDkm44RGjuT1XMWgPMBfpsyloSysG
-         6Yj7Qo+aub3YyQcWB7BPNCrhWqy2ynHpkGgywjpIZH87gd6EEEGAdEpJzpR2Qo2/yvYy
-         VbdIS2/uV6UmIfu3+a5TZEbkkL+InX1K7fjX+akO9P3w/z6Gb3IhQYDM0CvposqIa8Zm
-         3Is3mrHALQjNvljm+yEUBrxI4nfd/Y4a0eQN6wZkHMwiMA8AancYtzoK9CZP9y3Bn7Id
-         c+hg==
-X-Gm-Message-State: APjAAAVpH8aUPnWXJ4yHqhjDxFmoitZ1GUO2JA+o53lbZanYk5bgdda4
-        WrVI4MnZDw4wFKDPTx37AeqMJA==
-X-Google-Smtp-Source: APXvYqz3f5+DfmqCYbZN/U5SqXNvv9ofxo48LEFi5s7hXjc+PcN/p7YpBg1Nbu6vnuOWYfKMlALv+g==
-X-Received: by 2002:a17:902:6b4b:: with SMTP id g11mr8223389plt.26.1579657180827;
-        Tue, 21 Jan 2020 17:39:40 -0800 (PST)
+        bh=Vu0P+TqydFlkgIras7hArFCb2ZMbDqBdR1PlF/mHkkk=;
+        b=fC1xn6+ony9SIvCtoIGWPc9aJZZP5WXQBAQk+PcnQvvvFugwJzc0ws1lJUuvrT7HK/
+         WUOrdV0CEjvSE1m88/Js7RITIaOK73p4K/FEdBIP26ie4mZbhDECGJ628K5k103dtE5G
+         3ut9Kwgwp+DRHGxo0N2i/mzE0UB/wop8+h/w2BKz+Jbuph9VVxwNycKoGYgUipV8aCo3
+         XeC4F1AA82SmUrxRgi1xovAFscT4JBtBNO3ZJTn5v1ZQaS/ZngpTvi+t8aJSg/UStAMO
+         Aqg5bV/6nY9a9ziXF5rOijg8b2gWtzyjTMoG6AHvZaq6ePWbraqMqwy5MbZ1ia7bLbgu
+         JvUw==
+X-Gm-Message-State: APjAAAXXBjnR2030ub6YmJNubFmYH1rGASxwAG8WaHScGdrcZX0YQ8xG
+        d6d7RlqVccjYeGnvdU6jNv8kRw==
+X-Google-Smtp-Source: APXvYqyDzAJuDLiodwgaecqWrmIJKuV7weT5y48qgIvs0u7QpPVK52mU8JY8LIYW2h6XesYynn0Thw==
+X-Received: by 2002:a17:90a:da03:: with SMTP id e3mr269720pjv.100.1579658757856;
+        Tue, 21 Jan 2020 18:05:57 -0800 (PST)
 Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id w4sm666460pjt.23.2020.01.21.17.39.39
+        by smtp.gmail.com with ESMTPSA id h11sm41882131pgv.38.2020.01.21.18.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2020 17:39:40 -0800 (PST)
-Date:   Wed, 22 Jan 2020 10:39:37 +0900
+        Tue, 21 Jan 2020 18:05:57 -0800 (PST)
+Date:   Wed, 22 Jan 2020 11:05:55 +0900
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
@@ -55,76 +55,117 @@ Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH 02/15] videobuf2: handle V4L2 buffer cache flags
-Message-ID: <20200122013937.GC149602@google.com>
+Subject: Re: [RFC][PATCH 04/15] videobuf2: add queue memory consistency
+ parameter
+Message-ID: <20200122020555.GD149602@google.com>
 References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-3-senozhatsky@chromium.org>
- <ada2381c-2c1c-17c3-c190-48439ae1657a@xs4all.nl>
+ <20191217032034.54897-5-senozhatsky@chromium.org>
+ <77ddd5cd-affc-ad0f-829d-d624f9798055@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ada2381c-2c1c-17c3-c190-48439ae1657a@xs4all.nl>
+In-Reply-To: <77ddd5cd-affc-ad0f-829d-d624f9798055@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-Sorry for the delayed.
-
-On (20/01/10 11:24), Hans Verkuil wrote:
+On (20/01/10 10:47), Hans Verkuil wrote:
 > On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
-> > Set video buffer cache management flags corresponding to V4L2 cache
-> > flags.
-> > 
-> > Both ->prepare() and ->finish() cache management hints should be
-> > passed during this stage (buffer preparation), because there is no
-> > other way for user-space to skip ->finish() cache flush.
-> > 
-> > There are two possible alternative approaches:
-> > - The first one is to move cache sync from ->finish() to dqbuf().
-> >   But this breaks some drivers, that need to fix-up buffers before
-> >   dequeueing them.
-> > 
-> > - The second one is to move ->finish() call from ->done() to dqbuf.
-> 
-> Please combine this patch with patch 13/15!
+> > Preparations for future V4L2_FLAG_MEMORY_NON_CONSISTENT support.
+> >
+> > Extend vb2_core_reqbufs() with queue memory consistency flag.
+> > API permits queue's consistency attribute adjustment only if
+> > the queue has no allocated buffers, not busy, and does not have
+> > buffers waiting to be de-queued.
+>
+> Actually, you can call vb2_core_reqbufs() when buffers are allocated:
+> it will free the old buffers, then allocate the new ones.
+> So drop the 'has no allocated buffers' bit.
 
-OK.
+Well, the wording, basically, follows the existing vb2_core_reqbufs()
+behavior "queue memory type"-wise. What I'm trying to say:
 
 [..]
-> >  }
-> >  
-> > +static void set_buffer_cache_hints(struct vb2_queue *q,
-> > +				   struct vb2_buffer *vb,
-> > +				   struct v4l2_buffer *b)
-> > +{
-> > +	vb->need_cache_sync_on_prepare = 1;
-> > +
-> > +	if (q->dma_dir != DMA_TO_DEVICE)
-> 
-> What should be done when dma_dir == DMA_BIDIRECTIONAL?
+int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+		bool consistent_mem, unsigned int *count)
+{
+	unsigned int num_buffers, allocated_buffers, num_planes = 0;
+	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+	unsigned int i;
+	int ret;
 
-Well, ->need_cache_sync_on_prepare/->need_cache_sync_on_finish are set,
-by default. If the queue supports user-space cache hints (driver has
-set ->allow_cache_hints), then user-space can override cache behavior.
-We probably cannot enforce any other behavior here. Am I missing
-something?
+	if (q->streaming) {
+		dprintk(1, "streaming active\n");
+		return -EBUSY;
+	}
 
-> > +		vb->need_cache_sync_on_finish = 1;
-> > +	else
-> > +		vb->need_cache_sync_on_finish = 0;
-> > +
-> > +	if (!q->allow_cache_hints)
-> > +		return;
-> > +
-> > +	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE)
-> > +		vb->need_cache_sync_on_finish = 0;
-> > +
-> > +	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN)
-> > +		vb->need_cache_sync_on_prepare = 0;
-> > +}
+	if (q->waiting_in_dqbuf && *count) {
+		dprintk(1, "another dup()ped fd is waiting for a buffer\n");
+		return -EBUSY;
+	}
+
+	if (*count == 0 || q->num_buffers != 0 ||
+	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory)) {
+		/*
+		 * We already have buffers allocated, so first check if they
+		 * are not in use and can be freed.
+		 */
+		mutex_lock(&q->mmap_lock);
+		if (debug && q->memory == VB2_MEMORY_MMAP &&
+		    __buffers_in_use(q))
+			dprintk(1, "memory in use, orphaning buffers\n");
+
+		/*
+		 * Call queue_cancel to clean up any buffers in the
+		 * QUEUED state which is possible if buffers were prepared or
+		 * queued without ever calling STREAMON.
+		 */
+		__vb2_queue_cancel(q);
+		ret = __vb2_queue_free(q, q->num_buffers);
+		mutex_unlock(&q->mmap_lock);
+		if (ret)
+			return ret;
+
+		/*
+		 * In case of REQBUFS(0) return immediately without calling
+		 * driver's queue_setup() callback and allocating resources.
+		 */
+		if (*count == 0)
+			return 0;
+	}
+
+	/*
+	 * Make sure the requested values and current defaults are sane.
+	 */
+	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
+	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
+	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
+	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+	q->memory = memory;
++	__set_queue_consistency(q, consistent_mem);
+
+[..]
+
+So we set/change queue consistency attribute when we set/change
+queue memory type. Is there a use case for more flexibility when
+it comes to queue consistency?
+
+> > If user-space attempts to allocate a buffer with consistency
+> > requirements which don't match queue's consistency model such
+> > allocation requests will be failed.
+>
+> Is this last paragraph right? I don't see any code for that.
+
+Yeah, this was more about the general direction. The actual code
+was added later in the series.
+
+> BTW, a general comment about patches 4-6: I prefer if you changes
+> this to two patches: one that adds videobuf2-core.c support for
+> this for reqbufs and create_bufs, then another that wires up the
+> new V4L2 flag in videobuf2-v4l2.c.
+
+I'll take a look.
 
 	-ss
