@@ -2,448 +2,515 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 347EF144DD2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 09:40:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44262144DF0
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 09:50:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726077AbgAVIke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jan 2020 03:40:34 -0500
-Received: from mail-qv1-f42.google.com ([209.85.219.42]:39406 "EHLO
-        mail-qv1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725868AbgAVIkd (ORCPT
+        id S1726135AbgAVIu3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 22 Jan 2020 03:50:29 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:50359 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725883AbgAVIu2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jan 2020 03:40:33 -0500
-Received: by mail-qv1-f42.google.com with SMTP id y8so2847139qvk.6;
-        Wed, 22 Jan 2020 00:40:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RUKVI0uRmcOl2MuQwBxJcAnK4Woo8zwrilq0i+PgBow=;
-        b=AA68JfEiWzBSj34eOj2uDA7aDitPhm5dotLIIKUGAkKhYr2jlPtaa3X9CERZLfPSbZ
-         fgRpWnrp1IKlndQybUXCYGLwnfdFBZSNAHYH5wUape3MCGBeM+THh0sJABFAPHjtK9jo
-         AEHlCisV8fFWJLKSnXDWeOuPnLa0hZftx8wrPJP7NffmWIhJ2E5f+/oWMD0a0yGUDD0P
-         MylVtgUxSsE5AyQx2lsrJS3Bh5ZPSc+28zbmsg6B06T5VDDgu1EsS+iC1qdYdMBaw4cJ
-         8/0SLN32SDQllt4hYxN4r30iq5J7HQXJc9FAw8bBmFyzPDT3z1yCsqA2qDXcnzTCGeA7
-         EEQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RUKVI0uRmcOl2MuQwBxJcAnK4Woo8zwrilq0i+PgBow=;
-        b=tjodeCKuzLeXu9tXPfddtFDWK5OyAixXg89+zcxBtEBRUoaj8avM1A5iEIi+YsQ1OR
-         eV5gZBXEZJzSqkpFdj0e5f9R7QO8NpXT5Qa1p7HcdOdRw5Am1UrkaffeBEcO0yKmJibw
-         LlVG+k10WKMiSXWUreG+hD8PNDqtnzuoBeNcdP+ODWX15EuKGHphX5qn9oOu9WtqGhGn
-         nQqYsD2tygYg6zjRQ5sTkf2o8RBE7r+DZN77sJXpR5cdxVtJRvzGtkPgVqJKgajvfDca
-         /o/e/0gOggoisL1bPEm6iWtJpS8R3pvh58nVHW6hKkW2ujMT+ca7Srzw+uHx5eHt0JIe
-         3KaA==
-X-Gm-Message-State: APjAAAUt9NHpUKjpSQwrCZE2maC8z8g6c+jQP37HuoccT6ayQiukTMXx
-        YwvXKG83d2JJkIOZCEre5EY=
-X-Google-Smtp-Source: APXvYqyF9cSDp0lIJ20Pa14wFPwu0JRhy9TPA8O+cdADvdqcjeLSdToeZGTPKtQw5n51c1+7+H/cDQ==
-X-Received: by 2002:ad4:47ad:: with SMTP id a13mr9301245qvz.29.1579682432078;
-        Wed, 22 Jan 2020 00:40:32 -0800 (PST)
-Received: from localhost.localdomain ([2804:14c:481:148e::5])
-        by smtp.gmail.com with ESMTPSA id i16sm18472650qkh.120.2020.01.22.00.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 00:40:31 -0800 (PST)
-From:   "Carlos E. C. Barbosa" <climacobarbosacee@gmail.com>
-X-Google-Original-From: "Carlos E. C. Barbosa" <carlosecb@tutanota.com>
-To:     Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org
-Subject: [PATCH v2] media: vimc: get pixformat info from v4l2_format_info
-Date:   Wed, 22 Jan 2020 05:40:25 -0300
-Message-Id: <20200122084025.628462-1-carlosecb@tutanota.com>
-X-Mailer: git-send-email 2.25.0
+        Wed, 22 Jan 2020 03:50:28 -0500
+X-Originating-IP: 90.76.211.102
+Received: from xps13 (lfbn-tou-1-1151-102.w90-76.abo.wanadoo.fr [90.76.211.102])
+        (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 9027E6000E;
+        Wed, 22 Jan 2020 08:50:21 +0000 (UTC)
+Date:   Wed, 22 Jan 2020 09:50:20 +0100
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Kamal Dasu <kdasu.kdev@gmail.com>
+Cc:     linux-mtd@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-kernel@vger.kernel.org,
+        Brian Norris <computersforpeace@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH V2 3/3] mtd: rawnand: brcmnand: Add support for
+ flash-edu for dma transfers
+Message-ID: <20200122095020.4b916f34@xps13>
+In-Reply-To: <20200121200011.32296-3-kdasu.kdev@gmail.com>
+References: <20200121200011.32296-1-kdasu.kdev@gmail.com>
+        <20200121200011.32296-3-kdasu.kdev@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Carlos E.C. Barbosa" <carlosecb@tutanota.com>
+Hi Kamal,
 
-There is overlapping code over two distinct lists. This repurposes one
-of vimc_pix_map for strictly mapping formats and remaps other calls to
-the matching v4l2_format_info.
+I'm fine with the patch, nitpicking below :)
 
-Signed-off-by: Carlos E. C. Barbosa <carlosecb@tutanota.com>
----
-Changes in v2:
-As advised by Helen Koike and Hans Verkuil, the const qualifiers are not
-removed, the bayer flag is kept and the unnecessary changes are not
-made.
+Kamal Dasu <kdasu.kdev@gmail.com> wrote on Tue, 21 Jan 2020 15:00:08
+-0500:
 
-v4l2-compliance message:
-https://pastebin.com/1XF45aCA
+> Legacy mips soc platforms that have controller v5.0 and 6.0 use
+> flash-edu block for dma transfers. This change adds support for
+> nand dma transfers using the EDU block.
+> 
+> Signed-off-by: Kamal Dasu <kdasu.kdev@gmail.com>
+> ---
+>  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 296 ++++++++++++++++++++++-
+>  1 file changed, 290 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> index 1a66b1cd51c0..61347607f1da 100644
+> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> @@ -102,6 +102,45 @@ struct brcm_nand_dma_desc {
+>  #define NAND_CTRL_RDY			(INTFC_CTLR_READY | INTFC_FLASH_READY)
+>  #define NAND_POLL_STATUS_TIMEOUT_MS	100
+>  
+> +#define EDU_CMD_WRITE          0x00
+> +#define EDU_CMD_READ           0x01
+> +#define EDU_STATUS_ACTIVE      BIT(0)
+> +#define EDU_ERR_STATUS_ERRACK  BIT(0)
+> +#define EDU_DONE_MASK		GENMASK(1, 0)
+> +
+> +#define EDU_CONFIG_MODE_NAND   BIT(0)
+> +#define EDU_CONFIG_SWAP_BYTE   BIT(1)
+> +#ifdef CONFIG_CPU_BIG_ENDIAN
+> +#define EDU_CONFIG_SWAP_CFG     EDU_CONFIG_SWAP_BYTE
+> +#else
+> +#define EDU_CONFIG_SWAP_CFG     0
+> +#endif
+> +
+> +/* edu registers */
+> +enum edu_reg {
+> +	EDU_CONFIG = 0,
+> +	EDU_DRAM_ADDR,
+> +	EDU_EXT_ADDR,
+> +	EDU_LENGTH,
+> +	EDU_CMD,
+> +	EDU_STOP,
+> +	EDU_STATUS,
+> +	EDU_DONE,
+> +	EDU_ERR_STATUS,
+> +};
+> +
+> +static const u16  edu_regs[] = {
+> +	[EDU_CONFIG] = 0x00,
+> +	[EDU_DRAM_ADDR] = 0x04,
+> +	[EDU_EXT_ADDR] = 0x08,
+> +	[EDU_LENGTH] = 0x0c,
+> +	[EDU_CMD] = 0x10,
+> +	[EDU_STOP] = 0x14,
+> +	[EDU_STATUS] = 0x18,
+> +	[EDU_DONE] = 0x1c,
+> +	[EDU_ERR_STATUS] = 0x20,
+> +};
 
----
- drivers/media/platform/vimc/vimc-capture.c | 19 ++++++++++++------
- drivers/media/platform/vimc/vimc-common.c  | 23 ----------------------
- drivers/media/platform/vimc/vimc-common.h  |  2 --
- drivers/media/platform/vimc/vimc-debayer.c |  7 +++++--
- drivers/media/platform/vimc/vimc-scaler.c  | 12 +++++++++--
- drivers/media/platform/vimc/vimc-sensor.c  | 12 ++++++++---
- 6 files changed, 37 insertions(+), 38 deletions(-)
+Why not defining the offsets in the enum directly?
 
-diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-index 76c015898cfd..30659e934cfb 100644
---- a/drivers/media/platform/vimc/vimc-capture.c
-+++ b/drivers/media/platform/vimc/vimc-capture.c
-@@ -86,6 +86,7 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
- {
- 	struct v4l2_pix_format *format = &f->fmt.pix;
- 	const struct vimc_pix_map *vpix;
-+	const struct v4l2_format_info *vinfo;
- 
- 	format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
- 				VIMC_FRAME_MAX_WIDTH) & ~1;
-@@ -94,12 +95,13 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
- 
- 	/* Don't accept a pixelformat that is not on the table */
- 	vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
--	if (!vpix) {
-+	if (!vpix)
- 		format->pixelformat = fmt_default.pixelformat;
--		vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
--	}
-+
-+	vinfo = v4l2_format_info(format->pixelformat);
-+
- 	/* TODO: Add support for custom bytesperline values */
--	format->bytesperline = format->width * vpix->bpp;
-+	format->bytesperline = format->width * vinfo->bpp[0];
- 	format->sizeimage = format->bytesperline * format->height;
- 
- 	if (format->field == V4L2_FIELD_ANY)
-@@ -166,6 +168,7 @@ static int vimc_cap_enum_framesizes(struct file *file, void *fh,
- 
- 	/* Only accept code in the pix map table */
- 	vpix = vimc_pix_map_by_code(fsize->pixel_format);
-+
- 	if (!vpix)
- 		return -EINVAL;
- 
-@@ -386,10 +389,11 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 				     const char *vcfg_name)
- {
- 	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
--	const struct vimc_pix_map *vpix;
- 	struct vimc_cap_device *vcap;
- 	struct video_device *vdev;
- 	struct vb2_queue *q;
-+	const struct vimc_pix_map *vpix;
-+	const struct v4l2_format_info *vinfo;
- 	int ret;
- 
- 	/* Allocate the vimc_cap_device struct */
-@@ -434,8 +438,11 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 
- 	/* Set default frame format */
- 	vcap->format = fmt_default;
-+
- 	vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
--	vcap->format.bytesperline = vcap->format.width * vpix->bpp;
-+	vinfo = v4l2_format_info(vpix->pixelformat);
-+
-+	vcap->format.bytesperline = vcap->format.width * vinfo->bpp[0];
- 	vcap->format.sizeimage = vcap->format.bytesperline *
- 				 vcap->format.height;
- 
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-index 16ce9f3b7c75..8327ada1b461 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -21,19 +21,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
- 	{
- 		.code = MEDIA_BUS_FMT_BGR888_1X24,
- 		.pixelformat = V4L2_PIX_FMT_BGR24,
--		.bpp = 3,
- 		.bayer = false,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_RGB888_1X24,
- 		.pixelformat = V4L2_PIX_FMT_RGB24,
--		.bpp = 3,
- 		.bayer = false,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_ARGB8888_1X32,
- 		.pixelformat = V4L2_PIX_FMT_ARGB32,
--		.bpp = 4,
- 		.bayer = false,
- 	},
- 
-@@ -41,49 +38,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
- 	{
- 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SBGGR8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SGBRG8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SGRBG8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SRGGB8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
- 		.pixelformat = V4L2_PIX_FMT_SBGGR10,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
- 		.pixelformat = V4L2_PIX_FMT_SGBRG10,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
- 		.pixelformat = V4L2_PIX_FMT_SGRBG10,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
- 		.pixelformat = V4L2_PIX_FMT_SRGGB10,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 
-@@ -91,25 +80,21 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
- 	{
- 		.code = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SBGGR10ALAW8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SGBRG10ALAW8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SGRBG10ALAW8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SRGGB10ALAW8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 
-@@ -117,49 +102,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
- 	{
- 		.code = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SBGGR10DPCM8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SGBRG10DPCM8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SGRBG10DPCM8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
- 		.pixelformat = V4L2_PIX_FMT_SRGGB10DPCM8,
--		.bpp = 1,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
- 		.pixelformat = V4L2_PIX_FMT_SBGGR12,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
- 		.pixelformat = V4L2_PIX_FMT_SGBRG12,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
- 		.pixelformat = V4L2_PIX_FMT_SGRBG12,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- 	{
- 		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
- 		.pixelformat = V4L2_PIX_FMT_SRGGB12,
--		.bpp = 2,
- 		.bayer = true,
- 	},
- };
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-index 87eb8259c2a8..dd1c45334705 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -62,7 +62,6 @@ do {									\
-  * struct vimc_pix_map - maps media bus code with v4l2 pixel format
-  *
-  * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
-- * @bbp:		number of bytes each pixel occupies
-  * @pixelformat:	pixel format devined by V4L2_PIX_FMT_* macros
-  *
-  * Struct which matches the MEDIA_BUS_FMT_* codes with the corresponding
-@@ -70,7 +69,6 @@ do {									\
-  */
- struct vimc_pix_map {
- 	unsigned int code;
--	unsigned int bpp;
- 	u32 pixelformat;
- 	bool bayer;
- };
-diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-index 5d1b67d684bb..0df44b8bb7d0 100644
---- a/drivers/media/platform/vimc/vimc-debayer.c
-+++ b/drivers/media/platform/vimc/vimc-debayer.c
-@@ -304,6 +304,7 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 	if (enable) {
- 		const struct vimc_pix_map *vpix;
-+		const struct v4l2_format_info *vinfo;
- 		unsigned int frame_size;
- 
- 		if (vdeb->src_frame)
-@@ -311,12 +312,14 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 		/* Calculate the frame size of the source pad */
- 		vpix = vimc_pix_map_by_code(vdeb->src_code);
-+		vinfo = v4l2_format_info(vpix->pixelformat);
- 		frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
--				vpix->bpp;
-+				vinfo->bpp[0];
- 
- 		/* Save the bytes per pixel of the sink */
- 		vpix = vimc_pix_map_by_code(vdeb->sink_fmt.code);
--		vdeb->sink_bpp = vpix->bpp;
-+		vinfo = v4l2_format_info(vpix->pixelformat);
-+		vdeb->sink_bpp = vinfo->bpp[0];
- 
- 		/* Get the corresponding pixel map from the table */
- 		vdeb->sink_pix_map =
-diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-index e2e551bc3ded..9fcca5b1f0b7 100644
---- a/drivers/media/platform/vimc/vimc-scaler.c
-+++ b/drivers/media/platform/vimc/vimc-scaler.c
-@@ -126,6 +126,7 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
- 				    struct v4l2_subdev_frame_size_enum *fse)
- {
- 	const struct vimc_pix_map *vpix;
-+	const struct v4l2_format_info *vinfo;
- 
- 	if (fse->index)
- 		return -EINVAL;
-@@ -134,6 +135,7 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
- 	vpix = vimc_pix_map_by_code(fse->code);
- 	if (!vpix || vpix->bayer)
- 		return -EINVAL;
-+	vinfo = v4l2_format_info(vpix->pixelformat);
- 
- 	fse->min_width = VIMC_FRAME_MIN_WIDTH;
- 	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
-@@ -177,11 +179,15 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
- static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
- {
- 	const struct vimc_pix_map *vpix;
-+	const struct v4l2_format_info *vinfo;
- 
- 	/* Only accept code in the pix map table in non bayer format */
- 	vpix = vimc_pix_map_by_code(fmt->code);
--	if (!vpix || vpix->bayer)
-+	if (!vpix || vpix->bayer) {
- 		fmt->code = sink_fmt_default.code;
-+		vpix = vimc_pix_map_by_code(fmt->code);
-+	}
-+	vinfo = v4l2_format_info(vpix->pixelformat);
- 
- 	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
- 			     VIMC_FRAME_MAX_WIDTH) & ~1;
-@@ -332,6 +338,7 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 	if (enable) {
- 		const struct vimc_pix_map *vpix;
-+		const struct v4l2_format_info *vinfo;
- 		unsigned int frame_size;
- 
- 		if (vsca->src_frame)
-@@ -339,7 +346,8 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 		/* Save the bytes per pixel of the sink */
- 		vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
--		vsca->bpp = vpix->bpp;
-+		vinfo = v4l2_format_info(vpix->pixelformat);
-+		vsca->bpp = vinfo->bpp[0];
- 
- 		/* Calculate the width in bytes of the src frame */
- 		vsca->src_line_size = vsca->crop_rect.width *
-diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-index 32380f504591..849658d0bade 100644
---- a/drivers/media/platform/vimc/vimc-sensor.c
-+++ b/drivers/media/platform/vimc/vimc-sensor.c
-@@ -100,12 +100,16 @@ static int vimc_sen_get_fmt(struct v4l2_subdev *sd,
- 
- static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
- {
--	const struct vimc_pix_map *vpix =
-+	const struct vimc_pix_map *vpix	=
- 				vimc_pix_map_by_code(vsen->mbus_format.code);
-+	const struct v4l2_format_info *vinfo =
-+				v4l2_format_info(vpix->pixelformat);
-+
- 
- 	tpg_reset_source(&vsen->tpg, vsen->mbus_format.width,
- 			 vsen->mbus_format.height, vsen->mbus_format.field);
--	tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width * vpix->bpp);
-+	tpg_s_bytesperline(&vsen->tpg, 0,
-+			   vsen->mbus_format.width * vinfo->bpp[0]);
- 	tpg_s_buf_height(&vsen->tpg, vsen->mbus_format.height);
- 	tpg_s_fourcc(&vsen->tpg, vpix->pixelformat);
- 	/* TODO: add support for V4L2_FIELD_ALTERNATE */
-@@ -199,11 +203,13 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 	if (enable) {
- 		const struct vimc_pix_map *vpix;
-+		const struct v4l2_format_info *vinfo;
- 		unsigned int frame_size;
- 
- 		/* Calculate the frame size */
- 		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
--		frame_size = vsen->mbus_format.width * vpix->bpp *
-+		vinfo = v4l2_format_info(vpix->pixelformat);
-+		frame_size = vsen->mbus_format.width * vinfo->bpp[0] *
- 			     vsen->mbus_format.height;
- 
- 		/*
--- 
-2.25.0
+> +
+>  /* flash_dma registers */
+>  enum flash_dma_reg {
+>  	FLASH_DMA_REVISION = 0,
+> @@ -167,6 +206,8 @@ enum {
+>  	BRCMNAND_HAS_WP				= BIT(3),
+>  };
+>  
+> +struct brcmnand_host;
+> +
+>  struct brcmnand_controller {
+>  	struct device		*dev;
+>  	struct nand_controller	controller;
+> @@ -185,17 +226,32 @@ struct brcmnand_controller {
+>  
+>  	int			cmd_pending;
+>  	bool			dma_pending;
+> +	bool                    edu_pending;
+>  	struct completion	done;
+>  	struct completion	dma_done;
+> +	struct completion       edu_done;
+>  
+>  	/* List of NAND hosts (one for each chip-select) */
+>  	struct list_head host_list;
+>  
+> +	/* EDU info, per-transaction */
+> +	const u16               *edu_offsets;
+> +	void __iomem            *edu_base;
+> +	unsigned int            edu_irq;
+> +	int                     edu_count;
+> +	u64                     edu_dram_addr;
+> +	u32                     edu_ext_addr;
+> +	u32                     edu_cmd;
+> +	u32                     edu_config;
+> +
+>  	/* flash_dma reg */
+>  	const u16		*flash_dma_offsets;
+>  	struct brcm_nand_dma_desc *dma_desc;
+>  	dma_addr_t		dma_pa;
+>  
+> +	int (*dma_trans)(struct brcmnand_host *host, u64 addr, u32 *buf,
+> +			 u32 len, u8 dma_cmd);
+> +
+>  	/* in-memory cache of the FLASH_CACHE, used only for some commands */
+>  	u8			flash_cache[FC_BYTES];
+>  
+> @@ -216,6 +272,7 @@ struct brcmnand_controller {
+>  	u32			nand_cs_nand_xor;
+>  	u32			corr_stat_threshold;
+>  	u32			flash_dma_mode;
+> +	u32                     flash_edu_mode;
+>  	bool			pio_poll_mode;
+>  };
+>  
+> @@ -657,6 +714,22 @@ static inline void brcmnand_write_fc(struct brcmnand_controller *ctrl,
+>  	__raw_writel(val, ctrl->nand_fc + word * 4);
+>  }
+>  
+> +static inline void edu_writel(struct brcmnand_controller *ctrl,
+> +			      enum edu_reg reg, u32 val)
+> +{
+> +	u16 offs = ctrl->edu_offsets[reg];
+> +
+> +	brcmnand_writel(val, ctrl->edu_base + offs);
+> +}
+> +
+> +static inline u32 edu_readl(struct brcmnand_controller *ctrl,
+> +			    enum edu_reg reg)
+> +{
+> +	u16 offs = ctrl->edu_offsets[reg];
+> +
+> +	return brcmnand_readl(ctrl->edu_base + offs);
+> +}
+> +
+>  static void brcmnand_clear_ecc_addr(struct brcmnand_controller *ctrl)
+>  {
+>  
+> @@ -926,6 +999,16 @@ static inline bool has_flash_dma(struct brcmnand_controller *ctrl)
+>  	return ctrl->flash_dma_base;
+>  }
+>  
+> +static inline bool has_edu(struct brcmnand_controller *ctrl)
+> +{
+> +	return ctrl->edu_base;
+> +}
+> +
+> +static inline bool use_dma(struct brcmnand_controller *ctrl)
+> +{
+> +	return has_flash_dma(ctrl) || has_edu(ctrl);
+> +}
+> +
+>  static inline void disable_ctrl_irqs(struct brcmnand_controller *ctrl)
+>  {
+>  	if (ctrl->pio_poll_mode)
+> @@ -1299,6 +1382,52 @@ static int write_oob_to_regs(struct brcmnand_controller *ctrl, int i,
+>  	return tbytes;
+>  }
+>  
+> +static void brcmnand_edu_init(struct brcmnand_controller *ctrl)
+> +{
+> +	/* initialize edu */
+> +	edu_writel(ctrl, EDU_ERR_STATUS, 0);
+> +	edu_readl(ctrl, EDU_ERR_STATUS);
+> +	edu_writel(ctrl, EDU_DONE, 0);
+> +	edu_writel(ctrl, EDU_DONE, 0);
+> +	edu_writel(ctrl, EDU_DONE, 0);
+> +	edu_writel(ctrl, EDU_DONE, 0);
+> +	edu_readl(ctrl, EDU_DONE);
+> +}
+> +
+> +/* edu irq */
+> +static irqreturn_t brcmnand_edu_irq(int irq, void *data)
+> +{
+> +	struct brcmnand_controller *ctrl = data;
+> +
+> +	if (ctrl->edu_count) {
+> +		ctrl->edu_count--;
+> +		while (!(edu_readl(ctrl, EDU_DONE) & EDU_DONE_MASK))
+> +			udelay(1);
+> +		edu_writel(ctrl, EDU_DONE, 0);
+> +		edu_readl(ctrl, EDU_DONE);
+> +	}
+> +
+> +	if (ctrl->edu_count) {
+> +		ctrl->edu_dram_addr += FC_BYTES;
+> +		ctrl->edu_ext_addr += FC_BYTES;
+> +
+> +		edu_writel(ctrl, EDU_DRAM_ADDR, (u32)ctrl->edu_dram_addr);
+> +		edu_readl(ctrl, EDU_DRAM_ADDR);
+> +		edu_writel(ctrl, EDU_EXT_ADDR, ctrl->edu_ext_addr);
+> +		edu_readl(ctrl, EDU_EXT_ADDR);
+> +
+> +		mb(); /* flush previous writes */
+> +		edu_writel(ctrl, EDU_CMD, ctrl->edu_cmd);
+> +		edu_readl(ctrl, EDU_CMD);
+> +
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	complete(&ctrl->edu_done);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static irqreturn_t brcmnand_ctlrdy_irq(int irq, void *data)
+>  {
+>  	struct brcmnand_controller *ctrl = data;
+> @@ -1307,6 +1436,16 @@ static irqreturn_t brcmnand_ctlrdy_irq(int irq, void *data)
+>  	if (ctrl->dma_pending)
+>  		return IRQ_HANDLED;
+>  
+> +	/* check if you need to piggy back on the ctrlrdy irq */
+> +	if (ctrl->edu_pending) {
+> +		if (irq == ctrl->irq && ((int)ctrl->edu_irq >= 0))
+> +	/* Discard interrupts while using dedicated edu irq */
+> +			return IRQ_HANDLED;
+> +
+> +	/* no registered edu irq, call handler */
+> +		return brcmnand_edu_irq(irq, data);
+> +	}
+> +
+>  	complete(&ctrl->done);
+>  	return IRQ_HANDLED;
+>  }
+> @@ -1644,6 +1783,83 @@ static void brcmnand_write_buf(struct nand_chip *chip, const uint8_t *buf,
+>  	}
+>  }
+>  
+> +/**
+> + *  Kick EDU engine
+> + */
+> +static int brcmnand_edu_trans(struct brcmnand_host *host, u64 addr, u32 *buf,
+> +			      u32 len, u8 cmd)
+> +{
+> +	struct brcmnand_controller *ctrl = host->ctrl;
+> +	unsigned long timeo = msecs_to_jiffies(200);
+> +	int ret = 0;
+> +	int dir = (cmd == CMD_PAGE_READ ? DMA_FROM_DEVICE : DMA_TO_DEVICE);
+> +	u8 edu_cmd = (cmd == CMD_PAGE_READ ? EDU_CMD_READ : EDU_CMD_WRITE);
+> +	unsigned int trans = len >> FC_SHIFT;
+> +	dma_addr_t pa;
+> +
+> +	pa = dma_map_single(ctrl->dev, buf, len, dir);
+> +	if (dma_mapping_error(ctrl->dev, pa)) {
+> +		dev_err(ctrl->dev, "unable to map buffer for EDU DMA\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ctrl->edu_pending = true;
+> +	mb(); /* flush previous writes */
 
+I'd prefer to have the barriers right after the IO access. I don't
+think it changes anything but that would ease understand what writes
+are you concerned about. Also, maybe you can use non _relaxed accessors
+as you usually writel/readl in raw, I don't think you actually need a
+barrier in this case.
+
+> +
+> +	ctrl->edu_dram_addr = pa;
+> +	ctrl->edu_ext_addr = addr;
+> +	ctrl->edu_cmd = edu_cmd;
+> +	ctrl->edu_count = trans;
+> +
+> +	edu_writel(ctrl, EDU_DRAM_ADDR, (u32)ctrl->edu_dram_addr);
+> +	edu_readl(ctrl,  EDU_DRAM_ADDR);
+> +	edu_writel(ctrl, EDU_EXT_ADDR, ctrl->edu_ext_addr);
+> +	edu_readl(ctrl, EDU_EXT_ADDR);
+> +	edu_writel(ctrl, EDU_LENGTH, FC_BYTES);
+> +	edu_readl(ctrl, EDU_LENGTH);
+> +
+> +	/* Start edu engine */
+> +	mb(); /* flush previous writes */
+> +	edu_writel(ctrl, EDU_CMD, ctrl->edu_cmd);
+> +	edu_readl(ctrl, EDU_CMD);
+> +
+> +	if (wait_for_completion_timeout(&ctrl->edu_done, timeo) <= 0) {
+> +		dev_err(ctrl->dev,
+> +			"timeout waiting for EDU; status %#x, error status %#x\n",
+> +			edu_readl(ctrl, EDU_STATUS),
+> +			edu_readl(ctrl, EDU_ERR_STATUS));
+> +	}
+> +
+> +	dma_unmap_single(ctrl->dev, pa, len, dir);
+> +
+> +	/* for program page check NAND status */
+> +	if (((brcmnand_read_reg(ctrl, BRCMNAND_INTFC_STATUS) &
+> +	      INTFC_FLASH_STATUS) & NAND_STATUS_FAIL) &&
+> +	    edu_cmd == EDU_CMD_WRITE) {
+> +		dev_info(ctrl->dev, "program failed at %llx\n",
+> +			 (unsigned long long)addr);
+> +		ret = -EIO;
+> +	}
+> +
+> +	/* Make sure the EDU status is clean */
+> +	if (edu_readl(ctrl, EDU_STATUS) & EDU_STATUS_ACTIVE)
+> +		dev_warn(ctrl->dev, "EDU still active: %#x\n",
+> +			 edu_readl(ctrl, EDU_STATUS));
+> +
+> +	if (unlikely(edu_readl(ctrl, EDU_ERR_STATUS) & EDU_ERR_STATUS_ERRACK)) {
+> +		dev_warn(ctrl->dev, "EDU RBUS error at addr %llx\n",
+> +			 (unsigned long long)addr);
+> +		ret = -EIO;
+> +	}
+> +
+> +	ctrl->edu_pending = false;
+> +	brcmnand_edu_init(ctrl);
+> +	edu_writel(ctrl, EDU_STOP, 0); /* force stop */
+> +	edu_readl(ctrl, EDU_STOP);
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * Construct a FLASH_DMA descriptor as part of a linked list. You must know the
+>   * following ahead of time:
+> @@ -1850,9 +2066,11 @@ static int brcmnand_read(struct mtd_info *mtd, struct nand_chip *chip,
+>  try_dmaread:
+>  	brcmnand_clear_ecc_addr(ctrl);
+>  
+> -	if (has_flash_dma(ctrl) && !oob && flash_dma_buf_ok(buf)) {
+> -		err = brcmnand_dma_trans(host, addr, buf, trans * FC_BYTES,
+> -					     CMD_PAGE_READ);
+> +	if (ctrl->dma_trans && !oob && flash_dma_buf_ok(buf)) {
+> +		err = ctrl->dma_trans(host, addr, buf,
+> +				      trans * FC_BYTES,
+> +				      CMD_PAGE_READ);
+> +
+>  		if (err) {
+>  			if (mtd_is_bitflip_or_eccerr(err))
+>  				err_addr = addr;
+> @@ -1988,10 +2206,12 @@ static int brcmnand_write(struct mtd_info *mtd, struct nand_chip *chip,
+>  	for (i = 0; i < ctrl->max_oob; i += 4)
+>  		oob_reg_write(ctrl, i, 0xffffffff);
+>  
+> -	if (has_flash_dma(ctrl) && !oob && flash_dma_buf_ok(buf)) {
+> -		if (brcmnand_dma_trans(host, addr, (u32 *)buf,
+> -					mtd->writesize, CMD_PROGRAM_PAGE))
+> +	if (use_dma(ctrl) && !oob && flash_dma_buf_ok(buf)) {
+> +		if (ctrl->dma_trans(host, addr, (u32 *)buf, mtd->writesize,
+> +				    CMD_PROGRAM_PAGE))
+> +
+>  			ret = -EIO;
+> +
+>  		goto out;
+>  	}
+>  
+> @@ -2494,6 +2714,8 @@ static int brcmnand_suspend(struct device *dev)
+>  
+>  	if (has_flash_dma(ctrl))
+>  		ctrl->flash_dma_mode = flash_dma_readl(ctrl, FLASH_DMA_MODE);
+> +	else if (has_edu(ctrl))
+> +		ctrl->edu_config = edu_readl(ctrl, EDU_CONFIG);
+>  
+>  	return 0;
+>  }
+> @@ -2508,6 +2730,14 @@ static int brcmnand_resume(struct device *dev)
+>  		flash_dma_writel(ctrl, FLASH_DMA_ERROR_STATUS, 0);
+>  	}
+>  
+> +	if (has_edu(ctrl))
+> +		ctrl->edu_config = edu_readl(ctrl, EDU_CONFIG);
+> +	else {
+> +		edu_writel(ctrl, EDU_CONFIG, ctrl->edu_config);
+> +		edu_readl(ctrl, EDU_CONFIG);
+> +		brcmnand_edu_init(ctrl);
+> +	}
+> +
+>  	brcmnand_write_reg(ctrl, BRCMNAND_CS_SELECT, ctrl->nand_cs_nand_select);
+>  	brcmnand_write_reg(ctrl, BRCMNAND_CS_XOR, ctrl->nand_cs_nand_xor);
+>  	brcmnand_write_reg(ctrl, BRCMNAND_CORR_THRESHOLD,
+> @@ -2553,6 +2783,52 @@ MODULE_DEVICE_TABLE(of, brcmnand_of_match);
+>  /***********************************************************************
+>   * Platform driver setup (per controller)
+>   ***********************************************************************/
+> +static int brcmnand_edu_setup(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct brcmnand_controller *ctrl = dev_get_drvdata(&pdev->dev);
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "flash-edu");
+> +	if (res) {
+> +		ctrl->edu_base = devm_ioremap_resource(dev, res);
+> +		if (IS_ERR(ctrl->edu_base))
+> +			return PTR_ERR(ctrl->edu_base);
+> +
+> +		ctrl->edu_offsets = edu_regs;
+> +
+> +		edu_writel(ctrl, EDU_CONFIG, EDU_CONFIG_MODE_NAND |
+> +			   EDU_CONFIG_SWAP_CFG);
+> +		edu_readl(ctrl, EDU_CONFIG);
+> +
+> +		/* initialize edu */
+> +		brcmnand_edu_init(ctrl);
+> +
+> +		ctrl->edu_irq = platform_get_irq_optional(pdev, 1);
+> +		if ((int)ctrl->edu_irq < 0) {
+
+Why not declaring it as an int directly? I think it's preferred.
+
+> +			dev_warn(dev,
+> +				 "FLASH EDU enabled, using ctlrdy irq\n");
+> +		} else {
+> +			ret = devm_request_irq(dev, ctrl->edu_irq,
+> +					       brcmnand_edu_irq, 0,
+> +					       "brcmnand-edu", ctrl);
+> +			if (ret < 0) {
+> +				dev_err(ctrl->dev, "can't allocate IRQ %d: error %d\n",
+> +					ctrl->edu_irq, ret);
+> +				return ret;
+> +			}
+> +
+> +			dev_info(dev, "FLASH EDU enabled using irq %u\n",
+> +				 ctrl->edu_irq);
+> +		}
+> +
+> +		/* set the appropriate edu transfer function to call */
+> +		ctrl->dma_trans = brcmnand_edu_trans;
+> +	}
+> +
+> +	return 0;
+> +}
+>  
+>  int brcmnand_probe(struct platform_device *pdev, struct brcmnand_soc *soc)
+>  {
+> @@ -2578,6 +2854,7 @@ int brcmnand_probe(struct platform_device *pdev, struct brcmnand_soc *soc)
+>  
+>  	init_completion(&ctrl->done);
+>  	init_completion(&ctrl->dma_done);
+> +	init_completion(&ctrl->edu_done);
+>  	nand_controller_init(&ctrl->controller);
+>  	ctrl->controller.ops = &brcmnand_controller_ops;
+>  	INIT_LIST_HEAD(&ctrl->host_list);
+> @@ -2623,6 +2900,7 @@ int brcmnand_probe(struct platform_device *pdev, struct brcmnand_soc *soc)
+>  				ctrl->reg_offsets[BRCMNAND_FC_BASE];
+>  	}
+>  
+> +	ctrl->dma_trans = NULL;
+>  	/* FLASH_DMA */
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "flash-dma");
+>  	if (res) {
+> @@ -2665,6 +2943,12 @@ int brcmnand_probe(struct platform_device *pdev, struct brcmnand_soc *soc)
+>  		}
+>  
+>  		dev_info(dev, "enabling FLASH_DMA\n");
+> +		/* set the appropriate flash dma transfer function to call */
+> +		ctrl->dma_trans = brcmnand_dma_trans;
+> +	} else	{
+> +		ret = brcmnand_edu_setup(pdev);
+> +		if (ret < 0)
+> +			goto err;
+
+Nitpicking: you could drop the initialization of dma_trans to NULL and
+assign ctrl->dma_trans in both cases of this if/else block (by moving
+it out of the brcmnand_edu_setup()). I think it enhances readability.
+
+>  	}
+>  
+>  	/* Disable automatic device ID config, direct addressing */
+
+
+Thanks,
+Miquèl
