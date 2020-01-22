@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C97C144D92
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 09:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61D64144DBF
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 09:29:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726094AbgAVIYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jan 2020 03:24:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50783 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725868AbgAVIYK (ORCPT
+        id S1726004AbgAVI3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jan 2020 03:29:36 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27799 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725868AbgAVI3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jan 2020 03:24:10 -0500
+        Wed, 22 Jan 2020 03:29:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1579681448;
+        s=mimecast20190719; t=1579681774;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=9CB3c1RgKQtL6GIuLgiLd8m8lbT5ybTkGXxDqzVPwqI=;
-        b=b+1ssyPicT+tn8L2boq+f2aiCEcZcxr9s5vnCJa1R7g87DT1u7YrVIYNDPdy4KKY0YTozW
-        RgvBbj5UT9ChOGC8116q/MfidnMrJ1IpR4B4s5KGg1AgpM7OkaQtJyeWtwsdfwz7F0HTgO
-        Br9DOA4zDtEEBJHSql5CFTRVcELWZ6Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-qO8yowT7PQC6_Q0HqSGXYQ-1; Wed, 22 Jan 2020 03:24:07 -0500
-X-MC-Unique: qO8yowT7PQC6_Q0HqSGXYQ-1
-Received: by mail-wm1-f72.google.com with SMTP id q26so1060431wmq.8
-        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2020 00:24:07 -0800 (PST)
+        bh=Rsxv79MIsJpMkuOHmysIM4sn2CG/wHNfUOUxHKcwzjQ=;
+        b=iQz7PvrKlO32QeTWIrUllnAvt/C/QZRQqAqqAnkbWa+yJQdi/a9hSz0o+oPm/HkAFbw0YQ
+        Dqk+2d07iQlnYOSj/opm88pNO9Sxz0RT1H1MKzaIDrMaTh1DnhwUVvpvSpRU5RTGYjZwF/
+        O+SVemHkS3sH0BEfiJh4z89bi2S5eKg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-cliUvi1AM_WxXZUMcMOxFQ-1; Wed, 22 Jan 2020 03:29:33 -0500
+X-MC-Unique: cliUvi1AM_WxXZUMcMOxFQ-1
+Received: by mail-wr1-f72.google.com with SMTP id j13so2684663wrr.20
+        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2020 00:29:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=9CB3c1RgKQtL6GIuLgiLd8m8lbT5ybTkGXxDqzVPwqI=;
-        b=UnorgxzM5zkeV0KtTp/0AUn06ClsqCPa38JgJlZyVFbkt/WuJlr6ayGZ/S8jwSeUVd
-         bQnAQZpPDq5BgVBqjJJz9EFmDyhzYfESFZh+LzvZatxClFLePtZ5vAHbkFCUyTbK3A0Z
-         l+lij/1NJvWWpWAgOcajZmWEf6qSX8IIHty1cmfDQ9oqVAOeT0gRqv48LEnbZE9ffyhX
-         qiYGSu8eQM3WhhKe/nUgtSLQHwTqPPkRnR3Haa5dIMEonFinae4Szs0aL24oVCdzH9B2
-         k+PYi+e9L91b0Vz/u3ykK27ct1TqQrqIOTTfsOyAZuHBHsjTSCF90cxJJStHga4hTJO7
-         w+pg==
-X-Gm-Message-State: APjAAAUYjVnXIlEDJtj+XQAERp58MJ1Imj9rrRHZadLQnLW1CB4StcBP
-        ZGBC3V2FdbyxaAQMe6+SXtYzXZ19lxKrIrnS4/QNWn6zv456RQDaLwF6ToIbDUxD6N2SXTG1UUp
-        gcnB+vl4TB3n2aZSIjIrzn/g=
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr1559234wml.173.1579681446093;
-        Wed, 22 Jan 2020 00:24:06 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw4pGRQw2MOBdhkwrpfKACw+YIDKNWHU3FopMP3GQ2nRE7TttIAWR9UgHuwDTfrOFfiAUcvkw==
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr1559210wml.173.1579681445926;
-        Wed, 22 Jan 2020 00:24:05 -0800 (PST)
+        bh=Rsxv79MIsJpMkuOHmysIM4sn2CG/wHNfUOUxHKcwzjQ=;
+        b=eZ92iun0KGkaGCbQp5c5bh3SjFwV1QQu8a5MJEWzAHuoCnAsaJtXSjZqpavqijlZiJ
+         peLbm1m05S10U57HlxUA6U1JTBz0h8IZo98YJQ1lOSRd1W0XLx2wWrSNMYJPLxEiAhjg
+         48Mqo8ijd/tzCe+vDNvS0fXsrEEMA+/W0VCNnGNjst1+r0gR8OI40VeZ7/a4Vo1h5tP8
+         cJH4hCmxkDfvzsIJK+v5JSzhxu97NvfIIoIpkkYJhOiYqfn7sG+Pbdh9GTvxYXA0aRFV
+         DXWtu0rN65ogtuMvtZyqrEIKhW9vSNb+k8Cklhj7X26Eb8G7Rmsmb6ef5ELzl0k/iqgU
+         SiUA==
+X-Gm-Message-State: APjAAAWuGmrHcvZ00ZRc7iOa0fGAFJpQgOYLKc0ITSxEoXHmOTwBbMAt
+        cCGgTF7TaBip7HnAASspwjJ4KQnVqzC/iNEmsvZBVYv5V/NyjxVKpbrefq35CR2HmmZTE1z3IC4
+        Yk7PCuFCBtfCx83mEJOtqyug=
+X-Received: by 2002:a5d:548e:: with SMTP id h14mr9131464wrv.380.1579681772098;
+        Wed, 22 Jan 2020 00:29:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxrFUnPGgplkiiBhAQPOlTJ32CQ5imjYv5btpKqodQXvX+aqR6aocpL97Qcfli8Mbqxh9qwtw==
+X-Received: by 2002:a5d:548e:: with SMTP id h14mr9131438wrv.380.1579681771795;
+        Wed, 22 Jan 2020 00:29:31 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
-        by smtp.gmail.com with ESMTPSA id e6sm58416087wru.44.2020.01.22.00.24.04
+        by smtp.gmail.com with ESMTPSA id g7sm55791801wrq.21.2020.01.22.00.29.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 00:24:05 -0800 (PST)
-Date:   Wed, 22 Jan 2020 03:24:02 -0500
+        Wed, 22 Jan 2020 00:29:31 -0800 (PST)
+Date:   Wed, 22 Jan 2020 03:29:28 -0500
 From:   "Michael S. Tsirkin" <mst@redhat.com>
 To:     David Stevens <stevensd@chromium.org>
 Cc:     virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
@@ -66,44 +66,97 @@ Cc:     virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
         Stefan Hajnoczi <stefanha@gmail.com>,
         qemu-devel <qemu-devel@nongnu.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [virtio-dev][RFC PATCH v2 0/2] Cross-device resource sharing
-Message-ID: <20200122032328-mutt-send-email-mst@kernel.org>
-References: <CAD=HUj71Z_eQUj93LZYOAc+Prj9ohym1oJtiLWzCy5=T-cNxCQ@mail.gmail.com>
+Subject: Re: [virtio-dev][RFC PATCH v1 2/2] virtio-gpu: add the ability to
+ export resources
+Message-ID: <20200122032433-mutt-send-email-mst@kernel.org>
+References: <CAD=HUj7N8dpEvf0Be8fg-qpFFTQOqzZX_kVoFB=BWp8S4uEFvg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAD=HUj71Z_eQUj93LZYOAc+Prj9ohym1oJtiLWzCy5=T-cNxCQ@mail.gmail.com>
+In-Reply-To: <CAD=HUj7N8dpEvf0Be8fg-qpFFTQOqzZX_kVoFB=BWp8S4uEFvg@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 22, 2020 at 04:16:15PM +0900, David Stevens wrote:
-> This RFC comes from the recent discussion on buffer sharing [1],
-> specifically about the need to share resources between different
-> virtio devices. For a concrete use case, this can be used to share
-> virtio-gpu allocated buffers with the recently proposed virtio video
-> device [2], without the need to memcpy decoded frames through the
-> guest.
-> 
-> [1] https://markmail.org/thread/jeh5xjjxvylyrbur
-> [2] https://markmail.org/thread/yb25fim2dqfuktgf
-
-
-Wrong list- this belongs on virtio-comment.
-dev is for implementation discussions.
-
-> Changes v1 -> v2:
-> Rename exported resource to exported object
-> Rename the virtio-gpu export command
-> 
-> David Stevens (2):
->   content: define what an exported object is
->   virtio-gpu: add the ability to export resources
-> 
->  content.tex    | 18 ++++++++++++++++++
+On Wed, Jan 22, 2020 at 04:16:35PM +0900, David Stevens wrote:
+> Signed-off-by: David Stevens <stevensd@chromium.org>
+> ---
 >  virtio-gpu.tex | 30 ++++++++++++++++++++++++++++++
->  2 files changed, 48 insertions(+)
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/virtio-gpu.tex b/virtio-gpu.tex
+> index af4ca61..a1f0210 100644
+> --- a/virtio-gpu.tex
+> +++ b/virtio-gpu.tex
+> @@ -186,12 +186,16 @@ \subsubsection{Device Operation: Request
+> header}\label{sec:Device Types / GPU De
+>          VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
+>          VIRTIO_GPU_CMD_MOVE_CURSOR,
+> 
+> +        /* misc commands */
+> +        VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID = 0x0400,
+> +
+>          /* success responses */
+>          VIRTIO_GPU_RESP_OK_NODATA = 0x1100,
+>          VIRTIO_GPU_RESP_OK_DISPLAY_INFO,
+>          VIRTIO_GPU_RESP_OK_CAPSET_INFO,
+>          VIRTIO_GPU_RESP_OK_CAPSET,
+>          VIRTIO_GPU_RESP_OK_EDID,
+> +        VIRTIO_GPU_RESP_OK_RESOURCE_ASSIGN_UUID,
+> 
+>          /* error responses */
+>          VIRTIO_GPU_RESP_ERR_UNSPEC = 0x1200,
+> @@ -454,6 +458,32 @@ \subsubsection{Device Operation:
+> controlq}\label{sec:Device Types / GPU Device /
+>  This detaches any backing pages from a resource, to be used in case of
+>  guest swapping or object destruction.
+> 
+> +\item[VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID] Creates an exported object from
+> +  a resource. Request data is \field{struct
+> +    virtio_gpu_resource_assign_uuid}.  Response type is
+> +  VIRTIO_GPU_RESP_OK_RESOURCE_ASSIGN_UUID, response data is \field{struct
+> +    virtio_gpu_resp_resource_assign_uuid}.
+> +
+> +\begin{lstlisting}
+> +struct virtio_gpu_resource_assign_uuid {
+> +        struct virtio_gpu_ctrl_hdr hdr;
+> +        le32 resource_id;
+> +        le32 padding;
+> +};
+> +
+> +struct virtio_gpu_resp_resource_assign_uuid {
+> +        struct virtio_gpu_ctrl_hdr hdr;
+> +        le64 uuid_low;
+> +        le64 uuid_high;
+> +};
+> +\end{lstlisting}
+> +
+
+ok but how is this then used? will there be more commands to pass
+this uuid to another device?
+
+> +The response contains a uuid which identifies the exported object created from
+> +the host private resource.
+
+Are the uuids as specified in rfc-4122? I guess we need to link to that spec then
+..
+
+> Note that if the resource has an attached backing,
+> +modifications made to the host private resource through the exported object by
+> +other devices are not visible in the attached backing until they are
+> transferred
+> +into the backing.
+> +
+
+s/host/device/?
+
+>  \end{description}
+> 
+>  \subsubsection{Device Operation: cursorq}\label{sec:Device Types /
+> GPU Device / Device Operation / Device Operation: cursorq}
+> -- 
+> 2.25.0.341.g760bfbb309-goog
 > 
 > ---------------------------------------------------------------------
 > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
