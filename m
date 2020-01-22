@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9613114523C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 11:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D0811452B4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2020 11:36:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729429AbgAVKNx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jan 2020 05:13:53 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:43251 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729106AbgAVKNx (ORCPT
+        id S1729148AbgAVKgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Jan 2020 05:36:13 -0500
+Received: from mail-qv1-f68.google.com ([209.85.219.68]:46420 "EHLO
+        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729110AbgAVKgN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jan 2020 05:13:53 -0500
-Received: by mail-qk1-f194.google.com with SMTP id j20so1816884qka.10
-        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2020 02:13:52 -0800 (PST)
+        Wed, 22 Jan 2020 05:36:13 -0500
+Received: by mail-qv1-f68.google.com with SMTP id u1so2945588qvk.13
+        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2020 02:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=v/v4gsunZW3/SK3txv49RS3OswX6Moo8iJj9KiNLNZk=;
-        b=OgjwJ6ipmysY8QY7m+iVUYCtrCC4Gq60ZF7VknltICjgEeV/IlRhLkejG3/BbyPeKZ
-         jZHigYJ61VVy0eMV+i703qL93FoYcUV7YXryizSnFXClFrKTVwvIxlB4EqXxNhRibPUH
-         x+01SFXzBtGJJegbKdhk19B3e2dZw+OX9l5jM=
+        bh=H5Q/enJnAE03WTWBi8/aJYWnHF9Q/si1wZbqxm7qIMY=;
+        b=fqBPtiCQCcZp2HC/nOiTouELonf4sqDNI/IBFXf7075Q64Gm5fRAt6cuuTd5TkHAFn
+         ACm/H1jSYCz30slLh+dprH8A2pFlIaRdDyMPXPN6E09TTSNRwGlX7As7Rbui+WKHxqf5
+         KG9+ELa5YuiFfGc/so0Wr4FwcTv4j8k2ErWvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=v/v4gsunZW3/SK3txv49RS3OswX6Moo8iJj9KiNLNZk=;
-        b=AyZ1Yb3fzkDY+Z3cd79Fxgxuh8GY4lte3nwedQ04fkEpiaQwWXjVEskf6dgWA8QE1N
-         IRCm4pN4TszVxgfRNoRFmSeumiqjiErVxeS8q7eFTgVa1ZlU3xLMvisPd9B4yjuHANoi
-         BwnXJlH10Cj3mVmqf2xhgseRz+N3nkKXEan1L2awQyUAqIo0ClYK8NO5ParKrdgPGcmk
-         4O/xuIHV5MjCdSsCE9BmJD2to0BfXMD5IhOCviqQrUwCUdz1FYbJrGXLufGGg7/2FFZz
-         seIZ7dCDzfly3zf0Y3/A50dDCgZQkyYGvR+WQS+aQFqaCc1tfze7aH3D437vM8IW8yh1
-         iIkQ==
-X-Gm-Message-State: APjAAAX5uhwqYDZ7Yl2nL5YZVrmuDLl3yU1ZcA15QPg6sJFEMJcK6sUl
-        W+3RVrvRezDSsqZRx79Y44DEoyYl0Uy/6jEILw7WIg==
-X-Google-Smtp-Source: APXvYqwUv897TNxhaRUh9087ToKhnGrEv4kyAiCMXN4m5pnLcbNPvv45TSY+d77prKdAy3FM+9B3p4HD4eKhdGOjIxA=
-X-Received: by 2002:a37:63c7:: with SMTP id x190mr9140006qkb.232.1579688032385;
- Wed, 22 Jan 2020 02:13:52 -0800 (PST)
+        bh=H5Q/enJnAE03WTWBi8/aJYWnHF9Q/si1wZbqxm7qIMY=;
+        b=dPtCPpFV6eH36MYkjd+yW4yWrARDZ3KBIk8QI1VTeXjEaadqk1LBICsvUbhZo0uX2t
+         w1O8jh6A9HIrAUoYBuHqkm8b1Kg8BD1RcqQ83r4L6GjB5CvVeBUBMOmaO5Ki5pNz2oac
+         D64vgtuJo/Fh+aIIjAWMcEiT4VAzB3C43jELmWrMCsvwD0VRhONyGp28pX/Ci3x410KW
+         f3tcZA/rKwc86mYpmKAN/WntGSISnWNaPXT/JvGc9adezkXct0pCxqDI9nlReSRmeuUa
+         h7w9oTkcyNvIZ7/Ps+lL78YzZhXKLAD251YeMWT7sCWb3afKbh8ZPjPJ9/T3td2ST5LW
+         nvYQ==
+X-Gm-Message-State: APjAAAU9DZhOmF8Q8jAg2ByxvT3fXnoHTs9LxTUV8iwWug2sCAxGSeK3
+        ZG6m1OxMSMryTxxqWP4ykP/0W/PC/pTXhG+880cGjg==
+X-Google-Smtp-Source: APXvYqyRYf1MLrUGY5LDFuW9isDnVb669Ork06kqaKh8XkIeXpMX9ZNprssj+aBOVO/q6kR+u1z7exc/TSUW6p0S454=
+X-Received: by 2002:a05:6214:287:: with SMTP id l7mr9831933qvv.142.1579689372249;
+ Wed, 22 Jan 2020 02:36:12 -0800 (PST)
 MIME-Version: 1.0
-References: <CAD=HUj640QfNwO4J_tdcSx36YOVAVT_dZUXYuKPaCKvZVWeHsg@mail.gmail.com>
- <20200122032103-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200122032103-mutt-send-email-mst@kernel.org>
+References: <CAD=HUj7N8dpEvf0Be8fg-qpFFTQOqzZX_kVoFB=BWp8S4uEFvg@mail.gmail.com>
+ <20200122032433-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200122032433-mutt-send-email-mst@kernel.org>
 From:   David Stevens <stevensd@chromium.org>
-Date:   Wed, 22 Jan 2020 19:13:41 +0900
-Message-ID: <CAD=HUj4pORJK1SQ2+n_oiXJyGaKqakSiOGcXdRCGSAMnuxY4cw@mail.gmail.com>
-Subject: Re: [virtio-dev][RFC PATCH v1 1/2] content: define what an exported
- object is
+Date:   Wed, 22 Jan 2020 19:36:01 +0900
+Message-ID: <CAD=HUj7cXK65Hj1rrL9KKoa6oWzBBwf8J_kSU2beJwzD4q06Fw@mail.gmail.com>
+Subject: Re: [virtio-dev][RFC PATCH v1 2/2] virtio-gpu: add the ability to
+ export resources
 To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+Cc:     virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
         Dylan Reid <dgreid@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Zach Reizner <zachr@chromium.org>,
@@ -60,43 +60,44 @@ Cc:     Gerd Hoffmann <kraxel@redhat.com>,
         Gurchetan Singh <gurchetansingh@chromium.org>,
         Stefan Hajnoczi <stefanha@gmail.com>,
         qemu-devel <qemu-devel@nongnu.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> > +When an object created by one virtio device needs to be
-> > +shared with a seperate virtio device, the first device can
-> > +export the object by generating a \field{uuid}
+> ok but how is this then used? will there be more commands to pass
+> this uuid to another device?
+
+This is intended to be used with the virtio video device being
+discussed here https://markmail.org/thread/ingyqlps4rbcuazh. I don't
+have a specific patch for how that will work, but it will likely be an
+extension to VIRTIO_VIDEO_T_RESOURCE_CREATE.
+
+> > +The response contains a uuid which identifies the exported object created from
+> > +the host private resource.
 >
-> This is a field where?
+> Are the uuids as specified in rfc-4122? I guess we need to link to that spec then
 
-It's a property of the exported object, but I guess it doesn't really
-correspond to any concrete field. I'll remove \field.
+I don't think it's terribly important to specify how the uuids are
+generated, as long as they're actually unique. That being said, I'm
+not opposed to defining them as rfc-4122 version 4 uuids. Although if
+we do that, it should go in the patch that defines what exported
+objects and uuids are in the context of virtio, not in the virtio-gpu
+section.
 
-> > which the
-> > +guest can pass to the second device to identify the object.
+> > Note that if the resource has an attached backing,
+> > +modifications made to the host private resource through the exported object by
+> > +other devices are not visible in the attached backing until they are
+> > transferred
+> > +into the backing.
+> > +
 >
-> s/guest/Driver/ ?
+> s/host/device/?
 
-The uuid can be passed to a second device controlled by a different
-driver, so I think 'driver' by itself is ambiguous. I'm using guest as
-a shorthand for 'system which includes the drivers and software which
-sits on top of the drivers', and that meaning does seem to be
-compatible with language in the rest of the spec. If that shorthand
-isn't acceptable, I can rewrite the sentence passively as '... a uuid
-which can then be passed to a second device ...'.
-
-> Also - what are guest and host here?
-
-There are a number of places in the virtio spec where 'guest' is used
-to refer to the system where drivers run and where 'host' is used to
-refer to the system where devices run. I guess those terms aren't
-concretely defined within the spec, but they do seem to have a well
-understood meaning. Or is the guest/host language discouraged in new
-additions to the spec?
+The virtio-gpu is based around "resources private to the host", to
+quote the existing specification. I think consistency with that
+language is important.
 
 -David
