@@ -2,172 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E75146A4B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 15:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 471F2146B22
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 15:22:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728709AbgAWOAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 09:00:40 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38081 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727022AbgAWOAk (ORCPT
+        id S1728057AbgAWOWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 09:22:14 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47305 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726729AbgAWOWO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 09:00:40 -0500
-Received: by mail-pf1-f194.google.com with SMTP id x185so1591697pfc.5
-        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2020 06:00:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eaakHPtquLm/QuhUeGSfqmMfenCUub/aZvbkfRWUVhY=;
-        b=gZJabL7LaABtPWt7al+0/+3LNjRDPuq4glqMmEKJDlh+ZP3xZRJXbkZ6uha1vOnC3e
-         PWSLrRIMXyOeO1WS+xaIRZkMptT7m6cnrBWQns2vnJSO1o40TB+cmbSsiDm+ewQcix7t
-         ijBLNvVPmraSWZmwMzaq525Qx6KSqSAXURfj43iNf5brzeuOFUCTw/loRaKif5X5PS0h
-         vLs8E0bDnihc3vHoKnR+bPyQa0q6YiYM1G/uLZVEXxypX0hP4MHk+iwyfDCHgx1Kj9Tt
-         gEb2hZqrO54t4ngT7EAjquk4h1fBnFdF+w4H+5p/yXpAyvoEXT+cwJOMj19IrlhwrQiJ
-         Euvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eaakHPtquLm/QuhUeGSfqmMfenCUub/aZvbkfRWUVhY=;
-        b=USLQ7SY89CwPL606naRvAvT+GX0mxrKunYR0gZpgZ31WajJ16UB8iQ9BYwhwV1EZ+7
-         2MgIQreqa8e3U1ABHLiakIb+nvqnnG2mhqg7stMlx/kyzB7G+paHlgOqntPliWkyHQGx
-         F+7e2hS+C/0/7+VQNz2emFzK4qbg8e4l5YB3h+coe+LUHg465/xXhzx37aoKq1U7axvt
-         ccmmObY6bWXyvmKbKtxvjlped9GHr3WUtvwndX2sdzTchNLk6T2Bm1ruynus0kOXRtwU
-         8HTU4yw5KxAgCH7our9bcq8RPSWNhqePsn3pyUXue6NC/pDQIyEySWXRmIcUhk/i769G
-         7q5w==
-X-Gm-Message-State: APjAAAVOKqhWhCiPVcrhHxH2HxSbc3LpmIPQnYfpUZxEK5YhYdPwvmF7
-        oSNNgL6UXRlm1mCHqEz7WCgVZa+dUzw0emNVqXY+QA==
-X-Google-Smtp-Source: APXvYqwDl0oJcXLixPXvgprHhlnsCLhJar3LxDx0WVCyapUyt5ESsO5Yf5LY/ev1I3KmFnHXXseknHyAlr/WcDp/naU=
-X-Received: by 2002:a63:d906:: with SMTP id r6mr4118780pgg.440.1579788039422;
- Thu, 23 Jan 2020 06:00:39 -0800 (PST)
+        Thu, 23 Jan 2020 09:22:14 -0500
+Received: from [IPv6:2001:983:e9a7:1:1bd:458:b834:7f13]
+ ([IPv6:2001:983:e9a7:1:1bd:458:b834:7f13])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id udN4iMr00pLtbudN5iQtxj; Thu, 23 Jan 2020 15:22:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579789331; bh=VYSlYdAy/dPnIS/yHwgdT8WI6wvXxd0gOJF0zd9pmrw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=W4EtHqLfbQHwAz9c6pkHqXFNC2pP88krF48PksJ7rFMEYsfWKA9nWSJdnSQbzoGPp
+         T7RGLvPhcAL5HbaUFzoct+EDjNi34WymMBXcm/jOz0QS1buX30KV2ywkY06kwzyKGi
+         SGoMTXj7cRe9g7F8OwQQhx281wMj4Y+Op9K/os6UeS4xiOhEDOQ3ugvKhOYLaELuJG
+         vPxbuWcI2jS1HFWse22bWa8xJc2PFxTT2ru4Lam/ytF0HCmjA3Yt1551szHF+XPU6f
+         8s+Xf9u1W+FblCIEqnOhYQEbg6EfhpAkwX8NzAtfU9u9xZEKUaXBvo6dbVjmhPatHZ
+         a/+XNatvrbMSQ==
+Subject: Re: [PATCH v4 4/6] media: vimc: capture: crash fix - synchronize call
+ to vb2_queue_release when unregistering
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
+References: <20200113215506.13329-1-dafna.hirschfeld@collabora.com>
+ <20200113215506.13329-5-dafna.hirschfeld@collabora.com>
+ <9355c7cf-74e2-47a4-f5a1-0eb47134b0d6@xs4all.nl>
+ <26a37623-9da9-8723-f29e-6471b5bbf9c4@collabora.com>
+ <a574f05f-6937-b64c-1812-f291d8eef542@xs4all.nl>
+ <93655fd0-b442-c253-05fb-920e4bdf4bcf@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <ec825e17-f034-0192-f750-4125bb773326@xs4all.nl>
+Date:   Thu, 23 Jan 2020 15:22:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <0000000000003a39d50599d200e6@google.com> <CAAeHK+wnE6anSjmoA-Cr4nvx_oujUWH=D_YkhE38eiJurjsCWg@mail.gmail.com>
-In-Reply-To: <CAAeHK+wnE6anSjmoA-Cr4nvx_oujUWH=D_YkhE38eiJurjsCWg@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 23 Jan 2020 15:00:28 +0100
-Message-ID: <CAAeHK+zZTWpnE=duVb+Jv9zj4wuYn6bj=yzUHugB-G9aoyDf1Q@mail.gmail.com>
-Subject: Re: WARNING in uvc_scan_chain_forward
-To:     syzbot <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <93655fd0-b442-c253-05fb-920e4bdf4bcf@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfG0p+uDGefEnELR7YXcRX9nb056TnDvWP5QEOcpG2qpylUAZzdcYPFZllmrV13K4vZPRrWFRHd5OxuaagWgfGdy1Yc4j7t2PDzQsdcpNvKIDahki7l+h
+ XYdovbfTYrfC4mKAvqtPmx/cjwkN6vLvYSI0GryRer1tTlqaZ7mnP3KchBI2iihPXdSHJzMtkBRkaez+jlbjI87Ik9BqHE55ePqRaLnE2X/Jhcc/c64gUIaf
+ cASJC9QiYJFZe1/kJ13MZ5nvpKD55Q5Op+0jLbuOq/RjZOVHom4oeXv8WWepU6fHQ9o113jjFz0pPGIG4ZAgM/ghFd5ndZw99O7spXdwOfJCZm3JtSfwlVw+
+ jCfnKvyiLWDPSrcd3PISVNmsfane2wvLdCz4T/TXCojUtbKRuRZVqVfbzehKPxHjeLmGzW3wQ+JogpAnxjpxo2ORYB3dTKNfn596nnFmv4SmElcGvpIlXF4D
+ N64mLMotQRfGkPP+
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 4:51 PM Andrey Konovalov <andreyknvl@google.com> wrote:
->
-> On Mon, Dec 16, 2019 at 2:15 PM syzbot
-> <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com> wrote:
-> >
-> > Hello,
-> >
-> > syzbot found the following crash on:
-> >
-> > HEAD commit:    4cc037ec usb: gadget: add raw-gadget interface
-> > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=11b905dee00000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=e9c2b6de462bc469
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=0a5c96772a9b26f2a876
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10f82546e00000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1638ef7ee00000
-> >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com
-> >
-> > usb 1-1: New USB device found, idVendor=0bd3, idProduct=0755,
-> > bcdDevice=69.6a
-> > usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> > usb 1-1: config 0 descriptor??
-> > usb 1-1: string descriptor 0 read error: -71
-> > uvcvideo: Found UVC 0.00 device <unnamed> (0bd3:0755)
-> > ------------[ cut here ]------------
-> > list_add double add: new=ffff8881d0637010, prev=ffff8881d0637010,
-> > next=ffff8881d4e87c18.
-> > WARNING: CPU: 1 PID: 22 at lib/list_debug.c:29 __list_add_valid+0xb4/0xf0
-> > lib/list_debug.c:29
-> > Kernel panic - not syncing: panic_on_warn set ...
-> > CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.5.0-rc1-syzkaller #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> > Google 01/01/2011
-> > Workqueue: usb_hub_wq hub_event
-> > Call Trace:
-> >   __dump_stack lib/dump_stack.c:77 [inline]
-> >   dump_stack+0xef/0x16e lib/dump_stack.c:118
-> >   panic+0x2aa/0x6e1 kernel/panic.c:221
-> >   __warn.cold+0x2f/0x30 kernel/panic.c:582
-> >   report_bug+0x27b/0x2f0 lib/bug.c:195
-> >   fixup_bug arch/x86/kernel/traps.c:174 [inline]
-> >   fixup_bug arch/x86/kernel/traps.c:169 [inline]
-> >   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
-> >   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
-> >   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-> > RIP: 0010:__list_add_valid+0xb4/0xf0 lib/list_debug.c:29
-> > Code: 48 c7 c7 e0 f3 da 85 4c 89 e6 e8 ef cf 2b ff 0f 0b 31 c0 eb c5 48 89
-> > f2 4c 89 e1 48 89 ee 48 c7 c7 60 f4 da 85 e8 d4 cf 2b ff <0f> 0b 31 c0 eb
-> > aa 48 89 34 24 e8 fd 3c 7f ff 48 8b 34 24 e9 60 ff
-> > RSP: 0018:ffff8881d8c37080 EFLAGS: 00010286
-> > RAX: 0000000000000000 RBX: ffff8881d0637010 RCX: 0000000000000000
-> > RDX: 0000000000000000 RSI: ffffffff81295dad RDI: ffffed103b186e02
-> > RBP: ffff8881d0637010 R08: ffff8881da24e200 R09: fffffbfff11f1eae
-> > R10: fffffbfff11f1ead R11: ffffffff88f8f56f R12: ffff8881d4e87c18
-> > R13: ffff8881d0637000 R14: dffffc0000000000 R15: ffff8881d4e87c18
-> >   __list_add include/linux/list.h:60 [inline]
-> >   list_add_tail include/linux/list.h:93 [inline]
-> >   uvc_scan_chain_forward.isra.0+0x4df/0x637
-> > drivers/media/usb/uvc/uvc_driver.c:1526
-> >   uvc_scan_chain drivers/media/usb/uvc/uvc_driver.c:1640 [inline]
-> >   uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1824 [inline]
-> >   uvc_probe.cold+0x1aee/0x29de drivers/media/usb/uvc/uvc_driver.c:2197
-> >   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-> >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
-> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-> >   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-> >   __device_attach+0x217/0x360 drivers/base/dd.c:894
-> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-> >   device_add+0x1480/0x1c20 drivers/base/core.c:2487
-> >   usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
-> >   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-> >   usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-> >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
-> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-> >   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-> >   __device_attach+0x217/0x360 drivers/base/dd.c:894
-> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-> >   device_add+0x1480/0x1c20 drivers/base/core.c:2487
-> >   usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
-> >   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
-> >   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
-> >   port_event drivers/usb/core/hub.c:5470 [inline]
-> >   hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
-> >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
-> >   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
-> >   kthread+0x318/0x420 kernel/kthread.c:255
-> >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-> > Kernel Offset: disabled
-> > Rebooting in 86400 seconds..
-> >
-> >
-> > ---
-> > This bug is generated by a bot. It may contain errors.
-> > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> >
-> > syzbot will keep track of this bug report. See:
-> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > syzbot can test patches for this bug, for details see:
-> > https://goo.gl/tpsmEJ#testing-patches
->
-> #syz fix: media: uvc: Avoid cyclic entity chains due to malformed USB
-> descriptors
+On 1/23/20 2:55 PM, Dafna Hirschfeld wrote:
+> 
+> 
+> On 14.01.20 12:50, Hans Verkuil wrote:
+>> On 1/14/20 12:17 PM, Dafna Hirschfeld wrote:
+>>> Hi
+>>>
+>>> On 14.01.20 12:25, Hans Verkuil wrote:
+>>>> On 1/13/20 10:55 PM, Dafna Hirschfeld wrote:
+>>>>> vb2_queue_release is called from vimc_cap_unregister.
+>>>>> `vb2_queue_release` stops the streaming in case
+>>>>> streaming is on and therefore it should be synchronized
+>>>>> with other streaming ioctls using the vdev's lock.
+>>>>> Currently the call is not synchronized and this cause
+>>>>> race conditions.
+>>>>>
+>>>>> Using the following script:
+>>>>>
+>>>>> while [ 1 ]; do
+>>>>> media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480],"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+>>>>>
+>>>>> v4l2-ctl -d2 -v width=1920,height=1440
+>>>>> v4l2-ctl -d0 -v pixelformat=BA81
+>>>>> v4l2-ctl --stream-mmap -d /dev/video2 &
+>>>>> echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
+>>>>> echo -n vimc.0 >/sys/bus/platform/drivers/vimc/bind
+>>>>> done
+>>>>>
+>>>>> The following crash appeared:
+>>>>>
+>>>>> [  101.909376] BUG: kernel NULL pointer dereference, address: 0000000000000009
+>>>>> [  101.909661] #PF: supervisor read access in kernel mode
+>>>>> [  101.909835] #PF: error_code(0x0000) - not-present page
+>>>>> [  101.910048] PGD 0 P4D 0
+>>>>> [  101.910223] Oops: 0000 [#1] SMP NOPTI
+>>>>> [  101.910475] CPU: 0 PID: 1167 Comm: v4l2-ctl Not tainted 5.5.0-rc1+ #5
+>>>>> [  101.910716] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1ubuntu1 04/01/2014
+>>>>> [  101.911294] RIP: 0010:vb2_vmalloc_put_userptr+0x15/0x90 [videobuf2_vmalloc]
+>>>>> [  101.911671] Code: 89 df 5b e9 0d e6 29 c6 0f 1f 00 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 41 55 41 54 55 48 89 fd 53 4c 8b 65 08 48 8b 3f <41> 80 7c 24 09 00 75 65 48 81 e7 00 f0 ff ff
+>>>>> 45 8b 6c 24 04 75 44
+>>>>> [  101.912329] RSP: 0018:ffff9b0c42253df0 EFLAGS: 00000286
+>>>>> [  101.912557] RAX: ffffffffc03bc1a0 RBX: ffff9095b37e1400 RCX: 0000000000000001
+>>>>> [  101.912818] RDX: 0000000000000004 RSI: 0000000000000003 RDI: ffff9b0c4229d000
+>>>>> [  101.913088] RBP: ffff9095b37d1480 R08: 0000000000000000 R09: ffff9b0c42253db8
+>>>>> [  101.913352] R10: ffff9095b37df858 R11: ffff9095b3444b50 R12: 0000000000000000
+>>>>> [  101.913598] R13: ffff9095b371c5b8 R14: 0000000000000004 R15: 0000000000000000
+>>>>> [  101.913896] FS:  00007fe62d779240(0000) GS:ffff9095bfc00000(0000) knlGS:0000000000000000
+>>>>> [  101.914202] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>>> [  101.914418] CR2: 0000000000000009 CR3: 0000000233392000 CR4: 00000000000006f0
+>>>>> [  101.914738] Call Trace:
+>>>>> [  101.915604]  __vb2_queue_free+0xf8/0x210 [videobuf2_common]
+>>>>> [  101.915876]  vb2_core_queue_release+0x34/0x40 [videobuf2_common]
+>>>>> [  101.916086]  _vb2_fop_release+0x7d/0x90 [videobuf2_v4l2]
+>>>>> [  101.916307]  v4l2_release+0x9e/0xf0 [videodev]
+>>>>> [  101.916499]  __fput+0xb6/0x250
+>>>>> [  101.916688]  task_work_run+0x7e/0xa0
+>>>>> [  101.916842]  exit_to_usermode_loop+0xaa/0xb0
+>>>>> [  101.917018]  do_syscall_64+0x10b/0x160
+>>>>> [  101.917175]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>>>>> [  101.917463] RIP: 0033:0x7fe62cf4c421
+>>>>> [  101.917575] Code: f7 d8 64 89 02 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 8b 05 ea cf 20 00 85 c0 75 16 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 3f f3 c3 0f 1f 44 00 00
+>>>>> 53 89 fb 48 83 ec 10
+>>>>>
+>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>>> ---
+>>>>>    drivers/media/platform/vimc/vimc-capture.c | 2 ++
+>>>>>    1 file changed, 2 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+>>>>> index c5a645f98c66..314fda6db112 100644
+>>>>> --- a/drivers/media/platform/vimc/vimc-capture.c
+>>>>> +++ b/drivers/media/platform/vimc/vimc-capture.c
+>>>>> @@ -339,7 +339,9 @@ void vimc_cap_unregister(struct vimc_ent_device *ved)
+>>>>>        struct vimc_cap_device *vcap =
+>>>>>            container_of(ved, struct vimc_cap_device, ved);
+>>>>>    +    mutex_lock(&vcap->lock);
+>>>>>        vb2_queue_release(&vcap->queue);
+>>>>> +    mutex_unlock(&vcap->lock);
+>>>>
+>>>> I wonder if the vb2_queue_release call is needed at all.
+>>>>
+>>>> What if you just delete it? When the filehandle is closed eventually, it will
+>>>> call vb2_queue_release as well.
+>>>
+>>> Hi, I actually tried that, the problem is that then the streaming is
+>>> stopped in the release of the video fh. The function
+>>> vimc_cap_stop_streaming calls media_pipeline_stop(&vcap->vdev.entity);
+>>> after the media entity is already unregistered and therefore
+>>> `entity->graph_obj.mdev` is NULL
+>>> but the function `media_pipeline_stop` tries to reference this mdev
+>>> which crashes.
+>>>
+>>> The code in v4l2-dev.c actually solve this by calling
+>>> media_device_unregister_entity in the release cb and not immediately
+>>> when unregistered. The problem is that it is unregistered in
+>>> `media_device_unregister`
+>>
+>> I really don't like all the cleanup that happens in media_device_unregister.
+>> That is really stuff that should happen in the media_devnode release callback.
+>>
+>> This whole problem goes away if it is done like that, I believe.
+>>
+>> Basically when you unregister a device it should just unregister the device node,
+>> mark it as unregistered and cause all file operations except release() to fail.
+>>
+>> The actual cleanup should be postponed until the last user closes the fh.
+>>
+>> It would be interesting if you can experiment with this.
+> 
+> This also means removing the call to `media_device_unregister_entity` in
+> v4l2_device_release in v4l2-dev.c ?
 
-#syz fix:
-media: uvc: Avoid cyclic entity chains due to malformed USB descriptors
+Actually, I think the media topology should be updated when the device node is
+unregistered: that's the moment the video node is removed in /dev and the topology
+should reflect that.
+
+> Also, according to the documentation the drivers should call `media_devnode_remove`
+> but this should probably also postpone to media_devnode release right?
+
+Same here: this should be done at unregistration time.
+
+You don't want to update the topology only at release time since that will cause
+problems in scenarios where entities are dynamically added/removed. Say that a
+DMA capture entity is removed (i.e. the corresponding video device is unregistered),
+then when you query the MC topology after that's done it should no longer show that
+entity, even if some application still has a filehandle open on the unregistered
+video device.
+
+That's actually a nice test to check with a configfs enabled vimc.
+
+Regards,
+
+	Hans
+
+> 
+> Dafna
+> 
+>>
+>> Regards,
+>>
+>>     Hans
+>>
+>>>
+>>> Dafna
+>>>
+>>>
+>>>
+>>>>
+>>>> If you DO need to call this function here, then you indeed need to take the mutex.
+>>>> But I think it is a good idea to add a comment here as well to explain why you
+>>>> need to call vb2_queue_release().
+>>>>
+>>>> Regards,
+>>>>
+>>>>     Hans
+>>>>
+>>>>>        video_unregister_device(&vcap->vdev);
+>>>>>    }
+>>>>>   
+>>>>
+>>
+
