@@ -2,164 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65DCE1477CA
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 05:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BA08147827
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 06:28:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729425AbgAXE7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 23:59:18 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59991 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729253AbgAXE7S (ORCPT
+        id S1730313AbgAXF2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jan 2020 00:28:19 -0500
+Received: from dexter.tse.jus.br ([187.29.147.30]:59932 "EHLO
+        dexter.tse.jus.br" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729740AbgAXF2Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 23:59:18 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:dded:8f92:97b:fe6e])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ur3ri2MayT6sRur3sizoln; Fri, 24 Jan 2020 05:59:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579841956; bh=LNIAz31Sl/BwOJ3Ixxkw0XNQf76h7UhW4onhqHNSzKk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=sINkqDnFx5kJUR+I2NpYLlnmyr1WH/aFUfk3HKZHZ0qxdlLbUpCyGHY8eTa+3MA5x
-         ZYPCAvfVlcdW2k8PwxLitHWDZtgNqbYalft0+Jtajzvl0FX8FuI1JjGEk1maTmpA+d
-         Bo5Ox7VNP6kjaGRtdiynNETIC3Yyi6pi6JnSafTYh6dsIDwAUihdtjuk4XQLBGFNHz
-         JNn9pWgTtxaYK9LGQV+D8L2ZU+E8GMCbUrxsYZTQ2nRWSx/x3jm1X2G7lzJoBP9Thj
-         xljD1Uky6+s7yv+p3cvqwYI1MjegZECnHxLgmZHL3ZwrWHaQyGFkn9RfO34PJ9/Knm
-         3BBctJcxaZuPg==
-Message-ID: <967264ac4c8e71260ae233c530015a7c@smtp-cloud9.xs4all.net>
-Date:   Fri, 24 Jan 2020 05:59:15 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfJr1649DUFK0jpp1E9+DEjoWZxDiwsCG9yNSN5hckDlDbr+w9dlORJJAhRLWlmXt9mqFpZ2OZ5rnasdQMpu5X/WNbNtahcR5bScAXX77rouRJSDtyehs
- v3bVwN+FHot5CCh83qdMN4QybSPJAHfFphfsWZDMvUdQGhdW5GNPrvZuFKmQLNvMhROIiFPDEQ3xzYLPxUKCy2y0OFscMJRkd9UdQQiwH6VgOxphENvtaUii
+        Fri, 24 Jan 2020 00:28:16 -0500
+X-Greylist: delayed 14415 seconds by postgrey-1.27 at vger.kernel.org; Fri, 24 Jan 2020 00:28:12 EST
+X-AuditID: c0a8cb02-a5fff70000000ac3-b9-5e29f784bef6
+Received: from zimbra.tre-am.jus.br (zimbra.tre-am.gov.br [10.22.41.16])
+        by dexter.tse.jus.br (Mail) with SMTP id 9A.1A.02755.487F92E5; Thu, 23 Jan 2020 17:44:04 -0200 (-02)
+To:     undisclosed-recipients:;
+Received: from localhost (zimbra.tre-am.jus.br [127.0.0.1])
+        by zimbra.tre-am.jus.br (Postfix) with ESMTP id BE9096985150;
+        Thu, 23 Jan 2020 16:43:54 -0400 (-04)
+Received: from zimbra.tre-am.jus.br ([127.0.0.1])
+        by localhost (zimbra.tre-am.jus.br [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 4OsDEPNp-3Nv; Thu, 23 Jan 2020 16:43:54 -0400 (-04)
+Received: from localhost (zimbra.tre-am.jus.br [127.0.0.1])
+        by zimbra.tre-am.jus.br (Postfix) with ESMTP id 8F3AE698514E;
+        Thu, 23 Jan 2020 16:43:54 -0400 (-04)
+X-Virus-Scanned: amavisd-new at zimbra.tre-am.jus.br
+Received: from zimbra.tre-am.jus.br ([127.0.0.1])
+        by localhost (zimbra.tre-am.jus.br [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id orzFeHuycYdr; Thu, 23 Jan 2020 16:43:54 -0400 (-04)
+Received: from zimbra.tre-am.jus.br (zimbra.tre-am.jus.br [127.0.0.1])
+        by zimbra.tre-am.jus.br (Postfix) with ESMTP id 3122B6965DE1;
+        Thu, 23 Jan 2020 16:43:54 -0400 (-04)
+Date:   Thu, 23 Jan 2020 16:43:54 -0400 (AMT)
+From:   Mrs Radka <igor.santos@tre-am.jus.br>
+Reply-To: atanasovaradka01@hotmail.com
+Message-ID: <196960285.55850.1579812234187.JavaMail.zimbra@tre-am.jus.br>
+Subject: Bitte lesen Sie den 24-01-2019
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [149.140.81.151]
+X-Mailer: Zimbra 8.8.8_GA_2096 (zclient/8.8.8_GA_2096)
+Thread-Index: edS6dpSZHdLjTUsuOogKZ826Lk5ShQ==
+Thread-Topic: Bitte lesen Sie den 24-01-2019
+X-Brightmail-Tracker: H4sIAAAAAAAAA01UbUxTVxj29H70Urnalg/vOj9mQ3CIw84Y9y5xTmNY7jRTE5KFzIhWe6V8
+        FdIWEHWRyYwFy0RUGEVQERCpiLA5/GRacUBFJIogCOoEqeIEZVOioO7etkD/vHnv87znOc9z
+        zsmlMPnvEgUVpTNyep06VklKcIl/kPSzn4eDIlTFrX7Q1PASgfmGGYOntmYc+gabCDAVFhFQ
+        V3VNBFeOVCHoObYJUgteEGDpzMXB3n+CgOw3aqjrbiAhr7CLhN3PziAwvfsPQWHdAA4dQ68J
+        MJ8+Q0DW0TQM9rSfJeGfsi4xdO0vxcHa0Y/gdm4mCY6sDBEcrm/DYaDFQsK1jvckVN3sxuB+
+        +xMM6vJTEeys3CuGB5lPSMj5tUQMGUMdCAaOjmAwaHNg8OZFDQF7LCYC6pt6cSioeEvC69Q0
+        HBxv68WQPdqF4OKhJgTnih8T0GdeC105l0iwppXiSxewrY0mnC3ZtQtjsw/vx9mGP60idm/u
+        A4Ideb+VfbjvAsmWp9eK2fyRIjF7IvMSwRbfrsbZzqt9GNvevYgtuPOIYMvuVGNsi72TWDPz
+        B8liDRcblcTp5y/ZINEW3RvAEhrRlu6GUTIVnUQZyItipAuZ0oOj4gwkoeTSSsRUvjM7CV/p
+        dKYgv4dwEccQk2NqcX9cQczfTQX4ODNqbSTHtOpv1onGp1p7LiDXxynE2POKcGEKlwYzvdZB
+        TOhJvv+l7IETl0sDGXOuxYnT0m8Z+4cGpxEf6RymrbZd7MJlTGNer3Me4/HRwluYq5/F1Dw/
+        hLlcKJmWD0/Ern4R83r3IXegEOZRXynp6ucx1mYzloX8LB6yFg9Zi4fsEYSVI5mG28I/2BCj
+        gQuJTjSEbNRXI/7lXi67LjqLKtKeh9iQlEJKb5raERQhJ9RJhpQ4G1pJiZR+NITy0JSN8ZoU
+        rdqgXa9PjOUMSl/aPmluhJwehzcmxsYoFXQl4lGfcVTHJRtiOSO/tQ0xFMYvQ9/zarRGnbKV
+        08e7xGzoYwpXTqMtAafWyaWRaiMXw3EJnH6M3UBR0vSR7JdIgevidZySoWU4v4tMz0VyWzZH
+        xRrHRnmN6zN4eakn4zQ2g6YKeMLfk/D0JqK8bIilvHmDZZiQy5CgjjNERbp1feiGd/xy7zHU
+        qfkR3SeMysfACT072kF11hUWYVTVNaHWOOvli8f4+ri8mK9Pzwm1ffBSCSZ3hlJMo+cLoaSC
+        mjZRN55J4U9Pa5kTIZ/qQQjbK6bTbQd5T34e+ISDfhTKX6cP/ZPg0Jv/WU1kkdM+QpbJbtAZ
+        haHbhNuUuTFPHZZ/A7508rxA4VCMaqPnoazOCBQOxY26D+U7AZSPgRNSilRRArKVnPb64nxw
+        X0bFK2/VrItDFQsyVEdHMsuTV4RF+Utk6qVeKYlN1m0qk2NOUlz03d6AJfTgsuFn/tVM6P3M
+        8FzY5gi/Oe+GatUrX/P2mKWTW1c47h+ImQnpa2ul5l4TI9vZbPnxumpS+77g9aGbF/d0sP5T
+        /th8d/YneT61V7gkRfOAan6+vCdn4ZqkSaPDjqc1eZrZxZvqh1c3Hgn+9OGjWmtyoaXtYQ++
+        XfsVLF+daM/9Jj7A1MVdnh72r/W4ThSeJRrUnF535sDXB0RRccOKVfeGrkbjYeVBt7abV/w2
+        dbfMd1l02p1azdDKq+cDI8v/On4+rF/75bLwk7MDbkWUpS9X4gat+vO5mN6g/h9L7i6cRwYA
+        AA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Fri Jan 24 05:00:13 CET 2020
-media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	e7402fb758fd106955c3b7d5a5e961d1cb606f4a
-edid-decode git hash:	a6b199e94e62bb43d5856426187ef62e3851f780
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
-
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+  Ich bin Frau ATANASOVA RADKA. Es ist wichtig, dass Sie mit mir Kontakt aufnehmen. Ich habe einen Vorschlag, den Sie machen werden Erw&auml;gen. Kontaktieren Sie mich per: atanasovaradka01@hotmail.com
