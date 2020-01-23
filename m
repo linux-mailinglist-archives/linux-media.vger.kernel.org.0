@@ -2,113 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61EF71468A9
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 14:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43D291468E3
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 14:17:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbgAWNGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 08:06:14 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:41345 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726170AbgAWNGO (ORCPT
+        id S1726761AbgAWNRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 08:17:11 -0500
+Received: from mail-io1-f70.google.com ([209.85.166.70]:55369 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726227AbgAWNRL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 08:06:14 -0500
-Received: from [IPv6:2001:983:e9a7:1:1bd:458:b834:7f13]
- ([IPv6:2001:983:e9a7:1:1bd:458:b834:7f13])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ucBWiMNNOpLtbucBXiQVCI; Thu, 23 Jan 2020 14:06:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579784772; bh=su7DqFQhNPX7Y6l06govR8qC56VQ1s8opEZPbx/RHZs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Kpp4Irtrb1g61eIlzRiGthSG9Al6MqtVFH9Vludyz+vX9TJymBH6wDUVIipMw6OBS
-         ba5yQHC5yDZTwl5xF9R+FNUApWurxSYKQB5j28VfbOrA6JN4OJVZaUHQQfmoJeDptP
-         KuZxpyE4XoiUvO9tD3jXKkhd7nPlyM41eUCychJWex6I//XUsNbplALIQBMQPkucts
-         NBYkeAxdDp9qsDZmExnUcFYP7DiUAuw97aGdtbr/RmbVWlRNV8KSD3/kkKwOUxWIV1
-         GT/em44lxioD8UTmRj3sSobRKhevWc0Yyq1eP5L9Bcs0GLfXRTAKVWOGbb7wE7dNH4
-         uBtNHrQ0VfgkQ==
-Subject: Re: [RFC] V4L HDR Architecture Proposal
-To:     Dylan Yip <dylany@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
-        Madhurkiran Harikrishnan <MADHURKI@xilinx.com>,
-        Jianqiang Chen <jianqian@xilinx.com>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Cyril Chemparathy <cyrilc@xilinx.com>,
-        Vishal Sagar <vsagar@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Subhransu Sekhar Prusty <sprusty@xilinx.com>
-References: <BYAPR02MB57027075B640D2F530E890E8B00C0@BYAPR02MB5702.namprd02.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <825d563b-7cb7-5055-d1af-b9b8eba1deb9@xs4all.nl>
-Date:   Thu, 23 Jan 2020 14:06:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 23 Jan 2020 08:17:11 -0500
+Received: by mail-io1-f70.google.com with SMTP id z21so1932846iob.22
+        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2020 05:17:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=M/T56jh5ZjLwzBjohUJv3CPw6EZc5CaN+pPMp5UPMi8=;
+        b=CZvEL8yzSQtDnoIkY4bfnLw0/m3qAPluc53r0R+FneMo8dNxxOfsctt56flccsh7FB
+         +fKuG/6IM3ZFxjQAOz+voHtha2p4ocXGBuRYT3Ktkl9vvc7rENmIKa2L4lD2umHEsW7+
+         tJhImCn77iR2qKxnuSzjD+tw4t86gLNNndj7qjCGjHGmpJGMmEjV7qQkk3bNFGIi4AW3
+         x476hK1cviBs0D//YS6r+X8MdI9byxfQ0hTKQE0X/zt/4XjoU/sfIJ03gwJuuOrAGYVd
+         x1vRFOxoRo7DCH0/6n9jwShLsrnQMrZsANg4c/hZQeZlyjS2Sy63Rpq6gL09d5c3M1tL
+         B3mA==
+X-Gm-Message-State: APjAAAVQEOgsNr/QEwAWE1FbBtlNDeWPcRPf4DT7KW3Xuu3Ondr2X2C/
+        pvBt8n3vfJzsq/cZbEZCSdADRq0NrQ1sKak8cdKdooqZb4Jr
+X-Google-Smtp-Source: APXvYqwsg5y57hY5025HrdixFMdwrZEyUk/g+pM7hsnTs15k9799/GGmSVH6lvg8jb7EHZSh1E0VDLugipmv5mqvJ1+Ipylnthdw
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB57027075B640D2F530E890E8B00C0@BYAPR02MB5702.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfI5xOFeFpkHYW3zGtu8fiGXfXjNYhXDdzR3pGiHha3ZUWtRDh4foD7u6sA49/PJSB8KI/c0ddYOb396NoQWYjPmekL0N2vSIr1O+QrwfvRGc/35DidIL
- 7aiI65OqmiJC9lL7srGR1MLgEFSWpxdhp8xAVDx48pyx8UpmPeUztKBlPew/FgMV4RVUbGYVCDv8T020L4IflxPdG9qucuMjgjBLSG4gR3ucx+P422a5IgLN
- k9CuvAedBeFUBfirkVGSBO2CkiIE4ECDnVaq1ZPEYgsJR3Pd8yZnRmscj3moWhm/zE9/Jl8PjJPvFk2XRNDZz+1jjsMFvSTPzo+VaxwITVwwiK71/ry9ZYus
- P5D2viYZ5/95lLTfp+eTiJw9312IJERmAna3rji0/Zom6J/EOghhgVCSqgydYYvs0LM8butTZifRy+zxzyGftlRAO5F4grPkr40ToVe0dhBD2EsrL861SRIl
- 9rzsAdrTC2Hkx4iS9PayByW4bNLNVn8WmmRYgh2KpKv1gkJ3JVuWjQvkFqAyJt1x+IhVvizQ3Xb1Pm+Y3AJJQ8pBg93wen2jz9I+GR+F+zVlM72DjA3ISVfn
- Xz0=
+X-Received: by 2002:a5d:8451:: with SMTP id w17mr5679243ior.303.1579785430679;
+ Thu, 23 Jan 2020 05:17:10 -0800 (PST)
+Date:   Thu, 23 Jan 2020 05:17:10 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006ac90f059cce75d4@google.com>
+Subject: BUG: corrupted list in em28xx_init_extension
+From:   syzbot <syzbot+a6969ef522a36d3344c9@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dylan,
+Hello,
 
-On 1/22/20 9:13 PM, Dylan Yip wrote:
-> Hi All,
-> 
-> We are planning to add HDR10 and HDR10+ metadata support into the V4L framework and were hoping for some feedback before we started implementation.
+syzbot found the following crash on:
 
-Nice!
+HEAD commit:    4cc301ee usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=15de59c9e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9ba75825443d54bd
+dashboard link: https://syzkaller.appspot.com/bug?extid=a6969ef522a36d3344c9
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11934d85e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10c70721e00000
 
-> 
-> For context, Xilinx HDMI RX IP currently uses a AXI LITE interface where HDR metadata is obtained from a hardware FIFO. To access these packets a CPU copy is required. 
-> We are in the process of migrating towards a AXI MM interface where the hardware will directly write HDR metadata into memory. 
-> Currently the HDMI RX driver (https://github.com/Xilinx/hdmi-modules/blob/master/hdmi/xilinx-hdmirx.c) is modeled as a v4l subdev. This is linked to a DMA IP which utilizes the DMA engine APIs and registers itself as a video node for video data. 
-> 
-> HDR10 will only consist of static metadata which will come once per stream. However, HDR10+ will have dynamic metadata which can potentially come once per frame and be up to ~4000 bytes. We would like V4L architecture to be flexible to support both. 
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+a6969ef522a36d3344c9@syzkaller.appspotmail.com
 
-The key here is the difference between Extended InfoFrames that can be long and the others, that
-have a maximum size. The latter should be handled by controls, the first is more difficult.
+em28xx 1-1:0.200: Audio interface 200 found (Vendor Class)
+em28xx 1-1:0.200: unknown em28xx chip ID (0)
+em28xx 1-1:0.200: Config register raw data: 0xfffffffb
+em28xx 1-1:0.200: AC97 chip type couldn't be determined
+em28xx 1-1:0.200: No AC97 audio processor
+list_add corruption. prev->next should be next (ffffffff87a1a960), but was ffffffff85a00184. (prev=ffff8881cd5e0240).
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:26!
+invalid opcode: 0000 [#1] SMP KASAN
+CPU: 1 PID: 94 Comm: kworker/1:2 Not tainted 5.5.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:__list_add_valid.cold+0x3a/0x3c lib/list_debug.c:26
+Code: 0b 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 a0 fc fb 85 e8 04 17 40 ff 0f 0b 48 89 f1 48 c7 c7 20 fc fb 85 4c 89 e6 e8 f0 16 40 ff <0f> 0b 48 89 ee 48 c7 c7 c0 fd fb 85 e8 df 16 40 ff 0f 0b 4c 89 ea
+RSP: 0018:ffff8881d5d570c8 EFLAGS: 00010282
+RAX: 0000000000000075 RBX: ffff8881cd764120 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8129598d RDI: ffffed103abaae0b
+RBP: ffff8881cd764240 R08: 0000000000000075 R09: ffffed103b666210
+R10: ffffed103b66620f R11: ffff8881db33107f R12: ffffffff87a1a960
+R13: ffff8881cd764000 R14: ffff8881cd76412c R15: ffff8881cd5a2000
+FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7f37b26000 CR3: 00000001c5fe1000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ __list_add include/linux/list.h:60 [inline]
+ list_add_tail include/linux/list.h:93 [inline]
+ em28xx_init_extension+0x44/0x1f0 drivers/media/usb/em28xx/em28xx-core.c:1125
+ em28xx_init_dev.isra.0+0xa7b/0x15d8 drivers/media/usb/em28xx/em28xx-cards.c:3540
+ em28xx_usb_probe.cold+0xcac/0x2515 drivers/media/usb/em28xx/em28xx-cards.c:3889
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+ hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+ port_event drivers/usb/core/hub.c:5470 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+ process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+ process_scheduled_works kernel/workqueue.c:2326 [inline]
+ worker_thread+0x7ab/0xe20 kernel/workqueue.c:2412
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Modules linked in:
+---[ end trace 8bae0db31a929c42 ]---
+RIP: 0010:__list_add_valid.cold+0x3a/0x3c lib/list_debug.c:26
+Code: 0b 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 a0 fc fb 85 e8 04 17 40 ff 0f 0b 48 89 f1 48 c7 c7 20 fc fb 85 4c 89 e6 e8 f0 16 40 ff <0f> 0b 48 89 ee 48 c7 c7 c0 fd fb 85 e8 df 16 40 ff 0f 0b 4c 89 ea
+RSP: 0018:ffff8881d5d570c8 EFLAGS: 00010282
+RAX: 0000000000000075 RBX: ffff8881cd764120 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8129598d RDI: ffffed103abaae0b
+RBP: ffff8881cd764240 R08: 0000000000000075 R09: ffffed103b666210
+R10: ffffed103b66620f R11: ffff8881db33107f R12: ffffffff87a1a960
+R13: ffff8881cd764000 R14: ffff8881cd76412c R15: ffff8881cd5a2000
+FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7f37b26000 CR3: 00000001c5fe1000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
-Can you tell a bit more about how the hardware operates? Are all InfoFrames obtained through the hw
-fifo, or are some stored in registers and some go through the fifo?
 
-Does the hardware set maximum sizes for specific InfoFrames or the total size of all InfoFrames
-combined? Or can it be any size?
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Does it accept any InfoFrame or only specific InfoFrame types? Or is this programmable?
-
-Regards,
-
-	Hans
-
-> 
-> We have 2 different proposals that we believe will work:
-> 
-> A. 2 video node approach (1 for video, 1 for metadata) - This will align with current v4l metadata structure (i.e. uvc) but will require our HDMI RX driver to register a subdev and device node
-> 	a. Our HDMI RX driver will register a v4l subdev (for video data) and a metadata node
-> 		i. Is this acceptable?
-> 	b. Applications will qbuf/dqbuf to both video and metadata nodes for each frame
-> 
-> B. 1 video node approach - This will avoid mixing v4l subdev and v4l device node functionality inside HDMI RX driver but it strays from current v4l metadata architecture and also changes v4l subdev functionality
-> 	a. We would add a "read" function to v4l subdev's
-> 		i. This will also require us to add some "capabilities" field to subdev or be able to query for the "read" function
-> 	b. HDMI Rx driver will register a v4l subdev with "read" function/capability
-> 	c. Application can directly pass a buffer in the "read" function to HDMI RX subdev to obtain HDR metadata
-> 		i. We will need to pass subdev name from application or be able to query all subdevs for this "read" capability, is this acceptable?
-> 
-> Please let me know your opinions on which approach is best or propose another approach if these 2 are unfit. Thanks
-> 
-> Best,
-> Dylan Yip
-> 
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
