@@ -2,107 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29715146101
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 04:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7658F14613B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 06:00:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbgAWDlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Jan 2020 22:41:23 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:38878 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbgAWDlX (ORCPT
+        id S1725818AbgAWFAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 00:00:50 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49759 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725535AbgAWFAu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Jan 2020 22:41:23 -0500
-Received: by mail-pg1-f195.google.com with SMTP id a33so649867pgm.5
-        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2020 19:41:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=M4IYYoWtx8mo3fAqViP2Q1A79n+DLL8YZqTFMPU46Xw=;
-        b=cTymw1UtMWNuzFGH08wDbbDkE8Y6PAWC9RjhMcYoEOfBsUTsCDMhTaBALA5w4n8bFv
-         uJXcIq9bPJuLu/LqcWA5HrSL7XPUH+IdilXP2Jr/eV+S865gvVLMtH/n4DK5qvY7NSnj
-         sI8BXWJRGN1idQXI5Qz43Q8NyI4wFxpOitZ3g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=M4IYYoWtx8mo3fAqViP2Q1A79n+DLL8YZqTFMPU46Xw=;
-        b=lyDzyDgKptguCXr9KjG0E1Zvn3bDqz6O7nwBrJaee8c2Ueljp/zQsmPlySVRTM4eY8
-         L4/GmXSWG1rOkE9ons3BvrnpXfsTfoXZnFJR61l6ti1K2usVw8pghDTIuwxmn0wnyKSh
-         aJqSAuESE7BA5NSbURftaxFIYSZ+CCwQyuSRqBIspXaNmdL4s3Ftp64pgW+/JjKg/b1Y
-         jZqlMkQLNK/T6t8gm8yh4PZeWULAERfkQ/BcaMNylofVR4thYq2DRb/IU8JNncktAnTW
-         7rcbBdav2+vY7jT+0mQDm6mQYCF5xqz9dw3N56U7BBHQZcbhUZuf8sjK0/J1OI8/YzB9
-         Iwfg==
-X-Gm-Message-State: APjAAAUtiTFVClfuLJRbepd8mg+jmYd+ID3Odb7KZgs8i1HqPQFZKxuy
-        ReFF0EU+J6OMcv27CoIllBMbuw==
-X-Google-Smtp-Source: APXvYqwWNh0sPEwygX7Wvo8RPiFcNXSo831PAF15ESiscG3x5fFSuE6AcHIFGug9cP/qO+n0oHym3A==
-X-Received: by 2002:a63:2407:: with SMTP id k7mr1679176pgk.174.1579750882332;
-        Wed, 22 Jan 2020 19:41:22 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id c14sm397784pfn.8.2020.01.22.19.41.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 19:41:21 -0800 (PST)
-Date:   Thu, 23 Jan 2020 12:41:18 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH 06/15] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT in CREATE_BUFS
-Message-ID: <20200123034118.GA158382@google.com>
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-7-senozhatsky@chromium.org>
- <1fedab8f-e9a1-36b1-3dd0-8f1ed782ec4d@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1fedab8f-e9a1-36b1-3dd0-8f1ed782ec4d@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 23 Jan 2020 00:00:50 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:1bd:458:b834:7f13])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id uUbmiJXMapLtbuUbniOIj0; Thu, 23 Jan 2020 06:00:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579755647; bh=J9gopQhVShd7mpHC4A+CxOHLcmpCafPGgYDBphkHoFk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=JeR6g18G2Nbjd9MsvVZO7rVmSQ+oimaGuTRrf4vzdAPK29BJKK0ulpSP65fTSjKrh
+         YgGIdb9e6aTVSqVk4qpm3wYzU5wg57YjrT6BiGzwwALcEU8Gb5VpgHH4QkUMIUWZBg
+         fqmqpOM+ooxzHM2pjaWL4+8j/iRmmG8f31Vg9nrOM/WuRN5aAqoTX68fQFBkifv0Gn
+         4X7+BDJ0lelza8WshnPvANA0dkc7xbKkBWVaTZVHHqAvQhiwY3fO/tfNuRcLNSBcTe
+         i1oWwlcxpjBgwPQqbQn3qxaftR+PAK9Vq+2e2z25AgcaEHTMHeHayy/JNo8AGEfG8m
+         BqLSlyCI1QQfA==
+Message-ID: <3a50b1ec31c87389be5d30e8c9bbbfca@smtp-cloud8.xs4all.net>
+Date:   Thu, 23 Jan 2020 06:00:46 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfGYGmIlyisKgfvV0bbFhpHlqcotlkh+hAnEmxnIt6Tk04AKSwbrRgkP+GGg90+dL/AYqDX0xaZB9g66d8vwkSTEKy+fVAJRMPiVZ3W0s7sXuEviS1qgt
+ aSpo59HTtEZScpM51lwed/18906A7QXDzfAqQnEYy/J3/mHekZOLCIVAXZ5onPvWbCeNeyuFDaPKMFDiKIzdYjSHvU0jQgJnx6/W6egauGSTwIrV97RpoO5A
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/01/10 10:59), Hans Verkuil wrote:
-[..]
-> >  
-> >  	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> > index 0eabb589684f..48d123a1ac2a 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> > @@ -730,6 +730,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
-> >  	unsigned requested_sizes[VIDEO_MAX_PLANES];
-> >  	struct v4l2_format *f = &create->format;
-> >  	int ret = vb2_verify_memory_type(q, create->memory, f->type);
-> > +	bool consistent = true;
-> >  	unsigned i;
-> >  
-> >  	fill_buf_caps(q, &create->capabilities);
-> > @@ -775,7 +776,11 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
-> >  	for (i = 0; i < requested_planes; i++)
-> >  		if (requested_sizes[i] == 0)
-> >  			return -EINVAL;
-> > -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-> > +
-> > +	if (create->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> > +		consistent = false;
-> > +
-> > +	return ret ? ret : vb2_core_create_bufs(q, create->memory, consistent,
-> >  		&create->count, requested_planes, requested_sizes);
-> 
-> As mentioned before: we need a V4L2_BUF_CAP capability.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I can add V4L2_BUF_CAP for memory consistency. Isn't it just q->memory
-property though? User space may request MMAP consistent memory or MMAP
-inconsistent memory.
+Results of the daily build of media_tree:
 
-	-ss
+date:			Thu Jan 23 05:00:12 CET 2020
+media-tree git hash:	2a0a0bc7020ef7e66c9569d8229d79fa72e3d659
+media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
+v4l-utils git hash:	63b02ae9492f89ec2ea5f12e322761361dd28233
+edid-decode git hash:	aac70db18dc91135966a7bb7953203596a6aaf10
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 0
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
