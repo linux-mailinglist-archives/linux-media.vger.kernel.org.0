@@ -2,214 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31DEF146A0F
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 14:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E75146A4B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 15:00:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbgAWN7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 08:59:47 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:53681 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726240AbgAWN7q (ORCPT
+        id S1728709AbgAWOAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 09:00:40 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38081 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727022AbgAWOAk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 08:59:46 -0500
-Received: from [IPv6:2001:983:e9a7:1:1bd:458:b834:7f13]
- ([IPv6:2001:983:e9a7:1:1bd:458:b834:7f13])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ud1GiMhyrpLtbud1HiQmGT; Thu, 23 Jan 2020 14:59:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579787984; bh=QMJEymLawOLXetjmUApu8pD98GsGg9QmPDT6OQP12HI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Pj0qq3RPWTXnW81gSSId/7TqNxzdAaal+ojwUfoDH+gIwcuRF7fez3cdaby3gets+
-         JqY6T57OH0bwfNis/KUjyFJEBWI9tdxlBZYPWKkW5v1pT5jlD6bY6hNxMjQX1dlbLA
-         2LfZqz73iwivrE8indM+jRUezRIsiMP8NkWKrdiHp5mH3C34wvhiJyyDzU8G+RbdWz
-         LtAVF7n3Xg3oIuCAfpf6IqB26WuIfRDoUvADjihUT9UaZSJB/6QzbjbhgVY3tbpEpA
-         WwYHP9S9J6VGLN89xLCT6a61LXt0Q7aEv2W9rJAeczj9V4woIZtUKCFgXl7tHTX7RE
-         t6b5zMCvpJsdQ==
-Subject: Re: [v6, 5/5] media: platform: Add Mediatek ISP P1 V4L2 device driver
-To:     Jungo Lin <jungo.lin@mediatek.com>, tfiga@chromium.org,
-        laurent.pinchart@ideasonboard.com, matthias.bgg@gmail.com,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        srv_heupstream@mediatek.com, ddavenport@chromium.org,
-        robh@kernel.org, Sean.Cheng@mediatek.com, sj.huang@mediatek.com,
-        frederic.chen@mediatek.com, Jerry-ch.Chen@mediatek.com,
-        frankie.chiu@mediatek.com, ryan.yu@mediatek.com,
-        Rynn.Wu@mediatek.com, yuzhao@chromium.org, zwisler@chromium.org,
-        shik@chromium.org, suleiman@chromium.org,
-        Pi-Hsun Shih <pihsun@chromium.org>
-References: <Jungo Lin <jungo.lin@mediatek.com>
- <20191219054930.29513-1-jungo.lin@mediatek.com>
- <20191219054930.29513-6-jungo.lin@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c481734a-c706-2ea9-3888-ab2fb9c805ef@xs4all.nl>
-Date:   Thu, 23 Jan 2020 14:59:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 23 Jan 2020 09:00:40 -0500
+Received: by mail-pf1-f194.google.com with SMTP id x185so1591697pfc.5
+        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2020 06:00:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eaakHPtquLm/QuhUeGSfqmMfenCUub/aZvbkfRWUVhY=;
+        b=gZJabL7LaABtPWt7al+0/+3LNjRDPuq4glqMmEKJDlh+ZP3xZRJXbkZ6uha1vOnC3e
+         PWSLrRIMXyOeO1WS+xaIRZkMptT7m6cnrBWQns2vnJSO1o40TB+cmbSsiDm+ewQcix7t
+         ijBLNvVPmraSWZmwMzaq525Qx6KSqSAXURfj43iNf5brzeuOFUCTw/loRaKif5X5PS0h
+         vLs8E0bDnihc3vHoKnR+bPyQa0q6YiYM1G/uLZVEXxypX0hP4MHk+iwyfDCHgx1Kj9Tt
+         gEb2hZqrO54t4ngT7EAjquk4h1fBnFdF+w4H+5p/yXpAyvoEXT+cwJOMj19IrlhwrQiJ
+         Euvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eaakHPtquLm/QuhUeGSfqmMfenCUub/aZvbkfRWUVhY=;
+        b=USLQ7SY89CwPL606naRvAvT+GX0mxrKunYR0gZpgZ31WajJ16UB8iQ9BYwhwV1EZ+7
+         2MgIQreqa8e3U1ABHLiakIb+nvqnnG2mhqg7stMlx/kyzB7G+paHlgOqntPliWkyHQGx
+         F+7e2hS+C/0/7+VQNz2emFzK4qbg8e4l5YB3h+coe+LUHg465/xXhzx37aoKq1U7axvt
+         ccmmObY6bWXyvmKbKtxvjlped9GHr3WUtvwndX2sdzTchNLk6T2Bm1ruynus0kOXRtwU
+         8HTU4yw5KxAgCH7our9bcq8RPSWNhqePsn3pyUXue6NC/pDQIyEySWXRmIcUhk/i769G
+         7q5w==
+X-Gm-Message-State: APjAAAVOKqhWhCiPVcrhHxH2HxSbc3LpmIPQnYfpUZxEK5YhYdPwvmF7
+        oSNNgL6UXRlm1mCHqEz7WCgVZa+dUzw0emNVqXY+QA==
+X-Google-Smtp-Source: APXvYqwDl0oJcXLixPXvgprHhlnsCLhJar3LxDx0WVCyapUyt5ESsO5Yf5LY/ev1I3KmFnHXXseknHyAlr/WcDp/naU=
+X-Received: by 2002:a63:d906:: with SMTP id r6mr4118780pgg.440.1579788039422;
+ Thu, 23 Jan 2020 06:00:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191219054930.29513-6-jungo.lin@mediatek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHmimHHTwlo1o0FCcYiUsnwhPqcAkb48Vy7zKrjhr6BOI8+sGCR4zzat8J4pe1h0dNghXVwNG0ZXNUxuDoGYbBYLmpPSsBnYkLqEwZAF+UydZByWDCxU
- G4zvgTfaj1jIuiW/1CE2RhVxsLWAfyPUedRYEbYegq4BBYOiLVg5VizUDIfI9MwgYO2y5bPeRPjU2WCZOaxyzHduPWHZthMUrz0zk3vbXMpN92sZwXTkfg+L
- BLh/f+77Q2Z6CeCH23/CG5AV5nm2EbwnN5JKdgoQxwVUk5UtaFxiJ3qFT6e5qx1/U7O6ewvHfeGUkeqsJzjZP2FQctiaARNxXvnztJUUYcNUOS/5K8Gynkbm
- DQyIkvw67V6JAFDLD0EnO/CcVOJ2rD7BfnQc1Vptkj/HT7sUKVjRrv66elzqwAvnp5a+gVBlqDhCUpaQWuzlqCB0lVZxAvmBm6FwN8RN/9LxF1WGfL1hfELH
- vptYSzCYCuogg5EYcs5YYK7XMb4DbjRs4HfkRgr4t+eUS7vLRY/LUVzTAqLrJV9dt+KywWERXFhTThadaappv53sXbAa4cxj3umRbV2nyu1rASp0S5Vja6fO
- nDg1BNIpTN94Gtb5KYMjj9CfN0PDDNdBbFWTTY7AKQNrFrZT4zYgdpCIpg6qMd19LcnsaaUHgX7SHKg5h0aPx/Pu6ki8GpaiBdZzv6Rt8Hv+klF5O4UgubX3
- BJWBGG+VVombldflQr5RitCluIGiiFYqt98ppFqigM9NS+vQxDOwferkDxlVFo+FFAXZ1BNtFwM29xUuqF/cBctpLj53h+Dx9syu9TGyDO/q7iKIikQ4Hkmr
- 5cnOJMoCzI2fXiiOCTsnqzjOmMb7NHsB6jyHClwyx/FeRkPlYoGpEAlRMmXLvIH5SDemavdblN0MEOLNgqkPJityhHn7QYEIWnxpE01prQ+1cculJQc2CbkR
- 5nQrrvpPOqlIFAo9ebTbp3bPiCziqod8y8GuRq2MkjGWfEE44QW4LlE4n6H/tsRBA/0jag32P6253tBVsGAZSZYBsyiP6QuJHdj5n3GesELTEb9RfOoMI9qX
- /yG9JoFsS5Wm/58wzoKUPiyFLkZQzeyua/A=
+References: <0000000000003a39d50599d200e6@google.com> <CAAeHK+wnE6anSjmoA-Cr4nvx_oujUWH=D_YkhE38eiJurjsCWg@mail.gmail.com>
+In-Reply-To: <CAAeHK+wnE6anSjmoA-Cr4nvx_oujUWH=D_YkhE38eiJurjsCWg@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Thu, 23 Jan 2020 15:00:28 +0100
+Message-ID: <CAAeHK+zZTWpnE=duVb+Jv9zj4wuYn6bj=yzUHugB-G9aoyDf1Q@mail.gmail.com>
+Subject: Re: WARNING in uvc_scan_chain_forward
+To:     syzbot <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jungo,
+On Fri, Jan 10, 2020 at 4:51 PM Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> On Mon, Dec 16, 2019 at 2:15 PM syzbot
+> <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot found the following crash on:
+> >
+> > HEAD commit:    4cc037ec usb: gadget: add raw-gadget interface
+> > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=11b905dee00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=e9c2b6de462bc469
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=0a5c96772a9b26f2a876
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10f82546e00000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1638ef7ee00000
+> >
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com
+> >
+> > usb 1-1: New USB device found, idVendor=0bd3, idProduct=0755,
+> > bcdDevice=69.6a
+> > usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+> > usb 1-1: config 0 descriptor??
+> > usb 1-1: string descriptor 0 read error: -71
+> > uvcvideo: Found UVC 0.00 device <unnamed> (0bd3:0755)
+> > ------------[ cut here ]------------
+> > list_add double add: new=ffff8881d0637010, prev=ffff8881d0637010,
+> > next=ffff8881d4e87c18.
+> > WARNING: CPU: 1 PID: 22 at lib/list_debug.c:29 __list_add_valid+0xb4/0xf0
+> > lib/list_debug.c:29
+> > Kernel panic - not syncing: panic_on_warn set ...
+> > CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.5.0-rc1-syzkaller #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> > Google 01/01/2011
+> > Workqueue: usb_hub_wq hub_event
+> > Call Trace:
+> >   __dump_stack lib/dump_stack.c:77 [inline]
+> >   dump_stack+0xef/0x16e lib/dump_stack.c:118
+> >   panic+0x2aa/0x6e1 kernel/panic.c:221
+> >   __warn.cold+0x2f/0x30 kernel/panic.c:582
+> >   report_bug+0x27b/0x2f0 lib/bug.c:195
+> >   fixup_bug arch/x86/kernel/traps.c:174 [inline]
+> >   fixup_bug arch/x86/kernel/traps.c:169 [inline]
+> >   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+> >   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+> >   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+> > RIP: 0010:__list_add_valid+0xb4/0xf0 lib/list_debug.c:29
+> > Code: 48 c7 c7 e0 f3 da 85 4c 89 e6 e8 ef cf 2b ff 0f 0b 31 c0 eb c5 48 89
+> > f2 4c 89 e1 48 89 ee 48 c7 c7 60 f4 da 85 e8 d4 cf 2b ff <0f> 0b 31 c0 eb
+> > aa 48 89 34 24 e8 fd 3c 7f ff 48 8b 34 24 e9 60 ff
+> > RSP: 0018:ffff8881d8c37080 EFLAGS: 00010286
+> > RAX: 0000000000000000 RBX: ffff8881d0637010 RCX: 0000000000000000
+> > RDX: 0000000000000000 RSI: ffffffff81295dad RDI: ffffed103b186e02
+> > RBP: ffff8881d0637010 R08: ffff8881da24e200 R09: fffffbfff11f1eae
+> > R10: fffffbfff11f1ead R11: ffffffff88f8f56f R12: ffff8881d4e87c18
+> > R13: ffff8881d0637000 R14: dffffc0000000000 R15: ffff8881d4e87c18
+> >   __list_add include/linux/list.h:60 [inline]
+> >   list_add_tail include/linux/list.h:93 [inline]
+> >   uvc_scan_chain_forward.isra.0+0x4df/0x637
+> > drivers/media/usb/uvc/uvc_driver.c:1526
+> >   uvc_scan_chain drivers/media/usb/uvc/uvc_driver.c:1640 [inline]
+> >   uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1824 [inline]
+> >   uvc_probe.cold+0x1aee/0x29de drivers/media/usb/uvc/uvc_driver.c:2197
+> >   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+> >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
+> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+> >   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+> >   __device_attach+0x217/0x360 drivers/base/dd.c:894
+> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+> >   device_add+0x1480/0x1c20 drivers/base/core.c:2487
+> >   usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
+> >   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+> >   usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+> >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
+> >   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+> >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+> >   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+> >   __device_attach+0x217/0x360 drivers/base/dd.c:894
+> >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+> >   device_add+0x1480/0x1c20 drivers/base/core.c:2487
+> >   usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
+> >   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+> >   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+> >   port_event drivers/usb/core/hub.c:5470 [inline]
+> >   hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
+> >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
+> >   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+> >   kthread+0x318/0x420 kernel/kthread.c:255
+> >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+> > Kernel Offset: disabled
+> > Rebooting in 86400 seconds..
+> >
+> >
+> > ---
+> > This bug is generated by a bot. It may contain errors.
+> > See https://goo.gl/tpsmEJ for more information about syzbot.
+> > syzbot engineers can be reached at syzkaller@googlegroups.com.
+> >
+> > syzbot will keep track of this bug report. See:
+> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> > syzbot can test patches for this bug, for details see:
+> > https://goo.gl/tpsmEJ#testing-patches
+>
+> #syz fix: media: uvc: Avoid cyclic entity chains due to malformed USB
+> descriptors
 
-On 12/19/19 6:49 AM, Jungo Lin wrote:
-> This patch adds the Mediatek ISP P1 HW control device driver.
-> It handles the ISP HW configuration, provides interrupt handling and
-> initializes the V4L2 device nodes and other V4L2 functions. Moreover,
-> implement standard V4L2 video driver that utilizes V4L2 and media
-> framework APIs. It supports one media device, one sub-device and
-> several video devices during initialization. Moreover, it also connects
-> with sensor and seninf drivers with V4L2 async APIs. Communicate with
-> co-process via SCP communication to compose ISP registers in the
-> firmware.
-> 
-> (The current metadata interface used in meta input and partial
-> meta nodes is only a temporary solution to kick off the driver
-> development and is not ready to be reviewed yet.)
-> 
-> Signed-off-by: Jungo Lin <jungo.lin@mediatek.com>
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
-> ---
-> Changes from v6:
->  - Revise help description for VIDEO_MEDIATEK_ISP_PASS1
->  - Apply SCP v21 change in P1 driver by Pi-Hsun Shih
->  - Correct auto suspend timer value for suspend/resume issue
->  - Increase IPI guard timer to 1 second to avoid false alarm command timeout event
->  - Fix KE due to no sen-inf sub-device
-> ---
->  drivers/media/platform/mtk-isp/Kconfig        |   20 +
->  .../media/platform/mtk-isp/isp_50/Makefile    |    3 +
->  .../platform/mtk-isp/isp_50/cam/Makefile      |    6 +
->  .../platform/mtk-isp/isp_50/cam/mtk_cam-hw.c  |  636 +++++
->  .../platform/mtk-isp/isp_50/cam/mtk_cam-hw.h  |   64 +
->  .../platform/mtk-isp/isp_50/cam/mtk_cam-ipi.h |  222 ++
->  .../mtk-isp/isp_50/cam/mtk_cam-regs.h         |   95 +
->  .../platform/mtk-isp/isp_50/cam/mtk_cam.c     | 2087 +++++++++++++++++
->  .../platform/mtk-isp/isp_50/cam/mtk_cam.h     |  244 ++
->  9 files changed, 3377 insertions(+)
->  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/Makefile
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/Makefile
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-hw.c
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-hw.h
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-ipi.h
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-regs.h
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.c
->  create mode 100644 drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam.h
-
-<snip>
-
-> +static void isp_tx_frame_worker(struct work_struct *work)
-> +{
-> +	struct mtk_cam_dev_request *req =
-> +		container_of(work, struct mtk_cam_dev_request, frame_work);
-> +	struct mtk_cam_dev *cam =
-> +		container_of(req->req.mdev, struct mtk_cam_dev, media_dev);
-> +	struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(cam->dev);
-> +
-> +	scp_ipi_send(p1_dev->scp, SCP_IPI_ISP_FRAME, &req->frame_params,
-> +		     sizeof(req->frame_params), MTK_ISP_IPI_SEND_TIMEOUT);
-> +}
-
-<snip>
-
-> +void mtk_isp_req_enqueue(struct mtk_cam_dev *cam,
-> +			 struct mtk_cam_dev_request *req)
-> +{
-> +	struct mtk_isp_p1_device *p1_dev = dev_get_drvdata(cam->dev);
-> +
-> +	/* Accumulated frame sequence number */
-> +	req->frame_params.frame_seq_no = ++p1_dev->enqueued_frame_seq_no;
-> +
-> +	INIT_WORK(&req->frame_work, isp_tx_frame_worker);
-> +	queue_work(p1_dev->composer_wq, &req->frame_work);
-> +	dev_dbg(cam->dev, "enqueue fd:%s frame_seq_no:%d job cnt:%d\n",
-> +		req->req.debug_str, req->frame_params.frame_seq_no,
-> +		cam->running_job_count);
-> +}
-
-<snip>
-
-> +/*
-> + * struct dma_buffer - DMA buffer address information
-> + *
-> + * @iova: DMA address for ISP DMA device
-> + * @scp_addr: SCP address for external co-process unit
-> + *
-> + */
-> +struct dma_buffer {
-> +	u32 iova;
-> +	u32 scp_addr;
-> +} __packed;
-
-<snip>
-
-> +static void mtk_cam_vb2_buf_queue(struct vb2_buffer *vb)
-> +{
-> +	struct mtk_cam_dev *cam = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct mtk_cam_dev_buffer *buf = mtk_cam_vb2_buf_to_dev_buf(vb);
-> +	struct mtk_cam_dev_request *req = mtk_cam_req_to_dev_req(vb->request);
-> +	struct mtk_cam_video_device *node = mtk_cam_vbq_to_vdev(vb->vb2_queue);
-> +	struct device *dev = cam->dev;
-> +	unsigned long flags;
-> +
-> +	dev_dbg(dev, "%s: node:%d fd:%d idx:%d\n", __func__,
-> +		node->id, buf->vbb.request_fd, buf->vbb.vb2_buf.index);
-> +
-> +	/* added the buffer into the tracking list */
-> +	spin_lock_irqsave(&node->buf_list_lock, flags);
-> +	list_add_tail(&buf->list, &node->buf_list);
-> +	spin_unlock_irqrestore(&node->buf_list_lock, flags);
-> +
-> +	/* update buffer internal address */
-> +	req->frame_params.dma_bufs[buf->node_id].iova = buf->daddr;
-> +	req->frame_params.dma_bufs[buf->node_id].scp_addr = buf->scp_addr;
-> +}
-> +
-
-<snip>
-
-> +/*
-> + * struct mtk_p1_frame_param - MTK ISP P1 driver frame parameters.
-> + *
-> + * @frame_seq_no: The frame sequence of frame in driver layer.
-> + * @dma_bufs: The DMA buffer address information of enabled DMA nodes.
-> + *
-> + */
-> +struct mtk_p1_frame_param {
-> +	unsigned int frame_seq_no;
-> +	struct dma_buffer dma_bufs[MTK_CAM_P1_TOTAL_NODES];
-> +} __packed;
-
-So if I understand this correctly, to set the ISP frame parameters userspace
-provides an array of pointers to other memory areas that are magically created
-somewhere and containing magic, undocumented data.
-
-I know you said that this is 'not ready to be reviewed yet', but I just wanted
-to mention that this is of course not acceptable and needs to be replaced with
-a documented metadata structure that userspace can pass in the metadata buffer.
-
-Just ignore this email if you were already planning on doing that. I just wanted
-to make sure that it is clear that the current approach won't fly.
-
-Regards,
-
-	Hans
+#syz fix:
+media: uvc: Avoid cyclic entity chains due to malformed USB descriptors
