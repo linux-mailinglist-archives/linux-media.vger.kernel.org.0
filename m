@@ -2,164 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7658F14613B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 06:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C707C146425
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 10:09:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725818AbgAWFAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 00:00:50 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49759 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725535AbgAWFAu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 00:00:50 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:1bd:458:b834:7f13])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id uUbmiJXMapLtbuUbniOIj0; Thu, 23 Jan 2020 06:00:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579755647; bh=J9gopQhVShd7mpHC4A+CxOHLcmpCafPGgYDBphkHoFk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=JeR6g18G2Nbjd9MsvVZO7rVmSQ+oimaGuTRrf4vzdAPK29BJKK0ulpSP65fTSjKrh
-         YgGIdb9e6aTVSqVk4qpm3wYzU5wg57YjrT6BiGzwwALcEU8Gb5VpgHH4QkUMIUWZBg
-         fqmqpOM+ooxzHM2pjaWL4+8j/iRmmG8f31Vg9nrOM/WuRN5aAqoTX68fQFBkifv0Gn
-         4X7+BDJ0lelza8WshnPvANA0dkc7xbKkBWVaTZVHHqAvQhiwY3fO/tfNuRcLNSBcTe
-         i1oWwlcxpjBgwPQqbQn3qxaftR+PAK9Vq+2e2z25AgcaEHTMHeHayy/JNo8AGEfG8m
-         BqLSlyCI1QQfA==
-Message-ID: <3a50b1ec31c87389be5d30e8c9bbbfca@smtp-cloud8.xs4all.net>
-Date:   Thu, 23 Jan 2020 06:00:46 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfGYGmIlyisKgfvV0bbFhpHlqcotlkh+hAnEmxnIt6Tk04AKSwbrRgkP+GGg90+dL/AYqDX0xaZB9g66d8vwkSTEKy+fVAJRMPiVZ3W0s7sXuEviS1qgt
- aSpo59HTtEZScpM51lwed/18906A7QXDzfAqQnEYy/J3/mHekZOLCIVAXZ5onPvWbCeNeyuFDaPKMFDiKIzdYjSHvU0jQgJnx6/W6egauGSTwIrV97RpoO5A
+        id S1726026AbgAWJJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 04:09:07 -0500
+Received: from gofer.mess.org ([88.97.38.141]:60395 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725785AbgAWJJH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Jan 2020 04:09:07 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 1500F11A001; Thu, 23 Jan 2020 09:09:06 +0000 (GMT)
+Date:   Thu, 23 Jan 2020 09:09:05 +0000
+From:   Sean Young <sean@mess.org>
+To:     camden lindsay <camden.lindsay+kernel@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: ir-keytable segfault when writing keymap from file
+Message-ID: <20200123090905.GA6195@gofer.mess.org>
+References: <CABkW7JNg-7PNwSH2CsZVFHpqHdnaH5Ha4VS83r8_CaMox3wfQQ@mail.gmail.com>
+ <CABkW7JNw2vzijzPuUVTOEC7oZ-opSgRp7YdpEdmhJrKc=GX7Ow@mail.gmail.com>
+ <20200121092021.GA25590@gofer.mess.org>
+ <CABkW7JNsiMPU9SP+pvojWDrDm7ckdrEaOnUmtRw-bhe5iKigsg@mail.gmail.com>
+ <20200121164939.GA32565@gofer.mess.org>
+ <CABkW7JNPtB9oyEzZ13dDfdqSbeskTY38z0qTBpNodmRhzxxyzA@mail.gmail.com>
+ <20200121192943.GA2797@gofer.mess.org>
+ <CABkW7JOMEKbRSJqrjShfis03MJHjoYGd_T4Cd+2QffzXMWKiaw@mail.gmail.com>
+ <20200122091640.GA14036@gofer.mess.org>
+ <CABkW7JNKq3N39pzmMJJ5B05V0fHZBqxmd68XThuDs6f+QC41Nw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABkW7JNKq3N39pzmMJJ5B05V0fHZBqxmd68XThuDs6f+QC41Nw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Jan 22, 2020 at 07:32:41PM -0800, camden lindsay wrote:
+> Did this, and found that all of the remote commands were nec-x and I
+> must have been mapping the others for some other device.  Included my
+> mappings for the other device to test the toml file with multiple
+> protocols, and it all seems to work correctly
+> 
+> [kodiuser@kodiarch ~]$ sudo ir-keytable -c
+> Old keytable cleared
+> [kodiuser@kodiarch ~]$ sudo ir-keytable -w /etc/ir-keytable/test.toml
+> Read AVR54 Remote table
+> Wrote 64 keycode(s) to driver
+> Protocols changed to nec rc-6
+> [kodiuser@kodiarch ~]$ grep 0x /etc/ir-keytable/test.toml | wc -l
+> 64
+> [kodiuser@kodiarch ~]$
+> 
+> 
+> Now have the toml file as attached, and seems to work for what I need
+> and load properly.
+> 
+> One question; the format  as called out in the man page seems strange-
+> that we set a name to the first [[protocols]] entry, which appears to
+> be for the entire file- but we don't in subsequent [[protocols]]
+> entries.   Is that by design/purposeful?  Or am I reading the man page
+> example wrong?
 
-Results of the daily build of media_tree:
+That man page could do with some re-wording. I'm not great at writing
+documentation.
 
-date:			Thu Jan 23 05:00:12 CET 2020
-media-tree git hash:	2a0a0bc7020ef7e66c9569d8229d79fa72e3d659
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	63b02ae9492f89ec2ea5f12e322761361dd28233
-edid-decode git hash:	aac70db18dc91135966a7bb7953203596a6aaf10
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Your attached keymap looks like:
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 0
-sparse: OK
-smatch: ERRORS
+       [[protocols]]
+       name = "AVR54 Remote"
+       protocol = "nec"
+       variant = "necx"
+       [protocols.scancodes]
+        0x847490 = "KEY_ENTER"
+        0x84748a = "KEY_FASTFORWARD"
+        0x84747e = "KEY_REWIND"
+        0x84747f = "KEY_PLAY"
+        0x847499 = "KEY_RECORD"
+        0x84748c = "KEY_PAUSE"
+        0x84747c = "KEY_X"
+        0x84747d = "KEY_NEXTSONG"
+        0x84747b = "KEY_PREVIOUSSONG"
+        0x84748e = "KEY_UP"
+        0x847492 = "KEY_DOWN"
+        0x84748f = "KEY_LEFT"
+        0x847491 = "KEY_RIGHT"
+        0x847497 = "KEY_BACKSPACE"
+        0x847496 = "KEY_MENU"
+        0x80d864 = "KEY_POWER"
 
-Detailed results are available here:
+       [[protocols]]
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+Here is the second [[protocols]] entry. Is that what you mean?
 
-Detailed regression test results are available here:
+       protocol = "rc-6"
+       [protocols.scancodes]
+        0x800f0400 = "KEY_NUMERIC_0"
+        0x800f0401 = "KEY_NUMERIC_1"
+        0x800f0402 = "KEY_NUMERIC_2"
+        0x800f0403 = "KEY_NUMERIC_3"
+        0x800f0404 = "KEY_NUMERIC_4"
+        0x800f0405 = "KEY_NUMERIC_5"
+        0x800f0406 = "KEY_NUMERIC_6"
+        0x800f0407 = "KEY_NUMERIC_7"
+        0x800f0408 = "KEY_NUMERIC_8"
+        0x800f0409 = "KEY_NUMERIC_9"
+        0x800f040a = "KEY_DELETE"
+        0x800f040c = "KEY_SLEEP"
+        0x800f040d = "KEY_MEDIA"
+        0x800f040e = "KEY_MUTE"
+        0x800f040f = "KEY_INFO"
+        0x800f0410 = "KEY_VOLUMEUP"
+        0x800f0411 = "KEY_VOLUMEDOWN"
+        0x800f0412 = "KEY_CHANNELUP"
+        0x800f0413 = "KEY_CHANNELDOWN"
+        0x800f041c = "KEY_NUMERIC_POUND"
+        0x800f041d = "KEY_NUMERIC_STAR"
+        0x800f0424 = "KEY_DVD"
+        0x800f0425 = "KEY_TUNER"
+        0x800f0426 = "KEY_EPG"
+        0x800f0427 = "KEY_ZOOM"
+        0x800f0432 = "KEY_MODE"
+        0x800f0433 = "KEY_PRESENTATION"
+        0x800f0434 = "KEY_EJECTCD"
+        0x800f043a = "KEY_BRIGHTNESSUP"
+        0x800f0446 = "KEY_TV"
+        0x800f0447 = "KEY_AUDIO"
+        0x800f0448 = "KEY_PVR"
+        0x800f0449 = "KEY_CAMERA"
+        0x800f044a = "KEY_VIDEO"
+        0x800f044c = "KEY_LANGUAGE"
+        0x800f044d = "KEY_TITLE"
+        0x800f044e = "KEY_PRINT"
+        0x800f0450 = "KEY_RADIO"
+        0x800f045a = "KEY_SUBTITLE"
+        0x800f045b = "KEY_RED"
+        0x800f045c = "KEY_GREEN"
+        0x800f045d = "KEY_YELLOW"
+        0x800f045e = "KEY_BLUE"
+        0x800f0465 = "KEY_POWER2"
+        0x800f046e = "KEY_PLAYPAUSE"
+        0x800f046f = "KEY_PLAYER"
+        0x800f0480 = "KEY_BRIGHTNESSDOWN"
+        0x800f0481 = "KEY_PLAYPAUSE"
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+> Many thanks for helping me getting this sorted- i can use my remote again!! :)
 
-Full logs are available here:
+No problem, glad it is working.
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Sean
