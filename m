@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80455146650
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 12:08:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 810D91466D6
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2020 12:35:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbgAWLIi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 06:08:38 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39011 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726026AbgAWLIi (ORCPT
+        id S1729074AbgAWLfh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 06:35:37 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:45247 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726191AbgAWLfh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 06:08:38 -0500
+        Thu, 23 Jan 2020 06:35:37 -0500
 Received: from [IPv6:2001:983:e9a7:1:1bd:458:b834:7f13]
  ([IPv6:2001:983:e9a7:1:1bd:458:b834:7f13])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id uaLiixt49T6sRuaLjixWHh; Thu, 23 Jan 2020 12:08:36 +0100
+        id ualpiy1VaT6sRualqixbcI; Thu, 23 Jan 2020 12:35:34 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1579777716; bh=n0bbi5reB6btYraVhNownfDKq5l4b7KiRDlNRMAIbV8=;
+        t=1579779334; bh=KEHyB2YSBLhTH76juePtrte4Uqe1v74RtTuxnjS6ESw=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=iZZrAHuKVni3DbpCO5XU1+OM2sL3jMYnSeK1YO4BioiOvDNQjb+xgEo30EMOlOfTq
-         KXRKK+9V857ZAJaX84zuYdx7TtUmK4+cxJByHfhn/i+ok0wPNhnh5QmJU6LuiuskEZ
-         QdcD2vHUlCrfW47VFZ5K4xEgNd4mVpITXp/dt7KbyV+SSJv4gra0+V6ucNPYavVbKN
-         nKtze3JrQhXtpYv4AZGRbvreKtrx9pt8Bl/kTXiCHpg1EipKAJ2p5f4/hi3vq8C8hs
-         UMrDKaLjoCo5brD5ivffVHh89HUY5O7LUp8YSmQaRp++w0BS2Qwv0WuGfVSVExeNMU
-         QQ3v3czxDCX+Q==
-Subject: Re: [RFC][PATCH 05/15] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT in REQBUFS
+        b=kH+19aZeG/th3Kb+uBZwEgMzAdZIMhawWPepzm7JZVQEfMzba5ZeGMpJvkd23h5Ac
+         regY7JLcijhNRr4b9X4Kj/dKP4pQOfMvLOUE9oadsXR9/GptPPnqkyYY+FSRtuOVhl
+         ycl55j9Ir6GmEGiYWxPFzDPkFCQgnihjicpE3X6kOiX4M8lhf2bwRch3h7qOYk8bNH
+         4C+6aDaUDbYppbNSexA5unpK5+LTwRuyRML0KBLvHPk14I/NE1MeBy65wqkYJNYv5e
+         T24A4dZc1f5xPPLcMj0Zo2xRMx3dZ/X9KM1gkKTQWwKHz1kyqayJ4wW7UhB6ujfuxD
+         7d5UVTiUVwFYw==
+Subject: Re: [RFC][PATCH 13/15] videobuf2: do not sync buffers for DMABUF
+ queues
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>
 Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
@@ -39,66 +39,90 @@ Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-6-senozhatsky@chromium.org>
- <8d0c95c3-64a2-ec14-0ac2-204b0430b2b4@xs4all.nl>
- <20200122021805.GE149602@google.com> <20200122034826.GA49953@google.com>
+ <20191217032034.54897-14-senozhatsky@chromium.org>
+ <2d0e1a9b-6c5e-ff70-9862-32c8b8aaf65f@xs4all.nl>
+ <20200122050515.GB49953@google.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7c4accc6-56f2-ecd0-1549-a4114b339ce8@xs4all.nl>
-Date:   Thu, 23 Jan 2020 12:08:34 +0100
+Message-ID: <57f711a0-6183-74f6-ab24-ebe414cb6881@xs4all.nl>
+Date:   Thu, 23 Jan 2020 12:35:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200122034826.GA49953@google.com>
+In-Reply-To: <20200122050515.GB49953@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOclX7/0TmC/wSsftm7U8GyP5KhyI0dBeMH8ozix/GKMBMuloalMwkCDnJ8sUU9FVHiTjl6KI/hQqhjFKt46GRlSo+I0KEcnM/ykFt7+XlPRJqPHyvZy
- akPVxqLy0tVAx7rkmoirlcektaqPBF0lWC7MW5gWhYmXLB5WcgkoeVvIp72RQF+V7KxdwG6NDVfozQXfhrl3AbFx/K0QH17vvXfDmMonxr9FLspZwn1UfkHR
- G/sbXbRwlPLm1IiXDGs6BPMFPDDNl7KC1TZzQf0c7D8aNjOJ5P6/uRxx4ufQvbQnzqxfLVh+v8YApY9lyJdmv9VgSIfVi4Ya7dVM9YQa6QOwAIq9uI+V+Tpk
- T0tG1M3ZeLkDCVtTHj5CNcYZ4h8/5w3cWzb+PD2OPsWIskr/Mp9rYsQv5i0UYeAHvT0zgI/1bjXFz1ezeLR0EsDRPNfQpZYsTNCz11T1IemOvq//9JDQX5MF
- CHacnvwzuxEbzGvOEzHEBOOy8iOIQxBq4NdajdrvL0yVIDV8BbfBfyUbdJW6R9mU8gaQyPib80k4ml5PG3CWr702dpMZhkg3p0UrjgluKOV5b8aHVve2jjsH
- I3W+8JctKOCfwins7Np1TDZrSW77gcKY0Bf1LprtNGLOPQ==
+X-CMAE-Envelope: MS4wfFopszA+QvXTY3B1Zj27KGKBvsbxEPtzbuP86jYxKN8NfHKcNcahR0+HMQVTFh5+Qk9B2QWy90ayhnUMRgfR/HDQDDcv6rPAJGCMarqO+bQ1VuzH0CDI
+ faQth5pTfW8vmyHDw+EETiF26T/zSkrEzq92K8xpWQw+F2Zw5qI9SDiDsaU3GMJvHPhkadAzljht67/ZReaSAlmZyGEcLtv1LFVoZKI2PABPvQHhFiPOd0fb
+ U34BS+45enK/WhR6uxOhDSduOM5m/bSo69DAhFjOP2fZMUNzFCiHf8+XShd7FuqDSFfOKpNhq2eI2DHPhpCvofFnQqGedoWG+HkAJNZLz/kTty/3N8kf/dg0
+ nFnr6EGDAVJoGM+7UVfhNtg7e4tJOfFY9/g+ZRjSY0EcmqX0EtJ4Ga9gt/hZHO34yIEBapk0nGE2KHWCscl4LL6Yp+rsTSjHsu22C+pjj4rTp+lyZz/lK9Va
+ 5xJoWNK+owTcpGn5RFex/Pp7/NS9GXAJc/AcidSIpg+LPfcUIn5lR5DqYgwwujCJMdb9Sgaema8hYmG8XmCApmij7cJKfRFekM9DpA6OmCsM0eEXtQH654b5
+ xaFzdFTjs6SZpVhQ27/4j4XPquXrXPQt9EDK67QglgaiTw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/22/20 4:48 AM, Sergey Senozhatsky wrote:
-> On (20/01/22 11:18), Sergey Senozhatsky wrote:
+On 1/22/20 6:05 AM, Sergey Senozhatsky wrote:
+> On (20/01/10 11:30), Hans Verkuil wrote:
 > [..]
->>>> +    * -
->>>> +      - __u32
->>>>        - ``reserved``\ [1]
->>>>        - A place holder for future extensions. Drivers and applications
->>>> -	must set the array to zero.
->>>> +	must set the array to zero, unless application wants to specify
->>>> +        buffer management ``flags``.
->>>
->>> I think support for this flag should be signaled as a V4L2_BUF_CAP capability.
->>> If the capability is not set, then vb2 should set 'flags' to 0 to preserve the
->>> old 'Drivers and applications must set the array to zero' behavior.
+>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> index 1762849288ae..2b9d3318e6fb 100644
+>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>>> @@ -341,8 +341,22 @@ static void set_buffer_cache_hints(struct vb2_queue *q,
+>>>  				   struct vb2_buffer *vb,
+>>>  				   struct v4l2_buffer *b)
+>>>  {
+>>> -	vb->need_cache_sync_on_prepare = 1;
+>>> +	/*
+>>> +	 * DMA exporter should take care of cache syncs, so we can avoid
+>>> +	 * explicit ->prepare()/->finish() syncs.
+>>> +	 */
+>>> +	if (q->memory == VB2_MEMORY_DMABUF) {
+>>> +		vb->need_cache_sync_on_finish = 0;
+>>> +		vb->need_cache_sync_on_prepare = 0;
+>>> +		return;
+>>> +	}
+>>>  
+>>> +	/*
+>>> +	 * For other ->memory types we always need ->prepare() cache
+>>> +	 * sync. ->finish() cache sync, however, can be avoided when queue
+>>> +	 * direction is TO_DEVICE.
+>>> +	 */
+>>> +	vb->need_cache_sync_on_prepare = 1;
 >>
->> The patch set adds V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS towards the end of the
->> series, I guess I can shuffle the patches and change the wording here.
+>> I'm trying to remember: what needs to be done in prepare()
+>> for a capture buffer? I thought that for capture you only
+>> needed to invalidate the cache in finish(), but nothing needs
+>> to be done in the prepare().
 > 
-> Or I can add separate queue flag and V4L2_BUF_CAP:
-> 
-> struct vb2_queue {
-> ...
-> 	allow_cache_hints:1
-> +	allow_consistency_hints:1
-> ...
-> }
-> 
-> and then have CAP_SUPPORTS_CACHE_HINTS/CAP_SUPPORTS_CONSISTENCY_HINTS.
+> Hmm. Not sure. A precaution in case if user-space wrote to that buffer?
 
-Don't these two go hand-in-hand? I.e. either neither are supported, or
-both are supported? If so, then one queue flag is sufficient.
+But whatever was written in the buffer is going to be overwritten anyway.
+
+Unless I am mistaken the current situation is that the cache syncs are done
+in both prepare and finish, regardless of the DMA direction.
+
+I would keep that behavior to avoid introducing any unexpected regressions.
+
+Then, if q->allow_cache_hint is set, then default to a cache sync (cache clean)
+in the prepare for OUTPUT buffers and a cache sync (cache invalidate) in the
+finish for CAPTURE buffers.
+
+This also means that any drivers that want to access a buffer in between the
+prepare...finish calls will need to do a begin/end_cpu_access. But that's a
+separate matter.
 
 Regards,
 
 	Hans
 
+> 
+> +	if (q->dma_dir == DMA_FROM_DEVICE)
+> +		q->need_cache_sync_on_prepare = 0;
+> 
+> ?
 > 
 > 	-ss
 > 
