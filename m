@@ -2,79 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3372714843F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 12:41:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E144148438
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 12:41:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389999AbgAXLlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jan 2020 06:41:35 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:34555 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390582AbgAXLSA (ORCPT
+        id S2390761AbgAXLlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jan 2020 06:41:31 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55185 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390668AbgAXLSp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jan 2020 06:18:00 -0500
-Received: by mail-oi1-f193.google.com with SMTP id l136so1515249oig.1
-        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2020 03:17:59 -0800 (PST)
+        Fri, 24 Jan 2020 06:18:45 -0500
+Received: by mail-wm1-f68.google.com with SMTP id g1so1250454wmh.4
+        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2020 03:18:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bzadvert.net; s=google;
-        h=message-id:date:from:mime-version:content-transfer-encoding:subject
-         :to:content-disposition;
-        bh=y70Qz32C9BSrb6DtDjyoA+gVpofcqks2VlkNOEChTg8=;
-        b=I/wAI7Byvlu/h+pzJa7IoLUcdkdneZZ00n3ywi7qrRB5irBM2P9DZbI+Fj9eUuxH12
-         4SLVImhI5q3OKDHxh9X7RtZMqwOMrZlQCmetkTMLHKegMacLmWM5n/qU++Pj+Rsa7+Kc
-         j1CNjI6el20pdPVSfwDcSxvpJnI2xMtN/vYiAqqFxpEOt48MCyDo5xeUTMYXZQ8k1m6V
-         usAEb9543xhmqwVpgMNftUnyTkRHhT++qJ//Q9aDazc4Nq/RDehbjvJI2L5dtZtyVC6S
-         tK90Zw2yU8Kw0ODkeDZ1c/j/A5wFfxUAGdzgIL7o3ARYjx6pHgM5z7IskpToO9HiXdxs
-         jmjA==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ANMpFHUuJ7AoaEIR0Mfi1Yglq+QTNbfCcaUKdxl54oM=;
+        b=qfe6+PLd80Lj9i8WHJ5i/jm5S39Vl4ZarKRjFY+DLcmhl2tYWYIWC8NfPFTLDJ3QMk
+         A8VchwGeZaDVrjIeegtr0+RSpk1JwwVi2NVqPdLNcSkBKix2CxRD+cTcwUc6aPWP7Jg6
+         KYMTpr7vVH+a7IA03jv7nmKzhXwZJm5nHe/4p0reELPsxBxjkSxSugxwBnI9UzB4k2m9
+         9zgxahOSxAER+hf5xAcpxvfC8C5fpZQ6ipZ09a85vXtDYsvKtYeHNY8gSqgGO6FWImEe
+         RPMEuMLvZHdQzD4DoZSxJo+yR//AgNNAU+Q6KpVDLQlyIzNE+fnjV5NA69w9mdIcojB1
+         CR1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:from:mime-version
-         :content-transfer-encoding:subject:to:content-disposition;
-        bh=y70Qz32C9BSrb6DtDjyoA+gVpofcqks2VlkNOEChTg8=;
-        b=kj+rmuprdW9HDSxF4uH/awLu8KfxM75qmfiRL+d87HHit6IKdl7QHLq1Qce6GFUr3k
-         PAE5syFbwQ87mLRCe06lPihgkQFuYOtMqJVXwgH8DrPfbBWHmRVk/oYu4jp+eF9nu2QB
-         AATC9jP+l+43f3K4ojmJ8tbMxroQShr6Z+c6nqufxZQezV+MjyuPs0qbFKBLt7rNePvT
-         jAIJxylMiydlGY8pWXv+83JSCrP2oPs+ym3qouKFKFjyxG/vGBzOxMz3rC+/892GlS/W
-         tRlAtFXC5mvgc3BNm2EcUt6qP6yZvCuTUXNF5XDnDYtec2vXPOl+IO0N1hH3bEnXd59H
-         d48g==
-X-Gm-Message-State: APjAAAVY1HN6Mgs4tHYMXZ2B7yJ4HoVYOXOKFTslH4BTqEfgJ8SUUcpt
-        zcevEd88q+Mja/OLQrNbNhP+7HSzEi5r93ak
-X-Google-Smtp-Source: APXvYqzPddT4f/FMhR+Q8l7SWqAUHd30Kir+KGnO4C3eRvsaUtRAoXUJh9IvLeeywEg/aQSds/JGoA==
-X-Received: by 2002:aca:cc07:: with SMTP id c7mr1569225oig.165.1579864679220;
-        Fri, 24 Jan 2020 03:17:59 -0800 (PST)
-Received: from [127.0.0.1] ([2600:3c00::f03c:91ff:fe50:9fcb])
-        by smtp.gmail.com with ESMTPSA id 17sm1867305oty.48.2020.01.24.03.17.58
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Jan 2020 03:17:58 -0800 (PST)
-Message-ID: <5e2ad266.1c69fb81.eb291.b4c1@mx.google.com>
-Date:   Fri, 24 Jan 2020 03:17:58 -0800 (PST)
-From:   george.anderson@bzadvert.net
-X-Google-Original-From: root@debian
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ANMpFHUuJ7AoaEIR0Mfi1Yglq+QTNbfCcaUKdxl54oM=;
+        b=KarAFanOTtNAFFVditRNs/Kr0hQynREiopWOQGI6vHHtx55QHQNwtr6j4BfYj5tjFN
+         5o+qNwtOnC2tccF0tFn0Tfum/vfoqmCsTFDTIlAphRuQOpFfZgmu9gIPksa0iTzlbmlO
+         CwUNOsdNTR/3K4m97rM/pdmR/1pYv1xhHA7yaUdQJniyNzMMeYOaZUJT3WCiAX3Trvbq
+         aqMTEUXPJeIOpbo6ZlSCJ+/Aa/1vADahFezzrDAFoLrmmHGme3QeTla1Qu839uzdWGhh
+         OnpHV44DXTpxrmH9ed+5cyxog5Q1jeQtnafhQENLVM0jTQZm29oC4r2zS7HgG3WWHtKy
+         K/rQ==
+X-Gm-Message-State: APjAAAXqnTv6L2TsdHrYq6MvVz6q9wOYTbPiJkToruffdMY6Ed1F+w8/
+        xJJ+joVwMhIBTSXV+Y+OvjANDW6GZXyCaux1wRHADg==
+X-Google-Smtp-Source: APXvYqzaopuaYUqr3B668awTBBxMMz+ierAFISQIhE+3j4KVokdIsPwFPjjwv1X/LnQF7rKqW8YZCmf7n53HPoZyd5w=
+X-Received: by 2002:a05:600c:108a:: with SMTP id e10mr2897384wmd.10.1579864723486;
+ Fri, 24 Jan 2020 03:18:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: Sponsorship inquiry to bootlin.com
-To:     linux-media@vger.kernel.org
-Content-Disposition: inline
+References: <20200116133437.2443-1-narmstrong@baylibre.com> <20200116133437.2443-5-narmstrong@baylibre.com>
+In-Reply-To: <20200116133437.2443-5-narmstrong@baylibre.com>
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+Date:   Fri, 24 Jan 2020 12:18:32 +0100
+Message-ID: <CAMO6naw79tYi7gbwVcHyTG=T=HTNPErp352ZdFOQqzZTvz=89Q@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] media: meson: vdec: add VP9 input support
+To:     Neil Armstrong <narmstrong@baylibre.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
-I=E2=80=99m=20an=20SEO=20manager=20at=20Bzadverts.com.=20Having=20visited=
-=20your=20website,=20I=20would=20like=20to=20say=20that=20it=20is=20very=20=
-informative=20and=20well-organized.=20
-Actually,=20I=E2=80=99m=20writing=20to=20ask=20about=20some=20advert=20oppo=
-rtunities=20you=20offer.
-I=E2=80=99m=20greatly=20interested=20in=20
-guest=20posts
-link=20insertion=20(in=20the=20existing=20article)
-homepage=20link=20placement
-banners
-Do=20you=20have=20a=20price-list=20for=20these=20kinds=20of=20advertising?=
-=20I=E2=80=99m=20interested=20in=20both=20permanent=20placement=20and=20mon=
-thly.
-If=20you=20have=20any=20other=20online=20platforms=20for=20advertising,=20I=
-=20will=20gladly=20consider=20them=20too.
-Hope=20to=20hear=20from=20you=20soon!
+On Thu, Jan 16, 2020 at 2:34 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
+>
+> From: Maxime Jourdan <mjourdan@baylibre.com>
+>
+> Amlogic VP9 decoder requires an additional 16-byte payload before every
+> frame header.
+>
+> The source buffer is updated in-place, then given to the Parser FIFO DMA.
+>
+> The FIFO DMA copies the blocks into the 16MiB parser ring buffer, then parses
+> and copies the slice into the decoder "workspace".
+>
+> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+
+[...]
+
+> @@ -186,13 +294,27 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>         int ret;
+>         struct vb2_buffer *vb = &vbuf->vb2_buf;
+>         struct amvdec_core *core = sess->core;
+> +       struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
+>         u32 payload_size = vb2_get_plane_payload(vb, 0);
+>         dma_addr_t phy = vb2_dma_contig_plane_dma_addr(vb, 0);
+> +       u32 num_dst_bufs = 0;
+>         u32 offset;
+>         u32 pad_size;
+>
+> -       if (esparser_vififo_get_free_space(sess) < payload_size)
+> +       if (sess->fmt_out->pixfmt == V4L2_PIX_FMT_VP9) {
+> +               if (codec_ops->num_pending_bufs)
+> +                       num_dst_bufs = codec_ops->num_pending_bufs(sess);
+> +
+> +               num_dst_bufs += v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
+> +               if (sess->fmt_out->pixfmt == V4L2_PIX_FMT_VP9)
+> +                       num_dst_bufs -= 2;
+
+With the changes that happened in the updated series where one more
+ref frame is held by VP9, this should be -= 3 to prevent a shortage of
+CAPTURE buffers on the decoder side.
+
+For the future, a good enhancement of the way this is handled could be
+to notify new capture buffers to the decoding modules (codec_*.c), so
+that they could pause when there is no capture buffer available and
+resume on this notification.
+
+> +
+> +               if (esparser_vififo_get_free_space(sess) < payload_size ||
+> +                   atomic_read(&sess->esparser_queued_bufs) >= num_dst_bufs)
+> +                       return -EAGAIN;
+> +       } else if (esparser_vififo_get_free_space(sess) < payload_size) {
+>                 return -EAGAIN;
+> +       }
+>
+>         v4l2_m2m_src_buf_remove_by_buf(sess->m2m_ctx, vbuf);
+>
+> @@ -206,7 +328,19 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+>         vbuf->field = V4L2_FIELD_NONE;
+>         vbuf->sequence = sess->sequence_out++;
+>
+> -       pad_size = esparser_pad_start_code(core, vb);
+> +       if (sess->fmt_out->pixfmt == V4L2_PIX_FMT_VP9) {
+> +               payload_size = vp9_update_header(core, vb);
+> +
+> +               /* If unable to alter buffer to add headers */
+> +               if (payload_size == 0) {
+> +                       amvdec_remove_ts(sess, vb->timestamp);
+> +                       v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+> +
+> +                       return 0;
+> +               }
+> +       }
+> +
+> +       pad_size = esparser_pad_start_code(core, vb, payload_size);
+>         ret = esparser_write_data(core, phy, payload_size + pad_size);
+>
+>         if (ret <= 0) {
+> --
+> 2.22.0
+>
