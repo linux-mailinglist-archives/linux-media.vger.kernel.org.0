@@ -2,139 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 525BA1476F0
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 03:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65DCE1477CA
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 05:59:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730314AbgAXCZr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 21:25:47 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:40254 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730005AbgAXCZr (ORCPT
+        id S1729425AbgAXE7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 23:59:18 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59991 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729253AbgAXE7S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 21:25:47 -0500
-Received: by mail-pj1-f67.google.com with SMTP id bg7so373410pjb.5
-        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2020 18:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wZkNXk/j/FX4H35zLUUfeB6UVmty3DCVgibb2jFr+W8=;
-        b=UK2NnWBXt+4l5lehVqqDx8Y0/xUQNfAFnsRbtbMhYt8sGV95QRl7EXnoveOqh4TNa5
-         8CFJNYb04cwyZwxa8RgQdRIAfnPLIVhWGMFEcaES6aoKziZdpPfuFNoAPerOZP6CrWVU
-         W50XTuUuNfc65LzzwtOl1bpcYRxp4goeZjy70=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wZkNXk/j/FX4H35zLUUfeB6UVmty3DCVgibb2jFr+W8=;
-        b=OeeJnYi5xN898V1gIkaIUEMrq71NPKO4ISkPPALjTJPJc6Cmwg78ByGs5E9RlyV8s0
-         BWu9JP/iHY8NZO8b6xKdrNcB27D0JoTw78to0zMRzoolZjOXshe5CM9UkFaQnhki8XtH
-         DrJq3khyLBkni89UIt9pwpuHoXCpRQw9b8wo+g7sK7uum1asKvNc4jEIfi7+xj8BjEiC
-         rFvHZTAb7jzQ0fx9hPHXonNuLHE9gl2yBifngW/02s0ztLCoJbPnFvqB/OdYFSeHn8yv
-         EVseRR66205g07RgluVXPvNjnIBy23myQjWkE7oh2s85y+1Kp6VFNJNT8E/cpZ1USYGi
-         Z8Kw==
-X-Gm-Message-State: APjAAAUZ4RPU6lKZHu5p+G5KbSO7iKcsSokwPyGRMPjJbaZ3Ap3uoR1Q
-        ch2BtDQPH1q6/ErbW51fS0Ioqg==
-X-Google-Smtp-Source: APXvYqx9X+PIiksskSh6s8xBYgkunxj4+mupFtRlAqSkOUrTwLCHtoJ9jpWIrA4YfcrFk9oLa8Ifng==
-X-Received: by 2002:a17:902:aa41:: with SMTP id c1mr1240730plr.105.1579832746732;
-        Thu, 23 Jan 2020 18:25:46 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id d23sm4004936pfo.176.2020.01.23.18.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2020 18:25:46 -0800 (PST)
-Date:   Fri, 24 Jan 2020 11:25:44 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH 13/15] videobuf2: do not sync buffers for DMABUF
- queues
-Message-ID: <20200124022544.GD158382@google.com>
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-14-senozhatsky@chromium.org>
- <2d0e1a9b-6c5e-ff70-9862-32c8b8aaf65f@xs4all.nl>
- <20200122050515.GB49953@google.com>
- <57f711a0-6183-74f6-ab24-ebe414cb6881@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57f711a0-6183-74f6-ab24-ebe414cb6881@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 23 Jan 2020 23:59:18 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:dded:8f92:97b:fe6e])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ur3ri2MayT6sRur3sizoln; Fri, 24 Jan 2020 05:59:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579841956; bh=LNIAz31Sl/BwOJ3Ixxkw0XNQf76h7UhW4onhqHNSzKk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=sINkqDnFx5kJUR+I2NpYLlnmyr1WH/aFUfk3HKZHZ0qxdlLbUpCyGHY8eTa+3MA5x
+         ZYPCAvfVlcdW2k8PwxLitHWDZtgNqbYalft0+Jtajzvl0FX8FuI1JjGEk1maTmpA+d
+         Bo5Ox7VNP6kjaGRtdiynNETIC3Yyi6pi6JnSafTYh6dsIDwAUihdtjuk4XQLBGFNHz
+         JNn9pWgTtxaYK9LGQV+D8L2ZU+E8GMCbUrxsYZTQ2nRWSx/x3jm1X2G7lzJoBP9Thj
+         xljD1Uky6+s7yv+p3cvqwYI1MjegZECnHxLgmZHL3ZwrWHaQyGFkn9RfO34PJ9/Knm
+         3BBctJcxaZuPg==
+Message-ID: <967264ac4c8e71260ae233c530015a7c@smtp-cloud9.xs4all.net>
+Date:   Fri, 24 Jan 2020 05:59:15 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfJr1649DUFK0jpp1E9+DEjoWZxDiwsCG9yNSN5hckDlDbr+w9dlORJJAhRLWlmXt9mqFpZ2OZ5rnasdQMpu5X/WNbNtahcR5bScAXX77rouRJSDtyehs
+ v3bVwN+FHot5CCh83qdMN4QybSPJAHfFphfsWZDMvUdQGhdW5GNPrvZuFKmQLNvMhROIiFPDEQ3xzYLPxUKCy2y0OFscMJRkd9UdQQiwH6VgOxphENvtaUii
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/01/23 12:35), Hans Verkuil wrote:
-> On 1/22/20 6:05 AM, Sergey Senozhatsky wrote:
-> > On (20/01/10 11:30), Hans Verkuil wrote:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-[..]
+Results of the daily build of media_tree:
 
-> But whatever was written in the buffer is going to be overwritten anyway.
-> 
-> Unless I am mistaken the current situation is that the cache syncs are done
-> in both prepare and finish, regardless of the DMA direction.
-> 
-> I would keep that behavior to avoid introducing any unexpected regressions.
+date:			Fri Jan 24 05:00:13 CET 2020
+media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
+media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
+v4l-utils git hash:	e7402fb758fd106955c3b7d5a5e961d1cb606f4a
+edid-decode git hash:	a6b199e94e62bb43d5856426187ef62e3851f780
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-OK.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-> Then, if q->allow_cache_hint is set, then default to a cache sync (cache clean)
-> in the prepare for OUTPUT buffers and a cache sync (cache invalidate) in the
-> finish for CAPTURE buffers.
+Detailed results are available here:
 
-We alter default cache sync behaviour based both on queue ->memory
-type and queue ->dma_dir. Shall both of those cases depend on
-->allow_cache_hints, or q->memory can be independent?
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-static void set_buffer_cache_hints(struct vb2_queue *q,
-				   struct vb2_buffer *vb,
-				   struct v4l2_buffer *b)
-{
-	if (!q->allow_cache_hints)
-		return;
+Detailed regression test results are available here:
 
-	/*
-	 * DMA exporter should take care of cache syncs, so we can avoid
-	 * explicit ->prepare()/->finish() syncs. For other ->memory types
-	 * we always need ->prepare() or/and ->finish() cache sync.
-	 */
-	if (q->memory == VB2_MEMORY_DMABUF) {
-		vb->need_cache_sync_on_finish = 0;
-		vb->need_cache_sync_on_prepare = 0;
-		return;
-	}
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
-	/*
-	 * ->finish() cache sync can be avoided when queue direction is
-	 * TO_DEVICE.
-	 */
-	if (q->dma_dir == DMA_TO_DEVICE)
-		vb->need_cache_sync_on_finish = 0;
-	else
-		vb->need_cache_sync_on_finish = 1;
+Full logs are available here:
 
-	/*
-	 * ->prepare() cache sync can be avoided when queue direction is
-	 * FROM_DEVICE.
-	 */
-	if (q->dma_dir == DMA_FROM_DEVICE)
-		vb->need_cache_sync_on_prepare = 0;
-	else
-		vb->need_cache_sync_on_prepare = 1;
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE)
-		vb->need_cache_sync_on_finish = 0;
+The Media Infrastructure API from this daily build is here:
 
-	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN)
-		vb->need_cache_sync_on_prepare = 0;
-}
+http://www.xs4all.nl/~hverkuil/spec/index.html
