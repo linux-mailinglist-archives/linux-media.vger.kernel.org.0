@@ -2,242 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFBB14854D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 13:41:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F6B314856E
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 13:54:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732642AbgAXMlS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jan 2020 07:41:18 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:35863 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730413AbgAXMlS (ORCPT
+        id S2387994AbgAXMyE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jan 2020 07:54:04 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:42231 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387559AbgAXMyD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jan 2020 07:41:18 -0500
-Received: by mail-pg1-f195.google.com with SMTP id k3so988904pgc.3
-        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2020 04:41:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=znYwEP8BlT5JhAqIxI23u4NVyVYxwHFg1esi8lZ0b3I=;
-        b=fdaKR2SLA5vNu+qBklTanXoToNYa6WgLoP22kqdCYdS3CvCCGl1MaVzdq0R/BSs/Gj
-         +NdsCcir6+RhE8r/7nww9QwERmL3s4rZ+WLCzKKVmB2emp2sh87RyRYw9QTsZRjBrEj5
-         fwIYq3k9B/WqoYYcPn8Az9gEH6fvU1QNAURlf0liOeGr8kYXPrv98mUy7Q6zkp0YbV8d
-         iTXcsRobQxfsjrr5E3e+V+cr/dGnyK0pNyvGisNxKxyG1iNq9hICQBNiuivcYMojTEIJ
-         FsO+YzEXggI8E48jcAzSpNQm33LvsIjgMYaSW93GqEapvqnmBY/Ac6jGcXjoVhhMyl4V
-         VzOA==
+        Fri, 24 Jan 2020 07:54:03 -0500
+Received: by mail-il1-f199.google.com with SMTP id c5so1446483ilo.9
+        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2020 04:54:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=znYwEP8BlT5JhAqIxI23u4NVyVYxwHFg1esi8lZ0b3I=;
-        b=X5u5WUpdJR4YO1ykF7j5W84HjrjHa2NU5Y46ii97BvdrZtAlzi6uV0MSuUhMU1Neuz
-         VnBSO1FxqHuktPMxKivEb9smr7PeYqGMK5dCLjFVas6ZuwL3r4IQy92ZPPvuut28sGyb
-         HRT99/6Oi/lRD2PhSVfoUGQsSjHPh2d+o5ytMIw1Iu/MX5Xw8ZMPNjlFfHpCFLZdsIaA
-         0wzr3ob5M6az2iVP3yuXhJHy0ywEZinoG6ZBrsp6vw7mc/GnAXqghBlJ/ZR76WLCLBVE
-         JDjouQ8yDJygvaNlmrXCJpAK2n0OxUH3drlT0cLiUo/gWddesVwUKZc8rTIdozI98Zwz
-         i4BA==
-X-Gm-Message-State: APjAAAUt2xEoX1hUsNCrxSa0FoGuxN5glSKUsENQ462vz1D5pbr8AcD8
-        RzB920MpbTNystoCycCSdbHh2qsuD0x0PNTLhQu+wQ==
-X-Google-Smtp-Source: APXvYqzid1qXDZZJNwycxElhu5/AfgZByrUXYujmLVPV1dVARwiXBDpF6hO1aoMHSiS205Uo0dD3VVOFhGH4Eunowts=
-X-Received: by 2002:a63:358a:: with SMTP id c132mr4045045pga.286.1579869677153;
- Fri, 24 Jan 2020 04:41:17 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=37DnHe8ofxjxgHB//lHANRdEDN8gOWB1O7s+JZGwEiY=;
+        b=GPJe7DLs6v1AJvs5+WfIzacefjAww0O9W02zBa/74pccO3kZ2b6Dd1C2GBNzGcq+be
+         Lt8WHkv9S3K2rEkGvgvW79lWHxaFmNxG8kzRxE3dSBauoJ2NFPMroKc+BzMHzw8Ovb+w
+         lvl5HMKRrGS+A2wDiKRJU/TJm09DLFEz/yFIw+Cfss/5qksaJOKq28/lRVCmkZkMn30I
+         YeII/XJJ+YTIYmIyf3hI+ZE6ibAnv/aPW7UvLTYNr/sYOP+Lu6oeaobozMMkj9/i0R+9
+         HUKE6gcRHpYkxBKZ453GCKifWx2bs47OR97k9dv9/cHh1bM7nSqhOwpiMYUug6secbQE
+         6kCg==
+X-Gm-Message-State: APjAAAXt3JJIg1xZNlXO9FhGDNYsa6NQUTjF5o6mQvY0qJBuXlA99Jhw
+        4Ng5a4ChPo0PGTLJuglW3/zz0MhQY7uLMeyTudTJiVl9iuzW
+X-Google-Smtp-Source: APXvYqz/hMYvG1nydnnU7Hb3i/y0X5oIx63T3wtDOB6iSu/Hgch9G3vdKnVe/Gf7+Rb5GIs7sb178IxwEbe73EcJkLESuBieVF+H
 MIME-Version: 1.0
-References: <000000000000de50d7059ba6acd5@google.com> <20200123102707.2596-1-hdanton@sina.com>
- <20200124022847.11244-1-hdanton@sina.com>
-In-Reply-To: <20200124022847.11244-1-hdanton@sina.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 24 Jan 2020 13:41:05 +0100
-Message-ID: <CAAeHK+whRFCF9WzUr55MoMiFsn83Ykr9jGGUFE4CTKVbBsZu6Q@mail.gmail.com>
+X-Received: by 2002:a92:8847:: with SMTP id h68mr1400708ild.212.1579870443103;
+ Fri, 24 Jan 2020 04:54:03 -0800 (PST)
+Date:   Fri, 24 Jan 2020 04:54:03 -0800
+In-Reply-To: <CAAeHK+whRFCF9WzUr55MoMiFsn83Ykr9jGGUFE4CTKVbBsZu6Q@mail.gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008d6b69059ce24053@google.com>
 Subject: Re: KASAN: use-after-free Read in v4l2_release (3)
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>,
-        bnvandana@gmail.com, hverkuil-cisco@xs4all.nl,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Content-Type: multipart/mixed; boundary="000000000000e671c4059ce2127a"
+From:   syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, bnvandana@gmail.com, hans.verkuil@cisco.com,
+        hdanton@sina.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---000000000000e671c4059ce2127a
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-On Fri, Jan 24, 2020 at 3:29 AM Hillf Danton <hdanton@sina.com> wrote:
->
->
-> On Thu, 23 Jan 2020 14:19:47 +0200 Laurent Pinchart wrote:
-> > On Thu, Jan 23, 2020 at 06:27:07PM +0800, Hillf Danton wrote:
-> > > Wed, 22 Jan 2020 14:58:08 -0800 (PST)
-> > > > syzbot has found a reproducer for the following crash on:
-> > > >
-> > > > HEAD commit:    4cc301ee usb: gadget: add raw-gadget interface
-> > > > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > > > console output: https://syzkaller.appspot.com/x/log.txt?x=17f5a721e00000
-> > > > kernel config:  https://syzkaller.appspot.com/x/.config?x=9ba75825443d54bd
-> > > > dashboard link: https://syzkaller.appspot.com/bug?extid=75287f75e2fedd69d680
-> > > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16a0b6f1e00000
-> > > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1327dd76e00000
-> > > >
-> > > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > > > Reported-by: syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com
-> > > >
-> > > > usbvision_set_audio: can't write iopin register for audio switching
-> > > > usbvision_radio_close: Final disconnect
-> > > > ==================================================================
-> > > > BUG: KASAN: use-after-free in v4l2_release+0x2f1/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
-> > > > Read of size 4 at addr ffff8881caba1068 by task v4l_id/1913
->
-> <snip>
->
-> > > Add the release callback for usbvision video device and use it to release
-> > > resources when the last reference to the device goes away.
-> >
-> > Would you be able to submit this with a commit message and your
-> > Signed-off-by line ?
->
-> ---8<---
-> Subject: [PATCH] media: usbvision: add the release callback for video device
-> From: Hillf Danton <hdanton@sina.com>
->
-> To fix the UAF syzbot reported,
->
-> BUG: KASAN: use-after-free in v4l2_release+0x2f1/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
->
-> a release cb which is a simple wrapper of usbvision_release() is added
-> for releasing resources as the last reference to the usbvision video
-> device goes away.
->
-> Reported-by: syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>
-> Fixes: 2aa689dd8057 ("[media] usbvision: embed video_device")
-> Cc: Hans Verkuil <hans.verkuil@cisco.com>
-> Signed-off-by: Hillf Danton <hdanton@sina.com>
-> ---
->
-> --- a/drivers/media/usb/usbvision/usbvision-video.c
-> +++ b/drivers/media/usb/usbvision/usbvision-video.c
-> @@ -401,7 +401,6 @@ static int usbvision_v4l2_close(struct f
->
->         if (r) {
->                 printk(KERN_INFO "%s: Final disconnect\n", __func__);
-> -               usbvision_release(usbvision);
->                 return 0;
->         }
->
-> @@ -409,6 +408,11 @@ static int usbvision_v4l2_close(struct f
->         return v4l2_fh_release(file);
->  }
->
-> +static void usbvision_video_device_release(struct video_device *vdev)
-> +{
-> +       struct usb_usbvision *usbvision = video_get_drvdata(vdev);
-> +       usbvision_release(usbvision);
-> +}
->
->  /*
->   * usbvision_ioctl()
-> @@ -1181,7 +1185,7 @@ static struct video_device usbvision_vid
->         .fops           = &usbvision_fops,
->         .ioctl_ops      = &usbvision_ioctl_ops,
->         .name           = "usbvision-video",
-> -       .release        = video_device_release_empty,
-> +       .release        = usbvision_video_device_release,
->         .tvnorms        = USBVISION_NORMS,
->  };
->
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -206,7 +206,10 @@ static void v4l2_device_release(struct d
->         }
->  #endif
->
-> -       /* Do not call v4l2_device_put if there is no release callback set.
-> +       /*
-> +        * Decrease v4l2_device refcount
-> +        *
-> +        * Do not call v4l2_device_put if there is no release callback set.
->          * Drivers that have no v4l2_device release callback might free the
->          * v4l2_dev instance in the video_device release callback below, so we
->          * must perform this check here.
-> @@ -214,16 +217,12 @@ static void v4l2_device_release(struct d
->          * TODO: In the long run all drivers that use v4l2_device should use the
->          * v4l2_device release callback. This check will then be unnecessary.
->          */
-> -       if (v4l2_dev->release == NULL)
-> -               v4l2_dev = NULL;
-> +       if (v4l2_dev->release)
-> +               v4l2_device_put(v4l2_dev);
->
->         /* Release video_device and perform other
->            cleanups as needed. */
->         vdev->release(vdev);
-> -
-> -       /* Decrease v4l2_device refcount */
-> -       if (v4l2_dev)
-> -               v4l2_device_put(v4l2_dev);
->  }
->
->  static struct class video_class = {
-> --
+syzbot has tested the proposed patch but the reproducer still triggered crash:
+WARNING in kernfs_remove_by_name_ns
 
-#syz test: https://github.com/google/kasan.git ae179410
+------------[ cut here ]------------
+kernfs: can not remove 'version', no directory
+WARNING: CPU: 1 PID: 94 at fs/kernfs/dir.c:1507 kernfs_remove_by_name_ns+0x98/0xb0 fs/kernfs/dir.c:1507
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 94 Comm: kworker/1:2 Not tainted 5.5.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xef/0x16e lib/dump_stack.c:118
+ panic+0x2aa/0x6e1 kernel/panic.c:221
+ __warn.cold+0x2f/0x30 kernel/panic.c:582
+ report_bug+0x27b/0x2f0 lib/bug.c:195
+ fixup_bug arch/x86/kernel/traps.c:174 [inline]
+ fixup_bug arch/x86/kernel/traps.c:169 [inline]
+ do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+ do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+ invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:kernfs_remove_by_name_ns+0x98/0xb0 fs/kernfs/dir.c:1507
+Code: b1 ff 48 c7 c7 20 13 1d 87 41 bc fe ff ff ff e8 2e fe fe 03 eb d9 e8 47 4d b1 ff 4c 89 e6 48 c7 c7 c0 51 f1 85 e8 20 33 86 ff <0f> 0b 41 bc fe ff ff ff eb bb 0f 1f 40 00 66 2e 0f 1f 84 00 00 00
+RSP: 0018:ffff8881d5d47708 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff8881cba58390 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff812959ad RDI: ffffed103aba8ed3
+RBP: 0000000000000000 R08: ffff8881d6d2c980 R09: fffffbfff1269aae
+R10: fffffbfff1269aad R11: ffffffff8934d56f R12: ffffffff8671eb40
+R13: 0000000000000000 R14: 0000000000000000 R15: 000000000000000c
+ sysfs_remove_file include/linux/sysfs.h:536 [inline]
+ device_remove_file+0x25/0x30 drivers/base/core.c:1869
+ usbvision_remove_sysfs drivers/media/usb/usbvision/usbvision-video.c:287 [inline]
+ usbvision_release+0x88/0x1c0 drivers/media/usb/usbvision/usbvision-video.c:1360
+ v4l2_device_release+0x29a/0x3e0 drivers/media/v4l2-core/v4l2-dev.c:225
+ device_release+0x71/0x200 drivers/base/core.c:1358
+ kobject_cleanup lib/kobject.c:693 [inline]
+ kobject_release lib/kobject.c:722 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x256/0x550 lib/kobject.c:739
+ put_device drivers/base/core.c:2586 [inline]
+ device_unregister+0x34/0xc0 drivers/base/core.c:2697
+ video_unregister_device+0xa2/0xc0 drivers/media/v4l2-core/v4l2-dev.c:1075
+ usbvision_unregister_video drivers/media/usb/usbvision/usbvision-video.c:1255 [inline]
+ usbvision_unregister_video+0xfb/0x120 drivers/media/usb/usbvision/usbvision-video.c:1242
+ usbvision_release+0x10d/0x1c0 drivers/media/usb/usbvision/usbvision-video.c:1361
+ usbvision_disconnect+0x171/0x1e0 drivers/media/usb/usbvision/usbvision-video.c:1593
+ usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
+ __device_release_driver drivers/base/dd.c:1134 [inline]
+ device_release_driver_internal+0x42f/0x500 drivers/base/dd.c:1165
+ bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:532
+ device_del+0x481/0xd30 drivers/base/core.c:2664
+ usb_disable_device+0x23d/0x790 drivers/usb/core/message.c:1237
+ usb_disconnect+0x293/0x900 drivers/usb/core/hub.c:2200
+ hub_port_connect drivers/usb/core/hub.c:5035 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+ port_event drivers/usb/core/hub.c:5470 [inline]
+ hub_event+0x1a1d/0x4300 drivers/usb/core/hub.c:5552
+ process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
---000000000000e671c4059ce2127a
-Content-Type: application/x-patch; name="usbvision.patch"
-Content-Disposition: attachment; filename="usbvision.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k5s5l7xp0>
-X-Attachment-Id: f_k5s5l7xp0
 
-U3ViamVjdDogW1BBVENIXSBtZWRpYTogdXNidmlzaW9uOiBhZGQgdGhlIHJlbGVhc2UgY2FsbGJh
-Y2sgZm9yIHZpZGVvIGRldmljZQpGcm9tOiBIaWxsZiBEYW50b24gPGhkYW50b25Ac2luYS5jb20+
-CgpUbyBmaXggdGhlIFVBRiBzeXpib3QgcmVwb3J0ZWQsCgpCVUc6IEtBU0FOOiB1c2UtYWZ0ZXIt
-ZnJlZSBpbiB2NGwyX3JlbGVhc2UrMHgyZjEvMHgzOTAgZHJpdmVycy9tZWRpYS92NGwyLWNvcmUv
-djRsMi1kZXYuYzo0NTkKCmEgcmVsZWFzZSBjYiB3aGljaCBpcyBhIHNpbXBsZSB3cmFwcGVyIG9m
-IHVzYnZpc2lvbl9yZWxlYXNlKCkgaXMgYWRkZWQKZm9yIHJlbGVhc2luZyByZXNvdXJjZXMgYXMg
-dGhlIGxhc3QgcmVmZXJlbmNlIHRvIHRoZSB1c2J2aXNpb24gdmlkZW8KZGV2aWNlIGdvZXMgYXdh
-eS4KClJlcG9ydGVkLWJ5OiBzeXpib3QgPHN5emJvdCs3NTI4N2Y3NWUyZmVkZDY5ZDY4MEBzeXpr
-YWxsZXIuYXBwc3BvdG1haWwuY29tPgpGaXhlczogMmFhNjg5ZGQ4MDU3ICgiW21lZGlhXSB1c2J2
-aXNpb246IGVtYmVkIHZpZGVvX2RldmljZSIpCkNjOiBIYW5zIFZlcmt1aWwgPGhhbnMudmVya3Vp
-bEBjaXNjby5jb20+ClNpZ25lZC1vZmYtYnk6IEhpbGxmIERhbnRvbiA8aGRhbnRvbkBzaW5hLmNv
-bT4KLS0tCgotLS0gYS9kcml2ZXJzL21lZGlhL3VzYi91c2J2aXNpb24vdXNidmlzaW9uLXZpZGVv
-LmMKKysrIGIvZHJpdmVycy9tZWRpYS91c2IvdXNidmlzaW9uL3VzYnZpc2lvbi12aWRlby5jCkBA
-IC00MDEsNyArNDAxLDYgQEAgc3RhdGljIGludCB1c2J2aXNpb25fdjRsMl9jbG9zZShzdHJ1Y3Qg
-ZgogCiAJaWYgKHIpIHsKIAkJcHJpbnRrKEtFUk5fSU5GTyAiJXM6IEZpbmFsIGRpc2Nvbm5lY3Rc
-biIsIF9fZnVuY19fKTsKLQkJdXNidmlzaW9uX3JlbGVhc2UodXNidmlzaW9uKTsKIAkJcmV0dXJu
-IDA7CiAJfQogCkBAIC00MDksNiArNDA4LDExIEBAIHN0YXRpYyBpbnQgdXNidmlzaW9uX3Y0bDJf
-Y2xvc2Uoc3RydWN0IGYKIAlyZXR1cm4gdjRsMl9maF9yZWxlYXNlKGZpbGUpOwogfQogCitzdGF0
-aWMgdm9pZCB1c2J2aXNpb25fdmlkZW9fZGV2aWNlX3JlbGVhc2Uoc3RydWN0IHZpZGVvX2Rldmlj
-ZSAqdmRldikKK3sKKwlzdHJ1Y3QgdXNiX3VzYnZpc2lvbiAqdXNidmlzaW9uID0gdmlkZW9fZ2V0
-X2RydmRhdGEodmRldik7CisJdXNidmlzaW9uX3JlbGVhc2UodXNidmlzaW9uKTsKK30KIAogLyoK
-ICAqIHVzYnZpc2lvbl9pb2N0bCgpCkBAIC0xMTgxLDcgKzExODUsNyBAQCBzdGF0aWMgc3RydWN0
-IHZpZGVvX2RldmljZSB1c2J2aXNpb25fdmlkCiAJLmZvcHMJCT0gJnVzYnZpc2lvbl9mb3BzLAog
-CS5pb2N0bF9vcHMJPSAmdXNidmlzaW9uX2lvY3RsX29wcywKIAkubmFtZSAgICAgICAgICAgPSAi
-dXNidmlzaW9uLXZpZGVvIiwKLQkucmVsZWFzZQk9IHZpZGVvX2RldmljZV9yZWxlYXNlX2VtcHR5
-LAorCS5yZWxlYXNlCT0gdXNidmlzaW9uX3ZpZGVvX2RldmljZV9yZWxlYXNlLAogCS50dm5vcm1z
-ICAgICAgICA9IFVTQlZJU0lPTl9OT1JNUywKIH07CiAKLS0tIGEvZHJpdmVycy9tZWRpYS92NGwy
-LWNvcmUvdjRsMi1kZXYuYworKysgYi9kcml2ZXJzL21lZGlhL3Y0bDItY29yZS92NGwyLWRldi5j
-CkBAIC0yMDYsNyArMjA2LDEwIEBAIHN0YXRpYyB2b2lkIHY0bDJfZGV2aWNlX3JlbGVhc2Uoc3Ry
-dWN0IGQKIAl9CiAjZW5kaWYKIAotCS8qIERvIG5vdCBjYWxsIHY0bDJfZGV2aWNlX3B1dCBpZiB0
-aGVyZSBpcyBubyByZWxlYXNlIGNhbGxiYWNrIHNldC4KKwkvKgorCSAqIERlY3JlYXNlIHY0bDJf
-ZGV2aWNlIHJlZmNvdW50CisJICoKKwkgKiBEbyBub3QgY2FsbCB2NGwyX2RldmljZV9wdXQgaWYg
-dGhlcmUgaXMgbm8gcmVsZWFzZSBjYWxsYmFjayBzZXQuCiAJICogRHJpdmVycyB0aGF0IGhhdmUg
-bm8gdjRsMl9kZXZpY2UgcmVsZWFzZSBjYWxsYmFjayBtaWdodCBmcmVlIHRoZQogCSAqIHY0bDJf
-ZGV2IGluc3RhbmNlIGluIHRoZSB2aWRlb19kZXZpY2UgcmVsZWFzZSBjYWxsYmFjayBiZWxvdywg
-c28gd2UKIAkgKiBtdXN0IHBlcmZvcm0gdGhpcyBjaGVjayBoZXJlLgpAQCAtMjE0LDE2ICsyMTcs
-MTIgQEAgc3RhdGljIHZvaWQgdjRsMl9kZXZpY2VfcmVsZWFzZShzdHJ1Y3QgZAogCSAqIFRPRE86
-IEluIHRoZSBsb25nIHJ1biBhbGwgZHJpdmVycyB0aGF0IHVzZSB2NGwyX2RldmljZSBzaG91bGQg
-dXNlIHRoZQogCSAqIHY0bDJfZGV2aWNlIHJlbGVhc2UgY2FsbGJhY2suIFRoaXMgY2hlY2sgd2ls
-bCB0aGVuIGJlIHVubmVjZXNzYXJ5LgogCSAqLwotCWlmICh2NGwyX2Rldi0+cmVsZWFzZSA9PSBO
-VUxMKQotCQl2NGwyX2RldiA9IE5VTEw7CisJaWYgKHY0bDJfZGV2LT5yZWxlYXNlKQorCQl2NGwy
-X2RldmljZV9wdXQodjRsMl9kZXYpOwogCiAJLyogUmVsZWFzZSB2aWRlb19kZXZpY2UgYW5kIHBl
-cmZvcm0gb3RoZXIKIAkgICBjbGVhbnVwcyBhcyBuZWVkZWQuICovCiAJdmRldi0+cmVsZWFzZSh2
-ZGV2KTsKLQotCS8qIERlY3JlYXNlIHY0bDJfZGV2aWNlIHJlZmNvdW50ICovCi0JaWYgKHY0bDJf
-ZGV2KQotCQl2NGwyX2RldmljZV9wdXQodjRsMl9kZXYpOwogfQogCiBzdGF0aWMgc3RydWN0IGNs
-YXNzIHZpZGVvX2NsYXNzID0gewo=
---000000000000e671c4059ce2127a--
+Tested on:
+
+commit:         ae179410 usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=133b3611e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ad1d751a3a72ae57
+dashboard link: https://syzkaller.appspot.com/bug?extid=75287f75e2fedd69d680
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=15921b69e00000
+
