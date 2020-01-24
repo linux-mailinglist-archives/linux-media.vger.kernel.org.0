@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24A171476B3
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 02:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D15631476E2
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 03:04:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729377AbgAXB2I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Jan 2020 20:28:08 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:40304 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729316AbgAXB2I (ORCPT
+        id S1730185AbgAXCEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Jan 2020 21:04:04 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:46420 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730183AbgAXCEE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:28:08 -0500
-Received: by mail-pj1-f68.google.com with SMTP id bg7so319056pjb.5
-        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2020 17:28:07 -0800 (PST)
+        Thu, 23 Jan 2020 21:04:04 -0500
+Received: by mail-pg1-f195.google.com with SMTP id z124so180770pgb.13
+        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2020 18:04:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Nr61gQ1ppZdRJbeAMVu/qwhaTijctoY7d/X25Vrjrzs=;
-        b=Ry0C9MNdGGagS34hyLAGWtc/JBYepuUdGyw7jncF/rfcmeMXOvKNbxwZPQKVfauwC8
-         1w1lbCS8CGMePZqOBNWjGkncrcz3qw2EXU0p2TKCtRNwGq6nulwXA/G+tNQJio++Mm3Y
-         LMYUtqPac/lXcumGZiPBMv8nTCYtf13v8nIsw=
+        bh=1S858MoZsQGyrUrhXzTxskYBOqX81/i8AYv61kLGHt4=;
+        b=Hr8PJq/mLayZKn0DoW3jkuLZ15PRLg9AA1roz320zvf9S7X3P8WlctxYnzZF9/64L2
+         Xk1wPSP+Rt6dwC1jD2oCiQ7tegiUB8UrPUZzYwhQq6XenFZcijGxbFFgg/um2NKhdHxA
+         gUzM2b4C0IhZcR0Q8J4ysEim5QZaTLUG1vwiQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Nr61gQ1ppZdRJbeAMVu/qwhaTijctoY7d/X25Vrjrzs=;
-        b=NHr9htg0tnUZ4Ak4Ad5LflqYoSyCtoY6iQ3Mu+9zUneB/89jdvv5m2NtfxlKxNw6z+
-         fuQEmIVDHs1GON3TAKp628+O/6OfDbeSjRRvdX/quJ443M7jfGKGq+2X89KSH7XF4Mbw
-         6BCBf443NYw+wHBuT8GkXn1gPQ0Q22aQm8asbu1Si1e+f0VYl6X8z65T3rX7eEaCu8BD
-         t+9rHfr6RqknamkFrkqYICvjGM0q72pHIyYP0N/FxumjfJ29VV856+HzhzxpV9OSkQCY
-         3H62uyTsx9Ly4VbprSzscB52hO2EcPjEro1+QG8UsCSfar7dCq3AM1hWMEOdER15+bnH
-         5P6g==
-X-Gm-Message-State: APjAAAV21THzLElLwbGK45qO67e0ZNCqpDA/74tfNM8+MJmeh3H74nmw
-        rCHCoy/lzbvxkvoQJ+f7hdQ5lw==
-X-Google-Smtp-Source: APXvYqwtqnnUnsMKhgIE64PIOEKlIj/OuEAdslNerJOfsaaLgtPhdLjXMAtWtIcRXnyfqyTbWXRWwg==
-X-Received: by 2002:a17:902:8b88:: with SMTP id ay8mr1000791plb.202.1579829286931;
-        Thu, 23 Jan 2020 17:28:06 -0800 (PST)
+        bh=1S858MoZsQGyrUrhXzTxskYBOqX81/i8AYv61kLGHt4=;
+        b=WiicpM8QguPJokfDpschgTvneviPsaryxBmreJGRKYWTXZwZ8zYK7vy0RJ5HcuT4ei
+         cGPbLsj2S2MKoVNvrYcYuBmgODCj+hgBNqPZBlwDF/h8RZdT+CLVmHmSHMq2CTWvrSkg
+         lxPft/iMtkt7dPTnPqVIV7BLjEaf8oXT3L4IYcLgzV9ZbFYKxucDNOSok0QbOUWhRJEM
+         mwHMtuLTXNo92ujuMBqhV4YzE7AXf4IPJbKMDHrJIzezJn5uZz8ypp4pymXxOWA/WpVF
+         S8QcvqWerHHiYJsflIPlIud5D0uHT0RI41weQL+BH4Sui6NxBeNCuZx68IHxmxYW0rpE
+         lvFw==
+X-Gm-Message-State: APjAAAUe6d307kw88ei6rE+DsYJpmny0igzgYCABKz6vdoHVsYrSMZ8e
+        kDlCRbrmRHoejFeGf4Ty92FNsw==
+X-Google-Smtp-Source: APXvYqx5diurX3Jh52Gn0AHqShTKpZmEwrnkj13TOuX7hTvJwFtpkyk3RGqax2EkexqAnYoT2UG0KQ==
+X-Received: by 2002:a62:b418:: with SMTP id h24mr1181412pfn.192.1579831443389;
+        Thu, 23 Jan 2020 18:04:03 -0800 (PST)
 Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id t30sm4147588pgl.75.2020.01.23.17.28.05
+        by smtp.gmail.com with ESMTPSA id a6sm4145702pgg.25.2020.01.23.18.04.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2020 17:28:06 -0800 (PST)
-Date:   Fri, 24 Jan 2020 10:28:03 +0900
+        Thu, 23 Jan 2020 18:04:02 -0800 (PST)
+Date:   Fri, 24 Jan 2020 11:04:00 +0900
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
@@ -55,122 +55,54 @@ Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH 06/15] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT in CREATE_BUFS
-Message-ID: <20200124012803.GB158382@google.com>
+Subject: Re: [RFC][PATCH 04/15] videobuf2: add queue memory consistency
+ parameter
+Message-ID: <20200124020400.GC158382@google.com>
 References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-7-senozhatsky@chromium.org>
- <1fedab8f-e9a1-36b1-3dd0-8f1ed782ec4d@xs4all.nl>
- <20200123034118.GA158382@google.com>
- <d9498772-d9f5-7b25-72af-04249619ce07@xs4all.nl>
+ <20191217032034.54897-5-senozhatsky@chromium.org>
+ <77ddd5cd-affc-ad0f-829d-d624f9798055@xs4all.nl>
+ <20200122020555.GD149602@google.com>
+ <8d61a2b6-4540-2dd1-309c-93d4cfa8cbcd@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d9498772-d9f5-7b25-72af-04249619ce07@xs4all.nl>
+In-Reply-To: <8d61a2b6-4540-2dd1-309c-93d4cfa8cbcd@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/01/23 12:41), Hans Verkuil wrote:
-[..]
-> >>>  
-> >>>  	fill_buf_caps(q, &create->capabilities);
-> >>> @@ -775,7 +776,11 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
-> >>>  	for (i = 0; i < requested_planes; i++)
-> >>>  		if (requested_sizes[i] == 0)
-> >>>  			return -EINVAL;
-> >>> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-> >>> +
-> >>> +	if (create->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> >>> +		consistent = false;
-> >>> +
-> >>> +	return ret ? ret : vb2_core_create_bufs(q, create->memory, consistent,
-> >>>  		&create->count, requested_planes, requested_sizes);
+On (20/01/23 12:02), Hans Verkuil wrote:
+> On 1/22/20 3:05 AM, Sergey Senozhatsky wrote:
+> > On (20/01/10 10:47), Hans Verkuil wrote:
+> >> On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
+> >>> Preparations for future V4L2_FLAG_MEMORY_NON_CONSISTENT support.
+> >>>
+> >>> Extend vb2_core_reqbufs() with queue memory consistency flag.
+> >>> API permits queue's consistency attribute adjustment only if
+> >>> the queue has no allocated buffers, not busy, and does not have
+> >>> buffers waiting to be de-queued.
 > >>
-> >> As mentioned before: we need a V4L2_BUF_CAP capability.
+> >> Actually, you can call vb2_core_reqbufs() when buffers are allocated:
+> >> it will free the old buffers, then allocate the new ones.
+> >> So drop the 'has no allocated buffers' bit.
 > > 
-> > I can add V4L2_BUF_CAP for memory consistency. Isn't it just q->memory
-> > property though? User space may request MMAP consistent memory or MMAP
-> > inconsistent memory.
+> > Well, the wording, basically, follows the existing vb2_core_reqbufs()
+> > behavior "queue memory type"-wise. What I'm trying to say:
 > 
-> So instead of adding a flag we add a V4L2_MEMORY_MMAP_NON_CONSISTENT memory
-> type and add a V4L2_BUF_CAP_SUPPORTS_MMAP_NON_CONSISTENT to signal support
-> for this?
+> How about this commit log replacement of the first paragraph:
 > 
-> I like that better than a flag. It also automatically enforces that all
-> buffers must be of that type.
+> "Extend vb2_core_reqbufs() with queue memory consistency flag that is
+> applied to the newly allocated buffers."
 
-Yes, we had this idea as well. The conclusion was it makes the patch
-set bigger and harder to verify and review. Passing memory consistency
-attribute via ->flags was the shortest path at the end. Namely due to all
-those numerous places that test q->memory:
+Looks good.
 
- 455                 if (q->memory == VB2_MEMORY_MMAP)
- 456                         __vb2_buf_mem_free(vb);
- 457                 else if (q->memory == VB2_MEMORY_DMABUF)
- 458                         __vb2_buf_dmabuf_put(vb);
- 459                 else
- 460                         __vb2_buf_userptr_put(vb);
+> The bits about 'only if the queue has no allocated buffers, not busy, and does
+> not have buffers waiting to be de-queued.' is really irrelevant and confusing
+> (at least to me!).
 
-[..]
+Agreed, those bits describe implementation details which can change.
+Better get rid of them.
 
- 737                 mutex_lock(&q->mmap_lock);
- 738                 if (debug && q->memory == VB2_MEMORY_MMAP &&
- 739                     __buffers_in_use(q))
- 740                         dprintk(1, "memory in use, orphaning buffers\n");
-
-[..]
-
-etc.
-
-As a workaround we looked at the idea that V4L2_MEMORY_MMAP_NON_CONSISTENT
-flag might make sense only on the very high level - when user space requests
-V4L2_MEMORY_MMAP_NON_CONSISTENT then we simply set DMA attribute and then
-"downgrade" requested V4L2_MEMORY_MMAP_NON_CONSISTENT memory type to
-V4L2_MEMORY_MMAP.
-
-
-Something like this.
-
----
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 4489744fbbd9..60afbfcca995 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -803,6 +803,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- }
- EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
- 
-+static void __set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
-+{
-+	if (consistent_mem)
-+		q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
-+	else
-+		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
-+}
-+
- int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 		unsigned int *count, unsigned requested_planes,
- 		const unsigned requested_sizes[])
-@@ -810,6 +818,10 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 	unsigned int num_planes = 0, num_buffers, allocated_buffers;
- 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
- 	int ret;
-+	bool consistent_mem = (memory == V4L2_MEMORY_MMAP_NON_CONSISTENT);
-+
-+	if (consistent_mem)
-+		memory = V4L2_MEMORY_MMAP;
- 
- 	if (q->num_buffers == VB2_MAX_FRAME) {
- 		dprintk(1, "maximum number of buffers already allocated\n");
-@@ -822,6 +834,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 			return -EBUSY;
- 		}
- 		memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
-+		__set_queue_consistency(q, consistent_mem);
- 		q->memory = memory;
- 		q->waiting_for_buffers = !q->is_output;
- 	} else if (q->memory != memory) {
+	-ss
