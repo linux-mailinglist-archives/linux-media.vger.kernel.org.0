@@ -2,138 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BEEE14869F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 15:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 487DB148AA3
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2020 15:52:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390182AbgAXOOi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jan 2020 09:14:38 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:56120 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387508AbgAXOOi (ORCPT
+        id S1730682AbgAXOwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jan 2020 09:52:42 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37871 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730287AbgAXOwm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jan 2020 09:14:38 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OED2Q1032309;
-        Fri, 24 Jan 2020 14:14:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type : in-reply-to;
- s=corp-2019-08-05; bh=nyerGigvEupFjYOhX0kriAFenR1Pe04fnQVjV9A2T/c=;
- b=IgnQooUngQQBGu9zsjFhDE5bAlt+fVjCdNAyaXTemzHu3zyApAlonFFM1gyRlZ0YOqpK
- +Z6dI3WPF8U0iB7l4mHTGqswFgFRKHuEAXOu2HMydncHxmhbkYDSXx3T0VJFkgONO7E9
- RbexRXCKghthruFa3/19vfsW5AHBseh/u9uzy5u1xJQuwnXMBcp5E1FDNHNvDl5lvvFx
- Jf2rOAAWzo251L3ivc/16F6i2VmeeaH6cIJTrDa+ofLQIwtgop5v9HG5RU8dMk6mG6kw
- NYq4BII8RYhrfiOr3KQSOX96L2enND9lBxd+4xQezLTKSFETYME8UgGbjceF/sr5qs2o yg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 2xksyqs6qs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 24 Jan 2020 14:14:17 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OE9CB7011673;
-        Fri, 24 Jan 2020 14:14:17 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 2xqmwfbve8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 24 Jan 2020 14:14:16 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00OEE8s5001970;
-        Fri, 24 Jan 2020 14:14:08 GMT
-Received: from kili.mountain (/129.205.23.165)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 24 Jan 2020 06:14:07 -0800
-Date:   Fri, 24 Jan 2020 17:13:56 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>,
-        Hillf Danton <hdanton@sina.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Souptick Joarder <jrdr.linux@gmail.com>, andreyknvl@google.com,
-        bnvandana@gmail.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Subject: [PATCH] media: usbvision: Fix a use after free in v4l2_release()
-Message-ID: <20200124141356.365bgzg2lp3tjedm@kili.mountain>
+        Fri, 24 Jan 2020 09:52:42 -0500
+Received: from [IPv6:2001:983:e9a7:1:dded:8f92:97b:fe6e]
+ ([IPv6:2001:983:e9a7:1:dded:8f92:97b:fe6e])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id v0K6iwlx3rNgyv0K7i5xRH; Fri, 24 Jan 2020 15:52:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1579877559; bh=nt1ev1AELOP1XXIhaMPga7o+NX7tYinIX5AKHOo2IS4=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=PWodr7GoiJQCjKHj7WinuZpCEAEbZ6GEOwZJAjbIpPxw29jpyxKZ35kFBN1psKU9q
+         nUG9QYIgn4FDnm1r33c0g8C7Au1P054i5Wjp+4EUIMlNDSIJ2evzMeUxMSNNc4uPwm
+         l6hts17jvzLFf32X2bU4GtWwYQCAM/EnN8EaoGjs1ZRosICwy0benD6Ldhvze6hFoF
+         9sC+I+hgUFSM4+UIxEe+h5Cv2kmnVC6YQSa9a4jYn4BK23XM77Dtx3I3WfB7/UlzhT
+         9AAepsOv1Obz3H+jASew0w11N0s8+Pfxcy85TX4hyaCcBOqQbiOlflJDyXRmbLN3Jj
+         77EL0+UDF2zcA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH for v5.6] pulse8-cec: close serio in disconnect, not adap_free
+Message-ID: <a6ddffaa-f650-8842-387b-f58549a59dd0@xs4all.nl>
+Date:   Fri, 24 Jan 2020 15:52:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200123102707.2596-1-hdanton@sina.com>
-X-Mailer: git-send-email haha only kidding
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9509 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001240118
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9509 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001240119
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfI3VGN6lqufDaJwm3d9tgUN/owYVptcQ1ND6yPy3EPaN1TMt9kdYIGnLhQf+OA3HXxZ6o8c/cEqRUjWKglwC59TUvKwtx5G7eMlWVs7nDaiYIt0rtTqD
+ AN0MIe9LcO6tzeOkb5weTahYDd3STCmVb8NBcg/HoXU5UAMLdQYmpdkZunBIa8AdT6nG2xhQiCTbwHj9q65NwZaTlAeZNjVzZhRLEg3UKIgWdLadxOMbsL6O
+ dlzwzueD0FuqqRXnqsnRfC78Jzz6GWnIkbXr3DAWyLw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Syzbot triggered a use after free in v5.5-rc6:
+The serio_close() call was moved to pulse8_cec_adap_free(),
+but that can be too late if that is called after the serio
+core pulled down the serio already, in which case you get
+a kernel oops.
 
-BUG: KASAN: use-after-free in v4l2_release+0x2f1/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
+Keep it in the disconnect().
 
-Allocated by task 94:
- usbvision_alloc drivers/media/usb/usbvision/usbvision-video.c:1315 [inline]
- usbvision_probe.cold+0x5c5/0x1f21 drivers/media/usb/usbvision/usbvision-video.c:1469
-
-Freed by task 1913:
- kfree+0xd5/0x300 mm/slub.c:3957
- usbvision_release+0x181/0x1c0 drivers/media/usb/usbvision/usbvision-video.c:1364
- usbvision_radio_close.cold+0x2b/0x74 drivers/media/usb/usbvision/usbvision-video.c:1130
- v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
-
-The problem is that the v4l2_release() calls usbvision_release() which
-frees "usbvision" but v4l2_release() still wants to use
-"usbvision->vdev".  One solution is to make this devm_ allocated memory
-so the memory isn't freed until later.
-
-Reported-by: syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Fixes: 601282d65b96 ("media: pulse8-cec: use adap_free callback")
 ---
-I copied this idea from a different driver, but I haven't tested it.
-I wanted to try the #syz fix command to see if it works.
+ drivers/media/usb/pulse8-cec/pulse8-cec.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
- drivers/media/usb/usbvision/usbvision-video.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+diff --git a/drivers/media/usb/pulse8-cec/pulse8-cec.c b/drivers/media/usb/pulse8-cec/pulse8-cec.c
+index 8d61bcec14bb..0655aa9ecf28 100644
+--- a/drivers/media/usb/pulse8-cec/pulse8-cec.c
++++ b/drivers/media/usb/pulse8-cec/pulse8-cec.c
+@@ -635,8 +635,6 @@ static void pulse8_cec_adap_free(struct cec_adapter *adap)
+ 	cancel_delayed_work_sync(&pulse8->ping_eeprom_work);
+ 	cancel_work_sync(&pulse8->irq_work);
+ 	cancel_work_sync(&pulse8->tx_work);
+-	serio_close(pulse8->serio);
+-	serio_set_drvdata(pulse8->serio, NULL);
+ 	kfree(pulse8);
+ }
 
-diff --git a/drivers/media/usb/usbvision/usbvision-video.c b/drivers/media/usb/usbvision/usbvision-video.c
-index 93d36aab824f..07b4763062c4 100644
---- a/drivers/media/usb/usbvision/usbvision-video.c
-+++ b/drivers/media/usb/usbvision/usbvision-video.c
-@@ -1312,7 +1312,7 @@ static struct usb_usbvision *usbvision_alloc(struct usb_device *dev,
- {
- 	struct usb_usbvision *usbvision;
- 
--	usbvision = kzalloc(sizeof(*usbvision), GFP_KERNEL);
-+	usbvision = devm_kzalloc(&dev->dev, sizeof(*usbvision), GFP_KERNEL);
- 	if (!usbvision)
- 		return NULL;
- 
-@@ -1336,7 +1336,6 @@ static struct usb_usbvision *usbvision_alloc(struct usb_device *dev,
- 	v4l2_ctrl_handler_free(&usbvision->hdl);
- 	v4l2_device_unregister(&usbvision->v4l2_dev);
- err_free:
--	kfree(usbvision);
- 	return NULL;
+@@ -652,6 +650,9 @@ static void pulse8_disconnect(struct serio *serio)
+ 	struct pulse8 *pulse8 = serio_get_drvdata(serio);
+
+ 	cec_unregister_adapter(pulse8->adap);
++	pulse8->serio = NULL;
++	serio_set_drvdata(serio, NULL);
++	serio_close(serio);
  }
- 
-@@ -1361,7 +1360,6 @@ static void usbvision_release(struct usb_usbvision *usbvision)
- 
- 	v4l2_ctrl_handler_free(&usbvision->hdl);
- 	v4l2_device_unregister(&usbvision->v4l2_dev);
--	kfree(usbvision);
- 
- 	PDEBUG(DBG_PROBE, "success");
- }
+
+ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
+@@ -872,10 +873,11 @@ static int pulse8_connect(struct serio *serio, struct serio_driver *drv)
+ 	return 0;
+
+ close_serio:
++	pulse8->serio = NULL;
++	serio_set_drvdata(serio, NULL);
+ 	serio_close(serio);
+ delete_adap:
+ 	cec_delete_adapter(pulse8->adap);
+-	serio_set_drvdata(serio, NULL);
+ free_device:
+ 	kfree(pulse8);
+ 	return err;
 -- 
-2.11.0
+2.23.0
 
