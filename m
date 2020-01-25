@@ -2,84 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBEE1491CC
-	for <lists+linux-media@lfdr.de>; Sat, 25 Jan 2020 00:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AD1614930D
+	for <lists+linux-media@lfdr.de>; Sat, 25 Jan 2020 04:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387609AbgAXXUt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Jan 2020 18:20:49 -0500
-Received: from mailoutvs60.siol.net ([185.57.226.251]:37475 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2387594AbgAXXUs (ORCPT
+        id S2387717AbgAYDFx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Jan 2020 22:05:53 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:36351 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387699AbgAYDFx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Jan 2020 18:20:48 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTP id ED3885228F3;
-        Sat, 25 Jan 2020 00:20:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 7dL3LSThwaQe; Sat, 25 Jan 2020 00:20:44 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTPS id A74745228F8;
-        Sat, 25 Jan 2020 00:20:44 +0100 (CET)
-Received: from localhost.localdomain (cpe-194-152-20-232.static.triera.net [194.152.20.232])
-        (Authenticated sender: 031275009)
-        by mail.siol.net (Zimbra) with ESMTPSA id 538075228F3;
-        Sat, 25 Jan 2020 00:20:42 +0100 (CET)
-From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, wens@csie.org
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-Subject: [PATCH 8/8] arm64: dts: allwinner: a64: add node for rotation core
-Date:   Sat, 25 Jan 2020 00:20:14 +0100
-Message-Id: <20200124232014.574989-9-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200124232014.574989-1-jernej.skrabec@siol.net>
-References: <20200124232014.574989-1-jernej.skrabec@siol.net>
+        Fri, 24 Jan 2020 22:05:53 -0500
+Received: by mail-ed1-f66.google.com with SMTP id j17so4769168edp.3;
+        Fri, 24 Jan 2020 19:05:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TTa+L2/mCEHdcfSemar+ubHNRvfrI19X4+IUtB5uVqs=;
+        b=RmMELfsUtkmnjP0uHEXY1Oq+5d5vvxvA7romG3q9bAQnJzWuokV4oogzh3eE1Fof1l
+         LZpE4Ymsfsz2PBPFn+g/pF+ifMuGWHgeFkxqhlt2wze8PjOzphWHJWahHTMgKQdNqtnL
+         C2vz9lCsYcYU0XyTAOQrFH3wIxI2EoyorRgZQhU3EjVz90dgVlsL0FNW2ztoPSWMli1r
+         FQTaX1LJNzJpFbaA5dl0pKzJeNH0hyfGFGDjxmLla5Xj6h1rVMzwO64W/DTB6VqULVqf
+         GULgVPOrk2qTD5lxesR55llvVCyFoxeY/xunpcEPZH14Tf8WGPJhXAiJijUQORp9Ip0N
+         RVtA==
+X-Gm-Message-State: APjAAAWtBilzhq0yefrwIcvBqm0jORRdqE48Dtsy8xLLSWNgQf+2UXfU
+        J6EsclC3Mfa06t4ADBVeNiTfJVV3H04=
+X-Google-Smtp-Source: APXvYqyZCD29IfKcDxRjqjMRDpZI9qwH8jj+kzAtPbqOz79Pp2d6uST0pnDIz7y0noOQio+LiByM/w==
+X-Received: by 2002:a05:6402:22c1:: with SMTP id dm1mr5030775edb.21.1579921550712;
+        Fri, 24 Jan 2020 19:05:50 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
+        by smtp.gmail.com with ESMTPSA id u13sm175545ejz.69.2020.01.24.19.05.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jan 2020 19:05:50 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id q10so4432308wrm.11;
+        Fri, 24 Jan 2020 19:05:49 -0800 (PST)
+X-Received: by 2002:a5d:44cd:: with SMTP id z13mr7944610wrr.104.1579921549086;
+ Fri, 24 Jan 2020 19:05:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20200124232014.574989-1-jernej.skrabec@siol.net> <20200124232014.574989-2-jernej.skrabec@siol.net>
+In-Reply-To: <20200124232014.574989-2-jernej.skrabec@siol.net>
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Sat, 25 Jan 2020 11:05:33 +0800
+X-Gmail-Original-Message-ID: <CAGb2v6680yWT8KtjK0uKM00+6ed4NoPpsMaDyfYERwOXgb8Vbg@mail.gmail.com>
+Message-ID: <CAGb2v6680yWT8KtjK0uKM00+6ed4NoPpsMaDyfYERwOXgb8Vbg@mail.gmail.com>
+Subject: Re: [linux-sunxi] [PATCH 1/8] clk: sunxi-ng: sun8i-de2: Swap A64 and
+ H6 definitions
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mike Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        linux-sunxi <linux-sunxi@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner A64 contains rotation core compatible to A83T.
+On Sat, Jan 25, 2020 at 7:20 AM Jernej Skrabec <jernej.skrabec@siol.net> wrote:
+>
+> For some reason, A64 and H6 have swapped clocks and resets definitions.
+> H6 doesn't have rotation unit while A64 has. Swap around to correct the
+> issue.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 
-Add a node for it.
+Could you add Fixes tags for this one?
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/b=
-oot/dts/allwinner/sun50i-a64.dtsi
-index baa6f08dc108..fd6ed305c14c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -274,6 +274,18 @@ display_clocks: clock@0 {
- 				#reset-cells =3D <1>;
- 			};
-=20
-+			rotate: rotate@20000 {
-+				compatible =3D "allwinner,sun50i-a64-de2-rotate",
-+					     "allwinner,sun8i-a83t-de2-rotate";
-+				reg =3D <0x20000 0x10000>;
-+				interrupts =3D <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks =3D <&display_clocks CLK_BUS_ROT>,
-+					 <&display_clocks CLK_ROT>;
-+				clock-names =3D "bus",
-+					      "mod";
-+				resets =3D <&display_clocks RST_ROT>;
-+			};
-+
- 			mixer0: mixer@100000 {
- 				compatible =3D "allwinner,sun50i-a64-de2-mixer-0";
- 				reg =3D <0x100000 0x100000>;
---=20
-2.25.0
-
+ChenYu
