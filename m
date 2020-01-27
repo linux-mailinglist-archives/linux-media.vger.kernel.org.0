@@ -2,128 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EF7314A6AF
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2020 15:59:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B9014A70C
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2020 16:20:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729221AbgA0O7g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jan 2020 09:59:36 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:33387 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726443AbgA0O7g (ORCPT
+        id S1729442AbgA0PUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jan 2020 10:20:04 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53758 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729146AbgA0PUE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jan 2020 09:59:36 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 423A92208C;
-        Mon, 27 Jan 2020 09:59:35 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 27 Jan 2020 09:59:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=kYYUUnAwZZI0feOedjjFh/1OaT1
-        i27hqj14Wc+HfQjQ=; b=OpzF5pvUdsVCFA/kFgiqVy6T3l1nBnrZ/uILXG21Mkg
-        FB6rZKwuhXRNQ+aWYXzG2M7M3Y/Z8H77vEx6t2Y1piTDGmK9ECaX4BcYSsu1nNtM
-        2q5sdPBiPfcxt36QH4rwoTAT27+W1guhzeulofgxSNoaoSraBOmO89PXjeQwSBm9
-        RxiAHoNVZ36Bb/PsVVdMfB8G+D2k20jdXnV6Py0MRupMWBnDCqHCuSXPcufy6jFL
-        MVULaK+G0+5xpEhsmF0R63keOiJTx+j/zLlt9M1Rtub+EIKMRqS1qHDtKJPKZ/0+
-        GxrvOwlODv+Ocb6VDXt1a1NV7NhozQQc3GHd+uXdNbw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=kYYUUn
-        AwZZI0feOedjjFh/1OaT1i27hqj14Wc+HfQjQ=; b=td99w1MQjVqGxuSkEEZb8l
-        dDX+K73+mR0eWaDWGqidX45jZNz1Y7ne/kmG9+KfSYwXroHZrRuqUICsOLpS/eCU
-        6MhCqxsiF90TLJkWGLVndm9nMHllyHtX0GBwlMmE5ogOHtKBl1QHTKEpLmH8gXGN
-        qjOo3IN1U3XwXn1+3jp4gg7aSl39M8uBk8AQDdv1AJYxUd6/qSMqQyoxsqN+fPZW
-        BM+jyZkExFK8L33m6HoC0pkeCbwJ9Ffa8FNnQrn0CAcWMYkizh+j7bjQKTqDJCvo
-        2vImDdqLmsNCINgBEBjbPPVlNw9gTvi547Zqp0IOGwtN7fCpFQ/jTbdjTCAdC2mw
-        ==
-X-ME-Sender: <xms:1fouXjpeBdt_tFZxI91BOJHS7m16IFPjjxjd5Ak1o-1F_ObqhkeeUw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrfedvgdejtdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
-    ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1fouXsJNbdco-veunsL5RGMK2TLrzaBmAS-qX2wb7sCJdNNXm4KNuA>
-    <xmx:1fouXm7d9yFizwEq5a-SZKnFCf787Qw7ZGAIINtSRc5avB4igbNwow>
-    <xmx:1fouXmAGFzk3Wr3SiUnKKhAW7Q8lb_67zuAvuFNcrLEn7ZiHG3ROzw>
-    <xmx:1_ouXsT4orjMUqm8CuXKrZsn3-H1QpZj_tdINWOKvvemakc2m64TUg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 26DCD3069FF8;
-        Mon, 27 Jan 2020 09:59:33 -0500 (EST)
-Date:   Mon, 27 Jan 2020 15:59:31 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     wens@csie.org, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 3/5] arm64: dts: allwinner: a64: Add MBUS controller node
-Message-ID: <20200127145931.rjewha4awnlorfvb@gilmour.lan>
-References: <20200125110353.591658-1-jernej.skrabec@siol.net>
- <20200125110353.591658-4-jernej.skrabec@siol.net>
+        Mon, 27 Jan 2020 10:20:04 -0500
+Received: by mail-wm1-f67.google.com with SMTP id s10so3626740wmh.3
+        for <linux-media@vger.kernel.org>; Mon, 27 Jan 2020 07:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=En0JbNAeh+yumfKq8CWnMC3jR47TxQKPk/LGIgV7R10=;
+        b=aDOAbtc9h0S7iEJDuTx0Gg6OSiL6dZ/j+20HDGy+6zpvRgnGp/orQDlLvZlYPl4EM3
+         gro5xii7lOJxQMc/GaxZModUzELMyTn6onXaqfpE0ybt+kNgXOqoqYvTEnzSAeFE2Fd4
+         uH/ZgBbHvIQE2WuV/JjgBnzgC5ZpGevJJAVTwE17xB9Vb5q1kUOE4X5M3VUgcWHB+fwG
+         SxW+jCXrshXWjFdGRN3yV5voBnP84okChqSdovF4uRUBOmUMzJdyhqfzhHs9WJb/E3P5
+         2sFONZddu5RvLIzfU+h6P+W/ONk3x/fkMue5BGtH/ZLL4U+FOi243DvNFfmNSUdaTyEU
+         KHww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=En0JbNAeh+yumfKq8CWnMC3jR47TxQKPk/LGIgV7R10=;
+        b=GJtixAdaaiO1EYrWs9xFIHoaBfJCUBXx0p6PIXw408B4EBpOqA+5ECPmnX5qJ7Focd
+         J9EfZDEyqgVAU69OwWg+Y86UXYhOHPAAfSewWAyStyN6leqkwd1NdDvhVx/HaRtbZc4T
+         SbWpLPzshO++bto5NFkyL7tzabuniMOlfQpPujB12PYyjI8X0fbF+5clpj/agU6/dz6f
+         9mHN9Hb50TKj0WPrBSuCurVczlpPtTSHEzC7Q79NjB5DlITOaX49Zw+wwOcyO3gBwf1+
+         QmvGmlX9tnxGalD+WaLVPBtX1/viAfqHWQWIRiDsJih8nnOK5WtxHeGYFNlJ5L4+pfI0
+         NH7g==
+X-Gm-Message-State: APjAAAVRIUofsI68SCAZSvgVJDmG4WgJa2ODiBevncaApTAoeK5/d3OL
+        WO93V0ob1dsI9A8P/i2ll1zOow==
+X-Google-Smtp-Source: APXvYqzpKOfTyFLY6VOq5KtGC62kLroh1Nc6zA17Lq0ZUvWCNZIVoSKCi6v+KZMY/0AYGVDAa4tGCQ==
+X-Received: by 2002:a7b:c190:: with SMTP id y16mr14547744wmi.107.1580138402052;
+        Mon, 27 Jan 2020 07:20:02 -0800 (PST)
+Received: from localhost.localdomain (195-132-149-87.rev.numericable.fr. [195.132.149.87])
+        by smtp.gmail.com with ESMTPSA id d12sm21013531wrp.62.2020.01.27.07.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2020 07:20:01 -0800 (PST)
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+To:     mchehab@kernel.org, hans.verkuil@cisco.com
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: meson: vdec: fix OUTPUT buffer size configuration
+Date:   Mon, 27 Jan 2020 16:19:53 +0100
+Message-Id: <20200127151953.10592-1-mjourdan@baylibre.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="hchmskw2va5gdqje"
-Content-Disposition: inline
-In-Reply-To: <20200125110353.591658-4-jernej.skrabec@siol.net>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+There's a bug currently where we always override the OUTPUT buffer size
+in try_fmt to the default value (1M), preventing userspace from setting
+a higher or lower size.
 
---hchmskw2va5gdqje
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Now, only update the size in try_fmt if userspace passed 0.
 
-Hi,
+Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+---
 
-On Sat, Jan 25, 2020 at 12:03:51PM +0100, Jernej Skrabec wrote:
-> A64 contains MBUS, which is the bus used by DMA devices to access
-> system memory.
->
-> MBUS controller is responsible for arbitration between channels based
-> on set priority and can do some other things as well, like report
-> bandwidth used. It also maps RAM region to different address than CPU.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> index 862b47dc9dc9..d225ea1f3b87 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> @@ -1061,6 +1061,14 @@ pwm: pwm@1c21400 {
->  			status = "disabled";
->  		};
->
-> +		mbus: dram-controller@1c62000 {
-> +			compatible = "allwinner,sun50i-a64-mbus";
-> +			reg = <0x01c62000 0x1000>;
-> +			clocks = <&ccu CLK_MBUS>;
+Note: this patch depends on Neil's series:
+media: meson: vdec: Add compliant H264 support
+https://patchwork.kernel.org/cover/11336953/
 
-We're merging the clock header patch and the DT through two different
-trees, so you can't use it right away. You should use the raw ID here.
+ drivers/staging/media/meson/vdec/vdec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-(also, as a general remark, it's easier on us to not send the patches
-during the rc6 <-> rc1 phase), so if you can resend them as soon as
-rc1 is out, that would be great :)
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 1be67b122546..2f30945ce916 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -519,7 +519,8 @@ vdec_try_fmt_common(struct amvdec_session *sess, u32 size,
+ 	output_size = get_output_size(pixmp->width, pixmp->height);
+ 
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+-		pfmt[0].sizeimage = sess->src_buffer_size;
++		if (!pfmt[0].sizeimage)
++			pfmt[0].sizeimage = sess->src_buffer_size;
+ 		pfmt[0].bytesperline = 0;
+ 		pixmp->num_planes = 1;
+ 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+-- 
+2.25.0
 
-Maxime
-
---hchmskw2va5gdqje
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXi760wAKCRDj7w1vZxhR
-xV3PAQChOtKOxyE6bSJr+/fHayOoz8h6A1dqalhBnV4Yedxv2QD/a9QqEgknQXMe
-KRf3qGZyHOAWbKWvK2FkvcTP92UVFgE=
-=7bxe
------END PGP SIGNATURE-----
-
---hchmskw2va5gdqje--
