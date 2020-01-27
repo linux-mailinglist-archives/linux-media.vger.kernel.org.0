@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE8D14A616
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2020 15:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 248C514A617
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2020 15:30:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729146AbgA0OaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jan 2020 09:30:17 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60500 "EHLO
+        id S1729147AbgA0OaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jan 2020 09:30:18 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60512 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729126AbgA0OaR (ORCPT
+        with ESMTP id S1729129AbgA0OaR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 27 Jan 2020 09:30:17 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id 9ACF6293982
+        with ESMTPSA id E9B2B293983
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To:     devel@driverdev.osuosl.org
 Cc:     linux-media@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH 1/4] media: hantro: Read be32 words starting at every fourth byte
-Date:   Mon, 27 Jan 2020 15:30:06 +0100
-Message-Id: <20200127143009.15677-2-andrzej.p@collabora.com>
+Subject: [PATCH 2/4] media: hantro: Use standard luma quantization table
+Date:   Mon, 27 Jan 2020 15:30:07 +0100
+Message-Id: <20200127143009.15677-3-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200127143009.15677-1-andrzej.p@collabora.com>
 References: <20200127143009.15677-1-andrzej.p@collabora.com>
@@ -32,65 +32,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since (luma/chroma)_qtable is an array of unsigned char, indexing it
-returns consecutive byte locations, but we are supposed to read the arrays
-in four-byte words. Consequently, we should be pointing
-get_unaligned_be32() at consecutive word locations instead.
+The table is actually different in the document than in this file, so align
+this file with the document.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_h1_jpeg_enc.c     | 9 +++++++--
- drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c | 9 +++++++--
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ drivers/staging/media/hantro/hantro_jpeg.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-index 938b48d4d3d9..be787a045c7e 100644
---- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-+++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
-@@ -67,12 +67,17 @@ hantro_h1_jpeg_enc_set_qtable(struct hantro_dev *vpu,
- 			      unsigned char *chroma_qtable)
- {
- 	u32 reg, i;
-+	__be32 *luma_qtable_p;
-+	__be32 *chroma_qtable_p;
-+
-+	luma_qtable_p = (__be32 *)luma_qtable;
-+	chroma_qtable_p = (__be32 *)chroma_qtable;
+diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
+index 125eb41f2ede..d3b381d00b23 100644
+--- a/drivers/staging/media/hantro/hantro_jpeg.c
++++ b/drivers/staging/media/hantro/hantro_jpeg.c
+@@ -23,17 +23,17 @@
+ #define HUFF_CHROMA_AC_OFF	409
  
- 	for (i = 0; i < H1_JPEG_QUANT_TABLE_COUNT; i++) {
--		reg = get_unaligned_be32(&luma_qtable[i]);
-+		reg = get_unaligned_be32(&luma_qtable_p[i]);
- 		vepu_write_relaxed(vpu, reg, H1_REG_JPEG_LUMA_QUAT(i));
+ /* Default tables from JPEG ITU-T.81
+- * (ISO/IEC 10918-1) Annex K.3, I
++ * (ISO/IEC 10918-1) Annex K, tables K.1 and K.2
+  */
+ static const unsigned char luma_q_table[] = {
+-	0x10, 0x0b, 0x0a, 0x10, 0x7c, 0x8c, 0x97, 0xa1,
+-	0x0c, 0x0c, 0x0e, 0x13, 0x7e, 0x9e, 0xa0, 0x9b,
+-	0x0e, 0x0d, 0x10, 0x18, 0x8c, 0x9d, 0xa9, 0x9c,
+-	0x0e, 0x11, 0x16, 0x1d, 0x97, 0xbb, 0xb4, 0xa2,
+-	0x12, 0x16, 0x25, 0x38, 0xa8, 0x6d, 0x67, 0xb1,
+-	0x18, 0x23, 0x37, 0x40, 0xb5, 0x68, 0x71, 0xc0,
++	0x10, 0x0b, 0x0a, 0x10, 0x18, 0x28, 0x33, 0x3d,
++	0x0c, 0x0c, 0x0e, 0x13, 0x1a, 0x3a, 0x3c, 0x37,
++	0x0e, 0x0d, 0x10, 0x18, 0x28, 0x39, 0x45, 0x38,
++	0x0e, 0x11, 0x16, 0x1d, 0x33, 0x57, 0x50, 0x3e,
++	0x12, 0x16, 0x25, 0x38, 0x44, 0x6d, 0x67, 0x4d,
++	0x18, 0x23, 0x37, 0x40, 0x51, 0x68, 0x71, 0x5c,
+ 	0x31, 0x40, 0x4e, 0x57, 0x67, 0x79, 0x78, 0x65,
+-	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0xc7,
++	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0x63
+ };
  
--		reg = get_unaligned_be32(&chroma_qtable[i]);
-+		reg = get_unaligned_be32(&chroma_qtable_p[i]);
- 		vepu_write_relaxed(vpu, reg, H1_REG_JPEG_CHROMA_QUAT(i));
- 	}
- }
-diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c b/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
-index 067892345b5d..bdb95652d6a8 100644
---- a/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
-+++ b/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
-@@ -98,12 +98,17 @@ rk3399_vpu_jpeg_enc_set_qtable(struct hantro_dev *vpu,
- 			       unsigned char *chroma_qtable)
- {
- 	u32 reg, i;
-+	__be32 *luma_qtable_p;
-+	__be32 *chroma_qtable_p;
-+
-+	luma_qtable_p = (__be32 *)luma_qtable;
-+	chroma_qtable_p = (__be32 *)chroma_qtable;
- 
- 	for (i = 0; i < VEPU_JPEG_QUANT_TABLE_COUNT; i++) {
--		reg = get_unaligned_be32(&luma_qtable[i]);
-+		reg = get_unaligned_be32(&luma_qtable_p[i]);
- 		vepu_write_relaxed(vpu, reg, VEPU_REG_JPEG_LUMA_QUAT(i));
- 
--		reg = get_unaligned_be32(&chroma_qtable[i]);
-+		reg = get_unaligned_be32(&chroma_qtable_p[i]);
- 		vepu_write_relaxed(vpu, reg, VEPU_REG_JPEG_CHROMA_QUAT(i));
- 	}
- }
+ static const unsigned char chroma_q_table[] = {
 -- 
 2.17.1
 
