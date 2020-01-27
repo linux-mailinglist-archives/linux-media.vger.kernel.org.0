@@ -2,95 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 03C1414AA36
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2020 20:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF40114AAB3
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2020 20:46:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbgA0TFd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jan 2020 14:05:33 -0500
-Received: from mailoutvs42.siol.net ([185.57.226.233]:33891 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725845AbgA0TFc (ORCPT
+        id S1725955AbgA0TqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jan 2020 14:46:22 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35514 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725893AbgA0TqW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jan 2020 14:05:32 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 72D7D523B15;
-        Mon, 27 Jan 2020 20:05:29 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Tcln31hrCOyf; Mon, 27 Jan 2020 20:05:29 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 2468A523B0F;
-        Mon, 27 Jan 2020 20:05:29 +0100 (CET)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net [194.152.20.232])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id 32E2C523B07;
-        Mon, 27 Jan 2020 20:05:28 +0100 (CET)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     wens@csie.org, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 3/5] arm64: dts: allwinner: a64: Add MBUS controller node
-Date:   Mon, 27 Jan 2020 20:05:27 +0100
-Message-ID: <1736895.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20200127145931.rjewha4awnlorfvb@gilmour.lan>
-References: <20200125110353.591658-1-jernej.skrabec@siol.net> <20200125110353.591658-4-jernej.skrabec@siol.net> <20200127145931.rjewha4awnlorfvb@gilmour.lan>
+        Mon, 27 Jan 2020 14:46:22 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 275AF293C15
+Message-ID: <e3a1df66cc4292a6a9b42f7eb6a5e4aa689cabbd.camel@collabora.com>
+Subject: Re: [PATCH 2/4] media: hantro: Use standard luma quantization table
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        devel@driverdev.osuosl.org
+Cc:     linux-media@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kernel@collabora.com
+Date:   Mon, 27 Jan 2020 16:46:13 -0300
+In-Reply-To: <20200127143009.15677-3-andrzej.p@collabora.com>
+References: <20200127143009.15677-1-andrzej.p@collabora.com>
+         <20200127143009.15677-3-andrzej.p@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 27. januar 2020 ob 15:59:31 CET je Maxime Ripard napisal(a):
-> Hi,
+Hi Andrzej,
+
+On Mon, 2020-01-27 at 15:30 +0100, Andrzej Pietrasiewicz wrote:
+> The table is actually different in the document than in this file, so align
+> this file with the document.
 > 
-> On Sat, Jan 25, 2020 at 12:03:51PM +0100, Jernej Skrabec wrote:
-> > A64 contains MBUS, which is the bus used by DMA devices to access
-> > system memory.
-> > 
-> > MBUS controller is responsible for arbitration between channels based
-> > on set priority and can do some other things as well, like report
-> > bandwidth used. It also maps RAM region to different address than CPU.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> > b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi index
-> > 862b47dc9dc9..d225ea1f3b87 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> > @@ -1061,6 +1061,14 @@ pwm: pwm@1c21400 {
-> > 
-> >  			status = "disabled";
-> >  		
-> >  		};
-> > 
-> > +		mbus: dram-controller@1c62000 {
-> > +			compatible = "allwinner,sun50i-a64-mbus";
-> > +			reg = <0x01c62000 0x1000>;
-> > +			clocks = <&ccu CLK_MBUS>;
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_jpeg.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> We're merging the clock header patch and the DT through two different
-> trees, so you can't use it right away. You should use the raw ID here.
+> diff --git a/drivers/staging/media/hantro/hantro_jpeg.c b/drivers/staging/media/hantro/hantro_jpeg.c
+> index 125eb41f2ede..d3b381d00b23 100644
+> --- a/drivers/staging/media/hantro/hantro_jpeg.c
+> +++ b/drivers/staging/media/hantro/hantro_jpeg.c
+> @@ -23,17 +23,17 @@
+>  #define HUFF_CHROMA_AC_OFF	409
+>  
+>  /* Default tables from JPEG ITU-T.81
+> - * (ISO/IEC 10918-1) Annex K.3, I
+> + * (ISO/IEC 10918-1) Annex K, tables K.1 and K.2
+>   */
 
-Ok.
+I wonder if we shouldn't just have these tables
+in decimal instead of hexa, so they look exactly
+like the ones in the spec.
 
+Thanks,
+Ezequiel
+
+>  static const unsigned char luma_q_table[] = {
+> -	0x10, 0x0b, 0x0a, 0x10, 0x7c, 0x8c, 0x97, 0xa1,
+> -	0x0c, 0x0c, 0x0e, 0x13, 0x7e, 0x9e, 0xa0, 0x9b,
+> -	0x0e, 0x0d, 0x10, 0x18, 0x8c, 0x9d, 0xa9, 0x9c,
+> -	0x0e, 0x11, 0x16, 0x1d, 0x97, 0xbb, 0xb4, 0xa2,
+> -	0x12, 0x16, 0x25, 0x38, 0xa8, 0x6d, 0x67, 0xb1,
+> -	0x18, 0x23, 0x37, 0x40, 0xb5, 0x68, 0x71, 0xc0,
+> +	0x10, 0x0b, 0x0a, 0x10, 0x18, 0x28, 0x33, 0x3d,
+> +	0x0c, 0x0c, 0x0e, 0x13, 0x1a, 0x3a, 0x3c, 0x37,
+> +	0x0e, 0x0d, 0x10, 0x18, 0x28, 0x39, 0x45, 0x38,
+> +	0x0e, 0x11, 0x16, 0x1d, 0x33, 0x57, 0x50, 0x3e,
+> +	0x12, 0x16, 0x25, 0x38, 0x44, 0x6d, 0x67, 0x4d,
+> +	0x18, 0x23, 0x37, 0x40, 0x51, 0x68, 0x71, 0x5c,
+>  	0x31, 0x40, 0x4e, 0x57, 0x67, 0x79, 0x78, 0x65,
+> -	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0xc7,
+> +	0x48, 0x5c, 0x5f, 0x62, 0x70, 0x64, 0x67, 0x63
+>  };
+>  
+>  static const unsigned char chroma_q_table[] = {
+> -- 
+> 2.17.1
 > 
-> (also, as a general remark, it's easier on us to not send the patches
-> during the rc6 <-> rc1 phase), so if you can resend them as soon as
-> rc1 is out, that would be great :)
-
-Ok, I'll send v2 then.
-
-Best regards,
-Jernej
+> 
 
 
