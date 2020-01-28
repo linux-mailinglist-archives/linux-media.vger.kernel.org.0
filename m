@@ -2,122 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55DD414B079
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 08:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7C6D14B0C0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 09:16:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725844AbgA1He6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jan 2020 02:34:58 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:36627 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbgA1He6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jan 2020 02:34:58 -0500
-Received: by mail-pj1-f65.google.com with SMTP id gv17so629856pjb.1
-        for <linux-media@vger.kernel.org>; Mon, 27 Jan 2020 23:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=CQgtos6gVXtQDMK7WmwCsXfSvCY2uCU1KZAKWAc3CIg=;
-        b=P9e0Kdarb9HU/R4jyBXu0ELCXOnKWoyCdO28ibit/UvII7D1Ejvp2NlWrmR3ugjbSB
-         MEqZUiWmVgVEX1cArwhO7c78ZBDpnds+coC29Tcc2lhbo6r0q8xxzizOqRDJFmL3U0LA
-         pTekCxsV4OBncs/dt7P5surmwuS1ts7K14+oY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CQgtos6gVXtQDMK7WmwCsXfSvCY2uCU1KZAKWAc3CIg=;
-        b=cslesm+jy110l3sHMHeHBxXmoohSjrqmATn8brgbolIYI9D7fWB1ZZZWlJL9irbU+J
-         UZOKoMCV7TKCzo3fGeRQ1eoRsdMbx6wAObvs7EjKmfPEga5zslUtVfzbL1StO+8tFsfR
-         djlOgLKpK7oBzUCC5220+QJd5H3hFrQquxHUvyr4KqAbs3cOrOwZ/I1QehYJppI8Ps2R
-         pbPmCsRNjYyrcKYWOUIL669EUqdbHSxREjWAmax37Vzg69+UUj7cPqqsLk5FgjUJDhfv
-         a3hw5qPS+Ro0m+wBgR8Lp4D7CxD38JUefUVodO7HG0YKgA2GZnY0jNN/1PZmgBAAFHRJ
-         ZiYA==
-X-Gm-Message-State: APjAAAV0ABHreeo5ievW0x8zaCkGX2aV4EjPShGmMTn10dcWLEzn2Y3l
-        +X/sXslxv92d8/L/URj2F1EbEw==
-X-Google-Smtp-Source: APXvYqwnDA0iYOKIIQNgt8FJolaV0NtoS6CQPFynT/FuSlzm3IpYMTk1lgQWV99sBsjSkoBRQ5j/bw==
-X-Received: by 2002:a17:90a:31cf:: with SMTP id j15mr3239618pjf.120.1580196897974;
-        Mon, 27 Jan 2020 23:34:57 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id i4sm18626553pgc.51.2020.01.27.23.34.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 23:34:57 -0800 (PST)
-Date:   Tue, 28 Jan 2020 16:34:55 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC][PATCH 13/15] videobuf2: do not sync buffers for DMABUF
- queues
-Message-ID: <20200128073455.GC115889@google.com>
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-14-senozhatsky@chromium.org>
- <2d0e1a9b-6c5e-ff70-9862-32c8b8aaf65f@xs4all.nl>
- <20200122050515.GB49953@google.com>
- <57f711a0-6183-74f6-ab24-ebe414cb6881@xs4all.nl>
- <20200124022544.GD158382@google.com>
- <20200124073250.GA100275@google.com>
- <CAAFQd5Dx50nt=yOCj-ufDDey=Zur_F5yE34a9OQP630A1opBSQ@mail.gmail.com>
+        id S1725922AbgA1IQG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jan 2020 03:16:06 -0500
+Received: from gofer.mess.org ([88.97.38.141]:53029 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725848AbgA1IQG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jan 2020 03:16:06 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 75964C6372; Tue, 28 Jan 2020 08:16:04 +0000 (GMT)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: rc: make scancodes 64 bit
+Date:   Tue, 28 Jan 2020 08:16:04 +0000
+Message-Id: <20200128081604.1131-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5Dx50nt=yOCj-ufDDey=Zur_F5yE34a9OQP630A1opBSQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/01/28 16:22), Tomasz Figa wrote:
-[..]
-> > > > Then, if q->allow_cache_hint is set, then default to a cache sync (cache clean)
-> > > > in the prepare for OUTPUT buffers and a cache sync (cache invalidate) in the
-> > > > finish for CAPTURE buffers.
-> > >
-> > > We alter default cache sync behaviour based both on queue ->memory
-> > > type and queue ->dma_dir. Shall both of those cases depend on
-> > > ->allow_cache_hints, or q->memory can be independent?
-> > >
-> > > static void set_buffer_cache_hints(struct vb2_queue *q,
-> > >                                  struct vb2_buffer *vb,
-> > >                                  struct v4l2_buffer *b)
-> > > {
-> > >       if (!q->allow_cache_hints)
-> > >               return;
-> > >
-> > >       /*
-> > >        * DMA exporter should take care of cache syncs, so we can avoid
-> > >        * explicit ->prepare()/->finish() syncs. For other ->memory types
-> > >        * we always need ->prepare() or/and ->finish() cache sync.
-> > >        */
-> > >       if (q->memory == VB2_MEMORY_DMABUF) {
-> > >               vb->need_cache_sync_on_finish = 0;
-> > >               vb->need_cache_sync_on_prepare = 0;
-> > >               return;
-> > >       }
-> >
-> > I personally would prefer this to be above ->allow_cache_hints check,
-> > IOW to be independent. Because we need to skip flush/invalidation for
-> > DMABUF anyway, that's what allocators do in ->prepare() and ->finish()
-> > currently.
->
-> I think it's even more than personal preference. We shouldn't even
-> attempt to sync imported DMA-bufs, so the code above may result in
-> incorrect behavior.
+There are many protocols that encode more than 32 bit. We want 64 bit
+support so that BPF IR decoders can decode more than 32 bit. None of
+the existing kernel IR decoders/encoders support 64 bit, for now.
 
-Sure. Allocators test buf->db_attach in prepare()/finish(). This patchset
-removes that logic, because we move it to the core code. But if the
-conclusion will be to clear ->need_cache_sync_on_finish/prepare only
-when ->allow_cache_hints was set, then buf->db_attach bail out must stay
-in allocators. And this is where I have preferences :)
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/bpf-lirc.c |  5 ---
+ drivers/media/rc/lirc_dev.c |  5 +--
+ drivers/media/rc/rc-main.c  | 66 +++++++++++++++++++++++++++----------
+ include/media/rc-core.h     |  8 ++---
+ include/media/rc-map.h      |  2 +-
+ 5 files changed, 55 insertions(+), 31 deletions(-)
 
-	-ss
+diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
+index 0a0ce620e4a2..0f3417d161b8 100644
+--- a/drivers/media/rc/bpf-lirc.c
++++ b/drivers/media/rc/bpf-lirc.c
+@@ -35,11 +35,6 @@ static const struct bpf_func_proto rc_repeat_proto = {
+ 	.arg1_type = ARG_PTR_TO_CTX,
+ };
+ 
+-/*
+- * Currently rc-core does not support 64-bit scancodes, but there are many
+- * known protocols with more than 32 bits. So, define the interface as u64
+- * as a future-proof.
+- */
+ BPF_CALL_4(bpf_rc_keydown, u32*, sample, u32, protocol, u64, scancode,
+ 	   u32, toggle)
+ {
+diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+index 9a8c1cf54ac4..b0a55d1430cc 100644
+--- a/drivers/media/rc/lirc_dev.c
++++ b/drivers/media/rc/lirc_dev.c
+@@ -270,10 +270,7 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
+ 		}
+ 
+ 		/*
+-		 * The scancode field in lirc_scancode is 64-bit simply
+-		 * to future-proof it, since there are IR protocols encode
+-		 * use more than 32 bits. For now only 32-bit protocols
+-		 * are supported.
++		 * For now, we can only encode 32-bit protocols.
+ 		 */
+ 		if (scan.scancode > U32_MAX ||
+ 		    !rc_validate_scancode(scan.rc_proto, scan.scancode)) {
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 6f80c251f641..d38cddb53bb7 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -163,6 +163,41 @@ static struct rc_map_list empty_map = {
+ 	}
+ };
+ 
++/**
++ * scancode_to_u64() - converts scancode in &struct input_keymap_entry
++ * @ke: keymap entry containing scancode to be converted.
++ * @scancode: pointer to the location where converted scancode should
++ *	be stored.
++ *
++ * This function is a version of input_scancode_to_scalar specialized for
++ * rc-core.
++ */
++int scancode_to_u64(const struct input_keymap_entry *ke, u64 *scancode)
++{
++	switch (ke->len) {
++	case 1:
++		*scancode = *((u8 *)ke->scancode);
++		break;
++
++	case 2:
++		*scancode = *((u16 *)ke->scancode);
++		break;
++
++	case 4:
++		*scancode = *((u32 *)ke->scancode);
++		break;
++
++	case 8:
++		*scancode = *((u64 *)ke->scancode);
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /**
+  * ir_create_table() - initializes a scancode table
+  * @dev:	the rc_dev device
+@@ -334,8 +369,7 @@ static unsigned int ir_update_mapping(struct rc_dev *dev,
+  */
+ static unsigned int ir_establish_scancode(struct rc_dev *dev,
+ 					  struct rc_map *rc_map,
+-					  unsigned int scancode,
+-					  bool resize)
++					  u64 scancode, bool resize)
+ {
+ 	unsigned int i;
+ 
+@@ -394,7 +428,7 @@ static int ir_setkeycode(struct input_dev *idev,
+ 	struct rc_dev *rdev = input_get_drvdata(idev);
+ 	struct rc_map *rc_map = &rdev->rc_map;
+ 	unsigned int index;
+-	unsigned int scancode;
++	u64 scancode;
+ 	int retval = 0;
+ 	unsigned long flags;
+ 
+@@ -407,7 +441,7 @@ static int ir_setkeycode(struct input_dev *idev,
+ 			goto out;
+ 		}
+ 	} else {
+-		retval = input_scancode_to_scalar(ke, &scancode);
++		retval = scancode_to_u64(ke, &scancode);
+ 		if (retval)
+ 			goto out;
+ 
+@@ -434,8 +468,7 @@ static int ir_setkeycode(struct input_dev *idev,
+  *
+  * return:	-ENOMEM if all keycodes could not be inserted, otherwise zero.
+  */
+-static int ir_setkeytable(struct rc_dev *dev,
+-			  const struct rc_map *from)
++static int ir_setkeytable(struct rc_dev *dev, const struct rc_map *from)
+ {
+ 	struct rc_map *rc_map = &dev->rc_map;
+ 	unsigned int i, index;
+@@ -466,7 +499,7 @@ static int ir_setkeytable(struct rc_dev *dev,
+ 
+ static int rc_map_cmp(const void *key, const void *elt)
+ {
+-	const unsigned int *scancode = key;
++	const u64 *scancode = key;
+ 	const struct rc_map_table *e = elt;
+ 
+ 	if (*scancode < e->scancode)
+@@ -487,7 +520,7 @@ static int rc_map_cmp(const void *key, const void *elt)
+  * return:	index in the table, -1U if not found
+  */
+ static unsigned int ir_lookup_by_scancode(const struct rc_map *rc_map,
+-					  unsigned int scancode)
++					  u64 scancode)
+ {
+ 	struct rc_map_table *res;
+ 
+@@ -516,7 +549,7 @@ static int ir_getkeycode(struct input_dev *idev,
+ 	struct rc_map_table *entry;
+ 	unsigned long flags;
+ 	unsigned int index;
+-	unsigned int scancode;
++	u64 scancode;
+ 	int retval;
+ 
+ 	spin_lock_irqsave(&rc_map->lock, flags);
+@@ -524,7 +557,7 @@ static int ir_getkeycode(struct input_dev *idev,
+ 	if (ke->flags & INPUT_KEYMAP_BY_INDEX) {
+ 		index = ke->index;
+ 	} else {
+-		retval = input_scancode_to_scalar(ke, &scancode);
++		retval = scancode_to_u64(ke, &scancode);
+ 		if (retval)
+ 			goto out;
+ 
+@@ -538,7 +571,6 @@ static int ir_getkeycode(struct input_dev *idev,
+ 		ke->keycode = entry->keycode;
+ 		ke->len = sizeof(entry->scancode);
+ 		memcpy(ke->scancode, &entry->scancode, sizeof(entry->scancode));
+-
+ 	} else if (!(ke->flags & INPUT_KEYMAP_BY_INDEX)) {
+ 		/*
+ 		 * We do not really know the valid range of scancodes
+@@ -570,7 +602,7 @@ static int ir_getkeycode(struct input_dev *idev,
+  *
+  * return:	the corresponding keycode, or KEY_RESERVED
+  */
+-u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode)
++u32 rc_g_keycode_from_table(struct rc_dev *dev, u64 scancode)
+ {
+ 	struct rc_map *rc_map = &dev->rc_map;
+ 	unsigned int keycode;
+@@ -586,7 +618,7 @@ u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode)
+ 	spin_unlock_irqrestore(&rc_map->lock, flags);
+ 
+ 	if (keycode != KEY_RESERVED)
+-		dev_dbg(&dev->dev, "%s: scancode 0x%04x keycode 0x%02x\n",
++		dev_dbg(&dev->dev, "%s: scancode 0x%04llx keycode 0x%02x\n",
+ 			dev->device_name, scancode, keycode);
+ 
+ 	return keycode;
+@@ -743,7 +775,7 @@ EXPORT_SYMBOL_GPL(rc_repeat);
+  * called with keylock held.
+  */
+ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+-			  u32 scancode, u32 keycode, u8 toggle)
++			  u64 scancode, u32 keycode, u8 toggle)
+ {
+ 	bool new_event = (!dev->keypressed		 ||
+ 			  dev->last_protocol != protocol ||
+@@ -772,7 +804,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+ 		/* Register a keypress */
+ 		dev->keypressed = true;
+ 
+-		dev_dbg(&dev->dev, "%s: key down event, key 0x%04x, protocol 0x%04x, scancode 0x%08x\n",
++		dev_dbg(&dev->dev, "%s: key down event, key 0x%04x, protocol 0x%04x, scancode 0x%08llx\n",
+ 			dev->device_name, keycode, protocol, scancode);
+ 		input_report_key(dev->input_dev, keycode, 1);
+ 
+@@ -809,7 +841,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+  * This routine is used to signal that a key has been pressed on the
+  * remote control.
+  */
+-void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u32 scancode,
++void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
+ 		u8 toggle)
+ {
+ 	unsigned long flags;
+@@ -840,7 +872,7 @@ EXPORT_SYMBOL_GPL(rc_keydown);
+  * remote control. The driver must manually call rc_keyup() at a later stage.
+  */
+ void rc_keydown_notimeout(struct rc_dev *dev, enum rc_proto protocol,
+-			  u32 scancode, u8 toggle)
++			  u64 scancode, u8 toggle)
+ {
+ 	unsigned long flags;
+ 	u32 keycode = rc_g_keycode_from_table(dev, scancode);
+diff --git a/include/media/rc-core.h b/include/media/rc-core.h
+index 1f695d9c200a..d3f85df64bb2 100644
+--- a/include/media/rc-core.h
++++ b/include/media/rc-core.h
+@@ -192,7 +192,7 @@ struct rc_dev {
+ 	struct timer_list		timer_repeat;
+ 	u32				last_keycode;
+ 	enum rc_proto			last_protocol;
+-	u32				last_scancode;
++	u64				last_scancode;
+ 	u8				last_toggle;
+ 	u32				timeout;
+ 	u32				min_timeout;
+@@ -284,12 +284,12 @@ int devm_rc_register_device(struct device *parent, struct rc_dev *dev);
+ void rc_unregister_device(struct rc_dev *dev);
+ 
+ void rc_repeat(struct rc_dev *dev);
+-void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u32 scancode,
++void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
+ 		u8 toggle);
+ void rc_keydown_notimeout(struct rc_dev *dev, enum rc_proto protocol,
+-			  u32 scancode, u8 toggle);
++			  u64 scancode, u8 toggle);
+ void rc_keyup(struct rc_dev *dev);
+-u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode);
++u32 rc_g_keycode_from_table(struct rc_dev *dev, u64 scancode);
+ 
+ /*
+  * From rc-raw.c
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index d22810dcd85c..0a9142fa3c80 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -90,7 +90,7 @@
+  */
+ struct rc_map_table {
+ 	u32	scancode;
+-	u32	keycode;
++	u64	keycode;
+ };
+ 
+ /**
+-- 
+2.24.1
+
