@@ -2,61 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90C5A14AEB8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 05:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA45914AEBE
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 05:45:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgA1EjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Jan 2020 23:39:04 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:35897 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgA1EjE (ORCPT
+        id S1726293AbgA1Epo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Jan 2020 23:45:44 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:33965 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726080AbgA1Epo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Jan 2020 23:39:04 -0500
-Received: by mail-ed1-f67.google.com with SMTP id j17so13278949edp.3
-        for <linux-media@vger.kernel.org>; Mon, 27 Jan 2020 20:39:03 -0800 (PST)
+        Mon, 27 Jan 2020 23:45:44 -0500
+Received: by mail-ed1-f66.google.com with SMTP id r18so13289990edl.1
+        for <linux-media@vger.kernel.org>; Mon, 27 Jan 2020 20:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oAFKKUbjn4q+w4IFCE+2ZYtzrDlWGmX9O+mEmG7900M=;
-        b=EhJHNf5NF9OU2ztfTNy4zoe2jKSU7opQPS1xvdHmcF7O207hYIZlYPI0Xho0eX7QsH
-         iip007AxmyTGPuO38NtELWs+/4ZmTWN/EoOEKEEmb35XTyFOqLaX3keTnzR1Jc29vKZf
-         hlBWgWSeyf1hmbYCDWJPidIkcBHdzeodeCHzU=
+        bh=7NOtAZALkjd5QbjFJRxMPx1vlO1G2Wo6On/UllTEVNo=;
+        b=a4Cvs9dW0bcj4NM2LAg0XrILeNdVJT9IysZqJmQvIZAhIeR7qotkPNAJJ30eUHkkxo
+         V9TxlGttgaQY3lYc6oa4XPNhG/3nGSbP6DLllvd7mrJe+N23uLaA3DDkRincOKO/NX0q
+         nh9B8qGw2mhdSk+rjEegrnnjFli0eoKY54c+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oAFKKUbjn4q+w4IFCE+2ZYtzrDlWGmX9O+mEmG7900M=;
-        b=FLaoCsy1royQJLJB/YGbKIzpz6jnC+Sqn/LEhaCCTIvuFvzCPRcOCcMUePTn2D7IHi
-         PPzsOuY6wSEjxPNXAro7WDTJsQZLFxL3/OEEEl3dqOpektCPNI+iAIKzYV1xubKDzqWJ
-         1RDtszbwhDGoowjT9QCdPtYs62YdeHQXzcHTClAInPBJ1B7WNxcpHBxrJE3gxuFCmcII
-         nP5WPpFAV8iWR2GPG9tc94SmeNBRJXJUn+SCt2PcneV2E6x22fmNrGrHsK75uQOF4ido
-         7YO99JEt9Ytqk/tEVNQnWTX9pts41TDh3wt+CLtvgSOKMQXExJKh3dycLL1Etm80i90n
-         +SfQ==
-X-Gm-Message-State: APjAAAUxTDjjy5/wsRJ9Ufp+Aeon3qDxkJ6yo9rhhAAWKa3CKoC7Xiuh
-        yc7Q5YoGeiXOC5eDiFB0OsFYXgWPva3KQA==
-X-Google-Smtp-Source: APXvYqwGVPrCFnQ9S/kIOTMlX88yfTOa2kFBByB6MXsDEDDO8u0D0uHPQ2Rc9jGulDK7qhm6oWGsTQ==
-X-Received: by 2002:a50:d59b:: with SMTP id v27mr1638164edi.169.1580186341623;
-        Mon, 27 Jan 2020 20:39:01 -0800 (PST)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
-        by smtp.gmail.com with ESMTPSA id r7sm383862eds.32.2020.01.27.20.39.00
+        bh=7NOtAZALkjd5QbjFJRxMPx1vlO1G2Wo6On/UllTEVNo=;
+        b=GO46oqGR6orrO6Fv7CG7kIyXZKvy17YFqzIJoYNotJ3T03I/t/m8nwg1PdS+8gQcI8
+         qO9tEV9g+fN3hDXnhUfL2yHAL8QN/lq0tz0TVGXk2Hic8Pn5W/uBu0ESX5KU7mEjLaBv
+         g8cwKFRUFu32xSeD9E+8Z+nmaCNVJv6I/hwxvDvSAyeYPvqz1l2pmCuqGWNzabM1/37Y
+         ud0ZLxEbXIeIwo/3RIMTse3p19m6sR3oKWJz3DULnrIPaYsEgRT8b0QJ3TnFGsPwBzgM
+         DY492Fl4D6xpEjZzXDMc6gtqHAGL0QqrYn6RXKZRCsA9sRENLq8F1Lb6oG53Ntw80oiX
+         nX/Q==
+X-Gm-Message-State: APjAAAUj2pHafBGdEeaZHqKFOeU9l1K2fuleTw2oiKSlrkQzf6lSZoJE
+        /qOkVu4/pa2dum57So+Tu/rIeDNRDNVpXA==
+X-Google-Smtp-Source: APXvYqx1JwQlaQJ8ipUm+wBO+DCpfwMA4yWZ/hhAufrwuRrq8aoE7VkCqYbhTetb8QuwjZ9DURwdsQ==
+X-Received: by 2002:a17:906:31c6:: with SMTP id f6mr1647469ejf.17.1580186742176;
+        Mon, 27 Jan 2020 20:45:42 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
+        by smtp.gmail.com with ESMTPSA id j15sm426053ejy.55.2020.01.27.20.45.41
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2020 20:39:00 -0800 (PST)
-Received: by mail-wm1-f54.google.com with SMTP id c84so1013754wme.4
-        for <linux-media@vger.kernel.org>; Mon, 27 Jan 2020 20:39:00 -0800 (PST)
-X-Received: by 2002:a1c:9a8d:: with SMTP id c135mr2228590wme.183.1580186340098;
- Mon, 27 Jan 2020 20:39:00 -0800 (PST)
+        Mon, 27 Jan 2020 20:45:41 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id t14so1012776wmi.5
+        for <linux-media@vger.kernel.org>; Mon, 27 Jan 2020 20:45:41 -0800 (PST)
+X-Received: by 2002:a1c:3803:: with SMTP id f3mr2479329wma.134.1580186740766;
+ Mon, 27 Jan 2020 20:45:40 -0800 (PST)
 MIME-Version: 1.0
 References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-13-senozhatsky@chromium.org> <1c5198dc-db4e-47d6-0d8b-259fbbb6372f@xs4all.nl>
-In-Reply-To: <1c5198dc-db4e-47d6-0d8b-259fbbb6372f@xs4all.nl>
+ <20191217032034.54897-6-senozhatsky@chromium.org> <8d0c95c3-64a2-ec14-0ac2-204b0430b2b4@xs4all.nl>
+ <20200122021805.GE149602@google.com> <20200122034826.GA49953@google.com> <7c4accc6-56f2-ecd0-1549-a4114b339ce8@xs4all.nl>
+In-Reply-To: <7c4accc6-56f2-ecd0-1549-a4114b339ce8@xs4all.nl>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 28 Jan 2020 13:38:48 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DN0FSJ=pXG3J32AXocnbkR+AB8yKKDk0tZS4s7K04Z9Q@mail.gmail.com>
-Message-ID: <CAAFQd5DN0FSJ=pXG3J32AXocnbkR+AB8yKKDk0tZS4s7K04Z9Q@mail.gmail.com>
-Subject: Re: [RFC][PATCH 12/15] videobuf2: add begin/end cpu_access callbacks
- to dma-sg
+Date:   Tue, 28 Jan 2020 13:45:29 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C=Zj7h5Xe1w=0czX5ge1Kh=2cj6yEkN6binPgmmpj6Wg@mail.gmail.com>
+Message-ID: <CAAFQd5C=Zj7h5Xe1w=0czX5ge1Kh=2cj6yEkN6binPgmmpj6Wg@mail.gmail.com>
+Subject: Re: [RFC][PATCH 05/15] videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT
+ in REQBUFS
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
@@ -74,82 +75,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 7:13 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On Thu, Jan 23, 2020 at 8:08 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> On 12/17/19 4:20 AM, Sergey Senozhatsky wrote:
-> > Provide begin_cpu_access() and end_cpu_access() dma_buf_ops
-> > callbacks for cache synchronisation on exported buffers.
+> On 1/22/20 4:48 AM, Sergey Senozhatsky wrote:
+> > On (20/01/22 11:18), Sergey Senozhatsky wrote:
+> > [..]
+> >>>> +    * -
+> >>>> +      - __u32
+> >>>>        - ``reserved``\ [1]
+> >>>>        - A place holder for future extensions. Drivers and applications
+> >>>> -  must set the array to zero.
+> >>>> +  must set the array to zero, unless application wants to specify
+> >>>> +        buffer management ``flags``.
+> >>>
+> >>> I think support for this flag should be signaled as a V4L2_BUF_CAP capability.
+> >>> If the capability is not set, then vb2 should set 'flags' to 0 to preserve the
+> >>> old 'Drivers and applications must set the array to zero' behavior.
+> >>
+> >> The patch set adds V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS towards the end of the
+> >> series, I guess I can shuffle the patches and change the wording here.
 > >
-> > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > ---
-> >  .../media/common/videobuf2/videobuf2-dma-sg.c | 22 +++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
+> > Or I can add separate queue flag and V4L2_BUF_CAP:
 > >
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > index 6db60e9d5183..bfc99a0cb7b9 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > @@ -470,6 +470,26 @@ static void vb2_dma_sg_dmabuf_ops_release(struct dma_buf *dbuf)
-> >       vb2_dma_sg_put(dbuf->priv);
-> >  }
+> > struct vb2_queue {
+> > ...
+> >       allow_cache_hints:1
+> > +     allow_consistency_hints:1
+> > ...
+> > }
 > >
+> > and then have CAP_SUPPORTS_CACHE_HINTS/CAP_SUPPORTS_CONSISTENCY_HINTS.
 >
-> There is no corresponding vb2_sg_buffer_consistent function here.
->
-> Looking more closely I see that vb2_dma_sg_alloc doesn't pass the dma_attrs
-> argument to dma_map_sg_attrs, thus V4L2_FLAG_MEMORY_NON_CONSISTENT has no
-> effect on dma-sg buffers.
+> Don't these two go hand-in-hand? I.e. either neither are supported, or
+> both are supported? If so, then one queue flag is sufficient.
 
-videobuf2-dma-sg allocates the memory using the page allocator
-directly, which means that there is no memory consistency guarantee.
+Cache sync hints are already part of the standard UAPI, so I think
+there isn't any capability bit needed for them. That said, they aren't
+really tied to non-consistent MMAP buffers. Userspace using USERPTR
+can also use them.
 
->
-> Is there a reason why dma_attrs isn't passed on to dma_map_sg_attrs()?
->
+MMAP buffer consistency hint deserves a capability bit indeed.
 
-V4L2_FLAG_MEMORY_NON_CONSISTENT is a flag for dma_alloc_attrs(). It
-isn't supposed to do anything for dma_map_sg_attrs(), which is only
-supposed to create the device (e.g. IOMMU) mapping for already
-allocated memory.
-
-> I suspect it was just laziness in the past, and that it should be wired
-> up, just as for dma-contig.
->
-> Regards,
->
->         Hans
->
-> > +static int vb2_dma_sg_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
-> > +                                     enum dma_data_direction direction)
-> > +{
-> > +     struct vb2_dma_sg_buf *buf = dbuf->priv;
-> > +     struct sg_table *sgt = buf->dma_sgt;
-> > +
-> > +     dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
-> > +     return 0;
-> > +}
-> > +
-> > +static int vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
-> > +                                     enum dma_data_direction direction)
-> > +{
-> > +     struct vb2_dma_sg_buf *buf = dbuf->priv;
-> > +     struct sg_table *sgt = buf->dma_sgt;
-> > +
-> > +     dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
-> > +     return 0;
-> > +}
-> > +
-> >  static void *vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf)
-> >  {
-> >       struct vb2_dma_sg_buf *buf = dbuf->priv;
-> > @@ -488,6 +508,8 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
-> >       .detach = vb2_dma_sg_dmabuf_ops_detach,
-> >       .map_dma_buf = vb2_dma_sg_dmabuf_ops_map,
-> >       .unmap_dma_buf = vb2_dma_sg_dmabuf_ops_unmap,
-> > +     .begin_cpu_access = vb2_dma_sg_dmabuf_ops_begin_cpu_access,
-> > +     .end_cpu_access = vb2_dma_sg_dmabuf_ops_end_cpu_access,
-> >       .vmap = vb2_dma_sg_dmabuf_ops_vmap,
-> >       .mmap = vb2_dma_sg_dmabuf_ops_mmap,
-> >       .release = vb2_dma_sg_dmabuf_ops_release,
-> >
->
+Best regards,
+Tomasz
