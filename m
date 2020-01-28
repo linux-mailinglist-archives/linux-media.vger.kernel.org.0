@@ -2,174 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD2A714B116
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 09:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A6414B58C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 14:58:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725959AbgA1Irt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jan 2020 03:47:49 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:42873 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725879AbgA1Irs (ORCPT
+        id S1726646AbgA1N6q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jan 2020 08:58:46 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58556 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726598AbgA1N6p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jan 2020 03:47:48 -0500
-Received: from [IPv6:2001:983:e9a7:1:6d16:ffdc:f7c6:fc6f]
- ([IPv6:2001:983:e9a7:1:6d16:ffdc:f7c6:fc6f])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id wMX9iIoYkrNgywMXCiShaY; Tue, 28 Jan 2020 09:47:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580201266; bh=zsZ23T0yizz0IYOVWOZiX2msSNRRWXrfdJvBnFGECWI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=lJIhX869O3CwbGYTgExssJ8JRG50kLhXbIv6zfQ6CwduZPbsIN2uDmHKSBdAK09xy
-         UzB3x0CA4d2Q5oUWqM5cvmMsZSHlgCRgf8hR7NXQA5O8bnV5z7BjEgYOS4PoX/EVBL
-         h2JnjtbsSeXhoLq7yQbukm7F73e5eFZJ4YS4N5eWatWz2ySey1G9eZsyZcQ88K7zRt
-         MFkPWPiTYkg7YbKgNcWowyfBHP3SUKIHJqOs5SxSeEoN6lcmwwxBc86IkV3ecpC3u7
-         9Gdes9MmPtt3a5M2V5e+ZalciOuJPmTqjOIif3KmU924WT408g1mDWruACvyMWbTAs
-         hxEPEtmWW1h+g==
-Subject: Re: [RFC][PATCH 13/15] videobuf2: do not sync buffers for DMABUF
- queues
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-14-senozhatsky@chromium.org>
- <2d0e1a9b-6c5e-ff70-9862-32c8b8aaf65f@xs4all.nl>
- <20200122050515.GB49953@google.com>
- <57f711a0-6183-74f6-ab24-ebe414cb6881@xs4all.nl>
- <CAAFQd5Dbw=B7kb-p8nkPN3GxwL0O-5q=y1HRAVUVOwv4eEAv-Q@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <84606676-9b24-5feb-0451-7db0527da3f0@xs4all.nl>
-Date:   Tue, 28 Jan 2020 09:47:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Tue, 28 Jan 2020 08:58:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=RPG23Q5VInCW2/dcxso2308vuKWS9qa+8lTMVckj8OQ=; b=eg5ZPQ+jkf5/TY0Rys9EIBpi9w
+        lpGsfmLgEdCaNAhDfz2ektRx2hLoN3Y/S1gMneYm1BwNvGnBZEXXPr0KbiY7Rz7LVscOv8wwT6ZjZ
+        WThohdGrbyxcS0EhgISXN0vgqw8DjXWt0hcCRAHH6k6XavK5A2pbxUM4ZPT0MW+JKziSvERBknhlD
+        2gOD6WrQ/Rg4lFYv7LJ0J3Yqi8UCdZm7QKfZ+xn+G5OA4/VM7RT0vSjMKmbI0Ao3EU93HGOYWEbOf
+        VgNp5d5jhN7geEmpW9XagwrYN/e6JBmx16uCe8jVM1qgvvMXq8tyiP86eIamWutjku2bTx34Q1JnY
+        3uH8HWvQ==;
+Received: from [177.41.103.99] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iwRO8-0006Kb-Ja; Tue, 28 Jan 2020 13:58:45 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1iwRNq-001BJx-GA; Tue, 28 Jan 2020 14:58:26 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 12/27] docs: kvm: convert devices/vcpu.txt to ReST
+Date:   Tue, 28 Jan 2020 14:58:08 +0100
+Message-Id: <10cb8731b167ee8f0bbec245a9f89af3842bc279.1580219586.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <cover.1580219586.git.mchehab+huawei@kernel.org>
+References: <cover.1580219586.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5Dbw=B7kb-p8nkPN3GxwL0O-5q=y1HRAVUVOwv4eEAv-Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOciQBP+VSXqRJdF55dcRHxvsSaKepY4n6NTV5Ab1qk06A8yXGHwjj4M5sh3TVcBt3ea5jpADtBE3JdxB52R6Zwg7OIm4NkxPYiuMJxu8tG4nzTh0m4V
- okuYHQldwnhIdQ1ydKvbviaqmGDAWzvlfMUYFcHroXszxlrwCu4ZA1hxePTILAYcxLdcLnuNy+1QAimguvx9PEHoEaiOKfS64CZvl+T69SyPYVR3yTcO3gZR
- p/MQflRIKSM9MOAXscdUKZWVr3I1asJTiod+LEi4ehYbX4D53Z+mbanwlEtB3Mwi8eUbxaRfeKXcmyvBn6NnNx6blsckfOogj5ewlv0v7wj9++1BspjH2bOV
- LOMqgUF5z8LT5a/pQZNeS20dHifIqwC8KD8aEy3vkEVqLqAVSyp+M1NkRigHJohhqFYzsmMCWjZRstfd9ExfYTnE33Ktqi3Eq++4K4EFANN1qsgCdRQGcfIk
- MLoDGQza2tF+gCSrAbw2r5bFunUu6SCm+jfazrnjIanvqDD417cAqJGtuMpPVWMWlCWhFvyCGrs24+R/kECEBz7FtJI0KPlRc/sL1COfYo8TBywJEkWkKiuH
- rzN00FwD//Ytm9KPViK6+n5y86YiUyR3G3j40t2lO4zW2w==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/28/20 8:19 AM, Tomasz Figa wrote:
-> On Thu, Jan 23, 2020 at 8:35 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 1/22/20 6:05 AM, Sergey Senozhatsky wrote:
->>> On (20/01/10 11:30), Hans Verkuil wrote:
->>> [..]
->>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>>> index 1762849288ae..2b9d3318e6fb 100644
->>>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>>> @@ -341,8 +341,22 @@ static void set_buffer_cache_hints(struct vb2_queue *q,
->>>>>                                struct vb2_buffer *vb,
->>>>>                                struct v4l2_buffer *b)
->>>>>  {
->>>>> -   vb->need_cache_sync_on_prepare = 1;
->>>>> +   /*
->>>>> +    * DMA exporter should take care of cache syncs, so we can avoid
->>>>> +    * explicit ->prepare()/->finish() syncs.
->>>>> +    */
->>>>> +   if (q->memory == VB2_MEMORY_DMABUF) {
->>>>> +           vb->need_cache_sync_on_finish = 0;
->>>>> +           vb->need_cache_sync_on_prepare = 0;
->>>>> +           return;
->>>>> +   }
->>>>>
->>>>> +   /*
->>>>> +    * For other ->memory types we always need ->prepare() cache
->>>>> +    * sync. ->finish() cache sync, however, can be avoided when queue
->>>>> +    * direction is TO_DEVICE.
->>>>> +    */
->>>>> +   vb->need_cache_sync_on_prepare = 1;
->>>>
->>>> I'm trying to remember: what needs to be done in prepare()
->>>> for a capture buffer? I thought that for capture you only
->>>> needed to invalidate the cache in finish(), but nothing needs
->>>> to be done in the prepare().
->>>
->>> Hmm. Not sure. A precaution in case if user-space wrote to that buffer?
->>
->> But whatever was written in the buffer is going to be overwritten anyway.
->>
->> Unless I am mistaken the current situation is that the cache syncs are done
->> in both prepare and finish, regardless of the DMA direction.
->>
->> I would keep that behavior to avoid introducing any unexpected regressions.
->>
-> 
-> It wouldn't be surprising if the buffer was first filled with default
-> values (e.g. all zeroes) on the CPU. That would make the cache lines
-> dirty and they could overwrite what the device writes. So we need to
-> flush (aka clean) the write-back caches on prepare for CAPTURE
-> buffers.
+- Use title markups;
+- adjust indentation and add blank lines as needed;
+- adjust tables to match ReST accepted formats;
+- use :field: markups;
+- mark code blocks as such.
 
-Very true, I'd forgotten about that. This should be documented in the userspace
-documentation. And possible in this function as well.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/virt/kvm/devices/index.rst |   1 +
+ Documentation/virt/kvm/devices/vcpu.rst  | 112 +++++++++++++++++++++++
+ Documentation/virt/kvm/devices/vcpu.txt  |  76 ---------------
+ 3 files changed, 113 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+ delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
 
-I think these issues are complex enough that there is no such things as too
-much documentation :-)
-
-> 
->> Then, if q->allow_cache_hint is set, then default to a cache sync (cache clean)
->> in the prepare for OUTPUT buffers and a cache sync (cache invalidate) in the
->> finish for CAPTURE buffers.
-> 
-> I'd still default to the existing behavior even if allow_cache_hint is
-> set, because of what I wrote above. Then if the userspace doesn't ever
-> write to the buffers, it can request no flush/clean by setting the
-> V4L2_BUF_FLAG_NO_CACHE_CLEAN flag when queuing the buffer.
-> 
->>
->> This also means that any drivers that want to access a buffer in between the
->> prepare...finish calls will need to do a begin/end_cpu_access. But that's a
->> separate matter.
-> 
-> AFAIR with current design of the series, the drivers can opt-in for
-> userspace cache sync hints, so by default even if the userspace
-> requests sync to be skipped, it wouldn't have any effect unless the
-> driver allows so. Then I'd imagine migrating all the drivers to
-> request clean/invalidate explicitly. Note that the DMA-buf
-> begin/end_cpu_access isn't enough here. We'd need something like
-> vb2_begin/end_cpu_access() which also takes care of syncing
-> inconsistent MMAP and USERPTR buffers.
-
-I did just that in my old git branch for this:
-
-https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=vb2-cpu-access
-
-Regards,
-
-	Hans
-
-> 
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> +     if (q->dma_dir == DMA_FROM_DEVICE)
->>> +             q->need_cache_sync_on_prepare = 0;
->>>
->>> ?
->>>
->>>       -ss
->>>
->>
+diff --git a/Documentation/virt/kvm/devices/index.rst b/Documentation/virt/kvm/devices/index.rst
+index e6caccc36623..5a61838f0e61 100644
+--- a/Documentation/virt/kvm/devices/index.rst
++++ b/Documentation/virt/kvm/devices/index.rst
+@@ -12,3 +12,4 @@ Devices
+    arm-vgic-v3
+    mpic
+    s390_flic
++   vcpu
+diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+new file mode 100644
+index 000000000000..1270fd7f2cff
+--- /dev/null
++++ b/Documentation/virt/kvm/devices/vcpu.rst
+@@ -0,0 +1,112 @@
++======================
++Generic vcpu interface
++======================
++
++The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
++KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
++kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
++
++The groups and attributes per virtual cpu, if any, are architecture specific.
++
++1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
++==================================
++
++:Architectures: ARM64
++
++1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
++---------------------------------------
++
++:Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
++	     pointer to an int
++
++Returns:
++
++	 =======  ========================================================
++	 -EBUSY   The PMU overflow interrupt is already set
++	 -ENXIO   The overflow interrupt not set when attempting to get it
++	 -ENODEV  PMUv3 not supported
++	 -EINVAL  Invalid PMU overflow interrupt number supplied or
++		  trying to set the IRQ number without using an in-kernel
++		  irqchip.
++	 =======  ========================================================
++
++A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
++number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
++type must be same for each vcpu. As a PPI, the interrupt number is the same for
++all vcpus, while as an SPI it must be a separate number per vcpu.
++
++1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
++---------------------------------------
++
++:Parameters: no additional parameter in kvm_device_attr.addr
++
++Returns:
++
++	 =======  ======================================================
++	 -ENODEV  PMUv3 not supported or GIC not initialized
++	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
++		  configured as required prior to calling this attribute
++	 -EBUSY   PMUv3 already initialized
++	 =======  ======================================================
++
++Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
++virtual GIC implementation, this must be done after initializing the in-kernel
++irqchip.
++
++
++2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
++=================================
++
++:Architectures: ARM,ARM64
++
++2.1. ATTRIBUTES: KVM_ARM_VCPU_TIMER_IRQ_VTIMER, KVM_ARM_VCPU_TIMER_IRQ_PTIMER
++-----------------------------------------------------------------------------
++
++:Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
++	     pointer to an int
++
++Returns:
++
++	 =======  =================================
++	 -EINVAL  Invalid timer interrupt number
++	 -EBUSY   One or more VCPUs has already run
++	 =======  =================================
++
++A value describing the architected timer interrupt number when connected to an
++in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
++attribute overrides the default values (see below).
++
++=============================  ==========================================
++KVM_ARM_VCPU_TIMER_IRQ_VTIMER  The EL1 virtual timer intid (default: 27)
++KVM_ARM_VCPU_TIMER_IRQ_PTIMER  The EL1 physical timer intid (default: 30)
++=============================  ==========================================
++
++Setting the same PPI for different timers will prevent the VCPUs from running.
++Setting the interrupt number on a VCPU configures all VCPUs created at that
++time to use the number provided for a given timer, overwriting any previously
++configured values on other VCPUs.  Userspace should configure the interrupt
++numbers on at least one VCPU after creating all VCPUs and before running any
++VCPUs.
++
++3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
++==================================
++
++:Architectures: ARM64
++
++3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
++--------------------------------------
++
++:Parameters: 64-bit base address
++
++Returns:
++
++	 =======  ======================================
++	 -ENXIO   Stolen time not implemented
++	 -EEXIST  Base address already set for this VCPU
++	 -EINVAL  Base address not 64 byte aligned
++	 =======  ======================================
++
++Specifies the base address of the stolen time structure for this VCPU. The
++base address must be 64 byte aligned and exist within a valid guest memory
++region. See Documentation/virt/kvm/arm/pvtime.txt for more information
++including the layout of the stolen time structure.
+diff --git a/Documentation/virt/kvm/devices/vcpu.txt b/Documentation/virt/kvm/devices/vcpu.txt
+deleted file mode 100644
+index 6f3bd64a05b0..000000000000
+--- a/Documentation/virt/kvm/devices/vcpu.txt
++++ /dev/null
+@@ -1,76 +0,0 @@
+-Generic vcpu interface
+-====================================
+-
+-The virtual cpu "device" also accepts the ioctls KVM_SET_DEVICE_ATTR,
+-KVM_GET_DEVICE_ATTR, and KVM_HAS_DEVICE_ATTR. The interface uses the same struct
+-kvm_device_attr as other devices, but targets VCPU-wide settings and controls.
+-
+-The groups and attributes per virtual cpu, if any, are architecture specific.
+-
+-1. GROUP: KVM_ARM_VCPU_PMU_V3_CTRL
+-Architectures: ARM64
+-
+-1.1. ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_IRQ
+-Parameters: in kvm_device_attr.addr the address for PMU overflow interrupt is a
+-            pointer to an int
+-Returns: -EBUSY: The PMU overflow interrupt is already set
+-         -ENXIO: The overflow interrupt not set when attempting to get it
+-         -ENODEV: PMUv3 not supported
+-         -EINVAL: Invalid PMU overflow interrupt number supplied or
+-                  trying to set the IRQ number without using an in-kernel
+-                  irqchip.
+-
+-A value describing the PMUv3 (Performance Monitor Unit v3) overflow interrupt
+-number for this vcpu. This interrupt could be a PPI or SPI, but the interrupt
+-type must be same for each vcpu. As a PPI, the interrupt number is the same for
+-all vcpus, while as an SPI it must be a separate number per vcpu.
+-
+-1.2 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_INIT
+-Parameters: no additional parameter in kvm_device_attr.addr
+-Returns: -ENODEV: PMUv3 not supported or GIC not initialized
+-         -ENXIO: PMUv3 not properly configured or in-kernel irqchip not
+-                 configured as required prior to calling this attribute
+-         -EBUSY: PMUv3 already initialized
+-
+-Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
+-virtual GIC implementation, this must be done after initializing the in-kernel
+-irqchip.
+-
+-
+-2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+-Architectures: ARM,ARM64
+-
+-2.1. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_VTIMER
+-2.2. ATTRIBUTE: KVM_ARM_VCPU_TIMER_IRQ_PTIMER
+-Parameters: in kvm_device_attr.addr the address for the timer interrupt is a
+-            pointer to an int
+-Returns: -EINVAL: Invalid timer interrupt number
+-         -EBUSY:  One or more VCPUs has already run
+-
+-A value describing the architected timer interrupt number when connected to an
+-in-kernel virtual GIC.  These must be a PPI (16 <= intid < 32).  Setting the
+-attribute overrides the default values (see below).
+-
+-KVM_ARM_VCPU_TIMER_IRQ_VTIMER: The EL1 virtual timer intid (default: 27)
+-KVM_ARM_VCPU_TIMER_IRQ_PTIMER: The EL1 physical timer intid (default: 30)
+-
+-Setting the same PPI for different timers will prevent the VCPUs from running.
+-Setting the interrupt number on a VCPU configures all VCPUs created at that
+-time to use the number provided for a given timer, overwriting any previously
+-configured values on other VCPUs.  Userspace should configure the interrupt
+-numbers on at least one VCPU after creating all VCPUs and before running any
+-VCPUs.
+-
+-3. GROUP: KVM_ARM_VCPU_PVTIME_CTRL
+-Architectures: ARM64
+-
+-3.1 ATTRIBUTE: KVM_ARM_VCPU_PVTIME_IPA
+-Parameters: 64-bit base address
+-Returns: -ENXIO:  Stolen time not implemented
+-         -EEXIST: Base address already set for this VCPU
+-         -EINVAL: Base address not 64 byte aligned
+-
+-Specifies the base address of the stolen time structure for this VCPU. The
+-base address must be 64 byte aligned and exist within a valid guest memory
+-region. See Documentation/virt/kvm/arm/pvtime.txt for more information
+-including the layout of the stolen time structure.
+-- 
+2.24.1
 
