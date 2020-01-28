@@ -2,78 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AD4B14C1AA
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 21:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDDBA14C1B8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2020 21:42:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgA1Uiv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Jan 2020 15:38:51 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:48780 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726182AbgA1Uiu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Jan 2020 15:38:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=HBbj1uTIGuAW6NIczL0TPAxBPwE7P6H9mk2dv5P0WyA=; b=SuAgyQ+xzqVLvH2zA0tW3W/z5
-        Z72ftRU/IEYJ9BomCizYr804UJrgsw3AJouk1ou+W9uCam28DmWIrhjEOYnCiAgCW9rsq/y+V1UHt
-        jSEX9xbtZgWHV9RhdAM2Ks8auX8XqvrP/rnTSgYo4+rqnhmLwknPIXVpiKGE16eH7RPciT0oVt1YE
-        yhKTuAXet80aj9hQbYMDmcsJfx56jSNLcealRq8fK9exaz6xnOJ9kMR8eLLyaThL3e/8TSJgDldSM
-        vjxrjU7LC1sC/J8IKjzelTA3pM4S8DysCbHVZz8aGIDwJb27n+0DZCTFou7EFV7uz9DldRVGQYwvz
-        aLcqaJ4aw==;
-Received: from [80.156.29.194] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iwXdI-00086i-3A; Tue, 28 Jan 2020 20:38:48 +0000
-Date:   Tue, 28 Jan 2020 21:38:39 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Cornelia Huck <cohuck@redhat.com>
+        id S1726504AbgA1Uma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Jan 2020 15:42:30 -0500
+Received: from ms.lwn.net ([45.79.88.28]:43492 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726143AbgA1Uma (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Jan 2020 15:42:30 -0500
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5902D4B7;
+        Tue, 28 Jan 2020 20:42:29 +0000 (UTC)
+Date:   Tue, 28 Jan 2020 13:42:28 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 11/27] docs: kvm: convert devices/s390_flic.txt to ReST
-Message-ID: <20200128213839.4b5449c5@kernel.org>
-In-Reply-To: <20200128191348.497334df.cohuck@redhat.com>
-References: <cover.1580219586.git.mchehab+huawei@kernel.org>
-        <12634be89f4a8b662bf4bc0a0c7baef42675548f.1580219586.git.mchehab+huawei@kernel.org>
-        <20200128191348.497334df.cohuck@redhat.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: usb: remove some broken references
+Message-ID: <20200128134228.3c6f56b9@lwn.net>
+In-Reply-To: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
+References: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 28 Jan 2020 19:13:48 +0100
-Cornelia Huck <cohuck@redhat.com> escreveu:
+On Tue, 28 Jan 2020 07:41:00 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> On Tue, 28 Jan 2020 15:00:12 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> It seems that some files were removed from USB documentation.
 > 
-> > - Use standard markup for document title;
-> > - Adjust indentation and add blank lines as needed;
-> > - use the notes markup;
-> > - mark code blocks as such.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/virt/kvm/devices/index.rst      |  1 +
-> >  .../devices/{s390_flic.txt => s390_flic.rst}  | 68 +++++++++++--------
-> >  2 files changed, 39 insertions(+), 30 deletions(-)
-> >  rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (88%)  
+> Update the links accordingly.
 > 
-> Duplicate... old files?
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-It is duplicated. Sorry for that. I'm using an old notebook with a bad
-internet connection. I ended by sending the same patch series twice,
-as it sounded that the first attempt failed due to some errors I got
-from git send-email.
+Applied, thanks.
 
-Regards,
-Mauro
+jon
