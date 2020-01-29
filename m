@@ -2,110 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C97B614CDEC
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 17:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC6DB14CE2E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 17:23:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726824AbgA2QGP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jan 2020 11:06:15 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:33687 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726564AbgA2QGP (ORCPT
+        id S1727159AbgA2QWv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jan 2020 11:22:51 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17644 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727141AbgA2QWv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jan 2020 11:06:15 -0500
-Received: by mail-il1-f200.google.com with SMTP id s9so194632ilk.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2020 08:06:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=fEUlUjM8SEojeOk6pwtcSTQDu8D7nALBWF21TUkUjFQ=;
-        b=t4nokeCol+qUACrEuABExBH46O0OmRqKt8VxkiKXjQZ4DYROuEUmvk+WA6h/tuCYmM
-         FY2HP8AC2ZCjwtKDIJS8HmXv3b4JWO6ixegPztO/U/EcHbsuLU0h4oVJQHmK2C5H82Zb
-         MR+z0SJIqK69QJCZZrrqUyi9IwOhXfK9DGOA5rJFHLzknt8EYELaz7jWFnOiTZOl/3Kd
-         n1CaZ4UpDvjn1iUODYzJlRPN/vWZVujfgC5YvsgFDssm16nYMgbDlSrmiRbQPIs/oaNn
-         P9BZ/kfvL1CbBO1ZcNBUAAhPFECeVBq6ijyK5Uh1cNhXC+nJvOwj/oCyWHrtMhGsURGe
-         TfYw==
-X-Gm-Message-State: APjAAAXHvQtrBbMrBq1ABz4Jnni/bSf5LCHPD3ThdATnFn50BH2KsgRH
-        SHpvTRHo0/Ci1nDt2Ak2/1/V0sR2ptlq1NEfeZ8Ea+9m+jJd
-X-Google-Smtp-Source: APXvYqxRd2se19n9AMGBF0tsd+V/QMOOXynWF3G0Gosz8cItmjCbMWlTR4gOeDt0e9z2keIjwUnyAv5NoJ294QR5X7nnb81NTilm
+        Wed, 29 Jan 2020 11:22:51 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e31b14b0000>; Wed, 29 Jan 2020 08:22:35 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 29 Jan 2020 08:22:50 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 29 Jan 2020 08:22:50 -0800
+Received: from [10.2.164.115] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
+ 2020 16:22:49 +0000
+Subject: Re: Re: [RFC PATCH v1 5/5] arm64: tegra: Add Tegra VI CSI suppport in
+ device tree
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <1580235801-4129-6-git-send-email-skomatineni@nvidia.com>
+ <20200129094624.GD2479935@ulmo>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <bd18711d-ce23-cbee-7824-37a8c78908e6@nvidia.com>
+Date:   Wed, 29 Jan 2020 08:22:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Received: by 2002:a92:914a:: with SMTP id t71mr26674745ild.293.1580313974646;
- Wed, 29 Jan 2020 08:06:14 -0800 (PST)
-Date:   Wed, 29 Jan 2020 08:06:14 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000017ad0d059d498531@google.com>
-Subject: memory leak in snd_pcm_hw_params
-From:   syzbot <syzbot+30edd0f34bfcdc548ac4@syzkaller.appspotmail.com>
-To:     alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, perex@perex.cz,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200129094624.GD2479935@ulmo>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1580314955; bh=eLeON2MxtqTE1lp83s18wcsu20gMK+jZz18egxh1R4s=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Pd4wjUdLK95tGQ+sjDU/adByintrMeBPwj9MI7AfSC7ItU9W8KcmRMs2IW9a40cIK
+         nxLIKAheY1jQn6bDWzOAhi01ju6CVzZqiN4SFszHqe2fot8xwdld/ZqvcARBq13J3N
+         +JqfEQdzjAoXvt+A7nXO5Ir696wEn+2dTAag3XAhD8U/kVyRTKOqNLktOyrem2TiDP
+         aEgt1bZ0nV0C6UW4X3Dto41RM+QN+wfkRzR98c354oMqQk88cSSP0NkuC23kWxOCLT
+         ye52CcISxwm17dKRA8SsOXzI6houcLgaWiDRa29sbIkZ87ZVVEQEq7Zy3gzOPHRvh7
+         nBjmlxztZWGXg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-syzbot found the following crash on:
+On 1/29/20 1:46 AM, Thierry Reding wrote:
+> On Tue, Jan 28, 2020 at 10:23:21AM -0800, Sowjanya Komatineni wrote:
+>> Tegra210 contains VI controller for video input capture from MIPI
+>> CSI camera sensors and also supports built-in test pattern generator.
+>>
+>> CSI ports can be one-to-one mapped to VI channels for capturing from
+>> an external sensor or from built-in test pattern generator.
+>>
+>> This patch adds support for VI and CSI and enables them in Tegra210
+>> device tree.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi |  8 +++++++
+>>   arch/arm64/boot/dts/nvidia/tegra210.dtsi       | 31 +++++++++++++++++++++++++-
+>>   2 files changed, 38 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+>> index b0095072bc28..ec1b3033fa03 100644
+>> --- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+>> +++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+>> @@ -10,6 +10,14 @@
+>>   			status = "okay";
+>>   		};
+>>   
+>> +		vi@54080000 {
+>> +			status = "okay";
+>> +		};
+>> +
+>> +		csi@0x54080838 {
+>> +			status = "okay";
+>> +		};
+>> +
+>>   		sor@54580000 {
+>>   			status = "okay";
+>>   
+>> diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+>> index 48c63256ba7f..c6107ec03ad1 100644
+>> --- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+>> +++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
+>> @@ -136,9 +136,38 @@
+>>   
+>>   		vi@54080000 {
+>>   			compatible = "nvidia,tegra210-vi";
+>> -			reg = <0x0 0x54080000 0x0 0x00040000>;
+>> +			reg = <0x0 0x54080000 0x0 0x808>;
+>>   			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+>>   			status = "disabled";
+>> +			assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
+>> +			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
+>> +
+>> +			clocks = <&tegra_car TEGRA210_CLK_VI>;
+>> +			clock-names = "vi";
+>> +			resets = <&tegra_car 20>;
+>> +			reset-names = "vi";
+>> +		};
+>> +
+>> +		csi@0x54080838 {
+>> +			compatible = "nvidia,tegra210-csi";
+>> +			reg = <0x0 0x54080838 0x0 0x2000>;
+>> +			status = "disabled";
+>> +			assigned-clocks = <&tegra_car TEGRA210_CLK_CILAB>,
+>> +					  <&tegra_car TEGRA210_CLK_CILCD>,
+>> +					  <&tegra_car TEGRA210_CLK_CILE>;
+>> +			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_P>,
+>> +						 <&tegra_car TEGRA210_CLK_PLL_P>,
+>> +						 <&tegra_car TEGRA210_CLK_PLL_P>;
+>> +			assigned-clock-rates = <102000000>,
+>> +					       <102000000>,
+>> +					       <102000000>;
+>> +
+>> +			clocks = <&tegra_car TEGRA210_CLK_CSI>,
+>> +				 <&tegra_car TEGRA210_CLK_CILAB>,
+>> +				 <&tegra_car TEGRA210_CLK_CILCD>,
+>> +				 <&tegra_car TEGRA210_CLK_CILE>;
+>> +			clock-names = "csi", "cilab", "cilcd", "cile";
+>> +
+>>   		};
+> Can this be a child of the vi node? Looking at the register ranges it
+> seems like these are actually a single IP block. If they have separate
+> blocks with clearly separate functionality, then it makes sense to have
+> CSI be a child node of VI, though it may also be okay to merge both and
+> have a single node with the driver doing all of the differentiation
+> between what's VI and what's CSI.
+>
+> Looking at later chips, the split between VI and CSI is more explicit,
+> so having the split in DT for Tegra210 may make sense for consistency.
+>
+> I know we've discussed this before, but for some reason I keep coming
+> back to this. I'll go through the other patches to see if I can get a
+> clearer picture of how this could all work together.
+>
+> Thierry
 
-HEAD commit:    b3a60822 Merge branch 'for-v5.6' of git://git.kernel.org:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1351cf66e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e97a1bc78afb77f
-dashboard link: https://syzkaller.appspot.com/bug?extid=30edd0f34bfcdc548ac4
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e97735e00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13cd9bc9e00000
+We can keep it separate as we discussed.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+30edd0f34bfcdc548ac4@syzkaller.appspotmail.com
+But as Tegra186 onwards, CSI is separate device to be all cosistent I 
+kept CSI as separate node for Tegra210 as well.
 
-executing program
-executing program
-executing program
-BUG: memory leak
-unreferenced object 0xffff888108fdefc0 (size 64):
-  comm "syz-executor222", pid 7310, jiffies 4294946025 (age 13.660s)
-  hex dump (first 32 bytes):
-    07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 10 33 02 00 c9 ff ff 00 00 00 00 00 00 00 00  ..3.............
-  backtrace:
-    [<00000000c59c6b0c>] kmemleak_alloc_recursive include/linux/kmemleak.h:43 [inline]
-    [<00000000c59c6b0c>] slab_post_alloc_hook mm/slab.h:586 [inline]
-    [<00000000c59c6b0c>] slab_alloc mm/slab.c:3320 [inline]
-    [<00000000c59c6b0c>] kmem_cache_alloc_trace+0x145/0x2c0 mm/slab.c:3549
-    [<00000000478172ce>] kmalloc include/linux/slab.h:556 [inline]
-    [<00000000478172ce>] kzalloc include/linux/slab.h:670 [inline]
-    [<00000000478172ce>] snd_pcm_lib_malloc_pages+0x12b/0x200 sound/core/pcm_memory.c:404
-    [<0000000091532e16>] snd_pcm_hw_params+0x720/0x830 sound/core/pcm_native.c:691
-    [<000000002070a986>] snd_pcm_kernel_ioctl+0xb5/0x170 sound/core/pcm_native.c:3238
-    [<00000000394e99f4>] snd_pcm_oss_change_params_locked+0x745/0x1140 sound/core/oss/pcm_oss.c:944
-    [<00000000c81f42ac>] snd_pcm_oss_change_params+0x43/0x80 sound/core/oss/pcm_oss.c:1087
-    [<000000007710a1c0>] snd_pcm_oss_make_ready+0x55/0xc0 sound/core/oss/pcm_oss.c:1146
-    [<0000000069305204>] snd_pcm_oss_sync.isra.0+0xb8/0x310 sound/core/oss/pcm_oss.c:1707
-    [<00000000692460c8>] snd_pcm_oss_release+0xef/0x100 sound/core/oss/pcm_oss.c:2545
-    [<0000000013ba02c9>] __fput+0xed/0x300 fs/file_table.c:280
-    [<0000000080810f18>] ____fput+0x16/0x20 fs/file_table.c:313
-    [<00000000e6bb3aa6>] task_work_run+0x9d/0xc0 kernel/task_work.c:113
-    [<00000000b6ce71eb>] exit_task_work include/linux/task_work.h:22 [inline]
-    [<00000000b6ce71eb>] do_exit+0x3fa/0xe20 kernel/exit.c:801
-    [<0000000045ce7ad3>] do_group_exit+0x4b/0xe0 kernel/exit.c:899
-    [<00000000aeb85903>] __do_sys_exit_group kernel/exit.c:910 [inline]
-    [<00000000aeb85903>] __se_sys_exit_group kernel/exit.c:908 [inline]
-    [<00000000aeb85903>] __x64_sys_exit_group+0x1c/0x20 kernel/exit.c:908
-    [<000000008b12db16>] do_syscall_64+0x73/0x220 arch/x86/entry/common.c:294
-
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
