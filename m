@@ -2,24 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2254114C9F6
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 12:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D100814C9F5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 12:54:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbgA2LyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726643AbgA2LyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 29 Jan 2020 06:54:22 -0500
-Received: from gofer.mess.org ([88.97.38.141]:35395 "EHLO gofer.mess.org"
+Received: from gofer.mess.org ([88.97.38.141]:42175 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726140AbgA2LyV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726598AbgA2LyV (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 29 Jan 2020 06:54:21 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 34F5CC643D; Wed, 29 Jan 2020 11:54:19 +0000 (GMT)
+        id 530BBC645B; Wed, 29 Jan 2020 11:54:19 +0000 (GMT)
 From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org
 Cc:     Frank Wunderlich <frank-w@public-files.de>
-Subject: [PATCH v4l-utils 1/4] keytable: support 64 bit scancodes
-Date:   Wed, 29 Jan 2020 11:54:15 +0000
-Message-Id: <20200129115419.8456-1-sean@mess.org>
+Subject: [PATCH v2] media: rc: make scancodes 64 bit
+Date:   Wed, 29 Jan 2020 11:54:16 +0000
+Message-Id: <20200129115419.8456-2-sean@mess.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200129115419.8456-1-sean@mess.org>
+References: <20200129115419.8456-1-sean@mess.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -27,220 +29,330 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+There are many protocols that encode more than 32 bit. We want 64 bit
+support so that BPF IR decoders can decode more than 32 bit. None of
+the existing kernel IR decoders/encoders support 64 bit, for now.
+
+The MSC_SCAN event can only contain 32 bit scancodes, so we no longer
+generate these input events. The full 64 bit scancode can be read from
+the lirc chardev.
+
 Signed-off-by: Sean Young <sean@mess.org>
 ---
- utils/common/keymap.c     |  4 +-
- utils/common/keymap.h     |  4 +-
- utils/keytable/keytable.c | 80 +++++++++++++++++++++++++++------------
- 3 files changed, 59 insertions(+), 29 deletions(-)
+ drivers/media/rc/bpf-lirc.c |  5 ---
+ drivers/media/rc/lirc_dev.c |  7 +---
+ drivers/media/rc/rc-main.c  | 77 ++++++++++++++++++++++++-------------
+ include/media/rc-core.h     |  8 ++--
+ include/media/rc-map.h      |  4 +-
+ 5 files changed, 58 insertions(+), 43 deletions(-)
 
-diff --git a/utils/common/keymap.c b/utils/common/keymap.c
-index d06deb59..15c31c76 100644
---- a/utils/common/keymap.c
-+++ b/utils/common/keymap.c
-@@ -162,7 +162,7 @@ static error_t parse_plain_keymap(char *fname, struct keymap **keymap, bool verb
- 			return ENOMEM;
- 		}
- 
--		se->scancode = strtoul(scancode, NULL, 0);
-+		se->scancode = strtoull(scancode, NULL, 0);
- 		se->keycode = strdup(keycode);
- 		se->next = map->scancode;
- 		map->scancode = se;
-@@ -442,7 +442,7 @@ static error_t parse_toml_protocol(const char *fname, struct toml_table_t *proot
- 			return ENOMEM;
- 		}
- 
--		se->scancode = strtoul(scancode, NULL, 0);
-+		se->scancode = strtoull(scancode, NULL, 0);
- 		se->keycode = keycode;
- 		*next = se;
- 		next = &se->next;
-diff --git a/utils/common/keymap.h b/utils/common/keymap.h
-index f2b29632..99833827 100644
---- a/utils/common/keymap.h
-+++ b/utils/common/keymap.h
-@@ -20,13 +20,13 @@ struct protocol_param {
- 
- struct scancode_entry {
- 	struct scancode_entry *next;
--	u_int32_t scancode;
-+	u_int64_t scancode;
- 	char *keycode;
+diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
+index 0a0ce620e4a2..0f3417d161b8 100644
+--- a/drivers/media/rc/bpf-lirc.c
++++ b/drivers/media/rc/bpf-lirc.c
+@@ -35,11 +35,6 @@ static const struct bpf_func_proto rc_repeat_proto = {
+ 	.arg1_type = ARG_PTR_TO_CTX,
  };
  
- struct raw_entry {
- 	struct raw_entry *next;
--	u_int32_t scancode;
-+	u_int64_t scancode;
- 	u_int32_t raw_length;
- 	char *keycode;
- 	u_int32_t raw[1];
-diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-index e2a1bfe1..cc1b5217 100644
---- a/utils/keytable/keytable.c
-+++ b/utils/keytable/keytable.c
-@@ -76,7 +76,8 @@ struct input_keymap_entry_v2 {
- #endif
- 
- struct keytable_entry {
--	u_int32_t scancode;
-+	// 64 bit int which can printed with %llx
-+	unsigned long long scancode;
- 	u_int32_t keycode;
- 	struct keytable_entry *next;
- };
-@@ -400,7 +401,7 @@ static int add_keymap(struct keymap *map, const char *fname)
- 			if (value == -1) {
- 				value = strtol(se->keycode, &p, 0);
- 				if (errno || *p) {
--					fprintf(stderr, _("%s: keycode `%s' not recognised, no mapping for scancode %d\n"), fname, se->keycode, se->scancode);
-+					fprintf(stderr, _("%s: keycode `%s' not recognised, no mapping for scancode %llx\n"), fname, se->keycode, (unsigned long long)se->scancode);
- 					continue;
- 				}
- 			}
-@@ -589,7 +590,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
- 				return ENOMEM;
- 			}
- 
--			ke->scancode = strtoul(p, NULL, 0);
-+			ke->scancode = strtoull(p, NULL, 0);
- 			if (errno) {
- 				free(ke);
- 				argp_error(state, _("Invalid scancode: %s"), p);
-@@ -616,7 +617,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
- 			ke->keycode = key;
- 
- 			if (debug)
--				fprintf(stderr, _("scancode 0x%04x=%u\n"),
-+				fprintf(stderr, _("scancode 0x%04llx=%u\n"),
- 					ke->scancode, ke->keycode);
- 
- 			ke->next = keytable;
-@@ -722,21 +723,21 @@ static struct argp argp = {
- 	.doc = doc,
- };
- 
--static void prtcode(int *codes)
-+static void prtcode(unsigned long long scancode, int keycode)
+-/*
+- * Currently rc-core does not support 64-bit scancodes, but there are many
+- * known protocols with more than 32 bits. So, define the interface as u64
+- * as a future-proof.
+- */
+ BPF_CALL_4(bpf_rc_keydown, u32*, sample, u32, protocol, u64, scancode,
+ 	   u32, toggle)
  {
- 	struct parse_event *p;
- 
- 	for (p = key_events; p->name != NULL; p++) {
--		if (p->value == (unsigned)codes[1]) {
--			printf(_("scancode 0x%04x = %s (0x%02x)\n"), codes[0], p->name, codes[1]);
-+		if (p->value == keycode) {
-+			printf(_("scancode 0x%04llx = %s (0x%02x)\n"), scancode, p->name, keycode);
- 			return;
+diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+index 9a8c1cf54ac4..583e4f32a0da 100644
+--- a/drivers/media/rc/lirc_dev.c
++++ b/drivers/media/rc/lirc_dev.c
+@@ -269,12 +269,7 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
+ 			goto out_unlock;
  		}
+ 
+-		/*
+-		 * The scancode field in lirc_scancode is 64-bit simply
+-		 * to future-proof it, since there are IR protocols encode
+-		 * use more than 32 bits. For now only 32-bit protocols
+-		 * are supported.
+-		 */
++		/* We only have encoders for 32-bit protocols. */
+ 		if (scan.scancode > U32_MAX ||
+ 		    !rc_validate_scancode(scan.rc_proto, scan.scancode)) {
+ 			ret = -EINVAL;
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index 6f80c251f641..047b079c37eb 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -163,6 +163,41 @@ static struct rc_map_list empty_map = {
  	}
+ };
  
--	if (isprint (codes[1]))
--		printf(_("scancode 0x%04x = '%c' (0x%02x)\n"), codes[0], codes[1], codes[1]);
-+	if (isprint (keycode))
-+		printf(_("scancode 0x%04llx = '%c' (0x%02x)\n"), scancode, keycode, keycode);
- 	else
--		printf(_("scancode 0x%04x = 0x%02x\n"), codes[0], codes[1]);
-+		printf(_("scancode 0x%04llx = 0x%02x\n"), scancode, keycode);
- }
- 
- static void free_names(struct sysfs_names *names)
-@@ -1399,17 +1400,34 @@ static int add_keys(int fd)
- 	for (ke = keytable; ke; ke = ke->next) {
- 		write_cnt++;
- 		if (debug)
--			fprintf(stderr, "\t%04x=%04x\n",
-+			fprintf(stderr, "\t%04llx=%04x\n",
- 				ke->scancode, ke->keycode);
- 
- 		codes[0] = ke->scancode;
- 		codes[1] = ke->keycode;
- 
--		if (ioctl(fd, EVIOCSKEYCODE, codes)) {
--			fprintf(stderr,
--				_("Setting scancode 0x%04x with 0x%04x via "),
--				ke->scancode, ke->keycode);
--			perror("EVIOCSKEYCODE");
-+		if (codes[0] != ke->scancode) {
-+			// 64 bit scancode
-+			struct input_keymap_entry_v2 entry = {
-+				.keycode = ke->keycode,
-+				.len = sizeof(ke->scancode)
-+			};
++/**
++ * scancode_to_u64() - converts scancode in &struct input_keymap_entry
++ * @ke: keymap entry containing scancode to be converted.
++ * @scancode: pointer to the location where converted scancode should
++ *	be stored.
++ *
++ * This function is a version of input_scancode_to_scalar specialized for
++ * rc-core.
++ */
++static int scancode_to_u64(const struct input_keymap_entry *ke, u64 *scancode)
++{
++	switch (ke->len) {
++	case 1:
++		*scancode = *((u8 *)ke->scancode);
++		break;
 +
-+			memcpy(entry.scancode, &ke->scancode, sizeof(ke->scancode));
++	case 2:
++		*scancode = *((u16 *)ke->scancode);
++		break;
 +
-+			if (ioctl(fd, EVIOCSKEYCODE_V2, &entry)) {
-+				fprintf(stderr,
-+					_("Setting scancode 0x%04llx with 0x%04x via "),
-+					ke->scancode, ke->keycode);
-+				perror("EVIOCSKEYCODE");
-+			}
-+		} else {
-+			if (ioctl(fd, EVIOCSKEYCODE, codes)) {
-+				fprintf(stderr,
-+					_("Setting scancode 0x%04llx with 0x%04x via "),
-+					ke->scancode, ke->keycode);
-+				perror("EVIOCSKEYCODE");
-+			}
- 		}
- 	}
++	case 4:
++		*scancode = *((u32 *)ke->scancode);
++		break;
++
++	case 8:
++		*scancode = *((u64 *)ke->scancode);
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /**
+  * ir_create_table() - initializes a scancode table
+  * @dev:	the rc_dev device
+@@ -285,13 +320,13 @@ static unsigned int ir_update_mapping(struct rc_dev *dev,
  
-@@ -1596,7 +1614,7 @@ static void display_table_v1(struct rc_device *rc_dev, int fd)
- 			if (ioctl(fd, EVIOCGKEYCODE, codes) == -1)
- 				perror("EVIOCGKEYCODE");
- 			else if (codes[1] != KEY_RESERVED)
--				prtcode(codes);
-+				prtcode(codes[0], codes[1]);
- 		}
- 	}
- 	display_proto(rc_dev);
-@@ -1604,25 +1622,37 @@ static void display_table_v1(struct rc_device *rc_dev, int fd)
- 
- static void display_table_v2(struct rc_device *rc_dev, int fd)
+ 	/* Did the user wish to remove the mapping? */
+ 	if (new_keycode == KEY_RESERVED || new_keycode == KEY_UNKNOWN) {
+-		dev_dbg(&dev->dev, "#%d: Deleting scan 0x%04x\n",
++		dev_dbg(&dev->dev, "#%d: Deleting scan 0x%04llx\n",
+ 			index, rc_map->scan[index].scancode);
+ 		rc_map->len--;
+ 		memmove(&rc_map->scan[index], &rc_map->scan[index+ 1],
+ 			(rc_map->len - index) * sizeof(struct rc_map_table));
+ 	} else {
+-		dev_dbg(&dev->dev, "#%d: %s scan 0x%04x with key 0x%04x\n",
++		dev_dbg(&dev->dev, "#%d: %s scan 0x%04llx with key 0x%04x\n",
+ 			index,
+ 			old_keycode == KEY_RESERVED ? "New" : "Replacing",
+ 			rc_map->scan[index].scancode, new_keycode);
+@@ -334,8 +369,7 @@ static unsigned int ir_update_mapping(struct rc_dev *dev,
+  */
+ static unsigned int ir_establish_scancode(struct rc_dev *dev,
+ 					  struct rc_map *rc_map,
+-					  unsigned int scancode,
+-					  bool resize)
++					  u64 scancode, bool resize)
  {
-+	struct input_keymap_entry_v2 entry = {};
-+	unsigned long long scancode;
- 	int i;
--	struct input_keymap_entry_v2 entry;
--	int codes[2];
+ 	unsigned int i;
  
--	memset(&entry, '\0', sizeof(entry));
- 	i = 0;
- 	do {
- 		entry.flags = KEYMAP_BY_INDEX;
- 		entry.index = i;
--		entry.len = sizeof(u_int32_t);
-+		entry.len = sizeof(scancode);
+@@ -394,7 +428,7 @@ static int ir_setkeycode(struct input_dev *idev,
+ 	struct rc_dev *rdev = input_get_drvdata(idev);
+ 	struct rc_map *rc_map = &rdev->rc_map;
+ 	unsigned int index;
+-	unsigned int scancode;
++	u64 scancode;
+ 	int retval = 0;
+ 	unsigned long flags;
  
- 		if (ioctl(fd, EVIOCGKEYCODE_V2, &entry) == -1)
- 			break;
+@@ -407,7 +441,7 @@ static int ir_setkeycode(struct input_dev *idev,
+ 			goto out;
+ 		}
+ 	} else {
+-		retval = input_scancode_to_scalar(ke, &scancode);
++		retval = scancode_to_u64(ke, &scancode);
+ 		if (retval)
+ 			goto out;
  
--		/* FIXME: Extend it to support scancodes > 32 bits */
--		memcpy(&codes[0], entry.scancode, sizeof(codes[0]));
--		codes[1] = entry.keycode;
-+		if (entry.len == sizeof(u_int32_t)) {
-+			u_int32_t temp;
-+
-+			memcpy(&temp, entry.scancode, sizeof(temp));
-+
-+			scancode = temp;
-+		} else if (entry.len == sizeof(u_int64_t)) {
-+			u_int64_t temp;
-+
-+			memcpy(&temp, entry.scancode, sizeof(temp));
-+
-+			scancode = temp;
-+		} else {
-+			printf("error: unknown scancode length %d\n", entry.len);
-+			continue;
-+		}
+@@ -434,8 +468,7 @@ static int ir_setkeycode(struct input_dev *idev,
+  *
+  * return:	-ENOMEM if all keycodes could not be inserted, otherwise zero.
+  */
+-static int ir_setkeytable(struct rc_dev *dev,
+-			  const struct rc_map *from)
++static int ir_setkeytable(struct rc_dev *dev, const struct rc_map *from)
+ {
+ 	struct rc_map *rc_map = &dev->rc_map;
+ 	unsigned int i, index;
+@@ -466,7 +499,7 @@ static int ir_setkeytable(struct rc_dev *dev,
  
--		prtcode(codes);
-+		prtcode(scancode, entry.keycode);
- 		i++;
- 	} while (1);
- 	display_proto(rc_dev);
+ static int rc_map_cmp(const void *key, const void *elt)
+ {
+-	const unsigned int *scancode = key;
++	const u64 *scancode = key;
+ 	const struct rc_map_table *e = elt;
+ 
+ 	if (*scancode < e->scancode)
+@@ -487,7 +520,7 @@ static int rc_map_cmp(const void *key, const void *elt)
+  * return:	index in the table, -1U if not found
+  */
+ static unsigned int ir_lookup_by_scancode(const struct rc_map *rc_map,
+-					  unsigned int scancode)
++					  u64 scancode)
+ {
+ 	struct rc_map_table *res;
+ 
+@@ -516,7 +549,7 @@ static int ir_getkeycode(struct input_dev *idev,
+ 	struct rc_map_table *entry;
+ 	unsigned long flags;
+ 	unsigned int index;
+-	unsigned int scancode;
++	u64 scancode;
+ 	int retval;
+ 
+ 	spin_lock_irqsave(&rc_map->lock, flags);
+@@ -524,7 +557,7 @@ static int ir_getkeycode(struct input_dev *idev,
+ 	if (ke->flags & INPUT_KEYMAP_BY_INDEX) {
+ 		index = ke->index;
+ 	} else {
+-		retval = input_scancode_to_scalar(ke, &scancode);
++		retval = scancode_to_u64(ke, &scancode);
+ 		if (retval)
+ 			goto out;
+ 
+@@ -538,7 +571,6 @@ static int ir_getkeycode(struct input_dev *idev,
+ 		ke->keycode = entry->keycode;
+ 		ke->len = sizeof(entry->scancode);
+ 		memcpy(ke->scancode, &entry->scancode, sizeof(entry->scancode));
+-
+ 	} else if (!(ke->flags & INPUT_KEYMAP_BY_INDEX)) {
+ 		/*
+ 		 * We do not really know the valid range of scancodes
+@@ -570,7 +602,7 @@ static int ir_getkeycode(struct input_dev *idev,
+  *
+  * return:	the corresponding keycode, or KEY_RESERVED
+  */
+-u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode)
++u32 rc_g_keycode_from_table(struct rc_dev *dev, u64 scancode)
+ {
+ 	struct rc_map *rc_map = &dev->rc_map;
+ 	unsigned int keycode;
+@@ -586,7 +618,7 @@ u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode)
+ 	spin_unlock_irqrestore(&rc_map->lock, flags);
+ 
+ 	if (keycode != KEY_RESERVED)
+-		dev_dbg(&dev->dev, "%s: scancode 0x%04x keycode 0x%02x\n",
++		dev_dbg(&dev->dev, "%s: scancode 0x%04llx keycode 0x%02x\n",
+ 			dev->device_name, scancode, keycode);
+ 
+ 	return keycode;
+@@ -719,9 +751,6 @@ void rc_repeat(struct rc_dev *dev)
+ 
+ 	spin_lock_irqsave(&dev->keylock, flags);
+ 
+-	input_event(dev->input_dev, EV_MSC, MSC_SCAN, dev->last_scancode);
+-	input_sync(dev->input_dev);
+-
+ 	if (dev->keypressed) {
+ 		dev->keyup_jiffies = jiffies + timeout;
+ 		mod_timer(&dev->timer_keyup, dev->keyup_jiffies);
+@@ -743,7 +772,7 @@ EXPORT_SYMBOL_GPL(rc_repeat);
+  * called with keylock held.
+  */
+ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+-			  u32 scancode, u32 keycode, u8 toggle)
++			  u64 scancode, u32 keycode, u8 toggle)
+ {
+ 	bool new_event = (!dev->keypressed		 ||
+ 			  dev->last_protocol != protocol ||
+@@ -761,8 +790,6 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+ 	if (new_event && dev->keypressed)
+ 		ir_do_keyup(dev, false);
+ 
+-	input_event(dev->input_dev, EV_MSC, MSC_SCAN, scancode);
+-
+ 	dev->last_protocol = protocol;
+ 	dev->last_scancode = scancode;
+ 	dev->last_toggle = toggle;
+@@ -772,7 +799,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+ 		/* Register a keypress */
+ 		dev->keypressed = true;
+ 
+-		dev_dbg(&dev->dev, "%s: key down event, key 0x%04x, protocol 0x%04x, scancode 0x%08x\n",
++		dev_dbg(&dev->dev, "%s: key down event, key 0x%04x, protocol 0x%04x, scancode 0x%08llx\n",
+ 			dev->device_name, keycode, protocol, scancode);
+ 		input_report_key(dev->input_dev, keycode, 1);
+ 
+@@ -809,7 +836,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
+  * This routine is used to signal that a key has been pressed on the
+  * remote control.
+  */
+-void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u32 scancode,
++void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
+ 		u8 toggle)
+ {
+ 	unsigned long flags;
+@@ -840,7 +867,7 @@ EXPORT_SYMBOL_GPL(rc_keydown);
+  * remote control. The driver must manually call rc_keyup() at a later stage.
+  */
+ void rc_keydown_notimeout(struct rc_dev *dev, enum rc_proto protocol,
+-			  u32 scancode, u8 toggle)
++			  u64 scancode, u8 toggle)
+ {
+ 	unsigned long flags;
+ 	u32 keycode = rc_g_keycode_from_table(dev, scancode);
+@@ -1769,8 +1796,6 @@ static int rc_prepare_rx_device(struct rc_dev *dev)
+ 	/* Keyboard events */
+ 	set_bit(EV_KEY, dev->input_dev->evbit);
+ 	set_bit(EV_REP, dev->input_dev->evbit);
+-	set_bit(EV_MSC, dev->input_dev->evbit);
+-	set_bit(MSC_SCAN, dev->input_dev->mscbit);
+ 
+ 	/* Pointer/mouse events */
+ 	set_bit(INPUT_PROP_POINTING_STICK, dev->input_dev->propbit);
+diff --git a/include/media/rc-core.h b/include/media/rc-core.h
+index 1f695d9c200a..d3f85df64bb2 100644
+--- a/include/media/rc-core.h
++++ b/include/media/rc-core.h
+@@ -192,7 +192,7 @@ struct rc_dev {
+ 	struct timer_list		timer_repeat;
+ 	u32				last_keycode;
+ 	enum rc_proto			last_protocol;
+-	u32				last_scancode;
++	u64				last_scancode;
+ 	u8				last_toggle;
+ 	u32				timeout;
+ 	u32				min_timeout;
+@@ -284,12 +284,12 @@ int devm_rc_register_device(struct device *parent, struct rc_dev *dev);
+ void rc_unregister_device(struct rc_dev *dev);
+ 
+ void rc_repeat(struct rc_dev *dev);
+-void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u32 scancode,
++void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
+ 		u8 toggle);
+ void rc_keydown_notimeout(struct rc_dev *dev, enum rc_proto protocol,
+-			  u32 scancode, u8 toggle);
++			  u64 scancode, u8 toggle);
+ void rc_keyup(struct rc_dev *dev);
+-u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode);
++u32 rc_g_keycode_from_table(struct rc_dev *dev, u64 scancode);
+ 
+ /*
+  * From rc-raw.c
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index d22810dcd85c..0ce896f10202 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -85,11 +85,11 @@
+ /**
+  * struct rc_map_table - represents a scancode/keycode pair
+  *
+- * @scancode: scan code (u32)
++ * @scancode: scan code (u64)
+  * @keycode: Linux input keycode
+  */
+ struct rc_map_table {
+-	u32	scancode;
++	u64	scancode;
+ 	u32	keycode;
+ };
+ 
 -- 
 2.24.1
 
