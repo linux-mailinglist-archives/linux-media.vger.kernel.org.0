@@ -2,94 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC84814C9ED
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 12:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2254114C9F6
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 12:54:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbgA2Lw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jan 2020 06:52:59 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38252 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgA2Lw7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jan 2020 06:52:59 -0500
-Received: by mail-wr1-f67.google.com with SMTP id y17so19839327wrh.5
-        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2020 03:52:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H6KzueQP2DpIWEZuPuIZtE6qNFOkAKNKomjBXz6Gbm0=;
-        b=KUJEKJYr/mlfHwu1zk74/GheDNIHUkgqRdFl3BgygZmUEqTc/P106C4DDlj6zoozC+
-         aAvvJrma5YGvyPHdF23eWr+8h7i78nA1DI+WZbYQCYkdt/QBz4JiJICvUmtti5c36MT4
-         IUj8Mlp7pCrHmRE0JCxI/BHOYUROb8NxjWPwHgn6HyHX9AAc7k4GSRJ5pr+TRHAOHFcV
-         ue0cIDfy2i/3VkzpPeh8Fq7+NPX4fY/LafredCNL5G1uInwHbj/cB+cDtcMHU7NYQrSr
-         mSaQZKguWkEhC4cQdFKYrAHZfZEwItaKk0gqaVtx4hg5uNKXIA2XrAuI7J+2lvdKjDtK
-         QaJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H6KzueQP2DpIWEZuPuIZtE6qNFOkAKNKomjBXz6Gbm0=;
-        b=eigSkWXgbw8MsKMEvxfoMEtD/OveyiDW5YENdaDgjEnzmi2fhSOkRBaEsKgPgE3Tgf
-         11nwkNjk4ByyB4hgBJOl7ONLELDHFTzlbme19Udi7lPXQLCInkI584Tfw95ureFMPkaV
-         4KJAg24zFM7jKP57zoiRG9NhZBm9w/Uhc9OPUYZ2BPSp3IlAMY8Vnj8UXHDZSRazY1jq
-         RbuXaJdKPJKImi9TNCatxOvbJdC59VWytt97lAeb3BHsRxCay710QYOlEGAT9GLk0RNf
-         iZUqW0zFCIKVHccsCAViwbWTupm7zRo6ShGsKwaBfn/8nLTqyut0LM+CbSTvqLbhb+yR
-         nRnw==
-X-Gm-Message-State: APjAAAVJQGiPsAsdQgJzl2RDzr3grRcoJkAVZ51JfF9HmOUI20vknfnX
-        F7PMJLPwbd/NkY/wXUKgIZb8oaaPBCGovuVGilO9Yg==
-X-Google-Smtp-Source: APXvYqx6UiIOjlxSpmopeSYdNAlmnfrmbzyydEGq6Jz+dJxxqfaPyDq12Sy2ZBeqhehjqKmQoeUUKuuUYMp79O6/wjw=
-X-Received: by 2002:a5d:6a8e:: with SMTP id s14mr36709308wru.150.1580298777649;
- Wed, 29 Jan 2020 03:52:57 -0800 (PST)
+        id S1726622AbgA2LyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jan 2020 06:54:22 -0500
+Received: from gofer.mess.org ([88.97.38.141]:35395 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726140AbgA2LyV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jan 2020 06:54:21 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 34F5CC643D; Wed, 29 Jan 2020 11:54:19 +0000 (GMT)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Cc:     Frank Wunderlich <frank-w@public-files.de>
+Subject: [PATCH v4l-utils 1/4] keytable: support 64 bit scancodes
+Date:   Wed, 29 Jan 2020 11:54:15 +0000
+Message-Id: <20200129115419.8456-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
- <20190916115207.GO843@valkosipuli.retiisi.org.uk> <2c0da850-7073-0fc6-7246-9e530a54cf26@xs4all.nl>
-In-Reply-To: <2c0da850-7073-0fc6-7246-9e530a54cf26@xs4all.nl>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 29 Jan 2020 11:52:40 +0000
-Message-ID: <CAPY8ntCOAeq1OLS4dn846ubujnbUxSwMu-Tfb9fcNgaDcn3_JQ@mail.gmail.com>
-Subject: Re: [PATCHv2 0/2] Add helper functions to print a fourcc
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans.
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ utils/common/keymap.c     |  4 +-
+ utils/common/keymap.h     |  4 +-
+ utils/keytable/keytable.c | 80 +++++++++++++++++++++++++++------------
+ 3 files changed, 59 insertions(+), 29 deletions(-)
 
-On Mon, 16 Sep 2019 at 13:00, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 9/16/19 1:52 PM, Sakari Ailus wrote:
-> > On Mon, Sep 16, 2019 at 12:04:31PM +0200, Hans Verkuil wrote:
-> >> It turns out that Sakari posted a newer patch in 2018. I used that
-> >> for this v2: https://patchwork.linuxtv.org/patch/48372/
-> >>
-> >> Mauro commented on that original patch that there was no need to
-> >> have this available for userspace.
-> >>
-> >> I disagree: why wouldn't userspace want to report pixelformats?
-> >>
-> >> It happens in several places in v4l-utils, and there the pixelformats are
-> >> printed in different ways as well. Providing a standard way of reporting
-> >> a V4L2 fourcc is very useful.
-> >
-> > Thanks, Hans!
-> >
-> > Can you take these to your tree (perhaps pending some sort of agreement
-> > with Mauro)?
-> >
->
-> Certainly.
->
->         Hans
+diff --git a/utils/common/keymap.c b/utils/common/keymap.c
+index d06deb59..15c31c76 100644
+--- a/utils/common/keymap.c
++++ b/utils/common/keymap.c
+@@ -162,7 +162,7 @@ static error_t parse_plain_keymap(char *fname, struct keymap **keymap, bool verb
+ 			return ENOMEM;
+ 		}
+ 
+-		se->scancode = strtoul(scancode, NULL, 0);
++		se->scancode = strtoull(scancode, NULL, 0);
+ 		se->keycode = strdup(keycode);
+ 		se->next = map->scancode;
+ 		map->scancode = se;
+@@ -442,7 +442,7 @@ static error_t parse_toml_protocol(const char *fname, struct toml_table_t *proot
+ 			return ENOMEM;
+ 		}
+ 
+-		se->scancode = strtoul(scancode, NULL, 0);
++		se->scancode = strtoull(scancode, NULL, 0);
+ 		se->keycode = keycode;
+ 		*next = se;
+ 		next = &se->next;
+diff --git a/utils/common/keymap.h b/utils/common/keymap.h
+index f2b29632..99833827 100644
+--- a/utils/common/keymap.h
++++ b/utils/common/keymap.h
+@@ -20,13 +20,13 @@ struct protocol_param {
+ 
+ struct scancode_entry {
+ 	struct scancode_entry *next;
+-	u_int32_t scancode;
++	u_int64_t scancode;
+ 	char *keycode;
+ };
+ 
+ struct raw_entry {
+ 	struct raw_entry *next;
+-	u_int32_t scancode;
++	u_int64_t scancode;
+ 	u_int32_t raw_length;
+ 	char *keycode;
+ 	u_int32_t raw[1];
+diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+index e2a1bfe1..cc1b5217 100644
+--- a/utils/keytable/keytable.c
++++ b/utils/keytable/keytable.c
+@@ -76,7 +76,8 @@ struct input_keymap_entry_v2 {
+ #endif
+ 
+ struct keytable_entry {
+-	u_int32_t scancode;
++	// 64 bit int which can printed with %llx
++	unsigned long long scancode;
+ 	u_int32_t keycode;
+ 	struct keytable_entry *next;
+ };
+@@ -400,7 +401,7 @@ static int add_keymap(struct keymap *map, const char *fname)
+ 			if (value == -1) {
+ 				value = strtol(se->keycode, &p, 0);
+ 				if (errno || *p) {
+-					fprintf(stderr, _("%s: keycode `%s' not recognised, no mapping for scancode %d\n"), fname, se->keycode, se->scancode);
++					fprintf(stderr, _("%s: keycode `%s' not recognised, no mapping for scancode %llx\n"), fname, se->keycode, (unsigned long long)se->scancode);
+ 					continue;
+ 				}
+ 			}
+@@ -589,7 +590,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 				return ENOMEM;
+ 			}
+ 
+-			ke->scancode = strtoul(p, NULL, 0);
++			ke->scancode = strtoull(p, NULL, 0);
+ 			if (errno) {
+ 				free(ke);
+ 				argp_error(state, _("Invalid scancode: %s"), p);
+@@ -616,7 +617,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 			ke->keycode = key;
+ 
+ 			if (debug)
+-				fprintf(stderr, _("scancode 0x%04x=%u\n"),
++				fprintf(stderr, _("scancode 0x%04llx=%u\n"),
+ 					ke->scancode, ke->keycode);
+ 
+ 			ke->next = keytable;
+@@ -722,21 +723,21 @@ static struct argp argp = {
+ 	.doc = doc,
+ };
+ 
+-static void prtcode(int *codes)
++static void prtcode(unsigned long long scancode, int keycode)
+ {
+ 	struct parse_event *p;
+ 
+ 	for (p = key_events; p->name != NULL; p++) {
+-		if (p->value == (unsigned)codes[1]) {
+-			printf(_("scancode 0x%04x = %s (0x%02x)\n"), codes[0], p->name, codes[1]);
++		if (p->value == keycode) {
++			printf(_("scancode 0x%04llx = %s (0x%02x)\n"), scancode, p->name, keycode);
+ 			return;
+ 		}
+ 	}
+ 
+-	if (isprint (codes[1]))
+-		printf(_("scancode 0x%04x = '%c' (0x%02x)\n"), codes[0], codes[1], codes[1]);
++	if (isprint (keycode))
++		printf(_("scancode 0x%04llx = '%c' (0x%02x)\n"), scancode, keycode, keycode);
+ 	else
+-		printf(_("scancode 0x%04x = 0x%02x\n"), codes[0], codes[1]);
++		printf(_("scancode 0x%04llx = 0x%02x\n"), scancode, keycode);
+ }
+ 
+ static void free_names(struct sysfs_names *names)
+@@ -1399,17 +1400,34 @@ static int add_keys(int fd)
+ 	for (ke = keytable; ke; ke = ke->next) {
+ 		write_cnt++;
+ 		if (debug)
+-			fprintf(stderr, "\t%04x=%04x\n",
++			fprintf(stderr, "\t%04llx=%04x\n",
+ 				ke->scancode, ke->keycode);
+ 
+ 		codes[0] = ke->scancode;
+ 		codes[1] = ke->keycode;
+ 
+-		if (ioctl(fd, EVIOCSKEYCODE, codes)) {
+-			fprintf(stderr,
+-				_("Setting scancode 0x%04x with 0x%04x via "),
+-				ke->scancode, ke->keycode);
+-			perror("EVIOCSKEYCODE");
++		if (codes[0] != ke->scancode) {
++			// 64 bit scancode
++			struct input_keymap_entry_v2 entry = {
++				.keycode = ke->keycode,
++				.len = sizeof(ke->scancode)
++			};
++
++			memcpy(entry.scancode, &ke->scancode, sizeof(ke->scancode));
++
++			if (ioctl(fd, EVIOCSKEYCODE_V2, &entry)) {
++				fprintf(stderr,
++					_("Setting scancode 0x%04llx with 0x%04x via "),
++					ke->scancode, ke->keycode);
++				perror("EVIOCSKEYCODE");
++			}
++		} else {
++			if (ioctl(fd, EVIOCSKEYCODE, codes)) {
++				fprintf(stderr,
++					_("Setting scancode 0x%04llx with 0x%04x via "),
++					ke->scancode, ke->keycode);
++				perror("EVIOCSKEYCODE");
++			}
+ 		}
+ 	}
+ 
+@@ -1596,7 +1614,7 @@ static void display_table_v1(struct rc_device *rc_dev, int fd)
+ 			if (ioctl(fd, EVIOCGKEYCODE, codes) == -1)
+ 				perror("EVIOCGKEYCODE");
+ 			else if (codes[1] != KEY_RESERVED)
+-				prtcode(codes);
++				prtcode(codes[0], codes[1]);
+ 		}
+ 	}
+ 	display_proto(rc_dev);
+@@ -1604,25 +1622,37 @@ static void display_table_v1(struct rc_device *rc_dev, int fd)
+ 
+ static void display_table_v2(struct rc_device *rc_dev, int fd)
+ {
++	struct input_keymap_entry_v2 entry = {};
++	unsigned long long scancode;
+ 	int i;
+-	struct input_keymap_entry_v2 entry;
+-	int codes[2];
+ 
+-	memset(&entry, '\0', sizeof(entry));
+ 	i = 0;
+ 	do {
+ 		entry.flags = KEYMAP_BY_INDEX;
+ 		entry.index = i;
+-		entry.len = sizeof(u_int32_t);
++		entry.len = sizeof(scancode);
+ 
+ 		if (ioctl(fd, EVIOCGKEYCODE_V2, &entry) == -1)
+ 			break;
+ 
+-		/* FIXME: Extend it to support scancodes > 32 bits */
+-		memcpy(&codes[0], entry.scancode, sizeof(codes[0]));
+-		codes[1] = entry.keycode;
++		if (entry.len == sizeof(u_int32_t)) {
++			u_int32_t temp;
++
++			memcpy(&temp, entry.scancode, sizeof(temp));
++
++			scancode = temp;
++		} else if (entry.len == sizeof(u_int64_t)) {
++			u_int64_t temp;
++
++			memcpy(&temp, entry.scancode, sizeof(temp));
++
++			scancode = temp;
++		} else {
++			printf("error: unknown scancode length %d\n", entry.len);
++			continue;
++		}
+ 
+-		prtcode(codes);
++		prtcode(scancode, entry.keycode);
+ 		i++;
+ 	} while (1);
+ 	display_proto(rc_dev);
+-- 
+2.24.1
 
-What happened to these? Patchwork is flagging them as rejected[1], but
-there's only been positive responses to them on the mailing list.
-
-Thanks.
-  Dave
-
-[1] https://patchwork.linuxtv.org/patch/58781/ and
-https://patchwork.linuxtv.org/patch/58780/
