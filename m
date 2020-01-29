@@ -2,560 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 825AC14C64B
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 07:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CE3C14C663
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 07:14:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbgA2F72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jan 2020 00:59:28 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:3961 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725858AbgA2F71 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jan 2020 00:59:27 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e311f2e0000>; Tue, 28 Jan 2020 21:59:10 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 28 Jan 2020 21:59:25 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 28 Jan 2020 21:59:25 -0800
-Received: from [10.2.164.115] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 29 Jan
- 2020 05:59:24 +0000
-Subject: Re: [RFC PATCH v1 4/5] media: tegra: Add Tegra Video input driver for
- Tegra210
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Helen Koike <helen.koike@collabora.com>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <frankc@nvidia.com>, <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <1580235801-4129-5-git-send-email-skomatineni@nvidia.com>
- <3cdea635-a9ca-7b9c-3c99-8f489f4d669a@collabora.com>
- <162488d0-4e74-963a-3366-e4c1f7cf04ca@nvidia.com>
- <017ca95e-7dd3-2d04-8d84-9047ac4e548b@nvidia.com>
- <655b9a64-10d7-3fd3-f443-babf33e67b62@collabora.com>
- <7265b661-de5a-b0f0-bcdc-1a1d2c03fe57@nvidia.com>
-Message-ID: <14ab584f-7ba6-9d79-6e5e-3cb0b4f47bc7@nvidia.com>
-Date:   Tue, 28 Jan 2020 21:59:23 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <7265b661-de5a-b0f0-bcdc-1a1d2c03fe57@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+        id S1726037AbgA2GOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jan 2020 01:14:48 -0500
+Received: from mail-bn8nam11on2088.outbound.protection.outlook.com ([40.107.236.88]:10243
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726009AbgA2GOr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jan 2020 01:14:47 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Eb2u87GK6xeGGAJMAG3ZyqPH7eU2+wc9FBsO8Exn/rljIe3POJusHbhJNBPMU0+pkXd5gKlf/1fsPkhfij/LOSrGy9WHPM4RwvEbdzHBowqyyuOlE1qnE8yBOjCJJ/jFuR4OGzKjeA3F1ZSGMHyNgVy/lcShHiK7gzOM8DVdmCsFm9QASIFdiSK7GGJkNcaokbXFb4jK/K+9y4m3tgYQhHftr3uAPhWExFx7J7bNjU/29lS2TYs0N/2E11JSHqioML5gLhLHg7pbDLIVcnJvIlOymNEbX+27aYXrypOILJiaTRyiEOov90TkXyQuYobUOCTnf9dnmDu6gBEbp5cfcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bKdKc2CU88lpNOtd2zGrjRQuf2YiEEIhGxb/r9YsCsQ=;
+ b=SMRjTjJZDO0fLtDcqwUHzXpgO4ZycECAUUUOIPiYOJpdljQqJKWSSnroKn3K24XxMzHMk0uOXPkLYm/GmJlNdIuzUgo7I4FOzlp5CO20uUHQXDQeaCRZWQ9PbCEBnxC8oEOw31W8xJ72Z1Lkqi5YmoriiSLWSug7zZmDffyeBvUr20X5uroP3fcIael1FvYNfcawW5Kc1+V1Wsn/3hPJTeFMo/rc3l10dIbfFhz2Wkzs+PHryLpXm1eD4M5HN7sRm+KtvJ3HcySzIPKZxl8RYMRyyZWf59InJ+R3tRiLnG4+TOeqBR59EZCrCIzcDyyOlrsdyCkLqo428mKoTzUoUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bKdKc2CU88lpNOtd2zGrjRQuf2YiEEIhGxb/r9YsCsQ=;
+ b=Dx4dQb4Ghs+059Ht83q7EkCgTFDolViEWa3bXyC8EnVS/T18BEcbNDq1N7MvAs5C9Wla9r+sgcuYBPFARnresmVaxLXDxJ1Tdx3TmU6U06MmOsAnR5x1iwB5hv/p+YTDbIfla/pcy5aRVNdclVKN5qkpzoILoD0Mg9dBjdtQe6I=
+Received: from BYAPR02MB5702.namprd02.prod.outlook.com (20.178.0.221) by
+ BYAPR02MB4070.namprd02.prod.outlook.com (20.176.249.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.22; Wed, 29 Jan 2020 06:14:39 +0000
+Received: from BYAPR02MB5702.namprd02.prod.outlook.com
+ ([fe80::a9d0:f3e1:2bcc:9088]) by BYAPR02MB5702.namprd02.prod.outlook.com
+ ([fe80::a9d0:f3e1:2bcc:9088%4]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
+ 06:14:38 +0000
+From:   Dylan Yip <dylany@xilinx.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Vishal Sagar <vsagar@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
+        Madhurkiran Harikrishnan <MADHURKI@xilinx.com>,
+        Jianqiang Chen <jianqian@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Cyril Chemparathy <cyrilc@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Subhransu Sekhar Prusty <sprusty@xilinx.com>,
+        Anil Kumar Chimbeti <anilchc@xilinx.com>
+Subject: RE: [RFC] V4L HDR Architecture Proposal
+Thread-Topic: [RFC] V4L HDR Architecture Proposal
+Thread-Index: AQHV0e3lZ1bd46qPSka/v9jlRGdlm6f5hsGAgAASSgCAACElAIAHM1iw
+Date:   Wed, 29 Jan 2020 06:14:37 +0000
+Message-ID: <BYAPR02MB57020B91E827ACC33B50B8AFB0050@BYAPR02MB5702.namprd02.prod.outlook.com>
+References: <BYAPR02MB57027075B640D2F530E890E8B00C0@BYAPR02MB5702.namprd02.prod.outlook.com>
+ <825d563b-7cb7-5055-d1af-b9b8eba1deb9@xs4all.nl>
+ <CY4PR02MB314231543765B9CC09C0735BA70E0@CY4PR02MB3142.namprd02.prod.outlook.com>
+ <589f1e75-8925-3482-38d8-e354a067f1db@xs4all.nl>
+ <20200124120844.GA4996@pendragon.ideasonboard.com>
+In-Reply-To: <20200124120844.GA4996@pendragon.ideasonboard.com>
+Accept-Language: en-US
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1580277550; bh=23+yMU6A9CmYzhYQZ4qAxqdkwqng9Zywr0Jn8uJm68M=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=gxg16mTp2s2ZQXkERFcDahbB812oFHaPlWezL0uajk6h6A3QZKqcC5kCfhkBlm80p
-         pqtjzxwAiPIudZC4ayaZnmu9A2+2auA/VxvJQzrjiRtFDxcmG+b4XCrMlll4wgT4lI
-         088A5r0YfuH7DsR/OTwF6nrjiM/9dNKA6lLri1h204qMDmj4/PAwpXYkkqQ7kP9OUb
-         v5hIVdUAD1tJWLfUVVRO+GANxeYyqXtEOw+3/PCJWnWn+gTkmJL7Mr7jwSdaj3K+xH
-         G127XmWn7zPEMdZ7g46CIiMWsmBux0GQk9jluVEeKaRTwPdRRNKbWCGsq+2aKhRc98
-         jxqDQktHxFqIg==
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=dylany@xilinx.com; 
+x-originating-ip: [73.70.228.207]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 0ab9255d-1630-40a0-640e-08d7a4828580
+x-ms-traffictypediagnostic: BYAPR02MB4070:|BYAPR02MB4070:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB40704A0FB6E29C1C6DD4A7F2B0050@BYAPR02MB4070.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 02973C87BC
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(396003)(39860400002)(376002)(366004)(136003)(189003)(199004)(9686003)(55016002)(478600001)(110136005)(5660300002)(54906003)(26005)(71200400001)(8936002)(8676002)(53546011)(6506007)(33656002)(81156014)(81166006)(52536014)(66556008)(186003)(7696005)(66446008)(2906002)(64756008)(66476007)(316002)(86362001)(4326008)(107886003)(76116006)(66946007);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR02MB4070;H:BYAPR02MB5702.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mEaJjrvsSlc3lYgtRc3qAhDZPpNTYIYKlGGaJMB9FAerV8bxf0IZ5W1gpwu/K/ByclY2vZbFhQxi9XdyfiBlPXdA9mbpDvvW8G4XcI69PSWpvbh4R8q7adXkA7/jpCe4Gi9CN3+io116qTYbylfaldXmKvn1k6BOdVAOcBiCq9fqoweGqBs+IjwpJNjVUUONRlK7qAz7qQ5PxqknzNunnDxWUTeQyz57hgrbgnJjQyBnUfs4KoXrq7sOG2EQqjkNtTEY1HAvHKIxeKM4RctpCzHdBU/7U4MTXGA6//1gtDa6pGNgr3yXRvuT3Txm8sosp9ZgMHomlyPxOKL4E/zQIOqRc44vUz0Y424R+Z34gSidxF/hRoyJJivVjUOaTy66L4HJ+sHhfxsrDb9diy7IpnxsZaU4IJyvANF68F/Rf5tZL1cZXfstT3OV5p24a0q8kLul5gVYDm5XJCYP2RNScyFIBJRhLqSvz7wzyXYDsCIXO3RNLvyJLz+WQxMx47xigw+Z2ptWnNLBy97JybxdEA==
+x-ms-exchange-antispam-messagedata: cUZT/DXH+6KGAg5Ivjj51XXEjAbcItwoAwhZJII+Rn4INfPdWPnOZBvqcl2YO5NJFPwO1gaK9K4pjOXZUYcapjIlvX2biQsnnkrhk1I/WbjpidJqZ2O/c50/QjqkwLAzPCen0AG8HQU2mPYfL1L8Qg==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ab9255d-1630-40a0-640e-08d7a4828580
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 06:14:38.0717
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4BRaKmoAblRSDhQ/ff9k0JR1XYA78j/NdFa9HrWtV3x9Ie1pjM8iSeKuEnPNZ+XBSZCNssLrth9i3F8qhf0kgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4070
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 1/28/20 6:11 PM, Sowjanya Komatineni wrote:
->
-> On 1/28/20 5:05 PM, Helen Koike wrote:
->> External email: Use caution opening links or attachments
->>
->>
->> On 1/28/20 10:49 PM, Sowjanya Komatineni wrote:
->>> On 1/28/20 2:13 PM, Sowjanya Komatineni wrote:
->>>> On 1/28/20 1:45 PM, Helen Koike wrote:
->>>>> External email: Use caution opening links or attachments
->>>>>
->>>>>
->>>>> Hi Sowjanya,
->>>>>
->>>>> I just took a really quick look, I didn't check the driver in=20
->>>>> deep, so just some small comments below.
->>>>>
->>>>> On 1/28/20 4:23 PM, Sowjanya Komatineni wrote:
->>>>>> Tegra210 contains a powerful Video Input (VI) hardware controller
->>>>>> which can support up to 6 MIPI CSI camera sensors.
->>>>>>
->>>>>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
->>>>>> capture from an external camera sensor connected to CSI or from
->>>>>> built-in test pattern generator.
->>>>>>
->>>>>> Tegra210 supports built-in test pattern generator from CSI to VI.
->>>>>>
->>>>>> This patch adds a V4L2 media controller and capture driver support
->>>>>> for Tegra210 built-in CSI to VI test pattern generator.
->>>>>>
->>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->>>>> Could you send us the output of media-ctl --print-dot ? So we can=20
->>>>> view the media topology easily?
->>>> root@tegra-ubuntu:/home/ubuntu# ./media-ctl --print-dot
->>>> digraph board {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rankdir=3DTB
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000001 [label=3D"5=
-4080000.vi-output-0\n/dev/video0",=20
->>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000005 [label=3D"5=
-4080000.vi-output-1\n/dev/video1",=20
->>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000009 [label=3D"5=
-4080000.vi-output-2\n/dev/video2",=20
->>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000000d [label=3D"5=
-4080000.vi-output-3\n/dev/video3",=20
->>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000011 [label=3D"5=
-4080000.vi-output-4\n/dev/video4",=20
->>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000015 [label=3D"5=
-4080000.vi-output-5\n/dev/video5",=20
->>>> shape=3Dbox, style=3Dfilled, fillcolor=3Dyellow]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000019 [label=3D"{=
-{} | tpg-0 | {<port0> 0}}",=20
->>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000019:port0 -> n0=
-0000001
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000001d [label=3D"{=
-{} | tpg-1 | {<port0> 0}}",=20
->>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000001d:port0 -> n0=
-0000005
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000021 [label=3D"{=
-{} | tpg-2 | {<port0> 0}}",=20
->>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000021:port0 -> n0=
-0000009
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000025 [label=3D"{=
-{} | tpg-3 | {<port0> 0}}",=20
->>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000025:port0 -> n0=
-000000d
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000029 [label=3D"{=
-{} | tpg-4 | {<port0> 0}}",=20
->>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n00000029:port0 -> n0=
-0000011
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000002d [label=3D"{=
-{} | tpg-5 | {<port0> 0}}",=20
->>>> shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n0000002d:port0 -> n0=
-0000015
->>>> }
->>>>
->>>>>> --- diff --git a/drivers/staging/media/tegra/host1x-video.h=20
->>>>>> b/drivers/staging/media/tegra/host1x-video.h
->>>>>> new file mode 100644
->>>>>> index 000000000000..84d28e6f4362
->>>>>> --- /dev/null
->>>>>> +++ b/drivers/staging/media/tegra/host1x-video.h
->>>>>> @@ -0,0 +1,33 @@
->>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>> +/*
->>>>>> + * Copyright (C) 2020 NVIDIA CORPORATION.=C2=A0 All rights reserved=
-.
->>>>>> + */
->>>>>> +
->>>>>> +#ifndef HOST1X_VIDEO_H
->>>>>> +#define HOST1X_VIDEO_H 1
->>>>>> +
->>>>>> +#include <linux/host1x.h>
->>>>>> +
->>>>>> +#include <media/media-device.h>
->>>>>> +#include <media/media-entity.h>
->>>>>> +#include <media/v4l2-async.h>
->>>>>> +#include <media/v4l2-ctrls.h>
->>>>>> +#include <media/v4l2-device.h>
->>>>>> +#include <media/v4l2-dev.h>
->>>>>> +#include <media/videobuf2-v4l2.h>
->>>>>> +
->>>>>> +#include "tegra-vi.h"
->>>>>> +#include "csi.h"
->>>>>> +
->>>>>> +struct tegra_camera {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_device v4l2_dev;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct media_device media_dev;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct device *dev;
->>>>> You can use cam->media_dev.dev instead of having this pointer.
->>>>>
->>> Will fix in v2
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_vi *vi;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_device *csi;
->>>>>> +};
->>>>>> +
->>>>>> +
->>>>>> +#define to_tegra_channel(vdev) \
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 container_of(vdev, struct tegra_channel, v=
-ideo)
->>>>> Why not inline instead of define. Inlines has the advantage of=20
->>>>> checking types.
->>> Will change in v2
->>>>>> +static int __tegra_channel_try_format(struct tegra_channel *chan,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2=
-_pix_format *pix,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struc=
-t=20
->>>>>> tegra_video_format **vfmt)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 const struct tegra_video_format *fmt_info;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev *subdev;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_format fmt;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_pad_config *pad_cfg;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 subdev =3D tegra_channel_get_remote_subdev=
-(chan);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pad_cfg =3D v4l2_subdev_alloc_pad_config(s=
-ubdev);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!pad_cfg)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -ENOMEM;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Retrieve format information and se=
-lect the default=20
->>>>>> format if the
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * requested format isn't supported.
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt_info =3D tegra_core_get_format_by_four=
-cc(chan,=20
->>>>>> pix->pixelformat);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (!fmt_info) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 pix->pixelformat =3D chan->format.pixelformat;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 pix->colorspace =3D chan->format.colorspace;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 fmt_info =3D tegra_core_get_format_by_fourcc(chan,
->>>>>> + pix->pixelformat);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* Change this when start adding interlace=
- format support */
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pix->field =3D V4L2_FIELD_NONE;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.which =3D V4L2_SUBDEV_FORMAT_TRY;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.pad =3D 0;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_mbus_format(&fmt.format, pix, fm=
-t_info->code);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_subdev_call(subdev, pad, set_fmt, pad=
-_cfg, &fmt);
->>>>> As fas as I understand, entities formats should be independent, it=20
->>>>> is up to link_validate
->>>>> to check formats between entities.
->>>>> The capture shouldn't change the format of the subdevice.
->>>>>
->>> Tegra Built-in TPG on CSI accepts specific TPG sizes and CSI is=20
->>> source and VI is sink.
->>>
->>> link validation happens only for sink ends of the link.
->> And what is the problem with it being on the sink end?
->> You just need to implement custom link validation in=20
->> tegra_csi_media_ops that also checks the format
->> between the capture and the subdevice, no? Unless I missunderstood=20
->> something here (which is quite possible).
->>
->> Examples:
->> drivers/staging/media/rkisp1/rkisp1-capture.c -=20
->> rkisp1_capture_link_validate()
->> drivers/media/pci/intel/ipu3/ipu3-cio2.c - cio2_video_link_validate()
->> drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c -=20
->> sun6i_video_link_validate()
->>
->> Regards,
->> Helen
->>
-> But if we move subdevice side format/size check into its=20
-> link_validation, any incorrect image size set thru set-fmt-video will=20
-> be taken and get-fmt-video will also show same as it doesn't validate=20
-> formats/sizes supported by CSI subdev during this time. link=20
-> validation happens during pipeline start. So thought to prevent=20
-> accepting incorrect format/size during set-fmt-video/get-fmt-video.
->
-> Other than this I don't see any issue moving it to link_validation.
->
-link validation happens for all the links in the pipeline where both of=20
-the ends of the links are V4L2 sub-devices.
-
-v4l2_subdev_link_validate calls sink pad link_validate.
-
-This driver has currently TPG support only where CSI v4l2 subdevice is=20
-the source and VI is the sink video entity.
-
-
->
->>> So with CSI subdev set_fmt sets width/height to default incase if=20
->>> width/height is not from one of the supported sizes.
->>>
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_pix_format(pix, &fmt.format);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 tegra_channel_fmt_align(chan, &fmt_info->b=
-pp, &pix->width,=20
->>>>>> &pix->height,
->>>>>> + &pix->bytesperline);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 pix->sizeimage =3D pix->bytesperline * pix=
-->height;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (vfmt)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 *vfmt =3D fmt_info;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_subdev_free_pad_config(pad_cfg);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>>> +}
->>>>>> +
->>>>>> +static int tegra_channel_try_format(struct file *file, void *fh,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *for=
-mat)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_fh *vfh =3D file->private_data=
-;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_channel *chan =3D to_tegra_ch=
-annel(vfh->vdev);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return __tegra_channel_try_format(chan, &f=
-ormat->fmt.pix,=20
->>>>>> NULL);
->>>>>> +}
->>>>>> +
->>>>>> +static int tegra_channel_set_format(struct file *file, void *fh,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *for=
-mat)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_fh *vfh =3D file->private_data=
-;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_channel *chan =3D to_tegra_ch=
-annel(vfh->vdev);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 const struct tegra_video_format *info;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_format fmt;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev *subdev;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_pix_format *pix =3D &format->f=
-mt.pix;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (vb2_is_busy(&chan->queue))
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -EBUSY;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* get supported format by try_fmt */
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D __tegra_channel_try_format(chan, p=
-ix, &info);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return ret;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 subdev =3D tegra_channel_get_remote_subdev=
-(chan);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 fmt.pad =3D 0;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_mbus_format(&fmt.format, pix, in=
-fo->code);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_subdev_call(subdev, pad, set_fmt, NUL=
-L, &fmt);
->>>>> same here.
->>>>>
->>> Calling subdev set_fmt here for the same reason as explained above.
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fill_pix_format(pix, &fmt.format);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 chan->format =3D *pix;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 chan->fmtinfo =3D info;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 tegra_channel_update_format(chan, pix->wid=
-th,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pix->height, info->four=
-cc,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &info->bpp,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pix->bytesperline);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *pix =3D chan->format;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>>> +}
->>>>>> +
->>>>>> +static int tegra_channel_enum_input(struct file *file, void *fh,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_input *inp)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* Currently driver supports internal TPG =
-only */
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 if (inp->index !=3D 0)
->>>>> just
->>>>> if (inp->index)
->>>>>
->>> Will update in v2
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 return -EINVAL;
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 inp->type =3D V4L2_INPUT_TYPE_CAMERA;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 strscpy(inp->name, "Tegra TPG", sizeof(inp=
-->name));
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>>> +}
->>>>>> +static const struct tegra_video_format tegra_default_format =3D {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 /* RAW 10 */
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA_VF_RAW10,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 10,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_SRGGB10_1X10,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {2, 1},
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA_IMAGE_FORMAT_DEF,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 TEGRA_IMAGE_DT_RAW10,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_PIX_FMT_SRGGB10,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 "RGRG.. GBGB..",
->>>>> It would be more readable to do:
->>>>>
->>>>> .code =3D TEGRA_VF_RAW10,
->>>>> .width =3D 10,
->>>>> .code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
->>>>>
->>>>> and so on
->>> Will update in v2
->>>>>> +};
->>>>>> +
->>>>>> +/*
->>>>>> + * Helper functions
->>>>>> + */
->>>>>> +
->>>>>> +/**
->>>>>> + * tegra_core_get_default_format - Get default format
->>>>>> + *
->>>>>> + * Return: pointer to the format where the default format needs
->>>>>> + * to be filled in.
->>>>>> + */
->>>>>> +const struct tegra_video_format=20
->>>>>> *tegra_core_get_default_format(void)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return &tegra_default_format;
->>>>>> +}
->>>>> This is only used in tegra-channel.c, why not to declare it there=20
->>>>> as static?
->>>>>
->>> Will move all video format retrieval helper functions to=20
->>> corresponding file as static in v2
->>>>>> + +static struct v4l2_frmsize_discrete tegra_csi_tpg_sizes[] =3D {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {1280, 720},
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {1920, 1080},
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 {3840, 2160},
->>>>>> +};
->>>>>> +
->>>>>> +/*
->>>>>> + * V4L2 Subdevice Pad Operations
->>>>>> + */
->>>>>> +static int tegra_csi_get_format(struct v4l2_subdev *subdev,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_pad_config *cfg,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_format *fmt)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_channel *csi_chan =3D to_=
-csi_chan(subdev);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 mutex_lock(&csi_chan->format_lock);
->>>>> Do you need this lock? I think there is already a serialization in=20
->>>>> the ioctls in place (to be confirmed).
->>>>>
->>> This is on CSI v4l2 subdevice side during format updates
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(fmt, &csi_chan->ports->format,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-sizeof(struct v4l2_mbus_framefmt));
->>>>> I would prefer just:
->>>>> *fmt =3D *csi_chan->ports->format;
->>>>>
->>>>> I think it is easier to read IMHO.
->>>>> same in tegra_csi_set_format().
->>>>>
->>> Will fix in v2
->>>>>> + mutex_unlock(&csi_chan->format_lock);
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>>> +}
->>>>>> +
->>>>>> +static void tegra_csi_try_mbus_fmt(struct v4l2_subdev *subdev,
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_mbus_framefmt *mf=
-mt)
->>>>>> +{
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_channel *csi_chan =3D to_=
-csi_chan(subdev);
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_csi_device *csi =3D csi_chan-=
->csi;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 const struct v4l2_frmsize_discrete *sizes;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 int i, j;
->>>>> unsigned
->>>>>
->>> Will fix in v2
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < ARRAY_SIZE(tegra_csi_tpg=
-_fmts); i++) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 struct v4l2_mbus_framefmt *mbus_fmt =3D=20
->>>>>> &tegra_csi_tpg_fmts[i];
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (mfmt->code =3D=3D mbus_fmt->code) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (j =3D 0; j <=20
->>>>>> ARRAY_SIZE(tegra_csi_tpg_sizes); j++) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizes =3D &tegra_csi_tpg_sizes[j];
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (mfmt->width =3D=3D sizes->width &&
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mfmt->height =3D=3D siz=
-es->height) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- return;
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 }
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 dev_info(csi->dev, "using Tegra default RAW10 video=20
->>>>>> format\n");
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 dev_info(csi->dev, "using Tegra default WI=
-DTH X HEIGHT=20
->>>>>> (1920x1080)\n");
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(mfmt, tegra_csi_tpg_fmts, sizeof(st=
-ruct=20
->>>>>> v4l2_mbus_framefmt));
->>>>>> +}
->>>>>> +
->>>>>> +
+SGkgTGF1cmVudCwgSGFucywgDQoNClRoYW5rcyBmb3IgdGhlIGluc2lnaHRzIQ0KDQo+IC0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQu
+cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2VudDogRnJpZGF5LCBKYW51YXJ5IDI0LCAy
+MDIwIDQ6MDkgQU0NCj4gVG86IEhhbnMgVmVya3VpbCA8aHZlcmt1aWxAeHM0YWxsLm5sPg0KPiBD
+YzogVmlzaGFsIFNhZ2FyIDx2c2FnYXJAeGlsaW54LmNvbT47IER5bGFuIFlpcCA8ZHlsYW55QHhp
+bGlueC5jb20+OyBsaW51eC0NCj4gbWVkaWFAdmdlci5rZXJuZWwub3JnOyBWYXJ1bmt1bWFyIEFs
+bGFnYWRhcGENCj4gPFZBUlVOS1VNQHhpbGlueC5jb20+OyBNYWRodXJraXJhbiBIYXJpa3Jpc2hu
+YW4NCj4gPE1BREhVUktJQHhpbGlueC5jb20+OyBKaWFucWlhbmcgQ2hlbiA8amlhbnFpYW5AeGls
+aW54LmNvbT47IEh5dW4NCj4gS3dvbiA8aHl1bmtAeGlsaW54LmNvbT47IEN5cmlsIENoZW1wYXJh
+dGh5IDxjeXJpbGNAeGlsaW54LmNvbT47IFNhbmRpcA0KPiBLb3RoYXJpIDxzYW5kaXBrQHhpbGlu
+eC5jb20+OyBTdWJocmFuc3UgU2VraGFyIFBydXN0eQ0KPiA8c3BydXN0eUB4aWxpbnguY29tPjsg
+QW5pbCBLdW1hciBDaGltYmV0aSA8YW5pbGNoY0B4aWxpbnguY29tPg0KPiBTdWJqZWN0OiBSZTog
+W1JGQ10gVjRMIEhEUiBBcmNoaXRlY3R1cmUgUHJvcG9zYWwNCj4gDQo+IEhpIEhhbnMsDQo+IA0K
+PiBPbiBGcmksIEphbiAyNCwgMjAyMCBhdCAxMToxMDowNkFNICswMTAwLCBIYW5zIFZlcmt1aWwg
+d3JvdGU6DQo+ID4gT24gMS8yNC8yMCAxMDowNCBBTSwgVmlzaGFsIFNhZ2FyIHdyb3RlOg0KPiA+
+ID4gT24gVGh1cnNkYXksIEphbnVhcnkgMjMsIDIwMjAgNjozNiBQTSwgSGFucyBWZXJrdWlsIHdy
+b3RlOg0KPiA+ID4+IE9uIDEvMjIvMjAgOToxMyBQTSwgRHlsYW4gWWlwIHdyb3RlOg0KPiA+ID4+
+PiBIaSBBbGwsDQo+ID4gPj4+DQo+ID4gPj4+IFdlIGFyZSBwbGFubmluZyB0byBhZGQgSERSMTAg
+YW5kIEhEUjEwKyBtZXRhZGF0YSBzdXBwb3J0IGludG8gdGhlDQo+ID4gPj4+IFY0TA0KPiA+ID4+
+IGZyYW1ld29yayBhbmQgd2VyZSBob3BpbmcgZm9yIHNvbWUgZmVlZGJhY2sgYmVmb3JlIHdlIHN0
+YXJ0ZWQNCj4gPiA+PiBpbXBsZW1lbnRhdGlvbi4NCj4gPiA+Pg0KPiA+ID4+IE5pY2UhDQo+ID4g
+Pj4NCj4gPiA+Pj4NCj4gPiA+Pj4gRm9yIGNvbnRleHQsIFhpbGlueCBIRE1JIFJYIElQIGN1cnJl
+bnRseSB1c2VzIGEgQVhJIExJVEUgaW50ZXJmYWNlDQo+ID4gPj4+IHdoZXJlIEhEUiBtZXRhZGF0
+YSBpcyBvYnRhaW5lZCBmcm9tIGEgaGFyZHdhcmUgRklGTy4gVG8gYWNjZXNzDQo+ID4gPj4+IHRo
+ZXNlIHBhY2tldHMgYSBDUFUgY29weSBpcyByZXF1aXJlZC4NCj4gPiA+Pj4gV2UgYXJlIGluIHRo
+ZSBwcm9jZXNzIG9mIG1pZ3JhdGluZyB0b3dhcmRzIGEgQVhJIE1NIGludGVyZmFjZQ0KPiA+ID4+
+PiB3aGVyZSB0aGUgaGFyZHdhcmUgd2lsbCBkaXJlY3RseSB3cml0ZSBIRFIgbWV0YWRhdGEgaW50
+byBtZW1vcnkuDQo+ID4gPj4+IEN1cnJlbnRseSB0aGUgSERNSSBSWCBkcml2ZXIgKGh0dHBzOi8v
+Z2l0aHViLmNvbS9YaWxpbngvaGRtaS0NCj4gPiA+Pj4gbW9kdWxlcy9ibG9iL21hc3Rlci9oZG1p
+L3hpbGlueC1oZG1pcnguYykgaXMgbW9kZWxlZCBhcyBhIHY0bA0KPiA+ID4+PiBzdWJkZXYuIFRo
+aXMgaXMgbGlua2VkIHRvIGEgRE1BIElQIHdoaWNoIHV0aWxpemVzIHRoZSBETUEgZW5naW5lDQo+
+ID4gPj4+IEFQSXMgYW5kIHJlZ2lzdGVycyBpdHNlbGYgYXMgYSB2aWRlbyBub2RlIGZvciB2aWRl
+byBkYXRhLg0KPiA+ID4+Pg0KPiA+ID4+PiBIRFIxMCB3aWxsIG9ubHkgY29uc2lzdCBvZiBzdGF0
+aWMgbWV0YWRhdGEgd2hpY2ggd2lsbCBjb21lIG9uY2UgcGVyDQo+IHN0cmVhbS4NCj4gPiA+Pj4g
+SG93ZXZlciwgSERSMTArIHdpbGwgaGF2ZSBkeW5hbWljIG1ldGFkYXRhIHdoaWNoIGNhbiBwb3Rl
+bnRpYWxseQ0KPiA+ID4+PiBjb21lIG9uY2UgcGVyIGZyYW1lIGFuZCBiZSB1cCB0byB+NDAwMCBi
+eXRlcy4gV2Ugd291bGQgbGlrZSBWNEwNCj4gPiA+Pj4gYXJjaGl0ZWN0dXJlIHRvIGJlIGZsZXhp
+YmxlIHRvIHN1cHBvcnQgYm90aC4NCj4gPiA+Pg0KPiA+ID4+IFRoZSBrZXkgaGVyZSBpcyB0aGUg
+ZGlmZmVyZW5jZSBiZXR3ZWVuIEV4dGVuZGVkIEluZm9GcmFtZXMgdGhhdCBjYW4NCj4gPiA+PiBi
+ZSBsb25nIGFuZCB0aGUgb3RoZXJzLCB0aGF0IGhhdmUgYSBtYXhpbXVtIHNpemUuIFRoZSBsYXR0
+ZXIgc2hvdWxkDQo+ID4gPj4gYmUgaGFuZGxlZCBieSBjb250cm9scywgdGhlIGZpcnN0IGlzIG1v
+cmUgZGlmZmljdWx0Lg0KPiA+ID4NCj4gPiA+IEFyZSB5b3Ugc3VnZ2VzdGluZyB0byBoYW5kbGUg
+c3RhdGljIEhEUiB2aWEgcmVhZCBvbmx5IHY0bCBjb250cm9scyBpbiBhDQo+IG1ldGEgdmlkZW8g
+bm9kZT8NCj4gPg0KPiA+IFllcy4gSXQncyB2ZXJ5IHN1aXRhYmxlIGZvciB0aGF0IHB1cnBvc2Uu
+DQoNClNvIGFyZSB5b3Ugc2F5aW5nIHdlIHNob3VsZCBjcmVhdGUgYSBzZXBhcmF0ZSBtZXRhZGF0
+YSBub2RlIGFuZCBhZGQgdGhlIHY0bCBjb250cm9sIHRoZXJlIG9yIHdvdWxkIHdlIGFkZCB0aGUg
+djRsIGNvbnRyb2wgdG8gdGhlIGV4aXN0aW5nIHZpZGVvIGRhdGEgbm9kZT8gSWYgaXQgaXMgdGhl
+IGZvcm1lciwgd2hhdCdzIHRoZSBwb2ludCBvZiBjcmVhdGluZyB0aGUgbWV0YWRhdGEgbm9kZSBz
+aW5jZSB3ZSB3b24ndCBxYnVmL2RxYnVmIHRvIGl0PyANCg0KQmVzdCwNCkR5bGFuIFlpcA0KDQo+
+ID4NCj4gPiA+PiBDYW4geW91IHRlbGwgYSBiaXQgbW9yZSBhYm91dCBob3cgdGhlIGhhcmR3YXJl
+IG9wZXJhdGVzPyBBcmUgYWxsDQo+ID4gPj4gSW5mb0ZyYW1lcyBvYnRhaW5lZCB0aHJvdWdoIHRo
+ZSBodyBmaWZvLCBvciBhcmUgc29tZSBzdG9yZWQgaW4NCj4gPiA+PiByZWdpc3RlcnMgYW5kIHNv
+bWUgZ28gdGhyb3VnaCB0aGUgZmlmbz8NCj4gPiA+DQo+ID4gPiBJbiB0aGUgY3VycmVudCBpbXBs
+ZW1lbnRhdGlvbiBvZiB0aGUgSERNSSBSeCBJUCwgYWxsIEluZm9GcmFtZXMgYXJlIHJlYWQNCj4g
+ZnJvbSBhIHJlZ2lzdGVyIGJ5dGUgYnkgYnl0ZSB3aGljaCBoYXMgRklGTyBhdCB0aGUgYmFjay4N
+Cj4gPiA+IFRoZSByZWdpc3RlciBpcyBhY2Nlc3NpYmxlIGJ5IGFuIEFYSSBMaXRlIGludGVyZmFj
+ZS4NCj4gPiA+IFRoZSBGSUZPIGNhbiBzdG9yZSBtYXhpbXVtIDggcGFja2V0cy4gRWFjaCBwYWNr
+ZXQgaXMgMzYgYnl0ZXMgaW4gc2l6ZSAoMzENCj4gYnl0ZXMgZGF0YSBhbmQgNSBieXRlcyBFQ0Mg
+Y2FsY3VsYXRlZCBieSBJUCkuDQo+ID4gPiBJbmZvRnJhbWVzIGFyZSBvbmUgdHlwZSBvZiBwYWNr
+ZXRzLg0KPiA+DQo+ID4gRG9lcyBvbmUgcGFja2V0IGNvcnJlc3BvbmQgdG8gb25lIEluZm9GcmFt
+ZT8gT3IgYXJlIHRoZXkgYWxsDQo+ID4gY29uY2F0ZW5hdGVkIGFuZCBoYWNrZWQgdXAgaW50byBw
+YWNrZXRzIGZvciB0aGUgRklGTz8NCj4gPg0KPiA+IFRoaXMgcHJvYmFibHkgd29uJ3Qgd29yayB3
+ZWxsIGZvciBsYXJnZSBFeHRlbmRlZCBJbmZvRnJhbWVzIG9mIDRrQiBvcg0KPiA+IG1vcmU6IHRo
+ZSBkcml2ZXIgd291bGQgaGF2ZSB0byBiZSBhYmxlIHRvIHJlYWQgZnJvbSB0aGUgRklGTyB2ZXJ5
+DQo+ID4gcXVpY2tseSBpbiBvcmRlciB0byBwcmV2ZW50IGRhdGEgZnJvbSBiZWluZyBsb3N0LCBy
+aWdodD8gSGVuY2UgdGhlDQo+IGRldmVsb3BtZW50IG9mIHRoZSBBWElNTSBpbnRlcmZhY2UgcmVm
+ZXJyZWQgdG8gYmVsb3cuDQo+ID4NCj4gPiA+IFRoZXJlIGFyZSBvdGhlciB0eXBlcyBsaWtlIEdl
+bmVyYWwgQ29udHJvbCBQYWNrZXQsIEF1ZGlvIENsb2NrDQo+ID4gPiBSZWdlbmVyYXRpb24gUGFj
+a2V0LCBldGMuIHJlZmVycmVkIGluIFRhYmxlIDUtOCBwYWNrZXQgdHlwZXMgaW4gSERNSQ0KPiA+
+ID4gc3BlY2lmaWNhdGlvbiB2MS40YikNCj4gPiA+DQo+ID4gPiBJbiBmdXR1cmUgd2UgcGxhbiBv
+biBhZGRpbmcgYW4gQVhJTU0gaW50ZXJmYWNlIGluIHRoZSBJUCB0byBoYW5kbGUNCj4gPiA+IER5
+bmFtaWMgSERSLiBUaGUgdGVudGF0aXZlIGJlaGF2aW9yIHdpbGwgYmUgYXMgYmVsb3cgLSBUaGUg
+ZHJpdmVyIHdpbGwNCj4gcHJvdmlkZSBhIGJ1ZmZlciBwb2ludGVyIHRvIHRoZSBJUCB2aWEgYSBy
+ZWdpc3Rlci4gVGhlIElQIHdpbGwgZHVtcCB0aGUNCj4gaW5mb2ZyYW1lcydzIGV4dHJhY3RlZCBk
+YXRhIGludG8gdGhpcyBidWZmZXIuDQo+ID4gPiBXaXRoIEZyYW1lIHN5bmMsIElQIHdpbGwgcmV0
+dXJuIHRoZSBsZW5ndGggb2YgdGhlIGJ1ZmZlciBpbiB0aGUgcHJvdmlkZWQNCj4gYnVmZmVyLg0K
+PiA+ID4NCj4gPiA+PiBEb2VzIHRoZSBoYXJkd2FyZSBzZXQgbWF4aW11bSBzaXplcyBmb3Igc3Bl
+Y2lmaWMgSW5mb0ZyYW1lcyBvciB0aGUNCj4gPiA+PiB0b3RhbCBzaXplIG9mIGFsbCBJbmZvRnJh
+bWVzIGNvbWJpbmVkPyBPciBjYW4gaXQgYmUgYW55IHNpemU/DQo+ID4gPj4NCj4gPiA+IEhvcGUg
+dGhlIGFib3ZlIGluZm8gYWJvdXQgRklGTyBkZXB0aCBmb3IgY3VycmVudCBIRE1JIFJ4IElQIGFu
+c3dlcnMNCj4gdGhpcy4NCj4gPg0KPiA+IFJpZ2h0LCBzbyB0aGUgZHJpdmVyIHdpbGwgcHJvdmlk
+ZSB0aGUgbWF4aW11bSBzaXplIGZvciBhbGwgSW5mb0ZyYW1lcw0KPiA+IHRoYXQgY2FuIG9jY3Vy
+IGJldHdlZW4gdHdvIHZpZGVvIGZyYW1lcy4NCj4gPg0KPiA+IEFuZCB0aGUgZHJpdmVyIHdpbGwg
+cGFyc2UgdGhlIHJlY2VpdmVkIEluZm9GcmFtZXMuDQo+ID4NCj4gPiBJIGFtIHN0cm9uZ2x5IGxl
+YW5pbmcgdG93YXJkcyB1c2luZyBhIGNvbnRyb2wgZm9yIHRoZSBIRFIxMCsgSW5mb0ZyYW1lDQo+
+ID4gYXMgd2VsbDogaXQgZml0cyB3ZWxsIHdpdGggdGhlIFJlcXVlc3QgQVBJIHdoZXJlIGNvbnRy
+b2xzIGNhbiBiZQ0KPiA+IGNsZWFubHkgYXNzb2NpYXRlZCB3aXRoIGEgc3BlY2lmaWMgdmlkZW8g
+ZnJhbWUsIGFuZCB0aGUgYW1vdW50IG9mIGRhdGEgaXNuJ3QNCj4gdGhhdCBsYXJnZS4NCj4gDQo+
+IFRoaXMgaG93ZXZlciBsZWFkcyBtZSB0byBhIHNpbXBsZSBxdWVzdGlvbjogd2h5IGRvIHdlIGhh
+dmUgYSBtZXRhZGF0YSBBUEkNCj4gaW4gdGhlIGZpcnN0IHBsYWNlIGlmIGV2ZXJ5dGhpbmcgc2hv
+dWxkIGdvIHRocm91Z2ggY29udHJvbHMgPw0KPiANCj4gPiBUaGF0IHNhaWQsIHNvbWUgd29yayBp
+biB0aGUgY29udHJvbCBmcmFtZXdvcmsgaXMgcHJvYmFibHkgbmVlZGVkIHRvDQo+ID4gc3RyZWFt
+bGluZSB0aGluZ3MgYQ0KPiA+IGJpdDoNCj4gPg0KPiA+IDEpIGl0IHNob3VsZCBiZSBwb3NzaWJs
+ZSB0byBpbmNyZWFzZSB0aGUgc2l6ZSBvZiBjb21wb3VuZCBjb250cm9scyBsYXRlciBpZg0KPiBu
+ZXcgZmllbGRzIGFyZQ0KPiA+ICAgIGFkZGVkLiBUaGlzIGlzIG9uIHRoZSBUT0RPIGxpc3QgYWxy
+ZWFkeSBzaW5jZSBpdCBpcyBkZXNpcmVkIGZ1bmN0aW9uYWxpdHkgZm9yDQo+IGNvZGVjcy4NCj4g
+Pg0KPiA+IDIpIHRlbnRhdGl2ZSwgbmVlZHMgcmVzZWFyY2ggZmlyc3Q6IGFkZCBzb21lIHNvcnQg
+b2YgbWVjaGFuaXNtIHRvIG1tYXANCj4gdGhlIGNvbnRyb2wNCj4gPiAgICBwYXlsb2FkIHRvIGF2
+b2lkIG1lbSBjb3BpZXMuIFRoYXQgd291bGQgbWFrZSBjb250cm9scyBtdWNoIG1vcmUNCj4gdXNl
+ZnVsIGZvciBsYXJnZSBtZXRhZGF0YS4NCj4gDQo+IExldCdzIG5vdCBmb3JnZXQgdGhhdCB3ZSB3
+b3VsZCB0aGVuIGFsc28gbmVlZCB0byBtbWFwIHRoZSBjb250cm9sIHBlcg0KPiByZXF1ZXN0LCB3
+aGljaCB3aWxsIGJlY29tZSBjaGFsbGVuZ2luZyBpZiB3ZSB3YW50IHRvIGJlIGFibGUgdG8gcHJl
+LW1hcA0KPiBldmVyeXRoaW5nIGxpa2Ugd2UgZG8gZm9yIGJ1ZmZlcnMgaW5zdGVhZCBvZiBtYXBw
+aW5nIGFuZCB1bm1hcHBpbmcgZm9yDQo+IGV2ZXJ5IHJlcXVlc3QuDQo+IA0KPiA+IEknbSBub3Qg
+c3VyZSB3aGVuIEkgd2lsbCBoYXZlIHRpbWUgdG8gd29yayBvbiB0aGF0LCB0aG91Z2guDQo+ID4N
+Cj4gPiA+PiBEb2VzIGl0IGFjY2VwdCBhbnkgSW5mb0ZyYW1lIG9yIG9ubHkgc3BlY2lmaWMgSW5m
+b0ZyYW1lIHR5cGVzPyBPcg0KPiA+ID4+IGlzIHRoaXMgcHJvZ3JhbW1hYmxlPw0KPiA+ID4NCj4g
+PiA+IEhETUkgUnggSVAgYWNjZXB0cyBhbGwgdHlwZXMgb2YgSW5mb0ZyYW1lcy4NCj4gPiA+DQo+
+ID4gPj4+IFdlIGhhdmUgMiBkaWZmZXJlbnQgcHJvcG9zYWxzIHRoYXQgd2UgYmVsaWV2ZSB3aWxs
+IHdvcms6DQo+ID4gPj4+DQo+ID4gPj4+IEEuIDIgdmlkZW8gbm9kZSBhcHByb2FjaCAoMSBmb3Ig
+dmlkZW8sIDEgZm9yIG1ldGFkYXRhKSAtIFRoaXMgd2lsbA0KPiA+ID4+PiBhbGlnbiB3aXRoIGN1
+cnJlbnQgdjRsIG1ldGFkYXRhIHN0cnVjdHVyZSAoaS5lLiB1dmMpIGJ1dCB3aWxsDQo+ID4gPj4+
+IHJlcXVpcmUgb3VyIEhETUkgUlggZHJpdmVyIHRvIHJlZ2lzdGVyIGEgc3ViZGV2IGFuZCBkZXZp
+Y2Ugbm9kZQ0KPiA+ID4+PiAJYS4gT3VyIEhETUkgUlggZHJpdmVyIHdpbGwgcmVnaXN0ZXIgYSB2
+NGwgc3ViZGV2IChmb3IgdmlkZW8gZGF0YSkNCj4gPiA+Pj4gYW5kIGEgbWV0YWRhdGEgbm9kZQ0K
+PiA+ID4+PiAJCWkuIElzIHRoaXMgYWNjZXB0YWJsZT8NCj4gPiA+Pj4gCWIuIEFwcGxpY2F0aW9u
+cyB3aWxsIHFidWYvZHFidWYgdG8gYm90aCB2aWRlbyBhbmQgbWV0YWRhdGEgbm9kZXMNCj4gPiA+
+Pj4gZm9yIGVhY2ggZnJhbWUNCj4gPiA+Pj4NCj4gPiA+Pj4gQi4gMSB2aWRlbyBub2RlIGFwcHJv
+YWNoIC0gVGhpcyB3aWxsIGF2b2lkIG1peGluZyB2NGwgc3ViZGV2IGFuZA0KPiA+ID4+PiB2NGwg
+ZGV2aWNlIG5vZGUgZnVuY3Rpb25hbGl0eSBpbnNpZGUgSERNSSBSWCBkcml2ZXIgYnV0IGl0IHN0
+cmF5cw0KPiA+ID4+PiBmcm9tIGN1cnJlbnQgdjRsIG1ldGFkYXRhIGFyY2hpdGVjdHVyZSBhbmQg
+YWxzbyBjaGFuZ2VzIHY0bCBzdWJkZXYNCj4gZnVuY3Rpb25hbGl0eQ0KPiA+ID4+PiAJYS4gV2Ug
+d291bGQgYWRkIGEgInJlYWQiIGZ1bmN0aW9uIHRvIHY0bCBzdWJkZXYncw0KPiA+ID4+PiAJCWku
+IFRoaXMgd2lsbCBhbHNvIHJlcXVpcmUgdXMgdG8gYWRkIHNvbWUgImNhcGFiaWxpdGllcyIgZmll
+bGQgdG8NCj4gPiA+Pj4gc3ViZGV2IG9yIGJlIGFibGUgdG8gcXVlcnkgZm9yIHRoZSAicmVhZCIg
+ZnVuY3Rpb24NCj4gPiA+Pj4gCWIuIEhETUkgUnggZHJpdmVyIHdpbGwgcmVnaXN0ZXIgYSB2NGwg
+c3ViZGV2IHdpdGggInJlYWQiDQo+ID4gPj4+IGZ1bmN0aW9uL2NhcGFiaWxpdHkNCj4gPiA+Pj4g
+CWMuIEFwcGxpY2F0aW9uIGNhbiBkaXJlY3RseSBwYXNzIGEgYnVmZmVyIGluIHRoZSAicmVhZCIg
+ZnVuY3Rpb24NCj4gPiA+Pj4gdG8gSERNSSBSWCBzdWJkZXYgdG8gb2J0YWluIEhEUiBtZXRhZGF0
+YQ0KPiA+ID4+PiAJCWkuIFdlIHdpbGwgbmVlZCB0byBwYXNzIHN1YmRldiBuYW1lIGZyb20gYXBw
+bGljYXRpb24gb3IgYmUNCj4gYWJsZQ0KPiA+ID4+PiB0byBxdWVyeSBhbGwgc3ViZGV2cyBmb3Ig
+dGhpcyAicmVhZCIgY2FwYWJpbGl0eSwgaXMgdGhpcyBhY2NlcHRhYmxlPw0KPiA+ID4+Pg0KPiA+
+ID4+PiBQbGVhc2UgbGV0IG1lIGtub3cgeW91ciBvcGluaW9ucyBvbiB3aGljaCBhcHByb2FjaCBp
+cyBiZXN0IG9yDQo+ID4gPj4+IHByb3Bvc2UgYW5vdGhlciBhcHByb2FjaCBpZiB0aGVzZSAyIGFy
+ZSB1bmZpdC4gVGhhbmtzDQo+IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiANCj4gTGF1cmVudCBQaW5j
+aGFydA0K
