@@ -2,97 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C0DD14C69F
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 07:45:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3FC314C6E0
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 08:30:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726068AbgA2Gpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jan 2020 01:45:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48854 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725966AbgA2Gpi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jan 2020 01:45:38 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8292F20702;
-        Wed, 29 Jan 2020 06:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580280338;
-        bh=yTwt6zChi4FRgiu+DHf6yoPp/dBnWUympxWlomufo6Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MjBjnM4E3ukJyQhYRivUYSUC5UBkfSoN7XRVXlQrfe7KsyfKYmAxEGpBaZzgxANBR
-         YgfAz3CaifEO4JC2GZ372wWCFHdJ9vG388Ov23/MZ2V1XTR2g2y1OUGhsGtNMeQQ2x
-         9RYKek02JMf2LMWm6VJn/mL4KTKqw/POIGryKg28=
-Date:   Wed, 29 Jan 2020 07:45:35 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] docs: usb: remove some broken references
-Message-ID: <20200129064535.GA3771222@kroah.com>
-References: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
- <20200128134228.3c6f56b9@lwn.net>
- <244ed240-46aa-aa73-6f89-df7944d42cbf@infradead.org>
- <20200129074146.5f6077ca@kernel.org>
+        id S1726091AbgA2Har (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jan 2020 02:30:47 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:46351 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726037AbgA2Har (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jan 2020 02:30:47 -0500
+Received: from [192.168.2.10] ([62.249.185.68])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id who8i06PTn7E5whoCiYCnM; Wed, 29 Jan 2020 08:30:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580283045; bh=Ymu2tkA+YymQp9ttXNnB+FI3y0iQZ0izZlx6CqX4FnE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=oVRkpjFBdAIbxDjXsSWQLNBxARYFdENcqI8TsqqEmwy24HbZSx4osSVtorv0a3qcV
+         IDmKpk5gFczItVF756ihoRPXaXqdYBKV8qTvVPNmaKrXzV9Mf0vX2czN161PKMZeUN
+         Yynq+UPJpSBhcBY9kcd1Aec1qvEBYycM++LKxqdgwMrnnVGheNynSgNbHRfieCEtFs
+         iqzpNx7ShSwSxeFwjOcln0WD92ZbvAm3N6ahnDrZBpKucRCE6NWf+8/qoLv215HS16
+         dnUzLAj9oLfS3slEOlfpgKjcpybbhLwkcgq6+9/x7zvQGv+qYuVsfJ9njV5lG8ix1a
+         +K0C4Atll0agg==
+Subject: Re: [RFC] V4L HDR Architecture Proposal
+To:     Dylan Yip <dylany@xilinx.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Vishal Sagar <vsagar@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
+        Madhurkiran Harikrishnan <MADHURKI@xilinx.com>,
+        Jianqiang Chen <jianqian@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Cyril Chemparathy <cyrilc@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Subhransu Sekhar Prusty <sprusty@xilinx.com>,
+        Anil Kumar Chimbeti <anilchc@xilinx.com>
+References: <BYAPR02MB57027075B640D2F530E890E8B00C0@BYAPR02MB5702.namprd02.prod.outlook.com>
+ <825d563b-7cb7-5055-d1af-b9b8eba1deb9@xs4all.nl>
+ <CY4PR02MB314231543765B9CC09C0735BA70E0@CY4PR02MB3142.namprd02.prod.outlook.com>
+ <589f1e75-8925-3482-38d8-e354a067f1db@xs4all.nl>
+ <20200124120844.GA4996@pendragon.ideasonboard.com>
+ <BYAPR02MB57020B91E827ACC33B50B8AFB0050@BYAPR02MB5702.namprd02.prod.outlook.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <57be8b72-c60b-cb65-7fe0-cb82ab49b0d5@xs4all.nl>
+Date:   Wed, 29 Jan 2020 08:30:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200129074146.5f6077ca@kernel.org>
+In-Reply-To: <BYAPR02MB57020B91E827ACC33B50B8AFB0050@BYAPR02MB5702.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGBOeLUZLs8H7RCvPX4zprIipTTbc9iczwE26T+zukTYgdc1Hbg47v6zyo0aj36IEqVXVNeWVWNx2f3GD7WczccS8RQJKwSusXLNm5N/BPS00YqOgqec
+ fdCAv471+UOVHyjcW5H4UXXSpJTjAjiym/M7KaevcDna3JtKmgkVzpt4R0lRLHE4jatKXk346bd5UdJiS8nUTJmf/XD90M8J7xjNZ09xWcvruepjo5v1SIje
+ ugQjaXfYgmtS2ZL64HwvE95+9oEy3rBpC1mjpeZwT9/ul5lhAmlVUib3mGOkRNIckJWEqLvog0cQe0jkKIh4vL7sSstTZDefn3/i4IrOc206+hnhJgB9DhZc
+ pRh7C6VY51GmU5fgN1aId1KSdGFWJoRMli3+7jaXvxrBaxrEsKW17KaObvgE8PzgwTMZMJ+qV7r58tD7BIdDItukHm6F4tKDoiBC39h7BT5kupgV5lPvb4Vs
+ rVDHsZVwTxNWXuwN1cm9H4u9xPUd0xU+XWH5H37uh4goCU+CYLV6aCSJEx0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jan 29, 2020 at 07:41:46AM +0100, Mauro Carvalho Chehab wrote:
-> Em Tue, 28 Jan 2020 15:47:18 -0800
-> Randy Dunlap <rdunlap@infradead.org> escreveu:
+On 1/29/20 7:14 AM, Dylan Yip wrote:
+> Hi Laurent, Hans, 
 > 
-> > On 1/28/20 12:42 PM, Jonathan Corbet wrote:
-> > > On Tue, 28 Jan 2020 07:41:00 +0100
-> > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> > >   
-> > >> It seems that some files were removed from USB documentation.
-> > >>
-> > >> Update the links accordingly.
-> > >>
-> > >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > > 
-> > > Applied, thanks.
-> > > 
-> > > jon  
-> > 
-> > This warning has been around for quite awhile now:
-> > 
-> > lnx-55/Documentation/usb/text_files.rst:22: WARNING: Include file u'lnx/lnx-55/Documentation/usb/wusb-cbaf' not found or reading it failed
-> > 
-> > Looks like it has been moved to drivers/staging/wusbcore/Documentation/wusb-cbaf.
+> Thanks for the insights!
 > 
-> From the log of the patch that moved it:
+>> -----Original Message-----
+>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Sent: Friday, January 24, 2020 4:09 AM
+>> To: Hans Verkuil <hverkuil@xs4all.nl>
+>> Cc: Vishal Sagar <vsagar@xilinx.com>; Dylan Yip <dylany@xilinx.com>; linux-
+>> media@vger.kernel.org; Varunkumar Allagadapa
+>> <VARUNKUM@xilinx.com>; Madhurkiran Harikrishnan
+>> <MADHURKI@xilinx.com>; Jianqiang Chen <jianqian@xilinx.com>; Hyun
+>> Kwon <hyunk@xilinx.com>; Cyril Chemparathy <cyrilc@xilinx.com>; Sandip
+>> Kothari <sandipk@xilinx.com>; Subhransu Sekhar Prusty
+>> <sprusty@xilinx.com>; Anil Kumar Chimbeti <anilchc@xilinx.com>
+>> Subject: Re: [RFC] V4L HDR Architecture Proposal
+>>
+>> Hi Hans,
+>>
+>> On Fri, Jan 24, 2020 at 11:10:06AM +0100, Hans Verkuil wrote:
+>>> On 1/24/20 10:04 AM, Vishal Sagar wrote:
+>>>> On Thursday, January 23, 2020 6:36 PM, Hans Verkuil wrote:
+>>>>> On 1/22/20 9:13 PM, Dylan Yip wrote:
+>>>>>> Hi All,
+>>>>>>
+>>>>>> We are planning to add HDR10 and HDR10+ metadata support into the
+>>>>>> V4L
+>>>>> framework and were hoping for some feedback before we started
+>>>>> implementation.
+>>>>>
+>>>>> Nice!
+>>>>>
+>>>>>>
+>>>>>> For context, Xilinx HDMI RX IP currently uses a AXI LITE interface
+>>>>>> where HDR metadata is obtained from a hardware FIFO. To access
+>>>>>> these packets a CPU copy is required.
+>>>>>> We are in the process of migrating towards a AXI MM interface
+>>>>>> where the hardware will directly write HDR metadata into memory.
+>>>>>> Currently the HDMI RX driver (https://github.com/Xilinx/hdmi-
+>>>>>> modules/blob/master/hdmi/xilinx-hdmirx.c) is modeled as a v4l
+>>>>>> subdev. This is linked to a DMA IP which utilizes the DMA engine
+>>>>>> APIs and registers itself as a video node for video data.
+>>>>>>
+>>>>>> HDR10 will only consist of static metadata which will come once per
+>> stream.
+>>>>>> However, HDR10+ will have dynamic metadata which can potentially
+>>>>>> come once per frame and be up to ~4000 bytes. We would like V4L
+>>>>>> architecture to be flexible to support both.
+>>>>>
+>>>>> The key here is the difference between Extended InfoFrames that can
+>>>>> be long and the others, that have a maximum size. The latter should
+>>>>> be handled by controls, the first is more difficult.
+>>>>
+>>>> Are you suggesting to handle static HDR via read only v4l controls in a
+>> meta video node?
+>>>
+>>> Yes. It's very suitable for that purpose.
 > 
->   commit 71ed79b0e4be0db254640c3beb9a1a0316eb5f61
->   Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->   Date:   Tue Aug 6 12:15:09 2019 +0200
-> 
->     USB: Move wusbcore and UWB to staging as it is obsolete
->     
->     The UWB and wusbcore code is long obsolete, so let us just move the code
->     out of the real part of the kernel and into the drivers/staging/
->     location with plans to remove it entirely in a few releases.
->     
->     Link: https://lore.kernel.org/r/20190806101509.GA11280@kroah.com
->     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
-> The plan seems to remove it in the future.
-> 
-> In any case, it makes sense to remove the broken link from the 
-> documentation.
+> So are you saying we should create a separate metadata node and add the v4l control there or would we add the v4l control to the existing video data node? If it is the former, what's the point of creating the metadata node since we won't qbuf/dqbuf to it? 
 
-Yes, please just remove it, that code is about to go away in the
-5.6-rc1.
+I'm sorry, I misread your original question. Static HDR should be handled via read only
+v4l controls in the existing video node, not in a meta video node.
 
-thanks,
+Regards,
 
-greg k-h
+	Hans
+
+> 
+> Best,
+> Dylan Yip
+> 
+>>>
+>>>>> Can you tell a bit more about how the hardware operates? Are all
+>>>>> InfoFrames obtained through the hw fifo, or are some stored in
+>>>>> registers and some go through the fifo?
+>>>>
+>>>> In the current implementation of the HDMI Rx IP, all InfoFrames are read
+>> from a register byte by byte which has FIFO at the back.
+>>>> The register is accessible by an AXI Lite interface.
+>>>> The FIFO can store maximum 8 packets. Each packet is 36 bytes in size (31
+>> bytes data and 5 bytes ECC calculated by IP).
+>>>> InfoFrames are one type of packets.
+>>>
+>>> Does one packet correspond to one InfoFrame? Or are they all
+>>> concatenated and hacked up into packets for the FIFO?
+>>>
+>>> This probably won't work well for large Extended InfoFrames of 4kB or
+>>> more: the driver would have to be able to read from the FIFO very
+>>> quickly in order to prevent data from being lost, right? Hence the
+>> development of the AXIMM interface referred to below.
+>>>
+>>>> There are other types like General Control Packet, Audio Clock
+>>>> Regeneration Packet, etc. referred in Table 5-8 packet types in HDMI
+>>>> specification v1.4b)
+>>>>
+>>>> In future we plan on adding an AXIMM interface in the IP to handle
+>>>> Dynamic HDR. The tentative behavior will be as below - The driver will
+>> provide a buffer pointer to the IP via a register. The IP will dump the
+>> infoframes's extracted data into this buffer.
+>>>> With Frame sync, IP will return the length of the buffer in the provided
+>> buffer.
+>>>>
+>>>>> Does the hardware set maximum sizes for specific InfoFrames or the
+>>>>> total size of all InfoFrames combined? Or can it be any size?
+>>>>>
+>>>> Hope the above info about FIFO depth for current HDMI Rx IP answers
+>> this.
+>>>
+>>> Right, so the driver will provide the maximum size for all InfoFrames
+>>> that can occur between two video frames.
+>>>
+>>> And the driver will parse the received InfoFrames.
+>>>
+>>> I am strongly leaning towards using a control for the HDR10+ InfoFrame
+>>> as well: it fits well with the Request API where controls can be
+>>> cleanly associated with a specific video frame, and the amount of data isn't
+>> that large.
+>>
+>> This however leads me to a simple question: why do we have a metadata API
+>> in the first place if everything should go through controls ?
+>>
+>>> That said, some work in the control framework is probably needed to
+>>> streamline things a
+>>> bit:
+>>>
+>>> 1) it should be possible to increase the size of compound controls later if
+>> new fields are
+>>>    added. This is on the TODO list already since it is desired functionality for
+>> codecs.
+>>>
+>>> 2) tentative, needs research first: add some sort of mechanism to mmap
+>> the control
+>>>    payload to avoid mem copies. That would make controls much more
+>> useful for large metadata.
+>>
+>> Let's not forget that we would then also need to mmap the control per
+>> request, which will become challenging if we want to be able to pre-map
+>> everything like we do for buffers instead of mapping and unmapping for
+>> every request.
+>>
+>>> I'm not sure when I will have time to work on that, though.
+>>>
+>>>>> Does it accept any InfoFrame or only specific InfoFrame types? Or
+>>>>> is this programmable?
+>>>>
+>>>> HDMI Rx IP accepts all types of InfoFrames.
+>>>>
+>>>>>> We have 2 different proposals that we believe will work:
+>>>>>>
+>>>>>> A. 2 video node approach (1 for video, 1 for metadata) - This will
+>>>>>> align with current v4l metadata structure (i.e. uvc) but will
+>>>>>> require our HDMI RX driver to register a subdev and device node
+>>>>>> 	a. Our HDMI RX driver will register a v4l subdev (for video data)
+>>>>>> and a metadata node
+>>>>>> 		i. Is this acceptable?
+>>>>>> 	b. Applications will qbuf/dqbuf to both video and metadata nodes
+>>>>>> for each frame
+>>>>>>
+>>>>>> B. 1 video node approach - This will avoid mixing v4l subdev and
+>>>>>> v4l device node functionality inside HDMI RX driver but it strays
+>>>>>> from current v4l metadata architecture and also changes v4l subdev
+>> functionality
+>>>>>> 	a. We would add a "read" function to v4l subdev's
+>>>>>> 		i. This will also require us to add some "capabilities" field to
+>>>>>> subdev or be able to query for the "read" function
+>>>>>> 	b. HDMI Rx driver will register a v4l subdev with "read"
+>>>>>> function/capability
+>>>>>> 	c. Application can directly pass a buffer in the "read" function
+>>>>>> to HDMI RX subdev to obtain HDR metadata
+>>>>>> 		i. We will need to pass subdev name from application or be
+>> able
+>>>>>> to query all subdevs for this "read" capability, is this acceptable?
+>>>>>>
+>>>>>> Please let me know your opinions on which approach is best or
+>>>>>> propose another approach if these 2 are unfit. Thanks
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+
