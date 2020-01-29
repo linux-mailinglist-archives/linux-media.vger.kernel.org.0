@@ -2,247 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3FC314C6E0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 08:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2857114C749
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 09:17:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726091AbgA2Har (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jan 2020 02:30:47 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:46351 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726037AbgA2Har (ORCPT
+        id S1726206AbgA2IRA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jan 2020 03:17:00 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:40454 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726116AbgA2IRA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jan 2020 02:30:47 -0500
-Received: from [192.168.2.10] ([62.249.185.68])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id who8i06PTn7E5whoCiYCnM; Wed, 29 Jan 2020 08:30:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580283045; bh=Ymu2tkA+YymQp9ttXNnB+FI3y0iQZ0izZlx6CqX4FnE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=oVRkpjFBdAIbxDjXsSWQLNBxARYFdENcqI8TsqqEmwy24HbZSx4osSVtorv0a3qcV
-         IDmKpk5gFczItVF756ihoRPXaXqdYBKV8qTvVPNmaKrXzV9Mf0vX2czN161PKMZeUN
-         Yynq+UPJpSBhcBY9kcd1Aec1qvEBYycM++LKxqdgwMrnnVGheNynSgNbHRfieCEtFs
-         iqzpNx7ShSwSxeFwjOcln0WD92ZbvAm3N6ahnDrZBpKucRCE6NWf+8/qoLv215HS16
-         dnUzLAj9oLfS3slEOlfpgKjcpybbhLwkcgq6+9/x7zvQGv+qYuVsfJ9njV5lG8ix1a
-         +K0C4Atll0agg==
-Subject: Re: [RFC] V4L HDR Architecture Proposal
-To:     Dylan Yip <dylany@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Vishal Sagar <vsagar@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Varunkumar Allagadapa <VARUNKUM@xilinx.com>,
-        Madhurkiran Harikrishnan <MADHURKI@xilinx.com>,
-        Jianqiang Chen <jianqian@xilinx.com>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Cyril Chemparathy <cyrilc@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Subhransu Sekhar Prusty <sprusty@xilinx.com>,
-        Anil Kumar Chimbeti <anilchc@xilinx.com>
-References: <BYAPR02MB57027075B640D2F530E890E8B00C0@BYAPR02MB5702.namprd02.prod.outlook.com>
- <825d563b-7cb7-5055-d1af-b9b8eba1deb9@xs4all.nl>
- <CY4PR02MB314231543765B9CC09C0735BA70E0@CY4PR02MB3142.namprd02.prod.outlook.com>
- <589f1e75-8925-3482-38d8-e354a067f1db@xs4all.nl>
- <20200124120844.GA4996@pendragon.ideasonboard.com>
- <BYAPR02MB57020B91E827ACC33B50B8AFB0050@BYAPR02MB5702.namprd02.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <57be8b72-c60b-cb65-7fe0-cb82ab49b0d5@xs4all.nl>
-Date:   Wed, 29 Jan 2020 08:30:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 29 Jan 2020 03:17:00 -0500
+X-UUID: f4fec480e5a94d5fb23b741580d1b59c-20200129
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=pAeCviEgp5SyhyDozmBEeXR8il9ypqHLYGqVz9VurIU=;
+        b=c4DqkSMXTCTiAeRIoSD0X8bqQpDGceYRNDWUdKL0JRQZI9Iq9v2uSy+Xy080RlmGoOohYqMe8bdTmxdj33WdWrw2O/iTfR5nRKFaWIGyLWFwiLGp8mC/BvDAcsTM2rZXEvGKaCvunASKQ+0zslscVlWP2Helge4MMWS3lr76KUY=;
+X-UUID: f4fec480e5a94d5fb23b741580d1b59c-20200129
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+        (envelope-from <louis.kuo@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 143140981; Wed, 29 Jan 2020 16:16:58 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 29 Jan 2020 16:16:56 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 29 Jan 2020 16:17:02 +0800
+From:   Louis Kuo <louis.kuo@mediatek.com>
+To:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
+        <keiichiw@chromium.org>, <matthias.bgg@gmail.com>,
+        <mchehab@kernel.org>
+CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
+        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
+        <louis.kuo@mediatek.com>, <frederic.chen@mediatek.com>,
+        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
+        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>
+Subject: [RFC PATCH V5 0/3] media: support Mediatek sensor interface driver 
+Date:   Wed, 29 Jan 2020 16:16:47 +0800
+Message-ID: <20200129081650.8027-1-louis.kuo@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB57020B91E827ACC33B50B8AFB0050@BYAPR02MB5702.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGBOeLUZLs8H7RCvPX4zprIipTTbc9iczwE26T+zukTYgdc1Hbg47v6zyo0aj36IEqVXVNeWVWNx2f3GD7WczccS8RQJKwSusXLNm5N/BPS00YqOgqec
- fdCAv471+UOVHyjcW5H4UXXSpJTjAjiym/M7KaevcDna3JtKmgkVzpt4R0lRLHE4jatKXk346bd5UdJiS8nUTJmf/XD90M8J7xjNZ09xWcvruepjo5v1SIje
- ugQjaXfYgmtS2ZL64HwvE95+9oEy3rBpC1mjpeZwT9/ul5lhAmlVUib3mGOkRNIckJWEqLvog0cQe0jkKIh4vL7sSstTZDefn3/i4IrOc206+hnhJgB9DhZc
- pRh7C6VY51GmU5fgN1aId1KSdGFWJoRMli3+7jaXvxrBaxrEsKW17KaObvgE8PzgwTMZMJ+qV7r58tD7BIdDItukHm6F4tKDoiBC39h7BT5kupgV5lPvb4Vs
- rVDHsZVwTxNWXuwN1cm9H4u9xPUd0xU+XWH5H37uh4goCU+CYLV6aCSJEx0=
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 70D65C83CC9C06DA6BDFA9C6C27F4D408CC3BC8D2095CBD9243989F3B9DC9A682000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 1/29/20 7:14 AM, Dylan Yip wrote:
-> Hi Laurent, Hans, 
-> 
-> Thanks for the insights!
-> 
->> -----Original Message-----
->> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Sent: Friday, January 24, 2020 4:09 AM
->> To: Hans Verkuil <hverkuil@xs4all.nl>
->> Cc: Vishal Sagar <vsagar@xilinx.com>; Dylan Yip <dylany@xilinx.com>; linux-
->> media@vger.kernel.org; Varunkumar Allagadapa
->> <VARUNKUM@xilinx.com>; Madhurkiran Harikrishnan
->> <MADHURKI@xilinx.com>; Jianqiang Chen <jianqian@xilinx.com>; Hyun
->> Kwon <hyunk@xilinx.com>; Cyril Chemparathy <cyrilc@xilinx.com>; Sandip
->> Kothari <sandipk@xilinx.com>; Subhransu Sekhar Prusty
->> <sprusty@xilinx.com>; Anil Kumar Chimbeti <anilchc@xilinx.com>
->> Subject: Re: [RFC] V4L HDR Architecture Proposal
->>
->> Hi Hans,
->>
->> On Fri, Jan 24, 2020 at 11:10:06AM +0100, Hans Verkuil wrote:
->>> On 1/24/20 10:04 AM, Vishal Sagar wrote:
->>>> On Thursday, January 23, 2020 6:36 PM, Hans Verkuil wrote:
->>>>> On 1/22/20 9:13 PM, Dylan Yip wrote:
->>>>>> Hi All,
->>>>>>
->>>>>> We are planning to add HDR10 and HDR10+ metadata support into the
->>>>>> V4L
->>>>> framework and were hoping for some feedback before we started
->>>>> implementation.
->>>>>
->>>>> Nice!
->>>>>
->>>>>>
->>>>>> For context, Xilinx HDMI RX IP currently uses a AXI LITE interface
->>>>>> where HDR metadata is obtained from a hardware FIFO. To access
->>>>>> these packets a CPU copy is required.
->>>>>> We are in the process of migrating towards a AXI MM interface
->>>>>> where the hardware will directly write HDR metadata into memory.
->>>>>> Currently the HDMI RX driver (https://github.com/Xilinx/hdmi-
->>>>>> modules/blob/master/hdmi/xilinx-hdmirx.c) is modeled as a v4l
->>>>>> subdev. This is linked to a DMA IP which utilizes the DMA engine
->>>>>> APIs and registers itself as a video node for video data.
->>>>>>
->>>>>> HDR10 will only consist of static metadata which will come once per
->> stream.
->>>>>> However, HDR10+ will have dynamic metadata which can potentially
->>>>>> come once per frame and be up to ~4000 bytes. We would like V4L
->>>>>> architecture to be flexible to support both.
->>>>>
->>>>> The key here is the difference between Extended InfoFrames that can
->>>>> be long and the others, that have a maximum size. The latter should
->>>>> be handled by controls, the first is more difficult.
->>>>
->>>> Are you suggesting to handle static HDR via read only v4l controls in a
->> meta video node?
->>>
->>> Yes. It's very suitable for that purpose.
-> 
-> So are you saying we should create a separate metadata node and add the v4l control there or would we add the v4l control to the existing video data node? If it is the former, what's the point of creating the metadata node since we won't qbuf/dqbuf to it? 
-
-I'm sorry, I misread your original question. Static HDR should be handled via read only
-v4l controls in the existing video node, not in a meta video node.
-
-Regards,
-
-	Hans
-
-> 
-> Best,
-> Dylan Yip
-> 
->>>
->>>>> Can you tell a bit more about how the hardware operates? Are all
->>>>> InfoFrames obtained through the hw fifo, or are some stored in
->>>>> registers and some go through the fifo?
->>>>
->>>> In the current implementation of the HDMI Rx IP, all InfoFrames are read
->> from a register byte by byte which has FIFO at the back.
->>>> The register is accessible by an AXI Lite interface.
->>>> The FIFO can store maximum 8 packets. Each packet is 36 bytes in size (31
->> bytes data and 5 bytes ECC calculated by IP).
->>>> InfoFrames are one type of packets.
->>>
->>> Does one packet correspond to one InfoFrame? Or are they all
->>> concatenated and hacked up into packets for the FIFO?
->>>
->>> This probably won't work well for large Extended InfoFrames of 4kB or
->>> more: the driver would have to be able to read from the FIFO very
->>> quickly in order to prevent data from being lost, right? Hence the
->> development of the AXIMM interface referred to below.
->>>
->>>> There are other types like General Control Packet, Audio Clock
->>>> Regeneration Packet, etc. referred in Table 5-8 packet types in HDMI
->>>> specification v1.4b)
->>>>
->>>> In future we plan on adding an AXIMM interface in the IP to handle
->>>> Dynamic HDR. The tentative behavior will be as below - The driver will
->> provide a buffer pointer to the IP via a register. The IP will dump the
->> infoframes's extracted data into this buffer.
->>>> With Frame sync, IP will return the length of the buffer in the provided
->> buffer.
->>>>
->>>>> Does the hardware set maximum sizes for specific InfoFrames or the
->>>>> total size of all InfoFrames combined? Or can it be any size?
->>>>>
->>>> Hope the above info about FIFO depth for current HDMI Rx IP answers
->> this.
->>>
->>> Right, so the driver will provide the maximum size for all InfoFrames
->>> that can occur between two video frames.
->>>
->>> And the driver will parse the received InfoFrames.
->>>
->>> I am strongly leaning towards using a control for the HDR10+ InfoFrame
->>> as well: it fits well with the Request API where controls can be
->>> cleanly associated with a specific video frame, and the amount of data isn't
->> that large.
->>
->> This however leads me to a simple question: why do we have a metadata API
->> in the first place if everything should go through controls ?
->>
->>> That said, some work in the control framework is probably needed to
->>> streamline things a
->>> bit:
->>>
->>> 1) it should be possible to increase the size of compound controls later if
->> new fields are
->>>    added. This is on the TODO list already since it is desired functionality for
->> codecs.
->>>
->>> 2) tentative, needs research first: add some sort of mechanism to mmap
->> the control
->>>    payload to avoid mem copies. That would make controls much more
->> useful for large metadata.
->>
->> Let's not forget that we would then also need to mmap the control per
->> request, which will become challenging if we want to be able to pre-map
->> everything like we do for buffers instead of mapping and unmapping for
->> every request.
->>
->>> I'm not sure when I will have time to work on that, though.
->>>
->>>>> Does it accept any InfoFrame or only specific InfoFrame types? Or
->>>>> is this programmable?
->>>>
->>>> HDMI Rx IP accepts all types of InfoFrames.
->>>>
->>>>>> We have 2 different proposals that we believe will work:
->>>>>>
->>>>>> A. 2 video node approach (1 for video, 1 for metadata) - This will
->>>>>> align with current v4l metadata structure (i.e. uvc) but will
->>>>>> require our HDMI RX driver to register a subdev and device node
->>>>>> 	a. Our HDMI RX driver will register a v4l subdev (for video data)
->>>>>> and a metadata node
->>>>>> 		i. Is this acceptable?
->>>>>> 	b. Applications will qbuf/dqbuf to both video and metadata nodes
->>>>>> for each frame
->>>>>>
->>>>>> B. 1 video node approach - This will avoid mixing v4l subdev and
->>>>>> v4l device node functionality inside HDMI RX driver but it strays
->>>>>> from current v4l metadata architecture and also changes v4l subdev
->> functionality
->>>>>> 	a. We would add a "read" function to v4l subdev's
->>>>>> 		i. This will also require us to add some "capabilities" field to
->>>>>> subdev or be able to query for the "read" function
->>>>>> 	b. HDMI Rx driver will register a v4l subdev with "read"
->>>>>> function/capability
->>>>>> 	c. Application can directly pass a buffer in the "read" function
->>>>>> to HDMI RX subdev to obtain HDR metadata
->>>>>> 		i. We will need to pass subdev name from application or be
->> able
->>>>>> to query all subdevs for this "read" capability, is this acceptable?
->>>>>>
->>>>>> Please let me know your opinions on which approach is best or
->>>>>> propose another approach if these 2 are unfit. Thanks
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
+SGVsbG8sDQoNClRoaXMgaXMgdGhlIFJGQyBwYXRjaCBhZGRpbmcgU2Vuc29yIEluZmVyZmFjZShz
+ZW5pbmYpIGRyaXZlciBvbiBNZWRpYXRlayBtdDgxODMgU29DLCB3aGljaCB3aWxsIGJlIHVzZWQN
+CmluIGNhbWVyYSBmZWF0dXJlcyBvbiBDck9TIGFwcGxpY2F0aW9uLg0KSXQgYmVsb25ncyB0byB0
+aGUgZmlyc3QgTWVkaWF0ZWsncyBjYW1lcmEgZHJpdmVyIHNlcmllcyBiYXNlZCBvbiBWNEwyIGFu
+ZCBtZWRpYSBjb250cm9sbGVyIGZyYW1ld29yay4NCkkgcG9zdGVkIHRoZSBtYWluIHBhcnQgb2Yg
+dGhlIHNlbmluZiBkcml2ZXIgYXMgUkZDIHRvIGRpc2N1c3MgZmlyc3QgYW5kIHdvdWxkIGxpa2Ug
+c29tZSByZXZpZXcgY29tbWVudHMNCm9uIHRoZSBvdmVyYWxsIHN0cnVjdHVyZSBvZiB0aGUgZHJp
+dmVyLg0KDQpUaGUgZHJpdmVyIGlzIGltcGxlbWVudGVkIHdpdGggVjRMMiBmcmFtZXdvcmsuDQox
+LiBSZWdpc3RlciBhcyBhIFY0TDIgc3ViLWRldmljZS4NCjIuIE9ubHkgb25lIGVudGl0eSB3aXRo
+IHNpbmsgcGFkcyBsaW5rZWQgdG8gY2FtZXJhIHNlbnNvcnMgZm9yIGNob29zaW5nIGRlc2lyZWQg
+Y2FtZXJhIHNlbnNvciBieSBzZXR1cCBsaW5rDQogICBhbmQgd2l0aCBzb3VyY2UgcGFkcyBsaW5r
+ZWQgdG8gY2FtLWlvIGZvciByb3V0aW5nIGRpZmZlcmVudCB0eXBlcyBvZiBkZWNvZGVkIHBhY2tl
+dCBkYXRhcyB0byBQQVNTMSBkcml2ZXINCiAgIHRvIGdlbmVyYXRlIHNlbnNvciBpbWFnZSBmcmFt
+ZSBhbmQgbWV0YS1kYXRhLg0KDQpUaGUgb3ZlcmFsbCBmaWxlIHN0cnVjdHVyZSBvZiB0aGUgc2Vu
+aW5mIGRyaXZlciBpcyBhcyBmb2xsb3dpbmc6DQoNCiogbXRrX3NlbmluZi5jOiBJbXBsZW1lbnQg
+c29mdHdhcmUgYW5kIEhXIGNvbnRyb2wgZmxvdyBvZiBzZW5pbmYgZHJpdmVyLg0KKiBtdGtfc2Vu
+aW5mX2RlZi5oOiBEZWZpbmUgZGF0YSBzdHJ1Y3R1cmUgYW5kIGVudW1lcmF0aW9uLg0KKiBtdGtf
+c2VuaW5mX3JlZy5oOiBEZWZpbmUgSFcgcmVnaXN0ZXIgUi9XIG1hY3JvcyBhbmQgSFcgcmVnaXN0
+ZXIgbmFtZXMuDQoNClsgVjU6IHVzZSByZWNvbW1lbmRlZCBjb2Rpbmcgc3R5bGUsIHJldmlzZSBE
+VCBiaW5kaW5nIGRvY3VtZW50YXRpb25dDQoNCiAgbWVkaWE6IHBsYXRmb3JtOiBtdGstaXNwOiBB
+ZGQgTWVkaWF0ZWsgc2Vuc29yIGludGVyZmFjZSBkcml2ZXINCiAgZHQtYmluZGluZ3M6IG10ODE4
+MzogQWRkIHNlbnNvciBpbnRlcmZhY2UgZHQtYmluZGluZ3MNCiAgZHRzOiBhcm02NDogbXQ4MTgz
+OiBBZGQgc2Vuc29yIGludGVyZmFjZSBub2Rlcw0KDQogLi4uL2JpbmRpbmdzL21lZGlhL21lZGlh
+dGVrLXNlbmluZi50eHQgICAgICAgIHwgICA2NiArDQogYXJjaC9hcm02NC9ib290L2R0cy9tZWRp
+YXRlay9tdDgxODMuZHRzaSAgICAgIHwgICAxMiArDQogZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9N
+YWtlZmlsZSAgICAgICAgICAgICAgIHwgICAgMSArDQogZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9t
+dGstaXNwL0tjb25maWcgICAgICAgIHwgICAxNyArDQogLi4uL21lZGlhL3BsYXRmb3JtL210ay1p
+c3AvaXNwXzUwL01ha2VmaWxlICAgIHwgICAgMyArDQogLi4uL3BsYXRmb3JtL210ay1pc3AvaXNw
+XzUwL3NlbmluZi9NYWtlZmlsZSAgIHwgICAgNiArDQogLi4uL210ay1pc3AvaXNwXzUwL3Nlbmlu
+Zi9tdGtfc2VuaW5mLmMgICAgICAgIHwgMTExMiArKysNCiAuLi4vbXRrLWlzcC9pc3BfNTAvc2Vu
+aW5mL210a19zZW5pbmZfZGVmLmggICAgfCAgIDcyICsNCiAuLi4vbXRrLWlzcC9pc3BfNTAvc2Vu
+aW5mL210a19zZW5pbmZfcmVnLmggICAgfCA3NzQ3ICsrKysrKysrKysrKysrKysrDQogOSBmaWxl
+cyBjaGFuZ2VkLCA5MDM2IGluc2VydGlvbnMoKykNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLXNlbmluZi50eHQNCiBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstaXNwL0tjb25maWcN
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstaXNwL2lzcF81
+MC9NYWtlZmlsZQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210
+ay1pc3AvaXNwXzUwL3NlbmluZi9NYWtlZmlsZQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL210ay1pc3AvaXNwXzUwL3NlbmluZi9tdGtfc2VuaW5mLmMNCiBjcmVh
+dGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstaXNwL2lzcF81MC9zZW5p
+bmYvbXRrX3NlbmluZl9kZWYuaA0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3Bs
+YXRmb3JtL210ay1pc3AvaXNwXzUwL3NlbmluZi9tdGtfc2VuaW5mX3JlZy5oDQoNCg==
 
