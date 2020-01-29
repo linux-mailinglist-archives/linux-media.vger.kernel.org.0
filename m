@@ -2,78 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1076414C74D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 09:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B451414C7F2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2020 10:18:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726237AbgA2IRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Jan 2020 03:17:18 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:55253 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726178AbgA2IRS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Jan 2020 03:17:18 -0500
-X-UUID: 645842751a3d4538bbf06b99e476a495-20200129
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=3wcLgna0UQ6Pmik49xEVVcy56wDdAIj1SlCJHvZEet0=;
-        b=QUGVIZbMTf5UnlVLL5xlzXz+OZIIc6a6BqD5H4ePY2JjGQ6tcHR7YxpeprLQrA7tJ0daB8m9k4Ikte69Sb5aSHyaMM5dRj1wyq7fugwr3fRapIRZ4NzkUaJk/lEoqSYd1++yKCEqJlmFdqmJe6HJ22aWV885bXFAiTdEXTrJPa8=;
-X-UUID: 645842751a3d4538bbf06b99e476a495-20200129
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <louis.kuo@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1633652493; Wed, 29 Jan 2020 16:17:13 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 29 Jan 2020 16:16:35 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 29 Jan 2020 16:17:18 +0800
-From:   Louis Kuo <louis.kuo@mediatek.com>
-To:     <hans.verkuil@cisco.com>,
-        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
-        <keiichiw@chromium.org>, <matthias.bgg@gmail.com>,
-        <mchehab@kernel.org>
-CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
-        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
-        <louis.kuo@mediatek.com>, <frederic.chen@mediatek.com>,
-        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
-        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>
-Subject: [RFC PATCH V5 3/3] dts: arm64: mt8183: Add sensor interface nodes
-Date:   Wed, 29 Jan 2020 16:16:50 +0800
-Message-ID: <20200129081650.8027-4-louis.kuo@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20200129081650.8027-1-louis.kuo@mediatek.com>
-References: <20200129081650.8027-1-louis.kuo@mediatek.com>
+        id S1726069AbgA2JSw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Jan 2020 04:18:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725951AbgA2JSw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Jan 2020 04:18:52 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 61B7520708;
+        Wed, 29 Jan 2020 09:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580289531;
+        bh=p+StNdrQPhe5TRP4cV0PXfeprQUAfp3qbEgGzHDBO08=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OTUw+XVjCA4im92+j5Z5IaFbazOzdd75tzw7gMJTLo/20l8vfWWGQvfH2aDfZzB30
+         14tU2M+hh2pw2Sc/K21fX96odNVu43V4s2UfeoihxxwP/2EggHv8ARqi4gZbnz5wcq
+         Bvce2ZWjCSnZZmu3sBq83KiGRauaVKPK7BSs5O20=
+Date:   Wed, 29 Jan 2020 10:18:49 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-usb@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs: usb: remove some broken references
+Message-ID: <20200129091849.GA3802307@kroah.com>
+References: <00008303fde6b4e06d027d3b76ae7032614a7030.1580193653.git.mchehab+huawei@kernel.org>
+ <20200128134228.3c6f56b9@lwn.net>
+ <244ed240-46aa-aa73-6f89-df7944d42cbf@infradead.org>
+ <20200129074146.5f6077ca@kernel.org>
+ <20200129064535.GA3771222@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200129064535.GA3771222@kroah.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QWRkIG5vZGVzIGZvciBNZWRpYXRlaydzIHNlbnNvciBpbnRlcmZhY2UgZGV2aWNlLiBTZW5zb3Ig
-aW50ZXJmYWNlIG1vZHVsZQ0KZW1iZWRkZWQgaW4gTWVkaWF0ZWsgU09Dcywgd29ya3MgYXMgYSBI
-VyBjYW1lcmEgaW50ZXJmYWNlIGNvbnRyb2xsZXINCmludGVuZGVkIGZvciBpbWFnZSBhbmQgZGF0
-YSB0cmFuc21pc3Npb24gYmV0d2VlbiBjYW1lcmFzIGFuZCBob3N0IGRldmljZXMuDQoNClNpZ25l
-ZC1vZmYtYnk6IExvdWlzIEt1byA8bG91aXMua3VvQG1lZGlhdGVrLmNvbT4NCi0tLQ0KIGFyY2gv
-YXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4MTgzLmR0c2kgfCAxMiArKysrKysrKysrKysNCiAx
-IGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKQ0KDQpkaWZmIC0tZ2l0IGEvYXJjaC9hcm02
-NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaSBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWVk
-aWF0ZWsvbXQ4MTgzLmR0c2kNCmluZGV4IDY2YWFhMDdmNmNlYy4uYWU4OTM4NmFmZTU2IDEwMDY0
-NA0KLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KKysrIGIv
-YXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KQEAgLTUwNSw1ICs1MDUs
-MTcgQEANCiAJCQlyZWcgPSA8MCAweDFhMDAwMDAwIDAgMHgxMDAwPjsNCiAJCQkjY2xvY2stY2Vs
-bHMgPSA8MT47DQogCQl9Ow0KKwkJc2VuaW5mOiBzZW5pbmZAMWEwNDAwMDAgew0KKwkJCWNvbXBh
-dGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLXNlbmluZiI7DQorCQkJcmVnID0gPDAgMHgxYTA0MDAw
-MCAwIDB4ODAwMD4sDQorCQkJICAgICAgPDAgMHgxMWM4MDAwMCAwIDB4NjAwMD47DQorCQkJcmVn
-LW5hbWVzID0gImJhc2UiLCAicngiOw0KKwkJCWludGVycnVwdHMgPSA8R0lDX1NQSSAyNTEgSVJR
-X1RZUEVfTEVWRUxfTE9XPjsNCisJCQlwb3dlci1kb21haW5zID0gPCZzY3BzeXMgTVQ4MTgzX1BP
-V0VSX0RPTUFJTl9DQU0+Ow0KKwkJCWNsb2NrcyA9IDwmY2Ftc3lzIENMS19DQU1fU0VOSU5GPiwN
-CisJCQkJIDwmdG9wY2tnZW4gQ0xLX1RPUF9NVVhfU0VOSU5GPjsNCisJCQljbG9jay1uYW1lcyA9
-ICJDTEtfQ0FNX1NFTklORiIsICJDTEtfVE9QX01VWF9TRU5JTkYiOw0KKwkJCXN0YXR1cyA9ICJk
-aXNhYmxlZCI7DQorCQl9Ow0KIAl9Ow0KIH07DQotLSANCjIuMTguMA0K
+On Wed, Jan 29, 2020 at 07:45:35AM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Jan 29, 2020 at 07:41:46AM +0100, Mauro Carvalho Chehab wrote:
+> > Em Tue, 28 Jan 2020 15:47:18 -0800
+> > Randy Dunlap <rdunlap@infradead.org> escreveu:
+> > 
+> > > On 1/28/20 12:42 PM, Jonathan Corbet wrote:
+> > > > On Tue, 28 Jan 2020 07:41:00 +0100
+> > > > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > > >   
+> > > >> It seems that some files were removed from USB documentation.
+> > > >>
+> > > >> Update the links accordingly.
+> > > >>
+> > > >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > > > 
+> > > > Applied, thanks.
+> > > > 
+> > > > jon  
+> > > 
+> > > This warning has been around for quite awhile now:
+> > > 
+> > > lnx-55/Documentation/usb/text_files.rst:22: WARNING: Include file u'lnx/lnx-55/Documentation/usb/wusb-cbaf' not found or reading it failed
+> > > 
+> > > Looks like it has been moved to drivers/staging/wusbcore/Documentation/wusb-cbaf.
+> > 
+> > From the log of the patch that moved it:
+> > 
+> >   commit 71ed79b0e4be0db254640c3beb9a1a0316eb5f61
+> >   Author: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >   Date:   Tue Aug 6 12:15:09 2019 +0200
+> > 
+> >     USB: Move wusbcore and UWB to staging as it is obsolete
+> >     
+> >     The UWB and wusbcore code is long obsolete, so let us just move the code
+> >     out of the real part of the kernel and into the drivers/staging/
+> >     location with plans to remove it entirely in a few releases.
+> >     
+> >     Link: https://lore.kernel.org/r/20190806101509.GA11280@kroah.com
+> >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > 
+> > The plan seems to remove it in the future.
+> > 
+> > In any case, it makes sense to remove the broken link from the 
+> > documentation.
+> 
+> Yes, please just remove it, that code is about to go away in the
+> 5.6-rc1.
 
+Oops, not yet, in 5.7-rc1.
