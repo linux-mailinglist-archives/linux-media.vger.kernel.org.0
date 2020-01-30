@@ -2,178 +2,377 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90A3114DE17
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2020 16:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90ADF14DE25
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2020 16:44:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727328AbgA3Pmx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jan 2020 10:42:53 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50363 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbgA3Pmv (ORCPT
+        id S1727380AbgA3Pot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jan 2020 10:44:49 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:40452 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727223AbgA3Pos (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jan 2020 10:42:51 -0500
-Received: by mail-wm1-f68.google.com with SMTP id a5so4287645wmb.0;
-        Thu, 30 Jan 2020 07:42:49 -0800 (PST)
+        Thu, 30 Jan 2020 10:44:48 -0500
+Received: by mail-lj1-f196.google.com with SMTP id n18so3843681ljo.7
+        for <linux-media@vger.kernel.org>; Thu, 30 Jan 2020 07:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mCC2iJp3FOKEqh51EnD5KyOBr0/MmDz/MslDmMolIPs=;
-        b=dygglIZ49hA7G9C2AigGTfVuxMBIjTvnYG93OfgAvY+GPbV/k5KDxLCQlabhHazTVC
-         /7rdveJA0Ea91a32LSTbN/Nj/yP+V/zD+turWA0YpAeRpEbMdzuyn5BfYqcB7uMIa/pl
-         n1kOhmF1pBrIidVznLvNpcGzQhM5Vlmzek+zAOmZ39xUyR6hw07+bgsxPzDqs9abtT74
-         0GGW/23acpORgVG+WP4P5+71uQZNbrxM6Is+nkKiPhPBM6FdI1hwhv7K8t/kcmKhiPMK
-         MCzRnUyKGXjKptHGYwm+HrZsaY3lIIC+ck836Qzm0wQmDi4ZAPI8BYcyq7YLWMRUYCNZ
-         iqSw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=Y5/5fHz3Wl1g0oPmezLLXZf0rfIMovdyqWbT8xKCz5U=;
+        b=BKFWBfY4IEyqnYgSRNiezu+BUWinoYQbjNSmIsCy9T4nyOeKQ+1/kgvqiFsg6Ec2Th
+         boIHb/LSiIhbBTCEmNJBloWOjjJJzYf2xtZY0A9uB6DnUplMqRiClVQGvaVeEr9sia+Q
+         fvrhJA65wLYKUI6OsPH1JBgvpZmo4lXWsPFVSeySW/h6N7+zssEN8pXEYa6YU1868jCW
+         b6V6aQSRqQIf5f5D0FKnG5ong+HhAm9zQetGTcHIphjPEhZFU+MxA0PF/TsL/zkqLuez
+         bCrX4JhZfOV7x0xVOZbKHgihk8K4KlaeGj3u+jqX+W9I9JctNebwPteiVW+baA6lx6UC
+         lR8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mCC2iJp3FOKEqh51EnD5KyOBr0/MmDz/MslDmMolIPs=;
-        b=Le8ddEnfxvQR9SGITSy/6Mbft6/sHQr7ekzi1XjNzmwmRRET4xS2Bie7By5fmAGCuD
-         SgEEnG4nCau+3FVQ6i4roPW6CUXOmfL5St+VlfUM1x/A73g8QvccxfftM2+lm9BVQLW/
-         nJXIl9avkkdsgEk+zENGbVcqMApp3uTSksEZNXD05I858RPppr4DN7n8KQYbDTqinE2c
-         S9AoW5JWcDBA2rtWjeLOP+tSnQD7Oix1WtofLTFUGI+Caf73jiDQ795OhSeBEi6FQUgO
-         GLLjo2VGegQJzHHzpzeW6c5ga7lkPkAK8lMRQI5V5K+XeuZoMNBYBftXRoK0JHokkvRB
-         sdxA==
-X-Gm-Message-State: APjAAAVJRpLUL5EffMwNCnNnDxzFaD7+inc/+h5dtL4scV837R9xe1HU
-        eQh8AP33Lt39eTJ/AlBpaAQa8dbb
-X-Google-Smtp-Source: APXvYqx516JuGfXnHVQ7VZhB2d9eEottnK1gojvjq5DNLACFhWs1Y8yfaGfYArfzgBwzmB77GXBWrA==
-X-Received: by 2002:a7b:cae9:: with SMTP id t9mr6222441wml.186.1580398968832;
-        Thu, 30 Jan 2020 07:42:48 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
-        by smtp.gmail.com with ESMTPSA id f127sm6838903wma.4.2020.01.30.07.42.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Y5/5fHz3Wl1g0oPmezLLXZf0rfIMovdyqWbT8xKCz5U=;
+        b=q6N7G8idKeFJrucSNgabJZy3Q4wjQkugLWn2hwn5bhZ9Wj1ZBxhVKfm8slwmBCp/jQ
+         yYAiopqkBP8/+lpAKOAUzLCwwkU+tBbw0HdWFrZSJyLg35N2bq4FAZNGbDGdKoOcpcdV
+         fiiGoKFWrRJgVpiTaSHlWIM7C1PrW0tUW/69YlqS7IqgHlxzTJlVyc1Hl+eHFJG0qNqO
+         bX31r6kOc1Vm3IDaPkaqGJRHGhdtmGxhRA+zgLt9Oe4ZSFxHJ61hIE/m/CaqjYBg11o2
+         esj+9jaJolScblEJGBrk62nMZDFeUJU/RTjzUdvck1W9M0V/5pzTTSzX/VWZnFknlM8U
+         aGdg==
+X-Gm-Message-State: APjAAAXCDVAJcoKu7z/cPKArFMZF/Aa9mmAKyNVi2vvL52hK7yuBLVzv
+        ZPzSb3Qz9onAb3Geuqc0cX4XKJUk2qE=
+X-Google-Smtp-Source: APXvYqyD+XvywuSr2SrKuODVekHXZto6ykhDB6HrnHTN2/X1Oh/xXqcIz58KXVMCB37zMwtK3dRULA==
+X-Received: by 2002:a2e:98a:: with SMTP id 132mr3257970ljj.170.1580399085700;
+        Thu, 30 Jan 2020 07:44:45 -0800 (PST)
+Received: from localhost.localdomain ([37.157.136.193])
+        by smtp.gmail.com with ESMTPSA id h5sm3225267lja.16.2020.01.30.07.44.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 07:42:47 -0800 (PST)
-Date:   Thu, 30 Jan 2020 16:42:46 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
-        frankc@nvidia.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
-Message-ID: <20200130154246.GA2904678@ulmo>
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
-Content-Disposition: inline
-In-Reply-To: <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+        Thu, 30 Jan 2020 07:44:44 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] venus: vdec: Use pmruntime autosuspend
+Date:   Thu, 30 Jan 2020 17:44:24 +0200
+Message-Id: <20200130154424.29483-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Implement pmruntime autosuspend in video decoder. This will
+allow to save power while the userspace is inactive for some
+reasonable period of time. Here we power-off venus core clocks
+and power domain and don't touch vcodec because it is under
+hardware control. The later decision is made to simplify the
+code and avoid a mess in the power management code.
 
---G4iJoqBmSsgzjUCe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.c |   3 +
+ drivers/media/platform/qcom/venus/core.h |   2 +
+ drivers/media/platform/qcom/venus/vdec.c | 134 +++++++++++++++++++----
+ 3 files changed, 119 insertions(+), 20 deletions(-)
 
-On Thu, Jan 30, 2020 at 03:41:50PM +0100, Hans Verkuil wrote:
-> Hi Sowjanya,
->=20
-> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
-> > This series adds Tegra210 VI and CSI driver for built-in test pattern
-> > generator (TPG) capture.
-> >=20
-> > Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
-> > CSI port is one-to-one mapped to VI channel for video capture.
-> >=20
-> > This series has TPG support only where it creates hard media links
-> > between CSI subdevice and VI video device without device graphs.
-> >=20
-> > v4l2-compliance results are available below the patch diff.
-> >=20
-> > [v0]:	Includes,
-> > 	- Adds CSI TPG clock to Tegra210 clock driver
-> > 	- Host1x video driver with VI and CSI clients.
-> > 	- Support for Tegra210 only.
-> > 	- VI CSI TPG support with hard media links in driver.
-> > 	- Video formats supported by Tegra210 VI
-> > 	- CSI TPG supported video formats
->=20
-> I'm trying to compile this patch series using the media_tree master
-> branch (https://git.linuxtv.org//media_tree.git), but it fails:
->=20
-> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98tegra_c=
-hannel_queue_setup=E2=80=99:
-> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variab=
-le =E2=80=98count=E2=80=99 [-Wunused-variable]
->    71 |  unsigned int count =3D *nbuffers;
->       |               ^~~~~
-> drivers/staging/media/tegra/tegra-channel.c: In function =E2=80=98tegra_c=
-hannel_init=E2=80=99:
-> drivers/staging/media/tegra/tegra-channel.c:518:55: error: =E2=80=98struc=
-t host1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   518 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.host);
->       |                                                       ^
-> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/teg=
-ra-channel.o] Error 1
-> make[4]: *** Waiting for unfinished jobs....
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_tpg=
-_graph_init=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:157:55: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   157 |  struct tegra_camera *cam =3D dev_get_drvdata(vi->client.host);
->       |                                                       ^
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_ini=
-t=E2=80=99:
-> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_csi_i=
-nit=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:213:51: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   213 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
-> drivers/staging/media/tegra/tegra-csi.c:259:51: error: =E2=80=98struct ho=
-st1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   259 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
-> drivers/staging/media/tegra/tegra-vi.c: In function =E2=80=98tegra_vi_exi=
-t=E2=80=99:
-> drivers/staging/media/tegra/tegra-vi.c:246:51: error: =E2=80=98struct hos=
-t1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   246 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
-> drivers/staging/media/tegra/tegra-csi.c: In function =E2=80=98tegra_csi_e=
-xit=E2=80=99:
-> drivers/staging/media/tegra/tegra-csi.c:286:51: error: =E2=80=98struct ho=
-st1x_client=E2=80=99 has no member named =E2=80=98host=E2=80=99
->   286 |  struct tegra_camera *cam =3D dev_get_drvdata(client->host);
->       |                                                   ^~
->=20
-> And indeed, struct host1x_client as defined in include/linux/host1x.h doe=
-sn't
-> have a 'host' field.
->=20
-> Does this series depend on another patch that's not yet in mainline?
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index c7525d951e92..e7995cbd55c1 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -210,6 +210,8 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (!core->res)
+ 		return -ENODEV;
+ 
++	mutex_init(&core->pm_lock);
++
+ 	core->pm_ops = venus_pm_get(core->res->hfi_version);
+ 	if (!core->pm_ops)
+ 		return -ENODEV;
+@@ -336,6 +338,7 @@ static int venus_remove(struct platform_device *pdev)
+ 	icc_put(core->cpucfg_path);
+ 
+ 	v4l2_device_unregister(&core->v4l2_dev);
++	mutex_destroy(&core->pm_lock);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 55bdeda780bc..75b869c095b4 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -128,6 +128,7 @@ struct venus_caps {
+  * @error:	an error returned during last HFI sync operations
+  * @sys_error:	an error flag that signal system error event
+  * @core_ops:	the core operations
++ * @pm_lock:	a lock for PM operations
+  * @enc_codecs:	encoders supported by this core
+  * @dec_codecs:	decoders supported by this core
+  * @max_sessions_supported:	holds the maximum number of sessions
+@@ -168,6 +169,7 @@ struct venus_core {
+ 	bool sys_error;
+ 	const struct hfi_core_ops *core_ops;
+ 	const struct venus_pm_ops *pm_ops;
++	struct mutex pm_lock;
+ 	unsigned long enc_codecs;
+ 	unsigned long dec_codecs;
+ 	unsigned int max_sessions_supported;
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 4997ae294312..e7e97779bc68 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -545,6 +545,64 @@ static const struct v4l2_ioctl_ops vdec_ioctl_ops = {
+ 	.vidioc_decoder_cmd = vdec_decoder_cmd,
+ };
+ 
++static int vdec_pm_get(struct venus_inst *inst)
++{
++	struct venus_core *core = inst->core;
++	struct device *dev = core->dev_dec;
++	int ret;
++
++	mutex_lock(&core->pm_lock);
++	ret = pm_runtime_get_sync(dev);
++	mutex_unlock(&core->pm_lock);
++
++	return ret < 0 ? ret : 0;
++}
++
++static int vdec_pm_put(struct venus_inst *inst, bool autosuspend)
++{
++	struct venus_core *core = inst->core;
++	struct device *dev = core->dev_dec;
++	int ret;
++
++	mutex_lock(&core->pm_lock);
++
++	if (autosuspend)
++		ret = pm_runtime_put_autosuspend(dev);
++	else
++		ret = pm_runtime_put_sync(dev);
++
++	mutex_unlock(&core->pm_lock);
++
++	return ret < 0 ? ret : 0;
++}
++
++static int vdec_pm_get_put(struct venus_inst *inst)
++{
++	struct venus_core *core = inst->core;
++	struct device *dev = core->dev_dec;
++	int ret = 0;
++
++	mutex_lock(&core->pm_lock);
++
++	if (pm_runtime_suspended(dev)) {
++		ret = pm_runtime_get_sync(dev);
++		if (ret < 0)
++			goto error;
++
++		ret = pm_runtime_put_autosuspend(dev);
++	}
++
++error:
++	mutex_unlock(&core->pm_lock);
++
++	return ret < 0 ? ret : 0;
++}
++
++static void vdec_pm_touch(struct venus_inst *inst)
++{
++	pm_runtime_mark_last_busy(inst->core->dev_dec);
++}
++
+ static int vdec_set_properties(struct venus_inst *inst)
+ {
+ 	struct vdec_controls *ctr = &inst->controls.dec;
+@@ -746,11 +804,19 @@ static int vdec_queue_setup(struct vb2_queue *q,
+ 		return 0;
+ 	}
+ 
+-	ret = vdec_session_init(inst);
++	ret = vdec_pm_get(inst);
+ 	if (ret)
+ 		return ret;
+ 
++	ret = vdec_session_init(inst);
++	if (ret)
++		goto put_power;
++
+ 	ret = vdec_num_buffers(inst, &in_num, &out_num);
++	if (ret)
++		goto put_power;
++
++	ret = vdec_pm_put(inst, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -786,6 +852,10 @@ static int vdec_queue_setup(struct vb2_queue *q,
+ 	}
+ 
+ 	return ret;
++
++put_power:
++	vdec_pm_put(inst, false);
++	return ret;
+ }
+ 
+ static int vdec_verify_conf(struct venus_inst *inst)
+@@ -947,14 +1017,23 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 
+ 	mutex_lock(&inst->lock);
+ 
+-	ret = venus_pm_acquire_core(inst);
+-	if (ret)
+-		return ret;
+-
+-	if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++	if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+ 		ret = vdec_start_capture(inst);
+-	else
++	} else {
++		ret = vdec_pm_get(inst);
++		if (ret)
++			goto error;
++
++		ret = venus_pm_acquire_core(inst);
++		if (ret)
++			goto put_power;
++
++		ret = vdec_pm_put(inst, true);
++		if (ret)
++			goto error;
++
+ 		ret = vdec_start_output(inst);
++	}
+ 
+ 	if (ret)
+ 		goto error;
+@@ -962,6 +1041,8 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	mutex_unlock(&inst->lock);
+ 	return 0;
+ 
++put_power:
++	vdec_pm_put(inst, false);
+ error:
+ 	venus_helper_buffers_done(inst, VB2_BUF_STATE_QUEUED);
+ 	mutex_unlock(&inst->lock);
+@@ -1055,8 +1136,9 @@ static void vdec_session_release(struct venus_inst *inst)
+ 	struct venus_core *core = inst->core;
+ 	int ret, abort = 0;
+ 
+-	mutex_lock(&inst->lock);
++	vdec_pm_get(inst);
+ 
++	mutex_lock(&inst->lock);
+ 	inst->codec_state = VENUS_DEC_STATE_DEINIT;
+ 
+ 	ret = hfi_session_stop(inst);
+@@ -1078,10 +1160,11 @@ static void vdec_session_release(struct venus_inst *inst)
+ 
+ 	venus_helper_free_dpb_bufs(inst);
+ 	venus_pm_load_scale(inst);
+-	venus_pm_release_core(inst);
+ 	INIT_LIST_HEAD(&inst->registeredbufs);
+-
+ 	mutex_unlock(&inst->lock);
++
++	venus_pm_release_core(inst);
++	vdec_pm_put(inst, false);
+ }
+ 
+ static int vdec_buf_init(struct vb2_buffer *vb)
+@@ -1102,6 +1185,15 @@ static void vdec_buf_cleanup(struct vb2_buffer *vb)
+ 		vdec_session_release(inst);
+ }
+ 
++static void vdec_vb2_buf_queue(struct vb2_buffer *vb)
++{
++	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
++
++	vdec_pm_get_put(inst);
++
++	venus_helper_vb2_buf_queue(vb);
++}
++
+ static const struct vb2_ops vdec_vb2_ops = {
+ 	.queue_setup = vdec_queue_setup,
+ 	.buf_init = vdec_buf_init,
+@@ -1109,7 +1201,7 @@ static const struct vb2_ops vdec_vb2_ops = {
+ 	.buf_prepare = venus_helper_vb2_buf_prepare,
+ 	.start_streaming = vdec_start_streaming,
+ 	.stop_streaming = vdec_stop_streaming,
+-	.buf_queue = venus_helper_vb2_buf_queue,
++	.buf_queue = vdec_vb2_buf_queue,
+ };
+ 
+ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+@@ -1121,6 +1213,8 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+ 	struct vb2_buffer *vb;
+ 	unsigned int type;
+ 
++	vdec_pm_touch(inst);
++
+ 	if (buf_type == HFI_BUFFER_INPUT)
+ 		type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+ 	else
+@@ -1227,6 +1321,8 @@ static void vdec_event_notify(struct venus_inst *inst, u32 event,
+ 	struct venus_core *core = inst->core;
+ 	struct device *dev = core->dev_dec;
+ 
++	vdec_pm_touch(inst);
++
+ 	switch (event) {
+ 	case EVT_SESSION_ERROR:
+ 		inst->session_error = true;
+@@ -1347,13 +1443,9 @@ static int vdec_open(struct file *file)
+ 	init_waitqueue_head(&inst->reconf_wait);
+ 	venus_helper_init_instance(inst);
+ 
+-	ret = pm_runtime_get_sync(core->dev_dec);
+-	if (ret < 0)
+-		goto err_free_inst;
+-
+ 	ret = vdec_ctrl_init(inst);
+ 	if (ret)
+-		goto err_put_sync;
++		goto err_free;
+ 
+ 	ret = hfi_session_create(inst, &vdec_hfi_ops);
+ 	if (ret)
+@@ -1392,9 +1484,7 @@ static int vdec_open(struct file *file)
+ 	hfi_session_destroy(inst);
+ err_ctrl_deinit:
+ 	vdec_ctrl_deinit(inst);
+-err_put_sync:
+-	pm_runtime_put_sync(core->dev_dec);
+-err_free_inst:
++err_free:
+ 	kfree(inst);
+ 	return ret;
+ }
+@@ -1403,6 +1493,8 @@ static int vdec_close(struct file *file)
+ {
+ 	struct venus_inst *inst = to_inst(file);
+ 
++	vdec_pm_get(inst);
++
+ 	v4l2_m2m_ctx_release(inst->m2m_ctx);
+ 	v4l2_m2m_release(inst->m2m_dev);
+ 	vdec_ctrl_deinit(inst);
+@@ -1411,7 +1503,7 @@ static int vdec_close(struct file *file)
+ 	v4l2_fh_del(&inst->fh);
+ 	v4l2_fh_exit(&inst->fh);
+ 
+-	pm_runtime_put_sync(inst->core->dev_dec);
++	vdec_pm_put(inst, false);
+ 
+ 	kfree(inst);
+ 	return 0;
+@@ -1468,6 +1560,8 @@ static int vdec_probe(struct platform_device *pdev)
+ 	core->dev_dec = dev;
+ 
+ 	video_set_drvdata(vdev, core);
++	pm_runtime_set_autosuspend_delay(dev, 2000);
++	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_enable(dev);
+ 
+ 	return 0;
+-- 
+2.17.1
 
-Sowjanya's been working on top of linux-next, so, yes, this patch
-depends on a change that's been merged into the DRM tree for v5.6-rc1.
-
-Thierry
-
---G4iJoqBmSsgzjUCe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl4y+XIACgkQ3SOs138+
-s6FAZA//cpCNsEQU8gEHAU0CjI4DzvBc1qaYpfV6h43+F3Yray8ifipc/2NH66wY
-QUfBqh14a7p01FH/E2Y/aI01fJO62p7TN/vpTSJj7IkznUTIRDoBwSGU4AGwIHnU
-GTSjcYbv247B1aD1zZdG7T8xVN6qoCyVostAQz4LQJGm/wlalTlHbjvhnxXIFgAm
-tcZWT0dz7AEct7cStf5FbbfUe/3Q7YUPD/VofigxjL1QHiLrD9GlSHk4HSW2BUq+
-rrYI+raXFfVyE615KDqmZRcar9D/jVWdIqkn352u7M0G7te3JNkvwGujV7CuiS6B
-I/7E+QOG+r+gPR7TjLrZETkqbpaJZlhlYE2/V/GEWMavezU6yxuRnNkLH058lZ1I
-BJ+m/Elc4wOu9i1Y0JvlZgtChSGekGkjv/h0Doc2M/82l0OfbWJ0SGUudc0SeFtw
-eL65CkD7JaWTcamAzMmlpZAO7KulHW5bNhU9NnYL/lYt30OS2I2clqK2bgAKS3G4
-qyIOdqDaxmxkiOl4YTR+jGu1HTTpLvD9UxaV0Xk1tZ40X1AvapdG+cLogvV4LLrr
-8jvUw0vkEjDg6qwQ8gFs3zAG6Zn2rgbSwNb8tOUw0tR15FWM7ti7P0Ldaep2LT2T
-2qQF+D4XPiA5U5iL6jne6eRwZ1/n1aNpH2YsCgq1PfJFofV0nII=
-=5dmL
------END PGP SIGNATURE-----
-
---G4iJoqBmSsgzjUCe--
