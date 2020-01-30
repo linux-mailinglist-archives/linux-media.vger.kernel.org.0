@@ -2,72 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0710F14DBB9
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2020 14:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0B6F14DCEF
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2020 15:42:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727493AbgA3N2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jan 2020 08:28:09 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:36612 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727374AbgA3N2J (ORCPT
+        id S1727417AbgA3Ol5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Jan 2020 09:41:57 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:34339 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726902AbgA3Ol5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jan 2020 08:28:09 -0500
-Received: by mail-pj1-f65.google.com with SMTP id gv17so1348714pjb.1
-        for <linux-media@vger.kernel.org>; Thu, 30 Jan 2020 05:28:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3+dnnJlFLJDqbfnfVt6k7EuQBbUDCTaKWM3eh34/sqc=;
-        b=WBnLwvsjbkTYkSnUK0ZHOfgEq05GQf5u3yfa6ZwcF2yePXR43huMhYm5ek95Z6hiMi
-         PBz/2eWqQhxsv/aJp6zDtcWAXX+ZFE7fDxYKei1I3JNuymuzh+VdFN63KTO6uhtT2o1+
-         rkXs8IcMHu7AueVZBINyZXxMF/GtFslbqinrUszoR0c1gVn6jazCHemvibZ5yY/xnd9f
-         m8zPhOp1QB/+w9stDDlLZia9BYJgTTQcttacYeTv/GlTaPC8T/AqaIC7pRkOL5n8Hrsg
-         +1K5h8tOYYvOOF86icrzBwIqfDRlEM/SA1FQRnL7iTuoSlT+LJ/NZxeCui8n2e2KixRR
-         DnEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3+dnnJlFLJDqbfnfVt6k7EuQBbUDCTaKWM3eh34/sqc=;
-        b=ANLaMg8BWMSEzB4E4sQ8dfSKvTO9ZBQ05O2eBY7hoYXb/ITV6Zoe18G2ox5biJkFcd
-         x0QYqP/KEZrsM9S8V7g+PcTFcne3MHar6L4ku2vXtJ6iad8yUrdKTIClgFnb4rqnfbjU
-         XdHGVS6e1PbOXbN+8jjX7ZEqmiJVMpYAJAJ61ddRLIzIUm0eUyxMQNl0eR8SwFg52UuA
-         ddCC2PuayhJpZH9Mk5SvS0w5jkT0NJX3WKc6YX0fd6Fp4f408gecjTqbfB2dm5qOyJaM
-         zFM9MsyAstG/MW3EdBU5NNpLOQIS+BHjJSMfetk+y9nB53EQin2x1VYuQi5T9inLDR45
-         JQ5A==
-X-Gm-Message-State: APjAAAUXumdatlTYImBxyoqmLHYydHchbMra0Ias1GIS67MZXBQS1QsF
-        bx7SBj0on7O6wPGpZUQryzUAIAM8wF7xFKmlXQbcmFvlNYK7IQ==
-X-Google-Smtp-Source: APXvYqyYDjeeEvmYvCRfnkzkbvcNoJS5fx0Ctp6tujJDhbCMWpnyi1wIVxXLTnfD3l83b2LJMNc3ycjoDdKRe2OvQE8=
-X-Received: by 2002:a17:90a:b10b:: with SMTP id z11mr6113871pjq.132.1580390888461;
- Thu, 30 Jan 2020 05:28:08 -0800 (PST)
+        Thu, 30 Jan 2020 09:41:57 -0500
+Received: from [IPv6:2001:420:44c1:2577:91db:5aec:4999:a214]
+ ([IPv6:2001:420:44c1:2577:91db:5aec:4999:a214])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id xB0wi8DaDn7E5xB10ihO2H; Thu, 30 Jan 2020 15:41:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580395314; bh=QnPaP0j7tU+614rpIwXLpxlJdA4DU0xJ3ZxN1G79ADQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=r75JM9pRExf82CZ7FTBGlvkFhPkPpCm2DkdDJINO6iJLHjtBlgmFv1Cb74Y4xU1HN
+         5j+JSYi9g1tRZeqf/i7OM7IWlauH0nRLUzf4RRH7Ak064pkFjkAETMb9YMWxqNnerj
+         Xq8asYxF8w2DfV3MM0LpaztPE65XxDhvBLat//JhmNq3OMXhdCrs9c3CdrhNx7nBZr
+         zSnMiyirRNlq6PratqnuLv0kpm1MFxIDyqsrbx03Hppe6Lc60YNP8qriaTUr+vLA3H
+         XBun4lMMYIk4G/Of9cUwzOKulAqDHCVd6ArajwBXxWQ8o/LXYZ7UGjDxnSlmtwaptf
+         +vsndPF+uLtsg==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
+Date:   Thu, 30 Jan 2020 15:41:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200130083156.10959-1-sakari.ailus@linux.intel.com>
-In-Reply-To: <20200130083156.10959-1-sakari.ailus@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 30 Jan 2020 15:28:00 +0200
-Message-ID: <CAHp75Vc8hXZC_Doh5x-1vrtR9DE=jjBRcoEN9Y210V-HFq=1Gg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: Fix ti-vpe binding file line
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfN+R3ebeiMNb2jJ1P75j291PEX7Nx0Vzuu5rpXhX/cJ38nUz/4cnLiRCfwVJYfJCp/PkuNx0rQWRF/xNAiuZxjbGS1z51MggWPtc4+dtx+wXvGHWJJKu
+ cyfZmlbdcWigV2+QEOY+HCeV/V34tI23h763YO8GoG2/NECw0Neg+njWR/4eurtljC2w5qduoYwUDJ4JlT5BCsXEzix3dUiZsqdYgpq15Jr6evsknO11Lc9/
+ ZhKgWLbF4iGzuTUG6BqLqGc0F2MlCvBBltw5wI9DSDwcd4m+VQAMibmVIfJrniLo3mRCV+A5Saceg9UlQNa26uTo7q/BVZWJA6WodoTqS/ySvEOfSbjufqUT
+ 2mG55hSvr7OJbhx1Y4g8iugiAB4nojbnAKFx7eAKAicO8xqLeO+qWiI/Zk4V44ywXScsZdieB2CA92LkRmjnbC/xJPdzqGk+QTUyYuS7U/Sk6ybPJ/TA1pxb
+ 8MWxU5lkx88SLfdOppp29RZAkVnbvNicF38sw5TAiu5TmtLBp4hl397SG8C1xNC0eUE1J9m7YyMpygeCX04Kv00Ns5mEN7cJLTOIghbfUwZP3hDtVC36H0BW
+ znA=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 30, 2020 at 10:33 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Add "F:" prefix to the ti,cal.yaml line to tell it's a file.
+Hi Sowjanya,
 
-Thanks.
-I meant yesterday off-line that there is my patch [1] already. Sorry
-for the confusion.
+On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
+> This series adds Tegra210 VI and CSI driver for built-in test pattern
+> generator (TPG) capture.
+> 
+> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+> CSI port is one-to-one mapped to VI channel for video capture.
+> 
+> This series has TPG support only where it creates hard media links
+> between CSI subdevice and VI video device without device graphs.
+> 
+> v4l2-compliance results are available below the patch diff.
+> 
+> [v0]:	Includes,
+> 	- Adds CSI TPG clock to Tegra210 clock driver
+> 	- Host1x video driver with VI and CSI clients.
+> 	- Support for Tegra210 only.
+> 	- VI CSI TPG support with hard media links in driver.
+> 	- Video formats supported by Tegra210 VI
+> 	- CSI TPG supported video formats
 
-[1]: https://lore.kernel.org/linux-media/20200128145828.74161-1-andriy.shevchenko@linux.intel.com/
+I'm trying to compile this patch series using the media_tree master
+branch (https://git.linuxtv.org//media_tree.git), but it fails:
 
--- 
-With Best Regards,
-Andy Shevchenko
+drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_queue_setup’:
+drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variable ‘count’ [-Wunused-variable]
+   71 |  unsigned int count = *nbuffers;
+      |               ^~~~~
+drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_init’:
+drivers/staging/media/tegra/tegra-channel.c:518:55: error: ‘struct host1x_client’ has no member named ‘host’
+  518 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+      |                                                       ^
+make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/tegra-channel.o] Error 1
+make[4]: *** Waiting for unfinished jobs....
+drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_tpg_graph_init’:
+drivers/staging/media/tegra/tegra-vi.c:157:55: error: ‘struct host1x_client’ has no member named ‘host’
+  157 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+      |                                                       ^
+drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_init’:
+drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_init’:
+drivers/staging/media/tegra/tegra-vi.c:213:51: error: ‘struct host1x_client’ has no member named ‘host’
+  213 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+      |                                                   ^~
+drivers/staging/media/tegra/tegra-csi.c:259:51: error: ‘struct host1x_client’ has no member named ‘host’
+  259 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+      |                                                   ^~
+drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_exit’:
+drivers/staging/media/tegra/tegra-vi.c:246:51: error: ‘struct host1x_client’ has no member named ‘host’
+  246 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+      |                                                   ^~
+drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_exit’:
+drivers/staging/media/tegra/tegra-csi.c:286:51: error: ‘struct host1x_client’ has no member named ‘host’
+  286 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+      |                                                   ^~
+
+And indeed, struct host1x_client as defined in include/linux/host1x.h doesn't
+have a 'host' field.
+
+Does this series depend on another patch that's not yet in mainline?
+
+Regards,
+
+	Hans
