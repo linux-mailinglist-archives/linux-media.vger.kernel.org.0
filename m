@@ -2,195 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA5BD14F4B9
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2020 23:28:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2965A14F511
+	for <lists+linux-media@lfdr.de>; Sat,  1 Feb 2020 00:10:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbgAaW2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jan 2020 17:28:11 -0500
-Received: from mail-io1-f72.google.com ([209.85.166.72]:34603 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbgAaW2L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jan 2020 17:28:11 -0500
-Received: by mail-io1-f72.google.com with SMTP id n26so5182787ioj.1
-        for <linux-media@vger.kernel.org>; Fri, 31 Jan 2020 14:28:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=5B68+vvIFrGZB5dZHD9aKL02/REdWE2ue6OLEqd5GIo=;
-        b=rtcVReRygx+lb9iSrhDiH9zQmLonZWq8Q0rJNzxrkRtcfLFlQe1UheoZJVXSwctdzH
-         bK07e2BWR710j8mTuvKB7+a9nt8Mfb2M1Xh0wwiVXsgqVipBzxDmmXxahkEAUnrjWr4E
-         xiwq1D4XpKuH1K/8JwI+PD8etxYeEqLn/mlKrj2qbkhE2VydTEDWuoFtfBJZkitKILJ9
-         YO2lbbcdVHXrzyLsYkQlnyUbUrNy+lMeCOxHsMrplJvx1VU0g+0QJXQ+euG8e5F6CVOw
-         GyI5vZkeVOULTIOTC+8EwTqi5Md52R7UXGVVT/bPlHENN22tNTb2RptwgwigBQhI4Ksn
-         X8uA==
-X-Gm-Message-State: APjAAAV5EORaGUy0mSRqqmlEItcPJw2J4tlERSUABWEZC4WHGO1th6nW
-        VcYgUo+PtdGxd/TmF/z4ZT4Yu9ROK0Tz7LMtAgI6jkjNeA6r
-X-Google-Smtp-Source: APXvYqxrv66HRZinoVaMmRBfdlvIaAIba0Z5eTuqAXnZ36pho/UItrEKmYY1vlBsYBtWk3pht/SsmDfplF5M/bY9gYPTMQcquGSl
-MIME-Version: 1.0
-X-Received: by 2002:a6b:b606:: with SMTP id g6mr10850574iof.114.1580509690734;
- Fri, 31 Jan 2020 14:28:10 -0800 (PST)
-Date:   Fri, 31 Jan 2020 14:28:10 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ae2f81059d7716b8@google.com>
-Subject: KASAN: use-after-free Read in vgem_gem_dumb_create
-From:   syzbot <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com>
-To:     airlied@linux.ie, alexander.deucher@amd.com,
-        amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
-        christian.koenig@amd.com, daniel@ffwll.ch, davem@davemloft.net,
-        dri-devel@lists.freedesktop.org, emil.velikov@collabora.com,
-        eric@anholt.net, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, robdclark@chromium.org,
-        seanpaul@chromium.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        id S1727391AbgAaXKE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jan 2020 18:10:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46214 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727388AbgAaXKE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 Jan 2020 18:10:04 -0500
+Subject: Re: [GIT PULL for v5.6-rc1] media updates
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580512204;
+        bh=/4lGO12f5eXg1wUlViSfevjuU3JmcgJpY4vIImfZNG8=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=0bVRPlipS1E4vCcBCcV8PtPYgWRzx+FD7bbOvFT5ZIXBVPYdprbKjU4vSeTuwvble
+         KKwtxAz/S2BXImIgYrexMf6YAJWN3d3JXOWz72t82A58yAcUEs4lYokDLLo6AwkguX
+         QACXRPTF/h53dMlO9jM0uBo7WdRN9zLMsp6eenO0=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200131164922.7b105df7@kernel.org>
+References: <20200131164922.7b105df7@kernel.org>
+X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200131164922.7b105df7@kernel.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
+ tags/media/v5.6-1
+X-PR-Tracked-Commit-Id: 1697d98124819aab09b86602978bd4f50e101e2d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 846de71bedefb530461ee70ec82f7c810ef14e59
+Message-Id: <158051220392.10603.11381217102247578315.pr-tracker-bot@kernel.org>
+Date:   Fri, 31 Jan 2020 23:10:03 +0000
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The pull request you sent on Fri, 31 Jan 2020 16:49:22 +0100:
 
-syzbot found the following crash on:
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.6-1
 
-HEAD commit:    39bed42d Merge tag 'for-linus-hmm' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=179465bee00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2646535f8818ae25
-dashboard link: https://syzkaller.appspot.com/bug?extid=0dc4444774d419e916c8
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16251279e00000
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/846de71bedefb530461ee70ec82f7c810ef14e59
 
-The bug was bisected to:
+Thank you!
 
-commit 7611750784664db46d0db95631e322aeb263dde7
-Author: Alex Deucher <alexander.deucher@amd.com>
-Date:   Wed Jun 21 16:31:41 2017 +0000
-
-    drm/amdgpu: use kernel is_power_of_2 rather than local version
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11628df1e00000
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=13628df1e00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=15628df1e00000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com
-Fixes: 761175078466 ("drm/amdgpu: use kernel is_power_of_2 rather than local version")
-
-==================================================================
-BUG: KASAN: use-after-free in vgem_gem_dumb_create+0x238/0x250 drivers/gpu/drm/vgem/vgem_drv.c:221
-Read of size 8 at addr ffff88809fa67908 by task syz-executor.0/14871
-
-CPU: 0 PID: 14871 Comm: syz-executor.0 Not tainted 5.5.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x197/0x210 lib/dump_stack.c:118
- print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
- __kasan_report.cold+0x1b/0x32 mm/kasan/report.c:506
- kasan_report+0x12/0x20 mm/kasan/common.c:639
- __asan_report_load8_noabort+0x14/0x20 mm/kasan/generic_report.c:135
- vgem_gem_dumb_create+0x238/0x250 drivers/gpu/drm/vgem/vgem_drv.c:221
- drm_mode_create_dumb+0x282/0x310 drivers/gpu/drm/drm_dumb_buffers.c:94
- drm_mode_create_dumb_ioctl+0x26/0x30 drivers/gpu/drm/drm_dumb_buffers.c:100
- drm_ioctl_kernel+0x244/0x300 drivers/gpu/drm/drm_ioctl.c:786
- drm_ioctl+0x54e/0xa60 drivers/gpu/drm/drm_ioctl.c:886
- vfs_ioctl fs/ioctl.c:47 [inline]
- ksys_ioctl+0x123/0x180 fs/ioctl.c:747
- __do_sys_ioctl fs/ioctl.c:756 [inline]
- __se_sys_ioctl fs/ioctl.c:754 [inline]
- __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
- do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x45b349
-Code: ad b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 7b b6 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f871af46c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f871af476d4 RCX: 000000000045b349
-RDX: 0000000020000180 RSI: 00000000c02064b2 RDI: 0000000000000003
-RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000ffffffff
-R13: 0000000000000285 R14: 00000000004d14d0 R15: 000000000075bf2c
-
-Allocated by task 14871:
- save_stack+0x23/0x90 mm/kasan/common.c:72
- set_track mm/kasan/common.c:80 [inline]
- __kasan_kmalloc mm/kasan/common.c:513 [inline]
- __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:486
- kasan_kmalloc+0x9/0x10 mm/kasan/common.c:527
- kmem_cache_alloc_trace+0x158/0x790 mm/slab.c:3551
- kmalloc include/linux/slab.h:556 [inline]
- kzalloc include/linux/slab.h:670 [inline]
- __vgem_gem_create+0x49/0x100 drivers/gpu/drm/vgem/vgem_drv.c:165
- vgem_gem_create drivers/gpu/drm/vgem/vgem_drv.c:194 [inline]
- vgem_gem_dumb_create+0xd7/0x250 drivers/gpu/drm/vgem/vgem_drv.c:217
- drm_mode_create_dumb+0x282/0x310 drivers/gpu/drm/drm_dumb_buffers.c:94
- drm_mode_create_dumb_ioctl+0x26/0x30 drivers/gpu/drm/drm_dumb_buffers.c:100
- drm_ioctl_kernel+0x244/0x300 drivers/gpu/drm/drm_ioctl.c:786
- drm_ioctl+0x54e/0xa60 drivers/gpu/drm/drm_ioctl.c:886
- vfs_ioctl fs/ioctl.c:47 [inline]
- ksys_ioctl+0x123/0x180 fs/ioctl.c:747
- __do_sys_ioctl fs/ioctl.c:756 [inline]
- __se_sys_ioctl fs/ioctl.c:754 [inline]
- __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
- do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-Freed by task 14871:
- save_stack+0x23/0x90 mm/kasan/common.c:72
- set_track mm/kasan/common.c:80 [inline]
- kasan_set_free_info mm/kasan/common.c:335 [inline]
- __kasan_slab_free+0x102/0x150 mm/kasan/common.c:474
- kasan_slab_free+0xe/0x10 mm/kasan/common.c:483
- __cache_free mm/slab.c:3426 [inline]
- kfree+0x10a/0x2c0 mm/slab.c:3757
- vgem_gem_free_object+0xbe/0xe0 drivers/gpu/drm/vgem/vgem_drv.c:68
- drm_gem_object_free+0x100/0x220 drivers/gpu/drm/drm_gem.c:983
- kref_put include/linux/kref.h:65 [inline]
- drm_gem_object_put_unlocked drivers/gpu/drm/drm_gem.c:1017 [inline]
- drm_gem_object_put_unlocked+0x196/0x1c0 drivers/gpu/drm/drm_gem.c:1002
- vgem_gem_create drivers/gpu/drm/vgem/vgem_drv.c:199 [inline]
- vgem_gem_dumb_create+0x115/0x250 drivers/gpu/drm/vgem/vgem_drv.c:217
- drm_mode_create_dumb+0x282/0x310 drivers/gpu/drm/drm_dumb_buffers.c:94
- drm_mode_create_dumb_ioctl+0x26/0x30 drivers/gpu/drm/drm_dumb_buffers.c:100
- drm_ioctl_kernel+0x244/0x300 drivers/gpu/drm/drm_ioctl.c:786
- drm_ioctl+0x54e/0xa60 drivers/gpu/drm/drm_ioctl.c:886
- vfs_ioctl fs/ioctl.c:47 [inline]
- ksys_ioctl+0x123/0x180 fs/ioctl.c:747
- __do_sys_ioctl fs/ioctl.c:756 [inline]
- __se_sys_ioctl fs/ioctl.c:754 [inline]
- __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:754
- do_syscall_64+0xfa/0x790 arch/x86/entry/common.c:294
- entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-The buggy address belongs to the object at ffff88809fa67800
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 264 bytes inside of
- 1024-byte region [ffff88809fa67800, ffff88809fa67c00)
-The buggy address belongs to the page:
-page:ffffea00027e99c0 refcount:1 mapcount:0 mapping:ffff8880aa400c40 index:0x0
-raw: 00fffe0000000200 ffffea0002293548 ffffea00023e1f08 ffff8880aa400c40
-raw: 0000000000000000 ffff88809fa67000 0000000100000002 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff88809fa67800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88809fa67880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88809fa67900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                      ^
- ffff88809fa67980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88809fa67a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
