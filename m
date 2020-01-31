@@ -2,164 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B69F14E806
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2020 05:56:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7C4214EC17
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2020 12:54:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728041AbgAaE4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Jan 2020 23:56:45 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:56059 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727933AbgAaE4p (ORCPT
+        id S1728474AbgAaLyM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jan 2020 06:54:12 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55706 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728423AbgAaLyM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Jan 2020 23:56:45 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:dc16:4cd0:3fd1:da29])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id xOMDiBAZwn7E5xOMEikpdG; Fri, 31 Jan 2020 05:56:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580446602; bh=I2IDZyTQHM1cWY2T23YShqc2y1q+rjAWGUoD1olhxQ0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=YmA4PzXaiKFLVMOlW6TbcOCs/kfpLqbqNqPipbj7DRkWwnKDb96rbsnsDmzWAtt0x
-         lwMurScM8oBWAji5WOPKCAdoZuc0/jvrClrOxbPtsF2LdBhMAiShMriFKF87CzXVj4
-         i1xkIjU+OThGf/okpW7bJbLQugyZ6EuE1R6OF4hRpIIr33BKnVZfXRohX8FvHhTew9
-         G1OmR8YKDpJbdsDuZNA63T1qS4LH8zDXRPHFmgn+QfBWkAt8q4ilOp+j+WFpAALIsl
-         97Zuy1lYONJU/8ngweWJjEyoLt7L507F8RQyqzshgkubMF5E1mF8PsUTD5WNQT5TbZ
-         eSGJi1PXLYiLA==
-Message-ID: <f843d48ab5ec71b36f75fd9dd39dc467@smtp-cloud8.xs4all.net>
-Date:   Fri, 31 Jan 2020 05:56:41 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfOtxlKw/q9tP3VTYGrJ2viMl61enw3ngagdhcqKXrOx7M+kSVCn3nLzA7lQuIQVzXMAaQpZmCoD2w5msKoHEgDVEYTaHgHUDxJ3F/K3LLWj2Mihr5DCf
- fHdbgYakC4CriIV9YwO/J83xa9kX2+9zUhMFR0viQG7lbD7zwA6BBxxBeySXQM4gljiKa/wSlir4JUuPfjjy/IdkVnR1dDK0eWc4C0oDFFRDC2l8r2ycd48a
+        Fri, 31 Jan 2020 06:54:12 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 27B9E28A964
+Message-ID: <739f60a89646cc92f26e34523cbe8aaab5697351.camel@collabora.com>
+Subject: Re: [PATCH v4 5/6] media: rkvdec: Add the rkvdec driver
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Date:   Fri, 31 Jan 2020 08:53:47 -0300
+In-Reply-To: <20200130171249.3ae0444a@collabora.com>
+References: <20200129195501.8317-1-ezequiel@collabora.com>
+                <20200129195501.8317-6-ezequiel@collabora.com>
+         <20200130171249.3ae0444a@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, 2020-01-30 at 17:12 +0100, Boris Brezillon wrote:
+> On Wed, 29 Jan 2020 16:55:00 -0300
+> Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> 
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> > 
+> > The rockchip vdec block is a stateless decoder that's able to decode
+> > H264, HEVC and VP9 content. This commit adds the core infrastructure
+> > and the H264 backend. Support for VP9 and HEVS will be added later on.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> > v4:
+> > * Make poc tables const, as suggested by Hans
+> > * Move buffer extra space calculation TRY_FMT, as done on Hantro.
+> > * Get rid of vb2_request_get_buf and open-code
+> >   following Cedrus. We can move it to a helper as a follow-up patch.
+> 
+> Well, we know what that means in practice :-).
+> 
 
-Results of the daily build of media_tree:
+Well, not necesarily. I think we can expect a helper soon,
+but it doesn't have to be part of this series :-)
 
-date:			Fri Jan 31 05:00:15 CET 2020
-media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	c4a62f26c5c3ecd856ca10cf2f0d35d100283d7f
-edid-decode git hash:	fa3c8e54967d3e0a3212f850f8801ab17b2bcb1a
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+And perhaps we can find another way to link a media request
+to a vb2 queue, so we don't have to iterate over objects
+like we are doing now?
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+> > new file mode 100644
+> > index 000000000000..1293b3621364
+> > --- /dev/null
+> > +++ b/drivers/staging/media/rkvdec/rkvdec-regs.h
+> > @@ -0,0 +1,239 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Rockchip VPU codec driver
+> > + *
+> > + * Copyright (C) 2015 Rockchip Electronics Co., Ltd.
+> > + *	Jung Zhao <jung.zhao@rock-chips.com>
+> > + *	Alpha Lin <alpha.lin@rock-chips.com>
+> > + *
+> > + * This software is licensed under the terms of the GNU General Public
+> > + * License version 2, as published by the Free Software Foundation, and
+> > + * may be copied, distributed, and modified under those terms.
+> > + *
+> > + * This program is distributed in the hope that it will be useful,
+> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > + * GNU General Public License for more details.
+> > + */
+> 
+> Oops, looks like I forgot to remove the license text here. Also not
+> entirely sure the copyrights are correct (might be a copy from the
+> hantro driver instead of the rkvdec one).
+> 
 
-Detailed results are available here:
+Right.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+> 
+> > diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> > new file mode 100644
+> > index 000000000000..529ef86510d3
+> > --- /dev/null
+> > +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> > @@ -0,0 +1,124 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Hantro VPU codec driver
+> > + *
+> > + * Copyright 2018 Google LLC.
+> > + *	Tomasz Figa <tfiga@chromium.org>
+> > + *
+> > + * Based on s5p-mfc driver by Samsung Electronics Co., Ltd.
+> > + * Copyright (C) 2011 Samsung Electronics Co., Ltd.
+> > + */
+> 
+> This header has been copied from the hantro driver, so it's most likely
+> wrong.
+> 
 
-Detailed regression test results are available here:
+Oh, I totally missed this.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+Thanks for reviewing!
+Ezequiel
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
