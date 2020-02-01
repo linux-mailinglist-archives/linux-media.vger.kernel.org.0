@@ -2,164 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80FC714F678
-	for <lists+linux-media@lfdr.de>; Sat,  1 Feb 2020 05:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A1014F6CC
+	for <lists+linux-media@lfdr.de>; Sat,  1 Feb 2020 06:57:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727035AbgBAE4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jan 2020 23:56:19 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43297 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727025AbgBAE4T (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jan 2020 23:56:19 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:1e7:e47f:3f40:f111])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id xkpLi2clGVuxOxkpMizMGL; Sat, 01 Feb 2020 05:56:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580532976; bh=I0htiFJH5g9xknEcvilYBI9z+XSrRBZFhdXozoopbNw=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=j3v9u3ke+gsXEAlGihaCD0Fg3Z87H6CXHLllJNavl2rIdU3agGwhP/FMpbZTf4ghP
-         4AJvM20NGhlvBtlrTVpZh36GI+y3PvWqmq//bSvuPB6nf6hP4woxIxrj9Je40zYJQi
-         Awdtg3btT4qfxtWgysQJ1G/GxLmTjWsYfI306AAa1z9covuNr9gj9my3Vxmx/JLJ0O
-         KW4idl3+Mu7IOkMqnUJ8X2K+KqNwvYtn6ICYD8iN7y+bYYrYSaO06zk0Ke6bxgmpUn
-         0kzCj5FBYCp6/pFnGAaVgQK11JhnZoYnvDmWldf72efU0OPNO8wCty/yUwdsa2fkAx
-         I+n2wy426lp5w==
-Message-ID: <2b1f026f0685b1c079f3cb8cf96e582e@smtp-cloud7.xs4all.net>
-Date:   Sat, 01 Feb 2020 05:56:15 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfMdRPw7FX9tqENv3oom9UpFaRUwC5zIuCWzlFEfZXK5AbpMv+93Jclfzsa+7BGenijw6MevzgdW0FbQAoO3U75SqzS0dWQSHarDROzSGOS57FlFP1zN+
- w0vGd1wgGCNJMnlKxkMyBBTlkWf+n7KRuhKa7ML8SjRM2lxWVApfPLmee3uTFQX9sV+ND1l/wFTmBpSAqVAgEzaS8F2WDXvumALFo6N5wdLj0u9iRDznoQzX
+        id S1726133AbgBAF5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Feb 2020 00:57:07 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:50950 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726014AbgBAF5H (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Feb 2020 00:57:07 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0115rnjn154505;
+        Sat, 1 Feb 2020 05:56:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=6Y7Q6ylJXc6nIB3cUIivnJdaFcNjADagPIMOpx/zuek=;
+ b=aVAm7YmXkTLAlco7AxLJOCTRaGxTJvZuMseCklfSStqk8bJymtguBvWvIkT1WTf6Uxm7
+ /BMAL100VrjfkSqWjaIqKfDLNM4uiZkfVMHeW1CSIc9mmf0Fde/xKMNJM968yxxjO2S2
+ G1T0k9frPUeGYraJoBFN2PmJ8kzEM9ueMf0N74qyetK5fn099yEcnTvJvk3dVNT5xkY1
+ sg4Akj54b60BYUb719mhSlQMz8ozP4gHZiIC9GPO0fEdfUTn1KsO0Nu2jWZr/Zz/Lie7
+ XrerRwlm1ZaDe/PYwVKcD+5+EH7ZVIzZ7Uy3Tksi/4Kpca0EjZukan42jSop5TRcjl8R Aw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 2xw1yqr7y1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 01 Feb 2020 05:56:37 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 0115mTNl109936;
+        Sat, 1 Feb 2020 05:56:36 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 2xw15wm6kt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sat, 01 Feb 2020 05:56:36 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0115uR75028315;
+        Sat, 1 Feb 2020 05:56:27 GMT
+Received: from kadam (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 31 Jan 2020 21:56:26 -0800
+Date:   Sat, 1 Feb 2020 08:56:12 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     syzbot <syzbot+0dc4444774d419e916c8@syzkaller.appspotmail.com>
+Cc:     airlied@linux.ie, alexander.deucher@amd.com,
+        amd-gfx@lists.freedesktop.org, chris@chris-wilson.co.uk,
+        christian.koenig@amd.com, daniel@ffwll.ch, davem@davemloft.net,
+        dri-devel@lists.freedesktop.org, emil.velikov@collabora.com,
+        eric@anholt.net, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, robdclark@chromium.org,
+        seanpaul@chromium.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: KASAN: use-after-free Read in vgem_gem_dumb_create
+Message-ID: <20200201055612.GF1778@kadam>
+References: <000000000000ae2f81059d7716b8@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000000000000ae2f81059d7716b8@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9517 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2002010040
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9517 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2002010041
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+I don't totally understand the stack trace but I do see a double free
+bug.
 
-Results of the daily build of media_tree:
+drivers/gpu/drm/vgem/vgem_drv.c
+   186  static struct drm_gem_object *vgem_gem_create(struct drm_device *dev,
+   187                                                struct drm_file *file,
+   188                                                unsigned int *handle,
+   189                                                unsigned long size)
+   190  {
+   191          struct drm_vgem_gem_object *obj;
+   192          int ret;
+   193  
+   194          obj = __vgem_gem_create(dev, size);
 
-date:			Sat Feb  1 05:00:14 CET 2020
-media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	c4a62f26c5c3ecd856ca10cf2f0d35d100283d7f
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+obj->base.handle_count is zero.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+   195          if (IS_ERR(obj))
+   196                  return ERR_CAST(obj);
+   197  
+   198          ret = drm_gem_handle_create(file, &obj->base, handle);
 
-Detailed results are available here:
+We bump it +1 and then the error handling calls
+drm_gem_object_handle_put_unlocked(obj);
+which calls drm_gem_object_put_unlocked(); which frees obj.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-Detailed regression test results are available here:
+   199          drm_gem_object_put_unlocked(&obj->base);
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+So this is a double free.  Could someone check my thinking and send
+a patch?  It's just a one liner.  Otherwise I can send it on Monday.
 
-Full logs are available here:
+   200          if (ret)
+   201                  return ERR_PTR(ret);
+   202  
+   203          return &obj->base;
+   204  }
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+regards,
+dan carpenter
