@@ -2,56 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2965A14F511
-	for <lists+linux-media@lfdr.de>; Sat,  1 Feb 2020 00:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80FC714F678
+	for <lists+linux-media@lfdr.de>; Sat,  1 Feb 2020 05:56:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727391AbgAaXKE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 31 Jan 2020 18:10:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46214 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727388AbgAaXKE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 31 Jan 2020 18:10:04 -0500
-Subject: Re: [GIT PULL for v5.6-rc1] media updates
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580512204;
-        bh=/4lGO12f5eXg1wUlViSfevjuU3JmcgJpY4vIImfZNG8=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=0bVRPlipS1E4vCcBCcV8PtPYgWRzx+FD7bbOvFT5ZIXBVPYdprbKjU4vSeTuwvble
-         KKwtxAz/S2BXImIgYrexMf6YAJWN3d3JXOWz72t82A58yAcUEs4lYokDLLo6AwkguX
-         QACXRPTF/h53dMlO9jM0uBo7WdRN9zLMsp6eenO0=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200131164922.7b105df7@kernel.org>
-References: <20200131164922.7b105df7@kernel.org>
-X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200131164922.7b105df7@kernel.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
- tags/media/v5.6-1
-X-PR-Tracked-Commit-Id: 1697d98124819aab09b86602978bd4f50e101e2d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 846de71bedefb530461ee70ec82f7c810ef14e59
-Message-Id: <158051220392.10603.11381217102247578315.pr-tracker-bot@kernel.org>
-Date:   Fri, 31 Jan 2020 23:10:03 +0000
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        id S1727035AbgBAE4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 31 Jan 2020 23:56:19 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43297 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727025AbgBAE4T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 31 Jan 2020 23:56:19 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:1e7:e47f:3f40:f111])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id xkpLi2clGVuxOxkpMizMGL; Sat, 01 Feb 2020 05:56:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580532976; bh=I0htiFJH5g9xknEcvilYBI9z+XSrRBZFhdXozoopbNw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=j3v9u3ke+gsXEAlGihaCD0Fg3Z87H6CXHLllJNavl2rIdU3agGwhP/FMpbZTf4ghP
+         4AJvM20NGhlvBtlrTVpZh36GI+y3PvWqmq//bSvuPB6nf6hP4woxIxrj9Je40zYJQi
+         Awdtg3btT4qfxtWgysQJ1G/GxLmTjWsYfI306AAa1z9covuNr9gj9my3Vxmx/JLJ0O
+         KW4idl3+Mu7IOkMqnUJ8X2K+KqNwvYtn6ICYD8iN7y+bYYrYSaO06zk0Ke6bxgmpUn
+         0kzCj5FBYCp6/pFnGAaVgQK11JhnZoYnvDmWldf72efU0OPNO8wCty/yUwdsa2fkAx
+         I+n2wy426lp5w==
+Message-ID: <2b1f026f0685b1c079f3cb8cf96e582e@smtp-cloud7.xs4all.net>
+Date:   Sat, 01 Feb 2020 05:56:15 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfMdRPw7FX9tqENv3oom9UpFaRUwC5zIuCWzlFEfZXK5AbpMv+93Jclfzsa+7BGenijw6MevzgdW0FbQAoO3U75SqzS0dWQSHarDROzSGOS57FlFP1zN+
+ w0vGd1wgGCNJMnlKxkMyBBTlkWf+n7KRuhKa7ML8SjRM2lxWVApfPLmee3uTFQX9sV+ND1l/wFTmBpSAqVAgEzaS8F2WDXvumALFo6N5wdLj0u9iRDznoQzX
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Fri, 31 Jan 2020 16:49:22 +0100:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.6-1
+Results of the daily build of media_tree:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/846de71bedefb530461ee70ec82f7c810ef14e59
+date:			Sat Feb  1 05:00:14 CET 2020
+media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
+media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
+v4l-utils git hash:	c4a62f26c5c3ecd856ca10cf2f0d35d100283d7f
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Thank you!
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.2-i686: OK
+linux-5.4.2-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
