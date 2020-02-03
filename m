@@ -2,43 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1294D150580
+	by mail.lfdr.de (Postfix) with ESMTP id 8A46A150582
 	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 12:41:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728135AbgBCLlZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 06:41:25 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:41263 "EHLO
+        id S1728060AbgBCLl0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 06:41:26 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39585 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728065AbgBCLlZ (ORCPT
+        by vger.kernel.org with ESMTP id S1728133AbgBCLlZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 3 Feb 2020 06:41:25 -0500
 Received: from tschai.fritz.box ([46.9.235.248])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id ya6RiS69Jn7E5ya6Wi3UGc; Mon, 03 Feb 2020 12:41:24 +0100
+        id ya6RiS69Jn7E5ya6Wi3UGv; Mon, 03 Feb 2020 12:41:24 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580730084; bh=+x+7RnP2PllLF1QdhupoYAPM2J/xKvtBUFN1NCfKBYo=;
+        t=1580730084; bh=RzoblhVgemTQ++qD155dlEe1LD3OMFVWWrKL6XmjYHY=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=V2LcBzAaANSoIJWLTrxsm3EPFwLoWWqfgf0Ti8QYlmbpsStVd2MWpyUtHmi/OI91f
-         XcB0DXbWBs5nqsp9TLuK27aso8KzIh8axTvvPtek6QV29oyK2jsAZ8r58maFxXJrg2
-         ar2dmZ0/I+nm+OwiBLf6oYsI92FWcek8G6XL+i8HTMPUd2o2Va5sF2htxvglLOGwIC
-         QsDLS7FPIEiQ6/NpNH4R05ZQ5AXiRxTCJnNxtQjmcQbTnQV4A41V2O8H2RUPjDtstk
-         ZNWISY0DAvhe7NpWUXe7aWCCBEvVmNsENWiUlTc3x+xucu2BUFhZJiM4QHZxEhlC1l
-         MaEHXREvIkMxA==
+        b=Uu7FsMz2TfUbEoVL5kS61fXMDmm63aTSJjffotwEBKPNs3hoixOapmRbBzndfyJd9
+         fcg3IcFoYHfjTJnPGHjRKGuynK3P1gbqn2aHeYOngX/capPlzgFD0DqkKGR286l2hp
+         ZJRE5RLPDMl+kp2q/Pmfocx8fzaV6ZkLjf9be6wUVkUOW7p29hjyHu8I4ScSlJB8SR
+         B8jLm6dr8GC+eyXTvkXsG1ThmG0e6cEcN8RlnOS23+soLIzmz9E17h5qQIVe6kH3vl
+         U/YGYKyp9qOTpAyPBkzBCmXg++Y1+8ZYngFJDdQiq1dyQIGPjwI22Lkbr7LxTKJwpb
+         ncAokUBhw2kew==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 02/11] gadget: uvc: rename VFL_TYPE_GRABBER to _VIDEO
-Date:   Mon,  3 Feb 2020 12:41:10 +0100
-Message-Id: <20200203114119.1177490-3-hverkuil-cisco@xs4all.nl>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 03/11] bcm2835-camera: rename VFL_TYPE_GRABBER to _VIDEO
+Date:   Mon,  3 Feb 2020 12:41:11 +0100
+Message-Id: <20200203114119.1177490-4-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200203114119.1177490-1-hverkuil-cisco@xs4all.nl>
 References: <20200203114119.1177490-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CMAE-Envelope: MS4wfMYQBx7nC6D3KGDzpS6tqLjATMx7ndUsOT+3rfJyigb0kZdy8hcF589QdhH4omKlqR2++UDGVQ5yWi+dvGWwGhrBql31kNTuqlpDuC13BeeVqJB1Sd+Q
- 5yfkH6xFxvFGEjpoyjZykd33F/wu2J+j7k3HNx8rj7pT4Wy92dJ+ycbrzIc3W4Quw5Zykn29sDaqorFbliS2uEeg4i7n8mYmpo8Z6yQ3RpN0DhBRT33VkPTa
- x6FzErjNhLsJ1AkM+Bq84efDC+WdMnGBb6RWUjG4nJA=
+ 5yfkH6xFxvFGEuiOz7zEKIO0y5zvg86eGhXtfDAUqK6tvT2jM6DCE3V4duULYT5UKAc1CjgDaQLcXEOngLvI6Ky58teA8hz2R194m4sHnTR6m5OIewolSKAD
+ mQrHpjj4MMQNgLzSrK3XL0TH0ULieDDiMvrLqFXkfgASZU9eUnsrakK2Gn70duQKm428k8HeWd1rTw/7mPPMVg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -50,23 +51,24 @@ other types.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/function/f_uvc.c | 2 +-
+ drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index fb0a892687c0..0b9712616455 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -428,7 +428,7 @@ uvc_register_video(struct uvc_device *uvc)
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+index beb6a0063bb8..5f32d856efc9 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+@@ -1773,7 +1773,7 @@ static int bm2835_mmal_init_device(struct bm2835_mmal_dev *dev,
+ 	video_set_drvdata(vfd, dev);
  
- 	video_set_drvdata(&uvc->vdev, uvc);
- 
--	ret = video_register_device(&uvc->vdev, VFL_TYPE_GRABBER, -1);
-+	ret = video_register_device(&uvc->vdev, VFL_TYPE_VIDEO, -1);
+ 	ret = video_register_device(vfd,
+-				    VFL_TYPE_GRABBER,
++				    VFL_TYPE_VIDEO,
+ 				    video_nr[dev->camera_num]);
  	if (ret < 0)
  		return ret;
- 
 -- 
 2.24.0
 
