@@ -2,224 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 334221504F2
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 12:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E31150584
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 12:41:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727936AbgBCLOG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 06:14:06 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:45964 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727722AbgBCLOG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 06:14:06 -0500
-Received: by mail-ed1-f67.google.com with SMTP id v28so15479448edw.12
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 03:14:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+yNuFpCLdENCrOu/6taXbpfMWjpnDOjCp0lZEI0arXY=;
-        b=c27VhUEbZIHiatO2u6kTPbn7uHk+J7oRFhVv+JnEG72EmFdvLo26GFcwMGdFQH3k5g
-         vft0Z3R293XgeV8XluJlhxXIr/aJgqBvCZpB+iiiwc06yUExjRRVAzkOBqBGIdYTpafW
-         WfBk0LNZPyEPCGuXg5ju1klO4hnhfHCGO9vd4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+yNuFpCLdENCrOu/6taXbpfMWjpnDOjCp0lZEI0arXY=;
-        b=Aui4UR9U9RnN5X/FdU6Gr45l7nIAuvwHlMG7+yYH2Tb5GgJ+rFGqfnQNqky2uVeb4F
-         ZqSYchBDnDYJhXe3L9khqghT5z4+jz0PfTvqG0LPohVBrfyxwhS+/Dh7KOVj0IwH+VEh
-         4sYSxIz+iYSSx8NlC8i4tAB4eHkDXvSbirGW4sA3kWnCgIboaqYIJGxbBZiO62DoUFAZ
-         GJUcRBBtoeV78nIfizDWm1xi+ZyEWe3O7GJiJRrMg96qP+cUnGlyC1JeVD9oiQMk/Jw6
-         7EdNiFlQ7VqSIlNl9+UorDpdXKSwmGexstnFcU27g2TNPFcqmWO1Ese7MdvqYTXZlTsG
-         wIDw==
-X-Gm-Message-State: APjAAAUyTS7QGC79In19nES1WJFt54cJil68BXEn+Vvd9pKKRAos6zJg
-        q1PaBQw9Xva/4cBtuJnxW1YHQHOIgqhcvQ==
-X-Google-Smtp-Source: APXvYqymTmgcJm+lnrVQ0VDicJXBHs9CxIIgU4EBd/Cnt6YMMmLAcrN9X1161JsIH8gK5WgYfulsbg==
-X-Received: by 2002:a05:6402:22ca:: with SMTP id dm10mr11293767edb.267.1580728442375;
-        Mon, 03 Feb 2020 03:14:02 -0800 (PST)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id f11sm1047828ejk.62.2020.02.03.03.14.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2020 03:14:01 -0800 (PST)
-Received: by mail-wr1-f44.google.com with SMTP id t2so17509708wrr.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 03:14:01 -0800 (PST)
-X-Received: by 2002:adf:f58a:: with SMTP id f10mr15866458wro.105.1580728441001;
- Mon, 03 Feb 2020 03:14:01 -0800 (PST)
+        id S1728140AbgBCLl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 06:41:27 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:41659 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726244AbgBCLl0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Feb 2020 06:41:26 -0500
+Received: from tschai.fritz.box ([46.9.235.248])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ya6RiS69Jn7E5ya6Vi3UFy; Mon, 03 Feb 2020 12:41:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580730083; bh=qa288T47oYOIgR8jXgmimt/U8AjLyz3ehnYoYyfcegI=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=dfcke5dnVog+I0Ed765mPjVXA0UlxcEubJnckFjPAH1zYBup7qAj0jU+k7i8Zpi7U
+         Zkh1tr+XPShL3x2I5cyxBrE9y6S9PSv9Wzj+eCT/pbUHky8eo1rLH3UFytqhDmO5g3
+         QV0e6X5iY+I89iQAI1lXNTld77rVbD/iEgPsLb82RDbpGvNtw3DTVfO7iJ+FQI8FKd
+         T3M9yArLpmaOBm3+izUqJW4PXHTF7eABwtZr/uD4Ub/SaUx4p8ETzU9PBlUAFcJ69x
+         wJv+dludrAu0c+ToEe7Q82eyNMRXBe2r8ruM36UibHuTGSf6Qj9n7WQu0I3BpuPS3P
+         DqGeQKEEjB2zQ==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 00/11] Rename VFL_TYPE_GRABBER to _VIDEO
+Date:   Mon,  3 Feb 2020 12:41:08 +0100
+Message-Id: <20200203114119.1177490-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20191122051608.128717-1-hiroh@chromium.org> <767528be59275265072896e5c679e97575615fdd.camel@ndufresne.ca>
- <CAAFQd5D3OpAAtX7_0ktz4-aAgWN_G4YBQMR=Vwp7JPopjvRkRA@mail.gmail.com>
- <f5341ed837529bd38d466d4b655e261d64065912.camel@ndufresne.ca>
- <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
- <c88b2822-0dd2-8ea3-eb0b-262df5a30830@xs4all.nl> <8b10414a1c198a6e3bd5e131a72bd6f68466bea5.camel@ndufresne.ca>
-In-Reply-To: <8b10414a1c198a6e3bd5e131a72bd6f68466bea5.camel@ndufresne.ca>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 3 Feb 2020 20:13:48 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AZ1DTtz2myuO9YSwjMaxPme0BDNaOBo97tSHLbm4XWPg@mail.gmail.com>
-Message-ID: <CAAFQd5AZ1DTtz2myuO9YSwjMaxPme0BDNaOBo97tSHLbm4XWPg@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: Support H264 profile control
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@driverdev.osuosl.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfIcJpnlN9m/KZZWXUcA/IPSHeRA+n4UEovjZBDx/LgBH0uK9vSpmYLy/Gp/zhucJMSn9yp7K39IasreQ/iVeHZMoX/3u7hgOP7Y8nDmdRCX3VvvPDse+
+ PI6HKl1RO9IoBAFRztfb5/vQcQU28SsB/0+oqin+uwP2T+7capsOBbxcXJwrcllJxBPR3JPr3CRLVw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jan 18, 2020 at 10:31 PM Nicolas Dufresne <nicolas@ndufresne.ca> wr=
-ote:
->
-> Le vendredi 10 janvier 2020 =C3=A0 13:31 +0100, Hans Verkuil a =C3=A9crit=
- :
-> > On 11/29/19 1:16 AM, Tomasz Figa wrote:
-> > > On Sat, Nov 23, 2019 at 1:52 AM Nicolas Dufresne <nicolas@ndufresne.c=
-a>
-> > > wrote:
-> > > > Le samedi 23 novembre 2019 =C3=A0 01:00 +0900, Tomasz Figa a =C3=A9=
-crit :
-> > > > > On Sat, Nov 23, 2019 at 12:09 AM Nicolas Dufresne <nicolas@ndufre=
-sne.ca>
-> > > > > wrote:
-> > > > > > Le vendredi 22 novembre 2019 =C3=A0 14:16 +0900, Hirokazu Honda=
- a =C3=A9crit :
-> > > > > > > The Hantro G1 decoder supports H.264 profiles from Baseline t=
-o High,
-> > > > > > > with
-> > > > > > > the exception of the Extended profile.
-> > > > > > >
-> > > > > > > Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that =
-the
-> > > > > > > applications can query the driver for the list of supported
-> > > > > > > profiles.
-> > > > > >
-> > > > > > Thanks for this patch. Do you think we could also add the LEVEL
-> > > > > > control
-> > > > > > so the profile/level enumeration becomes complete ?
-> > > > > >
-> > > > > > I'm thinking it would be nice if the v4l2 compliance test make =
-sure
-> > > > > > that codecs do implement these controls (both stateful and stat=
-eless),
-> > > > > > it's essential for stack with software fallback, or multiple ca=
-pable
-> > > > > > codec hardware but with different capabilities.
-> > > > > >
-> > > > >
-> > > > > Level is a difficult story, because it also specifies the number =
-of
-> > > > > macroblocks per second, but for decoders like this the number of
-> > > > > macroblocks per second it can handle depends on things the driver
-> > > > > might be not aware of - clock frequencies, DDR throughput, system
-> > > > > load, etc.
-> > > > >
-> > > > > My take on this is that the decoder driver should advertise the
-> > > > > highest resolution the decoder can handle due to hardware constra=
-ints.
-> > > > > Performance related things depend on the integration details and
-> > > > > should be managed elsewhere. For example Android and Chrome OS ma=
-nage
-> > > > > expected decoding performance in per-board configuration files.
-> > > >
-> > > > When you read datasheet, the HW is always rated to maximum level (a=
-nd
-> > > > it's a range) with the assumption of a single stream. It seems much
-> > > > easier to expose this as-is, statically then to start doing some ma=
-th
-> > > > with data that isn't fully exposed to the user. This is about filte=
-ring
-> > > > of multiple CODEC instances, it does not need to be rocket science,
-> > > > specially that the amount of missing data is important (e.g. usage =
-of
-> > > > tiles, compression, IPP all have an impact on the final performance=
-).
-> > > > All we want to know in userspace is if this HW is even possibly cap=
-able
-> > > > of LEVEL X, and if not, we'll look for another one.
-> > > >
-> > >
-> > > Agreed, one could potentially define it this way, but would it be
-> > > really useful for the userspace and the users? I guess it could enabl=
-e
-> > > slightly faster fallback to software decoding in the extreme case of
-> > > the hardware not supporting the level at all, but I suspect that the
-> > > majority of cases would be the hardware just being unusably slow.
-> > >
-> > > Also, as I mentioned before, we already return the range of supported
-> > > resolutions, which in practice should map to the part of the level
-> > > that may depend on hardware capabilities rather than performance, so
-> > > exposing levels as well would add redundancy to the information
-> > > exposed.
-> >
-> > There is a lot of discussion here, but it all revolves around a potenti=
-al
-> > LEVEL control.
-> >
-> > So I gather everyone is OK with merging this patch?
->
-> I'm ok with this. For me, the level reflects the real time performance
-> capability as define in the spec, while the width/height constraints usua=
-lly
-> represent an addressing capabicity, which may or may not operate real-tim=
-e.
->
+Of all the VFL_TYPE_ enums 'GRABBER' is the only one that does not
+relate to the type of data that will pass through the device.
 
-I'd like to see the level control documentation improved before we
-start adding it to the drivers. I'll be okay with that then as long as
-the values are exposed in a consistent and well defined way. :)
+And 'GRABBER' is also a historical misnomer since these video devices
+can be used for capture, output or memory-to-memory.
 
-As for this patch, Hans, are you going to apply it?
+Rename GRABBER to VIDEO to make it consistent with the other VFL types.
 
-Best regards,
-Tomasz
+Regards,
 
-> >
-> > If not, let me know asap.
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> > > > > > > Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
-> > > > > > > ---
-> > > > > > >  drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
-> > > > > > >  1 file changed, 10 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > > b/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > > index 6d9d41170832..9387619235d8 100644
-> > > > > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > > @@ -355,6 +355,16 @@ static const struct hantro_ctrl controls=
-[] =3D {
-> > > > > > >                       .def =3D
-> > > > > > > V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-> > > > > > >                       .max =3D
-> > > > > > > V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-> > > > > > >               },
-> > > > > > > +     }, {
-> > > > > > > +             .codec =3D HANTRO_H264_DECODER,
-> > > > > > > +             .cfg =3D {
-> > > > > > > +                     .id =3D V4L2_CID_MPEG_VIDEO_H264_PROFIL=
-E,
-> > > > > > > +                     .min =3D V4L2_MPEG_VIDEO_H264_PROFILE_B=
-ASELINE,
-> > > > > > > +                     .max =3D V4L2_MPEG_VIDEO_H264_PROFILE_H=
-IGH,
-> > > > > > > +                     .menu_skip_mask =3D
-> > > > > > > +                     BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTEND=
-ED),
-> > > > > > > +                     .def =3D V4L2_MPEG_VIDEO_H264_PROFILE_M=
-AIN,
-> > > > > > > +             }
-> > > > > > >       }, {
-> > > > > > >       },
-> > > > > > >  };
->
+	Hans
+
+Hans Verkuil (11):
+  media: rename VFL_TYPE_GRABBER to _VIDEO
+  gadget: uvc: rename VFL_TYPE_GRABBER to _VIDEO
+  bcm2835-camera: rename VFL_TYPE_GRABBER to _VIDEO
+  staging/media: rename VFL_TYPE_GRABBER to _VIDEO
+  staging/most: rename VFL_TYPE_GRABBER to _VIDEO
+  media/usb: rename VFL_TYPE_GRABBER to _VIDEO
+  media/common/saa7146: rename VFL_TYPE_GRABBER to _VIDEO
+  media/i2c/video-i2c: rename VFL_TYPE_GRABBER to _VIDEO
+  media/pci: rename VFL_TYPE_GRABBER to _VIDEO
+  media/platform: rename VFL_TYPE_GRABBER to _VIDEO
+  v4l2-dev.h: remove VFL_TYPE_GRABBER
+
+ Documentation/media/kapi/v4l2-dev.rst                |  4 ++--
+ .../zh_CN/video4linux/v4l2-framework.txt             |  4 ++--
+ drivers/media/common/saa7146/saa7146_fops.c          | 10 +++++-----
+ drivers/media/i2c/video-i2c.c                        |  2 +-
+ drivers/media/pci/bt8xx/bttv-driver.c                |  4 ++--
+ drivers/media/pci/cobalt/cobalt-v4l2.c               |  2 +-
+ drivers/media/pci/cx18/cx18-streams.c                | 12 ++++++------
+ drivers/media/pci/cx23885/cx23885-417.c              |  2 +-
+ drivers/media/pci/cx23885/cx23885-video.c            |  2 +-
+ drivers/media/pci/cx25821/cx25821-video.c            |  2 +-
+ drivers/media/pci/cx88/cx88-blackbird.c              |  2 +-
+ drivers/media/pci/cx88/cx88-video.c                  |  2 +-
+ drivers/media/pci/dt3155/dt3155.c                    |  2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c             |  2 +-
+ drivers/media/pci/ivtv/ivtv-streams.c                | 12 ++++++------
+ drivers/media/pci/meye/meye.c                        |  2 +-
+ drivers/media/pci/saa7134/saa7134-core.c             |  2 +-
+ drivers/media/pci/saa7134/saa7134-empress.c          |  2 +-
+ drivers/media/pci/saa7146/hexium_gemini.c            |  2 +-
+ drivers/media/pci/saa7146/hexium_orion.c             |  2 +-
+ drivers/media/pci/saa7146/mxb.c                      |  2 +-
+ drivers/media/pci/saa7164/saa7164-encoder.c          |  2 +-
+ drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c       |  2 +-
+ drivers/media/pci/solo6x10/solo6x10-v4l2.c           |  2 +-
+ drivers/media/pci/sta2x11/sta2x11_vip.c              |  2 +-
+ drivers/media/pci/ttpci/av7110_v4l.c                 |  2 +-
+ drivers/media/pci/ttpci/budget-av.c                  |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c              |  2 +-
+ drivers/media/pci/tw68/tw68-video.c                  |  2 +-
+ drivers/media/pci/tw686x/tw686x-video.c              |  2 +-
+ drivers/media/platform/am437x/am437x-vpfe.c          |  2 +-
+ drivers/media/platform/aspeed-video.c                |  4 ++--
+ drivers/media/platform/atmel/atmel-isc-base.c        |  2 +-
+ drivers/media/platform/atmel/atmel-isi.c             |  2 +-
+ drivers/media/platform/coda/coda-common.c            |  2 +-
+ drivers/media/platform/davinci/vpbe_display.c        |  2 +-
+ drivers/media/platform/davinci/vpfe_capture.c        |  2 +-
+ drivers/media/platform/davinci/vpif_capture.c        |  2 +-
+ drivers/media/platform/davinci/vpif_display.c        |  2 +-
+ drivers/media/platform/exynos-gsc/gsc-m2m.c          |  2 +-
+ drivers/media/platform/exynos4-is/fimc-capture.c     |  2 +-
+ drivers/media/platform/exynos4-is/fimc-isp-video.c   |  2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c        |  2 +-
+ drivers/media/platform/exynos4-is/fimc-m2m.c         |  2 +-
+ drivers/media/platform/fsl-viu.c                     |  2 +-
+ drivers/media/platform/imx-pxp.c                     |  2 +-
+ drivers/media/platform/m2m-deinterlace.c             |  2 +-
+ drivers/media/platform/marvell-ccic/mcam-core.c      |  2 +-
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      |  2 +-
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c         |  2 +-
+ .../media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c   |  2 +-
+ .../media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c   |  2 +-
+ drivers/media/platform/mx2_emmaprp.c                 |  2 +-
+ drivers/media/platform/omap/omap_vout.c              |  2 +-
+ drivers/media/platform/omap3isp/ispvideo.c           |  4 ++--
+ drivers/media/platform/pxa_camera.c                  |  2 +-
+ drivers/media/platform/qcom/camss/camss-video.c      |  2 +-
+ drivers/media/platform/qcom/venus/vdec.c             |  2 +-
+ drivers/media/platform/qcom/venus/venc.c             |  2 +-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c          |  2 +-
+ drivers/media/platform/rcar_fdp1.c                   |  2 +-
+ drivers/media/platform/rcar_jpu.c                    |  4 ++--
+ drivers/media/platform/renesas-ceu.c                 |  2 +-
+ drivers/media/platform/rockchip/rga/rga.c            |  2 +-
+ drivers/media/platform/s3c-camif/camif-capture.c     |  2 +-
+ drivers/media/platform/s5p-g2d/g2d.c                 |  2 +-
+ drivers/media/platform/s5p-jpeg/jpeg-core.c          |  4 ++--
+ drivers/media/platform/s5p-mfc/s5p_mfc.c             |  4 ++--
+ drivers/media/platform/sh_veu.c                      |  2 +-
+ drivers/media/platform/sh_vou.c                      |  2 +-
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c        |  2 +-
+ drivers/media/platform/sti/delta/delta-v4l2.c        |  2 +-
+ drivers/media/platform/sti/hva/hva-v4l2.c            |  2 +-
+ drivers/media/platform/stm32/stm32-dcmi.c            |  2 +-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c  |  2 +-
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c |  4 ++--
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c     |  2 +-
+ drivers/media/platform/ti-vpe/cal.c                  |  2 +-
+ drivers/media/platform/ti-vpe/vpe.c                  |  2 +-
+ drivers/media/platform/via-camera.c                  |  2 +-
+ drivers/media/platform/vicodec/vicodec-core.c        |  2 +-
+ drivers/media/platform/vim2m.c                       |  2 +-
+ drivers/media/platform/vimc/vimc-capture.c           |  2 +-
+ drivers/media/platform/vivid/vivid-core.c            | 10 +++++-----
+ drivers/media/platform/vsp1/vsp1_histo.c             |  4 ++--
+ drivers/media/platform/vsp1/vsp1_video.c             |  4 ++--
+ drivers/media/platform/xilinx/xilinx-dma.c           |  4 ++--
+ drivers/media/usb/au0828/au0828-video.c              |  4 ++--
+ drivers/media/usb/cpia2/cpia2_v4l.c                  |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c              |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c            |  2 +-
+ drivers/media/usb/dvb-usb/cxusb-analog.c             | 12 ++++++------
+ drivers/media/usb/em28xx/em28xx-video.c              |  4 ++--
+ drivers/media/usb/go7007/go7007-v4l2.c               |  2 +-
+ drivers/media/usb/gspca/gspca.c                      |  2 +-
+ drivers/media/usb/hdpvr/hdpvr-video.c                |  2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c             |  4 ++--
+ drivers/media/usb/pwc/pwc-if.c                       |  2 +-
+ drivers/media/usb/s2255/s2255drv.c                   |  4 ++--
+ drivers/media/usb/stk1160/stk1160-v4l.c              |  2 +-
+ drivers/media/usb/stkwebcam/stk-webcam.c             |  2 +-
+ drivers/media/usb/tm6000/tm6000-video.c              |  4 ++--
+ drivers/media/usb/usbtv/usbtv-video.c                |  2 +-
+ drivers/media/usb/usbvision/usbvision-video.c        |  2 +-
+ drivers/media/usb/uvc/uvc_driver.c                   |  2 +-
+ drivers/media/usb/zr364xx/zr364xx.c                  |  2 +-
+ drivers/media/v4l2-core/v4l2-dev.c                   | 10 +++++-----
+ drivers/media/v4l2-core/v4l2-ioctl.c                 |  4 ++--
+ drivers/staging/media/allegro-dvt/allegro-core.c     |  2 +-
+ drivers/staging/media/hantro/hantro_drv.c            |  2 +-
+ drivers/staging/media/imx/imx-media-capture.c        |  2 +-
+ drivers/staging/media/imx/imx-media-csc-scaler.c     |  2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c               |  2 +-
+ drivers/staging/media/meson/vdec/vdec.c              |  2 +-
+ drivers/staging/media/omap4iss/iss_video.c           |  4 ++--
+ drivers/staging/media/rkisp1/rkisp1-capture.c        |  2 +-
+ drivers/staging/media/rkisp1/rkisp1-params.c         |  2 +-
+ drivers/staging/media/rkisp1/rkisp1-stats.c          |  2 +-
+ drivers/staging/media/soc_camera/soc_camera.c        |  2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c          |  2 +-
+ drivers/staging/most/video/video.c                   |  4 ++--
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c    |  2 +-
+ drivers/usb/gadget/function/f_uvc.c                  |  2 +-
+ include/media/v4l2-dev.h                             |  4 ++--
+ samples/v4l/v4l2-pci-skeleton.c                      |  2 +-
+ 125 files changed, 173 insertions(+), 173 deletions(-)
+
+-- 
+2.24.0
+
