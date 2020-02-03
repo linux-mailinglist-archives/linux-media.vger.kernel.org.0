@@ -2,239 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E67E41507B0
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 14:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07A11150829
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 15:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgBCNtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 08:49:06 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:34252 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727860AbgBCNtG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 08:49:06 -0500
-Received: by mail-ed1-f66.google.com with SMTP id r18so16048589edl.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 05:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=gZZ8ko4O/jUPA/decaQ2lD3GEYFrqD//5nnLiZlDpbE=;
-        b=lpwEEmpRyeVKSUU/dUAb+BRKkoVZ0LkjrF9vKb50tLhFDu/xYSEMbvb5pLQZmwbFoe
-         lompMw0l8jYOQMkjabLTSFkzQ5JH+C6BD8eJPmRAFHOUuZrBaM/OAFpR5vvfDYh6D+2N
-         iUGmEUqTvePQL0a2jyDwSx5voHvsuewAC2U10=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gZZ8ko4O/jUPA/decaQ2lD3GEYFrqD//5nnLiZlDpbE=;
-        b=dXdrcl6vKTpKdEoIlMRydpehZL6NBoG6CKlBtzphW8j8GmEPKVawHAv/fw3cypNK0O
-         iTDpj4mfBlICSjqkYvEo99wNU8RmvIwaDyP43WnR3pfE74ZescEjDjP78eBlT15+JpqR
-         uoprwrpv1cAqpDe36M6LgSCQzXUQCz04IhxpLSnon0pA0u2eoWmJaLV/kaoMgn5TUvw1
-         OCQDxaPm1AWrlg/GQ9UBi7hK/xBy65gJPUJP+9Vh/KQ/iixIZ6mmNewZxDMBY9ZFyC3I
-         YsWy7Q8D/uDXpZyFIh203S5NgtWKhaqlHi1RVDFud3hhJWB5XYatYm2UCBVKd/2lMgJh
-         S49Q==
-X-Gm-Message-State: APjAAAWZzAF032UHY3f9IQIzVRq8HGGloq2A3mIh6MSeoNp0OHrjkcYd
-        FXwMICse+/Pk42wPlnSPndhTJG0qX7HOEQ==
-X-Google-Smtp-Source: APXvYqyMg2TMbEJbf+OF58NCntoaK4JDu4fgEsL7ItqOOfGYjKB3hixl+pHG65F9DKwF2M22eoYMnA==
-X-Received: by 2002:aa7:d84b:: with SMTP id f11mr12143473eds.96.1580737742814;
-        Mon, 03 Feb 2020 05:49:02 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id h16sm1029675ejc.89.2020.02.03.05.49.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2020 05:49:01 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id b17so17194688wmb.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 05:49:00 -0800 (PST)
-X-Received: by 2002:a05:600c:2215:: with SMTP id z21mr29287067wml.55.1580737740170;
- Mon, 03 Feb 2020 05:49:00 -0800 (PST)
+        id S1728075AbgBCOOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 09:14:34 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57614 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727715AbgBCOOd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 09:14:33 -0500
+Received: from pendragon.ideasonboard.com (64.177-245-81.adsl-dyn.isp.belgacom.be [81.245.177.64])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E349C5A4;
+        Mon,  3 Feb 2020 15:14:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1580739272;
+        bh=TVC9CPxSYx0Spdietak78wug/PfrqVz2zT5We+eQ9iE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qy3DfxvcSWYDq57PlKbrG+2VjQqIcWgtYehC2gJjozgEEq6xA+vHj2Ma0nTaC2iF9
+         QlZk70m2aV6B7b+N63UW1dUziaCz6axZbLBETguHJ82wxZK/f5acGtRepof1R2NoHJ
+         bX66ku5nQe9b9mqjJOEIOdi8BhTtb9E3YE2vU5b8=
+Date:   Mon, 3 Feb 2020 16:14:17 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 01/11] media: rename VFL_TYPE_GRABBER to _VIDEO
+Message-ID: <20200203141417.GA4722@pendragon.ideasonboard.com>
+References: <20200203114119.1177490-1-hverkuil-cisco@xs4all.nl>
+ <20200203114119.1177490-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-References: <20191122051608.128717-1-hiroh@chromium.org> <767528be59275265072896e5c679e97575615fdd.camel@ndufresne.ca>
- <CAAFQd5D3OpAAtX7_0ktz4-aAgWN_G4YBQMR=Vwp7JPopjvRkRA@mail.gmail.com>
- <f5341ed837529bd38d466d4b655e261d64065912.camel@ndufresne.ca>
- <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
- <c88b2822-0dd2-8ea3-eb0b-262df5a30830@xs4all.nl> <8b10414a1c198a6e3bd5e131a72bd6f68466bea5.camel@ndufresne.ca>
- <CAAFQd5AZ1DTtz2myuO9YSwjMaxPme0BDNaOBo97tSHLbm4XWPg@mail.gmail.com> <8a6a371d-17cd-eb32-779c-0669da5a8d5e@xs4all.nl>
-In-Reply-To: <8a6a371d-17cd-eb32-779c-0669da5a8d5e@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 3 Feb 2020 22:48:47 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CXGqv5W+uZurGEv+iwz4=R7crLwqUAe2d5_gXt1e7XzQ@mail.gmail.com>
-Message-ID: <CAAFQd5CXGqv5W+uZurGEv+iwz4=R7crLwqUAe2d5_gXt1e7XzQ@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: Support H264 profile control
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@driverdev.osuosl.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200203114119.1177490-2-hverkuil-cisco@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 3, 2020 at 9:00 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 2/3/20 12:13 PM, Tomasz Figa wrote:
-> > On Sat, Jan 18, 2020 at 10:31 PM Nicolas Dufresne <nicolas@ndufresne.ca=
-> wrote:
-> >>
-> >> Le vendredi 10 janvier 2020 =C3=A0 13:31 +0100, Hans Verkuil a =C3=A9c=
-rit :
-> >>> On 11/29/19 1:16 AM, Tomasz Figa wrote:
-> >>>> On Sat, Nov 23, 2019 at 1:52 AM Nicolas Dufresne <nicolas@ndufresne.=
-ca>
-> >>>> wrote:
-> >>>>> Le samedi 23 novembre 2019 =C3=A0 01:00 +0900, Tomasz Figa a =C3=A9=
-crit :
-> >>>>>> On Sat, Nov 23, 2019 at 12:09 AM Nicolas Dufresne <nicolas@ndufres=
-ne.ca>
-> >>>>>> wrote:
-> >>>>>>> Le vendredi 22 novembre 2019 =C3=A0 14:16 +0900, Hirokazu Honda a=
- =C3=A9crit :
-> >>>>>>>> The Hantro G1 decoder supports H.264 profiles from Baseline to H=
-igh,
-> >>>>>>>> with
-> >>>>>>>> the exception of the Extended profile.
-> >>>>>>>>
-> >>>>>>>> Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
-> >>>>>>>> applications can query the driver for the list of supported
-> >>>>>>>> profiles.
-> >>>>>>>
-> >>>>>>> Thanks for this patch. Do you think we could also add the LEVEL
-> >>>>>>> control
-> >>>>>>> so the profile/level enumeration becomes complete ?
-> >>>>>>>
-> >>>>>>> I'm thinking it would be nice if the v4l2 compliance test make su=
-re
-> >>>>>>> that codecs do implement these controls (both stateful and statel=
-ess),
-> >>>>>>> it's essential for stack with software fallback, or multiple capa=
-ble
-> >>>>>>> codec hardware but with different capabilities.
-> >>>>>>>
-> >>>>>>
-> >>>>>> Level is a difficult story, because it also specifies the number o=
-f
-> >>>>>> macroblocks per second, but for decoders like this the number of
-> >>>>>> macroblocks per second it can handle depends on things the driver
-> >>>>>> might be not aware of - clock frequencies, DDR throughput, system
-> >>>>>> load, etc.
-> >>>>>>
-> >>>>>> My take on this is that the decoder driver should advertise the
-> >>>>>> highest resolution the decoder can handle due to hardware constrai=
-nts.
-> >>>>>> Performance related things depend on the integration details and
-> >>>>>> should be managed elsewhere. For example Android and Chrome OS man=
-age
-> >>>>>> expected decoding performance in per-board configuration files.
-> >>>>>
-> >>>>> When you read datasheet, the HW is always rated to maximum level (a=
-nd
-> >>>>> it's a range) with the assumption of a single stream. It seems much
-> >>>>> easier to expose this as-is, statically then to start doing some ma=
-th
-> >>>>> with data that isn't fully exposed to the user. This is about filte=
-ring
-> >>>>> of multiple CODEC instances, it does not need to be rocket science,
-> >>>>> specially that the amount of missing data is important (e.g. usage =
-of
-> >>>>> tiles, compression, IPP all have an impact on the final performance=
-).
-> >>>>> All we want to know in userspace is if this HW is even possibly cap=
-able
-> >>>>> of LEVEL X, and if not, we'll look for another one.
-> >>>>>
-> >>>>
-> >>>> Agreed, one could potentially define it this way, but would it be
-> >>>> really useful for the userspace and the users? I guess it could enab=
-le
-> >>>> slightly faster fallback to software decoding in the extreme case of
-> >>>> the hardware not supporting the level at all, but I suspect that the
-> >>>> majority of cases would be the hardware just being unusably slow.
-> >>>>
-> >>>> Also, as I mentioned before, we already return the range of supporte=
-d
-> >>>> resolutions, which in practice should map to the part of the level
-> >>>> that may depend on hardware capabilities rather than performance, so
-> >>>> exposing levels as well would add redundancy to the information
-> >>>> exposed.
-> >>>
-> >>> There is a lot of discussion here, but it all revolves around a poten=
-tial
-> >>> LEVEL control.
-> >>>
-> >>> So I gather everyone is OK with merging this patch?
-> >>
-> >> I'm ok with this. For me, the level reflects the real time performance
-> >> capability as define in the spec, while the width/height constraints u=
-sually
-> >> represent an addressing capabicity, which may or may not operate real-=
-time.
-> >>
-> >
-> > I'd like to see the level control documentation improved before we
-> > start adding it to the drivers. I'll be okay with that then as long as
-> > the values are exposed in a consistent and well defined way. :)
-> >
-> > As for this patch, Hans, are you going to apply it?
->
-> It's in a PR for 5.7. I had hoped it would go in for v5.6, but it was
-> too late for that.
+Hi Hans,
 
-Okay, thanks!
+Thank you for the patch.
 
->
-> Regards,
->
->         Hans
->
-> >
-> > Best regards,
-> > Tomasz
-> >
-> >>>
-> >>> If not, let me know asap.
-> >>>
-> >>> Regards,
-> >>>
-> >>>       Hans
-> >>>
-> >>>>>>>> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
-> >>>>>>>> ---
-> >>>>>>>>  drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
-> >>>>>>>>  1 file changed, 10 insertions(+)
-> >>>>>>>>
-> >>>>>>>> diff --git a/drivers/staging/media/hantro/hantro_drv.c
-> >>>>>>>> b/drivers/staging/media/hantro/hantro_drv.c
-> >>>>>>>> index 6d9d41170832..9387619235d8 100644
-> >>>>>>>> --- a/drivers/staging/media/hantro/hantro_drv.c
-> >>>>>>>> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> >>>>>>>> @@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] =
-=3D {
-> >>>>>>>>                       .def =3D
-> >>>>>>>> V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-> >>>>>>>>                       .max =3D
-> >>>>>>>> V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-> >>>>>>>>               },
-> >>>>>>>> +     }, {
-> >>>>>>>> +             .codec =3D HANTRO_H264_DECODER,
-> >>>>>>>> +             .cfg =3D {
-> >>>>>>>> +                     .id =3D V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-> >>>>>>>> +                     .min =3D V4L2_MPEG_VIDEO_H264_PROFILE_BASE=
-LINE,
-> >>>>>>>> +                     .max =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH=
-,
-> >>>>>>>> +                     .menu_skip_mask =3D
-> >>>>>>>> +                     BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED)=
-,
-> >>>>>>>> +                     .def =3D V4L2_MPEG_VIDEO_H264_PROFILE_MAIN=
-,
-> >>>>>>>> +             }
-> >>>>>>>>       }, {
-> >>>>>>>>       },
-> >>>>>>>>  };
-> >>
->
+On Mon, Feb 03, 2020 at 12:41:09PM +0100, Hans Verkuil wrote:
+> We currently have the following devnode types:
+> 
+> enum vfl_devnode_type {
+>         VFL_TYPE_GRABBER        = 0,
+>         VFL_TYPE_VBI,
+>         VFL_TYPE_RADIO,
+>         VFL_TYPE_SUBDEV,
+>         VFL_TYPE_SDR,
+>         VFL_TYPE_TOUCH,
+>         VFL_TYPE_MAX /* Shall be the last one */
+> };
+> 
+> They all make sense, except for the first: GRABBER really refers to /dev/videoX
+> devices, which can be capture, output or m2m, so 'grabber' doesn't even refer to
+> their function anymore.
+> 
+> Let's call a spade a spade and rename this to VFL_TYPE_VIDEO.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  Documentation/media/kapi/v4l2-dev.rst                  |  4 ++--
+>  .../translations/zh_CN/video4linux/v4l2-framework.txt  |  4 ++--
+>  drivers/media/v4l2-core/v4l2-dev.c                     | 10 +++++-----
+>  drivers/media/v4l2-core/v4l2-ioctl.c                   |  4 ++--
+>  include/media/v4l2-dev.h                               |  6 ++++--
+>  samples/v4l/v4l2-pci-skeleton.c                        |  2 +-
+>  6 files changed, 16 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/media/kapi/v4l2-dev.rst b/Documentation/media/kapi/v4l2-dev.rst
+> index 4c5a15c53dbf..63c064837c00 100644
+> --- a/Documentation/media/kapi/v4l2-dev.rst
+> +++ b/Documentation/media/kapi/v4l2-dev.rst
+> @@ -185,7 +185,7 @@ This will create the character device for you.
+>  
+>  .. code-block:: c
+>  
+> -	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
+> +	err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>  	if (err) {
+>  		video_device_release(vdev); /* or kfree(my_vdev); */
+>  		return err;
+> @@ -201,7 +201,7 @@ types exist:
+>  ========================== ====================	 ==============================
+>  :c:type:`vfl_devnode_type` Device name		 Usage
+>  ========================== ====================	 ==============================
+> -``VFL_TYPE_GRABBER``       ``/dev/videoX``       for video input/output devices
+> +``VFL_TYPE_VIDEO``         ``/dev/videoX``       for video input/output devices
+>  ``VFL_TYPE_VBI``           ``/dev/vbiX``         for vertical blank data (i.e.
+>  						 closed captions, teletext)
+>  ``VFL_TYPE_RADIO``         ``/dev/radioX``       for radio tuners
+> diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+> index 66c7c568bd86..9c39ee58ea50 100644
+> --- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+> +++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+> @@ -649,7 +649,7 @@ video_device注册
+>  
+>  接下来你需要注册视频设备：这会为你创建一个字符设备。
+>  
+> -	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
+> +	err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>  	if (err) {
+>  		video_device_release(vdev); /* or kfree(my_vdev); */
+>  		return err;
+> @@ -660,7 +660,7 @@ video_device注册
+>  
+>  注册哪种设备是根据类型（type）参数。存在以下类型：
+>  
+> -VFL_TYPE_GRABBER: 用于视频输入/输出设备的 videoX
+> +VFL_TYPE_VIDEO: 用于视频输入/输出设备的 videoX
+>  VFL_TYPE_VBI: 用于垂直消隐数据的 vbiX (例如，隐藏式字幕，图文电视)
+>  VFL_TYPE_RADIO: 用于广播调谐器的 radioX
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index da42d172714a..97b6a3af1361 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -542,13 +542,13 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  			      V4L2_CAP_META_OUTPUT;
+>  	DECLARE_BITMAP(valid_ioctls, BASE_VIDIOC_PRIVATE);
+>  	const struct v4l2_ioctl_ops *ops = vdev->ioctl_ops;
+> -	bool is_vid = vdev->vfl_type == VFL_TYPE_GRABBER &&
+> +	bool is_vid = vdev->vfl_type == VFL_TYPE_VIDEO &&
+>  		      (vdev->device_caps & vid_caps);
+>  	bool is_vbi = vdev->vfl_type == VFL_TYPE_VBI;
+>  	bool is_radio = vdev->vfl_type == VFL_TYPE_RADIO;
+>  	bool is_sdr = vdev->vfl_type == VFL_TYPE_SDR;
+>  	bool is_tch = vdev->vfl_type == VFL_TYPE_TOUCH;
+> -	bool is_meta = vdev->vfl_type == VFL_TYPE_GRABBER &&
+> +	bool is_meta = vdev->vfl_type == VFL_TYPE_VIDEO &&
+>  		       (vdev->device_caps & meta_caps);
+>  	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
+>  	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
+> @@ -783,7 +783,7 @@ static int video_register_media_controller(struct video_device *vdev)
+>  	vdev->entity.function = MEDIA_ENT_F_UNKNOWN;
+>  
+>  	switch (vdev->vfl_type) {
+> -	case VFL_TYPE_GRABBER:
+> +	case VFL_TYPE_VIDEO:
+>  		intf_type = MEDIA_INTF_T_V4L_VIDEO;
+>  		vdev->entity.function = MEDIA_ENT_F_IO_V4L;
+>  		break;
+> @@ -891,7 +891,7 @@ int __video_register_device(struct video_device *vdev,
+>  
+>  	/* Part 1: check device type */
+>  	switch (type) {
+> -	case VFL_TYPE_GRABBER:
+> +	case VFL_TYPE_VIDEO:
+>  		name_base = "video";
+>  		break;
+>  	case VFL_TYPE_VBI:
+> @@ -935,7 +935,7 @@ int __video_register_device(struct video_device *vdev,
+>  	 * of 128-191 and just pick the first free minor there
+>  	 * (new style). */
+>  	switch (type) {
+> -	case VFL_TYPE_GRABBER:
+> +	case VFL_TYPE_VIDEO:
+>  		minor_offset = 0;
+>  		minor_cnt = 64;
+>  		break;
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index aaf83e254272..fbcc7a20eedf 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -941,12 +941,12 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>  			      V4L2_CAP_META_OUTPUT;
+>  	struct video_device *vfd = video_devdata(file);
+>  	const struct v4l2_ioctl_ops *ops = vfd->ioctl_ops;
+> -	bool is_vid = vfd->vfl_type == VFL_TYPE_GRABBER &&
+> +	bool is_vid = vfd->vfl_type == VFL_TYPE_VIDEO &&
+>  		      (vfd->device_caps & vid_caps);
+>  	bool is_vbi = vfd->vfl_type == VFL_TYPE_VBI;
+>  	bool is_sdr = vfd->vfl_type == VFL_TYPE_SDR;
+>  	bool is_tch = vfd->vfl_type == VFL_TYPE_TOUCH;
+> -	bool is_meta = vfd->vfl_type == VFL_TYPE_GRABBER &&
+> +	bool is_meta = vfd->vfl_type == VFL_TYPE_VIDEO &&
+>  		       (vfd->device_caps & meta_caps);
+>  	bool is_rx = vfd->vfl_dir != VFL_DIR_TX;
+>  	bool is_tx = vfd->vfl_dir != VFL_DIR_RX;
+> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> index 48531e57cc5a..5e7c0f8acd05 100644
+> --- a/include/media/v4l2-dev.h
+> +++ b/include/media/v4l2-dev.h
+> @@ -24,7 +24,8 @@
+>  /**
+>   * enum vfl_devnode_type - type of V4L2 device node
+>   *
+> - * @VFL_TYPE_GRABBER:	for video input/output devices
+> + * @VFL_TYPE_VIDEO:	for video input/output devices
+> + * @VFL_TYPE_GRABBER:	deprecated, same as VFL_TYPE_VIDEO
+>   * @VFL_TYPE_VBI:	for vertical blank data (i.e. closed captions, teletext)
+>   * @VFL_TYPE_RADIO:	for radio tuners
+>   * @VFL_TYPE_SUBDEV:	for V4L2 subdevices
+> @@ -33,7 +34,8 @@
+>   * @VFL_TYPE_MAX:	number of VFL types, must always be last in the enum
+>   */
+>  enum vfl_devnode_type {
+> -	VFL_TYPE_GRABBER	= 0,
+> +	VFL_TYPE_VIDEO,
+> +	VFL_TYPE_GRABBER = VFL_TYPE_VIDEO,
+>  	VFL_TYPE_VBI,
+>  	VFL_TYPE_RADIO,
+>  	VFL_TYPE_SUBDEV,
+> diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
+> index f6a551bd57ef..3fa6582b4a68 100644
+> --- a/samples/v4l/v4l2-pci-skeleton.c
+> +++ b/samples/v4l/v4l2-pci-skeleton.c
+> @@ -879,7 +879,7 @@ static int skeleton_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  	vdev->tvnorms = SKEL_TVNORMS;
+>  	video_set_drvdata(vdev, skel);
+>  
+> -	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
+> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>  	if (ret)
+>  		goto free_hdl;
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
