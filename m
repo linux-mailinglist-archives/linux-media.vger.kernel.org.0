@@ -2,2419 +2,1206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE40E1500AB
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 04:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CE6E15017A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 06:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727156AbgBCDLw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Feb 2020 22:11:52 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:35620 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726733AbgBCDLv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Feb 2020 22:11:51 -0500
-Received: by mail-qt1-f194.google.com with SMTP id n17so9201696qtv.2
-        for <linux-media@vger.kernel.org>; Sun, 02 Feb 2020 19:11:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=L84kR28aINnKvlcJPw1ffOVe0dxk5e3TedLlFlX4090=;
-        b=AK+e3Km5gwOOK4sPmSQT/JedakvtjGJeM543MY5rpNOYCx8XUq37fT81xUSpiPscvN
-         m2fwR864eRvmvN5dAs7Gyshh3WjkeFT3y/JuAjm1GBkU7AYAmCBNz3KkIXqrV/+V65ib
-         K/gSYz6QVQs5I5sTBo+jSt1DKN6wgpiykPpfhmuYmF99uqwVgIrNKiImR70WQzyvgDJe
-         yfcJGvVD/DQrAs6lcL5jCGjG+fBnKSfS9MvksAWIjlyfMFhjaPu6HFXtBfwjv9gSqL2q
-         qZFQ0u12CelI0vMjnUvtfEfz0PWtrvY3Plrup1jVLwS7bZiYbVByRcLjqC8ABiapMd50
-         Kmhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=L84kR28aINnKvlcJPw1ffOVe0dxk5e3TedLlFlX4090=;
-        b=SfHy2eEhGTRIqZ0xhp3bJ3kTmtETn7GIsCcGCCWHb8IuiXVPHw8EZSM/C7sxpJcvCU
-         LgiGM6oMOBsyZadDObo9gmLru0DoEfFE2rDKBl87ZeZJTgqcrJ8N7L3AibDQuELz47RG
-         eCe8p5gvxZw5SyXsAMi6+NgzExJ/TDBXDM+TNXyGIiF00g2yGufy0LMb+hz8hrH6wGLS
-         rhIatfPrskwjguPGTq2mQgI5BCerZusXXYVLgMwt53Ni7qKLW2a6CinvTSyazs5aEt+Z
-         +vX2wYPFuitYUmR97zmoCUl6F8TYStmJVJWu/2FZSpb6S6m2v9HHwR6074h7e41bF0i4
-         tNHg==
-X-Gm-Message-State: APjAAAWv+yxyGbfhjT05JHViCbS8PDsIzDeme6Qz781beL8nrYEWI+5F
-        7FYJTYtrbPTMn+mcisvoBsl+oQ==
-X-Google-Smtp-Source: APXvYqz9bh5RBBtJqqDb/v5DIm0AqciyfmgagKzZ5dRdGRFXxyNlV5GZKkt9BQWsotwptC01FMlxiA==
-X-Received: by 2002:ac8:7388:: with SMTP id t8mr21748245qtp.244.1580699506747;
-        Sun, 02 Feb 2020 19:11:46 -0800 (PST)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id f59sm6129010qtb.75.2020.02.02.19.11.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2020 19:11:45 -0800 (PST)
-Message-ID: <a4efcb4e1591ac9cf305742d34337335b6ff7f29.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 5/5] media: meson: vdec: add VP9 decoder support
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org,
-        hans.verkuil@cisco.com
-Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date:   Sun, 02 Feb 2020 22:11:44 -0500
-In-Reply-To: <20200116133437.2443-6-narmstrong@baylibre.com>
-References: <20200116133437.2443-1-narmstrong@baylibre.com>
-         <20200116133437.2443-6-narmstrong@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
+        id S1727368AbgBCFhB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 00:37:01 -0500
+Received: from mga17.intel.com ([192.55.52.151]:53605 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727394AbgBCFhB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 3 Feb 2020 00:37:01 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Feb 2020 21:36:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,396,1574150400"; 
+   d="gz'50?scan'50,208,50";a="278645472"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 02 Feb 2020 21:36:52 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1iyUPj-000Gc2-Rs; Mon, 03 Feb 2020 13:36:51 +0800
+Date:   Mon, 3 Feb 2020 13:35:53 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Prashant Malani <pmalani@chromium.org>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Prashant Malani <pmalani@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 15/17] media: cros-ec-cec: Use cros_ec_send_cmd_msg()
+Message-ID: <202002031313.IYVa7Tva%lkp@intel.com>
+References: <20200130203106.201894-16-pmalani@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="tfgpud46gxtscidj"
+Content-Disposition: inline
+In-Reply-To: <20200130203106.201894-16-pmalani@chromium.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neil,
 
-Le jeudi 16 janvier 2020 à 14:34 +0100, Neil Armstrong a écrit :
-> From: Maxime Jourdan <mjourdan@baylibre.com>
-> 
-> This adds VP9 decoding for the Amlogic GXL, G12A & SM1 SoCs, using
-> the commong "HEVC" HW decoder.
-> 
-> For G12A & SM1, it uses the IOMMU support from the firmware.
-> 
-> For 10bit decoding, the firmware can only decode in the proprietary
-> Amlogic Framebuffer Compression format, but can output in 8bit NV12
-> buffer while writing the decoded frame.
-> 
-> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  drivers/staging/media/meson/vdec/Makefile     |    2 +-
->  drivers/staging/media/meson/vdec/codec_vp9.c  | 2139 +++++++++++++++++
->  drivers/staging/media/meson/vdec/codec_vp9.h  |   13 +
->  drivers/staging/media/meson/vdec/hevc_regs.h  |    7 +
->  drivers/staging/media/meson/vdec/vdec.c       |    5 +
->  .../staging/media/meson/vdec/vdec_helpers.c   |    4 +
->  .../staging/media/meson/vdec/vdec_platform.c  |   38 +
->  7 files changed, 2207 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.c
->  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.h
-> 
-> diff --git a/drivers/staging/media/meson/vdec/Makefile b/drivers/staging/media/meson/vdec/Makefile
-> index f55b6e625034..6e726af84ac9 100644
-> --- a/drivers/staging/media/meson/vdec/Makefile
-> +++ b/drivers/staging/media/meson/vdec/Makefile
-> @@ -3,6 +3,6 @@
->  
->  meson-vdec-objs = esparser.o vdec.o vdec_helpers.o vdec_platform.o
->  meson-vdec-objs += vdec_1.o vdec_hevc.o
-> -meson-vdec-objs += codec_mpeg12.o codec_h264.o codec_hevc_common.o
-> +meson-vdec-objs += codec_mpeg12.o codec_h264.o codec_hevc_common.o codec_vp9.o
->  
->  obj-$(CONFIG_VIDEO_MESON_VDEC) += meson-vdec.o
-> diff --git a/drivers/staging/media/meson/vdec/codec_vp9.c b/drivers/staging/media/meson/vdec/codec_vp9.c
-> new file mode 100644
-> index 000000000000..9e23ccbb7cc0
-> --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/codec_vp9.c
-> @@ -0,0 +1,2139 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2018 Maxime Jourdan <mjourdan@baylibre.com>
-> + * Copyright (C) 2015 Amlogic, Inc. All rights reserved.
-> + */
-> +
-> +#include <media/v4l2-mem2mem.h>
-> +#include <media/videobuf2-dma-contig.h>
-> +
-> +#include "dos_regs.h"
-> +#include "hevc_regs.h"
-> +#include "vdec_helpers.h"
-> +#include "codec_hevc_common.h"
-> +
-> +/* HEVC reg mapping */
-> +#define VP9_DEC_STATUS_REG	HEVC_ASSIST_SCRATCH_0
-> +	#define VP9_10B_DECODE_SLICE	5
-> +	#define VP9_HEAD_PARSER_DONE	0xf0
-> +#define VP9_RPM_BUFFER		HEVC_ASSIST_SCRATCH_1
-> +#define VP9_SHORT_TERM_RPS	HEVC_ASSIST_SCRATCH_2
-> +#define VP9_ADAPT_PROB_REG	HEVC_ASSIST_SCRATCH_3
-> +#define VP9_MMU_MAP_BUFFER	HEVC_ASSIST_SCRATCH_4
-> +#define VP9_PPS_BUFFER		HEVC_ASSIST_SCRATCH_5
-> +#define VP9_SAO_UP		HEVC_ASSIST_SCRATCH_6
-> +#define VP9_STREAM_SWAP_BUFFER	HEVC_ASSIST_SCRATCH_7
-> +#define VP9_STREAM_SWAP_BUFFER2 HEVC_ASSIST_SCRATCH_8
-> +#define VP9_PROB_SWAP_BUFFER	HEVC_ASSIST_SCRATCH_9
-> +#define VP9_COUNT_SWAP_BUFFER	HEVC_ASSIST_SCRATCH_A
-> +#define VP9_SEG_MAP_BUFFER	HEVC_ASSIST_SCRATCH_B
-> +#define VP9_SCALELUT		HEVC_ASSIST_SCRATCH_D
-> +#define VP9_WAIT_FLAG		HEVC_ASSIST_SCRATCH_E
-> +#define LMEM_DUMP_ADR		HEVC_ASSIST_SCRATCH_F
-> +#define NAL_SEARCH_CTL		HEVC_ASSIST_SCRATCH_I
-> +#define VP9_DECODE_MODE		HEVC_ASSIST_SCRATCH_J
-> +	#define DECODE_MODE_SINGLE 0
-> +#define DECODE_STOP_POS		HEVC_ASSIST_SCRATCH_K
-> +#define HEVC_DECODE_COUNT	HEVC_ASSIST_SCRATCH_M
-> +#define HEVC_DECODE_SIZE	HEVC_ASSIST_SCRATCH_N
-> +
-> +/* VP9 Constants */
-> +#define LCU_SIZE		64
-> +#define MAX_REF_PIC_NUM		24
-> +#define REFS_PER_FRAME		3
-> +#define REF_FRAMES		8
-> +#define MV_MEM_UNIT		0x240
-> +#define ADAPT_PROB_SIZE		0xf80
-> +
-> +enum FRAME_TYPE {
-> +	KEY_FRAME = 0,
-> +	INTER_FRAME = 1,
-> +	FRAME_TYPES,
-> +};
-> +
-> +/* VP9 Workspace layout */
-> +#define MPRED_MV_BUF_SIZE 0x120000
-> +
-> +#define IPP_SIZE	0x4000
-> +#define SAO_ABV_SIZE	0x30000
-> +#define SAO_VB_SIZE	0x30000
-> +#define SH_TM_RPS_SIZE	0x800
-> +#define VPS_SIZE	0x800
-> +#define SPS_SIZE	0x800
-> +#define PPS_SIZE	0x2000
-> +#define SAO_UP_SIZE	0x2800
-> +#define SWAP_BUF_SIZE	0x800
-> +#define SWAP_BUF2_SIZE	0x800
-> +#define SCALELUT_SIZE	0x8000
-> +#define DBLK_PARA_SIZE	0x80000
-> +#define DBLK_DATA_SIZE	0x80000
-> +#define SEG_MAP_SIZE	0xd800
-> +#define PROB_SIZE	0x5000
-> +#define COUNT_SIZE	0x3000
-> +#define MMU_VBH_SIZE	0x5000
-> +#define MPRED_ABV_SIZE	0x10000
-> +#define MPRED_MV_SIZE	(MPRED_MV_BUF_SIZE * MAX_REF_PIC_NUM)
-> +#define RPM_BUF_SIZE	0x100
-> +#define LMEM_SIZE	0x800
-> +
-> +#define IPP_OFFSET       0x00
-> +#define SAO_ABV_OFFSET   (IPP_OFFSET + IPP_SIZE)
-> +#define SAO_VB_OFFSET    (SAO_ABV_OFFSET + SAO_ABV_SIZE)
-> +#define SH_TM_RPS_OFFSET (SAO_VB_OFFSET + SAO_VB_SIZE)
-> +#define VPS_OFFSET       (SH_TM_RPS_OFFSET + SH_TM_RPS_SIZE)
-> +#define SPS_OFFSET       (VPS_OFFSET + VPS_SIZE)
-> +#define PPS_OFFSET       (SPS_OFFSET + SPS_SIZE)
-> +#define SAO_UP_OFFSET    (PPS_OFFSET + PPS_SIZE)
-> +#define SWAP_BUF_OFFSET  (SAO_UP_OFFSET + SAO_UP_SIZE)
-> +#define SWAP_BUF2_OFFSET (SWAP_BUF_OFFSET + SWAP_BUF_SIZE)
-> +#define SCALELUT_OFFSET  (SWAP_BUF2_OFFSET + SWAP_BUF2_SIZE)
-> +#define DBLK_PARA_OFFSET (SCALELUT_OFFSET + SCALELUT_SIZE)
-> +#define DBLK_DATA_OFFSET (DBLK_PARA_OFFSET + DBLK_PARA_SIZE)
-> +#define SEG_MAP_OFFSET   (DBLK_DATA_OFFSET + DBLK_DATA_SIZE)
-> +#define PROB_OFFSET      (SEG_MAP_OFFSET + SEG_MAP_SIZE)
-> +#define COUNT_OFFSET     (PROB_OFFSET + PROB_SIZE)
-> +#define MMU_VBH_OFFSET   (COUNT_OFFSET + COUNT_SIZE)
-> +#define MPRED_ABV_OFFSET (MMU_VBH_OFFSET + MMU_VBH_SIZE)
-> +#define MPRED_MV_OFFSET  (MPRED_ABV_OFFSET + MPRED_ABV_SIZE)
-> +#define RPM_OFFSET       (MPRED_MV_OFFSET + MPRED_MV_SIZE)
-> +#define LMEM_OFFSET      (RPM_OFFSET + RPM_BUF_SIZE)
-> +
-> +#define SIZE_WORKSPACE	ALIGN(LMEM_OFFSET + LMEM_SIZE, 64 * SZ_1K)
-> +
-> +#define NONE           -1
-> +#define INTRA_FRAME     0
-> +#define LAST_FRAME      1
-> +#define GOLDEN_FRAME    2
-> +#define ALTREF_FRAME    3
-> +#define MAX_REF_FRAMES  4
-> +
-> +/*
-> + * Defines, declarations, sub-functions for vp9 de-block loop
-> +	filter Thr/Lvl table update
-> + * - struct segmentation is for loop filter only (removed something)
-> + * - function "vp9_loop_filter_init" and "vp9_loop_filter_frame_init" will
-> +	be instantiated in C_Entry
-> + * - vp9_loop_filter_init run once before decoding start
-> + * - vp9_loop_filter_frame_init run before every frame decoding start
-> + * - set video format to VP9 is in vp9_loop_filter_init
-> + */
-> +#define MAX_LOOP_FILTER		63
-> +#define MAX_REF_LF_DELTAS	4
-> +#define MAX_MODE_LF_DELTAS	2
-> +#define SEGMENT_DELTADATA	0
-> +#define SEGMENT_ABSDATA		1
-> +#define MAX_SEGMENTS		8
-> +
-> +/* VP9 PROB processing defines */
-> +#define VP9_PARTITION_START      0
-> +#define VP9_PARTITION_SIZE_STEP  (3 * 4)
-> +#define VP9_PARTITION_ONE_SIZE   (4 * VP9_PARTITION_SIZE_STEP)
-> +#define VP9_PARTITION_KEY_START  0
-> +#define VP9_PARTITION_P_START    VP9_PARTITION_ONE_SIZE
-> +#define VP9_PARTITION_SIZE       (2 * VP9_PARTITION_ONE_SIZE)
-> +#define VP9_SKIP_START           (VP9_PARTITION_START + VP9_PARTITION_SIZE)
-> +#define VP9_SKIP_SIZE            4 /* only use 3*/
-> +#define VP9_TX_MODE_START        (VP9_SKIP_START + VP9_SKIP_SIZE)
-> +#define VP9_TX_MODE_8_0_OFFSET   0
-> +#define VP9_TX_MODE_8_1_OFFSET   1
-> +#define VP9_TX_MODE_16_0_OFFSET  2
-> +#define VP9_TX_MODE_16_1_OFFSET  4
-> +#define VP9_TX_MODE_32_0_OFFSET  6
-> +#define VP9_TX_MODE_32_1_OFFSET  9
-> +#define VP9_TX_MODE_SIZE         12
-> +#define VP9_COEF_START           (VP9_TX_MODE_START + VP9_TX_MODE_SIZE)
-> +#define VP9_COEF_BAND_0_OFFSET   0
-> +#define VP9_COEF_BAND_1_OFFSET   (VP9_COEF_BAND_0_OFFSET + 3 * 3 + 1)
-> +#define VP9_COEF_BAND_2_OFFSET   (VP9_COEF_BAND_1_OFFSET + 6 * 3)
-> +#define VP9_COEF_BAND_3_OFFSET   (VP9_COEF_BAND_2_OFFSET + 6 * 3)
-> +#define VP9_COEF_BAND_4_OFFSET   (VP9_COEF_BAND_3_OFFSET + 6 * 3)
-> +#define VP9_COEF_BAND_5_OFFSET   (VP9_COEF_BAND_4_OFFSET + 6 * 3)
-> +#define VP9_COEF_SIZE_ONE_SET    100 /* ((3 + 5 * 6) * 3 + 1 padding)*/
-> +#define VP9_COEF_4X4_START       (VP9_COEF_START + 0 * VP9_COEF_SIZE_ONE_SET)
-> +#define VP9_COEF_8X8_START       (VP9_COEF_START + 4 * VP9_COEF_SIZE_ONE_SET)
-> +#define VP9_COEF_16X16_START     (VP9_COEF_START + 8 * VP9_COEF_SIZE_ONE_SET)
-> +#define VP9_COEF_32X32_START     (VP9_COEF_START + 12 * VP9_COEF_SIZE_ONE_SET)
-> +#define VP9_COEF_SIZE_PLANE      (2 * VP9_COEF_SIZE_ONE_SET)
-> +#define VP9_COEF_SIZE            (4 * 2 * 2 * VP9_COEF_SIZE_ONE_SET)
-> +#define VP9_INTER_MODE_START     (VP9_COEF_START + VP9_COEF_SIZE)
-> +#define VP9_INTER_MODE_SIZE      24 /* only use 21 (# * 7)*/
-> +#define VP9_INTERP_START         (VP9_INTER_MODE_START + VP9_INTER_MODE_SIZE)
-> +#define VP9_INTERP_SIZE          8
-> +#define VP9_INTRA_INTER_START    (VP9_INTERP_START + VP9_INTERP_SIZE)
-> +#define VP9_INTRA_INTER_SIZE     4
-> +#define VP9_INTERP_INTRA_INTER_START  VP9_INTERP_START
-> +#define VP9_INTERP_INTRA_INTER_SIZE   (VP9_INTERP_SIZE + VP9_INTRA_INTER_SIZE)
-> +#define VP9_COMP_INTER_START     \
-> +		(VP9_INTERP_INTRA_INTER_START + VP9_INTERP_INTRA_INTER_SIZE)
-> +#define VP9_COMP_INTER_SIZE      5
-> +#define VP9_COMP_REF_START       (VP9_COMP_INTER_START + VP9_COMP_INTER_SIZE)
-> +#define VP9_COMP_REF_SIZE        5
-> +#define VP9_SINGLE_REF_START     (VP9_COMP_REF_START + VP9_COMP_REF_SIZE)
-> +#define VP9_SINGLE_REF_SIZE      10
-> +#define VP9_REF_MODE_START       VP9_COMP_INTER_START
-> +#define VP9_REF_MODE_SIZE        \
-> +		(VP9_COMP_INTER_SIZE + VP9_COMP_REF_SIZE + VP9_SINGLE_REF_SIZE)
-> +#define VP9_IF_Y_MODE_START      (VP9_REF_MODE_START + VP9_REF_MODE_SIZE)
-> +#define VP9_IF_Y_MODE_SIZE       36
-> +#define VP9_IF_UV_MODE_START     (VP9_IF_Y_MODE_START + VP9_IF_Y_MODE_SIZE)
-> +#define VP9_IF_UV_MODE_SIZE      92 /* only use 90*/
-> +#define VP9_MV_JOINTS_START      (VP9_IF_UV_MODE_START + VP9_IF_UV_MODE_SIZE)
-> +#define VP9_MV_JOINTS_SIZE       3
-> +#define VP9_MV_SIGN_0_START      (VP9_MV_JOINTS_START + VP9_MV_JOINTS_SIZE)
-> +#define VP9_MV_SIGN_0_SIZE       1
-> +#define VP9_MV_CLASSES_0_START   (VP9_MV_SIGN_0_START + VP9_MV_SIGN_0_SIZE)
-> +#define VP9_MV_CLASSES_0_SIZE    10
-> +#define VP9_MV_CLASS0_0_START    \
-> +		(VP9_MV_CLASSES_0_START + VP9_MV_CLASSES_0_SIZE)
-> +#define VP9_MV_CLASS0_0_SIZE     1
-> +#define VP9_MV_BITS_0_START      (VP9_MV_CLASS0_0_START + VP9_MV_CLASS0_0_SIZE)
-> +#define VP9_MV_BITS_0_SIZE       10
-> +#define VP9_MV_SIGN_1_START      (VP9_MV_BITS_0_START + VP9_MV_BITS_0_SIZE)
-> +#define VP9_MV_SIGN_1_SIZE       1
-> +#define VP9_MV_CLASSES_1_START   \
-> +			(VP9_MV_SIGN_1_START + VP9_MV_SIGN_1_SIZE)
-> +#define VP9_MV_CLASSES_1_SIZE    10
-> +#define VP9_MV_CLASS0_1_START    \
-> +			(VP9_MV_CLASSES_1_START + VP9_MV_CLASSES_1_SIZE)
-> +#define VP9_MV_CLASS0_1_SIZE     1
-> +#define VP9_MV_BITS_1_START      \
-> +			(VP9_MV_CLASS0_1_START + VP9_MV_CLASS0_1_SIZE)
-> +#define VP9_MV_BITS_1_SIZE       10
-> +#define VP9_MV_CLASS0_FP_0_START \
-> +			(VP9_MV_BITS_1_START + VP9_MV_BITS_1_SIZE)
-> +#define VP9_MV_CLASS0_FP_0_SIZE  9
-> +#define VP9_MV_CLASS0_FP_1_START \
-> +			(VP9_MV_CLASS0_FP_0_START + VP9_MV_CLASS0_FP_0_SIZE)
-> +#define VP9_MV_CLASS0_FP_1_SIZE  9
-> +#define VP9_MV_CLASS0_HP_0_START \
-> +			(VP9_MV_CLASS0_FP_1_START + VP9_MV_CLASS0_FP_1_SIZE)
-> +#define VP9_MV_CLASS0_HP_0_SIZE  2
-> +#define VP9_MV_CLASS0_HP_1_START \
-> +			(VP9_MV_CLASS0_HP_0_START + VP9_MV_CLASS0_HP_0_SIZE)
-> +#define VP9_MV_CLASS0_HP_1_SIZE  2
-> +#define VP9_MV_START             VP9_MV_JOINTS_START
-> +#define VP9_MV_SIZE              72 /*only use 69*/
-> +
-> +#define VP9_TOTAL_SIZE           (VP9_MV_START + VP9_MV_SIZE)
-> +
-> +/* VP9 COUNT mem processing defines */
-> +#define VP9_COEF_COUNT_START           0
-> +#define VP9_COEF_COUNT_BAND_0_OFFSET   0
-> +#define VP9_COEF_COUNT_BAND_1_OFFSET   \
-> +			(VP9_COEF_COUNT_BAND_0_OFFSET + 3 * 5)
-> +#define VP9_COEF_COUNT_BAND_2_OFFSET   \
-> +			(VP9_COEF_COUNT_BAND_1_OFFSET + 6 * 5)
-> +#define VP9_COEF_COUNT_BAND_3_OFFSET   \
-> +			(VP9_COEF_COUNT_BAND_2_OFFSET + 6 * 5)
-> +#define VP9_COEF_COUNT_BAND_4_OFFSET   \
-> +			(VP9_COEF_COUNT_BAND_3_OFFSET + 6 * 5)
-> +#define VP9_COEF_COUNT_BAND_5_OFFSET   \
-> +			(VP9_COEF_COUNT_BAND_4_OFFSET + 6 * 5)
-> +#define VP9_COEF_COUNT_SIZE_ONE_SET    165 /* ((3 + 5 * 6) * 5 */
-> +#define VP9_COEF_COUNT_4X4_START       \
-> +		(VP9_COEF_COUNT_START + 0 * VP9_COEF_COUNT_SIZE_ONE_SET)
-> +#define VP9_COEF_COUNT_8X8_START       \
-> +		(VP9_COEF_COUNT_START + 4 * VP9_COEF_COUNT_SIZE_ONE_SET)
-> +#define VP9_COEF_COUNT_16X16_START     \
-> +		(VP9_COEF_COUNT_START + 8 * VP9_COEF_COUNT_SIZE_ONE_SET)
-> +#define VP9_COEF_COUNT_32X32_START     \
-> +		(VP9_COEF_COUNT_START + 12 * VP9_COEF_COUNT_SIZE_ONE_SET)
-> +#define VP9_COEF_COUNT_SIZE_PLANE      (2 * VP9_COEF_COUNT_SIZE_ONE_SET)
-> +#define VP9_COEF_COUNT_SIZE            (4 * 2 * 2 * VP9_COEF_COUNT_SIZE_ONE_SET)
-> +
-> +#define VP9_INTRA_INTER_COUNT_START    \
-> +		(VP9_COEF_COUNT_START + VP9_COEF_COUNT_SIZE)
-> +#define VP9_INTRA_INTER_COUNT_SIZE     (4 * 2)
-> +#define VP9_COMP_INTER_COUNT_START     \
-> +		(VP9_INTRA_INTER_COUNT_START + VP9_INTRA_INTER_COUNT_SIZE)
-> +#define VP9_COMP_INTER_COUNT_SIZE      (5 * 2)
-> +#define VP9_COMP_REF_COUNT_START       \
-> +		(VP9_COMP_INTER_COUNT_START + VP9_COMP_INTER_COUNT_SIZE)
-> +#define VP9_COMP_REF_COUNT_SIZE        (5 * 2)
-> +#define VP9_SINGLE_REF_COUNT_START     \
-> +		(VP9_COMP_REF_COUNT_START + VP9_COMP_REF_COUNT_SIZE)
-> +#define VP9_SINGLE_REF_COUNT_SIZE      (10 * 2)
-> +#define VP9_TX_MODE_COUNT_START        \
-> +		(VP9_SINGLE_REF_COUNT_START + VP9_SINGLE_REF_COUNT_SIZE)
-> +#define VP9_TX_MODE_COUNT_SIZE         (12 * 2)
-> +#define VP9_SKIP_COUNT_START           \
-> +		(VP9_TX_MODE_COUNT_START + VP9_TX_MODE_COUNT_SIZE)
-> +#define VP9_SKIP_COUNT_SIZE            (3 * 2)
-> +#define VP9_MV_SIGN_0_COUNT_START      \
-> +		(VP9_SKIP_COUNT_START + VP9_SKIP_COUNT_SIZE)
-> +#define VP9_MV_SIGN_0_COUNT_SIZE       (1 * 2)
-> +#define VP9_MV_SIGN_1_COUNT_START      \
-> +		(VP9_MV_SIGN_0_COUNT_START + VP9_MV_SIGN_0_COUNT_SIZE)
-> +#define VP9_MV_SIGN_1_COUNT_SIZE       (1 * 2)
-> +#define VP9_MV_BITS_0_COUNT_START      \
-> +		(VP9_MV_SIGN_1_COUNT_START + VP9_MV_SIGN_1_COUNT_SIZE)
-> +#define VP9_MV_BITS_0_COUNT_SIZE       (10 * 2)
-> +#define VP9_MV_BITS_1_COUNT_START      \
-> +		(VP9_MV_BITS_0_COUNT_START + VP9_MV_BITS_0_COUNT_SIZE)
-> +#define VP9_MV_BITS_1_COUNT_SIZE       (10 * 2)
-> +#define VP9_MV_CLASS0_HP_0_COUNT_START \
-> +		(VP9_MV_BITS_1_COUNT_START + VP9_MV_BITS_1_COUNT_SIZE)
-> +#define VP9_MV_CLASS0_HP_0_COUNT_SIZE  (2 * 2)
-> +#define VP9_MV_CLASS0_HP_1_COUNT_START \
-> +		(VP9_MV_CLASS0_HP_0_COUNT_START + VP9_MV_CLASS0_HP_0_COUNT_SIZE)
-> +#define VP9_MV_CLASS0_HP_1_COUNT_SIZE  (2 * 2)
-> +
-> +/* Start merge_tree */
-> +#define VP9_INTER_MODE_COUNT_START     \
-> +		(VP9_MV_CLASS0_HP_1_COUNT_START + VP9_MV_CLASS0_HP_1_COUNT_SIZE)
-> +#define VP9_INTER_MODE_COUNT_SIZE      (7 * 4)
-> +#define VP9_IF_Y_MODE_COUNT_START      \
-> +		(VP9_INTER_MODE_COUNT_START + VP9_INTER_MODE_COUNT_SIZE)
-> +#define VP9_IF_Y_MODE_COUNT_SIZE       (10 * 4)
-> +#define VP9_IF_UV_MODE_COUNT_START     \
-> +		(VP9_IF_Y_MODE_COUNT_START + VP9_IF_Y_MODE_COUNT_SIZE)
-> +#define VP9_IF_UV_MODE_COUNT_SIZE      (10 * 10)
-> +#define VP9_PARTITION_P_COUNT_START    \
-> +		(VP9_IF_UV_MODE_COUNT_START + VP9_IF_UV_MODE_COUNT_SIZE)
-> +#define VP9_PARTITION_P_COUNT_SIZE     (4 * 4 * 4)
-> +#define VP9_INTERP_COUNT_START         \
-> +		(VP9_PARTITION_P_COUNT_START + VP9_PARTITION_P_COUNT_SIZE)
-> +#define VP9_INTERP_COUNT_SIZE          (4 * 3)
-> +#define VP9_MV_JOINTS_COUNT_START      \
-> +		(VP9_INTERP_COUNT_START + VP9_INTERP_COUNT_SIZE)
-> +#define VP9_MV_JOINTS_COUNT_SIZE       (1 * 4)
-> +#define VP9_MV_CLASSES_0_COUNT_START   \
-> +		(VP9_MV_JOINTS_COUNT_START + VP9_MV_JOINTS_COUNT_SIZE)
-> +#define VP9_MV_CLASSES_0_COUNT_SIZE    (1 * 11)
-> +#define VP9_MV_CLASS0_0_COUNT_START    \
-> +		(VP9_MV_CLASSES_0_COUNT_START + VP9_MV_CLASSES_0_COUNT_SIZE)
-> +#define VP9_MV_CLASS0_0_COUNT_SIZE     (1 * 2)
-> +#define VP9_MV_CLASSES_1_COUNT_START   \
-> +		(VP9_MV_CLASS0_0_COUNT_START + VP9_MV_CLASS0_0_COUNT_SIZE)
-> +#define VP9_MV_CLASSES_1_COUNT_SIZE    (1 * 11)
-> +#define VP9_MV_CLASS0_1_COUNT_START    \
-> +		(VP9_MV_CLASSES_1_COUNT_START + VP9_MV_CLASSES_1_COUNT_SIZE)
-> +#define VP9_MV_CLASS0_1_COUNT_SIZE     (1 * 2)
-> +#define VP9_MV_CLASS0_FP_0_COUNT_START \
-> +		(VP9_MV_CLASS0_1_COUNT_START + VP9_MV_CLASS0_1_COUNT_SIZE)
-> +#define VP9_MV_CLASS0_FP_0_COUNT_SIZE  (3 * 4)
-> +#define VP9_MV_CLASS0_FP_1_COUNT_START \
-> +		(VP9_MV_CLASS0_FP_0_COUNT_START + VP9_MV_CLASS0_FP_0_COUNT_SIZE)
-> +#define VP9_MV_CLASS0_FP_1_COUNT_SIZE  (3 * 4)
-> +
-> +#define DC_PRED    0	/* Average of above and left pixels */
-> +#define V_PRED     1	/* Vertical */
-> +#define H_PRED     2	/* Horizontal */
-> +#define D45_PRED   3	/* Directional 45 deg = round(arctan(1/1) * 180/pi) */
-> +#define D135_PRED  4	/* Directional 135 deg = 180 - 45 */
-> +#define D117_PRED  5	/* Directional 117 deg = 180 - 63 */
-> +#define D153_PRED  6	/* Directional 153 deg = 180 - 27 */
-> +#define D207_PRED  7	/* Directional 207 deg = 180 + 27 */
-> +#define D63_PRED   8	/* Directional 63 deg = round(arctan(2/1) * 180/pi) */
-> +#define TM_PRED    9	/* True-motion */
-> +
-> +#define ROUND_POWER_OF_TWO(value, num) (((value) + (1 << ((num) - 1))) >> (num))
-> +
-> +#define MODE_MV_COUNT_SAT 20
-> +static const int count_to_update_factor[MODE_MV_COUNT_SAT + 1] = {
-> +	0, 6, 12, 19, 25, 32, 38, 44, 51, 57, 64,
-> +	70, 76, 83, 89, 96, 102, 108, 115, 121, 128
-> +};
-> +
-> +union rpm_param {
-> +	struct {
-> +		u16 data[RPM_BUF_SIZE];
-> +	} l;
-> +	struct {
-> +		u16 profile;
-> +		u16 show_existing_frame;
-> +		u16 frame_to_show_idx;
-> +		u16 frame_type; /*1 bit*/
-> +		u16 show_frame; /*1 bit*/
-> +		u16 error_resilient_mode; /*1 bit*/
-> +		u16 intra_only; /*1 bit*/
-> +		u16 display_size_present; /*1 bit*/
-> +		u16 reset_frame_context;
-> +		u16 refresh_frame_flags;
-> +		u16 width;
-> +		u16 height;
-> +		u16 display_width;
-> +		u16 display_height;
-> +		u16 ref_info;
-> +		u16 same_frame_size;
-> +		u16 mode_ref_delta_enabled;
-> +		u16 ref_deltas[4];
-> +		u16 mode_deltas[2];
-> +		u16 filter_level;
-> +		u16 sharpness_level;
-> +		u16 bit_depth;
-> +		u16 seg_quant_info[8];
-> +		u16 seg_enabled;
-> +		u16 seg_abs_delta;
-> +		/* bit 15: feature enabled; bit 8, sign; bit[5:0], data */
-> +		u16 seg_lf_info[8];
-> +	} p;
-> +};
-> +
-> +enum SEG_LVL_FEATURES {
-> +	SEG_LVL_ALT_Q = 0,	/* Use alternate Quantizer */
-> +	SEG_LVL_ALT_LF = 1,	/* Use alternate loop filter value */
-> +	SEG_LVL_REF_FRAME = 2,	/* Optional Segment reference frame */
-> +	SEG_LVL_SKIP = 3,	/* Optional Segment (0,0) + skip mode */
-> +	SEG_LVL_MAX = 4		/* Number of features supported */
-> +};
-> +
-> +struct segmentation {
-> +	u8 enabled;
-> +	u8 update_map;
-> +	u8 update_data;
-> +	u8 abs_delta;
-> +	u8 temporal_update;
-> +	s16 feature_data[MAX_SEGMENTS][SEG_LVL_MAX];
-> +	unsigned int feature_mask[MAX_SEGMENTS];
-> +};
-> +
-> +struct loop_filter_thresh {
-> +	u8 mblim;
-> +	u8 lim;
-> +	u8 hev_thr;
-> +};
-> +
-> +struct loop_filter_info_n {
-> +	struct loop_filter_thresh lfthr[MAX_LOOP_FILTER + 1];
-> +	u8 lvl[MAX_SEGMENTS][MAX_REF_FRAMES][MAX_MODE_LF_DELTAS];
-> +};
-> +
-> +struct loopfilter {
-> +	int filter_level;
-> +
-> +	int sharpness_level;
-> +	int last_sharpness_level;
-> +
-> +	u8 mode_ref_delta_enabled;
-> +	u8 mode_ref_delta_update;
-> +
-> +	/*0 = Intra, Last, GF, ARF*/
-> +	signed char ref_deltas[MAX_REF_LF_DELTAS];
-> +	signed char last_ref_deltas[MAX_REF_LF_DELTAS];
-> +
-> +	/*0 = ZERO_MV, MV*/
-> +	signed char mode_deltas[MAX_MODE_LF_DELTAS];
-> +	signed char last_mode_deltas[MAX_MODE_LF_DELTAS];
-> +};
-> +
-> +struct vp9_frame {
-> +	struct list_head list;
-> +	struct vb2_v4l2_buffer *vbuf;
-> +	int index;
-> +	int intra_only;
-> +	int show;
-> +	int type;
-> +	int done;
-> +	unsigned int width;
-> +	unsigned int height;
-> +};
-> +
-> +struct codec_vp9 {
-> +	/* VP9 context lock */
-> +	struct mutex lock;
-> +
-> +	/* Common part with the HEVC decoder */
-> +	struct codec_hevc_common common;
-> +
-> +	/* Buffer for the VP9 Workspace */
-> +	void      *workspace_vaddr;
-> +	dma_addr_t workspace_paddr;
-> +
-> +	/* Contains many information parsed from the bitstream */
-> +	union rpm_param rpm_param;
-> +
-> +	/* Whether we detected the bitstream as 10-bit */
-> +	int is_10bit;
-> +
-> +	/* Coded resolution reported by the hardware */
-> +	u32 width, height;
-> +
-> +	/* All ref frames used by the HW at a given time */
-> +	struct list_head ref_frames_list;
-> +	u32 frames_num;
-> +
-> +	/* In case of downsampling (decoding with FBC but outputting in NV12M),
-> +	 * we need to allocate additional buffers for FBC.
-> +	 */
-> +	void      *fbc_buffer_vaddr[MAX_REF_PIC_NUM];
-> +	dma_addr_t fbc_buffer_paddr[MAX_REF_PIC_NUM];
-> +
-> +	int ref_frame_map[REF_FRAMES];
-> +	int next_ref_frame_map[REF_FRAMES];
-> +	struct vp9_frame *frame_refs[REFS_PER_FRAME];
-> +
-> +	u32 lcu_total;
-> +
-> +	/* loop filter */
-> +	int default_filt_lvl;
-> +	struct loop_filter_info_n lfi;
-> +	struct loopfilter lf;
-> +	struct segmentation seg_4lf;
-> +
-> +	struct vp9_frame *cur_frame;
-> +	struct vp9_frame *prev_frame;
-> +};
-> +
-> +static int div_r32(s64 m, int n)
-> +{
-> +	s64 qu = div_s64(m, n);
-> +
-> +	return (int)qu;
-> +}
-> +
-> +static int clip_prob(int p)
-> +{
-> +	return clamp_val(p, 1, 255);
-> +}
-> +
-> +static int segfeature_active(struct segmentation *seg, int segment_id,
-> +			     enum SEG_LVL_FEATURES feature_id)
-> +{
-> +	return seg->enabled &&
-> +		(seg->feature_mask[segment_id] & (1 << feature_id));
-> +}
-> +
-> +static int get_segdata(struct segmentation *seg, int segment_id,
-> +		       enum SEG_LVL_FEATURES feature_id)
-> +{
-> +	return seg->feature_data[segment_id][feature_id];
-> +}
-> +
-> +static void vp9_update_sharpness(struct loop_filter_info_n *lfi,
-> +				 int sharpness_lvl)
-> +{
-> +	int lvl;
-> +
-> +	/* For each possible value for the loop filter fill out limits*/
-> +	for (lvl = 0; lvl <= MAX_LOOP_FILTER; lvl++) {
-> +		/* Set loop filter parameters that control sharpness.*/
-> +		int block_inside_limit = lvl >> ((sharpness_lvl > 0) +
-> +					(sharpness_lvl > 4));
-> +
-> +		if (sharpness_lvl > 0) {
-> +			if (block_inside_limit > (9 - sharpness_lvl))
-> +				block_inside_limit = (9 - sharpness_lvl);
-> +		}
-> +
-> +		if (block_inside_limit < 1)
-> +			block_inside_limit = 1;
-> +
-> +		lfi->lfthr[lvl].lim = (u8)block_inside_limit;
-> +		lfi->lfthr[lvl].mblim = (u8)(2 * (lvl + 2) +
-> +				block_inside_limit);
-> +	}
-> +}
-> +
-> +/* Instantiate this function once when decode is started */
-> +static void
-> +vp9_loop_filter_init(struct amvdec_core *core, struct codec_vp9 *vp9)
-> +{
-> +	struct loop_filter_info_n *lfi = &vp9->lfi;
-> +	struct loopfilter *lf = &vp9->lf;
-> +	struct segmentation *seg_4lf = &vp9->seg_4lf;
-> +	int i;
-> +
-> +	memset(lfi, 0, sizeof(struct loop_filter_info_n));
-> +	memset(lf, 0, sizeof(struct loopfilter));
-> +	memset(seg_4lf, 0, sizeof(struct segmentation));
-> +	lf->sharpness_level = 0;
-> +	vp9_update_sharpness(lfi, lf->sharpness_level);
-> +	lf->last_sharpness_level = lf->sharpness_level;
-> +
-> +	for (i = 0; i < 32; i++) {
-> +		unsigned int thr;
-> +
-> +		thr = ((lfi->lfthr[i * 2 + 1].lim & 0x3f) << 8) |
-> +			(lfi->lfthr[i * 2 + 1].mblim & 0xff);
-> +		thr = (thr << 16) | ((lfi->lfthr[i * 2].lim & 0x3f) << 8) |
-> +			(lfi->lfthr[i * 2].mblim & 0xff);
-> +
-> +		amvdec_write_dos(core, HEVC_DBLK_CFG9, thr);
-> +	}
-> +
-> +	if (core->platform->revision >= VDEC_REVISION_G12A)
-> +		/* VP9 video format */
-> +		amvdec_write_dos(core, HEVC_DBLK_CFGB, (0x54 << 8) | BIT(0));
-> +	else if (core->platform->revision >= VDEC_REVISION_SM1)
-> +		amvdec_write_dos(core, HEVC_DBLK_CFGB,
-> +				 (0x3 << 14) | /* dw fifo thres r and b */
-> +				 (0x3 << 12) | /* dw fifo thres r or b */
-> +				 (0x3 << 10) | /* dw fifo thres not r/b */
-> +				 BIT(0)); /* VP9 video format */
-> +	else
-> +		amvdec_write_dos(core, HEVC_DBLK_CFGB, 0x40400001);
-> +}
-> +
-> +static void
-> +vp9_loop_filter_frame_init(struct amvdec_core *core, struct segmentation *seg,
-> +			   struct loop_filter_info_n *lfi,
-> +			   struct loopfilter *lf, int default_filt_lvl)
-> +{
-> +	int i;
-> +	int seg_id;
-> +
-> +	/*
-> +	 * n_shift is the multiplier for lf_deltas
-> +	 * the multiplier is:
-> +	 * - 1 for when filter_lvl is between 0 and 31
-> +	 * - 2 when filter_lvl is between 32 and 63
-> +	 */
-> +	const int scale = 1 << (default_filt_lvl >> 5);
-> +
-> +	/* update limits if sharpness has changed */
-> +	if (lf->last_sharpness_level != lf->sharpness_level) {
-> +		vp9_update_sharpness(lfi, lf->sharpness_level);
-> +		lf->last_sharpness_level = lf->sharpness_level;
-> +
-> +		/* Write to register */
-> +		for (i = 0; i < 32; i++) {
-> +			unsigned int thr;
-> +
-> +			thr = ((lfi->lfthr[i * 2 + 1].lim & 0x3f) << 8) |
-> +			      (lfi->lfthr[i * 2 + 1].mblim & 0xff);
-> +			thr = (thr << 16) |
-> +			      ((lfi->lfthr[i * 2].lim & 0x3f) << 8) |
-> +			      (lfi->lfthr[i * 2].mblim & 0xff);
-> +
-> +			amvdec_write_dos(core, HEVC_DBLK_CFG9, thr);
-> +		}
-> +	}
-> +
-> +	for (seg_id = 0; seg_id < MAX_SEGMENTS; seg_id++) {
-> +		int lvl_seg = default_filt_lvl;
-> +
-> +		if (segfeature_active(seg, seg_id, SEG_LVL_ALT_LF)) {
-> +			const int data = get_segdata(seg, seg_id,
-> +						SEG_LVL_ALT_LF);
-> +			lvl_seg = clamp_t(int,
-> +					  seg->abs_delta == SEGMENT_ABSDATA ?
-> +						data : default_filt_lvl + data,
-> +					  0, MAX_LOOP_FILTER);
-> +		}
-> +
-> +		if (!lf->mode_ref_delta_enabled) {
-> +			/*
-> +			 * We could get rid of this if we assume that deltas
-> +			 * are set to zero when not in use.
-> +			 * encoder always uses deltas
-> +			 */
-> +			memset(lfi->lvl[seg_id], lvl_seg,
-> +			       sizeof(lfi->lvl[seg_id]));
-> +		} else {
-> +			int ref, mode;
-> +			const int intra_lvl =
-> +				lvl_seg + lf->ref_deltas[INTRA_FRAME] * scale;
-> +			lfi->lvl[seg_id][INTRA_FRAME][0] =
-> +				clamp_val(intra_lvl, 0, MAX_LOOP_FILTER);
-> +
-> +			for (ref = LAST_FRAME; ref < MAX_REF_FRAMES; ++ref) {
-> +				for (mode = 0; mode < MAX_MODE_LF_DELTAS;
-> +				     ++mode) {
-> +					const int inter_lvl =
-> +						lvl_seg +
-> +						lf->ref_deltas[ref] * scale +
-> +						lf->mode_deltas[mode] * scale;
-> +					lfi->lvl[seg_id][ref][mode] =
-> +						clamp_val(inter_lvl, 0,
-> +							  MAX_LOOP_FILTER);
-> +				}
-> +			}
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < 16; i++) {
-> +		unsigned int level;
-> +
-> +		level = ((lfi->lvl[i >> 1][3][i & 1] & 0x3f) << 24) |
-> +			((lfi->lvl[i >> 1][2][i & 1] & 0x3f) << 16) |
-> +			((lfi->lvl[i >> 1][1][i & 1] & 0x3f) << 8) |
-> +			(lfi->lvl[i >> 1][0][i & 1] & 0x3f);
-> +		if (!default_filt_lvl)
-> +			level = 0;
-> +
-> +		amvdec_write_dos(core, HEVC_DBLK_CFGA, level);
-> +	}
-> +}
-> +
-> +static void codec_vp9_flush_output(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	struct vp9_frame *tmp, *n;
-> +
-> +	mutex_lock(&vp9->lock);
-> +	list_for_each_entry_safe(tmp, n, &vp9->ref_frames_list, list) {
-> +		if (!tmp->done) {
-> +			if (tmp->show)
-> +				amvdec_dst_buf_done(sess, tmp->vbuf,
-> +						    V4L2_FIELD_NONE);
-> +			else
-> +				v4l2_m2m_buf_queue(sess->m2m_ctx, tmp->vbuf);
-> +
-> +			vp9->frames_num--;
-> +		}
-> +
-> +		list_del(&tmp->list);
-> +		kfree(tmp);
-> +	}
-> +	mutex_unlock(&vp9->lock);
-> +}
-> +
-> +static u32 codec_vp9_num_pending_bufs(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +
-> +	if (!vp9)
-> +		return 0;
-> +
-> +	return vp9->frames_num;
-> +}
-> +
-> +static int codec_vp9_alloc_workspace(struct amvdec_core *core,
-> +				     struct codec_vp9 *vp9)
-> +{
-> +	/* Allocate some memory for the VP9 decoder's state */
-> +	vp9->workspace_vaddr = dma_alloc_coherent(core->dev, SIZE_WORKSPACE,
-> +						  &vp9->workspace_paddr,
-> +						  GFP_KERNEL);
-> +	if (!vp9->workspace_vaddr) {
-> +		dev_err(core->dev, "Failed to allocate VP9 Workspace\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	memset(vp9->workspace_vaddr, 0, SIZE_WORKSPACE);
-> +
-> +	return 0;
-> +}
-> +
-> +static void codec_vp9_setup_workspace(struct amvdec_session *sess,
-> +				      struct codec_vp9 *vp9)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	u32 revision = core->platform->revision;
-> +	dma_addr_t wkaddr = vp9->workspace_paddr;
-> +
-> +	amvdec_write_dos(core, HEVCD_IPP_LINEBUFF_BASE, wkaddr + IPP_OFFSET);
-> +	amvdec_write_dos(core, VP9_RPM_BUFFER, wkaddr + RPM_OFFSET);
-> +	amvdec_write_dos(core, VP9_SHORT_TERM_RPS, wkaddr + SH_TM_RPS_OFFSET);
-> +	amvdec_write_dos(core, VP9_PPS_BUFFER, wkaddr + PPS_OFFSET);
-> +	amvdec_write_dos(core, VP9_SAO_UP, wkaddr + SAO_UP_OFFSET);
-> +
-> +	amvdec_write_dos(core, VP9_STREAM_SWAP_BUFFER,
-> +			 wkaddr + SWAP_BUF_OFFSET);
-> +	amvdec_write_dos(core, VP9_STREAM_SWAP_BUFFER2,
-> +			 wkaddr + SWAP_BUF2_OFFSET);
-> +	amvdec_write_dos(core, VP9_SCALELUT, wkaddr + SCALELUT_OFFSET);
-> +
-> +	if (core->platform->revision >= VDEC_REVISION_G12A)
-> +		amvdec_write_dos(core, HEVC_DBLK_CFGE,
-> +				 wkaddr + DBLK_PARA_OFFSET);
-> +
-> +	amvdec_write_dos(core, HEVC_DBLK_CFG4, wkaddr + DBLK_PARA_OFFSET);
-> +	amvdec_write_dos(core, HEVC_DBLK_CFG5, wkaddr + DBLK_DATA_OFFSET);
-> +	amvdec_write_dos(core, VP9_SEG_MAP_BUFFER, wkaddr + SEG_MAP_OFFSET);
-> +	amvdec_write_dos(core, VP9_PROB_SWAP_BUFFER, wkaddr + PROB_OFFSET);
-> +	amvdec_write_dos(core, VP9_COUNT_SWAP_BUFFER, wkaddr + COUNT_OFFSET);
-> +	amvdec_write_dos(core, LMEM_DUMP_ADR, wkaddr + LMEM_OFFSET);
-> +
-> +	if (codec_hevc_use_mmu(revision, sess->pixfmt_cap, vp9->is_10bit)) {
-> +		amvdec_write_dos(core, HEVC_SAO_MMU_VH0_ADDR,
-> +				 wkaddr + MMU_VBH_OFFSET);
-> +		amvdec_write_dos(core, HEVC_SAO_MMU_VH1_ADDR,
-> +				 wkaddr + MMU_VBH_OFFSET + (MMU_VBH_SIZE / 2));
-> +
-> +		if (revision >= VDEC_REVISION_G12A)
-> +			amvdec_write_dos(core, HEVC_ASSIST_MMU_MAP_ADDR,
-> +					 vp9->common.mmu_map_paddr);
-> +		else
-> +			amvdec_write_dos(core, VP9_MMU_MAP_BUFFER,
-> +					 vp9->common.mmu_map_paddr);
-> +	}
-> +}
-> +
-> +static int codec_vp9_start(struct amvdec_session *sess)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct codec_vp9 *vp9;
-> +	u32 val;
-> +	int i;
-> +	int ret;
-> +
-> +	vp9 = kzalloc(sizeof(*vp9), GFP_KERNEL);
-> +	if (!vp9)
-> +		return -ENOMEM;
-> +
-> +	ret = codec_vp9_alloc_workspace(core, vp9);
-> +	if (ret)
-> +		goto free_vp9;
-> +
-> +	codec_vp9_setup_workspace(sess, vp9);
-> +	amvdec_write_dos_bits(core, HEVC_STREAM_CONTROL, BIT(0));
-> +	/* stream_fifo_hole */
-> +	if (core->platform->revision >= VDEC_REVISION_G12A)
-> +		amvdec_write_dos_bits(core, HEVC_STREAM_FIFO_CTL, BIT(29));
-> +
-> +	val = amvdec_read_dos(core, HEVC_PARSER_INT_CONTROL) & 0x7fffffff;
-> +	val |= (3 << 29) | BIT(24) | BIT(22) | BIT(7) | BIT(4) | BIT(0);
-> +	amvdec_write_dos(core, HEVC_PARSER_INT_CONTROL, val);
-> +	amvdec_write_dos_bits(core, HEVC_SHIFT_STATUS, BIT(0));
-> +	amvdec_write_dos(core, HEVC_SHIFT_CONTROL, BIT(10) | BIT(9) |
-> +			 (3 << 6) | BIT(5) | BIT(2) | BIT(1) | BIT(0));
-> +	amvdec_write_dos(core, HEVC_CABAC_CONTROL, BIT(0));
-> +	amvdec_write_dos(core, HEVC_PARSER_CORE_CONTROL, BIT(0));
-> +	amvdec_write_dos(core, HEVC_SHIFT_STARTCODE, 0x00000001);
-> +
-> +	amvdec_write_dos(core, VP9_DEC_STATUS_REG, 0);
-> +
-> +	amvdec_write_dos(core, HEVC_PARSER_CMD_WRITE, BIT(16));
-> +	for (i = 0; i < ARRAY_SIZE(vdec_hevc_parser_cmd); ++i)
-> +		amvdec_write_dos(core, HEVC_PARSER_CMD_WRITE,
-> +				 vdec_hevc_parser_cmd[i]);
-> +
-> +	amvdec_write_dos(core, HEVC_PARSER_CMD_SKIP_0, PARSER_CMD_SKIP_CFG_0);
-> +	amvdec_write_dos(core, HEVC_PARSER_CMD_SKIP_1, PARSER_CMD_SKIP_CFG_1);
-> +	amvdec_write_dos(core, HEVC_PARSER_CMD_SKIP_2, PARSER_CMD_SKIP_CFG_2);
-> +	amvdec_write_dos(core, HEVC_PARSER_IF_CONTROL,
-> +			 BIT(5) | BIT(2) | BIT(0));
-> +
-> +	amvdec_write_dos(core, HEVCD_IPP_TOP_CNTL, BIT(0));
-> +	amvdec_write_dos(core, HEVCD_IPP_TOP_CNTL, BIT(1));
-> +
-> +	amvdec_write_dos(core, VP9_WAIT_FLAG, 1);
-> +
-> +	/* clear mailbox interrupt */
-> +	amvdec_write_dos(core, HEVC_ASSIST_MBOX1_CLR_REG, 1);
-> +	/* enable mailbox interrupt */
-> +	amvdec_write_dos(core, HEVC_ASSIST_MBOX1_MASK, 1);
-> +	/* disable PSCALE for hardware sharing */
-> +	amvdec_write_dos(core, HEVC_PSCALE_CTRL, 0);
-> +	/* Let the uCode do all the parsing */
-> +	amvdec_write_dos(core, NAL_SEARCH_CTL, 0x8);
-> +
-> +	amvdec_write_dos(core, DECODE_STOP_POS, 0);
-> +	amvdec_write_dos(core, VP9_DECODE_MODE, DECODE_MODE_SINGLE);
-> +
-> +	pr_debug("decode_count: %u; decode_size: %u\n",
-> +		 amvdec_read_dos(core, HEVC_DECODE_COUNT),
-> +		 amvdec_read_dos(core, HEVC_DECODE_SIZE));
-> +
-> +	vp9_loop_filter_init(core, vp9);
-> +
-> +	INIT_LIST_HEAD(&vp9->ref_frames_list);
-> +	mutex_init(&vp9->lock);
-> +	memset(&vp9->ref_frame_map, -1, sizeof(vp9->ref_frame_map));
-> +	memset(&vp9->next_ref_frame_map, -1, sizeof(vp9->next_ref_frame_map));
-> +	for (i = 0; i < REFS_PER_FRAME; ++i)
-> +		vp9->frame_refs[i] = NULL;
-> +	sess->priv = vp9;
-> +
-> +	return 0;
-> +
-> +free_vp9:
-> +	kfree(vp9);
-> +	return ret;
-> +}
-> +
-> +static int codec_vp9_stop(struct amvdec_session *sess)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +
-> +	mutex_lock(&vp9->lock);
-> +	if (vp9->workspace_vaddr)
-> +		dma_free_coherent(core->dev, SIZE_WORKSPACE,
-> +				  vp9->workspace_vaddr,
-> +				  vp9->workspace_paddr);
-> +
-> +	codec_hevc_free_fbc_buffers(sess, &vp9->common);
-> +	mutex_unlock(&vp9->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static void codec_vp9_set_sao(struct amvdec_session *sess,
-> +			      struct vb2_buffer *vb)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +
-> +	dma_addr_t buf_y_paddr;
-> +	dma_addr_t buf_u_v_paddr;
-> +	u32 val;
-> +
-> +	if (codec_hevc_use_downsample(sess->pixfmt_cap, vp9->is_10bit))
-> +		buf_y_paddr =
-> +			vp9->common.fbc_buffer_paddr[vb->index];
-> +	else
-> +		buf_y_paddr =
-> +		       vb2_dma_contig_plane_dma_addr(vb, 0);
-> +
-> +	if (codec_hevc_use_fbc(sess->pixfmt_cap, vp9->is_10bit)) {
-> +		val = amvdec_read_dos(core, HEVC_SAO_CTRL5) & ~0xff0200;
-> +		amvdec_write_dos(core, HEVC_SAO_CTRL5, val);
-> +		amvdec_write_dos(core, HEVC_CM_BODY_START_ADDR, buf_y_paddr);
-> +	}
-> +
-> +	if (sess->pixfmt_cap == V4L2_PIX_FMT_NV12M) {
-> +		buf_y_paddr =
-> +		       vb2_dma_contig_plane_dma_addr(vb, 0);
-> +		buf_u_v_paddr =
-> +		       vb2_dma_contig_plane_dma_addr(vb, 1);
-> +		amvdec_write_dos(core, HEVC_SAO_Y_START_ADDR, buf_y_paddr);
-> +		amvdec_write_dos(core, HEVC_SAO_C_START_ADDR, buf_u_v_paddr);
-> +		amvdec_write_dos(core, HEVC_SAO_Y_WPTR, buf_y_paddr);
-> +		amvdec_write_dos(core, HEVC_SAO_C_WPTR, buf_u_v_paddr);
-> +	}
-> +
-> +	if (codec_hevc_use_mmu(core->platform->revision, sess->pixfmt_cap,
-> +			       vp9->is_10bit)) {
-> +		amvdec_write_dos(core, HEVC_CM_HEADER_START_ADDR,
-> +				 vp9->common.mmu_header_paddr[vb->index]);
-> +		/* use HEVC_CM_HEADER_START_ADDR */
-> +		amvdec_write_dos_bits(core, HEVC_SAO_CTRL5, BIT(10));
-> +	}
-> +
-> +	amvdec_write_dos(core, HEVC_SAO_Y_LENGTH,
-> +			 amvdec_get_output_size(sess));
-> +	amvdec_write_dos(core, HEVC_SAO_C_LENGTH,
-> +			 (amvdec_get_output_size(sess) / 2));
-> +
-> +	if (core->platform->revision >= VDEC_REVISION_G12A) {
-> +		amvdec_clear_dos_bits(core, HEVC_DBLK_CFGB,
-> +				      BIT(4) | BIT(5) | BIT(8) | BIT(9));
-> +		/* enable first, compressed write */
-> +		if (codec_hevc_use_fbc(sess->pixfmt_cap, vp9->is_10bit))
-> +			amvdec_write_dos_bits(core, HEVC_DBLK_CFGB, BIT(8));
-> +
-> +		/* enable second, uncompressed write */
-> +		if (sess->pixfmt_cap == V4L2_PIX_FMT_NV12M)
-> +			amvdec_write_dos_bits(core, HEVC_DBLK_CFGB, BIT(9));
-> +
-> +		/* dblk pipeline mode=1 for performance */
-> +		if (sess->width >= 1280)
-> +			amvdec_write_dos_bits(core, HEVC_DBLK_CFGB, BIT(4));
-> +
-> +		pr_debug("HEVC_DBLK_CFGB: %08X\n",
-> +			 amvdec_read_dos(core, HEVC_DBLK_CFGB));
-> +	}
-> +
-> +	val = amvdec_read_dos(core, HEVC_SAO_CTRL1) & ~0x3ff0;
-> +	val |= 0xff0; /* Set endianness for 2-bytes swaps (nv12) */
-> +	if (core->platform->revision < VDEC_REVISION_G12A) {
-> +		val &= ~0x3;
-> +		if (!codec_hevc_use_fbc(sess->pixfmt_cap, vp9->is_10bit))
-> +			val |= BIT(0); /* disable cm compression */
-> +		/* TOFIX: Handle Amlogic Framebuffer compression */
-> +	}
-> +
-> +	amvdec_write_dos(core, HEVC_SAO_CTRL1, val);
-> +	pr_debug("HEVC_SAO_CTRL1: %08X\n", val);
-> +
-> +	/* no downscale for NV12 */
-> +	val = amvdec_read_dos(core, HEVC_SAO_CTRL5) & ~0xff0000;
-> +	amvdec_write_dos(core, HEVC_SAO_CTRL5, val);
-> +
-> +	val = amvdec_read_dos(core, HEVCD_IPP_AXIIF_CONFIG) & ~0x30;
-> +	val |= 0xf;
-> +	val &= ~BIT(12); /* NV12 */
-> +	amvdec_write_dos(core, HEVCD_IPP_AXIIF_CONFIG, val);
-> +}
-> +
-> +static dma_addr_t codec_vp9_get_frame_mv_paddr(struct codec_vp9 *vp9,
-> +					       struct vp9_frame *frame)
-> +{
-> +	return vp9->workspace_paddr + MPRED_MV_OFFSET +
-> +	       (frame->index * MPRED_MV_BUF_SIZE);
-> +}
-> +
-> +static void codec_vp9_set_mpred_mv(struct amvdec_core *core,
-> +				   struct codec_vp9 *vp9)
-> +{
-> +	int mpred_mv_rd_end_addr;
-> +	int use_prev_frame_mvs = vp9->prev_frame->width ==
-> +					vp9->cur_frame->width &&
-> +				 vp9->prev_frame->height ==
-> +					vp9->cur_frame->height &&
-> +				 !vp9->prev_frame->intra_only &&
-> +				 vp9->prev_frame->show &&
-> +				 vp9->prev_frame->type != KEY_FRAME;
-> +
-> +	amvdec_write_dos(core, HEVC_MPRED_CTRL3, 0x24122412);
-> +	amvdec_write_dos(core, HEVC_MPRED_ABV_START_ADDR,
-> +			 vp9->workspace_paddr + MPRED_ABV_OFFSET);
-> +
-> +	amvdec_clear_dos_bits(core, HEVC_MPRED_CTRL4, BIT(6));
-> +	if (use_prev_frame_mvs)
-> +		amvdec_write_dos_bits(core, HEVC_MPRED_CTRL4, BIT(6));
-> +
-> +	amvdec_write_dos(core, HEVC_MPRED_MV_WR_START_ADDR,
-> +			 codec_vp9_get_frame_mv_paddr(vp9, vp9->cur_frame));
-> +	amvdec_write_dos(core, HEVC_MPRED_MV_WPTR,
-> +			 codec_vp9_get_frame_mv_paddr(vp9, vp9->cur_frame));
-> +
-> +	amvdec_write_dos(core, HEVC_MPRED_MV_RD_START_ADDR,
-> +			 codec_vp9_get_frame_mv_paddr(vp9, vp9->prev_frame));
-> +	amvdec_write_dos(core, HEVC_MPRED_MV_RPTR,
-> +			 codec_vp9_get_frame_mv_paddr(vp9, vp9->prev_frame));
-> +
-> +	mpred_mv_rd_end_addr =
-> +			codec_vp9_get_frame_mv_paddr(vp9, vp9->prev_frame) +
-> +			(vp9->lcu_total * MV_MEM_UNIT);
-> +	amvdec_write_dos(core, HEVC_MPRED_MV_RD_END_ADDR, mpred_mv_rd_end_addr);
-> +}
-> +
-> +static void codec_vp9_update_next_ref(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	u32 buf_idx = vp9->cur_frame->index;
-> +	int ref_index = 0;
-> +	int refresh_frame_flags;
-> +	int mask;
-> +
-> +	refresh_frame_flags = vp9->cur_frame->type == KEY_FRAME ?
-> +				0xff : param->p.refresh_frame_flags;
-> +
-> +	for (mask = refresh_frame_flags; mask; mask >>= 1) {
-> +		pr_debug("mask=%08X; ref_index=%d\n", mask, ref_index);
-> +		if (mask & 1)
-> +			vp9->next_ref_frame_map[ref_index] = buf_idx;
-> +		else
-> +			vp9->next_ref_frame_map[ref_index] =
-> +				vp9->ref_frame_map[ref_index];
-> +
-> +		++ref_index;
-> +	}
-> +
-> +	for (; ref_index < REF_FRAMES; ++ref_index)
-> +		vp9->next_ref_frame_map[ref_index] =
-> +			vp9->ref_frame_map[ref_index];
-> +}
-> +
-> +static void codec_vp9_save_refs(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	int i;
-> +
-> +	for (i = 0; i < REFS_PER_FRAME; ++i) {
-> +		const int ref = (param->p.ref_info >>
-> +				 (((REFS_PER_FRAME - i - 1) * 4) + 1)) & 0x7;
-> +
-> +		if (vp9->ref_frame_map[ref] < 0)
-> +			continue;
-> +
-> +		pr_warn("%s: FIXME, would need to save ref %d\n",
-> +			__func__, vp9->ref_frame_map[ref]);
-> +	}
-> +}
-> +
-> +static void codec_vp9_update_ref(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	int ref_index = 0;
-> +	int mask;
-> +	int refresh_frame_flags;
-> +
-> +	if (!vp9->cur_frame)
-> +		return;
-> +
-> +	refresh_frame_flags = vp9->cur_frame->type == KEY_FRAME ?
-> +				0xff : param->p.refresh_frame_flags;
-> +
-> +	for (mask = refresh_frame_flags; mask; mask >>= 1) {
-> +		vp9->ref_frame_map[ref_index] =
-> +			vp9->next_ref_frame_map[ref_index];
-> +		++ref_index;
-> +	}
-> +
-> +	if (param->p.show_existing_frame)
-> +		return;
-> +
-> +	for (; ref_index < REF_FRAMES; ++ref_index)
-> +		vp9->ref_frame_map[ref_index] =
-> +			vp9->next_ref_frame_map[ref_index];
-> +}
-> +
-> +static struct vp9_frame *codec_vp9_get_frame_by_idx(struct codec_vp9 *vp9,
-> +						    int idx)
-> +{
-> +	struct vp9_frame *frame;
-> +
-> +	list_for_each_entry(frame, &vp9->ref_frames_list, list) {
-> +		if (frame->index == idx)
-> +			return frame;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static void codec_vp9_sync_ref(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	int i;
-> +
-> +	for (i = 0; i < REFS_PER_FRAME; ++i) {
-> +		const int ref = (param->p.ref_info >>
-> +				 (((REFS_PER_FRAME - i - 1) * 4) + 1)) & 0x7;
-> +		const int idx = vp9->ref_frame_map[ref];
-> +
-> +		vp9->frame_refs[i] = codec_vp9_get_frame_by_idx(vp9, idx);
-> +		if (!vp9->frame_refs[i])
-> +			pr_warn("%s: couldn't find VP9 ref %d\n", __func__,
-> +				idx);
-> +	}
-> +}
-> +
-> +static void codec_vp9_set_refs(struct amvdec_session *sess,
-> +			       struct codec_vp9 *vp9)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	int i;
-> +
-> +	for (i = 0; i < REFS_PER_FRAME; ++i) {
-> +		struct vp9_frame *frame = vp9->frame_refs[i];
-> +		int id_y;
-> +		int id_u_v;
-> +
-> +		if (!frame)
-> +			continue;
-> +
-> +		if (codec_hevc_use_fbc(sess->pixfmt_cap, vp9->is_10bit)) {
-> +			id_y = frame->index;
-> +			id_u_v = id_y;
-> +		} else {
-> +			id_y = frame->index * 2;
-> +			id_u_v = id_y + 1;
-> +		}
-> +
-> +		amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_DATA_ADDR,
-> +				 (id_u_v << 16) | (id_u_v << 8) | id_y);
-> +	}
-> +}
-> +
-> +static void codec_vp9_set_mc(struct amvdec_session *sess,
-> +			     struct codec_vp9 *vp9)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	u32 scale = 0;
-> +	u32 sz;
-> +	int i;
-> +
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_ACCCONFIG_ADDR, 1);
-> +	codec_vp9_set_refs(sess, vp9);
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_ACCCONFIG_ADDR,
-> +			 (16 << 8) | 1);
-> +	codec_vp9_set_refs(sess, vp9);
-> +
-> +	amvdec_write_dos(core, VP9D_MPP_REFINFO_TBL_ACCCONFIG, BIT(2));
-> +	for (i = 0; i < REFS_PER_FRAME; ++i) {
-> +		if (!vp9->frame_refs[i])
-> +			continue;
-> +
-> +		if (vp9->frame_refs[i]->width != vp9->width ||
-> +		    vp9->frame_refs[i]->height != vp9->height)
-> +			scale = 1;
-> +
-> +		sz = amvdec_am21c_body_size(vp9->frame_refs[i]->width,
-> +					    vp9->frame_refs[i]->height);
-> +
-> +		amvdec_write_dos(core, VP9D_MPP_REFINFO_DATA,
-> +				 vp9->frame_refs[i]->width);
-> +		amvdec_write_dos(core, VP9D_MPP_REFINFO_DATA,
-> +				 vp9->frame_refs[i]->height);
-> +		amvdec_write_dos(core, VP9D_MPP_REFINFO_DATA,
-> +				 (vp9->frame_refs[i]->width << 14) /
-> +				 vp9->width);
-> +		amvdec_write_dos(core, VP9D_MPP_REFINFO_DATA,
-> +				 (vp9->frame_refs[i]->height << 14) /
-> +				 vp9->height);
-> +		amvdec_write_dos(core, VP9D_MPP_REFINFO_DATA, sz >> 5);
-> +	}
-> +
-> +	amvdec_write_dos(core, VP9D_MPP_REF_SCALE_ENBL, scale);
-> +}
-> +
-> +static struct vp9_frame *codec_vp9_get_new_frame(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	struct vb2_v4l2_buffer *vbuf;
-> +	struct vp9_frame *new_frame;
-> +
-> +	new_frame = kzalloc(sizeof(*new_frame), GFP_KERNEL);
-> +	if (!new_frame)
-> +		return NULL;
-> +
-> +	vbuf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx);
-> +	if (!vbuf) {
-> +		dev_err(sess->core->dev, "No dst buffer available\n");
-> +		kfree(new_frame);
-> +		return NULL;
-> +	}
-> +
-> +	while (codec_vp9_get_frame_by_idx(vp9, vbuf->vb2_buf.index)) {
-> +		struct vb2_v4l2_buffer *old_vbuf = vbuf;
-> +
-> +		vbuf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx);
-> +		v4l2_m2m_buf_queue(sess->m2m_ctx, old_vbuf);
-> +		if (!vbuf) {
-> +			dev_err(sess->core->dev, "No dst buffer available\n");
-> +			kfree(new_frame);
-> +			return NULL;
-> +		}
-> +	}
-> +
-> +	new_frame->vbuf = vbuf;
-> +	new_frame->index = vbuf->vb2_buf.index;
-> +	new_frame->intra_only = param->p.intra_only;
-> +	new_frame->show = param->p.show_frame;
-> +	new_frame->type = param->p.frame_type;
-> +	new_frame->width = vp9->width;
-> +	new_frame->height = vp9->height;
-> +	list_add_tail(&new_frame->list, &vp9->ref_frames_list);
-> +	vp9->frames_num++;
-> +
-> +	return new_frame;
-> +}
-> +
-> +static void codec_vp9_show_existing_frame(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +
-> +	if (!param->p.show_existing_frame)
-> +		return;
-> +
-> +	pr_debug("showing frame %u\n", param->p.frame_to_show_idx);
-> +}
-> +
-> +static void codec_vp9_rm_noshow_frame(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	struct vp9_frame *tmp;
-> +
-> +	list_for_each_entry(tmp, &vp9->ref_frames_list, list) {
-> +		if (tmp->show)
-> +			continue;
-> +
-> +		pr_debug("rm noshow: %u\n", tmp->index);
-> +		v4l2_m2m_buf_queue(sess->m2m_ctx, tmp->vbuf);
-> +		list_del(&tmp->list);
-> +		kfree(tmp);
-> +		vp9->frames_num--;
-> +		return;
-> +	}
-> +}
-> +
-> +static void codec_vp9_process_frame(struct amvdec_session *sess)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	int intra_only;
-> +
-> +	if (!param->p.show_frame)
-> +		codec_vp9_rm_noshow_frame(sess);
-> +
-> +	vp9->cur_frame = codec_vp9_get_new_frame(sess);
-> +	if (!vp9->cur_frame)
-> +		return;
-> +
-> +	pr_debug("frame %d: type: %08X; show_exist: %u; show: %u, intra_only: %u\n",
-> +		 vp9->cur_frame->index,
-> +		 param->p.frame_type, param->p.show_existing_frame,
-> +		 param->p.show_frame, param->p.intra_only);
-> +
-> +	if (param->p.frame_type != KEY_FRAME)
-> +		codec_vp9_sync_ref(vp9);
-> +	codec_vp9_update_next_ref(vp9);
-> +	codec_vp9_show_existing_frame(vp9);
-> +
-> +	if (codec_hevc_use_mmu(core->platform->revision, sess->pixfmt_cap,
-> +			       vp9->is_10bit))
-> +		codec_hevc_fill_mmu_map(sess, &vp9->common,
-> +					&vp9->cur_frame->vbuf->vb2_buf);
-> +
-> +	intra_only = param->p.show_frame ? 0 : param->p.intra_only;
-> +
-> +	/* clear mpred (for keyframe only) */
-> +	if (param->p.frame_type != KEY_FRAME && !intra_only) {
-> +		codec_vp9_set_mc(sess, vp9);
-> +		codec_vp9_set_mpred_mv(core, vp9);
-> +	} else {
-> +		amvdec_clear_dos_bits(core, HEVC_MPRED_CTRL4, BIT(6));
-> +	}
-> +
-> +	amvdec_write_dos(core, HEVC_PARSER_PICTURE_SIZE,
-> +			 (vp9->height << 16) | vp9->width);
-> +	codec_vp9_set_sao(sess, &vp9->cur_frame->vbuf->vb2_buf);
-> +
-> +	vp9_loop_filter_frame_init(core, &vp9->seg_4lf,
-> +				   &vp9->lfi, &vp9->lf,
-> +				   vp9->default_filt_lvl);
-> +
-> +	/* ask uCode to start decoding */
-> +	amvdec_write_dos(core, VP9_DEC_STATUS_REG, VP9_10B_DECODE_SLICE);
-> +}
-> +
-> +static void codec_vp9_process_lf(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	int i;
-> +
-> +	vp9->lf.mode_ref_delta_enabled = param->p.mode_ref_delta_enabled;
-> +	vp9->lf.sharpness_level = param->p.sharpness_level;
-> +	vp9->default_filt_lvl = param->p.filter_level;
-> +	vp9->seg_4lf.enabled = param->p.seg_enabled;
-> +	vp9->seg_4lf.abs_delta = param->p.seg_abs_delta;
-> +
-> +	for (i = 0; i < 4; i++)
-> +		vp9->lf.ref_deltas[i] = param->p.ref_deltas[i];
-> +
-> +	for (i = 0; i < 2; i++)
-> +		vp9->lf.mode_deltas[i] = param->p.mode_deltas[i];
-> +
-> +	for (i = 0; i < MAX_SEGMENTS; i++)
-> +		vp9->seg_4lf.feature_mask[i] =
-> +			(param->p.seg_lf_info[i] & 0x8000) ?
-> +				(1 << SEG_LVL_ALT_LF) : 0;
-> +
-> +	for (i = 0; i < MAX_SEGMENTS; i++)
-> +		vp9->seg_4lf.feature_data[i][SEG_LVL_ALT_LF] =
-> +			(param->p.seg_lf_info[i] & 0x100) ?
-> +				-(param->p.seg_lf_info[i] & 0x3f)
-> +				: (param->p.seg_lf_info[i] & 0x3f);
-> +}
-> +
-> +static void codec_vp9_resume(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +
-> +	mutex_lock(&vp9->lock);
-> +
-> +	if (codec_hevc_setup_buffers(sess, &vp9->common, vp9->is_10bit)) {
-> +		mutex_unlock(&vp9->lock);
-> +		amvdec_abort(sess);
-> +		return;
-> +	}
-> +
-> +	codec_vp9_setup_workspace(sess, vp9);
-> +	codec_hevc_setup_decode_head(sess, vp9->is_10bit);
-> +	codec_vp9_process_lf(vp9);
-> +	codec_vp9_process_frame(sess);
-> +
-> +	mutex_unlock(&vp9->lock);
-> +}
-> +
-> +/**
-> + * The RPM section within the workspace contains
-> + * many information regarding the parsed bitstream
-> + */
-> +static void codec_vp9_fetch_rpm(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	u16 *rpm_vaddr = vp9->workspace_vaddr + RPM_OFFSET;
-> +	int i, j;
-> +
-> +	for (i = 0; i < RPM_BUF_SIZE; i += 4)
-> +		for (j = 0; j < 4; j++)
-> +			vp9->rpm_param.l.data[i + j] = rpm_vaddr[i + 3 - j];
-> +}
-> +
-> +static int codec_vp9_process_rpm(struct codec_vp9 *vp9)
-> +{
-> +	union rpm_param *param = &vp9->rpm_param;
-> +	int src_changed = 0;
-> +	int is_10bit = 0;
-> +	int pic_width_64 = ALIGN(param->p.width, 64);
-> +	int pic_height_32 = ALIGN(param->p.height, 32);
-> +	int pic_width_lcu  = (pic_width_64 % LCU_SIZE) ?
-> +				pic_width_64 / LCU_SIZE  + 1
-> +				: pic_width_64 / LCU_SIZE;
-> +	int pic_height_lcu = (pic_height_32 % LCU_SIZE) ?
-> +				pic_height_32 / LCU_SIZE + 1
-> +				: pic_height_32 / LCU_SIZE;
-> +	vp9->lcu_total = pic_width_lcu * pic_height_lcu;
-> +
-> +	if (param->p.bit_depth == 10)
-> +		is_10bit = 1;
-> +
-> +	if (vp9->width != param->p.width || vp9->height != param->p.height ||
-> +	    vp9->is_10bit != is_10bit)
-> +		src_changed = 1;
-> +
-> +	vp9->width = param->p.width;
-> +	vp9->height = param->p.height;
-> +	vp9->is_10bit = is_10bit;
-> +
-> +	pr_debug("width: %u; height: %u; is_10bit: %d; src_changed: %d\n",
-> +		 vp9->width, vp9->height, is_10bit, src_changed);
-> +
-> +	return src_changed;
-> +}
-> +
-> +static bool codec_vp9_is_ref(struct codec_vp9 *vp9, struct vp9_frame *frame)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < REF_FRAMES; ++i)
-> +		if (vp9->ref_frame_map[i] == frame->index)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
-> +static void codec_vp9_show_frame(struct amvdec_session *sess)
-> +{
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	struct vp9_frame *tmp, *n;
-> +
-> +	list_for_each_entry_safe(tmp, n, &vp9->ref_frames_list, list) {
-> +		if (!tmp->show || tmp == vp9->cur_frame)
-> +			continue;
-> +
-> +		if (!tmp->done) {
-> +			pr_debug("Doning %u\n", tmp->index);
-> +			amvdec_dst_buf_done(sess, tmp->vbuf, V4L2_FIELD_NONE);
-> +			tmp->done = 1;
-> +			vp9->frames_num--;
-> +		}
-> +
-> +		if (codec_vp9_is_ref(vp9, tmp) || tmp == vp9->prev_frame)
-> +			continue;
-> +
-> +		pr_debug("deleting %d\n", tmp->index);
-> +		list_del(&tmp->list);
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +static void vp9_tree_merge_probs(unsigned int *prev_prob,
-> +				 unsigned int *cur_prob,
-> +				 int coef_node_start, int tree_left,
-> +				 int tree_right,
-> +				 int tree_i, int node)
-> +{
-> +	int prob_32, prob_res, prob_shift;
-> +	int pre_prob, new_prob;
-> +	int den, m_count, get_prob, factor;
-> +
-> +	prob_32 = prev_prob[coef_node_start / 4 * 2];
-> +	prob_res = coef_node_start & 3;
-> +	prob_shift = prob_res * 8;
-> +	pre_prob = (prob_32 >> prob_shift) & 0xff;
-> +
-> +	den = tree_left + tree_right;
-> +
-> +	if (den == 0) {
-> +		new_prob = pre_prob;
-> +	} else {
-> +		m_count = den < MODE_MV_COUNT_SAT ? den : MODE_MV_COUNT_SAT;
-> +		get_prob =
-> +			clip_prob(div_r32(((int64_t)tree_left * 256 +
-> +					   (den >> 1)),
-> +					  den));
-> +
-> +		/* weighted_prob */
-> +		factor = count_to_update_factor[m_count];
-> +		new_prob = ROUND_POWER_OF_TWO(pre_prob * (256 - factor) +
-> +					      get_prob * factor, 8);
-> +	}
-> +
-> +	cur_prob[coef_node_start / 4 * 2] =
-> +		(cur_prob[coef_node_start / 4 * 2] & (~(0xff << prob_shift))) |
-> +		(new_prob << prob_shift);
-> +}
-> +
-> +static void adapt_coef_probs_cxt(unsigned int *prev_prob,
-> +				 unsigned int *cur_prob,
-> +				 unsigned int *count,
-> +				 int update_factor,
-> +				 int cxt_num,
-> +				 int coef_cxt_start,
-> +				 int coef_count_cxt_start)
-> +{
-> +	int prob_32, prob_res, prob_shift;
-> +	int pre_prob, new_prob;
-> +	int num, den, m_count, get_prob, factor;
-> +	int node, coef_node_start;
-> +	int count_sat = 24;
-> +	int cxt;
-> +
-> +	for (cxt = 0; cxt < cxt_num; cxt++) {
-> +		const int n0 = count[coef_count_cxt_start];
-> +		const int n1 = count[coef_count_cxt_start + 1];
-> +		const int n2 = count[coef_count_cxt_start + 2];
-> +		const int neob = count[coef_count_cxt_start + 3];
-> +		const int nneob = count[coef_count_cxt_start + 4];
-> +		const unsigned int branch_ct[3][2] = {
-> +			{ neob, nneob },
-> +			{ n0, n1 + n2 },
-> +			{ n1, n2 }
-> +		};
-> +
-> +		coef_node_start = coef_cxt_start;
-> +		for (node = 0 ; node < 3 ; node++) {
-> +			prob_32 = prev_prob[coef_node_start / 4 * 2];
-> +			prob_res = coef_node_start & 3;
-> +			prob_shift = prob_res * 8;
-> +			pre_prob = (prob_32 >> prob_shift) & 0xff;
-> +
-> +			/* get binary prob */
-> +			num = branch_ct[node][0];
-> +			den = branch_ct[node][0] + branch_ct[node][1];
-> +			m_count = den < count_sat ? den : count_sat;
-> +
-> +			get_prob = (den == 0) ?
-> +					128u :
-> +					clip_prob(div_r32(((int64_t)num * 256 +
-> +							  (den >> 1)), den));
-> +
-> +			factor = update_factor * m_count / count_sat;
-> +			new_prob =
-> +				ROUND_POWER_OF_TWO(pre_prob * (256 - factor) +
-> +						   get_prob * factor, 8);
-> +
-> +			cur_prob[coef_node_start / 4 * 2] =
-> +				(cur_prob[coef_node_start / 4 * 2] &
-> +				 (~(0xff << prob_shift))) |
-> +				(new_prob << prob_shift);
-> +
-> +			coef_node_start += 1;
-> +		}
-> +
-> +		coef_cxt_start = coef_cxt_start + 3;
-> +		coef_count_cxt_start = coef_count_cxt_start + 5;
-> +	}
-> +}
-> +
-> +static void adapt_coef_probs(int prev_kf, int cur_kf, int pre_fc,
-> +			     unsigned int *prev_prob, unsigned int *cur_prob,
-> +			     unsigned int *count)
-> +{
-> +	int tx_size, coef_tx_size_start, coef_count_tx_size_start;
-> +	int plane, coef_plane_start, coef_count_plane_start;
-> +	int type, coef_type_start, coef_count_type_start;
-> +	int band, coef_band_start, coef_count_band_start;
-> +	int cxt_num;
-> +	int coef_cxt_start, coef_count_cxt_start;
-> +	int node, coef_node_start, coef_count_node_start;
-> +
-> +	int tree_i, tree_left, tree_right;
-> +	int mvd_i;
-> +
-> +	int update_factor = cur_kf ? 112 : (prev_kf ? 128 : 112);
-> +
-> +	int prob_32;
-> +	int prob_res;
-> +	int prob_shift;
-> +	int pre_prob;
-> +
-> +	int den;
-> +	int get_prob;
-> +	int m_count;
-> +	int factor;
-> +
-> +	int new_prob;
-> +
-> +	for (tx_size = 0 ; tx_size < 4 ; tx_size++) {
-> +		coef_tx_size_start = VP9_COEF_START +
-> +				tx_size * 4 * VP9_COEF_SIZE_ONE_SET;
-> +		coef_count_tx_size_start = VP9_COEF_COUNT_START +
-> +				tx_size * 4 * VP9_COEF_COUNT_SIZE_ONE_SET;
-> +		coef_plane_start = coef_tx_size_start;
-> +		coef_count_plane_start = coef_count_tx_size_start;
-> +
-> +		for (plane = 0 ; plane < 2 ; plane++) {
-> +			coef_type_start = coef_plane_start;
-> +			coef_count_type_start = coef_count_plane_start;
-> +
-> +			for (type = 0 ; type < 2 ; type++) {
-> +				coef_band_start = coef_type_start;
-> +				coef_count_band_start = coef_count_type_start;
-> +
-> +				for (band = 0 ; band < 6 ; band++) {
-> +					if (band == 0)
-> +						cxt_num = 3;
-> +					else
-> +						cxt_num = 6;
-> +					coef_cxt_start = coef_band_start;
-> +					coef_count_cxt_start =
-> +						coef_count_band_start;
-> +
-> +					adapt_coef_probs_cxt(prev_prob,
-> +							     cur_prob,
-> +							     count,
-> +							     update_factor,
-> +							     cxt_num,
-> +							     coef_cxt_start,
-> +							coef_count_cxt_start);
-> +
-> +					if (band == 0) {
-> +						coef_band_start += 10;
-> +						coef_count_band_start += 15;
-> +					} else {
-> +						coef_band_start += 18;
-> +						coef_count_band_start += 30;
-> +					}
-> +				}
-> +				coef_type_start += VP9_COEF_SIZE_ONE_SET;
-> +				coef_count_type_start +=
-> +					VP9_COEF_COUNT_SIZE_ONE_SET;
-> +			}
-> +
-> +			coef_plane_start += 2 * VP9_COEF_SIZE_ONE_SET;
-> +			coef_count_plane_start +=
-> +				2 * VP9_COEF_COUNT_SIZE_ONE_SET;
-> +		}
-> +	}
-> +
-> +	if (cur_kf == 0) {
-> +		/* mode_mv_merge_probs - merge_intra_inter_prob */
-> +		for (coef_count_node_start = VP9_INTRA_INTER_COUNT_START;
-> +		     coef_count_node_start < (VP9_MV_CLASS0_HP_1_COUNT_START +
-> +					      VP9_MV_CLASS0_HP_1_COUNT_SIZE);
-> +		     coef_count_node_start += 2) {
-> +			if (coef_count_node_start ==
-> +					VP9_INTRA_INTER_COUNT_START)
-> +				coef_node_start = VP9_INTRA_INTER_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_COMP_INTER_COUNT_START)
-> +				coef_node_start = VP9_COMP_INTER_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_TX_MODE_COUNT_START)
-> +				coef_node_start = VP9_TX_MODE_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_SKIP_COUNT_START)
-> +				coef_node_start = VP9_SKIP_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_MV_SIGN_0_COUNT_START)
-> +				coef_node_start = VP9_MV_SIGN_0_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_MV_SIGN_1_COUNT_START)
-> +				coef_node_start = VP9_MV_SIGN_1_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_MV_BITS_0_COUNT_START)
-> +				coef_node_start = VP9_MV_BITS_0_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_MV_BITS_1_COUNT_START)
-> +				coef_node_start = VP9_MV_BITS_1_START;
-> +			else if (coef_count_node_start ==
-> +					VP9_MV_CLASS0_HP_0_COUNT_START)
-> +				coef_node_start = VP9_MV_CLASS0_HP_0_START;
-> +
-> +			den = count[coef_count_node_start] +
-> +			      count[coef_count_node_start + 1];
-> +
-> +			prob_32 = prev_prob[coef_node_start / 4 * 2];
-> +			prob_res = coef_node_start & 3;
-> +			prob_shift = prob_res * 8;
-> +			pre_prob = (prob_32 >> prob_shift) & 0xff;
-> +
-> +			if (den == 0) {
-> +				new_prob = pre_prob;
-> +			} else {
-> +				m_count = den < MODE_MV_COUNT_SAT ?
-> +						den : MODE_MV_COUNT_SAT;
-> +				get_prob =
-> +				clip_prob(div_r32(((int64_t)
-> +					count[coef_count_node_start] * 256 +
-> +					(den >> 1)),
-> +					den));
-> +
-> +				/* weighted prob */
-> +				factor = count_to_update_factor[m_count];
-> +				new_prob =
-> +					ROUND_POWER_OF_TWO(pre_prob *
-> +							   (256 - factor) +
-> +							   get_prob * factor,
-> +							   8);
-> +			}
-> +
-> +			cur_prob[coef_node_start / 4 * 2] =
-> +				(cur_prob[coef_node_start / 4 * 2] &
-> +				 (~(0xff << prob_shift))) |
-> +				(new_prob << prob_shift);
-> +
-> +			coef_node_start = coef_node_start + 1;
-> +		}
-> +
-> +		coef_node_start = VP9_INTER_MODE_START;
-> +		coef_count_node_start = VP9_INTER_MODE_COUNT_START;
-> +		for (tree_i = 0 ; tree_i < 7 ; tree_i++) {
-> +			for (node = 0 ; node < 3 ; node++) {
-> +				unsigned int start = coef_count_node_start;
-> +
-> +				switch (node) {
-> +				case 2:
-> +					tree_left = count[start + 1];
-> +					tree_right = count[start + 3];
-> +					break;
-> +				case 1:
-> +					tree_left = count[start + 0];
-> +					tree_right = count[start + 1] +
-> +						     count[start + 3];
-> +					break;
-> +				default:
-> +					tree_left = count[start + 2];
-> +					tree_right = count[start + 0] +
-> +						     count[start + 1] +
-> +						     count[start + 3];
-> +					break;
-> +				}
-> +
-> +				vp9_tree_merge_probs(prev_prob, cur_prob,
-> +						     coef_node_start,
-> +						     tree_left, tree_right,
-> +						     tree_i, node);
-> +
-> +				coef_node_start = coef_node_start + 1;
-> +			}
-> +
-> +			coef_count_node_start = coef_count_node_start + 4;
-> +		}
-> +
-> +		coef_node_start = VP9_IF_Y_MODE_START;
-> +		coef_count_node_start = VP9_IF_Y_MODE_COUNT_START;
-> +		for (tree_i = 0 ; tree_i < 14 ; tree_i++) {
-> +			for (node = 0 ; node < 9 ; node++) {
-> +				unsigned int start = coef_count_node_start;
-> +
-> +				switch (node) {
-> +				case 8:
-> +					tree_left =
-> +						count[start + D153_PRED];
-> +					tree_right =
-> +						count[start + D207_PRED];
-> +					break;
-> +				case 7:
-> +					tree_left =
-> +						count[start + D63_PRED];
-> +					tree_right =
-> +						count[start + D207_PRED] +
-> +						count[start + D153_PRED];
-> +					break;
-> +				case 6:
-> +					tree_left =
-> +						count[start + D45_PRED];
-> +					tree_right =
-> +						count[start + D207_PRED] +
-> +						count[start + D153_PRED] +
-> +						count[start + D63_PRED];
-> +					break;
-> +				case 5:
-> +					tree_left =
-> +						count[start + D135_PRED];
-> +					tree_right =
-> +						count[start + D117_PRED];
-> +					break;
-> +				case 4:
-> +					tree_left =
-> +						count[start + H_PRED];
-> +					tree_right =
-> +						count[start + D117_PRED] +
-> +						count[start + D135_PRED];
-> +					break;
-> +				case 3:
-> +					tree_left =
-> +						count[start + H_PRED] +
-> +						count[start + D117_PRED] +
-> +						count[start + D135_PRED];
-> +					tree_right =
-> +						count[start + D45_PRED] +
-> +						count[start + D207_PRED] +
-> +						count[start + D153_PRED] +
-> +						count[start + D63_PRED];
-> +					break;
-> +				case 2:
-> +					tree_left =
-> +						count[start + V_PRED];
-> +					tree_right =
-> +						count[start + H_PRED] +
-> +						count[start + D117_PRED] +
-> +						count[start + D135_PRED] +
-> +						count[start + D45_PRED] +
-> +						count[start + D207_PRED] +
-> +						count[start + D153_PRED] +
-> +						count[start + D63_PRED];
-> +					break;
-> +				case 1:
-> +					tree_left =
-> +						count[start + TM_PRED];
-> +					tree_right =
-> +						count[start + V_PRED] +
-> +						count[start + H_PRED] +
-> +						count[start + D117_PRED] +
-> +						count[start + D135_PRED] +
-> +						count[start + D45_PRED] +
-> +						count[start + D207_PRED] +
-> +						count[start + D153_PRED] +
-> +						count[start + D63_PRED];
-> +					break;
-> +				default:
-> +					tree_left =
-> +						count[start + DC_PRED];
-> +					tree_right =
-> +						count[start + TM_PRED] +
-> +						count[start + V_PRED] +
-> +						count[start + H_PRED] +
-> +						count[start + D117_PRED] +
-> +						count[start + D135_PRED] +
-> +						count[start + D45_PRED] +
-> +						count[start + D207_PRED] +
-> +						count[start + D153_PRED] +
-> +						count[start + D63_PRED];
-> +					break;
-> +				}
-> +
-> +				vp9_tree_merge_probs(prev_prob, cur_prob,
-> +						     coef_node_start,
-> +						     tree_left, tree_right,
-> +						     tree_i, node);
-> +
-> +				coef_node_start = coef_node_start + 1;
-> +			}
-> +			coef_count_node_start = coef_count_node_start + 10;
-> +		}
-> +
-> +		coef_node_start = VP9_PARTITION_P_START;
-> +		coef_count_node_start = VP9_PARTITION_P_COUNT_START;
-> +		for (tree_i = 0 ; tree_i < 16 ; tree_i++) {
-> +			for (node = 0 ; node < 3 ; node++) {
-> +				unsigned int start = coef_count_node_start;
-> +
-> +				switch (node) {
-> +				case 2:
-> +					tree_left = count[start + 2];
-> +					tree_right = count[start + 3];
-> +					break;
-> +				case 1:
-> +					tree_left = count[start + 1];
-> +					tree_right = count[start + 2] +
-> +						     count[start + 3];
-> +					break;
-> +				default:
-> +					tree_left = count[start + 0];
-> +					tree_right = count[start + 1] +
-> +						     count[start + 2] +
-> +						     count[start + 3];
-> +					break;
-> +				}
-> +
-> +				vp9_tree_merge_probs(prev_prob, cur_prob,
-> +						     coef_node_start,
-> +						     tree_left, tree_right,
-> +						     tree_i, node);
-> +
-> +				coef_node_start = coef_node_start + 1;
-> +			}
-> +
-> +			coef_count_node_start = coef_count_node_start + 4;
-> +		}
-> +
-> +		coef_node_start = VP9_INTERP_START;
-> +		coef_count_node_start = VP9_INTERP_COUNT_START;
-> +		for (tree_i = 0 ; tree_i < 4 ; tree_i++) {
-> +			for (node = 0 ; node < 2 ; node++) {
-> +				unsigned int start = coef_count_node_start;
-> +
-> +				switch (node) {
-> +				case 1:
-> +					tree_left = count[start + 1];
-> +					tree_right = count[start + 2];
-> +					break;
-> +				default:
-> +					tree_left = count[start + 0];
-> +					tree_right = count[start + 1] +
-> +						     count[start + 2];
-> +					break;
-> +				}
-> +
-> +				vp9_tree_merge_probs(prev_prob, cur_prob,
-> +						     coef_node_start,
-> +						     tree_left, tree_right,
-> +						     tree_i, node);
-> +
-> +				coef_node_start = coef_node_start + 1;
-> +			}
-> +			coef_count_node_start = coef_count_node_start + 3;
-> +		}
-> +
-> +		coef_node_start = VP9_MV_JOINTS_START;
-> +		coef_count_node_start = VP9_MV_JOINTS_COUNT_START;
-> +		for (tree_i = 0 ; tree_i < 1 ; tree_i++) {
-> +			for (node = 0 ; node < 3 ; node++) {
-> +				unsigned int start = coef_count_node_start;
-> +
-> +				switch (node) {
-> +				case 2:
-> +					tree_left = count[start + 2];
-> +					tree_right = count[start + 3];
-> +					break;
-> +				case 1:
-> +					tree_left = count[start + 1];
-> +					tree_right = count[start + 2] +
-> +						     count[start + 3];
-> +					break;
-> +				default:
-> +					tree_left = count[start + 0];
-> +					tree_right = count[start + 1] +
-> +						     count[start + 2] +
-> +						     count[start + 3];
-> +					break;
-> +				}
-> +
-> +				vp9_tree_merge_probs(prev_prob, cur_prob,
-> +						     coef_node_start,
-> +						     tree_left, tree_right,
-> +						     tree_i, node);
-> +
-> +				coef_node_start = coef_node_start + 1;
-> +			}
-> +			coef_count_node_start = coef_count_node_start + 4;
-> +		}
-> +
-> +		for (mvd_i = 0 ; mvd_i < 2 ; mvd_i++) {
-> +			coef_node_start = mvd_i ? VP9_MV_CLASSES_1_START :
-> +						  VP9_MV_CLASSES_0_START;
-> +			coef_count_node_start = mvd_i ?
-> +					VP9_MV_CLASSES_1_COUNT_START :
-> +					VP9_MV_CLASSES_0_COUNT_START;
-> +			tree_i = 0;
-> +			for (node = 0; node < 10; node++) {
-> +				unsigned int start = coef_count_node_start;
-> +
-> +				switch (node) {
-> +				case 9:
-> +					tree_left = count[start + 9];
-> +					tree_right = count[start + 10];
-> +					break;
-> +				case 8:
-> +					tree_left = count[start + 7];
-> +					tree_right = count[start + 8];
-> +					break;
-> +				case 7:
-> +					tree_left = count[start + 7] +
-> +						     count[start + 8];
-> +					tree_right = count[start + 9] +
-> +						     count[start + 10];
-> +					break;
-> +				case 6:
-> +					tree_left = count[start + 6];
-> +					tree_right = count[start + 7] +
-> +						     count[start + 8] +
-> +						     count[start + 9] +
-> +						     count[start + 10];
-> +					break;
-> +				case 5:
-> +					tree_left = count[start + 4];
-> +					tree_right = count[start + 5];
-> +					break;
-> +				case 4:
-> +					tree_left = count[start + 4] +
-> +						    count[start + 5];
-> +					tree_right = count[start + 6] +
-> +						     count[start + 7] +
-> +						     count[start + 8] +
-> +						     count[start + 9] +
-> +						     count[start + 10];
-> +					break;
-> +				case 3:
-> +					tree_left = count[start + 2];
-> +					tree_right = count[start + 3];
-> +					break;
-> +				case 2:
-> +					tree_left = count[start + 2] +
-> +						    count[start + 3];
-> +					tree_right = count[start + 4] +
-> +						     count[start + 5] +
-> +						     count[start + 6] +
-> +						     count[start + 7] +
-> +						     count[start + 8] +
-> +						     count[start + 9] +
-> +						     count[start + 10];
-> +					break;
-> +				case 1:
-> +					tree_left = count[start + 1];
-> +					tree_right = count[start + 2] +
-> +						     count[start + 3] +
-> +						     count[start + 4] +
-> +						     count[start + 5] +
-> +						     count[start + 6] +
-> +						     count[start + 7] +
-> +						     count[start + 8] +
-> +						     count[start + 9] +
-> +						     count[start + 10];
-> +					break;
-> +				default:
-> +					tree_left = count[start + 0];
-> +					tree_right = count[start + 1] +
-> +						     count[start + 2] +
-> +						     count[start + 3] +
-> +						     count[start + 4] +
-> +						     count[start + 5] +
-> +						     count[start + 6] +
-> +						     count[start + 7] +
-> +						     count[start + 8] +
-> +						     count[start + 9] +
-> +						     count[start + 10];
-> +					break;
-> +				}
-> +
-> +				vp9_tree_merge_probs(prev_prob, cur_prob,
-> +						     coef_node_start,
-> +						     tree_left, tree_right,
-> +						     tree_i, node);
-> +
-> +				coef_node_start = coef_node_start + 1;
-> +			}
-> +
-> +			coef_node_start = mvd_i ? VP9_MV_CLASS0_1_START :
-> +						  VP9_MV_CLASS0_0_START;
-> +			coef_count_node_start =	mvd_i ?
-> +						VP9_MV_CLASS0_1_COUNT_START :
-> +						VP9_MV_CLASS0_0_COUNT_START;
-> +			tree_i = 0;
-> +			node = 0;
-> +			tree_left = count[coef_count_node_start + 0];
-> +			tree_right = count[coef_count_node_start + 1];
-> +
-> +			vp9_tree_merge_probs(prev_prob, cur_prob,
-> +					     coef_node_start,
-> +					     tree_left, tree_right,
-> +					     tree_i, node);
-> +			coef_node_start = mvd_i ? VP9_MV_CLASS0_FP_1_START :
-> +						  VP9_MV_CLASS0_FP_0_START;
-> +			coef_count_node_start =	mvd_i ?
-> +					VP9_MV_CLASS0_FP_1_COUNT_START :
-> +					VP9_MV_CLASS0_FP_0_COUNT_START;
-> +
-> +			for (tree_i = 0; tree_i < 3; tree_i++) {
-> +				for (node = 0; node < 3; node++) {
-> +					unsigned int start =
-> +						coef_count_node_start;
-> +					switch (node) {
-> +					case 2:
-> +						tree_left = count[start + 2];
-> +						tree_right = count[start + 3];
-> +						break;
-> +					case 1:
-> +						tree_left = count[start + 1];
-> +						tree_right = count[start + 2] +
-> +							     count[start + 3];
-> +						break;
-> +					default:
-> +						tree_left = count[start + 0];
-> +						tree_right = count[start + 1] +
-> +							     count[start + 2] +
-> +							     count[start + 3];
-> +						break;
-> +					}
-> +
-> +					vp9_tree_merge_probs(prev_prob,
-> +							     cur_prob,
-> +							     coef_node_start,
-> +							     tree_left,
-> +							     tree_right,
-> +							     tree_i, node);
-> +
-> +					coef_node_start = coef_node_start + 1;
-> +				}
-> +				coef_count_node_start =
-> +					coef_count_node_start + 4;
-> +			}
-> +		}
-> +	}
-> +}
-> +
-> +static irqreturn_t codec_vp9_threaded_isr(struct amvdec_session *sess)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct codec_vp9 *vp9 = sess->priv;
-> +	u32 dec_status = amvdec_read_dos(core, VP9_DEC_STATUS_REG);
-> +	u32 prob_status = amvdec_read_dos(core, VP9_ADAPT_PROB_REG);
-> +	int i;
-> +
-> +	if (!vp9)
-> +		return IRQ_HANDLED;
-> +
-> +	mutex_lock(&vp9->lock);
-> +	if (dec_status != VP9_HEAD_PARSER_DONE) {
-> +		dev_err(core->dev_dec, "Unrecognized dec_status: %08X\n",
-> +			dec_status);
-> +		amvdec_abort(sess);
-> +		goto unlock;
-> +	}
-> +
-> +	pr_debug("ISR: %08X;%08X\n", dec_status, prob_status);
-> +	sess->keyframe_found = 1;
-> +
-> +	if ((prob_status & 0xff) == 0xfd && vp9->cur_frame) {
-> +		/* VP9_REQ_ADAPT_PROB */
-> +		u8 *prev_prob_b = ((u8 *)vp9->workspace_vaddr +
-> +					 PROB_OFFSET) +
-> +					((prob_status >> 8) * 0x1000);
-> +		u8 *cur_prob_b = ((u8 *)vp9->workspace_vaddr +
-> +					 PROB_OFFSET) + 0x4000;
-> +		u8 *count_b = (u8 *)vp9->workspace_vaddr +
-> +				   COUNT_OFFSET;
-> +		int last_frame_type = vp9->prev_frame ?
-> +						vp9->prev_frame->type :
-> +						KEY_FRAME;
-> +
-> +		adapt_coef_probs(last_frame_type == KEY_FRAME,
-> +				 vp9->cur_frame->type == KEY_FRAME ? 1 : 0,
-> +				 prob_status >> 8,
-> +				 (unsigned int *)prev_prob_b,
-> +				 (unsigned int *)cur_prob_b,
-> +				 (unsigned int *)count_b);
-> +
-> +		memcpy(prev_prob_b, cur_prob_b, ADAPT_PROB_SIZE);
-> +		amvdec_write_dos(core, VP9_ADAPT_PROB_REG, 0);
-> +	}
-> +
-> +	/* Invalidate first 3 refs */
-> +	for (i = 0; i < REFS_PER_FRAME ; ++i)
-> +		vp9->frame_refs[i] = NULL;
-> +
-> +	vp9->prev_frame = vp9->cur_frame;
-> +	codec_vp9_update_ref(vp9);
-> +
-> +	codec_vp9_fetch_rpm(sess);
-> +	if (codec_vp9_process_rpm(vp9)) {
-> +		amvdec_src_change(sess, vp9->width, vp9->height, 16);
-> +
-> +		/* No frame is actually processed */
-> +		vp9->cur_frame = NULL;
-> +
-> +		/* Show the remaining frame */
-> +		codec_vp9_show_frame(sess);
-> +
-> +		/* FIXME: Save refs for resized frame */
-> +		if (vp9->frames_num)
-> +			codec_vp9_save_refs(vp9);
-> +
-> +		goto unlock;
-> +	}
-> +
-> +	codec_vp9_process_lf(vp9);
-> +	codec_vp9_process_frame(sess);
-> +	codec_vp9_show_frame(sess);
-> +
-> +unlock:
-> +	mutex_unlock(&vp9->lock);
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t codec_vp9_isr(struct amvdec_session *sess)
-> +{
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
-> +struct amvdec_codec_ops codec_vp9_ops = {
-> +	.start = codec_vp9_start,
-> +	.stop = codec_vp9_stop,
-> +	.isr = codec_vp9_isr,
-> +	.threaded_isr = codec_vp9_threaded_isr,
-> +	.num_pending_bufs = codec_vp9_num_pending_bufs,
-> +	.drain = codec_vp9_flush_output,
-> +	.resume = codec_vp9_resume,
-> +};
-> diff --git a/drivers/staging/media/meson/vdec/codec_vp9.h b/drivers/staging/media/meson/vdec/codec_vp9.h
-> new file mode 100644
-> index 000000000000..62db65a2b939
-> --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/codec_vp9.h
-> @@ -0,0 +1,13 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2018 Maxime Jourdan <maxi.jourdan@wanadoo.fr>
-> + */
-> +
-> +#ifndef __MESON_VDEC_CODEC_VP9_H_
-> +#define __MESON_VDEC_CODEC_VP9_H_
-> +
-> +#include "vdec.h"
-> +
-> +extern struct amvdec_codec_ops codec_vp9_ops;
-> +
-> +#endif
-> diff --git a/drivers/staging/media/meson/vdec/hevc_regs.h b/drivers/staging/media/meson/vdec/hevc_regs.h
-> index 55c1a80b955a..0392f41a1eed 100644
-> --- a/drivers/staging/media/meson/vdec/hevc_regs.h
-> +++ b/drivers/staging/media/meson/vdec/hevc_regs.h
-> @@ -122,6 +122,8 @@
->  #define HEVC_MPRED_L0_REF00_POC 0xc880
->  #define HEVC_MPRED_L1_REF00_POC 0xc8c0
->  
-> +#define HEVC_MPRED_CTRL4 0xc930
-> +
->  #define HEVC_MPRED_CUR_POC 0xc980
->  #define HEVC_MPRED_COL_POC 0xc984
->  #define HEVC_MPRED_MV_RD_END_ADDR 0xc988
-> @@ -140,6 +142,10 @@
->  #define HEVCD_IPP_LINEBUFF_BASE 0xd024
->  #define HEVCD_IPP_AXIIF_CONFIG 0xd02c
->  
-> +#define VP9D_MPP_REF_SCALE_ENBL		0xd104
-> +#define VP9D_MPP_REFINFO_TBL_ACCCONFIG	0xd108
-> +#define VP9D_MPP_REFINFO_DATA		0xd10c
-> +
->  #define HEVCD_MPP_ANC2AXI_TBL_CONF_ADDR 0xd180
->  #define HEVCD_MPP_ANC2AXI_TBL_CMD_ADDR 0xd184
->  #define HEVCD_MPP_ANC2AXI_TBL_DATA 0xd190
-> @@ -164,6 +170,7 @@
->  #define HEVC_DBLK_CFG9 0xd424
->  #define HEVC_DBLK_CFGA 0xd428
->  #define HEVC_DBLK_STS0 0xd42c
-> +#define HEVC_DBLK_CFGB 0xd42c
->  #define HEVC_DBLK_STS1 0xd430
->  #define HEVC_DBLK_CFGE 0xd438
->  
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> index 5514d2d259a4..1e531a335c50 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -395,6 +395,7 @@ static void vdec_reset_bufs_recycle(struct amvdec_session *sess)
->  static void vdec_stop_streaming(struct vb2_queue *q)
->  {
->  	struct amvdec_session *sess = vb2_get_drv_priv(q);
-> +	struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
->  	struct amvdec_core *core = sess->core;
->  	struct vb2_v4l2_buffer *buf;
->  
-> @@ -423,6 +424,10 @@ static void vdec_stop_streaming(struct vb2_queue *q)
->  
->  		sess->streamon_out = 0;
->  	} else {
-> +		/* Drain remaining refs if was still running */
-> +		if (sess->status >= STATUS_RUNNING && codec_ops->drain)
-> +			codec_ops->drain(sess);
-> +
->  		while ((buf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx)))
->  			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_ERROR);
->  
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> index 818064b6b4d0..a4f62b892188 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> @@ -299,6 +299,10 @@ static void dst_buf_done(struct amvdec_session *sess,
->  			sess->sequence_cap - 1);
->  		v4l2_event_queue_fh(&sess->fh, &ev);
->  		vbuf->flags |= V4L2_BUF_FLAG_LAST;
-> +	} else if (sess->status == STATUS_NEEDS_RESUME) {
-> +		/* Mark LAST for drained show frames during a source change */
-> +		vbuf->flags |= V4L2_BUF_FLAG_LAST;
-> +		sess->sequence_cap = 0;
->  	} else if (sess->should_stop)
->  		dev_dbg(dev, "should_stop, %u bufs remain\n",
->  			atomic_read(&sess->esparser_queued_bufs));
-> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
-> index e9356a46828f..72a833b1cebd 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_platform.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
-> @@ -8,8 +8,10 @@
->  #include "vdec.h"
->  
->  #include "vdec_1.h"
-> +#include "vdec_hevc.h"
->  #include "codec_mpeg12.h"
->  #include "codec_h264.h"
-> +#include "codec_vp9.h"
->  
->  static const struct amvdec_format vdec_formats_gxbb[] = {
->  	{
-> @@ -51,6 +53,18 @@ static const struct amvdec_format vdec_formats_gxbb[] = {
->  
->  static const struct amvdec_format vdec_formats_gxl[] = {
->  	{
-> +		.pixfmt = V4L2_PIX_FMT_VP9,
-> +		.min_buffers = 16,
-> +		.max_buffers = 24,
-> +		.max_width = 3840,
-> +		.max_height = 2160,
-> +		.vdec_ops = &vdec_hevc_ops,
-> +		.codec_ops = &codec_vp9_ops,
-> +		.firmware_path = "meson/vdec/gxl_vp9.bin",
+--tfgpud46gxtscidj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Is there a pull request pending for this firmware ? I could not test as
-this firmware was missing. Note that it could be nice to remove the
-format from the enumeration in that case, as it's very confusing
-initially.
+Hi Prashant,
 
-> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
-> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
-> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
-> +	}, {
->  		.pixfmt = V4L2_PIX_FMT_H264,
->  		.min_buffers = 2,
->  		.max_buffers = 24,
-> @@ -127,6 +141,18 @@ static const struct amvdec_format vdec_formats_gxm[] = {
->  
->  static const struct amvdec_format vdec_formats_g12a[] = {
->  	{
-> +		.pixfmt = V4L2_PIX_FMT_VP9,
-> +		.min_buffers = 16,
-> +		.max_buffers = 24,
-> +		.max_width = 3840,
-> +		.max_height = 2160,
-> +		.vdec_ops = &vdec_hevc_ops,
-> +		.codec_ops = &codec_vp9_ops,
-> +		.firmware_path = "meson/vdec/g12a_vp9.bin",
-> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
-> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
-> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
-> +	}, {
->  		.pixfmt = V4L2_PIX_FMT_H264,
->  		.min_buffers = 2,
->  		.max_buffers = 24,
-> @@ -165,6 +191,18 @@ static const struct amvdec_format vdec_formats_g12a[] = {
->  
->  static const struct amvdec_format vdec_formats_sm1[] = {
->  	{
-> +		.pixfmt = V4L2_PIX_FMT_VP9,
-> +		.min_buffers = 16,
-> +		.max_buffers = 24,
-> +		.max_width = 3840,
-> +		.max_height = 2160,
-> +		.vdec_ops = &vdec_hevc_ops,
-> +		.codec_ops = &codec_vp9_ops,
-> +		.firmware_path = "meson/vdec/g12a_vp9.bin",
-> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
-> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
-> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
-> +	}, {
->  		.pixfmt = V4L2_PIX_FMT_H264,
->  		.min_buffers = 2,
->  		.max_buffers = 24,
+Thank you for the patch! Yet something to improve:
 
+[auto build test ERROR on linus/master]
+[cannot apply to chrome-platform-linux/for-next abelloni/rtc-next linux/master v5.5 next-20200131]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+
+url:    https://github.com/0day-ci/linux/commits/Prashant-Malani/platform-chrome-Replace-cros_ec_cmd_xfer_status/20200203-022935
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 94f2630b18975bb56eee5d1a36371db967643479
+config: s390-allmodconfig (attached as .config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        GCC_VERSION=7.5.0 make.cross ARCH=s390 
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/cros-ec-cec/cros-ec-cec.c: In function 'cros_ec_cec_transmit':
+>> drivers/media/platform/cros-ec-cec/cros-ec-cec.c:122:2: error: 'msg' undeclared (first use in this function); did you mean 'cspg'?
+     msg.msg.outsize = cec_msg->len;
+     ^~~
+     cspg
+   drivers/media/platform/cros-ec-cec/cros-ec-cec.c:122:2: note: each undeclared identifier is reported only once for each function it appears in
+
+vim +122 drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+
+cd70de2d356ee6 Neil Armstrong  2018-07-04  113  
+cd70de2d356ee6 Neil Armstrong  2018-07-04  114  static int cros_ec_cec_transmit(struct cec_adapter *adap, u8 attempts,
+cd70de2d356ee6 Neil Armstrong  2018-07-04  115  				u32 signal_free_time, struct cec_msg *cec_msg)
+cd70de2d356ee6 Neil Armstrong  2018-07-04  116  {
+cd70de2d356ee6 Neil Armstrong  2018-07-04  117  	struct cros_ec_cec *cros_ec_cec = adap->priv;
+cd70de2d356ee6 Neil Armstrong  2018-07-04  118  	struct cros_ec_device *cros_ec = cros_ec_cec->cros_ec;
+bd6054aba6ffe7 Prashant Malani 2020-01-30  119  	struct ec_params_cec_write data = {};
+cd70de2d356ee6 Neil Armstrong  2018-07-04  120  	int ret;
+cd70de2d356ee6 Neil Armstrong  2018-07-04  121  
+cd70de2d356ee6 Neil Armstrong  2018-07-04 @122  	msg.msg.outsize = cec_msg->len;
+bd6054aba6ffe7 Prashant Malani 2020-01-30  123  	memcpy(data.msg, cec_msg->msg, cec_msg->len);
+cd70de2d356ee6 Neil Armstrong  2018-07-04  124  
+bd6054aba6ffe7 Prashant Malani 2020-01-30  125  	ret = cros_ec_send_cmd_msg(cros_ec, 0, EC_CMD_CEC_WRITE_MSG,
+bd6054aba6ffe7 Prashant Malani 2020-01-30  126  				   &data, sizeof(cec_msg->len), NULL, 0);
+cd70de2d356ee6 Neil Armstrong  2018-07-04  127  	if (ret < 0) {
+cd70de2d356ee6 Neil Armstrong  2018-07-04  128  		dev_err(cros_ec->dev,
+cd70de2d356ee6 Neil Armstrong  2018-07-04  129  			"error writing CEC msg on EC: %d\n", ret);
+cd70de2d356ee6 Neil Armstrong  2018-07-04  130  		return ret;
+cd70de2d356ee6 Neil Armstrong  2018-07-04  131  	}
+cd70de2d356ee6 Neil Armstrong  2018-07-04  132  
+cd70de2d356ee6 Neil Armstrong  2018-07-04  133  	return 0;
+cd70de2d356ee6 Neil Armstrong  2018-07-04  134  }
+cd70de2d356ee6 Neil Armstrong  2018-07-04  135  
+
+:::::: The code at line 122 was first introduced by commit
+:::::: cd70de2d356ee692477276bd5d6bc88c71a48733 media: platform: Add ChromeOS EC CEC driver
+
+:::::: TO: Neil Armstrong <narmstrong@baylibre.com>
+:::::: CC: Lee Jones <lee.jones@linaro.org>
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+
+--tfgpud46gxtscidj
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+AwA=
+
+--tfgpud46gxtscidj--
