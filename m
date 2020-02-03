@@ -2,91 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F161509F2
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 16:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B400A150A35
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 16:48:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727864AbgBCPlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 10:41:13 -0500
-Received: from foss.arm.com ([217.140.110.172]:54882 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726272AbgBCPlN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Feb 2020 10:41:13 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC5E830E;
-        Mon,  3 Feb 2020 07:41:12 -0800 (PST)
-Received: from arm.com (e112269-lin.cambridge.arm.com [10.1.195.32])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BA253F68E;
-        Mon,  3 Feb 2020 07:41:11 -0800 (PST)
-Date:   Mon, 3 Feb 2020 15:41:06 +0000
-From:   Steven Price <steven.price@arm.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        Hulk Robot <hulkci@huawei.com>
-Subject: Re: [PATCH -next] drm/panfrost: Remove set but not used variable 'bo'
-Message-ID: <20200203154106.GA2114@arm.com>
-References: <20200203152724.42611-1-yuehaibing@huawei.com>
+        id S1728218AbgBCPs2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 10:48:28 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37270 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727620AbgBCPs2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 10:48:28 -0500
+Received: by mail-wm1-f68.google.com with SMTP id f129so17770144wmf.2;
+        Mon, 03 Feb 2020 07:48:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=afJ9NnKQp7PyXqtyKvq2Ncapxl2sLhWMcC2ZgY83MY8=;
+        b=XB38GdCkM7EGajjhoOh1609yXvVEPq82LoOwMKU5TjfWqLqFozXx8KipU7ESbF5s0S
+         W6awMH7Pf3Yyo4zf9tBEAAFjHHiLsQSsmNjt1bKLCT0QkNqYaUDoVKoiiC2weB84miJ5
+         u/abRi0ilByshTvwPxM9pJEmidBmEoCQSQCg+5qn6jiSFPftMLkSAtcL/iZS+duPQahn
+         KnitJKHiDSNylQZ8+noV9Uy7TMKmHekD2jJf7B7HiuhDYrrBqUINS8gWeHR78Xvjyv6b
+         B5SmA2PlVM+rA4QBuee6RabXnnAIbxvuPCPX3R1DwtscaCHw7ljGcxEtNuFgmbdXaDxd
+         82cw==
+X-Gm-Message-State: APjAAAUnCLbeif9Na7/Yt63lx6J0Z5QSBaoFd+TjqYEWiPe1LFYlfJff
+        EG6ZR+AqOheYbWaxNBNKrQ==
+X-Google-Smtp-Source: APXvYqzGuCIWbWw2i8bVfM/fZQ+6hFFwHGkTtJjO/5XdTvktJ8cdRX/uWRtt25gET6gNabVAIGUlDg==
+X-Received: by 2002:a05:600c:2383:: with SMTP id m3mr30832163wma.32.1580744905443;
+        Mon, 03 Feb 2020 07:48:25 -0800 (PST)
+Received: from rob-hp-laptop ([212.187.182.163])
+        by smtp.gmail.com with ESMTPSA id b17sm26278098wrp.49.2020.02.03.07.48.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2020 07:48:24 -0800 (PST)
+Received: (nullmailer pid 21624 invoked by uid 1000);
+        Mon, 03 Feb 2020 15:48:23 -0000
+Date:   Mon, 3 Feb 2020 15:48:23 +0000
+From:   Rob Herring <robh@kernel.org>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     mripard@kernel.org, wens@csie.org, mchehab@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, mturquette@baylibre.com,
+        sboyd@kernel.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH 5/8] media: dt-bindings: media: Add Allwinner A83T Rotate
+ driver
+Message-ID: <20200203154823.GA21568@bogus>
+References: <20200124232014.574989-1-jernej.skrabec@siol.net>
+ <20200124232014.574989-6-jernej.skrabec@siol.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200203152724.42611-1-yuehaibing@huawei.com>
+In-Reply-To: <20200124232014.574989-6-jernej.skrabec@siol.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 03, 2020 at 03:27:24PM +0000, YueHaibing wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
+On Sat, 25 Jan 2020 00:20:11 +0100, Jernej Skrabec wrote:
 > 
-> drivers/gpu/drm/panfrost/panfrost_job.c: In function 'panfrost_job_cleanup':
-> drivers/gpu/drm/panfrost/panfrost_job.c:278:31: warning:
->  variable 'bo' set but not used [-Wunused-but-set-variable]
+> Some Allwinner SoCs like A83T and A64 contain rotate core which can
+> rotate and flip images.
 > 
-> commit bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
-> involved this unused variable.
+> Add a binding for it.
 > 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-
-I'm not sure how I didn't spot that before! Thanks for fixing it.
-
-Note commit bdefca2d8dc0 is actually in v5.5 and not (yet) in
-drm-misc-next.
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+>  .../allwinner,sun8i-a83t-de2-rotate.yaml      | 70 +++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-de2-rotate.yaml
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 7c36ec675b73..ccb8546a9342 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -275,12 +275,8 @@ static void panfrost_job_cleanup(struct kref *ref)
->  	}
->  
->  	if (job->bos) {
-> -		struct panfrost_gem_object *bo;
-> -
-> -		for (i = 0; i < job->bo_count; i++) {
-> -			bo = to_panfrost_bo(job->bos[i]);
-> +		for (i = 0; i < job->bo_count; i++)
->  			drm_gem_object_put_unlocked(job->bos[i]);
-> -		}
->  
->  		kvfree(job->bos);
->  	}
-> 
-> 
-> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
