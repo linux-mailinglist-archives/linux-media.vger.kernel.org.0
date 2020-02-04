@@ -2,75 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6FA2152042
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 19:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B5EE152043
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 19:13:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727442AbgBDSNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Feb 2020 13:13:12 -0500
+        id S1727477AbgBDSNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Feb 2020 13:13:18 -0500
 Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40409 "EHLO
         lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727361AbgBDSNL (ORCPT
+        by vger.kernel.org with ESMTP id S1727355AbgBDSNS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 Feb 2020 13:13:11 -0500
+        Tue, 4 Feb 2020 13:13:18 -0500
 Received: from [192.168.2.10] ([46.9.235.248])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id z2h8iucc82Mf2z2hBiba7g; Tue, 04 Feb 2020 19:13:09 +0100
+        id z2hFiucdo2Mf2z2hIiba8S; Tue, 04 Feb 2020 19:13:17 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580839989; bh=SCZLPeg4KcvMQcqzhOZt+G/n1eNM1/ECRob+23uHIX4=;
+        t=1580839997; bh=zNNb0S/pEMagm2oXbxzdXtihog79FGP2kVgJuu37t+I=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=k2yNKHsMvSPv/x4Y4xW1chEOq5Klo+lG68Nf/m0gpBPVqNqRCWHHPXZSYaEET6H35
-         YTET/KTAwekzdpo1p4ThgC3waS98Csl6gXjg1CBuUlTQZkDbBLQKh1aDqDuFtZ5A9n
-         3ibS1tB8Lt7QbHj0/VxHw/cO8XXexseFOzZn91amZ1a8lf3UcDhST1uCCiHsaVRfFZ
-         nlxtfAdRJWrQOCXJ8xR2M9YT4wonYcZP9nyzg2dw1OF1QPXQ7oscox+YYm/dSqgAze
-         /UeSGkNBUToesIGKxXnCo1aG7JVtOojcvdFS4AfHvbtqsixu3Q+4m4Dk3kx7ioy7Ij
-         ukU/hMpRjqWSg==
+        b=nnqT2dQbVFjZhPF7fFkhLTFAmJPUFWT9qloCnka5XbbTA30P6DBzT/pj8IyoJe/uN
+         gw80GbW7A55CvbxNfRaGfn3wdv9mozyH+NP1zaO69auWG8AVk3UDA89Q4qpy7ClKS/
+         R6F0rn+NaoW9W9fVwbIOjEz4/1G4sznKMNI3qgdr0Zw/PYaG5di/pimiROEa6Moo+S
+         F+bXsCVmm7SlRuey5wXP0vzYKkuAKHfHNBplKpcTu8iXS6bwj4yteHYjxAdH60VwrJ
+         qKhjcoVZ228K5qousoBxhDYkmK2buG9SetabPn/Ew2fwDDWVnG671wuYhsY0TVldGw
+         /S5wzO7QGTjFg==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH for v5.6] v4l2-mem2mem.c: fix broken links
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Message-ID: <8974b23a-6823-d47b-fda4-fe9bd6f7e6d1@xs4all.nl>
-Date:   Tue, 4 Feb 2020 19:13:06 +0100
+Subject: [PATCH] mc-entity.c: use WARN_ON, validate link pads
+Message-ID: <0645786f-754e-c897-bd15-a9371e72a405@xs4all.nl>
+Date:   Tue, 4 Feb 2020 19:13:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNQGrGyNiLzcQtxIvN3X6gn0j/7dadLAV9wlTdASvefF7Wm1NsiR2Uakcg4OYyhX1He9H4WclXUVQnfmL2HQKx7OOEZA+46+w+gux2vDzDO7Evhgr+II
- 9J+ri1K7oEkM6swpdx96FA0SkoZooZxc57tH4y4K+WfGhZlMFhaRKjtXTa0RlW9oFu7FjkTt0A/teL8TM3IcbTB9YvIxqQW9JPs=
+X-CMAE-Envelope: MS4wfLT4r4vwkBj1Nuz831S8K/43s3ro1uZDoJk/lfbyOQo/x942YyC6esAaFF1VuNUIHOYyXdhQsheZG/LM1h3kCwvYw7IN49mSF89qVEMOiHVcaSN72gpl
+ jk1eq1p7TFk5ZWQuM1mQdoNWBLpq3MMrlH/Pn9iLH4q0P87Kf8X1q5hG02T012hUEJgcIKkZHNbBZA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The topology that v4l2_m2m_register_media_controller() creates for a
-processing block actually created a source-to-source link and a sink-to-sink
-link instead of two source-to-sink links.
+Use WARN_ON instead of BUG_ON.
 
-Unfortunately v4l2-compliance never checked for such bad links, so this
-went unreported for quite some time.
+Add two new WARN_ONs to verify that the source pad is really a source
+and that the sink pad is really a sink.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reported-by: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: <stable@vger.kernel.org>      # for v4.19 and up
 ---
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 1afd9c6ad908..cc34c5ab7009 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -880,12 +880,12 @@ int v4l2_m2m_register_media_controller(struct v4l2_m2m_dev *m2m_dev,
- 		goto err_rel_entity1;
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 7c429ce98bae..0f1461ac00f0 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -662,9 +662,14 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
+ 	struct media_link *link;
+ 	struct media_link *backlink;
 
- 	/* Connect the three entities */
--	ret = media_create_pad_link(m2m_dev->source, 0, &m2m_dev->proc, 1,
-+	ret = media_create_pad_link(m2m_dev->source, 0, &m2m_dev->proc, 0,
- 			MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
- 	if (ret)
- 		goto err_rel_entity2;
+-	BUG_ON(source == NULL || sink == NULL);
+-	BUG_ON(source_pad >= source->num_pads);
+-	BUG_ON(sink_pad >= sink->num_pads);
++	if (WARN_ON(source == NULL || sink == NULL) ||
++	    WARN_ON(source_pad >= source->num_pads) ||
++	    WARN_ON(sink_pad >= sink->num_pads))
++		return -EINVAL;
++	if (WARN_ON(!(source->pads[source_pad].flags & MEDIA_PAD_FL_SOURCE)))
++		return -EINVAL;
++	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
++		return -EINVAL;
 
--	ret = media_create_pad_link(&m2m_dev->proc, 0, &m2m_dev->sink, 0,
-+	ret = media_create_pad_link(&m2m_dev->proc, 1, &m2m_dev->sink, 0,
- 			MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
- 	if (ret)
- 		goto err_rm_links0;
+ 	link = media_add_link(&source->links);
+ 	if (link == NULL)
