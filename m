@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE76115145B
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 03:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF52E15145D
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 03:57:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727256AbgBDC5N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 21:57:13 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:50672 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727159AbgBDC5M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 21:57:12 -0500
-Received: by mail-pj1-f68.google.com with SMTP id r67so688852pjb.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 18:57:10 -0800 (PST)
+        id S1727063AbgBDC5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 21:57:17 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:41407 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727305AbgBDC5P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 21:57:15 -0500
+Received: by mail-pg1-f193.google.com with SMTP id l3so4804100pgi.8
+        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 18:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rSyGuFAVZnXzr+zAXWI5hLV+qnkzbpD8GsyCzJNdKrQ=;
-        b=mxIQk2YLkshOw7vJ6iQvQQCce+oSmqrmG5XFCsSQJ/4BKhar12+Sifz2M/V7e8nrmr
-         ISbu9DVITcNCb/Vs5/J3sDuDcHN2dg2BsZVowUuljbbW/BTmU6iPtiMCLc3Pi2eYo75S
-         10iztGHMfd6G/0yJ1hFE4AmJsc9nxccT76B+c=
+        bh=3NyRU2xy1z/nYwBRLVUPtO+ZHRnpI9P9k60fSC2X+DE=;
+        b=j3Fq0i83ztEE46oH9dTHoPUFBJ9tpWElVSi0sKJRUZcsRbsxCRK+bWgt1i6ZdvjhO8
+         ZV7hTIydDJatMj68kNoBQQ/DWG5kqPpCeiEGZheluT9CfCXmnX4rmfk92P97gjhc1IzM
+         EFAdrs3PsNDg1PIBW0b1qc0dRsThBCU7KFkmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rSyGuFAVZnXzr+zAXWI5hLV+qnkzbpD8GsyCzJNdKrQ=;
-        b=evo2HNivOKnCm+62BELJDojNUoip/YhgHYZoOEzIj58jM1Daeof1rUreRHYUg6Qr+K
-         l74iYTWio18vPPxMZbX8XleiFASsHKmiHQi/7aiPvGCuyZbv0gWaLjJ2l9GdzepNy+z8
-         iWy87AdAww26sJ7jUixfgipqhSU01eOJvNBIRABD2An+rjTZNI8iduFcLz+tGSTUim6D
-         Omw6dYaO+8lhr+0UHx1qa7wLn5hV/UsPhA1BSn8WXmTDLb1ooYUyRZjTrNjirXqqg8tA
-         964IhgHm0xBCV5ieGm2ALVM61o6JAq/xwFXwhlx+xmIf4BkYIK3AbRNQAJ8QHyH0auaT
-         W43Q==
-X-Gm-Message-State: APjAAAWqBY48Q6b+rmxxj4TGa0dp03+445ut5khkLV7wh143DtX+DKbP
-        ZsCBHTCd4qbl0csP3qHxEXmZsCTdnf9nfg==
-X-Google-Smtp-Source: APXvYqw44cJEolkg75aNUS+361dd/1QeuT/ek/JjyJbHVZG2AagjQmg09/xRta5P8wjnCUEBOjUvZA==
-X-Received: by 2002:a17:90a:7784:: with SMTP id v4mr3136782pjk.134.1580785030594;
-        Mon, 03 Feb 2020 18:57:10 -0800 (PST)
+        bh=3NyRU2xy1z/nYwBRLVUPtO+ZHRnpI9P9k60fSC2X+DE=;
+        b=dxCwMTFOQIhdqK6+3DGx7osu1Qe5xsQHZSaXAXHrrL+ysy7bkssvEIoEsVS+BYXpKM
+         oDig09Q81qYfqfjr9065bTIF1VdO8tG125zHBaiOuruX6c3DI8PG8TcSDcBvRFeaaNOy
+         2xOAKrXGc3grTiFmoiOI5pyPK6V731mAr5Fa1G/4GibvLwLJKwATWgbDtpUJG/iPWVp4
+         TQ2IYpOaHlOceg9MOy9Wy/vTJwBQyBlmRb3DS9IMLg6ZrGBzcqP+mUzyplNjulUHSJ9y
+         fa4pmNnL/7yOSiCCDuxBBfFo9KqFYs48NxO3C8ympn0qUr7aQVgOO2c8gYJQd5uV2tHx
+         SKPA==
+X-Gm-Message-State: APjAAAUc4+61+hUkM9E7m0yC+20UmqUEDpMp/m0zeYzsRQQp1T+JyygN
+        JigOonjBZNqKWp+yglZ9+xjLPA==
+X-Google-Smtp-Source: APXvYqwFBek9VnVsgN4EGGqi1nNxFt8Z4wI/xHpJb1NQ4wxHusH5uLLX8YW9xr/VCW1sE1Muy5gUqg==
+X-Received: by 2002:a63:ed4a:: with SMTP id m10mr25299793pgk.99.1580785034064;
+        Mon, 03 Feb 2020 18:57:14 -0800 (PST)
 Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id e1sm22491971pfl.98.2020.02.03.18.57.08
+        by smtp.gmail.com with ESMTPSA id e1sm22491971pfl.98.2020.02.03.18.57.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2020 18:57:10 -0800 (PST)
+        Mon, 03 Feb 2020 18:57:13 -0800 (PST)
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
@@ -52,9 +52,9 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [RFC][PATCHv2 06/12] videobuf2: factor out planes prepare/finish functions
-Date:   Tue,  4 Feb 2020 11:56:35 +0900
-Message-Id: <20200204025641.218376-7-senozhatsky@chromium.org>
+Subject: [RFC][PATCHv2 07/12] videobuf2: do not sync caches when we are allowed not to
+Date:   Tue,  4 Feb 2020 11:56:36 +0900
+Message-Id: <20200204025641.218376-8-senozhatsky@chromium.org>
 X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
 In-Reply-To: <20200204025641.218376-1-senozhatsky@chromium.org>
 References: <20200204025641.218376-1-senozhatsky@chromium.org>
@@ -65,112 +65,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Factor out the code, no functional changes.
+Skip ->prepare() or/and ->finish() cache synchronisation if
+user-space requested us to do so (or when queue dma direction
+permits us to skip cache syncs).
 
-Change-Id: I47044c0ba57ccc47a5d23f36976ce9f1e3b0f67f
+Change-Id: I37c89d666542ed8d536eac329953d921bb1c94b6
 Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 ---
- .../media/common/videobuf2/videobuf2-core.c   | 52 +++++++++++--------
- 1 file changed, 31 insertions(+), 21 deletions(-)
+ drivers/media/common/videobuf2/videobuf2-core.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 56fd17eafb6c..46be9c790ff6 100644
+index 46be9c790ff6..c3637ca0c65b 100644
 --- a/drivers/media/common/videobuf2/videobuf2-core.c
 +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -296,6 +296,32 @@ static void __vb2_buf_dmabuf_put(struct vb2_buffer *vb)
- 		__vb2_plane_dmabuf_put(vb, &vb->planes[plane]);
- }
- 
-+/*
-+ * __vb2_buf_mem_prepare() - call ->prepare() on buffer's private memory
-+ * to sync caches
-+ */
-+static void __vb2_buf_mem_prepare(struct vb2_buffer *vb)
-+{
-+	unsigned int plane;
-+
-+	for (plane = 0; plane < vb->num_planes; ++plane)
-+		call_void_memop(vb, prepare, vb->planes[plane].mem_priv);
-+	vb->synced = 1;
-+}
-+
-+/*
-+ * __vb2_buf_mem_finish() - call ->finish on buffer's private memory
-+ * to sync caches
-+ */
-+static void __vb2_buf_mem_finish(struct vb2_buffer *vb)
-+{
-+	unsigned int plane;
-+
-+	for (plane = 0; plane < vb->num_planes; ++plane)
-+		call_void_memop(vb, finish, vb->planes[plane].mem_priv);
-+	vb->synced = 0;
-+}
-+
- /*
-  * __setup_offsets() - setup unique offsets ("cookies") for every plane in
-  * the buffer.
-@@ -951,7 +977,6 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
+@@ -304,8 +304,11 @@ static void __vb2_buf_mem_prepare(struct vb2_buffer *vb)
  {
- 	struct vb2_queue *q = vb->vb2_queue;
- 	unsigned long flags;
--	unsigned int plane;
+ 	unsigned int plane;
  
- 	if (WARN_ON(vb->state != VB2_BUF_STATE_ACTIVE))
- 		return;
-@@ -971,12 +996,8 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
- 	dprintk(4, "done processing on buffer %d, state: %d\n",
- 			vb->index, state);
- 
--	if (state != VB2_BUF_STATE_QUEUED) {
--		/* sync buffers */
--		for (plane = 0; plane < vb->num_planes; ++plane)
--			call_void_memop(vb, finish, vb->planes[plane].mem_priv);
--		vb->synced = 0;
--	}
-+	if (state != VB2_BUF_STATE_QUEUED)
-+		__vb2_buf_mem_finish(vb);
- 
- 	spin_lock_irqsave(&q->done_lock, flags);
- 	if (state == VB2_BUF_STATE_QUEUED) {
-@@ -1301,7 +1322,6 @@ static int __buf_prepare(struct vb2_buffer *vb)
- {
- 	struct vb2_queue *q = vb->vb2_queue;
- 	enum vb2_buffer_state orig_state = vb->state;
--	unsigned int plane;
- 	int ret;
- 
- 	if (q->error) {
-@@ -1345,11 +1365,7 @@ static int __buf_prepare(struct vb2_buffer *vb)
- 		return ret;
- 	}
- 
--	/* sync buffers */
 -	for (plane = 0; plane < vb->num_planes; ++plane)
 -		call_void_memop(vb, prepare, vb->planes[plane].mem_priv);
--
--	vb->synced = 1;
-+	__vb2_buf_mem_prepare(vb);
- 	vb->prepared = 1;
- 	vb->state = orig_state;
++	if (vb->need_cache_sync_on_prepare) {
++		for (plane = 0; plane < vb->num_planes; ++plane)
++			call_void_memop(vb, prepare,
++					vb->planes[plane].mem_priv);
++	}
+ 	vb->synced = 1;
+ }
  
-@@ -1969,14 +1985,8 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
- 				call_void_vb_qop(vb, buf_request_complete, vb);
- 		}
+@@ -317,8 +320,11 @@ static void __vb2_buf_mem_finish(struct vb2_buffer *vb)
+ {
+ 	unsigned int plane;
  
--		if (vb->synced) {
--			unsigned int plane;
--
--			for (plane = 0; plane < vb->num_planes; ++plane)
--				call_void_memop(vb, finish,
--						vb->planes[plane].mem_priv);
--			vb->synced = 0;
--		}
-+		if (vb->synced)
-+			__vb2_buf_mem_finish(vb);
+-	for (plane = 0; plane < vb->num_planes; ++plane)
+-		call_void_memop(vb, finish, vb->planes[plane].mem_priv);
++	if (vb->need_cache_sync_on_finish) {
++		for (plane = 0; plane < vb->num_planes; ++plane)
++			call_void_memop(vb, finish,
++					vb->planes[plane].mem_priv);
++	}
+ 	vb->synced = 0;
+ }
  
- 		if (vb->prepared) {
- 			call_void_vb_qop(vb, buf_finish, vb);
 -- 
 2.25.0.341.g760bfbb309-goog
 
