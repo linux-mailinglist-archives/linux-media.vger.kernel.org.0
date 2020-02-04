@@ -2,105 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC951151280
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2020 23:43:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13622151442
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 03:50:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbgBCWno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 17:43:44 -0500
-Received: from outgoing14.flk.host-h.net ([197.242.87.48]:58217 "EHLO
-        outgoing14.flk.host-h.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726369AbgBCWno (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 17:43:44 -0500
-Received: from www31.flk1.host-h.net ([188.40.1.173])
-        by antispam4-flk1.host-h.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.92)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1iykRP-0000rs-Bd; Tue, 04 Feb 2020 00:43:41 +0200
-Received: from [130.255.73.16] (helo=v01.28459.vpscontrol.net)
-        by www31.flk1.host-h.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <justin.swartz@risingedge.co.za>)
-        id 1iykRJ-0001Vj-NY; Tue, 04 Feb 2020 00:43:33 +0200
-From:   Justin Swartz <justin.swartz@risingedge.co.za>
-To:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+        id S1727105AbgBDCu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Feb 2020 21:50:26 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:40200 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726924AbgBDCuZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Feb 2020 21:50:25 -0500
+Received: by mail-pj1-f65.google.com with SMTP id 12so686980pjb.5
+        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2020 18:50:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=SIPb87j1x52DpZAA2dXWxz9TdyllVrxg7vta0P2dsgQ=;
+        b=GjTFy4PXP77tBt3f62/r618RgWIPd4s3gK9eoOMnIMN3eZZjMiQVJNAMaiDepHdQjY
+         9cNUAoU9LEpMNiYuHvSsPEj3utzgeztTXwF+blSAwre6pwBqspmd3Ef9fqSXwA9TS1GS
+         K3i6XA/D0eczxbWXKaKxy9y2xdfl8f7ZXBr18=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=SIPb87j1x52DpZAA2dXWxz9TdyllVrxg7vta0P2dsgQ=;
+        b=q0WXyFbwAyhXrUA/L+c2hlGf0YZB8A+ChfQ4j2i90lTfB5JHaDfr72dWR4Yz9yN48b
+         ra0PKvvuqaJVBqDSmCM6kFnK8JWvpqwFnT6gSK4gklO5sAvvgcUJznk8A2Ry3hZKEaZF
+         AHfy5bm5Q2fQJn1FPI8J+6Y5U02Fn8I1/L8U3kexWJu+z6yJx5kM6fqoUicIQiDSKzpw
+         qi7QAsakX01d+zvsgG/Ag6rT+SQXIIcDbNV/pQ1Aapha/6PR6GPnV/i78MtznEFEkdvh
+         /GwV1VVchM6n7h2od/OxuBBDc34zmQzyfe+y/nW5wn67PNx+ZszfjLMF8EbbDjX5sAa0
+         /Gsw==
+X-Gm-Message-State: APjAAAXE72E9F2l9rpwHrDreG1SR4oj/p94n2iEmQ8uQpIUQURDtNNtr
+        WSFgB6pI6oGBh44nOFGjWP3IbA==
+X-Google-Smtp-Source: APXvYqxbS01u5Z2Cu0d+QYSIXDHwvkeCKpPMuaHL0dLdMogyQs3ucft0inokm+BourpirZqU8TEeoQ==
+X-Received: by 2002:a17:902:864a:: with SMTP id y10mr27112565plt.2.1580784624133;
+        Mon, 03 Feb 2020 18:50:24 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id z30sm23150340pfq.154.2020.02.03.18.50.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2020 18:50:23 -0800 (PST)
+Date:   Tue, 4 Feb 2020 11:50:21 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Justin Swartz <justin.swartz@risingedge.co.za>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/3] [media] dt-bindings: Add binding for rk3228 rga
-Date:   Mon,  3 Feb 2020 22:40:15 +0000
-Message-Id: <4e66b3f029c56d7c7709d39ed15894b86f51fd37.1580768038.git.justin.swartz@risingedge.co.za>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1580768038.git.justin.swartz@risingedge.co.za>
-References: <cover.1580768038.git.justin.swartz@risingedge.co.za>
-X-Authenticated-Sender: justin.swartz@risingedge.co.za
-X-Virus-Scanned: Clear
-X-Originating-IP: 188.40.1.173
-X-SpamExperts-Domain: risingedge.co.za
-X-SpamExperts-Username: 
-Authentication-Results: host-h.net; auth=pass (login) smtp.auth=@risingedge.co.za
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.03)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0S9sfM/nP8gxoqs1zeWkeM2pSDasLI4SayDByyq9LIhVqbrFGdjgeSyW
- oSIHDV2bc0TNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K7uDjV/sFUXQr+CDrNQuIHgQg
- mAX8Bxy/iUu0ThNZg0h/RxVysY5Ye6+GGw0VqdJD7ren9RtRNyYim5e3GD8LGfWrcbYvelpuN/Pk
- qhBpvAyWwieZyauFYqHkIbFa+ipF21HJWO60ZqrvKy/1AXUV5oXt6ymoFHaG7BQtEYvFCSrK5j1T
- Po5/LpleUgQM5/MAHmDvzkMd4joYqrUfcPIQdUYI3fUXyt8g6v09xrG7vu/fdUS1M5thdxxsnOTC
- rRmvZNXA7urqkuRkjn1fyteVYP+HXs9CMbFn9vCz9Z+lGmDQvQDDheqH4lBQpR0ziVlLWDAC1vRC
- hq319+C3vxdCgsyStZRkQwmoMeUp+gQglixgZmTW6H0Uo/QzUeaLOBvNEC1g+U1SXfUhLsTk5wUY
- WaWokZC3JOaEfAcg3rPhhfcX+ST1SQvvWvLhLE4Lpnngg5nlaTNYebWa2W6GbNvgwptlhJrsz+8j
- XuMdjIbLZhwoK/VzePATsXS/rFxRypFKMiPLyoQzvILSDO18VtgBXVZLiWGA8pLp3rHN0URF1jrY
- Ta6/LJzl4pg0ZC9q5gYH7EOMauBWC98ol0xUHcbfIJ9ZJ7PpnPxGejDS+HAMyOjpxOsB8gG0slV7
- ra6jI4BS3XLmxFz+88FWeB7miCnFrS+xkiYMmdOwRIKnLhTyDa49KiI6ApkBL1M2pjeIsNv0i2bz
- nHJ53CHS5fL+CC61pH+Mdi8KDLlrJjQEyoQkvVqjwoXSktopqY7X3mJE1vuavCrJPmnnTHzVkpyb
- MK7ZTZV8hN6hngxqNW/p6/rAjB3Bo9WPi4IE45J8SMIBWsA7tm+5pSj1YjV94R3x16NaT9yCB/zW
- LYsk4/ealtlYzK51KubfNuS9lgsouDG6gpp8iIlTfpXH3eJ/htNFsfRJIBENKYpiYAj5ry18Gfzy
- UyGWHsbQ5DjCOMluv3aOz8NWzD3Mi+V2OEt0i8esRYoCB983CNy2/HP4CS/B6ymwJqdrYqktDHCy
- f2KOgPWiC6z4HnV1R/vfaN0C4C3KdSxIKbHYhXQwhXELIBZC+BuxdgK5cVvzDCtuQClUbi7eRJvI
- TkqtzdSFBbSbobZulyTUYjC74vrhaiUYgcoraGjU35GVhLwCLj5UzlqDZIb7xEp3klSpLYn5Sshm
- tRDo/ib6qUd+ON9Iwv3fqFcmzUrJkUoL/PyVSe2/DDFq5n7HBuKWYRb2mL6sFaAAW2m3yODQWZ6C
- UzN46xT2FnDD31r1QFs2yPRk3H1E4ANRdN1BlPI5cpunCmbc5xpJVMDSneyWOiQlotRPFwUdX67F
- 3JAjgow=
-X-Report-Abuse-To: spam@antispammaster.host-h.net
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC][PATCH 12/15] videobuf2: add begin/end cpu_access callbacks
+ to dma-sg
+Message-ID: <20200204025021.GF41358@google.com>
+References: <20191217032034.54897-1-senozhatsky@chromium.org>
+ <20191217032034.54897-13-senozhatsky@chromium.org>
+ <1c5198dc-db4e-47d6-0d8b-259fbbb6372f@xs4all.nl>
+ <CAAFQd5DN0FSJ=pXG3J32AXocnbkR+AB8yKKDk0tZS4s7K04Z9Q@mail.gmail.com>
+ <560ba621-5396-1ea9-625e-a9f83622e052@xs4all.nl>
+ <CAAFQd5D27xaKhxg8UuPH6XXdzgBBsCeDL8wYw37r6AK+6sWcbg@mail.gmail.com>
+ <c23618a9-4bf8-1d9a-6e52-d616c79ff289@xs4all.nl>
+ <CAAFQd5BGA-mnirgwQJP_UHkNzpVvf19xeRu-n7GLQci8nYGB2A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5BGA-mnirgwQJP_UHkNzpVvf19xeRu-n7GLQci8nYGB2A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Indicate that the rk3228 rga is compatible with that of the rk3288.
+On (20/02/03 19:04), Tomasz Figa wrote:
+[..]
+> > I very much agree with that. But this should be very clearly documented.
+> > Should V4L2_CAP_MEMORY_NON_CONSISTENT always be set in this case?
+> >
+> 
+> Yes, IMHO that would make sense. My understanding is that currently
+> the consistency of allocated memory is unspecified, so it can be
+> either. With V4L2_FLAG_MEMORY_NON_CONSISTENT, the userspace can
+> explicitly ask for inconsistent memory.
+> 
+> Moreover, I'd vote for setting V4L2_CAP_MEMORY_NON_CONSISTENT when
+> V4L2_FLAG_MEMORY_NON_CONSISTENT is guaranteed to return inconsistent
+> memory to avoid "optional" features or "hints" without guaranteed
+> behavior.
 
-But if any rk3228-specific quirks are identified in future that
-require handling logic that differs from what is provided for the
-rk3288, then allow for the compatibility string "rockchip,rk3228-rga"
-to be matched instead of "rockchip,rk3288-rga".
+Documentation/DMA-attributes.txt says the following
 
-Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
----
- Documentation/devicetree/bindings/media/rockchip-rga.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+  DMA_ATTR_NON_CONSISTENT
+  -----------------------
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.txt b/Documentation/devicetree/bindings/media/rockchip-rga.txt
-index fd5276abf..c53a8e513 100644
---- a/Documentation/devicetree/bindings/media/rockchip-rga.txt
-+++ b/Documentation/devicetree/bindings/media/rockchip-rga.txt
-@@ -6,8 +6,9 @@ BitBLT, alpha blending and image blur/sharpness.
- 
- Required properties:
- - compatible: value should be one of the following
--		"rockchip,rk3288-rga";
--		"rockchip,rk3399-rga";
-+  "rockchip,rk3228-rga", "rockchip,rk3288-rga": for Rockchip RK3228
-+  "rockchip,rk3288-rga": for Rockchip RK3288
-+  "rockchip,rk3399-rga": for Rockchip RK3399
- 
- - interrupts: RGA interrupt specifier.
- 
--- 
-2.11.0
+  DMA_ATTR_NON_CONSISTENT lets the platform to choose to return either
+  consistent or non-consistent memory as it sees fit.  By using this API,
+  you are guaranteeing to the platform that you have all the correct and
+  necessary sync points for this memory in the driver.
 
+	-ss
