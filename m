@@ -2,120 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D69C15235B
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 00:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBEAE15235C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 00:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727608AbgBDXtg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Feb 2020 18:49:36 -0500
-Received: from mail-pf1-f179.google.com ([209.85.210.179]:38492 "EHLO
-        mail-pf1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727562AbgBDXtg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Feb 2020 18:49:36 -0500
-Received: by mail-pf1-f179.google.com with SMTP id x185so176795pfc.5
-        for <linux-media@vger.kernel.org>; Tue, 04 Feb 2020 15:49:36 -0800 (PST)
+        id S1727563AbgBDXth (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Feb 2020 18:49:37 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:41382 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727412AbgBDXth (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Feb 2020 18:49:37 -0500
+Received: by mail-pl1-f195.google.com with SMTP id t14so64439plr.8;
+        Tue, 04 Feb 2020 15:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=cdnGQB0t/nk/77ipT+sANN07Xupa9kqH2zcFCvP+1qg=;
-        b=X9qSemyEcqwRMVRlsxw1VHKRKRkNrDqmT4FqPFgNpuMgfYa+JpDLMEuskk3VMISaX3
-         vo7Kg7/wVXbUopTtxkHb0YmfMO8NzI6LdsD3dQu40DDUK+7MjXuOlrIUszZW6HNsD3QU
-         XPz2psdQ1JzllmSXKtRnYdOq+QOyWAnK80gQJG5P8cdqyUxp3tWOvRSHpjWOxuJBiHGe
-         5d1CzHuMp74ejv2ZJFU0iG0jTx9i7s2x1ftDU0LqO2KxqH3X2rXFHmFRScstU3e+oZ7m
-         Eu0YZPJgiKqLevluQLGJMHZPJ8daG/EeosedzUgB2z6FAx/TLpRgb8LHjQGpjdbuGLRe
-         3GNw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=qD7p9omT3ZqLHQdscsqkNZErSP6L23JqC4boqGiD0ds=;
+        b=EtqHVulXx99URS3Qe05lW8Lufh6T7pcjz/KReLzLTuFZSbtVzZaf2lrMZI4wFiApPl
+         bD+ggX05doVz354UPhFih4X+p4n34bjwn6de8Z+BcQm8zWJdRmNnAHRuONj/FUI1tjyL
+         iUfNcGHJqDaclN9NFsMaKYb0eyF0vglFqcZmIQYZKSKeO765QpmIAsGkGffo3f+MVPkw
+         fWPcI0cUWUGwgu16ALmpk6C0kyYdHaMVZi5Rk/UcqEnlm/XiSDfVskhmaq0Y5tuWEtxM
+         w0N9BZodkCGw0bo3dFPXdRk7qnxnnHhU3KPxLZK0/3886wX/eYn+Rx6p2MdkH2bbzQ/c
+         hICw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=cdnGQB0t/nk/77ipT+sANN07Xupa9kqH2zcFCvP+1qg=;
-        b=Bmm8uUHIS1gNnTtxecST3Ihxv24sZ++EEtRO/XrpPe2cGT1MeliST3RUPnXkPGKWw+
-         4SIpwl5uXTkziF4FisddUfP0T4Kf5pFrDTyoseGr+CwxYrN5rQP1Sg1z0Y3U0H9KvQHH
-         kPsUoDlH+Ck2MCxv/4FGBMXOBPcLRemmVgYCKNwerKjOtcHgvU8L5Ti0KuAEm7XWPooG
-         jmaqBPdWdAYNW8C4LncnfL/69ETi3079ySOMRMGZU7TboiKHD/axrBXbOeHTgTHulqQP
-         yLvViWdARjf5O7oWUv1g3s47BuJkPESyN3EYt0qE6pclw53bk3IoU8E7PsUl5HcdWzOT
-         L61Q==
-X-Gm-Message-State: APjAAAV5ydgI8rQDW1VFk9+qvoA9xS9L2duqaVnU+M02hckuprS2cLlK
-        7QvACGxUl/euyikqmJXJaFydPrre
-X-Google-Smtp-Source: APXvYqx3nh3Lh/k221n9iK1uPujPj/blLv+pU5056VsL1fc89YyNTeNat3vsT1aB8yNNts1fkNn3ug==
-X-Received: by 2002:a63:5809:: with SMTP id m9mr32965503pgb.26.1580860175098;
-        Tue, 04 Feb 2020 15:49:35 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=qD7p9omT3ZqLHQdscsqkNZErSP6L23JqC4boqGiD0ds=;
+        b=hhvQfjBUVEQMIAy7aKbroqVktgA0l7GJcQT9DIRoqBkZyEHZ7j8aCR6v4oug6APF7S
+         3FqOJOKRwMc3gxL483DtcEzkAPguBM6eoIzF8OOiqMwfbsIkQo4mAqQSpbnr8Qutf5Xz
+         JVoviO++BJ8vDMRvFYqr0Uw+sfGtyMssP1oCNFsnUML8mLDba1L9V3Y0QTbDnm9fP7GF
+         KRZjDHuJq61TOtKDWFVUe0Ie3lGOrKvlF/sCLoSkpNIlgZjE/+q+5LKtP8SS2/1Qy8/N
+         NUY0mSrWM6i3pOlBFL/OZ8VW9sDOpS3Wzxuq69rCKM2GQG4typJEtr0ChiiyJ71K1gAa
+         8BRg==
+X-Gm-Message-State: APjAAAWZKDQbMHkyg8xpNULVV0CTHwa9yBI5zb9lB6YheCBU7dMCwX/w
+        tzm3knx3pD5nXRfZXQNNIXAgw47Q
+X-Google-Smtp-Source: APXvYqyBLewVzoOQa5qiRdOx7sM6iJnyGsUH+B0sJ4Kxn/9oyCmHZ7AwNaBh982pcio1KFv+l18nHg==
+X-Received: by 2002:a17:902:8688:: with SMTP id g8mr32079519plo.277.1580860176419;
+        Tue, 04 Feb 2020 15:49:36 -0800 (PST)
 Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
-        by smtp.googlemail.com with ESMTPSA id u2sm24607929pgj.7.2020.02.04.15.49.33
+        by smtp.googlemail.com with ESMTPSA id u2sm24607929pgj.7.2020.02.04.15.49.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2020 15:49:34 -0800 (PST)
+        Tue, 04 Feb 2020 15:49:35 -0800 (PST)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v3 00/17] media: imx: Create media links in bound notifiers
-Date:   Tue,  4 Feb 2020 15:49:01 -0800
-Message-Id: <20200204234918.20425-1-slongerbeam@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3 01/17] media: entity: Pass entity to get_fwnode_pad operation
+Date:   Tue,  4 Feb 2020 15:49:02 -0800
+Message-Id: <20200204234918.20425-2-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200204234918.20425-1-slongerbeam@gmail.com>
+References: <20200204234918.20425-1-slongerbeam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move media link creation into the notifier bound callbacks in the
-minimum set of subdevices required by imx (imx5/6/7 CSI,
-imx6/7 MIPI CSI-2, and video mux).
+Add a missing pointer to the entity in the media_entity operation
+get_fwnode_pad. There are no implementers of this op yet, but a future
+entity that does so will almost certainly need a reference to itself
+to carry out the work.
 
-History:
+Fixes: ae45cd5efc120 ("[media] media: entity: Add get_fwnode_pad entity
+operation")
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+---
+ drivers/media/mc/mc-entity.c | 2 +-
+ include/media/media-entity.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-v3:
-- The changes to the default behaviour in media_entity_get_fwnode_pad(),
-  and the fixes to current media drivers that call it inconsistently, have
-  been put-off to another time. Instead this version implements the
-  get_fwnode_pad operation where required in the imx and video-mux
-  subdevices to make media link creation work correctly. The
-  improvements to media_entity_get_fwnode_pad() can wait to another
-  patch series.
-
-v2:
-- rename/move the notifier-to-state inlines in imx7-mipi-csis.c and
-  imx7-media-csi.c, suggested by Rui Silva.
-- rewrite imx_media_create_links() to only add the missing media links
-  from the imx6 MIPI CSI-2 receiver.
-
-
-Steve Longerbeam (17):
-  media: entity: Pass entity to get_fwnode_pad operation
-  media: v4l2-fwnode: Pass notifier to
-    v4l2_async_register_fwnode_subdev()
-  media: imx: csi: Implement get_fwnode_pad op
-  media: imx: mipi csi-2: Implement get_fwnode_pad op
-  media: video-mux: Implement get_fwnode_pad op
-  media: imx: Add imx_media_create_fwnode_pad_link()
-  media: video-mux: Create media links in bound notifier
-  media: imx: mipi csi-2: Create media links in bound notifier
-  media: imx7-mipi-csis: Create media links in bound notifier
-  media: imx7-media-csi: Create media links in bound notifier
-  media: imx: csi: Embed notifier in struct csi_priv
-  media: imx: csi: Add missing notifier unregister/cleanup
-  media: imx: csi: Create media links in bound notifier
-  media: imx: csi: Lookup upstream endpoint with
-    imx_media_get_pad_fwnode
-  media: imx: Create missing links from CSI-2 receiver
-  media: imx: silence a couple debug messages
-  media: imx: TODO: Remove media link creation todos
-
- drivers/media/mc/mc-entity.c                  |   2 +-
- drivers/media/platform/video-mux.c            | 129 +++++++++++++++++-
- drivers/media/v4l2-core/v4l2-fwnode.c         |  11 +-
- drivers/staging/media/imx/TODO                |  29 ----
- drivers/staging/media/imx/imx-media-csi.c     |  91 ++++++++----
- .../staging/media/imx/imx-media-dev-common.c  |  50 +++----
- drivers/staging/media/imx/imx-media-dev.c     |   2 +-
- .../staging/media/imx/imx-media-internal-sd.c |   6 +-
- drivers/staging/media/imx/imx-media-of.c      | 114 ----------------
- drivers/staging/media/imx/imx-media-utils.c   | 124 +++++++++++++++++
- drivers/staging/media/imx/imx-media.h         |   9 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c    |  56 +++++++-
- drivers/staging/media/imx/imx7-media-csi.c    |  54 +++++---
- drivers/staging/media/imx/imx7-mipi-csis.c    |  31 ++++-
- include/media/media-entity.h                  |   3 +-
- include/media/v4l2-fwnode.h                   |  12 +-
- 16 files changed, 474 insertions(+), 249 deletions(-)
-
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 7c429ce98bae..c333320f790a 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -386,7 +386,7 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = entity->ops->get_fwnode_pad(&endpoint);
++	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index 8cb2c504a05c..cde80ad029b7 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -212,7 +212,8 @@ struct media_pad {
+  *    mutex held.
+  */
+ struct media_entity_operations {
+-	int (*get_fwnode_pad)(struct fwnode_endpoint *endpoint);
++	int (*get_fwnode_pad)(struct media_entity *entity,
++			      struct fwnode_endpoint *endpoint);
+ 	int (*link_setup)(struct media_entity *entity,
+ 			  const struct media_pad *local,
+ 			  const struct media_pad *remote, u32 flags);
 -- 
 2.17.1
 
