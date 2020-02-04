@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DA3615238F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 00:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFCB15238E
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 00:50:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727723AbgBDXtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Feb 2020 18:49:41 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:44642 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727711AbgBDXtl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Feb 2020 18:49:41 -0500
-Received: by mail-pg1-f193.google.com with SMTP id g3so4768437pgs.11;
-        Tue, 04 Feb 2020 15:49:41 -0800 (PST)
+        id S1727744AbgBDXtn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Feb 2020 18:49:43 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:33347 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727731AbgBDXtm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Feb 2020 18:49:42 -0500
+Received: by mail-pl1-f196.google.com with SMTP id ay11so80174plb.0;
+        Tue, 04 Feb 2020 15:49:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=tEFP9EfjLyBSm2GDbhHW2vsbKN5BJT5FKVyhRHQNMY8=;
-        b=qmhbDNR95uHywwTR96SOWFHQIuY5BcX1uVAKfd+uicZ/k1fooHXSfNBVaesqjSQuZM
-         OQMTcnpW7TEz9K/YUDnRklPs/ToaTpYqRigLVpPQu4QcTCoIPUY150DuIMtiSb4/OEyH
-         oJ3emGDquRgVHbaJlQYK9Fd1Ftcovqe1Bk+JATIFT7MVbxmoDSys0IY2ekFO7tQqoxLP
-         bhQSL0C/24rpHydkRdHxijxlvhu8YM+ssVxLjZXU8FXyWrn7J88sNdv6x3XgL+gqmTrr
-         XzMFB4qltVjlXDCHbOzNZgd94Pr/t6vht9lz9F0xzd+xATy4aNz67yWdpbTWB/kvEusB
-         nBnQ==
+        bh=GoHwA/NUt6bdmcBWMk3GrpTBSbEsSYQ8eBgsnOl6FH8=;
+        b=Yk0UNyyAlkctNhCEl0XmAo9v2tutCjwPUMuD76Z53N2E4FftV6cTkCjAHeQGoJsHj7
+         QIKwetLhpjlSd9i0Ats6RVGMrEEDEVRLioAxbYfLaBN5889APinEf0m55r5x3KXaVIrZ
+         oSQTl6kQyV8sFLASP/vjlidXEX6iS/0RE8mVwS2tKLHUio+gpN488xI69k9G6e56oy9i
+         HblJhv895SVGOBfy9iEga1oD2MUI/OGK6OvL9p3QKBzi///hzUbXJEi5AxaXBdj3RDze
+         QjNQ3hoaGObwKZyWme74zSLdWqs4meGDHX2FHwsCWvwW5CszqBNMc8y4NEJu8dbbYXWw
+         Aa4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=tEFP9EfjLyBSm2GDbhHW2vsbKN5BJT5FKVyhRHQNMY8=;
-        b=cBNc6eD+tat9DI80QEgdnb8w3A3ljNuV/VDlIkBkQJmmVRmy+YBs/wxiMdxFpClTV3
-         NMg2C7VhQrCaBcxoe9gHmCIdTNoPDZ6ndanoymq0rT/zBrfdelfSJHigoGsMqQjZnzxm
-         nlO8xHHoladv04x8IT5wFyAJ8yijyC83ksrL7gDuSoP7b1H1sZVRB2EDplkbOOEBZKKg
-         IQbcO/tyoEyxtR0nWgzK+fU5ExJdsQDpS761didmrbjzq2SB/T5rWLgXMSSd5+SzLuLj
-         LDjISiw+oL0zVru/A7EO0ipmd8rTP1zWIaltExJxfjt95bj050Stkx8cQxwEGiU8vKkJ
-         emKQ==
-X-Gm-Message-State: APjAAAVyI/VJ0FFxIFHh48vG770Mnrigtc0tVsBrwbqSoRNiHe4370On
-        /lpJhXHYtI5b7p9W37nlPwagWHNN
-X-Google-Smtp-Source: APXvYqyIsRF7R9F2VnqpYSRTFRZQXt11C2WQyxtCzzEwR1tv4q2JGNKz08KJv6czrUc3SW0JZ1+R3g==
-X-Received: by 2002:a63:9251:: with SMTP id s17mr33348585pgn.127.1580860180704;
-        Tue, 04 Feb 2020 15:49:40 -0800 (PST)
+        bh=GoHwA/NUt6bdmcBWMk3GrpTBSbEsSYQ8eBgsnOl6FH8=;
+        b=np0QXmpHtU/uqjUkLJhmVY6/thDn85ltdwC/0R81vjwNFuQ8f+tA2Oxn85qcZK2d7j
+         k/Oc8HLVACR1Jbmw6gX3iZ5mY7f2wQCBMoGhxEZbUDmVyFxqWeyCO1DyERZ6JbFM0gd/
+         1j0gTQl6NQH27piGVgcqm75DSwbQlCLdpqew3UEsY4tEoO3h+7i59L6xpWftT7cxp3fB
+         Io+Iw4Vv2yctkttx7xF2cj3K681OhuWzEla0EgziCuKF9OeKtgAh1FLl9NI3U7FyawnI
+         mWGzj0O6knYmAI8gZvt1XwIHhxU9vFbnkF+9Rc09HR4NWIPLrJT10oaFiZNRY7MxNcwo
+         XCbw==
+X-Gm-Message-State: APjAAAU7GcYahxEbUeUz88X7Hupqnt5F6Y8KY87qZ2WGRzxl/3g8UIAu
+        ZWYbLHuh48r1AjaQy2hZTOlEdAC3
+X-Google-Smtp-Source: APXvYqzscwmenowcDy7Jeog/8AGe1JciDVrcX+rmRLWuTOpy9AufsDtRKO3ndcrFvHB5apSnObXHOw==
+X-Received: by 2002:a17:902:a514:: with SMTP id s20mr32054509plq.300.1580860181981;
+        Tue, 04 Feb 2020 15:49:41 -0800 (PST)
 Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
-        by smtp.googlemail.com with ESMTPSA id u2sm24607929pgj.7.2020.02.04.15.49.39
+        by smtp.googlemail.com with ESMTPSA id u2sm24607929pgj.7.2020.02.04.15.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2020 15:49:40 -0800 (PST)
+        Tue, 04 Feb 2020 15:49:41 -0800 (PST)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
@@ -57,9 +57,9 @@ Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
         linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX
         / MXC ARM ARCHITECTURE), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 03/17] media: imx: csi: Implement get_fwnode_pad op
-Date:   Tue,  4 Feb 2020 15:49:04 -0800
-Message-Id: <20200204234918.20425-4-slongerbeam@gmail.com>
+Subject: [PATCH v3 04/17] media: imx: mipi csi-2: Implement get_fwnode_pad op
+Date:   Tue,  4 Feb 2020 15:49:05 -0800
+Message-Id: <20200204234918.20425-5-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200204234918.20425-1-slongerbeam@gmail.com>
 References: <20200204234918.20425-1-slongerbeam@gmail.com>
@@ -68,54 +68,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The CSI does not have a 1:1 relationship between fwnode port numbers and
-pad indexes. In fact the CSI fwnode device is itself a port which is the
-sink, containing only a single fwnode endpoint. Implement media_entity
-operation get_fwnode_pad to first verify the given endpoint is the CSI's
-sink endpoint, and if so return the CSI sink pad index.
+Implement get_fwnode_pad operation. If the endpoint is owned by the MIPI
+CSI-2 receiver, return the endpoint's port number. The MIPI CSI-2 receiver
+maps port numbers and pad indexes 1:1.
 
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-csi.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/staging/media/imx/imx6-mipi-csi2.c | 28 ++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index b60ed4f22f6d..dc5fe25fe7b8 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -1825,9 +1825,32 @@ static void csi_unregistered(struct v4l2_subdev *sd)
- 		ipu_csi_put(priv->csi);
+diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
+index c1d1afeea53a..e27a342751fc 100644
+--- a/drivers/staging/media/imx/imx6-mipi-csi2.c
++++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+@@ -507,9 +507,37 @@ static int csi2_registered(struct v4l2_subdev *sd)
+ 				      640, 480, 0, V4L2_FIELD_NONE, NULL);
  }
  
-+/*
-+ * The CSI has only one fwnode endpoint, at the sink pad. Verify the
-+ * endpoint belongs to us, and return CSI_SINK_PAD.
-+ */
-+static int csi_get_fwnode_pad(struct media_entity *entity,
-+			      struct fwnode_endpoint *endpoint)
++static int csi2_get_fwnode_pad(struct media_entity *entity,
++			       struct fwnode_endpoint *endpoint)
 +{
 +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-+	struct csi_priv *priv = v4l2_get_subdevdata(sd);
-+	struct fwnode_handle *csi_port = dev_fwnode(priv->dev);
-+	struct fwnode_handle *csi_ep;
-+	int ret;
++	struct csi2_dev *csi2 = sd_to_dev(sd);
++	struct fwnode_handle *csi2_ep;
 +
-+	csi_ep = fwnode_get_next_child_node(csi_port, NULL);
++	/*
++	 * If the endpoint is one of ours, return the endpoint's port
++	 * number. This device maps port numbers and pad indexes 1:1.
++	 */
++	fwnode_graph_for_each_endpoint(dev_fwnode(csi2->dev), csi2_ep) {
++		if (endpoint->local_fwnode == csi2_ep) {
++			struct fwnode_endpoint fwep;
++			int ret;
 +
-+	ret = endpoint->local_fwnode == csi_ep ? CSI_SINK_PAD : -ENXIO;
++			ret = fwnode_graph_parse_endpoint(csi2_ep, &fwep);
 +
-+	fwnode_handle_put(csi_ep);
++			fwnode_handle_put(csi2_ep);
 +
-+	return ret;
++			return ret ? ret : fwep.port;
++		}
++	}
++
++	return -ENXIO;
 +}
 +
- static const struct media_entity_operations csi_entity_ops = {
- 	.link_setup = csi_link_setup,
+ static const struct media_entity_operations csi2_entity_ops = {
+ 	.link_setup = csi2_link_setup,
  	.link_validate = v4l2_subdev_link_validate,
-+	.get_fwnode_pad = csi_get_fwnode_pad,
++	.get_fwnode_pad = csi2_get_fwnode_pad,
  };
  
- static const struct v4l2_subdev_core_ops csi_core_ops = {
+ static const struct v4l2_subdev_video_ops csi2_video_ops = {
 -- 
 2.17.1
 
