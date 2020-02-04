@@ -2,164 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9546415152A
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 05:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 825C2151835
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 10:51:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgBDE4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Feb 2020 23:56:10 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36299 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726924AbgBDE4K (ORCPT
+        id S1726892AbgBDJvF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Feb 2020 04:51:05 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46633 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726343AbgBDJvE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 3 Feb 2020 23:56:10 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:d1f1:f21:7be9:5333])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id yqFriWTyjn7E5yqFsi8OaE; Tue, 04 Feb 2020 05:56:08 +0100
+        Tue, 4 Feb 2020 04:51:04 -0500
+Received: from [IPv6:2001:420:44c1:2577:c522:bb58:9147:43ff]
+ ([IPv6:2001:420:44c1:2577:c522:bb58:9147:43ff])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id yurBiQflTVuxOyurFiI8yZ; Tue, 04 Feb 2020 10:51:01 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580792168; bh=nbETR9842xFG6lbXsX7Qk6r9n0Spwp5Tl6AO4SZTGso=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=KaZP92b6eJRAPcAND44WdScWveYMcQ1htZ2kUqXiDxsrWOOQ7MP9vKbZMAXqWKe4A
-         X56wiQ3ragavFcCd6rtywHi6z723cjIIeQ1hvHyUM8E3cTpfdOMYUIq9XQS6NxCMR0
-         f9esi5ny1c4PorkWrB8Bh2s/l3cEBMw+Cl4tGxwPBa93sPtoMZ0uBBMul2tDXbzKwV
-         NjL5LAeLBELKouEBk4B2F0vIT31PDeQOEC3er3K4iL+tiDHbW3+O9hupjpZMj5NP2k
-         KjtPOrxRb2OHha1angD1lsOjsK+0v8Wybq1HFhUrHfjJ4q3iUT3qG3GbUXIAUNaxeT
-         ncSGm6lXlPCvQ==
-Message-ID: <74ed81051fcb810f4e790448d96fead0@smtp-cloud8.xs4all.net>
-Date:   Tue, 04 Feb 2020 05:56:07 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfK13e2CpT/rXP/RhpcltLcfzKXCKbgvPmqzwNyyZaMBWvEWK21Mp55lmE6zdBwiO1vuxw96leWHLb5nCnMUpYFFUcAX7KykAw5Bzq0XgXs/qFkDOlVGV
- eNOIyDCAHBTLFry/ZnomhY8uOSpeg4i/tMF2zmtvKBeUeV3nKI9Qd3qNIHrqU+3J9za8U0onsvwWWJAQXRpnVotmyhco9Y7Z9CmAChPdCFYZTUGmzSI390TZ
+        t=1580809861; bh=udrDG7W7XxVlZg9dFBjVJa1SeinJFWf8PYu2s1ZBzEE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=HK499qijLMt0d3NsJ/R6CALFLgIH5TPDKLVv3JotVW7E7jZ07nDX/u+G3KPwDGiya
+         4vO23Pn04jCbJi6EvdQs9zHPgm/gaq7SPu1V1vcxUy6lHQbMxg4I6sahHsRi+zfTQj
+         OlBSokrE5w+DUmlQcCjjnkKOK2C+brr7gVNvAFop+zpL5UXbuooWaXd0/JdVlheRAT
+         WSE2ytobns3p7mUHPWFQ+eBzzs54fwXOfF4uZDMWcwgm/kMPMz44GEH+lILGNNy1wB
+         BdYCKaK1svlIxvF8PyWmJJvrOHO6jzJ4YgYSL2nFmktclMlk08Wo+AM9lmyPf7R+DP
+         KlTsvzXhDJ6uA==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>, jonathanh@nvidia.com,
+        frankc@nvidia.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <a6512e1b-ad0e-3f59-e775-418db4865994@xs4all.nl>
+ <20200130154246.GA2904678@ulmo>
+ <8654e6fd-c403-6e68-e5cf-09297b5d8b5d@xs4all.nl>
+ <20200131170351.GA3444092@ulmo>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b1678339-5ba6-4950-6afe-01fe26ee527f@xs4all.nl>
+Date:   Tue, 4 Feb 2020 10:50:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200131170351.GA3444092@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfE57kH2nPdi6RuL5Tj6iVOgBB0zQcKUPr7DSyqTUxljwxpmmpytfaq19V/tG1nCy/2R9YUpxBlmWXq14r7ylSGpMXGwLU42dekPcaxldoLur6pV9KZyV
+ bmZ3MXgxDSVJZDaKgt7TNK5D66zRoiaCRZX5ad8dvMCxEXluNKfGp5uFyV/FQYVU142nJVOFaH08xF2mBEqHFhjdE40AvLtxGARg3NkLqb4QAmPq7yJibDpd
+ jbYvK+HxyYndRWamV7nImM/+YIe0B2UCXpV6EZYNAnC4mOl9kUte1dh5SLAr3gofV2EZC7tm/sSsMnI0nhbNf21TWdbNVNnypNqOyypbnfhnjQnjLrGOtt5z
+ tI6TLNg3Ay3dhmS4IsjnfvfaJSyYMWgrFOGIwXRD5gmihhhAXZzUSZbJwyZoGamDeTKx6nnP8koFBr1Z+lrwCtO62ecn3QYrRGS0WPqTLjct/wdBuGrVD6Tx
+ KZogcjGuaBQxB6g1SerbtTxl7YLyikSGJnSr1cgzLspZhnYRBQ+lgkqSKEia61J+FK2Yc5aVd0iwOep+TuQHNmUjKWZt9RJG4i9OvrbsZGroHLFI3iqtPTIr
+ BT8=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 1/31/20 6:03 PM, Thierry Reding wrote:
+> On Fri, Jan 31, 2020 at 03:29:52PM +0100, Hans Verkuil wrote:
+>> On 1/30/20 4:42 PM, Thierry Reding wrote:
+>>> On Thu, Jan 30, 2020 at 03:41:50PM +0100, Hans Verkuil wrote:
+>>>> Hi Sowjanya,
+>>>>
+>>>> On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
+>>>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>>>> generator (TPG) capture.
+>>>>>
+>>>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>>>
+>>>>> This series has TPG support only where it creates hard media links
+>>>>> between CSI subdevice and VI video device without device graphs.
+>>>>>
+>>>>> v4l2-compliance results are available below the patch diff.
+>>>>>
+>>>>> [v0]:	Includes,
+>>>>> 	- Adds CSI TPG clock to Tegra210 clock driver
+>>>>> 	- Host1x video driver with VI and CSI clients.
+>>>>> 	- Support for Tegra210 only.
+>>>>> 	- VI CSI TPG support with hard media links in driver.
+>>>>> 	- Video formats supported by Tegra210 VI
+>>>>> 	- CSI TPG supported video formats
+>>>>
+>>>> I'm trying to compile this patch series using the media_tree master
+>>>> branch (https://git.linuxtv.org//media_tree.git), but it fails:
+>>>>
+>>>> drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_queue_setup’:
+>>>> drivers/staging/media/tegra/tegra-channel.c:71:15: warning: unused variable ‘count’ [-Wunused-variable]
+>>>>    71 |  unsigned int count = *nbuffers;
+>>>>       |               ^~~~~
+>>>> drivers/staging/media/tegra/tegra-channel.c: In function ‘tegra_channel_init’:
+>>>> drivers/staging/media/tegra/tegra-channel.c:518:55: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   518 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+>>>>       |                                                       ^
+>>>> make[4]: *** [scripts/Makefile.build:265: drivers/staging/media/tegra/tegra-channel.o] Error 1
+>>>> make[4]: *** Waiting for unfinished jobs....
+>>>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_tpg_graph_init’:
+>>>> drivers/staging/media/tegra/tegra-vi.c:157:55: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   157 |  struct tegra_camera *cam = dev_get_drvdata(vi->client.host);
+>>>>       |                                                       ^
+>>>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_init’:
+>>>> drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_init’:
+>>>> drivers/staging/media/tegra/tegra-vi.c:213:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   213 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>> drivers/staging/media/tegra/tegra-csi.c:259:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   259 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>> drivers/staging/media/tegra/tegra-vi.c: In function ‘tegra_vi_exit’:
+>>>> drivers/staging/media/tegra/tegra-vi.c:246:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   246 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>> drivers/staging/media/tegra/tegra-csi.c: In function ‘tegra_csi_exit’:
+>>>> drivers/staging/media/tegra/tegra-csi.c:286:51: error: ‘struct host1x_client’ has no member named ‘host’
+>>>>   286 |  struct tegra_camera *cam = dev_get_drvdata(client->host);
+>>>>       |                                                   ^~
+>>>>
+>>>> And indeed, struct host1x_client as defined in include/linux/host1x.h doesn't
+>>>> have a 'host' field.
+>>>>
+>>>> Does this series depend on another patch that's not yet in mainline?
+>>>
+>>> Sowjanya's been working on top of linux-next, so, yes, this patch
+>>> depends on a change that's been merged into the DRM tree for v5.6-rc1.
+>>>
+>>> Thierry
+>>>
+>>
+>> Is there a specific linux-next tag that works? I tried next-20200131 but that
+>> failed to boot. Same problem with the mainline repo since the host1x patches
+>> were merged yesterday. It compiles fine, but the boot just stops. Or am I
+>> missing some kernel config that is now important to have?
+> 
+> linux-next and mainline are currently regressing on Tegra210 (and some
+> Tegra124) boards. I just sent out a series that fixes the regression for
+> me:
+> 
+> 	http://patchwork.ozlabs.org/project/linux-tegra/list/?series=156215
+> 
+> Please test if this works for you. If so, I'll send this to Dave as soon
+> as possible.
 
-Results of the daily build of media_tree:
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-date:			Tue Feb  4 05:00:13 CET 2020
-media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	c4a62f26c5c3ecd856ca10cf2f0d35d100283d7f
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Thank you, now it boots on mainline + this series + the new VI/CSI driver.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.2-i686: OK
-linux-5.4.2-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+Regards,
 
-Detailed results are available here:
+	Hans
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+> 
+> Thierry
+> 
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
