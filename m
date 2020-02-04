@@ -2,177 +2,321 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A99DF151AC4
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 13:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A52151AD6
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2020 13:53:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbgBDMur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Feb 2020 07:50:47 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46231 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727127AbgBDMur (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Feb 2020 07:50:47 -0500
-Received: by mail-pf1-f195.google.com with SMTP id k29so9410861pfp.13
-        for <linux-media@vger.kernel.org>; Tue, 04 Feb 2020 04:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D1fOvtk+I1UyywJXprOxF/iNJ4ODYEblRn8JKl/LqkM=;
-        b=vIPJqp984BzTft8k3zINAudFK7+lN9k4k4Sh8N7pF1FNoNuoN0ofAV93JdVvsGm7fQ
-         e/6nXF22kNcu+9DSxqzyUIyimESSpBzPXZx+RqnJvqjCffH6DG/4e7k1CU6zNI68dStU
-         I/a9TMe8/vrgei8T6ViEDmnnIUsE9rJpjw0OxgZM3P1ffKPGpkaGVimFApqpv/VUKrMb
-         XjrZG15Sym2MxGaY1iofu/glrVEbmC+jS5yMDwY51EUWuTNxYXuV7OehCG+gcR5Zre1i
-         URguCZC2hBedi4xv8555UfGlbFvg8jxBoMOwQ8Yk0xZsI3d496klr3Hyqc/z+c7cJQbU
-         E0og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D1fOvtk+I1UyywJXprOxF/iNJ4ODYEblRn8JKl/LqkM=;
-        b=Cv1EEFR2JrILx7pH0rDBB8CDKNZ1Hh/fhaLlyfS2UQ1U3Dc2qRvmwW8wIZpKSipIyl
-         APP4IpDn403ZZiMP7toTw309oYSXkCTb444D/FC33LsmNXipcTXsimNM2htWxu+aePVA
-         XKyEmfmVGO42B1E7ClLU2fJGUWFK6EBEgb+t3kdV8L7QQ2KaRuJ/VKCm7bJRTlFF015a
-         iDxOYBBJJ46HNj1O6bALdyMqmx4nZGddofVIhmcSpeVc1j6Leg7OJo7LOnC47ePr11JZ
-         fqMIZFN2LunMIWAycc4ZZKF9TLxfc4oVb3UzGI9KZy463w1PlXkckDi+dqkEmLBUvOYa
-         2mFw==
-X-Gm-Message-State: APjAAAWsROu6s6fypgaWJYcLLvkJKsvqbqnMOCfENWXhDoqAGsUi7mjt
-        19RDDwp9QxeYgBZs+OzFePuyhcL9TkiaPkypNUXWXQ==
-X-Google-Smtp-Source: APXvYqwXBTe4wHAO1mpa1DCruitXHGpYp+6elbNPNzyoL4FZsxteou37tXi4cfgS4YUJkg1sxn3e+rv4+uPb0W4H2GM=
-X-Received: by 2002:aa7:9629:: with SMTP id r9mr31236027pfg.51.1580820646459;
- Tue, 04 Feb 2020 04:50:46 -0800 (PST)
+        id S1727304AbgBDMxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Feb 2020 07:53:37 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48425 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727168AbgBDMxh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 4 Feb 2020 07:53:37 -0500
+Received: from [IPv6:2001:420:44c1:2577:28db:bc36:e7fa:777f]
+ ([IPv6:2001:420:44c1:2577:28db:bc36:e7fa:777f])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id yxhqiYfxpn7E5yxhtiAsWx; Tue, 04 Feb 2020 13:53:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1580820813; bh=QrEgOEmv0LGcaeOI9u6vPQa6tjAb25IHU0ai53OgkvI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=K26nAFOKvA2DC1BHJDvoMGdfPBXRnn3HMKR0kap/DDKEIcUD/5a4c/lu7j8b4M7Qp
+         tNMFpc9tYatO1sxw6k7852wcPlLS2z4hh9bvzHZmPOM6+OAihOD+lyMSZjTrrm8J4+
+         /OvuKhZn+skKxo63UAD09vUDVjshRM2JoIxEYbWVAIuYTM5nL6ZSy7q225G13WF1yo
+         ERRYtLooBRr6GtMfuiu1+cFV6J7vonEt3cvNL6vQDtPsVpFCOSyQ8ElJE+ZqkIMsHW
+         zuZS2h33bcMhLQ+ce4zX7J7iqNi9Q0NuqW9zGR9/aZGX4S3mTJCeYp5YVsSatmKc9C
+         240qld99OYdpg==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <098ac46f-fe13-f215-b9a4-aa8d01395592@xs4all.nl>
+Date:   Tue, 4 Feb 2020 13:53:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <0000000000003a39d50599d200e6@google.com> <CAAeHK+wnE6anSjmoA-Cr4nvx_oujUWH=D_YkhE38eiJurjsCWg@mail.gmail.com>
- <CAAeHK+zZTWpnE=duVb+Jv9zj4wuYn6bj=yzUHugB-G9aoyDf1Q@mail.gmail.com>
-In-Reply-To: <CAAeHK+zZTWpnE=duVb+Jv9zj4wuYn6bj=yzUHugB-G9aoyDf1Q@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 4 Feb 2020 13:50:35 +0100
-Message-ID: <CAAeHK+xDLGKDaG+48i1_RQqA1SGhGSK_eFb=LM14dbYLseVa8w@mail.gmail.com>
-Subject: Re: WARNING in uvc_scan_chain_forward
-To:     syzbot <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHDOXaK+8oEXxBVg2hAYBIS4p+0l3Ie8cHcMRFLnBN0rnQ6QsbrowXVwRwb61IRcuYGfmBVoK04qSj/EkGs/iZKsQYam4SydnOpzyILCTqASmvY71NYl
+ CXgctuOBWUt6u7w0ahmD8KlfWfSaEtIrwpfNGGSdJZs45Vi3S71OcGgkravg6SvRKIPwbGEowFHWiSHCorJUr2/358whC1X+pRGnWWQsRUiUdgtZ6Ba7osA0
+ hXzwaR2HX09875CH4w7SrbooVWsk23mimf0lKwJZyzIEAS3vTVZVaUr0M/aJ2fkiCA2IjkhgHaMjoSj78VRE+8ERkO4iJB4OE8xYIpWSOVAVIFrzyqGUgpEo
+ S42WMv7ceNpkDhttKcteZplQ+pqBR5POjHNx8DuPdL/g/7slqoX90ZIuB7FCkzUhcqOHjA6AnBp1rQZAHIs2mWoDem1VbLnNfAVh5uaFbCTr1U7C7JBWfl4B
+ GKMUf7t7u4JHE0yZpmOJzFMWnk5bbxWkB2nVqOxNNlwRJURzhpHEk6AgVKOBboUckUdbN6bp1+FOdnbWE72YVJ7HrdTmgwYsYb9hP1IcK+fxH/cCrZrnSb26
+ 5cA=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jan 23, 2020 at 3:00 PM Andrey Konovalov <andreyknvl@google.com> wrote:
->
-> On Fri, Jan 10, 2020 at 4:51 PM Andrey Konovalov <andreyknvl@google.com> wrote:
-> >
-> > On Mon, Dec 16, 2019 at 2:15 PM syzbot
-> > <syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > syzbot found the following crash on:
-> > >
-> > > HEAD commit:    4cc037ec usb: gadget: add raw-gadget interface
-> > > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > > console output: https://syzkaller.appspot.com/x/log.txt?x=11b905dee00000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=e9c2b6de462bc469
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=0a5c96772a9b26f2a876
-> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10f82546e00000
-> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1638ef7ee00000
-> > >
-> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > > Reported-by: syzbot+0a5c96772a9b26f2a876@syzkaller.appspotmail.com
-> > >
-> > > usb 1-1: New USB device found, idVendor=0bd3, idProduct=0755,
-> > > bcdDevice=69.6a
-> > > usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> > > usb 1-1: config 0 descriptor??
-> > > usb 1-1: string descriptor 0 read error: -71
-> > > uvcvideo: Found UVC 0.00 device <unnamed> (0bd3:0755)
-> > > ------------[ cut here ]------------
-> > > list_add double add: new=ffff8881d0637010, prev=ffff8881d0637010,
-> > > next=ffff8881d4e87c18.
-> > > WARNING: CPU: 1 PID: 22 at lib/list_debug.c:29 __list_add_valid+0xb4/0xf0
-> > > lib/list_debug.c:29
-> > > Kernel panic - not syncing: panic_on_warn set ...
-> > > CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.5.0-rc1-syzkaller #0
-> > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> > > Google 01/01/2011
-> > > Workqueue: usb_hub_wq hub_event
-> > > Call Trace:
-> > >   __dump_stack lib/dump_stack.c:77 [inline]
-> > >   dump_stack+0xef/0x16e lib/dump_stack.c:118
-> > >   panic+0x2aa/0x6e1 kernel/panic.c:221
-> > >   __warn.cold+0x2f/0x30 kernel/panic.c:582
-> > >   report_bug+0x27b/0x2f0 lib/bug.c:195
-> > >   fixup_bug arch/x86/kernel/traps.c:174 [inline]
-> > >   fixup_bug arch/x86/kernel/traps.c:169 [inline]
-> > >   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
-> > >   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
-> > >   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-> > > RIP: 0010:__list_add_valid+0xb4/0xf0 lib/list_debug.c:29
-> > > Code: 48 c7 c7 e0 f3 da 85 4c 89 e6 e8 ef cf 2b ff 0f 0b 31 c0 eb c5 48 89
-> > > f2 4c 89 e1 48 89 ee 48 c7 c7 60 f4 da 85 e8 d4 cf 2b ff <0f> 0b 31 c0 eb
-> > > aa 48 89 34 24 e8 fd 3c 7f ff 48 8b 34 24 e9 60 ff
-> > > RSP: 0018:ffff8881d8c37080 EFLAGS: 00010286
-> > > RAX: 0000000000000000 RBX: ffff8881d0637010 RCX: 0000000000000000
-> > > RDX: 0000000000000000 RSI: ffffffff81295dad RDI: ffffed103b186e02
-> > > RBP: ffff8881d0637010 R08: ffff8881da24e200 R09: fffffbfff11f1eae
-> > > R10: fffffbfff11f1ead R11: ffffffff88f8f56f R12: ffff8881d4e87c18
-> > > R13: ffff8881d0637000 R14: dffffc0000000000 R15: ffff8881d4e87c18
-> > >   __list_add include/linux/list.h:60 [inline]
-> > >   list_add_tail include/linux/list.h:93 [inline]
-> > >   uvc_scan_chain_forward.isra.0+0x4df/0x637
-> > > drivers/media/usb/uvc/uvc_driver.c:1526
-> > >   uvc_scan_chain drivers/media/usb/uvc/uvc_driver.c:1640 [inline]
-> > >   uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1824 [inline]
-> > >   uvc_probe.cold+0x1aee/0x29de drivers/media/usb/uvc/uvc_driver.c:2197
-> > >   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-> > >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
-> > >   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-> > >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-> > >   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-> > >   __device_attach+0x217/0x360 drivers/base/dd.c:894
-> > >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-> > >   device_add+0x1480/0x1c20 drivers/base/core.c:2487
-> > >   usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
-> > >   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-> > >   usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-> > >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
-> > >   driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-> > >   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-> > >   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-> > >   __device_attach+0x217/0x360 drivers/base/dd.c:894
-> > >   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-> > >   device_add+0x1480/0x1c20 drivers/base/core.c:2487
-> > >   usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
-> > >   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
-> > >   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
-> > >   port_event drivers/usb/core/hub.c:5470 [inline]
-> > >   hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
-> > >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
-> > >   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
-> > >   kthread+0x318/0x420 kernel/kthread.c:255
-> > >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-> > > Kernel Offset: disabled
-> > > Rebooting in 86400 seconds..
-> > >
-> > >
-> > > ---
-> > > This bug is generated by a bot. It may contain errors.
-> > > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> > >
-> > > syzbot will keep track of this bug report. See:
-> > > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> > > syzbot can test patches for this bug, for details see:
-> > > https://goo.gl/tpsmEJ#testing-patches
-> >
-> > #syz fix: media: uvc: Avoid cyclic entity chains due to malformed USB
-> > descriptors
->
-> #syz fix:
-> media: uvc: Avoid cyclic entity chains due to malformed USB descriptors
+On 1/28/20 7:23 PM, Sowjanya Komatineni wrote:
+> This series adds Tegra210 VI and CSI driver for built-in test pattern
+> generator (TPG) capture.
+> 
+> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+> CSI port is one-to-one mapped to VI channel for video capture.
+> 
+> This series has TPG support only where it creates hard media links
+> between CSI subdevice and VI video device without device graphs.
+> 
+> v4l2-compliance results are available below the patch diff.
+> 
+> [v0]:	Includes,
+> 	- Adds CSI TPG clock to Tegra210 clock driver
+> 	- Host1x video driver with VI and CSI clients.
+> 	- Support for Tegra210 only.
+> 	- VI CSI TPG support with hard media links in driver.
+> 	- Video formats supported by Tegra210 VI
+> 	- CSI TPG supported video formats
+> 
+> 
+> Sowjanya Komatineni (5):
+>   dt-bindings: clock: tegra: Add clk id for CSI TPG clock
+>   clk: tegra: Add Tegra210 CSI TPG clock gate
+>   dt-binding: tegra: Add VI and CSI bindings
+>   media: tegra: Add Tegra Video input driver for Tegra210
+>   arm64: tegra: Add Tegra VI CSI suppport in device tree
+> 
+>  .../display/tegra/nvidia,tegra20-host1x.txt        |  10 +-
+>  arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   8 +
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi           |  31 +-
+>  drivers/clk/tegra/clk-tegra210.c                   |   7 +
+>  drivers/staging/media/Kconfig                      |   2 +
+>  drivers/staging/media/Makefile                     |   1 +
+>  drivers/staging/media/tegra/Kconfig                |  12 +
+>  drivers/staging/media/tegra/Makefile               |  11 +
+>  drivers/staging/media/tegra/TODO                   |  10 +
+>  drivers/staging/media/tegra/csi.h                  | 111 ++++
+>  drivers/staging/media/tegra/csi2_fops.c            | 335 +++++++++++
+>  drivers/staging/media/tegra/csi2_fops.h            |  15 +
+>  drivers/staging/media/tegra/host1x-video.c         | 120 ++++
+>  drivers/staging/media/tegra/host1x-video.h         |  33 ++
+>  drivers/staging/media/tegra/mc_common.h            | 131 +++++
+>  drivers/staging/media/tegra/tegra-channel.c        | 628 +++++++++++++++++++++
+>  drivers/staging/media/tegra/tegra-core.c           | 111 ++++
+>  drivers/staging/media/tegra/tegra-core.h           | 125 ++++
+>  drivers/staging/media/tegra/tegra-csi.c            | 380 +++++++++++++
+>  drivers/staging/media/tegra/tegra-vi.c             | 351 ++++++++++++
+>  drivers/staging/media/tegra/tegra-vi.h             | 101 ++++
+>  drivers/staging/media/tegra/vi2_fops.c             | 364 ++++++++++++
+>  drivers/staging/media/tegra/vi2_fops.h             |  15 +
+>  drivers/staging/media/tegra/vi2_formats.h          | 119 ++++
+>  drivers/staging/media/tegra/vi2_registers.h        | 194 +++++++
+>  include/dt-bindings/clock/tegra210-car.h           |   2 +-
+>  26 files changed, 3224 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/staging/media/tegra/Kconfig
+>  create mode 100644 drivers/staging/media/tegra/Makefile
+>  create mode 100644 drivers/staging/media/tegra/TODO
+>  create mode 100644 drivers/staging/media/tegra/csi.h
+>  create mode 100644 drivers/staging/media/tegra/csi2_fops.c
+>  create mode 100644 drivers/staging/media/tegra/csi2_fops.h
+>  create mode 100644 drivers/staging/media/tegra/host1x-video.c
+>  create mode 100644 drivers/staging/media/tegra/host1x-video.h
+>  create mode 100644 drivers/staging/media/tegra/mc_common.h
+>  create mode 100644 drivers/staging/media/tegra/tegra-channel.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-core.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-core.h
+>  create mode 100644 drivers/staging/media/tegra/tegra-csi.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-vi.c
+>  create mode 100644 drivers/staging/media/tegra/tegra-vi.h
+>  create mode 100644 drivers/staging/media/tegra/vi2_fops.c
+>  create mode 100644 drivers/staging/media/tegra/vi2_fops.h
+>  create mode 100644 drivers/staging/media/tegra/vi2_formats.h
+>  create mode 100644 drivers/staging/media/tegra/vi2_registers.h
+> 
+> 
+> v4l2-compliance SHA: e7402fb758fd106955c3b7d5a5e961d1cb606f4a, 32 bits, 32-bit time_t
+> 
+> Compliance test for tegra-video device /dev/video0:
 
-#syz fix:
-media: uvcvideo: Avoid cyclic entity chains due to malformed USB descriptors
+Since this driver creates a /dev/media0 device you should test with:
+
+v4l2-compliance -m0 -s10: that tests everything found in the media topology.
+
+It finds a few issues in the media topology itself:
+
+----------------------------------------------------------------------------
+$ v4l2-compliance -M0
+v4l2-compliance SHA: 5af0730d06247a2de487abf2e00e70b156f1fb82, 64 bits, 64-bit time_t
+
+Compliance test for host1x_video device /dev/media0:
+
+Media Driver Info:
+        Driver name      : host1x_video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           :
+        Bus info         :
+        Media version    : 5.5.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.5.0
+
+Required ioctls:
+                warn: v4l2-test-media.cpp(52): empty bus_info
+        test MEDIA_IOC_DEVICE_INFO: OK
+
+Allow for multiple opens:
+        test second /dev/media0 open: OK
+                warn: v4l2-test-media.cpp(52): empty bus_info
+        test MEDIA_IOC_DEVICE_INFO: OK
+        test for unlimited opens: OK
+
+Media Controller ioctls:
+                fail: v4l2-test-media.cpp(117): function == MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN
+                fail: v4l2-test-media.cpp(203): checkFunction(ent.function, true)
+        test MEDIA_IOC_G_TOPOLOGY: FAIL
+                fail: v4l2-test-media.cpp(390): num_data_links != num_links
+        test MEDIA_IOC_ENUM_ENTITIES/LINKS: FAIL
+        test MEDIA_IOC_SETUP_LINK: OK
+        test invalid ioctls: OK
+
+Total for host1x_video device /dev/media0: 8, Succeeded: 6, Failed: 2, Warnings: 2
+----------------------------------------------------------------------------
+
+Note: the -M0 option tests just /dev/media0 without testing any of the devices
+mentioned in the topology. Use -m0 for that.
+
+I see a lot of spam in the kernel log:
+
+[  484.362145] tegra-vi 54080000.vi: TPG mode is set to Black/White Direct Mode
+[  486.147937] tegra-csi 54080838.csi: using Tegra default WIDTH X HEIGHT (1920x1080)
+[  486.155499] tegra-csi 54080838.csi: using Tegra default RAW10 video format
+[  486.162403] tegra-csi 54080838.csi: using Tegra default RAW10 video format
+
+Change that to dev_dbg or delete altogether.
+
+I also noticed that changing the test pattern while streaming did not seem to have
+any effect until I stop and restart streaming. Is that a limitation of the HW or of
+the driver?
+
+Note that the RGB pixelformat appears to be incorrect: it is set to RGB32 but it
+should be BGR32. Actually, it should be XBGR32 since there is no alpha channel
+present (I think). RGB32 and BGR32 are deprecated in favor of RGBX/A and X/ABGR.
+
+Regards,
+
+	Hans
+
+> 
+> Driver Info:
+>         Driver name      : tegra-video
+>         Card type        : 54080000.vi-output-0
+>         Bus info         : platform:54080000.vi:0
+>         Driver version   : 5.5.0
+>         Capabilities     : 0x85200001
+>                 Video Capture
+>                 Read/Write
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x05200001
+>                 Video Capture
+>                 Read/Write
+>                 Streaming
+>                 Extended Pix Format
+> Media Driver Info:
+>         Driver name      : host1x_video
+>         Model            : NVIDIA Tegra Video Input Device
+>         Serial           :
+>         Bus info         :
+>         Media version    : 5.5.0
+>         Hardware revision: 0x00000003 (3)
+>         Driver version   : 5.5.0
+> Interface Info:
+>         ID               : 0x03000003
+>         Type             : V4L Video
+> Entity Info:
+>         ID               : 0x00000001 (1)
+>         Name             : 54080000.vi-output-0
+>         Function         : V4L2 I/O
+>         Pad 0x01000002   : 0: Sink
+>           Link 0x0200001b: from remote pad 0x100001a of entity 'tpg-0': Data, Enabled
+> 
+> Required ioctls:
+>         test MC information (see 'Media Driver Info' above): OK
+>         test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+>         test invalid ioctls: OK
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 1 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls (Input 0):
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 2 Private Controls: 0
+> 
+> Format ioctls (Input 0):
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls (Input 0):
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls (Input 0):
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+>         test read/write: OK
+>         test blocking wait: OK
+>         test MMAP (no poll): OK
+>         test MMAP (select): OK
+>         test MMAP (epoll): OK
+>         test USERPTR (no poll): OK (Not Supported)
+>         test USERPTR (select): OK (Not Supported)
+>         test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Total for tegra-video device /dev/video0: 53, Succeeded: 53, Failed: 0, Warnings: 0
+> 
+
