@@ -2,81 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FC3E152746
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 08:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEC0415276A
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 09:13:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728047AbgBEH5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Feb 2020 02:57:39 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57095 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727231AbgBEH5j (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 5 Feb 2020 02:57:39 -0500
-Received: from [192.168.2.10] ([46.9.235.248])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id zFYyiXwsAVuxOzFZ2iON1x; Wed, 05 Feb 2020 08:57:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580889456; bh=Zon7+wQq6Y/OezBpVLpCFEKggV/uB8j1JtLlS5DUs4g=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=PnO+Ao1a3gALRFP16EWuypfaSxiI7wukdAi3iV3IIWqREdBDN7WXancubsZigZSN7
-         X8mxQQFiffs8g+r2999nlcv5oUAr9m4AFQFdII0t2WrzSNJMuqfoJf6U0av7WijK+x
-         EHzH9yIie35y4NhBsiSp7yZhp+RCOWldqUbXEsiEnCOLmuoZTYFRVwgjuG4pB6LPcE
-         vu2SlFcnLHOfzPDD2kThZIyFJAfNL+SJ8zVp2nOFm7OWYPeyzIBRivmUbIy4oCsfnJ
-         ZWQr4en4ylqmG3qiXQgwhpcAG+PxoayH0BvocyYMvNdrIBmVMqZDT5BfVNXlC4tHRF
-         RhlD0UODDFkHQ==
-Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
- <098ac46f-fe13-f215-b9a4-aa8d01395592@xs4all.nl>
- <6c3d2557-8982-37bf-810a-6d9faad9e5a4@nvidia.com>
- <9c4775f2-8188-43f4-1de1-56620fad2e7c@xs4all.nl>
- <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <474ca8c5-4735-1707-d6f6-cf541bfeb525@xs4all.nl>
-Date:   Wed, 5 Feb 2020 08:57:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727231AbgBEINy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Feb 2020 03:13:54 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:42027 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727068AbgBEINy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Feb 2020 03:13:54 -0500
+Received: by mail-pf1-f196.google.com with SMTP id 4so789348pfz.9
+        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2020 00:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9Kv2PfNZ/Q0TVvrr7RyiEmUt8JdC7LWiVIGz2BsjNHQ=;
+        b=B/+U52J+m+NF1gTrJMaYYLbomtsbHRdQwfD9R2WT9UzF9JAwj8hL7iTffUJBnZw583
+         nVEEhcTy/e7i+hr5oXqyl6TRCAnn1ks7LTIfnqPngvbvi/cv+dyJY2gf236C8iHzPF0P
+         ZomPzoRAZ86kr3ZsKjUpMM+sUJPM7TCvVqs04=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9Kv2PfNZ/Q0TVvrr7RyiEmUt8JdC7LWiVIGz2BsjNHQ=;
+        b=OZjQqYNzfKhAWbHfwckXAbcMuPdew/XQzVUJVhUjUWa80/dmp+Rv8zuWqMZsVULSUC
+         rQSy6ErCbiXudgcJr2LrvdjkTnXp5WO8M9rv1YiYA1YF3zUwl2Eot704vH3e//skOIVb
+         4XQbaqZBGCtbhTS4Qt0/x4vtQBf3ZLcuxDdww7ilF3wKy1NZVkhuhgzuwsGvmlNgDtGH
+         quSDswc8HeCB90GNbNsgaQAzp5DxCblKgAvw06tGqcaQYsxttDjaBDMEjfH85RUx1LOV
+         dKqEY9d73k+rnJxFF/iiPXus0VewtywgXjWZhE+aL25ceURk44gc8wmtNJGF3H5yJxCr
+         xEOQ==
+X-Gm-Message-State: APjAAAWLQLzcCNSCxUvKS1zZ/rorIdDdAMMRhovIUfNJ1qCtHBLnQ28n
+        9FJmBHR1ZbzoMyGmCdUdftAiuQ==
+X-Google-Smtp-Source: APXvYqzNRlPWEekWO58tJEj8cBqvumvLPsg7qd6gYn8RHFbeCQwZHJLqQMEMKYBhZDm9nE1HE87fIA==
+X-Received: by 2002:a63:36c2:: with SMTP id d185mr15733815pga.59.1580890433605;
+        Wed, 05 Feb 2020 00:13:53 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id az9sm6415208pjb.3.2020.02.05.00.13.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2020 00:13:52 -0800 (PST)
+Date:   Wed, 5 Feb 2020 17:13:50 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCHv2 02/12] videobuf2: handle V4L2 buffer cache flags
+Message-ID: <20200205081350.GK41358@google.com>
+References: <20200204025641.218376-1-senozhatsky@chromium.org>
+ <20200204025641.218376-3-senozhatsky@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfH6omILRaT9sm0XhO0Kb85QAqiu7fDEbkga/0I8tPf5vU6is6YciSTeryOxUEvcb/d73otPRnDpn20BZCasUvUtOy4YajrmKQk5Qm/2MDHevnv0NuUlN
- 1CzI4nx3arzn/x6o5Nztw1T2zsU2ixteauyiLs1GEATKt4y0IXCL3KUvLQYs1tLIrT0Uu4Uc3c6+yp6vsbS0+Sx99ha7cWYaXbMlGyqcU4aqZjtwPfcVyuSn
- sGYgbNx07aBlyezqOsgk/rF/QtxMXytLgkl4PwG7i9U1PZdbElzhHdhKtK98TDvwzLT+KTf/cJ+N456YhbDVdedtgv3yTwQMmvoexQhWBS43IBblKdGbY3oG
- wxdqUfvrzk5arnpPqOihGExs9k7lJ8CWtXLdI6I6gD7nCyNog3+2u8rwj6zaKK5icV2bZCM6Uf69pk9xaSCvvNB54O5XSEBoryFx0tzaDiOry4I3HLw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200204025641.218376-3-senozhatsky@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/4/20 8:02 PM, Sowjanya Komatineni wrote:
->>>> I also noticed that changing the test pattern while streaming did not seem to have
->>>> any effect until I stop and restart streaming. Is that a limitation of the HW or of
->>>> the driver?
->>> Do you mean changing test pattern mode of different channel while other
->>> channels are streaming?
->> No, from the same channel. E.g. v4l2-ctl --stream-mmap, then do from another
->> console 'v4l2-ctl -c test-pattern=1'.
->>
->> It depends on the hardware whether or not you can change the test pattern
->> while streaming. But it is nice for testing if this is possible.
-> 
-> Test-pattern mode changes during active streaming will not get set as 
-> test-pattern mode is in CSI and mode is set every time during the start 
-> of streaming and then VI keeps capturing the frames.
-> 
-> basically its during CSI subdevice stream enable.
+On (20/02/04 11:56), Sergey Senozhatsky wrote:
+> +static void set_buffer_cache_hints(struct vb2_queue *q,
+> +				   struct vb2_buffer *vb,
+> +				   struct v4l2_buffer *b)
+> +{
+> +	/*
+> +	 * DMA exporter should take care of cache syncs, so we can avoid
+> +	 * explicit ->prepare()/->finish() syncs. For other ->memory types
+> +	 * we always need ->prepare() or/and ->finish() cache sync.
+> +	 */
+> +	if (q->memory == VB2_MEMORY_DMABUF) {
+> +		vb->need_cache_sync_on_finish = 0;
+> +		vb->need_cache_sync_on_prepare = 0;
+> +		return;
+> +	}
+> +
+> +	if (!q->allow_cache_hints)
+> +		return;
+> +
+> +	vb->need_cache_sync_on_prepare = 1;
+> +	/*
+> +	 * ->finish() cache sync can be avoided when queue direction is
+> +	 * TO_DEVICE.
+> +	 */
+> +	if (q->dma_dir != DMA_TO_DEVICE)
+> +		vb->need_cache_sync_on_finish = 1;
+> +	else
+> +		vb->need_cache_sync_on_finish = 0;
+> +
+> +	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE)
+> +		vb->need_cache_sync_on_finish = 0;
+> +
+> +	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN)
+> +		vb->need_cache_sync_on_prepare = 0;
+> +}
 
-OK. Just add a little comment either at the point the control is created or
-where the control is set in vi_s_ctrl(). It's just to document that this
-will only take effect at the next streamon.
+Last minute changes (tm), sorry. This is not right.
 
-Regards,
 
-	Hans
+====8<====8<====
+
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCH] videobuf2: handle V4L2 buffer cache flags
+
+Set video buffer cache management flags corresponding to V4L2 cache
+flags.
+
+Both ->prepare() and ->finish() cache management hints should be
+passed during this stage (buffer preparation), because there is no
+other way for user-space to skip ->finish() cache flush.
+
+There are two possible alternative approaches:
+- The first one is to move cache sync from ->finish() to dqbuf().
+  But this breaks some drivers, that need to fix-up buffers before
+  dequeueing them.
+
+- The second one is to move ->finish() call from ->done() to dqbuf.
+
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ .../media/common/videobuf2/videobuf2-v4l2.c   | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index eb5d5db96552..8ef57496b34a 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -337,6 +337,41 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+ 	return 0;
+ }
+ 
++static void set_buffer_cache_hints(struct vb2_queue *q,
++				   struct vb2_buffer *vb,
++				   struct v4l2_buffer *b)
++{
++	/*
++	 * DMA exporter should take care of cache syncs, so we can avoid
++	 * explicit ->prepare()/->finish() syncs. For other ->memory types
++	 * we always need ->prepare() or/and ->finish() cache sync.
++	 */
++	if (q->memory == VB2_MEMORY_DMABUF) {
++		vb->need_cache_sync_on_finish = 0;
++		vb->need_cache_sync_on_prepare = 0;
++		return;
++	}
++
++	vb->need_cache_sync_on_prepare = 1;
++	vb->need_cache_sync_on_finish = 1;
++
++	if (!q->allow_cache_hints)
++		return;
++
++	/*
++	 * ->finish() cache sync can be avoided when queue direction is
++	 * TO_DEVICE.
++	 */
++	if (q->dma_dir == DMA_TO_DEVICE)
++		vb->need_cache_sync_on_finish = 0;
++
++	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE)
++		vb->need_cache_sync_on_finish = 0;
++
++	if (b->flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN)
++		vb->need_cache_sync_on_prepare = 0;
++}
++
+ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
+ 				    struct v4l2_buffer *b, bool is_prepare,
+ 				    struct media_request **p_req)
+@@ -381,6 +416,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
+ 	}
+ 
+ 	if (!vb->prepared) {
++		set_buffer_cache_hints(q, vb, b);
+ 		/* Copy relevant information provided by the userspace */
+ 		memset(vbuf->planes, 0,
+ 		       sizeof(vbuf->planes[0]) * vb->num_planes);
+-- 
+2.25.0.341.g760bfbb309-goog
+
