@@ -2,166 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C13661525AC
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 05:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FC3E152746
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 08:57:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727921AbgBEEqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Feb 2020 23:46:10 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:56975 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727861AbgBEEqK (ORCPT
+        id S1728047AbgBEH5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Feb 2020 02:57:39 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57095 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727231AbgBEH5j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 4 Feb 2020 23:46:10 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:3803:c02:6c1:6394])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id zCZiicPL4n7E5zCZjiEzOc; Wed, 05 Feb 2020 05:46:07 +0100
+        Wed, 5 Feb 2020 02:57:39 -0500
+Received: from [192.168.2.10] ([46.9.235.248])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id zFYyiXwsAVuxOzFZ2iON1x; Wed, 05 Feb 2020 08:57:36 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1580877967; bh=7s/OxQiojof0WDbU9fh1FaeiKa1nrgUIMXJ6dLh0GnU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=edkGv95xnHXYtRX2A+/GSy9kcjug2zZsI1x32l7JAZLBhwKgkCS8WYajqqRbpV98Q
-         DdS/Wf/LAKTNwn5klPxiVSS2iNGwANWlJ/FHv71RTeReaPBcvBSBUIO8LgY3UG2X6g
-         uxJ5K6X9uKeN8WZOAfWKXQolu/cNehZSzcCZSAzqE5cDAS8NpyC/1q8WlGT66bD80E
-         nqI4e4lgBWpfquR7oPjPrnf2gcAt3aYDx3VPKCJsGndKJpoHLw2HEzVPx3ONGl5jfW
-         OjhXiwkavHD+7oSAaiPvHu+TpYxWxH7ju6c+JTV3UEsGmEBXHNKHQ3kvBuOOKVUJoe
-         321rzUcLvDm8A==
-Message-ID: <569085a98c96d07f6ab330f1d023b48f@smtp-cloud8.xs4all.net>
-Date:   Wed, 05 Feb 2020 05:46:06 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfOQUr+Gs9UtJTTfKmL7PE/B2AjhCW6VpNZ3cTGt2GHIMvt/61jKRkwOzkA6WsXy7jozDoNOoymzoGXuhEqzPWTZhuJMBviGUks5NRQJnGM0ka//d14nV
- jXG0X8xmv640lHsEYpzFta8kVBO84idMo8IWT02ENGWwDdMf8C5XpG1CfM6oQyVr7d5nBkOouPhp7UBkAmIlCaM/sTtqeDW0QP+hh0apriqZ6/9nsbtYoACf
+        t=1580889456; bh=Zon7+wQq6Y/OezBpVLpCFEKggV/uB8j1JtLlS5DUs4g=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=PnO+Ao1a3gALRFP16EWuypfaSxiI7wukdAi3iV3IIWqREdBDN7WXancubsZigZSN7
+         X8mxQQFiffs8g+r2999nlcv5oUAr9m4AFQFdII0t2WrzSNJMuqfoJf6U0av7WijK+x
+         EHzH9yIie35y4NhBsiSp7yZhp+RCOWldqUbXEsiEnCOLmuoZTYFRVwgjuG4pB6LPcE
+         vu2SlFcnLHOfzPDD2kThZIyFJAfNL+SJ8zVp2nOFm7OWYPeyzIBRivmUbIy4oCsfnJ
+         ZWQr4en4ylqmG3qiXQgwhpcAG+PxoayH0BvocyYMvNdrIBmVMqZDT5BfVNXlC4tHRF
+         RhlD0UODDFkHQ==
+Subject: Re: [RFC PATCH v1 0/5] Add Tegra driver for video capture
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1580235801-4129-1-git-send-email-skomatineni@nvidia.com>
+ <098ac46f-fe13-f215-b9a4-aa8d01395592@xs4all.nl>
+ <6c3d2557-8982-37bf-810a-6d9faad9e5a4@nvidia.com>
+ <9c4775f2-8188-43f4-1de1-56620fad2e7c@xs4all.nl>
+ <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <474ca8c5-4735-1707-d6f6-cf541bfeb525@xs4all.nl>
+Date:   Wed, 5 Feb 2020 08:57:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <af813a4e-339c-4254-75a0-8db995fe2aba@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfH6omILRaT9sm0XhO0Kb85QAqiu7fDEbkga/0I8tPf5vU6is6YciSTeryOxUEvcb/d73otPRnDpn20BZCasUvUtOy4YajrmKQk5Qm/2MDHevnv0NuUlN
+ 1CzI4nx3arzn/x6o5Nztw1T2zsU2ixteauyiLs1GEATKt4y0IXCL3KUvLQYs1tLIrT0Uu4Uc3c6+yp6vsbS0+Sx99ha7cWYaXbMlGyqcU4aqZjtwPfcVyuSn
+ sGYgbNx07aBlyezqOsgk/rF/QtxMXytLgkl4PwG7i9U1PZdbElzhHdhKtK98TDvwzLT+KTf/cJ+N456YhbDVdedtgv3yTwQMmvoexQhWBS43IBblKdGbY3oG
+ wxdqUfvrzk5arnpPqOihGExs9k7lJ8CWtXLdI6I6gD7nCyNog3+2u8rwj6zaKK5icV2bZCM6Uf69pk9xaSCvvNB54O5XSEBoryFx0tzaDiOry4I3HLw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 2/4/20 8:02 PM, Sowjanya Komatineni wrote:
+>>>> I also noticed that changing the test pattern while streaming did not seem to have
+>>>> any effect until I stop and restart streaming. Is that a limitation of the HW or of
+>>>> the driver?
+>>> Do you mean changing test pattern mode of different channel while other
+>>> channels are streaming?
+>> No, from the same channel. E.g. v4l2-ctl --stream-mmap, then do from another
+>> console 'v4l2-ctl -c test-pattern=1'.
+>>
+>> It depends on the hardware whether or not you can change the test pattern
+>> while streaming. But it is nice for testing if this is possible.
+> 
+> Test-pattern mode changes during active streaming will not get set as 
+> test-pattern mode is in CSI and mode is set every time during the start 
+> of streaming and then VI keeps capturing the frames.
+> 
+> basically its during CSI subdevice stream enable.
 
-Results of the daily build of media_tree:
+OK. Just add a little comment either at the point the control is created or
+where the control is set in vi_s_ctrl(). It's just to document that this
+will only take effect at the next streamon.
 
-date:			Wed Feb  5 05:00:11 CET 2020
-media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
-media_build git hash:	a79e3bf0b7383ff0aa87ebff715ea4101eea5581
-v4l-utils git hash:	67962f1277b483060a16b80cbe79fac56d4e2cc6
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: eb9b2120da0c807b5a48cb872a43d111a2c3cf06
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Regards,
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: ERRORS
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	Hans
