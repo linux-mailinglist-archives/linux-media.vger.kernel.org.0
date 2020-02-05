@@ -2,202 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80B731532A7
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 15:18:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A2E1538E6
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2020 20:20:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728250AbgBEORs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Feb 2020 09:17:48 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54290 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728215AbgBEORr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Feb 2020 09:17:47 -0500
-Received: from [IPv6:2804:214:85ec:bd22:b29b:72b8:8fc3:cfae] (unknown [IPv6:2804:214:85ec:bd22:b29b:72b8:8fc3:cfae])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D660829435E;
-        Wed,  5 Feb 2020 14:17:43 +0000 (GMT)
-Subject: Re: [PATCH 3/3] media: vimc: deb: Add support for GBR and BGR bus
- formats on source pad
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@protonmail.com>, linux-media@vger.kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        id S1727116AbgBETT4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Feb 2020 14:19:56 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:42792 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727079AbgBETT4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Feb 2020 14:19:56 -0500
+Received: by mail-pg1-f193.google.com with SMTP id w21so1429462pgl.9
+        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2020 11:19:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=3kaWiVgCUzHQzm8XNSi+4KOVQd2YyqHUv1usmw/72LM=;
+        b=CO4CrP+PQwUxailENkBM1kFSgtk0eKkblQlMdzpIQpAFOVTyZbdF3Vqhlw5sqfA9uM
+         J/kEf5KKjzE/Q9McYWqw0RvFuSjEB1dRusTICnXxfSt83mlxxpZDjRr5WwKa1dPQAHPJ
+         g2RAa0Yj+zQdyRFFYfGHQ42PFCp7MHOcYFGec=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=3kaWiVgCUzHQzm8XNSi+4KOVQd2YyqHUv1usmw/72LM=;
+        b=fytfTJ2AW9dztAL011vps8Z759eaMo48JtRkgVmY/tD4HzY5j6KctDN3CA98YQA65l
+         GfJZOIt6LpKduJGrFstR2s3SXsTQutpZrygFFwykCjoZm1qEuRiooavwku/IxTbts4dp
+         FuRhJPwlY2nNWhys7erMlUHmunwlfqMoDHT/Wlx0tMz28T1V6lPIxdv9Pob1oWu2XlaB
+         1GEqwYAKJwPLpeubDkZAha3j43m+kB43EObcb5ISMA4DEUtLHV6wB67YVXnBhxAryieg
+         q/LKWPF1M2JqKi9EjkF/0s+fUohYe5PDumFgn/I95RPOXOeW1KO8zgd2D1m45qRUQ2Hb
+         eQBw==
+X-Gm-Message-State: APjAAAUN7U0lZ0WRX4OmAvRuN0JdUGlc7G17OXMKpEkUpNQIjnuZUJbm
+        eHJkNhg4AJXFznTnB9Wwy2gT1w==
+X-Google-Smtp-Source: APXvYqw1egACkYs16SkZQ0SvN+AIzw2ZfFe0dA8G3jL2rE8nn48PZ/IdUGPcyCH9RHSxGF6Vb7C1aQ==
+X-Received: by 2002:a63:3487:: with SMTP id b129mr38154712pga.320.1580930395429;
+        Wed, 05 Feb 2020 11:19:55 -0800 (PST)
+Received: from pmalani2.mtv.corp.google.com ([2620:15c:202:201:172e:4646:c089:ce59])
+        by smtp.gmail.com with ESMTPSA id u23sm257224pfm.29.2020.02.05.11.19.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2020 11:19:54 -0800 (PST)
+From:   Prashant Malani <pmalani@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        kbuild test robot <lkp@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
-References: <20200202155019.1029993-1-nfraprado@protonmail.com>
- <20200202155019.1029993-4-nfraprado@protonmail.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <cc1e3f33-450b-2501-3b45-fddace4edcb8@collabora.com>
-Date:   Wed, 5 Feb 2020 11:17:39 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB))
+Subject: [PATCH v2 15/17] media: cros-ec-cec: Use cros_ec_cmd()
+Date:   Wed,  5 Feb 2020 11:00:24 -0800
+Message-Id: <20200205190028.183069-16-pmalani@chromium.org>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
+In-Reply-To: <20200205190028.183069-1-pmalani@chromium.org>
+References: <20200205190028.183069-1-pmalani@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200202155019.1029993-4-nfraprado@protonmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+Replace cros_ec_cmd_xfer_status() with cros_ec_cmd() which does the
+message buffer setup and cleanup, but is located in platform/chrome
+and used by other drivers.
 
-Thanks for the patch.
+Signed-off-by: Prashant Malani <pmalani@chromium.org>
+Reported-by: kbuild test robot <lkp@intel.com>
+---
 
-On 2/2/20 1:50 PM, Nícolas F. R. A. Prado wrote:
-> Add support for GBR and BGR media bus formats for the source pad of
-> debayer subdevices.
-> 
-> Co-developed-by: Vitor Massaru Iha <vitor@massaru.org>
-> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@protonmail.com>
-> ---
->  drivers/media/platform/vimc/vimc-debayer.c | 53 +++++++++++++++++-----
->  1 file changed, 41 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-> index 5d1b67d684bb..463cafbe107e 100644
-> --- a/drivers/media/platform/vimc/vimc-debayer.c
-> +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> @@ -51,6 +51,11 @@ static const struct v4l2_mbus_framefmt sink_fmt_default = {
->  	.colorspace = V4L2_COLORSPACE_DEFAULT,
->  };
->  
-> +static const u32 src_rgb_codes[] = {
+Changes in v2:
+- Updated to use new function name and parameter list.
+- Used C99 element setting to initialize struct.
 
-s/src_rgb_codes/vimc_deb_src_mbus_codes
+ .../media/platform/cros-ec-cec/cros-ec-cec.c  | 45 +++++++------------
+ 1 file changed, 16 insertions(+), 29 deletions(-)
 
-> +	MEDIA_BUS_FMT_BGR888_1X24,
-> +	MEDIA_BUS_FMT_RGB888_1X24,
-> +	MEDIA_BUS_FMT_GBR888_1X24};
+diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+index 0e7e2772f08f96..a462af1c9ae04b 100644
+--- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
++++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+@@ -93,18 +93,14 @@ static int cros_ec_cec_set_log_addr(struct cec_adapter *adap, u8 logical_addr)
+ {
+ 	struct cros_ec_cec *cros_ec_cec = adap->priv;
+ 	struct cros_ec_device *cros_ec = cros_ec_cec->cros_ec;
+-	struct {
+-		struct cros_ec_command msg;
+-		struct ec_params_cec_set data;
+-	} __packed msg = {};
++	struct ec_params_cec_set data = {
++		.cmd = CEC_CMD_LOGICAL_ADDRESS,
++		.val = logical_addr,
++	};
+ 	int ret;
+ 
+-	msg.msg.command = EC_CMD_CEC_SET;
+-	msg.msg.outsize = sizeof(msg.data);
+-	msg.data.cmd = CEC_CMD_LOGICAL_ADDRESS;
+-	msg.data.val = logical_addr;
+-
+-	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
++	ret = cros_ec_cmd(cros_ec, 0, EC_CMD_CEC_SET, &data, sizeof(data),
++			  NULL, 0, NULL);
+ 	if (ret < 0) {
+ 		dev_err(cros_ec->dev,
+ 			"error setting CEC logical address on EC: %d\n", ret);
+@@ -119,17 +115,12 @@ static int cros_ec_cec_transmit(struct cec_adapter *adap, u8 attempts,
+ {
+ 	struct cros_ec_cec *cros_ec_cec = adap->priv;
+ 	struct cros_ec_device *cros_ec = cros_ec_cec->cros_ec;
+-	struct {
+-		struct cros_ec_command msg;
+-		struct ec_params_cec_write data;
+-	} __packed msg = {};
++	struct ec_params_cec_write data = {};
+ 	int ret;
+ 
+-	msg.msg.command = EC_CMD_CEC_WRITE_MSG;
+-	msg.msg.outsize = cec_msg->len;
+-	memcpy(msg.data.msg, cec_msg->msg, cec_msg->len);
+-
+-	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
++	memcpy(data.msg, cec_msg->msg, cec_msg->len);
++	ret = cros_ec_cmd(cros_ec, 0, EC_CMD_CEC_WRITE_MSG, &data,
++			  sizeof(cec_msg->len), NULL, 0, NULL);
+ 	if (ret < 0) {
+ 		dev_err(cros_ec->dev,
+ 			"error writing CEC msg on EC: %d\n", ret);
+@@ -143,18 +134,14 @@ static int cros_ec_cec_adap_enable(struct cec_adapter *adap, bool enable)
+ {
+ 	struct cros_ec_cec *cros_ec_cec = adap->priv;
+ 	struct cros_ec_device *cros_ec = cros_ec_cec->cros_ec;
+-	struct {
+-		struct cros_ec_command msg;
+-		struct ec_params_cec_set data;
+-	} __packed msg = {};
++	struct ec_params_cec_set data = {
++		.cmd = CEC_CMD_ENABLE,
++		.val = enable,
++	};
+ 	int ret;
+ 
+-	msg.msg.command = EC_CMD_CEC_SET;
+-	msg.msg.outsize = sizeof(msg.data);
+-	msg.data.cmd = CEC_CMD_ENABLE;
+-	msg.data.val = enable;
+-
+-	ret = cros_ec_cmd_xfer_status(cros_ec, &msg.msg);
++	ret = cros_ec_cmd(cros_ec, 0, EC_CMD_CEC_SET, &data, sizeof(data),
++			  NULL, 0, NULL);
+ 	if (ret < 0) {
+ 		dev_err(cros_ec->dev,
+ 			"error %sabling CEC on EC: %d\n",
+-- 
+2.25.0.341.g760bfbb309-goog
 
-The closing bracket should be in the next line.
-
-I was also wondering if all the MEDIA_BUS_FMT_BGR888_* MEDIA_BUS_FMT_RGB888_*
-MEDIA_BUS_FMT_GBR888_* variants could be added here as well.
-
-> +
->  static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
->  	{
->  		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> @@ -148,14 +153,11 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev *sd,
->  				   struct v4l2_subdev_pad_config *cfg,
->  				   struct v4l2_subdev_mbus_code_enum *code)
->  {
-> -	/* We only support one format for source pads */
->  	if (VIMC_IS_SRC(code->pad)) {
-> -		struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
-> -
-> -		if (code->index)
-> +		if (code->index >= ARRAY_SIZE(src_rgb_codes))
->  			return -EINVAL;
->  
-> -		code->code = vdeb->src_code;
-> +		code->code = src_rgb_codes[code->index];
->  	} else {
->  		if (code->index >= ARRAY_SIZE(vimc_deb_pix_map_list))
->  			return -EINVAL;
-> @@ -170,7 +172,7 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
->  				    struct v4l2_subdev_pad_config *cfg,
->  				    struct v4l2_subdev_frame_size_enum *fse)
->  {
-> -	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
-> +	int i;
-
-unsigned
-
->  
->  	if (fse->index)
->  		return -EINVAL;
-> @@ -181,8 +183,13 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
->  
->  		if (!vpix)
->  			return -EINVAL;
-> -	} else if (fse->code != vdeb->src_code) {
-> -		return -EINVAL;
-> +	} else {
-
-You can declare i inside this else statement.
-
-> +		for (i = 0; i < ARRAY_SIZE(src_rgb_codes); i++) {
-> +			if (src_rgb_codes[i] == fse->code)
-> +				break;
-> +		}
-> +		if (i == ARRAY_SIZE(src_rgb_codes))
-> +			return -EINVAL;
->  	}
->  
->  	fse->min_width = VIMC_FRAME_MIN_WIDTH;
-> @@ -237,6 +244,8 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
->  {
->  	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
->  	struct v4l2_mbus_framefmt *sink_fmt;
-> +	unsigned int i;
-> +	u32 *src_code;
->  
->  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  		/* Do not change the format while stream is on */
-> @@ -244,8 +253,10 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
->  			return -EBUSY;
->  
->  		sink_fmt = &vdeb->sink_fmt;
-> +		src_code = &vdeb->src_code;
->  	} else {
->  		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
-> +		src_code = &v4l2_subdev_get_try_format(sd, cfg, 1)->code;
->  	}
->  
->  	/*
-> @@ -253,9 +264,17 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
->  	 * it is propagated from the sink
->  	 */
->  	if (VIMC_IS_SRC(fmt->pad)) {
-> +		u32 code = fmt->format.code;
-> +
->  		fmt->format = *sink_fmt;
-> -		/* TODO: Add support for other formats */
-> -		fmt->format.code = vdeb->src_code;
-> +
-> +		for (i = 0; i < ARRAY_SIZE(src_rgb_codes); i++) {
-> +			if (src_rgb_codes[i] == code) {
-> +				*src_code = src_rgb_codes[i];
-> +				break;
-> +			}
-> +		}
-
-Maybe you can add a function for this, since you also repeat this loop above.
-
-Regards,
-Helen
-
-> +		fmt->format.code = *src_code;
->  	} else {
->  		/* Set the new format in the sink pad */
->  		vimc_deb_adjust_sink_fmt(&fmt->format);
-> @@ -291,11 +310,21 @@ static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x24(struct vimc_deb_device *vdeb,
->  						  unsigned int col,
->  						  unsigned int rgb[3])
->  {
-> +	const struct vimc_pix_map *vpix;
->  	unsigned int i, index;
->  
-> +	vpix = vimc_pix_map_by_code(vdeb->src_code);
->  	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
-> -	for (i = 0; i < 3; i++)
-> -		vdeb->src_frame[index + i] = rgb[i];
-> +	for (i = 0; i < 3; i++) {
-> +		switch (vpix->pixelformat) {
-> +		case V4L2_PIX_FMT_RGB24:
-> +			vdeb->src_frame[index + i] = rgb[i];
-> +			break;
-> +		case V4L2_PIX_FMT_BGR24:
-> +			vdeb->src_frame[index + i] = rgb[2-i];
-> +			break;
-> +		}
-> +	}
->  }
->  
->  static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
-> 
