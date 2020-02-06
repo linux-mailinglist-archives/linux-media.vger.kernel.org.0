@@ -2,56 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A807153F8A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 08:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2352153FC2
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 09:08:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728263AbgBFH7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 02:59:34 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44298 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728075AbgBFH7d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 02:59:33 -0500
-Received: by mail-wr1-f65.google.com with SMTP id m16so5897734wrx.11
-        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2020 23:59:32 -0800 (PST)
+        id S1727784AbgBFIIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 03:08:10 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44478 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727111AbgBFIIK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 03:08:10 -0500
+Received: by mail-wr1-f68.google.com with SMTP id m16so5926707wrx.11
+        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 00:08:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4T6JHJ65S3gXlsUQCQJOHLGtGG3rfW0klSWmfZGHV6Q=;
-        b=hXQcGxFvwgqmKUVJXTK5dRsdGmXT443hFPx7aWanGILU7aaEo8Ixui1iQimx94k9fg
-         YcUkCzGkWSmptK0vz47v4dKQGkfdqkc6aCUtottdOAtVQAEkoAxR/QtmUZFJgLiaqvmt
-         eokVIu3bGf/viZ3txj0qeoZ6xi7gQe9kAh4BEfSXOhVKRa1ckb7I/7uXHJFCey+U1eJd
-         gN8ZsvtG+K9PB3agSS2OwsqqqiFmWFewuyEHbEPFmAzJ7aC27RE4GzJHIoSmExhp6Zsa
-         aWvWTaqBsI/zLWRY1G72Sh1694tP6QN+3+lBXg3eJu8mWn6WWIcmVX9wBJr/mGSTUmZV
-         izvw==
+        bh=TG5tj3645N85QhmNWU8D99xKObIizGYbAhAWICc+ygs=;
+        b=e6y6Xc0CKTFK7D8lnZI+oqP6txhyrqcYHKag2cJFvZTCEIr3SECDvQXDx3itQzDjB5
+         VcImhKBHPPvajvrhMq019JiXtDYI7rPkHENrWf+RlWoff8hhxIoqXAAGG539WvLMo9Wn
+         4D71P/luHvNXtl8DTwCvA3ORNz+HUOP5ZxL1UO5APiCaTC8/ZPNQzeTJ6hTbYrnu0n3f
+         ZaxlWdiXnlcIYCRRWCP4VcRWCxRH2Ckcf4JgKak0CIzSdjzVGZ18XYVyTCcb2Rg8OQIw
+         y+eDECeAol8gs70LYTttGQEDtfFZ6a61YDj707iOvZFeg4203wX2gX3bv4I2qHAf9rfB
+         JnBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=4T6JHJ65S3gXlsUQCQJOHLGtGG3rfW0klSWmfZGHV6Q=;
-        b=WAN9NzLguQXMqcSwL84fEHKCRoF0cAniXL2Ja8AQGE8VTL0BWGNUOeT4HH3vEk6FCg
-         JufnYw+LHkuS/Ph2VxVXR4NnN80i5lFs8ciwuRORRiLSSjpkguPy4hI4bcW+SXyuV4UG
-         YjmpNSjRGBoC15Kjt/We5F7oQ7meQjn+ZfFqG4793U4Jqz+3G8BC+/t85Gjmx6KA8jph
-         gBaKKIEle6Qrv0FZmhwMC0ftQnkEN4pJQB+hofKYSvZgCjmubAcktWDz+oYzcd611ut8
-         +teU8xepF7GbRtEYRaD7RheTS7LdtqZEujPFf+yisECQszuUenmFJbxWxbg+TFPsqOkD
-         hGTw==
-X-Gm-Message-State: APjAAAX9d2JxwuK8ZFN+oj9d3/pu+5+klRkHHss7K9B/r0RQ0sTf6hbl
-        tFX26PZMTPV8yeEkbiFX5cCfzw==
-X-Google-Smtp-Source: APXvYqzx41NwzMCoqYIOAllKMOLxPou7/sAGiCzfWqTv6wy/CaL2N5bZLO3CjxwgWAUV7du5c4X1Zg==
-X-Received: by 2002:adf:fc4b:: with SMTP id e11mr2405074wrs.326.1580975971911;
-        Wed, 05 Feb 2020 23:59:31 -0800 (PST)
+        bh=TG5tj3645N85QhmNWU8D99xKObIizGYbAhAWICc+ygs=;
+        b=G3/T++oNo/pLJzNij0cx5HXz0p4LBgwGqQLajByxbTiU2MoFfQwOsfPNFDPfpAKXeo
+         93LmTMFb3BdnOjDOjVFqbwlbWB4oZtR0yMC2wIfLTBxSc8K8b/19NCUkWBYXbjOXE5aU
+         b+t/yhuzbS0ajCz1FZyVbbPjpDmeGihC+0OkjFK1U46ZZ/ST1cbfPzg87VKAdzMhH6Ll
+         uLb+/Gu4IVytmB962zLdC2Hyhm/Ir/VQZvToh/3g4GkSGASvxwf2q90N+jc329fQNP5U
+         jL28B1cL8XKblA9DNpWuLHw9iOzicCKSAVzqWebmcXL8ixFW/2lcL398MQTro6p+6KYl
+         z6Ng==
+X-Gm-Message-State: APjAAAVH+0CVSul1ra/cV+73BJr9q2MBpFciUrt8KxqBjQn3uwKpealO
+        N03J6YLR/u+mheMAxwslECB/Vw==
+X-Google-Smtp-Source: APXvYqz9axYJCUH9PKldohM4SKpY8oaob9MbNHZHJR5bIvM99Z2dv6KBImKigANHI+cIqIl6FqvNTg==
+X-Received: by 2002:adf:c145:: with SMTP id w5mr2426249wre.205.1580976486971;
+        Thu, 06 Feb 2020 00:08:06 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:7d33:17f7:8097:ecc7? ([2a01:e35:2ec0:82b0:7d33:17f7:8097:ecc7])
-        by smtp.gmail.com with ESMTPSA id p5sm3096757wrt.79.2020.02.05.23.59.30
+        by smtp.gmail.com with ESMTPSA id o4sm3096110wrx.25.2020.02.06.00.08.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2020 23:59:31 -0800 (PST)
-Subject: Re: [PATCH] media: meson: vdec: fix OUTPUT buffer size configuration
-To:     Maxime Jourdan <mjourdan@baylibre.com>, mchehab@kernel.org,
+        Thu, 06 Feb 2020 00:08:06 -0800 (PST)
+Subject: Re: [PATCH v3 5/5] media: meson: vdec: add VP9 decoder support
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
         hans.verkuil@cisco.com
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200127151953.10592-1-mjourdan@baylibre.com>
+References: <20200116133437.2443-1-narmstrong@baylibre.com>
+ <20200116133437.2443-6-narmstrong@baylibre.com>
+ <a4efcb4e1591ac9cf305742d34337335b6ff7f29.camel@ndufresne.ca>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -103,55 +106,142 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <d6f50786-16d9-8933-30ff-418b47089149@baylibre.com>
-Date:   Thu, 6 Feb 2020 08:59:30 +0100
+Message-ID: <49e6168b-ffed-6011-3b1f-455224d3130b@baylibre.com>
+Date:   Thu, 6 Feb 2020 09:08:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200127151953.10592-1-mjourdan@baylibre.com>
+In-Reply-To: <a4efcb4e1591ac9cf305742d34337335b6ff7f29.camel@ndufresne.ca>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/01/2020 16:19, Maxime Jourdan wrote:
-> There's a bug currently where we always override the OUTPUT buffer size
-> in try_fmt to the default value (1M), preventing userspace from setting
-> a higher or lower size.
+On 03/02/2020 04:11, Nicolas Dufresne wrote:
+> Hi Neil,
 > 
-> Now, only update the size in try_fmt if userspace passed 0.
-> 
-> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-> ---
-> 
-> Note: this patch depends on Neil's series:
-> media: meson: vdec: Add compliant H264 support
-> https://patchwork.kernel.org/cover/11336953/
-> 
->  drivers/staging/media/meson/vdec/vdec.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> index 1be67b122546..2f30945ce916 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -519,7 +519,8 @@ vdec_try_fmt_common(struct amvdec_session *sess, u32 size,
->  	output_size = get_output_size(pixmp->width, pixmp->height);
->  
->  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> -		pfmt[0].sizeimage = sess->src_buffer_size;
-> +		if (!pfmt[0].sizeimage)
-> +			pfmt[0].sizeimage = sess->src_buffer_size;
->  		pfmt[0].bytesperline = 0;
->  		pixmp->num_planes = 1;
->  	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-> 
+> Le jeudi 16 janvier 2020 à 14:34 +0100, Neil Armstrong a écrit :
+>> From: Maxime Jourdan <mjourdan@baylibre.com>
+>>
+>> This adds VP9 decoding for the Amlogic GXL, G12A & SM1 SoCs, using
+>> the commong "HEVC" HW decoder.
+>>
+>> For G12A & SM1, it uses the IOMMU support from the firmware.
+>>
+>> For 10bit decoding, the firmware can only decode in the proprietary
+>> Amlogic Framebuffer Compression format, but can output in 8bit NV12
+>> buffer while writing the decoded frame.
+>>
+>> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>> ---
+>>  drivers/staging/media/meson/vdec/Makefile     |    2 +-
+>>  drivers/staging/media/meson/vdec/codec_vp9.c  | 2139 +++++++++++++++++
+>>  drivers/staging/media/meson/vdec/codec_vp9.h  |   13 +
+>>  drivers/staging/media/meson/vdec/hevc_regs.h  |    7 +
+>>  drivers/staging/media/meson/vdec/vdec.c       |    5 +
+>>  .../staging/media/meson/vdec/vdec_helpers.c   |    4 +
+>>  .../staging/media/meson/vdec/vdec_platform.c  |   38 +
+>>  7 files changed, 2207 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.c
+>>  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.h
+>>
 
+[...]
 
-Will squash into v5 of "media: meson: vdec: Add compliant H264 support"
+>> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+>> index e9356a46828f..72a833b1cebd 100644
+>> --- a/drivers/staging/media/meson/vdec/vdec_platform.c
+>> +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+>> @@ -8,8 +8,10 @@
+>>  #include "vdec.h"
+>>  
+>>  #include "vdec_1.h"
+>> +#include "vdec_hevc.h"
+>>  #include "codec_mpeg12.h"
+>>  #include "codec_h264.h"
+>> +#include "codec_vp9.h"
+>>  
+>>  static const struct amvdec_format vdec_formats_gxbb[] = {
+>>  	{
+>> @@ -51,6 +53,18 @@ static const struct amvdec_format vdec_formats_gxbb[] = {
+>>  
+>>  static const struct amvdec_format vdec_formats_gxl[] = {
+>>  	{
+>> +		.pixfmt = V4L2_PIX_FMT_VP9,
+>> +		.min_buffers = 16,
+>> +		.max_buffers = 24,
+>> +		.max_width = 3840,
+>> +		.max_height = 2160,
+>> +		.vdec_ops = &vdec_hevc_ops,
+>> +		.codec_ops = &codec_vp9_ops,
+>> +		.firmware_path = "meson/vdec/gxl_vp9.bin",
+> 
+> Is there a pull request pending for this firmware ? I could not test as
+> this firmware was missing. Note that it could be nice to remove the
+> format from the enumeration in that case, as it's very confusing
+> initially.
 
-Thanks,
+It has been merged yesterday, sorry for the delay.
+
+With maxime's patch, we tested it using ffmpeg master, mpv master with drm-prime
+rendering. We have a buildroot repo with the changed needed :
+
+https://gitlab.com/baylibre/amlogic/atv/buildroot-yukawa
+
+I will respin a v4 with the small fix from maxime.
+
 Neil
+
+
+> 
+>> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+>> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+>> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> +	}, {
+>>  		.pixfmt = V4L2_PIX_FMT_H264,
+>>  		.min_buffers = 2,
+>>  		.max_buffers = 24,
+>> @@ -127,6 +141,18 @@ static const struct amvdec_format vdec_formats_gxm[] = {
+>>  
+>>  static const struct amvdec_format vdec_formats_g12a[] = {
+>>  	{
+>> +		.pixfmt = V4L2_PIX_FMT_VP9,
+>> +		.min_buffers = 16,
+>> +		.max_buffers = 24,
+>> +		.max_width = 3840,
+>> +		.max_height = 2160,
+>> +		.vdec_ops = &vdec_hevc_ops,
+>> +		.codec_ops = &codec_vp9_ops,
+>> +		.firmware_path = "meson/vdec/g12a_vp9.bin",
+>> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+>> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+>> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> +	}, {
+>>  		.pixfmt = V4L2_PIX_FMT_H264,
+>>  		.min_buffers = 2,
+>>  		.max_buffers = 24,
+>> @@ -165,6 +191,18 @@ static const struct amvdec_format vdec_formats_g12a[] = {
+>>  
+>>  static const struct amvdec_format vdec_formats_sm1[] = {
+>>  	{
+>> +		.pixfmt = V4L2_PIX_FMT_VP9,
+>> +		.min_buffers = 16,
+>> +		.max_buffers = 24,
+>> +		.max_width = 3840,
+>> +		.max_height = 2160,
+>> +		.vdec_ops = &vdec_hevc_ops,
+>> +		.codec_ops = &codec_vp9_ops,
+>> +		.firmware_path = "meson/vdec/g12a_vp9.bin",
+>> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+>> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+>> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> +	}, {
+>>  		.pixfmt = V4L2_PIX_FMT_H264,
+>>  		.min_buffers = 2,
+>>  		.max_buffers = 24,
+> 
+
