@@ -2,75 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FAA415483F
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF79215485B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:45:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbgBFPl0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 10:41:26 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41704 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727389AbgBFPl0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Feb 2020 10:41:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581003685;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9wMwSq0HYfGlp3ThYr5DJrLa20xKFoqvuSdrLGy9yV8=;
-        b=TW8xZMRSIYGEsmzzAPj2tTNZCkgDIabOyvL9wQtm3ySKZjMcI+wB95I7VoH6f8n5xpCBVV
-        hFk5e5JvNYvLHE8lhBz6NsMM2i+fU2DAym2c2bmW1W2+aNJr8LC8DODysLQj4o7C38FckK
-        tY4eJmcL5BxYzbtjlTkJko/DjhmMbnM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-8JnXo92QOgiTftGzzdRklw-1; Thu, 06 Feb 2020 10:41:20 -0500
-X-MC-Unique: 8JnXo92QOgiTftGzzdRklw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 648AE102CE16;
-        Thu,  6 Feb 2020 15:41:19 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1CB555DA7C;
-        Thu,  6 Feb 2020 15:41:17 +0000 (UTC)
-Date:   Thu, 6 Feb 2020 16:41:15 +0100
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 05/27] docs: virt: convert halt-polling.txt to ReST
- format
-Message-ID: <20200206164115.7b395348.cohuck@redhat.com>
-In-Reply-To: <6af4ab0b9c9977b6de9abe0a120ef0904a631a52.1581000481.git.mchehab+huawei@kernel.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
-        <6af4ab0b9c9977b6de9abe0a120ef0904a631a52.1581000481.git.mchehab+huawei@kernel.org>
-Organization: Red Hat GmbH
+        id S1727555AbgBFPpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 10:45:31 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36532 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727060AbgBFPpa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Feb 2020 10:45:30 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 3887DAAC3;
+        Thu,  6 Feb 2020 15:45:29 +0000 (UTC)
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?q?Josef=20M=C3=B6llers?= <josef.moellers@suse.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: go7007: Fix URB type for interrupt handling
+Date:   Thu,  6 Feb 2020 16:45:27 +0100
+Message-Id: <20200206154527.18171-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.16.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu,  6 Feb 2020 15:50:02 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+Josef reported that his old-and-good Plextor ConvertX M402U video
+converter spews lots of WARNINGs on the recent kernels, and it turned
+out that the device uses a bulk endpoint for interrupt handling just
+like 2250 board.
 
-> - Fix document title to match ReST format
-> - Convert the table to be properly recognized
-> - Some indentation fixes to match ReST syntax.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../{halt-polling.txt => halt-polling.rst}    | 86 ++++++++++---------
->  Documentation/virt/kvm/index.rst              |  1 +
->  2 files changed, 46 insertions(+), 41 deletions(-)
->  rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
+For fixing it, generalize the check with the proper verification of
+the endpoint instead of hard-coded board type check.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Fixes: 7e5219d18e93 ("[media] go7007: Fix 2250 urb type")
+Reported-and-tested-by: Josef Möllers <josef.moellers@suse.com>
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1162583
+BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=206427
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+
+---
+ drivers/media/usb/go7007/go7007-usb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
+index ff2aa057c1fb..f889c9d740cd 100644
+--- a/drivers/media/usb/go7007/go7007-usb.c
++++ b/drivers/media/usb/go7007/go7007-usb.c
+@@ -1044,6 +1044,7 @@ static int go7007_usb_probe(struct usb_interface *intf,
+ 	struct go7007_usb *usb;
+ 	const struct go7007_usb_board *board;
+ 	struct usb_device *usbdev = interface_to_usbdev(intf);
++	struct usb_host_endpoint *ep;
+ 	unsigned num_i2c_devs;
+ 	char *name;
+ 	int video_pipe, i, v_urb_len;
+@@ -1140,7 +1141,8 @@ static int go7007_usb_probe(struct usb_interface *intf,
+ 	if (usb->intr_urb->transfer_buffer == NULL)
+ 		goto allocfail;
+ 
+-	if (go->board_id == GO7007_BOARDID_SENSORAY_2250)
++	ep = usb->usbdev->ep_in[4];
++	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
+ 		usb_fill_bulk_urb(usb->intr_urb, usb->usbdev,
+ 			usb_rcvbulkpipe(usb->usbdev, 4),
+ 			usb->intr_urb->transfer_buffer, 2*sizeof(u16),
+-- 
+2.16.4
 
