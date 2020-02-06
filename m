@@ -2,58 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A83FF153F6D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 08:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F33C7153F88
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 08:59:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728036AbgBFH5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 02:57:24 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40278 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727768AbgBFH5Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 02:57:24 -0500
-Received: by mail-wm1-f67.google.com with SMTP id t14so5758260wmi.5
-        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2020 23:57:21 -0800 (PST)
+        id S1728251AbgBFH71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 02:59:27 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40489 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728226AbgBFH70 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 02:59:26 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t14so5763626wmi.5
+        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2020 23:59:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=gVqpc3oIEeuwunX17mZOp+jpMiD41EKmA9Gooj+uTTc=;
-        b=so2W7pCu8gqX+yvxwcDR+lvvVWQA05gBD/cgi+cBI6mN6q4fmlXZGO9GYbUBJAep6J
-         rpAWACH2xFeJVwEk94I9QyhLwpctkPMQ0pocSIMiacW0mR+nEsedi327SDIKw7REPwsE
-         eHM3QAJytO1Zv+s4ctazUf3UFtPCWKPHALYaKPtjUQD1JTBiFCJDSvWceE72OIgWcNVW
-         OtpYr/uxD2WD+U1q8ndifMQDsmmrbWbCuaA3arWHIooUkYFINTXKpmn43a1o6U391oHj
-         DKy818grrfK1I+3FIG6c/cdBTUCNCB5m0VYepZkJFIMxf8ZhaOR5/v10cTcJXqgfIrM6
-         arOw==
+        bh=eoegjXhvNrzq/yPyDDY1fsYH13mDAjgXSwvtXb8bIp0=;
+        b=k+qdiP8SXubzdN35uHnwmScHPsqUObqr9t7ajuc4nzrMPqUgHIu5GUCp/jIH8vLWtb
+         D0iZfBQ6gzthNokG+tF+TwHsuCi7BOOnC/J1a2hLvOQmtOEP+hMOu3pi3fKk2b58KKGu
+         CSPAahFuMjGuJdJZaUnnwzaiuDVYd+p9v0OGOMmHTHDR3fa6PhNwNfCj+nnCCio905bL
+         lCSd2E1FYDqDsmBRM4rIEofPZ+rp9anRZeQBLNKTzigXwR7ouV+Fd/f/alLu+h74+vvI
+         V4O+/DndT3wC9/0ZWxuY1w3IF/2ZTcXTpuJK/28l1X8DiApd72z6jXa+HcIIq8OdcKq1
+         u2Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=gVqpc3oIEeuwunX17mZOp+jpMiD41EKmA9Gooj+uTTc=;
-        b=ITAt1yDCNT28PfBwcMjnPFfrFWZcMkWzg2EVmDRBZNu21RAVZ59xRT/wv5kyEIqXm1
-         xev3KEFEeOXSrUmmZBlQrWZIaq7rrn15GIBy+UvZN0CxHtEM25+oe8i2Xp6asmGgZ5PV
-         kQvvj7wQLXXj6O8ivPYTl0BfVOa+n6lawEdxxlcclYkaWdzeNMcw+8X8/su0ABbwkMyY
-         HaD6IO7P4dIQQa0Ynp6FQD0c6wbv4GxkFkdyKvsKwVFlc6Y9uYJYfqvB3J5mGJUP9BF6
-         mBlCcF8wOO+keB2ht87LW+hyymjlEm1wl1UI3CwzbBxSLLjLAxN1xXmZo7HRJdPtjLdc
-         yqYg==
-X-Gm-Message-State: APjAAAUAbn6iFXAwcfPIzG7+T82EUG03lv3XWqEkbOdwFVwH4z/i6QCr
-        +xHe2N6FR0WfMcWEPB+a5ahcyw==
-X-Google-Smtp-Source: APXvYqzT2ea/IJBeCv1ay/a4cj13gu0UVUcGW2ZpI3U5SNCrBCdKvrp46DmWNIMtTHAFSgAvMTnX2w==
-X-Received: by 2002:a1c:6389:: with SMTP id x131mr2817850wmb.174.1580975840253;
-        Wed, 05 Feb 2020 23:57:20 -0800 (PST)
+        bh=eoegjXhvNrzq/yPyDDY1fsYH13mDAjgXSwvtXb8bIp0=;
+        b=f/U34L8/3kntuNgczzf40mUcDa/ZlbNG0l1SzZftdLUeEPoZ8mSOY178YiflHAFToV
+         pbBKho5T0Rwk06QYDZkRxiT1iNUz1nws/5Tn3AL1sZMg5Zaqd5zsoBcSUDAlF1srEQLf
+         N5QgmGJm0rLON+GBmt3ZR8lY8NWWVnxrF2TeNjbFSB1f6i6VSgmSo3rnS3mFc7O0o1GF
+         IVZc6DJSUGW3HbM9MVsmrntPplNcRcw4VwnPC3qvbS3wtmosTfkxGPaziAe6CXmEPI7L
+         B6C/YnnU5O/nqeFVdnj4zpAzQTQX3Baiu9289JtU+Sw0vCavLsgWyTmWhAORztoBD0iN
+         eaOg==
+X-Gm-Message-State: APjAAAX/JjsVCXHtKQpiMu4e8GT1Vnz29OIfrs4RfnQiECAZkdCx6jr0
+        XyAs4Tq5h27/KIAD2eTPxnMtEg==
+X-Google-Smtp-Source: APXvYqwCSdXddW98myM3fnl5L7QuVyagLqkVr9JPqdGl0MA51WmppRzXvShIjTHAUFVFJeLVJigrmQ==
+X-Received: by 2002:a7b:cae2:: with SMTP id t2mr2935471wml.180.1580975962206;
+        Wed, 05 Feb 2020 23:59:22 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:7d33:17f7:8097:ecc7? ([2a01:e35:2ec0:82b0:7d33:17f7:8097:ecc7])
-        by smtp.gmail.com with ESMTPSA id k8sm3077509wrq.67.2020.02.05.23.57.18
+        by smtp.gmail.com with ESMTPSA id t1sm2744394wma.43.2020.02.05.23.59.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2020 23:57:19 -0800 (PST)
-Subject: Re: [PATCH v4 0/4] media: meson: vdec: Add compliant H264 support
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
+        Wed, 05 Feb 2020 23:59:21 -0800 (PST)
+Subject: Re: [PATCH] media: meson: vdec: don't resume instantly if not
+ streaming capture
+To:     Maxime Jourdan <mjourdan@baylibre.com>, mchehab@kernel.org,
         hans.verkuil@cisco.com
 Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200116133025.1903-1-narmstrong@baylibre.com>
- <371bccfa68c4a9924137f087ef45c732e64bf808.camel@ndufresne.ca>
- <970b4e5b89db7f055217676a07281e37f6dcd35a.camel@ndufresne.ca>
+References: <20200124155631.7063-1-mjourdan@baylibre.com>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,228 +104,52 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <f3d8eac3-73cb-75ad-3412-212b229f1654@baylibre.com>
-Date:   Thu, 6 Feb 2020 08:57:17 +0100
+Message-ID: <2d432fe2-b476-df53-4509-4bffe26e8b8a@baylibre.com>
+Date:   Thu, 6 Feb 2020 08:59:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <970b4e5b89db7f055217676a07281e37f6dcd35a.camel@ndufresne.ca>
+In-Reply-To: <20200124155631.7063-1-mjourdan@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nico,
-
-On 01/02/2020 16:38, Nicolas Dufresne wrote:
-> Le samedi 01 février 2020 à 10:34 -0500, Nicolas Dufresne a écrit :
->> Le jeudi 16 janvier 2020 à 14:30 +0100, Neil Armstrong a écrit :
->>> Hello,
->>>
->>> This patch series aims to bring H.264 support as well as compliance update
->>> to the amlogic stateful video decoder driver.
->>>
->>> The issue in the V1 patchset at [1] is solved by patch #1 following comments
->>> and requirements from hans. It moves the full draining & stopped state tracking
->>> and handling from vicodec to core v4l2-mem2mem.
->>>
->>> The vicodec changes still passes the v4l2-utils "media-test" tests, log at [5]:
->>> [...]
->>> vicodec media controller compliance tests
->>>
->>> Thu Jan 16 13:00:56 UTC 2020
->>> v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
->>> [...]
->>> Summary:
->>
->> I've minimally tested this serie with GStreamer master. Play pause and
->> seek seems to work reliably now. It's a little bit spamy with
->> bbb_sunflower_1080p_30fps_normal.mp4:
->>
->> [  725.304663] meson-vdec c8820000.video-codec: VIFIFO usage (16777763) > VIFIFO size (16777216)
->>
->> But there is no visual artifact or performance degradation.
->>
->> Tested-by: Nicolas Dufresne <nicolas@ndufresne.ca>
+On 24/01/2020 16:56, Maxime Jourdan wrote:
+> In case userspace configured the capture queue before the source change
+> event, do not resume decoding instantly if it wasn't streamed on yet.
 > 
-> Sorry, I just notice that with kmssink, seek is broken. The kernel
-> reports a series of:
+> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+> ---
 > 
->   [ 1065.046970] meson-vdec c8820000.video-codec: Buffer 0 done but it doesn't exist in m2m_ctx
+> Note: this patch is based off Neil's series:
+> [v4,0/4] media: meson: vdec: Add compliant H264 support
+> 
+>  drivers/staging/media/meson/vdec/vdec_helpers.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> index ff4333074197..a4970ec1bf2e 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> @@ -417,7 +417,8 @@ void amvdec_src_change(struct amvdec_session *sess, u32 width,
+>  	 * Check if the capture queue is already configured well for our
+>  	 * usecase. If so, keep decoding with it and do not send the event
+>  	 */
+> -	if (sess->width == width &&
+> +	if (sess->streamon_cap &&
+> +	    sess->width == width &&
+>  	    sess->height == height &&
+>  	    dpb_size <= sess->num_dst_bufs) {
+>  		sess->fmt_out->codec_ops->resume(sess);
+> --
+> 2.20.1
+> 
 
+Will squash into v5 of "media: meson: vdec: Add compliant H264 support"
 
-Thanks a lot for testing, can you share your setup (gst version, gst pipeline, stream...), thanks !
-
+Thanks,
 Neil
-
-> 
->>
->>> Total for vicodec device /dev/media3: 7, Succeeded: 7, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video13: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>> Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
->>>
->>> Final Summary: 364, Succeeded: 364, Failed: 0, Warnings: 0
->>> Thu Jan 16 13:02:59 UTC 2020
->>>
->>> With this, it also passes vdec v4l2-compliance with H264 streaming on Amlogic G12A
->>> and Amlogic SM1 SoCs successfully.
->>>
->>> The compliance log is:
->>> # v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s
->>> v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
->>>
->>> Compliance test for meson-vdec device /dev/video0:
->>>
->>> Driver Info:
->>> 	Driver name      : meson-vdec
->>> 	Card type        : Amlogic Video Decoder
->>> 	Bus info         : platform:meson-vdec
->>> 	Driver version   : 5.5.0
->>> 	Capabilities     : 0x84204000
->>> 		Video Memory-to-Memory Multiplanar
->>> 		Streaming
->>> 		Extended Pix Format
->>> 		Device Capabilities
->>> 	Device Caps      : 0x04204000
->>> 		Video Memory-to-Memory Multiplanar
->>> 		Streaming
->>> 		Extended Pix Format
->>> 	Detected Stateful Decoder
->>>
->>> Required ioctls:
->>> 	test VIDIOC_QUERYCAP: OK
->>>
->>> Allow for multiple opens:
->>> 	test second /dev/video19 open: OK
->>> 	test VIDIOC_QUERYCAP: OK
->>> 	test VIDIOC_G/S_PRIORITY: OK
->>> 	test for unlimited opens: OK
->>>
->>> Debug ioctls:
->>> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->>> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
->>>
->>> Input ioctls:
->>> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->>> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->>> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
->>> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->>> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
->>> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
->>>
->>> Output ioctls:
->>> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->>> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->>> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->>> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->>> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
->>>
->>> Input/Output configuration ioctls:
->>> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->>> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->>> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->>> 	test VIDIOC_G/S_EDID: OK (Not Supported)
->>>
->>> Control ioctls:
->>> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->>> 	test VIDIOC_QUERYCTRL: OK
->>> 	test VIDIOC_G/S_CTRL: OK
->>> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->>> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->>> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->>> 	Standard Controls: 2 Private Controls: 0
->>>
->>> Format ioctls:
->>> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->>> 	test VIDIOC_G/S_PARM: OK (Not Supported)
->>> 	test VIDIOC_G_FBUF: OK (Not Supported)
->>> 	test VIDIOC_G_FMT: OK
->>> 	test VIDIOC_TRY_FMT: OK
->>> 	test VIDIOC_S_FMT: OK
->>> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->>> 	test Cropping: OK (Not Supported)
->>> 	test Composing: OK (Not Supported)
->>> 	test Scaling: OK (Not Supported)
->>>
->>> Codec ioctls:
->>> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->>> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->>> 	test VIDIOC_(TRY_)DECODER_CMD: OK
->>>
->>> Buffer ioctls:
->>> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>> 	test VIDIOC_EXPBUF: OK
->>> 	test Requests: OK (Not Supported)
->>>
->>> Test input 0:
->>>
->>> Streaming ioctls:
->>> 	test read/write: OK (Not Supported)
->>> 	test blocking wait: OK
->>> 	Video Capture Multiplanar: Captured 60 buffers    
->>> 	test MMAP (select): OK
->>> 	Video Capture Multiplanar: Captured 60 buffers    
->>> 	test MMAP (epoll): OK
->>> 	test USERPTR (select): OK (Not Supported)
->>> 	test DMABUF: Cannot test, specify --expbuf-device
->>>
->>> Total for meson-vdec device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
->>>
->>>
->>> Changes since v3 at [3]:
->>> - Fixed vicodec compliance
->>> - Fixed vdec compliance with v4l2 state management
->>> - fixed doc errors for v4l2-mem2mem.h
->>>
->>> Changes since v2 at [2]:
->>> - Move full draining & stopped state tracking into core v4l2-mem2mem
->>> - Adapt vicodec to use the core v4l2-mem2mem draining & stopped state tracking
->>>
->>> Changes since v1 at [1]:
->>> - fixed output_size is never used reported by hans
->>> - rebased on G12A and SM1 patches
->>> - added handling of qbuf after STREAMON and STOP before enought buffer queued
->>>
->>> [1] https://lore.kernel.org/linux-media/20191007145909.29979-1-mjourdan@baylibre.com
->>> [2] https://lore.kernel.org/linux-media/20191126093733.32404-1-narmstrong@baylibre.com
->>> [3] https://lore.kernel.org/linux-media/20191209122028.13714-1-narmstrong@baylibre.com
->>> [4] https://people.freedesktop.org/~narmstrong/vicodec-compliance-7ead0e1856b89f2e19369af452bb03fd0cd16793-20200116.log
->>>
->>> Maxime Jourdan (2):
->>>   media: meson: vdec: bring up to compliance
->>>   media: meson: vdec: add H.264 decoding support
->>>
->>> Neil Armstrong (2):
->>>   media: v4l2-mem2mem: handle draining, stopped and next-buf-is-last
->>>     states
->>>   media: vicodec: use v4l2-mem2mem draining, stopped and
->>>     next-buf-is-last states handling
->>>
->>>  drivers/media/platform/vicodec/vicodec-core.c | 162 ++----
->>>  drivers/media/v4l2-core/v4l2-mem2mem.c        | 172 ++++++-
->>>  drivers/staging/media/meson/vdec/Makefile     |   2 +-
->>>  drivers/staging/media/meson/vdec/codec_h264.c | 482 ++++++++++++++++++
->>>  drivers/staging/media/meson/vdec/codec_h264.h |  14 +
->>>  drivers/staging/media/meson/vdec/esparser.c   |  58 +--
->>>  drivers/staging/media/meson/vdec/vdec.c       |  89 ++--
->>>  drivers/staging/media/meson/vdec/vdec.h       |  14 +-
->>>  .../staging/media/meson/vdec/vdec_helpers.c   |  85 ++-
->>>  .../staging/media/meson/vdec/vdec_helpers.h   |   6 +-
->>>  .../staging/media/meson/vdec/vdec_platform.c  |  71 +++
->>>  include/media/v4l2-mem2mem.h                  |  95 ++++
->>>  12 files changed, 1021 insertions(+), 229 deletions(-)
->>>  create mode 100644 drivers/staging/media/meson/vdec/codec_h264.c
->>>  create mode 100644 drivers/staging/media/meson/vdec/codec_h264.h
->>>
-> 
-
