@@ -2,282 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AE711547AE
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:19:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DAD61547AA
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:19:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727888AbgBFPSo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 10:18:44 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:38136 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727595AbgBFPSA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 10:18:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=xThXLGdKzyuCachMmsPMIkDMz9YQVURMpo17Id/BQSk=; b=Qsmba8ULMQPZ/0hfjInuZicZPL
-        zbiUwju5JUH1+lVk89nbXaDpQNUY7p0clQ+yVv7K+9VzYENR48C/Bx4FXIrByUUOKNTiIbpdM9Ttw
-        cBzdjYIYh5EcnrvlW9hJiIvmlkXpiapm0lBdZggx4Xz9dPc8pnpTIBGrTpFijayOjtR3NBndvy3EZ
-        yUsh8EZLjUU+8S6dF2Ilox8ztsHPPFutx/PhYoghagahgIz/Mmf01ICy5K3+ackrhYK4xEB+0Yb9t
-        VEa5bqR1dZwkD0K+WcUe4+xgG1zXVm62nsw5iBJr1SVwpcmMV2w8wiGcQXYqkifosTxwcCPWtwz9N
-        MelVSBnQ==;
-Received: from [179.95.15.160] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziul-0005jF-H2; Thu, 06 Feb 2020 15:18:00 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziue-002oWf-2m; Thu, 06 Feb 2020 16:17:52 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 28/28] docs: networking: convert gtp.txt to ReST
-Date:   Thu,  6 Feb 2020 16:17:48 +0100
-Message-Id: <c6b1e50ab787da57f20507e83a0fb3dbdc7f22b9.1581002063.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581002062.git.mchehab+huawei@kernel.org>
-References: <cover.1581002062.git.mchehab+huawei@kernel.org>
+        id S1727881AbgBFPSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 10:18:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29252 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727873AbgBFPSm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Feb 2020 10:18:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581002321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bmV5fzydc3rcIazejW+HPUQs71G2JgpFlEg2HuiWNZ4=;
+        b=EsANk3ENHMDxF938RHvSmQt17OH96TAIcZOZsozE504ccJ57DKQk5XXDdWJTG0+QKHghKB
+        RR7Ze//dr5bbpGK1KKBUWAXtimbuVRxFGJE0PkYz73pQEXuRnjX29cKaY2lWDxgwS7Z70Q
+        N78npyuSCNGUxUr2rYbA+vJYYg8mPYo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-x_P5Hu3fMoGsIOSFQsJIlA-1; Thu, 06 Feb 2020 10:18:39 -0500
+X-MC-Unique: x_P5Hu3fMoGsIOSFQsJIlA-1
+Received: by mail-wr1-f71.google.com with SMTP id t3so3527597wrm.23
+        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 07:18:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bmV5fzydc3rcIazejW+HPUQs71G2JgpFlEg2HuiWNZ4=;
+        b=sdmleGy5n/cs/GF6odUfDJP8GRJkJAqw+V8WOkSpph2Awv1x66I6t5aPI13RByU7qh
+         cO614Ln1vXx0wZY3HXR7gmr7nAcK9CxURJMooWXMEtbOqm2NeNDz/pR/uEeyXUdK2Mvx
+         GJP6c7ahrcxHArxlrHZEmv1pttOCkSxL57BuLBLmmyHmlrZ46oSAvlAU9UUCAR5m/frD
+         2Hb964XkiJer4DSBsPNHOePlMycSpMaermxfIU8GcN3+XFuIPB+f2Iootdf20rGodQ7Y
+         7fa3e0IE/xy3L9oFsMfcYPGVmc4rlxbHzvuwwM0zhXEPN/mT6i6eSgBxYNI8eibc5U8u
+         YVmA==
+X-Gm-Message-State: APjAAAXyqEfiLf/E/cw1wH8Eak20nGvltiIgFpIK6gaJM0PI8QxsRB7X
+        iMmM46lWTDakB2WmRvvdSH0RvsPs1Q+gFz/hNpekUsQdxgCGVNO/gNEmiAu9gyaaC84YwMK6Qe8
+        4LgpLS6v/o1ePLaUle+22uOU=
+X-Received: by 2002:a7b:ca49:: with SMTP id m9mr5329731wml.50.1581002318396;
+        Thu, 06 Feb 2020 07:18:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzAJWYqhylWktnILpnrmT9YkEhB6Yu5lRTU8758ARVrJbf++M5496LmTA7BV6VbGzIBWVT6Uw==
+X-Received: by 2002:a7b:ca49:: with SMTP id m9mr5329708wml.50.1581002318087;
+        Thu, 06 Feb 2020 07:18:38 -0800 (PST)
+Received: from [10.201.49.5] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
+        by smtp.gmail.com with ESMTPSA id p15sm3918709wma.40.2020.02.06.07.18.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2020 07:18:37 -0800 (PST)
+Subject: Re: [PATCH v2 00/27] docs: virt: manually convert text documents to
+ ReST format
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-doc@vger.kernel.org,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Richard Weinberger <richard@nod.at>,
+        Jeff Dike <jdike@addtoit.com>, kvm@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f8dab5f5-3b54-0b0a-0b34-c1c450813af5@redhat.com>
+Date:   Thu, 6 Feb 2020 16:18:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- add SPDX header;
-- adjust titles and chapters, adding proper markups;
-- add notes markups;
-- adjust identation, whitespaces and blank lines;
-- add to networking/index.rst.
+On 06/02/20 15:49, Mauro Carvalho Chehab wrote:
+> Manually convert the documentation under Documentation/virt to ReST,
+> minimizing the usage of uneeded markups and preserving the documentation
+> writer's style.
+> 
+> PS.: Patches are against linux-next tree (20200204).
+> 
+> v2:
+> 
+> - Solved a conflict with linux-next;
+> - Added SPDX headers.
+> 
+> Mauro Carvalho Chehab (27):
+>   docs: kvm: add arm/pvtime.rst to index.rst
+>   docs: virt: convert UML documentation to ReST
+>   docs: virt: user_mode_linux.rst: update compiling instructions
+>   docs: virt: user_mode_linux.rst: fix URL references
+>   docs: virt: convert halt-polling.txt to ReST format
+>   docs: virt: Convert msr.txt to ReST format
+>   docs: kvm: devices/arm-vgic-its.txt to ReST format
+>   docs: kvm: devices/arm-vgit-v3.txt to ReST
+>   docs: kvm: convert devices/arm-vgit.txt to ReST
+>   docs: kvm: convert devices/mpic.txt to ReST
+>   docs: kvm: convert devices/s390_flic.txt to ReST
+>   docs: kvm: convert devices/vcpu.txt to ReST
+>   docs: kvm: convert devices/vcpu.txt to ReST
+>   docs: kvm: convert devices/vm.txt to ReST
+>   docs: kvm: convert devices/xics.txt to ReST
+>   docs: kvm: convert devices/xive.txt to ReST
+>   docs: kvm: Convert api.txt to ReST format
+>   docs: kvm: convert arm/hyp-abi.txt to ReST
+>   docs: kvm: arm/psci.txt: convert to ReST
+>   docs: kvm: Convert hypercalls.txt to ReST format
+>   docs: kvm: Convert locking.txt to ReST format
+>   docs: kvm: Convert mmu.txt to ReST format
+>   docs: kvm: Convert nested-vmx.txt to ReST format
+>   docs: kvm: Convert ppc-pv.txt to ReST format
+>   docs: kvm: Convert s390-diag.txt to ReST format
+>   docs: kvm: Convert timekeeping.txt to ReST format
+>   docs: kvm: review-checklist.txt: rename to ReST
+> 
+>  Documentation/virt/index.rst                  |    1 +
+>  Documentation/virt/kvm/{api.txt => api.rst}   | 3348 ++++++++++-------
+>  .../virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} |   28 +-
+>  Documentation/virt/kvm/arm/index.rst          |   12 +
+>  .../virt/kvm/arm/{psci.txt => psci.rst}       |   46 +-
+>  .../{arm-vgic-its.txt => arm-vgic-its.rst}    |  106 +-
+>  .../{arm-vgic-v3.txt => arm-vgic-v3.rst}      |  132 +-
+>  .../devices/{arm-vgic.txt => arm-vgic.rst}    |   89 +-
+>  Documentation/virt/kvm/devices/index.rst      |   19 +
+>  .../virt/kvm/devices/{mpic.txt => mpic.rst}   |   11 +-
+>  .../devices/{s390_flic.txt => s390_flic.rst}  |   70 +-
+>  Documentation/virt/kvm/devices/vcpu.rst       |  114 +
+>  Documentation/virt/kvm/devices/vcpu.txt       |   76 -
+>  .../virt/kvm/devices/{vfio.txt => vfio.rst}   |   25 +-
+>  .../virt/kvm/devices/{vm.txt => vm.rst}       |  206 +-
+>  .../virt/kvm/devices/{xics.txt => xics.rst}   |   28 +-
+>  .../virt/kvm/devices/{xive.txt => xive.rst}   |  148 +-
+>  .../{halt-polling.txt => halt-polling.rst}    |   86 +-
+>  .../kvm/{hypercalls.txt => hypercalls.rst}    |  129 +-
+>  Documentation/virt/kvm/index.rst              |   16 +
+>  .../virt/kvm/{locking.txt => locking.rst}     |  111 +-
+>  Documentation/virt/kvm/{mmu.txt => mmu.rst}   |   62 +-
+>  Documentation/virt/kvm/{msr.txt => msr.rst}   |  147 +-
+>  .../kvm/{nested-vmx.txt => nested-vmx.rst}    |   37 +-
+>  .../virt/kvm/{ppc-pv.txt => ppc-pv.rst}       |   26 +-
+>  ...iew-checklist.txt => review-checklist.rst} |    3 +
+>  .../virt/kvm/{s390-diag.txt => s390-diag.rst} |   13 +-
+>  .../kvm/{timekeeping.txt => timekeeping.rst}  |  221 +-
+>  ...odeLinux-HOWTO.txt => user_mode_linux.rst} | 1814 ++++-----
+>  29 files changed, 4003 insertions(+), 3121 deletions(-)
+>  rename Documentation/virt/kvm/{api.txt => api.rst} (71%)
+>  rename Documentation/virt/kvm/arm/{hyp-abi.txt => hyp-abi.rst} (79%)
+>  create mode 100644 Documentation/virt/kvm/arm/index.rst
+>  rename Documentation/virt/kvm/arm/{psci.txt => psci.rst} (60%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic-its.txt => arm-vgic-its.rst} (71%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic-v3.txt => arm-vgic-v3.rst} (77%)
+>  rename Documentation/virt/kvm/devices/{arm-vgic.txt => arm-vgic.rst} (66%)
+>  create mode 100644 Documentation/virt/kvm/devices/index.rst
+>  rename Documentation/virt/kvm/devices/{mpic.txt => mpic.rst} (91%)
+>  rename Documentation/virt/kvm/devices/{s390_flic.txt => s390_flic.rst} (87%)
+>  create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+>  delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
+>  rename Documentation/virt/kvm/devices/{vfio.txt => vfio.rst} (72%)
+>  rename Documentation/virt/kvm/devices/{vm.txt => vm.rst} (61%)
+>  rename Documentation/virt/kvm/devices/{xics.txt => xics.rst} (84%)
+>  rename Documentation/virt/kvm/devices/{xive.txt => xive.rst} (62%)
+>  rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
+>  rename Documentation/virt/kvm/{hypercalls.txt => hypercalls.rst} (55%)
+>  rename Documentation/virt/kvm/{locking.txt => locking.rst} (78%)
+>  rename Documentation/virt/kvm/{mmu.txt => mmu.rst} (94%)
+>  rename Documentation/virt/kvm/{msr.txt => msr.rst} (74%)
+>  rename Documentation/virt/kvm/{nested-vmx.txt => nested-vmx.rst} (90%)
+>  rename Documentation/virt/kvm/{ppc-pv.txt => ppc-pv.rst} (91%)
+>  rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
+>  rename Documentation/virt/kvm/{s390-diag.txt => s390-diag.rst} (90%)
+>  rename Documentation/virt/kvm/{timekeeping.txt => timekeeping.rst} (85%)
+>  rename Documentation/virt/uml/{UserModeLinux-HOWTO.txt => user_mode_linux.rst} (74%)
+> 
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/networking/{gtp.txt => gtp.rst} | 95 +++++++++++--------
- Documentation/networking/index.rst            |  1 +
- 2 files changed, 59 insertions(+), 37 deletions(-)
- rename Documentation/networking/{gtp.txt => gtp.rst} (79%)
+Wow, thanks very much for doing this.  It would be great if we could get
+this to Linus not long after the merge window; I'll do my best to review
+it quickly.
 
-diff --git a/Documentation/networking/gtp.txt b/Documentation/networking/gtp.rst
-similarity index 79%
-rename from Documentation/networking/gtp.txt
-rename to Documentation/networking/gtp.rst
-index 6966bbec1ecb..1563fb94b289 100644
---- a/Documentation/networking/gtp.txt
-+++ b/Documentation/networking/gtp.rst
-@@ -1,12 +1,18 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================
- The Linux kernel GTP tunneling module
--======================================================================
--Documentation by Harald Welte <laforge@gnumonks.org> and
--                 Andreas Schultz <aschultz@tpip.net>
-+=====================================
-+
-+Documentation by
-+		 Harald Welte <laforge@gnumonks.org> and
-+		 Andreas Schultz <aschultz@tpip.net>
- 
- In 'drivers/net/gtp.c' you are finding a kernel-level implementation
- of a GTP tunnel endpoint.
- 
--== What is GTP ==
-+What is GTP
-+===========
- 
- GTP is the Generic Tunnel Protocol, which is a 3GPP protocol used for
- tunneling User-IP payload between a mobile station (phone, modem)
-@@ -41,7 +47,8 @@ publicly via the 3GPP website at http://www.3gpp.org/DynaReport/29060.htm
- A direct PDF link to v13.6.0 is provided for convenience below:
- http://www.etsi.org/deliver/etsi_ts/129000_129099/129060/13.06.00_60/ts_129060v130600p.pdf
- 
--== The Linux GTP tunnelling module ==
-+The Linux GTP tunnelling module
-+===============================
- 
- The module implements the function of a tunnel endpoint, i.e. it is
- able to decapsulate tunneled IP packets in the uplink originated by
-@@ -70,7 +77,8 @@ Userspace :)
- The official homepage of the module is at
- https://osmocom.org/projects/linux-kernel-gtp-u/wiki
- 
--== Userspace Programs with Linux Kernel GTP-U support ==
-+Userspace Programs with Linux Kernel GTP-U support
-+==================================================
- 
- At the time of this writing, there are at least two Free Software
- implementations that implement GTP-C and can use the netlink interface
-@@ -82,7 +90,8 @@ to make use of the Linux kernel GTP-U support:
- * ergw (GGSN + P-GW in Erlang):
-   https://github.com/travelping/ergw
- 
--== Userspace Library / Command Line Utilities ==
-+Userspace Library / Command Line Utilities
-+==========================================
- 
- There is a userspace library called 'libgtpnl' which is based on
- libmnl and which implements a C-language API towards the netlink
-@@ -90,7 +99,8 @@ interface provided by the Kernel GTP module:
- 
- http://git.osmocom.org/libgtpnl/
- 
--== Protocol Versions ==
-+Protocol Versions
-+=================
- 
- There are two different versions of GTP-U: v0 [GSM TS 09.60] and v1
- [3GPP TS 29.281].  Both are implemented in the Kernel GTP module.
-@@ -105,7 +115,8 @@ doesn't implement GTP-C, we don't have to worry about this.  It's the
- responsibility of the control plane implementation in userspace to
- implement that.
- 
--== IPv6 ==
-+IPv6
-+====
- 
- The 3GPP specifications indicate either IPv4 or IPv6 can be used both
- on the inner (user) IP layer, or on the outer (transport) layer.
-@@ -114,22 +125,25 @@ Unfortunately, the Kernel module currently supports IPv6 neither for
- the User IP payload, nor for the outer IP layer.  Patches or other
- Contributions to fix this are most welcome!
- 
--== Mailing List ==
-+Mailing List
-+============
- 
--If yo have questions regarding how to use the Kernel GTP module from
-+If you have questions regarding how to use the Kernel GTP module from
- your own software, or want to contribute to the code, please use the
- osmocom-net-grps mailing list for related discussion. The list can be
- reached at osmocom-net-gprs@lists.osmocom.org and the mailman
- interface for managing your subscription is at
- https://lists.osmocom.org/mailman/listinfo/osmocom-net-gprs
- 
--== Issue Tracker ==
-+Issue Tracker
-+=============
- 
- The Osmocom project maintains an issue tracker for the Kernel GTP-U
- module at
- https://osmocom.org/projects/linux-kernel-gtp-u/issues
- 
--== History / Acknowledgements ==
-+History / Acknowledgements
-+==========================
- 
- The Module was originally created in 2012 by Harald Welte, but never
- completed.  Pablo came in to finish the mess Harald left behind.  But
-@@ -139,9 +153,11 @@ In 2015, Andreas Schultz came to the rescue and fixed lots more bugs,
- extended it with new features and finally pushed all of us to get it
- mainline, where it was merged in 4.7.0.
- 
--== Architectural Details ==
-+Architectural Details
-+=====================
- 
--=== Local GTP-U entity and tunnel identification ===
-+Local GTP-U entity and tunnel identification
-+--------------------------------------------
- 
- GTP-U uses UDP for transporting PDU's. The receiving UDP port is 2152
- for GTPv1-U and 3386 for GTPv0-U.
-@@ -164,15 +180,15 @@ Therefore:
-     destination IP and the tunnel endpoint id. The source IP and port
-     have no meaning and can change at any time.
- 
--[3GPP TS 29.281] Section 4.3.0 defines this so:
-+[3GPP TS 29.281] Section 4.3.0 defines this so::
- 
--> The TEID in the GTP-U header is used to de-multiplex traffic
--> incoming from remote tunnel endpoints so that it is delivered to the
--> User plane entities in a way that allows multiplexing of different
--> users, different packet protocols and different QoS levels.
--> Therefore no two remote GTP-U endpoints shall send traffic to a
--> GTP-U protocol entity using the same TEID value except
--> for data forwarding as part of mobility procedures.
-+  The TEID in the GTP-U header is used to de-multiplex traffic
-+  incoming from remote tunnel endpoints so that it is delivered to the
-+  User plane entities in a way that allows multiplexing of different
-+  users, different packet protocols and different QoS levels.
-+  Therefore no two remote GTP-U endpoints shall send traffic to a
-+  GTP-U protocol entity using the same TEID value except
-+  for data forwarding as part of mobility procedures.
- 
- The definition above only defines that two remote GTP-U endpoints
- *should not* send to the same TEID, it *does not* forbid or exclude
-@@ -183,7 +199,8 @@ multiple or unknown peers.
- Therefore, the receiving side identifies tunnels exclusively based on
- TEIDs, not based on the source IP!
- 
--== APN vs. Network Device ==
-+APN vs. Network Device
-+======================
- 
- The GTP-U driver creates a Linux network device for each Gi/SGi
- interface.
-@@ -201,29 +218,33 @@ number of Gi/SGi interfaces implemented by a GGSN/P-GW.
- 
- [3GPP TS 29.061] Section 11.3 makes it clear that the selection of a
- specific Gi/SGi interfaces is made through the Access Point Name
--(APN):
-+(APN)::
- 
--> 2. each private network manages its own addressing. In general this
-->    will result in different private networks having overlapping
-->    address ranges. A logically separate connection (e.g. an IP in IP
-->    tunnel or layer 2 virtual circuit) is used between the GGSN/P-GW
-->    and each private network.
-->
-->    In this case the IP address alone is not necessarily unique.  The
-->    pair of values, Access Point Name (APN) and IPv4 address and/or
-->    IPv6 prefixes, is unique.
-+  2. each private network manages its own addressing. In general this
-+     will result in different private networks having overlapping
-+     address ranges. A logically separate connection (e.g. an IP in IP
-+     tunnel or layer 2 virtual circuit) is used between the GGSN/P-GW
-+     and each private network.
-+
-+     In this case the IP address alone is not necessarily unique.  The
-+     pair of values, Access Point Name (APN) and IPv4 address and/or
-+     IPv6 prefixes, is unique.
- 
- In order to support the overlapping address range use case, each APN
- is mapped to a separate Gi/SGi interface (network device).
- 
--NOTE: The Access Point Name is purely a control plane (GTP-C) concept.
--At the GTP-U level, only Tunnel Endpoint Identifiers are present in
--GTP-U packets and network devices are known
-+.. note::
-+
-+   The Access Point Name is purely a control plane (GTP-C) concept.
-+   At the GTP-U level, only Tunnel Endpoint Identifiers are present in
-+   GTP-U packets and network devices are known
- 
- Therefore for a given UE the mapping in IP to PDN network is:
-+
-   * network device + MS IP -> Peer IP + Peer TEID,
- 
- and from PDN to IP network:
-+
-   * local GTP-U IP + TEID  -> network device
- 
- Furthermore, before a received T-PDU is injected into the network
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 548f8c281d01..9c638b913387 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -60,6 +60,7 @@ Contents:
-    generic-hdlc
-    generic_netlink
-    gen_stats
-+   gtp
- 
- .. only::  subproject and html
- 
--- 
-2.24.1
+Paolo
 
