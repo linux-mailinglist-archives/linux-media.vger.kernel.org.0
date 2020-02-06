@@ -2,115 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F18DD1540A9
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 09:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA6731541C4
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 11:21:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbgBFIwE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 03:52:04 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:44450 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726673AbgBFIwE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 03:52:04 -0500
-Received: by mail-ed1-f68.google.com with SMTP id g19so5050676eds.11
-        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 00:52:02 -0800 (PST)
+        id S1728279AbgBFKVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 05:21:24 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:41034 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728263AbgBFKVY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 05:21:24 -0500
+Received: by mail-pf1-f196.google.com with SMTP id j9so2894331pfa.8
+        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 02:21:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=We7DoVh7zLbEobTGikMeJVx0fJF9wa4d1jWsJYX+VpE=;
-        b=V53GVGtE+FiWi1Ic1qjEMrk3/vEvAhXyW5H0b0fxm+6774kxmE8OyeaawuPxs1gH4b
-         c+0FT6j2HTkSaJT6uEthX7ZOUXERC0g8efQ01yJ78SbJsqPTMPOADs6e2eP5V0D4MgrQ
-         5mxhqpf+6HI1BZDpX71QwLwNyugqDu8duGIlY=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=285hGBeyDEuWuK9GHboTvoJ1nNlVTOiPiFz7p6gTZeA=;
+        b=IRl6ADxEeaZcVHXBlmaucyLsfDiAsQttS9Aqmb3Aso5XIP9d9q5Aseia8xYcrYSYW8
+         BU9m26hP2MM1p+/TqGNNS12aJ+CvdrHetPbo1LXceBgX3iS26BPyIEGwBqSnrQmK3s+7
+         nnu+Mk1jFxdbJN1PeVWXtHCr9bJ2r8U0Mytk0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=We7DoVh7zLbEobTGikMeJVx0fJF9wa4d1jWsJYX+VpE=;
-        b=Thk3pZQi72b19ye50UDKUpXJapddFnlxNKydiFywYb+dEpAPvu5PvKH1NAZfhw43Lj
-         na0G2OxSpcvbuyve2gTV6UcoexsE8RR6sNxhPlmU4iVYvoU/5Ie29UZddsyqlqj5EbyQ
-         YrFWzlFu0bylpfO7OcD54mWsLm5TOxLOx9CvNhtjhMuM9T4y81+O0Pl2/7p+ugJkcrqg
-         JN49f5gvqko2307yF5QmsEZCklpoMnRVIqUlJ7ip8/+AbviyhwXUYEiu186ee+6fvjz9
-         I/jXBinU61/up+eoJmfm1eCzznpBBAWBNzACA8Kxwvt3Zz5uSSl0mZjHS35wpgjXXwWY
-         SY1g==
-X-Gm-Message-State: APjAAAVuOLa8XGpG7/DL9NOmE1LdrhggoAYQ/Tw3JpqwwTwcysCnucJN
-        L4KQIU0FrDxLSDiNKzjy9iX3jUtSDNF6Lg==
-X-Google-Smtp-Source: APXvYqzVxQvERejE5QcAW2qDeFm5U0616b4pao+GGzadBYUDLpgo5ntXO1sfZaJBUT+3k3ho9qTj3g==
-X-Received: by 2002:a17:907:426e:: with SMTP id nx22mr2284672ejb.162.1580979121836;
-        Thu, 06 Feb 2020 00:52:01 -0800 (PST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id a12sm307769eje.70.2020.02.06.00.52.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2020 00:52:00 -0800 (PST)
-Received: by mail-wr1-f48.google.com with SMTP id y17so6102637wrh.5
-        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 00:52:00 -0800 (PST)
-X-Received: by 2002:adf:f58a:: with SMTP id f10mr2727400wro.105.1580979119629;
- Thu, 06 Feb 2020 00:51:59 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=285hGBeyDEuWuK9GHboTvoJ1nNlVTOiPiFz7p6gTZeA=;
+        b=e4jRsvBVuYzS+DELxk6VZOzlGcGWpSPCMhhEpUG1+BmYaLLJUZtM3bM5SFY5+sKYut
+         BMdFmae6WtkXJEtTZfyfTl5+dlKmdJOYSmL88UNCTPyUTkVXrSY/aj/pdAL3OZsZgNwp
+         sLlxa2b68ImBGR3Ega5EaLAMzCE8YUhZaGDSoI6mvmUKdxOM8i6I7OEpJwag05L6uJPQ
+         p8yS7oZxO3OhckKJOaSm3RVL4qzXXMHRj/FU498+F8x7YebA4aH+A8VFMtF4DpU/zOf4
+         +UBR/zfX+J3DiSKlGgjBiY8qOY6KpugI7TYzMDKmAls2jOOAmQHwr9hx/xb3RA86+5qT
+         aZQg==
+X-Gm-Message-State: APjAAAUphX5iVEbjj95idk9mrVAzgM7/mNn8CQ5jAXSHDJjJe2oEZCun
+        SSgDWxl3YSlF2lyFVN024TfRXg==
+X-Google-Smtp-Source: APXvYqwioWvoPL68xYIS9mGhV815DwhJrP/awpaRlx+n3TRUM43A/CgAVvfggHPktEvIamFzeA/7Hw==
+X-Received: by 2002:a62:2b8a:: with SMTP id r132mr2895675pfr.56.1580984479973;
+        Thu, 06 Feb 2020 02:21:19 -0800 (PST)
+Received: from keiichiw1.tok.corp.google.com ([2401:fa00:8f:203:863a:e217:a16c:53f2])
+        by smtp.gmail.com with ESMTPSA id v4sm2590270pff.174.2020.02.06.02.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Feb 2020 02:21:19 -0800 (PST)
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+To:     virtio-dev@lists.oasis-open.org
+Cc:     linux-media@vger.kernel.org, acourbot@chromium.org,
+        alexlau@chromium.org, daniel@ffwll.ch, dgreid@chromium.org,
+        dstaessens@chromium.org, dmitry.sepp@opensynergy.com,
+        egranata@google.com, fziglio@redhat.com, hverkuil@xs4all.nl,
+        keiichiw@chromium.org, kraxel@redhat.com, marcheu@chromium.org,
+        posciak@chromium.org, spice-devel@lists.freedesktop.org,
+        stevensd@chromium.org, tfiga@chromium.org, uril@redhat.com,
+        samiullah.khawaja@opensynergy.com, kiran.pawar@opensynergy.com
+Subject: [PATCH v3 0/2] Virtio video device specification
+Date:   Thu,  6 Feb 2020 19:20:56 +0900
+Message-Id: <20200206102058.247258-1-keiichiw@chromium.org>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
 MIME-Version: 1.0
-References: <20191217032034.54897-1-senozhatsky@chromium.org>
- <20191217032034.54897-13-senozhatsky@chromium.org> <1c5198dc-db4e-47d6-0d8b-259fbbb6372f@xs4all.nl>
- <CAAFQd5DN0FSJ=pXG3J32AXocnbkR+AB8yKKDk0tZS4s7K04Z9Q@mail.gmail.com>
- <560ba621-5396-1ea9-625e-a9f83622e052@xs4all.nl> <CAAFQd5D27xaKhxg8UuPH6XXdzgBBsCeDL8wYw37r6AK+6sWcbg@mail.gmail.com>
- <c23618a9-4bf8-1d9a-6e52-d616c79ff289@xs4all.nl> <CAAFQd5BGA-mnirgwQJP_UHkNzpVvf19xeRu-n7GLQci8nYGB2A@mail.gmail.com>
- <20200204025021.GF41358@google.com>
-In-Reply-To: <20200204025021.GF41358@google.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 6 Feb 2020 17:51:46 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5B1cDCHexRR7UaqhHuxOgbAZDFHrZEVA1E2bcH14Ve5_A@mail.gmail.com>
-Message-ID: <CAAFQd5B1cDCHexRR7UaqhHuxOgbAZDFHrZEVA1E2bcH14Ve5_A@mail.gmail.com>
-Subject: Re: [RFC][PATCH 12/15] videobuf2: add begin/end cpu_access callbacks
- to dma-sg
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 4, 2020 at 11:50 AM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (20/02/03 19:04), Tomasz Figa wrote:
-> [..]
-> > > I very much agree with that. But this should be very clearly documented.
-> > > Should V4L2_CAP_MEMORY_NON_CONSISTENT always be set in this case?
-> > >
-> >
-> > Yes, IMHO that would make sense. My understanding is that currently
-> > the consistency of allocated memory is unspecified, so it can be
-> > either. With V4L2_FLAG_MEMORY_NON_CONSISTENT, the userspace can
-> > explicitly ask for inconsistent memory.
-> >
-> > Moreover, I'd vote for setting V4L2_CAP_MEMORY_NON_CONSISTENT when
-> > V4L2_FLAG_MEMORY_NON_CONSISTENT is guaranteed to return inconsistent
-> > memory to avoid "optional" features or "hints" without guaranteed
-> > behavior.
->
-> Documentation/DMA-attributes.txt says the following
->
->   DMA_ATTR_NON_CONSISTENT
->   -----------------------
->
->   DMA_ATTR_NON_CONSISTENT lets the platform to choose to return either
->   consistent or non-consistent memory as it sees fit.  By using this API,
->   you are guaranteeing to the platform that you have all the correct and
->   necessary sync points for this memory in the driver.
+Hi,
+Here is the 3rd version of virtio-video patches.
 
-Good point. And I also realized that some platforms just have no way
-to make the memory inconsistent, because they may have hardware
-coherency.
+This patch set consists of two changes.
+The first patch adds the virtio-video protocol. This is an updated version of v2 patch [1].
+The second patch adds a new feature to use exported objects from different virtio devices, which are proposed in [2], as video buffers.
 
-Then we need to keep it a hint only.
+PDFs are avaliable below:
+* full version [3]
+* only virtio-video section (first patch) [4]
+* only virtio-video section (first+second patch) [5]
 
 Best regards,
-Tomasz
+Keiichi
+
+[1] https://markmail.org/thread/yb25fim2dqfuktgf
+[2] https://markmail.org/message/2p5zgfanuv3fgwcu
+[3] https://drive.google.com/file/d/1Kl3M6weAm0vV1kj9A5dq2yypLXe_6TS2/view?usp=sharing
+[4] https://drive.google.com/file/d/1fN_6lft3RPuFKOnBm6P6XCy3fF7wwnu5/view?usp=sharing
+[5] https://drive.google.com/file/d/1jOsS2WdVhL4PpcWLO8Zukq5J0fXDiWn-/view?usp=sharing
+
+Changes v2 -> v3:
+* Rename controlq -> commandq.
+* Add {QUERY,GET,SET}_CONTROL for bitrate, profile and level.
+* Update the definition of virtio_video_format_desc.
+  - Remove fields for profiles and levels.
+  - Define fields for memory layouts.
+  - Stop using FOURCC and define enum virtio_video_format.
+* Add a feature flag for non-contiguous memories.
+* Add a new section for buffer lifecycle.
+* Change RESOURCE_DESTROY to RESOURCE_DESTROY_ALL.
+* Add fields in virtio_video_config.
+* Remove constants like *_UNDEFINED or *_UNSPEC.
+* Rename some constants and structs.
+* Change structures and orders of subsections and paragraphs.
+* Add more detailed description for each command.
+* Address review comments.
+* Add a feature for exported objects as a separate patch.
+
+Dmitry Sepp (1):
+  virtio-video: Add virtio video device specification
+
+Keiichi Watanabe (1):
+  virtio-video: Define a feature for exported objects from different
+    virtio devices
+
+ .gitignore                        |    1 +
+ content.tex                       |    1 +
+ images/video-buffer-lifecycle.dot |   18 +
+ make-setup-generated.sh           |    8 +
+ virtio-video.tex                  | 1030 +++++++++++++++++++++++++++++
+ 5 files changed, 1058 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 images/video-buffer-lifecycle.dot
+ create mode 100644 virtio-video.tex
+
+--
+2.25.0.341.g760bfbb309-goog
