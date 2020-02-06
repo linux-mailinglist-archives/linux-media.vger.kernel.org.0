@@ -2,44 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00241154685
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 15:51:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68BB915475A
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:12:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727663AbgBFOuk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 09:50:40 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:55578 "EHLO
+        id S1727810AbgBFPLt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 10:11:49 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37572 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727595AbgBFOuj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 09:50:39 -0500
+        with ESMTP id S1727590AbgBFPLn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 10:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=Xb2eNgwrC898oYbNqzuMV7ovBYhNc/yn4b5J/jn4QTY=; b=dGYyz5GfgFKIEyiHigh5cXYP1J
-        fVd5GKitRvzT67FNvqGS2fX2AO5F7ddD95DxNM9+EtWfaJ7TOHy0QDDfz0stUhRQLelU8kV4O9asN
-        u0Y+r2KmvNlaCUc1BO/qgh29bWjQkCY8f28n7EAidV5QHjV4RLod7u23vL8dAFVcm9JKUFXhjnZg0
-        txbGDkb9qs4ttvv3WYujw6y2lPxO4bg+yvt+T/ki7qTuwTqBtAilCKzV/xMHGW5asJUMLYqXlC9+k
-        Ds0i1WkAWzHnbfN5Tv1Tbxoq4p8nqYTsqKR1FMPNf/Rgkr118xur509Fk6uXjIuacqod2uZDvGdmD
-        VgdKLXAg==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=bJ6PILGfUOQthYtbZN3ove/bOTHIs1fSUTSyIzy3I3s=; b=Sef8CK/oc5vfowAvrz0puPQxZS
+        3pQTIUt14KlxR/ipQqYeok30cNc070WFIlyNjf7QPepexT9TtKJyhAr7vi+jUOzdSLNwVOOFYiW3W
+        0Ux486wUblaP4/DyDEqsvG5fnhzIrUe6h4Uvvj9FmIoRJXTzqWxb22F+YmvZfAI3NMGovBXDPW/H2
+        SbMtEk1qWe0qufiTx1oOJ5GKvQmdNeCP3ioiSvUs7Iry8RGyRASwZNW5BdmeEa1NaYaw0xqzZJpz+
+        Lsh3zeo56Hc1hm9TdZauCL6VJSKwjrUreM5Qtt6Fzq2nOq4s83fAUIEjikevO1CqUyCSgiItFSWH4
+        cCEPbHMw==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iziUI-0004In-Tw; Thu, 06 Feb 2020 14:50:38 +0000
+        id 1izioc-000434-UW; Thu, 06 Feb 2020 15:11:42 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iziU7-002nMK-7u; Thu, 06 Feb 2020 15:50:27 +0100
+        id 1izioV-002oMj-Lo; Thu, 06 Feb 2020 16:11:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2 27/27] docs: kvm: review-checklist.txt: rename to ReST
-Date:   Thu,  6 Feb 2020 15:50:24 +0100
-Message-Id: <8efe2cb409b6aaea2f01f4167db3c13e816129c5.1581000481.git.mchehab+huawei@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Javi Merino <javi.merino@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        David Howells <dhowells@redhat.com>,
+        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
+        keyrings@vger.kernel.org
+Subject: [PATCH 00/11] Manually convert  thermal, crypto and misc-devices to ReST
+Date:   Thu,  6 Feb 2020 16:11:19 +0100
+Message-Id: <cover.1581001737.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581000481.git.mchehab+huawei@kernel.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -47,45 +53,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This file is already in ReST compatible format.
-So, rename it and add to the kvm's index.rst.
+Manually convert some files from thermal, crypto and misc-devices
+to ReST format.
 
-While here, use the standard conversion for document titles.
+This patch is against linux-next 20200204 tag.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/virt/kvm/index.rst                               | 2 ++
- .../virt/kvm/{review-checklist.txt => review-checklist.rst}    | 3 +++
- 2 files changed, 5 insertions(+)
- rename Documentation/virt/kvm/{review-checklist.txt => review-checklist.rst} (95%)
+Mauro Carvalho Chehab (11):
+  docs: thermal: convert cpu-idle-cooling.rst to ReST
+  docs: crypto: convert asymmetric-keys.txt to ReST
+  docs: crypto: convert api-intro.txt to ReST format
+  docs: crypto: convert async-tx-api.txt to ReST format
+  docs: crypto: descore-readme.txt: convert to ReST format
+  docs: misc-devices/spear-pcie-gadget.txt: convert to ReST
+  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+  docs: misc-devices/pci-endpoint-test.txt: convert to ReST
+  docs: misc-devices/c2port.txt: convert to ReST format
+  docs: misc-devices/bh1770glc.txt: convert to ReST
+  docs: misc-devices/apds990x.txt: convert to ReST format
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index 7c1be8910837..774deaebf7fa 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -21,6 +21,8 @@ KVM
-    timekeeping
-    vcpu-requests
- 
-+   review-checklist
-+
-    arm/index
- 
-    devices/index
-diff --git a/Documentation/virt/kvm/review-checklist.txt b/Documentation/virt/kvm/review-checklist.rst
-similarity index 95%
-rename from Documentation/virt/kvm/review-checklist.txt
-rename to Documentation/virt/kvm/review-checklist.rst
-index 499af499e296..1f86a9d3f705 100644
---- a/Documentation/virt/kvm/review-checklist.txt
-+++ b/Documentation/virt/kvm/review-checklist.rst
-@@ -1,3 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================================
- Review checklist for kvm patches
- ================================
- 
+ .../crypto/{api-intro.txt => api-intro.rst}   | 186 +++++++------
+ ...symmetric-keys.txt => asymmetric-keys.rst} |  91 +++----
+ .../{async-tx-api.txt => async-tx-api.rst}    | 253 +++++++++++-------
+ ...{descore-readme.txt => descore-readme.rst} | 152 +++++++----
+ Documentation/crypto/index.rst                |   5 +
+ .../driver-api/thermal/cpu-idle-cooling.rst   |  18 +-
+ Documentation/driver-api/thermal/index.rst    |   1 +
+ .../{ad525x_dpot.txt => ad525x_dpot.rst}      |  24 +-
+ .../{apds990x.txt => apds990x.rst}            |  31 ++-
+ .../{bh1770glc.txt => bh1770glc.rst}          |  45 +++-
+ .../misc-devices/{c2port.txt => c2port.rst}   |  58 ++--
+ Documentation/misc-devices/index.rst          |   6 +
+ .../misc-devices/pci-endpoint-test.rst        |  56 ++++
+ .../misc-devices/pci-endpoint-test.txt        |  41 ---
+ .../misc-devices/spear-pcie-gadget.rst        | 170 ++++++++++++
+ .../misc-devices/spear-pcie-gadget.txt        | 130 ---------
+ 16 files changed, 747 insertions(+), 520 deletions(-)
+ rename Documentation/crypto/{api-intro.txt => api-intro.rst} (70%)
+ rename Documentation/crypto/{asymmetric-keys.txt => asymmetric-keys.rst} (91%)
+ rename Documentation/crypto/{async-tx-api.txt => async-tx-api.rst} (55%)
+ rename Documentation/crypto/{descore-readme.txt => descore-readme.rst} (81%)
+ rename Documentation/misc-devices/{ad525x_dpot.txt => ad525x_dpot.rst} (85%)
+ rename Documentation/misc-devices/{apds990x.txt => apds990x.rst} (86%)
+ rename Documentation/misc-devices/{bh1770glc.txt => bh1770glc.rst} (83%)
+ rename Documentation/misc-devices/{c2port.txt => c2port.rst} (59%)
+ create mode 100644 Documentation/misc-devices/pci-endpoint-test.rst
+ delete mode 100644 Documentation/misc-devices/pci-endpoint-test.txt
+ create mode 100644 Documentation/misc-devices/spear-pcie-gadget.rst
+ delete mode 100644 Documentation/misc-devices/spear-pcie-gadget.txt
+
 -- 
 2.24.1
+
 
