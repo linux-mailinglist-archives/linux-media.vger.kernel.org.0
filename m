@@ -2,76 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF79215485B
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D512815486B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727555AbgBFPpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 10:45:31 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36532 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727060AbgBFPpa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 6 Feb 2020 10:45:30 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 3887DAAC3;
-        Thu,  6 Feb 2020 15:45:29 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?q?Josef=20M=C3=B6llers?= <josef.moellers@suse.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: go7007: Fix URB type for interrupt handling
-Date:   Thu,  6 Feb 2020 16:45:27 +0100
-Message-Id: <20200206154527.18171-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.16.4
+        id S1727532AbgBFPrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 10:47:36 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39344 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727505AbgBFPrf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 6 Feb 2020 10:47:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581004054;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=W5o7VzK3YB2cNDyLSCiswlw0M+bsMwT1Ow82wmetAgA=;
+        b=Cjq76PXDMV7r8uYCg3JVCyUJgDq2DXNpakX0Um/UL7PLT04S/rvoTZwRHoQO2HRo613Knt
+        1x6Uccau736Vn8l2qTmR9mUX8aAgYrms3kuI5To9TijfL/EVu57/PucfflPlWAbCVMIBJo
+        ClVMavMCdKGUnaysA/wyIR7Giz9dwII=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-166-YMY6GAxdN8Cgz_voIOvalw-1; Thu, 06 Feb 2020 10:47:30 -0500
+X-MC-Unique: YMY6GAxdN8Cgz_voIOvalw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6368996F85;
+        Thu,  6 Feb 2020 15:47:29 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2587B1001B05;
+        Thu,  6 Feb 2020 15:47:28 +0000 (UTC)
+Date:   Thu, 6 Feb 2020 16:47:25 +0100
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 12/27] docs: kvm: convert devices/vcpu.txt to ReST
+Message-ID: <20200206164725.4a7914bc.cohuck@redhat.com>
+In-Reply-To: <011ccabd61ce299e638a9545adf7f59eead15131.1581000481.git.mchehab+huawei@kernel.org>
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+        <011ccabd61ce299e638a9545adf7f59eead15131.1581000481.git.mchehab+huawei@kernel.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Josef reported that his old-and-good Plextor ConvertX M402U video
-converter spews lots of WARNINGs on the recent kernels, and it turned
-out that the device uses a bulk endpoint for interrupt handling just
-like 2250 board.
+On Thu,  6 Feb 2020 15:50:09 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-For fixing it, generalize the check with the proper verification of
-the endpoint instead of hard-coded board type check.
+> - Use title markups;
+> - adjust indentation and add blank lines as needed;
+> - adjust tables to match ReST accepted formats;
+> - use :field: markups;
+> - mark code blocks as such.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/virt/kvm/devices/index.rst |   1 +
+>  Documentation/virt/kvm/devices/vcpu.rst  | 114 +++++++++++++++++++++++
+>  Documentation/virt/kvm/devices/vcpu.txt  |  76 ---------------
+>  3 files changed, 115 insertions(+), 76 deletions(-)
+>  create mode 100644 Documentation/virt/kvm/devices/vcpu.rst
+>  delete mode 100644 Documentation/virt/kvm/devices/vcpu.txt
 
-Fixes: 7e5219d18e93 ("[media] go7007: Fix 2250 urb type")
-Reported-and-tested-by: Josef Möllers <josef.moellers@suse.com>
-BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1162583
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=206427
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Forgot to do a git mv? Makes this a tad hard to review.
 
----
- drivers/media/usb/go7007/go7007-usb.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+(...)
 
-diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
-index ff2aa057c1fb..f889c9d740cd 100644
---- a/drivers/media/usb/go7007/go7007-usb.c
-+++ b/drivers/media/usb/go7007/go7007-usb.c
-@@ -1044,6 +1044,7 @@ static int go7007_usb_probe(struct usb_interface *intf,
- 	struct go7007_usb *usb;
- 	const struct go7007_usb_board *board;
- 	struct usb_device *usbdev = interface_to_usbdev(intf);
-+	struct usb_host_endpoint *ep;
- 	unsigned num_i2c_devs;
- 	char *name;
- 	int video_pipe, i, v_urb_len;
-@@ -1140,7 +1141,8 @@ static int go7007_usb_probe(struct usb_interface *intf,
- 	if (usb->intr_urb->transfer_buffer == NULL)
- 		goto allocfail;
- 
--	if (go->board_id == GO7007_BOARDID_SENSORAY_2250)
-+	ep = usb->usbdev->ep_in[4];
-+	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
- 		usb_fill_bulk_urb(usb->intr_urb, usb->usbdev,
- 			usb_rcvbulkpipe(usb->usbdev, 4),
- 			usb->intr_urb->transfer_buffer, 2*sizeof(u16),
--- 
-2.16.4
+> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+> new file mode 100644
+> index 000000000000..e4e41b7fcac3
+> --- /dev/null
+> +++ b/Documentation/virt/kvm/devices/vcpu.rst
+
+(...)
+
+> +2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+> +=================================
+> +
+> +:Architectures: ARM,ARM64
+
+As you're touching this anyway, add a blank before 'ARM64'?
 
