@@ -2,92 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FE99154CA3
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 21:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5F46154D1B
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 21:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727836AbgBFUJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 15:09:12 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:35345 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727711AbgBFUJM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 15:09:12 -0500
-Received: by mail-qv1-f65.google.com with SMTP id u10so3475359qvi.2;
-        Thu, 06 Feb 2020 12:09:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=wSUcqZOKcJBDGAqugVgii/8pMY4U4spSnTw3NVFJU/g=;
-        b=kuUiSonA/JF14yPtB328dGv2ZFketNfYeNQToJMcG/Htw4vUokh3dj+dIHt0d0Yon+
-         0CR60f+DsLaokT9YM/jfr35pIDhiKmrLdd2uADpC1Fwxb88MptMZ7Zk/RKqvtWLJcNSJ
-         8ojHpwusmYv0qotY1UWZQ46vFY8CyK6DFdkrBktAL8JY/PV4RaEYlGMdjaq1Xskq4Sab
-         H72yOwkrQogyoU2oz1cLvPIS3nQ5TkLlJ8JcK+xyM2zEK71oyaQ44X6l2c4Xykt6BI0m
-         fsG9HJaBVgMORnnnvf6q7QhkppKUGfm5T7jSSO4bKxDu1urzK5BQgO/pYX46oyapK8Qk
-         v46Q==
+        id S1727897AbgBFUpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 15:45:31 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:41883 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727830AbgBFUpb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 15:45:31 -0500
+Received: by mail-pf1-f193.google.com with SMTP id j9so43715pfa.8;
+        Thu, 06 Feb 2020 12:45:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=wSUcqZOKcJBDGAqugVgii/8pMY4U4spSnTw3NVFJU/g=;
-        b=hP5jGO79NWR3UhIx6lL+i1wvXRdMFVNg7xjdobRBhOWuAPNAnjyZSEoPkjtRbckMR1
-         VCab6ppak8exVBL6RKBDJtLxKu4g4A7LdBAFRn4bAOT8mTkSv09u5eZt/xcfLDTOx6NY
-         LkfqpULuLK5EmUytScHekrtmktdqHGCxjKMlz4/hFPftGAaZ+zD3f0bOX3Jx1oHOIPHB
-         VVQOB9lk7hv6YZUuAfRkGUfGQ0F3DXEwHsVVsyaWCojNQelQSDkahFmb5m+r5mtgbGYH
-         4M9L1NVO7nSLQsKr4SvrEduuTC9hIr2q2SdpxSuC1VI/sO7yoiHLWy3fRcbTDpemEIxL
-         tNyw==
-X-Gm-Message-State: APjAAAVt2CBLjSIBL2E1+0whSa25+D0HgQoEvkrBev9Ubf2hBjf7EK9R
-        kXs1jTkq4xvaIVgcLzId61Y=
-X-Google-Smtp-Source: APXvYqwtAGA5HmBkm4221OA1Xq3lblCEh7YX9e2NpzpIrAsVtjFxlWi2C30mv7+gD9ez+uzWx96O/A==
-X-Received: by 2002:a0c:9c86:: with SMTP id i6mr3903089qvf.214.1581019751108;
-        Thu, 06 Feb 2020 12:09:11 -0800 (PST)
-Received: from localhost (tripoint.kitware.com. [66.194.253.20])
-        by smtp.gmail.com with ESMTPSA id h8sm180826qtm.51.2020.02.06.12.09.10
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=H2tVfCzm70bqHn3/yPEccEJKGtHclRembq2rrvGRktQ=;
+        b=XY1pBze54J/QBb4LhkW8czLaW4xkUbA5SCHEGNX7oFg+QNH7lR8hvWoHCtk/wbd3YV
+         wz3+4hJiMfkzmkAGUPUIjBOGUYQgUVBnD7wslIboqFWTICWgGX7Gh36/RLaIE4KEUMP3
+         n97BM74kRojMHdeoVHZ7IAMlEc6QozDWRGg98Bz6Qg14zInZFbg0s9Q7JX7yfa61dJ1D
+         38Hw4DAWDD3VpaKZNLGdO0gSJdVih3BNrJ8U6msEL50C6lKeifwTp1CKqR46DDhs6ZI5
+         VVvLo+3i+xBhZVATvNESwPnpwGdEccF89APE6TkLC0Pv4qBn/iC/gfktSkr10MG5mlQf
+         tXgg==
+X-Gm-Message-State: APjAAAUplqFfEEJLKo/JrXvb9IOfFxHqiZSAGeyXW2dyTXuVbxjHrGV1
+        TnhRaPA9KAITXnvYYXbeWQ==
+X-Google-Smtp-Source: APXvYqwfL4vZeTOwGsr6xUGNFEjJf8dH67j94K/HXOdtctgmKZDpYGF4Hd+jwY8XeBUB/qLzc7l6kg==
+X-Received: by 2002:a62:c583:: with SMTP id j125mr6195854pfg.27.1581021930368;
+        Thu, 06 Feb 2020 12:45:30 -0800 (PST)
+Received: from rob-hp-laptop (63-158-47-182.dia.static.qwest.net. [63.158.47.182])
+        by smtp.gmail.com with ESMTPSA id b1sm282011pfp.44.2020.02.06.12.45.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2020 12:09:10 -0800 (PST)
-From:   Ben Boeckel <mathstuf@gmail.com>
-X-Google-Original-From: Ben Boeckel <list.lkml.keyrings@me.benboeckel.net>
-Date:   Thu, 6 Feb 2020 15:09:11 -0500
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        keyrings@vger.kernel.org
-Subject: Re: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
-Message-ID: <20200206200911.GA2830394@erythro.kitware.com>
-Reply-To: list.lkml.keyrings@me.benboeckel.net
-References: <cover.1581001737.git.mchehab+huawei@kernel.org>
- <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
+        Thu, 06 Feb 2020 12:45:29 -0800 (PST)
+Received: (nullmailer pid 28991 invoked by uid 1000);
+        Thu, 06 Feb 2020 17:22:58 -0000
+Date:   Thu, 6 Feb 2020 17:22:58 +0000
+From:   Rob Herring <robh@kernel.org>
+To:     Louis Kuo <louis.kuo@mediatek.com>
+Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
+        tfiga@chromium.org, keiichiw@chromium.org, matthias.bgg@gmail.com,
+        mchehab@kernel.org, yuzhao@chromium.org, zwisler@chromium.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
+        sj.huang@mediatek.com, christie.yu@mediatek.com,
+        frederic.chen@mediatek.com, Jerry-ch.Chen@mediatek.com,
+        jungo.lin@mediatek.com, Rynn.Wu@mediatek.com,
+        linux-media@vger.kernel.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH V5 2/3] dt-bindings: mt8183: Add sensor interface
+ dt-bindings
+Message-ID: <20200206172258.GA19946@bogus>
+References: <20200129081650.8027-1-louis.kuo@mediatek.com>
+ <20200129081650.8027-3-louis.kuo@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.13.3 (2020-01-12)
+In-Reply-To: <20200129081650.8027-3-louis.kuo@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 06, 2020 at 16:11:21 +0100, Mauro Carvalho Chehab wrote:
-> - (1) If the criterion string is of the form "id:<hexdigits>" then the match
-> +  1) If the criterion string is of the form "id:<hexdigits>" then the match
+On Wed, Jan 29, 2020 at 04:16:49PM +0800, Louis Kuo wrote:
+> This patch adds the DT binding documentation for the sensor interface
+> module in Mediatek SoCs.
+> 
+> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> ---
+>  .../bindings/media/mediatek-seninf.txt        | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-seninf.txt
 
-This update was followed in all the enumeration changes except…
+Bindings have moved to DT schema. Please convert this to a schema.
 
-> - (2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
-> + 2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
-
-The whitespace here doesn't match up. Which is preferred?
-
-> - (1) Signature verification.
-> +1) Signature verification.
-
-Here, the indentation was lost too. Is this intentional?
-
---Ben
+Sorry to ask for this on a v5, but I don't recall seeing an earlier 
+version recently.
