@@ -2,152 +2,380 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A94D154744
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55836154748
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2020 16:12:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727560AbgBFPLn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Feb 2020 10:11:43 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37532 "EHLO
+        id S1727803AbgBFPLo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Feb 2020 10:11:44 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37582 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727398AbgBFPLm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 10:11:42 -0500
+        with ESMTP id S1727602AbgBFPLn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Feb 2020 10:11:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description;
-        bh=bJnoUKgVIb6mtplglvS+byAU4SeZA8CY+LwJLXnSv9Q=; b=d4FOvoR9mB6MjJZx9PSZuP7cMs
-        8Lk51gnZiYVTlTMhF4EsGFD6ToJ60uQM4F1z/tfidYrtd2Z/d3Vx1/tAepsJS+vX2Vw5bvtQvSWfQ
-        ITfIfsrOEY8H2nNNRxEZDdHdOO7oj/3nnHnagHEO00aPO9n8HaloG3GVtAQ4new1L8StvMrPtqCuf
-        AELbxsHSqcEJMEB0sfJ9tE13gQIfWXMGH9eD02llxz7qLW4xZElg8JIvwpWyCTuaSDaQfHRDMMhH9
-        VuN5tgp9ETqldP3c5p8VhzSkHgX7KwccuTklXw9xyz17FIEYmDivSlD4WDzJseFR+HhumxXQ+bsXV
-        AuF0dzug==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=UhxvxepcKfB+Wfh8eN9De8M7E0rqIZOFN8yjyXgRbHc=; b=GAnLgO2v9sLQP9LnMDfDtF1fH4
+        C/kM/KBZRnluJAHtyFTkvb4oYk4F292J1aAFv6dbblnnVecDomnxBsSivtkmjpd+rEKjzB9ZjJIJ9
+        aziyPesQmWFoVJerDdaWCdczZTh+226F5F1FJ9NnnbxxDJkqtD/NZzPadqlMrJDUFFLxDy8cShvYn
+        4q2lhN/Ud0l3Mt+m6YFqlcdTe8vM3FjhtQdyQYHjuMVoVJK9RgBdSqnP77Cys1cEV/88lwqMy2RJ5
+        L1NlhEYRC3mrdhA8vxFpSJMNwIFfBSI4v9gsTmxxF3gpTpC96nFJ7h1S9O4YCqt0Ox+VdCMRW9vMR
+        lWJj5kuA==;
 Received: from [179.95.15.160] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izioc-000432-UC; Thu, 06 Feb 2020 15:11:42 +0000
+        id 1izioc-000430-DU; Thu, 06 Feb 2020 15:11:42 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1izioV-002oMm-N9; Thu, 06 Feb 2020 16:11:31 +0100
+        id 1izioV-002oMr-OA; Thu, 06 Feb 2020 16:11:31 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Amit Daniel Kachhap <amit.kachhap@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Javi Merino <javi.merino@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 01/11] docs: thermal: convert cpu-idle-cooling.rst to ReST
-Date:   Thu,  6 Feb 2020 16:11:20 +0100
-Message-Id: <67d691731dc980b0dc9f599c8b6d031bdaba122d.1581001737.git.mchehab+huawei@kernel.org>
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org
+Subject: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
+Date:   Thu,  6 Feb 2020 16:11:21 +0100
+Message-Id: <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581001737.git.mchehab+huawei@kernel.org>
 References: <cover.1581001737.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Despite being named with .rst extension, this file doesn't
-match the ReST standard. It actually causes a crash at
-Sphinx:
+This file is almost compatible with ReST. Just minor changes
+were needed:
 
-	Sphinx parallel build error:
-	docutils.utils.SystemMessage: /devel/v4l/docs/Documentation/driver-api/thermal/cpu-idle-cooling.rst:69: (SEVERE/4) Unexpected section title.
-
-Add needed markups for it to be properly parsed.
-
-While here, add it to the thermal index.rst.
+- Adjust document and titles markups;
+- Adjust numbered list markups;
+- Add a comments markup for the Contents section;
+- Add markups for literal blocks.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../driver-api/thermal/cpu-idle-cooling.rst    | 18 ++++++++++++------
- Documentation/driver-api/thermal/index.rst     |  1 +
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ ...symmetric-keys.txt => asymmetric-keys.rst} | 91 +++++++++----------
+ Documentation/crypto/index.rst                |  1 +
+ 2 files changed, 44 insertions(+), 48 deletions(-)
+ rename Documentation/crypto/{asymmetric-keys.txt => asymmetric-keys.rst} (91%)
 
-diff --git a/Documentation/driver-api/thermal/cpu-idle-cooling.rst b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-index 9f0016ee4cfb..357d2f023605 100644
---- a/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-+++ b/Documentation/driver-api/thermal/cpu-idle-cooling.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/crypto/asymmetric-keys.txt b/Documentation/crypto/asymmetric-keys.rst
+similarity index 91%
+rename from Documentation/crypto/asymmetric-keys.txt
+rename to Documentation/crypto/asymmetric-keys.rst
+index 8763866b11cf..34063f8959fe 100644
+--- a/Documentation/crypto/asymmetric-keys.txt
++++ b/Documentation/crypto/asymmetric-keys.rst
+@@ -1,8 +1,10 @@
+-		=============================================
+-		ASYMMETRIC / PUBLIC-KEY CRYPTOGRAPHY KEY TYPE
+-		=============================================
 +.. SPDX-License-Identifier: GPL-2.0
+ 
+-Contents:
++=============================================
++Asymmetric / Public-key Cryptography Key Type
++=============================================
 +
-+================
-+CPU Idle Cooling
-+================
-+
++.. Contents:
  
- Situation:
- ----------
-@@ -45,7 +51,7 @@ idle state target residency, we lead to dropping the static and the
- dynamic leakage for this period (modulo the energy needed to enter
- this state). So the sustainable power with idle cycles has a linear
- relation with the OPP’s sustainable power and can be computed with a
--coefficient similar to:
-+coefficient similar to::
+   - Overview.
+   - Key identification.
+@@ -13,8 +15,7 @@ Contents:
+   - Keyring link restrictions.
  
- 	    Power(IdleCycle) = Coef x Power(OPP)
  
-@@ -136,7 +142,7 @@ Power considerations
- --------------------
+-========
+-OVERVIEW
++Overview
+ ========
  
- When we reach the thermal trip point, we have to sustain a specified
--power for a specific temperature but at this time we consume:
-+power for a specific temperature but at this time we consume::
+ The "asymmetric" key type is designed to be a container for the keys used in
+@@ -42,8 +43,7 @@ key, or it may interpret it as a reference to a key held somewhere else in the
+ system (for example, a TPM).
  
-  Power = Capacitance x Voltage^2 x Frequency x Utilisation
  
-@@ -145,7 +151,7 @@ wrong in the system setup). The ‘Capacitance’ and ‘Utilisation’ are a
- fixed value, ‘Voltage’ and the ‘Frequency’ are fixed artificially
- because we don’t want to change the OPP. We can group the
- ‘Capacitance’ and the ‘Utilisation’ into a single term which is the
--‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have:
-+‘Dynamic Power Coefficient (Cdyn)’ Simplifying the above, we have::
+-==================
+-KEY IDENTIFICATION
++Key Identification
+ ==================
  
-  Pdyn = Cdyn x Voltage^2 x Frequency
+ If a key is added with an empty name, the instantiation data parsers are given
+@@ -57,49 +57,48 @@ The asymmetric key type's match function can then perform a wider range of
+ comparisons than just the straightforward comparison of the description with
+ the criterion string:
  
-@@ -154,7 +160,7 @@ in order to target the sustainable power defined in the device
- tree. So with the idle injection mechanism, we want an average power
- (Ptarget) resulting in an amount of time running at full power on a
- specific OPP and idle another amount of time. That could be put in a
--equation:
-+equation::
+- (1) If the criterion string is of the form "id:<hexdigits>" then the match
++  1) If the criterion string is of the form "id:<hexdigits>" then the match
+      function will examine a key's fingerprint to see if the hex digits given
+-     after the "id:" match the tail.  For instance:
++     after the "id:" match the tail.  For instance::
  
-  P(opp)target = ((Trunning x (P(opp)running) + (Tidle x P(opp)idle)) /
- 			(Trunning + Tidle)
-@@ -165,7 +171,7 @@ equation:
+ 	keyctl search @s asymmetric id:5acc2142
  
- At this point if we know the running period for the CPU, that gives us
- the idle injection we need. Alternatively if we have the idle
--injection duration, we can compute the running duration with:
-+injection duration, we can compute the running duration with::
+-     will match a key with fingerprint:
++     will match a key with fingerprint::
  
-  Trunning = Tidle / ((P(opp)running / P(opp)target) - 1)
+ 	1A00 2040 7601 7889 DE11  882C 3823 04AD 5ACC 2142
  
-@@ -188,7 +194,7 @@ However, in this demonstration we ignore three aspects:
-    target residency, otherwise we end up consuming more energy and
-    potentially invert the mitigation effect
+- (2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
++ 2) If the criterion string is of the form "<subtype>:<hexdigits>" then the
+      match will match the ID as in (1), but with the added restriction that
+      only keys of the specified subtype (e.g. tpm) will be matched.  For
+-     instance:
++     instance::
  
--So the final equation is:
-+So the final equation is::
+ 	keyctl search @s asymmetric tpm:5acc2142
  
-  Trunning = (Tidle - Twakeup ) x
- 		(((P(opp)dyn + P(opp)static ) - P(opp)target) / P(opp)target )
-diff --git a/Documentation/driver-api/thermal/index.rst b/Documentation/driver-api/thermal/index.rst
-index 5ba61d19c6ae..4cb0b9b6bfb8 100644
---- a/Documentation/driver-api/thermal/index.rst
-+++ b/Documentation/driver-api/thermal/index.rst
-@@ -8,6 +8,7 @@ Thermal
-    :maxdepth: 1
+ Looking in /proc/keys, the last 8 hex digits of the key fingerprint are
+-displayed, along with the subtype:
++displayed, along with the subtype::
  
-    cpu-cooling-api
-+   cpu-idle-cooling
-    sysfs-api
-    power_allocator
+ 	1a39e171 I-----     1 perm 3f010000     0     0 asymmetric modsign.0: DSA 5acc2142 []
  
+ 
+-=========================
+-ACCESSING ASYMMETRIC KEYS
++Accessing Asymmetric Keys
+ =========================
+ 
+ For general access to asymmetric keys from within the kernel, the following
+-inclusion is required:
++inclusion is required::
+ 
+ 	#include <crypto/public_key.h>
+ 
+ This gives access to functions for dealing with asymmetric / public keys.
+ Three enums are defined there for representing public-key cryptography
+-algorithms:
++algorithms::
+ 
+ 	enum pkey_algo
+ 
+-digest algorithms used by those:
++digest algorithms used by those::
+ 
+ 	enum pkey_hash_algo
+ 
+-and key identifier representations:
++and key identifier representations::
+ 
+ 	enum pkey_id_type
+ 
+@@ -110,25 +109,25 @@ PGP-specific metadata, whereas X.509 has arbitrary certificate identifiers.
+ 
+ The operations defined upon a key are:
+ 
+- (1) Signature verification.
++1) Signature verification.
+ 
+ Other operations are possible (such as encryption) with the same key data
+ required for verification, but not currently supported, and others
+ (eg. decryption and signature generation) require extra key data.
+ 
+ 
+-SIGNATURE VERIFICATION
++Signature Verification
+ ----------------------
+ 
+ An operation is provided to perform cryptographic signature verification, using
+-an asymmetric key to provide or to provide access to the public key.
++an asymmetric key to provide or to provide access to the public key::
+ 
+ 	int verify_signature(const struct key *key,
+ 			     const struct public_key_signature *sig);
+ 
+ The caller must have already obtained the key from some source and can then use
+ it to check the signature.  The caller must have parsed the signature and
+-transferred the relevant bits to the structure pointed to by sig.
++transferred the relevant bits to the structure pointed to by sig::
+ 
+ 	struct public_key_signature {
+ 		u8 *digest;
+@@ -159,8 +158,7 @@ data; or -ENOMEM if an allocation can't be performed.  -EINVAL can be returned
+ if the key argument is the wrong type or is incompletely set up.
+ 
+ 
+-=======================
+-ASYMMETRIC KEY SUBTYPES
++Asymmetric Key Subtypes
+ =======================
+ 
+ Asymmetric keys have a subtype that defines the set of operations that can be
+@@ -171,11 +169,11 @@ The subtype is selected by the key data parser and the parser must initialise
+ the data required for it.  The asymmetric key retains a reference on the
+ subtype module.
+ 
+-The subtype definition structure can be found in:
++The subtype definition structure can be found in::
+ 
+ 	#include <keys/asymmetric-subtype.h>
+ 
+-and looks like the following:
++and looks like the following::
+ 
+ 	struct asymmetric_key_subtype {
+ 		struct module		*owner;
+@@ -198,39 +196,37 @@ the subtype.  Currently, the name is only used for print statements.
+ 
+ There are a number of operations defined by the subtype:
+ 
+- (1) describe().
++  1) describe().
+ 
+      Mandatory.  This allows the subtype to display something in /proc/keys
+      against the key.  For instance the name of the public key algorithm type
+      could be displayed.  The key type will display the tail of the key
+      identity string after this.
+ 
+- (2) destroy().
++  2) destroy().
+ 
+      Mandatory.  This should free the memory associated with the key.  The
+      asymmetric key will look after freeing the fingerprint and releasing the
+      reference on the subtype module.
+ 
+- (3) query().
++  3) query().
+ 
+      Mandatory.  This is a function for querying the capabilities of a key.
+ 
+- (4) eds_op().
++  4) eds_op().
+ 
+      Optional.  This is the entry point for the encryption, decryption and
+      signature creation operations (which are distinguished by the operation ID
+      in the parameter struct).  The subtype may do anything it likes to
+      implement an operation, including offloading to hardware.
+ 
+- (5) verify_signature().
++  5) verify_signature().
+ 
+      Optional.  This is the entry point for signature verification.  The
+      subtype may do anything it likes to implement an operation, including
+      offloading to hardware.
+ 
+-
+-==========================
+-INSTANTIATION DATA PARSERS
++Instantiation Data Parsers
+ ==========================
+ 
+ The asymmetric key type doesn't generally want to store or to deal with a raw
+@@ -254,11 +250,11 @@ Examples of blob formats for which parsers could be implemented include:
+ During key instantiation each parser in the list is tried until one doesn't
+ return -EBADMSG.
+ 
+-The parser definition structure can be found in:
++The parser definition structure can be found in::
+ 
+ 	#include <keys/asymmetric-parser.h>
+ 
+-and looks like the following:
++and looks like the following::
+ 
+ 	struct asymmetric_key_parser {
+ 		struct module	*owner;
+@@ -273,7 +269,7 @@ the parser.
+ There is currently only a single operation defined by the parser, and it is
+ mandatory:
+ 
+- (1) parse().
++  1) parse().
+ 
+      This is called to preparse the key from the key creation and update paths.
+      In particular, it is called during the key creation _before_ a key is
+@@ -282,7 +278,7 @@ mandatory:
+ 
+      The caller passes a pointer to the following struct with all of the fields
+      cleared, except for data, datalen and quotalen [see
+-     Documentation/security/keys/core.rst].
++     Documentation/security/keys/core.rst]::
+ 
+ 	struct key_preparsed_payload {
+ 		char		*description;
+@@ -321,7 +317,7 @@ mandatory:
+      public-key algorithm such as RSA and DSA this will likely be a printable
+      hex version of the key's fingerprint.
+ 
+-Functions are provided to register and unregister parsers:
++Functions are provided to register and unregister parsers::
+ 
+ 	int register_asymmetric_key_parser(struct asymmetric_key_parser *parser);
+ 	void unregister_asymmetric_key_parser(struct asymmetric_key_parser *subtype);
+@@ -330,8 +326,7 @@ Parsers may not have the same name.  The names are otherwise only used for
+ displaying in debugging messages.
+ 
+ 
+-=========================
+-KEYRING LINK RESTRICTIONS
++Keyring Link Restrictions
+ =========================
+ 
+ Keyrings created from userspace using add_key can be configured to check the
+@@ -340,7 +335,7 @@ allowed to link.
+ 
+ Several restriction methods are available:
+ 
+- (1) Restrict using the kernel builtin trusted keyring
++  1) Restrict using the kernel builtin trusted keyring
+ 
+      - Option string used with KEYCTL_RESTRICT_KEYRING:
+        - "builtin_trusted"
+@@ -350,7 +345,7 @@ Several restriction methods are available:
+      rejected.  The ca_keys kernel parameter also affects which keys are used
+      for signature verification.
+ 
+- (2) Restrict using the kernel builtin and secondary trusted keyrings
++  2) Restrict using the kernel builtin and secondary trusted keyrings
+ 
+      - Option string used with KEYCTL_RESTRICT_KEYRING:
+        - "builtin_and_secondary_trusted"
+@@ -361,7 +356,7 @@ Several restriction methods are available:
+      kernel parameter also affects which keys are used for signature
+      verification.
+ 
+- (3) Restrict using a separate key or keyring
++  3) Restrict using a separate key or keyring
+ 
+      - Option string used with KEYCTL_RESTRICT_KEYRING:
+        - "key_or_keyring:<key or keyring serial number>[:chain]"
+@@ -378,7 +373,7 @@ Several restriction methods are available:
+      certificate in order (starting closest to the root) to a keyring.  For
+      instance, one keyring can be populated with links to a set of root
+      certificates, with a separate, restricted keyring set up for each
+-     certificate chain to be validated:
++     certificate chain to be validated::
+ 
+ 	# Create and populate a keyring for root certificates
+ 	root_id=`keyctl add keyring root-certs "" @s`
+@@ -400,7 +395,7 @@ Several restriction methods are available:
+      one of the root certificates.
+ 
+      A single keyring can be used to verify a chain of signatures by
+-     restricting the keyring after linking the root certificate:
++     restricting the keyring after linking the root certificate::
+ 
+ 	# Create a keyring for the certificate chain and add the root
+ 	chain2_id=`keyctl add keyring chain2 "" @s`
+diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+index c4ff5d791233..2bcaf422731e 100644
+--- a/Documentation/crypto/index.rst
++++ b/Documentation/crypto/index.rst
+@@ -18,6 +18,7 @@ for cryptographic use cases, as well as programming examples.
+ 
+    intro
+    architecture
++   asymmetric-keys
+    devel-algos
+    userspace-if
+    crypto_engine
 -- 
 2.24.1
 
