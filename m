@@ -2,132 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B117B15531C
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 08:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 990FA155337
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 08:47:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgBGHk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Feb 2020 02:40:58 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:53634 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbgBGHk6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 02:40:58 -0500
-Received: by mail-pj1-f67.google.com with SMTP id n96so559636pjc.3
-        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 23:40:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=K+lFsZ3D7frtdDjFKWe1aGa1gg1H8Ao5Is0znK6p0IQ=;
-        b=B2H2rs1re6i1nnY3F52J+pN3K0qSaFUTXsvR/kHlXEC5q+GAsTwamOojZKavCOw06J
-         04YDv8/X7jlq0QULXSIqHNVvk6xXg36c/FTbd9jONol/F0ACmVj6f4tkeKEHk4K1ZkIG
-         u5j152fRtHwRIWFWySh1j5lmLHd7OmXZ2TQpA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=K+lFsZ3D7frtdDjFKWe1aGa1gg1H8Ao5Is0znK6p0IQ=;
-        b=K27yKpMtpyDqpJFo5XXXsBMprl1snljdRovFHvQjrg1iewMb/q/3ldigxg+QMI36JF
-         AGXTaNWEQz+aB+lHas47vgIW1pYJU1H4KJ01ZWhHbCMEheBtAadzgL5TLTOls7ub7tth
-         I+wznJIyqcRWWVPiHw636L/dUKAHttOwF87GIvcGsfewYFmngvDG67F6PcAEY7St1vky
-         1DdPuq3nw001ZGgCrxPMgG4pGCXnGEySjmSNiU/D+PxRcSYi654kiJ4cmrVyE5Gvqpd+
-         7huyMF8rbTnN4yJIK4Z7C2/5u9fGd8NJEx/4f9EDoYgKLh3Iwz2H+gOjnDEHN5xjlNNF
-         ntCg==
-X-Gm-Message-State: APjAAAXTd0A2l+5bfLB5CyRYRuwyowx6JoBbtvfYVyboWWu+6xg4E3Q5
-        QSQCTpOsoMOmSeQygWxJHZdg1w==
-X-Google-Smtp-Source: APXvYqwUsuQh7DqVB3QPoHA+aQLMvwcNFHiiFLQVrPJb+M5Yxl0A/kd6Svz1dKsbIQlkD43XLUSFhQ==
-X-Received: by 2002:a17:90a:a385:: with SMTP id x5mr2366982pjp.102.1581061257481;
-        Thu, 06 Feb 2020 23:40:57 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:1f16:51f4:8631:68b2])
-        by smtp.gmail.com with ESMTPSA id dw10sm1482749pjb.11.2020.02.06.23.40.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2020 23:40:57 -0800 (PST)
-From:   David Stevens <stevensd@chromium.org>
-To:     virtio-comment@lists.oasis-open.org
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
-        Dylan Reid <dgreid@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Zach Reizner <zachr@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Stefan Hajnoczi <stefanha@gmail.com>,
-        qemu-devel <qemu-devel@nongnu.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        David Stevens <stevensd@chromium.org>
-Subject: [RFC PATCH v3 2/2] virtio-gpu: add the ability to export resources
-Date:   Fri,  7 Feb 2020 16:40:33 +0900
-Message-Id: <20200207074033.172289-3-stevensd@chromium.org>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-In-Reply-To: <20200207074033.172289-1-stevensd@chromium.org>
-References: <20200207074033.172289-1-stevensd@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727005AbgBGHqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Feb 2020 02:46:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32725 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726136AbgBGHqx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 02:46:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1581061611;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
+        bh=yTteDxCnygXV7ue1fdGcLu/2eGxPy4HYZGw41Ynn8wo=;
+        b=LpLo5godY0FDIwpRgoXgPs0TcK52M2DiHI4OaQeBBz29dscs95B5D6JNHqwHfNp0HefyNt
+        jYkveqAS75dHWuR79o2rZEWI6AYADEZKyeZo7YEjV55e9OorSmaX8T1SRDt8lwvrokuxEL
+        JRfYk5djSgfer6S0z+VoRddIfgLKlgA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-OYW8C9-CPEWWkP9OE0-TQg-1; Fri, 07 Feb 2020 02:46:44 -0500
+X-MC-Unique: OYW8C9-CPEWWkP9OE0-TQg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47F4CDB61;
+        Fri,  7 Feb 2020 07:46:42 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com [10.36.116.112])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 69E0E1001B08;
+        Fri,  7 Feb 2020 07:46:39 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id BE5C931F47; Fri,  7 Feb 2020 08:46:38 +0100 (CET)
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     gurchetansingh@chromium.org, olvaffe@gmail.com,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        virtualization@lists.linux-foundation.org (open list:VIRTIO GPU DRIVER),
+        linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK)
+Subject: [PATCH v2 3/4] drm/virtio: move mapping teardown to virtio_gpu_cleanup_object()
+Date:   Fri,  7 Feb 2020 08:46:37 +0100
+Message-Id: <20200207074638.26386-4-kraxel@redhat.com>
+In-Reply-To: <20200207074638.26386-1-kraxel@redhat.com>
+References: <20200207074638.26386-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: David Stevens <stevensd@chromium.org>
----
- virtio-gpu.tex | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+Stop sending DETACH_BACKING commands, that will happening anyway when
+releasing resources via UNREF.  Handle guest-side cleanup in
+virtio_gpu_cleanup_object(), called when the host finished processing
+the UNREF command.
 
-diff --git a/virtio-gpu.tex b/virtio-gpu.tex
-index af4ca61..e950ad3 100644
---- a/virtio-gpu.tex
-+++ b/virtio-gpu.tex
-@@ -186,12 +186,16 @@ \subsubsection{Device Operation: Request header}\label{sec:Device Types / GPU De
-         VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
-         VIRTIO_GPU_CMD_MOVE_CURSOR,
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |  2 --
+ drivers/gpu/drm/virtio/virtgpu_object.c | 14 ++++++--
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 46 -------------------------
+ 3 files changed, 12 insertions(+), 50 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 1bc13f6b161b..d37ddd7644f6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -281,8 +281,6 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+ 			     struct virtio_gpu_object *obj,
+ 			     struct virtio_gpu_fence *fence);
+-void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
+-			      struct virtio_gpu_object *obj);
+ int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
+ int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 28a161af7503..bce2b3d843fe 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -23,6 +23,7 @@
+  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
  
-+        /* misc commands */
-+        VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID = 0x0400,
-+
-         /* success responses */
-         VIRTIO_GPU_RESP_OK_NODATA = 0x1100,
-         VIRTIO_GPU_RESP_OK_DISPLAY_INFO,
-         VIRTIO_GPU_RESP_OK_CAPSET_INFO,
-         VIRTIO_GPU_RESP_OK_CAPSET,
-         VIRTIO_GPU_RESP_OK_EDID,
-+        VIRTIO_GPU_RESP_OK_RESOURCE_ASSIGN_UUID,
++#include <linux/dma-mapping.h>
+ #include <linux/moduleparam.h>
  
-         /* error responses */
-         VIRTIO_GPU_RESP_ERR_UNSPEC = 0x1200,
-@@ -454,6 +458,31 @@ \subsubsection{Device Operation: controlq}\label{sec:Device Types / GPU Device /
- This detaches any backing pages from a resource, to be used in case of
- guest swapping or object destruction.
+ #include "virtgpu_drv.h"
+@@ -65,6 +66,17 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+ {
+ 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
  
-+\item[VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID] Creates an exported object from
-+  a resource. Request data is \field{struct
-+    virtio_gpu_resource_assign_uuid}.  Response type is
-+  VIRTIO_GPU_RESP_OK_RESOURCE_ASSIGN_UUID, response data is \field{struct
-+    virtio_gpu_resp_resource_assign_uuid}.
-+
-+\begin{lstlisting}
-+struct virtio_gpu_resource_assign_uuid {
-+        struct virtio_gpu_ctrl_hdr hdr;
-+        le32 resource_id;
-+        le32 padding;
-+};
-+
-+struct virtio_gpu_resp_resource_assign_uuid {
-+        struct virtio_gpu_ctrl_hdr hdr;
-+        u8 uuid[16];
-+};
-+\end{lstlisting}
-+
-+The response contains a UUID which identifies the exported object created from
-+the host private resource. Note that if the resource has an attached backing,
-+modifications made to the host private resource through the exported object by
-+other devices are not visible in the attached backing until they are transferred
-+into the backing.
-+
- \end{description}
++	if (bo->pages) {
++		if (bo->mapped) {
++			dma_unmap_sg(vgdev->vdev->dev.parent,
++				     bo->pages->sgl, bo->mapped,
++				     DMA_TO_DEVICE);
++			bo->mapped = 0;
++		}
++		sg_free_table(bo->pages);
++		bo->pages = NULL;
++		drm_gem_shmem_unpin(&bo->base.base);
++	}
+ 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
+ 	drm_gem_shmem_free_object(&bo->base.base);
+ }
+@@ -74,8 +86,6 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
+ 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+ 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
  
- \subsubsection{Device Operation: cursorq}\label{sec:Device Types / GPU Device / Device Operation / Device Operation: cursorq}
+-	if (bo->pages)
+-		virtio_gpu_object_detach(vgdev, bo);
+ 	if (bo->created) {
+ 		virtio_gpu_cmd_unref_resource(vgdev, bo);
+ 		/* completion handler calls virtio_gpu_cleanup_object() */
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 4e22c3914f94..87c439156151 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -545,22 +545,6 @@ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+ }
+ 
+-static void virtio_gpu_cmd_resource_inval_backing(struct virtio_gpu_device *vgdev,
+-						  uint32_t resource_id,
+-						  struct virtio_gpu_fence *fence)
+-{
+-	struct virtio_gpu_resource_detach_backing *cmd_p;
+-	struct virtio_gpu_vbuffer *vbuf;
+-
+-	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+-	memset(cmd_p, 0, sizeof(*cmd_p));
+-
+-	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING);
+-	cmd_p->resource_id = cpu_to_le32(resource_id);
+-
+-	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
+-}
+-
+ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ 				uint32_t scanout_id, uint32_t resource_id,
+ 				uint32_t width, uint32_t height,
+@@ -1155,36 +1139,6 @@ int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
+ 	return 0;
+ }
+ 
+-void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
+-			      struct virtio_gpu_object *obj)
+-{
+-	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+-
+-	if (WARN_ON_ONCE(!obj->pages))
+-		return;
+-
+-	if (use_dma_api && obj->mapped) {
+-		struct virtio_gpu_fence *fence = virtio_gpu_fence_alloc(vgdev);
+-		/* detach backing and wait for the host process it ... */
+-		virtio_gpu_cmd_resource_inval_backing(vgdev, obj->hw_res_handle, fence);
+-		dma_fence_wait(&fence->f, true);
+-		dma_fence_put(&fence->f);
+-
+-		/* ... then tear down iommu mappings */
+-		dma_unmap_sg(vgdev->vdev->dev.parent,
+-			     obj->pages->sgl, obj->mapped,
+-			     DMA_TO_DEVICE);
+-		obj->mapped = 0;
+-	} else {
+-		virtio_gpu_cmd_resource_inval_backing(vgdev, obj->hw_res_handle, NULL);
+-	}
+-
+-	sg_free_table(obj->pages);
+-	obj->pages = NULL;
+-
+-	drm_gem_shmem_unpin(&obj->base.base);
+-}
+-
+ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
+ 			    struct virtio_gpu_output *output)
+ {
 -- 
-2.25.0.341.g760bfbb309-goog
+2.18.1
 
