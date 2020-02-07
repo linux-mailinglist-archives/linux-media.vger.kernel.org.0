@@ -2,204 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3299155269
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 07:24:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBBCB15531A
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 08:40:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbgBGGYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Feb 2020 01:24:20 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:50288 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726451AbgBGGYU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 01:24:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=FZP0iQ7V7SgWd2g6clqUyIaa9pDDhceClvjQC6yZ8gc=; b=oUXSOgDctYqjzalLqUrfRY/oYl
-        3mNEyg7oK6ZeFlBNI96//BS/C/Ctcc5nSXpQ48i3TsFWVv+5j/mY1zaU671yoLGocq7yt7Xqrov/x
-        VEyXJU4iQtBmh1vacrt9kaitB3/6aZH//a6jhq5zeLEuZf7BzoyRo5ATwlW8puh6tSg9gNi2jppcX
-        8zG1W4Qq4Qjwc7xYQzVahjWAIc95ByxtYv+GgsM/z9iAG2r/jfUaMin6EN/2ns7MqG2P0AEfym/qk
-        YjrY/8ck2xuWrurwH40AplewuUuYbeUpx1aOxgBSKZncGs/ItS6xuC2zsabBoQJpZEojVBhvmEJPF
-        O/yIP+XQ==;
-Received: from [80.156.29.194] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1izx3k-0002BL-Vf; Fri, 07 Feb 2020 06:24:13 +0000
-Date:   Fri, 7 Feb 2020 07:24:09 +0100
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Cornelia Huck <cohuck@redhat.com>,
+        id S1726586AbgBGHkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Feb 2020 02:40:46 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:36561 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726136AbgBGHkq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 02:40:46 -0500
+Received: by mail-pl1-f196.google.com with SMTP id a6so658472plm.3
+        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2020 23:40:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9x3wiLa8nMck6bJR/xTvEfW1fgE8xeUy0DtSaO8sY4E=;
+        b=LSFFgD4Amj8tYbW+x3ruwRO2vwL5fhAS6Q9E02+ZyFILW3OJ1WR15+2ePqwzSiQKcA
+         ccOfxGP84Ze4Hn0ILpj22rELuw2S6G/S5sBTirowvoPJuUSm0mz85hsi0BBbbQbWTZD/
+         OB9cSDNh3vDk52tKXJdE8ZzR6XkO9zA2DQY8I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9x3wiLa8nMck6bJR/xTvEfW1fgE8xeUy0DtSaO8sY4E=;
+        b=iV62g+pY3Mhx9tHH+5CJDDD0bsbRipFGvNS5z7Y64aveBvhWUuPpbLmWjU4hTDfIV8
+         Iuf76SmcUKuVnMrR8hf3uqu6/WzRMjEcU6nGcHADlwjRUcLxmK1mfLvxchyA2JnfRA3Z
+         1W+O4/x9CESEYWr94jvEjzCEC4ZyjODT4XhzEg2o+F5mdL4q1VYDiHlHPjstcgWwgDVQ
+         ttUIxqvHOPB8GG/vUwluTOHWu/ptHTvNPAwVublkSS47L7gfD10My8lfjj/hBDgTCL5v
+         ejT1tpVa9Q+LFDh49JYVRKtHD3uzPQjFM2yAySqZZ5FEVDkb+pUDHeUPBb5qEvEse58c
+         MTIA==
+X-Gm-Message-State: APjAAAXhyIBcHK4klUYkoZzeoMSBfg6g8qdOCC/jOmJinKE5J8CYLgC0
+        D7mQInZjabUGhC6cusGdbj9P1A==
+X-Google-Smtp-Source: APXvYqxI87m2j612o5zsvUs0WmCZeZTRgBEcpnZL7Nxm+UI5+5ILaps1qKJlVLEUiCpW1J0pfypgeA==
+X-Received: by 2002:a17:90a:ac02:: with SMTP id o2mr2337469pjq.93.1581061245512;
+        Thu, 06 Feb 2020 23:40:45 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:1f16:51f4:8631:68b2])
+        by smtp.gmail.com with ESMTPSA id b21sm1862887pfp.0.2020.02.06.23.40.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2020 23:40:45 -0800 (PST)
+From:   David Stevens <stevensd@chromium.org>
+To:     virtio-comment@lists.oasis-open.org
+Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+        Dylan Reid <dgreid@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        qemu-devel <qemu-devel@nongnu.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
-Message-ID: <20200207072409.2cb038da@infradead.org>
-In-Reply-To: <20200206234736.196ef417@kernel.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
-        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
-        <20200206171132.4f51f17a.cohuck@redhat.com>
-        <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
-        <20200206234736.196ef417@kernel.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        David Stevens <stevensd@chromium.org>
+Subject: [RFC PATCH v3 0/2] Cross-device resource sharing
+Date:   Fri,  7 Feb 2020 16:40:31 +0900
+Message-Id: <20200207074033.172289-1-stevensd@chromium.org>
+X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> 
-> > 
-> > Would be nicer but this is acceptable too I think.  Especially, the
-> > monospaced font allows breaking the table and keeping the parts aligned.  
+Hi all,
 
-I couldn't resist trying to use a table ;-)
+This is the next iteration of patches for adding support for sharing
+resources between different virtio devices. In addition to these
+patches, the most recent virtio-video patchset includes a patch for
+importing objects into that device [1].
 
-The following patch does that. IMO, it looks nice on both text and html
-outputs.
+[1] https://markmail.org/message/wxdne5re7aaugbjg
 
-Cheers,
-Mauro
+Changes v2 -> v3:
+* Replace references to guest/host
+* Remove unnecessary paragraph and field in exported object section
+* Recommend RFC4122 version 4 UUIDs
+* Represent UUID as u8[16] instead of le64 pair
 
-diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
-index 428cb3412ecc..c02291beac3f 100644
---- a/Documentation/virt/kvm/locking.rst
-+++ b/Documentation/virt/kvm/locking.rst
-@@ -59,30 +59,39 @@ The mapping from gfn to pfn may be changed since we can only ensure the pfn
- is not changed during cmpxchg. This is a ABA problem, for example, below case
- will happen:
- 
--At the beginning::
--
--	gpte = gfn1
--	gfn1 is mapped to pfn1 on host
--	spte is the shadow page table entry corresponding with gpte and
--	spte = pfn1
--
--	   VCPU 0                           VCPU0
--
--on fast page fault path::
--
--   old_spte = *spte;
--                                 pfn1 is swapped out:
--                                    spte = 0;
--
--                                 pfn1 is re-alloced for gfn2.
--
--                                 gpte is changed to point to
--                                 gfn2 by the guest:
--                                    spte = pfn1;
--
--   if (cmpxchg(spte, old_spte, old_spte+W)
--	mark_page_dirty(vcpu->kvm, gfn1)
--             OOPS!!!
-++------------------------------------------------------------------------+
-+| At the beginning::                                                     |
-+|                                                                        |
-+|	gpte = gfn1                                                      |
-+|	gfn1 is mapped to pfn1 on host                                   |
-+|	spte is the shadow page table entry corresponding with gpte and  |
-+|	spte = pfn1                                                      |
-++------------------------------------------------------------------------+
-+| On fast page fault path:                                               |
-++------------------------------------+-----------------------------------+
-+| CPU 0:                             | CPU 1:                            |
-++------------------------------------+-----------------------------------+
-+| ::                                 |                                   |
-+|                                    |                                   |
-+|   old_spte = *spte;                |                                   |
-++------------------------------------+-----------------------------------+
-+|                                    | pfn1 is swapped out::             |
-+|                                    |                                   |
-+|                                    |    spte = 0;                      |
-+|                                    |                                   |
-+|                                    | pfn1 is re-alloced for gfn2.      |
-+|                                    |                                   |
-+|                                    | gpte is changed to point to       |
-+|                                    | gfn2 by the guest::               |
-+|                                    |                                   |
-+|                                    |    spte = pfn1;                   |
-++------------------------------------+-----------------------------------+
-+| ::                                                                     |
-+|                                                                        |
-+|   if (cmpxchg(spte, old_spte, old_spte+W)                              |
-+|	mark_page_dirty(vcpu->kvm, gfn1)                                 |
-+|            OOPS!!!                                                     |
-++------------------------------------------------------------------------+
- 
- We dirty-log for gfn1, that means gfn2 is lost in dirty-bitmap.
- 
-@@ -109,36 +118,42 @@ Accessed bit and Dirty bit can not be lost.
- But it is not true after fast page fault since the spte can be marked
- writable between reading spte and updating spte. Like below case:
- 
--At the beginning::
--
--	spte.W = 0
--	spte.Accessed = 1
--
--	   VCPU 0                                       VCPU0
--
--In mmu_spte_clear_track_bits()::
--
--   old_spte = *spte;
--
--   /* 'if' condition is satisfied. */
--   if (old_spte.Accessed == 1 &&
--        old_spte.W == 0)
--      spte = 0ull;
--                                         on fast page fault path:
--                                             spte.W = 1
--                                         memory write on the spte:
--                                             spte.Dirty = 1
--
--
--   else
--      old_spte = xchg(spte, 0ull)
--
--
--   if (old_spte.Accessed == 1)
--      kvm_set_pfn_accessed(spte.pfn);
--   if (old_spte.Dirty == 1)
--      kvm_set_pfn_dirty(spte.pfn);
--      OOPS!!!
-++------------------------------------------------------------------------+
-+| At the beginning::                                                     |
-+|                                                                        |
-+|	spte.W = 0                                                       |
-+|	spte.Accessed = 1                                                |
-++------------------------------------+-----------------------------------+
-+| CPU 0:                             | CPU 1:                            |
-++------------------------------------+-----------------------------------+
-+| In mmu_spte_clear_track_bits()::   |                                   |
-+|                                    |                                   |
-+|  old_spte = *spte;                 |                                   |
-+|                                    |                                   |
-+|                                    |                                   |
-+|  /* 'if' condition is satisfied. */|                                   |
-+|  if (old_spte.Accessed == 1 &&     |                                   |
-+|       old_spte.W == 0)             |                                   |
-+|     spte = 0ull;                   |                                   |
-++------------------------------------+-----------------------------------+
-+|                                    | on fast page fault path::         |
-+|                                    |                                   |
-+|                                    |    spte.W = 1                     |
-+|                                    |                                   |
-+|                                    | memory write on the spte::        |
-+|                                    |                                   |
-+|                                    |    spte.Dirty = 1                 |
-++------------------------------------+-----------------------------------+
-+|  ::                                |                                   |
-+|                                    |                                   |
-+|   else                             |                                   |
-+|     old_spte = xchg(spte, 0ull)    |                                   |
-+|   if (old_spte.Accessed == 1)      |                                   |
-+|     kvm_set_pfn_accessed(spte.pfn);|                                   |
-+|   if (old_spte.Dirty == 1)         |                                   |
-+|     kvm_set_pfn_dirty(spte.pfn);   |                                   |
-+|     OOPS!!!                        |                                   |
-++------------------------------------+-----------------------------------+
- 
- The Dirty bit is lost in this case.
- 
+David Stevens (2):
+  content: define what an exported object is
+  virtio-gpu: add the ability to export resources
+
+ content.tex      | 12 ++++++++++++
+ introduction.tex |  4 ++++
+ virtio-gpu.tex   | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+)
+
+-- 
+2.25.0.341.g760bfbb309-goog
+
