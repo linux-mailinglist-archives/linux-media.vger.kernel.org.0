@@ -2,157 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5263C1553EE
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 09:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B0D61553F4
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 09:49:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgBGIsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Feb 2020 03:48:13 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52097 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726130AbgBGIsN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 7 Feb 2020 03:48:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581065292;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cJ1SfKxvE9crgTE3OrX7M8hasjRet+oX1Q810pUeSAA=;
-        b=ORmO1oVDpaZ1u6mpMkoAueOYo5lqfbtfZChPYZbz1E2WmeC1Ob68y+LOcK1vki4F9vFYRn
-        DV4qIj+oFMRrGj3nmPp5lu8a3rKnUHZ4wfVsbWTTM8jVcX8+2kY4eSc+bN7fhAnN0cjXYy
-        bU+nMXWLG7IgVmaZSOwSovl3vBra/TI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-1z69S-cjNPOwon6_YYUBUw-1; Fri, 07 Feb 2020 03:48:09 -0500
-X-MC-Unique: 1z69S-cjNPOwon6_YYUBUw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24CDE800E21;
-        Fri,  7 Feb 2020 08:48:08 +0000 (UTC)
-Received: from gondolin (ovpn-117-112.ams2.redhat.com [10.36.117.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 565FB77931;
-        Fri,  7 Feb 2020 08:48:06 +0000 (UTC)
-Date:   Fri, 7 Feb 2020 09:48:03 +0100
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
-Message-ID: <20200207094803.152f0c9b.cohuck@redhat.com>
-In-Reply-To: <20200207072409.2cb038da@infradead.org>
-References: <cover.1581000481.git.mchehab+huawei@kernel.org>
-        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
-        <20200206171132.4f51f17a.cohuck@redhat.com>
-        <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
-        <20200206234736.196ef417@kernel.org>
-        <20200207072409.2cb038da@infradead.org>
-Organization: Red Hat GmbH
+        id S1727003AbgBGItS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Feb 2020 03:49:18 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:58568 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgBGItS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 03:49:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Us37pdecYoKH7QA4vbcTJ9ti0z7m+j/ooX2Qwp3N6o8=; b=e/Wo9YyAYeZcM6e5YoyvZjSD59
+        Vd5yc6iK9W8LFcfURu1W/X99XDBLej3tl6AKYdktWTJPqtyEaXAza/mxbeeoxdgn6vAt3kF7ceXJ4
+        em8ySnx+GrtMEJnkLqtPQ8Yv3S7nc+73yPUF//V456gVCa4VGBaOJdJDPV+cweHltetuWhmGWZ+pu
+        VHihVdXXHQIEji9VNPT0OdET0mRClAAuc2nDkdnBgWLYd19LVj9l/eEw4Awhjfk7YD68m15dBInkL
+        ck1019XZDjrFQ0oiTti0eB5F6CMiPXqOm2PyH8Hx8tfj39ktoPScVk5HhPmEAb4eZTq3NT5P9y7EP
+        J8O/dm8A==;
+Received: from [80.156.29.194] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1izzK4-0000nd-Jx; Fri, 07 Feb 2020 08:49:12 +0000
+Date:   Fri, 7 Feb 2020 09:49:09 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Josef =?UTF-8?B?TcO2bGxlcnM=?= <josef.moellers@suse.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: go7007: Fix URB type for interrupt handling
+Message-ID: <20200207094909.7d5b744d@kernel.org>
+In-Reply-To: <20200206154527.18171-1-tiwai@suse.de>
+References: <20200206154527.18171-1-tiwai@suse.de>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 7 Feb 2020 07:24:09 +0100
-Mauro Carvalho Chehab <mchehab@infradead.org> wrote:
+Em Thu,  6 Feb 2020 16:45:27 +0100
+Takashi Iwai <tiwai@suse.de> escreveu:
 
-> >   
-> > > 
-> > > Would be nicer but this is acceptable too I think.  Especially, the
-> > > monospaced font allows breaking the table and keeping the parts aligned.    
-> 
-> I couldn't resist trying to use a table ;-)
-> 
-> The following patch does that. IMO, it looks nice on both text and html
-> outputs.
+> Josef reported that his old-and-good Plextor ConvertX M402U video
+> converter spews lots of WARNINGs on the recent kernels, and it turned
+> out that the device uses a bulk endpoint for interrupt handling just
+> like 2250 board.
+>=20
+> For fixing it, generalize the check with the proper verification of
+> the endpoint instead of hard-coded board type check.
+>=20
+> Fixes: 7e5219d18e93 ("[media] go7007: Fix 2250 urb type")
+> Reported-and-tested-by: Josef M=C3=B6llers <josef.moellers@suse.com>
+> BugLink: https://bugzilla.suse.com/show_bug.cgi?id=3D1162583
+> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=3D206427
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+>=20
+> ---
+>  drivers/media/usb/go7007/go7007-usb.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go=
+7007/go7007-usb.c
+> index ff2aa057c1fb..f889c9d740cd 100644
+> --- a/drivers/media/usb/go7007/go7007-usb.c
+> +++ b/drivers/media/usb/go7007/go7007-usb.c
+> @@ -1044,6 +1044,7 @@ static int go7007_usb_probe(struct usb_interface *i=
+ntf,
+>  	struct go7007_usb *usb;
+>  	const struct go7007_usb_board *board;
+>  	struct usb_device *usbdev =3D interface_to_usbdev(intf);
+> +	struct usb_host_endpoint *ep;
+>  	unsigned num_i2c_devs;
+>  	char *name;
+>  	int video_pipe, i, v_urb_len;
+> @@ -1140,7 +1141,8 @@ static int go7007_usb_probe(struct usb_interface *i=
+ntf,
+>  	if (usb->intr_urb->transfer_buffer =3D=3D NULL)
+>  		goto allocfail;
+> =20
+> -	if (go->board_id =3D=3D GO7007_BOARDID_SENSORAY_2250)
+> +	ep =3D usb->usbdev->ep_in[4];
 
-Now that I see this, I think this version is actually more readable
-than the existing text.
+Hmm... why [4] above?
 
-> 
-> Cheers,
-> Mauro
-> 
-> diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
-> index 428cb3412ecc..c02291beac3f 100644
-> --- a/Documentation/virt/kvm/locking.rst
-> +++ b/Documentation/virt/kvm/locking.rst
-> @@ -59,30 +59,39 @@ The mapping from gfn to pfn may be changed since we can only ensure the pfn
->  is not changed during cmpxchg. This is a ABA problem, for example, below case
->  will happen:
->  
-> -At the beginning::
-> -
-> -	gpte = gfn1
-> -	gfn1 is mapped to pfn1 on host
-> -	spte is the shadow page table entry corresponding with gpte and
-> -	spte = pfn1
-> -
-> -	   VCPU 0                           VCPU0
-> -
-> -on fast page fault path::
-> -
-> -   old_spte = *spte;
-> -                                 pfn1 is swapped out:
-> -                                    spte = 0;
-> -
-> -                                 pfn1 is re-alloced for gfn2.
-> -
-> -                                 gpte is changed to point to
-> -                                 gfn2 by the guest:
-> -                                    spte = pfn1;
-> -
-> -   if (cmpxchg(spte, old_spte, old_spte+W)
-> -	mark_page_dirty(vcpu->kvm, gfn1)
-> -             OOPS!!!
-> ++------------------------------------------------------------------------+
-> +| At the beginning::                                                     |
-> +|                                                                        |
-> +|	gpte = gfn1                                                      |
-> +|	gfn1 is mapped to pfn1 on host                                   |
-> +|	spte is the shadow page table entry corresponding with gpte and  |
-> +|	spte = pfn1                                                      |
-> ++------------------------------------------------------------------------+
-> +| On fast page fault path:                                               |
-> ++------------------------------------+-----------------------------------+
-> +| CPU 0:                             | CPU 1:                            |
-> ++------------------------------------+-----------------------------------+
-> +| ::                                 |                                   |
+I mean, what other drivers do is something like:
 
-The '::' directives look a bit like leftover christmas decorations,
-but it's not really distracting, and on the plus side, we'll get nice
-html formatting.
+	for (i =3D 0; i < intf->num_altsetting; i++) {
+	   for (j =3D 0; j < intf->altsetting[i].desc.bNumEndpoints; j++) {
+		ep =3D &intf->altsetting[i].endpoint[j].desc;
+		/* some logic to check ep and change alt if needed */
+	   }
+        }
 
-> +|                                    |                                   |
-> +|   old_spte = *spte;                |                                   |
-> ++------------------------------------+-----------------------------------+
-> +|                                    | pfn1 is swapped out::             |
-> +|                                    |                                   |
-> +|                                    |    spte = 0;                      |
-> +|                                    |                                   |
-> +|                                    | pfn1 is re-alloced for gfn2.      |
-> +|                                    |                                   |
-> +|                                    | gpte is changed to point to       |
-> +|                                    | gfn2 by the guest::               |
-> +|                                    |                                   |
-> +|                                    |    spte = pfn1;                   |
-> ++------------------------------------+-----------------------------------+
-> +| ::                                                                     |
-> +|                                                                        |
-> +|   if (cmpxchg(spte, old_spte, old_spte+W)                              |
-> +|	mark_page_dirty(vcpu->kvm, gfn1)                                 |
-> +|            OOPS!!!                                                     |
-> ++------------------------------------------------------------------------+
->  
->  We dirty-log for gfn1, that means gfn2 is lost in dirty-bitmap.
->  
+> +	if (usb_endpoint_type(&ep->desc) =3D=3D USB_ENDPOINT_XFER_BULK)
+>  		usb_fill_bulk_urb(usb->intr_urb, usb->usbdev,
+>  			usb_rcvbulkpipe(usb->usbdev, 4),
+>  			usb->intr_urb->transfer_buffer, 2*sizeof(u16),
 
-So I'd like to cast my vote for this version :)
 
+
+
+Cheers,
+Mauro
