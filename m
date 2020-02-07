@@ -2,188 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 990FA155337
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 08:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5263C1553EE
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 09:48:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbgBGHqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Feb 2020 02:46:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32725 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726136AbgBGHqx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 02:46:53 -0500
+        id S1726982AbgBGIsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Feb 2020 03:48:13 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52097 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726130AbgBGIsN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 7 Feb 2020 03:48:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581061611;
+        s=mimecast20190719; t=1581065292;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:in-reply-to:in-reply-to:references:references;
-        bh=yTteDxCnygXV7ue1fdGcLu/2eGxPy4HYZGw41Ynn8wo=;
-        b=LpLo5godY0FDIwpRgoXgPs0TcK52M2DiHI4OaQeBBz29dscs95B5D6JNHqwHfNp0HefyNt
-        jYkveqAS75dHWuR79o2rZEWI6AYADEZKyeZo7YEjV55e9OorSmaX8T1SRDt8lwvrokuxEL
-        JRfYk5djSgfer6S0z+VoRddIfgLKlgA=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cJ1SfKxvE9crgTE3OrX7M8hasjRet+oX1Q810pUeSAA=;
+        b=ORmO1oVDpaZ1u6mpMkoAueOYo5lqfbtfZChPYZbz1E2WmeC1Ob68y+LOcK1vki4F9vFYRn
+        DV4qIj+oFMRrGj3nmPp5lu8a3rKnUHZ4wfVsbWTTM8jVcX8+2kY4eSc+bN7fhAnN0cjXYy
+        bU+nMXWLG7IgVmaZSOwSovl3vBra/TI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-OYW8C9-CPEWWkP9OE0-TQg-1; Fri, 07 Feb 2020 02:46:44 -0500
-X-MC-Unique: OYW8C9-CPEWWkP9OE0-TQg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+ us-mta-29-1z69S-cjNPOwon6_YYUBUw-1; Fri, 07 Feb 2020 03:48:09 -0500
+X-MC-Unique: 1z69S-cjNPOwon6_YYUBUw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47F4CDB61;
-        Fri,  7 Feb 2020 07:46:42 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com [10.36.116.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 69E0E1001B08;
-        Fri,  7 Feb 2020 07:46:39 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id BE5C931F47; Fri,  7 Feb 2020 08:46:38 +0100 (CET)
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     gurchetansingh@chromium.org, olvaffe@gmail.com,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        virtualization@lists.linux-foundation.org (open list:VIRTIO GPU DRIVER),
-        linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH v2 3/4] drm/virtio: move mapping teardown to virtio_gpu_cleanup_object()
-Date:   Fri,  7 Feb 2020 08:46:37 +0100
-Message-Id: <20200207074638.26386-4-kraxel@redhat.com>
-In-Reply-To: <20200207074638.26386-1-kraxel@redhat.com>
-References: <20200207074638.26386-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24CDE800E21;
+        Fri,  7 Feb 2020 08:48:08 +0000 (UTC)
+Received: from gondolin (ovpn-117-112.ams2.redhat.com [10.36.117.112])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 565FB77931;
+        Fri,  7 Feb 2020 08:48:06 +0000 (UTC)
+Date:   Fri, 7 Feb 2020 09:48:03 +0100
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@infradead.org>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 21/27] docs: kvm: Convert locking.txt to ReST format
+Message-ID: <20200207094803.152f0c9b.cohuck@redhat.com>
+In-Reply-To: <20200207072409.2cb038da@infradead.org>
+References: <cover.1581000481.git.mchehab+huawei@kernel.org>
+        <1464d69fe780940cec6ecec4ac2505b9701a1e01.1581000481.git.mchehab+huawei@kernel.org>
+        <20200206171132.4f51f17a.cohuck@redhat.com>
+        <a17d6a27-0d3f-2020-7fc2-87ec20a6225f@redhat.com>
+        <20200206234736.196ef417@kernel.org>
+        <20200207072409.2cb038da@infradead.org>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Stop sending DETACH_BACKING commands, that will happening anyway when
-releasing resources via UNREF.  Handle guest-side cleanup in
-virtio_gpu_cleanup_object(), called when the host finished processing
-the UNREF command.
+On Fri, 7 Feb 2020 07:24:09 +0100
+Mauro Carvalho Chehab <mchehab@infradead.org> wrote:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  2 --
- drivers/gpu/drm/virtio/virtgpu_object.c | 14 ++++++--
- drivers/gpu/drm/virtio/virtgpu_vq.c     | 46 -------------------------
- 3 files changed, 12 insertions(+), 50 deletions(-)
+> >   
+> > > 
+> > > Would be nicer but this is acceptable too I think.  Especially, the
+> > > monospaced font allows breaking the table and keeping the parts aligned.    
+> 
+> I couldn't resist trying to use a table ;-)
+> 
+> The following patch does that. IMO, it looks nice on both text and html
+> outputs.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 1bc13f6b161b..d37ddd7644f6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -281,8 +281,6 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
- int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
- 			     struct virtio_gpu_object *obj,
- 			     struct virtio_gpu_fence *fence);
--void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
--			      struct virtio_gpu_object *obj);
- int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
- int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
- void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 28a161af7503..bce2b3d843fe 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -23,6 +23,7 @@
-  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
-+#include <linux/dma-mapping.h>
- #include <linux/moduleparam.h>
- 
- #include "virtgpu_drv.h"
-@@ -65,6 +66,17 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- {
- 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
- 
-+	if (bo->pages) {
-+		if (bo->mapped) {
-+			dma_unmap_sg(vgdev->vdev->dev.parent,
-+				     bo->pages->sgl, bo->mapped,
-+				     DMA_TO_DEVICE);
-+			bo->mapped = 0;
-+		}
-+		sg_free_table(bo->pages);
-+		bo->pages = NULL;
-+		drm_gem_shmem_unpin(&bo->base.base);
-+	}
- 	virtio_gpu_resource_id_put(vgdev, bo->hw_res_handle);
- 	drm_gem_shmem_free_object(&bo->base.base);
- }
-@@ -74,8 +86,6 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
- 	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
- 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
- 
--	if (bo->pages)
--		virtio_gpu_object_detach(vgdev, bo);
- 	if (bo->created) {
- 		virtio_gpu_cmd_unref_resource(vgdev, bo);
- 		/* completion handler calls virtio_gpu_cleanup_object() */
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 4e22c3914f94..87c439156151 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -545,22 +545,6 @@ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
- 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
- }
- 
--static void virtio_gpu_cmd_resource_inval_backing(struct virtio_gpu_device *vgdev,
--						  uint32_t resource_id,
--						  struct virtio_gpu_fence *fence)
--{
--	struct virtio_gpu_resource_detach_backing *cmd_p;
--	struct virtio_gpu_vbuffer *vbuf;
--
--	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
--	memset(cmd_p, 0, sizeof(*cmd_p));
--
--	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING);
--	cmd_p->resource_id = cpu_to_le32(resource_id);
--
--	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
--}
--
- void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
- 				uint32_t scanout_id, uint32_t resource_id,
- 				uint32_t width, uint32_t height,
-@@ -1155,36 +1139,6 @@ int virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
- 	return 0;
- }
- 
--void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
--			      struct virtio_gpu_object *obj)
--{
--	bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
--
--	if (WARN_ON_ONCE(!obj->pages))
--		return;
--
--	if (use_dma_api && obj->mapped) {
--		struct virtio_gpu_fence *fence = virtio_gpu_fence_alloc(vgdev);
--		/* detach backing and wait for the host process it ... */
--		virtio_gpu_cmd_resource_inval_backing(vgdev, obj->hw_res_handle, fence);
--		dma_fence_wait(&fence->f, true);
--		dma_fence_put(&fence->f);
--
--		/* ... then tear down iommu mappings */
--		dma_unmap_sg(vgdev->vdev->dev.parent,
--			     obj->pages->sgl, obj->mapped,
--			     DMA_TO_DEVICE);
--		obj->mapped = 0;
--	} else {
--		virtio_gpu_cmd_resource_inval_backing(vgdev, obj->hw_res_handle, NULL);
--	}
--
--	sg_free_table(obj->pages);
--	obj->pages = NULL;
--
--	drm_gem_shmem_unpin(&obj->base.base);
--}
--
- void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
- 			    struct virtio_gpu_output *output)
- {
--- 
-2.18.1
+Now that I see this, I think this version is actually more readable
+than the existing text.
+
+> 
+> Cheers,
+> Mauro
+> 
+> diff --git a/Documentation/virt/kvm/locking.rst b/Documentation/virt/kvm/locking.rst
+> index 428cb3412ecc..c02291beac3f 100644
+> --- a/Documentation/virt/kvm/locking.rst
+> +++ b/Documentation/virt/kvm/locking.rst
+> @@ -59,30 +59,39 @@ The mapping from gfn to pfn may be changed since we can only ensure the pfn
+>  is not changed during cmpxchg. This is a ABA problem, for example, below case
+>  will happen:
+>  
+> -At the beginning::
+> -
+> -	gpte = gfn1
+> -	gfn1 is mapped to pfn1 on host
+> -	spte is the shadow page table entry corresponding with gpte and
+> -	spte = pfn1
+> -
+> -	   VCPU 0                           VCPU0
+> -
+> -on fast page fault path::
+> -
+> -   old_spte = *spte;
+> -                                 pfn1 is swapped out:
+> -                                    spte = 0;
+> -
+> -                                 pfn1 is re-alloced for gfn2.
+> -
+> -                                 gpte is changed to point to
+> -                                 gfn2 by the guest:
+> -                                    spte = pfn1;
+> -
+> -   if (cmpxchg(spte, old_spte, old_spte+W)
+> -	mark_page_dirty(vcpu->kvm, gfn1)
+> -             OOPS!!!
+> ++------------------------------------------------------------------------+
+> +| At the beginning::                                                     |
+> +|                                                                        |
+> +|	gpte = gfn1                                                      |
+> +|	gfn1 is mapped to pfn1 on host                                   |
+> +|	spte is the shadow page table entry corresponding with gpte and  |
+> +|	spte = pfn1                                                      |
+> ++------------------------------------------------------------------------+
+> +| On fast page fault path:                                               |
+> ++------------------------------------+-----------------------------------+
+> +| CPU 0:                             | CPU 1:                            |
+> ++------------------------------------+-----------------------------------+
+> +| ::                                 |                                   |
+
+The '::' directives look a bit like leftover christmas decorations,
+but it's not really distracting, and on the plus side, we'll get nice
+html formatting.
+
+> +|                                    |                                   |
+> +|   old_spte = *spte;                |                                   |
+> ++------------------------------------+-----------------------------------+
+> +|                                    | pfn1 is swapped out::             |
+> +|                                    |                                   |
+> +|                                    |    spte = 0;                      |
+> +|                                    |                                   |
+> +|                                    | pfn1 is re-alloced for gfn2.      |
+> +|                                    |                                   |
+> +|                                    | gpte is changed to point to       |
+> +|                                    | gfn2 by the guest::               |
+> +|                                    |                                   |
+> +|                                    |    spte = pfn1;                   |
+> ++------------------------------------+-----------------------------------+
+> +| ::                                                                     |
+> +|                                                                        |
+> +|   if (cmpxchg(spte, old_spte, old_spte+W)                              |
+> +|	mark_page_dirty(vcpu->kvm, gfn1)                                 |
+> +|            OOPS!!!                                                     |
+> ++------------------------------------------------------------------------+
+>  
+>  We dirty-log for gfn1, that means gfn2 is lost in dirty-bitmap.
+>  
+
+So I'd like to cast my vote for this version :)
 
