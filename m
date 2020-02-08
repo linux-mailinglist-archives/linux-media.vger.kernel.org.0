@@ -2,71 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 954A9155FE3
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2020 21:42:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50FC91562E1
+	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2020 05:58:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727584AbgBGUmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Feb 2020 15:42:16 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46460 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727577AbgBGUmO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Feb 2020 15:42:14 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a22so3254626oid.13
-        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2020 12:42:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
-        b=YPZJJy834hUJnz7pionGH11ZciL6RrbrPELuvEefyNE4m32c/3BRL7jS6BX3GTRbjW
-         A7PT2XuyoA0DKIOAMXBVLqZDks+EHHVySpQpjboWji0NFQ79t34wrEkdhJ/7mvVnPfcg
-         BPXVuIvRzTGxR9yBINGUBTO7OS1IgYRxQvNJFyy4DMElAWJNigH6Lfy9a++UWnjsZV7K
-         NbU0I3Vhb1neiaj+I96jGm3rPYvdHpbUTw6COrl+fTWEjyjGSvKY6qdov3nXpFudxXNb
-         5mDt4W3AkewRXnJYuxGyMUAK1lkfrMP5hrIUalSBsJd0qxRrK90fgDoK4eboWAVqoACA
-         vQPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
-        b=m37LdDnSlvS7dyb95nq7IyOZZVrw1ZRp4qYtSlhlsy+winytzsnvS44G3RsiW8JIln
-         Zaj4jOkZrwSC6IsjApB4kDpEemvkV6c70i2QNhJg4IqUoXozlDubCc1pSp3YX6OyAsYp
-         PJx73LSP0ei9mSm8W98rcOi70Xv3SuwGxwYEpasn34qiZ/sUT4A9lNieZzTb8NiUJ9GF
-         Dtf0/oFcenaNZ18NitZfViesF03d8mmE+NurthPPijwqARHwST6MYSMFA7I1POhARehm
-         g/75tkIooE3JX8DAVhSE7xipgkdllvV4vfyndKJuFRCIedguKMw7TBXcFOr5xovrVYeD
-         LNrw==
-X-Gm-Message-State: APjAAAXo1qnhw4UZ1DzytozgT9l2DYsex6WbaDv1Fc/OuEEMt5+gOI9w
-        jP1fA3tmQH2PRsez//hG4rhtp22jOxyAJ314ag0Kz0Y1pKvrrw==
-X-Google-Smtp-Source: APXvYqwSeJkRlkGgNiWsW1NpF1DiAIFzsJveh9+wRvoFwY/EgylY09EfD37WjburJ+wD5ZF6dcgpmVqlX+UTGTmHly0=
-X-Received: by 2002:aca:c7cb:: with SMTP id x194mr3327726oif.157.1581108131844;
- Fri, 07 Feb 2020 12:42:11 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a4a:d508:0:0:0:0:0 with HTTP; Fri, 7 Feb 2020 12:42:11 -0800 (PST)
-Reply-To: auch197722@gmail.com
-From:   "Mr. Theophilus Odadudu" <cristinamedina0010@gmail.com>
-Date:   Fri, 7 Feb 2020 15:42:11 -0500
-Message-ID: <CAPNvSTgeN84MC4a+RJ1wBioXqDfarTE4_m4nbA9Dm=S8bmF0WQ@mail.gmail.com>
-Subject: LETTER OF INQUIRY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S1727118AbgBHE6B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Feb 2020 23:58:01 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:50911 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726995AbgBHE6A (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 7 Feb 2020 23:58:00 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:11c:6648:b51c:1bc2])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 0IBojudIoVuxO0IBpjiumr; Sat, 08 Feb 2020 05:57:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1581137877; bh=hPrO9GkVBuODxl4Pk0lhsXCYsW9nK1isKBNJnhB1JCs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=pGHQZlmWQ82XKcuZMEou8CwybzfuLymsdTWoU64twkcoKGGuyp14oeuQIr+MtT2Bu
+         yQ3YwpWPXbXy8FtuiuW1fVAI4dCieLiaJsmhBItpEUiafHV9/853VRWk51o0CHxg6k
+         nxndpo1QqwzgCwKJsVOJGnxDd1gI03nKPLTCg/vrRm3JtWiGbBMYaaa7MtRDxQnHT5
+         B3lYPxaU7VeH+nxxFZ482oFBIruk7SBuGN0KHOiYGpqLclgSywBcCSPhDMVZWsOFXu
+         xBg8PrHpw7V1vwNe9w3BYFF9ciqk3arEco1vgpi8rZMhbKbCLXy6dcHLQxGpJorxRW
+         MoewR9S2yuUdw==
+Message-ID: <3c9387b7c1ef145105d7c6fdeb628f20@smtp-cloud7.xs4all.net>
+Date:   Sat, 08 Feb 2020 05:57:56 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfDrk80VeC35d61qbtRdPef0Te4xJYDVZ20wSfl+EqW5P7YwFiO6kvWkwD/Iri8e93pbzkiuOv95FABZAmQztnhYYrLpGVlOEQCdPe+cqJfFPCub5E4b1
+ YWTPD97Ca67GOU/dGANigd6WWIn/qVkw2zlB+0NdXZEQHyCvqVIdKXgSDub/W3bZxWuEuval8F9UaaszY64YbsJnmSIm11pAezXoTKZwKRUaBG6drflXQX5U
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good Day,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I work as a clerk in a Bank here in Nigeria, I have a very
-confidential Business Proposition for you. There is a said amount of
-money floating in the bank unclaimed, belonging to the bank Foreign
-customer who die with his family in the Ethiopian Airline crash of
-March 11, 2019.
+Results of the daily build of media_tree:
 
-I seek your good collaboration to move the fund for our benefit. we
-have agreed that 40% be yours once you help claim.
+date:			Sat Feb  8 05:00:13 CET 2020
+media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
+media_build git hash:	f64e126face0c642c414701adabb9fdc777b22fa
+v4l-utils git hash:	67962f1277b483060a16b80cbe79fac56d4e2cc6
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3d3588941cf3abd517734f6448eeaeaa0c61a27f
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Do get back to with 1) Your Full Name: (2) Residential Address: (3)
-Phone, Mobile  (4) Scan Copy of Your ID. to apply for claims of the
-funds.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS
+sparse: OK
+smatch: ERRORS
 
-Regards
-Theophilus Odadudu
+Logs weren't copied as they are too large (6892 kB)
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
