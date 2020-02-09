@@ -2,55 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E74156BDB
-	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2020 18:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 648CA156BDC
+	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2020 18:49:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727409AbgBIRtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Feb 2020 12:49:41 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:44577 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727397AbgBIRtl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Feb 2020 12:49:41 -0500
-Received: by mail-qt1-f194.google.com with SMTP id w8so3409121qts.11
-        for <linux-media@vger.kernel.org>; Sun, 09 Feb 2020 09:49:41 -0800 (PST)
+        id S1727416AbgBIRtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Feb 2020 12:49:42 -0500
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:39757 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727397AbgBIRtm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Feb 2020 12:49:42 -0500
+Received: by mail-qv1-f67.google.com with SMTP id y8so2123355qvk.6
+        for <linux-media@vger.kernel.org>; Sun, 09 Feb 2020 09:49:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FeBkmy6QVNf+NuUYRyPEo6h//2FrzM8wWrM0I5E3M8c=;
-        b=manqrbCOY31qcdqsUsXWcp1Igxkp/Wc9jH33auwqhQyQP0zcaQLHsNrqXmGxXBS3V0
-         KM3VJtM2X0s/vaH9vwBuwDBfqr7YRbL1CFPoeznsB96tZfVeHjD0Tt/bFeAumnVA6Kvc
-         6MTD223t4Y87owLEy3avbdJ1RPBAlbtXiI3gJV+kDiOm9Ax0U9lLEH4rxPTLHkrx4sJS
-         YSATQvUS0etkCn43yidqev0oqwfQwpDlhl+849t00umawPNOwa7y0BwgLdTP7vEVzNK0
-         YrMqksx700PwtTShE5MUIqQTLHExxHI+UU1yRcaAkaY2ETroCc8i2baa06TmjMfM8XnS
-         4Hbw==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5OkGq3dWz9ecKmGTpZN3ABv7jy8EyUjTuWeJpq+aodA=;
+        b=lihqwTjqef9DAr68UT5VwdeUaL8ZFunmbHxIkaivdzKiQMVVAQCAepvglHlvSeFmcW
+         epp9cQpFKZ3v4qoDPHLlEn78peAC4naWmgdR+2/gk93JMyR+DhEQKaPRrkIeTXwX5vJH
+         vrDpY5dtM8cWGDe3/0dMl+u8EpRk0SAmdvVHhlQATzMe/NWiJ7igS3orf8kAXV2ERdRq
+         DaGJdjvQ3+X1SJyVGZQlcqk5DEpebc7H4OmuyrzaENOgx0I9sd0pmOHXa0UOHFMzuxIg
+         gPI4Te/HQYgumx1btl+HfTpa2S2Y3uPsE2QrPTs8ND+1HpZ3swWSTJkS6aOjJNDnCkts
+         iW5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=FeBkmy6QVNf+NuUYRyPEo6h//2FrzM8wWrM0I5E3M8c=;
-        b=aossaBAq3rMqd0OLjtcLHzRnw7leD9AA1WMH+uwleJDPODD9qv2ftMGULyP41YTWRR
-         y7tsL5x2IzJHscArkaJCxhqz/nCUGtA2uDCI/qeC4wISDR+1bq/1peykZcmJS0CQuwvA
-         e7rt23CkqySs3ECdpJ7lu2fjWvZFfKwOMvbKAULdzIP0xqHISX2JOB2C/bYYo30y4RRF
-         BpN3WOaNna6bJ7SZ3NQA/DzKRTnqHYw1dF7/VuIbATNqI4gs5brslXvY0sQr0PwktQbg
-         EJJgEYFWCZi+u/xHeMqhLh9AS8SrIBwCZ9eH3NB4wyPc36Og57nn54AXOxhKLUwcvt+S
-         W19Q==
-X-Gm-Message-State: APjAAAXvMcKlcaOiWbVLs1pzWwvaEsPpWzdHuQze4/ftzacWqmR7Il1G
-        ssiCZMVwP0DX9NXqc1DTa7emwgD2kFU=
-X-Google-Smtp-Source: APXvYqxKofm84Cleq+kD4RFg9QwqsQqIyUnYz9CdBUybnRZzJ3403MDxdGJX0FWOkhn01HZjFBujpA==
-X-Received: by 2002:ac8:43c2:: with SMTP id w2mr5186820qtn.376.1581270580553;
-        Sun, 09 Feb 2020 09:49:40 -0800 (PST)
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=5OkGq3dWz9ecKmGTpZN3ABv7jy8EyUjTuWeJpq+aodA=;
+        b=oKeq4RUqtiLyBXabIsgglpL+6idl/voRxJjqaXuZSk3pYN5NYBh+lt9LvxjyctXwZG
+         iX67tOzhEy5v/kOX4OIgn4c6QsPG583eqUIV902J94jFW0hthEWK2TYo5LikQZfU7rEC
+         5wBqZDVlDw1xertrMjKufcWwiHsNbDu7H3Lh9eoGSVGAkXJZTmN3jdcWyaBVO6tdpxgq
+         M/poreCm1YHuE8jOU6Cg8unnmD4uPIvygBLR9RB+Fcp9UL/GHjuDDphNcF39Kuk+taFl
+         U5Znm+BnDzgzVnLgJt8c+UIy+tIRb6cE1kahYJqdcYVBrswP3bZ84+oLIJ/lh47IGpDw
+         OlCw==
+X-Gm-Message-State: APjAAAU5meSzam+XshdKtE7CTcCKzq+09X/PT0NuZpZSn5F24uYn+CLo
+        dFIQeIU9OrmUDX4bKinc2rFaLTIo0kk=
+X-Google-Smtp-Source: APXvYqxIxc8x23bM/yPwN/iboj8ea4U10QG3R4VSXNVVrZSFNdia43MOJb0MFnm041SvSUvKU5J6Ig==
+X-Received: by 2002:ad4:5a48:: with SMTP id ej8mr7015527qvb.187.1581270581389;
+        Sun, 09 Feb 2020 09:49:41 -0800 (PST)
 Received: from athos.hellosponsor.com (pool-173-68-201-69.nycmny.fios.verizon.net. [173.68.201.69])
-        by smtp.gmail.com with ESMTPSA id 206sm4621095qkf.132.2020.02.09.09.49.39
+        by smtp.gmail.com with ESMTPSA id 206sm4621095qkf.132.2020.02.09.09.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2020 09:49:39 -0800 (PST)
+        Sun, 09 Feb 2020 09:49:40 -0800 (PST)
 From:   Ilia Mirkin <imirkin@alum.mit.edu>
 To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
 Cc:     Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: [PATCH 0/2] edid-decode: add emscripten support
-Date:   Sun,  9 Feb 2020 12:49:35 -0500
-Message-Id: <20200209174937.22844-1-imirkin@alum.mit.edu>
+Subject: [PATCH 1/2] edid-decode: add function to enable usage as a library
+Date:   Sun,  9 Feb 2020 12:49:36 -0500
+Message-Id: <20200209174937.22844-2-imirkin@alum.mit.edu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200209174937.22844-1-imirkin@alum.mit.edu>
+References: <20200209174937.22844-1-imirkin@alum.mit.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -58,28 +60,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Demo available here:
+This is helpful for an emscripten setup, as there's no great way to
+reinitialize the object from scratch.
 
-https://people.freedesktop.org/~imirkin/edid-decode/
-
-This is enough to generate the edid-decode.{js,wasm} files, and the html
-was hand-modified from the demo one to remove a bunch of unnecessary
-bits and provide the required integration. Happy to move it into the
-project too if desired.
-
-I'm a complete emscripten newbie, so I'm not 100% sure I've set this up
-correctly, as alluded in patch 2's comments. But it does seem to work.
-Given that the patches aren't crazy, I think it's reasonable to carry
-them inside of the project.
-
-Ilia Mirkin (2):
-  edid-decode: add function to enable usage as a library
-  edid-decode: add build rule for emscripten output
-
- Makefile        |  5 +++++
+Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
+---
  edid-decode.cpp | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ 1 file changed, 18 insertions(+)
 
+diff --git a/edid-decode.cpp b/edid-decode.cpp
+index ef50da2..fd17bc6 100644
+--- a/edid-decode.cpp
++++ b/edid-decode.cpp
+@@ -1005,3 +1005,21 @@ int main(int argc, char **argv)
+ 		return edid_from_file(argv[optind], argv[optind + 1], out_fmt);
+ 	return ret ? ret : state.parse_edid();
+ }
++
++#ifdef __EMSCRIPTEN__
++/*
++ * The surrounding JavaScript implementation will call this function
++ * each time it wants to decode an EDID. So this should reset all the
++ * state and start over.
++ */
++extern "C" int parse_edid(const char *input) {
++	for (unsigned i = 0; i < EDID_MAX_BLOCKS + 1; i++) {
++		s_msgs[i][0].clear();
++		s_msgs[i][1].clear();
++	}
++	options[OptCheck] = 1;
++	state = edid_state();
++	int ret = edid_from_file(input, NULL, OUT_FMT_DEFAULT);
++	return ret ? ret : state.parse_edid();
++}
++#endif
 -- 
 2.24.1
 
