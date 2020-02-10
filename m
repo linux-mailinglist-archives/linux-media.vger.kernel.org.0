@@ -2,146 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABB55156F26
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 07:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35DAE156F60
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 07:11:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727691AbgBJGDY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Feb 2020 01:03:24 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36470 "EHLO
+        id S1727496AbgBJGKz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Feb 2020 01:10:55 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:37068 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727588AbgBJGDN (ORCPT
+        with ESMTP id S1726188AbgBJGKz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Feb 2020 01:03:13 -0500
+        Mon, 10 Feb 2020 01:10:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=eNrFz6CRMRgHnFevqnlIWroPTSTbSy2UTpFunBlwins=; b=bpGtW2VUBD7wTMpbCAg9wfg/9T
-        yLcnBTXkANMXsexTKSTXOyzofS6JhqCM88G2oSdWdWmCsiC53Lt9Y01vTeNYMQLEJ0SKCaw2AzfXs
-        M0FfG0LuLGYQWSRAMkKEuqDvdN07NUzVITZyG65CGD7tw6dGy8h5S95cGeemSuV2XsnzMU4yv7eUf
-        sBUL9TqUNYNnS0/gEiC2VzhIpTtFhP8n5ET7O6c7dzHTmQOB5fxYv/hGka7FuRFyhnRYCW9crtDdx
-        ydAuixpAPiW9Ky2/PDhM9ht5o2RBKCdO1TCCUme9pKswyitgx5Wi7p9XC8TJEuwDm8qt88Txty+n2
-        dxAGdaCg==;
-Received: from [80.156.29.194] (helo=bombadil.infradead.org)
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=goUY2avRCYVAek7mCPEP6D9VvLCgLAVwzsr5XSoA9jI=; b=fCcxVNrKPFdXDSKhgC67R9+Gay
+        OPRuRD3lNe+D7m3D1M+6TCJG3HdpOC960ObyRUJghTHBcs5tnFLz3O3/jHYR58G9IoCl4NUTrYzkL
+        f9Bzz+TWoY6hibjVzfc0OrEeUBOQDYobAQ80+PaPp4ySQ4ZJi/pHVF41MjEumEU3UJhTSvbqkxG5H
+        Qsg89Z+AqdUEBI5FLIfdYeG3X4IXYyjk1HBc78/GYWhQuV/tS0R+PGWaXofxlkWEBkCmOpC81/JPR
+        CEGJjzOxoijWHqxapJT/aEva0/UljFlkYIhiPL/QsDJ0p0W3I2vCUdwYQLF0EJ5LA6v/qFPPpnSF1
+        kdMGLLbw==;
+Received: from [80.156.29.194] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A5-0006V4-GB; Mon, 10 Feb 2020 06:03:13 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A3-00C2Wp-Qc; Mon, 10 Feb 2020 07:03:11 +0100
+        id 1j12HT-0000wc-Dz; Mon, 10 Feb 2020 06:10:52 +0000
+Date:   Mon, 10 Feb 2020 07:10:47 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+To:     Ben Boeckel <mathstuf@gmail.com>
+Cc:     list.lkml.keyrings@me.benboeckel.net,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 28/28] docs: virt: guest-halt-polling.txt convert to ReST
-Date:   Mon, 10 Feb 2020 07:03:06 +0100
-Message-Id: <f72a1d3e72274953932ef9827e5ad4def3d027b1.1581314317.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
-References: <cover.1581314316.git.mchehab+huawei@kernel.org>
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org
+Subject: Re: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
+Message-ID: <20200210071047.0db3f3a6@kernel.org>
+In-Reply-To: <20200206200911.GA2830394@erythro.kitware.com>
+References: <cover.1581001737.git.mchehab+huawei@kernel.org>
+        <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
+        <20200206200911.GA2830394@erythro.kitware.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Due to some merge conflict, this file ended being alone under
-Documentation/virtual.
+Em Thu, 6 Feb 2020 15:09:11 -0500
+Ben Boeckel <mathstuf@gmail.com> escreveu:
 
-The file itself is almost at ReST format. Just minor
-adjustments are needed:
+> On Thu, Feb 06, 2020 at 16:11:21 +0100, Mauro Carvalho Chehab wrote:
+> > - (1) If the criterion string is of the form "id:<hexdigits>" then the =
+match
+> > +  1) If the criterion string is of the form "id:<hexdigits>" then the =
+match =20
+>=20
+> This update was followed in all the enumeration changes except=E2=80=A6
+>=20
+> > - (2) If the criterion string is of the form "<subtype>:<hexdigits>" th=
+en the
+> > + 2) If the criterion string is of the form "<subtype>:<hexdigits>" the=
+n the =20
+>=20
+> The whitespace here doesn't match up. Which is preferred?
 
-- Adjust title markup;
-- Adjust a list identation;
-- add a literal block markup;
-- Add some blank lines.
+That was a mistake.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../guest-halt-polling.rst}                          | 12 +++++++++---
- Documentation/virt/index.rst                         |  1 +
- 2 files changed, 10 insertions(+), 3 deletions(-)
- rename Documentation/{virtual/guest-halt-polling.txt => virt/guest-halt-polling.rst} (91%)
+>=20
+> > - (1) Signature verification.
+> > +1) Signature verification. =20
+>=20
+> Here, the indentation was lost too. Is this intentional?
 
-diff --git a/Documentation/virtual/guest-halt-polling.txt b/Documentation/virt/guest-halt-polling.rst
-similarity index 91%
-rename from Documentation/virtual/guest-halt-polling.txt
-rename to Documentation/virt/guest-halt-polling.rst
-index b3a2a294532d..b4e747942417 100644
---- a/Documentation/virtual/guest-halt-polling.txt
-+++ b/Documentation/virt/guest-halt-polling.rst
-@@ -1,9 +1,11 @@
-+==================
- Guest halt polling
- ==================
- 
- The cpuidle_haltpoll driver, with the haltpoll governor, allows
- the guest vcpus to poll for a specified amount of time before
- halting.
-+
- This provides the following benefits to host side polling:
- 
- 	1) The POLL flag is set while polling is performed, which allows
-@@ -29,18 +31,21 @@ Module Parameters
- The haltpoll governor has 5 tunable module parameters:
- 
- 1) guest_halt_poll_ns:
-+
- Maximum amount of time, in nanoseconds, that polling is
- performed before halting.
- 
- Default: 200000
- 
- 2) guest_halt_poll_shrink:
-+
- Division factor used to shrink per-cpu guest_halt_poll_ns when
- wakeup event occurs after the global guest_halt_poll_ns.
- 
- Default: 2
- 
- 3) guest_halt_poll_grow:
-+
- Multiplication factor used to grow per-cpu guest_halt_poll_ns
- when event occurs after per-cpu guest_halt_poll_ns
- but before global guest_halt_poll_ns.
-@@ -48,6 +53,7 @@ but before global guest_halt_poll_ns.
- Default: 2
- 
- 4) guest_halt_poll_grow_start:
-+
- The per-cpu guest_halt_poll_ns eventually reaches zero
- in case of an idle system. This value sets the initial
- per-cpu guest_halt_poll_ns when growing. This can
-@@ -66,7 +72,7 @@ high once achieves global guest_halt_poll_ns value).
- 
- Default: Y
- 
--The module parameters can be set from the debugfs files in:
-+The module parameters can be set from the debugfs files in::
- 
- 	/sys/module/haltpoll/parameters/
- 
-@@ -74,5 +80,5 @@ Further Notes
- =============
- 
- - Care should be taken when setting the guest_halt_poll_ns parameter as a
--large value has the potential to drive the cpu usage to 100% on a machine which
--would be almost entirely idle otherwise.
-+  large value has the potential to drive the cpu usage to 100% on a machine
-+  which would be almost entirely idle otherwise.
-diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
-index 0a8f7fda64ad..de1ab81df958 100644
---- a/Documentation/virt/index.rst
-+++ b/Documentation/virt/index.rst
-@@ -10,6 +10,7 @@ Linux Virtualization Support
-    kvm/index
-    uml/user_mode_linux
-    paravirt_ops
-+   guest-halt-polling
- 
- .. only:: html and subproject
- 
--- 
-2.24.1
+Both ways would work. I'll keep the original indentation for the next
+version. Thanks for pointing it.
 
+Cheers,
+Mauro
