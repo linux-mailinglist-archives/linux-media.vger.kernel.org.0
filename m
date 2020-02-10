@@ -2,107 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 984F7157361
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 12:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6F515747D
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 13:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727369AbgBJLXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Feb 2020 06:23:46 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58689 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726796AbgBJLXp (ORCPT
+        id S1727490AbgBJM1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Feb 2020 07:27:08 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43709 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727435AbgBJM1H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Feb 2020 06:23:45 -0500
-Received: from [IPv6:2001:983:e9a7:1:59b:9f2a:47ac:4926]
- ([IPv6:2001:983:e9a7:1:59b:9f2a:47ac:4926])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 17AEj9ksjn7E517AFjl1qs; Mon, 10 Feb 2020 12:23:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581333823; bh=JYwpin1MXjDDDa83dsQF04utXRrnUiqC0jirKc80Q6g=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=EyfxWd6cLQHXx7n7ssRiXtR+08vh9lbmSh+tlrbjtGwLumrGw5ygvc6UhPbdrKTd3
-         4/E7aCyizDgDsfeGLYYS6Fb1niaXJqeUe7SWhJl4NpTJMaraIYia0ZoNDCKp+d7n25
-         QTH4efxCnz5UCPHa1pbaJUsqGeJevzwz0QiE/S6UnY0JYUWU1WIbOMeBFnOLjoAdHW
-         ITIA+35TiEwRiYwwTUrlwqVsLUJ4Nevie1A8YopQqtL+OmsPImnIaBu1JGo17HyqqF
-         XjqYgGCvv3ZqzMVxiMZEFm52pS3VF3st7YpEDBiSJGabsV6dwS07sCxij5adJSedIl
-         WeCvGYHdivqfw==
-Subject: Re: [PATCH 1/2] edid-decode: add function to enable usage as a
- library
-To:     Ilia Mirkin <imirkin@alum.mit.edu>, linux-media@vger.kernel.org
-References: <20200209174937.22844-1-imirkin@alum.mit.edu>
- <20200209174937.22844-2-imirkin@alum.mit.edu>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <3e56402b-9841-99a3-730c-b1fd2bc2cc5d@xs4all.nl>
-Date:   Mon, 10 Feb 2020 12:23:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Mon, 10 Feb 2020 07:27:07 -0500
+Received: by mail-oi1-f196.google.com with SMTP id p125so8973872oif.10
+        for <linux-media@vger.kernel.org>; Mon, 10 Feb 2020 04:27:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=oa0bZQpkEyjcs7ABeeOu5qKY4d6etbTg8GwEpE2lwx4=;
+        b=MH0BFKkIBUvlGyZJjtbEnbfuFta13a9TrQ6QGSlXqekYrZIJQD6cRHmNKHwHO6oAZ7
+         zl+9aANHbnP5v/vLtMWHE0XD870t5+SJkhVk6kzzMz7Fia81hXAHpac5TB72w4NRrVtJ
+         r3rzYJF8f612n2oGM61VtceTXR23Il+m+eOkVz1T+ol6NPhghjZqnUs0Q7r5dSxk3UfG
+         7WKbAmK77Poc9+8csDrKl9hjAQbIpIJZC6gj7eq5NOEpt9InzWqhe65tBpuQeM7CJxfk
+         tl6GTHLPu+UjUbuRklE11Dl5UGa8SHz5fGk+prhSOuRyQOQvr54C4Rfgob9b28zM2fok
+         b3Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=oa0bZQpkEyjcs7ABeeOu5qKY4d6etbTg8GwEpE2lwx4=;
+        b=KxICxoDZ8SovQ4SkgNqId8ZiKSVgNU0ko4kvx6BdfL6d5qAwLMW89GRfVMXkZcVIOt
+         Z3qqkrF8Scvad0r+x5jWNnyDUC+15jzMdtNav65hEJrcrZBS/b2sv153TB2wf42XYz2w
+         u9+dTORer2XS4cVZTeqwmnQF5wjUUoTuHYpXGIj/4bCqHQQE2AtgtCGB0UZr790W6nqq
+         99X9UAQw4lefyGgmpDTdTlCitq0wCl6NPgAJd2jhmN5+7lGa9DNfssbR+vTxD2z1wMG6
+         yC+yAUeERKG2qUvs1+dE8d/N7MjVRYs+pQ3o8zYxZot47sEstFud9B59dE3SN4n2QODO
+         jixQ==
+X-Gm-Message-State: APjAAAU06217F0mdAsHhpeYZK7g6Tnufu/ZynABFsxuFW0TwYMduocYo
+        s9VDYSrcZbjZLIpkN2GRh3+lNGJQGlnzzgp+lQ==
+X-Google-Smtp-Source: APXvYqzSifkbNkpIAX3gQEx9jLNvNFkj5gxaF9IXOHNyR39WK13PQgMJl2/eE/T/lCHDk69RBfxUFU0KyzpZXZz6ilE=
+X-Received: by 2002:aca:3f54:: with SMTP id m81mr627374oia.73.1581337626555;
+ Mon, 10 Feb 2020 04:27:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200209174937.22844-2-imirkin@alum.mit.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNoFjWowKspPq0WDjig/d7Y80TJTVaLUS/09etQsaVVJ4g1jrRZptLGIjcw8et2Ea23x1b86Nmsw+PAONLwcM7HmhKy/eCTmNEz90c2SKYewT5xtYqeB
- kUOqOGbuHH6NtR9FGJEaleUJOLxKQDg5waEhpSw3Wjyvb9UIEiTG8kw0GyTJDPUJX13TTR2vTJ1zlUNegVdg1BtE4ypAp4f+6+TOtX2iabVxdAgWBJVfcGpU
- 23pNsQ5n7OKITV2ihCLpyAqgjp+QqAnjw47qJ/IRRKGZsS+xivG+Ew3a12jkJPqJfJ3FvfTERUgZG9vKKso6Kw==
+Received: by 2002:a05:6830:1406:0:0:0:0 with HTTP; Mon, 10 Feb 2020 04:27:06
+ -0800 (PST)
+Reply-To: janvierlitse2019@gmail.com
+From:   Mr Janvier Litse <mrennofreye@gmail.com>
+Date:   Mon, 10 Feb 2020 04:27:06 -0800
+Message-ID: <CAHvf7r1yZLxngX-Fj=9unkpFGUbt6TPYvFB4BbY_PP6KsGdHCA@mail.gmail.com>
+Subject: URGENT RESPOND FOR MORE DETAILS!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ilia,
+From: Mr Janvier Litse.
+African Development Bank
+Burkina Faso (ADB)
+Ouagadougou - Burkina Faso.
 
-I pushed my patch to initialize edid_state in the constructor to the
-edid-decode git repo.
+Dear friend, Good Day
 
-I've also split off the 'write to a file' part from edid_from_file into
-a separate edid_to_file function, so you'll have to rebase your patch.
+I am writing to seek your cooperation over this business, Please due
+welcome this letter.
 
-Two comments below:
+I am Mr Janvier Litse.the director of the accounts & auditing dept .at
+the African Development Bank Ouagadougou-west Africa (A D B) With due
+respect, I have decided to contact you on a business transaction that
+will be beneficial to both of us.At the bank's lastaccounts/auditing
+evaluations, my staffs came across an old account which was being
+maintained by a foreign client who we learnt was among the deceased
+passengers of motor accident on November.. 2003, the deceased was
+unable to run this account since his death. The account has remained
+dormant without the knowledge of his family since it was put in a safe
+deposit account in the bank for future investment by the client.
 
-On 2/9/20 6:49 PM, Ilia Mirkin wrote:
-> This is helpful for an emscripten setup, as there's no great way to
-> reinitialize the object from scratch.
-> 
-> Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
-> ---
->  edid-decode.cpp | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/edid-decode.cpp b/edid-decode.cpp
-> index ef50da2..fd17bc6 100644
-> --- a/edid-decode.cpp
-> +++ b/edid-decode.cpp
-> @@ -1005,3 +1005,21 @@ int main(int argc, char **argv)
->  		return edid_from_file(argv[optind], argv[optind + 1], out_fmt);
->  	return ret ? ret : state.parse_edid();
->  }
-> +
-> +#ifdef __EMSCRIPTEN__
-> +/*
-> + * The surrounding JavaScript implementation will call this function
-> + * each time it wants to decode an EDID. So this should reset all the
-> + * state and start over.
-> + */
-> +extern "C" int parse_edid(const char *input) {
+Since his demise, even the members of his family haven't applied for
+claims over this fund and it has been in the safe deposit accountuntil
+I discovered that it cannot be claimed since our client is a foreign
+national and we are sure that he has no next of kin here to file
+claims over the money. As the director of the department, this
+discovery was brought to my office so as to decide what is to be done.
+I decided to seek ways through which to transfer this money out of the
+bank and out of the country too.
 
-'{' should start on the next line. Let's keep the coding style consistent.
+The total amount in the account is twenty eight  million three hundred
+thousand dollars (USD 28,300,000.00).with my positions as a staffs of
+the bank, I am handicapped because I can not operate foreign accounts
+and cannot lay bonafide claim over this money.The client was a foreign
+national and you will only be asked to act as his next of kin and I
+will supply you with all the necessary information and bank data to
+assist you in being able to transfer this money to any bank of your
+choice where this money could be transferred into.
 
-> +	for (unsigned i = 0; i < EDID_MAX_BLOCKS + 1; i++) {
-> +		s_msgs[i][0].clear();
-> +		s_msgs[i][1].clear();
-> +	}
+The total sum will be shared as follows: 50% for me, 50% for you and
+expenses incidental occur during the transfer will be  incured by both
+of us. The transfer is risk free on both sides hence you are going to
+follow my instruction till the fund transfer to your account.
 
-I'm pretty sure that this for loop is not necessary. Can you drop this
-for loop and see if it works?
+Since I work in this bank that is why you should be confident in the
+success of this transaction because you will be updated with
+information as at when desired I will wish you to keep this
+transaction secret and confidential as I am hoping to retire with my
+share of this money at the end of transaction which will be when this
+money is safety in your account. I will then come over to your country
+for sharing according to the previously agreed percentages. You might
+even have to advise me on possibilities of investment in your country
+or elsewhere of our choice. May God help you to help me to a restive
+retirement, Amen.
 
-> +	options[OptCheck] = 1;
-> +	state = edid_state();
-> +	int ret = edid_from_file(input, NULL, OUT_FMT_DEFAULT);
-> +	return ret ? ret : state.parse_edid();
-> +}
-> +#endif
-> 
 
-Regards,
+Please for further information and enquires feel free to contact me
+back immediately for more explanation and better  understanding.please
+contact me through this alternative email address
+(janvierlitse2019@gmail.com)
 
-	Hans
+I am waiting for your urgent response!!!
+Thanks and remain blessed
+ Mr Janvier Litse.
++226 54459253
