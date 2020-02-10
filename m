@@ -2,84 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35DAE156F60
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 07:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D42515726D
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 11:04:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727496AbgBJGKz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Feb 2020 01:10:55 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:37068 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726188AbgBJGKz (ORCPT
+        id S1727572AbgBJKEW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Feb 2020 05:04:22 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:50019 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727061AbgBJKEV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Feb 2020 01:10:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=goUY2avRCYVAek7mCPEP6D9VvLCgLAVwzsr5XSoA9jI=; b=fCcxVNrKPFdXDSKhgC67R9+Gay
-        OPRuRD3lNe+D7m3D1M+6TCJG3HdpOC960ObyRUJghTHBcs5tnFLz3O3/jHYR58G9IoCl4NUTrYzkL
-        f9Bzz+TWoY6hibjVzfc0OrEeUBOQDYobAQ80+PaPp4ySQ4ZJi/pHVF41MjEumEU3UJhTSvbqkxG5H
-        Qsg89Z+AqdUEBI5FLIfdYeG3X4IXYyjk1HBc78/GYWhQuV/tS0R+PGWaXofxlkWEBkCmOpC81/JPR
-        CEGJjzOxoijWHqxapJT/aEva0/UljFlkYIhiPL/QsDJ0p0W3I2vCUdwYQLF0EJ5LA6v/qFPPpnSF1
-        kdMGLLbw==;
-Received: from [80.156.29.194] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12HT-0000wc-Dz; Mon, 10 Feb 2020 06:10:52 +0000
-Date:   Mon, 10 Feb 2020 07:10:47 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ben Boeckel <mathstuf@gmail.com>
-Cc:     list.lkml.keyrings@me.benboeckel.net,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        keyrings@vger.kernel.org
-Subject: Re: [PATCH 02/11] docs: crypto: convert asymmetric-keys.txt to ReST
-Message-ID: <20200210071047.0db3f3a6@kernel.org>
-In-Reply-To: <20200206200911.GA2830394@erythro.kitware.com>
-References: <cover.1581001737.git.mchehab+huawei@kernel.org>
-        <1b6cd1da02dda27a725a6c4214019a1e306a7927.1581001737.git.mchehab+huawei@kernel.org>
-        <20200206200911.GA2830394@erythro.kitware.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 10 Feb 2020 05:04:21 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id BFA4D1C28;
+        Mon, 10 Feb 2020 05:04:20 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 10 Feb 2020 05:04:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=aFqJHi2DxkxEhthklRhVe9pAV9
+        MnZcHeB0F11l4pfqQ=; b=AUDYwrrMA0q0yfov4T3x/hofaL6gtCUu1viGTdTT9N
+        vpzVTMt7J7ro6OchNXo69nKoTOMP+k3mS4nQzX0pX30yoFFV4n/Yr33hRU1wrNVu
+        53AiSIPEdOvofULxLieFkDGrJVZPsmKYlm0OtxNy2jQAwJqbn9p5Uuk6bSd4JbGY
+        4QNXNwghPJz0cZoMeC+rSxFVEw4Tsf1ydNdYNTro3I7nV4+Ok/vvctmNOE08eRdP
+        a7RyO2tUS6LVgOYtNwBX4isEHWTOelMNXewg77Cgy4sXPS9OaLXjvJVaOJ3Fn/u/
+        /qH+w6eTwlb6p7Noq6NcuAOw2Q+86th1n+nEFm/7e9nQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=aFqJHi2DxkxEhthkl
+        RhVe9pAV9MnZcHeB0F11l4pfqQ=; b=rx9mXnhFWcLsQilC1Xm0TIfT8AVKlEOB0
+        6LOmDZOtPhiqaDXT6Nx0Or2HblJGEzfwnoOGhJMkZXGvhJGw5NCDmlK7GfsoWu71
+        mp90kJR+sQHvZIofrEBFrIloHuWOOumCkPcpKTdqgfl0Pqgei2YYTcbanf12N/8g
+        BUPJuviPHfu/y7gV4Ssd4isOfzGpkVbIDd/RZtMjffMA6vs6helP/KBipWkgA8zJ
+        NCF2CmaOzNb0AU7x3wRClMKrJ+RnE1YycFLp3xKFBkx3v1dcaBVWXu/baHO8nxtD
+        YYF30YyCBhCzAamqdLw9j6MB2YxfvrOoIoNbE+eSn8cMJ8nEnoogA==
+X-ME-Sender: <xms:oypBXt18sxPnzpQkl9kpJnyAEReV6_plzQW6E-kH7aDdexM9FlG7Rw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedriedugddutdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
+    ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrdekle
+    drieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:oypBXvHIMtmjPaNZ9JWzqB6AvIQK-kEBbdZW1ROsi42GiUU1q3h1Xw>
+    <xmx:oypBXkhnHCbTtnqt463RC0mpP0nIpNiWlmqkK2jrBz8HXL8EEy0ECQ>
+    <xmx:oypBXoe7i2TJ6IsAkKYYHzlSdpDROxyoD45_jjUo_saMMRBCcnRIhQ>
+    <xmx:pCpBXjA30VkQgO6b-Gi9-xH2rNizDoeKWTcySJL7fmzsoHMLhcnAhw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 9596C3280066;
+        Mon, 10 Feb 2020 05:04:19 -0500 (EST)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        sakari.ailus@linux.intel.com
+Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        mchehab+huawei@kernel.org, linux-media@vger.kernel.org,
+        Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 1/2] dt-bindings: media: csi: Add interconnects properties
+Date:   Mon, 10 Feb 2020 11:04:16 +0100
+Message-Id: <20200210100417.78583-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 6 Feb 2020 15:09:11 -0500
-Ben Boeckel <mathstuf@gmail.com> escreveu:
+The Allwinner CSI controller is sitting beside the MBUS that is represented
+as an interconnect.
 
-> On Thu, Feb 06, 2020 at 16:11:21 +0100, Mauro Carvalho Chehab wrote:
-> > - (1) If the criterion string is of the form "id:<hexdigits>" then the =
-match
-> > +  1) If the criterion string is of the form "id:<hexdigits>" then the =
-match =20
->=20
-> This update was followed in all the enumeration changes except=E2=80=A6
->=20
-> > - (2) If the criterion string is of the form "<subtype>:<hexdigits>" th=
-en the
-> > + 2) If the criterion string is of the form "<subtype>:<hexdigits>" the=
-n the =20
->=20
-> The whitespace here doesn't match up. Which is preferred?
+Make sure that the interconnect properties are valid in the binding.
 
-That was a mistake.
+Fixes: 7866d6903ce8 ("media: dt-bindings: media: sun4i-csi: Add compatible for CSI0 on R40")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ .../bindings/media/allwinner,sun4i-a10-csi.yaml        | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
->=20
-> > - (1) Signature verification.
-> > +1) Signature verification. =20
->=20
-> Here, the indentation was lost too. Is this intentional?
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+index 9af873b43acd..afde17d9dab1 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+@@ -51,6 +51,16 @@ properties:
+   resets:
+     maxItems: 1
+ 
++  # FIXME: This should be made required eventually once every SoC will
++  # have the MBUS declared.
++  interconnects:
++    maxItems: 1
++
++  # FIXME: This should be made required eventually once every SoC will
++  # have the MBUS declared.
++  interconnect-names:
++    const: dma-mem
++
+   # See ./video-interfaces.txt for details
+   port:
+     type: object
+-- 
+2.24.1
 
-Both ways would work. I'll keep the original indentation for the next
-version. Thanks for pointing it.
-
-Cheers,
-Mauro
