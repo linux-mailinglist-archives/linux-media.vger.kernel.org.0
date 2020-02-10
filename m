@@ -2,271 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE3CC157F1D
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 16:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46474157F30
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 16:51:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727363AbgBJPqE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Feb 2020 10:46:04 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:46045 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726991AbgBJPqE (ORCPT
+        id S1727609AbgBJPvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Feb 2020 10:51:04 -0500
+Received: from mail-io1-f72.google.com ([209.85.166.72]:56146 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726796AbgBJPvD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Feb 2020 10:46:04 -0500
-Received: by mail-qt1-f195.google.com with SMTP id d9so5410213qte.12;
-        Mon, 10 Feb 2020 07:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qZzSV/Cejb8UpV/HQ8108YbaF0V/lqCH3FWdetQ8Pow=;
-        b=bqERrv018aofLOYbac08392BfAcTQe7clJ9OzDV8jgahYWVeT/NaaOy4J0qiQoFYS8
-         hWw56aB3drHyzueud0IF/eHl4IkoW9XF918irUpRxhd1D30SPtzQxR9QK//nu6JnuBTB
-         bk7Q+tPz7ZXtddEnVtgut02cdTOrxfQ+7NqJcGgmlRas2y7v5a/iwnj8aimT3OSEHmRr
-         vQK8jVUuUqrC3Ama2VrTA5wfu2gZ6SNCze3g80sl5vlvBqZ+kBE/hvn1Ulju1/Yt9nPY
-         TzKKecjCD3TkF9Ak+v09esvykMrddDwMSh5Mp+Fx27mRYuOG7w8Gu8iKWvlr98WqgreF
-         /PtA==
+        Mon, 10 Feb 2020 10:51:03 -0500
+Received: by mail-io1-f72.google.com with SMTP id z21so4907481iob.22
+        for <linux-media@vger.kernel.org>; Mon, 10 Feb 2020 07:51:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qZzSV/Cejb8UpV/HQ8108YbaF0V/lqCH3FWdetQ8Pow=;
-        b=TKDAWIFOLBcPi4yGW7KQoD3p/BMbJ+5+RL0euRocxY0cE6cYwrietT/+9e0UBFOTn1
-         yAZjNBnMpiTatXQko1+72sFDu/XndshCU6+jWPBIPSHxMOSZSqW+f05UhAANVirpSmMD
-         zvH5VYQsdVf8Q0oaWXE4pOa5GWT4hHhBoKS2I46KswZc6aOentR2tt1lDb5zOgBVdXKG
-         33ZDa+kPcpBQDMq3CiHZ386e4ie1cVejbZX5+ifiAe8Hnw3PFLiqCsnqRBHj/71BDDvr
-         9EDPNp/lxyrkHTHrbtkKRrIsR4gRjwEVc4bAtUjKtVeHhIyBiUVdgKQB9NY+9CTRi6p1
-         3XWg==
-X-Gm-Message-State: APjAAAUA7MqA7U0W76pmFDeg4Tn1Rrr4Rvb02Qu1zsCFax5NZT/woRHH
-        rcUtH/wRu8cjkGVrItqQw4M=
-X-Google-Smtp-Source: APXvYqzPHFzNJtUhodxDnU6Bj7FldHbeHXQeKlnr9o6VdHUlF3LzXjc8bCXUcUrxDmM6665aYZqaNA==
-X-Received: by 2002:ac8:33f8:: with SMTP id d53mr10423304qtb.86.1581349562868;
-        Mon, 10 Feb 2020 07:46:02 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id c45sm350510qtd.43.2020.02.10.07.45.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2020 07:46:02 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     mchehab@kernel.org, sean@mess.org, tglx@linutronix.de,
-        gregkh@linuxfoundation.org
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] media: dvb_dummy_fe.c: lose TS lock on bad snr
-Date:   Mon, 10 Feb 2020 12:45:55 -0300
-Message-Id: <20200210154555.156283-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.25.0
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=0Z4mZBtI2gdriykPJmN0mwKGOFirSgbNkIa1x0WQpo0=;
+        b=O9HjgytnKi2vQKEGfaTsA6w2M1Nb1MtvaWfbWiNxoQ9vHu7ud5IlFR5Bc1eOqNzxVC
+         HvIYVevDuq59i+B+gfak67MRTaka8zxNlczofnlbh8vt3K6NnBgQL9Zb+cooY8kPHlP1
+         wnFnVvM1RWXNde9eAtyJ+dQHMVQhMS1MZwf7PmM/dGNmllJHVu6hgZcARLJr2K2mZla4
+         1FFQS69Y2nAKSVjeGuVXuamdYNhZcPltqOEDivJEPUA+ofu+LZChIOTWKztw1Pk1e/2x
+         MwexIZNf8H214ikhlahNFHlmXZJtw5qqUWsVtZrltEgaw5PtelR7trfa8yqNtzdbMvHc
+         KifA==
+X-Gm-Message-State: APjAAAWAlmdADUz5/DhW7UUzIVja+CxgDg/wPVX8ur3RHVmohDfwnWIg
+        RELq3+ixhs+uFwZsgsMP4jLTz3dS+gySnIWk3CEf0Apprb2I
+X-Google-Smtp-Source: APXvYqzrR5X28Dnt9QIyHtOREXF6/SoFdK8vY+UvCcSf6Yn4HXv9ZCCXIJFDJ/8bdQ1WykzyXtTzj5ZLi9hnqNV22qR+5N7lMqze
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a5d:9708:: with SMTP id h8mr9858742iol.141.1581349861783;
+ Mon, 10 Feb 2020 07:51:01 -0800 (PST)
+Date:   Mon, 10 Feb 2020 07:51:01 -0800
+In-Reply-To: <1581344006.26936.7.camel@suse.de>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c6fdac059e3ab4c6@google.com>
+Subject: Re: KASAN: use-after-free Read in uvc_probe
+From:   syzbot <syzbot+9a48339b077c5a80b869@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org, oneukum@suse.de,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Hello,
 
-Periodically check the signal quality and eventually lose the lock if
-the quality is sub-par. A fake tuner can return a bad quality signal to
-the demod if the frequency is too far off from a valid frequency.
+syzbot has tested the proposed patch but the reproducer still triggered crash:
+KASAN: use-after-free Read in uvc_probe
 
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 149 ++++++++++++++++++++-
- 1 file changed, 144 insertions(+), 5 deletions(-)
+usb 2-1: string descriptor 0 read error: -71
+uvcvideo: Found UVC 0.00 device <unnamed> (0bd3:0555)
+==================================================================
+BUG: KASAN: use-after-free in uvc_register_terms drivers/media/usb/uvc/uvc_driver.c:2038 [inline]
+BUG: KASAN: use-after-free in uvc_register_chains drivers/media/usb/uvc/uvc_driver.c:2071 [inline]
+BUG: KASAN: use-after-free in uvc_probe.cold+0x2193/0x29fe drivers/media/usb/uvc/uvc_driver.c:2202
+Read of size 2 at addr ffff8881d933182e by task kworker/0:2/95
 
-diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-index 9ff1ebaa5e04..726c964a523d 100644
---- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
-+++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-@@ -9,24 +9,155 @@
- #include <linux/init.h>
- #include <linux/string.h>
- #include <linux/slab.h>
-+#include <linux/workqueue.h>
-+#include <linux/random.h>
- 
- #include <media/dvb_frontend.h>
- #include "dvb_dummy_fe.h"
- 
- 
-+struct dvb_dummy_fe_cnr_to_qual_s {
-+	/* attempt to use the same values as libdvbv5 */
-+	u32 modulation;
-+	u32 fec;
-+	u32 cnr_ok, cnr_good;
-+};
-+
-+struct dvb_dummy_fe_cnr_to_qual_s dvb_c_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{ QAM_256, FEC_NONE,  34., 38.},
-+	{ QAM_64,  FEC_NONE,  30., 34.},
-+};
-+
-+struct dvb_dummy_fe_cnr_to_qual_s dvb_s_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{ QPSK, FEC_1_2,  7., 10.},
-+
-+	{ QPSK, FEC_2_3,  9., 12.},
-+	{ QPSK, FEC_3_4, 10., 13.},
-+	{ QPSK, FEC_5_6, 11., 14.},
-+
-+	{ QPSK, FEC_7_8, 12., 15.},
-+};
-+
-+struct dvb_dummy_fe_cnr_to_qual_s dvb_s2_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{ QPSK,  FEC_1_2,   9.,  12.},
-+	{ QPSK,  FEC_2_3,  11.,  14.},
-+	{ QPSK,  FEC_3_4,  12.,  15.},
-+	{ QPSK,  FEC_5_6,  12.,  15.},
-+	{ QPSK,  FEC_8_9,  13.,  16.},
-+	{ QPSK,  FEC_9_10, 13.5, 16.5},
-+	{ PSK_8, FEC_2_3,  14.5, 17.5},
-+	{ PSK_8, FEC_3_4,  16.,  19.},
-+	{ PSK_8, FEC_5_6,  17.5, 20.5},
-+	{ PSK_8, FEC_8_9,  19.,  22.},
-+};
-+
-+static struct dvb_dummy_fe_cnr_to_qual_s dvb_t_cnr_2_qual[] = {
-+	/* from libdvbv5 source code */
-+	{   QPSK, FEC_1_2,  4.1,  5.9},
-+	{   QPSK, FEC_2_3,  6.1,  9.6},
-+	{   QPSK, FEC_3_4,  7.2, 12.4},
-+	{   QPSK, FEC_5_6,  8.5, 15.6},
-+	{   QPSK, FEC_7_8,  9.2, 17.5},
-+
-+	{ QAM_16, FEC_1_2,  9.8, 11.8},
-+	{ QAM_16, FEC_2_3, 12.1, 15.3},
-+	{ QAM_16, FEC_3_4, 13.4, 18.1},
-+	{ QAM_16, FEC_5_6, 14.8, 21.3},
-+	{ QAM_16, FEC_7_8, 15.7, 23.6},
-+
-+	{ QAM_64, FEC_1_2, 14.0, 16.0},
-+	{ QAM_64, FEC_2_3, 19.9, 25.4},
-+	{ QAM_64, FEC_3_4, 24.9, 27.9},
-+	{ QAM_64, FEC_5_6, 21.3, 23.3},
-+	{ QAM_64, FEC_7_8, 22.0, 24.0},
-+};
-+
-+struct dvb_dummy_fe_config {
-+	/* probability of losing the lock due to low snr */
-+	u8 drop_tslock_probability_on_low_snr;
-+};
-+
- struct dvb_dummy_fe_state {
- 	struct dvb_frontend frontend;
-+	struct dvb_dummy_fe_config config;
-+	struct delayed_work poll_snr;
-+	enum fe_status status;
- };
- 
-+void poll_snr_handler(struct work_struct *work)
-+{
-+	/* periodically check the signal quality and eventually
-+	 * lose the TS lock if it dips too low
-+	 */
-+	struct dvb_dummy_fe_state *state =
-+		container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
-+	struct dtv_frontend_properties *c = &state->frontend.dtv_property_cache;
-+	struct dvb_dummy_fe_cnr_to_qual_s *cnr2qual = NULL;
-+	struct dvb_dummy_fe_config *config = &state->config;
-+	u32 array_size = 0;
-+	u16 snr = 0;
-+	u32 i;
-+
-+	if (!state->frontend.ops.tuner_ops.get_rf_strength)
-+		return;
-+
-+	state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
-+
-+	switch (c->delivery_system) {
-+	case SYS_DVBT:
-+	case SYS_DVBT2:
-+		cnr2qual = dvb_t_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_t_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBS:
-+		cnr2qual = dvb_s_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_s_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBS2:
-+		cnr2qual = dvb_s2_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_s2_cnr_2_qual);
-+		break;
-+
-+	case SYS_DVBC_ANNEX_A:
-+		cnr2qual = dvb_c_cnr_2_qual;
-+		array_size = ARRAY_SIZE(dvb_c_cnr_2_qual);
-+		break;
-+
-+	default:
-+		pr_warn("%s: unsupported delivery system: %u\n",
-+			__func__,
-+			c->delivery_system);
-+		break;
-+	}
-+
-+	for (i = 0; i <= array_size; i++) {
-+		if (cnr2qual[i].modulation == c->modulation &&
-+		    cnr2qual[i].fec == c->fec_inner) {
-+
-+			if (snr < cnr2qual[i].cnr_ok) {
-+				/* eventually lose the TS lock */
-+				if (prandom_u32_max(100) <
-+				    config->drop_tslock_probability_on_low_snr)
-+					state->status = 0;
-+			}
-+		}
-+	}
-+
-+	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
-+}
- 
- static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
- 				    enum fe_status *status)
- {
--	*status = FE_HAS_SIGNAL
--		| FE_HAS_CARRIER
--		| FE_HAS_VITERBI
--		| FE_HAS_SYNC
--		| FE_HAS_LOCK;
-+
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-+
-+	*status = state->status;
- 
- 	return 0;
- }
-@@ -80,11 +211,18 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
- 
- static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
- {
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-+
-+	cancel_delayed_work_sync(&(state->poll_snr));
- 	return 0;
- }
- 
- static int dvb_dummy_fe_init(struct dvb_frontend *fe)
- {
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-+
-+	INIT_DELAYED_WORK(&(state->poll_snr), &poll_snr_handler);
-+	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
- 	return 0;
- }
- 
-@@ -104,6 +242,7 @@ static void dvb_dummy_fe_release(struct dvb_frontend *fe)
- {
- 	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
- 
-+	cancel_delayed_work_sync(&(state->poll_snr));
- 	kfree(state);
- }
- 
--- 
-2.25.0
+CPU: 0 PID: 95 Comm: kworker/0:2 Not tainted 5.5.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xef/0x16e lib/dump_stack.c:118
+ print_address_description.constprop.0.cold+0xd3/0x314 mm/kasan/report.c:374
+ __kasan_report.cold+0x37/0x85 mm/kasan/report.c:506
+ kasan_report+0xe/0x20 mm/kasan/common.c:639
+ uvc_register_terms drivers/media/usb/uvc/uvc_driver.c:2038 [inline]
+ uvc_register_chains drivers/media/usb/uvc/uvc_driver.c:2071 [inline]
+ uvc_probe.cold+0x2193/0x29fe drivers/media/usb/uvc/uvc_driver.c:2202
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+ hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+ port_event drivers/usb/core/hub.c:5470 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+ process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+Allocated by task 95:
+ save_stack+0x1b/0x80 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ __kasan_kmalloc mm/kasan/common.c:513 [inline]
+ __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:486
+ kmalloc include/linux/slab.h:556 [inline]
+ kzalloc include/linux/slab.h:670 [inline]
+ uvc_alloc_chain+0x48/0xfa drivers/media/usb/uvc/uvc_driver.c:1692
+ uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1818 [inline]
+ uvc_probe.cold+0x15f0/0x29fe drivers/media/usb/uvc/uvc_driver.c:2198
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+ hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+ port_event drivers/usb/core/hub.c:5470 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+ process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+Freed by task 95:
+ save_stack+0x1b/0x80 mm/kasan/common.c:72
+ set_track mm/kasan/common.c:80 [inline]
+ kasan_set_free_info mm/kasan/common.c:335 [inline]
+ __kasan_slab_free+0x117/0x160 mm/kasan/common.c:474
+ slab_free_hook mm/slub.c:1425 [inline]
+ slab_free_freelist_hook mm/slub.c:1458 [inline]
+ slab_free mm/slub.c:3005 [inline]
+ kfree+0xd5/0x300 mm/slub.c:3957
+ uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1825 [inline]
+ uvc_probe.cold+0x16fd/0x29fe drivers/media/usb/uvc/uvc_driver.c:2198
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+ hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+ port_event drivers/usb/core/hub.c:5470 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+ process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff8881d9331800
+ which belongs to the cache kmalloc-256 of size 256
+The buggy address is located 46 bytes inside of
+ 256-byte region [ffff8881d9331800, ffff8881d9331900)
+The buggy address belongs to the page:
+page:ffffea000764cc00 refcount:1 mapcount:0 mapping:ffff8881da002780 index:0x0 compound_mapcount: 0
+raw: 0200000000010200 ffffea0007648d80 0000000e0000000e ffff8881da002780
+raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff8881d9331700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8881d9331780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff8881d9331800: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                  ^
+ ffff8881d9331880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8881d9331900: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
+Tested on:
+
+commit:         ae179410 usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=13d466e9e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ad1d751a3a72ae57
+dashboard link: https://syzkaller.appspot.com/bug?extid=9a48339b077c5a80b869
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=16022395e00000
 
