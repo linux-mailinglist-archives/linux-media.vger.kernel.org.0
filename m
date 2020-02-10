@@ -2,44 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C48156F1F
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 07:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 619EA156F5A
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 07:04:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727658AbgBJGDW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Feb 2020 01:03:22 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:36468 "EHLO
+        id S1727802AbgBJGEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Feb 2020 01:04:10 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:36286 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727587AbgBJGDN (ORCPT
+        with ESMTP id S1726376AbgBJGDM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Feb 2020 01:03:13 -0500
+        Mon, 10 Feb 2020 01:03:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=AkWGbYs/Tc4L0PtFVpG/Hbx8MoKG1TWn2p2YU4gP5Hs=; b=T+OSy4/BQbpbvYYJVqqVzGgFc7
-        EbSaxJYsEYGOUXGr4aJ7+1NR44DLaKiiXsQGvhSY1VcJYy4iXDn3vXzqIrdg62oKFtpMP35z06/SV
-        xVISb1XYNBpLeZFrQW8Dhef4pvgMUr5Uhpc6u2/c50AMWouWx75hEuN75Mqo0h+wH3QmWP64MdIPl
-        VAY4ot5OXzcYt+9YC1K7JH7iWl0FdktEo063k9hLTukRI3wCmXAo2GZnqjQpt2oNcPH29p8xGUEFZ
-        MNeWpMJivroKyOIpCGenTRnwaRtbARnnQudb8Hz9bYhN6u0CSzow1FmfOlunqhO8baX2gnNK+ycNK
-        v5Q68VbA==;
+        bh=VDWufxS1v8YBATfJuGUc8vM6jGy82+VrkVyMthw2XNA=; b=g6FpWmZvYn4j+gzfOlrxqCU77m
+        MnHEEgBSSLDmR08Pp5ZU49/KqtejgFB4bVsXJnSo8jctvAiqgp0HHZ8Cxx+OqIXKEQ/b9VjMlJi4M
+        07Rb9orVO9zRaRedJhEuIbSXrTgDOCGrah63jEho/d8hVpYKJN8z4ljKpbWIrhJQCP+61SS3GnVeP
+        U61T2MFDVQGdZktt8e33Umjyw/oZjq3Xi7KiIM6LoGYEGrHpjc7OUEWlRN9qk59jtC7i9WbMp9wy0
+        QWYMwi+i1hYekAkA71IsXftKEF7qpzokgrWDDv0pJtdvLkVglkLvhcGRusoemkwm6AtsmGLGkrxYi
+        hr04jZMw==;
 Received: from [80.156.29.194] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j12A3-0006Te-HC; Mon, 10 Feb 2020 06:03:11 +0000
+        id 1j12A3-0006Tf-II; Mon, 10 Feb 2020 06:03:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1j12A1-00C2Us-Ry; Mon, 10 Feb 2020 07:03:09 +0100
+        id 1j12A1-00C2Ux-Sx; Mon, 10 Feb 2020 07:03:09 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-um@lists.infradead.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 04/28] docs: virt: user_mode_linux.rst: fix URL references
-Date:   Mon, 10 Feb 2020 07:02:42 +0100
-Message-Id: <7703891859ba5dae121fa9fa21914512ba3d3fbb.1581314316.git.mchehab+huawei@kernel.org>
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH 05/28] docs: virt: convert halt-polling.txt to ReST format
+Date:   Mon, 10 Feb 2020 07:02:43 +0100
+Message-Id: <c3de1c2b726a5df1e3616e53cb118a46025bc635.1581314316.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1581314316.git.mchehab+huawei@kernel.org>
 References: <cover.1581314316.git.mchehab+huawei@kernel.org>
@@ -50,212 +48,147 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Several URLs are pointing to outdated places.
-
-Update the references for the URLs whose contents still exists,
-removing the others.
+- Fix document title to match ReST format
+- Convert the table to be properly recognized
+- Some indentation fixes to match ReST syntax.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- Documentation/virt/uml/user_mode_linux.rst | 71 +++++++++-------------
- 1 file changed, 29 insertions(+), 42 deletions(-)
+ .../{halt-polling.txt => halt-polling.rst}    | 86 ++++++++++---------
+ Documentation/virt/kvm/index.rst              |  1 +
+ 2 files changed, 46 insertions(+), 41 deletions(-)
+ rename Documentation/virt/kvm/{halt-polling.txt => halt-polling.rst} (64%)
 
-diff --git a/Documentation/virt/uml/user_mode_linux.rst b/Documentation/virt/uml/user_mode_linux.rst
-index e0632d80753e..de0f0b2c9d5b 100644
---- a/Documentation/virt/uml/user_mode_linux.rst
-+++ b/Documentation/virt/uml/user_mode_linux.rst
-@@ -321,7 +321,7 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
-   as modules, especially filesystems and network protocols and filters,
-   so most symbols which need to be exported probably already are.
-   However, if you do find symbols that need exporting, let  us
--  <http://user-mode-linux.sourceforge.net/>  know, and
-+  know at http://user-mode-linux.sourceforge.net/, and
-   they'll be "taken care of".
+diff --git a/Documentation/virt/kvm/halt-polling.txt b/Documentation/virt/kvm/halt-polling.rst
+similarity index 64%
+rename from Documentation/virt/kvm/halt-polling.txt
+rename to Documentation/virt/kvm/halt-polling.rst
+index 4f791b128dd2..4922e4a15f18 100644
+--- a/Documentation/virt/kvm/halt-polling.txt
++++ b/Documentation/virt/kvm/halt-polling.rst
+@@ -1,3 +1,6 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========================
+ The KVM halt polling system
+ ===========================
  
+@@ -68,7 +71,8 @@ steady state polling interval but will only really do a good job for wakeups
+ which come at an approximately constant rate, otherwise there will be constant
+ adjustment of the polling interval.
  
-@@ -383,9 +383,9 @@ Linux: a port of the Linux kernel as a normal Intel Linux process.
+-[0] total block time: the time between when the halt polling function is
++[0] total block time:
++		      the time between when the halt polling function is
+ 		      invoked and a wakeup source received (irrespective of
+ 		      whether the scheduler is invoked within that function).
  
+@@ -81,31 +85,32 @@ shrunk. These variables are defined in include/linux/kvm_host.h and as module
+ parameters in virt/kvm/kvm_main.c, or arch/powerpc/kvm/book3s_hv.c in the
+ powerpc kvm-hv case.
  
-   You will need a filesystem to boot UML from.  There are a number
--  available for download from  here  <http://user-mode-
--  linux.sourceforge.net/> .  There are also  several tools
--  <http://user-mode-linux.sourceforge.net/>  which can be
-+  available for download from http://user-mode-linux.sourceforge.net.
-+  There are also  several tools at
-+  http://user-mode-linux.sourceforge.net/  which can be
-   used to generate UML-compatible filesystem images from media.
-   The kernel will boot up and present you with a login prompt.
+-Module Parameter	|   Description		    |	     Default Value
+---------------------------------------------------------------------------------
+-halt_poll_ns		| The global max polling    | KVM_HALT_POLL_NS_DEFAULT
+-			| interval which defines    |
+-			| the ceiling value of the  |
+-			| polling interval for      | (per arch value)
+-			| each vcpu.		    |
+---------------------------------------------------------------------------------
+-halt_poll_ns_grow	| The value by which the    | 2
+-			| halt polling interval is  |
+-			| multiplied in the	    |
+-			| grow_halt_poll_ns()	    |
+-			| function.		    |
+---------------------------------------------------------------------------------
+-halt_poll_ns_grow_start | The initial value to grow | 10000
+-			| to from zero in the	    |
+-			| grow_halt_poll_ns()	    |
+-			| function.		    |
+---------------------------------------------------------------------------------
+-halt_poll_ns_shrink	| The value by which the    | 0
+-			| halt polling interval is  |
+-			| divided in the	    |
+-			| shrink_halt_poll_ns()	    |
+-			| function.		    |
+---------------------------------------------------------------------------------
+++-----------------------+---------------------------+-------------------------+
++|Module Parameter	|   Description		    |	     Default Value    |
+++-----------------------+---------------------------+-------------------------+
++|halt_poll_ns		| The global max polling    | KVM_HALT_POLL_NS_DEFAULT|
++|			| interval which defines    |			      |
++|			| the ceiling value of the  |			      |
++|			| polling interval for      | (per arch value)	      |
++|			| each vcpu.		    |			      |
+++-----------------------+---------------------------+-------------------------+
++|halt_poll_ns_grow	| The value by which the    | 2			      |
++|			| halt polling interval is  |			      |
++|			| multiplied in the	    |			      |
++|			| grow_halt_poll_ns()	    |			      |
++|			| function.		    |			      |
+++-----------------------+---------------------------+-------------------------+
++|halt_poll_ns_grow_start| The initial value to grow | 10000		      |
++|			| to from zero in the	    |			      |
++|			| grow_halt_poll_ns()	    |			      |
++|			| function.		    |			      |
+++-----------------------+---------------------------+-------------------------+
++|halt_poll_ns_shrink	| The value by which the    | 0			      |
++|			| halt polling interval is  |			      |
++|			| divided in the	    |			      |
++|			| shrink_halt_poll_ns()	    |			      |
++|			| function.		    |			      |
+++-----------------------+---------------------------+-------------------------+
  
-@@ -464,10 +464,9 @@ Note:
+ These module parameters can be set from the debugfs files in:
  
-   Here are some examples of UML in action:
+@@ -117,20 +122,19 @@ Note: that these module parameters are system wide values and are not able to
+ Further Notes
+ =============
  
--  -  A login session <http://user-mode-linux.sourceforge.net/login.html>
--
--  -  A virtual network <http://user-mode-linux.sourceforge.net/net.html>
-+  -  A login session http://user-mode-linux.sourceforge.net/old/login.html
+-- Care should be taken when setting the halt_poll_ns module parameter as a
+-large value has the potential to drive the cpu usage to 100% on a machine which
+-would be almost entirely idle otherwise. This is because even if a guest has
+-wakeups during which very little work is done and which are quite far apart, if
+-the period is shorter than the global max polling interval (halt_poll_ns) then
+-the host will always poll for the entire block time and thus cpu utilisation
+-will go to 100%.
++- Care should be taken when setting the halt_poll_ns module parameter as a large value
++  has the potential to drive the cpu usage to 100% on a machine which would be almost
++  entirely idle otherwise. This is because even if a guest has wakeups during which very
++  little work is done and which are quite far apart, if the period is shorter than the
++  global max polling interval (halt_poll_ns) then the host will always poll for the
++  entire block time and thus cpu utilisation will go to 100%.
  
-+  -  A virtual network http://user-mode-linux.sourceforge.net/old/net.html
+-- Halt polling essentially presents a trade off between power usage and latency
+-and the module parameters should be used to tune the affinity for this. Idle
+-cpu time is essentially converted to host kernel time with the aim of decreasing
+-latency when entering the guest.
++- Halt polling essentially presents a trade off between power usage and latency and
++  the module parameters should be used to tune the affinity for this. Idle cpu time is
++  essentially converted to host kernel time with the aim of decreasing latency when
++  entering the guest.
  
+-- Halt polling will only be conducted by the host when no other tasks are
+-runnable on that cpu, otherwise the polling will cease immediately and
+-schedule will be invoked to allow that other task to run. Thus this doesn't
+-allow a guest to denial of service the cpu.
++- Halt polling will only be conducted by the host when no other tasks are runnable on
++  that cpu, otherwise the polling will cease immediately and schedule will be invoked to
++  allow that other task to run. Thus this doesn't allow a guest to denial of service the
++  cpu.
+diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
+index 488c6370a447..b39f4894b61d 100644
+--- a/Documentation/virt/kvm/index.rst
++++ b/Documentation/virt/kvm/index.rst
+@@ -9,6 +9,7 @@ KVM
  
+    amd-memory-encryption
+    cpuid
++   halt-polling
+    vcpu-requests
  
-@@ -1132,11 +1131,6 @@ Note:
- 
- 
- 
--
--  Harald's original README is here <http://user-mode-linux.source-
--  forge.net/>  and explains these in detail, as well as
--  some other issues.
--
-   There is also a related point-to-point only "ucast" transport.
-   This is useful when your network does not support multicast, and
-   all network connections are simple point to point links.
-@@ -1219,8 +1213,7 @@ Note:
-   make sure that /usr/src/linux points to the headers for the running
-   kernel.
- 
--  These were pointed out by Tim Robinson <timro at trkr dot net> in
--  <http://www.geocrawler.com/> name="this uml-user post"> .
-+  These were pointed out by Tim Robinson <timro at trkr dot net> in the past.
- 
- 
- 
-@@ -1914,8 +1907,8 @@ Note:
- 
-   uml_moo is installed with the UML deb and RPM.  If you didn't install
-   UML from one of those packages, you can also get it from the UML
--  utilities <http://user-mode-linux.sourceforge.net/
--  utilities>  tar file in tools/moo.
-+  utilities http://user-mode-linux.sourceforge.net/utilities tar file
-+  in tools/moo.
- 
- 
- 
-@@ -3709,18 +3702,15 @@ Note:
- 
- 
-   This is a syslogd bug.  There's a race between a parent process
--  installing a signal handler and its child sending the signal.  See
--  this uml-devel post <http://www.geocrawler.com/lists/3/Source-
--  Forge/709/0/6612801>  for the details.
-+  installing a signal handler and its child sending the signal.
- 
- 
- 
- 13.8.  TUN/TAP networking doesn't work on a 2.4 host
- ----------------------------------------------------
- 
--  There are a couple of problems which were
--  <http://www.geocrawler.com/lists/3/SourceForge/597/0/> name="pointed
--  out">  by Tim Robinson <timro at trkr dot net>
-+  There are a couple of problems which were reported by
-+  Tim Robinson <timro at trkr dot net>
- 
-   -  It doesn't work on hosts running 2.4.7 (or thereabouts) or earlier.
-      The fix is to upgrade to something more recent and then read the
-@@ -3763,7 +3753,7 @@ Note:
- 
- 
-   Documentation on IP Masquerading, and SNAT, can be found at
--  www.netfilter.org  <http://www.netfilter.org> .
-+  http://www.netfilter.org.
- 
- 
-   If you can reach the local net, but not the outside Internet, then
-@@ -4113,14 +4103,14 @@ Note:
- 
-   Rusty Russell <rusty at linuxcare.com.au>  -
- 
--  -  wrote the  HOWTO <http://user-mode-
--     linux.sourceforge.net/UserModeLinux-HOWTO.html>
-+  -  wrote the  HOWTO
-+     http://user-mode-linux.sourceforge.net/old/UserModeLinux-HOWTO.html
- 
-   -  prodded me into making this project official and putting it on
-      SourceForge
- 
--  -  came up with the way cool UML logo <http://user-mode-
--     linux.sourceforge.net/uml-small.png>
-+  -  came up with the way cool UML logo
-+     http://user-mode-linux.sourceforge.net/uml-small.png
- 
-   -  redid the config process
- 
-@@ -4148,17 +4138,15 @@ Note:
-   Jim Leu <jleu at mindspring.com>  - Wrote the virtual ethernet driver
-   and associated usermode tools
- 
--  Lars Brinkhoff <http://lars.nocrew.org/>  - Contributed the ptrace
--  proxy from his own  project <http://a386.nocrew.org/> to allow easier
--  kernel debugging
-+  Lars Brinkhoff http://lars.nocrew.org/  - Contributed the ptrace
-+  proxy from his own  project to allow easier kernel debugging
- 
- 
-   Andrea Arcangeli <andrea at suse.de>  - Redid some of the early boot
-   code so that it would work on machines with Large File Support
- 
- 
--  Chris Emerson <http://www.chiark.greenend.org.uk/~cemerson/>  - Did
--  the first UML port to Linux/ppc
-+  Chris Emerson - Did the first UML port to Linux/ppc
- 
- 
-   Harald Welte <laforge at gnumonks.org>  - Wrote the multicast
-@@ -4173,7 +4161,7 @@ Note:
-   wrote the iomem emulation support
- 
- 
--  Henrik Nordstrom <http://hem.passagen.se/hno/>  - Provided a variety
-+  Henrik Nordstrom http://hem.passagen.se/hno/  - Provided a variety
-   of patches, fixes, and clues
- 
- 
-@@ -4208,16 +4196,15 @@ Note:
-   submitted patches for the slip transport and lots of other things.
- 
- 
--  David Coulson <http://davidcoulson.net>  -
-+  David Coulson http://davidcoulson.net  -
- 
--  -  Set up the usermodelinux.org <http://usermodelinux.org>  site,
-+  -  Set up the http://usermodelinux.org  site,
-      which is a great way of keeping the UML user community on top of
-      UML goings-on.
- 
-   -  Site documentation and updates
- 
-   -  Nifty little UML management daemon  UMLd
--     <http://uml.openconsultancy.com/umld/>
- 
-   -  Lots of testing and bug reports
- 
-@@ -4390,12 +4377,12 @@ Note:
-   work with RH 6.2.
- 
-   Michael Jennings <mikejen at hevanet.com>  sent in some material which
--  is now gracing the top of the  index  page <http://user-mode-
--  linux.sourceforge.net/>  of this site.
-+  is now gracing the top of the  index  page
-+  http://user-mode-linux.sourceforge.net/  of this site.
- 
--  SGI <http://www.sgi.com>  (and more specifically Ralf Baechle <ralf at
--  uni-koblenz.de> ) gave me an account on oss.sgi.com
--  <http://www.oss.sgi.com> .  The bandwidth there made it possible to
-+  SGI (and more specifically Ralf Baechle <ralf at
-+  uni-koblenz.de> ) gave me an account on oss.sgi.com.
-+  The bandwidth there made it possible to
-   produce most of the filesystems available on the project download
-   page.
- 
-@@ -4412,5 +4399,5 @@ Note:
- 
-   Chris Reahard built a specialized root filesystem for running a DNS
-   server jailed inside UML.  It's available from the download
--  <http://user-mode-linux.sourceforge.net/dl-sf.html>  page in the Jail
-+  http://user-mode-linux.sourceforge.net/old/dl-sf.html  page in the Jail
-   Filesystems section.
+    arm/index
 -- 
 2.24.1
 
