@@ -2,118 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC74D156E1A
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 04:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E748C156E93
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 06:08:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727434AbgBJDyL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Feb 2020 22:54:11 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:54253 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726944AbgBJDyL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Feb 2020 22:54:11 -0500
-Received: by mail-pj1-f68.google.com with SMTP id n96so3595293pjc.3
-        for <linux-media@vger.kernel.org>; Sun, 09 Feb 2020 19:54:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XGTENEjJ0+z+1EMrz+JrOfyO1gcPOMBNtUwze/u53KI=;
-        b=He3CPtJv9IthCFqDIfd5GI3rJaw5+1kbpKBDyO7Wh+3kXUrMjKjh0CrcU+HW+xzZCr
-         miz1L40jFvrEay6sQy8PjEMqFuo9NyFaimnfRq1NeGccaMAhHQcmx/siFCBt7B0SexUk
-         /PZeCvkoEg7mEk1YNJcZ5d4a0eFn7hI/WNdyo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XGTENEjJ0+z+1EMrz+JrOfyO1gcPOMBNtUwze/u53KI=;
-        b=nV9YXM3SycDDJNQtXotwoDLrw1oQD8PermNd0cq6oYmEEQpSWDavNxW2gd11eIKcuB
-         fcvwGy+4jW3Wi/7koU9R11IPtR4aJWzk7nyQ5c6VCeHmKEPGVuJ6cWkcKqF4WMRFtvG9
-         ZrDeNKRCiaTvt+gql4IJmF/3MYQncYPIvvEtqcPvOJSIga/r0njjqX67HmBPO5PMJLko
-         D9pLiQGB8qFN5kHd6KqFQTfY0O9pAhQIqd1DFmzH2m1dJge2a1ys52K3FLtvgbnchxAI
-         Fi+LUXXkkuhqm7+zmFzfsyQtowBtCSvKK7U9wtAg97VT4aURcJMjf9H0kPQlnHNcdctu
-         gs+g==
-X-Gm-Message-State: APjAAAWFXGshBY4Gn3DhiEqN7ej4GHzQRioIX6MdTgwmYrQpfVbjRGmZ
-        v4q4FiNohkCVWWdlvVGBN9grbw==
-X-Google-Smtp-Source: APXvYqztMKtN5f2EXAltVefsi/KgAfmMtI7mmcAMBhBpCsFWH61jBs7TaCyvdwU2IC6/picaXka25A==
-X-Received: by 2002:a17:902:567:: with SMTP id 94mr10741617plf.174.1581306848902;
-        Sun, 09 Feb 2020 19:54:08 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com ([2401:fa00:1:10:b852:bd51:9305:4261])
-        by smtp.gmail.com with ESMTPSA id c26sm10568151pfj.8.2020.02.09.19.54.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2020 19:54:08 -0800 (PST)
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: mtk-vpu: avoid unaligned access to DTCM buffer.
-Date:   Mon, 10 Feb 2020 11:53:52 +0800
-Message-Id: <20200210035351.227499-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726118AbgBJFIR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Feb 2020 00:08:17 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59567 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726061AbgBJFIR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 10 Feb 2020 00:08:17 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:c5d7:92c3:173b:c056])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 11Isj7nZPVuxO11ItjwQx3; Mon, 10 Feb 2020 06:08:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1581311295; bh=xWEFo8KRgjeq9pjRJTHbG9WFiDe/tlQgDYRFe7hODXE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=P/tWENYbOap1SFaFWdmDo3vQlsh1Gjravx7DRf73cdEAJgj8hlRA1LszxUMPinMHj
+         UjvDCFOlLrFVdzUn2M4Bp1juV0ulFI+LRtQplvz+koYxn1TOsmyfJ+UKLhH6bsCchg
+         OLq17yTZ1w7qi40UxLyr21Lv6Xl6uC/niEjto+r06dzWp6Y7UicunbbTeZgAhtq60A
+         VkroGk1KaoOLBJP4JyCB4lA+A1UL1isuPUhfDzPATECFd+J2bd2cXSWZa/nx+umYZ+
+         gdEaruisfzHxZguVt/dqP7ysGCItkK8ESY+NIfVWxMsBsaS0/rF3PL3XutSBpjADTQ
+         u/352aLeXA/Ew==
+Message-ID: <3ca17c82654c37ac006853d337e76110@smtp-cloud7.xs4all.net>
+Date:   Mon, 10 Feb 2020 06:08:13 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfM1Xx2DIh7b3gHu1Pn+0Ct8xu35gBMAWKmSmOGg48D/4uNdEdqjjpvMK5Bb2MVT2yHndvPDpiGN10epadKtuBDwxVXpk6mkORJNTED9Qqv0e/0yz1/My
+ zHbtOqCFzBBrGmd6ch3jJnnCtx8M2QAjHSeL7VvuqU95fpGn0xH6WmwRnVYsk+PZmLT9rV5CY2Ad9UnVBIuwNjpSRhX6m1C2M+V5YByrtghnGUznLCc6uoPO
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-struct vpu_run *run in vpu_init_ipi_handler() is an ioremapped DTCM (Data
-Tightly Coupled Memory) buffer shared with AP.  It's not able to do
-unaligned access. Otherwise kernel would crash due to unable to handle
-kernel paging request.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-struct vpu_run {
-	u32 signaled;
-	char fw_ver[VPU_FW_VER_LEN];
-	unsigned int	dec_capability;
-	unsigned int	enc_capability;
-	wait_queue_head_t wq;
-};
+Results of the daily build of media_tree:
 
-fw_ver starts at 4 byte boundary. If system enables
-CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS, strscpy() will do
-read_word_at_a_time(), which tries to read 8-byte: *(unsigned long *)addr
+date:			Mon Feb 10 05:00:11 CET 2020
+media-tree git hash:	1697d98124819aab09b86602978bd4f50e101e2d
+media_build git hash:	7b37031dca3e3af4b8416e028dc0e10a37ca99c7
+v4l-utils git hash:	67962f1277b483060a16b80cbe79fac56d4e2cc6
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 3d3588941cf3abd517734f6448eeaeaa0c61a27f
+host hardware:		x86_64
+host os:		5.4.0-3-amd64
 
-Copy the string by memcpy_fromio() for this buffer to avoid unaligned
-access.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2939, Failed: 4, Warnings: 0
+sparse: OK
+smatch: OK
 
-Fixes: 85709cbf1524 ("media: replace strncpy() by strscpy()")
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/media/platform/mtk-vpu/mtk_vpu.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Detailed results are available here:
 
-diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-index a768707abb94..e705e85d6f5a 100644
---- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-+++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-@@ -600,13 +600,16 @@ int vpu_load_firmware(struct platform_device *pdev)
- }
- EXPORT_SYMBOL_GPL(vpu_load_firmware);
- 
--static void vpu_init_ipi_handler(void *data, unsigned int len, void *priv)
-+static void vpu_init_ipi_handler(void __iomem *data, unsigned int len,
-+				 void *priv)
- {
- 	struct mtk_vpu *vpu = (struct mtk_vpu *)priv;
--	struct vpu_run *run = (struct vpu_run *)data;
-+	struct vpu_run __iomem *run = data;
- 
- 	vpu->run.signaled = run->signaled;
--	strscpy(vpu->run.fw_ver, run->fw_ver, sizeof(vpu->run.fw_ver));
-+	memcpy_fromio(vpu->run.fw_ver, run->fw_ver, sizeof(vpu->run.fw_ver));
-+	/* Make sure the string is NUL-terminated */
-+	vpu->run.fw_ver[sizeof(vpu->run.fw_ver) - 1] = '\0';
- 	vpu->run.dec_capability = run->dec_capability;
- 	vpu->run.enc_capability = run->enc_capability;
- 	wake_up_interruptible(&vpu->run.wq);
--- 
-2.25.0.225.g125e21ebc7-goog
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
