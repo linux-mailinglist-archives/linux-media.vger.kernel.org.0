@@ -2,244 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BF36156C55
-	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2020 21:08:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCC50156DA5
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2020 03:45:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727857AbgBIUIx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Feb 2020 15:08:53 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43564 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727408AbgBIUIw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Feb 2020 15:08:52 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 15612291429
-Message-ID: <7666b3a6a73aed0d4dd28dba8b0bcd08b2df6a3d.camel@collabora.com>
-Subject: Re: [PATCH v7 04/11] media: uapi: h264: Add the concept of start
- code
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
+        id S1726958AbgBJCpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Feb 2020 21:45:47 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:37375 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726935AbgBJCpr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Feb 2020 21:45:47 -0500
+Received: by mail-ed1-f66.google.com with SMTP id cy15so6924866edb.4
+        for <linux-media@vger.kernel.org>; Sun, 09 Feb 2020 18:45:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=6BOdkflw0F8fh+pcm/A4VGksRSh2LmfGqE8fze11kVU=;
+        b=njnDO0Uw5pFBphWZ/lxyvTRoVa7n6/kAPMJL9leHs+YzGd4xAYvyTCkF1pX8jVsgo3
+         bHc65ricH3IhK/A0wqAq61TdAaybVTqbd3XMm0JJ+OcwZh39jG0HfeWwQvckWxPkFlhW
+         OmnnEbCY7oSgyU/kbvF39WlCDe4C/TRk4xTqI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6BOdkflw0F8fh+pcm/A4VGksRSh2LmfGqE8fze11kVU=;
+        b=SF10ezkqKwmG8k6Eghlb9xLLp59FpX/0dkf8hfQcRbgs6urilGIKby+a9H2dIHGjON
+         Ca1er8ZUfTozoUuEjA91eUrp2qQCTuB4y1ecuOt4E6oCuGcMPRzYnTsg18Iy8AuSYLmE
+         WFmKJ8jLkhioDsrpXsL09ZU0WZfR4oFF7lzGRCnxi1hT3Fnal7xQ/MfHwVVj99Tm4N0H
+         idGvyjVj6GgGFosQaHm3lUkGCoq2ib+ujzjGRa9H+wxjbKS/8xRajD9vd/ocN/bJnAAz
+         8/FtnkBZVlyagb+W0oT5Je3wGz1iGWJ/O62/LTEiRAvZA6a04WP37ydtZZ2aQgLeErCP
+         Schw==
+X-Gm-Message-State: APjAAAU5xthC9B1XHBuLCSTiCBoUNbHZSzWNee/NTmuk0YRVRxzW1exU
+        T7OyhLK7VHfFESVID7Tc7p6YU1ZdCvXv5Q==
+X-Google-Smtp-Source: APXvYqzv92rTGVjleCoCAOWLYejwnHQ8bw2ht5eQ13hmAHRg4hm1rLBtWId/Nxwb6IBUrPsEEGCCWA==
+X-Received: by 2002:a17:906:399:: with SMTP id b25mr10117908eja.24.1581302743748;
+        Sun, 09 Feb 2020 18:45:43 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id u9sm1538004ejj.49.2020.02.09.18.45.42
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Feb 2020 18:45:42 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id y17so5621179wrh.5
+        for <linux-media@vger.kernel.org>; Sun, 09 Feb 2020 18:45:42 -0800 (PST)
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr13652670wrp.17.1581302741582;
+ Sun, 09 Feb 2020 18:45:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20191113175603.24742-1-ezequiel@collabora.com> <74fea061a52ee3f8e25793bf9e47eba90a52c3e3.camel@ndufresne.ca>
+In-Reply-To: <74fea061a52ee3f8e25793bf9e47eba90a52c3e3.camel@ndufresne.ca>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 10 Feb 2020 11:45:30 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A8Y3C64NozqXjMDV0CQ5==dW9Y-6KtFigYFmO3EDd3+A@mail.gmail.com>
+Message-ID: <CAAFQd5A8Y3C64NozqXjMDV0CQ5==dW9Y-6KtFigYFmO3EDd3+A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Enable Hantro G1 post-processor
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        kernel@collabora.com,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
         Heiko Stuebner <heiko@sntech.de>,
         Jonas Karlman <jonas@kwiboo.se>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
-Date:   Sun, 09 Feb 2020 15:08:45 -0500
-In-Reply-To: <20190816160132.7352-5-ezequiel@collabora.com>
-References: <20190816160132.7352-1-ezequiel@collabora.com>
-         <20190816160132.7352-5-ezequiel@collabora.com>
-Organization: Collabora
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-U0pbP9NiBTf40tHmv8JJ"
-User-Agent: Evolution 3.34.3 (3.34.3-1.fc31) 
-MIME-Version: 1.0
+        Chris Healy <cphealy@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Feb 10, 2020 at 4:52 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le mercredi 13 novembre 2019 =C3=A0 14:56 -0300, Ezequiel Garcia a =C3=A9=
+crit :
+> > Hi all,
+> >
+> > The Hantro G1 VPU post-processor block can be pipelined with
+> > the decoder hardware, allowing to perform operations such as
+> > color conversion, scaling, rotation, cropping, among others.
+> >
+> > When the post-processor is enabled, the decoder hardware
+> > needs its own set of NV12 buffers (the native decoder format),
+> > and the post-processor is the owner of the CAPTURE buffers,
+> > allocated for the post-processed format.
+> >
+> > This way, applications obtain post-processed
+> > (scaled, converted, etc) buffers transparently.
+> >
+> > This feature is implemented by exposing the post-processed pixel
+> > formats on ENUM_FMT, ordered as "preferred pixelformat first":
+> >
+> > v4l2-ctl -d 1 --list-formats
+> > ioctl: VIDIOC_ENUM_FMT
+> >       Type: Video Capture Multiplanar
+> >
+> >       [0]: 'NV12' (Y/CbCr 4:2:0)
+> >       [1]: 'YUYV' (YUYV 4:2:2)
+> >
+> > The order of preference in ENUM_FMT can be used as a hint
+> > by applications. This series updates the uAPI specification
+> > accordingly.
+>
+> As I'm implementing this, I realize that there may me a gap in being
+> able to implement both IPP and non-IPP support in a generic framework.
+> Unlike the above comment, we for non-IPP decoder we cannot naively pick
+> the first format. In fact we parse the chroma and depth information
+> from the headers (like pps from H264), and we pick a matching pixel
+> format. This way, if we have a 10bit stream, and our IP supports 10bit,
+> we will pick a 10bit pixel formats, otherwise decoding will just fail.
+>
+> None of this information is passed to the driver prior to the first
+> Request being made, so there is no way (as of current spec) that the
+> driver can validate this in try_fmt ahead of time. Unless I set picture
+> parameters without a request_fd for that purpose. If this is the way,
+> then we should document this.
 
---=-U0pbP9NiBTf40tHmv8JJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
++Alexandre Courbot
 
-Le vendredi 16 ao=C3=BBt 2019 =C3=A0 13:01 -0300, Ezequiel Garcia a =C3=A9c=
-rit :
-> Stateless decoders have different expectations about the
-> start code that is prepended on H264 slices. Add a
-> menu control to express the supported start code types
-> (including no start code).
->=20
-> Drivers are allowed to support only one start code type,
-> but they can support both too.
->=20
-> Note that this is independent of the H264 decoding mode,
-> which specifies the granularity of the decoding operations.
-> Either in frame-based or slice-based mode, this new control
-> will allow to define the start code expected on H264 slices.
->=20
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
-> Changes in v7:
-> * None.
-> Changes in v6:
-> * Rename to START_CODE and enum values
->   as suggested by Hand and Paul.
-> Changes in v5:
-> * Improve specification as suggested by Hans.
-> Changes in v4:
-> * New patch.
-> ---
->  .../media/uapi/v4l/ext-ctrls-codec.rst        | 33 +++++++++++++++++++
->  .../media/uapi/v4l/pixfmt-compressed.rst      |  5 +--
->  drivers/media/v4l2-core/v4l2-ctrls.c          |  9 +++++
->  include/media/h264-ctrls.h                    |  6 ++++
->  4 files changed, 51 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documenta=
-tion/media/uapi/v4l/ext-ctrls-codec.rst
-> index 7e7447d9998c..3703c705286f 100644
-> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-> @@ -2076,6 +2076,39 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
->          The OUTPUT buffer must contain all slices needed to decode the
->          frame. The OUTPUT buffer must also contain both fields.
-> =20
-> +``V4L2_CID_MPEG_VIDEO_H264_START_CODE (enum)``
+It was suggested in the very early RFC stage, but it looks like it
+didn't make it to the final spec.
+https://patchwork.kernel.org/patch/10583233/#22209555
 
-I believe we need to revisit the naming here. In most documents I've
-read, start code refers to a header that allow parsing a bit stream
-from a random location. In H264, this is used as synonyme of ANNEX B
-NAL Headers. In this context, the obvious future value to this enum is
-AVCc headers, which is not a start code.
+>
+> Is this the intended way to negotiation IPP functions with the driver ?
+>
 
-I would suggest to revisite and rename to:
+In theory, if the userspace knows whether the stream is 4:2:0 or 4:2:2
+and 8-bit or 10-bit, it can still select the first format from the top
+that matches these properties.
 
-  V4L2_CID_MPEG_VIDEO_H264_NAL_HDR_TYPE
+That's not how format handling in V4L2 works, though. ENUM_FMT is
+expected to return a list of valid formats and if we forget about the
+image processor for a moment, a stateless decoder would always return
+any possible format, including ones invalid for the stream.
 
+Now back to the image processor, if it handles conversions from any to
+any format listed by ENUM_FMT, we kind of regain the V4L2 compliance,
+but if the conversions are limited, the above requirement still
+doesn't hold and we're not implementing V4L2 correctly.
 
-> +    Specifies the H264 slice start code expected for each slice.
-> +    This control is used as a modifier for V4L2_PIX_FMT_H264_SLICE
-> +    pixel format. Applications that support V4L2_PIX_FMT_H264_SLICE
-> +    are required to set this control in order to specify the start code
-> +    that is expected for the buffer.
-> +    Drivers may expose a single or multiple start codes, depending
-> +    on what they can support.
-> +
-> +    .. note::
-> +
-> +       This menu control is not yet part of the public kernel API and
-> +       it is expected to change.
-> +
-> +.. c:type:: v4l2_mpeg_video_h264_start_code
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - ``V4L2_MPEG_VIDEO_H264_START_CODE_NONE``
-> +      - 0
-> +      - Selecting this value specifies that H264 slices are passed
-> +        to the driver without any start code.
-> +    * - ``V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B``
-> +      - 1
-> +      - Selecting this value specifies that H264 slices are expected
-> +        to be prefixed by Annex B start codes. According to :ref:`h264`
-> +        valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
-> +
->  .. _v4l2-mpeg-mpeg2:
-> =20
->  ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS (struct)``
-> diff --git a/Documentation/media/uapi/v4l/pixfmt-compressed.rst b/Documen=
-tation/media/uapi/v4l/pixfmt-compressed.rst
-> index d666eb51741a..493b6020107d 100644
-> --- a/Documentation/media/uapi/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
-> @@ -60,8 +60,9 @@ Compressed Formats
->  	extracted from the H264 bitstream.  This format is adapted for
->  	stateless video decoders that implement an H264 pipeline
->  	(using the :ref:`mem2mem` and :ref:`media-request-api`).
-> -	This pixelformat has a modifier that must be set at least once
-> -	through the ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE`` control.
-> +	This pixelformat has two modifiers that must be set at least once
-> +	through the ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE``
-> +        and ``V4L2_CID_MPEG_VIDEO_H264_START_CODE`` controls.
->  	In addition, metadata associated with the frame to decode are
->  	required to be passed through the ``V4L2_CID_MPEG_VIDEO_H264_SPS``,
->  	``V4L2_CID_MPEG_VIDEO_H264_PPS``,
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-co=
-re/v4l2-ctrls.c
-> index 2c67f9fc4d5b..1d8f38824631 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -407,6 +407,11 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		"Frame-Based",
->  		NULL,
->  	};
-> +	static const char * const h264_start_code[] =3D {
-> +		"No Start Code",
-> +		"Annex B Start Code",
-> +		NULL,
-> +	};
->  	static const char * const mpeg_mpeg2_level[] =3D {
->  		"Low",
->  		"Main",
-> @@ -640,6 +645,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->  		return h264_fmo_map_type;
->  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:
->  		return h264_decode_mode;
-> +	case V4L2_CID_MPEG_VIDEO_H264_START_CODE:
-> +		return h264_start_code;
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
->  		return mpeg_mpeg2_level;
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
-> @@ -860,6 +867,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS:		return "H264 Slice Paramet=
-ers";
->  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:		return "H264 Decode Param=
-eters";
->  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:		return "H264 Decode Mode";
-> +	case V4L2_CID_MPEG_VIDEO_H264_START_CODE:		return "H264 Start Code";
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:			return "MPEG2 Level";
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:			return "MPEG2 Profile";
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:		return "MPEG4 I-Frame QP Va=
-lue";
-> @@ -1229,6 +1237,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum=
- v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_H264_SEI_FP_ARRANGEMENT_TYPE:
->  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
->  	case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:
-> +	case V4L2_CID_MPEG_VIDEO_H264_START_CODE:
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
-> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> index 928c48c57282..ba2876a64cf6 100644
-> --- a/include/media/h264-ctrls.h
-> +++ b/include/media/h264-ctrls.h
-> @@ -27,6 +27,7 @@
->  #define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_MPEG_BASE+1003)
->  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_MPEG_BASE+1004)
->  #define V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE	(V4L2_CID_MPEG_BASE+1005)
-> +#define V4L2_CID_MPEG_VIDEO_H264_START_CODE	(V4L2_CID_MPEG_BASE+1006)
-> =20
->  /* enum v4l2_ctrl_type type values */
->  #define V4L2_CTRL_TYPE_H264_SPS			0x0110
-> @@ -40,6 +41,11 @@ enum v4l2_mpeg_video_h264_decode_mode {
->  	V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->  };
-> =20
-> +enum v4l2_mpeg_video_h264_start_code {
-> +	V4L2_MPEG_VIDEO_H264_START_CODE_NONE,
-> +	V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-> +};
-> +
->  #define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
->  #define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
->  #define V4L2_H264_SPS_CONSTRAINT_SET2_FLAG			0x04
+Perhaps we can still amend the spec and require controls that
+determine the stream properties to be set before starting the
+streaming? I can imagine it could also help the driver filter out some
+unsupported streams early, before allocating buffers and attempting to
+decode.
 
---=-U0pbP9NiBTf40tHmv8JJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Best regards,
+Tomasz
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXkBmzQAKCRBxUwItrAao
-HJvFAJ9j3qmEHp+mn63qDT+EnFrH3WHs5gCgwXqSR01WgQ6l1I0jPQ+PR0AT5Wc=
-=3XxE
------END PGP SIGNATURE-----
-
---=-U0pbP9NiBTf40tHmv8JJ--
-
+> >
+> > When the application sets a pixel format other than NV12,
+> > the post-processor is transparently enabled.
+> >
+> > Patch 1 is a cleanups needed to easier integrate the post-processor.
+> > Patch 2 introduces the post-processing support.
+> > Patch 3 updates the uAPI specification.
+> >
+> > This is tested on RK3288 platforms with MPEG-2, VP8 and
+> > H264 streams, decoding to YUY2 surfaces. For now, this series
+> > is only adding support for NV12-to-YUY2 conversion.
+> >
+> > Applies to media/master.
+> >
+> > Future plans
+> > ------------
+> >
+> > It seems to me that we should start moving this driver to use
+> > regmap-based access to registers. However, such move is out of scope
+> > and not entirely related to this post-processor enablement.
+> >
+> > We'll work on that as follow-up patches.
+> >
+> > Changelog
+> > ---------
+> >
+> > Changes v3:
+> >
+> > * After discussing with Hans and Tomasz during the media summit
+> > in ELCE, we decided to go back on the MC changes. The MC topology
+> > is now untouched. This means the series is now similar to v1,
+> > except we explicitly use the ENUM_FMT to hint about the post-processed
+> > formats.
+> >
+> > Changes v2:
+> >
+> > * The decoder->post-processor topology is now exposed
+> >   explicitly and applications need to configure the pipeline.
+> >   By default, the decoder is enabled and the post-processor
+> >   is disabled.
+> >
+> > * RGB post-processing output has been dropped. We might
+> >   add this in the future, but for now, it seems it would
+> >   make the code more complex without a use-case in mind.
+> >   RGB is much more memory-consuming so less attractive
+> >   than YUV, and modern GPUs and display controllers support YUV.
+> >
+> > * The post-processor implementation still supports RK3288
+> >   only. However, a generic register infrastructure is introduced
+> >   to make addition of other variants such as RK3399 really easy.
+> >
+> > Ezequiel Garcia (3):
+> >   media: hantro: Cleanup format negotiation helpers
+> >   media: hantro: Support color conversion via post-processing
+> >   media: vidioc-enum-fmt.rst: clarify format preference
+> >
+> >  .../media/uapi/v4l/vidioc-enum-fmt.rst        |   4 +-
+> >  drivers/staging/media/hantro/Makefile         |   1 +
+> >  drivers/staging/media/hantro/hantro.h         |  64 +++++++-
+> >  drivers/staging/media/hantro/hantro_drv.c     |   8 +-
+> >  .../staging/media/hantro/hantro_g1_h264_dec.c |   2 +-
+> >  .../media/hantro/hantro_g1_mpeg2_dec.c        |   2 +-
+> >  drivers/staging/media/hantro/hantro_g1_regs.h |  53 +++++++
+> >  .../staging/media/hantro/hantro_g1_vp8_dec.c  |   2 +-
+> >  drivers/staging/media/hantro/hantro_h264.c    |   6 +-
+> >  drivers/staging/media/hantro/hantro_hw.h      |  13 ++
+> >  .../staging/media/hantro/hantro_postproc.c    | 141 ++++++++++++++++++
+> >  drivers/staging/media/hantro/hantro_v4l2.c    | 105 ++++++++-----
+> >  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 ++
+> >  13 files changed, 366 insertions(+), 45 deletions(-)
+> >  create mode 100644 drivers/staging/media/hantro/hantro_postproc.c
+> >
+>
