@@ -2,109 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0F4B1597D5
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2020 19:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C930415997B
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2020 20:13:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731159AbgBKSLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Feb 2020 13:11:00 -0500
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:34454 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727764AbgBKSLA (ORCPT
+        id S1730803AbgBKTNE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Feb 2020 14:13:04 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:56066 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730748AbgBKTND (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Feb 2020 13:11:00 -0500
-Received: by mail-pl1-f196.google.com with SMTP id j7so4586965plt.1;
-        Tue, 11 Feb 2020 10:11:00 -0800 (PST)
+        Tue, 11 Feb 2020 14:13:03 -0500
+Received: by mail-wm1-f68.google.com with SMTP id q9so5066485wmj.5;
+        Tue, 11 Feb 2020 11:12:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=JMpOqqpilZ7AQlf3RCvgNhVJfJ1KLbsRxFC/cI9QVQo=;
-        b=eGwF4julFDD+DYw/RF7rnhjymOoer+FSJpGyFtgigiiFJ1tGi2GVfVNfoSS+gcQb98
-         Lhk6pI0lrWpY/poSOAOuYAgO339V2jjet3ajtIWb3U49Fp9+i0kj+BggHOciWfxq+pX9
-         ulrxKssn031YIZMxRLHFoej/vc/Yu5phM41a1e6ICqZjbpktO/dE4uSfs7jMVpmSBGXZ
-         Lqz7gJtDYYg10xUoqz6toQSxjMSvHhwTGJpSJpOJUBFJvBFpVd/+m9KT94hJlqQHDVUv
-         3C7B1LLuGLxjdcfpszIyD2wtn16gbSWpnLingdQdkaGAEjwIgCh5hgBa7qZQNbDjwuiT
-         rHzw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=yV/W7OjVzhnhoaIiEdL5uYFmycb/yF6SI7jbHOa+uWc=;
+        b=XxVpd6ihEfbwxBp+qxEzeKf0oZ/85cRaNzdsbUqXfckCxjQG62IQBhPcPdizMenASB
+         qsuC9ar8wQz/krCqUR0J+X58c079DdyqoqkUuL/Y/VdBAXETCYrbBPUbswx17VOAjVfG
+         cFgYivKeJbcgOkoZFYKb7MxLWd6Pt6dlVRH+T/OXC/7DPNYK998M0fKHB7FFc2X3huGy
+         EnYAuKPEFUH4HrXnbjyn8m1qB6f/zkGU9/NpXx1Bz17ehNaKkn5ruhbg1oSVA9GVKLHA
+         fv83L/+adklWgobU+QCC91VEQ7A8wq8kjD+ikwZsAUzydC0CaB+NB6umg/94+bCcMQtp
+         CwDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=JMpOqqpilZ7AQlf3RCvgNhVJfJ1KLbsRxFC/cI9QVQo=;
-        b=LA4jknZ330cn/E5OGMK5TC+e47bgHNbuYhYBGVzRW3OAWESHRQzPrr3z6M0/rg7/+5
-         D7x2jiXWZ6NAAulemFaG0orEIfYCwLtxkyGm0eGqFC4Mh2svF6u51z7sSWOFr2lrzO1v
-         x8BoN/9au1MWSyeBD+d+NBZuqhiZyIGXZg9QDR2AH6WV9u2CeIZcDAaly3EIpXRVQvfR
-         Pa3Sr1BklhfeNCng3wZK207WJ6CxylkSDz1ZQlZ9ggPT7kfebcEHMKqIdPAgP5T7EpIT
-         aSXYnrRGdGMK2XeTPFaLdYV4PyTbAPvIMPGmJhcs/VE/6+rY+0qneHvUV7Bo5+r/y+K4
-         AiXQ==
-X-Gm-Message-State: APjAAAXxkkZolQF0LS75+0WHs0VNpDpD5uH51a3+njl5FkeQxvGLECXM
-        NOIk8Ox8rvL91VkGV0StD6fPDGGm
-X-Google-Smtp-Source: APXvYqxY6c5GKr16qPJ8oLu++FgKXWeGitNZXYf0AeRBxYHPZ8pefxxfDnAdeBzg/ti9Ih6DIzzxIg==
-X-Received: by 2002:a17:90a:bf0c:: with SMTP id c12mr4764969pjs.112.1581444659229;
-        Tue, 11 Feb 2020 10:10:59 -0800 (PST)
-Received: from [172.30.88.83] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id l21sm4840995pgo.33.2020.02.11.10.10.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2020 10:10:58 -0800 (PST)
-Subject: Re: [PATCH] media: staging/imx: Missing assignment in
- imx_media_capture_device_register()
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20200211073522.jobdu256d22c3y32@kili.mountain>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <8cafab51-93d9-9596-bf4d-d8990df7ccda@gmail.com>
-Date:   Tue, 11 Feb 2020 10:10:57 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=yV/W7OjVzhnhoaIiEdL5uYFmycb/yF6SI7jbHOa+uWc=;
+        b=cltOUuu4BZFxBiXF+Yaf495dvi6OGPIwdKnDjlH2wkoJda3GAdcapPwDkxLYP9ZcfR
+         x5my3LziPfkCeVrpe6lz/hh+4Gv1GjJ/QT0kI0OjylYguR7qBEiqa4HwFNfrvC/lU453
+         z9uAtxQMaD42J0wUCQlhvWmJwsXYx5PF2qdQ5X43LXLsYECfYm6xF4J3kWzcRvjvI2iA
+         7sTup+MMKBsuQxNAOD064akrHXg4r+OYWDdNGCKapMTIoVIjKCCrONDCNNjzSOdP6Kf9
+         20YM2xYcD/8fJcYjBDr4vdvuBSN94waqsTHdT/vZbIO0bAUXs5Kf+5KZ4UJC6HSfGQ8v
+         yaTQ==
+X-Gm-Message-State: APjAAAXXVexfrZC4pZB8+Qmmyo+VFmzc8rRs5b4OpaJOU70PME0MQdrB
+        LmmlI7dibz+wUi9IyesFiYE=
+X-Google-Smtp-Source: APXvYqzHGEsEDjUipivXQXZOOpPKSbnu17FHNNxOAmtRHg7brAQ9dvSPOc6wceHdQw0a9+uOrmOSRw==
+X-Received: by 2002:a05:600c:2c06:: with SMTP id q6mr7570602wmg.154.1581448379274;
+        Tue, 11 Feb 2020 11:12:59 -0800 (PST)
+Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net. [194.152.20.232])
+        by smtp.gmail.com with ESMTPSA id w1sm7076839wro.72.2020.02.11.11.12.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Feb 2020 11:12:57 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, wens@csie.org, linux-sunxi@googlegroups.com
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mturquette@baylibre.com, sboyd@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-sunxi@googlegroups.com, jernej.skrabec@siol.net
+Subject: Re: [linux-sunxi] [PATCH 0/8] media: sunxi: Add DE2 rotate driver
+Date:   Tue, 11 Feb 2020 20:12:56 +0100
+Message-ID: <4206703.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20200124232014.574989-1-jernej.skrabec@siol.net>
+References: <20200124232014.574989-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-In-Reply-To: <20200211073522.jobdu256d22c3y32@kili.mountain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for catching. Tested on a imx6 sabreauto and it's fine.
+Dne sobota, 25. januar 2020 ob 00:20:06 CET je Jernej Skrabec napisal(a):
+> Some of Allwinner SoCs like A83T and A64 SoCs contain DE2 rotate core
+> which can flip image horizontal and vertical and rotate it in 90 deg.
+> steps. It support a lot of output formats, but a bit less capture
+> formats. All YUV input formats get converted to yuv420p, while RGB
+> formats are preserved.
+> 
+> Patches 1-2 fix few issues with DE2 clocks.
+> 
+> Patches 3-4 fix register range of DE2 clocks (it would overlap with
+> rotate driver)
+> 
+> Patches 5-8 provide binding, implement driver and add nodes.
+> 
+> v4l2-compliance SHA: ec55a961487b449bedbe07650674b4965814cf07, 32 bits,
+> 32-bit time_t
+> 
+> Compliance test for sun8i-rotate device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : sun8i-rotate
+>         Card type        : sun8i-rotate
+>         Bus info         : platform:sun8i-rotate
+>         Driver version   : 5.5.0
+>         Capabilities     : 0x84208000
+>                 Video Memory-to-Memory
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04208000
+>                 Video Memory-to-Memory
+>                 Streaming
+>                 Extended Pix Format
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+>         test invalid ioctls: OK
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 4 Private Controls: 0
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+> 
+> Total for sun8i-rotate device /dev/video0: 45, Succeeded: 45, Failed: 0,
+> Warnings: 0
+> 
+> Best regards,
+> Jernej
+> 
+> Jernej Skrabec (8):
+>   clk: sunxi-ng: sun8i-de2: Swap A64 and H6 definitions
+>   clk: sunxi-ng: sun8i-de2: Fix A83T clocks and reset
 
-On 2/10/20 11:35 PM, Dan Carpenter wrote:
-> There was supposed to be a "ret = " assignment here, otherwise the
-> error handling on the next line won't work.
->
-> Fixes: 64b5a49df486 ("[media] media: imx: Add Capture Device Interface")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Please disregard above two patches. It turns out that many more changes are 
+required to fix mess with rotation clocks and reset. I sent separate patch 
+series: http://lists.infradead.org/pipermail/linux-arm-kernel/2020-February/
+710242.html
 
-Reviewed-by: Steve Longerbeam <slongerbeam@gmail.com>
+Comments on the rest of the series are welcome, though.
 
-> ---
-> Not tested.  Sometimes in these situations the function could be
-> returning something bogus but no one knew because the assignment wasn't
-> there.  So it's best to test these.
->
->   drivers/staging/media/imx/imx-media-capture.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> index 7712e7be8625..df0bf680721b 100644
-> --- a/drivers/staging/media/imx/imx-media-capture.c
-> +++ b/drivers/staging/media/imx/imx-media-capture.c
-> @@ -778,7 +778,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
->   	/* setup default format */
->   	fmt_src.pad = priv->src_sd_pad;
->   	fmt_src.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> -	v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt_src);
-> +	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt_src);
->   	if (ret) {
->   		v4l2_err(sd, "failed to get src_sd format\n");
->   		goto unreg;
+Best regards,
+Jernej
+
+>   ARM: dts: sunxi: Fix DE2 clocks register range
+>   arm64: dts: allwinner: a64: Fix display clock register range
+>   media: dt-bindings: media: Add Allwinner A83T Rotate driver
+>   media: sun8i: Add Allwinner A83T Rotate driver
+>   ARM: dts: sun8i: a83t: Add device node for rotation core
+>   arm64: dts: allwinner: a64: add node for rotation core
+> 
+>  .../allwinner,sun8i-a83t-de2-rotate.yaml      |  70 ++
+>  MAINTAINERS                                   |   8 +
+>  arch/arm/boot/dts/sun8i-a83t.dtsi             |  13 +-
+>  arch/arm/boot/dts/sun8i-r40.dtsi              |   2 +-
+>  arch/arm/boot/dts/sun8i-v3s.dtsi              |   2 +-
+>  arch/arm/boot/dts/sunxi-h3-h5.dtsi            |   2 +-
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  14 +-
+>  drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  49 +-
+>  drivers/media/platform/Kconfig                |  12 +
+>  drivers/media/platform/sunxi/Makefile         |   1 +
+>  .../platform/sunxi/sun8i-rotate/Makefile      |   2 +
+>  .../sunxi/sun8i-rotate/sun8i-formats.c        | 273 ++++++
+>  .../sunxi/sun8i-rotate/sun8i-formats.h        |  25 +
+>  .../sunxi/sun8i-rotate/sun8i-rotate.c         | 924 ++++++++++++++++++
+>  .../sunxi/sun8i-rotate/sun8i-rotate.h         | 135 +++
+>  15 files changed, 1512 insertions(+), 20 deletions(-)
+>  create mode 100644
+> Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-de2-rotate.yam
+> l create mode 100644 drivers/media/platform/sunxi/sun8i-rotate/Makefile
+> create mode 100644
+> drivers/media/platform/sunxi/sun8i-rotate/sun8i-formats.c create mode
+> 100644 drivers/media/platform/sunxi/sun8i-rotate/sun8i-formats.h create
+> mode 100644 drivers/media/platform/sunxi/sun8i-rotate/sun8i-rotate.c create
+> mode 100644 drivers/media/platform/sunxi/sun8i-rotate/sun8i-rotate.h
+
+
+
 
