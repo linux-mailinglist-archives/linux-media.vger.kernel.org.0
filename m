@@ -2,100 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F728158A10
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2020 07:49:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE14E158A7A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2020 08:36:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727662AbgBKGtc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Feb 2020 01:49:32 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54009 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727481AbgBKGtb (ORCPT
+        id S1727563AbgBKHgM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Feb 2020 02:36:12 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:34292 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727178AbgBKHgM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Feb 2020 01:49:31 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 32CC221FC6;
-        Tue, 11 Feb 2020 01:49:30 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 11 Feb 2020 01:49:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=XdztXMV9iyXzMFlJWwifunfdijp
-        ZRx0c+G9mn+c5wW4=; b=gFq6btPzW+RpRULrPtwkrOzprABO+88TuN7FjK6PjiH
-        cuZDuxURE2jMWvg3+zXYfbf/za4X06QjtSbnWYgGeWN0RszLy7jXbz3wDI8g2y+Y
-        A39qbWuCOiwp00cVxNqYXBXQCDqeCiyERsvuXRGF2MWEtD3C9aQkAOD0+hceOuY4
-        j7oVjR2xUPp2u4OTrL5RCb3IyCbd9IaGuQQUPI9JdV0TDJifDBNcHE5Y3D+/0zUo
-        GsxSi1jQjopXopwAtfgWx9RpSiWC9gt1gOjzNDaJm1cL+UhjiHBNnFLdrlWFN5oB
-        OpqfpaFS+GGZl3u+45p2ZEbVvCmQZ/NQ4GHbtB+lu/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=XdztXM
-        V9iyXzMFlJWwifunfdijpZRx0c+G9mn+c5wW4=; b=X1enKO5gTifLFa1Tyq39P9
-        IZomnM1+PMGLA6dOvBmOrZmJrAySBoNu4wYwDa9w9vq8Tz1Oxv5VR0C2c+A6uPR3
-        SnMfFFWBKnGO9tBRcMAENzappH5aE0Dt5x0x9rJvGQo+tT0D+GZ4ZWzOUexCw/qv
-        qX2ArAqCqF6GVWMDEq0fWogXSjmZ3Lvwry0hqVCK/eEV4V48lMFy/2Ms8ni6CPV7
-        6SC8sob0bYo9p74F3e46OgBGt8SDrcjP82gxRe/iQWxNeBwOMyRsCnkLu880wJ0w
-        IGsEPfxTyYrfOxK2SUv3cCKtn8xahZvKZvDuCPq4JCTbhayPKUMdkVE97mf8tIeQ
-        ==
-X-ME-Sender: <xms:eE5CXsffZtlZVleiv-xYIOb7dSUU1tXVbmXaqhLacrcVX6rLcc3bkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedriedvgdellecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
-    ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:eE5CXizdT_P2cmtLz9-0qpl2aw-5W7Jrx13LktK0vfB6p5hQE5pWZA>
-    <xmx:eE5CXi8394U4vLUXdnborBVnucisXG-X3X23NwonmszUeDGO2WXt6w>
-    <xmx:eE5CXkkhGSrQzszh99htJax3bgSvKJc5p0ydGn0nDzdTs1hHC0woug>
-    <xmx:ek5CXna2lWWhM6KBrYlE2fM7k798qQytAwxLRhg2a5cS6V1jJm1ipA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 491B3328005D;
-        Tue, 11 Feb 2020 01:49:28 -0500 (EST)
-Date:   Tue, 11 Feb 2020 07:49:26 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     wens@csie.org, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v2 0/5] arm64: dts: allwinner: a64: Enable deinterlace
- core
-Message-ID: <20200211064926.muxnaphoq4nbrs72@gilmour.lan>
-References: <20200210170656.82265-1-jernej.skrabec@siol.net>
+        Tue, 11 Feb 2020 02:36:12 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01B7WwfP168528;
+        Tue, 11 Feb 2020 07:35:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=sWcfPF3Kh2ubfozEMoeZnRUtpf2TdZmIYyL6LFnBsWM=;
+ b=D7ASVWDQlX3hGWDJ2QA/aP3XibeOSpKpkZTZBujeQ2UEb4SMdS3ve1bbDeobCCZtdPcN
+ CnlygkexYeS0aZ8t4156QaEJ5FcaCOPOA1J8zOE7Y2exSiIjJ0NhyYz7oBEoIzSIyWOK
+ mUIhcv5/FjWAcldkZLPfvQrIUJPkAtp8JqZe1XoIJNMTPMm2WufrDpwR0rYNTnaVE/87
+ yO6Wyw/2AcqbdXgcvxvgCJFrHqKMT+gjW+MC9OloG+6OLChMf22QwqlOu/dfNaAU8j58
+ 7raEbq6JmERG5A2zNyuMO0m/Fw333R9lq0pc+FXFvjOyOlXCBrWv4H0bocgKcSHmVELt SA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2y2p3s9ar0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 11 Feb 2020 07:35:59 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01B7WANi138459;
+        Tue, 11 Feb 2020 07:35:58 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 2y26huengp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 11 Feb 2020 07:35:58 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01B7ZuaZ009248;
+        Tue, 11 Feb 2020 07:35:56 GMT
+Received: from kili.mountain (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 10 Feb 2020 23:35:55 -0800
+Date:   Tue, 11 Feb 2020 10:35:46 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: staging/imx: Missing assignment in
+ imx_media_capture_device_register()
+Message-ID: <20200211073522.jobdu256d22c3y32@kili.mountain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rwr2mhgisf5go3ox"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200210170656.82265-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email haha only kidding
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9527 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 suspectscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002110054
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9527 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
+ impostorscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002110054
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+There was supposed to be a "ret = " assignment here, otherwise the
+error handling on the next line won't work.
 
---rwr2mhgisf5go3ox
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fixes: 64b5a49df486 ("[media] media: imx: Add Capture Device Interface")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+Not tested.  Sometimes in these situations the function could be
+returning something bogus but no one knew because the assignment wasn't
+there.  So it's best to test these.
 
-On Mon, Feb 10, 2020 at 06:06:51PM +0100, Jernej Skrabec wrote:
-> Allwinner A64 contains deinterlace core, compatible to the one found in
-> H3. It can be used in combination with VPU to playback interlaced videos.
->
-> Please take a look.
+ drivers/staging/media/imx/imx-media-capture.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks!
-Maxime
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index 7712e7be8625..df0bf680721b 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -778,7 +778,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+ 	/* setup default format */
+ 	fmt_src.pad = priv->src_sd_pad;
+ 	fmt_src.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+-	v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt_src);
++	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt_src);
+ 	if (ret) {
+ 		v4l2_err(sd, "failed to get src_sd format\n");
+ 		goto unreg;
+-- 
+2.11.0
 
---rwr2mhgisf5go3ox
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkJOdgAKCRDj7w1vZxhR
-xU35AQD3LjdGbe0ijT1ImTTyhYz9dseJPfQ+YsQLd+m3QBvTEwD8DJEmtNRM/8AC
-3IZoFJmm5wKb4si4CoYWpoVwsaHnnwk=
-=dTRv
------END PGP SIGNATURE-----
-
---rwr2mhgisf5go3ox--
