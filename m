@@ -2,113 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 325821589CB
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2020 06:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F728158A10
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2020 07:49:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbgBKF4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Feb 2020 00:56:03 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:60310 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727434AbgBKF4C (ORCPT
+        id S1727662AbgBKGtc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Feb 2020 01:49:32 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54009 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727481AbgBKGtb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Feb 2020 00:56:02 -0500
-X-UUID: acb308b7595741e49e3624f002443ef0-20200211
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=UZncKfN5pbA6KAUGfVcuH3KW3o6KJUR94XVtsqFT8Ho=;
-        b=Y/iRRfomGL7Q82xifLIQqXMjjXhnPsfS86r6Ht8HsmCW1/wKbPmxHs5lv35m6uIiq8inVZyxD3+8xblzxeZZGD+GKl3tM/sgS8xR8FJQ9xy4RL4Gh1Lq+QyM0pafv35uAtCwXJcy9/KSCY3urdpRqRCqPVdnqbunE2417l2NtAk=;
-X-UUID: acb308b7595741e49e3624f002443ef0-20200211
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
-        (envelope-from <gtk_ruiwang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 263313503; Tue, 11 Feb 2020 13:55:54 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 11 Feb 2020 13:55:10 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 11 Feb 2020 13:54:07 +0800
-From:   <gtk_ruiwang@mediatek.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>
-CC:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        <gtk_ruiwang@mediatek.com>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>
-Subject: [PATCH][v3] media: mtk-vcodec: reset segment data then trig decoder
-Date:   Tue, 11 Feb 2020 13:55:32 +0800
-Message-ID: <20200211055532.4563-1-gtk_ruiwang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Tue, 11 Feb 2020 01:49:31 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 32CC221FC6;
+        Tue, 11 Feb 2020 01:49:30 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 11 Feb 2020 01:49:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=XdztXMV9iyXzMFlJWwifunfdijp
+        ZRx0c+G9mn+c5wW4=; b=gFq6btPzW+RpRULrPtwkrOzprABO+88TuN7FjK6PjiH
+        cuZDuxURE2jMWvg3+zXYfbf/za4X06QjtSbnWYgGeWN0RszLy7jXbz3wDI8g2y+Y
+        A39qbWuCOiwp00cVxNqYXBXQCDqeCiyERsvuXRGF2MWEtD3C9aQkAOD0+hceOuY4
+        j7oVjR2xUPp2u4OTrL5RCb3IyCbd9IaGuQQUPI9JdV0TDJifDBNcHE5Y3D+/0zUo
+        GsxSi1jQjopXopwAtfgWx9RpSiWC9gt1gOjzNDaJm1cL+UhjiHBNnFLdrlWFN5oB
+        OpqfpaFS+GGZl3u+45p2ZEbVvCmQZ/NQ4GHbtB+lu/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=XdztXM
+        V9iyXzMFlJWwifunfdijpZRx0c+G9mn+c5wW4=; b=X1enKO5gTifLFa1Tyq39P9
+        IZomnM1+PMGLA6dOvBmOrZmJrAySBoNu4wYwDa9w9vq8Tz1Oxv5VR0C2c+A6uPR3
+        SnMfFFWBKnGO9tBRcMAENzappH5aE0Dt5x0x9rJvGQo+tT0D+GZ4ZWzOUexCw/qv
+        qX2ArAqCqF6GVWMDEq0fWogXSjmZ3Lvwry0hqVCK/eEV4V48lMFy/2Ms8ni6CPV7
+        6SC8sob0bYo9p74F3e46OgBGt8SDrcjP82gxRe/iQWxNeBwOMyRsCnkLu880wJ0w
+        IGsEPfxTyYrfOxK2SUv3cCKtn8xahZvKZvDuCPq4JCTbhayPKUMdkVE97mf8tIeQ
+        ==
+X-ME-Sender: <xms:eE5CXsffZtlZVleiv-xYIOb7dSUU1tXVbmXaqhLacrcVX6rLcc3bkA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedriedvgdellecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
+    ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:eE5CXizdT_P2cmtLz9-0qpl2aw-5W7Jrx13LktK0vfB6p5hQE5pWZA>
+    <xmx:eE5CXi8394U4vLUXdnborBVnucisXG-X3X23NwonmszUeDGO2WXt6w>
+    <xmx:eE5CXkkhGSrQzszh99htJax3bgSvKJc5p0ydGn0nDzdTs1hHC0woug>
+    <xmx:ek5CXna2lWWhM6KBrYlE2fM7k798qQytAwxLRhg2a5cS6V1jJm1ipA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 491B3328005D;
+        Tue, 11 Feb 2020 01:49:28 -0500 (EST)
+Date:   Tue, 11 Feb 2020 07:49:26 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     wens@csie.org, mchehab@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v2 0/5] arm64: dts: allwinner: a64: Enable deinterlace
+ core
+Message-ID: <20200211064926.muxnaphoq4nbrs72@gilmour.lan>
+References: <20200210170656.82265-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rwr2mhgisf5go3ox"
+Content-Disposition: inline
+In-Reply-To: <20200210170656.82265-1-jernej.skrabec@siol.net>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogZ3RrX3J1aXdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNvbT4NCg0KVlA5IGJpdHN0
-cmVhbSBzcGVjaWZpY2F0aW9uIGluZGljYXRlIHNlZ21lbnQgZGF0YSBzaG91bGQgcmVzZXQgdG8N
-CmRlZmF1bHQgd2hlbiBtZWV0IGtleSBmcmFtZXMsIGludHJhIG9ubHkgZnJhbWVzIG9yIGVuYWJs
-ZSBlcnJvcg0KcmVzaWxpZW5jZSBtb2RlLiBTbyBtZW1zZXQgc2VnbWVudGF0aW9uIG1hcCBidWZm
-ZXIgYmVmb3JlIGV2ZXJ5DQpkZWNvZGUgcHJvY2VzcyBpcyBub3QgYXBwcm9wcmlhdGUuDQoNClJl
-c2V0IHNlZ21lbnQgZGF0YSBvbmx5IHdoZW4gbmVlZGVkLCB0aGVuIHN0YXJ0IGRlY29kZXIgaGFy
-ZHdhcmUNCg0KU2lnbmVkLW9mZi1ieTogUnVpIFdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNv
-bT4NCi0tLQ0KQ2hhbmdlZCBpbiB2MzoNCi0gbW9kaWZ5IGJpdDMgdXNhZ2UgZGVzY3JpcHRpb24N
-Ci0tLQ0KIC4uLi9wbGF0Zm9ybS9tdGstdmNvZGVjL3ZkZWMvdmRlY192cDlfaWYuYyAgICB8IDI5
-ICsrKysrKysrKysrKysrKystLS0NCiAxIGZpbGUgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwg
-NCBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRr
-LXZjb2RlYy92ZGVjL3ZkZWNfdnA5X2lmLmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12
-Y29kZWMvdmRlYy92ZGVjX3ZwOV9pZi5jDQppbmRleCAyNGMxZjBiZjIxNDcuLjI1N2E1YjVhZDIx
-MiAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVjL3Zk
-ZWNfdnA5X2lmLmMNCisrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy92ZGVj
-L3ZkZWNfdnA5X2lmLmMNCkBAIC0xMTAsNyArMTEwLDExIEBAIHN0cnVjdCB2cDlfc2ZfcmVmX2Zi
-IHsNCiAgKiBAYnVmX2xlbl9zel9jIDogc2l6ZSB1c2VkIHRvIHN0b3JlIGNiY3IgcGxhbmUgdWZv
-IGluZm8gKEFQLVIsIFZQVS1XKQ0KIA0KICAqIEBwcm9maWxlIDogcHJvZmlsZSBzcGFyc2VkIGZy
-b20gdnB1IChBUC1SLCBWUFUtVykNCi0gKiBAc2hvd19mcmFtZSA6IGRpc3BsYXkgdGhpcyBmcmFt
-ZSBvciBub3QgKEFQLVIsIFZQVS1XKQ0KKyAqIEBzaG93X2ZyYW1lIDogW0JJVCgwKV0gZGlzcGxh
-eSB0aGlzIGZyYW1lIG9yIG5vdCAoQVAtUiwgVlBVLVcpDQorICoJW0JJVCgxKV0gcmVzZXQgc2Vn
-bWVudCBkYXRhIG9yIG5vdCAoQVAtUiwgVlBVLVcpDQorICoJW0JJVCgyKV0gdHJpZyBkZWNvZGVy
-IGhhcmR3YXJlIG9yIG5vdCAoQVAtUiwgVlBVLVcpDQorICoJW0JJVCgzKV0gYXNrIFZQVSB0byBz
-ZXQgYml0cygwfjQpIGFjY29yZGluZ2x5IChBUC1XLCBWUFUtUikNCisgKglbQklUKDQpXSBkbyBu
-b3QgcmVzZXQgc2VnbWVudCBkYXRhIGJlZm9yZSBldmVyeSBmcmFtZSAoQVAtUiwgVlBVLVcpDQog
-ICogQHNob3dfZXhpc3RpbmdfZnJhbWUgOiBpbmZvcm0gdGhpcyBmcmFtZSBpcyBzaG93IGV4aXN0
-aW5nIGZyYW1lDQogICoJKEFQLVIsIFZQVS1XKQ0KICAqIEBmcm1fdG9fc2hvd19pZHggOiBpbmRl
-eCB0byBzaG93IGZyYW1lIChBUC1SLCBWUFUtVykNCkBAIC00OTQsMTIgKzQ5OCwxMiBAQCBzdGF0
-aWMgdm9pZCB2cDlfc3dhcF9mcm1fYnVmcyhzdHJ1Y3QgdmRlY192cDlfaW5zdCAqaW5zdCkNCiAJ
-CQkJCWZybV90b19zaG93LT5mYi0+YmFzZV95LnNpemUpOw0KIAkJfQ0KIAkJaWYgKCF2cDlfaXNf
-c2ZfcmVmX2ZiKGluc3QsIGluc3QtPmN1cl9mYikpIHsNCi0JCQlpZiAodnNpLT5zaG93X2ZyYW1l
-KQ0KKwkJCWlmICh2c2ktPnNob3dfZnJhbWUgJiBCSVQoMCkpDQogCQkJCXZwOV9hZGRfdG9fZmJf
-ZGlzcF9saXN0KGluc3QsIGluc3QtPmN1cl9mYik7DQogCQl9DQogCX0gZWxzZSB7DQogCQlpZiAo
-IXZwOV9pc19zZl9yZWZfZmIoaW5zdCwgaW5zdC0+Y3VyX2ZiKSkgew0KLQkJCWlmICh2c2ktPnNo
-b3dfZnJhbWUpDQorCQkJaWYgKHZzaS0+c2hvd19mcmFtZSAmIEJJVCgwKSkNCiAJCQkJdnA5X2Fk
-ZF90b19mYl9kaXNwX2xpc3QoaW5zdCwgZnJtX3RvX3Nob3ctPmZiKTsNCiAJCX0NCiAJfQ0KQEAg
-LTgwMCw2ICs4MDQsOSBAQCBzdGF0aWMgaW50IHZkZWNfdnA5X2luaXQoc3RydWN0IG10a192Y29k
-ZWNfY3R4ICpjdHgpDQogCX0NCiANCiAJaW5zdC0+dnNpID0gKHN0cnVjdCB2ZGVjX3ZwOV92c2kg
-KilpbnN0LT52cHUudnNpOw0KKw0KKwlpbnN0LT52c2ktPnNob3dfZnJhbWUgfD0gQklUKDMpOw0K
-Kw0KIAlpbml0X2FsbF9mYl9saXN0cyhpbnN0KTsNCiANCiAJY3R4LT5kcnZfaGFuZGxlID0gaW5z
-dDsNCkBAIC04NzAsMTMgKzg3NywyNyBAQCBzdGF0aWMgaW50IHZkZWNfdnA5X2RlY29kZSh2b2lk
-ICpoX3ZkZWMsIHN0cnVjdCBtdGtfdmNvZGVjX21lbSAqYnMsDQogCQkJCQl2c2ktPnNmX2ZybV9z
-eltpZHhdKTsNCiAJCQl9DQogCQl9DQotCQltZW1zZXQoaW5zdC0+c2VnX2lkX2J1Zi52YSwgMCwg
-aW5zdC0+c2VnX2lkX2J1Zi5zaXplKTsNCisNCisJCWlmICghKHZzaS0+c2hvd19mcmFtZSAmIEJJ
-VCg0KSkpDQorCQkJbWVtc2V0KGluc3QtPnNlZ19pZF9idWYudmEsIDAsIGluc3QtPnNlZ19pZF9i
-dWYuc2l6ZSk7DQorDQogCQlyZXQgPSB2cHVfZGVjX3N0YXJ0KCZpbnN0LT52cHUsIGRhdGEsIDMp
-Ow0KIAkJaWYgKHJldCkgew0KIAkJCW10a192Y29kZWNfZXJyKGluc3QsICJ2cHVfZGVjX3N0YXJ0
-IGZhaWxlZCIpOw0KIAkJCWdvdG8gREVDT0RFX0VSUk9SOw0KIAkJfQ0KIA0KKwkJaWYgKHZzaS0+
-c2hvd19mcmFtZSAmIEJJVCgxKSkgew0KKwkJCW1lbXNldChpbnN0LT5zZWdfaWRfYnVmLnZhLCAw
-LCBpbnN0LT5zZWdfaWRfYnVmLnNpemUpOw0KKw0KKwkJCWlmICh2c2ktPnNob3dfZnJhbWUgJiBC
-SVQoMikpIHsNCisJCQkJaWYgKHZwdV9kZWNfc3RhcnQoJmluc3QtPnZwdSwgTlVMTCwgMCkpIHsN
-CisJCQkJCW10a192Y29kZWNfZXJyKGluc3QsICJ2cHUgdHJpZyBkZWNvZGVyIGZhaWxlZCIpOw0K
-KwkJCQkJZ290byBERUNPREVfRVJST1I7DQorCQkJCX0NCisJCQl9DQorCQl9DQorDQogCQlyZXQg
-PSB2YWxpZGF0ZV92c2lfYXJyYXlfaW5kZXhlcyhpbnN0LCB2c2kpOw0KIAkJaWYgKHJldCkgew0K
-IAkJCW10a192Y29kZWNfZXJyKGluc3QsICJJbnZhbGlkIHZhbHVlcyBmcm9tIFZQVS4iKTsNCi0t
-IA0KMi4xOC4wDQo=
 
+--rwr2mhgisf5go3ox
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Feb 10, 2020 at 06:06:51PM +0100, Jernej Skrabec wrote:
+> Allwinner A64 contains deinterlace core, compatible to the one found in
+> H3. It can be used in combination with VPU to playback interlaced videos.
+>
+> Please take a look.
+
+Applied, thanks!
+Maxime
+
+--rwr2mhgisf5go3ox
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXkJOdgAKCRDj7w1vZxhR
+xU35AQD3LjdGbe0ijT1ImTTyhYz9dseJPfQ+YsQLd+m3QBvTEwD8DJEmtNRM/8AC
+3IZoFJmm5wKb4si4CoYWpoVwsaHnnwk=
+=dTRv
+-----END PGP SIGNATURE-----
+
+--rwr2mhgisf5go3ox--
