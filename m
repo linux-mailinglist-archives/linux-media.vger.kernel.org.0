@@ -2,29 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1660B15C947
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2020 18:18:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A84F615C972
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2020 18:33:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728047AbgBMRSA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 13 Feb 2020 12:18:00 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:58338 "EHLO www.linuxtv.org"
+        id S1728047AbgBMRdA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 13 Feb 2020 12:33:00 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:60062 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727781AbgBMRSA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Feb 2020 12:18:00 -0500
+        id S1727991AbgBMRdA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 13 Feb 2020 12:33:00 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1j2I6G-00DZue-CY; Thu, 13 Feb 2020 17:16:28 +0000
+        id 1j2IKm-00DaeA-3H; Thu, 13 Feb 2020 17:31:28 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1j2I91-0005QA-LK; Thu, 13 Feb 2020 17:19:19 +0000
-Date:   Thu, 13 Feb 2020 17:19:19 +0000 (UTC)
+        id 1j2INX-0005ix-T2; Thu, 13 Feb 2020 17:34:19 +0000
+Date:   Thu, 13 Feb 2020 17:34:19 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <994996962.6.1581614359648.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2969
+Message-ID: <725822833.7.1581615259891.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <994996962.6.1581614359648.JavaMail.jenkins@builder.linuxtv.org>
+References: <994996962.6.1581614359648.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2970
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -37,15 +39,11 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2969/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media-build/2970/display/redirect?page=changes>
 
 Changes:
 
-[hverkuil-cisco] Fix v4.4 build
-
-[hverkuil-cisco] Patch videobuf-dma-sg.c for <5.6.
-
-[hverkuil-cisco] Drop backports/v4.18_add_map_atomic.patch
+[hverkuil-cisco] Look in new header dev_printk.h
 
 
 ------------------------------------------
@@ -61,12 +59,12 @@ Fetching upstream changes from git://linuxtv.org/media_build.git
  > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
  > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision 130e88d25c69a5371079a266ecdd09c0577cf7b6 (refs/remotes/origin/master)
+Checking out Revision 4bc8680a31802ed323238245c41ad9b1cf37bf6a (refs/remotes/origin/master)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 130e88d25c69a5371079a266ecdd09c0577cf7b6 # timeout=10
-Commit message: "Drop backports/v4.18_add_map_atomic.patch"
- > git rev-list --no-walk 7b37031dca3e3af4b8416e028dc0e10a37ca99c7 # timeout=10
-[media-build] $ /bin/sh -xe /tmp/jenkins4295758709307358945.sh
+ > git checkout -f 4bc8680a31802ed323238245c41ad9b1cf37bf6a # timeout=10
+Commit message: "Look in new header dev_printk.h"
+ > git rev-list --no-walk 130e88d25c69a5371079a266ecdd09c0577cf7b6 # timeout=10
+[media-build] $ /bin/sh -xe /tmp/jenkins16623900108776630445.sh
 + ./build
 Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
 Needed package dependencies are met.
@@ -97,20 +95,20 @@ From git://linuxtv.org/media_build
 Already up to date.
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-02-13 17:18:19--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+--2020-02-13 17:33:19--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
 Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
 Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
 HTTP request sent, awaiting response... 301 Moved Permanently
 Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-02-13 17:18:19--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+--2020-02-13 17:33:19--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
 Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 105 [application/x-bzip2]
 Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-     0K                                                       100%  194M=0s
+     0K                                                       100%  164M=0s
 
-2020-02-13 17:18:20 (194 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+2020-02-13 17:33:20 (164 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
 make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
