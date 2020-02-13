@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D64815BC0A
+	by mail.lfdr.de (Postfix) with ESMTP id 9D2AF15BC0B
 	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2020 10:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729685AbgBMJti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1729632AbgBMJti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 13 Feb 2020 04:49:38 -0500
-Received: from retiisi.org.uk ([95.216.213.190]:59674 "EHLO
+Received: from retiisi.org.uk ([95.216.213.190]:59676 "EHLO
         hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729629AbgBMJti (ORCPT
+        by vger.kernel.org with ESMTP id S1729666AbgBMJti (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 13 Feb 2020 04:49:38 -0500
 Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1001])
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 1A2AD634C91
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 4BEB2634C92
         for <linux-media@vger.kernel.org>; Thu, 13 Feb 2020 11:49:19 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 6/7] smiapp: Refactor reading SMIA limits
-Date:   Thu, 13 Feb 2020 11:49:33 +0200
-Message-Id: <20200213094934.18595-7-sakari.ailus@linux.intel.com>
+Subject: [PATCH 7/7] smiapp: Move definitions under driver directory
+Date:   Thu, 13 Feb 2020 11:49:34 +0200
+Message-Id: <20200213094934.18595-8-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213094934.18595-1-sakari.ailus@linux.intel.com>
 References: <20200213094934.18595-1-sakari.ailus@linux.intel.com>
@@ -30,74 +30,165 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Combine the two trivial functions reading limits into one. Also rename
-smiapp_get_all_limits() as smiapp_read_all_smia_limits().
+include/media/i2c/smiapp.h was meant to serve systems where the sensor is
+enumerated through platform data. That's no longer necessary, hopefully
+not even in out-of-tree use cases. Move the definitions to the appropriate
+headers.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/smiapp/smiapp-core.c | 32 ++++++++------------------
- 1 file changed, 10 insertions(+), 22 deletions(-)
+ drivers/media/i2c/smiapp/smiapp-reg.h |  4 ++
+ drivers/media/i2c/smiapp/smiapp.h     | 44 ++++++++++++++++++-
+ include/media/i2c/smiapp.h            | 63 ---------------------------
+ 3 files changed, 47 insertions(+), 64 deletions(-)
+ delete mode 100644 include/media/i2c/smiapp.h
 
-diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-index a6800e5c495d..5e4f6a2ef78e 100644
---- a/drivers/media/i2c/smiapp/smiapp-core.c
-+++ b/drivers/media/i2c/smiapp/smiapp-core.c
-@@ -69,37 +69,25 @@ static u32 smiapp_get_limit(struct smiapp_sensor *sensor,
- #define SMIA_LIM(sensor, limit) \
- 	smiapp_get_limit(sensor, SMIAPP_LIMIT_##limit)
+diff --git a/drivers/media/i2c/smiapp/smiapp-reg.h b/drivers/media/i2c/smiapp/smiapp-reg.h
+index 43505cd0616e..e6f96309786f 100644
+--- a/drivers/media/i2c/smiapp/smiapp-reg.h
++++ b/drivers/media/i2c/smiapp/smiapp-reg.h
+@@ -35,6 +35,10 @@
+ #define SMIAPP_FLASH_MODE_CAPABILITY_SINGLE_STROBE	BIT(0)
+ #define SMIAPP_FLASH_MODE_CAPABILITY_MULTIPLE_STROBE	BIT(1)
  
--static int smiapp_get_limits(struct smiapp_sensor *sensor, int const *limit,
--			     unsigned int n)
-+static int smiapp_read_all_smia_limits(struct smiapp_sensor *sensor)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	unsigned int i;
--	u32 val;
- 	int rval;
- 
--	for (i = 0; i < n; i++) {
-+	for (i = 0; i < SMIAPP_LIMIT_LAST; i++) {
-+		u32 val;
++#define SMIAPP_CSI_SIGNALLING_MODE_CCP2_DATA_CLOCK	0
++#define SMIAPP_CSI_SIGNALLING_MODE_CCP2_DATA_STROBE	1
++#define SMIAPP_CSI_SIGNALLING_MODE_CSI2			2
 +
- 		rval = smiapp_read(
--			sensor, smiapp_reg_limits[limit[i]].addr, &val);
-+			sensor, smiapp_reg_limits[i].addr, &val);
- 		if (rval)
- 			return rval;
--		sensor->limits[limit[i]] = val;
--		dev_dbg(&client->dev, "0x%8.8x \"%s\" = %u, 0x%x\n",
--			smiapp_reg_limits[limit[i]].addr,
--			smiapp_reg_limits[limit[i]].what, val, val);
--	}
+ #define SMIAPP_DPHY_CTRL_AUTOMATIC			0
+ /* DPHY control based on REQUESTED_LINK_BIT_RATE_MBPS */
+ #define SMIAPP_DPHY_CTRL_UI				1
+diff --git a/drivers/media/i2c/smiapp/smiapp.h b/drivers/media/i2c/smiapp/smiapp.h
+index 4837d80dc453..6f469934f9e3 100644
+--- a/drivers/media/i2c/smiapp/smiapp.h
++++ b/drivers/media/i2c/smiapp/smiapp.h
+@@ -14,7 +14,6 @@
+ #include <linux/mutex.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-subdev.h>
+-#include <media/i2c/smiapp.h>
  
--	return 0;
--}
-+		sensor->limits[i] = val;
+ #include "smiapp-pll.h"
+ #include "smiapp-reg.h"
+@@ -42,6 +41,49 @@
  
--static int smiapp_get_all_limits(struct smiapp_sensor *sensor)
--{
--	unsigned int i;
--	int rval;
+ #define SMIAPP_COLOUR_COMPONENTS	4
+ 
++#define SMIAPP_NAME		"smiapp"
++
++#define SMIAPP_DFL_I2C_ADDR	(0x20 >> 1) /* Default I2C Address */
++#define SMIAPP_ALT_I2C_ADDR	(0x6e >> 1) /* Alternate I2C Address */
++
++/*
++ * Sometimes due to board layout considerations the camera module can be
++ * mounted rotated. The typical rotation used is 180 degrees which can be
++ * corrected by giving a default H-FLIP and V-FLIP in the sensor readout.
++ * FIXME: rotation also changes the bayer pattern.
++ */
++enum smiapp_module_board_orient {
++	SMIAPP_MODULE_BOARD_ORIENT_0 = 0,
++	SMIAPP_MODULE_BOARD_ORIENT_180,
++};
++
++struct smiapp_flash_strobe_parms {
++	u8 mode;
++	u32 strobe_width_high_us;
++	u16 strobe_delay;
++	u16 stobe_start_point;
++	u8 trigger;
++};
++
++struct smiapp_hwconfig {
++	/*
++	 * Change the cci address if i2c_addr_alt is set.
++	 * Both default and alternate cci addr need to be present
++	 */
++	unsigned short i2c_addr_dfl;	/* Default i2c addr */
++	unsigned short i2c_addr_alt;	/* Alternate i2c addr */
++
++	uint32_t ext_clk;		/* sensor external clk */
++
++	unsigned int lanes;		/* Number of CSI-2 lanes */
++	uint32_t csi_signalling_mode;	/* SMIAPP_CSI_SIGNALLING_MODE_* */
++	uint64_t *op_sys_clock;
++
++	enum smiapp_module_board_orient module_board_orient;
++
++	struct smiapp_flash_strobe_parms *strobe_setup;
++};
++
+ #include "smiapp-limits.h"
+ 
+ struct smiapp_quirk;
+diff --git a/include/media/i2c/smiapp.h b/include/media/i2c/smiapp.h
+deleted file mode 100644
+index 80f8251d87a3..000000000000
+--- a/include/media/i2c/smiapp.h
++++ /dev/null
+@@ -1,63 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * include/media/i2c/smiapp.h
+- *
+- * Generic driver for SMIA/SMIA++ compliant camera modules
+- *
+- * Copyright (C) 2011--2012 Nokia Corporation
+- * Contact: Sakari Ailus <sakari.ailus@iki.fi>
+- */
 -
--	for (i = 0; i < SMIAPP_LIMIT_LAST; i++) {
--		rval = smiapp_get_limits(sensor, &i, 1);
--		if (rval < 0)
--			return rval;
-+		dev_dbg(&client->dev, "0x%8.8x \"%s\" = %u, 0x%x\n",
-+			smiapp_reg_limits[i].addr,
-+			smiapp_reg_limits[i].what, val, val);
- 	}
- 
- 	if (SMIA_LIM(sensor, SCALER_N_MIN) == 0)
-@@ -2938,7 +2926,7 @@ static int smiapp_probe(struct i2c_client *client)
- 		goto out_power_off;
- 	}
- 
--	rval = smiapp_get_all_limits(sensor);
-+	rval = smiapp_read_all_smia_limits(sensor);
- 	if (rval) {
- 		rval = -ENODEV;
- 		goto out_power_off;
+-#ifndef __SMIAPP_H_
+-#define __SMIAPP_H_
+-
+-#include <media/v4l2-subdev.h>
+-
+-#define SMIAPP_NAME		"smiapp"
+-
+-#define SMIAPP_DFL_I2C_ADDR	(0x20 >> 1) /* Default I2C Address */
+-#define SMIAPP_ALT_I2C_ADDR	(0x6e >> 1) /* Alternate I2C Address */
+-
+-#define SMIAPP_CSI_SIGNALLING_MODE_CCP2_DATA_CLOCK	0
+-#define SMIAPP_CSI_SIGNALLING_MODE_CCP2_DATA_STROBE	1
+-#define SMIAPP_CSI_SIGNALLING_MODE_CSI2			2
+-
+-/*
+- * Sometimes due to board layout considerations the camera module can be
+- * mounted rotated. The typical rotation used is 180 degrees which can be
+- * corrected by giving a default H-FLIP and V-FLIP in the sensor readout.
+- * FIXME: rotation also changes the bayer pattern.
+- */
+-enum smiapp_module_board_orient {
+-	SMIAPP_MODULE_BOARD_ORIENT_0 = 0,
+-	SMIAPP_MODULE_BOARD_ORIENT_180,
+-};
+-
+-struct smiapp_flash_strobe_parms {
+-	u8 mode;
+-	u32 strobe_width_high_us;
+-	u16 strobe_delay;
+-	u16 stobe_start_point;
+-	u8 trigger;
+-};
+-
+-struct smiapp_hwconfig {
+-	/*
+-	 * Change the cci address if i2c_addr_alt is set.
+-	 * Both default and alternate cci addr need to be present
+-	 */
+-	unsigned short i2c_addr_dfl;	/* Default i2c addr */
+-	unsigned short i2c_addr_alt;	/* Alternate i2c addr */
+-
+-	uint32_t ext_clk;		/* sensor external clk */
+-
+-	unsigned int lanes;		/* Number of CSI-2 lanes */
+-	uint32_t csi_signalling_mode;	/* SMIAPP_CSI_SIGNALLING_MODE_* */
+-	uint64_t *op_sys_clock;
+-
+-	enum smiapp_module_board_orient module_board_orient;
+-
+-	struct smiapp_flash_strobe_parms *strobe_setup;
+-};
+-
+-#endif /* __SMIAPP_H_  */
 -- 
 2.20.1
 
