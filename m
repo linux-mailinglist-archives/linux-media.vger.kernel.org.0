@@ -2,99 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B07A15BDCE
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2020 12:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 872AA15BEB0
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2020 13:50:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729854AbgBMLjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Feb 2020 06:39:07 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:35918 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729428AbgBMLjH (ORCPT
+        id S1729801AbgBMMuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Feb 2020 07:50:46 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60576 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729673AbgBMMup (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Feb 2020 06:39:07 -0500
-Received: by mail-qk1-f196.google.com with SMTP id w25so5330768qki.3
-        for <linux-media@vger.kernel.org>; Thu, 13 Feb 2020 03:39:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Vtb9eIKcbPoSEKTomO0TCS7RPzPWQCmDk06xrCb8upo=;
-        b=J8/hzRd6Y7M47AJKUzTXL1iLrpJom6v/fjdoI9JBCAnKqxvU0VTwbOUtKDVS69ZbGy
-         jE1wqHbVAcsITTYJq/llTU9U760wVj40oZsQXjWFi214eIOilDAPNIpTcembrc01ZG/W
-         Zr1hOloFR5kjzzX7gFvSOLT5O0Upsq+xoT7hOZu2AgR9fU39fRm72Oi2EsEgys+WQgnX
-         9XXhIw5dm3Je3pYeweKGciFC6PZlYvmWcmufMI00AdwtXQJWVnF+jmKpdff6QPIygov3
-         leXKGz7tI9F/FHECM/e0fbfH4gEqveHE1qkZ6IQ+Gruj58s0VR/UvyRPPUA+Ya1wG18B
-         dK0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=Vtb9eIKcbPoSEKTomO0TCS7RPzPWQCmDk06xrCb8upo=;
-        b=b90yXHGA0vZx9g7UMoQ19aiCBU7Nqc/Yk1F3NfzJWx2d5hZubEd2gXRNVs1VKVlVxV
-         PNNbFExCjQVHS5CKXsdJ2VBipG4yRdZ3I9FzQu0KeIjlUZPG6iFGxlXEnczKE2/x1+IA
-         +ej1iXH7Pw//LQI4ZIPVrNKBizPRY4ShjBpnv0f2K2WaVew98Hyhba1SU7jLBeQe8dCe
-         cP+CLUsBvtI4BprMUi/3QjwhbytHo9a4JL/8kyPR+SmArSzVK57z4dparkFHaJHmpPoA
-         dOk440JqAfNdZcpJr7I5m4RWF5OODpob7bhWRCln8sU0g9bU6weYPTfvZKiFYWaDw94Q
-         rCeQ==
-X-Gm-Message-State: APjAAAVhtOmp9hXnnZEvHIA4oLQ4Btu37eb+Ik5cVk/XF+8TTMrINNo/
-        5PaDnruWm2nEQtdUbTBzyiYXhyrCvBY=
-X-Google-Smtp-Source: APXvYqw6Dwbvb744x8zgJC5aYwe88JYmTDiC0fmIV7lWNJA7VKn850k8pVSmorDKKxxA9VmONigx2w==
-X-Received: by 2002:a05:620a:1383:: with SMTP id k3mr10678036qki.252.1581593946288;
-        Thu, 13 Feb 2020 03:39:06 -0800 (PST)
-Received: from athos.hellosponsor.com (pool-173-68-201-69.nycmny.fios.verizon.net. [173.68.201.69])
-        by smtp.gmail.com with ESMTPSA id v125sm1123854qkb.52.2020.02.13.03.39.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2020 03:39:05 -0800 (PST)
-From:   Ilia Mirkin <imirkin@alum.mit.edu>
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: [PATCH v2 2/2] edid-decode: add build rule for emscripten output
-Date:   Thu, 13 Feb 2020 06:39:03 -0500
-Message-Id: <20200213113903.23994-2-imirkin@alum.mit.edu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200213113903.23994-1-imirkin@alum.mit.edu>
-References: <20200213113903.23994-1-imirkin@alum.mit.edu>
+        Thu, 13 Feb 2020 07:50:45 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 4200629515E
+Subject: Re: [PATCH v8 05/14] media: rkisp1: add Rockchip ISP1 subdev driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        eddie.cai.linux@gmail.com, mchehab@kernel.org, heiko@sntech.de,
+        jacob2.chen@rock-chips.com, jeffy.chen@rock-chips.com,
+        zyc@rock-chips.com, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, kernel@collabora.com,
+        ezequiel@collabora.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, zhengsq@rock-chips.com,
+        Jacob Chen <cc@rock-chips.com>,
+        Allon Huang <allon.huang@rock-chips.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>
+References: <20190730184256.30338-1-helen.koike@collabora.com>
+ <20190730184256.30338-6-helen.koike@collabora.com>
+ <20190808091406.GQ21370@paasikivi.fi.intel.com>
+ <da6c1d01-e3f6-ad73-db55-145d7832a665@collabora.com>
+ <20190815082422.GM6133@paasikivi.fi.intel.com>
+ <20190815131748.GS6133@paasikivi.fi.intel.com>
+ <78856358-1afd-31a7-86dd-22f7d6d7fb05@collabora.com>
+ <20200212211317.GD3087@kekkonen.localdomain>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <3bc90001-8ebc-c55f-06b5-bbd6b58fa3cd@collabora.com>
+Date:   Thu, 13 Feb 2020 13:50:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200212211317.GD3087@kekkonen.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-All I can really say is that this works in my current setup. This
-current setup was not the first setup I tried, with lots of random
-flailing around emscripten and binaryen versions to be compatible with
-my LLVM version. Perhaps later emscripten needs slightly different flags
-to export functions, who knows.
 
-Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
----
- Makefile | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 6db6386..49ad39b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,6 +1,8 @@
- bindir ?= /usr/bin
- mandir ?= /usr/share/man
- 
-+EMXX ?= em++
-+
- SOURCES = edid-decode.cpp parse-base-block.cpp parse-cta-block.cpp \
- 	  parse-displayid-block.cpp parse-ls-ext-block.cpp \
- 	  parse-di-ext-block.cpp parse-vtb-ext-block.cpp
-@@ -13,6 +15,9 @@ sha = -DSHA=$(shell if [ -d .git ]; then git rev-parse HEAD ; else printf '"not
- edid-decode: $(SOURCES) edid-decode.h Makefile
- 	$(CXX) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(WARN_FLAGS) -g $(sha) -o $@ $(SOURCES) -lm
- 
-+edid-decode.js: $(SOURCES) edid-decode.h Makefile
-+	$(EMXX) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) $(WARN_FLAGS) $(sha) -s EXPORTED_FUNCTIONS='["_parse_edid"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' -o $@ $(SOURCES) -lm
-+
- clean:
- 	rm -f edid-decode
- 
--- 
-2.24.1
+On 12.02.20 22:13, Sakari Ailus wrote:
+> Hi Dafna,
+> 
+> Apologies for the late reply. I learned the mail had got lost due to mail
+> server issues.
+> 
+np:)
 
+> On Fri, Jan 31, 2020 at 08:38:34PM +0100, Dafna Hirschfeld wrote:
+>> Hi,
+>> I (Dafna Hirschfeld) will work in following months with Helen Koike to fix the issues
+>> in the TODO file of this driver: drivers/staging/media/rkisp1/TODO
+>>
+>> On 15.08.19 15:17, Sakari Ailus wrote:
+>>> On Thu, Aug 15, 2019 at 11:24:22AM +0300, Sakari Ailus wrote:
+>>>> Hi Helen,
+>>>>
+>>>> On Wed, Aug 14, 2019 at 09:58:05PM -0300, Helen Koike wrote:
+>>>>
+>>>> ...
+>>>>
+>>>>>>> +static int rkisp1_isp_sd_set_fmt(struct v4l2_subdev *sd,
+>>>>>>> +				 struct v4l2_subdev_pad_config *cfg,
+>>>>>>> +				 struct v4l2_subdev_format *fmt)
+>>>>>>> +{
+>>>>>>> +	struct rkisp1_device *isp_dev = sd_to_isp_dev(sd);
+>>>>>>> +	struct rkisp1_isp_subdev *isp_sd = &isp_dev->isp_sdev;
+>>>>>>> +	struct v4l2_mbus_framefmt *mf = &fmt->format;
+>>>>>>> +
+>>>>>>
+>>>>>> Note that for sub-device nodes, the driver is itself responsible for
+>>>>>> serialising the access to its data structures.
+>>>>>
+>>>>> But looking at subdev_do_ioctl_lock(), it seems that it serializes the
+>>>>> ioctl calls for subdevs, no? Or I'm misunderstanding something (which is
+>>>>> most probably) ?
+>>>>
+>>>> Good question. I had missed this change --- subdev_do_ioctl_lock() is
+>>>> relatively new. But setting that lock is still not possible as the struct
+>>
+>> 'the struct' - do you mean the 'vdev' struct allocated in
+>> 'v4l2_device_register_subdev_nodes' ?
+> 
+> Yes.
+> 
+>>
+>>>> is allocated in the framework and the device is registered before the
+>>
+>>>> driver gets hold of it. It's a good idea to provide the same serialisation
+>>>> for subdevs as well.
+>>>>
+>>>> I'll get back to this later.
+>>>
+>>> The main reason is actually that these ops are also called through the
+>>> sub-device kAPI, not only through the uAPI, and the locks are only taken
+>>> through the calls via uAPI.
+>>
+>> actually it seems that although 'subdev_do_ioctl_lock' exit, I wonder if
+>> any subdevice uses that vdev->lock in  subdev_do_ioctl_lock.
+>> It is not initialized in v4l2_device_register_subdev_nodes where the vdev is allocated
+>> and I wonder if any subdevice actually initialize it somewhere else. For example it is null in this
+>> driver and in vimc.
+> 
+> It needs to be set before the video device is registered, so indeed, it
+> seems no driver can make use it.
+> 
+>>
+>>>
+>>> So adding the locks to uAPI calls alone would not address the issue.
+>>
+>> What I can do is add a mutex to every struct of a subdevice and lock it
+>> at the beginning of each subdevice operation.
+>> Is this an acceptable solution?
+> 
+> Please do. That's what other drivers do at the moment as well.
+> 
+I already sent it as the patchset "media: staging: rkisp1: add serialization to the isp and resizer ops"
+
+Thanks,
+Dafna
