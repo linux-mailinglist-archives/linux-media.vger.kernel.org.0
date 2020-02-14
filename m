@@ -2,142 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B08B15D70B
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 13:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E080615D73C
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 13:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728173AbgBNMBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 07:01:49 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:37442 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728004AbgBNMBt (ORCPT
+        id S1729020AbgBNMTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 07:19:34 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44828 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728582AbgBNMTe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 07:01:49 -0500
-Received: by mail-pl1-f193.google.com with SMTP id c23so3671454plz.4
-        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2020 04:01:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SrEeeiMYTh8tdM4uM57yi2C/Gx0ZYDeODDLqafFzdQw=;
-        b=mgJ1kYMC+BKoJPHgI/QnmPPE5wphvts8MkBDeru9Bwop/IFN17dqQ8HwYmQciHiVmc
-         8pDKI2wW53lT/DGGKiXtf8AYsk7nhkyInXUtN8syisSnx1SkqkFpmmaLOTfvCtTT8mN5
-         aEz8ZBVe5ISoTRl7RQOkFKkH7rSgiFbU/VUMo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SrEeeiMYTh8tdM4uM57yi2C/Gx0ZYDeODDLqafFzdQw=;
-        b=M/auCqCYYZOxZEjCHfdWgkAmXYqACDE2CdJV2Sqk2G1i5VDv6K1rmJSxY49jStJhcH
-         GUPC6xgK6Z6v7r6f4xtwxwTlC0abHK/LjvgqfWU2zZOQxDneVJmBY7Y74CENaWZBONEx
-         fips/khVsPuRo4P5kBGaEdVOC2LyZN+ne2Jgp1ktKNDCaEz8Ed37GWhxVAT+jxbxjigj
-         a4g9gDF9M6AKUvs77TNvVtE9HzZF4MAEIHu4dV1CNtl7yCqx4j5DEdSrmZvUoJIDJ/t2
-         bIB1aZt/Sb9EV0d4NZKtevr6ei7rRKxRbOmm3bNDC768d24rNUZgvu8hfXGWZ+vZObf+
-         5G7Q==
-X-Gm-Message-State: APjAAAV4N4dIGTBE8iCqqZZ55nX3GvybKQ1CTxjvUZzHglU9NJFlqUGx
-        nwdXw/mElj/YC4YITwNJqfD/eA==
-X-Google-Smtp-Source: APXvYqwWBAPzKlqlSPflws7rlPOk76DpJUm2SkfSFNRolVl+WFSLvA3yN/iX862TqE8JTe7pwnmITA==
-X-Received: by 2002:a17:902:b40c:: with SMTP id x12mr3045452plr.70.1581681708257;
-        Fri, 14 Feb 2020 04:01:48 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com ([2401:fa00:1:10:b852:bd51:9305:4261])
-        by smtp.gmail.com with ESMTPSA id s18sm7120275pgn.34.2020.02.14.04.01.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 04:01:47 -0800 (PST)
-From:   Hsin-Yi Wang <hsinyi@chromium.org>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: mtk-vpu: avoid unaligned access to DTCM buffer.
-Date:   Fri, 14 Feb 2020 20:01:42 +0800
-Message-Id: <20200214120142.50529-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+        Fri, 14 Feb 2020 07:19:34 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 5E10528D7ED
+Subject: Re: [PATCH v7 01/13] dt-bindings: arm: move mmsys description to
+ display
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        CK Hu <ck.hu@mediatek.com>, matthias.bgg@kernel.org
+Cc:     mark.rutland@arm.com, airlied@linux.ie, mturquette@baylibre.com,
+        dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+        ulrich.hecht+renesas@gmail.com, linux-clk@vger.kernel.org,
+        drinkcat@chromium.org, Weiyi Lu <weiyi.lu@mediatek.com>,
+        wens@csie.org, mtk01761 <wendell.lin@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Daniel Vetter <daniel@ffwll.ch>, frank-w@public-files.de,
+        sean.wang@mediatek.com, robh+dt@kernel.org,
+        linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+        linux-arm-kernel@lists.infradead.org,
+        Matthias Brugger <mbrugger@suse.com>, sboyd@kernel.org,
+        rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+        p.zabel@pengutronix.de
+References: <20200213201953.15268-1-matthias.bgg@kernel.org>
+ <20200213201953.15268-2-matthias.bgg@kernel.org>
+ <1581662577.17949.3.camel@mtksdaap41>
+ <2bda2dd7-9ed2-8b4c-897e-e585ccfa1fa5@gmail.com>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <022e8f64-b414-67a5-722e-bdd7c00230ff@collabora.com>
+Date:   Fri, 14 Feb 2020 13:19:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <2bda2dd7-9ed2-8b4c-897e-e585ccfa1fa5@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-struct vpu_run *run in vpu_init_ipi_handler() is an ioremapped DTCM (Data
-Tightly Coupled Memory) buffer shared with AP.  It's not able to do
-unaligned access. Otherwise kernel would crash due to unable to handle
-kernel paging request.
+Hi CK,
 
-struct vpu_run {
-	u32 signaled;
-	char fw_ver[VPU_FW_VER_LEN];
-	unsigned int	dec_capability;
-	unsigned int	enc_capability;
-	wait_queue_head_t wq;
-};
+On 14/2/20 11:01, Matthias Brugger wrote:
+> 
+> 
+> On 14/02/2020 07:42, CK Hu wrote:
+>> Hi, Matthias:
+>>
+>> On Thu, 2020-02-13 at 21:19 +0100, matthias.bgg@kernel.org wrote:
+>>> From: Matthias Brugger <mbrugger@suse.com>
+>>>
+>>> The mmsys block provides registers and clocks for the display
+>>> subsystem. The binding description should therefore live together with
+>>> the rest of the display descriptions. Move it to display/mediatek.
+>>>
+>>
+>> Yes, for the upstreamed driver, only display (DRM) use mmsys clock. For
+>> some MDP patches [1] in progress, MDP also use mmsys clock. So we just
+>> consider what's upstreamed now?
+> 
 
-fw_ver starts at 4 byte boundary. If system enables
-CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS, strscpy() will do
-read_word_at_a_time(), which tries to read 8-byte: *(unsigned long *)addr
+Let me jump into the discussion, and sorry if my question is silly because I'm
+just starting to look at this code.
 
-Copy the string by memcpy_fromio() for this buffer to avoid unaligned
-access.
+IMO we should consider all the cases to find a proper fix on all this, and if
+MDP uses also mmsys clocks this approach will not work. I think the main problem
+here and the big question is what exactly is the MMSYS block, is an independent
+clock controller that provides clocks to DRM and other blocks? or is hardly tied
+to the DRM block in some way?
 
-Fixes: 85709cbf1524 ("media: replace strncpy() by strscpy()")
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-Change in v2:
-- fix sparse warnings.
----
- drivers/media/platform/mtk-vpu/mtk_vpu.c | 17 ++++++++++-------
- drivers/media/platform/mtk-vpu/mtk_vpu.h |  2 +-
- 2 files changed, 11 insertions(+), 8 deletions(-)
+Could you give us a block schema on how the things are interconnected?
 
-diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-index a768707abb94..c59373e84a33 100644
---- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-+++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-@@ -600,15 +600,18 @@ int vpu_load_firmware(struct platform_device *pdev)
- }
- EXPORT_SYMBOL_GPL(vpu_load_firmware);
- 
--static void vpu_init_ipi_handler(void *data, unsigned int len, void *priv)
-+static void vpu_init_ipi_handler(void __iomem *data, unsigned int len,
-+				 void *priv)
- {
- 	struct mtk_vpu *vpu = (struct mtk_vpu *)priv;
--	struct vpu_run *run = (struct vpu_run *)data;
--
--	vpu->run.signaled = run->signaled;
--	strscpy(vpu->run.fw_ver, run->fw_ver, sizeof(vpu->run.fw_ver));
--	vpu->run.dec_capability = run->dec_capability;
--	vpu->run.enc_capability = run->enc_capability;
-+	struct vpu_run __iomem *run = data;
-+
-+	vpu->run.signaled = readl(&run->signaled);
-+	memcpy_fromio(vpu->run.fw_ver, run->fw_ver, sizeof(vpu->run.fw_ver));
-+	/* Make sure the string is NUL-terminated */
-+	vpu->run.fw_ver[sizeof(vpu->run.fw_ver) - 1] = '\0';
-+	vpu->run.dec_capability = readl(&run->dec_capability);
-+	vpu->run.enc_capability = readl(&run->enc_capability);
- 	wake_up_interruptible(&vpu->run.wq);
- }
- 
-diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.h b/drivers/media/platform/mtk-vpu/mtk_vpu.h
-index d4453b4bcee9..a7ac351b19c1 100644
---- a/drivers/media/platform/mtk-vpu/mtk_vpu.h
-+++ b/drivers/media/platform/mtk-vpu/mtk_vpu.h
-@@ -15,7 +15,7 @@
-  * VPU interfaces with other blocks by share memory and interrupt.
-  **/
- 
--typedef void (*ipi_handler_t) (void *data,
-+typedef void (*ipi_handler_t) (void __iomem *data,
- 			       unsigned int len,
- 			       void *priv);
- 
--- 
-2.25.0.265.gbab2e86ba0-goog
+If is an independent clock controller I think there was a mistake when the first
+drm driver was pushed by using the compatible = "mediatek,mt8173-mmsys" as id
+for that driver.
 
+Thanks,
+ Enric
+
+
+> I'm not sure if I understand you correctly. Are you proposing to keep the
+> binding description in arm/mediatek?
+> 
+> Regards,
+> Matthias
+> 
+>>
+>> [1] https://patchwork.kernel.org/patch/11140747/
+>>
+>> Regards,
+>> CK
+>>
+>>> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+>>>
+>>> ---
+>>>
+>>> Changes in v7:
+>>> - move the binding description
+>>>
+>>> Changes in v6: None
+>>> Changes in v5: None
+>>> Changes in v4: None
+>>> Changes in v3: None
+>>> Changes in v2: None
+>>>
+>>>  .../bindings/{arm => display}/mediatek/mediatek,mmsys.txt         | 0
+>>>  1 file changed, 0 insertions(+), 0 deletions(-)
+>>>  rename Documentation/devicetree/bindings/{arm => display}/mediatek/mediatek,mmsys.txt (100%)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,mmsys.txt
+>>> similarity index 100%
+>>> rename from Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+>>> rename to Documentation/devicetree/bindings/display/mediatek/mediatek,mmsys.txt
+>>
+>> _______________________________________________
+>> linux-arm-kernel mailing list
+>> linux-arm-kernel@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>>
