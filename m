@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CBAF15F451
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 19:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63F0F15F376
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 19:21:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394831AbgBNSUV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 13:20:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53892 "EHLO mail.kernel.org"
+        id S2391945AbgBNSLz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 13:11:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729590AbgBNPuH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:50:07 -0500
+        id S1730452AbgBNPxU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:53:20 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 122A62468F;
-        Fri, 14 Feb 2020 15:50:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0AA93222C4;
+        Fri, 14 Feb 2020 15:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695407;
-        bh=UePCY4BqtIvlghuVOYlkGyqEl9Oi9N2cZL5RSM9Ehrc=;
+        s=default; t=1581695599;
+        bh=pisCp0L8OYluLdVr5lRE1PQQni0pQHeVSXt5Ghx26zE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CZS9F8yg9gJ74kVfbswv/Jd25BW1V4XB2bf3lWNUvp7T1Tl+NT4H4TjhbgyBPW9zu
-         Yu2IxM+JrFt2ikfV1uj+XJb4XQBJFuynLjY9kx/iZWetD7x3IODBh6jHnb994mDID5
-         qTj+jGxr8tDs9tGAGPqK+Hp1j1bmB/Xg5yDftf1A=
+        b=E7/c5bpKVFT8QGV9YEyZOGCpYEymz9US/w0R7/IZ0KLtywFpBVICCvuYIcBjIwkFI
+         Q8ecKfdETnJsauJoi0P92/OMnMSMenrBmSGH8EOkpiLQDZvWpMg1HM76lscIg+G4Ng
+         UbG9B87HoYnLZtkIWXCgmod+SWnIeJxCUtS12GOc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
-        Fabien Dessenne <fabien.dessenne@st.com>,
+Cc:     Forest Crossman <cyrozap@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 055/542] media: sti: bdisp: fix a possible sleep-in-atomic-context bug in bdisp_device_run()
-Date:   Fri, 14 Feb 2020 10:40:47 -0500
-Message-Id: <20200214154854.6746-55-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 204/542] media: cx23885: Add support for AVerMedia CE310B
+Date:   Fri, 14 Feb 2020 10:43:16 -0500
+Message-Id: <20200214154854.6746-204-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -45,57 +44,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jia-Ju Bai <baijiaju1990@gmail.com>
+From: Forest Crossman <cyrozap@gmail.com>
 
-[ Upstream commit bb6d42061a05d71dd73f620582d9e09c8fbf7f5b ]
+[ Upstream commit dc4cac67e13515835ed8081d510aa507aacb013b ]
 
-The driver may sleep while holding a spinlock.
-The function call path (from bottom to top) in Linux 4.19 is:
+The AVerMedia CE310B is a simple composite + S-Video + stereo audio
+capture card, and uses only the CX23888 to perform all of these
+functions.
 
-drivers/media/platform/sti/bdisp/bdisp-hw.c, 385:
-    msleep in bdisp_hw_reset
-drivers/media/platform/sti/bdisp/bdisp-v4l2.c, 341:
-    bdisp_hw_reset in bdisp_device_run
-drivers/media/platform/sti/bdisp/bdisp-v4l2.c, 317:
-    _raw_spin_lock_irqsave in bdisp_device_run
+I've tested both video inputs and the audio interface and confirmed that
+they're all working. However, there are some issues:
 
-To fix this bug, msleep() is replaced with udelay().
+* Sometimes when I switch inputs the video signal turns black and can't
+  be recovered until the system is rebooted. I haven't been able to
+  determine the cause of this behavior, nor have I found a solution to
+  fix it or any workarounds other than rebooting.
+* The card sometimes seems to have trouble syncing to the video signal,
+  and some of the VBI data appears as noise at the top of the frame, but
+  I assume that to be a result of my very noisy RF environment and the
+  card's unshielded input traces rather than a configuration issue.
 
-This bug is found by a static analysis tool STCheck written by myself.
-
-Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
-Reviewed-by: Fabien Dessenne <fabien.dessenne@st.com>
+Signed-off-by: Forest Crossman <cyrozap@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/sti/bdisp/bdisp-hw.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/pci/cx23885/cx23885-cards.c | 24 +++++++++++++++++++++++
+ drivers/media/pci/cx23885/cx23885-video.c |  3 ++-
+ drivers/media/pci/cx23885/cx23885.h       |  1 +
+ 3 files changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sti/bdisp/bdisp-hw.c b/drivers/media/platform/sti/bdisp/bdisp-hw.c
-index 4372abbb5950f..a74e9fd652389 100644
---- a/drivers/media/platform/sti/bdisp/bdisp-hw.c
-+++ b/drivers/media/platform/sti/bdisp/bdisp-hw.c
-@@ -14,8 +14,8 @@
- #define MAX_SRC_WIDTH           2048
+diff --git a/drivers/media/pci/cx23885/cx23885-cards.c b/drivers/media/pci/cx23885/cx23885-cards.c
+index 8644205d3cd33..8e5a2c580821e 100644
+--- a/drivers/media/pci/cx23885/cx23885-cards.c
++++ b/drivers/media/pci/cx23885/cx23885-cards.c
+@@ -801,6 +801,25 @@ struct cx23885_board cx23885_boards[] = {
+ 		.name		= "Hauppauge WinTV-Starburst2",
+ 		.portb		= CX23885_MPEG_DVB,
+ 	},
++	[CX23885_BOARD_AVERMEDIA_CE310B] = {
++		.name		= "AVerMedia CE310B",
++		.porta		= CX23885_ANALOG_VIDEO,
++		.force_bff	= 1,
++		.input          = {{
++			.type   = CX23885_VMUX_COMPOSITE1,
++			.vmux   = CX25840_VIN1_CH1 |
++				  CX25840_NONE_CH2 |
++				  CX25840_NONE0_CH3,
++			.amux   = CX25840_AUDIO7,
++		}, {
++			.type   = CX23885_VMUX_SVIDEO,
++			.vmux   = CX25840_VIN8_CH1 |
++				  CX25840_NONE_CH2 |
++				  CX25840_VIN7_CH3 |
++				  CX25840_SVIDEO_ON,
++			.amux   = CX25840_AUDIO7,
++		} },
++	},
+ };
+ const unsigned int cx23885_bcount = ARRAY_SIZE(cx23885_boards);
  
- /* Reset & boot poll config */
--#define POLL_RST_MAX            50
--#define POLL_RST_DELAY_MS       20
-+#define POLL_RST_MAX            500
-+#define POLL_RST_DELAY_MS       2
+@@ -1124,6 +1143,10 @@ struct cx23885_subid cx23885_subids[] = {
+ 		.subvendor = 0x0070,
+ 		.subdevice = 0xf02a,
+ 		.card      = CX23885_BOARD_HAUPPAUGE_STARBURST2,
++	}, {
++		.subvendor = 0x1461,
++		.subdevice = 0x3100,
++		.card      = CX23885_BOARD_AVERMEDIA_CE310B,
+ 	},
+ };
+ const unsigned int cx23885_idcount = ARRAY_SIZE(cx23885_subids);
+@@ -2348,6 +2371,7 @@ void cx23885_card_setup(struct cx23885_dev *dev)
+ 	case CX23885_BOARD_DVBSKY_T982:
+ 	case CX23885_BOARD_VIEWCAST_260E:
+ 	case CX23885_BOARD_VIEWCAST_460E:
++	case CX23885_BOARD_AVERMEDIA_CE310B:
+ 		dev->sd_cx25840 = v4l2_i2c_new_subdev(&dev->v4l2_dev,
+ 				&dev->i2c_bus[2].i2c_adap,
+ 				"cx25840", 0x88 >> 1, NULL);
+diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/cx23885/cx23885-video.c
+index 8098b15493de9..7fc408ee4934f 100644
+--- a/drivers/media/pci/cx23885/cx23885-video.c
++++ b/drivers/media/pci/cx23885/cx23885-video.c
+@@ -257,7 +257,8 @@ static int cx23885_video_mux(struct cx23885_dev *dev, unsigned int input)
+ 		(dev->board == CX23885_BOARD_MYGICA_X8507) ||
+ 		(dev->board == CX23885_BOARD_AVERMEDIA_HC81R) ||
+ 		(dev->board == CX23885_BOARD_VIEWCAST_260E) ||
+-		(dev->board == CX23885_BOARD_VIEWCAST_460E)) {
++		(dev->board == CX23885_BOARD_VIEWCAST_460E) ||
++		(dev->board == CX23885_BOARD_AVERMEDIA_CE310B)) {
+ 		/* Configure audio routing */
+ 		v4l2_subdev_call(dev->sd_cx25840, audio, s_routing,
+ 			INPUT(input)->amux, 0, 0);
+diff --git a/drivers/media/pci/cx23885/cx23885.h b/drivers/media/pci/cx23885/cx23885.h
+index a95a2e4c6a0d3..c472498e57c4e 100644
+--- a/drivers/media/pci/cx23885/cx23885.h
++++ b/drivers/media/pci/cx23885/cx23885.h
+@@ -101,6 +101,7 @@
+ #define CX23885_BOARD_HAUPPAUGE_STARBURST2     59
+ #define CX23885_BOARD_HAUPPAUGE_QUADHD_DVB_885 60
+ #define CX23885_BOARD_HAUPPAUGE_QUADHD_ATSC_885 61
++#define CX23885_BOARD_AVERMEDIA_CE310B         62
  
- enum bdisp_target_plan {
- 	BDISP_RGB,
-@@ -382,7 +382,7 @@ int bdisp_hw_reset(struct bdisp_dev *bdisp)
- 	for (i = 0; i < POLL_RST_MAX; i++) {
- 		if (readl(bdisp->regs + BLT_STA1) & BLT_STA1_IDLE)
- 			break;
--		msleep(POLL_RST_DELAY_MS);
-+		udelay(POLL_RST_DELAY_MS * 1000);
- 	}
- 	if (i == POLL_RST_MAX)
- 		dev_err(bdisp->dev, "Reset timeout\n");
+ #define GPIO_0 0x00000001
+ #define GPIO_1 0x00000002
 -- 
 2.20.1
 
