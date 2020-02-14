@@ -2,977 +2,707 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E69015DA4E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 16:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E74E15DA85
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 16:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729327AbgBNPHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 10:07:15 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51733 "EHLO
+        id S1729482AbgBNPTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 10:19:54 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:49325 "EHLO
         lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729241AbgBNPHO (ORCPT
+        by vger.kernel.org with ESMTP id S1729488AbgBNPTy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:07:14 -0500
+        Fri, 14 Feb 2020 10:19:54 -0500
 Received: from [IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef]
  ([IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id 2cYejJPw28i432cYfjQOhO; Fri, 14 Feb 2020 16:07:10 +0100
+        id 2ckwjJUfM8i432ckxjQRPn; Fri, 14 Feb 2020 16:19:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581692830; bh=AAdQ2O5Q1ACsRdyVOjDcQqOlYqcXsuuagPvM38HU83Y=;
+        t=1581693591; bh=nTD5y52keC+qjWXeENyBoG1hDA04SoQam5T0FzpOXMQ=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=dLheoqF8Hlo7AyoDKbBpR9LlenS8WHrlC1z5gQkHG+Rcc+v1GPTrc+QZOsXfYT+8B
-         rTGILjj6H0toQeXF/BN8pMa0UBBj1jQjUNJUHfHWchrGJlOG1ljj9GfiKLVbBlnhxz
-         sjCU6eRe/CYyjMiT7H7TfHGjo6mWF34yTVIuQkkSnRtgxPH5WW+IOI+YQ1swsszkzY
-         fZ2QFMLHUNzFFCaN3A1YHAliEURyZy6IiHyhSriFenqvPQXORqR0B2zjmLyPfgg8Ph
-         9a7Q4tEVAlNeUBV8Ro73jhkvpslxWKW+2L2vFgtMnldv0m9AbZ+z2MEc96etOsNzL9
-         3hDyqHS3u45XA==
-Subject: Re: [PATCH v4 3/5] media: meson: vdec: add common HEVC decoder
- support
+        b=Vk1C9jbxGrUgx0gP/SnWqTTC07LhJ3qC08dzTNwJP0tlXTeC+uq33juNehz6KK8AR
+         bSo5rhye+6rKgoUPhl67Nmk9+jrpWFI3VPK3tsXXj7KQ6I6JxKT/eABcjbUiaN4FJ1
+         tdxF7WDiLpfhODrAmaVEE/9NM6NUv96c44TQ5SUc818ZZoF7fyNXZRHMg03qN5YGz4
+         P1LeDK0Ak6kDB1djzqCXdhPQu2jelKrD8xqxzL9bDmsPJVUrFUBRqidzgCtc6d77WP
+         NNcgZWFdkTpHeJ8R7H153RjIJgR5dk+G2CZ+hQs/zG2Y/dftnhWka4Y9gb59igyn1a
+         YVGEUwWaKSPVg==
+Subject: Re: [PATCH v5 4/4] media: meson: vdec: add H.264 decoding support
 To:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org,
         hans.verkuil@cisco.com
 Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
         linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200206084152.7070-1-narmstrong@baylibre.com>
- <20200206084152.7070-4-narmstrong@baylibre.com>
+References: <20200206082648.25184-1-narmstrong@baylibre.com>
+ <20200206082648.25184-5-narmstrong@baylibre.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4d9d3785-ef16-1c22-da60-1321bd584f1f@xs4all.nl>
-Date:   Fri, 14 Feb 2020 16:07:08 +0100
+Message-ID: <b0c90501-d35e-3b00-9299-5225cc413d14@xs4all.nl>
+Date:   Fri, 14 Feb 2020 16:19:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200206084152.7070-4-narmstrong@baylibre.com>
+In-Reply-To: <20200206082648.25184-5-narmstrong@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfP3eT0E0kWMGOqds3kI38yjhObfyY7zdymgSZUVe/rV4lRgDntGIECL+e3ixMLvRI7PukNKSPjzi/U0D+3r8F2JcRMvJTj1Dx7JbGgh25clX7dZnlglh
- 6/KUjLw+sA/mXpxc/z2ZYQY1w3VlUv6BW7/K2ywALYE+GEphXd/3BbpKukdpuXjcd4z8uZ1hJjTnQ+4zjQxLAs9NxR9Yo/bq4e8vDg53UJXFHAAIdcNe7fNv
- 5JR2r0gt4rlMAgmSHuVQ/dI3atJ8c/asNaH+9q+mTi+wMD2S28n5O5YlYumjPNRMIT3h4///be3DJ/fUWYDgX6CRA1g3yiJB/rsaA0mEUIbpfkgNFfc/WYZh
- muoPk67beK4jIMARYX3qZryVMT8VlSNe7YVRRUdNxJzfpQWLYNbaA/nygUFudSqxJKtdYCfJSykU2WwgkbZrMR40EZILhgYLeHttE0QoNzl0bhmy4p9KEtmY
- Jnifmg8CuMtbBn8cQQyJCdv4gBb1P3qfWWgG+k5L0LwDDg1Iy4w34xUxIrhVDLcbAnnUad+gltNlLW2x
+X-CMAE-Envelope: MS4wfJs03+spVv9QdPMLS7VfkNDjMKkzSKx8s1IPxop1qvNqOgS76YaNu99hdKVnwsaQKz0toaYgGzfu9EDNFEQ/FOa/GLn6gmRaQnmlNBO+N+Fm/hPNx8G2
+ TfZi5nUUrC4i2ZAEKFZtr7CF6PC09TIRtiTnSh34oPwRqa2y8km3z96/3d+UvQNwR9XVkamWmlH0/KRwSd0hXU7CzWDNxCHxsS6I+UsZVeh2P8r//h4YS0f+
+ EHDRn/pX1WXds/O477yH6M3wsQqYQxHqXVckfkOUQkogspKezX6LwSTFOsSErVCfMNoD3eBamPsPe+Zh5Q/LBtEyif6yure3KHXVTnP+Sf6yG0+T2Tg5FyA1
+ pGFlTbtsbCmjf/6SY3U2TX9DuvwyJDeuPpAXJm+H7WqQTo5+wTNndqPOQdOpeeYyrMi+b7+VNjttvOIwj+cZBhnBU3QokctlbOG7+NxwspKYI0L/DBGCr6e0
+ OMDxp05hNq7hMYBMp8CmJcUH1P+VSyfRf3YAmN6XmCnReJcCJSOcBfhHOGHhmKBtSCTTq9XSa+jUnr0U
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/6/20 9:41 AM, Neil Armstrong wrote:
+On 2/6/20 9:26 AM, Neil Armstrong wrote:
 > From: Maxime Jourdan <mjourdan@baylibre.com>
 > 
-> Add support for the HEVC & VP9 common decoder support, handling
-> Amlogic GXBB, GXL, G12A and SM1 platforms.
-> 
-> This handles the "HEVC" hw decoder used for HEVC and VP9, and will be
-> using in the new H264 multi-instance decoder for G12A & SM1 platforms.
+> Add support for the H264 compressed format (V4L2_PIX_FMT_H264).
 > 
 > Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
 > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/staging/media/meson/vdec/Makefile     |   2 +-
+>  drivers/staging/media/meson/vdec/codec_h264.c | 482 ++++++++++++++++++
+>  drivers/staging/media/meson/vdec/codec_h264.h |  14 +
+>  .../staging/media/meson/vdec/vdec_platform.c  |  61 +++
+>  4 files changed, 558 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/staging/media/meson/vdec/codec_h264.c
+>  create mode 100644 drivers/staging/media/meson/vdec/codec_h264.h
 
-I'm getting some checkpatch warnings/checks:
+I get warnings when compiling this:
 
-WARNING: Possible unnecessary 'out of memory' message
-#219: FILE: drivers/staging/media/meson/vdec/codec_hevc_common.c:171:
-+               if (!vaddr) {
-+                       dev_err(dev, "Couldn't allocate FBC buffer %u\n", idx);
-
-WARNING: Possible unnecessary 'out of memory' message
-#273: FILE: drivers/staging/media/meson/vdec/codec_hevc_common.c:225:
-+               if (!vaddr) {
-+                       dev_err(dev, "Couldn't allocate MMU header %u\n", idx);
-
-WARNING: Possible unnecessary 'out of memory' message
-#692: FILE: drivers/staging/media/meson/vdec/vdec_hevc.c:52:
-+       if (!mc_addr) {
-+               dev_err(dev, "Failed allocating memory for firmware loading\n");
-
-CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
-#819: FILE: drivers/staging/media/meson/vdec/vdec_hevc.c:179:
-+       udelay(10);
-
-CHECK: usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst
-#857: FILE: drivers/staging/media/meson/vdec/vdec_hevc.c:217:
-+       udelay(10);
-
-Can you take a look?
+drivers/staging/media/meson/vdec/codec_h264.c:322: warning: Function parameter or member 'sess' not described in 'codec_h264_src_change'
+drivers/staging/media/meson/vdec/codec_h264.c:361: warning: Function parameter or member 'core' not described in 'get_offset_msb'
+drivers/staging/media/meson/vdec/codec_h264.c:361: warning: Function parameter or member 'frame_num' not described in 'get_offset_msb'
 
 Regards,
 
 	Hans
 
-> ---
->  drivers/staging/media/meson/vdec/Makefile     |   4 +-
->  .../media/meson/vdec/codec_hevc_common.c      | 286 ++++++++++++++++++
->  .../media/meson/vdec/codec_hevc_common.h      |  77 +++++
->  drivers/staging/media/meson/vdec/hevc_regs.h  | 211 +++++++++++++
->  drivers/staging/media/meson/vdec/vdec_hevc.c  | 231 ++++++++++++++
->  drivers/staging/media/meson/vdec/vdec_hevc.h  |  13 +
->  6 files changed, 820 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/staging/media/meson/vdec/codec_hevc_common.c
->  create mode 100644 drivers/staging/media/meson/vdec/codec_hevc_common.h
->  create mode 100644 drivers/staging/media/meson/vdec/hevc_regs.h
->  create mode 100644 drivers/staging/media/meson/vdec/vdec_hevc.c
->  create mode 100644 drivers/staging/media/meson/vdec/vdec_hevc.h
 > 
 > diff --git a/drivers/staging/media/meson/vdec/Makefile b/drivers/staging/media/meson/vdec/Makefile
-> index 711d990c760e..f55b6e625034 100644
+> index 6bea129084b7..711d990c760e 100644
 > --- a/drivers/staging/media/meson/vdec/Makefile
 > +++ b/drivers/staging/media/meson/vdec/Makefile
-> @@ -2,7 +2,7 @@
->  # Makefile for Amlogic meson video decoder driver
+> @@ -3,6 +3,6 @@
 >  
 >  meson-vdec-objs = esparser.o vdec.o vdec_helpers.o vdec_platform.o
-> -meson-vdec-objs += vdec_1.o
-> -meson-vdec-objs += codec_mpeg12.o codec_h264.o
-> +meson-vdec-objs += vdec_1.o vdec_hevc.o
-> +meson-vdec-objs += codec_mpeg12.o codec_h264.o codec_hevc_common.o
+>  meson-vdec-objs += vdec_1.o
+> -meson-vdec-objs += codec_mpeg12.o
+> +meson-vdec-objs += codec_mpeg12.o codec_h264.o
 >  
 >  obj-$(CONFIG_VIDEO_MESON_VDEC) += meson-vdec.o
-> diff --git a/drivers/staging/media/meson/vdec/codec_hevc_common.c b/drivers/staging/media/meson/vdec/codec_hevc_common.c
+> diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
 > new file mode 100644
-> index 000000000000..335bcba062ac
+> index 000000000000..4528a6a01c3d
 > --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/codec_hevc_common.c
-> @@ -0,0 +1,286 @@
+> +++ b/drivers/staging/media/meson/vdec/codec_h264.c
+> @@ -0,0 +1,482 @@
 > +// SPDX-License-Identifier: GPL-2.0+
 > +/*
-> + * Copyright (C) 2018 Maxime Jourdan <mjourdan@baylibre.com>
+> + * Copyright (C) 2019 BayLibre, SAS
+> + * Author: Maxime Jourdan <mjourdan@baylibre.com>
 > + */
 > +
 > +#include <media/v4l2-mem2mem.h>
 > +#include <media/videobuf2-dma-contig.h>
 > +
-> +#include "codec_hevc_common.h"
 > +#include "vdec_helpers.h"
-> +#include "hevc_regs.h"
+> +#include "dos_regs.h"
 > +
-> +#define MMU_COMPRESS_HEADER_SIZE 0x48000
-> +#define MMU_MAP_SIZE 0x4800
+> +#define SIZE_EXT_FW	(20 * SZ_1K)
+> +#define SIZE_WORKSPACE	0x1ee000
+> +#define SIZE_SEI	(8 * SZ_1K)
 > +
-> +/* Configure decode head read mode */
-> +void codec_hevc_setup_decode_head(struct amvdec_session *sess, int is_10bit)
+> +/*
+> + * Offset added by the firmware which must be substracted
+> + * from the workspace phyaddr
+> + */
+> +#define WORKSPACE_BUF_OFFSET	0x1000000
+> +
+> +/* ISR status */
+> +#define CMD_MASK		GENMASK(7, 0)
+> +#define CMD_SRC_CHANGE		1
+> +#define CMD_FRAMES_READY	2
+> +#define CMD_FATAL_ERROR		6
+> +#define CMD_BAD_WIDTH		7
+> +#define CMD_BAD_HEIGHT		8
+> +
+> +#define SEI_DATA_READY	BIT(15)
+> +
+> +/* Picture type */
+> +#define PIC_TOP_BOT	5
+> +#define PIC_BOT_TOP	6
+> +
+> +/* Size of Motion Vector per macroblock */
+> +#define MB_MV_SIZE	96
+> +
+> +/* Frame status data */
+> +#define PIC_STRUCT_BIT	5
+> +#define PIC_STRUCT_MASK	GENMASK(2, 0)
+> +#define BUF_IDX_MASK	GENMASK(4, 0)
+> +#define ERROR_FLAG	BIT(9)
+> +#define OFFSET_BIT	16
+> +#define OFFSET_MASK	GENMASK(15, 0)
+> +
+> +/* Bitstream parsed data */
+> +#define MB_TOTAL_BIT	8
+> +#define MB_TOTAL_MASK	GENMASK(15, 0)
+> +#define MB_WIDTH_MASK	GENMASK(7, 0)
+> +#define MAX_REF_BIT	24
+> +#define MAX_REF_MASK	GENMASK(6, 0)
+> +#define AR_IDC_BIT	16
+> +#define AR_IDC_MASK	GENMASK(7, 0)
+> +#define AR_PRESENT_FLAG	BIT(0)
+> +#define AR_EXTEND	0xff
+> +
+> +/*
+> + * Buffer to send to the ESPARSER to signal End Of Stream for H.264.
+> + * This is a 16x16 encoded picture that will trigger drain firmware-side.
+> + * There is no known alternative.
+> + */
+> +static const u8 eos_sequence[SZ_4K] = {
+> +	0x00, 0x00, 0x00, 0x01, 0x06, 0x05, 0xff, 0xe4, 0xdc, 0x45, 0xe9, 0xbd,
+> +	0xe6, 0xd9, 0x48, 0xb7,	0x96, 0x2c, 0xd8, 0x20, 0xd9, 0x23, 0xee, 0xef,
+> +	0x78, 0x32, 0x36, 0x34, 0x20, 0x2d, 0x20, 0x63,	0x6f, 0x72, 0x65, 0x20,
+> +	0x36, 0x37, 0x20, 0x72, 0x31, 0x31, 0x33, 0x30, 0x20, 0x38, 0x34, 0x37,
+> +	0x35, 0x39, 0x37, 0x37, 0x20, 0x2d, 0x20, 0x48, 0x2e, 0x32, 0x36, 0x34,
+> +	0x2f, 0x4d, 0x50, 0x45,	0x47, 0x2d, 0x34, 0x20, 0x41, 0x56, 0x43, 0x20,
+> +	0x63, 0x6f, 0x64, 0x65, 0x63, 0x20, 0x2d, 0x20,	0x43, 0x6f, 0x70, 0x79,
+> +	0x6c, 0x65, 0x66, 0x74, 0x20, 0x32, 0x30, 0x30, 0x33, 0x2d, 0x32, 0x30,
+> +	0x30, 0x39, 0x20, 0x2d, 0x20, 0x68, 0x74, 0x74, 0x70, 0x3a, 0x2f, 0x2f,
+> +	0x77, 0x77, 0x77, 0x2e,	0x76, 0x69, 0x64, 0x65, 0x6f, 0x6c, 0x61, 0x6e,
+> +	0x2e, 0x6f, 0x72, 0x67, 0x2f, 0x78, 0x32, 0x36,	0x34, 0x2e, 0x68, 0x74,
+> +	0x6d, 0x6c, 0x20, 0x2d, 0x20, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+> +	0x3a, 0x20, 0x63, 0x61, 0x62, 0x61, 0x63, 0x3d, 0x31, 0x20, 0x72, 0x65,
+> +	0x66, 0x3d, 0x31, 0x20,	0x64, 0x65, 0x62, 0x6c, 0x6f, 0x63, 0x6b, 0x3d,
+> +	0x31, 0x3a, 0x30, 0x3a, 0x30, 0x20, 0x61, 0x6e,	0x61, 0x6c, 0x79, 0x73,
+> +	0x65, 0x3d, 0x30, 0x78, 0x31, 0x3a, 0x30, 0x78, 0x31, 0x31, 0x31, 0x20,
+> +	0x6d, 0x65, 0x3d, 0x68, 0x65, 0x78, 0x20, 0x73, 0x75, 0x62, 0x6d, 0x65,
+> +	0x3d, 0x36, 0x20, 0x70,	0x73, 0x79, 0x5f, 0x72, 0x64, 0x3d, 0x31, 0x2e,
+> +	0x30, 0x3a, 0x30, 0x2e, 0x30, 0x20, 0x6d, 0x69,	0x78, 0x65, 0x64, 0x5f,
+> +	0x72, 0x65, 0x66, 0x3d, 0x30, 0x20, 0x6d, 0x65, 0x5f, 0x72, 0x61, 0x6e,
+> +	0x67, 0x65, 0x3d, 0x31, 0x36, 0x20, 0x63, 0x68, 0x72, 0x6f, 0x6d, 0x61,
+> +	0x5f, 0x6d, 0x65, 0x3d,	0x31, 0x20, 0x74, 0x72, 0x65, 0x6c, 0x6c, 0x69,
+> +	0x73, 0x3d, 0x30, 0x20, 0x38, 0x78, 0x38, 0x64,	0x63, 0x74, 0x3d, 0x30,
+> +	0x20, 0x63, 0x71, 0x6d, 0x3d, 0x30, 0x20, 0x64, 0x65, 0x61, 0x64, 0x7a,
+> +	0x6f, 0x6e, 0x65, 0x3d, 0x32, 0x31, 0x2c, 0x31, 0x31, 0x20, 0x63, 0x68,
+> +	0x72, 0x6f, 0x6d, 0x61,	0x5f, 0x71, 0x70, 0x5f, 0x6f, 0x66, 0x66, 0x73,
+> +	0x65, 0x74, 0x3d, 0x2d, 0x32, 0x20, 0x74, 0x68,	0x72, 0x65, 0x61, 0x64,
+> +	0x73, 0x3d, 0x31, 0x20, 0x6e, 0x72, 0x3d, 0x30, 0x20, 0x64, 0x65, 0x63,
+> +	0x69, 0x6d, 0x61, 0x74, 0x65, 0x3d, 0x31, 0x20, 0x6d, 0x62, 0x61, 0x66,
+> +	0x66, 0x3d, 0x30, 0x20,	0x62, 0x66, 0x72, 0x61, 0x6d, 0x65, 0x73, 0x3d,
+> +	0x30, 0x20, 0x6b, 0x65, 0x79, 0x69, 0x6e, 0x74,	0x3d, 0x32, 0x35, 0x30,
+> +	0x20, 0x6b, 0x65, 0x79, 0x69, 0x6e, 0x74, 0x5f, 0x6d, 0x69, 0x6e, 0x3d,
+> +	0x32, 0x35, 0x20, 0x73, 0x63, 0x65, 0x6e, 0x65, 0x63, 0x75, 0x74, 0x3d,
+> +	0x34, 0x30, 0x20, 0x72,	0x63, 0x3d, 0x61, 0x62, 0x72, 0x20, 0x62, 0x69,
+> +	0x74, 0x72, 0x61, 0x74, 0x65, 0x3d, 0x31, 0x30,	0x20, 0x72, 0x61, 0x74,
+> +	0x65, 0x74, 0x6f, 0x6c, 0x3d, 0x31, 0x2e, 0x30, 0x20, 0x71, 0x63, 0x6f,
+> +	0x6d, 0x70, 0x3d, 0x30, 0x2e, 0x36, 0x30, 0x20, 0x71, 0x70, 0x6d, 0x69,
+> +	0x6e, 0x3d, 0x31, 0x30,	0x20, 0x71, 0x70, 0x6d, 0x61, 0x78, 0x3d, 0x35,
+> +	0x31, 0x20, 0x71, 0x70, 0x73, 0x74, 0x65, 0x70,	0x3d, 0x34, 0x20, 0x69,
+> +	0x70, 0x5f, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x3d, 0x31, 0x2e, 0x34, 0x30,
+> +	0x20, 0x61, 0x71, 0x3d, 0x31, 0x3a, 0x31, 0x2e, 0x30, 0x30, 0x00, 0x80,
+> +	0x00, 0x00, 0x00, 0x01,	0x67, 0x4d, 0x40, 0x0a, 0x9a, 0x74, 0xf4, 0x20,
+> +	0x00, 0x00, 0x03, 0x00, 0x20, 0x00, 0x00, 0x06,	0x51, 0xe2, 0x44, 0xd4,
+> +	0x00, 0x00, 0x00, 0x01, 0x68, 0xee, 0x32, 0xc8, 0x00, 0x00, 0x00, 0x01,
+> +	0x65, 0x88, 0x80, 0x20, 0x00, 0x08, 0x7f, 0xea, 0x6a, 0xe2, 0x99, 0xb6,
+> +	0x57, 0xae, 0x49, 0x30,	0xf5, 0xfe, 0x5e, 0x46, 0x0b, 0x72, 0x44, 0xc4,
+> +	0xe1, 0xfc, 0x62, 0xda, 0xf1, 0xfb, 0xa2, 0xdb,	0xd6, 0xbe, 0x5c, 0xd7,
+> +	0x24, 0xa3, 0xf5, 0xb9, 0x2f, 0x57, 0x16, 0x49, 0x75, 0x47, 0x77, 0x09,
+> +	0x5c, 0xa1, 0xb4, 0xc3, 0x4f, 0x60, 0x2b, 0xb0, 0x0c, 0xc8, 0xd6, 0x66,
+> +	0xba, 0x9b, 0x82, 0x29,	0x33, 0x92, 0x26, 0x99, 0x31, 0x1c, 0x7f, 0x9b,
+> +	0x00, 0x00, 0x01, 0x0ff,
+> +};
+> +
+> +static const u8 *codec_h264_eos_sequence(u32 *len)
+> +{
+> +	*len = ARRAY_SIZE(eos_sequence);
+> +	return eos_sequence;
+> +}
+> +
+> +struct codec_h264 {
+> +	/* H.264 decoder requires an extended firmware */
+> +	void      *ext_fw_vaddr;
+> +	dma_addr_t ext_fw_paddr;
+> +
+> +	/* Buffer for the H.264 Workspace */
+> +	void      *workspace_vaddr;
+> +	dma_addr_t workspace_paddr;
+> +
+> +	/* Buffer for the H.264 references MV */
+> +	void      *ref_vaddr;
+> +	dma_addr_t ref_paddr;
+> +	u32	   ref_size;
+> +
+> +	/* Buffer for parsed SEI data */
+> +	void      *sei_vaddr;
+> +	dma_addr_t sei_paddr;
+> +
+> +	u32 mb_width;
+> +	u32 mb_height;
+> +	u32 max_refs;
+> +};
+> +
+> +static int codec_h264_can_recycle(struct amvdec_core *core)
+> +{
+> +	return !amvdec_read_dos(core, AV_SCRATCH_7) ||
+> +	       !amvdec_read_dos(core, AV_SCRATCH_8);
+> +}
+> +
+> +static void codec_h264_recycle(struct amvdec_core *core, u32 buf_idx)
+> +{
+> +	/*
+> +	 * Tell the firmware it can recycle this buffer.
+> +	 * AV_SCRATCH_8 serves the same purpose.
+> +	 */
+> +	if (!amvdec_read_dos(core, AV_SCRATCH_7))
+> +		amvdec_write_dos(core, AV_SCRATCH_7, buf_idx + 1);
+> +	else
+> +		amvdec_write_dos(core, AV_SCRATCH_8, buf_idx + 1);
+> +}
+> +
+> +static int codec_h264_start(struct amvdec_session *sess)
+> +{
+> +	u32 workspace_offset;
+> +	struct amvdec_core *core = sess->core;
+> +	struct codec_h264 *h264 = sess->priv;
+> +
+> +	/* Allocate some memory for the H.264 decoder's state */
+> +	h264->workspace_vaddr =
+> +		dma_alloc_coherent(core->dev, SIZE_WORKSPACE,
+> +				   &h264->workspace_paddr, GFP_KERNEL);
+> +	if (!h264->workspace_vaddr)
+> +		return -ENOMEM;
+> +
+> +	/* Allocate some memory for the H.264 SEI dump */
+> +	h264->sei_vaddr = dma_alloc_coherent(core->dev, SIZE_SEI,
+> +					     &h264->sei_paddr, GFP_KERNEL);
+> +	if (!h264->sei_vaddr)
+> +		return -ENOMEM;
+> +
+> +	amvdec_write_dos_bits(core, POWER_CTL_VLD, BIT(9) | BIT(6));
+> +
+> +	workspace_offset = h264->workspace_paddr - WORKSPACE_BUF_OFFSET;
+> +	amvdec_write_dos(core, AV_SCRATCH_1, workspace_offset);
+> +	amvdec_write_dos(core, AV_SCRATCH_G, h264->ext_fw_paddr);
+> +	amvdec_write_dos(core, AV_SCRATCH_I, h264->sei_paddr -
+> +					     workspace_offset);
+> +
+> +	/* Enable "error correction" */
+> +	amvdec_write_dos(core, AV_SCRATCH_F,
+> +			 (amvdec_read_dos(core, AV_SCRATCH_F) & 0xffffffc3) |
+> +			 BIT(4) | BIT(7));
+> +
+> +	amvdec_write_dos(core, MDEC_PIC_DC_THRESH, 0x404038aa);
+> +
+> +	return 0;
+> +}
+> +
+> +static int codec_h264_stop(struct amvdec_session *sess)
+> +{
+> +	struct codec_h264 *h264 = sess->priv;
+> +	struct amvdec_core *core = sess->core;
+> +
+> +	if (h264->ext_fw_vaddr)
+> +		dma_free_coherent(core->dev, SIZE_EXT_FW,
+> +				  h264->ext_fw_vaddr, h264->ext_fw_paddr);
+> +
+> +	if (h264->workspace_vaddr)
+> +		dma_free_coherent(core->dev, SIZE_WORKSPACE,
+> +				 h264->workspace_vaddr, h264->workspace_paddr);
+> +
+> +	if (h264->ref_vaddr)
+> +		dma_free_coherent(core->dev, h264->ref_size,
+> +				  h264->ref_vaddr, h264->ref_paddr);
+> +
+> +	if (h264->sei_vaddr)
+> +		dma_free_coherent(core->dev, SIZE_SEI,
+> +				  h264->sei_vaddr, h264->sei_paddr);
+> +
+> +	return 0;
+> +}
+> +
+> +static int codec_h264_load_extended_firmware(struct amvdec_session *sess,
+> +					     const u8 *data, u32 len)
+> +{
+> +	struct codec_h264 *h264;
+> +	struct amvdec_core *core = sess->core;
+> +
+> +	if (len < SIZE_EXT_FW)
+> +		return -EINVAL;
+> +
+> +	h264 = kzalloc(sizeof(*h264), GFP_KERNEL);
+> +	if (!h264)
+> +		return -ENOMEM;
+> +
+> +	h264->ext_fw_vaddr = dma_alloc_coherent(core->dev, SIZE_EXT_FW,
+> +					      &h264->ext_fw_paddr, GFP_KERNEL);
+> +	if (!h264->ext_fw_vaddr) {
+> +		kfree(h264);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	memcpy(h264->ext_fw_vaddr, data, SIZE_EXT_FW);
+> +	sess->priv = h264;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_fract par_table[] = {
+> +	{ 1, 1 },   { 1, 1 },    { 12, 11 }, { 10, 11 },
+> +	{ 16, 11 }, { 40, 33 },  { 24, 11 }, { 20, 11 },
+> +	{ 32, 11 }, { 80, 33 },  { 18, 11 }, { 15, 11 },
+> +	{ 64, 33 }, { 160, 99 }, { 4, 3 },   { 3, 2 },
+> +	{ 2, 1 }
+> +};
+> +
+> +static void codec_h264_set_par(struct amvdec_session *sess)
 > +{
 > +	struct amvdec_core *core = sess->core;
-> +	u32 body_size = amvdec_am21c_body_size(sess->width, sess->height);
-> +	u32 head_size = amvdec_am21c_head_size(sess->width, sess->height);
+> +	u32 seq_info = amvdec_read_dos(core, AV_SCRATCH_2);
+> +	u32 ar_idc = (seq_info >> AR_IDC_BIT) & AR_IDC_MASK;
 > +
-> +	if (!codec_hevc_use_fbc(sess->pixfmt_cap, is_10bit)) {
-> +		/* Enable 2-plane reference read mode */
-> +		amvdec_write_dos(core, HEVCD_MPP_DECOMP_CTL1, BIT(31));
+> +	if (!(seq_info & AR_PRESENT_FLAG))
+> +		return;
+> +
+> +	if (ar_idc == AR_EXTEND) {
+> +		u32 ar_info = amvdec_read_dos(core, AV_SCRATCH_3);
+> +
+> +		sess->pixelaspect.numerator = ar_info & 0xffff;
+> +		sess->pixelaspect.denominator = (ar_info >> 16) & 0xffff;
 > +		return;
 > +	}
 > +
-> +	if (codec_hevc_use_mmu(core->platform->revision,
-> +			       sess->pixfmt_cap, is_10bit))
-> +		amvdec_write_dos(core, HEVCD_MPP_DECOMP_CTL1, BIT(4));
-> +	else
-> +		amvdec_write_dos(core, HEVCD_MPP_DECOMP_CTL1, 0);
+> +	if (ar_idc >= ARRAY_SIZE(par_table))
+> +		return;
 > +
-> +	if (core->platform->revision < VDEC_REVISION_SM1)
-> +		amvdec_write_dos(core, HEVCD_MPP_DECOMP_CTL2, body_size / 32);
-> +	amvdec_write_dos(core, HEVC_CM_BODY_LENGTH, body_size);
-> +	amvdec_write_dos(core, HEVC_CM_HEADER_OFFSET, body_size);
-> +	amvdec_write_dos(core, HEVC_CM_HEADER_LENGTH, head_size);
+> +	sess->pixelaspect = par_table[ar_idc];
 > +}
-> +EXPORT_SYMBOL_GPL(codec_hevc_setup_decode_head);
 > +
-> +static void codec_hevc_setup_buffers_gxbb(struct amvdec_session *sess,
-> +					  struct codec_hevc_common *comm,
-> +					  int is_10bit)
+> +static void codec_h264_resume(struct amvdec_session *sess)
 > +{
 > +	struct amvdec_core *core = sess->core;
-> +	struct v4l2_m2m_buffer *buf;
-> +	u32 buf_num = v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
-> +	dma_addr_t buf_y_paddr = 0;
-> +	dma_addr_t buf_uv_paddr = 0;
-> +	u32 idx = 0;
-> +	u32 val;
-> +	int i;
+> +	struct codec_h264 *h264 = sess->priv;
+> +	u32 mb_width, mb_height, mb_total;
 > +
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CONF_ADDR, 0);
+> +	amvdec_set_canvases(sess, (u32[]){ ANC0_CANVAS_ADDR, 0 },
+> +				  (u32[]){ 24, 0 });
 > +
-> +	v4l2_m2m_for_each_dst_buf(sess->m2m_ctx, buf) {
-> +		struct vb2_buffer *vb = &buf->vb.vb2_buf;
+> +	dev_dbg(core->dev, "max_refs = %u; actual_dpb_size = %u\n",
+> +		h264->max_refs, sess->num_dst_bufs);
 > +
-> +		idx = vb->index;
+> +	/* Align to a multiple of 4 macroblocks */
+> +	mb_width = ALIGN(h264->mb_width, 4);
+> +	mb_height = ALIGN(h264->mb_height, 4);
+> +	mb_total = mb_width * mb_height;
 > +
-> +		if (codec_hevc_use_downsample(sess->pixfmt_cap, is_10bit))
-> +			buf_y_paddr = comm->fbc_buffer_paddr[idx];
-> +		else
-> +			buf_y_paddr = vb2_dma_contig_plane_dma_addr(vb, 0);
-> +
-> +		if (codec_hevc_use_fbc(sess->pixfmt_cap, is_10bit)) {
-> +			val = buf_y_paddr | (idx << 8) | 1;
-> +			amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CMD_ADDR,
-> +					 val);
-> +		} else {
-> +			buf_uv_paddr = vb2_dma_contig_plane_dma_addr(vb, 1);
-> +			val = buf_y_paddr | ((idx * 2) << 8) | 1;
-> +			amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CMD_ADDR,
-> +					 val);
-> +			val = buf_uv_paddr | ((idx * 2 + 1) << 8) | 1;
-> +			amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CMD_ADDR,
-> +					 val);
-> +		}
+> +	h264->ref_size = mb_total * MB_MV_SIZE * h264->max_refs;
+> +	h264->ref_vaddr = dma_alloc_coherent(core->dev, h264->ref_size,
+> +					     &h264->ref_paddr, GFP_KERNEL);
+> +	if (!h264->ref_vaddr) {
+> +		amvdec_abort(sess);
+> +		return;
 > +	}
 > +
-> +	if (codec_hevc_use_fbc(sess->pixfmt_cap, is_10bit))
-> +		val = buf_y_paddr | (idx << 8) | 1;
-> +	else
-> +		val = buf_y_paddr | ((idx * 2) << 8) | 1;
+> +	/* Address to store the references' MVs */
+> +	amvdec_write_dos(core, AV_SCRATCH_1, h264->ref_paddr);
+> +	/* End of ref MV */
+> +	amvdec_write_dos(core, AV_SCRATCH_4, h264->ref_paddr + h264->ref_size);
 > +
-> +	/* Fill the remaining unused slots with the last buffer's Y addr */
-> +	for (i = buf_num; i < MAX_REF_PIC_NUM; ++i)
-> +		amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CMD_ADDR, val);
-> +
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CONF_ADDR, 1);
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_ACCCONFIG_ADDR, 1);
-> +	for (i = 0; i < 32; ++i)
-> +		amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_DATA_ADDR, 0);
-> +}
-> +
-> +static void codec_hevc_setup_buffers_gxl(struct amvdec_session *sess,
-> +					 struct codec_hevc_common *comm,
-> +					 int is_10bit)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct v4l2_m2m_buffer *buf;
-> +	u32 revision = core->platform->revision;
-> +	u32 pixfmt_cap = sess->pixfmt_cap;
-> +	int i;
-> +
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CONF_ADDR,
-> +			 BIT(2) | BIT(1));
-> +
-> +	v4l2_m2m_for_each_dst_buf(sess->m2m_ctx, buf) {
-> +		struct vb2_buffer *vb = &buf->vb.vb2_buf;
-> +		dma_addr_t buf_y_paddr = 0;
-> +		dma_addr_t buf_uv_paddr = 0;
-> +		u32 idx = vb->index;
-> +
-> +		if (codec_hevc_use_mmu(revision, pixfmt_cap, is_10bit))
-> +			buf_y_paddr = comm->mmu_header_paddr[idx];
-> +		else if (codec_hevc_use_downsample(pixfmt_cap, is_10bit))
-> +			buf_y_paddr = comm->fbc_buffer_paddr[idx];
-> +		else
-> +			buf_y_paddr = vb2_dma_contig_plane_dma_addr(vb, 0);
-> +
-> +		amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_DATA,
-> +				 buf_y_paddr >> 5);
-> +
-> +		if (!codec_hevc_use_fbc(pixfmt_cap, is_10bit)) {
-> +			buf_uv_paddr = vb2_dma_contig_plane_dma_addr(vb, 1);
-> +			amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_DATA,
-> +					 buf_uv_paddr >> 5);
-> +		}
-> +	}
-> +
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC2AXI_TBL_CONF_ADDR, 1);
-> +	amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_ACCCONFIG_ADDR, 1);
-> +	for (i = 0; i < 32; ++i)
-> +		amvdec_write_dos(core, HEVCD_MPP_ANC_CANVAS_DATA_ADDR, 0);
-> +}
-> +
-> +void codec_hevc_free_fbc_buffers(struct amvdec_session *sess,
-> +				 struct codec_hevc_common *comm)
-> +{
-> +	struct device *dev = sess->core->dev;
-> +	u32 am21_size = amvdec_am21c_size(sess->width, sess->height);
-> +	int i;
-> +
-> +	for (i = 0; i < MAX_REF_PIC_NUM; ++i) {
-> +		if (comm->fbc_buffer_vaddr[i]) {
-> +			dma_free_coherent(dev, am21_size,
-> +					  comm->fbc_buffer_vaddr[i],
-> +					  comm->fbc_buffer_paddr[i]);
-> +			comm->fbc_buffer_vaddr[i] = NULL;
-> +		}
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(codec_hevc_free_fbc_buffers);
-> +
-> +static int codec_hevc_alloc_fbc_buffers(struct amvdec_session *sess,
-> +					struct codec_hevc_common *comm)
-> +{
-> +	struct device *dev = sess->core->dev;
-> +	struct v4l2_m2m_buffer *buf;
-> +	u32 am21_size = amvdec_am21c_size(sess->width, sess->height);
-> +
-> +	v4l2_m2m_for_each_dst_buf(sess->m2m_ctx, buf) {
-> +		u32 idx = buf->vb.vb2_buf.index;
-> +		dma_addr_t paddr;
-> +		void *vaddr = dma_alloc_coherent(dev, am21_size, &paddr,
-> +						 GFP_KERNEL);
-> +		if (!vaddr) {
-> +			dev_err(dev, "Couldn't allocate FBC buffer %u\n", idx);
-> +			codec_hevc_free_fbc_buffers(sess, comm);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		comm->fbc_buffer_vaddr[idx] = vaddr;
-> +		comm->fbc_buffer_paddr[idx] = paddr;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void codec_hevc_free_mmu_headers(struct amvdec_session *sess,
-> +				 struct codec_hevc_common *comm)
-> +{
-> +	struct device *dev = sess->core->dev;
-> +	int i;
-> +
-> +	for (i = 0; i < MAX_REF_PIC_NUM; ++i) {
-> +		if (comm->mmu_header_vaddr[i]) {
-> +			dma_free_coherent(dev, MMU_COMPRESS_HEADER_SIZE,
-> +					  comm->mmu_header_vaddr[i],
-> +					  comm->mmu_header_paddr[i]);
-> +			comm->mmu_header_vaddr[i] = NULL;
-> +		}
-> +	}
-> +
-> +	if (comm->mmu_map_vaddr) {
-> +		dma_free_coherent(dev, MMU_MAP_SIZE,
-> +				  comm->mmu_map_vaddr,
-> +				  comm->mmu_map_paddr);
-> +		comm->mmu_map_vaddr = NULL;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(codec_hevc_free_mmu_headers);
-> +
-> +static int codec_hevc_alloc_mmu_headers(struct amvdec_session *sess,
-> +					struct codec_hevc_common *comm)
-> +{
-> +	struct device *dev = sess->core->dev;
-> +	struct v4l2_m2m_buffer *buf;
-> +
-> +	comm->mmu_map_vaddr = dma_alloc_coherent(dev, MMU_MAP_SIZE,
-> +						 &comm->mmu_map_paddr,
-> +						 GFP_KERNEL);
-> +	if (!comm->mmu_map_vaddr)
-> +		return -ENOMEM;
-> +
-> +	v4l2_m2m_for_each_dst_buf(sess->m2m_ctx, buf) {
-> +		u32 idx = buf->vb.vb2_buf.index;
-> +		dma_addr_t paddr;
-> +		void *vaddr = dma_alloc_coherent(dev, MMU_COMPRESS_HEADER_SIZE,
-> +						 &paddr, GFP_KERNEL);
-> +		if (!vaddr) {
-> +			dev_err(dev, "Couldn't allocate MMU header %u\n", idx);
-> +			codec_hevc_free_mmu_headers(sess, comm);
-> +			return -ENOMEM;
-> +		}
-> +
-> +		comm->mmu_header_vaddr[idx] = vaddr;
-> +		comm->mmu_header_paddr[idx] = paddr;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int codec_hevc_setup_buffers(struct amvdec_session *sess,
-> +			     struct codec_hevc_common *comm,
-> +			     int is_10bit)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	int ret;
-> +
-> +	if (codec_hevc_use_downsample(sess->pixfmt_cap, is_10bit)) {
-> +		ret = codec_hevc_alloc_fbc_buffers(sess, comm);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (codec_hevc_use_mmu(core->platform->revision,
-> +			       sess->pixfmt_cap, is_10bit)) {
-> +		ret = codec_hevc_alloc_mmu_headers(sess, comm);
-> +		if (ret) {
-> +			codec_hevc_free_fbc_buffers(sess, comm);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	if (core->platform->revision == VDEC_REVISION_GXBB)
-> +		codec_hevc_setup_buffers_gxbb(sess, comm, is_10bit);
-> +	else
-> +		codec_hevc_setup_buffers_gxl(sess, comm, is_10bit);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(codec_hevc_setup_buffers);
-> +
-> +void codec_hevc_fill_mmu_map(struct amvdec_session *sess,
-> +			     struct codec_hevc_common *comm,
-> +			     struct vb2_buffer *vb)
-> +{
-> +	u32 size = amvdec_am21c_size(sess->width, sess->height);
-> +	u32 nb_pages = size / PAGE_SIZE;
-> +	u32 *mmu_map = comm->mmu_map_vaddr;
-> +	u32 first_page;
-> +	u32 i;
-> +
-> +	if (sess->pixfmt_cap == V4L2_PIX_FMT_NV12M)
-> +		first_page = comm->fbc_buffer_paddr[vb->index] >> PAGE_SHIFT;
-> +	else
-> +		first_page = vb2_dma_contig_plane_dma_addr(vb, 0) >> PAGE_SHIFT;
-> +
-> +	for (i = 0; i < nb_pages; ++i)
-> +		mmu_map[i] = first_page + i;
-> +}
-> +EXPORT_SYMBOL_GPL(codec_hevc_fill_mmu_map);
-> diff --git a/drivers/staging/media/meson/vdec/codec_hevc_common.h b/drivers/staging/media/meson/vdec/codec_hevc_common.h
-> new file mode 100644
-> index 000000000000..de16d2e43061
-> --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/codec_hevc_common.h
-> @@ -0,0 +1,77 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2018 BayLibre, SAS
-> + * Author: Maxime Jourdan <mjourdan@baylibre.com>
-> + */
-> +
-> +#ifndef __MESON_VDEC_HEVC_COMMON_H_
-> +#define __MESON_VDEC_HEVC_COMMON_H_
-> +
-> +#include "vdec.h"
-> +
-> +#define PARSER_CMD_SKIP_CFG_0 0x0000090b
-> +#define PARSER_CMD_SKIP_CFG_1 0x1b14140f
-> +#define PARSER_CMD_SKIP_CFG_2 0x001b1910
-> +static const u16 vdec_hevc_parser_cmd[] = {
-> +	0x0401,	0x8401,	0x0800,	0x0402,
-> +	0x9002,	0x1423,	0x8CC3,	0x1423,
-> +	0x8804,	0x9825,	0x0800,	0x04FE,
-> +	0x8406,	0x8411,	0x1800,	0x8408,
-> +	0x8409,	0x8C2A,	0x9C2B,	0x1C00,
-> +	0x840F,	0x8407,	0x8000,	0x8408,
-> +	0x2000,	0xA800,	0x8410,	0x04DE,
-> +	0x840C,	0x840D,	0xAC00,	0xA000,
-> +	0x08C0,	0x08E0,	0xA40E,	0xFC00,
-> +	0x7C00
-> +};
-> +
-> +#define MAX_REF_PIC_NUM	24
-> +
-> +struct codec_hevc_common {
-> +	void      *fbc_buffer_vaddr[MAX_REF_PIC_NUM];
-> +	dma_addr_t fbc_buffer_paddr[MAX_REF_PIC_NUM];
-> +
-> +	void      *mmu_header_vaddr[MAX_REF_PIC_NUM];
-> +	dma_addr_t mmu_header_paddr[MAX_REF_PIC_NUM];
-> +
-> +	void      *mmu_map_vaddr;
-> +	dma_addr_t mmu_map_paddr;
-> +};
-> +
-> +/* Returns 1 if we must use framebuffer compression */
-> +static inline int codec_hevc_use_fbc(u32 pixfmt, int is_10bit)
-> +{
-> +	/* TOFIX: Handle Amlogic Compressed buffer for 8bit also */
-> +	return is_10bit;
-> +}
-> +
-> +/* Returns 1 if we are decoding 10-bit but outputting 8-bit NV12 */
-> +static inline int codec_hevc_use_downsample(u32 pixfmt, int is_10bit)
-> +{
-> +	return is_10bit;
-> +}
-> +
-> +/* Returns 1 if we are decoding using the IOMMU */
-> +static inline int codec_hevc_use_mmu(u32 revision, u32 pixfmt, int is_10bit)
-> +{
-> +	return revision >= VDEC_REVISION_G12A &&
-> +	       codec_hevc_use_fbc(pixfmt, is_10bit);
+> +	amvdec_write_dos(core, AV_SCRATCH_0, (h264->max_refs << 24) |
+> +					     (sess->num_dst_bufs << 16) |
+> +					     ((h264->max_refs - 1) << 8));
 > +}
 > +
 > +/**
-> + * Configure decode head read mode
+> + * Configure the H.264 decoder when the parser detected a parameter set change
 > + */
-> +void codec_hevc_setup_decode_head(struct amvdec_session *sess, int is_10bit);
+> +static void codec_h264_src_change(struct amvdec_session *sess)
+> +{
+> +	struct amvdec_core *core = sess->core;
+> +	struct codec_h264 *h264 = sess->priv;
+> +	u32 parsed_info, mb_total;
+> +	u32 crop_infor, crop_bottom, crop_right;
+> +	u32 frame_width, frame_height;
 > +
-> +void codec_hevc_free_fbc_buffers(struct amvdec_session *sess,
-> +				 struct codec_hevc_common *comm);
+> +	sess->keyframe_found = 1;
 > +
-> +int codec_hevc_setup_buffers(struct amvdec_session *sess,
-> +			     struct codec_hevc_common *comm,
-> +			     int is_10bit);
+> +	parsed_info = amvdec_read_dos(core, AV_SCRATCH_1);
 > +
-> +void codec_hevc_fill_mmu_map(struct amvdec_session *sess,
-> +			     struct codec_hevc_common *comm,
-> +			     struct vb2_buffer *vb);
+> +	/* Total number of 16x16 macroblocks */
+> +	mb_total = (parsed_info >> MB_TOTAL_BIT) & MB_TOTAL_MASK;
+> +	/* Number of macroblocks per line */
+> +	h264->mb_width = parsed_info & MB_WIDTH_MASK;
+> +	/* Number of macroblock lines */
+> +	h264->mb_height = mb_total / h264->mb_width;
 > +
-> +#endif
-> diff --git a/drivers/staging/media/meson/vdec/hevc_regs.h b/drivers/staging/media/meson/vdec/hevc_regs.h
-> new file mode 100644
-> index 000000000000..55c1a80b955a
-> --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/hevc_regs.h
-> @@ -0,0 +1,211 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2015 Amlogic, Inc. All rights reserved.
+> +	h264->max_refs = ((parsed_info >> MAX_REF_BIT) & MAX_REF_MASK) + 1;
+> +
+> +	crop_infor = amvdec_read_dos(core, AV_SCRATCH_6);
+> +	crop_bottom = (crop_infor & 0xff);
+> +	crop_right = (crop_infor >> 16) & 0xff;
+> +
+> +	frame_width = h264->mb_width * 16 - crop_right;
+> +	frame_height = h264->mb_height * 16 - crop_bottom;
+> +
+> +	dev_dbg(core->dev, "frame: %ux%u; crop: %u %u\n",
+> +		frame_width, frame_height, crop_right, crop_bottom);
+> +
+> +	codec_h264_set_par(sess);
+> +	amvdec_src_change(sess, frame_width, frame_height, h264->max_refs + 5);
+> +}
+> +
+> +/**
+> + * The bitstream offset is split in half in 2 different registers.
+> + * Fetch its MSB here, which location depends on the frame number.
 > + */
-> +
-> +#ifndef __MESON_VDEC_HEVC_REGS_H_
-> +#define __MESON_VDEC_HEVC_REGS_H_
-> +
-> +#define HEVC_ASSIST_MMU_MAP_ADDR 0xc024
-> +
-> +#define HEVC_ASSIST_MBOX1_CLR_REG 0xc1d4
-> +#define HEVC_ASSIST_MBOX1_MASK 0xc1d8
-> +
-> +#define HEVC_ASSIST_SCRATCH_0 0xc300
-> +#define HEVC_ASSIST_SCRATCH_1 0xc304
-> +#define HEVC_ASSIST_SCRATCH_2 0xc308
-> +#define HEVC_ASSIST_SCRATCH_3 0xc30c
-> +#define HEVC_ASSIST_SCRATCH_4 0xc310
-> +#define HEVC_ASSIST_SCRATCH_5 0xc314
-> +#define HEVC_ASSIST_SCRATCH_6 0xc318
-> +#define HEVC_ASSIST_SCRATCH_7 0xc31c
-> +#define HEVC_ASSIST_SCRATCH_8 0xc320
-> +#define HEVC_ASSIST_SCRATCH_9 0xc324
-> +#define HEVC_ASSIST_SCRATCH_A 0xc328
-> +#define HEVC_ASSIST_SCRATCH_B 0xc32c
-> +#define HEVC_ASSIST_SCRATCH_C 0xc330
-> +#define HEVC_ASSIST_SCRATCH_D 0xc334
-> +#define HEVC_ASSIST_SCRATCH_E 0xc338
-> +#define HEVC_ASSIST_SCRATCH_F 0xc33c
-> +#define HEVC_ASSIST_SCRATCH_G 0xc340
-> +#define HEVC_ASSIST_SCRATCH_H 0xc344
-> +#define HEVC_ASSIST_SCRATCH_I 0xc348
-> +#define HEVC_ASSIST_SCRATCH_J 0xc34c
-> +#define HEVC_ASSIST_SCRATCH_K 0xc350
-> +#define HEVC_ASSIST_SCRATCH_L 0xc354
-> +#define HEVC_ASSIST_SCRATCH_M 0xc358
-> +#define HEVC_ASSIST_SCRATCH_N 0xc35c
-> +
-> +#define HEVC_PARSER_VERSION 0xc400
-> +#define HEVC_STREAM_CONTROL 0xc404
-> +#define HEVC_STREAM_START_ADDR 0xc408
-> +#define HEVC_STREAM_END_ADDR 0xc40c
-> +#define HEVC_STREAM_WR_PTR 0xc410
-> +#define HEVC_STREAM_RD_PTR 0xc414
-> +#define HEVC_STREAM_LEVEL 0xc418
-> +#define HEVC_STREAM_FIFO_CTL 0xc41c
-> +#define HEVC_SHIFT_CONTROL 0xc420
-> +#define HEVC_SHIFT_STARTCODE 0xc424
-> +#define HEVC_SHIFT_EMULATECODE 0xc428
-> +#define HEVC_SHIFT_STATUS 0xc42c
-> +#define HEVC_SHIFTED_DATA 0xc430
-> +#define HEVC_SHIFT_BYTE_COUNT 0xc434
-> +#define HEVC_SHIFT_COMMAND 0xc438
-> +#define HEVC_ELEMENT_RESULT 0xc43c
-> +#define HEVC_CABAC_CONTROL 0xc440
-> +#define HEVC_PARSER_SLICE_INFO 0xc444
-> +#define HEVC_PARSER_CMD_WRITE 0xc448
-> +#define HEVC_PARSER_CORE_CONTROL 0xc44c
-> +#define HEVC_PARSER_CMD_FETCH 0xc450
-> +#define HEVC_PARSER_CMD_STATUS 0xc454
-> +#define HEVC_PARSER_LCU_INFO 0xc458
-> +#define HEVC_PARSER_HEADER_INFO 0xc45c
-> +#define HEVC_PARSER_INT_CONTROL 0xc480
-> +#define HEVC_PARSER_INT_STATUS 0xc484
-> +#define HEVC_PARSER_IF_CONTROL 0xc488
-> +#define HEVC_PARSER_PICTURE_SIZE 0xc48c
-> +#define HEVC_PARSER_LCU_START 0xc490
-> +#define HEVC_PARSER_HEADER_INFO2 0xc494
-> +#define HEVC_PARSER_QUANT_READ 0xc498
-> +#define HEVC_PARSER_RESERVED_27 0xc49c
-> +#define HEVC_PARSER_CMD_SKIP_0 0xc4a0
-> +#define HEVC_PARSER_CMD_SKIP_1 0xc4a4
-> +#define HEVC_PARSER_CMD_SKIP_2 0xc4a8
-> +#define HEVC_SAO_IF_STATUS 0xc4c0
-> +#define HEVC_SAO_IF_DATA_Y 0xc4c4
-> +#define HEVC_SAO_IF_DATA_U 0xc4c8
-> +#define HEVC_SAO_IF_DATA_V 0xc4cc
-> +#define HEVC_STREAM_SWAP_ADDR 0xc4d0
-> +#define HEVC_STREAM_SWAP_CTRL 0xc4d4
-> +#define HEVC_IQIT_IF_WAIT_CNT 0xc4d8
-> +#define HEVC_MPRED_IF_WAIT_CNT 0xc4dc
-> +#define HEVC_SAO_IF_WAIT_CNT 0xc4e0
-> +
-> +#define HEVC_MPRED_VERSION 0xc800
-> +#define HEVC_MPRED_CTRL0 0xc804
-> +	#define MPRED_CTRL0_NEW_PIC	BIT(2)
-> +	#define MPRED_CTRL0_NEW_TILE	BIT(3)
-> +	#define MPRED_CTRL0_NEW_SLI_SEG	BIT(4)
-> +	#define MPRED_CTRL0_TMVP	BIT(5)
-> +	#define MPRED_CTRL0_LDC		BIT(6)
-> +	#define MPRED_CTRL0_COL_FROM_L0	BIT(7)
-> +	#define MPRED_CTRL0_ABOVE_EN	BIT(9)
-> +	#define MPRED_CTRL0_MV_WR_EN	BIT(10)
-> +	#define MPRED_CTRL0_MV_RD_EN	BIT(11)
-> +	#define MPRED_CTRL0_BUF_LINEAR	BIT(13)
-> +#define HEVC_MPRED_CTRL1 0xc808
-> +#define HEVC_MPRED_INT_EN 0xc80c
-> +#define HEVC_MPRED_INT_STATUS 0xc810
-> +#define HEVC_MPRED_PIC_SIZE 0xc814
-> +#define HEVC_MPRED_PIC_SIZE_LCU 0xc818
-> +#define HEVC_MPRED_TILE_START 0xc81c
-> +#define HEVC_MPRED_TILE_SIZE_LCU 0xc820
-> +#define HEVC_MPRED_REF_NUM 0xc824
-> +#define HEVC_MPRED_REF_EN_L0 0xc830
-> +#define HEVC_MPRED_REF_EN_L1 0xc834
-> +#define HEVC_MPRED_COLREF_EN_L0 0xc838
-> +#define HEVC_MPRED_COLREF_EN_L1 0xc83c
-> +#define HEVC_MPRED_AXI_WCTRL 0xc840
-> +#define HEVC_MPRED_AXI_RCTRL 0xc844
-> +#define HEVC_MPRED_ABV_START_ADDR 0xc848
-> +#define HEVC_MPRED_MV_WR_START_ADDR 0xc84c
-> +#define HEVC_MPRED_MV_RD_START_ADDR 0xc850
-> +#define HEVC_MPRED_MV_WPTR 0xc854
-> +#define HEVC_MPRED_MV_RPTR 0xc858
-> +#define HEVC_MPRED_MV_WR_ROW_JUMP 0xc85c
-> +#define HEVC_MPRED_MV_RD_ROW_JUMP 0xc860
-> +#define HEVC_MPRED_CURR_LCU 0xc864
-> +#define HEVC_MPRED_ABV_WPTR 0xc868
-> +#define HEVC_MPRED_ABV_RPTR 0xc86c
-> +#define HEVC_MPRED_CTRL2 0xc870
-> +#define HEVC_MPRED_CTRL3 0xc874
-> +#define HEVC_MPRED_L0_REF00_POC 0xc880
-> +#define HEVC_MPRED_L1_REF00_POC 0xc8c0
-> +
-> +#define HEVC_MPRED_CUR_POC 0xc980
-> +#define HEVC_MPRED_COL_POC 0xc984
-> +#define HEVC_MPRED_MV_RD_END_ADDR 0xc988
-> +
-> +#define HEVC_MSP 0xcc00
-> +#define HEVC_MPSR 0xcc04
-> +#define HEVC_MCPU_INTR_MSK 0xcc10
-> +#define HEVC_MCPU_INTR_REQ 0xcc14
-> +#define HEVC_CPSR 0xcc84
-> +
-> +#define HEVC_IMEM_DMA_CTRL 0xcd00
-> +#define HEVC_IMEM_DMA_ADR 0xcd04
-> +#define HEVC_IMEM_DMA_COUNT 0xcd08
-> +
-> +#define HEVCD_IPP_TOP_CNTL 0xd000
-> +#define HEVCD_IPP_LINEBUFF_BASE 0xd024
-> +#define HEVCD_IPP_AXIIF_CONFIG 0xd02c
-> +
-> +#define HEVCD_MPP_ANC2AXI_TBL_CONF_ADDR 0xd180
-> +#define HEVCD_MPP_ANC2AXI_TBL_CMD_ADDR 0xd184
-> +#define HEVCD_MPP_ANC2AXI_TBL_DATA 0xd190
-> +
-> +#define HEVCD_MPP_ANC_CANVAS_ACCCONFIG_ADDR 0xd300
-> +#define HEVCD_MPP_ANC_CANVAS_DATA_ADDR 0xd304
-> +#define HEVCD_MPP_DECOMP_CTL1 0xd308
-> +#define HEVCD_MPP_DECOMP_CTL2 0xd30c
-> +#define HEVCD_MCRCC_CTL1 0xd3c0
-> +#define HEVCD_MCRCC_CTL2 0xd3c4
-> +#define HEVCD_MCRCC_CTL3 0xd3c8
-> +
-> +#define HEVC_DBLK_CFG0 0xd400
-> +#define HEVC_DBLK_CFG1 0xd404
-> +#define HEVC_DBLK_CFG2 0xd408
-> +#define HEVC_DBLK_CFG3 0xd40c
-> +#define HEVC_DBLK_CFG4 0xd410
-> +#define HEVC_DBLK_CFG5 0xd414
-> +#define HEVC_DBLK_CFG6 0xd418
-> +#define HEVC_DBLK_CFG7 0xd41c
-> +#define HEVC_DBLK_CFG8 0xd420
-> +#define HEVC_DBLK_CFG9 0xd424
-> +#define HEVC_DBLK_CFGA 0xd428
-> +#define HEVC_DBLK_STS0 0xd42c
-> +#define HEVC_DBLK_STS1 0xd430
-> +#define HEVC_DBLK_CFGE 0xd438
-> +
-> +#define HEVC_SAO_VERSION 0xd800
-> +#define HEVC_SAO_CTRL0 0xd804
-> +#define HEVC_SAO_CTRL1 0xd808
-> +#define HEVC_SAO_PIC_SIZE 0xd814
-> +#define HEVC_SAO_PIC_SIZE_LCU 0xd818
-> +#define HEVC_SAO_TILE_START 0xd81c
-> +#define HEVC_SAO_TILE_SIZE_LCU 0xd820
-> +#define HEVC_SAO_Y_START_ADDR 0xd82c
-> +#define HEVC_SAO_Y_LENGTH 0xd830
-> +#define HEVC_SAO_C_START_ADDR 0xd834
-> +#define HEVC_SAO_C_LENGTH 0xd838
-> +#define HEVC_SAO_Y_WPTR 0xd83c
-> +#define HEVC_SAO_C_WPTR 0xd840
-> +#define HEVC_SAO_ABV_START_ADDR 0xd844
-> +#define HEVC_SAO_VB_WR_START_ADDR 0xd848
-> +#define HEVC_SAO_VB_RD_START_ADDR 0xd84c
-> +#define HEVC_SAO_ABV_WPTR 0xd850
-> +#define HEVC_SAO_ABV_RPTR 0xd854
-> +#define HEVC_SAO_VB_WPTR 0xd858
-> +#define HEVC_SAO_VB_RPTR 0xd85c
-> +#define HEVC_SAO_CTRL2 0xd880
-> +#define HEVC_SAO_CTRL3 0xd884
-> +#define HEVC_SAO_CTRL4 0xd888
-> +#define HEVC_SAO_CTRL5 0xd88c
-> +#define HEVC_SAO_CTRL6 0xd890
-> +#define HEVC_SAO_CTRL7 0xd894
-> +#define HEVC_CM_BODY_START_ADDR 0xd898
-> +#define HEVC_CM_BODY_LENGTH 0xd89c
-> +#define HEVC_CM_HEADER_START_ADDR 0xd8a0
-> +#define HEVC_CM_HEADER_LENGTH 0xd8a4
-> +#define HEVC_CM_HEADER_OFFSET 0xd8ac
-> +#define HEVC_SAO_MMU_VH0_ADDR 0xd8e8
-> +#define HEVC_SAO_MMU_VH1_ADDR 0xd8ec
-> +
-> +#define HEVC_IQIT_CLK_RST_CTRL 0xdc00
-> +#define HEVC_IQIT_SCALELUT_WR_ADDR 0xdc08
-> +#define HEVC_IQIT_SCALELUT_RD_ADDR 0xdc0c
-> +#define HEVC_IQIT_SCALELUT_DATA 0xdc10
-> +
-> +#define HEVC_PSCALE_CTRL 0xe444
-> +
-> +#endif
-> diff --git a/drivers/staging/media/meson/vdec/vdec_hevc.c b/drivers/staging/media/meson/vdec/vdec_hevc.c
-> new file mode 100644
-> index 000000000000..af41215e106c
-> --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/vdec_hevc.c
-> @@ -0,0 +1,231 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2018 Maxime Jourdan <maxi.jourdan@wanadoo.fr>
-> + *
-> + * VDEC_HEVC is a video decoding block that allows decoding of
-> + * HEVC, VP9
-> + */
-> +
-> +#include <linux/firmware.h>
-> +#include <linux/clk.h>
-> +
-> +#include "vdec_1.h"
-> +#include "vdec_helpers.h"
-> +#include "hevc_regs.h"
-> +#include "dos_regs.h"
-> +
-> +/* AO Registers */
-> +#define AO_RTI_GEN_PWR_SLEEP0	0xe8
-> +#define AO_RTI_GEN_PWR_ISO0	0xec
-> +	#define GEN_PWR_VDEC_HEVC (BIT(7) | BIT(6))
-> +	#define GEN_PWR_VDEC_HEVC_SM1 (BIT(2))
-> +
-> +#define MC_SIZE	(4096 * 4)
-> +
-> +static int vdec_hevc_load_firmware(struct amvdec_session *sess,
-> +				   const char *fwname)
+> +static u32 get_offset_msb(struct amvdec_core *core, int frame_num)
 > +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct device *dev = core->dev_dec;
-> +	const struct firmware *fw;
-> +	static void *mc_addr;
-> +	static dma_addr_t mc_addr_map;
-> +	int ret;
-> +	u32 i = 100;
+> +	int take_msb = frame_num % 2;
+> +	int reg_offset = (frame_num / 2) * 4;
+> +	u32 offset_msb = amvdec_read_dos(core, AV_SCRATCH_A + reg_offset);
 > +
-> +	ret = request_firmware(&fw, fwname, dev);
-> +	if (ret < 0)  {
-> +		dev_err(dev, "Unable to request firmware %s\n", fwname);
-> +		return ret;
-> +	}
+> +	if (take_msb)
+> +		return offset_msb & 0xffff0000;
 > +
-> +	if (fw->size < MC_SIZE) {
-> +		dev_err(dev, "Firmware size %zu is too small. Expected %u.\n",
-> +			fw->size, MC_SIZE);
-> +		ret = -EINVAL;
-> +		goto release_firmware;
-> +	}
-> +
-> +	mc_addr = dma_alloc_coherent(core->dev, MC_SIZE, &mc_addr_map,
-> +				     GFP_KERNEL);
-> +	if (!mc_addr) {
-> +		dev_err(dev, "Failed allocating memory for firmware loading\n");
-> +		ret = -ENOMEM;
-> +		goto release_firmware;
-> +	}
-> +
-> +	memcpy(mc_addr, fw->data, MC_SIZE);
-> +
-> +	amvdec_write_dos(core, HEVC_MPSR, 0);
-> +	amvdec_write_dos(core, HEVC_CPSR, 0);
-> +
-> +	amvdec_write_dos(core, HEVC_IMEM_DMA_ADR, mc_addr_map);
-> +	amvdec_write_dos(core, HEVC_IMEM_DMA_COUNT, MC_SIZE / 4);
-> +	amvdec_write_dos(core, HEVC_IMEM_DMA_CTRL, (0x8000 | (7 << 16)));
-> +
-> +	while (i && (readl(core->dos_base + HEVC_IMEM_DMA_CTRL) & 0x8000))
-> +		i--;
-> +
-> +	if (i == 0) {
-> +		dev_err(dev, "Firmware load fail (DMA hang?)\n");
-> +		ret = -ENODEV;
-> +	}
-> +
-> +	dma_free_coherent(core->dev, MC_SIZE, mc_addr, mc_addr_map);
-> +release_firmware:
-> +	release_firmware(fw);
-> +	return ret;
+> +	return (offset_msb & 0x0000ffff) << 16;
 > +}
 > +
-> +static void vdec_hevc_stbuf_init(struct amvdec_session *sess)
+> +static void codec_h264_frames_ready(struct amvdec_session *sess, u32 status)
+> +{
+> +	struct amvdec_core *core = sess->core;
+> +	int error_count;
+> +	int num_frames;
+> +	int i;
+> +
+> +	error_count = amvdec_read_dos(core, AV_SCRATCH_D);
+> +	num_frames = (status >> 8) & 0xff;
+> +	if (error_count) {
+> +		dev_warn(core->dev,
+> +			 "decoder error(s) happened, count %d\n", error_count);
+> +		amvdec_write_dos(core, AV_SCRATCH_D, 0);
+> +	}
+> +
+> +	for (i = 0; i < num_frames; i++) {
+> +		u32 frame_status = amvdec_read_dos(core, AV_SCRATCH_1 + i * 4);
+> +		u32 buffer_index = frame_status & BUF_IDX_MASK;
+> +		u32 pic_struct = (frame_status >> PIC_STRUCT_BIT) &
+> +				 PIC_STRUCT_MASK;
+> +		u32 offset = (frame_status >> OFFSET_BIT) & OFFSET_MASK;
+> +		u32 field = V4L2_FIELD_NONE;
+> +
+> +		/*
+> +		 * A buffer decode error means it was decoded,
+> +		 * but part of the picture will have artifacts.
+> +		 * Typical reason is a temporarily corrupted bitstream
+> +		 */
+> +		if (frame_status & ERROR_FLAG)
+> +			dev_dbg(core->dev, "Buffer %d decode error\n",
+> +				buffer_index);
+> +
+> +		if (pic_struct == PIC_TOP_BOT)
+> +			field = V4L2_FIELD_INTERLACED_TB;
+> +		else if (pic_struct == PIC_BOT_TOP)
+> +			field = V4L2_FIELD_INTERLACED_BT;
+> +
+> +		offset |= get_offset_msb(core, i);
+> +		amvdec_dst_buf_done_idx(sess, buffer_index, offset, field);
+> +	}
+> +}
+> +
+> +static irqreturn_t codec_h264_threaded_isr(struct amvdec_session *sess)
+> +{
+> +	struct amvdec_core *core = sess->core;
+> +	u32 status;
+> +	u32 size;
+> +	u8 cmd;
+> +
+> +	status = amvdec_read_dos(core, AV_SCRATCH_0);
+> +	cmd = status & CMD_MASK;
+> +
+> +	switch (cmd) {
+> +	case CMD_SRC_CHANGE:
+> +		codec_h264_src_change(sess);
+> +		break;
+> +	case CMD_FRAMES_READY:
+> +		codec_h264_frames_ready(sess, status);
+> +		break;
+> +	case CMD_FATAL_ERROR:
+> +		dev_err(core->dev, "H.264 decoder fatal error\n");
+> +		goto abort;
+> +	case CMD_BAD_WIDTH:
+> +		size = (amvdec_read_dos(core, AV_SCRATCH_1) + 1) * 16;
+> +		dev_err(core->dev, "Unsupported video width: %u\n", size);
+> +		goto abort;
+> +	case CMD_BAD_HEIGHT:
+> +		size = (amvdec_read_dos(core, AV_SCRATCH_1) + 1) * 16;
+> +		dev_err(core->dev, "Unsupported video height: %u\n", size);
+> +		goto abort;
+> +	case 0: /* Unused but not worth printing for */
+> +	case 9:
+> +		break;
+> +	default:
+> +		dev_info(core->dev, "Unexpected H264 ISR: %08X\n", cmd);
+> +		break;
+> +	}
+> +
+> +	if (cmd && cmd != CMD_SRC_CHANGE)
+> +		amvdec_write_dos(core, AV_SCRATCH_0, 0);
+> +
+> +	/* Decoder has some SEI data for us ; ignore */
+> +	if (amvdec_read_dos(core, AV_SCRATCH_J) & SEI_DATA_READY)
+> +		amvdec_write_dos(core, AV_SCRATCH_J, 0);
+> +
+> +	return IRQ_HANDLED;
+> +abort:
+> +	amvdec_abort(sess);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t codec_h264_isr(struct amvdec_session *sess)
 > +{
 > +	struct amvdec_core *core = sess->core;
 > +
-> +	amvdec_write_dos(core, HEVC_STREAM_CONTROL,
-> +			 amvdec_read_dos(core, HEVC_STREAM_CONTROL) & ~1);
-> +	amvdec_write_dos(core, HEVC_STREAM_START_ADDR, sess->vififo_paddr);
-> +	amvdec_write_dos(core, HEVC_STREAM_END_ADDR,
-> +			 sess->vififo_paddr + sess->vififo_size);
-> +	amvdec_write_dos(core, HEVC_STREAM_RD_PTR, sess->vififo_paddr);
-> +	amvdec_write_dos(core, HEVC_STREAM_WR_PTR, sess->vififo_paddr);
+> +	amvdec_write_dos(core, ASSIST_MBOX1_CLR_REG, 1);
+> +
+> +	return IRQ_WAKE_THREAD;
 > +}
 > +
-> +/* VDEC_HEVC specific ESPARSER configuration */
-> +static void vdec_hevc_conf_esparser(struct amvdec_session *sess)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +
-> +	/* set vififo_vbuf_rp_sel=>vdec_hevc */
-> +	amvdec_write_dos(core, DOS_GEN_CTRL0, 3 << 1);
-> +	amvdec_write_dos(core, HEVC_STREAM_CONTROL,
-> +			 amvdec_read_dos(core, HEVC_STREAM_CONTROL) | BIT(3));
-> +	amvdec_write_dos(core, HEVC_STREAM_CONTROL,
-> +			 amvdec_read_dos(core, HEVC_STREAM_CONTROL) | 1);
-> +	amvdec_write_dos(core, HEVC_STREAM_FIFO_CTL,
-> +			 amvdec_read_dos(core, HEVC_STREAM_FIFO_CTL) | BIT(29));
-> +}
-> +
-> +static u32 vdec_hevc_vififo_level(struct amvdec_session *sess)
-> +{
-> +	return readl_relaxed(sess->core->dos_base + HEVC_STREAM_LEVEL);
-> +}
-> +
-> +static int vdec_hevc_stop(struct amvdec_session *sess)
-> +{
-> +	struct amvdec_core *core = sess->core;
-> +	struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
-> +
-> +	/* Disable interrupt */
-> +	amvdec_write_dos(core, HEVC_ASSIST_MBOX1_MASK, 0);
-> +	/* Disable firmware processor */
-> +	amvdec_write_dos(core, HEVC_MPSR, 0);
-> +
-> +	if (sess->priv)
-> +		codec_ops->stop(sess);
-> +
-> +	/* Enable VDEC_HEVC Isolation */
-> +	if (core->platform->revision == VDEC_REVISION_SM1)
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_ISO0,
-> +				   GEN_PWR_VDEC_HEVC_SM1,
-> +				   GEN_PWR_VDEC_HEVC_SM1);
-> +	else
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_ISO0,
-> +				   0xc00, 0xc00);
-> +
-> +	/* VDEC_HEVC Memories */
-> +	amvdec_write_dos(core, DOS_MEM_PD_HEVC, 0xffffffffUL);
-> +
-> +	if (core->platform->revision == VDEC_REVISION_SM1)
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
-> +				   GEN_PWR_VDEC_HEVC_SM1,
-> +				   GEN_PWR_VDEC_HEVC_SM1);
-> +	else
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
-> +				   GEN_PWR_VDEC_HEVC, GEN_PWR_VDEC_HEVC);
-> +
-> +	clk_disable_unprepare(core->vdec_hevc_clk);
-> +	if (core->platform->revision == VDEC_REVISION_G12A ||
-> +	    core->platform->revision == VDEC_REVISION_SM1)
-> +		clk_disable_unprepare(core->vdec_hevcf_clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static int vdec_hevc_start(struct amvdec_session *sess)
-> +{
-> +	int ret;
-> +	struct amvdec_core *core = sess->core;
-> +	struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
-> +
-> +	if (core->platform->revision == VDEC_REVISION_G12A ||
-> +	    core->platform->revision == VDEC_REVISION_SM1) {
-> +		clk_set_rate(core->vdec_hevcf_clk, 666666666);
-> +		ret = clk_prepare_enable(core->vdec_hevcf_clk);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	clk_set_rate(core->vdec_hevc_clk, 666666666);
-> +	ret = clk_prepare_enable(core->vdec_hevc_clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (core->platform->revision == VDEC_REVISION_SM1)
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
-> +				   GEN_PWR_VDEC_HEVC_SM1, 0);
-> +	else
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
-> +				   GEN_PWR_VDEC_HEVC, 0);
-> +	udelay(10);
-> +
-> +	/* Reset VDEC_HEVC*/
-> +	amvdec_write_dos(core, DOS_SW_RESET3, 0xffffffff);
-> +	amvdec_write_dos(core, DOS_SW_RESET3, 0x00000000);
-> +
-> +	amvdec_write_dos(core, DOS_GCLK_EN3, 0xffffffff);
-> +
-> +	/* VDEC_HEVC Memories */
-> +	amvdec_write_dos(core, DOS_MEM_PD_HEVC, 0x00000000);
-> +
-> +	/* Remove VDEC_HEVC Isolation */
-> +	if (core->platform->revision == VDEC_REVISION_SM1)
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_ISO0,
-> +				   GEN_PWR_VDEC_HEVC_SM1, 0);
-> +	else
-> +		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_ISO0,
-> +				   0xc00, 0);
-> +
-> +	amvdec_write_dos(core, DOS_SW_RESET3, 0xffffffff);
-> +	amvdec_write_dos(core, DOS_SW_RESET3, 0x00000000);
-> +
-> +	vdec_hevc_stbuf_init(sess);
-> +
-> +	ret = vdec_hevc_load_firmware(sess, sess->fmt_out->firmware_path);
-> +	if (ret)
-> +		goto stop;
-> +
-> +	ret = codec_ops->start(sess);
-> +	if (ret)
-> +		goto stop;
-> +
-> +	amvdec_write_dos(core, DOS_SW_RESET3, BIT(12) | BIT(11));
-> +	amvdec_write_dos(core, DOS_SW_RESET3, 0);
-> +	amvdec_read_dos(core, DOS_SW_RESET3);
-> +
-> +	amvdec_write_dos(core, HEVC_MPSR, 1);
-> +	/* Let the firmware settle */
-> +	udelay(10);
-> +
-> +	return 0;
-> +
-> +stop:
-> +	vdec_hevc_stop(sess);
-> +	return ret;
-> +}
-> +
-> +struct amvdec_ops vdec_hevc_ops = {
-> +	.start = vdec_hevc_start,
-> +	.stop = vdec_hevc_stop,
-> +	.conf_esparser = vdec_hevc_conf_esparser,
-> +	.vififo_level = vdec_hevc_vififo_level,
+> +struct amvdec_codec_ops codec_h264_ops = {
+> +	.start = codec_h264_start,
+> +	.stop = codec_h264_stop,
+> +	.load_extended_firmware = codec_h264_load_extended_firmware,
+> +	.isr = codec_h264_isr,
+> +	.threaded_isr = codec_h264_threaded_isr,
+> +	.can_recycle = codec_h264_can_recycle,
+> +	.recycle = codec_h264_recycle,
+> +	.eos_sequence = codec_h264_eos_sequence,
+> +	.resume = codec_h264_resume,
 > +};
-> diff --git a/drivers/staging/media/meson/vdec/vdec_hevc.h b/drivers/staging/media/meson/vdec/vdec_hevc.h
+> diff --git a/drivers/staging/media/meson/vdec/codec_h264.h b/drivers/staging/media/meson/vdec/codec_h264.h
 > new file mode 100644
-> index 000000000000..cd576a73a966
+> index 000000000000..7cb4fb86ff36
 > --- /dev/null
-> +++ b/drivers/staging/media/meson/vdec/vdec_hevc.h
-> @@ -0,0 +1,13 @@
+> +++ b/drivers/staging/media/meson/vdec/codec_h264.h
+> @@ -0,0 +1,14 @@
 > +/* SPDX-License-Identifier: GPL-2.0+ */
 > +/*
-> + * Copyright (C) 2018 Maxime Jourdan <maxi.jourdan@wanadoo.fr>
+> + * Copyright (C) 2019 BayLibre, SAS
+> + * Author: Maxime Jourdan <mjourdan@baylibre.com>
 > + */
 > +
-> +#ifndef __MESON_VDEC_VDEC_HEVC_H_
-> +#define __MESON_VDEC_VDEC_HEVC_H_
+> +#ifndef __MESON_VDEC_CODEC_H264_H_
+> +#define __MESON_VDEC_CODEC_H264_H_
 > +
 > +#include "vdec.h"
 > +
-> +extern struct amvdec_ops vdec_hevc_ops;
+> +extern struct amvdec_codec_ops codec_h264_ops;
 > +
 > +#endif
+> diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+> index 066d4a055894..e9356a46828f 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_platform.c
+> +++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+> @@ -9,9 +9,22 @@
+>  
+>  #include "vdec_1.h"
+>  #include "codec_mpeg12.h"
+> +#include "codec_h264.h"
+>  
+>  static const struct amvdec_format vdec_formats_gxbb[] = {
+>  	{
+> +		.pixfmt = V4L2_PIX_FMT_H264,
+> +		.min_buffers = 2,
+> +		.max_buffers = 24,
+> +		.max_width = 1920,
+> +		.max_height = 1080,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_h264_ops,
+> +		.firmware_path = "meson/vdec/gxbb_h264.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG1,
+>  		.min_buffers = 8,
+>  		.max_buffers = 8,
+> @@ -38,6 +51,18 @@ static const struct amvdec_format vdec_formats_gxbb[] = {
+>  
+>  static const struct amvdec_format vdec_formats_gxl[] = {
+>  	{
+> +		.pixfmt = V4L2_PIX_FMT_H264,
+> +		.min_buffers = 2,
+> +		.max_buffers = 24,
+> +		.max_width = 3840,
+> +		.max_height = 2160,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_h264_ops,
+> +		.firmware_path = "meson/vdec/gxl_h264.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG1,
+>  		.min_buffers = 8,
+>  		.max_buffers = 8,
+> @@ -64,6 +89,18 @@ static const struct amvdec_format vdec_formats_gxl[] = {
+>  
+>  static const struct amvdec_format vdec_formats_gxm[] = {
+>  	{
+> +		.pixfmt = V4L2_PIX_FMT_H264,
+> +		.min_buffers = 2,
+> +		.max_buffers = 24,
+> +		.max_width = 3840,
+> +		.max_height = 2160,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_h264_ops,
+> +		.firmware_path = "meson/vdec/gxm_h264.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG1,
+>  		.min_buffers = 8,
+>  		.max_buffers = 8,
+> @@ -90,6 +127,18 @@ static const struct amvdec_format vdec_formats_gxm[] = {
+>  
+>  static const struct amvdec_format vdec_formats_g12a[] = {
+>  	{
+> +		.pixfmt = V4L2_PIX_FMT_H264,
+> +		.min_buffers = 2,
+> +		.max_buffers = 24,
+> +		.max_width = 3840,
+> +		.max_height = 2160,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_h264_ops,
+> +		.firmware_path = "meson/vdec/g12a_h264.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG1,
+>  		.min_buffers = 8,
+>  		.max_buffers = 8,
+> @@ -116,6 +165,18 @@ static const struct amvdec_format vdec_formats_g12a[] = {
+>  
+>  static const struct amvdec_format vdec_formats_sm1[] = {
+>  	{
+> +		.pixfmt = V4L2_PIX_FMT_H264,
+> +		.min_buffers = 2,
+> +		.max_buffers = 24,
+> +		.max_width = 3840,
+> +		.max_height = 2160,
+> +		.vdec_ops = &vdec_1_ops,
+> +		.codec_ops = &codec_h264_ops,
+> +		.firmware_path = "meson/vdec/g12a_h264.bin",
+> +		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, 0 },
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED |
+> +			 V4L2_FMT_FLAG_DYN_RESOLUTION,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG1,
+>  		.min_buffers = 8,
+>  		.max_buffers = 8,
 > 
 
