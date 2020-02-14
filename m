@@ -2,132 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 647A915D613
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 11:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA9A15D680
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 12:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729098AbgBNKw6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 05:52:58 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51249 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729026AbgBNKw6 (ORCPT
+        id S2387397AbgBNLXB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 06:23:01 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35086 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726220AbgBNLXA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 05:52:58 -0500
-Received: from [IPv6:2001:983:e9a7:1:f887:140a:e9b5:d382]
- ([IPv6:2001:983:e9a7:1:f887:140a:e9b5:d382])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 2YaTjHqXh8i432YaUjPUAB; Fri, 14 Feb 2020 11:52:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581677576; bh=PoAwgGAVLFRL4K4umMWVXqOld8muv/SdpfOyJozE5OU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=AbDhoKRvMaprnnZpO8oWh0F1Mbx9DPDTuXid6FpPQWfUkqrXcH+VnUu9J64V04fNu
-         IuowlxD7c2q0O41eTMoXmn5XIclK1Beb6EQy8iX8FUQHRQxwRaiDdtcx+s1cHm4+4D
-         r+A/3gdpFFHVSgclyBH2YkWwEiUcbs7lq0V+Bxql30HR9NAPPfT0KH6+PLRiHR4CZm
-         XG22I2vmLEjCByXnlecHrih7odabd+veud4rg0RE8DnRowWbWUvLYEau5ziqo4p6C2
-         tokAjiMKSe16EBiUtc0o+azKGyrWivGMgPpH+69OD2ceFuSyS/Uuolp+X2TXHM5h8K
-         f1jZbjZjyxwTQ==
-Subject: Re: [PATCH] media: mtk-vpu: avoid unaligned access to DTCM buffer.
-To:     Hsin-Yi Wang <hsinyi@chromium.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20200210035351.227499-1-hsinyi@chromium.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <bf9205b3-6b02-625a-670d-16cfd44d3274@xs4all.nl>
-Date:   Fri, 14 Feb 2020 11:52:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Fri, 14 Feb 2020 06:23:00 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1E09504;
+        Fri, 14 Feb 2020 12:22:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1581679378;
+        bh=ZSkmN5u06wPe7iYRdeMx/Hh4C2B8L2HC0yJxyMiKJYU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dbikSYFkwW/xuDj7JtfCtOEgsCQw9RHd6Xo311tS/fZc898nEr+BmYGr5xtoxEJ6G
+         5fKjigyeoRYxKmnl4YiCrlCPHu9hqclEX/wnmygzarg5JWVAtPUS7MXMpVNCytl/aB
+         lwco81mD9hPvBEjYdHD+I0x3SBCfJF37KMlTbbMQ=
+Date:   Fri, 14 Feb 2020 13:22:39 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>,
+        Hillf Danton <hdanton@sina.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Souptick Joarder <jrdr.linux@gmail.com>, andreyknvl@google.com,
+        bnvandana@gmail.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] media: usbvision: Fix a use after free in v4l2_release()
+Message-ID: <20200214112239.GC4831@pendragon.ideasonboard.com>
+References: <20200124141356.365bgzg2lp3tjedm@kili.mountain>
+ <d8663b81-e920-3e1d-11d0-f636ea52c6ef@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20200210035351.227499-1-hsinyi@chromium.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFkv9Y1VAyP3DDACNjYSF9jvrqHkn9y/FDpjLsXTXuxKeZwjTM9Pf/3T92qsTgWt+k+W0O7VP58di/NiQ3rdrrF5C3GjZRbfpYE5UAMnJc8fXNl7dodG
- mONIJj71oA8y3Y26Iv52bZs+eA1tX4HWXps1vTwRRFoTOq12vsC09vQ2rjbcW0Leu5CEg5crybKNOX80a3g9e4Do7/Ki81hMTe1rD2gRbuc7jEcPxKH6fGM9
- fU4qYuOvnzSa3+ROaFS9GyJTYVkkZ96oxIIMGFSRJtSqm2Oc/6rIaAhu4KFfHOvlbGHtV7T0H93Jta3FjfHPwPmi8n1xR7XcRlXtvH4dz6mVijZgJ0x5+6RV
- xW8bSsbWswSeQqzDV3E5M3BbnZlLCJHuhbCobD/3U6GpoNQ7ih79r4X/KcSvh+ZJx75msecoS1aMVNv4zZ3UVnRis+naugmJNle3/btuebHUzLBWgrSYeMdJ
- 2RpJWo3i3Voy7zHGTRXM0QyqAmVVPk7SqpKSthzWS3jNQaA3f5XPJyU4UqZbibrtfYH6H7yg1zFvwDGNiFHCd3rjyX1nRuc5AH34rUwR4a20Ep6qsVOK0gk5
- rWUQGpxVr8Ce6ldXtsnAnnDAvkTy53+86L3fS05fip/I+MPkOqaZ+vXbhH2i0r9Rr4XWc+nwCMucxZuolGZuaQ6/XBcwIR19hAxnzRrrLWOx86fYzBudjE6H
- S/T7UeXNmDfG/Aj7GMz4liy1WIOSJeCa
+Content-Disposition: inline
+In-Reply-To: <d8663b81-e920-3e1d-11d0-f636ea52c6ef@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hsin-Yi Wang,
+Hi Hans,
 
-On 2/10/20 4:53 AM, Hsin-Yi Wang wrote:
-> struct vpu_run *run in vpu_init_ipi_handler() is an ioremapped DTCM (Data
-> Tightly Coupled Memory) buffer shared with AP.  It's not able to do
-> unaligned access. Otherwise kernel would crash due to unable to handle
-> kernel paging request.
+On Fri, Feb 14, 2020 at 11:06:36AM +0100, Hans Verkuil wrote:
+> On 1/24/20 3:13 PM, Dan Carpenter wrote:
+> > Syzbot triggered a use after free in v5.5-rc6:
+> > 
+> > BUG: KASAN: use-after-free in v4l2_release+0x2f1/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
+> > 
+> > Allocated by task 94:
+> >  usbvision_alloc drivers/media/usb/usbvision/usbvision-video.c:1315 [inline]
+> >  usbvision_probe.cold+0x5c5/0x1f21 drivers/media/usb/usbvision/usbvision-video.c:1469
+> > 
+> > Freed by task 1913:
+> >  kfree+0xd5/0x300 mm/slub.c:3957
+> >  usbvision_release+0x181/0x1c0 drivers/media/usb/usbvision/usbvision-video.c:1364
+> >  usbvision_radio_close.cold+0x2b/0x74 drivers/media/usb/usbvision/usbvision-video.c:1130
+> >  v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
+> > 
+> > The problem is that the v4l2_release() calls usbvision_release() which
+> > frees "usbvision" but v4l2_release() still wants to use
+> > "usbvision->vdev".  One solution is to make this devm_ allocated memory
+> > so the memory isn't freed until later.
 > 
-> struct vpu_run {
-> 	u32 signaled;
-> 	char fw_ver[VPU_FW_VER_LEN];
-> 	unsigned int	dec_capability;
-> 	unsigned int	enc_capability;
-> 	wait_queue_head_t wq;
-> };
-> 
-> fw_ver starts at 4 byte boundary. If system enables
-> CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS, strscpy() will do
-> read_word_at_a_time(), which tries to read 8-byte: *(unsigned long *)addr
-> 
-> Copy the string by memcpy_fromio() for this buffer to avoid unaligned
-> access.
-> 
-> Fixes: 85709cbf1524 ("media: replace strncpy() by strscpy()")
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> devm_ allocated memory is freed after disconnect, so I doubt this will help, or at
+> best it will just move the problem elsewhere.
 
-This patch results in the following sparse warnings:
+Yes, devm_*alloc is evil :-( It has spread to many drivers and is used
+incorrectly in most cases.
 
-sparse: WARNINGS
-SPARSE:mtk-vpu/mtk_vpu.c mtk-vpu/mtk_vpu.c:834:52:  warning: incorrect type in argument 3 (incompatible argument 1 (different address spaces))
-SPARSE:mtk-vpu/mtk_vpu.c mtk-vpu/mtk_vpu.c:609:29:  warning: dereference of noderef expression
-SPARSE:mtk-vpu/mtk_vpu.c mtk-vpu/mtk_vpu.c:613:35:  warning: dereference of noderef expression
-SPARSE:mtk-vpu/mtk_vpu.c mtk-vpu/mtk_vpu.c:614:35:  warning: dereference of noderef expression
+> The right approach would be to use the release() callback from struct v4l2_device:
+> that's called when the very last open filehandle is closed.
 
-Can you take a look?
+Hillf Danton has sent a patch to do so in the "Re: KASAN: use-after-free
+Read in v4l2_release (3)" thread. Have you seen it ?
 
+> But I'm not sure if it is worth the effort. The usbvision driver is a mess and
+> personally I think it should be deprecated.
+
+I agree.
+
+> > Reported-by: syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com
+> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > ---
+> > I copied this idea from a different driver, but I haven't tested it.
+> > I wanted to try the #syz fix command to see if it works.
+> > 
+> >  drivers/media/usb/usbvision/usbvision-video.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/usb/usbvision/usbvision-video.c b/drivers/media/usb/usbvision/usbvision-video.c
+> > index 93d36aab824f..07b4763062c4 100644
+> > --- a/drivers/media/usb/usbvision/usbvision-video.c
+> > +++ b/drivers/media/usb/usbvision/usbvision-video.c
+> > @@ -1312,7 +1312,7 @@ static struct usb_usbvision *usbvision_alloc(struct usb_device *dev,
+> >  {
+> >  	struct usb_usbvision *usbvision;
+> >  
+> > -	usbvision = kzalloc(sizeof(*usbvision), GFP_KERNEL);
+> > +	usbvision = devm_kzalloc(&dev->dev, sizeof(*usbvision), GFP_KERNEL);
+> >  	if (!usbvision)
+> >  		return NULL;
+> >  
+> > @@ -1336,7 +1336,6 @@ static struct usb_usbvision *usbvision_alloc(struct usb_device *dev,
+> >  	v4l2_ctrl_handler_free(&usbvision->hdl);
+> >  	v4l2_device_unregister(&usbvision->v4l2_dev);
+> >  err_free:
+> > -	kfree(usbvision);
+> >  	return NULL;
+> >  }
+> >  
+> > @@ -1361,7 +1360,6 @@ static void usbvision_release(struct usb_usbvision *usbvision)
+> >  
+> >  	v4l2_ctrl_handler_free(&usbvision->hdl);
+> >  	v4l2_device_unregister(&usbvision->v4l2_dev);
+> > -	kfree(usbvision);
+> >  
+> >  	PDEBUG(DBG_PROBE, "success");
+> >  }
+
+-- 
 Regards,
 
-	Hans
-
-> ---
->  drivers/media/platform/mtk-vpu/mtk_vpu.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> index a768707abb94..e705e85d6f5a 100644
-> --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> @@ -600,13 +600,16 @@ int vpu_load_firmware(struct platform_device *pdev)
->  }
->  EXPORT_SYMBOL_GPL(vpu_load_firmware);
->  
-> -static void vpu_init_ipi_handler(void *data, unsigned int len, void *priv)
-> +static void vpu_init_ipi_handler(void __iomem *data, unsigned int len,
-> +				 void *priv)
->  {
->  	struct mtk_vpu *vpu = (struct mtk_vpu *)priv;
-> -	struct vpu_run *run = (struct vpu_run *)data;
-> +	struct vpu_run __iomem *run = data;
->  
->  	vpu->run.signaled = run->signaled;
-> -	strscpy(vpu->run.fw_ver, run->fw_ver, sizeof(vpu->run.fw_ver));
-> +	memcpy_fromio(vpu->run.fw_ver, run->fw_ver, sizeof(vpu->run.fw_ver));
-> +	/* Make sure the string is NUL-terminated */
-> +	vpu->run.fw_ver[sizeof(vpu->run.fw_ver) - 1] = '\0';
->  	vpu->run.dec_capability = run->dec_capability;
->  	vpu->run.enc_capability = run->enc_capability;
->  	wake_up_interruptible(&vpu->run.wq);
-> 
-
+Laurent Pinchart
