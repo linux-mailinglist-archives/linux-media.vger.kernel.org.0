@@ -2,39 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6779B15F4B1
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 19:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D7615F473
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 19:23:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729892AbgBNPtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 10:49:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52082 "EHLO mail.kernel.org"
+        id S2394855AbgBNSVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 13:21:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53272 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729881AbgBNPtU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:49:20 -0500
+        id S1730236AbgBNPtv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:49:51 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8E76E2467C;
-        Fri, 14 Feb 2020 15:49:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 859B824684;
+        Fri, 14 Feb 2020 15:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695359;
-        bh=HDNfsmOpb9MK1yv2aN+/E97lXV9iDVXQh3D1EFAviJE=;
+        s=default; t=1581695390;
+        bh=B57KRccJ758jF0xN74+wxNnwCOVOgwAYcSyGiizN5Pg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=whtoHfjZ/KMi2cLTlbjpP6gn9Z5A2nAAlwagihjgLVXcaZOwNzcUvvMTHnMafTnLw
-         ojuPQgRIa5euTwh59o1YLtKs328hkVGQ0HYvsEJrPszaUqlJXXpUjWcXsNtcQRU6UN
-         422ISCZYLk2PXFu0v865rmr4hB0PGDt7rMGzBaHQ=
+        b=vqq2TmAjXjUtP/FovRlWLuH3fstmwyv6yUFJULiR0qvmyBqP7fRu76ebMcSXVz9PU
+         kBq/+7ev9O5wuTvjeCCN6qyGwe6u0fm8uAyZJzuKi3vARy96MEs8KeKFuPN512774Q
+         0Guyk4wWWgdjl1htNGrQeeTq7cmw83Y0f1rkegWY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Colin Ian King <colin.king@canonical.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, devel@driverdev.osuosl.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.5 019/542] media: meson: add missing allocation failure check on new_buf
-Date:   Fri, 14 Feb 2020 10:40:11 -0500
-Message-Id: <20200214154854.6746-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 043/542] media: sun4i-csi: Deal with DRAM offset
+Date:   Fri, 14 Feb 2020 10:40:35 -0500
+Message-Id: <20200214154854.6746-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
 References: <20200214154854.6746-1-sashal@kernel.org>
@@ -47,40 +45,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Chen-Yu Tsai <wens@csie.org>
 
-[ Upstream commit 11e0e167d071a28288a7a0a211d48c571d19b56f ]
+[ Upstream commit 249b286171fa9c358e8d5c825b48c4ebea97c498 ]
 
-Currently if the allocation of new_buf fails then a null pointer
-dereference occurs when assiging new_buf->vb. Avoid this by returning
-early on a memory allocation failure as there is not much more can
-be done at this point.
+On Allwinner SoCs, some high memory bandwidth devices do DMA directly
+over the memory bus (called MBUS), instead of the system bus. These
+devices include the CSI camera sensor interface, video (codec) engine,
+display subsystem, etc.. The memory bus has a different addressing
+scheme without the DRAM starting offset.
 
-Addresses-Coverity: ("Dereference null return")
+Deal with this using the "interconnects" property from the device tree,
+or if that is not available, set dev->dma_pfn_offset to PHYS_PFN_OFFSET.
 
-Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
-Reviewed-by: Kevin Hilman <khilman@baylibre.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
+Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/meson/vdec/vdec.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 0a1a04fd5d13d..8dd1396909d7e 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -133,6 +133,8 @@ vdec_queue_recycle(struct amvdec_session *sess, struct vb2_buffer *vb)
- 	struct amvdec_buffer *new_buf;
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index f36dc6258900e..b8b07c1de2a8e 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/of.h>
++#include <linux/of_device.h>
+ #include <linux/of_graph.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+@@ -155,6 +156,27 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	subdev = &csi->subdev;
+ 	vdev = &csi->vdev;
  
- 	new_buf = kmalloc(sizeof(*new_buf), GFP_KERNEL);
-+	if (!new_buf)
-+		return;
- 	new_buf->vb = vb;
- 
- 	mutex_lock(&sess->bufs_recycle_lock);
++	/*
++	 * On Allwinner SoCs, some high memory bandwidth devices do DMA
++	 * directly over the memory bus (called MBUS), instead of the
++	 * system bus. The memory bus has a different addressing scheme
++	 * without the DRAM starting offset.
++	 *
++	 * In some cases this can be described by an interconnect in
++	 * the device tree. In other cases where the hardware is not
++	 * fully understood and the interconnect is left out of the
++	 * device tree, fall back to a default offset.
++	 */
++	if (of_find_property(csi->dev->of_node, "interconnects", NULL)) {
++		ret = of_dma_configure(csi->dev, csi->dev->of_node, true);
++		if (ret)
++			return ret;
++	} else {
++#ifdef PHYS_PFN_OFFSET
++		csi->dev->dma_pfn_offset = PHYS_PFN_OFFSET;
++#endif
++	}
++
+ 	csi->mdev.dev = csi->dev;
+ 	strscpy(csi->mdev.model, "Allwinner Video Capture Device",
+ 		sizeof(csi->mdev.model));
 -- 
 2.20.1
 
