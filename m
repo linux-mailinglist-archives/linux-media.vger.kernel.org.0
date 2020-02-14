@@ -2,59 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87A5515D53C
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 11:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E352115D5C8
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 11:31:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729070AbgBNKJs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 05:09:48 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49673 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729020AbgBNKJs (ORCPT
+        id S2387430AbgBNKbm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 05:31:42 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34820 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729153AbgBNKbm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 05:09:48 -0500
-Received: from [IPv6:2001:983:e9a7:1:f887:140a:e9b5:d382]
- ([IPv6:2001:983:e9a7:1:f887:140a:e9b5:d382])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 2XurjHaor8i432XusjPJt3; Fri, 14 Feb 2020 11:09:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581674986; bh=8Ti0KhMFQwB/nVa+ukwF2aMKT5UCUAiKPYykBMzCplU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=BhvUgBiA09wRrXPz8avHgAKOO4m/bEEggXXAdJNSt+NPnt4oKY2ZvDY8cYAUHyns0
-         J40lEXNBEoMszG9m8GYjFe7Nu9DE2zVs8TNrVuiiDQvnoQx/TmkqRH2oByiy9QE5fk
-         sHkslnZUN+A4HK5KpfXgKQspZoYCgFfskzJa6dVwZ1OidwJFtd5ZHP7Qo/g3dMEMJb
-         9yofzs3LgBihvG0AxS3eKpEZIgZLvnrD821wk/3P76i+UuvsJWj0W+bfkGQuKGomFN
-         T97vHSxm+Dm1mvyTTfvRvPCE/YsGAQ3UOy0P2+KZCOMTyTE3XOVYu63qSSWRg4mcJL
-         nskS334YzA5YQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [RFC] usbvision: deprecate and remove by end of 2020
-Message-ID: <7892fff0-853d-6535-f1fb-08caf7e63ec0@xs4all.nl>
-Date:   Fri, 14 Feb 2020 11:09:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Fri, 14 Feb 2020 05:31:42 -0500
+Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F97C504;
+        Fri, 14 Feb 2020 11:31:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1581676300;
+        bh=ki0tcFnI4lbmv/4nzzmQYng8dQO2LiqilCMnNChjrOg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Pn52yU3LeeWkLwpEzxp/vNOwENp3rMg/L5nv2AYukCNX41e8JP036i7k6bWoTJgHJ
+         TfJq/ZO66HOEgsGWgAinumjUT2iLOzpn5j8hZ/Apnwroj3kNVarS/ZEsT+eXlfeGJP
+         Yz0nLZBPI94A+SjrhjBZmUkgGwu6KflmTqI09xzM=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@iki.fi,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v7 0/2] MAX9286 GMSL support
+Date:   Fri, 14 Feb 2020 10:31:34 +0000
+Message-Id: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF9/cIQY9YFr+YljrsF3ylZtocFFvQPrDqt9KOXYSEHRbZg+LyxeaXAVA1krtHNM3s467GWQi7/QIzGSv/6CrI4MZneeMipfNQbyK5EA054D3gCvvB1e
- 0Qh/40IjEhzdv8V1FGOCJ/NTbmu5ZlttxBlpSRV2EwpfF6aopneUmux3CahoygS6Oy5TUglVpSbFmAOW9HFhA3FMw6m8v6oBjL4U/pyA4a1RwbrA5uZO1Lpj
- a/lv3BevTfN+Kz2SoaUmBmghTRKvBwPDaK6cF5YdHc0=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+This series provides the deserialiser driver for GMSL cameras on the R-Car ADAS
+platforms.
 
-The usbvision driver is for really old hardware and is a big mess (always been
-like that). We see a continuous stream of syzbot bugs because of that.
+These drivers originate from Cogent Embedded, and have been refactored to split
+the MAX9286 away from the RDACM20 drivers which were once very tightly coupled.
 
-I propose to move it to staging for 5.7 and delete it by the end of the year
-unless someone steps up to clean up the code and convert it to vb2.
+This posting is the culmination of > 100 changesets spread across Jacopo,
+Niklas, Laurent and myself - thus they contain all of our SoB tags.
 
-Any objections?
+This driver along with an intiial camera driver for the RDACM20 and the
+associated platform support for the Renesas R-Car Salvator-X, and the Eagle-V3M
+can be found at:
 
-Regards,
+  git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git gmsl/v7
 
-	Hans
+Kieran Bingham (1):
+  media: i2c: Add MAX9286 driver
+
+Laurent Pinchart (1):
+  dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
+
+ .../bindings/media/i2c/maxim,max9286.yaml     |  287 ++++
+ MAINTAINERS                                   |   10 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/max9286.c                   | 1278 +++++++++++++++++
+ 5 files changed, 1587 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+ create mode 100644 drivers/media/i2c/max9286.c
+
+-- 
+2.20.1
+
