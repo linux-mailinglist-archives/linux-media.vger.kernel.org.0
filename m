@@ -2,122 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9BEC15D894
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 14:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BC0315D8C1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 14:50:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729296AbgBNNex (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 08:34:53 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59937 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729278AbgBNNex (ORCPT
+        id S1729328AbgBNNuM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 14 Feb 2020 08:50:12 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:59723 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728405AbgBNNuM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 08:34:53 -0500
-Received: from [IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef]
- ([IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 2b7JjO1g0P9a92b7KjHRpW; Fri, 14 Feb 2020 14:34:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581687291; bh=ogiA29kGr63K3T/Y1WL1eNJvSK0/wAs6xVkh+Eug/kE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=GsRJZ1Irf+iTNkEOSgRVdt3REwAyk5x6dBqUcmorejchJxuIhXOlMkiJl6sMIjZ+x
-         gWi6RLmq+3zgPkCpyamUBRwOHbHCGS4oy23P4kp5/qK3dObGmWO5vCjRsLoX1okTEi
-         LfCAdn/RHqgrHF/rJH4k1VMrrfvXYDhQ4T0NjVdEJmG/e3KJ0GNmvJC+PKDDts/zzc
-         xPml4L5D1ehCDPWzwf7HgYGvVuUi8UXaNw7S+Vm8WW2xpkXNiwZLZw59KuoeN7S5gI
-         ZbJ0OS0RPhpTl0dYZBbffGBsInKDL/+S9zjA9+aQwfA1CHlA9o1+tkDhB1dcHOVklH
-         uJ+gcMbyUNVng==
-Subject: Re: [PATCH] media: usbvision: Fix a use after free in v4l2_release()
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Souptick Joarder <jrdr.linux@gmail.com>, andreyknvl@google.com,
-        bnvandana@gmail.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-References: <20200124141356.365bgzg2lp3tjedm@kili.mountain>
- <d8663b81-e920-3e1d-11d0-f636ea52c6ef@xs4all.nl>
- <20200214112239.GC4831@pendragon.ideasonboard.com>
- <20200214121447.13612-1-hdanton@sina.com>
- <20200214124825.12568-1-hdanton@sina.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <feb28930-0a50-b43b-e639-37adc5a60743@xs4all.nl>
-Date:   Fri, 14 Feb 2020 14:34:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Fri, 14 Feb 2020 08:50:12 -0500
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1j2bM6-00034I-2q; Fri, 14 Feb 2020 14:50:06 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1j2bM5-0003uw-23; Fri, 14 Feb 2020 14:50:05 +0100
+Message-ID: <b30ab10a43c80e9096e45a6d52d125c1e297f021.camel@pengutronix.de>
+Subject: Re: video decoding on imx8mq vpu via v4l2
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
+        ezequiel@collabora.com, mchehab@kernel.org,
+        Shawn Guo <shawnguo@kernel.org>, s.hauer@pengutronix.de,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     linux-media@vger.kernel.org
+Date:   Fri, 14 Feb 2020 14:50:04 +0100
+In-Reply-To: <ce102c01-74b1-628d-2192-9d5cb7baa616@puri.sm>
+References: <ce102c01-74b1-628d-2192-9d5cb7baa616@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20200214124825.12568-1-hdanton@sina.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfH5PW6WF6TCXyCSmhbqE0CqtW3dAdYqoOaC6hKS7cmFA119bWFTslJ3LzzTvGcUQ0+hntZ8td+iitWdQkUOgBfXG//S9gKFWEoPDLBgmE7sXv9O/v4cg
- jB2Vq+smd/yDyvuXMUFF8Vt7oIoEZqOA+XtLwI1P/h2XZeMHhsOEmi/AC5WHPbloWwB5KpKLF4HGDUBSsgXHUWqygimIDmRHMOeWNbHcfgPR8upobERr5FjP
- 6TQq/tYnV2o53zL4mcFAZ6BtQlKxACNhWeafqdtI7TbAGImtrsZ7/hxeRBKHuX9dZ6bszmIjYBfqILBNt646f3PmVE9/pfCWIU0twTIegPMv+lssTRirds8a
- x2G7bRGVD/XT25jGka6lI2M6UVWMUP8imFH/98VHhSC6XxLZ5DL3o4c6X8jbLgC66qAUpAie+hv0ZMaFZVuTB1t/HiA1kEShoxj4xNlyS3TKmzjoAJMryEu0
- Cz/mrrTj4xfzrCyrozaqZmKurVaBqDl2iKtq4l3wZb4XYqh1pB+e5nv3I1H1fsmSiA/ZQmpYU5TBu0TkSbkCnPoR2yCKIDqPE1TDToqfGSuk3KQM+u691tiA
- wWNie0K/Z1grSkLek0ZbSNucMja4rHJ3kcRWd6kyxXmMZaQCzNeZ0Z10wrr/Sux7ex6DDLhaZpFlQcHW50GHMrxzTl1RvxHgMQCgQ7/Ih+0uyn7I4hNHfgb5
- onTpacPaGMHtDyMd6yOxRGRTErO72CCXv3FhmgKZASZ75o+7DPdmj1KUi751Ay72926eYIkPcxx3DQs8vpQVK31MNiwb6zBfSJlt+/GJ+KzHfEK1UnBEzw==
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/14/20 1:48 PM, Hillf Danton wrote:
-> 
-> On Fri, 14 Feb 2020 13:21:03 +0100 Hans Verkuil wrote:
->> On 2/14/20 1:14 PM, Hillf Danton wrote:
->>>
->>> On Fri, 14 Feb 2020 12:30:29 +0100 Hans Verkuil wrote:
->>>>
->>>> Hillf, if you want your patch to be merged, then make sure it is CC-ed to
->>>> linux-media as well.
->>>
->>> Please pick it up if it makes a sense to you and it was sent with
->>> linux-media added on the Cc list as it is known for a while that
->>> my mail agent is rejected @vger.kernel.org for what I am not clear
->>> about. It makes my day occasionally :P
->>
->> I don't I ever received the full patch, only replies to your patch.
->>
-> 
-> =========
-> Please take a look at the Cc tag in the snippet from
-> https://lore.kernel.org/lkml/b1d071e2-0428-a08c-392d-3ca5d4a7e710@xs4all.nl/T/#m13f2c16b7cd1892f6a0b58b72ce37979cb6940b9
-> 
-> 
->> Subject: [PATCH] media: usbvision: add the release callback for video device
->> From: Hillf Danton <hdanton@sina.com>
->>
->> To fix the UAF syzbot reported,
->>
->> BUG: KASAN: use-after-free in v4l2_release+0x2f1/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
->>
->> a release cb which is a simple wrapper of usbvision_release() is added
->> for releasing resources as the last reference to the usbvision video
->> device goes away.
->>
->> Reported-by: syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>
->> Fixes: 2aa689dd8057 ("[media] usbvision: embed video_device")
->> Cc: Hans Verkuil <hans.verkuil@cisco.com>
+Hi Martin,
 
-Ah, my work email. And I always delete posts mailed to that if it is also CC-ed
-to linux-media. Which didn't actually arrive there in your case. And it's no longer
-in my trash folder either.
-
-So please mail me a properly formatted patch so I can forward it to linux-media
-for you.
-
-Regards,
-
-	Hans
-
->> Signed-off-by: Hillf Danton <hdanton@sina.com>
->> ---
-> =========
+On Fri, 2020-02-14 at 12:46 +0100, Martin Kepplinger wrote:
+> Hi,
 > 
->> Please mail your patch directly to me so I have a clean version.
+> I'd like to test decoding an mpeg2 or h264 video file on imx8mq, using
+> its vpu:
 > 
+> I use Philipp's changes for imx8m from
+> https://git.pengutronix.de/cgit/pza/linux/log/?h=hantro/imx8m-wip in my
+> tree:
+> 
+> https://source.puri.sm/martin.kepplinger/linux-next/commits/5.6-rc1/librem5__integration
+> 
+> and play around with gstreamer, taking notes at
+> https://source.puri.sm/Librem5/linux-next/issues/74
+> 
+> The driver probes fine and v4l2 appearently sees the MEM2MEM decoder:
+> 
+> $ v4l2-ctl --list-devices
+> nxp,imx8mq-vpu-dec (platform: hantro-vpu):
+> 	/dev/video0
+> 
+> 
+> AFAIK gstreamer should provide a "v4l2videodec" element which it doesn't:
 
+The GStreamer V4L2 decoder elements are only implemented for the
+stateful codec API [1] so far.
+
+[1] https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/v4l/dev-decoder.html
+
+There are plans to add direct support for stateless codecs [2] to
+GStreamer, but that will still be a bit of work as far as I understand.
+
+[added Nicolas to Cc:]
+
+[2] https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/v4l/dev-stateless-decoder.html
+
+In the interim, I have plugged together a GStreamer VA-API stack based
+on Bootlin's libva-v4l2-request backend. See below.
+
+> $ gst-inspect-1.0|grep -i v4l
+> video4linux2:  v4l2deviceprovider (GstDeviceProviderFactory)
+> video4linux2:  v4l2radio: Radio (video4linux2) Tuner
+> video4linux2:  v4l2sink: Video (video4linux2) Sink
+> video4linux2:  v4l2src: Video (video4linux2) Source
+> 
+> First: Philipp, do you plan to continue working on supporting hantro for
+> imx8m upstream?
+
+Yes. We need to sort out the i.MX8MM power domain bindings / drivers,
+and I have to test that the Hantro G1 kernel patches work on i.MX8MM as
+well, to make sure we got the DT bindings right. I'll then resend the
+series for both i.MX8MQ and i.MX8MM.
+
+> Then: What codec would be appropriate to test decoding now? It seems
+> like h264 is supposed to be implemented. How do you test?
+
+There is a patched FFmpeg floating around that can drive the Hantro
+driver. I'm using a patched libva-v4l2-request [3] / libva [4] /
+GStreamer VA-API [5,6] stack to test.
+
+[3] https://github.com/bootlin/libva-v4l2-request/pull/29
+[4] https://github.com/intel/libva/pull/332
+[5] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/merge_requests/729
+[6] https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/merge_requests/171
+
+> And finally: What could be missing here? I use debian's gstreamer
+> package, but in this case it can't really be a config/build issue in
+> gstreamer, right?
+
+None of this was merged in 1.16.2. The GStreamer VA-API changes depend
+on API changes in libva, which currently add Hantro-specifics to a
+generic API, and all this is based on a still unstable kernel API.
+
+regards
+Philipp
