@@ -2,154 +2,368 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 937D715D7BA
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 13:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9184115D823
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 14:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728173AbgBNMzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 07:55:37 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59095 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728036AbgBNMzh (ORCPT
+        id S1729251AbgBNNOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 08:14:34 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:35143 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729229AbgBNNOe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 07:55:37 -0500
+        Fri, 14 Feb 2020 08:14:34 -0500
 Received: from [IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef]
  ([IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 2aVJjNhbpP9a92aVKjH8Jl; Fri, 14 Feb 2020 13:55:35 +0100
+        id 2anejNrGSP9a92anfjHHiw; Fri, 14 Feb 2020 14:14:31 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581684935; bh=epojOKiVsq58vmqjqDYCtpCatWuDAuzMO5HUgS8nDTo=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1581686071; bh=5XThGlcqYyzK4JIoeTsEQ1TE0GKtlDJG+dPM1rc/7Gs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=a41evx/eGMAfmVPkqrQEyQbiK/bLMwiTpl4yz0fBJ6tgt8vYJP5AbwrGC4JwAO4gt
-         EkcflHdwJngcXIppYyjV27xlYujNb0gYic4SsBvSz+7BrrMvO7rSdeYg9WEsw6w/dQ
-         wqYM81IP47BcqbZDwoioFHFJtF8mdkMd2szeEGJTijz0Vnaczf4wNYdCbCHMk7NL+e
-         bQKNRYy32CixLkjRra12B+9VR/kRsk+/PWSsMrOo+tOz2mv9yRopgLgYEEgusiHmbX
-         8QEvQQq2l2FgWVYHo24BDkjygxY7mvrL5ItrbuqsXjvqfIOuNFHcoOxHoVsjHrXzRE
-         UtH5rn/Dnw3Zg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+        b=ESUY1voKYhCc9cHKMoN4QMIFGuwObEk6yuZC4e4Vh+6Oqt7Qp1JF4L/Js/XOFMvzS
+         S5kPd16vNoZXhZ+aqvVhZn1cONIWiNO9xsv6+yVYOnne/SN195hTbH9ZvNadCPjz0X
+         cPsT8h9uTMlol/tAI5B5OI+5ekXWUPuUiFKlalCBsX94FwyxY+0yEzCq8Q6kMSYOGK
+         9bj6kkgDWLWGU5YFsqDfzIBFaaKHyQrUH3yv2d5XflBXalD9842WKnEH+YrkRB1ErE
+         vnjokdiVMNbAvl3zMVS//dB2OJrQU53PtZHBMryqTTAzrERYLEB7x8nE/a24zke1WA
+         QYvthwmkueg6A==
+Subject: Re: [PATCH v3 1/5] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200112232458.2844506-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200112232458.2844506-2-niklas.soderlund+renesas@ragnatech.se>
+ <20200113120902.GF5440@paasikivi.fi.intel.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.7] Various fixes, mainly hantro and rkisp1
-Message-ID: <d5b15f36-305f-593f-dbb9-41463e018107@xs4all.nl>
-Date:   Fri, 14 Feb 2020 13:55:33 +0100
+Message-ID: <0b98cb70-ab99-df60-7c52-9a97432e473d@xs4all.nl>
+Date:   Fri, 14 Feb 2020 14:14:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
+In-Reply-To: <20200113120902.GF5440@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAkj02GQL99itnkrhJVs5ARcBTMLhPzDgCgt9Xpx3lSJnBd8GfTechQW8qU63KlhN0QyJyVUEOD88Kadpekvrqpvj6dpKA/TQVQYcSbLt6sJqW+VcXSY
- mOk1BhHNuBaeZI0HMmlClEOYm/s266qKvQ2EjsCelZY0XoP8dRX6Ob9YK7AZK8tSxR2kzZE58sQe6Su5DMm/T8RY6AAZRyWzOu2N+Fp+ZClvORZuPcXDTH7r
- LR2UgSha/FkJEmwT0ViOVhL6iIYrSEC0anoc3z8UWxNupZAfBngSIXZf484el+nWMoa3Z1NJ/2VGhZNW2FfaIX34yyiTjB79YZr9qUgGLdMGw5Jo4a43KiCl
- GTS6bwED+Utdv43nNmvZX3Ir8EKPD7xR5IFEGcEITabtIPtRY9CKBxfLxudeb+CZxjMT+rhK
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfFHVMILxLglcNf9lcR19cG43AA+ougMyiH2fT39G9Lbh2ABEoVDx70Z+5kt69aX9FkOLqdRwipzo46FyktlgQDctIiYq2DIramzm825c4WuhLxcLwCby
+ /YcgYoyXOA4/qOm2kR326kNOEnsi04PfIBNrsKcUrkjzKuwqkLw8AG77oEekvnZTDGQHu+u9rrmZNiJp1DOMZ4/BPLE52xFf1rBkkvSrhH3ows3SNDdWubCw
+ 0wW5mIS+8qPzdzzQbc2Si2hPaCZ8bSEDfaVhAjgniCg0eAzFiXolZ5+O6AxOGbcj2b0ZqbSzw0gr7q9AH1OdPVVXTp9VPhN3xX2834s8uJmJb9AV426FekYb
+ vxPhg2dE24Juo3Y//rl1lRnmWmiaSkvEMqE4R2Mj/dl32MIMWmE23QeodAXxKIYpqBrf/y3bbnb/FtpV+kpIt2n3epXbMZQjNqVJbc1UydRf0z5Ea/KMpvGV
+ U77xrLvmhSs7DeqrxcFq3vJ2XyjjRkNpJdpZcg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
+On 1/13/20 1:09 PM, Sakari Ailus wrote:
+> Hejssan!
+> 
+> Tack för lappan!
+> 
+> On Mon, Jan 13, 2020 at 12:24:54AM +0100, Niklas Söderlund wrote:
+>> Add a video device capability flag to indicate that its inputs and/or
+>> outputs are controlled by the Media Controller instead of the V4L2 API.
+>> When this flag is set, ioctl for enum inputs and outputs are
+>> automatically enabled and programmed to call a helper function.
+>>
+>> As a bonus fallback default handlers for VIDIOC_{G,S}_{INPUT,OUTPUT} are
+>> provided which can be used by drivers who only provide one input/output.
+>> Such drivers need just not declare vidioc_{g,s}_{input,output} in its
+>> struct v4l2_ioctl_ops and v4l2 will fallback to the single input/output
+>> defaults.
+>>
+>> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>> ---
+>> * Changes since v2
+>> - Merged the two patches touching V4L2 core stuff to a single patch.
+>> - Updated documentation for V4L2_CAP_IO_MC
+>> - Added is_io_mc bool in determine_valid_ioctls()
+>> - Folded or moved code closer to where it's used
+>> - Remove unneeded memset()
+>> - Use strscpy() instead of strlcpy()
+>> ---
+>>  .../media/uapi/v4l/vidioc-querycap.rst        |  5 ++
+>>  .../media/videodev2.h.rst.exceptions          |  1 +
+>>  drivers/media/v4l2-core/v4l2-dev.c            | 19 +++--
+>>  drivers/media/v4l2-core/v4l2-ioctl.c          | 69 +++++++++++++++++--
+>>  include/uapi/linux/videodev2.h                |  2 +
+>>  5 files changed, 86 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/Documentation/media/uapi/v4l/vidioc-querycap.rst b/Documentation/media/uapi/v4l/vidioc-querycap.rst
+>> index 5f9930195d624c73..da17e0e3c6f9a571 100644
+>> --- a/Documentation/media/uapi/v4l/vidioc-querycap.rst
+>> +++ b/Documentation/media/uapi/v4l/vidioc-querycap.rst
+>> @@ -264,6 +264,11 @@ specification the ioctl returns an ``EINVAL`` error code.
+>>      * - ``V4L2_CAP_TOUCH``
+>>        - 0x10000000
+>>        - This is a touch device.
+>> +    * - ``V4L2_CAP_IO_MC``
+>> +      - 0x20000000
+>> +      - There is only one input and/or output seen from userspace. Which I/O
+>> +        entity is routed to the input/output is controlled by the Media
+>> +        Controller. See :ref:`media_controller`.
+> 
+> I feel we should think of the MC flag in a bit wider context of device
+> profiles. They've been suggested but I don't think anyone has implemented
+> any code to support them.
 
-  Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+There is implicit code: i.e. v4l2-dev.c does ever more checking of which ioctls
+should be disabled based on the device capabilities, and v4l2-compliance is also
+checking that. But nothing of that is really written down.
 
-are available in the Git repository at:
+> Valid formats, for instance, also are determined by the format
+> configuration on the MC pipeline in this case.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7b
+How about this:
 
-for you to fetch changes up to 7306609c0443bd97a0ee5629b88c15f64b74e45b:
+      - There is only one input and/or output seen from userspace. The whole
+        video topology configuration, including which I/O entity is routed to
+        the input/output, is configured by userspace via the Media Controller.
+        See :ref:`media_controller`.
 
-  media: staging/imx: Missing assignment in imx_media_capture_device_register() (2020-02-14 11:42:56 +0100)
+That makes it more explicit that 1) it is userspace that configures this, and
+2) that there is a lot more that is configured besides the routing.
 
-----------------------------------------------------------------
-Tag branch
+> 
+> I wonder if the MC input type (as below) would address this bit, without
+> going to the device profiles yet?
+> 
+>>      * - ``V4L2_CAP_DEVICE_CAPS``
+>>        - 0x80000000
+>>        - The driver fills the ``device_caps`` field. This capability can
+>> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
+>> index cb6ccf91776e6b56..a625fb90e3a989a7 100644
+>> --- a/Documentation/media/videodev2.h.rst.exceptions
+>> +++ b/Documentation/media/videodev2.h.rst.exceptions
+>> @@ -176,6 +176,7 @@ replace define V4L2_CAP_STREAMING device-capabilities
+>>  replace define V4L2_CAP_META_OUTPUT device-capabilities
+>>  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
+>>  replace define V4L2_CAP_TOUCH device-capabilities
+>> +replace define V4L2_CAP_IO_MC device-capabilities
+>>  
+>>  # V4L2 pix flags
+>>  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index da42d172714adcb5..3c1a1200aa1fa9f3 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -552,6 +552,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  		       (vdev->device_caps & meta_caps);
+>>  	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
+>>  	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
+>> +	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
+>>  
+>>  	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
+>>  
+>> @@ -725,22 +726,28 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  		SET_VALID_IOCTL(ops, VIDIOC_G_STD, vidioc_g_std);
+>>  		if (is_rx) {
+>>  			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
+>> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+>> -			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+>> -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+>> +			set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
+>> +			set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_QUERY_DV_TIMINGS, vidioc_query_dv_timings);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
+>> +			if (is_io_mc)
+>> +				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
+>> +			else
+>> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+>>  		}
+>>  		if (is_tx) {
+>> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+>> -			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+>> -			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
+>> +			set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
+>> +			set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+>> +			if (is_io_mc)
+>> +				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
+>> +			else
+>> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+>>  		}
+>>  		if (ops->vidioc_g_parm || ops->vidioc_g_std)
+>>  			set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index aaf83e25427288fd..e8e15deeb8f36a9d 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -1085,6 +1085,28 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+>>  	return ret;
+>>  }
+>>  
+>> +static int v4l_g_input(const struct v4l2_ioctl_ops *ops,
+>> +		       struct file *file, void *fh, void *arg)
+>> +{
+>> +	if (!ops->vidioc_g_input) {
+>> +		*(unsigned int *)arg = 0;
+>> +		return 0;
+>> +	}
+>> +
+>> +	return ops->vidioc_g_input(file, fh, arg);
+>> +}
+>> +
+>> +static int v4l_g_output(const struct v4l2_ioctl_ops *ops,
+>> +		       struct file *file, void *fh, void *arg)
+>> +{
+>> +	if (!ops->vidioc_g_output) {
+>> +		*(unsigned int *)arg = 0;
+>> +		return 0;
+>> +	}
+>> +
+>> +	return ops->vidioc_g_output(file, fh, arg);
+>> +}
+>> +
+>>  static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>>  				struct file *file, void *fh, void *arg)
+>>  {
+>> @@ -1094,12 +1116,19 @@ static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>>  	ret = v4l_enable_media_source(vfd);
+>>  	if (ret)
+>>  		return ret;
+>> +
+>> +	if (!ops->vidioc_s_input)
+>> +		return  *(unsigned int *)arg ? -EINVAL : 0;
+>> +
+>>  	return ops->vidioc_s_input(file, fh, *(unsigned int *)arg);
+>>  }
+>>  
+>>  static int v4l_s_output(const struct v4l2_ioctl_ops *ops,
+>>  				struct file *file, void *fh, void *arg)
+>>  {
+>> +	if (!ops->vidioc_s_output)
+>> +		return  *(unsigned int *)arg ? -EINVAL : 0;
+>> +
+>>  	return ops->vidioc_s_output(file, fh, *(unsigned int *)arg);
+>>  }
+>>  
+>> @@ -1128,6 +1157,20 @@ static int v4l_s_priority(const struct v4l2_ioctl_ops *ops,
+>>  	return v4l2_prio_change(vfd->prio, &vfh->prio, *p);
+>>  }
+>>  
+>> +static int v4l2_ioctl_enum_input_mc(struct file *file, void *priv,
+>> +				    struct v4l2_input *i)
+>> +{
+>> +	struct video_device *vfd = video_devdata(file);
+>> +
+>> +	if (i->index)
+>> +		return -EINVAL;
+>> +
+>> +	strscpy(i->name, vfd->name, sizeof(i->name));
+>> +	i->type = V4L2_INPUT_TYPE_CAMERA;
+> 
+> Doesn't this deserve its own input type? Say, V4L2_INPUT_TYPE_MC, for
+> instance?
 
-----------------------------------------------------------------
-Andrzej Pietrasiewicz (4):
-      media: hantro: Read be32 words starting at every fourth byte
-      media: hantro: Use standard luma quantization table
-      media: hantro: Write the quantization tables in proper order
-      media: hantro: Write quantization table registers in increasing addresses order
+I think that will break the ABI. It's always been TYPE_CAMERA.
 
-Cengiz Can (1):
-      media: davinci: fix incorrect pix_fmt assignment
+> Most MC-enabled drivers are related to cameras but you can attach e.g. a TV
+> tuner to at least some of them. The API is really not about cameras as such
+> either.
 
-Colin Ian King (1):
-      media: allegro: fix spelling mistake "to" -> "too"
+It's really an historical accident. I think I proposed at some time to add an
+alias:
 
-Dafna Hirschfeld (8):
-      media: vimc: streamer: if kthread_stop fails, ignore the error
-      media: staging: rkisp1: don't lock media's graph_mutex when calling rkisp1_create_links
-      media: staging: rkisp1: fix test of return value of media_entity_get_fwnode_pad
-      media: staging: rkisp1: improve inner documentation in rkisp1-isp.c
-      media: staging: rkisp1: change function to return void instead of int
-      media: staging: rkisp1: isp: check for dphy bus before initializations in s_stream
-      media: staging: rkisp1: add serialization to the isp subdev ops
-      media: staging: rkisp1: add serialization to the resizer subdev ops
+#define V4L2_INPUT_TYPE_VIDEO V4L2_INPUT_TYPE_CAMERA
 
-Dan Carpenter (1):
-      media: staging/imx: Missing assignment in imx_media_capture_device_register()
+Since 'Camera' really is used as a 'Video' input which may come from various
+sources (sensors, video receivers, etc.).
 
-Ezequiel Garcia (1):
-      media: hantro: Prevent encoders from using post-processing
+Regards,
 
-Hans Verkuil (2):
-      mc-entity.c: use WARN_ON, validate link pads
-      Documentation/media/uapi: more readable unions
+	Hans
 
-Helen Koike (6):
-      staging: media: rkisp1: make links immutable by default
-      media: staging: rkisp1: use consistent bus_info string for media_dev
-      media: staging: rkisp1: stats: use consistent bus_info string
-      media: staging: rkisp1: rsz: don't ignore set format in bayer mainpath
-      media: staging: rkisp1: rsz: return to userspace the crop value in bayer mainpath
-      media: staging: rkisp1: isp: do not set invalid mbus code for pad
+> 
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
+>>  				struct file *file, void *fh, void *arg)
+>>  {
+>> @@ -1143,9 +1186,26 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
+>>  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
+>>  		p->capabilities |= V4L2_IN_CAP_STD;
+>>  
+>> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+>> +		return v4l2_ioctl_enum_input_mc(file, fh, p);
+>> +
+>>  	return ops->vidioc_enum_input(file, fh, p);
+>>  }
+>>  
+>> +static int v4l2_ioctl_enum_output_mc(struct file *file, void *priv,
+>> +				     struct v4l2_output *o)
+>> +{
+>> +	struct video_device *vfd = video_devdata(file);
+>> +
+>> +	if (o->index)
+>> +		return -EINVAL;
+>> +
+>> +	strscpy(o->name, vfd->name, sizeof(o->name));
+>> +	o->type = V4L2_OUTPUT_TYPE_ANALOG;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
+>>  				struct file *file, void *fh, void *arg)
+>>  {
+>> @@ -1161,6 +1221,9 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
+>>  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
+>>  		p->capabilities |= V4L2_OUT_CAP_STD;
+>>  
+>> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+>> +		return v4l2_ioctl_enum_output_mc(file, fh, p);
+>> +
+>>  	return ops->vidioc_enum_output(file, fh, p);
+>>  }
+>>  
+>> @@ -2678,10 +2741,8 @@ DEFINE_V4L_STUB_FUNC(expbuf)
+>>  DEFINE_V4L_STUB_FUNC(g_std)
+>>  DEFINE_V4L_STUB_FUNC(g_audio)
+>>  DEFINE_V4L_STUB_FUNC(s_audio)
+>> -DEFINE_V4L_STUB_FUNC(g_input)
+>>  DEFINE_V4L_STUB_FUNC(g_edid)
+>>  DEFINE_V4L_STUB_FUNC(s_edid)
+>> -DEFINE_V4L_STUB_FUNC(g_output)
+>>  DEFINE_V4L_STUB_FUNC(g_audout)
+>>  DEFINE_V4L_STUB_FUNC(s_audout)
+>>  DEFINE_V4L_STUB_FUNC(g_jpegcomp)
+>> @@ -2730,11 +2791,11 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>>  	IOCTL_INFO(VIDIOC_S_AUDIO, v4l_stub_s_audio, v4l_print_audio, INFO_FL_PRIO),
+>>  	IOCTL_INFO(VIDIOC_QUERYCTRL, v4l_queryctrl, v4l_print_queryctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_queryctrl, id)),
+>>  	IOCTL_INFO(VIDIOC_QUERYMENU, v4l_querymenu, v4l_print_querymenu, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_querymenu, index)),
+>> -	IOCTL_INFO(VIDIOC_G_INPUT, v4l_stub_g_input, v4l_print_u32, 0),
+>> +	IOCTL_INFO(VIDIOC_G_INPUT, v4l_g_input, v4l_print_u32, 0),
+>>  	IOCTL_INFO(VIDIOC_S_INPUT, v4l_s_input, v4l_print_u32, INFO_FL_PRIO),
+>>  	IOCTL_INFO(VIDIOC_G_EDID, v4l_stub_g_edid, v4l_print_edid, INFO_FL_ALWAYS_COPY),
+>>  	IOCTL_INFO(VIDIOC_S_EDID, v4l_stub_s_edid, v4l_print_edid, INFO_FL_PRIO | INFO_FL_ALWAYS_COPY),
+>> -	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_stub_g_output, v4l_print_u32, 0),
+>> +	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_g_output, v4l_print_u32, 0),
+>>  	IOCTL_INFO(VIDIOC_S_OUTPUT, v4l_s_output, v4l_print_u32, INFO_FL_PRIO),
+>>  	IOCTL_INFO(VIDIOC_ENUMOUTPUT, v4l_enumoutput, v4l_print_enumoutput, INFO_FL_CLEAR(v4l2_output, index)),
+>>  	IOCTL_INFO(VIDIOC_G_AUDOUT, v4l_stub_g_audout, v4l_print_audioout, 0),
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 5f9357dcb0602126..c793263a37052856 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -487,6 +487,8 @@ struct v4l2_capability {
+>>  
+>>  #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
+>>  
+>> +#define V4L2_CAP_IO_MC			0x20000000  /* Is input/output controlled by the media controller */
+>> +
+>>  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
+>>  
+>>  /*
+> 
 
-Justin Swartz (1):
-      dt-bindings: Add binding for rk3228 rga
-
-Philipp Zabel (1):
-      media: hantro: fix extra MV/MC sync space calculation
-
-YueHaibing (1):
-      media: sun8i: Remove redundant platform_get_irq error message
-
- Documentation/devicetree/bindings/media/rockchip-rga.txt      |  5 +--
- Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst     | 10 +++---
- Documentation/media/uapi/cec/cec-ioc-dqevent.rst              | 20 ++++++------
- Documentation/media/uapi/mediactl/media-ioc-enum-entities.rst | 24 ++++----------
- Documentation/media/uapi/v4l/buffer.rst                       | 53 ++++++++++--------------------
- Documentation/media/uapi/v4l/dev-sliced-vbi.rst               | 15 ++++-----
- Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst           |  6 ++--
- Documentation/media/uapi/v4l/pixfmt-v4l2.rst                  |  2 --
- Documentation/media/uapi/v4l/vidioc-dbg-g-chip-info.rst       | 12 +++----
- Documentation/media/uapi/v4l/vidioc-dbg-g-register.rst        | 12 +++----
- Documentation/media/uapi/v4l/vidioc-decoder-cmd.rst           | 26 ++++-----------
- Documentation/media/uapi/v4l/vidioc-dqevent.rst               | 55 ++++++++++----------------------
- Documentation/media/uapi/v4l/vidioc-dv-timings-cap.rst        | 14 ++++----
- Documentation/media/uapi/v4l/vidioc-enum-frameintervals.rst   | 19 ++++-------
- Documentation/media/uapi/v4l/vidioc-enum-framesizes.rst       | 18 ++++-------
- Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst          | 16 ++++------
- Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst           | 45 +++++++++++---------------
- Documentation/media/uapi/v4l/vidioc-g-fmt.rst                 | 29 +++++++----------
- Documentation/media/uapi/v4l/vidioc-g-parm.rst                | 18 ++++-------
- Documentation/media/uapi/v4l/vidioc-queryctrl.rst             | 19 ++++-------
- drivers/media/mc/mc-entity.c                                  | 11 +++++--
- drivers/media/platform/davinci/vpfe_capture.c                 |  2 +-
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c              |  5 +--
- drivers/media/platform/vimc/vimc-streamer.c                   |  8 ++++-
- drivers/staging/media/allegro-dvt/allegro-core.c              |  2 +-
- drivers/staging/media/hantro/hantro.h                         |  2 +-
- drivers/staging/media/hantro/hantro_h1_jpeg_enc.c             | 19 ++++++++---
- drivers/staging/media/hantro/hantro_jpeg.c                    | 76 ++++++++++++++++++++++++++++++++------------
- drivers/staging/media/hantro/hantro_jpeg.h                    |  2 +-
- drivers/staging/media/hantro/hantro_v4l2.c                    |  2 +-
- drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c         | 24 ++++++++++----
- drivers/staging/media/imx/imx-media-capture.c                 |  2 +-
- drivers/staging/media/rkisp1/rkisp1-common.h                  |  3 ++
- drivers/staging/media/rkisp1/rkisp1-dev.c                     | 20 ++++++------
- drivers/staging/media/rkisp1/rkisp1-isp.c                     | 61 +++++++++++++++++++----------------
- drivers/staging/media/rkisp1/rkisp1-resizer.c                 | 27 +++++++++-------
- drivers/staging/media/rkisp1/rkisp1-stats.c                   |  3 +-
- 37 files changed, 328 insertions(+), 359 deletions(-)
