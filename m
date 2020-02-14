@@ -2,136 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 432E415E9D2
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 18:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B72D715E97F
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 18:08:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394462AbgBNRJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 12:09:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42944 "EHLO mail.kernel.org"
+        id S2392017AbgBNRHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 12:07:14 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:53474 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392215AbgBNQNu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:13:50 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 98030246C6;
-        Fri, 14 Feb 2020 16:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696829;
-        bh=wq7lxjt7cRlqyFc4oM2xYceah9Pd7LC/X/ok4YEThvs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MtyflCFnVZxuXfPgXlw7iLJ7NeWT5CRLIflrAFDmADDyJ0FBdG7lVGr1RUYTgohKb
-         QgNFTFX1ubZvSa+uw11fqgn0bKPznLFYbAxs6eGbms5zHzT1caeWaRl1nFMjKa7i/X
-         yI/GeRegQy+16XtQswyfVk4+b0IXMP3OAYJ6oOFQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.19 095/252] media: v4l2-device.h: Explicitly compare grp{id,mask} to zero in v4l2_device macros
-Date:   Fri, 14 Feb 2020 11:09:10 -0500
-Message-Id: <20200214161147.15842-95-sashal@kernel.org>
+        id S2392338AbgBNQOg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:14:36 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1j2daQ-00EhCX-Rd; Fri, 14 Feb 2020 16:13:02 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1j2ddD-00021l-RG; Fri, 14 Feb 2020 16:15:55 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.7] Venus updates
+Date:   Fri, 14 Feb 2020 16:15:55 +0000
+Message-Id: <20200214161555.7752-1-jenkins@linuxtv.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
-References: <20200214161147.15842-1-sashal@kernel.org>
+In-Reply-To: <20200214160706.2467-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nathan Chancellor <natechancellor@gmail.com>
+From: builder@linuxtv.org
 
-[ Upstream commit afb34781620274236bd9fc9246e22f6963ef5262 ]
+Pull request: https://patchwork.linuxtv.org/patch/61652/
+Build log: https://builder.linuxtv.org/job/patchwork/38108/
+Build time: 00:05:47
+Link: https://lore.kernel.org/linux-media/20200214160706.2467-1-stanimir.varbanov@linaro.org
 
-When building with Clang + -Wtautological-constant-compare, several of
-the ivtv and cx18 drivers warn along the lines of:
+gpg: Signature made Fri 14 Feb 2020 03:35:57 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
- drivers/media/pci/cx18/cx18-driver.c:1005:21: warning: converting the
- result of '<<' to a boolean always evaluates to true
- [-Wtautological-constant-compare]
-                         cx18_call_hw(cx, CX18_HW_GPIO_RESET_CTRL,
-                                         ^
- drivers/media/pci/cx18/cx18-cards.h:18:37: note: expanded from macro
- 'CX18_HW_GPIO_RESET_CTRL'
- #define CX18_HW_GPIO_RESET_CTRL         (1 << 6)
-                                           ^
- 1 warning generated.
+Summary: 9 patches and/or PDF generation with issues, being 0 at build time
 
-This warning happens because the shift operation is implicitly converted
-to a boolean in v4l2_device_mask_call_all before being negated. This can
-be solved by just comparing the mask result to 0 explicitly so that
-there is no boolean conversion. The ultimate goal is to enable
--Wtautological-compare globally because there are several subwarnings
-that would be helpful to have.
+Error/warnings:
 
-For visual consistency and avoidance of these warnings in the future,
-all of the implicitly boolean conversions in the v4l2_device macros
-are converted to explicit ones as well.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/752
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-venus-cache-vb-payload-to-be-used-by-clock-scaling.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-venus-cache-vb-payload-to-be-used-by-clock-scaling.patch
+patches/0005-venus-cache-vb-payload-to-be-used-by-clock-scaling.patch:26: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- include/media/v4l2-device.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-venus-redesign-clocks-and-pm-domains-control.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-venus-redesign-clocks-and-pm-domains-control.patch
+patches/0006-venus-redesign-clocks-and-pm-domains-control.patch:674: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
-index b330e4a08a6b8..40840fec337ca 100644
---- a/include/media/v4l2-device.h
-+++ b/include/media/v4l2-device.h
-@@ -372,7 +372,7 @@ static inline void v4l2_subdev_notify(struct v4l2_subdev *sd,
- 		struct v4l2_subdev *__sd;				\
- 									\
- 		__v4l2_device_call_subdevs_p(v4l2_dev, __sd,		\
--			!(grpid) || __sd->grp_id == (grpid), o, f ,	\
-+			(grpid) == 0 || __sd->grp_id == (grpid), o, f ,	\
- 			##args);					\
- 	} while (0)
- 
-@@ -404,7 +404,7 @@ static inline void v4l2_subdev_notify(struct v4l2_subdev *sd,
- ({									\
- 	struct v4l2_subdev *__sd;					\
- 	__v4l2_device_call_subdevs_until_err_p(v4l2_dev, __sd,		\
--			!(grpid) || __sd->grp_id == (grpid), o, f ,	\
-+			(grpid) == 0 || __sd->grp_id == (grpid), o, f ,	\
- 			##args);					\
- })
- 
-@@ -432,8 +432,8 @@ static inline void v4l2_subdev_notify(struct v4l2_subdev *sd,
- 		struct v4l2_subdev *__sd;				\
- 									\
- 		__v4l2_device_call_subdevs_p(v4l2_dev, __sd,		\
--			!(grpmsk) || (__sd->grp_id & (grpmsk)), o, f ,	\
--			##args);					\
-+			(grpmsk) == 0 || (__sd->grp_id & (grpmsk)), o,	\
-+			f , ##args);					\
- 	} while (0)
- 
- /**
-@@ -463,8 +463,8 @@ static inline void v4l2_subdev_notify(struct v4l2_subdev *sd,
- ({									\
- 	struct v4l2_subdev *__sd;					\
- 	__v4l2_device_call_subdevs_until_err_p(v4l2_dev, __sd,		\
--			!(grpmsk) || (__sd->grp_id & (grpmsk)), o, f ,	\
--			##args);					\
-+			(grpmsk) == 0 || (__sd->grp_id & (grpmsk)), o,	\
-+			f , ##args);					\
- })
- 
- 
--- 
-2.20.1
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-dt-bindings-media-venus-Convert-msm8916-to-DT-schema.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-dt-bindings-media-venus-Convert-msm8916-to-DT-schema.patch
+patches/0009-dt-bindings-media-venus-Convert-msm8916-to-DT-schema.patch:16: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-dt-bindings-media-venus-Convert-msm8996-to-DT-schema.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-dt-bindings-media-venus-Convert-msm8996-to-DT-schema.patch
+patches/0010-dt-bindings-media-venus-Convert-msm8996-to-DT-schema.patch:16: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0011-dt-bindings-media-venus-Convert-sdm845-to-DT-schema.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0011-dt-bindings-media-venus-Convert-sdm845-to-DT-schema.patch
+patches/0011-dt-bindings-media-venus-Convert-sdm845-to-DT-schema.patch:16: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-dt-bindings-media-venus-Add-sdm845v2-DT-schema.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-dt-bindings-media-venus-Add-sdm845v2-DT-schema.patch
+patches/0012-dt-bindings-media-venus-Add-sdm845v2-DT-schema.patch:16: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0014-dt-bindings-media-venus-delete-old-binding-document.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0014-dt-bindings-media-venus-delete-old-binding-document.patch
+patches/0014-dt-bindings-media-venus-delete-old-binding-document.patch:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+patches/0014-dt-bindings-media-venus-delete-old-binding-document.patch:20: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.txt
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0015-venus-core-add-sc7180-DT-compatible-and-resource-str.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0015-venus-core-add-sc7180-DT-compatible-and-resource-str.patch
+patches/0015-venus-core-add-sc7180-DT-compatible-and-resource-str.patch:71: WARNING: DT compatible string "qcom,sc7180-venus" appears un-documented -- check ./Documentation/devicetree/bindings/
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0016-dt-bindings-media-venus-Add-sc7180-DT-schema.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0016-dt-bindings-media-venus-Add-sc7180-DT-schema.patch
+patches/0016-dt-bindings-media-venus-Add-sc7180-DT-schema.patch:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
