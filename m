@@ -2,90 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 923FA15D747
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 13:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 937D715D7BA
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 13:55:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729122AbgBNMVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 07:21:09 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50655 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728036AbgBNMVJ (ORCPT
+        id S1728173AbgBNMzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 07:55:37 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59095 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728036AbgBNMzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 07:21:09 -0500
+        Fri, 14 Feb 2020 07:55:37 -0500
 Received: from [IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef]
  ([IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 2ZxvjNQoMP9a92ZxwjGslZ; Fri, 14 Feb 2020 13:21:06 +0100
+        id 2aVJjNhbpP9a92aVKjH8Jl; Fri, 14 Feb 2020 13:55:35 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581682866; bh=PhqMFnmd2aN7gDvxtHkHxo9Tjtd5wgCucdPCv1i4je8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1581684935; bh=epojOKiVsq58vmqjqDYCtpCatWuDAuzMO5HUgS8nDTo=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=OQo8YW+mO7BFRmxx/32cK6cyemqRC7sP4WY0IJMROX2Kh7DdsRbCUEqbKbTSjNZV1
-         is5nwLB+zhtMjClvL4mHf7J6nBS2xed5y7c/GW9spW9SWS1OwjOKLzvCYirNZFkUwa
-         /P2ROepldLmMM2mJX+9p5vyxlWoagzBc2wv1zo+fjdD9nVHT9ndZ8UeBrzEIsNIm5R
-         hfqMOP7IPulZyu/zjjARdAjZugDBoyn7RkSNm56eJ819DtDeuaiIlDGGgFtg9Yk7X8
-         RAAml0sjGDOKweFt8/351drXbkWouMFH39pLhjS6Ob5MlGB+bltUj9DWoBeAPJgrkV
-         /ji1nhlRVUJTw==
-Subject: Re: [PATCH] media: usbvision: Fix a use after free in v4l2_release()
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Souptick Joarder <jrdr.linux@gmail.com>, andreyknvl@google.com,
-        bnvandana@gmail.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-References: <20200124141356.365bgzg2lp3tjedm@kili.mountain>
- <d8663b81-e920-3e1d-11d0-f636ea52c6ef@xs4all.nl>
- <20200214112239.GC4831@pendragon.ideasonboard.com>
- <20200214121447.13612-1-hdanton@sina.com>
+        b=a41evx/eGMAfmVPkqrQEyQbiK/bLMwiTpl4yz0fBJ6tgt8vYJP5AbwrGC4JwAO4gt
+         EkcflHdwJngcXIppYyjV27xlYujNb0gYic4SsBvSz+7BrrMvO7rSdeYg9WEsw6w/dQ
+         wqYM81IP47BcqbZDwoioFHFJtF8mdkMd2szeEGJTijz0Vnaczf4wNYdCbCHMk7NL+e
+         bQKNRYy32CixLkjRra12B+9VR/kRsk+/PWSsMrOo+tOz2mv9yRopgLgYEEgusiHmbX
+         8QEvQQq2l2FgWVYHo24BDkjygxY7mvrL5ItrbuqsXjvqfIOuNFHcoOxHoVsjHrXzRE
+         UtH5rn/Dnw3Zg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ddc06d75-2f9f-fb91-a73f-b5b2125b036d@xs4all.nl>
-Date:   Fri, 14 Feb 2020 13:21:03 +0100
+Subject: [GIT PULL FOR v5.7] Various fixes, mainly hantro and rkisp1
+Message-ID: <d5b15f36-305f-593f-dbb9-41463e018107@xs4all.nl>
+Date:   Fri, 14 Feb 2020 13:55:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200214121447.13612-1-hdanton@sina.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJZ3v3yOtuJD/iTQkXKATl0BqWT6ctGJCU2m9B9Wi30fNB5Ua8uXkmdX1pPt5CoZBnUxGdqk1Alo+C4IotpAO/JITMtDcNRCCatVhDefVMh6tWXOqlz5
- DVLzQApUvH4GGBwWCK+7sDrmzlKUWSp5btTET+ikWdIPYQARC8XPEtUypTGlpsXC7th/3moghrE4IebhC1lZVeXMaaDkTBEOS23ZvHjkWfcpyGs4MhxUrFxp
- QcKE4zpLV0Ed+aym+BFXaqXLY1nUVQQ6s0HvZqL64nwIlglF+BBiNQr6DZ4mo5QZ1eX1cYil0jXkkxYBTMUMz05Bb1hrX4+UiRndAOhQvoDd9yfznq0q2P0d
- adCxqbqncGVs4APbVfeLC02eLciwg9W5KNEfFqgazh0euNVorRAFHuulEaKf/5e1CfX7AhoUoBlMwDwI+j2SzLfTBKv10B5OJWwaRvVdfA5VGs/nAM/snyFt
- +4qBhEzTL/b4g46kY7Si03jk0Y1WZTSPqmMNnjl0Lx0aFb0cC2gAxEPq40nNeG2hOUbC2M531t75/BbmE/PWdNCau+OLPCaRG8GNT3bnNZwLpKkvDnixYJ6m
- 0YW0jb5THMBPyD035vwHM/jnw2znJ5OmIJiq6sAWyKNNbX3BgS9WD8HGq/DgPCXrU1pZYz10fr7V/RqXpKnpuYAyQZYH51NhePegN28XqsEQxnfDCt74Lb1w
- NzmHH3mcqsykSD1oUo6tRIdjtu3gfyftSHtaXbYrGV+QSbTQsdSviE+APsKgovKABG9xsZU7QRdkEhuWajpXs3ZHjaUy2lif05iGlaFfA4ktvSD4HEcj/g==
+X-CMAE-Envelope: MS4wfAkj02GQL99itnkrhJVs5ARcBTMLhPzDgCgt9Xpx3lSJnBd8GfTechQW8qU63KlhN0QyJyVUEOD88Kadpekvrqpvj6dpKA/TQVQYcSbLt6sJqW+VcXSY
+ mOk1BhHNuBaeZI0HMmlClEOYm/s266qKvQ2EjsCelZY0XoP8dRX6Ob9YK7AZK8tSxR2kzZE58sQe6Su5DMm/T8RY6AAZRyWzOu2N+Fp+ZClvORZuPcXDTH7r
+ LR2UgSha/FkJEmwT0ViOVhL6iIYrSEC0anoc3z8UWxNupZAfBngSIXZf484el+nWMoa3Z1NJ/2VGhZNW2FfaIX34yyiTjB79YZr9qUgGLdMGw5Jo4a43KiCl
+ GTS6bwED+Utdv43nNmvZX3Ir8EKPD7xR5IFEGcEITabtIPtRY9CKBxfLxudeb+CZxjMT+rhK
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/14/20 1:14 PM, Hillf Danton wrote:
-> 
-> On Fri, 14 Feb 2020 12:30:29 +0100 Hans Verkuil wrote:
->>
->> Hillf, if you want your patch to be merged, then make sure it is CC-ed to
->> linux-media as well.
-> 
-> Please pick it up if it makes a sense to you and it was sent with
-> linux-media added on the Cc list as it is known for a while that
-> my mail agent is rejected @vger.kernel.org for what I am not clear
-> about. It makes my day occasionally :P
+The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
 
-I don't I ever received the full patch, only replies to your patch.
+  Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
 
-Please mail your patch directly to me so I have a clean version.
+are available in the Git repository at:
 
-Regards,
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7b
 
-	Hans
+for you to fetch changes up to 7306609c0443bd97a0ee5629b88c15f64b74e45b:
 
-> 
-> Thanks
-> Hillf
-> 
+  media: staging/imx: Missing assignment in imx_media_capture_device_register() (2020-02-14 11:42:56 +0100)
 
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Andrzej Pietrasiewicz (4):
+      media: hantro: Read be32 words starting at every fourth byte
+      media: hantro: Use standard luma quantization table
+      media: hantro: Write the quantization tables in proper order
+      media: hantro: Write quantization table registers in increasing addresses order
+
+Cengiz Can (1):
+      media: davinci: fix incorrect pix_fmt assignment
+
+Colin Ian King (1):
+      media: allegro: fix spelling mistake "to" -> "too"
+
+Dafna Hirschfeld (8):
+      media: vimc: streamer: if kthread_stop fails, ignore the error
+      media: staging: rkisp1: don't lock media's graph_mutex when calling rkisp1_create_links
+      media: staging: rkisp1: fix test of return value of media_entity_get_fwnode_pad
+      media: staging: rkisp1: improve inner documentation in rkisp1-isp.c
+      media: staging: rkisp1: change function to return void instead of int
+      media: staging: rkisp1: isp: check for dphy bus before initializations in s_stream
+      media: staging: rkisp1: add serialization to the isp subdev ops
+      media: staging: rkisp1: add serialization to the resizer subdev ops
+
+Dan Carpenter (1):
+      media: staging/imx: Missing assignment in imx_media_capture_device_register()
+
+Ezequiel Garcia (1):
+      media: hantro: Prevent encoders from using post-processing
+
+Hans Verkuil (2):
+      mc-entity.c: use WARN_ON, validate link pads
+      Documentation/media/uapi: more readable unions
+
+Helen Koike (6):
+      staging: media: rkisp1: make links immutable by default
+      media: staging: rkisp1: use consistent bus_info string for media_dev
+      media: staging: rkisp1: stats: use consistent bus_info string
+      media: staging: rkisp1: rsz: don't ignore set format in bayer mainpath
+      media: staging: rkisp1: rsz: return to userspace the crop value in bayer mainpath
+      media: staging: rkisp1: isp: do not set invalid mbus code for pad
+
+Justin Swartz (1):
+      dt-bindings: Add binding for rk3228 rga
+
+Philipp Zabel (1):
+      media: hantro: fix extra MV/MC sync space calculation
+
+YueHaibing (1):
+      media: sun8i: Remove redundant platform_get_irq error message
+
+ Documentation/devicetree/bindings/media/rockchip-rga.txt      |  5 +--
+ Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst     | 10 +++---
+ Documentation/media/uapi/cec/cec-ioc-dqevent.rst              | 20 ++++++------
+ Documentation/media/uapi/mediactl/media-ioc-enum-entities.rst | 24 ++++----------
+ Documentation/media/uapi/v4l/buffer.rst                       | 53 ++++++++++--------------------
+ Documentation/media/uapi/v4l/dev-sliced-vbi.rst               | 15 ++++-----
+ Documentation/media/uapi/v4l/pixfmt-v4l2-mplane.rst           |  6 ++--
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst                  |  2 --
+ Documentation/media/uapi/v4l/vidioc-dbg-g-chip-info.rst       | 12 +++----
+ Documentation/media/uapi/v4l/vidioc-dbg-g-register.rst        | 12 +++----
+ Documentation/media/uapi/v4l/vidioc-decoder-cmd.rst           | 26 ++++-----------
+ Documentation/media/uapi/v4l/vidioc-dqevent.rst               | 55 ++++++++++----------------------
+ Documentation/media/uapi/v4l/vidioc-dv-timings-cap.rst        | 14 ++++----
+ Documentation/media/uapi/v4l/vidioc-enum-frameintervals.rst   | 19 ++++-------
+ Documentation/media/uapi/v4l/vidioc-enum-framesizes.rst       | 18 ++++-------
+ Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst          | 16 ++++------
+ Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst           | 45 +++++++++++---------------
+ Documentation/media/uapi/v4l/vidioc-g-fmt.rst                 | 29 +++++++----------
+ Documentation/media/uapi/v4l/vidioc-g-parm.rst                | 18 ++++-------
+ Documentation/media/uapi/v4l/vidioc-queryctrl.rst             | 19 ++++-------
+ drivers/media/mc/mc-entity.c                                  | 11 +++++--
+ drivers/media/platform/davinci/vpfe_capture.c                 |  2 +-
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c              |  5 +--
+ drivers/media/platform/vimc/vimc-streamer.c                   |  8 ++++-
+ drivers/staging/media/allegro-dvt/allegro-core.c              |  2 +-
+ drivers/staging/media/hantro/hantro.h                         |  2 +-
+ drivers/staging/media/hantro/hantro_h1_jpeg_enc.c             | 19 ++++++++---
+ drivers/staging/media/hantro/hantro_jpeg.c                    | 76 ++++++++++++++++++++++++++++++++------------
+ drivers/staging/media/hantro/hantro_jpeg.h                    |  2 +-
+ drivers/staging/media/hantro/hantro_v4l2.c                    |  2 +-
+ drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c         | 24 ++++++++++----
+ drivers/staging/media/imx/imx-media-capture.c                 |  2 +-
+ drivers/staging/media/rkisp1/rkisp1-common.h                  |  3 ++
+ drivers/staging/media/rkisp1/rkisp1-dev.c                     | 20 ++++++------
+ drivers/staging/media/rkisp1/rkisp1-isp.c                     | 61 +++++++++++++++++++----------------
+ drivers/staging/media/rkisp1/rkisp1-resizer.c                 | 27 +++++++++-------
+ drivers/staging/media/rkisp1/rkisp1-stats.c                   |  3 +-
+ 37 files changed, 328 insertions(+), 359 deletions(-)
