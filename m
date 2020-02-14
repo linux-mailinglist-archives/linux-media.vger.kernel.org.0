@@ -2,127 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B84915D4D0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 10:35:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6981815D4F0
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 10:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729139AbgBNJfO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 04:35:14 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:33586 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729074AbgBNJfN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 04:35:13 -0500
-Received: by mail-pg1-f196.google.com with SMTP id 6so4687794pgk.0
-        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2020 01:35:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5AfLEWxBfNqD1QkilGzCQL+klQ2n6nhzMgLjS7kpjJM=;
-        b=GoEjXRGHToaAgFkeLpViY1gsJSUIEVFtb8QW+MOKy9T8+kP7xEFTsFYvjUW6MSs7gy
-         o28Rzuk0lUdIq/2gWktTi8aG6FVSe5Fp1qD6uMY3WpVJREQ0h3/avtmmbfeIwMUFGd43
-         5rx0TuSgzQZHI3TlPFC52tzrHGnYIgDgvMgvA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5AfLEWxBfNqD1QkilGzCQL+klQ2n6nhzMgLjS7kpjJM=;
-        b=mSuOI0ihGpBHOTZenqim2etKwDLPGIlTNzJLMqSWHwkC/l7nt0iK79vjANSGsz8QkP
-         tvzOMDJMm6VmlG40ukgqfCRVZdgxRDQyxF21Kioewm/5JtLZYwJGkQ6XU2MnCSrFalGb
-         U0AcivQt8btYTuP9hOhXWiN1LKKVvDpFnHaHGhCmth4/FOKJiCNMxkb8yIxyfO0OtH20
-         xDehv9e+9WGwqrRA+kU3swt2tK/jA3Gbr8wpx8leNvI/J0/qvQCmg1x7aDU6/KxauJRJ
-         Ck5i3QrzoJhe0Fu3ATiRiifNWFFf0voT7/nUsJCIuYgN8DPFcTdl/J1mmjaZMBX2kplr
-         1tyA==
-X-Gm-Message-State: APjAAAX80JQy/Cu/SS/qA04443Xh8TnvRlsIZI1OrYVJg0BrWd3HdMeU
-        KIBdOxVUVgHdJUgkGTKrifXDuw==
-X-Google-Smtp-Source: APXvYqzWsScMU1xLX4fTpri3lhL7mpabTPnY7iU6UbbEijI0fSi9fuMBHpf+qZeK5MxPv57X50roQA==
-X-Received: by 2002:a65:4486:: with SMTP id l6mr2326605pgq.1.1581672911556;
-        Fri, 14 Feb 2020 01:35:11 -0800 (PST)
-Received: from chromium.org ([2401:fa00:8f:203:f5fe:2a5e:f953:c0ed])
-        by smtp.gmail.com with ESMTPSA id w11sm6067926pgh.5.2020.02.14.01.35.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 01:35:10 -0800 (PST)
-Date:   Fri, 14 Feb 2020 18:35:06 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Xia Jiang <xia.jiang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        srv_heupstream@mediatek.com
-Subject: Re: [PATCH v6 1/5] media: platform: Fix jpeg dec driver bug and
- improve code quality
-Message-ID: <20200214093506.GA193786@chromium.org>
-References: <20200121095320.32258-1-xia.jiang@mediatek.com>
- <20200121095320.32258-2-xia.jiang@mediatek.com>
+        id S1729211AbgBNJqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 04:46:13 -0500
+Received: from mga14.intel.com ([192.55.52.115]:29315 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729206AbgBNJqM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Feb 2020 04:46:12 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Feb 2020 01:46:11 -0800
+X-IronPort-AV: E=Sophos;i="5.70,440,1574150400"; 
+   d="scan'208";a="347925547"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Feb 2020 01:46:09 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 3D0662088D; Fri, 14 Feb 2020 11:46:07 +0200 (EET)
+Date:   Fri, 14 Feb 2020 11:46:07 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org
+Subject: Re: [PATCH 3/4] media: staging: rkisp1: add serialization to the isp
+ subdev ops
+Message-ID: <20200214094607.GG22481@paasikivi.fi.intel.com>
+References: <20200207085951.5226-1-dafna.hirschfeld@collabora.com>
+ <20200207085951.5226-4-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200121095320.32258-2-xia.jiang@mediatek.com>
+In-Reply-To: <20200207085951.5226-4-dafna.hirschfeld@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xia,
+Hi Dafna,
 
-On Tue, Jan 21, 2020 at 05:53:17PM +0800, Xia Jiang wrote:
-> Fix v4l2-compliance test bug and improve code quality of jpeg decode
-> driver, because the jpeg encode driver will base on it.
+Thanks for the patchset.
+
+On Fri, Feb 07, 2020 at 09:59:50AM +0100, Dafna Hirschfeld wrote:
+> For subdevices drivers, the drivers themself are responsible
+> for serializing their operations.
+> This patch adds serialization to the isp subdevice.
 > 
-> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 > ---
-> v6: alignment 'MTK_JPEG_DCTSIZE' match open parenthesis.
->                                            
-> v5: Use clamp()to replace mtk_jpeg_bound_align_image() and round_up()
->     to replace mtk_jpeg_align().
->     Get correct compose value in mtk_jpeg_selection().
->     Cancel spin lock and unlock operation in device run function.
->     Change register offset hex numberals from upercase to lowercase.
+>  drivers/staging/media/rkisp1/rkisp1-common.h |  2 ++
+>  drivers/staging/media/rkisp1/rkisp1-isp.c    | 29 ++++++++++++++------
+>  2 files changed, 23 insertions(+), 8 deletions(-)
 > 
-> v4: new add patch for v4l2-compliance test bug fix.
-
-Thanks for the patch. The changes look good to me, but each of the
-unrelated changes should be split into its own patch, with proper
-explanation in its commit message. Especially the ones that introduce
-behavior changes, such as the S_SELECTION or locking change.
-
-Also please see one comment inline.
-
-[snip]
-
-> @@ -801,7 +778,6 @@ static void mtk_jpeg_device_run(void *priv)
->  	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
->  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
->  	enum vb2_buffer_state buf_state = VB2_BUF_STATE_ERROR;
-> -	unsigned long flags;
->  	struct mtk_jpeg_src_buf *jpeg_src_buf;
->  	struct mtk_jpeg_bs bs;
->  	struct mtk_jpeg_fb fb;
-> @@ -829,13 +805,11 @@ static void mtk_jpeg_device_run(void *priv)
->  	if (mtk_jpeg_set_dec_dst(ctx, &jpeg_src_buf->dec_param, &dst_buf->vb2_buf, &fb))
->  		goto dec_end;
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+> index 4e773d611d1b..7c668ac4bdd5 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+> @@ -96,6 +96,7 @@ struct rkisp1_sensor_async {
+>   * @sink_crop: crop for sink pad
+>   * @src_fmt: output format
+>   * @src_crop: output size
+> + * @ops_lock: ops serialization
+>   *
+>   * @is_dphy_errctrl_disabled : if dphy errctrl is disabled (avoid endless interrupt)
+>   * @frame_sequence: used to synchronize frame_id between video devices.
+> @@ -107,6 +108,7 @@ struct rkisp1_isp {
+>  	struct v4l2_subdev_pad_config pad_cfg[RKISP1_ISP_PAD_MAX];
+>  	const struct rkisp1_isp_mbus_info *sink_fmt;
+>  	const struct rkisp1_isp_mbus_info *src_fmt;
+> +	struct mutex ops_lock;
+>  	bool is_dphy_errctrl_disabled;
+>  	atomic_t frame_sequence;
+>  };
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> index c98e3c16f520..aa7a842f97f8 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> @@ -791,7 +791,9 @@ static int rkisp1_isp_get_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
 >  
-> -	spin_lock_irqsave(&jpeg->hw_lock, flags);
-
-Why is it safe to remove the locking here?
-
->  	mtk_jpeg_dec_reset(jpeg->dec_reg_base);
->  	mtk_jpeg_dec_set_config(jpeg->dec_reg_base,
->  				&jpeg_src_buf->dec_param, &bs, &fb);
+> +	mutex_lock(&isp->ops_lock);
+>  	fmt->format = *rkisp1_isp_get_pad_fmt(isp, cfg, fmt->pad, fmt->which);
+> +	mutex_unlock(&isp->ops_lock);
+>  	return 0;
+>  }
 >  
->  	mtk_jpeg_dec_start(jpeg->dec_reg_base);
-> -	spin_unlock_irqrestore(&jpeg->hw_lock, flags);
->  	return;
+> @@ -801,6 +803,7 @@ static int rkisp1_isp_set_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
 >  
->  dec_end:
+> +	mutex_lock(&isp->ops_lock);
+>  	if (fmt->pad == RKISP1_ISP_PAD_SINK_VIDEO)
+>  		rkisp1_isp_set_sink_fmt(isp, cfg, &fmt->format, fmt->which);
+>  	else if (fmt->pad == RKISP1_ISP_PAD_SOURCE_VIDEO)
+> @@ -809,6 +812,7 @@ static int rkisp1_isp_set_fmt(struct v4l2_subdev *sd,
+>  		fmt->format = *rkisp1_isp_get_pad_fmt(isp, cfg, fmt->pad,
+>  						      fmt->which);
+>  
+> +	mutex_unlock(&isp->ops_lock);
+>  	return 0;
+>  }
+>  
+> @@ -817,11 +821,13 @@ static int rkisp1_isp_get_selection(struct v4l2_subdev *sd,
+>  				    struct v4l2_subdev_selection *sel)
+>  {
+>  	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
+> +	int ret = 0;
+>  
+>  	if (sel->pad != RKISP1_ISP_PAD_SOURCE_VIDEO &&
+>  	    sel->pad != RKISP1_ISP_PAD_SINK_VIDEO)
+>  		return -EINVAL;
+>  
+> +	mutex_lock(&isp->ops_lock);
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  		if (sel->pad == RKISP1_ISP_PAD_SINK_VIDEO) {
+> @@ -844,10 +850,10 @@ static int rkisp1_isp_get_selection(struct v4l2_subdev *sd,
+>  						  sel->which);
+>  		break;
+>  	default:
+> -		return -EINVAL;
+> +		ret = -EINVAL;
+>  	}
+> -
+> -	return 0;
+> +	mutex_unlock(&isp->ops_lock);
+> +	return ret;
+>  }
+>  
+>  static int rkisp1_isp_set_selection(struct v4l2_subdev *sd,
+> @@ -857,21 +863,23 @@ static int rkisp1_isp_set_selection(struct v4l2_subdev *sd,
+>  	struct rkisp1_device *rkisp1 =
+>  		container_of(sd->v4l2_dev, struct rkisp1_device, v4l2_dev);
+>  	struct rkisp1_isp *isp = container_of(sd, struct rkisp1_isp, sd);
+> +	int ret = 0;
+>  
+>  	if (sel->target != V4L2_SEL_TGT_CROP)
+>  		return -EINVAL;
+>  
+>  	dev_dbg(rkisp1->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
+>  		sel->pad, sel->r.left, sel->r.top, sel->r.width, sel->r.height);
+> -
+> +	mutex_lock(&isp->ops_lock);
+>  	if (sel->pad == RKISP1_ISP_PAD_SINK_VIDEO)
+>  		rkisp1_isp_set_sink_crop(isp, cfg, &sel->r, sel->which);
+>  	else if (sel->pad == RKISP1_ISP_PAD_SOURCE_VIDEO)
+>  		rkisp1_isp_set_src_crop(isp, cfg, &sel->r, sel->which);
+>  	else
+> -		return -EINVAL;
+> +		ret = -EINVAL;
+>  
+> -	return 0;
+> +	mutex_unlock(&isp->ops_lock);
+> +	return ret;
+>  }
+>  
+>  static int rkisp1_subdev_link_validate(struct media_link *link)
+> @@ -948,6 +956,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct rkisp1_device *rkisp1 =
+>  		container_of(sd->v4l2_dev, struct rkisp1_device, v4l2_dev);
+> +	struct rkisp1_isp *isp = &rkisp1->isp;
+>  	struct v4l2_subdev *sensor_sd;
+>  	int ret = 0;
+>  
+> @@ -967,16 +976,19 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+>  		return -EINVAL;
+>  
+>  	atomic_set(&rkisp1->isp.frame_sequence, -1);
+> +	mutex_lock(&isp->ops_lock);
+>  	ret = rkisp1_config_cif(rkisp1);
+>  	if (ret)
+> -		return ret;
+> +		goto mutex_unlock;
+>  
+>  	ret = rkisp1_mipi_csi2_start(&rkisp1->isp, rkisp1->active_sensor);
+>  	if (ret)
+> -		return ret;
+> +		goto mutex_unlock;
+>  
+>  	rkisp1_isp_start(rkisp1);
+>  
+> +mutex_unlock:
+> +	mutex_unlock(&isp->ops_lock);
+>  	return ret;
+>  }
+>  
+> @@ -1036,6 +1048,7 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+>  	isp->sink_fmt = rkisp1_isp_mbus_info_get(RKISP1_DEF_SINK_PAD_FMT);
+>  	isp->src_fmt = rkisp1_isp_mbus_info_get(RKISP1_DEF_SRC_PAD_FMT);
+>  
+> +	mutex_init(&isp->ops_lock);
+>  	ret = media_entity_pads_init(&sd->entity, RKISP1_ISP_PAD_MAX, pads);
+>  	if (ret)
+>  		return ret;
 
-Best regards,
-Tomasz
+Could you add mutex_destroy() on the mutex in rkisp1_isp_unregister(),
+please? Similar comment on the 4th patch. This could be a follow-up patch,
+too.
 
+For the set,
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+Kind regards,
+
+Sakari Ailus
