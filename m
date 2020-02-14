@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C05915EF14
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 18:45:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C20A415EF0B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 18:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389414AbgBNRpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 12:45:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49278 "EHLO mail.kernel.org"
+        id S2389546AbgBNRpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 12:45:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49354 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389431AbgBNQCl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:02:41 -0500
+        id S2389442AbgBNQCp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:02:45 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2095524685;
-        Fri, 14 Feb 2020 16:02:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E5E4E217F4;
+        Fri, 14 Feb 2020 16:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696161;
-        bh=uTLnBEJERTGry/cuDv6VzwuoL0a2YHXZt5HbDHNk0wA=;
+        s=default; t=1581696164;
+        bh=5bJSGcisAMQ6ge9lH5Vmo9G0UmVONpbBRcpK/946w5k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fes3Tk3NJlNz8kIVIt8siUkdJl/8u9TZFKVbWLjilW3JS24lj5/2R3eI4MRPwqqgQ
-         Gc6RHyvW1KOaMA/PDaxV6lbaq/r/9VCc18JpBJu7WeeuI8VgZ5wpHkVO5uQab3r8Kh
-         /9HM6ZabFfurOu0YBm0aeam6DKDuVs3TklFhxpkQ=
+        b=uqTRatt8/q8Pke2EGVaMAWO3EXTNbfCuB8+aAiFdZa/IT8b5v7H/i/z8S+G5wIMOG
+         L8/hiWRlT1mocMkRERNIPL4UZgCnVll0LeTG/cOjoAztD7TNesDQVLeEyXzbmVqwSO
+         gKBO8W2dC5GTgwFxrT6nqux9nZ5+8Fl7MVY5oW0I=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
@@ -30,9 +30,9 @@ Cc:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 038/459] media: sun4i-csi: Fix data sampling polarity handling
-Date:   Fri, 14 Feb 2020 10:54:48 -0500
-Message-Id: <20200214160149.11681-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 040/459] media: sun4i-csi: Fix [HV]sync polarity handling
+Date:   Fri, 14 Feb 2020 10:54:50 -0500
+Message-Id: <20200214160149.11681-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
 References: <20200214160149.11681-1-sashal@kernel.org>
@@ -47,16 +47,19 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-[ Upstream commit cf9e6d5dbdd56ef2aa72f28c806711c4293c8848 ]
+[ Upstream commit 1948dcf0f928b8bcdca57ca3fba8545ba380fc29 ]
 
-The CLK_POL field specifies whether data is sampled on the falling or
-rising edge of PCLK, not whether the data lines are active high or low.
-Evidence of this can be found in the timing diagram labeled "horizontal
-size setting and pixel clock timing".
+The Allwinner camera sensor interface has a different definition of
+[HV]sync. While the timing diagram uses the names HSYNC and VSYNC,
+the note following the diagram and register names use HREF and VREF.
+Combined they imply the hardware uses either [HV]REF or inverted
+[HV]SYNC. There are also registers to set horizontal skip lengths
+in pixels and vertical skip lengths in lines, also known as back
+porches.
 
-Fix the setting by checking the correct flag, V4L2_MBUS_PCLK_SAMPLE_RISING.
-While at it, reorder the three polarity flag checks so HSYNC and VSYNC
-are grouped together.
+Fix the polarity handling by using the opposite polarity flag for
+the checks. Also rename `[hv]sync_pol` to `[hv]ref_pol` to better
+match the hardware register description.
 
 Fixes: 577bbf23b758 ("media: sunxi: Add A10 CSI driver")
 Signed-off-by: Chen-Yu Tsai <wens@csie.org>
@@ -65,23 +68,64 @@ Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../media/platform/sunxi/sun4i-csi/sun4i_csi.h |  4 ++--
+ .../media/platform/sunxi/sun4i-csi/sun4i_dma.c | 18 +++++++++++++-----
+ 2 files changed, 15 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+index 001c8bde006ce..88d39b3554c4b 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+@@ -22,8 +22,8 @@
+ #define CSI_CFG_INPUT_FMT(fmt)			((fmt) << 20)
+ #define CSI_CFG_OUTPUT_FMT(fmt)			((fmt) << 16)
+ #define CSI_CFG_YUV_DATA_SEQ(seq)		((seq) << 8)
+-#define CSI_CFG_VSYNC_POL(pol)			((pol) << 2)
+-#define CSI_CFG_HSYNC_POL(pol)			((pol) << 1)
++#define CSI_CFG_VREF_POL(pol)			((pol) << 2)
++#define CSI_CFG_HREF_POL(pol)			((pol) << 1)
+ #define CSI_CFG_PCLK_POL(pol)			((pol) << 0)
+ 
+ #define CSI_CPT_CTRL_REG		0x08
 diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-index d6979e11a67b2..8b567d0f019bf 100644
+index 8b567d0f019bf..78fa1c535ac64 100644
 --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
 +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-@@ -279,8 +279,8 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+@@ -228,7 +228,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	struct sun4i_csi *csi = vb2_get_drv_priv(vq);
+ 	struct v4l2_fwnode_bus_parallel *bus = &csi->bus;
+ 	const struct sun4i_csi_format *csi_fmt;
+-	unsigned long hsync_pol, pclk_pol, vsync_pol;
++	unsigned long href_pol, pclk_pol, vref_pol;
+ 	unsigned long flags;
+ 	unsigned int i;
+ 	int ret;
+@@ -278,13 +278,21 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	writel(CSI_WIN_CTRL_H_ACTIVE(csi->fmt.height),
  	       csi->regs + CSI_WIN_CTRL_H_REG);
  
- 	hsync_pol = !!(bus->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH);
--	pclk_pol = !!(bus->flags & V4L2_MBUS_DATA_ACTIVE_HIGH);
- 	vsync_pol = !!(bus->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH);
-+	pclk_pol = !!(bus->flags & V4L2_MBUS_PCLK_SAMPLE_RISING);
+-	hsync_pol = !!(bus->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH);
+-	vsync_pol = !!(bus->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH);
++	/*
++	 * This hardware uses [HV]REF instead of [HV]SYNC. Based on the
++	 * provided timing diagrams in the manual, positive polarity
++	 * equals active high [HV]REF.
++	 *
++	 * When the back porch is 0, [HV]REF is more or less equivalent
++	 * to [HV]SYNC inverted.
++	 */
++	href_pol = !!(bus->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW);
++	vref_pol = !!(bus->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW);
+ 	pclk_pol = !!(bus->flags & V4L2_MBUS_PCLK_SAMPLE_RISING);
  	writel(CSI_CFG_INPUT_FMT(csi_fmt->input) |
  	       CSI_CFG_OUTPUT_FMT(csi_fmt->output) |
- 	       CSI_CFG_VSYNC_POL(vsync_pol) |
+-	       CSI_CFG_VSYNC_POL(vsync_pol) |
+-	       CSI_CFG_HSYNC_POL(hsync_pol) |
++	       CSI_CFG_VREF_POL(vref_pol) |
++	       CSI_CFG_HREF_POL(href_pol) |
+ 	       CSI_CFG_PCLK_POL(pclk_pol),
+ 	       csi->regs + CSI_CFG_REG);
+ 
 -- 
 2.20.1
 
