@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C98915D432
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 09:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A327B15D435
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 09:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729017AbgBNI6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 03:58:14 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:35183 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726769AbgBNI6O (ORCPT
+        id S1729028AbgBNI6S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 03:58:18 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43162 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726769AbgBNI6S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 03:58:14 -0500
-Received: by mail-wr1-f68.google.com with SMTP id w12so9972164wrt.2;
-        Fri, 14 Feb 2020 00:58:13 -0800 (PST)
+        Fri, 14 Feb 2020 03:58:18 -0500
+Received: by mail-wr1-f66.google.com with SMTP id r11so9933589wrq.10;
+        Fri, 14 Feb 2020 00:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Irc90DN0i25mcUWnLAY9jN+3gV3ff2V6EdTyREmtBhE=;
-        b=MhpUMtp2apgY8D8kmzQUyar86n+3R9c9/kRmQDn3d0qgrykpbmz0su5D/DkMPPYOf5
-         fQ4dYJ6eb1+0zv7soSO8uK1W5jW3PMrM8YqDT3j/hxZEdc+48Fa706AjpEAqQYpHk00I
-         IIQ1RPK34q5OAIGa6Q0DLneHjD+3MDAsZpJGNp35CdUZh4/I4Erk7j31lWYkAqldxyOu
-         nAeNR8F5gdu3Pgjf0xTkgdxhVnoBdPrfflET7Zf659LQt/SvnwxG4mlSydozeNxHR8w7
-         62jWOrod9gOq/82kEJ7hRL1LkMUJcZ8vdmpNZmwZIa3OMeLTMsIK2rRoxOehN1rzWX06
-         Y7wA==
+        bh=yQ0C2cfvwwMn2o7yU/lEkQ7YMEf3i0RTZvnkKI64a6k=;
+        b=QNSNL+rLNykFchgRV/DrFjK9t/JCB785ApX8p4Y/EGA9ZdzyAG43eEMjRRUbl8CjS0
+         6ko18LXph/gvjvCTB7rK68zOVC90F0ImDfg0IPYczHY9uK8ziaMk5HbQUpLRCqZXaUDi
+         +LFi3gX5GFlmNT2izBO8sv38IKIP7SC1miwxTx/cTsnxi6mZ+Ie587QvaNiVqNHz6TyF
+         8WW62dCS1Y06F6duOLIH8kriXsgF7ISpEvkHSBDtGQQfTGggDbq5f8/iFhg9W91Rq1iI
+         a2C/W4rLyzGPCCB/K7LWyiXfyKkdXVqEztozeU3Qai/wTub03/szHq5rwykoVrfuJrq4
+         7Cbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Irc90DN0i25mcUWnLAY9jN+3gV3ff2V6EdTyREmtBhE=;
-        b=MP6OXNVFyjMWOM3FP3Yn4XtemBAPp6ze9PdkjIC2ZaI6gbZPeKFjjro0UB2oy4coyr
-         3Uu/8bZjJ/hVtMWui+5sG2GaAOaRXzforSpE250YDRE3CeQe87ugZsUHuxCKvQZKpjbi
-         qK7PiBaZjfChYp4ZGoN+ngrjkc0unmrmQ/gy4iG3bkMFl4rPlpimDzV5W7NfCFJPYVfV
-         L7RBsQL90CypE5Zj+J6rtZ+kJHBmdjGJWIR42fp7jaBo493E2DDT4XRCjQdm9bf6Gyx1
-         7AAlB62uZJByt7hyZlxEkA3IFiUt1X/oTuZ6qhbgGH6RUVVD21QXfBZYBJh3nlSkll9N
-         jz0Q==
-X-Gm-Message-State: APjAAAUcYwS7IwsADTsOnVPflwaXaX5BSjx4ifW9h6v8ekBAPbZXyaiF
-        uL2/3XNaOJCV7doyM5lyQrj29h/K
-X-Google-Smtp-Source: APXvYqxCKt3cCV/56HGkS2Sfu0F9XYisTXgYw9P466q6HqRPWnVlZJZH976Oc0JLl6CqaWPZWyz3Ng==
-X-Received: by 2002:adf:9427:: with SMTP id 36mr2978504wrq.166.1581670692639;
-        Fri, 14 Feb 2020 00:58:12 -0800 (PST)
+        bh=yQ0C2cfvwwMn2o7yU/lEkQ7YMEf3i0RTZvnkKI64a6k=;
+        b=k1PYY/ioONlByio/Ql721zxN9pmGeWdEpk2UCixNMp2lNCQt7Jj8V+imS3H5YSapmE
+         +R/6fRA/ytvhP2DT9vJUm73w6IwcOB1UGLkmPYhWzRs1XkH5s8GHfxt3Cyf29ciAdTie
+         z+jizBlSaZDeZQeMKvuDYsbK6iCQ7btuse390neN/p7zSxbnhYlG4YYdkb7KzYUZtAbX
+         1X6QbzA9qEOil7yoJfJYhLBzvsze3hz5Gjas9bBOiJ5QTHA9gntaXO90fFWlyNiU/VBH
+         JnO1zqbk+/V3q3Py9kNSX6U2sG1bcMzuVCR6RIsOOfisS3OaXqK7W3oIwcX/qwGZzA8F
+         EjGg==
+X-Gm-Message-State: APjAAAXXS9Yewmh2lGGnOHn+BYoG+n9/ys5Xn8LTL+QENFnT6YCLKB0P
+        bZ5xktQjpfpr/gFd72N1cKQzTnIC
+X-Google-Smtp-Source: APXvYqwcae7yq515E6DyyuqdQxOHKOJomhuVpxmU5znQpy5j/SDuy3fPMOh9j/xQoLAGJpdL5fteOg==
+X-Received: by 2002:adf:ed0c:: with SMTP id a12mr2854532wro.368.1581670695393;
+        Fri, 14 Feb 2020 00:58:15 -0800 (PST)
 Received: from localhost ([37.237.208.38])
-        by smtp.gmail.com with ESMTPSA id n8sm6004306wrx.42.2020.02.14.00.58.11
+        by smtp.gmail.com with ESMTPSA id x6sm6211708wrr.6.2020.02.14.00.58.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2020 00:58:12 -0800 (PST)
+        Fri, 14 Feb 2020 00:58:14 -0800 (PST)
 From:   Mohammad Rasim <mohammad.rasim96@gmail.com>
 To:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -52,9 +52,9 @@ To:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
         Kevin Hilman <khilman@baylibre.com>,
         linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org
 Cc:     Mohammad Rasim <mohammad.rasim96@gmail.com>
-Subject: [PATCH v5 2/3] dt-bindings: media: add new kii pro key map
-Date:   Fri, 14 Feb 2020 11:58:01 +0300
-Message-Id: <20200214085802.28742-3-mohammad.rasim96@gmail.com>
+Subject: [PATCH v5 3/3] arm64: dts: amlogic: add rc-videostrong-kii-pro keymap
+Date:   Fri, 14 Feb 2020 11:58:02 +0300
+Message-Id: <20200214085802.28742-4-mohammad.rasim96@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200214085802.28742-1-mohammad.rasim96@gmail.com>
 References: <20200214085802.28742-1-mohammad.rasim96@gmail.com>
@@ -65,25 +65,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add new entry for rc-videostrong-kii-pro in linux,rc-map-name
+videostrong kii pro comes with a nec rc, add the keymap to the dts
 
 Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
 ---
- Documentation/devicetree/bindings/media/rc.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
-index a64ee038d235..b27c9385d490 100644
---- a/Documentation/devicetree/bindings/media/rc.yaml
-+++ b/Documentation/devicetree/bindings/media/rc.yaml
-@@ -143,6 +143,7 @@ properties:
-           - rc-videomate-k100
-           - rc-videomate-s350
-           - rc-videomate-tv-pvr
-+          - rc-videostrong-kii-pro
-           - rc-wetek-hub
-           - rc-wetek-play2
-           - rc-winfast
+diff --git a/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts b/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
+index 2f1f829450a2..6c9cc45fb417 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
++++ b/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
+@@ -76,3 +76,7 @@ eth_phy0: ethernet-phy@0 {
+ 		};
+ 	};
+ };
++
++&ir {
++	linux,rc-map-name = "rc-videostrong-kii-pro";
++};
 --
 2.25.0
 
