@@ -2,124 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA24A15DFAE
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 17:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA51D15DF3D
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 17:08:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391383AbgBNQKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 11:10:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35122 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391302AbgBNQKA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:10:00 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 051C622314;
-        Fri, 14 Feb 2020 16:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696598;
-        bh=A5M/b60pryRVMCK7wWtj9FXnrBwc8azvr0jEhFC4aWQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XSef138qM1m5BY2cR+WB1YnsuxvGtrL3Q1fSUP75BrKR9P7aF+EWY4oXFEgFraV3v
-         anOhANTZALuAWWy6F7h9uyEnv8LaFJruSs6eey5uSM+3YzUcuzwAaLTczlaQWFFr6f
-         Tvx7V2BmvK74IjlrZ+OCBVFLHc5MnBB03O+DXI64=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sergey Zakharchenko <szakharchenko@digital-loggers.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 384/459] media: uvcvideo: Add a quirk to force GEO GC6500 Camera bits-per-pixel value
-Date:   Fri, 14 Feb 2020 11:00:34 -0500
-Message-Id: <20200214160149.11681-384-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
-References: <20200214160149.11681-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S2390722AbgBNQHh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 11:07:37 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45812 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390525AbgBNQHg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:07:36 -0500
+Received: by mail-lf1-f68.google.com with SMTP id 203so7072489lfa.12
+        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2020 08:07:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id;
+        bh=WOKcX6YJJZxmit7/otIxYfzDBZZjPsXZg0sRdK2W12I=;
+        b=OQ9++fz2ZWaM8st6qT1v8H1nNvNvoIQecprAXwgQEn62ZfpJBtbytziib+X2YJpzwi
+         0XApw+hq1GwtbadWZ3JPH3pstGkxZe3wSKuZC5LOKfkJ7JqlmTaXAFqpVWxVaXFW30tG
+         qx0kPzDJsRkjGJtWzFtGXeb3ItRK7Br2yctgVJEo/aeE8Bwmd61Go0Wz4NIkok7W7R9b
+         b4wxannccGr5UxU35HeOq7ttGrPr1f6BMHwxTl7T0QBtj0maaeulrtWes8ORatPOAUt7
+         rP2tAZKpZ1//OQYWDA9lW1HlZfOUz5ht/Mcdd4iNF7zjI5p3Cl9HdYBYbtn5tzxPfL9w
+         BMjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=WOKcX6YJJZxmit7/otIxYfzDBZZjPsXZg0sRdK2W12I=;
+        b=HqlEpBN906nhBA7LQw4KnfjbxESaOrsrMjHcTlAHlMM01kSDashaiPe6i+VzCEz2XS
+         a8ypfNBlHx5U3HDy16qfahurgHL1yhNUbYvvlvP47iDPizBe5BB49otqkKZ5EAdCUn+f
+         4SgMD6SI7ScRw3d8gFWTs54hPJ8W3gYIRZIDMgdD/RT671DqtEQBSn9+cslYwY7SosdH
+         AW6Kb3XEy8T3xVEUXdy0RYUEe7W+Y50wJ+sCIwgj6byin9p42Hv+t0q2Je00zoKTuU6s
+         NK2wA8kXXsBIiYWJ/MN5FuUgcWlBMbTlJathVTgOiQtDOlh9K+a42G0m+V3R9Tm107PZ
+         LjRg==
+X-Gm-Message-State: APjAAAUCLr+0ghVvF1ZgNHL5/9GyDdzlQsiDJP3am+ATX4RKyjzpfAO2
+        mlz8YRYWBldsqoNu2bN4ZEK3YTNEvuU=
+X-Google-Smtp-Source: APXvYqxUZ6X2TwSWYzy1HoI0blVA/Md+MKC+2A62WOxH1LyYyTK0UW5aNPe80LCk4AWCO+5OUB5Reg==
+X-Received: by 2002:ac2:54b5:: with SMTP id w21mr2031003lfk.175.1581696453938;
+        Fri, 14 Feb 2020 08:07:33 -0800 (PST)
+Received: from localhost.localdomain ([94.155.124.210])
+        by smtp.gmail.com with ESMTPSA id h14sm3162077lfc.2.2020.02.14.08.07.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2020 08:07:33 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for v5.7] Venus updates
+Date:   Fri, 14 Feb 2020 18:07:06 +0200
+Message-Id: <20200214160706.2467-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sergey Zakharchenko <szakharchenko@digital-loggers.com>
+Hi Mauro,
 
-[ Upstream commit 1dd2e8f942574e2be18374ebb81751082d8d467c ]
+The Venus driver updates include:
 
-This device does not function correctly in raw mode in kernel
-versions validating buffer sizes in bulk mode. It erroneously
-announces 16 bits per pixel instead of 12 for NV12 format, so it
-needs this quirk to fix computed frame size and avoid legitimate
-frames getting discarded.
+ - re-design pm-domain and clocks handling
+ - added core assingment for Venus IPs with more than one vcodec pipeline
+ - dt-binding convertion to yaml DT schema
+ - added support for sc7180 SoC
+ - added decoder handling of 10bit bitstreams
+ - a fix for kernel Oops
+ - few other fixes 
 
-[Move info and div variables to local scope]
+Please pull.
 
-Signed-off-by: Sergey Zakharchenko <szakharchenko@digital-loggers.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/usb/uvc/uvc_driver.c | 25 +++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 2 files changed, 26 insertions(+)
+Note that for few of the patches checkpatch produces a known warning [1]
+even after I made relevant changes in MAINTAINERS file.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 2b688cc39bb81..99883550375e9 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -497,6 +497,22 @@ static int uvc_parse_format(struct uvc_device *dev,
- 			}
- 		}
- 
-+		/* Some devices report bpp that doesn't match the format. */
-+		if (dev->quirks & UVC_QUIRK_FORCE_BPP) {
-+			const struct v4l2_format_info *info =
-+				v4l2_format_info(format->fcc);
-+
-+			if (info) {
-+				unsigned int div = info->hdiv * info->vdiv;
-+
-+				n = info->bpp[0] * div;
-+				for (i = 1; i < info->comp_planes; i++)
-+					n += info->bpp[i];
-+
-+				format->bpp = DIV_ROUND_UP(8 * n, div);
-+			}
-+		}
-+
- 		if (buffer[2] == UVC_VS_FORMAT_UNCOMPRESSED) {
- 			ftype = UVC_VS_FRAME_UNCOMPRESSED;
- 		} else {
-@@ -2874,6 +2890,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= (kernel_ulong_t)&uvc_quirk_force_y8 },
-+	/* GEO Semiconductor GC6500 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x29fe,
-+	  .idProduct		= 0x4d53,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
- 	/* Intel RealSense D4M */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index c7c1baa90dea8..24e3d8c647e77 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -198,6 +198,7 @@
- #define UVC_QUIRK_RESTRICT_FRAME_RATE	0x00000200
- #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
- #define UVC_QUIRK_FORCE_Y8		0x00000800
-+#define UVC_QUIRK_FORCE_BPP		0x00001000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
--- 
-2.20.1
+regards,
+Stan
 
+[1] "WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?"
+
+The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
+
+  Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.7
+
+for you to fetch changes up to 884d87010969038741623b5da28e9d96ba763b59:
+
+  dt-bindings: media: venus: Add sc7180 DT schema (2020-02-14 17:33:35 +0200)
+
+----------------------------------------------------------------
+Venus updates for v5.7
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      media: venus: firmware: Use %pR to print IO resource
+
+Aniket Masule (2):
+      media: venus: introduce core selection
+      media: venus: vdec: handle 10bit bitstreams
+
+Dikshita Agarwal (2):
+      venus: core: add sc7180 DT compatible and resource struct
+      dt-bindings: media: venus: Add sc7180 DT schema
+
+Stanimir Varbanov (10):
+      MAINTAINERS: Add dt-binding files for Venus
+      venus: venc: blacklist two encoder properties
+      venus: cache vb payload to be used by clock scaling
+      venus: redesign clocks and pm domains control
+      dt-bindings: media: venus: Convert msm8916 to DT schema
+      dt-bindings: media: venus: Convert msm8996 to DT schema
+      dt-bindings: media: venus: Convert sdm845 to DT schema
+      dt-bindings: media: venus: Add sdm845v2 DT schema
+      venus: core: add sdm845-v2 DT compatible and resource struct
+      dt-bindings: media: venus: delete old binding document
+
+Stephan Gerhold (1):
+      media: venus: hfi_parser: Ignore HEVC encoding for V1
+
+ .../bindings/media/qcom,msm8916-venus.yaml         | 119 +++
+ .../bindings/media/qcom,msm8996-venus.yaml         | 172 ++++
+ .../bindings/media/qcom,sc7180-venus.yaml          | 140 +++
+ .../bindings/media/qcom,sdm845-venus-v2.yaml       | 140 +++
+ .../bindings/media/qcom,sdm845-venus.yaml          | 156 ++++
+ .../devicetree/bindings/media/qcom,venus.txt       | 120 ---
+ MAINTAINERS                                        |   1 +
+ drivers/media/platform/qcom/venus/Makefile         |   2 +-
+ drivers/media/platform/qcom/venus/core.c           | 167 ++--
+ drivers/media/platform/qcom/venus/core.h           |  32 +-
+ drivers/media/platform/qcom/venus/firmware.c       |   3 +-
+ drivers/media/platform/qcom/venus/helpers.c        | 448 +++-------
+ drivers/media/platform/qcom/venus/helpers.h        |   4 -
+ drivers/media/platform/qcom/venus/hfi_cmds.c       |   2 +
+ drivers/media/platform/qcom/venus/hfi_helper.h     |   6 +
+ drivers/media/platform/qcom/venus/hfi_parser.c     |   1 +
+ drivers/media/platform/qcom/venus/hfi_parser.h     |   5 +
+ drivers/media/platform/qcom/venus/pm_helpers.c     | 959 +++++++++++++++++++++
+ drivers/media/platform/qcom/venus/pm_helpers.h     |  65 ++
+ drivers/media/platform/qcom/venus/vdec.c           |  84 +-
+ drivers/media/platform/qcom/venus/venc.c           |  75 +-
+ 21 files changed, 2066 insertions(+), 635 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,msm8996-venus.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm845-venus.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/qcom,venus.txt
+ create mode 100644 drivers/media/platform/qcom/venus/pm_helpers.c
+ create mode 100644 drivers/media/platform/qcom/venus/pm_helpers.h
