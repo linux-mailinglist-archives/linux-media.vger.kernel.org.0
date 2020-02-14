@@ -2,154 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C025815D3F7
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 09:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3CD15D413
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2020 09:50:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728239AbgBNIl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Feb 2020 03:41:58 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46415 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbgBNIl6 (ORCPT
+        id S1728972AbgBNIue (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Feb 2020 03:50:34 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34042 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728513AbgBNIue (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Feb 2020 03:41:58 -0500
-Received: by mail-wr1-f66.google.com with SMTP id z7so9895989wrl.13
-        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2020 00:41:56 -0800 (PST)
+        Fri, 14 Feb 2020 03:50:34 -0500
+Received: by mail-wr1-f68.google.com with SMTP id n10so8002196wrm.1
+        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2020 00:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:autocrypt:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kGCaTXisl6oIC9ucGEN6Umt7q37HxFAdonkylaXISjY=;
-        b=UFsQ+XBN5z00EsFVfL3ND5wDXSjOl3sXoL1qGaKVbKfL0eRfBYK+18AlQL/djplbmq
-         g8r3U487iGl+U/GsUfYxv/b6LfRY3bp4ezRsO0XU7NT7S/l4zvP4EHEhoQkT8X40LFpW
-         KrkbFgdOx1uNQyHhfqpAU7l1Q/YyTgKzG6SiwGlRg/Gqo5/PHV/NExlYguxyvKP/q2uC
-         BuhgFHlRg7LHwnAlvszSR1gJUg0x4e2UQRu9kLsM7cnyhmT/vjlQSnpYTDR1m0XOPrnK
-         OBWjx6w4yzmlmSJryrepec9sZYGbr2U8wa2VZDbNSOkl3qF56/KZayefXkMP9CPT6BpK
-         Z17w==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=A6xeUrXm1OhLGAgimATAzYN20NBFKdzun4Zz1nb3AkM=;
+        b=e6/b5raPmsYmH+sG4k9oyvszzsCKHKz+9hiecTQBbw9pKZqKmvGi9jkkFFkrPnJ/aV
+         m6o7NwHNdgzR9pivkXwkpov95hTtUd2w0YfgMJzJYcBLZlHgHzPB7yg2iIOlMVZWxh7D
+         RxA6GfOa2EUstJUWllnBM83ETS3mKFv367lM3ReUyFX5UIl0SbrEnlMgiOrkMY7Ja2FH
+         wJJZQTn+Fb2HO2x4i2XUUqt1UsFUx3KxV0IjXrnWSePggJ//EgCXQIS85d6UcnLVDq0C
+         C34P31snpNGzv5iJqcwretU9vUOC11jvQWpgqPHrHyTtNZfR/Rsa1BacJ2uIeS21WS5J
+         hwxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=kGCaTXisl6oIC9ucGEN6Umt7q37HxFAdonkylaXISjY=;
-        b=VmfS/8sLCZ5LwsrIQpp4Zy/FkAv4bLS9RcxPtaAA+w84GNh+zfXDuJYANeuDTSH0aD
-         Ni34MB4dTVBYPoE7EFagsS/Esy2FCAEDabf9PXmUAaGs5EElmVx0b+E5KIevejBynPCO
-         3dpo5YAjdxLdZGE9W/2lliY5hbDit9hkbNqw7xleiHgQpoOVeEjc2yixzIE1hSNQ+Owq
-         ULxESXRBX4f585FCpuc+EohIF0UDU9MmxsoBo5GQUfqOfpNTZ+o+ITgZBuC+gIh98tWb
-         brDHqNu6mrjRdMWUfsgQuNGZbpa32Jme9NNOMU7Ac4KJg/jgWX00ySU7i1SMlbRp1pfQ
-         Vrlw==
-X-Gm-Message-State: APjAAAWdLdb19AIaBNnqNfX7CxCUYAdvIBLIkWNsjfP8kg7clw6bOidh
-        lIGt+677WYDHv3I0YNvyKpr3OpFpjgUYfw==
-X-Google-Smtp-Source: APXvYqzfWR28t6bJ3yIk4pVNbm3YvPXruiF4Zzaag7mfkegt0G6+DeKl1bBaXfCTSJCbnVtQzoCa1A==
-X-Received: by 2002:adf:ea8a:: with SMTP id s10mr2639352wrm.278.1581669715552;
-        Fri, 14 Feb 2020 00:41:55 -0800 (PST)
-Received: from [10.1.3.173] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id o77sm6784627wme.34.2020.02.14.00.41.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Feb 2020 00:41:55 -0800 (PST)
-Subject: Re: [PATCH v4 2/2] arm64: dts: amlogic: add rc-videostrong-kii-pro
- keymap
-To:     Mohammad Rasim <mohammad.rasim96@gmail.com>,
-        linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A6xeUrXm1OhLGAgimATAzYN20NBFKdzun4Zz1nb3AkM=;
+        b=rUSgAlCXsoP2w3le4OtJIDhYEurPBqSP/DkKHSeOpjSHPn477T6b3oXEY3reaJyq1s
+         0YXbXnS6Ml8LIwGW+nprRevBDlGew/+ZVAQAy3kbJXWht3VDhmY6H0fLfgDWIxDkSojm
+         lX+PUv/hUuq6mImNRjltNgTvJU5V4/GixS09wR6FIMFz0pYEOwT1ISnHpg9ztHYYRzdu
+         uAJ/3Z/xtmvynRuyv+9ynsyYdn2GxLjTHeV33oEQMfbYoWhg1hXjoq9BAQEDrODeHlgn
+         HTyT5Qbu88JMuUh7nUsiOI6+U3At5Ftl9DeSPxvTjjF//xpOw+AWS0ihvVUVS323Mj57
+         ORFg==
+X-Gm-Message-State: APjAAAUtRYHFSSZdVee6ftHBH/ogHK1+RRcNrcQrroNSu+rfCW2uzgPQ
+        Bty71530Nweqybs23fwsVJ0=
+X-Google-Smtp-Source: APXvYqwB7/onwRR6DIWk95Is8nV6QKrlHOLlqIlen7jDqY6K2jYwsnRQwJBjF7iHzjA2mU41QUq1wQ==
+X-Received: by 2002:a5d:514b:: with SMTP id u11mr2788105wrt.322.1581670232346;
+        Fri, 14 Feb 2020 00:50:32 -0800 (PST)
+Received: from localhost ([37.237.208.38])
+        by smtp.gmail.com with ESMTPSA id y8sm6171659wma.10.2020.02.14.00.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2020 00:50:31 -0800 (PST)
+Date:   Fri, 14 Feb 2020 11:50:29 +0300
+From:   Mohammad Rasim <mohammad.rasim96@gmail.com>
+To:     Neil Armstrong <narmstrong@baylibre.com>
+Cc:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Kevin Hilman <khilman@baylibre.com>,
         linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v4 2/2] arm64: dts: amlogic: add rc-videostrong-kii-pro
+ keymap
+Message-ID: <20200214085029.3rlokzmrlzl5ob7t@manjaro.localdomain>
 References: <20200213221513.28540-1-mohammad.rasim96@gmail.com>
  <20200213221513.28540-3-mohammad.rasim96@gmail.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <ef0ce8b1-d229-8877-d039-ec2ff5b0a541@baylibre.com>
-Date:   Fri, 14 Feb 2020 09:41:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <ef0ce8b1-d229-8877-d039-ec2ff5b0a541@baylibre.com>
 MIME-Version: 1.0
-In-Reply-To: <20200213221513.28540-3-mohammad.rasim96@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef0ce8b1-d229-8877-d039-ec2ff5b0a541@baylibre.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 13/02/2020 23:15, Mohammad Rasim wrote:
-> videostrong kii pro comes with a nec rc, add the keymap to the dts
-> 
-> Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
-> ---
->  arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts b/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
-> index 2f1f829450a2..6c9cc45fb417 100644
-> --- a/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
-> +++ b/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
-> @@ -76,3 +76,7 @@ eth_phy0: ethernet-phy@0 {
->  		};
->  	};
->  };
-> +
-> +&ir {
-> +	linux,rc-map-name = "rc-videostrong-kii-pro";
-
-You should also update Documentation/devicetree/bindings/media/rc.yaml
-
-> +};
-> --
-> 2.25.0
-> 
-
-Thanks,
-Neil
+On 20/02/14 09:41AM, Neil Armstrong wrote:
+> Hi,
+>
+> On 13/02/2020 23:15, Mohammad Rasim wrote:
+> > videostrong kii pro comes with a nec rc, add the keymap to the dts
+> >
+> > Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
+> > ---
+> >  arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts b/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
+> > index 2f1f829450a2..6c9cc45fb417 100644
+> > --- a/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
+> > +++ b/arch/arm64/boot/dts/amlogic/meson-gxbb-kii-pro.dts
+> > @@ -76,3 +76,7 @@ eth_phy0: ethernet-phy@0 {
+> >  		};
+> >  	};
+> >  };
+> > +
+> > +&ir {
+> > +	linux,rc-map-name = "rc-videostrong-kii-pro";
+>
+> You should also update Documentation/devicetree/bindings/media/rc.yaml
+>
+fixed in v5.
+> > +};
+> > --
+> > 2.25.0
+> >
+>
+> Thanks,
+> Neil
