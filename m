@@ -2,86 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63BF915FEA9
-	for <lists+linux-media@lfdr.de>; Sat, 15 Feb 2020 14:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CFA015FEEE
+	for <lists+linux-media@lfdr.de>; Sat, 15 Feb 2020 16:15:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726143AbgBONva (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Feb 2020 08:51:30 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40681 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725937AbgBONva (ORCPT
+        id S1726211AbgBOPPP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Feb 2020 10:15:15 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:38622 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726143AbgBOPPP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Feb 2020 08:51:30 -0500
-Received: by mail-lj1-f195.google.com with SMTP id n18so13806739ljo.7
-        for <linux-media@vger.kernel.org>; Sat, 15 Feb 2020 05:51:29 -0800 (PST)
+        Sat, 15 Feb 2020 10:15:15 -0500
+Received: by mail-qk1-f193.google.com with SMTP id z19so12145154qkj.5;
+        Sat, 15 Feb 2020 07:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=jYBeVUO8d/2xAXOgMvAxTx0pUDPvEJO2n/2MAmSDINQ=;
-        b=KanxoCWd53l/Txx//GfDz4COnQOpsdsTwK2vBWo6Hyb6M0bJIUGRj8ExOAWCtDRhfw
-         DBcWuerb3+SeN3lfyxM5JvNQYy6hiZasVw18FUVEF1KpOHcoUcIjoaJ/lnbvYE5NoPEG
-         /Np3XbMlLBlrLLqgWQOY4RZD5tvd+ZV4/5hoJRc/vKxeJIreoJFA0GhALcHtQz3AG1vI
-         llUpBOc16DrwIGpO0UnrEty2ydBE3Nka/hJGRXeYT2Er6pcTb+UmeglkJXLJIGiL2hDf
-         mgKS7/tD6DzPwrdOKRzevzPYuveqfXBqa3hZwnwloG+17dqJQ96wupZ9xDdEstDb7u/a
-         5UHg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=uWzLjbBp8aRsVSLKA91aPxd7wXiz/npdTaFsiixqRhM=;
+        b=ob1M+dVQyL97DzvdG6/rS1nbpt+LYfpjmAUF7JHhdbEl9u6fZrcYi8ZKLRxYs10wm+
+         hbURUmByVSIB8x+5qdjbXtXCOgb+lKBqJwd+iyfL/Z+NhKrCm7ZD4H/5pTsS+R34P4Df
+         CcMLOB0B0Tg7vQFawFdDQk1GlYgSWAF8lsGvMdJpQ7E+M1P3gFvJyvm6aMkpTHV5y1v2
+         0hW9uDFk6pOIKTy5AN7tDMjhNwJpVcaU3dc5E/mefQCz+s89pVzmyt0LY/4WFnjstOYy
+         a6aubSK0jx/Oj7sKE0Qbog7f84HUDCiCKKcS3HhaBnUeb1KmcMzMRJLBt+y6LoInnpil
+         oVjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=jYBeVUO8d/2xAXOgMvAxTx0pUDPvEJO2n/2MAmSDINQ=;
-        b=jcDxwY3QyzFl0Y94mSHnV4PAONxA+/7zcXdFrzAa5pvK0e41mXiQEhYrnYOcsnvQSv
-         yfm7ecxEH4MQ3H1rG90BAK1mlMxgxI/YVKVBMCyXFM9MFkTJuQYjzBk7EaSx4Nji9D9J
-         XJpi2TJzMsvrIDCB4u1zKPKVRD3JMHKyMPXohYPFb2W0lhO/6ynNZhasmP+eieOSM7u3
-         n7UFe6+uQAyh5S88M6SwXHX1RLMMank1UvpUDaHxDmlhSJYvvwZ8JczTVB40wsJdyAaZ
-         nA8OfdlNTXcMNUDgHvEjrreMipM1DAzpc1MzLBYlXzo/z9ujXk+2rq/wnYga27dsh9oB
-         3Biw==
-X-Gm-Message-State: APjAAAXHJfICWfFiZvrZ1lsBnXOA+i8lxZavu5yXH8OsjD3Rxbvzso09
-        yN1vsAqVU+sqwFwPWzyJGlfDA+oeO6o8B9DaPaw=
-X-Google-Smtp-Source: APXvYqy06oTGP91+W+5kFMnECOvHYrShLEgANEpGDtmjt8E/z+sWH6ZQC0V8ADe3LIZ+QvvuYHP+T0p/GDbRQnpS+nM=
-X-Received: by 2002:a05:651c:102c:: with SMTP id w12mr4997130ljm.53.1581774688359;
- Sat, 15 Feb 2020 05:51:28 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=uWzLjbBp8aRsVSLKA91aPxd7wXiz/npdTaFsiixqRhM=;
+        b=Tdnm/t0Hel2XJHTuxM0s2lXCfu0y60pLtAORMGTRDlI2LElE1dWcMeCZJSjSUlL+FG
+         TO67enMRzgrlexUdb7+WrgsJv8ZGTKwKTzgYcVQ1o5J2vKltP3qETrQpfsk+tNKvrLyV
+         LT63qrcBVGVJcR5JATA2/qAPYzFKiIREDGDLuiJJ7KAbhZ8FH/XyMhxRoMkfcR6wbzMf
+         dtN9PFZkef9g3gXF4CdM/N8Yf6E7juQFq1zoqodaSEzAKYsNsAG+jdr7fIuS6HilVHy+
+         j+MZG8pfGH6HSaCgP/Trq/LnTrX4wypzzL0kUG3kAJ/kwmwRyD104ch8VWx30uRv03vw
+         Wn8Q==
+X-Gm-Message-State: APjAAAUQRK0LCtJ4YEqCKMdSTS1on6RtyYl6nU8aJDmiyasYM18AK9AS
+        mfws4Z3MwFYFak/gieUCAPE=
+X-Google-Smtp-Source: APXvYqxpvAHSD/naM2yaCHrG1MA+Xkos4kcUo2nI3mT+HBKkPxDMv80TmBa+NMdsC9D3tFlp12ooAQ==
+X-Received: by 2002:a37:47c4:: with SMTP id u187mr7502718qka.165.1581779712998;
+        Sat, 15 Feb 2020 07:15:12 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac? ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id d16sm1487549qkc.132.2020.02.15.07.15.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Feb 2020 07:15:12 -0800 (PST)
+Subject: Re: [PATCH v5] media: dvb_dummy_tuner: implement driver skeleton
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     mchehab@kernel.org, sean@mess.org, tglx@linutronix.de,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20200210154102.118166-1-dwlsalmeida@gmail.com>
+ <20200214050813.GA37036@ubuntu-m2-xlarge-x86>
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Message-ID: <886c816b-65a4-9cd9-4c94-f8025b63de4c@gmail.com>
+Date:   Sat, 15 Feb 2020 12:15:07 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Received: by 2002:a19:ae14:0:0:0:0:0 with HTTP; Sat, 15 Feb 2020 05:51:27
- -0800 (PST)
-Reply-To: bankbess@gmail.com
-From:   Michel Koffi Dorkenoo <officemailbox72@gmail.com>
-Date:   Sat, 15 Feb 2020 13:51:27 +0000
-Message-ID: <CAGPT7Gme+v3jgpacyxMNgmmpwaZoYE52d6=cjAKjFHuUNTAwAQ@mail.gmail.com>
-Subject: URGENT MESSAGE
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200214050813.GA37036@ubuntu-m2-xlarge-x86>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Attention:
+Hi Nathan,
 
-I have something very important to discuss with you about inheritance
-fund left in my bank with a late customer who worked with shell
-development company here in my Country and died along with his family
-while on vacation in September 19,2017 Earthquake in Central Mexico
-that killed over 370 people leaving the sum of (USD$14 Million United
-States Dollars) behind in our Bank.
+> This patch and another one that you have [1] cause a ton of build
+> warnings with clang, as reported by the 0day bot, because of the
+> implicit conversions from floating points to integer. Is this
+> intentional? Would you mind taking a look at them and addressing them if
+> you do another revision?
 
-I write to you because he has the same last name with you which I do
-not know if he is a member of your family.I am Michel Koffi Dorkenoo a
-banker and the director of operation of the said bank where the fund
-was deposited. I will like you to contact me so we can talk more about
-this because from the bank record I understand that someone has
-contacted you because of the fund in the past and try to cheat on you
-that is why I stopped the transfer for some months now but am ready to
-work directly with you on trust and understanding I promise to
-transfer the fund to you through  ATM-VISA-CARD  or bank to bank
-online transfer direct to your account in your country only if you can
-work with me as I will advice you on what you need to do to receive
-the fund and the share ratio.
+Sorry I did not catch that back then. I'll fix it in a future revision.
 
-I will wait for your urgent response direct t me email (
-bankbess@gmail.com ) or you can add me on whatsapp number
-(+228-9688-6703) for more details.
+Thank you for letting me know.
 
-Mr Michael Koffi Dorkenoo
-Director Of Operation
-GOD BLESS YOU
-MOBILE/WHATSAPP: +228 9688-6703
+
+- Daniel.
+
