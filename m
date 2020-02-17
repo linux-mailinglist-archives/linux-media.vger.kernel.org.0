@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27DA5161684
+	by mail.lfdr.de (Postfix) with ESMTP id 921E1161685
 	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2020 16:45:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729425AbgBQPpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Feb 2020 10:45:19 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38475 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729423AbgBQPpT (ORCPT
+        id S1729426AbgBQPpU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Feb 2020 10:45:20 -0500
+Received: from mail-wr1-f45.google.com ([209.85.221.45]:33193 "EHLO
+        mail-wr1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729347AbgBQPpT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 17 Feb 2020 10:45:19 -0500
-Received: by mail-wm1-f65.google.com with SMTP id a9so18969050wmj.3
-        for <linux-media@vger.kernel.org>; Mon, 17 Feb 2020 07:45:17 -0800 (PST)
+Received: by mail-wr1-f45.google.com with SMTP id u6so20363279wrt.0
+        for <linux-media@vger.kernel.org>; Mon, 17 Feb 2020 07:45:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=DTuvyG78WcjqeJ7e/qaUw+xYLvgTBFlwM1sb8UnDIGQ=;
-        b=DDlrlbnPTxe13tevABHbYLugl/rab7umxYqAyr6zOP4bqIqo5Tl92lJiwAT963QCyP
-         ajHvEtiZjG5UyQy2/W94pHDKwnr0WgLZyzRSP3TNK6IjQ61cRnTBLMTdJ0njbalcLqqb
-         jeNKlLVjF9qi7dXSG+Pz1E/Jl8fQ7kyfGldk5sBB5+VAm29eGu16hblKta7SaVPwzEgp
-         05Fm/cbKug4JYufUSlASCmLDn7u4lnfqLFHgk3bn+w66B6YOeAr9aTaY1bwT/qTGaDE+
-         +pWTXI+1BcVdc0pAa2NePp9/HtKK7/Od1AeABjs7UF7b93a8JPHtPiQCwRYm1iS2Exa3
-         ZE3A==
+        bh=hlgB5Y1sz7wUV4gQ0dL77L8hf8c+eZoNbZE43csgmz0=;
+        b=YUQflYsHLoYhqXsbKXG5J7sQHckE7GsEnfHjRMij/rODMEIkXN2J2irmifKls60q4C
+         GfYeh5/Fb/OElFgnYn8N/WBmjvAuGjF6+dPzAClaq1ZXsIIE3BIVVkAEXMe2WCKWnwoe
+         xjsSyJs478q8ocKR8aje7kMRDuwAMCnkhR22/EB4OvByzufIeBdX4q1BllMCO5JaUXPO
+         B9vhcWTRqy5s1luagOPpz1u9MB3jyKFx6YR/Z2lAQbLtOt2ScB/5JBOX/pQFoNsvZBIB
+         e3AJPZba3wyKdf68I/Z+26RUYTgvHEn0Z81/kUnGTCZFJtQwBq9pWU3puzVEUrwB6pXB
+         8g3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DTuvyG78WcjqeJ7e/qaUw+xYLvgTBFlwM1sb8UnDIGQ=;
-        b=pqaffhzRMGibqsXDRm0GBXNmxBoT2u39SBmt9NLGMr6jTKfbLYS18q/6bcdvaidebX
-         ifZO7hEvEERV3pnz7e2EVhGXT5aIX4BcXEIxlrjq+jZNvU4aVvoBxrBE4HrInH4CZ3I1
-         to2IGTAtef+cp5vPf1gIkkBGKNnoQyScAJexugBzMy+npPRmubT6AKrV15GOgItrZwyG
-         Nf+0SAG+LLOXk0y/qyb8ehU485eNP4EUDYsiHNA9SiTZMm3WSOzFF5HMnwNJIovuhUJu
-         wBuZhYkZ85UuKqaBbbpdKqGm/qLYw2gzrHidanZjNW3rbzE2XWwvofYked7GwSJIOiIk
-         Ma1A==
-X-Gm-Message-State: APjAAAVLwBRxEsArEFzXFdLMQgJkBsuB8Yw6saeSWWVTajbgAFkFsvrS
-        KdUSdyulNiK4Pbu3J3olWV8=
-X-Google-Smtp-Source: APXvYqx/R1np84PQIPV+XzXYKq4vo8+VeAkA/u0pJU6BbdkOFa0/JwfM48wB2N3r5oD/DG7aiiuodA==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr22235179wma.187.1581954316755;
-        Mon, 17 Feb 2020 07:45:16 -0800 (PST)
+        bh=hlgB5Y1sz7wUV4gQ0dL77L8hf8c+eZoNbZE43csgmz0=;
+        b=uTDeLOkitw1PZtf51xk+4j/jTfh/XIyjjHvNZsRjbt5VJTUeqBOuH0utFzkJkcjcxV
+         cQ2Q4ZM2Je9LPz9D+CzvFwdTjGuEQQLhs89p/8PXKAJAG06R6ZSC9JKomMJOdjVkQpeR
+         IBiUH4kS33oEavOKaH6b72FRCHuRk1BPqE0I1WJkG25M97RTTWyvAa5ebW2PvITJLHNz
+         HOC8p29RYw/VteKl8Esyq59AxEvkdHa3c7EVjc4EoL2dPwZIPQVXQzJMg5wzoVvN3QpZ
+         5avokkDmjx+QuM6AEBl9jtBmGUtEJPYW4rYL0aV3MAfkNYM8zCUNe6Ct4H1wrsQpI1v/
+         O+Qg==
+X-Gm-Message-State: APjAAAUDosGXlYt7qve72D9KCXEEj5g9BukOcjJ/AvSpI4sjHaubm9w/
+        f2xcZH8r5ZPhH5TLKuK7e6s=
+X-Google-Smtp-Source: APXvYqwFiRcVFKuVgqcs304KA6K8ArQ5mPs070Ei1YCTDpIpCzFYCT/g6ibVr0D41bLqEYT3+L4s+A==
+X-Received: by 2002:adf:f1d0:: with SMTP id z16mr22276621wro.209.1581954317869;
+        Mon, 17 Feb 2020 07:45:17 -0800 (PST)
 Received: from abel.fritz.box ([2a02:908:1252:fb60:180d:d2d6:6ff9:a6cb])
-        by smtp.gmail.com with ESMTPSA id r6sm1372658wrq.92.2020.02.17.07.45.15
+        by smtp.gmail.com with ESMTPSA id r6sm1372658wrq.92.2020.02.17.07.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 07:45:16 -0800 (PST)
+        Mon, 17 Feb 2020 07:45:17 -0800 (PST)
 From:   "=?UTF-8?q?Christian=20K=C3=B6nig?=" 
         <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
         linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
         daniel@ffwll.ch
-Subject: [PATCH 4/5] drm/amdgpu: add amdgpu_dma_buf_pin/unpin v2
-Date:   Mon, 17 Feb 2020 16:45:08 +0100
-Message-Id: <20200217154509.2265-5-christian.koenig@amd.com>
+Subject: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
+Date:   Mon, 17 Feb 2020 16:45:09 +0100
+Message-Id: <20200217154509.2265-6-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200217154509.2265-1-christian.koenig@amd.com>
 References: <20200217154509.2265-1-christian.koenig@amd.com>
@@ -65,127 +65,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This implements the exporter side of unpinned DMA-buf handling.
+Implement the importer side of unpinned DMA-buf handling.
 
-v2: fix minor coding style issues
+v2: update page tables immediately
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 53 ++++++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  5 ++
- 2 files changed, 51 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 66 ++++++++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  6 ++
+ 2 files changed, 71 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index b2ca78b6abce..770baba621b3 100644
+index 770baba621b3..48de7624d49c 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -222,6 +222,37 @@ static void amdgpu_dma_buf_detach(struct dma_buf *dmabuf,
- 		bo->prime_shared_count--;
+@@ -453,7 +453,71 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
+ 	return ERR_PTR(ret);
  }
  
 +/**
-+ * amdgpu_dma_buf_pin - &dma_buf_ops.pin implementation
++ * amdgpu_dma_buf_move_notify - &attach.move_notify implementation
 + *
-+ * @attach: attachment to pin down
++ * @attach: the DMA-buf attachment
 + *
-+ * Pin the BO which is backing the DMA-buf so that it can't move any more.
++ * Invalidate the DMA-buf attachment, making sure that the we re-create the
++ * mapping before the next use.
 + */
-+static int amdgpu_dma_buf_pin(struct dma_buf_attachment *attach)
++static void
++amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
 +{
-+	struct drm_gem_object *obj = attach->dmabuf->priv;
++	struct drm_gem_object *obj = attach->importer_priv;
++	struct ww_acquire_ctx *ticket = dma_resv_locking_ctx(obj->resv);
 +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
++	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
++	struct ttm_operation_ctx ctx = { false, false };
++	struct ttm_placement placement = {};
++	struct amdgpu_vm_bo_base *bo_base;
++	int r;
 +
-+	/* pin buffer into GTT */
-+	return amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
-+}
++	if (bo->tbo.mem.mem_type == TTM_PL_SYSTEM)
++		return;
 +
-+/**
-+ * amdgpu_dma_buf_unpin - &dma_buf_ops.unpin implementation
-+ *
-+ * @attach: attachment to unpin
-+ *
-+ * Unpin a previously pinned BO to make it movable again.
-+ */
-+static void amdgpu_dma_buf_unpin(struct dma_buf_attachment *attach)
-+{
-+	struct drm_gem_object *obj = attach->dmabuf->priv;
-+	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
-+
-+	amdgpu_bo_unpin(bo);
-+}
-+
- /**
-  * amdgpu_dma_buf_map - &dma_buf_ops.map_dma_buf implementation
-  * @attach: DMA-buf attachment
-@@ -244,9 +275,19 @@ static struct sg_table *amdgpu_dma_buf_map(struct dma_buf_attachment *attach,
- 	struct sg_table *sgt;
- 	long r;
- 
--	r = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
--	if (r)
--		return ERR_PTR(r);
-+	if (!bo->pin_count) {
-+		/* move buffer into GTT */
-+		struct ttm_operation_ctx ctx = { false, false };
-+
-+		amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_GTT);
-+		r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
-+		if (r)
-+			return ERR_PTR(r);
-+
-+	} else if (!(amdgpu_mem_type_to_domain(bo->tbo.mem.mem_type) &
-+		     AMDGPU_GEM_DOMAIN_GTT)) {
-+		return ERR_PTR(-EBUSY);
++	r = ttm_bo_validate(&bo->tbo, &placement, &ctx);
++	if (r) {
++		DRM_ERROR("Failed to invalidate DMA-buf import (%d))\n", r);
++		return;
 +	}
- 
- 	sgt = drm_prime_pages_to_sg(bo->tbo.ttm->pages, bo->tbo.num_pages);
- 	if (IS_ERR(sgt))
-@@ -277,13 +318,9 @@ static void amdgpu_dma_buf_unmap(struct dma_buf_attachment *attach,
- 				 struct sg_table *sgt,
- 				 enum dma_data_direction dir)
- {
--	struct drm_gem_object *obj = attach->dmabuf->priv;
--	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
--
- 	dma_unmap_sg(attach->dev, sgt->sgl, sgt->nents, dir);
- 	sg_free_table(sgt);
- 	kfree(sgt);
--	amdgpu_bo_unpin(bo);
- }
++
++	for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next) {
++		struct amdgpu_vm *vm = bo_base->vm;
++		struct dma_resv *resv = vm->root.base.bo->tbo.base.resv;
++
++		if (ticket) {
++			/* When we get an error here it means that somebody
++			 * else is holding the VM lock and updating page tables
++			 * So we can just continue here.
++			 */
++			r = dma_resv_lock(resv, ticket);
++			if (r)
++				continue;
++
++		} else {
++			/* TODO: This is more problematic and we actually need
++			 * to allow page tables updates without holding the
++			 * lock.
++			 */
++			if (!dma_resv_trylock(resv))
++				continue;
++		}
++
++		r = amdgpu_vm_clear_freed(adev, vm, NULL);
++		if (!r)
++			r = amdgpu_vm_handle_moved(adev, vm);
++
++		if (r && r != -EBUSY)
++			DRM_ERROR("Failed to invalidate VM page tables (%d))\n",
++				  r);
++
++		dma_resv_unlock(resv);
++	}
++}
++
+ static const struct dma_buf_attach_ops amdgpu_dma_buf_attach_ops = {
++	.move_notify = amdgpu_dma_buf_move_notify
+ };
  
  /**
-@@ -330,6 +367,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
- 	.dynamic_mapping = true,
- 	.attach = amdgpu_dma_buf_attach,
- 	.detach = amdgpu_dma_buf_detach,
-+	.pin = amdgpu_dma_buf_pin,
-+	.unpin = amdgpu_dma_buf_unpin,
- 	.map_dma_buf = amdgpu_dma_buf_map,
- 	.unmap_dma_buf = amdgpu_dma_buf_unmap,
- 	.release = drm_gem_dmabuf_release,
+@@ -489,7 +553,7 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
+ 		return obj;
+ 
+ 	attach = dma_buf_dynamic_attach(dma_buf, dev->dev,
+-					&amdgpu_dma_buf_attach_ops, NULL);
++					&amdgpu_dma_buf_attach_ops, obj);
+ 	if (IS_ERR(attach)) {
+ 		drm_gem_object_put(obj);
+ 		return ERR_CAST(attach);
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 6f60a581e3ba..8ae260822908 100644
+index 8ae260822908..8c480c898b0d 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -31,6 +31,7 @@
-  */
- #include <linux/list.h>
- #include <linux/slab.h>
-+#include <linux/dma-buf.h>
+@@ -926,6 +926,9 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
+ 		return 0;
+ 	}
  
- #include <drm/amdgpu_drm.h>
- #include <drm/drm_cache.h>
-@@ -1274,6 +1275,10 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
- 
- 	amdgpu_bo_kunmap(abo);
- 
-+	if (abo->tbo.base.dma_buf && !abo->tbo.base.import_attach &&
-+	    bo->mem.mem_type != TTM_PL_SYSTEM)
-+		dma_buf_move_notify(abo->tbo.base.dma_buf);
++	if (bo->tbo.base.import_attach)
++		dma_buf_pin(bo->tbo.base.import_attach);
 +
- 	/* remember the eviction */
- 	if (evict)
- 		atomic64_inc(&adev->num_evictions);
+ 	bo->flags |= AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS;
+ 	/* force to pin into visible video ram */
+ 	if (!(bo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS))
+@@ -1009,6 +1012,9 @@ int amdgpu_bo_unpin(struct amdgpu_bo *bo)
+ 
+ 	amdgpu_bo_subtract_pin_size(bo);
+ 
++	if (bo->tbo.base.import_attach)
++		dma_buf_unpin(bo->tbo.base.import_attach);
++
+ 	for (i = 0; i < bo->placement.num_placement; i++) {
+ 		bo->placements[i].lpfn = 0;
+ 		bo->placements[i].flags &= ~TTM_PL_FLAG_NO_EVICT;
 -- 
 2.17.1
 
