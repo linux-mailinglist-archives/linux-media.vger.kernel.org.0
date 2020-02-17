@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D3E1615DA
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2020 16:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDFD71615D8
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2020 16:14:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728444AbgBQPOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Feb 2020 10:14:10 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:41881 "EHLO
+        id S1728405AbgBQPOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Feb 2020 10:14:08 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:41943 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727488AbgBQPOD (ORCPT
+        with ESMTP id S1727545AbgBQPOD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 17 Feb 2020 10:14:03 -0500
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1j3i5x-0005WE-9T; Mon, 17 Feb 2020 16:14:01 +0100
+        id 1j3i5x-0005WF-Ac; Mon, 17 Feb 2020 16:14:01 +0100
 Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1j3i5w-0001aW-Bb; Mon, 17 Feb 2020 16:14:00 +0100
+        id 1j3i5w-0001ab-C4; Mon, 17 Feb 2020 16:14:00 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
         Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 11/18] media: allegro: make frame rate configurable
-Date:   Mon, 17 Feb 2020 16:13:51 +0100
-Message-Id: <20200217151358.5695-12-m.tretter@pengutronix.de>
+Subject: [PATCH 12/18] media: allegro: make QP configurable
+Date:   Mon, 17 Feb 2020 16:13:52 +0100
+Message-Id: <20200217151358.5695-13-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200217151358.5695-1-m.tretter@pengutronix.de>
 References: <20200217151358.5695-1-m.tretter@pengutronix.de>
@@ -41,146 +41,221 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The allegro dvt codec adjust the encoding speed according to a
-configured frame rate. Furthermore, the frame rate is written into the
-coded stream.
-
-Ensure that the coded video data has the correct frame rate by
-implementing s_parm for setting the frame rate from user space.
+The V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE control allows to enable/disable
+rate control on a channel. When rate control is disabled, the driver
+shall use constant QP, which are set by the application. Also implement
+the controls for configuring the QP.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- .../staging/media/allegro-dvt/allegro-core.c  | 60 +++++++++++++++++--
- 1 file changed, 55 insertions(+), 5 deletions(-)
+ .../staging/media/allegro-dvt/allegro-core.c  | 105 ++++++++++++++++--
+ 1 file changed, 95 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-index 71ed3abc61f0..3ecc38047436 100644
+index 3ecc38047436..c25f76fffa5e 100644
 --- a/drivers/staging/media/allegro-dvt/allegro-core.c
 +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-@@ -7,6 +7,7 @@
+@@ -198,6 +198,7 @@ struct allegro_channel {
+ 	unsigned int csequence;
  
- #include <linux/bits.h>
- #include <linux/firmware.h>
-+#include <linux/gcd.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-@@ -41,6 +42,8 @@
- #define ALLEGRO_HEIGHT_DEFAULT 1080
- #define ALLEGRO_HEIGHT_MAX 2160
+ 	enum v4l2_mpeg_video_bitrate_mode bitrate_mode;
++	bool frame_rc_enable;
+ 	unsigned int bitrate;
+ 	unsigned int bitrate_peak;
+ 	unsigned int cpb_size;
+@@ -205,6 +206,12 @@ struct allegro_channel {
  
-+#define ALLEGRO_FRAMERATE_DEFAULT (struct v4l2_fract) { 30, 1 };
-+
- #define ALLEGRO_GOP_SIZE_DEFAULT 25
- #define ALLEGRO_GOP_SIZE_MAX 1000
- 
-@@ -177,6 +180,7 @@ struct allegro_channel {
- 	unsigned int width;
- 	unsigned int height;
- 	unsigned int stride;
-+	struct v4l2_fract framerate;
- 
- 	enum v4l2_colorspace colorspace;
- 	enum v4l2_ycbcr_encoding ycbcr_enc;
-@@ -1123,8 +1127,9 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
- 		(channel->cpb_size * 90000) / (channel->bitrate_peak / 1000 / BITS_PER_BYTE);
- 	/* Shall be ]0;cpb_size in 90 kHz units]. Use maximum value. */
- 	msg.initial_rem_delay = msg.cpb_size;
--	msg.framerate = 25;
--	msg.clk_ratio = 1000;
-+	msg.framerate = DIV_ROUND_UP(channel->framerate.numerator,
-+				     channel->framerate.denominator);
-+	msg.clk_ratio = channel->framerate.denominator == 1001 ? 1001 : 1000;
- 	msg.target_bitrate = channel->bitrate;
- 	msg.max_bitrate = channel->bitrate_peak;
- 	msg.initial_qp = 25;
-@@ -1433,9 +1438,11 @@ static ssize_t allegro_h264_write_sps(struct allegro_channel *channel,
- 	sps->vui.chroma_loc_info_present_flag = 1;
- 	sps->vui.chroma_sample_loc_type_top_field = 0;
- 	sps->vui.chroma_sample_loc_type_bottom_field = 0;
-+
- 	sps->vui.timing_info_present_flag = 1;
--	sps->vui.num_units_in_tick = 1;
--	sps->vui.time_scale = 50;
-+	sps->vui.num_units_in_tick = channel->framerate.denominator;
-+	sps->vui.time_scale = 2 * channel->framerate.numerator;
-+
- 	sps->vui.fixed_frame_rate_flag = 1;
- 	sps->vui.nal_hrd_parameters_present_flag = 0;
- 	sps->vui.vcl_hrd_parameters_present_flag = 1;
-@@ -2100,7 +2107,8 @@ static int allegro_create_channel(struct allegro_channel *channel)
- 	v4l2_dbg(1, debug, &dev->v4l2_dev,
- 		 "user %d: creating channel (%4.4s, %dx%d@%d)\n",
- 		 channel->user_id,
--		 (char *)&channel->codec, channel->width, channel->height, 25);
-+		 (char *)&channel->codec, channel->width, channel->height,
-+		 DIV_ROUND_UP(channel->framerate.numerator, channel->framerate.denominator));
- 
- 	min_level = select_minimum_h264_level(channel->width, channel->height);
- 	if (channel->level < min_level) {
-@@ -2146,6 +2154,7 @@ static void allegro_set_default_params(struct allegro_channel *channel)
- 	channel->width = ALLEGRO_WIDTH_DEFAULT;
- 	channel->height = ALLEGRO_HEIGHT_DEFAULT;
- 	channel->stride = round_up(channel->width, 32);
-+	channel->framerate = ALLEGRO_FRAMERATE_DEFAULT;
- 
- 	channel->colorspace = V4L2_COLORSPACE_REC709;
- 	channel->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-@@ -2736,6 +2745,44 @@ static int allegro_ioctl_streamon(struct file *file, void *priv,
- 	return v4l2_m2m_streamon(file, fh->m2m_ctx, type);
+ 	struct v4l2_ctrl *mpeg_video_h264_profile;
+ 	struct v4l2_ctrl *mpeg_video_h264_level;
++	struct v4l2_ctrl *mpeg_video_h264_i_frame_qp;
++	struct v4l2_ctrl *mpeg_video_h264_max_qp;
++	struct v4l2_ctrl *mpeg_video_h264_min_qp;
++	struct v4l2_ctrl *mpeg_video_h264_p_frame_qp;
++	struct v4l2_ctrl *mpeg_video_h264_b_frame_qp;
++	struct v4l2_ctrl *mpeg_video_frame_rc_enable;
+ 	struct v4l2_ctrl *mpeg_video_bitrate_mode;
+ 	struct v4l2_ctrl *mpeg_video_bitrate;
+ 	struct v4l2_ctrl *mpeg_video_bitrate_peak;
+@@ -1081,6 +1088,14 @@ v4l2_bitrate_mode_to_mcu_mode(enum v4l2_mpeg_video_bitrate_mode mode)
+ 	}
  }
  
-+static int allegro_g_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
++static s16 get_qp_delta(int minuend, int subtrahend)
 +{
-+	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct v4l2_fract *timeperframe;
-+
-+	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-+		return -EINVAL;
-+
-+	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
-+	timeperframe = &a->parm.output.timeperframe;
-+	timeperframe->numerator = channel->framerate.denominator;
-+	timeperframe->denominator = channel->framerate.numerator;
-+
-+	return 0;
++	if (minuend == subtrahend)
++		return -1;
++	else
++		return minuend - subtrahend;
 +}
 +
-+static int allegro_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
-+{
-+	struct allegro_channel *channel = fh_to_channel(fh);
-+	struct v4l2_fract *timeperframe;
-+	int div;
-+
-+	if (a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-+		return -EINVAL;
-+
-+	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
-+	timeperframe = &a->parm.output.timeperframe;
-+
-+	if (timeperframe->numerator == 0 || timeperframe->denominator == 0)
-+		return allegro_g_parm(file, fh, a);
-+
-+	div = gcd(timeperframe->denominator, timeperframe->numerator);
-+	channel->framerate.numerator = timeperframe->denominator / div;
-+	channel->framerate.denominator = timeperframe->numerator / div;
-+
-+	return 0;
-+}
-+
- static int allegro_subscribe_event(struct v4l2_fh *fh,
- 				   const struct v4l2_event_subscription *sub)
+ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
+ 					   struct allegro_channel *channel)
  {
-@@ -2774,6 +2821,9 @@ static const struct v4l2_ioctl_ops allegro_ioctl_ops = {
- 	.vidioc_encoder_cmd = allegro_encoder_cmd,
- 	.vidioc_enum_framesizes = allegro_enum_framesizes,
+@@ -1120,8 +1135,12 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
+ 	msg.max_transfo_depth_intra = 1;
+ 	msg.max_transfo_depth_inter = 1;
  
-+	.vidioc_g_parm		= allegro_g_parm,
-+	.vidioc_s_parm		= allegro_s_parm,
+-	msg.rate_control_mode =
+-		v4l2_bitrate_mode_to_mcu_mode(channel->bitrate_mode);
++	if (channel->frame_rc_enable)
++		msg.rate_control_mode =
++			v4l2_bitrate_mode_to_mcu_mode(channel->bitrate_mode);
++	else
++		msg.rate_control_mode = 0;
 +
- 	.vidioc_subscribe_event = allegro_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
- };
+ 	/* Encoder expects cpb_size in units of a 90 kHz clock. */
+ 	msg.cpb_size =
+ 		(channel->cpb_size * 90000) / (channel->bitrate_peak / 1000 / BITS_PER_BYTE);
+@@ -1132,11 +1151,15 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
+ 	msg.clk_ratio = channel->framerate.denominator == 1001 ? 1001 : 1000;
+ 	msg.target_bitrate = channel->bitrate;
+ 	msg.max_bitrate = channel->bitrate_peak;
+-	msg.initial_qp = 25;
+-	msg.min_qp = 10;
+-	msg.max_qp = 51;
+-	msg.ip_delta = -1;
+-	msg.pb_delta = -1;
++	msg.initial_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_i_frame_qp);
++	msg.min_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_min_qp);
++	msg.max_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_max_qp);
++	msg.ip_delta = get_qp_delta(
++			v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_i_frame_qp),
++			v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_p_frame_qp));
++	msg.pb_delta = get_qp_delta(
++			v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_p_frame_qp),
++			v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_b_frame_qp));
+ 	msg.golden_ref = 0;
+ 	msg.golden_delta = 2;
+ 	msg.golden_ref_frequency = 10;
+@@ -1455,7 +1478,7 @@ static ssize_t allegro_h264_write_sps(struct allegro_channel *channel,
+ 	/* See Rec. ITU-T H.264 (04/2017) p. 410 E-54 */
+ 	sps->vui.vcl_hrd_parameters.cpb_size_value_minus1[0] =
+ 		(channel->cpb_size * 1000) / (1 << (4 + sps->vui.vcl_hrd_parameters.cpb_size_scale)) - 1;
+-	sps->vui.vcl_hrd_parameters.cbr_flag[0] = 1;
++	sps->vui.vcl_hrd_parameters.cbr_flag[0] = !v4l2_ctrl_g_ctrl(channel->mpeg_video_frame_rc_enable);
+ 	sps->vui.vcl_hrd_parameters.initial_cpb_removal_delay_length_minus1 = 31;
+ 	sps->vui.vcl_hrd_parameters.cpb_removal_delay_length_minus1 = 31;
+ 	sps->vui.vcl_hrd_parameters.dpb_output_delay_length_minus1 = 31;
+@@ -1677,13 +1700,13 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
+ 		dst_buf->flags |= V4L2_BUF_FLAG_PFRAME;
+ 
+ 	v4l2_dbg(1, debug, &dev->v4l2_dev,
+-		 "channel %d: encoded frame #%03d (%s%s, %d bytes)\n",
++		 "channel %d: encoded frame #%03d (%s%s, QP %d, %d bytes)\n",
+ 		 channel->mcu_channel_id,
+ 		 dst_buf->sequence,
+ 		 msg->is_idr ? "IDR, " : "",
+ 		 msg->slice_type == AL_ENC_SLICE_TYPE_I ? "I slice" :
+ 		 msg->slice_type == AL_ENC_SLICE_TYPE_P ? "P slice" : "unknown",
+-		 partition->size);
++		 msg->qp, partition->size);
+ 
+ err:
+ 	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+@@ -2062,6 +2085,12 @@ static void allegro_destroy_channel(struct allegro_channel *channel)
+ 
+ 	v4l2_ctrl_grab(channel->mpeg_video_h264_profile, false);
+ 	v4l2_ctrl_grab(channel->mpeg_video_h264_level, false);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_i_frame_qp, false);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_max_qp, false);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_min_qp, false);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_p_frame_qp, false);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_b_frame_qp, false);
++	v4l2_ctrl_grab(channel->mpeg_video_frame_rc_enable, false);
+ 	v4l2_ctrl_grab(channel->mpeg_video_bitrate_mode, false);
+ 	v4l2_ctrl_grab(channel->mpeg_video_bitrate, false);
+ 	v4l2_ctrl_grab(channel->mpeg_video_bitrate_peak, false);
+@@ -2122,6 +2151,12 @@ static int allegro_create_channel(struct allegro_channel *channel)
+ 
+ 	v4l2_ctrl_grab(channel->mpeg_video_h264_profile, true);
+ 	v4l2_ctrl_grab(channel->mpeg_video_h264_level, true);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_i_frame_qp, true);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_max_qp, true);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_min_qp, true);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_p_frame_qp, true);
++	v4l2_ctrl_grab(channel->mpeg_video_h264_b_frame_qp, true);
++	v4l2_ctrl_grab(channel->mpeg_video_frame_rc_enable, true);
+ 	v4l2_ctrl_grab(channel->mpeg_video_bitrate_mode, true);
+ 	v4l2_ctrl_grab(channel->mpeg_video_bitrate, true);
+ 	v4l2_ctrl_grab(channel->mpeg_video_bitrate_peak, true);
+@@ -2334,6 +2369,23 @@ static int allegro_queue_init(void *priv,
+ 	return 0;
+ }
+ 
++static int allegro_clamp_qp(struct allegro_channel *channel, struct v4l2_ctrl *ctrl)
++{
++	struct v4l2_ctrl *next_ctrl;
++
++	if (ctrl->id == V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP)
++		next_ctrl = channel->mpeg_video_h264_p_frame_qp;
++	else if (ctrl->id == V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP)
++		next_ctrl = channel->mpeg_video_h264_b_frame_qp;
++	else
++		return 0;
++
++	/* Modify range automatically updates the value */
++	__v4l2_ctrl_modify_range(next_ctrl, ctrl->val, 51, 1, ctrl->val);
++
++	return allegro_clamp_qp(channel, next_ctrl);
++}
++
+ static int allegro_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct allegro_channel *channel = container_of(ctrl->handler,
+@@ -2348,6 +2400,9 @@ static int allegro_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
+ 		channel->level = ctrl->val;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
++		channel->frame_rc_enable = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_BITRATE_MODE:
+ 		channel->bitrate_mode = ctrl->val;
+ 		break;
+@@ -2363,6 +2418,11 @@ static int allegro_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_MPEG_VIDEO_GOP_SIZE:
+ 		channel->gop_size = ctrl->val;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP:
++	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP:
++	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_QP:
++		allegro_clamp_qp(channel, ctrl);
++		break;
+ 	}
+ 
+ 	return 0;
+@@ -2407,6 +2467,31 @@ static int allegro_open(struct file *file)
+ 			V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+ 			V4L2_MPEG_VIDEO_H264_LEVEL_5_1, mask,
+ 			V4L2_MPEG_VIDEO_H264_LEVEL_5_1);
++	channel->mpeg_video_h264_i_frame_qp = v4l2_ctrl_new_std(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP,
++			0, 51, 1, 30);
++	channel->mpeg_video_h264_max_qp = v4l2_ctrl_new_std(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_H264_MAX_QP,
++			0, 51, 1, 51);
++	channel->mpeg_video_h264_min_qp = v4l2_ctrl_new_std(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_H264_MIN_QP,
++			0, 51, 1, 0);
++	channel->mpeg_video_h264_p_frame_qp = v4l2_ctrl_new_std(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_H264_P_FRAME_QP,
++			0, 51, 1, 30);
++	channel->mpeg_video_h264_b_frame_qp = v4l2_ctrl_new_std(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_H264_B_FRAME_QP,
++			0, 51, 1, 30);
++	channel->mpeg_video_frame_rc_enable = v4l2_ctrl_new_std(handler,
++			&allegro_ctrl_ops,
++			V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE,
++			false, 0x1,
++			true, false);
+ 	channel->mpeg_video_bitrate_mode = v4l2_ctrl_new_std_menu(handler,
+ 			&allegro_ctrl_ops,
+ 			V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
 -- 
 2.20.1
 
