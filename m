@@ -2,57 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21402161927
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2020 18:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A881A161935
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2020 18:55:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729802AbgBQRwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Feb 2020 12:52:20 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43090 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728463AbgBQRwU (ORCPT
+        id S1728448AbgBQRzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Feb 2020 12:55:25 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:38453 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbgBQRzZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Feb 2020 12:52:20 -0500
-Received: from localhost.localdomain (p200300CB87166A0024B68010760D030E.dip0.t-ipconnect.de [IPv6:2003:cb:8716:6a00:24b6:8010:760d:30e])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 50E8D293E72;
-        Mon, 17 Feb 2020 17:52:19 +0000 (GMT)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org
-Subject: [PATCH] media: staging: rkisp1: remove serialization item in the TODO file
-Date:   Mon, 17 Feb 2020 18:52:09 +0100
-Message-Id: <20200217175209.8279-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 17 Feb 2020 12:55:25 -0500
+Received: by mail-wr1-f67.google.com with SMTP id y17so20810869wrh.5
+        for <linux-media@vger.kernel.org>; Mon, 17 Feb 2020 09:55:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=QJ+sAtf0sl4WFA+MtjYOgUYWzpiqGm+srBeq0Yw7h3s=;
+        b=EZsS2iSUTXjt/GUPkqOdkXPYOpNWd7Gu5NyJgAyxYJHwtAbjIxTw6gqEEu/xLPulG0
+         IRFozHspStxLZjmG6Zndgxgt7EQm2+yT6gM+80Z9TUWNKqUVd6lb0hU6UoAx1ueL/84E
+         UzztqGbwIx97I44SQzNw/QK8eWXGyVLDdLSNw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=QJ+sAtf0sl4WFA+MtjYOgUYWzpiqGm+srBeq0Yw7h3s=;
+        b=VgZxpeK63Cp8gkWoUZ0NGN2DsXxTz/y6z57MUm9QgSmkbcozu8ZMtl2HpkdRn7DxxJ
+         COKtRztTsBSzaT0+7g524+BG4upWzCmxsVmBfwqaeSoLWKH5niBXNK+a9YCWqH2wQCG3
+         1Yn1E88DkqEmFnHi5x547BpetUAeTLH4d+9Z/O5JYtah68/5XbkZgUhUKVRp/wtWcYBF
+         K4mRMVHrd0XpOeUWqdwYI3Y5nZJcgL5zNQY86ePOjEEjiBy4K8mUDRNLBkTUw/AfKHFt
+         gdszsM8YmPPzczQ8tHI2rAbazB6kHD30+dcIldZErSK/jSyJoaOgnLDSJEOxRpA1tnCW
+         Y8DA==
+X-Gm-Message-State: APjAAAVIQ6bMfj7U4824qad9VcbNR6y9zq5jsXb9/99jkM2or3vXeY7x
+        hNyAkBexfddXoq/zBVI+8/DdgA==
+X-Google-Smtp-Source: APXvYqyJDKap71+xbi+IuYscPsJ8tBI22qhbq/b57AtRC2wcYuxxAGyLOyJ+Lxi4xra0AoW/dFwKIg==
+X-Received: by 2002:adf:e5c6:: with SMTP id a6mr23714896wrn.185.1581962121032;
+        Mon, 17 Feb 2020 09:55:21 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id d13sm2240406wrc.64.2020.02.17.09.55.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2020 09:55:20 -0800 (PST)
+Date:   Mon, 17 Feb 2020 18:55:18 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        daniel@ffwll.ch
+Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
+Message-ID: <20200217175518.GL2363188@phenom.ffwll.local>
+References: <20200217154509.2265-1-christian.koenig@amd.com>
+ <20200217154509.2265-6-christian.koenig@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200217154509.2265-6-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The item 'Fix serialization on subdev ops.' was solved,
-so remove it from the TODO file.
+On Mon, Feb 17, 2020 at 04:45:09PM +0100, Christian König wrote:
+> Implement the importer side of unpinned DMA-buf handling.
+> 
+> v2: update page tables immediately
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 66 ++++++++++++++++++++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  6 ++
+>  2 files changed, 71 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index 770baba621b3..48de7624d49c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -453,7 +453,71 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
+>  	return ERR_PTR(ret);
+>  }
+>  
+> +/**
+> + * amdgpu_dma_buf_move_notify - &attach.move_notify implementation
+> + *
+> + * @attach: the DMA-buf attachment
+> + *
+> + * Invalidate the DMA-buf attachment, making sure that the we re-create the
+> + * mapping before the next use.
+> + */
+> +static void
+> +amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
+> +{
+> +	struct drm_gem_object *obj = attach->importer_priv;
+> +	struct ww_acquire_ctx *ticket = dma_resv_locking_ctx(obj->resv);
+> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+> +	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+> +	struct ttm_operation_ctx ctx = { false, false };
+> +	struct ttm_placement placement = {};
+> +	struct amdgpu_vm_bo_base *bo_base;
+> +	int r;
+> +
+> +	if (bo->tbo.mem.mem_type == TTM_PL_SYSTEM)
+> +		return;
+> +
+> +	r = ttm_bo_validate(&bo->tbo, &placement, &ctx);
+> +	if (r) {
+> +		DRM_ERROR("Failed to invalidate DMA-buf import (%d))\n", r);
+> +		return;
+> +	}
+> +
+> +	for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next) {
+> +		struct amdgpu_vm *vm = bo_base->vm;
+> +		struct dma_resv *resv = vm->root.base.bo->tbo.base.resv;
+> +
+> +		if (ticket) {
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
-This patch is a follow-up patch of the patchset:
-'media: staging: rkisp1: add serialization to the isp and resizer ops'
+Yeah so this is kinda why I've been a total pain about the exact semantics
+of the move_notify hook. I think we should flat-out require that importers
+_always_ have a ticket attach when they call this, and that they can cope
+with additional locks being taken (i.e. full EDEADLCK) handling.
 
- drivers/staging/media/rkisp1/TODO | 1 -
- 1 file changed, 1 deletion(-)
+Simplest way to force that contract is to add a dummy 2nd ww_mutex lock to
+the dma_resv object, which we then can take #ifdef
+CONFIG_WW_MUTEX_SLOWPATH_DEBUG. Plus mabye a WARN_ON(!ticket).
 
-diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
-index 03cd9a4e70f7..0aa9877dd64a 100644
---- a/drivers/staging/media/rkisp1/TODO
-+++ b/drivers/staging/media/rkisp1/TODO
-@@ -1,4 +1,3 @@
--* Fix serialization on subdev ops.
- * Don't use v4l2_async_notifier_parse_fwnode_endpoints_by_port().
- e.g. isp_parse_of_endpoints in drivers/media/platform/omap3isp/isp.c
- cio2_parse_firmware in drivers/media/pci/intel/ipu3/ipu3-cio2.c.
+Now the real disaster is how we handle deadlocks. Two issues:
+
+- Ideally we'd keep any lock we've taken locked until the end, it helps
+  needless backoffs. I've played around a bit with that but not even poc
+  level, just an idea:
+
+https://cgit.freedesktop.org/~danvet/drm/commit/?id=b1799c5a0f02df9e1bb08d27be37331255ab7582
+
+  Idea is essentially to track a list of objects we had to lock as part of
+  the ttm_bo_validate of the main object.
+
+- Second one is if we get a EDEADLCK on one of these sublocks (like the
+  one here). We need to pass that up the entire callchain, including a
+  temporary reference (we have to drop locks to do the ww_mutex_lock_slow
+  call), and need a custom callback to drop that temporary reference
+  (since that's all driver specific, might even be internal ww_mutex and
+  not anything remotely looking like a normal dma_buf). This probably
+  needs the exec util helpers from ttm, but at the dma_resv level, so that
+  we can do something like this:
+
+struct dma_resv_ticket {
+	struct ww_acquire_ctx base;
+
+	/* can be set by anyone (including other drivers) that got hold of
+	 * this ticket and had to acquire some new lock. This lock might
+	 * protect anything, including driver-internal stuff, and isn't
+	 * required to be a dma_buf or even just a dma_resv. */
+	struct ww_mutex *contended_lock;
+
+	/* callback which the driver (which might be a dma-buf exporter
+	 * and not matching the driver that started this locking ticket)
+	 * sets together with @contended_lock, for the main driver to drop
+	 * when it calls dma_resv_unlock on the contended_lock. */
+	void (drop_ref*)(struct ww_mutex *contended_lock);
+};
+
+This is all supremely nasty (also ttm_bo_validate would need to be
+improved to handle these sublocks and random new objects that could force
+a ww_mutex_lock_slow).
+
+Plan B would be to throw our hands into and declare that "move_notify is
+best effort only and can fail for any reason". Exactly like ttm eviction
+currently does, even with all your hacks to do at least some dma_resv_lock
+(but not the full slowpath).
+
+Given how much "fun" you have with all the low memory handling and ttm
+fundamentally being best-effort only (despite that dma_resv would allow us
+to do this right, with some work) I'm not sure that's a good idea to
+extend to a cross-driver interface. Personally I'd lean towards fixing
+this first fully (in ttm/amdgpu), and then using that to implement
+move_notify correctly.
+
+Or just add an int return value here and mandate that importers must
+handle eviction failures. Exactly like ttm_mem_evict_first can currently
+still fail for various reasons.
+
+(Sorry this isn't exactly the mail you hoped for)
+
+Cheers, Daniel
+
+> +			/* When we get an error here it means that somebody
+> +			 * else is holding the VM lock and updating page tables
+> +			 * So we can just continue here.
+> +			 */
+> +			r = dma_resv_lock(resv, ticket);
+> +			if (r)
+> +				continue;
+> +
+> +		} else {
+> +			/* TODO: This is more problematic and we actually need
+> +			 * to allow page tables updates without holding the
+> +			 * lock.
+> +			 */
+> +			if (!dma_resv_trylock(resv))
+> +				continue;
+> +		}
+> +
+> +		r = amdgpu_vm_clear_freed(adev, vm, NULL);
+> +		if (!r)
+> +			r = amdgpu_vm_handle_moved(adev, vm);
+> +
+> +		if (r && r != -EBUSY)
+> +			DRM_ERROR("Failed to invalidate VM page tables (%d))\n",
+> +				  r);
+> +
+> +		dma_resv_unlock(resv);
+> +	}
+> +}
+> +
+>  static const struct dma_buf_attach_ops amdgpu_dma_buf_attach_ops = {
+> +	.move_notify = amdgpu_dma_buf_move_notify
+>  };
+>  
+>  /**
+> @@ -489,7 +553,7 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
+>  		return obj;
+>  
+>  	attach = dma_buf_dynamic_attach(dma_buf, dev->dev,
+> -					&amdgpu_dma_buf_attach_ops, NULL);
+> +					&amdgpu_dma_buf_attach_ops, obj);
+>  	if (IS_ERR(attach)) {
+>  		drm_gem_object_put(obj);
+>  		return ERR_CAST(attach);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 8ae260822908..8c480c898b0d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -926,6 +926,9 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
+>  		return 0;
+>  	}
+>  
+> +	if (bo->tbo.base.import_attach)
+> +		dma_buf_pin(bo->tbo.base.import_attach);
+> +
+>  	bo->flags |= AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS;
+>  	/* force to pin into visible video ram */
+>  	if (!(bo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS))
+> @@ -1009,6 +1012,9 @@ int amdgpu_bo_unpin(struct amdgpu_bo *bo)
+>  
+>  	amdgpu_bo_subtract_pin_size(bo);
+>  
+> +	if (bo->tbo.base.import_attach)
+> +		dma_buf_unpin(bo->tbo.base.import_attach);
+> +
+>  	for (i = 0; i < bo->placement.num_placement; i++) {
+>  		bo->placements[i].lpfn = 0;
+>  		bo->placements[i].flags &= ~TTM_PL_FLAG_NO_EVICT;
+> -- 
+> 2.17.1
+> 
+
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
