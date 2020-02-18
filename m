@@ -2,96 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4289162ED6
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2020 19:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6436C162EE3
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2020 19:42:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgBRSl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Feb 2020 13:41:29 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:46700 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbgBRSl2 (ORCPT
+        id S1726352AbgBRSm3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Feb 2020 13:42:29 -0500
+Received: from mail-pj1-f74.google.com ([209.85.216.74]:56923 "EHLO
+        mail-pj1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726225AbgBRSm3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Feb 2020 13:41:28 -0500
-Received: by mail-qt1-f195.google.com with SMTP id i14so8032756qtv.13
-        for <linux-media@vger.kernel.org>; Tue, 18 Feb 2020 10:41:28 -0800 (PST)
+        Tue, 18 Feb 2020 13:42:29 -0500
+Received: by mail-pj1-f74.google.com with SMTP id d7so591892pjx.6
+        for <linux-media@vger.kernel.org>; Tue, 18 Feb 2020 10:42:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+8trNULk0p7YTqlS76VkwaHxCoBJjgc3YSZwDVrMPcc=;
-        b=h6M6HrVl/s5ivPkO5Z1ae1j41oRDK/YZ/CMQeyTHeCm70Xf8uzH3NUd2U1TEIBQctu
-         zaEPJnigmUn3fvfj0Sa0Vtkti5inbKWVcYrGvzz2Z9j3tAywKdkucVFFz9PkvyoLP6wY
-         /5mIIY9IuOmrH7z2JMau9X++QuLwtDTXvMskap9MpzjyVWX//o0rQmGkyGijHqEUft0+
-         AU7HWAlmw783ySPgijXZvqNYfdh2o/ASnQ85K/RkvHNBsduuWv8f5kxmfZKVXm30kVa7
-         V0121A5vUilpN8Q72rXVxAfFiad3uPlDcFp8JTCASh2TMuKUxiBf1gGHBdEe1Hb0xtjP
-         zpcQ==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=d2wRJbkLFbnX5h47+/KLKTC9EOu1JUk/eVuafQjYbHQ=;
+        b=oI+QH8Mdb2jaFfP3q7AupqB0QhhC5C1B/q18uf5tlCkfj0fGYsfGN3WEhSgn8ktTye
+         UiMgo+VvnJG1h3Bgz5YmaO1VlLK93iihg4L36/gRFJNb2Qd3D5Efu0r8r3znpxP83uCe
+         JHZIezRmf7eCcLSzet3tsvEgcms82qlBc2J8accp8ALlkwXpz+nhXOQ15ndG0JuS9C+j
+         b+vSHiWUr6dM8sbKQEbaEITysRx+/3XJNjx+f35KRLF7cucVH/OoTLPRV0xXAJgaawi1
+         Kbsyhl9TtefwGkKkozcsvWIJnfYrtV9lmiao7Oz6XkOxa83P5/iqajKbDe+n0dWBB0jV
+         2mUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+8trNULk0p7YTqlS76VkwaHxCoBJjgc3YSZwDVrMPcc=;
-        b=GIrgHNZj/8CVgCjjZayNzFMdYSjk2RLeDhdIF094gvFVEsb25ew392ubZPJNRg18iX
-         NpfRtsfcBNaTMg8iXmPhr5xMTweeiQo1qExANrqe9xyfhJZOCrbftLw3QA5WDxS5Ei5o
-         QQXTuG9H6g+PlGO2YHHilhHmCTw3wOrmevdqmSqXviWxWYfI/C7as/lQf/yAM0KTqA3t
-         ggGX+LX09uccbPJNSh5Lauvz/CQeF5lgapeubrjABsgu33KLG09YfawbTV5bdIDPO+5r
-         17vv4Cz41wqfZjSgwCKs6ed9NYm4z5bM+PwhaApfEdXf//uWeiJEBTdmGeuFRzzaVSAW
-         sgmQ==
-X-Gm-Message-State: APjAAAWoAuNPUDEaGpZAANYQjdByZJzXsaLH55mX8wqYIqrih/rY+xVA
-        a33QkJfUI7UuM7ey3uFd+kE7HQLovdeVQgIy5Q0uoA==
-X-Google-Smtp-Source: APXvYqwNn+oeDOLhVeJz9u7cgOo+LDlda9ul4xQGNdm+tuTn6q87++mwk68MeqHh4jfoH64EprmRSvnltHAJHxaIXcI=
-X-Received: by 2002:ac8:2ffa:: with SMTP id m55mr18764287qta.189.1582051287712;
- Tue, 18 Feb 2020 10:41:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20191227063204.5813-1-xiyou.wangcong@gmail.com>
-In-Reply-To: <20191227063204.5813-1-xiyou.wangcong@gmail.com>
-From:   Chenbo Feng <fengc@google.com>
-Date:   Tue, 18 Feb 2020 10:41:16 -0800
-Message-ID: <CAMOXUJ=mvh0Aj-==wmPGh6x3dz0K3YTfaSw+osMwU=rgQv+Qkw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
-To:     Cong Wang <xiyou.wangcong@gmail.com>
-Cc:     DRI mailing list <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
-        Greg Hackmann <ghackmann@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=d2wRJbkLFbnX5h47+/KLKTC9EOu1JUk/eVuafQjYbHQ=;
+        b=Q0ObLHPzdhMicSOBhvWJcopoMBt0G80giic1YdslwkhKMHrAvZLDH4qw9i9QBA/eSw
+         ETirRsgsvKPxzwPyINQRHZO5yMTYnLSjui6Edt3tWPcFTMplRc8afYUaxJnotIRfX0O1
+         O0PV/mfAW621RZqKhShu1hrujX1MIswKzZ/xOF30uospRV0W4Y/eB5C0RDE8FlMlDNkZ
+         qJvmnlbG9p3ltvmFifc2wfilwkmYSvu9O+xrvyc4pe5Uc1flU1NU9QZFqOo+ayih5u8a
+         KFmaryureBcDaHjUMtsB+J0dxtfLhey4NGPysvFV6gwCphM7UszMMhrGAxPczBkoLHrU
+         kw+w==
+X-Gm-Message-State: APjAAAWDS3jCD4zFu6DWz5f/Fpqaz+PWkj4fR5ayqjwXwrFSffisGvr5
+        WRdeoIVyoU0LcNZQlEjcP7Y3lvO2DARnpF5ThuGs8f+VyvGNVFvUk8nKewxhJNeJZ7zaCdzRJDP
+        aoo9NsLrYSY+6NueO2sLmjbRSQmH9OcqBQYgrCNQtbFUXlFdDwi3K+C40adIIVmdYn4YU9IC18b
+        wdJg==
+X-Google-Smtp-Source: APXvYqybJhwnaBstjsEqK9dPPh5DMtXVQM3bbQkXsUXhhmQa5y81y2B1B6yYNSTQz30gxNcqcGYiP6k0NLPF8xd5
+X-Received: by 2002:a63:455c:: with SMTP id u28mr24914926pgk.163.1582051348672;
+ Tue, 18 Feb 2020 10:42:28 -0800 (PST)
+Date:   Tue, 18 Feb 2020 10:42:16 -0800
+Message-Id: <20200218184220.139656-1-jkardatzke@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Subject: [PATCH v3] media: venus: add support for selection rectangles
+From:   Jeffrey Kardatzke <jkardatzke@google.com>
+To:     linux-media@vger.kernel.org
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Malathi Gottam <mgottam@codeaurora.org>,
+        Jeffrey Kardatzke <jkardatzke@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Acked-by: Chenbo Feng <fengc@google.com>
+From: Malathi Gottam <>
 
+Handles target type crop by setting the new active rectangle
+to hardware. The new rectangle should be within YUV size.
 
-On Thu, Dec 26, 2019 at 10:32 PM Cong Wang <xiyou.wangcong@gmail.com> wrote:
->
-> dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
-> it never gets freed.
->
-> Free it in dma_buf_release().
->
-> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-> Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
-> Cc: Greg Hackmann <ghackmann@google.com>
-> Cc: Chenbo Feng <fengc@google.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index ce41cd9b758a..2427398ff22a 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
->                 dma_resv_fini(dmabuf->resv);
->
->         module_put(dmabuf->owner);
-> +       kfree(dmabuf->name);
->         kfree(dmabuf);
->         return 0;
->  }
-> --
-> 2.21.0
->
+This was taken from: https://lkml.org/lkml/2018/11/9/899
+
+Signed-off-by: Malathi Gottam <mgottam@codeaurora.org>
+Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
+---
+ drivers/media/platform/qcom/venus/venc.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 453edf966d4f..73b3181eed9a 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -479,10 +479,26 @@ venc_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
+ 
+ 	switch (s->target) {
+ 	case V4L2_SEL_TGT_CROP:
+-		if (s->r.width != inst->out_width ||
+-		    s->r.height != inst->out_height ||
+-		    s->r.top != 0 || s->r.left != 0)
+-			return -EINVAL;
++		if (s->r.left != 0) {
++			s->r.width += s->r.left;
++			s->r.left = 0;
++		}
++
++		if (s->r.top != 0) {
++			s->r.height += s->r.top;
++			s->r.top = 0;
++		}
++
++		if (s->r.width > inst->width)
++			s->r.width = inst->width;
++		else
++			inst->width = s->r.width;
++
++		if (s->r.height > inst->height)
++			s->r.height = inst->height;
++		else
++			inst->height = s->r.height;
++
+ 		break;
+ 	default:
+ 		return -EINVAL;
+-- 
+2.25.0.265.gbab2e86ba0-goog
+
