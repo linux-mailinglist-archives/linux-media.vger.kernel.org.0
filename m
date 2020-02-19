@@ -2,185 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F353163B33
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 04:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37A6A163C4D
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 05:58:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgBSD2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Feb 2020 22:28:34 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10618 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbgBSD2e (ORCPT
+        id S1726539AbgBSE6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Feb 2020 23:58:02 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:45017 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726496AbgBSE6C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Feb 2020 22:28:34 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e4cab410000>; Tue, 18 Feb 2020 19:28:01 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 18 Feb 2020 19:28:33 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 18 Feb 2020 19:28:33 -0800
-Received: from [10.2.163.58] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 19 Feb
- 2020 03:28:32 +0000
-Subject: Re: [RFC PATCH v3 3/6] dt-binding: tegra: Add VI and CSI bindings
-To:     Rob Herring <robh@kernel.org>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <helen.koike@collabora.com>, <sboyd@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
- <1581704608-31219-4-git-send-email-skomatineni@nvidia.com>
- <20200218231503.GA19099@bogus>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <5948bf42-9be2-8cf0-1c28-80f69b708c65@nvidia.com>
-Date:   Tue, 18 Feb 2020 19:28:36 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200218231503.GA19099@bogus>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1582082881; bh=cyoNazDtmT/h6DgHu5pqneFWToIbbP0fvPs2dxTlGMQ=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=CdpmAVZEN1+rPUXrq9ZTWHWteIUNLSIzWrA/h8Q6AVwCh3Xe4Ldg0Ae3e+GxK7GcY
-         WacUUqIeiFWQEZwv0nLL99pvzd7yUg5NLPubTPS2AdWA9TN8XbQJ5bJzJhlHt8RWiJ
-         6TtgMMo7qUbLyfXy4x+CGr20WXD3ZKfZtjAwmfiJbSKnFl580R/kSRv7HVRDeRfjs+
-         DG1NxmOr8BuAAqNiKBcjMuDvb6+c8RLy2qK8dxdArj863jZSvKQewH3SZODclwBXVd
-         vmrRmSBURvYrfXz/xK9kY16Mw5IA3TJfGDN44vMmxj06JQg/J89pX6dCvGDarNLTJx
-         Ln17zs2CfuKFQ==
+        Tue, 18 Feb 2020 23:58:02 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:9178:88b6:be2f:9ed0])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4HQsjxzVAP9a94HQtjmaJu; Wed, 19 Feb 2020 05:58:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582088280; bh=Nrkq8Ejm8YMe+Byfd4fr+Q1wekPH5TkkVisimcUojkc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=GrUrx4zf0DXf+IXD802PeHRl1ij8gbY/A8JnCz0nAYQXp7dQaLWrze7a8DQx6+BfI
+         ElPNmQq+zHQKNpqEX1tMc8+o0N3beKZfEha+VLK1S40tqkY0P5yxli8r/oufy1ML4g
+         31QQB89ieoD3rUPFfE4FhRqHdDxnKDiRUckBWLlx9VztybOyKwWWBudRcrgR+eo6mu
+         27dbnU+a8i2q/flpJBkC2DFBsVSvutyTlqUtH0ebdXAkTVuOFRSoWYcDIzLwgCu3wJ
+         z9Hz3drxiNHDWCef/c+guAdXWyf+qJxclHPjPwfsthP3L/KUrvxABq6A6G7D/OyOIn
+         NEBX/9aGoTsug==
+Message-ID: <eaaab3674e0e346df01b0d1bf009a144@smtp-cloud7.xs4all.net>
+Date:   Wed, 19 Feb 2020 05:57:58 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfG1mWs+jvbwbOWcE62p9b/17RvzROQbtZwP+HMVrlANpwBmRktCBxSnChnhWKZk4ZLK3IaFat8focIlcNl8lrAi0+CBsrb0OIGQEtY/2NTKhLSaX7B4P
+ rzleVfhjNUbYs0bRwAl1wOyMCbeFt73BUumUffuniaeBAJwjMstfvBZ6ViU/LMFTrGLKpPdu/R1DckkZyATpS00DFm62w08/dm5Tn58fgLbQRwWXOTRazBUx
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 2/18/20 3:15 PM, Rob Herring wrote:
-> External email: Use caution opening links or attachments
->
->
-> On Fri, Feb 14, 2020 at 10:23:25AM -0800, Sowjanya Komatineni wrote:
->> Tegra contains VI controller which can support up to 6 MIPI CSI
->> camera sensors.
->>
->> Each Tegra CSI port from CSI unit can be one-to-one mapper to
->> VI channel and can capture from an external camera sensor or
->> from built-in test pattern generator.
->>
->> This patch adds dt-bindings for Tegra VI and CSI.
->>
->> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
->> ---
->>   .../display/tegra/nvidia,tegra20-host1x.txt        | 55 ++++++++++++++++++----
->>   1 file changed, 47 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> index 9999255ac5b6..3d0ed540a646 100644
->> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
->> @@ -40,14 +40,24 @@ of the following host1x client modules:
->>
->>     Required properties:
->>     - compatible: "nvidia,tegra<chip>-vi"
->> -  - reg: Physical base address and length of the controller's registers.
->> +  - reg: Physical base address and length of the controller registers.
->>     - interrupts: The interrupt outputs from the controller.
->> -  - clocks: Must contain one entry, for the module clock.
->> +  - clocks: Must contain an entry for the module clock "vi"
->>       See ../clocks/clock-bindings.txt for details.
->>     - resets: Must contain an entry for each entry in reset-names.
->>       See ../reset/reset.txt for details.
->> -  - reset-names: Must include the following entries:
->> -    - vi
->> +  - reset-names: Must include the entry "vi"
->> +
->> +  Tegra210 has CSI part of VI sharing same host interface and register
->> +  space. So, VI device node should have CSI child node.
->> +
->> +  - csi: mipi csi interface to vi
->> +
->> +    Required properties:
->> +    - compatible: "nvidia,tegra<chip>-csi"
->> +    - reg: Physical base address and length of the controller registers.
->> +    - clocks: Must contain entries csi, cilab, cilcd, cile clocks.
->> +      See ../clocks/clock-bindings.txt for details.
->>
->>   - epp: encoder pre-processor
->>
->> @@ -310,12 +320,41 @@ Example:
->>                };
->>
->>                vi {
->> -                     compatible = "nvidia,tegra20-vi";
->> -                     reg = <0x54080000 0x00040000>;
->> +                     compatible = "nvidia,tegra210-vi";
->> +                     reg = <0x0 0x54080000 0x0 0x700>;
->>                        interrupts = <0 69 0x04>;
->> -                     clocks = <&tegra_car TEGRA20_CLK_VI>;
->> -                     resets = <&tegra_car 100>;
->> +                     assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
->> +                     assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
->> +                     clocks = <&tegra_car TEGRA210_CLK_VI>;
->> +                     clock-names = "vi";
->> +                     resets = <&tegra_car 20>;
->>                        reset-names = "vi";
->> +
->> +                     #address-cells = <2>;
->> +                     #size-cells = <2>;
->> +
->> +                     ranges = <0x0 0x54080808 0x0 0x54080808 0x0 0x2000>;
->> +
->> +                     csi@0x54080838 {
-> Drop '0x'
-Will fix in v4
->
->> +                             compatible = "nvidia,tegra210-csi";
->> +                             reg = <0x0 0x54080838 0x0 0x2000>;
-> Kind of odd that this address and ranges address are not the same. And
-> also wrong that the size here exceeds the bounds of ranges.
->
-> Also, best practice is to make the child address 0 or relative to the
-> parent.
+Results of the daily build of media_tree:
 
-Actual CSI starts at offset 0x808 but we don't use couple of registers 
-at offset 0x808.
+date:			Wed Feb 19 05:00:11 CET 2020
+media-tree git hash:	bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9
+media_build git hash:	c19c9d0d270d64a158c41764125deef059b7acbc
+v4l-utils git hash:	3be1227d699f5c78e263626d97e75c43cd3726d7
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0a0399d66d361fec135a2dc184bd8d12148f35ad
+host hardware:		x86_64
+host os:		5.4.0-3-amd64
 
-Will update ranges in v4 to start from 0x838 offset and will make child 
-address relative to parent.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2939, Failed: 4, Warnings: 0
+sparse: OK
+smatch: OK
 
->
->> +                             status = "disabled";
-> Don't show status in examples.
-Will remove.
->
->> +                             assigned-clocks = <&tegra_car TEGRA210_CLK_CILAB>,
->> +                                               <&tegra_car TEGRA210_CLK_CILCD>,
->> +                                               <&tegra_car TEGRA210_CLK_CILE>;
->> +                             assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_P>,
->> +                                                      <&tegra_car TEGRA210_CLK_PLL_P>,
->> +                                                      <&tegra_car TEGRA210_CLK_PLL_P>;
->> +                             assigned-clock-rates = <102000000>,
->> +                                                    <102000000>,
->> +                                                    <102000000>;
->> +                             clocks = <&tegra_car TEGRA210_CLK_CSI>,
->> +                                      <&tegra_car TEGRA210_CLK_CILAB>,
->> +                                      <&tegra_car TEGRA210_CLK_CILCD>,
->> +                                      <&tegra_car TEGRA210_CLK_CILE>;
->> +                             clock-names = "csi", "cilab", "cilcd", "cile";
->> +                     };
->> +
->>                };
->>
->>                epp {
->> --
->> 2.7.4
->>
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
