@@ -2,123 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63A36163F49
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 09:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAC5A163F6E
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 09:42:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbgBSIfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 03:35:11 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47415 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726001AbgBSIfL (ORCPT
+        id S1726265AbgBSImc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 03:42:32 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:46382 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727584AbgBSIm3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 03:35:11 -0500
-Received: from [192.168.2.10] ([46.9.235.248])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 4Kp0jzM3DP9a94Kp3jnR2K; Wed, 19 Feb 2020 09:35:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582101309; bh=C8+TLX9CUjoYRbjqV89DAOrnbxNqT7La9+Tr4+Nt/Xs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Im/GCuvczi+2FTbLoNthxvmmyj/yWDPNHrxtz76J+xF24ZTX6P2sAsYjH5WeaH1cl
-         n94ltxdd8tbqYnWKoYK3OwG7CPh/Fkichzhz9l2+CkCxW1aa5t4L/vAwMBdnZfgOJ0
-         2sODOe3cx7qRA6b5qJOBDnjVHGaeZFj8fS6vJHa8QQdLYb77gc910q0kyRkP2XDgO7
-         iKEGlvmXc7vzPFiJjpTAwMFBKIGcyEie5cZwZrpM2t1mY3GxETwcVoPtELpPg3dRAi
-         wr9VQm122I7NV5vKucWvwLfKf5TcH3lrR/q/OhmgC6hZ0yKg/opbxaluW0zDCw0ko2
-         gvpBIDM15NPDg==
-Subject: Re: [RFC][PATCHv2 11/12] videobuf2: add begin/end cpu_access
- callbacks to dma-sg
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Wed, 19 Feb 2020 03:42:29 -0500
+Received: by mail-pf1-f195.google.com with SMTP id k29so12136190pfp.13
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 00:42:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rEfRYK8X2QQnG43sHHHHoR8YIwfIEm7XxLTlJ/H+Qso=;
+        b=D4fnLH50SoBcu24sBK+TREJyUfMHxXPaZKVeoLfvA5KFxaZ7c68RJNszw2tBFA9Qcp
+         ba+eAmlzeBfOiXE8FiyX0VS/UsLgVA9SF+n+DR06ziu8bljGWCHxbU/czk9XIaQ7Imvj
+         bhlROB8OvWew6mZ/ZxOVoOWi7afsncAZvIcNo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rEfRYK8X2QQnG43sHHHHoR8YIwfIEm7XxLTlJ/H+Qso=;
+        b=Yz09unrx9dYUroGkudz5WktH8lw48Mv6wJ41tDKcx0tYvS61l3/VuewfQhtjKaukZu
+         BRjSL9CKdD8BKJVwt5LUr4JZsWiTJYJfuum2BdVP60soICWnk3WOP06lU5/aA6lPgmw+
+         LotX8taOMqa55I4Ph4Olp3mWhS+Jdsi8NumQs+P9V6U6y/DTFAtV9ZUOOYLk3KQkBlX7
+         wsjwnHCsVuAjOvTi1SdeVJYG1gdhFyc8jsJzF+u+KhIGJVRDCkWuQJkqdAOC/24LImM7
+         GNax6SrS5GbbjYlJ6ooCC2QUq0/ic+6Leu0K7Qbz5N9eAXrwl1vFfxBxA6j3xxrqd67r
+         90kA==
+X-Gm-Message-State: APjAAAX5U8CjLWwS0WdwNJ1CxT4QTmSaepQNqrMt12FfBRb6VNa97rCo
+        OyvuN0jVnw6ypAInjiHTqjoCMw==
+X-Google-Smtp-Source: APXvYqzjnuZExpo94NDDjP+oXQOEJXX7Rv7xGZvYk6wB2CYz2vbMD1KopE9TEkAVUNxHi4plCGVSsw==
+X-Received: by 2002:aa7:9796:: with SMTP id o22mr25408908pfp.101.1582101748508;
+        Wed, 19 Feb 2020 00:42:28 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id v25sm1829913pfe.147.2020.02.19.00.42.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2020 00:42:27 -0800 (PST)
+Date:   Wed, 19 Feb 2020 17:42:26 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCHv2 11/12] videobuf2: add begin/end cpu_access
+ callbacks to dma-sg
+Message-ID: <20200219084226.GC122464@google.com>
 References: <20200204025641.218376-1-senozhatsky@chromium.org>
  <20200204025641.218376-12-senozhatsky@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <06d654ec-9d05-4ef5-c27e-ff78c96a3457@xs4all.nl>
-Date:   Wed, 19 Feb 2020 09:35:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <06d654ec-9d05-4ef5-c27e-ff78c96a3457@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20200204025641.218376-12-senozhatsky@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAM6J5MuTxDS9Mq5vbGVpdEHcL+zpBvRu+SSDWsXh/ekZ6HatxQGKgFprfDkFu0Ka3/ar4Z/N5a4SPBi5lejeQuuvs59XV0qYbRg7/KEai1qKNs0vSNK
- SFvHeF75F+IGbVDs/hJzUe6nd4KxhjIIoY11hh5HLmH4NAE4/JNIsLyTZ4b7ti0hAWyCFqTkL8/gjMuwIx28GWpnr4FLpakv3tNkQjyTt9f6WEAsl16kWJ52
- tMa2gzFo4MGztIycB5X6Bu/FMsnRRXkEEIZJEGf75dFw1EoiO4F2pvx7Dvd1BykI2pDRjr50hkbFDgHtz/r592L7KPJ9nYA40SCm+ZZ0C6R65kkik4VmJYzb
- Pdq0/q8CriBaYsAQvLZ4yUiBfcs6zvnl5W1YMDCrW2QwYvh7nNmWYELvEjwNAMIogBsck43+Utr15Yl8EqaYxd2irJ0sJbyDtIthifA6vGa1uefSsbVbXBDt
- 0KYxiuZ8F3EUAAYDIhhxLZ7xIzTZzVZ8kNDb7lcw87ojTWj2tuwPqYcZOvDIzAQTcAaJGq0F9rDO1ADT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <06d654ec-9d05-4ef5-c27e-ff78c96a3457@xs4all.nl>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/4/20 3:56 AM, Sergey Senozhatsky wrote:
-> Provide begin_cpu_access() and end_cpu_access() dma_buf_ops
-> callbacks for cache synchronisation on exported buffers.
+On (20/02/19 09:35), Hans Verkuil wrote:
+> On 2/4/20 3:56 AM, Sergey Senozhatsky wrote:
+> > Provide begin_cpu_access() and end_cpu_access() dma_buf_ops
+> > callbacks for cache synchronisation on exported buffers.
+> > 
+> > V4L2_FLAG_MEMORY_NON_CONSISTENT has no effect on dma-sg buffers.
+> > dma-sg allocates memory using the page allocator directly, so
+> > there is no memory consistency guarantee.
 > 
-> V4L2_FLAG_MEMORY_NON_CONSISTENT has no effect on dma-sg buffers.
-> dma-sg allocates memory using the page allocator directly, so
-> there is no memory consistency guarantee.
+> This should also be a comment in the code.
 
-This should also be a comment in the code.
+OK.
 
-Regards,
-
-	Hans
-
-> 
-> Change-Id: Ia0d9d72a8c2a9fe3264ac148f59201573289ed2c
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  .../media/common/videobuf2/videobuf2-dma-sg.c | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index 6db60e9d5183..bfc99a0cb7b9 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -470,6 +470,26 @@ static void vb2_dma_sg_dmabuf_ops_release(struct dma_buf *dbuf)
->  	vb2_dma_sg_put(dbuf->priv);
->  }
->  
-> +static int vb2_dma_sg_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
-> +					enum dma_data_direction direction)
-> +{
-> +	struct vb2_dma_sg_buf *buf = dbuf->priv;
-> +	struct sg_table *sgt = buf->dma_sgt;
-> +
-> +	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
-> +	return 0;
-> +}
-> +
-> +static int vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
-> +					enum dma_data_direction direction)
-> +{
-> +	struct vb2_dma_sg_buf *buf = dbuf->priv;
-> +	struct sg_table *sgt = buf->dma_sgt;
-> +
-> +	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
-> +	return 0;
-> +}
-> +
->  static void *vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf)
->  {
->  	struct vb2_dma_sg_buf *buf = dbuf->priv;
-> @@ -488,6 +508,8 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
->  	.detach = vb2_dma_sg_dmabuf_ops_detach,
->  	.map_dma_buf = vb2_dma_sg_dmabuf_ops_map,
->  	.unmap_dma_buf = vb2_dma_sg_dmabuf_ops_unmap,
-> +	.begin_cpu_access = vb2_dma_sg_dmabuf_ops_begin_cpu_access,
-> +	.end_cpu_access = vb2_dma_sg_dmabuf_ops_end_cpu_access,
->  	.vmap = vb2_dma_sg_dmabuf_ops_vmap,
->  	.mmap = vb2_dma_sg_dmabuf_ops_mmap,
->  	.release = vb2_dma_sg_dmabuf_ops_release,
-> 
-
+	-ss
