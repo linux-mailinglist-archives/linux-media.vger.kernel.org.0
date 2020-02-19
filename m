@@ -2,33 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 541B1163FEC
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 10:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96305163FF1
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 10:05:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbgBSJEc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 04:04:32 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:37241 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726163AbgBSJEc (ORCPT
+        id S1726530AbgBSJFw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 04:05:52 -0500
+Received: from mail-pj1-f48.google.com ([209.85.216.48]:38173 "EHLO
+        mail-pj1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbgBSJFw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 04:04:32 -0500
-Received: from [192.168.2.10] ([46.9.235.248])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 4LHOjzaYoP9a94LHRjnck7; Wed, 19 Feb 2020 10:04:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582103069; bh=awI5pcolTUc0dIRN7RtZluGyjY51sqg70SkWPn5V+Qc=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=erm3ELrqsQaRKYifwM8QyDXEp5mSi+S38r6kId5G0cKhVbJsO4ykrRSaP7MLj3T7B
-         kLZtAuLTQIR/0HM0AQONzJYBPi0CP+39MNVW6m/Rvt08PrG1FxyhmzztcOtZ30WjFn
-         76UkubCkzkT0kD8CiQ4hFl2SKse+/eanTeZjKn3ItJZSeedSOXFRso77xWhvxIjkUY
-         VkwYmR79J3/EHfWeTQK4MWUgK4UNHR7ApQwYG7wyoHtOdkHXb53/2OEE8XfOzXaWmD
-         wZj9imX5pVtjB+atSAm5DkV9/jGjFLmIgDobt03jzcG9yiN5ZZBl1J+Q+1txc9be9L
-         g7q4kK14ssmYg==
-Subject: Re: [RFC][PATCHv2 05/12] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT flag
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Wed, 19 Feb 2020 04:05:52 -0500
+Received: by mail-pj1-f48.google.com with SMTP id j17so2268103pjz.3
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 01:05:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=MHb/19gJYPsAg71KRRWbuzDnz+m/m3K8W3L6MyDMF70=;
+        b=PEl5zJNPTZ13sh03vuG3STMRi7yYdWvxlSO9I6m9T7ca225tueehBwEzPvdWyTLf2c
+         6GLBPw9n6bXaRHgrc3gHz9+N53a7dDq7MUxrRXociwiVomLYcBF0m92XNKkw8IGBKg+x
+         +9yYIHshuaTpCTfOyXzjuKxpbVWr38aNboCzE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MHb/19gJYPsAg71KRRWbuzDnz+m/m3K8W3L6MyDMF70=;
+        b=CRN63bBy8vFKz9hwVyxNc+aNs6NsXDT543m9w6OpzSsDIi+zAmLvS3TFh1F259diAt
+         wO0JYtDd5cv+++zCgggM8zYYD8+gsUCgZLo4C9stW2/a4PNqqMREFiXgWa1HEP04DD2c
+         FcvL5bbz/3bTUXP2J5pEjJt5tH5j3z37B+bqz1gSzTASYhfTecMep8UQEqdxW8LMrzdA
+         m9uq9njSxvIXpF1Bq69WB5ZBgbqtOm6oNxR801+3qaIOi95BXsRRA1svo2Fbv8oZNmoJ
+         gy/siy4mWAKY8pcG3IMHDvy5idS2VP4mIBxXA+h8VEqjsxwJmqk5STq336QffZJCBTU5
+         w/IA==
+X-Gm-Message-State: APjAAAXOlDMAKShMBTRz+q67PNwC6lVKwzl5GbozN66iLoeUbImVzKaw
+        uRsf3IrzyFP0L5vmBOUIjVH2pw==
+X-Google-Smtp-Source: APXvYqx0/1JHBp144TCle6IzSZivX4OKQsKGWeZ3go60rD3jWKdHuDQSJTlnR7UxVoCqaQLvXDiW3A==
+X-Received: by 2002:a17:902:7442:: with SMTP id e2mr25802611plt.158.1582103150121;
+        Wed, 19 Feb 2020 01:05:50 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id a69sm1984743pfa.129.2020.02.19.01.05.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2020 01:05:49 -0800 (PST)
+Date:   Wed, 19 Feb 2020 18:05:47 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kyungmin Park <kyungmin.park@samsung.com>,
@@ -37,97 +55,52 @@ Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC][PATCHv2 05/12] videobuf2: handle
+ V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+Message-ID: <20200219090547.GF122464@google.com>
 References: <20200204025641.218376-1-senozhatsky@chromium.org>
  <20200204025641.218376-6-senozhatsky@chromium.org>
- <7f3310f9-8a12-1299-726d-2ca04207b32c@xs4all.nl>
- <20200219085945.GE122464@google.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2ec710c4-1471-afe2-abbc-6a499ffadfec@xs4all.nl>
-Date:   Wed, 19 Feb 2020 10:04:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <83147032-25a4-9450-d455-437e82e09dc8@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20200219085945.GE122464@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfD8MOJGsnBhvSaB2qok14JGJWIOOoItvmomDYMBrOFx+X0hwe9sz1Sjkz5SX4UYax1pdDO9wY3evoTCpb6P74vqgxJI7i/mMYMftApR2u3ITNWK8BYE9
- sMMyW+BxYTbigHhb6ZZUNCJZ1feBWIYWzV7OIKYyC9FYg8YKXOPmqqD/J3Zu2wOpE5xB9RC+VSDj5cDfxrDDEt/ganlSHNQh6cwG+xW2m83l8qdbNmHag+X6
- ZKq2xt/ZBBEyvsbKSNJ+x6coIIgx11++nQ2oPhSNKVSfYwCWXW0OEUSpjg+q/LEUKGUFCJU9/78ztlJox3xDcsg9pwMMrKi2v6c4YsK/fwpqoat+kXBU0Zfd
- 7Cg4rNtKAweVkUjG5Ksmq3lunIX+6R6gigy8DFEkK/5iiYaPo2O/1jrUQSINkYgrXtrbwffeTzFtRHejaYeLm8oSlEnYxjsLQf+oPcyLDmrZaWBS/FVIq8WM
- 09amECDdbh+09SJOEZ+rJxyZ/YTfsFRg+7D2xwRRFkMt0P9doGJ4bu5eTjdH3CyuRAN5c3YC30dEpM9R
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83147032-25a4-9450-d455-437e82e09dc8@xs4all.nl>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/19/20 9:59 AM, Sergey Senozhatsky wrote:
-> On (20/02/19 09:25), Hans Verkuil wrote:
-> [..]
->>> diff --git a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
->>> index bd08e4f77ae4..68185e94b686 100644
->>> --- a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
->>> +++ b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
->>> @@ -121,7 +121,14 @@ than the number requested.
->>>  	other changes, then set ``count`` to 0, ``memory`` to
->>>  	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
->>>      * - __u32
->>> -      - ``reserved``\ [7]
->>> +      - ``flags``
->>> +      - Specifies additional buffer management attributes. Valid only when
->>> +	queue reports :ref:`V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS` capability.
->>> +	Old drivers and applications must set it to zero.
->>
->> Drop the 'Valid only' sentence. The V4L2_FLAG_MEMORY_NON_CONSISTENT depends
->> on that capability, but other flags added in the future may not.
+On (20/02/19 09:48), Hans Verkuil wrote:
+[..]
+> >  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+> >  {
+> >  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
+> > +	bool consistent = true;
+> > +
+> > +	if (req->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
+> > +		consistent = false;
 > 
-> The whole sentence, right?
+> There is no check against allow_cache_hints: if that's 0, then
+> the V4L2_FLAG_MEMORY_NON_CONSISTENT flag should be cleared since it is
+> not supported.
 
-Yes, "Valid only ... capability."
+The check is in set_queue_consistency()
 
-> 
->> Inside add a reference to the memory flags section created in patch 3.
-> 
-> Sorry. Inside?
+static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
+{
+	if (!q->allow_cache_hints)
+		return;
 
-Oops: Inside -> Instead
+	if (consistent_mem)
+		q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
+	else
+		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
+}
 
-> 
-> [..]
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 72efc1c544cd..169a8cf345ed 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -938,7 +938,10 @@ struct v4l2_requestbuffers {
->>>  	__u32			type;		/* enum v4l2_buf_type */
->>>  	__u32			memory;		/* enum v4l2_memory */
->>>  	__u32			capabilities;
->>> -	__u32			reserved[1];
->>> +	union {
->>> +		__u32		flags;
->>> +		__u32		reserved[1];
->>> +	};
->>
->> How about this:
->>
->> 	__u8			flags;
->> 	__u8			reserved[3];
->>
->> That avoids the anonymous union and allows some space for future additions.
-> 
-> Hmm. This way old apps, which clear out ->reserved, e.g.
-> memset(&x.reserved, 0x00, sizeof(x.reserved)), won't clear
-> out x.flags and can accidentally submit some unintended
-> garbage. It's not the case with anon union.
+I don't explicitly clear DMA_ATTR_NON_CONSISTENT attr for
+!->allow_cache_hints queues just in case if the driver for
+some reason sets that flag. ->allow_cache_hints is, thus,
+only for cases when user-space asks us to set or clear it.
 
-Hmm. I need to think about this some more, so leave in the anon union
-for now.
-
-Regards,
-
-	Hans
-
-> 
-> 	-ss
-> 
-
+	-ss
