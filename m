@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A82164C1D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7978E164C23
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:38:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbgBSRiI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 12:38:08 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37606 "EHLO
+        id S1726803AbgBSRiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 12:38:14 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37616 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbgBSRiH (ORCPT
+        with ESMTP id S1726518AbgBSRiN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:38:07 -0500
+        Wed, 19 Feb 2020 12:38:13 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 082EF2946A1
+        with ESMTPSA id 9D81E2946A5
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
@@ -29,9 +29,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v5 1/6] media: uapi: h264: Add DPB entry field reference flags
-Date:   Wed, 19 Feb 2020 14:37:45 -0300
-Message-Id: <20200219173750.26453-2-ezequiel@collabora.com>
+Subject: [PATCH v5 2/6] media: v4l2-core: Add helpers to build the H264 P/B0/B1 reflists
+Date:   Wed, 19 Feb 2020 14:37:46 -0300
+Message-Id: <20200219173750.26453-3-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219173750.26453-1-ezequiel@collabora.com>
 References: <20200219173750.26453-1-ezequiel@collabora.com>
@@ -42,72 +42,417 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jonas Karlman <jonas@kwiboo.se>
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-Using the field information attached to v4l2 buffers is not enough to
-determine the type of field referenced by a DPB entry: the decoded
-frame might contain the full picture (both top and bottom fields)
-but the reference only point to one of them.
-Let's add new V4L2_H264_DPB_ENTRY_FLAG_ flags to express that.
+Building those list is a standard procedure described in section
+'8.2.4 Decoding process for reference picture lists construction' of
+the H264 specification.
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-[Keep only 2 flags and add some details about they mean]
+We already have 2 drivers needing the same logic (hantro and rkvdec) and
+I suspect we will soon have more.
+
+Let's provide generic helpers to create those lists.
+
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
 v5:
-* None
+* None 
 v4:
-* None
+* None 
 v3:
-* This patch was previously part of https://lkml.org/lkml/2019/10/28/956
-* Kept the FIELD and BOTTOM_FIELD flags
-* Updated the doc with more details
+* New patch
 ---
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 16 ++++++++++++++++
- include/media/h264-ctrls.h                       |  2 ++
- 2 files changed, 18 insertions(+)
+ drivers/media/v4l2-core/Kconfig     |   4 +
+ drivers/media/v4l2-core/Makefile    |   1 +
+ drivers/media/v4l2-core/v4l2-h264.c | 258 ++++++++++++++++++++++++++++
+ include/media/v4l2-h264.h           |  86 ++++++++++
+ 4 files changed, 349 insertions(+)
+ create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
+ create mode 100644 include/media/v4l2-h264.h
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-index 28313c0f4e7c..d4fc5f25aa14 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-@@ -2028,6 +2028,22 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-     * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
-       - 0x00000004
-       - The DPB entry is a long term reference frame
-+    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD``
-+      - 0x00000008
-+      - The DPB entry is a field reference, which means only one of the field
-+        will be used when decoding the new frame/field. When not set the DPB
-+        entry is a frame reference (both fields will be used). Note that this
-+        flag does not say anything about the number of fields contained in the
-+        reference frame, it just describes the one used to decode the new
-+        field/frame
-+    * - ``V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD``
-+      - 0x00000010
-+      - The DPB entry is a bottom field reference (only the bottom field of the
-+        reference frame is needed to decode the new frame/field). Only valid if
-+        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set. When
-+        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set but
-+        V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD is not, that means the
-+        DPB entry is a top field reference
+diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+index 39e3fb30ba0b..8a4ccfbca8cf 100644
+--- a/drivers/media/v4l2-core/Kconfig
++++ b/drivers/media/v4l2-core/Kconfig
+@@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
+ config VIDEO_TUNER
+ 	tristate
  
- ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
-     Specifies the decoding mode to use. Currently exposes slice-based and
-diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-index e877bf1d537c..1c6ff7d63bca 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/media/h264-ctrls.h
-@@ -185,6 +185,8 @@ struct v4l2_ctrl_h264_slice_params {
- #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
- #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
- #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
-+#define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
-+#define V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD	0x10
++# Used by drivers that need v4l2-h264.ko
++config V4L2_H264
++	tristate
++
+ # Used by drivers that need v4l2-mem2mem.ko
+ config V4L2_MEM2MEM_DEV
+ 	tristate
+diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+index 786bd1ec4d1b..c5c53e0941ad 100644
+--- a/drivers/media/v4l2-core/Makefile
++++ b/drivers/media/v4l2-core/Makefile
+@@ -21,6 +21,7 @@ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
+ obj-$(CONFIG_VIDEO_TUNER) += tuner.o
  
- struct v4l2_h264_dpb_entry {
- 	__u64 reference_ts;
+ obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
++obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+ 
+ obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+new file mode 100644
+index 000000000000..5db3039bf1e3
+--- /dev/null
++++ b/drivers/media/v4l2-core/v4l2-h264.c
+@@ -0,0 +1,258 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * V4L2 H264 helpers.
++ *
++ * Copyright (C) 2019 Collabora, Ltd.
++ *
++ * Author: Boris Brezillon <boris.brezillon@collabora.com>
++ */
++
++#include <linux/module.h>
++#include <linux/sort.h>
++
++#include <media/v4l2-h264.h>
++
++/**
++ * v4l2_h264_init_reflist_builder() - Initialize a P/B0/B1 reference list
++ *				      builder
++ *
++ * @b: the builder context to initialize
++ * @dec_params: decode parameters control
++ * @slice_params: first slice parameters control
++ * @sps: SPS control
++ * @dpb: DPB to use when creating the reference list
++ */
++void
++v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
++		const struct v4l2_ctrl_h264_decode_params *dec_params,
++		const struct v4l2_ctrl_h264_slice_params *slice_params,
++		const struct v4l2_ctrl_h264_sps *sps,
++		const struct v4l2_h264_dpb_entry *dpb)
++{
++	int cur_frame_num, max_frame_num;
++	unsigned int i;
++
++	max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
++	cur_frame_num = slice_params->frame_num;
++
++	memset(b, 0, sizeof(*b));
++	if (!(slice_params->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC))
++		b->cur_pic_order_count = min(dec_params->bottom_field_order_cnt,
++					     dec_params->top_field_order_cnt);
++	else if (slice_params->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
++		b->cur_pic_order_count = dec_params->bottom_field_order_cnt;
++	else
++		b->cur_pic_order_count = dec_params->top_field_order_cnt;
++
++	for (i = 0; i < 16; i++) {
++		u32 pic_order_count;
++
++		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
++			continue;
++
++		b->refs[i].pic_num = dpb[i].pic_num;
++		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
++			b->refs[i].longterm = true;
++
++		/*
++		 * Handle frame_num wraparound as described in section
++		 * '8.2.4.1 Decoding process for picture numbers' of the spec.
++		 * TODO: This logic will have to be adjusted when we start
++		 * supporting interlaced content.
++		 */
++		if (dpb[i].frame_num > cur_frame_num)
++			b->refs[i].frame_num = (int)dpb[i].frame_num -
++					       max_frame_num;
++		else
++			b->refs[i].frame_num = dpb[i].frame_num;
++
++		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
++			pic_order_count = min(dpb[i].top_field_order_cnt,
++					      dpb[i].bottom_field_order_cnt);
++		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
++			pic_order_count = dpb[i].bottom_field_order_cnt;
++		else
++			pic_order_count = dpb[i].top_field_order_cnt;
++
++		b->refs[i].pic_order_count = pic_order_count;
++		b->unordered_reflist[b->num_valid] = i;
++		b->num_valid++;
++	}
++
++	for (i = b->num_valid; i < ARRAY_SIZE(b->unordered_reflist); i++)
++		b->unordered_reflist[i] = i;
++}
++EXPORT_SYMBOL_GPL(v4l2_h264_init_reflist_builder);
++
++static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
++				    const void *data)
++{
++	const struct v4l2_h264_reflist_builder *builder = data;
++	u8 idxa, idxb;
++
++	idxa = *((u8 *)ptra);
++	idxb = *((u8 *)ptrb);
++
++	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
++		/* Short term pics first. */
++		if (!builder->refs[idxa].longterm)
++			return -1;
++		else
++			return 1;
++	}
++
++	/*
++	 * Short term pics in descending pic num order, long term ones in
++	 * ascending order.
++	 */
++	if (!builder->refs[idxa].longterm)
++		return builder->refs[idxb].frame_num <
++		       builder->refs[idxa].frame_num ?
++		       -1 : 1;
++
++	return builder->refs[idxa].pic_num < builder->refs[idxb].pic_num ?
++	       -1 : 1;
++}
++
++static int v4l2_h264_b0_ref_list_cmp(const void *ptra, const void *ptrb,
++				     const void *data)
++{
++	const struct v4l2_h264_reflist_builder *builder = data;
++	s32 poca, pocb;
++	u8 idxa, idxb;
++
++	idxa = *((u8 *)ptra);
++	idxb = *((u8 *)ptrb);
++
++	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
++		/* Short term pics first. */
++		if (!builder->refs[idxa].longterm)
++			return -1;
++		else
++			return 1;
++	}
++
++	/* Long term pics in ascending pic num order. */
++	if (builder->refs[idxa].longterm)
++		return builder->refs[idxa].pic_num <
++		       builder->refs[idxb].pic_num ?
++		       -1 : 1;
++
++	poca = builder->refs[idxa].pic_order_count;
++	pocb = builder->refs[idxb].pic_order_count;
++
++	/*
++	 * Short term pics with POC < cur POC first in POC descending order
++	 * followed by short term pics with POC > cur POC in POC ascending
++	 * order.
++	 */
++	if ((poca < builder->cur_pic_order_count) !=
++	     (pocb < builder->cur_pic_order_count))
++		return poca < pocb ? -1 : 1;
++	else if (poca < builder->cur_pic_order_count)
++		return pocb < poca ? -1 : 1;
++
++	return poca < pocb ? -1 : 1;
++}
++
++static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
++				     const void *data)
++{
++	const struct v4l2_h264_reflist_builder *builder = data;
++	s32 poca, pocb;
++	u8 idxa, idxb;
++
++	idxa = *((u8 *)ptra);
++	idxb = *((u8 *)ptrb);
++
++	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
++		/* Short term pics first. */
++		if (!builder->refs[idxa].longterm)
++			return -1;
++		else
++			return 1;
++	}
++
++	/* Long term pics in ascending pic num order. */
++	if (builder->refs[idxa].longterm)
++		return builder->refs[idxa].pic_num <
++		       builder->refs[idxb].pic_num ?
++		       -1 : 1;
++
++	poca = builder->refs[idxa].pic_order_count;
++	pocb = builder->refs[idxb].pic_order_count;
++
++	/*
++	 * Short term pics with POC > cur POC first in POC ascending order
++	 * followed by short term pics with POC < cur POC in POC descending
++	 * order.
++	 */
++	if ((poca < builder->cur_pic_order_count) !=
++	    (pocb < builder->cur_pic_order_count))
++		return pocb < poca ? -1 : 1;
++	else if (poca < builder->cur_pic_order_count)
++		return pocb < poca ? -1 : 1;
++
++	return poca < pocb ? -1 : 1;
++}
++
++/**
++ * v4l2_h264_build_p_ref_list() - Build the P reference list
++ *
++ * @builder: reference list builder context
++ * @p_reflist: 16-bytes array used to store the P reference list. Each entry
++ *	       is an index in the DPB
++ *
++ * This functions builds the P reference lists. This procedure is describe in
++ * section '8.2.4 Decoding process for reference picture lists construction'
++ * of the H264 spec. This function can be used by H264 decoder drivers that
++ * need to pass a P reference list to the hardware.
++ */
++void
++v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
++			   u8 *reflist)
++{
++	memcpy(reflist, builder->unordered_reflist,
++	       sizeof(builder->unordered_reflist));
++	sort_r(reflist, builder->num_valid, sizeof(*reflist),
++	       v4l2_h264_p_ref_list_cmp, NULL, builder);
++}
++EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
++
++/**
++ * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
++ *
++ * @builder: reference list builder context
++ * @b0_reflist: 16-bytes array used to store the B0 reference list. Each entry
++ *		is an index in the DPB
++ * @b1_reflist: 16-bytes array used to store the B1 reference list. Each entry
++ *		is an index in the DPB
++ *
++ * This functions builds the B0/B1 reference lists. This procedure is described
++ * in section '8.2.4 Decoding process for reference picture lists construction'
++ * of the H264 spec. This function can be used by H264 decoder drivers that
++ * need to pass B0/B1 reference lists to the hardware.
++ */
++void
++v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
++			    u8 *b0_reflist, u8 *b1_reflist)
++{
++	memcpy(b0_reflist, builder->unordered_reflist,
++	       sizeof(builder->unordered_reflist));
++	sort_r(b0_reflist, builder->num_valid, sizeof(*b0_reflist),
++	       v4l2_h264_b0_ref_list_cmp, NULL, builder);
++
++	memcpy(b1_reflist, builder->unordered_reflist,
++	       sizeof(builder->unordered_reflist));
++	sort_r(b1_reflist, builder->num_valid, sizeof(*b1_reflist),
++	       v4l2_h264_b1_ref_list_cmp, NULL, builder);
++
++	if (builder->num_valid > 1 &&
++	    !memcmp(b1_reflist, b0_reflist, builder->num_valid))
++		swap(b1_reflist[0], b1_reflist[1]);
++}
++EXPORT_SYMBOL_GPL(v4l2_h264_build_b_ref_lists);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("V4L2 H264 Helpers");
++MODULE_AUTHOR("Boris Brezillon <boris.brezillon@collabora.com>");
+diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
+new file mode 100644
+index 000000000000..81180a5079bc
+--- /dev/null
++++ b/include/media/v4l2-h264.h
+@@ -0,0 +1,86 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Helper functions for H264 codecs.
++ *
++ * Copyright (c) 2019 Collabora, Ltd.
++ *
++ * Author: Boris Brezillon <boris.brezillon@collabora.com>
++ */
++
++#ifndef _MEDIA_V4L2_H264_H
++#define _MEDIA_V4L2_H264_H
++
++#include <media/h264-ctrls.h>
++
++/**
++ * struct v4l2_h264_reflist_builder - Reference list builder object
++ *
++ * @refs.pic_order_count: reference picture order count
++ * @refs.frame_num: reference frame number
++ * @refs.pic_num: reference picture number
++ * @refs.longterm: set to true for a long term reference
++ * @refs: array of references
++ * @cur_pic_order_count: picture order count of the frame being decoded
++ * @unordered_reflist: unordered list of references. Will be used to generate
++ *		       ordered P/B0/B1 lists
++ * @num_valid: number of valid references in the refs array
++ *
++ * This object stores the context of the P/B0/B1 reference list builder.
++ * This procedure is described in section '8.2.4 Decoding process for reference
++ * picture lists construction' of the H264 spec.
++ */
++struct v4l2_h264_reflist_builder {
++	struct {
++		s32 pic_order_count;
++		int frame_num;
++		u16 pic_num;
++		u16 longterm : 1;
++	} refs[16];
++	s32 cur_pic_order_count;
++	u8 unordered_reflist[16];
++	u8 num_valid;
++};
++
++void
++v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
++		const struct v4l2_ctrl_h264_decode_params *dec_params,
++		const struct v4l2_ctrl_h264_slice_params *slice_params,
++		const struct v4l2_ctrl_h264_sps *sps,
++		const struct v4l2_h264_dpb_entry *dpb);
++
++/**
++ * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
++ *
++ * @builder: reference list builder context
++ * @b0_reflist: 16-bytes array used to store the B0 reference list. Each entry
++ *		is an index in the DPB
++ * @b1_reflist: 16-bytes array used to store the B1 reference list. Each entry
++ *		is an index in the DPB
++ *
++ * This functions builds the B0/B1 reference lists. This procedure is described
++ * in section '8.2.4 Decoding process for reference picture lists construction'
++ * of the H264 spec. This function can be used by H264 decoder drivers that
++ * need to pass B0/B1 reference lists to the hardware.
++ */
++void
++v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
++			    u8 *b0_reflist, u8 *b1_reflist);
++
++/**
++ * v4l2_h264_build_b_ref_lists() - Build the P reference list
++ *
++ * @builder: reference list builder context
++ * @p_reflist: 16-bytes array used to store the P reference list. Each entry
++ *	       is an index in the DPB
++ *
++ * This functions builds the P reference lists. This procedure is describe in
++ * section '8.2.4 Decoding process for reference picture lists construction'
++ * of the H264 spec. This function can be used by H264 decoder drivers that
++ * need to pass a P reference list to the hardware.
++ */
++void
++v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
++			   u8 *reflist);
++
++#endif /* _MEDIA_V4L2_H264_H */
++
 -- 
 2.25.0
-
