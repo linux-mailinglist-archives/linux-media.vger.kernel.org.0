@@ -2,82 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22928164226
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 11:30:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C59916422C
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 11:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgBSKat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 05:30:49 -0500
-Received: from retiisi.org.uk ([95.216.213.190]:33942 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726270AbgBSKat (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 05:30:49 -0500
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id AE662634C87
-        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 12:30:05 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1j4McI-0001Wq-8Q
-        for linux-media@vger.kernel.org; Wed, 19 Feb 2020 12:30:06 +0200
-Date:   Wed, 19 Feb 2020 12:30:06 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.7] Smiapp driver cleanups, omap3isp fix
-Message-ID: <20200219103006.GD5023@valkosipuli.retiisi.org.uk>
+        id S1726512AbgBSKba (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 05:31:30 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:45582 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726487AbgBSKba (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Feb 2020 05:31:30 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1j4Mc3-002hG7-4x; Wed, 19 Feb 2020 10:29:51 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1j4Mex-0004CB-11; Wed, 19 Feb 2020 10:32:51 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.7] Sensor driver patches
+Date:   Wed, 19 Feb 2020 10:32:50 +0000
+Message-Id: <20200219103250.16086-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200219102657.GC5023@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here's the usual set of cleanups for the smiapp driver. Also included is a
-fix for CCDC block handling in the imap3isp driver that completes the
-previous fix.
+Pull request: https://patchwork.linuxtv.org/patch/61721/
+Build log: https://builder.linuxtv.org/job/patchwork/38794/
+Build time: 00:02:42
+Link: https://lore.kernel.org/linux-media/20200219102657.GC5023@valkosipuli.retiisi.org.uk
 
-Please pull.
+gpg: Signature made Wed 19 Feb 2020 10:19:55 AM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
+
+Error/warnings:
 
 
-The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-i2c-Add-driver-for-Sony-IMX219-sensor.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-i2c-Add-driver-for-Sony-IMX219-sensor.patch
+patches/0004-media-i2c-Add-driver-for-Sony-IMX219-sensor.patch:60: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-  Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-MAINTAINERS-Sort-entries-in-database-for-TI-VPE-CAL.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-MAINTAINERS-Sort-entries-in-database-for-TI-VPE-CAL.patch
+patches/0006-MAINTAINERS-Sort-entries-in-database-for-TI-VPE-CAL.patch:12: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.7-2-signed
-
-for you to fetch changes up to 0bc49fb661a2024b7dea91697496a303e458a7af:
-
-  smiapp: Move definitions under driver directory (2020-02-19 12:18:24 +0200)
-
-----------------------------------------------------------------
-Smiapp driver patches for 5.7
-
-----------------------------------------------------------------
-Sakari Ailus (7):
-      omap3isp: Prevent enabling CCDC when stopping streaming
-      smiapp: Simplify condition for choosing 8-bit access
-      smiapp: Use unaligned get and put functions
-      smiapp: Turn limit lookup into a function
-      smiapp: Move SMIA limit reading up
-      smiapp: Refactor reading SMIA limits
-      smiapp: Move definitions under driver directory
-
- drivers/media/i2c/smiapp/smiapp-core.c    | 259 +++++++++++++++---------------
- drivers/media/i2c/smiapp/smiapp-reg.h     |   4 +
- drivers/media/i2c/smiapp/smiapp-regs.c    |  71 +++-----
- drivers/media/i2c/smiapp/smiapp.h         |  44 ++++-
- drivers/media/platform/omap3isp/ispccdc.c |   4 +
- include/media/i2c/smiapp.h                |  63 --------
- 6 files changed, 200 insertions(+), 245 deletions(-)
- delete mode 100644 include/media/i2c/smiapp.h
-
--- 
-Sakari Ailus
