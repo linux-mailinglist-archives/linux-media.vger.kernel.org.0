@@ -2,132 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D4BB164CFF
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF796164F63
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 21:00:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbgBSRwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 12:52:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52088 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726558AbgBSRwt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:52:49 -0500
-Received: from localhost.localdomain (unknown [194.230.155.125])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB78B2467A;
-        Wed, 19 Feb 2020 17:52:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582134768;
-        bh=p4+U61rOL8UqXw+zdGS8TsO+9JmLa5Y9WBdlRelZRu8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O8OazZxyMRidM7JJBXHHLPQaABxyydxjwKdDR5AfvFme3mNglX8t8m7XQbcjO7Q80
-         fuLH1inydzj4U4OQuJz8BKePXKeLovvgITXtVLPQwS8S3JtPQlrzu0nrehc1XwUIv9
-         FR3oL176lbNuZt7akF7YTj7Kw+33X2n8/AiGORiM=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jiri Slaby <jirislaby@gmail.com>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        virtualization@lists.linux-foundation.org,
-        linux-arch@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RESEND PATCH v2 9/9] ath5k: Constify ioreadX() iomem argument (as in generic implementation)
-Date:   Wed, 19 Feb 2020 18:50:07 +0100
-Message-Id: <20200219175007.13627-10-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200219175007.13627-1-krzk@kernel.org>
-References: <20200219175007.13627-1-krzk@kernel.org>
+        id S1726766AbgBSUAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 15:00:43 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:36562 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726683AbgBSUAn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 19 Feb 2020 15:00:43 -0500
+Received: by mail-pl1-f193.google.com with SMTP id a6so515257plm.3
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 12:00:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=fmDci05JHgVKjcgLPSVfqdV3CiFfxgAZngf1Re3DIhY=;
+        b=IzvE2I3IpnWm6NE2Ng5/GGEuVLFwyvJlma/2j4jiSayqmL7fZvL7kfydyrijoVplQ+
+         ASCRNMkgO7D68tZ50d9B/8VrV/u68HMSx2UPoXoiG9ChvNQXMeQDTfwSp0NWGMLbHq1l
+         FAYYZTNOq2x/zjyfRkrlAMNF3Jjrmq2VDjY6A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=fmDci05JHgVKjcgLPSVfqdV3CiFfxgAZngf1Re3DIhY=;
+        b=a18bdMTRam6fYB3w4OpJxVBtsE10n/1WBldj0+HeSmbg4x9fSC0+k8kqEIgfxBDYRc
+         ep6J5MX7EwWcQPvITNhIvxydHNB+Pc1MzO5ns6Eavm8oenAhSz2VdITCKf3jjflawdTj
+         nWGxYR/Gs2Jm1m7/k82+/BbosH5CfGfo5f74F2ONwBZa9SwyKCJiWpqQzfewaMiC1vh+
+         QcixCQKTzTrw7xlhosuWG5CQilIyw0fT9TY2D+er0Ovw6k6bJaouYQpT2KoLVbmfvKeN
+         u6OLxiqH88ILDu5IphMlme0/6r/ctyMdy5WWgh0g+gMPlpv/qkJIBxGSZ+PgnyIHMnwv
+         hHUQ==
+X-Gm-Message-State: APjAAAXQOVgU5f+nuBSttw3CDUlqxVZ9WJcv9rFI+w1iUzF5OaJ8riAx
+        scIIu4zsENYnSwF+hZP5hNlo0A==
+X-Google-Smtp-Source: APXvYqzpcl13F5RQ5GygW2x7suYzcJF08duSYixNAJ2FvzcdSkb52Y+MCajGLFfYVA8rX3sUwWjzwQ==
+X-Received: by 2002:a17:90a:f012:: with SMTP id bt18mr10864393pjb.8.1582142442905;
+        Wed, 19 Feb 2020 12:00:42 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d1sm498600pgj.79.2020.02.19.12.00.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2020 12:00:42 -0800 (PST)
+Date:   Wed, 19 Feb 2020 12:00:41 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Benoit Parrot <bparrot@ti.com>, Rob Herring <robh@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Fix typo in "TI VPE/CAL DRIVERS"
+Message-ID: <202002191158.2BB5431@keescook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The ioreadX() helpers have inconsistent interface.  On some architectures
-void *__iomem address argument is a pointer to const, on some not.
+The recent MAINTAINERS entry change for "TI VPE/CAL DRIVERS" broke the
+file format as it skipped having a line prefix character. Add missing
+"F:".
 
-Implementations of ioreadX() do not modify the memory under the address
-so they can be converted to a "const" version for const-safety and
-consistency among architectures.
-
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Acked-by: Kalle Valo <kvalo@codeaurora.org>
+Fixes: 2099ef02c6c0 ("media: dt-bindings: media: cal: convert binding to yaml")
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/ath/ath5k/ahb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/ath/ath5k/ahb.c b/drivers/net/wireless/ath/ath5k/ahb.c
-index 2c9cec8b53d9..8bd01df369fb 100644
---- a/drivers/net/wireless/ath/ath5k/ahb.c
-+++ b/drivers/net/wireless/ath/ath5k/ahb.c
-@@ -138,18 +138,18 @@ static int ath_ahb_probe(struct platform_device *pdev)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a0d86490c2c6..8f95de7f5eee 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16752,7 +16752,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ S:	Maintained
+ F:	drivers/media/platform/ti-vpe/
+ F:	Documentation/devicetree/bindings/media/ti,vpe.yaml
+-	Documentation/devicetree/bindings/media/ti,cal.yaml
++F:	Documentation/devicetree/bindings/media/ti,cal.yaml
  
- 	if (bcfg->devid >= AR5K_SREV_AR2315_R6) {
- 		/* Enable WMAC AHB arbitration */
--		reg = ioread32((void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
-+		reg = ioread32((const void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
- 		reg |= AR5K_AR2315_AHB_ARB_CTL_WLAN;
- 		iowrite32(reg, (void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
- 
- 		/* Enable global WMAC swapping */
--		reg = ioread32((void __iomem *) AR5K_AR2315_BYTESWAP);
-+		reg = ioread32((const void __iomem *) AR5K_AR2315_BYTESWAP);
- 		reg |= AR5K_AR2315_BYTESWAP_WMAC;
- 		iowrite32(reg, (void __iomem *) AR5K_AR2315_BYTESWAP);
- 	} else {
- 		/* Enable WMAC DMA access (assuming 5312 or 231x*/
- 		/* TODO: check other platforms */
--		reg = ioread32((void __iomem *) AR5K_AR5312_ENABLE);
-+		reg = ioread32((const void __iomem *) AR5K_AR5312_ENABLE);
- 		if (to_platform_device(ah->dev)->id == 0)
- 			reg |= AR5K_AR5312_ENABLE_WLAN0;
- 		else
-@@ -202,12 +202,12 @@ static int ath_ahb_remove(struct platform_device *pdev)
- 
- 	if (bcfg->devid >= AR5K_SREV_AR2315_R6) {
- 		/* Disable WMAC AHB arbitration */
--		reg = ioread32((void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
-+		reg = ioread32((const void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
- 		reg &= ~AR5K_AR2315_AHB_ARB_CTL_WLAN;
- 		iowrite32(reg, (void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
- 	} else {
- 		/*Stop DMA access */
--		reg = ioread32((void __iomem *) AR5K_AR5312_ENABLE);
-+		reg = ioread32((const void __iomem *) AR5K_AR5312_ENABLE);
- 		if (to_platform_device(ah->dev)->id == 0)
- 			reg &= ~AR5K_AR5312_ENABLE_WLAN0;
- 		else
+ TI WILINK WIRELESS DRIVERS
+ L:	linux-wireless@vger.kernel.org
 -- 
-2.17.1
+2.20.1
 
+
+-- 
+Kees Cook
