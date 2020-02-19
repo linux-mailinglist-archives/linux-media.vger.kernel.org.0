@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8768A163F9E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 09:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 829DC163FCE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 09:54:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgBSIs6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 03:48:58 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34827 "EHLO
+        id S1726514AbgBSIyC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 03:54:02 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34177 "EHLO
         lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726163AbgBSIs6 (ORCPT
+        by vger.kernel.org with ESMTP id S1726202AbgBSIyB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 03:48:58 -0500
+        Wed, 19 Feb 2020 03:54:01 -0500
 Received: from [192.168.2.10] ([46.9.235.248])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 4L2KjzSO4P9a94L2NjnViQ; Wed, 19 Feb 2020 09:48:55 +0100
+        id 4L7DjzUj7P9a94L7HjnXMz; Wed, 19 Feb 2020 09:53:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582102135; bh=wuIrxAkCMRn2Whv+hbIxQ7O/czDkYP3xWSz7segqdM0=;
+        t=1582102439; bh=2p6yrU2qxWpRKjFkqg7qvyKVhP0kDi+Qi1iAy50JEUg=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=Q+wZUNs3Hki73XttSqXSo1BHVDS2kpaLF8rzUDk8LeAsPMXdGrJkXulq0BKCTVHrf
-         CSOFRHZ01His86MckdNiWSXIQfzEziEzrEvnGhJW2EehAyv7B6awYix+yuFM4mEO9u
-         z67IHgBoy2eTXjiX5kRv1lWcWRHQ211JxMJPwNlfc6vhwlgpkmDKEEIJK0MsoPUzQz
-         /0tWhVLtkB8WABDuRLrdphTV+EWpRTOqWSAc5oMGcvZylFI7YvqbgJGKGobecJIpFR
-         wZXRVKoJbzzdnHj8Ro5rJ/fSE1hhMtjY/HsNDk8/gq6Bj+IBONL+WrVAP9l3ex8kdo
-         tkxEWQi2j/QKQ==
-Subject: Re: [RFC][PATCHv2 05/12] videobuf2: handle
- V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+        b=cKLGRFvqbpZgo0LFTRPnQ7277Djzvaqii5Hs+CtHO5MmBBNQyMwnwy81qfGz/0sWR
+         SuKXmB9R+m44ayGEfSDpeyNOyXJvgygjAZlsXTZnTNp72tWaIvJZdg1ddHnbf8Ezz9
+         SOGLyj5lXa+6VdrzvIJPZFMWI4LFkd6nIjQjZBoUtiqGoVgpy0Pm11fgmtVtyztb39
+         Mn8Liiu0k0Y4dxaaCuJQ3VFZ3XaknAgF31qAs4W1nxdbggW3/tJ6hHAk6zrwirgAYA
+         ygkEkO0IvBPDlqLo+4eLBZkyzk1ZddPq/xRCoiz4JqF3+VMlztohbTyIkpQQ+Vo7WD
+         NABzhcgCInZKg==
+Subject: Re: [RFC][PATCHv2 00/12] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
@@ -38,223 +37,123 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200204025641.218376-1-senozhatsky@chromium.org>
- <20200204025641.218376-6-senozhatsky@chromium.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <83147032-25a4-9450-d455-437e82e09dc8@xs4all.nl>
-Date:   Wed, 19 Feb 2020 09:48:52 +0100
+Message-ID: <35d43107-3c1c-3bf8-20e5-6569605643c3@xs4all.nl>
+Date:   Wed, 19 Feb 2020 09:53:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200204025641.218376-6-senozhatsky@chromium.org>
+In-Reply-To: <20200204025641.218376-1-senozhatsky@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfL6f8FK3SjIMGhFaApyJ7a5BdOACLLJjKExW17bP4dv/L+Y/rCpf+nd2Qy+KnKAY47U18odOdEeQuBwmQmIgO/HX6COAxVjpQdc5MZpNDksQk2oDPpdN
- ZN9159U1Wd42NV9ymC+6fZwp/PuQsp1epWD90yOuhVSVfacqkAThbrlKJ/+qMUU5AAPsjNwTsybbUYrYe8fucVBmEEqUoYyOusIH4s8ZKLSIgAd4Tf3LraqS
- i2nrD2Uq2bwr7mYAJ/2VL+dsmooSTh/++9SviuYcVZdUsnRF73E8csxoasW8/XINmDq4hpRCRu7XyXHK6a8ucZZoX8ei3k3m7pTLXof6rG+BiUstn7HDC1Ua
- UQDvVYM0L/8WQ3qMudLQBf7JZEb2YeWAEzAbHjl+GP6BDH4dLt+gyfTibQnWLjD2Ft39+uziFP/+1z4yhbYz5Opdqa22W7AfvV+N/HK5eCfjiWuzsiCU7IAj
- 2/0uTJ7ONoE86vm3DoT8QVZanTXhXWO/FbcazsL+XRTa66xBTXLH9MrO+D1w7kFEFKz6pHC0MCb7mRSO
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfJIKlUkJqnGnu5IIgcFzlxuIzPemo059Lomge90EQ5rG+k1u6j4ir7mSpjZvEQVSky3LcWja9ulbbJzWaf5yFxHl1vCzQvRclL4CqQl3CuwYdBHuzCMR
+ D3EjaZc3xBx1m0NtNaO4w4qvscI1lTG5kbUpu6u8Yq5QCSVL6CfWJdd6tjqdh9B6/c/mtYbsA+zftWNQ3zm5cxuJE5WkrkLT7C+U2NnqLbDekCG4SeD2XCBY
+ s+mwJUOOz7Kp//mHte/vIWcpUeupT8kFnhCuxmgI5TSvZhjubuv+dF4enqgnGWrv9jiuXP6v7oEuvM7Z2qsiUKQ6Q34BolNfeEorC4hpKOIUzL1McihbFets
+ 2FHPIgi9H0dvLP36cpHyyNJVewiHwKNPjv+e7PU21p2tkflxeeMDBqQjbWnOZVrRUWPYi6Vrs26uw8BJZL3k0adAIfDN30HyEIEtJLO8iHlO7JtCODqWmjpu
+ zS99R5qPmvn1YPrA7PyomLkVArbgD9zBeD8zh0kZQky6aQ4ID19sHRnfm9YP9cI2XScDYf2Wcw6+oGtd
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 2/4/20 3:56 AM, Sergey Senozhatsky wrote:
-> This patch lets user-space to request a non-consistent memory
-> allocation during CREATE_BUFS and REQBUFS ioctl calls.
+> Hello,
 > 
-> = CREATE_BUFS
+> 	V2 of the patchset, reshuffled, added more documentation,
+> 	addressed some of the feedback ;) Still in RFC, tho
 > 
->   struct v4l2_create_buffers has seven 4-byte reserved areas,
->   so reserved[0] is renamed to ->flags. The struct, thus, now
->   has six reserved 4-byte regions.
+> v1 link: https://lore.kernel.org/lkml/20191217032034.54897-1-senozhatsky@chromium.org/
 > 
-> = REQBUFS
-> 
->  We use one bit of a ->reserved[1] member of struct v4l2_requestbuffers,
->  which is now renamed to ->flags. Unlike v4l2_create_buffers, struct
->  v4l2_requestbuffers does not have enough reserved room. Therefore for
->  backward compatibility  ->reserved and ->flags were put into anonymous
->  union.
-> 
-> Change-Id: I0eaab3428de499ce1bce6fc6b26c5ca5ff405882
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > ---
->  .../media/uapi/v4l/vidioc-create-bufs.rst     |  9 +++++++-
->  .../media/uapi/v4l/vidioc-reqbufs.rst         | 15 ++++++++++---
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 21 ++++++++++++++++---
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  5 +----
->  include/uapi/linux/videodev2.h                |  8 +++++--
->  5 files changed, 45 insertions(+), 13 deletions(-)
+>         This is a reworked version of the vb2 cache hints
+> (V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
+> support patch series which previsouly was developed by Sakari and
+> Laurent [0].
 > 
-> diff --git a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
-> index bd08e4f77ae4..68185e94b686 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
-> @@ -121,7 +121,14 @@ than the number requested.
->  	other changes, then set ``count`` to 0, ``memory`` to
->  	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
->      * - __u32
-> -      - ``reserved``\ [7]
-> +      - ``flags``
-> +      - Specifies additional buffer management attributes. Valid only when
-> +	queue reports :ref:`V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS` capability.
-> +	Old drivers and applications must set it to zero.
-> +
-> +
-> +    * - __u32
-> +      - ``reserved``\ [6]
->        - A place holder for future extensions. Drivers and applications
->  	must set the array to zero.
->  
-> diff --git a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
-> index d0c643db477a..9741dac0d5b3 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
-> @@ -112,10 +112,19 @@ aborting or finishing any DMA in progress, an implicit
->  	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
->  	free any previously allocated buffers, so this is typically something
->  	that will be done at the start of the application.
-> -    * - __u32
-> +    * - union
-> +      - (anonymous)
-> +    * -
-> +      - __u32
-> +      - ``flags``\ [1]
-> +      - Specifies additional buffer management attributes. Valid only when
-> +	queue reports :ref:`V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS` capability.
-> +	Old drivers and applications must set it to zero.
-> +
-> +    * -
-> +      - __u32
->        - ``reserved``\ [1]
-> -      - A place holder for future extensions. Drivers and applications
-> -	must set the array to zero.
-> +      - Kept for backwards compatibility. Use ``flags`` instead.
->  
->  .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
->  
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 7cdfcd1baf82..eb5d1306cb03 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -707,9 +707,15 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
->  {
->  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
-> +	bool consistent = true;
-> +
-> +	if (req->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> +		consistent = false;
+> The patch set attempts to preserve the existing behvaiour - cache
+> sync is performed in ->prepare() and ->finish() (unless the buffer
+> is DMA exported). User space can request “default behavior” override
+> with cache management hints, which are handled on a per-buffer basis
+> and should be supplied with v4l2_buffer ->flags during buffer
+> preparation. There are two possible hints:
+> 
+> - V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
+>         No cache sync on ->finish()
+> 
+> - V4L2_BUF_FLAG_NO_CACHE_CLEAN
+>         No cache sync on ->prepare()
+> 
+> In order to keep things on the safe side, we also require driver
+> to explicitly state which of its queues (if any) support user space
+> cache management hints (such queues should have ->allow_cache_hints
+> bit set).
+> 
+> The patch set also (to some extent) simplifies allocators' ->prepare()
+> and ->finish() callbacks. Namely, we move cache management decision
+> making to the upper - core - layer. For example, if, previously, we
+> would have something like this
+> 
+>         vb2_buffer_done()
+>           vb2_dc_finish()
+>             if (buf->db_attach)
+>                return;
+> 
+> where each allocators' ->finish() callback would either bail
+> out (DMA exported buffer, for instance) or sync, now that "bail
+> out or sync" decision is made before we call into the allocator.
+> 
+> Along with cache management hints, user space is also able to
+> adjust queue's memory consistency attributes. Memory consistency
+> attribute (dma_attrs) is per-queue, yet it plays its role on the
+> allocator level, when we allocate buffers’ private memory (planes).
+> For the time being, only one consistency attribute is supported:
+> DMA_ATTR_NON_CONSISTENT.
 
-There is no check against allow_cache_hints: if that's 0, then
-the V4L2_FLAG_MEMORY_NON_CONSISTENT flag should be cleared since it is
-not supported.
+This is starting to look pretty good. I think you can drop the RFC
+for the next time you post this.
 
->  
->  	fill_buf_caps(q, &req->capabilities);
-> -	return ret ? ret : vb2_core_reqbufs(q, req->memory, true, &req->count);
-> +	if (ret)
-> +		return ret;
-> +	return vb2_core_reqbufs(q, req->memory, consistent, &req->count);
->  }
->  EXPORT_SYMBOL_GPL(vb2_reqbufs);
->  
-> @@ -738,6 +744,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	unsigned requested_sizes[VIDEO_MAX_PLANES];
->  	struct v4l2_format *f = &create->format;
->  	int ret = vb2_verify_memory_type(q, create->memory, f->type);
-> +	bool consistent = true;
->  	unsigned i;
->  
->  	fill_buf_caps(q, &create->capabilities);
-> @@ -783,7 +790,11 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	for (i = 0; i < requested_planes; i++)
->  		if (requested_sizes[i] == 0)
->  			return -EINVAL;
-> -	return ret ? ret : vb2_core_create_bufs(q, create->memory, true,
-> +
-> +	if (create->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> +		consistent = false;
+One thing I would like to see as well is test code in v4l2-compliance,
+specifically for testing the various flags and capabilities. I.e.,
+if V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS, then it should test that it can
+set the cache flags and the NON_CONSISTENT flag. If it is not set,
+then those flags should be cleared when attempting to set them.
 
-Ditto.
+Also code in v4l2-ctl and common/v4l2-info.cpp to support the new
+flags, both reporting them, but also setting them.
 
 Regards,
 
 	Hans
 
-> +
-> +	return ret ? ret : vb2_core_create_bufs(q, create->memory, consistent,
->  		&create->count, requested_planes, requested_sizes);
->  }
->  EXPORT_SYMBOL_GPL(vb2_create_bufs);
-> @@ -953,13 +964,17 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
->  {
->  	struct video_device *vdev = video_devdata(file);
->  	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
-> +	bool consistent = true;
->  
->  	fill_buf_caps(vdev->queue, &p->capabilities);
->  	if (res)
->  		return res;
->  	if (vb2_queue_is_busy(vdev, file))
->  		return -EBUSY;
-> -	res = vb2_core_reqbufs(vdev->queue, p->memory, true, &p->count);
-> +	if (p->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
-> +		consistent = false;
-> +
-> +	res = vb2_core_reqbufs(vdev->queue, p->memory, consistent, &p->count);
->  	/* If count == 0, then the owner has released all buffers and he
->  	   is no longer owner of the queue. Otherwise we have a new owner. */
->  	if (res == 0)
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index aaf83e254272..9791e2882382 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1973,9 +1973,6 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
->  
->  	if (ret)
->  		return ret;
-> -
-> -	CLEAR_AFTER_FIELD(p, capabilities);
-> -
->  	return ops->vidioc_reqbufs(file, fh, p);
->  }
->  
-> @@ -2015,7 +2012,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
->  	if (ret)
->  		return ret;
->  
-> -	CLEAR_AFTER_FIELD(create, capabilities);
-> +	CLEAR_AFTER_FIELD(create, flags);
->  
->  	v4l_sanitize_format(&create->format);
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 72efc1c544cd..169a8cf345ed 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -938,7 +938,10 @@ struct v4l2_requestbuffers {
->  	__u32			type;		/* enum v4l2_buf_type */
->  	__u32			memory;		/* enum v4l2_memory */
->  	__u32			capabilities;
-> -	__u32			reserved[1];
-> +	union {
-> +		__u32		flags;
-> +		__u32		reserved[1];
-> +	};
->  };
->  
->  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
-> @@ -2445,7 +2448,8 @@ struct v4l2_create_buffers {
->  	__u32			memory;
->  	struct v4l2_format	format;
->  	__u32			capabilities;
-> -	__u32			reserved[7];
-> +	__u32			flags;
-> +	__u32			reserved[6];
->  };
->  
->  /*
+> 
+> [0] https://www.mail-archive.com/linux-media@vger.kernel.org/msg112459.html
+> 
+> Sergey Senozhatsky (12):
+>   videobuf2: add cache management members
+>   videobuf2: handle V4L2 buffer cache flags
+>   videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+>   videobuf2: add queue memory consistency parameter
+>   videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+>   videobuf2: factor out planes prepare/finish functions
+>   videobuf2: do not sync caches when we are allowed not to
+>   videobuf2: check ->synced flag in prepare() and finish()
+>   videobuf2: let user-space know if driver supports cache hints
+>   videobuf2: add begin/end cpu_access callbacks to dma-contig
+>   videobuf2: add begin/end cpu_access callbacks to dma-sg
+>   videobuf2: don't test db_attach in dma-contig prepare and finish
+> 
+>  Documentation/media/uapi/v4l/buffer.rst       |  27 +++++
+>  .../media/uapi/v4l/vidioc-create-bufs.rst     |   9 +-
+>  .../media/uapi/v4l/vidioc-reqbufs.rst         |  22 +++-
+>  .../media/common/videobuf2/videobuf2-core.c   | 110 +++++++++++++-----
+>  .../common/videobuf2/videobuf2-dma-contig.c   |  39 ++++++-
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  30 +++--
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  59 +++++++++-
+>  drivers/media/dvb-core/dvb_vb2.c              |   2 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +-
+>  include/media/videobuf2-core.h                |  17 ++-
+>  include/uapi/linux/videodev2.h                |  11 +-
+>  11 files changed, 273 insertions(+), 58 deletions(-)
 > 
 
