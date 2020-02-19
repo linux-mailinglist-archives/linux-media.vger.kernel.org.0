@@ -2,50 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5065D1645C5
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 14:38:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7525F164629
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 14:57:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727905AbgBSNiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 08:38:05 -0500
-Received: from sonic301-31.consmr.mail.ne1.yahoo.com ([66.163.184.200]:35279
-        "EHLO sonic301-31.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727858AbgBSNiE (ORCPT
+        id S1727597AbgBSN5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 08:57:07 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34254 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726725AbgBSN5H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 08:38:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1582119482; bh=U4cGXPmPGMGfLGFNv8d75zTpGkjAEJwC/RhoiDc/gRM=; h=Date:From:Reply-To:Subject:References:From:Subject; b=e6lfP5OwZMGdpKOLV+D5OOmpeW+cSETJxnOdc4ofOUyLJWBT0OAO2oNENQXLo07e3/5APTNbOUsAa+BZQNRMF/QLo8mZHLluPozEuS3P1GteHwrco66j5OepoOtSpD15YsyJo2dxnf4tfjkY2dEBA6l/zXk5wqqRoQ8rmE9naPrg5VhJXZ5Z6/CAW7wjpWtRnyDJqLHKEIIYQ0YaFx23/EcnYkpIxE0/VzMaVZzHnG1Add6K+JrO8NbU5isiulpm1gksYwE9G9qGozoc6atNpw1T7BLTgIY6QhC8sdzhE9C1Ksj6aaque9q23PNn6d+wMrWTrvK9HvhwFJIN8RIOpQ==
-X-YMail-OSG: L7XPDN8VM1k_ej5tN3s0qqiAnYLlGxbKTY.efRaBl_BpqfBNrhE2UCGtkCxFjh2
- zFrQFPG.ymfw3dx2cUyOhVjci7xrB4RKJVSgQ7W7zvxBliSGLkS1h8nfG4Kz2wp9x6ekZe.NW5ex
- OeP1C5PmyKQuqJU08fEGnA4AbyWm9PC4_pwcQEuH2kQurCXnTj_a50.lFhoFq7WkChM7POUWE3Pz
- JRFwS.TgQ.Zg_oh5CBgXiiH_jK4TJzFBuDisbTWRMR2gw9W5bZ3RPboHBHv42WFr_zlTwMzYI6gg
- UgJscVvPhf4aduzuh8B5A9Y7Z8f8RILjKJ.WRwOd2_LBgjgdaTlz3vN58H04ZZXr012SmOL0uLSn
- l9TFXUsznFF63LSlbnvjE29WH5ked4v1.cm1UsDI.9cu26WiuwamJi3a8U4OJ.6jHnLRwi_jmtq1
- D68BKDicr4ThJdyQX2XKD23MUi2kBDmgRlDA.7xSK93Mn3x79Qn4RVoD6sqsOHEvnQUXnBQqGgWR
- UgI3ZpMnd7NMZZxi3J19ORRNTv4M1McIUTdebuQflcglvu7a5Nvqt9_6VHQuhyeKQWJW3m_JVypy
- Xt97M6c51gSv32Zdm1isFRR1K5sNg4q_Wgkon4V92dUaNyvwaUHxVL8xd1xm3uXEVLQ8C1rwJGaM
- OdxBITiGmgV8.gJgyS8JRTliMqdfaoWyzeiGrhNg1ZWjdriiTrpiQ22w6lIrRIejPxwT6kN7LoIw
- D6T23ewNMzE.a8qk69vGbmbv1zMRdLSOt4QAmT820G_MDw_LxZSA3DA9wTZJy.Ia3P5qlIwyQrJ1
- mIrcE5Y4S2WONwCBv5W53LzYqJcMje2GsBNfmqM_sZpVXFx0qQK324zuT_LAp0PFYuznKEGc7K9O
- SdqwdfUwZCy7uUfP7gV5WZW5ObHg..JMVLa1nxrIcIReq7fW6lDu9zDdQJ7RNgaSIZcKUAoHZogY
- 4pHV4d8.088d97hDNICCiOerfrMDoR5KjTqM54yoQs9KnEsLQ4wD0OPekNv4xlp.DommL7aq2bbA
- NN9cx.SjNsZ5xnmPvENuF0MRplevTJrJLpb0R6TQf2kImGgbR52vvTEBrFWY5JKdznWHzC9cE_bU
- 62hiFQbFxu6uWrnkKHBoKeGnZ3GiYXcrmHq9CPpx4Rmbx6u4LgpABKhrUQwEieA49MeZbZ5WzZVa
- VNnYaZ2LdQG284b2QihgH1.0rn7BB3amSiMHmyTTywRZQNSS6QTspsDTbh6rUX6fP.Avy5rbvnBi
- XPD8lhufIJIgWMxiLwg1m7KFPvORnzU_TnrEsnEaxqG70zH6A9RzXt97HzAA1HSFFUdI-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ne1.yahoo.com with HTTP; Wed, 19 Feb 2020 13:38:02 +0000
-Date:   Wed, 19 Feb 2020 13:37:57 +0000 (UTC)
-From:   "Mrs. Che Zakiah Binti Din" <chezakiahbintidin11@gmail.com>
-Reply-To: chezakiahbintidin11@safrica.com
-Message-ID: <1357575989.5087248.1582119477834@mail.yahoo.com>
-Subject: Get back to me immediatly.
+        Wed, 19 Feb 2020 08:57:07 -0500
+Received: by mail-ot1-f68.google.com with SMTP id j16so214136otl.1
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 05:57:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j8vovJNm85f5usRJ1zcPBGMV6jnEx/0KxRYN+gnAQ+M=;
+        b=sWeSfpFGruDVn86qR+hCqpqBGNLZZx5Ph0QBUt4bcsFc0tzS5U/AbhqIXyoS+JQfoZ
+         HrmUnapjD0UL++fI2dmE/qJEkCECxyj//5I4MazefjyAgWbbJ1eyiO4XA0+JkqVMcGWQ
+         Y5MZjm1KWzu9+RiNNXAgTp8KGpmjDAgdTuHcfTVzISUhOjPxXjLuRcQErd3iSgaiIpze
+         4n7NStpwrhTCtjwFfDgZ9d9V2oB44EawnMZcaUcgiz2rxUz22Qb1nga0yjVi6GaE1JQM
+         VhhTsKfzwt0faqsEm93hldVBz/D2L2GcZ67t/knGkDweK3piMtMZd5OETk4v3rnCnwah
+         vekQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j8vovJNm85f5usRJ1zcPBGMV6jnEx/0KxRYN+gnAQ+M=;
+        b=EdoFr3MxHVPJ+NxwbocmDmTox+wR2ItLIGLdZmplfkJ0tpUZUmFImV9eJfArQ79c0H
+         pC20ctesSwQMyk1nDfj03/wz1SDry9FHYzLzz987X0Gvf1rxXqGb2NCumO38E+sW+5qk
+         smN4ikonp7b3o3KvN6rD7mOxMO7VovGZpIdro2Ak3lV5MrUeF3mf6/me5+vSW6EvXdJ8
+         BSxVVe65O4k8pYlLlqS9VmmZqfPOx0yb+dIe0yi45LcoFQ66nOL59LmC0hzOJukb3JLS
+         Bnd/LawswkGDU0bmsQ2kWIi0kihrB8SGBLYe8w61RKx8n1RVnXp7Q5cbRrxTioc6bKyH
+         BueQ==
+X-Gm-Message-State: APjAAAVqmFbwRODQ9kYhmwWeAuQ/zLFw5IqimGiID6mtBjasEbSedYVQ
+        8DcU4xXywpcT34ZfDMjK+AZ2RC6ZlQLySLy6Is0=
+X-Google-Smtp-Source: APXvYqxobnzqgBR/e8PcDr4UtJBmbiIcf1koeAjfRvRXQpVMjv0sBo/r0Koh2tq5Hw9XfirY5kkDRQ5O76+4MCO41f4=
+X-Received: by 2002:a9d:64ca:: with SMTP id n10mr19765073otl.325.1582120626053;
+ Wed, 19 Feb 2020 05:57:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1357575989.5087248.1582119477834.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15199 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:73.0) Gecko/20100101 Firefox/73.0
-To:     unlisted-recipients:; (no To-header on input)
+References: <CA+V-a8tnsxJP2CfwgrkPum6mYQEEP9+0=Fap4dFu-3x+fXdadw@mail.gmail.com>
+ <20200219120808.GA5070@pendragon.ideasonboard.com> <CA+V-a8ux+8=PzWupMnpNRZsZCwG4VvVfN+dYayhEG=x927SWFg@mail.gmail.com>
+ <20200219123247.GA9960@pendragon.ideasonboard.com>
+In-Reply-To: <20200219123247.GA9960@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 19 Feb 2020 13:56:39 +0000
+Message-ID: <CA+V-a8vcJiXwT5L2G8+HyrrxQOSJt0Zz+TeT4AbmQqcqxe7feg@mail.gmail.com>
+Subject: Re: [Query] : DT: Adding mezzanine board
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I have a business proposal for you
+Hi Laurent,
+
+On Wed, Feb 19, 2020 at 12:33 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Wed, Feb 19, 2020 at 12:25:37PM +0000, Lad, Prabhakar wrote:
+> > On Wed, Feb 19, 2020 at 12:08 PM Laurent Pinchart wrote:
+> > > On Wed, Feb 19, 2020 at 11:42:42AM +0000, Lad, Prabhakar wrote:
+> > > > Hi,
+> > > >
+> > > > I am working Renesas RZ/Gx platforms, these boards have support for
+> > > > connecting MIPI adapter mezzanine board [1]. To enable this support I
+> > > > am planning to create a dtsi which will include the board file and
+> > > > enable the necessary VIN/CSI and the camera endpoint.
+> > > >
+> > > > For example: to add support for G2E board I would create a file named
+> > > > r8a774c0-cat874-mipi-adapter.dtsi which will include the board file
+> > > > r8a774c0.dtsi and enable necessary VIN/CSI/Camera endpoint and when
+> > > > user wants to enable this support for the G2E board he could just
+> > > > include r8a774c0-cat874-mipi-adapter.dtsi to r8a774c0-cat874.dts
+> > > >
+> > > > Would this be a good approach or is there an alternative way which I am missing.
+> > >
+> > > DT overlays are another option. They can't be applied on a running
+> > > system though. It doesn't seem like the mezzanine boards can be detected
+> > > by the boot loader, so overlays can't be applied automatically before
+> > > the kernel is started. One option would still be to provide them to
+> > > U-Boot and apply a selected overlay based on environment variables.
+> > > Another option would be to apply overlays as part of the build process,
+> > > which shouldn't require modifying the DT sources to #include the .dtsi
+> > > file for the mezzanine board.
+> >
+> > Thank you for the insight, overlay is something which I wanted to
+> > avoid and have the dtb as part of kernel itself. How about just
+> > creating r8a774c0-cat874-mipi-adapter.dts which would include
+> > r8a774c0-cat874.dts file and enable the VIN/CSI/Camera endpoint, so
+> > the user would just use r8a774c0-cat874-mipi-adapter.dtb file when the
+> > mipi adapter is connected ?
+>
+> That would restrict usage of the mezzanine board to a particular base
+> board, while in the general case there could be different types of base
+> boards compatible with a set of mezzanines.
+>
+> The reason why I mentioned overlay isn't really to apply them
+> dynamically, but for the set of tools around them. Bootloaders can apply
+> overlays, and we can also apply overlays to a DTB as part of a build
+> process, without patching the source. Is there a particular reason why
+> you would prefer avoiding them ?
+>
+Just didnt wanted to maintain to the DT overlay separately, but looks like
+overlay itself would be a way to go.
+
+Thank you for the inputs.
+
+Cheers,
+--Prabhakar
+
+> > > > [1] https://github.com/Kevin-WSCU/96Boards-Camera/blob/master/AISTARVISION%20MIPI%20Adapter%20V2.1/AISTARVISION%20MIPI%20Adapter%20V2.1.pdf
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
