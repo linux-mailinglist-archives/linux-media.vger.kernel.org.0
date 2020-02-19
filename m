@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C177164C16
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40A82164C1D
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:38:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbgBSRiD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 12:38:03 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37578 "EHLO
+        id S1726784AbgBSRiI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 12:38:08 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37606 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbgBSRiC (ORCPT
+        with ESMTP id S1726518AbgBSRiH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:38:02 -0500
+        Wed, 19 Feb 2020 12:38:07 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id DEC5628DC70
+        with ESMTPSA id 082EF2946A1
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
@@ -29,10 +29,12 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v5 0/6] media: rockchip: Add the rkvdec driver
-Date:   Wed, 19 Feb 2020 14:37:44 -0300
-Message-Id: <20200219173750.26453-1-ezequiel@collabora.com>
+Subject: [PATCH v5 1/6] media: uapi: h264: Add DPB entry field reference flags
+Date:   Wed, 19 Feb 2020 14:37:45 -0300
+Message-Id: <20200219173750.26453-2-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200219173750.26453-1-ezequiel@collabora.com>
+References: <20200219173750.26453-1-ezequiel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,57 +42,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+From: Jonas Karlman <jonas@kwiboo.se>
 
-This is v5 of Boris' rkvdec driver.
+Using the field information attached to v4l2 buffers is not enough to
+determine the type of field referenced by a DPB entry: the decoded
+frame might contain the full picture (both top and bottom fields)
+but the reference only point to one of them.
+Let's add new V4L2_H264_DPB_ENTRY_FLAG_ flags to express that.
 
-This version corrects wrong copyright notices and then adds
-a TODO file for the staging driver. The only reason to keep the
-driver in staging are the staging uAPI controls.
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+[Keep only 2 flags and add some details about they mean]
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+---
+v5:
+* None
+v4:
+* None
+v3:
+* This patch was previously part of https://lkml.org/lkml/2019/10/28/956
+* Kept the FIELD and BOTTOM_FIELD flags
+* Updated the doc with more details
+---
+ Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 16 ++++++++++++++++
+ include/media/h264-ctrls.h                       |  2 ++
+ 2 files changed, 18 insertions(+)
 
-Thanks,
-Ezequiel
-
-Boris Brezillon (5):
-  media: v4l2-core: Add helpers to build the H264 P/B0/B1 reflists
-  media: hantro: h264: Use the generic H264 reflist builder
-  media: dt-bindings: rockchip: Document RK3399 Video Decoder bindings
-  media: rkvdec: Add the rkvdec driver
-  arm64: dts: rockchip: rk3399: Define the rockchip Video Decoder node
-
-Jonas Karlman (1):
-  media: uapi: h264: Add DPB entry field reference flags
-
- .../bindings/media/rockchip,vdec.yaml         |   71 +
- .../media/uapi/v4l/ext-ctrls-codec.rst        |   16 +
- arch/arm64/boot/dts/rockchip/rk3399.dtsi      |   14 +-
- drivers/media/v4l2-core/Kconfig               |    4 +
- drivers/media/v4l2-core/Makefile              |    1 +
- drivers/media/v4l2-core/v4l2-h264.c           |  258 ++++
- drivers/staging/media/Kconfig                 |    2 +
- drivers/staging/media/Makefile                |    1 +
- drivers/staging/media/hantro/Kconfig          |    1 +
- drivers/staging/media/hantro/hantro_h264.c    |  237 +---
- drivers/staging/media/rkvdec/Kconfig          |   15 +
- drivers/staging/media/rkvdec/Makefile         |    3 +
- drivers/staging/media/rkvdec/TODO             |   11 +
- drivers/staging/media/rkvdec/rkvdec-h264.c    | 1154 +++++++++++++++++
- drivers/staging/media/rkvdec/rkvdec-regs.h    |  223 ++++
- drivers/staging/media/rkvdec/rkvdec.c         | 1134 ++++++++++++++++
- drivers/staging/media/rkvdec/rkvdec.h         |  123 ++
- include/media/h264-ctrls.h                    |    2 +
- include/media/v4l2-h264.h                     |   86 ++
- 19 files changed, 3126 insertions(+), 230 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
- create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
- create mode 100644 drivers/staging/media/rkvdec/Kconfig
- create mode 100644 drivers/staging/media/rkvdec/Makefile
- create mode 100644 drivers/staging/media/rkvdec/TODO
- create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
- create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
- create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
- create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
- create mode 100644 include/media/v4l2-h264.h
-
+diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+index 28313c0f4e7c..d4fc5f25aa14 100644
+--- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
++++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+@@ -2028,6 +2028,22 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+     * - ``V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM``
+       - 0x00000004
+       - The DPB entry is a long term reference frame
++    * - ``V4L2_H264_DPB_ENTRY_FLAG_FIELD``
++      - 0x00000008
++      - The DPB entry is a field reference, which means only one of the field
++        will be used when decoding the new frame/field. When not set the DPB
++        entry is a frame reference (both fields will be used). Note that this
++        flag does not say anything about the number of fields contained in the
++        reference frame, it just describes the one used to decode the new
++        field/frame
++    * - ``V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD``
++      - 0x00000010
++      - The DPB entry is a bottom field reference (only the bottom field of the
++        reference frame is needed to decode the new frame/field). Only valid if
++        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set. When
++        V4L2_H264_DPB_ENTRY_FLAG_FIELD is set but
++        V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD is not, that means the
++        DPB entry is a top field reference
+ 
+ ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE (enum)``
+     Specifies the decoding mode to use. Currently exposes slice-based and
+diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+index e877bf1d537c..1c6ff7d63bca 100644
+--- a/include/media/h264-ctrls.h
++++ b/include/media/h264-ctrls.h
+@@ -185,6 +185,8 @@ struct v4l2_ctrl_h264_slice_params {
+ #define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
+ #define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
+ #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
++#define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
++#define V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD	0x10
+ 
+ struct v4l2_h264_dpb_entry {
+ 	__u64 reference_ts;
 -- 
 2.25.0
+
