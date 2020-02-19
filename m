@@ -2,123 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFE8F164BD0
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C177164C16
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 18:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgBSRWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 12:22:18 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:39019 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbgBSRWS (ORCPT
+        id S1726729AbgBSRiD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 12:38:03 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37578 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726518AbgBSRiC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:22:18 -0500
-X-Originating-IP: 93.34.114.233
-Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id C7D0DFF80A;
-        Wed, 19 Feb 2020 17:22:12 +0000 (UTC)
-Date:   Wed, 19 Feb 2020 18:24:56 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     niklas.soderlund@ragnatech.se, mchehab@kernel.org,
-        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com,
-        sudipi@jp.adit-jv.com, akiyama@nds-osk.co.jp
-Subject: Re: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on
- clock lane during start of CSI2
-Message-ID: <20200219172456.hyo2aksvubxpoqrn@uno.localdomain>
-References: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+        Wed, 19 Feb 2020 12:38:02 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id DEC5628DC70
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v5 0/6] media: rockchip: Add the rkvdec driver
+Date:   Wed, 19 Feb 2020 14:37:44 -0300
+Message-Id: <20200219173750.26453-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jvjmcxubogualhde"
-Content-Disposition: inline
-In-Reply-To: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---jvjmcxubogualhde
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
 Hello,
 
-On Tue, Feb 18, 2020 at 12:44:11PM +0100, Michael Rodin wrote:
-> The chapter 7.1 "D-PHY Physical Layer Option" of the CSI2 specification
-> states that non-continuous clock behavior is optional, i.e. the Clock Lane
-> can remain in high-speed mode between the transmission of data packets.
-> Therefore waiting for the stop state (LP-11) on the Clock Lane is wrong and
-> will cause timeouts when a CSI2 transmitter with continuous clock behavior
-> is attached to R-Car CSI2 receiver. So wait only for the stop state on the
-> Data Lanes.
+This is v5 of Boris' rkvdec driver.
 
-Am I wrong or the desired behaviour should depend on the presence of
-the clock-noncontinuous property in the CSI-2 input endpoint ?
-If clock-noncontinuous is set, then wait for the clock lane to
-enter stop state too, if not just wait for the data lanes to stop.
+This version corrects wrong copyright notices and then adds
+a TODO file for the staging driver. The only reason to keep the
+driver in staging are the staging uAPI controls.
 
-If this is correct, it will also require a change to the bindings and
-that's the tricky part. So far the CSI-2 receiver behaved as the
-clock-noncontinuous property was set (wait for both data and clock
-lanes) and older dtb should continue to work under this assumption. If
-you want to support devices with continuous clock then you have to require
-the clock-noncontinuous property to be explicitly set to false, and
-assume it's true if not specified. BUT clock-noncontinuous is a
-boolean property, whose value depends on it's presence only. So I fear
-we need to add a 'clock-continuous' flag to video-interfaces.txt,
-parse it in the CSI-2 receiver driver, and then ignore the clock lane
-stop state if and only if said property is specified.
+Thanks,
+Ezequiel
 
-Does this make sense ?
+Boris Brezillon (5):
+  media: v4l2-core: Add helpers to build the H264 P/B0/B1 reflists
+  media: hantro: h264: Use the generic H264 reflist builder
+  media: dt-bindings: rockchip: Document RK3399 Video Decoder bindings
+  media: rkvdec: Add the rkvdec driver
+  arm64: dts: rockchip: rk3399: Define the rockchip Video Decoder node
 
-Thanks
-   j
+Jonas Karlman (1):
+  media: uapi: h264: Add DPB entry field reference flags
 
->
-> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index faa9fb2..6d1992a 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -416,8 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
->  	for (timeout = 0; timeout <= 20; timeout++) {
->  		const u32 lane_mask = (1 << priv->lanes) - 1;
->
-> -		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
-> -		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-> +		if ((rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
->  			return 0;
->
->  		usleep_range(1000, 2000);
-> --
-> 2.7.4
->
+ .../bindings/media/rockchip,vdec.yaml         |   71 +
+ .../media/uapi/v4l/ext-ctrls-codec.rst        |   16 +
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |   14 +-
+ drivers/media/v4l2-core/Kconfig               |    4 +
+ drivers/media/v4l2-core/Makefile              |    1 +
+ drivers/media/v4l2-core/v4l2-h264.c           |  258 ++++
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/hantro/Kconfig          |    1 +
+ drivers/staging/media/hantro/hantro_h264.c    |  237 +---
+ drivers/staging/media/rkvdec/Kconfig          |   15 +
+ drivers/staging/media/rkvdec/Makefile         |    3 +
+ drivers/staging/media/rkvdec/TODO             |   11 +
+ drivers/staging/media/rkvdec/rkvdec-h264.c    | 1154 +++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec-regs.h    |  223 ++++
+ drivers/staging/media/rkvdec/rkvdec.c         | 1134 ++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec.h         |  123 ++
+ include/media/h264-ctrls.h                    |    2 +
+ include/media/v4l2-h264.h                     |   86 ++
+ 19 files changed, 3126 insertions(+), 230 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+ create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
+ create mode 100644 drivers/staging/media/rkvdec/Kconfig
+ create mode 100644 drivers/staging/media/rkvdec/Makefile
+ create mode 100644 drivers/staging/media/rkvdec/TODO
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
+ create mode 100644 include/media/v4l2-h264.h
 
---jvjmcxubogualhde
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl5Nb2gACgkQcjQGjxah
-VjxTwA/+M8267lFucyowW2LpnMiSjwueQTHQySaNv+2/1++rFkymfQFdYVRwmi1s
-aEEeArjKkyZg8GQYnbXIPD2GDJygStJ69nqFKhmxsTuNSufHUaHG5ejrVz0IkI8e
-pd+eqMOGPp29eHUESTLiIfNDiGM80Xhn+zs6w5Gf1bzybwOpWzMqaVBUiE2DC3Kd
-f4ETr/luVYtCbmzXdgh1TAQ4lPkz93pS3EBp2AS4wNXpA+G+JSok4qnj7B3noVBi
-RBeraL/Ca718dlnq5tZCd+eycIlERQTgSir+ZzDATmrzwN+q5WOCqlrmwaUMh9VF
-FAWQyRLfGWOT9bo+lcnQ2RjpVbF7OvmkesiY0DsR8+btENIhpjuMuuAvI3TSQEBX
-rC9hYyaPicd4V4hjeVfOGduadjIq8qJ/iOIzWmOemA4XhIv3KAySbOqNuA6ejVRM
-3JntotjuknCM3HyWEfwdIFnlV2r2keZ0gqhcwG9Sg4a2sXTAQnSiIz781uETE/AH
-gPS1xJsJ+pDvM3g7/WEYI/tad7roEWkHBROkudu0JUOcYzzYnIi6zaISsAWQeyGA
-x5/bYSKOyiVYWV/s2ckbAhiAK37YZXGFOKs1ByLgvKt13xmtSy9UmLkJBq3kCvXv
-fsE0WfNjkaFVFLM3H2w0wyzMfcmB+fK853U0lbyjtl4N1NbLBaU=
-=mPQD
------END PGP SIGNATURE-----
-
---jvjmcxubogualhde--
+-- 
+2.25.0
