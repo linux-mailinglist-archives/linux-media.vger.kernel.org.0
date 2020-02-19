@@ -2,128 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F619163E4F
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 08:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34776163E6C
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 09:05:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbgBSH4c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 02:56:32 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:45567 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726156AbgBSH4b (ORCPT
+        id S1726643AbgBSIFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 03:05:42 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49541 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726163AbgBSIFm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 02:56:31 -0500
-Received: by mail-ed1-f66.google.com with SMTP id v28so28012203edw.12
-        for <linux-media@vger.kernel.org>; Tue, 18 Feb 2020 23:56:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Q3+DgOutnfX7SsA3bKGScs4wmPyXe9VReVvuWS0M6eg=;
-        b=B9VOqdReReZ1UeU791Rw1WlZRkQMxOMH6TE0rvZjCfwjN+5+ngZKvK/2vWeKPsgu1H
-         WresiCidvXZl/lPZ3JAHrOVFjVeEVJgAg0DRYc5zt6o8PsAzA5tFX6WkErNRD2yX4SLB
-         4uAaPOMgTexnB1rhFyLRX014eJi1auuXLhhMfMou7yd2UwKjZ6Uf1JVJiQJkm3HJD0HY
-         A+v3aoFgp6011VlLTNW47C0ebBYxxZ90iLj86hn+EAGee2LEfaUMGIUlUnGeqnOAHEqs
-         3nANbPVRpgxZokwGanYa2uaA8BX0zdb96rGRENEnAd0NpFcRNg9hRQbtLxCXcbjWvbnw
-         EK9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Q3+DgOutnfX7SsA3bKGScs4wmPyXe9VReVvuWS0M6eg=;
-        b=dlT0hlAGPgKeB6Uv7YaRwaOc4kLfgXDXLZzwFbgyfa+Bn+C9MyXHB9yFSLSy6W7pj8
-         KlLOjLeRfP5JTAhExt/LwO4q1h58p9XgaV219b0qbhlXo2fKLMGtfuAINChC2xuqngll
-         CW5XxXZYr4EFDt/9MayqxfnsBe+szs5OdbrilmRi9MMsTLtjUY6n44s3vxjh/wubzuEW
-         IaAWQrObHiPQGLMS0NE5vBcymYC2YA+yUjKhfO2QxZBZnctHwSl7EFHc+vh+mZ0LIfgX
-         Zc9NrX3iHiZKiYUlnmrXSs/IVf/t3ue23yWfJc/EdQGdk6DiU1DswIAGDWsKzNWSSTPd
-         eEfw==
-X-Gm-Message-State: APjAAAVT+c4qDJvglNhsKV000Z4VIHTqHuUI4+8u8JHWc5Aaav/sGepc
-        QyNFqYDlc/znvMVJyiETMn7Tt5PuV9Q=
-X-Google-Smtp-Source: APXvYqzY1Ka4YmzayW0U4GzuX30KYCpJuQ7CVEnrnpvxHGnfC9YVDEwp3qO0A8Qn44H3AwHFDmYMjQ==
-X-Received: by 2002:a17:906:e296:: with SMTP id gg22mr23367427ejb.7.1582098989740;
-        Tue, 18 Feb 2020 23:56:29 -0800 (PST)
-Received: from [192.168.27.209] ([94.155.124.210])
-        by smtp.googlemail.com with ESMTPSA id qh18sm35942ejb.23.2020.02.18.23.56.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 23:56:28 -0800 (PST)
-Subject: Re: [PATCH] media: venus: support frame rate control
-To:     Jeffrey Kardatzke <jkardatzke@google.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        "Mauro Carvalho Chehab )" <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200213213007.17023-1-jkardatzke@google.com>
- <b471217a-1877-eaed-55c2-084f4b126bb4@linaro.org>
- <CA+ddPcPjtv_9s4+t_1jkoGSZihVu2cVLyW102WuoLMy-RGkKPw@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <b0c8653a-314e-bab9-9dc8-8c33b8d1efc9@linaro.org>
-Date:   Wed, 19 Feb 2020 09:56:27 +0200
+        Wed, 19 Feb 2020 03:05:42 -0500
+Received: from [192.168.2.10] ([46.9.235.248])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4KMRjz84xP9a94KMVjnGer; Wed, 19 Feb 2020 09:05:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582099540; bh=TGmn708Y9zxHTvn2qEJKe1X4vwdgsSV8HFoJtlde7fQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=mXdKF/wlv+9KIKTpw+p7K6YtS8oorQY5pjIaI40kjn1zsVzYSDoVtidblndRvIkKz
+         ZapHijS9DMUppdkhFu4LhAQVNkT+RaZv58OBws20qNqTgpOBT9dTerXEALKGNhWvQ/
+         AZiP8bcRNjnKx8XovAHkmBsliNrRts48AXd0u1dTXlH5wAoU7PSxYYW0wqTaVfqEuT
+         kOU9qjaIIQYnJ6jrqbYhNjJIZdRziClG9rNBhTDD0IWZ0qpex+LVVtWWX/Y6pE0xEP
+         DfL1SHl0jSAdicGf7ATLV765YaCOB3MUWqti+3nwiuvmSqLDNBpiLw/b2Rtp/bSvHj
+         XMTGMim9RPruA==
+Subject: Re: [RFC][PATCHv2 01/12] videobuf2: add cache management members
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200204025641.218376-1-senozhatsky@chromium.org>
+ <20200204025641.218376-2-senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <964aeb73-1474-032f-b2a6-b317cc15f7cb@xs4all.nl>
+Date:   Wed, 19 Feb 2020 09:05:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CA+ddPcPjtv_9s4+t_1jkoGSZihVu2cVLyW102WuoLMy-RGkKPw@mail.gmail.com>
+In-Reply-To: <20200204025641.218376-2-senozhatsky@chromium.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOs0xdWWvMofum8EYzW5VlpCwfPgnNmI0ort5y6kYYpWxb0Mcj3GsP2K7A8a263PWFDxHs1sawGHfs36zO0jQYFHRWfbKQy6J810DzkBFCWFNbeSZH9w
+ Coq/C6E6btPHd7eTmy+mX1Rq2CpkgzxlspuulsydDM+1jUvf+VsbNf26fH0aAagFUlju0u+AOthOoAE3E48J5CoAsLCcA+1RrLdh0TV8r17UOnPkgomNPHNu
+ wMhxaut/gRGUpKop5OTK/jKAhgCuWmzsyTUsnHG2mClNdOBUt+zkq0XC9YGkN9AL6Zy9QngwE3BlQFfe7EYagrd7N263XZ95YWyeXMf/KvL+Gy4umh1ClORE
+ +H9PWynr5qZolmhZONoDvhfvz3VbIUBDlsN24exkTbxMJsp5KG8CckMhnDb/rcmlhx1DrwYu3AElmYu/AMpPY+h9+hVUV4ur3L9MjjTAa7thlO8HIg6tsWPU
+ g62e23vM9pq2PvN4V8dy92xpGmR4AbtQrrBrHZ80fkxwd8DEMEqItwNAlvPxtl6ToAwI/9HOfKgTCRvf
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jeff,
-
-On 2/18/20 9:09 PM, Jeffrey Kardatzke wrote:
-> Sorry for the duplicate, accidentally used HTML format and it got
-> bounced from the mailing lists so resending.
+On 2/4/20 3:56 AM, Sergey Senozhatsky wrote:
+> Extend vb2_buffer and vb2_queue structs with cache management
+> members.
 > 
-> On Mon, Feb 17, 2020 at 2:15 AM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> Hi Jeff,
->>
->> Thanks for the patch!
->>
->> On 2/13/20 11:30 PM, Jeffrey Kardatzke wrote:
->>> Frame rate control is always enabled in this driver, so make it silently
->>> support the V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE.
->>>
->>> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
->>> ---
->>>  drivers/media/platform/qcom/venus/venc_ctrls.c | 6 ++++++
->>>  1 file changed, 6 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
->>> index 877c0b3299e9..9ede692f77c5 100644
->>> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
->>> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
->>> @@ -199,6 +199,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
->>>               }
->>>               mutex_unlock(&inst->lock);
->>>               break;
->>> +     case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
->>> +             // Silently ignore, it's always enabled.
->>
->> Please, use C comments and follow the kernel coding style.
+> V4L2 UAPI already contains two buffer flags which user-space,
+> supposedly, can use to control buffer cache sync:
 > 
-> OK, hopefully I've got that now. I didn't see any issues aside from
-> the comment style though.
-> I'll upload a new patch shortly.
->>
->>
->> I wonder shouldn't it be better to add rc_enable field in struct
->> venc_controls and give the user choice to disable the rate control? We
->> can keep the default to be "enabled".
->>
-> That'd be fine. Is there a way to actually disable the rate control though?
+> - V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
+> - V4L2_BUF_FLAG_NO_CACHE_CLEAN
+> 
+> None of these, however, do anything at the moment. This patch
+> set is intended to change it.
+> 
+> Since user-space cache management hints are supposed to be
+> implemented on a per-buffer basis we need to extend vb2_buffer
+> struct with two new memebers ->need_cache_sync_on_prepare and
+> ->need_cache_sync_on_finish, which will store corresponding
+> user-space hints.
+> 
+> In order to preserve the existing behaviour, user-space cache
+> managements flags will be handled only by those drivers that
+> permit user-space cache hints. That's the purpose of vb2_queue
+> ->allow_cache_hints member. Driver must set ->allow_cache_hints
+> during queue initialisation to enable cache management hints
+> mechanism.
+> 
+> Only drivers that set ->allow_cache_hints during queue initialisation
+> will handle user-space cache management hints. Otherwise hints
+> will be ignored.
+> 
+> Change-Id: I52beec2a0d021b7a3715b4f6ae4bfd9dc5e94f0d
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  include/media/videobuf2-core.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index a2b2208b02da..026004180440 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -263,6 +263,10 @@ struct vb2_buffer {
+>  	 *			after the 'buf_finish' op is called.
+>  	 * copied_timestamp:	the timestamp of this capture buffer was copied
+>  	 *			from an output buffer.
+> +	 * need_cache_sync_on_prepare: do not sync/invalidate cache from
+> +	 * 			buffer's ->prepare() callback.
+> +	 * need_cache_sync_on_finish: do not sync/invalidate cache from buffer's
+> +	 * 			->finish() callback.
 
-The rate control property values are here [1], and [2] is where we set
-the control.
+Shouldn't 'do not' be deleted from the flag descriptions? If the flag is set,
+then you need to sync/validate, right?
 
--- 
-regards,
-Stan
+Regards,
 
-[1]
-https://elixir.bootlin.com/linux/v5.6-rc2/source/drivers/media/platform/qcom/venus/hfi_helper.h#L229
-[2]
-https://elixir.bootlin.com/linux/v5.6-rc2/source/drivers/media/platform/qcom/venus/venc.c#L734
+	Hans
+
+>  	 * queued_entry:	entry on the queued buffers list, which holds
+>  	 *			all buffers queued from userspace
+>  	 * done_entry:		entry on the list that stores all buffers ready
+> @@ -273,6 +277,8 @@ struct vb2_buffer {
+>  	unsigned int		synced:1;
+>  	unsigned int		prepared:1;
+>  	unsigned int		copied_timestamp:1;
+> +	unsigned int		need_cache_sync_on_prepare:1;
+> +	unsigned int		need_cache_sync_on_finish:1;
+>  
+>  	struct vb2_plane	planes[VB2_MAX_PLANES];
+>  	struct list_head	queued_entry;
+> @@ -491,6 +497,9 @@ struct vb2_buf_ops {
+>   * @uses_requests: requests are used for this queue. Set to 1 the first time
+>   *		a request is queued. Set to 0 when the queue is canceled.
+>   *		If this is 1, then you cannot queue buffers directly.
+> + * @allow_cache_hints: when set user-space can pass cache management hints in
+> + * 		order to skip cache flush/invalidation on ->prepare() or/and
+> + * 		->finish().
+>   * @lock:	pointer to a mutex that protects the &struct vb2_queue. The
+>   *		driver can set this to a mutex to let the v4l2 core serialize
+>   *		the queuing ioctls. If the driver wants to handle locking
+> @@ -564,6 +573,7 @@ struct vb2_queue {
+>  	unsigned			requires_requests:1;
+>  	unsigned			uses_qbuf:1;
+>  	unsigned			uses_requests:1;
+> +	unsigned			allow_cache_hints:1;
+>  
+>  	struct mutex			*lock;
+>  	void				*owner;
+> 
+
