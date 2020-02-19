@@ -2,126 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7525F164629
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 14:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53FD6164634
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 15:02:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727597AbgBSN5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 08:57:07 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34254 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726725AbgBSN5H (ORCPT
+        id S1727720AbgBSOCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 09:02:06 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:32806 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726725AbgBSOCG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 08:57:07 -0500
-Received: by mail-ot1-f68.google.com with SMTP id j16so214136otl.1
-        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 05:57:06 -0800 (PST)
+        Wed, 19 Feb 2020 09:02:06 -0500
+Received: by mail-wm1-f66.google.com with SMTP id m10so435579wmc.0
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 06:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j8vovJNm85f5usRJ1zcPBGMV6jnEx/0KxRYN+gnAQ+M=;
-        b=sWeSfpFGruDVn86qR+hCqpqBGNLZZx5Ph0QBUt4bcsFc0tzS5U/AbhqIXyoS+JQfoZ
-         HrmUnapjD0UL++fI2dmE/qJEkCECxyj//5I4MazefjyAgWbbJ1eyiO4XA0+JkqVMcGWQ
-         Y5MZjm1KWzu9+RiNNXAgTp8KGpmjDAgdTuHcfTVzISUhOjPxXjLuRcQErd3iSgaiIpze
-         4n7NStpwrhTCtjwFfDgZ9d9V2oB44EawnMZcaUcgiz2rxUz22Qb1nga0yjVi6GaE1JQM
-         VhhTsKfzwt0faqsEm93hldVBz/D2L2GcZ67t/knGkDweK3piMtMZd5OETk4v3rnCnwah
-         vekQ==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3PkCztssznJI9iVDZrOoZdc1ElAvEMwXCsPG/TQrbQ0=;
+        b=JkTpZ76T6WWc9equDLMWzUDi1SXfjWLcAT/GexT/31hvj/Gg3suAI+S6+firqx7xcK
+         49h2DvpSbLpSCXgXxwfJ7/DabokRNuOB7QaiDOzL9+Qttbw5ktB3DmZa5S9Zaq+wcRKU
+         TcU9ty3oPJnaK/NKPQveTIJVz8PNXLPRsPOmzOmVKmiN13KX2dahE5tgnzvn0wfYyWN3
+         kazFIUDNvWPMtm3bFk5g1789hJuP24xUVovUjGfoxbrmPTgM8oWYxW4tB1oJP2LQvLUn
+         3LR6PNqeQEVKm13zxTkwWyRXztX9v+vK4D5c/NYXayjze4k7jxHeFy982RTlyLRJwlTb
+         eDnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j8vovJNm85f5usRJ1zcPBGMV6jnEx/0KxRYN+gnAQ+M=;
-        b=EdoFr3MxHVPJ+NxwbocmDmTox+wR2ItLIGLdZmplfkJ0tpUZUmFImV9eJfArQ79c0H
-         pC20ctesSwQMyk1nDfj03/wz1SDry9FHYzLzz987X0Gvf1rxXqGb2NCumO38E+sW+5qk
-         smN4ikonp7b3o3KvN6rD7mOxMO7VovGZpIdro2Ak3lV5MrUeF3mf6/me5+vSW6EvXdJ8
-         BSxVVe65O4k8pYlLlqS9VmmZqfPOx0yb+dIe0yi45LcoFQ66nOL59LmC0hzOJukb3JLS
-         Bnd/LawswkGDU0bmsQ2kWIi0kihrB8SGBLYe8w61RKx8n1RVnXp7Q5cbRrxTioc6bKyH
-         BueQ==
-X-Gm-Message-State: APjAAAVqmFbwRODQ9kYhmwWeAuQ/zLFw5IqimGiID6mtBjasEbSedYVQ
-        8DcU4xXywpcT34ZfDMjK+AZ2RC6ZlQLySLy6Is0=
-X-Google-Smtp-Source: APXvYqxobnzqgBR/e8PcDr4UtJBmbiIcf1koeAjfRvRXQpVMjv0sBo/r0Koh2tq5Hw9XfirY5kkDRQ5O76+4MCO41f4=
-X-Received: by 2002:a9d:64ca:: with SMTP id n10mr19765073otl.325.1582120626053;
- Wed, 19 Feb 2020 05:57:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3PkCztssznJI9iVDZrOoZdc1ElAvEMwXCsPG/TQrbQ0=;
+        b=fqnzc9x4CkCC3b7EqfL/1duNRNO0WDZU7hgix6Z5VeebcLk7nq3R5NYf9EaVeP5sA2
+         F1o6IqUrNUpDz5sT69UKlli12WVP1Kaq89/UuFRXrXWSRH+jSwynBjKUekVXAyS4MyJO
+         6u9P9hehgKQKu3uI+D0i6oYEByidowC9IcEuVbb8oPsUVwHHJ0Uy+LpPaREoSuJe0Iop
+         j/lrulJz7VDEfWCMHFVpp5iMosnogJBgXvPwqzaPh1u5HPLTYx0Gu4fYHn1PTkw0I/2A
+         DvPbTHi8/d1VgnJ5M6X1NhzWQnFxeZU5/T2Mkxp2+BIpsjBdiUy/G8sKDclq4kWZdfGK
+         C1Vg==
+X-Gm-Message-State: APjAAAWMeV1vibtSRIITFuq1H1bcpRf4IGJjODMosn//33NlkUiVN1fv
+        NZQb6xql3PL5hUmW+kBwvzYbP/nwrmaHBg==
+X-Google-Smtp-Source: APXvYqyYd0M6Dp6ShLD9EySdgoIEk1+8VgX1+PV7H8RVqbVzldrCOQjouAoXJNWBJpeKaeafSbP2fg==
+X-Received: by 2002:a1c:ddd6:: with SMTP id u205mr10774057wmg.151.1582120921970;
+        Wed, 19 Feb 2020 06:02:01 -0800 (PST)
+Received: from bender.baylibre.local ([2a01:e35:2ec0:82b0:4ca8:b25b:98e4:858])
+        by smtp.gmail.com with ESMTPSA id j14sm3178634wrn.32.2020.02.19.06.02.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2020 06:02:01 -0800 (PST)
+From:   Neil Armstrong <narmstrong@baylibre.com>
+To:     mchehab@kernel.org, hans.verkuil@cisco.com
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/4] media: meson: vdec: Add compliant H264 support
+Date:   Wed, 19 Feb 2020 15:01:52 +0100
+Message-Id: <20200219140156.22893-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <CA+V-a8tnsxJP2CfwgrkPum6mYQEEP9+0=Fap4dFu-3x+fXdadw@mail.gmail.com>
- <20200219120808.GA5070@pendragon.ideasonboard.com> <CA+V-a8ux+8=PzWupMnpNRZsZCwG4VvVfN+dYayhEG=x927SWFg@mail.gmail.com>
- <20200219123247.GA9960@pendragon.ideasonboard.com>
-In-Reply-To: <20200219123247.GA9960@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 19 Feb 2020 13:56:39 +0000
-Message-ID: <CA+V-a8vcJiXwT5L2G8+HyrrxQOSJt0Zz+TeT4AbmQqcqxe7feg@mail.gmail.com>
-Subject: Re: [Query] : DT: Adding mezzanine board
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hello,
 
-On Wed, Feb 19, 2020 at 12:33 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Feb 19, 2020 at 12:25:37PM +0000, Lad, Prabhakar wrote:
-> > On Wed, Feb 19, 2020 at 12:08 PM Laurent Pinchart wrote:
-> > > On Wed, Feb 19, 2020 at 11:42:42AM +0000, Lad, Prabhakar wrote:
-> > > > Hi,
-> > > >
-> > > > I am working Renesas RZ/Gx platforms, these boards have support for
-> > > > connecting MIPI adapter mezzanine board [1]. To enable this support I
-> > > > am planning to create a dtsi which will include the board file and
-> > > > enable the necessary VIN/CSI and the camera endpoint.
-> > > >
-> > > > For example: to add support for G2E board I would create a file named
-> > > > r8a774c0-cat874-mipi-adapter.dtsi which will include the board file
-> > > > r8a774c0.dtsi and enable necessary VIN/CSI/Camera endpoint and when
-> > > > user wants to enable this support for the G2E board he could just
-> > > > include r8a774c0-cat874-mipi-adapter.dtsi to r8a774c0-cat874.dts
-> > > >
-> > > > Would this be a good approach or is there an alternative way which I am missing.
-> > >
-> > > DT overlays are another option. They can't be applied on a running
-> > > system though. It doesn't seem like the mezzanine boards can be detected
-> > > by the boot loader, so overlays can't be applied automatically before
-> > > the kernel is started. One option would still be to provide them to
-> > > U-Boot and apply a selected overlay based on environment variables.
-> > > Another option would be to apply overlays as part of the build process,
-> > > which shouldn't require modifying the DT sources to #include the .dtsi
-> > > file for the mezzanine board.
-> >
-> > Thank you for the insight, overlay is something which I wanted to
-> > avoid and have the dtb as part of kernel itself. How about just
-> > creating r8a774c0-cat874-mipi-adapter.dts which would include
-> > r8a774c0-cat874.dts file and enable the VIN/CSI/Camera endpoint, so
-> > the user would just use r8a774c0-cat874-mipi-adapter.dtb file when the
-> > mipi adapter is connected ?
->
-> That would restrict usage of the mezzanine board to a particular base
-> board, while in the general case there could be different types of base
-> boards compatible with a set of mezzanines.
->
-> The reason why I mentioned overlay isn't really to apply them
-> dynamically, but for the set of tools around them. Bootloaders can apply
-> overlays, and we can also apply overlays to a DTB as part of a build
-> process, without patching the source. Is there a particular reason why
-> you would prefer avoiding them ?
->
-Just didnt wanted to maintain to the DT overlay separately, but looks like
-overlay itself would be a way to go.
+This patch series aims to bring H.264 support as well as compliance update
+to the amlogic stateful video decoder driver.
 
-Thank you for the inputs.
+The issue in the V1 patchset at [1] is solved by patch #1 following comments
+and requirements from hans. It moves the full draining & stopped state tracking
+and handling from vicodec to core v4l2-mem2mem.
 
-Cheers,
---Prabhakar
+The vicodec changes still passes the v4l2-utils "media-test" tests, log at [5]:
+[...]
+vicodec media controller compliance tests
 
-> > > > [1] https://github.com/Kevin-WSCU/96Boards-Camera/blob/master/AISTARVISION%20MIPI%20Adapter%20V2.1/AISTARVISION%20MIPI%20Adapter%20V2.1.pdf
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Thu Jan 16 13:00:56 UTC 2020
+v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
+[...]
+Summary:
+
+Total for vicodec device /dev/media3: 7, Succeeded: 7, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video13: 51, Succeeded: 51, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
+Total for vicodec device /dev/video14: 51, Succeeded: 51, Failed: 0, Warnings: 0
+
+Final Summary: 364, Succeeded: 364, Failed: 0, Warnings: 0
+Thu Jan 16 13:02:59 UTC 2020
+
+With this, it also passes vdec v4l2-compliance with H264 streaming on Amlogic G12A
+and Amlogic SM1 SoCs successfully.
+
+The compliance log is:
+# v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s
+v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
+
+Compliance test for meson-vdec device /dev/video0:
+
+Driver Info:
+	Driver name      : meson-vdec
+	Card type        : Amlogic Video Decoder
+	Bus info         : platform:meson-vdec
+	Driver version   : 5.5.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Decoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video19 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 2 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture Multiplanar: Captured 60 buffers    
+	test MMAP (select): OK
+	Video Capture Multiplanar: Captured 60 buffers    
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for meson-vdec device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
+
+Changes since v5 at [6]:
+- Changed name of v4l2_m2m_start/stop_streaming to v4l2_m2m_update_start/stop_streaming_state
+- Changed name of v4l2_mark_last_buf to v4l2_update_last_buf_state
+- Added comment in code to describe usage and use-case
+- Added comment in header for helpers
+- Updated vicodec with v4l2_m2m_start/stop_streaming renaming in patch 2
+- Fixes htmldoc warnings in patch 4
+
+Changes since v4 at [5]:
+- Squashed "don't resume instantly if not streaming capture" and "fix OUTPUT buffer size configuration" fixes from maxime
+
+Changes since v3 at [3]:
+- Fixed vicodec compliance
+- Fixed vdec compliance with v4l2 state management
+- fixed doc errors for v4l2-mem2mem.h
+
+Changes since v2 at [2]:
+- Move full draining & stopped state tracking into core v4l2-mem2mem
+- Adapt vicodec to use the core v4l2-mem2mem draining & stopped state tracking
+
+Changes since v1 at [1]:
+- fixed output_size is never used reported by hans
+- rebased on G12A and SM1 patches
+- added handling of qbuf after STREAMON and STOP before enought buffer queued
+
+[1] https://lore.kernel.org/linux-media/20191007145909.29979-1-mjourdan@baylibre.com
+[2] https://lore.kernel.org/linux-media/20191126093733.32404-1-narmstrong@baylibre.com
+[3] https://lore.kernel.org/linux-media/20191209122028.13714-1-narmstrong@baylibre.com
+[4] https://people.freedesktop.org/~narmstrong/vicodec-compliance-7ead0e1856b89f2e19369af452bb03fd0cd16793-20200116.log
+[5] https://lore.kernel.org/linux-media/20200116133025.1903-1-narmstrong@baylibre.com
+[6] https://lore.kernel.org/linux-media/20200206082648.25184-1-narmstrong@baylibre.com
+
+Maxime Jourdan (2):
+  media: meson: vdec: bring up to compliance
+  media: meson: vdec: add H.264 decoding support
+
+Neil Armstrong (2):
+  media: v4l2-mem2mem: handle draining, stopped and next-buf-is-last
+    states
+  media: vicodec: use v4l2-mem2mem draining, stopped and
+    next-buf-is-last states handling
+
+ drivers/media/platform/vicodec/vicodec-core.c | 162 ++----
+ drivers/media/v4l2-core/v4l2-mem2mem.c        | 221 +++++++-
+ drivers/staging/media/meson/vdec/Makefile     |   2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c | 484 ++++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_h264.h |  14 +
+ drivers/staging/media/meson/vdec/esparser.c   |  58 +--
+ drivers/staging/media/meson/vdec/vdec.c       |  90 ++--
+ drivers/staging/media/meson/vdec/vdec.h       |  14 +-
+ .../staging/media/meson/vdec/vdec_helpers.c   |  88 ++--
+ .../staging/media/meson/vdec/vdec_helpers.h   |   6 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |  71 +++
+ include/media/v4l2-mem2mem.h                  | 133 +++++
+ 12 files changed, 1113 insertions(+), 230 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_h264.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_h264.h
+
+-- 
+2.22.0
+
