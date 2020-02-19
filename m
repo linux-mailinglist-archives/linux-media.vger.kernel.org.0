@@ -2,168 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A6A163C4D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 05:58:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BED1163D24
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 07:42:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgBSE6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Feb 2020 23:58:02 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:45017 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726496AbgBSE6C (ORCPT
+        id S1726265AbgBSGmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 01:42:40 -0500
+Received: from ste-pvt-msa2.bahnhof.se ([213.80.101.71]:43305 "EHLO
+        ste-pvt-msa2.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726156AbgBSGmj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Feb 2020 23:58:02 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:9178:88b6:be2f:9ed0])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 4HQsjxzVAP9a94HQtjmaJu; Wed, 19 Feb 2020 05:58:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582088280; bh=Nrkq8Ejm8YMe+Byfd4fr+Q1wekPH5TkkVisimcUojkc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=GrUrx4zf0DXf+IXD802PeHRl1ij8gbY/A8JnCz0nAYQXp7dQaLWrze7a8DQx6+BfI
-         ElPNmQq+zHQKNpqEX1tMc8+o0N3beKZfEha+VLK1S40tqkY0P5yxli8r/oufy1ML4g
-         31QQB89ieoD3rUPFfE4FhRqHdDxnKDiRUckBWLlx9VztybOyKwWWBudRcrgR+eo6mu
-         27dbnU+a8i2q/flpJBkC2DFBsVSvutyTlqUtH0ebdXAkTVuOFRSoWYcDIzLwgCu3wJ
-         z9Hz3drxiNHDWCef/c+guAdXWyf+qJxclHPjPwfsthP3L/KUrvxABq6A6G7D/OyOIn
-         NEBX/9aGoTsug==
-Message-ID: <eaaab3674e0e346df01b0d1bf009a144@smtp-cloud7.xs4all.net>
-Date:   Wed, 19 Feb 2020 05:57:58 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfG1mWs+jvbwbOWcE62p9b/17RvzROQbtZwP+HMVrlANpwBmRktCBxSnChnhWKZk4ZLK3IaFat8focIlcNl8lrAi0+CBsrb0OIGQEtY/2NTKhLSaX7B4P
- rzleVfhjNUbYs0bRwAl1wOyMCbeFt73BUumUffuniaeBAJwjMstfvBZ6ViU/LMFTrGLKpPdu/R1DckkZyATpS00DFm62w08/dm5Tn58fgLbQRwWXOTRazBUx
+        Wed, 19 Feb 2020 01:42:39 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id E3E593F79D;
+        Wed, 19 Feb 2020 07:42:35 +0100 (CET)
+Authentication-Results: ste-pvt-msa2.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=AfhADrK7;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+        autolearn=ham autolearn_force=no
+Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
+        dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+        by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id MomjvTK9eKdP; Wed, 19 Feb 2020 07:42:31 +0100 (CET)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        (Authenticated sender: mb878879)
+        by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 45C3C3F6FA;
+        Wed, 19 Feb 2020 07:42:28 +0100 (CET)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id 4AE3F36012D;
+        Wed, 19 Feb 2020 07:42:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1582094548; bh=EbNfVbfVOJNZ8SGwCtVcWurcs/Y7hbj7D01WzwWEw3I=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=AfhADrK7ekrnDUh9TTTdb+JJoRRXuX4yIVbi3UKZZJk4gb/yMsuj7xta2QKCJfpnf
+         x6ZTnd+96T8uj1KAMYZwQRGmWS4HIbUuh2OM6sZgbmSMIczeXVX7E+7uC+Vyv7foo1
+         YP5Hzi8y3r6RKXdm7AC57P2n8PlxqzgaDJ5V+m2E=
+Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20200217154509.2265-1-christian.koenig@amd.com>
+ <20200217154509.2265-6-christian.koenig@amd.com>
+ <20200217175518.GL2363188@phenom.ffwll.local>
+ <f8ac7cbc-7c90-7119-735c-9f55adb6fa7f@shipmail.org>
+ <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= 
+        <thomas_os@shipmail.org>
+Organization: VMware Inc.
+Message-ID: <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
+Date:   Wed, 19 Feb 2020 07:42:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 2/18/20 10:01 PM, Daniel Vetter wrote:
+> On Tue, Feb 18, 2020 at 9:17 PM Thomas Hellström (VMware)
+> <thomas_os@shipmail.org> wrote:
+>> On 2/17/20 6:55 PM, Daniel Vetter wrote:
+>>> On Mon, Feb 17, 2020 at 04:45:09PM +0100, Christian König wrote:
+>>>> Implement the importer side of unpinned DMA-buf handling.
+>>>>
+>>>> v2: update page tables immediately
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 66 ++++++++++++++++++++-
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  6 ++
+>>>>    2 files changed, 71 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>> index 770baba621b3..48de7624d49c 100644
+>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>>>> @@ -453,7 +453,71 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
+>>>>       return ERR_PTR(ret);
+>>>>    }
+>>>>
+>>>> +/**
+>>>> + * amdgpu_dma_buf_move_notify - &attach.move_notify implementation
+>>>> + *
+>>>> + * @attach: the DMA-buf attachment
+>>>> + *
+>>>> + * Invalidate the DMA-buf attachment, making sure that the we re-create the
+>>>> + * mapping before the next use.
+>>>> + */
+>>>> +static void
+>>>> +amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
+>>>> +{
+>>>> +    struct drm_gem_object *obj = attach->importer_priv;
+>>>> +    struct ww_acquire_ctx *ticket = dma_resv_locking_ctx(obj->resv);
+>>>> +    struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>>>> +    struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>>> +    struct ttm_operation_ctx ctx = { false, false };
+>>>> +    struct ttm_placement placement = {};
+>>>> +    struct amdgpu_vm_bo_base *bo_base;
+>>>> +    int r;
+>>>> +
+>>>> +    if (bo->tbo.mem.mem_type == TTM_PL_SYSTEM)
+>>>> +            return;
+>>>> +
+>>>> +    r = ttm_bo_validate(&bo->tbo, &placement, &ctx);
+>>>> +    if (r) {
+>>>> +            DRM_ERROR("Failed to invalidate DMA-buf import (%d))\n", r);
+>>>> +            return;
+>>>> +    }
+>>>> +
+>>>> +    for (bo_base = bo->vm_bo; bo_base; bo_base = bo_base->next) {
+>>>> +            struct amdgpu_vm *vm = bo_base->vm;
+>>>> +            struct dma_resv *resv = vm->root.base.bo->tbo.base.resv;
+>>>> +
+>>>> +            if (ticket) {
+>>> Yeah so this is kinda why I've been a total pain about the exact semantics
+>>> of the move_notify hook. I think we should flat-out require that importers
+>>> _always_ have a ticket attach when they call this, and that they can cope
+>>> with additional locks being taken (i.e. full EDEADLCK) handling.
+>>>
+>>> Simplest way to force that contract is to add a dummy 2nd ww_mutex lock to
+>>> the dma_resv object, which we then can take #ifdef
+>>> CONFIG_WW_MUTEX_SLOWPATH_DEBUG. Plus mabye a WARN_ON(!ticket).
+>>>
+>>> Now the real disaster is how we handle deadlocks. Two issues:
+>>>
+>>> - Ideally we'd keep any lock we've taken locked until the end, it helps
+>>>     needless backoffs. I've played around a bit with that but not even poc
+>>>     level, just an idea:
+>>>
+>>> https://cgit.freedesktop.org/~danvet/drm/commit/?id=b1799c5a0f02df9e1bb08d27be37331255ab7582
+>>>
+>>>     Idea is essentially to track a list of objects we had to lock as part of
+>>>     the ttm_bo_validate of the main object.
+>>>
+>>> - Second one is if we get a EDEADLCK on one of these sublocks (like the
+>>>     one here). We need to pass that up the entire callchain, including a
+>>>     temporary reference (we have to drop locks to do the ww_mutex_lock_slow
+>>>     call), and need a custom callback to drop that temporary reference
+>>>     (since that's all driver specific, might even be internal ww_mutex and
+>>>     not anything remotely looking like a normal dma_buf). This probably
+>>>     needs the exec util helpers from ttm, but at the dma_resv level, so that
+>>>     we can do something like this:
+>>>
+>>> struct dma_resv_ticket {
+>>>        struct ww_acquire_ctx base;
+>>>
+>>>        /* can be set by anyone (including other drivers) that got hold of
+>>>         * this ticket and had to acquire some new lock. This lock might
+>>>         * protect anything, including driver-internal stuff, and isn't
+>>>         * required to be a dma_buf or even just a dma_resv. */
+>>>        struct ww_mutex *contended_lock;
+>>>
+>>>        /* callback which the driver (which might be a dma-buf exporter
+>>>         * and not matching the driver that started this locking ticket)
+>>>         * sets together with @contended_lock, for the main driver to drop
+>>>         * when it calls dma_resv_unlock on the contended_lock. */
+>>>        void (drop_ref*)(struct ww_mutex *contended_lock);
+>>> };
+>>>
+>>> This is all supremely nasty (also ttm_bo_validate would need to be
+>>> improved to handle these sublocks and random new objects that could force
+>>> a ww_mutex_lock_slow).
+>>>
+>> Just a short comment on this:
+>>
+>> Neither the currently used wait-die or the wound-wait algorithm
+>> *strictly* requires a slow lock on the contended lock. For wait-die it's
+>> just very convenient since it makes us sleep instead of spinning with
+>> -EDEADLK on the contended lock. For wound-wait IIRC one could just
+>> immediately restart the whole locking transaction after an -EDEADLK, and
+>> the transaction would automatically end up waiting on the contended
+>> lock, provided the mutex lock stealing is not allowed. There is however
+>> a possibility that the transaction will be wounded again on another
+>> lock, taken before the contended lock, but I think there are ways to
+>> improve the wound-wait algorithm to reduce that probability.
+>>
+>> So in short, choosing the wound-wait algorithm instead of wait-die and
+>> perhaps modifying the ww mutex code somewhat would probably help passing
+>> an -EDEADLK up the call chain without requiring passing the contended
+>> lock, as long as each locker releases its own locks when receiving an
+>> -EDEADLK.
+> Hm this is kinda tempting, since rolling out the full backoff tricker
+> across driver boundaries is going to be real painful.
+>
+> What I'm kinda worried about is the debug/validation checks we're
+> losing with this. The required backoff has this nice property that
+> ww_mutex debug code can check that we've fully unwound everything when
+> we should, that we've blocked on the right lock, and that we're
+> restarting everything without keeling over. Without that I think we
+> could end up with situations where a driver in the middle feels like
+> handling the EDEADLCK, which might go well most of the times (the
+> deadlock will probably be mostly within a given driver, not across).
+> Right up to the point where someone creates a deadlock across drivers,
+> and the lack of full rollback will be felt.
+>
+> So not sure whether we can still keep all these debug/validation
+> checks, or whether this is a step too far towards clever tricks.
 
-Results of the daily build of media_tree:
+I think we could definitely find a way to keep debugging to make sure 
+everything is unwound before attempting to restart the locking 
+transaction. But the debug check that we're restarting on the contended 
+lock only really makes sense for wait-die, (and we could easily keep it 
+for wait-die). The lock returning -EDEADLK for wound-wait may actually 
+not be the contending lock but an arbitrary lock that the wounded 
+transaction attempts to take after it is wounded.
 
-date:			Wed Feb 19 05:00:11 CET 2020
-media-tree git hash:	bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9
-media_build git hash:	c19c9d0d270d64a158c41764125deef059b7acbc
-v4l-utils git hash:	3be1227d699f5c78e263626d97e75c43cd3726d7
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0a0399d66d361fec135a2dc184bd8d12148f35ad
-host hardware:		x86_64
-host os:		5.4.0-3-amd64
+So in the end IMO this is a tradeoff between added (possibly severe) 
+locking complexity into dma-buf and not being able to switch back to 
+wait-die efficiently if we need / want to do that.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2943, Succeeded: 2939, Failed: 4, Warnings: 0
-sparse: OK
-smatch: OK
+/Thomas
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+>
+> But definitely a neat idea ...
+> -Daniel
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
