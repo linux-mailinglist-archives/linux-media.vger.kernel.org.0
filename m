@@ -2,84 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C2D165169
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 22:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 390D4165174
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2020 22:17:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726760AbgBSVOz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 16:14:55 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:33471 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726645AbgBSVOz (ORCPT
+        id S1727326AbgBSVRX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 16:17:23 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38990 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726645AbgBSVRW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 16:14:55 -0500
-Received: by mail-wm1-f66.google.com with SMTP id m10so1276225wmc.0
-        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2020 13:14:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=reversity-org.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H5Jdzh994/mabmLt+fmhdzZ1vCYp9OdIIj7mz0M+8oE=;
-        b=oHJadJreJNrgpcK/hTNOj4A4CWZgQpL1enU/NbxSyi3k9jGST3FY+46OeWfTtZo9gg
-         BgkDdsiQ9pKdBwdbdVmTXSSacDv4gg44FQrnuhVnW9ogPOnlBZgatJyg7CDPP8p+j23e
-         SJyW6az/WoftDehLo9Wn7U+nwJyzlXsoBvFlrvxkeBYAt0ShUAtpOjfzl69cCOFj2KJq
-         EAEExPpuYJXQUdxbzV//UzGJljntnq+vdHujH4SGaZBU6kBb/OFrmLhUYxi46ZFBt3LX
-         7RbW3TeIQBvhYVmNqAhs0INnMYezEW5rNa/Tphet91CGh1PfZjH1OdK1/B6aM7FjEll1
-         alvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=H5Jdzh994/mabmLt+fmhdzZ1vCYp9OdIIj7mz0M+8oE=;
-        b=Vh1VXHVvkK0W06fS7AuiKqrKXH2fg+QCNdBV673Bwfyc58IfUnkmyWqXCRCK/kb0Bm
-         qpY0ZLxG3P9mAlo1/9LxvSQft411Ps7TjZQWLHjCfMqEBGRbjrnfwxsp72ivq3RR4gGk
-         8/2DciY/siJUwas6c8om1rWrxGX9h5n3yqIjC6ayCxQJquxjg8aLvm7feeC6hK2LMlLc
-         gPivVE8AhHwCWnzgwAI2enFuTanF2tUvtFbX3tALsjJohErCBHcqIGx6co4HLJCiZ0gz
-         14X0lbyLDKwNiMfZJrceMtDeBpLFdhY1T0sSG9z90iHXEl+aQEVzQoU6b60P9EtUAXB2
-         plRQ==
-X-Gm-Message-State: APjAAAWtYYNfovsN4msP6ROIQB0mKJILquaZ5dIIqP1G2n9reoPdv9Ab
-        9sEqtBXENMk1QG4agB9H1r0Zuy4nodZSjg==
-X-Google-Smtp-Source: APXvYqxv6jNlqO662tgYBf5ED+GG0MP/gAJf7wargTqM4/rdicIYgnGvzB3kCcZgQx3xSDLXLd2BYA==
-X-Received: by 2002:a1c:bc46:: with SMTP id m67mr11764079wmf.40.1582146892770;
-        Wed, 19 Feb 2020 13:14:52 -0800 (PST)
-Received: from puma.l ([2a02:768:6208:8136:1964:bfa4:a3ee:ec59])
-        by smtp.gmail.com with ESMTPSA id s23sm1499457wra.15.2020.02.19.13.14.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2020 13:14:52 -0800 (PST)
-From:   Mario Hros <git@reversity.org>
-To:     linux-media@vger.kernel.org
-Cc:     Mario Hros <git@reversity.org>
-Subject: [PATCH] media: rtl28xxu: add missing sleep before probing slave demod
-Date:   Wed, 19 Feb 2020 22:14:19 +0100
-Message-Id: <20200219211419.67063-1-git@reversity.org>
-X-Mailer: git-send-email 2.25.1
+        Wed, 19 Feb 2020 16:17:22 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id C31D428DE65
+Subject: Re: [RFC PATCH V5 0/3] media: support Mediatek sensor interface
+ driver
+To:     Louis Kuo <louis.kuo@mediatek.com>, hans.verkuil@cisco.com,
+        laurent.pinchart+renesas@ideasonboard.com, tfiga@chromium.org,
+        keiichiw@chromium.org, matthias.bgg@gmail.com, mchehab@kernel.org
+Cc:     yuzhao@chromium.org, zwisler@chromium.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
+        sj.huang@mediatek.com, christie.yu@mediatek.com,
+        frederic.chen@mediatek.com, Jerry-ch.Chen@mediatek.com,
+        jungo.lin@mediatek.com, Rynn.Wu@mediatek.com,
+        linux-media@vger.kernel.org, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org,
+        "kernel@collabora.com" <kernel@collabora.com>
+References: <20200129081650.8027-1-louis.kuo@mediatek.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <f825b943-610e-ba19-cbfd-eea2dae2245f@collabora.com>
+Date:   Wed, 19 Feb 2020 18:17:10 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200129081650.8027-1-louis.kuo@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Slave demod needs some time to wake up otherwise it may not respond to the following probe commands. This problem manifested randomly on my Astrometa DVB-T2 dongle.
+Hi Louis,
 
-Signed-off-by: Mario Hros <git@reversity.org>
----
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 3 +++
- 1 file changed, 3 insertions(+)
+On 1/29/20 6:16 AM, Louis Kuo wrote:
+> Hello,
+> 
+> This is the RFC patch adding Sensor Inferface(seninf) driver on Mediatek mt8183 SoC, which will be used
+> in camera features on CrOS application.
+> It belongs to the first Mediatek's camera driver series based on V4L2 and media controller framework.
+> I posted the main part of the seninf driver as RFC to discuss first and would like some review comments
+> on the overall structure of the driver.
+> 
+> The driver is implemented with V4L2 framework.
+> 1. Register as a V4L2 sub-device.
+> 2. Only one entity with sink pads linked to camera sensors for choosing desired camera sensor by setup link
+>    and with source pads linked to cam-io for routing different types of decoded packet datas to PASS1 driver
+>    to generate sensor image frame and meta-data.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-index c6881a1b3232..2080f6ef4be1 100644
---- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-+++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-@@ -552,6 +552,9 @@ static int rtl2832u_read_config(struct dvb_usb_device *d)
- 		if (ret)
- 			goto err;
- 
-+		/* slave demod needs some time to wake up */
-+		msleep(20);
-+
- 		/* check slave answers */
- 		ret = rtl28xxu_ctrl_msg(d, &req_mn88472);
- 		if (ret == 0 && buf[0] == 0x02) {
--- 
-2.25.1
+If I understood correctly, the subdevice represents a bridge, with 4 sink pads and 8 source pads (12 total) right?
+And you can only route a sink to a source at a time and you can't use multiple sensors simultaneously, correct?
 
+> 
+> The overall file structure of the seninf driver is as following:
+> 
+> * mtk_seninf.c: Implement software and HW control flow of seninf driver.
+> * mtk_seninf_def.h: Define data structure and enumeration.
+> * mtk_seninf_reg.h: Define HW register R/W macros and HW register names.
+> 
+> [ V5: use recommended coding style, revise DT binding documentation]
+> 
+>   media: platform: mtk-isp: Add Mediatek sensor interface driver
+
+It looks like patch 1/3 didn't reach linux-media mailing list
+    https://patchwork.linuxtv.org/project/linux-media/list/?series=1706
+I guess it's because of its size, you might need to break it into smaller patches.
+I see that mtk_seninf_reg.h is really big and not all of it is used, maybe you can split it up.
+
+
+>   dt-bindings: mt8183: Add sensor interface dt-bindings
+>   dts: arm64: mt8183: Add sensor interface nodes
+> 
+>  .../bindings/media/mediatek-seninf.txt        |   66 +
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   12 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/mtk-isp/Kconfig        |   17 +
+>  .../media/platform/mtk-isp/isp_50/Makefile    |    3 +
+>  .../platform/mtk-isp/isp_50/seninf/Makefile   |    6 +
+>  .../mtk-isp/isp_50/seninf/mtk_seninf.c        | 1112 +++
+>  .../mtk-isp/isp_50/seninf/mtk_seninf_def.h    |   72 +
+>  .../mtk-isp/isp_50/seninf/mtk_seninf_reg.h    | 7747 +++++++++++++++++
+>  9 files changed, 9036 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-seninf.txt
+>  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf_def.h
+>  create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf_reg.h
+> 
+
+Thanks
+Helen
