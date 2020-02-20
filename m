@@ -2,134 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 470F6165988
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 09:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9544F1659D7
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 10:08:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726825AbgBTIpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Feb 2020 03:45:43 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55843 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726799AbgBTIpn (ORCPT
+        id S1726783AbgBTJIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Feb 2020 04:08:12 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:55686 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726756AbgBTJIM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Feb 2020 03:45:43 -0500
-Received: from [192.168.2.10] ([46.9.235.248])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 4hSkj9f9DyIme4hSnjicPj; Thu, 20 Feb 2020 09:45:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582188341; bh=n1KovKvq/q7CIfGUBL0d+FJ4p0KVxipSS2I4qj0qbjY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=jeXfjP86TikbtpD3J5VM+gOlslNigQ3trmHXSBe5ZjocZN9D33MAOue90O/UO7ahl
-         QToWoYt+tLkBWWswLNeClIk9egzyswdF+oy5dwSejQSY0BcUpxs/IAoJAyIhFS2iS+
-         PKc3xqtMswCYD3RytkalsISdAJFmcCZkn1V/guato+ZS6D1GiQdxtPqaG+t7KH8e0Y
-         i1MIalfnweVfP2rkNTy1sXrq33fq188GTrjmMjy0rtgKuUwQipNchR1zxnWC6A38TT
-         VPOkjOHL6qN9/w82j0cWR83XvGidJ+yMKLROgJpKeGkf1YMOQYMQCJ01O7t/u8bYBt
-         rb04LfTm6G9ZA==
-Subject: Re: [PATCH v5 0/6] media: rockchip: Add the rkvdec driver
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-References: <20200219173750.26453-1-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <933b8189-5541-a7ff-e1dc-05ca3b2d65d5@xs4all.nl>
-Date:   Thu, 20 Feb 2020 09:45:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thu, 20 Feb 2020 04:08:12 -0500
+Received: by mail-io1-f71.google.com with SMTP id z21so2146181iob.22
+        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2020 01:08:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=4rw0gQpQnZk+CZTyqoVbFEYEdsf54WxpWJrLPHEp50A=;
+        b=hXQ+0pdltBj9lfLGPqATnjMqsPALqws+gFETCUZnq1QgRXHFgMl/Leu9zUme56QcZg
+         kZzmzoAwGuQrPhqugMTzqE0oFdK7Aj0uN0RZBsxqm3Q894vs5K5adM5Qr8BGY17dXTz7
+         oIWAQPyx4TZN1rhsauhONJND0neFQEGLlybwuKroA6HYdGstbFQT8M4pgSWF0lywzMt0
+         J1BrK+EE7lHXSFV42GFWusETHLLbYb8bJnjwSzhx6UQIgyi+vMUyUhtOJzHLMHperNW6
+         B9qnSTXATYE3BhYohOvUzR7yDBSDQW3/Z+N5jkF0YrlSjLlnsfHyl7AlVpJlUiy9V9f1
+         BUiw==
+X-Gm-Message-State: APjAAAWO51yMvrnwBzXvq/M1Uva+KcRGKLhf9HaY3mL13RsPkrRk44zX
+        DX+NjgYwWn4SYeohLis++Z4IME+qUclFt9vGN59EVHwBWQ67
+X-Google-Smtp-Source: APXvYqyLmWkWi+b/aUPbnHxTmdF61uLlxMshHPca4jVc5ZpYNLrxcJpI3pZeToN4IDHZuTNyz8nfLCPS4OwlSUoKtoKEka7eSakG
 MIME-Version: 1.0
-In-Reply-To: <20200219173750.26453-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCIE1D8IrPKqAzrx2WDTcm5C6VJb1hktJWZM2wFnyVwAi4U00BlQBVxdgIrnegfo5ze+3BZKzUXGO8cxlQPs5vQti08iUW+80WqJLRhT7RuAtfoIcdBb
- ZUnK6dj/BIP++yf1V8jAqwrbUNUW9rpw23QgJrzuDbPeyb0ps1YcvTiN/ZTeK89vspQ5tttTtSjovKQWR9lHx39MEFbFie9iFjuuMLr4dU2rwgbuvquEnzEP
- HglOUv8e44p712AelnuV0P2kvDnUyqSXo40pTKjhCJcQYjSMeG9LRzohRMDpggUH9l5I71WrLaFl3pZ8s/2VgIAt0RD+HBQaXAZtrMu9rR80TNjGD88Rr4io
- sxDhTfuqN/1Izqg4ExpWJxktDZnwijHzyYTf+EjUN3R8BjLYZhYOdTb2YHHi5sTbOiefVXME4ajMs2SQ//FdTruIrJCXnbaVJK5u3OtO+Al0ortWFWGu2IU3
- RACIZovXQUNdrkfZUeUOCuL+MB7BjBpv/2Oan0zw1An3ln0f6Et+gDESrxg4XHXv7xGwwO0k8fAOxtL/IedjKvKT4ei5kLADE1Ob2RwhaEE+ilGzBHq6uyGO
- y+QclkE4lAHfE2YQkJFkDz1CQiqYFVX9sugqg/6C1+MrKgusnLo70Stp5xFXpQiGPWP1u16KgdhwLk6y2NqfjQPNX1ffJIvi+z6reco8M0Q8/g==
+X-Received: by 2002:a92:9f1b:: with SMTP id u27mr28596712ili.173.1582189691814;
+ Thu, 20 Feb 2020 01:08:11 -0800 (PST)
+Date:   Thu, 20 Feb 2020 01:08:11 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008c49b4059efe3e74@google.com>
+Subject: KMSAN: kernel-infoleak in video_usercopy (2)
+From:   syzbot <syzbot+c67f8c1e31d62912ff2f@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, glider@google.com, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/19/20 6:37 PM, Ezequiel Garcia wrote:
-> Hello,
-> 
-> This is v5 of Boris' rkvdec driver.
-> 
-> This version corrects wrong copyright notices and then adds
-> a TODO file for the staging driver. The only reason to keep the
-> driver in staging are the staging uAPI controls.
+Hello,
 
-I got some sparse warnings for this series, should be trivial to fix:
+syzbot found the following crash on:
 
-sparse: WARNINGS
-drivers/media/v4l2-core/v4l2-h264.c:214: warning: Function parameter or member 'reflist' not described in 'v4l2_h264_build_p_ref_list'
-drivers/media/v4l2-core/v4l2-h264.c:214: warning: Excess function parameter 'p_reflist' description in 'v4l2_h264_build_p_ref_list'
-SPARSE:drivers/staging/media/rkvdec/rkvdec.c drivers/staging/media/rkvdec/rkvdec.c:561:22:  warning: symbol 'rkvdec_queue_ops' was not
-declared. Should it be static?
+HEAD commit:    8bbbc5cf kmsan: don't compile memmove
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=178f51b5e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cd0e9a6b0e555cc3
+dashboard link: https://syzkaller.appspot.com/bug?extid=c67f8c1e31d62912ff2f
+compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11f39f95e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14c423d9e00000
 
-Also, checkpatch.pl --strict complains about empty trailing lines in two
-files.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+c67f8c1e31d62912ff2f@syzkaller.appspotmail.com
 
-Together with the missing MAINTAINERS it is probably best if you post
-a v6.
+=====================================================
+BUG: KMSAN: kernel-infoleak in kmsan_copy_to_user+0x81/0x90 mm/kmsan/kmsan_hooks.c:253
+CPU: 1 PID: 11474 Comm: syz-executor301 Not tainted 5.6.0-rc2-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x1c9/0x220 lib/dump_stack.c:118
+ kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:118
+ kmsan_internal_check_memory+0x238/0x3d0 mm/kmsan/kmsan.c:423
+ kmsan_copy_to_user+0x81/0x90 mm/kmsan/kmsan_hooks.c:253
+ _copy_to_user+0x15a/0x1f0 lib/usercopy.c:33
+ copy_to_user include/linux/uaccess.h:174 [inline]
+ video_put_user drivers/media/v4l2-core/v4l2-ioctl.c:3165 [inline]
+ video_usercopy+0x248c/0x2b50 drivers/media/v4l2-core/v4l2-ioctl.c:3264
+ video_ioctl2+0x9f/0xb0 drivers/media/v4l2-core/v4l2-ioctl.c:3274
+ v4l2_ioctl+0x23f/0x270 drivers/media/v4l2-core/v4l2-dev.c:360
+ vfs_ioctl fs/ioctl.c:47 [inline]
+ ksys_ioctl fs/ioctl.c:763 [inline]
+ __do_sys_ioctl fs/ioctl.c:772 [inline]
+ __se_sys_ioctl+0x2e9/0x410 fs/ioctl.c:770
+ __x64_sys_ioctl+0x4a/0x70 fs/ioctl.c:770
+ do_syscall_64+0xb8/0x160 arch/x86/entry/common.c:296
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x440289
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 fb 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffe00ee4fc8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 0000000000440289
+RDX: 00000000200000c0 RSI: 00000000c050560f RDI: 0000000000000003
+RBP: 00000000006ca018 R08: 00000000004002c8 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401b10
+R13: 0000000000401ba0 R14: 0000000000000000 R15: 0000000000000000
 
-Regards,
+Local variable ----vb32.i@video_usercopy created at:
+ video_put_user drivers/media/v4l2-core/v4l2-ioctl.c:3149 [inline]
+ video_usercopy+0x20bf/0x2b50 drivers/media/v4l2-core/v4l2-ioctl.c:3264
+ video_put_user drivers/media/v4l2-core/v4l2-ioctl.c:3149 [inline]
+ video_usercopy+0x20bf/0x2b50 drivers/media/v4l2-core/v4l2-ioctl.c:3264
 
-	Hans
+Bytes 52-55 of 80 are uninitialized
+Memory access of size 80 starts at ffffa88f81563ce0
+Data copied to user address 00000000200000c0
+=====================================================
 
-> 
-> Thanks,
-> Ezequiel
-> 
-> Boris Brezillon (5):
->   media: v4l2-core: Add helpers to build the H264 P/B0/B1 reflists
->   media: hantro: h264: Use the generic H264 reflist builder
->   media: dt-bindings: rockchip: Document RK3399 Video Decoder bindings
->   media: rkvdec: Add the rkvdec driver
->   arm64: dts: rockchip: rk3399: Define the rockchip Video Decoder node
-> 
-> Jonas Karlman (1):
->   media: uapi: h264: Add DPB entry field reference flags
-> 
->  .../bindings/media/rockchip,vdec.yaml         |   71 +
->  .../media/uapi/v4l/ext-ctrls-codec.rst        |   16 +
->  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |   14 +-
->  drivers/media/v4l2-core/Kconfig               |    4 +
->  drivers/media/v4l2-core/Makefile              |    1 +
->  drivers/media/v4l2-core/v4l2-h264.c           |  258 ++++
->  drivers/staging/media/Kconfig                 |    2 +
->  drivers/staging/media/Makefile                |    1 +
->  drivers/staging/media/hantro/Kconfig          |    1 +
->  drivers/staging/media/hantro/hantro_h264.c    |  237 +---
->  drivers/staging/media/rkvdec/Kconfig          |   15 +
->  drivers/staging/media/rkvdec/Makefile         |    3 +
->  drivers/staging/media/rkvdec/TODO             |   11 +
->  drivers/staging/media/rkvdec/rkvdec-h264.c    | 1154 +++++++++++++++++
->  drivers/staging/media/rkvdec/rkvdec-regs.h    |  223 ++++
->  drivers/staging/media/rkvdec/rkvdec.c         | 1134 ++++++++++++++++
->  drivers/staging/media/rkvdec/rkvdec.h         |  123 ++
->  include/media/h264-ctrls.h                    |    2 +
->  include/media/v4l2-h264.h                     |   86 ++
->  19 files changed, 3126 insertions(+), 230 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
->  create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
->  create mode 100644 drivers/staging/media/rkvdec/Kconfig
->  create mode 100644 drivers/staging/media/rkvdec/Makefile
->  create mode 100644 drivers/staging/media/rkvdec/TODO
->  create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
->  create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
->  create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
->  create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
->  create mode 100644 include/media/v4l2-h264.h
-> 
 
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
