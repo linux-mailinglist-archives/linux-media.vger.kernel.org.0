@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F05165924
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 09:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 470F6165988
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 09:45:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727103AbgBTIYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Feb 2020 03:24:42 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37961 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726759AbgBTIYm (ORCPT
+        id S1726825AbgBTIpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Feb 2020 03:45:43 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55843 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726799AbgBTIpn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Feb 2020 03:24:42 -0500
+        Thu, 20 Feb 2020 03:45:43 -0500
 Received: from [192.168.2.10] ([46.9.235.248])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 4h8Gj9V8XyIme4h8JjiULX; Thu, 20 Feb 2020 09:24:40 +0100
+        id 4hSkj9f9DyIme4hSnjicPj; Thu, 20 Feb 2020 09:45:41 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582187080; bh=zjCtsEIa08AGTyanHrsqF+rTfgRcOyOrIkiDIW9QfEQ=;
+        t=1582188341; bh=n1KovKvq/q7CIfGUBL0d+FJ4p0KVxipSS2I4qj0qbjY=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=e5zQOyPw3QKs6KKOXVTapY7zvgPVaf4D1dmdNZhCpta6p9SVSXCqve5sn6z7mKif1
-         pb1AKVPkcwb4fHktMChS912Q+f4Vc3HYjoSFOUvEi7LeMcO/tnyA62EH99DFJJ+8my
-         bn3gTZk50O6lUT0Y6g6z0js3zzpDfERWGx4T2RJh/0v4AM01zd1Y7HR/ClEm4GKqqY
-         480FGhbOQIqCvF7AracdWIDQdLIxuejwv+DUezEiY/Va4oVC3ozHV24sRgbpq/OZkN
-         Eg4FJJoHNOsRzCDF6dTsFRm3WI4WGZpH+rZTsBEqSEtmuo2CCD+WybfrufQy1uK6sX
-         weAIEC8bT8uPw==
+        b=jeXfjP86TikbtpD3J5VM+gOlslNigQ3trmHXSBe5ZjocZN9D33MAOue90O/UO7ahl
+         QToWoYt+tLkBWWswLNeClIk9egzyswdF+oy5dwSejQSY0BcUpxs/IAoJAyIhFS2iS+
+         PKc3xqtMswCYD3RytkalsISdAJFmcCZkn1V/guato+ZS6D1GiQdxtPqaG+t7KH8e0Y
+         i1MIalfnweVfP2rkNTy1sXrq33fq188GTrjmMjy0rtgKuUwQipNchR1zxnWC6A38TT
+         VPOkjOHL6qN9/w82j0cWR83XvGidJ+yMKLROgJpKeGkf1YMOQYMQCJ01O7t/u8bYBt
+         rb04LfTm6G9ZA==
 Subject: Re: [PATCH v5 0/6] media: rockchip: Add the rkvdec driver
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -40,8 +40,8 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>
 References: <20200219173750.26453-1-ezequiel@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <de59d088-ec08-c851-77f2-545053ca0cbb@xs4all.nl>
-Date:   Thu, 20 Feb 2020 09:24:28 +0100
+Message-ID: <933b8189-5541-a7ff-e1dc-05ca3b2d65d5@xs4all.nl>
+Date:   Thu, 20 Feb 2020 09:45:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
@@ -49,12 +49,12 @@ In-Reply-To: <20200219173750.26453-1-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOyDD88T/3EMGCMjiQ/rzRGQ0jdIDCkWv1DdNKCpVI/4w5Cr6yo3Q06FVkJqXBj2A/AF8uNxU5N0ohwJP8ItCv7gMCAjZil9+L0i2TT/KIHkh6/LVTnF
- XuL4xyx0NyXmDJylYEagN76KqPIEX9fTqodrzPMm1aDY/cwtPw/ldGqJzhrN4AQywVZKOZS2h462t4NXwi8xtklkeZT8Au8Faeb+icbz88qGjHmppbgpegKM
- AekfK1/jSC+XrZiujG4aNcLxvSAWZqq29ysQT6UdV5bFz98We17THzekZ7D+VVPEf5mNt3rv5MU3D2YifcYsW1dTBEKEOxbRwPrv9zAr7RjCXbLl8+swBJy/
- YrCDEX81s+Ab26YRSSyoXXLq1X5rI2mRdS9J2L1djmkG7PX45PbCJOEPQmmezJ3FpB0xjoLhpYlPooEJVXrAz1G83arO8kyYPcLJ+M0llUrM1ceqpJZn7WKt
- Rwa8KWRZkl2MGivkPKkuX4nzA+M9DrmIvH2T8ylv8Q6AQkEHQa+yyY6W+4EpjKmA9SmGqptLhTuFftjjp4Upuc9N2YrkoXGJoarMjaEY4mvRlt/eDWlJp8FG
- gZTyHGPR3azbocsENwKFaMzbhdU/CpT2PDHW4UWLddsNyHAl5TBRTyvL7PvLvMql52RoFDH7JP0fRTsaMriakvN5mH4EqRLPTxK0RuEV3EZMlA==
+X-CMAE-Envelope: MS4wfCIE1D8IrPKqAzrx2WDTcm5C6VJb1hktJWZM2wFnyVwAi4U00BlQBVxdgIrnegfo5ze+3BZKzUXGO8cxlQPs5vQti08iUW+80WqJLRhT7RuAtfoIcdBb
+ ZUnK6dj/BIP++yf1V8jAqwrbUNUW9rpw23QgJrzuDbPeyb0ps1YcvTiN/ZTeK89vspQ5tttTtSjovKQWR9lHx39MEFbFie9iFjuuMLr4dU2rwgbuvquEnzEP
+ HglOUv8e44p712AelnuV0P2kvDnUyqSXo40pTKjhCJcQYjSMeG9LRzohRMDpggUH9l5I71WrLaFl3pZ8s/2VgIAt0RD+HBQaXAZtrMu9rR80TNjGD88Rr4io
+ sxDhTfuqN/1Izqg4ExpWJxktDZnwijHzyYTf+EjUN3R8BjLYZhYOdTb2YHHi5sTbOiefVXME4ajMs2SQ//FdTruIrJCXnbaVJK5u3OtO+Al0ortWFWGu2IU3
+ RACIZovXQUNdrkfZUeUOCuL+MB7BjBpv/2Oan0zw1An3ln0f6Et+gDESrxg4XHXv7xGwwO0k8fAOxtL/IedjKvKT4ei5kLADE1Ob2RwhaEE+ilGzBHq6uyGO
+ y+QclkE4lAHfE2YQkJFkDz1CQiqYFVX9sugqg/6C1+MrKgusnLo70Stp5xFXpQiGPWP1u16KgdhwLk6y2NqfjQPNX1ffJIvi+z6reco8M0Q8/g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -69,10 +69,21 @@ On 2/19/20 6:37 PM, Ezequiel Garcia wrote:
 > a TODO file for the staging driver. The only reason to keep the
 > driver in staging are the staging uAPI controls.
 
-Can you post a follow-up patch that updates the MAINTAINERS file?
-That's missing in this series.
+I got some sparse warnings for this series, should be trivial to fix:
 
-Thanks!
+sparse: WARNINGS
+drivers/media/v4l2-core/v4l2-h264.c:214: warning: Function parameter or member 'reflist' not described in 'v4l2_h264_build_p_ref_list'
+drivers/media/v4l2-core/v4l2-h264.c:214: warning: Excess function parameter 'p_reflist' description in 'v4l2_h264_build_p_ref_list'
+SPARSE:drivers/staging/media/rkvdec/rkvdec.c drivers/staging/media/rkvdec/rkvdec.c:561:22:  warning: symbol 'rkvdec_queue_ops' was not
+declared. Should it be static?
+
+Also, checkpatch.pl --strict complains about empty trailing lines in two
+files.
+
+Together with the missing MAINTAINERS it is probably best if you post
+a v6.
+
+Regards,
 
 	Hans
 
