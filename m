@@ -2,211 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4278516673F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 20:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D578D166768
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 20:46:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728368AbgBTTfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Feb 2020 14:35:20 -0500
-Received: from gateway30.websitewelcome.com ([192.185.196.18]:43932 "EHLO
-        gateway30.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728248AbgBTTfU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Feb 2020 14:35:20 -0500
-X-Greylist: delayed 1368 seconds by postgrey-1.27 at vger.kernel.org; Thu, 20 Feb 2020 14:35:19 EST
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway30.websitewelcome.com (Postfix) with ESMTP id 4B59C2059D
-        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2020 13:11:46 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id 4rEgjZmOJEfyq4rEgjhHs9; Thu, 20 Feb 2020 13:11:46 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=5i2VISLHxkwlkmTIbhd4lHNarQUya3H3hLvf7tzN68w=; b=HIPw1W6sVnurI/pvy2PMAys5a2
-        OIz/RiA5KGxYsEcEBKxAKaveo2Oul/hB+JvX4qYo74B1OLonj+MxOlPrBbILRu+8dlFw+M7IW/iDO
-        u0NBUn1sI7swDe5gGz1JPYeDzYGtvsKiPqmtJGvvbhafYgeazhH+gS7Jr/8nItQp+xaHaQDZcPeRA
-        wSa0bmSdFwcue/yv24eLYpc/Q93vPQzS9wKsbYQU7adEmB4Lm9v7tEgtvygyzpG1QUkhAU831cOa1
-        2JkR67vRIfW/4+HB8wWAd2IL2dgypFTpSKEGBZo0XocHJXelK/mhmXj9hevD79LTZn/V4LHCQS3i6
-        upiGbREA==;
-Received: from [201.144.174.47] (port=20829 helo=[192.168.43.131])
-        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1j4rEf-002Fcv-Fy; Thu, 20 Feb 2020 13:11:45 -0600
-Subject: Re: [PATCH] staging: Replace zero-length array with flexible-array
- member
-To:     Adham.Abozaeid@microchip.com, gregkh@linuxfoundation.org,
-        vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-        elder@kernel.org, m.tretter@pengutronix.de, kernel@pengutronix.de,
-        mchehab@kernel.org, Larry.Finger@lwfinger.net,
-        florian.c.schilhabel@googlemail.com, Ajay.Kathat@microchip.com
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        greybus-dev@lists.linaro.org, linux-media@vger.kernel.org,
-        linux-wireless@vger.kernel.org
-References: <20200220132908.GA30501@embeddedor>
- <d331cd9c-ec57-b686-d977-c48e70415ae1@microchip.com>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Message-ID: <8e9e1b59-a7a8-782e-990b-8a7023c2292d@embeddedor.com>
-Date:   Thu, 20 Feb 2020 13:14:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728958AbgBTTqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Feb 2020 14:46:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728334AbgBTTqJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 20 Feb 2020 14:46:09 -0500
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E234324672;
+        Thu, 20 Feb 2020 19:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582227968;
+        bh=8n/tGiChs7HK/SdTYqKi3okvm4Cg4Bv8EZZNVfm7Rl4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rK4bxvA9PtMY23VLjMSOMRUCge4roI7ZgaALYYOFedEP37YZyJVCGZz4qvNuwG2jL
+         7uiuFMvQlbhERXukI9wesmMP2DAJ3XQQv/yQR6GcalXZA+FKiXTXQGXwwOeTbX9MYg
+         lytJ5qwTaDyn3KruD79UyF2pCyGco4GHouwww0Bw=
+Received: by mail-qk1-f170.google.com with SMTP id d11so4711935qko.8;
+        Thu, 20 Feb 2020 11:46:07 -0800 (PST)
+X-Gm-Message-State: APjAAAUn/Rsc/4W49ampcgSP/PAvoadjYcqDnAKr9ZgYyJvqUvQJ7GP6
+        NrA/y161AlqtqXmSrr2WWgmUHl2mTni2/Ea1nQ==
+X-Google-Smtp-Source: APXvYqzWa1YkLaYjcSJNWWPD1wry3UstiJMoWTLIXaiS3y/0QKi+7eErUwgmQh/kQZJAoWHjxM0DRmvkiefFTWvGDJw=
+X-Received: by 2002:a37:6457:: with SMTP id y84mr30478394qkb.254.1582227966959;
+ Thu, 20 Feb 2020 11:46:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <d331cd9c-ec57-b686-d977-c48e70415ae1@microchip.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 201.144.174.47
-X-Source-L: No
-X-Exim-ID: 1j4rEf-002Fcv-Fy
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.43.131]) [201.144.174.47]:20829
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 16
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
+ <1581704608-31219-4-git-send-email-skomatineni@nvidia.com>
+ <20200218231503.GA19099@bogus> <5948bf42-9be2-8cf0-1c28-80f69b708c65@nvidia.com>
+In-Reply-To: <5948bf42-9be2-8cf0-1c28-80f69b708c65@nvidia.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 20 Feb 2020 13:45:56 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKAVBS-KvP60Bv2JBQjUzTUgicx33nShn4enFpvysS9YA@mail.gmail.com>
+Message-ID: <CAL_JsqKAVBS-KvP60Bv2JBQjUzTUgicx33nShn4enFpvysS9YA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 3/6] dt-binding: tegra: Add VI and CSI bindings
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Frank Chen <frankc@nvidia.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Tue, Feb 18, 2020 at 9:28 PM Sowjanya Komatineni
+<skomatineni@nvidia.com> wrote:
+>
+>
+> On 2/18/20 3:15 PM, Rob Herring wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Fri, Feb 14, 2020 at 10:23:25AM -0800, Sowjanya Komatineni wrote:
+> >> Tegra contains VI controller which can support up to 6 MIPI CSI
+> >> camera sensors.
+> >>
+> >> Each Tegra CSI port from CSI unit can be one-to-one mapper to
+> >> VI channel and can capture from an external camera sensor or
+> >> from built-in test pattern generator.
+> >>
+> >> This patch adds dt-bindings for Tegra VI and CSI.
+> >>
+> >> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> >> ---
+> >>   .../display/tegra/nvidia,tegra20-host1x.txt        | 55 ++++++++++++++++++----
+> >>   1 file changed, 47 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> >> index 9999255ac5b6..3d0ed540a646 100644
+> >> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> >> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+> >> @@ -40,14 +40,24 @@ of the following host1x client modules:
+> >>
+> >>     Required properties:
+> >>     - compatible: "nvidia,tegra<chip>-vi"
+> >> -  - reg: Physical base address and length of the controller's registers.
+> >> +  - reg: Physical base address and length of the controller registers.
+> >>     - interrupts: The interrupt outputs from the controller.
+> >> -  - clocks: Must contain one entry, for the module clock.
+> >> +  - clocks: Must contain an entry for the module clock "vi"
+> >>       See ../clocks/clock-bindings.txt for details.
+> >>     - resets: Must contain an entry for each entry in reset-names.
+> >>       See ../reset/reset.txt for details.
+> >> -  - reset-names: Must include the following entries:
+> >> -    - vi
+> >> +  - reset-names: Must include the entry "vi"
+> >> +
+> >> +  Tegra210 has CSI part of VI sharing same host interface and register
+> >> +  space. So, VI device node should have CSI child node.
+> >> +
+> >> +  - csi: mipi csi interface to vi
+> >> +
+> >> +    Required properties:
+> >> +    - compatible: "nvidia,tegra<chip>-csi"
+> >> +    - reg: Physical base address and length of the controller registers.
+> >> +    - clocks: Must contain entries csi, cilab, cilcd, cile clocks.
+> >> +      See ../clocks/clock-bindings.txt for details.
+> >>
+> >>   - epp: encoder pre-processor
+> >>
+> >> @@ -310,12 +320,41 @@ Example:
+> >>                };
+> >>
+> >>                vi {
+> >> -                     compatible = "nvidia,tegra20-vi";
+> >> -                     reg = <0x54080000 0x00040000>;
+> >> +                     compatible = "nvidia,tegra210-vi";
+> >> +                     reg = <0x0 0x54080000 0x0 0x700>;
+> >>                        interrupts = <0 69 0x04>;
+> >> -                     clocks = <&tegra_car TEGRA20_CLK_VI>;
+> >> -                     resets = <&tegra_car 100>;
+> >> +                     assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
+> >> +                     assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
+> >> +                     clocks = <&tegra_car TEGRA210_CLK_VI>;
+> >> +                     clock-names = "vi";
+> >> +                     resets = <&tegra_car 20>;
+> >>                        reset-names = "vi";
+> >> +
+> >> +                     #address-cells = <2>;
+> >> +                     #size-cells = <2>;
+> >> +
+> >> +                     ranges = <0x0 0x54080808 0x0 0x54080808 0x0 0x2000>;
+> >> +
+> >> +                     csi@0x54080838 {
+> > Drop '0x'
+> Will fix in v4
+> >
+> >> +                             compatible = "nvidia,tegra210-csi";
+> >> +                             reg = <0x0 0x54080838 0x0 0x2000>;
+> > Kind of odd that this address and ranges address are not the same. And
+> > also wrong that the size here exceeds the bounds of ranges.
+> >
+> > Also, best practice is to make the child address 0 or relative to the
+> > parent.
+>
+> Actual CSI starts at offset 0x808 but we don't use couple of registers
+> at offset 0x808.
+>
+> Will update ranges in v4 to start from 0x838 offset and will make child
+> address relative to parent.
 
-On 2/20/20 13:04, Adham.Abozaeid@microchip.com wrote:
-> Hi Gustavo
-> 
-> On 2/20/20 6:29 AM, Gustavo A. R. Silva wrote:
->> The current codebase makes use of the zero-length array language
->> extension to the C90 standard, but the preferred mechanism to declare
->> variable-length types such as these ones is a flexible array member[1][2],
->> introduced in C99:
->>
->> struct foo {
->>         int stuff;
->>         struct boo array[];
->> };
->>
->> By making use of the mechanism above, we will get a compiler warning
->> in case the flexible array does not occur last in the structure, which
->> will help us prevent some kind of undefined behavior bugs from being
->> inadvertently introduced[3] to the codebase from now on.
->>
->> Also, notice that, dynamic memory allocations won't be affected by
->> this change:
->>
->> "Flexible array members have incomplete type, and so the sizeof operator
->> may not be applied. As a quirk of the original implementation of
->> zero-length arrays, sizeof evaluates to zero."[1]
->>
->> This issue was found with the help of Coccinelle.
->>
->> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
->> [2] https://github.com/KSPP/linux/issues/21
->> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->>
->> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
->>
->>  static void cfg_scan_result(enum scan_event scan_event,
->> diff --git a/drivers/staging/wilc1000/spi.c b/drivers/staging/wilc1000/spi.c
->> index 44f7d48851b5..11653ac118cd 100644
->> --- a/drivers/staging/wilc1000/spi.c
->> +++ b/drivers/staging/wilc1000/spi.c
->> @@ -139,7 +139,7 @@ struct wilc_spi_read_rsp_data {
->>         u8 status;
->>         u8 resp_header;
->>         u8 resp_data[4];
->> -       u8 crc[0];
->> +       u8 crc[];
->>  } __packed;
-> more zero-length arrays in wilc1000, spi.c, struct wilc_spi_cmd, and in fw.h
-> 
+Seems odd, but okay. And you will never, ever need to use those
+registers no matter what, and we can reject any DT change trying to
+change it later?
 
-Oh wow, I hadn't thought about cases like this:
-
-struct wilc_spi_cmd {
-        u8 cmd_type;
-        union {
-                struct {
-                        u8 addr[3];
-                        u8 crc[0];
-                } __packed simple_cmd;
-                struct {
-                        u8 addr[3];
-                        u8 size[2];
-                        u8 crc[0];
-                } __packed dma_cmd;
-                struct {
-                        u8 addr[3];
-                        u8 size[3];
-                        u8 crc[0];
-                } __packed dma_cmd_ext;
-                struct {
-                        u8 addr[2];
-                        __be32 data;
-                        u8 crc[0];
-                } __packed internal_w_cmd;
-                struct {
-                        u8 addr[3];
-                        __be32 data;
-                        u8 crc[0];
-                } __packed w_cmd;
-        } u;
-} __packed;
-
-Thanks for the feedback.
---
-Gustavo
+Rob
