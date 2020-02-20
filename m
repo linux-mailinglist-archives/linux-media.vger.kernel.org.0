@@ -2,306 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 170AA165673
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 05:59:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4624B165670
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2020 05:58:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727932AbgBTE7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Feb 2020 23:59:20 -0500
-Received: from ma-dnext02.denso.co.jp ([133.192.181.77]:43811 "EHLO
-        ma-dnext02.denso.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727370AbgBTE7U (ORCPT
+        id S1727806AbgBTE6E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Feb 2020 23:58:04 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:33257 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727370AbgBTE6E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Feb 2020 23:59:20 -0500
-X-Greylist: delayed 591 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Feb 2020 23:59:19 EST
-Received: from grdma02h.denso.co.jp (unknown [133.192.24.24])
-        by ma-dnext02.denso.co.jp (Postfix) with ESMTP id D4F9C31C31E;
-        Thu, 20 Feb 2020 13:49:26 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=adit-jv.com;
-        s=jpadit-jvmail2011; t=1582174166;
-        bh=kuWi3/2dvFbWzOyBrpBWvuu+pYk1RKYNtA9e5dZsv9A=;
-        h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
-        b=KkTNW/I5CqoQXUnCdjAv4IopPKv9y2ucxEzlvozYiIv82e1A+2xpvMg7znOrZ/jag
-         0IA3u+T6dRMLza10smWf7/HPnCB6UurLI+eHblhPSdHTKOIdnazeKR9DD0bAEe+Uud
-         ikkIGHyjlawr+2trVuxuYiqMqPuarM02L37xODHzPhA+lCeZ+79uxIumHDTIYj7G26
-         doJMkw4umTy/J2HYUBNoUcRVH3sU9sqoF6UHuSgNMByKaTv8xOiP8tKUFAU7J9hi7O
-         7vyEzTc05wvL6/vwuOXi1fpAI0WQUbqy0WvUiV/9EZMJsK+OvSjggKCdDTBJP0AEcJ
-         ZvSvBhxhSNhFQ==
-Received: by grdma02h.denso.co.jp (Postfix, from userid 0)
-        id CB3C7C0FC27; Thu, 20 Feb 2020 13:49:26 +0900 (JST)
-Received: from smtp1.denso.co.jp [133.192.24.88] 
-         by grdma02h. with ESMTP id PAA09335;
-         Thu, 20 Feb 2020 13:49:26 +0900
-Received: from ky0exch01.adit-jv.com ([10.71.113.8])
-        by smtp01.denso.co.jp (MOS 4.4.7-GA)
-        with ESMTP id FGL56368;
-        Thu, 20 Feb 2020 13:49:25 +0900
-Received: from jp-u0004.adit-jv.com (10.71.112.120) by ky0exch01.adit-jv.com
- (10.71.113.8) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 20 Feb
- 2020 13:49:25 +0900
-From:   Suresh Udipi <sudipi@jp.adit-jv.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Eugen Friedrich <efriedrich@de.adit-jv.com>,
-        <akiyama@nds-osk.co.jp>, Eugeniu Rosca <erosca@de.adit-jv.com>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <securitycheck@denso.co.jp>
-Subject: [PATCH] [RFC] media: rcar-csi2: Corrects the selection of hsfreqrange
-Date:   Thu, 20 Feb 2020 13:49:09 +0900
-Message-ID: <1582174149-11547-1-git-send-email-sudipi@jp.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.71.112.120]
+        Wed, 19 Feb 2020 23:58:04 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:dc05:c6b3:9042:4745])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4duSjVuHujmHT4duTjILRW; Thu, 20 Feb 2020 05:58:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582174682; bh=1tOzPs6Xe+Y5IHRBZ7vafD5uJ/yhprWb0c/Pc9Hzty0=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=HfujuOBTf+OCB+nnwRApPH3z5QGJtFLLJs7ygvsfNEJSGtRmG8yciEMsF30+HqJ3h
+         AOzwAllnDWJDWUckFDgIkGfo7eR7cBgSWbt+PAOToYDE0VGRUfNenQtjwugy79ffwB
+         kM6WsIDdRHX5qF1CrLC3ygR93DcCmU1ji6GsjRIjvkTsEPgMBOqFDkOUAHWeDXIEB9
+         Ss2nXf07T3uKLSw+JrhjB7IWCJmXuujR10wH89SogqhMMpiPmfl71QrLHEOngao6qq
+         ctNqo5vtBRmasy2wJZLeGC+dT3+NKoqJCiSD5N5N/b7yxuo0ebLjH/zwS9Bfs5FuRV
+         gmTTZOWD1QcjQ==
+Message-ID: <4987444efd042115d8b31fd2ff5bf617@smtp-cloud7.xs4all.net>
+Date:   Thu, 20 Feb 2020 05:58:00 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfPpDi5gkVuy7nv8zF1T4hHyMfzmM2lkNwZ9/xMLAh2hlo026xEiPLOcRw1PnLHWS58BdXWBkYLye5LO9WoRLgQnpWFLW5cFflQwbFwtZmMAIFS1Q7brV
+ 0SqfQVcGjRfZzxssGM8nNy0EiiU3Odo85UgQDEbVHsOTKsilNIKwr8PgXJ3hbWSwY7Yeell3xpvfbshOLNZkk5Tiq2QjQDKaqTevAmwZlLi8rYMy3+PoGmgh
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-hsfreqrange should be chosen based on the calculated mbps which
-is closer to the default bit rate  and within the range as per
-table[1]. But current calculation always selects fist value which
-greater than the calcuated mbps which may lead to chosing a
-wrong range in some cases.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-For example for 360 mbps for H3/M3N
-Existing logic selects
-Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
+Results of the daily build of media_tree:
 
-This hsfreqrange is buggy and also out of range.
+date:			Thu Feb 20 05:00:11 CET 2020
+media-tree git hash:	bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9
+media_build git hash:	c19c9d0d270d64a158c41764125deef059b7acbc
+v4l-utils git hash:	3be1227d699f5c78e263626d97e75c43cd3726d7
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0a0399d66d361fec135a2dc184bd8d12148f35ad
+host hardware:		x86_64
+host os:		5.4.0-3-amd64
 
-The logic is changed to get the default value which is closest to the
-calculated value [1]
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2939, Failed: 4, Warnings: 1
+sparse: OK
+smatch: OK
 
-Calculate value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
+Detailed results are available here:
 
- [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 185 +++++++++++++++-------------
- 1 file changed, 97 insertions(+), 88 deletions(-)
+Detailed regression test results are available here:
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index faa9fb2..1966ece 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -134,6 +134,8 @@ struct phtw_value {
- struct rcsi2_mbps_reg {
- 	u16 mbps;
- 	u16 reg;
-+	u16 min;
-+	u16 max;
- };
- 
- static const struct rcsi2_mbps_reg phtw_mbps_h3_v3h_m3n[] = {
-@@ -201,96 +203,96 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
- #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
- 
- static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
--	{ .mbps =   80, .reg = 0x00 },
--	{ .mbps =   90, .reg = 0x10 },
--	{ .mbps =  100, .reg = 0x20 },
--	{ .mbps =  110, .reg = 0x30 },
--	{ .mbps =  120, .reg = 0x01 },
--	{ .mbps =  130, .reg = 0x11 },
--	{ .mbps =  140, .reg = 0x21 },
--	{ .mbps =  150, .reg = 0x31 },
--	{ .mbps =  160, .reg = 0x02 },
--	{ .mbps =  170, .reg = 0x12 },
--	{ .mbps =  180, .reg = 0x22 },
--	{ .mbps =  190, .reg = 0x32 },
--	{ .mbps =  205, .reg = 0x03 },
--	{ .mbps =  220, .reg = 0x13 },
--	{ .mbps =  235, .reg = 0x23 },
--	{ .mbps =  250, .reg = 0x33 },
--	{ .mbps =  275, .reg = 0x04 },
--	{ .mbps =  300, .reg = 0x14 },
--	{ .mbps =  325, .reg = 0x25 },
--	{ .mbps =  350, .reg = 0x35 },
--	{ .mbps =  400, .reg = 0x05 },
--	{ .mbps =  450, .reg = 0x16 },
--	{ .mbps =  500, .reg = 0x26 },
--	{ .mbps =  550, .reg = 0x37 },
--	{ .mbps =  600, .reg = 0x07 },
--	{ .mbps =  650, .reg = 0x18 },
--	{ .mbps =  700, .reg = 0x28 },
--	{ .mbps =  750, .reg = 0x39 },
--	{ .mbps =  800, .reg = 0x09 },
--	{ .mbps =  850, .reg = 0x19 },
--	{ .mbps =  900, .reg = 0x29 },
--	{ .mbps =  950, .reg = 0x3a },
--	{ .mbps = 1000, .reg = 0x0a },
--	{ .mbps = 1050, .reg = 0x1a },
--	{ .mbps = 1100, .reg = 0x2a },
--	{ .mbps = 1150, .reg = 0x3b },
--	{ .mbps = 1200, .reg = 0x0b },
--	{ .mbps = 1250, .reg = 0x1b },
--	{ .mbps = 1300, .reg = 0x2b },
--	{ .mbps = 1350, .reg = 0x3c },
--	{ .mbps = 1400, .reg = 0x0c },
--	{ .mbps = 1450, .reg = 0x1c },
--	{ .mbps = 1500, .reg = 0x2c },
-+	{ .mbps =   80, .reg = 0x00, .min =   80, .max =   97 },
-+	{ .mbps =   90, .reg = 0x10, .min =   80, .max =  107 },
-+	{ .mbps =  100, .reg = 0x20, .min =   83, .max =  118 },
-+	{ .mbps =  110, .reg = 0x30, .min =   93, .max =  128 },
-+	{ .mbps =  120, .reg = 0x01, .min =  103, .max =  139 },
-+	{ .mbps =  130, .reg = 0x11, .min =  112, .max =  149 },
-+	{ .mbps =  140, .reg = 0x21, .min =  122, .max =  160 },
-+	{ .mbps =  150, .reg = 0x31, .min =  131, .max =  170 },
-+	{ .mbps =  160, .reg = 0x02, .min =  141, .max =  181 },
-+	{ .mbps =  170, .reg = 0x12, .min =  150, .max =  191 },
-+	{ .mbps =  180, .reg = 0x22, .min =  160, .max =  202 },
-+	{ .mbps =  190, .reg = 0x32, .min =  169, .max =  212 },
-+	{ .mbps =  205, .reg = 0x03, .min =  183, .max =  228 },
-+	{ .mbps =  220, .reg = 0x13, .min =  198, .max =  224 },
-+	{ .mbps =  235, .reg = 0x23, .min =  212, .max =  259 },
-+	{ .mbps =  250, .reg = 0x33, .min =  226, .max =  275 },
-+	{ .mbps =  275, .reg = 0x04, .min =  250, .max =  301 },
-+	{ .mbps =  300, .reg = 0x14, .min =  274, .max =  328 },
-+	{ .mbps =  325, .reg = 0x25, .min =  297, .max =  354 },
-+	{ .mbps =  350, .reg = 0x35, .min =  321, .max =  380 },
-+	{ .mbps =  400, .reg = 0x05, .min =  369, .max =  433 },
-+	{ .mbps =  450, .reg = 0x16, .min =  416, .max =  485 },
-+	{ .mbps =  500, .reg = 0x26, .min =  464, .max =  538 },
-+	{ .mbps =  550, .reg = 0x37, .min =  499, .max =  590 },
-+	{ .mbps =  600, .reg = 0x07, .min =  559, .max =  643 },
-+	{ .mbps =  650, .reg = 0x18, .min =  606, .max =  695 },
-+	{ .mbps =  700, .reg = 0x28, .min =  654, .max =  748 },
-+	{ .mbps =  750, .reg = 0x39, .min =  701, .max =  800 },
-+	{ .mbps =  800, .reg = 0x09, .min =  749, .max =  853 },
-+	{ .mbps =  850, .reg = 0x19, .min =  796, .max =  905 },
-+	{ .mbps =  900, .reg = 0x29, .min =  844, .max =  958 },
-+	{ .mbps =  950, .reg = 0x3a, .min =  891, .max = 1010 },
-+	{ .mbps = 1000, .reg = 0x0a, .min =  939, .max = 1063 },
-+	{ .mbps = 1050, .reg = 0x1a, .min =  986, .max = 1115 },
-+	{ .mbps = 1100, .reg = 0x2a, .min = 1034, .max = 1168 },
-+	{ .mbps = 1150, .reg = 0x3b, .min = 1081, .max = 1220 },
-+	{ .mbps = 1200, .reg = 0x0b, .min = 1129, .max = 1273 },
-+	{ .mbps = 1250, .reg = 0x1b, .min = 1176, .max = 1325 },
-+	{ .mbps = 1300, .reg = 0x2b, .min = 1212, .max = 1378 },
-+	{ .mbps = 1350, .reg = 0x3c, .min = 1271, .max = 1430 },
-+	{ .mbps = 1400, .reg = 0x0c, .min = 1319, .max = 1483 },
-+	{ .mbps = 1450, .reg = 0x1c, .min = 1366, .max = 1500 },
-+	{ .mbps = 1500, .reg = 0x2c, .min = 1414, .max = 1500 },
- 	{ /* sentinel */ },
- };
- 
- static const struct rcsi2_mbps_reg hsfreqrange_m3w_h3es1[] = {
--	{ .mbps =   80,	.reg = 0x00 },
--	{ .mbps =   90,	.reg = 0x10 },
--	{ .mbps =  100,	.reg = 0x20 },
--	{ .mbps =  110,	.reg = 0x30 },
--	{ .mbps =  120,	.reg = 0x01 },
--	{ .mbps =  130,	.reg = 0x11 },
--	{ .mbps =  140,	.reg = 0x21 },
--	{ .mbps =  150,	.reg = 0x31 },
--	{ .mbps =  160,	.reg = 0x02 },
--	{ .mbps =  170,	.reg = 0x12 },
--	{ .mbps =  180,	.reg = 0x22 },
--	{ .mbps =  190,	.reg = 0x32 },
--	{ .mbps =  205,	.reg = 0x03 },
--	{ .mbps =  220,	.reg = 0x13 },
--	{ .mbps =  235,	.reg = 0x23 },
--	{ .mbps =  250,	.reg = 0x33 },
--	{ .mbps =  275,	.reg = 0x04 },
--	{ .mbps =  300,	.reg = 0x14 },
--	{ .mbps =  325,	.reg = 0x05 },
--	{ .mbps =  350,	.reg = 0x15 },
--	{ .mbps =  400,	.reg = 0x25 },
--	{ .mbps =  450,	.reg = 0x06 },
--	{ .mbps =  500,	.reg = 0x16 },
--	{ .mbps =  550,	.reg = 0x07 },
--	{ .mbps =  600,	.reg = 0x17 },
--	{ .mbps =  650,	.reg = 0x08 },
--	{ .mbps =  700,	.reg = 0x18 },
--	{ .mbps =  750,	.reg = 0x09 },
--	{ .mbps =  800,	.reg = 0x19 },
--	{ .mbps =  850,	.reg = 0x29 },
--	{ .mbps =  900,	.reg = 0x39 },
--	{ .mbps =  950,	.reg = 0x0a },
--	{ .mbps = 1000,	.reg = 0x1a },
--	{ .mbps = 1050,	.reg = 0x2a },
--	{ .mbps = 1100,	.reg = 0x3a },
--	{ .mbps = 1150,	.reg = 0x0b },
--	{ .mbps = 1200,	.reg = 0x1b },
--	{ .mbps = 1250,	.reg = 0x2b },
--	{ .mbps = 1300,	.reg = 0x3b },
--	{ .mbps = 1350,	.reg = 0x0c },
--	{ .mbps = 1400,	.reg = 0x1c },
--	{ .mbps = 1450,	.reg = 0x2c },
--	{ .mbps = 1500,	.reg = 0x3c },
-+	{ .mbps =   80,	.reg = 0x00, .min =   80,  .max =   110 },
-+	{ .mbps =   90,	.reg = 0x10, .min =   80,  .max =   120 },
-+	{ .mbps =  100,	.reg = 0x20, .min =   80,  .max =   131 },
-+	{ .mbps =  110,	.reg = 0x30, .min =   81,  .max =   141 },
-+	{ .mbps =  120,	.reg = 0x01, .min =   91,  .max =   152 },
-+	{ .mbps =  130,	.reg = 0x11, .min =  100,  .max =   162 },
-+	{ .mbps =  140,	.reg = 0x21, .min =  110,  .max =   173 },
-+	{ .mbps =  150,	.reg = 0x31, .min =  119,  .max =   183 },
-+	{ .mbps =  160,	.reg = 0x02, .min =  129,  .max =   194 },
-+	{ .mbps =  170,	.reg = 0x12, .min =  138,  .max =   204 },
-+	{ .mbps =  180,	.reg = 0x22, .min =  148,  .max =   215 },
-+	{ .mbps =  190,	.reg = 0x32, .min =  157,  .max =   225 },
-+	{ .mbps =  205,	.reg = 0x03, .min =  171,  .max =   241 },
-+	{ .mbps =  220,	.reg = 0x13, .min =  186,  .max =   257 },
-+	{ .mbps =  235,	.reg = 0x23, .min =  200,  .max =   273 },
-+	{ .mbps =  250,	.reg = 0x33, .min =  238,  .max =   276 },
-+	{ .mbps =  275,	.reg = 0x04, .min =  250,  .max =   301 },
-+	{ .mbps =  300,	.reg = 0x14, .min =  274,  .max =   328 },
-+	{ .mbps =  325,	.reg = 0x05, .min =  297,  .max =   354 },
-+	{ .mbps =  350,	.reg = 0x15, .min =  321,  .max =   393 },
-+	{ .mbps =  400,	.reg = 0x25, .min =  357,  .max =   446 },
-+	{ .mbps =  450,	.reg = 0x06, .min =  404,  .max =   498 },
-+	{ .mbps =  500,	.reg = 0x16, .min =  452,  .max =   551 },
-+	{ .mbps =  550,	.reg = 0x07, .min =  499,  .max =   603 },
-+	{ .mbps =  600,	.reg = 0x17, .min =  547,  .max =   656 },
-+	{ .mbps =  650,	.reg = 0x08, .min =  594,  .max =   708 },
-+	{ .mbps =  700,	.reg = 0x18, .min =  642,  .max =   761 },
-+	{ .mbps =  750,	.reg = 0x09, .min =  689,  .max =   813 },
-+	{ .mbps =  800,	.reg = 0x19, .min =  737,  .max =   866 },
-+	{ .mbps =  850,	.reg = 0x29, .min =  784,  .max =   918 },
-+	{ .mbps =  900,	.reg = 0x39, .min =  832,  .max =   971 },
-+	{ .mbps =  950,	.reg = 0x0a, .min =  879,  .max =  1023 },
-+	{ .mbps = 1000,	.reg = 0x1a, .min =  927,  .max =  1076 },
-+	{ .mbps = 1050,	.reg = 0x2a, .min =  974,  .max =  1128 },
-+	{ .mbps = 1100,	.reg = 0x3a, .min = 1022,  .max =  1181 },
-+	{ .mbps = 1150,	.reg = 0x0b, .min = 1069,  .max =  1233 },
-+	{ .mbps = 1200,	.reg = 0x1b, .min = 1117,  .max =  1286 },
-+	{ .mbps = 1250,	.reg = 0x2b, .min = 1164,  .max =  1338 },
-+	{ .mbps = 1300,	.reg = 0x3b, .min = 1212,  .max =  1391 },
-+	{ .mbps = 1350,	.reg = 0x0c, .min = 1259,  .max =  1443 },
-+	{ .mbps = 1400,	.reg = 0x1c, .min = 1307,  .max =  1496 },
-+	{ .mbps = 1450,	.reg = 0x2c, .min = 1354,  .max =  1500 },
-+	{ .mbps = 1500,	.reg = 0x3c, .min = 1402,  .max =  1500 },
- 	{ /* sentinel */ },
- };
- 
-@@ -430,11 +432,18 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
- 
- static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
- {
--	const struct rcsi2_mbps_reg *hsfreq;
-+	const struct rcsi2_mbps_reg *hsfreq, *hsfreq_prev = NULL;
- 
--	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
-+	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
- 		if (hsfreq->mbps >= mbps)
- 			break;
-+		hsfreq_prev = hsfreq;
-+	}
-+
-+	if (hsfreq_prev &&
-+	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)) &&
-+	    (hsfreq_prev->max >= mbps && hsfreq_prev->min <= mbps))
-+		hsfreq = hsfreq_prev;
- 
- 	if (!hsfreq->mbps) {
- 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
--- 
-2.7.4
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
