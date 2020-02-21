@@ -2,173 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95314166E96
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 05:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D456166EA9
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 05:58:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729632AbgBUEkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Feb 2020 23:40:07 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:54134 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729229AbgBUEkH (ORCPT
+        id S1729667AbgBUE6L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Feb 2020 23:58:11 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:39105 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729546AbgBUE6K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Feb 2020 23:40:07 -0500
-X-UUID: e13c9e81f83840d8976ee203bb4026c7-20200221
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=c6LxKOrtf7zqmWMQ6HOJ1i4yDenxu3IQklK++RZdHNY=;
-        b=rATm3auciYfKwqBo300ayxZ+epaBIPidFLEOlYR9R+lDw3Sp+wVUGJfQ/SnMCJj2IlLlRrnfPhygOlPO76AN/7FP6irXcAVyfhVWuWJj5+EoGJyr4O+QUJUqF41kXVEViY6blmVtLf130JmWPN0aA6yAcj65lUJZjI08MHLM4xs=;
-X-UUID: e13c9e81f83840d8976ee203bb4026c7-20200221
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1525354134; Fri, 21 Feb 2020 12:39:57 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 21 Feb 2020 12:39:09 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 21 Feb 2020 12:40:26 +0800
-Message-ID: <1582259996.1846.7.camel@mtksdaap41>
-Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-CC:     <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <p.zabel@pengutronix.de>, <airlied@linux.ie>,
-        <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <ulrich.hecht+renesas@gmail.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        <rdunlap@infradead.org>, <dri-devel@lists.freedesktop.org>,
-        Weiyi Lu <weiyi.lu@mediatek.com>,
-        "Seiya Wang" <seiya.wang@mediatek.com>,
-        <linux-clk@vger.kernel.org>,
-        "Collabora Kernel ML" <kernel@collabora.com>,
-        mtk01761 <wendell.lin@mediatek.com>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>, <wens@csie.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <sean.wang@mediatek.com>, <frank-w@public-files.de>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>, <hsinyi@chromium.org>,
-        Matthias Brugger <mbrugger@suse.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <matthias.bgg@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Fabien Parent <fparent@baylibre.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Nicolas Boichat" <drinkcat@chromium.org>,
-        Owen Chen <owen.chen@mediatek.com>
-Date:   Fri, 21 Feb 2020 12:39:56 +0800
-In-Reply-To: <20200220172147.919996-1-enric.balletbo@collabora.com>
-References: <20200220172147.919996-1-enric.balletbo@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        Thu, 20 Feb 2020 23:58:10 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:350e:7a06:bbc6:b9b0])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 50O7jGcmDyIme50O8jncvP; Fri, 21 Feb 2020 05:58:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582261088; bh=NH5XKX7YFwKSXCfueT/Pv+GmOyx+hdPjEtNbH4IuQ6A=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=l09bECUOi7PnIF3ER7zHUa4mp2Vfd2OU3mbP4lwxKog+vP1nlObvRzdECeVuDV5p0
+         v4KdcobWyMgsUlJTo/ja3MBb0nCh3chqRsUQ69dffxoNj6dpGW6hact20QIhCTG6vH
+         hHnJExzLDQc+kCxa8BVoR0USEiALg+9iEddDoXvNPp4UZI9FGxnhXmgtDoqhvE06PU
+         gtQOiVYto/X+bWxuHgObilDzYZFnE5RtlFZOBBzn5iwVkjfQnbGQmq5k3Zc1aLafK1
+         sE4ByMfTmMcr+DddFDNUj1zkhnIIsbQreskyI9fj+BhVlI8F0Qdo+4tARyYlzdj4Cy
+         jOzLd4UPUvL0w==
+Message-ID: <3ac54c8512b3705030fe22bc300cd738@smtp-cloud9.xs4all.net>
+Date:   Fri, 21 Feb 2020 05:58:07 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfMgS0pr46HfSoM4k/NJiXuRnkJN4rmbOjXmx7xZsCi29gaZXoUtaotXqgEL0LbJrXGYbNddGvivJIOlQJupJsl+uYsQWVjeDdHN01rnl4FfdEf/0ZcCy
+ J5sbCjHa+UvuBEa1rCM4Ag7ujpXLhCNOU880dDhaiJpkk64uDs6k8BbN6KOLlAj8YkTfeqBCGHYErwppsxz5FpvEj43B+P5oCB9r6XZkS3WzSVkbudJLPdPm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGksIEVucmljOg0KDQpPbiBUaHUsIDIwMjAtMDItMjAgYXQgMTg6MjEgKzAxMDAsIEVucmljIEJh
-bGxldGJvIGkgU2VycmEgd3JvdGU6DQo+IERlYXIgYWxsLA0KPiANCj4gVGhvc2UgcGF0Y2hlcyBh
-cmUgaW50ZW5kZWQgdG8gc29sdmUgYW4gb2xkIHN0YW5kaW5nIGlzc3VlIG9uIHNvbWUNCj4gTWVk
-aWF0ZWsgZGV2aWNlcyAobXQ4MTczLCBtdDI3MDEgYW5kIG10MjcxMikgaW4gYSBzbGlnaHRseSBk
-aWZmZXJlbnQgd2F5DQo+IHRvIHRoZSBwcmVjZWRlbnQgc2VyaWVzLg0KPiANCj4gVXAgdG8gbm93
-IGJvdGggZHJpdmVycywgY2xvY2sgYW5kIGRybSBhcmUgcHJvYmVkIHdpdGggdGhlIHNhbWUgZGV2
-aWNlIHRyZWUNCj4gY29tcGF0aWJsZS4gQnV0IG9ubHkgdGhlIGZpcnN0IGRyaXZlciBnZXQgcHJv
-YmVkLCB3aGljaCBpbiBlZmZlY3QgYnJlYWtzDQo+IGdyYXBoaWNzIG9uIHRob3NlIGRldmljZXMu
-DQo+IA0KPiBUaGUgdmVyc2lvbiBlaWdodCBvZiB0aGUgc2VyaWVzIHRyaWVzIHRvIHNvbHZlIHRo
-ZSBwcm9ibGVtIHdpdGggYQ0KPiBkaWZmZXJlbnQgYXBwcm9hY2ggdGhhbiB0aGUgcHJldmlvdXMg
-c2VyaWVzIGJ1dCBzaW1pbGFyIHRvIGhvdyBpcyBzb2x2ZWQNCj4gb24gb3RoZXIgTWVkaWF0ZWsg
-ZGV2aWNlcy4NCj4gDQo+IFRoZSBNTVNZUyAoTXVsdGltZWRpYSBzdWJzeXN0ZW0pIGluIE1lZGlh
-dGVrIFNvQ3MgaGFzIHNvbWUgcmVnaXN0ZXJzIHRvDQo+IGNvbnRyb2wgY2xvY2sgZ2F0ZXMgKHdo
-aWNoIGlzIHVzZWQgaW4gdGhlIGNsayBkcml2ZXIpIGFuZCBzb21lIHJlZ2lzdGVycw0KPiB0byBz
-ZXQgdGhlIHJvdXRpbmcgYW5kIGVuYWJsZSB0aGUgZGlmZmVybmV0IGJsb2NrcyBvZiB0aGUgZGlz
-cGxheQ0KPiBhbmQgTURQIChNZWRpYSBEYXRhIFBhdGgpIHN1YnN5c3RlbS4gT24gdGhpcyBzZXJp
-ZXMgdGhlIGNsayBkcml2ZXIgaXMNCj4gbm90IGEgcHVyZSBjbG9jayBjb250cm9sbGVyIGJ1dCBh
-IHN5c3RlbSBjb250cm9sbGVyIHRoYXQgY2FuIHByb3ZpZGUNCj4gYWNjZXNzIHRvIHRoZSBzaGFy
-ZWQgcmVnaXN0ZXJzIGJldHdlZW4gdGhlIGRpZmZlcmVudCBkcml2ZXJzIHRoYXQgbmVlZA0KPiBp
-dCAobWVkaWF0ZWstZHJtIGFuZCBtZWRpYXRlay1tZHApLiBBbmQgdGhlIGJpZ2dlc3QgY2hhbmdl
-IGlzLCB0aGF0IGluDQo+IHRoaXMgdmVyc2lvbiwgY2xrIGRyaXZlciBpcyB0aGUgZW50cnkgcG9p
-bnQgKHBhcmVudCkgd2hpY2ggd2lsbCB0cmlnZ2VyDQo+IHRoZSBwcm9iZSBvZiB0aGUgY29ycmVz
-cG9uZGluZyBtZWRpYXRlay1kcm0gZHJpdmVyIGFuZCBwYXNzIGl0cyBNTVNZUw0KPiBwbGF0Zm9y
-bSBkYXRhIGZvciBkaXNwbGF5IGNvbmZpZ3VyYXRpb24uDQoNCldoZW4gbW1zeXMgaXMgYSBzeXN0
-ZW0gY29udHJvbGxlciwgSSBwcmVmZXIgdG8gcGxhY2UgbW1zeXMgaW4NCmRyaXZlcnMvc29jL21l
-ZGlhdGVrLCBhbmQgaXQgc2hhcmUgcmVnaXN0ZXJzIGZvciBjbG9jaywgZGlzcGxheSwgYW5kIG1k
-cA0KZHJpdmVyLiBUaGlzIG1lYW5zIHRoZSBwcm9iZSBmdW5jdGlvbiBpcyBwbGFjZWQgaW4NCmRy
-aXZlcnMvc29jL21lZGlhdGVrICxpdHMgZGlzcGxheSBjbG9jayBmdW5jdGlvbiwgbWRwIGNsb2Nr
-IGZ1bmN0aW9uIGFyZQ0KcGxhY2VkIGluIGRyaXZlcnMvY2xrLCBkaXNwbGF5IHJvdXRpbmcgYXJl
-IHBsYWNlZCBpbiBkcml2ZXJzL2dwdS9kcm0sDQphbmQgbWRwIHJvdXRpbmcgYXJlIHBsYWNlZCBp
-biBkaXJ2ZXJzL3ZpZGVvLg0KDQpSZWdhcmRzLA0KQ0sNCg0KPiANCj4gQWxsIHRoaXMgc2VyaWVz
-IHdhcyB0ZXN0ZWQgb24gdGhlIEFjZXIgUjEzIENocm9tZWJvb2sgb25seS4NCj4gDQo+IEZvciBy
-ZWZlcmVuY2UsIGhlcmUgYXJlIHRoZSBsaW5rcyB0byB0aGUgb2xkIGRpc2N1c3Npb25zOg0KPiAN
-Cj4gKiB2NzogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlh
-dGVrL2xpc3QvP3Nlcmllcz0yNDEyMTcNCj4gKiB2NjogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVs
-Lm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhdGVrL2xpc3QvP3Nlcmllcz0yMTMyMTkNCj4gKiB2NTog
-aHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhdGVrL2xpc3Qv
-P3Nlcmllcz00NDA2Mw0KPiAqIHY0Og0KPiAgICogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9y
-Zy9wYXRjaC8xMDUzMDg3MS8NCj4gICAqIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0
-Y2gvMTA1MzA4ODMvDQo+ICAgKiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEw
-NTMwODg1Lw0KPiAgICogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDUzMDkx
-MS8NCj4gICAqIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTA1MzA5MTMvDQo+
-ICogdjM6DQo+ICAgKiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwMzY3ODU3
-Lw0KPiAgICogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDM2Nzg2MS8NCj4g
-ICAqIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTAzNjc4NzcvDQo+ICAgKiBo
-dHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwMzY3ODc1Lw0KPiAgICogaHR0cHM6
-Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDM2Nzg4NS8NCj4gICAqIGh0dHBzOi8vcGF0
-Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTAzNjc4ODMvDQo+ICAgKiBodHRwczovL3BhdGNod29y
-ay5rZXJuZWwub3JnL3BhdGNoLzEwMzY3ODg5Lw0KPiAgICogaHR0cHM6Ly9wYXRjaHdvcmsua2Vy
-bmVsLm9yZy9wYXRjaC8xMDM2NzkwNy8NCj4gICAqIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5v
-cmcvcGF0Y2gvMTAzNjc5MDkvDQo+ICAgKiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Bh
-dGNoLzEwMzY3OTA1Lw0KPiAqIHYyOiBObyByZWxldmFudCBkaXNjdXNzaW9uLCBzZWUgdjMNCj4g
-KiB2MToNCj4gICAqIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTAwMTY0OTcv
-DQo+ICAgKiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwMDE2NDk5Lw0KPiAg
-ICogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDAxNjUwNS8NCj4gICAqIGh0
-dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTAwMTY1MDcvDQo+IA0KPiBCZXN0IHJl
-Z2FyZHMsDQo+ICBFbnJpYw0KPiANCj4gQ2hhbmdlcyBpbiB2ODoNCj4gLSBCZSBhIGJ1aWx0aW5f
-cGxhdGZvcm1fZHJpdmVyIGxpa2Ugb3RoZXIgbWVkaWF0ZWsgbW1zeXMgZHJpdmVycy4NCj4gLSBO
-ZXcgcGF0Y2hlcyBpbnRyb2R1Y2VkIGluIHRoaXMgc2VyaWVzLg0KPiANCj4gQ2hhbmdlcyBpbiB2
-NzoNCj4gLSBBZGQgUi1ieSBmcm9tIENLDQo+IC0gQWRkIFItYnkgZnJvbSBDSw0KPiAtIEZpeCBj
-aGVjayBvZiByZXR1cm4gdmFsdWUgb2Ygb2ZfY2xrX2dldA0KPiAtIEZpeCBpZGVudGF0aW9uDQo+
-IC0gRnJlZSBjbGtfZGF0YS0+Y2xrcyBhcyB3ZWxsDQo+IC0gR2V0IHJpZCBvZiBwcml2YXRlIGRh
-dGEgc3RydWN0dXJlDQo+IA0KPiBFbnJpYyBCYWxsZXRibyBpIFNlcnJhICgyKToNCj4gICBkcm0v
-bWVkaWF0ZWs6IE1vdmUgTU1TWVMgY29uZmlndXJhdGlvbiB0byBpbmNsdWRlL2xpbnV4L3BsYXRm
-b3JtX2RhdGENCj4gICBjbGsvZHJtOiBtZWRpYXRlazogRml4IG1lZGlhdGVrLWRybSBkZXZpY2Ug
-cHJvYmluZw0KPiANCj4gTWF0dGhpYXMgQnJ1Z2dlciAoNCk6DQo+ICAgZHJtL21lZGlhdGVrOiBV
-c2UgcmVnbWFwIGZvciByZWdpc3RlciBhY2Nlc3MNCj4gICBkcm0vbWVkaWF0ZWs6IE9taXQgd2Fy
-bmluZyBvbiBwcm9iZSBkZWZlcnMNCj4gICBtZWRpYTogbXRrLW1kcDogQ2hlY2sgcmV0dXJuIHZh
-bHVlIG9mIG9mX2Nsa19nZXQNCj4gICBjbGs6IG1lZGlhdGVrOiBtdDgxNzM6IFN3aXRjaCBNTVNZ
-UyB0byBwbGF0Zm9ybSBkcml2ZXINCj4gDQo+ICBkcml2ZXJzL2Nsay9tZWRpYXRlay9LY29uZmln
-ICAgICAgICAgICAgICAgICAgfCAgIDYgKw0KPiAgZHJpdmVycy9jbGsvbWVkaWF0ZWsvTWFrZWZp
-bGUgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gIGRyaXZlcnMvY2xrL21lZGlhdGVrL2Nsay1t
-dDI3MDEtbW0uYyAgICAgICAgICB8ICAzMCArKysNCj4gIGRyaXZlcnMvY2xrL21lZGlhdGVrL2Ns
-ay1tdDI3MTItbW0uYyAgICAgICAgICB8ICA0NCArKysrKw0KPiAgZHJpdmVycy9jbGsvbWVkaWF0
-ZWsvY2xrLW10ODE3My1tbS5jICAgICAgICAgIHwgMTcyICsrKysrKysrKysrKysrKysrKw0KPiAg
-ZHJpdmVycy9jbGsvbWVkaWF0ZWsvY2xrLW10ODE3My5jICAgICAgICAgICAgIHwgMTA0IC0tLS0t
-LS0tLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfY29sb3IuYyAgICAg
-fCAgIDUgKy0NCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9vdmwuYyAgICAg
-ICB8ICAgNSArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX3JkbWEuYyAg
-ICAgIHwgICA1ICstDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwaS5jICAgICAg
-ICAgICAgfCAgMTIgKy0NCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2NydGMu
-YyAgICAgICB8ICAgNCArLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRw
-LmMgICAgICAgIHwgIDUzICsrKy0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-cm1fZGRwLmggICAgICAgIHwgICA0ICstDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
-X2RybV9kZHBfY29tcC5oICAgfCAgNTYgKy0tLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2RybV9kcnYuYyAgICAgICAgfCAxMTMgKy0tLS0tLS0tLS0tDQo+ICBkcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaCAgICAgICAgfCAgMTMgKy0NCj4gIGRyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgICAgICAgICAgICB8ICAgOCArLQ0KPiAgZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMgICAgICAgICAgIHwgICA0ICstDQo+ICBkcml2
-ZXJzL21lZGlhL3BsYXRmb3JtL210ay1tZHAvbXRrX21kcF9jb21wLmMgfCAgIDYgKw0KPiAgaW5j
-bHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL210a19tbXN5cy5oICAgICAgIHwgIDczICsrKysrKysr
-DQo+ICAyMCBmaWxlcyBjaGFuZ2VkLCA0MDEgaW5zZXJ0aW9ucygrKSwgMzE3IGRlbGV0aW9ucygt
-KQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvY2xrL21lZGlhdGVrL2Nsay1tdDgxNzMt
-bW0uYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9t
-dGtfbW1zeXMuaA0KPiANCg0K
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
+
+date:			Fri Feb 21 05:00:09 CET 2020
+media-tree git hash:	bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9
+media_build git hash:	c19c9d0d270d64a158c41764125deef059b7acbc
+v4l-utils git hash:	3be1227d699f5c78e263626d97e75c43cd3726d7
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0a0399d66d361fec135a2dc184bd8d12148f35ad
+host hardware:		x86_64
+host os:		5.4.0-3-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2939, Failed: 4, Warnings: 0
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
