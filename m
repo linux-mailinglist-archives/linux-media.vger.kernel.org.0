@@ -2,42 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E493167E0D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 14:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E56167E16
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 14:11:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728626AbgBUNJy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Feb 2020 08:09:54 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50040 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728616AbgBUNJy (ORCPT
+        id S1728474AbgBUNLv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Feb 2020 08:11:51 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:47729 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728186AbgBUNLu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Feb 2020 08:09:54 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A0A0563;
-        Fri, 21 Feb 2020 14:09:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1582290591;
-        bh=wp60XT0XM1D+rtjQAErZTFCqmGSFEUJdnu6JubGpfYQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nJVVkwdAMu+z5KD9k10caB8sjd5u7AfcU++XYaes0J0xppPa2bMrfq7p9lEHArnu0
-         RTAmcEIoNc8EpYCmUrgwJZ/CnxTsoVSy1BnyJLenGzOlys8ynvVWDPdEi8JSq+LmrC
-         MLvwPXFewW94V1/nNyhDvF24rYM/wcn5kqv7NpOI=
-Date:   Fri, 21 Feb 2020 15:09:31 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
+        Fri, 21 Feb 2020 08:11:50 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200221131149euoutp0213ee5999a1eab5b8f3621cf4f955b396~1bQRN61oO2544825448euoutp02v
+        for <linux-media@vger.kernel.org>; Fri, 21 Feb 2020 13:11:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200221131149euoutp0213ee5999a1eab5b8f3621cf4f955b396~1bQRN61oO2544825448euoutp02v
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1582290709;
+        bh=bSQR0Sl96ylNhB7cys1Drb6rlGrFHTrTpHmdbhqqRDo=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=Mb3Dpm7zc0j0nran4gFq5hicigx+/2ee9OuJ3TVVTZZwEg/RFVw4aQEIn+3YoWp7U
+         wp+IUjPOTt/Tu9HgU+cuYP8/Cr7J4Qsw+/RM+zait4OMFHjZtyj9KxsMefRmjDdGAF
+         HG6XYoluuQ+y2AknXNuComGxIjX5xrQ9JpbWodQE=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200221131149eucas1p23a1da9ddc51be74582c15ca6517e90bc~1bQRE2L6F3052530525eucas1p2L;
+        Fri, 21 Feb 2020 13:11:49 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 41.20.60698.517DF4E5; Fri, 21
+        Feb 2020 13:11:49 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200221131148eucas1p1c46f47f47528f1850d6c8d65032cf5dd~1bQQv8vH_2828128281eucas1p14;
+        Fri, 21 Feb 2020 13:11:48 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200221131148eusmtrp1c0c726296b9f0510908395ba8da63945~1bQQvacVz2587625876eusmtrp1a;
+        Fri, 21 Feb 2020 13:11:48 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-39-5e4fd7154df8
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 02.17.08375.417DF4E5; Fri, 21
+        Feb 2020 13:11:48 +0000 (GMT)
+Received: from [106.120.51.15] (unknown [106.120.51.15]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200221131148eusmtip1bba30d1ac9e767da9c8c07edf9440e50~1bQQeYrd21109211092eusmtip1g;
+        Fri, 21 Feb 2020 13:11:48 +0000 (GMT)
+Subject: Re: [RFC PATCH 8/9] exynos/s3c/s5p: drop VB2_USERPTR
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sylwester Nawrocki <snawrocki@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH] media: v4l2: add VB2_DMABUF to all drivers
-Message-ID: <20200221130931.GD4955@pendragon.ideasonboard.com>
-References: <fc26112c-85e6-36a7-f6ab-8b8fb46fbec7@xs4all.nl>
+        Sylwester Nawrocki <snawrocki@kernel.org>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <74772846-f15e-bcdc-d092-346749bca5ba@samsung.com>
+Date:   Fri, 21 Feb 2020 14:11:48 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fc26112c-85e6-36a7-f6ab-8b8fb46fbec7@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <d6dc1de9-0c4c-4fd5-fe10-34fc57d899b4@xs4all.nl>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOKsWRmVeSWpSXmKPExsWy7djPc7qi1/3jDLrPsVpcnHmXxaJnw1ZW
+        i/anL5ktPrf+Y3Ng8ZjdcJHFY9OqTjaPz5vkPE59/cwewBLFZZOSmpNZllqkb5fAlbHxdAdT
+        wWWhiueXXzI3ML7i62Lk5JAQMJHoWbiVqYuRi0NIYAWjxOKllxkhnC+MEpcm3WeFcD4zSsw+
+        doMNpqX7yVEWiMRyRokF33qhqt4ySkz/0swOUiUsYCvRt+0IE4gtIuAvsb93Flg3s0C6xM/W
+        y2BxNgFDia63XWBxXgE7ial7ITawCKhKdK+4xQxiiwrESsxeeZgFokZQ4uTMJ2A2J9j8mcwQ
+        M+Ultr+dA2WLS9x6Mh/sIQmBdnaJT+8es0Oc7SKxbM0fZghbWOLV8S1QcRmJ05N7WCAamhkl
+        Hp5byw7h9DBKXG6awQhRZS1x59wvoPM4gFZoSqzfpQ9iSgg4SnzcUA1h8knceCsIcQOfxKRt
+        05khwrwSHW1CEDPUJGYdXwe39eCFS8wTGJVmIflsFpJvZiH5ZhbC2gWMLKsYxVNLi3PTU4uN
+        81LL9YoTc4tL89L1kvNzNzECk8vpf8e/7mDc9yfpEKMAB6MSD6/DMf84IdbEsuLK3EOMEhzM
+        SiK8ajx+cUK8KYmVValF+fFFpTmpxYcYpTlYlMR5jRe9jBUSSE8sSc1OTS1ILYLJMnFwSjUw
+        5rRaMU14atFZt676Xm95yIIHTy/Xf92fkl27Uqcg5cAG2/2thxLy7r4/+an3uvyV6XtcJcoV
+        tq3dlfjIrfvWDH418ZyYbbf3Hel6YbmvlaHh4pHK0PMlljI2NZ+nrp7S/myNfsLbq4o8Fikv
+        budyzZm6IO5+yh5x3tXvPm41jZi4cCXTO5XzokosxRmJhlrMRcWJACtlknYqAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFIsWRmVeSWpSXmKPExsVy+t/xu7oi1/3jDO5tNbS4OPMui0XPhq2s
+        Fu1PXzJbfG79x+bA4jG74SKLx6ZVnWwenzfJeZz6+pk9gCVKz6Yov7QkVSEjv7jEVina0MJI
+        z9DSQs/IxFLP0Ng81srIVEnfziYlNSezLLVI3y5BL2Pj6Q6mgstCFc8vv2RuYHzF18XIySEh
+        YCLR/eQoSxcjF4eQwFJGiX0/nrFDJGQkTk5rYIWwhSX+XOtigyh6zSjx4PANNpCEsICtRN+2
+        I0wgtoiAr8THZ5fAbGaBdInFM34zQjQcZJJY9GA1C0iCTcBQouttF1gzr4CdxNS9EINYBFQl
+        ulfcYgaxRQViJW7M7GCCqBGUODnzCVgvJ9iymcwQC8wk5m1+CGXLS2x/OwfKFpe49WQ+0wRG
+        oVlI2mchaZmFpGUWkpYFjCyrGEVSS4tz03OLDfWKE3OLS/PS9ZLzczcxAuNp27Gfm3cwXtoY
+        fIhRgINRiYfX4Zh/nBBrYllxZe4hRgkOZiURXjUevzgh3pTEyqrUovz4otKc1OJDjKZAz01k
+        lhJNzgfGel5JvKGpobmFpaG5sbmxmYWSOG+HwMEYIYH0xJLU7NTUgtQimD4mDk6pBkYFC7Ow
+        m9PCCkuFU0sZbyq21liGnWnZqLxS52iqbfyJXc9u7RRf2FRmMTfw8bFZZftZjwd/SXiyr5Al
+        +f29+uN2tfPT5aLO+fcVaHv/qVZ98MrCTNtyr9gMzozYlmAz16U3v22rY8lNUlh9JkG7mSct
+        rd5/nlbRNd7o8g1FkVaztWVazz/sUGIpzkg01GIuKk4EAFaeN/q9AgAA
+X-CMS-MailID: 20200221131148eucas1p1c46f47f47528f1850d6c8d65032cf5dd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200221115434eucas1p19f9fcc967d4a0328d7da69e8bedef536
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200221115434eucas1p19f9fcc967d4a0328d7da69e8bedef536
+References: <20200221084531.576156-1-hverkuil-cisco@xs4all.nl>
+        <20200221084531.576156-9-hverkuil-cisco@xs4all.nl>
+        <CAAFQd5D_=EqagJRx03N-1rGAyLz6AYsScB7bfAWVCSW=mbCRRA@mail.gmail.com>
+        <CGME20200221115434eucas1p19f9fcc967d4a0328d7da69e8bedef536@eucas1p1.samsung.com>
+        <d6dc1de9-0c4c-4fd5-fe10-34fc57d899b4@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -45,408 +104,53 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans,
 
-Thank you for the patch.
+On 21.02.2020 12:54, Hans Verkuil wrote:
+> On 2/21/20 9:53 AM, Tomasz Figa wrote:
+>> Hi Hans,
+>>
+>> On Fri, Feb 21, 2020 at 5:46 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>> The combination of VB2_USERPTR and dma-contig makes no sense for
+>>> these devices, drop it.
+>> Even though I personally don't like user pointers, I believe at least
+>> some of those devices are fine with USERPTR in case they are behind an
+>> IOMMU, like on the newer Exynos SoCs. +Marek Szyprowski too.
+> I would like this to be tested. I always wonder if that has actually
+> been tested, especially with regards to the partial first and last pages of
+> the malloc()ed memory. I.e., worst case only 8 bytes may have to be written
+> to a page if malloc() aligned the pointer poorly. Can the DMA handle that,
+> even with an IOMMU?
 
-On Fri, Feb 21, 2020 at 09:26:32AM +0100, Hans Verkuil wrote:
-> There where still several (usually old) vb2-based drivers that did not
-> support DMABUF as streaming mode. There is no reason not to support this,
-> so add it throughout the media tree.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Frankly, we never used USERPTR to access malloc()'ed memory, although it 
+was possible with IOMMU and I remember I tested such case. USERPTR mode 
+was mainly used to access buffers allocated and mmaped from different 
+devices. In such case the alignment was already correct. Yes, this can 
+be replaced with DMABUF, but that required a lots of changes in 
+userspace libs/apps and using USERPTR was much simpler.
 
-If we want to enable DMABUF support unconditionally (or nearly, se
-Tomasz' reply), wouldn't it make more sense to drop the VB2_DMABUF flag
-from drivers and set it in vb2 ? We could add a VB2_NO_DMABUF for the
-odd cases. We could do the same for VB2_MMAP. It would make driver code
-simpler.
+Afair the video devices had very capable DMA and they were able to 
+transfer data to 8-byte aligned buffers. There was however a problem 
+with CPU cache line size - the cache can be reliably managed only 
+down-to cache line-size units, what means that some freshly modified by 
+the CPU data before and after the buffer might be trashed if it was not 
+aligned to CPU cache line size.
 
-> ---
->  drivers/media/dvb-frontends/rtl2832_sdr.c                 | 2 +-
->  drivers/media/pci/saa7134/saa7134-video.c                 | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c            | 2 +-
->  drivers/media/pci/solo6x10/solo6x10-v4l2.c                | 2 +-
->  drivers/media/pci/sta2x11/sta2x11_vip.c                   | 2 +-
->  drivers/media/platform/exynos4-is/fimc-isp-video.c        | 2 +-
->  drivers/media/platform/exynos4-is/fimc-lite.c             | 2 +-
->  drivers/media/platform/omap3isp/ispvideo.c                | 2 +-
->  drivers/media/platform/s3c-camif/camif-capture.c          | 2 +-
->  drivers/media/platform/s5p-g2d/g2d.c                      | 4 ++--
->  drivers/media/platform/s5p-jpeg/jpeg-core.c               | 4 ++--
->  drivers/media/platform/s5p-mfc/s5p_mfc.c                  | 8 ++++----
->  drivers/media/platform/sh_veu.c                           | 4 ++--
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c        | 2 +-
->  drivers/media/usb/airspy/airspy.c                         | 2 +-
->  drivers/media/usb/dvb-usb/cxusb-analog.c                  | 4 ++--
->  drivers/media/usb/em28xx/em28xx-video.c                   | 2 +-
->  drivers/media/usb/go7007/go7007-v4l2.c                    | 2 +-
->  drivers/media/usb/msi2500/msi2500.c                       | 2 +-
->  drivers/media/usb/pwc/pwc-if.c                            | 2 +-
->  drivers/media/usb/s2255/s2255drv.c                        | 2 +-
->  drivers/media/usb/usbtv/usbtv-video.c                     | 2 +-
->  drivers/media/usb/uvc/uvc_queue.c                         | 2 +-
->  .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 +-
->  24 files changed, 31 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> index 60d1e59d2292..55ac4b32ea39 100644
-> --- a/drivers/media/dvb-frontends/rtl2832_sdr.c
-> +++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> @@ -1359,7 +1359,7 @@ static int rtl2832_sdr_probe(struct platform_device *pdev)
-> 
->  	/* Init videobuf2 queue structure */
->  	dev->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
-> -	dev->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	dev->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	dev->vb_queue.drv_priv = dev;
->  	dev->vb_queue.buf_struct_size = sizeof(struct rtl2832_sdr_frame_buf);
->  	dev->vb_queue.ops = &rtl2832_sdr_vb2_ops;
-> diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
-> index 342cabf48064..2d3081dbdf83 100644
-> --- a/drivers/media/pci/saa7134/saa7134-video.c
-> +++ b/drivers/media/pci/saa7134/saa7134-video.c
-> @@ -2133,7 +2133,7 @@ int saa7134_video_init1(struct saa7134_dev *dev)
->  	q = &dev->vbi_vbq;
->  	q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
->  	/* Don't add VB2_USERPTR, see comment above */
-> -	q->io_modes = VB2_MMAP | VB2_READ;
-> +	q->io_modes = VB2_MMAP | VB2_READ | VB2_DMABUF;
->  	if (saa7134_userptr)
->  		q->io_modes |= VB2_USERPTR;
->  	q->drv_priv = &dev->vbi_q;
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> index 476d7f3b32d6..d3239d86cead 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
-> @@ -1265,7 +1265,7 @@ static struct solo_enc_dev *solo_enc_alloc(struct solo_dev *solo_dev,
->  	solo_enc->motion_global = true;
->  	solo_enc->motion_thresh = SOLO_DEF_MOT_THRESH;
->  	solo_enc->vidq.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	solo_enc->vidq.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	solo_enc->vidq.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	solo_enc->vidq.ops = &solo_enc_video_qops;
->  	solo_enc->vidq.mem_ops = &vb2_dma_sg_memops;
->  	solo_enc->vidq.drv_priv = solo_enc;
-> diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2.c b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> index 78792067e920..9d290099b7a0 100644
-> --- a/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> +++ b/drivers/media/pci/solo6x10/solo6x10-v4l2.c
-> @@ -667,7 +667,7 @@ int solo_v4l2_init(struct solo_dev *solo_dev, unsigned nr)
->  	video_set_drvdata(solo_dev->vfd, solo_dev);
-> 
->  	solo_dev->vidq.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	solo_dev->vidq.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	solo_dev->vidq.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	solo_dev->vidq.ops = &solo_video_qops;
->  	solo_dev->vidq.mem_ops = &vb2_dma_contig_memops;
->  	solo_dev->vidq.drv_priv = solo_dev;
-> diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
-> index fd3de3bb0c89..b97c13472cb3 100644
-> --- a/drivers/media/pci/sta2x11/sta2x11_vip.c
-> +++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
-> @@ -847,7 +847,7 @@ static int sta2x11_vip_init_buffer(struct sta2x11_vip *vip)
->  	}
->  	memset(&vip->vb_vidq, 0, sizeof(struct vb2_queue));
->  	vip->vb_vidq.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	vip->vb_vidq.io_modes = VB2_MMAP | VB2_READ;
-> +	vip->vb_vidq.io_modes = VB2_MMAP | VB2_READ | VB2_DMABUF;
->  	vip->vb_vidq.drv_priv = vip;
->  	vip->vb_vidq.buf_struct_size = sizeof(struct vip_buffer);
->  	vip->vb_vidq.ops = &vip_video_qops;
-> diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-> index d2cbcdca0463..55bae20eb8db 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-> @@ -587,7 +587,7 @@ int fimc_isp_video_device_register(struct fimc_isp *isp,
-> 
->  	memset(q, 0, sizeof(*q));
->  	q->type = type;
-> -	q->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	q->ops = &isp_video_capture_qops;
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->buf_struct_size = sizeof(struct isp_video_buf);
-> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-> index e87c6a09205b..d06bf4865b84 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-> @@ -1276,7 +1276,7 @@ static int fimc_lite_subdev_registered(struct v4l2_subdev *sd)
-> 
->  	memset(q, 0, sizeof(*q));
->  	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -	q->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	q->ops = &fimc_lite_qops;
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->buf_struct_size = sizeof(struct flite_buffer);
-> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-> index ee183c35ff3b..e8c46ff1aeb4 100644
-> --- a/drivers/media/platform/omap3isp/ispvideo.c
-> +++ b/drivers/media/platform/omap3isp/ispvideo.c
-> @@ -1319,7 +1319,7 @@ static int isp_video_open(struct file *file)
-> 
->  	queue = &handle->queue;
->  	queue->type = video->type;
-> -	queue->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	queue->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	queue->drv_priv = handle;
->  	queue->ops = &isp_video_queue_ops;
->  	queue->mem_ops = &vb2_dma_contig_memops;
-> diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
-> index 2fb45db8e4ba..54989dacaf5d 100644
-> --- a/drivers/media/platform/s3c-camif/camif-capture.c
-> +++ b/drivers/media/platform/s3c-camif/camif-capture.c
-> @@ -1121,7 +1121,7 @@ int s3c_camif_register_video_node(struct camif_dev *camif, int idx)
-> 
->  	memset(q, 0, sizeof(*q));
->  	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	q->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	q->ops = &s3c_camif_qops;
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->buf_struct_size = sizeof(struct camif_buffer);
-> diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platform/s5p-g2d/g2d.c
-> index f5f05ea9f521..98f94e1fa6b8 100644
-> --- a/drivers/media/platform/s5p-g2d/g2d.c
-> +++ b/drivers/media/platform/s5p-g2d/g2d.c
-> @@ -144,7 +144,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->  	int ret;
-> 
->  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> -	src_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	src_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	src_vq->drv_priv = ctx;
->  	src_vq->ops = &g2d_qops;
->  	src_vq->mem_ops = &vb2_dma_contig_memops;
-> @@ -158,7 +158,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->  		return ret;
-> 
->  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	dst_vq->drv_priv = ctx;
->  	dst_vq->ops = &g2d_qops;
->  	dst_vq->mem_ops = &vb2_dma_contig_memops;
-> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> index ac2162235cef..4c10ec0d7da4 100644
-> --- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> +++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> @@ -2620,7 +2620,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->  	int ret;
-> 
->  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> -	src_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	src_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	src_vq->drv_priv = ctx;
->  	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->  	src_vq->ops = &s5p_jpeg_qops;
-> @@ -2634,7 +2634,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->  		return ret;
-> 
->  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	dst_vq->drv_priv = ctx;
->  	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->  	dst_vq->ops = &s5p_jpeg_qops;
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> index b776f83e395e..ff770328f690 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> @@ -845,10 +845,10 @@ static int s5p_mfc_open(struct file *file)
->  	q->drv_priv = &ctx->fh;
->  	q->lock = &dev->mfc_mutex;
->  	if (vdev == dev->vfd_dec) {
-> -		q->io_modes = VB2_MMAP;
-> +		q->io_modes = VB2_MMAP | VB2_DMABUF;
->  		q->ops = get_dec_queue_ops();
->  	} else if (vdev == dev->vfd_enc) {
-> -		q->io_modes = VB2_MMAP | VB2_USERPTR;
-> +		q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  		q->ops = get_enc_queue_ops();
->  	} else {
->  		ret = -ENOENT;
-> @@ -872,10 +872,10 @@ static int s5p_mfc_open(struct file *file)
->  	q->drv_priv = &ctx->fh;
->  	q->lock = &dev->mfc_mutex;
->  	if (vdev == dev->vfd_dec) {
-> -		q->io_modes = VB2_MMAP;
-> +		q->io_modes = VB2_MMAP | VB2_DMABUF;
->  		q->ops = get_dec_queue_ops();
->  	} else if (vdev == dev->vfd_enc) {
-> -		q->io_modes = VB2_MMAP | VB2_USERPTR;
-> +		q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  		q->ops = get_enc_queue_ops();
->  	} else {
->  		ret = -ENOENT;
-> diff --git a/drivers/media/platform/sh_veu.c b/drivers/media/platform/sh_veu.c
-> index 2b4c0d9d6928..b95a7e2ede55 100644
-> --- a/drivers/media/platform/sh_veu.c
-> +++ b/drivers/media/platform/sh_veu.c
-> @@ -924,7 +924,7 @@ static int sh_veu_queue_init(void *priv, struct vb2_queue *src_vq,
-> 
->  	memset(src_vq, 0, sizeof(*src_vq));
->  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> -	src_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	src_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	src_vq->drv_priv = veu;
->  	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->  	src_vq->ops = &sh_veu_qops;
-> @@ -939,7 +939,7 @@ static int sh_veu_queue_init(void *priv, struct vb2_queue *src_vq,
-> 
->  	memset(dst_vq, 0, sizeof(*dst_vq));
->  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR;
-> +	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->  	dst_vq->drv_priv = veu;
->  	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->  	dst_vq->ops = &sh_veu_qops;
-> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> index 78fa1c535ac6..3278746246aa 100644
-> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
-> @@ -413,7 +413,7 @@ int sun4i_csi_dma_register(struct sun4i_csi *csi, int irq)
-> 
->  	q->min_buffers_needed = 3;
->  	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -	q->io_modes = VB2_MMAP;
-> +	q->io_modes = VB2_MMAP | VB2_DMABUF;
->  	q->lock = &csi->lock;
->  	q->drv_priv = csi;
->  	q->buf_struct_size = sizeof(struct sun4i_csi_buffer);
-> diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
-> index 751703db06f5..e6ac289d7aa0 100644
-> --- a/drivers/media/usb/airspy/airspy.c
-> +++ b/drivers/media/usb/airspy/airspy.c
-> @@ -999,7 +999,7 @@ static int airspy_probe(struct usb_interface *intf,
-> 
->  	/* Init videobuf2 queue structure */
->  	s->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
-> -	s->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	s->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	s->vb_queue.drv_priv = s;
->  	s->vb_queue.buf_struct_size = sizeof(struct airspy_frame_buf);
->  	s->vb_queue.ops = &airspy_vb2_ops;
-> diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
-> index 0699f718d052..574094e0cb7d 100644
-> --- a/drivers/media/usb/dvb-usb/cxusb-analog.c
-> +++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
-> @@ -1626,8 +1626,8 @@ static int cxusb_medion_register_analog_video(struct dvb_usb_device *dvbdev)
->  	int ret;
-> 
->  	cxdev->videoqueue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	cxdev->videoqueue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ |
-> -		VB2_DMABUF;
-> +	cxdev->videoqueue.io_modes =
-> +		VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	cxdev->videoqueue.ops = &cxdev_video_qops;
->  	cxdev->videoqueue.mem_ops = &vb2_vmalloc_memops;
->  	cxdev->videoqueue.drv_priv = dvbdev;
-> diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-> index b0f7390e4b4f..fead98e5cfc3 100644
-> --- a/drivers/media/usb/em28xx/em28xx-video.c
-> +++ b/drivers/media/usb/em28xx/em28xx-video.c
-> @@ -1266,7 +1266,7 @@ static int em28xx_vb2_setup(struct em28xx *dev)
->  	/* Setup Videobuf2 for VBI capture */
->  	q = &v4l2->vb_vbiq;
->  	q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
-> -	q->io_modes = VB2_READ | VB2_MMAP | VB2_USERPTR;
-> +	q->io_modes = VB2_READ | VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	q->drv_priv = dev;
->  	q->buf_struct_size = sizeof(struct em28xx_buffer);
-> diff --git a/drivers/media/usb/go7007/go7007-v4l2.c b/drivers/media/usb/go7007/go7007-v4l2.c
-> index 0b3d185f3cb0..da7f7a27da62 100644
-> --- a/drivers/media/usb/go7007/go7007-v4l2.c
-> +++ b/drivers/media/usb/go7007/go7007-v4l2.c
-> @@ -1081,7 +1081,7 @@ int go7007_v4l2_init(struct go7007 *go)
-> 
->  	INIT_LIST_HEAD(&go->vidq_active);
->  	go->vidq.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	go->vidq.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	go->vidq.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	go->vidq.ops = &go7007_video_qops;
->  	go->vidq.mem_ops = &vb2_vmalloc_memops;
->  	go->vidq.drv_priv = go;
-> diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
-> index 65be6f140fe8..29f888d449ff 100644
-> --- a/drivers/media/usb/msi2500/msi2500.c
-> +++ b/drivers/media/usb/msi2500/msi2500.c
-> @@ -1196,7 +1196,7 @@ static int msi2500_probe(struct usb_interface *intf,
-> 
->  	/* Init videobuf2 queue structure */
->  	dev->vb_queue.type = V4L2_BUF_TYPE_SDR_CAPTURE;
-> -	dev->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	dev->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	dev->vb_queue.drv_priv = dev;
->  	dev->vb_queue.buf_struct_size = sizeof(struct msi2500_frame_buf);
->  	dev->vb_queue.ops = &msi2500_vb2_ops;
-> diff --git a/drivers/media/usb/pwc/pwc-if.c b/drivers/media/usb/pwc/pwc-if.c
-> index 9b76cf133d52..0a033a5781d5 100644
-> --- a/drivers/media/usb/pwc/pwc-if.c
-> +++ b/drivers/media/usb/pwc/pwc-if.c
-> @@ -1044,7 +1044,7 @@ static int usb_pwc_probe(struct usb_interface *intf, const struct usb_device_id
-> 
->  	/* Init videobuf2 queue structure */
->  	pdev->vb_queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	pdev->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	pdev->vb_queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	pdev->vb_queue.drv_priv = pdev;
->  	pdev->vb_queue.buf_struct_size = sizeof(struct pwc_frame_buf);
->  	pdev->vb_queue.ops = &pwc_vb_queue_ops;
-> diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
-> index 329ec8089592..d4d7555f9c36 100644
-> --- a/drivers/media/usb/s2255/s2255drv.c
-> +++ b/drivers/media/usb/s2255/s2255drv.c
-> @@ -1625,7 +1625,7 @@ static int s2255_probe_v4l(struct s2255_dev *dev)
->  		}
->  		q = &vc->vb_vidq;
->  		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -		q->io_modes = VB2_MMAP | VB2_READ | VB2_USERPTR;
-> +		q->io_modes = VB2_MMAP | VB2_READ | VB2_USERPTR | VB2_DMABUF;
->  		q->drv_priv = vc;
->  		q->lock = &vc->vb_lock;
->  		q->buf_struct_size = sizeof(struct s2255_buffer);
-> diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-> index 3d9284a09ee5..c0d77e0fc86f 100644
-> --- a/drivers/media/usb/usbtv/usbtv-video.c
-> +++ b/drivers/media/usb/usbtv/usbtv-video.c
-> @@ -888,7 +888,7 @@ int usbtv_video_init(struct usbtv *usbtv)
-> 
->  	/* videobuf2 structure */
->  	usbtv->vb2q.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -	usbtv->vb2q.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +	usbtv->vb2q.io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  	usbtv->vb2q.drv_priv = usbtv;
->  	usbtv->vb2q.buf_struct_size = sizeof(struct usbtv_buf);
->  	usbtv->vb2q.ops = &usbtv_vb2_ops;
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index cd60c6c1749e..a1cc5788da56 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -222,7 +222,7 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
->  	int ret;
-> 
->  	queue->queue.type = type;
-> -	queue->queue.io_modes = VB2_MMAP | VB2_USERPTR;
-> +	queue->queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
->  	queue->queue.drv_priv = queue;
->  	queue->queue.buf_struct_size = sizeof(struct uvc_buffer);
->  	queue->queue.mem_ops = &vb2_vmalloc_memops;
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index 1ef31a984741..fe7a8205bfd4 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -1919,7 +1919,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->  		q = &dev->capture.vb_vidq;
->  		memset(q, 0, sizeof(*q));
->  		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -		q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ;
-> +		q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
->  		q->drv_priv = dev;
->  		q->buf_struct_size = sizeof(struct mmal_buffer);
->  		q->ops = &bm2835_mmal_video_qops;
+I won't cry much after that hack...
 
+> Note that I have the same concern for VB2_USERPTR with dma-sg.
+>
+> This was a good opportunity to improve v4l2-compliance: it adds sentinels at
+> the start/end of the buffer, and it checks that those sentinels are never
+> overwritten. So if this test passes for a driver, then VB2_USERPTR can stay
+> in, but it should probably have a comment that it has been tested with
+> v4l2-compliance.
+>
+>> What makes you believe it makes no sense for them?
+> Serious doubts that this has been properly tested :-)
+> You really need a test like I wrote today for v4l2-compliance
+> in order to be certain that it works.
+
+Best regards
 -- 
-Regards,
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Laurent Pinchart
