@@ -2,210 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4B5C1678DF
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 09:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A161C1678E9
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 10:01:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730355AbgBUI5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Feb 2020 03:57:05 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55442 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727213AbgBUI5F (ORCPT
+        id S1727039AbgBUJBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Feb 2020 04:01:08 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47598 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbgBUJBI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Feb 2020 03:57:05 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 986C728CC36
-Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
-To:     CK Hu <ck.hu@mediatek.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, p.zabel@pengutronix.de,
-        airlied@linux.ie, mturquette@baylibre.com, sboyd@kernel.org,
-        ulrich.hecht+renesas@gmail.com, laurent.pinchart@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        rdunlap@infradead.org, dri-devel@lists.freedesktop.org,
-        Weiyi Lu <weiyi.lu@mediatek.com>,
-        Seiya Wang <seiya.wang@mediatek.com>,
-        linux-clk@vger.kernel.org,
-        Collabora Kernel ML <kernel@collabora.com>,
-        mtk01761 <wendell.lin@mediatek.com>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>, wens@csie.org,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        sean.wang@mediatek.com, frank-w@public-files.de,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
-        Matthias Brugger <mbrugger@suse.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Richard Fontana <rfontana@redhat.com>,
-        linux-kernel@vger.kernel.org, matthias.bgg@kernel.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Fabien Parent <fparent@baylibre.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Owen Chen <owen.chen@mediatek.com>
-References: <20200220172147.919996-1-enric.balletbo@collabora.com>
- <1582259996.1846.7.camel@mtksdaap41>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
-Date:   Fri, 21 Feb 2020 09:56:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Fri, 21 Feb 2020 04:01:08 -0500
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84C46563;
+        Fri, 21 Feb 2020 10:01:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1582275666;
+        bh=TxYe0ZyAfOlUJr3E7Fgz4oWbWpIlHLP5eduwgtS3LI0=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=FgmhHyi0mN/88wg3j7VM6Cob6PoEdcqhuOqMHtSgq6RUvSTG9NNT829eOYz+7TxMp
+         OhWtHYudG1V+NyBSRcWckTzINYva7cZ7ZBon80ddfXbWVqZxJJjSNfVOa7MAVREEDN
+         L+3nyKJ4NpV1xmSpnS9aFpG89t9gCBgCz+PelwXI=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [RFC PATCH 9/9] omap3isp/rcar_fdp1/vsp1/xilinx: drop VB2_USERPTR
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200221084531.576156-1-hverkuil-cisco@xs4all.nl>
+ <20200221084531.576156-10-hverkuil-cisco@xs4all.nl>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <6b0e13b1-77c8-1b15-6be1-3139ca471715@ideasonboard.com>
+Date:   Fri, 21 Feb 2020 09:01:02 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <1582259996.1846.7.camel@mtksdaap41>
+In-Reply-To: <20200221084531.576156-10-hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi CK,
+Hi Hans,
 
-Thanks for your quick answer.
-
-On 21/2/20 5:39, CK Hu wrote:
-> Hi, Enric:
+On 21/02/2020 08:45, Hans Verkuil wrote:
+> The combination of VB2_USERPTR and dma-contig makes no sense for
+> these devices, drop it.
 > 
-> On Thu, 2020-02-20 at 18:21 +0100, Enric Balletbo i Serra wrote:
->> Dear all,
->>
->> Those patches are intended to solve an old standing issue on some
->> Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
->> to the precedent series.
->>
->> Up to now both drivers, clock and drm are probed with the same device tree
->> compatible. But only the first driver get probed, which in effect breaks
->> graphics on those devices.
->>
->> The version eight of the series tries to solve the problem with a
->> different approach than the previous series but similar to how is solved
->> on other Mediatek devices.
->>
->> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
->> control clock gates (which is used in the clk driver) and some registers
->> to set the routing and enable the differnet blocks of the display
->> and MDP (Media Data Path) subsystem. On this series the clk driver is
->> not a pure clock controller but a system controller that can provide
->> access to the shared registers between the different drivers that need
->> it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
->> this version, clk driver is the entry point (parent) which will trigger
->> the probe of the corresponding mediatek-drm driver and pass its MMSYS
->> platform data for display configuration.
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Agreed, the FDP1 and VSP1 expect contiguous physical memory, so a
+user-pointer doesn't make much sense to be permitted.
+
+I haven't lokoed at the Xilinx platform in regards to this but I would
+be surprised if it wasn't the same issue there of course.
+
+For VSP1/FDP1:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+
+> ---
+>  drivers/media/platform/omap3isp/ispvideo.c | 2 +-
+>  drivers/media/platform/rcar_fdp1.c         | 4 ++--
+>  drivers/media/platform/vsp1/vsp1_video.c   | 2 +-
+>  drivers/media/platform/xilinx/xilinx-dma.c | 2 +-
+>  4 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> When mmsys is a system controller, I prefer to place mmsys in
-> drivers/soc/mediatek, and it share registers for clock, display, and mdp
-> driver. This means the probe function is placed in
-> drivers/soc/mediatek ,its display clock function, mdp clock function are
-> placed in drivers/clk, display routing are placed in drivers/gpu/drm,
-> and mdp routing are placed in dirvers/video.
+> diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
+> index e8c46ff1aeb4..1104654ba438 100644
+> --- a/drivers/media/platform/omap3isp/ispvideo.c
+> +++ b/drivers/media/platform/omap3isp/ispvideo.c
+> @@ -1319,7 +1319,7 @@ static int isp_video_open(struct file *file)
+>  
+>  	queue = &handle->queue;
+>  	queue->type = video->type;
+> -	queue->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
+> +	queue->io_modes = VB2_MMAP | VB2_DMABUF;
+>  	queue->drv_priv = handle;
+>  	queue->ops = &isp_video_queue_ops;
+>  	queue->mem_ops = &vb2_dma_contig_memops;
+> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
+> index 97bed45360f0..df081f66575f 100644
+> --- a/drivers/media/platform/rcar_fdp1.c
+> +++ b/drivers/media/platform/rcar_fdp1.c
+> @@ -2047,7 +2047,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  	int ret;
+>  
+>  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> -	src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> +	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+>  	src_vq->drv_priv = ctx;
+>  	src_vq->buf_struct_size = sizeof(struct fdp1_buffer);
+>  	src_vq->ops = &fdp1_qops;
+> @@ -2061,7 +2061,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
+>  		return ret;
+>  
+>  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> -	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> +	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+>  	dst_vq->drv_priv = ctx;
+>  	dst_vq->buf_struct_size = sizeof(struct fdp1_buffer);
+>  	dst_vq->ops = &fdp1_qops;
+> diff --git a/drivers/media/platform/vsp1/vsp1_video.c b/drivers/media/platform/vsp1/vsp1_video.c
+> index 5e59ed2c3614..112e2092f6d3 100644
+> --- a/drivers/media/platform/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/vsp1/vsp1_video.c
+> @@ -1300,7 +1300,7 @@ struct vsp1_video *vsp1_video_create(struct vsp1_device *vsp1,
+>  	video_set_drvdata(&video->video, video);
+>  
+>  	video->queue.type = video->type;
+> -	video->queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> +	video->queue.io_modes = VB2_MMAP | VB2_DMABUF;
+>  	video->queue.lock = &video->lock;
+>  	video->queue.drv_priv = video;
+>  	video->queue.buf_struct_size = sizeof(struct vsp1_vb2_buffer);
+> diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
+> index b211380a11f2..57e52ad720dd 100644
+> --- a/drivers/media/platform/xilinx/xilinx-dma.c
+> +++ b/drivers/media/platform/xilinx/xilinx-dma.c
+> @@ -708,7 +708,7 @@ int xvip_dma_init(struct xvip_composite_device *xdev, struct xvip_dma *dma,
+>  	 * instead of 'cat' isn't really a drawback.
+>  	 */
+>  	dma->queue.type = type;
+> -	dma->queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> +	dma->queue.io_modes = VB2_MMAP | VB2_DMABUF;
+>  	dma->queue.lock = &dma->lock;
+>  	dma->queue.drv_priv = dma;
+>  	dma->queue.buf_struct_size = sizeof(struct xvip_dma_buffer);
 > 
 
-I understand what you mean but I am not sure this makes the code clearer and
-useful. The driver in drivers/soc/mediatek will be a simple dummy implementation
-of a "simple-mfd" device (a driver that simply matches with
-"mediatek,mt8173-mmsys" and instantiates the "clk-mt8173-mm" and the
-"mediatek-drm" driver (note that mediatek-mdp" is already instantiated via
-device-tree).
-
-It'd be nice had a proper device-tree with a "simple-mfd" for mmsys from the
-beginning representing how really hardwware is, but I think that, change this
-now, will break backward compatibility.
-
-IMHO I think that considering the clk driver as entry point is fine, but this is
-something that the clock maintainers should decide.
-
-Also note that this is not only a MT8173 problem I am seeing the same problem on
-all other Mediatek SoCs.
-
-Thanks.
-
-> Regards,
-> CK
-> 
->>
->> All this series was tested on the Acer R13 Chromebook only.
->>
->> For reference, here are the links to the old discussions:
->>
->> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
->> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
->> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
->> * v4:
->>   * https://patchwork.kernel.org/patch/10530871/
->>   * https://patchwork.kernel.org/patch/10530883/
->>   * https://patchwork.kernel.org/patch/10530885/
->>   * https://patchwork.kernel.org/patch/10530911/
->>   * https://patchwork.kernel.org/patch/10530913/
->> * v3:
->>   * https://patchwork.kernel.org/patch/10367857/
->>   * https://patchwork.kernel.org/patch/10367861/
->>   * https://patchwork.kernel.org/patch/10367877/
->>   * https://patchwork.kernel.org/patch/10367875/
->>   * https://patchwork.kernel.org/patch/10367885/
->>   * https://patchwork.kernel.org/patch/10367883/
->>   * https://patchwork.kernel.org/patch/10367889/
->>   * https://patchwork.kernel.org/patch/10367907/
->>   * https://patchwork.kernel.org/patch/10367909/
->>   * https://patchwork.kernel.org/patch/10367905/
->> * v2: No relevant discussion, see v3
->> * v1:
->>   * https://patchwork.kernel.org/patch/10016497/
->>   * https://patchwork.kernel.org/patch/10016499/
->>   * https://patchwork.kernel.org/patch/10016505/
->>   * https://patchwork.kernel.org/patch/10016507/
->>
->> Best regards,
->>  Enric
->>
->> Changes in v8:
->> - Be a builtin_platform_driver like other mediatek mmsys drivers.
->> - New patches introduced in this series.
->>
->> Changes in v7:
->> - Add R-by from CK
->> - Add R-by from CK
->> - Fix check of return value of of_clk_get
->> - Fix identation
->> - Free clk_data->clks as well
->> - Get rid of private data structure
->>
->> Enric Balletbo i Serra (2):
->>   drm/mediatek: Move MMSYS configuration to include/linux/platform_data
->>   clk/drm: mediatek: Fix mediatek-drm device probing
->>
->> Matthias Brugger (4):
->>   drm/mediatek: Use regmap for register access
->>   drm/mediatek: Omit warning on probe defers
->>   media: mtk-mdp: Check return value of of_clk_get
->>   clk: mediatek: mt8173: Switch MMSYS to platform driver
->>
->>  drivers/clk/mediatek/Kconfig                  |   6 +
->>  drivers/clk/mediatek/Makefile                 |   1 +
->>  drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
->>  drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
->>  drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
->>  drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
->>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
->>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
->>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
->>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
->>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
->>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
->>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
->>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
->>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
->>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
->>  include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
->>  20 files changed, 401 insertions(+), 317 deletions(-)
->>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
->>  create mode 100644 include/linux/platform_data/mtk_mmsys.h
->>
-> 
