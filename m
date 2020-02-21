@@ -2,271 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E251678D1
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 09:53:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4B5C1678DF
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2020 09:57:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbgBUIxd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Feb 2020 03:53:33 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:36672 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727188AbgBUIxd (ORCPT
+        id S1730355AbgBUI5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Feb 2020 03:57:05 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55442 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727213AbgBUI5F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Feb 2020 03:53:33 -0500
-Received: by mail-ed1-f67.google.com with SMTP id j17so1431674edp.3
-        for <linux-media@vger.kernel.org>; Fri, 21 Feb 2020 00:53:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uvctYbL+/0OGuu75ArjF+bihU3mJ92KfMME205AoiCg=;
-        b=IWmngd8tHeZQqmRv27Spt/RF17wZYlch2yNvmcqirD97txLOQNwk955b3DJw72NMWI
-         8YIoBQ6M2H0/qJqusjdx6khHm/HDsHHaIAh2SeDAOvsztv98yMQ/71jteCHw1dyFJG/0
-         Mx64W5C6ZVRZL/6A4bfPcYqqXc1wKgIUFm710=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uvctYbL+/0OGuu75ArjF+bihU3mJ92KfMME205AoiCg=;
-        b=LpN5ZpQZNf/QVGMKvLJyAW8+N2JeiZS+R/Bh6NSX3/9+FTXNlH/3AbdhGZenwS1nOm
-         Z/EHdRbvsaJnb6ojJrSCFhVGc0yOOG8Red5SWP3ywUpLIYdhcXOwtj1WA0QDzfqgDq4k
-         JVXuHw6TeyJoQDeMnOT+ikLpswUD6hkjBQVf8xgvJzkv0ln3KUumcfKXh4sM5JojYFLT
-         /jq4HekEyeRWYxN0/LJAuaD+9m2nsKQO1np7YYtfK0ETMUjh7V/1faEHrvziWsno9nzU
-         WbCa5e6ANMLzWJfTBJwCw+caLnOHAFhL/YfW2nRTRoPJ1Ucu21pBQxtx7ls+EH+eTMLR
-         cNOQ==
-X-Gm-Message-State: APjAAAWQd59wQkoGaOt7LT2/S1E397Q9GdjwYwB0q4uu1mZGNH7Hj/tI
-        BO4LChR8/mD8nUH4ao0kOx7TE1svfln1Jg==
-X-Google-Smtp-Source: APXvYqyoJJjj2UtaJwzsF7uhosqHx3hEMt7QCj0V99zfKf0wwmgjDSwlRQNbA4Xf27/ejLbZ1HwjIA==
-X-Received: by 2002:a17:906:9249:: with SMTP id c9mr14936811ejx.0.1582275210417;
-        Fri, 21 Feb 2020 00:53:30 -0800 (PST)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id n10sm151839ejk.67.2020.02.21.00.53.29
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Feb 2020 00:53:29 -0800 (PST)
-Received: by mail-wr1-f51.google.com with SMTP id w15so1033792wru.4
-        for <linux-media@vger.kernel.org>; Fri, 21 Feb 2020 00:53:29 -0800 (PST)
-X-Received: by 2002:adf:aadb:: with SMTP id i27mr49933461wrc.105.1582275208850;
- Fri, 21 Feb 2020 00:53:28 -0800 (PST)
+        Fri, 21 Feb 2020 03:57:05 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 986C728CC36
+Subject: Re: [PATCH v8 0/6] arm/arm64: mediatek: Fix mmsys device probing
+To:     CK Hu <ck.hu@mediatek.com>
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, p.zabel@pengutronix.de,
+        airlied@linux.ie, mturquette@baylibre.com, sboyd@kernel.org,
+        ulrich.hecht+renesas@gmail.com, laurent.pinchart@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        rdunlap@infradead.org, dri-devel@lists.freedesktop.org,
+        Weiyi Lu <weiyi.lu@mediatek.com>,
+        Seiya Wang <seiya.wang@mediatek.com>,
+        linux-clk@vger.kernel.org,
+        Collabora Kernel ML <kernel@collabora.com>,
+        mtk01761 <wendell.lin@mediatek.com>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>, wens@csie.org,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        sean.wang@mediatek.com, frank-w@public-files.de,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+        Matthias Brugger <mbrugger@suse.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Richard Fontana <rfontana@redhat.com>,
+        linux-kernel@vger.kernel.org, matthias.bgg@kernel.org,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Fabien Parent <fparent@baylibre.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Owen Chen <owen.chen@mediatek.com>
+References: <20200220172147.919996-1-enric.balletbo@collabora.com>
+ <1582259996.1846.7.camel@mtksdaap41>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <7a87b486-1622-7f27-f5af-427b94a14c00@collabora.com>
+Date:   Fri, 21 Feb 2020 09:56:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200221084531.576156-1-hverkuil-cisco@xs4all.nl> <20200221084531.576156-9-hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20200221084531.576156-9-hverkuil-cisco@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 21 Feb 2020 17:53:15 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5D_=EqagJRx03N-1rGAyLz6AYsScB7bfAWVCSW=mbCRRA@mail.gmail.com>
-Message-ID: <CAAFQd5D_=EqagJRx03N-1rGAyLz6AYsScB7bfAWVCSW=mbCRRA@mail.gmail.com>
-Subject: Re: [RFC PATCH 8/9] exynos/s3c/s5p: drop VB2_USERPTR
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sylwester Nawrocki <snawrocki@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1582259996.1846.7.camel@mtksdaap41>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi CK,
 
-On Fri, Feb 21, 2020 at 5:46 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> The combination of VB2_USERPTR and dma-contig makes no sense for
-> these devices, drop it.
+Thanks for your quick answer.
 
-Even though I personally don't like user pointers, I believe at least
-some of those devices are fine with USERPTR in case they are behind an
-IOMMU, like on the newer Exynos SoCs. +Marek Szyprowski too.
+On 21/2/20 5:39, CK Hu wrote:
+> Hi, Enric:
+> 
+> On Thu, 2020-02-20 at 18:21 +0100, Enric Balletbo i Serra wrote:
+>> Dear all,
+>>
+>> Those patches are intended to solve an old standing issue on some
+>> Mediatek devices (mt8173, mt2701 and mt2712) in a slightly different way
+>> to the precedent series.
+>>
+>> Up to now both drivers, clock and drm are probed with the same device tree
+>> compatible. But only the first driver get probed, which in effect breaks
+>> graphics on those devices.
+>>
+>> The version eight of the series tries to solve the problem with a
+>> different approach than the previous series but similar to how is solved
+>> on other Mediatek devices.
+>>
+>> The MMSYS (Multimedia subsystem) in Mediatek SoCs has some registers to
+>> control clock gates (which is used in the clk driver) and some registers
+>> to set the routing and enable the differnet blocks of the display
+>> and MDP (Media Data Path) subsystem. On this series the clk driver is
+>> not a pure clock controller but a system controller that can provide
+>> access to the shared registers between the different drivers that need
+>> it (mediatek-drm and mediatek-mdp). And the biggest change is, that in
+>> this version, clk driver is the entry point (parent) which will trigger
+>> the probe of the corresponding mediatek-drm driver and pass its MMSYS
+>> platform data for display configuration.
+> 
+> When mmsys is a system controller, I prefer to place mmsys in
+> drivers/soc/mediatek, and it share registers for clock, display, and mdp
+> driver. This means the probe function is placed in
+> drivers/soc/mediatek ,its display clock function, mdp clock function are
+> placed in drivers/clk, display routing are placed in drivers/gpu/drm,
+> and mdp routing are placed in dirvers/video.
+> 
 
-What makes you believe it makes no sense for them?
+I understand what you mean but I am not sure this makes the code clearer and
+useful. The driver in drivers/soc/mediatek will be a simple dummy implementation
+of a "simple-mfd" device (a driver that simply matches with
+"mediatek,mt8173-mmsys" and instantiates the "clk-mt8173-mm" and the
+"mediatek-drm" driver (note that mediatek-mdp" is already instantiated via
+device-tree).
 
-Best regards,
-Tomasz
+It'd be nice had a proper device-tree with a "simple-mfd" for mmsys from the
+beginning representing how really hardwware is, but I think that, change this
+now, will break backward compatibility.
 
->
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Sylwester Nawrocki <snawrocki@kernel.org>
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> ---
->  drivers/media/platform/exynos-gsc/gsc-m2m.c        | 4 ++--
->  drivers/media/platform/exynos4-is/fimc-capture.c   | 2 +-
->  drivers/media/platform/exynos4-is/fimc-isp-video.c | 2 +-
->  drivers/media/platform/exynos4-is/fimc-lite.c      | 2 +-
->  drivers/media/platform/exynos4-is/fimc-m2m.c       | 4 ++--
->  drivers/media/platform/s3c-camif/camif-capture.c   | 2 +-
->  drivers/media/platform/s5p-g2d/g2d.c               | 4 ++--
->  drivers/media/platform/s5p-jpeg/jpeg-core.c        | 4 ++--
->  drivers/media/platform/s5p-mfc/s5p_mfc.c           | 6 ++----
->  9 files changed, 14 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-> index 35a1d0d6dd66..f4b192e49c80 100644
-> --- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
-> +++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
-> @@ -583,7 +583,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->
->         memset(src_vq, 0, sizeof(*src_vq));
->         src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> -       src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-> +       src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         src_vq->drv_priv = ctx;
->         src_vq->ops = &gsc_m2m_qops;
->         src_vq->mem_ops = &vb2_dma_contig_memops;
-> @@ -598,7 +598,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->
->         memset(dst_vq, 0, sizeof(*dst_vq));
->         dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -       dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-> +       dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         dst_vq->drv_priv = ctx;
->         dst_vq->ops = &gsc_m2m_qops;
->         dst_vq->mem_ops = &vb2_dma_contig_memops;
-> diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
-> index 121d609ff856..8d14207b3403 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-capture.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-capture.c
-> @@ -1771,7 +1771,7 @@ static int fimc_register_capture_device(struct fimc_dev *fimc,
->
->         memset(q, 0, sizeof(*q));
->         q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -       q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-> +       q->io_modes = VB2_MMAP | VB2_DMABUF;
->         q->drv_priv = ctx;
->         q->ops = &fimc_capture_qops;
->         q->mem_ops = &vb2_dma_contig_memops;
-> diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-> index 55bae20eb8db..94f3215916f6 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-> @@ -587,7 +587,7 @@ int fimc_isp_video_device_register(struct fimc_isp *isp,
->
->         memset(q, 0, sizeof(*q));
->         q->type = type;
-> -       q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       q->io_modes = VB2_MMAP | VB2_DMABUF;
->         q->ops = &isp_video_capture_qops;
->         q->mem_ops = &vb2_dma_contig_memops;
->         q->buf_struct_size = sizeof(struct isp_video_buf);
-> diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-> index d06bf4865b84..3c2c70b252bb 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-lite.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-> @@ -1276,7 +1276,7 @@ static int fimc_lite_subdev_registered(struct v4l2_subdev *sd)
->
->         memset(q, 0, sizeof(*q));
->         q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -       q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       q->io_modes = VB2_MMAP | VB2_DMABUF;
->         q->ops = &fimc_lite_qops;
->         q->mem_ops = &vb2_dma_contig_memops;
->         q->buf_struct_size = sizeof(struct flite_buffer);
-> diff --git a/drivers/media/platform/exynos4-is/fimc-m2m.c b/drivers/media/platform/exynos4-is/fimc-m2m.c
-> index c70c2cbe3eb1..3323563ed913 100644
-> --- a/drivers/media/platform/exynos4-is/fimc-m2m.c
-> +++ b/drivers/media/platform/exynos4-is/fimc-m2m.c
-> @@ -554,7 +554,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->         int ret;
->
->         src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> -       src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-> +       src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         src_vq->drv_priv = ctx;
->         src_vq->ops = &fimc_qops;
->         src_vq->mem_ops = &vb2_dma_contig_memops;
-> @@ -568,7 +568,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->                 return ret;
->
->         dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -       dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
-> +       dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         dst_vq->drv_priv = ctx;
->         dst_vq->ops = &fimc_qops;
->         dst_vq->mem_ops = &vb2_dma_contig_memops;
-> diff --git a/drivers/media/platform/s3c-camif/camif-capture.c b/drivers/media/platform/s3c-camif/camif-capture.c
-> index 54989dacaf5d..eb99468a5427 100644
-> --- a/drivers/media/platform/s3c-camif/camif-capture.c
-> +++ b/drivers/media/platform/s3c-camif/camif-capture.c
-> @@ -1121,7 +1121,7 @@ int s3c_camif_register_video_node(struct camif_dev *camif, int idx)
->
->         memset(q, 0, sizeof(*q));
->         q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -       q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       q->io_modes = VB2_MMAP | VB2_DMABUF;
->         q->ops = &s3c_camif_qops;
->         q->mem_ops = &vb2_dma_contig_memops;
->         q->buf_struct_size = sizeof(struct camif_buffer);
-> diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platform/s5p-g2d/g2d.c
-> index 98f94e1fa6b8..a8f8c9e00452 100644
-> --- a/drivers/media/platform/s5p-g2d/g2d.c
-> +++ b/drivers/media/platform/s5p-g2d/g2d.c
-> @@ -144,7 +144,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->         int ret;
->
->         src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> -       src_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         src_vq->drv_priv = ctx;
->         src_vq->ops = &g2d_qops;
->         src_vq->mem_ops = &vb2_dma_contig_memops;
-> @@ -158,7 +158,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->                 return ret;
->
->         dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -       dst_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         dst_vq->drv_priv = ctx;
->         dst_vq->ops = &g2d_qops;
->         dst_vq->mem_ops = &vb2_dma_contig_memops;
-> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> index 4c10ec0d7da4..d03164854576 100644
-> --- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> +++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-> @@ -2620,7 +2620,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->         int ret;
->
->         src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> -       src_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         src_vq->drv_priv = ctx;
->         src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->         src_vq->ops = &s5p_jpeg_qops;
-> @@ -2634,7 +2634,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
->                 return ret;
->
->         dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> -       dst_vq->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
-> +       dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->         dst_vq->drv_priv = ctx;
->         dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->         dst_vq->ops = &s5p_jpeg_qops;
-> diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> index ff770328f690..32df5e26daab 100644
-> --- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
-> @@ -844,11 +844,10 @@ static int s5p_mfc_open(struct file *file)
->         q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
->         q->drv_priv = &ctx->fh;
->         q->lock = &dev->mfc_mutex;
-> +       q->io_modes = VB2_MMAP | VB2_DMABUF;
->         if (vdev == dev->vfd_dec) {
-> -               q->io_modes = VB2_MMAP | VB2_DMABUF;
->                 q->ops = get_dec_queue_ops();
->         } else if (vdev == dev->vfd_enc) {
-> -               q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->                 q->ops = get_enc_queue_ops();
->         } else {
->                 ret = -ENOENT;
-> @@ -871,11 +870,10 @@ static int s5p_mfc_open(struct file *file)
->         q->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
->         q->drv_priv = &ctx->fh;
->         q->lock = &dev->mfc_mutex;
-> +       q->io_modes = VB2_MMAP | VB2_DMABUF;
->         if (vdev == dev->vfd_dec) {
-> -               q->io_modes = VB2_MMAP | VB2_DMABUF;
->                 q->ops = get_dec_queue_ops();
->         } else if (vdev == dev->vfd_enc) {
-> -               q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_USERPTR;
->                 q->ops = get_enc_queue_ops();
->         } else {
->                 ret = -ENOENT;
-> --
-> 2.25.0
->
+IMHO I think that considering the clk driver as entry point is fine, but this is
+something that the clock maintainers should decide.
+
+Also note that this is not only a MT8173 problem I am seeing the same problem on
+all other Mediatek SoCs.
+
+Thanks.
+
+> Regards,
+> CK
+> 
+>>
+>> All this series was tested on the Acer R13 Chromebook only.
+>>
+>> For reference, here are the links to the old discussions:
+>>
+>> * v7: https://patchwork.kernel.org/project/linux-mediatek/list/?series=241217
+>> * v6: https://patchwork.kernel.org/project/linux-mediatek/list/?series=213219
+>> * v5: https://patchwork.kernel.org/project/linux-mediatek/list/?series=44063
+>> * v4:
+>>   * https://patchwork.kernel.org/patch/10530871/
+>>   * https://patchwork.kernel.org/patch/10530883/
+>>   * https://patchwork.kernel.org/patch/10530885/
+>>   * https://patchwork.kernel.org/patch/10530911/
+>>   * https://patchwork.kernel.org/patch/10530913/
+>> * v3:
+>>   * https://patchwork.kernel.org/patch/10367857/
+>>   * https://patchwork.kernel.org/patch/10367861/
+>>   * https://patchwork.kernel.org/patch/10367877/
+>>   * https://patchwork.kernel.org/patch/10367875/
+>>   * https://patchwork.kernel.org/patch/10367885/
+>>   * https://patchwork.kernel.org/patch/10367883/
+>>   * https://patchwork.kernel.org/patch/10367889/
+>>   * https://patchwork.kernel.org/patch/10367907/
+>>   * https://patchwork.kernel.org/patch/10367909/
+>>   * https://patchwork.kernel.org/patch/10367905/
+>> * v2: No relevant discussion, see v3
+>> * v1:
+>>   * https://patchwork.kernel.org/patch/10016497/
+>>   * https://patchwork.kernel.org/patch/10016499/
+>>   * https://patchwork.kernel.org/patch/10016505/
+>>   * https://patchwork.kernel.org/patch/10016507/
+>>
+>> Best regards,
+>>  Enric
+>>
+>> Changes in v8:
+>> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+>> - New patches introduced in this series.
+>>
+>> Changes in v7:
+>> - Add R-by from CK
+>> - Add R-by from CK
+>> - Fix check of return value of of_clk_get
+>> - Fix identation
+>> - Free clk_data->clks as well
+>> - Get rid of private data structure
+>>
+>> Enric Balletbo i Serra (2):
+>>   drm/mediatek: Move MMSYS configuration to include/linux/platform_data
+>>   clk/drm: mediatek: Fix mediatek-drm device probing
+>>
+>> Matthias Brugger (4):
+>>   drm/mediatek: Use regmap for register access
+>>   drm/mediatek: Omit warning on probe defers
+>>   media: mtk-mdp: Check return value of of_clk_get
+>>   clk: mediatek: mt8173: Switch MMSYS to platform driver
+>>
+>>  drivers/clk/mediatek/Kconfig                  |   6 +
+>>  drivers/clk/mediatek/Makefile                 |   1 +
+>>  drivers/clk/mediatek/clk-mt2701-mm.c          |  30 +++
+>>  drivers/clk/mediatek/clk-mt2712-mm.c          |  44 +++++
+>>  drivers/clk/mediatek/clk-mt8173-mm.c          | 172 ++++++++++++++++++
+>>  drivers/clk/mediatek/clk-mt8173.c             | 104 -----------
+>>  drivers/gpu/drm/mediatek/mtk_disp_color.c     |   5 +-
+>>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |   5 +-
+>>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   5 +-
+>>  drivers/gpu/drm/mediatek/mtk_dpi.c            |  12 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c        |  53 +++---
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h        |   4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  56 +-----
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 113 +-----------
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  13 +-
+>>  drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 +-
+>>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   4 +-
+>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c |   6 +
+>>  include/linux/platform_data/mtk_mmsys.h       |  73 ++++++++
+>>  20 files changed, 401 insertions(+), 317 deletions(-)
+>>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+>>  create mode 100644 include/linux/platform_data/mtk_mmsys.h
+>>
+> 
