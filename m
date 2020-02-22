@@ -2,91 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5010E168E74
-	for <lists+linux-media@lfdr.de>; Sat, 22 Feb 2020 12:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2739D168F0B
+	for <lists+linux-media@lfdr.de>; Sat, 22 Feb 2020 14:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbgBVL20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Feb 2020 06:28:26 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:40285 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726763AbgBVL20 (ORCPT
+        id S1727090AbgBVNOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Feb 2020 08:14:32 -0500
+Received: from retiisi.org.uk ([95.216.213.190]:37920 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726839AbgBVNOc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Feb 2020 06:28:26 -0500
-Received: from [192.168.2.10] ([46.9.235.248])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 5SxIjzoxuPKvK5SxMjjud9; Sat, 22 Feb 2020 12:28:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582370904; bh=41VepjGwikv0CygR2YEl2g2PwjMr0oKYq3quSghw3Zk=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ozAGN4OhwulB8XBwFRsUtXay5hecdLdlVePt4ESF0aoKbyZYgi76hJCgWumQu5Jpw
-         8Rm+B3CERCViFVhO5DWShBpQyQTwAWDEwMUB0j7DmNS1swPX5kLpJw83UwsSaQCU0b
-         YHuTuxM7GLnwQxvOCGsBL3mSbONOnVnMHUoTGAY/IhSaJNNYQBEaO/xLijbrFToBOE
-         5+qiE9MQLykWum0M0A2A8YwxXCxeUJw4wRLZ/KxIJiyGB07VHYOLwipIaDC15PfKAf
-         qt8vgsIaeAOqwxCtUIrbEeacprw2IZiWXMUfRVKSvriXom8l5NFUAowLOcfS+Eu29/
-         w2fAFWXIqbPIw==
-Subject: Re: cron job: media_tree daily build: ERRORS
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-References: <597f67aedc9d984674a3d8f8010b5883@smtp-cloud9.xs4all.net>
-Message-ID: <ee6d223f-4a1e-dd23-13f2-f15a71787332@xs4all.nl>
-Date:   Sat, 22 Feb 2020 12:28:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Sat, 22 Feb 2020 08:14:32 -0500
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 6902E634C87;
+        Sat, 22 Feb 2020 15:13:36 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1j5UbA-0001pd-Ow; Sat, 22 Feb 2020 15:13:36 +0200
+Date:   Sat, 22 Feb 2020 15:13:36 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Subject: Re: [RFC PATCH 9/9] omap3isp/rcar_fdp1/vsp1/xilinx: drop VB2_USERPTR
+Message-ID: <20200222131336.GJ5023@valkosipuli.retiisi.org.uk>
+References: <20200221084531.576156-1-hverkuil-cisco@xs4all.nl>
+ <20200221084531.576156-10-hverkuil-cisco@xs4all.nl>
+ <6b0e13b1-77c8-1b15-6be1-3139ca471715@ideasonboard.com>
+ <20200221143101.GI4955@pendragon.ideasonboard.com>
+ <20200221194640.GI5023@valkosipuli.retiisi.org.uk>
+ <20200222104348.GE4846@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <597f67aedc9d984674a3d8f8010b5883@smtp-cloud9.xs4all.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNUOjNeO+jSItuxB7F1Xw7uINde1YUKI24lhImCEMvRUkYjG6ALz/u4X1SChbIi/sOFdrHF8tSL8tv2x76X2+mU9PLYfBFnbfV8lYlYtfdxOo0Np+ExD
- /ZrIEXOhF/3QlA6F7tozUBiWJ0wbrmVJJKveWPEpr+ujvNjfUW8mXQMW5fzOwUWRRNBqaLTAdKKeIQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200222104348.GE4846@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/22/20 5:58 AM, Hans Verkuil wrote:
-> virtme: ERRORS: Final Summary: 2943, Succeeded: 2925, Failed: 18, Warnings: 0
-> sparse: OK
-> smatch: OK
+Hi Laurent,
+
+On Sat, Feb 22, 2020 at 12:43:48PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Detailed results are available here:
+> On Fri, Feb 21, 2020 at 09:46:41PM +0200, Sakari Ailus wrote:
+> > Hi Hans, Laurent,
+> > 
+> > On Fri, Feb 21, 2020 at 04:31:01PM +0200, Laurent Pinchart wrote:
+> > > Hi Hans,
+> > > 
+> > > CC'ing Sakari for the omap3isp part.
+> > 
+> > Thanks.
+> > 
+> > The omap3isp is behind an IOMMU, so the USERPTR memory does not need to be
+> > physically contiguous. I don't see a reason to drop userptr support from
+> > the driver.
 > 
-> http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-> 
-> Detailed regression test results are available here:
-> 
-> http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+> Apart from the fact that this API should be discouraged :-) I wonder if
+> it's used, that's my real question. As we can't rule it out, I'd be
+> cautious about dropping it.
 
-Looking at this it turns out that the new tests I added in v4l2-compliance
-to check for USERPTR overwrites before the start/after the end of the
-buffer caused failures in vivid and vim2m.
+Indeed. If we'd drop USERPTR, it should apply to the uAPI, the framework
+and all the drivers, not an individual driver. But again that would be
+certain to break a lot of applications...
 
-There was also a bug in the compliance code that turned one test in a NOP.
-I've improved the compliance code, and unfortunately I'm now also getting
-warnings in vimc and vicodec. I'll dig more into this on Monday.
+I guess we could document USERPTR as deprecated, and not recommended for
+new applications?
 
-It's an interesting test, and if it finds real bugs, then it would be
-interesting to see if similar tests can be made for the MMAP streaming mode,
-since ALL drivers support that.
-
-Also, this test is only done with the configured format when v4l2-compliance
-is called. There is a separate test that tries to stream with all available
-formats, but that is MMAP-only. It would be interesting to support USERPTR
-there as well.
-
+-- 
 Regards,
 
-	Hans
-
-> http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-> 
-> Full logs are available here:
-> 
-> http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-> 
-> The Media Infrastructure API from this daily build is here:
-> 
-> http://www.xs4all.nl/~hverkuil/spec/index.html
-> 
-
+Sakari Ailus
