@@ -2,131 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6F6116A65F
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 13:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2606216A805
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 15:13:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbgBXMrx convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 24 Feb 2020 07:47:53 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:36492 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbgBXMrw (ORCPT
+        id S1727504AbgBXONa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Feb 2020 09:13:30 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:42736 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727281AbgBXON3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Feb 2020 07:47:52 -0500
-Received: by mail-ed1-f67.google.com with SMTP id j17so11757997edp.3;
-        Mon, 24 Feb 2020 04:47:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=6p1Rm/cgq3FqTcHGA+7QXUNsBMb6waSsaCWakkpOhMI=;
-        b=KevIibRzjYHkz7b3z6zkclYIBEKkafAUwE0AyTYxwKkMUyb291I/ISo9i/2pJpdEN5
-         E7UTE6jq2iIK+vPwAx8KGjc42VQoQD5Ntf+jqooSbNMmjOHP+3JOcQ/Lrsrj325oAnEi
-         +ouDUf8DvLtsQsUnNfxkgk2/12MLSptugXSzI2yQA9Sh20Rw3wm6lpERRHqRRmmxgrJe
-         1hW0w2XoDojno+hlDHbVVrYTRgezXrfJij2GDVSstbFmSOpVmpKDmSjVMER8vCabCfEQ
-         X1HixIwZkQZLTGTfzNCVP99iMk0IXXLQzMv8GAD2THs12N4gBuJfpJdKFA3V3XFM+MYB
-         VOww==
-X-Gm-Message-State: APjAAAUo/2ViXnpSnrWar8ORCQBgfeHSnsSGfxcYNqZLmKw9eEIGVNQY
-        h5SDppDFpaq1um3eKVv6IDQ=
-X-Google-Smtp-Source: APXvYqxOCnjuqHzZ8w9dppB5X8CKpWu3LAO4qx3F7JuCo/1tjWWY0qRzHXx7PYmPGsjZ1wOThemeng==
-X-Received: by 2002:a17:906:7fd0:: with SMTP id r16mr45290488ejs.319.1582548468870;
-        Mon, 24 Feb 2020 04:47:48 -0800 (PST)
-Received: from pi3 ([194.230.155.125])
-        by smtp.googlemail.com with ESMTPSA id n19sm944550edy.9.2020.02.24.04.47.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 04:47:48 -0800 (PST)
-Date:   Mon, 24 Feb 2020 13:47:44 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Jiri Slaby <jirislaby@gmail.com>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, linux-ntb@googlegroups.com,
-        virtualization@lists.linux-foundation.org,
-        linux-arch@vger.kernel.org
-Subject: Re: [RESEND PATCH v2 9/9] ath5k: Constify ioreadX() iomem argument
- (as in generic implementation)
-Message-ID: <20200224124744.GA1949@pi3>
-References: <20200219175007.13627-1-krzk@kernel.org>
- <20200219175007.13627-10-krzk@kernel.org>
- <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com>
+        Mon, 24 Feb 2020 09:13:29 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id DC5433C04C1;
+        Mon, 24 Feb 2020 15:13:26 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 5tnY5zTXeUFO; Mon, 24 Feb 2020 15:13:21 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 9147C3C005E;
+        Mon, 24 Feb 2020 15:13:09 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com ([fe80::69bf:8148:2f13:f289]) by
+ HI2EXCH01.adit-jv.com ([fe80::69bf:8148:2f13:f289%12]) with mapi id
+ 14.03.0468.000; Mon, 24 Feb 2020 15:13:09 +0100
+From:   "Rodin, Michael (Ferchau; ADITG/ESM1)" <mrodin@de.adit-jv.com>
+To:     "jacopo@jmondi.org" <jacopo@jmondi.org>
+CC:     "niklas.soderlund@ragnatech.se" <niklas.soderlund@ragnatech.se>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Friedrich, Eugen (ADITG/ESM1)" <efriedrich@de.adit-jv.com>,
+        "Rosca, Eugeniu (ADITG/ESM1)" <erosca@de.adit-jv.com>,
+        "Udipi, Suresh (Wipro; LEADER ; ADITJ/SWG)" 
+        <external.sudipi@jp.adit-jv.com>,
+        "akiyama@nds-osk.co.jp" <akiyama@nds-osk.co.jp>
+Subject: RE: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on
+ clock lane during start of CSI2
+Thread-Topic: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on
+ clock lane during start of CSI2
+Thread-Index: AQHV5lDEYJ+KDHbHMk+ttiXKnZHzuagitZwAgAej6QA=
+Date:   Mon, 24 Feb 2020 14:13:08 +0000
+Message-ID: <AC35D0CFBC66A84AAA9DF4334B52828D136F94C7@HI2EXCH01.adit-jv.com>
+References: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+ <20200219172456.hyo2aksvubxpoqrn@uno.localdomain>
+In-Reply-To: <20200219172456.hyo2aksvubxpoqrn@uno.localdomain>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.72.92.112]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <518a9023-f802-17b3-fca5-582400bc34ae@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 10:48:33AM +0100, Jiri Slaby wrote:
-> On 19. 02. 20, 18:50, Krzysztof Kozlowski wrote:
-> > The ioreadX() helpers have inconsistent interface.  On some architectures
-> > void *__iomem address argument is a pointer to const, on some not.
-> > 
-> > Implementations of ioreadX() do not modify the memory under the address
-> > so they can be converted to a "const" version for const-safety and
-> > consistency among architectures.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > Acked-by: Kalle Valo <kvalo@codeaurora.org>
-> > ---
-> >  drivers/net/wireless/ath/ath5k/ahb.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/net/wireless/ath/ath5k/ahb.c b/drivers/net/wireless/ath/ath5k/ahb.c
-> > index 2c9cec8b53d9..8bd01df369fb 100644
-> > --- a/drivers/net/wireless/ath/ath5k/ahb.c
-> > +++ b/drivers/net/wireless/ath/ath5k/ahb.c
-> > @@ -138,18 +138,18 @@ static int ath_ahb_probe(struct platform_device *pdev)
-> >  
-> >  	if (bcfg->devid >= AR5K_SREV_AR2315_R6) {
-> >  		/* Enable WMAC AHB arbitration */
-> > -		reg = ioread32((void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
-> > +		reg = ioread32((const void __iomem *) AR5K_AR2315_AHB_ARB_CTL);
-> 
-> While I understand why the parameter of ioread32 should be const, I
-> don't see a reason for these casts on the users' side. What does it
-> bring except longer code to read?
-
-Because the argument is an int:
-
-drivers/net/wireless/ath/ath5k/ahb.c: In function ‘ath_ahb_probe’:
-drivers/net/wireless/ath/ath5k/ahb.c:141:18: warning: passing argument 1 of ‘ioread32’ makes pointer from integer without a cast [-Wint-conversion]
-   reg = ioread32(AR5K_AR2315_AHB_ARB_CTL);
-
-Best regards,
-Krzysztof
-
+PiBPbiBUdWUsIEZlYiAxOCwgMjAyMCBhdCAxMjo0NDoxMVBNICswMTAwLCBNaWNoYWVsIFJvZGlu
+IHdyb3RlOg0KPiA+IFRoZSBjaGFwdGVyIDcuMSAiRC1QSFkgUGh5c2ljYWwgTGF5ZXIgT3B0aW9u
+IiBvZiB0aGUgQ1NJMg0KPiA+IHNwZWNpZmljYXRpb24gc3RhdGVzIHRoYXQgbm9uLWNvbnRpbnVv
+dXMgY2xvY2sgYmVoYXZpb3IgaXMgb3B0aW9uYWwsDQo+ID4gaS5lLiB0aGUgQ2xvY2sgTGFuZSBj
+YW4gcmVtYWluIGluIGhpZ2gtc3BlZWQgbW9kZSBiZXR3ZWVuIHRoZSB0cmFuc21pc3Npb24NCj4g
+b2YgZGF0YSBwYWNrZXRzLg0KPiA+IFRoZXJlZm9yZSB3YWl0aW5nIGZvciB0aGUgc3RvcCBzdGF0
+ZSAoTFAtMTEpIG9uIHRoZSBDbG9jayBMYW5lIGlzDQo+ID4gd3JvbmcgYW5kIHdpbGwgY2F1c2Ug
+dGltZW91dHMgd2hlbiBhIENTSTIgdHJhbnNtaXR0ZXIgd2l0aCBjb250aW51b3VzDQo+ID4gY2xv
+Y2sgYmVoYXZpb3IgaXMgYXR0YWNoZWQgdG8gUi1DYXIgQ1NJMiByZWNlaXZlci4gU28gd2FpdCBv
+bmx5IGZvcg0KPiA+IHRoZSBzdG9wIHN0YXRlIG9uIHRoZSBEYXRhIExhbmVzLg0KPiANCj4gQW0g
+SSB3cm9uZyBvciB0aGUgZGVzaXJlZCBiZWhhdmlvdXIgc2hvdWxkIGRlcGVuZCBvbiB0aGUgcHJl
+c2VuY2Ugb2YgdGhlDQo+IGNsb2NrLW5vbmNvbnRpbnVvdXMgcHJvcGVydHkgaW4gdGhlIENTSS0y
+IGlucHV0IGVuZHBvaW50ID8NCj4gSWYgY2xvY2stbm9uY29udGludW91cyBpcyBzZXQsIHRoZW4g
+d2FpdCBmb3IgdGhlIGNsb2NrIGxhbmUgdG8gZW50ZXIgc3RvcCBzdGF0ZQ0KPiB0b28sIGlmIG5v
+dCBqdXN0IHdhaXQgZm9yIHRoZSBkYXRhIGxhbmVzIHRvIHN0b3AuDQo+IA0KPiBJZiB0aGlzIGlz
+IGNvcnJlY3QsIGl0IHdpbGwgYWxzbyByZXF1aXJlIGEgY2hhbmdlIHRvIHRoZSBiaW5kaW5ncyBh
+bmQgdGhhdCdzIHRoZQ0KPiB0cmlja3kgcGFydC4gU28gZmFyIHRoZSBDU0ktMiByZWNlaXZlciBi
+ZWhhdmVkIGFzIHRoZSBjbG9jay1ub25jb250aW51b3VzDQo+IHByb3BlcnR5IHdhcyBzZXQgKHdh
+aXQgZm9yIGJvdGggZGF0YSBhbmQgY2xvY2sNCj4gbGFuZXMpIGFuZCBvbGRlciBkdGIgc2hvdWxk
+IGNvbnRpbnVlIHRvIHdvcmsgdW5kZXIgdGhpcyBhc3N1bXB0aW9uLiBJZiB5b3UNCj4gd2FudCB0
+byBzdXBwb3J0IGRldmljZXMgd2l0aCBjb250aW51b3VzIGNsb2NrIHRoZW4geW91IGhhdmUgdG8g
+cmVxdWlyZSB0aGUNCj4gY2xvY2stbm9uY29udGludW91cyBwcm9wZXJ0eSB0byBiZSBleHBsaWNp
+dGx5IHNldCB0byBmYWxzZSwgYW5kIGFzc3VtZSBpdCdzIHRydWUNCj4gaWYgbm90IHNwZWNpZmll
+ZC4gQlVUIGNsb2NrLW5vbmNvbnRpbnVvdXMgaXMgYSBib29sZWFuIHByb3BlcnR5LCB3aG9zZSB2
+YWx1ZQ0KPiBkZXBlbmRzIG9uIGl0J3MgcHJlc2VuY2Ugb25seS4gU28gSSBmZWFyIHdlIG5lZWQg
+dG8gYWRkIGEgJ2Nsb2NrLWNvbnRpbnVvdXMnDQo+IGZsYWcgdG8gdmlkZW8taW50ZXJmYWNlcy50
+eHQsIHBhcnNlIGl0IGluIHRoZSBDU0ktMiByZWNlaXZlciBkcml2ZXIsIGFuZCB0aGVuIGlnbm9y
+ZQ0KPiB0aGUgY2xvY2sgbGFuZSBzdG9wIHN0YXRlIGlmIGFuZCBvbmx5IGlmIHNhaWQgcHJvcGVy
+dHkgaXMgc3BlY2lmaWVkLg0KPiANCj4gRG9lcyB0aGlzIG1ha2Ugc2Vuc2UgPw0KPiANCg0KSGVs
+bG8gSmFjb3BvLA0KDQogLSBGaXJzdCBvZiBhbGwgSSBhbSBub3Qgc28gc3VyZSB3aGV0aGVyIEkg
+YW0gaW50ZXJwcmV0aW5nIHRoZSBDU0kyIHNwZWMgY29ycmVjdGx5LA0KICAgdGhpcyBpcyBhbHNv
+IHRoZSByZWFzb24gd2h5IEkgbWFya2VkIG15IHBhdGNoIGFzIFtSRkNdLiBTbyBNQVlCRSB3YWl0
+aW5nIGZvciBMUC0xMQ0KICAgb24gdGhlIGNsb2NrIGxhbmUgSVMgY29ycmVjdCBhdCB0aGlzIHBv
+aW50IGluIHJjYXItY3NpMiBhbmQgdGhlIGlzc3VlIGlzIHNvbWV3aGVyZSBlbHNlDQogICBhbmQg
+eW91ciBzdWdnZXN0aW9uIHdhcyBiYXNlZCBvbiBteSB3cm9uZyBhc3N1bXB0aW9uLiBJcyBpdCBw
+b3NzaWJsZT8NCiAtIFRoZSBwcmVzZW5jZSBvZiB0aGUgImNsb2NrLW5vbmNvbnRpbnVvdXMiIHBy
+b3BlcnR5IGlzIHBhcnNlZCBieSB0aGUgVjRMMiBmd25vZGUgbGlicmFyeSwNCiAgIHdoaWNoIHNl
+dHMgZWl0aGVyIFY0TDJfTUJVU19DU0kyX0NPTlRJTlVPVVNfQ0xPQ0sgb3IgVjRMMl9NQlVTX0NT
+STJfTk9OQ09OVElOVU9VU19DTE9DSy4NCiAgIEkgY291bGQgbm90IGZpbmQgYW55IHVwc3RyZWFt
+IENTSTIgcmVjZWl2ZXIgZHJpdmVyLCB3aGljaCByZWFkcyB0aGVzZSBmbGFncy4gV291bGQgYmUg
+cmNhci1jc2kyDQogICB0aGUgZmlyc3QgZHJpdmVyIHdoaWNoIHJlYWRzIHRoaXMgcHJvcGVydHkg
+KG9mIGEgdHJhbnNtaXR0ZXIpIGF0IHRoZSByZWNlaXZlciBzaWRlPw0KIC0gU29ycnksIGJ1dCBJ
+IGRvbid0IHVuZGVyc3RhbmQgeW91ciBjb25jZXJucyBhYm91dCBjb21wYXRpYmlsaXR5IHRvIG9s
+ZCBkZXZpY2UgdHJlZXMuDQogICBJZiAiY2xvY2stbm9uY29udGludW91cyIgZXhpc3RzIGF0IHRo
+ZSBDU0kyIHRyYW5zbWl0dGVyIHNpZGUsIGl0IGlzIGFzc3VtZWQgdG8gYmUNCiAgIHRydWUgKHNp
+bmNlIGFzIHlvdSBtZW50aW9uZWQsIGFsbCBib29sZWFuIHByb3BlcnRpZXMgYXJlIHRydWUgaWYg
+cHJlc2VudCkgYW5kIHdlDQogICB3b3VsZCB3YWl0IGZvciBMUC0xMSBvbiBjbG9jayBsYW5lIGlu
+IHJjYXItY3NpMiBhbmQgb2xkZXIgZHRicyB3b3VsZCBjb250aW51ZSB0bw0KICAgd29yayBjb3Jy
+ZWN0bHkuIElmIHRoaXMgcHJvcGVydHkgaXMgbm90IHByZXNlbnQgaW4gYSBDU0kyIHRyYW5zbWl0
+dGVyIG5vZGUgb2YgYW4gb2xkZXINCiAgIGR0YiBhbHRob3VnaCB0aGlzIHRyYW5zbWl0dGVyIGhh
+cyB0aGlzIHByb3BlcnR5LCB0aGVuIHRoaXMgaXMgYSB3cm9uZyBkZXZpY2UgdHJlZQ0KICAgY29u
+ZmlndXJhdGlvbi4gU28gdGhlIHN1Z2dlc3RlZCBuZXcgImNsb2NrLWNvbnRpbnVvdXMiIHByb3Bl
+cnR5IHdvdWxkIGJlIGEgd29ya2Fyb3VuZA0KICAgZm9yIHN1cHBvcnRpbmcgaW5jb3JyZWN0IGRl
+dmljZSB0cmVlcy4gU2hvdWxkIHdlIG1haW50YWluIGJhY2t3YXJkcyBjb21wYXRpYmlsaXR5IGlu
+IHRoaXMgY2FzZT8NCiAtIEV2ZW4gaWYgd2Ugc2hvdWxkIG1haW50YWluIGJhY2t3YXJkcyBjb21w
+YXRpYmlsaXR5IHRvIGluY29ycmVjdGx5IGNvbmZpZ3VyZWQgZGV2aWNlIHRyZWVzDQogICAoaS5l
+LiAiY2xvY2stbm9uY29udGludW91cyIgaXMgbm90IHNwZWNpZmllZCBmb3IgQ1NJMiB0cmFuc21p
+dHRlcnMgd2l0aCBub24tY29udGludW91cyBjbG9jayBiZWhhdmlvciksDQogICBpdCBpcyBwb3Nz
+aWJseSBub3QgYW4gaXNzdWUgaW4gdGhpcyBwYXJ0aWN1bGFyIGNhc2UgYmVjYXVzZSB3ZSBkb24n
+dCBoYXZlIHRvIHdhaXQgZm9yDQogICBMUC0xMSBvbiBjbG9jayBsYW5lcyBhdCBhbGwgc2luY2Ug
+dGhlIG5vbi1jb250aW51b3VzIGNsb2NrIGJlaGF2aW9yIGlzIG9wdGlvbmFsIGFjY29yZGluZw0K
+ICAgdG8gdGhlIGNoYXB0ZXIgNy4xIG9mIHRoZSBDU0kyIHNwZWNpZmljYXRpb24uIFNvIGZyb20g
+bXkgdW5kZXJzdGFuZGluZyBhIENTSTIgcmVjZWl2ZXINCiAgIHdoaWNoIHN1cHBvcnRzIG9ubHkg
+Y29udGludW91cyBjbG9jayBiZWhhdmlvciB3b3VsZCB3b3JrIHdpdGggYm90aCBraW5kcyBvZiBj
+bG9jaw0KICAgYmVoYXZpb3IgYXQgdGhlIHRyYW5zbWl0dGVyIHNpZGUuIE9uIHRoZSBvdGhlciBz
+aWRlIGEgQ1NJMiByZWNlaXZlciB3aGljaCBzdXBwb3J0cyBvbmx5DQogICBub24tY29udGludW91
+cyBjbG9jayBiZWhhdmlvciAod2hpY2ggaXMgY3VycmVudGx5IHRoZSBiZWhhdmlvciBpbXBsZW1l
+bnRlZCBpbiByY2FyLWNzaTIuYykNCiAgIGNhbiBub3QgcmVjZWl2ZSBhbnl0aGluZyBmcm9tIGEg
+dHJhbnNtaXR0ZXIgd2l0aCBjb250aW51b3VzIGNsb2NrIGJlaGF2aW9yIGFuZCB3b3VsZCB2aW9s
+YXRlIENTSTIgc3BlYy4NCg0KPiANCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgUm9k
+aW4gPG1yb2RpbkBkZS5hZGl0LWp2LmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS9yY2FyLXZpbi9yY2FyLWNzaTIuYyB8IDMgKy0tDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL3JjYXItdmluL3JjYXItY3NpMi5jDQo+ID4gYi9kcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL3JjYXItdmluL3JjYXItY3NpMi5jDQo+ID4gaW5kZXggZmFhOWZiMi4u
+NmQxOTkyYSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JjYXItdmlu
+L3JjYXItY3NpMi5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9yY2FyLXZpbi9y
+Y2FyLWNzaTIuYw0KPiA+IEBAIC00MTYsOCArNDE2LDcgQEAgc3RhdGljIGludCByY3NpMl93YWl0
+X3BoeV9zdGFydChzdHJ1Y3QgcmNhcl9jc2kyICpwcml2KQ0KPiA+ICAJZm9yICh0aW1lb3V0ID0g
+MDsgdGltZW91dCA8PSAyMDsgdGltZW91dCsrKSB7DQo+ID4gIAkJY29uc3QgdTMyIGxhbmVfbWFz
+ayA9ICgxIDw8IHByaXYtPmxhbmVzKSAtIDE7DQo+ID4NCj4gPiAtCQlpZiAoKHJjc2kyX3JlYWQo
+cHJpdiwgUEhDTE1fUkVHKSAmIFBIQ0xNX1NUT1BTVEFURUNLTCkNCj4gJiYNCj4gPiAtCQkgICAg
+KHJjc2kyX3JlYWQocHJpdiwgUEhETE1fUkVHKSAmIGxhbmVfbWFzaykgPT0gbGFuZV9tYXNrKQ0K
+PiA+ICsJCWlmICgocmNzaTJfcmVhZChwcml2LCBQSERMTV9SRUcpICYgbGFuZV9tYXNrKSA9PSBs
+YW5lX21hc2spDQo+ID4gIAkJCXJldHVybiAwOw0KPiA+DQo+ID4gIAkJdXNsZWVwX3JhbmdlKDEw
+MDAsIDIwMDApOw0KPiA+IC0tDQo+ID4gMi43LjQNCj4gPg0K
