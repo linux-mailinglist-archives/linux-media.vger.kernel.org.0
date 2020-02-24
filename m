@@ -2,230 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 864A516B1D2
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 22:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF52116B31A
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 22:47:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727954AbgBXVLK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Feb 2020 16:11:10 -0500
-Received: from pio-pvt-msa2.bahnhof.se ([79.136.2.41]:47400 "EHLO
-        pio-pvt-msa2.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727742AbgBXVLK (ORCPT
+        id S1728129AbgBXVrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Feb 2020 16:47:42 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40426 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727841AbgBXVrl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Feb 2020 16:11:10 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 57E073F405;
-        Mon, 24 Feb 2020 22:11:07 +0100 (CET)
-Authentication-Results: pio-pvt-msa2.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=p6641goU;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
-        autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
-        by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id L0CohpgLZcrE; Mon, 24 Feb 2020 22:11:06 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 377FD3F3F8;
-        Mon, 24 Feb 2020 22:11:03 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id 711BB360161;
-        Mon, 24 Feb 2020 22:11:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1582578663; bh=zRGhG19geIcw0C2+kLiix3NQfLVNZmZoqSBS7rSc4Ug=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=p6641goUrGWQh44HhUU5w0CEXG3IlDRWl8Gs5V7EOJEJSW9tCqBh1trALmXY8F7A4
-         AADbseN5Ya2uzLEUpa8NwECJFpYta78yGKw7rUj7R0nuKs/QdHIuevLNRRKLkSvARp
-         d7PjqKBist5TE7dZSZ/vULfnwMqmCutHyb1FAnW0=
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20200217154509.2265-6-christian.koenig@amd.com>
- <20200217175518.GL2363188@phenom.ffwll.local>
- <f8ac7cbc-7c90-7119-735c-9f55adb6fa7f@shipmail.org>
- <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
- <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
- <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
- <20200220180459.GS2363188@phenom.ffwll.local>
- <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
- <20200220200831.GA2363188@phenom.ffwll.local>
- <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
- <20200221171217.GD2363188@phenom.ffwll.local>
- <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
- <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
- <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <73b6d3db-4263-5bad-5d56-dbaacba000b3@shipmail.org>
-Date:   Mon, 24 Feb 2020 22:11:02 +0100
+        Mon, 24 Feb 2020 16:47:41 -0500
+Received: by mail-wm1-f67.google.com with SMTP id t14so939275wmi.5;
+        Mon, 24 Feb 2020 13:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wpGsu30wsrwwgvONGvaCoryOWDxeUCSkXTPhLer+B18=;
+        b=qcf4YAHKArN90n8hn53nSe6TLi2TTwsNbbKf3kqrzyMmHSYiflKVLWm8xb2EXvF+yQ
+         UxeUPIlbDJdFf0D0pymlZWgW7RCQuvb0HDgUH6/atrE7LsCBCxn4p5KT9PCcS9eOhCg/
+         jiwVesUKeN4puJjuyrA8AVwBXpk1Bh3AqiKUhMjMMe5jZ5oE+A8DVFT0cFdJJjFtHnI/
+         ehR9lOZJsd0PECCvrvKe9O5J6iavJFsnDXpbvOftwm+ULYb3lxs694v0maIkHRfVVki9
+         Flt42aYmfbfhcttBi4e9gM7EVft8/E5wmYb9TnfbV9EFLvZiYu7Xv4mLKVokeNYr9mrH
+         2pqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=wpGsu30wsrwwgvONGvaCoryOWDxeUCSkXTPhLer+B18=;
+        b=V3sJgFtgHDydL1oxvt9rEQAeNYOdvMxiWLxpLUjKU8ldbiCWaKtOhBEqXbXXhnK559
+         u+VNGy4TpIeRPDTajB3qiMjgcbRPVP+4SguwRAICY6U3Vu/0CsAX7dRSVWIUXb8K4t8Q
+         RuqyCCvYrXgmfgyeYr+1k8eHSU8Q3RnsoETwYDycjKPCfUDp313HL6dcxEr6+h+E3p4J
+         mSAf9jUoGJUpdLlzWl67aGuTAVGOJwv2R++0DvkBqjfKWARu+UhDiyMgk0rC+8l3lS2a
+         XwTB2WEBpU4L5ugbCkYM6ECtMfVBcAIXI5/TTnl8dqn9PKXQrnyTi+Y/JDOTreM59HXV
+         WbjQ==
+X-Gm-Message-State: APjAAAV1FkasSyaUYpHZ1iuj3G2TlanA8bE4aZYC8KfaptXFTkGt0USq
+        Be9pjf83hRPbY4etT1u+8R0=
+X-Google-Smtp-Source: APXvYqyWNknQAEOEv/bM1o5Bk4ZxRvTdT5bpVvR4f6fdeWOI8TXCvriMZx0NtsLnHGMVRyLMrjnrVg==
+X-Received: by 2002:a7b:c218:: with SMTP id x24mr931234wmi.149.1582580858823;
+        Mon, 24 Feb 2020 13:47:38 -0800 (PST)
+Received: from ziggy.stardust ([130.65.254.13])
+        by smtp.gmail.com with ESMTPSA id f12sm1062871wmj.10.2020.02.24.13.47.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2020 13:47:38 -0800 (PST)
+Subject: Re: [PATCH v7 06/13] media: mtk-mdp: Check return value of of_clk_get
+To:     Hans Verkuil <hverkuil@xs4all.nl>, matthias.bgg@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
+        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
+        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
+        laurent.pinchart@ideasonboard.com, enric.balletbo@collabora.com
+Cc:     devicetree@vger.kernel.org, drinkcat@chromium.org,
+        frank-w@public-files.de, sean.wang@mediatek.com,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        wens@csie.org, linux-mediatek@lists.infradead.org,
+        rdunlap@infradead.org, hsinyi@chromium.org,
+        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>
+References: <20200213201953.15268-1-matthias.bgg@kernel.org>
+ <20200213201953.15268-7-matthias.bgg@kernel.org>
+ <9d39ba53-482e-ba8f-2699-c34540a3dfd0@xs4all.nl>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <1c75d9ef-555a-7a07-b17a-c985605a16bc@gmail.com>
+Date:   Mon, 24 Feb 2020 22:47:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <9d39ba53-482e-ba8f-2699-c34540a3dfd0@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/24/20 7:46 PM, Christian König wrote:
-> Am 23.02.20 um 17:54 schrieb Thomas Hellström (VMware):
->> On 2/23/20 4:45 PM, Christian König wrote:
->>> Am 21.02.20 um 18:12 schrieb Daniel Vetter:
->>>> [SNIP]
->>>> Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly 
->>>> degenerating
->>>> into essentially a global lock. But only when there's actual 
->>>> contention
->>>> and thrashing.
->>>
->>> Yes exactly. A really big problem in TTM is currently that we drop 
->>> the lock after evicting BOs because they tend to move in again 
->>> directly after that.
->>>
->>> From practice I can also confirm that there is exactly zero benefit 
->>> from dropping locks early and reacquire them for example for the VM 
->>> page tables. That's just makes it more likely that somebody needs to 
->>> roll back and this is what we need to avoid in the first place.
+
+
+On 24/02/2020 18:36, Hans Verkuil wrote:
+> Hi Matthias,
+> 
+> On 2/13/20 9:19 PM, matthias.bgg@kernel.org wrote:
+>> From: Matthias Brugger <mbrugger@suse.com>
 >>
->> If you have a benchmarking setup available it would be very 
->> interesting for future reference to see how changing from WD to WW 
->> mutexes affects the roll back frequency. WW is known to cause 
->> rollbacks much less frequently but there is more work associated with 
->> each rollback.
->
-> Not of hand. To be honest I still have a hard time to get a grip on 
-> the difference between WD and WW from the algorithm point of view. So 
-> I can't judge that difference at all.
-
-OK. I don't think a detailed understanding of the algorithms is strictly 
-necessary, though. If we had had a good testcase we'd just have to 
-change DEFINE_WD_CLASS in dma-resv.c to DEFINE_WW_CLASS and benchmark 
-relevant figures.
-
-
->
->>> Contention on BO locks during command submission is perfectly fine 
->>> as long as this is as lightweight as possible while we don't have 
->>> trashing. When we have trashing multi submission performance is best 
->>> archived to just favor a single process to finish its business and 
->>> block everybody else.
+>> Check the return value of of_clk_get and print an error
+>> message if not EPROBE_DEFER.
 >>
->> Hmm. Sounds like we need a per-manager ww_rwsem protecting manager 
->> allocation, taken in write-mode then there's thrashing. In read-mode 
->> otherwise. That would limit the amount of "unnecessary" locks we'd 
->> have to keep and reduce unwanted side-effects, (see below):
->
-> Well per-manager (you mean per domain here don't you?)
-yes.
-> doesn't sound like that useful because we rarely use only one domain,
+>> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> 
+> This patch is independent from the remainder of this series, right?
+> It looks good to me, so is it OK if I merge this in the media subsystem?
+> 
 
-Well the difference to keeping all locks would boil down to:
-"Instead of keeping all locks of all bos we evict from thrashing 
-domains, keep locks of all thrashing domains in write mode". This means 
-that for domains that are not thrashing, we'd just keep read locks.
-
-
-> but I'm actually questioning for quite a while if the per BO lock 
-> scheme was the right approach.
->
-> See from the performance aspect the closest to ideal solution I can 
-> think of would be a ww_rwsem per user of a resource.
->
-> In other words we don't lock BOs, but instead a list of all their 
-> users and when you want to evict a BO you need to walk that list and 
-> inform all users that the BO will be moving.
->
-> During command submission you then have the fast path which rather 
-> just grabs the read side of the user lock and check if all BOs are 
-> still in the expected place.
->
-> If some BOs were evicted you back off and start the slow path, e.g. 
-> maybe even copy additional data from userspace then grab the write 
-> side of the lock etc.. etc...
->
-> That approach is similar to what we use in amdgpu with the per-VM BOs, 
-> but goes a step further. Problem is that we are so used to per BO 
-> locks in the kernel that this is probably not doable any more.
-
-I think we need some-sort of per-bo lock to protect bo metadata. But 
-yes, relying solely on them to resolve other resource (domain) 
-contention may not be (or rather probably isn't) the right choice.
-
->
->>> Because of this I would actually vote for forbidding to release 
->>> individual ww_mutex() locks in a context.
->>
->> Yes, I see the problem.
->>
->> But my first reaction is that this might have undersirable 
->> side-effects. Let's say somebody wanted to swap the evicted BOs out?
->
-> Please explain further, I off hand don't see the problem here.
-
-Lets say thread A evicts a lot of thread B's bos, and keeps the locks of 
-those bos for a prolonged time. Then thread C needs memory and wants to 
-swap out thread B's bos. It can't, or at least not during a certain 
-delay because thread A unnecessarily holds the locks.
-
->
-> In general I actually wanted to re-work TTM in a way that BOs in the 
-> SYSTEM/SWAPABLE domain are always backed by a shmem file instead of 
-> the struct page array we currently have.
-
-That would probably work well if there are no SYSTEM+write-combined 
-users anymore. Typically in the old AGP days, you wouldn't change 
-caching mode when evicting from write-combine AGP to SYSTEM because of 
-the dead slow wbinvd() operation.
->
->> Or cpu-writes to them causing faults, that might also block the 
->> mm_sem, which in turn blocks hugepaged?
->
-> Mhm, I also only have a higher level view how hugepaged works so why 
-> does it grabs the mm_sem on the write side?
-
-If I understand it correctly, it's needed when collapsing PMD 
-directories to huge PMD pages. But this was merely an example. For this 
-particular case the RETRY mechanism in the TTM fault handler we've 
-discussed before will try reasonably hard to release the mmap_sem when 
-sleeping on a bo lock.
+Yes it is independent. Please merge it to the media subsystem.
 
 Thanks,
-Thomas
+Matthias
 
-
-
->
-> Thanks,
-> Christian.
->
+> Regards,
+> 
+> 	Hans
+> 
 >>
->> Still it's a fairly simple solution to a problem that seems otherwise 
->> hard to solve efficiently.
+>> ---
 >>
->> Thanks,
->> Thomas
+>> Changes in v7:
+>> - fix check of return value of of_clk_get
+>> - fix identation
 >>
+>> Changes in v6: None
+>> Changes in v5: None
+>> Changes in v4: None
+>> Changes in v3: None
+>> Changes in v2: None
 >>
->>>
->>> Regards,
->>> Christian.
->>>
->>>> -Daniel
+>>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
 >>
+>> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> index 0c4788af78dd..58abfbdfb82d 100644
+>> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+>> @@ -110,6 +110,12 @@ int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
+>>  
+>>  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
+>>  		comp->clk[i] = of_clk_get(node, i);
+>> +		if (IS_ERR(comp->clk[i])) {
+>> +			if (PTR_ERR(comp->clk[i]) != -EPROBE_DEFER)
+>> +				dev_err(dev, "Failed to get clock\n");
+>> +
+>> +			return PTR_ERR(comp->clk[i]);
+>> +		}
+>>  
+>>  		/* Only RDMA needs two clocks */
+>>  		if (comp->type != MTK_MDP_RDMA)
 >>
-
+> 
