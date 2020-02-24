@@ -2,217 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF52116B31A
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 22:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E353216B425
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 23:36:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728129AbgBXVrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Feb 2020 16:47:42 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40426 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727841AbgBXVrl (ORCPT
+        id S1727520AbgBXWgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Feb 2020 17:36:07 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:41918 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbgBXWgH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Feb 2020 16:47:41 -0500
-Received: by mail-wm1-f67.google.com with SMTP id t14so939275wmi.5;
-        Mon, 24 Feb 2020 13:47:39 -0800 (PST)
+        Mon, 24 Feb 2020 17:36:07 -0500
+Received: by mail-qk1-f195.google.com with SMTP id b5so3088951qkh.8
+        for <linux-media@vger.kernel.org>; Mon, 24 Feb 2020 14:36:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wpGsu30wsrwwgvONGvaCoryOWDxeUCSkXTPhLer+B18=;
-        b=qcf4YAHKArN90n8hn53nSe6TLi2TTwsNbbKf3kqrzyMmHSYiflKVLWm8xb2EXvF+yQ
-         UxeUPIlbDJdFf0D0pymlZWgW7RCQuvb0HDgUH6/atrE7LsCBCxn4p5KT9PCcS9eOhCg/
-         jiwVesUKeN4puJjuyrA8AVwBXpk1Bh3AqiKUhMjMMe5jZ5oE+A8DVFT0cFdJJjFtHnI/
-         ehR9lOZJsd0PECCvrvKe9O5J6iavJFsnDXpbvOftwm+ULYb3lxs694v0maIkHRfVVki9
-         Flt42aYmfbfhcttBi4e9gM7EVft8/E5wmYb9TnfbV9EFLvZiYu7Xv4mLKVokeNYr9mrH
-         2pqg==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=YGKm8j6kzzt6cj98Y900BzukBQh2ZQfkDcKpSbnNfog=;
+        b=evcJnC3ag9p6y+Xz5p+Cv9ekOjfXjMu58P8lEjfd/aqg5d+JiDAxNPHYJuAJsIhR9Q
+         jG7glm7cAny457yzoqiywGAsVbMyaC6M3WshrGZRr5dnNCSZAEabQ0I019STtNcEnmWp
+         653fhc3kH4JSwokFE87H9RSwK7/28svEVwuKcTgoaJtay1EEAMLi5r0IUKBOFrASzTAu
+         jAONdlFoNuZgeRqK8dJcCSY0amSgiOVK8HcxLf8OiYb1um4QSCnIrfvW38sDD5LfLAN5
+         hXrCoxvh2ZGG6w0bdTuKcxsEWeFihf2FXz+OyWDeALZbteDQF6WmPe9z1QCLtG5fm5Mt
+         s6JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=wpGsu30wsrwwgvONGvaCoryOWDxeUCSkXTPhLer+B18=;
-        b=V3sJgFtgHDydL1oxvt9rEQAeNYOdvMxiWLxpLUjKU8ldbiCWaKtOhBEqXbXXhnK559
-         u+VNGy4TpIeRPDTajB3qiMjgcbRPVP+4SguwRAICY6U3Vu/0CsAX7dRSVWIUXb8K4t8Q
-         RuqyCCvYrXgmfgyeYr+1k8eHSU8Q3RnsoETwYDycjKPCfUDp313HL6dcxEr6+h+E3p4J
-         mSAf9jUoGJUpdLlzWl67aGuTAVGOJwv2R++0DvkBqjfKWARu+UhDiyMgk0rC+8l3lS2a
-         XwTB2WEBpU4L5ugbCkYM6ECtMfVBcAIXI5/TTnl8dqn9PKXQrnyTi+Y/JDOTreM59HXV
-         WbjQ==
-X-Gm-Message-State: APjAAAV1FkasSyaUYpHZ1iuj3G2TlanA8bE4aZYC8KfaptXFTkGt0USq
-        Be9pjf83hRPbY4etT1u+8R0=
-X-Google-Smtp-Source: APXvYqyWNknQAEOEv/bM1o5Bk4ZxRvTdT5bpVvR4f6fdeWOI8TXCvriMZx0NtsLnHGMVRyLMrjnrVg==
-X-Received: by 2002:a7b:c218:: with SMTP id x24mr931234wmi.149.1582580858823;
-        Mon, 24 Feb 2020 13:47:38 -0800 (PST)
-Received: from ziggy.stardust ([130.65.254.13])
-        by smtp.gmail.com with ESMTPSA id f12sm1062871wmj.10.2020.02.24.13.47.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2020 13:47:38 -0800 (PST)
-Subject: Re: [PATCH v7 06/13] media: mtk-mdp: Check return value of of_clk_get
-To:     Hans Verkuil <hverkuil@xs4all.nl>, matthias.bgg@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
-        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
-        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
-        laurent.pinchart@ideasonboard.com, enric.balletbo@collabora.com
-Cc:     devicetree@vger.kernel.org, drinkcat@chromium.org,
-        frank-w@public-files.de, sean.wang@mediatek.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        wens@csie.org, linux-mediatek@lists.infradead.org,
-        rdunlap@infradead.org, hsinyi@chromium.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-References: <20200213201953.15268-1-matthias.bgg@kernel.org>
- <20200213201953.15268-7-matthias.bgg@kernel.org>
- <9d39ba53-482e-ba8f-2699-c34540a3dfd0@xs4all.nl>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <1c75d9ef-555a-7a07-b17a-c985605a16bc@gmail.com>
-Date:   Mon, 24 Feb 2020 22:47:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=YGKm8j6kzzt6cj98Y900BzukBQh2ZQfkDcKpSbnNfog=;
+        b=UcA0MF5JznRURUCmKWHj7XLLeGhl+vc4zfORjuyQLVdNE5mjXioFTmQU8ZwatJUp3L
+         993bKwT9shlnI86Lp5cx4MC7PvVMyjjYEqksKej1kZNyyLHuFnTpE189piu5vEtZD9KO
+         Ii5rtDmICJAvWic2vDyOo1mSjGiruzcrjVZTBedZKy6KD7MPHReo9fdQA8dP8qxQz+t6
+         4ysWMs6Mrzh/ZODpa2EF70cIY6yPoI/xGyg+nSygygMD/9ZLMajRQgi/h+cLzH0HJJg0
+         X8GV1kubWyDNgjk/GhajxkpIkBL+hxBG7qucbrFaZt4QnpctnBaGuTHnxoxGwCeIIjlG
+         BKoQ==
+X-Gm-Message-State: APjAAAWTOYJQlKhYibMj197E6CwQWsoNPN+tSH1virnZ5th91a+Cf/Do
+        Aw0VUbVLQgr73uJTxEtz/WfPFIg/PXzYe3HA0Z0=
+X-Google-Smtp-Source: APXvYqwsFXwvlH/3ktG99jExMqFeGLQWK4HTYnvIbwmY5PjFGF/S66tCR+f0+LSq8g/F7BFRPhvisHs2BnopProEyDk=
+X-Received: by 2002:a05:620a:1458:: with SMTP id i24mr11375372qkl.435.1582583765623;
+ Mon, 24 Feb 2020 14:36:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <9d39ba53-482e-ba8f-2699-c34540a3dfd0@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Ian Kumlien <ian.kumlien@gmail.com>
+Date:   Mon, 24 Feb 2020 23:35:54 +0100
+Message-ID: <CAA85sZu_5=mP2zn2h_8aY+n=UM+fXOKgym9yNAvwxcc+6R_-jA@mail.gmail.com>
+Subject: [RFC] Buildfailure due to mising "select REGMAP_I2C"
+To:     hverkuil-cisco@xs4all.nl, petrcvekcz@gmail.com,
+        sakari.ailus@linux.intel.com,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        leonl@leopardimaging.com
+Cc:     linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000002d85ac059f59ff1c"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+--0000000000002d85ac059f59ff1c
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
-On 24/02/2020 18:36, Hans Verkuil wrote:
-> Hi Matthias,
-> 
-> On 2/13/20 9:19 PM, matthias.bgg@kernel.org wrote:
->> From: Matthias Brugger <mbrugger@suse.com>
->>
->> Check the return value of of_clk_get and print an error
->> message if not EPROBE_DEFER.
->>
->> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
-> 
-> This patch is independent from the remainder of this series, right?
-> It looks good to me, so is it OK if I merge this in the media subsystem?
-> 
+I got surprised by:
+ld: drivers/media/i2c/tvp5150.o: in function `tvp5150_probe':
+tvp5150.c:(.text+0x11ac): undefined reference to `__devm_regmap_init_i2c'
+make: *** [Makefile:1078: vmlinux] Error 1
 
-Yes it is independent. Please merge it to the media subsystem.
+When going from 5.5.2 -> 5.5.6
 
-Thanks,
-Matthias
+A quick git grep shows that something like this might be needed, but
+it should be verified.
+I'm really uncertain about the ones that say REGMAP_SCCB...
 
-> Regards,
-> 
-> 	Hans
-> 
->>
->> ---
->>
->> Changes in v7:
->> - fix check of return value of of_clk_get
->> - fix identation
->>
->> Changes in v6: None
->> Changes in v5: None
->> Changes in v4: None
->> Changes in v3: None
->> Changes in v2: None
->>
->>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
->> index 0c4788af78dd..58abfbdfb82d 100644
->> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
->> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
->> @@ -110,6 +110,12 @@ int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
->>  
->>  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
->>  		comp->clk[i] = of_clk_get(node, i);
->> +		if (IS_ERR(comp->clk[i])) {
->> +			if (PTR_ERR(comp->clk[i]) != -EPROBE_DEFER)
->> +				dev_err(dev, "Failed to get clock\n");
->> +
->> +			return PTR_ERR(comp->clk[i]);
->> +		}
->>  
->>  		/* Only RDMA needs two clocks */
->>  		if (comp->type != MTK_MDP_RDMA)
->>
-> 
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index c68e002d26ea..fc40c111f461 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -238,6 +238,7 @@ config VIDEO_ADV7604
+        tristate "Analog Devices ADV7604 decoder"
+        depends on VIDEO_V4L2 && I2C && VIDEO_V4L2_SUBDEV_API
+        depends on GPIOLIB || COMPILE_TEST
++       select REGMAP_I2C
+        select HDMI
+        select V4L2_FWNODE
+        help
+@@ -379,6 +380,7 @@ config VIDEO_TVP5150
+        tristate "Texas Instruments TVP5150 video decoder"
+        depends on VIDEO_V4L2 && I2C
+        select V4L2_FWNODE
++       select REGMAP_I2C
+        help
+          Support for the Texas Instruments TVP5150 video decoder.
+
+@@ -584,6 +586,7 @@ config VIDEO_IMX214
+        tristate "Sony IMX214 sensor support"
+        depends on GPIOLIB && I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+        depends on V4L2_FWNODE
++       select REGMAP_I2C
+        help
+          This is a Video4Linux2 sensor driver for the Sony
+          IMX214 camera.
+@@ -612,6 +615,7 @@ config VIDEO_IMX274
+ config VIDEO_IMX290
+        tristate "Sony IMX290 sensor support"
+        depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
++       select REGMAP_I2C
+        select V4L2_FWNODE
+        help
+          This is a Video4Linux2 sensor driver for the Sony
+@@ -774,6 +778,7 @@ config VIDEO_OV7251
+ config VIDEO_OV772X
+        tristate "OmniVision OV772x sensor support"
+        depends on I2C && VIDEO_V4L2
++       select REGMAP_I2C
+        select REGMAP_SCCB
+        help
+          This is a Video4Linux2 sensor driver for the OmniVision
+@@ -804,6 +809,7 @@ config VIDEO_OV7670
+ config VIDEO_OV7740
+        tristate "OmniVision OV7740 sensor support"
+        depends on I2C && VIDEO_V4L2
++       select REGMAP_I2C
+        help
+          This is a Video4Linux2 sensor driver for the OmniVision
+          OV7740 VGA camera sensor.
+@@ -829,6 +835,7 @@ config VIDEO_OV9640
+ config VIDEO_OV9650
+        tristate "OmniVision OV9650/OV9652 sensor support"
+        depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
++       select REGMAP_I2C
+        select REGMAP_SCCB
+        help
+          This is a V4L2 sensor driver for the Omnivision
+
+--0000000000002d85ac059f59ff1c
+Content-Type: text/x-patch; charset="US-ASCII"; name="rfc-select-regmap_i2c.diff"
+Content-Disposition: attachment; filename="rfc-select-regmap_i2c.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k7115m3z0>
+X-Attachment-Id: f_k7115m3z0
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvaTJjL0tjb25maWcgYi9kcml2ZXJzL21lZGlhL2ky
+Yy9LY29uZmlnCmluZGV4IGM2OGUwMDJkMjZlYS4uZmM0MGMxMTFmNDYxIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL21lZGlhL2kyYy9LY29uZmlnCisrKyBiL2RyaXZlcnMvbWVkaWEvaTJjL0tjb25maWcK
+QEAgLTIzOCw2ICsyMzgsNyBAQCBjb25maWcgVklERU9fQURWNzYwNAogCXRyaXN0YXRlICJBbmFs
+b2cgRGV2aWNlcyBBRFY3NjA0IGRlY29kZXIiCiAJZGVwZW5kcyBvbiBWSURFT19WNEwyICYmIEky
+QyAmJiBWSURFT19WNEwyX1NVQkRFVl9BUEkKIAlkZXBlbmRzIG9uIEdQSU9MSUIgfHwgQ09NUElM
+RV9URVNUCisJc2VsZWN0IFJFR01BUF9JMkMKIAlzZWxlY3QgSERNSQogCXNlbGVjdCBWNEwyX0ZX
+Tk9ERQogCWhlbHAKQEAgLTM3OSw2ICszODAsNyBAQCBjb25maWcgVklERU9fVFZQNTE1MAogCXRy
+aXN0YXRlICJUZXhhcyBJbnN0cnVtZW50cyBUVlA1MTUwIHZpZGVvIGRlY29kZXIiCiAJZGVwZW5k
+cyBvbiBWSURFT19WNEwyICYmIEkyQwogCXNlbGVjdCBWNEwyX0ZXTk9ERQorCXNlbGVjdCBSRUdN
+QVBfSTJDCiAJaGVscAogCSAgU3VwcG9ydCBmb3IgdGhlIFRleGFzIEluc3RydW1lbnRzIFRWUDUx
+NTAgdmlkZW8gZGVjb2Rlci4KIApAQCAtNTg0LDYgKzU4Niw3IEBAIGNvbmZpZyBWSURFT19JTVgy
+MTQKIAl0cmlzdGF0ZSAiU29ueSBJTVgyMTQgc2Vuc29yIHN1cHBvcnQiCiAJZGVwZW5kcyBvbiBH
+UElPTElCICYmIEkyQyAmJiBWSURFT19WNEwyICYmIFZJREVPX1Y0TDJfU1VCREVWX0FQSQogCWRl
+cGVuZHMgb24gVjRMMl9GV05PREUKKwlzZWxlY3QgUkVHTUFQX0kyQwogCWhlbHAKIAkgIFRoaXMg
+aXMgYSBWaWRlbzRMaW51eDIgc2Vuc29yIGRyaXZlciBmb3IgdGhlIFNvbnkKIAkgIElNWDIxNCBj
+YW1lcmEuCkBAIC02MTIsNiArNjE1LDcgQEAgY29uZmlnIFZJREVPX0lNWDI3NAogY29uZmlnIFZJ
+REVPX0lNWDI5MAogCXRyaXN0YXRlICJTb255IElNWDI5MCBzZW5zb3Igc3VwcG9ydCIKIAlkZXBl
+bmRzIG9uIEkyQyAmJiBWSURFT19WNEwyICYmIFZJREVPX1Y0TDJfU1VCREVWX0FQSQorCXNlbGVj
+dCBSRUdNQVBfSTJDCiAJc2VsZWN0IFY0TDJfRldOT0RFCiAJaGVscAogCSAgVGhpcyBpcyBhIFZp
+ZGVvNExpbnV4MiBzZW5zb3IgZHJpdmVyIGZvciB0aGUgU29ueQpAQCAtNzc0LDYgKzc3OCw3IEBA
+IGNvbmZpZyBWSURFT19PVjcyNTEKIGNvbmZpZyBWSURFT19PVjc3MlgKIAl0cmlzdGF0ZSAiT21u
+aVZpc2lvbiBPVjc3Mnggc2Vuc29yIHN1cHBvcnQiCiAJZGVwZW5kcyBvbiBJMkMgJiYgVklERU9f
+VjRMMgorCXNlbGVjdCBSRUdNQVBfSTJDCiAJc2VsZWN0IFJFR01BUF9TQ0NCCiAJaGVscAogCSAg
+VGhpcyBpcyBhIFZpZGVvNExpbnV4MiBzZW5zb3IgZHJpdmVyIGZvciB0aGUgT21uaVZpc2lvbgpA
+QCAtODA0LDYgKzgwOSw3IEBAIGNvbmZpZyBWSURFT19PVjc2NzAKIGNvbmZpZyBWSURFT19PVjc3
+NDAKIAl0cmlzdGF0ZSAiT21uaVZpc2lvbiBPVjc3NDAgc2Vuc29yIHN1cHBvcnQiCiAJZGVwZW5k
+cyBvbiBJMkMgJiYgVklERU9fVjRMMgorCXNlbGVjdCBSRUdNQVBfSTJDCiAJaGVscAogCSAgVGhp
+cyBpcyBhIFZpZGVvNExpbnV4MiBzZW5zb3IgZHJpdmVyIGZvciB0aGUgT21uaVZpc2lvbgogCSAg
+T1Y3NzQwIFZHQSBjYW1lcmEgc2Vuc29yLgpAQCAtODI5LDYgKzgzNSw3IEBAIGNvbmZpZyBWSURF
+T19PVjk2NDAKIGNvbmZpZyBWSURFT19PVjk2NTAKIAl0cmlzdGF0ZSAiT21uaVZpc2lvbiBPVjk2
+NTAvT1Y5NjUyIHNlbnNvciBzdXBwb3J0IgogCWRlcGVuZHMgb24gSTJDICYmIFZJREVPX1Y0TDIg
+JiYgVklERU9fVjRMMl9TVUJERVZfQVBJCisJc2VsZWN0IFJFR01BUF9JMkMKIAlzZWxlY3QgUkVH
+TUFQX1NDQ0IKIAloZWxwCiAJICBUaGlzIGlzIGEgVjRMMiBzZW5zb3IgZHJpdmVyIGZvciB0aGUg
+T21uaXZpc2lvbgo=
+--0000000000002d85ac059f59ff1c--
