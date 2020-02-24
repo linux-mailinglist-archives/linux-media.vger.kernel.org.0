@@ -2,124 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8212616ADA6
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 18:36:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5893E16AE0D
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 18:52:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728020AbgBXRgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Feb 2020 12:36:48 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:43187 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727259AbgBXRgr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Feb 2020 12:36:47 -0500
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 6HeejhXRRyIme6Heij4c5R; Mon, 24 Feb 2020 18:36:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582565805; bh=+Ut1mFONrMyDQY1g0dvIqwQmUQyccv/MhZXUMWlHI9A=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=AjPklyf5BwQcNHOgIqII5CgvXvmQ1u4PiNNlUpLpKq2LWeWDdeNN1l4VivqIlBI4D
-         K6KO4mKvo4UCrOFYB1ok9plTr5KSKjPk7ZHmg9c/rKZKRTu9dPY6B5NGcwNw+beimV
-         pWgzdX/kjeC7+sTVYaHMQpyZ1LwJ3d5VE8PDabba4fxWUbByaPEPGVgNLRDdnQ+r+p
-         EwpKgoaSu0/oM7DOXfyB1xSsDRfLCAnOeGx6VoYnLE9HKj8e9rXilQJANYkEnkvm72
-         6oSXCjkwZogH4rbFriWzzRqQTTANFEu40AcVxFFq2cjGeZ+KXGaFM8vT5WNRmfRA5C
-         DGx8nXNjzAjog==
-Subject: Re: [PATCH v7 06/13] media: mtk-mdp: Check return value of of_clk_get
-To:     matthias.bgg@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        ck.hu@mediatek.com, p.zabel@pengutronix.de, airlied@linux.ie,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        ulrich.hecht+renesas@gmail.com, laurent.pinchart@ideasonboard.com,
-        enric.balletbo@collabora.com
-Cc:     devicetree@vger.kernel.org, drinkcat@chromium.org,
-        frank-w@public-files.de, sean.wang@mediatek.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        wens@csie.org, linux-mediatek@lists.infradead.org,
-        rdunlap@infradead.org, hsinyi@chromium.org,
-        linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-References: <20200213201953.15268-1-matthias.bgg@kernel.org>
- <20200213201953.15268-7-matthias.bgg@kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9d39ba53-482e-ba8f-2699-c34540a3dfd0@xs4all.nl>
-Date:   Mon, 24 Feb 2020 18:36:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727869AbgBXRwi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Feb 2020 12:52:38 -0500
+Received: from mx1.emlix.com ([188.40.240.192]:50054 "EHLO mx1.emlix.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727854AbgBXRwi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 24 Feb 2020 12:52:38 -0500
+Received: from mailer.emlix.com (unknown [81.20.119.6])
+        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx1.emlix.com (Postfix) with ESMTPS id 7A9F75F96E;
+        Mon, 24 Feb 2020 18:52:36 +0100 (CET)
+From:   =?UTF-8?q?Daniel=20Gl=C3=B6ckner?= <dg@emlix.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org,
+        Jouni Ukkonen <jouni.ukkonen@intel.com>,
+        =?UTF-8?q?Daniel=20Gl=C3=B6ckner?= <dg@emlix.com>
+Subject: [PATCH 1/3] media: v4l: Add 14-bit raw bayer pixel formats
+Date:   Mon, 24 Feb 2020 18:52:20 +0100
+Message-Id: <20200224175222.1875-1-dg@emlix.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <8885ed8c-6121-d40e-bc45-3ed58f800a95@emlix.com>
+References: <8885ed8c-6121-d40e-bc45-3ed58f800a95@emlix.com>
 MIME-Version: 1.0
-In-Reply-To: <20200213201953.15268-7-matthias.bgg@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPySf1WBmv9/RjqzYz0BQrBmUht4Eva9g0QKaBR+01XPvXf6Dc7Z2L6oIPUgvGSRSBSFLEDzxEqIQxoAIRiayxX34Q+8Lq0cvVinehfGodRFg1Pt8Xtv
- Le3q4kyfX7omNMDWyWR693Q/8hU3nGZTxpH3Epk2cPojh08FWuyHCr6/qXBwne18uXeZI7asrpcnzMAGzsPQA2yzr/d7hlZL8mVQ+hnaSoKLdln3FY/JUB9k
- xVmii4ez/4ZtoMv39s8o+fFV28vxY9ncLBEG3bNtQvh3VL/Z3ycs3bI4Qn+Op/6C2HOB3TPaW6F/+vO2psgJdTTOYe1ipwXXg//ZA6jnDX56kRPljtOk02qA
- 5jTh9vPH06cfk/+jgovkB8gSn4L+0Hdkh7FJH9sPX5uShf7q8O/+zIqIohpBeJP0Dh3Yg143bKxhmWyl5N+wrkcrzMlmZIMjtXmXvP5AMtagZCPoK6vwT+9H
- VPhcbhGiWxVEXRZOqZhQQPtNSoOa62oK6lITRcaYj6RQE8Jm2xFQemNaQu2yqTY/LolxXsUH64Lxctk+DjjWhM4kyMBxOh1fIORL3/EChGfXDJdbrszHA5cN
- b0xSiu5x0jHOSj1g0S+8c0amgRey9HMs1nNjeaYJXXetUf5o7fmAZ64Nsc2DLyijHppuILpRCur9KTJZV4T4SbEsHjVkA2DLnVCF8/X8tF4svoUkifM+PfKG
- mZk73l2d94eyjyKBTao45kOB8gGZ7BZmPMJ8XFKxHBS2QO2K1MCpUC2rUo6VGKnnM89eTib/mgSwgdT3nQt1mcWtyBT2P/YiioVSUANAZXnKoHg+YLzKbuIS
- qhnipdRHQHZ0wqpNmjhnctoRWmY53pBb01kK++5Eu2oJiPHB4lq/NH/eGln9wrK1qv7WzwZMGEfLC+KComyvr9J7qbjCfIHakhDRukt3EFvLxHnXN9z5yVh1
- RQRVrrr56dKoFXVcDhNLMDmGz2rz1rLXtFHgbwVfKOM6t2HOa2cCIGLheHUjzsLGubuWsdH4v7QAJWQcpNcFyLTY88X007mEhYDgcB486IsA5xwHjdMfE6it
- +/AEsmalRYePA+Xv27YRGaBkwwcasHLXraWguBJ3YT7FzyE2b4EocUkP+RQ2C+0C0GwBZEs5SdYGudBxmAHZ+n0jARTz4B9QdHuZf+CKyE2QRRsJ3kkQBSY7
- CiymZeJ+kXPXXU2qZugulQEx6TB7dY6owNLKOzmCmFs=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Matthias,
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-On 2/13/20 9:19 PM, matthias.bgg@kernel.org wrote:
-> From: Matthias Brugger <mbrugger@suse.com>
-> 
-> Check the return value of of_clk_get and print an error
-> message if not EPROBE_DEFER.
-> 
-> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+The formats added by this patch are:
 
-This patch is independent from the remainder of this series, right?
-It looks good to me, so is it OK if I merge this in the media subsystem?
+	V4L2_PIX_FMT_SBGGR14
+	V4L2_PIX_FMT_SGBRG14
+	V4L2_PIX_FMT_SGRBG14
+	V4L2_PIX_FMT_SRGGB14
 
-Regards,
+Signed-off-by: Jouni Ukkonen <jouni.ukkonen@intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+[dg@emlix.com: rebased onto current media_tree]
+Signed-off-by: Daniel Glöckner <dg@emlix.com>
+---
+ Documentation/media/uapi/v4l/pixfmt-bayer.rst |  1 +
+ .../media/uapi/v4l/pixfmt-srggb14.rst         | 82 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  4 +
+ include/uapi/linux/videodev2.h                |  4 +
+ 4 files changed, 91 insertions(+)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-srggb14.rst
 
-	Hans
-
-> 
-> ---
-> 
-> Changes in v7:
-> - fix check of return value of of_clk_get
-> - fix identation
-> 
-> Changes in v6: None
-> Changes in v5: None
-> Changes in v4: None
-> Changes in v3: None
-> Changes in v2: None
-> 
->  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> index 0c4788af78dd..58abfbdfb82d 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> @@ -110,6 +110,12 @@ int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
->  
->  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
->  		comp->clk[i] = of_clk_get(node, i);
-> +		if (IS_ERR(comp->clk[i])) {
-> +			if (PTR_ERR(comp->clk[i]) != -EPROBE_DEFER)
-> +				dev_err(dev, "Failed to get clock\n");
-> +
-> +			return PTR_ERR(comp->clk[i]);
-> +		}
->  
->  		/* Only RDMA needs two clocks */
->  		if (comp->type != MTK_MDP_RDMA)
-> 
+diff --git a/Documentation/media/uapi/v4l/pixfmt-bayer.rst b/Documentation/media/uapi/v4l/pixfmt-bayer.rst
+index cfa2f4e3e114..807ab34ba93b 100644
+--- a/Documentation/media/uapi/v4l/pixfmt-bayer.rst
++++ b/Documentation/media/uapi/v4l/pixfmt-bayer.rst
+@@ -34,5 +34,6 @@ orders. See also `the Wikipedia article on Bayer filter
+     pixfmt-srggb10-ipu3
+     pixfmt-srggb12
+     pixfmt-srggb12p
++    pixfmt-srggb14
+     pixfmt-srggb14p
+     pixfmt-srggb16
+diff --git a/Documentation/media/uapi/v4l/pixfmt-srggb14.rst b/Documentation/media/uapi/v4l/pixfmt-srggb14.rst
+new file mode 100644
+index 000000000000..3420d4d1825e
+--- /dev/null
++++ b/Documentation/media/uapi/v4l/pixfmt-srggb14.rst
+@@ -0,0 +1,82 @@
++.. Permission is granted to copy, distribute and/or modify this
++.. document under the terms of the GNU Free Documentation License,
++.. Version 1.1 or any later version published by the Free Software
++.. Foundation, with no Invariant Sections, no Front-Cover Texts
++.. and no Back-Cover Texts. A copy of the license is included at
++.. Documentation/media/uapi/fdl-appendix.rst.
++..
++.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
++
++.. _V4L2-PIX-FMT-SRGGB14:
++.. _v4l2-pix-fmt-sbggr14:
++.. _v4l2-pix-fmt-sgbrg14:
++.. _v4l2-pix-fmt-sgrbg14:
++
++
++***************************************************************************************************************************
++V4L2_PIX_FMT_SRGGB14 ('RG14'), V4L2_PIX_FMT_SGRBG14 ('GR14'), V4L2_PIX_FMT_SGBRG14 ('GB14'), V4L2_PIX_FMT_SBGGR14 ('BG14'),
++***************************************************************************************************************************
++
++
++14-bit Bayer formats expanded to 16 bits
++
++
++Description
++===========
++
++These four pixel formats are raw sRGB / Bayer formats with 14 bits per
++colour. Each sample is stored in a 16-bit word, with two unused high
++bits filled with zeros. Each n-pixel row contains n/2 green samples
++and n/2 blue or red samples, with alternating red and blue rows. Bytes
++are stored in memory in little endian order. They are conventionally
++described as GRGR... BGBG..., RGRG... GBGB..., etc. Below is an
++example of a small V4L2_PIX_FMT_SBGGR14 image:
++
++**Byte Order.**
++Each cell is one byte, the two most significant bits in the high bytes are
++zero.
++
++
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++    :widths:       2 1 1 1 1 1 1 1 1
++
++
++    * - start + 0:
++      - B\ :sub:`00low`
++      - B\ :sub:`00high`
++      - G\ :sub:`01low`
++      - G\ :sub:`01high`
++      - B\ :sub:`02low`
++      - B\ :sub:`02high`
++      - G\ :sub:`03low`
++      - G\ :sub:`03high`
++    * - start + 8:
++      - G\ :sub:`10low`
++      - G\ :sub:`10high`
++      - R\ :sub:`11low`
++      - R\ :sub:`11high`
++      - G\ :sub:`12low`
++      - G\ :sub:`12high`
++      - R\ :sub:`13low`
++      - R\ :sub:`13high`
++    * - start + 16:
++      - B\ :sub:`20low`
++      - B\ :sub:`20high`
++      - G\ :sub:`21low`
++      - G\ :sub:`21high`
++      - B\ :sub:`22low`
++      - B\ :sub:`22high`
++      - G\ :sub:`23low`
++      - G\ :sub:`23high`
++    * - start + 24:
++      - G\ :sub:`30low`
++      - G\ :sub:`30high`
++      - R\ :sub:`31low`
++      - R\ :sub:`31high`
++      - G\ :sub:`32low`
++      - G\ :sub:`32high`
++      - R\ :sub:`33low`
++      - R\ :sub:`33high`
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index aaf83e254272..2558ffe4e3cb 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1306,6 +1306,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_SGBRG12P:	descr = "12-bit Bayer GBGB/RGRG Packed"; break;
+ 	case V4L2_PIX_FMT_SGRBG12P:	descr = "12-bit Bayer GRGR/BGBG Packed"; break;
+ 	case V4L2_PIX_FMT_SRGGB12P:	descr = "12-bit Bayer RGRG/GBGB Packed"; break;
++	case V4L2_PIX_FMT_SBGGR14:	descr = "14-bit Bayer BGBG/GRGR"; break;
++	case V4L2_PIX_FMT_SGBRG14:	descr = "14-bit Bayer GBGB/RGRG"; break;
++	case V4L2_PIX_FMT_SGRBG14:	descr = "14-bit Bayer GRGR/BGBG"; break;
++	case V4L2_PIX_FMT_SRGGB14:	descr = "14-bit Bayer RGRG/GBGB"; break;
+ 	case V4L2_PIX_FMT_SBGGR14P:	descr = "14-bit Bayer BGBG/GRGR Packed"; break;
+ 	case V4L2_PIX_FMT_SGBRG14P:	descr = "14-bit Bayer GBGB/RGRG Packed"; break;
+ 	case V4L2_PIX_FMT_SGRBG14P:	descr = "14-bit Bayer GRGR/BGBG Packed"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 5f9357dcb060..8429e5ab2d94 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -662,6 +662,10 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_SGBRG12P v4l2_fourcc('p', 'G', 'C', 'C')
+ #define V4L2_PIX_FMT_SGRBG12P v4l2_fourcc('p', 'g', 'C', 'C')
+ #define V4L2_PIX_FMT_SRGGB12P v4l2_fourcc('p', 'R', 'C', 'C')
++#define V4L2_PIX_FMT_SBGGR14 v4l2_fourcc('B', 'G', '1', '4') /* 14  BGBG.. GRGR.. */
++#define V4L2_PIX_FMT_SGBRG14 v4l2_fourcc('G', 'B', '1', '4') /* 14  GBGB.. RGRG.. */
++#define V4L2_PIX_FMT_SGRBG14 v4l2_fourcc('G', 'R', '1', '4') /* 14  GRGR.. BGBG.. */
++#define V4L2_PIX_FMT_SRGGB14 v4l2_fourcc('R', 'G', '1', '4') /* 14  RGRG.. GBGB.. */
+ 	/* 14bit raw bayer packed, 7 bytes for every 4 pixels */
+ #define V4L2_PIX_FMT_SBGGR14P v4l2_fourcc('p', 'B', 'E', 'E')
+ #define V4L2_PIX_FMT_SGBRG14P v4l2_fourcc('p', 'G', 'E', 'E')
+-- 
+2.17.1
 
