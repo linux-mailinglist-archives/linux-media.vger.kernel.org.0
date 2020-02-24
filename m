@@ -2,140 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF7A1698B0
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2020 17:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13F3C169CA1
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2020 04:29:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727027AbgBWQyT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Feb 2020 11:54:19 -0500
-Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:32328 "EHLO
-        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726208AbgBWQyS (ORCPT
+        id S1727210AbgBXD3H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Feb 2020 22:29:07 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:33233 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727158AbgBXD3E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Feb 2020 11:54:18 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 6B5D03F5BB;
-        Sun, 23 Feb 2020 17:54:15 +0100 (CET)
-Authentication-Results: ste-pvt-msa1.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=HEPMb2xN;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
-        autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
-        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Gz0yG0ClAaNg; Sun, 23 Feb 2020 17:54:14 +0100 (CET)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id C1D963F418;
-        Sun, 23 Feb 2020 17:54:12 +0100 (CET)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id F0AE936023F;
-        Sun, 23 Feb 2020 17:54:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1582476852; bh=wxPWZMnaHxvhqVllDP/O5dl63RWxie9K/haXwvx4klo=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=HEPMb2xNPfy8xIdt+KGPbILif0AUcd7sIIy131vPJYooIV8JIzi41VU5qURkXDjGk
-         Mbl000O7Cr23vlIJru4FvX6rigervSL+7YlkKAy45knXoPkjaJJhuOlKE49yozDYDr
-         zQj1wbrzDxcs9ma+Jkvgx7aYKewZwdqY6t8fpZ8w=
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
-To:     christian.koenig@amd.com, Daniel Vetter <daniel@ffwll.ch>
-Cc:     intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20200217154509.2265-6-christian.koenig@amd.com>
- <20200217175518.GL2363188@phenom.ffwll.local>
- <f8ac7cbc-7c90-7119-735c-9f55adb6fa7f@shipmail.org>
- <CAKMK7uHG3EkEPbAQ3UEHHLcfmR+0NPq0wZuBX+s2-WCFdso8ew@mail.gmail.com>
- <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
- <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
- <20200220180459.GS2363188@phenom.ffwll.local>
- <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
- <20200220200831.GA2363188@phenom.ffwll.local>
- <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
- <20200221171217.GD2363188@phenom.ffwll.local>
- <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>
-Organization: VMware Inc.
-Message-ID: <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
-Date:   Sun, 23 Feb 2020 17:54:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Sun, 23 Feb 2020 22:29:04 -0500
+Received: by mail-pl1-f196.google.com with SMTP id ay11so3476816plb.0
+        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2020 19:29:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=K0JW2EfFhuCbUtNkMo3m3FY0j1WPwSQhES6P2P+ACdw=;
+        b=vBCVXUj4Pgidp3lXYVnC7n+3XRqhCoUXuj+3Uiqouorh0riEdjxWV17kshwmp8fkOR
+         zUOBgK7+2al1nxKWGr4NHPQlfaAdITZLKAAfi0koYPp/EPCuIYkDU8yKcFEf5HL5vvpu
+         kmiyamt0Dfu3IstcTTZM+hVR0ZjKvyzuNTCZdYJGC1M6zR9t55Oph2TjJGfdxY2x92HF
+         KrDXeaNKYYQdA5GbeLSYido7K555QXO5V2WPYQ3KkT2m36xS1GQ0ORbJPjeQztYyzwzx
+         tPyDC5EHAvLh+aVsmthNgYTlNIu20vxW96GzHAzY30ysA6RuETjmF+XaX0ASmBXjiSYW
+         B12Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=K0JW2EfFhuCbUtNkMo3m3FY0j1WPwSQhES6P2P+ACdw=;
+        b=m6O5Up4fuipTj8gMss/RhrOQC6HRcOVo55iK8ZijTCZu3fpqcMXQazPPW/7SClKXdD
+         /wR8GOqR0Z5Mm+gvzjDlR0nlZQcYtYlvrIxYfspdGFRCkJlkfK1V7C4YaiLVaGyyiBNn
+         MdAsxsWRTyKofmuIwRRaHA9QCTmg3IacCCUUryeM5STMb477/tG+Mf9c0K++4K6m6/hm
+         32zKRS2xalZGiZ6XcHq+ez5JTx7KE2VNnAOmEN49sZM4F89v9vjJosOBnq2cjscyoKnp
+         o/kiK+OmE8sw4RYjVsqMvqTjXpaVzjJD8Advf+t2nKu1O+XX2s95BwJ2SrPuB4y0MOId
+         24ZA==
+X-Gm-Message-State: APjAAAXme30uLGmRViNsEjLi+ajMaYjmTNxLSnt0belQLs73/iT2RvKV
+        7gb6eYmihDZFKJWDWmAeiIoY6g==
+X-Google-Smtp-Source: APXvYqztxRjiovsa78Cv3oB8wD+gtm1MQM6nFAf7AeO8HF1kElzb/LH7H2rVLKYsJDh9HXcKRSrv5A==
+X-Received: by 2002:a17:902:103:: with SMTP id 3mr48206826plb.34.1582514941893;
+        Sun, 23 Feb 2020 19:29:01 -0800 (PST)
+Received: from google.com ([2401:fa00:fc:1:28b:9f23:d296:c845])
+        by smtp.gmail.com with ESMTPSA id r7sm10870261pfg.34.2020.02.23.19.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Feb 2020 19:29:01 -0800 (PST)
+Date:   Mon, 24 Feb 2020 11:28:54 +0800
+From:   Martin Liu <liumartin@google.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>, minchan@kernel.org,
+        surenb@google.com, wvw@google.com, hridya@google.com
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        liumartin@google.com, jenhaochen@google.com
+Subject: Re: [PATCH] dma-buf: use spinlock to protect set/get name operation
+Message-ID: <20200224032854.GA215090@google.com>
+References: <20200114150658.205302-1-liumartin@google.com>
+ <CAO_48GEbH+JM6247KUc+XeD2xAcMsMmfNHXd1R7sLkkWPgfX7Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <CAO_48GEbH+JM6247KUc+XeD2xAcMsMmfNHXd1R7sLkkWPgfX7Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/23/20 4:45 PM, Christian König wrote:
-> Am 21.02.20 um 18:12 schrieb Daniel Vetter:
->> [SNIP]
->> Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly 
->> degenerating
->> into essentially a global lock. But only when there's actual contention
->> and thrashing.
->
-> Yes exactly. A really big problem in TTM is currently that we drop the 
-> lock after evicting BOs because they tend to move in again directly 
-> after that.
->
-> From practice I can also confirm that there is exactly zero benefit 
-> from dropping locks early and reacquire them for example for the VM 
-> page tables. That's just makes it more likely that somebody needs to 
-> roll back and this is what we need to avoid in the first place.
+On Tue, Feb 18, 2020 at 12:05:53PM +0530, Sumit Semwal wrote:
+> Hello Martin,
+> 
+> Thanks for your patches - they look decent.
+> 
+> May I please request you to run get_maintainers.pl (the patches need
+> to be sent to a couple of other MLs too for wider review).
+> 
+> Best,
+> Sumit.
+Sorry for the late reply. Sure, I will include more MLs for wider
+review. Thanks for the suggestion.
 
-
-If you have a benchmarking setup available it would be very interesting 
-for future reference to see how changing from WD to WW mutexes affects 
-the roll back frequency. WW is known to cause rollbacks much less 
-frequently but there is more work associated with each rollback.
-
->
-> Contention on BO locks during command submission is perfectly fine as 
-> long as this is as lightweight as possible while we don't have 
-> trashing. When we have trashing multi submission performance is best 
-> archived to just favor a single process to finish its business and 
-> block everybody else.
-
-Hmm. Sounds like we need a per-manager ww_rwsem protecting manager 
-allocation, taken in write-mode then there's thrashing. In read-mode 
-otherwise. That would limit the amount of "unnecessary" locks we'd have 
-to keep and reduce unwanted side-effects, (see below):
-
->
-> Because of this I would actually vote for forbidding to release 
-> individual ww_mutex() locks in a context.
-
-Yes, I see the problem.
-
-But my first reaction is that this might have undersirable side-effects. 
-Let's say somebody wanted to swap the evicted BOs out? Or cpu-writes to 
-them causing faults, that might also block the mm_sem, which in turn 
-blocks hugepaged?
-
-Still it's a fairly simple solution to a problem that seems otherwise 
-hard to solve efficiently.
-
-Thanks,
-Thomas
-
-
->
-> Regards,
-> Christian.
->
->> -Daniel
-
-
+> On Tue, 14 Jan 2020 at 20:37, Martin Liu <liumartin@google.com> wrote:
+> >
+> > We introduced setname ioctl in commit bb2bb9030425 ("dma-buf:
+> > add DMA_BUF_SET_NAME ioctls") that provides userpsace
+> > to attach a free-form name for tracking and counting shared
+> > buffers. However the d_dname callback could be called in atomic
+> > context. This call path comes from selinux that verifies all
+> > inherited open files from exec call. To verify all inherited
+> > open files, kernel would iterate all fds which need to hold
+> > spin_lock to get denty name by calling d_dname operation.
+> > In dma-buf d_dname callback, we use mutex lock to prevent the
+> > race from setname causing this issue.
+> >
+> > This commit adds a spinlock to protect set/get name operation
+> > to fix this issue.
+> >
+> > [  165.617090] Call trace:
+> > [  165.620504]  ___might_sleep+0x114/0x118
+> > [  165.625344]  __might_sleep+0x50/0x84
+> > [  165.629928]  __mutex_lock_common+0x5c/0x10b0
+> > [  165.635215]  mutex_lock_nested+0x40/0x50
+> > [  165.640157]  dmabuffs_dname+0x48/0xdc
+> > [  165.644821]  d_path+0x78/0x1e4
+> > [  165.648870]  audit_log_d_path+0x68/0x134
+> > [  165.653807]  common_lsm_audit+0x33c/0x6f4
+> > [  165.658832]  slow_avc_audit+0xb4/0xf0
+> > [  165.663503]  avc_has_perm+0xdc/0x1a4
+> > [  165.668081]  file_has_perm+0x70/0x154
+> > [  165.672750]  match_file+0x54/0x6c
+> > [  165.677064]  iterate_fd+0x74/0xac
+> > [  165.681369]  selinux_bprm_committing_creds+0xfc/0x210
+> > [  165.687459]  security_bprm_committing_creds+0x2c/0x40
+> > [  165.693546]  install_exec_creds+0x1c/0x68
+> > [  165.698569]  load_elf_binary+0x3a0/0x13c8
+> > [  165.703590]  search_binary_handler+0xb8/0x1e4
+> > [  165.708964]  __do_execve_file+0x6e4/0x9c8
+> > [  165.713984]  __arm64_sys_execve+0x44/0x54
+> > [  165.719008]  el0_svc_common+0xa8/0x168
+> > [  165.723765]  el0_svc_handler+0x78/0x94
+> > [  165.728522]  el0_svc+0x8/0xc
+> >
+> > Signed-off-by: Martin Liu <liumartin@google.com>
+> > ---
+> >  drivers/dma-buf/dma-buf.c | 11 +++++++----
+> >  include/linux/dma-buf.h   |  2 ++
+> >  2 files changed, 9 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index ce41cd9b758a..7cbcb22ad0e4 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+> >         size_t ret = 0;
+> >
+> >         dmabuf = dentry->d_fsdata;
+> > -       dma_resv_lock(dmabuf->resv, NULL);
+> > +       spin_lock(&dmabuf->name_lock);
+> >         if (dmabuf->name)
+> >                 ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+> > -       dma_resv_unlock(dmabuf->resv);
+> > +       spin_unlock(&dmabuf->name_lock);
+> >
+> >         return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+> >                              dentry->d_name.name, ret > 0 ? name : "");
+> > @@ -335,6 +335,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >                 return PTR_ERR(name);
+> >
+> >         dma_resv_lock(dmabuf->resv, NULL);
+> > +       spin_lock(&dmabuf->name_lock);
+> >         if (!list_empty(&dmabuf->attachments)) {
+> >                 ret = -EBUSY;
+> >                 kfree(name);
+> > @@ -344,6 +345,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >         dmabuf->name = name;
+> >
+> >  out_unlock:
+> > +       spin_unlock(&dmabuf->name_lock);
+> >         dma_resv_unlock(dmabuf->resv);
+> >         return ret;
+> >  }
+> > @@ -403,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+> >         /* Don't count the temporary reference taken inside procfs seq_show */
+> >         seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+> >         seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+> > -       dma_resv_lock(dmabuf->resv, NULL);
+> > +       spin_lock(&dmabuf->name_lock);
+> >         if (dmabuf->name)
+> >                 seq_printf(m, "name:\t%s\n", dmabuf->name);
+> > -       dma_resv_unlock(dmabuf->resv);
+> > +       spin_unlock(&dmabuf->name_lock);
+> >  }
+> >
+> >  static const struct file_operations dma_buf_fops = {
+> > @@ -561,6 +563,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+> >         dmabuf->file = file;
+> >
+> >         mutex_init(&dmabuf->lock);
+> > +       spin_lock_init(&dmabuf->name_lock);
+> >         INIT_LIST_HEAD(&dmabuf->attachments);
+> >
+> >         mutex_lock(&db_list.lock);
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index af73f835c51c..1b138580f746 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -292,6 +292,7 @@ struct dma_buf_ops {
+> >   * @exp_name: name of the exporter; useful for debugging.
+> >   * @name: userspace-provided name; useful for accounting and debugging,
+> >   *        protected by @resv.
+> > + * @name_lock: lock to protect name.
+> >   * @owner: pointer to exporter module; used for refcounting when exporter is a
+> >   *         kernel module.
+> >   * @list_node: node for dma_buf accounting and debugging.
+> > @@ -320,6 +321,7 @@ struct dma_buf {
+> >         void *vmap_ptr;
+> >         const char *exp_name;
+> >         const char *name;
+> > +       spinlock_t name_lock;
+> >         struct module *owner;
+> >         struct list_head list_node;
+> >         void *priv;
+> > --
+> > 2.25.0.rc1.283.g88dfdc4193-goog
+> >
+> 
+> 
+> -- 
+> Thanks and regards,
+> 
+> Sumit Semwal
+> Linaro Consumer Group - Kernel Team Lead
+> Linaro.org │ Open source software for ARM SoCs
