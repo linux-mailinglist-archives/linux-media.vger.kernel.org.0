@@ -2,122 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71D4E16F29A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 23:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D22B516F3EB
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 00:53:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727778AbgBYWbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Feb 2020 17:31:35 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:40174 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727227AbgBYWbf (ORCPT
+        id S1729659AbgBYXxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Feb 2020 18:53:11 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:39140 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729182AbgBYXxL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 17:31:35 -0500
-Received: by mail-qk1-f194.google.com with SMTP id b7so795730qkl.7
-        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2020 14:31:34 -0800 (PST)
+        Tue, 25 Feb 2020 18:53:11 -0500
+Received: by mail-qk1-f196.google.com with SMTP id e16so971554qkl.6
+        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2020 15:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=jms.id.au; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ubIf9KgBPhrMTZsMsrUhZaH8of9jm8OARnjdieWkpqc=;
-        b=hs/vGgUCZVANL6eNCkLfJBo/qB12HTrQoO0o4CSqsNYd1mNNI++5+bKjXeqTs5xnQD
-         wwbKyv7ZRGKb+239Ns0Gxt+UF6dkL65yZKwif9okP8yXphOteGoIMFj6FuV8Ba0wwbrZ
-         qCma7HQRyeTGvlCCeb1ATWwmQLvPX4BxZtzMUZm6BeJQ0TJXZFqmN+dTRdc0jxS2gKHh
-         tsiVv+o/5f98tK41gyL6uCHDS2+ItS0gaWSW7ibsAyxerOYiE12YbWXnDgom4yyAdicW
-         0CbcZLmBkPFj6MCwOvDY4f7JPD7YtoTuGMQxLMOQ3sB4mFvJ4f0+poQLUMv4Mc0LCjAI
-         in7w==
+        bh=V7uFpys0vvnGKgKU6TWcXA9gEqQEyPhW2p18eYUU23g=;
+        b=dPFxnnCnNtyMs/buEAMu24zTzQfWWxcXLo5aG4w0AuWf7OdkEL+4JqRnDLeROGGc3b
+         4nNBtR7AgRCkWaZTdT/uwfMRP416LuLwC2/4FR4v9hfGHxU5T47HcjiyDkc8h/WSKR+y
+         TNU2hudIY73DXkfZCTCUKbOZ7Mt50kbLiAuYY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ubIf9KgBPhrMTZsMsrUhZaH8of9jm8OARnjdieWkpqc=;
-        b=LcfyWvxfWP0z0ttWB2UQoez3uZ8IYteftIW5fSbhWAJXLvWyX3gtvD+Li1IB0BP8iO
-         SvssQWmzsvXlBPrARppNDHjGJt0uiG2L4ARdkvWt7frRM8o3QbCqowOG26V/uSa6orEP
-         WL9MVqbmmU0YDWoBvOHegKFfbAyqZD10LFKO7vgFhqUR3nIncorWcd5LLCVaYpq4jt0F
-         9Rwa+ebIfg9Gg43/qC0z98wJzmyV+GGhm6EHG7tYOzINgawdbyFsoVhqa6MG4cbWln9r
-         SshSxENY+zjNwizSgYzEXdqK/a8imMEht3y2oqRvCTThhiHKhlgJ/bFLAW2NEBbS7eVS
-         R63w==
-X-Gm-Message-State: APjAAAXDdNm/xFXZR4yYd2NAb8U5im0G3DsbsZsHNP5AbGSxdrvkpcNI
-        2jA+J29r9XuRo91P8N0kQ7a5wIT51KmjE1upI2c=
-X-Google-Smtp-Source: APXvYqzkR2qPJK3/WqlQIrK1EzcZfNxVH52ieLkz9bas5Q9ZI+sIujlCIzdVX0l43BSPhAgNPfi4Ofu//GGZe+eNjvc=
-X-Received: by 2002:a37:b86:: with SMTP id 128mr1376039qkl.159.1582669894087;
- Tue, 25 Feb 2020 14:31:34 -0800 (PST)
+        bh=V7uFpys0vvnGKgKU6TWcXA9gEqQEyPhW2p18eYUU23g=;
+        b=eBrY2OFWRi2Xqvphw+2ZR2J1plbjwapy0XQrtillDkOySdJpMNhkK8sicQ5J9rX4l4
+         0xyu1+pZKSYVwsxsjWKiM+Wy8NClzmJuXvK9rGQIsr213UTLrVmT0puJp6mIwfGucfwB
+         xTk9yRDdoj4AO71oHpdp8gBaNKwcbeB4xtIjehVt/8sbMSmFsvItXvvuPU0mUyFP8+yO
+         EPhZaQiXaJYGGINqPUZfET82IIRzTcHIldf7OwvoEbBovVXuymeI5C8pyWDXThTc+U8H
+         EPRjXm45iVOmUtc7rJM7E9rj0x6xz2hhdaNGaLhrhORYZ+EostD1Uz07bux8w54m6mVi
+         x6dQ==
+X-Gm-Message-State: APjAAAVjppMH3MSrErjd9rOW8eSOjIqqRRGTsA7z+mJ/Ls5QzyuWZtfg
+        hAfR6DlYL3nQgsXSDPjZxJzDUG04wFKHGziUQyo=
+X-Google-Smtp-Source: APXvYqz7krStiObclOwtZxgwPBr2nD3Jgb+LtwoxHEffLcks+uXl3itV433NONuRJbKJt/KbWqq69/l0vwv8kIRhO1Q=
+X-Received: by 2002:a37:67c2:: with SMTP id b185mr1824063qkc.292.1582674789849;
+ Tue, 25 Feb 2020 15:53:09 -0800 (PST)
 MIME-Version: 1.0
-References: <CAA85sZu_5=mP2zn2h_8aY+n=UM+fXOKgym9yNAvwxcc+6R_-jA@mail.gmail.com>
- <20200225075117.GI5379@paasikivi.fi.intel.com> <CAA85sZvCxyi9n0dmCfb3q4EwnMu1dp6vsh3eHWyAeZ2aX+J0Pw@mail.gmail.com>
- <20200225100824.GM5379@paasikivi.fi.intel.com>
-In-Reply-To: <20200225100824.GM5379@paasikivi.fi.intel.com>
-From:   Ian Kumlien <ian.kumlien@gmail.com>
-Date:   Tue, 25 Feb 2020 23:31:01 +0100
-Message-ID: <CAA85sZtkQVGzQq65EiBYnFmVOWUnzYD1k+7Whv6e7-20yegWRg@mail.gmail.com>
-Subject: Re: [RFC] Buildfailure due to mising "select REGMAP_I2C"
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     hverkuil-cisco@xs4all.nl, petrcvekcz@gmail.com,
-        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        leonl@leopardimaging.com, linux-media@vger.kernel.org
+References: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Tue, 25 Feb 2020 23:52:57 +0000
+Message-ID: <CACPK8XeiH1iLQbmP+3yJninJtK7rQv=HMVnHzqjPH04V4xW+zg@mail.gmail.com>
+Subject: Re: [PATCH -next] media: aspeed: add AST2600 support
+To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Cc:     Eddie James <eajames@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        linux-media@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 11:08 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Tue, 25 Feb 2020 at 19:56, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
 >
-> On Tue, Feb 25, 2020 at 08:56:34AM +0100, Ian Kumlien wrote:
-> > On Tue, Feb 25, 2020 at 8:51 AM Sakari Ailus
-
-[... 8< ..]
-
-> > Yep, like this one:
+> Video engine in AST2600 has the exactly same register set with
+> AST2500 except VR084 register which provides more precise JPEG
+> size read back. This commit adds support for the difference and
+> adds 'aspeed,ast2600-video-engine' compatible OF string.
 >
-> Yes, like that one.
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-Anything more you need from me? or is this it? ;)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index c68e002d26ea..1d1170de8c98 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -238,6 +238,7 @@ config VIDEO_ADV7604
-> >         tristate "Analog Devices ADV7604 decoder"
-> >         depends on VIDEO_V4L2 && I2C && VIDEO_V4L2_SUBDEV_API
-> >         depends on GPIOLIB || COMPILE_TEST
-> > +       select REGMAP_I2C
-> >         select HDMI
-> >         select V4L2_FWNODE
-> >         help
-> > @@ -379,6 +380,7 @@ config VIDEO_TVP5150
-> >         tristate "Texas Instruments TVP5150 video decoder"
-> >         depends on VIDEO_V4L2 && I2C
-> >         select V4L2_FWNODE
-> > +       select REGMAP_I2C
-> >         help
-> >           Support for the Texas Instruments TVP5150 video decoder.
-> >
-> > @@ -584,6 +586,7 @@ config VIDEO_IMX214
-> >         tristate "Sony IMX214 sensor support"
-> >         depends on GPIOLIB && I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> >         depends on V4L2_FWNODE
-> > +       select REGMAP_I2C
-> >         help
-> >           This is a Video4Linux2 sensor driver for the Sony
-> >           IMX214 camera.
-> > @@ -612,6 +615,7 @@ config VIDEO_IMX274
-> >  config VIDEO_IMX290
-> >         tristate "Sony IMX290 sensor support"
-> >         depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > +       select REGMAP_I2C
-> >         select V4L2_FWNODE
-> >         help
-> >           This is a Video4Linux2 sensor driver for the Sony
-> > @@ -804,6 +808,7 @@ config VIDEO_OV7670
-> >  config VIDEO_OV7740
-> >         tristate "OmniVision OV7740 sensor support"
-> >         depends on I2C && VIDEO_V4L2
-> > +       select REGMAP_I2C
-> >         help
-> >           This is a Video4Linux2 sensor driver for the OmniVision
-> >           OV7740 VGA camera sensor.
+Did you post an update to the device tree bindings too?
+
+> ---
+>  drivers/media/platform/aspeed-video.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 >
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 47444a336ebb..7d98db1d9b52 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  // Copyright 2020 IBM Corp.
+> -// Copyright (c) 2019 Intel Corporation
+> +// Copyright (c) 2019-2020 Intel Corporation
+>
+>  #include <linux/atomic.h>
+>  #include <linux/bitfield.h>
+> @@ -132,7 +132,8 @@
+>  #define  VE_COMP_CTRL_HQ_DCT_CHR       GENMASK(26, 22)
+>  #define  VE_COMP_CTRL_HQ_DCT_LUM       GENMASK(31, 27)
+>
+> -#define VE_OFFSET_COMP_STREAM          0x078
+> +#define AST2400_VE_COMP_SIZE_READ_BACK 0x078
+> +#define AST2600_VE_COMP_SIZE_READ_BACK 0x084
+>
+>  #define VE_SRC_LR_EDGE_DET             0x090
+>  #define  VE_SRC_LR_EDGE_DET_LEFT       GENMASK(11, 0)
+> @@ -252,12 +253,17 @@ struct aspeed_video_config {
+>
+>  static const struct aspeed_video_config ast2400_config = {
+>         .jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+> -       .comp_size_read = VE_OFFSET_COMP_STREAM,
+> +       .comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>  };
+>
+>  static const struct aspeed_video_config ast2500_config = {
+>         .jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> -       .comp_size_read = VE_OFFSET_COMP_STREAM,
+> +       .comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+> +};
+> +
+> +static const struct aspeed_video_config ast2600_config = {
+> +       .jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> +       .comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+>  };
+>
+>  static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
+> @@ -1673,6 +1679,7 @@ static int aspeed_video_init(struct aspeed_video *video)
+>  static const struct of_device_id aspeed_video_of_match[] = {
+>         { .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
+>         { .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
+> +       { .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
 > --
-> Sakari Ailus
+> 2.17.1
+>
