@@ -2,287 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9A2D16C375
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 15:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 841DD16C398
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 15:14:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730656AbgBYOJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Feb 2020 09:09:44 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:45395 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730507AbgBYOJo (ORCPT
+        id S1730389AbgBYOOa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Feb 2020 09:14:30 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58561 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729411AbgBYOOa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 09:09:44 -0500
+        Tue, 25 Feb 2020 09:14:30 -0500
 Received: from [IPv6:2001:420:44c1:2577:a473:ad6c:dd91:35d2]
  ([IPv6:2001:420:44c1:2577:a473:ad6c:dd91:35d2])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id 6au1jo0CcyIme6au5j8iXy; Tue, 25 Feb 2020 15:09:41 +0100
+        id 6ayfjo1iFyIme6ayij8jNu; Tue, 25 Feb 2020 15:14:28 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582639781; bh=/zvAzdLrF0UhEz2nEpEDQwOXypakCB4Xi1mIuAoSSPo=;
+        t=1582640068; bh=zB8b88rtnkcQM9T5X+KcnbKWzksbLaAn2B3s0+dBGxA=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=DT11hVWVGM++ACa3xITUYTGHBjt99FWbQ7krF3Z9NHmsidK+46e9x/0wamWfMOcka
-         5xUEh5MTBwbRn/w1C2w/QaCsUo0ybzlFQHX2X9b1kqeDfSTAA7Eq0+ghLVfx/tyj7s
-         8ukS8lW6CqoF9dq0P/Pc+bhP2zYyTeAN5HAaFpRBqrTksudAmxXn3ZPOixy3VWeUjc
-         Ow5dHJexjSXFJXNGV0ekCGjvauXLRucapP95QR6ZG7SVpKkUR04xkUAxZlaPGuN2Ih
-         8fUJrEXYyS7MrS/+Z2pyWNv72QUSAPGKh8ag7khfjMHY8ceKngxZOM2bW/35lkPuhy
-         ihLudu3anZiyA==
-Subject: Re: [PATCH 16/18] media: allegro: pass buffers through firmware
+        b=PZQg+pPo1qIXm3rVZ48G1nerM+hugoKWP6q0NQiEQ8mafW1ycBh8Y5RzsiaZzxA9U
+         DT4Oa6kyGlN/qO1vfwaeDWd+uiVMjw+RVK6OWvgPhKpqx6RqkBvuvwhDFYQ5V1NAuQ
+         UuQpvV8iIlbmUFznvdVngyFeLerEcJdEN0h+/PZz5jq43LnrSt199u18kDhQX2D7CF
+         cI/DlUJ5YLNBnPP5B3xsiRi6VbKgqulsi/QWdDva9Gla5r0zJZcY9A/FS2crGFSW1o
+         /3RbTH4YNPycMEStGkuxSvHKYXDWW5HWgMlEzcK0kQ4t5fYEUfUyd8QYUAzKchdd82
+         OU5q9V+mEMc6w==
+Subject: Re: [PATCH 14/18] media: allegro: handle dependency of bitrate and
+ bitrate_peak
 To:     Michael Tretter <m.tretter@pengutronix.de>,
         linux-media@vger.kernel.org
 Cc:     kernel@pengutronix.de
 References: <20200217151358.5695-1-m.tretter@pengutronix.de>
- <20200217151358.5695-17-m.tretter@pengutronix.de>
+ <20200217151358.5695-15-m.tretter@pengutronix.de>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <485c3e06-c689-9c63-d5f5-dd62c418ca5c@xs4all.nl>
-Date:   Tue, 25 Feb 2020 15:09:37 +0100
+Message-ID: <270cb6b5-0a4b-667d-1968-aab2e422cfd0@xs4all.nl>
+Date:   Tue, 25 Feb 2020 15:14:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200217151358.5695-17-m.tretter@pengutronix.de>
+In-Reply-To: <20200217151358.5695-15-m.tretter@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEHXUF7KQmfWMWtbxK+WAlTUuGzj0W1aDm5OQUtecYoFXOaNXaRQIFuSJLewdxiM1zQK8CrZqiwDxYn0vDRHHQaCaft4W2ASlFKXQSsuHW9ts0B65io7
- tRJJCJ5MnNKglJ399NIT/vvEU8iVnEEDLAfPjAG5GqOUUHPiOp8s686iBWCh66oDgMjkWK5aiWG0q9KpD7+vTMfc/CqXpA9ygTKmDwQtQ+ebiLRSgJRMTRAw
- ARXy8xsrj7vKowEUBLId8wnmZR170u77CnDClpiXzz35oD5tzWJejSj7qLA97zLfpLx1GtCBVrsGzBceBGEVrkEt+QFGTYH7pb5v37UsKz6hYtleRmp0CsKA
- ack0tud7WqbofG4Gx0/kkXP0vxHLlw==
+X-CMAE-Envelope: MS4wfCYEOoM1gekz9Yb84nWBRb8S/NimaLJIU/tBb3gD6/3Iu6F18suFBscnAAnsZ0lO9sBUIuguEzro+PQRuAlD2dRgXXUSyScjMT2rhbIhMLkZW0lvd0ft
+ 6VozHBNCr1M8LyC8WoNu2ujaTTjiNDx34jdGJV/5YWJ4wttIKBmagyf52bSXcyZzhDXY982shYfP7YST74lcXHem06e6SsV8coi0PIg9Ec0qt+0MHoaBCtJd
+ wr0cRIO+IsqCfXNO/hNj4s9lAkAlnF38LDaQPRFzrtB0dfO6VnXIgHYCc34T/THrI0Gi/YDxFkRiNtHgYjiJqQEz5Gx3uY1IEja+4StElvBNFALv9H8bmKr1
+ DoTG/CvvXbiiKoukatqLMIhEWtDrvQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 2/17/20 4:13 PM, Michael Tretter wrote:
-> As we know which buffers are processed by the codec from the address in
-> the ENCODE_FRAME response, we can queue multiple buffers in the firmware
-> and retrieve the buffer from the response of the firmware. This enables
-> the firmware to use the internal scheduling the codec and avoids round
-> trips through the driver when fetching the next frame.
-> 
-> Remove buffers that have been passed to the firmware from the m2m buffer
-> queue and put them into a shadow queue for tracking the buffer in the
-> driver. When we receive a ENCODE_FRAME response from the firmware, get
-> the buffer from the shadow queue and finish the buffer.
-> 
-> Furthermore, it is necessary to finish the job straight after passing
-> the buffer to the firmware to allow the V4L2 framework to send further
-> buffers to the driver.
+> The peak bitrate must not be smaller than the configured bitrate. Update
+> the other control whenever one of the controls changes to reflect this
+> dependency.
 > 
 > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 > ---
->  .../staging/media/allegro-dvt/allegro-core.c  | 104 +++++++++++++++---
->  1 file changed, 89 insertions(+), 15 deletions(-)
+>  drivers/staging/media/allegro-dvt/allegro-core.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-> index 4f525920c194..80d3383b84f8 100644
+> index 8c26158eab93..cedb09ea649f 100644
 > --- a/drivers/staging/media/allegro-dvt/allegro-core.c
 > +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-> @@ -226,6 +226,10 @@ struct allegro_channel {
->  	struct list_head buffers_reference;
->  	struct list_head buffers_intermediate;
->  
-> +	struct list_head source_shadow_list;
-> +	struct list_head stream_shadow_list;
-> +	struct mutex shadow_list_lock;
-
-This lock is never used in interrupt context, right? Just checking.
-
-Also add a comment explaining what the lock protects.
-
-> +
->  	struct list_head list;
->  	struct completion completion;
->  
-> @@ -247,6 +251,14 @@ allegro_get_state(struct allegro_channel *channel)
->  	return channel->state;
->  }
->  
-> +struct allegro_m2m_buffer {
-> +	struct v4l2_m2m_buffer buf;
-> +	struct list_head head;
-> +};
-> +
-> +#define to_allegro_m2m_buffer(__buf) \
-> +	container_of(__buf, struct allegro_m2m_buffer, buf)
-> +
->  struct fw_info {
->  	unsigned int id;
->  	unsigned int id_codec;
-> @@ -1570,6 +1582,43 @@ static void allegro_channel_buf_done(struct allegro_channel *channel,
->  	v4l2_m2m_buf_done(buf, state);
->  }
->  
-> +static u64 allegro_put_buffer(struct allegro_channel *channel,
-> +			      struct list_head *list,
-> +			      struct vb2_v4l2_buffer *buffer)
-> +{
-> +	struct v4l2_m2m_buffer *b = container_of(buffer,
-> +						 struct v4l2_m2m_buffer, vb);
-> +	struct allegro_m2m_buffer *shadow = to_allegro_m2m_buffer(b);
-> +
-> +	mutex_lock(&channel->shadow_list_lock);
-> +	list_add_tail(&shadow->head, list);
-> +	mutex_unlock(&channel->shadow_list_lock);
-> +
-> +	return (u64) buffer;
-> +}
-> +
-> +static struct vb2_v4l2_buffer *allegro_get_buffer(struct allegro_channel *channel,
-> +						  struct list_head *list,
-> +						  u64 handle)
-> +{
-> +	struct allegro_dev *dev = channel->dev;
-> +	struct allegro_m2m_buffer *shadow;
-> +	u64 found;
-> +
-> +	mutex_lock(&channel->shadow_list_lock);
-> +	shadow = list_first_entry(list, struct allegro_m2m_buffer, head);
-> +	list_del_init(&shadow->head);
-> +	mutex_unlock(&channel->shadow_list_lock);
-> +
-> +	found = (u64) (&shadow->buf.vb);
-> +	if (handle != found)
-> +		v4l2_warn(&dev->v4l2_dev,
-> +			  "channel %d: output buffer mismatch 0x%llx, expected 0x%llx\n",
-> +			  channel->mcu_channel_id, handle, found);
-> +
-> +	return &shadow->buf.vb;
-
-This function never returns NULL...
-
-> +}
-> +
->  static void allegro_channel_finish_frame(struct allegro_channel *channel,
->  		struct mcu_msg_encode_frame_response *msg)
->  {
-> @@ -1585,13 +1634,17 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
->  	ssize_t len;
->  	ssize_t free;
->  
-> -	src_buf = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx);
-> -	dst_buf = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx);
-> +	src_buf = allegro_get_buffer(channel, &channel->source_shadow_list, msg->src_handle);
-> +	if (!src_buf)
-
-...but this it checked here...
-
-> +		v4l2_warn(&dev->v4l2_dev,
-> +			  "channel %d: invalid source buffer\n",
-> +			  channel->mcu_channel_id);
->  
-> -	if ((u64)src_buf != msg->src_handle || (u64)dst_buf != msg->stream_id)
-> -		v4l2_err(&dev->v4l2_dev,
-> -			 "channel %d: check failed\n",
-> -			 channel->mcu_channel_id);
-> +	dst_buf = allegro_get_buffer(channel, &channel->stream_shadow_list, msg->stream_id);
-> +	if (!dst_buf)
-
-...and here. That doesn't look right.
-
-> +		v4l2_warn(&dev->v4l2_dev,
-> +			  "channel %d: invalid stream buffer\n",
-> +			  channel->mcu_channel_id);
->  
->  	dst_buf->sequence = channel->csequence++;
->  
-> @@ -1718,8 +1771,6 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
->  	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
->  
->  	allegro_channel_buf_done(channel, dst_buf, state);
-> -
-> -	v4l2_m2m_job_finish(dev->m2m_dev, channel->fh.m2m_ctx);
->  }
->  
->  static int allegro_handle_init(struct allegro_dev *dev,
-> @@ -2312,16 +2363,31 @@ static void allegro_stop_streaming(struct vb2_queue *q)
->  	struct allegro_channel *channel = vb2_get_drv_priv(q);
->  	struct allegro_dev *dev = channel->dev;
->  	struct vb2_v4l2_buffer *buffer;
-> +	struct allegro_m2m_buffer *shadow, *tmp;
->  
->  	v4l2_dbg(2, debug, &dev->v4l2_dev,
->  		 "%s: stop streaming\n",
->  		 V4L2_TYPE_IS_OUTPUT(q->type) ? "output" : "capture");
->  
->  	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
-> +		mutex_lock(&channel->shadow_list_lock);
-> +		list_for_each_entry_safe(shadow, tmp, &channel->source_shadow_list, head) {
-> +			list_del(&shadow->head);
-> +			v4l2_m2m_buf_done(&shadow->buf.vb, VB2_BUF_STATE_ERROR);
-> +		}
-> +		mutex_unlock(&channel->shadow_list_lock);
-> +
->  		allegro_set_state(channel, ALLEGRO_STATE_STOPPED);
->  		while ((buffer = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx)))
->  			v4l2_m2m_buf_done(buffer, VB2_BUF_STATE_ERROR);
->  	} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-> +		mutex_lock(&channel->shadow_list_lock);
-> +		list_for_each_entry_safe(shadow, tmp, &channel->stream_shadow_list, head) {
-> +			list_del(&shadow->head);
-> +			v4l2_m2m_buf_done(&shadow->buf.vb, VB2_BUF_STATE_ERROR);
-> +		}
-> +		mutex_unlock(&channel->shadow_list_lock);
-> +
->  		allegro_destroy_channel(channel);
->  		while ((buffer = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx)))
->  			v4l2_m2m_buf_done(buffer, VB2_BUF_STATE_ERROR);
-> @@ -2352,7 +2418,7 @@ static int allegro_queue_init(void *priv,
->  	src_vq->drv_priv = channel;
->  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	src_vq->ops = &allegro_queue_ops;
-> -	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-> +	src_vq->buf_struct_size = sizeof(struct allegro_m2m_buffer);
->  	src_vq->lock = &channel->dev->lock;
->  	err = vb2_queue_init(src_vq);
->  	if (err)
-> @@ -2365,7 +2431,7 @@ static int allegro_queue_init(void *priv,
->  	dst_vq->drv_priv = channel;
->  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	dst_vq->ops = &allegro_queue_ops;
-> -	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-> +	dst_vq->buf_struct_size = sizeof(struct allegro_m2m_buffer);
->  	dst_vq->lock = &channel->dev->lock;
->  	err = vb2_queue_init(dst_vq);
->  	if (err)
-> @@ -2457,6 +2523,9 @@ static int allegro_open(struct file *file)
->  	v4l2_fh_add(&channel->fh);
->  
->  	init_completion(&channel->completion);
-> +	INIT_LIST_HEAD(&channel->source_shadow_list);
-> +	INIT_LIST_HEAD(&channel->stream_shadow_list);
-> +	mutex_init(&channel->shadow_list_lock);
->  
->  	channel->dev = dev;
->  
-> @@ -2957,18 +3026,23 @@ static void allegro_device_run(void *priv)
->  	dma_addr_t src_uv;
->  	dma_addr_t dst_addr;
->  	unsigned long dst_size;
-> +	u64 src_handle;
-> +	u64 dst_handle;
->  
-> -	dst_buf = v4l2_m2m_next_dst_buf(channel->fh.m2m_ctx);
-> +	dst_buf = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx);
->  	dst_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
->  	dst_size = vb2_plane_size(&dst_buf->vb2_buf, 0);
-> -	allegro_mcu_send_put_stream_buffer(dev, channel, dst_addr, dst_size, (u64)dst_buf);
-> +	dst_handle = allegro_put_buffer(channel, &channel->stream_shadow_list, dst_buf);
-> +	allegro_mcu_send_put_stream_buffer(dev, channel, dst_addr, dst_size, dst_handle);
->  
-> -	src_buf = v4l2_m2m_next_src_buf(channel->fh.m2m_ctx);
-> +	src_buf = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx);
->  	src_buf->sequence = channel->osequence++;
-> -
->  	src_y = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
->  	src_uv = src_y + (channel->stride * channel->height);
-> -	allegro_mcu_send_encode_frame(dev, channel, src_y, src_uv, (u64)src_buf);
-> +	src_handle = allegro_put_buffer(channel, &channel->source_shadow_list, src_buf);
-> +	allegro_mcu_send_encode_frame(dev, channel, src_y, src_uv, src_handle);
-> +
-> +	v4l2_m2m_job_finish(dev->m2m_dev, channel->fh.m2m_ctx);
->  }
->  
->  static const struct v4l2_m2m_ops allegro_m2m_ops = {
+> @@ -2403,9 +2403,15 @@ static int allegro_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_BITRATE:
+>  		channel->bitrate = ctrl->val;
+> +		if (channel->bitrate > channel->bitrate_peak)
+> +			__v4l2_ctrl_s_ctrl(channel->mpeg_video_bitrate_peak,
+> +					   channel->bitrate);
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_BITRATE_PEAK:
+>  		channel->bitrate_peak = ctrl->val;
+> +		if (channel->bitrate_peak < channel->bitrate)
+> +			__v4l2_ctrl_s_ctrl(channel->mpeg_video_bitrate,
+> +					   channel->bitrate_peak);
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_H264_CPB_SIZE:
+>  		channel->cpb_size = ctrl->val;
 > 
+
+In the case of controls that are depend on one another you use a
+control cluster and implement try_ctrl. See e.g. drivers/media/usb/hdpvr/hdpvr-video.c
+which does the same thing.
+
+Documentation on control clusters is here:
+
+https://hverkuil.home.xs4all.nl/spec/kapi/v4l2-controls.html#control-clusters
 
 Regards,
 
