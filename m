@@ -2,77 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3044016BE29
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 11:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7780816BE44
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 11:08:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729790AbgBYKB4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Feb 2020 05:01:56 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29707 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729183AbgBYKB4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 05:01:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1582624915;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=floPe8uFtiBcRJNt3b3yPKjP5sCVEHNZouWGo4bWZp8=;
-        b=bcQDQ9DFgy1EDbWr1IicTYJ4kMxXLlsZntr6k6fNDy5+OTriBJ2wMVbSUovodFv1kJF7AB
-        SIOne1kj6AZrGHBhHh4avcOON+NiLYqTT+OlgxPYGhw4T4I5jtR5EhM+VwDef4uYQNq8vI
-        OQhpotMYUu7GpSAjHrTRkx1o8Wb0bl8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-ojrg6253Px6GKeMLJa8bFQ-1; Tue, 25 Feb 2020 05:01:51 -0500
-X-MC-Unique: ojrg6253Px6GKeMLJa8bFQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA94B1050478;
-        Tue, 25 Feb 2020 10:01:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-87.ams2.redhat.com [10.36.116.87])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E1C5360C18;
-        Tue, 25 Feb 2020 10:01:45 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id BF82C1744A; Tue, 25 Feb 2020 11:01:44 +0100 (CET)
-Date:   Tue, 25 Feb 2020 11:01:44 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-Cc:     virtio-dev@lists.oasis-open.org, linux-media@vger.kernel.org,
-        acourbot@chromium.org, alexlau@chromium.org, daniel@ffwll.ch,
-        dgreid@chromium.org, dstaessens@chromium.org,
-        dmitry.sepp@opensynergy.com, egranata@google.com,
-        fziglio@redhat.com, hverkuil@xs4all.nl, marcheu@chromium.org,
-        posciak@chromium.org, spice-devel@lists.freedesktop.org,
-        stevensd@chromium.org, tfiga@chromium.org, uril@redhat.com,
-        samiullah.khawaja@opensynergy.com, kiran.pawar@opensynergy.com
-Subject: Re: [PATCH v3 2/2] virtio-video: Define a feature for exported
- objects from different virtio devices
-Message-ID: <20200225100144.c3rmtmq7kqyskkq7@sirius.home.kraxel.org>
-References: <20200206102058.247258-1-keiichiw@chromium.org>
- <20200206102058.247258-3-keiichiw@chromium.org>
+        id S1729948AbgBYKI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Feb 2020 05:08:29 -0500
+Received: from mga05.intel.com ([192.55.52.43]:4649 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729129AbgBYKI2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Feb 2020 05:08:28 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Feb 2020 02:08:28 -0800
+X-IronPort-AV: E=Sophos;i="5.70,483,1574150400"; 
+   d="scan'208";a="231414683"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Feb 2020 02:08:26 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 8E71E2089D; Tue, 25 Feb 2020 12:08:24 +0200 (EET)
+Date:   Tue, 25 Feb 2020 12:08:24 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Ian Kumlien <ian.kumlien@gmail.com>
+Cc:     hverkuil-cisco@xs4all.nl, petrcvekcz@gmail.com,
+        Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        leonl@leopardimaging.com, linux-media@vger.kernel.org
+Subject: Re: [RFC] Buildfailure due to mising "select REGMAP_I2C"
+Message-ID: <20200225100824.GM5379@paasikivi.fi.intel.com>
+References: <CAA85sZu_5=mP2zn2h_8aY+n=UM+fXOKgym9yNAvwxcc+6R_-jA@mail.gmail.com>
+ <20200225075117.GI5379@paasikivi.fi.intel.com>
+ <CAA85sZvCxyi9n0dmCfb3q4EwnMu1dp6vsh3eHWyAeZ2aX+J0Pw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200206102058.247258-3-keiichiw@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAA85sZvCxyi9n0dmCfb3q4EwnMu1dp6vsh3eHWyAeZ2aX+J0Pw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+On Tue, Feb 25, 2020 at 08:56:34AM +0100, Ian Kumlien wrote:
+> On Tue, Feb 25, 2020 at 8:51 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Ian,
+> >
+> > Thank you for the patch.
+> >
+> > On Mon, Feb 24, 2020 at 11:35:54PM +0100, Ian Kumlien wrote:
+> > > Hi,
+> > >
+> > > I got surprised by:
+> > > ld: drivers/media/i2c/tvp5150.o: in function `tvp5150_probe':
+> > > tvp5150.c:(.text+0x11ac): undefined reference to `__devm_regmap_init_i2c'
+> > > make: *** [Makefile:1078: vmlinux] Error 1
+> > >
+> > > When going from 5.5.2 -> 5.5.6
+> > >
+> > > A quick git grep shows that something like this might be needed, but
+> > > it should be verified.
+> > > I'm really uncertain about the ones that say REGMAP_SCCB...
+> >
+> > Those don't need REGMAP_I2C for they use SCCB.
+> 
+> I would have to read up, =)
+> 
+> > Please also do not send attachments; your mail is likely consumed by some
+> > list servers that way.
+> 
+> Ok
+> 
+> [..8<..]
+> > >           This is a Video4Linux2 sensor driver for the Sony
+> > > @@ -774,6 +778,7 @@ config VIDEO_OV7251
+> > >  config VIDEO_OV772X
+> > >         tristate "OmniVision OV772x sensor support"
+> > >         depends on I2C && VIDEO_V4L2
+> > > +       select REGMAP_I2C
+> >
+> > So this isn't needed.
+> 
+> Ok
+> 
+> > >         select REGMAP_SCCB
+> > >         help
+> > >           This is a Video4Linux2 sensor driver for the OmniVision
+> > > @@ -804,6 +809,7 @@ config VIDEO_OV7670
+> > >  config VIDEO_OV7740
+> > >         tristate "OmniVision OV7740 sensor support"
+> > >         depends on I2C && VIDEO_V4L2
+> > > +       select REGMAP_I2C
+> > >         help
+> > >           This is a Video4Linux2 sensor driver for the OmniVision
+> > >           OV7740 VGA camera sensor.
+> > > @@ -829,6 +835,7 @@ config VIDEO_OV9640
+> > >  config VIDEO_OV9650
+> > >         tristate "OmniVision OV9650/OV9652 sensor support"
+> > >         depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+> > > +       select REGMAP_I2C
+> >
+> > Nor this one.
+> 
+> Ok
+> 
+> > >         select REGMAP_SCCB
+> > >         help
+> > >           This is a V4L2 sensor driver for the Omnivision
+> >
+> > Could you send v2, please, removing those two?
+> 
+> Yep, like this one:
 
-> +        /*
-> +         * Followed by either
-> +         * - struct virtio_video_mem_entry entries[]
-> +         *   for VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES
-> +         * - struct virtio_video_object_entry entries[]
-> +         *   for VIRTIO_VIDEO_MEM_TYPE_VIRTIO_OBJECT
+Yes, like that one.
 
-Wouldn't that be a single virtio_video_object_entry?
-Or could it be one per plane?
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index c68e002d26ea..1d1170de8c98 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -238,6 +238,7 @@ config VIDEO_ADV7604
+>         tristate "Analog Devices ADV7604 decoder"
+>         depends on VIDEO_V4L2 && I2C && VIDEO_V4L2_SUBDEV_API
+>         depends on GPIOLIB || COMPILE_TEST
+> +       select REGMAP_I2C
+>         select HDMI
+>         select V4L2_FWNODE
+>         help
+> @@ -379,6 +380,7 @@ config VIDEO_TVP5150
+>         tristate "Texas Instruments TVP5150 video decoder"
+>         depends on VIDEO_V4L2 && I2C
+>         select V4L2_FWNODE
+> +       select REGMAP_I2C
+>         help
+>           Support for the Texas Instruments TVP5150 video decoder.
+> 
+> @@ -584,6 +586,7 @@ config VIDEO_IMX214
+>         tristate "Sony IMX214 sensor support"
+>         depends on GPIOLIB && I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+>         depends on V4L2_FWNODE
+> +       select REGMAP_I2C
+>         help
+>           This is a Video4Linux2 sensor driver for the Sony
+>           IMX214 camera.
+> @@ -612,6 +615,7 @@ config VIDEO_IMX274
+>  config VIDEO_IMX290
+>         tristate "Sony IMX290 sensor support"
+>         depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+> +       select REGMAP_I2C
+>         select V4L2_FWNODE
+>         help
+>           This is a Video4Linux2 sensor driver for the Sony
+> @@ -804,6 +808,7 @@ config VIDEO_OV7670
+>  config VIDEO_OV7740
+>         tristate "OmniVision OV7740 sensor support"
+>         depends on I2C && VIDEO_V4L2
+> +       select REGMAP_I2C
+>         help
+>           This is a Video4Linux2 sensor driver for the OmniVision
+>           OV7740 VGA camera sensor.
 
-cheers,
-  Gerd
-
+-- 
+Sakari Ailus
