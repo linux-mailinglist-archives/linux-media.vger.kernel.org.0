@@ -2,202 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C574916EC4C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 18:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 459A016EC6D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 18:24:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730875AbgBYRQN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Feb 2020 12:16:13 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37747 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730460AbgBYRQN (ORCPT
+        id S1731238AbgBYRYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Feb 2020 12:24:02 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40186 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729939AbgBYRYC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 12:16:13 -0500
-Received: by mail-wr1-f65.google.com with SMTP id l5so11443663wrx.4
-        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2020 09:16:11 -0800 (PST)
+        Tue, 25 Feb 2020 12:24:02 -0500
+Received: by mail-wr1-f66.google.com with SMTP id t3so15696325wru.7
+        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2020 09:23:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=GYk2QcDkuI7bY7Ycp3cPdTiIrqm0dU3EnOzwwnwFQVs=;
-        b=fRc9PDmEUYQeHEUzQvneYMvmjv90szvmBucVnDjiWGAH/a4Vsu0ET6D63hAuFkYiWI
-         JO/BZQWw6LI4ST8duwv0dBhbcIQS1MgY49RirpgpC1qrsulSlwAMOZ7DCH0uWyih3x6B
-         l+jAPdM1kCwD7ZpNdJNPayRiukt7iX4VKeF1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=GYk2QcDkuI7bY7Ycp3cPdTiIrqm0dU3EnOzwwnwFQVs=;
-        b=ou5I0wrYBFRJHx9Uri7jH3jA77a+sa/kS4C+AwhzERIGIrBx6B89ff9W7+MgHONXso
-         AjwziaJYDjTvknl0gQlGD/1NFV1ZV1FIqgRJ6vD8sgZfK5QpLUVBI9F5OBcOiMe9WW3n
-         G84CzhHFo0xoqhoy3FgwE5WJbQ5kyeuR49GbgdJPGFQDSTDj6ufLZiZ4k2E+uDVAbXur
-         H+Wb678qbHydNYdwx4nWX2CG4N1NkzJo+B5r18wUtcU64+wSw5QxC8lMVlEfwEFnCFci
-         D8CTC0qHRHlZbn4doyg/6cA3wq3cTEJvy1eQgADuCtUDfT5WQESgzriGCWIYDvvHF6ae
-         fCBg==
-X-Gm-Message-State: APjAAAU7eLWQ2GKKBm8U40okK0eiK21LfSywWdMGkuLeME/YBuDpWWh/
-        diWSTUZ5WjOtBzfY2V9gcKAsqlGiwmQ=
-X-Google-Smtp-Source: APXvYqxPv758xs0rVGrzUYSuz3k0C21pnOuOE7Ko83tkL+3sFhQmpiLR2wPi5cGvO1eZDUIrFMyCag==
-X-Received: by 2002:a5d:6344:: with SMTP id b4mr189846wrw.224.1582650971011;
-        Tue, 25 Feb 2020 09:16:11 -0800 (PST)
+        bh=Q0WzriZsFeVLIxkq9afAMphlm+5DTXv3n7yz9mov8+A=;
+        b=Hmc6WuL00hZv2jb8Vwl1vSwrvg91tQManOHfCkd47lj3Hf7LWjepSA6LmQVFeJjWMA
+         nacoG8L9c4rboXqrEFgbUYFPSyzQbUzBMH7cJlMPwmq7XD7/E+oqLBbIk++jg/UpKYhh
+         XJf0dBgQn3ZPUBx6aOohEqq+LubuadGkEk2CY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=Q0WzriZsFeVLIxkq9afAMphlm+5DTXv3n7yz9mov8+A=;
+        b=MtDcGyOFXig/h5KGyOlW9LV1gcUVcimqrEiWZTN7h0tDRW1d4AzheZ0aSMDXoFjT61
+         sCYURuEMxJ+g1wt3Fqbesyi7HT4RxRhuTt1EzvrEPSxOjvBmUubqpk1/SYnAi4J1sMYU
+         DcYHIsJX+iSEC1I4JVVXuBibYelTLxTC/W9PHeeq3n2rpOxuperBAEgHZE9hdIq2GiZe
+         kLbtE5QGjQP1/8IehlI0KUbVAUTgo06jywJZrq/yc5Uf32BuxRF/6uvIsge98I5+FYnD
+         J40ZP4bIOa2pAj1TUTvNqSd8Ve1t+B1MR98dsR6cgeCZFML7oZhDAQ3EE5kLHIFKSMEZ
+         40lA==
+X-Gm-Message-State: APjAAAUPh6+NEObUr4NEFkMmtpZ1NcIgbrXtyCQsFrrBAvrtumvv7hsb
+        PS2P9OBYWldoy0nye5/dclHF+VuXXuU=
+X-Google-Smtp-Source: APXvYqyueg8icESGjchlrOzRrpEI++U3QqkMRcs7pu5XOQQNwkG3Qkqb4n0mrz6qn+aH/BHeXNmz5A==
+X-Received: by 2002:adf:f6d0:: with SMTP id y16mr221613wrp.140.1582651437912;
+        Tue, 25 Feb 2020 09:23:57 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z19sm4925664wmi.35.2020.02.25.09.16.09
+        by smtp.gmail.com with ESMTPSA id z133sm5020423wmb.7.2020.02.25.09.23.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 09:16:10 -0800 (PST)
-Date:   Tue, 25 Feb 2020 18:16:08 +0100
+        Tue, 25 Feb 2020 09:23:57 -0800 (PST)
+Date:   Tue, 25 Feb 2020 18:23:55 +0100
 From:   Daniel Vetter <daniel@ffwll.ch>
 To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Thomas =?iso-8859-1?Q?Hellstr=F6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>, Daniel Vetter <daniel@ffwll.ch>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
-Message-ID: <20200225171608.GN2363188@phenom.ffwll.local>
-References: <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
- <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org>
- <20200220180459.GS2363188@phenom.ffwll.local>
- <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org>
- <20200220200831.GA2363188@phenom.ffwll.local>
- <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org>
- <20200221171217.GD2363188@phenom.ffwll.local>
- <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com>
- <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
- <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
+Cc:     "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] dma-buf: Fix missing excl fence waiting
+Message-ID: <20200225172355.GO2363188@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+References: <B737F1D5-292E-4FE2-89A5-6EF72CB3EED1@amd.com>
+ <7a2eb42a-2dd9-4303-3947-6bbb4de7a888@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com>
+In-Reply-To: <7a2eb42a-2dd9-4303-3947-6bbb4de7a888@amd.com>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 07:46:59PM +0100, Christian König wrote:
-> Am 23.02.20 um 17:54 schrieb Thomas Hellström (VMware):
-> > On 2/23/20 4:45 PM, Christian König wrote:
-> > > Am 21.02.20 um 18:12 schrieb Daniel Vetter:
-> > > > [SNIP]
-> > > > Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly
-> > > > degenerating
-> > > > into essentially a global lock. But only when there's actual contention
-> > > > and thrashing.
-> > > 
-> > > Yes exactly. A really big problem in TTM is currently that we drop
-> > > the lock after evicting BOs because they tend to move in again
-> > > directly after that.
-> > > 
-> > > From practice I can also confirm that there is exactly zero benefit
-> > > from dropping locks early and reacquire them for example for the VM
-> > > page tables. That's just makes it more likely that somebody needs to
-> > > roll back and this is what we need to avoid in the first place.
+On Sun, Feb 23, 2020 at 01:04:15PM +0100, Christian König wrote:
+> Am 23.02.20 um 12:56 schrieb Pan, Xinhui:
+> > If shared fence list is not empty, even we want to test all fences, excl fence is ignored.
+> > That is abviously wrong, so fix it.
+> 
+> Yeah that is a known issue and I completely agree with you, but other
+> disagree.
+> 
+> See the shared fences are meant to depend on the exclusive fence. So all
+> shared fences must finish only after the exclusive one has finished as well.
+> 
+> The problem now is that for error handling this isn't necessary true. In
+> other words when a shared fence completes with an error it is perfectly
+> possible that he does this before the exclusive fence is finished.
+> 
+> I'm trying to convince Daniel that this is a problem for years :)
+
+I thought the consensus is that reasonable gpu schedulers and gpu reset
+code should try to make really, really sure it only completes stuff in
+sequence? That's at least my take away from the syncobj timeline
+discussion, where you convinced me we shouldn't just crash&burn.
+
+I think as long as your scheduler is competent and your gpu reset tries to
+limit damage (i.e. kill offending ctx terminally, mark everything else
+that didn't complete for re-running) we should end up with everything
+completing in sequence. I guess if you do kill a lot more stuff, then
+you'd have to push these through your scheduler as dummy jobs, i.e. they
+still wait for their dependencies, but then all they do is set the
+dma_fence error and complete it. Maybe something the common scheduler
+could do.
+-Daniel
+
+> 
+> Regards,
+> Christian.
+> 
 > > 
-> > If you have a benchmarking setup available it would be very interesting
-> > for future reference to see how changing from WD to WW mutexes affects
-> > the roll back frequency. WW is known to cause rollbacks much less
-> > frequently but there is more work associated with each rollback.
-> 
-> Not of hand. To be honest I still have a hard time to get a grip on the
-> difference between WD and WW from the algorithm point of view. So I can't
-> judge that difference at all.
-> 
-> > > Contention on BO locks during command submission is perfectly fine
-> > > as long as this is as lightweight as possible while we don't have
-> > > trashing. When we have trashing multi submission performance is best
-> > > archived to just favor a single process to finish its business and
-> > > block everybody else.
+> > Signed-off-by: xinhui pan <xinhui.pan@amd.com>
+> > ---
+> >   drivers/dma-buf/dma-resv.c | 9 +++++----
+> >   1 file changed, 5 insertions(+), 4 deletions(-)
 > > 
-> > Hmm. Sounds like we need a per-manager ww_rwsem protecting manager
-> > allocation, taken in write-mode then there's thrashing. In read-mode
-> > otherwise. That would limit the amount of "unnecessary" locks we'd have
-> > to keep and reduce unwanted side-effects, (see below):
+> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> > index 4264e64788c4..44dc64c547c6 100644
+> > --- a/drivers/dma-buf/dma-resv.c
+> > +++ b/drivers/dma-buf/dma-resv.c
+> > @@ -632,14 +632,14 @@ static inline int dma_resv_test_signaled_single(struct dma_fence *passed_fence)
+> >    */
+> >   bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
+> >   {
+> > -	unsigned seq, shared_count;
+> > +	unsigned int seq, shared_count, left;
+> >   	int ret;
+> >   	rcu_read_lock();
+> >   retry:
+> >   	ret = true;
+> >   	shared_count = 0;
+> > -	seq = read_seqcount_begin(&obj->seq);
+> > +	left = seq = read_seqcount_begin(&obj->seq);
+> >   	if (test_all) {
+> >   		unsigned i;
+> > @@ -647,7 +647,7 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
+> >   		struct dma_resv_list *fobj = rcu_dereference(obj->fence);
+> >   		if (fobj)
+> > -			shared_count = fobj->shared_count;
+> > +			left = shared_count = fobj->shared_count;
+> >   		for (i = 0; i < shared_count; ++i) {
+> >   			struct dma_fence *fence = rcu_dereference(fobj->shared[i]);
+> > @@ -657,13 +657,14 @@ bool dma_resv_test_signaled_rcu(struct dma_resv *obj, bool test_all)
+> >   				goto retry;
+> >   			else if (!ret)
+> >   				break;
+> > +			left--;
+> >   		}
+> >   		if (read_seqcount_retry(&obj->seq, seq))
+> >   			goto retry;
+> >   	}
+> > -	if (!shared_count) {
+> > +	if (!left) {
+> >   		struct dma_fence *fence_excl = rcu_dereference(obj->fence_excl);
+> >   		if (fence_excl) {
 > 
-> Well per-manager (you mean per domain here don't you?) doesn't sound like
-> that useful because we rarely use only one domain, but I'm actually
-> questioning for quite a while if the per BO lock scheme was the right
-> approach.
-> 
-> See from the performance aspect the closest to ideal solution I can think of
-> would be a ww_rwsem per user of a resource.
-> 
-> In other words we don't lock BOs, but instead a list of all their users and
-> when you want to evict a BO you need to walk that list and inform all users
-> that the BO will be moving.
-> 
-> During command submission you then have the fast path which rather just
-> grabs the read side of the user lock and check if all BOs are still in the
-> expected place.
-> 
-> If some BOs were evicted you back off and start the slow path, e.g. maybe
-> even copy additional data from userspace then grab the write side of the
-> lock etc.. etc...
-> 
-> That approach is similar to what we use in amdgpu with the per-VM BOs, but
-> goes a step further. Problem is that we are so used to per BO locks in the
-> kernel that this is probably not doable any more.
 
-Yeah I think it'd be nice to have the same approach for shared bo too. I
-guess what we could do is something like this (spinning your ww_rwmutex
-idea a bit further):
-
-dma_buf_read_lock(buf, vm)
-{
-	if (enabled(CONFIG_DEBUG_WW_MUTEX_SLOWPATH))
-	{
-		check that vm is indeed listed in buf and splat if not
-	}
-
-	/* for a buf that's not shared in multiple vm we'd have buf->resv
-	 * == vm->resv here */
-	return ww_mutex_lock(vm->resv);
-}
-
-dma_buf_write_lock(buf)
-{
-	for_each_vm_in_buf(buf, vm) {
-		ww_mutex_lock(vm->resv);
-	}
-}
-
-Ideally we'd track all these vms with something slightly less shoddy than
-a linked list :-) Resizeable array is probably pretty good, I think we
-only ever need to go from buf -> vm list, not the other way round. At
-least in dma_resv/dma_buf code, driver code ofc needs to keep a list of
-all bo bound to a vm somewhere. But that's probably a much bigger
-datastructure for tracking vma offsets and mappings and other things on
-top.
-
-Ofc to even just get there we'd need something like the sublock list to
-keep track of all the additional locks we'd need for the writer lock. And
-we'd need the release callback for backoff, so that we could also go
-through the slowpath on a vm object that we're not holding a full
-reference on. That also means vm need to be refcounted.
-
-And the list of vms on a buffer need to be protected with some lock and
-the usual kref_get_unless_zero trickery.
-
-But with all this I think we can make the dma_buf_write_lock lock 100%
-like the old per-buffer lock for everyone. And execbuf could switch over
-to dma_buf_read_lock for shared buffers. Bonus points when the gpu context
-just keeps track of a list of shared vm used by buffers in that context
-...
-
-That way we could make vm fastpath locking a la amdgpu opt-in, while
-keeping everyone else on the per-object locking juices.
-
-Thoughts?
-
-Cheers, Daniel
-
-PS: Of course the write lock for these buffers is going to be terrible, so
-every time you need to update fences for implicit sync on shared buffer
-(well write fence at least) it's going to suck. We probably also want a
-read_to_write_upgrade function, which also can be done easily with
-ww_mutex magic.
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
