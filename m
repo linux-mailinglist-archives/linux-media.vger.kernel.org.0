@@ -2,98 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D1D16F056
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 21:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBA2716F251
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2020 22:57:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729442AbgBYUpH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Feb 2020 15:45:07 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:34303 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727624AbgBYUpH (ORCPT
+        id S1728818AbgBYV5W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Feb 2020 16:57:22 -0500
+Received: from sonic304-23.consmr.mail.ir2.yahoo.com ([77.238.179.148]:42379
+        "EHLO sonic304-23.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726421AbgBYV5V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 15:45:07 -0500
-Received: by mail-pf1-f194.google.com with SMTP id i6so193833pfc.1;
-        Tue, 25 Feb 2020 12:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rTrYdgShUxjhTgN/M+5vDyiCIj0nQYIb/LpyI8hkLng=;
-        b=qaiVU/umPhZpHouJrJKxTpm7lGWegiVkyARizWMrBascabBG7bhdKuD5gXNY0Lxf+C
-         Tw8SNBSWfUJVIb60Yl/iHWZI7+fSaA/nfIjuPo2KO//ezjPHPK783YjWvZD/fqAScKTS
-         pduUK/KUxzQO0mqeX11wj3YfM03olD8Rm9wSCfNSNYpCeibRLkVX9407/W+o3DHFoqEL
-         Bozx4v2hVD/aEFJyfM7E4UXpDupBznLQNVJ/zgIcee0QEq794v1OTHQz43gavHOl3RJi
-         Svdh9kFemOS+j3gyKYfDt9AK7ra+N3epuUToyoq9YkVhPM67JKbkyXXzYTEuZW+tikNH
-         uNzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rTrYdgShUxjhTgN/M+5vDyiCIj0nQYIb/LpyI8hkLng=;
-        b=q2sgamDCPi6nmM/cKryz1pHJi6SZh3sJUsfmFbZTeBK1tC3oZ/0SOaPBP19LBnFDwE
-         EmjJaB/7JiQoNNdiiCQ8EiGF8yV1bOoBEqDyM4E2p/u+jIASdLvcK426PQr51AlJ0Ghq
-         6VD0ynnvGH0taxrbbsUyGys95yhd3qPNUcphHy3rUnMYMkSQY+RFLwyd2YmJ/vY8GUh9
-         LXuXkUCLilcv9RPW3/Zt08GsW23MRRQ4JYxecNp9R/Eu4dCqaZA5qvox/U6yK9QLi6e1
-         83HGvyYrw0y6+hkdDYPK2a/eRGd/2A0u3ecr4PSAUO3uHoV058qYTZFlgJK+TsIIS4Xm
-         TNaA==
-X-Gm-Message-State: APjAAAWL8Fzfw0JIjuh6dIr/oTquTfYCkoFSB5Lz/FGzeVB6JaCOCkJz
-        JJeiCX+1Fkcoa7lAnhACPCpy6h/YmFM=
-X-Google-Smtp-Source: APXvYqyGvajkwKcLRMSWOmO2kJ/LSy6jL5WbReeJGFI6FCRLEOWLDc8sBXYbmFRvsoP8IHmCn35vOQ==
-X-Received: by 2002:a63:3d44:: with SMTP id k65mr327215pga.349.1582663506812;
-        Tue, 25 Feb 2020 12:45:06 -0800 (PST)
-Received: from tw-172-25-31-76.office.twttr.net ([8.25.197.24])
-        by smtp.gmail.com with ESMTPSA id e2sm4047954pjs.25.2020.02.25.12.45.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 12:45:06 -0800 (PST)
-From:   Cong Wang <xiyou.wangcong@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
-        Chenbo Feng <fengc@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
-Date:   Tue, 25 Feb 2020 12:44:46 -0800
-Message-Id: <20200225204446.11378-1-xiyou.wangcong@gmail.com>
-X-Mailer: git-send-email 2.21.1
+        Tue, 25 Feb 2020 16:57:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1582667839; bh=8VycBpGz8hZ3tPndsLKcBHgqcsZFnwSsKOwwgzXhjZ8=; h=Date:From:Reply-To:Subject:References:From:Subject; b=hqcUg/HlwsUEaAVtTc4Q0auclH5AKuXrqU2U7dgwfXldATEB/ADoR6U7Urq4Wf6hElkp8Bj7sxohdrYjaG355crXsCL5LQzb6TPdypp1dlE73v2bYPGjNSIilZluIe44kh1tshGlJrp99OU+rLF/nb4SEcZ35t6cK6CgWz688U7XJ1qdKV+s11tm1O2oHpEt5xuWL75Zi3Z+bIpKTGXn+uyp7QOZ4fl9620aqitbDuAE9mGQCxhiPwRGrihE4bRfdrN8IlGHe+jNRqYh8onZ7MWLHR3RIyPeYgYBFG7U2qSaRi5PxMaDYjDqN9UpPDd2Wx+QEKk9xaHN/Bqlfh9L1A==
+X-YMail-OSG: MpEKOCoVM1mPRwGGr_2b.37vDGivkdiadN8Agzhko7FNVtKhaiV5Esj6EIGHhh9
+ gPFIy7df_UeVwFmu2FO2xu7RtJ1551K4n0KpFvWwFUC87ap5Slf29HcjFDqE76L3ehu7F.Sx8VU5
+ _Xh9qbRMYQSD6uP4cKTZzfI0jWlHe7pwwBN3Rph57Y5L2tbvNzWf2QC_Jdm3A9JnisBliHjD7rDh
+ E1qyhv4OYW_p5ev7R70bx8NJlHqCdXifOoKpqYkqx3_N6T4OWX27c0H_Pm8nxbjG64m.OCpPzBHw
+ qkIDsqRadM7Ji5zjZkoTYQ3vzwFcBA9jpvI1qGPkZ9U3Et3d_RxAcAbuS1Rxacjy2yoF2MdG.03O
+ VOB98R.Tou.WspDdH_TcYaIWicXNdSyatrU63gCh2GJUMTTNCQMJaddhYPYpfWvPqpN_n96DNG0R
+ ucFuAiXErOft_i5cdVR4dh.qAjMzLBn5EOH0tP_gQP0eFTddPcL5HbS_OMfFJ3CXbILUrpZfGCoO
+ 4DalX06meji6DTx.quq3xhb7u5i2P8Nsw8KV1u1xvlK.y.DuM_jO7.XL.TRVm88fZNjtUSpPkfbf
+ cragvbc5XcdCkJhBxM6z8f4POoaMEu1Gbu4qzIFxbrWeqj.fwAUMBWR474PPYL6ejbIjvoHCp64s
+ xYm2VWAKVZ3h1siX53faJWBt8qlWNkdprckcxtMtuhCiEqaWUADWiUXb33NPSRXDvOweh9fbOpKg
+ MUehuluHgUjp4z2AEGZBHIeYY7tbTTaN145ztdV.MfSYAM3RgG8Wy0TRCrDPBTd3rLjQGBJt8H9b
+ PwFM9a8tLVzAELcs2PFDyDt2XXu_e3jxioB3CBPDh6jhS0LQCe70zfzyBtLJ6xaA0fuN26hJZIhJ
+ PjUjWwuGoV1aO.BWaMfB6ZH4xTBKfNoyRKpmBCH2.N33aUPSr_WZUzKphtxUeznh8xmbQ2QW116J
+ TT8z9RSOu1vE0e.cHgiTPawtdIqcYtwWh0oz9uNZy8v.XoTy5Nb.od_2HmMTLP04NgYJA7Kd4Zml
+ dFoxPWrf8nr2Lxrj40meCpbkZlacztt7_ulrKcH5LI8Ozl4dgzAzTbhd4I8StxAfAJEAwEoUUfaI
+ gPpUSbo2yTbS19CE_fqz0ulqW0_MacIl0KOMQY6RJWHVU.KF7f0s0yPM8VgIog4uRGiw9N92ky1n
+ c9tNQi5QdXuXoK1xa_EDT1Mzar5VGcrumsrH8EBQUzoxG80LpBAmTAg5o4uwjP1nYEuwHxLXDhZ9
+ vGP5s1N_ddcjwo8EYQLqAkt_g8zCBvmK3cHKLFZW8sI2wPuH0SM4fvIKLrCgg0Zeu3DN0ew--
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ir2.yahoo.com with HTTP; Tue, 25 Feb 2020 21:57:19 +0000
+Date:   Tue, 25 Feb 2020 21:57:14 +0000 (UTC)
+From:   NOORA ABDUL <noora.abdul24@aol.com>
+Reply-To: noora34abdul@gmail.com
+Message-ID: <1484127010.875744.1582667834291@mail.yahoo.com>
+Subject: Hello Dear.
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1484127010.875744.1582667834291.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15302 YMailNodin Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
-it never gets freed.
+Hello Dear,
 
-Free it in dma_buf_release().
+How are you today, I hope you are doing great. It is my great pleasure
+to contact you and i hope you don't mind, I was just surfing through
+the Internet search when I found your email address, I want to make a
+new and special friend, I hope you don't mind.
 
-Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-Reported-by: syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com
-Acked-by: Chenbo Feng <fengc@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
----
- drivers/dma-buf/dma-buf.c | 1 +
- 1 file changed, 1 insertion(+)
+My name is Noora.Abdul, I am from the South Sudan but presently
+I live in a mission house in Burkina Faso and I will give you pictures
+and details of me as soon as I hear from you.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index d4097856c86b..c343c7c10b4c 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
- 		dma_resv_fini(dmabuf->resv);
- 
- 	module_put(dmabuf->owner);
-+	kfree(dmabuf->name);
- 	kfree(dmabuf);
- 	return 0;
- }
--- 
-2.21.1
+Bye
 
+Noora.Abdul
