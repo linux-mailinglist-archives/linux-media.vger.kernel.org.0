@@ -2,223 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9192117043A
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 17:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7C517046F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 17:32:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbgBZQWw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Feb 2020 11:22:52 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:60493 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726583AbgBZQWw (ORCPT
+        id S1727225AbgBZQct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Feb 2020 11:32:49 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:44427 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727060AbgBZQct (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 11:22:52 -0500
-Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <m.tretter@pengutronix.de>)
-        id 1j6zSS-0005Cn-S0; Wed, 26 Feb 2020 17:22:48 +0100
-Date:   Wed, 26 Feb 2020 17:22:47 +0100
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Benjamin Bara - SKIDATA <Benjamin.Bara@skidata.com>
-Cc:     "linux-arm@lists.infradead.org" <linux-arm@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Richard Leitner - SKIDATA" <Richard.Leitner@skidata.com>
-Subject: Re: [i.MX6][CODA] certain resolutions are not working in YUYV
- format
-Message-ID: <20200226172247.02875ca7@litschi.hi.pengutronix.de>
-In-Reply-To: <33f64557817d43af9b9267e107ba9723@skidata.com>
-References: <c79be4d41e414ae5b50ba1e26544b6c2@skidata.com>
-        <20191216182101.3676c280@litschi.hi.pengutronix.de>
-        <43c38b41ad7547c6baaa56c41a05be87@skidata.com>
-        <33f64557817d43af9b9267e107ba9723@skidata.com>
-Organization: Pengutronix
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        Wed, 26 Feb 2020 11:32:49 -0500
+Received: by mail-oi1-f196.google.com with SMTP id d62so58719oia.11
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 08:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wykBEBzLTf7o144Hu66RsTRJ5xTL/6Bp3W7WvP/bIMo=;
+        b=UZHZy2U3ob2BtejBKb0MdIQZGV0xfwmYLKErxCgJUMJn8V8V4fj07qWJfB2Ymr603z
+         IrQnhLslyKzRjGyq9G5fZOjUDbtqXXU8LMp76s5JfXQ39/QA8gslGL6U1gUAm0zjtPgf
+         Rf9YXdutOSs81Ura2T0cJaiNIVZYex6dOJ7p0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wykBEBzLTf7o144Hu66RsTRJ5xTL/6Bp3W7WvP/bIMo=;
+        b=iLmI88i3XMs+YXrnO+8E8HcQZlnXLH4drA+y4ftEtU7K7oM4id6GrXC+MOC97NEWJD
+         gXmUJkv+KleLRX+kyR8gIq3FvRzMfwcwi8gyHnXEag3fl51HcqAP3kaR39F4saxfTV4h
+         mYho0SDFa4SEkZUvkTsI6zr/zNsWCGGutReoWzgECuib/mY66XfV8v3n6Mnzv1Aunpv/
+         v3GxdiZErUuL25Iwj1ql8RohUIYkJfokOXYu6nllJWSzEV4WwXS2DyjT0bTGBq5q7zoe
+         PFo4suoxE07sFq/C8u2hyB9a7wUQ3Ilx5xxGNS+L1taX5a8z6JbFf+Zl6BMLHejWy1yy
+         VonA==
+X-Gm-Message-State: APjAAAXuyJ5aZ9uPwpTbv6movQVtVaj2IwZKm7W4Hz+qE9EQt72wyF/r
+        vFOjPbLVVrQoCgAiaoZ1Itt3x6NswKxs3yMjwINrkA3Y
+X-Google-Smtp-Source: APXvYqyfU5h7Qq5+IQtwKNsiVXPlAemV0lFnoyKSDBMBmVqhNgTnhaECcC3GcHfMDbcJDUArqZuab9TMxJuW9mPlR1M=
+X-Received: by 2002:a05:6808:10b:: with SMTP id b11mr3956956oie.110.1582734768065;
+ Wed, 26 Feb 2020 08:32:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
+ <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org> <20200220180459.GS2363188@phenom.ffwll.local>
+ <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org> <20200220200831.GA2363188@phenom.ffwll.local>
+ <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org> <20200221171217.GD2363188@phenom.ffwll.local>
+ <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com> <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
+ <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com> <20200225171608.GN2363188@phenom.ffwll.local>
+In-Reply-To: <20200225171608.GN2363188@phenom.ffwll.local>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 26 Feb 2020 17:32:36 +0100
+Message-ID: <CAKMK7uFrcRjjaDAwK73e3UYoONCz36k5SaUStGbjMz7q5FqTMQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= 
+        <thomas_os@shipmail.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+On Tue, Feb 25, 2020 at 6:16 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Feb 24, 2020 at 07:46:59PM +0100, Christian K=C3=B6nig wrote:
+> > Am 23.02.20 um 17:54 schrieb Thomas Hellstr=C3=B6m (VMware):
+> > > On 2/23/20 4:45 PM, Christian K=C3=B6nig wrote:
+> > > > Am 21.02.20 um 18:12 schrieb Daniel Vetter:
+> > > > > [SNIP]
+> > > > > Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly
+> > > > > degenerating
+> > > > > into essentially a global lock. But only when there's actual cont=
+ention
+> > > > > and thrashing.
+> > > >
+> > > > Yes exactly. A really big problem in TTM is currently that we drop
+> > > > the lock after evicting BOs because they tend to move in again
+> > > > directly after that.
+> > > >
+> > > > From practice I can also confirm that there is exactly zero benefit
+> > > > from dropping locks early and reacquire them for example for the VM
+> > > > page tables. That's just makes it more likely that somebody needs t=
+o
+> > > > roll back and this is what we need to avoid in the first place.
+> > >
+> > > If you have a benchmarking setup available it would be very interesti=
+ng
+> > > for future reference to see how changing from WD to WW mutexes affect=
+s
+> > > the roll back frequency. WW is known to cause rollbacks much less
+> > > frequently but there is more work associated with each rollback.
+> >
+> > Not of hand. To be honest I still have a hard time to get a grip on the
+> > difference between WD and WW from the algorithm point of view. So I can=
+'t
+> > judge that difference at all.
+> >
+> > > > Contention on BO locks during command submission is perfectly fine
+> > > > as long as this is as lightweight as possible while we don't have
+> > > > trashing. When we have trashing multi submission performance is bes=
+t
+> > > > archived to just favor a single process to finish its business and
+> > > > block everybody else.
+> > >
+> > > Hmm. Sounds like we need a per-manager ww_rwsem protecting manager
+> > > allocation, taken in write-mode then there's thrashing. In read-mode
+> > > otherwise. That would limit the amount of "unnecessary" locks we'd ha=
+ve
+> > > to keep and reduce unwanted side-effects, (see below):
+> >
+> > Well per-manager (you mean per domain here don't you?) doesn't sound li=
+ke
+> > that useful because we rarely use only one domain, but I'm actually
+> > questioning for quite a while if the per BO lock scheme was the right
+> > approach.
+> >
+> > See from the performance aspect the closest to ideal solution I can thi=
+nk of
+> > would be a ww_rwsem per user of a resource.
+> >
+> > In other words we don't lock BOs, but instead a list of all their users=
+ and
+> > when you want to evict a BO you need to walk that list and inform all u=
+sers
+> > that the BO will be moving.
+> >
+> > During command submission you then have the fast path which rather just
+> > grabs the read side of the user lock and check if all BOs are still in =
+the
+> > expected place.
+> >
+> > If some BOs were evicted you back off and start the slow path, e.g. may=
+be
+> > even copy additional data from userspace then grab the write side of th=
+e
+> > lock etc.. etc...
+> >
+> > That approach is similar to what we use in amdgpu with the per-VM BOs, =
+but
+> > goes a step further. Problem is that we are so used to per BO locks in =
+the
+> > kernel that this is probably not doable any more.
+>
+> Yeah I think it'd be nice to have the same approach for shared bo too. I
+> guess what we could do is something like this (spinning your ww_rwmutex
+> idea a bit further):
+>
+> dma_buf_read_lock(buf, vm)
+> {
+>         if (enabled(CONFIG_DEBUG_WW_MUTEX_SLOWPATH))
+>         {
+>                 check that vm is indeed listed in buf and splat if not
+>         }
+>
+>         /* for a buf that's not shared in multiple vm we'd have buf->resv
+>          * =3D=3D vm->resv here */
+>         return ww_mutex_lock(vm->resv);
+> }
+>
+> dma_buf_write_lock(buf)
+> {
+>         for_each_vm_in_buf(buf, vm) {
+>                 ww_mutex_lock(vm->resv);
+>         }
+> }
+>
+> Ideally we'd track all these vms with something slightly less shoddy than
+> a linked list :-) Resizeable array is probably pretty good, I think we
+> only ever need to go from buf -> vm list, not the other way round. At
+> least in dma_resv/dma_buf code, driver code ofc needs to keep a list of
+> all bo bound to a vm somewhere. But that's probably a much bigger
+> datastructure for tracking vma offsets and mappings and other things on
+> top.
+>
+> Ofc to even just get there we'd need something like the sublock list to
+> keep track of all the additional locks we'd need for the writer lock. And
+> we'd need the release callback for backoff, so that we could also go
+> through the slowpath on a vm object that we're not holding a full
+> reference on. That also means vm need to be refcounted.
+>
+> And the list of vms on a buffer need to be protected with some lock and
+> the usual kref_get_unless_zero trickery.
+>
+> But with all this I think we can make the dma_buf_write_lock lock 100%
+> like the old per-buffer lock for everyone. And execbuf could switch over
+> to dma_buf_read_lock for shared buffers. Bonus points when the gpu contex=
+t
+> just keeps track of a list of shared vm used by buffers in that context
+> ...
+>
+> That way we could make vm fastpath locking a la amdgpu opt-in, while
+> keeping everyone else on the per-object locking juices.
+>
+> Thoughts?
 
-On Tue, 11 Feb 2020 08:01:29 +0000, Benjamin Bara - SKIDATA wrote:
-> any news from your side?
-> We did some further testing with MPEG4-2 videos and the new 5.5 kernel.
+One thing I just realized, which is nasty: The full (write) lock needs
+ww_acquire_ctx with this, because it needs to take a bunch of locks.
+Rolling that out everywhere is going to be nasty.
 
-The H.264 encoding and decoding is much better tested than the MPEG4-2
-encoder and decoder. Thus, it might be worth to check the driver for
-any H.264 specific code and see if you need the code for MPEG4 as well.
+I guess though we could do a fallback and have a locally created
+ww_acquire_ctx if there's none passed in, with backoff entirely
+implemented within dma_resv_lock.
+-Daniel
 
-> 
-> Summary:
-> 1.) decoding of videos with a height not divisible by 16 (macroblock size) brings erroneous pixels/fragments in the top area.
+>
+> Cheers, Daniel
+>
+> PS: Of course the write lock for these buffers is going to be terrible, s=
+o
+> every time you need to update fences for implicit sync on shared buffer
+> (well write fence at least) it's going to suck. We probably also want a
+> read_to_write_upgrade function, which also can be done easily with
+> ww_mutex magic.
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-The decoder only works on macroblocks. For h.264 the driver rounds the
-size to 16, adds some padding and crops the output. You probably have
-to enable the code for MPEG4 as well.
 
-> 2.) decoding of videos with BVOP2 (2 B-Frames) [a] results in macroblock errors [1].
 
-No idea about that one.
-
-> 3.) decoding of "static" videos with low bitrates and a GoP size > 1 results in timeouts [2].
-
-There is a minimum amount of data that the decoder needs to start
-decoding. For H.264, we feed some padding data to the decoder to make
-it start. Probably something similar must be done for MPEG4, too.
-
-> 4.) encoded videos with low bitrates and GoP size > 1 show ffmpeg errors [3] during re-encoding with a different tag (in software) [b].
-
-Maybe this is related to 3.), but I'm not sure. Does just decoding the
-videos without re-encoding work without errors?
-
-Michael
-
-> 
-> ad 1.)
-> When running [c], the fragments are not shown.
-> But when the stream is stored in a file and then played (as in [d]), some of the top pixel rows are erroneous.
-> These fragments also occur on other videos, encoded with different software libraries.
-> 
-> ad 3.)
-> This is especially the case if the video is static and the size of a P-frame packet is low.
-> Can e.g. be reproduced with [e], but also happens during decoding with in software encoded videos with similar attributes.
-> The size of a P-frame packet of such a video is around 94 bytes. Is it possible that there is a limitation regarding minimum packet size?
-> 
-> ad 4.)
-> Did [b] with a bitrate from 100k to 2M in 25k steps and a GoP size from 1 to 16.
-> The following combinations result in at least P-frame errors. Some also contain I-frame errors, as can be seen in [3]:
-> 100k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 125k: 4, 5, 7, 8, 9, 10, 13, 14, 15
-> 150k: 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 175k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 200k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 225k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 250k: 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 275k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 300k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 325k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 350k: 2, 3, 4, 6, 7, 8, 9, 10
-> 375k: 2, 3, 4, 5, 6, 7, 8, 10
-> 400k: 2, 3, 4, 5, 6, 7, 9, 10, 11, 13, 15, 16
-> 425k: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16
-> 450k: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 475k: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15
-> 500k: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-> 525k: 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16
-> 
-> GoP size of 1 did not show any errors.
-> 
-> => Point 3.) and 4.) might be related?  
-> 
-> Also noticeable: The expected/configured bitrate strongly varies from the detected bitrate.
-> 
-> 
-> If you need further info or if we should take further actions, just drop us a mail.
-> 
-> thanks & br,
-> Benjamin
-> 
-> 
-> [a]
-> # create video
-> gst-launch-1.0 videotestsrc num-buffers=200 ! video/x-raw,width=270,height=480 ! v4l2mpeg4enc output-io-mode=4 ! avimux ! filesink location=/tmp/input.avi
-> 
-> # re-encode in software: SP@L1 w/ BVOP2
-> ffmpeg -i /tmp/input.avi -c:v mpeg4 -vtag XVID -profile:v 0 -level 1 -bf 2 /tmp/output.avi
-> 
-> # re-encode in software: ASP@L5 w/ BVOP2
-> ffmpeg -i /tmp/input.avi -c:v mpeg4 -vtag XVID -profile:v 15 -level 5 -bf 2 /tmp/output.avi
-> 
-> # play
-> gst-launch-1.0 playbin uri=file:///tmp/output.avi
-> ================================================================
-> [b]
-> # create video
-> gst-launch-1.0 videotestsrc num-buffers=200 ! video/x-raw,width=270,height=480 ! v4l2mpeg4enc output-io-mode=4 extra-controls="c,video_gop_size=11,video_bitrate=100000" ! avimux ! filesink location=divx/test_100000_11.avi
-> 
-> # re-encode it in software with different tag
-> ffmpeg -i divx/test_100000_11.avi -vtag "XVID" xvid/test_100000_11.avi
-> ================================================================
-> [c]
-> # directly insert the encoded stream into the decoder
-> gst-launch-1.0 videotestsrc ! video/x-raw,width=480,height=360 ! v4l2mpeg4enc output-io-mode=4 ! v4l2mpeg4dec ! videoconvert ! ximagesink
-> ================================================================
-> [d]
-> # store in avi file
-> gst-launch-1.0 videotestsrc num-buffers=200 ! video/x-raw,width=270,height=480 ! v4l2mpeg4enc output-io-mode=4 ! avimux ! filesink location=/tmp/input.avi
-> 
-> # convert tag in software, since gstreamer decoder plugin doesn't take DIVX tag but avimux plugin forces it
-> ffmpeg -i /tmp/input.avi -vtag "XVID" /tmp/output.avi
-> 
-> # play it
-> gst-launch-1.0 playbin uri=file:///tmp/output.avi
-> ================================================================
-> [e]
-> # run a static video and try to encode, decode and then play it
-> gst-launch-1.0 videotestsrc num-buffers=200 pattern=blue ! video/x-raw,width=480,height=360 ! v4l2mpeg4enc output-io-mode=4 ! v4l2mpeg4dec ! videoconvert ! ximagesink
-> ================================================================
-> ================================================================
-> [1]
-> [853909.824215] coda 2040000.vpu: errors in 6 macroblocks
-> [853909.832120] coda 2040000.vpu: errors in 6 macroblocks
-> [853909.845459] coda 2040000.vpu: errors in 27 macroblocks
-> [853909.854856] coda 2040000.vpu: errors in 27 macroblocks
-> [853909.901550] coda 2040000.vpu: errors in 303 macroblocks
-> [853909.908588] coda 2040000.vpu: errors in 303 macroblocks
-> ================================================================
-> [2]
-> [441877.923839] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441878.963854] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441880.003842] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441881.043854] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441882.093818] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441883.123883] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441884.173863] coda 2040000.vpu: CODA PIC_RUN timeout
-> [441885.203834] coda 2040000.vpu: CODA PIC_RUN timeout
-> ================================================================
-> [3]
-> Input #0, avi, from 'divx/test_100000_11.avi':
->   Duration: 00:00:06.67, start: 0.000000, bitrate: 902 kb/s
->     Stream #0:0: Video: mpeg4 (Simple Profile) (DIVX / 0x58564944), yuv420p, 270x480 [SAR 1:1 DAR 9:16], 899 kb/s, 30 fps, 30 tbr, 30 tbn, 30 tbc
-> Stream mapping:
->   Stream #0:0 -> #0:0 (mpeg4 (native) -> mpeg4 (native))
-> Press [q] to stop, [?] for help
-> [mpeg4 @ 0x5649b529bfc0] Error at MB: 360
-> [mpeg4 @ 0x5649b529bfc0] concealing 227 DC, 227 AC, 227 MV errors in P frame
-> Output #0, avi, to 'xvid/test_100000_11.avi':
->   Metadata:
->     ISFT            : Lavf58.20.100
->     Stream #0:0: Video: mpeg4 (XVID / 0x44495658), yuv420p, 270x480 [SAR 1:1 DAR 9:16], q=2-31, 200 kb/s, 30 fps, 30 tbn, 30 tbc
->     Metadata:
->       encoder         : Lavc58.35.100 mpeg4
->     Side data:
->       cpb: bitrate max/min/avg: 0/0/200000 buffer size: 0 vbv_delay: -1
-> [mpeg4 @ 0x5649b529bfc0] slice end not reached but screenspace end (47 left 7E01DC, score= -6)
-> [mpeg4 @ 0x5649b529bfc0] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b52b2a80] slice end not reached but screenspace end (45 left 780321, score= -25)
-> [mpeg4 @ 0x5649b52b2a80] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b5295a00] slice end not reached but screenspace end (44 left 700DE7, score= -46)
-> [mpeg4 @ 0x5649b5295a00] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b529bfc0] slice end not reached but screenspace end (43 left 6796F1, score= -56)
-> [mpeg4 @ 0x5649b529bfc0] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b5297c40] slice end not reached but screenspace end (48 left 7F1AE9, score= -65)
-> [mpeg4 @ 0x5649b5297c40] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b52b2a80] slice end not reached but screenspace end (47 left 7E0095, score= -74)
-> [mpeg4 @ 0x5649b52b2a80] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b529bfc0] slice end not reached but screenspace end (42 left 400392, score= -102)
-> [mpeg4 @ 0x5649b529bfc0] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b5297c40] slice end not reached but screenspace end (46 left 7C0283, score= -164)
-> [mpeg4 @ 0x5649b5297c40] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> [mpeg4 @ 0x5649b52b2a80] slice end not reached but screenspace end (42 left 68845C, score= -174)
-> [mpeg4 @ 0x5649b52b2a80] concealing 510 DC, 510 AC, 510 MV errors in I frame
-> frame=  200 fps=0.0 q=31.0 Lsize=     477kB time=00:00:06.66 bitrate= 586.2kbits/s speed=50.7x    
-> video:467kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 2.229403%
-> 
-> 
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
