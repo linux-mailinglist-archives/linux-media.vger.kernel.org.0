@@ -2,128 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52C5116F413
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 01:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1417916F559
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 02:54:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729277AbgBZAJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Feb 2020 19:09:59 -0500
-Received: from mga06.intel.com ([134.134.136.31]:57823 "EHLO mga06.intel.com"
+        id S1729950AbgBZByU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Feb 2020 20:54:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60170 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728865AbgBZAJ7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Feb 2020 19:09:59 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Feb 2020 16:09:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,486,1574150400"; 
-   d="scan'208";a="317248380"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.147]) ([10.7.153.147])
-  by orsmga001.jf.intel.com with ESMTP; 25 Feb 2020 16:09:58 -0800
-Subject: Re: [PATCH -next] media: aspeed: add AST2600 support
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
- <CACPK8XeiH1iLQbmP+3yJninJtK7rQv=HMVnHzqjPH04V4xW+zg@mail.gmail.com>
-From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <b13f037d-ac0c-a9e4-d938-da93a6099af4@linux.intel.com>
-Date:   Tue, 25 Feb 2020 16:09:57 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <CACPK8XeiH1iLQbmP+3yJninJtK7rQv=HMVnHzqjPH04V4xW+zg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+        id S1729465AbgBZByT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 25 Feb 2020 20:54:19 -0500
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2CAE820732;
+        Wed, 26 Feb 2020 01:54:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582682059;
+        bh=LuY1aImj6PEVlETfQcjlClopOVm/sK8P/ZzP4XBR+/o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=EE9BrAeaUKw0b4AC+J+IaooQvru8TwnlXy/gE1MLEOsM2l9haCbFKp1H23KixzFY3
+         qFZTSOWbbcYB2IvvP5Gl/FEPR+o1e43H7tl+T4iFmxNK+9xKLkKpcSlkomJ3ddkASf
+         8FQ7bZZqJb8EXIna6OyFsxxWDTWN+StwgpKDTOvI=
+Date:   Tue, 25 Feb 2020 17:54:18 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Cong Wang <xiyou.wangcong@gmail.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
+        Chenbo Feng <fengc@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
+Message-Id: <20200225175418.2d3af2180cbf895b727ce4b1@linux-foundation.org>
+In-Reply-To: <20200225204446.11378-1-xiyou.wangcong@gmail.com>
+References: <20200225204446.11378-1-xiyou.wangcong@gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joel,
+On Tue, 25 Feb 2020 12:44:46 -0800 Cong Wang <xiyou.wangcong@gmail.com> wrote:
 
-On 2/25/2020 3:52 PM, Joel Stanley wrote:
-> On Tue, 25 Feb 2020 at 19:56, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
->>
->> Video engine in AST2600 has the exactly same register set with
->> AST2500 except VR084 register which provides more precise JPEG
->> size read back. This commit adds support for the difference and
->> adds 'aspeed,ast2600-video-engine' compatible OF string.
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
+> it never gets freed.
 > 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> Free it in dma_buf_release().
+> 
+> ...
+>
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+>  		dma_resv_fini(dmabuf->resv);
+>  
+>  	module_put(dmabuf->owner);
+> +	kfree(dmabuf->name);
+>  	kfree(dmabuf);
+>  	return 0;
+>  }
 
-Thanks for your review!
-
-> Did you post an update to the device tree bindings too?
-
-Device tree bindings and aspeed-g6.dtsi change were merged in
-'next-20200225' tag already.
-
-Thanks,
-
-Jae
-
->> ---
->>   drivers/media/platform/aspeed-video.c | 15 +++++++++++----
->>   1 file changed, 11 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index 47444a336ebb..7d98db1d9b52 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -1,6 +1,6 @@
->>   // SPDX-License-Identifier: GPL-2.0-or-later
->>   // Copyright 2020 IBM Corp.
->> -// Copyright (c) 2019 Intel Corporation
->> +// Copyright (c) 2019-2020 Intel Corporation
->>
->>   #include <linux/atomic.h>
->>   #include <linux/bitfield.h>
->> @@ -132,7 +132,8 @@
->>   #define  VE_COMP_CTRL_HQ_DCT_CHR       GENMASK(26, 22)
->>   #define  VE_COMP_CTRL_HQ_DCT_LUM       GENMASK(31, 27)
->>
->> -#define VE_OFFSET_COMP_STREAM          0x078
->> +#define AST2400_VE_COMP_SIZE_READ_BACK 0x078
->> +#define AST2600_VE_COMP_SIZE_READ_BACK 0x084
->>
->>   #define VE_SRC_LR_EDGE_DET             0x090
->>   #define  VE_SRC_LR_EDGE_DET_LEFT       GENMASK(11, 0)
->> @@ -252,12 +253,17 @@ struct aspeed_video_config {
->>
->>   static const struct aspeed_video_config ast2400_config = {
->>          .jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
->> -       .comp_size_read = VE_OFFSET_COMP_STREAM,
->> +       .comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
->>   };
->>
->>   static const struct aspeed_video_config ast2500_config = {
->>          .jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
->> -       .comp_size_read = VE_OFFSET_COMP_STREAM,
->> +       .comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
->> +};
->> +
->> +static const struct aspeed_video_config ast2600_config = {
->> +       .jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
->> +       .comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
->>   };
->>
->>   static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
->> @@ -1673,6 +1679,7 @@ static int aspeed_video_init(struct aspeed_video *video)
->>   static const struct of_device_id aspeed_video_of_match[] = {
->>          { .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
->>          { .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
->> +       { .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
->>          {}
->>   };
->>   MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
->> --
->> 2.17.1
->>
+ow.  Is that ioctl privileged?
