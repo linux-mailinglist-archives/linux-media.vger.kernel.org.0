@@ -2,116 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7AB9170AFB
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 23:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B491170CCC
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 00:52:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727742AbgBZWAS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Feb 2020 17:00:18 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45886 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727503AbgBZWAS (ORCPT
+        id S1727986AbgBZXwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Feb 2020 18:52:22 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39241 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726413AbgBZXwW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 17:00:18 -0500
-Received: by mail-lf1-f68.google.com with SMTP id z5so452561lfd.12
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 14:00:17 -0800 (PST)
+        Wed, 26 Feb 2020 18:52:22 -0500
+Received: by mail-pf1-f194.google.com with SMTP id l7so179777pff.6;
+        Wed, 26 Feb 2020 15:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=QErWqDNx6ma/Mrb8WHfJQvYV3gtMn9M2hXBvJASL1DQ=;
-        b=wYKAQgnBinTi8kDWS/NFRHJMD9GAw64zo5eozb9jwu2ChqYkoQlXLHXWHQVd3wtOjx
-         0PJP8a70J3eYoSwneNct4ohjl/G2sxiTQtadgLWWQ7+yAgUCniFoEkwrLJJdIaEamhzm
-         fH7FFCHX8YfoX4CiAtHkTM9NMi2DfykIHP56AieGZaH11al+OXbnMQqcX1jw3fT39yqy
-         xV4DEMJ2qzTv2M+OQsfzC+Uh2I7HY+xa24g0WpFno4lldbm0eU6gqNCftwmgWLK8rGRi
-         vKmUeRijS2PSQJzxlUcdnYgK7ifhxW1WUVUOfOijGfV+UbM7NF6WphUnhFryjbDrUhxs
-         DCmg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=XlzTesc/osvmK67dq3mpi/UOZrAvhagv1EzzaH9Ps1E=;
+        b=mFoUw0MqmxHI0oPPMELQOYtzcg9+E08usopU8RyqjLJWRg0LfOnJOWt+AjXWMkSQ/+
+         ik+r+itUBGD5T380/0MmUPBH+89PWyBdB8+F/1DaSYlSp7CIk8Fn/3teXYUW1zo9xLUH
+         v4z8aa9IgEG3jL96PPv5LScPNWljvvNvKlMzL7Be/vTorndLrIXxvpq+plAwXKHkbUom
+         m2el//LdaDsyddJT8U73S8hkrTiL/xXFJolh/qFYcxRZrEI1OuYanj9TXwArqs45lePW
+         vxV7QH+fF42WDZRjYeU3k4tsni1QLk30hSxJFZFEmXkFxeEViN2UHWaJeeMyd3OJu1qD
+         D9Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=QErWqDNx6ma/Mrb8WHfJQvYV3gtMn9M2hXBvJASL1DQ=;
-        b=FjZ6T1f8xyeOy4nrc+Xfvky41wgqhBGSXfiwagQioWtHAy/otRbIDUKQckSiAJPHMw
-         25u9n7X0A+39wCuY/V9Nd3seJ85i0C1ph98WfFU48N2GgGEEIkHGeP7ljsYlgiyQolrw
-         buLSirtPS66WM+Z9mo3qKnmfTUnKY7p83ljDoNSXu5u5t4Tkg6A621omzHFWAxzVNikL
-         JpWKPq4/SjHJIl+i3hRadskFGgzLuknbNZzL8CSbHhgSsekhGmDROlnErDa9Hbj2eBWR
-         w4Low5NPzzUDm5uL5J2yvOmTxiNENH2XAZtQUgICfa+j3bwunPyy59ak8xNgae4e6vhW
-         oV4w==
-X-Gm-Message-State: ANhLgQ3pMxXY/h2D0cLUR/G1R+4zlXExnf1dbq5HYsNP4UEyfgBLstd5
-        TXYyyR53LQU9aAdvPBIsjLFwuA==
-X-Google-Smtp-Source: ADFU+vsIMS6/a2zeGP/md2OrcANipbEX9d3cbZW7MWcbV0NSirOCb9TdCOsgHRjqrLaNdaE40a3eGA==
-X-Received: by 2002:a19:878a:: with SMTP id j132mr357831lfd.83.1582754416436;
-        Wed, 26 Feb 2020 14:00:16 -0800 (PST)
-Received: from localhost.localdomain (95-28-65-22.broadband.corbina.ru. [95.28.65.22])
-        by smtp.googlemail.com with ESMTPSA id a9sm316856lfr.37.2020.02.26.14.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 14:00:15 -0800 (PST)
-From:   Andrey Konovalov <andrey.konovalov@linaro.org>
-To:     mchehab@kernel.org, sakari.ailus@iki.fi
-Cc:     linux-media@vger.kernel.org, manivannan.sadhasivam@linaro.org,
-        peter.griffin@linaro.org,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Subject: [PATCH 3/3] media: i2c: imx290: fix reset GPIO pin handling
-Date:   Thu, 27 Feb 2020 00:59:13 +0300
-Message-Id: <20200226215913.10631-4-andrey.konovalov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200226215913.10631-1-andrey.konovalov@linaro.org>
-References: <20200226215913.10631-1-andrey.konovalov@linaro.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=XlzTesc/osvmK67dq3mpi/UOZrAvhagv1EzzaH9Ps1E=;
+        b=JfPf9H4h6cP2WDqj6pH+kGANjoMKJ3ylUhYnMC7QSKzqweDbmcltNzSa4mw8Cd777a
+         RENfHDUCKCrHPWooXvE4CxrlXRYENmAozbCIWDJafTQ8VzXMzKqdjQsBVwsf2gVldl7P
+         6X6+xr0oMkpH85MrIfjcvPiXGPTlU9FvQZsY2LMDZfH7oPidtnMGK0Cyjoaur9fM1LMc
+         91QQwn+EwbVlQcYqHkWUjNuxMLtZ+aS4MBbN6OCn7JFvIrJGHKd2FpacKy00OHPfqDnQ
+         UPvNEyhXOK3iPSvIvz8qXcMfxHM3NLyyreDccgQQmaFnwptm49jBMxtwYrsM6vtTY7T2
+         CJIg==
+X-Gm-Message-State: APjAAAWRaLRMlxNdB/JXlbeWo7VEIOrOeQqZ9hD40TjXZkUCSN7N/mXa
+        rE7X+xaMlsQMgoKN/onYR3cAZZHkCZo=
+X-Google-Smtp-Source: APXvYqxvMlCakj/OIN3Ab7wp9/W+3XGgGXTH9cJ24Kd1VC3/qZU0qrVdvmi+QWNetqsm4pIH3dMQwg==
+X-Received: by 2002:a62:fb07:: with SMTP id x7mr1198766pfm.125.1582761139317;
+        Wed, 26 Feb 2020 15:52:19 -0800 (PST)
+Received: from [172.30.88.123] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id 64sm4159507pfd.48.2020.02.26.15.52.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Feb 2020 15:52:18 -0800 (PST)
+Subject: Re: [RESEND PATCH v3 02/17] media: v4l2-fwnode: Pass notifier to
+ v4l2_async_register_fwnode_subdev()
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+References: <20200215194136.10131-1-slongerbeam@gmail.com>
+ <20200215194136.10131-3-slongerbeam@gmail.com>
+ <20200225150721.GO5379@paasikivi.fi.intel.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <33258045-b708-1390-06e0-fde224296dfb@gmail.com>
+Date:   Wed, 26 Feb 2020 15:50:04 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200225150721.GO5379@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to https://www.kernel.org/doc/Documentation/gpio/consumer.txt,
+Hi Sakari,
 
-- all of the gpiod_set_value_xxx() functions operate with the *logical* value.
-So in imx290_power_on() the reset signal should be cleared/de-asserted with
-gpiod_set_value_cansleep(imx290->rst_gpio, 0), and in imx290_power_off() the
-value of 1 must be used to apply/assert the reset to the sensor. In the device
-tree the reset pin is described as GPIO_ACTIVE_LOW, and gpiod_set_value_xxx()
-functions take this into account,
+Thanks for the feedback.
 
-- when devm_gpiod_get_optional() is called with GPIOD_ASIS, the GPIO is not
-initialized, and the direction must be set later; using a GPIO
-without setting its direction first is illegal and will result in undefined
-behavior. Fix this by using GPIOD_OUT_HIGH instead of GPIOD_ASIS (this asserts
-the reset signal to the sensor initially).
 
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
----
- drivers/media/i2c/imx290.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On 2/25/20 7:07 AM, Sakari Ailus wrote:
+> Hi Steve,
+>
+> On Sat, Feb 15, 2020 at 11:41:21AM -0800, Steve Longerbeam wrote:
+>> Instead of allocating a notifier in v4l2_async_register_fwnode_subdev(),
+>> have the caller provide one. This allows the caller to implement
+>> notifier ops (bind, unbind).
+>>
+>> The caller is now responsible for first initializing its notifier with a
+>> call to v4l2_async_notifier_init().
+>>
+>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+> Instead of improving v4l2_async_register_fwnode_subdev(), could you convert
+> the users (IMX driver in this case) to call the preferred APIs instead?
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index d0322f9a8856..7b1de1f0c8b7 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -628,7 +628,7 @@ static int imx290_power_on(struct device *dev)
- 	}
- 
- 	usleep_range(1, 2);
--	gpiod_set_value_cansleep(imx290->rst_gpio, 1);
-+	gpiod_set_value_cansleep(imx290->rst_gpio, 0);
- 	usleep_range(30000, 31000);
- 
- 	return 0;
-@@ -641,7 +641,7 @@ static int imx290_power_off(struct device *dev)
- 	struct imx290 *imx290 = to_imx290(sd);
- 
- 	clk_disable_unprepare(imx290->xclk);
--	gpiod_set_value_cansleep(imx290->rst_gpio, 0);
-+	gpiod_set_value_cansleep(imx290->rst_gpio, 1);
- 	regulator_bulk_disable(IMX290_NUM_SUPPLIES, imx290->supplies);
- 
- 	return 0;
-@@ -757,7 +757,8 @@ static int imx290_probe(struct i2c_client *client)
- 		goto free_err;
- 	}
- 
--	imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
-+	imx290->rst_gpio = devm_gpiod_get_optional(dev, "reset",
-+						   GPIOD_OUT_HIGH);
- 	if (IS_ERR(imx290->rst_gpio)) {
- 		dev_err(dev, "Cannot get reset gpio\n");
- 		ret = PTR_ERR(imx290->rst_gpio);
--- 
-2.17.1
+I presume you mean using v4l2_async_notifier_add_fwnode_remote_subdev(). 
+Ok, I'll convert to use that API.
+
+Steve
+
+>   As
+> the lines below show, v4l2_async_register_fwnode_subdev() has only two
+> users left --- the other one of which is the IMX driver. After converting
+> these two, we could just remove this API.
+>
+> See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c and
+> drivers/media/platform/omap3isp/isp.c for examples.
+>
+>> ---
+>> Changes in v3:
+>> - added the missing calls to unregister/cleanup the new subdev notifiers.
+>>    Reported by Rui Silva.
+>> ---
+>>   drivers/media/platform/video-mux.c         |  8 +++++++-
+>>   drivers/media/v4l2-core/v4l2-fwnode.c      | 11 +----------
+>>   drivers/staging/media/imx/imx6-mipi-csi2.c |  7 ++++++-
+>>   drivers/staging/media/imx/imx7-media-csi.c |  7 ++++++-
+>>   drivers/staging/media/imx/imx7-mipi-csis.c |  9 ++++++++-
+>>   include/media/v4l2-fwnode.h                | 12 ++++++++----
+>>   6 files changed, 36 insertions(+), 18 deletions(-)
 
