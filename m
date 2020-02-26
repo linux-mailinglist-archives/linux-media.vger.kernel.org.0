@@ -2,229 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7C517046F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 17:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05CF0170487
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 17:38:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbgBZQct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Feb 2020 11:32:49 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44427 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727060AbgBZQct (ORCPT
+        id S1727706AbgBZQiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Feb 2020 11:38:09 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:42771 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726905AbgBZQiJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 11:32:49 -0500
-Received: by mail-oi1-f196.google.com with SMTP id d62so58719oia.11
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 08:32:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wykBEBzLTf7o144Hu66RsTRJ5xTL/6Bp3W7WvP/bIMo=;
-        b=UZHZy2U3ob2BtejBKb0MdIQZGV0xfwmYLKErxCgJUMJn8V8V4fj07qWJfB2Ymr603z
-         IrQnhLslyKzRjGyq9G5fZOjUDbtqXXU8LMp76s5JfXQ39/QA8gslGL6U1gUAm0zjtPgf
-         Rf9YXdutOSs81Ura2T0cJaiNIVZYex6dOJ7p0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wykBEBzLTf7o144Hu66RsTRJ5xTL/6Bp3W7WvP/bIMo=;
-        b=iLmI88i3XMs+YXrnO+8E8HcQZlnXLH4drA+y4ftEtU7K7oM4id6GrXC+MOC97NEWJD
-         gXmUJkv+KleLRX+kyR8gIq3FvRzMfwcwi8gyHnXEag3fl51HcqAP3kaR39F4saxfTV4h
-         mYho0SDFa4SEkZUvkTsI6zr/zNsWCGGutReoWzgECuib/mY66XfV8v3n6Mnzv1Aunpv/
-         v3GxdiZErUuL25Iwj1ql8RohUIYkJfokOXYu6nllJWSzEV4WwXS2DyjT0bTGBq5q7zoe
-         PFo4suoxE07sFq/C8u2hyB9a7wUQ3Ilx5xxGNS+L1taX5a8z6JbFf+Zl6BMLHejWy1yy
-         VonA==
-X-Gm-Message-State: APjAAAXuyJ5aZ9uPwpTbv6movQVtVaj2IwZKm7W4Hz+qE9EQt72wyF/r
-        vFOjPbLVVrQoCgAiaoZ1Itt3x6NswKxs3yMjwINrkA3Y
-X-Google-Smtp-Source: APXvYqyfU5h7Qq5+IQtwKNsiVXPlAemV0lFnoyKSDBMBmVqhNgTnhaECcC3GcHfMDbcJDUArqZuab9TMxJuW9mPlR1M=
-X-Received: by 2002:a05:6808:10b:: with SMTP id b11mr3956956oie.110.1582734768065;
- Wed, 26 Feb 2020 08:32:48 -0800 (PST)
+        Wed, 26 Feb 2020 11:38:09 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 4E35B60012;
+        Wed, 26 Feb 2020 16:37:52 +0000 (UTC)
+Date:   Wed, 26 Feb 2020 17:40:40 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     "Rodin, Michael (Ferchau; ADITG/ESM1)" <mrodin@de.adit-jv.com>
+Cc:     "niklas.soderlund@ragnatech.se" <niklas.soderlund@ragnatech.se>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Friedrich, Eugen (ADITG/ESM1)" <efriedrich@de.adit-jv.com>,
+        "Rosca, Eugeniu (ADITG/ESM1)" <erosca@de.adit-jv.com>,
+        "Udipi, Suresh (Wipro; LEADER ; ADITJ/SWG)" 
+        <external.sudipi@jp.adit-jv.com>,
+        "akiyama@nds-osk.co.jp" <akiyama@nds-osk.co.jp>
+Subject: Re: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on
+ clock lane during start of CSI2
+Message-ID: <20200226164040.rzd3hqqzosqe2sar@uno.localdomain>
+References: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+ <20200219172456.hyo2aksvubxpoqrn@uno.localdomain>
+ <AC35D0CFBC66A84AAA9DF4334B52828D136F94C7@HI2EXCH01.adit-jv.com>
 MIME-Version: 1.0
-References: <79a0d79f-91bd-2481-740c-20e6c819c7c9@shipmail.org>
- <ee929c93-c9d7-7243-810e-94c6f0fc64b0@shipmail.org> <20200220180459.GS2363188@phenom.ffwll.local>
- <d1c37ec4-b63e-437a-a2be-80ba5192e048@shipmail.org> <20200220200831.GA2363188@phenom.ffwll.local>
- <501bf409-e4fe-a318-17b4-d5d050b09529@shipmail.org> <20200221171217.GD2363188@phenom.ffwll.local>
- <d9343617-9da8-5fea-a0f1-99db34a0cf2c@gmail.com> <8f29b152-9c7b-3427-efa2-4a39f0daced8@shipmail.org>
- <7d73bdfa-63d0-11af-7029-382ad1015c4c@amd.com> <20200225171608.GN2363188@phenom.ffwll.local>
-In-Reply-To: <20200225171608.GN2363188@phenom.ffwll.local>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 26 Feb 2020 17:32:36 +0100
-Message-ID: <CAKMK7uFrcRjjaDAwK73e3UYoONCz36k5SaUStGbjMz7q5FqTMQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify v2
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28VMware=29?= 
-        <thomas_os@shipmail.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="3z5pbb5obrrlekpa"
+Content-Disposition: inline
+In-Reply-To: <AC35D0CFBC66A84AAA9DF4334B52828D136F94C7@HI2EXCH01.adit-jv.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 6:16 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+
+--3z5pbb5obrrlekpa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hello Michael,
+
+On Mon, Feb 24, 2020 at 02:13:08PM +0000, Rodin, Michael (Ferchau; ADITG/ESM1) wrote:
+> > On Tue, Feb 18, 2020 at 12:44:11PM +0100, Michael Rodin wrote:
+> > > The chapter 7.1 "D-PHY Physical Layer Option" of the CSI2
+> > > specification states that non-continuous clock behavior is optional,
+> > > i.e. the Clock Lane can remain in high-speed mode between the transmission
+> > of data packets.
+> > > Therefore waiting for the stop state (LP-11) on the Clock Lane is
+> > > wrong and will cause timeouts when a CSI2 transmitter with continuous
+> > > clock behavior is attached to R-Car CSI2 receiver. So wait only for
+> > > the stop state on the Data Lanes.
+> >
+> > Am I wrong or the desired behaviour should depend on the presence of the
+> > clock-noncontinuous property in the CSI-2 input endpoint ?
+> > If clock-noncontinuous is set, then wait for the clock lane to enter stop state
+> > too, if not just wait for the data lanes to stop.
+> >
+> > If this is correct, it will also require a change to the bindings and that's the
+> > tricky part. So far the CSI-2 receiver behaved as the clock-noncontinuous
+> > property was set (wait for both data and clock
+> > lanes) and older dtb should continue to work under this assumption. If you
+> > want to support devices with continuous clock then you have to require the
+> > clock-noncontinuous property to be explicitly set to false, and assume it's true
+> > if not specified. BUT clock-noncontinuous is a boolean property, whose value
+> > depends on it's presence only. So I fear we need to add a 'clock-continuous'
+> > flag to video-interfaces.txt, parse it in the CSI-2 receiver driver, and then ignore
+> > the clock lane stop state if and only if said property is specified.
+> >
+> > Does this make sense ?
+> >
 >
-> On Mon, Feb 24, 2020 at 07:46:59PM +0100, Christian K=C3=B6nig wrote:
-> > Am 23.02.20 um 17:54 schrieb Thomas Hellstr=C3=B6m (VMware):
-> > > On 2/23/20 4:45 PM, Christian K=C3=B6nig wrote:
-> > > > Am 21.02.20 um 18:12 schrieb Daniel Vetter:
-> > > > > [SNIP]
-> > > > > Yeah the Great Plan (tm) is to fully rely on ww_mutex slowly
-> > > > > degenerating
-> > > > > into essentially a global lock. But only when there's actual cont=
-ention
-> > > > > and thrashing.
-> > > >
-> > > > Yes exactly. A really big problem in TTM is currently that we drop
-> > > > the lock after evicting BOs because they tend to move in again
-> > > > directly after that.
-> > > >
-> > > > From practice I can also confirm that there is exactly zero benefit
-> > > > from dropping locks early and reacquire them for example for the VM
-> > > > page tables. That's just makes it more likely that somebody needs t=
-o
-> > > > roll back and this is what we need to avoid in the first place.
+> Hello Jacopo,
+>
+>  - First of all I am not so sure whether I am interpreting the CSI2 spec correctly,
+>    this is also the reason why I marked my patch as [RFC]. So MAYBE waiting for LP-11
+>    on the clock lane IS correct at this point in rcar-csi2 and the issue is somewhere else
+>    and your suggestion was based on my wrong assumption. Is it possible?
+
+What I read there confirms what you said
+
+For continuous clock behavior the Clock Lane remains in high-speed mode generating active clock signals
+between the transmission of data packets.
+For non-continuous clock behavior the Clock Lane enters the LP-11 state between the transmission of data
+packets.
+
+and indeed non-continuous is optional.
+
+However, the documented rcar-csi2 PHY start procedure prescribes to
+check for the clock stop state as well, so it is totally plausible the
+receiver requires the clock lane to be in stop state to properly
+intialize. IMX6 does the same, according to imx6-mipi-csi2.c and the
+documentation of the csi2_enable() function there.
+
+Some sensors force clock lane in stop state at power-up to help
+receivers detect LP-11 state, just as an example...
+
+But I think we're a bit mixing two issues here though. non-continous clock
+mode allows clock lane to enter low-power state during frame blanking
+(the LPS state in the CSI-2 specs). This feature as said, is optional,
+as during LPS only data lanes are required to transition to LP-11, as
+it is the initial and final phase of the SoT/EoT procedure as defined
+by the DPHY specs, which delimits an high-speed transmission burst.
+
+What your patch is doing is modifying the condition for the CSI-2 RX
+to properly detect a phy start condition, which I think depends mostly
+on the receiver requirements...
+
+I have missed one thing: do you have a faulty sensor that with this
+patch applied works as intended ?
+
+>  - The presence of the "clock-noncontinuous" property is parsed by the V4L2 fwnode library,
+>    which sets either V4L2_MBUS_CSI2_CONTINUOUS_CLOCK or V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK.
+>    I could not find any upstream CSI2 receiver driver, which reads these flags. Would be rcar-csi2
+>    the first driver which reads this property (of a transmitter) at the receiver side?
+
+non-continous is optional, so it's totally plausible.
+
+>  - Sorry, but I don't understand your concerns about compatibility to old device trees.
+>    If "clock-noncontinuous" exists at the CSI2 transmitter side, it is assumed to be
+>    true (since as you mentioned, all boolean properties are true if present) and we
+>    would wait for LP-11 on clock lane in rcar-csi2 and older dtbs would continue to
+>    work correctly. If this property is not present in a CSI2 transmitter node of an older
+>    dtb although this transmitter has this property, then this is a wrong device tree
+>    configuration. So the suggested new "clock-continuous" property would be a workaround
+>    for supporting incorrect device trees. Should we maintain backwards compatibility in this case?
+
+I'm not concerned on the CSI-2 transmitter node, but older DTB
+describing the rcar csi-2 receiver. If one loads a dtb that had no
+noncontinous clock property  as it was'implied' and suddenly the
+driver acts as you have to specify the property to enable that feature
+otherwise it assumes 'continuous', we then have troubles, as dt
+bindings are an ABI and older DTBs should continue to work as they
+used to. That's why, as you cannot set noncontiuous=false, I suggested
+a counterpart with continous, to make that feature enabled optionally.
+
+Anyway, scratch that, I think we really should decouple the 'phy start
+up procedure' issue from the 'clock continuos/noncontinuos' one.
+
+Are you having issue detecting a clock stop state on your sensor ?
+Does the sensor have a way to set the clock lane to stop state (eg.
+forcing non-continous mode) at power up ?
+
+Thanks
+   j
+
+>  - Even if we should maintain backwards compatibility to incorrectly configured device trees
+>    (i.e. "clock-noncontinuous" is not specified for CSI2 transmitters with non-continuous clock behavior),
+>    it is possibly not an issue in this particular case because we don't have to wait for
+>    LP-11 on clock lanes at all since the non-continuous clock behavior is optional according
+>    to the chapter 7.1 of the CSI2 specification. So from my understanding a CSI2 receiver
+>    which supports only continuous clock behavior would work with both kinds of clock
+>    behavior at the transmitter side. On the other side a CSI2 receiver which supports only
+>    non-continuous clock behavior (which is currently the behavior implemented in rcar-csi2.c)
+>    can not receive anything from a transmitter with continuous clock behavior and would violate CSI2 spec.
+>
+> >
 > > >
-> > > If you have a benchmarking setup available it would be very interesti=
-ng
-> > > for future reference to see how changing from WD to WW mutexes affect=
-s
-> > > the roll back frequency. WW is known to cause rollbacks much less
-> > > frequently but there is more work associated with each rollback.
-> >
-> > Not of hand. To be honest I still have a hard time to get a grip on the
-> > difference between WD and WW from the algorithm point of view. So I can=
-'t
-> > judge that difference at all.
-> >
-> > > > Contention on BO locks during command submission is perfectly fine
-> > > > as long as this is as lightweight as possible while we don't have
-> > > > trashing. When we have trashing multi submission performance is bes=
-t
-> > > > archived to just favor a single process to finish its business and
-> > > > block everybody else.
+> > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> > > ---
+> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 3 +--
+> > >  1 file changed, 1 insertion(+), 2 deletions(-)
 > > >
-> > > Hmm. Sounds like we need a per-manager ww_rwsem protecting manager
-> > > allocation, taken in write-mode then there's thrashing. In read-mode
-> > > otherwise. That would limit the amount of "unnecessary" locks we'd ha=
-ve
-> > > to keep and reduce unwanted side-effects, (see below):
-> >
-> > Well per-manager (you mean per domain here don't you?) doesn't sound li=
-ke
-> > that useful because we rarely use only one domain, but I'm actually
-> > questioning for quite a while if the per BO lock scheme was the right
-> > approach.
-> >
-> > See from the performance aspect the closest to ideal solution I can thi=
-nk of
-> > would be a ww_rwsem per user of a resource.
-> >
-> > In other words we don't lock BOs, but instead a list of all their users=
- and
-> > when you want to evict a BO you need to walk that list and inform all u=
-sers
-> > that the BO will be moving.
-> >
-> > During command submission you then have the fast path which rather just
-> > grabs the read side of the user lock and check if all BOs are still in =
-the
-> > expected place.
-> >
-> > If some BOs were evicted you back off and start the slow path, e.g. may=
-be
-> > even copy additional data from userspace then grab the write side of th=
-e
-> > lock etc.. etc...
-> >
-> > That approach is similar to what we use in amdgpu with the per-VM BOs, =
-but
-> > goes a step further. Problem is that we are so used to per BO locks in =
-the
-> > kernel that this is probably not doable any more.
->
-> Yeah I think it'd be nice to have the same approach for shared bo too. I
-> guess what we could do is something like this (spinning your ww_rwmutex
-> idea a bit further):
->
-> dma_buf_read_lock(buf, vm)
-> {
->         if (enabled(CONFIG_DEBUG_WW_MUTEX_SLOWPATH))
->         {
->                 check that vm is indeed listed in buf and splat if not
->         }
->
->         /* for a buf that's not shared in multiple vm we'd have buf->resv
->          * =3D=3D vm->resv here */
->         return ww_mutex_lock(vm->resv);
-> }
->
-> dma_buf_write_lock(buf)
-> {
->         for_each_vm_in_buf(buf, vm) {
->                 ww_mutex_lock(vm->resv);
->         }
-> }
->
-> Ideally we'd track all these vms with something slightly less shoddy than
-> a linked list :-) Resizeable array is probably pretty good, I think we
-> only ever need to go from buf -> vm list, not the other way round. At
-> least in dma_resv/dma_buf code, driver code ofc needs to keep a list of
-> all bo bound to a vm somewhere. But that's probably a much bigger
-> datastructure for tracking vma offsets and mappings and other things on
-> top.
->
-> Ofc to even just get there we'd need something like the sublock list to
-> keep track of all the additional locks we'd need for the writer lock. And
-> we'd need the release callback for backoff, so that we could also go
-> through the slowpath on a vm object that we're not holding a full
-> reference on. That also means vm need to be refcounted.
->
-> And the list of vms on a buffer need to be protected with some lock and
-> the usual kref_get_unless_zero trickery.
->
-> But with all this I think we can make the dma_buf_write_lock lock 100%
-> like the old per-buffer lock for everyone. And execbuf could switch over
-> to dma_buf_read_lock for shared buffers. Bonus points when the gpu contex=
-t
-> just keeps track of a list of shared vm used by buffers in that context
-> ...
->
-> That way we could make vm fastpath locking a la amdgpu opt-in, while
-> keeping everyone else on the per-object locking juices.
->
-> Thoughts?
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > index faa9fb2..6d1992a 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > @@ -416,8 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+> > >  	for (timeout = 0; timeout <= 20; timeout++) {
+> > >  		const u32 lane_mask = (1 << priv->lanes) - 1;
+> > >
+> > > -		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)
+> > &&
+> > > -		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
+> > > +		if ((rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
+> > >  			return 0;
+> > >
+> > >  		usleep_range(1000, 2000);
+> > > --
+> > > 2.7.4
+> > >
 
-One thing I just realized, which is nasty: The full (write) lock needs
-ww_acquire_ctx with this, because it needs to take a bunch of locks.
-Rolling that out everywhere is going to be nasty.
+--3z5pbb5obrrlekpa
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I guess though we could do a fallback and have a locally created
-ww_acquire_ctx if there's none passed in, with backoff entirely
-implemented within dma_resv_lock.
--Daniel
+-----BEGIN PGP SIGNATURE-----
 
->
-> Cheers, Daniel
->
-> PS: Of course the write lock for these buffers is going to be terrible, s=
-o
-> every time you need to update fences for implicit sync on shared buffer
-> (well write fence at least) it's going to suck. We probably also want a
-> read_to_write_upgrade function, which also can be done easily with
-> ww_mutex magic.
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl5Wn4gACgkQcjQGjxah
+VjznhA/+MZCDyZKbhukVGXBSPBox/hOlPcPx3GeKRoEsSM76l0DLGbnYSbs0fWFx
+J/AJL64crdawawB8PNQvSZ0VVkBkMzmhhPKNLNledCV9Mvz/YiI3jitfC5RuHRMK
+HB6mh5i2NETceshUlCSGNpnR+ryoqfwVF/uWFoL4gI4s9oHlxSGlAiPUfGObFwqI
+iDIlohbKLLxdlufCDMVDt1VK3hgtuWWvxGBd8dMoDx3VANsw+uSrWzFanjkjXWva
+pXuuaC/gznK3gdfvrHfB2470mVg8n/JUMfGCud5Qy6pJFU//9THnWuqE0XvNcjy0
+MfoG9BNcSDcld8zT3pHryC1Pl0psIgKDf4MviFL2tIIE/jce0DLx+7o3GUbWeOAo
+926u9fGeXLKy+oHmv4jqYZKAHFRUUHCjmOnXslOu4EFXCy1XKyDNcxOd4Zh66Q/W
+rEpoPVjV0me/0CnbdnSmQKZWcfQViOG8vHsynuzd4oWUoWPrQXVlxicMrduKwN2m
+zUE0ocxuza9R1t/mJBMbYbHAy1kEPwrsnIRNyqtf/2iohQNxrvkz/zX08MiAsXqR
+e3UTHtYlaDCJGN7lP/XQ55IRRVgIQvHeJb8MF27vw5yFLWydxUSlNABOYLKMf5Po
+VYM5apyz7x6tDamP54+wfCwP+0JQPz5993twUan09q62PwGDRZ4=
+=OJd7
+-----END PGP SIGNATURE-----
 
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+--3z5pbb5obrrlekpa--
