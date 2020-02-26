@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F9571705F4
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 18:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38ECC170619
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 18:28:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgBZRWZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Feb 2020 12:22:25 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55228 "EHLO
+        id S1726748AbgBZR2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Feb 2020 12:28:18 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55298 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726744AbgBZRWZ (ORCPT
+        with ESMTP id S1726579AbgBZR2S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 12:22:25 -0500
+        Wed, 26 Feb 2020 12:28:18 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id CB83A295797
-Message-ID: <8b63465c795bb0c8243eb377106138c83e0dfffe.camel@collabora.com>
-Subject: Re: [PATCH v6 6/6] arm64: dts: rockchip: rk3399: Define the
- rockchip Video Decoder node
+        with ESMTPSA id D7BC628ED79
+Message-ID: <f0798d3bebaa52bdcf613120f56791d76229b276.camel@collabora.com>
+Subject: Re: [PATCH v2] media: Split v4l2_pipeline_pm_use into
+ v4l2_pipeline_pm_{get, put}
 From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Heiko Stuebner <heiko@sntech.de>, Johan Jonker <jbx6244@gmail.com>
-Cc:     boris.brezillon@collabora.com, devicetree@vger.kernel.org,
-        hverkuil@xs4all.nl, jonas@kwiboo.se, kernel@collabora.com,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        nicolas@ndufresne.ca, paul.kocialkowski@bootlin.com,
-        robh+dt@kernel.org, sakari.ailus@iki.fi, tfiga@chromium.org
-Date:   Wed, 26 Feb 2020 14:22:11 -0300
-In-Reply-To: <3584403.hvncmGE4DP@phil>
-References: <20200220163016.21708-7-ezequiel@collabora.com>
-         <817821e3-bc51-8037-b9b9-e429c5eeb280@gmail.com> <3584403.hvncmGE4DP@phil>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>
+Date:   Wed, 26 Feb 2020 14:28:08 -0300
+In-Reply-To: <20200226155336.GO5023@valkosipuli.retiisi.org.uk>
+References: <20200124203543.22890-1-ezequiel@collabora.com>
+         <20200226155336.GO5023@valkosipuli.retiisi.org.uk>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.1-2 
@@ -40,92 +40,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko, Johan,
+Hello Sakari,
 
-Thanks for pointing this out.
+Thanks a lot for your comments.
 
-On Wed, 2020-02-26 at 14:21 +0100, Heiko Stuebner wrote:
-> Am Mittwoch, 26. Februar 2020, 13:24:53 CET schrieb Johan Jonker:
-> > Hi Boris,
-> > 
-> > Dtsi nodes are sort on address.
-> > The vdec node is now inserted between:
-> > 
-> > vdec_mmu: iommu       @ff660480
-> > vdec    : video-codec @ff660000
-> > iep_mmu : iommu       @ff670800
-> > 
-> > This should be:
-> > 
-> > vpu_mmu : iommu       @ff650800
-> > vdec    : video-codec @ff660000
-> > vdec_mmu: iommu       @ff660480
-> > 
+On Wed, 2020-02-26 at 17:53 +0200, Sakari Ailus wrote:
+> Hi Ezequiel,
 > 
-> Simple things like this I can (and do) fix when applying.
+> On Fri, Jan 24, 2020 at 05:35:43PM -0300, Ezequiel Garcia wrote:
+> > Currently, v4l2_pipeline_pm_use() prototype is:
+> > 
+> >   int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
+> > 
+> > Where the 'use' argument shall only be set to '1' for enable/power-on,
+> > or to '0' for disable/power-off. The integer return is specified
+> > as only meaningful when 'use' is set to '1'.
+> > 
+> > Let's enforce this semantic by splitting the function in two:
+> > v4l2_pipeline_pm_get and v4l2_pipeline_pm_put. This is done
+> > for several reasons.
+> > 
+> > It makes the API easier to use (or harder to misuse).
+> > It removes the constraint on the values the 'use' argument
+> > shall take. Also, it removes the need to constraint
+> > the return value, by making v4l2_pipeline_pm_put void return.
+> > 
+> > And last, it's more consistent with other kernel APIs, such
+> > as the runtime pm APIs, which makes the code more symmetric.
 > 
-> The interesting question would be, did patches 1-5 get applied yet?
-> As I only remember seing Hans' mail from v5, but didn't get any
-> applied mail for v6 so far.
+> Indeed. These functions only exist because not all sensor etc. drivers have
+> been converted to runtime PM yet. New drivers no longer implement s_power
+> callbacks.
+> 
+> I don't object the patch as such, but I think you could also add a note
+> that relying on the s_power callback is deprecated. This probably should be
+> a separate patch.
 > 
 
-Hans sent a pull request to include rkvdec driver in v5.7:
+Hans picked this patch, sending a pull request yesterday which includes it.
 
-https://lore.kernel.org/linux-media/d4cc12b2-3d24-95db-102b-e5091c067e76@xs4all.nl/T/#t
+Since you know this API better than me, I thikn it would be best
+if you take care of sending a patch for it.
 
-It doesn't include the devicetree changes though,
-which I just noticed.
+In particular, I'd like to know as reference, if any changes are needed
+RKISP1 and sensors such as IMX219 in order to avoid relying in the deprecated
+API.
 
-Would you be so kind to pick this patch and sort the node?
+Moreover, is there any way we can add some build time or run time warning,
+to avoid developers from using an API that is deprecated?
 
 Thanks!
 Ezequiel
-
-> 
-> Heiko
-> 
-> > > From: Boris Brezillon <boris.brezillon at collabora.com>
-> > > 
-> > > RK3399 has a Video decoder, define the node in the dtsi. We also add
-> > > the missing power-domain in mmu node and enable the block.
-> > > 
-> > > Signed-off-by: Boris Brezillon <boris.brezillon at collabora.com>
-> > > Signed-off-by: Ezequiel Garcia <ezequiel at collabora.com>
-> > > ---
-> > >  arch/arm64/boot/dts/rockchip/rk3399.dtsi | 14 +++++++++++++-
-> > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-> > > index 33cc21fcf4c1..a07f857df12f 100644
-> > > --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-> > > +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-> > > @@ -1285,8 +1285,20 @@ vdec_mmu: iommu at ff660480 {
-> > >  		interrupt-names = "vdec_mmu";
-> > >  		clocks = <&cru ACLK_VDU>, <&cru HCLK_VDU>;
-> > >  		clock-names = "aclk", "iface";
-> > > +		power-domains = <&power RK3399_PD_VDU>;
-> > >  		#iommu-cells = <0>;
-> > > -		status = "disabled";
-> > > +	};
-> > > +
-> > > +	vdec: video-codec at ff660000 {
-> > > +		compatible = "rockchip,rk3399-vdec";
-> > > +		reg = <0x0 0xff660000 0x0 0x400>;
-> > > +		interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH 0>;
-> > > +		interrupt-names = "vdpu";
-> > > +		clocks = <&cru ACLK_VDU>, <&cru HCLK_VDU>,
-> > > +			 <&cru SCLK_VDU_CA>, <&cru SCLK_VDU_CORE>;
-> > > +		clock-names = "axi", "ahb", "cabac", "core";
-> > > +		power-domains = <&power RK3399_PD_VDU>;
-> > > +		iommus = <&vdec_mmu>;
-> > >  	};
-> > >  
-> > >  	iep_mmu: iommu at ff670800 {
-> > 
-> > 
-> > 
-> 
-> 
-> 
-
 
