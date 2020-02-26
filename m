@@ -2,80 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC328170335
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 16:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F37CF1703C7
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2020 17:07:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728593AbgBZPyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Feb 2020 10:54:49 -0500
-Received: from retiisi.org.uk ([95.216.213.190]:46276 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728470AbgBZPyt (ORCPT
+        id S1727095AbgBZQH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Feb 2020 11:07:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53053 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726388AbgBZQH0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 10:54:49 -0500
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Wed, 26 Feb 2020 11:07:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1582733244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VC/fSjW6Q9Zf1CVil4K0XbAX6oR7WGL2RegTKV0OEzU=;
+        b=VV8ZZEsOg+iP2dzMQmnmeE1uyL4OQyIMvecZ9OyXv7JsDRKFjnIZFUZLQJKYMNznu2/cvB
+        nRzHbp43wYFKwKdw+mnyU81jkTtsgjOY1Yfzr1bor27e+ZtAtxiLlt6NuWOCuL0nekqIlO
+        Fy+3SVot8P/6bDspw//r8FdXTkpelqc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-WhzkhL_bOrG6VaE3qtfNWQ-1; Wed, 26 Feb 2020 11:07:20 -0500
+X-MC-Unique: WhzkhL_bOrG6VaE3qtfNWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id A291C634C89;
-        Wed, 26 Feb 2020 17:53:35 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1j6z0C-0002Kp-8z; Wed, 26 Feb 2020 17:53:36 +0200
-Date:   Wed, 26 Feb 2020 17:53:36 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        kernel@collabora.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v2] media: Split v4l2_pipeline_pm_use into
- v4l2_pipeline_pm_{get, put}
-Message-ID: <20200226155336.GO5023@valkosipuli.retiisi.org.uk>
-References: <20200124203543.22890-1-ezequiel@collabora.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBC398018A1;
+        Wed, 26 Feb 2020 16:07:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com [10.36.116.150])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CA69319C69;
+        Wed, 26 Feb 2020 16:07:15 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id BCA821FCE8; Wed, 26 Feb 2020 17:07:14 +0100 (CET)
+Date:   Wed, 26 Feb 2020 17:07:14 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linaro-mm-sig@lists.linaro.org, virtio-dev@lists.oasis-open.org
+Subject: Re: [virtio-dev] Re: [PATCH 1/2] virtio: add dma-buf support for
+ exported objects
+Message-ID: <20200226160714.y2wt5ubtklljn576@sirius.home.kraxel.org>
+References: <20200219080637.61312-1-stevensd@chromium.org>
+ <20200219080637.61312-2-stevensd@chromium.org>
+ <20200225061008.wqxqppfglzmwvtid@sirius.home.kraxel.org>
+ <CAD=HUj7h1d8dXG94FUtj4fmeUvUM0dm6NW8WHGZAceHae0zGLw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200124203543.22890-1-ezequiel@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAD=HUj7h1d8dXG94FUtj4fmeUvUM0dm6NW8WHGZAceHae0zGLw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-On Fri, Jan 24, 2020 at 05:35:43PM -0300, Ezequiel Garcia wrote:
-> Currently, v4l2_pipeline_pm_use() prototype is:
+On Wed, Feb 26, 2020 at 12:56:58PM +0900, David Stevens wrote:
+> On Tue, Feb 25, 2020 at 3:10 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > How about dma_buf_{get,set}_uuid, simliar to dma_buf_set_name?
 > 
->   int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
-> 
-> Where the 'use' argument shall only be set to '1' for enable/power-on,
-> or to '0' for disable/power-off. The integer return is specified
-> as only meaningful when 'use' is set to '1'.
-> 
-> Let's enforce this semantic by splitting the function in two:
-> v4l2_pipeline_pm_get and v4l2_pipeline_pm_put. This is done
-> for several reasons.
-> 
-> It makes the API easier to use (or harder to misuse).
-> It removes the constraint on the values the 'use' argument
-> shall take. Also, it removes the need to constraint
-> the return value, by making v4l2_pipeline_pm_put void return.
-> 
-> And last, it's more consistent with other kernel APIs, such
-> as the runtime pm APIs, which makes the code more symmetric.
+> While I'm not opposed to such an API, I'm also hesitant to make
+> changes to the dma-buf API for a single use case.
 
-Indeed. These functions only exist because not all sensor etc. drivers have
-been converted to runtime PM yet. New drivers no longer implement s_power
-callbacks.
+See virtio-wayland discussion.  I expect we will see more cases show up.
+Maybe this should even go one level up, to struct file.
 
-I don't object the patch as such, but I think you could also add a note
-that relying on the s_power callback is deprecated. This probably should be
-a separate patch.
+cheers,
+  Gerd
 
--- 
-Regards,
-
-Sakari Ailus
