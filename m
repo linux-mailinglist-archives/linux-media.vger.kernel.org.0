@@ -2,179 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15B961717A6
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 13:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 353AB1717CF
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 13:48:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729133AbgB0Mju (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 07:39:50 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49941 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728977AbgB0Mjt (ORCPT
+        id S1729025AbgB0Ms3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 07:48:29 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36762 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729033AbgB0Ms3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 07:39:49 -0500
-Received: from [IPv6:2001:420:44c1:2577:70b8:9d46:3264:f0c0]
- ([IPv6:2001:420:44c1:2577:70b8:9d46:3264:f0c0])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 7IS7jE0Y8jmHT7ISBjielx; Thu, 27 Feb 2020 13:39:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582807187; bh=SppaRo1Hod25rsdmHJB5MZdZ32/T0CqLTslF/uXHkrE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=heqqcEDGtkmETf2Mmzet70PQHrXMcVUCaOZRezDoXcSYAc1bgnZF6sPY0oyU0nfYP
-         iGj3cfaMiyyOWtQyBUdI3Un1RFGWhU9xg33y/ggCmg/NyYsD8yIklhHod9zl0TIzZC
-         9B79uLMIqaBhVQz/ZXl/J0a3JbQN0bM8mZVp6dviSLXeMuEYeA1FnP/JF1AXWHGJ2A
-         ppSsom456bWnkVYj0iLzC6RNjxjEaoFK31bZn1WSMCK4uuWGJ2e94HzcbX1IbpbVw7
-         GS9eQiZ+3mYBiYdfGv3/seP81WJvUr13wqWByQEVTsxdJHT4SQFNZkw9pQHgU7jHQV
-         RRTZy8hOJ52Qg==
-Subject: Re: [PATCHv3 00/11] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Thu, 27 Feb 2020 07:48:29 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id D651C295BE5
+Message-ID: <0ce893f45347e7df27ca10df56054ec5be3839f8.camel@collabora.com>
+Subject: Re: [PATCH v2] media: Split v4l2_pipeline_pm_use into
+ v4l2_pipeline_pm_{get, put}
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        kernel@collabora.com,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200226111529.180197-1-senozhatsky@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <98205145-1a39-ce29-a2a0-c5abf8376349@xs4all.nl>
-Date:   Thu, 27 Feb 2020 13:39:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>
+Date:   Thu, 27 Feb 2020 09:48:21 -0300
+In-Reply-To: <20200226212057.GA9048@valkosipuli.retiisi.org.uk>
+References: <20200124203543.22890-1-ezequiel@collabora.com>
+         <20200226155336.GO5023@valkosipuli.retiisi.org.uk>
+         <f0798d3bebaa52bdcf613120f56791d76229b276.camel@collabora.com>
+         <20200226203840.GP5023@valkosipuli.retiisi.org.uk>
+         <073fdfdf8dadf2d33a049c5c6a87fca1a78c4fad.camel@collabora.com>
+         <20200226212057.GA9048@valkosipuli.retiisi.org.uk>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20200226111529.180197-1-senozhatsky@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfIJA8jAKsvKUT+TpJDhqLkEuikjN7i5FZsZ558ClqGVzOf546hR5oEByTPTvV7XJXeRhg4n/RVzT6KhaF8wJFez0kI5nmuXzPZ7VOvjdNk/56wOvVFCb
- lHe5/EADe/5PzjUITHoweP0fANHxjHv8IUtv3LgF2a87hHL/CWSyTZgvPiayby/6V4TPzpaPx9jit1LNDil4yTXxhv1C83lvPG/XoIYFK+n1Y85wOHmdHdYZ
- M3uxIQaVAShd3lKQeqVjgZh7wXFvKAkYDcXGznlQ6s294O31qD6ErxMk2NbEN9J/FTjHV/1sTKpYmTao75+wR0jowBDSiTkjHVT1kfR3SPfYjMFrLwwNUgLh
- voslG1dIlcZDyWfeCJUlOKyd62rysJEbfbLFFUp7BxIZZtOKzuSSv2wtiN/p0e0nltQ0xWCM1cp7TIND56BQbZjtYU+SIZ9QnkUamymDPa+LoN4jl9ebKyu6
- GknDnVkUDXArlYwOp/yZTsXxJ+VT1XWWgub/Vi33qBzKNt8f5kvcbBipWZZNFA+MBYX0GVpsKahR9pqOvnbRh7GLTdGawxYSkdlZeCdainIbDv4ZMq6CKo4H
- Si2ukrVu37Xuyt8Ux1g8OknYU/kOGtUJbWNCsZe9cjPQrsw9wfTph31sDNmuYXstCIo=
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2/26/20 12:15 PM, Sergey Senozhatsky wrote:
-> Hello,
+On Wed, 2020-02-26 at 23:20 +0200, Sakari Ailus wrote:
+> Hi Ezequiel,
 > 
-> 	V3 of the patchset, reshuffled and updated.
+> On Wed, Feb 26, 2020 at 06:08:40PM -0300, Ezequiel Garcia wrote:
+> > On Wed, 2020-02-26 at 22:38 +0200, Sakari Ailus wrote:
+> > > Hi Ezequiel,
+> > > 
+> > > On Wed, Feb 26, 2020 at 02:28:08PM -0300, Ezequiel Garcia wrote:
+> > > > Hello Sakari,
+> > > > 
+> > > > Thanks a lot for your comments.
+> > > > 
+> > > > On Wed, 2020-02-26 at 17:53 +0200, Sakari Ailus wrote:
+> > > > > Hi Ezequiel,
+> > > > > 
+> > > > > On Fri, Jan 24, 2020 at 05:35:43PM -0300, Ezequiel Garcia wrote:
+> > > > > > Currently, v4l2_pipeline_pm_use() prototype is:
+> > > > > > 
+> > > > > >   int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
+> > > > > > 
+> > > > > > Where the 'use' argument shall only be set to '1' for enable/power-on,
+> > > > > > or to '0' for disable/power-off. The integer return is specified
+> > > > > > as only meaningful when 'use' is set to '1'.
+> > > > > > 
+> > > > > > Let's enforce this semantic by splitting the function in two:
+> > > > > > v4l2_pipeline_pm_get and v4l2_pipeline_pm_put. This is done
+> > > > > > for several reasons.
+> > > > > > 
+> > > > > > It makes the API easier to use (or harder to misuse).
+> > > > > > It removes the constraint on the values the 'use' argument
+> > > > > > shall take. Also, it removes the need to constraint
+> > > > > > the return value, by making v4l2_pipeline_pm_put void return.
+> > > > > > 
+> > > > > > And last, it's more consistent with other kernel APIs, such
+> > > > > > as the runtime pm APIs, which makes the code more symmetric.
+> > > > > 
+> > > > > Indeed. These functions only exist because not all sensor etc. drivers have
+> > > > > been converted to runtime PM yet. New drivers no longer implement s_power
+> > > > > callbacks.
+> > > > > 
+> > > > > I don't object the patch as such, but I think you could also add a note
+> > > > > that relying on the s_power callback is deprecated. This probably should be
+> > > > > a separate patch.
+> > > > > 
+> > > > 
+> > > > Hans picked this patch, sending a pull request yesterday which includes it.
+> > > > 
+> > > > Since you know this API better than me, I thikn it would be best
+> > > > if you take care of sending a patch for it.
+> > > > 
+> > > > In particular, I'd like to know as reference, if any changes are needed
+> > > > RKISP1 and sensors such as IMX219 in order to avoid relying in the deprecated
+> > > > API.
+> > > 
+> > > I do look for the s_power callback when reviewing the driver. :-)
+> > > 
+> > > ISP drivers may, I think, omit calling s_power if they don't need to work
+> > > with sensor drivers that require it. In that case, one could as well fix
+> > > the sensor driver.
+> > > 
+> > > > Moreover, is there any way we can add some build time or run time warning,
+> > > > to avoid developers from using an API that is deprecated?
+> > > 
+> > > Getting rid of s_power is a long project, so a warning every time it's used
+> > > would be quite a nuisance. I think documentation is the way to go.
+> > > 
+> > > I can send a patch.
+> > > 
+> > 
+> > Hey Sakari,
+> > 
+> > I know everyone should always read headers, comments and documentation,
+> > but since reality might be different how about:
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index a376b351135f..eca341c3cb17 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -802,6 +802,8 @@ void v4l2_subdev_init(struct v4l2_subdev *sd, const struct v4l2_subdev_ops *ops)
+> >  {
+> >         INIT_LIST_HEAD(&sd->list);
+> >         BUG_ON(!ops);
+> > +       if (ops->core && ops->core->s_power)
+> > +               pr_warn_once("Warning: s_power is deprecated. Please use foo and bar instead\n");
+> >         sd->ops = ops;
+> >         sd->v4l2_dev = NULL;
+> >         sd->flags = 0;
+> >  
+> > Do you think that's too noisy?
 > 
-> - Most notable changes:
+> There are probably quite a few similar matters one could complain about. So
+> what else should be similarly flagged...?
 > 
-> a) Added a simple helper function vb2_queue_allows_cache_hints(),
->    which return true if queue has ->allow_cache_hints and when
->    ->memory is VB2_MEMORY_MMAP.
->    That is - user space cache and memory consistency hints are now
->    specifically for MMAP buffers and queues that support hints.
-> 
-> b) Set V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS capability bit only when queue
->    has ->allow_cache_hints and ->io_modes has VB2_MMAP bit set
-> 
-> c) Clear "incompatible" request's flags when queue does not permit
->    cache and memory consistency hints (IOW, when vb2_queue_allows_cache_hints()
->    return false)
-> 
-> 
-> Minor changes:
-> 
-> - Squashed V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS and V4L2_FLAG_MEMORY_NON_CONSISTENT
->   patches.
-> 
-> - Added more documentation and code comments.
-> 
-> 
-> Previous series:
-> v2 link: https://lore.kernel.org/lkml/20200204025641.218376-1-senozhatsky@chromium.org/
-> v1 link: https://lore.kernel.org/lkml/20191217032034.54897-1-senozhatsky@chromium.org/
-> 
-> 
-> Series Intro
-> ========================================================================
-> 
->         This is a reworked version of the vb2 cache hints
-> (V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
-> support patch series which previsouly was developed by Sakari and
-> Laurent [0].
-> 
-> The patch set attempts to preserve the existing behvaiour - cache
-> sync is performed in ->prepare() and ->finish() (unless the buffer
-> is DMA exported). User space can request “default behavior” override
-> with cache management hints, which are handled on a per-buffer basis
-> and should be supplied with v4l2_buffer ->flags during buffer
-> preparation. There are two possible hints:
-> 
-> - V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
->         No cache sync on ->finish()
-> 
-> - V4L2_BUF_FLAG_NO_CACHE_CLEAN
->         No cache sync on ->prepare()
-> 
-> In order to keep things on the safe side, we also require driver
-> to explicitly state which of its queues (if any) support user space
-> cache management hints (such queues should have ->allow_cache_hints
-> bit set).
-> 
-> The patch set also (to some extent) simplifies allocators' ->prepare()
-> and ->finish() callbacks. Namely, we move cache management decision
-> making to the upper - core - layer. For example, if, previously, we
-> would have something like this
-> 
->         vb2_buffer_done()
->           vb2_dc_finish()
->             if (buf->db_attach)
->                return;
-> 
-> where each allocators' ->finish() callback would either bail
-> out (DMA exported buffer, for instance) or sync, now that "bail
-> out or sync" decision is made before we call into the allocator.
-> 
-> Along with cache management hints, user space is also able to
-> adjust queue's memory consistency attributes. Memory consistency
-> attribute (dma_attrs) is per-queue, yet it plays its role on the
-> allocator level, when we allocate buffers’ private memory (planes).
-> For the time being, only one consistency attribute is supported:
-> DMA_ATTR_NON_CONSISTENT.
 
-v3 looks very good, I only found some minor issues.
-
-I think v4 should be ready to be merged, unless others have more comments.
-
-Regards,
-
-	Hans
-
+Well, if we are aware of any other deprecated APIs, I believe it would
+be useful to mark as such in the docs or elsewhere. Otherwise, we might
+never get rid of them.
+ 
+> From the message alone it's also unclear which driver that gets loaded
+> causes the line to be printed.
 > 
-> [0] https://www.mail-archive.com/linux-media@vger.kernel.org/msg112459.html
+
+That's fixable, e.g. using a pr_fmt at the top of the file.
+
+> Perhaps a Kconfig option to flag all deprecated stuff, so you'd get such
+> messages only if you enabled that? Might be overkill...
 > 
-> Sergey Senozhatsky (11):
->   videobuf2: add cache management members
->   videobuf2: handle V4L2 buffer cache flags
->   videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT flag
->   videobuf2: add queue memory consistency parameter
->   videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
->   videobuf2: factor out planes prepare/finish functions
->   videobuf2: do not sync caches when we are allowed not to
->   videobuf2: check ->synced flag in prepare() and finish()
->   videobuf2: add begin/end cpu_access callbacks to dma-contig
->   videobuf2: add begin/end cpu_access callbacks to dma-sg
->   videobuf2: don't test db_attach in dma-contig prepare and finish
+
+Yep, that's an overkill, IMO.
+
+> I wonder what others think.
 > 
->  Documentation/media/uapi/v4l/buffer.rst       |  29 +++++
->  .../media/uapi/v4l/vidioc-create-bufs.rst     |   8 +-
->  .../media/uapi/v4l/vidioc-reqbufs.rst         |  22 +++-
->  .../media/common/videobuf2/videobuf2-core.c   | 110 +++++++++++++-----
->  .../common/videobuf2/videobuf2-dma-contig.c   |  39 ++++++-
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  36 ++++--
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  82 ++++++++++++-
->  drivers/media/dvb-core/dvb_vb2.c              |   2 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +-
->  include/media/videobuf2-core.h                |  28 ++++-
->  include/uapi/linux/videodev2.h                |  11 +-
->  11 files changed, 314 insertions(+), 58 deletions(-)
-> 
+
+Me too! :-)
+
+Thanks,
+Ezequiel
+
 
