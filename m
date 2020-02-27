@@ -2,16 +2,16 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A30317221F
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 16:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6212E1722C8
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 17:05:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729652AbgB0PTS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 10:19:18 -0500
-Received: from esa3.microchip.iphmx.com ([68.232.153.233]:33007 "EHLO
+        id S1729621AbgB0QFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 11:05:12 -0500
+Received: from esa3.microchip.iphmx.com ([68.232.153.233]:38944 "EHLO
         esa3.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729439AbgB0PTR (ORCPT
+        with ESMTP id S1729134AbgB0QFM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 10:19:17 -0500
+        Thu, 27 Feb 2020 11:05:12 -0500
 Received-SPF: Pass (esa3.microchip.iphmx.com: domain of
   Eugen.Hristev@microchip.com designates 198.175.253.82 as
   permitted sender) identity=mailfrom;
@@ -31,30 +31,30 @@ Received-SPF: None (esa3.microchip.iphmx.com: no sender
   x-sender="postmaster@email.microchip.com";
   x-conformance=spf_only
 Authentication-Results: esa3.microchip.iphmx.com; spf=Pass smtp.mailfrom=Eugen.Hristev@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: IsuR96Cb9xvLmy2wbVUHg6Eb0y08j7S6svkniz+pMtYiaNsaxqkTJJcDL3ALFi1P61F9uohEdr
- 0pWekaEntO1lrZUAksk9O+KcQ6lM6iopr2uN49yJTgOVmkaOqpDqCordmlsT9RwQrz0yv33/On
- 7KHMTXeFygZZJ0EJPEMFylPxSOURNQDJCXwcBqFKNMy0gXawYRFzGVHBLXqb+VRWFJiEfTEjsT
- lsNHUFKzreqz0pXDMg6dbsKOXl5BgO1O/ptc7YieoJKrAvSu7Tt1ezgeEQPMjGoBbjwwSQdfet
- j+M=
+IronPort-SDR: FjceEtYSB+UnStdLVlMcw4Vf7NArZkglw6A4SBlhuQQeh0UyiNgfpLej9+QyV9E/ek62q7k7zd
+ Wn4BsHcn+N+BToTFz6ki32sIjVbAROPqtoVfomhdu670oRIaCRd6DkVXLSwS/Dt7sMbUzfDGn6
+ PY0EBOG9tGaNMT37f3BfQ9I812NdFVzxApaJzAh1REPUqIMmyOivNp27ojt6u3KPv2bIyv4krF
+ 2Wr8GEaUKiwvCCtH0eiPlLugGwhimAzLs8P4Ey6IoLFHz+WcdQGINbalxpUl1GcJavhz005dKe
+ BM0=
 X-IronPort-AV: E=Sophos;i="5.70,492,1574146800"; 
-   d="scan'208";a="68206434"
+   d="scan'208";a="68213347"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2020 08:19:16 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Feb 2020 09:05:10 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 27 Feb 2020 08:19:16 -0700
+ 15.1.1713.5; Thu, 27 Feb 2020 09:05:10 -0700
 Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Thu, 27 Feb 2020 08:19:14 -0700
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Thu, 27 Feb 2020 09:05:21 -0700
 From:   Eugen Hristev <eugen.hristev@microchip.com>
 To:     <dave.stevenson@raspberrypi.com>, <andrey.konovalov@linaro.org>,
         <sakari.ailus@iki.fi>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 CC:     Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH] media: i2c: imx219: add support for enum frame interval
-Date:   Thu, 27 Feb 2020 17:17:52 +0200
-Message-ID: <20200227151752.21985-1-eugen.hristev@microchip.com>
+Subject: [PATCH v2] media: i2c: imx219: add support for enum frame interval
+Date:   Thu, 27 Feb 2020 18:03:43 +0200
+Message-ID: <20200227160343.2833-1-eugen.hristev@microchip.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -76,21 +76,27 @@ callback as pad ops.
         Interval: Discrete 0.033s (30.000 fps)
         Interval: Discrete 0.033s (30.000 fps)
 
+test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+
 Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
 ---
 
-Hello,
+Changes in v2:
 
-This is on top of Sakari's tree in linuxtv.org
+v4l2-compliance was failing on setting another resolution:
 
-Thanks
-Eugen
+fail: v4l2-test-formats.cpp(126): found frame intervals for invalid size 3281x2464
 
- drivers/media/i2c/imx219.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+So fixed now by checking size:
+
+test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+
+
+ drivers/media/i2c/imx219.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index f1effb5a5f66..17fcedd4edb6 100644
+index f1effb5a5f66..2bdcaef0c89f 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
 @@ -127,6 +127,8 @@ struct imx219_mode {
@@ -126,7 +132,7 @@ index f1effb5a5f66..17fcedd4edb6 100644
  		.vts_def = IMX219_VTS_30FPS_BINNED,
  		.reg_list = {
  			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
-@@ -680,6 +685,27 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+@@ -680,6 +685,36 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
  	return 0;
  }
  
@@ -135,6 +141,7 @@ index f1effb5a5f66..17fcedd4edb6 100644
 +				      struct v4l2_subdev_frame_interval_enum *fie)
 +{
 +	struct imx219 *imx219 = to_imx219(sd);
++	const struct imx219_mode *mode;
 +
 +	if (fie->index >= ARRAY_SIZE(supported_modes))
 +		return -EINVAL;
@@ -143,6 +150,14 @@ index f1effb5a5f66..17fcedd4edb6 100644
 +		return -EINVAL;
 +
 +	if (fie->pad)
++		return -EINVAL;
++
++	mode = v4l2_find_nearest_size(supported_modes,
++				      ARRAY_SIZE(supported_modes),
++				      width, height,
++				      fie->width, fie->height);
++
++	if (mode->width != fie->width || mode->height != fie->height)
 +		return -EINVAL;
 +
 +	fie->interval.numerator = 1;
@@ -154,7 +169,7 @@ index f1effb5a5f66..17fcedd4edb6 100644
  static void imx219_reset_colorspace(struct v4l2_mbus_framefmt *fmt)
  {
  	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-@@ -1004,6 +1030,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+@@ -1004,6 +1039,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
  	.get_fmt = imx219_get_pad_format,
  	.set_fmt = imx219_set_pad_format,
  	.enum_frame_size = imx219_enum_frame_size,
