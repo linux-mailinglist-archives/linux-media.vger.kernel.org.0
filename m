@@ -2,176 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C199817299E
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 21:43:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE255172A4E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 22:38:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729642AbgB0Umx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 15:42:53 -0500
-Received: from mout.gmx.net ([212.227.15.18]:48587 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726758AbgB0Umw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 15:42:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1582836168;
-        bh=PHxdA84CrVPUIQek2Fft/b4EaOEn4nC0NYq+qVH2pGQ=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=XTOT3JI4FLsMtWNreRSOt6sFzctcr3KXD4ItJGqY/5rwo54JfZaJ0EYgCv1EIw1j1
-         4P2GJTbCxIqDKqJgqelCUViOO204MHYCQGn8gicC0nK5zkbTRx1J9OR765JDJx9nAF
-         liD5Qo1y/Gi3p6gbwQ6oAOcugIpkNrrDe/Qswh2Y=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([5.146.195.162]) by mail.gmx.com (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfYLa-1jaA6p3lf6-00g46V; Thu, 27
- Feb 2020 21:42:47 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-media@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: v4l2: Switch to new kerneldoc syntax for named variable macro arguments
-Date:   Thu, 27 Feb 2020 21:42:36 +0100
-Message-Id: <20200227204237.24620-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+        id S1729864AbgB0ViP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 16:38:15 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:42594 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729726AbgB0ViP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Feb 2020 16:38:15 -0500
+Received: by mail-oi1-f195.google.com with SMTP id l12so750464oil.9;
+        Thu, 27 Feb 2020 13:38:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MS04y4tC6v0yvFrubQXJfXoPpIt2cXWeU3+olbxgrlI=;
+        b=axo31MdcQ0SZroPbHQ++aFLzgIHEwq5vyQmASKUqoegs88CC0tgZu9O7eDyL8J/kNS
+         e1U2J0oHIaBaMgApSTJQdFAm65z8sagrmcsRCVbnWAPaBbcn8yDOC3JCYvxixGXmi7uj
+         gbo7aZam4fEhNeEwozgiiHliXdQMlC3m2mPzMu9LbVNvwbShUiO6yr0jhSkHw4kD4UGw
+         Nd5S+wyxBintX5vg2LowZpAlZmXkXN2i6L+9ktRiGj0Rv/s779IWREgeXVKEX8Dggtle
+         tt4VDmhJJRlqW6CbV6UWAWH4hae8IuvRVetpWkkHYOH+p+l5OzxNqp9zfpfOwrVK0pW/
+         yvuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MS04y4tC6v0yvFrubQXJfXoPpIt2cXWeU3+olbxgrlI=;
+        b=CjEhWJaJ52HTdzgnsCvC6LUvOIbUTPOgzop1O9voTwmRNvWFouMbuDJJEYiJ3/0zOJ
+         8/ZUfeTMuee4dEG/pNLtJ1e9gxX1p2eoLHOl/5XXs3an/Xyw7hhjS2b6yFDtURBdN/dA
+         /EGkI/kNw6Mub6aH/qSnVhrrzd3/lKVds+2Da2F6qB5JqzsTj8mPJDfjuBJ2fxoeVOxS
+         Af03doeZPbLyr3is4NGNkq3erLU6U+vL1h4/VG5gucWokQ0xqGveaHfuHuRKre9ff7sk
+         HOrT7WVeEpL/hMMHE9vSHh1aXAfhKH37dRY4T6xRqNsSwCSAoYh8iI17s1sKo4SLiaq3
+         Lz1A==
+X-Gm-Message-State: APjAAAW0vfCxKUnWkjGYZxwVjloe5WgtznR8FpnoTsv2kkYbo86Ybo+C
+        Bj/2Benpg7sF3mzR9tS+NW8k71m46aS6bhPYKcI=
+X-Google-Smtp-Source: APXvYqxCEKKThcyTyMOksvnHs/9A9wJ38y7/5HmoEZLOVcUi/4u4L0/dM8f0vFH7F8M33vJBdy3wbRzEA8zEi38CXtQ=
+X-Received: by 2002:aca:1215:: with SMTP id 21mr842995ois.5.1582839494675;
+ Thu, 27 Feb 2020 13:38:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uk5ZfMvYwaTXAmyp41ifb0s/h/5zpkPMsArdN+226tMoQwFFJge
- z5e5eRWKvIfYMhJzlXhjabY63A2c3s1+i9+ViGiidru4KsmxT6ZAPWGHHTd2jdioUNC0CQ3
- 0N/XpDDIdMP2QB2w9psYTE44caliSzwbfuRFr1HmyZtLWvbVS8JsfddU9vBkzm5ZAEAzP8p
- YLya3VVyLmUy0T9oyx7yw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wfuyONb7hyM=:YUyJNxnd0v83v1a3K5hMHo
- 8IogDwoDNww1c9s53aLv5GkcyvYTDgTqdnMqSDxJrAgVKqdQFomXI0Jp4MnwyYaQXL4qpztiu
- qeap7PZCdYJl1KoF6UjirqAc0PdTYxBEJouURpVv9dsgoMEImFOVSlSJfNphJwTuGDvHBwY61
- Dx0fHmbNo48Tqh5CIjlkFgRkg+2toaolJ42DHqdpEdlCpprHIXpHOa1wvSYZaeveP6q2gDbO4
- kuzRuJ/s43nAasTr/kRSW8Cjm5lQrZgamOWyxjq9R7p19dw7I1tZvlSiuHZDpABamWzmWRGFl
- nYjYlmkgouqrpbBeQRGmTcKi8QPxOcxmGdI/Z8SdM09OwWpb97z4AsSxrj1lAbspg+VadKWpu
- iAhsDqsH1BJSrNEOjLRaq6C/vlOOSCGYlsyr9Eg4OUAb7hfZ3LlucvkRzRW8B/Lk0jg6dGNFN
- SE0+DlQYEoilacOeyfTCs1k+n0iL4O63988O2MimQHaiKUCwo2LDIwSf0PLqzEIdPtgFU7EFV
- 6FdgzAQoZh1NBu8PxXR8ak+kZyEj8aW7Lsl5mt+YzMZOJUDG0au9k/HX7nmK5SGMG4kAMKEM0
- 77xWvNVMVi5puYggzG7+hiQizV+ac4iC5KsdVJxhf4lAmGY7p+PQ7KWeIVecF9dINri1KHeXE
- G+XrG6HwcRL8lA+druv8OLlvL+8brksv+K230Lz2of0MLzd+Aycp1tG/6N04CCEJX0rt/pkbZ
- 4j+1D/mctzcrZZBXs7WHz/7Rs8Jg9Wm4H5sbks8uNAhBIy6SBit6/hmvHa2+PaSgXDM6njvEq
- b7KBWQuul/MpJTdiSltWEWYtLRKi7toh5XWQT758vtU5X+kt05fCtbEOKfYA/IjX/gcAIS7gA
- QDKZHeELBsIBQbkSjCkCEQG5QhNr6dClsUqiJarOAhg0gJ9Z6jc6f/c1O5yYBXJZbcWenR80i
- 5+otE8ZPjqeNNV29l2rCngcSOWlH+nv97BmtH00DOFDY+DVHeqBNtN9YQ7BiYJ+B7uwFbhElo
- lLJ9HqEtHmd01T4Krrj05gUGsqS+bVSEGBnYTdsaFVMFqMczatbbpO5yLpnk0BdqIzCFC1pKM
- B6ZUOm1Yi/P1URsB294RiMuRA+Bh0YthmeMv0GiQrTJNiVbY9HxxhudBu2FfiFGIv6rrfig8m
- LLX9M0riUluqhGqcWX24T7YVnUj0zCvE9gDKIIFV3LrqrASZmWxpebvmfqUaFtI+skvOtnb6e
- yWnG+eMyvxlopjLqU
+References: <20200225204446.11378-1-xiyou.wangcong@gmail.com> <20200225175418.2d3af2180cbf895b727ce4b1@linux-foundation.org>
+In-Reply-To: <20200225175418.2d3af2180cbf895b727ce4b1@linux-foundation.org>
+From:   Cong Wang <xiyou.wangcong@gmail.com>
+Date:   Thu, 27 Feb 2020 13:38:03 -0800
+Message-ID: <CAM_iQpU7kXXGuxeOVvAGLoBRvjrhpuw2D=ih=PagGXKK-g_muw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: free dmabuf->name in dma_buf_release()
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        linaro-mm-sig@lists.linaro.org,
+        syzbot+b2098bc44728a4efb3e9@syzkaller.appspotmail.com,
+        Chenbo Feng <fengc@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The new syntax is available since commit 43756e347f21
-("scripts/kernel-doc: Add support for named variable macro arguments").
+On Tue, Feb 25, 2020 at 5:54 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Tue, 25 Feb 2020 12:44:46 -0800 Cong Wang <xiyou.wangcong@gmail.com> wrote:
+>
+> > dma-buff name can be set via DMA_BUF_SET_NAME ioctl, but once set
+> > it never gets freed.
+> >
+> > Free it in dma_buf_release().
+> >
+> > ...
+> >
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -108,6 +108,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+> >               dma_resv_fini(dmabuf->resv);
+> >
+> >       module_put(dmabuf->owner);
+> > +     kfree(dmabuf->name);
+> >       kfree(dmabuf);
+> >       return 0;
+> >  }
+>
+> ow.  Is that ioctl privileged?
 
-The same HTML output is produced with and without this patch.
+It looks unprivileged to me, as I don't see capable() called along
+the path.
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- include/media/v4l2-device.h | 16 ++++++++--------
- include/media/v4l2-subdev.h |  2 +-
- 2 files changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
-index 95353ae476a1..7c912b7d2870 100644
-=2D-- a/include/media/v4l2-device.h
-+++ b/include/media/v4l2-device.h
-@@ -240,7 +240,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Ignore any errors.
-  *
-@@ -265,7 +265,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Ignore any errors.
-  *
-@@ -293,7 +293,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Return:
-  *
-@@ -328,7 +328,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Return:
-  *
-@@ -359,7 +359,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Ignore any errors.
-  *
-@@ -388,7 +388,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Return:
-  *
-@@ -419,7 +419,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Ignore any errors.
-  *
-@@ -447,7 +447,7 @@ static inline bool v4l2_device_supports_requests(struc=
-t v4l2_device *v4l2_dev)
-  * @f: operation function that will be called if @cond matches.
-  *	The operation functions are defined in groups, according to
-  *	each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Return:
-  *
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 761aa83a3f3c..a4848de59852 100644
-=2D-- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1093,7 +1093,7 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call=
-_wrappers;
-  * @f: callback function to be called.
-  *     The callback functions are defined in groups, according to
-  *     each element at &struct v4l2_subdev_ops.
-- * @args...: arguments for @f.
-+ * @args: arguments for @f.
-  *
-  * Example: err =3D v4l2_subdev_call(sd, video, s_std, norm);
-  */
-=2D-
-2.20.1
-
+Thanks.
