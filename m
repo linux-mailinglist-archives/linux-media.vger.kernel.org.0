@@ -2,115 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 160641710F8
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 07:28:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BEDA1171162
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 08:24:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbgB0G2V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 01:28:21 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:45357 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726378AbgB0G2U (ORCPT
+        id S1728420AbgB0HYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 02:24:14 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:41426 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726999AbgB0HYO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 01:28:20 -0500
-Received: by mail-ed1-f68.google.com with SMTP id v28so1851701edw.12
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 22:28:19 -0800 (PST)
+        Thu, 27 Feb 2020 02:24:14 -0500
+Received: by mail-lj1-f196.google.com with SMTP id h23so2136050ljc.8
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 23:24:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qc/8gjwoSjhv1WAaPphN4gG7vMp46r7eAyhBiGEqLNs=;
-        b=npI8N/06lMSjD76Xcc/BTWLlQT34lMDfw3GeZ58xWNJ/dhjfX4cJcHqhnYAfRrwMGr
-         LPb5I8MHPsPEpf2j+kjjnkLdm8FNl5MfQtq+AbsEdOOBGKNg+gXW3/3mQSDUno7qspET
-         QfGdFEYcQnKlfIjSUH4HN6s5OYzN1k0UHSvRs=
+        bh=ulhfzZtjqHVApyH23tC1m4uF97F2GaK3aqMyj12HxmE=;
+        b=hHCjYsgfTgkXZ/zznQPV6HSvsdeObsvIsCq9SMzElPkgKtt/bEUuy26I6QqaTy1SE3
+         ur2XA32s47U7T74czc1kqvvkkeyit7ImqaNrNgSzA1hcz24FR5V/ZloWOSrJhf2PV26O
+         C4pHzE4cmSravi+LKRe0px08ajRcT+QwvZwCE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qc/8gjwoSjhv1WAaPphN4gG7vMp46r7eAyhBiGEqLNs=;
-        b=XYBZVcT1ZSy/aGVi/yEHzscKtZBDg1RhgXiOoWq+P2QyqO3+XT2zWhfU+Giev0YG1P
-         3kKiD1l9N+YTNQfAEtb22hxOQ3miayMDOUO4NO9uh9wttsyRE46wGw08b7ddfkWiFreh
-         v6zYOc2PpWiR3Cv6xck6gZiOYxJwVBeJa8LWI4Bf/TZ+ic4zet4SgmjbxP7Jc3JLculh
-         m+FFaRu/TM9/9qfNPtGk+NmD3ItCyNDPT2KUFOuudl++W8BqGoRBwazLgobQZBEejiSK
-         xaZ/AWwmzds+pqzgn/3cOfhYCYgm8uwUIQguc/zaKN8VTRmDopVu4TgH6/jJRgySB6SF
-         ABGQ==
-X-Gm-Message-State: APjAAAVgQOm6UOHx2SxqoDpeq3AZtzwe3SvqnChw0/jvJ/6tpKlPpt/O
-        V9MV3UZMXhIfWgFk3uyCqgpmZOtjsTf+dQ==
-X-Google-Smtp-Source: APXvYqyKQvTRxsxl6NsOmDBuMH6xEsvO5XfxNr5H2x1WtW/hSJVjrUeRfFNRq1x6hXOs3C5hNrDfug==
-X-Received: by 2002:aa7:c552:: with SMTP id s18mr2272599edr.331.1582784898654;
-        Wed, 26 Feb 2020 22:28:18 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
-        by smtp.gmail.com with ESMTPSA id u10sm200396ejx.20.2020.02.26.22.28.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2020 22:28:17 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id f15so2135341wml.3
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 22:28:17 -0800 (PST)
-X-Received: by 2002:a05:600c:2c48:: with SMTP id r8mr3065839wmg.183.1582784896863;
- Wed, 26 Feb 2020 22:28:16 -0800 (PST)
+        bh=ulhfzZtjqHVApyH23tC1m4uF97F2GaK3aqMyj12HxmE=;
+        b=hcSaQIb4rqTALJZQ9PiJG1jcBYSxcOWtp9PmggWxX8HhQFPDn75TvCtvr/Ke6Kd4rC
+         BA7srGPROivwQJZ9mk/ZRAIyoqPoNd0iRFuSEP1svYAjBWR51k7QPDpPK5yl6aUH0U30
+         Zyws0Uao9I775xSY26E4Mj+JKti5bAQrwa+wTmCdbnsZ3Pm6xkw8zwOD3MQRvobgYIj6
+         jsHT1cMYWNlkoHUBE8wuy16cpFUAajhC4sMWRafwcjVbKRYU22Rq+445AGnGwCW4mC7e
+         TYZ9zvwfMHPQ0xlJwNTF0Q0OqwzYo9Bnq7giOqycm1pdV1BCUQRSUX3roT/EIm3kav56
+         u3tg==
+X-Gm-Message-State: ANhLgQ26ZH2UIZWUki6yldwb0jKwCO1MHJ2ZICCyXkFlaSTco5UgpWs1
+        aQBHhf2xZKpDF9d5f6Yn6X2sHe1FxtCnne/PuyHUFw==
+X-Google-Smtp-Source: ADFU+vul/JV3LM8z+jDl4Ywq6hXYMYZ79sLFk7RSr6JbYECi00uphmFPR6Tj9nVUMbPkox4o6RVK8PdqCACV6Gt/HuE=
+X-Received: by 2002:a2e:3514:: with SMTP id z20mr1887966ljz.261.1582788251546;
+ Wed, 26 Feb 2020 23:24:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20190802131226.123800-1-shik@chromium.org> <CANMq1KD3Pth7LNnVqxSesx3kSFte0eR5JqEBETv45s_9_YKWHw@mail.gmail.com>
- <20190930082310.GA1750@infradead.org> <20191001063744.GA10402@infradead.org>
-In-Reply-To: <20191001063744.GA10402@infradead.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 27 Feb 2020 15:28:05 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BN63Y-zufQo9_b6kKVX7-1Qf1LwCOKQpMKkQ5KTOf2hw@mail.gmail.com>
-Message-ID: <CAAFQd5BN63Y-zufQo9_b6kKVX7-1Qf1LwCOKQpMKkQ5KTOf2hw@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Use streaming DMA APIs to transfer buffers
-To:     Christoph Hellwig <hch@infradead.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Nicolas Boichat <drinkcat@chromium.org>,
-        Shik Chen <shik@chromium.org>,
+References: <20200206102058.247258-1-keiichiw@chromium.org>
+ <20200206102058.247258-2-keiichiw@chromium.org> <20200225095956.7rtwugfru4dbjj7q@sirius.home.kraxel.org>
+In-Reply-To: <20200225095956.7rtwugfru4dbjj7q@sirius.home.kraxel.org>
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+Date:   Thu, 27 Feb 2020 16:24:00 +0900
+Message-ID: <CAD90VcaTJh5MTRggpOmCK2LAryMHha2+7nPkFVTT8N8S06tf-A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     virtio-dev@lists.oasis-open.org,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        notify@kernel.org, Keiichi Watanabe <keiichiw@chromium.org>,
-        Ricky Liang <jcliang@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christoph Lameter <cl@linux.com>
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        David Staessens <dstaessens@chromium.org>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        spice-devel@lists.freedesktop.org,
+        David Stevens <stevensd@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        Kiran Pawar <kiran.pawar@opensynergy.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Sergey Senozhatsky who's going to be looking into this.
+Thanks for the review, Gerd.
+Please see my replies inline below.
 
-Hi Christoph,
+FYI, I'm implementing virtio-video device for ChromeOS that works with
+Dmitry's virtio-video driver
+https://patchwork.linuxtv.org/patch/61717/.
+Once it becomes fully functional, I'll post a list of possible
+improvements of protocol.
 
-On Tue, Oct 1, 2019 at 3:37 PM Christoph Hellwig <hch@infradead.org> wrote:
+On Tue, Feb 25, 2020 at 7:00 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On Mon, Sep 30, 2019 at 01:23:10AM -0700, Christoph Hellwig wrote:
-> > And drivers really have no business looking at the dma mask.  I have
-> > a plan for dma_alloc_pages API that could replace that cruft, but
-> > until then please use GFP_KERNEL and let the dma subsystem bounce
-> > buffer if needed.
+> On Thu, Feb 06, 2020 at 07:20:57PM +0900, Keiichi Watanabe wrote:
+> > From: Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> >
+> > The virtio video encoder device and decoder device provide functionalities to
+> > encode and decode video stream respectively.
+> > Though video encoder and decoder are provided as different devices, they use a
+> > same protocol.
+> >
+> > Signed-off-by: Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> > Signed-off-by: Keiichi Watanabe <keiichiw@chromium.org>
 >
-> Can you try this series:
+> Finally found the time for a closer look.
+> Pretty good overall, some minor nits below ...
 >
-> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+> > +\begin{description}
+> > +\item[\field{version}] is the protocol version that the device talks.
+> > +  The device MUST set this to 0.
 >
-> and see if it does whay you need for usb?
+> What is the intended use case for this?
+>
+> Given that virtio has feature flags to negotiate support for optional
+> features and protocol extensions between driver and device, why do you
+> think this is needed?
 
-Reviving this thread. Sorry for no updates for a long time.
+While feature flags work well when we "extend" the protocol with an
+optional feature, they don't when we want to "drop" or "modify"
+features.
+For example, I guess it'd be useful when we want:
+* to abandon a non-optional command,
+* to change a non-optional struct's layout,or
+* to change the order of commands in which the device expects to be sent.
 
-dma_alloc_pages() still wouldn't be an equivalent replacement of the
-existing dma_alloc_coherent() (used behind the scenes by
-usb_alloc_coherent()). That's because the latter can allocate
-non-contiguous memory if the DMA device can handle it (i.e. is behind
-an IOMMU), but the former can only allocate a contiguous range of
-pages.
+Though it might be possible to handle these changes by feature flags,
+I suspect the version number allow us to transition protocols more
+smoothly.
+WDYT?
 
-That said, I noticed that you also put a lot of effort into making the
-NONCONSISTENT attribute more usable. Perhaps that's the way to go here
-then? Of course we would need to make sure that the attribute is
-handled properly on ARM and ARM64, which are the most affected
-platforms. Right now neither handles them. The former doesn't use the
-generic DMA mapping ops, while the latter does, but doesn't enable a
-Kconfig option needed to allow generic inconsistent allocations.
+>
+> > +The format description \field{virtio_video_format_desc} is defined as
+> > +follows:
+> > +\begin{lstlisting}
+> > +enum virtio_video_format {
+> > +        /* Raw formats */
+> > +        VIRTIO_VIDEO_FORMAT_RAW_MIN = 1,
+> > +        VIRTIO_VIDEO_FORMAT_ARGB8888 = VIRTIO_VIDEO_FORMAT_RAW_MIN,
+> > +        VIRTIO_VIDEO_FORMAT_BGRA8888,
+> > +        VIRTIO_VIDEO_FORMAT_NV12, /* 12  Y/CbCr 4:2:0  */
+> > +        VIRTIO_VIDEO_FORMAT_YUV420, /* 12  YUV 4:2:0     */
+> > +        VIRTIO_VIDEO_FORMAT_YVU420, /* 12  YVU 4:2:0     */
+> > +        VIRTIO_VIDEO_FORMAT_RAW_MAX = VIRTIO_VIDEO_FORMAT_YVU420,
+>
+> I'm wondering what the *_MIN and *_MAX values here (and elsewhere) are
+> good for?  I doubt drivers would actually loop over formats from min to
+> max, I'd expect they check for specific formats they can handle instead.
+>
+> If you want define the range for valid raw formats I'd suggest to leave
+> some room, so new formats can be added without changing MAX values, i.e.
+> use -- for example -- RAW_MIN = 0x100, RAW_MAX = 0x1ff, CODED_MIN=0x200,
+> CODED_MAX=0x2ff.  Or just drop them ...
 
-Any hints would be appreciated.
+Ah, that's a good point. I agree that drivers don't need to loop over formats.
+If they need, they can define such an alias locally.
+
+Still, I guess it's worth defining the range for valid raw/coded formats.
+This allows devices to report more detailed errors if a driver sent an
+unexpected format.
+i.e. "opposite format type" v.s. "unknown format"
+
+So, I'd use your idea of RAW_MIN = 0x100 and RAW_MAX = 0x1ff.
+
+>
+> > +struct virtio_video_query_control_level {
+> > +        le32 profile; /* One of VIRTIO_VIDEO_PROFILE_* */
+>                                                 ^^^^^^^  LEVEL ?
+
+Nope, it should be profile.
+This "profile" field is specified by the driver to query supported
+levels for a specific profile.
+
+In my understanding, supported levels depend on profiles.
+At least, the specification of H.264 [1] says that `"levels" are
+specified within each profile.` at section "0.5 Profiles and levels".
+
+[1] https://www.itu.int/rec/T-REC-H.264-201906-I/en
 
 Best regards,
-Tomasz
+Keiichi
+
+>
+> cheers,
+>   Gerd
+>
