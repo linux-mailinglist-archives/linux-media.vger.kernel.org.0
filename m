@@ -2,177 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D615171094
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 06:39:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 160641710F8
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 07:28:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbgB0FjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 00:39:20 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:40816 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726077AbgB0FjU (ORCPT
+        id S1726798AbgB0G2V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 01:28:21 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:45357 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726378AbgB0G2U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 00:39:20 -0500
-Received: by mail-pl1-f194.google.com with SMTP id y1so667026plp.7
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 21:39:19 -0800 (PST)
+        Thu, 27 Feb 2020 01:28:20 -0500
+Received: by mail-ed1-f68.google.com with SMTP id v28so1851701edw.12
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 22:28:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=6H1VrqGl1iQGvDbdPvuIjgwqvDQO5S5ENNza/HfgzS4=;
-        b=T3ew0FhJB1JRm41ADSXevvS66vXyeDmarW/IU8iAj594CgNAjsEDQw1eYfZCVXnMJK
-         G5hfLOZK1hMaanBsHiTS2NtdUeTvVbp4LzT5CVenwsQvd0IXSa2OAEcAuFfVKlVmuJta
-         qz13pMGPpgom/r+crMpBTar62Jo0eCXDyOs1EDboLGH2FceQrui0RCm2VPpijgR/OLpi
-         YX2Bx4QygRN5az2a+5uQ+YUFS4DWZN8dMwaTpz9v+FzafyjDUOviA0bOLjsvsMiwdMjP
-         z041PA8HMJG0lyZkM3Do+yHXKfhdnKFSUjNE8eR48w+p3juDqEzZzwrtLuam3duXm9cC
-         ANOQ==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qc/8gjwoSjhv1WAaPphN4gG7vMp46r7eAyhBiGEqLNs=;
+        b=npI8N/06lMSjD76Xcc/BTWLlQT34lMDfw3GeZ58xWNJ/dhjfX4cJcHqhnYAfRrwMGr
+         LPb5I8MHPsPEpf2j+kjjnkLdm8FNl5MfQtq+AbsEdOOBGKNg+gXW3/3mQSDUno7qspET
+         QfGdFEYcQnKlfIjSUH4HN6s5OYzN1k0UHSvRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=6H1VrqGl1iQGvDbdPvuIjgwqvDQO5S5ENNza/HfgzS4=;
-        b=cVYsFhH/3z5LuSpBA99tQ8Fc0y1d8ZbCWiARNt1ujGGqWh0URoSdLXvCPeduALG7ey
-         aQaFI7Iobn9nyPfnoumPl0QHeMWhe+b10t0k8QZc7AZE9EGMIoASbwzGruSPAqxzkFEX
-         h5KaQQaWQ0k4GxsKbl01TCSxcq46ooiiqx42oHjlSQrv18Bfd3jQ07xIlIdobEI8zmRW
-         ZyCFtMJ7Wj3dQ6UFoIPz6WPovsLt70X4B53gZsNJFF9bbLZ7g70ia3QVptD3vBMkVKu3
-         wpCBs83ThZlSbWk++ByqOsLxoEUwZKCaoD7qrWN+JPalWsG5yeFFbViBHFKycSkI/saJ
-         vY4Q==
-X-Gm-Message-State: APjAAAVVuwOEu4UpzGwtX/6nPXyIO21Cg7eUkQtoU2NgPlLlCSPsrUSC
-        OpZrTdMV5IknCOpMEKpu6sk9vTuAta8=
-X-Google-Smtp-Source: APXvYqzH3cy3pQ5qQPljEGIa6bl7D+Rkj+zo85gcYqoh0qU1NDL6hgBzeguRDL9DmvDUHAIo4TzkNA==
-X-Received: by 2002:a17:90a:8a89:: with SMTP id x9mr3068865pjn.116.1582781958836;
-        Wed, 26 Feb 2020 21:39:18 -0800 (PST)
-Received: from localhost.localdomain ([223.186.219.95])
-        by smtp.gmail.com with ESMTPSA id r6sm5146582pfh.91.2020.02.26.21.39.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 21:39:18 -0800 (PST)
-From:   Vandana BN <bnvandana@gmail.com>
-To:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        johan.korsnes@gmail.com
-Cc:     bnvandana@gmail.com
-Subject: [PATCH] media: Documentation:media:v4l-drivers: Update vivid documentation.
-Date:   Thu, 27 Feb 2020 11:09:09 +0530
-Message-Id: <20200227053909.25028-1-bnvandana@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qc/8gjwoSjhv1WAaPphN4gG7vMp46r7eAyhBiGEqLNs=;
+        b=XYBZVcT1ZSy/aGVi/yEHzscKtZBDg1RhgXiOoWq+P2QyqO3+XT2zWhfU+Giev0YG1P
+         3kKiD1l9N+YTNQfAEtb22hxOQ3miayMDOUO4NO9uh9wttsyRE46wGw08b7ddfkWiFreh
+         v6zYOc2PpWiR3Cv6xck6gZiOYxJwVBeJa8LWI4Bf/TZ+ic4zet4SgmjbxP7Jc3JLculh
+         m+FFaRu/TM9/9qfNPtGk+NmD3ItCyNDPT2KUFOuudl++W8BqGoRBwazLgobQZBEejiSK
+         xaZ/AWwmzds+pqzgn/3cOfhYCYgm8uwUIQguc/zaKN8VTRmDopVu4TgH6/jJRgySB6SF
+         ABGQ==
+X-Gm-Message-State: APjAAAVgQOm6UOHx2SxqoDpeq3AZtzwe3SvqnChw0/jvJ/6tpKlPpt/O
+        V9MV3UZMXhIfWgFk3uyCqgpmZOtjsTf+dQ==
+X-Google-Smtp-Source: APXvYqyKQvTRxsxl6NsOmDBuMH6xEsvO5XfxNr5H2x1WtW/hSJVjrUeRfFNRq1x6hXOs3C5hNrDfug==
+X-Received: by 2002:aa7:c552:: with SMTP id s18mr2272599edr.331.1582784898654;
+        Wed, 26 Feb 2020 22:28:18 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
+        by smtp.gmail.com with ESMTPSA id u10sm200396ejx.20.2020.02.26.22.28.17
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Feb 2020 22:28:17 -0800 (PST)
+Received: by mail-wm1-f41.google.com with SMTP id f15so2135341wml.3
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 22:28:17 -0800 (PST)
+X-Received: by 2002:a05:600c:2c48:: with SMTP id r8mr3065839wmg.183.1582784896863;
+ Wed, 26 Feb 2020 22:28:16 -0800 (PST)
+MIME-Version: 1.0
+References: <20190802131226.123800-1-shik@chromium.org> <CANMq1KD3Pth7LNnVqxSesx3kSFte0eR5JqEBETv45s_9_YKWHw@mail.gmail.com>
+ <20190930082310.GA1750@infradead.org> <20191001063744.GA10402@infradead.org>
+In-Reply-To: <20191001063744.GA10402@infradead.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 27 Feb 2020 15:28:05 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BN63Y-zufQo9_b6kKVX7-1Qf1LwCOKQpMKkQ5KTOf2hw@mail.gmail.com>
+Message-ID: <CAAFQd5BN63Y-zufQo9_b6kKVX7-1Qf1LwCOKQpMKkQ5KTOf2hw@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Use streaming DMA APIs to transfer buffers
+To:     Christoph Hellwig <hch@infradead.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Nicolas Boichat <drinkcat@chromium.org>,
+        Shik Chen <shik@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        notify@kernel.org, Keiichi Watanabe <keiichiw@chromium.org>,
+        Ricky Liang <jcliang@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christoph Lameter <cl@linux.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add metadata capture/output and v4l-touch support in vivid
-documentation.
++Sergey Senozhatsky who's going to be looking into this.
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
----
- Documentation/media/v4l-drivers/vivid.rst | 63 +++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 3 deletions(-)
+Hi Christoph,
 
-diff --git a/Documentation/media/v4l-drivers/vivid.rst b/Documentation/media/v4l-drivers/vivid.rst
-index 7082fec4075d..81e18f454b7c 100644
---- a/Documentation/media/v4l-drivers/vivid.rst
-+++ b/Documentation/media/v4l-drivers/vivid.rst
-@@ -4,9 +4,9 @@ The Virtual Video Test Driver (vivid)
- =====================================
- 
- This driver emulates video4linux hardware of various types: video capture, video
--output, vbi capture and output, radio receivers and transmitters and a software
--defined radio receiver. In addition a simple framebuffer device is available for
--testing capture and output overlays.
-+output, vbi capture and output, metadata capture and output, radio receivers and
-+transmitters, touch capture and a software defined radio receiver. In addition a
-+simple framebuffer device is available for testing capture and output overlays.
- 
- Up to 64 vivid instances can be created, each with up to 16 inputs and 16 outputs.
- 
-@@ -36,6 +36,8 @@ This document describes the features implemented by this driver:
- - Radio receiver and transmitter support, including RDS support
- - Software defined radio (SDR) support
- - Capture and output overlay support
-+- Metadata capture and output support
-+- Touch capture support
- 
- These features will be described in more detail below.
- 
-@@ -69,6 +71,9 @@ all configurable using the following module options:
- 		- bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both
- 		- bit 12: Radio Transmitter node
- 		- bit 16: Framebuffer for testing overlays
-+                - bit 17: Metadata Capture node
-+		- bit 18: Metadata Output node
-+		- bit 19: Touch Capture node
- 
- 	So to create four instances, the first two with just one video capture
- 	device, the second two with just one video output device you would pass
-@@ -175,6 +180,21 @@ all configurable using the following module options:
- 	give the desired swradioX start number for each SDR capture device.
- 	The default is -1 which will just take the first free number.
- 
-+- meta_cap_nr:
-+
-+        give the desired videoX start number for each metadata capture device.
-+        The default is -1 which will just take the first free number.
-+
-+- meta_out_nr:
-+
-+        give the desired videoX start number for each metadata output device.
-+        The default is -1 which will just take the first free number.
-+
-+- touch_cap_nr:
-+
-+        give the desired v4l-touchX start number for each touch capture device.
-+        The default is -1 which will just take the first free number.
-+
- - ccs_cap_mode:
- 
- 	specify the allowed video capture crop/compose/scaling combination
-@@ -547,6 +567,33 @@ The generated data contains the In-phase and Quadrature components of a
- 1 kHz tone that has an amplitude of sqrt(2).
- 
- 
-+Metadata Capture
-+----------------
-+
-+The Metadata capture generates UVC format metadata.The PTS and SCR is
-+transmitted based on the values set in vivid contols.
-+
-+The Metadata device will only work for the Webcam input, it will give
-+back an error for all other input.
-+
-+
-+Metadata Output
-+---------------
-+
-+The Metadata output can be used to set brightness, contrast, saturation and hue.
-+
-+The Metadata device will only work for the Webcam output, it will give
-+back an error for all other output.
-+
-+
-+Touch Capture
-+-------------
-+
-+The Touch capture generates touch patterns simulating single tap, double tap,
-+triple tap, move from left to right, zoom in, zoom out, palm press simulating
-+large area being pressed on screen, and simulating 16 different simultaneous
-+touch points.
-+
- Controls
- --------
- 
-@@ -1049,6 +1096,16 @@ FM Radio Modulator Controls
- 	to pass the RDS blocks to the driver, or "Controls" where the RDS data
- 	is Provided by the RDS controls mentioned above.
- 
-+Metadata Capture Controls
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+- Generate PTS
-+
-+        if set, then the generated metadata stream contains Presentation timestamp.
-+
-+- Generate SCR
-+
-+        if set, then the generated metadata stream contains Source Clock information.
- 
- Video, VBI and RDS Looping
- --------------------------
--- 
-2.17.1
+On Tue, Oct 1, 2019 at 3:37 PM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> On Mon, Sep 30, 2019 at 01:23:10AM -0700, Christoph Hellwig wrote:
+> > And drivers really have no business looking at the dma mask.  I have
+> > a plan for dma_alloc_pages API that could replace that cruft, but
+> > until then please use GFP_KERNEL and let the dma subsystem bounce
+> > buffer if needed.
+>
+> Can you try this series:
+>
+> http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma_alloc_pages
+>
+> and see if it does whay you need for usb?
 
+Reviving this thread. Sorry for no updates for a long time.
+
+dma_alloc_pages() still wouldn't be an equivalent replacement of the
+existing dma_alloc_coherent() (used behind the scenes by
+usb_alloc_coherent()). That's because the latter can allocate
+non-contiguous memory if the DMA device can handle it (i.e. is behind
+an IOMMU), but the former can only allocate a contiguous range of
+pages.
+
+That said, I noticed that you also put a lot of effort into making the
+NONCONSISTENT attribute more usable. Perhaps that's the way to go here
+then? Of course we would need to make sure that the attribute is
+handled properly on ARM and ARM64, which are the most affected
+platforms. Right now neither handles them. The former doesn't use the
+generic DMA mapping ops, while the latter does, but doesn't enable a
+Kconfig option needed to allow generic inconsistent allocations.
+
+Any hints would be appreciated.
+
+Best regards,
+Tomasz
