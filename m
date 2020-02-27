@@ -2,50 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BEDA1171162
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 08:24:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC7B0171164
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 08:24:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728420AbgB0HYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 02:24:14 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:41426 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726999AbgB0HYO (ORCPT
+        id S1728427AbgB0HYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 02:24:39 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37017 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726999AbgB0HYj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 02:24:14 -0500
-Received: by mail-lj1-f196.google.com with SMTP id h23so2136050ljc.8
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 23:24:12 -0800 (PST)
+        Thu, 27 Feb 2020 02:24:39 -0500
+Received: by mail-lj1-f193.google.com with SMTP id q23so2159231ljm.4
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 23:24:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ulhfzZtjqHVApyH23tC1m4uF97F2GaK3aqMyj12HxmE=;
-        b=hHCjYsgfTgkXZ/zznQPV6HSvsdeObsvIsCq9SMzElPkgKtt/bEUuy26I6QqaTy1SE3
-         ur2XA32s47U7T74czc1kqvvkkeyit7ImqaNrNgSzA1hcz24FR5V/ZloWOSrJhf2PV26O
-         C4pHzE4cmSravi+LKRe0px08ajRcT+QwvZwCE=
+        bh=1fYhwtQugourf/YHI26V7fjd8Ko33Z1d0MTgj5fBllA=;
+        b=WSbKcFqJ4JsgtMOnaqrCgpReGO+t6fT/urco7XNmD5aegv/hWCBT/JQ0uj9QyoXC9h
+         yoJbfsBZasuYfjDQ9poaaVlBtFBLNnd1PlRiS83x9XRHzkH8rfK0PVPxEd6ZWA1f7zlh
+         Vzvqz29hSWlCg6SjL81UiPpokRvDbCbkyoFSU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ulhfzZtjqHVApyH23tC1m4uF97F2GaK3aqMyj12HxmE=;
-        b=hcSaQIb4rqTALJZQ9PiJG1jcBYSxcOWtp9PmggWxX8HhQFPDn75TvCtvr/Ke6Kd4rC
-         BA7srGPROivwQJZ9mk/ZRAIyoqPoNd0iRFuSEP1svYAjBWR51k7QPDpPK5yl6aUH0U30
-         Zyws0Uao9I775xSY26E4Mj+JKti5bAQrwa+wTmCdbnsZ3Pm6xkw8zwOD3MQRvobgYIj6
-         jsHT1cMYWNlkoHUBE8wuy16cpFUAajhC4sMWRafwcjVbKRYU22Rq+445AGnGwCW4mC7e
-         TYZ9zvwfMHPQ0xlJwNTF0Q0OqwzYo9Bnq7giOqycm1pdV1BCUQRSUX3roT/EIm3kav56
-         u3tg==
-X-Gm-Message-State: ANhLgQ26ZH2UIZWUki6yldwb0jKwCO1MHJ2ZICCyXkFlaSTco5UgpWs1
-        aQBHhf2xZKpDF9d5f6Yn6X2sHe1FxtCnne/PuyHUFw==
-X-Google-Smtp-Source: ADFU+vul/JV3LM8z+jDl4Ywq6hXYMYZ79sLFk7RSr6JbYECi00uphmFPR6Tj9nVUMbPkox4o6RVK8PdqCACV6Gt/HuE=
-X-Received: by 2002:a2e:3514:: with SMTP id z20mr1887966ljz.261.1582788251546;
- Wed, 26 Feb 2020 23:24:11 -0800 (PST)
+        bh=1fYhwtQugourf/YHI26V7fjd8Ko33Z1d0MTgj5fBllA=;
+        b=aW5wjQ/CbfcrJYizvKtuL8xnKotVsTdnQELMa9S49Zj5eFZzMs2lh+2Z8QZvwAv22x
+         Pg3JZLKKinP938E2bHHTSxlE/l52Ra2S1xW6JP9sNhHCwHlNh4LNa0NHRRUkkDnytmaS
+         UUiPfO3HCmtHMvFSHfHwoJpj4gEMWaj318r5o9pIGDHl4oE7uvuHjDmJiYQcSvN/QJpk
+         vi+cX+bY1m4WVAtTBGzdIIDUvkrC3aAvNlrHnQTSIHN+mizUxDpPLYfRVEIB6NosS3QG
+         UkuDEzpIETPNFxzxAmbtylwh3q5cAbae5/6yQZHToFTe3CCLqxBsN+jYfl7xr9yHUhzH
+         QgoA==
+X-Gm-Message-State: ANhLgQ2Z8MTZKVq9NktsxM3gUtnXa4B5EAP/zesZiJGRmUrIQqE9aeEZ
+        7B/gLv1QtNV/91VW2IPuHNelFJpFlFWRRF9IK8Ip72weHrA=
+X-Google-Smtp-Source: ADFU+vtNCr/250cISpJsBUpbs9vkqScUP52zZPdToAzJT1L+kZY3XIt5c86eam0t5V7qTMZ7noC06DquWvXrtlRtrac=
+X-Received: by 2002:a2e:8e6e:: with SMTP id t14mr1910977ljk.149.1582788276864;
+ Wed, 26 Feb 2020 23:24:36 -0800 (PST)
 MIME-Version: 1.0
 References: <20200206102058.247258-1-keiichiw@chromium.org>
- <20200206102058.247258-2-keiichiw@chromium.org> <20200225095956.7rtwugfru4dbjj7q@sirius.home.kraxel.org>
-In-Reply-To: <20200225095956.7rtwugfru4dbjj7q@sirius.home.kraxel.org>
+ <20200206102058.247258-3-keiichiw@chromium.org> <20200225100144.c3rmtmq7kqyskkq7@sirius.home.kraxel.org>
+In-Reply-To: <20200225100144.c3rmtmq7kqyskkq7@sirius.home.kraxel.org>
 From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Thu, 27 Feb 2020 16:24:00 +0900
-Message-ID: <CAD90VcaTJh5MTRggpOmCK2LAryMHha2+7nPkFVTT8N8S06tf-A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
+Date:   Thu, 27 Feb 2020 16:24:25 +0900
+Message-ID: <CAD90VcaFyd2bFJUYzDF7OMsm+sWFFJuAHAqCk9hFEWnR8p+zVg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] virtio-video: Define a feature for exported
+ objects from different virtio devices
 To:     Gerd Hoffmann <kraxel@redhat.com>
 Cc:     virtio-dev@lists.oasis-open.org,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
@@ -71,104 +72,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for the review, Gerd.
-Please see my replies inline below.
+Hi,
 
-FYI, I'm implementing virtio-video device for ChromeOS that works with
-Dmitry's virtio-video driver
-https://patchwork.linuxtv.org/patch/61717/.
-Once it becomes fully functional, I'll post a list of possible
-improvements of protocol.
-
-On Tue, Feb 25, 2020 at 7:00 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Tue, Feb 25, 2020 at 7:01 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On Thu, Feb 06, 2020 at 07:20:57PM +0900, Keiichi Watanabe wrote:
-> > From: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> >
-> > The virtio video encoder device and decoder device provide functionalities to
-> > encode and decode video stream respectively.
-> > Though video encoder and decoder are provided as different devices, they use a
-> > same protocol.
-> >
-> > Signed-off-by: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> > Signed-off-by: Keiichi Watanabe <keiichiw@chromium.org>
+>   Hi,
 >
-> Finally found the time for a closer look.
-> Pretty good overall, some minor nits below ...
+> > +        /*
+> > +         * Followed by either
+> > +         * - struct virtio_video_mem_entry entries[]
+> > +         *   for VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES
+> > +         * - struct virtio_video_object_entry entries[]
+> > +         *   for VIRTIO_VIDEO_MEM_TYPE_VIRTIO_OBJECT
 >
-> > +\begin{description}
-> > +\item[\field{version}] is the protocol version that the device talks.
-> > +  The device MUST set this to 0.
->
-> What is the intended use case for this?
->
-> Given that virtio has feature flags to negotiate support for optional
-> features and protocol extensions between driver and device, why do you
-> think this is needed?
+> Wouldn't that be a single virtio_video_object_entry?
+> Or could it be one per plane?
 
-While feature flags work well when we "extend" the protocol with an
-optional feature, they don't when we want to "drop" or "modify"
-features.
-For example, I guess it'd be useful when we want:
-* to abandon a non-optional command,
-* to change a non-optional struct's layout,or
-* to change the order of commands in which the device expects to be sent.
+It depends on the value of "planes_layout" in virtio_video_resource_create.
+I have documented this restriction as follows:
 
-Though it might be possible to handle these changes by feature flags,
-I suspect the version number allow us to transition protocols more
-smoothly.
-WDYT?
-
->
-> > +The format description \field{virtio_video_format_desc} is defined as
-> > +follows:
-> > +\begin{lstlisting}
-> > +enum virtio_video_format {
-> > +        /* Raw formats */
-> > +        VIRTIO_VIDEO_FORMAT_RAW_MIN = 1,
-> > +        VIRTIO_VIDEO_FORMAT_ARGB8888 = VIRTIO_VIDEO_FORMAT_RAW_MIN,
-> > +        VIRTIO_VIDEO_FORMAT_BGRA8888,
-> > +        VIRTIO_VIDEO_FORMAT_NV12, /* 12  Y/CbCr 4:2:0  */
-> > +        VIRTIO_VIDEO_FORMAT_YUV420, /* 12  YUV 4:2:0     */
-> > +        VIRTIO_VIDEO_FORMAT_YVU420, /* 12  YVU 4:2:0     */
-> > +        VIRTIO_VIDEO_FORMAT_RAW_MAX = VIRTIO_VIDEO_FORMAT_YVU420,
->
-> I'm wondering what the *_MIN and *_MAX values here (and elsewhere) are
-> good for?  I doubt drivers would actually loop over formats from min to
-> max, I'd expect they check for specific formats they can handle instead.
->
-> If you want define the range for valid raw formats I'd suggest to leave
-> some room, so new formats can be added without changing MAX values, i.e.
-> use -- for example -- RAW_MIN = 0x100, RAW_MAX = 0x1ff, CODED_MIN=0x200,
-> CODED_MAX=0x2ff.  Or just drop them ...
-
-Ah, that's a good point. I agree that drivers don't need to loop over formats.
-If they need, they can define such an alias locally.
-
-Still, I guess it's worth defining the range for valid raw/coded formats.
-This allows devices to report more detailed errors if a driver sent an
-unexpected format.
-i.e. "opposite format type" v.s. "unknown format"
-
-So, I'd use your idea of RAW_MIN = 0x100 and RAW_MAX = 0x1ff.
-
->
-> > +struct virtio_video_query_control_level {
-> > +        le32 profile; /* One of VIRTIO_VIDEO_PROFILE_* */
->                                                 ^^^^^^^  LEVEL ?
-
-Nope, it should be profile.
-This "profile" field is specified by the driver to query supported
-levels for a specific profile.
-
-In my understanding, supported levels depend on profiles.
-At least, the specification of H.264 [1] says that `"levels" are
-specified within each profile.` at section "0.5 Profiles and levels".
-
-[1] https://www.itu.int/rec/T-REC-H.264-201906-I/en
+> +If \field{planes_layout} is VIRTIO_VIDEO_PLANES_LAYOUT_SINGLE_BUFFER,
+> +the number of \field{virtio_video_object_entry} MUST be one. If it is
+> +VIRTIO_VIDEO_PLANES_LAYOUT_PER_PLANE, the number MUST be equal to
+> +\field{num_planes}.
 
 Best regards,
 Keiichi
+
 
 >
 > cheers,
