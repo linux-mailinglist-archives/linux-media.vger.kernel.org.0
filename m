@@ -2,171 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24B70171287
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 09:28:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3121712C0
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 09:45:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728537AbgB0I2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Feb 2020 03:28:39 -0500
-Received: from mail-dm6nam12on2065.outbound.protection.outlook.com ([40.107.243.65]:6186
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728454AbgB0I2j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Feb 2020 03:28:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CvrDBDVVOfJ/vDMP0sqoy4STCIcrmblgzlcJsqA0ubQGlj0T+60iJSkdELZQxW/jOexlRxvstF3wHtOQMvgUhMOdiGTplEUwbXPUnr1tKH+LJUJfDUZcLYTRTTu2QeJG9AIKpzrk9i9uyhXHVXacnsS61EOzBeZ3ex2hxg6kk74RSqEkF7HAwPGe43YsL02SW7AY/i+1rT0KpWdXmjbJ7ApwkYVOFb6N1TjiOsj2YZommvlZA6+bRwetc29WsKcFhCoeAMcA5IBfFTAv5WBEWY4HbIuuILrG6QMopEj0/JYqSsCUX7yLMTF+7UeiA+vefgiQxZfAnT4CiMqTWBb5Bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Qq4uOA3yO+M/yRygpiS5tBhy8VtK31AJPQvRnXv4p4=;
- b=evb7xq8e98aZAMS+SIz762CfI7EM9+rlgd40V3HGz16EtvIcO0GI/gQn3+Hha2OWXhKwFmfyz4coL3Kwu1CxJ/x+jQRClZ8cvLGBxY7gXecK6VEt4K10KLbXnsJqx96+NSIFtzdlA6cs3NvRLVXreRFj7C+7JOIeHUcqPT2MPvcSoLwTUl0wTRFqCyavl5UuaXwLlOHcNqpJxgWkxFsnsG13Jnm5n6m4MbabnHjqrbs6LjbHpG9c5XSJfcHkpfKH7M2Dy1Pdzjp1bKyglAQC+N331wWm65GxpZ2N9wvs/Q27AKBrqToy1oQ3faMhBlZpkTPbsk+qSdQ49xXgjTKhoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Qq4uOA3yO+M/yRygpiS5tBhy8VtK31AJPQvRnXv4p4=;
- b=W4UL+6y4jND9B9oiihN82h5POvRafnqlmmAKHuJHQh4NokUcBVus+h4QP0nVOVzgfMwodiOjlsDj6eIcDPhiG3GYNcuR9+hD1fW8izqnCuYe1vPdA0j8f4rEeLirXVaNwm3YrF5rWnzt0aKz3dfWsgmsp3d7yVY+ii0LrVTRg60=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (2603:10b6:3:10c::22)
- by DM5PR12MB1820.namprd12.prod.outlook.com (2603:10b6:3:10d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15; Thu, 27 Feb
- 2020 08:28:36 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92%11]) with mapi id 15.20.2750.021; Thu, 27 Feb
- 2020 08:28:36 +0000
-Subject: Re: [PATCH] RFC: dma-buf: Add an API for importing and exporting sync
- files
-To:     Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Jason Ekstrand <jason@jlekstrand.net>
-Cc:     Dave Airlie <airlied@redhat.com>,
-        Jesse Hall <jessehall@google.com>,
-        James Jones <jajones@nvidia.com>,
-        Daniel Stone <daniels@collabora.com>,
-        =?UTF-8?Q?Kristian_H=c3=b8gsberg?= <hoegsberg@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Chenbo Feng <fengc@google.com>,
-        Greg Hackmann <ghackmann@google.com>,
-        linux-media@vger.kernel.org,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20200225235856.975366-1-jason@jlekstrand.net>
- <8066d8b2-dd6a-10ef-a7bb-2c18a0661912@amd.com>
- <20200226100523.GQ2363188@phenom.ffwll.local>
- <CAOFGe94O66HL212aXqhi9tdYqw---Xm-fwNSV4pxHyPmpSGpbg@mail.gmail.com>
- <CAP+8YyEUz29fXDW5kO_0ZG6c849=TuFWCK8ynT3LuM+Tn+rMzw@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <810a26e7-4294-a615-b7ee-18148ac70641@amd.com>
-Date:   Thu, 27 Feb 2020 09:28:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <CAP+8YyEUz29fXDW5kO_0ZG6c849=TuFWCK8ynT3LuM+Tn+rMzw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR10CA0029.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:17c::39) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
+        id S1728614AbgB0IpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 03:45:11 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33966 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728482AbgB0IpL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 27 Feb 2020 03:45:11 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 12DFD295A11
+Subject: Re: [PATCH v9 1/4] drm/mediatek: Use regmap for register access
+To:     CK Hu <ck.hu@mediatek.com>
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, p.zabel@pengutronix.de,
+        airlied@linux.ie, mturquette@baylibre.com, sboyd@kernel.org,
+        ulrich.hecht+renesas@gmail.com, laurent.pinchart@ideasonboard.com,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        dri-devel@lists.freedesktop.org,
+        Richard Fontana <rfontana@redhat.com>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
+        wens@csie.org, linux-arm-kernel@lists.infradead.org,
+        mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, frank-w@public-files.de,
+        Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Allison Randal <allison@lohutok.net>,
+        Matthias Brugger <mbrugger@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+        Daniel Vetter <daniel@ffwll.ch>, matthias.bgg@kernel.org
+References: <20200226105419.632771-1-enric.balletbo@collabora.com>
+ <20200226105419.632771-2-enric.balletbo@collabora.com>
+ <1582765858.20746.2.camel@mtksdaap41>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <07976851-8ac4-9c0d-3257-74fd4df74ef0@collabora.com>
+Date:   Thu, 27 Feb 2020 09:45:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR10CA0029.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.15 via Frontend Transport; Thu, 27 Feb 2020 08:28:33 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2fefc28b-8240-46b9-50a5-08d7bb5f09dd
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1820:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB18207C7CA038F70322AE451283EB0@DM5PR12MB1820.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 03264AEA72
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(136003)(366004)(39860400002)(396003)(376002)(189003)(199004)(186003)(4326008)(6666004)(2616005)(16526019)(53546011)(31686004)(478600001)(110136005)(5660300002)(52116002)(2906002)(54906003)(316002)(7416002)(6486002)(31696002)(66476007)(66946007)(66556008)(66574012)(81166006)(8936002)(81156014)(8676002)(86362001)(36756003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1820;H:DM5PR12MB1705.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U+o5quqCd3/zAFyzDijHQ3AvLur6Ab/RYmFqscIIlHOkXFckQXU1XOV5a3xiXDGP8nwUvwSfofyuAC78d5YHXBXISMVPTCjjvBeMDjUu9zIqR4M/7H0eNlm7JirhQspZOW7Lba1oiQVJKuGUIVTFg+0TKfpexx6R941b0YIg5mtgNzkWhE0qTJ1xBbK46zMrzBRirI2JjtvH0MCXk6TNAo3T9ziCuRSnC20VEeWazPxuAw7Fg1o2r1jVqMtrGszgJtnE3is/ln/IrQPt8pFw9lwN8Jj8oxLwoPsQBefMxDGNuy6/NGuJuTHByaED/YGAZWFKKvxAOpg/mMTDJCs/bDsmnGlyOTL9cvfWZ2TMwAPlmj/j4IgtLCs5C4vniIvjypICev3Ave7WmuaMifm++bCDIxjnBafyFEGfMBE75F5GMB8dBMLa0ez4ckmcSvz0
-X-MS-Exchange-AntiSpam-MessageData: Y8RDKz4KokE6ayL7JGH1UoOAXzJlVMa3iS5TIb+oL9DlvnY5Q1mGvkeHXjMeaAuWAusRAxap3QIMehQn//SEO1YA7+U+p5yH7WAMB3LEyp4VmkjrJz3aG6Ko0K9S8fO/rtgVsUmK+ajMly+vfifQbSrTnnwZIrwo1GiwXtpBMiRUTVg4aNTSBP5UuWOR1h14PuC3jXZk1PuAk6Uz0mTD4w==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2fefc28b-8240-46b9-50a5-08d7bb5f09dd
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2020 08:28:36.1929
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fv3akRB3ftFbia1vA0hX+LM5A+jjNetxcPCc66UvFtPfDy0kqjdPNp2Jhq0WaGaN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1820
+In-Reply-To: <1582765858.20746.2.camel@mtksdaap41>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 26.02.20 um 17:46 schrieb Bas Nieuwenhuizen:
-> On Wed, Feb 26, 2020 at 4:29 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
->> On Wed, Feb 26, 2020 at 4:05 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->>> On Wed, Feb 26, 2020 at 10:16:05AM +0100, Christian König wrote:
->>> [SNIP]
->>>> Just imagine that you access some DMA-buf with a shader and that operation
->>>> is presented as a fence on the DMA-bufs reservation object. And now you can
->>>> go ahead and replace that fence and free up the memory.
->>>>
->>>> Tricking the Linux kernel into allocating page tables in that freed memory
->>>> is trivial and that's basically it you can overwrite page tables with your
->>>> shader and gain access to all of system memory :)
->>>>
->>>> What we could do is to always make sure that the added fences will complete
->>>> later than the already existing ones, but that is also rather tricky to get
->>>> right. I wouldn't do that if we don't have a rather big use case for this.
->> Right.  I thought about that but I'm still learning how dma_resv
->> works.  It'd be easy enough to make a fence array that contains both
->> the old fence and the new fence and replace the old fence with that.
->> What I don't know is the proper way to replace the exclusive fence
->> safely.  Some sort of atomic_cpxchg loop, perhaps?  I presume there's
->> some way of doing it properly because DRM drivers are doing it all the
->> time.
+Hi CK,
 
-First of all you need to grab the lock of the dma_resv object or you 
-can't replace the exclusive nor the shared ones.
+On 27/2/20 2:10, CK Hu wrote:
+> Hi, Enric:
+> 
+> On Wed, 2020-02-26 at 11:54 +0100, Enric Balletbo i Serra wrote:
+>> From: Matthias Brugger <mbrugger@suse.com>
+>>
+>> The mmsys memory space is shared between the drm and the
+>> clk driver. Use regmap to access it.
+> 
+> Once there is a mmsys driver and clock control is moved into mmsys
+> driver, I think we should also move routing control into mmsys driver
+> and we could drop this patch.
+> 
 
-This way you don't need to do a atomic_cmpxchg or anything else and 
-still guarantee correct ordering.
+Do you want me do this in this series or later?
 
-> I think for an exclusive fence you may need to create a fence array
-> that includes the existing exclusive and shared fences in the dma_resv
-> combined with the added fence.
+Thanks,
+ Enric
 
-Yes, that at least gives us the correct synchronization.
-
-> However, I'm not sure what the best way is to do garbage collection on
-> that so that we don't get an impossibly list of fence arrays.
-
-Exactly yes. That's also the reason why the dma_fence_chain container I 
-came up with for the sync timeline stuff has such a rather sophisticated 
-garbage collection.
-
-When some of the included fences signal you need to free up the 
-array/chain and make sure that the memory for the container can be reused.
-
->   (Note
-> the dma_resv has a lock that needs to be taken before adding an
-> exclusive fence, might be useful). Some code that does a thing like
-> this is __dma_resv_make_exclusive in
-> drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c 
-
-Wanted to move that into dma_resv.c for quite a while since there are 
-quite a few other cases where we need this.
-
-Regards,
-Christian.
-
-> The other piece of the puzzle is that on the submit path this would
-> need something to ignore implicit fences. And there semantically the
-> question comes up whether it is safe for a driver to ignore exclusive
-> fences from another driver. (and then we have amdgpu which has its own
-> rules on exclusiveness of its shared fences based on the context. e.g.
-> the current option to ignore implicit fences for a buffer still syncs
-> on exclusive fences on the buffer).
-
+> Regards,
+> CK
+> 
+>>
+>> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+>> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>> ---
+>>
+>> Changes in v9: None
+>> Changes in v8:
+>> - Select REGMAP and MFD_SYSCON (Randy Dunlap)
+>>
+>> Changes in v7:
+>> - Add R-by from CK
+>>
+>>  drivers/gpu/drm/mediatek/Kconfig        |  2 +
+>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c  | 50 +++++++++++--------------
+>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h  |  4 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 13 ++-----
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |  2 +-
+>>  6 files changed, 32 insertions(+), 43 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+>> index fa5ffc4fe823..89e18a473cb5 100644
+>> --- a/drivers/gpu/drm/mediatek/Kconfig
+>> +++ b/drivers/gpu/drm/mediatek/Kconfig
+>> @@ -10,8 +10,10 @@ config DRM_MEDIATEK
+>>  	select DRM_KMS_HELPER
+>>  	select DRM_MIPI_DSI
+>>  	select DRM_PANEL
+>> +	select MFD_SYSCON
+>>  	select MEMORY
+>>  	select MTK_SMI
+>> +	select REGMAP
+>>  	select VIDEOMODE_HELPERS
+>>  	help
+>>  	  Choose this option if you have a Mediatek SoCs.
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>> index 5ee74d7ce35c..a236499123aa 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>> @@ -28,7 +28,7 @@
+>>   * @enabled: records whether crtc_enable succeeded
+>>   * @planes: array of 4 drm_plane structures, one for each overlay plane
+>>   * @pending_planes: whether any plane has pending changes to be applied
+>> - * @config_regs: memory mapped mmsys configuration register space
+>> + * @config_regs: regmap mapped mmsys configuration register space
+>>   * @mutex: handle to one of the ten disp_mutex streams
+>>   * @ddp_comp_nr: number of components in ddp_comp
+>>   * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
+>> @@ -50,7 +50,7 @@ struct mtk_drm_crtc {
+>>  	u32				cmdq_event;
+>>  #endif
+>>  
+>> -	void __iomem			*config_regs;
+>> +	struct regmap			*config_regs;
+>>  	struct mtk_disp_mutex		*mutex;
+>>  	unsigned int			ddp_comp_nr;
+>>  	struct mtk_ddp_comp		**ddp_comp;
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>> index 13035c906035..302753744cc6 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>> @@ -383,61 +383,53 @@ static unsigned int mtk_ddp_sel_in(enum mtk_ddp_comp_id cur,
+>>  	return value;
+>>  }
+>>  
+>> -static void mtk_ddp_sout_sel(void __iomem *config_regs,
+>> +static void mtk_ddp_sout_sel(struct regmap *config_regs,
+>>  			     enum mtk_ddp_comp_id cur,
+>>  			     enum mtk_ddp_comp_id next)
+>>  {
+>>  	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+>> -		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+>> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+>> +				BLS_TO_DSI_RDMA1_TO_DPI1);
+>>  	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+>> -		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+>> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>> -		writel_relaxed(DSI_SEL_IN_RDMA,
+>> -			       config_regs + DISP_REG_CONFIG_DSI_SEL);
+>> -		writel_relaxed(DPI_SEL_IN_BLS,
+>> -			       config_regs + DISP_REG_CONFIG_DPI_SEL);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_OUT_SEL,
+>> +				BLS_TO_DPI_RDMA1_TO_DSI);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_DSI_SEL,
+>> +				DSI_SEL_IN_RDMA);
+>> +		regmap_write(config_regs, DISP_REG_CONFIG_DPI_SEL,
+>> +				DPI_SEL_IN_BLS);
+>>  	}
+>>  }
+>>  
+>> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+>> +void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+>>  			      enum mtk_ddp_comp_id cur,
+>>  			      enum mtk_ddp_comp_id next)
+>>  {
+>> -	unsigned int addr, value, reg;
+>> +	unsigned int addr, value;
+>>  
+>>  	value = mtk_ddp_mout_en(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) | value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, value);
+>>  
+>>  	mtk_ddp_sout_sel(config_regs, cur, next);
+>>  
+>>  	value = mtk_ddp_sel_in(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) | value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, value);
+>>  }
+>>  
+>> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+>> +void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+>>  				   enum mtk_ddp_comp_id cur,
+>>  				   enum mtk_ddp_comp_id next)
+>>  {
+>> -	unsigned int addr, value, reg;
+>> +	unsigned int addr, value;
+>>  
+>>  	value = mtk_ddp_mout_en(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) & ~value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, 0);
+>>  
+>>  	value = mtk_ddp_sel_in(cur, next, &addr);
+>> -	if (value) {
+>> -		reg = readl_relaxed(config_regs + addr) & ~value;
+>> -		writel_relaxed(reg, config_regs + addr);
+>> -	}
+>> +	if (value)
+>> +		regmap_update_bits(config_regs, addr, value, 0);
+>>  }
+>>  
+>>  struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id)
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>> index 827be424a148..01ff8b68881f 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>> @@ -12,10 +12,10 @@ struct regmap;
+>>  struct device;
+>>  struct mtk_disp_mutex;
+>>  
+>> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+>> +void mtk_ddp_add_comp_to_path(struct regmap *config_regs,
+>>  			      enum mtk_ddp_comp_id cur,
+>>  			      enum mtk_ddp_comp_id next);
+>> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+>> +void mtk_ddp_remove_comp_from_path(struct regmap *config_regs,
+>>  				   enum mtk_ddp_comp_id cur,
+>>  				   enum mtk_ddp_comp_id next);
+>>  
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>> index 0563c6813333..b68837ea02b3 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>> @@ -6,6 +6,7 @@
+>>  
+>>  #include <linux/component.h>
+>>  #include <linux/iommu.h>
+>> +#include <linux/mfd/syscon.h>
+>>  #include <linux/module.h>
+>>  #include <linux/of_address.h>
+>>  #include <linux/of_platform.h>
+>> @@ -425,7 +426,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>>  {
+>>  	struct device *dev = &pdev->dev;
+>>  	struct mtk_drm_private *private;
+>> -	struct resource *mem;
+>>  	struct device_node *node;
+>>  	struct component_match *match = NULL;
+>>  	int ret;
+>> @@ -437,14 +437,9 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>>  
+>>  	private->data = of_device_get_match_data(dev);
+>>  
+>> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> -	private->config_regs = devm_ioremap_resource(dev, mem);
+>> -	if (IS_ERR(private->config_regs)) {
+>> -		ret = PTR_ERR(private->config_regs);
+>> -		dev_err(dev, "Failed to ioremap mmsys-config resource: %d\n",
+>> -			ret);
+>> -		return ret;
+>> -	}
+>> +	private->config_regs = syscon_node_to_regmap(dev->of_node);
+>> +	if (IS_ERR(private->config_regs))
+>> +		return PTR_ERR(private->config_regs);
+>>  
+>>  	/* Iterate over sibling DISP function blocks */
+>>  	for_each_child_of_node(dev->of_node->parent, node) {
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>> index 17bc99b9f5d4..03201080688d 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>> @@ -39,7 +39,7 @@ struct mtk_drm_private {
+>>  
+>>  	struct device_node *mutex_node;
+>>  	struct device *mutex_dev;
+>> -	void __iomem *config_regs;
+>> +	struct regmap *config_regs;
+>>  	struct device_node *comp_node[DDP_COMPONENT_ID_MAX];
+>>  	struct mtk_ddp_comp *ddp_comp[DDP_COMPONENT_ID_MAX];
+>>  	const struct mtk_mmsys_driver_data *data;
+> 
