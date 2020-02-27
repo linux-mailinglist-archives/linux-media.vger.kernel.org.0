@@ -2,168 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 180B1170FDA
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 05:58:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D615171094
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2020 06:39:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728386AbgB0E6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Feb 2020 23:58:47 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:38775 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728273AbgB0E6r (ORCPT
+        id S1726798AbgB0FjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Feb 2020 00:39:20 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40816 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726077AbgB0FjU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Feb 2020 23:58:47 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:c46:99f1:9c6d:cf2e])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 7BG0jBKp9jmHT7BG1jgWi6; Thu, 27 Feb 2020 05:58:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582779525; bh=0qVt+rgF+ej/E4g1JixUxwXkojdQPMms74EvSGp5Prc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=KmbQUVzktwH+Zq4Lx7oTEPCTn6E0tfoXiiXqP4UrCVGKo0ZTbqaCr36gK25iEWiM+
-         55U9T4YGNHmjDHggoKAmOSOtwBYKwONhJ3jXiIR37L3koSQFVmQdHFTUK45AWh3vhr
-         lAA8UkJHyobsPYPwH1sJWvaeCpqSNy7ugODtHm3lTGVXXq0yNU3h9Le7vLxNnYVvXd
-         xG/xR2nbcQ78QtPHgQuS5lo979LJfX7g/n/ByTJNeCHChJfkGDbHKoGx+LHGkcTcJb
-         PcDyasCP//9dx1tVefi38oPP5wuqZyzDklWqI7i+Qw1abCM/Xf9kZ/7f98T7V1RUkJ
-         c6YSfzJh4HXdQ==
-Message-ID: <edb3bf01db835d71aa04960aabab38e2@smtp-cloud7.xs4all.net>
-Date:   Thu, 27 Feb 2020 05:58:44 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfHPA0Xq6OLEF1IZOrgjoxCee2WGoh4xdEcBohYtYGh0/LZqDKagX5gZSWcjQTRDGem9039aJnLHEfEF41TwqeM5UJDf6xd0PJU8pDCKNxI8kgtP8EKXQ
- aLCt89ybSIVWZMC5KEh0/JaTV/jmfrI5xQqJ1nQcaZYGRFoMaX2qQM4k6HBqVUd5nDQ6eOobUJOU2vBoZ3Hwb1kyWK6lJgNgukrRNmvqvrGuMnrAuvywY0wl
+        Thu, 27 Feb 2020 00:39:20 -0500
+Received: by mail-pl1-f194.google.com with SMTP id y1so667026plp.7
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2020 21:39:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=6H1VrqGl1iQGvDbdPvuIjgwqvDQO5S5ENNza/HfgzS4=;
+        b=T3ew0FhJB1JRm41ADSXevvS66vXyeDmarW/IU8iAj594CgNAjsEDQw1eYfZCVXnMJK
+         G5hfLOZK1hMaanBsHiTS2NtdUeTvVbp4LzT5CVenwsQvd0IXSa2OAEcAuFfVKlVmuJta
+         qz13pMGPpgom/r+crMpBTar62Jo0eCXDyOs1EDboLGH2FceQrui0RCm2VPpijgR/OLpi
+         YX2Bx4QygRN5az2a+5uQ+YUFS4DWZN8dMwaTpz9v+FzafyjDUOviA0bOLjsvsMiwdMjP
+         z041PA8HMJG0lyZkM3Do+yHXKfhdnKFSUjNE8eR48w+p3juDqEzZzwrtLuam3duXm9cC
+         ANOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6H1VrqGl1iQGvDbdPvuIjgwqvDQO5S5ENNza/HfgzS4=;
+        b=cVYsFhH/3z5LuSpBA99tQ8Fc0y1d8ZbCWiARNt1ujGGqWh0URoSdLXvCPeduALG7ey
+         aQaFI7Iobn9nyPfnoumPl0QHeMWhe+b10t0k8QZc7AZE9EGMIoASbwzGruSPAqxzkFEX
+         h5KaQQaWQ0k4GxsKbl01TCSxcq46ooiiqx42oHjlSQrv18Bfd3jQ07xIlIdobEI8zmRW
+         ZyCFtMJ7Wj3dQ6UFoIPz6WPovsLt70X4B53gZsNJFF9bbLZ7g70ia3QVptD3vBMkVKu3
+         wpCBs83ThZlSbWk++ByqOsLxoEUwZKCaoD7qrWN+JPalWsG5yeFFbViBHFKycSkI/saJ
+         vY4Q==
+X-Gm-Message-State: APjAAAVVuwOEu4UpzGwtX/6nPXyIO21Cg7eUkQtoU2NgPlLlCSPsrUSC
+        OpZrTdMV5IknCOpMEKpu6sk9vTuAta8=
+X-Google-Smtp-Source: APXvYqzH3cy3pQ5qQPljEGIa6bl7D+Rkj+zo85gcYqoh0qU1NDL6hgBzeguRDL9DmvDUHAIo4TzkNA==
+X-Received: by 2002:a17:90a:8a89:: with SMTP id x9mr3068865pjn.116.1582781958836;
+        Wed, 26 Feb 2020 21:39:18 -0800 (PST)
+Received: from localhost.localdomain ([223.186.219.95])
+        by smtp.gmail.com with ESMTPSA id r6sm5146582pfh.91.2020.02.26.21.39.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2020 21:39:18 -0800 (PST)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        johan.korsnes@gmail.com
+Cc:     bnvandana@gmail.com
+Subject: [PATCH] media: Documentation:media:v4l-drivers: Update vivid documentation.
+Date:   Thu, 27 Feb 2020 11:09:09 +0530
+Message-Id: <20200227053909.25028-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Add metadata capture/output and v4l-touch support in vivid
+documentation.
 
-Results of the daily build of media_tree:
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ Documentation/media/v4l-drivers/vivid.rst | 63 +++++++++++++++++++++--
+ 1 file changed, 60 insertions(+), 3 deletions(-)
 
-date:			Thu Feb 27 05:00:10 CET 2020
-media-tree git hash:	ef0ed05dcef8a74178a8b480cce23a377b1de2b8
-media_build git hash:	e3e7c2632a298bb886608a95da5ec40bdb54fd92
-v4l-utils git hash:	afb123618b087f3ca2305b84fb004624662e52f0
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0a0399d66d361fec135a2dc184bd8d12148f35ad
-host hardware:		x86_64
-host os:		5.4.0-3-amd64
+diff --git a/Documentation/media/v4l-drivers/vivid.rst b/Documentation/media/v4l-drivers/vivid.rst
+index 7082fec4075d..81e18f454b7c 100644
+--- a/Documentation/media/v4l-drivers/vivid.rst
++++ b/Documentation/media/v4l-drivers/vivid.rst
+@@ -4,9 +4,9 @@ The Virtual Video Test Driver (vivid)
+ =====================================
+ 
+ This driver emulates video4linux hardware of various types: video capture, video
+-output, vbi capture and output, radio receivers and transmitters and a software
+-defined radio receiver. In addition a simple framebuffer device is available for
+-testing capture and output overlays.
++output, vbi capture and output, metadata capture and output, radio receivers and
++transmitters, touch capture and a software defined radio receiver. In addition a
++simple framebuffer device is available for testing capture and output overlays.
+ 
+ Up to 64 vivid instances can be created, each with up to 16 inputs and 16 outputs.
+ 
+@@ -36,6 +36,8 @@ This document describes the features implemented by this driver:
+ - Radio receiver and transmitter support, including RDS support
+ - Software defined radio (SDR) support
+ - Capture and output overlay support
++- Metadata capture and output support
++- Touch capture support
+ 
+ These features will be described in more detail below.
+ 
+@@ -69,6 +71,9 @@ all configurable using the following module options:
+ 		- bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both
+ 		- bit 12: Radio Transmitter node
+ 		- bit 16: Framebuffer for testing overlays
++                - bit 17: Metadata Capture node
++		- bit 18: Metadata Output node
++		- bit 19: Touch Capture node
+ 
+ 	So to create four instances, the first two with just one video capture
+ 	device, the second two with just one video output device you would pass
+@@ -175,6 +180,21 @@ all configurable using the following module options:
+ 	give the desired swradioX start number for each SDR capture device.
+ 	The default is -1 which will just take the first free number.
+ 
++- meta_cap_nr:
++
++        give the desired videoX start number for each metadata capture device.
++        The default is -1 which will just take the first free number.
++
++- meta_out_nr:
++
++        give the desired videoX start number for each metadata output device.
++        The default is -1 which will just take the first free number.
++
++- touch_cap_nr:
++
++        give the desired v4l-touchX start number for each touch capture device.
++        The default is -1 which will just take the first free number.
++
+ - ccs_cap_mode:
+ 
+ 	specify the allowed video capture crop/compose/scaling combination
+@@ -547,6 +567,33 @@ The generated data contains the In-phase and Quadrature components of a
+ 1 kHz tone that has an amplitude of sqrt(2).
+ 
+ 
++Metadata Capture
++----------------
++
++The Metadata capture generates UVC format metadata.The PTS and SCR is
++transmitted based on the values set in vivid contols.
++
++The Metadata device will only work for the Webcam input, it will give
++back an error for all other input.
++
++
++Metadata Output
++---------------
++
++The Metadata output can be used to set brightness, contrast, saturation and hue.
++
++The Metadata device will only work for the Webcam output, it will give
++back an error for all other output.
++
++
++Touch Capture
++-------------
++
++The Touch capture generates touch patterns simulating single tap, double tap,
++triple tap, move from left to right, zoom in, zoom out, palm press simulating
++large area being pressed on screen, and simulating 16 different simultaneous
++touch points.
++
+ Controls
+ --------
+ 
+@@ -1049,6 +1096,16 @@ FM Radio Modulator Controls
+ 	to pass the RDS blocks to the driver, or "Controls" where the RDS data
+ 	is Provided by the RDS controls mentioned above.
+ 
++Metadata Capture Controls
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++- Generate PTS
++
++        if set, then the generated metadata stream contains Presentation timestamp.
++
++- Generate SCR
++
++        if set, then the generated metadata stream contains Source Clock information.
+ 
+ Video, VBI and RDS Looping
+ --------------------------
+-- 
+2.17.1
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
