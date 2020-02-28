@@ -2,152 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D0B1173351
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 09:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B66F0173348
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 09:49:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgB1IwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Feb 2020 03:52:21 -0500
-Received: from proxima.lasnet.de ([78.47.171.185]:53174 "EHLO
-        proxima.lasnet.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726005AbgB1IwV (ORCPT
+        id S1726791AbgB1Itx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Feb 2020 03:49:53 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:43335 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726005AbgB1Itw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Feb 2020 03:52:21 -0500
-X-Greylist: delayed 348 seconds by postgrey-1.27 at vger.kernel.org; Fri, 28 Feb 2020 03:52:19 EST
-Received: from localhost.localdomain (p200300E9D71B9939E2C0865DB6B8C4EC.dip0.t-ipconnect.de [IPv6:2003:e9:d71b:9939:e2c0:865d:b6b8:c4ec])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: stefan@datenfreihafen.org)
-        by proxima.lasnet.de (Postfix) with ESMTPSA id 53688C3201;
-        Fri, 28 Feb 2020 09:46:30 +0100 (CET)
-Subject: Re: [PATCH 02/28] docs: networking: convert 6lowpan.txt to ReST
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
-References: <cover.1581002062.git.mchehab+huawei@kernel.org>
- <bfa773f25584a3939e0a3e1fc6bc0e91f415cd91.1581002063.git.mchehab+huawei@kernel.org>
-From:   Stefan Schmidt <stefan@datenfreihafen.org>
-Message-ID: <f81edab9-3ca8-5421-5bf8-029cefc96ad6@datenfreihafen.org>
-Date:   Fri, 28 Feb 2020 09:46:30 +0100
+        Fri, 28 Feb 2020 03:49:52 -0500
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 7bL8jJldSjmHT7bLBjmctW; Fri, 28 Feb 2020 09:49:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582879790; bh=9VdJHJ2ICbOm+M0S9iPhNX39KW0EHOq1MnmGYhIypSw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=pPc8R2kB2Vgi+7IjFLbQcjWgRUxvB7/ENKGOBDmoLycLZl2MfzkYaXNhFHzWIKV1g
+         eYImsfVz+0Ii7C3nrxZjKMMNeDCEjQxJGm11Wp1rwi99HkNM7aWvhO4AtkYEhGs5xB
+         H2oOiM9gFl9jkILqrguq2H3zJ2hllzfyiNgPFpk21Vx9pvDTx27j+gj30xa90lkAC8
+         hfwt56wViv6IOjcmNdMLsCX8YIuG67Em4MTJb9WeJjvdmX4bzDd3eioQs8rBARULtl
+         bvN4mFX8eWZd1560GbiARiVgQdY9y0nVlsxQkGNDAdY0I0tafEiPvbOgLDG9rF0Ikz
+         OGIHV6hFJxFgA==
+Subject: Re: [PATCHv3 05/11] videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT
+ flag
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200226111529.180197-1-senozhatsky@chromium.org>
+ <20200226111529.180197-6-senozhatsky@chromium.org>
+ <8ea79a02-8346-2b1d-c2d8-3a3b36480320@xs4all.nl>
+ <20200228013820.GM122464@google.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5c397f03-ffcf-6686-aa43-393771533cae@xs4all.nl>
+Date:   Fri, 28 Feb 2020 09:49:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <bfa773f25584a3939e0a3e1fc6bc0e91f415cd91.1581002063.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200228013820.GM122464@google.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCZ8fdqRORihu3OlQ+xwgbnYHeKPsvVDiLHQq4CndIffoZpwHJ0TKhFJC/jwAxNXlFw2u6+0jcqJueM/SDquwg5BRE63Q1Wi3hjO7wt5u7kNBrRbz0Gj
+ OitMr8D9ICHLPjUM8z9bTXWc1j5Qv/YKyIiX+o+Kg8/C0wXKczOutsUrPaWlA65F+cYzWz2aJX0VXgSPpKhJdKo/Sko+yyQjGPLAHQ7YBCoJYHPEjYRjFtbx
+ qacTQm/EkuglMOXlB0pEqNC0Q/53qftgzlWm8nhOR3bzBlZ9Vd8UkhmeN0hUcCydW04xOqgMi/7K/lbXSkgyCCBU6BgWsiB2S3GzeZ3O3j0qmqTMJMU+uz/l
+ 9YOTeSASxfjWNu1P+sVh+KNO5Cr7sVdcyqjXLOKpGd/H9LnZc7qcw794uuCoNO3aZPpdds7+049cRfPfkRLU8Ok33MysftB+u/ItA3pf+Jgw3RwPbmhu6ToE
+ aSNrl0R/H2FznS3JlJFVIRDZsTUaeQS82bVfvUFAbW+F3xskpfQth5ggENxD9f3oViUQhLMEmeQaznf0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello.
+On 2/28/20 2:38 AM, Sergey Senozhatsky wrote:
+> On (20/02/27 13:36), Hans Verkuil wrote:
+>>> diff --git a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
+>>> index bd08e4f77ae4..6a8a4d5de2f1 100644
+>>> --- a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
+>>> +++ b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
+>>> @@ -121,7 +121,13 @@ than the number requested.
+>>>  	other changes, then set ``count`` to 0, ``memory`` to
+>>>  	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
+>>>      * - __u32
+>>> -      - ``reserved``\ [7]
+>>> +      - ``flags``
+>>> +      - Specifies additional buffer management attributes.
+>>> +	See :ref:`memory-flags`. Old drivers and applications must set it to
+>>> +	zero.
+>>
+>> Drop the last sentence, it's not relevant.
+> 
+> OK.
+> 
+>>> +
+>>> +    * - __u32
+>>> +      - ``reserved``\ [6]
+>>>        - A place holder for future extensions. Drivers and applications
+>>>  	must set the array to zero.
+>>
+>> Old drivers and applications still think reserved is [7] and will zero this.
+> 
+> OK.
+> 
+> Hmm... If those apps use hard-coded size then we might have a problem.
+> If they use sizeof(reserved) then everything is OK. Shall we also have
+> a union here?
 
-On 06.02.20 16:17, Mauro Carvalho Chehab wrote:
-> - add SPDX header;
-> - use document title markup;
-> - mark code blocks and literals as such;
-> - adjust identation, whitespaces and blank lines;
-> - add to networking/index.rst.
+No, apps will use sizeof(reserved).
+
+Regards,
+
+	Hans
+
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   .../networking/{6lowpan.txt => 6lowpan.rst}   | 29 ++++++++++---------
->   Documentation/networking/index.rst            |  1 +
->   2 files changed, 17 insertions(+), 13 deletions(-)
->   rename Documentation/networking/{6lowpan.txt => 6lowpan.rst} (64%)
+>>> diff --git a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+>>> index 917df6fb6486..e52cc4401fba 100644
+>>> --- a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+>>> +++ b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+>>> @@ -112,10 +112,19 @@ aborting or finishing any DMA in progress, an implicit
+>>>  	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
+>>>  	free any previously allocated buffers, so this is typically something
+>>>  	that will be done at the start of the application.
+>>> -    * - __u32
+>>> +    * - union
+>>> +      - (anonymous)
+>>
+>> Anonymous unions are formatted a bit differently (I made a very recent patch
+>> that unified the union formatting in the v4l docs). See e.g.
+>> Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst.
 > 
-> diff --git a/Documentation/networking/6lowpan.txt b/Documentation/networking/6lowpan.rst
-> similarity index 64%
-> rename from Documentation/networking/6lowpan.txt
-> rename to Documentation/networking/6lowpan.rst
-> index 2e5a939d7e6f..e70a6520cc33 100644
-> --- a/Documentation/networking/6lowpan.txt
-> +++ b/Documentation/networking/6lowpan.rst
-> @@ -1,37 +1,40 @@
-> +.. SPDX-License-Identifier: GPL-2.0
->   
-> -Netdev private dataroom for 6lowpan interfaces:
-> +==============================================
-> +Netdev private dataroom for 6lowpan interfaces
-> +==============================================
->   
->   All 6lowpan able net devices, means all interfaces with ARPHRD_6LOWPAN,
->   must have "struct lowpan_priv" placed at beginning of netdev_priv.
->   
-> -The priv_size of each interface should be calculate by:
-> +The priv_size of each interface should be calculate by::
->   
->    dev->priv_size = LOWPAN_PRIV_SIZE(LL_6LOWPAN_PRIV_DATA);
->   
->   Where LL_PRIV_6LOWPAN_DATA is sizeof linklayer 6lowpan private data struct.
-> -To access the LL_PRIV_6LOWPAN_DATA structure you can cast:
-> +To access the LL_PRIV_6LOWPAN_DATA structure you can cast::
->   
->    lowpan_priv(dev)-priv;
->   
->   to your LL_6LOWPAN_PRIV_DATA structure.
->   
-> -Before registering the lowpan netdev interface you must run:
-> +Before registering the lowpan netdev interface you must run::
->   
->    lowpan_netdev_setup(dev, LOWPAN_LLTYPE_FOOBAR);
->   
->   wheres LOWPAN_LLTYPE_FOOBAR is a define for your 6LoWPAN linklayer type of
->   enum lowpan_lltypes.
->   
-> -Example to evaluate the private usually you can do:
-> +Example to evaluate the private usually you can do::
->   
-> -static inline struct lowpan_priv_foobar *
-> -lowpan_foobar_priv(struct net_device *dev)
-> -{
-> + static inline struct lowpan_priv_foobar *
-> + lowpan_foobar_priv(struct net_device *dev)
-> + {
->   	return (struct lowpan_priv_foobar *)lowpan_priv(dev)->priv;
-> -}
-> + }
->   
-> -switch (dev->type) {
-> -case ARPHRD_6LOWPAN:
-> + switch (dev->type) {
-> + case ARPHRD_6LOWPAN:
->   	lowpan_priv = lowpan_priv(dev);
->   	/* do great stuff which is ARPHRD_6LOWPAN related */
->   	switch (lowpan_priv->lltype) {
-> @@ -42,8 +45,8 @@ case ARPHRD_6LOWPAN:
->   	...
->   	}
->   	break;
-> -...
-> -}
-> + ...
-> + }
->   
->   In case of generic 6lowpan branch ("net/6lowpan") you can remove the check
->   on ARPHRD_6LOWPAN, because you can be sure that these function are called
-> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-> index 3ccb89bf5585..cc34c06477eb 100644
-> --- a/Documentation/networking/index.rst
-> +++ b/Documentation/networking/index.rst
-> @@ -34,6 +34,7 @@ Contents:
->      tls
->      tls-offload
->      nfc
-> +   6lowpan
->   
->   .. only::  subproject and html
->   
+> OK, will take a look.
+> 
+> 	-ss
 > 
 
-Reviewed-by: Stefan Schmidt <stefan@datenfreihafen.org>
-
-regards
-Stefan Schmidt
