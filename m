@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDE15173DAF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 17:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AFE4173DB6
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 17:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727039AbgB1QzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Feb 2020 11:55:14 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53229 "EHLO
+        id S1727050AbgB1QzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Feb 2020 11:55:15 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:38425 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgB1QzN (ORCPT
+        with ESMTP id S1727011AbgB1QzO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Feb 2020 11:55:13 -0500
-Received: by mail-wm1-f66.google.com with SMTP id p9so3914791wmc.2;
-        Fri, 28 Feb 2020 08:55:10 -0800 (PST)
+        Fri, 28 Feb 2020 11:55:14 -0500
+Received: by mail-wm1-f66.google.com with SMTP id n64so2635039wme.3;
+        Fri, 28 Feb 2020 08:55:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fL0yF0gmxXmJgVJQnDs+0h4iOtZEAKPKLqFiGHnUisA=;
-        b=Vn2nzyRAY0HB6q5BNhhr/lxp8EqsjKo5RAHwxpJDxIXjV7ZWbO/1BuKWSpmlkrDPXK
-         mg0Yz+Hq04RARqspdE8Yxa+qreTfjx92o6n7lWX+pGoIpFwhEz/mqf9g8rHOO/w8Q2L7
-         MpWGLOhPe/qLtROviwOQQfwYAyE3PIXZikvMi2e1xjjsGdQSTmDn7o2aJbjbDwcK9ip6
-         fAjV6LDwwuH6tS3BjrCBMjQRYQyeNltw+r2PTuNHddnTvxW7CwniMaPFL9zIgAKv5AAR
-         V5ltRfakO2Nuktc8URBqNbJfKISqSHMKpIcqmWH+S7hC5//hcMXE1iNiNq0G21KmVz0i
-         Ephg==
+        bh=casrlj1Hqx5LF5+z91d1KG1nSFyqQK6E1q8wczBteSc=;
+        b=T/MYdSTF77UGkyKWECcieIpTI1iM2awpa/dkwRRpuEuANpfwC9Phjc7/EY2h6Fbxkg
+         sWl3xD+WbCVOU6l+xYB469AM9XaziUWaQ72SzVMmqkaVg+A9dTy7DKe+9mCiujjK2kPI
+         Ira+3tHjBYTnJKXybKy+lq5W6t1mxcykeCivGWwdHLAoRpwwspapXRwyXyi4YT4XrMd2
+         80eikQsion726w0tCiDLmPaSYD4ZIcZ/JNmM66FjUU9UjwFlYUxwuElLA6WtLhunhs4U
+         gEGCcI/C5nRFolLtFwIPz5EA56tmNJH2lQyRTL38xXHVvJwaJ/D+UrJQNHG0Sp0d6nG6
+         TIPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fL0yF0gmxXmJgVJQnDs+0h4iOtZEAKPKLqFiGHnUisA=;
-        b=VTqfcAPVO53z4058fTrDQNV2+JTyikDC8xQ8wHnmtompjAXfL4PEIY3zWyNr/9BqJJ
-         ssfv4blzPlUG6GP50QM4kOLWJn88cuqiQhgeqorq7PtjMnWGMdfkLT9UftV3CyA/JuTZ
-         Nb2umlCgsKl53hnWoyFeK3z7PXSU9qrrygyRRxotwNeTamoP4EYjtKdEX/xupgvdBEJ/
-         Lpb8MCvllVMz7Deg3h1jiN2bmxZHWs/3YCRAj1YnGbRdNnXh6n9QziKb8cx9MF8oK401
-         ZogFTQ4dXxj6Wu9DFY5FlRWLzVilT7+UZdfrgvyZTMDM5bOin5YdTC6dJwOT2afMqKyw
-         wktg==
-X-Gm-Message-State: APjAAAUTjnAG5241cuRB/CfTzF+H1FbZbN5rHocm+IoHWmLMGJNg7P0S
-        sLpvlBbWt2CoOIGO+Hk27Mk=
-X-Google-Smtp-Source: APXvYqycJccY3lafmF1B4l6QbWFBn+oaCZ8Dno8IMFEn85E44gPop4298/IK2Yz9XlzYBS2nioWIcw==
-X-Received: by 2002:a1c:7907:: with SMTP id l7mr5465264wme.37.1582908909935;
-        Fri, 28 Feb 2020 08:55:09 -0800 (PST)
+        bh=casrlj1Hqx5LF5+z91d1KG1nSFyqQK6E1q8wczBteSc=;
+        b=PKdEHda4OozeRq3P1A6+n5plCryPB6wOyMTpGwJmbzC8aUfZDILxOHZG8nPSV9DE/J
+         cWYwZFHWBdvGJ2d7Zx2Wzs14JzdN38FVYGR8mi9heQtBfC3n89C9z/pB9w3dzbFjDM/P
+         KFG5KyKefexSegD62VqmFYgMIQaZZQQaUoNmlYftlo4S8WdOO3mB9CfEiqdjTpA1dC76
+         OrbsAyLJXLZAr076aVOKLVkuBaVdTit+YK9NQoip5UoDJQ4/nYOZ9WLTWybtIs8kdEce
+         G4Vs9nQImCS1W7rJq8gO4arEivT6lfZYDTCZl/ft6Yl162idxS9g5IKXKtM1OeAjai9k
+         zrzA==
+X-Gm-Message-State: APjAAAUZbz0jBXKbG3qlDQ46F3LJZ50X9huqMdz8Hz4eGG9T7rGT5WxJ
+        GtdVueBSPquF7zNQ6ll4o3A=
+X-Google-Smtp-Source: APXvYqzQCjwWAxyxs7x4WoHMBibiEKhdb4HfRyEGj4RtvGJupfpjHBlowkQQfcuwMFFc2v/f7rcnQg==
+X-Received: by 2002:a1c:9c4c:: with SMTP id f73mr5449538wme.125.1582908912646;
+        Fri, 28 Feb 2020 08:55:12 -0800 (PST)
 Received: from prasmi.home ([2a00:23c8:2510:d000:3855:fd13:6b76:a11b])
-        by smtp.gmail.com with ESMTPSA id s1sm13300071wro.66.2020.02.28.08.55.09
+        by smtp.gmail.com with ESMTPSA id s1sm13300071wro.66.2020.02.28.08.55.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2020 08:55:09 -0800 (PST)
+        Fri, 28 Feb 2020 08:55:12 -0800 (PST)
 From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/3] media: i2c: imx219: Add support for SRGGB8_1X8 format
-Date:   Fri, 28 Feb 2020 16:55:02 +0000
-Message-Id: <20200228165503.18054-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 3/3] media: i2c: imx219: Add support 640x480
+Date:   Fri, 28 Feb 2020 16:55:03 +0000
+Message-Id: <20200228165503.18054-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -64,270 +64,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-imx219 sensor is capable for RAW8/RAW10 modes, this commit adds support
-for SRGGB8_1X8 format.
+This patch adds support to 640x480 cropped resolution for the sensor
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/media/i2c/imx219.c | 122 +++++++++++++++++++++++++++++--------
- 1 file changed, 96 insertions(+), 26 deletions(-)
+ drivers/media/i2c/imx219.c | 70 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 8b48e148f2d0..1388c9bc00bb 100644
+index 1388c9bc00bb..232ebf41063a 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -90,6 +90,9 @@
+@@ -54,6 +54,7 @@
+ #define IMX219_VTS_15FPS		0x0dc6
+ #define IMX219_VTS_30FPS_1080P		0x06e3
+ #define IMX219_VTS_30FPS_BINNED		0x06e3
++#define IMX219_VTS_30FPS_640x480	0x0239
+ #define IMX219_VTS_MAX			0xffff
  
- #define IMX219_REG_ORIENTATION		0x0172
- 
-+#define IMX219_CSI_DATA_FORMAT_A_0_7	0x018c
-+#define IMX219_CSI_DATA_FORMAT_A_8_15	0x018d
-+
- /* Test Pattern Control */
- #define IMX219_REG_TEST_PATTERN		0x0600
- #define IMX219_TEST_PATTERN_DISABLE	0
-@@ -135,6 +138,16 @@ struct imx219_mode {
- 	struct imx219_reg_list reg_list;
+ #define IMX219_VBLANK_MIN		4
+@@ -329,6 +330,65 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+ 	{0x0163, 0x78},
  };
  
-+struct imx219_pixfmt {
-+	u32 code;
-+	u32 colorspace;
++static const struct imx219_reg mode_640_480_regs[] = {
++	{0x0100, 0x00},
++	{0x30eb, 0x0c},
++	{0x30eb, 0x05},
++	{0x300a, 0xff},
++	{0x300b, 0xff},
++	{0x30eb, 0x05},
++	{0x30eb, 0x09},
++	{0x0114, 0x01},
++	{0x0128, 0x01},
++	{0x012a, 0x18},
++	{0x012b, 0x00},
++	{0x0162, 0x0d},
++	{0x0163, 0xe7},
++	{0x0164, 0x03},
++	{0x0165, 0xe8},
++	{0x0166, 0x08},
++	{0x0167, 0xe7},
++	{0x0168, 0x02},
++	{0x0169, 0xf0},
++	{0x016a, 0x06},
++	{0x016b, 0xaf},
++	{0x016c, 0x02},
++	{0x016d, 0x80},
++	{0x016e, 0x01},
++	{0x016f, 0xe0},
++	{0x0170, 0x01},
++	{0x0171, 0x01},
++	{0x0172, 0x00},
++	{0x0174, 0x03},
++	{0x0175, 0x03},
++	{0x0301, 0x05},
++	{0x0303, 0x01},
++	{0x0304, 0x03},
++	{0x0305, 0x03},
++	{0x0306, 0x00},
++	{0x0307, 0x39},
++	{0x0309, 0x08},
++	{0x030b, 0x01},
++	{0x030c, 0x00},
++	{0x030d, 0x72},
++	{0x0624, 0x06},
++	{0x0625, 0x68},
++	{0x0626, 0x04},
++	{0x0627, 0xd0},
++	{0x455e, 0x00},
++	{0x471e, 0x4b},
++	{0x4767, 0x0f},
++	{0x4750, 0x14},
++	{0x4540, 0x00},
++	{0x47b4, 0x14},
++	{0x4713, 0x30},
++	{0x478b, 0x10},
++	{0x478f, 0x10},
++	{0x4793, 0x10},
++	{0x4797, 0x0e},
++	{0x479b, 0x0e},
 +};
 +
-+static const struct imx219_pixfmt imx219_formats[] = {
-+	{ MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
-+	{ MEDIA_BUS_FMT_SRGGB10_1X10, V4L2_COLORSPACE_SRGB },
-+};
-+
- /*
-  * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-  * driver.
-@@ -168,8 +181,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
- 	{0x0171, 0x01},
- 	{0x0174, 0x00},
- 	{0x0175, 0x00},
--	{0x018c, 0x0a},
--	{0x018d, 0x0a},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -230,8 +241,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
- 	{0x0171, 0x01},
- 	{0x0174, 0x00},
- 	{0x0175, 0x00},
--	{0x018c, 0x0a},
--	{0x018d, 0x0a},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -290,8 +299,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
- 	{0x0171, 0x01},
- 	{0x0174, 0x01},
- 	{0x0175, 0x01},
--	{0x018c, 0x0a},
--	{0x018d, 0x0a},
- 	{0x0301, 0x05},
- 	{0x0303, 0x01},
- 	{0x0304, 0x03},
-@@ -413,6 +420,8 @@ struct imx219 {
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
+ static const char * const imx219_test_pattern_menu[] = {
+ 	"Disabled",
+ 	"Color Bars",
+@@ -414,6 +474,16 @@ static const struct imx219_mode supported_modes[] = {
+ 			.regs = mode_1640_1232_regs,
+ 		},
+ 	},
++	{
++		/* 640x480 30fps mode */
++		.width = 640,
++		.height = 480,
++		.vts_def = IMX219_VTS_30FPS_640x480,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
++			.regs = mode_640_480_regs,
++		},
++	},
+ };
  
-+	struct v4l2_mbus_framefmt fmt;
-+
- 	struct clk *xclk; /* system clock to IMX219 */
- 	u32 xclk_freq;
- 
-@@ -519,19 +528,26 @@ static int imx219_write_regs(struct imx219 *imx219,
- }
- 
- /* Get bayer order based on flip setting. */
--static u32 imx219_get_format_code(struct imx219 *imx219)
-+static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
- {
--	/*
--	 * Only one bayer order is supported.
--	 * It depends on the flip settings.
--	 */
--	static const u32 codes[2][2] = {
-+	static const u32 codes10[2][2] = {
- 		{ MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
- 		{ MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
- 	};
-+	static const u32 codes8[2][2] = {
-+		{ MEDIA_BUS_FMT_SRGGB8_1X8, MEDIA_BUS_FMT_SGRBG8_1X8, },
-+		{ MEDIA_BUS_FMT_SGBRG8_1X8, MEDIA_BUS_FMT_SBGGR8_1X8, },
-+	};
- 
- 	lockdep_assert_held(&imx219->mutex);
--	return codes[imx219->vflip->val][imx219->hflip->val];
-+
-+	if (code == MEDIA_BUS_FMT_SRGGB10_1X10 ||
-+	    code == MEDIA_BUS_FMT_SGRBG10_1X10 ||
-+	    code == MEDIA_BUS_FMT_SGBRG10_1X10 ||
-+	    code == MEDIA_BUS_FMT_SBGGR10_1X10)
-+		return codes10[imx219->vflip->val][imx219->hflip->val];
-+
-+	return codes8[imx219->vflip->val][imx219->hflip->val];
- }
- 
- static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-@@ -539,13 +555,26 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	struct imx219 *imx219 = to_imx219(sd);
- 	struct v4l2_mbus_framefmt *try_fmt =
- 		v4l2_subdev_get_try_format(sd, fh->pad, 0);
-+	struct v4l2_mbus_framefmt *fmt;
- 
- 	mutex_lock(&imx219->mutex);
- 
-+	fmt = &imx219->fmt;
-+	fmt->code = MEDIA_BUS_FMT_SRGGB8_1X8;
-+	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-+	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-+	fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
-+							  fmt->colorspace,
-+							  fmt->ycbcr_enc);
-+	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-+	fmt->width = supported_modes[0].width;
-+	fmt->height = supported_modes[0].height;
-+	fmt->field = V4L2_FIELD_NONE;
-+
- 	/* Initialize try_fmt */
- 	try_fmt->width = supported_modes[0].width;
- 	try_fmt->height = supported_modes[0].height;
--	try_fmt->code = imx219_get_format_code(imx219);
-+	try_fmt->code = imx219_get_format_code(imx219, fmt->code);
- 	try_fmt->field = V4L2_FIELD_NONE;
- 
- 	mutex_unlock(&imx219->mutex);
-@@ -646,16 +675,12 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_pad_config *cfg,
- 				 struct v4l2_subdev_mbus_code_enum *code)
- {
--	struct imx219 *imx219 = to_imx219(sd);
--
--	/*
--	 * Only one bayer order is supported (though it depends on the flip
--	 * settings)
--	 */
--	if (code->index > 0)
-+	if (code->pad != 0)
-+		return -EINVAL;
-+	if (code->index >= ARRAY_SIZE(imx219_formats))
- 		return -EINVAL;
- 
--	code->code = imx219_get_format_code(imx219);
-+	code->code = imx219_formats[code->index].code;
- 
- 	return 0;
- }
-@@ -669,7 +694,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
- 	if (fse->index >= ARRAY_SIZE(supported_modes))
- 		return -EINVAL;
- 
--	if (fse->code != imx219_get_format_code(imx219))
-+	if (fse->code != imx219_get_format_code(imx219, imx219->fmt.code))
- 		return -EINVAL;
- 
- 	fse->min_width = supported_modes[fse->index].width;
-@@ -696,7 +721,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
- {
- 	fmt->format.width = mode->width;
- 	fmt->format.height = mode->height;
--	fmt->format.code = imx219_get_format_code(imx219);
-+	fmt->format.code = imx219_get_format_code(imx219, imx219->fmt.code);
- 	fmt->format.field = V4L2_FIELD_NONE;
- 
- 	imx219_reset_colorspace(&fmt->format);
-@@ -710,7 +735,7 @@ static int __imx219_get_pad_format(struct imx219 *imx219,
- 		struct v4l2_mbus_framefmt *try_fmt =
- 			v4l2_subdev_get_try_format(&imx219->sd, cfg, fmt->pad);
- 		/* update the code which could change due to vflip or hflip: */
--		try_fmt->code = imx219_get_format_code(imx219);
-+		try_fmt->code = imx219_get_format_code(imx219, try_fmt->code);
- 		fmt->format = *try_fmt;
- 	} else {
- 		imx219_update_pad_format(imx219, imx219->mode, fmt);
-@@ -741,11 +766,19 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	const struct imx219_mode *mode;
- 	struct v4l2_mbus_framefmt *framefmt;
- 	int exposure_max, exposure_def, hblank;
-+	int i;
- 
- 	mutex_lock(&imx219->mutex);
- 
-+	for (i = 0; i < ARRAY_SIZE(imx219_formats); i++)
-+		if (imx219_formats[i].code == fmt->format.code)
-+			break;
-+	if (i >= ARRAY_SIZE(imx219_formats))
-+		i = 0;
-+
- 	/* Bayer order varies with flips */
--	fmt->format.code = imx219_get_format_code(imx219);
-+	fmt->format.code = imx219_get_format_code(imx219,
-+						  imx219_formats[i].code);
- 
- 	mode = v4l2_find_nearest_size(supported_modes,
- 				      ARRAY_SIZE(supported_modes),
-@@ -756,6 +789,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 		framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
- 		*framefmt = fmt->format;
- 	} else if (imx219->mode != mode) {
-+		imx219->fmt = fmt->format;
- 		imx219->mode = mode;
- 		/* Update limits and set FPS to default */
- 		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-@@ -786,6 +820,36 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int imx219_set_framefmt(struct imx219 *imx219)
-+{
-+	int ret;
-+
-+	switch (imx219->fmt.code) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
-+				       IMX219_REG_VALUE_08BIT, 0x08);
-+		ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
-+				       IMX219_REG_VALUE_08BIT, 0x08);
-+		break;
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+		ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
-+				       IMX219_REG_VALUE_08BIT, 0x0a);
-+		ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
-+				       IMX219_REG_VALUE_08BIT, 0x0a);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
- static int imx219_start_streaming(struct imx219 *imx219)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-@@ -800,6 +864,12 @@ static int imx219_start_streaming(struct imx219 *imx219)
- 		return ret;
- 	}
- 
-+	ret = imx219_set_framefmt(imx219);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set format\n", __func__);
-+		return ret;
-+	}
-+
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
- 	if (ret)
+ struct imx219 {
 -- 
 2.20.1
 
