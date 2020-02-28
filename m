@@ -2,147 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 361C4173F45
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 19:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D28AC173FA1
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 19:32:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbgB1SQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Feb 2020 13:16:11 -0500
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:55908 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgB1SQL (ORCPT
+        id S1726016AbgB1Sc5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Feb 2020 13:32:57 -0500
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:43203 "EHLO
+        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbgB1Sc5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Feb 2020 13:16:11 -0500
-Received: by mail-pj1-f66.google.com with SMTP id a18so1606311pjs.5;
-        Fri, 28 Feb 2020 10:16:10 -0800 (PST)
+        Fri, 28 Feb 2020 13:32:57 -0500
+Received: by mail-oi1-f180.google.com with SMTP id p125so3758703oif.10
+        for <linux-media@vger.kernel.org>; Fri, 28 Feb 2020 10:32:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=BVlQGMV/dlLGU8gmf4FB65yDuYZrcSYwu3rmOUHQCKU=;
-        b=tS9wg1JOmqNfXXI8nSE7wGqf4MWa4f0ygw9aMUvNcOlwmaudIrd1RdgRs5mDtGoulM
-         QQnEOv23JAjX9lCxJH8QCkXYo1oUZAI3dR4RZ8ncR/03QZ7Zp0p3zhRvFI7cGX0I59dv
-         b4b+j6B1u8Qbelz/2W31Aac7KVddqaR789yUSRTsWJZRzdO2J2a2VK3GX29MaeDUmbQr
-         uM+08i0puvKfi6JO/Q9Dm6MQRgqf8zv+5TEb4CSrQhAUm/TgKfNeHEKfVF94pTtgc962
-         mulOvvlQ2zW/PuchGstri/gdmsDIBB115xh2IITn/NR3nEEHkSKPxR5yXJdIEDOi9vUT
-         DCAg==
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=1QVABSZmDRrvX1etxRV5HByt0VtblRiV24w+rwCYQuc=;
+        b=eDu6EsAevUw/yjA91jmqdqypHw+gfgrJ2xxnb+gXrphxqkLAtCz0emDh4AoTSyieV6
+         E0VJN7S74cwsSL6kecoGB7laAdgsTDyK9M7RSlJt73Psj6AWsJF+08IegEGXteMx3J9Q
+         WZ89uMCFTLVyoovhFjL8qEsT6hgKVcyyOsrJ40O2y4aPrJLxOM08/lF+i0I5Uy5l8bCE
+         d4W1pdzh9GapHmbY7xSkFGajlvFnwsel0Op5Vf7WzzWmVHH6Cnr1UkoUODdPKoiVQE+R
+         oZX74q2g3YBzAoACtreBWqwHIEO18eTnGKi2vw3OZnvbS66Sff+Zia8FNtXmSz20Dr4S
+         sHcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=BVlQGMV/dlLGU8gmf4FB65yDuYZrcSYwu3rmOUHQCKU=;
-        b=ahdEMOCsFvcHeo//EU7oPSWHH12HBm/j7QGRKD5JINHeq1NzCqUSrZFyjbegwmXv9f
-         MP7JLFHh3pLRHrNVP6dF0uBD5RunHSshjLm+nybTO8Q6rKGK8PURykmVRrrV3TgFETGn
-         50cw2uALRKtKKHdqTMmAP7bfq4UvRdP20thbP3+k/RrSBmekZAGaSj2q5qAPt168E3c6
-         GSRNVZZgSv0Ym3fgjL3Gx59OtB2EkZjSUUzcXs3orS/z2Kc1yj2plSDM3wmd/sfnOX2h
-         R/GSUgDyGTQO2s+Dv1ePSQNSpOCx5UQuZQvPKltwkLQUqWTT19qhFFch/vLviLD2AZQa
-         c+3g==
-X-Gm-Message-State: APjAAAV0Zow3xbhp4YU4DOzs7XdjWhhyspXethuxVQbbaUhY3/QcgeVZ
-        smAupyoZGY73Z7TIfcP0+Jc=
-X-Google-Smtp-Source: APXvYqwJV6NXOWi/9kpfdOV26a82C6ZHklO6PCZixEzsPy5UNqDSWCPvB0B6NoGHXvzOSey5lcIDFg==
-X-Received: by 2002:a17:902:7797:: with SMTP id o23mr4889179pll.298.1582913769852;
-        Fri, 28 Feb 2020 10:16:09 -0800 (PST)
-Received: from [172.30.88.172] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id p17sm6148220pff.116.2020.02.28.10.16.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Feb 2020 10:16:08 -0800 (PST)
-Subject: Re: [RESEND PATCH v3 02/17] media: v4l2-fwnode: Pass notifier to
- v4l2_async_register_fwnode_subdev()
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20200215194136.10131-1-slongerbeam@gmail.com>
- <20200215194136.10131-3-slongerbeam@gmail.com>
- <20200225150721.GO5379@paasikivi.fi.intel.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <c9b232d6-07c9-d13d-18aa-3e1e640aadc2@gmail.com>
-Date:   Fri, 28 Feb 2020 10:16:06 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=1QVABSZmDRrvX1etxRV5HByt0VtblRiV24w+rwCYQuc=;
+        b=N0daa7J7+jyay0A6MGMPukw8Qc6K3rLb5uzELllhVe8xrxHuOTxTR58nMu/bLNNY1J
+         ttN5ilcqAQJWkiNF9Km+4pb8hjH8UUdyk66rMX02hqDrt9S4YG+UctmQBLRJHx3xYWza
+         oTusFRbESyTud3QVpT9snwkb3BNqHhN5JENtY5lEjIEvtFryBC3A+LcjU8GczPBNFH7B
+         mPICNwZ9nVpOowyMBIUgcxswdEKqmZSmmQkomp6FOGLz7OXSTeZi83jH6wxkQIWOsVVw
+         2e6LZpTo/AtC1FUXmjalkGpB9BPx1rAaje0kQLM07vioi0dLjm6+KqtAopeSu7/S+NtE
+         65kg==
+X-Gm-Message-State: APjAAAXhEUG5O3Bv/0e+p/FKutMFeOU5YL7jq3Ln1daL3gFiRLkD4+Aq
+        Yqth4ktUdU0DOv58vR2zM9ex/TTANmCw3ZDI8xuuFhifUFI=
+X-Google-Smtp-Source: APXvYqw/De2JqDMSQm2LgJ/Dz6rf1HV8w+zdJ0N23viZvSYxQ1lokbvVUQZ5rzOn0xpzxypKBPGGyLzNn/x4tw6MTv8=
+X-Received: by 2002:aca:3194:: with SMTP id x142mr2857253oix.172.1582914774882;
+ Fri, 28 Feb 2020 10:32:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200225150721.GO5379@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Fri, 28 Feb 2020 10:32:43 -0800
+Message-ID: <CAJ+vNU3DWQX5ud7yreVG3E-Ky6M_NE5nbrwjAJ0x-1xxz4A92A@mail.gmail.com>
+Subject: imx-media colorimetry
+To:     linux-media <linux-media@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Greetings,
 
-On 2/25/20 7:07 AM, Sakari Ailus wrote:
-> Hi Steve,
->
-> On Sat, Feb 15, 2020 at 11:41:21AM -0800, Steve Longerbeam wrote:
->> Instead of allocating a notifier in v4l2_async_register_fwnode_subdev(),
->> have the caller provide one. This allows the caller to implement
->> notifier ops (bind, unbind).
->>
->> The caller is now responsible for first initializing its notifier with a
->> call to v4l2_async_notifier_init().
->>
->> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-> Instead of improving v4l2_async_register_fwnode_subdev(), could you convert
-> the users (IMX driver in this case) to call the preferred APIs instead? As
-> the lines below show, v4l2_async_register_fwnode_subdev() has only two
-> users left --- the other one of which is the IMX driver. After converting
-> these two, we could just remove this API.
->
-> See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2.c and
-> drivers/media/platform/omap3isp/isp.c for examples.
+I'm running into a colorimetry issue when trying to h264 encode video
+from adv7180 on an imx6q. I'm using the following setup on a Gateworks
+GW5404 which last worked on a 4.20 kernel with a bunch of backports.
 
-Shouldn't v4l2_async_notifier_add_fwnode_remote_subdev() check for the 
-availability of the remote before adding it to the notifier's asd list, 
-as in:
+setup script:
+# imx6q-gw54xx adv7180 IPU2_CSI1 MODE3:sensor->mux->csi->vdic->ic_prp->ic_prpvf
+# imx6q-gw54xx IPU2_CSI1 adv7180 UYVY8_2X8 240i@29.9Hz YUV
+MODE3:sensor->mux->csi->vdic->ic_prp->ic_prpvf
+# reset all links
+media-ctl --reset
+# setup links
+media-ctl -l "'adv7180 2-0020':0 -> 'ipu2_csi1_mux':1[1]"
+media-ctl -l "'ipu2_csi1_mux':2 -> 'ipu2_csi1':0[1]"
+media-ctl -l "'ipu2_csi1':1 -> 'ipu2_vdic':0[1]"
+media-ctl -l "'ipu2_vdic':2 -> 'ipu2_ic_prp':0[1]"
+media-ctl -l "'ipu2_ic_prp':2 -> 'ipu2_ic_prpvf':0[1]"
+media-ctl -l "'ipu2_ic_prpvf':1 -> 'ipu2_ic_prpvf capture':0[1]"
+# configure pads
+media-ctl --set-v4l2 "'adv7180 2-0020':0 [fmt:UYVY2X8/720x240 field:alternate]"
+media-ctl --set-v4l2 "'ipu2_csi1_mux':2 [fmt:UYVY2X8/720x240]"
+media-ctl --set-v4l2 "'ipu2_csi1':0 [fmt:UYVY8_2X8/720x240@1001/30000
+field:alternate colorspace:rec709 ycbcr:709]"
+media-ctl --set-v4l2 "'ipu2_csi1':1 [fmt:AYUV32/720x480]"
+media-ctl --set-v4l2 "'ipu2_vdic':2 [fmt:AYUV32/720x480 field:none]"
+media-ctl --set-v4l2 "'ipu2_ic_prp':2 [fmt:AYUV32/720x480 field:none]"
+media-ctl --set-v4l2 "'ipu2_ic_prpvf':1 [fmt:AYUV32/720x480]"
 
-diff --git a/drivers/media/v4l2-core/v4l2-async.c 
-b/drivers/media/v4l2-core/v4l2-async.c
-index 8bde33c21ce4..b48ed68c6c6c 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -615,7 +615,7 @@ v4l2_async_notifier_add_fwnode_remote_subdev(struct 
-v4l2_async_notifier *notif,
-         int ret;
+device details:
+~# media-ctl -e "ipu2_ic_prpvf capture"
+/dev/video6
 
-         remote = fwnode_graph_get_remote_port_parent(endpoint);
--       if (!remote)
-+       if (!remote || !fwnode_device_is_available(remote))
-                 return -ENOTCONN;
+~# for i in $(ls -d /sys/class/video4linux/video*); do echo $i:$(cat
+$i/name); done
+/sys/class/video4linux/video0:ipu1_csi0 capture
+/sys/class/video4linux/video1:ipu1_ic_prpenc capture
+/sys/class/video4linux/video10:coda-decoder
+/sys/class/video4linux/video2:ipu1_ic_prpvf capture
+/sys/class/video4linux/video3:ipu1_csi1 capture
+/sys/class/video4linux/video4:ipu2_csi0 capture
+/sys/class/video4linux/video5:ipu2_ic_prpenc capture
+/sys/class/video4linux/video6:ipu2_ic_prpvf capture
+/sys/class/video4linux/video7:ipu2_csi1 capture
+/sys/class/video4linux/video8:ipu_ic_pp csc/scaler
+/sys/class/video4linux/video9:coda-encoder
 
-         asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+gstreamer:
+~# gst-launch-1.0 --version
+gst-launch-1.0 version 1.16.2
+GStreamer 1.16.2
+Unknown package origin
+~# gst-inspect-1.0 | grep -e "v4l2.*convert*"
+video4linux2:  v4l2convert: V4L2 Video Converter
 
+# gst-launch-1.0 v4l2src device=/dev/video6 ! v4l2convert
+output-io-mode=dmabuf-import ! v4l2h264enc
+output-io-mode=dmabuf-import ! fakesink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Device
+'/dev/video6' does not support 2:0:0:0 colorimetry
+Additional debug info:
+../sys/v4l2/gstv4l2object.c(3845): gst_v4l2_object_set_format_full ():
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+Device wants 2:4:5:1 colorimetry
+Execution ended after 0:00:00.009831000
+Setting pipeline to PAUSED ...
+Setting pipeline to READY ...
+Setting pipeline to NULL ...
+Freeing pipeline ...
 
-Otherwise we are back to the problem that the notifier will never 
-complete because the remote's driver is not probed.
+Any ideas?
 
-Steve
+Best Regards,
 
->
->> ---
->> Changes in v3:
->> - added the missing calls to unregister/cleanup the new subdev notifiers.
->>    Reported by Rui Silva.
->> ---
->>   drivers/media/platform/video-mux.c         |  8 +++++++-
->>   drivers/media/v4l2-core/v4l2-fwnode.c      | 11 +----------
->>   drivers/staging/media/imx/imx6-mipi-csi2.c |  7 ++++++-
->>   drivers/staging/media/imx/imx7-media-csi.c |  7 ++++++-
->>   drivers/staging/media/imx/imx7-mipi-csis.c |  9 ++++++++-
->>   include/media/v4l2-fwnode.h                | 12 ++++++++----
->>   6 files changed, 36 insertions(+), 18 deletions(-)
-
+Tim
