@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70154173D34
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 17:41:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DBB6173D8B
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2020 17:50:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726151AbgB1Qle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Feb 2020 11:41:34 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53706 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbgB1Qld (ORCPT
+        id S1726642AbgB1QuQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Feb 2020 11:50:16 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41933 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725877AbgB1QuQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Feb 2020 11:41:33 -0500
-Received: by mail-wm1-f66.google.com with SMTP id f15so3844030wml.3;
-        Fri, 28 Feb 2020 08:41:31 -0800 (PST)
+        Fri, 28 Feb 2020 11:50:16 -0500
+Received: by mail-wr1-f65.google.com with SMTP id v4so3686199wrs.8;
+        Fri, 28 Feb 2020 08:50:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=X5lwKhEkYPb9uFlg3S0kiEOPjUxyOuwawAZ72KaGw1I=;
-        b=czUtcTbXEvp4mZ7wtGwtLvOLqcZDZlcZuz3vhgz+v/+rlvyULWIomKGtLHqP8fikwu
-         g83gvPCTOCs5rTKZgRIL6gVLYZggOrS5iRFJmwgwj5iIISr9NRYe3v7hdocYspriLyOx
-         zQ0xYB9h0wlpxsoi0pb/IMf/O+nB/jgyii3rlke9Hlgn7k3pBu0uGLW/i/11iKeTscB0
-         Roghbmt5MLisRFksRBXU6TGaUQfpebPc5oBID2VTurhw3Wglf7nVzXv0+j0kgJLI5bNq
-         1eXN0OSorz7i52T937g+ngq+oIh2jMPqLT/316e443cQip13YNuFNi/+/QOoDsIzZcIh
-         bD+A==
+        bh=ptyAW0CaITCOGU6uMR1Y6lC9nQJFqQFDJtzDeifQS9I=;
+        b=l3s0B9dD5cbnT+tDYSz4eKacSfHu+Db56dgBLC3hqgQsS1vsiyPpDGvJpzoJKe5lyS
+         YAdsvf4DLFDtnTZYloMYVPpT+S/CtDUB/HokArZ9SF7VX107IrLhE+2SXDeYC5QC1ZEr
+         deX2Hovym+MEYbahoocdqNDzpupY5xes9xipsMjje6Uv6HcEztAE/8k+VBk5IbKNVdOO
+         Ums7WbdOFEKbVkpBlTejHNABNfpWoFUL56EsVRKUYZFNTyUkyQqakYwY36tSMRxI73mm
+         toNuvsRVUynSu+iA0u0aBdNie5Ug88nhfbkWKiY9Qvw+66qNdeGizLBzo8edfJBgesg7
+         XODw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=X5lwKhEkYPb9uFlg3S0kiEOPjUxyOuwawAZ72KaGw1I=;
-        b=C8p6n2Ekn4YBljw7ZtkpzHvkkYsXi3Jz+noe3vpgobHMasS2Y4RBRkk+1Mkm/Rwk3W
-         6H/UDDjAlrjttAUYipoN8EaZd7U8uCMKE9GrusYor13+DiuY9Qtg4ZnkiDs4TBsT8qp2
-         XgO+30H3gyHnel1ftUOvLrbuDnThvp+9wNTe2khUt65WApDR9f/s3JBXNT7zpueHbJ7a
-         gk1WVP82rsA+RjeROjiwuPWzZpI60MYg/DXbzz2czfacKoYuNg/iKZWLGmuoW5DWdytU
-         OZkc931htUQjKykfDh3+YpH/pD4gWm5J6Y4btpECbANCZvyyZPG1BpTmwvjIMw7YnmGW
-         PHhQ==
-X-Gm-Message-State: APjAAAWfS2jt8eaeb/GflR2ENcTzh3HOoZ1gcHdmLnv8yvPzdpcNrikt
-        JVhb8/Rci1GdR+XjpE36Aec=
-X-Google-Smtp-Source: APXvYqzocoSmWjrOQ3OYNBEyzBu4M21vN1njgPy+5EDu+DImCvi/+Wkhc/Ch9Qtn3ou8YPNSaZfcIA==
-X-Received: by 2002:a1c:a9d1:: with SMTP id s200mr5766137wme.181.1582908091322;
-        Fri, 28 Feb 2020 08:41:31 -0800 (PST)
+        bh=ptyAW0CaITCOGU6uMR1Y6lC9nQJFqQFDJtzDeifQS9I=;
+        b=mKwMkouE7+B20dnLkPzBLEOnQTAaYD7Lv6CgHPYBn1myju0FQzlyKRsEOCNiYJ7iRL
+         tBVS+Q6XohZz2q3f2GlPn8c3Cdup6mOWsS65CHdlA+bnNIst+zggflvb1OPCk8q9TmhO
+         9vNwgVJfZTWAJ4oKxyYOVU/s8+RuUcHEourr2M3rY3LhsFB/txjLMxP82r6fZkdmp+4M
+         MMwFmysKisfJFByYq3B9k3B5CudItKtWsMQSppdbAZe4BLJ3tmGvCmWCkuRvhnuosDoR
+         prpvz8Y0+69cXJbxuofGBpk143LejXdu7oVcv3xBnRfn0x/U8ojce3B1UydAH0CnUdAU
+         6Uqw==
+X-Gm-Message-State: APjAAAWjmlNBus/d4dfPoH36yBBVz57lqoxD4maEeX0g2Lb3ZZmD6iDg
+        ZtVXmHLQ7EsGOejepZsHzhD4oy2HlrY=
+X-Google-Smtp-Source: APXvYqxtMOkK0rtqDfAgCFY0WIbDeFle7t52h2u/lr6aqGBMu4jWB+bStrNDa6x0ZLTjCdXEusnxeA==
+X-Received: by 2002:adf:ffc1:: with SMTP id x1mr230842wrs.3.1582908614070;
+        Fri, 28 Feb 2020 08:50:14 -0800 (PST)
 Received: from prasmi.home ([2a00:23c8:2510:d000:3855:fd13:6b76:a11b])
-        by smtp.gmail.com with ESMTPSA id t187sm3028493wmt.25.2020.02.28.08.41.30
+        by smtp.gmail.com with ESMTPSA id h2sm13263408wrt.45.2020.02.28.08.50.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2020 08:41:30 -0800 (PST)
+        Fri, 28 Feb 2020 08:50:13 -0800 (PST)
 From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Fabio Estevam <festevam@gmail.com>
+        Niklas <niklas.soderlund@ragnatech.se>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] media: i2c: ov5645: Add virtual_channel module parameter
-Date:   Fri, 28 Feb 2020 16:41:26 +0000
-Message-Id: <20200228164126.17517-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] media: rcar-vin: feature enhancement and fixes
+Date:   Fri, 28 Feb 2020 16:50:09 +0000
+Message-Id: <20200228165011.17898-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,74 +63,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-OV5645 can operate in virtual channel 0-3 in CSI2 interfaces, this patch
-adds support for module parameter virtual_channel to select the required
-channel. By default OV5645 operates in virtual channel 0.
+First patch of the series fixes registering endpoints to the vin module and
+the second patch adds supports for SRGGB8_1X8 format.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/i2c/ov5645.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Lad Prabhakar (2):
+  media: rcar-csi2: Fix registering camera endpoint to VIN
+  media: rcar-vin: Add support for SRGGB8_1X8
 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index a6c17d15d754..0a0671164623 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -54,6 +54,7 @@
- #define OV5645_TIMING_TC_REG21		0x3821
- #define		OV5645_SENSOR_MIRROR		BIT(1)
- #define OV5645_MIPI_CTRL00		0x4800
-+#define OV5645_REG_DEBUG_MODE		0x4814
- #define OV5645_PRE_ISP_TEST_SETTING_1	0x503d
- #define		OV5645_TEST_PATTERN_MASK	0x3
- #define		OV5645_SET_TEST_PATTERN(x)	((x) & OV5645_TEST_PATTERN_MASK)
-@@ -61,6 +62,11 @@
- #define OV5645_SDE_SAT_U		0x5583
- #define OV5645_SDE_SAT_V		0x5584
- 
-+static u8 virtual_channel;
-+module_param(virtual_channel, byte, 0644);
-+MODULE_PARM_DESC(virtual_channel,
-+		 "MIPI CSI-2 virtual channel (0..3), default 0");
-+
- /* regulator supplies */
- static const char * const ov5645_supply_name[] = {
- 	"vdddo", /* Digital I/O (1.8V) supply */
-@@ -983,12 +989,34 @@ static int ov5645_get_selection(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int ov5645_set_virtual_channel(struct ov5645 *ov5645)
-+{
-+	u8 temp, channel = virtual_channel;
-+	int ret;
-+
-+	if (channel > 3)
-+		return -EINVAL;
-+
-+	ret = ov5645_read_reg(ov5645, OV5645_REG_DEBUG_MODE, &temp);
-+	if (ret)
-+		return ret;
-+
-+	temp &= ~(3 << 6);
-+	temp |= (channel << 6);
-+
-+	return ov5645_write_reg(ov5645, OV5645_REG_DEBUG_MODE, temp);
-+}
-+
- static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
- {
- 	struct ov5645 *ov5645 = to_ov5645(subdev);
- 	int ret;
- 
- 	if (enable) {
-+		ret = ov5645_set_virtual_channel(ov5645);
-+		if (ret < 0)
-+			return ret;
-+
- 		ret = ov5645_set_register_array(ov5645,
- 					ov5645->current_mode->data,
- 					ov5645->current_mode->data_size);
+ drivers/media/platform/rcar-vin/rcar-core.c |  1 +
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 15 +++++++--------
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 14 ++++++++++++--
+ drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+ 4 files changed, 24 insertions(+), 10 deletions(-)
+
 -- 
 2.20.1
 
