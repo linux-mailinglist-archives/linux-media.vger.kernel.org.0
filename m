@@ -2,90 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E0A1746B0
-	for <lists+linux-media@lfdr.de>; Sat, 29 Feb 2020 13:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E81517481F
+	for <lists+linux-media@lfdr.de>; Sat, 29 Feb 2020 17:40:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726998AbgB2MQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Feb 2020 07:16:27 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58852 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726933AbgB2MQ1 (ORCPT
+        id S1727193AbgB2Qkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Feb 2020 11:40:40 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36845 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727124AbgB2Qkk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Feb 2020 07:16:27 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD0EB2AF;
-        Sat, 29 Feb 2020 13:16:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1582978585;
-        bh=UVKKq+A0bOzlYXiyFXTM4MZNHNEcpcBbPauSlZl8nKA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ai8QyPDL+Evl+OvFd2/6Rkuk863rbagwCyiPCb0UYKxJt0uu7oWLNIZKWgOKN5boV
-         OCjmnJU97if5HKZS/Rf1PiKk1wI0/pXRIJRofl8tHI2jiyj13MfVvI54/n3F+HATfs
-         AUClDtQXouB3F6f8S6y15P5s5usHBkQzqO+Y+7Ag=
-Date:   Sat, 29 Feb 2020 14:16:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     gert.cauwenberg@telenet.be
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [V4l2-library] Macro Silicon M2106
-Message-ID: <20200229121602.GA6746@pendragon.ideasonboard.com>
-References: <1776591343.116854534.1582965890081.JavaMail.zimbra@telenet.be>
- <827808095.116935408.1582967209344.JavaMail.zimbra@telenet.be>
- <f3e95f98-1b70-d312-2cb7-467b4b31d72b@xs4all.nl>
+        Sat, 29 Feb 2020 11:40:40 -0500
+Received: by mail-wm1-f68.google.com with SMTP id g83so4467233wme.1
+        for <linux-media@vger.kernel.org>; Sat, 29 Feb 2020 08:40:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=LxR7X3dDtcq+5W+FtPVqnuhLYnxLerXbFaqGoz4O5DU=;
+        b=AYwe7pcIDKXlE6v2WwL9ERNqawlYCuSexQgu2BwaabpPJHn7Md2KfDapqR3XFnuL2s
+         bx2i2qjqlvcuC2lkNb2fFaWUClDC0WrSjVfZXaFVHBslZhRxKsyYhy25KoFNV02V8X1y
+         nUvWAgbvde2g4LgXhKq0L+LqKMb5C+s+GOWH0H+Hya+xW8X6L5G3IjIZ+ZLHZvJ69UPN
+         +YXOy43rE27HTElQvnyMu5oL6mKh1e31F2GzZxz2BqrQ3/XmVHe+E1/pk1umAirxOt48
+         r9uVKaW2RIIZjHdtYHw0HYu4HaVJopd0TQ6qXk4EU7AftjjVZxXWBkQ1HhsoIj34atxE
+         GfiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=LxR7X3dDtcq+5W+FtPVqnuhLYnxLerXbFaqGoz4O5DU=;
+        b=Zzt8vZZn2ZJn2zEFJDjsnNeVlcJv/KjsLFlAVFlkT7IH6nyLMU9WGC/X54OF9ICsb1
+         D4c+PHEmx93lETEKmPXlVTlrk20Il8bIxo0fzqzqqdUdSr+uOcYL5c/drC6jrzIrbfsq
+         /jXwinbtVjztkSeMc2P2FvRdfOaG93XtuLmxhno5CntI6TBvMSTxtDKFcqVjPlf8a9nX
+         jngXrW4TM8NW+AwLZ4LsAUtWxY7OZb/vmexmMwoNcN1ja87sglk+DzpriJAFB95OCZFh
+         AHji9ttCIHR6P+ZNpmNoZzPEDEvBYKIZzaUP0EZSh2kt+UQgIOgZGDdup+I/oI6xgJnG
+         gcGA==
+X-Gm-Message-State: APjAAAWqO9S5TlAnjEnK9ULwyXrzLUWrYx4TIryosB8aGKUVoeiZrzfe
+        WE51PZp8gcAjtZWUmIDio2sYFIPyP84BPQ==
+X-Google-Smtp-Source: APXvYqzY0vNYktgxiNEbjh2hdAMjvswtfIHbX11vAppYZ52GUChksbH9jIHd9eN5E8HVSk1gDkeg0w==
+X-Received: by 2002:a1c:4043:: with SMTP id n64mr4416122wma.169.1582994437850;
+        Sat, 29 Feb 2020 08:40:37 -0800 (PST)
+Received: from localhost (229.3.136.88.rev.sfr.net. [88.136.3.229])
+        by smtp.gmail.com with ESMTPSA id x21sm6545553wmi.30.2020.02.29.08.40.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 29 Feb 2020 08:40:36 -0800 (PST)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Mohammad Rasim <mohammad.rasim96@gmail.com>,
+        linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-amlogic@lists.infradead.org
+Cc:     Mohammad Rasim <mohammad.rasim96@gmail.com>
+Subject: Re: [PATCH v5 0/3] add videostrong kii pro keymap
+In-Reply-To: <20200214085802.28742-1-mohammad.rasim96@gmail.com>
+References: <20200214085802.28742-1-mohammad.rasim96@gmail.com>
+Date:   Sat, 29 Feb 2020 17:40:35 +0100
+Message-ID: <7h36atbb3w.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f3e95f98-1b70-d312-2cb7-467b4b31d72b@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gert,
+Hi Mohammad,
 
-On Sat, Feb 29, 2020 at 01:07:34PM +0100, Hans Verkuil wrote:
-> (changed the mailinglist to linux-media since this topic is not related to libv4l2
-> and CCed Laurent who might know more about this)
-> 
-> On 2/29/20 10:06 AM, gert.cauwenberg@telenet.be wrote:
-> > Hello,
-> > 
-> > About a year ago a page about a new Easycap variant was added to the wiki -
-> > https://linuxtv.org/wiki/index.php/Talk:Easycap
-> > Has anybody been working on this? I just bought a video grabber - and it seems to be one of those...
-> > 
-> > Sold as BASETech BR116, but lsusb lists it as ID 534d:0021 MACROSILICON AV TO USB2.0
-> 
-> No, to my knowledge nobody is working on this.
-> 
-> It's not clear from the wiki what exactly is wrong, Laurent might have
-> some insight in that.
+Mohammad Rasim <mohammad.rasim96@gmail.com> writes:
 
-The first error reported by the driver is
+> Videostrong kii pro comes with a NEC remote control, this adds support
+> for this remote and also select it from the device dts
 
-[47452.103222] uvcvideo: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
+With the bindings reviewed/ack'd I'll queue the DT patch (PATCH 3/3) via
+the amlogic tree, but the binding and driver patches need to go via the
+media subsystem.
 
-It is quite common for UVC devices not to support GET_DEF on the PROBE
-control (I assume because the Windows driver doesn't use that request),
-so the uvcvide driver falls back to a different method automatically.
-However, in some less common cases, invalid requests can actually crash
-the device firmware. Let's thus first check if enabling the workaround
-without trying the unsupported request helps. This is done by setting
-the UVC_QUIRK_PROBE_DEF quirk (0x100). Could you
+Thanks for the patches,
 
-- Unload the uvcvideo driver (rmmod uvcvideo)
-- Reload the driver with the quirk (modprobe uvcvideo quirks=0x100)
+Kevin
 
-and see if it fixes your issue ?
-
-Could you also please send me the output of
-
-lsusb -d -v 534d:0021
-
-running as root if possible ?
-
--- 
-Regards,
-
-Laurent Pinchart
+> Changes since v1:
+> - fix styling issues
+>
+> Changes since v2:
+> - use KEY_VENDOR for mouse key
+> - use KEY_PVR instead of KEY_RECORD
+> - use KEY_APPSELECT for the launcher
+> - use KEY_TV for the tv app key
+>
+> Changes since v3:
+> - add a patch to use the keymap by the device's dts
+>
+> Changes since v4:
+> - add a patch to update the rc bindings
+>
+> Mohammad Rasim (3):
+>   media: rc: add keymap for Videostrong KII Pro
+>   dt-bindings: media: add new kii pro key map
+>   arm64: dts: amlogic: add rc-videostrong-kii-pro keymap
+>
+>  .../devicetree/bindings/media/rc.yaml         |  1 +
+>  .../boot/dts/amlogic/meson-gxbb-kii-pro.dts   |  4 +
+>  drivers/media/rc/keymaps/Makefile             |  1 +
+>  .../media/rc/keymaps/rc-videostrong-kii-pro.c | 83 +++++++++++++++++++
+>  include/media/rc-map.h                        |  1 +
+>  5 files changed, 90 insertions(+)
+>  create mode 100644 drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
+>
+> --
+> 2.25.0
