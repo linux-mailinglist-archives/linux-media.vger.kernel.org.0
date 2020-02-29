@@ -2,168 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0AF1744FC
-	for <lists+linux-media@lfdr.de>; Sat, 29 Feb 2020 05:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C4AD9174558
+	for <lists+linux-media@lfdr.de>; Sat, 29 Feb 2020 07:10:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbgB2ExD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Feb 2020 23:53:03 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:38475 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726631AbgB2ExD (ORCPT
+        id S1726674AbgB2GKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Feb 2020 01:10:23 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35049 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726525AbgB2GKX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Feb 2020 23:53:03 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:eda2:f1fe:b848:15c7])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 7u7XjPa7tjmHT7u7Yjqnbr; Sat, 29 Feb 2020 05:53:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582951980; bh=7TgI0luFyzyE0hX2YwRyuZhohYTlmdKhxm7xYs8RSZI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=S9PfuMqnM49w3omiJvkfbJbzc2smo+DDoSgAX7gpWZxUxNdjWRCxBm4vy/pTsajFJ
-         Lx9Qrid0hAWpmoVCW7tXfW0Jvsfvdx3g28dArchL6j1zbILWZMmNKlt13x2FRkXXMH
-         WtluAAxv83DX5a2MO21eMUqaP7cXkfmco/ztfOH+VrRwMr8DCPg4p+NpjxA5rMAZ61
-         UaskcLITHyeyfWc1ackIpYp1DMDR+sg9/6psDFs6wx8wioeqgFSTs3U6hDOIJA6dJu
-         y8gydReUMU/ipMaJq09EzyfuI8ERT7fKObPV07zbktlkiq1EPRxUfAvalAnfQzpVUT
-         OWJMSrShnRdeA==
-Message-ID: <e808ffb4d5f0031a6d3f651d3bd58bd2@smtp-cloud7.xs4all.net>
-Date:   Sat, 29 Feb 2020 05:52:59 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfJIoNYH1b93UM1tFoh3g0ogwej5O5TiR7S7dxiCaS2V9LimctiITCOU4M5ZhY5+qG40eElYV3EE6wguthPmzFdh3KZ2nzOLuS8bY/fZ+w4r2tywzdvwj
- zrKnLBLr54F0+iapUwKHXe1JGvUUc0aL3LKtYkcKmsdqsH/gYjB+9RmE1c9zTrDBbirIIrIMiBl/sSM8rxEeHvxmdPkLz0Ac5nHoOqEzBHU+TGlTPaPRC0T7
+        Sat, 29 Feb 2020 01:10:23 -0500
+Received: by mail-ot1-f66.google.com with SMTP id r16so4766292otd.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Feb 2020 22:10:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vbMOFWxjKdtYfZR0pj0I6vLctD/eqeOpvw+bMKiq5QY=;
+        b=AFmVl39v3E73gTjaQSAUPN/yVscu3YpXU+WK3ShAegJNbijUM0B9b48kBzjD8GNCHM
+         qYg1EqpuEugVfKA3dpvXMnfEH9Rl4TTBIQak3Pee0oOADP1f6Zgt6Ua/rkqUjzlMGtsT
+         KrqAneMmAejGZGOFRrWCo/Ztid/mb4HmRU+G/VHcJiSeClJzAu9fB8CztUuq14zeiwwV
+         vLONBHgzywNuKjpiKUx6fsV6qA/GMhnAPZjVQZyvCWV5fSatjOyHIuPy428gOC9ORPwf
+         XSog19k8svLvAbR/GN3+4npPShyrBeuMXFCXSAv2L6Wnq6pTyp3ZwUwx84Z+Izw6CcuS
+         ZWMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vbMOFWxjKdtYfZR0pj0I6vLctD/eqeOpvw+bMKiq5QY=;
+        b=GKDmlqcwCvN7xduxHVlw7TvY4jlp21l7x/RgDH31kr/bB/ZH8bTnFBHMTCInEzDfLg
+         sB03avCVcFvB6gbtMlBqJKj0ishoY164tB3A0JlTAzmNo43likn/2JJozOjnc3VH+ynU
+         aNJxlnLBZBOamr9IzwgQ7S94mFon3nF6qN2b/q1bXb0eyFhvLz2arc6MzXGOpJZQKb9T
+         jllGJS9TIpTD8BsvaVjTUMcJF34vnP9BFnQMz3M2SbP4LTtcVsd09eq3Oc0+ejphNJLT
+         phEJe82KkH1W4ORoQKefC3BsbyF0mUmLImbULBc7fbR/k9Dbb2PM0CKoVvvHFBh4t5HK
+         WTXQ==
+X-Gm-Message-State: APjAAAU+Y9pyha6tGtqTdoA9RPmaUqaDWgcM/3UG4thqn32BPw/vXE6c
+        IzbiPoFSw3v3e8vtlOYyCK83WEk0D/kLOy7cfQL1Pw==
+X-Google-Smtp-Source: APXvYqw32gz0JEiTy9AukIXCcmRTQeYktFArEog5Kv2t+4KjMlLmFM+eEEZoB5T28w9OjAzZTGXs4vJNmi5CKcO093Y=
+X-Received: by 2002:a9d:5cc4:: with SMTP id r4mr6032978oti.33.1582956623030;
+ Fri, 28 Feb 2020 22:10:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20200228232657.27028-1-slongerbeam@gmail.com>
+In-Reply-To: <20200228232657.27028-1-slongerbeam@gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Fri, 28 Feb 2020 22:10:10 -0800
+Message-ID: <CAJ+vNU2G_QPxzTn=tgMioCuhe-aVRBM9oBKDFVk1yqrq6irsEQ@mail.gmail.com>
+Subject: Re: [PATCH] media: imx: Propagate quantization and encoding in CSI
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, Feb 28, 2020 at 3:27 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
+>
+> Unlike the PRPENC and PRPVF subdevices, the CSI's cannot convert
+> quantization from sink to source, or do any kind of Y'CbCr <-> RGB
+> encoding. So the CSI's cannot allow quantization and ycbcr_enc to be
+> selectable by the user and must be propagated from sink to source.
+>
+> Fixes: 4791bd7d6adc4 ("media: imx: Try colorimetry at both sink and source pads")
+> Reported-by: Tim Harvey <tharvey@gateworks.com>
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+> ---
+>  drivers/staging/media/imx/imx-media-csi.c  | 2 ++
+>  drivers/staging/media/imx/imx7-media-csi.c | 2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index b60ed4f22f6d..ac15b1e78f18 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -1459,6 +1459,8 @@ static void csi_try_fmt(struct csi_priv *priv,
+>                 /* propagate colorimetry from sink */
+>                 sdformat->format.colorspace = infmt->colorspace;
+>                 sdformat->format.xfer_func = infmt->xfer_func;
+> +               sdformat->format.quantization = infmt->quantization;
+> +               sdformat->format.ycbcr_enc = infmt->ycbcr_enc;
+>
+>                 break;
+>         case CSI_SINK_PAD:
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index db30e2c70f2f..4692a3a77515 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -1013,6 +1013,8 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
+>
+>                 sdformat->format.colorspace = in_fmt->colorspace;
+>                 sdformat->format.xfer_func = in_fmt->xfer_func;
+> +               sdformat->format.quantization = in_fmt->quantization;
+> +               sdformat->format.ycbcr_enc = in_fmt->ycbcr_enc;
+>                 break;
+>         case IMX7_CSI_PAD_SINK:
+>                 *cc = imx_media_find_mbus_format(sdformat->format.code,
+> --
+> 2.17.1
+>
 
-Results of the daily build of media_tree:
+Tested-by: Tim Harvey <tharvey@gateworks.com>
 
-date:			Sat Feb 29 05:00:09 CET 2020
-media-tree git hash:	bd59f412d17f81a41e35c884d3caacf34c9e4940
-media_build git hash:	e3e7c2632a298bb886608a95da5ec40bdb54fd92
-v4l-utils git hash:	4e555017a19834db66d4772f62c5b382fb374dea
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0a0399d66d361fec135a2dc184bd8d12148f35ad
-host hardware:		x86_64
-host os:		5.4.0-3-amd64
-
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-sparse: OK
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Tim
