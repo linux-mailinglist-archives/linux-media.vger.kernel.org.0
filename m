@@ -2,318 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E40F175EEF
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:58:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABE7D175F3A
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 17:09:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbgCBP56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 10:57:58 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:46177 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727085AbgCBP56 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 10:57:58 -0500
-Received: by mail-ot1-f65.google.com with SMTP id g96so10156336otb.13;
-        Mon, 02 Mar 2020 07:57:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nito/nrZsWtOKekEZGAYljgXMNzrk2/5S3aE/Pp6hpw=;
-        b=TQLDPo0hedRA5ly3wzJN2d18s/slzog7hkmx7qYItkl/maRDpnuKo4J0W3wo+or3FW
-         evEeS6hQ9Q123MkMH/YRvnKefV1Y7CkQPtJ8X987sU9OSqXOiiciSM+fzkY8qMI4h3gd
-         hkAUt2yLG0zBY40MQhjKup6vcc2lpNYEyqJjFncXGzMD/020tEGEAVE14BQ3DOXL+3Fh
-         ivjYXgxCeeb31BkG9I0nLeh8IPJ2IuuABltmj2GGSNt8eRr3R9CgVphM2A3p7xBn2j+C
-         1UD5iyU9DrRSElnh1Lgkb4n6Cu39j0jPHmEAbyYcamSkohju8T9yjmsbOxq5dpFw3DW0
-         b4UA==
-X-Gm-Message-State: APjAAAXjn+kAZeIbZmOuwKJfZevDQKf9wgDQm554a3J5y7BAfE4DC5PF
-        E05vLcKvnyB5QmGK2bAPppGtQrC+jTK86++fpcQ=
-X-Google-Smtp-Source: APXvYqxZfeCMUCmPDo150isft8U19jV/qbujmuP/cdQANvFKK6654BGfmN/KgnrbsmahhA2IQQrudvzS3H3CA0ko0Eg=
-X-Received: by 2002:a05:6830:100e:: with SMTP id a14mr13887882otp.297.1583164677024;
- Mon, 02 Mar 2020 07:57:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20200228170210.18252-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200228170210.18252-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Mar 2020 16:57:35 +0100
-Message-ID: <CAMuHMdUn9njDRWZPcSD87YuejmhNvDK3pUqL5kXNX6KA-8Y72g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a774c0-cat874: Add support for
- AISTARVISION MIPI Adapter V2.1
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        id S1727077AbgCBQJU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 11:09:20 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:43619 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726390AbgCBQJU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 11:09:20 -0500
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MYvTs-1iveUO1sdk-00Uq1M; Mon, 02 Mar 2020 17:09:08 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id 9BA1664FE2C;
+        Mon,  2 Mar 2020 16:09:07 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1WiNoKVEaVO8; Mon,  2 Mar 2020 17:09:07 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 2EB2B64F542;
+        Mon,  2 Mar 2020 17:09:07 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.10.2.141) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 2 Mar 2020 17:09:06 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id CAA4D804EF; Mon,  2 Mar 2020 17:09:06 +0100 (CET)
+Date:   Mon, 2 Mar 2020 17:09:06 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
+ adv748x codec (HDMI input) to the R-Car SoC
+Message-ID: <20200302160906.GC3717@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <cover.1578924232.git.alexander.riesen@cetitec.com>
+ <20200113141556.GI3606@pflmari>
+ <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
+ <20200302134011.GA3717@pflmari>
+ <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
+ <20200302150706.GB3717@pflmari>
+ <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
+X-Originating-IP: [10.10.2.141]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29536F936F637663
+X-Provags-ID: V03:K1:DrpGReJT2AM4nIuozNnH+hDFTM5zFm14d62b0E79p22VClFAM6n
+ KCng978oz5455J5dGQrXJkiNTSezjSjV++6T1RWxyrRReQEdYIhinTQv2Jl5u5MBvENL47d
+ iOKVwVdXROJLCYpF511n/j8JCknkpqQ6BTD9GM13RKcH+X2T0rHYXLcwhor9IMw8CqRcKhX
+ bmh5aJblkJavO97rJoJyA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Gt2gbcPu0aA=:gV5OYaZwDpwhzC5IDkDIzc
+ tflq+nkusHeiK7YSlEgC9eDf4IAR8ysDGm4Ce8YoV9OnqVscFV46S9BN1SqY31gwNtsaqmjrd
+ JC589RrB6du/VKNa4LAW5UOX4niMv6mvUnip5uuzaP0AMJ8H2IbsThFI2LYjaGBex/Pcr6lmR
+ XdWKuE6dU4htltR3gESkPKqljbLw1yOOOfGxM/YXCm9HSGg6Ted+rHP4u5+2awnxC7mwC6A8o
+ aviDBoYaqmCiUuBYIv7mtstDkk90116OFCCf+wRvL6dPhRjFCXziIqgxRMW/wmW0JGrevLTvl
+ Bp1B6r+B/tuqY17kjo41EnMiH/QPXn9o5pnsaxDhnwEShxwKYbPMedGjlfyMcfTyF7TE3CqBq
+ fsCxSHWlFsZshK0L0+ouKsSrqKC4YHa+1p/MiyE7ZvTmqqu0DH3arEkcNbZd+2ua3VCI7RsBC
+ pLsM6oOO+yLJAhDWbuhhvHS62af0gYkIm4c2GkKlyb3twu2PTIfOXbF4f3T4VuRHKAu4SgP8k
+ mkI5+lPsfoAQj0rQ2opJHHSB0+UkVFSOpG2o9jIUleWHPRVBHdtykibU+fnoTqx0ucmBRGS/4
+ OgzzuXK9rg8GrodnBdbQJXXEdW1yta+3m2roxVfL/A7xLxksRCifB9VyI6gGYXZTenA+89Tvz
+ wl2B1VYQTr87JnKUn65CGPFxQL1Z579fvSyxUIsSN/isATyra3kpB4rfKYJmn8OO3p3gZTTY3
+ i/iXiclCvco8cMHKyTfNgA3hqMfzJfPX6Xdyhfwaw7KheK+Ajez9VelGneojS4V1IAsWQv58r
+ QQDCnP2GejBhTdCKs6Y++NiE5UCcfHsGdZlBfLYjA2Vs6xJ6HSmzLQW6FChDBPALIQF2RKS
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
+Hi Geert,
 
-CC linux-media
+Geert Uytterhoeven, Mon, Mar 02, 2020 16:32:32 +0100:
+> > And this absence of documentation also means that whatever clocks (both input
+> > in "clocks=" and output in "#clock-cells") listed in a specific .dts are just
+> > an integration detail?
+> 
+> No, the absence probably means that any clock-related properties in a .dts
+> file will just be ignored.
+> 
+> Looking at the driver source, it indeed has no support related to clocks at all.
 
-On Fri, Feb 28, 2020 at 6:02 PM Lad Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> This patch adds support AISTARVISION MIPI Adapter V2.1 board connected
-> to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
-> which have the camera endpoint nodes with disabled status and in
-> r8a774c0-ek874-mipi-2.1.dts file VIN/CSI nodes are enabled. By default
-> imx219 endpoint is tied with CSI2.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+...
 
-Thanks for your patch!
+> > Does this below makes more sense, than?
+> >
+> >     video-receiver@70 {
+> >         compatible = "adi,adv7482";
+> >         clocks = <&rcar_sound 3>;
+> >         clock-names = "clk-hdmi-video";
+> >         adv748x_mclk: mclk {
+> >             compatible = "fixed-clock";
+> >             #clock-cells =  <0>;
+> >             /* frequency hard-coded for illustration */
+> >             clock-frequency = <12288000>;
+> >             clock-output-names = "clk-hdmi-i2s-mclk";
+> >         };
+> >     };
+> 
+> The #clock-cells should be in the main video-receiver node.
+> Probably there is more than one clock output, so #clock-cells may be 1?
 
-> Geert/Rob since the imx219 driver is yet to make into mainline
-> but has been merged into media-subsystem I would like to take
-> this patch via media-tree.
+AFAICS, the device can provide only this one clock line (audio master clock
+for I2S output)... I shall re-check, just in case.
 
-Usually DTS patches are merged through renesas-devel and arm-soc, not
-through a driver's subsystems tree.  This is done to avoid merge
-conflicts.  I prefer not to deviate from that, unless there is a very
-good reason to do so.
+> There is no need for a fixed-clock compatible, nor for clock-frequency
+> and clock-output-names.
+> 
+> But most important: this should be documented in the adv748x DT bindings,
+> and implemented in the adv748x driver.
 
-Is there any dependency on the code in the media tree that I'm missing?
-Once DT bindings have been accepted in a subsystem maintainer's tree,
-you can start using them in DTS files.
+So if the driver is to export that clock for the kernel (like in this case),
+it must implement its support?
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-> @@ -0,0 +1,98 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the AISTARVISION MIPI Adapter V2.1
-> + *
-> + * Copyright (C) 2020 Renesas Electronics Corp.
-> + */
-> +
-> +/ {
-> +       ov5645_vdddo_1v8: 1p8v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "camera_vdddo";
-> +               regulator-min-microvolt = <1800000>;
-> +               regulator-max-microvolt = <1800000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       ov5645_vdda_2v8: 2p8v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "camera_vdda";
-> +               regulator-min-microvolt = <2800000>;
-> +               regulator-max-microvolt = <2800000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       ov5645_vddd_1v5: 1p5v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "camera_vddd";
-> +               regulator-min-microvolt = <1500000>;
-> +               regulator-max-microvolt = <1500000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       imx219_vana_2v8: 2p8v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "camera_vana";
-> +               regulator-min-microvolt = <2800000>;
-> +               regulator-max-microvolt = <2800000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       imx219_vdig_1v8: 1p8v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "camera_vdig";
-> +               regulator-min-microvolt = <1500000>;
-> +               regulator-max-microvolt = <1500000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       imx219_vddl_1v2: 1p2v {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "camera_vddl";
-> +               regulator-min-microvolt = <1200000>;
-> +               regulator-max-microvolt = <1200000>;
-> +               regulator-always-on;
-> +       };
-> +
-> +       imx219_clk: imx219_clk {
-> +               compatible = "fixed-clock";
-> +               #clock-cells = <0>;
-> +               clock-frequency = <24000000>;
-> +       };
-> +};
-> +
-> +&MIPI_PARENT_I2C {
-> +       ov5645: ov5645@3c {
-> +               compatible = "ovti,ov5645";
-> +               reg = <0x3c>;
-> +               status = "disabled";
+> > > > Does a "clocks = ..." statement always mean input clocks?
+> > >
+> > > Yes it does.
+> > > If a device has clock outputs and is thus a clock provider, it should
+> > > have a #clock-cells property, and this should be documented in the bindings.
+> > >
+> > > A clock consumer will refer to clocks of a provider using the "clocks"
+> > > property, specifying a clock specifier (phandle and zero or more indices)
+> > > for each clock referenced.
+> >
+> > Something like this?
+> >
+> >     &rcar_sound {
+> >         clocks = ...,
+> >                  <&adv748x_mclk>,
+> >                  <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
+> >         clock-names = ...,
+> >                       "clk_c",
+> >                       "clk_i";
+> >     };
+> 
+> More or less.
+> 
+> Might become
+> 
+>     find_a_better_label_choice: video-receiver@70 {
+>             ...
+>     };
+> 
+>     &rcar_sound {
+>             clock = ...,
+>                     <&find_a_better_label_choice 0>,
+>                     ...
+>     };
+> 
+> as there may be multiple clock outputs on the ADV7482.
 
-Is there any real need to disable this node here?
-Do you envision anyone including this .dtsi file, and not enabling this
-node?
+I see. Working on it.
 
-> +
-> +               clock-names = "xclk";
-> +
-> +               vdddo-supply = <&ov5645_vdddo_1v8>;
-> +               vdda-supply = <&ov5645_vdda_2v8>;
-> +               vddd-supply = <&ov5645_vddd_1v5>;
-> +
-> +               port@0 {
+Thanks a lot!
 
-DT bindings say "port", without unit-address.
+Regards,
+Alex
 
-> +                       ov5645_ep: endpoint {
-> +                       };
-> +               };
-> +       };
-> +
-> +       rpi_v2_camera: imx219@10 {
-> +               compatible = "sony,imx219";
-> +               reg = <0x10>;
-> +               status = "disabled";
-
-Likewise.
-
-> +
-> +               VANA-supply = <&imx219_vana_2v8>;
-> +               VDIG-supply = <&imx219_vdig_1v8>;
-> +               VDDL-supply = <&imx219_vddl_1v2>;
-> +               clocks = <&imx219_clk>;
-> +
-> +               port@0 {
-
-DT bindings say "port", without unit-address...
-
-> +                       reg = <0>;
-
-... and thus no "reg" property.
-
-> +                       imx219_ep0: endpoint {
-> +                       };
-> +               };
-> +       };
-> +};
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
-> new file mode 100644
-> index 000000000000..435b7f62d88d
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
-> @@ -0,0 +1,86 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
-> + * connected with aistarvision-mipi-v2-adapter board
-> + *
-> + * Copyright (C) 2020 Renesas Electronics Corp.
-> + */
-> +
-> +/dts-v1/;
-> +#include "r8a774c0-ek874.dts"
-> +#define MIPI_PARENT_I2C i2c3
-> +#include "aistarvision-mipi-adapter-2.1.dtsi"
-> +
-> +/ {
-> +       model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
-> +       compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
-> +};
-> +
-> +&i2c3 {
-> +       status = "okay";
-> +};
-> +
-> +&vin4 {
-> +       status = "okay";
-> +};
-> +
-> +&vin5 {
-> +       status = "okay";
-> +};
-> +
-> +&csi40 {
-> +       status = "okay";
-> +
-> +       ports {
-> +               port@0 {
-> +                       reg = <0>;
-> +
-> +                       csi40_in: endpoint {
-> +                               clock-lanes = <0>;
-> +                               data-lanes = <1 2>;
-> +                               remote-endpoint = <&imx219_ep0>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&ov5645 {
-> +       /* uncomment status and remote-endpoint properties to tie ov5645
-> +        * to CSI2 also make sure remote-endpoint for imx219 camera is
-> +        * commented and remote endpoint in csi40_in is ov5645_ep
-> +        */
-> +       /* status = "okay"; */
-> +
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-
-#{address,size}-cells not needed.
-
-> +       enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
-> +       reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
-> +
-> +       clocks = <&cpg CPG_MOD 716>;
-> +       clock-frequency = <24000000>;
-
-I know this is dictated by the DT bindings for the ov5645 camera, but
-specifying a clock rate is usually done through assigned-clock-rates,
-cfr.  Documentation/devicetree/bindings/clock/clock-bindings.txt.
-
-> +
-> +       port@0 {
-
-port {
-
-> +               ov5645_ep: endpoint {
-> +                       clock-lanes = <0>;
-> +                       data-lanes = <1 2>;
-> +                       /* remote-endpoint = <&csi40_in>; */
-> +               };
-> +       };
-> +};
-> +
-> +&rpi_v2_camera {
-> +       status = "okay";
-> +
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +       port@0 {
-> +               reg = <0>;
-
-port {
-
-> +               imx219_ep0: endpoint {
-> +                       clock-lanes = <0>;
-> +                       data-lanes = <1 2>;
-> +                       remote-endpoint = <&csi40_in>;
-> +                       link-frequencies = /bits/ 64 <456000000>;
-> +               };
-> +       };
-> +};
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
