@@ -2,538 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C381175B83
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 14:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D3A175BE8
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 14:40:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727967AbgCBNYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 08:24:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54324 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727959AbgCBNYm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Mar 2020 08:24:42 -0500
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AF8152086A;
-        Mon,  2 Mar 2020 13:24:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583155480;
-        bh=pXe2/xsLELC3d+jdhGbfOvWV1UXwbc6+uyWvR+u5Ypo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lPlw9TdzqRDXRuqj5BOqv7d35DkObEWUUC4aQFoSYOr/0t3tRhfNfZS3Vaej/iY0N
-         5+gTFotVa86XP6XaoVXYY5Jn++19Yj8GDi7gFXmlEyHT/vqEEd2l5nF2lO9nA9DWwM
-         3oawRSW/a50jglhnQlPD4+j0F6KBqRJ7olSSeyso=
-Date:   Mon, 2 Mar 2020 14:24:33 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        id S1727779AbgCBNk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 08:40:26 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:57521 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727734AbgCBNk0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 08:40:26 -0500
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MGgRW-1jDlV93PvO-00Dkhz; Mon, 02 Mar 2020 14:40:13 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id EB3F164FF0D;
+        Mon,  2 Mar 2020 13:40:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id WWMbcQw5Ey6r; Mon,  2 Mar 2020 14:40:12 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 4199864ED3F;
+        Mon,  2 Mar 2020 14:40:12 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.10.2.141) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 2 Mar 2020 14:40:11 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id E5D86804EF; Mon,  2 Mar 2020 14:40:11 +0100 (CET)
+Date:   Mon, 2 Mar 2020 14:40:11 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
+ adv748x codec (HDMI input) to the R-Car SoC
+Message-ID: <20200302134011.GA3717@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v6 2/6] media: v4l2-core: Add helpers to build the H264
- P/B0/B1 reflists
-Message-ID: <20200302142433.0ad1b383@coco.lan>
-In-Reply-To: <20200220163016.21708-3-ezequiel@collabora.com>
-References: <20200220163016.21708-1-ezequiel@collabora.com>
-        <20200220163016.21708-3-ezequiel@collabora.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mark Rutland <mark.rutland@arm.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <cover.1578924232.git.alexander.riesen@cetitec.com>
+ <20200113141556.GI3606@pflmari>
+ <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
+X-Originating-IP: [10.10.2.141]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29536F936F63776B
+X-Provags-ID: V03:K1:gvQ7Is8n0lpg67NQuR/HsSkPH2SLWS727/gSY2xDGIs3RA0zszq
+ c41zsFwgNphFi0WrOkpGBh3AzzHd3Tyc1STiHmPaS9Jo8WdSzExm7tziq8NIpDNjrbjDkJk
+ /1l5CnDXlkFc1D81I9TJwOTPHlj45jzZhexz02c8d0vddrafKIjiaRO+NU+Y4idhJEci/0I
+ 78w5CCpGwKFJhCN4lxFvw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8RssGpzGfu0=:DPiPlhp3bW5ME/WwSl80xy
+ W2kU4HNPhI8Qbs7HNx+ix3N6v2FQ++3dP0ZwXVbf+ErWqATVz7lMoLtT42vvoVc3G57fLsjEY
+ 98mZ/W2HfkyjHEr73xhqfVKeeMiArH1iDjZ8JdZCbJiJd8TkLABRHTuNcz80GupuhnNgnkL/0
+ bnWh5Qv8lFThGBe+w9U2dYR/B/4x6elJkkkdaxJ2k1gDysDNeUBbQbLsQIqCG7vE6ghas7Lcg
+ TLTiZz4k0p4uB01JOhojhM9HMEBNcUFI9nnPVhW1A6sBQh7T4uWU4cAoSLvgRy6OQwyzcqblH
+ 4ErstnI4t+CosJwFBUIScHdnq2pu19O+UnoYXi/xEER+l6wvj7i0KxQgNAtIel0kAXkpFuI2c
+ B00sc0ab+leJH8HB7VAQjnqOldb6VkMdfu3Sb5LbG9ePvcYzWYQjB9l5Q7WwZAA7YRGALcMqS
+ POIXLleBI0fzWxIm+/JchXgnJW+EVuoYVoAsSaBjS16GIS2f5drrP7TBozvOidQQ8jZStkzWH
+ +8k1JT8g+PNltYTQeW6NF76bO3VddpsIC4X8ZFBLX9UT6vJjP9frD1SrWU2onaNNQLhrW1zG6
+ HRnMkwPaFJxOJiDxNMR+nhd3jELL4j9lH/CNMx21noSmU9eK2G4LDlnnwP/V8FAw/cELEZxM0
+ dtDohagGnstqUQ0xZHVACZ/paNI+kmWlqifeYAvnA3PmrEtRagmQ+bfUEApv695dj3QUrIjs1
+ WwlIVhU7CwF3xN+PaIYX637Ki4M3bjgZRRW+p7AoCxG997xi4JV4OvFkpiupbux3Apj4E+YNV
+ JfiFsbRvLDa6BcZbWM5jBqeMJsbSrbnT5igG/KkBIoqSCxt1rjj94xPKLXyzVS5Dx4MpQAm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 20 Feb 2020 13:30:12 -0300
-Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-
-> From: Boris Brezillon <boris.brezillon@collabora.com>
+Geert Uytterhoeven, Mon, Mar 02, 2020 13:28:13 +0100:
+> Hi Alex,
 > 
-> Building those list is a standard procedure described in section
-> '8.2.4 Decoding process for reference picture lists construction' of
-> the H264 specification.
+> Thanks for your patch!
 > 
-> We already have 2 drivers needing the same logic (hantro and rkvdec) and
-> I suspect we will soon have more.
+> On Mon, Jan 13, 2020 at 3:24 PM Alex Riesen
+> <alexander.riesen@cetitec.com> wrote:
+> > Not sure if all variants of the Salvator board have the HDMI decoder
+> > chip (the ADV7482) connected to the SSI4 on R-Car SoC, as it is on
+> > Salvator-X ES1, so the the ADV7482 endpoint and connection definitions
+> > are placed in the board file.
 > 
-> Let's provide generic helpers to create those lists.
+> Both Salvator-X and Salvator-XS have SSI4 wired to the ADV7482.
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/media/v4l2-core/Kconfig     |   4 +
->  drivers/media/v4l2-core/Makefile    |   1 +
->  drivers/media/v4l2-core/v4l2-h264.c | 258 ++++++++++++++++++++++++++++
->  include/media/v4l2-h264.h           |  85 +++++++++
->  4 files changed, 348 insertions(+)
->  create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
->  create mode 100644 include/media/v4l2-h264.h
+> > I do assume though that all Salvator variants have the CLK_C clock line
+> > hard-wired to the ADV7482 HDMI decoder, and remove it from the list of
+> > clocks provided by the R-Car sound system.
 > 
-> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> index 39e3fb30ba0b..8a4ccfbca8cf 100644
-> --- a/drivers/media/v4l2-core/Kconfig
-> +++ b/drivers/media/v4l2-core/Kconfig
-> @@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
->  config VIDEO_TUNER
->  	tristate
->  
-> +# Used by drivers that need v4l2-h264.ko
-> +config V4L2_H264
-> +	tristate
-> +
->  # Used by drivers that need v4l2-mem2mem.ko
->  config V4L2_MEM2MEM_DEV
->  	tristate
-> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> index 786bd1ec4d1b..c5c53e0941ad 100644
-> --- a/drivers/media/v4l2-core/Makefile
-> +++ b/drivers/media/v4l2-core/Makefile
-> @@ -21,6 +21,7 @@ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
->  obj-$(CONFIG_VIDEO_TUNER) += tuner.o
->  
->  obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
-> +obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
->  
->  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
-> new file mode 100644
-> index 000000000000..4f68c27ec7fd
-> --- /dev/null
-> +++ b/drivers/media/v4l2-core/v4l2-h264.c
-> @@ -0,0 +1,258 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * V4L2 H264 helpers.
-> + *
-> + * Copyright (C) 2019 Collabora, Ltd.
-> + *
-> + * Author: Boris Brezillon <boris.brezillon@collabora.com>
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/sort.h>
-> +
-> +#include <media/v4l2-h264.h>
-> +
-> +/**
-> + * v4l2_h264_init_reflist_builder() - Initialize a P/B0/B1 reference list
-> + *				      builder
-> + *
-> + * @b: the builder context to initialize
-> + * @dec_params: decode parameters control
-> + * @slice_params: first slice parameters control
-> + * @sps: SPS control
-> + * @dpb: DPB to use when creating the reference list
-> + */
-> +void
-> +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-> +		const struct v4l2_ctrl_h264_decode_params *dec_params,
-> +		const struct v4l2_ctrl_h264_slice_params *slice_params,
-> +		const struct v4l2_ctrl_h264_sps *sps,
-> +		const struct v4l2_h264_dpb_entry *dpb)
+> Yes, both Salvator-X and Salvator-XS have it wired that way.
 
-The prototype here is not nice...
+Ok, seems like I can move that part into the common file as well.
+Integrations of ADV7482 and R-Car which use salvator-common.dts can still
+redefine the endpoint settings in their board files, right?
 
-> +{
-> +	int cur_frame_num, max_frame_num;
-> +	unsigned int i;
-> +
-> +	max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
-> +	cur_frame_num = slice_params->frame_num;
-> +
-> +	memset(b, 0, sizeof(*b));
-> +	if (!(slice_params->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC))
-> +		b->cur_pic_order_count = min(dec_params->bottom_field_order_cnt,
-> +					     dec_params->top_field_order_cnt);
-> +	else if (slice_params->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
-> +		b->cur_pic_order_count = dec_params->bottom_field_order_cnt;
-> +	else
-> +		b->cur_pic_order_count = dec_params->top_field_order_cnt;
-> +
-> +	for (i = 0; i < 16; i++) {
-> +		u32 pic_order_count;
-> +
-> +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> +			continue;
-> +
-> +		b->refs[i].pic_num = dpb[i].pic_num;
+> But please see below.
 
-... as you're expecting a fixed number of elements at DPB array, and using
-a magic number (16) inside the for loop.
-
-> +		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
-> +			b->refs[i].longterm = true;
-
-The same thing happens here: you're also using a magic number to define 
-the array size of b->refs.
-
-I guess the best is to add something like:
-
-(at the header file)
-
-#define NUM_DPB_ENTRIES		16
-
-(at the library code)
-
-void
-v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-			       const struct v4l2_ctrl_h264_decode_params *dec_params,
-			       const struct v4l2_ctrl_h264_slice_params *slice_params,
-			       const struct v4l2_ctrl_h264_sps *sps,
-			       const struct v4l2_h264_dpb_entry dpb[NUM_DPB_ENTRIES])
-{
-...
-	for (i = 0; i < NUM_DPB_ENTRIES; i++) {
 ...
 
-and use NUM_DPB_ENTRIES on every other place you're using the "16"
-magic number.
+> > The I2C wiring is also likely to persist across the variants (similar
+> > to ak4613, connected to the same interface), so that is in the common
+> > file.
+> >
+> > Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+> 
+> Below are my comments w.r.t. the board-specific wiring.
+> I'll defer to the multimedia people for commenting on the audio parts.
+> 
+> BTW, what is the status of the other patches in this series?
 
-> +
-> +		/*
-> +		 * Handle frame_num wraparound as described in section
-> +		 * '8.2.4.1 Decoding process for picture numbers' of the spec.
-> +		 * TODO: This logic will have to be adjusted when we start
-> +		 * supporting interlaced content.
-> +		 */
-> +		if (dpb[i].frame_num > cur_frame_num)
-> +			b->refs[i].frame_num = (int)dpb[i].frame_num -
-> +					       max_frame_num;
-> +		else
-> +			b->refs[i].frame_num = dpb[i].frame_num;
-> +
-> +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> +			pic_order_count = min(dpb[i].top_field_order_cnt,
-> +					      dpb[i].bottom_field_order_cnt);
-> +		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> +			pic_order_count = dpb[i].bottom_field_order_cnt;
-> +		else
-> +			pic_order_count = dpb[i].top_field_order_cnt;
-> +
-> +		b->refs[i].pic_order_count = pic_order_count;
-> +		b->unordered_reflist[b->num_valid] = i;
-> +		b->num_valid++;
-> +	}
-> +
-> +	for (i = b->num_valid; i < ARRAY_SIZE(b->unordered_reflist); i++)
-> +		b->unordered_reflist[i] = i;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_h264_init_reflist_builder);
-> +
-> +static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
-> +				    const void *data)
-> +{
-> +	const struct v4l2_h264_reflist_builder *builder = data;
-> +	u8 idxa, idxb;
-> +
-> +	idxa = *((u8 *)ptra);
-> +	idxb = *((u8 *)ptrb);
-> +
-> +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
+"Submitted", at the moment. Besides you and Rob Herring no one said anything
+yet (either that or I missed the replies).
 
-Where do you ensure that idxa and idxb won't be bigger than NUM_DPB_ENTRIES?
+> > --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> > @@ -322,6 +322,10 @@
+> >         clock-frequency = <22579200>;
+> >  };
+> >
+> > +&audio_clk_c {
+> > +       clock-frequency = <12288000>;
+> > +};
+> 
+> Does the ADV7482 always generate a 12.288 MHz clock signal?
+> Or is this programmable?
 
-> +		/* Short term pics first. */
-> +		if (!builder->refs[idxa].longterm)
-> +			return -1;
-> +		else
-> +			return 1;
-> +	}
-> +
-> +	/*
-> +	 * Short term pics in descending pic num order, long term ones in
-> +	 * ascending order.
-> +	 */
-> +	if (!builder->refs[idxa].longterm)
-> +		return builder->refs[idxb].frame_num <
-> +		       builder->refs[idxa].frame_num ?
-> +		       -1 : 1;
-> +
-> +	return builder->refs[idxa].pic_num < builder->refs[idxb].pic_num ?
-> +	       -1 : 1;
-> +}
-> +
-> +static int v4l2_h264_b0_ref_list_cmp(const void *ptra, const void *ptrb,
-> +				     const void *data)
-> +{
-> +	const struct v4l2_h264_reflist_builder *builder = data;
-> +	s32 poca, pocb;
-> +	u8 idxa, idxb;
-> +
-> +	idxa = *((u8 *)ptra);
-> +	idxb = *((u8 *)ptrb);
-> +
-> +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
+Oops. It looks like it is and the value is derived from the sampling rate
+(48kHz) and the master clock multiplier. Both hard-coded in the board file.
 
-Same here.
+> > video-receiver@70 {
+> > 	compatible = "adi,adv7482";
+> > ...
+> > +   clocks = <&rcar_sound 3>, <&audio_clk_c>;
+> > +   clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
+> 
+> The above declares the Audio CLK C to be a clock input of the ADV7482, while
+> it is an output.
 
-> +		/* Short term pics first. */
-> +		if (!builder->refs[idxa].longterm)
-> +			return -1;
-> +		else
-> +			return 1;
-> +	}
-> +
-> +	/* Long term pics in ascending pic num order. */
-> +	if (builder->refs[idxa].longterm)
-> +		return builder->refs[idxa].pic_num <
-> +		       builder->refs[idxb].pic_num ?
-> +		       -1 : 1;
-> +
-> +	poca = builder->refs[idxa].pic_order_count;
-> +	pocb = builder->refs[idxb].pic_order_count;
-> +
-> +	/*
-> +	 * Short term pics with POC < cur POC first in POC descending order
-> +	 * followed by short term pics with POC > cur POC in POC ascending
-> +	 * order.
-> +	 */
-> +	if ((poca < builder->cur_pic_order_count) !=
-> +	     (pocb < builder->cur_pic_order_count))
-> +		return poca < pocb ? -1 : 1;
-> +	else if (poca < builder->cur_pic_order_count)
-> +		return pocb < poca ? -1 : 1;
-> +
-> +	return poca < pocb ? -1 : 1;
-> +}
-> +
-> +static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
-> +				     const void *data)
-> +{
-> +	const struct v4l2_h264_reflist_builder *builder = data;
-> +	s32 poca, pocb;
-> +	u8 idxa, idxb;
-> +
-> +	idxa = *((u8 *)ptra);
-> +	idxb = *((u8 *)ptrb);
-> +
-> +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
+I would gladly give it right direction if I *really* understood what I was
+doing...
 
-Same here.
+> Furthermore, the DT bindings do not document that clocks can be specified.
 
-> +		/* Short term pics first. */
-> +		if (!builder->refs[idxa].longterm)
-> +			return -1;
-> +		else
-> +			return 1;
-> +	}
-> +
-> +	/* Long term pics in ascending pic num order. */
-> +	if (builder->refs[idxa].longterm)
-> +		return builder->refs[idxa].pic_num <
-> +		       builder->refs[idxb].pic_num ?
-> +		       -1 : 1;
-> +
-> +	poca = builder->refs[idxa].pic_order_count;
-> +	pocb = builder->refs[idxb].pic_order_count;
-> +
-> +	/*
-> +	 * Short term pics with POC > cur POC first in POC ascending order
-> +	 * followed by short term pics with POC < cur POC in POC descending
-> +	 * order.
-> +	 */
-> +	if ((poca < builder->cur_pic_order_count) !=
-> +	    (pocb < builder->cur_pic_order_count))
-> +		return pocb < poca ? -1 : 1;
-> +	else if (poca < builder->cur_pic_order_count)
-> +		return pocb < poca ? -1 : 1;
-> +
-> +	return poca < pocb ? -1 : 1;
-> +}
-> +
-> +/**
-> + * v4l2_h264_build_p_ref_list() - Build the P reference list
-> + *
-> + * @builder: reference list builder context
-> + * @reflist: 16-bytes array used to store the P reference list. Each entry
-> + *	     is an index in the DPB
-> + *
-> + * This functions builds the P reference lists. This procedure is describe in
-> + * section '8.2.4 Decoding process for reference picture lists construction'
-> + * of the H264 spec. This function can be used by H264 decoder drivers that
-> + * need to pass a P reference list to the hardware.
-> + */
-> +void
-> +v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
-> +			   u8 *reflist)
-> +{
-> +	memcpy(reflist, builder->unordered_reflist,
-> +	       sizeof(builder->unordered_reflist));
-> +	sort_r(reflist, builder->num_valid, sizeof(*reflist),
-> +	       v4l2_h264_p_ref_list_cmp, NULL, builder);
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
-> +
-> +/**
-> + * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
-> + *
-> + * @builder: reference list builder context
-> + * @b0_reflist: 16-bytes array used to store the B0 reference list. Each entry
-> + *		is an index in the DPB
-> + * @b1_reflist: 16-bytes array used to store the B1 reference list. Each entry
-> + *		is an index in the DPB
-> + *
-> + * This functions builds the B0/B1 reference lists. This procedure is described
-> + * in section '8.2.4 Decoding process for reference picture lists construction'
-> + * of the H264 spec. This function can be used by H264 decoder drivers that
-> + * need to pass B0/B1 reference lists to the hardware.
-> + */
-> +void
-> +v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
-> +			    u8 *b0_reflist, u8 *b1_reflist)
-> +{
-> +	memcpy(b0_reflist, builder->unordered_reflist,
-> +	       sizeof(builder->unordered_reflist));
-> +	sort_r(b0_reflist, builder->num_valid, sizeof(*b0_reflist),
-> +	       v4l2_h264_b0_ref_list_cmp, NULL, builder);
+Should the DT bindings document that the clock cannot be specified than?
 
-Hmm... you're always copying 16 elements, but sorting only num_valid...
+> > @@ -686,7 +700,8 @@
+> >         };
+> >
+> >         sound_pins: sound {
+> > -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
+> > +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
+> > +                        "ssi4_data";
+> 
+> Missing "ss4_ctrl", for the SCK4 and WS4 pins.
 
-That sounds not too consistent on my eyes. Perhaps you should do,
-instead:
+I'll add them.
+As the device seems to function even without thoes, does this mean the pins in
+the group are used "on demand" by whatever needs them?
 
-	memcpy(b0_reflist, builder->unordered_reflist,
-	       sizeof(builder->unordered_reflist[0]) * builder->num_valid);
+> > @@ -760,8 +775,18 @@
+> >                  <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+> >                  <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+> >                  <&audio_clk_a>, <&cs2000>,
+> > -                <&audio_clk_c>,
+> 
+> Why remove it? This is the list of clock inputs, not outputs.
 
-> +
-> +	memcpy(b1_reflist, builder->unordered_reflist,
-> +	       sizeof(builder->unordered_reflist));
+...probably because I was thinking the specification was exactly the other way
+around.
 
-Same here.
+Does a "clocks = ..." statement always mean input clocks?
 
-> +	sort_r(b1_reflist, builder->num_valid, sizeof(*b1_reflist),
-> +	       v4l2_h264_b1_ref_list_cmp, NULL, builder);
-> +
-> +	if (builder->num_valid > 1 &&
-> +	    !memcmp(b1_reflist, b0_reflist, builder->num_valid))
-> +		swap(b1_reflist[0], b1_reflist[1]);
+I shall correct that and re-test (might take a while, I don't have the
+hardware anymore).
 
-Hmm... when you did sizeof(*b0_reflist) above, you were assuming that
-you might some day change the definition from u8 to something else
-at the array. So, here, for consistency, you should also do the 
-same here, e. g.:
-
-	if (builder->num_valid > 1 &&
-	    !memcmp(b1_reflist, b0_reflist, builder->num_valid * sizeof(*b0_reflist)))
-		swap(b1_reflist[0], b1_reflist[1]);
-
-
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_h264_build_b_ref_lists);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("V4L2 H264 Helpers");
-> +MODULE_AUTHOR("Boris Brezillon <boris.brezillon@collabora.com>");
-> diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
-> new file mode 100644
-> index 000000000000..36d25c27cc31
-> --- /dev/null
-> +++ b/include/media/v4l2-h264.h
-> @@ -0,0 +1,85 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Helper functions for H264 codecs.
-> + *
-> + * Copyright (c) 2019 Collabora, Ltd.
-> + *
-> + * Author: Boris Brezillon <boris.brezillon@collabora.com>
-> + */
-> +
-> +#ifndef _MEDIA_V4L2_H264_H
-> +#define _MEDIA_V4L2_H264_H
-> +
-> +#include <media/h264-ctrls.h>
-> +
-> +/**
-> + * struct v4l2_h264_reflist_builder - Reference list builder object
-> + *
-> + * @refs.pic_order_count: reference picture order count
-> + * @refs.frame_num: reference frame number
-> + * @refs.pic_num: reference picture number
-> + * @refs.longterm: set to true for a long term reference
-> + * @refs: array of references
-> + * @cur_pic_order_count: picture order count of the frame being decoded
-> + * @unordered_reflist: unordered list of references. Will be used to generate
-> + *		       ordered P/B0/B1 lists
-> + * @num_valid: number of valid references in the refs array
-> + *
-> + * This object stores the context of the P/B0/B1 reference list builder.
-> + * This procedure is described in section '8.2.4 Decoding process for reference
-> + * picture lists construction' of the H264 spec.
-> + */
-> +struct v4l2_h264_reflist_builder {
-> +	struct {
-> +		s32 pic_order_count;
-> +		int frame_num;
-> +		u16 pic_num;
-> +		u16 longterm : 1;
-> +	} refs[16];
-> +	s32 cur_pic_order_count;
-> +	u8 unordered_reflist[16];
-
-So, as I said before:
-
-	} refs[NUM_DPB_ENTRIES];
-	s32 cur_pic_order_count;
-	u8 unordered_reflist[NUM_DPB_ENTRIES];
-
-
-> +	u8 num_valid;
-> +};
-> +
-> +void
-> +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-> +		const struct v4l2_ctrl_h264_decode_params *dec_params,
-> +		const struct v4l2_ctrl_h264_slice_params *slice_params,
-> +		const struct v4l2_ctrl_h264_sps *sps,
-> +		const struct v4l2_h264_dpb_entry *dpb);
-> +
-> +/**
-> + * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
-> + *
-> + * @builder: reference list builder context
-> + * @b0_reflist: 16-bytes array used to store the B0 reference list. Each entry
-> + *		is an index in the DPB
-> + * @b1_reflist: 16-bytes array used to store the B1 reference list. Each entry
-> + *		is an index in the DPB
-> + *
-> + * This functions builds the B0/B1 reference lists. This procedure is described
-> + * in section '8.2.4 Decoding process for reference picture lists construction'
-> + * of the H264 spec. This function can be used by H264 decoder drivers that
-> + * need to pass B0/B1 reference lists to the hardware.
-> + */
-> +void
-> +v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
-> +			    u8 *b0_reflist, u8 *b1_reflist);
-> +
-> +/**
-> + * v4l2_h264_build_b_ref_lists() - Build the P reference list
-> + *
-> + * @builder: reference list builder context
-> + * @p_reflist: 16-bytes array used to store the P reference list. Each entry
-> + *	       is an index in the DPB
-> + *
-> + * This functions builds the P reference lists. This procedure is describe in
-> + * section '8.2.4 Decoding process for reference picture lists construction'
-> + * of the H264 spec. This function can be used by H264 decoder drivers that
-> + * need to pass a P reference list to the hardware.
-> + */
-> +void
-> +v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
-> +			   u8 *reflist);
-> +
-> +#endif /* _MEDIA_V4L2_H264_H */
-
-
-Thanks,
-Mauro
+Thanks for looking!
+Regards,
+Alex
