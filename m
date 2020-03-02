@@ -2,262 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5CC3175E0C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:21:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55C0D175E1B
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:24:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgCBPVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 10:21:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56122 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726390AbgCBPVI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Mar 2020 10:21:08 -0500
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B4B6C2146E;
-        Mon,  2 Mar 2020 15:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583162467;
-        bh=PLvk6y3hcWUG0cJaGOrwLbmj0GYuf2HRT1LWd/H3Pvw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vxmofjcBaFgoMf1BcXCB1UtH3FNWdlGmtwPDusDU85gCm5zGZy4rUj4XM2Ocx1qEa
-         WTIdopeGSmWkh7UFfRTCZR56v+z+5BpuwItWvaTJeK/6UqNFtkxlfRgzbja7Ns6K7t
-         mnSWRGWyXyZ387AYxiKeIymAFHqgLmIuFmCDrxAk=
-Date:   Mon, 2 Mar 2020 16:21:00 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v6 2/6] media: v4l2-core: Add helpers to build the H264
- P/B0/B1 reflists
-Message-ID: <20200302162100.72696380@coco.lan>
-In-Reply-To: <20200302154426.5fb09f91@collabora.com>
-References: <20200220163016.21708-1-ezequiel@collabora.com>
-        <20200220163016.21708-3-ezequiel@collabora.com>
-        <20200302142433.0ad1b383@coco.lan>
-        <20200302154426.5fb09f91@collabora.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727070AbgCBPYS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 10:24:18 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40568 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbgCBPYS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 10:24:18 -0500
+Received: by mail-wr1-f68.google.com with SMTP id r17so141584wrj.7
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 07:24:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6/CIkWNCwNaImmXlS8dDLwAcR6sRgPxwGGxRlcKCoVs=;
+        b=ZF1JAjbnFfIgiCw6NX8mgzBabbjZJRZ4pT7T3b0Z7AbuYhSseXIOObM0JlCuObWu+Q
+         jsc2U3owHmjYwWLA9kG8h9lVtxNutsF4FQA5TPXf6psBmNT7GUs6OM+0kIQv083y0i+a
+         yXE70XLBvDPTe+WfDAmBf52LvcXEVoRFkb+AzcOr8/bNEH5GhckOIO4p/nCwvrpeiVIA
+         p+mWJyS9xTFDzaV9RmEc2AU1N4+XE97vlAhV3KGI/EBGNILL+WxiS9ZVxxEvzML36cpP
+         VHXh2ql3saT3JJyFFAwbcplIvcGUTD/JkVJ68613fQSE55NaDAIl6iHWYGaOHqJOkBv3
+         Ik5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6/CIkWNCwNaImmXlS8dDLwAcR6sRgPxwGGxRlcKCoVs=;
+        b=Qt1A/Gu2iXMutvpKwsv4hus+jxseJ0UqSEk5/Vyx7SuHhxSspit55d0DlTuXYOhREu
+         gX0dLU6dukBjCgzZ8Y5yaT2aYyCKoA+iERobipGperig2bE73QjIKpYBMxaz+jHuGN47
+         7TL0a+F5R9PZlh26X1C5v9kgxBoCh2WWKJ/vVTVeAAoIFk4+zfaZst8yZwBrfxuU0t0T
+         stHelOLpXSp+Nzhn+cwRBqHMMmP6oQvgVxaN5OJe6Nx70BEEXstIcj3Mqy3/LmPae6p3
+         C3b4amnCIzhFFLi57LauSy+G4ZT6XFQswJQEptzI40GOfguOeS9ez52NYfa4AYZ52sGw
+         nOWw==
+X-Gm-Message-State: ANhLgQ1c648+p0RuqNnvNYNtUby6ylGpzTofEDUzBoWzDMF/ft6rJYPA
+        lOA9GHN0TADOc60rqhye8ocx1YakA1O+feOj2nMX4A==
+X-Google-Smtp-Source: ADFU+vvibXAAaRXVSYO3pfwNHCZglN+HZMDcfhsGZWm7NVOMxOJvAA9oxubzIxeaxzXnvUeM97Z2+XnC+/da8ZEZbGk=
+X-Received: by 2002:adf:e542:: with SMTP id z2mr160388wrm.150.1583162656640;
+ Mon, 02 Mar 2020 07:24:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200228165503.18054-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200228165503.18054-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 2 Mar 2020 15:24:01 +0000
+Message-ID: <CAPY8ntBbm2d4b1p__FdyZS52sBV6CtfGKaVrg74Q=3aKeby1nQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: i2c: imx219: Fix power sequence
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 2 Mar 2020 15:44:26 +0100
-Boris Brezillon <boris.brezillon@collabora.com> escreveu:
+Hi Lad.
 
-> On Mon, 2 Mar 2020 14:24:33 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > Em Thu, 20 Feb 2020 13:30:12 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> >   
-> > > From: Boris Brezillon <boris.brezillon@collabora.com>
-> > > 
-> > > Building those list is a standard procedure described in section
-> > > '8.2.4 Decoding process for reference picture lists construction' of
-> > > the H264 specification.
-> > > 
-> > > We already have 2 drivers needing the same logic (hantro and rkvdec) and
-> > > I suspect we will soon have more.
-> > > 
-> > > Let's provide generic helpers to create those lists.
-> > > 
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >  drivers/media/v4l2-core/Kconfig     |   4 +
-> > >  drivers/media/v4l2-core/Makefile    |   1 +
-> > >  drivers/media/v4l2-core/v4l2-h264.c | 258 ++++++++++++++++++++++++++++
-> > >  include/media/v4l2-h264.h           |  85 +++++++++
-> > >  4 files changed, 348 insertions(+)
-> > >  create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
-> > >  create mode 100644 include/media/v4l2-h264.h
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> > > index 39e3fb30ba0b..8a4ccfbca8cf 100644
-> > > --- a/drivers/media/v4l2-core/Kconfig
-> > > +++ b/drivers/media/v4l2-core/Kconfig
-> > > @@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
-> > >  config VIDEO_TUNER
-> > >  	tristate
-> > >  
-> > > +# Used by drivers that need v4l2-h264.ko
-> > > +config V4L2_H264
-> > > +	tristate
-> > > +
-> > >  # Used by drivers that need v4l2-mem2mem.ko
-> > >  config V4L2_MEM2MEM_DEV
-> > >  	tristate
-> > > diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> > > index 786bd1ec4d1b..c5c53e0941ad 100644
-> > > --- a/drivers/media/v4l2-core/Makefile
-> > > +++ b/drivers/media/v4l2-core/Makefile
-> > > @@ -21,6 +21,7 @@ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
-> > >  obj-$(CONFIG_VIDEO_TUNER) += tuner.o
-> > >  
-> > >  obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
-> > > +obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
-> > >  
-> > >  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
-> > >  
-> > > diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
-> > > new file mode 100644
-> > > index 000000000000..4f68c27ec7fd
-> > > --- /dev/null
-> > > +++ b/drivers/media/v4l2-core/v4l2-h264.c
-> > > @@ -0,0 +1,258 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * V4L2 H264 helpers.
-> > > + *
-> > > + * Copyright (C) 2019 Collabora, Ltd.
-> > > + *
-> > > + * Author: Boris Brezillon <boris.brezillon@collabora.com>
-> > > + */
-> > > +
-> > > +#include <linux/module.h>
-> > > +#include <linux/sort.h>
-> > > +
-> > > +#include <media/v4l2-h264.h>
-> > > +
-> > > +/**
-> > > + * v4l2_h264_init_reflist_builder() - Initialize a P/B0/B1 reference list
-> > > + *				      builder
-> > > + *
-> > > + * @b: the builder context to initialize
-> > > + * @dec_params: decode parameters control
-> > > + * @slice_params: first slice parameters control
-> > > + * @sps: SPS control
-> > > + * @dpb: DPB to use when creating the reference list
-> > > + */
-> > > +void
-> > > +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-> > > +		const struct v4l2_ctrl_h264_decode_params *dec_params,
-> > > +		const struct v4l2_ctrl_h264_slice_params *slice_params,
-> > > +		const struct v4l2_ctrl_h264_sps *sps,
-> > > +		const struct v4l2_h264_dpb_entry *dpb)    
-> > 
-> > The prototype here is not nice...
-> >   
-> > > +{
-> > > +	int cur_frame_num, max_frame_num;
-> > > +	unsigned int i;
-> > > +
-> > > +	max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
-> > > +	cur_frame_num = slice_params->frame_num;
-> > > +
-> > > +	memset(b, 0, sizeof(*b));
-> > > +	if (!(slice_params->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC))
-> > > +		b->cur_pic_order_count = min(dec_params->bottom_field_order_cnt,
-> > > +					     dec_params->top_field_order_cnt);
-> > > +	else if (slice_params->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
-> > > +		b->cur_pic_order_count = dec_params->bottom_field_order_cnt;
-> > > +	else
-> > > +		b->cur_pic_order_count = dec_params->top_field_order_cnt;
-> > > +
-> > > +	for (i = 0; i < 16; i++) {
-> > > +		u32 pic_order_count;
-> > > +
-> > > +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> > > +			continue;
-> > > +
-> > > +		b->refs[i].pic_num = dpb[i].pic_num;    
-> > 
-> > ... as you're expecting a fixed number of elements at DPB array, and using
-> > a magic number (16) inside the for loop.  
-> 
-> I used to have a '#define V4L2_H264_NUM_DPB_ENTRIES 16' but have been
-> told that this is an arbitrary limitation (the spec does not explicitly
-> limit the DPB size, even if all the HW we've seen seem to limit it to
-> 16).
+Thanks again for the patch.
 
-Yeah, 16 seems an arbitrary limitation to me too. Yet, the way it
-is, the code still has this arbitrary limit, except that it is now
-split into different places, making worse to change if we ever need
-to extend it.
+On Fri, 28 Feb 2020 at 16:55, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> When supporting Rpi Camera v2 Module on the RZ/G2E, found the driver had
+> some issues with rcar mipi-csi driver. The sesnosr never entered into LP-11
 
-At least with a define, if we need to change it to, let's say, 32,
-it would be just a matter of changing the #define.
+s/sesnosr/sensor
 
-> Maybe we can pass the DPB array size as an argument so it stays
-> HW-specific.
+> state.
+>
+> The powerup sequence in the datasheet[1] shows the sensor entering into
+> LP-11 in streaming mode, so to fix this issue transitions are performed
+> from "standby -> streaming -> standby" in the probe().
+>
+> With this commit the sensor is able to enter LP-11 mode during power up,
+> as expected by some CSI-2 controllers.
 
-That would work too, but then you'll likely need to add dynamic
-allocation for the structs, with would add more complexity without
-a real use-case.
+I guess I'm lucky that the CSI2 receiver I deal with doesn't care on this front.
+The datasheet does seem to imply that the line is left in what appears
+to be LP-00 after power up, but this feels like a huge amount of stuff
+to do.
 
-> 
-> >   
-> > > +
-> > > +		/*
-> > > +		 * Handle frame_num wraparound as described in section
-> > > +		 * '8.2.4.1 Decoding process for picture numbers' of the spec.
-> > > +		 * TODO: This logic will have to be adjusted when we start
-> > > +		 * supporting interlaced content.
-> > > +		 */
-> > > +		if (dpb[i].frame_num > cur_frame_num)
-> > > +			b->refs[i].frame_num = (int)dpb[i].frame_num -
-> > > +					       max_frame_num;
-> > > +		else
-> > > +			b->refs[i].frame_num = dpb[i].frame_num;
-> > > +
-> > > +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> > > +			pic_order_count = min(dpb[i].top_field_order_cnt,
-> > > +					      dpb[i].bottom_field_order_cnt);
-> > > +		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> > > +			pic_order_count = dpb[i].bottom_field_order_cnt;
-> > > +		else
-> > > +			pic_order_count = dpb[i].top_field_order_cnt;
-> > > +
-> > > +		b->refs[i].pic_order_count = pic_order_count;
-> > > +		b->unordered_reflist[b->num_valid] = i;
-> > > +		b->num_valid++;
-> > > +	}
-> > > +
-> > > +	for (i = b->num_valid; i < ARRAY_SIZE(b->unordered_reflist); i++)
-> > > +		b->unordered_reflist[i] = i;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(v4l2_h264_init_reflist_builder);
-> > > +
-> > > +static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
-> > > +				    const void *data)
-> > > +{
-> > > +	const struct v4l2_h264_reflist_builder *builder = data;
-> > > +	u8 idxa, idxb;
-> > > +
-> > > +	idxa = *((u8 *)ptra);
-> > > +	idxb = *((u8 *)ptrb);
-> > > +
-> > > +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {    
-> > 
-> > Where do you ensure that idxa and idxb won't be bigger than NUM_DPB_ENTRIES?  
-> 
-> If it does that means something went wrong in the init func. 
+> [1] https://publiclab.org/system/images/photos/000/023/294/original/
+> RASPBERRY_PI_CAMERA_V2_DATASHEET_IMX219PQH5_7.0.0_Datasheet_XXX.PDF
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/media/i2c/imx219.c | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f1effb5a5f66..8b48e148f2d0 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1171,6 +1171,7 @@ static int imx219_check_hwcfg(struct device *dev)
+>
+>  static int imx219_probe(struct i2c_client *client)
+>  {
+> +       const struct imx219_reg_list *reg_list;
+>         struct device *dev = &client->dev;
+>         struct imx219 *imx219;
+>         int ret;
+> @@ -1224,6 +1225,38 @@ static int imx219_probe(struct i2c_client *client)
+>         /* Set default mode to max resolution */
+>         imx219->mode = &supported_modes[0];
+>
+> +       /* sensor doesn't enter to LP-11 state upon power up until and unless
 
-Well, this is a library code. We know that the init function won't
-do that, but the core doesn't really know if the driver didn't change
-the refs for some reason. If it does, it will go past the array index,
-with can be very bad. So, I would try to either re-work this sorting
-code to prevent going out of refs[] array or add some code to bail out
-if this ever happen.
+Remove "to"
 
-> I can add
-> a WARN_ON() and bail out if you want, but I can't return an error here
-> (that's not what the caller of the callback expects).
+> +        * streaming is started, so upon power up set the default format and
+> +        * switch the modes: standby -> streaming -> standby
+> +        */
+> +       /* getting sensor out of sleep */
+> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
+> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
 
+The datasheet says the default for IMX219_REG_MODE_SELECT is already 0
+/ STANDY, so this should be unnecessary as we've only just powered up.
 
-Thanks,
-Mauro
+> +       if (ret < 0)
+> +               goto error_power_off;
+> +       usleep_range(100, 110);
+> +
+> +       reg_list = &imx219->mode->reg_list;
+> +       ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
+> +       if (ret) {
+> +               dev_err(&client->dev, "%s failed to default mode\n", __func__);
+> +               goto error_power_off;
+> +       }
+
+Seeing as we don't want the images produced, and we're about to power
+the sensor back down again, do the default register settings do enough
+to allow the shift to LP-11? ie can we drop writing any mode setup
+registers here, and just got to STREAMING and back to STANDBY?
+
+> +       /* getting sensor out of sleep */
+
+We already did that above. This is standby->streaming.
+
+> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
+> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
+> +       if (ret < 0)
+> +               goto error_power_off;
+> +       usleep_range(100, 110);
+> +
+> +       /* put sensor back to standby mode */
+> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
+> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
+> +       if (ret < 0)
+> +               goto error_power_off;
+> +       usleep_range(100, 110);
+> +
+>         ret = imx219_init_controls(imx219);
+>         if (ret)
+>                 goto error_power_off;
+> --
+> 2.20.1
+
+Cheers,
+  Dave
