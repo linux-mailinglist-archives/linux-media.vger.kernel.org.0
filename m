@@ -2,86 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A7D4174A74
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2020 01:29:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CE13175279
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 05:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbgCAA3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Feb 2020 19:29:39 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:55746 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726786AbgCAA3j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Feb 2020 19:29:39 -0500
-Received: from p508fcd9d.dip0.t-ipconnect.de ([80.143.205.157] helo=phil.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <heiko@sntech.de>)
-        id 1j8CU0-0004yv-LN; Sun, 01 Mar 2020 01:29:24 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     Justin Swartz <justin.swartz@risingedge.co.za>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] [media] dt-bindings: Add binding for rk3228 rga
-Date:   Sun, 01 Mar 2020 01:29:23 +0100
-Message-ID: <7950264.35eqgo7tFu@phil>
-In-Reply-To: <4e66b3f029c56d7c7709d39ed15894b86f51fd37.1580768038.git.justin.swartz@risingedge.co.za>
-References: <cover.1580768038.git.justin.swartz@risingedge.co.za> <4e66b3f029c56d7c7709d39ed15894b86f51fd37.1580768038.git.justin.swartz@risingedge.co.za>
+        id S1726811AbgCBEMY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Mar 2020 23:12:24 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34456 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726758AbgCBEMX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Mar 2020 23:12:23 -0500
+Received: by mail-pg1-f194.google.com with SMTP id t3so4759135pgn.1
+        for <linux-media@vger.kernel.org>; Sun, 01 Mar 2020 20:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B8nUcMBqmV2MqPtUQIaeg61WlAypNvWpr/qBj0Tv7NQ=;
+        b=H9TZNADJiJ+TG4xU1inFGhGNnlHK9zgdyeHHXngKzbZiQQDPAejY1YTA63cGSgjhIa
+         nIVy1G2Jh6kDLjrImrx5PDxJINTnmpwsRaw5nAxB4BKlb64ZEtNRveNJvBdkA3Q63rZg
+         h4Gy+BJ5W4yd9JhJhJ9xE/w7k590FrBcyhceM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B8nUcMBqmV2MqPtUQIaeg61WlAypNvWpr/qBj0Tv7NQ=;
+        b=Jz3o3UXjzIq1TKuK+oKEc7i4Tm6IjhIT8jDx+ay3UiRXs9TIVjicZzbb30LZjbt0YZ
+         EZtVrBV1tc1EwKvKyhoyDcr6wxNx/kJo4OzaqfUhVmBElgL9SHMosr+AGJ5hwbEpEvu+
+         3L+D1AP+d4Bqn5xEDAaPXUDrCmO6qU5pE+btJpNIADoIn9ObESYNu6buPJ63lMf5qx8B
+         4HyJaLaDKeCh2ztKtwG8+x/CJvwhNCIRbVauc1xvdjW5+79sLy32BQLtdEQ0+YEdlwo6
+         v3d4Yj/Rrk2T2c+LiidNzFEwPlv/sBHHvTbI/1B/yEv+xqEGzOmPQ/loi7Fprpqkr/wa
+         S0Ig==
+X-Gm-Message-State: APjAAAXMvY97zPk1X/goyjZCuxPQsvpUS2jfLp4wHGU1S+qqak09E4Ox
+        n7lINMN1PnunVNykkKWSEbhcnA==
+X-Google-Smtp-Source: APXvYqx5IVVGmhE21w/I3CEw5NMLpL868xHNe0N+DRcF8FJsK86WdNxQZUgVYcoaMl1J1+PB3lxLYQ==
+X-Received: by 2002:a63:565e:: with SMTP id g30mr17254989pgm.206.1583122342748;
+        Sun, 01 Mar 2020 20:12:22 -0800 (PST)
+Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id d82sm1698114pfd.187.2020.03.01.20.12.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Mar 2020 20:12:22 -0800 (PST)
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCHv4 00/11] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
+Date:   Mon,  2 Mar 2020 13:12:02 +0900
+Message-Id: <20200302041213.27662-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hello,
 
-Am Montag, 3. Februar 2020, 23:40:15 CET schrieb Justin Swartz:
-> Indicate that the rk3228 rga is compatible with that of the rk3288.
-> 
-> But if any rk3228-specific quirks are identified in future that
-> require handling logic that differs from what is provided for the
-> rk3288, then allow for the compatibility string "rockchip,rk3228-rga"
-> to be matched instead of "rockchip,rk3288-rga".
-> 
-> Signed-off-by: Justin Swartz <justin.swartz@risingedge.co.za>
+	v4 of the series. Typos and grammar fixes.
 
-what is the process in the media-world for this dt-binding only patch?
+Previous series:
+v3 link: https://lore.kernel.org/lkml/20200226111529.180197-1-senozhatsky@chromium.org
+v2 link: https://lore.kernel.org/lkml/20200204025641.218376-1-senozhatsky@chromium.org/
+v1 link: https://lore.kernel.org/lkml/20191217032034.54897-1-senozhatsky@chromium.org/
 
-Do you want to apply it, or should I just also apply it with the following
-2 dt-patches? There shouldn't be any conflicts with the media tree
-as this patch really only affects the rga binding document.
+Series Intro
+========================================================================
 
-Thanks
-Heiko
+        This is a reworked version of the vb2 cache hints
+(V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
+support patch series which previsouly was developed by Sakari and
+Laurent [0].
 
-> ---
->  Documentation/devicetree/bindings/media/rockchip-rga.txt | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.txt b/Documentation/devicetree/bindings/media/rockchip-rga.txt
-> index fd5276abf..c53a8e513 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip-rga.txt
-> +++ b/Documentation/devicetree/bindings/media/rockchip-rga.txt
-> @@ -6,8 +6,9 @@ BitBLT, alpha blending and image blur/sharpness.
->  
->  Required properties:
->  - compatible: value should be one of the following
-> -		"rockchip,rk3288-rga";
-> -		"rockchip,rk3399-rga";
-> +  "rockchip,rk3228-rga", "rockchip,rk3288-rga": for Rockchip RK3228
-> +  "rockchip,rk3288-rga": for Rockchip RK3288
-> +  "rockchip,rk3399-rga": for Rockchip RK3399
->  
->  - interrupts: RGA interrupt specifier.
->  
-> 
+The patch set attempts to preserve the existing behvaiour - cache
+sync is performed in ->prepare() and ->finish() (unless the buffer
+is DMA exported). User space can request “default behavior” override
+with cache management hints, which are handled on a per-buffer basis
+and should be supplied with v4l2_buffer ->flags during buffer
+preparation. There are two possible hints:
 
+- V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
+        No cache sync on ->finish()
 
+- V4L2_BUF_FLAG_NO_CACHE_CLEAN
+        No cache sync on ->prepare()
 
+In order to keep things on the safe side, we also require driver
+to explicitly state which of its queues (if any) support user space
+cache management hints (such queues should have ->allow_cache_hints
+bit set).
+
+The patch set also (to some extent) simplifies allocators' ->prepare()
+and ->finish() callbacks. Namely, we move cache management decision
+making to the upper - core - layer. For example, if, previously, we
+would have something like this
+
+        vb2_buffer_done()
+          vb2_dc_finish()
+            if (buf->db_attach)
+               return;
+
+where each allocators' ->finish() callback would either bail
+out (DMA exported buffer, for instance) or sync, now that "bail
+out or sync" decision is made before we call into the allocator.
+
+Along with cache management hints, user space is also able to
+adjust queue's memory consistency attributes. Memory consistency
+attribute (dma_attrs) is per-queue, yet it plays its role on the
+allocator level, when we allocate buffers’ private memory (planes).
+For the time being, only one consistency attribute is supported:
+DMA_ATTR_NON_CONSISTENT.
+
+[0] https://www.mail-archive.com/linux-media@vger.kernel.org/msg112459.html
+
+Sergey Senozhatsky (11):
+  videobuf2: add cache management members
+  videobuf2: handle V4L2 buffer cache flags
+  videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+  videobuf2: add queue memory consistency parameter
+  videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+  videobuf2: factor out planes prepare/finish functions
+  videobuf2: do not sync caches when we are allowed not to
+  videobuf2: check ->synced flag in prepare() and finish()
+  videobuf2: add begin/end cpu_access callbacks to dma-contig
+  videobuf2: add begin/end cpu_access callbacks to dma-sg
+  videobuf2: don't test db_attach in dma-contig prepare and finish
+
+ Documentation/media/uapi/v4l/buffer.rst       |  29 +++++
+ .../media/uapi/v4l/vidioc-create-bufs.rst     |   7 +-
+ .../media/uapi/v4l/vidioc-reqbufs.rst         |  18 ++-
+ .../media/common/videobuf2/videobuf2-core.c   | 110 +++++++++++++-----
+ .../common/videobuf2/videobuf2-dma-contig.c   |  39 ++++++-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  36 ++++--
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  82 ++++++++++++-
+ drivers/media/dvb-core/dvb_vb2.c              |   2 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +-
+ include/media/videobuf2-core.h                |  28 ++++-
+ include/uapi/linux/videodev2.h                |  11 +-
+ 11 files changed, 310 insertions(+), 57 deletions(-)
+
+-- 
+2.25.0.265.gbab2e86ba0-goog
 
