@@ -2,163 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55C0D175E1B
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12138175E41
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:32:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbgCBPYS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 10:24:18 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:40568 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726751AbgCBPYS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 10:24:18 -0500
-Received: by mail-wr1-f68.google.com with SMTP id r17so141584wrj.7
-        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 07:24:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6/CIkWNCwNaImmXlS8dDLwAcR6sRgPxwGGxRlcKCoVs=;
-        b=ZF1JAjbnFfIgiCw6NX8mgzBabbjZJRZ4pT7T3b0Z7AbuYhSseXIOObM0JlCuObWu+Q
-         jsc2U3owHmjYwWLA9kG8h9lVtxNutsF4FQA5TPXf6psBmNT7GUs6OM+0kIQv083y0i+a
-         yXE70XLBvDPTe+WfDAmBf52LvcXEVoRFkb+AzcOr8/bNEH5GhckOIO4p/nCwvrpeiVIA
-         p+mWJyS9xTFDzaV9RmEc2AU1N4+XE97vlAhV3KGI/EBGNILL+WxiS9ZVxxEvzML36cpP
-         VHXh2ql3saT3JJyFFAwbcplIvcGUTD/JkVJ68613fQSE55NaDAIl6iHWYGaOHqJOkBv3
-         Ik5g==
+        id S1727191AbgCBPcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 10:32:45 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:43870 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbgCBPcp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 10:32:45 -0500
+Received: by mail-ot1-f66.google.com with SMTP id j5so9205057otn.10;
+        Mon, 02 Mar 2020 07:32:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6/CIkWNCwNaImmXlS8dDLwAcR6sRgPxwGGxRlcKCoVs=;
-        b=Qt1A/Gu2iXMutvpKwsv4hus+jxseJ0UqSEk5/Vyx7SuHhxSspit55d0DlTuXYOhREu
-         gX0dLU6dukBjCgzZ8Y5yaT2aYyCKoA+iERobipGperig2bE73QjIKpYBMxaz+jHuGN47
-         7TL0a+F5R9PZlh26X1C5v9kgxBoCh2WWKJ/vVTVeAAoIFk4+zfaZst8yZwBrfxuU0t0T
-         stHelOLpXSp+Nzhn+cwRBqHMMmP6oQvgVxaN5OJe6Nx70BEEXstIcj3Mqy3/LmPae6p3
-         C3b4amnCIzhFFLi57LauSy+G4ZT6XFQswJQEptzI40GOfguOeS9ez52NYfa4AYZ52sGw
-         nOWw==
-X-Gm-Message-State: ANhLgQ1c648+p0RuqNnvNYNtUby6ylGpzTofEDUzBoWzDMF/ft6rJYPA
-        lOA9GHN0TADOc60rqhye8ocx1YakA1O+feOj2nMX4A==
-X-Google-Smtp-Source: ADFU+vvibXAAaRXVSYO3pfwNHCZglN+HZMDcfhsGZWm7NVOMxOJvAA9oxubzIxeaxzXnvUeM97Z2+XnC+/da8ZEZbGk=
-X-Received: by 2002:adf:e542:: with SMTP id z2mr160388wrm.150.1583162656640;
- Mon, 02 Mar 2020 07:24:16 -0800 (PST)
+         :message-id:subject:to;
+        bh=ZZC2Pupfl/eFbEiQmQK8DrdbI5TFes5OKB8zq+O8R1I=;
+        b=BPCImpaVZVUxdzN5KKku2FS9cxnyrj2VqNM3qtKB+QZ+0w9mHciBcdIIq9B8Vs/PQE
+         FIKNtt+NuYy4FCTC5IjNNaAFtQOPszr4h0ypcY1VSUshP2mp4EV6gk6EHkaMFRBn71i7
+         ODVRkeg9V3uFlgVMh9HiEJJ2u/UXX+aBL1tDAMLQBgclcn8uyTl+RqgsA3t8IRIQdV/K
+         eDATaKp3BhNmetgxJUUJIxxAqzSwqwHzBnxNlibDnB1rxTOWIzkTCvoXnPsTRoo+FQcp
+         FVw5wAQuXjgRm8/IyfM8Dv7KJTSCHFJdX7XY9+NG+rKBtAMd6wJ96EjHeqxTNqIG8E/P
+         wOeg==
+X-Gm-Message-State: APjAAAUBl9fdkQGci9LxDqxfeJjDKANX0hxiS0brY6T+q68oG9G18gxW
+        REcgnlNh1xFj3yfI0IcT+OJkHWgvmO9MCt/cDmE=
+X-Google-Smtp-Source: APXvYqwgjIFCSqSj4qBpYRjDRfnQGcUTZSl3tHFJqbuFk9d/EBsOPPhJjGzJbigayYo0pnbjUOze3Cw83b79RAdw6Sc=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr13477946ots.250.1583163163733;
+ Mon, 02 Mar 2020 07:32:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200228165503.18054-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200228165503.18054-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 2 Mar 2020 15:24:01 +0000
-Message-ID: <CAPY8ntBbm2d4b1p__FdyZS52sBV6CtfGKaVrg74Q=3aKeby1nQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: i2c: imx219: Fix power sequence
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+References: <cover.1578924232.git.alexander.riesen@cetitec.com>
+ <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
+ <20200302134011.GA3717@pflmari> <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
+ <20200302150706.GB3717@pflmari>
+In-Reply-To: <20200302150706.GB3717@pflmari>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 2 Mar 2020 16:32:32 +0100
+Message-ID: <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
+Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
+ adv748x codec (HDMI input) to the R-Car SoC
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad.
+Hi Alex,
 
-Thanks again for the patch.
-
-On Fri, 28 Feb 2020 at 16:55, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+On Mon, Mar 2, 2020 at 4:07 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> Geert Uytterhoeven, Mon, Mar 02, 2020 14:47:46 +0100:
+> > On Mon, Mar 2, 2020 at 2:40 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> > > > > --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> > > > > +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> > > > > @@ -322,6 +322,10 @@
+> > > > >         clock-frequency = <22579200>;
+> > > > >  };
+> > > > >
+> > > > > +&audio_clk_c {
+> > > > > +       clock-frequency = <12288000>;
+> > > > > +};
+> > > >
+> > > > Does the ADV7482 always generate a 12.288 MHz clock signal?
+> > > > Or is this programmable?
+> > >
+> > > Oops. It looks like it is and the value is derived from the sampling rate
+> > > (48kHz) and the master clock multiplier. Both hard-coded in the board file.
+> >
+> > Where are these hardcoded in the board file?
 >
-> When supporting Rpi Camera v2 Module on the RZ/G2E, found the driver had
-> some issues with rcar mipi-csi driver. The sesnosr never entered into LP-11
-
-s/sesnosr/sensor
-
-> state.
+> In the endpoint definition, arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts
 >
-> The powerup sequence in the datasheet[1] shows the sensor entering into
-> LP-11 in streaming mode, so to fix this issue transitions are performed
-> from "standby -> streaming -> standby" in the probe().
+> So the frequency can be set at the run-time, perhaps even derived from
+> endpoint connected to the output. In this case, rsnd_endpoint3,
+> which has the "mclk-fs" setting. Not sure if the sampling rate
+> can be set to something else for the HDMI, though.
 >
-> With this commit the sensor is able to enter LP-11 mode during power up,
-> as expected by some CSI-2 controllers.
-
-I guess I'm lucky that the CSI2 receiver I deal with doesn't care on this front.
-The datasheet does seem to imply that the line is left in what appears
-to be LP-00 after power up, but this feels like a huge amount of stuff
-to do.
-
-> [1] https://publiclab.org/system/images/photos/000/023/294/original/
-> RASPBERRY_PI_CAMERA_V2_DATASHEET_IMX219PQH5_7.0.0_Datasheet_XXX.PDF
+> > Even if they are, technically this is a clock output of the ADV7482.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/media/i2c/imx219.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+> ... which I hope to correct as soon as I steal the hardware from whoever stole
+> it from me...
 >
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f1effb5a5f66..8b48e148f2d0 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1171,6 +1171,7 @@ static int imx219_check_hwcfg(struct device *dev)
+> > > > > video-receiver@70 {
+> > > > >     compatible = "adi,adv7482";
+> > > > > ...
+> > > > > +   clocks = <&rcar_sound 3>, <&audio_clk_c>;
+> > > > > +   clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
+> > > >
+> > > > The above declares the Audio CLK C to be a clock input of the ADV7482, while
+> > > > it is an output.
+> > >
+> > > I would gladly give it right direction if I *really* understood what I was
+> > > doing...
+> >
+> > :-)
+> >
+> > > > Furthermore, the DT bindings do not document that clocks can be specified.
+> > >
+> > > Should the DT bindings document that the clock cannot be specified than?
+> >
+> > It currently does say so, as it doesn't list "clocks" in its properties section.
 >
->  static int imx219_probe(struct i2c_client *client)
->  {
-> +       const struct imx219_reg_list *reg_list;
->         struct device *dev = &client->dev;
->         struct imx219 *imx219;
->         int ret;
-> @@ -1224,6 +1225,38 @@ static int imx219_probe(struct i2c_client *client)
->         /* Set default mode to max resolution */
->         imx219->mode = &supported_modes[0];
+> The bindings documentation file, which we're talking about here and which does
+> not list the specifiable input clocks in its properties, is it the
 >
-> +       /* sensor doesn't enter to LP-11 state upon power up until and unless
+>     Documentation/devicetree/bindings/media/i2c/adv748x.txt
+>
+> ?
 
-Remove "to"
+Yes.
 
-> +        * streaming is started, so upon power up set the default format and
-> +        * switch the modes: standby -> streaming -> standby
-> +        */
-> +       /* getting sensor out of sleep */
-> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
+>
+> And this absence of documentation also means that whatever clocks (both input
+> in "clocks=" and output in "#clock-cells") listed in a specific .dts are just
+> an integration detail?
 
-The datasheet says the default for IMX219_REG_MODE_SELECT is already 0
-/ STANDY, so this should be unnecessary as we've only just powered up.
+No, the absence probably means that any clock-related properties in a .dts
+file will just be ignored.
 
-> +       if (ret < 0)
-> +               goto error_power_off;
-> +       usleep_range(100, 110);
-> +
-> +       reg_list = &imx219->mode->reg_list;
-> +       ret = imx219_write_regs(imx219, reg_list->regs, reg_list->num_of_regs);
-> +       if (ret) {
-> +               dev_err(&client->dev, "%s failed to default mode\n", __func__);
-> +               goto error_power_off;
-> +       }
+Looking at the driver source, it indeed has no support related to clocks at all.
 
-Seeing as we don't want the images produced, and we're about to power
-the sensor back down again, do the default register settings do enough
-to allow the shift to LP-11? ie can we drop writing any mode setup
-registers here, and just got to STREAMING and back to STANDBY?
+> Does this below makes more sense, than?
+>
+>     video-receiver@70 {
+>         compatible = "adi,adv7482";
+>         clocks = <&rcar_sound 3>;
+>         clock-names = "clk-hdmi-video";
+>         adv748x_mclk: mclk {
+>             compatible = "fixed-clock";
+>             #clock-cells =  <0>;
+>             /* frequency hard-coded for illustration */
+>             clock-frequency = <12288000>;
+>             clock-output-names = "clk-hdmi-i2s-mclk";
+>         };
+>     };
 
-> +       /* getting sensor out of sleep */
+The #clock-cells should be in the main video-receiver node.
+Probably there is more than one clock output, so #clock-cells may be 1?
+There is no need for a fixed-clock compatible, nor for clock-frequency
+and clock-output-names.
 
-We already did that above. This is standby->streaming.
+But most important: this should be documented in the adv748x DT bindings,
+and implemented in the adv748x driver.
 
-> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
-> +       if (ret < 0)
-> +               goto error_power_off;
-> +       usleep_range(100, 110);
-> +
-> +       /* put sensor back to standby mode */
-> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
-> +       if (ret < 0)
-> +               goto error_power_off;
-> +       usleep_range(100, 110);
-> +
->         ret = imx219_init_controls(imx219);
->         if (ret)
->                 goto error_power_off;
-> --
-> 2.20.1
+> Now I'm a bit hazy on how to declare that the MCLK output of the
+> video-receiver@70 is connected to the Audio Clock C of the SoC...
+> Probably remove use of "audio_clk_c" completely?
 
-Cheers,
-  Dave
+Yes, the current audio_clk_c definition in the DTS assumes a fixed
+crystal.
+
+> > > > > @@ -686,7 +700,8 @@
+> > > > >         };
+> > > > >
+> > > > >         sound_pins: sound {
+> > > > > -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
+> > > > > +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
+> > > > > +                        "ssi4_data";
+> > > >
+> > > > Missing "ss4_ctrl", for the SCK4 and WS4 pins.
+> > >
+> > > I'll add them.
+> > > As the device seems to function even without thoes, does this mean the
+> > > pins in the group are used "on demand" by whatever needs them?
+> >
+> > Probably the SCK4/WS4 functions are the reset-state defaults.
+>
+> That ... might require some trial and testing: when I add them to the group,
+> the reset defaults will be overridden by the platform initialization, which is
+> not necessarily the reset default. Will see.
+
+Or by the boot loader.  Anyway, you need to specify these in the DTS.
+
+> > > Does a "clocks = ..." statement always mean input clocks?
+> >
+> > Yes it does.
+> > If a device has clock outputs and is thus a clock provider, it should
+> > have a #clock-cells property, and this should be documented in the bindings.
+> >
+> > A clock consumer will refer to clocks of a provider using the "clocks"
+> > property, specifying a clock specifier (phandle and zero or more indices)
+> > for each clock referenced.
+>
+> Something like this?
+>
+>     &rcar_sound {
+>         clocks = ...,
+>                  <&adv748x_mclk>,
+>                  <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
+>         clock-names = ...,
+>                       "clk_c",
+>                       "clk_i";
+>     };
+
+More or less.
+
+Might become
+
+    find_a_better_label_choice: video-receiver@70 {
+            ...
+    };
+
+    &rcar_sound {
+            clock = ...,
+                    <&find_a_better_label_choice 0>,
+                    ...
+    };
+
+as there may be multiple clock outputs on the ADV7482.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
