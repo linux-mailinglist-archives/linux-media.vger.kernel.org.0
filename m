@@ -2,323 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8866175A39
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 13:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF469175A7A
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 13:28:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727913AbgCBMP4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 07:15:56 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40067 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727912AbgCBMPz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 07:15:55 -0500
-Received: by mail-pg1-f195.google.com with SMTP id t24so5344982pgj.7
-        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 04:15:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=04Y0QGN7QCNFy16gBa2npNGYM+2yIkIAXjrVBWFK53c=;
-        b=NoIsAX9N+Mjc9N7i/faCoRIZumFsiqZtLnMcxHuPGUz3paTvM3VWHlwoysYzbiy5bk
-         cRogdXnPD4J+lSV6lQ7ZETglIjzVeRYw2HZUJf6gb8TEOCYUXKxUVj4CI/muDk9jzDm0
-         vFQdl+LAyqLuXi/oqz/A2Oi338hm0zxlKxfLE=
+        id S1727769AbgCBM20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 07:28:26 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:39418 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727361AbgCBM20 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 07:28:26 -0500
+Received: by mail-ot1-f65.google.com with SMTP id x97so9474162ota.6;
+        Mon, 02 Mar 2020 04:28:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=04Y0QGN7QCNFy16gBa2npNGYM+2yIkIAXjrVBWFK53c=;
-        b=lmQb/UjWrNgcPOjMLjKgrRYPq8kjo5qR6VyoaYT4NGu3jV1YFKMYABy24FnSWMHWwH
-         3vStOuN7Q3BW+F9GZvzN7OWc4Y7yi215KX5r1gTyuKB4lrHHjlvyncXlLgRbggGnoXi/
-         xkXwr9UGYLLJWTbt7QSuEG+3YWjyaQpHFq6PlWmIIQdbpyzoq04+O6dXFFwLt5f1zl27
-         klO4V7JrGSfWmg5ObS1EgCiVuPzTTNSmadd+D1xS+0V3r6HJOznXLSIzJPpHCov5Dg0A
-         gemrZdxolgHlVJ2greQykk3PTTTWDqdNO8AxPbNI3f76WQvDw74PLojm0cepHF0HCmkz
-         fFuA==
-X-Gm-Message-State: APjAAAW7/mgFxMbr1EFBSbCNIumi5IqTOjJw1byqqzwUyfNM2gFoCDnP
-        G4Majdej00L8r//oySpVihz7tg==
-X-Google-Smtp-Source: APXvYqy5PYaI33jZOyZi6y1LA1Kx8Cxk4tv+VM4k7JfIA8pA44GC2+T/GzO3RpG9YSM83XdiezpJ0A==
-X-Received: by 2002:a65:5b04:: with SMTP id y4mr19928039pgq.25.1583151354026;
-        Mon, 02 Mar 2020 04:15:54 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:30f2:7a9c:387e:6c7])
-        by smtp.gmail.com with ESMTPSA id h10sm20796287pfo.181.2020.03.02.04.15.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2020 04:15:53 -0800 (PST)
-From:   David Stevens <stevensd@chromium.org>
-To:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Stevens <stevensd@chromium.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        virtio-dev@lists.oasis-open.org
-Subject: [PATCH v2 4/4] drm/virtio: Support virtgpu exported resources
-Date:   Mon,  2 Mar 2020 21:15:24 +0900
-Message-Id: <20200302121524.7543-5-stevensd@chromium.org>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-In-Reply-To: <20200302121524.7543-1-stevensd@chromium.org>
-References: <20200302121524.7543-1-stevensd@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=wZYZAbcqMvd207t9hfFOk6y3G0CkgQqD0dKaK71lZb4=;
+        b=b8tJf91m5c3kzr113GHXr/pAavv5rJ5P40NxWsZnX/o0QmxGZqOzl9I7tbZj+7oJw4
+         wGdoAOORM3cRDswZw1+u5JGK3B6PgZLHWw3MAXqYVfrt5N+ge47B6wbTAj26yREcB1aA
+         ZY9ol0cmH29JWpvKk95ZAnEg1PRj8s+a8VTDSLhL1hRGiyzyOLaUV/KzhR3dHj6lNNM7
+         S4Vs6cg7E4evriSyUgVQSIcZG3uuBAl7wg6xN2jICGKF/iPF1+mGABJSfctaAI36XMLe
+         Exhfb4qImwgNaUNV9ukXo3vYma02JhDULxsRjjRMqsb/G4YxEfjO2EsWb+RdzkhxGdcf
+         nrbw==
+X-Gm-Message-State: APjAAAXrj65GOHJWbTRZgBabLF3EcLHz+i7EBi+f0Dy/E5bIwLePf0Kt
+        JN368l897hYx56lmCZjD7XiFa6DFVOLPXr3X3Ec=
+X-Google-Smtp-Source: APXvYqzN+m0jue0ZTokoqurX7tBCYT/bfoG/F9HvM0fLl2C7tpJvdjqoMETuKvoCS8cUYtBFAfQ6dPbGSXXYJ4em2mQ=
+X-Received: by 2002:a05:6830:1d4:: with SMTP id r20mr12476739ota.107.1583152104944;
+ Mon, 02 Mar 2020 04:28:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1578924232.git.alexander.riesen@cetitec.com> <20200113141556.GI3606@pflmari>
+In-Reply-To: <20200113141556.GI3606@pflmari>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 2 Mar 2020 13:28:13 +0100
+Message-ID: <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
+ adv748x codec (HDMI input) to the R-Car SoC
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for UUID-based resource sharing mechanism to virtgpu. This
-implements the new virtgpu commands and hooks them up to dma-buf's
-get_uuid callback.
+Hi Alex,
 
-Signed-off-by: David Stevens <stevensd@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 ++
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 19 ++++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
- drivers/gpu/drm/virtio/virtgpu_prime.c | 48 ++++++++++++++++++--
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 62 ++++++++++++++++++++++++++
- 5 files changed, 133 insertions(+), 3 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index ab4bed78e656..776e6667042e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -165,6 +165,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_VIRGL,
- #endif
- 	VIRTIO_GPU_F_EDID,
-+	VIRTIO_GPU_F_RESOURCE_UUID,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
-@@ -202,7 +203,9 @@ static struct drm_driver driver = {
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_mmap = drm_gem_prime_mmap,
-+	.gem_prime_export = virtgpu_gem_prime_export,
- 	.gem_prime_import_sg_table = virtgpu_gem_prime_import_sg_table,
-+	.gem_prime_get_uuid = virtgpu_gem_prime_get_uuid,
- 
- 	.gem_create_object = virtio_gpu_create_object,
- 	.fops = &virtio_gpu_driver_fops,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index af9403e1cf78..4be84de73d86 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -49,6 +49,11 @@
- #define DRIVER_MINOR 1
- #define DRIVER_PATCHLEVEL 0
- 
-+#define UUID_NOT_INITIALIZED 0
-+#define UUID_INITIALIZING 1
-+#define UUID_INITIALIZED 2
-+#define UUID_INITIALIZATION_FAILED 3
-+
- struct virtio_gpu_object_params {
- 	uint32_t format;
- 	uint32_t width;
-@@ -75,6 +80,9 @@ struct virtio_gpu_object {
- 
- 	bool dumb;
- 	bool created;
-+
-+	int uuid_state;
-+	uuid_t uuid;
- };
- #define gem_to_virtio_gpu_obj(gobj) \
- 	container_of((gobj), struct virtio_gpu_object, base.base)
-@@ -196,6 +204,7 @@ struct virtio_gpu_device {
- 	bool has_virgl_3d;
- 	bool has_edid;
- 	bool has_indirect;
-+	bool has_resource_assign_uuid;
- 
- 	struct work_struct config_changed_work;
- 
-@@ -206,6 +215,8 @@ struct virtio_gpu_device {
- 	struct virtio_gpu_drv_capset *capsets;
- 	uint32_t num_capsets;
- 	struct list_head cap_cache;
-+
-+	spinlock_t resource_export_lock;
- };
- 
- struct virtio_gpu_fpriv {
-@@ -338,6 +349,10 @@ void virtio_gpu_dequeue_fence_func(struct work_struct *work);
- void virtio_gpu_disable_notify(struct virtio_gpu_device *vgdev);
- void virtio_gpu_enable_notify(struct virtio_gpu_device *vgdev);
- 
-+int
-+virtio_gpu_cmd_resource_assign_uuid(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo);
-+
- /* virtio_gpu_display.c */
- void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
- void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
-@@ -366,6 +381,10 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 			     struct virtio_gpu_object **bo_ptr,
- 			     struct virtio_gpu_fence *fence);
- /* virtgpu_prime.c */
-+struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
-+					 int flags);
-+int virtgpu_gem_prime_get_uuid(struct drm_gem_object *obj,
-+			       uuid_t *uuid);
- struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
- 	struct drm_device *dev, struct dma_buf_attachment *attach,
- 	struct sg_table *sgt);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 4009c2f97d08..5a2aeb6d2f35 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -134,6 +134,7 @@ int virtio_gpu_init(struct drm_device *dev)
- 	vgdev->dev = dev->dev;
- 
- 	spin_lock_init(&vgdev->display_info_lock);
-+	spin_lock_init(&vgdev->resource_export_lock);
- 	ida_init(&vgdev->ctx_id_ida);
- 	ida_init(&vgdev->resource_ida);
- 	init_waitqueue_head(&vgdev->resp_wq);
-@@ -162,6 +163,9 @@ int virtio_gpu_init(struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
- 		vgdev->has_indirect = true;
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
-+		vgdev->has_resource_assign_uuid = true;
-+	}
- 
- 	DRM_INFO("features: %cvirgl %cedid\n",
- 		 vgdev->has_virgl_3d ? '+' : '-',
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index 050d24c39a8f..12ceda34b4f9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -26,9 +26,51 @@
- 
- #include "virtgpu_drv.h"
- 
--/* Empty Implementations as there should not be any other driver for a virtual
-- * device that might share buffers with virtgpu
-- */
-+int virtgpu_gem_prime_get_uuid(struct drm_gem_object *obj,
-+			       uuid_t *uuid)
-+{
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-+	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
-+
-+	// The state should have changed when the buffer was exported.
-+	WARN_ON(bo->uuid_state == UUID_NOT_INITIALIZED);
-+
-+	wait_event(vgdev->resp_wq, bo->uuid_state != UUID_INITIALIZING);
-+	if (bo->uuid_state != UUID_INITIALIZED)
-+		return -ENODEV;
-+
-+	uuid_copy(uuid, &bo->uuid);
-+
-+	return 0;
-+}
-+
-+struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
-+					 int flags)
-+{
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-+	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
-+	bool needs_init = false;
-+	int ret = 0;
-+
-+	if (vgdev->has_resource_assign_uuid) {
-+		spin_lock(&vgdev->resource_export_lock);
-+		if (bo->uuid_state == UUID_NOT_INITIALIZED) {
-+			bo->uuid_state = UUID_INITIALIZING;
-+			needs_init = true;
-+		}
-+		spin_unlock(&vgdev->resource_export_lock);
-+
-+		if (needs_init) {
-+			ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, bo);
-+			if (ret)
-+				return ERR_PTR(ret);
-+		}
-+	} else {
-+		bo->uuid_state = UUID_INITIALIZATION_FAILED;
-+	}
-+
-+	return drm_gem_prime_export(obj, flags);
-+}
- 
- struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
- 	struct drm_device *dev, struct dma_buf_attachment *attach,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index cfe9c54f87a3..e692098fc573 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1111,3 +1111,65 @@ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
- 	memcpy(cur_p, &output->cursor, sizeof(output->cursor));
- 	virtio_gpu_queue_cursor(vgdev, vbuf);
- }
-+
-+static void virtio_gpu_cmd_resource_uuid_cb(struct virtio_gpu_device *vgdev,
-+					    struct virtio_gpu_vbuffer *vbuf)
-+{
-+	struct virtio_gpu_resp_resource_uuid *resp =
-+		(struct virtio_gpu_resp_resource_uuid *)vbuf->resp_buf;
-+	struct virtio_gpu_object *obj =
-+		(struct virtio_gpu_object *)vbuf->data_buf;
-+	uint32_t resp_type = le32_to_cpu(resp->hdr.type);
-+
-+	/*
-+	 * Keeps the data_buf, which points to this virtio_gpu_object, from
-+	 * getting kfree'd after this cb returns.
-+	 */
-+	vbuf->data_buf = NULL;
-+
-+	spin_lock(&vgdev->resource_export_lock);
-+	WARN_ON(obj->uuid_state != UUID_INITIALIZING);
-+
-+	if (resp_type == VIRTIO_GPU_RESP_OK_RESOURCE_UUID &&
-+			obj->uuid_state == UUID_INITIALIZING) {
-+		memcpy(&obj->uuid.b, resp->uuid, sizeof(obj->uuid.b));
-+		obj->uuid_state = UUID_INITIALIZED;
-+	} else {
-+		obj->uuid_state = UUID_INITIALIZATION_FAILED;
-+	}
-+	spin_unlock(&vgdev->resource_export_lock);
-+
-+	drm_gem_object_put_unlocked(&obj->base.base);
-+	wake_up_all(&vgdev->resp_wq);
-+}
-+
-+int
-+virtio_gpu_cmd_resource_assign_uuid(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo)
-+{
-+	struct virtio_gpu_resource_assign_uuid *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+	struct virtio_gpu_resp_resource_uuid *resp_buf;
-+
-+	resp_buf = kzalloc(sizeof(*resp_buf), GFP_KERNEL);
-+	if (!resp_buf) {
-+		spin_lock(&vgdev->resource_export_lock);
-+		bo->uuid_state = UUID_INITIALIZATION_FAILED;
-+		spin_unlock(&vgdev->resource_export_lock);
-+		return -ENOMEM;
-+	}
-+
-+	cmd_p = virtio_gpu_alloc_cmd_resp(vgdev,
-+		virtio_gpu_cmd_resource_uuid_cb, &vbuf, sizeof(*cmd_p),
-+		sizeof(struct virtio_gpu_resp_resource_uuid), resp_buf);
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID);
-+	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
-+
-+	/* Reuse the data_buf pointer for the object pointer. */
-+	vbuf->data_buf = bo;
-+	drm_gem_object_get(&bo->base.base);
-+	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
-+	return 0;
-+}
+On Mon, Jan 13, 2020 at 3:24 PM Alex Riesen
+<alexander.riesen@cetitec.com> wrote:
+> Not sure if all variants of the Salvator board have the HDMI decoder
+> chip (the ADV7482) connected to the SSI4 on R-Car SoC, as it is on
+> Salvator-X ES1, so the the ADV7482 endpoint and connection definitions
+> are placed in the board file.
+
+Both Salvator-X and Salvator-XS have SSI4 wired to the ADV7482.
+
+> I do assume though that all Salvator variants have the CLK_C clock line
+> hard-wired to the ADV7482 HDMI decoder, and remove it from the list of
+> clocks provided by the R-Car sound system.
+
+Yes, both Salvator-X and Salvator-XS have it wired that way.  But please
+see below.
+
+> The I2C wiring is also likely to persist across the variants (similar
+> to ak4613, connected to the same interface), so that is in the common
+> file.
+>
+> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+
+Below are my comments w.r.t. the board-specific wiring.
+I'll defer to the multimedia people for commenting on the audio parts.
+
+BTW, what is the status of the other patches in this series?
+
+> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> @@ -322,6 +322,10 @@
+>         clock-frequency = <22579200>;
+>  };
+>
+> +&audio_clk_c {
+> +       clock-frequency = <12288000>;
+> +};
+
+Does the ADV7482 always generate a 12.288 MHz clock signal?
+Or is this programmable?
+
+> +
+>  &avb {
+>         pinctrl-0 = <&avb_pins>;
+>         pinctrl-names = "default";
+> @@ -471,12 +475,14 @@
+>
+>                 #address-cells = <1>;
+>                 #size-cells = <0>;
+> +               #sound-dai-cells = <0>;
+>
+>                 interrupt-parent = <&gpio6>;
+>                 interrupt-names = "intrq1", "intrq2";
+>                 interrupts = <30 IRQ_TYPE_LEVEL_LOW>,
+>                              <31 IRQ_TYPE_LEVEL_LOW>;
+> -
+> +               clocks = <&rcar_sound 3>, <&audio_clk_c>;
+> +               clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
+
+The above declares the Audio CLK C to be a clock input of the ADV7482, while
+it is an output.
+Furthermore, the DT bindings do not document that clocks can be specified.
+
+>                 port@7 {
+>                         reg = <7>;
+>
+> @@ -512,6 +518,14 @@
+>                                 remote-endpoint = <&csi20_in>;
+>                         };
+>                 };
+> +
+> +               port@c {
+> +                       reg = <12>;
+> +
+> +                       adv7482_i2s: endpoint {
+> +                               /* remote-endpoint defined in the board file */
+> +                       };
+> +               };
+>         };
+>
+>         csa_vdd: adc@7c {
+> @@ -686,7 +700,8 @@
+>         };
+>
+>         sound_pins: sound {
+> -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
+> +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
+> +                        "ssi4_data";
+
+Missing "ss4_ctrl", for the SCK4 and WS4 pins.
+
+>                 function = "ssi";
+>         };
+>
+> @@ -735,8 +750,8 @@
+>         pinctrl-0 = <&sound_pins &sound_clk_pins>;
+>         pinctrl-names = "default";
+>
+> -       /* Single DAI */
+> -       #sound-dai-cells = <0>;
+> +       /* multi DAI */
+> +       #sound-dai-cells = <1>;
+>
+>         /* audio_clkout0/1/2/3 */
+>         #clock-cells = <1>;
+> @@ -760,8 +775,18 @@
+>                  <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+>                  <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+>                  <&audio_clk_a>, <&cs2000>,
+> -                <&audio_clk_c>,
+
+Why remove it? This is the list of clock inputs, not outputs.
+
+>                  <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
+> +       clock-names = "ssi-all",
+> +                     "ssi.9", "ssi.8", "ssi.7", "ssi.6",
+> +                     "ssi.5", "ssi.4", "ssi.3", "ssi.2",
+> +                     "ssi.1", "ssi.0",
+> +                     "src.9", "src.8", "src.7", "src.6",
+> +                     "src.5", "src.4", "src.3", "src.2",
+> +                     "src.1", "src.0",
+> +                     "mix.1", "mix.0",
+> +                     "ctu.1", "ctu.0",
+> +                     "dvc.0", "dvc.1",
+> +                     "clk_a", "clk_b", "clk_i";
+>
+>         ports {
+>                 #address-cells = <1>;
+> --
+> 2.24.1.508.g91d2dafee0
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.0.265.gbab2e86ba0-goog
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
