@@ -2,120 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0296C175F4B
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 17:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 609ED175F79
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 17:23:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727079AbgCBQNm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 11:13:42 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46788 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726621AbgCBQNm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 11:13:42 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a22so10778402oid.13;
-        Mon, 02 Mar 2020 08:13:41 -0800 (PST)
+        id S1727198AbgCBQXc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 11:23:32 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38679 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727193AbgCBQXc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 11:23:32 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t11so464141wrw.5
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 08:23:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=7dhtMCeqCCrozUAR7xWCIRbtdQoUsRNHKe3qSBD7eVQ=;
+        b=KaJyPlfL/YL/9IzhgPdg7VRoSA7LOYbGnEm5sD16nPwvywgw/HLr/bDtR4FfsNsW/a
+         6ASEkqooYQDr/nEMmzqnEbo4tfjQNdWmVrBDJjijwQxIM691mp2AwBM6bTJ1u+JZ+xDE
+         GaVEo8Z+dEkN5CvjjpJduUgwMabGNiBqHWb7IhFQ9bN9Nn3wNVuBUtaz/PRNLZUrzDKU
+         YNj2bOhLVym29ovWeg+gHxcz4GP2iEzej132wvegafj2QR1PdOIrD9GMvLYX2xSgrLzU
+         XZI9V9LQjKtUP1Bz8GFfo1hZ1Ir5mY1RpNrO1be4JpShfuURRfd+GQLG/qI4djgTlmDT
+         7FCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=wQyyrYKhl2IEkNe34AsK9CIVdMgcXzMGqPt74D0oPoI=;
-        b=BjEToWRvD2dK2QDQVsWeFuMDh3mPeXGyaEStYhNNDoU7gOv3RzlMbJYPeGiyrE00/s
-         y8FmXCBrXKefvbqJ8K+oIWOa/0psE51bmwxXFjRoVVf6EebxD0QGk8haluXHLRfs2L9t
-         4zPLBhHb6LbMMTFc1qL2BeuejtCFy0URVHXFw/5vkYyve668cCYnM4XH9wg/lr2uAGF2
-         NG/IYw8fc04kJw3Y3TkH04ZYTW6ppljAQnCXcnbu9lCBWV4aTMXzGcQsICoHdw7ZHAfv
-         b80TuOZprpBeqHfnSCjThoTm9+uwX5Gx5T/uG617JkZ0m+2dAeq/rvsJPRHgW8WqAqFU
-         N/RA==
-X-Gm-Message-State: ANhLgQ2ok++G6w+89LLA+15RbeWs9JsHMbUiqN1OUxaZ6sF6mVcSUIsD
-        elzcXlcJ/+OBZaidwECwc2fSyFhV4SLCEow26JU=
-X-Google-Smtp-Source: ADFU+vtgX5P8l3pp8Byli/gDvMCPgCR1jBlOu2Z5pKiwIOplHm/8t6TqxYo4MB2Jy/30YCeHN5RgbSXCAHjgMhFgi3s=
-X-Received: by 2002:aca:ac4c:: with SMTP id v73mr185003oie.102.1583165621604;
- Mon, 02 Mar 2020 08:13:41 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=7dhtMCeqCCrozUAR7xWCIRbtdQoUsRNHKe3qSBD7eVQ=;
+        b=h4e+G8uCBj7msvkYkPSt82tnI2z/7gyPO8/pBkDXk2CcA+SMzUwXvCCO8Geve1Qgu3
+         ZJSED+Xfdk8iaeUiTC/aDu+AJVWw8o9GQxyZV5jdl4K0FHxjxlcqICZflYq6Coz1XoZs
+         XkySElEyxlSwDOqoLdh2lfNSPjfY7U+mKy2npCFnijlrWDd5X4VbABvSFFcImkOIkB3d
+         67PFOzqc2zp0tHh8sddeyKE5X2JR1PUJWIoEEr5ar2o794DPIWNLYP9ZI+NrwVwvkVhB
+         go00ID7uPN1h50M7gFtAvE4DH4lpSusAlfVmFYeb3iz3OFRrHD7Pw9lLCHmYWnUXAvXY
+         jlTQ==
+X-Gm-Message-State: ANhLgQ3ofloPI6pwq4j5viySOSXkDdocQphNTBkqImL+mQJVOcVl8cr1
+        yLj6o6J7Mowc9XP5nfOkEOLB/A==
+X-Google-Smtp-Source: ADFU+vs0kNer+mtpZoTW7AZ3bv2U14dkD7HjJHBJ4bHZFfi3uzwaxEhingENvYB1CplhRWLQ9UgEcg==
+X-Received: by 2002:a05:6000:14d:: with SMTP id r13mr355801wrx.63.1583166210659;
+        Mon, 02 Mar 2020 08:23:30 -0800 (PST)
+Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id n8sm27622995wrm.46.2020.03.02.08.23.29
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 02 Mar 2020 08:23:29 -0800 (PST)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org,
+        hans.verkuil@cisco.com
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] media: meson: vdec: Add compliant H264 support
+In-Reply-To: <20200219140156.22893-1-narmstrong@baylibre.com>
+References: <20200219140156.22893-1-narmstrong@baylibre.com>
+Date:   Mon, 02 Mar 2020 17:23:29 +0100
+Message-ID: <7h4kv6sp32.fsf@baylibre.com>
 MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari> <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
- <20200302150706.GB3717@pflmari> <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
- <20200302160906.GC3717@pflmari>
-In-Reply-To: <20200302160906.GC3717@pflmari>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Mar 2020 17:13:30 +0100
-Message-ID: <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+Neil Armstrong <narmstrong@baylibre.com> writes:
 
-On Mon, Mar 2, 2020 at 5:09 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> Geert Uytterhoeven, Mon, Mar 02, 2020 16:32:32 +0100:
-> > > And this absence of documentation also means that whatever clocks (both input
-> > > in "clocks=" and output in "#clock-cells") listed in a specific .dts are just
-> > > an integration detail?
-> >
-> > No, the absence probably means that any clock-related properties in a .dts
-> > file will just be ignored.
-> >
-> > Looking at the driver source, it indeed has no support related to clocks at all.
+> Hello,
 >
-> ...
+> This patch series aims to bring H.264 support as well as compliance update
+> to the amlogic stateful video decoder driver.
 >
-> > > Does this below makes more sense, than?
-> > >
-> > >     video-receiver@70 {
-> > >         compatible = "adi,adv7482";
-> > >         clocks = <&rcar_sound 3>;
-> > >         clock-names = "clk-hdmi-video";
-> > >         adv748x_mclk: mclk {
-> > >             compatible = "fixed-clock";
-> > >             #clock-cells =  <0>;
-> > >             /* frequency hard-coded for illustration */
-> > >             clock-frequency = <12288000>;
-> > >             clock-output-names = "clk-hdmi-i2s-mclk";
-> > >         };
-> > >     };
-> >
-> > The #clock-cells should be in the main video-receiver node.
-> > Probably there is more than one clock output, so #clock-cells may be 1?
+> The issue in the V1 patchset at [1] is solved by patch #1 following comments
+> and requirements from hans. It moves the full draining & stopped state tracking
+> and handling from vicodec to core v4l2-mem2mem.
 >
-> AFAICS, the device can provide only this one clock line (audio master clock
-> for I2S output)... I shall re-check, just in case.
->
-> > There is no need for a fixed-clock compatible, nor for clock-frequency
-> > and clock-output-names.
-> >
-> > But most important: this should be documented in the adv748x DT bindings,
-> > and implemented in the adv748x driver.
->
-> So if the driver is to export that clock for the kernel (like in this case),
-> it must implement its support?
+> The vicodec changes still passes the v4l2-utils "media-test" tests, log at [5]:
+> [...]
+> vicodec media controller compliance tests
 
-Exactly.  Unless that pin is hardcoded to output a fixed clock, in which case
-you can just override the existing audio_clk_c rate.
+Tested on meson-sm1-sei610.
 
-Gr{oetje,eeting}s,
+Tested-by: Kevin Hilman <khilman@baylibre.com>
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kevin
