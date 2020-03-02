@@ -2,254 +2,538 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A7B4175AD0
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 13:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C381175B83
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 14:24:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727768AbgCBMuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 07:50:46 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40134 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727361AbgCBMuq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 07:50:46 -0500
-Received: by mail-wm1-f68.google.com with SMTP id e26so4959547wme.5
-        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 04:50:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CSPsohpgpqQmBo13ul1xmw/YNjoW8YKs48JNi+aPBmM=;
-        b=cJ5tTw3N0pWG+ghjSZgzoypuxo8uMs1F43Wbg9X7vearQZbHCTHNUesUaH3RAbZDf2
-         Y0zMSivTpAkLNH9n+J12qqCx6JC6v6EJyFelnUtnMy7rXO5n6uraC9iV78bdh9wNyohD
-         iCfBnqA2TJzCiPC36j9kfCSp2+XmhLFaHUeYQhi4ifhv+FM3ckgLYESYFbZIc/eyhx8f
-         782Od94W6kOEmoZhY4Iv4hT5CBWYzBYgvVvGaY7ki0ILqxNPHajTYgCy7RS5BbetMfvz
-         Bb7nXc5Moj7CtsQ/yXsoBv/PQ9U/owwhWcOnodDRDfA4BASy+syWYOTlMfSA1SU3jMki
-         mGSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CSPsohpgpqQmBo13ul1xmw/YNjoW8YKs48JNi+aPBmM=;
-        b=qG0zyPRLtP+Mbtazfec+G9dmjmq6pSrlA4QVAdm/JA3/z53k2MoSNxlgoT+bI1YmDi
-         gOR9LlWfrlKA3r/isXQbajK2Z9w+/VHxQpPrTH6SXNeI20W0gLZmqH0pVtX4/Wtgte7Y
-         w1Dlw06ktuXbUgl8kOcCm1kYInv+9r4ubx2AWEdE27oflYS/cceyLNQ6Q4oU8Sm31zbd
-         K1KL8ZC/5eqAnlvmc5OKtNlXVPYJzWchmq7OE6PJUrG12HZzzJUT4LvPeIWF+i96hZbu
-         DZD9BKMCRMeZ8xEfyfFVcDLWYcw1Cv+0Qo/yVbHqoJ9893FVyRPEqi/05/xXF9yEgyRC
-         qxuA==
-X-Gm-Message-State: ANhLgQ0+5fPRHseWpLybiUY7vb9N8MRM2fHKI4Vz5ajiCFex+wavMOIO
-        6C2suXi9hoXKnb1EijQaowZ+RybrOmnRrOqOa+p4Tw==
-X-Google-Smtp-Source: ADFU+vtYMNuw0SCL+KswwM/YxdRE18ZwcHgkc9aHKtmKVQ8zcoxmZUMlTpF2vspJXpmDvli8VqiHduV/uiOVAxWQKWI=
-X-Received: by 2002:a7b:cb10:: with SMTP id u16mr1751723wmj.96.1583153443629;
- Mon, 02 Mar 2020 04:50:43 -0800 (PST)
+        id S1727967AbgCBNYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 08:24:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54324 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727959AbgCBNYm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Mar 2020 08:24:42 -0500
+Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AF8152086A;
+        Mon,  2 Mar 2020 13:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583155480;
+        bh=pXe2/xsLELC3d+jdhGbfOvWV1UXwbc6+uyWvR+u5Ypo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=lPlw9TdzqRDXRuqj5BOqv7d35DkObEWUUC4aQFoSYOr/0t3tRhfNfZS3Vaej/iY0N
+         5+gTFotVa86XP6XaoVXYY5Jn++19Yj8GDi7gFXmlEyHT/vqEEd2l5nF2lO9nA9DWwM
+         3oawRSW/a50jglhnQlPD4+j0F6KBqRJ7olSSeyso=
+Date:   Mon, 2 Mar 2020 14:24:33 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v6 2/6] media: v4l2-core: Add helpers to build the H264
+ P/B0/B1 reflists
+Message-ID: <20200302142433.0ad1b383@coco.lan>
+In-Reply-To: <20200220163016.21708-3-ezequiel@collabora.com>
+References: <20200220163016.21708-1-ezequiel@collabora.com>
+        <20200220163016.21708-3-ezequiel@collabora.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200228165503.18054-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200228165503.18054-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 2 Mar 2020 12:50:28 +0000
-Message-ID: <CAPY8ntD-_GBtTOS--J_yEAbM+U6zjAdebmHnpE4+Ev4LVFjq7g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: i2c: imx219: Add support 640x480
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad.
+Em Thu, 20 Feb 2020 13:30:12 -0300
+Ezequiel Garcia <ezequiel@collabora.com> escreveu:
 
-Thanks for the patch.
-
-On Fri, 28 Feb 2020 at 16:55, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> This patch adds support to 640x480 cropped resolution for the sensor
-
-I was a little hesitant to add cropped modes without good reason.
-Processing them through an ISP with something like lens shading
-compensation requires the ISP to know the crop, so ideally it should
-be reflected through the selection API (probably read-only - I'm not
-sure you can modify the register set totally dynamically for
-cropping).
-I know we have the 1080p mode in there already which is cropped, but
-that was mainly as it is the only way to get 30fps 1080p over two
-CSI-2 lanes. I wonder if there is a better way of reflecting this.
-
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> From: Boris Brezillon <boris.brezillon@collabora.com>
+> 
+> Building those list is a standard procedure described in section
+> '8.2.4 Decoding process for reference picture lists construction' of
+> the H264 specification.
+> 
+> We already have 2 drivers needing the same logic (hantro and rkvdec) and
+> I suspect we will soon have more.
+> 
+> Let's provide generic helpers to create those lists.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
->  drivers/media/i2c/imx219.c | 70 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 70 insertions(+)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 1388c9bc00bb..232ebf41063a 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -54,6 +54,7 @@
->  #define IMX219_VTS_15FPS               0x0dc6
->  #define IMX219_VTS_30FPS_1080P         0x06e3
->  #define IMX219_VTS_30FPS_BINNED                0x06e3
-> +#define IMX219_VTS_30FPS_640x480       0x0239
->  #define IMX219_VTS_MAX                 0xffff
->
->  #define IMX219_VBLANK_MIN              4
-> @@ -329,6 +330,65 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
->         {0x0163, 0x78},
->  };
->
-> +static const struct imx219_reg mode_640_480_regs[] = {
+>  drivers/media/v4l2-core/Kconfig     |   4 +
+>  drivers/media/v4l2-core/Makefile    |   1 +
+>  drivers/media/v4l2-core/v4l2-h264.c | 258 ++++++++++++++++++++++++++++
+>  include/media/v4l2-h264.h           |  85 +++++++++
+>  4 files changed, 348 insertions(+)
+>  create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
+>  create mode 100644 include/media/v4l2-h264.h
+> 
+> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> index 39e3fb30ba0b..8a4ccfbca8cf 100644
+> --- a/drivers/media/v4l2-core/Kconfig
+> +++ b/drivers/media/v4l2-core/Kconfig
+> @@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
+>  config VIDEO_TUNER
+>  	tristate
+>  
+> +# Used by drivers that need v4l2-h264.ko
+> +config V4L2_H264
+> +	tristate
+> +
+>  # Used by drivers that need v4l2-mem2mem.ko
+>  config V4L2_MEM2MEM_DEV
+>  	tristate
+> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> index 786bd1ec4d1b..c5c53e0941ad 100644
+> --- a/drivers/media/v4l2-core/Makefile
+> +++ b/drivers/media/v4l2-core/Makefile
+> @@ -21,6 +21,7 @@ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
+>  obj-$(CONFIG_VIDEO_TUNER) += tuner.o
+>  
+>  obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
+> +obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+>  
+>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-core/v4l2-h264.c
+> new file mode 100644
+> index 000000000000..4f68c27ec7fd
+> --- /dev/null
+> +++ b/drivers/media/v4l2-core/v4l2-h264.c
+> @@ -0,0 +1,258 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * V4L2 H264 helpers.
+> + *
+> + * Copyright (C) 2019 Collabora, Ltd.
+> + *
+> + * Author: Boris Brezillon <boris.brezillon@collabora.com>
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/sort.h>
+> +
+> +#include <media/v4l2-h264.h>
+> +
+> +/**
+> + * v4l2_h264_init_reflist_builder() - Initialize a P/B0/B1 reference list
+> + *				      builder
+> + *
+> + * @b: the builder context to initialize
+> + * @dec_params: decode parameters control
+> + * @slice_params: first slice parameters control
+> + * @sps: SPS control
+> + * @dpb: DPB to use when creating the reference list
+> + */
+> +void
+> +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> +		const struct v4l2_ctrl_h264_decode_params *dec_params,
+> +		const struct v4l2_ctrl_h264_slice_params *slice_params,
+> +		const struct v4l2_ctrl_h264_sps *sps,
+> +		const struct v4l2_h264_dpb_entry *dpb)
 
-Can I ask where these register settings came from? They differ from
-references I have in a few odd ways.
+The prototype here is not nice...
 
-There's also a comment at the top of mode arrays declaring the
-supported modes and where they came from. Could you update that
-please?
+> +{
+> +	int cur_frame_num, max_frame_num;
+> +	unsigned int i;
+> +
+> +	max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
+> +	cur_frame_num = slice_params->frame_num;
+> +
+> +	memset(b, 0, sizeof(*b));
+> +	if (!(slice_params->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC))
+> +		b->cur_pic_order_count = min(dec_params->bottom_field_order_cnt,
+> +					     dec_params->top_field_order_cnt);
+> +	else if (slice_params->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
+> +		b->cur_pic_order_count = dec_params->bottom_field_order_cnt;
+> +	else
+> +		b->cur_pic_order_count = dec_params->top_field_order_cnt;
+> +
+> +	for (i = 0; i < 16; i++) {
+> +		u32 pic_order_count;
+> +
+> +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> +			continue;
+> +
+> +		b->refs[i].pic_num = dpb[i].pic_num;
 
-> +       {0x0100, 0x00},
-> +       {0x30eb, 0x0c},
-> +       {0x30eb, 0x05},
-> +       {0x300a, 0xff},
-> +       {0x300b, 0xff},
-> +       {0x30eb, 0x05},
-> +       {0x30eb, 0x09},
+... as you're expecting a fixed number of elements at DPB array, and using
+a magic number (16) inside the for loop.
 
-Datasheet section 3-4 says these are to access manufacturer specific
-registers, but the access sequence should be
-0x30eb 0x05
-0x30eb 0x0c
-0x300a 0xff
-0x300b 0xff
-0x30eb 0x05
-0x30eb 0x09
-Is there a reason your first two writes are reversed compared to this
-published order?
+> +		if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+> +			b->refs[i].longterm = true;
 
-> +       {0x0114, 0x01},
-> +       {0x0128, 0x01},
+The same thing happens here: you're also using a magic number to define 
+the array size of b->refs.
 
-DPHY_CTRL RW MIPI Global timing setting
-0:auto mode, 1:manual mode
+I guess the best is to add something like:
 
-All the other modes have this as auto mode. Why does this mode need
-manual settings, and is something else configuring those manual
-values?
+(at the header file)
 
-> +       {0x012a, 0x18},
-> +       {0x012b, 0x00},
-> +       {0x0162, 0x0d},
-> +       {0x0163, 0xe7},
+#define NUM_DPB_ENTRIES		16
 
-All the other modes have set line length to 0x0d78 (3448 decimal)
-rather than your 0xd37 (3559).
-Is there any specific reason for this? If we need a different value,
-then we also need to vary IMX219_PPL_DEFAULT and V4L2_CID_HBLANK
-depending on mode. Or probably better would be to make it variable,
-but that has a load of other implications.
+(at the library code)
 
-> +       {0x0164, 0x03},
-> +       {0x0165, 0xe8},
-> +       {0x0166, 0x08},
-> +       {0x0167, 0xe7},
-> +       {0x0168, 0x02},
-> +       {0x0169, 0xf0},
-> +       {0x016a, 0x06},
-> +       {0x016b, 0xaf},
-> +       {0x016c, 0x02},
-> +       {0x016d, 0x80},
-> +       {0x016e, 0x01},
-> +       {0x016f, 0xe0},
-> +       {0x0170, 0x01},
-> +       {0x0171, 0x01},
-> +       {0x0172, 0x00},
+void
+v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+			       const struct v4l2_ctrl_h264_decode_params *dec_params,
+			       const struct v4l2_ctrl_h264_slice_params *slice_params,
+			       const struct v4l2_ctrl_h264_sps *sps,
+			       const struct v4l2_h264_dpb_entry dpb[NUM_DPB_ENTRIES])
+{
+...
+	for (i = 0; i < NUM_DPB_ENTRIES; i++) {
+...
 
-0x0172 is IMAGE_ORIENTATION_A, which is handled via V4L2_CID_HFLIP /
-V4L2_CID_VFLIP, not in the mode table.
+and use NUM_DPB_ENTRIES on every other place you're using the "16"
+magic number.
 
-> +       {0x0174, 0x03},
-> +       {0x0175, 0x03},
-> +       {0x0301, 0x05},
-> +       {0x0303, 0x01},
-> +       {0x0304, 0x03},
-> +       {0x0305, 0x03},
-> +       {0x0306, 0x00},
-> +       {0x0307, 0x39},
-> +       {0x0309, 0x08},
+> +
+> +		/*
+> +		 * Handle frame_num wraparound as described in section
+> +		 * '8.2.4.1 Decoding process for picture numbers' of the spec.
+> +		 * TODO: This logic will have to be adjusted when we start
+> +		 * supporting interlaced content.
+> +		 */
+> +		if (dpb[i].frame_num > cur_frame_num)
+> +			b->refs[i].frame_num = (int)dpb[i].frame_num -
+> +					       max_frame_num;
+> +		else
+> +			b->refs[i].frame_num = dpb[i].frame_num;
+> +
+> +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
+> +			pic_order_count = min(dpb[i].top_field_order_cnt,
+> +					      dpb[i].bottom_field_order_cnt);
+> +		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
+> +			pic_order_count = dpb[i].bottom_field_order_cnt;
+> +		else
+> +			pic_order_count = dpb[i].top_field_order_cnt;
+> +
+> +		b->refs[i].pic_order_count = pic_order_count;
+> +		b->unordered_reflist[b->num_valid] = i;
+> +		b->num_valid++;
+> +	}
+> +
+> +	for (i = b->num_valid; i < ARRAY_SIZE(b->unordered_reflist); i++)
+> +		b->unordered_reflist[i] = i;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_h264_init_reflist_builder);
+> +
+> +static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
+> +				    const void *data)
+> +{
+> +	const struct v4l2_h264_reflist_builder *builder = data;
+> +	u8 idxa, idxb;
+> +
+> +	idxa = *((u8 *)ptra);
+> +	idxb = *((u8 *)ptrb);
+> +
+> +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
 
-"OPPXCK_DIV. Ouptut pixel clock divider value, default 0x0A."
-This looks like it is a change that should be part of the support for
-8bit formats.
-Have you tested this mode with 10bit readout? Are the data rates correct?
+Where do you ensure that idxa and idxb won't be bigger than NUM_DPB_ENTRIES?
 
-> +       {0x030b, 0x01},
-> +       {0x030c, 0x00},
-> +       {0x030d, 0x72},
-> +       {0x0624, 0x06},
-> +       {0x0625, 0x68},
-> +       {0x0626, 0x04},
-> +       {0x0627, 0xd0},
-> +       {0x455e, 0x00},
-> +       {0x471e, 0x4b},
-> +       {0x4767, 0x0f},
-> +       {0x4750, 0x14},
-> +       {0x4540, 0x00},
-> +       {0x47b4, 0x14},
-> +       {0x4713, 0x30},
-> +       {0x478b, 0x10},
-> +       {0x478f, 0x10},
-> +       {0x4793, 0x10},
-> +       {0x4797, 0x0e},
-> +       {0x479b, 0x0e},
+> +		/* Short term pics first. */
+> +		if (!builder->refs[idxa].longterm)
+> +			return -1;
+> +		else
+> +			return 1;
+> +	}
+> +
+> +	/*
+> +	 * Short term pics in descending pic num order, long term ones in
+> +	 * ascending order.
+> +	 */
+> +	if (!builder->refs[idxa].longterm)
+> +		return builder->refs[idxb].frame_num <
+> +		       builder->refs[idxa].frame_num ?
+> +		       -1 : 1;
+> +
+> +	return builder->refs[idxa].pic_num < builder->refs[idxb].pic_num ?
+> +	       -1 : 1;
+> +}
+> +
+> +static int v4l2_h264_b0_ref_list_cmp(const void *ptra, const void *ptrb,
+> +				     const void *data)
+> +{
+> +	const struct v4l2_h264_reflist_builder *builder = data;
+> +	s32 poca, pocb;
+> +	u8 idxa, idxb;
+> +
+> +	idxa = *((u8 *)ptra);
+> +	idxb = *((u8 *)ptrb);
+> +
+> +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
+
+Same here.
+
+> +		/* Short term pics first. */
+> +		if (!builder->refs[idxa].longterm)
+> +			return -1;
+> +		else
+> +			return 1;
+> +	}
+> +
+> +	/* Long term pics in ascending pic num order. */
+> +	if (builder->refs[idxa].longterm)
+> +		return builder->refs[idxa].pic_num <
+> +		       builder->refs[idxb].pic_num ?
+> +		       -1 : 1;
+> +
+> +	poca = builder->refs[idxa].pic_order_count;
+> +	pocb = builder->refs[idxb].pic_order_count;
+> +
+> +	/*
+> +	 * Short term pics with POC < cur POC first in POC descending order
+> +	 * followed by short term pics with POC > cur POC in POC ascending
+> +	 * order.
+> +	 */
+> +	if ((poca < builder->cur_pic_order_count) !=
+> +	     (pocb < builder->cur_pic_order_count))
+> +		return poca < pocb ? -1 : 1;
+> +	else if (poca < builder->cur_pic_order_count)
+> +		return pocb < poca ? -1 : 1;
+> +
+> +	return poca < pocb ? -1 : 1;
+> +}
+> +
+> +static int v4l2_h264_b1_ref_list_cmp(const void *ptra, const void *ptrb,
+> +				     const void *data)
+> +{
+> +	const struct v4l2_h264_reflist_builder *builder = data;
+> +	s32 poca, pocb;
+> +	u8 idxa, idxb;
+> +
+> +	idxa = *((u8 *)ptra);
+> +	idxb = *((u8 *)ptrb);
+> +
+> +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {
+
+Same here.
+
+> +		/* Short term pics first. */
+> +		if (!builder->refs[idxa].longterm)
+> +			return -1;
+> +		else
+> +			return 1;
+> +	}
+> +
+> +	/* Long term pics in ascending pic num order. */
+> +	if (builder->refs[idxa].longterm)
+> +		return builder->refs[idxa].pic_num <
+> +		       builder->refs[idxb].pic_num ?
+> +		       -1 : 1;
+> +
+> +	poca = builder->refs[idxa].pic_order_count;
+> +	pocb = builder->refs[idxb].pic_order_count;
+> +
+> +	/*
+> +	 * Short term pics with POC > cur POC first in POC ascending order
+> +	 * followed by short term pics with POC < cur POC in POC descending
+> +	 * order.
+> +	 */
+> +	if ((poca < builder->cur_pic_order_count) !=
+> +	    (pocb < builder->cur_pic_order_count))
+> +		return pocb < poca ? -1 : 1;
+> +	else if (poca < builder->cur_pic_order_count)
+> +		return pocb < poca ? -1 : 1;
+> +
+> +	return poca < pocb ? -1 : 1;
+> +}
+> +
+> +/**
+> + * v4l2_h264_build_p_ref_list() - Build the P reference list
+> + *
+> + * @builder: reference list builder context
+> + * @reflist: 16-bytes array used to store the P reference list. Each entry
+> + *	     is an index in the DPB
+> + *
+> + * This functions builds the P reference lists. This procedure is describe in
+> + * section '8.2.4 Decoding process for reference picture lists construction'
+> + * of the H264 spec. This function can be used by H264 decoder drivers that
+> + * need to pass a P reference list to the hardware.
+> + */
+> +void
+> +v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
+> +			   u8 *reflist)
+> +{
+> +	memcpy(reflist, builder->unordered_reflist,
+> +	       sizeof(builder->unordered_reflist));
+> +	sort_r(reflist, builder->num_valid, sizeof(*reflist),
+> +	       v4l2_h264_p_ref_list_cmp, NULL, builder);
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_h264_build_p_ref_list);
+> +
+> +/**
+> + * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
+> + *
+> + * @builder: reference list builder context
+> + * @b0_reflist: 16-bytes array used to store the B0 reference list. Each entry
+> + *		is an index in the DPB
+> + * @b1_reflist: 16-bytes array used to store the B1 reference list. Each entry
+> + *		is an index in the DPB
+> + *
+> + * This functions builds the B0/B1 reference lists. This procedure is described
+> + * in section '8.2.4 Decoding process for reference picture lists construction'
+> + * of the H264 spec. This function can be used by H264 decoder drivers that
+> + * need to pass B0/B1 reference lists to the hardware.
+> + */
+> +void
+> +v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
+> +			    u8 *b0_reflist, u8 *b1_reflist)
+> +{
+> +	memcpy(b0_reflist, builder->unordered_reflist,
+> +	       sizeof(builder->unordered_reflist));
+> +	sort_r(b0_reflist, builder->num_valid, sizeof(*b0_reflist),
+> +	       v4l2_h264_b0_ref_list_cmp, NULL, builder);
+
+Hmm... you're always copying 16 elements, but sorting only num_valid...
+
+That sounds not too consistent on my eyes. Perhaps you should do,
+instead:
+
+	memcpy(b0_reflist, builder->unordered_reflist,
+	       sizeof(builder->unordered_reflist[0]) * builder->num_valid);
+
+> +
+> +	memcpy(b1_reflist, builder->unordered_reflist,
+> +	       sizeof(builder->unordered_reflist));
+
+Same here.
+
+> +	sort_r(b1_reflist, builder->num_valid, sizeof(*b1_reflist),
+> +	       v4l2_h264_b1_ref_list_cmp, NULL, builder);
+> +
+> +	if (builder->num_valid > 1 &&
+> +	    !memcmp(b1_reflist, b0_reflist, builder->num_valid))
+> +		swap(b1_reflist[0], b1_reflist[1]);
+
+Hmm... when you did sizeof(*b0_reflist) above, you were assuming that
+you might some day change the definition from u8 to something else
+at the array. So, here, for consistency, you should also do the 
+same here, e. g.:
+
+	if (builder->num_valid > 1 &&
+	    !memcmp(b1_reflist, b0_reflist, builder->num_valid * sizeof(*b0_reflist)))
+		swap(b1_reflist[0], b1_reflist[1]);
+
+
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_h264_build_b_ref_lists);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("V4L2 H264 Helpers");
+> +MODULE_AUTHOR("Boris Brezillon <boris.brezillon@collabora.com>");
+> diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
+> new file mode 100644
+> index 000000000000..36d25c27cc31
+> --- /dev/null
+> +++ b/include/media/v4l2-h264.h
+> @@ -0,0 +1,85 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Helper functions for H264 codecs.
+> + *
+> + * Copyright (c) 2019 Collabora, Ltd.
+> + *
+> + * Author: Boris Brezillon <boris.brezillon@collabora.com>
+> + */
+> +
+> +#ifndef _MEDIA_V4L2_H264_H
+> +#define _MEDIA_V4L2_H264_H
+> +
+> +#include <media/h264-ctrls.h>
+> +
+> +/**
+> + * struct v4l2_h264_reflist_builder - Reference list builder object
+> + *
+> + * @refs.pic_order_count: reference picture order count
+> + * @refs.frame_num: reference frame number
+> + * @refs.pic_num: reference picture number
+> + * @refs.longterm: set to true for a long term reference
+> + * @refs: array of references
+> + * @cur_pic_order_count: picture order count of the frame being decoded
+> + * @unordered_reflist: unordered list of references. Will be used to generate
+> + *		       ordered P/B0/B1 lists
+> + * @num_valid: number of valid references in the refs array
+> + *
+> + * This object stores the context of the P/B0/B1 reference list builder.
+> + * This procedure is described in section '8.2.4 Decoding process for reference
+> + * picture lists construction' of the H264 spec.
+> + */
+> +struct v4l2_h264_reflist_builder {
+> +	struct {
+> +		s32 pic_order_count;
+> +		int frame_num;
+> +		u16 pic_num;
+> +		u16 longterm : 1;
+> +	} refs[16];
+> +	s32 cur_pic_order_count;
+> +	u8 unordered_reflist[16];
+
+So, as I said before:
+
+	} refs[NUM_DPB_ENTRIES];
+	s32 cur_pic_order_count;
+	u8 unordered_reflist[NUM_DPB_ENTRIES];
+
+
+> +	u8 num_valid;
 > +};
 > +
->  static const char * const imx219_test_pattern_menu[] = {
->         "Disabled",
->         "Color Bars",
-> @@ -414,6 +474,16 @@ static const struct imx219_mode supported_modes[] = {
->                         .regs = mode_1640_1232_regs,
->                 },
->         },
-> +       {
-> +               /* 640x480 30fps mode */
->
-> +               .width = 640,
-> +               .height = 480,
-> +               .vts_def = IMX219_VTS_30FPS_640x480,
+> +void
+> +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> +		const struct v4l2_ctrl_h264_decode_params *dec_params,
+> +		const struct v4l2_ctrl_h264_slice_params *slice_params,
+> +		const struct v4l2_ctrl_h264_sps *sps,
+> +		const struct v4l2_h264_dpb_entry *dpb);
+> +
+> +/**
+> + * v4l2_h264_build_b_ref_lists() - Build the B0/B1 reference lists
+> + *
+> + * @builder: reference list builder context
+> + * @b0_reflist: 16-bytes array used to store the B0 reference list. Each entry
+> + *		is an index in the DPB
+> + * @b1_reflist: 16-bytes array used to store the B1 reference list. Each entry
+> + *		is an index in the DPB
+> + *
+> + * This functions builds the B0/B1 reference lists. This procedure is described
+> + * in section '8.2.4 Decoding process for reference picture lists construction'
+> + * of the H264 spec. This function can be used by H264 decoder drivers that
+> + * need to pass B0/B1 reference lists to the hardware.
+> + */
+> +void
+> +v4l2_h264_build_b_ref_lists(const struct v4l2_h264_reflist_builder *builder,
+> +			    u8 *b0_reflist, u8 *b1_reflist);
+> +
+> +/**
+> + * v4l2_h264_build_b_ref_lists() - Build the P reference list
+> + *
+> + * @builder: reference list builder context
+> + * @p_reflist: 16-bytes array used to store the P reference list. Each entry
+> + *	       is an index in the DPB
+> + *
+> + * This functions builds the P reference lists. This procedure is describe in
+> + * section '8.2.4 Decoding process for reference picture lists construction'
+> + * of the H264 spec. This function can be used by H264 decoder drivers that
+> + * need to pass a P reference list to the hardware.
+> + */
+> +void
+> +v4l2_h264_build_p_ref_list(const struct v4l2_h264_reflist_builder *builder,
+> +			   u8 *reflist);
+> +
+> +#endif /* _MEDIA_V4L2_H264_H */
 
-I've just run this mode on a Pi and I get a default of about 84fps via
-v4l2-ctl to /dev/null. Is the default frame rate expected to be 30fps?
-In which case I think the value of IMX219_VTS_30FPS_640x480 is wrong
-(I'd expect 0x6e3 again, same as the other modes), or the comments and
-define names are wrong. One or other ought to be fixed.
 
-My calculations say that with:
-- VBLANK set to 89
-- a pixel rate of 182400000 (based on IMX219_PIXEL_RATE)
-- HBLANK fixed at 2808
-- frame being 640x480
-The overall frame size is therefore (640+2808) * (480+89) = 1961912
-pixel clocks. That would at first glance appear to give a frame rate
-of 92fps. Testing with an alternate tool is giving me timings for
-90fps but with a few dropped frames (the dropped frames would explain
-v4l2-ctl reading slightly low).
-
-If I amend OPPXCK_DIV to be 0xA (the same as the other modes), then it
-doesn't appear to change.
-However hold off on investigating the specifics for now - I appear to
-be unable to select the 10bit/pixel formats, so I suspect something is
-up with patch 2 that added the 8bit support (I was about to review
-that anyway).
-
-  Dave
-
-> +               .reg_list = {
-> +                       .num_of_regs = ARRAY_SIZE(mode_640_480_regs),
-> +                       .regs = mode_640_480_regs,
-> +               },
-> +       },
->  };
->
->  struct imx219 {
-> --
-> 2.20.1
->
+Thanks,
+Mauro
