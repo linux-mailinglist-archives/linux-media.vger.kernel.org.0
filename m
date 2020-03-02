@@ -2,224 +2,378 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 085CF175DDD
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:07:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9994E175DF7
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 16:12:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbgCBPHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 10:07:22 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:51753 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726935AbgCBPHW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 10:07:22 -0500
-Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MPXQi-1inQJq0rpa-00Marv; Mon, 02 Mar 2020 16:07:08 +0100
-Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id EA8FB64FC2B;
-        Mon,  2 Mar 2020 15:07:06 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at cetitec.com
-Received: from mail.cetitecgmbh.com ([127.0.0.1])
-        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id GhsWmSQpHrC5; Mon,  2 Mar 2020 16:07:06 +0100 (CET)
-Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 77F3764FB47;
-        Mon,  2 Mar 2020 16:07:06 +0100 (CET)
-Received: from pflmari.corp.cetitec.com (10.10.2.141) by
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 2 Mar 2020 16:07:06 +0100
-Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
-        id 1CEAD804EF; Mon,  2 Mar 2020 16:07:06 +0100 (CET)
-Date:   Mon, 2 Mar 2020 16:07:06 +0100
-From:   Alex Riesen <alexander.riesen@cetitec.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-Message-ID: <20200302150706.GB3717@pflmari>
-Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari>
- <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari>
- <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
+        id S1727137AbgCBPMd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 10:12:33 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52946 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbgCBPMc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 10:12:32 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p9so11636877wmc.2
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 07:12:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dHOXbIntte+yKsDl40xA1nLAhpUbYhGX/huv8g8q0y8=;
+        b=S4fGWRILGjgkULC8g9DSfrNRZdHXD9Iu5oIFO7RPpNRlNaB4v2oejuHkT7KwGB0W7J
+         9qaOu9E488GC8xsXrDax0IuBGgfsxOP9cyUNVgKQxUMeKn7j9d5w/Q18T2kBevqiSlHw
+         Qiv7T2iwWDeDcBMC8EHm3FXzKfCdXCKr8Rn9Wx2jc2SYLlWEqe2d7LfjamWR5Tb1ZSwM
+         PIMDt1lv1mWOpmhEDHqD86WERK+oOgbRqEGpGB9y/tGmu+OM0idYF9katvuXfEcQV5Nf
+         2tabTQuhFbdoTHuWV69ltffSZMcRJwa3WpVIMQSTNSK9O+AJ4g1SOw2s4ZwJ1G4hbGou
+         xhfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dHOXbIntte+yKsDl40xA1nLAhpUbYhGX/huv8g8q0y8=;
+        b=WHmzPgX6pAmyvZvZZoSkISHWEqP2AIxi54yw1GKX1Ordjwvukyo9pBDVtLM4RfFL/B
+         VrKVjk5sPDtGrXF8v0vhl31E3UnEHyiJJU7qqlMd+f/Yc2IXjTq5RG1MxC0/oZqebSZd
+         bHMP3hZFlcqzntwiyUtnN8EP5RHtC0jRXvWK0wCosACL5FPqMYAOyWwvRooTptQ+UfXd
+         cqHhAD/oMS4Ix4x7qpFQXauu4nJeJV3kqu1lrvq8bRdl4P91LRbq7FloDdYvM3U9q0RA
+         WZv3d1UL+K3PZUCI9f+qxmXyeLt0+Ka5g9SbFXCnvLZmgocPt5U7tItaEIDXYRmTeS1H
+         ViSQ==
+X-Gm-Message-State: APjAAAVIlFGQN5j/RdfQP+WVkfwWnywChv84fDahzuT5YSk1hxsE9kmk
+        uV3skOBh1mUPePPL676LKuJIdopl4o4c4eANe/96Hg==
+X-Google-Smtp-Source: APXvYqxOKrEZuUpJU+sNu2hHHQQbMMpVcIy6hmPnPPyXPSB5Lkbb6XL/pO8h1e7i5trn97mtGkA7JMjBzeN8eDIaYWs=
+X-Received: by 2002:a05:600c:2c48:: with SMTP id r8mr19357799wmg.183.1583161949343;
+ Mon, 02 Mar 2020 07:12:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
-X-Originating-IP: [10.10.2.141]
-X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29536F936F63776B
-X-Provags-ID: V03:K1:vOVbK2DsFg7SX9pxGLNnfcHuRTuLm+XbuwenDwgHRnvBswnGikn
- Cn0SrAENmZPtAV8HIiI5WNh3Cxf1wjaTRzN0ZE4sQ9L4zGn7o+gEo8bUG94r1pY7uuMlsla
- 6HOKcjKBxsvOsdoQTejcmnGMRYLxEQZh90VeNvyE//J5uxXHNMb6ObJKaSYu5JEO/DBle+I
- 7pk1O7jC+YHrfAqve0cOQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XvsG33bYZEM=:fdor2OGUiLrPhgNiUn4pai
- TocsOSG2bbB4IwYTAUq8u6x1ABq/HV11hpykCkyitvbyGNmPlBVyiyCnemOX+4+ACJYikxd/7
- 2mcbHe8n9OeSBA5kC536pDcy9pvGzURmNW4Izxrkz79jj4C7rIa1Oanfld7M8PtMeIe3T0SO5
- B4tFc40RciFaxG06ZUExeRKdU82oELuCpTDl8jnZ2qjCh6r89KrV8q8Rd1XkMNOUkVzzB5i8z
- paAqs3bc9U7ZsCO1YwWTvT+vUIZJA+irPqLr6/Ux3lNcc69Ym93jtmY+BvW+QzSOIpvaS6g78
- BSeTXo7OQMDKkXPp0HxLv4hD61OcQgegXRX7XAuRFTofs32WcAeChqRw1SXWDI9AoUDY/qotx
- V8xAxFncImhtfGv/y3LMSO8cxmxSmTpoqySMrxOxbk5GSY/H+rUFoTg/Rd4w1H5KFsOeY6EmU
- DsTvRjl1wJgeyS33Y2LQHd75o8gwjfuEL6mfDqa0TTBCmYuawbcYcovifqGt0Rkk5/UeU2a6G
- YYFM6PnzV1HGOt/EtrNhg4zP2ZRtohCCnrejGnOwl6yfIJNYDbaP7nxR5Cy5JoIPjGjFT5jCD
- tnlmckvvWQCO1qcpqCA6jt3NyvisljiyV6JPv2juK3tfxU0P9ZoEfLJrfiILhXeSskCiUBWpS
- rnh0WukoPdX51BjdZttO0bl8QoOSLVHmpyn9YVLecaa1pWyrkhj+AdikJM6ZG4/2MalmCTJ2i
- 3KSJmbEMo8jy5DvNzXtslArNKmw9Kkef8xE9V8Nxvl0lWDQgiDCJ2R5tWzzRpMMYLFtdGbHm5
- tEcP7juKebhigvNaUMsnTIdbBYUrn7plAHbc4apMgMO1el7YHUHTggFeUOFKOrbE4XMI1ox
+References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200228165503.18054-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200228165503.18054-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 2 Mar 2020 15:12:13 +0000
+Message-ID: <CAPY8ntCJEHe=fXeFcvwrSNbaFrzWSr7odO-8ntkjhSV7HYds9g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: i2c: imx219: Add support for SRGGB8_1X8 format
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Geert Uytterhoeven, Mon, Mar 02, 2020 14:47:46 +0100:
-> On Mon, Mar 2, 2020 at 2:40 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> > > > --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> > > > +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> > > > @@ -322,6 +322,10 @@
-> > > >         clock-frequency = <22579200>;
-> > > >  };
-> > > >
-> > > > +&audio_clk_c {
-> > > > +       clock-frequency = <12288000>;
-> > > > +};
-> > >
-> > > Does the ADV7482 always generate a 12.288 MHz clock signal?
-> > > Or is this programmable?
-> >
-> > Oops. It looks like it is and the value is derived from the sampling rate
-> > (48kHz) and the master clock multiplier. Both hard-coded in the board file.
-> 
-> Where are these hardcoded in the board file?
+Hi Lad.
 
-In the endpoint definition, arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts
+Thanks for the patch. A few things look wrong with it though.
 
-So the frequency can be set at the run-time, perhaps even derived from
-endpoint connected to the output. In this case, rsnd_endpoint3,
-which has the "mclk-fs" setting. Not sure if the sampling rate
-can be set to something else for the HDMI, though.
+On Fri, 28 Feb 2020 at 16:55, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> imx219 sensor is capable for RAW8/RAW10 modes, this commit adds support
+> for SRGGB8_1X8 format.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/media/i2c/imx219.c | 122 +++++++++++++++++++++++++++++--------
+>  1 file changed, 96 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 8b48e148f2d0..1388c9bc00bb 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -90,6 +90,9 @@
+>
+>  #define IMX219_REG_ORIENTATION         0x0172
+>
+> +#define IMX219_CSI_DATA_FORMAT_A_0_7   0x018c
+> +#define IMX219_CSI_DATA_FORMAT_A_8_15  0x018d
+> +
+>  /* Test Pattern Control */
+>  #define IMX219_REG_TEST_PATTERN                0x0600
+>  #define IMX219_TEST_PATTERN_DISABLE    0
+> @@ -135,6 +138,16 @@ struct imx219_mode {
+>         struct imx219_reg_list reg_list;
+>  };
+>
+> +struct imx219_pixfmt {
+> +       u32 code;
+> +       u32 colorspace;
+> +};
+> +
+> +static const struct imx219_pixfmt imx219_formats[] = {
+> +       { MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
+> +       { MEDIA_BUS_FMT_SRGGB10_1X10, V4L2_COLORSPACE_SRGB },
 
-> Even if they are, technically this is a clock output of the ADV7482.
+Why do we need the colorspace here when they are both the same? I
+don't see any additional formats ever being added  as the sensor
+doesn't support them, so this seems redundant.
 
-... which I hope to correct as soon as I steal the hardware from whoever stole
-it from me...
+> +};
+> +
+>  /*
+>   * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+>   * driver.
+> @@ -168,8 +181,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x00},
+>         {0x0175, 0x00},
+> -       {0x018c, 0x0a},
+> -       {0x018d, 0x0a},
+>         {0x0301, 0x05},
+>         {0x0303, 0x01},
+>         {0x0304, 0x03},
+> @@ -230,8 +241,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x00},
+>         {0x0175, 0x00},
+> -       {0x018c, 0x0a},
+> -       {0x018d, 0x0a},
+>         {0x0301, 0x05},
+>         {0x0303, 0x01},
+>         {0x0304, 0x03},
+> @@ -290,8 +299,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+>         {0x0171, 0x01},
+>         {0x0174, 0x01},
+>         {0x0175, 0x01},
+> -       {0x018c, 0x0a},
+> -       {0x018d, 0x0a},
+>         {0x0301, 0x05},
+>         {0x0303, 0x01},
+>         {0x0304, 0x03},
+>
+> @@ -413,6 +420,8 @@ struct imx219 {
+>         struct v4l2_subdev sd;
+>         struct media_pad pad;
+>
+> +       struct v4l2_mbus_framefmt fmt;
+> +
+>         struct clk *xclk; /* system clock to IMX219 */
+>         u32 xclk_freq;
+>
+> @@ -519,19 +528,26 @@ static int imx219_write_regs(struct imx219 *imx219,
+>  }
+>
+>  /* Get bayer order based on flip setting. */
+> -static u32 imx219_get_format_code(struct imx219 *imx219)
+> +static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+>  {
+> -       /*
+> -        * Only one bayer order is supported.
+> -        * It depends on the flip settings.
+> -        */
+> -       static const u32 codes[2][2] = {
+> +       static const u32 codes10[2][2] = {
+>                 { MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
+>                 { MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
+>         };
+> +       static const u32 codes8[2][2] = {
+> +               { MEDIA_BUS_FMT_SRGGB8_1X8, MEDIA_BUS_FMT_SGRBG8_1X8, },
+> +               { MEDIA_BUS_FMT_SGBRG8_1X8, MEDIA_BUS_FMT_SBGGR8_1X8, },
+> +       };
+>
+>         lockdep_assert_held(&imx219->mutex);
+> -       return codes[imx219->vflip->val][imx219->hflip->val];
+> +
+> +       if (code == MEDIA_BUS_FMT_SRGGB10_1X10 ||
+> +           code == MEDIA_BUS_FMT_SGRBG10_1X10 ||
+> +           code == MEDIA_BUS_FMT_SGBRG10_1X10 ||
+> +           code == MEDIA_BUS_FMT_SBGGR10_1X10)
+> +               return codes10[imx219->vflip->val][imx219->hflip->val];
+> +
+> +       return codes8[imx219->vflip->val][imx219->hflip->val];
 
-> > > > video-receiver@70 {
-> > > >     compatible = "adi,adv7482";
-> > > > ...
-> > > > +   clocks = <&rcar_sound 3>, <&audio_clk_c>;
-> > > > +   clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
-> > >
-> > > The above declares the Audio CLK C to be a clock input of the ADV7482, while
-> > > it is an output.
-> >
-> > I would gladly give it right direction if I *really* understood what I was
-> > doing...
-> 
-> :-)
-> 
-> > > Furthermore, the DT bindings do not document that clocks can be specified.
-> >
-> > Should the DT bindings document that the clock cannot be specified than?
-> 
-> It currently does say so, as it doesn't list "clocks" in its properties section.
+Why defaulting to 8 bit? It's changing the behaviour for existing users.
 
-The bindings documentation file, which we're talking about here and which does
-not list the specifiable input clocks in its properties, is it the
+>  }
+>
+>  static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> @@ -539,13 +555,26 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>         struct imx219 *imx219 = to_imx219(sd);
+>         struct v4l2_mbus_framefmt *try_fmt =
+>                 v4l2_subdev_get_try_format(sd, fh->pad, 0);
+> +       struct v4l2_mbus_framefmt *fmt;
+>
+>         mutex_lock(&imx219->mutex);
+>
+> +       fmt = &imx219->fmt;
+> +       fmt->code = MEDIA_BUS_FMT_SRGGB8_1X8;
 
-    Documentation/devicetree/bindings/media/i2c/adv748x.txt
+Again, why defaulting to 8 bit? It's changing the behaviour for existing users.
 
-?
+> +       fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +       fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
+> +       fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
+> +                                                         fmt->colorspace,
+> +                                                         fmt->ycbcr_enc);
+> +       fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
+> +       fmt->width = supported_modes[0].width;
+> +       fmt->height = supported_modes[0].height;
+> +       fmt->field = V4L2_FIELD_NONE;
+> +
+>         /* Initialize try_fmt */
+>         try_fmt->width = supported_modes[0].width;
+>         try_fmt->height = supported_modes[0].height;
+> -       try_fmt->code = imx219_get_format_code(imx219);
+> +       try_fmt->code = imx219_get_format_code(imx219, fmt->code);
+>         try_fmt->field = V4L2_FIELD_NONE;
+>
+>         mutex_unlock(&imx219->mutex);
+> @@ -646,16 +675,12 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+>                                  struct v4l2_subdev_pad_config *cfg,
+>                                  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -       struct imx219 *imx219 = to_imx219(sd);
+> -
+> -       /*
+> -        * Only one bayer order is supported (though it depends on the flip
+> -        * settings)
+> -        */
+> -       if (code->index > 0)
+> +       if (code->pad != 0)
+> +               return -EINVAL;
+> +       if (code->index >= ARRAY_SIZE(imx219_formats))
+>                 return -EINVAL;
+>
+> -       code->code = imx219_get_format_code(imx219);
+> +       code->code = imx219_formats[code->index].code;
 
-And this absence of documentation also means that whatever clocks (both input
-in "clocks=" and output in "#clock-cells") listed in a specific .dts are just
-an integration detail?
+This can't be right as it will only ever advertise
+MEDIA_BUS_FMT_SRGGB8_1X8 or MEDIA_BUS_FMT_SRGGB10_1X10, when the
+actual formats supported will change based on the H&V flips.
+MEDIA_BUS_FMT_SRGGB8_1X8. A caller therefore can't know the correct
+format should H or V flip be active, therefore can't set the right
+thing.
 
-Does this below makes more sense, than?
+code->code = imx219_get_format_code(imx219, imx219_formats[code->index].code);
+would look more plausible.
 
-    video-receiver@70 {
-        compatible = "adi,adv7482";
-        clocks = <&rcar_sound 3>;
-        clock-names = "clk-hdmi-video";
-        adv748x_mclk: mclk {
-            compatible = "fixed-clock";
-            #clock-cells =  <0>;
-            /* frequency hard-coded for illustration */
-            clock-frequency = <12288000>;
-            clock-output-names = "clk-hdmi-i2s-mclk";
-        };
-    };
+>         return 0;
+>  }
+> @@ -669,7 +694,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+>         if (fse->index >= ARRAY_SIZE(supported_modes))
+>                 return -EINVAL;
+>
+> -       if (fse->code != imx219_get_format_code(imx219))
+> +       if (fse->code != imx219_get_format_code(imx219, imx219->fmt.code))
+>                 return -EINVAL;
+>
+>         fse->min_width = supported_modes[fse->index].width;
+> @@ -696,7 +721,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
+>  {
+>         fmt->format.width = mode->width;
+>         fmt->format.height = mode->height;
+> -       fmt->format.code = imx219_get_format_code(imx219);
+> +       fmt->format.code = imx219_get_format_code(imx219, imx219->fmt.code);
+>         fmt->format.field = V4L2_FIELD_NONE;
+>
+>         imx219_reset_colorspace(&fmt->format);
+> @@ -710,7 +735,7 @@ static int __imx219_get_pad_format(struct imx219 *imx219,
+>                 struct v4l2_mbus_framefmt *try_fmt =
+>                         v4l2_subdev_get_try_format(&imx219->sd, cfg, fmt->pad);
+>                 /* update the code which could change due to vflip or hflip: */
+> -               try_fmt->code = imx219_get_format_code(imx219);
+> +               try_fmt->code = imx219_get_format_code(imx219, try_fmt->code);
+>                 fmt->format = *try_fmt;
+>         } else {
+>                 imx219_update_pad_format(imx219, imx219->mode, fmt);
+> @@ -741,11 +766,19 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         const struct imx219_mode *mode;
+>         struct v4l2_mbus_framefmt *framefmt;
+>         int exposure_max, exposure_def, hblank;
+> +       int i;
+>
+>         mutex_lock(&imx219->mutex);
+>
+> +       for (i = 0; i < ARRAY_SIZE(imx219_formats); i++)
+> +               if (imx219_formats[i].code == fmt->format.code)
+> +                       break;
+> +       if (i >= ARRAY_SIZE(imx219_formats))
+> +               i = 0;
+> +
 
-Now I'm a bit hazy on how to declare that the MCLK output of the
-video-receiver@70 is connected to the Audio Clock C of the SoC...
-Probably remove use of "audio_clk_c" completely?
+Again, this doesn't take into account the H&V flips altering the Bayer
+format. If either are engaged then you can't change between 8 & 10 bit
+formats.
 
-> > > > @@ -686,7 +700,8 @@
-> > > >         };
-> > > >
-> > > >         sound_pins: sound {
-> > > > -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
-> > > > +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
-> > > > +                        "ssi4_data";
-> > >
-> > > Missing "ss4_ctrl", for the SCK4 and WS4 pins.
-> >
-> > I'll add them.
-> > As the device seems to function even without thoes, does this mean the
-> > pins in the group are used "on demand" by whatever needs them?
-> 
-> Probably the SCK4/WS4 functions are the reset-state defaults.
+It feels like having imx219_formats is the wrong approach.
+We already have all the formats available in a combination of codes8
+and codes10 (admittedly static to imx219_get_format_code). Is it
+better to make it into a single array where there is a strict
+requirement for the formats to be in the correct order of (eg) no
+flip, h flip, v flip, h&v flip. A lookup can then be a straight scan
+of the list. A correction for flip order is then index = (index & ~3)
+| (v_flip ? 2 : 0) | (h_flip ? 1 : 0);
 
-That ... might require some trial and testing: when I add them to the group,
-the reset defaults will be overridden by the platform initialization, which is
-not necessarily the reset default. Will see.
+>         /* Bayer order varies with flips */
+> -       fmt->format.code = imx219_get_format_code(imx219);
+> +       fmt->format.code = imx219_get_format_code(imx219,
+> +                                                 imx219_formats[i].code);
+>
+>         mode = v4l2_find_nearest_size(supported_modes,
+>                                       ARRAY_SIZE(supported_modes),
+> @@ -756,6 +789,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                 framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+>                 *framefmt = fmt->format;
+>         } else if (imx219->mode != mode) {
+> +               imx219->fmt = fmt->format;
+>                 imx219->mode = mode;
+>                 /* Update limits and set FPS to default */
+>                 __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> @@ -786,6 +820,36 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         return 0;
+>  }
+>
+> +static int imx219_set_framefmt(struct imx219 *imx219)
+> +{
+> +       int ret;
+> +
+> +       switch (imx219->fmt.code) {
+> +       case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +       case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +       case MEDIA_BUS_FMT_SGBRG8_1X8:
+> +       case MEDIA_BUS_FMT_SBGGR8_1X8:
+> +               ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
+> +                                      IMX219_REG_VALUE_08BIT, 0x08);
+> +               ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
+> +                                      IMX219_REG_VALUE_08BIT, 0x08);
+> +               break;
+> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +       case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +       case MEDIA_BUS_FMT_SGBRG10_1X10:
+> +       case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +               ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
+> +                                      IMX219_REG_VALUE_08BIT, 0x0a);
+> +               ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
+> +                                      IMX219_REG_VALUE_08BIT, 0x0a);
+> +               break;
 
-> >
-> > Does a "clocks = ..." statement always mean input clocks?
-> 
-> Yes it does.
-> If a device has clock outputs and is thus a clock provider, it should
-> have a #clock-cells property, and this should be documented in the bindings.
-> 
-> A clock consumer will refer to clocks of a provider using the "clocks"
-> property, specifying a clock specifier (phandle and zero or more indices)
-> for each clock referenced.
+As just queried on your patch adding the 640x480 mode, do we not need
+to modify 0x0309 / OPPXCK_DIV to match the pixel format?
 
-Something like this?
+How do you propose handling matching pixel rate vs link frequency
+between the two modes?
+I'm seeing corrupted images, which probably implies the FIFO between
+"pipeline" and "MIPI" shown in Figure 43 of the datasheet is under or
+over flowing.
 
-    &rcar_sound {
-        clocks = ...,
-                 <&adv748x_mclk>,
-                 <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
-        clock-names = ...,
-                      "clk_c",
-                      "clk_i";
-    };
-
-Regards,
-Alex
+> +       default:
+> +               ret = -EINVAL;
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+>  static int imx219_start_streaming(struct imx219 *imx219)
+>  {
+>         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> @@ -800,6 +864,12 @@ static int imx219_start_streaming(struct imx219 *imx219)
+>                 return ret;
+>         }
+>
+> +       ret = imx219_set_framefmt(imx219);
+> +       if (ret) {
+> +               dev_err(&client->dev, "%s failed to set format\n", __func__);
+> +               return ret;
+> +       }
+> +
+>         /* Apply customized values from user */
+>         ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
+>         if (ret)
+> --
+> 2.20.1
+>
