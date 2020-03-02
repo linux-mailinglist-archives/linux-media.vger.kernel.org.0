@@ -2,176 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35445175C0C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 14:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1080175C38
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2020 14:52:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgCBNr7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 08:47:59 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:40452 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgCBNr7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 08:47:59 -0500
-Received: by mail-oi1-f194.google.com with SMTP id j80so8308811oih.7;
-        Mon, 02 Mar 2020 05:47:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=hDB6s0mVsZWzKBwRcoxWaZ6NA1lo5wdAr0u5W26z+JE=;
-        b=l7lEazKyQVeciw9mD3hG4uS9EcNZal43Dm/bjnNbtFxOho88NmwV/MA/pT0i4jm10G
-         C62bU3uM3yssel+KV6MuuQ0s04TOtlZei43OW4IVHcCQck18guI6n3dqJjVWc4mZLFOH
-         +3gftezsVSWTJAavu70R3FlMq57a+FfGhLBTDpaIXYuXdKZqFRx4JAFHkFvVBA+4kmM+
-         b/wGKwygSzFIjH2cWvm9ZC12TJkvBLPKFedq+hQi1W/B3LGfHNl3sWxl9jZhokqzDDSO
-         RHMArxl4MNlrOSfuTvBKCbHbQwGC2AfIj9GMBkV0G/W5u9FZgKYmErWePrwV1kTfDYFN
-         noiA==
-X-Gm-Message-State: APjAAAW9w8SbAk/qn3mHjjY16D/GgUgCWD5sUGVLvzlQGd2BYIM/dUyG
-        ohbm7X6ZSkj5vb9Je+Fdkq8RiUsHCF/edyOna/sX1A==
-X-Google-Smtp-Source: APXvYqzWVp9IhNwDI2+UTTrugW/SFZ+bbTayj2vr/BAzNkK7k45D30xX4RP/S0TypGTtAOrugGLKPdfWiiTIxXsXYzM=
-X-Received: by 2002:aca:1a06:: with SMTP id a6mr11048818oia.148.1583156877859;
- Mon, 02 Mar 2020 05:47:57 -0800 (PST)
+        id S1727308AbgCBNwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 08:52:24 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:55030 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726890AbgCBNwW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 08:52:22 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 022DqLw2020144;
+        Mon, 2 Mar 2020 07:52:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1583157141;
+        bh=OniR4A38TlbDu0vyPO11NY3qXmfOa8ulyGuImR5VXtA=;
+        h=From:To:CC:Subject:Date;
+        b=RSD4snGVhzz43neG1Xf7P/dEGpStursTYKqif5GbaGWnFud6iAgXvRrgRPPT96lnd
+         LjBbF4kqekPBdF6hg6JpzV8Hk6MNfjB8tE5Q41gdOH9c9xz+f91+EOm8/3ik9W1kw3
+         MGlZpViTAqJBDjsT9+LHsMC6sY8MafAOO4+AMcJ4=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 022DqLUL014751
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 2 Mar 2020 07:52:21 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 2 Mar
+ 2020 07:52:21 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 2 Mar 2020 07:52:20 -0600
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 022DqKgB014616;
+        Mon, 2 Mar 2020 07:52:20 -0600
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>, stable <stable@vger.kernel.org>
+Subject: [Patch 1/1] media: ti-vpe: cal: fix disable_irqs to only the intended target
+Date:   Mon, 2 Mar 2020 07:56:52 -0600
+Message-ID: <20200302135652.9365-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari>
-In-Reply-To: <20200302134011.GA3717@pflmari>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Mar 2020 14:47:46 +0100
-Message-ID: <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+disable_irqs() was mistakenly disabling all interrupts when called.
+This cause all port stream to stop even if only stopping one of them.
 
-On Mon, Mar 2, 2020 at 2:40 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> Geert Uytterhoeven, Mon, Mar 02, 2020 13:28:13 +0100:
-> > On Mon, Jan 13, 2020 at 3:24 PM Alex Riesen
-> > <alexander.riesen@cetitec.com> wrote:
-> > > Not sure if all variants of the Salvator board have the HDMI decoder
-> > > chip (the ADV7482) connected to the SSI4 on R-Car SoC, as it is on
-> > > Salvator-X ES1, so the the ADV7482 endpoint and connection definitions
-> > > are placed in the board file.
-> >
-> > Both Salvator-X and Salvator-XS have SSI4 wired to the ADV7482.
-> >
-> > > I do assume though that all Salvator variants have the CLK_C clock line
-> > > hard-wired to the ADV7482 HDMI decoder, and remove it from the list of
-> > > clocks provided by the R-Car sound system.
-> >
-> > Yes, both Salvator-X and Salvator-XS have it wired that way.
->
-> Ok, seems like I can move that part into the common file as well.
-> Integrations of ADV7482 and R-Car which use salvator-common.dts can still
-> redefine the endpoint settings in their board files, right?
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+---
+ drivers/media/platform/ti-vpe/cal.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Indeed.
-
-> > > --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> > > @@ -322,6 +322,10 @@
-> > >         clock-frequency = <22579200>;
-> > >  };
-> > >
-> > > +&audio_clk_c {
-> > > +       clock-frequency = <12288000>;
-> > > +};
-> >
-> > Does the ADV7482 always generate a 12.288 MHz clock signal?
-> > Or is this programmable?
->
-> Oops. It looks like it is and the value is derived from the sampling rate
-> (48kHz) and the master clock multiplier. Both hard-coded in the board file.
-
-Where are these hardcoded in the board file?
-Even if they are, technically this is a clock output of the ADC7482.
-
-> > > video-receiver@70 {
-> > >     compatible = "adi,adv7482";
-> > > ...
-> > > +   clocks = <&rcar_sound 3>, <&audio_clk_c>;
-> > > +   clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
-> >
-> > The above declares the Audio CLK C to be a clock input of the ADV7482, while
-> > it is an output.
->
-> I would gladly give it right direction if I *really* understood what I was
-> doing...
-
-:-)
-
-> > Furthermore, the DT bindings do not document that clocks can be specified.
->
-> Should the DT bindings document that the clock cannot be specified than?
-
-It currently does say so, as it doesn't list "clocks" in its properties section.
-
-> > > @@ -686,7 +700,8 @@
-> > >         };
-> > >
-> > >         sound_pins: sound {
-> > > -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
-> > > +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
-> > > +                        "ssi4_data";
-> >
-> > Missing "ss4_ctrl", for the SCK4 and WS4 pins.
->
-> I'll add them.
-> As the device seems to function even without thoes, does this mean the pins in
-> the group are used "on demand" by whatever needs them?
-
-Probably the SCK4/WS4 functions are the reset-state defaults.
-
-> > > @@ -760,8 +775,18 @@
-> > >                  <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
-> > >                  <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
-> > >                  <&audio_clk_a>, <&cs2000>,
-> > > -                <&audio_clk_c>,
-> >
-> > Why remove it? This is the list of clock inputs, not outputs.
->
-> ...probably because I was thinking the specification was exactly the other way
-> around.
->
-> Does a "clocks = ..." statement always mean input clocks?
-
-Yes it does.
-If a device has clock outputs and is thus a clock provider, it should
-have a #clock-cells property, and this should be documented in the bindings.
-
-A clock consumer will refer to clocks of a provider using the "clocks"
-property, specifying a clock specifier (phandle and zero or more indices)
-for each clock referenced.
-
-> I shall correct that and re-test (might take a while, I don't have the
-> hardware anymore).
-
-Oops.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 6e009e479be3..6d4cbb8782ed 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -722,16 +722,16 @@ static void enable_irqs(struct cal_ctx *ctx)
+ 
+ static void disable_irqs(struct cal_ctx *ctx)
+ {
++	u32 val;
++
+ 	/* Disable IRQ_WDMA_END 0/1 */
+-	reg_write_field(ctx->dev,
+-			CAL_HL_IRQENABLE_CLR(2),
+-			CAL_HL_IRQ_CLEAR,
+-			CAL_HL_IRQ_MASK(ctx->csi2_port));
++	val = 0;
++	set_field(&val, CAL_HL_IRQ_CLEAR, CAL_HL_IRQ_MASK(ctx->csi2_port));
++	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(2), val);
+ 	/* Disable IRQ_WDMA_START 0/1 */
+-	reg_write_field(ctx->dev,
+-			CAL_HL_IRQENABLE_CLR(3),
+-			CAL_HL_IRQ_CLEAR,
+-			CAL_HL_IRQ_MASK(ctx->csi2_port));
++	val = 0;
++	set_field(&val, CAL_HL_IRQ_CLEAR, CAL_HL_IRQ_MASK(ctx->csi2_port));
++	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(3), val);
+ 	/* Todo: Add VC_IRQ and CSI2_COMPLEXIO_IRQ handling */
+ 	reg_write(ctx->dev, CAL_CSI2_VC_IRQENABLE(1), 0);
+ }
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
