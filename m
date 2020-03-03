@@ -2,30 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DB30177AB4
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 16:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3363177ABD
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 16:43:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730074AbgCCPkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 10:40:41 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:39259 "EHLO
+        id S1729720AbgCCPm2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 10:42:28 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:55533 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728002AbgCCPkk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 10:40:40 -0500
+        with ESMTP id S1728899AbgCCPm1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 10:42:27 -0500
 Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1j99ex-0001Ad-CQ; Tue, 03 Mar 2020 16:40:39 +0100
-Date:   Tue, 3 Mar 2020 16:40:38 +0100
+        id 1j99gg-0001YD-B7; Tue, 03 Mar 2020 16:42:26 +0100
+Date:   Tue, 3 Mar 2020 16:42:25 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 16/18] media: allegro: pass buffers through firmware
-Message-ID: <20200303164038.24736bbd@litschi.hi.pengutronix.de>
-In-Reply-To: <485c3e06-c689-9c63-d5f5-dd62c418ca5c@xs4all.nl>
+Subject: Re: [PATCH 00/18] media: allegro: fixes and new features
+Message-ID: <20200303164225.066ab4e2@litschi.hi.pengutronix.de>
+In-Reply-To: <8341c72a-4055-cdc1-099f-b5dbfcb7f472@xs4all.nl>
 References: <20200217151358.5695-1-m.tretter@pengutronix.de>
-        <20200217151358.5695-17-m.tretter@pengutronix.de>
-        <485c3e06-c689-9c63-d5f5-dd62c418ca5c@xs4all.nl>
+        <8341c72a-4055-cdc1-099f-b5dbfcb7f472@xs4all.nl>
 Organization: Pengutronix
 X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -40,263 +39,182 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 25 Feb 2020 15:09:37 +0100, Hans Verkuil wrote:
+On Tue, 25 Feb 2020 15:20:41 +0100, Hans Verkuil wrote:
 > On 2/17/20 4:13 PM, Michael Tretter wrote:
-> > As we know which buffers are processed by the codec from the address in
-> > the ENCODE_FRAME response, we can queue multiple buffers in the firmware
-> > and retrieve the buffer from the response of the firmware. This enables
-> > the firmware to use the internal scheduling the codec and avoids round
-> > trips through the driver when fetching the next frame.
+> > Hello,
 > > 
-> > Remove buffers that have been passed to the firmware from the m2m buffer
-> > queue and put them into a shadow queue for tracking the buffer in the
-> > driver. When we receive a ENCODE_FRAME response from the firmware, get
-> > the buffer from the shadow queue and finish the buffer.
+> > these are a several patches for the allegro-dvt driver that have piled up over
+> > the last few month while I was improving my understanding of the codec.
 > > 
-> > Furthermore, it is necessary to finish the job straight after passing
-> > the buffer to the firmware to allow the V4L2 framework to send further
-> > buffers to the driver.
+> > Patches 1 to 9 fix errors in the interaction with the mcu. This includes
+> > better interpretation of return values from the firmware, wrong fields in the
+> > mails, wrong values in the fields and an error when resetting the mcu.
 > > 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> >  .../staging/media/allegro-dvt/allegro-core.c  | 104 +++++++++++++++---
-> >  1 file changed, 89 insertions(+), 15 deletions(-)
+> > Patches 10 to 14 wire up more controls and allow user space applications to
+> > control the framerate and the quality of the codec.
 > > 
-> > diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-> > index 4f525920c194..80d3383b84f8 100644
-> > --- a/drivers/staging/media/allegro-dvt/allegro-core.c
-> > +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-> > @@ -226,6 +226,10 @@ struct allegro_channel {
-> >  	struct list_head buffers_reference;
-> >  	struct list_head buffers_intermediate;
-> >  
-> > +	struct list_head source_shadow_list;
-> > +	struct list_head stream_shadow_list;
-> > +	struct mutex shadow_list_lock;  
+> > Patches 15 and 16 enable the firmware to take care of the buffer scheduling
+> > and allow more parallelism inside the firmware. Please have a close look at
+> > patch 16, because it changes the behavior of the driver to finish the m2m_job
+> > before the driver returns the v4l2_buffers.
+> > 
+> > Patches 17 and 18 start work to restructure how to create the mails that are
+> > sent to the firmware, because different firmware versions expect different
+> > mail formats and, thus, I need additional code to generate mails if I want to
+> > support different firmware versions.  
 > 
-> This lock is never used in interrupt context, right? Just checking.
+> Posted comments for patches 14 and 16. Also note the 'kbuild test robot' post for
+> patch 15.
+> 
+> I also get a number of warnings/checks when checkpatch.pl --strict over the
+> patch series (and even one ERROR). Some can be ignored, but there are others
+> that can be easily fixed with some reformatting.
 
-The lock is used from user threads and the threaded irq handler, but
-not in an interrupt context.
-
-> 
-> Also add a comment explaining what the lock protects.
-
-Will do.
-
-> 
-> > +
-> >  	struct list_head list;
-> >  	struct completion completion;
-> >  
-> > @@ -247,6 +251,14 @@ allegro_get_state(struct allegro_channel *channel)
-> >  	return channel->state;
-> >  }
-> >  
-> > +struct allegro_m2m_buffer {
-> > +	struct v4l2_m2m_buffer buf;
-> > +	struct list_head head;
-> > +};
-> > +
-> > +#define to_allegro_m2m_buffer(__buf) \
-> > +	container_of(__buf, struct allegro_m2m_buffer, buf)
-> > +
-> >  struct fw_info {
-> >  	unsigned int id;
-> >  	unsigned int id_codec;
-> > @@ -1570,6 +1582,43 @@ static void allegro_channel_buf_done(struct allegro_channel *channel,
-> >  	v4l2_m2m_buf_done(buf, state);
-> >  }
-> >  
-> > +static u64 allegro_put_buffer(struct allegro_channel *channel,
-> > +			      struct list_head *list,
-> > +			      struct vb2_v4l2_buffer *buffer)
-> > +{
-> > +	struct v4l2_m2m_buffer *b = container_of(buffer,
-> > +						 struct v4l2_m2m_buffer, vb);
-> > +	struct allegro_m2m_buffer *shadow = to_allegro_m2m_buffer(b);
-> > +
-> > +	mutex_lock(&channel->shadow_list_lock);
-> > +	list_add_tail(&shadow->head, list);
-> > +	mutex_unlock(&channel->shadow_list_lock);
-> > +
-> > +	return (u64) buffer;
-> > +}
-> > +
-> > +static struct vb2_v4l2_buffer *allegro_get_buffer(struct allegro_channel *channel,
-> > +						  struct list_head *list,
-> > +						  u64 handle)
-> > +{
-> > +	struct allegro_dev *dev = channel->dev;
-> > +	struct allegro_m2m_buffer *shadow;
-> > +	u64 found;
-> > +
-> > +	mutex_lock(&channel->shadow_list_lock);
-> > +	shadow = list_first_entry(list, struct allegro_m2m_buffer, head);
-> > +	list_del_init(&shadow->head);
-> > +	mutex_unlock(&channel->shadow_list_lock);
-> > +
-> > +	found = (u64) (&shadow->buf.vb);
-> > +	if (handle != found)
-> > +		v4l2_warn(&dev->v4l2_dev,
-> > +			  "channel %d: output buffer mismatch 0x%llx, expected 0x%llx\n",
-> > +			  channel->mcu_channel_id, handle, found);
-> > +
-> > +	return &shadow->buf.vb;  
-> 
-> This function never returns NULL...
-> 
-> > +}
-> > +
-> >  static void allegro_channel_finish_frame(struct allegro_channel *channel,
-> >  		struct mcu_msg_encode_frame_response *msg)
-> >  {
-> > @@ -1585,13 +1634,17 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
-> >  	ssize_t len;
-> >  	ssize_t free;
-> >  
-> > -	src_buf = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx);
-> > -	dst_buf = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx);
-> > +	src_buf = allegro_get_buffer(channel, &channel->source_shadow_list, msg->src_handle);
-> > +	if (!src_buf)  
-> 
-> ...but this it checked here...
-> 
-> > +		v4l2_warn(&dev->v4l2_dev,
-> > +			  "channel %d: invalid source buffer\n",
-> > +			  channel->mcu_channel_id);
-> >  
-> > -	if ((u64)src_buf != msg->src_handle || (u64)dst_buf != msg->stream_id)
-> > -		v4l2_err(&dev->v4l2_dev,
-> > -			 "channel %d: check failed\n",
-> > -			 channel->mcu_channel_id);
-> > +	dst_buf = allegro_get_buffer(channel, &channel->stream_shadow_list, msg->stream_id);
-> > +	if (!dst_buf)  
-> 
-> ...and here. That doesn't look right.
-
-I started to implement error handling in case the firmware returns
-wrong buffers, but I stopped at printing warnings and using the next
-buffers anyway. I didn't really know what to do, if that happens,
-because I don't have v4l2_buffers that I could return to user space to
-report errors. Maybe it is best to keep buffers on the shadow queues,
-print a warning, and ignore the message from the firmware.
-
-I will fix allegro_get_buffer() to return NULL and properly fail in
-these cases.
-
-Thanks,
+Thanks. I totally forgot about checkpatch... I will fix the
+warnings/checks in v2.
 
 Michael
 
 > 
-> > +		v4l2_warn(&dev->v4l2_dev,
-> > +			  "channel %d: invalid stream buffer\n",
-> > +			  channel->mcu_channel_id);
-> >  
-> >  	dst_buf->sequence = channel->csequence++;
-> >  
-> > @@ -1718,8 +1771,6 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
-> >  	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-> >  
-> >  	allegro_channel_buf_done(channel, dst_buf, state);
-> > -
-> > -	v4l2_m2m_job_finish(dev->m2m_dev, channel->fh.m2m_ctx);
-> >  }
-> >  
-> >  static int allegro_handle_init(struct allegro_dev *dev,
-> > @@ -2312,16 +2363,31 @@ static void allegro_stop_streaming(struct vb2_queue *q)
-> >  	struct allegro_channel *channel = vb2_get_drv_priv(q);
-> >  	struct allegro_dev *dev = channel->dev;
-> >  	struct vb2_v4l2_buffer *buffer;
-> > +	struct allegro_m2m_buffer *shadow, *tmp;
-> >  
-> >  	v4l2_dbg(2, debug, &dev->v4l2_dev,
-> >  		 "%s: stop streaming\n",
-> >  		 V4L2_TYPE_IS_OUTPUT(q->type) ? "output" : "capture");
-> >  
-> >  	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
-> > +		mutex_lock(&channel->shadow_list_lock);
-> > +		list_for_each_entry_safe(shadow, tmp, &channel->source_shadow_list, head) {
-> > +			list_del(&shadow->head);
-> > +			v4l2_m2m_buf_done(&shadow->buf.vb, VB2_BUF_STATE_ERROR);
-> > +		}
-> > +		mutex_unlock(&channel->shadow_list_lock);
-> > +
-> >  		allegro_set_state(channel, ALLEGRO_STATE_STOPPED);
-> >  		while ((buffer = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx)))
-> >  			v4l2_m2m_buf_done(buffer, VB2_BUF_STATE_ERROR);
-> >  	} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-> > +		mutex_lock(&channel->shadow_list_lock);
-> > +		list_for_each_entry_safe(shadow, tmp, &channel->stream_shadow_list, head) {
-> > +			list_del(&shadow->head);
-> > +			v4l2_m2m_buf_done(&shadow->buf.vb, VB2_BUF_STATE_ERROR);
-> > +		}
-> > +		mutex_unlock(&channel->shadow_list_lock);
-> > +
-> >  		allegro_destroy_channel(channel);
-> >  		while ((buffer = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx)))
-> >  			v4l2_m2m_buf_done(buffer, VB2_BUF_STATE_ERROR);
-> > @@ -2352,7 +2418,7 @@ static int allegro_queue_init(void *priv,
-> >  	src_vq->drv_priv = channel;
-> >  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> >  	src_vq->ops = &allegro_queue_ops;
-> > -	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-> > +	src_vq->buf_struct_size = sizeof(struct allegro_m2m_buffer);
-> >  	src_vq->lock = &channel->dev->lock;
-> >  	err = vb2_queue_init(src_vq);
-> >  	if (err)
-> > @@ -2365,7 +2431,7 @@ static int allegro_queue_init(void *priv,
-> >  	dst_vq->drv_priv = channel;
-> >  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> >  	dst_vq->ops = &allegro_queue_ops;
-> > -	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-> > +	dst_vq->buf_struct_size = sizeof(struct allegro_m2m_buffer);
-> >  	dst_vq->lock = &channel->dev->lock;
-> >  	err = vb2_queue_init(dst_vq);
-> >  	if (err)
-> > @@ -2457,6 +2523,9 @@ static int allegro_open(struct file *file)
-> >  	v4l2_fh_add(&channel->fh);
-> >  
-> >  	init_completion(&channel->completion);
-> > +	INIT_LIST_HEAD(&channel->source_shadow_list);
-> > +	INIT_LIST_HEAD(&channel->stream_shadow_list);
-> > +	mutex_init(&channel->shadow_list_lock);
-> >  
-> >  	channel->dev = dev;
-> >  
-> > @@ -2957,18 +3026,23 @@ static void allegro_device_run(void *priv)
-> >  	dma_addr_t src_uv;
-> >  	dma_addr_t dst_addr;
-> >  	unsigned long dst_size;
-> > +	u64 src_handle;
-> > +	u64 dst_handle;
-> >  
-> > -	dst_buf = v4l2_m2m_next_dst_buf(channel->fh.m2m_ctx);
-> > +	dst_buf = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx);
-> >  	dst_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-> >  	dst_size = vb2_plane_size(&dst_buf->vb2_buf, 0);
-> > -	allegro_mcu_send_put_stream_buffer(dev, channel, dst_addr, dst_size, (u64)dst_buf);
-> > +	dst_handle = allegro_put_buffer(channel, &channel->stream_shadow_list, dst_buf);
-> > +	allegro_mcu_send_put_stream_buffer(dev, channel, dst_addr, dst_size, dst_handle);
-> >  
-> > -	src_buf = v4l2_m2m_next_src_buf(channel->fh.m2m_ctx);
-> > +	src_buf = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx);
-> >  	src_buf->sequence = channel->osequence++;
-> > -
-> >  	src_y = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
-> >  	src_uv = src_y + (channel->stride * channel->height);
-> > -	allegro_mcu_send_encode_frame(dev, channel, src_y, src_uv, (u64)src_buf);
-> > +	src_handle = allegro_put_buffer(channel, &channel->source_shadow_list, src_buf);
-> > +	allegro_mcu_send_encode_frame(dev, channel, src_y, src_uv, src_handle);
-> > +
-> > +	v4l2_m2m_job_finish(dev->m2m_dev, channel->fh.m2m_ctx);
-> >  }
-> >  
-> >  static const struct v4l2_m2m_ops allegro_m2m_ops = {
-> >   
-> 
 > Regards,
 > 
 > 	Hans
+> 
+> > 
+> > This is the v4l-compliance test result:
+> > 
+> > v4l2-compliance SHA: b62d322d4401e6b6e5cbd78cedad9eb69dac1324, 64 bits, 64-bit time_t
+> > 
+> > Compliance test for allegro device /dev/video3:
+> > 
+> > Driver Info:
+> > 	Driver name      : allegro
+> > 	Card type        : Allegro DVT Video Encoder
+> > 	Bus info         : platform:a0009000.video-codec
+> > 	Driver version   : 5.6.0
+> > 	Capabilities     : 0x84208000
+> > 		Video Memory-to-Memory
+> > 		Streaming
+> > 		Extended Pix Format
+> > 		Device Capabilities
+> > 	Device Caps      : 0x04208000
+> > 		Video Memory-to-Memory
+> > 		Streaming
+> > 		Extended Pix Format
+> > 	Detected Stateful Encoder
+> > 
+> > Required ioctls:
+> > 	test VIDIOC_QUERYCAP: OK
+> > 
+> > Allow for multiple opens:
+> > 	test second /dev/video3 open: OK
+> > 	test VIDIOC_QUERYCAP: OK
+> > 	test VIDIOC_G/S_PRIORITY: OK
+> > 	test for unlimited opens: OK
+> > 
+> > 	test invalid ioctls: OK
+> > Debug ioctls:
+> > 	test VIDIOC_DBG_G/S_REGISTER: OK
+> > 	test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > 
+> > Input ioctls:
+> > 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > 	Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > 
+> > Output ioctls:
+> > 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > 	Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > 
+> > Input/Output configuration ioctls:
+> > 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > 	test VIDIOC_G/S_EDID: OK (Not Supported)
+> > 
+> > Control ioctls:
+> > 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+> > 	test VIDIOC_QUERYCTRL: OK
+> > 	test VIDIOC_G/S_CTRL: OK
+> > 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+> > 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+> > 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > 	Standard Controls: 16 Private Controls: 0
+> > 
+> > Format ioctls:
+> > 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > 		warn: v4l2-test-formats.cpp(1329): S_PARM is supported for buftype 2, but not for ENUM_FRAMEINTERVALS
+> > 	test VIDIOC_G/S_PARM: OK
+> > 	test VIDIOC_G_FBUF: OK (Not Supported)
+> > 	test VIDIOC_G_FMT: OK
+> > 	test VIDIOC_TRY_FMT: OK
+> > 	test VIDIOC_S_FMT: OK
+> > 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > 	test Cropping: OK (Not Supported)
+> > 	test Composing: OK (Not Supported)
+> > 	test Scaling: OK (Not Supported)
+> > 
+> > Codec ioctls:
+> > 	test VIDIOC_(TRY_)ENCODER_CMD: OK
+> > 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > 
+> > Buffer ioctls:
+> > 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > 	test VIDIOC_EXPBUF: OK
+> > 	test Requests: OK (Not Supported)
+> > 
+> > Test input 0:
+> > 
+> > Streaming ioctls:
+> > 	test read/write: OK (Not Supported)
+> > 	test blocking wait: OK
+> > 	Video Capture: Captured 59 buffers
+> > 	test MMAP (select): OK
+> > 	Video Capture: Captured 59 buffers
+> > 	test MMAP (epoll): OK
+> > 	test USERPTR (select): OK (Not Supported)
+> > 	test DMABUF: Cannot test, specify --expbuf-device
+> > 
+> > Total for allegro device /dev/video3: 50, Succeeded: 50, Failed: 0, Warnings: 1
+> > 
+> > Michael
+> > 
+> > Michael Tretter (18):
+> >   media: allegro: print message on mcu error
+> >   media: allegro: fail encoding only on actual errors
+> >   media: allegro: fix type of gop_length in channel_create message
+> >   media: allegro: remove unknown39 field from create_channel
+> >   media: allegro: start a GOP with an IDR frame
+> >   media: allegro: fix calculation of CPB size
+> >   media: allegro: fix reset if WAKEUP has not been set properly
+> >   media: allegro: extract mcu and codec address calculation
+> >   media: allegro: warn if response message has an unexpected size
+> >   media: allegro: skip filler data if possible
+> >   media: allegro: make frame rate configurable
+> >   media: allegro: make QP configurable
+> >   media: allegro: read bitrate mode directly from control
+> >   media: allegro: handle dependency of bitrate and bitrate_peak
+> >   media: allegro: verify source and destination buffer in VCU response
+> >   media: allegro: pass buffers through firmware
+> >   media: allegro: move mail definitions to separate file
+> >   media: allegro: create new struct for channel parameters
+> > 
+> >  drivers/staging/media/allegro-dvt/Makefile    |   2 +-
+> >  .../staging/media/allegro-dvt/allegro-core.c  | 808 ++++++++++--------
+> >  .../staging/media/allegro-dvt/allegro-mail.c  |  37 +
+> >  .../staging/media/allegro-dvt/allegro-mail.h  | 267 ++++++
+> >  4 files changed, 738 insertions(+), 376 deletions(-)
+> >  create mode 100644 drivers/staging/media/allegro-dvt/allegro-mail.c
+> >  create mode 100644 drivers/staging/media/allegro-dvt/allegro-mail.h
+> >   
+> 
 > 
