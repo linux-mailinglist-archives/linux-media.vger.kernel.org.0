@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C08D4178697
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 00:43:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5DB178698
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 00:43:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728390AbgCCXnP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 18:43:15 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:40408 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727429AbgCCXnP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 18:43:15 -0500
-Received: by mail-pf1-f195.google.com with SMTP id l184so2315602pfl.7
-        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2020 15:43:14 -0800 (PST)
+        id S1728397AbgCCXnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 18:43:17 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:43932 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727429AbgCCXnR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 18:43:17 -0500
+Received: by mail-pf1-f193.google.com with SMTP id c144so81061pfb.10
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2020 15:43:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=pThP6NC8TXqIZgF+q2FNoYaQrWxsRa/xWyaf2zAr4/Y=;
-        b=DM7/C7NHAwc0ymSi77dnPLbuef6d4Q9Mfx2OidTlosfRkhBjAvAHo0oCkLrkwf8Be5
-         FpCXPpVfFQPxuWLblpKUwNhWYwkUxSVYvL0rk9tnvfgCZcrdLuPrcMMGu6ViTeZyuPUv
-         taExSTu8dWOJaPWK3apKJq/FfRbB/zkDKlqbKgnTvTAEAeIKwtMuEP/EoljPsvNA2nPR
-         YpGlt1AP3LuIWKLVS/eo64PYtMj8qd4XAJU9pYN3nJy6Wrl8KnGFnk16tuSpSPljDY0G
-         tyNK1nm3Y9zBMMMkFtjYh/w5AHfTXEF6r5Y3crlEkMjOtdARGqBe0QP3tsbnWjhxEgs2
-         XOdw==
+        bh=8uhfqYqnydZFe8c9SbO7P/6+8io27mcAmYqcApQItKE=;
+        b=YWcJKSqMuR5iSKKeX5rX0zHZbWyopfB+tKQZi9Qw2mm36NKZiaxS3xyzVxPZJGnSFa
+         o80uWzcMGRXyOoShIiFNE3UiewfTsxzD7AV5TBPS+TsyvDrBoTXJHdkpz49cr5V0HWet
+         X+vT58P0teBmi6TSGrVYVzD4XxkXD+822yKAIJJZc/kihX96KAFdKZb3tVG2vpG13yh+
+         Vp57oCwkQ6MvnfFIP9c/weoHXrn207rGVJTTBInfl6VXPUA2ZnKLNMTTstaWFxHi06qJ
+         Q2CV6nOEN+ajaGdHOmiyq8YfrdeccM1mtCkwiiskNpn8dg+nAmtEQfjwZ17S0lWY2nKJ
+         Nosg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=pThP6NC8TXqIZgF+q2FNoYaQrWxsRa/xWyaf2zAr4/Y=;
-        b=rPDtxHtvt+DZT4KG9kXUUy5ApGOhpFWLIyL5nJkYrdr3ILrQIeW4qQBJaDiZEly4Vp
-         Lq66OpKIWtByvL3JTtSKfl6uBy/7hwHwGe51adm8rd0kaSW44pUoQymR0zAwJ/t+ICU7
-         //UmJ/EyVhV3kF8NX4puMsq/M6sFvMovlXqcjHBSs/5i+WDk2cFH0k+LYGE05pkIPRhg
-         vMPni3Ffb8qdkdIwHua/RXPhpahFyaYRoHITuVaxVu2i2Q83+qF6+7UHq5lFnAQiDw6n
-         ytV/hs3UPhT1+l+T9aHWekY1dRgeRfJLpvBLOxmsWzCcimF3VIXTBFebht2CwADTBwPS
-         dJGA==
-X-Gm-Message-State: ANhLgQ1rvHdmY6DJaukJ+bHRuE+EKOO9lO5tewRx84doxEooTmH8FSmS
-        7nZ+vVKRNnnNPs9j6/9pshZ3dlBIlHQ=
-X-Google-Smtp-Source: ADFU+vvsNtuGZEfb5Uonpd9epsW6LzcgfBAaHj1Kusm7rsG6WGqSKkw1Jlr9wxtqqrOJvx8NqQTf1g==
-X-Received: by 2002:aa7:934a:: with SMTP id 10mr168281pfn.233.1583278993653;
-        Tue, 03 Mar 2020 15:43:13 -0800 (PST)
+        bh=8uhfqYqnydZFe8c9SbO7P/6+8io27mcAmYqcApQItKE=;
+        b=QuzQZ1UBgZatM4pVMxkLQ+ckIEi5TjYN04ikfMNEpVD1qszSjNzckYyHyLkBDd//D5
+         yd1o2piuRMcAHpxOBFE3oLn7ns1dNkD4UxBNusoFuQT+8Q6UuDFcNCvgraapnSCQbkrW
+         JboziQJVwNK2h0gkqmpAyGsYK5kvnhhxyGdYKM+Wvr/DhLGD01dm0D52S3t/hY8oCTfv
+         Yle8cnUpMz3tpDDKW9UT65Wz392A1bGNKFX8NXacu4nw5fIxIW0liaghhshaBavH4Eae
+         E6cru6nQF/WaqyqrzUm9vN7YHnb2NRd2TXuM+V3EPB7oLeQ+uOV/xRCyD8L+2xckDie0
+         Mtew==
+X-Gm-Message-State: ANhLgQ2tccKoBUxuFv/dJ4gAjS/rXrbD0LY+y9wNGo01g9NxlMfJvVbl
+        GFpPmQ8jC9dK6c0oySp2akAYM4YlBKs=
+X-Google-Smtp-Source: ADFU+vvZYT+0vD48JPOzvXHS9JKakN2x81mCVEkguqA9F+dhZEglwW7piTABrFI0VFBAqPwUIfgTWA==
+X-Received: by 2002:a62:ae13:: with SMTP id q19mr201439pff.244.1583278995510;
+        Tue, 03 Mar 2020 15:43:15 -0800 (PST)
 Received: from mappy.sklembedded.com ([2605:e000:d445:6a00:8145:3904:f092:dd35])
-        by smtp.gmail.com with ESMTPSA id q66sm23540009pgq.50.2020.03.03.15.43.11
+        by smtp.gmail.com with ESMTPSA id q66sm23540009pgq.50.2020.03.03.15.43.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 15:43:13 -0800 (PST)
+        Tue, 03 Mar 2020 15:43:15 -0800 (PST)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -51,9 +51,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v4 04/17] Revert "media: v4l2-fwnode: Add a convenience function for registering subdevs with notifiers"
-Date:   Tue,  3 Mar 2020 15:42:43 -0800
-Message-Id: <20200303234256.8928-5-slongerbeam@gmail.com>
+Subject: [PATCH v4 05/17] media: imx: csi: Implement get_fwnode_pad op
+Date:   Tue,  3 Mar 2020 15:42:44 -0800
+Message-Id: <20200303234256.8928-6-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200303234256.8928-1-slongerbeam@gmail.com>
 References: <20200303234256.8928-1-slongerbeam@gmail.com>
@@ -62,147 +62,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The users of v4l2_async_register_fwnode_subdev() have switched to
-parsing their endpoints and setting up async sub-device lists in their
-notifiers locally, without using the endpoint parsing callbacks. There
-are no more users of v4l2_async_register_fwnode_subdev() so this
-convenience function can be removed.
-
-This reverts commit 1634f0eded87d1f150e823fa56cd782ea0775eb2.
+The CSI does not have a 1:1 relationship between fwnode port numbers and
+pad indexes. In fact the CSI fwnode device is itself a port which is the
+sink, containing only a single fwnode endpoint. Implement media_entity
+operation get_fwnode_pad to first verify the given endpoint is the CSI's
+sink endpoint, and if so return the CSI sink pad index.
 
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/media/v4l2-core/v4l2-fwnode.c | 62 ---------------------------
- include/media/v4l2-fwnode.h           | 38 ----------------
- 2 files changed, 100 deletions(-)
+ drivers/staging/media/imx/imx-media-csi.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 6ece4320e1d2..1dc18940ac0e 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -1163,68 +1163,6 @@ int v4l2_async_register_subdev_sensor_common(struct v4l2_subdev *sd)
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index f409fca88dcf..35f2512ed2a9 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -1827,9 +1827,32 @@ static void csi_unregistered(struct v4l2_subdev *sd)
+ 		ipu_csi_put(priv->csi);
  }
- EXPORT_SYMBOL_GPL(v4l2_async_register_subdev_sensor_common);
  
--int v4l2_async_register_fwnode_subdev(struct v4l2_subdev *sd,
--				      size_t asd_struct_size,
--				      unsigned int *ports,
--				      unsigned int num_ports,
--				      parse_endpoint_func parse_endpoint)
--{
--	struct v4l2_async_notifier *notifier;
--	struct device *dev = sd->dev;
--	struct fwnode_handle *fwnode;
--	int ret;
--
--	if (WARN_ON(!dev))
--		return -ENODEV;
--
--	fwnode = dev_fwnode(dev);
--	if (!fwnode_device_is_available(fwnode))
--		return -ENODEV;
--
--	notifier = kzalloc(sizeof(*notifier), GFP_KERNEL);
--	if (!notifier)
--		return -ENOMEM;
--
--	v4l2_async_notifier_init(notifier);
--
--	if (!ports) {
--		ret = v4l2_async_notifier_parse_fwnode_endpoints(dev, notifier,
--								 asd_struct_size,
--								 parse_endpoint);
--		if (ret < 0)
--			goto out_cleanup;
--	} else {
--		unsigned int i;
--
--		for (i = 0; i < num_ports; i++) {
--			ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(dev, notifier, asd_struct_size, ports[i], parse_endpoint);
--			if (ret < 0)
--				goto out_cleanup;
--		}
--	}
--
--	ret = v4l2_async_subdev_notifier_register(sd, notifier);
--	if (ret < 0)
--		goto out_cleanup;
--
--	ret = v4l2_async_register_subdev(sd);
--	if (ret < 0)
--		goto out_unregister;
--
--	sd->subdev_notifier = notifier;
--
--	return 0;
--
--out_unregister:
--	v4l2_async_notifier_unregister(notifier);
--out_cleanup:
--	v4l2_async_notifier_cleanup(notifier);
--	kfree(notifier);
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(v4l2_async_register_fwnode_subdev);
--
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
- MODULE_AUTHOR("Sylwester Nawrocki <s.nawrocki@samsung.com>");
-diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-index f6a7bcd13197..caa854d2a867 100644
---- a/include/media/v4l2-fwnode.h
-+++ b/include/media/v4l2-fwnode.h
-@@ -20,7 +20,6 @@
- #include <linux/types.h>
++/*
++ * The CSI has only one fwnode endpoint, at the sink pad. Verify the
++ * endpoint belongs to us, and return CSI_SINK_PAD.
++ */
++static int csi_get_fwnode_pad(struct media_entity *entity,
++			      struct fwnode_endpoint *endpoint)
++{
++	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
++	struct csi_priv *priv = v4l2_get_subdevdata(sd);
++	struct fwnode_handle *csi_port = dev_fwnode(priv->dev);
++	struct fwnode_handle *csi_ep;
++	int ret;
++
++	csi_ep = fwnode_get_next_child_node(csi_port, NULL);
++
++	ret = endpoint->local_fwnode == csi_ep ? CSI_SINK_PAD : -ENXIO;
++
++	fwnode_handle_put(csi_ep);
++
++	return ret;
++}
++
+ static const struct media_entity_operations csi_entity_ops = {
+ 	.link_setup = csi_link_setup,
+ 	.link_validate = v4l2_subdev_link_validate,
++	.get_fwnode_pad = csi_get_fwnode_pad,
+ };
  
- #include <media/v4l2-mediabus.h>
--#include <media/v4l2-subdev.h>
- 
- struct fwnode_handle;
- struct v4l2_async_notifier;
-@@ -369,41 +368,4 @@ v4l2_async_notifier_parse_fwnode_endpoints_by_port(struct device *dev,
- int v4l2_async_notifier_parse_fwnode_sensor_common(struct device *dev,
- 						   struct v4l2_async_notifier *notifier);
- 
--/**
-- * v4l2_async_register_fwnode_subdev - registers a sub-device to the
-- *					asynchronous sub-device framework
-- *					and parses fwnode endpoints
-- *
-- * @sd: pointer to struct &v4l2_subdev
-- * @asd_struct_size: size of the driver's async sub-device struct, including
-- *		     sizeof(struct v4l2_async_subdev). The &struct
-- *		     v4l2_async_subdev shall be the first member of
-- *		     the driver's async sub-device struct, i.e. both
-- *		     begin at the same memory address.
-- * @ports: array of port id's to parse for fwnode endpoints. If NULL, will
-- *	   parse all ports owned by the sub-device.
-- * @num_ports: number of ports in @ports array. Ignored if @ports is NULL.
-- * @parse_endpoint: Driver's callback function called on each V4L2 fwnode
-- *		    endpoint. Optional.
-- *
-- * This function is just like v4l2_async_register_subdev() with the
-- * exception that calling it will also allocate a notifier for the
-- * sub-device, parse the sub-device's firmware node endpoints using
-- * v4l2_async_notifier_parse_fwnode_endpoints() or
-- * v4l2_async_notifier_parse_fwnode_endpoints_by_port(), and
-- * registers the sub-device notifier. The sub-device is similarly
-- * unregistered by calling v4l2_async_unregister_subdev().
-- *
-- * While registered, the subdev module is marked as in-use.
-- *
-- * An error is returned if the module is no longer loaded on any attempts
-- * to register it.
-- */
--int
--v4l2_async_register_fwnode_subdev(struct v4l2_subdev *sd,
--				  size_t asd_struct_size,
--				  unsigned int *ports,
--				  unsigned int num_ports,
--				  parse_endpoint_func parse_endpoint);
--
- #endif /* _V4L2_FWNODE_H */
+ static const struct v4l2_subdev_core_ops csi_core_ops = {
 -- 
 2.17.1
 
