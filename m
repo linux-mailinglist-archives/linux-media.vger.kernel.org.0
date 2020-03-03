@@ -2,427 +2,352 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F40217703C
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 08:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA3B177078
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 08:51:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgCCHmm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 02:42:42 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44165 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725440AbgCCHml (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 02:42:41 -0500
-Received: by mail-ot1-f65.google.com with SMTP id v22so2024293otq.11;
-        Mon, 02 Mar 2020 23:42:40 -0800 (PST)
+        id S1727719AbgCCHvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 02:51:20 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45182 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727594AbgCCHvT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 02:51:19 -0500
+Received: by mail-oi1-f193.google.com with SMTP id v19so2040583oic.12;
+        Mon, 02 Mar 2020 23:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c26RL7SwBSsHZW9hskDOCVwMBxEzy21J6mGS0H8mYNk=;
-        b=eYLoq5ck8FDKA/OtNyyxKcthlJ5IwIetGUvZdxNHlOKtzNqnpGcDsZjSAlBJz9XSfy
-         7VtlyZ4bEdpKu6w/uA1cBhmbHlFAJNAGchfZ7PJQHecx7RytHi9lBO+nK6eeK0hXXG+s
-         yl2y+bwjhuwgw16fPvs6aeu3RRAcoJqWoKBu/1Nxjfpj95HJqzD13tekoRvHmtBWLNBU
-         Wj10wfARWvA4h4kLisAcbO7klbPqD/I+3ZtAzkb8t2E8+faDuplzK0vVq3ywx34/vApe
-         aGhuBI9+HDaiwL+QB/sY3+3F396bo7XvsCqQfvdfSBIPQ6uM4Z/amGyqj8JqAY44fNwu
-         0k7g==
+        bh=dJERuTx1vkullBpFrugyde96NXj+cKMvr59e+mu+WbM=;
+        b=MlBo0b/gyWKdLjihurXMRLLS62RKM7eV0he7zU20AHef4Kj7yXi5eRUfziwsvY97bP
+         kCsaQVDZ6xFN2um0uw8PfiPhho7tEsNP5XjZ8fzz69lct+JY0Cg01vzu8Ie9QWSwB7B7
+         5wB0EJ6dW6HfuKtnF3gyDWMzFBQlMpF5emVrF7MLh0Go77qle0a9V1bPiPt/YC0h+rs9
+         YsBMjg1XQ9le4oq3unR+jMqDJSgYu+jPvpMfvkG2vjYUg9gYmnYnLiqQZBSQjV2nobTp
+         aDxOam0ON6lMsPNfvsTzCJhslNgQh02i963gQmpmkV3HeHOrx2X1t+lzDo1/SgtYZ3ms
+         CPDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c26RL7SwBSsHZW9hskDOCVwMBxEzy21J6mGS0H8mYNk=;
-        b=Qm/Vc1ac5oaXC3Sk1Wj1B+/26iIEqtRwuQbBmbTt8i1Vo2vfjdKn9Q8PLnKbZ/aJCn
-         V+wOWM/UFWXQrBxiKT2A5fCax+kOpmC3Movke4R87fQfWZNNJj7dhl3Eaa/R1gX+mw9K
-         5GOpFhLJUCh/2zgFoZryOsRJNY5uvyVVK2M6CjpSp1niajKb10L/BdPirzfHSUi/ihwH
-         rk8VQAAiDMMU9h+Drq9G5O1YGqYa5YW5wMhDiNDmK+ttY2A7aSOefVQUa7IBBgHOUzfp
-         PwxzweHzQxzsRax+cFK5UqqbcM9Cvd5I/eEN4kefYqvXO1fl6C4leqEGlgCycf+xeeXC
-         Vw+w==
-X-Gm-Message-State: ANhLgQ3NtOuSAMpMOSDVLtKpV6QpgLzmWCrEmxzJpkba/aAZ+rVUrAyQ
-        2O0e832BcW0p3rhTI/TjvVbUvIIlosqu0LQ65MXOtixX
-X-Google-Smtp-Source: ADFU+vuBDQpWdj/4zySPRBCCqJKYZD1SPal0RTYvqHVsQQoiTnKbr6K2kFORJB16m8Y5ATDAUZvIzEX814dMCiXzf8k=
-X-Received: by 2002:a9d:64ca:: with SMTP id n10mr2412214otl.325.1583221360127;
- Mon, 02 Mar 2020 23:42:40 -0800 (PST)
+        bh=dJERuTx1vkullBpFrugyde96NXj+cKMvr59e+mu+WbM=;
+        b=Hy5iyOJCzu7iJYS/LACXR3+K2YaC7RE+d44rRs0AnMcrgwj0Ilaw28VEdzPNwKo27D
+         7nDLYzn2ToQ8IgG2u+fDTBgAm2CAT0olkfxyeLYYqaJlDL3PYHMv00dtavlp0Vv3KhaW
+         0LskDBAV4EYJPvzZ2aEmif8Zd7QqX98m4oA3vAarKiDPwgyUwcqfqUOyPgzEpvditJEf
+         n1s7LkEbOhsW9g9OmBxGyqcpTQiuKsTRk0QiGbTdL9VuKy3DSoOKvqKrEt/MxWie5zBz
+         Q2yXpAudsqXRHgaer1e9eUajT3Wb6tY843ewFVcmNSHLaHume4VTnax+cuDDzfceWUkl
+         fJFw==
+X-Gm-Message-State: ANhLgQ1dW1lqv42sjFHYgQ1tsZ6kXQM87Xgx5Js8qt6BNNewYQ5mby54
+        XiSg/T57xDsVoAerHUEI3IQUM937EcjPErU5alY=
+X-Google-Smtp-Source: ADFU+vvfbkXj9GPHK9S6fg3tKEYes3+kVrH58hc6DAWJUCxC/mk23r7PfL8YDItBVc4eUdfv9Ulavx8aCkysABUlWoA=
+X-Received: by 2002:aca:524a:: with SMTP id g71mr1625639oib.7.1583221878584;
+ Mon, 02 Mar 2020 23:51:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200228165503.18054-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAPY8ntCJEHe=fXeFcvwrSNbaFrzWSr7odO-8ntkjhSV7HYds9g@mail.gmail.com> <CAPY8ntBW52YpLGKOc-VX5sP17LKwbAkjXoR8zp5Ha-EFkY47CA@mail.gmail.com>
-In-Reply-To: <CAPY8ntBW52YpLGKOc-VX5sP17LKwbAkjXoR8zp5Ha-EFkY47CA@mail.gmail.com>
+References: <20200228170210.18252-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUn9njDRWZPcSD87YuejmhNvDK3pUqL5kXNX6KA-8Y72g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUn9njDRWZPcSD87YuejmhNvDK3pUqL5kXNX6KA-8Y72g@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 3 Mar 2020 07:42:14 +0000
-Message-ID: <CA+V-a8uknWgu8a5mKh+LM6i-MxWnm47XC2CVEiQTP8LFSPp9YQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: i2c: imx219: Add support for SRGGB8_1X8 format
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Tue, 3 Mar 2020 07:50:52 +0000
+Message-ID: <CA+V-a8tZaAp3q0JtavGK0MV4MxcZqNMkuvY=dMj8CFu7k3w0NA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a774c0-cat874: Add support for
+ AISTARVISION MIPI Adapter V2.1
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi Geert,
 
-On Mon, Mar 2, 2020 at 5:44 PM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> On Mon, 2 Mar 2020 at 15:12, Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > Hi Lad.
-> >
-> > Thanks for the patch. A few things look wrong with it though.
-> >
-> > On Fri, 28 Feb 2020 at 16:55, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > >
-> > > imx219 sensor is capable for RAW8/RAW10 modes, this commit adds support
-> > > for SRGGB8_1X8 format.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  drivers/media/i2c/imx219.c | 122 +++++++++++++++++++++++++++++--------
-> > >  1 file changed, 96 insertions(+), 26 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > index 8b48e148f2d0..1388c9bc00bb 100644
-> > > --- a/drivers/media/i2c/imx219.c
-> > > +++ b/drivers/media/i2c/imx219.c
-> > > @@ -90,6 +90,9 @@
-> > >
-> > >  #define IMX219_REG_ORIENTATION         0x0172
-> > >
-> > > +#define IMX219_CSI_DATA_FORMAT_A_0_7   0x018c
-> > > +#define IMX219_CSI_DATA_FORMAT_A_8_15  0x018d
-> > > +
-> > >  /* Test Pattern Control */
-> > >  #define IMX219_REG_TEST_PATTERN                0x0600
-> > >  #define IMX219_TEST_PATTERN_DISABLE    0
-> > > @@ -135,6 +138,16 @@ struct imx219_mode {
-> > >         struct imx219_reg_list reg_list;
-> > >  };
-> > >
-> > > +struct imx219_pixfmt {
-> > > +       u32 code;
-> > > +       u32 colorspace;
-> > > +};
-> > > +
-> > > +static const struct imx219_pixfmt imx219_formats[] = {
-> > > +       { MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
-> > > +       { MEDIA_BUS_FMT_SRGGB10_1X10, V4L2_COLORSPACE_SRGB },
-> >
-> > Why do we need the colorspace here when they are both the same? I
-> > don't see any additional formats ever being added  as the sensor
-> > doesn't support them, so this seems redundant.
-> >
-> > > +};
-> > > +
-> > >  /*
-> > >   * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-> > >   * driver.
-> > > @@ -168,8 +181,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x00},
-> > >         {0x0175, 0x00},
-> > > -       {0x018c, 0x0a},
-> > > -       {0x018d, 0x0a},
-> > >         {0x0301, 0x05},
-> > >         {0x0303, 0x01},
-> > >         {0x0304, 0x03},
-> > > @@ -230,8 +241,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x00},
-> > >         {0x0175, 0x00},
-> > > -       {0x018c, 0x0a},
-> > > -       {0x018d, 0x0a},
-> > >         {0x0301, 0x05},
-> > >         {0x0303, 0x01},
-> > >         {0x0304, 0x03},
-> > > @@ -290,8 +299,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
-> > >         {0x0171, 0x01},
-> > >         {0x0174, 0x01},
-> > >         {0x0175, 0x01},
-> > > -       {0x018c, 0x0a},
-> > > -       {0x018d, 0x0a},
-> > >         {0x0301, 0x05},
-> > >         {0x0303, 0x01},
-> > >         {0x0304, 0x03},
-> > >
-> > > @@ -413,6 +420,8 @@ struct imx219 {
-> > >         struct v4l2_subdev sd;
-> > >         struct media_pad pad;
-> > >
-> > > +       struct v4l2_mbus_framefmt fmt;
-> > > +
-> > >         struct clk *xclk; /* system clock to IMX219 */
-> > >         u32 xclk_freq;
-> > >
-> > > @@ -519,19 +528,26 @@ static int imx219_write_regs(struct imx219 *imx219,
-> > >  }
-> > >
-> > >  /* Get bayer order based on flip setting. */
-> > > -static u32 imx219_get_format_code(struct imx219 *imx219)
-> > > +static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
-> > >  {
-> > > -       /*
-> > > -        * Only one bayer order is supported.
-> > > -        * It depends on the flip settings.
-> > > -        */
-> > > -       static const u32 codes[2][2] = {
-> > > +       static const u32 codes10[2][2] = {
-> > >                 { MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
-> > >                 { MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
-> > >         };
-> > > +       static const u32 codes8[2][2] = {
-> > > +               { MEDIA_BUS_FMT_SRGGB8_1X8, MEDIA_BUS_FMT_SGRBG8_1X8, },
-> > > +               { MEDIA_BUS_FMT_SGBRG8_1X8, MEDIA_BUS_FMT_SBGGR8_1X8, },
-> > > +       };
-> > >
-> > >         lockdep_assert_held(&imx219->mutex);
-> > > -       return codes[imx219->vflip->val][imx219->hflip->val];
-> > > +
-> > > +       if (code == MEDIA_BUS_FMT_SRGGB10_1X10 ||
-> > > +           code == MEDIA_BUS_FMT_SGRBG10_1X10 ||
-> > > +           code == MEDIA_BUS_FMT_SGBRG10_1X10 ||
-> > > +           code == MEDIA_BUS_FMT_SBGGR10_1X10)
-> > > +               return codes10[imx219->vflip->val][imx219->hflip->val];
-> > > +
-> > > +       return codes8[imx219->vflip->val][imx219->hflip->val];
-> >
-> > Why defaulting to 8 bit? It's changing the behaviour for existing users.
-> >
-> > >  }
-> > >
-> > >  static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > > @@ -539,13 +555,26 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> > >         struct imx219 *imx219 = to_imx219(sd);
-> > >         struct v4l2_mbus_framefmt *try_fmt =
-> > >                 v4l2_subdev_get_try_format(sd, fh->pad, 0);
-> > > +       struct v4l2_mbus_framefmt *fmt;
-> > >
-> > >         mutex_lock(&imx219->mutex);
-> > >
-> > > +       fmt = &imx219->fmt;
-> > > +       fmt->code = MEDIA_BUS_FMT_SRGGB8_1X8;
-> >
-> > Again, why defaulting to 8 bit? It's changing the behaviour for existing users.
-> >
-> > > +       fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > > +       fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-> > > +       fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
-> > > +                                                         fmt->colorspace,
-> > > +                                                         fmt->ycbcr_enc);
-> > > +       fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-> > > +       fmt->width = supported_modes[0].width;
-> > > +       fmt->height = supported_modes[0].height;
-> > > +       fmt->field = V4L2_FIELD_NONE;
-> > > +
-> > >         /* Initialize try_fmt */
-> > >         try_fmt->width = supported_modes[0].width;
-> > >         try_fmt->height = supported_modes[0].height;
-> > > -       try_fmt->code = imx219_get_format_code(imx219);
-> > > +       try_fmt->code = imx219_get_format_code(imx219, fmt->code);
-> > >         try_fmt->field = V4L2_FIELD_NONE;
-> > >
-> > >         mutex_unlock(&imx219->mutex);
-> > > @@ -646,16 +675,12 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
-> > >                                  struct v4l2_subdev_pad_config *cfg,
-> > >                                  struct v4l2_subdev_mbus_code_enum *code)
-> > >  {
-> > > -       struct imx219 *imx219 = to_imx219(sd);
-> > > -
-> > > -       /*
-> > > -        * Only one bayer order is supported (though it depends on the flip
-> > > -        * settings)
-> > > -        */
-> > > -       if (code->index > 0)
-> > > +       if (code->pad != 0)
-> > > +               return -EINVAL;
-> > > +       if (code->index >= ARRAY_SIZE(imx219_formats))
-> > >                 return -EINVAL;
-> > >
-> > > -       code->code = imx219_get_format_code(imx219);
-> > > +       code->code = imx219_formats[code->index].code;
-> >
-> > This can't be right as it will only ever advertise
-> > MEDIA_BUS_FMT_SRGGB8_1X8 or MEDIA_BUS_FMT_SRGGB10_1X10, when the
-> > actual formats supported will change based on the H&V flips.
-> > MEDIA_BUS_FMT_SRGGB8_1X8. A caller therefore can't know the correct
-> > format should H or V flip be active, therefore can't set the right
-> > thing.
-> >
-> > code->code = imx219_get_format_code(imx219, imx219_formats[code->index].code);
-> > would look more plausible.
-> >
-> > >         return 0;
-> > >  }
-> > > @@ -669,7 +694,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
-> > >         if (fse->index >= ARRAY_SIZE(supported_modes))
-> > >                 return -EINVAL;
-> > >
-> > > -       if (fse->code != imx219_get_format_code(imx219))
-> > > +       if (fse->code != imx219_get_format_code(imx219, imx219->fmt.code))
-> > >                 return -EINVAL;
-> > >
-> > >         fse->min_width = supported_modes[fse->index].width;
-> > > @@ -696,7 +721,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
-> > >  {
-> > >         fmt->format.width = mode->width;
-> > >         fmt->format.height = mode->height;
-> > > -       fmt->format.code = imx219_get_format_code(imx219);
-> > > +       fmt->format.code = imx219_get_format_code(imx219, imx219->fmt.code);
-> > >         fmt->format.field = V4L2_FIELD_NONE;
-> > >
-> > >         imx219_reset_colorspace(&fmt->format);
-> > > @@ -710,7 +735,7 @@ static int __imx219_get_pad_format(struct imx219 *imx219,
-> > >                 struct v4l2_mbus_framefmt *try_fmt =
-> > >                         v4l2_subdev_get_try_format(&imx219->sd, cfg, fmt->pad);
-> > >                 /* update the code which could change due to vflip or hflip: */
-> > > -               try_fmt->code = imx219_get_format_code(imx219);
-> > > +               try_fmt->code = imx219_get_format_code(imx219, try_fmt->code);
-> > >                 fmt->format = *try_fmt;
-> > >         } else {
-> > >                 imx219_update_pad_format(imx219, imx219->mode, fmt);
-> > > @@ -741,11 +766,19 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >         const struct imx219_mode *mode;
-> > >         struct v4l2_mbus_framefmt *framefmt;
-> > >         int exposure_max, exposure_def, hblank;
-> > > +       int i;
-> > >
-> > >         mutex_lock(&imx219->mutex);
-> > >
-> > > +       for (i = 0; i < ARRAY_SIZE(imx219_formats); i++)
-> > > +               if (imx219_formats[i].code == fmt->format.code)
-> > > +                       break;
-> > > +       if (i >= ARRAY_SIZE(imx219_formats))
-> > > +               i = 0;
-> > > +
-> >
-> > Again, this doesn't take into account the H&V flips altering the Bayer
-> > format. If either are engaged then you can't change between 8 & 10 bit
-> > formats.
-> >
-> > It feels like having imx219_formats is the wrong approach.
-> > We already have all the formats available in a combination of codes8
-> > and codes10 (admittedly static to imx219_get_format_code). Is it
-> > better to make it into a single array where there is a strict
-> > requirement for the formats to be in the correct order of (eg) no
-> > flip, h flip, v flip, h&v flip. A lookup can then be a straight scan
-> > of the list. A correction for flip order is then index = (index & ~3)
-> > | (v_flip ? 2 : 0) | (h_flip ? 1 : 0);
-> >
-> > >         /* Bayer order varies with flips */
-> > > -       fmt->format.code = imx219_get_format_code(imx219);
-> > > +       fmt->format.code = imx219_get_format_code(imx219,
-> > > +                                                 imx219_formats[i].code);
-> > >
-> > >         mode = v4l2_find_nearest_size(supported_modes,
-> > >                                       ARRAY_SIZE(supported_modes),
-> > > @@ -756,6 +789,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >                 framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-> > >                 *framefmt = fmt->format;
-> > >         } else if (imx219->mode != mode) {
-> > > +               imx219->fmt = fmt->format;
-> > >                 imx219->mode = mode;
-> > >                 /* Update limits and set FPS to default */
-> > >                 __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> > > @@ -786,6 +820,36 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > >         return 0;
-> > >  }
-> > >
-> > > +static int imx219_set_framefmt(struct imx219 *imx219)
-> > > +{
-> > > +       int ret;
-> > > +
-> > > +       switch (imx219->fmt.code) {
-> > > +       case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > +       case MEDIA_BUS_FMT_SGRBG8_1X8:
-> > > +       case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > > +       case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > > +               ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
-> > > +                                      IMX219_REG_VALUE_08BIT, 0x08);
-> > > +               ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
-> > > +                                      IMX219_REG_VALUE_08BIT, 0x08);
-> > > +               break;
-> > > +       case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > > +       case MEDIA_BUS_FMT_SGRBG10_1X10:
-> > > +       case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > > +       case MEDIA_BUS_FMT_SBGGR10_1X10:
-> > > +               ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
-> > > +                                      IMX219_REG_VALUE_08BIT, 0x0a);
-> > > +               ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
-> > > +                                      IMX219_REG_VALUE_08BIT, 0x0a);
-> > > +               break;
-> >
-> > As just queried on your patch adding the 640x480 mode, do we not need
-> > to modify 0x0309 / OPPXCK_DIV to match the pixel format?
->
-> To answer my own question, yes we appear to need to modify 0x0309 as
-> well in order to get correct images out.
->
-> > How do you propose handling matching pixel rate vs link frequency
-> > between the two modes?
->
-> I don't have useful tools here to determine the correct link frequency.
-> The pixel rate clock tree hasn't been modified, therefore must still
-> be the same. Indeed I'm getting the same frame rate out whether in 8
-> or 10 bit mode.
->
-> The division by 8 instead of 10 in OPPXCK would presumably drop the
-> link frequency, but the mipi_CLK feeding the MIPI block hasn't been
-> modified, therefore has the link frequency actually changed?
->
-Ill do some measurements on my end check the frequencies.
+Thank you for the review.
 
-> > I'm seeing corrupted images, which probably implies the FIFO between
-> > "pipeline" and "MIPI" shown in Figure 43 of the datasheet is under or
-> > over flowing.
+On Mon, Mar 2, 2020 at 3:57 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Lad,
+>
+> CC linux-media
+>
+> On Fri, Feb 28, 2020 at 6:02 PM Lad Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > This patch adds support AISTARVISION MIPI Adapter V2.1 board connected
+> > to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
+> > which have the camera endpoint nodes with disabled status and in
+> > r8a774c0-ek874-mipi-2.1.dts file VIN/CSI nodes are enabled. By default
+> > imx219 endpoint is tied with CSI2.
 > >
-> > > +       default:
-> > > +               ret = -EINVAL;
-> > > +       }
-> > > +
-> > > +       return ret;
-> > > +}
-> > > +
-> > >  static int imx219_start_streaming(struct imx219 *imx219)
-> > >  {
-> > >         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> > > @@ -800,6 +864,12 @@ static int imx219_start_streaming(struct imx219 *imx219)
-> > >                 return ret;
-> > >         }
-> > >
-> > > +       ret = imx219_set_framefmt(imx219);
-> > > +       if (ret) {
-> > > +               dev_err(&client->dev, "%s failed to set format\n", __func__);
-> > > +               return ret;
-> > > +       }
-> > > +
-> > >         /* Apply customized values from user */
-> > >         ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
-> > >         if (ret)
-> > > --
-> > > 2.20.1
-> > >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> I've had a quick play, and I think there's a further issue with
-> switching between 8 and 10 bit modes when choosing the same
-> resolution.
-> imx219_set_pad_format checks that the mode is actually changing before
-> jumping through the hoops of updating the internal state, therefore
-> the change of format is ignored. An extra clause checking the format
-> is the minimum needed there.
+> Thanks for your patch!
 >
-> I've pushed my hacks on top of your patches to
-> https://github.com/6by9/linux/tree/imx219
-> Whilst it's based on a 5.4 tree, the top few commits are applying the
-> mainlined driver, adding your patches, and then my fixup.
-> I've mainly tested that it streams sensible images in a few
-> resolutions and 8/10 bit modes, not that everything is perfect.
+> > Geert/Rob since the imx219 driver is yet to make into mainline
+> > but has been merged into media-subsystem I would like to take
+> > this patch via media-tree.
 >
-Appreciate the effort. I shall test it on my platform and the squash
-into a single patch
-if all goes well.
+> Usually DTS patches are merged through renesas-devel and arm-soc, not
+> through a driver's subsystems tree.  This is done to avoid merge
+> conflicts.  I prefer not to deviate from that, unless there is a very
+> good reason to do so.
+>
+> Is there any dependency on the code in the media tree that I'm missing?
+> Once DT bindings have been accepted in a subsystem maintainer's tree,
+> you can start using them in DTS files.
+>
+In that case lets take this patch via renesas-devel, as the
+DT-bindings patch has
+been accepted.
+
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
+> > @@ -0,0 +1,98 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the AISTARVISION MIPI Adapter V2.1
+> > + *
+> > + * Copyright (C) 2020 Renesas Electronics Corp.
+> > + */
+> > +
+> > +/ {
+> > +       ov5645_vdddo_1v8: 1p8v {
+> > +               compatible = "regulator-fixed";
+> > +               regulator-name = "camera_vdddo";
+> > +               regulator-min-microvolt = <1800000>;
+> > +               regulator-max-microvolt = <1800000>;
+> > +               regulator-always-on;
+> > +       };
+> > +
+> > +       ov5645_vdda_2v8: 2p8v {
+> > +               compatible = "regulator-fixed";
+> > +               regulator-name = "camera_vdda";
+> > +               regulator-min-microvolt = <2800000>;
+> > +               regulator-max-microvolt = <2800000>;
+> > +               regulator-always-on;
+> > +       };
+> > +
+> > +       ov5645_vddd_1v5: 1p5v {
+> > +               compatible = "regulator-fixed";
+> > +               regulator-name = "camera_vddd";
+> > +               regulator-min-microvolt = <1500000>;
+> > +               regulator-max-microvolt = <1500000>;
+> > +               regulator-always-on;
+> > +       };
+> > +
+> > +       imx219_vana_2v8: 2p8v {
+> > +               compatible = "regulator-fixed";
+> > +               regulator-name = "camera_vana";
+> > +               regulator-min-microvolt = <2800000>;
+> > +               regulator-max-microvolt = <2800000>;
+> > +               regulator-always-on;
+> > +       };
+> > +
+> > +       imx219_vdig_1v8: 1p8v {
+> > +               compatible = "regulator-fixed";
+> > +               regulator-name = "camera_vdig";
+> > +               regulator-min-microvolt = <1500000>;
+> > +               regulator-max-microvolt = <1500000>;
+> > +               regulator-always-on;
+> > +       };
+> > +
+> > +       imx219_vddl_1v2: 1p2v {
+> > +               compatible = "regulator-fixed";
+> > +               regulator-name = "camera_vddl";
+> > +               regulator-min-microvolt = <1200000>;
+> > +               regulator-max-microvolt = <1200000>;
+> > +               regulator-always-on;
+> > +       };
+> > +
+> > +       imx219_clk: imx219_clk {
+> > +               compatible = "fixed-clock";
+> > +               #clock-cells = <0>;
+> > +               clock-frequency = <24000000>;
+> > +       };
+> > +};
+> > +
+> > +&MIPI_PARENT_I2C {
+> > +       ov5645: ov5645@3c {
+> > +               compatible = "ovti,ov5645";
+> > +               reg = <0x3c>;
+> > +               status = "disabled";
+>
+> Is there any real need to disable this node here?
+> Do you envision anyone including this .dtsi file, and not enabling this
+> node?
+>
+Agreed will drop it.
+
+> > +
+> > +               clock-names = "xclk";
+> > +
+> > +               vdddo-supply = <&ov5645_vdddo_1v8>;
+> > +               vdda-supply = <&ov5645_vdda_2v8>;
+> > +               vddd-supply = <&ov5645_vddd_1v5>;
+> > +
+> > +               port@0 {
+>
+> DT bindings say "port", without unit-address.
+>
+shall drop it.
+
+> > +                       ov5645_ep: endpoint {
+> > +                       };
+> > +               };
+> > +       };
+> > +
+> > +       rpi_v2_camera: imx219@10 {
+> > +               compatible = "sony,imx219";
+> > +               reg = <0x10>;
+> > +               status = "disabled";
+>
+> Likewise.
+>
+> > +
+> > +               VANA-supply = <&imx219_vana_2v8>;
+> > +               VDIG-supply = <&imx219_vdig_1v8>;
+> > +               VDDL-supply = <&imx219_vddl_1v2>;
+> > +               clocks = <&imx219_clk>;
+> > +
+> > +               port@0 {
+>
+> DT bindings say "port", without unit-address...
+>
+> > +                       reg = <0>;
+>
+> ... and thus no "reg" property.
+>
+shall drop it.
+
+> > +                       imx219_ep0: endpoint {
+> > +                       };
+> > +               };
+> > +       };
+> > +};
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> > new file mode 100644
+> > index 000000000000..435b7f62d88d
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> > @@ -0,0 +1,86 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
+> > + * connected with aistarvision-mipi-v2-adapter board
+> > + *
+> > + * Copyright (C) 2020 Renesas Electronics Corp.
+> > + */
+> > +
+> > +/dts-v1/;
+> > +#include "r8a774c0-ek874.dts"
+> > +#define MIPI_PARENT_I2C i2c3
+> > +#include "aistarvision-mipi-adapter-2.1.dtsi"
+> > +
+> > +/ {
+> > +       model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
+> > +       compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
+> > +};
+> > +
+> > +&i2c3 {
+> > +       status = "okay";
+> > +};
+> > +
+> > +&vin4 {
+> > +       status = "okay";
+> > +};
+> > +
+> > +&vin5 {
+> > +       status = "okay";
+> > +};
+> > +
+> > +&csi40 {
+> > +       status = "okay";
+> > +
+> > +       ports {
+> > +               port@0 {
+> > +                       reg = <0>;
+> > +
+> > +                       csi40_in: endpoint {
+> > +                               clock-lanes = <0>;
+> > +                               data-lanes = <1 2>;
+> > +                               remote-endpoint = <&imx219_ep0>;
+> > +                       };
+> > +               };
+> > +       };
+> > +};
+> > +
+> > +&ov5645 {
+> > +       /* uncomment status and remote-endpoint properties to tie ov5645
+> > +        * to CSI2 also make sure remote-endpoint for imx219 camera is
+> > +        * commented and remote endpoint in csi40_in is ov5645_ep
+> > +        */
+> > +       /* status = "okay"; */
+> > +
+> > +       #address-cells = <1>;
+> > +       #size-cells = <0>;
+>
+> #{address,size}-cells not needed.
+>
+agreed will drop it.
+
+> > +       enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
+> > +       reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
+> > +
+> > +       clocks = <&cpg CPG_MOD 716>;
+> > +       clock-frequency = <24000000>;
+>
+> I know this is dictated by the DT bindings for the ov5645 camera, but
+> specifying a clock rate is usually done through assigned-clock-rates,
+> cfr.  Documentation/devicetree/bindings/clock/clock-bindings.txt.
+>
+agreed will replace it.
 
 Cheers,
 --Prabhakar
 
->   Dave
+> > +
+> > +       port@0 {
+>
+> port {
+>
+> > +               ov5645_ep: endpoint {
+> > +                       clock-lanes = <0>;
+> > +                       data-lanes = <1 2>;
+> > +                       /* remote-endpoint = <&csi40_in>; */
+> > +               };
+> > +       };
+> > +};
+> > +
+> > +&rpi_v2_camera {
+> > +       status = "okay";
+> > +
+> > +       #address-cells = <1>;
+> > +       #size-cells = <0>;
+> > +
+> > +       port@0 {
+> > +               reg = <0>;
+>
+> port {
+>
+> > +               imx219_ep0: endpoint {
+> > +                       clock-lanes = <0>;
+> > +                       data-lanes = <1 2>;
+> > +                       remote-endpoint = <&csi40_in>;
+> > +                       link-frequencies = /bits/ 64 <456000000>;
+> > +               };
+> > +       };
+> > +};
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
