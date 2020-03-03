@@ -2,379 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B91CB178349
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 20:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE002178693
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 00:43:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731042AbgCCTnv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 14:43:51 -0500
-Received: from mail-bn8nam12on2080.outbound.protection.outlook.com ([40.107.237.80]:35875
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728180AbgCCTnv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Mar 2020 14:43:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UoP7/ctav9wy3jvn8qYqvx5gll3s3da/PgnqTH9bgDsesoEa3wiuioeo/oGphMwFEmweaTD+kGRPE+9x/MvhQQwPqU4mCW9w8XzZc10CypXNEyguxoG6IV2MPFNXdxbZj2p7ygjvr4TisfZfmDA6ly/6d8iKY5u22xzQk6UHJ5eaJePcacWpVgPSs3fl01UWowmcZSwjrBCAjuGQyJNJm3DLjWw1xhiO1k1v5X9DLLWRKjwkGGDLIycZm83PdhWz8SJkQmIeYnE8nMlismg48OKMZz6g/F2Y0hJOTiO+9Y4TjCmqLg2wz3z2fLr8tM2wMAz3YC90FXrV+7saHbe+Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MS8PN1kdCGwmuj5rbPlZxhfcgL8W0jqTlHg8eTTJq4g=;
- b=HZPqdPjbhuoUm8cJwgEuru6I8QLPj1B9F3/wjWfoI6OdbNF9EzARhlnSkVkJuEjeLUsrgYj1oZASZbaHHz+cBXDnPOdFcoimrB960jbQPKuxq6jO5s6u095N2XFsLsy91WBjiu6yxx9cRMyUKb2SU/sci82FjXkHdnNc9dqGar025T5ZN8YOltOkedsKRsOCuhEstBMQPPNfUd9SlyWV7Frtj1omaDTPlV413AGH6nQldPXRhqQ+fYDyZOeqjrx0r4RatKxfmIOH1cuTU0gBwEMAHtuu1Wr9cy+/CaAGmR9NzEfRIVyzqst3V6HxRv0opsYVKAh7/VTd2kemB2a7Aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
+        id S1728346AbgCCXnI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 18:43:08 -0500
+Received: from mail-pj1-f51.google.com ([209.85.216.51]:38143 "EHLO
+        mail-pj1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727429AbgCCXnI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 18:43:08 -0500
+Received: by mail-pj1-f51.google.com with SMTP id a16so39408pju.3
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2020 15:43:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MS8PN1kdCGwmuj5rbPlZxhfcgL8W0jqTlHg8eTTJq4g=;
- b=UQqOsN9q1Onubj1Jx94+87vpZmEycbq41FLVSOBXhjKG47T7O8AAdX9m5Fi0MxfruN/M4nQTWShcXC8IYAviiu+XVGQCaJyqgiDNGBcuvhi2amYNpL6NV6P+P9pIDzX7kC/LxUuai1YVUdX1FHM9u6aqCZdm3gihHVD0hCMS1F4=
-Received: from DM6PR06CA0036.namprd06.prod.outlook.com (2603:10b6:5:120::49)
- by DM6PR02MB5932.namprd02.prod.outlook.com (2603:10b6:5:157::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18; Tue, 3 Mar
- 2020 19:43:44 +0000
-Received: from SN1NAM02FT029.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:120:cafe::45) by DM6PR06CA0036.outlook.office365.com
- (2603:10b6:5:120::49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2772.18 via Frontend
- Transport; Tue, 3 Mar 2020 19:43:44 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT029.mail.protection.outlook.com (10.152.72.110) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2772.15
- via Frontend Transport; Tue, 3 Mar 2020 19:43:44 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1j9DSA-0008Ln-Cx; Tue, 03 Mar 2020 11:43:42 -0800
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1j9DS5-0001Rv-9d; Tue, 03 Mar 2020 11:43:37 -0800
-Received: from [172.19.2.244] (helo=localhost)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1j9DRy-0001RC-0X; Tue, 03 Mar 2020 11:43:30 -0800
-Date:   Tue, 3 Mar 2020 11:43:30 -0800
-From:   Hyun Kwon <hyun.kwon@xilinx.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
-Message-ID: <20200303194328.GA21248@smtp.xilinx.com>
-References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
- <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
- <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
- <20200228181303.GA21745@smtp.xilinx.com>
- <295da145-040c-b792-6536-5ba38e5f8aca@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <295da145-040c-b792-6536-5ba38e5f8aca@ideasonboard.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;IPV:;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(136003)(396003)(376002)(346002)(199004)(189003)(26005)(44832011)(70586007)(9786002)(186003)(336012)(966005)(7416002)(70206006)(4326008)(478600001)(356004)(81156014)(81166006)(316002)(8676002)(53546011)(1076003)(2906002)(426003)(5660300002)(33656002)(8936002)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR02MB5932;H:xsj-pvapsmtpgw01;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-83.xilinx.com;A:1;MX:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 83d61331-fe82-4e2f-d10f-08d7bfab2f09
-X-MS-TrafficTypeDiagnostic: DM6PR02MB5932:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB593251C46A914B84D2602319D6E40@DM6PR02MB5932.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 03319F6FEF
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7SMaEVcFa8z20GSXqmRuilzqynVDPWDc9hllF3oy8o/IeQlEMj26mJ2ZDm3MKsI9vWg8V2J1wM87FuAiu/AJ4pz6aDjnor8II5UM05rjcINXI4MMnEDnGhJmsLgMfWUvh+ikdTcfAK2FaJW1MOE3FxI1k+ztx2zm/ATo3siJiMK7VidB1r9tScoCXX8PD65wEWRNqxrNwj4+QJOFoKikGDVovSrwtmRqM1y3EhJxkW/Iuvi9VWrfEc718EI6GDTZcmrPLeJDSXS5V/Mg9p8z0pmfLOM/Vz557R42alBE66XrDEFN3C32yDhC9R48LW0PfEKhBop/6pHgXIWekx9AE2eoBN52YSWGwik1RZTYbd/V6I/bxfveAloswWB7Op526ruba5LVAcvAucdin+sL51U9RluFFAOLS9ToQGLXuniVpxNCghvGOi29IHqpuETmknIBr3rlTdey80yal+71suaY3haud13h3Y14ZvfptOj6RPDb6W8YiDEnFK4XlC1WzjwfWyBL53snDhttSnH/kw==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2020 19:43:44.3858
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83d61331-fe82-4e2f-d10f-08d7bfab2f09
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5932
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=MBjQAwBE6evotQu17DA/nZgkRX6VmALkYbtpzwSjpI4=;
+        b=b2ErSXWzLQfwHd5aMCq61OGoq7NErYgJMVJDcRSvBNI9vMm1FAo5K4EQJmnMCGramR
+         Hi5CkzJopvCzHly1RFqKEpsZ1bb0cqWERYo6/wocPjYBVZWN+/LVAh1u+J6fQb8uGrZn
+         Yp8GBpGDSDa2PnHMi8gH57TTyvV8odyhDQ9vqcOgVt6HHXRxyUFjIEMbotIEC7Ix7CuC
+         grMKoFNOzxIRW/sih9GBDyNbgm5omRSrYR0Y1RUEHNNfda+543sm2MdhuymJ5pNxvQ9A
+         ZTp2D+SsxvdzMAR/l5KCCCvEzN6qHGs0bWDQEV2nWLERX1zOHQ/eyFqzwPXMKBW+vVKO
+         fb+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MBjQAwBE6evotQu17DA/nZgkRX6VmALkYbtpzwSjpI4=;
+        b=L/DEHU/7hmrJW7ut/Ie/WSmK7bfaPGP7q0I9ZCysU1xPNB5QN9PHC1uMVMNrWzM7q0
+         77S5fvhX+ZkfST25r2pKtSePUGJ/E6Ae71wUx5u+kj7IXZljSuBMBsAondTF8pIQQ1EH
+         MeTf80qk5SfGv24bwpZWgSoa2MveYoIAUuL3ODbXWrKGiH5Fvw+bsF1frQ1DyEIlgsxS
+         hrFGaTpNoGQmiDo03s7R8W6imsCoesTYuye2C9zrkeyg76x/NhQA0nLaOTdPL0U4KED7
+         wJ1mJY09WzmGSvYHlewWVjHjRH/msb8Ig9Y8J2hl78Vr0nzmI5xdKZDwWsEe+lFX67Ig
+         8EWA==
+X-Gm-Message-State: ANhLgQ19C3R7HmpxuDlThOUFrg2H9qwWOpVksZo4XVwXG7+Mx3CouB+H
+        SD1fSJnCDRSb8sT4ZnGhAMsIkUPbILU=
+X-Google-Smtp-Source: ADFU+vtyW5qWMEKdfPoC3fBmIiX6h9LVmC5oWza5MPmAlr/EdtkSPcdKl+dUYY/e4pdBpvsS13qkQg==
+X-Received: by 2002:a17:90a:e795:: with SMTP id iz21mr19546pjb.81.1583278986112;
+        Tue, 03 Mar 2020 15:43:06 -0800 (PST)
+Received: from mappy.sklembedded.com ([2605:e000:d445:6a00:8145:3904:f092:dd35])
+        by smtp.gmail.com with ESMTPSA id q66sm23540009pgq.50.2020.03.03.15.43.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2020 15:43:05 -0800 (PST)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v4 00/17]  media: imx: Create media links in bound notifiers
+Date:   Tue,  3 Mar 2020 15:42:39 -0800
+Message-Id: <20200303234256.8928-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Move media link creation into the notifier bound callbacks in the
+minimum set of subdevices required by imx (imx5/6/7 CSI,
+imx6/7 MIPI CSI-2, and video mux).
 
-On Mon, 2020-03-02 at 02:33:18 -0800, Kieran Bingham wrote:
-> Hi Hyun,
-> 
-> On 28/02/2020 18:13, Hyun Kwon wrote:
-> > Hi Kieran,
-> > 
-> > Thanks for sharing a patch.
-> > 
-> > Sorry for late response. I'm trying this driver along with Xilinx MIPI
-> > pipeline and GMSL sensors with max96705. I wanted to confirm a few things
-> > before replying. It's still on going, but replying before it gets too late.
-> > Mostly it's questions and looking for some input.
-> 
-> Not too late at all.
-> 
-> We're very pleased to get input from other users and system configurations!
-> 
-> 
-> > On Fri, 2020-02-14 at 03:54:19 -0800, Kieran Bingham wrote:
-> >> Small update,
-> >>
-> >> On 14/02/2020 10:31, Kieran Bingham wrote:
-> >>> The MAX9286 is a 4-channel GMSL deserializer with coax or STP input and
-> >>> CSI-2 output. The device supports multicamera streaming applications,
-> >>> and features the ability to synchronise the attached cameras.
-> >>>
+History:
 
-[snip]
+v4:
+- Removed the endpoint parsing callback APIs from video-mux and imx drivers
+  as suggested by Sakari, replacing with endpoint parsing local to the
+  drivers and the use of v4l2_async_notifier_add_fwnode_remote_subdev().
+  As a result convenience function v4l2_async_register_fwnode_subdev()
+  is no longer used and is reverted.
 
-> >>> +// SPDX-License-Identifier: GPL-2.0+
-> >>> +/*
-> >>> + * Maxim MAX9286 GMSL Deserializer Driver
-> >>> + *
-> > 
-> > [snip]
-> > 
-> >>> +
-> >>> +static const struct v4l2_async_notifier_operations max9286_notify_ops = {
-> >>> +	.bound = max9286_notify_bound,
-> >>> +	.unbind = max9286_notify_unbind,
-> >>> +};
-> >>> +
-> >>> +static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
-> >>> +{
-> >>> +	struct device *dev = &priv->client->dev;
-> >>> +	struct max9286_source *source = NULL;
-> >>> +	int ret;
-> >>> +
-> >>> +	if (!priv->nsources)
-> >>> +		return 0;
-> >>> +
-> >>> +	v4l2_async_notifier_init(&priv->notifier);
-> >>> +
-> >>> +	for_each_source(priv, source) {
-> >>> +		unsigned int i = to_index(priv, source);
-> >>> +
-> >>> +		source->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> >>> +		source->asd.match.fwnode = source->fwnode;
-> >>> +
-> >>> +		ret = v4l2_async_notifier_add_subdev(&priv->notifier,
-> >>> +						     &source->asd);
-> >>> +		if (ret) {
-> >>> +			dev_err(dev, "Failed to add subdev for source %d", i);
-> >>> +			v4l2_async_notifier_cleanup(&priv->notifier);
-> >>> +			return ret;
-> >>> +		}
-> >>> +
-> >>> +		/*
-> >>> +		 * Balance the reference counting handled through
-> >>> +		 * v4l2_async_notifier_cleanup()
-> >>> +		 */
-> >>> +		fwnode_handle_get(source->fwnode);
-> >>> +	}
-> >>> +
-> >>> +	priv->notifier.ops = &max9286_notify_ops;
-> >>> +
-> >>> +	ret = v4l2_async_subdev_notifier_register(&priv->sd, &priv->notifier);
-> >>> +	if (ret) {
-> >>> +		dev_err(dev, "Failed to register subdev_notifier");
-> >>> +		v4l2_async_notifier_cleanup(&priv->notifier);
-> >>> +		return ret;
-> >>> +	}
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> > 
-> > This was giving me some touble because this subdev notifier chain is a part
-> > of a bigger graph (Xilinx Video pipeline graph). Those are defined using
-> > same graph bindings, hence conflicting each other. For now, in order to 
-> > work around, I'm calling bound of subdev notifier if there's any match 
-> > already in parent's done list [1]. Do you have any input how this should be
-> > handled properly?
-> 
-> I suspect that it is likely your existing framework is matching at the
-> device level instead of the endpoint level, as it sounds like a topic we
-> hit on both this GMSL implementation and the ADV748x, but I'll have to
-> take a deeper look to be sure.
-> 
+v3:
+- The changes to the default behaviour in media_entity_get_fwnode_pad(),
+  and the fixes to current media drivers that call it inconsistently, have
+  been put-off to another time. Instead this version implements the
+  get_fwnode_pad operation where required in the imx and video-mux
+  subdevices to make media link creation work correctly. The
+  improvements to media_entity_get_fwnode_pad() can wait to another
+  patch series.
 
-The problem with subdev notifier is, for example, the Xilinx platform parses
-and registers a notifier for the entire pipeline. The current single stream
-(to be simpler for problem description) pipeline looks like,
+v2:
+- rename/move the notifier-to-state inlines in imx7-mipi-csis.c and
+  imx7-media-csi.c, suggested by Rui Silva.
+- rewrite imx_media_create_links() to only add the missing media links
+  from the imx6 MIPI CSI-2 receiver.
 
-	sensor -> serializer -> deserializer -> mipi -> scaler -> dma
 
-If the max9286 registers the subdev notifier within the video dev notifier,
-it never gets to match and notified because the bound subdev is already
-moved out of subdev list to the notifier done list. I feel v4l2-async should
-be able to identify this and complete the subdev notifier if it's already
-a part of bigger one. Let me see if I can figure out any sensible fix.
+Steve Longerbeam (17):
+  media: entity: Pass entity to get_fwnode_pad operation
+  media: video-mux: Parse information from firmware without using
+    callbacks
+  media: imx: Parse information from firmware without using callbacks
+  Revert "media: v4l2-fwnode: Add a convenience function for registering
+    subdevs with notifiers"
+  media: imx: csi: Implement get_fwnode_pad op
+  media: imx: mipi csi-2: Implement get_fwnode_pad op
+  media: video-mux: Implement get_fwnode_pad op
+  media: imx: Add imx_media_create_fwnode_pad_link()
+  media: video-mux: Create media links in bound notifier
+  media: imx: mipi csi-2: Create media links in bound notifier
+  media: imx7: mipi csis: Create media links in bound notifier
+  media: imx7: csi: Create media links in bound notifier
+  media: imx: csi: Create media links in bound notifier
+  media: imx: csi: Lookup upstream endpoint with
+    imx_media_get_pad_fwnode
+  media: imx: Create missing links from CSI-2 receiver
+  media: imx: silence a couple debug messages
+  media: imx: TODO: Remove media link creation todos
 
-> Matching should be done on endpoints, not devices as there could now be
-> multiple 'endpoints' connected to a single device.
-> 
-> 
-> The RCar-VIN platform now solely uses endpoint matching, and I believe
-> we may have to work through other platforms to update to the same approach.
-> 
-> 
-> A 'temporary' solution may be in the form of this patch:
-> 
-> https://git.linuxtv.org/sailus/media_tree.git/commit/?h=fwnode-const&id=35c32d99b2c3f5086b911ec817926de9b7bc3b41
-> 
-> Which I had mistakenly thought was already accepted for upstream but
-> appears to have stalled.
-> 
-> I'll follow this up separately to see what we need to do here.
-> 
+ drivers/media/mc/mc-entity.c                  |   2 +-
+ drivers/media/platform/video-mux.c            | 185 ++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  62 ------
+ drivers/staging/media/imx/TODO                |  29 ---
+ drivers/staging/media/imx/imx-media-csi.c     | 136 ++++++++-----
+ .../staging/media/imx/imx-media-dev-common.c  |  50 ++---
+ drivers/staging/media/imx/imx-media-dev.c     |   2 +-
+ .../staging/media/imx/imx-media-internal-sd.c |   6 +-
+ drivers/staging/media/imx/imx-media-of.c      | 114 -----------
+ drivers/staging/media/imx/imx-media-utils.c   | 124 ++++++++++++
+ drivers/staging/media/imx/imx-media.h         |   9 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    | 119 +++++++++--
+ drivers/staging/media/imx/imx7-media-csi.c    | 100 +++++++---
+ drivers/staging/media/imx/imx7-mipi-csis.c    | 105 +++++++---
+ include/media/media-entity.h                  |   3 +-
+ include/media/v4l2-fwnode.h                   |  38 ----
+ 16 files changed, 654 insertions(+), 430 deletions(-)
 
-This doesn't fix the issue completely, because the Xilinx platform layer uses
-the asd match node assuming it's device node. I can fix the Xilinx platform
-part. I'm going through some previous email threads / patches, trying to get
-better context.
-
-> 
-> >>> +
-> >>> +static void max9286_v4l2_notifier_unregister(struct max9286_priv *priv)
-> >>> +{
-> >>> +	if (!priv->nsources)
-> >>> +		return;
-> >>> +
-> >>> +	v4l2_async_notifier_unregister(&priv->notifier);
-> >>> +	v4l2_async_notifier_cleanup(&priv->notifier);
-> >>> +}
-> >>> +
-> > 
-> > [snip]
-> > 
-> >>> +};
-> >>> +
-
-[snip]
-
-> >>> +	/*
-> >>> +	 * Reverse channel setup.
-> >>> +	 *
-> >>> +	 * - Enable custom reverse channel configuration (through register 0x3f)
-> >>> +	 *   and set the first pulse length to 35 clock cycles.
-> >>> +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> >>> +	 *   high threshold enabled by the serializer driver.
-> >>> +	 */
-> >>> +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> >>> +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> >>> +		      MAX9286_REV_AMP_X);
-> >>> +	usleep_range(2000, 2500);
-> >>> +
-> >>> +	/*
-> >>> +	 * Enable GMSL links, mask unused ones and autodetect link
-> >>> +	 * used as CSI clock source.
-> >>> +	 */
-> >>> +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> >>> +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
-> >>> +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
-> >>> +
-> >>> +	/*
-> >>> +	 * Video format setup:
-> >>> +	 * Disable CSI output, VC is set according to Link number.
-> >>> +	 */
-> >>> +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> >>> +
-> >>> +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
-> >>> +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
-> >>> +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
-> >>> +		      MAX9286_DATATYPE_YUV422_8BIT);
-> >>> +
-> >>> +	/* Automatic: FRAMESYNC taken from the slowest Link. */
-> >>> +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> >>> +		      MAX9286_FSYNCMETH_AUTO);
-> >>> +
-> >>> +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> >>> +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
-> >>> +		      MAX9286_HVSRC_D14);
-> > 
-> > Some of these configs in fact need some handshake between serializer and
-> > de-serializer. For example, I had to invert vsync in serializer [3] to make
-> > it work with this patch.
-> > 
-> > In addition to that, I need a couple of additional programmings on max9286
-> > (registers 0x0 to 0x63/0x64- disable overlap window and 0xf4 to 0x1c which
-> > oddly change reserved bits) to get frames. The datasheet doesn't explain
-> > enough for me to understand. I'm talking to Maxim to get more details and
-> > see if those can be handled by serilizer driver.
-> 
-> It seems Jacopo also had to disable the overlap window for the RDACM21:
-> 
-> https://jmondi.org/cgit/linux/commit/?h=gmsl/jmondi/platform/rdacm21&id=576bbaee7cc707869a0c5e90befd99c9e2cf754e
-> 
-> Please let us know if you hear back from Maxim.
-> 
-> 
-> > In a longer term, it'd be nice if such alignment between serializer and
-> > de-serializer is handled in more scalable way.
-> 
-> I agree, We are currently trying to tackle similar issues between our
-> two current cameras "RDACM20" and "RDACM21" which have different
-> requirements for the two configurations so we are trying to look at ways
-> to handle that too.
-> 
-> In particular we also need to handle:
->  - Pixelrate control to determine CSI2 bus speed.
->  - Link amplitude and threshold levels
->  - Format differences
-> 
-> Are you still using the 'Sensing/Vision' (AR0231?) camera module that
-> Linaro were working with? (I currently have one, so let me know if you'd
-> like me to do any testing)
-> 
-> 
-> If they are of any use/reference to you, here are our current WIP
-> drivers for the RDACM20 [0] and RDACM21 [1] which Jacopo has been
-> developing which show how we currently separate the max9271 and sensor
-> packaging:
-
-Thanks for pointers. I was able to google-search some of those drivers already,
-but maybe this is latest.. :-) I also checked to get same sensors (vendor,
-distributor,,, and IdeasOnBoard as well :-)), but it's not available anymore.
-
-So the setup that I have now,
-
-	AR0231 -> AP0202 ISP -> MAX96705 -> MAX9286 -> Xilinx MIPI -> Xilinx pipeline / DMA
-
-Yesterday I was able to get correct frames, with some hacks and workarounds.
-Only missing things from this max9286 driver for my setup are,
-- disabling the overlap window
-- programming 0x1c register. I believe lower bits have something to do with
-three level BWS config, so changing from 0xf6 to 0xf4 changes from high
-bandwidth mode to 24 bit mode. But I couldn't get it working with high bandwidth
-mode (27 bit) yet.
-
-I got some response from Maxim, but haven't found clarifications yet.
-As mentioned above, what is the proposed way that is being looked for
-this ser-des config, if any? I can try and align max96705 driver implementation
-with it.
-
-Thanks,
--hyun
+-- 
+2.17.1
 
