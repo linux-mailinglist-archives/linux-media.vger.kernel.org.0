@@ -2,111 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 055F1177D46
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 18:22:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B75178261
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 20:03:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729862AbgCCRWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 12:22:12 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:35948 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729570AbgCCRWM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 12:22:12 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 023HMBTi113154;
-        Tue, 3 Mar 2020 11:22:11 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1583256131;
-        bh=SBRUU+j3XyFM6R2K8Qs7x9a1C38P7C+RT5tCbBFb0hI=;
-        h=From:To:CC:Subject:Date;
-        b=v7cg1KPn7IPdLZAVsY8/27/RR2l/nN/JHJRMrmyrf+EvYnjV8LHzuUAqDypAq5NQ+
-         U5M37Me3JuTQ+RqasRWnfiGIJJei/PY1n0I2SrZIT19bIbPQ0afRfGFO3Apd6e4KN/
-         oLSJ87u3nPajtUs3837qNK5DNjfYtJDlXqpYWiGs=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 023HMBKj077381
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 3 Mar 2020 11:22:11 -0600
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 3 Mar
- 2020 11:22:10 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 3 Mar 2020 11:22:10 -0600
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 023HMAq0014433;
-        Tue, 3 Mar 2020 11:22:10 -0600
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
-        <stable@vger.kernel.org>
-Subject: [Patch] media: ti-vpe: cal: fix a kernel oops when unloading module
-Date:   Tue, 3 Mar 2020 11:26:29 -0600
-Message-ID: <20200303172629.21339-1-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
+        id S2388150AbgCCSKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 13:10:39 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:40148 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731540AbgCCSKh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 13:10:37 -0500
+Received: by mail-vs1-f65.google.com with SMTP id c18so3029596vsq.7
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2020 10:10:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=QgZ4x7PUdJhcFxdGWxh4RMwvEJmeyeUD6keuap/gp+PwzmAgU26fGsg0okAGhB9RBw
+         u9HURaooHBL0Sv1XuCDTpyenkb4Q/klxbcgfM4FAkQyxXBhtAbr7hOFvaCTaHn8FPYNh
+         Mkm+rCw00LbI88EnG4Zid+qOnSUQhMwja4aG9nlwin+kJdRGuRR8NSzP4OYXPmJrXi5e
+         xEOFCEpv0QnSabO5dkMuNWC8Vj7ofkyu7TLr+6dp9FCB6AwCbg5MLH4sOWFvqnLlnpf5
+         iBL7xpfRup3b2Fj/b5GTjFIK4lE9dy0LTiKDtPB4hUojqycTnum445mgvFqqbe8Kn8RY
+         LJ0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=FYOTnEZgkZoEQ8FkIeQAyhpg3CJuDE4cP8+F3HIOq51wA9x1/vyi0+dHLEbtufOau8
+         bnKjhgjd5je++J0hu+5S39z0LRHlFMfxiYJJf18JlGcfcSZRQLQNrOuMDaSws95a0qgU
+         M9ZbfgfVsoF2lRX/S9ew61rKJXkfVH82/bLtuiUpUAIVxYkj1x1O4SUaqsgbwuzMnx0g
+         CB2+Dy31gf8U24Vcuv6kM00LhtD+nrWX8v7nbB0MFoQREbtYNyPdTAwYiO9+6M3IMVCr
+         bLVpKHeEsUggVojw0Q3bIY5aHTzaRuD+ZZsNxnOq3UQ8AbGV2F2C1sMhKNayLtcOjYY/
+         cK6g==
+X-Gm-Message-State: ANhLgQ3aM6+trE5exJHeVA2Q7nNNX+bik01HBxQpHogklp8qbl8OU07C
+        DkwobtzFF678kFCmE/8yrWhAHSc/XgX7QHoZAOM=
+X-Google-Smtp-Source: ADFU+vuAiA7TM8Z089v799AMLs03xboD3MQMi8U8VH4beI28hatwiwdCtvi16KzveHKYP5OCPAZme71JCk4ifTuHwz8=
+X-Received: by 2002:a05:6102:2268:: with SMTP id v8mr1783717vsd.90.1583259036519;
+ Tue, 03 Mar 2020 10:10:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: by 2002:ab0:2a59:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:10:34 -0800 (PST)
+Reply-To: dr.challynoah@gmail.com
+From:   DR CHALLY NOAH <official.dhlexpress@gmail.com>
+Date:   Tue, 3 Mar 2020 19:10:34 +0100
+Message-ID: <CAJ-5BZF=yupAt--dinnuyRosfGk2tZ_5Q1t-FwOUrdQ+XUXafg@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the switch to use v4l2_async_notifier_add_subdev() and
-v4l2_async_notifier_cleanup(), unloading the ti_cal module would casue a
-kernel oops.
-
-This was root cause to the fact that v4l2_async_notifier_cleanup() tries
-to kfree the asd pointer passed into v4l2_async_notifier_add_subdev().
-
-In our case the asd reference was from a statically allocated struct.
-So in effect v4l2_async_notifier_cleanup() was trying to free a pointer
-that was not kalloc.
-
-So here we switch to using a kzalloc struct instead of a static one.
-
-Fixes: d079f94c9046 ("media: platform: Switch to v4l2_async_notifier_add_subdev")
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
- drivers/media/platform/ti-vpe/cal.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 6d4cbb8782ed..18fe2cb9dd17 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -372,8 +372,6 @@ struct cal_ctx {
- 	struct v4l2_subdev	*sensor;
- 	struct v4l2_fwnode_endpoint	endpoint;
- 
--	struct v4l2_async_subdev asd;
--
- 	struct v4l2_fh		fh;
- 	struct cal_dev		*dev;
- 	struct cc_data		*cc;
-@@ -2032,7 +2030,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
- 
- 	parent = pdev->dev.of_node;
- 
--	asd = &ctx->asd;
- 	endpoint = &ctx->endpoint;
- 
- 	ep_node = NULL;
-@@ -2040,6 +2037,10 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
- 	sensor_node = NULL;
- 	ret = -EINVAL;
- 
-+	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
-+	if (!asd)
-+		goto cleanup_exit;
-+
- 	ctx_dbg(3, ctx, "Scanning Port node for csi2 port: %d\n", inst);
- 	for (index = 0; index < CAL_NUM_CSI2_PORTS; index++) {
- 		port = of_get_next_port(parent, port);
--- 
-2.17.1
-
+Hello Dear,
+What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
+This said fund was issued out by the UNITED NATIONS To compensate
+you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
+at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
+fund (award)release to you or better still reply back Immediately You
+Receive This Information For An Urgent Confirmation And Release Of Your
+Fund To You Without Delays, as your email was listed among those to be
+compensated this year.Congratulations..
+Best Regards,
+Dr Chally Noah.
+Minister Of Finance On Foreign Remittance:
