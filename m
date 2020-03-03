@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9313B1774ED
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 12:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14AF41774EE
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 12:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728101AbgCCLCE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728102AbgCCLCE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 3 Mar 2020 06:02:04 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46135 "EHLO
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58841 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727970AbgCCLCD (ORCPT
+        by vger.kernel.org with ESMTP id S1728023AbgCCLCD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 3 Mar 2020 06:02:03 -0500
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:d0e2:a5af:5d0f:8e60])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 95JIjjGK0EE3q95JJjzPPs; Tue, 03 Mar 2020 12:02:01 +0100
+        id 95JIjjGK0EE3q95JJjzPQ0; Tue, 03 Mar 2020 12:02:01 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583233321; bh=F2vcK36o2wdJW4t3vuT3zm9xxyFiPtkoebbz/0k3YOs=;
+        t=1583233321; bh=CKcfMbIToKzNQjc+kXY4yhV+jic7THvcvIwi0ZB0XnI=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=Qwz2Q2hTDxfROlKTS//6btl6V1o+lZHZHPEV5NZrR6GP110iz6xphBSkIwPjEtfpK
-         2yG8DPAYFFV1/0GSfAaZ/V/jc8ctgOSA43zspHxGIFjDw/1DVjDJdkcK0kqMBuylAS
-         6Cra6laZp8H/huOV8nqUNoY/rlPWDWLrHw1x9sSWufMVRj2R12nxlYSAEjFvTA2cdO
-         4ngfuKZtJQefeVrIOuIh8JVw04n3haaTNJV6I/ppjsXM8Fa/j8tixQj37jU4oJZcEk
-         1BOkJSbRxZvFt86UVTt4Wv9mUCWkCsZHEO70kU9mOueKzYJbGGUA03LO8vi3Yxy21z
-         mxM/KPJaXtvWg==
+        b=A1VFIWVuo1QGrlsymZACj8WKDq371CbGK/t+1l5SB1F8HaDkLvACo7XdRht9WYdEg
+         ftIl97qLH1fBbOOTaKGwp7Z/acA9yx+8lHKDz2/M86TF2eQknuiiBkTCeU+y2i4JdD
+         WKT5OZ+tFe35q4x3iH/BnMgNXKOIoJAbpTHtwHwuaSe3MdjEqkXtTkpQ66jXl3ruhg
+         MyXPxryRvbHe/jmUZW0AEVdMQU242zv60O3UH58sCQWK0/jF6ibApZT1LAslydT2K0
+         G5ZWAjhdyE7W7eSfCf6iDG5Av5fhHuPPTuW+tlhgwWN+LcevlCO5o/cNLlZI0EQavh
+         NwKSDKUO3q7yw==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Ricardo Ribalda Delgado <ribalda@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/2] v4l2-ctrls: v4l2_ctrl_g/s_ctrl*(): don't continue when WARN_ON
-Date:   Tue,  3 Mar 2020 12:01:59 +0100
-Message-Id: <20200303110200.2571176-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/2] v4l2-ctrls: add __v4l2_ctrl_s_ctrl_compound()
+Date:   Tue,  3 Mar 2020 12:02:00 +0100
+Message-Id: <20200303110200.2571176-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200303110200.2571176-1-hverkuil-cisco@xs4all.nl>
 References: <20200303110200.2571176-1-hverkuil-cisco@xs4all.nl>
@@ -46,81 +46,123 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the v4l2_ctrl_g_ctrl*() or __v4l2_ctrl_s_ctrl*() functions
-are called for the wrong control type then they call WARN_ON
-since that is a driver error. But they still continue, potentially
-overwriting data. Change this to return an error (s_ctrl) or 0
-(g_ctrl), just to be safe.
+Rather than creating new compound control helpers for each new
+type, create one generic function and just create defines on
+top.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-ctrls.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 10 +++---
+ include/media/v4l2-ctrls.h           | 49 ++++++++++++++++------------
+ 2 files changed, 34 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 2928c5e0a73d..d3bacf6b59d6 100644
+index d3bacf6b59d6..68684fcbdc61 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -3794,7 +3794,8 @@ s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl)
- 	struct v4l2_ext_control c;
+@@ -4248,18 +4248,18 @@ int __v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
+ }
+ EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_string);
  
- 	/* It's a driver bug if this happens. */
--	WARN_ON(!ctrl->is_int);
-+	if (WARN_ON(!ctrl->is_int))
-+		return 0;
- 	c.value = 0;
- 	get_ctrl(ctrl, &c);
- 	return c.value;
-@@ -3806,7 +3807,8 @@ s64 v4l2_ctrl_g_ctrl_int64(struct v4l2_ctrl *ctrl)
- 	struct v4l2_ext_control c;
- 
- 	/* It's a driver bug if this happens. */
--	WARN_ON(ctrl->is_ptr || ctrl->type != V4L2_CTRL_TYPE_INTEGER64);
-+	if (WARN_ON(ctrl->is_ptr || ctrl->type != V4L2_CTRL_TYPE_INTEGER64))
-+		return 0;
- 	c.value64 = 0;
- 	get_ctrl(ctrl, &c);
- 	return c.value64;
-@@ -4215,7 +4217,8 @@ int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val)
+-int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
+-			    const struct v4l2_area *area)
++int __v4l2_ctrl_s_ctrl_compound(struct v4l2_ctrl *ctrl,
++				enum v4l2_ctrl_type type, const void *p)
+ {
  	lockdep_assert_held(ctrl->handler->lock);
  
  	/* It's a driver bug if this happens. */
--	WARN_ON(!ctrl->is_int);
-+	if (WARN_ON(!ctrl->is_int))
-+		return -EINVAL;
- 	ctrl->val = val;
+-	if (WARN_ON(ctrl->type != V4L2_CTRL_TYPE_AREA))
++	if (WARN_ON(ctrl->type != type))
+ 		return -EINVAL;
+-	*ctrl->p_new.p_area = *area;
++	memcpy(ctrl->p_new.p, p, ctrl->elems * ctrl->elem_size);
  	return set_ctrl(NULL, ctrl, 0);
  }
-@@ -4226,7 +4229,8 @@ int __v4l2_ctrl_s_ctrl_int64(struct v4l2_ctrl *ctrl, s64 val)
- 	lockdep_assert_held(ctrl->handler->lock);
+-EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_area);
++EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_compound);
  
- 	/* It's a driver bug if this happens. */
--	WARN_ON(ctrl->is_ptr || ctrl->type != V4L2_CTRL_TYPE_INTEGER64);
-+	if (WARN_ON(ctrl->is_ptr || ctrl->type != V4L2_CTRL_TYPE_INTEGER64))
-+		return -EINVAL;
- 	*ctrl->p_new.p_s64 = val;
- 	return set_ctrl(NULL, ctrl, 0);
+ void v4l2_ctrl_request_complete(struct media_request *req,
+ 				struct v4l2_ctrl_handler *main_hdl)
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index 7db9e719a583..75a8daacb4c4 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -1113,45 +1113,54 @@ static inline int v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
  }
-@@ -4237,7 +4241,8 @@ int __v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
- 	lockdep_assert_held(ctrl->handler->lock);
  
- 	/* It's a driver bug if this happens. */
--	WARN_ON(ctrl->type != V4L2_CTRL_TYPE_STRING);
-+	if (WARN_ON(ctrl->type != V4L2_CTRL_TYPE_STRING))
-+		return -EINVAL;
- 	strscpy(ctrl->p_new.p_char, s, ctrl->maximum + 1);
- 	return set_ctrl(NULL, ctrl, 0);
- }
-@@ -4249,7 +4254,8 @@ int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
- 	lockdep_assert_held(ctrl->handler->lock);
+ /**
+- * __v4l2_ctrl_s_ctrl_area() - Unlocked variant of v4l2_ctrl_s_ctrl_area().
++ * __v4l2_ctrl_s_ctrl_compound() - Unlocked variant to set a compound control
+  *
+- * @ctrl:	The control.
+- * @area:	The new area.
++ * @ctrl: The control.
++ * @type: The type of the data.
++ * @p:    The new compound payload.
+  *
+- * This sets the control's new area safely by going through the control
+- * framework. This function assumes the control's handler is already locked,
+- * allowing it to be used from within the &v4l2_ctrl_ops functions.
++ * This sets the control's new compound payload safely by going through the
++ * control framework. This function assumes the control's handler is already
++ * locked, allowing it to be used from within the &v4l2_ctrl_ops functions.
+  *
+- * This function is for area type controls only.
++ * This function is for compound type controls only.
+  */
+-int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
+-			    const struct v4l2_area *area);
++int __v4l2_ctrl_s_ctrl_compound(struct v4l2_ctrl *ctrl,
++				enum v4l2_ctrl_type type, const void *p);
  
- 	/* It's a driver bug if this happens. */
--	WARN_ON(ctrl->type != V4L2_CTRL_TYPE_AREA);
-+	if (WARN_ON(ctrl->type != V4L2_CTRL_TYPE_AREA))
-+		return -EINVAL;
- 	*ctrl->p_new.p_area = *area;
- 	return set_ctrl(NULL, ctrl, 0);
+ /**
+- * v4l2_ctrl_s_ctrl_area() - Helper function to set a control's area value
+- *	 from within a driver.
++ * v4l2_ctrl_s_ctrl_compound() - Helper function to set a compound control
++ *	from within a driver.
+  *
+- * @ctrl:	The control.
+- * @area:	The new area.
++ * @ctrl: The control.
++ * @type: The type of the data.
++ * @p:    The new compound payload.
+  *
+- * This sets the control's new area safely by going through the control
+- * framework. This function will lock the control's handler, so it cannot be
+- * used from within the &v4l2_ctrl_ops functions.
++ * This sets the control's new compound payload safely by going through the
++ * control framework. This function will lock the control's handler, so it
++ * cannot be used from within the &v4l2_ctrl_ops functions.
+  *
+- * This function is for area type controls only.
++ * This function is for compound type controls only.
+  */
+-static inline int v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
+-					const struct v4l2_area *area)
++static inline int v4l2_ctrl_s_ctrl_compound(struct v4l2_ctrl *ctrl,
++					    enum v4l2_ctrl_type type,
++					    const void *p)
+ {
+ 	int rval;
+ 
+ 	v4l2_ctrl_lock(ctrl);
+-	rval = __v4l2_ctrl_s_ctrl_area(ctrl, area);
++	rval = __v4l2_ctrl_s_ctrl_compound(ctrl, type, p);
+ 	v4l2_ctrl_unlock(ctrl);
+ 
+ 	return rval;
  }
+ 
++/* Helper defines for area type controls */
++#define __v4l2_ctrl_s_ctrl_area(ctrl, area) \
++	__v4l2_ctrl_s_ctrl_compound((ctrl), V4L2_CTRL_TYPE_AREA, (area))
++#define v4l2_ctrl_s_ctrl_area(ctrl, area) \
++	v4l2_ctrl_s_ctrl_compound((ctrl), V4L2_CTRL_TYPE_AREA, (area))
++
+ /* Internal helper functions that deal with control events. */
+ extern const struct v4l2_subscribed_event_ops v4l2_ctrl_sub_ev_ops;
+ 
 -- 
 2.25.1
 
