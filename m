@@ -2,82 +2,428 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88364177027
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 08:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE67C177036
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 08:38:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727576AbgCCHbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 02:31:51 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:44960 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725440AbgCCHbv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 02:31:51 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0237SxlU161498;
-        Tue, 3 Mar 2020 07:31:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=q2xPT9aYNv3n8ZfbCyQkPK3lG0v/KfOw17OG2y43ouA=;
- b=clazJIw9QKA1LS2JcBCSwDo6RCy38LJqZeSX71syR4OWyPTl1UZ6EDaDQGervp0qrr5o
- Ra33/G7tRI9txfWc81DgSBDgSZtoouNXsczcUPwlr5CQprs8cfk6KAsDmLHlGLBCgV5f
- sX8v2pRMzQ6rCR2mCb0c+DKaLtmtU6JAhsi5AoZya0t3ZNZZC8bwClD5iThdlHOOYRMV
- hBTfNT/d6BcRrBftN7l4R293M38VPCVVypwks9GZl0y9ht5V8Iyq5j2Rz3YmBxOt78E1
- OcsWLsLsDgw/uqf4MKa+ThStta9ofm0wLct7VKx6Wj2e5hW3sNs5U0UmbSOz1L95nExQ nQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 2yghn30x8v-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 03 Mar 2020 07:31:46 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0237QY5S048923;
-        Tue, 3 Mar 2020 07:31:46 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2yg1ek1wt6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 03 Mar 2020 07:31:46 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0237Vhlm017290;
-        Tue, 3 Mar 2020 07:31:45 GMT
-Received: from kadam (/129.205.23.165)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 02 Mar 2020 23:31:43 -0800
-Date:   Tue, 3 Mar 2020 10:31:34 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: staging: tegra-vde: Use
- devm_platform_ioremap_resource_byname()
-Message-ID: <20200303073134.GF4118@kadam>
-References: <20200302172904.460-1-digetx@gmail.com>
+        id S1727507AbgCCHic (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 02:38:32 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:40441 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725440AbgCCHib (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 02:38:31 -0500
+Received: by mail-oi1-f194.google.com with SMTP id j80so2040722oih.7;
+        Mon, 02 Mar 2020 23:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EQFa0PGEVH+ylPpWCimcqzcHwOao0+0fizXOf3LWVYA=;
+        b=OqqdVOnBXPOI/Za7qOhL80BWo6iJ5b52itgAX9O97ScKiqDKvEXF39kjgkbKRXl14h
+         W1Xs6HvNypF1PCGSkYzRXKe5tfmKpuqgYC5tjkXa447t6MyqwwobBfmlEs5wlrspvLrB
+         pesxF2UQxLk85VxC/k6PkkQmlHT6Ww2P3q5pU9lSyu70xmTVZs/0LRUROa+16An4QjUF
+         1SuYxu0WBa1KL8D+W5UweNZKKKXTsfAfI4yTlHHX7XRW6Wec38JiY1nEetvpAFvx90qS
+         EHGTnN7NeKMI0zcUB9XE3Sjjy5Lx13trFya22UhAGfTrhd+XHubgMbPVAl3lWCIqk/rF
+         telQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EQFa0PGEVH+ylPpWCimcqzcHwOao0+0fizXOf3LWVYA=;
+        b=ckQKo2kXA+QZqkE2zWPqO8YIHcL55GULicNhya1gnx7kgRrx3gjg4SOEqPJnEK7Jn8
+         bIn2qFaRMAjikxz8eja+1G33LCgMTt0Qlolf7l4EdxWt51ujY0ZOvVM4sUpetv43HMPw
+         5ZRC8MAlfvJQh8zFNZzFSQnQG3ec4VFbYyEnYsfzgiuLKLMTQXcDKMKh5tqj97pAx1Uc
+         LYVXOEy6I2tnL9Mcm6r7cQMhRxG9CqeLu5N8o5nmqmatPu8JvF98WHnMJCcxK1Wl2ead
+         rmuIWXsc0gA5ydi7HDRG4+Q+JJHwWA6l6CTvFjdrc+Zyk7XKSSpc26x13u2kSuV67muB
+         qgDA==
+X-Gm-Message-State: ANhLgQ2M+0k4SSDro/dcWqyheLVsdXXkxgxJoTmpU3ztW4XolVkLiw5f
+        q8u7YISaBjeIX9MRDdSGmI7jXLdFWI2/QM7804A=
+X-Google-Smtp-Source: ADFU+vtlW9qNlfLQawsWmQQC7jClJD2+bd4pDheDe3z0ZrOrOenpUV1YNHIj9ry8VHXzDjDAKXLQN+ZyF8nOLnKJOZU=
+X-Received: by 2002:aca:f405:: with SMTP id s5mr1593453oih.93.1583221110274;
+ Mon, 02 Mar 2020 23:38:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200302172904.460-1-digetx@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9548 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003030057
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9548 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 spamscore=0
- impostorscore=0 mlxscore=0 adultscore=0 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003030057
+References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200228165503.18054-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <830c49f7-74b4-c6c3-7883-ec0f967ec730@linaro.org>
+In-Reply-To: <830c49f7-74b4-c6c3-7883-ec0f967ec730@linaro.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 3 Mar 2020 07:38:04 +0000
+Message-ID: <CA+V-a8sj5xdFVybT-SBgNGLFQOBoa+D84vto+e_JyOiirB0BdQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: i2c: imx219: Add support for SRGGB8_1X8 format
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks!
+Hi Andrey,
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Thank you for the review.
 
-regards,
-dan carpenter
+On Mon, Mar 2, 2020 at 3:13 PM Andrey Konovalov
+<andrey.konovalov@linaro.org> wrote:
+>
+> Hi Lad,
+>
+> Thanks for the patch!
+>
+> On 28.02.2020 19:55, Lad Prabhakar wrote:
+> > imx219 sensor is capable for RAW8/RAW10 modes, this commit adds support
+> > for SRGGB8_1X8 format.
+>
+> ... but not for SGRBG8_1X8, SGBRG8_1X8, and SBGGR8_1X8?
+>
+Yes, will update the commit  message.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >   drivers/media/i2c/imx219.c | 122 +++++++++++++++++++++++++++++--------
+> >   1 file changed, 96 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index 8b48e148f2d0..1388c9bc00bb 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -90,6 +90,9 @@
+> >
+> >   #define IMX219_REG_ORIENTATION              0x0172
+> >
+> > +#define IMX219_CSI_DATA_FORMAT_A_0_7 0x018c
+> > +#define IMX219_CSI_DATA_FORMAT_A_8_15        0x018d
+> > +
+> >   /* Test Pattern Control */
+> >   #define IMX219_REG_TEST_PATTERN             0x0600
+> >   #define IMX219_TEST_PATTERN_DISABLE 0
+> > @@ -135,6 +138,16 @@ struct imx219_mode {
+> >       struct imx219_reg_list reg_list;
+> >   };
+> >
+> > +struct imx219_pixfmt {
+> > +     u32 code;
+> > +     u32 colorspace;
+> > +};
+> > +
+> > +static const struct imx219_pixfmt imx219_formats[] = {
+> > +     { MEDIA_BUS_FMT_SRGGB8_1X8, V4L2_COLORSPACE_SRGB, },
+> > +     { MEDIA_BUS_FMT_SRGGB10_1X10, V4L2_COLORSPACE_SRGB },
+> > +};
+>
+> This table has only one (RGGB) layout (out of 4 possible) for 8-bit and for 10-bit
+> modes.
+>
+> > +
+> >   /*
+> >    * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+> >    * driver.
+> > @@ -168,8 +181,6 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
+> >       {0x0171, 0x01},
+> >       {0x0174, 0x00},
+> >       {0x0175, 0x00},
+> > -     {0x018c, 0x0a},
+> > -     {0x018d, 0x0a},
+> >       {0x0301, 0x05},
+> >       {0x0303, 0x01},
+> >       {0x0304, 0x03},
+> > @@ -230,8 +241,6 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
+> >       {0x0171, 0x01},
+> >       {0x0174, 0x00},
+> >       {0x0175, 0x00},
+> > -     {0x018c, 0x0a},
+> > -     {0x018d, 0x0a},
+> >       {0x0301, 0x05},
+> >       {0x0303, 0x01},
+> >       {0x0304, 0x03},
+> > @@ -290,8 +299,6 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+> >       {0x0171, 0x01},
+> >       {0x0174, 0x01},
+> >       {0x0175, 0x01},
+> > -     {0x018c, 0x0a},
+> > -     {0x018d, 0x0a},
+> >       {0x0301, 0x05},
+> >       {0x0303, 0x01},
+> >       {0x0304, 0x03},
+> > @@ -413,6 +420,8 @@ struct imx219 {
+> >       struct v4l2_subdev sd;
+> >       struct media_pad pad;
+> >
+> > +     struct v4l2_mbus_framefmt fmt;
+> > +
+>
+> - adding the whole struct v4l2_mbus_framefmt for "is it RAW10 or RAW8" looks
+> like an overkill (and adds some duplication of code - see below).
+>
+> >       struct clk *xclk; /* system clock to IMX219 */
+> >       u32 xclk_freq;
+> >
+> > @@ -519,19 +528,26 @@ static int imx219_write_regs(struct imx219 *imx219,
+> >   }
+> >
+> >   /* Get bayer order based on flip setting. */
+> > -static u32 imx219_get_format_code(struct imx219 *imx219)
+> > +static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+>
+> Naming the 2nd argument as 'code' seems a bit confusing to me, as it
+> used to select between MEDIA_BUS_FMT_*_1X10 and MEDIA_BUS_FMT_*_1X8.
+> While the Bayer order depends on the current hflip/vflip settings
+> (they are stored in struct imx219).
+>
+Agreed, I shall replace it with something better.
+> >   {
+> > -     /*
+> > -      * Only one bayer order is supported.
+> > -      * It depends on the flip settings.
+> > -      */
+> > -     static const u32 codes[2][2] = {
+> > +     static const u32 codes10[2][2] = {
+> >               { MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
+> >               { MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
+> >       };
+> > +     static const u32 codes8[2][2] = {
+> > +             { MEDIA_BUS_FMT_SRGGB8_1X8, MEDIA_BUS_FMT_SGRBG8_1X8, },
+> > +             { MEDIA_BUS_FMT_SGBRG8_1X8, MEDIA_BUS_FMT_SBGGR8_1X8, },
+> > +     };
+> >
+> >       lockdep_assert_held(&imx219->mutex);
+> > -     return codes[imx219->vflip->val][imx219->hflip->val];
+> > +
+> > +     if (code == MEDIA_BUS_FMT_SRGGB10_1X10 ||
+> > +         code == MEDIA_BUS_FMT_SGRBG10_1X10 ||
+> > +         code == MEDIA_BUS_FMT_SGBRG10_1X10 ||
+> > +         code == MEDIA_BUS_FMT_SBGGR10_1X10)
+> > +             return codes10[imx219->vflip->val][imx219->hflip->val];
+> > +
+> > +     return codes8[imx219->vflip->val][imx219->hflip->val];
+> >   }
+>
+> Wouldn't extending the original table be a better and simpler solution?
+> Something like:
+>
+> static u32 imx219_get_format_code(struct imx219 *imx219, int is_8_bit)
+> {
+>         static const u32 codes[2][2][2] = {
+>                 {
+>                         { MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
+>                         { MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
+>                 },
+>                 {
+>                         { MEDIA_BUS_FMT_SRGGB8_1X8, MEDIA_BUS_FMT_SGRBG8_1X8, },
+>                         { MEDIA_BUS_FMT_SGBRG8_1X8, MEDIA_BUS_FMT_SBGGR8_1X8, },
+>                 },
+>         };
+>
+>         lockdep_assert_held(&imx219->mutex);
+>         return codes[is_8bit][imx219->vflip->val][imx219->hflip->val];
+> }
+>
+> "is_8bit" a member of struct imx219 which equals to 0 if the sensor if RAW10 mode,
+> and is 1 for RAW8 mode.
+>
+Agreed.
 
+> >
+> >   static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> > @@ -539,13 +555,26 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> >       struct imx219 *imx219 = to_imx219(sd);
+> >       struct v4l2_mbus_framefmt *try_fmt =
+> >               v4l2_subdev_get_try_format(sd, fh->pad, 0);
+> > +     struct v4l2_mbus_framefmt *fmt;
+> >
+> >       mutex_lock(&imx219->mutex);
+> >
+> > +     fmt = &imx219->fmt;
+> > +     fmt->code = MEDIA_BUS_FMT_SRGGB8_1X8;
+> > +     fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > +     fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
+> > +     fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
+> > +                                                       fmt->colorspace,
+> > +                                                       fmt->ycbcr_enc);
+> > +     fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
+> > +     fmt->width = supported_modes[0].width;
+> > +     fmt->height = supported_modes[0].height;
+> > +     fmt->field = V4L2_FIELD_NONE;
+> > +
+> >       /* Initialize try_fmt */
+> >       try_fmt->width = supported_modes[0].width;
+> >       try_fmt->height = supported_modes[0].height;
+> > -     try_fmt->code = imx219_get_format_code(imx219);
+> > +     try_fmt->code = imx219_get_format_code(imx219, fmt->code);
+> >       try_fmt->field = V4L2_FIELD_NONE;
+> >
+> >       mutex_unlock(&imx219->mutex);
+> > @@ -646,16 +675,12 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+> >                                struct v4l2_subdev_pad_config *cfg,
+> >                                struct v4l2_subdev_mbus_code_enum *code)
+> >   {
+> > -     struct imx219 *imx219 = to_imx219(sd);
+> > -
+> > -     /*
+> > -      * Only one bayer order is supported (though it depends on the flip
+> > -      * settings)
+> > -      */
+>
+> Guess the above comment still holds
+>
+> > -     if (code->index > 0)
+>
+> Though two media bus formats will be available: 8-bit and 10-bit ones, both
+> with the same Bayer order.
+>
+> > +     if (code->pad != 0)
+> > +             return -EINVAL;
+> > +     if (code->index >= ARRAY_SIZE(imx219_formats))
+> >               return -EINVAL;
+> >
+> > -     code->code = imx219_get_format_code(imx219);
+> > +     code->code = imx219_formats[code->index].code;
+>
+> This excludes all the Bayer orders except RGGB thus breaking the hflip/vflip support, right?
+>
+> I would better check (as the sensor can only support two media bus formats at a time):
+>         if (code->index > 1)
+>                 return -EINVAL;
+> and use imx219_get_format_code(struct imx219 *imx219, int is_8_bit) to set the code->code:
+>         code->code = imx219_get_format_code(imx219, code->index);
+>
+Yes agreed.
+
+> >
+> >       return 0;
+> >   }
+> > @@ -669,7 +694,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >       if (fse->index >= ARRAY_SIZE(supported_modes))
+> >               return -EINVAL;
+> >
+> > -     if (fse->code != imx219_get_format_code(imx219))
+> > +     if (fse->code != imx219_get_format_code(imx219, imx219->fmt.code))
+> >               return -EINVAL;
+> >
+> >       fse->min_width = supported_modes[fse->index].width;
+>
+> Looking at the "[PATCH 3/3] media: i2c: imx219: Add support 640x480",
+> the RAW8 mode is added to the end of the supported_modes[] array after the three RAW10 modes.
+> Guess this breaks VIDIOC_SUBDEV_ENUM_FRAME_SIZE ioctl for RAW8, as in the RAW8 case
+> it would return 0 (and the supported frame sizes) for fse->index=3 only, while for all
+> the other values, fse->index=0 included, it will return -EINVAL ...
+>
+Not really 640x480 can be either 8/10 bit.
+
+> > @@ -696,7 +721,7 @@ static void imx219_update_pad_format(struct imx219 *imx219,
+> >   {
+> >       fmt->format.width = mode->width;
+> >       fmt->format.height = mode->height;
+> > -     fmt->format.code = imx219_get_format_code(imx219);
+> > +     fmt->format.code = imx219_get_format_code(imx219, imx219->fmt.code);
+> >       fmt->format.field = V4L2_FIELD_NONE;
+> >
+> >       imx219_reset_colorspace(&fmt->format);
+> > @@ -710,7 +735,7 @@ static int __imx219_get_pad_format(struct imx219 *imx219,
+> >               struct v4l2_mbus_framefmt *try_fmt =
+> >                       v4l2_subdev_get_try_format(&imx219->sd, cfg, fmt->pad);
+> >               /* update the code which could change due to vflip or hflip: */
+> > -             try_fmt->code = imx219_get_format_code(imx219);
+> > +             try_fmt->code = imx219_get_format_code(imx219, try_fmt->code);
+> >               fmt->format = *try_fmt;
+> >       } else {
+> >               imx219_update_pad_format(imx219, imx219->mode, fmt);
+> > @@ -741,11 +766,19 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >       const struct imx219_mode *mode;
+> >       struct v4l2_mbus_framefmt *framefmt;
+> >       int exposure_max, exposure_def, hblank;
+> > +     int i;
+> >
+> >       mutex_lock(&imx219->mutex);
+> >
+> > +     for (i = 0; i < ARRAY_SIZE(imx219_formats); i++)
+> > +             if (imx219_formats[i].code == fmt->format.code)
+>
+> This excludes all the Bayer orders except RGGB thus breaking the hflip/vflip support, right?
+>
+Yes my bad.
+
+> > +                     break;
+> > +     if (i >= ARRAY_SIZE(imx219_formats))
+> > +             i = 0;
+> > +
+> >       /* Bayer order varies with flips */
+> > -     fmt->format.code = imx219_get_format_code(imx219);
+> > +     fmt->format.code = imx219_get_format_code(imx219,
+> > +                                               imx219_formats[i].code);
+> >
+> >       mode = v4l2_find_nearest_size(supported_modes,
+> >                                     ARRAY_SIZE(supported_modes),
+> > @@ -756,6 +789,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >               framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+> >               *framefmt = fmt->format;
+> >       } else if (imx219->mode != mode) {
+> > +             imx219->fmt = fmt->format;
+> >               imx219->mode = mode;
+> >               /* Update limits and set FPS to default */
+> >               __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> > @@ -786,6 +820,36 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+> >       return 0;
+> >   }
+> >
+> > +static int imx219_set_framefmt(struct imx219 *imx219)
+> > +{
+> > +     int ret;
+> > +
+> > +     switch (imx219->fmt.code) {
+> > +     case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +     case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +     case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +     case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +             ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
+> > +                                    IMX219_REG_VALUE_08BIT, 0x08);
+> > +             ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
+> > +                                    IMX219_REG_VALUE_08BIT, 0x08);
+> > +             break;
+> > +     case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +     case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +     case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +     case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +             ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
+> > +                                    IMX219_REG_VALUE_08BIT, 0x0a);
+> > +             ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
+> > +                                    IMX219_REG_VALUE_08BIT, 0x0a);
+> > +             break;
+> > +     default:
+> > +             ret = -EINVAL;
+> > +     }
+> > +
+> > +     return ret;
+> > +}
+> > +
+> >   static int imx219_start_streaming(struct imx219 *imx219)
+> >   {
+> >       struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+> > @@ -800,6 +864,12 @@ static int imx219_start_streaming(struct imx219 *imx219)
+> >               return ret;
+> >       }
+> >
+> > +     ret = imx219_set_framefmt(imx219);
+>
+> I just wonder if it makes sense to remove setting IMX219_CSI_DATA_FORMAT_A register
+> from the struct imx219_reg mode_x_y_regs[] tables and to introduce new imx219_set_framefmt()
+> function which is called right after the settings from the mode_x_y_regs[] are written
+> into the sensor, and is never called otherwise?
+>
+These register settings depend upon the format being set either
+8/10bit, as a result a imx219_set_framefmt()
+is introduced to set it accordingly just before starting the streaming.
+
+Cheers,
+--Prabhakar
+
+> > +     if (ret) {
+> > +             dev_err(&client->dev, "%s failed to set format\n", __func__);
+> > +             return ret;
+> > +     }
+> > +
+> >       /* Apply customized values from user */
+> >       ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
+> >       if (ret)
+> >
