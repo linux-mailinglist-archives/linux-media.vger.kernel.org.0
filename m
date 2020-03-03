@@ -2,104 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA1A317685A
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 00:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EA44176AB1
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 03:42:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726898AbgCBXk1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Mar 2020 18:40:27 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:38738 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726752AbgCBXk0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 18:40:26 -0500
-Received: by mail-oi1-f194.google.com with SMTP id 2so1121823oiz.5;
-        Mon, 02 Mar 2020 15:40:26 -0800 (PST)
+        id S1726988AbgCCCmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Mar 2020 21:42:33 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:35558 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726928AbgCCCmd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Mar 2020 21:42:33 -0500
+Received: by mail-qk1-f196.google.com with SMTP id 145so2015757qkl.2
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2020 18:42:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PxaU6jH+BrctxPkuy+TtnDFu4GnDn0I+fDbnzM1efjY=;
+        b=lPebr/apS3a3XvJ4XcWg2p+1jVRErhkCzaWWg6wU7yc5QNOeEvIf5BudVhVxW66Euf
+         /6ylI3gzJxuJK7fsCbK7mC/7V5Yx8ND0/jBwvSFydsUmqZf6y1sr7BGOQvcFetjCcXwO
+         arVONmL2HlRo7X9WIG9l6bIYjr03Nc0Y4hlBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9vV5PavoKMjDsMnqHBiR5ea2gdjD5MmrYM/2QvxafIs=;
-        b=dgq6O59wi5Y+WWE1ipZbc5pgbf9qBCAoZh7bRG6hnKFT54cnmn3q+VNLvrO2CrXGx2
-         0P8zan3yQ/mEo7Yva3ICpK4rLIRU35fo/IaYoogb93Hteen8CZ5sYZ8evAzJorpmlj/Z
-         sXwEF5zZVIgpWhtH1S6O7gWldE0iFviujigXJ8TLgJ4l90sCSilqkW3fEx9hrq5Xbjwx
-         EdXbJNMVYyLIgWOI0l/FXZB0Gu88Cb0pJtPLqO0d494+wJYiNcbYvpOUIBVwEWNRvC61
-         49X5bfHMEp+tKFWt8m45VFribaNeEV5KCrXzPTq2fp6RXJevQM/1cIq0R2Gk1XB/4JNu
-         UhQQ==
-X-Gm-Message-State: ANhLgQ3hbACVlRPOks4Xk49Intgx3TOPvGr3UQnyp5ph9+xoj7nVyF0N
-        6akUKM8Oa6MjyyC1EAr3yA==
-X-Google-Smtp-Source: ADFU+vtgcYVuJTNmsDp6or+nYg6nhWTDc+Rs/i0JWWu7H1wds1V1X0/hmCpu4JSt66QSVVmXpfJv+w==
-X-Received: by 2002:aca:c709:: with SMTP id x9mr609649oif.130.1583192425557;
-        Mon, 02 Mar 2020 15:40:25 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id j4sm3556682otr.30.2020.03.02.15.40.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 15:40:24 -0800 (PST)
-Received: (nullmailer pid 20489 invoked by uid 1000);
-        Mon, 02 Mar 2020 23:40:22 -0000
-Date:   Mon, 2 Mar 2020 17:40:22 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
-        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
-        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
-        laurent.pinchart@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        rdunlap@infradead.org, dri-devel@lists.freedesktop.org,
-        Weiyi Lu <weiyi.lu@mediatek.com>,
-        Seiya Wang <seiya.wang@mediatek.com>,
-        linux-clk@vger.kernel.org,
-        Collabora Kernel ML <kernel@collabora.com>,
-        mtk01761 <wendell.lin@mediatek.com>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>, wens@csie.org,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        sean.wang@mediatek.com, frank-w@public-files.de,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
-        Matthias Brugger <mbrugger@suse.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Richard Fontana <rfontana@redhat.com>,
-        linux-kernel@vger.kernel.org, matthias.bgg@kernel.org,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v11 2/5] dt-bindings: mediatek: Update mmsys binding to
- reflect it is a system controller
-Message-ID: <20200302234022.GA20424@bogus>
-References: <20200302110128.2664251-1-enric.balletbo@collabora.com>
- <20200302110128.2664251-3-enric.balletbo@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PxaU6jH+BrctxPkuy+TtnDFu4GnDn0I+fDbnzM1efjY=;
+        b=UroQILSMZ64qUCFdsHh0L/x98XG/h6kgoMTPbTxlFTW2KfCEBsYZkJg11um22AYgeJ
+         ar/URUp2bRpxlVGv+d0520zB1U+3kxDKE/BmmaDoDpT7FBOD7iZ9+9DCYkEuCbelwPrx
+         vWEhGXpVZ1ekcDjpG6uc4jJGhpzjaKU8dNy6c/o4ibROjEaPUIELv6DQazainEk51bGl
+         JHYClvVAVcoe8CEDjciwnvP9TO30vBLJbAHZ0P2bJVWkmqLtxPnJ8WLtZ5sSrN/8yYrU
+         KMMxOQ5A83xw8+EOE4fFp0590RveCCz7i7H4KFEr7E+y/QIoD3kjplZPyQfSdpkQdfSu
+         gYWw==
+X-Gm-Message-State: ANhLgQ2otcb0r3xxOVvq0b7SdYdFk598t9V4z/2DIDl8tHbNMxAk3j2k
+        vPQFllRMohHw/A1VyvC5HETvX8oDBDPKLijRi1c8DA==
+X-Google-Smtp-Source: ADFU+vv4vCMIfBV1h9ntADBFoWjuRnbldiM2bxqn1DU2ahDSFshoqIRAbcIuxA4EMjtDxDlwrF99sqmXWP5yAgEJ6LA=
+X-Received: by 2002:a37:9c01:: with SMTP id f1mr2223210qke.194.1583203352379;
+ Mon, 02 Mar 2020 18:42:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200302110128.2664251-3-enric.balletbo@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200302121524.7543-1-stevensd@chromium.org> <20200302121524.7543-5-stevensd@chromium.org>
+ <CAAfnVBk46vsP77hx3kUHqVCPG8Eakh7Kgi0kEHZtrHD-0bHzqQ@mail.gmail.com>
+In-Reply-To: <CAAfnVBk46vsP77hx3kUHqVCPG8Eakh7Kgi0kEHZtrHD-0bHzqQ@mail.gmail.com>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Tue, 3 Mar 2020 11:42:22 +0900
+Message-ID: <CAD=HUj5-0CE-tm4meQ_Y7KB4Df41v=kBH2GTStYJptTOSp1yVw@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH v2 4/4] drm/virtio: Support virtgpu exported resources
+To:     Gurchetan Singh <gurchetansingh@chromium.org>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        open list <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linaro-mm-sig@lists.linaro.org, virtio-dev@lists.oasis-open.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon,  2 Mar 2020 12:01:25 +0100, Enric Balletbo i Serra wrote:
-> The mmsys system controller is not only a pure clock controller, so
-> update the binding documentation to reflect that apart from providing
-> clocks, it also provides routing and miscellaneous control registers.
-> 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> ---
-> 
-> Changes in v11: None
-> Changes in v10:
-> - Update the binding documentation for the mmsys system controller.
-> 
-> Changes in v9: None
-> Changes in v8: None
-> Changes in v7: None
-> 
->  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.txt    | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
+> cmd_p->hdr.ctx_id =
+>
+> Before this completion of this hypercall, this resource can be
+> considered context local, while afterward it can be considered
+> "exported".
 
-Acked-by: Rob Herring <robh@kernel.org>
+Maybe I'm misunderstanding render contexts, but exporting a resource
+doesn't seem related to render contexts. The other resource management
+operations (e.g. creation, attaching a backing) don't take render
+contexts, and exporting a resource seems like the same sort of
+operation. It's not clear to me why exporting a resource would affect
+what render contexts a resource has been attached to, nor why the
+render contexts a resource has been attached to would affect exporting
+the resource. Also, from an implementation perspective, I don't see
+any struct virtio_gpu_fpriv to get the ctx_id from.
+
+-David
