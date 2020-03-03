@@ -2,262 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98933177BDD
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 17:27:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 055F1177D46
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 18:22:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730370AbgCCQ1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 11:27:45 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36749 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729598AbgCCQ1p (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Mar 2020 11:27:45 -0500
-Received: from [IPv6:2001:983:e9a7:1:8c14:57ad:bac0:273b]
- ([IPv6:2001:983:e9a7:1:8c14:57ad:bac0:273b])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 9AOTjVxLD9Im29AOUj0Rov; Tue, 03 Mar 2020 17:27:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583252863; bh=nAhBOqoyzWQYWQG4n4GW41XdU2zcOob4IDHwv5hiphE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=aPsO3Nb3X9N1nle9iqSnfoqJA1dSnYfjTYoY/2tACailVPzerPXtDr8uxHwsjdVs4
-         kK1WfHu7qZhMiObuE26XBwXrutS6BQ8/w/bGSomF2j2v+p95PZtBpptRk5kvw+aiu5
-         DdEiJqyJEvh/MVupiRKNavHf65lmJ6sFeKlPj5eekw3TG5NsxBFBfcbApsSO5rhwXM
-         Pg/a2PTU+nzVyUmLAAvUafhw2hMeBX7EvBfyssUU9HzlHVZhZGzIcWj1GCKVOus9RK
-         85f/tOYAXAIuBTMhGfVfvKrLkTr62U/HSjga9wssZMEo74/U/0l6bWVPzB+SvmVOUs
-         JZHDnAsar+RSA==
-Subject: Re: [PATCH v6 0/5] media: meson: vdec: Add VP9 decoding support
-To:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org,
-        hans.verkuil@cisco.com
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20200303143732.762-1-narmstrong@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <0935582a-ae80-f7b4-0616-a39c923a83f4@xs4all.nl>
-Date:   Tue, 3 Mar 2020 17:27:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1729862AbgCCRWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 12:22:12 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:35948 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729570AbgCCRWM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 12:22:12 -0500
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 023HMBTi113154;
+        Tue, 3 Mar 2020 11:22:11 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1583256131;
+        bh=SBRUU+j3XyFM6R2K8Qs7x9a1C38P7C+RT5tCbBFb0hI=;
+        h=From:To:CC:Subject:Date;
+        b=v7cg1KPn7IPdLZAVsY8/27/RR2l/nN/JHJRMrmyrf+EvYnjV8LHzuUAqDypAq5NQ+
+         U5M37Me3JuTQ+RqasRWnfiGIJJei/PY1n0I2SrZIT19bIbPQ0afRfGFO3Apd6e4KN/
+         oLSJ87u3nPajtUs3837qNK5DNjfYtJDlXqpYWiGs=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 023HMBKj077381
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Mar 2020 11:22:11 -0600
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 3 Mar
+ 2020 11:22:10 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 3 Mar 2020 11:22:10 -0600
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 023HMAq0014433;
+        Tue, 3 Mar 2020 11:22:10 -0600
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
+        <stable@vger.kernel.org>
+Subject: [Patch] media: ti-vpe: cal: fix a kernel oops when unloading module
+Date:   Tue, 3 Mar 2020 11:26:29 -0600
+Message-ID: <20200303172629.21339-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200303143732.762-1-narmstrong@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfI9Th6hScGEa34B7TzBU0TgiR6sHbtIhRNAiF/k7CcVyr+KPzf5Ajah5esVwuvE9+ztuscQZhb6cH4rQQ6YDwLyiClUwg8qAAlX79nbCJui1OnlkTMX2
- AZ4XyxoBv71Q+CzHm/g8WMaESXETdKV1L3h64/tMJ6oSxrCgExueFqL1wSA399siSgBrZaKVQVDnuHhahubrHaL0UN+mubUs6yu9KdL0UUvRZ81vuxRFAovj
- qJsdy5Jl7I7bShpbg0rxsKDRFsUe70K2R7QE6g2Ks+fzHXqn+VVB2ike5apOl64DG2UhKzyfjXGvvDuuNbxDPu9/RABLzMlzoaUfZG5y/Nqx9s2OtkF5qkAT
- uv2Rn+3qsZ2KS8ZFKVirLtrfiLB4bpVLG3atXAwl5cL7KE+L7lPqZb0/nu4UmQvE65CCJYi5ysb6kAczGHufYDeffUDrw5qy1LHz/i7tixdTZJzQzrpbE6S7
- nJeB1j7hcJYbMhu4r44BHoapZ0kkO16LpjMechhuH+7kApDdnBKjbqPWvyY=
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neil,
+After the switch to use v4l2_async_notifier_add_subdev() and
+v4l2_async_notifier_cleanup(), unloading the ti_cal module would casue a
+kernel oops.
 
-I still get sparse warnings:
+This was root cause to the fact that v4l2_async_notifier_cleanup() tries
+to kfree the asd pointer passed into v4l2_async_notifier_add_subdev().
 
-drivers/staging/media/meson/vdec/codec_hevc_common.h:15:18: warning: 'vdec_hevc_parser_cmd' defined but not used [-Wunused-const-variable=]
-drivers/staging/media/meson/vdec/esparser.c:83: warning: Function parameter or member 'core' not described in 'vp9_update_header'
-drivers/staging/media/meson/vdec/esparser.c:83: warning: Function parameter or member 'buf' not described in 'vp9_update_header'
-drivers/staging/media/meson/vdec/codec_vp9.c:1333: warning: Function parameter or member 'sess' not described in 'codec_vp9_fetch_rpm'
+In our case the asd reference was from a statically allocated struct.
+So in effect v4l2_async_notifier_cleanup() was trying to free a pointer
+that was not kalloc.
 
-They look trivial to fix to me.
+So here we switch to using a kzalloc struct instead of a static one.
 
-The v7 series is fine, but I prefer to wait until this v6 is OK as well so I can
-combine them in one PR.
+Fixes: d079f94c9046 ("media: platform: Switch to v4l2_async_notifier_add_subdev")
 
-Regards,
+Cc: stable@vger.kernel.org
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+---
+ drivers/media/platform/ti-vpe/cal.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-	Hans
-
-On 03/03/2020 15:37, Neil Armstrong wrote:
-> Hello,
-> 
-> This patchset aims to bring VP9 decoding support to Amlogic GXL, G12A & SM1
-> platforms for the amlogic stateful video decoder driver.
-> 
-> With this, it passes v4l2-compliance with streaming on Amlogic G12A and
-> Amlogic SM1 SoCs successfully using the stream at [1] with a fixed
-> pyv4l2compliance script for VP9 at [2].
-> 
-> The original script kept the IVF headers in the stream, confusing the
-> decoder. The fixed script only extracts the payload from the IVF container.
-> 
-> The decoder has been tested using the Google CTS TestVectorsIttiam VP9 yuv420
-> samples and the VP9 Decoder Performance streams at [5], decoding all streams from
-> Profile 0 and 2 up to Level 4.1, with 10bit downsampling to 8bit.
-> 
-> This patchset depends on :
-> - H.264 and compliance v7 at [4]
-> 
-> Changes since v5 at [9]:
-> - Fixed sparse warnings in codec_hevc_common.h/codec_vp9.c/vdec_hevc.c
-> - No smatch warnings issued
-> 
-> Changes since v4 at [8]:
-> - Fixes checkpatch warning on patches 3 & 5
-> 
-> Changes since v3 at [7]:
-> - fixes necessary spare ref buffer handling in parser
-> - added a comment to indicate how it's handled
-> - fix VP9 on SM1, was working with G12A firmware, but needed some changed with SM1 specific firmware
-> - pushed (gxl) and switched to missing (sm1) vp9 firmwares to linux-firmware repo
-> 
-> Changes since v2 at [6]:
-> - Rebased on H.264 and compliance at [4]
-> 
-> Changes since v1 at [3]:
-> - Fixed compliance for delta frame resize, but proper ref keeping is broken
-> - Added warns for delta frame resize, to be fixed in a following patchset
-> - Added VP9 probabilities parsing and transformation support to decore the VP9 performance streams
-> - Fixed refs keeping, avoid deleting necessary refs for next frame
-> - Properly used the kernel clamp_val() macros
-> - Zeroed the workspace to avoid refs handling glitches
-> - Add lock around the flush & stop to avoid race between IRQ and drain/stop
-> 
-> [1] https://github.com/superna9999/pyv4l2compliance/raw/tests/output/Jellyfish_1080_10s_5MB.vp9.hdr
-> [2] https://github.com/superna9999/pyv4l2compliance
-> [3] https://lore.kernel.org/linux-media/20191205092454.26075-1-narmstrong@baylibre.com
-> [4] https://lore.kernel.org/linux-media/20200303143320.32562-1-narmstrong@baylibre.com
-> [5] https://www.webmproject.org/vp9/levels/
-> [6] https://lore.kernel.org/linux-media/20191217111939.10387-1-narmstrong@baylibre.com
-> [7] https://lore.kernel.org/linux-media/20200116133437.2443-1-narmstrong@baylibre.com
-> [8] https://lore.kernel.org/linux-media/20200206084152.7070-1-narmstrong@baylibre.com
-> [9] https://lore.kernel.org/linux-media/20200219140958.23542-1-narmstrong@baylibre.com
-> 
-> The compliance log is:
-> # v4l2-compliance --stream-from-hdr Jellyfish_1080_10s_5MB.vp9.hdr -s 200
-> v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
-> 
-> Compliance test for meson-vdec device /dev/video0:
-> 
-> Driver Info:
-> 	Driver name      : meson-vdec
-> 	Card type        : Amlogic Video Decoder
-> 	Bus info         : platform:meson-vdec
-> 	Driver version   : 5.5.0
-> 	Capabilities     : 0x84204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04204000
-> 		Video Memory-to-Memory Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 	Detected Stateful Decoder
-> 
-> Required ioctls:
-> 	test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video0 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 2 Private Controls: 0
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
-> 	test read/write: OK (Not Supported)
-> 	test blocking wait: OK
-> 	Video Capture Multiplanar: Captured 198 buffers   
-> 	test MMAP (select): OK
-> 	Video Capture Multiplanar: Captured 198 buffers   
-> 	test MMAP (epoll): OK
-> 	test USERPTR (select): OK (Not Supported)
-> 	test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for meson-vdec device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
-> 
-> Maxime Jourdan (4):
->   media: meson: vdec: add helpers for lossless framebuffer compression
->     buffers
->   media: meson: vdec: add common HEVC decoder support
->   media: meson: vdec: add VP9 input support
->   media: meson: vdec: add VP9 decoder support
-> 
-> Neil Armstrong (1):
->   media: meson: vdec: align stride on 32 bytes
-> 
->  drivers/staging/media/meson/vdec/Makefile     |    4 +-
->  .../media/meson/vdec/codec_hevc_common.c      |  284 +++
->  .../media/meson/vdec/codec_hevc_common.h      |   80 +
->  drivers/staging/media/meson/vdec/codec_vp9.c  | 2141 +++++++++++++++++
->  drivers/staging/media/meson/vdec/codec_vp9.h  |   13 +
->  drivers/staging/media/meson/vdec/esparser.c   |  150 +-
->  drivers/staging/media/meson/vdec/hevc_regs.h  |  218 ++
->  drivers/staging/media/meson/vdec/vdec.c       |   15 +-
->  .../staging/media/meson/vdec/vdec_helpers.c   |   35 +-
->  .../staging/media/meson/vdec/vdec_helpers.h   |    4 +
->  drivers/staging/media/meson/vdec/vdec_hevc.c  |  231 ++
->  drivers/staging/media/meson/vdec/vdec_hevc.h  |   13 +
->  .../staging/media/meson/vdec/vdec_platform.c  |   38 +
->  13 files changed, 3213 insertions(+), 13 deletions(-)
->  create mode 100644 drivers/staging/media/meson/vdec/codec_hevc_common.c
->  create mode 100644 drivers/staging/media/meson/vdec/codec_hevc_common.h
->  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.c
->  create mode 100644 drivers/staging/media/meson/vdec/codec_vp9.h
->  create mode 100644 drivers/staging/media/meson/vdec/hevc_regs.h
->  create mode 100644 drivers/staging/media/meson/vdec/vdec_hevc.c
->  create mode 100644 drivers/staging/media/meson/vdec/vdec_hevc.h
-> 
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 6d4cbb8782ed..18fe2cb9dd17 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -372,8 +372,6 @@ struct cal_ctx {
+ 	struct v4l2_subdev	*sensor;
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 
+-	struct v4l2_async_subdev asd;
+-
+ 	struct v4l2_fh		fh;
+ 	struct cal_dev		*dev;
+ 	struct cc_data		*cc;
+@@ -2032,7 +2030,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+ 
+ 	parent = pdev->dev.of_node;
+ 
+-	asd = &ctx->asd;
+ 	endpoint = &ctx->endpoint;
+ 
+ 	ep_node = NULL;
+@@ -2040,6 +2037,10 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+ 	sensor_node = NULL;
+ 	ret = -EINVAL;
+ 
++	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
++	if (!asd)
++		goto cleanup_exit;
++
+ 	ctx_dbg(3, ctx, "Scanning Port node for csi2 port: %d\n", inst);
+ 	for (index = 0; index < CAL_NUM_CSI2_PORTS; index++) {
+ 		port = of_get_next_port(parent, port);
+-- 
+2.17.1
 
