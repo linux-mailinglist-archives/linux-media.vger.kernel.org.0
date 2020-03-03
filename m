@@ -2,58 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE6417790F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 15:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8894A17790D
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2020 15:34:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729690AbgCCOdm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Mar 2020 09:33:42 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44287 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727725AbgCCOd2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 09:33:28 -0500
-Received: by mail-wr1-f67.google.com with SMTP id n7so4553197wrt.11
-        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2020 06:33:26 -0800 (PST)
+        id S1729648AbgCCOdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Mar 2020 09:33:33 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44292 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729424AbgCCOda (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Mar 2020 09:33:30 -0500
+Received: by mail-wr1-f66.google.com with SMTP id n7so4553317wrt.11
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2020 06:33:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3VGF7+anCkNIaI4jrqb1fl7mLTSXOxlU1sRtYByO5rI=;
-        b=hdN5kkHJ9bNY3Jmw6gU1GDV5RZqSAlspi4tMmZQqB4ifN6PiG/yj4JT2SRXl9Q2FYw
-         KpOgD78fpVV/wadrNeavaExx18Ttp1A8HD624BH9rgRHx3ijXIS08hTMnuvtJElvFI+S
-         p2xUqI8R9lTlJvrZV0T4823dgP4BRK+YOBV8ZvWew6JEhOeFfF5GKdhvpL0jt1jMUnDe
-         zhlLLYQF3mIYdAK3hxOKCPQA+OLZzQFjIRMEDMD1hPzqJDSHqoQeFQ8KlyxQKonycjaG
-         e5EPhaBc4GXoCpwTCuTqcRu0kOdXML3fb/K8I1u3c+E6mwDmvbC3FyRfLxijYDifFiGa
-         C4uA==
+        bh=VY5eDePkAPU6hckFOUOWuM21sCxBMcZhEasc5YW6MpI=;
+        b=VTea3EKML3dt5xE6Sxb/+I6J9D5ar5Xt4/9Uw/2hJ4BjSBIl7SARzIYTZuRrBP31AG
+         QPSt9YGX2UD3GuV7b+BKnpUyhsM//amT3xhcbVaDoDtgr8ZimXI1XOHKytq7n/kCP42l
+         6Q/vSIJiKWvRWhCG0Dty0GLD2I0a0E29+4+wdkEF8UVccrelJ5bzZRvTM2nrtEKWaU8i
+         LBzxoEU2qatbCnOmd/Oy75T759tUO6GTGGY0Xf9YX0wJQ0D2QU3+VLcUo6gw40WIJf7o
+         r3rd6Rbr3R7OAeNw/T4wSkVuPpywRv62uyb9cQvtu6SUK5uN4oomgpcYmDiYAhrbE17K
+         4HNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3VGF7+anCkNIaI4jrqb1fl7mLTSXOxlU1sRtYByO5rI=;
-        b=n/c5Y82Gpk9VxF1bD2E5x5JbmUZRehnnbvHvmgV9ZwtM1X3kzjq2paMBC6PT7qXEmR
-         GRwkcrppI767hix8rc/LBkaqdQ7V5W2FA3xYBuKq0cNomKhHA9cVWrCP2XeikpcdA9A4
-         7GIzIitwRT4Gbd9JjXAounvlhrKRedngyG1N7bshwzsFFAnwZ2FqKxllKJTkxR30Dqkf
-         u+JcTzslrcxO40fOoTh8EJtY1GLet5UPEY5qx+Bl+vID2VUgjY6ol0OgphkoXu8FCTy/
-         G88+T6xzwJrvuakJkA5wlgKhCk6eaSvO0mOMXZZ7CLn+T+zskpgMvTKRfDGw+OzRBj2+
-         QKig==
-X-Gm-Message-State: ANhLgQ3lIBOgLiK5ITWerXtvMJgTpsDxSwIYFvSCH6fVYKPJonQ3HlqT
-        tJhGxNUlF2E8bqGCwI5Fyu6LBw==
-X-Google-Smtp-Source: ADFU+vs/3kSg3tj5AIY1odXcI1ZsBmmMJfQED/Kcza8gjnCn4VOarnV1d6bZ1hNiiLovr8J5oVZJnw==
-X-Received: by 2002:adf:f2ca:: with SMTP id d10mr6054534wrp.247.1583246005644;
-        Tue, 03 Mar 2020 06:33:25 -0800 (PST)
+        bh=VY5eDePkAPU6hckFOUOWuM21sCxBMcZhEasc5YW6MpI=;
+        b=XObwvytnoyfIl7Xf3XvQ+ePUbJk5Q58ZJhgaYwhFc6l4QwdDNcJsD8hsEyXuIv6TOu
+         89C84fc019OJ+Hhv7C53ySVpo1bIQZ8saGKwQnewOZ996EXLSFNLsg8e0Ym+W3b395IX
+         H5e82Lfkitkc9DsakaYMchmkVDMaMEt30MNcjCaaj8qyukNl99+AFN/0Z2gPmoU3fcbs
+         Xa+7mt60ZNG5S6XKpy4RvpOuSHc+QJdwe2wYRA55JTJ2W/CAlMkKt/dRLfkEQ/QmYpAp
+         T78s2ugB0ysCOlJuRwV7sb2l6LysEeQsgnIWROIOwlZU6202EOWjaX7vzA9wqhTnfO40
+         zsYQ==
+X-Gm-Message-State: ANhLgQ0RBfLd9St0oVc/+dhadPDUarmiWhuxytUWFSqluS/BhPEYQDcg
+        8sntBSwyR1OaUakgpP4peFfilg==
+X-Google-Smtp-Source: ADFU+vvtGOQieN2at8sP2vzhnC2jvRgpKAP5j2a4QcDpjROxtg/Ya4oeNW3oIZS/pWUj2+lenFdt3A==
+X-Received: by 2002:adf:a114:: with SMTP id o20mr5708703wro.7.1583246006714;
+        Tue, 03 Mar 2020 06:33:26 -0800 (PST)
 Received: from bender.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id g7sm30120065wrm.72.2020.03.03.06.33.24
+        by smtp.gmail.com with ESMTPSA id g7sm30120065wrm.72.2020.03.03.06.33.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 06:33:25 -0800 (PST)
+        Tue, 03 Mar 2020 06:33:26 -0800 (PST)
 From:   Neil Armstrong <narmstrong@baylibre.com>
 To:     mchehab@kernel.org, hans.verkuil@cisco.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
         linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Maxime Jourdan <mjourdan@baylibre.com>
-Subject: [PATCH v7 2/4] media: vicodec: use v4l2-mem2mem draining, stopped and next-buf-is-last states handling
-Date:   Tue,  3 Mar 2020 15:33:18 +0100
-Message-Id: <20200303143320.32562-3-narmstrong@baylibre.com>
+        Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH v7 3/4] media: meson: vdec: bring up to compliance
+Date:   Tue,  3 Mar 2020 15:33:19 +0100
+Message-Id: <20200303143320.32562-4-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200303143320.32562-1-narmstrong@baylibre.com>
 References: <20200303143320.32562-1-narmstrong@baylibre.com>
@@ -64,306 +63,741 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the previously introduced v4l2-mem2mem core APIs to handle the drainig,
-stopped and next-buf-is-last states.
+From: Maxime Jourdan <mjourdan@baylibre.com>
 
-With these changes, the v4l2-compliance still passes with the following
-commands :
-# v4l2-ctl --stream-mmap --stream-out-mmap --stream-to-hdr out.comp --stream-from in.yuv
->>>><><><><><><><><><><><><><><><><>< 15.53 fps
- 15.53 fps
-><><><><><><><><><><><><>< 13.99 fps
- 13.99 fps
-><><><><><><><><><><><>< 13.52 fps
- 13.52 fps
-><><><><><><><><><><><><>< 13.41 fps
- 13.41 fps
-><><><><><><><><><><><><>< 13.21 fps
- 13.21 fps
-><><><><><><><><><><><>< 13.09 fps
- 13.09 fps
-><><><><><><><
-STOP ENCODER
-<<<
-EOS EVENT
+Add all the necessary bits to pass v4l2-compliance in stateful decoding
+mode.
 
-# v4l2-compliance --stream-from in.yuv -s
-v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
-[...]
-Total for vicodec device /dev/video0: 50, Succeeded: 50, Failed: 0, Warnings: 0
+Mostly includes tracking the state of the decoder, allowing the OUTPUT
+queue to stream while the CAPTURE queue is inactive, handling resolution
+change events, draining with V4L2_DEC_CMD_STOP, copying more metadata
+from the src buffers to the dst buffers, etc.
 
-The full output is available at [1]
-
-# v4l2-compliance -d1 --stream-from-hdr out.comp -s
-v4l2-compliance SHA: 7ead0e1856b89f2e19369af452bb03fd0cd16793, 64 bits
-[...]
-Total for vicodec device /dev/video1: 50, Succeeded: 50, Failed: 0, Warnings: 0
-
-The full output is available at [2]
-
-No functional changes should be noticed.
-
-[1] https://termbin.com/25nn
-[2] https://termbin.com/dza4
-
-Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-Suggested-by: Maxime Jourdan <mjourdan@baylibre.com>
+Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/media/platform/vicodec/vicodec-core.c | 162 ++++++------------
- 1 file changed, 52 insertions(+), 110 deletions(-)
+ drivers/staging/media/meson/vdec/esparser.c   | 58 +++++-------
+ drivers/staging/media/meson/vdec/vdec.c       | 90 ++++++++++++-------
+ drivers/staging/media/meson/vdec/vdec.h       | 14 ++-
+ .../staging/media/meson/vdec/vdec_helpers.c   | 88 +++++++++---------
+ .../staging/media/meson/vdec/vdec_helpers.h   |  6 +-
+ .../staging/media/meson/vdec/vdec_platform.c  | 10 +++
+ 6 files changed, 149 insertions(+), 117 deletions(-)
 
-diff --git a/drivers/media/platform/vicodec/vicodec-core.c b/drivers/media/platform/vicodec/vicodec-core.c
-index 82350097503e..d85ae7010b50 100644
---- a/drivers/media/platform/vicodec/vicodec-core.c
-+++ b/drivers/media/platform/vicodec/vicodec-core.c
-@@ -117,15 +117,10 @@ struct vicodec_ctx {
- 	struct vicodec_dev	*dev;
- 	bool			is_enc;
- 	bool			is_stateless;
--	bool			is_draining;
--	bool			next_is_last;
--	bool			has_stopped;
- 	spinlock_t		*lock;
+diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+index 95102a4bdc62..adc5c1e81a4c 100644
+--- a/drivers/staging/media/meson/vdec/esparser.c
++++ b/drivers/staging/media/meson/vdec/esparser.c
+@@ -79,22 +79,28 @@ static irqreturn_t esparser_isr(int irq, void *dev)
+  * Also append a start code 000001ff at the end to trigger
+  * the ESPARSER interrupt.
+  */
+-static u32 esparser_pad_start_code(struct vb2_buffer *vb)
++static u32 esparser_pad_start_code(struct amvdec_core *core, struct vb2_buffer *vb)
+ {
+ 	u32 payload_size = vb2_get_plane_payload(vb, 0);
+ 	u32 pad_size = 0;
+-	u8 *vaddr = vb2_plane_vaddr(vb, 0) + payload_size;
++	u8 *vaddr = vb2_plane_vaddr(vb, 0);
  
- 	struct v4l2_ctrl_handler hdl;
- 
--	struct vb2_v4l2_buffer *last_src_buf;
--
- 	/* Source and destination queue data */
- 	struct vicodec_q_data   q_data[2];
- 	struct v4l2_fwht_state	state;
-@@ -431,11 +426,11 @@ static void device_run(void *priv)
- 	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
- 
- 	spin_lock(ctx->lock);
--	if (!ctx->comp_has_next_frame && src_buf == ctx->last_src_buf) {
-+	if (!ctx->comp_has_next_frame &&
-+	    v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx, src_buf)) {
- 		dst_buf->flags |= V4L2_BUF_FLAG_LAST;
- 		v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
--		ctx->is_draining = false;
--		ctx->has_stopped = true;
-+		v4l2_m2m_mark_stopped(ctx->fh.m2m_ctx);
+ 	if (payload_size < ESPARSER_MIN_PACKET_SIZE) {
+ 		pad_size = ESPARSER_MIN_PACKET_SIZE - payload_size;
+-		memset(vaddr, 0, pad_size);
++		memset(vaddr + payload_size, 0, pad_size);
  	}
- 	if (ctx->is_enc || ctx->is_stateless) {
- 		src_buf->sequence = q_src->sequence++;
-@@ -586,8 +581,6 @@ static int job_ready(void *priv)
- 	unsigned int max_to_copy;
- 	unsigned int comp_frame_size;
  
--	if (ctx->has_stopped)
--		return 0;
- 	if (ctx->source_changed)
+-	memset(vaddr + pad_size, 0, SEARCH_PATTERN_LEN);
+-	vaddr[pad_size]     = 0x00;
+-	vaddr[pad_size + 1] = 0x00;
+-	vaddr[pad_size + 2] = 0x01;
+-	vaddr[pad_size + 3] = 0xff;
++	if ((payload_size + pad_size + SEARCH_PATTERN_LEN) >
++						vb2_plane_size(vb, 0)) {
++		dev_warn(core->dev, "%s: unable to pad start code\n", __func__);
++		return pad_size;
++	}
++
++	memset(vaddr + payload_size + pad_size, 0, SEARCH_PATTERN_LEN);
++	vaddr[payload_size + pad_size]     = 0x00;
++	vaddr[payload_size + pad_size + 1] = 0x00;
++	vaddr[payload_size + pad_size + 2] = 0x01;
++	vaddr[payload_size + pad_size + 3] = 0xff;
+ 
+ 	return pad_size;
+ }
+@@ -180,31 +186,27 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+ 	int ret;
+ 	struct vb2_buffer *vb = &vbuf->vb2_buf;
+ 	struct amvdec_core *core = sess->core;
+-	struct amvdec_codec_ops *codec_ops = sess->fmt_out->codec_ops;
+-	u32 num_dst_bufs = 0;
+ 	u32 payload_size = vb2_get_plane_payload(vb, 0);
+ 	dma_addr_t phy = vb2_dma_contig_plane_dma_addr(vb, 0);
+ 	u32 offset;
+ 	u32 pad_size;
+ 
+-	if (codec_ops->num_pending_bufs)
+-		num_dst_bufs = codec_ops->num_pending_bufs(sess);
+-
+-	num_dst_bufs += v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
+-
+-	if (esparser_vififo_get_free_space(sess) < payload_size ||
+-	    atomic_read(&sess->esparser_queued_bufs) >= num_dst_bufs)
++	if (esparser_vififo_get_free_space(sess) < payload_size)
+ 		return -EAGAIN;
+ 
+ 	v4l2_m2m_src_buf_remove_by_buf(sess->m2m_ctx, vbuf);
+ 
+ 	offset = esparser_get_offset(sess);
+ 
+-	amvdec_add_ts_reorder(sess, vb->timestamp, offset);
+-	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X\n",
+-		vb->timestamp, payload_size, offset);
++	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
++		vb->timestamp, payload_size, offset, vbuf->flags);
++
++	vbuf->flags = 0;
++	vbuf->field = V4L2_FIELD_NONE;
++	vbuf->sequence = sess->sequence_out++;
+ 
+-	pad_size = esparser_pad_start_code(vb);
++	pad_size = esparser_pad_start_code(core, vb);
+ 	ret = esparser_write_data(core, phy, payload_size + pad_size);
+ 
+ 	if (ret <= 0) {
+@@ -216,19 +218,7 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
  		return 0;
- 	if (ctx->is_stateless || ctx->is_enc || ctx->comp_has_frame)
-@@ -607,7 +600,8 @@ static int job_ready(void *priv)
- 	if (ctx->header_size < sizeof(struct fwht_cframe_hdr)) {
- 		state = get_next_header(ctx, &p, p_src + sz - p);
- 		if (ctx->header_size < sizeof(struct fwht_cframe_hdr)) {
--			if (ctx->is_draining && src_buf == ctx->last_src_buf)
-+			if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx,
-+							      src_buf))
- 				return 1;
- 			job_remove_src_buf(ctx, state);
- 			goto restart;
-@@ -636,7 +630,8 @@ static int job_ready(void *priv)
- 		p += copy;
- 		ctx->comp_size += copy;
- 		if (ctx->comp_size < max_to_copy) {
--			if (ctx->is_draining && src_buf == ctx->last_src_buf)
-+			if (v4l2_m2m_is_last_draining_src_buf(ctx->fh.m2m_ctx,
-+							      src_buf))
- 				return 1;
- 			job_remove_src_buf(ctx, state);
- 			goto restart;
-@@ -1219,41 +1214,6 @@ static int vidioc_s_selection(struct file *file, void *priv,
+ 	}
+ 
+-	/* We need to wait until we parse the first keyframe.
+-	 * All buffers prior to the first keyframe must be dropped.
+-	 */
+-	if (!sess->keyframe_found)
+-		usleep_range(1000, 2000);
+-
+-	if (sess->keyframe_found)
+-		atomic_inc(&sess->esparser_queued_bufs);
+-	else
+-		amvdec_remove_ts(sess, vb->timestamp);
+-
+-	vbuf->flags = 0;
+-	vbuf->field = V4L2_FIELD_NONE;
++	atomic_inc(&sess->esparser_queued_bufs);
+ 	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
+ 
+ 	return 0;
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 5c5dabed2f09..92f0258868b1 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -168,7 +168,10 @@ static void process_num_buffers(struct vb2_queue *q,
+ {
+ 	const struct amvdec_format *fmt_out = sess->fmt_out;
+ 	unsigned int buffers_total = q->num_buffers + *num_buffers;
++	u32 min_buf_capture = v4l2_ctrl_g_ctrl(sess->ctrl_min_buf_capture);
+ 
++	if (q->num_buffers + *num_buffers < min_buf_capture)
++		*num_buffers = min_buf_capture - q->num_buffers;
+ 	if (is_reqbufs && buffers_total < fmt_out->min_buffers)
+ 		*num_buffers = fmt_out->min_buffers - q->num_buffers;
+ 	if (buffers_total > fmt_out->max_buffers)
+@@ -193,7 +196,8 @@ static int vdec_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+ 	if (*num_planes) {
+ 		switch (q->type) {
+ 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+-			if (*num_planes != 1 || sizes[0] < output_size)
++			if (*num_planes != 1 ||
++			    sizes[0] < sess->src_buffer_size)
+ 				return -EINVAL;
+ 			break;
+ 		case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+@@ -224,7 +228,7 @@ static int vdec_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+ 
+ 	switch (q->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+-		sizes[0] = amvdec_get_output_size(sess);
++		sizes[0] = sess->src_buffer_size;
+ 		*num_planes = 1;
+ 		break;
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+@@ -250,6 +254,7 @@ static int vdec_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+ 		return -EINVAL;
+ 	}
+ 
++	sess->changed_format = 1;
  	return 0;
  }
  
--static int vicodec_mark_last_buf(struct vicodec_ctx *ctx)
--{
--	struct vb2_v4l2_buffer *next_dst_buf;
--	int ret = 0;
--
--	spin_lock(ctx->lock);
--	if (ctx->is_draining) {
--		ret = -EBUSY;
--		goto unlock;
--	}
--	if (ctx->has_stopped)
--		goto unlock;
--
--	ctx->last_src_buf = v4l2_m2m_last_src_buf(ctx->fh.m2m_ctx);
--	ctx->is_draining = true;
--	if (ctx->last_src_buf)
--		goto unlock;
--
--	next_dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
--	if (!next_dst_buf) {
--		ctx->next_is_last = true;
--		goto unlock;
--	}
--
--	next_dst_buf->flags |= V4L2_BUF_FLAG_LAST;
--	vb2_buffer_done(&next_dst_buf->vb2_buf, VB2_BUF_STATE_DONE);
--	ctx->is_draining = false;
--	ctx->has_stopped = true;
--	v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
--
--unlock:
--	spin_unlock(ctx->lock);
--	return ret;
--}
--
- static int vicodec_encoder_cmd(struct file *file, void *fh,
- 			    struct v4l2_encoder_cmd *ec)
- {
-@@ -1268,18 +1228,19 @@ static int vicodec_encoder_cmd(struct file *file, void *fh,
- 	    !vb2_is_streaming(&ctx->fh.m2m_ctx->out_q_ctx.q))
+@@ -261,10 +266,11 @@ static void vdec_vb2_buf_queue(struct vb2_buffer *vb)
+ 
+ 	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
+ 
+-	if (!sess->streamon_out || !sess->streamon_cap)
++	if (!sess->streamon_out)
+ 		return;
+ 
+-	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
++	if (sess->streamon_cap &&
++	    vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+ 	    vdec_codec_needs_recycle(sess))
+ 		vdec_queue_recycle(sess, vb);
+ 
+@@ -289,16 +295,22 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	else
+ 		sess->streamon_cap = 1;
+ 
+-	if (!sess->streamon_out || !sess->streamon_cap)
++	if (!sess->streamon_out)
  		return 0;
  
--	if (ec->cmd == V4L2_ENC_CMD_STOP)
--		return vicodec_mark_last_buf(ctx);
--	ret = 0;
--	spin_lock(ctx->lock);
--	if (ctx->is_draining) {
--		ret = -EBUSY;
--	} else if (ctx->has_stopped) {
--		ctx->has_stopped = false;
-+	ret = v4l2_m2m_ioctl_encoder_cmd(file, fh, ec);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ec->cmd == V4L2_ENC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+
-+	if (ec->cmd == V4L2_ENC_CMD_START &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
- 		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
--	}
--	spin_unlock(ctx->lock);
--	return ret;
-+
-+	return 0;
- }
- 
- static int vicodec_decoder_cmd(struct file *file, void *fh,
-@@ -1296,18 +1257,19 @@ static int vicodec_decoder_cmd(struct file *file, void *fh,
- 	    !vb2_is_streaming(&ctx->fh.m2m_ctx->out_q_ctx.q))
+ 	if (sess->status == STATUS_NEEDS_RESUME &&
+-	    q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
++	    q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
++	    sess->changed_format) {
+ 		codec_ops->resume(sess);
+ 		sess->status = STATUS_RUNNING;
  		return 0;
- 
--	if (dc->cmd == V4L2_DEC_CMD_STOP)
--		return vicodec_mark_last_buf(ctx);
--	ret = 0;
--	spin_lock(ctx->lock);
--	if (ctx->is_draining) {
--		ret = -EBUSY;
--	} else if (ctx->has_stopped) {
--		ctx->has_stopped = false;
-+	ret = v4l2_m2m_ioctl_decoder_cmd(file, fh, dc);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (dc->cmd == V4L2_DEC_CMD_STOP &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+
-+	if (dc->cmd == V4L2_DEC_CMD_START &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
- 		vb2_clear_last_buffer_dequeued(&ctx->fh.m2m_ctx->cap_q_ctx.q);
--	}
--	spin_unlock(ctx->lock);
--	return ret;
-+
-+	return 0;
- }
- 
- static int vicodec_enum_framesizes(struct file *file, void *fh,
-@@ -1480,23 +1442,21 @@ static void vicodec_buf_queue(struct vb2_buffer *vb)
- 		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
- 	};
- 
--	if (vb2_is_streaming(vq_cap)) {
--		if (!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type) &&
--		    ctx->next_is_last) {
--			unsigned int i;
-+	if (!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type) &&
-+	    vb2_is_streaming(vb->vb2_queue) &&
-+	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
-+		unsigned int i;
- 
--			for (i = 0; i < vb->num_planes; i++)
--				vb->planes[i].bytesused = 0;
--			vbuf->flags = V4L2_BUF_FLAG_LAST;
--			vbuf->field = V4L2_FIELD_NONE;
--			vbuf->sequence = get_q_data(ctx, vb->vb2_queue->type)->sequence++;
--			vb2_buffer_done(vb, VB2_BUF_STATE_DONE);
--			ctx->is_draining = false;
--			ctx->has_stopped = true;
--			ctx->next_is_last = false;
--			v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
--			return;
--		}
-+		for (i = 0; i < vb->num_planes; i++)
-+			vb->planes[i].bytesused = 0;
-+
-+		vbuf->field = V4L2_FIELD_NONE;
-+		vbuf->sequence =
-+			get_q_data(ctx, vb->vb2_queue->type)->sequence++;
-+
-+		v4l2_m2m_last_buffer_done(ctx->fh.m2m_ctx, vbuf);
-+		v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+		return;
  	}
  
- 	/* buf_queue handles only the first source change event */
-@@ -1609,8 +1569,7 @@ static int vicodec_start_streaming(struct vb2_queue *q,
- 	chroma_div = info->width_div * info->height_div;
- 	q_data->sequence = 0;
++	if (sess->status == STATUS_RUNNING ||
++	    sess->status == STATUS_NEEDS_RESUME ||
++	    sess->status == STATUS_INIT)
++		return 0;
++
+ 	sess->vififo_size = SIZE_VIFIFO;
+ 	sess->vififo_vaddr =
+ 		dma_alloc_coherent(sess->core->dev, sess->vififo_size,
+@@ -323,13 +335,14 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		goto vififo_free;
  
--	if (V4L2_TYPE_IS_OUTPUT(q->type))
--		ctx->last_src_buf = NULL;
-+	v4l2_m2m_update_start_streaming_state(ctx->fh.m2m_ctx, q);
+ 	sess->sequence_cap = 0;
++	sess->sequence_out = 0;
+ 	if (vdec_codec_needs_recycle(sess))
+ 		sess->recycle_thread = kthread_run(vdec_recycle_thread, sess,
+ 						   "vdec_recycle");
  
- 	state->gop_cnt = 0;
- 
-@@ -1689,29 +1648,12 @@ static void vicodec_stop_streaming(struct vb2_queue *q)
- 
- 	vicodec_return_bufs(q, VB2_BUF_STATE_ERROR);
- 
--	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
--		if (ctx->is_draining) {
--			struct vb2_v4l2_buffer *next_dst_buf;
+-	sess->status = STATUS_RUNNING;
++	sess->status = STATUS_INIT;
+ 	core->cur_sess = sess;
 -
--			spin_lock(ctx->lock);
--			ctx->last_src_buf = NULL;
--			next_dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
--			if (!next_dst_buf) {
--				ctx->next_is_last = true;
--			} else {
--				next_dst_buf->flags |= V4L2_BUF_FLAG_LAST;
--				vb2_buffer_done(&next_dst_buf->vb2_buf, VB2_BUF_STATE_DONE);
--				ctx->is_draining = false;
--				ctx->has_stopped = true;
--				v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
--			}
--			spin_unlock(ctx->lock);
--		}
++	schedule_work(&sess->esparser_queue_work);
+ 	return 0;
+ 
+ vififo_free:
+@@ -386,6 +399,7 @@ static void vdec_stop_streaming(struct vb2_queue *q)
+ 	struct vb2_v4l2_buffer *buf;
+ 
+ 	if (sess->status == STATUS_RUNNING ||
++	    sess->status == STATUS_INIT ||
+ 	    (sess->status == STATUS_NEEDS_RESUME &&
+ 	     (!sess->streamon_out || !sess->streamon_cap))) {
+ 		if (vdec_codec_needs_recycle(sess))
+@@ -476,20 +490,34 @@ vdec_try_fmt_common(struct amvdec_session *sess, u32 size,
+ 	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+ 	struct v4l2_plane_pix_format *pfmt = pixmp->plane_fmt;
+ 	const struct amvdec_format *fmts = sess->core->platform->formats;
+-	const struct amvdec_format *fmt_out;
++	const struct amvdec_format *fmt_out = NULL;
++	u32 output_size = 0;
+ 
+ 	memset(pfmt[0].reserved, 0, sizeof(pfmt[0].reserved));
+ 	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
+ 
+-	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++	switch (f->type) {
++	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		fmt_out = find_format(fmts, size, pixmp->pixelformat);
+ 		if (!fmt_out) {
+ 			pixmp->pixelformat = V4L2_PIX_FMT_MPEG2;
+ 			fmt_out = find_format(fmts, size, pixmp->pixelformat);
+ 		}
++		break;
++	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
++		fmt_out = sess->fmt_out;
++		break;
++	default:
++		return NULL;
++	}
+ 
+-		pfmt[0].sizeimage =
+-			get_output_size(pixmp->width, pixmp->height);
++	pixmp->width  = clamp(pixmp->width,  (u32)256, fmt_out->max_width);
++	pixmp->height = clamp(pixmp->height, (u32)144, fmt_out->max_height);
++	output_size = get_output_size(pixmp->width, pixmp->height);
++
++	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		if (!pfmt[0].sizeimage)
++			pfmt[0].sizeimage = sess->src_buffer_size;
+ 		pfmt[0].bytesperline = 0;
+ 		pixmp->num_planes = 1;
+ 	} else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+@@ -499,35 +527,25 @@ vdec_try_fmt_common(struct amvdec_session *sess, u32 size,
+ 
+ 		memset(pfmt[1].reserved, 0, sizeof(pfmt[1].reserved));
+ 		if (pixmp->pixelformat == V4L2_PIX_FMT_NV12M) {
+-			pfmt[0].sizeimage =
+-				get_output_size(pixmp->width, pixmp->height);
++			pfmt[0].sizeimage = output_size;
+ 			pfmt[0].bytesperline = ALIGN(pixmp->width, 64);
+ 
+-			pfmt[1].sizeimage =
+-			      get_output_size(pixmp->width, pixmp->height) / 2;
++			pfmt[1].sizeimage = output_size / 2;
+ 			pfmt[1].bytesperline = ALIGN(pixmp->width, 64);
+ 			pixmp->num_planes = 2;
+ 		} else if (pixmp->pixelformat == V4L2_PIX_FMT_YUV420M) {
+-			pfmt[0].sizeimage =
+-				get_output_size(pixmp->width, pixmp->height);
++			pfmt[0].sizeimage = output_size;
+ 			pfmt[0].bytesperline = ALIGN(pixmp->width, 64);
+ 
+-			pfmt[1].sizeimage =
+-			      get_output_size(pixmp->width, pixmp->height) / 4;
++			pfmt[1].sizeimage = output_size / 4;
+ 			pfmt[1].bytesperline = ALIGN(pixmp->width, 64) / 2;
+ 
+-			pfmt[2].sizeimage =
+-			      get_output_size(pixmp->width, pixmp->height) / 4;
++			pfmt[2].sizeimage = output_size / 2;
+ 			pfmt[2].bytesperline = ALIGN(pixmp->width, 64) / 2;
+ 			pixmp->num_planes = 3;
+ 		}
 -	} else {
--		ctx->is_draining = false;
--		ctx->has_stopped = false;
--		ctx->next_is_last = false;
+-		return NULL;
+ 	}
+ 
+-	pixmp->width  = clamp(pixmp->width,  (u32)256, fmt_out->max_width);
+-	pixmp->height = clamp(pixmp->height, (u32)144, fmt_out->max_height);
+-
+ 	if (pixmp->field == V4L2_FIELD_ANY)
+ 		pixmp->field = V4L2_FIELD_NONE;
+ 
+@@ -586,6 +604,8 @@ static int vdec_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+ 	orig_pixmp = *pixmp;
+ 
+ 	fmt_out = vdec_try_fmt_common(sess, num_formats, f);
++	if (!fmt_out)
++		return -EINVAL;
+ 
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		pixfmt_out = pixmp->pixelformat;
+@@ -610,6 +630,7 @@ static int vdec_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+ 		sess->ycbcr_enc = pixmp->ycbcr_enc;
+ 		sess->quantization = pixmp->quantization;
+ 		sess->xfer_func = pixmp->xfer_func;
++		sess->src_buffer_size = pixmp->plane_fmt[0].sizeimage;
+ 	}
+ 
+ 	memset(&format, 0, sizeof(format));
+@@ -701,29 +722,31 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
+ 	if (!(sess->streamon_out & sess->streamon_cap))
+ 		return 0;
+ 
+-	/* Currently not handled since we do not support dynamic resolution
+-	 * for MPEG2. We consider both queues streaming to mean that the
+-	 * decoding session is started
+-	 */
+-	if (cmd->cmd == V4L2_DEC_CMD_START)
++	if (cmd->cmd == V4L2_DEC_CMD_START) {
++		v4l2_m2m_clear_state(sess->m2m_ctx);
++		sess->should_stop = 0;
+ 		return 0;
++	}
+ 
+ 	/* Should not happen */
+ 	if (cmd->cmd != V4L2_DEC_CMD_STOP)
+ 		return -EINVAL;
+ 
+ 	dev_dbg(dev, "Received V4L2_DEC_CMD_STOP\n");
++
+ 	sess->should_stop = 1;
+ 
+-	vdec_wait_inactive(sess);
++	v4l2_m2m_mark_stopped(sess->m2m_ctx);
+ 
+ 	if (codec_ops->drain) {
++		vdec_wait_inactive(sess);
+ 		codec_ops->drain(sess);
+ 	} else if (codec_ops->eos_sequence) {
+ 		u32 len;
+ 		const u8 *data = codec_ops->eos_sequence(&len);
+ 
+ 		esparser_queue_eos(sess->core, data, len);
++		vdec_wait_inactive(sess);
+ 	}
+ 
+ 	return ret;
+@@ -883,6 +906,7 @@ static int vdec_open(struct file *file)
+ 	sess->height = 720;
+ 	sess->pixelaspect.numerator = 1;
+ 	sess->pixelaspect.denominator = 1;
++	sess->src_buffer_size = SZ_1M;
+ 
+ 	INIT_LIST_HEAD(&sess->timestamps);
+ 	INIT_LIST_HEAD(&sess->bufs_recycle);
+diff --git a/drivers/staging/media/meson/vdec/vdec.h b/drivers/staging/media/meson/vdec/vdec.h
+index 0faa1ec4858e..f95445ac0658 100644
+--- a/drivers/staging/media/meson/vdec/vdec.h
++++ b/drivers/staging/media/meson/vdec/vdec.h
+@@ -29,13 +29,19 @@ struct amvdec_buffer {
+  * struct amvdec_timestamp - stores a src timestamp along with a VIFIFO offset
+  *
+  * @list: used to make lists out of this struct
+- * @ts: timestamp
++ * @tc: timecode from the v4l2 buffer
++ * @ts: timestamp from the VB2 buffer
+  * @offset: offset in the VIFIFO where the associated packet was written
++ * @flags: flags from the v4l2 buffer
++ * @used_count: times this timestamp was checked for a match with a dst buffer
+  */
+ struct amvdec_timestamp {
+ 	struct list_head list;
++	struct v4l2_timecode tc;
+ 	u64 ts;
+ 	u32 offset;
++	u32 flags;
++	u32 used_count;
+ };
+ 
+ struct amvdec_session;
+@@ -165,6 +171,7 @@ struct amvdec_format {
+ 
+ enum amvdec_status {
+ 	STATUS_STOPPED,
++	STATUS_INIT,
+ 	STATUS_RUNNING,
+ 	STATUS_NEEDS_RESUME,
+ };
+@@ -180,6 +187,7 @@ enum amvdec_status {
+  * @ctrl_min_buf_capture: V4L2 control V4L2_CID_MIN_BUFFERS_FOR_CAPTURE
+  * @fmt_out: vdec pixel format for the OUTPUT queue
+  * @pixfmt_cap: V4L2 pixel format for the CAPTURE queue
++ * @src_buffer_size: size in bytes of the OUTPUT buffers' only plane
+  * @width: current picture width
+  * @height: current picture height
+  * @colorspace: current colorspace
+@@ -221,6 +229,7 @@ struct amvdec_session {
+ 
+ 	const struct amvdec_format *fmt_out;
+ 	u32 pixfmt_cap;
++	u32 src_buffer_size;
+ 
+ 	u32 width;
+ 	u32 height;
+@@ -235,10 +244,11 @@ struct amvdec_session {
+ 	struct work_struct esparser_queue_work;
+ 
+ 	unsigned int streamon_cap, streamon_out;
+-	unsigned int sequence_cap;
++	unsigned int sequence_cap, sequence_out;
+ 	unsigned int should_stop;
+ 	unsigned int keyframe_found;
+ 	unsigned int num_dst_bufs;
++	unsigned int changed_format;
+ 
+ 	u8 canvas_alloc[MAX_CANVAS];
+ 	u32 canvas_num;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index f16948bdbf2f..a4970ec1bf2e 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -200,33 +200,23 @@ int amvdec_set_canvases(struct amvdec_session *sess,
+ }
+ EXPORT_SYMBOL_GPL(amvdec_set_canvases);
+ 
+-void amvdec_add_ts_reorder(struct amvdec_session *sess, u64 ts, u32 offset)
++void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++		   struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+ {
+-	struct amvdec_timestamp *new_ts, *tmp;
++	struct amvdec_timestamp *new_ts;
+ 	unsigned long flags;
+ 
+-	new_ts = kmalloc(sizeof(*new_ts), GFP_KERNEL);
++	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
+ 	new_ts->ts = ts;
++	new_ts->tc = tc;
+ 	new_ts->offset = offset;
++	new_ts->flags = vbuf_flags;
+ 
+ 	spin_lock_irqsave(&sess->ts_spinlock, flags);
+-
+-	if (list_empty(&sess->timestamps))
+-		goto add_tail;
+-
+-	list_for_each_entry(tmp, &sess->timestamps, list) {
+-		if (ts <= tmp->ts) {
+-			list_add_tail(&new_ts->list, &tmp->list);
+-			goto unlock;
+-		}
 -	}
-+	v4l2_m2m_update_stop_streaming_state(ctx->fh.m2m_ctx, q);
-+
-+	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
-+	    v4l2_m2m_has_stopped(ctx->fh.m2m_ctx))
-+		v4l2_event_queue_fh(&ctx->fh, &vicodec_eos_event);
-+
- 	if (!ctx->is_enc && V4L2_TYPE_IS_OUTPUT(q->type))
- 		ctx->first_source_change_sent = false;
+-
+-add_tail:
+ 	list_add_tail(&new_ts->list, &sess->timestamps);
+-unlock:
+ 	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
+ }
+-EXPORT_SYMBOL_GPL(amvdec_add_ts_reorder);
++EXPORT_SYMBOL_GPL(amvdec_add_ts);
+ 
+ void amvdec_remove_ts(struct amvdec_session *sess, u64 ts)
+ {
+@@ -251,8 +241,8 @@ EXPORT_SYMBOL_GPL(amvdec_remove_ts);
+ 
+ static void dst_buf_done(struct amvdec_session *sess,
+ 			 struct vb2_v4l2_buffer *vbuf,
+-			 u32 field,
+-			 u64 timestamp)
++			 u32 field, u64 timestamp,
++			 struct v4l2_timecode timecode, u32 flags)
+ {
+ 	struct device *dev = sess->core->dev_dec;
+ 	u32 output_size = amvdec_get_output_size(sess);
+@@ -271,19 +261,23 @@ static void dst_buf_done(struct amvdec_session *sess,
+ 
+ 	vbuf->vb2_buf.timestamp = timestamp;
+ 	vbuf->sequence = sess->sequence_cap++;
++	vbuf->flags = flags;
++	vbuf->timecode = timecode;
+ 
+ 	if (sess->should_stop &&
+-	    atomic_read(&sess->esparser_queued_bufs) <= 2) {
++	    atomic_read(&sess->esparser_queued_bufs) <= 1) {
+ 		const struct v4l2_event ev = { .type = V4L2_EVENT_EOS };
+ 
+-		dev_dbg(dev, "Signaling EOS\n");
++		dev_dbg(dev, "Signaling EOS, sequence_cap = %u\n",
++			sess->sequence_cap - 1);
+ 		v4l2_event_queue_fh(&sess->fh, &ev);
+ 		vbuf->flags |= V4L2_BUF_FLAG_LAST;
+ 	} else if (sess->should_stop)
+ 		dev_dbg(dev, "should_stop, %u bufs remain\n",
+ 			atomic_read(&sess->esparser_queued_bufs));
+ 
+-	dev_dbg(dev, "Buffer %u done\n", vbuf->vb2_buf.index);
++	dev_dbg(dev, "Buffer %u done, ts = %llu, flags = %08X\n",
++		vbuf->vb2_buf.index, timestamp, flags);
+ 	vbuf->field = field;
+ 	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
+ 
+@@ -297,7 +291,9 @@ void amvdec_dst_buf_done(struct amvdec_session *sess,
+ 	struct device *dev = sess->core->dev_dec;
+ 	struct amvdec_timestamp *tmp;
+ 	struct list_head *timestamps = &sess->timestamps;
++	struct v4l2_timecode timecode;
+ 	u64 timestamp;
++	u32 vbuf_flags;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&sess->ts_spinlock, flags);
+@@ -312,11 +308,13 @@ void amvdec_dst_buf_done(struct amvdec_session *sess,
+ 
+ 	tmp = list_first_entry(timestamps, struct amvdec_timestamp, list);
+ 	timestamp = tmp->ts;
++	timecode = tmp->tc;
++	vbuf_flags = tmp->flags;
+ 	list_del(&tmp->list);
+ 	kfree(tmp);
+ 	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
+ 
+-	dst_buf_done(sess, vbuf, field, timestamp);
++	dst_buf_done(sess, vbuf, field, timestamp, timecode, vbuf_flags);
+ 	atomic_dec(&sess->esparser_queued_bufs);
+ }
+ EXPORT_SYMBOL_GPL(amvdec_dst_buf_done);
+@@ -328,48 +326,43 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+ 	struct device *dev = sess->core->dev_dec;
+ 	struct amvdec_timestamp *match = NULL;
+ 	struct amvdec_timestamp *tmp, *n;
++	struct v4l2_timecode timecode = { 0 };
+ 	u64 timestamp = 0;
++	u32 vbuf_flags = 0;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&sess->ts_spinlock, flags);
+ 
+ 	/* Look for our vififo offset to get the corresponding timestamp. */
+ 	list_for_each_entry_safe(tmp, n, &sess->timestamps, list) {
+-		s64 delta = (s64)offset - tmp->offset;
+-
+-		/* Offsets reported by codecs usually differ slightly,
+-		 * so we need some wiggle room.
+-		 * 4KiB being the minimum packet size, there is no risk here.
+-		 */
+-		if (delta > (-1 * (s32)SZ_4K) && delta < SZ_4K) {
+-			match = tmp;
++		if (tmp->offset > offset) {
++			/*
++			 * Delete any record that remained unused for 32 match
++			 * checks
++			 */
++			if (tmp->used_count++ >= 32) {
++				list_del(&tmp->list);
++				kfree(tmp);
++			}
+ 			break;
+ 		}
+ 
+-		if (!allow_drop)
+-			continue;
+-
+-		/* Delete any timestamp entry that appears before our target
+-		 * (not all src packets/timestamps lead to a frame)
+-		 */
+-		if (delta > 0 || delta < -1 * (s32)sess->vififo_size) {
+-			atomic_dec(&sess->esparser_queued_bufs);
+-			list_del(&tmp->list);
+-			kfree(tmp);
+-		}
++		match = tmp;
+ 	}
+ 
+ 	if (!match) {
+-		dev_dbg(dev, "Buffer %u done but can't match offset (%08X)\n",
++		dev_err(dev, "Buffer %u done but can't match offset (%08X)\n",
+ 			vbuf->vb2_buf.index, offset);
+ 	} else {
+ 		timestamp = match->ts;
++		timecode = match->tc;
++		vbuf_flags = match->flags;
+ 		list_del(&match->list);
+ 		kfree(match);
+ 	}
+ 	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
+ 
+-	dst_buf_done(sess, vbuf, field, timestamp);
++	dst_buf_done(sess, vbuf, field, timestamp, timecode, vbuf_flags);
+ 	if (match)
+ 		atomic_dec(&sess->esparser_queued_bufs);
+ }
+@@ -420,16 +413,19 @@ void amvdec_src_change(struct amvdec_session *sess, u32 width,
+ 
+ 	v4l2_ctrl_s_ctrl(sess->ctrl_min_buf_capture, dpb_size);
+ 
+-	/* Check if the capture queue is already configured well for our
++	/*
++	 * Check if the capture queue is already configured well for our
+ 	 * usecase. If so, keep decoding with it and do not send the event
+ 	 */
+-	if (sess->width == width &&
++	if (sess->streamon_cap &&
++	    sess->width == width &&
+ 	    sess->height == height &&
+ 	    dpb_size <= sess->num_dst_bufs) {
+ 		sess->fmt_out->codec_ops->resume(sess);
+ 		return;
+ 	}
+ 
++	sess->changed_format = 0;
+ 	sess->width = width;
+ 	sess->height = height;
+ 	sess->status = STATUS_NEEDS_RESUME;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index a455a9ee1cc2..165e6293ffba 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -44,13 +44,15 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+ 				u32 offset, u32 field, bool allow_drop);
+ 
+ /**
+- * amvdec_add_ts_reorder() - Add a timestamp to the list in chronological order
++ * amvdec_add_ts() - Add a timestamp to the list
+  *
+  * @sess: current session
+  * @ts: timestamp to add
+  * @offset: offset in the VIFIFO where the associated packet was written
++ * @flags the vb2_v4l2_buffer flags
+  */
+-void amvdec_add_ts_reorder(struct amvdec_session *sess, u64 ts, u32 offset);
++void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++		   struct v4l2_timecode tc, u32 offset, u32 flags);
+ void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
+ 
+ /**
+diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+index ea39f8209ec7..066d4a055894 100644
+--- a/drivers/staging/media/meson/vdec/vdec_platform.c
++++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+@@ -21,6 +21,7 @@ static const struct amvdec_format vdec_formats_gxbb[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	}, {
+ 		.pixfmt = V4L2_PIX_FMT_MPEG2,
+ 		.min_buffers = 8,
+@@ -31,6 +32,7 @@ static const struct amvdec_format vdec_formats_gxbb[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	},
+ };
+ 
+@@ -45,6 +47,7 @@ static const struct amvdec_format vdec_formats_gxl[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	}, {
+ 		.pixfmt = V4L2_PIX_FMT_MPEG2,
+ 		.min_buffers = 8,
+@@ -55,6 +58,7 @@ static const struct amvdec_format vdec_formats_gxl[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	},
+ };
+ 
+@@ -69,6 +73,7 @@ static const struct amvdec_format vdec_formats_gxm[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	}, {
+ 		.pixfmt = V4L2_PIX_FMT_MPEG2,
+ 		.min_buffers = 8,
+@@ -79,6 +84,7 @@ static const struct amvdec_format vdec_formats_gxm[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	},
+ };
+ 
+@@ -93,6 +99,7 @@ static const struct amvdec_format vdec_formats_g12a[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	}, {
+ 		.pixfmt = V4L2_PIX_FMT_MPEG2,
+ 		.min_buffers = 8,
+@@ -103,6 +110,7 @@ static const struct amvdec_format vdec_formats_g12a[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	},
+ };
+ 
+@@ -117,6 +125,7 @@ static const struct amvdec_format vdec_formats_sm1[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	}, {
+ 		.pixfmt = V4L2_PIX_FMT_MPEG2,
+ 		.min_buffers = 8,
+@@ -127,6 +136,7 @@ static const struct amvdec_format vdec_formats_sm1[] = {
+ 		.codec_ops = &codec_mpeg12_ops,
+ 		.firmware_path = "meson/vdec/gxl_mpeg12.bin",
+ 		.pixfmts_cap = { V4L2_PIX_FMT_NV12M, V4L2_PIX_FMT_YUV420M, 0 },
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
+ 	},
+ };
  
 -- 
 2.22.0
