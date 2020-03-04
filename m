@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53BF9178DC0
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 10:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CC68178DB2
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 10:46:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387790AbgCDJq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Mar 2020 04:46:56 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44510 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729148AbgCDJqf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 04:46:35 -0500
-Received: by mail-wr1-f67.google.com with SMTP id n7so1505911wrt.11
-        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2020 01:46:33 -0800 (PST)
+        id S2387626AbgCDJqg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Mar 2020 04:46:36 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52837 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729158AbgCDJqg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 04:46:36 -0500
+Received: by mail-wm1-f65.google.com with SMTP id p9so1224046wmc.2
+        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2020 01:46:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K5hjg1G3VFJLeuZ62RXxBnJp53DPSao1yCpZ+ZBtBN8=;
-        b=2SE/62ffNoNovHiDs1k+u5cTld9gBWOVjpxlimiyMzuGDcXNO7DUxt9Y14hP9n3+eL
-         NH+9A+7QJG3kGP10lLckXdEVA97WpRjF9zy0NHjXZmq7Jc4bmR3ep3dxqbaMwqx7CHRU
-         usGM+s3jBF5hjJA11vy0AStb7wZVycGK89BWs8Pqqs0InWE3NVc5febUgjUoOo4lRCcj
-         +LxhnmvycnOEXSWQf57tEgS0Q4nn8FMOhSDh4vwtVXySqWhzaS1mZB7NSDyea7/Q8+Yy
-         6DIqNuLQwsNnqxuD0BT0LZWAZWKogGUIAS3hvuN0Daa6hf4lk0GPyxZygHBsYWv6GZrG
-         VnIg==
+        bh=jIQVieVu7UoENPR4ohx8RO9hyM5Q2LpZgT/s7fhmTzY=;
+        b=IkPXgpK4xQ3HN1/lwVgetOzEh4UKm3I+9vyeCcCPhYG1sgxmm/ZFGWaEZKCICJssig
+         w3q97QiB8Uqqxfw515+wbeZRdtgSkKczNxTt5VK260CBa/OIyFD5LgXhPlbWMHlkSaxp
+         zH3P9zMqOTvIe35eja5Mr64XZgKTgp1EC7Kph8B6J6PMWq19RaTgiFzMKEe+fBdepN4E
+         bUmZay3pi3XOLqH6dM8Esz+Of29D57PB93+lRseLxicDlW4Tdberxde1nVkX+qLwEBKv
+         oeCeoI5RyPCWOgbD5aazF7HM5AC4Q+y0MfZxEoTTdO5mnsYsI6jQKoVdemXxk0mKXcSZ
+         9jsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K5hjg1G3VFJLeuZ62RXxBnJp53DPSao1yCpZ+ZBtBN8=;
-        b=qLlS9pgsnVG59rnRk5xjAW+y1auX5pAP6G82hUBVrMrkk6/Iq1Z5iCbhK9kLT/RSqW
-         xDQh0TWuVb1IQtNatEGtlLGAr9pRq7oHIyrrhWbpveY4SqaFPe6VwYviiCVHVll/iEkL
-         +gCS7QdozX21eumhFUDHDR3JLDL4PfWVabVObOapmYXz4KkT402vRFatSbk9IZNpV8oH
-         Y26+qm7WwHtpPdHly23sxhJ7PcgvHD2k/6e3H4pxUce28NpAac6qx/JyOSOrxQMNzXgI
-         ZVomAfqDUade7dOL9tRb8IoltNSoZXyDj16TK649YIwiTnW/d6IF8LKxmuGfeSowYvab
-         rqYw==
-X-Gm-Message-State: ANhLgQ3XjyJPD9nHcGddfJ9PnCoqTgvOXfjm8kFTcoabECoIngNSrw/W
-        8T+Y15UDWJP1+CYYTmzJ4AJifw==
-X-Google-Smtp-Source: ADFU+vsmHI8XwQXXfnDZR562BoFU7zrqmPglShefMhkAEPAr3dqW+fmq4C1hsmjfc+4oVh7WFI4DFQ==
-X-Received: by 2002:adf:f604:: with SMTP id t4mr3308460wrp.96.1583315192881;
-        Wed, 04 Mar 2020 01:46:32 -0800 (PST)
+        bh=jIQVieVu7UoENPR4ohx8RO9hyM5Q2LpZgT/s7fhmTzY=;
+        b=t/YAtwBkVci46lHSCAqBj4v/vVoy3QlwKIwGTZUhnrnxk96c56GMABiizLSPF80Yol
+         sCQsKY7uMKnhr1F/kfbnUsgI/5ZCeyv7RPbkrym+KuwOzVgxkE9alFq6D7wdLFLM24y/
+         B6unW8uG3N3J9fR6vMldO0U+ydaCbZpY0+RVk8Z4uNLXccRMBetvw2qYbjWysWc/bzkA
+         sPWKOdYkzIRii7VmLeO/6RzeT3fxfeQFt04pQ1u12rMi431hrJ1vC1euudg9a2EHKg+z
+         gJJV9oNWw7t8NlZWu+giVn1pKmse9MuAQQT1ETTJ5NwrRN/eerRXOIOEJcUE3wqfg00I
+         XgHA==
+X-Gm-Message-State: ANhLgQ2pgYgbVoEnoedtkEe+8yT5y5XLBc1hoWNq6ekuQrQwp8qjjRvI
+        yfcvd8dd06Rbbb+XVNXSVNP2Ag==
+X-Google-Smtp-Source: ADFU+vtiBXyp3FrhG2ndaye+3pwo2YmBsb9/Ig1njs7KOUzdF8wkPe/vUfOi1SiSTAHUZP5TDGVuSQ==
+X-Received: by 2002:a05:600c:2241:: with SMTP id a1mr2786991wmm.59.1583315194019;
+        Wed, 04 Mar 2020 01:46:34 -0800 (PST)
 Received: from bender.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
         by smtp.gmail.com with ESMTPSA id b10sm38696107wrw.61.2020.03.04.01.46.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 01:46:32 -0800 (PST)
+        Wed, 04 Mar 2020 01:46:33 -0800 (PST)
 From:   Neil Armstrong <narmstrong@baylibre.com>
 To:     mchehab@kernel.org, hans.verkuil@cisco.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
         linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>,
         Kevin Hilman <khilman@baylibre.com>
-Subject: [PATCH v7 1/5] media: meson: vdec: align stride on 32 bytes
-Date:   Wed,  4 Mar 2020 10:46:21 +0100
-Message-Id: <20200304094625.2257-2-narmstrong@baylibre.com>
+Subject: [PATCH v7 2/5] media: meson: vdec: add helpers for lossless framebuffer compression buffers
+Date:   Wed,  4 Mar 2020 10:46:22 +0100
+Message-Id: <20200304094625.2257-3-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20200304094625.2257-1-narmstrong@baylibre.com>
 References: <20200304094625.2257-1-narmstrong@baylibre.com>
@@ -63,75 +64,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The HEVC/VP9 aligns the plane stride on 32, so align the planes stride
-for all codecs to 32 to satisfy HEVC/VP9 decoding using the "HEVC" HW.
+From: Maxime Jourdan <mjourdan@baylibre.com>
 
-This fixes VP9 decoding of streams with following (not limited) widths:
-- 264
- -288
-- 350
-- 352
-- 472
-- 480
-- 528
-- 600
-- 720
-- 800
-- 848
-- 1440
+Add helpers to support the lossless framebuffer compression format that
+will be used in HEVC & VP9 decoders when decoding 10bit content for
+downsampling to 8bit NV12 and later proper compressed buffer support.
 
+Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 Tested-by: Kevin Hilman <khilman@baylibre.com>
 ---
- drivers/staging/media/meson/vdec/vdec.c         | 10 +++++-----
- drivers/staging/media/meson/vdec/vdec_helpers.c |  4 ++--
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ .../staging/media/meson/vdec/vdec_helpers.c   | 27 +++++++++++++++++++
+ .../staging/media/meson/vdec/vdec_helpers.h   |  4 +++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 92f0258868b1..bfca4c82aa56 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -528,20 +528,20 @@ vdec_try_fmt_common(struct amvdec_session *sess, u32 size,
- 		memset(pfmt[1].reserved, 0, sizeof(pfmt[1].reserved));
- 		if (pixmp->pixelformat == V4L2_PIX_FMT_NV12M) {
- 			pfmt[0].sizeimage = output_size;
--			pfmt[0].bytesperline = ALIGN(pixmp->width, 64);
-+			pfmt[0].bytesperline = ALIGN(pixmp->width, 32);
- 
- 			pfmt[1].sizeimage = output_size / 2;
--			pfmt[1].bytesperline = ALIGN(pixmp->width, 64);
-+			pfmt[1].bytesperline = ALIGN(pixmp->width, 32);
- 			pixmp->num_planes = 2;
- 		} else if (pixmp->pixelformat == V4L2_PIX_FMT_YUV420M) {
- 			pfmt[0].sizeimage = output_size;
--			pfmt[0].bytesperline = ALIGN(pixmp->width, 64);
-+			pfmt[0].bytesperline = ALIGN(pixmp->width, 32);
- 
- 			pfmt[1].sizeimage = output_size / 4;
--			pfmt[1].bytesperline = ALIGN(pixmp->width, 64) / 2;
-+			pfmt[1].bytesperline = ALIGN(pixmp->width, 32) / 2;
- 
- 			pfmt[2].sizeimage = output_size / 2;
--			pfmt[2].bytesperline = ALIGN(pixmp->width, 64) / 2;
-+			pfmt[2].bytesperline = ALIGN(pixmp->width, 32) / 2;
- 			pixmp->num_planes = 3;
- 		}
- 	}
 diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index a4970ec1bf2e..3f7929c54dc6 100644
+index 3f7929c54dc6..caec0fb60338 100644
 --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
 +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -154,8 +154,8 @@ int amvdec_set_canvases(struct amvdec_session *sess,
+@@ -50,6 +50,33 @@ void amvdec_write_parser(struct amvdec_core *core, u32 reg, u32 val)
+ }
+ EXPORT_SYMBOL_GPL(amvdec_write_parser);
+ 
++/* 4 KiB per 64x32 block */
++u32 amvdec_am21c_body_size(u32 width, u32 height)
++{
++	u32 width_64 = ALIGN(width, 64) / 64;
++	u32 height_32 = ALIGN(height, 32) / 32;
++
++	return SZ_4K * width_64 * height_32;
++}
++EXPORT_SYMBOL_GPL(amvdec_am21c_body_size);
++
++/* 32 bytes per 128x64 block */
++u32 amvdec_am21c_head_size(u32 width, u32 height)
++{
++	u32 width_128 = ALIGN(width, 128) / 128;
++	u32 height_64 = ALIGN(height, 64) / 64;
++
++	return 32 * width_128 * height_64;
++}
++EXPORT_SYMBOL_GPL(amvdec_am21c_head_size);
++
++u32 amvdec_am21c_size(u32 width, u32 height)
++{
++	return ALIGN(amvdec_am21c_body_size(width, height) +
++		     amvdec_am21c_head_size(width, height), SZ_64K);
++}
++EXPORT_SYMBOL_GPL(amvdec_am21c_size);
++
+ static int canvas_alloc(struct amvdec_session *sess, u8 *canvas_id)
  {
- 	struct v4l2_m2m_buffer *buf;
- 	u32 pixfmt = sess->pixfmt_cap;
--	u32 width = ALIGN(sess->width, 64);
--	u32 height = ALIGN(sess->height, 64);
-+	u32 width = ALIGN(sess->width, 32);
-+	u32 height = ALIGN(sess->height, 32);
- 	u32 reg_cur = reg_base[0];
- 	u32 reg_num_cur = 0;
- 	u32 reg_base_cur = 0;
+ 	int ret;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index 165e6293ffba..cfaed52ab526 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -27,6 +27,10 @@ void amvdec_clear_dos_bits(struct amvdec_core *core, u32 reg, u32 val);
+ u32 amvdec_read_parser(struct amvdec_core *core, u32 reg);
+ void amvdec_write_parser(struct amvdec_core *core, u32 reg, u32 val);
+ 
++u32 amvdec_am21c_body_size(u32 width, u32 height);
++u32 amvdec_am21c_head_size(u32 width, u32 height);
++u32 amvdec_am21c_size(u32 width, u32 height);
++
+ /**
+  * amvdec_dst_buf_done_idx() - Signal that a buffer is done decoding
+  *
 -- 
 2.22.0
 
