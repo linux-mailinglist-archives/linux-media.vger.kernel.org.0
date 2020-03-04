@@ -2,40 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A51178BE2
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 08:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9BB1178C10
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 09:01:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728569AbgCDHsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Mar 2020 02:48:53 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53921 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727176AbgCDHsx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Mar 2020 02:48:53 -0500
+        id S1726137AbgCDIB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Mar 2020 03:01:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28573 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725271AbgCDIB3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 03:01:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583308132;
+        s=mimecast20190719; t=1583308888;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=VHfVr/tC6mnm30TtswDnaZCgkdF5cd/cEuR4XHAYi4k=;
-        b=D1t14iF8O4v4UX5wzTkhY0bayMicKPlg7umZoSf1CbK8fk/LQsaToEXqoJqDMMD1ZSl74b
-        833deNJFjLwyov07ZyeulwrcbF4P49GHkG9NS5a0Ugc79++mYYpRPwUIyGEqeRisfZS3/e
-        w6pI3qPE0FI+8S3nPZzbRi4VvQgIUrc=
+        bh=zRcprHlNKHf2Y4uTuJshwgaM2L8IjHdUUjSNLW2L6Ws=;
+        b=gORuy6F4pLvYyCGS0df0WFZulpLe0HLWGeH9PIVWkdGAOxIMd3Ba+RxgTRVYzCDZjqM2+J
+        hoBp0P8ZEuLpOHa4409XoOhMPe+ciuW8Ogcc+hMUEw+w3ij2TAWGLnGK/x7jBq8JcvD7QU
+        uJrc7lWYAheaF+xdBN0KgGnAzNjcTQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-fXX0MZD-OeewdNcRAR5oGg-1; Wed, 04 Mar 2020 02:48:48 -0500
-X-MC-Unique: fXX0MZD-OeewdNcRAR5oGg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-76-7VMskJu9NeKxqy4Gs6rfng-1; Wed, 04 Mar 2020 03:01:26 -0500
+X-MC-Unique: 7VMskJu9NeKxqy4Gs6rfng-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1483C8018A6;
-        Wed,  4 Mar 2020 07:48:45 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8551801E5C;
+        Wed,  4 Mar 2020 08:01:23 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com [10.36.116.150])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EBD0891D6E;
-        Wed,  4 Mar 2020 07:48:41 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B825D1BC6D;
+        Wed,  4 Mar 2020 08:01:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 2D00B17506; Wed,  4 Mar 2020 08:48:41 +0100 (CET)
-Date:   Wed, 4 Mar 2020 08:48:41 +0100
+        id 0266617506; Wed,  4 Mar 2020 09:01:20 +0100 (CET)
+Date:   Wed, 4 Mar 2020 09:01:19 +0100
 From:   Gerd Hoffmann <kraxel@redhat.com>
 To:     David Stevens <stevensd@chromium.org>
 Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -49,44 +48,43 @@ Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         virtualization@lists.linux-foundation.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         virtio-dev@lists.oasis-open.org
-Subject: Re: [PATCH v2 1/4] dma-buf: add support for virtio exported objects
-Message-ID: <20200304074841.gbfzhxorta3pfk4f@sirius.home.kraxel.org>
+Subject: Re: [PATCH v2 4/4] drm/virtio: Support virtgpu exported resources
+Message-ID: <20200304080119.i55opxkhk4kdt4hp@sirius.home.kraxel.org>
 References: <20200302121524.7543-1-stevensd@chromium.org>
- <20200302121524.7543-2-stevensd@chromium.org>
+ <20200302121524.7543-5-stevensd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200302121524.7543-2-stevensd@chromium.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200302121524.7543-5-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 02, 2020 at 09:15:21PM +0900, David Stevens wrote:
-> This change adds a new dma-buf operation that allows dma-bufs to be used
-> by virtio drivers to share exported objects. The new operation allows
-> the importing driver to query the exporting driver for the UUID which
-> identifies the underlying exported object.
-> 
-> Signed-off-by: David Stevens <stevensd@chromium.org>
-> ---
->  drivers/dma-buf/dma-buf.c | 14 ++++++++++++++
->  include/linux/dma-buf.h   | 22 ++++++++++++++++++++++
->  2 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index d4097856c86b..a04632284ec2 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1158,6 +1158,20 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
->  
-> +#ifdef CONFIG_VIRTIO
-> +int dma_buf_get_uuid(struct dma_buf *dmabuf, uuid_t *uuid)
+  Hi,
 
-Hmm, I think I would drop the #ifdef
+> +	if (vgdev->has_resource_assign_uuid) {
+> +		spin_lock(&vgdev->resource_export_lock);
+> +		if (bo->uuid_state == UUID_NOT_INITIALIZED) {
+> +			bo->uuid_state = UUID_INITIALIZING;
+> +			needs_init = true;
+> +		}
+> +		spin_unlock(&vgdev->resource_export_lock);
+> +
+> +		if (needs_init) {
+> +			ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, bo);
+
+You can submit a fenced command, then wait on the fence here.  Removes
+the need for UUID_INITIALIZING.
+
+Also note that this function will be called only once, on the first
+export.  When exporting the same object again drm will simply reuse
+the existing dmabuf.  You can drop UUID_NOT_INITIALIZED and needs_init.
+
+So you are left with only two uuid_state states.  You could turn uuid
+into a pointer, so it gets only allocated when needed.  Also uuid ==
+NULL can be used for "uuid not available" then.
 
 cheers,
   Gerd
