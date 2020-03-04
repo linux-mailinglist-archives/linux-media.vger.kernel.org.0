@@ -2,66 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFCE0179A5E
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 21:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC87179A7D
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 21:55:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729543AbgCDUrT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Mar 2020 15:47:19 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41863 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728539AbgCDUrS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 15:47:18 -0500
-Received: by mail-lj1-f193.google.com with SMTP id u26so3559992ljd.8
-        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2020 12:47:17 -0800 (PST)
+        id S2388302AbgCDUzW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Mar 2020 15:55:22 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42565 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388295AbgCDUzV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 15:55:21 -0500
+Received: by mail-lj1-f195.google.com with SMTP id q19so3582914ljp.9
+        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2020 12:55:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=xnoGvoXhhUyFFcGXnJkM1A4TM1bJ6CuJ9H64XlhnlOw=;
-        b=1LquHOcq5PsAyYYx83eHq1FpCaxYL1QI5FlA68WKx+OVumex24OC0twL/ml3AN22xk
-         0ciIoM9TNXZbvIG5JZtnLDaSX+MP/ss5yfAp0QYfGJ4Ro7Hvg1q7zk6I+wHa3ZQN3Tvq
-         hpsFCGE2FI7R1D1x+DL8fc6bM1IflcDfh9NhCfoaF7jBqzhQlzsparXZTggRZkI1Nwve
-         JOp2YeKRUiA94s9mSgGXfK+YsSmPnycl3NRrckOsY/6L9b6iJaEbVCnJAkcQJWpvcGuR
-         KKlPYDeyi7jMwBaInhoFwPME5oWBS58QpCqiVtpO4EnsxJow8EA//sS27pc0ymCycg4Q
-         nIMw==
+        bh=N8TMoVnGizDGjD4F+oBcA8gM1V3wB7c/2Mybba8wb0M=;
+        b=tOkMJEqCwb18LfVUT8bCabUDthEP/rfNZr/z/EUZfIKF6gCJ5031XaOtiydhCJjwhF
+         NdJwlOOQr7CQ4/lap7BYu5U4cQmsWI219S8uL0KMsYJ+Gvap3V2CoCwyIk+klfmTMal1
+         AQTL8BXPwhUv36T4Z6U+HI1rHHRQAj0n4DUJ3UxuDvIDVKctGeOQKzhCDdyQLz4q9iv/
+         dIRI0UHxVwuRaxx8yPdJ8a++afV3hhVUk6GG6bp1rJDPydaQTNfWb6LYhvMngtWHamDW
+         rjWWUaG1zDDcwmXlRSw3jAfzkvFDdb4buppmA2OW1NVA0eC89R1DFEL+M2qPZ2AvaQ7z
+         pb0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=xnoGvoXhhUyFFcGXnJkM1A4TM1bJ6CuJ9H64XlhnlOw=;
-        b=Bh0P6LSaAf6wbDveJZiAKnEMBmeLgq3zexLE0LNQ7NzLfrpfzBSG69djCAvVm7Hl31
-         b/QgRO7JHpCem5AhX408jnJJdsgyTY2rdnP6Wd67RRJGyN/ZF2p22h15SPUH4KrcLJzg
-         nvyk5JK7IEtmltlyWYSjFcRYiBGtdkVzBWPLKccFrFrHgde8HxC123Gf2Hs0NGVQe/tR
-         BZd5RQgjGQwugpSzaDNW1sdhpesMlXLUHJDSfZkuYLHzGO1yciJR66YGrgFzVG/24lTO
-         dCUZCS21w3pLKC179HHns0v/nNAEkLvDRgnI6twuyzq0Fn2WdP6mBjvxfaqfueDC/DXz
-         h7xw==
-X-Gm-Message-State: ANhLgQ2hBjiNikpxfaOtIcGm1OuQTXvgUBGai7DrtMGlAOCyTvsdArxh
-        4y0RGSqmlTarD+RznCs/XHTmTQ==
-X-Google-Smtp-Source: ADFU+vvtYhrrY6pxQNgxw1MamsBY5xDsAr9yVhDE+RLJxIWVJi2I5cmLL8RckGW0gbd7ccsxcyDo+A==
-X-Received: by 2002:a2e:80cc:: with SMTP id r12mr2860946ljg.154.1583354836747;
-        Wed, 04 Mar 2020 12:47:16 -0800 (PST)
+        bh=N8TMoVnGizDGjD4F+oBcA8gM1V3wB7c/2Mybba8wb0M=;
+        b=WM/91R4vOHH890b7yZh2JHdKqrgk7lNEqTllEBlxul9VqNn8likX3WenaAWawPTtgg
+         OjVCUvGZL4xTC4WRfHvTPKwJj4C41/uYZAfs6wem52qsscOtvF6eZD8MLlk5q5sUDw0c
+         hrwWEvd7tAZyWgpS61ffSVRdhANMOGH4z/QID8GZ/x2frLGR6DGVLfFJ0RTtssjZKjdR
+         XQKjEYbGH3jejmKpZfMfewjHfs2SRcrLsOGaJqMmhyOr7dp5eO2OO/Hi4lB/lbZ8ocW4
+         XBKIG/j/Yl1//lsNHWmo4cgxS2Hlgs/QO1kARYbDsTSEn8DcPKKgOvO9KLY2t1dhTq+q
+         OYkA==
+X-Gm-Message-State: ANhLgQ2qWbLCNZrzSU5oDK22rODBB95Uw8MqWm36iXHZYbwgb3L0hd9i
+        4Pvf2NAr3gkXhMnWQKxRn8ho+Q==
+X-Google-Smtp-Source: ADFU+vvGT8h9y5D5IP2yuhAd5w4BRZjij5dQKsXZveJYJfXMfBouDMsJyUJyTrGN7XomFrl9MAxJGA==
+X-Received: by 2002:a2e:8250:: with SMTP id j16mr3024159ljh.274.1583355317967;
+        Wed, 04 Mar 2020 12:55:17 -0800 (PST)
 Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id t4sm6101628ljk.14.2020.03.04.12.47.15
+        by smtp.gmail.com with ESMTPSA id f19sm3794523ljc.37.2020.03.04.12.55.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 12:47:15 -0800 (PST)
-Date:   Wed, 4 Mar 2020 21:47:15 +0100
+        Wed, 04 Mar 2020 12:55:17 -0800 (PST)
+Date:   Wed, 4 Mar 2020 21:55:16 +0100
 From:   Niklas <niklas.soderlund@ragnatech.se>
 To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/2] media: rcar-csi2: Fix registering camera endpoint to
- VIN
-Message-ID: <20200304204715.GC1791497@oden.dyn.berto.se>
+Subject: Re: [PATCH 2/2] media: rcar-vin: Add support for SRGGB8_1X8
+Message-ID: <20200304205516.GD1791497@oden.dyn.berto.se>
 References: <20200228165011.17898-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200228165011.17898-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200228165011.17898-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200228165011.17898-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200228165011.17898-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -71,89 +70,129 @@ Hi Lad,
 
 Thanks for your work.
 
-On 2020-02-28 16:50:10 +0000, Lad Prabhakar wrote:
-> CSI2 registers camera/sensor as v4l2 async sub device with fwnode is
-> remote endpoint and the camera/sensor register itself as v4l2 sub device
-> with fwnode is remote device as a result the match.fwnode should be
-> fwnode_graph_get_remote_port_parent and not
-> fwnode_graph_get_remote_endpoint.
-> 
-> This patch makes use of v4l2 helper function
-> v4l2_async_notifier_add_fwnode_remote_subdev() which uses
-> fwnode_graph_get_remote_port_parent as match.fwnode fixing the issue
-> of registering camera endpoint to the driver.
+On 2020-02-28 16:50:11 +0000, Lad Prabhakar wrote:
+> Most of the RZ/G2x boards can support capturing frames in SRGGB8_1X8
+> format, add support for this with a runtime check that the running
+> hardware supports it.
+
+Where is the runtime check for supported hardware? Also out of curiosity 
+which boars can't support SRGGB and what setup are you using to test 
+SRGGB capture?
+
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-I'm afraid this is not the right solution. The rcar-csi2 driver uses the 
-v4l2-async framework to do endpoint matching instead of node matching.  
-This is needed as it needs to work with the adv748x driver which 
-register it self in v4l2-async using endpoints instead of nodes. The 
-reason for this is that from a single DT node it creates multiple 
-subdevices, one for each endpoint IIRC.
-
-Without this patch the two CSI-2 receivers on R-Car M3-n registers the 
-two following 'paths' in v4l2 to be able to find the two subdevice CSI-2 
-transmitters created by the ADV748x.
-
-rcar-csi2 fea80000.csi2: '/soc/i2c@e66d8000/video-receiver@70/port@b/endpoint'
-rcar-csi2 feaa0000.csi2: '/soc/i2c@e66d8000/video-receiver@70/port@a/endpoint'
-
-With this patch applied it registers the following which can't be found 
-as they are not present in the v4l2-async list of subdevices (as they 
-are registerd as above).
-
-rcar-csi2 fea80000.csi2: '/soc/i2c@e66d8000/video-receiver@70'
-rcar-csi2 feaa0000.csi2: '/soc/i2c@e66d8000/video-receiver@70'
-rcar-csi2: probe of feaa0000.csi2 failed with error -17
-
-This patch may unlock your use-case as it's a known problem that 
-endpoint and node matching do not mix. But it will break the already 
-upstream use-case and for that reason, I'm really sorry about this.
-
-Nacked-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-The real solution to this problem IMHO is to make all of v4l2-async 
-operate using endpoint matching or possibly some kind of fallback to 
-node matching if no endpoint can be found. Never the less some work is 
-required in the v4l2-async core to sort out node and endpoint matching 
-coexistence.
-
 > ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-core.c |  1 +
+>  drivers/media/platform/rcar-vin/rcar-csi2.c |  1 +
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 14 ++++++++++++--
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+
+This patch shall be split in two. One which touches rcar-csi2.c and one 
+for the other files as they are two different drivers.
+
+>  4 files changed, 18 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 7440c8965d27..76daf2fe5bcd 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -469,6 +469,7 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+>  		case MEDIA_BUS_FMT_UYVY8_2X8:
+>  		case MEDIA_BUS_FMT_UYVY10_2X10:
+>  		case MEDIA_BUS_FMT_RGB888_1X24:
+> +		case MEDIA_BUS_FMT_SRGGB8_1X8:
+>  			vin->mbus_code = code.code;
+>  			vin_dbg(vin, "Found media bus format for %s: %d\n",
+>  				subdev->name, vin->mbus_code);
 > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index faa9fb23a2e9..5b04e4768eb1 100644
+> index 5b04e4768eb1..97e4886f63f0 100644
 > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
 > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -833,20 +833,18 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  		return ret;
->  	}
+> @@ -320,6 +320,7 @@ static const struct rcar_csi2_format rcar_csi2_formats[] = {
+>  	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .bpp = 16 },
+>  	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .bpp = 16 },
+>  	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .bpp = 20 },
+> +	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8,     .datatype = 0x2a, .bpp = 8 },
+>  };
 >  
-> -	priv->asd.match.fwnode =
-> -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+>  static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int code)
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 1a30cd036371..63709b4bbf7a 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -85,6 +85,7 @@
+>  #define VNMC_INF_YUV8_BT601	(1 << 16)
+>  #define VNMC_INF_YUV10_BT656	(2 << 16)
+>  #define VNMC_INF_YUV10_BT601	(3 << 16)
+> +#define VNMC_INF_RAW8		(4 << 16)
+>  #define VNMC_INF_YUV16		(5 << 16)
+>  #define VNMC_INF_RGB888		(6 << 16)
+>  #define VNMC_VUP		(1 << 10)
+> @@ -587,13 +588,15 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+>  	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
+>  
 > -
-> -	of_node_put(ep);
-> -
->  	v4l2_async_notifier_init(&priv->notifier);
+>  	/* TODO: Add support for the UDS scaler. */
+>  	if (vin->info->model != RCAR_GEN3)
+>  		rvin_crop_scale_comp_gen2(vin);
 >  
-> -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
-> +	ret = v4l2_async_notifier_add_fwnode_remote_subdev(&priv->notifier,
-> +							   of_fwnode_handle(ep),
-> +							   &priv->asd);
->  	if (ret) {
-> -		fwnode_handle_put(priv->asd.match.fwnode);
-> +		of_node_put(ep);
->  		return ret;
+>  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+> -	stride = vin->format.bytesperline / fmt->bpp;
+> +	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
+> +		stride = ALIGN(vin->format.bytesperline / 2, 0x10);
+> +	else
+> +		stride = vin->format.bytesperline / fmt->bpp;
+
+This does not look right, you should to move this logic into 
+rvin_format_bytesperline().
+
+>  	rvin_write(vin, stride, VNIS_REG);
+>  }
+>  
+> @@ -676,6 +679,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  
+>  		input_is_yuv = true;
+>  		break;
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +		vnmc |= VNMC_INF_RAW8;
+> +		break;
+>  	default:
+>  		break;
 >  	}
+> @@ -737,6 +743,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  	case V4L2_PIX_FMT_ABGR32:
+>  		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
+>  		break;
+> +	case V4L2_PIX_FMT_SRGGB8:
+> +		dmr = 0;
+> +		break;
+>  	default:
+>  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+>  			vin->format.pixelformat);
+> @@ -1110,6 +1119,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>  	case MEDIA_BUS_FMT_UYVY8_2X8:
+>  	case MEDIA_BUS_FMT_UYVY10_2X10:
+>  	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+>  		vin->mbus_code = fmt.format.code;
+>  		break;
+>  	default:
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index b12b3f88836a..d56cf85ba065 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[] = {
+>  		.fourcc			= V4L2_PIX_FMT_ABGR32,
+>  		.bpp			= 4,
+>  	},
+> +	{
+> +		.fourcc			= V4L2_PIX_FMT_SRGGB8,
+> +		.bpp			= 1,
+> +	},
+>  };
 >  
-> +	of_node_put(ep);
-> +
->  	priv->notifier.ops = &rcar_csi2_notify_ops;
->  
->  	dev_dbg(priv->dev, "Found '%pOF'\n",
+>  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
 > -- 
 > 2.20.1
 > 
