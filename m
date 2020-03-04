@@ -2,115 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC9A9178AC7
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 07:43:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48AFA178B19
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 08:09:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725797AbgCDGnM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Mar 2020 01:43:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46521 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725283AbgCDGnM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 01:43:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583304189;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4fHgO8hU9Nn3A/mKut/Pf9QqB1oZmz2Y/YtOZ/w+kWY=;
-        b=My8RDKOnsRMsIw6HYQNVBStJv4Tv8aSfAzDiHBWc2BRvXZnGFFf2MWtZhVRfzUROapi4w5
-        +ze68F01TFBJMfq2fvWBF71dYpQKDD3AOdg1xyYA3PDHQ9zczMGdfczEM6fZOAzyYOrOIy
-        TvjzvqrnyfQyDKyuoqIsKiKp+hbULy8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-WbQqLtKTOnO822MGeUl4pw-1; Wed, 04 Mar 2020 01:42:58 -0500
-X-MC-Unique: WbQqLtKTOnO822MGeUl4pw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29BD5189F760;
-        Wed,  4 Mar 2020 06:42:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com [10.36.116.150])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7B8F760C80;
-        Wed,  4 Mar 2020 06:42:52 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id B9E7D17506; Wed,  4 Mar 2020 07:42:51 +0100 (CET)
-Date:   Wed, 4 Mar 2020 07:42:51 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device
- specification
-Message-ID: <20200304064251.zzkhevqgth6uets6@sirius.home.kraxel.org>
-References: <20200206102058.247258-1-keiichiw@chromium.org>
- <20200206102058.247258-2-keiichiw@chromium.org>
- <20200225095956.7rtwugfru4dbjj7q@sirius.home.kraxel.org>
- <CAD90VcaTJh5MTRggpOmCK2LAryMHha2+7nPkFVTT8N8S06tf-A@mail.gmail.com>
- <20200227092856.p4kuh5dhh2tk3nnf@sirius.home.kraxel.org>
- <CAPBb6MWwBbNULCfMxN_KLt_Zd8kmmNy2JPi6XjLF1YgxxCPydw@mail.gmail.com>
+        id S2387398AbgCDHJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Mar 2020 02:09:04 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:33390 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727130AbgCDHJE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 02:09:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=xcOQxS31WXqSI2NeANvP6zwq4SdJcjdQbsMqA4Er/KA=; b=my7jb0thoo0WpDZBtjYCAfUwbe
+        c/LD6Qffyj2Z+dhqasDRg/WnjuvilNL5RUxXbz7H25Eg2Vy4TTZ2zc/2XhIdZPim7y5FL2a3tNGAD
+        R2kHFtSyHjFahOHqp1vjzN8zFZpKf3FObsDeouX5Wj0vElooZys8cQ5Ku45Vog3DZFA9HCmSsDnZ6
+        OozdM7Ke63t8JsT3Z6OG+f8M3f67O23CresE90wLxvu5NqVVHHK4UW3EjszaqrykfZiR1CqkKuaAF
+        cIsdxW7+xPTTA8VjqXM5bB9xilz1my9w0VlMurngUa0CZCZ36PICaUvY8qp3PaMdlc9VwkFxrG1uj
+        6/Gic00g==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j9O9N-0007EG-5P; Wed, 04 Mar 2020 07:09:01 +0000
+Subject: Re: linux-next: Tree for Mar 4 (staging/media/usbvision)
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+References: <20200304155458.64c78dcd@canb.auug.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <40c0c50a-5db9-89b7-6620-4905fe343f08@infradead.org>
+Date:   Tue, 3 Mar 2020 23:08:59 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPBb6MWwBbNULCfMxN_KLt_Zd8kmmNy2JPi6XjLF1YgxxCPydw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200304155458.64c78dcd@canb.auug.org.au>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
-
-> > With a feature flag both driver and device can choose whenever they want
-> > support v1 or v2 or both.  With a version config field this is more
-> > limited, the device can't decide to support both.  So the bonus points
-> > for a smooth transition go to the feature flags not the version field ;)
+On 3/3/20 8:54 PM, Stephen Rothwell wrote:
+> Hi all,
 > 
-> I agree that feature flags would be preferable in general, but I'm
-> concerned by the fact that there is (IIUC) a limited number of them.
+> Changes since 20200303:
+> 
 
-We have 64 total, some reserved, 24 are available to devices right now,
-see https://www.kraxel.org/virtio/virtio-v1.1-cs01-video-v3.html#x1-130002
+This ($subject) driver should depend on USB.  Otherwise there can be build errors:
 
-> Video tends to change significantly over time, and to have optional
-> features that would also be presented as feature flags. After a while
-> we may run out of them, while a new protocol version would allow us to
-> extend the config struct with some new flags. Or am I missing
-> something?
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg_irq':
+usbvision-core.c:(.text+0xdf7): undefined reference to `usb_submit_urb'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_isoc_irq':
+usbvision-core.c:(.text+0x1e9f): undefined reference to `usb_submit_urb'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_read_reg':
+usbvision-core.c:(.text+0x1fee): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg':
+usbvision-core.c:(.text+0x206e): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_output':
+usbvision-core.c:(.text+0x21c0): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_input':
+usbvision-core.c:(.text+0x268c): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_setup':
+usbvision-core.c:(.text+0x2950): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o:usbvision-core.c:(.text+0x2a3d): more undefined references to `usb_control_msg' follow
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_alternate':
+usbvision-core.c:(.text+0x2cfd): undefined reference to `usb_set_interface'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_init_isoc':
+usbvision-core.c:(.text+0x2dd9): undefined reference to `usb_alloc_urb'
+ld: usbvision-core.c:(.text+0x2e0a): undefined reference to `usb_alloc_coherent'
+ld: usbvision-core.c:(.text+0x2ec2): undefined reference to `usb_submit_urb'
+ld: usbvision-core.c:(.text+0x2ed2): undefined reference to `usb_submit_urb'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_stop_isoc':
+usbvision-core.c:(.text+0x2f26): undefined reference to `usb_kill_urb'
+ld: usbvision-core.c:(.text+0x2f4b): undefined reference to `usb_free_coherent'
+ld: usbvision-core.c:(.text+0x2f59): undefined reference to `usb_free_urb'
+ld: usbvision-core.c:(.text+0x2f9d): undefined reference to `usb_set_interface'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_release':
+usbvision-video.c:(.text+0xcd8): undefined reference to `usb_free_urb'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_disconnect':
+usbvision-video.c:(.text+0xd42): undefined reference to `usb_put_dev'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_radio_close':
+usbvision-video.c:(.text+0xdd6): undefined reference to `usb_set_interface'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_probe':
+usbvision-video.c:(.text+0x1375): undefined reference to `usb_get_dev'
+ld: usbvision-video.c:(.text+0x1488): undefined reference to `usb_alloc_urb'
+ld: usbvision-video.c:(.text+0x1843): undefined reference to `usb_put_dev'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_exit':
+usbvision-video.c:(.exit.text+0x9): undefined reference to `usb_deregister'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_init':
+usbvision-video.c:(.init.text+0x2d): undefined reference to `usb_register_driver'
+ld: drivers/staging/media/usbvision/usbvision-i2c.o: in function `usbvision_i2c_write':
+usbvision-i2c.c:(.text+0x20e): undefined reference to `usb_control_msg'
 
-Not everything needs a feature flag.  For example we have
-VIRTIO_VIDEO_CMD_QUERY_CAPABILITY, and we can add new video formats
-without needing a feature flag.  Maybe it is a good idea to explicitly
-say in the specs that this can happen and that the driver should simply
-ignore any unknown format returned by the device.
 
-> I also wonder how "support v1 or v2 or both" would work with feature
-> flags. In order to make it possible to opt out of v1, I guess we would
-> need "v1 supported" flag to begin with?
 
-The driver can ignore any device without v2 feature flag set.
-The device can refuse to accept a driver without v2 support (don't allow
-setting the FEATURES_OK bit).
-
-A explicit v1 feature flag would allow the guest driver print a more
-specific error message ("device doesn't support v1" instead of "feature
-negotiation failed"), but that's it.
-
-cheers,
-  Gerd
-
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
