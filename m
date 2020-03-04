@@ -2,82 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24C8A179014
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 13:09:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE5421790D5
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 14:06:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729424AbgCDMJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Mar 2020 07:09:33 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:39756 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726502AbgCDMJd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Mar 2020 07:09:33 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1j9SoM-002Qnk-D2; Wed, 04 Mar 2020 12:07:38 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1j9Src-0007pB-BQ; Wed, 04 Mar 2020 12:11:00 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.7] meson: vdec fixes/improvements (#61954)
-Date:   Wed,  4 Mar 2020 12:11:00 +0000
-Message-Id: <20200304121100.30028-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <ab89c537-3a54-11ba-1816-431dad550b37@xs4all.nl>
-References: 
+        id S2388104AbgCDNGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Mar 2020 08:06:20 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53820 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388048AbgCDNGT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 08:06:19 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 024D6IhF011908;
+        Wed, 4 Mar 2020 07:06:18 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1583327178;
+        bh=YXzQppbglr+xPKbiEaDdJH1kY4n3UhI0W2ajY77vJNE=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=yJiakj4S7Opplp7tEymkkymcUSmZfZgIn20p0umYvd2cAWhubn2acqBd/7yfIh5sv
+         dfer8+oCOgvgRkJsXOrGGk2VUQHwvskVj+ZVM3cBn5csRRpUV7exL/AXez2Qf+DW3h
+         4e5u4m5SAtUN1H/dGJE8CBVJbgJ7CIHoZ48Itx/4=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 024D6IWQ070658
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 4 Mar 2020 07:06:18 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 4 Mar
+ 2020 07:06:18 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 4 Mar 2020 07:06:18 -0600
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with SMTP id 024D6Icj099558;
+        Wed, 4 Mar 2020 07:06:18 -0600
+Date:   Wed, 4 Mar 2020 07:10:53 -0600
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+CC:     Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stable@vger.kernel.org>
+Subject: Re: [Patch] media: ti-vpe: cal: fix a kernel oops when unloading
+ module
+Message-ID: <20200304131053.k76vivpwv3tvr52d@ti.com>
+References: <20200303172629.21339-1-bparrot@ti.com>
+ <4010c13f-6a32-f3c3-5b6d-62a4e3782c64@ti.com>
+ <f7f6dd87-147f-b9e9-aaa7-c063a8f3c11e@ti.com>
+ <a2e6510f-ffd9-060e-ab03-cdc261ecc778@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <a2e6510f-ffd9-060e-ab03-cdc261ecc778@ti.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Tomi,
 
-Pull request: https://patchwork.linuxtv.org/patch/61954/
-Build log: https://builder.linuxtv.org/job/patchwork/40819/
-Build time: 00:10:48
-Link: https://lore.kernel.org/linux-media/ab89c537-3a54-11ba-1816-431dad550b37@xs4all.nl
+Thanks for the review, and fix!
 
-gpg: Signature made Wed 04 Mar 2020 11:52:25 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Tomi Valkeinen <tomi.valkeinen@ti.com> wrote on Wed [2020-Mar-04 11:22:26 +0200]:
+> On 04/03/2020 10:41, Tomi Valkeinen wrote:
+> 
+> >> Thanks, this fixes the crash for me.
+> >>
+> >> It does look a bit odd that something is allocated with kzalloc, and then it's freed somewhere 
+> >> inside v4l2_async_notifier_cleanup, though. But if that's how it supposed to be used, looks fine 
+> >> to me.
+> > 
+> > Well, sent that a few seconds too early... With this patch, I see kmemleaks.
+> 
+> This is caused by allocating asd for all ports, even if the port is not used, causing the allocated asd to be forgotten. Also, any error there would cause leak too.
+> 
+> I think something like this fixes both the unused port case and error paths:
+> 
 
-Summary: 7 patches and/or PDF generation with issues, being 0 at build time
+Yes I see that now. Good catch.
+I'll fix it in v2.
 
-Error/warnings:
+Benoit
 
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-mem2mem-handle-draining-stopped-and-next-.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-mem2mem-handle-draining-stopped-and-next-.patch
-patches/0001-media-v4l2-mem2mem-handle-draining-stopped-and-next-.patch:15: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-vicodec-use-v4l2-mem2mem-draining-stopped-and-.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-vicodec-use-v4l2-mem2mem-draining-stopped-and-.patch
-patches/0002-media-vicodec-use-v4l2-mem2mem-draining-stopped-and-.patch:12: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-meson-vdec-bring-up-to-compliance.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-meson-vdec-bring-up-to-compliance.patch
-patches/0003-media-meson-vdec-bring-up-to-compliance.patch:35: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-meson-vdec-add-H.264-decoding-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-meson-vdec-add-H.264-decoding-support.patch
-patches/0004-media-meson-vdec-add-H.264-decoding-support.patch:33: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-meson-vdec-add-common-HEVC-decoder-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-meson-vdec-add-common-HEVC-decoder-support.patch
-patches/0007-media-meson-vdec-add-common-HEVC-decoder-support.patch:45: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-meson-vdec-add-VP9-input-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-meson-vdec-add-VP9-input-support.patch
-patches/0008-media-meson-vdec-add-VP9-input-support.patch:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-media-meson-vdec-add-VP9-decoder-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-media-meson-vdec-add-VP9-decoder-support.patch
-patches/0009-media-meson-vdec-add-VP9-decoder-support.patch:44: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index a928c9d66d5d..4b89dd53d2b4 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -372,8 +372,6 @@ struct cal_ctx {
+>  	struct v4l2_subdev	*sensor;
+>  	struct v4l2_fwnode_endpoint	endpoint;
+>  
+> -	struct v4l2_async_subdev asd;
+> -
+>  	struct v4l2_fh		fh;
+>  	struct cal_dev		*dev;
+>  	struct cc_data		*cc;
+> @@ -2020,7 +2018,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+>  
+>  	parent = pdev->dev.of_node;
+>  
+> -	asd = &ctx->asd;
+>  	endpoint = &ctx->endpoint;
+>  
+>  	ep_node = NULL;
+> @@ -2067,8 +2064,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+>  		ctx_dbg(3, ctx, "can't get remote parent\n");
+>  		goto cleanup_exit;
+>  	}
+> -	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -	asd->match.fwnode = of_fwnode_handle(sensor_node);
+>  
+>  	v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), endpoint);
+>  
+> @@ -2098,9 +2093,17 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+>  
+>  	v4l2_async_notifier_init(&ctx->notifier);
+>  
+> +	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
+> +	if (!asd)
+> +		goto cleanup_exit;
+> +
+> +	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> +	asd->match.fwnode = of_fwnode_handle(sensor_node);
+> +
+>  	ret = v4l2_async_notifier_add_subdev(&ctx->notifier, asd);
+>  	if (ret) {
+>  		ctx_err(ctx, "Error adding asd\n");
+> +		kfree(asd);
+>  		goto cleanup_exit;
+>  	}
+>  
+>  Tomi
+> 
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
