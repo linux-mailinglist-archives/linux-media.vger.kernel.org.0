@@ -2,105 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48AFA178B19
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 08:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47A51178BE2
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2020 08:48:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387398AbgCDHJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Mar 2020 02:09:04 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:33390 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727130AbgCDHJE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Mar 2020 02:09:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=xcOQxS31WXqSI2NeANvP6zwq4SdJcjdQbsMqA4Er/KA=; b=my7jb0thoo0WpDZBtjYCAfUwbe
-        c/LD6Qffyj2Z+dhqasDRg/WnjuvilNL5RUxXbz7H25Eg2Vy4TTZ2zc/2XhIdZPim7y5FL2a3tNGAD
-        R2kHFtSyHjFahOHqp1vjzN8zFZpKf3FObsDeouX5Wj0vElooZys8cQ5Ku45Vog3DZFA9HCmSsDnZ6
-        OozdM7Ke63t8JsT3Z6OG+f8M3f67O23CresE90wLxvu5NqVVHHK4UW3EjszaqrykfZiR1CqkKuaAF
-        cIsdxW7+xPTTA8VjqXM5bB9xilz1my9w0VlMurngUa0CZCZ36PICaUvY8qp3PaMdlc9VwkFxrG1uj
-        6/Gic00g==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j9O9N-0007EG-5P; Wed, 04 Mar 2020 07:09:01 +0000
-Subject: Re: linux-next: Tree for Mar 4 (staging/media/usbvision)
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-References: <20200304155458.64c78dcd@canb.auug.org.au>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <40c0c50a-5db9-89b7-6620-4905fe343f08@infradead.org>
-Date:   Tue, 3 Mar 2020 23:08:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728569AbgCDHsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Mar 2020 02:48:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53921 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727176AbgCDHsx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Mar 2020 02:48:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583308132;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VHfVr/tC6mnm30TtswDnaZCgkdF5cd/cEuR4XHAYi4k=;
+        b=D1t14iF8O4v4UX5wzTkhY0bayMicKPlg7umZoSf1CbK8fk/LQsaToEXqoJqDMMD1ZSl74b
+        833deNJFjLwyov07ZyeulwrcbF4P49GHkG9NS5a0Ugc79++mYYpRPwUIyGEqeRisfZS3/e
+        w6pI3qPE0FI+8S3nPZzbRi4VvQgIUrc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-fXX0MZD-OeewdNcRAR5oGg-1; Wed, 04 Mar 2020 02:48:48 -0500
+X-MC-Unique: fXX0MZD-OeewdNcRAR5oGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1483C8018A6;
+        Wed,  4 Mar 2020 07:48:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-150.ams2.redhat.com [10.36.116.150])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EBD0891D6E;
+        Wed,  4 Mar 2020 07:48:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 2D00B17506; Wed,  4 Mar 2020 08:48:41 +0100 (CET)
+Date:   Wed, 4 Mar 2020 08:48:41 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        virtio-dev@lists.oasis-open.org
+Subject: Re: [PATCH v2 1/4] dma-buf: add support for virtio exported objects
+Message-ID: <20200304074841.gbfzhxorta3pfk4f@sirius.home.kraxel.org>
+References: <20200302121524.7543-1-stevensd@chromium.org>
+ <20200302121524.7543-2-stevensd@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200304155458.64c78dcd@canb.auug.org.au>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200302121524.7543-2-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/3/20 8:54 PM, Stephen Rothwell wrote:
-> Hi all,
+On Mon, Mar 02, 2020 at 09:15:21PM +0900, David Stevens wrote:
+> This change adds a new dma-buf operation that allows dma-bufs to be used
+> by virtio drivers to share exported objects. The new operation allows
+> the importing driver to query the exporting driver for the UUID which
+> identifies the underlying exported object.
 > 
-> Changes since 20200303:
+> Signed-off-by: David Stevens <stevensd@chromium.org>
+> ---
+>  drivers/dma-buf/dma-buf.c | 14 ++++++++++++++
+>  include/linux/dma-buf.h   | 22 ++++++++++++++++++++++
+>  2 files changed, 36 insertions(+)
 > 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index d4097856c86b..a04632284ec2 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1158,6 +1158,20 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
+>  }
+>  EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>  
+> +#ifdef CONFIG_VIRTIO
+> +int dma_buf_get_uuid(struct dma_buf *dmabuf, uuid_t *uuid)
 
-This ($subject) driver should depend on USB.  Otherwise there can be build errors:
+Hmm, I think I would drop the #ifdef
 
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg_irq':
-usbvision-core.c:(.text+0xdf7): undefined reference to `usb_submit_urb'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_isoc_irq':
-usbvision-core.c:(.text+0x1e9f): undefined reference to `usb_submit_urb'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_read_reg':
-usbvision-core.c:(.text+0x1fee): undefined reference to `usb_control_msg'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg':
-usbvision-core.c:(.text+0x206e): undefined reference to `usb_control_msg'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_output':
-usbvision-core.c:(.text+0x21c0): undefined reference to `usb_control_msg'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_input':
-usbvision-core.c:(.text+0x268c): undefined reference to `usb_control_msg'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_setup':
-usbvision-core.c:(.text+0x2950): undefined reference to `usb_control_msg'
-ld: drivers/staging/media/usbvision/usbvision-core.o:usbvision-core.c:(.text+0x2a3d): more undefined references to `usb_control_msg' follow
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_alternate':
-usbvision-core.c:(.text+0x2cfd): undefined reference to `usb_set_interface'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_init_isoc':
-usbvision-core.c:(.text+0x2dd9): undefined reference to `usb_alloc_urb'
-ld: usbvision-core.c:(.text+0x2e0a): undefined reference to `usb_alloc_coherent'
-ld: usbvision-core.c:(.text+0x2ec2): undefined reference to `usb_submit_urb'
-ld: usbvision-core.c:(.text+0x2ed2): undefined reference to `usb_submit_urb'
-ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_stop_isoc':
-usbvision-core.c:(.text+0x2f26): undefined reference to `usb_kill_urb'
-ld: usbvision-core.c:(.text+0x2f4b): undefined reference to `usb_free_coherent'
-ld: usbvision-core.c:(.text+0x2f59): undefined reference to `usb_free_urb'
-ld: usbvision-core.c:(.text+0x2f9d): undefined reference to `usb_set_interface'
-ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_release':
-usbvision-video.c:(.text+0xcd8): undefined reference to `usb_free_urb'
-ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_disconnect':
-usbvision-video.c:(.text+0xd42): undefined reference to `usb_put_dev'
-ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_radio_close':
-usbvision-video.c:(.text+0xdd6): undefined reference to `usb_set_interface'
-ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_probe':
-usbvision-video.c:(.text+0x1375): undefined reference to `usb_get_dev'
-ld: usbvision-video.c:(.text+0x1488): undefined reference to `usb_alloc_urb'
-ld: usbvision-video.c:(.text+0x1843): undefined reference to `usb_put_dev'
-ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_exit':
-usbvision-video.c:(.exit.text+0x9): undefined reference to `usb_deregister'
-ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_init':
-usbvision-video.c:(.init.text+0x2d): undefined reference to `usb_register_driver'
-ld: drivers/staging/media/usbvision/usbvision-i2c.o: in function `usbvision_i2c_write':
-usbvision-i2c.c:(.text+0x20e): undefined reference to `usb_control_msg'
+cheers,
+  Gerd
 
-
-
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
