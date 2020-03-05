@@ -2,112 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9D2517A2E4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 11:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B968017A3F6
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 12:16:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbgCEKN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Mar 2020 05:13:26 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55871 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725816AbgCEKN0 (ORCPT
+        id S1727289AbgCELQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Mar 2020 06:16:17 -0500
+Received: from ulan.pagasa.dost.gov.ph ([202.90.128.205]:47754 "EHLO
+        mailgw.pagasa.dost.gov.ph" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725880AbgCELQQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Mar 2020 05:13:26 -0500
-Received: from [IPv6:2001:983:e9a7:1:7c2d:3b2e:4be4:20a2]
- ([IPv6:2001:983:e9a7:1:7c2d:3b2e:4be4:20a2])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 9nVKjhfeq9Im29nVLj7p3K; Thu, 05 Mar 2020 11:13:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583403203; bh=Kgnd3zToKuRBUxYCpM+7FQ2spzn0XiARVXXCsNiNcw0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=C89R36ZOdYOrsnfSksnjWTDu12oq6e1S4Z2cYzqEjLrZRu4AAKI+eClThy4RS7jOI
-         CLk3DsvFnfGb2wtoGDmVwLPyEHOcIcAJK56LS3aHhdTQuWY4uxjwRQ+3NA06VL7Y0C
-         kYrhD5dH7riepKJwdQLilDkC4ODcrHP8rblHr8AsQpmC+PEKoesiZMF4rKpqOagFdb
-         WYi6GiDznvQU7ZebKg35fpMmGRCtbnyfCA9y6x0epsIOvZyFfWwl7UrC9iIoDl1VB3
-         FyJ0kiiCkMGNCdpz+Q6YQyOmmLI56db68dYH++ivVm9FumQbHNNHzZDgQQj0eYXCD0
-         YsZ1VzVFrEcng==
-Subject: Re: [PATCH] media: adv7604: Add new predefined video timings for
- adv76xx
-To:     Beniamin Bia <beniamin.bia@analog.com>, linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        dragos.bogdan@analog.com, biabeniamin@outlook.com,
-        alexandru.ardelean@analog.com
-References: <20200305085908.26267-1-beniamin.bia@analog.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <edc7dadf-b05a-df8e-82a9-87c4ade3f412@xs4all.nl>
-Date:   Thu, 5 Mar 2020 11:13:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thu, 5 Mar 2020 06:16:16 -0500
+X-Greylist: delayed 1274 seconds by postgrey-1.27 at vger.kernel.org; Thu, 05 Mar 2020 06:16:06 EST
+Received: from webmail.pagasa.dost.int ([10.10.11.8])
+        by mailgw.pagasa.dost.gov.ph  with ESMTP id 025AseSK006737-025AseSM006737
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 5 Mar 2020 18:54:40 +0800
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id 2FB4F2981A90;
+        Thu,  5 Mar 2020 18:46:49 +0800 (PST)
+Received: from webmail.pagasa.dost.int ([127.0.0.1])
+        by localhost (webmail.pagasa.dost.int [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id r7J1A0N3aHYl; Thu,  5 Mar 2020 18:46:48 +0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id 2232C2981A4C;
+        Thu,  5 Mar 2020 18:46:48 +0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 webmail.pagasa.dost.int 2232C2981A4C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pagasa.dost.gov.ph;
+        s=96B9A03E-48B0-11EA-A7E8-92F42F537CE2; t=1583405208;
+        bh=RC75T5p3JPNk7JUNB+lH0UfaFQO1Ac584gPL3SIL6h8=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=vwxX3L8Z7uHnDJPZBIix9IBQi0XMBiY4sLQTc/9+h6pT2FHeTz61v6B+3f3w6WhXh
+         jUdnW3+FuZCvkf1pcG3LkjpsYvCQO7zO587a10BanpMqFFL6zPGTaTUsrqnCnsqpAd
+         CtN8Atz3iXBEFHZeiXsfNfnWSfk0n7tqEffbmBy8=
+X-Virus-Scanned: amavisd-new at pagasa.dost.int
+Received: from webmail.pagasa.dost.int ([127.0.0.1])
+        by localhost (webmail.pagasa.dost.int [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id WT2tTJV-1oie; Thu,  5 Mar 2020 18:46:47 +0800 (PST)
+Received: from webmail.pagasa.dost.int (webmail.pagasa.dost.int [10.11.1.8])
+        by webmail.pagasa.dost.int (Postfix) with ESMTP id 5119729819D2;
+        Thu,  5 Mar 2020 18:46:46 +0800 (PST)
+Date:   Thu, 5 Mar 2020 18:46:46 +0800 (PST)
+From:   "Juanito S. Galang" <juanito.galang@pagasa.dost.gov.ph>
+Message-ID: <1980644409.3575157.1583405206290.JavaMail.zimbra@pagasa.dost.gov.ph>
+Subject: 
 MIME-Version: 1.0
-In-Reply-To: <20200305085908.26267-1-beniamin.bia@analog.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCPpn8IpkKWh05S5KK73CAnv0075A29Y0fVXYg/zkT1rjsH+nBTrwM+1UfrdZ048LvK85HGUUaqIUtguC2ZeiPwc54RF1TQm8GtrJthMJQ3o21ZlW6E4
- AtIf/+fkkGlZwvC1zeDsZBiBCnU4ITv3LL5a1zueGqv8danYnBrz3FBHL3a/U8D7SZRBzsKstdWPE5Y8FaBOkdfYGC0uh7IZDYDhb/uvnZGJQYOMoTRVyY1V
- VjYj87uXZX/XfoZquSu8AhVIlEO+yWrF5sDvKIM+fhN8OnGw4R+jUiwdC8iwOdjrgG0dv29S499MImu1E4peiK5MBJgbZVcGr+dufdI3nNRGuzK1FNu/ErLV
- Vy9XKkRomUotfREVuOT0l70TOz2/PCoZCs/IBOTRDqylvpLQNrSGB0nepAGQjMptDO2ATFzPTT2lE8GL2ujhgNdBWRTntLZY493jLCVJK4McQqbybH9KG+5n
- 1h4swGxtro3NTXa7DUECl3VDumKr47di4t5CHg==
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.15_GA_3899 (ZimbraWebClient - GC79 (Win)/8.8.15_GA_3895)
+Thread-Index: lWYDQbv6QI/eIWKrWUD3NPCXqIIr9A==
+Thread-Topic: 
+X-FEAS-DKIM: Valid
+Authentication-Results: mailgw.pagasa.dost.gov.ph;
+        dkim=pass header.i=@pagasa.dost.gov.ph
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/03/2020 09:59, Beniamin Bia wrote:
-> This patch adds more predefined video timings for adv76xx family.
-> 
-> Signed-off-by: Beniamin Bia <beniamin.bia@analog.com>
-> Signed-off-by: Dragos Bogdan <dragos.bogdan@analog.com>
-> ---
->  drivers/media/i2c/adv7604.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-> index 2dedd6ebb236..bf16c7a626a9 100644
-> --- a/drivers/media/i2c/adv7604.c
-> +++ b/drivers/media/i2c/adv7604.c
-> @@ -280,6 +280,8 @@ static const struct adv76xx_video_standards adv7604_prim_mode_gr[] = {
->  static const struct adv76xx_video_standards adv76xx_prim_mode_hdmi_comp[] = {
->  	{ V4L2_DV_BT_CEA_720X480P59_94, 0x0a, 0x00 },
->  	{ V4L2_DV_BT_CEA_720X576P50, 0x0b, 0x00 },
-> +	{ V4L2_DV_BT_CEA_1280X720P25, 0x13, 0x03 },
-> +	{ V4L2_DV_BT_CEA_1280X720P24, 0x13, 0x04 },
 
-Are these two tested? V4L2_DV_BT_CEA_1280X720P25 in particular has an
-extremely high horizontal frontporch (2420) that not all receivers can
-handle.
 
-Looking at this line:
-
-             bt->hfrontporch = (hdmi_read(sd, 0x20) & 0x03) * 256 +
-                        hdmi_read(sd, 0x21);
-
-I'd say that the adv7604 can't handle any timings with a hfrontporch > 1023.
-
-Regards,
-
-	Hans
-
->  	{ V4L2_DV_BT_CEA_1280X720P50, 0x13, 0x01 },
->  	{ V4L2_DV_BT_CEA_1280X720P60, 0x13, 0x00 },
->  	{ V4L2_DV_BT_CEA_1920X1080P24, 0x1e, 0x04 },
-> @@ -305,8 +307,17 @@ static const struct adv76xx_video_standards adv76xx_prim_mode_hdmi_gr[] = {
->  	{ V4L2_DV_BT_DMT_1024X768P70, 0x0d, 0x00 },
->  	{ V4L2_DV_BT_DMT_1024X768P75, 0x0e, 0x00 },
->  	{ V4L2_DV_BT_DMT_1024X768P85, 0x0f, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1280X768P60, 0x10, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1280X768P60_RB, 0x11, 0x00 },
->  	{ V4L2_DV_BT_DMT_1280X1024P60, 0x05, 0x00 },
->  	{ V4L2_DV_BT_DMT_1280X1024P75, 0x06, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1360X768P60, 0x12, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1366X768P60, 0x13, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1400X1050P60, 0x14, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1400X1050P75, 0x15, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1600X1200P60, 0x16, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1680X1050P60, 0x18, 0x00 },
-> +	{ V4L2_DV_BT_DMT_1920X1200P60_RB, 0x19, 0x00 },
->  	{ },
->  };
->  
-> 
-
+Herzlichen Gl=C3=BCckwunsch Lieber Beg=C3=BCnstigter,Sie erhalten diese E-M=
+ail von der Robert Bailey Foundation. Ich bin ein pensionierter Regierungsa=
+ngestellter aus Harlem und ein Gewinner des Powerball Lottery Jackpot im We=
+rt von 343,8 Millionen US-Dollar. Ich bin der gr=C3=B6=C3=9Fte Jackpot-Gewi=
+nner in der Geschichte der New Yorker Lotterie im US-Bundesstaat Amerika. I=
+ch habe diese Lotterie am 27. Oktober 2018 gewonnen und m=C3=B6chte Sie dar=
+=C3=BCber informieren, dass Google in Zusammenarbeit mit Microsoft Ihre "E-=
+Mail-Adresse" auf meine Bitte, einen Spendenbetrag von 3.000.000,00 Million=
+en Euro zu erhalten, =C3=BCbermittelt hat. Ich spende diese 3 Millionen Eur=
+o an Sie, um den Wohlt=C3=A4tigkeitsheimen und armen Menschen in Ihrer Geme=
+inde zu helfen, damit wir die Welt f=C3=BCr alle verbessern k=C3=B6nnen.Wei=
+tere Informationen finden Sie auf der folgenden Website, damit Sie nicht sk=
+eptisch sind
+Diese Spende von 3 Mio. EUR.https://nypost.com/2018/11/14/meet-the-winner-o=
+f-the-biggest-lottery-jackpot-in-new-york-history/Sie k=C3=B6nnen auch mein=
+ YouTube f=C3=BCr mehr Best=C3=A4tigung aufpassen:
+https://www.youtube.com/watch?v=3DH5vT18Ysavc
+Bitte beachten Sie, dass alle Antworten an (robertdonation7@gmail.com=C2=A0=
+ ) gesendet werden, damit wir das k=C3=B6nnen
+Fahren Sie fort, um das gespendete Geld an Sie zu =C3=BCberweisen.E-Mail: r=
+obertdonation7@gmail.comFreundliche Gr=C3=BC=C3=9Fe,
+Robert Bailey
+* * * * * * * * * * * * * * * *
+Powerball Jackpot Gewinner
