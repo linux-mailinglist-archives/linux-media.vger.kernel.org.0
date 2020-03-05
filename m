@@ -2,581 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBEB817A4DC
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 13:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B7BB17A599
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 13:47:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727137AbgCEMFY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Mar 2020 07:05:24 -0500
-Received: from mga14.intel.com ([192.55.52.115]:60881 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726990AbgCEMFX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Mar 2020 07:05:23 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2020 04:05:23 -0800
-X-IronPort-AV: E=Sophos;i="5.70,517,1574150400"; 
-   d="scan'208";a="275064207"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Mar 2020 04:05:19 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 440602088D; Thu,  5 Mar 2020 14:05:17 +0200 (EET)
-Date:   Thu, 5 Mar 2020 14:05:17 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V3, 2/2] media: i2c: Add DW9768 VCM driver
-Message-ID: <20200305120516.GQ5379@paasikivi.fi.intel.com>
-References: <20200228155958.20657-1-dongchun.zhu@mediatek.com>
- <20200228155958.20657-3-dongchun.zhu@mediatek.com>
+        id S1726275AbgCEMrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Mar 2020 07:47:35 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34828 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbgCEMrf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Mar 2020 07:47:35 -0500
+Received: by mail-ot1-f68.google.com with SMTP id v10so5541093otp.2;
+        Thu, 05 Mar 2020 04:47:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g6F8ZjglNrx2HxU5y4IHC4fBBI3tpVgxXx6wMM62xkU=;
+        b=bhTDtshAFVKpXBNMxXEAlcMsgvJtGvVI2C00hEJnP2ASEy0VUIuLI+rgg1f/sx5auQ
+         /4NnWtPab6BIUwZX3KYXYXHFtiMJ4jiRt+qnN5HXzwBqBjjiucZf0yDqurTAu72BwTOS
+         SGa/g9z1HaW2UF0K2fjcLrEiYvI28+Jf+UYDgnFOW7n+bco2H3juEJPEIcqf9gTkgdUT
+         VL4xF9ebGsiZL1M+i0dMdklEi+N8BoWIeWQdMg+5WfZ/GRWx9IEVjrKXlk7XvYOQo61e
+         gFHNAeUNTsvfNQnBeSW5b8TnhXI7VAK809DxihlS5yBnE2mJVuxU98h/qhNTsObNc5H1
+         vUyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g6F8ZjglNrx2HxU5y4IHC4fBBI3tpVgxXx6wMM62xkU=;
+        b=trkDtAT62IabBLNOSxRMUnkl3dDNIDJm9IFkRpdyffPmTktqvievKHYT8xFxCxbsNG
+         JW17CxBKu61vLKQP09R1VGsgE2eEguL9hJWqRkz+KQBUZ9sMfs86+n6FzlUSGy9vt0SP
+         H+tTt9CzVFD+/oSu/xnk1R0FXpw/Fw1ox5RPq3e6wDvubfJWKzEpYKk/5C5PC1WXgvCz
+         GQ6E6OuNa6ijIVMrcdjC7I7WzOExlKKqRx3wP2QEjsXcvQ3tewGj8ndkdPAiTyKi9WUT
+         Np21gppXjAGufKzHuT0epvktaBXn4ryaviquGZQwK9zYxqNLOsS5Ds2B+WuqQheZdt8y
+         dQWg==
+X-Gm-Message-State: ANhLgQ2825XoGwjoYAkSX3ZXc9ZhOVJK1LVZNHpEig5C4q0ySK8e2DeE
+        gtlLsdRbsZ26pJerSvo7iLgRH1THjZfu04fA6Is=
+X-Google-Smtp-Source: ADFU+vvCWWbKw8Yxc8h2wxo+QBpEiK1EVp6zIBwMjFJ+8ZFyE4h38rORy0nCx1pVUvhcB/aFJLSyikSkTZa4z69nigI=
+X-Received: by 2002:a05:6830:1481:: with SMTP id s1mr6598878otq.44.1583412453797;
+ Thu, 05 Mar 2020 04:47:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200228155958.20657-3-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200228165503.18054-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200228165503.18054-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAPY8ntD-_GBtTOS--J_yEAbM+U6zjAdebmHnpE4+Ev4LVFjq7g@mail.gmail.com>
+In-Reply-To: <CAPY8ntD-_GBtTOS--J_yEAbM+U6zjAdebmHnpE4+Ev4LVFjq7g@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 5 Mar 2020 12:47:07 +0000
+Message-ID: <CA+V-a8u3Ue5oNpjGqBm=rU=4eFHttiAxNRVhVd48GNxFvFp1xw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: i2c: imx219: Add support 640x480
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+Hi Dave,
 
-Thanks for the update.
+Thank you for the review.
 
-On Fri, Feb 28, 2020 at 11:59:58PM +0800, Dongchun Zhu wrote:
-> This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
-> and provides control to set the desired focus via I2C serial interface.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  MAINTAINERS                |   1 +
->  drivers/media/i2c/Kconfig  |  10 ++
->  drivers/media/i2c/Makefile |   1 +
->  drivers/media/i2c/dw9768.c | 437 +++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 449 insertions(+)
->  create mode 100644 drivers/media/i2c/dw9768.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b805e29..0bb894a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5139,6 +5139,7 @@ M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
->  L:	linux-media@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Maintained
-> +F:	drivers/media/i2c/dw9768.c
->  F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
->  
->  DONGWOON DW9807 LENS VOICE COIL DRIVER
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index c68e002..aa60781 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1024,6 +1024,16 @@ config VIDEO_DW9714
->  	  capability. This is designed for linear control of
->  	  voice coil motors, controlled via I2C serial interface.
->  
-> +config VIDEO_DW9768
-> +	tristate "DW9768 lens voice coil support"
-> +	depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
-> +	depends on VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  This is a driver for the DW9768 camera lens voice coil.
-> +	  DW9768 is a 10 bit DAC with 100mA output current sink
-> +	  capability. This is designed for linear control of
-> +	  voice coil motors, controlled via I2C serial interface.
-> +
->  config VIDEO_DW9807_VCM
->  	tristate "DW9807 lens voice coil support"
->  	depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index c147bb9..ec94434 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
->  obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
->  obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
->  obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
-> +obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
->  obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
->  obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
->  obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
-> diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
-> new file mode 100644
-> index 0000000..dec1abc
-> --- /dev/null
-> +++ b/drivers/media/i2c/dw9768.c
-> @@ -0,0 +1,437 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2020 MediaTek Inc.
-> +
-> +#include <linux/delay.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/pm_runtime.h>
+On Mon, Mar 2, 2020 at 12:50 PM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Lad.
+>
+> Thanks for the patch.
+>
+> On Fri, 28 Feb 2020 at 16:55, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> >
+> > This patch adds support to 640x480 cropped resolution for the sensor
+>
+> I was a little hesitant to add cropped modes without good reason.
+> Processing them through an ISP with something like lens shading
+> compensation requires the ISP to know the crop, so ideally it should
+> be reflected through the selection API (probably read-only - I'm not
+> sure you can modify the register set totally dynamically for
+> cropping).
+> I know we have the 1080p mode in there already which is cropped, but
+> that was mainly as it is the only way to get 30fps 1080p over two
+> CSI-2 lanes. I wonder if there is a better way of reflecting this.
+>
+The CSI controller which I am using doesn't support capture of higher
+resolutions
+as a result I have added support for a lower resolution.
 
-Alphabetical order would be nice.
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/i2c/imx219.c | 70 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 70 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index 1388c9bc00bb..232ebf41063a 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -54,6 +54,7 @@
+> >  #define IMX219_VTS_15FPS               0x0dc6
+> >  #define IMX219_VTS_30FPS_1080P         0x06e3
+> >  #define IMX219_VTS_30FPS_BINNED                0x06e3
+> > +#define IMX219_VTS_30FPS_640x480       0x0239
+> >  #define IMX219_VTS_MAX                 0xffff
+> >
+> >  #define IMX219_VBLANK_MIN              4
+> > @@ -329,6 +330,65 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
+> >         {0x0163, 0x78},
+> >  };
+> >
+> > +static const struct imx219_reg mode_640_480_regs[] = {
+>
+> Can I ask where these register settings came from? They differ from
+> references I have in a few odd ways.
+>
+This driver was developed in house for imx219 sensor.
 
-> +#include <media/v4l2-async.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#define DW9768_NAME				"dw9768"
-> +#define DW9768_MAX_FOCUS_POS			1023
-> +/*
-> + * This sets the minimum granularity for the focus positions.
-> + * A value of 1 gives maximum accuracy for a desired focus position
-> + */
-> +#define DW9768_FOCUS_STEPS			1
-> +
-> +/*
-> + * Ring control and Power control register
-> + * Bit[1] RING_EN
-> + * 0: Direct mode
-> + * 1: AAC mode (ringing control mode)
-> + * Bit[0] PD
-> + * 0: Normal operation mode
-> + * 1: Power down mode
-> + * DW9768 requires waiting time of Topr after PD reset takes place.
-> + */
-> +#define DW9768_RING_PD_CONTROL_REG		0x02
-> +#define DW9768_PD_MODE_OFF			0x00
-> +#define DW9768_PD_MODE_EN			BIT(0)
-> +#define DW9768_AAC_MODE_EN			BIT(1)
-> +
-> +/*
-> + * DW9768 separates two registers to control the VCM position.
-> + * One for MSB value, another is LSB value.
-> + * DAC_MSB: D[9:8] (ADD: 0x03)
-> + * DAC_LSB: D[7:0] (ADD: 0x04)
-> + * D[9:0] DAC data input: positive output current = D[9:0] / 1023 * 100[mA]
-> + */
-> +#define DW9768_MSB_ADDR				0x03
-> +#define DW9768_LSB_ADDR				0x04
-> +#define DW9768_STATUS_ADDR			0x05
-> +
-> +/*
-> + * AAC mode control & prescale register
-> + * Bit[7:5] Namely AC[2:0], decide the VCM mode and operation time.
-> + * 000 Direct(default)
-> + * 001 AAC2 0.48xTvib
-> + * 010 AAC3 0.70xTvib
-> + * 011 AAC4 0.75xTvib
-> + * 100 Reserved
-> + * 101 AAC8 1.13xTvib
-> + * 110 Reserved
-> + * 111 Reserved
-> + * Bit[2:0] Namely PRESC[2:0], set the internal clock dividing rate as follow.
-> + * 000 2
-> + * 001 1(default)
-> + * 010 1/2
-> + * 011 1/4
-> + * 100 8
-> + * 101 4
-> + * 110 Reserved
-> + * 111 Reserved
-> + */
-> +#define DW9768_AAC_PRESC_REG			0x06
-> +#define DW9768_AAC3_SELECT_DIVIDING_RATE_1	0x41
-> +
-> +/*
-> + * VCM period of vibration register
-> + * Bit[5:0] Defined as VCM rising periodic time (Tvib) together with PRESC[2:0]
-> + * Tvib = (6.3ms + AACT[5:0] * 0.1ms) * Dividing Rate
-> + * Dividing Rate is the internal clock dividing rate that is deifned at
-> + * PRESCALE register (ADD: 0x06)
-> + */
-> +#define DW9768_AAC_TIME_REG			0x07
-> +#define DW9768_AACT_CNT				0x39
+> There's also a comment at the top of mode arrays declaring the
+> supported modes and where they came from. Could you update that
+> please?
+>
+Sure ill  update it to the following:
+/*
+ * Register sets lifted off the i2C interface from the Raspberry Pi firmware
+ * driver for resolutions 3280x2464, 1920x1080 1640x1232.
+ * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 1.
+ */
 
-I wonder how hardware specific are these values, this and the divider?
+> > +       {0x0100, 0x00},
+> > +       {0x30eb, 0x0c},
+> > +       {0x30eb, 0x05},
+> > +       {0x300a, 0xff},
+> > +       {0x300b, 0xff},
+> > +       {0x30eb, 0x05},
+> > +       {0x30eb, 0x09},
+>
+> Datasheet section 3-4 says these are to access manufacturer specific
+> registers, but the access sequence should be
+> 0x30eb 0x05
+> 0x30eb 0x0c
+> 0x300a 0xff
+> 0x300b 0xff
+> 0x30eb 0x05
+> 0x30eb 0x09
+> Is there a reason your first two writes are reversed compared to this
+> published order?
+>
+Agreed I have tested both the sequence works, I have now replaced as
+mentioned in datasheet.
 
-The DW9807 has similar configuration but the defaults seem to be just
-fine. What are the defaults in this case?
+> > +       {0x0114, 0x01},
+> > +       {0x0128, 0x01},
+>
+> DPHY_CTRL RW MIPI Global timing setting
+> 0:auto mode, 1:manual mode
+>
+> All the other modes have this as auto mode. Why does this mode need
+> manual settings, and is something else configuring those manual
+> values?
+>
+I have reverted it to auto mode.
 
-> +
-> +/*
-> + * DW9768 requires waiting time (delay time) of t_OPR after power-up,
-> + * or in the case of PD reset taking place.
-> + */
-> +#define DW9768_T_OPR_US				1000
-> +
-> +/*
-> + * This acts as the minimum granularity of lens movement.
-> + * Keep this value power of 2, so the control steps can be
-> + * uniformly adjusted for gradual lens movement, with desired
-> + * number of control steps.
-> + */
-> +#define DW9768_MOVE_STEPS			16
-> +
-> +/*
-> + * DW9768_AAC_PRESC_REG & DW9768_AAC_TIME_REG determine VCM operation time.
-> + * If DW9768_AAC_PRESC_REG set to be 0x41, DW9768_AAC_TIME_REG set to be 0x39,
-> + * VCM mode would be AAC3, Operation Time would be 0.70xTvib, that is 8.40ms.
-> + */
-> +#define DW9768_MOVE_DELAY_US			8400
-> +#define DW9768_STABLE_TIME_US			20000
-> +
-> +static const char * const dw9768_supply_names[] = {
-> +	"vin",	/* I2C I/O interface power */
-> +	"vdd",	/* VCM power */
-> +};
-> +
-> +#define DW9768_NUM_SUPPLIES ARRAY_SIZE(dw9768_supply_names)
+> > +       {0x012a, 0x18},
+> > +       {0x012b, 0x00},
+> > +       {0x0162, 0x0d},
+> > +       {0x0163, 0xe7},
+>
+> All the other modes have set line length to 0x0d78 (3448 decimal)
+> rather than your 0xd37 (3559).
+> Is there any specific reason for this? If we need a different value,
+> then we also need to vary IMX219_PPL_DEFAULT and V4L2_CID_HBLANK
+> depending on mode. Or probably better would be to make it variable,
+> but that has a load of other implications.
+>
+line length of 0x0d78 works as expected, so I have changed it now.
 
-Please use ARRAY_SIZE() directly instead.
+> > +       {0x0164, 0x03},
+> > +       {0x0165, 0xe8},
+> > +       {0x0166, 0x08},
+> > +       {0x0167, 0xe7},
+> > +       {0x0168, 0x02},
+> > +       {0x0169, 0xf0},
+> > +       {0x016a, 0x06},
+> > +       {0x016b, 0xaf},
+> > +       {0x016c, 0x02},
+> > +       {0x016d, 0x80},
+> > +       {0x016e, 0x01},
+> > +       {0x016f, 0xe0},
+> > +       {0x0170, 0x01},
+> > +       {0x0171, 0x01},
+> > +       {0x0172, 0x00},
+>
+> 0x0172 is IMAGE_ORIENTATION_A, which is handled via V4L2_CID_HFLIP /
+> V4L2_CID_VFLIP, not in the mode table.
+>
+dropped this setting.
 
-> +
-> +/* dw9768 device structure */
-> +struct dw9768 {
-> +	struct regulator_bulk_data supplies[DW9768_NUM_SUPPLIES];
-> +	struct v4l2_ctrl_handler ctrls;
-> +	struct v4l2_ctrl *focus;
-> +	struct v4l2_subdev sd;
-> +};
-> +
-> +static inline struct dw9768 *to_dw9768(struct v4l2_ctrl *ctrl)
-> +{
-> +	return container_of(ctrl->handler, struct dw9768, ctrls);
-> +}
-> +
-> +static inline struct dw9768 *sd_to_dw9768(struct v4l2_subdev *subdev)
-> +{
-> +	return container_of(subdev, struct dw9768, sd);
-> +}
-> +
-> +struct regval_list {
-> +	u8 reg_num;
-> +	u8 value;
-> +};
-> +
-> +static struct regval_list dw9768_init_regs[] = {
+> > +       {0x0174, 0x03},
+> > +       {0x0175, 0x03},
+> > +       {0x0301, 0x05},
+> > +       {0x0303, 0x01},
+> > +       {0x0304, 0x03},
+> > +       {0x0305, 0x03},
+> > +       {0x0306, 0x00},
+> > +       {0x0307, 0x39},
+> > +       {0x0309, 0x08},
+>
+> "OPPXCK_DIV. Ouptut pixel clock divider value, default 0x0A."
+> This looks like it is a change that should be part of the support for
+> 8bit formats.
+> Have you tested this mode with 10bit readout? Are the data rates correct?
+>
+as you discovered the vlaue should be 0x0A for 640x480. No I havent
+tested it for
+10bit.
 
-const
+> > +       {0x030b, 0x01},
+> > +       {0x030c, 0x00},
+> > +       {0x030d, 0x72},
+> > +       {0x0624, 0x06},
+> > +       {0x0625, 0x68},
+> > +       {0x0626, 0x04},
+> > +       {0x0627, 0xd0},
+> > +       {0x455e, 0x00},
+> > +       {0x471e, 0x4b},
+> > +       {0x4767, 0x0f},
+> > +       {0x4750, 0x14},
+> > +       {0x4540, 0x00},
+> > +       {0x47b4, 0x14},
+> > +       {0x4713, 0x30},
+> > +       {0x478b, 0x10},
+> > +       {0x478f, 0x10},
+> > +       {0x4793, 0x10},
+> > +       {0x4797, 0x0e},
+> > +       {0x479b, 0x0e},
+> > +};
+> > +
+> >  static const char * const imx219_test_pattern_menu[] = {
+> >         "Disabled",
+> >         "Color Bars",
+> > @@ -414,6 +474,16 @@ static const struct imx219_mode supported_modes[] = {
+> >                         .regs = mode_1640_1232_regs,
+> >                 },
+> >         },
+> > +       {
+> > +               /* 640x480 30fps mode */
+> >
+> > +               .width = 640,
+> > +               .height = 480,
+> > +               .vts_def = IMX219_VTS_30FPS_640x480,
+>
+> I've just run this mode on a Pi and I get a default of about 84fps via
+> v4l2-ctl to /dev/null. Is the default frame rate expected to be 30fps?
+> In which case I think the value of IMX219_VTS_30FPS_640x480 is wrong
+> (I'd expect 0x6e3 again, same as the other modes), or the comments and
+> define names are wrong. One or other ought to be fixed.
+>
+> My calculations say that with:
+> - VBLANK set to 89
+> - a pixel rate of 182400000 (based on IMX219_PIXEL_RATE)
+> - HBLANK fixed at 2808
+> - frame being 640x480
+> The overall frame size is therefore (640+2808) * (480+89) = 1961912
+> pixel clocks. That would at first glance appear to give a frame rate
+> of 92fps. Testing with an alternate tool is giving me timings for
+> 90fps but with a few dropped frames (the dropped frames would explain
+> v4l2-ctl reading slightly low).
+>
+I have set the value 0x06e3 and yavta reports 30fps:
+Device /dev/video0 opened.ideo0 -c0 -n10 -s640x480 -fSRGGB8  --field
+none -R80 -F
+Device `R_Car_VIN' on `platform:e6ef4000.video' is a video output
+(without mplanes) device.
+Video format set: SRGGB8 (42474752) 640x480 (stride 640) field none
+buffer size 307200
+Video format: SRGGB8 (42474752) 640x480 (stride 640) field none buffer
+size 307200
+10 buffers requested.
+length: 307200 offset: 0 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffffa8126000.
+length: 307200 offset: 307200 timestamp type/source: mono/EoF
+Buffer 1/0 mapped at address 0xffffa80db000.
+length: 307200 offset: 614400 timestamp type/source: mono/EoF
+Buffer 2/0 mapped at address 0xffffa8090000.
+length: 307200 offset: 921600 timestamp type/source: mono/EoF
+Buffer 3/0 mapped at address 0xffffa8045000.
+length: 307200 offset: 1228800 timestamp type/source: mono/EoF
+Buffer 4/0 mapped at address 0xffffa7ffa000.
+length: 307200 offset: 1536000 timestamp type/source: mono/EoF
+Buffer 5/0 mapped at address 0xffffa7faf000.
+length: 307200 offset: 1843200 timestamp type/source: mono/EoF
+Buffer 6/0 mapped at address 0xffffa7f64000.
+length: 307200 offset: 2150400 timestamp type/source: mono/EoF
+Buffer 7/0 mapped at address 0xffffa7f19000.
+length: 307200 offset: 2457600 timestamp type/source: mono/EoF
+Buffer 8/0 mapped at address 0xffffa7ece000.
+length: 307200 offset: 2764800 timestamp type/source: mono/EoF
+Buffer 9/0 mapped at address 0xffffa7e83000.
+0 (0) [-] none 0 307200 B 2227.060205 2227.060268 10.119 fps ts mono/EoF
+1 (1) [-] none 1 307200 B 2227.093536 2227.105537 30.002 fps ts mono/EoF
+2 (2) [-] none 2 307200 B 2227.126860 2227.301819 30.008 fps ts mono/EoF
+3 (3) [-] none 3 307200 B 2227.160185 2227.340688 30.008 fps ts mono/EoF
+4 (4) [-] none 4 307200 B 2227.193511 2227.384831 30.007 fps ts mono/EoF
+5 (5) [-] none 5 307200 B 2227.226834 2227.431937 30.009 fps ts mono/EoF
+6 (6) [-] none 6 307200 B 2227.260160 2227.476214 30.007 fps ts mono/EoF
+7 (7) [-] none 7 307200 B 2227.293486 2227.522586 30.007 fps ts mono/EoF
+8 (8) [-] none 8 307200 B 2227.326817 2227.564954 30.002 fps ts mono/EoF
+9 (9) [-] none 9 307200 B 2227.360143 2227.610001 30.007 fps ts mono/EoF
+Captured 10 frames in 0.648624 seconds (15.417250 fps, 4736179.062103 B/s).
+10 buffers released.
+root@ek874:~#
 
-> +	{DW9768_RING_PD_CONTROL_REG, DW9768_AAC_MODE_EN},
-> +	{DW9768_AAC_PRESC_REG, DW9768_AAC3_SELECT_DIVIDING_RATE_1},
-> +	{DW9768_AAC_TIME_REG, DW9768_AACT_CNT},
-> +};
-> +
-> +static int dw9768_write_array(struct dw9768 *dw9768, struct regval_list *vals,
-> +			      size_t len)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		ret = i2c_smbus_write_byte_data(client, vals[i].reg_num,
-> +						vals[i].value);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int dw9768_set_dac(struct dw9768 *dw9768, u16 val)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
-> +
-> +	/* Write VCM position to registers */
-> +	return i2c_smbus_write_word_data(client, DW9768_MSB_ADDR,
-> +					 swab16(val));
-> +}
-> +
-> +static int dw9768_init(struct dw9768 *dw9768)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
-> +	int ret, val;
-> +
-> +	/* Reset DW9768_RING_PD_CONTROL_REG to default status 0x00 */
-> +	ret = i2c_smbus_write_byte_data(client, DW9768_RING_PD_CONTROL_REG,
-> +					DW9768_PD_MODE_OFF);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/*
-> +	 * DW9769 requires waiting delay time of t_OPR
-> +	 * after PD reset takes place.
-> +	 */
-> +	usleep_range(DW9768_T_OPR_US, DW9768_T_OPR_US + 100);
-> +
-> +	ret = dw9768_write_array(dw9768, dw9768_init_regs,
-> +				 ARRAY_SIZE(dw9768_init_regs));
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (val = dw9768->focus->val % DW9768_MOVE_STEPS;
-> +	     val <= dw9768->focus->val;
-> +	     val += DW9768_MOVE_STEPS) {
-> +		ret = dw9768_set_dac(dw9768, val);
-> +		if (ret) {
-> +			dev_err(&client->dev, "%s I2C failure: %d",
-> +				__func__, ret);
-> +			return ret;
-> +		}
-> +		usleep_range(DW9768_MOVE_DELAY_US,
-> +			     DW9768_MOVE_DELAY_US + 1000);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw9768_release(struct dw9768 *dw9768)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
-> +	int ret, val;
-> +
-> +	for (val = round_down(dw9768->focus->val, DW9768_MOVE_STEPS);
-> +	     val >= 0; val -= DW9768_MOVE_STEPS) {
-> +		ret = dw9768_set_dac(dw9768, val);
-> +		if (ret) {
-> +			dev_err(&client->dev, "%s I2C failure: %d",
-> +				__func__, ret);
-> +			return ret;
-> +		}
-> +		usleep_range(DW9768_MOVE_DELAY_US,
-> +			     DW9768_MOVE_DELAY_US + 1000);
-> +	}
-> +
-> +	/*
-> +	 * Wait for the motor to stabilize after the last movement
-> +	 * to prevent the motor from shaking.
-> +	 */
-> +	usleep_range(DW9768_STABLE_TIME_US - DW9768_MOVE_DELAY_US,
-> +		     DW9768_STABLE_TIME_US - DW9768_MOVE_DELAY_US + 1000);
-> +
-> +	ret = i2c_smbus_write_byte_data(client, DW9768_RING_PD_CONTROL_REG,
-> +					DW9768_PD_MODE_EN);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/*
-> +	 * DW9769 requires waiting delay time of t_OPR
-> +	 * after PD reset takes place.
-> +	 */
-> +	usleep_range(DW9768_T_OPR_US, DW9768_T_OPR_US + 100);
-> +
-> +	return 0;
-> +}
-> +
-> +/* Power handling */
-> +static int __maybe_unused dw9768_runtime_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
-> +
-> +	dw9768_release(dw9768);
-> +	regulator_bulk_disable(DW9768_NUM_SUPPLIES, dw9768->supplies);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused dw9768_runtime_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
-> +	int ret;
-> +
-> +	ret = regulator_bulk_enable(DW9768_NUM_SUPPLIES, dw9768->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to enable regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * The datasheet refers to t_OPR that needs to be waited before sending
-> +	 * I2C commands after power-up.
-> +	 */
-> +	usleep_range(DW9768_T_OPR_US, DW9768_T_OPR_US + 100);
-> +
-> +	ret = dw9768_init(dw9768);
-> +	if (ret < 0)
-> +		goto disable_regulator;
-> +
-> +	return 0;
-> +
-> +disable_regulator:
-> +	regulator_bulk_disable(DW9768_NUM_SUPPLIES, dw9768->supplies);
-> +
-> +	return ret;
-> +}
-> +
-> +static int dw9768_set_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct dw9768 *dw9768 = to_dw9768(ctrl);
-> +
-> +	if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE)
-> +		return dw9768_set_dac(dw9768, ctrl->val);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops dw9768_ctrl_ops = {
-> +	.s_ctrl = dw9768_set_ctrl,
-> +};
-> +
-> +static int dw9768_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> +{
-> +	int ret;
-> +
-> +	ret = pm_runtime_get_sync(sd->dev);
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(sd->dev);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw9768_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> +{
-> +	pm_runtime_put(sd->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_internal_ops dw9768_int_ops = {
-> +	.open = dw9768_open,
-> +	.close = dw9768_close,
-> +};
-> +
-> +static const struct v4l2_subdev_ops dw9768_ops = { };
-> +
-> +static int dw9768_init_controls(struct dw9768 *dw9768)
-> +{
-> +	struct v4l2_ctrl_handler *hdl = &dw9768->ctrls;
-> +	const struct v4l2_ctrl_ops *ops = &dw9768_ctrl_ops;
-> +
-> +	v4l2_ctrl_handler_init(hdl, 1);
-> +
-> +	dw9768->focus = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FOCUS_ABSOLUTE,
-> +					  0, DW9768_MAX_FOCUS_POS,
-> +					  DW9768_FOCUS_STEPS, 0);
-> +
-> +	if (hdl->error)
-> +		return hdl->error;
-> +
-> +	dw9768->sd.ctrl_handler = hdl;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw9768_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct dw9768 *dw9768;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	dw9768 = devm_kzalloc(dev, sizeof(*dw9768), GFP_KERNEL);
-> +	if (!dw9768)
-> +		return -ENOMEM;
-> +
-> +	v4l2_i2c_subdev_init(&dw9768->sd, client, &dw9768_ops);
-> +
-> +	for (i = 0; i < DW9768_NUM_SUPPLIES; i++)
-> +		dw9768->supplies[i].supply = dw9768_supply_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(dev, DW9768_NUM_SUPPLIES,
-> +				      dw9768->supplies);
-> +	if (ret) {
-> +		dev_err(dev, "failed to get regulators\n");
-> +		return ret;
-> +	}
-> +
+Cheers,
+--Prabhakar
 
-I'd try to see the chip is accessible in probe().
-
-> +	ret = dw9768_init_controls(dw9768);
-> +	if (ret)
-> +		goto entity_cleanup;
-> +
-> +	dw9768->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	dw9768->sd.internal_ops = &dw9768_int_ops;
-> +
-> +	ret = media_entity_pads_init(&dw9768->sd.entity, 0, NULL);
-> +	if (ret < 0)
-> +		goto entity_cleanup;
-> +
-> +	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
-> +
-> +	ret = v4l2_async_register_subdev(&dw9768->sd);
-> +	if (ret < 0)
-> +		goto entity_cleanup;
-> +
-> +	pm_runtime_enable(dev);
-
-Your driver appears to depend on runtime PM on DT based systems.
-
-You should either add a dependency to CONFIG_PM, or much more preferrably
-make it work without runtime PM.
-
-> +
-> +	return 0;
-> +
-> +entity_cleanup:
-> +	v4l2_ctrl_handler_free(&dw9768->ctrls);
-> +	media_entity_cleanup(&dw9768->sd.entity);
-> +	return ret;
-> +}
-> +
-> +static int dw9768_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
-> +
-> +	pm_runtime_disable(&client->dev);
-> +	v4l2_async_unregister_subdev(&dw9768->sd);
-> +	v4l2_ctrl_handler_free(&dw9768->ctrls);
-> +	media_entity_cleanup(&dw9768->sd.entity);
-> +	if (!pm_runtime_status_suspended(&client->dev))
-> +		dw9768_runtime_suspend(&client->dev);
-> +	pm_runtime_set_suspended(&client->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id dw9768_of_table[] = {
-> +	{ .compatible = "dongwoon,dw9768" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, dw9768_of_table);
-> +
-> +static const struct dev_pm_ops dw9768_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> +				pm_runtime_force_resume)
-> +	SET_RUNTIME_PM_OPS(dw9768_runtime_suspend, dw9768_runtime_resume, NULL)
-> +};
-> +
-> +static struct i2c_driver dw9768_i2c_driver = {
-> +	.driver = {
-> +		.name = DW9768_NAME,
-> +		.pm = &dw9768_pm_ops,
-> +		.of_match_table = dw9768_of_table,
-> +	},
-> +	.probe_new  = dw9768_probe,
-> +	.remove = dw9768_remove,
-> +};
-> +
-> +module_i2c_driver(dw9768_i2c_driver);
-> +
-> +MODULE_AUTHOR("Dongchun Zhu <dongchun.zhu@mediatek.com>");
-> +MODULE_DESCRIPTION("DW9768 VCM driver");
-> +MODULE_LICENSE("GPL v2");
-
--- 
-Kind regards,
-
-Sakari Ailus
+> If I amend OPPXCK_DIV to be 0xA (the same as the other modes), then it
+> doesn't appear to change.
+> However hold off on investigating the specifics for now - I appear to
+> be unable to select the 10bit/pixel formats, so I suspect something is
+> up with patch 2 that added the 8bit support (I was about to review
+> that anyway).
+>
+>   Dave
+>
+> > +               .reg_list = {
+> > +                       .num_of_regs = ARRAY_SIZE(mode_640_480_regs),
+> > +                       .regs = mode_640_480_regs,
+> > +               },
+> > +       },
+> >  };
+> >
+> >  struct imx219 {
+> > --
+> > 2.20.1
+> >
