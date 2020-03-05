@@ -2,55 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A54A517AF1B
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 20:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DB6217AF99
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 21:15:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726129AbgCETml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Mar 2020 14:42:41 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:45909 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725948AbgCETml (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Mar 2020 14:42:41 -0500
-Received: by mail-qt1-f195.google.com with SMTP id a4so5073432qto.12
-        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2020 11:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=w9aoQTL/UgB1vjS1g1BNCEFf726wH1IBTlgPdnlXI/U=;
-        b=fjeRQagfXdDHJ9tX9UzUCHDLIRYnroBruHmgIET5qMJijpIVvgC0ui4ms8zm4UzETx
-         qp3y6SeLtxy4vuSto/2bfD5iqzG09QLY+omDnutMsTl9P42zubJINW1U3+uygzUfqRcX
-         rCBsRIoX7fr5DnA0zv4f0LKuY6LRaVQLxey8rncYou16dO6d8X1zdniHR/7BuER9ibfr
-         FjTz/WmRRZnhn2FLNpaFU1yD2E8pulQoGO4ZRwXe8XnU11dUJoenN/h+dYZpVj+JiVmr
-         fNLWNPv4kBYbx0VaGKTo6HoMSO8wsLZcmMJeM4fKUd4CmKNI6XMBOe3gWXCc6yoNH5KY
-         wdYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=w9aoQTL/UgB1vjS1g1BNCEFf726wH1IBTlgPdnlXI/U=;
-        b=OWB3QUG8vzNLCT7s4w0yq9gLuqTVQvo1DFuv7/bYQzie0nRHhRUppkbM8YukOUqRd+
-         pNHAuwTsIK18eJjI/G7xSsU5RYV929LjF3j7esO/r+b4Df6RJniq3pQOr/xdm/nUpLl/
-         0IGVa49FRfDtjTWt4dBMxLOc9WFla6ylNy0ciVOccFW2E4nZPWUCD5aYF8AusPowih+b
-         r55M51vRE5KePjAMwMBs24et4mtkkNlpq2+OqVjmj5Cbilnhpqbf/lNWep6ca6PPUPuy
-         0asC8u5prwQwwScnZY6D0sv7FtCnBAKjejRnQLYaUBRDmhBw8W6GuWzDF3ne4OA7EvQk
-         rzaA==
-X-Gm-Message-State: ANhLgQ354G/odXu/jQ++sLpDoZZIbJJRAt5/fhkcJuk+SDoDpeMCElvi
-        oCTsaDn/eRX1bLwTEm2tAtIugcnJt69lUg==
-X-Google-Smtp-Source: ADFU+vvWoq0qrg/FJ5my9DoTUbwc8qrtj5pyQOQnMQmrnKcEjOkZ19Er1lI2KcCU/OZ1arc+wQFMBg==
-X-Received: by 2002:ac8:530b:: with SMTP id t11mr274730qtn.277.1583437359636;
-        Thu, 05 Mar 2020 11:42:39 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2610:98:8005::527])
-        by smtp.gmail.com with ESMTPSA id o16sm16335143qke.35.2020.03.05.11.42.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2020 11:42:38 -0800 (PST)
-Message-ID: <c7a88abfaf00c00a5c4c4239d1d9c7b348bc052e.camel@ndufresne.ca>
-Subject: Re: [PATCH v6 2/6] media: v4l2-core: Add helpers to build the H264
- P/B0/B1 reflists
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        id S1726263AbgCEUPm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 5 Mar 2020 15:15:42 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59160 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726173AbgCEUPm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Mar 2020 15:15:42 -0500
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4419728B941;
+        Thu,  5 Mar 2020 20:15:39 +0000 (GMT)
+Date:   Thu, 5 Mar 2020 21:15:35 +0100
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -61,205 +32,168 @@ Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         Heiko Stuebner <heiko@sntech.de>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil@xs4all.nl>
-Date:   Thu, 05 Mar 2020 14:42:34 -0500
-In-Reply-To: <20200302154426.5fb09f91@collabora.com>
+Subject: Re: [PATCH v6 2/6] media: v4l2-core: Add helpers to build the H264
+ P/B0/B1 reflists
+Message-ID: <20200305211535.2e9a6673@collabora.com>
+In-Reply-To: <c7a88abfaf00c00a5c4c4239d1d9c7b348bc052e.camel@ndufresne.ca>
 References: <20200220163016.21708-1-ezequiel@collabora.com>
-         <20200220163016.21708-3-ezequiel@collabora.com>
-         <20200302142433.0ad1b383@coco.lan> <20200302154426.5fb09f91@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        <20200220163016.21708-3-ezequiel@collabora.com>
+        <20200302142433.0ad1b383@coco.lan>
+        <20200302154426.5fb09f91@collabora.com>
+        <c7a88abfaf00c00a5c4c4239d1d9c7b348bc052e.camel@ndufresne.ca>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 02 mars 2020 à 15:44 +0100, Boris Brezillon a écrit :
-> On Mon, 2 Mar 2020 14:24:33 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Thu, 05 Mar 2020 14:42:34 -0500
+Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+
+> Le lundi 02 mars 2020 à 15:44 +0100, Boris Brezillon a écrit :
+> > On Mon, 2 Mar 2020 14:24:33 +0100
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> >   
+> > > Em Thu, 20 Feb 2020 13:30:12 -0300
+> > > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+> > >   
+> > > > From: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > 
+> > > > Building those list is a standard procedure described in section
+> > > > '8.2.4 Decoding process for reference picture lists construction' of
+> > > > the H264 specification.
+> > > > 
+> > > > We already have 2 drivers needing the same logic (hantro and rkvdec) and
+> > > > I suspect we will soon have more.
+> > > > 
+> > > > Let's provide generic helpers to create those lists.
+> > > > 
+> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > > ---
+> > > >  drivers/media/v4l2-core/Kconfig     |   4 +
+> > > >  drivers/media/v4l2-core/Makefile    |   1 +
+> > > >  drivers/media/v4l2-core/v4l2-h264.c | 258 ++++++++++++++++++++++++++++
+> > > >  include/media/v4l2-h264.h           |  85 +++++++++
+> > > >  4 files changed, 348 insertions(+)
+> > > >  create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
+> > > >  create mode 100644 include/media/v4l2-h264.h
+> > > > 
+> > > > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-
+> > > > core/Kconfig
+> > > > index 39e3fb30ba0b..8a4ccfbca8cf 100644
+> > > > --- a/drivers/media/v4l2-core/Kconfig
+> > > > +++ b/drivers/media/v4l2-core/Kconfig
+> > > > @@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
+> > > >  config VIDEO_TUNER
+> > > >  	tristate
+> > > >  
+> > > > +# Used by drivers that need v4l2-h264.ko
+> > > > +config V4L2_H264
+> > > > +	tristate
+> > > > +
+> > > >  # Used by drivers that need v4l2-mem2mem.ko
+> > > >  config V4L2_MEM2MEM_DEV
+> > > >  	tristate
+> > > > diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-
+> > > > core/Makefile
+> > > > index 786bd1ec4d1b..c5c53e0941ad 100644
+> > > > --- a/drivers/media/v4l2-core/Makefile
+> > > > +++ b/drivers/media/v4l2-core/Makefile
+> > > > @@ -21,6 +21,7 @@ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
+> > > >  obj-$(CONFIG_VIDEO_TUNER) += tuner.o
+> > > >  
+> > > >  obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
+> > > > +obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+> > > >  
+> > > >  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+> > > >  
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-
+> > > > core/v4l2-h264.c
+> > > > new file mode 100644
+> > > > index 000000000000..4f68c27ec7fd
+> > > > --- /dev/null
+> > > > +++ b/drivers/media/v4l2-core/v4l2-h264.c
+> > > > @@ -0,0 +1,258 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +/*
+> > > > + * V4L2 H264 helpers.
+> > > > + *
+> > > > + * Copyright (C) 2019 Collabora, Ltd.
+> > > > + *
+> > > > + * Author: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > + */
+> > > > +
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/sort.h>
+> > > > +
+> > > > +#include <media/v4l2-h264.h>
+> > > > +
+> > > > +/**
+> > > > + * v4l2_h264_init_reflist_builder() - Initialize a P/B0/B1 reference list
+> > > > + *				      builder
+> > > > + *
+> > > > + * @b: the builder context to initialize
+> > > > + * @dec_params: decode parameters control
+> > > > + * @slice_params: first slice parameters control
+> > > > + * @sps: SPS control
+> > > > + * @dpb: DPB to use when creating the reference list
+> > > > + */
+> > > > +void
+> > > > +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
+> > > > +		const struct v4l2_ctrl_h264_decode_params *dec_params,
+> > > > +		const struct v4l2_ctrl_h264_slice_params *slice_params,
+> > > > +		const struct v4l2_ctrl_h264_sps *sps,
+> > > > +		const struct v4l2_h264_dpb_entry *dpb)    
+> > > 
+> > > The prototype here is not nice...
+> > >   
+> > > > +{
+> > > > +	int cur_frame_num, max_frame_num;
+> > > > +	unsigned int i;
+> > > > +
+> > > > +	max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
+> > > > +	cur_frame_num = slice_params->frame_num;
+> > > > +
+> > > > +	memset(b, 0, sizeof(*b));
+> > > > +	if (!(slice_params->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC))
+> > > > +		b->cur_pic_order_count = min(dec_params->bottom_field_order_cnt,
+> > > > +					     dec_params->top_field_order_cnt);
+> > > > +	else if (slice_params->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
+> > > > +		b->cur_pic_order_count = dec_params->bottom_field_order_cnt;
+> > > > +	else
+> > > > +		b->cur_pic_order_count = dec_params->top_field_order_cnt;
+> > > > +
+> > > > +	for (i = 0; i < 16; i++) {
+> > > > +		u32 pic_order_count;
+> > > > +
+> > > > +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> > > > +			continue;
+> > > > +
+> > > > +		b->refs[i].pic_num = dpb[i].pic_num;    
+> > > 
+> > > ... as you're expecting a fixed number of elements at DPB array, and using
+> > > a magic number (16) inside the for loop.  
+> > 
+> > I used to have a '#define V4L2_H264_NUM_DPB_ENTRIES 16' but have been
+> > told that this is an arbitrary limitation (the spec does not explicitly
+> > limit the DPB size, even if all the HW we've seen seem to limit it to
+> > 16). Maybe we can pass the DPB array size as an argument so it stays
+> > HW-specific.  
 > 
-> > Em Thu, 20 Feb 2020 13:30:12 -0300
-> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> > 
-> > > From: Boris Brezillon <boris.brezillon@collabora.com>
-> > > 
-> > > Building those list is a standard procedure described in section
-> > > '8.2.4 Decoding process for reference picture lists construction' of
-> > > the H264 specification.
-> > > 
-> > > We already have 2 drivers needing the same logic (hantro and rkvdec) and
-> > > I suspect we will soon have more.
-> > > 
-> > > Let's provide generic helpers to create those lists.
-> > > 
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >  drivers/media/v4l2-core/Kconfig     |   4 +
-> > >  drivers/media/v4l2-core/Makefile    |   1 +
-> > >  drivers/media/v4l2-core/v4l2-h264.c | 258 ++++++++++++++++++++++++++++
-> > >  include/media/v4l2-h264.h           |  85 +++++++++
-> > >  4 files changed, 348 insertions(+)
-> > >  create mode 100644 drivers/media/v4l2-core/v4l2-h264.c
-> > >  create mode 100644 include/media/v4l2-h264.h
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-
-> > > core/Kconfig
-> > > index 39e3fb30ba0b..8a4ccfbca8cf 100644
-> > > --- a/drivers/media/v4l2-core/Kconfig
-> > > +++ b/drivers/media/v4l2-core/Kconfig
-> > > @@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
-> > >  config VIDEO_TUNER
-> > >  	tristate
-> > >  
-> > > +# Used by drivers that need v4l2-h264.ko
-> > > +config V4L2_H264
-> > > +	tristate
-> > > +
-> > >  # Used by drivers that need v4l2-mem2mem.ko
-> > >  config V4L2_MEM2MEM_DEV
-> > >  	tristate
-> > > diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-
-> > > core/Makefile
-> > > index 786bd1ec4d1b..c5c53e0941ad 100644
-> > > --- a/drivers/media/v4l2-core/Makefile
-> > > +++ b/drivers/media/v4l2-core/Makefile
-> > > @@ -21,6 +21,7 @@ obj-$(CONFIG_VIDEO_V4L2) += v4l2-dv-timings.o
-> > >  obj-$(CONFIG_VIDEO_TUNER) += tuner.o
-> > >  
-> > >  obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
-> > > +obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
-> > >  
-> > >  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
-> > >  
-> > > diff --git a/drivers/media/v4l2-core/v4l2-h264.c b/drivers/media/v4l2-
-> > > core/v4l2-h264.c
-> > > new file mode 100644
-> > > index 000000000000..4f68c27ec7fd
-> > > --- /dev/null
-> > > +++ b/drivers/media/v4l2-core/v4l2-h264.c
-> > > @@ -0,0 +1,258 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * V4L2 H264 helpers.
-> > > + *
-> > > + * Copyright (C) 2019 Collabora, Ltd.
-> > > + *
-> > > + * Author: Boris Brezillon <boris.brezillon@collabora.com>
-> > > + */
-> > > +
-> > > +#include <linux/module.h>
-> > > +#include <linux/sort.h>
-> > > +
-> > > +#include <media/v4l2-h264.h>
-> > > +
-> > > +/**
-> > > + * v4l2_h264_init_reflist_builder() - Initialize a P/B0/B1 reference list
-> > > + *				      builder
-> > > + *
-> > > + * @b: the builder context to initialize
-> > > + * @dec_params: decode parameters control
-> > > + * @slice_params: first slice parameters control
-> > > + * @sps: SPS control
-> > > + * @dpb: DPB to use when creating the reference list
-> > > + */
-> > > +void
-> > > +v4l2_h264_init_reflist_builder(struct v4l2_h264_reflist_builder *b,
-> > > +		const struct v4l2_ctrl_h264_decode_params *dec_params,
-> > > +		const struct v4l2_ctrl_h264_slice_params *slice_params,
-> > > +		const struct v4l2_ctrl_h264_sps *sps,
-> > > +		const struct v4l2_h264_dpb_entry *dpb)  
-> > 
-> > The prototype here is not nice...
-> > 
-> > > +{
-> > > +	int cur_frame_num, max_frame_num;
-> > > +	unsigned int i;
-> > > +
-> > > +	max_frame_num = 1 << (sps->log2_max_frame_num_minus4 + 4);
-> > > +	cur_frame_num = slice_params->frame_num;
-> > > +
-> > > +	memset(b, 0, sizeof(*b));
-> > > +	if (!(slice_params->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC))
-> > > +		b->cur_pic_order_count = min(dec_params->bottom_field_order_cnt,
-> > > +					     dec_params->top_field_order_cnt);
-> > > +	else if (slice_params->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
-> > > +		b->cur_pic_order_count = dec_params->bottom_field_order_cnt;
-> > > +	else
-> > > +		b->cur_pic_order_count = dec_params->top_field_order_cnt;
-> > > +
-> > > +	for (i = 0; i < 16; i++) {
-> > > +		u32 pic_order_count;
-> > > +
-> > > +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> > > +			continue;
-> > > +
-> > > +		b->refs[i].pic_num = dpb[i].pic_num;  
-> > 
-> > ... as you're expecting a fixed number of elements at DPB array, and using
-> > a magic number (16) inside the for loop.
+> it's formalized in A.31 h), to quote it:
 > 
-> I used to have a '#define V4L2_H264_NUM_DPB_ENTRIES 16' but have been
-> told that this is an arbitrary limitation (the spec does not explicitly
-> limit the DPB size, even if all the HW we've seen seem to limit it to
-> 16). Maybe we can pass the DPB array size as an argument so it stays
-> HW-specific.
-
-it's formalized in A.31 h), to quote it:
-
-max_dec_frame_buffering <= MaxDpbFrames, where MaxDpbFrames is equal to
-
-  Min( MaxDpbMbs / ( PicWidthInMbs * FrameHeightInMbs ), 16 )
-
-So a DPB larger then this is not an H.24 DPB.
-
+> max_dec_frame_buffering <= MaxDpbFrames, where MaxDpbFrames is equal to
 > 
-> > > +
-> > > +		/*
-> > > +		 * Handle frame_num wraparound as described in section
-> > > +		 * '8.2.4.1 Decoding process for picture numbers' of the spec.
-> > > +		 * TODO: This logic will have to be adjusted when we start
-> > > +		 * supporting interlaced content.
-> > > +		 */
-> > > +		if (dpb[i].frame_num > cur_frame_num)
-> > > +			b->refs[i].frame_num = (int)dpb[i].frame_num -
-> > > +					       max_frame_num;
-> > > +		else
-> > > +			b->refs[i].frame_num = dpb[i].frame_num;
-> > > +
-> > > +		if (!(dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_FIELD))
-> > > +			pic_order_count = min(dpb[i].top_field_order_cnt,
-> > > +					      dpb[i].bottom_field_order_cnt);
-> > > +		else if (dpb[i].flags & V4L2_H264_DPB_ENTRY_FLAG_BOTTOM_FIELD)
-> > > +			pic_order_count = dpb[i].bottom_field_order_cnt;
-> > > +		else
-> > > +			pic_order_count = dpb[i].top_field_order_cnt;
-> > > +
-> > > +		b->refs[i].pic_order_count = pic_order_count;
-> > > +		b->unordered_reflist[b->num_valid] = i;
-> > > +		b->num_valid++;
-> > > +	}
-> > > +
-> > > +	for (i = b->num_valid; i < ARRAY_SIZE(b->unordered_reflist); i++)
-> > > +		b->unordered_reflist[i] = i;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(v4l2_h264_init_reflist_builder);
-> > > +
-> > > +static int v4l2_h264_p_ref_list_cmp(const void *ptra, const void *ptrb,
-> > > +				    const void *data)
-> > > +{
-> > > +	const struct v4l2_h264_reflist_builder *builder = data;
-> > > +	u8 idxa, idxb;
-> > > +
-> > > +	idxa = *((u8 *)ptra);
-> > > +	idxb = *((u8 *)ptrb);
-> > > +
-> > > +	if (builder->refs[idxa].longterm != builder->refs[idxb].longterm) {  
-> > 
-> > Where do you ensure that idxa and idxb won't be bigger than NUM_DPB_ENTRIES?
+>   Min( MaxDpbMbs / ( PicWidthInMbs * FrameHeightInMbs ), 16 )
 > 
-> If it does that means something went wrong in the init func. I can add
-> a WARN_ON() and bail out if you want, but I can't return an error here
-> (that's not what the caller of the callback expects).
+> So a DPB larger then this is not an H.24 DPB.
 
+My bad, I mixed "max number of slices per frame" and "max number of
+entries in the DPB". The first one I couldn't find a clear answer to,
+while the second one has been 16 from the start. Sorry for the
+confusion.
