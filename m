@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF1DE17A72E
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 15:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4550317A761
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2020 15:27:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725963AbgCEOOk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Mar 2020 09:14:40 -0500
-Received: from mail-wm1-f42.google.com ([209.85.128.42]:51522 "EHLO
-        mail-wm1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726004AbgCEOOj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Mar 2020 09:14:39 -0500
-Received: by mail-wm1-f42.google.com with SMTP id a132so6496525wme.1
-        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2020 06:14:34 -0800 (PST)
+        id S1725990AbgCEO15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Mar 2020 09:27:57 -0500
+Received: from mail-wm1-f51.google.com ([209.85.128.51]:53519 "EHLO
+        mail-wm1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbgCEO15 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Mar 2020 09:27:57 -0500
+Received: by mail-wm1-f51.google.com with SMTP id g134so6536042wme.3
+        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2020 06:27:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=liddicott-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=WgZc2kOHEj/o2qHQ/rejZZp7CUF7fltOsytF+P3/Geo=;
-        b=i++sGFuK/VVZj5ieXWhoMO2wkvCoUtJ5ZDPbKobLpBnovI4rhQfSxhsLYqHyrHp7ph
-         zImarsq0sUjOAiLGSdmFrOweDStbercFhahD5xUjIatsQBZUTJtqmoZLZ6KHgLO5HLKg
-         KdKiy3YN1pDClsiUaAMpWBYNZG7sE5gqgbeSrn4Bp8WFzaywbXtFcwOiAV+ayFv8blR5
-         /IAPsFBVrW0T0tk97tSw5MrbdMnAtDFWupyJr/cPycdymy8JT1hQ6k3gVod77fA6uaUG
-         aOa+0VPGBOc0590L3zgyFBRCzZMBPoFJybcszB6llAJruGOQWVr9g+k9kz+9TqQlvcLH
-         mM1A==
+        b=E+DhxnucVDw+yl6lQWjzVgx6v3emGAcpmqLO7ehG8ZgPcmI1qV07LDX1W3cIpBDjWL
+         u8XmQRBVQVhZ+k47XYT5HaN6vJipiZwWn9TLqnoRlfp2kMcUFrGKdEyHikqDVI0HYv+h
+         EeTG8yd5y5CLLquVtnit/ITooHs0qzyPHPp2hIrG2UTsW+j8XwHDtNhZE83ImIX4lOgf
+         PwZ0tX9E5b0UzUqvMh6/hVM2LoQXCNvAOj8tiUxskQvZLwgvA2NPv76bvc9W0aRM2dEo
+         tUimfKPGheElgA8P+Ww1PLoIZxnaSidP8WKDZxseeZL6AttM54RlfLkJqogA0q2YCaQB
+         j11Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=WgZc2kOHEj/o2qHQ/rejZZp7CUF7fltOsytF+P3/Geo=;
-        b=o1jmH+OSE7XsblDrURFv5ndhUD3ALLyA6Ti+FBQa7+Qy972WIqW8jZSrfRRAoQFXJI
-         1kaGo6EvGoVfe/Y1RXIzPXRJHo2x72ovC+gY0NcJkWYHsOo5Q8ArhQwMw75HeFf3+uH+
-         DVO4F7pcAOWcWns1A7p//QiocV5QeUj2VQP3cVlKLQW3UAzgNG7MClNBkqhclmihGOX4
-         4WfQKg/NEzF/LVmOnKGkv8Xkd5Ic+Sqf0pEEk0q1Lqs+p3ckWPTDLvVL4MWupUKLlQ8o
-         XKK3Y4nc0bqx2p49Q4dOZTNcDKat856oIVLSTBwJspZ9JEfPjqVSYYKM6sS5krarymOb
-         0k6w==
-X-Gm-Message-State: ANhLgQ0Hkyb6aXDeJcR0kKPyjL6/SpQV5+dpArPTMqIgjisXB5ptImGL
-        N+Vt3L66tC2pW3ccGg2dnEw9uUCXhkQ=
-X-Google-Smtp-Source: ADFU+vsx+NyIoBjY1UNgxwqmxmg45Hk9ER3VfEdZMZAOSiZSGZJFNpbjpz1BebdfdMmHHZQ34V+1Vw==
-X-Received: by 2002:a05:600c:295:: with SMTP id 21mr5223034wmk.9.1583417669053;
-        Thu, 05 Mar 2020 06:14:29 -0800 (PST)
+        b=f0k5bEPpOlYKvbXMXG6G/4WRzoFq9QobB6LKnud07SGePMaOtlyrwvJS4pOWYlPT5z
+         bXqmZuq/Em1nFseXN50ypdZxxOXr0cXj/8sJdfiJZC1mrSJ1CMqW3kXiYQQwV550IyOh
+         IakA9crLY/YgCLbshHdhvfQrf8DQof0OSbaSFYIjbR2kbPUSlZgAwjyWEgWg2o6REN4o
+         tunnHTF2yhkkOlPIn6NJOD+6FeWltOaUPY6EORSciFW3K0p3Uk/vuC9LcG9XK3S/59UE
+         KjL5ZKaBo5xvvWKW1fKpyy2V5CgjUsWSpRivBowOID5HVA/1UuKjEdYOl9cIwZls3tSj
+         dATw==
+X-Gm-Message-State: ANhLgQ3UFaRmrH83S/5sxQ84aYFh96rGaldiBQKReUcUNfcm3joSZ+fE
+        +ZRHWnU72bzjNGHNIvRT3/QdeG+Egk4=
+X-Google-Smtp-Source: ADFU+vv09RHBUyf/qGSSSIdcv44weTDNpCnIq93MFRpTWFmWljwotMPNo0CMYNp1Hl6twOnw9WlFdg==
+X-Received: by 2002:a05:600c:2214:: with SMTP id z20mr9499696wml.57.1583418466758;
+        Thu, 05 Mar 2020 06:27:46 -0800 (PST)
 Received: from localhost.localdomain ([85.255.232.118])
-        by smtp.gmail.com with ESMTPSA id b12sm17157597wro.66.2020.03.05.06.14.27
+        by smtp.gmail.com with ESMTPSA id d15sm42676736wrp.37.2020.03.05.06.27.45
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 05 Mar 2020 06:14:28 -0800 (PST)
+        Thu, 05 Mar 2020 06:27:45 -0800 (PST)
 From:   Simon Liddicott <simon@liddicott.com>
 To:     linux-media@vger.kernel.org
 Cc:     Simon Liddicott <simon@liddicott.com>
 Subject: [PATCH] dtv-scan-tables: UK Full Update.
-Date:   Thu,  5 Mar 2020 14:14:20 +0000
-Message-Id: <20200305141420.40481-1-simon@liddicott.com>
+Date:   Thu,  5 Mar 2020 14:27:41 +0000
+Message-Id: <20200305142741.40666-1-simon@liddicott.com>
 X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
