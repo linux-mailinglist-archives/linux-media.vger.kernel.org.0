@@ -2,179 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6F4D17BA4F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 11:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E3C17BA84
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 11:40:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726932AbgCFKdE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 05:33:04 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36395 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgCFKdD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 05:33:03 -0500
-Received: by mail-wr1-f67.google.com with SMTP id s17so814565wrs.3;
-        Fri, 06 Mar 2020 02:33:02 -0800 (PST)
+        id S1727304AbgCFKj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 05:39:56 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52523 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727276AbgCFKju (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 05:39:50 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p9so1819512wmc.2
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2020 02:39:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IdLE2j64bFa4rh3+Jd1RdnEDeNlfCI8zWa3p+SeV29c=;
-        b=ujLkorQcBX8hcrG98taZedJFwKvskdRzpsQ1RV+PJzTmPN5+fSaWz6lmQmRfRnfrHj
-         4Nf3fxcAHvuyvOIrLKPnabmT9RavWcclt5jSxQA5Chllnfc6poIq87YG5Dy8zwueyogB
-         y5szaR0sehXRTcQsZ5wax8sSLjKYcu/2ddtxWMKku8XUsPBg7Uhq+QM5Zr+Jb6zzgrAc
-         rK44nQv+tT/bK4gsb/QAORfZI+pYFen0U8BOA47fyWpcgYROUBAWpgGa/hPgUvcpx0sn
-         1mZt7FrUO4ES1KwFJVMrwJhSQa9VhQRVstUdAoArWydDjrlwMRebItfudS8CXBdb+7bp
-         Vy4Q==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=rCwwPNd2pA0INB2HwJkp3rqo1usGcNxwzdg6ma8wOKI=;
+        b=eTHhCcEclE09OQebKxTAtBcuem6YrVVfqc6wr7gzch/KOv9hjBwMrETehU/oSBUFjX
+         l9RbDlri1cZqI8jE26fig1J/BgoL9F/ihHJocP8/UCnDCvgi1xfAqPrfmg0Ceb7WmzQm
+         aWZ7/H0OldRYsjAGDfwM90Gf9q8iHvafGPsVM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IdLE2j64bFa4rh3+Jd1RdnEDeNlfCI8zWa3p+SeV29c=;
-        b=szStdn+zslE5ZaY1PgoV1OrYn6z2GlRWH9AU+ie/UkwnD13NuaNG/ourtH/zhw5Heo
-         YAuycuzgkV8NowT0MSCi3q10gXjVuyAjC6ZTrN3uG4m01zZfJf3KWUyN0Y1DwIN5iCJF
-         hpgtlsJW0tB5hqJmdytfq0vXmHnQElVoyzc6EpQCCEIb8eEfNv9LFfqPdQt0Z7t1uARZ
-         aKcae0WtNkNnvtI9ZkkeltDBTuHlvprEeeEh3D4y4VEd++5q9n5mMfMsOeR8hsRSJXpx
-         44cxr77tX//oet1caB/DQGent+KPWV3AiETOdN7mRJUBuUgZpFzo7FKPHYi9Fw7C21Dj
-         izXw==
-X-Gm-Message-State: ANhLgQ3sjttJI3Wf8+ZKJV017ikJnzdRKzrl3XTc+cX5m7lPwWXQFCam
-        qKQ0WB2qn9LjTI736Anp8rU=
-X-Google-Smtp-Source: ADFU+vuXq8Ij6x/72q7Xw0DmoVNy8vOnfQg8Q9o/HXVPBscO1O7mCKJ0qHN5UStB1ASG9+EN0Oormg==
-X-Received: by 2002:adf:fa07:: with SMTP id m7mr3360708wrr.384.1583490782202;
-        Fri, 06 Mar 2020 02:33:02 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2510:d000:7009:9d38:36e8:7030])
-        by smtp.gmail.com with ESMTPSA id t1sm1251111wrq.36.2020.03.06.02.33.01
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=rCwwPNd2pA0INB2HwJkp3rqo1usGcNxwzdg6ma8wOKI=;
+        b=e0IM3cq/ecnMBEYlqP3M7QHWVTJzu9adFc3N9VXOfccpPKynI071OhQB7+JkUlchhC
+         zNuaBcZelzrR7glDnzHIakYazomPbCKWduKdWPjTT4aNAXcX6M0DlAzKXv4v2a5FISFf
+         kOb+KLBIeEk6cHcL4oj7jBSwWzy+GnDsOuZGpGk7Ii60W9DM9rEFGlR1EAvU8SM+T0AR
+         4fewx/b0nPCFzFEo+EmagX8O7afTmdtg6MEJiSOyNrL+GbgaIz8SOfLJN1BTJGUSaVx4
+         tQtlzvdRfOORR4Z9UWVcZttIGPWJcYG6wCr1OFEOmdFX1Kjfy22e4TwsYu0FUNTqE4hQ
+         3VRA==
+X-Gm-Message-State: ANhLgQ0TEcVObZKynJnwm2yca6LhufHF/gUTkdxwQbrGOuRMH8DZe4BL
+        W00ZpZUM6+P0Sq3PjAALIg7QvQ==
+X-Google-Smtp-Source: ADFU+vsoxbiLn65abeK+CoaJTkFH/7IMTTkUgAtZxrezRu/238vSq4AIzpYtowBToyIoT+aRz7bdHg==
+X-Received: by 2002:a7b:c756:: with SMTP id w22mr3356418wmk.90.1583491188842;
+        Fri, 06 Mar 2020 02:39:48 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id a184sm13066027wmf.29.2020.03.06.02.39.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2020 02:33:01 -0800 (PST)
-From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 3/3] media: i2c: imx219: Add support for cropped 640x480 resolution
-Date:   Fri,  6 Mar 2020 10:32:46 +0000
-Message-Id: <20200306103246.22213-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 06 Mar 2020 02:39:48 -0800 (PST)
+Date:   Fri, 6 Mar 2020 11:39:46 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Joe Perches <joe@perches.com>,
+        Sebastian Duda <sebastian.duda@fau.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH] MAINTAINERS: adjust to reservation.h renaming
+Message-ID: <20200306103946.GT2363188@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Joe Perches <joe@perches.com>,
+        Sebastian Duda <sebastian.duda@fau.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+References: <20200304120711.12117-1-lukas.bulwahn@gmail.com>
+ <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds mode table entry for capturing cropped 640x480 resolution
+On Wed, Mar 04, 2020 at 01:08:32PM +0100, Christian König wrote:
+> Am 04.03.20 um 13:07 schrieb Lukas Bulwahn:
+> > Commit 52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv")
+> > renamed include/linux/reservation.h to include/linux/dma-resv.h, but
+> > missed the reference in the MAINTAINERS entry.
+> > 
+> > Since then, ./scripts/get_maintainer.pl --self-test complains:
+> > 
+> >    warning: no file matches F: include/linux/reservation.h
+> > 
+> > Adjust the DMA BUFFER SHARING FRAMEWORK entry in MAINTAINERS.
+> > 
+> > Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
+> > Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
+> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/i2c/imx219.c | 72 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 70 insertions(+), 2 deletions(-)
+You'll push this too?
+-Daniel
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index f96f3ce9fd85..6a86f500ec48 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -54,6 +54,7 @@
- #define IMX219_VTS_15FPS		0x0dc6
- #define IMX219_VTS_30FPS_1080P		0x06e3
- #define IMX219_VTS_30FPS_BINNED		0x06e3
-+#define IMX219_VTS_30FPS_640x480	0x06e3
- #define IMX219_VTS_MAX			0xffff
- 
- #define IMX219_VBLANK_MIN		4
-@@ -142,8 +143,8 @@ struct imx219_mode {
- 
- /*
-  * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-- * driver.
-- * 3280x2464 = mode 2, 1920x1080 = mode 1, and 1640x1232 = mode 4.
-+ * driver for resolutions 3280x2464, 1920x1080 and 1640x1232.
-+ * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 1.
-  */
- static const struct imx219_reg mode_3280x2464_regs[] = {
- 	{0x0100, 0x00},
-@@ -318,6 +319,63 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
- 	{0x0163, 0x78},
- };
- 
-+static const struct imx219_reg mode_640_480_regs[] = {
-+	{0x0100, 0x00},
-+	{0x30eb, 0x05},
-+	{0x30eb, 0x0c},
-+	{0x300a, 0xff},
-+	{0x300b, 0xff},
-+	{0x30eb, 0x05},
-+	{0x30eb, 0x09},
-+	{0x0114, 0x01},
-+	{0x0128, 0x00},
-+	{0x012a, 0x18},
-+	{0x012b, 0x00},
-+	{0x0162, 0x0d},
-+	{0x0163, 0x78},
-+	{0x0164, 0x03},
-+	{0x0165, 0xe8},
-+	{0x0166, 0x08},
-+	{0x0167, 0xe7},
-+	{0x0168, 0x02},
-+	{0x0169, 0xf0},
-+	{0x016a, 0x06},
-+	{0x016b, 0xaf},
-+	{0x016c, 0x02},
-+	{0x016d, 0x80},
-+	{0x016e, 0x01},
-+	{0x016f, 0xe0},
-+	{0x0170, 0x01},
-+	{0x0171, 0x01},
-+	{0x0174, 0x03},
-+	{0x0175, 0x03},
-+	{0x0301, 0x05},
-+	{0x0303, 0x01},
-+	{0x0304, 0x03},
-+	{0x0305, 0x03},
-+	{0x0306, 0x00},
-+	{0x0307, 0x39},
-+	{0x030b, 0x01},
-+	{0x030c, 0x00},
-+	{0x030d, 0x72},
-+	{0x0624, 0x06},
-+	{0x0625, 0x68},
-+	{0x0626, 0x04},
-+	{0x0627, 0xd0},
-+	{0x455e, 0x00},
-+	{0x471e, 0x4b},
-+	{0x4767, 0x0f},
-+	{0x4750, 0x14},
-+	{0x4540, 0x00},
-+	{0x47b4, 0x14},
-+	{0x4713, 0x30},
-+	{0x478b, 0x10},
-+	{0x478f, 0x10},
-+	{0x4793, 0x10},
-+	{0x4797, 0x0e},
-+	{0x479b, 0x0e},
-+};
-+
- static const char * const imx219_test_pattern_menu[] = {
- 	"Disabled",
- 	"Color Bars",
-@@ -424,6 +482,16 @@ static const struct imx219_mode supported_modes[] = {
- 			.regs = mode_1640_1232_regs,
- 		},
- 	},
-+	{
-+		/* 640x480 30fps mode */
-+		.width = 640,
-+		.height = 480,
-+		.vts_def = IMX219_VTS_30FPS_640x480,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
-+			.regs = mode_640_480_regs,
-+		},
-+	},
- };
- 
- struct imx219 {
+> 
+> > ---
+> > Christian, please pick this patch.
+> > applies cleanly on current master and next-20200303
+> > 
+> >   MAINTAINERS | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 6158a143a13e..3d6cb2789c9e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5022,7 +5022,7 @@ L:	dri-devel@lists.freedesktop.org
+> >   L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+> >   F:	drivers/dma-buf/
+> >   F:	include/linux/dma-buf*
+> > -F:	include/linux/reservation.h
+> > +F:	include/linux/dma-resv.h
+> >   F:	include/linux/*fence.h
+> >   F:	Documentation/driver-api/dma-buf.rst
+> >   K:	dma_(buf|fence|resv)
+> 
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+
 -- 
-2.20.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
