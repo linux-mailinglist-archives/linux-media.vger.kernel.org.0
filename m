@@ -2,120 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29D6E17BD6F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 14:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2030417BD8F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 14:04:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbgCFNB7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 08:01:59 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34678 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbgCFNB7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 08:01:59 -0500
-Received: by mail-wr1-f66.google.com with SMTP id z15so2287017wrl.1
-        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2020 05:01:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X5TastwJnrVeQNVKcB2ayuhPbdTnWUMfIHdacFVQq3Q=;
-        b=BMtYlKzJjRuyW8XSL9YB+oMlM9yQuU5vNYIAowLfzpYb749vtpM9fnQXSnZq3d45nP
-         8W7BgfYBAby0seDVDrYWzGvY9FdBcnbIRkDX39pgULNpQpKn4xNVioydBPlYTaGgPdIl
-         hE+EBWzV8I9Wm/mU8k4WNSaO38XFafy8sKj2hnWSbJKQhIDaFpnM1ycw3hvdq+UdI8o5
-         ZrRIU6HasJI4D8ZQuczRe8/xxrLYW44/C4g1GGWgxLVYtCgG+xhqQzFCRRkecsgd4Rq3
-         i0KgZHXXS30Hk2Yu9YVnPo4zrKnr55g5H/Br1gHt4lfBtaO8v4kDtApGYMFQVYGrrb8g
-         kr9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X5TastwJnrVeQNVKcB2ayuhPbdTnWUMfIHdacFVQq3Q=;
-        b=IbKH98fIgi4PMq+M0gvlFdQP3dVwZD6NBvK/SKpASX6V5h5qwZgyXqgF286tHZv9L3
-         boBuO7OIoAoj0DN8f9En/6LoKbbZc1fE5//g+fynu4X3qv6nVov/VHgLc7/+mvAF5JUU
-         Xxlmc26aIxcqdKpDfqOqcaBwdUlrhUE/NwwjpndcB4N2K33pXA0FA20jk1ggYVbRyuo2
-         jB2fGrpV2iieyoYpl1ZhZFRS/kTSU15BgwPIq/AhPIi9MR0yVXhjcUNEpVcHNdo3SgtJ
-         EQbcGSaK/GcjNhBVH3fKP2IOih4DMy3W6ZFCPndbuoZO27BCD/HfVs8YFVzDzvGZMXHj
-         O45A==
-X-Gm-Message-State: ANhLgQ20dBtmKMdy+zEurR456oWTDw7jp5q1b5RQE1LCmZYHdzIAMg0j
-        vZEcSyXlN1cCtvAZl2q03GHLqiHIEM0jZmE5ymJxeJDP/n8=
-X-Google-Smtp-Source: ADFU+vtl+p570kweIo5VQ3bsmM9UD6KKBA83iypObT0OERUf4+HZHp03L79qps26qb8khNhLiXjkOnPCuIN8/1D/K3s=
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr3830315wrw.47.1583499716386;
- Fri, 06 Mar 2020 05:01:56 -0800 (PST)
+        id S1727244AbgCFNEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 08:04:07 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:54088 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgCFNEG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 08:04:06 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 026D45a2076542;
+        Fri, 6 Mar 2020 07:04:05 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1583499846;
+        bh=YGPGIjMx8NpAqoWqRIFkR0DHWMSpJffHZWteABIBptA=;
+        h=From:To:CC:Subject:Date;
+        b=zDRTKQ6V1wuFj+2ihF5TjttoKFCukldb45qddFXQctpFOblg/vCf6CWpf9yqOtWI8
+         h/Bbd1VDq9byySPBVzCLdSWx9sJ+Fnki177o9d0WBnwJmniyv0tp1KdOGqszUSVAJO
+         gn3pSCF0RTtToHGx1jbCjlTBQDaxH/w6HgDNbWfA=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 026D454T105721
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 6 Mar 2020 07:04:05 -0600
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 6 Mar
+ 2020 07:04:05 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 6 Mar 2020 07:04:05 -0600
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 026D45Ne066327;
+        Fri, 6 Mar 2020 07:04:05 -0600
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>, <stable@vger.kernel.org>
+Subject: [Patch v2] media: ti-vpe: cal: fix a kernel oops when unloading module
+Date:   Fri, 6 Mar 2020 07:08:39 -0600
+Message-ID: <20200306130839.1209-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200306103246.22213-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200306103246.22213-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 6 Mar 2020 13:01:39 +0000
-Message-ID: <CAPY8ntD38sM0SXvOEyr2gRCM7WeAY4CjAKcrVfd6MCHB+Ejv0A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] media: i2c: imx219: Fix power sequence
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar.
+After the switch to use v4l2_async_notifier_add_subdev() and
+v4l2_async_notifier_cleanup(), unloading the ti_cal module would casue a
+kernel oops.
 
-Thanks for the update.
+This was root cause to the fact that v4l2_async_notifier_cleanup() tries
+to kfree the asd pointer passed into v4l2_async_notifier_add_subdev().
 
-On Fri, 6 Mar 2020 at 10:32, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> When supporting Rpi Camera v2 Module on the RZ/G2E, found the driver had
-> some issues with rcar mipi-csi driver. The sensor never entered into LP-11
-> state.
->
-> The powerup sequence in the datasheet[1] shows the sensor entering into
-> LP-11 in streaming mode, so to fix this issue transitions are performed
-> from "streaming -> standby" in the probe() after power up.
->
-> With this commit the sensor is able to enter LP-11 mode during power up,
-> as expected by some CSI-2 controllers.
->
-> [1] https://publiclab.org/system/images/photos/000/023/294/original/
-> RASPBERRY_PI_CAMERA_V2_DATASHEET_IMX219PQH5_7.0.0_Datasheet_XXX.PDF
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In our case the asd reference was from a statically allocated struct.
+So in effect v4l2_async_notifier_cleanup() was trying to free a pointer
+that was not kalloc.
 
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+So here we switch to using a kzalloc struct instead of a static one.
+To acheive this we re-order some of the calls to prevent asd allocation
+from leaking.
 
+Fixes: d079f94c9046 ("media: platform: Switch to v4l2_async_notifier_add_subdev")
 
-> ---
->  drivers/media/i2c/imx219.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f1effb5a5f66..16010ca1781a 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1224,6 +1224,23 @@ static int imx219_probe(struct i2c_client *client)
->         /* Set default mode to max resolution */
->         imx219->mode = &supported_modes[0];
->
-> +       /* sensor doesn't enter LP-11 state upon power up until and unless
-> +        * streaming is started, so upon power up switch the modes to:
-> +        * streaming -> standby
-> +        */
-> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
-> +       if (ret < 0)
-> +               goto error_power_off;
-> +       usleep_range(100, 110);
-> +
-> +       /* put sensor back to standby mode */
-> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
-> +       if (ret < 0)
-> +               goto error_power_off;
-> +       usleep_range(100, 110);
-> +
->         ret = imx219_init_controls(imx219);
->         if (ret)
->                 goto error_power_off;
-> --
-> 2.20.1
->
+Cc: stable@vger.kernel.org
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+---
+Changes since v1:
+- fix asd allocation leak
+
+ drivers/media/platform/ti-vpe/cal.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index 6d4cbb8782ed..6c8f3702eac0 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -372,8 +372,6 @@ struct cal_ctx {
+ 	struct v4l2_subdev	*sensor;
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 
+-	struct v4l2_async_subdev asd;
+-
+ 	struct v4l2_fh		fh;
+ 	struct cal_dev		*dev;
+ 	struct cc_data		*cc;
+@@ -2032,7 +2030,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+ 
+ 	parent = pdev->dev.of_node;
+ 
+-	asd = &ctx->asd;
+ 	endpoint = &ctx->endpoint;
+ 
+ 	ep_node = NULL;
+@@ -2079,8 +2076,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+ 		ctx_dbg(3, ctx, "can't get remote parent\n");
+ 		goto cleanup_exit;
+ 	}
+-	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+-	asd->match.fwnode = of_fwnode_handle(sensor_node);
+ 
+ 	v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), endpoint);
+ 
+@@ -2110,9 +2105,17 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
+ 
+ 	v4l2_async_notifier_init(&ctx->notifier);
+ 
++	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
++	if (!asd)
++		goto cleanup_exit;
++
++	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
++	asd->match.fwnode = of_fwnode_handle(sensor_node);
++
+ 	ret = v4l2_async_notifier_add_subdev(&ctx->notifier, asd);
+ 	if (ret) {
+ 		ctx_err(ctx, "Error adding asd\n");
++		kfree(asd);
+ 		goto cleanup_exit;
+ 	}
+ 
+-- 
+2.17.1
+
