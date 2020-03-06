@@ -2,132 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2030417BD8F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 14:04:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9AE117BE09
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 14:17:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727244AbgCFNEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 08:04:07 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:54088 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgCFNEG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 08:04:06 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 026D45a2076542;
-        Fri, 6 Mar 2020 07:04:05 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1583499846;
-        bh=YGPGIjMx8NpAqoWqRIFkR0DHWMSpJffHZWteABIBptA=;
-        h=From:To:CC:Subject:Date;
-        b=zDRTKQ6V1wuFj+2ihF5TjttoKFCukldb45qddFXQctpFOblg/vCf6CWpf9yqOtWI8
-         h/Bbd1VDq9byySPBVzCLdSWx9sJ+Fnki177o9d0WBnwJmniyv0tp1KdOGqszUSVAJO
-         gn3pSCF0RTtToHGx1jbCjlTBQDaxH/w6HgDNbWfA=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 026D454T105721
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 6 Mar 2020 07:04:05 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 6 Mar
- 2020 07:04:05 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 6 Mar 2020 07:04:05 -0600
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 026D45Ne066327;
-        Fri, 6 Mar 2020 07:04:05 -0600
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Benoit Parrot <bparrot@ti.com>, <stable@vger.kernel.org>
-Subject: [Patch v2] media: ti-vpe: cal: fix a kernel oops when unloading module
-Date:   Fri, 6 Mar 2020 07:08:39 -0600
-Message-ID: <20200306130839.1209-1-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727390AbgCFNQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 08:16:39 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44518 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726992AbgCFNQi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 08:16:38 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DF4524B;
+        Fri,  6 Mar 2020 14:16:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1583500595;
+        bh=/rMq1rqwJlIIRSEMtL+O8FDFAd+2QA+1ULHVhkvPuv0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qk7w4kF6at+pQnnz2ADC9S4gjiYsADhj1rdQaSA+cm0KFFqJDg80QotWNNPjaITBX
+         pUjsV4phQR1MOqE6wB3JKlpsytbxxdu8aUnjftX7FQ//8GwxHrmscS9ccS3zgpuLnG
+         eVSDq/x5DxD7tI8l8suf7pFQJUp7AY9+vipyH7Dk=
+Date:   Fri, 6 Mar 2020 15:16:32 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Alex Riesen <alexander.riesen@cetitec.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Driver Development <devel@driverdev.osuosl.org>,
+        Linux Media <linux-media@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Device Tree <devicetree@vger.kernel.org>,
+        Renesas SoC <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
+ adv748x codec (HDMI input) to the R-Car SoC
+Message-ID: <20200306131632.GA4878@pendragon.ideasonboard.com>
+References: <cover.1578924232.git.alexander.riesen@cetitec.com>
+ <20200113141556.GI3606@pflmari>
+ <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
+ <20200302134011.GA3717@pflmari>
+ <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
+ <20200302150706.GB3717@pflmari>
+ <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
+ <20200302160906.GC3717@pflmari>
+ <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
+ <20200305143628.GB25741@pflmari>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200305143628.GB25741@pflmari>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the switch to use v4l2_async_notifier_add_subdev() and
-v4l2_async_notifier_cleanup(), unloading the ti_cal module would casue a
-kernel oops.
+Hi Alex,
 
-This was root cause to the fact that v4l2_async_notifier_cleanup() tries
-to kfree the asd pointer passed into v4l2_async_notifier_add_subdev().
+On Thu, Mar 05, 2020 at 03:36:28PM +0100, Alex Riesen wrote:
+> Geert Uytterhoeven, Mon, Mar 02, 2020 17:13:30 +0100:
+> > On Mon, Mar 2, 2020 at 5:09 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
+> > > Geert Uytterhoeven, Mon, Mar 02, 2020 16:32:32 +0100:
+> > > >
+> > > > The #clock-cells should be in the main video-receiver node.
+> > > > Probably there is more than one clock output, so #clock-cells may be 1?
+> > >
+> > > AFAICS, the device can provide only this one clock line (audio master clock
+> > > for I2S output)... I shall re-check, just in case.
+> 
+> And you're right, of course: the audio output formatting module of the ADV748x
+> devices provides a set of clock lines related to the I2S pins: the already
+> discussed master clock, left-right channel clock and the serial clock (bit
+> clock?).
 
-In our case the asd reference was from a statically allocated struct.
-So in effect v4l2_async_notifier_cleanup() was trying to free a pointer
-that was not kalloc.
+I don't think we need to model the last two clocks through CCF though,
+they're part of the I2S protocol, not clock sources that need to be
+explicitly controlled (or queried).
 
-So here we switch to using a kzalloc struct instead of a static one.
-To acheive this we re-order some of the calls to prevent asd allocation
-from leaking.
+> > > > There is no need for a fixed-clock compatible, nor for clock-frequency
+> > > > and clock-output-names.
+> > > >
+> > > > But most important: this should be documented in the adv748x DT bindings,
+> > > > and implemented in the adv748x driver.
+> > >
+> > > So if the driver is to export that clock for the kernel (like in this case),
+> > > it must implement its support?
+> > 
+> > Exactly.  Unless that pin is hardcoded to output a fixed clock, in which case
+> > you can just override the existing audio_clk_c rate.
+> 
+> Just to try it out (I'll set #clock-cells to 1), I registered a fixed rate
+> clock in the driver, added a clock provider:
+> 
+> adv748x_probe:
+> 
+>     clk = clk_register_fixed_rate(state->dev,
+> 				  "clk-hdmi-i2s-mclk",
+> 				  NULL     /* parent_name */,
+> 				  0        /* flags */,
+> 				  12288000 /* rate */);
+>     of_clk_add_provider(state->dev->of_node, of_clk_src_simple_get, clk);
+> 
+> And removed the audio_clk_c frequency setting. I also replaced the audio_clk_c
+> in the list of input clocks of the R-Car-side sound card with the phandle of
+> the adv7482 main node:
+> 
+> salvator-common.dtsi:
+> 
+>     &i2c4 {
+> 	status = "okay";
+> 
+> 	adv7482_hdmi_decoder: video-receiver@70 {
+> 	    #clock-cells = <0>; // to be replaced with <1>
+> 	};
+>     };
+> 
+>     &rcar_sound {
+> 	clocks = ..., <&adv7482_hdmi_decoder>, ...;
+>     };
+> 
+> As everything continues to work as before, I assume that at least the clock
+> dependencies were resolved.
 
-Fixes: d079f94c9046 ("media: platform: Switch to v4l2_async_notifier_add_subdev")
+This looks good to me.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
-Changes since v1:
-- fix asd allocation leak
+> Is there a way to verify that the added input clock is actually used?
+> IOW, if its frequency is actually has been programmed into the ssi4 (R-Car
+> receiving hardware) registers, and not just a left-over from previuos attempts
+> or plain default setting?
+> 
+> As the ADV748x devices seem to provide also the clocks for video outputs, will
+> it make any sense to place the clock definition into the port node?
+> Or should all provided clocks be indexed in the main device node?
 
- drivers/media/platform/ti-vpe/cal.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Those clocks are part of the CSI-2 protocol and also don't need to be
+explicitly controlled. As far as I can tell from a quick check of the
+ADV7482 documentation, only the I2S MCLK is a general-purpose clock that
+needs to be exposed.
 
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 6d4cbb8782ed..6c8f3702eac0 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -372,8 +372,6 @@ struct cal_ctx {
- 	struct v4l2_subdev	*sensor;
- 	struct v4l2_fwnode_endpoint	endpoint;
- 
--	struct v4l2_async_subdev asd;
--
- 	struct v4l2_fh		fh;
- 	struct cal_dev		*dev;
- 	struct cc_data		*cc;
-@@ -2032,7 +2030,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
- 
- 	parent = pdev->dev.of_node;
- 
--	asd = &ctx->asd;
- 	endpoint = &ctx->endpoint;
- 
- 	ep_node = NULL;
-@@ -2079,8 +2076,6 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
- 		ctx_dbg(3, ctx, "can't get remote parent\n");
- 		goto cleanup_exit;
- 	}
--	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
--	asd->match.fwnode = of_fwnode_handle(sensor_node);
- 
- 	v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_node), endpoint);
- 
-@@ -2110,9 +2105,17 @@ static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
- 
- 	v4l2_async_notifier_init(&ctx->notifier);
- 
-+	asd = kzalloc(sizeof(*asd), GFP_KERNEL);
-+	if (!asd)
-+		goto cleanup_exit;
-+
-+	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
-+	asd->match.fwnode = of_fwnode_handle(sensor_node);
-+
- 	ret = v4l2_async_notifier_add_subdev(&ctx->notifier, asd);
- 	if (ret) {
- 		ctx_err(ctx, "Error adding asd\n");
-+		kfree(asd);
- 		goto cleanup_exit;
- 	}
- 
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
