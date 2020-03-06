@@ -2,131 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D13517C11E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 16:02:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49A7617C1D6
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 16:31:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgCFPC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 10:02:28 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35450 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726171AbgCFPC1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 10:02:27 -0500
-Received: by mail-ot1-f65.google.com with SMTP id v10so2706631otp.2;
-        Fri, 06 Mar 2020 07:02:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BD+60dokgEOUG8j2bYzkDk6D/5UHZy/4MYWY7LmG4bw=;
-        b=eFSZa7/QV0w8UCbTiQEIr1obPkQBsyaq56GSwV9OB1pN5etNNCyEm4XeRjMI14m6Vx
-         4Ehd56Cj0i7QJDDMopnpuOfdr36F+9DZ6ndBx7UViEggRWqrxma0wRjZleGPChExUXfb
-         ozrcWG2aSw9KfKY5/86erdy1han4u9Bv/t8LfbQwQpNCOTDNtL7uWff11ShgcM1w+r11
-         TQ50pc3ZcMfLh3ctE3/DZ2FKnVVc6yQK0xXq5q2gWOVavblPnosOd5lZOgcplnvWW3O1
-         J8GfM3dflqjXu6hv03q4CNWQi6q14K9QSq7PTnrn0ocCg3eUEW981c/df1PqPN8f/wBK
-         Z2rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BD+60dokgEOUG8j2bYzkDk6D/5UHZy/4MYWY7LmG4bw=;
-        b=Knf9yWR2N6Zu2zAwlbYJ8a6WERyaAGPyWI+NIhMC2wcuDvgB15J60PeNOb6LfBC+2m
-         0Bb5mdj78Fak5S7nbe0rjk/liCVHGqL09+ES5pHnFWU4oI+2Sy8OiK5gl2a+FK8m2+Bm
-         lmVyX5VbGBe3OOzXspz0Z1mMLIQoH+akY2Dr7zPr9TL7fMwDv+NEvD64J4Q6YiVXC3Gt
-         +SIssjnIuQ8XoZ6aRbbDQ9WoMQke+jlsg5dBO8WhkiiVrHSoH1pyapR9DW3gi4Q77g+n
-         48oIjwKWuK+2h4ScHHjWoMO+DoMF/pT3unOdkhnOjvn3SLK4/Y4PAKaN7/sijv8T3aKP
-         nzfg==
-X-Gm-Message-State: ANhLgQ1gkzMkqm33B9hB5dQwf+DpejWvtJH/7K74ZsvUuEahCOnFLVOO
-        bcoe5RRZD76duOMZl8v5azhfnWLFc2XE2D5NYAg=
-X-Google-Smtp-Source: ADFU+vuyheZ5bTYaLVxlIFPIWUI4wuVMkWlhVds1soVsrxGBy2ve8KSs/7dd6xWIpqFYFkBxZ/fFprmkEU2G04xmH78=
-X-Received: by 2002:a9d:6d85:: with SMTP id x5mr2946522otp.176.1583506945793;
- Fri, 06 Mar 2020 07:02:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200306103246.22213-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAPY8ntD38sM0SXvOEyr2gRCM7WeAY4CjAKcrVfd6MCHB+Ejv0A@mail.gmail.com>
-In-Reply-To: <CAPY8ntD38sM0SXvOEyr2gRCM7WeAY4CjAKcrVfd6MCHB+Ejv0A@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 6 Mar 2020 15:01:57 +0000
-Message-ID: <CA+V-a8s-7FYJdLnG5y4i6SvcpJR16iXd35GfFPgesdkO9Z7Ong@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] media: i2c: imx219: Fix power sequence
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+        id S1726682AbgCFPao (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 10:30:44 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:51101 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726259AbgCFPan (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Mar 2020 10:30:43 -0500
+Received: from [IPv6:2001:983:e9a7:1:558f:c736:2117:17d1]
+ ([IPv6:2001:983:e9a7:1:558f:c736:2117:17d1])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id AEvvjruhq9Im2AEvwjGMja; Fri, 06 Mar 2020 16:30:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583508640; bh=wcziDLLJe+bdH2b73SYFi9tSOTHHgbS5p/Zs6xNUXT8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vBoSzRmbMhdo1v9LsjkGTpURiLHkazTLHJvl2/H0r+olj8ODSYmrsShkKEp3yIcp7
+         SPEeOYd2QCNJo6geBtAwVtL0v6CHSTMSW6ATrjP8BCzgbDeRbiJjgAUgB2Y1+mbgdM
+         ABpXNfeZSHZgtFFfMexiMVdd7C7KXh5j7kJGmxnOXDSm0yZ3jATXS1i70k4spMG2d6
+         3K5OGUYafcfSuml+V1oyeXSYmf1TqKdJtc1evNHrGvtf+8c9nOMiJTA3bOVlK1EZ7F
+         6YoO0cn8/bYtm465q+/C2+l/NySv7572W1T9CbzYO32EIY8rvpANPMgr0nVbM/9Udd
+         1mkNXNgBOhuxQ==
+Subject: Re: [PATCHv4 05/11] videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT
+ flag
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200302041213.27662-1-senozhatsky@chromium.org>
+ <20200302041213.27662-6-senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <70144162-3bbe-4ea5-a3f7-e52d4585db53@xs4all.nl>
+Date:   Fri, 6 Mar 2020 16:30:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200302041213.27662-6-senozhatsky@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJs9c1KOzp+xZaTQ8Y2JpXWod+JBH0mNKu5rBZcGt0vpqzx9zj/WTwtnztG+me6cWnBKdiQQnyAnWVCbXKB91Cg4fYPJ6i5aOUTCeR13ALk9OVAETfc0
+ 5DR0BU7pFbPCMcKa7E1tl4uEVhi3aiIDJuP9Fy65m726BSW80azjH7QrvLOhWO8GL/X8+uIrY6/wSy3sBQSSCONCz4L3m2ORKpi0qcH2YayCfTAxzJEGjrcE
+ w51t/PvFSnja5t5ATbncaAQjSTGcw5kK971Dhldpvx/jclFyvVxA+/Sk0vZ1Vb07hCjTi335pKiHt8uKMcgwYibNGa1ewgOgJAT9YLJQpl+oUx7ZyrUBvql/
+ Bk6i1BlgATUID5JosOs24MwNTWm2tf6iuUlu1OW1usHM/ko/clAV3l8vK1fMD0QIpd2soTaozjFNCJKHBcU8sqvgyPXxGZwxbztJNWQGmWtJTGAjp6JAn5jt
+ JuYM1cPFRKEgzx2mcEH7KQKxKX1/uFd9b84zovmu2Mg2tacZspm2e6nnX3uFQbrIMw46r2tcqgVegCc36XsXgDuwFrbrp2KzYcdXNpJcS0HpfztLSb1S8b9W
+ Fw5vj2VOQlOG2hs96bmggDd64VroeW30MVIs6sfarVOvZQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+On 02/03/2020 05:12, Sergey Senozhatsky wrote:
+> This patch lets user-space to request a non-consistent memory
+> allocation during CREATE_BUFS and REQBUFS ioctl calls.
+> 
+> = CREATE_BUFS
+> 
+>   struct v4l2_create_buffers has seven 4-byte reserved areas,
+>   so reserved[0] is renamed to ->flags. The struct, thus, now
+>   has six reserved 4-byte regions.
+> 
+> = REQBUFS
+> 
+>  We use one bit of a ->reserved[1] member of struct v4l2_requestbuffers,
+>  which is now renamed to ->flags. Unlike v4l2_create_buffers, struct
+>  v4l2_requestbuffers does not have enough reserved room. Therefore for
+>  backward compatibility  ->reserved and ->flags were put into anonymous
+>  union.
+> 
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  .../media/uapi/v4l/vidioc-create-bufs.rst     |  7 ++++-
+>  .../media/uapi/v4l/vidioc-reqbufs.rst         | 11 +++++--
+>  .../media/common/videobuf2/videobuf2-v4l2.c   | 31 +++++++++++++++++--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  5 +--
+>  include/uapi/linux/videodev2.h                |  8 +++--
+>  5 files changed, 50 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
+> index bd08e4f77ae4..a9c6c89f5098 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-create-bufs.rst
+> @@ -121,7 +121,12 @@ than the number requested.
+>  	other changes, then set ``count`` to 0, ``memory`` to
+>  	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
+>      * - __u32
+> -      - ``reserved``\ [7]
+> +      - ``flags``
+> +      - Specifies additional buffer management attributes.
+> +	See :ref:`memory-flags`.
+> +
+> +    * - __u32
+> +      - ``reserved``\ [6]
+>        - A place holder for future extensions. Drivers and applications
+>  	must set the array to zero.
+>  
+> diff --git a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+> index 21ecacc72487..faf0df4f9bb6 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-reqbufs.rst
+> @@ -112,10 +112,17 @@ aborting or finishing any DMA in progress, an implicit
+>  	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
+>  	free any previously allocated buffers, so this is typically something
+>  	that will be done at the start of the application.
+> +    * - union {
+> +      - (anonymous)
+> +    * - __u32
+> +      - ``flags``
+> +      - Specifies additional buffer management attributes.
+> +	See :ref:`memory-flags`.
+>      * - __u32
+>        - ``reserved``\ [1]
+> -      - A place holder for future extensions. Drivers and applications
+> -	must set the array to zero.
+> +      - Kept for backwards compatibility. Use ``flags`` instead.
+> +    * - }
+> +      -
+>  
+>  .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
+>  
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 6111d74f68c9..b4b379f3bf98 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -722,9 +722,18 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+>  int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+>  {
+>  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
+> +	bool consistent = true;
+> +
+> +	if (!vb2_queue_allows_cache_hints(q))
+> +		req->flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
+> +
+> +	if (req->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
+> +		consistent = false;
+>  
+>  	fill_buf_caps(q, &req->capabilities);
+> -	return ret ? ret : vb2_core_reqbufs(q, req->memory, true, &req->count);
+> +	if (ret)
+> +		return ret;
+> +	return vb2_core_reqbufs(q, req->memory, consistent, &req->count);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_reqbufs);
+>  
+> @@ -753,6 +762,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	unsigned requested_sizes[VIDEO_MAX_PLANES];
+>  	struct v4l2_format *f = &create->format;
+>  	int ret = vb2_verify_memory_type(q, create->memory, f->type);
+> +	bool consistent = true;
+>  	unsigned i;
+>  
+>  	fill_buf_caps(q, &create->capabilities);
+> @@ -798,7 +808,14 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	for (i = 0; i < requested_planes; i++)
+>  		if (requested_sizes[i] == 0)
+>  			return -EINVAL;
+> -	return ret ? ret : vb2_core_create_bufs(q, create->memory, true,
+> +
+> +	if (!vb2_queue_allows_cache_hints(q))
+> +		create->flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
+> +
+> +	if (create->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
+> +		consistent = false;
+> +
+> +	return ret ? ret : vb2_core_create_bufs(q, create->memory, consistent,
+>  		&create->count, requested_planes, requested_sizes);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_create_bufs);
+> @@ -968,13 +985,21 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
+>  {
+>  	struct video_device *vdev = video_devdata(file);
+>  	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
+> +	bool consistent = true;
+>  
+>  	fill_buf_caps(vdev->queue, &p->capabilities);
+>  	if (res)
+>  		return res;
+>  	if (vb2_queue_is_busy(vdev, file))
+>  		return -EBUSY;
+> -	res = vb2_core_reqbufs(vdev->queue, p->memory, true, &p->count);
+> +
+> +	if (!vb2_queue_allows_cache_hints(vdev->queue))
+> +		p->flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
+> +
+> +	if (p->flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
+> +		consistent = false;
+> +
+> +	res = vb2_core_reqbufs(vdev->queue, p->memory, consistent, &p->count);
+>  	/* If count == 0, then the owner has released all buffers and he
+>  	   is no longer owner of the queue. Otherwise we have a new owner. */
+>  	if (res == 0)
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index fbcc7a20eedf..53b87bfd50d7 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1973,9 +1973,6 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
+>  
+>  	if (ret)
+>  		return ret;
+> -
+> -	CLEAR_AFTER_FIELD(p, capabilities);
+> -
+>  	return ops->vidioc_reqbufs(file, fh, p);
+>  }
+>  
+> @@ -2015,7 +2012,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
+>  	if (ret)
+>  		return ret;
+>  
+> -	CLEAR_AFTER_FIELD(create, capabilities);
+> +	CLEAR_AFTER_FIELD(create, flags);
+>  
+>  	v4l_sanitize_format(&create->format);
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index e92c29864730..12b1bd220347 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -938,7 +938,10 @@ struct v4l2_requestbuffers {
+>  	__u32			type;		/* enum v4l2_buf_type */
+>  	__u32			memory;		/* enum v4l2_memory */
+>  	__u32			capabilities;
+> -	__u32			reserved[1];
+> +	union {
+> +		__u32		flags;
+> +		__u32		reserved[1];
+> +	};
+>  };
+>  
+>  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
+> @@ -2446,7 +2449,8 @@ struct v4l2_create_buffers {
+>  	__u32			memory;
+>  	struct v4l2_format	format;
+>  	__u32			capabilities;
+> -	__u32			reserved[7];
+> +	__u32			flags;
 
-On Fri, Mar 6, 2020 at 1:01 PM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Prabhakar.
->
-> Thanks for the update.
->
-> On Fri, 6 Mar 2020 at 10:32, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> >
-> > When supporting Rpi Camera v2 Module on the RZ/G2E, found the driver had
-> > some issues with rcar mipi-csi driver. The sensor never entered into LP-11
-> > state.
-> >
-> > The powerup sequence in the datasheet[1] shows the sensor entering into
-> > LP-11 in streaming mode, so to fix this issue transitions are performed
-> > from "streaming -> standby" in the probe() after power up.
-> >
-> > With this commit the sensor is able to enter LP-11 mode during power up,
-> > as expected by some CSI-2 controllers.
-> >
-> > [1] https://publiclab.org/system/images/photos/000/023/294/original/
-> > RASPBERRY_PI_CAMERA_V2_DATASHEET_IMX219PQH5_7.0.0_Datasheet_XXX.PDF
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-Thank you for the Ack.
+The new flags argument needs to be documented in the command for struct v4l2_create_buffers.
 
-Cheers,
---Prabhakar
+Regards,
 
->
-> > ---
-> >  drivers/media/i2c/imx219.c | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index f1effb5a5f66..16010ca1781a 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -1224,6 +1224,23 @@ static int imx219_probe(struct i2c_client *client)
-> >         /* Set default mode to max resolution */
-> >         imx219->mode = &supported_modes[0];
-> >
-> > +       /* sensor doesn't enter LP-11 state upon power up until and unless
-> > +        * streaming is started, so upon power up switch the modes to:
-> > +        * streaming -> standby
-> > +        */
-> > +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> > +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
-> > +       if (ret < 0)
-> > +               goto error_power_off;
-> > +       usleep_range(100, 110);
-> > +
-> > +       /* put sensor back to standby mode */
-> > +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
-> > +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
-> > +       if (ret < 0)
-> > +               goto error_power_off;
-> > +       usleep_range(100, 110);
-> > +
-> >         ret = imx219_init_controls(imx219);
-> >         if (ret)
-> >                 goto error_power_off;
-> > --
-> > 2.20.1
-> >
+	Hans
+
+> +	__u32			reserved[6];
+>  };
+>  
+>  /*
+> 
+
