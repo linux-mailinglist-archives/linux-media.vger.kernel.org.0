@@ -2,148 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A575F17BCA5
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 13:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D6E17BD6F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 14:02:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbgCFMV7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 07:21:59 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41282 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgCFMV7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 07:21:59 -0500
-Received: by mail-oi1-f194.google.com with SMTP id i1so2315667oie.8;
-        Fri, 06 Mar 2020 04:21:59 -0800 (PST)
+        id S1727083AbgCFNB7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 08:01:59 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34678 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726368AbgCFNB7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 08:01:59 -0500
+Received: by mail-wr1-f66.google.com with SMTP id z15so2287017wrl.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2020 05:01:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X5TastwJnrVeQNVKcB2ayuhPbdTnWUMfIHdacFVQq3Q=;
+        b=BMtYlKzJjRuyW8XSL9YB+oMlM9yQuU5vNYIAowLfzpYb749vtpM9fnQXSnZq3d45nP
+         8W7BgfYBAby0seDVDrYWzGvY9FdBcnbIRkDX39pgULNpQpKn4xNVioydBPlYTaGgPdIl
+         hE+EBWzV8I9Wm/mU8k4WNSaO38XFafy8sKj2hnWSbJKQhIDaFpnM1ycw3hvdq+UdI8o5
+         ZrRIU6HasJI4D8ZQuczRe8/xxrLYW44/C4g1GGWgxLVYtCgG+xhqQzFCRRkecsgd4Rq3
+         i0KgZHXXS30Hk2Yu9YVnPo4zrKnr55g5H/Br1gHt4lfBtaO8v4kDtApGYMFQVYGrrb8g
+         kr9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=PP2DishXN/uUrup+d3jTIYgHqkNWvTyxlqHhWL+y70E=;
-        b=RDxB7p25eiNzypjtjZxkzkeU+eYUxLeMzoYdOUWOX/uN4uf2Cza+rIJB1sr3a9fPRT
-         v4AnX4lE+N4pGVxAh51x/lVJ4hEFz8V1FPDyEPFj+OPTEkxBp8gfsoMy0+OgaYpof32g
-         b5UO2ZPYTN3p4Xd2mWhTV5+ptWWwvhqetwzhNkddY/KfmBe/2vQ8DUq8WfldCa4I9p8H
-         bk496dgjimpmVmXo4njzEIzdX9J6/zOmYYgFoWhWwCF+SvadZpAyHBKg8AaJsB7Zgyet
-         KHrlVUQe4iNMRr8zil3/yN5zKO9OtpzsT2N0zucBWgrdPROisGFFwZdN0PUFnepLNZ/o
-         LgfQ==
-X-Gm-Message-State: ANhLgQ2tlP5U1dXKnvORXmg+YWxcNzUCruxj16WgO5oCa89Jz+xa3KXK
-        mxrUoN2uHVcrv8TdOkF+GU3RQldDI+emGxaZ94U=
-X-Google-Smtp-Source: ADFU+vuqW1+bL1GfUIbD/UX0Xdr2QQ2a9Bx5BiX710LT61dVJJ+qMrBgjw1mx9XCfZC1zD0nvLC0ycFbm9N71NQanyw=
-X-Received: by 2002:aca:1a06:: with SMTP id a6mr2251724oia.148.1583497318647;
- Fri, 06 Mar 2020 04:21:58 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=X5TastwJnrVeQNVKcB2ayuhPbdTnWUMfIHdacFVQq3Q=;
+        b=IbKH98fIgi4PMq+M0gvlFdQP3dVwZD6NBvK/SKpASX6V5h5qwZgyXqgF286tHZv9L3
+         boBuO7OIoAoj0DN8f9En/6LoKbbZc1fE5//g+fynu4X3qv6nVov/VHgLc7/+mvAF5JUU
+         Xxlmc26aIxcqdKpDfqOqcaBwdUlrhUE/NwwjpndcB4N2K33pXA0FA20jk1ggYVbRyuo2
+         jB2fGrpV2iieyoYpl1ZhZFRS/kTSU15BgwPIq/AhPIi9MR0yVXhjcUNEpVcHNdo3SgtJ
+         EQbcGSaK/GcjNhBVH3fKP2IOih4DMy3W6ZFCPndbuoZO27BCD/HfVs8YFVzDzvGZMXHj
+         O45A==
+X-Gm-Message-State: ANhLgQ20dBtmKMdy+zEurR456oWTDw7jp5q1b5RQE1LCmZYHdzIAMg0j
+        vZEcSyXlN1cCtvAZl2q03GHLqiHIEM0jZmE5ymJxeJDP/n8=
+X-Google-Smtp-Source: ADFU+vtl+p570kweIo5VQ3bsmM9UD6KKBA83iypObT0OERUf4+HZHp03L79qps26qb8khNhLiXjkOnPCuIN8/1D/K3s=
+X-Received: by 2002:a5d:69cb:: with SMTP id s11mr3830315wrw.47.1583499716386;
+ Fri, 06 Mar 2020 05:01:56 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari> <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
- <20200302150706.GB3717@pflmari> <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
- <20200302160906.GC3717@pflmari> <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
- <20200305143628.GB25741@pflmari>
-In-Reply-To: <20200305143628.GB25741@pflmari>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 6 Mar 2020 13:21:47 +0100
-Message-ID: <CAMuHMdW+=qXgGhCowVkGQ7v4=ji8UQ7Db-e91XP7ZBpJcSp34A@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Driver Development <devel@driverdev.osuosl.org>,
-        Linux Media <linux-media@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Device Tree <devicetree@vger.kernel.org>,
-        Renesas SoC <linux-renesas-soc@vger.kernel.org>
+References: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200306103246.22213-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200306103246.22213-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 6 Mar 2020 13:01:39 +0000
+Message-ID: <CAPY8ntD38sM0SXvOEyr2gRCM7WeAY4CjAKcrVfd6MCHB+Ejv0A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: i2c: imx219: Fix power sequence
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+Hi Prabhakar.
 
-On Thu, Mar 5, 2020 at 3:36 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> Geert Uytterhoeven, Mon, Mar 02, 2020 17:13:30 +0100:
-> > On Mon, Mar 2, 2020 at 5:09 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> > > Geert Uytterhoeven, Mon, Mar 02, 2020 16:32:32 +0100:
-> > > >
-> > > > The #clock-cells should be in the main video-receiver node.
-> > > > Probably there is more than one clock output, so #clock-cells may be 1?
-> > >
-> > > AFAICS, the device can provide only this one clock line (audio master clock
-> > > for I2S output)... I shall re-check, just in case.
->
-> And you're right, of course: the audio output formatting module of the ADV748x
-> devices provides a set of clock lines related to the I2S pins: the already
-> discussed master clock, left-right channel clock and the serial clock (bit
-> clock?).
->
-> > > > There is no need for a fixed-clock compatible, nor for clock-frequency
-> > > > and clock-output-names.
-> > > >
-> > > > But most important: this should be documented in the adv748x DT bindings,
-> > > > and implemented in the adv748x driver.
-> > >
-> > > So if the driver is to export that clock for the kernel (like in this case),
-> > > it must implement its support?
-> >
-> > Exactly.  Unless that pin is hardcoded to output a fixed clock, in which case
-> > you can just override the existing audio_clk_c rate.
->
-> Just to try it out (I'll set #clock-cells to 1), I registered a fixed rate
-> clock in the driver, added a clock provider:
->
-> adv748x_probe:
->
->     clk = clk_register_fixed_rate(state->dev,
->                                   "clk-hdmi-i2s-mclk",
->                                   NULL     /* parent_name */,
->                                   0        /* flags */,
->                                   12288000 /* rate */);
->     of_clk_add_provider(state->dev->of_node, of_clk_src_simple_get, clk);
->
-> And removed the audio_clk_c frequency setting. I also replaced the audio_clk_c
-> in the list of input clocks of the R-Car-side sound card with the phandle of
-> the adv7482 main node:
->
-> salvator-common.dtsi:
->
->     &i2c4 {
->         status = "okay";
->
->         adv7482_hdmi_decoder: video-receiver@70 {
->             #clock-cells = <0>; // to be replaced with <1>
->         };
->     };
->
->     &rcar_sound {
->         clocks = ..., <&adv7482_hdmi_decoder>, ...;
->     };
->
-> As everything continues to work as before, I assume that at least the clock
-> dependencies were resolved.
->
-> Is there a way to verify that the added input clock is actually used?
-> IOW, if its frequency is actually has been programmed into the ssi4 (R-Car
-> receiving hardware) registers, and not just a left-over from previuos attempts
-> or plain default setting?
+Thanks for the update.
 
-Have a look at /sys/kernel/debug/clk/clk_summary
+On Fri, 6 Mar 2020 at 10:32, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>
+> When supporting Rpi Camera v2 Module on the RZ/G2E, found the driver had
+> some issues with rcar mipi-csi driver. The sensor never entered into LP-11
+> state.
+>
+> The powerup sequence in the datasheet[1] shows the sensor entering into
+> LP-11 in streaming mode, so to fix this issue transitions are performed
+> from "streaming -> standby" in the probe() after power up.
+>
+> With this commit the sensor is able to enter LP-11 mode during power up,
+> as expected by some CSI-2 controllers.
+>
+> [1] https://publiclab.org/system/images/photos/000/023/294/original/
+> RASPBERRY_PI_CAMERA_V2_DATASHEET_IMX219PQH5_7.0.0_Datasheet_XXX.PDF
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> As the ADV748x devices seem to provide also the clocks for video outputs, will
-> it make any sense to place the clock definition into the port node?
-> Or should all provided clocks be indexed in the main device node?
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Sorry, I don't know.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/media/i2c/imx219.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f1effb5a5f66..16010ca1781a 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1224,6 +1224,23 @@ static int imx219_probe(struct i2c_client *client)
+>         /* Set default mode to max resolution */
+>         imx219->mode = &supported_modes[0];
+>
+> +       /* sensor doesn't enter LP-11 state upon power up until and unless
+> +        * streaming is started, so upon power up switch the modes to:
+> +        * streaming -> standby
+> +        */
+> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
+> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STREAMING);
+> +       if (ret < 0)
+> +               goto error_power_off;
+> +       usleep_range(100, 110);
+> +
+> +       /* put sensor back to standby mode */
+> +       ret = imx219_write_reg(imx219, IMX219_REG_MODE_SELECT,
+> +                              IMX219_REG_VALUE_08BIT, IMX219_MODE_STANDBY);
+> +       if (ret < 0)
+> +               goto error_power_off;
+> +       usleep_range(100, 110);
+> +
+>         ret = imx219_init_controls(imx219);
+>         if (ret)
+>                 goto error_power_off;
+> --
+> 2.20.1
+>
