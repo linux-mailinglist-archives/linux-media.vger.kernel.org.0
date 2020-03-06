@@ -2,88 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1007717BA0D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 11:19:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D0417BA49
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 11:32:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbgCFKTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 05:19:10 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44061 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgCFKTK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 05:19:10 -0500
-Received: by mail-ot1-f66.google.com with SMTP id v22so1870031otq.11;
-        Fri, 06 Mar 2020 02:19:09 -0800 (PST)
+        id S1726190AbgCFKcx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 05:32:53 -0500
+Received: from mail-wr1-f43.google.com ([209.85.221.43]:36781 "EHLO
+        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbgCFKcw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 05:32:52 -0500
+Received: by mail-wr1-f43.google.com with SMTP id s17so813812wrs.3;
+        Fri, 06 Mar 2020 02:32:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IoHyFheQbLvWaqu8JmtXrevLVQ2eNF1/ry5EBSUAxhI=;
-        b=p9wLAfZ0san/NF6WFjAtmFuQ94dW+jXKMoUSjddo2ccb+2JWERyMVU3orURu6BMrLd
-         MV/YtCL21b7jaf9NhIrWkoH3FqdM0tSaJ4W9JNmBNYOIo1tev64UoSz7D/SLiE7+69PF
-         VplsjRc4fy4/0BE2lpf4mkytKpEHzAdEh2Ho0a7b6MucZsG4UDeflqYGjUiscFz0H/T/
-         63nGI1j+jrdvNPkdGJBUXRyf6hiELfw4aBF3B7CQTNATbaa0q8kvj7lF+dcdteIt8lYD
-         hWXpWvgquW9//nh5OydbcL3GJ+hzS1LN81drgOIQXSVf4h3y2badceTkjB6uTqNMuORR
-         o/cQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HLuYMSQllcx18fRUsdk3+JbI4I3Xuy/vr8tfNu+t2rs=;
+        b=tAeCoptp4HxU26Cz/0DB1IZNml3WtjtOfFFKe+GKs/GhnRdeXQQFcfgifmsjzKBoFX
+         2AzQtYxKQQMPrtEt9H4ZEmK/gDB4IAFT4uDwFZotTurIRmMuDAygtgigT6FOwf2LaTcW
+         177GGMoUSAXYufyq/H3KvsyxS7k+n/QVeK/ASFU9RXKLU8E01yIvkw/aA2cbDktCxMDw
+         8ZlAjZinB5czMG36Kj6FwJEFhoU1UWC91iVXpU3mh97JzHEOtOUlQjzPrbwyvjIsEZ00
+         uI03k/tSGp2jljMl3QEODzmnUliynn5+hx0TB/xhnqcQIdvcMT6Vkux2sIRFo1lQ/1ob
+         Kw1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IoHyFheQbLvWaqu8JmtXrevLVQ2eNF1/ry5EBSUAxhI=;
-        b=WFeyu/LH+dpMQAiKapV/Us48QH1EA6Z5VU0OvTCUI54nsMvDCl+88kc/TXRdMzAUso
-         W3bXdLYgYxbBN4yK8aTJUYoJkR7h4STWxmY231JI7iAJw4ksYkUkT7yFQOjxXOjWwDHE
-         VrjG9CktT/BwE/x3k9yasxI6AzZgVSeZSHBmnu2hO6pageSk49Lxm1JINTPAc0p3C0e3
-         hYQcY1Ft5SmOoJ4gk02j3khu4Yzgwv47Ik5tAOjerOoGhfp06NGMcL5GBhceGC9qTWcK
-         5N3cykoZSCW5g5InePFuCsyW9jF8G6wjlK4ydoBORs/VQsDi6bAP1tmkXb7O70xyOukF
-         KCSw==
-X-Gm-Message-State: ANhLgQ0mcWlB/w9vNaswxTX7mCAXv5+D3rItplG0tI7hKx3ZMJw4Zgxc
-        Z24dl5P8LIgF8kwrbtVjWVRfOtobQl6d/sy4Eiw=
-X-Google-Smtp-Source: ADFU+vt6mnTdWQ6RxyyFMqAxyTQC5gXDaaqEFjYr7pojs7qjmb5v1nf4DcANsuCgTC26YvQ/S5viKLF5TlIRf+PUEGk=
-X-Received: by 2002:a9d:6d85:: with SMTP id x5mr1917571otp.176.1583489949499;
- Fri, 06 Mar 2020 02:19:09 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HLuYMSQllcx18fRUsdk3+JbI4I3Xuy/vr8tfNu+t2rs=;
+        b=Jwx5Qi6IsBqAT449eC87BBFr9asAL0Ewn+Stg1TUfelwPz/vcHdn8q020ZJhj74572
+         m+fAmjZJBqkoIwKm3SC7JYxjR3q7oLjfXM9WioV+e+ckE4zomblCQg3IqWrWQI3c90+d
+         IAMdx43/1VbxewVx7ytbyh9kg6TBCzMFEViKS2J32L6xvOsrFG1L3N7KXV+9CSKEMl3V
+         UyEfVXPxIbe4KK2qbM+U2VU2yA0LHm1mmCUvlC1/MaPnTw3r/uFLqCXR52ci3/V6BI74
+         Pa16J5C2Y+wm4HvGa6qnqhsqvhFgI10rv3QRZY36OKN2QNKlBlUNFClulKu0+beIlKxl
+         a7Kw==
+X-Gm-Message-State: ANhLgQ2NHuu0ZTmmDhqJGchFloFvSoxgrSxA5eT08Q6DoGAgTroC9xMC
+        sT3aLBE5ieond97O8WaFq40=
+X-Google-Smtp-Source: ADFU+vvznj2gIRY0guDy9bXHXIMZxnkgN3x8Wmdt6oCJdb7QynBOG8kfzrfqb6n2+RFir37KXEJymQ==
+X-Received: by 2002:adf:a4c4:: with SMTP id h4mr3369283wrb.112.1583490770458;
+        Fri, 06 Mar 2020 02:32:50 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2510:d000:7009:9d38:36e8:7030])
+        by smtp.gmail.com with ESMTPSA id t1sm1251111wrq.36.2020.03.06.02.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2020 02:32:49 -0800 (PST)
+From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/3] media: i2c: imx219: Feature enhancements
+Date:   Fri,  6 Mar 2020 10:32:43 +0000
+Message-Id: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200228164126.17517-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200305114314.GP5379@paasikivi.fi.intel.com>
-In-Reply-To: <20200305114314.GP5379@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 6 Mar 2020 10:18:43 +0000
-Message-ID: <CA+V-a8tGEYT7sOqzLRu8cx3u1DySt4mOz0UujU57SZSGqXB=Pw@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: ov5645: Add virtual_channel module parameter
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+This patch series does the following:
+1: Makes sure the sensor is LP11 state on power up
+2: Adds support for RAW8
+3: Adds support for 640x480 resolution
 
-On Thu, Mar 5, 2020 at 11:43 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Feb 28, 2020 at 04:41:26PM +0000, Lad Prabhakar wrote:
-> > OV5645 can operate in virtual channel 0-3 in CSI2 interfaces, this patch
-> > adds support for module parameter virtual_channel to select the required
-> > channel. By default OV5645 operates in virtual channel 0.
->
-> What's your use case for different virtual channels?
->
-Just ability to switch to different virtual channel, based on ov5640
-driver. The rcar-csi2
-has capability to capture  from multiple channels so that we can
-capture simultaneously
-from two sensors.
+@Dave - I have tested setting RAW8/RAW10 formats using media-ctl
+application, but was only able to test streaming for RAW8 (640x480)
+format due to my hardware limitations.
 
-Cheers,
---Prabhakar
+Changes for v2:
+1: Dropped setting the format in probe to coax the sensor to enter LP11
+   state.
+2: Fixed switching between RAW8/RAW10 modes.
+3: Fixed fps setting for 640x480 and switched to auto mode.
 
-> --
-> Regards,
->
-> Sakari Ailus
+Lad Prabhakar (3):
+  media: i2c: imx219: Fix power sequence
+  media: i2c: imx219: Add support for RAW8 bit bayer format
+  media: i2c: imx219: Add support for cropped 640x480 resolution
+
+ drivers/media/i2c/imx219.c | 250 +++++++++++++++++++++++++++++++------
+ 1 file changed, 214 insertions(+), 36 deletions(-)
+
+-- 
+2.20.1
+
