@@ -2,412 +2,286 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09F1B17BFD7
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 15:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8165817BFD9
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2020 15:04:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgCFOEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 09:04:31 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:39514 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726533AbgCFOEb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Mar 2020 09:04:31 -0500
-Received: by mail-wm1-f68.google.com with SMTP id j1so2491849wmi.4
-        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2020 06:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ih7cQdubDyGE+0awjUjrmOinBf+F0nnCStzr7cMdISY=;
-        b=aqstO8Ysm9Rwz7huL+3cs/qqJ7nhvbbh65snNmWiviMG+CSzWzcQTjUwDKvKaTN6yh
-         XaQnGly7k5OHmTZVxO6YIsFA90bosUDj7A6Bm0NKolqmapXU3vyaXlMEDMt9FiaGenhh
-         OxiS9sTbL64nNfmlXWM3hkt0i+A1O8sGOM+Of4wTjjV3HIsEX6XuryHrmy6RbjCAIm8a
-         7tgzn6X6nrtIg/lnDXVCW5ugBWsdwQdqDEbNELcO3++0iVvfr3NB20iaBidFvpo6LPu5
-         xI+xtPmNNsiaux3XMsh9M9q9k3p0c7jTF+UTsz1BtkB7RzPCdngGqC0ACGx5R4c1gGcJ
-         J/NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ih7cQdubDyGE+0awjUjrmOinBf+F0nnCStzr7cMdISY=;
-        b=UrPK2dyL9lkzcaWFDMQqo2K+kadU9mOEefSLNW28DNa1MztbwOk4HJR3K9VoFnTn/7
-         WAXBNSCGwgzJf3YvLBzMhS+icRiKPIROELfweHVURXfRYzbynN3K38kdKEbozxEwIo21
-         1+6BMApmhYXdJFcSh2K1UXyBOL1hkwK4OLoFGPo9apalX1QTnTY3r1DGGpv/i5CzWj44
-         2vSqn79q2prm7zxGjtdzRlKVNkCiTDvpVU4oYAjJJr0MNc5Z8Gsf37OVkdWOLvy2XFF6
-         RDf4l2SO47rJ+3ZCCGAE8A18M9ybXLMWXIUZc3Io7TPX0I9uiPh70JZ6WKYqplZKxmy/
-         r1Gw==
-X-Gm-Message-State: ANhLgQ0nggil/ATPvwEKJk09Q69KCNA2dWobk4XlMFnVGL2mVJMlPRxM
-        s1lOiBFeRbmAzgLnefBc480xAEo8cxM5ZQ3vciI27Cwu
-X-Google-Smtp-Source: ADFU+vvoc0mOHd+3Bp5USGZOXQEWla6VWV5cp7fYWWqls3I5KI2axZKm4BGnTZ9VBLnh64m2zCewilhZDx7p32QBXQ4=
-X-Received: by 2002:a7b:c632:: with SMTP id p18mr4172259wmk.116.1583503466537;
- Fri, 06 Mar 2020 06:04:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20200306103246.22213-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200306103246.22213-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200306103246.22213-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 6 Mar 2020 14:04:09 +0000
-Message-ID: <CAPY8ntD_KcpK7R90uBj_Okbr=BD6eOfRiy9E8feB=i1Rk6zrSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] media: i2c: imx219: Add support for RAW8 bit bayer format
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+        id S1726866AbgCFOEv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Mar 2020 09:04:51 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:53317 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726231AbgCFOEv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Mar 2020 09:04:51 -0500
+Received: from [IPv6:2001:983:e9a7:1:558f:c736:2117:17d1]
+ ([IPv6:2001:983:e9a7:1:558f:c736:2117:17d1])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id ADapj3DJ9EE3qADaqjCcoq; Fri, 06 Mar 2020 15:04:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583503489; bh=8Wbw3httloSzIxY+y/mnc4uaxhl76c5RQ/aJEZKkztE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=KlcFbwJZiGM3vtZIBWpFukQ3+Z1Nww3Oc+sZibtZ1Od88Le1EFDO0U3Hihm4WgZEl
+         n1sUtWI6kgyhvfpxvhyNJypb9cePNDkFB1m7D5klc1/9HE9iPVfJbX+amm9PifBcYG
+         35wO2aGohd2Pd2sgsSzIUFs9Qc3yuHtv0DQBa3yGZhbB14iFrZWWqxpYPQ8A9r7VOE
+         eLFc3LTbyoOuE1+ioDfjsLSu0KQfw2OK3bXxvu569xFby3dJ/czoNbm9dAVidcO/nM
+         h6nALvqj7YgzqJPj/ez9He2kEeGmgrwLh0vtlBf06jgPgtOlVamb+glLpxi/rpzIxb
+         allgbPjGzGT1Q==
+Subject: Re: [PATCHv4 04/11] videobuf2: add queue memory consistency parameter
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200302041213.27662-1-senozhatsky@chromium.org>
+ <20200302041213.27662-5-senozhatsky@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <7ab74b32-441d-1a1a-0112-6c4d0c0b900c@xs4all.nl>
+Date:   Fri, 6 Mar 2020 15:04:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200302041213.27662-5-senozhatsky@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEsdbt/UXOjSvMJXLiHsipF3E+UxAsqOK+riQRz6BLvIVYRwJxyriUuJGCCuLSnbr0zSBVkrt48IZWzCw4AJQyYg3/ZwGtOhALM6jyaWfcNl9gr/CtUz
+ 7JE5m+XShHUT61IwMfettnDIO+ee+Ao8FVUTN9aHOqVtKyXPsPAK+U/c2JujWZvG265YMb73bUmYCV8Jfs2ASTqnWlpaIA3n9oF2Sm6Jm8LOM92v4n6Fus30
+ NeAXbV+NYfitnpKMk25RufRZCFi9pxnJnoSDqX+nqnwANH61JPIf43FyHzU3piTsARShfy+8TA/yTAjwTy+/UXCtygQ3CUxXkdf43tLeAw+Mhgmzr8HrUeoE
+ t8OpFmPgwisdVssVAlHKCHOPQuEZIdk4rzdjrK2W6dhcNuuWxjCV8R3io9bDZ6SffgqnnfSxa1Bf0C2cOzBj4Ds44EVRl8akbvISJMYdiOdNQkaH/zmW3ewd
+ 9i1y4Xsne5cQEuUzCRYuItx6skwb2hBPN06MiUBP475ssqWlo+YQCsPrW8dLpeDOWL+F8mJZyROCUok0IZqp8nqnvVLNpu5kH2l+IJj5p61BzJC9GSVrkXoW
+ +H3xvx//hcYx90BP371ddSB7r1R1/GDPv5yRIc+/lLmiZQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar
-
-On Fri, 6 Mar 2020 at 10:33, Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> IMX219 sensor is capable for RAW8/RAW10 modes. This commit adds support
-> for RAW8 bayer format.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
-I assume this is merging in the bits from my hacked together patch,
-hence copying the Signed-off-by.
-
-I've run through a set of basic tests streaming in each of the
-resolutions, both 8 & 10 bit modes, and with combinations of H&V
-flips. They all seem to work as expected, so I'm happy.
-
-The frame rate is preserved between the modes so there is the one
-question of link frequency in 8 bit modes presumably being lower than
-specified in DT.
-On the last review thread you had said you'd check the frequencies -
-did you manage that (I know it's not trivial), and did that confirm
-that it had/had not changed?
-It's not a big deal to me, but others may care more.
-
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
+On 02/03/2020 05:12, Sergey Senozhatsky wrote:
+> Preparations for future V4L2_FLAG_MEMORY_NON_CONSISTENT support.
+> 
+> Extend vb2_core_reqbufs() with queue memory consistency flag
+> that is applied to the newly allocated buffers.
+> 
+> An attempt to allocate a buffer with consistency requirements
+> which don't match queue's consistency model will fail.
+> 
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > ---
->  drivers/media/i2c/imx219.c | 161 +++++++++++++++++++++++++++++--------
->  1 file changed, 127 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 16010ca1781a..f96f3ce9fd85 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -90,6 +90,11 @@
->
->  #define IMX219_REG_ORIENTATION         0x0172
->
-> +#define IMX219_CSI_DATA_FORMAT_A_0_7   0x018c
-> +#define IMX219_CSI_DATA_FORMAT_A_8_15  0x018d
-> +
-> +#define IMX219_OPPXCK_DIV              0x0309
-> +
->  /* Test Pattern Control */
->  #define IMX219_REG_TEST_PATTERN                0x0600
->  #define IMX219_TEST_PATTERN_DISABLE    0
-> @@ -168,15 +173,12 @@ static const struct imx219_reg mode_3280x2464_regs[] = {
->         {0x0171, 0x01},
->         {0x0174, 0x00},
->         {0x0175, 0x00},
-> -       {0x018c, 0x0a},
-> -       {0x018d, 0x0a},
->         {0x0301, 0x05},
->         {0x0303, 0x01},
->         {0x0304, 0x03},
->         {0x0305, 0x03},
->         {0x0306, 0x00},
->         {0x0307, 0x39},
-> -       {0x0309, 0x0a},
->         {0x030b, 0x01},
->         {0x030c, 0x00},
->         {0x030d, 0x72},
-> @@ -230,15 +232,12 @@ static const struct imx219_reg mode_1920_1080_regs[] = {
->         {0x0171, 0x01},
->         {0x0174, 0x00},
->         {0x0175, 0x00},
-> -       {0x018c, 0x0a},
-> -       {0x018d, 0x0a},
->         {0x0301, 0x05},
->         {0x0303, 0x01},
->         {0x0304, 0x03},
->         {0x0305, 0x03},
->         {0x0306, 0x00},
->         {0x0307, 0x39},
-> -       {0x0309, 0x0a},
->         {0x030b, 0x01},
->         {0x030c, 0x00},
->         {0x030d, 0x72},
-> @@ -290,15 +289,12 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
->         {0x0171, 0x01},
->         {0x0174, 0x01},
->         {0x0175, 0x01},
-> -       {0x018c, 0x0a},
-> -       {0x018d, 0x0a},
->         {0x0301, 0x05},
->         {0x0303, 0x01},
->         {0x0304, 0x03},
->         {0x0305, 0x03},
->         {0x0306, 0x00},
->         {0x0307, 0x39},
-> -       {0x0309, 0x0a},
->         {0x030b, 0x01},
->         {0x030c, 0x00},
->         {0x030d, 0x72},
-> @@ -348,6 +344,27 @@ static const char * const imx219_supply_name[] = {
->
->  #define IMX219_NUM_SUPPLIES ARRAY_SIZE(imx219_supply_name)
->
-> +/*
-> + * The supported formats.
-> + * This table MUST contain 4 entries per format, to cover the various flip
-> + * combinations in the order
-> + * - no flip
-> + * - h flip
-> + * - v flip
-> + * - h&v flips
-> + */
-> +static const u32 codes[] = {
-> +       MEDIA_BUS_FMT_SRGGB10_1X10,
-> +       MEDIA_BUS_FMT_SGRBG10_1X10,
-> +       MEDIA_BUS_FMT_SGBRG10_1X10,
-> +       MEDIA_BUS_FMT_SBGGR10_1X10,
-> +
-> +       MEDIA_BUS_FMT_SRGGB8_1X8,
-> +       MEDIA_BUS_FMT_SGRBG8_1X8,
-> +       MEDIA_BUS_FMT_SGBRG8_1X8,
-> +       MEDIA_BUS_FMT_SBGGR8_1X8,
-> +};
-> +
->  /*
->   * Initialisation delay between XCLR low->high and the moment when the sensor
->   * can start capture (i.e. can leave software stanby) must be not less than:
-> @@ -413,6 +430,8 @@ struct imx219 {
->         struct v4l2_subdev sd;
->         struct media_pad pad;
->
-> +       struct v4l2_mbus_framefmt fmt;
-> +
->         struct clk *xclk; /* system clock to IMX219 */
->         u32 xclk_freq;
->
-> @@ -519,34 +538,57 @@ static int imx219_write_regs(struct imx219 *imx219,
+>  .../media/common/videobuf2/videobuf2-core.c   | 47 +++++++++++++++----
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  6 +--
+>  drivers/media/dvb-core/dvb_vb2.c              |  2 +-
+>  include/media/videobuf2-core.h                |  7 ++-
+>  4 files changed, 47 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 4489744fbbd9..3ca0545db7ee 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -664,8 +664,19 @@ int vb2_verify_memory_type(struct vb2_queue *q,
 >  }
->
->  /* Get bayer order based on flip setting. */
-> -static u32 imx219_get_format_code(struct imx219 *imx219)
-> +static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
->  {
-> -       /*
-> -        * Only one bayer order is supported.
-> -        * It depends on the flip settings.
-> -        */
-> -       static const u32 codes[2][2] = {
-> -               { MEDIA_BUS_FMT_SRGGB10_1X10, MEDIA_BUS_FMT_SGRBG10_1X10, },
-> -               { MEDIA_BUS_FMT_SGBRG10_1X10, MEDIA_BUS_FMT_SBGGR10_1X10, },
-> -       };
-> +       int i;
->
->         lockdep_assert_held(&imx219->mutex);
-> -       return codes[imx219->vflip->val][imx219->hflip->val];
+>  EXPORT_SYMBOL(vb2_verify_memory_type);
+>  
+> +static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
+> +{
+> +	if (!vb2_queue_allows_cache_hints(q))
+> +		return;
 > +
-> +       for (i = 0; i < ARRAY_SIZE(codes); i++)
-> +               if (codes[i] == code)
-> +                       break;
-> +
-> +       if (i >= ARRAY_SIZE(codes))
-> +               i = 0;
-> +
-> +       i = (i & ~3) | (imx219->vflip->val ? 2 : 0) |
-> +           (imx219->hflip->val ? 1 : 0);
-> +
-> +       return codes[i];
+> +	if (consistent_mem)
+> +		q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
+> +	else
+> +		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
 > +}
 > +
-> +static void imx219_set_default_format(struct imx219 *imx219)
+>  int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+> -		unsigned int *count)
+> +		bool consistent_mem, unsigned int *count)
+>  {
+>  	unsigned int num_buffers, allocated_buffers, num_planes = 0;
+>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+> @@ -720,6 +731,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
+>  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>  	q->memory = memory;
+> +	set_queue_consistency(q, consistent_mem);
+>  
+>  	/*
+>  	 * Ask the driver how many buffers and planes per buffer it requires.
+> @@ -803,9 +815,21 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+>  
+> +static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
 > +{
-> +       struct v4l2_mbus_framefmt *fmt;
+> +	bool queue_attr = q->dma_attrs & DMA_ATTR_NON_CONSISTENT;
 > +
-> +       mutex_lock(&imx219->mutex);
-> +
-> +       fmt = &imx219->fmt;
-> +       fmt->code = MEDIA_BUS_FMT_SRGGB10_1X10;
-> +       fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> +       fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-> +       fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
-> +                                                         fmt->colorspace,
-> +                                                         fmt->ycbcr_enc);
-> +       fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-> +       fmt->width = supported_modes[0].width;
-> +       fmt->height = supported_modes[0].height;
-> +       fmt->field = V4L2_FIELD_NONE;
-> +
-> +       mutex_unlock(&imx219->mutex);
->  }
->
->  static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  {
->         struct imx219 *imx219 = to_imx219(sd);
-> +       struct v4l2_mbus_framefmt *cur_fmt = &imx219->fmt;
->         struct v4l2_mbus_framefmt *try_fmt =
->                 v4l2_subdev_get_try_format(sd, fh->pad, 0);
->
->         mutex_lock(&imx219->mutex);
->
->         /* Initialize try_fmt */
-> -       try_fmt->width = supported_modes[0].width;
-> -       try_fmt->height = supported_modes[0].height;
-> -       try_fmt->code = imx219_get_format_code(imx219);
-> -       try_fmt->field = V4L2_FIELD_NONE;
-> +       try_fmt = cur_fmt;
->
->         mutex_unlock(&imx219->mutex);
->
-> @@ -648,14 +690,12 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->  {
->         struct imx219 *imx219 = to_imx219(sd);
->
-> -       /*
-> -        * Only one bayer order is supported (though it depends on the flip
-> -        * settings)
-> -        */
-> -       if (code->index > 0)
-> +       if (code->pad != 0)
-> +               return -EINVAL;
-> +       if (code->index >= (ARRAY_SIZE(codes) / 4))
->                 return -EINVAL;
->
-> -       code->code = imx219_get_format_code(imx219);
-> +       code->code = imx219_get_format_code(imx219, codes[code->index * 4]);
->
->         return 0;
->  }
-> @@ -669,7 +709,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
->         if (fse->index >= ARRAY_SIZE(supported_modes))
->                 return -EINVAL;
->
-> -       if (fse->code != imx219_get_format_code(imx219))
-> +       if (fse->code != imx219_get_format_code(imx219, imx219->fmt.code))
->                 return -EINVAL;
->
->         fse->min_width = supported_modes[fse->index].width;
-> @@ -696,7 +736,6 @@ static void imx219_update_pad_format(struct imx219 *imx219,
->  {
->         fmt->format.width = mode->width;
->         fmt->format.height = mode->height;
-> -       fmt->format.code = imx219_get_format_code(imx219);
->         fmt->format.field = V4L2_FIELD_NONE;
->
->         imx219_reset_colorspace(&fmt->format);
-> @@ -710,10 +749,12 @@ static int __imx219_get_pad_format(struct imx219 *imx219,
->                 struct v4l2_mbus_framefmt *try_fmt =
->                         v4l2_subdev_get_try_format(&imx219->sd, cfg, fmt->pad);
->                 /* update the code which could change due to vflip or hflip: */
-> -               try_fmt->code = imx219_get_format_code(imx219);
-> +               try_fmt->code = imx219_get_format_code(imx219, try_fmt->code);
->                 fmt->format = *try_fmt;
->         } else {
->                 imx219_update_pad_format(imx219, imx219->mode, fmt);
-> +               fmt->format.code = imx219_get_format_code(imx219,
-> +                                                         imx219->fmt.code);
->         }
->
->         return 0;
-> @@ -741,11 +782,18 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         const struct imx219_mode *mode;
->         struct v4l2_mbus_framefmt *framefmt;
->         int exposure_max, exposure_def, hblank;
-> +       int i;
->
->         mutex_lock(&imx219->mutex);
->
-> +       for (i = 0; i < ARRAY_SIZE(codes); i++)
-> +               if (codes[i] == fmt->format.code)
-> +                       break;
-> +       if (i >= ARRAY_SIZE(codes))
-> +               i = 0;
-> +
->         /* Bayer order varies with flips */
-> -       fmt->format.code = imx219_get_format_code(imx219);
-> +       fmt->format.code = imx219_get_format_code(imx219, codes[i]);
->
->         mode = v4l2_find_nearest_size(supported_modes,
->                                       ARRAY_SIZE(supported_modes),
-> @@ -755,7 +803,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
->                 framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
->                 *framefmt = fmt->format;
-> -       } else if (imx219->mode != mode) {
-> +       } else if (imx219->mode != mode ||
-> +                  imx219->fmt.code != fmt->format.code) {
-> +               imx219->fmt = fmt->format;
->                 imx219->mode = mode;
->                 /* Update limits and set FPS to default */
->                 __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> @@ -786,6 +836,40 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         return 0;
->  }
->
-> +static int imx219_set_framefmt(struct imx219 *imx219)
-> +{
-> +       int ret;
-> +
-> +       switch (imx219->fmt.code) {
-> +       case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +       case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +       case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +       case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +               ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
-> +                                      IMX219_REG_VALUE_08BIT, 0x08);
-> +               ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
-> +                                      IMX219_REG_VALUE_08BIT, 0x08);
-> +               ret |= imx219_write_reg(imx219, IMX219_OPPXCK_DIV,
-> +                                       IMX219_REG_VALUE_08BIT, 0x08);
-> +               break;
-> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +       case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +       case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +       case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +               ret = imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_0_7,
-> +                                      IMX219_REG_VALUE_08BIT, 0x0a);
-> +               ret |= imx219_write_reg(imx219, IMX219_CSI_DATA_FORMAT_A_8_15,
-> +                                      IMX219_REG_VALUE_08BIT, 0x0a);
-> +               ret |= imx219_write_reg(imx219, IMX219_OPPXCK_DIV,
-> +                                       IMX219_REG_VALUE_08BIT, 0x0a);
-> +               break;
-> +       default:
-> +               ret = -EINVAL;
-> +       }
-> +
-> +       return ret;
+> +	if (consistent_mem != queue_attr) {
+
+This is the wrong way around!
+
+It's much better to write it like this:
+
+       bool queue_is_consistent = !(q->dma_attrs & DMA_ATTR_NON_CONSISTENT);
+
+       if (consistent_mem != queue_is_consistent) {
+
+What concerns me more is that this means that this series has not been
+tested properly. I found this when testing with v4l2-compliance and vivid.
+
+I'll reply to the cover letter with more information about what needs to be
+done before I merge this.
+
+> +		dprintk(1, "memory consistency model mismatch\n");
+> +		return false;
+> +	}
+> +	return true;
 > +}
 > +
->  static int imx219_start_streaming(struct imx219 *imx219)
+>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+> -		unsigned int *count, unsigned requested_planes,
+> -		const unsigned requested_sizes[])
+> +			 bool consistent_mem, unsigned int *count,
+> +			 unsigned requested_planes,
+> +			 const unsigned requested_sizes[])
+
+Use 'unsigned int' in the two lines above, as per checkpatch suggestion.
+
+Regards,
+
+	Hans
+
 >  {
->         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> @@ -800,6 +884,12 @@ static int imx219_start_streaming(struct imx219 *imx219)
->                 return ret;
->         }
->
-> +       ret = imx219_set_framefmt(imx219);
-> +       if (ret) {
-> +               dev_err(&client->dev, "%s failed to set format\n", __func__);
-> +               return ret;
-> +       }
-> +
->         /* Apply customized values from user */
->         ret =  __v4l2_ctrl_handler_setup(imx219->sd.ctrl_handler);
->         if (ret)
-> @@ -1253,6 +1343,9 @@ static int imx219_probe(struct i2c_client *client)
->         /* Initialize source pad */
->         imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
->
-> +       /* Initialize default format */
-> +       imx219_set_default_format(imx219);
-> +
->         ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
->         if (ret) {
->                 dev_err(dev, "failed to init entity pads: %d\n", ret);
-> --
-> 2.20.1
->
+>  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
+>  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+> @@ -823,10 +847,15 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		}
+>  		memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>  		q->memory = memory;
+> +		set_queue_consistency(q, consistent_mem);
+>  		q->waiting_for_buffers = !q->is_output;
+> -	} else if (q->memory != memory) {
+> -		dprintk(1, "memory model mismatch\n");
+> -		return -EINVAL;
+> +	} else {
+> +		if (q->memory != memory) {
+> +			dprintk(1, "memory model mismatch\n");
+> +			return -EINVAL;
+> +		}
+> +		if (!verify_consistency_attr(q, consistent_mem))
+> +			return -EINVAL;
+>  	}
+>  
+>  	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
+> @@ -2498,7 +2527,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>  	fileio->memory = VB2_MEMORY_MMAP;
+>  	fileio->type = q->type;
+>  	q->fileio = fileio;
+> -	ret = vb2_core_reqbufs(q, fileio->memory, &fileio->count);
+> +	ret = vb2_core_reqbufs(q, fileio->memory, true, &fileio->count);
+>  	if (ret)
+>  		goto err_kfree;
+>  
+> @@ -2555,7 +2584,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>  
+>  err_reqbufs:
+>  	fileio->count = 0;
+> -	vb2_core_reqbufs(q, fileio->memory, &fileio->count);
+> +	vb2_core_reqbufs(q, fileio->memory, true, &fileio->count);
+>  
+>  err_kfree:
+>  	q->fileio = NULL;
+> @@ -2575,7 +2604,7 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
+>  		vb2_core_streamoff(q, q->type);
+>  		q->fileio = NULL;
+>  		fileio->count = 0;
+> -		vb2_core_reqbufs(q, fileio->memory, &fileio->count);
+> +		vb2_core_reqbufs(q, fileio->memory, true, &fileio->count);
+>  		kfree(fileio);
+>  		dprintk(3, "file io emulator closed\n");
+>  	}
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index c847bcea6e95..6111d74f68c9 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -724,7 +724,7 @@ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+>  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
+>  
+>  	fill_buf_caps(q, &req->capabilities);
+> -	return ret ? ret : vb2_core_reqbufs(q, req->memory, &req->count);
+> +	return ret ? ret : vb2_core_reqbufs(q, req->memory, true, &req->count);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_reqbufs);
+>  
+> @@ -798,7 +798,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	for (i = 0; i < requested_planes; i++)
+>  		if (requested_sizes[i] == 0)
+>  			return -EINVAL;
+> -	return ret ? ret : vb2_core_create_bufs(q, create->memory,
+> +	return ret ? ret : vb2_core_create_bufs(q, create->memory, true,
+>  		&create->count, requested_planes, requested_sizes);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_create_bufs);
+> @@ -974,7 +974,7 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
+>  		return res;
+>  	if (vb2_queue_is_busy(vdev, file))
+>  		return -EBUSY;
+> -	res = vb2_core_reqbufs(vdev->queue, p->memory, &p->count);
+> +	res = vb2_core_reqbufs(vdev->queue, p->memory, true, &p->count);
+>  	/* If count == 0, then the owner has released all buffers and he
+>  	   is no longer owner of the queue. Otherwise we have a new owner. */
+>  	if (res == 0)
+> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+> index 6974f1731529..e60063652164 100644
+> --- a/drivers/media/dvb-core/dvb_vb2.c
+> +++ b/drivers/media/dvb-core/dvb_vb2.c
+> @@ -342,7 +342,7 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
+>  
+>  	ctx->buf_siz = req->size;
+>  	ctx->buf_cnt = req->count;
+> -	ret = vb2_core_reqbufs(&ctx->vb_q, VB2_MEMORY_MMAP, &req->count);
+> +	ret = vb2_core_reqbufs(&ctx->vb_q, VB2_MEMORY_MMAP, true, &req->count);
+>  	if (ret) {
+>  		ctx->state = DVB_VB2_STATE_NONE;
+>  		dprintk(1, "[%s] count=%d size=%d errno=%d\n", ctx->name,
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 731fd9fbd506..ba83ac754c21 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -737,6 +737,7 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
+>   * vb2_core_reqbufs() - Initiate streaming.
+>   * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+>   * @memory:	memory type, as defined by &enum vb2_memory.
+> + * @consistent_mem:	memory consistency model.
+>   * @count:	requested buffer count.
+>   *
+>   * Videobuf2 core helper to implement VIDIOC_REQBUF() operation. It is called
+> @@ -761,12 +762,13 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
+>   * Return: returns zero on success; an error code otherwise.
+>   */
+>  int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+> -		unsigned int *count);
+> +		bool consistent_mem, unsigned int *count);
+>  
+>  /**
+>   * vb2_core_create_bufs() - Allocate buffers and any required auxiliary structs
+>   * @q: pointer to &struct vb2_queue with videobuf2 queue.
+>   * @memory: memory type, as defined by &enum vb2_memory.
+> + * @consistent_mem: memory consistency model.
+>   * @count: requested buffer count.
+>   * @requested_planes: number of planes requested.
+>   * @requested_sizes: array with the size of the planes.
+> @@ -784,7 +786,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>   * Return: returns zero on success; an error code otherwise.
+>   */
+>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+> -			 unsigned int *count, unsigned int requested_planes,
+> +			 bool consistent_mem, unsigned int *count,
+> +			 unsigned int requested_planes,
+>  			 const unsigned int requested_sizes[]);
+>  
+>  /**
+> 
+
