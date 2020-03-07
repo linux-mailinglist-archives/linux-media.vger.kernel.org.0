@@ -2,168 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E5C17CBEA
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2020 05:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC3017CC0F
+	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2020 06:23:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726769AbgCGE3Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Mar 2020 23:29:24 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:42987 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726674AbgCGE3Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Mar 2020 23:29:24 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:558f:c736:2117:17d1])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id AR5VjvjP09Im2AR5WjIG4n; Sat, 07 Mar 2020 05:29:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583555362; bh=AUIq4+vJU9OtuD52Ti35t6ZOR+4EHOioJY+gcokkNKA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=HY190ZGCGb0e0hDSBQ/xd/Rnn9EwHfIOBjGGP+b6KG6CLrXw+xKHph2KF8cCif15k
-         86L2X7qnBlrnQk1aWU6CD/5TDsUEPjRbFwyP/5UV8bwVAqCx8izKnV1YeqD27FkYor
-         6uEt9N+Z9krVOAH2dTybhpbQIwl1uZyiUqUJJugfahTETgU9AxbxsREbE6roITHb1L
-         nQZ2xvFClAh3gRUty3VFcE6r/+96uoJ2pOPUHfZEePTXk+P05EKjFiEIEfF8RSMu0C
-         JKBo0vWz9YXZ15r6VpZTBrUOwKZ/dxqdqf2uhgpGBWNHHvL90yEHO68h8YycDq4Uxy
-         CIG/uPcyQ/srg==
-Message-ID: <9d5a60ce1bad81f754f12d6be0d4e895@smtp-cloud9.xs4all.net>
-Date:   Sat, 07 Mar 2020 05:29:20 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfI1UpJW/gJkRBd8SVCj2b6FJ64K1J6HJNN53rrx5DdnqMVKqFX3Lx1P5kU5YEtye5yrexSvZeKrH6JWuTLUNs9d/gJ4cr6onPVlFYqqCVt3LZkwB6vJZ
- ipXhDCWgpPKbRG83UjwXauKAFV5OBza7sXZmQGUhBN6Ad6l/7t1eV2T2ZavtGPrrzHjcqnqh5i5rI+u2nCl69rXGPBWlWyWOnUqNLtlOFVvGwYHPcSYoTwO7
+        id S1726017AbgCGFXC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Mar 2020 00:23:02 -0500
+Received: from mail-pf1-f169.google.com ([209.85.210.169]:45198 "EHLO
+        mail-pf1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbgCGFXC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Mar 2020 00:23:02 -0500
+Received: by mail-pf1-f169.google.com with SMTP id 2so2131726pfg.12
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2020 21:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wZnej70fqtnmhJkhSgvZFCaeIT417LMoCLynROy5i68=;
+        b=jLupZ17+y1Pcsuu3u6ZBfn6OjqgbFG2N+msvqVCMibTY7WH6duQ4F7CrB/4ID6e2im
+         YZEMtj9ia1NETFijCqJ5dzcwXztBwPsFtPj5VqyPBAOKrdilPTF/MZNMYLWoJBvXn/Bb
+         yuVyvmlcVgZOoMIiUKGiLzzdMXlc/ILEQwmzI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wZnej70fqtnmhJkhSgvZFCaeIT417LMoCLynROy5i68=;
+        b=rkmb6+wr00i2fFqA4yX2KltNUn67uvGnKfKH8JHSr9E1lnCryEXFH2z3mPIdhXiuCa
+         OgG5QBlqeVGXtrmjIE+GhBLeqFSDnPbYe9TuQfAop9CfxNDrzXcU4nM16P1Acwc7DXVq
+         GWZER7CHsolgQdFJkHl+JtB23bQ3H0ZQjG+VjTqdnKoyjR2mdLkjH6RWei4FiR0rztIL
+         WpmQ3MRKpystc3CLCUk6KQBXBfXcCJhHsGzoSPndnP8PfDIgETDmL9JaiYzJLgQmibBq
+         89sizMGzHtyfw78CDyFK3wUFO3IZSNbnkusxd1IgockKEEIac0D//a4AV/d4Opb9wJNc
+         VDJg==
+X-Gm-Message-State: ANhLgQ0YCWVEd4D/4kgTrvip5HSICFvLyt/Ul2+yL5Dz5MZRLmOqjBeY
+        qcEbprSjvBwu1x4lw1TGkU43Lw==
+X-Google-Smtp-Source: ADFU+vs3kLDTiF4fIdAdEhIDT71WCUm0OIYuNytmoIRGkxyL5cwr8q//1mSe7/JhC0o9M7vi4Gsi6g==
+X-Received: by 2002:a62:1889:: with SMTP id 131mr7033784pfy.250.1583558581255;
+        Fri, 06 Mar 2020 21:23:01 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id 193sm15387966pfu.181.2020.03.06.21.22.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2020 21:23:00 -0800 (PST)
+Date:   Sat, 7 Mar 2020 14:22:58 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4 01/11] videobuf2: add cache management members
+Message-ID: <20200307052258.GA176460@google.com>
+References: <20200302041213.27662-1-senozhatsky@chromium.org>
+ <20200302041213.27662-2-senozhatsky@chromium.org>
+ <17060663-9c30-de5e-da58-0c847b93e4d3@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <17060663-9c30-de5e-da58-0c847b93e4d3@xs4all.nl>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On (20/03/06 14:57), Hans Verkuil wrote:
+[..]
+> > @@ -491,6 +497,9 @@ struct vb2_buf_ops {
+> >   * @uses_requests: requests are used for this queue. Set to 1 the first time
+> >   *		a request is queued. Set to 0 when the queue is canceled.
+> >   *		If this is 1, then you cannot queue buffers directly.
+> > + * @allow_cache_hints: when set user-space can pass cache management hints in
+> > + * 		order to skip cache flush/invalidation on ->prepare() or/and
+> > + * 		->finish().
+> 
+> checkpatch complains about a space before a tab in the two lines above.
 
-Results of the daily build of media_tree:
+I see them. Sorry. Fixed now.
 
-date:			Sat Mar  7 05:00:09 CET 2020
-media-tree git hash:	00c43088aa680989407b6afbda295f67b3f123f1
-media_build git hash:	6c715bb60eb5f601ae3fe59a5ec772300a5ddb2a
-v4l-utils git hash:	411915c09c56f1346b5f2f4f522c92637c56996b
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e32048c973b190b4fd04e7c9ccc025b2b6c30a63
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	-ss
