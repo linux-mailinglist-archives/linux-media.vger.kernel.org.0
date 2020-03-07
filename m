@@ -2,32 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EC4317CD6F
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2020 11:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BC1A17CD77
+	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2020 11:10:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbgCGKF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Mar 2020 05:05:29 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:56941 "EHLO
+        id S1726281AbgCGKKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Mar 2020 05:10:03 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59599 "EHLO
         lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725878AbgCGKF3 (ORCPT
+        by vger.kernel.org with ESMTP id S1725878AbgCGKKD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Mar 2020 05:05:29 -0500
+        Sat, 7 Mar 2020 05:10:03 -0500
 Received: from [IPv6:2001:983:e9a7:1:558f:c736:2117:17d1]
  ([IPv6:2001:983:e9a7:1:558f:c736:2117:17d1])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id AWKkjxAzG9Im2AWKljJ7pL; Sat, 07 Mar 2020 11:05:27 +0100
+        id AWPAjxCKE9Im2AWPBjJ8mQ; Sat, 07 Mar 2020 11:10:01 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583575527; bh=B0qsu68aG/tdSntx9g5sDSKtz5L8WXRrm9hBewJbhkk=;
+        t=1583575801; bh=iLdG1zGHr8ZPumvTp91mbriwRK+vPXO3UWnn5kFZuys=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=PMGy+NHpcYKflYY9E3bXRLPEtVlH24l4M4lXxcH8WB22XvZWbb9cPhxUfCmORCR6w
-         EeV0/D8DJ0oS3jeSqcjx7VOik6C5NIFagxAfQCZ53XMRwqPEg0z6av9LEABGQT3/lJ
-         9yJPFI+CMkarggx4pgM8GJ5iVIYcbwdsaSmwAhrRyGRBCgDZIFYDdg9ONfGRinevSV
-         lZPJZQ1e59nNNCixuDsZwbL9cgxUx0nUM7uLDE5sZNAVKY/dchjalYt8zZG7kvhfld
-         eIBVKbm8hJw25IAA6DRaXvlFWoqh4zA7ZV8olOM0iXZ/hDjdMp+W7vS80uxjVGFTwM
-         k1DGC/J5qCGcw==
-Subject: Re: [PATCHv4 05/11] videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT
- flag
+        b=Kdv0eM283koFQIHExUUZF59WO+O7vvOdkIiema02AJR2MSIRTwf7oBCcSu0nPvatE
+         ggjLQVgUBgdNe9X9U0qmNbR948yCa79OD1MXRt05ByrJMJVOpIHE0HpdnmtF13wp+2
+         tId9swJtZsJBsR2rIszdtrvPfczhNdqt7Xy+oEDTDG+D1XGW5TfMaoVG9miny07FAO
+         A/BD6/8VKygldFbeo4M7Kj5bAqqLyx/G6TET3L42JbpL12ATaLsQFApl7Xrgi+b/Ng
+         4GlkM9zX6T+v0i+xAcp4E6Zcd7i/+ie3stCo4dUaxJVENuTJC2vz06V8grzDjZVMqq
+         ttavI9zOVxzCQ==
+Subject: Re: [PATCHv4 01/11] videobuf2: add cache management members
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>
 Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
@@ -39,74 +38,56 @@ Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200302041213.27662-1-senozhatsky@chromium.org>
- <20200302041213.27662-6-senozhatsky@chromium.org>
- <70144162-3bbe-4ea5-a3f7-e52d4585db53@xs4all.nl>
- <20200307075127.GD176460@google.com> <20200307093800.GA191261@google.com>
+ <20200302041213.27662-2-senozhatsky@chromium.org>
+ <17060663-9c30-de5e-da58-0c847b93e4d3@xs4all.nl>
+ <20200307094634.GB29464@google.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d5ee2f4c-0e98-3b05-6109-4b3a4779f5b2@xs4all.nl>
-Date:   Sat, 7 Mar 2020 11:05:26 +0100
+Message-ID: <6f5916dd-63f6-5d19-13f4-edd523205a1f@xs4all.nl>
+Date:   Sat, 7 Mar 2020 11:10:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200307093800.GA191261@google.com>
+In-Reply-To: <20200307094634.GB29464@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHF70vEjNioPSllU816EQkwFGG6oJo1HijwiLti4G/15arowBFe7f+oIo7w9x/arY3KjFNiRSYY2J7+nUioCIEFaeOCwluTS3k+7CEBGRBKh070lDNEu
- 5dhaJR/Aq2Rp/+mX0+xiSUWCuQ8M6iBK2EFCB6KGwXMGpw7o/lcNPC7lH7j3Aw7/ZkHmIlJzFfwJA9+4I8GTJJ32XpvyzPbubZgDOtUUeY6uNDuVvBQV8aO4
- wlzkyu7Lzv42x6EoLh026Titwpy7aeZrIgmcYD1IFKJjR8vctAmvn3E2hH1KKYq05KeM/QTfz6PRCbEkiIkk9ph0VXNI6uLNtJirUqFbEy+/jX6AWJxAnt5L
- OWjfW+oM4fy169OibPvG/hthHdGYNGMImaW2OSFZVcDpC/C3f1iSio1cvXm3N0KipMpA33cHJIjW7B56gaqwrp+Cl35zfXnW2S6jXeIeDsJ2wp9VzcxOtcBa
- JmAlRNsdJOUDyz7AAwL/iIcfcK2Wg/dWXOa9zTxzWcJi3EBhkXTv/buKiWiyvnB55Sm+X8ZUimdGj4RNuO1ox/sbA/munZze7WsVH7DkVs37y54YWKblEn6V
- 2S7/VV8GztpWbh0ed+iaO/HUKKK89JOJUMwsTKywfIfeoA==
+X-CMAE-Envelope: MS4wfFDoeIqcb85xWsHf2P/nZpSOVl7gqSHVZsTEyh/Wolvg/WR75tVIE95xRJy0WLO6yzn7KMHsckvljhO3Ikm5H0D7D9FSuBsCP/LcBXPOYigGGTNV2cQy
+ Ff3hr7yjjoFjgLxjHjgmbFoV3jlc4TQK26DVdLHxEH+RsFa65KQeltSkh8jzt2FcPtQ4tG4tTAlR0XnXgTxRMuYW01LxSTE7c7R4qYRCOO3W+EtkxXTmD9IB
+ ezWI9p3JYtu11vFummieLHxR4VPD1O3N5BDGBIP5gtkQc2ZBJ9ed9D9P7TCD4X4FI93VZOGLiZr0jMM5nx6HVjCrek9gq1fys63S2ZJICgfuMPVA1BTdtOJj
+ jAd1KOGpdzHzJ1DqX065iv8EucjpUi9CSPSb4nAs3CbJ18x+oWYUula1m7nZ4VWqj+VmmfBIhAYvp0nj5M8qO0Ns70m47LFBmssIya4B0yyM24qVvnvXSYNR
+ Yf5fgIp/7ZC6QUlO7zSozIRFncci/w7mXyGgCkwXbsg3OSZR7mX8NiOSYLgROVTOzGjSqCIqkJnAHghfl9VEnP5s4jwlJAFeOmgq7VrZchiqfsR8cWDhf6kA
+ EW/n6uXIynyLth0gcDUXzLEY8Fs/1VsbTv1AYaMk48Thzg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/03/2020 10:38, Sergey Senozhatsky wrote:
-> On (20/03/07 16:51), Sergey Senozhatsky wrote:
->> On (20/03/06 16:30), Hans Verkuil wrote:
->> [..]
->>>>  
->>>>  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
->>>> @@ -2446,7 +2449,8 @@ struct v4l2_create_buffers {
->>>>  	__u32			memory;
->>>>  	struct v4l2_format	format;
->>>>  	__u32			capabilities;
->>>> -	__u32			reserved[7];
->>>> +	__u32			flags;
->>>
->>> The new flags argument needs to be documented in the command for struct v4l2_create_buffers.
->>>
+On 07/03/2020 10:46, Sergey Senozhatsky wrote:
+> On (20/03/06 14:57), Hans Verkuil wrote:
+> [..]
+>>>   * @lock:	pointer to a mutex that protects the &struct vb2_queue. The
+>>>   *		driver can set this to a mutex to let the v4l2 core serialize
+>>>   *		the queuing ioctls. If the driver wants to handle locking
+>>> @@ -564,6 +573,7 @@ struct vb2_queue {
+>>>  	unsigned			requires_requests:1;
+>>>  	unsigned			uses_qbuf:1;
+>>>  	unsigned			uses_requests:1;
+>>> +	unsigned			allow_cache_hints:1;
 > 
-> Hans, what does "command for struct v4l2_create_buffers" mean?
+> Shall I use "unsigned int" here instead of "unsigned"?
 
-Oops: command -> comment
+The vb2_queue bitfields are the only places in that header were 'unsigned' is
+used. I think that that should be fixed in a separate patch. It's nice to have
+it consistent.
 
-> 
-> BTW, I added v4l2_create_buffers::flags comment:
-
-Good, that's what I meant :-)
+Put that patch in the beginning of the series, that way I can pick it up in the
+next pull request.
 
 Regards,
 
 	Hans
 
 > 
-> ---
-> 
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 12b1bd220347..c6c1cccbb5c1 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2441,6 +2441,8 @@ struct v4l2_dbg_chip_info {
->   * @memory:	enum v4l2_memory; buffer memory type
->   * @format:	frame format, for which buffers are requested
->   * @capabilities: capabilities of this buffer type.
-> + * @flags:	additional buffer management attributes (ignored if queue
-> + *		does not have V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS capability).
->   * @reserved:	future extensions
->   */
->  struct v4l2_create_buffers {
+> 	-ss
 > 
 
