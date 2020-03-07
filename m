@@ -2,31 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7094D17CD6C
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2020 11:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC4317CD6F
+	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2020 11:05:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbgCGKDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Mar 2020 05:03:55 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35263 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725878AbgCGKDz (ORCPT
+        id S1726072AbgCGKF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Mar 2020 05:05:29 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:56941 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725878AbgCGKF3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Mar 2020 05:03:55 -0500
+        Sat, 7 Mar 2020 05:05:29 -0500
 Received: from [IPv6:2001:983:e9a7:1:558f:c736:2117:17d1]
  ([IPv6:2001:983:e9a7:1:558f:c736:2117:17d1])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id AWJDjxAUR9Im2AWJEjJ7R9; Sat, 07 Mar 2020 11:03:52 +0100
+        id AWKkjxAzG9Im2AWKljJ7pL; Sat, 07 Mar 2020 11:05:27 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583575433; bh=DHuhkuSFjLuLwMs6EpvTQdvcGhNqwPW4UU3C1RJZeOk=;
+        t=1583575527; bh=B0qsu68aG/tdSntx9g5sDSKtz5L8WXRrm9hBewJbhkk=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=tJMve0vwLLVa1yDiZ/6KOXZJFbF0w7GTRiDT3apg7fSeiuTjojhNmUYgXfNM7nquS
-         0JjM3QPIUokvOyXm7RxxLZEG+bG2NGPh7a4MNv+3R3Y4jUHTFFU1Uvh/QnHIqB45fj
-         7AM9iDRVxHeE7JWk9ejN3BVnqpe0OkS7pav+FKQl1KN3HmLcph1nHf8W54QAWDe8Ha
-         o1vJ/tWd1Al+Y/syzR1ZSNG3/4tRsVRBqSYZL2OX+o/AXYIQ5LUaP4lxLMa4JybyUO
-         ytaWsEUzM2cRxGd+gsygw61CP1jgSyg9vVSwbangPQR5zHJQ1cCUlGKmk4dFsmcrnF
-         ArmHWIrOTGC/g==
-Subject: Re: [PATCHv4 04/11] videobuf2: add queue memory consistency parameter
+        b=PMGy+NHpcYKflYY9E3bXRLPEtVlH24l4M4lXxcH8WB22XvZWbb9cPhxUfCmORCR6w
+         EeV0/D8DJ0oS3jeSqcjx7VOik6C5NIFagxAfQCZ53XMRwqPEg0z6av9LEABGQT3/lJ
+         9yJPFI+CMkarggx4pgM8GJ5iVIYcbwdsaSmwAhrRyGRBCgDZIFYDdg9ONfGRinevSV
+         lZPJZQ1e59nNNCixuDsZwbL9cgxUx0nUM7uLDE5sZNAVKY/dchjalYt8zZG7kvhfld
+         eIBVKbm8hJw25IAA6DRaXvlFWoqh4zA7ZV8olOM0iXZ/hDjdMp+W7vS80uxjVGFTwM
+         k1DGC/J5qCGcw==
+Subject: Re: [PATCHv4 05/11] videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT
+ flag
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>
 Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Tomasz Figa <tfiga@chromium.org>,
@@ -38,125 +39,74 @@ Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Pawel Osciak <posciak@chromium.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20200302041213.27662-1-senozhatsky@chromium.org>
- <20200302041213.27662-5-senozhatsky@chromium.org>
- <7ab74b32-441d-1a1a-0112-6c4d0c0b900c@xs4all.nl>
- <20200307075046.GC176460@google.com>
+ <20200302041213.27662-6-senozhatsky@chromium.org>
+ <70144162-3bbe-4ea5-a3f7-e52d4585db53@xs4all.nl>
+ <20200307075127.GD176460@google.com> <20200307093800.GA191261@google.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ee1c73c5-2250-84df-093c-6ff3d91f88da@xs4all.nl>
-Date:   Sat, 7 Mar 2020 11:03:51 +0100
+Message-ID: <d5ee2f4c-0e98-3b05-6109-4b3a4779f5b2@xs4all.nl>
+Date:   Sat, 7 Mar 2020 11:05:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200307075046.GC176460@google.com>
+In-Reply-To: <20200307093800.GA191261@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKc7eqVCF88w1V82dTbnVEC5EB+y7k0Jb7tKAlUkdj9eqm5sF8y2bPPGXmqhf6JoB/OyaU1Rh4z6mfhb45A7GaoMhK+bpTlU8We3s1HmsNrnDSyidB8S
- cicQrUZ6lobwMK+vkxnD1QPY/PJ6prooo2eTIeREOPm7sb8ApC/K90Ptq1nG2YHScgt6hRX0lPDHPj7T5zOXQzwr5GFjQPTOTlmrzcH/7sCNvbc9tTH4uBLF
- SZT9Y4uMMRtjvLIKU8WZaPl2zF7gYyRCaoy6hLI8tyPPueFsGupgB4b8JUqWrLr30dMIofjrdhBNjAfJb45qxwkAkoZij/J9OOi47C4h4Uhqf+v9+NR6N5Y+
- GWqvDh9XM1b5lT3I3Ul45aKtlC8LJDOWKfU0M1vtpvh38khw89lAJIFF6Mwcc9AuLj4Ch4LTV1eTwZO/IBIWidykg9D7AAWCuUMB2MHBTDKKRXJNGTYu0drV
- NmZVM1C8Etmv2FafHV2AkGhDqoX2XY7k1npsXAm98DIATIv2VtrnTxbeDfX6X/iIEgOek/KF/QZbB5ROODIb5lRhs14JefwFPB1LIct4K5E5COkxmBHiN2oO
- zVTq13t9QykOlwXwSOhQi92kkYwzp0PNw+Xtr/Dfgk1/tQ==
+X-CMAE-Envelope: MS4wfHF70vEjNioPSllU816EQkwFGG6oJo1HijwiLti4G/15arowBFe7f+oIo7w9x/arY3KjFNiRSYY2J7+nUioCIEFaeOCwluTS3k+7CEBGRBKh070lDNEu
+ 5dhaJR/Aq2Rp/+mX0+xiSUWCuQ8M6iBK2EFCB6KGwXMGpw7o/lcNPC7lH7j3Aw7/ZkHmIlJzFfwJA9+4I8GTJJ32XpvyzPbubZgDOtUUeY6uNDuVvBQV8aO4
+ wlzkyu7Lzv42x6EoLh026Titwpy7aeZrIgmcYD1IFKJjR8vctAmvn3E2hH1KKYq05KeM/QTfz6PRCbEkiIkk9ph0VXNI6uLNtJirUqFbEy+/jX6AWJxAnt5L
+ OWjfW+oM4fy169OibPvG/hthHdGYNGMImaW2OSFZVcDpC/C3f1iSio1cvXm3N0KipMpA33cHJIjW7B56gaqwrp+Cl35zfXnW2S6jXeIeDsJ2wp9VzcxOtcBa
+ JmAlRNsdJOUDyz7AAwL/iIcfcK2Wg/dWXOa9zTxzWcJi3EBhkXTv/buKiWiyvnB55Sm+X8ZUimdGj4RNuO1ox/sbA/munZze7WsVH7DkVs37y54YWKblEn6V
+ 2S7/VV8GztpWbh0ed+iaO/HUKKK89JOJUMwsTKywfIfeoA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/03/2020 08:50, Sergey Senozhatsky wrote:
-> On (20/03/06 15:04), Hans Verkuil wrote:
-> [..]
->>> +static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
->>> +{
->>> +	bool queue_attr = q->dma_attrs & DMA_ATTR_NON_CONSISTENT;
->>> +
->>> +	if (consistent_mem != queue_attr) {
->>
->> This is the wrong way around!
->>
->> It's much better to write it like this:
->>
->>        bool queue_is_consistent = !(q->dma_attrs & DMA_ATTR_NON_CONSISTENT);
->>
->>        if (consistent_mem != queue_is_consistent) {
+On 07/03/2020 10:38, Sergey Senozhatsky wrote:
+> On (20/03/07 16:51), Sergey Senozhatsky wrote:
+>> On (20/03/06 16:30), Hans Verkuil wrote:
+>> [..]
+>>>>  
+>>>>  /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
+>>>> @@ -2446,7 +2449,8 @@ struct v4l2_create_buffers {
+>>>>  	__u32			memory;
+>>>>  	struct v4l2_format	format;
+>>>>  	__u32			capabilities;
+>>>> -	__u32			reserved[7];
+>>>> +	__u32			flags;
+>>>
+>>> The new flags argument needs to be documented in the command for struct v4l2_create_buffers.
+>>>
 > 
-> Hmm... That's a great catch. Thanks for spotting this.
-> Puzzled, how come I've never seen problems.
-> 
->> What concerns me more is that this means that this series has not been
->> tested properly. I found this when testing with v4l2-compliance and vivid.
-> 
-> I fully understand your concerns. Give me a moment to figure
-> out what's going on...
-> 
-> 
-> OK.
-> 
-> Apparently, the user-space I'm using for tests, utilizes different
-> call path. vb2_core_create_bufs() is never even invoked. Hence queue
-> consistency vs. request consistency checks are not performed.
-> 
-> What happens, instead, is v4l_reqbufs()->vb2_core_reqbufs() path.
-> It orphans existing buffers (if any), sets queue memory model, sets
-> queue consistency model (DMA attr), then allocates buffers.
-> 
-> On my test environment, I see that vb2_core_reqbufs() orphans the
-> buffers, but it's always due to "*count == 0 || q->num_buffers != 0"
-> conditions. The user-space I'm using does not twist queue ->memory
-> or consistency attr, so the tests I'm running are limited in scenarios.
+> Hans, what does "command for struct v4l2_create_buffers" mean?
 
-That's why v4l2-compliance is so important: it tests 'twisty code' for
-correct handling.
+Oops: command -> comment
 
 > 
-> verify_consistency_attr() is not on the list of reasons to orphan
-> allocated buffer. It probably should be, tho.
-> 
-> ===
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index afb3c21a5902..d6b1d32bef3f 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -730,7 +730,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	}
->  
->  	if (*count == 0 || q->num_buffers != 0 ||
-> -	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory)) {
-> +	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
-> +	    !verify_consistency_attr(q, consistent_mem)) {
->  		/*
->  		 * We already have buffers allocated, so first check if they
->  		 * are not in use and can be freed.
-> ===
-> 
->>> +		dprintk(1, "memory consistency model mismatch\n");
->>> +		return false;
->>> +	}
->>> +	return true;
->>> +}
->>> +
->>>  int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->>> -		unsigned int *count, unsigned requested_planes,
->>> -		const unsigned requested_sizes[])
->>> +			 bool consistent_mem, unsigned int *count,
->>> +			 unsigned requested_planes,
->>> +			 const unsigned requested_sizes[])
->>
->> Use 'unsigned int' in the two lines above, as per checkpatch suggestion.
-> 
-> OK, will do.
-> 
-> This comes from the original code. There are 'unsigned'-s in the
-> existing code, I saw it and didn't want to modify, in order to keep
-> diffstats shorter.
+> BTW, I added v4l2_create_buffers::flags comment:
 
-Yeah, but the prototype was already inconsistent (count is an unsigned int *),
-so it makes sense to fix this.
+Good, that's what I meant :-)
 
 Regards,
 
 	Hans
 
 > 
-> 	-ss
+> ---
+> 
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 12b1bd220347..c6c1cccbb5c1 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -2441,6 +2441,8 @@ struct v4l2_dbg_chip_info {
+>   * @memory:	enum v4l2_memory; buffer memory type
+>   * @format:	frame format, for which buffers are requested
+>   * @capabilities: capabilities of this buffer type.
+> + * @flags:	additional buffer management attributes (ignored if queue
+> + *		does not have V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS capability).
+>   * @reserved:	future extensions
+>   */
+>  struct v4l2_create_buffers {
 > 
 
