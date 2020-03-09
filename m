@@ -2,350 +2,1849 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FC6717E01E
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 13:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02C5E17E073
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 13:42:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbgCIMXP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 08:23:15 -0400
-Received: from gofer.mess.org ([88.97.38.141]:54381 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726383AbgCIMXP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Mar 2020 08:23:15 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 1A9EAC63FC; Mon,  9 Mar 2020 12:23:14 +0000 (GMT)
-From:   Sean Young <sean@mess.org>
+        id S1726391AbgCIMm0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 08:42:26 -0400
+Received: from mail-lj1-f179.google.com ([209.85.208.179]:38920 "EHLO
+        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbgCIMmZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 08:42:25 -0400
+Received: by mail-lj1-f179.google.com with SMTP id f10so9746547ljn.6
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 05:42:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KZRR6CH0yUm6IWhPkJLlCmkC2lE3wQS0Yq6WNwk9I84=;
+        b=BTjZGzkeBCGGVZML12ugJZvigrHzZ7hgcr0mvjsrPQTVRXMUxdkRDmKpcrRK+ibTRc
+         aLGMMRGTzlI/9fL8yvUxNrj+NqTJ7rx5mV5u33mlD3WwD21wlCTfiVNUajEDXsDYLkDV
+         SuG7INjKdMA+5Q2D+fQR4gEUbPkTkIl+2FJ6xuW0FLFHOpCEC7KRuTVB8xBpfCLjh8v3
+         ROmkDWFCV+GjMZGxlInolw3EW5vIV8Xm4kVnHJWow5J9T787BYpJkP1hYQXaUl67Mr4o
+         9/TN72Pa5nblmfnvfwZp6kwYs17+rPYMXJ4jhMnzDiR7D+LtKWcc/vVo8j0ReagmdMyU
+         LBWQ==
+X-Gm-Message-State: ANhLgQ10EV5C9wEoacGiIxpUd8bJLdremXymTyNNkCfGu1aEyt6sTW4O
+        /qWLrfe8XNo/O50Nsf9c0bCBP8JucH4=
+X-Google-Smtp-Source: ADFU+vsTO1f0FB4t3ldro1GakxFZkV6tc6HOmANmorLfmW9lT89gDWg8yL2EwNW3PPBxWLPNElqcsA==
+X-Received: by 2002:a2e:8e31:: with SMTP id r17mr10181850ljk.211.1583757740627;
+        Mon, 09 Mar 2020 05:42:20 -0700 (PDT)
+Received: from localhost.localdomain (dsl-hkibng41-54f851-138.dhcp.inet.fi. [84.248.81.138])
+        by smtp.googlemail.com with ESMTPSA id o14sm660144ljj.75.2020.03.09.05.42.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2020 05:42:19 -0700 (PDT)
+From:   Olli Salonen <olli.salonen@iki.fi>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH v2] media: rc: make scancodes 64 bit
-Date:   Mon,  9 Mar 2020 12:23:13 +0000
-Message-Id: <20200309122313.10002-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc:     Olli Salonen <olli.salonen@iki.fi>
+Subject: [PATCH] dtv-scan-tables: frequency updates for Finland
+Date:   Mon,  9 Mar 2020 14:42:11 +0200
+Message-Id: <20200309124211.12479-1-olli.salonen@iki.fi>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are many protocols that encode more than 32 bit. We want 64 bit
-support so that BPF IR decoders can decode more than 32 bit. None of
-the existing kernel IR decoders/encoders support 64 bit, for now.
+The VHF DVB-T2 muxes were terminated by their operator DNA end of 2019.
+Update also the UHF frequency muxes operated by Digita.
 
-The MSC_SCAN event can only contain 32 bit scancodes, so we only generate
-MSC_SCAN events if the scancode fits into 32 bits. The full 64 bit
-scancode can be read from the lirc chardev.
-
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Olli Salonen <olli.salonen@iki.fi>
 ---
- drivers/media/rc/bpf-lirc.c |  5 ---
- drivers/media/rc/lirc_dev.c |  7 +---
- drivers/media/rc/rc-main.c  | 80 +++++++++++++++++++++++++++----------
- include/media/rc-core.h     |  8 ++--
- include/media/rc-map.h      |  4 +-
- 5 files changed, 65 insertions(+), 39 deletions(-)
+ dvb-t/fi-DNA-Espoo        | 38 --------------------------------------
+ dvb-t/fi-DNA-Eurajoki     | 38 --------------------------------------
+ dvb-t/fi-DNA-Hameenlinna  | 38 --------------------------------------
+ dvb-t/fi-DNA-Hamina       | 38 --------------------------------------
+ dvb-t/fi-DNA-Hausjarvi    | 38 --------------------------------------
+ dvb-t/fi-DNA-Helsinki     | 38 --------------------------------------
+ dvb-t/fi-DNA-Jokioinen    | 38 --------------------------------------
+ dvb-t/fi-DNA-Jyvaskyla    | 38 --------------------------------------
+ dvb-t/fi-DNA-Kaarina      | 38 --------------------------------------
+ dvb-t/fi-DNA-Kajaani      | 38 --------------------------------------
+ dvb-t/fi-DNA-Kangasala    | 38 --------------------------------------
+ dvb-t/fi-DNA-Karkkila     | 38 --------------------------------------
+ dvb-t/fi-DNA-Kiiminki     | 38 --------------------------------------
+ dvb-t/fi-DNA-Kokkola      | 38 --------------------------------------
+ dvb-t/fi-DNA-Kontiolahti  | 38 --------------------------------------
+ dvb-t/fi-DNA-Kouvola      | 38 --------------------------------------
+ dvb-t/fi-DNA-Kuopio       | 38 --------------------------------------
+ dvb-t/fi-DNA-Lahti        | 38 --------------------------------------
+ dvb-t/fi-DNA-Lappeenranta | 38 --------------------------------------
+ dvb-t/fi-DNA-Lohja        | 38 --------------------------------------
+ dvb-t/fi-DNA-Loviisa      | 38 --------------------------------------
+ dvb-t/fi-DNA-Mikkeli      | 38 --------------------------------------
+ dvb-t/fi-DNA-Nousiainen   | 38 --------------------------------------
+ dvb-t/fi-DNA-Nurmijarvi   | 38 --------------------------------------
+ dvb-t/fi-DNA-Porvoo       | 38 --------------------------------------
+ dvb-t/fi-DNA-Salo         | 38 --------------------------------------
+ dvb-t/fi-DNA-Savonlinna   | 38 --------------------------------------
+ dvb-t/fi-DNA-Seinajoki    | 38 --------------------------------------
+ dvb-t/fi-DNA-Tyrnava      | 38 --------------------------------------
+ dvb-t/fi-DNA-Ulvila       | 38 --------------------------------------
+ dvb-t/fi-DNA-Vaasa        | 38 --------------------------------------
+ dvb-t/fi-DNA-Valkeakoski  | 38 --------------------------------------
+ dvb-t/fi-DNA-Vesilahti    | 38 --------------------------------------
+ dvb-t/fi-DNA-Ylivieska    | 38 --------------------------------------
+ dvb-t/fi-Espoo            | 11 ++++++++---
+ dvb-t/fi-Fiskars          | 10 ++++++++++
+ dvb-t/fi-Haapavesi        | 26 ++++++++++++++++++--------
+ dvb-t/fi-Lahti            |  7 ++++++-
+ dvb-t/fi-Oulu             |  7 ++++++-
+ dvb-t/fi-Tammela          |  7 ++++++-
+ dvb-t/fi-Tampere          |  7 ++++++-
+ dvb-t/fi-Turku            |  7 ++++++-
+ 42 files changed, 66 insertions(+), 1308 deletions(-)
+ delete mode 100644 dvb-t/fi-DNA-Espoo
+ delete mode 100644 dvb-t/fi-DNA-Eurajoki
+ delete mode 100644 dvb-t/fi-DNA-Hameenlinna
+ delete mode 100644 dvb-t/fi-DNA-Hamina
+ delete mode 100644 dvb-t/fi-DNA-Hausjarvi
+ delete mode 100644 dvb-t/fi-DNA-Helsinki
+ delete mode 100644 dvb-t/fi-DNA-Jokioinen
+ delete mode 100644 dvb-t/fi-DNA-Jyvaskyla
+ delete mode 100644 dvb-t/fi-DNA-Kaarina
+ delete mode 100644 dvb-t/fi-DNA-Kajaani
+ delete mode 100644 dvb-t/fi-DNA-Kangasala
+ delete mode 100644 dvb-t/fi-DNA-Karkkila
+ delete mode 100644 dvb-t/fi-DNA-Kiiminki
+ delete mode 100644 dvb-t/fi-DNA-Kokkola
+ delete mode 100644 dvb-t/fi-DNA-Kontiolahti
+ delete mode 100644 dvb-t/fi-DNA-Kouvola
+ delete mode 100644 dvb-t/fi-DNA-Kuopio
+ delete mode 100644 dvb-t/fi-DNA-Lahti
+ delete mode 100644 dvb-t/fi-DNA-Lappeenranta
+ delete mode 100644 dvb-t/fi-DNA-Lohja
+ delete mode 100644 dvb-t/fi-DNA-Loviisa
+ delete mode 100644 dvb-t/fi-DNA-Mikkeli
+ delete mode 100644 dvb-t/fi-DNA-Nousiainen
+ delete mode 100644 dvb-t/fi-DNA-Nurmijarvi
+ delete mode 100644 dvb-t/fi-DNA-Porvoo
+ delete mode 100644 dvb-t/fi-DNA-Salo
+ delete mode 100644 dvb-t/fi-DNA-Savonlinna
+ delete mode 100644 dvb-t/fi-DNA-Seinajoki
+ delete mode 100644 dvb-t/fi-DNA-Tyrnava
+ delete mode 100644 dvb-t/fi-DNA-Ulvila
+ delete mode 100644 dvb-t/fi-DNA-Vaasa
+ delete mode 100644 dvb-t/fi-DNA-Valkeakoski
+ delete mode 100644 dvb-t/fi-DNA-Vesilahti
+ delete mode 100644 dvb-t/fi-DNA-Ylivieska
 
-diff --git a/drivers/media/rc/bpf-lirc.c b/drivers/media/rc/bpf-lirc.c
-index 0a0ce620e4a2..0f3417d161b8 100644
---- a/drivers/media/rc/bpf-lirc.c
-+++ b/drivers/media/rc/bpf-lirc.c
-@@ -35,11 +35,6 @@ static const struct bpf_func_proto rc_repeat_proto = {
- 	.arg1_type = ARG_PTR_TO_CTX,
- };
- 
--/*
-- * Currently rc-core does not support 64-bit scancodes, but there are many
-- * known protocols with more than 32 bits. So, define the interface as u64
-- * as a future-proof.
-- */
- BPF_CALL_4(bpf_rc_keydown, u32*, sample, u32, protocol, u64, scancode,
- 	   u32, toggle)
- {
-diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-index 9a8c1cf54ac4..583e4f32a0da 100644
---- a/drivers/media/rc/lirc_dev.c
-+++ b/drivers/media/rc/lirc_dev.c
-@@ -269,12 +269,7 @@ static ssize_t ir_lirc_transmit_ir(struct file *file, const char __user *buf,
- 			goto out_unlock;
- 		}
- 
--		/*
--		 * The scancode field in lirc_scancode is 64-bit simply
--		 * to future-proof it, since there are IR protocols encode
--		 * use more than 32 bits. For now only 32-bit protocols
--		 * are supported.
--		 */
-+		/* We only have encoders for 32-bit protocols. */
- 		if (scan.scancode > U32_MAX ||
- 		    !rc_validate_scancode(scan.rc_proto, scan.scancode)) {
- 			ret = -EINVAL;
-diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-index 6f80c251f641..d7064d664d52 100644
---- a/drivers/media/rc/rc-main.c
-+++ b/drivers/media/rc/rc-main.c
-@@ -163,6 +163,41 @@ static struct rc_map_list empty_map = {
- 	}
- };
- 
-+/**
-+ * scancode_to_u64() - converts scancode in &struct input_keymap_entry
-+ * @ke: keymap entry containing scancode to be converted.
-+ * @scancode: pointer to the location where converted scancode should
-+ *	be stored.
-+ *
-+ * This function is a version of input_scancode_to_scalar specialized for
-+ * rc-core.
-+ */
-+static int scancode_to_u64(const struct input_keymap_entry *ke, u64 *scancode)
-+{
-+	switch (ke->len) {
-+	case 1:
-+		*scancode = *((u8 *)ke->scancode);
-+		break;
-+
-+	case 2:
-+		*scancode = *((u16 *)ke->scancode);
-+		break;
-+
-+	case 4:
-+		*scancode = *((u32 *)ke->scancode);
-+		break;
-+
-+	case 8:
-+		*scancode = *((u64 *)ke->scancode);
-+		break;
-+
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * ir_create_table() - initializes a scancode table
-  * @dev:	the rc_dev device
-@@ -285,13 +320,13 @@ static unsigned int ir_update_mapping(struct rc_dev *dev,
- 
- 	/* Did the user wish to remove the mapping? */
- 	if (new_keycode == KEY_RESERVED || new_keycode == KEY_UNKNOWN) {
--		dev_dbg(&dev->dev, "#%d: Deleting scan 0x%04x\n",
-+		dev_dbg(&dev->dev, "#%d: Deleting scan 0x%04llx\n",
- 			index, rc_map->scan[index].scancode);
- 		rc_map->len--;
- 		memmove(&rc_map->scan[index], &rc_map->scan[index+ 1],
- 			(rc_map->len - index) * sizeof(struct rc_map_table));
- 	} else {
--		dev_dbg(&dev->dev, "#%d: %s scan 0x%04x with key 0x%04x\n",
-+		dev_dbg(&dev->dev, "#%d: %s scan 0x%04llx with key 0x%04x\n",
- 			index,
- 			old_keycode == KEY_RESERVED ? "New" : "Replacing",
- 			rc_map->scan[index].scancode, new_keycode);
-@@ -334,8 +369,7 @@ static unsigned int ir_update_mapping(struct rc_dev *dev,
-  */
- static unsigned int ir_establish_scancode(struct rc_dev *dev,
- 					  struct rc_map *rc_map,
--					  unsigned int scancode,
--					  bool resize)
-+					  u64 scancode, bool resize)
- {
- 	unsigned int i;
- 
-@@ -394,7 +428,7 @@ static int ir_setkeycode(struct input_dev *idev,
- 	struct rc_dev *rdev = input_get_drvdata(idev);
- 	struct rc_map *rc_map = &rdev->rc_map;
- 	unsigned int index;
--	unsigned int scancode;
-+	u64 scancode;
- 	int retval = 0;
- 	unsigned long flags;
- 
-@@ -407,7 +441,7 @@ static int ir_setkeycode(struct input_dev *idev,
- 			goto out;
- 		}
- 	} else {
--		retval = input_scancode_to_scalar(ke, &scancode);
-+		retval = scancode_to_u64(ke, &scancode);
- 		if (retval)
- 			goto out;
- 
-@@ -434,8 +468,7 @@ static int ir_setkeycode(struct input_dev *idev,
-  *
-  * return:	-ENOMEM if all keycodes could not be inserted, otherwise zero.
-  */
--static int ir_setkeytable(struct rc_dev *dev,
--			  const struct rc_map *from)
-+static int ir_setkeytable(struct rc_dev *dev, const struct rc_map *from)
- {
- 	struct rc_map *rc_map = &dev->rc_map;
- 	unsigned int i, index;
-@@ -466,7 +499,7 @@ static int ir_setkeytable(struct rc_dev *dev,
- 
- static int rc_map_cmp(const void *key, const void *elt)
- {
--	const unsigned int *scancode = key;
-+	const u64 *scancode = key;
- 	const struct rc_map_table *e = elt;
- 
- 	if (*scancode < e->scancode)
-@@ -487,7 +520,7 @@ static int rc_map_cmp(const void *key, const void *elt)
-  * return:	index in the table, -1U if not found
-  */
- static unsigned int ir_lookup_by_scancode(const struct rc_map *rc_map,
--					  unsigned int scancode)
-+					  u64 scancode)
- {
- 	struct rc_map_table *res;
- 
-@@ -516,7 +549,7 @@ static int ir_getkeycode(struct input_dev *idev,
- 	struct rc_map_table *entry;
- 	unsigned long flags;
- 	unsigned int index;
--	unsigned int scancode;
-+	u64 scancode;
- 	int retval;
- 
- 	spin_lock_irqsave(&rc_map->lock, flags);
-@@ -524,7 +557,7 @@ static int ir_getkeycode(struct input_dev *idev,
- 	if (ke->flags & INPUT_KEYMAP_BY_INDEX) {
- 		index = ke->index;
- 	} else {
--		retval = input_scancode_to_scalar(ke, &scancode);
-+		retval = scancode_to_u64(ke, &scancode);
- 		if (retval)
- 			goto out;
- 
-@@ -538,7 +571,6 @@ static int ir_getkeycode(struct input_dev *idev,
- 		ke->keycode = entry->keycode;
- 		ke->len = sizeof(entry->scancode);
- 		memcpy(ke->scancode, &entry->scancode, sizeof(entry->scancode));
+diff --git a/dvb-t/fi-DNA-Espoo b/dvb-t/fi-DNA-Espoo
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Espoo
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
 -
- 	} else if (!(ke->flags & INPUT_KEYMAP_BY_INDEX)) {
- 		/*
- 		 * We do not really know the valid range of scancodes
-@@ -570,7 +602,7 @@ static int ir_getkeycode(struct input_dev *idev,
-  *
-  * return:	the corresponding keycode, or KEY_RESERVED
-  */
--u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode)
-+u32 rc_g_keycode_from_table(struct rc_dev *dev, u64 scancode)
- {
- 	struct rc_map *rc_map = &dev->rc_map;
- 	unsigned int keycode;
-@@ -586,7 +618,7 @@ u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode)
- 	spin_unlock_irqrestore(&rc_map->lock, flags);
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Eurajoki b/dvb-t/fi-DNA-Eurajoki
+deleted file mode 100644
+index 31de935..0000000
+--- a/dvb-t/fi-DNA-Eurajoki
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Hameenlinna b/dvb-t/fi-DNA-Hameenlinna
+deleted file mode 100644
+index 92b4ecf..0000000
+--- a/dvb-t/fi-DNA-Hameenlinna
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Hamina b/dvb-t/fi-DNA-Hamina
+deleted file mode 100644
+index 3525cb0..0000000
+--- a/dvb-t/fi-DNA-Hamina
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Hausjarvi b/dvb-t/fi-DNA-Hausjarvi
+deleted file mode 100644
+index 92b4ecf..0000000
+--- a/dvb-t/fi-DNA-Hausjarvi
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Helsinki b/dvb-t/fi-DNA-Helsinki
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Helsinki
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Jokioinen b/dvb-t/fi-DNA-Jokioinen
+deleted file mode 100644
+index 92b4ecf..0000000
+--- a/dvb-t/fi-DNA-Jokioinen
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Jyvaskyla b/dvb-t/fi-DNA-Jyvaskyla
+deleted file mode 100644
+index 925c825..0000000
+--- a/dvb-t/fi-DNA-Jyvaskyla
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kaarina b/dvb-t/fi-DNA-Kaarina
+deleted file mode 100644
+index 85ca3bd..0000000
+--- a/dvb-t/fi-DNA-Kaarina
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kajaani b/dvb-t/fi-DNA-Kajaani
+deleted file mode 100644
+index 3525cb0..0000000
+--- a/dvb-t/fi-DNA-Kajaani
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kangasala b/dvb-t/fi-DNA-Kangasala
+deleted file mode 100644
+index cb27de2..0000000
+--- a/dvb-t/fi-DNA-Kangasala
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Karkkila b/dvb-t/fi-DNA-Karkkila
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Karkkila
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kiiminki b/dvb-t/fi-DNA-Kiiminki
+deleted file mode 100644
+index 925c825..0000000
+--- a/dvb-t/fi-DNA-Kiiminki
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kokkola b/dvb-t/fi-DNA-Kokkola
+deleted file mode 100644
+index 925c825..0000000
+--- a/dvb-t/fi-DNA-Kokkola
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kontiolahti b/dvb-t/fi-DNA-Kontiolahti
+deleted file mode 100644
+index b7895d0..0000000
+--- a/dvb-t/fi-DNA-Kontiolahti
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kouvola b/dvb-t/fi-DNA-Kouvola
+deleted file mode 100644
+index 3525cb0..0000000
+--- a/dvb-t/fi-DNA-Kouvola
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Kuopio b/dvb-t/fi-DNA-Kuopio
+deleted file mode 100644
+index 63be3ca..0000000
+--- a/dvb-t/fi-DNA-Kuopio
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Lahti b/dvb-t/fi-DNA-Lahti
+deleted file mode 100644
+index 8147d50..0000000
+--- a/dvb-t/fi-DNA-Lahti
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Lappeenranta b/dvb-t/fi-DNA-Lappeenranta
+deleted file mode 100644
+index b7895d0..0000000
+--- a/dvb-t/fi-DNA-Lappeenranta
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Lohja b/dvb-t/fi-DNA-Lohja
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Lohja
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Loviisa b/dvb-t/fi-DNA-Loviisa
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Loviisa
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Mikkeli b/dvb-t/fi-DNA-Mikkeli
+deleted file mode 100644
+index b7895d0..0000000
+--- a/dvb-t/fi-DNA-Mikkeli
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Nousiainen b/dvb-t/fi-DNA-Nousiainen
+deleted file mode 100644
+index 85ca3bd..0000000
+--- a/dvb-t/fi-DNA-Nousiainen
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Nurmijarvi b/dvb-t/fi-DNA-Nurmijarvi
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Nurmijarvi
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Porvoo b/dvb-t/fi-DNA-Porvoo
+deleted file mode 100644
+index 7d74fc1..0000000
+--- a/dvb-t/fi-DNA-Porvoo
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Salo b/dvb-t/fi-DNA-Salo
+deleted file mode 100644
+index 85ca3bd..0000000
+--- a/dvb-t/fi-DNA-Salo
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Savonlinna b/dvb-t/fi-DNA-Savonlinna
+deleted file mode 100644
+index 7295413..0000000
+--- a/dvb-t/fi-DNA-Savonlinna
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Seinajoki b/dvb-t/fi-DNA-Seinajoki
+deleted file mode 100644
+index 2f5d7e5..0000000
+--- a/dvb-t/fi-DNA-Seinajoki
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Tyrnava b/dvb-t/fi-DNA-Tyrnava
+deleted file mode 100644
+index 925c825..0000000
+--- a/dvb-t/fi-DNA-Tyrnava
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Ulvila b/dvb-t/fi-DNA-Ulvila
+deleted file mode 100644
+index 31de935..0000000
+--- a/dvb-t/fi-DNA-Ulvila
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 184500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Vaasa b/dvb-t/fi-DNA-Vaasa
+deleted file mode 100644
+index 2f5d7e5..0000000
+--- a/dvb-t/fi-DNA-Vaasa
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 219500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Valkeakoski b/dvb-t/fi-DNA-Valkeakoski
+deleted file mode 100644
+index cb27de2..0000000
+--- a/dvb-t/fi-DNA-Valkeakoski
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Vesilahti b/dvb-t/fi-DNA-Vesilahti
+deleted file mode 100644
+index cb27de2..0000000
+--- a/dvb-t/fi-DNA-Vesilahti
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 198500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 226500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 212500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-DNA-Ylivieska b/dvb-t/fi-DNA-Ylivieska
+deleted file mode 100644
+index 8147d50..0000000
+--- a/dvb-t/fi-DNA-Ylivieska
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# 2014-03-08 Olli Salonen <olli.salonen@iki.fi>
+-# generated from http://www.dna.fi/tuki-antenniverkon-nakyvyysalueet
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 191500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 205500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+-[CHANNEL]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 177500000
+-	BANDWIDTH_HZ = 7000000
+-	CODE_RATE_HP = AUTO
+-	CODE_RATE_LP = AUTO
+-	MODULATION = QAM/AUTO
+-	TRANSMISSION_MODE = 32K
+-	GUARD_INTERVAL = 19/256
+-	HIERARCHY = AUTO
+-	INVERSION = AUTO
+-
+diff --git a/dvb-t/fi-Espoo b/dvb-t/fi-Espoo
+index bc01a39..0236326 100644
+--- a/dvb-t/fi-Espoo
++++ b/dvb-t/fi-Espoo
+@@ -7,15 +7,20 @@
+ 	BANDWIDTH_HZ = 8000000
  
- 	if (keycode != KEY_RESERVED)
--		dev_dbg(&dev->dev, "%s: scancode 0x%04x keycode 0x%02x\n",
-+		dev_dbg(&dev->dev, "%s: scancode 0x%04llx keycode 0x%02x\n",
- 			dev->device_name, scancode, keycode);
+ [Espoo-B]
+-	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 650000000
+-	BANDWIDTH_HZ = 8000000
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 658000000
++        BANDWIDTH_HZ = 8000000
  
- 	return keycode;
-@@ -719,8 +751,11 @@ void rc_repeat(struct rc_dev *dev)
+ [Espoo-C]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 674000000
+ 	BANDWIDTH_HZ = 8000000
  
- 	spin_lock_irqsave(&dev->keylock, flags);
++[Espoo-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 650000000
++        BANDWIDTH_HZ = 8000000
++
+ [Espoo-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 514000000
+diff --git a/dvb-t/fi-Fiskars b/dvb-t/fi-Fiskars
+index 5f8cacc..26561e3 100644
+--- a/dvb-t/fi-Fiskars
++++ b/dvb-t/fi-Fiskars
+@@ -11,8 +11,18 @@
+ 	FREQUENCY = 674000000
+ 	BANDWIDTH_HZ = 8000000
  
--	input_event(dev->input_dev, EV_MSC, MSC_SCAN, dev->last_scancode);
--	input_sync(dev->input_dev);
-+	if (dev->last_scancode <= U32_MAX) {
-+		input_event(dev->input_dev, EV_MSC, MSC_SCAN,
-+			    dev->last_scancode);
-+		input_sync(dev->input_dev);
-+	}
++[Fiskars-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 650000000
++        BANDWIDTH_HZ = 8000000
++
+ [Fiskars-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 490000000
+ 	BANDWIDTH_HZ = 8000000
  
- 	if (dev->keypressed) {
- 		dev->keyup_jiffies = jiffies + timeout;
-@@ -743,7 +778,7 @@ EXPORT_SYMBOL_GPL(rc_repeat);
-  * called with keylock held.
-  */
- static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
--			  u32 scancode, u32 keycode, u8 toggle)
-+			  u64 scancode, u32 keycode, u8 toggle)
- {
- 	bool new_event = (!dev->keypressed		 ||
- 			  dev->last_protocol != protocol ||
-@@ -761,7 +796,8 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
- 	if (new_event && dev->keypressed)
- 		ir_do_keyup(dev, false);
++[Fiskars-F]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 490000000
++        BANDWIDTH_HZ = 8000000
++
+diff --git a/dvb-t/fi-Haapavesi b/dvb-t/fi-Haapavesi
+index 8be1f62..265f976 100644
+--- a/dvb-t/fi-Haapavesi
++++ b/dvb-t/fi-Haapavesi
+@@ -1,23 +1,33 @@
+ # 2014-04-18 Antti Palosaari <crope@iki.fi>
+ # generated from http://www.digita.fi/kuluttajat/tv/nakyvyysalueet/kanavanumerot_ja_taajuudet
  
--	input_event(dev->input_dev, EV_MSC, MSC_SCAN, scancode);
-+	if (scancode <= U32_MAX)
-+		input_event(dev->input_dev, EV_MSC, MSC_SCAN, scancode);
+-[Haapavesi]
++[Haapavesi-A]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 578000000
+ 	BANDWIDTH_HZ = 8000000
  
- 	dev->last_protocol = protocol;
- 	dev->last_scancode = scancode;
-@@ -772,7 +808,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
- 		/* Register a keypress */
- 		dev->keypressed = true;
+-[Haapavesi]
+-	DELIVERY_SYSTEM = DVBT
++[Haapavesi-B]
++	DELIVERY_SYSTEM = DVBT2
+ 	FREQUENCY = 642000000
+ 	BANDWIDTH_HZ = 8000000
  
--		dev_dbg(&dev->dev, "%s: key down event, key 0x%04x, protocol 0x%04x, scancode 0x%08x\n",
-+		dev_dbg(&dev->dev, "%s: key down event, key 0x%04x, protocol 0x%04x, scancode 0x%08llx\n",
- 			dev->device_name, keycode, protocol, scancode);
- 		input_report_key(dev->input_dev, keycode, 1);
+-[Haapavesi]
+-	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 730000000
++[Haapavesi-C]
++        DELIVERY_SYSTEM = DVBT
++        FREQUENCY = 658000000
++        BANDWIDTH_HZ = 8000000
++
++[Haapavesi-D]
++	DELIVERY_SYSTEM = DVBT2
++	FREQUENCY = 626000000
+ 	BANDWIDTH_HZ = 8000000
  
-@@ -809,7 +845,7 @@ static void ir_do_keydown(struct rc_dev *dev, enum rc_proto protocol,
-  * This routine is used to signal that a key has been pressed on the
-  * remote control.
-  */
--void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u32 scancode,
-+void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
- 		u8 toggle)
- {
- 	unsigned long flags;
-@@ -840,7 +876,7 @@ EXPORT_SYMBOL_GPL(rc_keydown);
-  * remote control. The driver must manually call rc_keyup() at a later stage.
-  */
- void rc_keydown_notimeout(struct rc_dev *dev, enum rc_proto protocol,
--			  u32 scancode, u8 toggle)
-+			  u64 scancode, u8 toggle)
- {
- 	unsigned long flags;
- 	u32 keycode = rc_g_keycode_from_table(dev, scancode);
-diff --git a/include/media/rc-core.h b/include/media/rc-core.h
-index 1f695d9c200a..d3f85df64bb2 100644
---- a/include/media/rc-core.h
-+++ b/include/media/rc-core.h
-@@ -192,7 +192,7 @@ struct rc_dev {
- 	struct timer_list		timer_repeat;
- 	u32				last_keycode;
- 	enum rc_proto			last_protocol;
--	u32				last_scancode;
-+	u64				last_scancode;
- 	u8				last_toggle;
- 	u32				timeout;
- 	u32				min_timeout;
-@@ -284,12 +284,12 @@ int devm_rc_register_device(struct device *parent, struct rc_dev *dev);
- void rc_unregister_device(struct rc_dev *dev);
+-[Haapavesi]
++[Haapavesi-E]
+ 	DELIVERY_SYSTEM = DVBT
+-	FREQUENCY = 762000000
++	FREQUENCY = 498000000
+ 	BANDWIDTH_HZ = 8000000
  
- void rc_repeat(struct rc_dev *dev);
--void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u32 scancode,
-+void rc_keydown(struct rc_dev *dev, enum rc_proto protocol, u64 scancode,
- 		u8 toggle);
- void rc_keydown_notimeout(struct rc_dev *dev, enum rc_proto protocol,
--			  u32 scancode, u8 toggle);
-+			  u64 scancode, u8 toggle);
- void rc_keyup(struct rc_dev *dev);
--u32 rc_g_keycode_from_table(struct rc_dev *dev, u32 scancode);
-+u32 rc_g_keycode_from_table(struct rc_dev *dev, u64 scancode);
++[Haapavesi-F]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 570000000
++        BANDWIDTH_HZ = 8000000
++
+diff --git a/dvb-t/fi-Lahti b/dvb-t/fi-Lahti
+index 19da8e7..a632cf4 100644
+--- a/dvb-t/fi-Lahti
++++ b/dvb-t/fi-Lahti
+@@ -8,7 +8,7 @@
  
- /*
-  * From rc-raw.c
-diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index d22810dcd85c..0ce896f10202 100644
---- a/include/media/rc-map.h
-+++ b/include/media/rc-map.h
-@@ -85,11 +85,11 @@
- /**
-  * struct rc_map_table - represents a scancode/keycode pair
-  *
-- * @scancode: scan code (u32)
-+ * @scancode: scan code (u64)
-  * @keycode: Linux input keycode
-  */
- struct rc_map_table {
--	u32	scancode;
-+	u64	scancode;
- 	u32	keycode;
- };
+ [Lahti-B]
+ 	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 602000000
++	FREQUENCY = 682000000
+ 	BANDWIDTH_HZ = 8000000
  
+ [Lahti-C]
+@@ -16,6 +16,11 @@
+ 	FREQUENCY = 626000000
+ 	BANDWIDTH_HZ = 8000000
+ 
++[Lahti-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 602000000
++        BANDWIDTH_HZ = 8000000
++
+ [Lahti-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 690000000
+diff --git a/dvb-t/fi-Oulu b/dvb-t/fi-Oulu
+index 0753c6c..3a6127a 100644
+--- a/dvb-t/fi-Oulu
++++ b/dvb-t/fi-Oulu
+@@ -8,7 +8,7 @@
+ 
+ [Oulu-B]
+ 	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 506000000
++	FREQUENCY = 482000000
+ 	BANDWIDTH_HZ = 8000000
+ 
+ [Oulu-C]
+@@ -16,6 +16,11 @@
+ 	FREQUENCY = 530000000
+ 	BANDWIDTH_HZ = 8000000
+ 
++[Oulu-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 506000000
++        BANDWIDTH_HZ = 8000000
++
+ [Oulu-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 602000000
+diff --git a/dvb-t/fi-Tammela b/dvb-t/fi-Tammela
+index 8266610..42a829c 100644
+--- a/dvb-t/fi-Tammela
++++ b/dvb-t/fi-Tammela
+@@ -8,7 +8,7 @@
+ 
+ [Tammela-B]
+ 	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 554000000
++	FREQUENCY = 522000000
+ 	BANDWIDTH_HZ = 8000000
+ 
+ [Tammela-C]
+@@ -16,6 +16,11 @@
+ 	FREQUENCY = 506000000
+ 	BANDWIDTH_HZ = 8000000
+ 
++[Tammela-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 554000000
++        BANDWIDTH_HZ = 8000000
++
+ [Tammela-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 546000000
+diff --git a/dvb-t/fi-Tampere b/dvb-t/fi-Tampere
+index 35497e7..827858f 100644
+--- a/dvb-t/fi-Tampere
++++ b/dvb-t/fi-Tampere
+@@ -8,7 +8,7 @@
+ 
+ [Tampere-B]
+ 	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 650000000
++	FREQUENCY = 490000000
+ 	BANDWIDTH_HZ = 8000000
+ 
+ [Tampere-C]
+@@ -16,6 +16,11 @@
+ 	FREQUENCY = 658000000
+ 	BANDWIDTH_HZ = 8000000
+ 
++[Tampere-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 650000000
++        BANDWIDTH_HZ = 8000000
++
+ [Tampere-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 674000000
+diff --git a/dvb-t/fi-Turku b/dvb-t/fi-Turku
+index 413f6ca..f9d2922 100644
+--- a/dvb-t/fi-Turku
++++ b/dvb-t/fi-Turku
+@@ -8,7 +8,7 @@
+ 
+ [Turku-B]
+ 	DELIVERY_SYSTEM = DVBT2
+-	FREQUENCY = 594000000
++	FREQUENCY = 658000000
+ 	BANDWIDTH_HZ = 8000000
+ 
+ [Turku-C]
+@@ -16,6 +16,11 @@
+ 	FREQUENCY = 682000000
+ 	BANDWIDTH_HZ = 8000000
+ 
++[Turku-D]
++        DELIVERY_SYSTEM = DVBT2
++        FREQUENCY = 594000000
++        BANDWIDTH_HZ = 8000000
++
+ [Turku-E]
+ 	DELIVERY_SYSTEM = DVBT
+ 	FREQUENCY = 634000000
 -- 
-2.24.1
+2.17.1
 
