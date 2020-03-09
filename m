@@ -2,205 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0752217EBAC
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 23:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 901C317EBCB
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 23:14:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727193AbgCIWH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 18:07:26 -0400
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:42349 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbgCIWH0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 18:07:26 -0400
-Received: by mail-yw1-f68.google.com with SMTP id v138so11763492ywa.9
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 15:07:24 -0700 (PDT)
+        id S1726698AbgCIWOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 18:14:46 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38089 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726536AbgCIWOq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 18:14:46 -0400
+Received: by mail-ot1-f66.google.com with SMTP id i14so11269224otp.5
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 15:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C2C2IyR8ADVQXo6q1zpX2vt9Gg5duZt3BO1njA9FKss=;
-        b=hzKtLxXOYKMEfxDYep/kUlMuXGnaSBQQwbXE0PdylQNjl880YZVe5LQnjdkKWRBeRe
-         1krPhRDjkJBW54vBntLvB/5tAcvcz4+j9o2Kqq5WWqJkbr92goEQplWBUtZ6y7+fOfCr
-         RNgupV59pQcE5IMLuCkj8vnYNz9cCwS8Z89LQSEzBV+weHY0mPKdyxu9CIQOx3bc1SVT
-         o8z5UwdXavYLslQShe+bYedaNiocKz8P2hPQ68OBGxacOuL/mp4rKyYt0boE4Ya0U8+n
-         zzIsSrHkQkJ+tgTU18rZn4hZYkkQV/ia4sLAXR4KoZ/IUov85T2zM59XpzLYPiqakz+Q
-         DTpQ==
+         :cc:content-transfer-encoding;
+        bh=n5OXXxZXEUIgAIrbk2LaI0OdMckD6PM3iBlKr8Tm8LU=;
+        b=IMGvEYrzsj8ccjaLfgLK7inPABgAl8SlYO/8p4MKnk5puURzYL1on8E9uQ/pFn+CiS
+         d7bNmiKdA2Jn7jBRCxmRRpWR6bskVX/Dx0mwJ8IptUoAkjLg7R1RRoN9xC9qB4F5SueZ
+         /Rhx4uv6tiRd+UdI4X+JJ573/7ZSBRmxnCy59IAyTD4RaCf+YriV0sHjw/1qVkk/9Gec
+         DRKaa8m5WKMqM7aBTV84CkzHJI23Gjcl5CVeYofDpgE2tGkfNSPO1tUzE4CoQc+B7H/p
+         fl300ClGmTkfHDb290FLNfVKUCcVwZEMMKkQ7ks/RtJzWGD9cNJ9KW5/K6eAZLEy40Ut
+         +fAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C2C2IyR8ADVQXo6q1zpX2vt9Gg5duZt3BO1njA9FKss=;
-        b=acGEzMIc89aIUTq6mdRA+wcmsig7OrAq1TdjJs+90R92AZdtvnOQKgvv73JDmoHEtQ
-         fFf8n8I/8WnAHpuEe9X3bdOXrbmOhgJIMbfg4WRF09oYRHLmE7u5DbFXNwiprDc5iflo
-         L000myRAw6nVS5fjAlEtHKi1r1nV62zxyuYkIt0eREFXNqAH3OKGQRCBGa+3mtsdMUWn
-         cOebbfzhc02nCcIlIR4jLtn4XXxbnZVu+6W+AoXZDYtGq0NGs80FVaANf6/IYq0k1ScZ
-         S9RiQXjHGxv8QEVyER6Lb+waUFBgLlC1MyyZ3V/NKwLDDCuz56ExzrP3XQQpKey8LWt7
-         /0EQ==
-X-Gm-Message-State: ANhLgQ07X5TdwMX4x4JSwvltUs2zyp3vPIz6dH0YlkI/YUuqPgzJ6E7L
-        Ts51uj8EkDcjRVukTeAqDNM0vAv1FTTMGVVC0c36
-X-Google-Smtp-Source: ADFU+vuoelPKbp3P8CWhPi+RqgvmvUoBO9h7BgOIMQhjAKzFvKXLYQa4eBwhg4rbdH3YDsQPttGT9D8NPxUlkVKEdMw=
-X-Received: by 2002:a0d:ddc7:: with SMTP id g190mr19393852ywe.147.1583791643313;
- Mon, 09 Mar 2020 15:07:23 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=n5OXXxZXEUIgAIrbk2LaI0OdMckD6PM3iBlKr8Tm8LU=;
+        b=LRtleOrZUH7mUCJgiZq83OILMzGnt3cR9y0L4lmQ7sHSU29Fe6uJ3zMfE/fOSPc3VL
+         +D67Lo3HUWgdNemKNCS+m6SpQP0DKYIyJ8xULeYLyYTaa16LP3Zc4DpwyujlAsifYqRZ
+         pO5pVh6fb3Rirnpl87kEc249gMuiqCkPzltizT0VlZ29Lbd9715JGOn7i2M8r0clAdZX
+         /W3TXT+62l2I9HUdX03ToAPO7+X9pHBbFbAuxOBckRMfR97pivOkHjQeTmUsmQ6X0n+1
+         B33sh8xQt3ucRWSmw5nuPSjT+KMZ8x0DZFPCiMC+aU+sMYPiTSzcEL0/Y33uHoAiwgRe
+         3fWw==
+X-Gm-Message-State: ANhLgQ2n1JGHo9mqO8lZfa5Fvq5xeHAq4gfjWvyU1gFhisfZhgDh6cuy
+        zx+RRBb8Gp3ynxXVDMhgCEM2arHPdMEmawvNEOmvJflmEP0=
+X-Google-Smtp-Source: ADFU+vsN3fZK9Nwlt69k/j0KAs15iNoMMCPjxZi1q1KuCxE1nR+PRmmbDJE6B/XPeC1+0KkLLdGRLxExHGxCX44yI5s=
+X-Received: by 2002:a9d:64ca:: with SMTP id n10mr14785049otl.325.1583792083957;
+ Mon, 09 Mar 2020 15:14:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <1583472756-7611-1-git-send-email-mansur@codeaurora.org> <CAPBb6MW-zxK+=HHUP5=+pO4Mswkhm=hDX7V56ABDm+BCzDaGHg@mail.gmail.com>
-In-Reply-To: <CAPBb6MW-zxK+=HHUP5=+pO4Mswkhm=hDX7V56ABDm+BCzDaGHg@mail.gmail.com>
-From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Mon, 9 Mar 2020 15:07:11 -0700
-Message-ID: <CA+ddPcNdC4r3XBd+dQmv2oHwF6MA3bTJrWZZpJthruBQR_THBA@mail.gmail.com>
-Subject: Re: [PATCH] venus: avoid extra locking in driver
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
+References: <BL0PR06MB454878CAF243C837B7131597E5E10@BL0PR06MB4548.namprd06.prod.outlook.com>
+In-Reply-To: <BL0PR06MB454878CAF243C837B7131597E5E10@BL0PR06MB4548.namprd06.prod.outlook.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 9 Mar 2020 22:14:17 +0000
+Message-ID: <CA+V-a8tnS=xER1FBEXd4hvJu+-Kz0dcafLtrNXLmeTZEPH60kg@mail.gmail.com>
+Subject: Re: [bug-report] drivers/media/platform/am437x/: illegal value of
+ enum in vpfe_ccdc_set_params
+To:     Changming Liu <liu.changm@northeastern.edu>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 5, 2020 at 11:50 PM Alexandre Courbot <acourbot@chromium.org> wrote:
+Hi Changming
+
+On Sun, Mar 8, 2020 at 3:32 AM Changming Liu
+<liu.changm@northeastern.edu> wrote:
 >
-> On Fri, Mar 6, 2020 at 2:34 PM Mansur Alisha Shaik
-> <mansur@codeaurora.org> wrote:
-> >
-> > This change will avoid extra locking in driver.
+> This email was sent due to the previous one was rejected because of it's =
+in HTML form.
 >
-> Could you elaborate a bit more on the problem that this patch solves?
-
-For us it fixes a kernel null deref that happens when we run the
-MultipleEncoders test (I've verified this to be true).
-
+> From: Changming Liu
+> Sent: Saturday, March 7, 2020 8:33 PM
+> To: prabhakar.csengg@gmail.com
+> Cc: linux-media@vger.kernel.org; yaohway@gmail.com
+> Subject: [bug-report] drivers/media/platform/am437x/: illegal value of en=
+um in vpfe_ccdc_set_params
 >
-> >
-> > Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> > ---
-> >  drivers/media/platform/qcom/venus/core.c       |  2 +-
-> >  drivers/media/platform/qcom/venus/core.h       |  2 +-
-> >  drivers/media/platform/qcom/venus/helpers.c    | 11 +++++++++--
-> >  drivers/media/platform/qcom/venus/pm_helpers.c |  8 ++++----
-> >  4 files changed, 15 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> > index 194b10b9..75d38b8 100644
-> > --- a/drivers/media/platform/qcom/venus/core.c
-> > +++ b/drivers/media/platform/qcom/venus/core.c
-> > @@ -447,7 +447,7 @@ static const struct freq_tbl sdm845_freq_table[] = {
-> >         {  244800, 100000000 }, /* 1920x1080@30 */
-> >  };
-> >
-> > -static struct codec_freq_data sdm845_codec_freq_data[] =  {
-> > +static const struct codec_freq_data sdm845_codec_freq_data[] =  {
-> >         { V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
-> >         { V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
-> >         { V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
-> > diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> > index ab7c360..8c8d0e9 100644
-> > --- a/drivers/media/platform/qcom/venus/core.h
-> > +++ b/drivers/media/platform/qcom/venus/core.h
-> > @@ -245,7 +245,7 @@ struct venus_buffer {
-> >  struct clock_data {
-> >         u32 core_id;
-> >         unsigned long freq;
-> > -       const struct codec_freq_data *codec_freq_data;
-> > +       struct codec_freq_data codec_freq_data;
-> >  };
-> >
-> >  #define to_venus_buffer(ptr)   container_of(ptr, struct venus_buffer, vb)
-> > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> > index bcc6038..550c4ff 100644
-> > --- a/drivers/media/platform/qcom/venus/helpers.c
-> > +++ b/drivers/media/platform/qcom/venus/helpers.c
-> > @@ -807,6 +807,7 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
-> >         unsigned int i, data_size;
-> >         u32 pixfmt;
-> >         int ret = 0;
-> > +       bool found = false;
-> >
-> >         if (!IS_V4(inst->core))
-> >                 return 0;
-> > @@ -816,16 +817,22 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
-> >         pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
-> >                         inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
-> >
-> > +       memset(&inst->clk_data.codec_freq_data, 0,
-> > +               sizeof(inst->clk_data.codec_freq_data));
-> > +
-> >         for (i = 0; i < data_size; i++) {
-> >                 if (data[i].pixfmt == pixfmt &&
-> >                     data[i].session_type == inst->session_type) {
-> > -                       inst->clk_data.codec_freq_data = &data[i];
-> > +                       inst->clk_data.codec_freq_data = data[i];
+> Hi Lad,
+> Greetings, I'm a first-year PhD student who is interested in the usage of=
+ UBSan in linux kernel. With some experiments, I've found that, a unsigned =
+underflow might cause undesired behavior in
+> drivers/media/platform/am437x/am437x-vpfe.c function vpfe_ccdc_set_params=
+.
 >
-> From the patch I'd infer that inst->clk_data.codec_freq_data needs to
-> change at runtime. Is this what happens? Why? I'd expect that
-> frequency tables remain constant, and thus that the global
-> sdm845_codec_freq_data can remain constant while
-> clock_data::codec_freq_data is a const reference to it. What prevents
-> this from happening?
+> More specifically, after the execution of
+> x =3D copy_from_user(&raw_params, params, sizeof(raw_params));
+> the raw_params are filled with data from user space.
 >
-> > +                       found = true;
-> >                         break;
-> >                 }
-> >         }
-> >
-> > -       if (!inst->clk_data.codec_freq_data)
-> > +       if (!found) {
-> > +               dev_err(inst->core->dev, "cannot find codec freq data\n");
-> >                 ret = -EINVAL;
-> > +       }
-> >
-> >         return ret;
-> >  }
-> > diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> > index abf9315..240845e 100644
-> > --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> > +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> > @@ -496,7 +496,7 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
-> >         list_for_each_entry(inst_pos, &core->instances, list) {
-> >                 if (inst_pos == inst)
-> >                         continue;
-> > -               vpp_freq = inst_pos->clk_data.codec_freq_data->vpp_freq;
-> > +               vpp_freq = inst_pos->clk_data.codec_freq_data.vpp_freq;
+> Then diving into function vpfe_ccdc_validate_param, when calling function=
+ ccdc_data_size_max_bit, at
+> max_data =3D ccdc_data_size_max_bit(ccdcparam->data_sz);
+> the enum member, named data_sz, of structure ccdcparam is compared with 7=
+, otherwise data_sz is subtracted from 15, as in
+> return sz =3D=3D VPFE_CCDC_DATA_8BITS ? 7 : 15 - sz;
+>
+> The potential problem with this snippet of code is that, although in func=
+tion ccdc_data_size_max_bit, ccdcparam->data_sz is treated as an enumeratio=
+n with the range from 0 to 7 according to the definition of enum vpfe_ccdc_=
+data_size, however it's essentially an unsigned 32 bit integer from user sp=
+ace. As a consequence, the return value of function ccdc_data_size_max_bit =
+might be any value from 0 to 255 due to the unsigned underflow and truncati=
+on.
+>
+> It's worth noting that, although the usage of function of ccdc_gamma_widt=
+h_max_bit has similar underflow problem, i.e. the value of ccdcparam->alaw.=
+gamma_wd is also an unsigned 32 bit from user space, while itself is a enum=
+ type. However it's checked in
+> if (ccdcparam->alaw.gamma_wd > VPFE_CCDC_GAMMA_BITS_09_0 ||
+>     max_gamma > max_data) {
+>                 vpfe_dbg(1, vpfe, "Invalid data line select\n");
+>                 return -EINVAL;
+> }
+> This if clause exclude all illegal values and keep the enum variable in r=
+ange, I wonder if it's necessary to apply the similar check to ccdcparam->d=
+ata_sz to keep the its value legal as well.
+>
+> Due to the lack of knowledge of the interaction between this module and t=
+he user space, I'm not able to assess if this is a security-related issue. =
+Judging from the appearance, a malicious user can possibly manipulate the r=
+eturn value of ccdc_data_size_max_bit and make the check of "max_gamma > ma=
+x_data" always pass. I'd be more than happy to hear your valuable opinions =
+and provide more information if needed. If such a check is unnecessary, I w=
+ould appreciate it if I can know why, this can help me understand linux a l=
+ot!
+>
+Totally agree (good catch!), vpfe_ccdc_validate_param() should be more
+stringent on checking the user space params. Would you create a patch
+fixing it ?
 
-This is the main thing it fixes (this is where the null deref occurs).
-If there's multiple instances in use and the other instance hasn't
-populated the codec_freq_data pointer then we'll hit a null deref
-here.
+Cheers,
+--Prabhakar
 
-> >                 coreid = inst_pos->clk_data.core_id;
-> >
-> >                 mbs_per_sec = load_per_instance(inst_pos);
-> > @@ -545,7 +545,7 @@ static int decide_core(struct venus_inst *inst)
-> >                 return 0;
-> >
-> >         inst_load = load_per_instance(inst);
-> > -       inst_load *= inst->clk_data.codec_freq_data->vpp_freq;
-> > +       inst_load *= inst->clk_data.codec_freq_data.vpp_freq;
-> >         max_freq = core->res->freq_tbl[0].freq;
-> >
-> >         min_loaded_core(inst, &min_coreid, &min_load);
-> > @@ -848,10 +848,10 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
-> >
-> >         mbs_per_sec = load_per_instance(inst) / fps;
-> >
-> > -       vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
-> > +       vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data.vpp_freq;
-> >         /* 21 / 20 is overhead factor */
-> >         vpp_freq += vpp_freq / 20;
-> > -       vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vsp_freq;
-> > +       vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data.vsp_freq;
-> >
-> >         /* 10 / 7 is overhead factor */
-> >         if (inst->session_type == VIDC_SESSION_TYPE_ENC)
-> > --
-> > 2.7.4
-> >
-
-
-
--- 
-Jeffrey Kardatzke
-jkardatzke@google.com
-Google, Inc.
+> Looking forward to your response!
+>
+> Best regards,
+> Changming Liu
