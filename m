@@ -2,84 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3884817E2EF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 15:59:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7F6217E30E
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 16:05:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726758AbgCIO7d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 10:59:33 -0400
-Received: from mail-lf1-f51.google.com ([209.85.167.51]:33893 "EHLO
-        mail-lf1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726729AbgCIO7d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 10:59:33 -0400
-Received: by mail-lf1-f51.google.com with SMTP id i19so2041498lfl.1
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 07:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id;
-        bh=DEzEC8BjLUnhqJX2rzBJ5a/+Y27YQAj4/2JPBK5EdSE=;
-        b=tuHqmPuQCumDn8IzaoHpYyeF5us58Gt7WOlAiPAQkZ1/jE2Z008LJY29hOPxTa+Jp7
-         A91bbXdYjeJH43hsoDJdIVA8ERzp1zVlXabTIfjRHlZjj7ZJMOU74JBKq2GlLzUeJFLp
-         QeLcEc0e0mOaODoXAjw570RAWK15t/yfO3g8PzSjTdRLO4QNtTK6KuET3myUdAz2leSD
-         F+HYwnf6Nn9Hes2ZtA45ycnHJpAk4uM1HS0PnmytXgXMyhBWzJfBd+27inYgKZh7Scgk
-         Dey73ASQuKZX8kGG3QMKC2Kxxb1MZI+q9ML/J/jUxwHhJWCcz7SPtI4uPoUGEw1kwBnd
-         6Vsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=DEzEC8BjLUnhqJX2rzBJ5a/+Y27YQAj4/2JPBK5EdSE=;
-        b=DQlVaXqybUjTWH4/CP0SqSBUnFOH1TZxrJABlM6P4gP94XV+z9uJCHnJCgszq59yvi
-         4EbaaQlTtahQmQn8q1EdbanyRGMKlvtd+IF8OCPW+zlIOqkxUevDmbh1WZo11VlzOG8e
-         SJLLduMl3geh0CRfxUA08Q55TuL2HpSypL2fsXJns6aCsYNzGCV8JjB3spNHq0N+gdgM
-         glMZjOph4JqeXoUGHggQcVy2npvL4PNfvjVz1hoKvo1YqQhDgpIo3hhKpF7NSzgr2Ibg
-         Uuqn6pGHXRZot4JgE898VmLIiO2J2IQfS4dgdJQak6y6U4KHBWRakwvOcg4jFIqWZ8BF
-         TZnw==
-X-Gm-Message-State: ANhLgQ2MbyFitxbznICmgcMuvWsjqlULNLue00JAQaUi2KQ6bM/4MDaB
-        pfJsXg1QSUH7JHrRNcBF2mRTJ0c1Eb0=
-X-Google-Smtp-Source: ADFU+vuaYIp8RVkjSFA9qUVMJgxmSSVnZyUyxm7aQpOGU/dOwHwWe5DK+B0toGmsztn+TyJ93FUmpQ==
-X-Received: by 2002:ac2:5111:: with SMTP id q17mr10060667lfb.51.1583765970483;
-        Mon, 09 Mar 2020 07:59:30 -0700 (PDT)
-Received: from localhost.localdomain ([94.155.124.210])
-        by smtp.gmail.com with ESMTPSA id m24sm26630419ljb.81.2020.03.09.07.59.29
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2020 07:59:29 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for v5.6] Venus fixes for v5.6-rc6
-Date:   Mon,  9 Mar 2020 16:59:15 +0200
-Message-Id: <20200309145915.9411-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726703AbgCIPFG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 11:05:06 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:60594 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726617AbgCIPFG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Mar 2020 11:05:06 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jBJvu-008Z5p-Rq; Mon, 09 Mar 2020 15:03:06 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jBJzI-0003C7-QG; Mon, 09 Mar 2020 15:06:36 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.7] Venus updates - part2 (#62002)
+Date:   Mon,  9 Mar 2020 15:06:36 +0000
+Message-Id: <20200309150636.12238-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200309145638.28136-1-stanimir.varbanov@linaro.org>
+References: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here is one regression fix for v5.6-rc1, the driver isn't loaded
-on sdm845 platforms.
+Pull request: https://patchwork.linuxtv.org/patch/62002/
+Build log: https://builder.linuxtv.org/job/patchwork/41557/
+Build time: 00:06:24
+Link: https://lore.kernel.org/linux-media/20200309145638.28136-1-stanimir.varbanov@linaro.org
 
-regards,
-Stan
+gpg: Signature made Mon 09 Mar 2020 02:08:59 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-The following changes since commit d171c45da874e3858a83e6377e00280a507fe2f2:
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-  media: hantro: Fix broken media controller links (2020-02-24 15:10:39 +0100)
+Error/warnings:
 
-are available in the Git repository at:
 
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-fixes-v5.6
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-venus-vdec-Fix-smatch-warning-in-start-streaming.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-venus-vdec-Fix-smatch-warning-in-start-streaming.patch
+patches/0001-venus-vdec-Fix-smatch-warning-in-start-streaming.patch:4: WARNING: A patch subject line should describe the change not the tool that found it
 
-for you to fetch changes up to d2470e3979ea4a0fd08b4189b4afbccd78c8892b:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-venus-support-frame-rate-control.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-venus-support-frame-rate-control.patch
+patches/0002-venus-support-frame-rate-control.patch:72: CHECK: Alignment should match open parenthesis
 
-  venus: firmware: Ignore secure call error on first resume (2020-03-09 16:41:46 +0200)
-
-----------------------------------------------------------------
-Venus fixes for v5.6
-
-----------------------------------------------------------------
-Stanimir Varbanov (1):
-      venus: firmware: Ignore secure call error on first resume
-
- drivers/media/platform/qcom/venus/firmware.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
