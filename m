@@ -2,165 +2,380 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BC9617DE45
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 12:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 313FF17DE4A
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 12:12:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726756AbgCILJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 07:09:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:49957 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725956AbgCILJt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 07:09:49 -0400
-Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MNss4-1j0MB33BHc-00OKYg; Mon, 09 Mar 2020 12:09:33 +0100
-Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id AEACE650061;
-        Mon,  9 Mar 2020 11:09:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at cetitec.com
-Received: from mail.cetitecgmbh.com ([127.0.0.1])
-        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EF_gs1Tv7aJJ; Mon,  9 Mar 2020 12:09:32 +0100 (CET)
-Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 4495A64FD05;
-        Mon,  9 Mar 2020 12:09:32 +0100 (CET)
-Received: from pflmari.corp.cetitec.com (10.10.2.141) by
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 9 Mar 2020 12:09:32 +0100
-Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
-        id E1BA1804F8; Mon,  9 Mar 2020 12:09:31 +0100 (CET)
-Date:   Mon, 9 Mar 2020 12:09:31 +0100
-From:   Alex Riesen <alexander.riesen@cetitec.com>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Driver Development <devel@driverdev.osuosl.org>,
-        Linux Media <linux-media@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Device Tree <devicetree@vger.kernel.org>,
-        Renesas SoC <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-Message-ID: <20200309110931.GB3593@pflmari>
-Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Driver Development <devel@driverdev.osuosl.org>,
-        Linux Media <linux-media@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Device Tree <devicetree@vger.kernel.org>,
-        Renesas SoC <linux-renesas-soc@vger.kernel.org>
-References: <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
- <20200302150706.GB3717@pflmari>
- <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
- <20200302160906.GC3717@pflmari>
- <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
- <20200305143628.GB25741@pflmari>
- <20200306131632.GA4878@pendragon.ideasonboard.com>
- <20200306134154.GD27714@pflmari>
- <20200306134546.GE4878@pendragon.ideasonboard.com>
- <87r1y2wbze.wl-kuninori.morimoto.gx@renesas.com>
+        id S1726379AbgCILMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 07:12:03 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:45101 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726215AbgCILMC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 07:12:02 -0400
+Received: by mail-ed1-f67.google.com with SMTP id h62so11493763edd.12
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 04:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=QpS5itn0u26AAxu+mVL7gUK3pzWKtpjp1N+DGFNKDfw=;
+        b=f3VVqLpGO18yT42U5ykshy+AydIKUGfJKNSRK8ER0EiONaoAcUVvHWbdT4dcW0PtEL
+         YUelyc+dCnFIAS+nJlPV4nO7yJHR2RO5P08nF9q+0Ijl5wUYwER4khHTRAtSJQezlwcI
+         DYkbwF3p9Z5YSRzhRzyqcUL80e3oSvMKg+rn0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QpS5itn0u26AAxu+mVL7gUK3pzWKtpjp1N+DGFNKDfw=;
+        b=WrCz5wj9S/NsuTbqCzR+eouOaUh+6z9LPw2QJuTLeQqk8xnKRcxnXeTibJLFhNFcJt
+         zNnluKQFklPVIK53hi4QgsN8GBHiT6fuS8ZmA327SQVXg1CcVe43ntWI26s6PiAwhUC9
+         apzRc1EvF0eLOqj67pkdkdXGu7jaOwvULnWrA8uET2iVcnR8VIbQNl4EDY9D7VTXjOQT
+         jodnEGit44lFDwnClY2HrZuftfPupwzpEmIHKNz+FuNoIUvraTr0u4HIBGbZAo8Hmgvj
+         OKZsmSLphsR3gIoa1TO3XYjNLMMVkY4tNdEvcNT+82CcBf8GKZKftYT5s5/IM5BtQFk/
+         fjaQ==
+X-Gm-Message-State: ANhLgQ0DbUJI+y2KZk/e0t9eOqe+yYx7su6A48wTEbIWyBpDvIchbsmg
+        1AZd1jK3cTCf3JP0Fe+PXdxsf01aQ7tFQA==
+X-Google-Smtp-Source: ADFU+vvKjycDTtMlJpcMBYcCMM8a1qoBvH7WnAScsr50JMZ9qpz4d3EbShe97zUwTsotJwt5MLSiPQ==
+X-Received: by 2002:a17:906:5e19:: with SMTP id n25mr13816517eju.333.1583752320242;
+        Mon, 09 Mar 2020 04:12:00 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
+        by smtp.gmail.com with ESMTPSA id y10sm2876163edi.8.2020.03.09.04.11.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2020 04:11:59 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id v11so10488552wrm.9
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 04:11:59 -0700 (PDT)
+X-Received: by 2002:adf:f545:: with SMTP id j5mr10560181wrp.295.1583752318515;
+ Mon, 09 Mar 2020 04:11:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87r1y2wbze.wl-kuninori.morimoto.gx@renesas.com>
-X-Originating-IP: [10.10.2.141]
-X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A29536F936F637D63
-X-Provags-ID: V03:K1:gR6rW5ecslKFmSCgJXl9/tgvA5veb1fTHa5FSn9E02NiSYn8MTc
- jfTRnhmhxG1xh05nAmModYg4ablDUwhsTEWRtMKNiwF1Ba+Q4XBvXEXLZUfES35/yWi0Siv
- mW5lPK8HZK2Ymp/Dyg8Uz8kFjgeAWLhSrZtsSOuyib7tUn57ibP939fs3UC9nCbF83YzvKM
- Ng06OF7KQ36aOR0aRClNw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rLu4bN4ajpU=:h8UFrs8QFFhECyg3qTXbrA
- 3JNpp6c0hdSW7ncjvgVXWh2iQHS+Y0jct46wxyEhGGkrV0oCDArK5DhnpdUcTzm78L5zXPGKi
- yIPl2CNrEgIkSA/5VERu1sHyqn+VdfnDQLHYd7snDgsll+j0MiIpq+/ZK1Z3+6d7K6rZcXMzR
- w3A7az7S6srz5fz9Auy2RJAPxI0Fe4EBrF7R8bTpT2KJsmch3TyiTErVRCCsOCAo+bdCdZFsM
- MPvcyE5Q7YLmnY6HMBZnbUUknhGzSVJgthMI1+GqGD6yvp9OU1qI2Z4O8YAbg5ttdRFJbT9Bk
- Ov05BmUmMHLO/1Msl0vZ20gPoJid/qxpyEbcedDUmDM7Mv27UMAjgKQMo8YVN6ctelyix7s4k
- JogLp4RV9krJ96qClbNo7DRUsjsAU3w+h4uzi5HGZhhSH4rUJFjBETcK5lykq3IYQFfIOw31D
- pwdGjPjH++xAyVltzpVnLerAsQkO00qa1hc4nsTUgHCfH5DSa8d2/GHtCBcyRCzN9PHtsdYXy
- XoWJ78Ckt5RTFgxJ05xxzyMAgX2/TgzhwtWt4XYSFYqs6cDKe+eSNnpo0iaO/eBEQeoJD+1AI
- N0YtFEfiY4uw5lMmZVkOns/8ii0WQrLWxZg4Ld/wir7iFW3D00Y2iaW5zAj+nxuNttzuospw0
- lgy3NUXLdIEwl8WiWDDDnndRbKoMJfsiB9/2tvJ5wvlUM3RFFNH5Z8OSk49IERX5QJwWTQRPs
- cGgih8YlLjJw4IZgfSClkNtM7w1mk4vjsDvESjtaCr1YiTgaaQ/uL73fsR6f5DtBYYzZ/IhI0
- rymrCcY3m1GBu0hpUne15zhelObdrhOC+u5oCsc21Vn87GFy0Wody6vBthbrHoWPTpXLz52
+References: <20191113175603.24742-1-ezequiel@collabora.com>
+ <74fea061a52ee3f8e25793bf9e47eba90a52c3e3.camel@ndufresne.ca>
+ <CAAFQd5A8Y3C64NozqXjMDV0CQ5==dW9Y-6KtFigYFmO3EDd3+A@mail.gmail.com>
+ <f3b8c40fa84f9819959bf60cc9a1f4951bcda36a.camel@ndufresne.ca>
+ <9655c8b0cf58c93e26159503120f37890731f313.camel@ndufresne.ca>
+ <CAAFQd5Dh0SxrXjF2co16OYR_u_EekQ+0cad=waXOzWVFsv91mQ@mail.gmail.com> <f93e810f32136e7667c3c413e43f6cebda084fec.camel@ndufresne.ca>
+In-Reply-To: <f93e810f32136e7667c3c413e43f6cebda084fec.camel@ndufresne.ca>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 9 Mar 2020 20:11:46 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BaZXUTCvd8hbGtiEBmnS9C1gYD=4ojB=VLPCmWULHLUw@mail.gmail.com>
+Message-ID: <CAAFQd5BaZXUTCvd8hbGtiEBmnS9C1gYD=4ojB=VLPCmWULHLUw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Enable Hantro G1 post-processor
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        kernel@collabora.com,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Chris Healy <cphealy@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Thu, Feb 20, 2020 at 6:06 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> On mer, 2020-02-12 at 16:06 +0900, Tomasz Figa wrote:
+> > On Wed, Feb 12, 2020 at 1:22 AM Nicolas Dufresne <nicolas@ndufresne.ca>=
+ wrote:
+> > > On lun, 2020-02-10 at 23:16 -0500, Nicolas Dufresne wrote:
+> > > > Le lundi 10 f=C3=A9vrier 2020 =C3=A0 11:45 +0900, Tomasz Figa a =C3=
+=A9crit :
+> > > > > On Mon, Feb 10, 2020 at 4:52 AM Nicolas Dufresne <nicolas@ndufres=
+ne.ca>
+> > > > > wrote:
+> > > > > > Le mercredi 13 novembre 2019 =C3=A0 14:56 -0300, Ezequiel Garci=
+a a =C3=A9crit :
+> > > > > > > Hi all,
+> > > > > > >
+> > > > > > > The Hantro G1 VPU post-processor block can be pipelined with
+> > > > > > > the decoder hardware, allowing to perform operations such as
+> > > > > > > color conversion, scaling, rotation, cropping, among others.
+> > > > > > >
+> > > > > > > When the post-processor is enabled, the decoder hardware
+> > > > > > > needs its own set of NV12 buffers (the native decoder format)=
+,
+> > > > > > > and the post-processor is the owner of the CAPTURE buffers,
+> > > > > > > allocated for the post-processed format.
+> > > > > > >
+> > > > > > > This way, applications obtain post-processed
+> > > > > > > (scaled, converted, etc) buffers transparently.
+> > > > > > >
+> > > > > > > This feature is implemented by exposing the post-processed pi=
+xel
+> > > > > > > formats on ENUM_FMT, ordered as "preferred pixelformat first"=
+:
+> > > > > > >
+> > > > > > > v4l2-ctl -d 1 --list-formats
+> > > > > > > ioctl: VIDIOC_ENUM_FMT
+> > > > > > >       Type: Video Capture Multiplanar
+> > > > > > >
+> > > > > > >       [0]: 'NV12' (Y/CbCr 4:2:0)
+> > > > > > >       [1]: 'YUYV' (YUYV 4:2:2)
+> > > > > > >
+> > > > > > > The order of preference in ENUM_FMT can be used as a hint
+> > > > > > > by applications. This series updates the uAPI specification
+> > > > > > > accordingly.
+> > > > > >
+> > > > > > As I'm implementing this, I realize that there may me a gap in =
+being
+> > > > > > able to implement both IPP and non-IPP support in a generic fra=
+mework.
+> > > > > > Unlike the above comment, we for non-IPP decoder we cannot naiv=
+ely
+> > > > > > pick
+> > > > > > the first format. In fact we parse the chroma and depth informa=
+tion
+> > > > > > from the headers (like pps from H264), and we pick a matching p=
+ixel
+> > > > > > format. This way, if we have a 10bit stream, and our IP support=
+s
+> > > > > > 10bit,
+> > > > > > we will pick a 10bit pixel formats, otherwise decoding will jus=
+t fail.
+> > > > > >
+> > > > > > None of this information is passed to the driver prior to the f=
+irst
+> > > > > > Request being made, so there is no way (as of current spec) tha=
+t the
+> > > > > > driver can validate this in try_fmt ahead of time. Unless I set
+> > > > > > picture
+> > > > > > parameters without a request_fd for that purpose. If this is th=
+e way,
+> > > > > > then we should document this.
+> > > > >
+> > > > > +Alexandre Courbot
+> > > > >
+> > > > > It was suggested in the very early RFC stage, but it looks like i=
+t
+> > > > > didn't make it to the final spec.
+> > > > > https://patchwork.kernel.org/patch/10583233/#22209555
+> > > >
+> > > > Ok, maybe we should revive it, it would fill that gap. Again, only =
+an
+> > > > issue if you have a post processor. I'm still surprised we didn't
+> > > > expose the IPP functions through the topology, it would make so muc=
+h
+> > > > sense to me, and I can make better code with that knowledge.
+> > > >
+> > > > I found while coding this, that even if it's more difficult,
+> > > > classification of device by looking at the topology and the entity
+> > > > functions is much nicer, less of a guess.
+> > > >
+> > > > Though, we lack some documentation (or clarification) for how to
+> > > > properly handle formats, size and selection in order to configure t=
+he
+> > > > IPP. Ezequiel was saying that we don't implement selection in Hanto=
+, so
+> > > > I guess the scaling is a bit ambiguous then in regard to coded/disp=
+lay
+> > > > sizes. Though we pass a size to the OUTPUT side, so the driver can
+> > > > always control a little bit.
+> > >
+> > > Re-reading the "initialization process", it's actually still there:
+> > >
+> > > "Call VIDIOC_S_EXT_CTRLS() to set all the controls (parsed headers, e=
+tc.)
+> > > required by the OUTPUT format to enumerate the CAPTURE formats."
+> > >
+> >
+> > Oh, so it did make it to the final spec. Sorry, my bad. Should have
+> > checked better.
+> >
+> > > And then it suggest to use G_FMT to retreive the optimal format as se=
+lected
+> > > by
+> > > the driver. So I guess this is a false alarm. And we probably don't n=
+eed to
+> > > play
+> > > with the subsampling to filter the formats, as the driver is expected=
+ to do
+> > > so.
+> > >
+> >
+> > The question that this raises then is whether the merged drivers do
+> > so. Hantro G1 supports only 8-bit YUV 4:2:0, so there is no problem,
+> > although the driver doesn't seem to validate that in the headers. I'd
+> > also say the CAPTURE resolution should be determined by the headers,
+> > rather than the OUTPUT queue, consistently to the stateful decoders.
+> > Resolution changes should be also signaled if controls are set to
+> > headers that contain different resolutions than previously set.
+> >
+> > > So what could be improve, is have in the per-codec documentation the =
+list of
+> > > controls that are "required by the OUTPUT format to enumerate the CAP=
+TURE
+> > > formats.". Could just be a comment in the control doc so say, "this c=
+ontrol
+> > > is
+> > > needed to allow enumerationg of the CAPTURE formats".
+> > >
+> >
+> > I wouldn't limit this to the format enumeration. The drivers may also
+> > need to check for things like profile, some stream features or even
+> > just whether the resolution doesn't exceed the maximum supported by
+> > the decoder.
+>
+> Yes, I came to similar conclusion. As an example, an H264 should validate=
+ the
+> SPS (and I think for H264 that is sufficient ?) based on it's hardware sp=
+ecific
+> constraint. Using the SPS for format and size numeration is also what mak=
+es the
+> most sense when there is an IPP. An IPP could support crop, and the drive=
+r could
+> select the default cropping to matcht the display resolution. Driver shou=
+ld be
+> enhanced, but it seems to be part of normal refine.
+>
+> To come back to the spec, shall we document a return value for the case w=
+here
+> the control is supported, but the stream isn't supported ?
+>
 
-Kuninori Morimoto, Mon, Mar 09, 2020 02:31:01 +0100:
-> > > > Those clocks are part of the CSI-2 protocol and also don't need to be
-> > > > explicitly controlled. As far as I can tell from a quick check of the
-> > > > ADV7482 documentation, only the I2S MCLK is a general-purpose clock that
-> > > > needs to be exposed.
-> (snip)
-> > > Do you know, by chance, which of the snd_soc* callbacks should be used to
-> > > implement setting of the MCLK? The one in snd_soc_component_driver or
-> > > snd_soc_dai_driver->ops (snd_soc_dai_ops)?
-> > > 
-> > > Or how the userspace interface looks like? Or, if there is no userspace
-> > > interface for this, how the MCLK is supposed to be set? Through mclk-fs?
-> > 
-> > I'm afraid my knowledge of the sound subsystem is limited. Morimoto-san
-> > is the main developer and maintainer of Renesas sound drivers.
-> > Morimoto-sensei, would you have an answer to that question ? :-)
-> 
-> In my quick check, it goes to AUDIO_CLKC.
-> If so, you can update rcar_sound::clocks.
-> 
-> 	&rcar_sound {
-> 		...
-> -		/* update <audio_clk_b> to <cs2000> */
-> +		/* update <audio_clk_b> to <cs2000>,
-> +		 *        <audio_clk_c> to <adv748x> */
-> 		clocks = <&cpg CPG_MOD 1005>,
-> 			...
-> 			 <&audio_clk_a>, <&cs2000>,
-> -			 <&audio_clk_c>,
-> +			 <&adv748x>,
-> 			 <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
-> 
-> Thank you for your help !!
+I think the answer is yes. :) I'll leave the details to others, though.
 
-Thanks.
+Best regards,
+Tomasz
 
-Should the adv748x driver also implement anything to configure the frequency
-of MCLK clock? I mean something like .set_sysclk and .set_fmt callbacks of
-snd_soc_dai_ops?
-
-Or is the driver implementation, which depends on mclk-fs to be 256, the audio
-stream format to be 8x S24_LE, and requires strictly 48kHz sampling rate on
-the HDMI input, a totally acceptable first attempt at writing a DAI driver?
-
-I'm a bit bothered by that, as the hardware is also capable of decoding
-stereo, sampling rate 32-192kHz, a variety of PCM and compressed/encrypted
-formats, 128-768fs MCLK multipliers, and a row of I2S options.
-
-I just find it confusing to place the configuration interfaces.
-For instance, the patches use the media ioctl for audio output selection to
-select I2S protocol. While works, it does not feel right (shouldn't it be in
-the device tree?)
-
-Maybe you can point me at a driver doing something similar? I'm studying media
-drivers now, but not many of them use ASoC interfaces for devices providing a
-clock. Or maybe I should better look at sound/soc/...?
-
-Thanks in advance,
-Alex
+> >
+> > Best regards,
+> > Tomasz
+> >
+> > > > > > Is this the intended way to negotiation IPP functions with the =
+driver
+> > > > > > ?
+> > > > > >
+> > > > >
+> > > > > In theory, if the userspace knows whether the stream is 4:2:0 or =
+4:2:2
+> > > > > and 8-bit or 10-bit, it can still select the first format from th=
+e top
+> > > > > that matches these properties.
+> > > >
+> > > > That's exactly what I do, I have a map of the formats and their
+> > > > chroma/depth, and take the first one that match. If that fails, I j=
+ust
+> > > > fallback to the first one. It's something you need to do anyway, as=
+ we
+> > > > prefer the native format first (even if there is an IPP).
+> > > >
+> > > > > That's not how format handling in V4L2 works, though. ENUM_FMT is
+> > > > > expected to return a list of valid formats and if we forget about=
+ the
+> > > > > image processor for a moment, a stateless decoder would always re=
+turn
+> > > > > any possible format, including ones invalid for the stream.
+> > > > >
+> > > > > Now back to the image processor, if it handles conversions from a=
+ny to
+> > > > > any format listed by ENUM_FMT, we kind of regain the V4L2 complia=
+nce,
+> > > > > but if the conversions are limited, the above requirement still
+> > > > > doesn't hold and we're not implementing V4L2 correctly.
+> > > > >
+> > > > > Perhaps we can still amend the spec and require controls that
+> > > > > determine the stream properties to be set before starting the
+> > > > > streaming? I can imagine it could also help the driver filter out=
+ some
+> > > > > unsupported streams early, before allocating buffers and attempti=
+ng to
+> > > > > decode.
+> > > >
+> > > > I think it would make sense, so just to make sure, for H264 we coul=
+d
+> > > > set the V4L2_CID_MPEG_VIDEO_H264_SPS along with the OUTPUT format,
+> > > > prior to CAPTURE enumeration.
+> > > >
+> > > > > Best regards,
+> > > > > Tomasz
+> > > > >
+> > > > > > > When the application sets a pixel format other than NV12,
+> > > > > > > the post-processor is transparently enabled.
+> > > > > > >
+> > > > > > > Patch 1 is a cleanups needed to easier integrate the post-pro=
+cessor.
+> > > > > > > Patch 2 introduces the post-processing support.
+> > > > > > > Patch 3 updates the uAPI specification.
+> > > > > > >
+> > > > > > > This is tested on RK3288 platforms with MPEG-2, VP8 and
+> > > > > > > H264 streams, decoding to YUY2 surfaces. For now, this series
+> > > > > > > is only adding support for NV12-to-YUY2 conversion.
+> > > > > > >
+> > > > > > > Applies to media/master.
+> > > > > > >
+> > > > > > > Future plans
+> > > > > > > ------------
+> > > > > > >
+> > > > > > > It seems to me that we should start moving this driver to use
+> > > > > > > regmap-based access to registers. However, such move is out o=
+f scope
+> > > > > > > and not entirely related to this post-processor enablement.
+> > > > > > >
+> > > > > > > We'll work on that as follow-up patches.
+> > > > > > >
+> > > > > > > Changelog
+> > > > > > > ---------
+> > > > > > >
+> > > > > > > Changes v3:
+> > > > > > >
+> > > > > > > * After discussing with Hans and Tomasz during the media summ=
+it
+> > > > > > > in ELCE, we decided to go back on the MC changes. The MC topo=
+logy
+> > > > > > > is now untouched. This means the series is now similar to v1,
+> > > > > > > except we explicitly use the ENUM_FMT to hint about the post-
+> > > > > > > processed
+> > > > > > > formats.
+> > > > > > >
+> > > > > > > Changes v2:
+> > > > > > >
+> > > > > > > * The decoder->post-processor topology is now exposed
+> > > > > > >   explicitly and applications need to configure the pipeline.
+> > > > > > >   By default, the decoder is enabled and the post-processor
+> > > > > > >   is disabled.
+> > > > > > >
+> > > > > > > * RGB post-processing output has been dropped. We might
+> > > > > > >   add this in the future, but for now, it seems it would
+> > > > > > >   make the code more complex without a use-case in mind.
+> > > > > > >   RGB is much more memory-consuming so less attractive
+> > > > > > >   than YUV, and modern GPUs and display controllers support Y=
+UV.
+> > > > > > >
+> > > > > > > * The post-processor implementation still supports RK3288
+> > > > > > >   only. However, a generic register infrastructure is introdu=
+ced
+> > > > > > >   to make addition of other variants such as RK3399 really ea=
+sy.
+> > > > > > >
+> > > > > > > Ezequiel Garcia (3):
+> > > > > > >   media: hantro: Cleanup format negotiation helpers
+> > > > > > >   media: hantro: Support color conversion via post-processing
+> > > > > > >   media: vidioc-enum-fmt.rst: clarify format preference
+> > > > > > >
+> > > > > > >  .../media/uapi/v4l/vidioc-enum-fmt.rst        |   4 +-
+> > > > > > >  drivers/staging/media/hantro/Makefile         |   1 +
+> > > > > > >  drivers/staging/media/hantro/hantro.h         |  64 +++++++-
+> > > > > > >  drivers/staging/media/hantro/hantro_drv.c     |   8 +-
+> > > > > > >  .../staging/media/hantro/hantro_g1_h264_dec.c |   2 +-
+> > > > > > >  .../media/hantro/hantro_g1_mpeg2_dec.c        |   2 +-
+> > > > > > >  drivers/staging/media/hantro/hantro_g1_regs.h |  53 +++++++
+> > > > > > >  .../staging/media/hantro/hantro_g1_vp8_dec.c  |   2 +-
+> > > > > > >  drivers/staging/media/hantro/hantro_h264.c    |   6 +-
+> > > > > > >  drivers/staging/media/hantro/hantro_hw.h      |  13 ++
+> > > > > > >  .../staging/media/hantro/hantro_postproc.c    | 141
+> > > > > > > ++++++++++++++++++
+> > > > > > >  drivers/staging/media/hantro/hantro_v4l2.c    | 105 ++++++++=
+-----
+> > > > > > >  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 ++
+> > > > > > >  13 files changed, 366 insertions(+), 45 deletions(-)
+> > > > > > >  create mode 100644 drivers/staging/media/hantro/hantro_postp=
+roc.c
+> > > > > > >
+>
