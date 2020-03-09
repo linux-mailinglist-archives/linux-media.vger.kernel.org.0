@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4662817DD15
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 11:15:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7144B17DD1B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 11:15:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbgCIKOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 06:14:48 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:44381 "EHLO
+        id S1726632AbgCIKOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 06:14:50 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:40741 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbgCIKOs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 06:14:48 -0400
+        with ESMTP id S1726533AbgCIKOt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 06:14:49 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1jBFQj-0003ml-6N; Mon, 09 Mar 2020 11:14:37 +0100
+        id 1jBFQm-0003mn-Qs; Mon, 09 Mar 2020 11:14:40 +0100
 Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1jBFQg-0001mE-Ts; Mon, 09 Mar 2020 11:14:34 +0100
+        id 1jBFQg-0001mH-V5; Mon, 09 Mar 2020 11:14:34 +0100
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
         robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
         linux-media@vger.kernel.org
-Subject: [PATCH v12 13/19] media: tvp5150: move irq en-/disable into runtime-pm ops
-Date:   Mon,  9 Mar 2020 11:14:22 +0100
-Message-Id: <20200309101428.15267-14-m.felsch@pengutronix.de>
+Subject: [PATCH v12 14/19] media: tvp5150: add v4l2-event support
+Date:   Mon,  9 Mar 2020 11:14:23 +0100
+Message-Id: <20200309101428.15267-15-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200309101428.15267-1-m.felsch@pengutronix.de>
 References: <20200309101428.15267-1-m.felsch@pengutronix.de>
@@ -42,146 +42,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As documented in [1] the runtime-pm ops are used to set the device into
-a fully 'workable' state. Therefore it can be used to enable or disable
-the irqs.
+Currently the driver notifies internal subdevs if the signal is locked
+or not. This information is also useful for userpace applications e.g. to
+switch to another input device upon a signal lost event.
 
-[1] https://www.kernel.org/doc/html/latest/power/runtime_pm.html
+This commit adds the support for the userspace to subscribe to the
+V4L2_EVENT_SOURCE_CHANGE and V4L2_EVENT_CTRL events.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
 v12:
-- change commit header and message -> former "media: tvp5150: add s_power callback"
-- drop s_power() callback and use pm_runtime callbacks instead
+- new patch
 
- drivers/media/i2c/tvp5150.c | 61 +++++++++++++++++++++++++++++++++----
- 1 file changed, 55 insertions(+), 6 deletions(-)
+ drivers/media/i2c/tvp5150.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index 1da0ff1ffc55..313d2a43d79e 100644
+index 313d2a43d79e..9bad3192358d 100644
 --- a/drivers/media/i2c/tvp5150.c
 +++ b/drivers/media/i2c/tvp5150.c
-@@ -13,6 +13,7 @@
- #include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of_graph.h>
-+#include <linux/pm_runtime.h>
+@@ -17,6 +17,7 @@
  #include <linux/regmap.h>
  #include <media/v4l2-async.h>
  #include <media/v4l2-device.h>
-@@ -1356,16 +1357,51 @@ static const struct media_entity_operations tvp5150_sd_media_ops = {
- /****************************************************************************
- 			I2C Command
-  ****************************************************************************/
-+static int __maybe_unused tvp5150_runtime_suspend(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct tvp5150 *decoder = to_tvp5150(sd);
-+
-+	if (decoder->irq)
-+		/* Disable lock interrupt */
-+		return regmap_update_bits(decoder->regmap,
-+					  TVP5150_INT_ENABLE_REG_A,
-+					  TVP5150_INT_A_LOCK, 0);
-+	return 0;
-+}
-+
-+static int __maybe_unused tvp5150_runtime_resume(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct tvp5150 *decoder = to_tvp5150(sd);
-+
-+	if (decoder->irq)
-+		/* Enable lock interrupt */
-+		return regmap_update_bits(decoder->regmap,
-+					  TVP5150_INT_ENABLE_REG_A,
-+					  TVP5150_INT_A_LOCK,
-+					  TVP5150_INT_A_LOCK);
-+	return 0;
-+}
++#include <media/v4l2-event.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-mc.h>
+@@ -1526,6 +1527,19 @@ static int tvp5150_s_register(struct v4l2_subdev *sd, const struct v4l2_dbg_regi
+ }
+ #endif
  
- static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
++static int tvp5150_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
++				   struct v4l2_event_subscription *sub)
++{
++	switch (sub->type) {
++	case V4L2_EVENT_SOURCE_CHANGE:
++		return v4l2_src_change_event_subdev_subscribe(sd, fh, sub);
++	case V4L2_EVENT_CTRL:
++		return v4l2_ctrl_subdev_subscribe_event(sd, fh, sub);
++	default:
++		return -EINVAL;
++	}
++}
++
+ static int tvp5150_g_tuner(struct v4l2_subdev *sd, struct v4l2_tuner *vt)
  {
- 	struct tvp5150 *decoder = to_tvp5150(sd);
--	unsigned int mask, val = 0, int_val = 0;
-+	unsigned int mask, val = 0;
-+	int ret;
+ 	int status = tvp5150_read(sd, 0x88);
+@@ -1617,6 +1631,8 @@ static const struct v4l2_subdev_core_ops tvp5150_core_ops = {
+ 	.g_register = tvp5150_g_register,
+ 	.s_register = tvp5150_s_register,
+ #endif
++	.subscribe_event = tvp5150_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+ };
  
- 	mask = TVP5150_MISC_CTL_YCBCR_OE | TVP5150_MISC_CTL_SYNC_OE |
- 	       TVP5150_MISC_CTL_CLOCK_OE;
+ static const struct v4l2_subdev_tuner_ops tvp5150_tuner_ops = {
+@@ -2045,7 +2061,7 @@ static int tvp5150_probe(struct i2c_client *c)
+ 	sd = &core->sd;
+ 	v4l2_i2c_subdev_init(sd, c, &tvp5150_ops);
+ 	sd->internal_ops = &tvp5150_internal_ops;
+-	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
  
- 	if (enable) {
-+		ret = pm_runtime_get_sync(sd->dev);
-+		if (ret < 0) {
-+			pm_runtime_put_noidle(sd->dev);
-+			return ret;
-+		}
-+
- 		tvp5150_enable(sd);
- 
- 		/* Enable outputs if decoder is locked */
-@@ -1373,15 +1409,13 @@ static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
- 			val = decoder->lock ? decoder->oe : 0;
- 		else
- 			val = decoder->oe;
--		int_val = TVP5150_INT_A_LOCK;
-+
- 		v4l2_subdev_notify_event(&decoder->sd, &tvp5150_ev_fmt);
-+	} else {
-+		pm_runtime_put(sd->dev);
- 	}
- 
- 	regmap_update_bits(decoder->regmap, TVP5150_MISC_CTL, mask, val);
--	if (decoder->irq)
--		/* Enable / Disable lock interrupt */
--		regmap_update_bits(decoder->regmap, TVP5150_INT_ENABLE_REG_A,
--				   TVP5150_INT_A_LOCK, int_val);
- 
- 	return 0;
- }
-@@ -2077,6 +2111,11 @@ static int tvp5150_probe(struct i2c_client *c)
- 
- 	if (debug > 1)
- 		tvp5150_log_status(sd);
-+
-+	pm_runtime_set_active(&c->dev);
-+	pm_runtime_enable(&c->dev);
-+	pm_runtime_idle(&c->dev);
-+
- 	return 0;
- 
- err:
-@@ -2100,11 +2139,20 @@ static int tvp5150_remove(struct i2c_client *c)
- 		media_device_unregister_entity(&decoder->connectors[i].ent);
- 	v4l2_async_unregister_subdev(sd);
- 	v4l2_ctrl_handler_free(&decoder->hdl);
-+	pm_runtime_disable(&c->dev);
-+	pm_runtime_set_suspended(&c->dev);
-+
- 	return 0;
- }
- 
- /* ----------------------------------------------------------------------- */
- 
-+static const struct dev_pm_ops tvp5150_pm_ops = {
-+	SET_RUNTIME_PM_OPS(tvp5150_runtime_suspend,
-+			   tvp5150_runtime_resume,
-+			   NULL)
-+};
-+
- static const struct i2c_device_id tvp5150_id[] = {
- 	{ "tvp5150", 0 },
- 	{ }
-@@ -2123,6 +2171,7 @@ static struct i2c_driver tvp5150_driver = {
- 	.driver = {
- 		.of_match_table = of_match_ptr(tvp5150_of_match),
- 		.name	= "tvp5150",
-+		.pm	= &tvp5150_pm_ops,
- 	},
- 	.probe_new	= tvp5150_probe,
- 	.remove		= tvp5150_remove,
+ 	if (IS_ENABLED(CONFIG_OF) && np) {
+ 		res = tvp5150_parse_dt(core, np);
 -- 
 2.20.1
 
