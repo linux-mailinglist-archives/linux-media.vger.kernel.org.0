@@ -2,77 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25FF317E0FC
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 14:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6EAF17E103
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 14:25:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbgCINXB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 09:23:01 -0400
-Received: from gofer.mess.org ([88.97.38.141]:58337 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726403AbgCINXB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Mar 2020 09:23:01 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id EF180C63FC; Mon,  9 Mar 2020 13:22:59 +0000 (GMT)
-Date:   Mon, 9 Mar 2020 13:22:59 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.7] DVB & RC
-Message-ID: <20200309132259.GA10756@gofer.mess.org>
+        id S1726477AbgCINZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 09:25:16 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:45549 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726384AbgCINZP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Mar 2020 09:25:15 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id BIP7jBFEY9Im2BIPAjRvs4; Mon, 09 Mar 2020 14:25:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583760314; bh=hKDy+C3Ikv9R1QZiwzp9SkY9D3GxxOgw1R/Gu2iW8Ww=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=S6YEJ7B23ZoYOsthXYcWlLoaBrKhDOLBdqJiNr6W1ROkgnX5WTeVtlvrAM8Vje4MR
+         gtfjsfCzlDkEbgSb1gPTH3aS0aUgPrhNHfDOBUmxpzC+/jo9Qf8hiwD4ZPQYHsgigB
+         mQKFv8GgYIvPYqY4KNq7R8dD1Z4GpH0JGirwyW2kAKNayYrVH3lLfgqWSZWXcB4DXQ
+         B39SHV5YJbatbFOg9F0MviUPG4JnJcAsHxO/ZMemry+6z3Uhivu8+7uk9KVhzFDE0W
+         R7RRPFSfeuk5xKIKmUZwUbDtWjwuSmkAUTdoYfZj2+8fie0zL9WMiw2gbpfi+sLvp9
+         zX4rHULkHPTDA==
+Subject: Re: [PATCH v4 0/3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200306163935.805333-1-niklas.soderlund@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <30dd9788-707d-cb49-b61a-d499fee2d477@xs4all.nl>
+Date:   Mon, 9 Mar 2020 14:25:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200306163935.805333-1-niklas.soderlund@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfBYZ6WWAwA9lLBC3PKJ8LkpEuRakzd2M72gQLv3CYXLxiKj60vtxTWXb9RygZX/M2GHT/+4X8nTrL5/kSjb9P6eRpzUoW/ikIQzOpdgPOoKdZFNhHHo5
+ wtBYqabNVTUhUJuP2dXxR414uIS9MhzAUXrMonFjXoubVZjt9EviJ7K2977dKuqaAGYHhmqYXIXzMk0zPGyPL1iJ9FRP5EYhxLnBthyiEJwsAneZwJ/OS30i
+ 0e3Yvw4nkse5pDQD0M1Exe+Zfao/AwL3C5a+fJBLGiXus0AN/q2Y6Zo+9U+RYGyqmY8s4tNuB144xnIBjWZWtprEmqPHobuClqHzJPVDBpQo5W6nT7MgDIJ/
+ 6p1ZRDYZ0TobrXx+mwurP0NNqUCIFoRwoOqLH6xc3kUaw4M8Diw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On 3/6/20 5:39 PM, Niklas Söderlund wrote:
+> Hi,
+> 
+> This series aims to reduce the amount of boiler plate code in video
+> device drivers who's inputs and/or outputs are controlled by the Media
+> Controller instead of the V4L2 API.
+> 
+> Patch 1/3 adds a new video device capability flag V4L2_CAP_IO_MC which
+> if set provides helper implementations for the enum inputs and outputs
+> ioctrls freeing the video device driver from the need to implement them.
+> 
+> Patch 2/3 and 3/3 converts the R-Car VIN and Intel IPU3 drivers to use 
+> the new default handlers and capability flag and delete the now  
+> redundant boiler plate code. I'm sure more video device drivers
+> can make use of this new flag but as I can only test on these two
+> platforms I have limited my changes to those.
 
-Here is take 2 of the 64 bit scancodes and the last set for v5.7.
+Can you add a patch that sets this for vimc as well? That's easy to test,
+and helps adding compliance tests for this to v4l2-compliance.
 
-Thanks
-Sean
+Regards,
 
-The following changes since commit 00c43088aa680989407b6afbda295f67b3f123f1:
+	Hans
 
-  media: meson: vdec: add VP9 decoder support (2020-03-05 23:05:34 +0100)
+> 
+> Niklas Söderlund (3):
+>   v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+>   rcar-vin: Make use of V4L2_CAP_IO_MC
+>   staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
+> 
+>  .../media/uapi/v4l/vidioc-querycap.rst        |  6 ++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c   | 17 +-----
+>  drivers/media/v4l2-core/v4l2-dev.c            | 25 ++++++--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 57 ++++++++++++++++--
+>  drivers/staging/media/ipu3/ipu3-v4l2.c        | 60 +------------------
+>  include/uapi/linux/videodev2.h                |  2 +
+>  7 files changed, 84 insertions(+), 84 deletions(-)
+> 
 
-are available in the Git repository at:
-
-  git://linuxtv.org/syoung/media_tree.git tags/v5.7b
-
-for you to fetch changes up to 96229c08e89ca048200c2171d99f03228996fd40:
-
-  media: lmedm04: remove redundant assignment to variable gate (2020-03-09 12:43:08 +0000)
-
-----------------------------------------------------------------
-v5.7b
-
-----------------------------------------------------------------
-Brad Love (3):
-      m88ds3103: Add support for ds3103b demod
-      em28xx: Enable Hauppauge 461e rev2
-      dw2102: probe for demodulator i2c address
-
-Colin Ian King (2):
-      media: tda10071: fix unsigned sign extension overflow
-      media: lmedm04: remove redundant assignment to variable gate
-
-Sean Young (1):
-      media: rc: make scancodes 64 bit
-
- drivers/media/dvb-frontends/m88ds3103.c      | 466 ++++++++++++++++++++++++++-
- drivers/media/dvb-frontends/m88ds3103_priv.h |  14 +-
- drivers/media/dvb-frontends/tda10071.c       |   9 +-
- drivers/media/rc/bpf-lirc.c                  |   5 -
- drivers/media/rc/lirc_dev.c                  |   7 +-
- drivers/media/rc/rc-main.c                   |  80 +++--
- drivers/media/usb/dvb-usb-v2/lmedm04.c       |   5 +-
- drivers/media/usb/dvb-usb/dw2102.c           |  45 ++-
- drivers/media/usb/em28xx/em28xx-cards.c      |  18 ++
- drivers/media/usb/em28xx/em28xx-dvb.c        |  60 ++++
- drivers/media/usb/em28xx/em28xx.h            |   1 +
- include/media/rc-core.h                      |   8 +-
- include/media/rc-map.h                       |   4 +-
- 13 files changed, 660 insertions(+), 62 deletions(-)
