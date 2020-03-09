@@ -2,158 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AE4F17EB05
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 22:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0752217EBAC
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 23:07:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbgCIVUC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 17:20:02 -0400
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:39170 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbgCIVUC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 17:20:02 -0400
-Received: by mail-yw1-f67.google.com with SMTP id x184so11652284ywd.6
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 14:20:01 -0700 (PDT)
+        id S1727193AbgCIWH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 18:07:26 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:42349 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727083AbgCIWH0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 18:07:26 -0400
+Received: by mail-yw1-f68.google.com with SMTP id v138so11763492ywa.9
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 15:07:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rbdPktGGdhSa0fdAltZGMNjLk0feQx2/0Wzgw4gLSJ0=;
-        b=vzGjtdrImJJq1vkc6W31Pey18zIS7hxBMoHk1Gtg3sQy9b55uMGT6CycSIHlZuQLNk
-         QpJ5EHvr1BSKZQtMbKWO5KPTa4+ZZsV1byLQIZdnU7veoTiMWyBHa4z+dfdaQvo0kXXX
-         w0akyXnEzOD7PFPy8pufrAK0quaVQ4vzn5sr6VI2ZGIu0svHtrZzdI3omEBLZnyi+f3s
-         /vEeBPfrRs3A4xYd0FwAoUJp977ZFxisEbhNf17s6mj8PUFqTkZrsObqty3hbWalgj52
-         t+7OYVo2J3/9uI/gRUIpCBQWuugpLZc8DqeX2oJFbISwHFHstzV7lblDUv0hW8pc9SoW
-         lKNA==
+        bh=C2C2IyR8ADVQXo6q1zpX2vt9Gg5duZt3BO1njA9FKss=;
+        b=hzKtLxXOYKMEfxDYep/kUlMuXGnaSBQQwbXE0PdylQNjl880YZVe5LQnjdkKWRBeRe
+         1krPhRDjkJBW54vBntLvB/5tAcvcz4+j9o2Kqq5WWqJkbr92goEQplWBUtZ6y7+fOfCr
+         RNgupV59pQcE5IMLuCkj8vnYNz9cCwS8Z89LQSEzBV+weHY0mPKdyxu9CIQOx3bc1SVT
+         o8z5UwdXavYLslQShe+bYedaNiocKz8P2hPQ68OBGxacOuL/mp4rKyYt0boE4Ya0U8+n
+         zzIsSrHkQkJ+tgTU18rZn4hZYkkQV/ia4sLAXR4KoZ/IUov85T2zM59XpzLYPiqakz+Q
+         DTpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rbdPktGGdhSa0fdAltZGMNjLk0feQx2/0Wzgw4gLSJ0=;
-        b=UJSs0eXIfyhxO1QG59a8zSw96EDivz/g//vQWA4I8jlT7vHvCtGJI3x2G/6hGIfeaL
-         GjM4S1B8FyBGgf2ZZA6P3TOxnNGVFTXMSdPJow0Dbv40raN3AfwzI7i7n/hHMMDIguH5
-         DSzN06ciiugR68g57p/KEQPczRGLrLh9IgEKr8nQnpB3lMUYVcnqjM8uSEJUdGEeJZb6
-         ULDm2mxGtOoqUnhNwZfsdnHCcczZ4THFKvLok/nEirLTr/iWFuPzxzf+/6QqHaFuPAmn
-         c0mwduXAoZNAqcvd1OqbO5OOOK65A89YoGwBUeBpuR4XJlSAgmfGtJeixaqNvW/nnD3G
-         DJFQ==
-X-Gm-Message-State: ANhLgQ2hk7Fc/LEC5qoJJI53GHiQ5D5zxzmWEdu9cRLz92itoQDqkPJe
-        M2E+k4n97IhPr3u9ZRe/Ex9xTehPgPdi7St6NOnRj0qIrw==
-X-Google-Smtp-Source: ADFU+vuS2ei1/C80RpZzwWQjQTqIjynwNBZ+QPy5vXasEbidU7tUyFh4qkppSfdPPZnycOFxArLUmVt89jDHKpWBMcE=
-X-Received: by 2002:a25:aa03:: with SMTP id s3mr18796052ybi.499.1583788800218;
- Mon, 09 Mar 2020 14:20:00 -0700 (PDT)
+        bh=C2C2IyR8ADVQXo6q1zpX2vt9Gg5duZt3BO1njA9FKss=;
+        b=acGEzMIc89aIUTq6mdRA+wcmsig7OrAq1TdjJs+90R92AZdtvnOQKgvv73JDmoHEtQ
+         fFf8n8I/8WnAHpuEe9X3bdOXrbmOhgJIMbfg4WRF09oYRHLmE7u5DbFXNwiprDc5iflo
+         L000myRAw6nVS5fjAlEtHKi1r1nV62zxyuYkIt0eREFXNqAH3OKGQRCBGa+3mtsdMUWn
+         cOebbfzhc02nCcIlIR4jLtn4XXxbnZVu+6W+AoXZDYtGq0NGs80FVaANf6/IYq0k1ScZ
+         S9RiQXjHGxv8QEVyER6Lb+waUFBgLlC1MyyZ3V/NKwLDDCuz56ExzrP3XQQpKey8LWt7
+         /0EQ==
+X-Gm-Message-State: ANhLgQ07X5TdwMX4x4JSwvltUs2zyp3vPIz6dH0YlkI/YUuqPgzJ6E7L
+        Ts51uj8EkDcjRVukTeAqDNM0vAv1FTTMGVVC0c36
+X-Google-Smtp-Source: ADFU+vuoelPKbp3P8CWhPi+RqgvmvUoBO9h7BgOIMQhjAKzFvKXLYQa4eBwhg4rbdH3YDsQPttGT9D8NPxUlkVKEdMw=
+X-Received: by 2002:a0d:ddc7:: with SMTP id g190mr19393852ywe.147.1583791643313;
+ Mon, 09 Mar 2020 15:07:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200306002321.3344-1-jkardatzke@google.com> <892a0548-df6d-a4db-921f-7f4cfd69dc06@linaro.org>
- <CA+ddPcPg_LrxdgxhOjrzkkBBawWoP0+6ijBx6CSy+CpQtP6vbQ@mail.gmail.com> <7edd7feb-80d2-de8b-44cd-84ee63201ab5@linaro.org>
-In-Reply-To: <7edd7feb-80d2-de8b-44cd-84ee63201ab5@linaro.org>
+References: <1583472756-7611-1-git-send-email-mansur@codeaurora.org> <CAPBb6MW-zxK+=HHUP5=+pO4Mswkhm=hDX7V56ABDm+BCzDaGHg@mail.gmail.com>
+In-Reply-To: <CAPBb6MW-zxK+=HHUP5=+pO4Mswkhm=hDX7V56ABDm+BCzDaGHg@mail.gmail.com>
 From:   Jeffrey Kardatzke <jkardatzke@google.com>
-Date:   Mon, 9 Mar 2020 14:19:48 -0700
-Message-ID: <CA+ddPcNr7e8-+sCWQFHeFj=j3fr-KSCPYxYMCGzE+_VR78SZwg@mail.gmail.com>
-Subject: Re: [PATCH] media: venus: fix use after free for registeredbufs
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 9 Mar 2020 15:07:11 -0700
+Message-ID: <CA+ddPcNdC4r3XBd+dQmv2oHwF6MA3bTJrWZZpJthruBQR_THBA@mail.gmail.com>
+Subject: Re: [PATCH] venus: avoid extra locking in driver
+To:     Alexandre Courbot <acourbot@chromium.org>
+Cc:     Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Mar 7, 2020 at 9:24 AM Stanimir Varbanov
-<stanimir.varbanov@linaro.org> wrote:
+On Thu, Mar 5, 2020 at 11:50 PM Alexandre Courbot <acourbot@chromium.org> wrote:
 >
-> Hi Jeff,
->
-> On 3/6/20 10:10 PM, Jeffrey Kardatzke wrote:
-> > On Fri, Mar 6, 2020 at 1:03 AM Stanimir Varbanov
-> > <stanimir.varbanov@linaro.org> wrote:
-> >>
-> >> Hi Jeff,
-> >>
-> >> Thanks for the patch!
-> >>
-> >> On 3/6/20 2:23 AM, Jeffrey Kardatzke wrote:
-> >>> In dynamic bufmode we do not manage the buffers in the registeredbufs
-> >>> list, so do not add them there when they are initialized. Adding them
-> >>> there was causing a use after free of the list_head struct in the buffer
-> >>> when new buffers were allocated after existing buffers were freed.
-> >>
-> >> Is this fixing a real issue? How you come to it?
-> >>
-> > In our code we were allocating 64x64 capture queue buffers initially,
-> > then got a resolution change event for the actual video resolution of
-> > 320x256 so we freed all the existing capture buffers and allocated new
-> > ones. I had noticed memory poisoning warnings in dmesg and tracked it
-> > down to the patch I created here. This is only a problem when the
-> > capture queue has its buffers freed and reallocated (which would
-> > happen during any resolution change).
->
-> Do you call STREAMOFF(CAPTURE) ?
->
-
-Yes, we call STREAMOFF before we destroy the existing buffers and
-allocate new ones.
-
-> Better, could you share v4l2 debug logs:
->
-> echo 0x3f > /sys/class/video4linux/videoX/dev_debug
->
-
-I'll email you these off list since they are rather large.
-
+> On Fri, Mar 6, 2020 at 2:34 PM Mansur Alisha Shaik
+> <mansur@codeaurora.org> wrote:
 > >
-> >>>
-> >>> Signed-off-by: Jeffrey Kardatzke <jkardatzke@google.com>
-> >>> ---
-> >>>  drivers/media/platform/qcom/venus/helpers.c | 4 +++-
-> >>>  1 file changed, 3 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> >>> index bcc603804041..688a3593b49b 100644
-> >>> --- a/drivers/media/platform/qcom/venus/helpers.c
-> >>> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> >>> @@ -1054,8 +1054,10 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
-> >>>       buf->size = vb2_plane_size(vb, 0);
-> >>>       buf->dma_addr = sg_dma_address(sgt->sgl);
-> >>>
-> >>> -     if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> >>> +     if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
-> >>> +         !is_dynamic_bufmode(inst)) {
-> >>
-> >> If you add !is_dynamic_bufmode here, we will loose the reference frames
-> >> mechanism (see venus_helper_release_buf_ref()) which is not good.
-> >
-> > In my testing, I never see venus_helper_release_buf_ref called.  I
-> > think something is wrong with reference frame management. I'm also
+> > This change will avoid extra locking in driver.
 >
-> The mechanism is valid for Venus v1 and v3, might be you tried on v4
-> where we have a set of DPB buffers and use them for reference frames.
->
+> Could you elaborate a bit more on the problem that this patch solves?
 
-We are using V4.
+For us it fixes a kernel null deref that happens when we run the
+MultipleEncoders test (I've verified this to be true).
 
-> > seeing failure in my tests that very much look like reference frames
-> > that were dropped in the decoder (with or without my patch); but they
-> > are not consistent.
-> >
-> >>
-> >> Thus, I wonder (depending on when you observe the use-after-free issue)
-> >> does this is the correct resolution of the problem.
-> >
-> > I agree this is likely not the right solution to the problem, there's
-> > something deeper that's wrong I think because I never see events
-> > coming back from hfi with the release buffer reference event.
-> >>
-> >>>               list_add_tail(&buf->reg_list, &inst->registeredbufs);
-> >>> +     }
-> >>>
-> >>>       return 0;
-> >>>  }
-> >>>
-> >>
-> >> --
-> >> regards,
-> >> Stan
 >
-> --
-> regards,
-> Stan
+> >
+> > Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> > ---
+> >  drivers/media/platform/qcom/venus/core.c       |  2 +-
+> >  drivers/media/platform/qcom/venus/core.h       |  2 +-
+> >  drivers/media/platform/qcom/venus/helpers.c    | 11 +++++++++--
+> >  drivers/media/platform/qcom/venus/pm_helpers.c |  8 ++++----
+> >  4 files changed, 15 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> > index 194b10b9..75d38b8 100644
+> > --- a/drivers/media/platform/qcom/venus/core.c
+> > +++ b/drivers/media/platform/qcom/venus/core.c
+> > @@ -447,7 +447,7 @@ static const struct freq_tbl sdm845_freq_table[] = {
+> >         {  244800, 100000000 }, /* 1920x1080@30 */
+> >  };
+> >
+> > -static struct codec_freq_data sdm845_codec_freq_data[] =  {
+> > +static const struct codec_freq_data sdm845_codec_freq_data[] =  {
+> >         { V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> >         { V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> >         { V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> > diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> > index ab7c360..8c8d0e9 100644
+> > --- a/drivers/media/platform/qcom/venus/core.h
+> > +++ b/drivers/media/platform/qcom/venus/core.h
+> > @@ -245,7 +245,7 @@ struct venus_buffer {
+> >  struct clock_data {
+> >         u32 core_id;
+> >         unsigned long freq;
+> > -       const struct codec_freq_data *codec_freq_data;
+> > +       struct codec_freq_data codec_freq_data;
+> >  };
+> >
+> >  #define to_venus_buffer(ptr)   container_of(ptr, struct venus_buffer, vb)
+> > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> > index bcc6038..550c4ff 100644
+> > --- a/drivers/media/platform/qcom/venus/helpers.c
+> > +++ b/drivers/media/platform/qcom/venus/helpers.c
+> > @@ -807,6 +807,7 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+> >         unsigned int i, data_size;
+> >         u32 pixfmt;
+> >         int ret = 0;
+> > +       bool found = false;
+> >
+> >         if (!IS_V4(inst->core))
+> >                 return 0;
+> > @@ -816,16 +817,22 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+> >         pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
+> >                         inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
+> >
+> > +       memset(&inst->clk_data.codec_freq_data, 0,
+> > +               sizeof(inst->clk_data.codec_freq_data));
+> > +
+> >         for (i = 0; i < data_size; i++) {
+> >                 if (data[i].pixfmt == pixfmt &&
+> >                     data[i].session_type == inst->session_type) {
+> > -                       inst->clk_data.codec_freq_data = &data[i];
+> > +                       inst->clk_data.codec_freq_data = data[i];
+>
+> From the patch I'd infer that inst->clk_data.codec_freq_data needs to
+> change at runtime. Is this what happens? Why? I'd expect that
+> frequency tables remain constant, and thus that the global
+> sdm845_codec_freq_data can remain constant while
+> clock_data::codec_freq_data is a const reference to it. What prevents
+> this from happening?
+>
+> > +                       found = true;
+> >                         break;
+> >                 }
+> >         }
+> >
+> > -       if (!inst->clk_data.codec_freq_data)
+> > +       if (!found) {
+> > +               dev_err(inst->core->dev, "cannot find codec freq data\n");
+> >                 ret = -EINVAL;
+> > +       }
+> >
+> >         return ret;
+> >  }
+> > diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> > index abf9315..240845e 100644
+> > --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> > +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> > @@ -496,7 +496,7 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
+> >         list_for_each_entry(inst_pos, &core->instances, list) {
+> >                 if (inst_pos == inst)
+> >                         continue;
+> > -               vpp_freq = inst_pos->clk_data.codec_freq_data->vpp_freq;
+> > +               vpp_freq = inst_pos->clk_data.codec_freq_data.vpp_freq;
+
+This is the main thing it fixes (this is where the null deref occurs).
+If there's multiple instances in use and the other instance hasn't
+populated the codec_freq_data pointer then we'll hit a null deref
+here.
+
+> >                 coreid = inst_pos->clk_data.core_id;
+> >
+> >                 mbs_per_sec = load_per_instance(inst_pos);
+> > @@ -545,7 +545,7 @@ static int decide_core(struct venus_inst *inst)
+> >                 return 0;
+> >
+> >         inst_load = load_per_instance(inst);
+> > -       inst_load *= inst->clk_data.codec_freq_data->vpp_freq;
+> > +       inst_load *= inst->clk_data.codec_freq_data.vpp_freq;
+> >         max_freq = core->res->freq_tbl[0].freq;
+> >
+> >         min_loaded_core(inst, &min_coreid, &min_load);
+> > @@ -848,10 +848,10 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+> >
+> >         mbs_per_sec = load_per_instance(inst) / fps;
+> >
+> > -       vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
+> > +       vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data.vpp_freq;
+> >         /* 21 / 20 is overhead factor */
+> >         vpp_freq += vpp_freq / 20;
+> > -       vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vsp_freq;
+> > +       vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data.vsp_freq;
+> >
+> >         /* 10 / 7 is overhead factor */
+> >         if (inst->session_type == VIDC_SESSION_TYPE_ENC)
+> > --
+> > 2.7.4
+> >
+
+
+
+-- 
+Jeffrey Kardatzke
+jkardatzke@google.com
+Google, Inc.
