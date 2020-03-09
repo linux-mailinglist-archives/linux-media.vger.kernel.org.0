@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4AA817E1A2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 14:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 028C817E1AD
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 14:52:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbgCINrx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 09:47:53 -0400
-Received: from mga04.intel.com ([192.55.52.120]:25459 "EHLO mga04.intel.com"
+        id S1726643AbgCINwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 09:52:37 -0400
+Received: from mga06.intel.com ([134.134.136.31]:38105 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726582AbgCINrx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Mar 2020 09:47:53 -0400
+        id S1726528AbgCINwh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Mar 2020 09:52:37 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 06:47:52 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 06:52:35 -0700
 X-IronPort-AV: E=Sophos;i="5.70,533,1574150400"; 
-   d="scan'208";a="414811415"
+   d="scan'208";a="241975188"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 06:47:49 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 06:52:33 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id ACA5720AC3; Mon,  9 Mar 2020 15:47:47 +0200 (EET)
-Date:   Mon, 9 Mar 2020 15:47:47 +0200
+        id B61DE20AC3; Mon,  9 Mar 2020 15:52:31 +0200 (EET)
+Date:   Mon, 9 Mar 2020 15:52:31 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund@ragnatech.se>
@@ -33,7 +33,7 @@ Cc:     Helen Koike <helen.koike@collabora.com>,
         Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Subject: Re: [PATCH v4 1/3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
-Message-ID: <20200309134747.GT5379@paasikivi.fi.intel.com>
+Message-ID: <20200309135231.GU5379@paasikivi.fi.intel.com>
 References: <20200306163935.805333-1-niklas.soderlund@ragnatech.se>
  <20200306163935.805333-2-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
@@ -48,8 +48,6 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Niklas,
-
-Thanks for the update!
 
 On Fri, Mar 06, 2020 at 05:39:33PM +0100, Niklas Söderlund wrote:
 > From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
@@ -134,6 +132,16 @@ On Fri, Mar 06, 2020 at 05:39:33PM +0100, Niklas Söderlund wrote:
 > -			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
 > -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
 > +			if (is_io_mc) {
+
+One more comment.
+
+I'd make this dependent on the device node type, i.e. devices with
+meta_caps set, the IOCTLs won't be supported.
+
+So the check would become:
+
+			if (is_io_mc && !is_meta)
+
 > +				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
 > +				set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
 > +				set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
@@ -145,166 +153,6 @@ On Fri, Mar 06, 2020 at 05:39:33PM +0100, Niklas Söderlund wrote:
 >  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
 >  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
 >  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
-> @@ -735,9 +742,15 @@ static void determine_valid_ioctls(struct video_device *vdev)
->  			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
->  		}
->  		if (is_tx) {
-> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-> -			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-> -			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-> +			if (is_io_mc) {
-> +				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
-> +				set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
-> +				set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
-> +			} else {
-> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-> +				SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-> +				SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-> +			}
->  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
->  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
->  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index fbcc7a20eedf553a..58e9e728f0a7aa4b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1085,6 +1085,32 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
->  	return ret;
->  }
->  
-> +static int v4l_g_input(const struct v4l2_ioctl_ops *ops,
-> +		       struct file *file, void *fh, void *arg)
-> +{
-> +	struct video_device *vfd = video_devdata(file);
-> +
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> +		*(unsigned int *)arg = 0;
-> +		return 0;
-> +	}
-> +
-> +	return ops->vidioc_g_input(file, fh, arg);
-> +}
-> +
-> +static int v4l_g_output(const struct v4l2_ioctl_ops *ops,
-> +		       struct file *file, void *fh, void *arg)
-> +{
-> +	struct video_device *vfd = video_devdata(file);
-> +
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> +		*(unsigned int *)arg = 0;
-> +		return 0;
-> +	}
-> +
-> +	return ops->vidioc_g_output(file, fh, arg);
-> +}
-> +
->  static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
->  				struct file *file, void *fh, void *arg)
->  {
-> @@ -1094,12 +1120,21 @@ static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
->  	ret = v4l_enable_media_source(vfd);
->  	if (ret)
->  		return ret;
-> +
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
-> +		return  *(unsigned int *)arg ? -EINVAL : 0;
-> +
->  	return ops->vidioc_s_input(file, fh, *(unsigned int *)arg);
->  }
->  
->  static int v4l_s_output(const struct v4l2_ioctl_ops *ops,
->  				struct file *file, void *fh, void *arg)
->  {
-> +	struct video_device *vfd = video_devdata(file);
-> +
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
-> +		return  *(unsigned int *)arg ? -EINVAL : 0;
-
-The type is int, not unsigned int. The same on the rest above.
-
-> +
->  	return ops->vidioc_s_output(file, fh, *(unsigned int *)arg);
->  }
->  
-> @@ -1143,6 +1178,14 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
->  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
->  		p->capabilities |= V4L2_IN_CAP_STD;
->  
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> +		if (p->index)
-> +			return -EINVAL;
-> +		strscpy(p->name, vfd->name, sizeof(p->name));
-> +		p->type = V4L2_INPUT_TYPE_CAMERA;
-> +		return 0;
-> +	}
-> +
->  	return ops->vidioc_enum_input(file, fh, p);
->  }
->  
-> @@ -1161,6 +1204,14 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
->  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
->  		p->capabilities |= V4L2_OUT_CAP_STD;
->  
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> +		if (p->index)
-> +			return -EINVAL;
-> +		strscpy(p->name, vfd->name, sizeof(p->name));
-> +		p->type = V4L2_OUTPUT_TYPE_ANALOG;
-
-How about adding a new INPUT and OUTPUT types just for IO_MC device cap?
-
-This isn't necessarily a camera nor analogue output...
-
-With these,
-
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-> +		return 0;
-> +	}
-> +
->  	return ops->vidioc_enum_output(file, fh, p);
->  }
->  
-> @@ -2678,10 +2729,8 @@ DEFINE_V4L_STUB_FUNC(expbuf)
->  DEFINE_V4L_STUB_FUNC(g_std)
->  DEFINE_V4L_STUB_FUNC(g_audio)
->  DEFINE_V4L_STUB_FUNC(s_audio)
-> -DEFINE_V4L_STUB_FUNC(g_input)
->  DEFINE_V4L_STUB_FUNC(g_edid)
->  DEFINE_V4L_STUB_FUNC(s_edid)
-> -DEFINE_V4L_STUB_FUNC(g_output)
->  DEFINE_V4L_STUB_FUNC(g_audout)
->  DEFINE_V4L_STUB_FUNC(s_audout)
->  DEFINE_V4L_STUB_FUNC(g_jpegcomp)
-> @@ -2730,11 +2779,11 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
->  	IOCTL_INFO(VIDIOC_S_AUDIO, v4l_stub_s_audio, v4l_print_audio, INFO_FL_PRIO),
->  	IOCTL_INFO(VIDIOC_QUERYCTRL, v4l_queryctrl, v4l_print_queryctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_queryctrl, id)),
->  	IOCTL_INFO(VIDIOC_QUERYMENU, v4l_querymenu, v4l_print_querymenu, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_querymenu, index)),
-> -	IOCTL_INFO(VIDIOC_G_INPUT, v4l_stub_g_input, v4l_print_u32, 0),
-> +	IOCTL_INFO(VIDIOC_G_INPUT, v4l_g_input, v4l_print_u32, 0),
->  	IOCTL_INFO(VIDIOC_S_INPUT, v4l_s_input, v4l_print_u32, INFO_FL_PRIO),
->  	IOCTL_INFO(VIDIOC_G_EDID, v4l_stub_g_edid, v4l_print_edid, INFO_FL_ALWAYS_COPY),
->  	IOCTL_INFO(VIDIOC_S_EDID, v4l_stub_s_edid, v4l_print_edid, INFO_FL_PRIO | INFO_FL_ALWAYS_COPY),
-> -	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_stub_g_output, v4l_print_u32, 0),
-> +	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_g_output, v4l_print_u32, 0),
->  	IOCTL_INFO(VIDIOC_S_OUTPUT, v4l_s_output, v4l_print_u32, INFO_FL_PRIO),
->  	IOCTL_INFO(VIDIOC_ENUMOUTPUT, v4l_enumoutput, v4l_print_enumoutput, INFO_FL_CLEAR(v4l2_output, index)),
->  	IOCTL_INFO(VIDIOC_G_AUDOUT, v4l_stub_g_audout, v4l_print_audioout, 0),
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 5f9357dcb0602126..c793263a37052856 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -487,6 +487,8 @@ struct v4l2_capability {
->  
->  #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
->  
-> +#define V4L2_CAP_IO_MC			0x20000000  /* Is input/output controlled by the media controller */
-> +
->  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
->  
->  /*
 
 -- 
-Kind regards,
-
 Sakari Ailus
