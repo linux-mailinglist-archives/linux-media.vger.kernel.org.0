@@ -2,38 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16F3A17FF10
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2794817FF22
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:44:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727892AbgCJNoM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 09:44:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37690 "EHLO mail.kernel.org"
+        id S1727380AbgCJNoL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 09:44:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37590 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727212AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1727206AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 10 Mar 2020 09:43:19 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3E5A524698;
+        by mail.kernel.org (Postfix) with ESMTPSA id 68419246AA;
         Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583847797;
-        bh=4+B04di+ImH/vlBfTaF8o7ROuooQlaTXMKeOjYPvbZ0=;
+        bh=E8QkjHVkzOcpMzAbxGJQTzkpHIqmt5HiFJokGy90umg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PwxnEus2d9/cMGC/4JgEr/oWPLzoLtervaJbceu9L7sYfaOSbfa+x9OgTfblGt8eZ
-         eou0oiv6FFgYrrDlb0F35iJAZrIJxrfOvwf4p8U6Xe1r8K4bR/hdcWOgOE1as1YBlN
-         jVc9t306Er9RoSxfGoy2NrBIr2oNo+eh4ybXTcxE=
+        b=1fsorBq9m4u8TSGUhgE7YDg4bocLSDsZCkOBBLiKF7xc0o4IUXDlUrth4mwUpCTB7
+         nwDVR3Og3/3jap8Yq4/BNLay6ifrDiRXwDqSDHFVH5RR7pMJl14Xs8sjkriSZqjYu2
+         zIIQSbKzlahHqKg2MDkaNZiXku9SpxfJCKf3GJlY=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jBfAB-0005wG-DF; Tue, 10 Mar 2020 14:43:15 +0100
+        id 1jBfAB-0005wK-EA; Tue, 10 Mar 2020 14:43:15 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2 14/22] media: docs: split uAPI info from omap3isp.rst
-Date:   Tue, 10 Mar 2020 14:43:05 +0100
-Message-Id: <86b6cdeb47344b5833d5e4515ce4ec1b2e82d9c5.1583847556.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 15/22] media: docs: split uAPI info from imx.rst
+Date:   Tue, 10 Mar 2020 14:43:06 +0100
+Message-Id: <da5a18aa27c564cdb4fa6f84026be1c72c1a877c.1583847556.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
 References: <cover.1583847556.git.mchehab+huawei@kernel.org>
@@ -51,453 +56,260 @@ Split on two, as they're usually read by different audiences.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/media/v4l-drivers/index.rst     |   1 +
- .../media/v4l-drivers/omap3isp-uapi.rst       | 208 ++++++++++++++++++
- Documentation/media/v4l-drivers/omap3isp.rst  | 196 +----------------
- 3 files changed, 211 insertions(+), 194 deletions(-)
- create mode 100644 Documentation/media/v4l-drivers/omap3isp-uapi.rst
+ Documentation/media/v4l-drivers/imx-uapi.rst | 125 +++++++++++++++++++
+ Documentation/media/v4l-drivers/imx.rst      |  88 +------------
+ Documentation/media/v4l-drivers/index.rst    |   1 +
+ 3 files changed, 128 insertions(+), 86 deletions(-)
+ create mode 100644 Documentation/media/v4l-drivers/imx-uapi.rst
 
-diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
-index 6fdfd9a41913..364c65ea86fb 100644
---- a/Documentation/media/v4l-drivers/index.rst
-+++ b/Documentation/media/v4l-drivers/index.rst
-@@ -76,3 +76,4 @@ For more details see the file COPYING in the source distribution of Linux.
- 
- 	cx2341x-uapi
- 	meye-uapi
-+	omap3isp-uapi
-diff --git a/Documentation/media/v4l-drivers/omap3isp-uapi.rst b/Documentation/media/v4l-drivers/omap3isp-uapi.rst
+diff --git a/Documentation/media/v4l-drivers/imx-uapi.rst b/Documentation/media/v4l-drivers/imx-uapi.rst
 new file mode 100644
-index 000000000000..5f966a874a3c
+index 000000000000..8d47712dea9f
 --- /dev/null
-+++ b/Documentation/media/v4l-drivers/omap3isp-uapi.rst
-@@ -0,0 +1,208 @@
++++ b/Documentation/media/v4l-drivers/imx-uapi.rst
+@@ -0,0 +1,125 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. include:: <isonum.txt>
-+
-+OMAP 3 Image Signal Processor (ISP) driver
-+==========================================
-+
-+Copyright |copy| 2010 Nokia Corporation
-+
-+Copyright |copy| 2009 Texas Instruments, Inc.
-+
-+Contacts: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-+Sakari Ailus <sakari.ailus@iki.fi>, David Cohen <dacohen@gmail.com>
-+
++=========================
++i.MX Video Capture Driver
++=========================
 +
 +Events
-+------
++======
 +
-+The OMAP 3 ISP driver does support the V4L2 event interface on CCDC and
-+statistics (AEWB, AF and histogram) subdevs.
++.. _imx_api_ipuX_csiY:
 +
-+The CCDC subdev produces V4L2_EVENT_FRAME_SYNC type event on HS_VS
-+interrupt which is used to signal frame start. Earlier version of this
-+driver used V4L2_EVENT_OMAP3ISP_HS_VS for this purpose. The event is
-+triggered exactly when the reception of the first line of the frame starts
-+in the CCDC module. The event can be subscribed on the CCDC subdev.
++ipuX_csiY
++---------
 +
-+(When using parallel interface one must pay account to correct configuration
-+of the VS signal polarity. This is automatically correct when using the serial
-+receivers.)
++This subdev can generate the following event when enabling the second
++IDMAC source pad:
 +
-+Each of the statistics subdevs is able to produce events. An event is
-+generated whenever a statistics buffer can be dequeued by a user space
-+application using the VIDIOC_OMAP3ISP_STAT_REQ IOCTL. The events available
-+are:
++- V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR
 +
-+- V4L2_EVENT_OMAP3ISP_AEWB
-+- V4L2_EVENT_OMAP3ISP_AF
-+- V4L2_EVENT_OMAP3ISP_HIST
++The user application can subscribe to this event from the ipuX_csiY
++subdev node. This event is generated by the Frame Interval Monitor
++(see below for more on the FIM).
 +
-+The type of the event data is struct omap3isp_stat_event_status for these
-+ioctls. If there is an error calculating the statistics, there will be an
-+event as usual, but no related statistics buffer. In this case
-+omap3isp_stat_event_status.buf_err is set to non-zero.
++Controls
++========
 +
++.. _imx_api_FIM:
 +
-+Private IOCTLs
-+--------------
++Frame Interval Monitor in ipuX_csiY
++-----------------------------------
 +
-+The OMAP 3 ISP driver supports standard V4L2 IOCTLs and controls where
-+possible and practical. Much of the functions provided by the ISP, however,
-+does not fall under the standard IOCTLs --- gamma tables and configuration of
-+statistics collection are examples of such.
++The adv718x decoders can occasionally send corrupt fields during
++NTSC/PAL signal re-sync (too little or too many video lines). When
++this happens, the IPU triggers a mechanism to re-establish vertical
++sync by adding 1 dummy line every frame, which causes a rolling effect
++from image to image, and can last a long time before a stable image is
++recovered. Or sometimes the mechanism doesn't work at all, causing a
++permanent split image (one frame contains lines from two consecutive
++captured images).
 +
-+In general, there is a private ioctl for configuring each of the blocks
-+containing hardware-dependent functions.
++From experiment it was found that during image rolling, the frame
++intervals (elapsed time between two EOF's) drop below the nominal
++value for the current standard, by about one frame time (60 usec),
++and remain at that value until rolling stops.
 +
-+The following private IOCTLs are supported:
++While the reason for this observation isn't known (the IPU dummy
++line mechanism should show an increase in the intervals by 1 line
++time every frame, not a fixed value), we can use it to detect the
++corrupt fields using a frame interval monitor. If the FIM detects a
++bad frame interval, the ipuX_csiY subdev will send the event
++V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR. Userland can register with
++the FIM event notification on the ipuX_csiY subdev device node.
++Userland can issue a streaming restart when this event is received
++to correct the rolling/split image.
 +
-+- VIDIOC_OMAP3ISP_CCDC_CFG
-+- VIDIOC_OMAP3ISP_PRV_CFG
-+- VIDIOC_OMAP3ISP_AEWB_CFG
-+- VIDIOC_OMAP3ISP_HIST_CFG
-+- VIDIOC_OMAP3ISP_AF_CFG
-+- VIDIOC_OMAP3ISP_STAT_REQ
-+- VIDIOC_OMAP3ISP_STAT_EN
++The ipuX_csiY subdev includes custom controls to tweak some dials for
++FIM. If one of these controls is changed during streaming, the FIM will
++be reset and will continue at the new settings.
 +
-+The parameter structures used by these ioctls are described in
-+include/linux/omap3isp.h. The detailed functions of the ISP itself related to
-+a given ISP block is described in the Technical Reference Manuals (TRMs) ---
-+see the end of the document for those.
++- V4L2_CID_IMX_FIM_ENABLE
 +
-+While it is possible to use the ISP driver without any use of these private
-+IOCTLs it is not possible to obtain optimal image quality this way. The AEWB,
-+AF and histogram modules cannot be used without configuring them using the
-+appropriate private IOCTLs.
++Enable/disable the FIM.
 +
++- V4L2_CID_IMX_FIM_NUM
 +
-+CCDC and preview block IOCTLs
-+-----------------------------
++How many frame interval measurements to average before comparing against
++the nominal frame interval reported by the sensor. This can reduce noise
++caused by interrupt latency.
 +
-+The VIDIOC_OMAP3ISP_CCDC_CFG and VIDIOC_OMAP3ISP_PRV_CFG IOCTLs are used to
-+configure, enable and disable functions in the CCDC and preview blocks,
-+respectively. Both IOCTLs control several functions in the blocks they
-+control. VIDIOC_OMAP3ISP_CCDC_CFG IOCTL accepts a pointer to struct
-+omap3isp_ccdc_update_config as its argument. Similarly VIDIOC_OMAP3ISP_PRV_CFG
-+accepts a pointer to struct omap3isp_prev_update_config. The definition of
-+both structures is available in [#]_.
++- V4L2_CID_IMX_FIM_TOLERANCE_MIN
 +
-+The update field in the structures tells whether to update the configuration
-+for the specific function and the flag tells whether to enable or disable the
-+function.
++If the averaged intervals fall outside nominal by this amount, in
++microseconds, the V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR event is sent.
 +
-+The update and flag bit masks accept the following values. Each separate
-+functions in the CCDC and preview blocks is associated with a flag (either
-+disable or enable; part of the flag field in the structure) and a pointer to
-+configuration data for the function.
++- V4L2_CID_IMX_FIM_TOLERANCE_MAX
 +
-+Valid values for the update and flag fields are listed here for
-+VIDIOC_OMAP3ISP_CCDC_CFG. Values may be or'ed to configure more than one
-+function in the same IOCTL call.
++If any intervals are higher than this value, those samples are
++discarded and do not enter into the average. This can be used to
++discard really high interval errors that might be due to interrupt
++latency from high system load.
 +
-+- OMAP3ISP_CCDC_ALAW
-+- OMAP3ISP_CCDC_LPF
-+- OMAP3ISP_CCDC_BLCLAMP
-+- OMAP3ISP_CCDC_BCOMP
-+- OMAP3ISP_CCDC_FPC
-+- OMAP3ISP_CCDC_CULL
-+- OMAP3ISP_CCDC_CONFIG_LSC
-+- OMAP3ISP_CCDC_TBL_LSC
++- V4L2_CID_IMX_FIM_NUM_SKIP
 +
-+The corresponding values for the VIDIOC_OMAP3ISP_PRV_CFG are here:
++How many frames to skip after a FIM reset or stream restart before
++FIM begins to average intervals.
 +
-+- OMAP3ISP_PREV_LUMAENH
-+- OMAP3ISP_PREV_INVALAW
-+- OMAP3ISP_PREV_HRZ_MED
-+- OMAP3ISP_PREV_CFA
-+- OMAP3ISP_PREV_CHROMA_SUPP
-+- OMAP3ISP_PREV_WB
-+- OMAP3ISP_PREV_BLKADJ
-+- OMAP3ISP_PREV_RGB2RGB
-+- OMAP3ISP_PREV_COLOR_CONV
-+- OMAP3ISP_PREV_YC_LIMIT
-+- OMAP3ISP_PREV_DEFECT_COR
-+- OMAP3ISP_PREV_GAMMABYPASS
-+- OMAP3ISP_PREV_DRK_FRM_CAPTURE
-+- OMAP3ISP_PREV_DRK_FRM_SUBTRACT
-+- OMAP3ISP_PREV_LENS_SHADING
-+- OMAP3ISP_PREV_NF
-+- OMAP3ISP_PREV_GAMMA
++- V4L2_CID_IMX_FIM_ICAP_CHANNEL / V4L2_CID_IMX_FIM_ICAP_EDGE
 +
-+The associated configuration pointer for the function may not be NULL when
-+enabling the function. When disabling a function the configuration pointer is
-+ignored.
++These controls will configure an input capture channel as the method
++for measuring frame intervals. This is superior to the default method
++of measuring frame intervals via EOF interrupt, since it is not subject
++to uncertainty errors introduced by interrupt latency.
++
++Input capture requires hardware support. A VSYNC signal must be routed
++to one of the i.MX6 input capture channel pads.
++
++V4L2_CID_IMX_FIM_ICAP_CHANNEL configures which i.MX6 input capture
++channel to use. This must be 0 or 1.
++
++V4L2_CID_IMX_FIM_ICAP_EDGE configures which signal edge will trigger
++input capture events. By default the input capture method is disabled
++with a value of IRQ_TYPE_NONE. Set this control to IRQ_TYPE_EDGE_RISING,
++IRQ_TYPE_EDGE_FALLING, or IRQ_TYPE_EDGE_BOTH to enable input capture,
++triggered on the given signal edge(s).
++
++When input capture is disabled, frame intervals will be measured via
++EOF interrupt.
 +
 +
-+Statistic blocks IOCTLs
-+-----------------------
++File list
++---------
 +
-+The statistics subdevs do offer more dynamic configuration options than the
-+other subdevs. They can be enabled, disable and reconfigured when the pipeline
-+is in streaming state.
-+
-+The statistics blocks always get the input image data from the CCDC (as the
-+histogram memory read isn't implemented). The statistics are dequeueable by
-+the user from the statistics subdev nodes using private IOCTLs.
-+
-+The private IOCTLs offered by the AEWB, AF and histogram subdevs are heavily
-+reflected by the register level interface offered by the ISP hardware. There
-+are aspects that are purely related to the driver implementation and these are
-+discussed next.
-+
-+VIDIOC_OMAP3ISP_STAT_EN
-+-----------------------
-+
-+This private IOCTL enables/disables a statistic module. If this request is
-+done before streaming, it will take effect as soon as the pipeline starts to
-+stream.  If the pipeline is already streaming, it will take effect as soon as
-+the CCDC becomes idle.
-+
-+VIDIOC_OMAP3ISP_AEWB_CFG, VIDIOC_OMAP3ISP_HIST_CFG and VIDIOC_OMAP3ISP_AF_CFG
-+-----------------------------------------------------------------------------
-+
-+Those IOCTLs are used to configure the modules. They require user applications
-+to have an in-depth knowledge of the hardware. Most of the fields explanation
-+can be found on OMAP's TRMs. The two following fields common to all the above
-+configure private IOCTLs require explanation for better understanding as they
-+are not part of the TRM.
-+
-+omap3isp_[h3a_af/h3a_aewb/hist]\_config.buf_size:
-+
-+The modules handle their buffers internally. The necessary buffer size for the
-+module's data output depends on the requested configuration. Although the
-+driver supports reconfiguration while streaming, it does not support a
-+reconfiguration which requires bigger buffer size than what is already
-+internally allocated if the module is enabled. It will return -EBUSY on this
-+case. In order to avoid such condition, either disable/reconfigure/enable the
-+module or request the necessary buffer size during the first configuration
-+while the module is disabled.
-+
-+The internal buffer size allocation considers the requested configuration's
-+minimum buffer size and the value set on buf_size field. If buf_size field is
-+out of [minimum, maximum] buffer size range, it's clamped to fit in there.
-+The driver then selects the biggest value. The corrected buf_size value is
-+written back to user application.
-+
-+omap3isp_[h3a_af/h3a_aewb/hist]\_config.config_counter:
-+
-+As the configuration doesn't take effect synchronously to the request, the
-+driver must provide a way to track this information to provide more accurate
-+data. After a configuration is requested, the config_counter returned to user
-+space application will be an unique value associated to that request. When
-+user application receives an event for buffer availability or when a new
-+buffer is requested, this config_counter is used to match a buffer data and a
-+configuration.
-+
-+VIDIOC_OMAP3ISP_STAT_REQ
-+------------------------
-+
-+Send to user space the oldest data available in the internal buffer queue and
-+discards such buffer afterwards. The field omap3isp_stat_data.frame_number
-+matches with the video buffer's field_count.
++drivers/staging/media/imx/
++include/media/imx.h
++include/linux/imx-media.h
 +
 +
-+References
-+----------
++Authors
++-------
 +
-+.. [#] include/linux/omap3isp.h
-diff --git a/Documentation/media/v4l-drivers/omap3isp.rst b/Documentation/media/v4l-drivers/omap3isp.rst
-index 8974c444e3a1..bc447bbec7ce 100644
---- a/Documentation/media/v4l-drivers/omap3isp.rst
-+++ b/Documentation/media/v4l-drivers/omap3isp.rst
-@@ -49,7 +49,7 @@ interface to userspace.
- - OMAP3 ISP histogram
++- Steve Longerbeam <steve_longerbeam@mentor.com>
++- Philipp Zabel <kernel@pengutronix.de>
++- Russell King <linux@armlinux.org.uk>
++
++Copyright (C) 2012-2017 Mentor Graphics Inc.
+diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
+index 1246573c1019..3182951c7651 100644
+--- a/Documentation/media/v4l-drivers/imx.rst
++++ b/Documentation/media/v4l-drivers/imx.rst
+@@ -191,14 +191,7 @@ or unqualified interlaced). The capture interface will enforce the same
+ field order as the source pad field order (interlaced-bt if source pad
+ is seq-bt, interlaced-tb if source pad is seq-tb).
  
- Each possible link in the ISP is modelled by a link in the Media controller
--interface. For an example program see [#f2]_.
-+interface. For an example program see [#]_.
+-This subdev can generate the following event when enabling the second
+-IDMAC source pad:
+-
+-- V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR
+-
+-The user application can subscribe to this event from the ipuX_csiY
+-subdev node. This event is generated by the Frame Interval Monitor
+-(see below for more on the FIM).
++For events produced by ipuX_csiY, see ref:`imx_api_ipuX_csiY`.
  
+ Cropping in ipuX_csiY
+ ---------------------
+@@ -247,84 +240,7 @@ rate by half at the IDMAC output source pad:
+ Frame Interval Monitor in ipuX_csiY
+ -----------------------------------
  
- Controlling the OMAP 3 ISP
-@@ -68,196 +68,6 @@ Autoidle does have issues with some ISP blocks on the 3430, at least.
- Autoidle is only enabled on 3630 when the omap3isp module parameter autoidle
- is non-zero.
+-The adv718x decoders can occasionally send corrupt fields during
+-NTSC/PAL signal re-sync (too little or too many video lines). When
+-this happens, the IPU triggers a mechanism to re-establish vertical
+-sync by adding 1 dummy line every frame, which causes a rolling effect
+-from image to image, and can last a long time before a stable image is
+-recovered. Or sometimes the mechanism doesn't work at all, causing a
+-permanent split image (one frame contains lines from two consecutive
+-captured images).
+-
+-From experiment it was found that during image rolling, the frame
+-intervals (elapsed time between two EOF's) drop below the nominal
+-value for the current standard, by about one frame time (60 usec),
+-and remain at that value until rolling stops.
+-
+-While the reason for this observation isn't known (the IPU dummy
+-line mechanism should show an increase in the intervals by 1 line
+-time every frame, not a fixed value), we can use it to detect the
+-corrupt fields using a frame interval monitor. If the FIM detects a
+-bad frame interval, the ipuX_csiY subdev will send the event
+-V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR. Userland can register with
+-the FIM event notification on the ipuX_csiY subdev device node.
+-Userland can issue a streaming restart when this event is received
+-to correct the rolling/split image.
+-
+-The ipuX_csiY subdev includes custom controls to tweak some dials for
+-FIM. If one of these controls is changed during streaming, the FIM will
+-be reset and will continue at the new settings.
+-
+-- V4L2_CID_IMX_FIM_ENABLE
+-
+-Enable/disable the FIM.
+-
+-- V4L2_CID_IMX_FIM_NUM
+-
+-How many frame interval measurements to average before comparing against
+-the nominal frame interval reported by the sensor. This can reduce noise
+-caused by interrupt latency.
+-
+-- V4L2_CID_IMX_FIM_TOLERANCE_MIN
+-
+-If the averaged intervals fall outside nominal by this amount, in
+-microseconds, the V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR event is sent.
+-
+-- V4L2_CID_IMX_FIM_TOLERANCE_MAX
+-
+-If any intervals are higher than this value, those samples are
+-discarded and do not enter into the average. This can be used to
+-discard really high interval errors that might be due to interrupt
+-latency from high system load.
+-
+-- V4L2_CID_IMX_FIM_NUM_SKIP
+-
+-How many frames to skip after a FIM reset or stream restart before
+-FIM begins to average intervals.
+-
+-- V4L2_CID_IMX_FIM_ICAP_CHANNEL
+-- V4L2_CID_IMX_FIM_ICAP_EDGE
+-
+-These controls will configure an input capture channel as the method
+-for measuring frame intervals. This is superior to the default method
+-of measuring frame intervals via EOF interrupt, since it is not subject
+-to uncertainty errors introduced by interrupt latency.
+-
+-Input capture requires hardware support. A VSYNC signal must be routed
+-to one of the i.MX6 input capture channel pads.
+-
+-V4L2_CID_IMX_FIM_ICAP_CHANNEL configures which i.MX6 input capture
+-channel to use. This must be 0 or 1.
+-
+-V4L2_CID_IMX_FIM_ICAP_EDGE configures which signal edge will trigger
+-input capture events. By default the input capture method is disabled
+-with a value of IRQ_TYPE_NONE. Set this control to IRQ_TYPE_EDGE_RISING,
+-IRQ_TYPE_EDGE_FALLING, or IRQ_TYPE_EDGE_BOTH to enable input capture,
+-triggered on the given signal edge(s).
+-
+-When input capture is disabled, frame intervals will be measured via
+-EOF interrupt.
+-
++See ref:`imx_api_FIM`.
  
--
--Events
--------
--
--The OMAP 3 ISP driver does support the V4L2 event interface on CCDC and
--statistics (AEWB, AF and histogram) subdevs.
--
--The CCDC subdev produces V4L2_EVENT_FRAME_SYNC type event on HS_VS
--interrupt which is used to signal frame start. Earlier version of this
--driver used V4L2_EVENT_OMAP3ISP_HS_VS for this purpose. The event is
--triggered exactly when the reception of the first line of the frame starts
--in the CCDC module. The event can be subscribed on the CCDC subdev.
--
--(When using parallel interface one must pay account to correct configuration
--of the VS signal polarity. This is automatically correct when using the serial
--receivers.)
--
--Each of the statistics subdevs is able to produce events. An event is
--generated whenever a statistics buffer can be dequeued by a user space
--application using the VIDIOC_OMAP3ISP_STAT_REQ IOCTL. The events available
--are:
--
--- V4L2_EVENT_OMAP3ISP_AEWB
--- V4L2_EVENT_OMAP3ISP_AF
--- V4L2_EVENT_OMAP3ISP_HIST
--
--The type of the event data is struct omap3isp_stat_event_status for these
--ioctls. If there is an error calculating the statistics, there will be an
--event as usual, but no related statistics buffer. In this case
--omap3isp_stat_event_status.buf_err is set to non-zero.
--
--
--Private IOCTLs
----------------
--
--The OMAP 3 ISP driver supports standard V4L2 IOCTLs and controls where
--possible and practical. Much of the functions provided by the ISP, however,
--does not fall under the standard IOCTLs --- gamma tables and configuration of
--statistics collection are examples of such.
--
--In general, there is a private ioctl for configuring each of the blocks
--containing hardware-dependent functions.
--
--The following private IOCTLs are supported:
--
--- VIDIOC_OMAP3ISP_CCDC_CFG
--- VIDIOC_OMAP3ISP_PRV_CFG
--- VIDIOC_OMAP3ISP_AEWB_CFG
--- VIDIOC_OMAP3ISP_HIST_CFG
--- VIDIOC_OMAP3ISP_AF_CFG
--- VIDIOC_OMAP3ISP_STAT_REQ
--- VIDIOC_OMAP3ISP_STAT_EN
--
--The parameter structures used by these ioctls are described in
--include/linux/omap3isp.h. The detailed functions of the ISP itself related to
--a given ISP block is described in the Technical Reference Manuals (TRMs) ---
--see the end of the document for those.
--
--While it is possible to use the ISP driver without any use of these private
--IOCTLs it is not possible to obtain optimal image quality this way. The AEWB,
--AF and histogram modules cannot be used without configuring them using the
--appropriate private IOCTLs.
--
--
--CCDC and preview block IOCTLs
-------------------------------
--
--The VIDIOC_OMAP3ISP_CCDC_CFG and VIDIOC_OMAP3ISP_PRV_CFG IOCTLs are used to
--configure, enable and disable functions in the CCDC and preview blocks,
--respectively. Both IOCTLs control several functions in the blocks they
--control. VIDIOC_OMAP3ISP_CCDC_CFG IOCTL accepts a pointer to struct
--omap3isp_ccdc_update_config as its argument. Similarly VIDIOC_OMAP3ISP_PRV_CFG
--accepts a pointer to struct omap3isp_prev_update_config. The definition of
--both structures is available in [#f1]_.
--
--The update field in the structures tells whether to update the configuration
--for the specific function and the flag tells whether to enable or disable the
--function.
--
--The update and flag bit masks accept the following values. Each separate
--functions in the CCDC and preview blocks is associated with a flag (either
--disable or enable; part of the flag field in the structure) and a pointer to
--configuration data for the function.
--
--Valid values for the update and flag fields are listed here for
--VIDIOC_OMAP3ISP_CCDC_CFG. Values may be or'ed to configure more than one
--function in the same IOCTL call.
--
--- OMAP3ISP_CCDC_ALAW
--- OMAP3ISP_CCDC_LPF
--- OMAP3ISP_CCDC_BLCLAMP
--- OMAP3ISP_CCDC_BCOMP
--- OMAP3ISP_CCDC_FPC
--- OMAP3ISP_CCDC_CULL
--- OMAP3ISP_CCDC_CONFIG_LSC
--- OMAP3ISP_CCDC_TBL_LSC
--
--The corresponding values for the VIDIOC_OMAP3ISP_PRV_CFG are here:
--
--- OMAP3ISP_PREV_LUMAENH
--- OMAP3ISP_PREV_INVALAW
--- OMAP3ISP_PREV_HRZ_MED
--- OMAP3ISP_PREV_CFA
--- OMAP3ISP_PREV_CHROMA_SUPP
--- OMAP3ISP_PREV_WB
--- OMAP3ISP_PREV_BLKADJ
--- OMAP3ISP_PREV_RGB2RGB
--- OMAP3ISP_PREV_COLOR_CONV
--- OMAP3ISP_PREV_YC_LIMIT
--- OMAP3ISP_PREV_DEFECT_COR
--- OMAP3ISP_PREV_GAMMABYPASS
--- OMAP3ISP_PREV_DRK_FRM_CAPTURE
--- OMAP3ISP_PREV_DRK_FRM_SUBTRACT
--- OMAP3ISP_PREV_LENS_SHADING
--- OMAP3ISP_PREV_NF
--- OMAP3ISP_PREV_GAMMA
--
--The associated configuration pointer for the function may not be NULL when
--enabling the function. When disabling a function the configuration pointer is
--ignored.
--
--
--Statistic blocks IOCTLs
-------------------------
--
--The statistics subdevs do offer more dynamic configuration options than the
--other subdevs. They can be enabled, disable and reconfigured when the pipeline
--is in streaming state.
--
--The statistics blocks always get the input image data from the CCDC (as the
--histogram memory read isn't implemented). The statistics are dequeueable by
--the user from the statistics subdev nodes using private IOCTLs.
--
--The private IOCTLs offered by the AEWB, AF and histogram subdevs are heavily
--reflected by the register level interface offered by the ISP hardware. There
--are aspects that are purely related to the driver implementation and these are
--discussed next.
--
--VIDIOC_OMAP3ISP_STAT_EN
-------------------------
--
--This private IOCTL enables/disables a statistic module. If this request is
--done before streaming, it will take effect as soon as the pipeline starts to
--stream.  If the pipeline is already streaming, it will take effect as soon as
--the CCDC becomes idle.
--
--VIDIOC_OMAP3ISP_AEWB_CFG, VIDIOC_OMAP3ISP_HIST_CFG and VIDIOC_OMAP3ISP_AF_CFG
-------------------------------------------------------------------------------
--
--Those IOCTLs are used to configure the modules. They require user applications
--to have an in-depth knowledge of the hardware. Most of the fields explanation
--can be found on OMAP's TRMs. The two following fields common to all the above
--configure private IOCTLs require explanation for better understanding as they
--are not part of the TRM.
--
--omap3isp_[h3a_af/h3a_aewb/hist]\_config.buf_size:
--
--The modules handle their buffers internally. The necessary buffer size for the
--module's data output depends on the requested configuration. Although the
--driver supports reconfiguration while streaming, it does not support a
--reconfiguration which requires bigger buffer size than what is already
--internally allocated if the module is enabled. It will return -EBUSY on this
--case. In order to avoid such condition, either disable/reconfigure/enable the
--module or request the necessary buffer size during the first configuration
--while the module is disabled.
--
--The internal buffer size allocation considers the requested configuration's
--minimum buffer size and the value set on buf_size field. If buf_size field is
--out of [minimum, maximum] buffer size range, it's clamped to fit in there.
--The driver then selects the biggest value. The corrected buf_size value is
--written back to user application.
--
--omap3isp_[h3a_af/h3a_aewb/hist]\_config.config_counter:
--
--As the configuration doesn't take effect synchronously to the request, the
--driver must provide a way to track this information to provide more accurate
--data. After a configuration is requested, the config_counter returned to user
--space application will be an unique value associated to that request. When
--user application receives an event for buffer availability or when a new
--buffer is requested, this config_counter is used to match a buffer data and a
--configuration.
--
--VIDIOC_OMAP3ISP_STAT_REQ
--------------------------
--
--Send to user space the oldest data available in the internal buffer queue and
--discards such buffer afterwards. The field omap3isp_stat_data.frame_number
--matches with the video buffer's field_count.
--
--
- Technical reference manuals (TRMs) and other documentation
- ----------------------------------------------------------
+ ipuX_vdic
+ ---------
+diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
+index 364c65ea86fb..67665a8abe02 100644
+--- a/Documentation/media/v4l-drivers/index.rst
++++ b/Documentation/media/v4l-drivers/index.rst
+@@ -75,5 +75,6 @@ For more details see the file COPYING in the source distribution of Linux.
+ 	vimc-devel
  
-@@ -279,6 +89,4 @@ DM 3730 TRM:
- References
- ----------
- 
--.. [#f1] include/linux/omap3isp.h
--
--.. [#f2] http://git.ideasonboard.org/?p=media-ctl.git;a=summary
-+.. [#] http://git.ideasonboard.org/?p=media-ctl.git;a=summary
+ 	cx2341x-uapi
++	imx-uapi
+ 	meye-uapi
+ 	omap3isp-uapi
 -- 
 2.24.1
 
