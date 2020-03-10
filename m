@@ -2,163 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D4B180247
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 16:47:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37A23180263
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 16:49:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726964AbgCJPrJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 11:47:09 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34116 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726958AbgCJPrI (ORCPT
+        id S1726620AbgCJPtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 11:49:42 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54870 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726414AbgCJPtm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 11:47:08 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j16so13614430otl.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 08:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4HrHpJuYloPdd64QgDvsMEZuP7xh7v2AxwQIiGYP/MQ=;
-        b=nyX2OVgPZVTO0zNEHpYlZ63oRyFSngj5xEudidOqj0uclLGX1S3zY0a0pfVYbatnkh
-         2D8dMoBtwD6CVOzC+glCPpuvt8B96EHbtS82/rUczghAC0dNb4kQCpDrfGDyM9WZnqhE
-         cD6V6C6atqbJIAFiPVYvmYb94/db0bZxLbC57HdisRWP2TiqR6vE7vFtKOUuGN2Qqnoy
-         UMexxU5mlNO2XThhD5qTcBXOc17qUOjEsd6a01vAIa4/bhVs6QdAKwNo165h4SqsC52p
-         ITAZxkyx2Yityikj+lkO5XXyvLWVkLC9LbqQ8yZeKIwAnTwqHFumm0Ja4JSGxjFCyNUe
-         iFPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4HrHpJuYloPdd64QgDvsMEZuP7xh7v2AxwQIiGYP/MQ=;
-        b=rTM8mvtRxiAOLb8qTocZG/3TL6eumQcuCXJMshrP2IkzcUSORQH+qTrr5XO7Amf052
-         817wlQWikLS3v+NvzZs3QeJfMm0EKtqIoW89anyV/u8jIPrMEjhFrbbm4jQ1VGlsury5
-         TJKL8v5D8Zl6qRkK4UkiFs+Tr1r6dDbfJJ1GHSvdpx0R8RZt4+cLL8Ge76BkultjTFeL
-         HGXou0n3SU6na6Mhj9TyJ5GPqJ1SAjC/G99OyxJoFwRJKF11zpBFwP5qDjWLSx6tYKjC
-         PZZriFO4rbdgGFGHpr2oRcHnKL/pnR5NPQ2FhqUmw82wQcvhQ8fouooP17Nts2d5AgvS
-         CFyA==
-X-Gm-Message-State: ANhLgQ085qenPFb/ED/vvcREIcgMct5sFdTuCbMqfu5WQXsrKykE9cax
-        GmmrFDcfC7mKeB89Knqu0PSnrVThwg0l52CZ1NPw3w==
-X-Google-Smtp-Source: ADFU+vvtWUnpgSR4cBsrFTI3Mtf9+RyaT5KjmUoKRwAbx1+YCbYzwZsgMVbDCYPSxtaSHxlcT6lv+BwV3Srw2n+HtWY=
-X-Received: by 2002:a9d:19e9:: with SMTP id k96mr17642241otk.68.1583855227689;
- Tue, 10 Mar 2020 08:47:07 -0700 (PDT)
+        Tue, 10 Mar 2020 11:49:42 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3039F5F;
+        Tue, 10 Mar 2020 16:49:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1583855380;
+        bh=KPQEc6tGjY5MuTHPCGgzyuO5uKy1bBUWd0iN+abo+FI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aej1YabqujMPHxSGRFS3lHy615v2G29FsUBPjQKMAikzlUPnnhY2vfuzHzMCFNNXf
+         FHTjlAyeZRrHodCmGIwuiwV6rCoBFC5x0tgLfDyg3zwRlNkTtggQy7h2HbFDn6lAoJ
+         iAgfnbcXNs254XtEG/lquWzbsv+YTj5E4xmAtzxs=
+Date:   Tue, 10 Mar 2020 17:49:37 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Subject: Re: [PATCH 7/7] media: imx: imx7-media-csi: Fix video field handling
+Message-ID: <20200310154937.GA32319@pendragon.ideasonboard.com>
+References: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
+ <20191024004155.32068-8-laurent.pinchart@ideasonboard.com>
+ <3d979bfa-0bb2-0dde-9bc7-83ee3923d33a@gmail.com>
+ <20200309205238.GH4916@pendragon.ideasonboard.com>
+ <ed913970-573e-4bee-ce84-28513a7869a9@gmail.com>
 MIME-Version: 1.0
-References: <20200310134603.30260-1-robert.foss@linaro.org>
- <20200310134603.30260-3-robert.foss@linaro.org> <CAOMZO5D7N6FfPMiycGun-eui-G-tbp15stwRWBWs4L98JHFfGA@mail.gmail.com>
-In-Reply-To: <CAOMZO5D7N6FfPMiycGun-eui-G-tbp15stwRWBWs4L98JHFfGA@mail.gmail.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 10 Mar 2020 16:46:56 +0100
-Message-ID: <CAG3jFyuwHEXHD1JbWMwNX_LDtawJ1+-zEptzq2yrn8Uk+S3fdQ@mail.gmail.com>
-Subject: Re: [v1 2/3] media: ov8856: Add devicetree support
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     ben.kao@intel.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan.Cameron@huawei.com,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ed913970-573e-4bee-ce84-28513a7869a9@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 10 Mar 2020 at 15:03, Fabio Estevam <festevam@gmail.com> wrote:
->
-> On Tue, Mar 10, 2020 at 10:47 AM Robert Foss <robert.foss@linaro.org> wrote:
->
-> > +static int __ov8856_power_on(struct ov8856 *ov8856)
-> > +{
-> > +       struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> > +       int ret;
-> > +
-> > +       ret = clk_prepare_enable(ov8856->xvclk);
-> > +       if (ret < 0) {
-> > +               dev_err(&client->dev, "failed to enable xvclk\n");
-> > +               return ret;
-> > +       }
-> > +
-> > +       gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_LOW);
-> > +
-> > +       ret = regulator_bulk_enable(OV8856_NUM_SUPPLIES, ov8856->supplies);
-> > +       if (ret < 0) {
-> > +               dev_err(&client->dev, "failed to enable regulators\n");
-> > +               goto disable_clk;
-> > +       }
-> > +
-> > +       gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_HIGH);
->
-> To power it up you probably only need:
->
-> gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, 0);
->
-> And use reset-gpios as active low in your device tree. Assuming the
-> reset-gpios is active low like other OmniVision sensors.
+Hi Steve and Rui,
 
-Ack.
+I've spent more time on the i.MX7 support in the i.MX media staging
+driver today, and I've reached a point where I'm not comfortable moving
+forward without your ack.
 
->
-> > +
-> > +       usleep_range(1500, 1800);
-> > +
-> > +       return 0;
-> > +
-> > +disable_clk:
-> > +       clk_disable_unprepare(ov8856->xvclk);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static void __ov8856_power_off(struct ov8856 *ov8856)
-> > +{
-> > +       gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_LOW);
-> > +       regulator_bulk_disable(OV8856_NUM_SUPPLIES, ov8856->supplies);
-> > +       clk_disable_unprepare(ov8856->xvclk);
-> > +}
-> > +
-> > +
->
-> Unneede extra blank line.
+I found format handling to be very broken, the driver enumerates formats
+that are not supported by the device, and doesn't properly handle the
+supported formats. While trying to fix that, I found out that the common
+i.MX6 and i.MX7 helpers (imx-media-capture.c and imx-media-utils.c) get
+in the way, as i.MX6 and i.MX7 format support are very entangled. I
+would like to split the two in order to clean up the i.MX7 code, which
+would also give an opportunity to later clean the i.MX6 code if desired.
 
-Ack.
+Before moving in that time-consuming direction, I want to make sure this
+will be accepted, as I don't want to spend days of work for nothing. If
+you want to discuss this in real time, I'm available in the #v4l channel
+on Freenode (nickname pinchartl).
 
->
-> >         v4l2_i2c_subdev_init(&ov8856->sd, client, &ov8856_subdev_ops);
-> > +       ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
-> > +       if (IS_ERR(ov8856->xvclk)) {
-> > +               dev_err(&client->dev, "failed to get xvclk\n");
-> > +               return -EINVAL;
->
-> You should better return the real error insteald
-> PTR_ERR(ov8856->xvclk). This way defer probe could work.
->
+-- 
+Regards,
 
-Ack.
-
-> > +       }
-> > +
-> > +       ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
-> > +       if (ret < 0) {
-> > +               dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
-> > +               return ret;
-> > +       }
-> > +
-> > +       ov8856->n_shutdn_gpio = devm_gpiod_get(&client->dev, "reset",
-> > +                                              GPIOD_OUT_LOW);
-> > +       if (IS_ERR(ov8856->n_shutdn_gpio)) {
-> > +               dev_err(&client->dev, "failed to get reset-gpios\n");
-> > +               return -EINVAL;
->
-> Please return the real error.
-
-Ack.
+Laurent Pinchart
