@@ -2,117 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E99A917FFE7
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 15:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6273180015
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 15:26:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgCJOMs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 10:12:48 -0400
-Received: from ssl.serverraum.org ([176.9.125.105]:35035 "EHLO
-        ssl.serverraum.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgCJOMs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 10:12:48 -0400
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ssl.serverraum.org (Postfix) with ESMTPSA id 0CFAA23ECA;
-        Tue, 10 Mar 2020 15:12:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
-        t=1583849565;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hEWql192yhW7vtj33Ar2ueUuqZzJlfD7KDs4yhM6yuY=;
-        b=PQ+UEguI+6SdYnqx6Rtn22RYead+fBmeyqt/n8R9DqO///TzSh9elzyIUB3fkJAb0eDZkH
-        LWEdFzv03wvcW/kGvWMN7I+dWJRmr4aT5cBkoKjGHrgK+MmtC/QZH3j6F5n8VhXFi9rds0
-        nYmd9aodavlaShm5p5AGAcONE0ELWCI=
+        id S1726481AbgCJO05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 10:26:57 -0400
+Received: from mga06.intel.com ([134.134.136.31]:56393 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726273AbgCJO05 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Mar 2020 10:26:57 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Mar 2020 07:26:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,537,1574150400"; 
+   d="scan'208";a="276970470"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002.fm.intel.com with ESMTP; 10 Mar 2020 07:26:51 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jBfqO-008U0r-T9; Tue, 10 Mar 2020 16:26:52 +0200
+Date:   Tue, 10 Mar 2020 16:26:52 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     ben.kao@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, matthias.bgg@gmail.com, davem@davemloft.net,
+        gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [v1 2/3] media: ov8856: Add devicetree support
+Message-ID: <20200310142652.GK1922688@smile.fi.intel.com>
+References: <20200310134603.30260-1-robert.foss@linaro.org>
+ <20200310134603.30260-3-robert.foss@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 10 Mar 2020 15:12:45 +0100
-From:   Michael Walle <michael@walle.cc>
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     linux-spi@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: Re: [PATCH] spi: spi-fsl-dspi: fix DMA mapping
-In-Reply-To: <CA+h21hqMoPhbq8YG0UeV1kP0iXApYsJvb9MZjPGX54dm2U-KnQ@mail.gmail.com>
-References: <20200310073313.21277-1-michael@walle.cc>
- <4beb5200a76f2d817be7276444543de4@walle.cc>
- <ea6ffa30ddc2459d07935e5e61a41172@walle.cc>
- <CA+h21hqMoPhbq8YG0UeV1kP0iXApYsJvb9MZjPGX54dm2U-KnQ@mail.gmail.com>
-Message-ID: <76923af394f334337a3cac125c270087@walle.cc>
-X-Sender: michael@walle.cc
-User-Agent: Roundcube Webmail/1.3.10
-X-Spamd-Bar: /
-X-Spam-Status: No, score=-0.10
-X-Rspamd-Server: web
-X-Spam-Score: -0.10
-X-Rspamd-Queue-Id: 0CFAA23ECA
-X-Spamd-Result: default: False [-0.10 / 15.00];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         DKIM_SIGNED(0.00)[];
-         RCPT_COUNT_SEVEN(0.00)[9];
-         NEURAL_HAM(-0.00)[-0.597];
-         FREEMAIL_TO(0.00)[gmail.com];
-         RCVD_COUNT_ZERO(0.00)[0];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         MID_RHS_MATCH_FROM(0.00)[]
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200310134603.30260-3-robert.foss@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 2020-03-10 14:02, schrieb Vladimir Oltean:
-> On Tue, 10 Mar 2020 at 10:12, Michael Walle <michael@walle.cc> wrote:
->> 
->> Am 2020-03-10 08:40, schrieb Michael Walle:
->> > Am 2020-03-10 08:33, schrieb Michael Walle:
->> >> Use the correct device to request the DMA mapping. Otherwise the IOMMU
->> >> doesn't get the mapping and it will generate a page fault.
->> >>
->> >> The error messages look like:
->> >> [    3.008452] arm-smmu 5000000.iommu: Unhandled context fault:
->> >> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
->> >> [    3.020123] arm-smmu 5000000.iommu: Unhandled context fault:
->> >> fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
->> >>
->> >> This was tested on a custom board with a LS1028A SoC.
->> >
->> > Oh fu.. please disregard this patch. DMA mapping still isn't working.
->> > Somehow I missed that the transfer mode was turned back to its default
->> > XSPI mode.
->> 
->> Damn. I need more coffee.. this patch IS working. Only the first probe
->> fails due to EPROBE_DEFER.
->> 
->> [    2.539706] fsl-dspi 2120000.spi: rx dma channel not available 
->> (-517)
->> [    2.546200] fsl-dspi 2120000.spi: can't get dma channels
->> [    3.622774] spi-nor spi1.0: w25q128fw (16384 Kbytes)
->> 
->> -michael
-> 
-> I'm testing LS1028A with IOMMU_DEFAULT_PASSTHROUGH=y and I didn't have
-> time to change my setup now. I've also sent a v3 to my patch series
-> which is going to conflict with this one, sorry.
+On Tue, Mar 10, 2020 at 02:46:02PM +0100, Robert Foss wrote:
+> Add devicetree match table, and enable ov8856_probe()
+> to initialize power, clocks and reset pins.
 
-No worries, its easy enough to rebase.
+...
 
-> I would have picked
-> your patch up with my series but I didn't have the right environment
-> to test it.
+> +#define OV8856_NUM_SUPPLIES ARRAY_SIZE(ov8856_supply_names)
 
-I'll resend a v2 once your series is working.
+Use ARRAY_SIZE() directly.
 
--michael
+Have you seen Sakari's comments?
+Sakari, do I have déjà vu or you indeed commented this driver?
+
+...
+
+> +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_LOW);
+
+> +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_HIGH);
+
+Yes, seems this one is inverted.
+
+...
+
+> +{
+> +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_LOW);
+> +	regulator_bulk_disable(OV8856_NUM_SUPPLIES, ov8856->supplies);
+> +	clk_disable_unprepare(ov8856->xvclk);
+> +}
+> +
+> +
+
+One blank line is enough.
+
+...
+
+> +	ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
+> +	if (IS_ERR(ov8856->xvclk)) {
+> +		dev_err(&client->dev, "failed to get xvclk\n");
+> +		return -EINVAL;
+> +	}
+
+Previously it worked without clock provider, now you make a dependency.
+
+This won't work.
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
