@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C1B317FF2F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ECA617FF2D
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727572AbgCJNon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 09:44:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37588 "EHLO mail.kernel.org"
+        id S1726928AbgCJNom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 09:44:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37666 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726998AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1727179AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 10 Mar 2020 09:43:19 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11E772468C;
+        by mail.kernel.org (Postfix) with ESMTPSA id 137DE2468D;
         Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583847797;
-        bh=//FvkYJTvYKf9u3X9i55i0Czwblru6XHdyLbwPOvSyQ=;
+        bh=/r/NFkdIeELwpL9c26kF2D5eSHsJTk+9/bC+o0QS3GY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zcybpOb9GNIYdyAkHJKkFp9Z0Mck9tXZD77of8AB18CP3ggyoBf13pnuK0j/DyMcY
-         YgdDOBwzlxI4ZwsGmtMuSyY0SfLjGgB7cHahKyJmnTmVdzcjJcFOTFGHETKjiX4Mnu
-         PbCUYwOHE+N2aVpm21c9AnCVHJMoDhUD1umsofv8=
+        b=jtwOezClQpAKS/ZPG9Yo3VcbEJjq+pYQBPFNtTnhU9GKvJlt+5E+zzOAuYxbLEQ1U
+         cFwfTQE5JM3jXoPNWp4AlWF10VbklFEUa0QBsvhTv7Gu+KQLsPT+k+xq53106EJ9X/
+         OGrWe2zgbX26t2A4LgF7AGkxFLQM5fRrkBJOQH+k=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jBfAB-0005vn-6e; Tue, 10 Mar 2020 14:43:15 +0100
+        id 1jBfAB-0005vs-84; Tue, 10 Mar 2020 14:43:15 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2 08/22] media: docs: split development info from cx88.rst
-Date:   Tue, 10 Mar 2020 14:42:59 +0100
-Message-Id: <597a62027b5b9e65990fdcde83f6a4f7cf309f93.1583847556.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 09/22] media: docs: split cx2341x.rst into different audiences
+Date:   Tue, 10 Mar 2020 14:43:00 +0100
+Message-Id: <5164e140428b241144396847c4485096cf6c6ae4.1583847556.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
 References: <cover.1583847556.git.mchehab+huawei@kernel.org>
@@ -44,262 +44,414 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This file contains both	admin and development stuff. Split on
-two, as	they're	usually	read by	different audiences.
+This file contains both driver develompent documentation
+(basically, firmware documentation) and IVTV-specific
+documentation about VBI and raw formats, focused on uAPI
+development.
+
+Split on two, as they're usually read by different audiences.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/v4l-drivers/cx88-devel.rst          | 113 ++++++++++++++++++
- Documentation/media/v4l-drivers/cx88.rst      | 107 -----------------
- Documentation/media/v4l-drivers/index.rst     |   1 +
- 3 files changed, 114 insertions(+), 107 deletions(-)
- create mode 100644 Documentation/media/v4l-drivers/cx88-devel.rst
+ .../{cx2341x.rst => cx2341x-devel.rst}        | 175 -----------------
+ .../media/v4l-drivers/cx2341x-uapi.rst        | 179 ++++++++++++++++++
+ Documentation/media/v4l-drivers/index.rst     |   3 +-
+ 3 files changed, 181 insertions(+), 176 deletions(-)
+ rename Documentation/media/v4l-drivers/{cx2341x.rst => cx2341x-devel.rst} (91%)
+ create mode 100644 Documentation/media/v4l-drivers/cx2341x-uapi.rst
 
-diff --git a/Documentation/media/v4l-drivers/cx88-devel.rst b/Documentation/media/v4l-drivers/cx88-devel.rst
+diff --git a/Documentation/media/v4l-drivers/cx2341x.rst b/Documentation/media/v4l-drivers/cx2341x-devel.rst
+similarity index 91%
+rename from Documentation/media/v4l-drivers/cx2341x.rst
+rename to Documentation/media/v4l-drivers/cx2341x-devel.rst
+index 8ca37deb56b6..97699df6ea2e 100644
+--- a/Documentation/media/v4l-drivers/cx2341x.rst
++++ b/Documentation/media/v4l-drivers/cx2341x-devel.rst
+@@ -3683,178 +3683,3 @@ Register 0x0004 holds the DMA Transfer Status:
+ - bit 2:   DMA read error
+ - bit 3:   DMA write error
+ - bit 4:   Scatter-Gather array error
+-
+-Non-compressed file format
+---------------------------
+-
+-The cx23416 can produce (and the cx23415 can also read) raw YUV output. The
+-format of a YUV frame is specific to this chip and is called HM12. 'HM' stands
+-for 'Hauppauge Macroblock', which is a misnomer as 'Conexant Macroblock' would
+-be more accurate.
+-
+-The format is YUV 4:2:0 which uses 1 Y byte per pixel and 1 U and V byte per
+-four pixels.
+-
+-The data is encoded as two macroblock planes, the first containing the Y
+-values, the second containing UV macroblocks.
+-
+-The Y plane is divided into blocks of 16x16 pixels from left to right
+-and from top to bottom. Each block is transmitted in turn, line-by-line.
+-
+-So the first 16 bytes are the first line of the top-left block, the
+-second 16 bytes are the second line of the top-left block, etc. After
+-transmitting this block the first line of the block on the right to the
+-first block is transmitted, etc.
+-
+-The UV plane is divided into blocks of 16x8 UV values going from left
+-to right, top to bottom. Each block is transmitted in turn, line-by-line.
+-
+-So the first 16 bytes are the first line of the top-left block and
+-contain 8 UV value pairs (16 bytes in total). The second 16 bytes are the
+-second line of 8 UV pairs of the top-left block, etc. After transmitting
+-this block the first line of the block on the right to the first block is
+-transmitted, etc.
+-
+-The code below is given as an example on how to convert HM12 to separate
+-Y, U and V planes. This code assumes frames of 720x576 (PAL) pixels.
+-
+-The width of a frame is always 720 pixels, regardless of the actual specified
+-width.
+-
+-If the height is not a multiple of 32 lines, then the captured video is
+-missing macroblocks at the end and is unusable. So the height must be a
+-multiple of 32.
+-
+-Raw format c example
+-~~~~~~~~~~~~~~~~~~~~
+-
+-.. code-block:: c
+-
+-	#include <stdio.h>
+-	#include <stdlib.h>
+-	#include <string.h>
+-
+-	static unsigned char frame[576*720*3/2];
+-	static unsigned char framey[576*720];
+-	static unsigned char frameu[576*720 / 4];
+-	static unsigned char framev[576*720 / 4];
+-
+-	static void de_macro_y(unsigned char* dst, unsigned char *src, int dstride, int w, int h)
+-	{
+-	unsigned int y, x, i;
+-
+-	// descramble Y plane
+-	// dstride = 720 = w
+-	// The Y plane is divided into blocks of 16x16 pixels
+-	// Each block in transmitted in turn, line-by-line.
+-	for (y = 0; y < h; y += 16) {
+-		for (x = 0; x < w; x += 16) {
+-		for (i = 0; i < 16; i++) {
+-			memcpy(dst + x + (y + i) * dstride, src, 16);
+-			src += 16;
+-		}
+-		}
+-	}
+-	}
+-
+-	static void de_macro_uv(unsigned char *dstu, unsigned char *dstv, unsigned char *src, int dstride, int w, int h)
+-	{
+-	unsigned int y, x, i;
+-
+-	// descramble U/V plane
+-	// dstride = 720 / 2 = w
+-	// The U/V values are interlaced (UVUV...).
+-	// Again, the UV plane is divided into blocks of 16x16 UV values.
+-	// Each block in transmitted in turn, line-by-line.
+-	for (y = 0; y < h; y += 16) {
+-		for (x = 0; x < w; x += 8) {
+-		for (i = 0; i < 16; i++) {
+-			int idx = x + (y + i) * dstride;
+-
+-			dstu[idx+0] = src[0];  dstv[idx+0] = src[1];
+-			dstu[idx+1] = src[2];  dstv[idx+1] = src[3];
+-			dstu[idx+2] = src[4];  dstv[idx+2] = src[5];
+-			dstu[idx+3] = src[6];  dstv[idx+3] = src[7];
+-			dstu[idx+4] = src[8];  dstv[idx+4] = src[9];
+-			dstu[idx+5] = src[10]; dstv[idx+5] = src[11];
+-			dstu[idx+6] = src[12]; dstv[idx+6] = src[13];
+-			dstu[idx+7] = src[14]; dstv[idx+7] = src[15];
+-			src += 16;
+-		}
+-		}
+-	}
+-	}
+-
+-	/*************************************************************************/
+-	int main(int argc, char **argv)
+-	{
+-	FILE *fin;
+-	int i;
+-
+-	if (argc == 1) fin = stdin;
+-	else fin = fopen(argv[1], "r");
+-
+-	if (fin == NULL) {
+-		fprintf(stderr, "cannot open input\n");
+-		exit(-1);
+-	}
+-	while (fread(frame, sizeof(frame), 1, fin) == 1) {
+-		de_macro_y(framey, frame, 720, 720, 576);
+-		de_macro_uv(frameu, framev, frame + 720 * 576, 720 / 2, 720 / 2, 576 / 2);
+-		fwrite(framey, sizeof(framey), 1, stdout);
+-		fwrite(framev, sizeof(framev), 1, stdout);
+-		fwrite(frameu, sizeof(frameu), 1, stdout);
+-	}
+-	fclose(fin);
+-	return 0;
+-	}
+-
+-
+-Format of embedded V4L2_MPEG_STREAM_VBI_FMT_IVTV VBI data
+----------------------------------------------------------
+-
+-Author: Hans Verkuil <hverkuil@xs4all.nl>
+-
+-
+-This section describes the V4L2_MPEG_STREAM_VBI_FMT_IVTV format of the VBI data
+-embedded in an MPEG-2 program stream. This format is in part dictated by some
+-hardware limitations of the ivtv driver (the driver for the Conexant cx23415/6
+-chips), in particular a maximum size for the VBI data. Anything longer is cut
+-off when the MPEG stream is played back through the cx23415.
+-
+-The advantage of this format is it is very compact and that all VBI data for
+-all lines can be stored while still fitting within the maximum allowed size.
+-
+-The stream ID of the VBI data is 0xBD. The maximum size of the embedded data is
+-4 + 43 * 36, which is 4 bytes for a header and 2 * 18 VBI lines with a 1 byte
+-header and a 42 bytes payload each. Anything beyond this limit is cut off by
+-the cx23415/6 firmware. Besides the data for the VBI lines we also need 36 bits
+-for a bitmask determining which lines are captured and 4 bytes for a magic cookie,
+-signifying that this data package contains V4L2_MPEG_STREAM_VBI_FMT_IVTV VBI data.
+-If all lines are used, then there is no longer room for the bitmask. To solve this
+-two different magic numbers were introduced:
+-
+-'itv0': After this magic number two unsigned longs follow. Bits 0-17 of the first
+-unsigned long denote which lines of the first field are captured. Bits 18-31 of
+-the first unsigned long and bits 0-3 of the second unsigned long are used for the
+-second field.
+-
+-'ITV0': This magic number assumes all VBI lines are captured, i.e. it implicitly
+-implies that the bitmasks are 0xffffffff and 0xf.
+-
+-After these magic cookies (and the 8 byte bitmask in case of cookie 'itv0') the
+-captured VBI lines start:
+-
+-For each line the least significant 4 bits of the first byte contain the data type.
+-Possible values are shown in the table below. The payload is in the following 42
+-bytes.
+-
+-Here is the list of possible data types:
+-
+-.. code-block:: c
+-
+-	#define IVTV_SLICED_TYPE_TELETEXT       0x1     // Teletext (uses lines 6-22 for PAL)
+-	#define IVTV_SLICED_TYPE_CC             0x4     // Closed Captions (line 21 NTSC)
+-	#define IVTV_SLICED_TYPE_WSS            0x5     // Wide Screen Signal (line 23 PAL)
+-	#define IVTV_SLICED_TYPE_VPS            0x7     // Video Programming System (PAL) (line 16)
+-
+diff --git a/Documentation/media/v4l-drivers/cx2341x-uapi.rst b/Documentation/media/v4l-drivers/cx2341x-uapi.rst
 new file mode 100644
-index 000000000000..cfe7c03f4930
+index 000000000000..8a7977af79d5
 --- /dev/null
-+++ b/Documentation/media/v4l-drivers/cx88-devel.rst
-@@ -0,0 +1,113 @@
++++ b/Documentation/media/v4l-drivers/cx2341x-uapi.rst
+@@ -0,0 +1,179 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+The cx88 driver
-+===============
++The cx2341x driver
++==================
 +
-+Author:  Gerd Hoffmann
++Non-compressed file format
++--------------------------
 +
-+Documentation missing at the cx88 datasheet
-+-------------------------------------------
++The cx23416 can produce (and the cx23415 can also read) raw YUV output. The
++format of a YUV frame is specific to this chip and is called HM12. 'HM' stands
++for 'Hauppauge Macroblock', which is a misnomer as 'Conexant Macroblock' would
++be more accurate.
 +
-+MO_OUTPUT_FORMAT (0x310164)
++The format is YUV 4:2:0 which uses 1 Y byte per pixel and 1 U and V byte per
++four pixels.
 +
-+.. code-block:: none
++The data is encoded as two macroblock planes, the first containing the Y
++values, the second containing UV macroblocks.
 +
-+  Previous default from DScaler: 0x1c1f0008
-+  Digit 8: 31-28
-+  28: PREVREMOD = 1
++The Y plane is divided into blocks of 16x16 pixels from left to right
++and from top to bottom. Each block is transmitted in turn, line-by-line.
 +
-+  Digit 7: 27-24 (0xc = 12 = b1100 )
-+  27: COMBALT = 1
-+  26: PAL_INV_PHASE
-+    (DScaler apparently set this to 1, resulted in sucky picture)
++So the first 16 bytes are the first line of the top-left block, the
++second 16 bytes are the second line of the top-left block, etc. After
++transmitting this block the first line of the block on the right to the
++first block is transmitted, etc.
 +
-+  Digits 6,5: 23-16
-+  25-16: COMB_RANGE = 0x1f [default] (9 bits -> max 512)
++The UV plane is divided into blocks of 16x8 UV values going from left
++to right, top to bottom. Each block is transmitted in turn, line-by-line.
 +
-+  Digit 4: 15-12
-+  15: DISIFX = 0
-+  14: INVCBF = 0
-+  13: DISADAPT = 0
-+  12: NARROWADAPT = 0
++So the first 16 bytes are the first line of the top-left block and
++contain 8 UV value pairs (16 bytes in total). The second 16 bytes are the
++second line of 8 UV pairs of the top-left block, etc. After transmitting
++this block the first line of the block on the right to the first block is
++transmitted, etc.
 +
-+  Digit 3: 11-8
-+  11: FORCE2H
-+  10: FORCEREMD
-+  9: NCHROMAEN
-+  8: NREMODEN
++The code below is given as an example on how to convert HM12 to separate
++Y, U and V planes. This code assumes frames of 720x576 (PAL) pixels.
 +
-+  Digit 2: 7-4
-+  7-6: YCORE
-+  5-4: CCORE
++The width of a frame is always 720 pixels, regardless of the actual specified
++width.
 +
-+  Digit 1: 3-0
-+  3: RANGE = 1
-+  2: HACTEXT
-+  1: HSFMT
++If the height is not a multiple of 32 lines, then the captured video is
++missing macroblocks at the end and is unusable. So the height must be a
++multiple of 32.
 +
-+0x47 is the sync byte for MPEG-2 transport stream packets.
-+Datasheet incorrectly states to use 47 decimal. 188 is the length.
-+All DVB compliant frontends output packets with this start code.
++Raw format c example
++~~~~~~~~~~~~~~~~~~~~
 +
-+Hauppauge WinTV cx88 IR information
-+-----------------------------------
++.. code-block:: c
 +
-+The controls for the mux are GPIO [0,1] for source, and GPIO 2 for muting.
++	#include <stdio.h>
++	#include <stdlib.h>
++	#include <string.h>
 +
-+====== ======== =================================================
-+GPIO0  GPIO1
-+====== ======== =================================================
-+  0        0    TV Audio
-+  1        0    FM radio
-+  0        1    Line-In
-+  1        1    Mono tuner bypass or CD passthru (tuner specific)
-+====== ======== =================================================
++	static unsigned char frame[576*720*3/2];
++	static unsigned char framey[576*720];
++	static unsigned char frameu[576*720 / 4];
++	static unsigned char framev[576*720 / 4];
 +
-+GPIO 16(I believe) is tied to the IR port (if present).
++	static void de_macro_y(unsigned char* dst, unsigned char *src, int dstride, int w, int h)
++	{
++	unsigned int y, x, i;
++
++	// descramble Y plane
++	// dstride = 720 = w
++	// The Y plane is divided into blocks of 16x16 pixels
++	// Each block in transmitted in turn, line-by-line.
++	for (y = 0; y < h; y += 16) {
++		for (x = 0; x < w; x += 16) {
++		for (i = 0; i < 16; i++) {
++			memcpy(dst + x + (y + i) * dstride, src, 16);
++			src += 16;
++		}
++		}
++	}
++	}
++
++	static void de_macro_uv(unsigned char *dstu, unsigned char *dstv, unsigned char *src, int dstride, int w, int h)
++	{
++	unsigned int y, x, i;
++
++	// descramble U/V plane
++	// dstride = 720 / 2 = w
++	// The U/V values are interlaced (UVUV...).
++	// Again, the UV plane is divided into blocks of 16x16 UV values.
++	// Each block in transmitted in turn, line-by-line.
++	for (y = 0; y < h; y += 16) {
++		for (x = 0; x < w; x += 8) {
++		for (i = 0; i < 16; i++) {
++			int idx = x + (y + i) * dstride;
++
++			dstu[idx+0] = src[0];  dstv[idx+0] = src[1];
++			dstu[idx+1] = src[2];  dstv[idx+1] = src[3];
++			dstu[idx+2] = src[4];  dstv[idx+2] = src[5];
++			dstu[idx+3] = src[6];  dstv[idx+3] = src[7];
++			dstu[idx+4] = src[8];  dstv[idx+4] = src[9];
++			dstu[idx+5] = src[10]; dstv[idx+5] = src[11];
++			dstu[idx+6] = src[12]; dstv[idx+6] = src[13];
++			dstu[idx+7] = src[14]; dstv[idx+7] = src[15];
++			src += 16;
++		}
++		}
++	}
++	}
++
++	/*************************************************************************/
++	int main(int argc, char **argv)
++	{
++	FILE *fin;
++	int i;
++
++	if (argc == 1) fin = stdin;
++	else fin = fopen(argv[1], "r");
++
++	if (fin == NULL) {
++		fprintf(stderr, "cannot open input\n");
++		exit(-1);
++	}
++	while (fread(frame, sizeof(frame), 1, fin) == 1) {
++		de_macro_y(framey, frame, 720, 720, 576);
++		de_macro_uv(frameu, framev, frame + 720 * 576, 720 / 2, 720 / 2, 576 / 2);
++		fwrite(framey, sizeof(framey), 1, stdout);
++		fwrite(framev, sizeof(framev), 1, stdout);
++		fwrite(frameu, sizeof(frameu), 1, stdout);
++	}
++	fclose(fin);
++	return 0;
++	}
 +
 +
-+From the data sheet:
++Format of embedded V4L2_MPEG_STREAM_VBI_FMT_IVTV VBI data
++---------------------------------------------------------
 +
-+- Register 24'h20004  PCI Interrupt Status
++Author: Hans Verkuil <hverkuil@xs4all.nl>
 +
-+ - bit [18]  IR_SMP_INT Set when 32 input samples have been collected over
-+ - gpio[16] pin into GP_SAMPLE register.
 +
-+What's missing from the data sheet:
++This section describes the V4L2_MPEG_STREAM_VBI_FMT_IVTV format of the VBI data
++embedded in an MPEG-2 program stream. This format is in part dictated by some
++hardware limitations of the ivtv driver (the driver for the Conexant cx23415/6
++chips), in particular a maximum size for the VBI data. Anything longer is cut
++off when the MPEG stream is played back through the cx23415.
 +
-+- Setup 4KHz sampling rate (roughly 2x oversampled; good enough for our RC5
-+  compat remote)
-+- set register 0x35C050 to  0xa80a80
-+- enable sampling
-+- set register 0x35C054 to 0x5
-+- enable the IRQ bit 18 in the interrupt mask register (and
-+  provide for a handler)
++The advantage of this format is it is very compact and that all VBI data for
++all lines can be stored while still fitting within the maximum allowed size.
 +
-+GP_SAMPLE register is at 0x35C058
++The stream ID of the VBI data is 0xBD. The maximum size of the embedded data is
++4 + 43 * 36, which is 4 bytes for a header and 2 * 18 VBI lines with a 1 byte
++header and a 42 bytes payload each. Anything beyond this limit is cut off by
++the cx23415/6 firmware. Besides the data for the VBI lines we also need 36 bits
++for a bitmask determining which lines are captured and 4 bytes for a magic cookie,
++signifying that this data package contains V4L2_MPEG_STREAM_VBI_FMT_IVTV VBI data.
++If all lines are used, then there is no longer room for the bitmask. To solve this
++two different magic numbers were introduced:
 +
-+Bits are then right shifted into the GP_SAMPLE register at the specified
-+rate; you get an interrupt when a full DWORD is received.
-+You need to recover the actual RC5 bits out of the (oversampled) IR sensor
-+bits. (Hint: look for the 0/1and 1/0 crossings of the RC5 bi-phase data)  An
-+actual raw RC5 code will span 2-3 DWORDS, depending on the actual alignment.
++'itv0': After this magic number two unsigned longs follow. Bits 0-17 of the first
++unsigned long denote which lines of the first field are captured. Bits 18-31 of
++the first unsigned long and bits 0-3 of the second unsigned long are used for the
++second field.
 +
-+I'm pretty sure when no IR signal is present the receiver is always in a
-+marking state(1); but stray light, etc can cause intermittent noise values
-+as well.  Remember, this is a free running sample of the IR receiver state
-+over time, so don't assume any sample starts at any particular place.
++'ITV0': This magic number assumes all VBI lines are captured, i.e. it implicitly
++implies that the bitmasks are 0xffffffff and 0xf.
 +
-+Additional info
-+~~~~~~~~~~~~~~~
++After these magic cookies (and the 8 byte bitmask in case of cookie 'itv0') the
++captured VBI lines start:
 +
-+This data sheet (google search) seems to have a lovely description of the
-+RC5 basics:
-+http://www.atmel.com/dyn/resources/prod_documents/doc2817.pdf
++For each line the least significant 4 bits of the first byte contain the data type.
++Possible values are shown in the table below. The payload is in the following 42
++bytes.
 +
-+This document has more data:
-+http://www.nenya.be/beor/electronics/rc5.htm
++Here is the list of possible data types:
 +
-+This document has a  how to decode a bi-phase data stream:
-+http://www.ee.washington.edu/circuit_archive/text/ir_decode.txt
++.. code-block:: c
 +
-+This document has still more info:
-+http://www.xs4all.nl/~sbp/knowledge/ir/rc5.htm
-diff --git a/Documentation/media/v4l-drivers/cx88.rst b/Documentation/media/v4l-drivers/cx88.rst
-index 698c73ea2e36..e4badb18199d 100644
---- a/Documentation/media/v4l-drivers/cx88.rst
-+++ b/Documentation/media/v4l-drivers/cx88.rst
-@@ -56,110 +56,3 @@ the driver.  What to do then?
-        trial-and-error using the tuner=<n> insmod option.  If you
-        know which one the card has you can also have a look at the
-        list in CARDLIST.tuner
--
--Documentation missing at the cx88 datasheet
---------------------------------------------
--
--MO_OUTPUT_FORMAT (0x310164)
--
--.. code-block:: none
--
--  Previous default from DScaler: 0x1c1f0008
--  Digit 8: 31-28
--  28: PREVREMOD = 1
--
--  Digit 7: 27-24 (0xc = 12 = b1100 )
--  27: COMBALT = 1
--  26: PAL_INV_PHASE
--    (DScaler apparently set this to 1, resulted in sucky picture)
--
--  Digits 6,5: 23-16
--  25-16: COMB_RANGE = 0x1f [default] (9 bits -> max 512)
--
--  Digit 4: 15-12
--  15: DISIFX = 0
--  14: INVCBF = 0
--  13: DISADAPT = 0
--  12: NARROWADAPT = 0
--
--  Digit 3: 11-8
--  11: FORCE2H
--  10: FORCEREMD
--  9: NCHROMAEN
--  8: NREMODEN
--
--  Digit 2: 7-4
--  7-6: YCORE
--  5-4: CCORE
--
--  Digit 1: 3-0
--  3: RANGE = 1
--  2: HACTEXT
--  1: HSFMT
--
--0x47 is the sync byte for MPEG-2 transport stream packets.
--Datasheet incorrectly states to use 47 decimal. 188 is the length.
--All DVB compliant frontends output packets with this start code.
--
--Hauppauge WinTV cx88 IR information
-------------------------------------
--
--The controls for the mux are GPIO [0,1] for source, and GPIO 2 for muting.
--
--====== ======== =================================================
--GPIO0  GPIO1
--====== ======== =================================================
--  0        0    TV Audio
--  1        0    FM radio
--  0        1    Line-In
--  1        1    Mono tuner bypass or CD passthru (tuner specific)
--====== ======== =================================================
--
--GPIO 16(I believe) is tied to the IR port (if present).
--
--
--From the data sheet:
--
--- Register 24'h20004  PCI Interrupt Status
--
-- - bit [18]  IR_SMP_INT Set when 32 input samples have been collected over
-- - gpio[16] pin into GP_SAMPLE register.
--
--What's missing from the data sheet:
--
--- Setup 4KHz sampling rate (roughly 2x oversampled; good enough for our RC5
--  compat remote)
--- set register 0x35C050 to  0xa80a80
--- enable sampling
--- set register 0x35C054 to 0x5
--- enable the IRQ bit 18 in the interrupt mask register (and
--  provide for a handler)
--
--GP_SAMPLE register is at 0x35C058
--
--Bits are then right shifted into the GP_SAMPLE register at the specified
--rate; you get an interrupt when a full DWORD is received.
--You need to recover the actual RC5 bits out of the (oversampled) IR sensor
--bits. (Hint: look for the 0/1and 1/0 crossings of the RC5 bi-phase data)  An
--actual raw RC5 code will span 2-3 DWORDS, depending on the actual alignment.
--
--I'm pretty sure when no IR signal is present the receiver is always in a
--marking state(1); but stray light, etc can cause intermittent noise values
--as well.  Remember, this is a free running sample of the IR receiver state
--over time, so don't assume any sample starts at any particular place.
--
--Additional info
--~~~~~~~~~~~~~~~
--
--This data sheet (google search) seems to have a lovely description of the
--RC5 basics:
--http://www.atmel.com/dyn/resources/prod_documents/doc2817.pdf
--
--This document has more data:
--http://www.nenya.be/beor/electronics/rc5.htm
--
--This document has a  how to decode a bi-phase data stream:
--http://www.ee.washington.edu/circuit_archive/text/ir_decode.txt
--
--This document has still more info:
--http://www.xs4all.nl/~sbp/knowledge/ir/rc5.htm
++	#define IVTV_SLICED_TYPE_TELETEXT       0x1     // Teletext (uses lines 6-22 for PAL)
++	#define IVTV_SLICED_TYPE_CC             0x4     // Closed Captions (line 21 NTSC)
++	#define IVTV_SLICED_TYPE_WSS            0x5     // Wide Screen Signal (line 23 PAL)
++	#define IVTV_SLICED_TYPE_VPS            0x7     // Video Programming System (PAL) (line 16)
++
 diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
-index 52d7c8d14ee7..dfc878c050da 100644
+index dfc878c050da..f3e34ccaf365 100644
 --- a/Documentation/media/v4l-drivers/index.rst
 +++ b/Documentation/media/v4l-drivers/index.rst
-@@ -68,6 +68,7 @@ For more details see the file COPYING in the source distribution of Linux.
+@@ -38,7 +38,6 @@ For more details see the file COPYING in the source distribution of Linux.
+ 	bttv
+ 	cafe_ccic
+ 	cpia2
+-	cx2341x
+ 	cx88
+ 	davinci-vpbe
+ 	fimc
+@@ -68,7 +67,9 @@ For more details see the file COPYING in the source distribution of Linux.
  
  	bttv-devel
  	cpia2_devel
-+	cx88-devel
++	cx2341x-devel
+ 	cx88-devel
  	vimc-devel
  
++	cx2341x-uapi
  	meye-uapi
 -- 
 2.24.1
