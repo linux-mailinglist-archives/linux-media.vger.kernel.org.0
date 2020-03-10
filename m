@@ -2,189 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 611B7180B55
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 23:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98F0B180C22
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 00:14:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727726AbgCJWSS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 18:18:18 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43979 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbgCJWSS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 18:18:18 -0400
-Received: by mail-pl1-f195.google.com with SMTP id f8so79287plt.10
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 15:18:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SvP/vPK8MWc/hkLtqEYCaNyI71mk5mVYojMdSNDwtdA=;
-        b=NwFD/TeXpItJ435LUmhPS0Mh9nAZMXDf/Bu2tk2hpPxVXGW5/lNzJlUdMwo5In/HIs
-         MyiDBbtcPU8Rz6JUCGh2Z33elDJniaHuA1zAMoY5Ooc2DG3e0d0mMowZNFx7I8+uAFcv
-         OVlECjVE2D8ZuKjx9JE5VjRUjTQxXczXKsEv4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SvP/vPK8MWc/hkLtqEYCaNyI71mk5mVYojMdSNDwtdA=;
-        b=L6ncXgUZqoob3ECGp8B5fA/E4NmTb+ETkhVE5ZptfHBbIlufCQC8u05/6mskwDKd+K
-         jfz42YTZG5vZicbE/o8bHNDgE6/hx3YkZ30M7NWcvI4gg3a44yMS9ESoHbiBv8qQbOLx
-         k7RXM7LWWFEwaH/XUpMHZ0UH7wxDUQ6tfYqXaBMZs/CFZhifAZYzxeFB3QlXzbhDyp/Z
-         B2UQrW4jOHxEYZIjA2E57KfKKggQp4a/QY8DRAMWzmpYtS6JTzwzXfr2P+MOGLTxrJ6+
-         Hs3OI4GkBfkSsTKOsO6CGustsJ8YxkFVWNbuZ4E/45sOC3pWS0csrHZnoEAtZmlu6R6b
-         3O3Q==
-X-Gm-Message-State: ANhLgQ2S58DVedhku/BYWRtUxYYxQl+Hsgd0MNgbwteJWSh1/KAA2Gx8
-        GvTA4Q7c6kV697aXxYQinDQ29A==
-X-Google-Smtp-Source: ADFU+vt9lfF+H9/djTccZTiXhHAadQ8vrYw/Unxcl7SI4VbR/F0rH/UN8qSWkE7b+TOHahct/cyS9w==
-X-Received: by 2002:a17:902:fe15:: with SMTP id g21mr96539plj.215.1583878696964;
-        Tue, 10 Mar 2020 15:18:16 -0700 (PDT)
-Received: from localhost ([2620:15c:f:10:14c5:dd6c:b86:da06])
-        by smtp.gmail.com with ESMTPSA id s21sm20741819pfd.99.2020.03.10.15.18.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2020 15:18:15 -0700 (PDT)
-From:   Fritz Koenig <frkoenig@chromium.org>
-To:     boris.brezillon@collabora.com
-Cc:     Brian.Starkey@arm.com, hans.verkuil@cisco.com, hiroh@chromium.org,
-        kernel@collabora.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        nicolas@ndufresne.ca, sakari.ailus@iki.fi, tfiga@chromium.org
-Subject: Re: [RFC PATCH v2 0/7] media: v4l2: Add extended fmt and buffer ioctls
-Date:   Tue, 10 Mar 2020 15:18:13 -0700
-Message-Id: <20200310221813.221766-1-frkoenig@chromium.org>
-X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
-In-Reply-To: <20191008091119.7294-1-boris.brezillon@collabora.com>
-References: <20191008091119.7294-1-boris.brezillon@collabora.com>
+        id S1727691AbgCJXOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 19:14:52 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:47338 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726402AbgCJXOv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Mar 2020 19:14:51 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jBo3N-00ACfT-Sg; Tue, 10 Mar 2020 23:12:50 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jBo6n-0008KQ-Vw; Tue, 10 Mar 2020 23:16:22 +0000
+Date:   Tue, 10 Mar 2020 23:16:21 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1149191273.12.1583882181982.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: camorama #9
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: camorama
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Boris,
+See <https://builder.linuxtv.org/job/camorama/9/display/redirect?page=changes>
 
-On Tue, Oct 8, 2019 at 11:11 AM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
+Changes:
 
-> Hello,
-> 
-> This RFC follows the discussion started by Hans [1] a few months back.
-> It does not try to address all the problem reported in this thread but
-> instead focuses on the FMT and BUF(S) ioctls.
-> 
-> Note that my primary goal is to unify handling for multiplanar and
-> singleplanar formats and extend things to support the "single dmabuf
-> storing all pixel planes" issue.
-> 
-> This version received a bit more testing than the previous one (added
-> new tests to v4l2-compliance [2] to make sure EXT ioctls work as
-> expected and also checked that !ext -> ext wrappers work correctly by
-> running the old tests). Note that I'm not planning to post those
-> v4l-utils patches on the ML until we've settled down on the userspace
-> API, unless I'm explicitly asked to do so.
-> 
-
-I'm new to V4L2, so I'm sorry if some of my questions don't make sense.
-
-The venus codec can decode to UBWC format so I'm working with this
-patch set to see how the modifiers flow will go.  I've been able to
-integrate these patches for the most part.
-
-Is the expectation with these new ioctls that they will work seamlessly with
-all codecs?  Or that a codec can implement only the ones that are needed?
-i.e. I only need to pass the modifier, so could I only implement S_EXT_FMT?
-And then is the expectation that I know that for EXT I set the queue to
-!MPLANE?
-
-I find the interaction between _MPLANE and !MPLANE to still be a odd with
-the new ioctls.  I had thought that I could use the same queue designation
-for all the calls.  But for the codec I'm looking at (venus) it is MPLANE only,
-so I call REQBUFS with V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE and all of the new
-ioctls with V4L2_BUF_TYPE_VIDEO_CAPTURE.  I'm failing to see how to do this
-in a backward compatible way.
-
-> Right now I'm focusing on the case I was primarily interested in:
-> single dmabuf storing all pixel planes (each being at a different
-> offset), and it seems that patching the VB2 core to support that is
-> not a trivial task.
-> 
-> So here are a few questions for V4L/DMABUF experts:
-> - Can the same dmabuf be mapped several times. I think it's okay apart
->   from the extra/needless time spent doing cache maintenance
->   operations, but there might be issues if an IOMMU is involved
->   (duplicate mappings?). If it's not okay, then we need to find a
->   solution to only attach/map the DMABUF once when it's used for
->   several planes (this is what I tried to do here [3], but I'm not
->   entirely happy with the implementation and started to investigate
->   another approach here [4]).
-> - How should we pass the offset to drivers that were previously using
->   the get_cookie() (or the dma_sg wrapper) to retrieve an sg table.
->   Adding the offset to the dma_addr or vaddr for vmalloc or dma-contig
->   case can be done in the core, but for an sg-table it's a bit more
->   complicated. Should drivers access this piece of information
->   directly from vb2_plane->dbuf_offset? And in that case, how do we
->   make sure drivers don't simply ignore the offset and assume it's
->   always zero? 
-> 
-> Few words about the feedback I got from Brian and Nicolas on my v1:
-> 
-> - modifier field has been moved to v4l2_ext_format as suggested
-> - v4l2_timecode is still not present in v4l2_ext_buffer, but can be
->   added back thanks to the extra reserved space
-> - the ENUMFMT is left as is for now, because I think we want Maxime's
->   work on DRM/V4L format unification to land before reworking the
->   ioctl (exposing extra info about the format and not only the 4CC
->   code?). That also means that there's currently no way to know which
->   modifiers are supported
-> - EXT_FMT/EXT_BUF capability flags to detect whether new ioctls are
->   supported or not have not been added yet
-> 
-> Nothing has changed in v3, just rebased patches on top of media/master
-> so we can discuss it during the Media Summit.
-> 
-> Regards,
-> 
-> Boris
-> 
-> [1]https://www.mail-archive.com/linux-media@vger.kernel.org/msg135729.html
-> [2]https://github.com/bbrezillon/v4l-utils/commits/master
-> [3]https://github.com/bbrezillon/linux/commit/4882435f80b05a61827649d55cc0f0cee79680a7
-> [4]https://github.com/bbrezillon/linux/commit/a415216c6aaab2d51f0bd62270b994c8196ddd90
-> 
-> Boris Brezillon (5):
->   media: v4l2: Extend pixel formats to unify single/multi-planar
->     handling (and more)
->   media: videobuf2: Expose helpers to implement the _ext_fmt and
->     _ext_buf hooks
->   media: mediabus: Add an helper to convert a ext_pix format to an
->     mbus_fmt
->   media: vivid: Convert the capture and output drivers to
->     EXT_FMT/EXT_BUF
->   media: vimc: Implement the ext_fmt and ext_buf hooks
-> 
-> Hans Verkuil (1):
->   media: v4l2: Add extended buffer operations
-> 
->  .../media/common/videobuf2/videobuf2-core.c   |    2 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  534 ++++----
->  drivers/media/platform/vimc/vimc-capture.c    |   65 +-
->  drivers/media/platform/vimc/vimc-common.c     |    4 +-
->  drivers/media/platform/vimc/vimc-common.h     |    2 +-
->  drivers/media/platform/vivid/vivid-core.c     |   30 +-
->  drivers/media/platform/vivid/vivid-vid-cap.c  |  171 +--
->  drivers/media/platform/vivid/vivid-vid-cap.h  |   15 +-
->  drivers/media/platform/vivid/vivid-vid-out.c  |  195 +--
->  drivers/media/platform/vivid/vivid-vid-out.h  |   15 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |   54 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 1127 +++++++++++++++--
->  include/media/v4l2-ioctl.h                    |   63 +
->  include/media/v4l2-mediabus.h                 |   22 +
->  include/media/videobuf2-core.h                |    6 +-
->  include/media/videobuf2-v4l2.h                |   26 +-
->  include/uapi/linux/videodev2.h                |  211 +++
->  17 files changed, 1897 insertions(+), 645 deletions(-)
-> 
-> -- 
-> 2.21.0
+[noreply] Rename README to README.md
 
 
+------------------------------------------
+[...truncated 5.97 KB...]
+checking whether C compiler accepts -Wno-missing-field-initializers... yes
+checking whether C compiler accepts -Wformat=2... yes
+checking whether C compiler accepts -Wcast-align... yes
+checking whether C compiler accepts -Wformat-nonliteral... yes
+checking whether C compiler accepts -Wformat-security... yes
+checking whether C compiler accepts -Wsign-compare... yes
+checking whether C compiler accepts -Wstrict-aliasing... yes
+checking whether C compiler accepts -Wshadow... yes
+checking whether C compiler accepts -Winline... yes
+checking whether C compiler accepts -Wpacked... yes
+checking whether C compiler accepts -Wmissing-format-attribute... yes
+checking whether C compiler accepts -Wmissing-noreturn... yes
+checking whether C compiler accepts -Winit-self... yes
+checking whether C compiler accepts -Wredundant-decls... (cached) yes
+checking whether C compiler accepts -Wmissing-include-dirs... yes
+checking whether C compiler accepts -Wunused-but-set-variable... yes
+checking whether C compiler accepts -Warray-bounds... yes
+checking whether C compiler accepts -Wreturn-type... yes
+checking whether C compiler accepts -Wswitch-enum... yes
+checking whether C compiler accepts -Wswitch-default... yes
+checking whether C compiler accepts -Wduplicated-cond... yes
+checking whether C compiler accepts -Wduplicated-branches... yes
+checking whether C compiler accepts -Wlogical-op... yes
+checking whether C compiler accepts -Wrestrict... yes
+checking whether C compiler accepts -Wnull-dereference... yes
+checking whether C compiler accepts -Wdouble-promotion... yes
+checking whether C compiler accepts -Wno-error=unused-parameter... yes
+checking whether C compiler accepts -Wno-error=missing-field-initializers... yes
+checking whether C compiler accepts -Werror=unknown-warning-option... (cached) no
+checking whether the linker accepts -Wl,--as-needed... yes
+checking whether the linker accepts -Wl,--as-needed... yes
+checking whether the linker accepts -Wl,-z,relro... yes
+checking whether the linker accepts -Wl,-z,relro... yes
+checking whether the linker accepts -Wl,-z,now... yes
+checking whether the linker accepts -Wl,-z,now... yes
+checking whether the linker accepts -Wl,-z,noexecstack... yes
+checking whether the linker accepts -Wl,-z,noexecstack... yes
+checking whether the linker accepts -Wl,--no-as-needed... yes
+checking whether the linker accepts -Wl,--fatal-warnings... yes
+checking whether the linker accepts -Wl,-fatal_warnings... no
+checking whether the linker accepts -Wl,--no-as-needed... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.16... yes
+checking for PACKAGE... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating data/Makefile
+config.status: creating po/Makefile.in
+config.status: creating config.h
+config.status: config.h is unchanged
+config.status: executing po-directories commands
+config.status: creating po/POTFILES
+config.status: creating po/Makefile
+config.status: executing depfiles commands
+
+compile time options summary
+============================
+
+    Gtk version to use: 3
++ make
+CDPATH="${ZSH_VERSION+.}:" && cd . && /bin/bash <https://builder.linuxtv.org/job/camorama/ws/missing> aclocal-1.16 -I m4
+configure.ac:11: warning: gl_HOST_CPU_C_ABI_32BIT is m4_require'd but not m4_defun'd
+m4/lib-prefix.m4:155: AC_LIB_PREPARE_MULTILIB is expanded from...
+m4/lib-link.m4:181: AC_LIB_LINKFLAGS_BODY is expanded from...
+m4/iconv.m4:10: AM_ICONV_LINKFLAGS_BODY is expanded from...
+m4/gettext.m4:55: AM_GNU_GETTEXT is expanded from...
+configure.ac:11: the top level
+CDPATH="${ZSH_VERSION+.}:" && cd . && /bin/bash <https://builder.linuxtv.org/job/camorama/ws/missing> autoconf
+ cd . && /bin/bash <https://builder.linuxtv.org/job/camorama/ws/missing> automake-1.16 --gnu
+configure.ac:11: warning: gl_HOST_CPU_C_ABI_32BIT is m4_require'd but not m4_defun'd
+m4/lib-prefix.m4:155: AC_LIB_PREPARE_MULTILIB is expanded from...
+m4/lib-link.m4:181: AC_LIB_LINKFLAGS_BODY is expanded from...
+m4/iconv.m4:10: AM_ICONV_LINKFLAGS_BODY is expanded from...
+m4/gettext.m4:55: AM_GNU_GETTEXT is expanded from...
+configure.ac:11: the top level
+/bin/bash ./config.status --recheck
+configure.ac:11: warning: gl_HOST_CPU_C_ABI_32BIT is m4_require'd but not m4_defun'd
+m4/lib-prefix.m4:155: AC_LIB_PREPARE_MULTILIB is expanded from...
+m4/lib-link.m4:181: AC_LIB_LINKFLAGS_BODY is expanded from...
+m4/iconv.m4:10: AM_ICONV_LINKFLAGS_BODY is expanded from...
+m4/gettext.m4:55: AM_GNU_GETTEXT is expanded from...
+configure.ac:11: the top level
+running CONFIG_SHELL=/bin/bash /bin/bash ./configure --no-create --no-recursion
+Makefile.am: error: required file './README' not found
+checking for a BSD-compatible install... make: *** [Makefile:399: Makefile.in] Error 1
+make: *** Waiting for unfinished jobs....
+/usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for a sed that does not truncate output... /usr/bin/sed
+checking whether NLS is requested... yes
+checking for msgfmt... /usr/bin/msgfmt
+checking for gmsgfmt... /usr/bin/msgfmt
+checking for xgettext... /usr/bin/xgettext
+checking for msgmerge... /usr/bin/msgmerge
+checking whether make supports the include directive... yes (GNU style)
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking dependency style of gcc... gcc3
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for shared library run path origin... done
+./configure: line 4474: gl_HOST_CPU_C_ABI_32BIT: command not found
+checking for the common suffixes of directories in the library search path... lib,lib
+checking for CFPreferencesCopyAppValue... no
+checking for CFLocaleCopyCurrent... no
+checking for CFLocaleCopyPreferredLanguages... no
+checking for GNU gettext in libc... yes
+checking whether to use NLS... yes
+checking where the gettext function comes from... libc
+checking prefix... /usr/local
+checking for library containing strerror... none required
+checking for gcc... (cached) gcc
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether gcc accepts -g... (cached) yes
+checking for gcc option to accept ISO C89... (cached) none needed
+checking whether gcc understands -c and -o together... (cached) yes
+checking dependency style of gcc... (cached) gcc3
+checking for gcc... (cached) gcc
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether gcc accepts -g... (cached) yes
+checking for gcc option to accept ISO C89... (cached) none needed
+checking whether gcc understands -c and -o together... (cached) yes
+checking dependency style of gcc... (cached) gcc3
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking whether sys/types.h defines makedev... no
+checking sys/mkdev.h usability... no
+checking sys/mkdev.h presence... no
+checking for sys/mkdev.h... no
+checking sys/sysmacros.h usability... yes
+checking sys/sysmacros.h presence... yes
+checking for sys/sysmacros.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking sys/ioctl.h usability... yes
+checking sys/ioctl.h presence... yes
+checking for sys/ioctl.h... yes
+checking for unistd.h... (cached) yes
+checking linux/videodev.h usability... no
+checking linux/videodev.h presence... no
+checking for linux/videodev.h... no
+checking png.h usability... yes
+checking png.h presence... yes
+checking for png.h... yes
+checking glade/glade.h usability... no
+checking glade/glade.h presence... no
+checking for glade/glade.h... no
+checking for v4l2_open in -lv4l2... yes
+checking whether C compiler accepts -Werror=unknown-warning-option... no
+checking whether C compiler accepts -Wno-suggest-attribute=format... yes
+checking whether C compiler accepts -fno-strict-aliasing... yes
+checking whether C compiler accepts -Wall... yes
+checking whether C compiler accepts -Wextra... yes
+checking whether C compiler accepts -Wundef... yes
+checking whether C compiler accepts -Wwrite-strings... yes
+checking whether C compiler accepts -Wpointer-arith... yes
+checking whether C compiler accepts -Wmissing-declarations... yes
+checking whether C compiler accepts -Wredundant-decls... yes
+checking whether C compiler accepts -Wno-unused-parameter... yes
+checking whether C compiler accepts -Wno-missing-field-initializers... yes
+checking whether C compiler accepts -Wformat=2... yes
+checking whether C compiler accepts -Wcast-align... yes
+checking whether C compiler accepts -Wformat-nonliteral... yes
+checking whether C compiler accepts -Wformat-security... yes
+checking whether C compiler accepts -Wsign-compare... yes
+checking whether C compiler accepts -Wstrict-aliasing... yes
+checking whether C compiler accepts -Wshadow... yes
+checking whether C compiler accepts -Winline... yes
+checking whether C compiler accepts -Wpacked... yes
+checking whether C compiler accepts -Wmissing-format-attribute... yes
+checking whether C compiler accepts -Wmissing-noreturn... yes
+checking whether C compiler accepts -Winit-self... yes
+checking whether C compiler accepts -Wredundant-decls... (cached) yes
+checking whether C compiler accepts -Wmissing-include-dirs... yes
+checking whether C compiler accepts -Wunused-but-set-variable... yes
+checking whether C compiler accepts -Warray-bounds... yes
+checking whether C compiler accepts -Wreturn-type... yes
+checking whether C compiler accepts -Wswitch-enum... yes
+checking whether C compiler accepts -Wswitch-default... yes
+checking whether C compiler accepts -Wduplicated-cond... yes
+checking whether C compiler accepts -Wduplicated-branches... yes
+checking whether C compiler accepts -Wlogical-op... yes
+checking whether C compiler accepts -Wrestrict... yes
+checking whether C compiler accepts -Wnull-dereference... yes
+checking whether C compiler accepts -Wdouble-promotion... yes
+checking whether C compiler accepts -Wnested-externs... yes
+checking whether C compiler accepts -Wmissing-prototypes... yes
+checking whether C compiler accepts -Wstrict-prototypes... yes
+checking whether C compiler accepts -Wdeclaration-after-statement... yes
+checking whether C compiler accepts -Wimplicit-function-declaration... yes
+checking whether C compiler accepts -Wold-style-definition... yes
+checking whether C compiler accepts -Wjump-misses-init... yes
+checking whether C compiler accepts -Wno-error=unused-parameter... yes
+checking whether C compiler accepts -Wno-error=missing-field-initializers... yes
+checking whether C compiler accepts -Werror=unknown-warning-option... (cached) no
+checking whether the linker accepts -Wl,--as-needed... yes
+checking whether the linker accepts -Wl,--as-needed... yes
+checking whether the linker accepts -Wl,-z,relro... yes
+checking whether the linker accepts -Wl,-z,relro... yes
+checking whether the linker accepts -Wl,-z,now... yes
+checking whether the linker accepts -Wl,-z,now... yes
+checking whether the linker accepts -Wl,-z,noexecstack... yes
+checking whether the linker accepts -Wl,-z,noexecstack... yes
+checking whether the linker accepts -Wl,--no-as-needed... yes
+checking whether the linker accepts -Wl,--fatal-warnings... yes
+checking whether the linker accepts -Wl,-fatal_warnings... no
+checking whether the linker accepts -Wl,--no-as-needed... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.16... yes
+checking for PACKAGE... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+
+compile time options summary
+============================
+
+    Gtk version to use: 3
+Build step 'Execute shell' marked build as failure
