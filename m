@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 429D217FEDF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:43:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9849B17FF23
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:44:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727407AbgCJNnU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 09:43:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37598 "EHLO mail.kernel.org"
+        id S1727359AbgCJNnT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 09:43:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37668 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726979AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726551AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 10 Mar 2020 09:43:19 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 33E0024696;
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C51724697;
         Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1583847797;
-        bh=ZbUxE4qmaJpjCh53VNItYQAdXkWgNpvqmaDLJujFXdc=;
+        bh=haisXx7Fkzh8TLhrGRECQWNhHUxca5nMU7XrwHj6PW0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tq8OGCCRIXbvfhEHXhkYn953gqEza8TALJ2GJfpnJveGJN4kyoVEqw6f1ccbH4ZJO
-         O7QSldLPofag3d/2s3Bb8cw83tF6g3SxIr2yw+njqpEEVFGC1MnF9fhOXNXa64nXi6
-         p9ZHsukXomOloGVSSU4IvDt7sGgEpwcM/bhY7454=
+        b=ICPNSTIeCkHDIldBa3n2osVmMKjH5bg6XMYsBmK2xpbgtKA0xlD0EMXEhO9TDbn0g
+         y82k/9hT7Npalsq1NvHgr5wo2Ezhbqv8xkmeXbDGkynE2dTcoOJgUcCbsbfxm3oZ0K
+         QZfBb361OiPPkGpQPXTQzhvFKxFCgqgTGkdNk7Fo=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jBfAB-0005w7-BT; Tue, 10 Mar 2020 14:43:15 +0100
+        id 1jBfAB-0005wB-CI; Tue, 10 Mar 2020 14:43:15 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2 12/22] media: docs: split uAPI info from fimc.rst
-Date:   Tue, 10 Mar 2020 14:43:03 +0100
-Message-Id: <ecd443e3b29035e1fdd9ebb20a0d8c40ae4cacbb.1583847556.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 13/22] media: docs: split uAPI info from saa7134-devel.rst
+Date:   Tue, 10 Mar 2020 14:43:04 +0100
+Message-Id: <b29aa35ac3639d2f75344cdd2b32bb4a834fae11.1583847556.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
 References: <cover.1583847556.git.mchehab+huawei@kernel.org>
@@ -51,110 +51,162 @@ Split on two, as they're usually read by different audiences.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/v4l-drivers/fimc-devel.rst          | 33 +++++++++++++++++++
- Documentation/media/v4l-drivers/fimc.rst      | 22 ++-----------
  Documentation/media/v4l-drivers/index.rst     |  1 +
- 3 files changed, 36 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/media/v4l-drivers/fimc-devel.rst
+ .../media/v4l-drivers/saa7134-devel.rst       | 67 +++++++++++++++++++
+ Documentation/media/v4l-drivers/saa7134.rst   | 54 ---------------
+ 3 files changed, 68 insertions(+), 54 deletions(-)
+ create mode 100644 Documentation/media/v4l-drivers/saa7134-devel.rst
 
-diff --git a/Documentation/media/v4l-drivers/fimc-devel.rst b/Documentation/media/v4l-drivers/fimc-devel.rst
-new file mode 100644
-index 000000000000..956e3a9901f8
---- /dev/null
-+++ b/Documentation/media/v4l-drivers/fimc-devel.rst
-@@ -0,0 +1,33 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+The Samsung S5P/EXYNOS4 FIMC driver
-+===================================
-+
-+Copyright |copy| 2012 - 2013 Samsung Electronics Co., Ltd.
-+
-+Files partitioning
-+------------------
-+
-+- media device driver
-+
-+  drivers/media/platform/exynos4-is/media-dev.[ch]
-+
-+- camera capture video device driver
-+
-+  drivers/media/platform/exynos4-is/fimc-capture.c
-+
-+- MIPI-CSI2 receiver subdev
-+
-+  drivers/media/platform/exynos4-is/mipi-csis.[ch]
-+
-+- video post-processor (mem-to-mem)
-+
-+  drivers/media/platform/exynos4-is/fimc-core.c
-+
-+- common files
-+
-+  drivers/media/platform/exynos4-is/fimc-core.h
-+  drivers/media/platform/exynos4-is/fimc-reg.h
-+  drivers/media/platform/exynos4-is/regs-fimc.h
-diff --git a/Documentation/media/v4l-drivers/fimc.rst b/Documentation/media/v4l-drivers/fimc.rst
-index 74585ba48b7f..0b8ddc4a3008 100644
---- a/Documentation/media/v4l-drivers/fimc.rst
-+++ b/Documentation/media/v4l-drivers/fimc.rst
-@@ -38,26 +38,6 @@ Not currently supported
- - LCD writeback input
- - per frame clock gating (mem-to-mem)
- 
--Files partitioning
--------------------
--
--- media device driver
--  drivers/media/platform/exynos4-is/media-dev.[ch]
--
--- camera capture video device driver
--  drivers/media/platform/exynos4-is/fimc-capture.c
--
--- MIPI-CSI2 receiver subdev
--  drivers/media/platform/exynos4-is/mipi-csis.[ch]
--
--- video post-processor (mem-to-mem)
--  drivers/media/platform/exynos4-is/fimc-core.c
--
--- common files
--  drivers/media/platform/exynos4-is/fimc-core.h
--  drivers/media/platform/exynos4-is/fimc-reg.h
--  drivers/media/platform/exynos4-is/regs-fimc.h
--
- User space interfaces
- ---------------------
- 
-@@ -74,6 +54,7 @@ connections of the MIPI-CSIS device(s) to the FIMC entities.
- The media device interface allows to configure the SoC for capturing image
- data from the sensor through more than one FIMC instance (e.g. for simultaneous
- viewfinder and still capture setup).
-+
- Reconfiguration is done by enabling/disabling media links created by the driver
- during initialization. The internal device topology can be easily discovered
- through media entity and links enumeration.
-@@ -116,6 +97,7 @@ sensor subdev -> mipi-csi subdev -> fimc subdev -> video node
- When we configure these devices through sub-device API at user space, the
- configuration flow must be from left to right, and the video node is
- configured as last one.
-+
- When we don't use sub-device user space API the whole configuration of all
- devices belonging to the pipeline is done at the video node driver.
- The sysfs entry allows to instruct the capture node driver not to configure
 diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
-index 2d782a40a7b6..adf72937b119 100644
+index adf72937b119..6fdfd9a41913 100644
 --- a/Documentation/media/v4l-drivers/index.rst
 +++ b/Documentation/media/v4l-drivers/index.rst
-@@ -70,6 +70,7 @@ For more details see the file COPYING in the source distribution of Linux.
- 	cx2341x-devel
+@@ -71,6 +71,7 @@ For more details see the file COPYING in the source distribution of Linux.
  	cx88-devel
  	davinci-vpbe-devel
-+	fimc-devel
+ 	fimc-devel
++	saa7134-devel
  	vimc-devel
  
  	cx2341x-uapi
+diff --git a/Documentation/media/v4l-drivers/saa7134-devel.rst b/Documentation/media/v4l-drivers/saa7134-devel.rst
+new file mode 100644
+index 000000000000..167fd729bc8c
+--- /dev/null
++++ b/Documentation/media/v4l-drivers/saa7134-devel.rst
+@@ -0,0 +1,67 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++The saa7134 driver
++==================
++
++Author Gerd Hoffmann
++
++
++Card Variations:
++----------------
++
++Cards can use either of these two crystals (xtal):
++
++- 32.11 MHz -> .audio_clock=0x187de7
++- 24.576MHz -> .audio_clock=0x200000 (xtal * .audio_clock = 51539600)
++
++Some details about 30/34/35:
++
++- saa7130 - low-price chip, doesn't have mute, that is why all those
++  cards should have .mute field defined in their tuner structure.
++
++- saa7134 - usual chip
++
++- saa7133/35 - saa7135 is probably a marketing decision, since all those
++  chips identifies itself as 33 on pci.
++
++LifeView GPIOs
++--------------
++
++This section was authored by: Peter Missel <peter.missel@onlinehome.de>
++
++- LifeView FlyTV Platinum FM (LR214WF)
++
++    - GP27    MDT2005 PB4 pin 10
++    - GP26    MDT2005 PB3 pin 9
++    - GP25    MDT2005 PB2 pin 8
++    - GP23    MDT2005 PB1 pin 7
++    - GP22    MDT2005 PB0 pin 6
++    - GP21    MDT2005 PB5 pin 11
++    - GP20    MDT2005 PB6 pin 12
++    - GP19    MDT2005 PB7 pin 13
++    - nc      MDT2005 PA3 pin 2
++    - Remote  MDT2005 PA2 pin 1
++    - GP18    MDT2005 PA1 pin 18
++    - nc      MDT2005 PA0 pin 17 strap low
++    - GP17    Strap "GP7"=High
++    - GP16    Strap "GP6"=High
++
++	- 0=Radio 1=TV
++	- Drives SA630D ENCH1 and HEF4052 A1 pinsto do FM radio through
++	  SIF input
++
++    - GP15    nc
++    - GP14    nc
++    - GP13    nc
++    - GP12    Strap "GP5" = High
++    - GP11    Strap "GP4" = High
++    - GP10    Strap "GP3" = High
++    - GP09    Strap "GP2" = Low
++    - GP08    Strap "GP1" = Low
++    - GP07.00 nc
++
++Credits
++-------
++
++andrew.stevens@philips.com + werner.leeb@philips.com for providing
++saa7134 hardware specs and sample board.
+diff --git a/Documentation/media/v4l-drivers/saa7134.rst b/Documentation/media/v4l-drivers/saa7134.rst
+index 15d06facdbc1..c84246dd81c0 100644
+--- a/Documentation/media/v4l-drivers/saa7134.rst
++++ b/Documentation/media/v4l-drivers/saa7134.rst
+@@ -54,60 +54,6 @@ Known Problems
+   default might not work for you depending on which version you have.
+   There is a tuner= insmod option to override the driver's default.
+ 
+-Card Variations:
+-----------------
+-
+-Cards can use either of these two crystals (xtal):
+-
+-- 32.11 MHz -> .audio_clock=0x187de7
+-- 24.576MHz -> .audio_clock=0x200000 (xtal * .audio_clock = 51539600)
+-
+-Some details about 30/34/35:
+-
+-- saa7130 - low-price chip, doesn't have mute, that is why all those
+-  cards should have .mute field defined in their tuner structure.
+-
+-- saa7134 - usual chip
+-
+-- saa7133/35 - saa7135 is probably a marketing decision, since all those
+-  chips identifies itself as 33 on pci.
+-
+-LifeView GPIOs
+---------------
+-
+-This section was authored by: Peter Missel <peter.missel@onlinehome.de>
+-
+-- LifeView FlyTV Platinum FM (LR214WF)
+-
+-    - GP27    MDT2005 PB4 pin 10
+-    - GP26    MDT2005 PB3 pin 9
+-    - GP25    MDT2005 PB2 pin 8
+-    - GP23    MDT2005 PB1 pin 7
+-    - GP22    MDT2005 PB0 pin 6
+-    - GP21    MDT2005 PB5 pin 11
+-    - GP20    MDT2005 PB6 pin 12
+-    - GP19    MDT2005 PB7 pin 13
+-    - nc      MDT2005 PA3 pin 2
+-    - Remote  MDT2005 PA2 pin 1
+-    - GP18    MDT2005 PA1 pin 18
+-    - nc      MDT2005 PA0 pin 17 strap low
+-    - GP17    Strap "GP7"=High
+-    - GP16    Strap "GP6"=High
+-
+-	- 0=Radio 1=TV
+-	- Drives SA630D ENCH1 and HEF4052 A1 pinsto do FM radio through
+-	  SIF input
+-
+-    - GP15    nc
+-    - GP14    nc
+-    - GP13    nc
+-    - GP12    Strap "GP5" = High
+-    - GP11    Strap "GP4" = High
+-    - GP10    Strap "GP3" = High
+-    - GP09    Strap "GP2" = Low
+-    - GP08    Strap "GP1" = Low
+-    - GP07.00 nc
+-
+ Credits
+ -------
+ 
 -- 
 2.24.1
 
