@@ -2,29 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98F0B180C22
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 00:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED234180C63
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 00:29:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727691AbgCJXOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 19:14:52 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:47338 "EHLO www.linuxtv.org"
+        id S1727719AbgCJX3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 19:29:48 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:50076 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726402AbgCJXOv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 19:14:51 -0400
+        id S1727695AbgCJX3s (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Mar 2020 19:29:48 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1jBo3N-00ACfT-Sg; Tue, 10 Mar 2020 23:12:50 +0000
+        id 1jBoHq-00ADKm-KL; Tue, 10 Mar 2020 23:27:46 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1jBo6n-0008KQ-Vw; Tue, 10 Mar 2020 23:16:22 +0000
-Date:   Tue, 10 Mar 2020 23:16:21 +0000 (UTC)
+        id 1jBoLG-0001JW-K5; Tue, 10 Mar 2020 23:31:19 +0000
+Date:   Tue, 10 Mar 2020 23:31:18 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1149191273.12.1583882181982.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: camorama #9
+Message-ID: <378145227.13.1583883078615.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1149191273.12.1583882181982.JavaMail.jenkins@builder.linuxtv.org>
+References: <1149191273.12.1583882181982.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: camorama #10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -37,15 +39,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/camorama/9/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/camorama/10/display/redirect?page=changes>
 
 Changes:
 
-[noreply] Rename README to README.md
+[noreply] Update README.md
 
 
 ------------------------------------------
-[...truncated 5.97 KB...]
+[...truncated 5.96 KB...]
 checking whether C compiler accepts -Wno-missing-field-initializers... yes
 checking whether C compiler accepts -Wformat=2... yes
 checking whether C compiler accepts -Wcast-align... yes
@@ -132,9 +134,9 @@ m4/gettext.m4:55: AM_GNU_GETTEXT is expanded from...
 configure.ac:11: the top level
 running CONFIG_SHELL=/bin/bash /bin/bash ./configure --no-create --no-recursion
 Makefile.am: error: required file './README' not found
-checking for a BSD-compatible install... make: *** [Makefile:399: Makefile.in] Error 1
+make: *** [Makefile:399: Makefile.in] Error 1
 make: *** Waiting for unfinished jobs....
-/usr/bin/install -c
+checking for a BSD-compatible install... /usr/bin/install -c
 checking whether build environment is sane... yes
 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
 checking for gawk... no
