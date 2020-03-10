@@ -2,104 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F7DA1806FF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 19:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D4A71807C2
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 20:15:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbgCJSiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 14:38:09 -0400
-Received: from mail-ot1-f44.google.com ([209.85.210.44]:42779 "EHLO
-        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgCJSiJ (ORCPT
+        id S1727313AbgCJTPz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 15:15:55 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:46887 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726899AbgCJTPz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 14:38:09 -0400
-Received: by mail-ot1-f44.google.com with SMTP id 66so14166445otd.9;
-        Tue, 10 Mar 2020 11:38:08 -0700 (PDT)
+        Tue, 10 Mar 2020 15:15:55 -0400
+Received: by mail-yw1-f67.google.com with SMTP id x5so13872705ywb.13
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 12:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=F5xmRnw3iFC1oYda1NXpjCom9qoXD1COhPg6AM6oC5Q=;
+        b=OeDDa56LbrtZ/iuivK2RqEIuLiTlJkW8pxn0ko+UwBKoMOesqJQ6PVlyw9Rbh75ToK
+         hHO+ME6MBDP/9/NjNg59gW9shlb+NJhSBMFYNsNQTiA+JsFCkhoxAvAv/0y1gSYgxU3t
+         XPAHu5KNKXGzg/gh4Of+Tw/vfjeiesIHGiLWnTEcnERYTn7w/QYg5FL86aRvCVrjUHE6
+         4x/arrxqf30CurWvr0Wi6szAz3eyILZfzmTv/2j9NUYYWg/KoWx8tbxTCHry4uELw3cm
+         wic8fRrJlj6kTpB3MPT9nQUqGEyXtLF+hlWMnSg/vVkek0QLG/B0d6osg/Sz3og2wCmI
+         637g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=chsItn4WiJE7pzsGnhBJBMqcVhnfvQYQFixkTol5ZYk=;
-        b=EaGUxDpyspCcQquluDu2I+ZoHZ0/Go9Wqypajd204FqIReX2CZ4JXhzFdNA3T0YIXw
-         gjDy1IclucFf0khod4x/bJShlEZp1V4POp54fZD9oUMhpTyw8wVB2kenSBw4jqh+x4pZ
-         K4SBHeJIh85C1q4KoiPW5fLI/iAXGF8rjfkFvrQ3zT7MTNZrEmKVTOmPYe/LgE7lhOJS
-         r+3iIydPOE+jjfEOBsR3OJlPnSxqsVA6aIOePSWECAAMMDkt8e7jzJPBGiuRRuWf9jDS
-         uz+VRkPhFttUo56n5IDUYXjshXdRqv0RIfZBDUPTYx30/e9+f3MJG1r9IDO+WFU1PDwu
-         du0g==
-X-Gm-Message-State: ANhLgQ149nJdSCZEYCPehllOv/QdmBYwbKkp2yctYi9kzZvLt3n0akRJ
-        dhXLTjsXt6Kcm9TASbsqnw==
-X-Google-Smtp-Source: ADFU+vsSy3ToLL01JhINM1D/WNZOi2tkQmSVGZYt2683m4vdKUspzQPGZvwOiv6OZuKRB8eB55EM0g==
-X-Received: by 2002:a05:6830:1d6f:: with SMTP id l15mr17301226oti.299.1583865488168;
-        Tue, 10 Mar 2020 11:38:08 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id s83sm4446188oif.33.2020.03.10.11.38.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 11:38:06 -0700 (PDT)
-Received: (nullmailer pid 25739 invoked by uid 1000);
-        Tue, 10 Mar 2020 18:38:05 -0000
-Date:   Tue, 10 Mar 2020 13:38:05 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     ben.kao@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, matthias.bgg@gmail.com, davem@davemloft.net,
-        gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
-        andriy.shevchenko@linux.intel.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>
-Subject: Re: [v1 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200310183805.GA24623@bogus>
-References: <20200310134603.30260-1-robert.foss@linaro.org>
- <20200310134603.30260-2-robert.foss@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=F5xmRnw3iFC1oYda1NXpjCom9qoXD1COhPg6AM6oC5Q=;
+        b=emsLYoz7lilJvjWlHssBrAxe/1ApstK1gin9IkCeG2kT5AwPkL0hGRVEY+ox1cHuXK
+         TcvVWEJGWxmpxjMSmnSD2cGa4WfSRWD6cGC2sbOvdeRlVmDdzIZIl9PN1Jy6Bc/oJ9Sj
+         GYcGBR28/1TG46ToEGB0UtdETSIDx4nFebND4K1x2NihIDD8QHlc4+5rs1Ktso4zM4Ft
+         yYsJn9otJhYFk4F9EM799wiW6muVpyvRRmsBDxEegGo8gZ7tZGiSvCHZygvpfhQmnCkk
+         98fAGH+hnGGtw3VGw+Ywv9t8A8Hq+JZHj/muOm6xFxWSvGSs/q0N6Lyq0mGTVj9JLzpb
+         N75Q==
+X-Gm-Message-State: ANhLgQ3fiQicFji0oXCvPasD+ZUQjazkM2yu7DcZOHzYVs91QAqBb5H7
+        mKYuCZvkqKit/Dik6nb4ng9yXzHqtjrfh2NfKflm
+X-Google-Smtp-Source: ADFU+vsLObp+bwFbBCad7Abx+63o7qwR2TV/gkRJyhjDyyj9TQYojni7W2FH9WCmT9d5rkwFCM3keOU+MV575rYAsL8=
+X-Received: by 2002:a81:85c1:: with SMTP id v184mr21039832ywf.53.1583867752301;
+ Tue, 10 Mar 2020 12:15:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200310134603.30260-2-robert.foss@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1583472756-7611-1-git-send-email-mansur@codeaurora.org>
+In-Reply-To: <1583472756-7611-1-git-send-email-mansur@codeaurora.org>
+From:   Jeffrey Kardatzke <jkardatzke@google.com>
+Date:   Tue, 10 Mar 2020 12:15:40 -0700
+Message-ID: <CA+ddPcMPOWcnTkauDE7AmnfsyUu4psY343QTZR0WhS8QCEY2cg@mail.gmail.com>
+Subject: Re: [PATCH] venus: avoid extra locking in driver
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 10 Mar 2020 14:46:01 +0100, Robert Foss wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> 
-> This patch adds documentation of device tree in YAML schema for the
-> OV8856 CMOS image sensor.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+Tested-by: Jeffrey Kardatzke <jkardatzke@google.com>
+
+On Thu, Mar 5, 2020 at 9:34 PM Mansur Alisha Shaik
+<mansur@codeaurora.org> wrote:
+>
+> This change will avoid extra locking in driver.
+>
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 > ---
-> 
-> - Changes since v3:
->   * robher: Fix syntax error
->   * robher: Removed maxItems
->   * Fixes yaml 'make dt-binding-check' errors
-> 
-> - Changes since v2:
->   Fixes comments from from Andy, Tomasz, Sakari, Rob.
->   * Convert text documentation to YAML schema.
-> 
-> - Changes since v1:
->   Fixes comments from Sakari, Tomasz
->   * Add clock-frequency and link-frequencies in DT
-> 
->  .../devicetree/bindings/media/i2c/ov8856.yaml | 129 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 130 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> 
+>  drivers/media/platform/qcom/venus/core.c       |  2 +-
+>  drivers/media/platform/qcom/venus/core.h       |  2 +-
+>  drivers/media/platform/qcom/venus/helpers.c    | 11 +++++++++--
+>  drivers/media/platform/qcom/venus/pm_helpers.c |  8 ++++----
+>  4 files changed, 15 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 194b10b9..75d38b8 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -447,7 +447,7 @@ static const struct freq_tbl sdm845_freq_table[] = {
+>         {  244800, 100000000 }, /* 1920x1080@30 */
+>  };
+>
+> -static struct codec_freq_data sdm845_codec_freq_data[] =  {
+> +static const struct codec_freq_data sdm845_codec_freq_data[] =  {
+>         { V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
+>         { V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
+>         { V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index ab7c360..8c8d0e9 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -245,7 +245,7 @@ struct venus_buffer {
+>  struct clock_data {
+>         u32 core_id;
+>         unsigned long freq;
+> -       const struct codec_freq_data *codec_freq_data;
+> +       struct codec_freq_data codec_freq_data;
+>  };
+>
+>  #define to_venus_buffer(ptr)   container_of(ptr, struct venus_buffer, vb)
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index bcc6038..550c4ff 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -807,6 +807,7 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+>         unsigned int i, data_size;
+>         u32 pixfmt;
+>         int ret = 0;
+> +       bool found = false;
+>
+>         if (!IS_V4(inst->core))
+>                 return 0;
+> @@ -816,16 +817,22 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
+>         pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
+>                         inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
+>
+> +       memset(&inst->clk_data.codec_freq_data, 0,
+> +               sizeof(inst->clk_data.codec_freq_data));
+> +
+>         for (i = 0; i < data_size; i++) {
+>                 if (data[i].pixfmt == pixfmt &&
+>                     data[i].session_type == inst->session_type) {
+> -                       inst->clk_data.codec_freq_data = &data[i];
+> +                       inst->clk_data.codec_freq_data = data[i];
+> +                       found = true;
+>                         break;
+>                 }
+>         }
+>
+> -       if (!inst->clk_data.codec_freq_data)
+> +       if (!found) {
+> +               dev_err(inst->core->dev, "cannot find codec freq data\n");
+>                 ret = -EINVAL;
+> +       }
+>
+>         return ret;
+>  }
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index abf9315..240845e 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -496,7 +496,7 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
+>         list_for_each_entry(inst_pos, &core->instances, list) {
+>                 if (inst_pos == inst)
+>                         continue;
+> -               vpp_freq = inst_pos->clk_data.codec_freq_data->vpp_freq;
+> +               vpp_freq = inst_pos->clk_data.codec_freq_data.vpp_freq;
+>                 coreid = inst_pos->clk_data.core_id;
+>
+>                 mbs_per_sec = load_per_instance(inst_pos);
+> @@ -545,7 +545,7 @@ static int decide_core(struct venus_inst *inst)
+>                 return 0;
+>
+>         inst_load = load_per_instance(inst);
+> -       inst_load *= inst->clk_data.codec_freq_data->vpp_freq;
+> +       inst_load *= inst->clk_data.codec_freq_data.vpp_freq;
+>         max_freq = core->res->freq_tbl[0].freq;
+>
+>         min_loaded_core(inst, &min_coreid, &min_load);
+> @@ -848,10 +848,10 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+>
+>         mbs_per_sec = load_per_instance(inst) / fps;
+>
+> -       vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
+> +       vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data.vpp_freq;
+>         /* 21 / 20 is overhead factor */
+>         vpp_freq += vpp_freq / 20;
+> -       vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vsp_freq;
+> +       vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data.vsp_freq;
+>
+>         /* 10 / 7 is overhead factor */
+>         if (inst->session_type == VIDC_SESSION_TYPE_ENC)
+> --
+> 2.7.4
+>
 
-My bot found errors running 'make dt_binding_check' on your patch:
 
-Error: Documentation/devicetree/bindings/media/i2c/ov8856.example.dts:26.28-29 syntax error
-FATAL ERROR: Unable to parse input tree
-scripts/Makefile.lib:311: recipe for target 'Documentation/devicetree/bindings/media/i2c/ov8856.example.dt.yaml' failed
-make[1]: *** [Documentation/devicetree/bindings/media/i2c/ov8856.example.dt.yaml] Error 1
-Makefile:1262: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
-
-See https://patchwork.ozlabs.org/patch/1252173
-Please check and re-submit.
+-- 
+Jeffrey Kardatzke
+jkardatzke@google.com
+Google, Inc.
