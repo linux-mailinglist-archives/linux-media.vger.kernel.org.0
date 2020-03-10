@@ -2,168 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 446EA17EFB8
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 05:34:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B617217F112
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 08:33:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726156AbgCJEeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 00:34:15 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56503 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725865AbgCJEeP (ORCPT
+        id S1726353AbgCJHdb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 03:33:31 -0400
+Received: from ssl.serverraum.org ([176.9.125.105]:53173 "EHLO
+        ssl.serverraum.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbgCJHdb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 00:34:15 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:d89a:50e1:4500:1d37])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id BWapjLaaHEE3qBWaqjL4IA; Tue, 10 Mar 2020 05:34:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583814852; bh=ZE+7C1BzVZR01IE1RQEWsLaK9fcDENnmMjYUF5eEQKI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=bkyagftZ+3RiooD1NBk0bmYJHnKf6+hAnKhvVuO8l2Jlnaz2qPc9716XQTPnj61Qa
-         vgITfqYR8nh4By+EfNsu5aGcrtzTFuH4NptWZ6pYpFK22kyBk+fJnsJJCQo49gurmn
-         CV6lL7eB5i+7loM8UhHgJDRmkwj2vezW/xWKecrmNbPRBb2x3VTjP0+9gZ3zj9dACV
-         2rO2eifk2FdoRrNaQEK8xB4fG7sr2GiphGV5stptjqqxV9uiBAaiPJ7PYQ9YXEgFYo
-         aIV0OvqrIBaZXM3QPyCx9DK3kh2kRyM72BIUY133yAWEnAJIZbADtpyLF0BPTlDDUV
-         L/Vf3wc9mzx/g==
-Message-ID: <b2cdcbcad9f43174b77ce3cbe1cb5b59@smtp-cloud7.xs4all.net>
-Date:   Tue, 10 Mar 2020 05:34:11 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfHTY5QZPFyoIstzJtKVJ0JCUZG4vd3fIbnUwVOEwj79MoGeqTQPd7VmNBWFhekkyYi0qPsisbKYreiDw4308JApTM6L0XlmLTDimu7zbFQd49sHr/cYH
- p2WYkXj4S++N3w2XchZqKCvBnyWIHoD3DEgQbNONCZGSWPY+A56/Fwh05yYsL1e6P0kmZ9Cwl3FR2fHa0xVDdYyMITHEYCywLnbyUnEUv/99zQ7DKUjgDH5c
+        Tue, 10 Mar 2020 03:33:31 -0400
+Received: from mwalle01.sab.local. (unknown [213.135.10.150])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ssl.serverraum.org (Postfix) with ESMTPSA id 70E5923EDA;
+        Tue, 10 Mar 2020 08:33:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+        t=1583825609;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=mGzo69y07vEikBiBYw51X7LqR4nXAnMjmqLFsIzeY0g=;
+        b=iBIzRz5537ewx9ux46LYo3F+UVQAT5T+jWgeQUuy0Z2+rqVnvLuzdJdGcrHnuJm57LNSI7
+        wv+B3Bz284fy9Fm5iJfq/n7ztHPr6dGnAFwWVgtNGWWahZ1FbKW7uq9FePGHSwf9oxpa25
+        ChDL8L9SrCV4wdUYnlf0H7omv4G++f0=
+From:   Michael Walle <michael@walle.cc>
+To:     linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Michael Walle <michael@walle.cc>
+Subject: [PATCH] spi: spi-fsl-dspi: fix DMA mapping
+Date:   Tue, 10 Mar 2020 08:33:13 +0100
+Message-Id: <20200310073313.21277-1-michael@walle.cc>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++++
+X-Spam-Level: ****
+X-Rspamd-Server: web
+X-Spam-Status: No, score=4.90
+X-Spam-Score: 4.90
+X-Rspamd-Queue-Id: 70E5923EDA
+X-Spamd-Result: default: False [4.90 / 15.00];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         R_MISSING_CHARSET(2.50)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         NEURAL_SPAM(0.00)[0.643];
+         BROKEN_CONTENT_TYPE(1.50)[];
+         DKIM_SIGNED(0.00)[];
+         RCPT_COUNT_SEVEN(0.00)[9];
+         MID_CONTAINS_FROM(1.00)[];
+         RCVD_COUNT_ZERO(0.00)[0];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         ASN(0.00)[asn:12941, ipnet:213.135.0.0/19, country:DE]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Use the correct device to request the DMA mapping. Otherwise the IOMMU
+doesn't get the mapping and it will generate a page fault.
 
-Results of the daily build of media_tree:
+The error messages look like:
+[    3.008452] arm-smmu 5000000.iommu: Unhandled context fault: fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
+[    3.020123] arm-smmu 5000000.iommu: Unhandled context fault: fsr=0x402, iova=0xf9800000, fsynr=0x3f0022, cbfrsynra=0x828, cb=8
 
-date:			Tue Mar 10 05:00:09 CET 2020
-media-tree git hash:	00c43088aa680989407b6afbda295f67b3f123f1
-media_build git hash:	6c715bb60eb5f601ae3fe59a5ec772300a5ddb2a
-v4l-utils git hash:	8c1c41e9131fc80be553990b3bfe0d16a39c5658
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a9a31a4bbe5628b0da1fbc7ade073443848f3adb
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+This was tested on a custom board with a LS1028A SoC.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: WARNINGS
+Signed-off-by: Michael Walle <michael@walle.cc>
+---
+ drivers/spi/spi-fsl-dspi.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/spi/spi-fsl-dspi.c b/drivers/spi/spi-fsl-dspi.c
+index cf8a141bbaf2..ad63804ef690 100644
+--- a/drivers/spi/spi-fsl-dspi.c
++++ b/drivers/spi/spi-fsl-dspi.c
+@@ -510,14 +510,16 @@ static int dspi_request_dma(struct fsl_dspi *dspi, phys_addr_t phy_addr)
+ 		goto err_tx_channel;
+ 	}
+ 
+-	dma->tx_dma_buf = dma_alloc_coherent(dev, dspi->devtype_data->dma_bufsize,
++	dma->tx_dma_buf = dma_alloc_coherent(dma->chan_tx->device->dev,
++					     dspi->devtype_data->dma_bufsize,
+ 					     &dma->tx_dma_phys, GFP_KERNEL);
+ 	if (!dma->tx_dma_buf) {
+ 		ret = -ENOMEM;
+ 		goto err_tx_dma_buf;
+ 	}
+ 
+-	dma->rx_dma_buf = dma_alloc_coherent(dev, dspi->devtype_data->dma_bufsize,
++	dma->rx_dma_buf = dma_alloc_coherent(dma->chan_rx->device->dev,
++					     dspi->devtype_data->dma_bufsize,
+ 					     &dma->rx_dma_phys, GFP_KERNEL);
+ 	if (!dma->rx_dma_buf) {
+ 		ret = -ENOMEM;
+@@ -554,10 +556,12 @@ static int dspi_request_dma(struct fsl_dspi *dspi, phys_addr_t phy_addr)
+ 	return 0;
+ 
+ err_slave_config:
+-	dma_free_coherent(dev, dspi->devtype_data->dma_bufsize,
++	dma_free_coherent(dma->chan_rx->device->dev,
++			  dspi->devtype_data->dma_bufsize,
+ 			  dma->rx_dma_buf, dma->rx_dma_phys);
+ err_rx_dma_buf:
+-	dma_free_coherent(dev, dspi->devtype_data->dma_bufsize,
++	dma_free_coherent(dma->chan_tx->device->dev,
++			  dspi->devtype_data->dma_bufsize,
+ 			  dma->tx_dma_buf, dma->tx_dma_phys);
+ err_tx_dma_buf:
+ 	dma_release_channel(dma->chan_tx);
+@@ -573,20 +577,19 @@ static int dspi_request_dma(struct fsl_dspi *dspi, phys_addr_t phy_addr)
+ static void dspi_release_dma(struct fsl_dspi *dspi)
+ {
+ 	struct fsl_dspi_dma *dma = dspi->dma;
+-	struct device *dev = &dspi->pdev->dev;
+ 
+ 	if (!dma)
+ 		return;
+ 
+ 	if (dma->chan_tx) {
+-		dma_unmap_single(dev, dma->tx_dma_phys,
++		dma_unmap_single(dma->chan_tx->device->dev, dma->tx_dma_phys,
+ 				 dspi->devtype_data->dma_bufsize,
+ 				 DMA_TO_DEVICE);
+ 		dma_release_channel(dma->chan_tx);
+ 	}
+ 
+ 	if (dma->chan_rx) {
+-		dma_unmap_single(dev, dma->rx_dma_phys,
++		dma_unmap_single(dma->chan_rx->device->dev, dma->rx_dma_phys,
+ 				 dspi->devtype_data->dma_bufsize,
+ 				 DMA_FROM_DEVICE);
+ 		dma_release_channel(dma->chan_rx);
+-- 
+2.20.1
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
