@@ -2,37 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 471291802D3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 17:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF274180308
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 17:18:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbgCJQGt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 12:06:49 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55128 "EHLO
+        id S1726721AbgCJQS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 12:18:56 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55434 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727111AbgCJQGr (ORCPT
+        with ESMTP id S1726395AbgCJQS4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 12:06:47 -0400
+        Tue, 10 Mar 2020 12:18:56 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DF9012F4;
-        Tue, 10 Mar 2020 17:06:45 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C7545F;
+        Tue, 10 Mar 2020 17:18:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1583856405;
-        bh=JN5WJZtRStw23IFWCWkFelfNRhbJ+OK3qqPFh63WO2Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Bhlv7d0Irt5x0efRqp0XkMxJrqbKHLR90LTqrv04eWVOYjiKMHpYgTzQP3bzK2Lkl
-         KuoPhX9HFBogyDcW5NNYoqTDYs/KQSPi7jleR0w9hqt9qdytw52bIxuWxyg34EvNpF
-         EU+sdvIYU0zjXUhA7U5oc+BC1RgQ8UyqTgqEMK7M=
+        s=mail; t=1583857135;
+        bh=fePKGosU14KuA7REcsKemo15glDg+r20PTBBnNny/F0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IgVaYsF0lvLtul/fY+6sWjZG2S1J/UN0dW36a6u9tK/zTR7C/pTJRrShIWgghDqNe
+         eJVXH7o8Npiau6yPQgLlFeSNip/U9s4YmgGV/l+vHHQumev75g1XqQNxVYTQQa0Agm
+         zM4yNQ10agA+nbdp0pJft9TAS1LpdRHtL5xKhKBA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH v2 10/10] media: imx: imx7-media-csi: Support clamping Y10 and Y12 to Y8
-Date:   Tue, 10 Mar 2020 18:06:33 +0200
-Message-Id: <20200310160633.950-11-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 0/8] media: imx: Miscalleanous format-related cleanups
+Date:   Tue, 10 Mar 2020 18:18:37 +0200
+Message-Id: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200310160633.950-1-laurent.pinchart@ideasonboard.com>
-References: <20200310160633.950-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,33 +38,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-10-bit and 12-bit greyscale input data to the CSI can be written as
-8-bit data to memory. Support this.
+Hello,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+This patch series started as an attempt to fix the format get and set
+subdev operations on the i.MX7 CSI-2 receiver subdev, which it does in
+patch 1/8. Patch 2/8 further cleans up the format-related code in that
+subdev.
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index e85202255168..3225082ce58d 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -804,6 +804,14 @@ static int imx7_csi_configure(struct imx7_csi *csi)
- 	case V4L2_PIX_FMT_YUYV:
- 		cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
- 		break;
-+	case V4L2_PIX_FMT_GREY:
-+		if (in_code == MEDIA_BUS_FMT_Y8_1X8)
-+			cr18 |= BIT_MIPI_DATA_FORMAT_RAW8;
-+		else if (in_code == MEDIA_BUS_FMT_Y10_1X10)
-+			cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
-+		else
-+			cr18 |= BIT_MIPI_DATA_FORMAT_RAW12;
-+		break;
- 	case V4L2_PIX_FMT_Y10:
- 		cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
- 		cr1 |= BIT_PIXEL_BIT;
+Patches 3/8 to 8/8 pushes the cleanups further as I was attempting to
+fix the format enumeration on the video node at the end of the pipeline.
+I realized as part of that effort that there's more work than I
+anticipated, and I'm currently evaluating the possible options.
+Nonetheless, I think the cleanups make sense even without what I wanted
+to build on top of them, so I'm sending them out already.
+
+Laurent Pinchart (8):
+  media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
+  media: imx: imx7-mipi-csis: Centralize initialization of pad formats
+  media: imx: utils: Inline init_mbus_colorimetry() in its caller
+  media: imx: utils: Handle Bayer format lookup through a selection flag
+  media: imx: utils: Simplify IPU format lookup and enumeration
+  media: imx: utils: Make imx_media_pixfmt handle variable number of
+    codes
+  media: imx: utils: Remove unneeded argument to (find|enum)_format()
+  media: imx: utils: Rename format lookup and enumeration functions
+
+ drivers/staging/media/imx/imx-ic-prp.c        |   8 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |   6 +-
+ drivers/staging/media/imx/imx-media-capture.c |  22 +-
+ .../staging/media/imx/imx-media-csc-scaler.c  |   2 +-
+ drivers/staging/media/imx/imx-media-csi.c     |  26 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 313 ++++++++----------
+ drivers/staging/media/imx/imx-media-vdic.c    |   6 +-
+ drivers/staging/media/imx/imx-media.h         |  24 +-
+ drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
+ drivers/staging/media/imx/imx7-mipi-csis.c    | 138 ++++----
+ 10 files changed, 271 insertions(+), 289 deletions(-)
+
 -- 
 Regards,
 
