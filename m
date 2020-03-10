@@ -2,226 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B768117FE87
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE46617FE04
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728086AbgCJNf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 09:35:56 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:41956 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727179AbgCJMnh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 08:43:37 -0400
-Received: by mail-lf1-f67.google.com with SMTP id q10so10000356lfo.8
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 05:43:36 -0700 (PDT)
+        id S1728915AbgCJNcG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 09:32:06 -0400
+Received: from mail-eopbgr1410101.outbound.protection.outlook.com ([40.107.141.101]:33513
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728218AbgCJNcG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Mar 2020 09:32:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lgCkZmy26pUqI/3EoyysuCzSCIVjsB1fNPypMc+fj8f0pfqeTi2+C5Bc9IUYWa8sYhYoHMHPccd0h8Tkv7pcL2Asa0LN2WEk+ipETGmZDxME4Sa5t71dhgeY2+Vrnr0PnfjTEtL6cZtJ7SSIon5W/BMGsPhD0KTVB7rEe1G4Qx+de8fEzQUCIsZGEtER/7SCKZgkRj6XTLZKLhmPiYvwGbJWR7uU7NmPNfrpDCaCbPey5KRBZU0BdxVTQxzp8j5mk3/toyKiF8tdfKI211cSb7XdZK5XL2Cnf4A6gv1mJ6ktfBkMhW7+5Qr3HAIjKHvNmMMuunkVzDTsuDra2j4odA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p4NY/WWErLq5lZkjl2MizQht6hx1KXOP1yGn0Kwd/DE=;
+ b=OkshEY/zPHLab2K0obFn7Ar1GSoh/FWj3i/QlT38c76Jz2RZ/C91kRsmrKXBc/PGwDVYcjUBCdZuum3Q69rX/fqtCx6SABoLg/lC8Yrp2TtNKp/avHrPFZKwkdPSjtMzGqbTvqDb4X23H9xJ2WGi6L3HZGRumguD2v9bz9V29B00H3Q6TuzsL+4yD0XdhV9umzCeBpID6uQwTztHq6dqHgxAmLv6NdGgbbsz6w665/3SdUFqCmBiQx+r8lCns7J9mfW8Cs+lCFoFN+2UvVF1QkiAvD+1sDCN4JNlFiLDg1Q22av6rfXPdbtCzijRhVh00UqpvjuIKIQB4Qc3SzpR9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Tp+WhRfe9z22I0aaYb5f/5sPZ49iEEX8/N9J9TsNd2w=;
-        b=rfZJpdeNgql+QKTxeU9+HkLjBN+sAmAviwgdRh9H3Nr6vaQlmtvlR+i/mTv2GBMcgk
-         xcNterp+0uZG9sodb8zYciNObXS63itCz17iqreChxalm3xFrSZjp6LDolF/Dz6KZZ65
-         3aAHu5WVqZFRZ3KaK0JfuhienTlG2tDlDqRPeFeowO12IfE3f2Tkw2aN6+g6C4JhzQGj
-         MzaJJz5hbckDPLEFQXw4eF5RWQvw7MQPb2bVoD8PziVtGHHQ0coNgFiykvMLyr39QzxS
-         CaV+ZQbuVIYuy/1/VYk+eUqV8Js6GJYAQs7so+lxpHROh+H7HS/vUnlweTEpIRFZqE5u
-         fXMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Tp+WhRfe9z22I0aaYb5f/5sPZ49iEEX8/N9J9TsNd2w=;
-        b=fz3ofS0FaW/tWRLPJuLPHgChVTsjFQ9KRnfJsTJb9J5QAdcDQtN+rEbOCvDKSQbcgh
-         vsgULi4mZIn32SYM1w0gZyenIxZQvcePtfzvJvlo9WShFw1dTNbeK/BWKWDCGVeL59kt
-         zAVDPGt7ukVprorfByEX+RGX2BGC7yvW1UVwM/URq+pp+8P26JE/q5/bd8ePtTLLfvaV
-         Lm+oX6sS/6mALWDh6x15e0PUHNrz0qSK6sc40BY8qMAVQSX9FF8KHqhs8ToweWx2H2dF
-         03n0PgKPTxEdTCzCYthqmKCRTJauiUUOvxtYNzbG4RKh/WSqwalHhIiGGoZwXMgBHNmz
-         4GiA==
-X-Gm-Message-State: ANhLgQ00son0a2vqZfNZUgl4FgPbKlfroVfFEVRJckR0Mg+nSBX5ryk3
-        DK+sKxXaqgzyttLSNxmINzRLKK09P8o=
-X-Google-Smtp-Source: ADFU+vuUMVtzCh5rITN78eoNDvgLskHfJdescsUwVQx5LjTGLLf9ct9Mzy4IiFelaJLtgrDUUHo4cg==
-X-Received: by 2002:a19:ad47:: with SMTP id s7mr12520609lfd.165.1583844215572;
-        Tue, 10 Mar 2020 05:43:35 -0700 (PDT)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id g14sm685589lfb.48.2020.03.10.05.43.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 05:43:34 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 13:43:34 +0100
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p4NY/WWErLq5lZkjl2MizQht6hx1KXOP1yGn0Kwd/DE=;
+ b=Dqk65sEmNhDRsF0qqqhaFJSWdDuC8Yu1ZggYn4lx458XJjbxuS5CfYHs9CD6J/cSNxFrE3NM0svLqg4ZGaJx9BuoWJNJE0GC1HD/6ZlS8pQokraHqscs1SPNbs8tlgw1pW4HW+x3bnGvxCc7XH0TNk3F9S6wZRf+D0caKdbvF6I=
+Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (20.178.97.80) by
+ OSBPR01MB3318.jpnprd01.prod.outlook.com (20.178.5.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.14; Tue, 10 Mar 2020 13:32:01 +0000
+Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
+ ([fe80::6df0:eb47:a259:b94b]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
+ ([fe80::6df0:eb47:a259:b94b%7]) with mapi id 15.20.2793.018; Tue, 10 Mar 2020
+ 13:32:00 +0000
+From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Niklas <niklas.soderlund@ragnatech.se>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v2 1/3] media: rcar-csi2: Add support to match fwnode
- against remote or parent port
-Message-ID: <20200310124334.GN2975348@oden.dyn.berto.se>
+Subject: RE: [PATCH v2 3/3] media: rcar-vin: rcar-csi2: Add support for
+ MEDIA_BUS_FMT_SRGGB8_1X8 format
+Thread-Topic: [PATCH v2 3/3] media: rcar-vin: rcar-csi2: Add support for
+ MEDIA_BUS_FMT_SRGGB8_1X8 format
+Thread-Index: AQHV9swB6r3pn+oA/0Oe+3GvBSYM56hBxt8AgAAL0eA=
+Date:   Tue, 10 Mar 2020 13:32:00 +0000
+Message-ID: <OSBPR01MB3590DD80FE95AEFC8CAAB32DAAFF0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
 References: <1583838364-12932-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1583838364-12932-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1583838364-12932-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200310124844.GP2975348@oden.dyn.berto.se>
+In-Reply-To: <20200310124844.GP2975348@oden.dyn.berto.se>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=prabhakar.mahadev-lad.rj@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: e905f176-60be-44e1-0056-08d7c4f769c9
+x-ms-traffictypediagnostic: OSBPR01MB3318:
+x-microsoft-antispam-prvs: <OSBPR01MB33188A819E5BA3609D676725AAFF0@OSBPR01MB3318.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 033857D0BD
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(39860400002)(136003)(376002)(396003)(366004)(189003)(199004)(54906003)(71200400001)(6916009)(9686003)(55016002)(478600001)(5660300002)(66476007)(81166006)(7696005)(52536014)(66556008)(4326008)(8936002)(86362001)(186003)(66446008)(26005)(64756008)(53546011)(316002)(6506007)(66574012)(66946007)(76116006)(8676002)(2906002)(33656002)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3318;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: f/8ILCJhjUv0qC7yQ2tcfkZafN2wSDSDPxvZvu5JZ52oDXpYUTTm1HjjSvlW4vWke5wV8DyKUl+b4JM+RBmp8uSL+J8mhO3Aqp2IGpoM6ts+GIpixIN4wL3vCftBhRSU64fF5u69srb+dlpDlJKUvyZpge/bdAlqu9G7NyzD1Za5mQQ1M/mJYFp5vlP2Uf5ykkkfsVjuAiu8PxvpVqSbeSk9zs3L2XY0cmi7/0tKMRFLr/8hdtHySCy3SIMJFZsOfFQ72Mrdcy6tOCh2hzNMuPdxCTkWKlP1PVjNYUlEWtd0jStxBUhNJ5yUwaryQM7iIQTf9y0cMX9GB5jiwNAQNmlrPfLe7GYoEjdDV1QUaYP3o4RP2IQ6lZQRTaC+/2ZhAA9Eirs35jb+ZltrBN1pCLep31f8qfdKYVPppnlIiU+q+PRTIkHjnDqbfjQXRNzV
+x-ms-exchange-antispam-messagedata: w3D9WLHRTlLnp9RgRkgALCgdbMhGqoYfMPdRC6TUQuZGpPruDq/8302EdO/3Shx1vqlNVOnPdFUX008WYYfD+zMNgR0FLNac+69bEjCfbfIvbP3+I6ZENl38F2TKbzglJATpyz+FbQmYskoD+9P7Jg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1583838364-12932-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e905f176-60be-44e1-0056-08d7c4f769c9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2020 13:32:00.2543
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: unsPvuuOGE7CVgpisryLuIAz5w7NHssDHWHkzXSnxz6QiFG6S7WAvP1Mgw5xYTUsq0Xk9+PyWrwtlT9oGVNaxr/e/KRvGtL+XQl7DVPVIfwcZmyPkrmyw0QlnsqUj+Wi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3318
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
+Hi Niklas,
 
-Thanks for your work.
+Thank you for the review.
 
-On 2020-03-10 11:06:02 +0000, Lad Prabhakar wrote:
-> The rcar-csi2 driver uses the v4l2-async framework to do endpoint matching
-> instead of node matching. This is needed as it needs to work with the
-> adv748x driver which register it self in v4l2-async using endpoints
-> instead of nodes. The reason for this is that from a single DT node it
-> creates multiple subdevices, one for each endpoint.
-> 
-> But when using subdevs which register itself in v4l2-async using nodes,
-> the rcar-csi2 driver failed to find the matching endpoint because the
-> match.fwnode was pointing to remote endpoint instead of remote parent
-> port.
-> 
-> This commit adds support in rcar-csi2 driver to handle both the cases
-> where subdev registers in v4l2-async using endpoints/nodes, by using
-> match_type as V4L2_ASYNC_MATCH_CUSTOM and implementing the match()
-> callback to compare the fwnode of either remote/parent.
+> -----Original Message-----
+> From: Niklas <niklas.soderlund@ragnatech.se>
+> Sent: 10 March 2020 12:49
+> To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>; linux-
+> media@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; Lad Prabhakar <prabhakar.csengg@gmail.com>
+> Subject: Re: [PATCH v2 3/3] media: rcar-vin: rcar-csi2: Add support for
+> MEDIA_BUS_FMT_SRGGB8_1X8 format
+>
+> Hi Lad,
+>
+> Thanks for your work.
+>
+> On 2020-03-10 11:06:04 +0000, Lad Prabhakar wrote:
+> > This patch adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for
+> CSI2
+> > input.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
+> lad.rj@bp.renesas.com>
+>
+> Small nit, you can drop rcar-vin from the subject as this patch is for th=
+e rcar-
+> csi2 driver. With this fixed,
+>
+Sure will update it for next iteration.
 
-This is a novel approach to the solution, and I won't object to it out 
-right. But I think the proper solution is to move this logic into 
-v4l2-async instead of adding a custom match handler in rcar-csi2.
+Cheers,
+--Prabhakar
 
-Think of the reveres use-case, a different CSI-2 receiver who wish to 
-use the ADV748x would still have this node vs. endpoint issue.
-
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 41 ++++++++++++++++++++++++++---
->  1 file changed, 38 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index faa9fb2..39e1639 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -808,6 +808,41 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
->  	return 0;
->  }
->  
-> +static bool rcsi2_asd_match(struct device *dev,
-> +			    struct v4l2_async_subdev *async_sd)
-> +{
-> +	struct rcar_csi2 *priv = (struct rcar_csi2 *)
-> +				  async_sd->match.custom.priv;
-> +	struct fwnode_handle *endpoint;
-> +	struct fwnode_handle *remote;
-> +	struct fwnode_handle *parent;
-> +	struct device_node *np;
-> +	bool matched = false;
-> +
-> +	np = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
-> +	if (!np) {
-> +		dev_err(priv->dev, "Not connected to subdevice\n");
-> +		return -EINVAL;
-
-You can't return -EINVAL here as it will be interpreted as a match by 
-the caller ;-).  You should not even register a device with v4l2-async 
-if it's not connected to an endpoint.
-
-> +	}
-> +
-> +	endpoint = of_fwnode_handle(np);
-> +	remote = fwnode_graph_get_remote_endpoint(endpoint);
-> +	parent = fwnode_graph_get_remote_port_parent(endpoint);
-> +	if (parent) {
-
-This is wrong, we will always have a parent and will always take this 
-code path. Hence reducing this to the equivalent of node only matching.  
-I applied this patch and tried on M3-N with a ADv748x and the wrong 
-endpoints of the ADV7482 is routed to the two CSI-2 receivers, breaking 
-it.
-
-I added some debug printouts to explain whats going on:
-
-    * First call
-        dev: rcar-csi2 fea80000.csi2
-        endpoint: /soc/csi2@feaa0000/ports/port@0/endpoint
-        remote: /soc/i2c@e66d8000/video-receiver@70/port@a/endpoint
-        parent: /soc/i2c@e66d8000/video-receiver@70
-        dev->fwnode: /soc/csi2@fea80000
-        dev->of_node: /soc/csi2@fea80000
-        match: false
-
-    * Second call
-        dev: adv748x 4-0070
-        endpoint: /soc/csi2@feaa0000/ports/port@0/endpoint
-        remote: /soc/i2c@e66d8000/video-receiver@70/port@a/endpoint
-        parent: /soc/i2c@e66d8000/video-receiver@70
-        dev->fwnode: /soc/i2c@e66d8000/video-receiver@70
-        dev->of_node: /soc/i2c@e66d8000/video-receiver@70
-        match: true
-
-    * Third call
-        dev: adv748x 4-0070
-        endpoint: /soc/csi2@fea80000/ports/port@0/endpoint
-        remote: /soc/i2c@e66d8000/video-receiver@70/port@b/endpoint
-        parent: /soc/i2c@e66d8000/video-receiver@70
-        dev->fwnode: /soc/i2c@e66d8000/video-receiver@70
-        dev->of_node: /soc/i2c@e66d8000/video-receiver@70
-        match: true
-
-Now we have a media graph that is completely probed and video devices 
-register in the system but you are not able to stream video as the wrong 
-CSI-2 transmitter is described in the graph to be connected to the wrong 
-receiver.
-
-This only strengthens my view that this should not be fixed with a 
-custom matcher in rcar-csi2 but directly in v4l-async. Please see if you 
-can't address the issue in the framework to allow node and endpoint 
-matching to co-exists.
-
-> +		if (parent == dev->fwnode ||
-> +		    parent == &dev->of_node->fwnode)
-> +			matched = true;
-> +	} else if (remote && !matched) {
-
-No need to check !matched here ;-)
-
-> +		if (remote == dev->fwnode ||
-> +		    remote == &dev->of_node->fwnode)
-> +			matched = true;
-> +	}
+> Reviewed-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index 39e1639..b030ef6 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -320,6 +320,7 @@ static const struct rcar_csi2_format
+> rcar_csi2_formats[] =3D {
+> >  { .code =3D MEDIA_BUS_FMT_YUYV8_1X16,.datatype =3D 0x1e,
+> .bpp =3D 16 },
+> >  { .code =3D MEDIA_BUS_FMT_UYVY8_2X8,.datatype =3D 0x1e,
+> .bpp =3D 16 },
+> >  { .code =3D MEDIA_BUS_FMT_YUYV10_2X10,.datatype =3D 0x1e,
+> .bpp =3D 20 },
+> > +{ .code =3D MEDIA_BUS_FMT_SRGGB8_1X8,     .datatype =3D 0x2a, .bpp =3D
+> 8 },
+> >  };
+> >
+> >  static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int
+> > code)
+> > --
+> > 2.7.4
+> >
+>
+> --
+> Regards,
+> Niklas S=F6derlund
 
 
-
-> +
-> +	of_node_put(np);
-> +
-> +	return matched;
-> +}
-> +
->  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  {
->  	struct device_node *ep;
-> @@ -833,9 +868,9 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  		return ret;
->  	}
->  
-> -	priv->asd.match.fwnode =
-> -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> +	priv->asd.match.custom.match = &rcsi2_asd_match;
-> +	priv->asd.match.custom.priv = priv;
-> +	priv->asd.match_type = V4L2_ASYNC_MATCH_CUSTOM;
->  
->  	of_node_put(ep);
->  
-> -- 
-> 2.7.4
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
+, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
+40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
+f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
+EE reg. no.: DE 14978647
