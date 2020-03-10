@@ -2,132 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 901C317EBCB
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2020 23:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F182E17ECFF
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 01:00:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgCIWOq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Mar 2020 18:14:46 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38089 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726536AbgCIWOq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 18:14:46 -0400
-Received: by mail-ot1-f66.google.com with SMTP id i14so11269224otp.5
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 15:14:44 -0700 (PDT)
+        id S1727505AbgCJAAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Mar 2020 20:00:07 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:38646 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727242AbgCJAAH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Mar 2020 20:00:07 -0400
+Received: by mail-pf1-f196.google.com with SMTP id z5so704782pfn.5
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2020 17:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=n5OXXxZXEUIgAIrbk2LaI0OdMckD6PM3iBlKr8Tm8LU=;
-        b=IMGvEYrzsj8ccjaLfgLK7inPABgAl8SlYO/8p4MKnk5puURzYL1on8E9uQ/pFn+CiS
-         d7bNmiKdA2Jn7jBRCxmRRpWR6bskVX/Dx0mwJ8IptUoAkjLg7R1RRoN9xC9qB4F5SueZ
-         /Rhx4uv6tiRd+UdI4X+JJ573/7ZSBRmxnCy59IAyTD4RaCf+YriV0sHjw/1qVkk/9Gec
-         DRKaa8m5WKMqM7aBTV84CkzHJI23Gjcl5CVeYofDpgE2tGkfNSPO1tUzE4CoQc+B7H/p
-         fl300ClGmTkfHDb290FLNfVKUCcVwZEMMKkQ7ks/RtJzWGD9cNJ9KW5/K6eAZLEy40Ut
-         +fAg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=niTunMmlPJduIlmanU9eN7BQYalVx8LAC2Od9cW+wO8=;
+        b=ZnhIiQdmkKTxYdzqqhNRl159c2q5dDnycngdttpu2N1e5BizH6Ggwnw5p39/c3W8Hx
+         sbQUwZfyYOH3M3YPc44GVCUTbU1P2feoLiweSaKdH94EhWwZbHbOnrYCgzej152m5QQ8
+         TMtFPHhBqVbBGq9kHGdAfvjvcyw3GYWbeaarIswjQ7IF4HhPOs0CvhXDV7RvIDw4DE9O
+         fRPyd/v/JImRZkvUaNcEbO3gcA4MMKtpKGH5uLi89AuB2lAvv+ks2fGeRlO9h/Q72o+w
+         vUewjYw/Ud9DMh/yq81wNslxXB7Gw6BcpCqjfmf/V8y1bGz/veCkPbr9LcTEbLnl1qw4
+         4SGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=n5OXXxZXEUIgAIrbk2LaI0OdMckD6PM3iBlKr8Tm8LU=;
-        b=LRtleOrZUH7mUCJgiZq83OILMzGnt3cR9y0L4lmQ7sHSU29Fe6uJ3zMfE/fOSPc3VL
-         +D67Lo3HUWgdNemKNCS+m6SpQP0DKYIyJ8xULeYLyYTaa16LP3Zc4DpwyujlAsifYqRZ
-         pO5pVh6fb3Rirnpl87kEc249gMuiqCkPzltizT0VlZ29Lbd9715JGOn7i2M8r0clAdZX
-         /W3TXT+62l2I9HUdX03ToAPO7+X9pHBbFbAuxOBckRMfR97pivOkHjQeTmUsmQ6X0n+1
-         B33sh8xQt3ucRWSmw5nuPSjT+KMZ8x0DZFPCiMC+aU+sMYPiTSzcEL0/Y33uHoAiwgRe
-         3fWw==
-X-Gm-Message-State: ANhLgQ2n1JGHo9mqO8lZfa5Fvq5xeHAq4gfjWvyU1gFhisfZhgDh6cuy
-        zx+RRBb8Gp3ynxXVDMhgCEM2arHPdMEmawvNEOmvJflmEP0=
-X-Google-Smtp-Source: ADFU+vsN3fZK9Nwlt69k/j0KAs15iNoMMCPjxZi1q1KuCxE1nR+PRmmbDJE6B/XPeC1+0KkLLdGRLxExHGxCX44yI5s=
-X-Received: by 2002:a9d:64ca:: with SMTP id n10mr14785049otl.325.1583792083957;
- Mon, 09 Mar 2020 15:14:43 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=niTunMmlPJduIlmanU9eN7BQYalVx8LAC2Od9cW+wO8=;
+        b=ChXEqEHGR42pd52DmCtw6jcQcKKN2mdy9STawxxanjebHd2/Pqg3GQBTpiRNgihXRz
+         ld9SxGEPPaNicII88HREsWFrGV3uVsQfCBNRZNmF1Re+2Mn2JuY5ZrrSv32aQOlM2fdC
+         gAoFms1sBh/ZtQULLl4KX+I/pWxlblg2mIJtTi3zOMokXUPZhPT/HfSzs/CCjIY1iYGo
+         VjJcqxz/529xA0pilyT3sxPRrEpAumqPbLh6JcPtiilsEXDD5+7OGY4PlJyEfKBT1cDW
+         SzXAtgInhQfcRlEPeob9aXaozhCLQhuJt1JuTBbMBK4OKL/Vj3pCrWnbpbD/noHkigq/
+         svMg==
+X-Gm-Message-State: ANhLgQ3uINnEGaA+uQZeXXO/316+fcPsEoV9qo3GP1Jxgl3mOEClKSdS
+        24X/oYMyc5hZvKOLMEBwXCsp9NvCk1g=
+X-Google-Smtp-Source: ADFU+vtlWYofr/DVhgntaYUpTRSf6UEQ0H5hlaHk07Vuwk0n/oVFwYvLE6LiWTuCzbMcNeuKfcGDUQ==
+X-Received: by 2002:a62:5544:: with SMTP id j65mr19671268pfb.121.1583798405068;
+        Mon, 09 Mar 2020 17:00:05 -0700 (PDT)
+Received: from ?IPv6:2605:e000:d445:6a00:8145:3904:f092:dd35? ([2605:e000:d445:6a00:8145:3904:f092:dd35])
+        by smtp.gmail.com with ESMTPSA id h95sm582649pjb.48.2020.03.09.17.00.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2020 17:00:04 -0700 (PDT)
+Subject: Re: [PATCH 7/7] media: imx: imx7-media-csi: Fix video field handling
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+References: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
+ <20191024004155.32068-8-laurent.pinchart@ideasonboard.com>
+ <3d979bfa-0bb2-0dde-9bc7-83ee3923d33a@gmail.com>
+ <20200309205238.GH4916@pendragon.ideasonboard.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <ed913970-573e-4bee-ce84-28513a7869a9@gmail.com>
+Date:   Mon, 9 Mar 2020 17:00:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <BL0PR06MB454878CAF243C837B7131597E5E10@BL0PR06MB4548.namprd06.prod.outlook.com>
-In-Reply-To: <BL0PR06MB454878CAF243C837B7131597E5E10@BL0PR06MB4548.namprd06.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 9 Mar 2020 22:14:17 +0000
-Message-ID: <CA+V-a8tnS=xER1FBEXd4hvJu+-Kz0dcafLtrNXLmeTZEPH60kg@mail.gmail.com>
-Subject: Re: [bug-report] drivers/media/platform/am437x/: illegal value of
- enum in vpfe_ccdc_set_params
-To:     Changming Liu <liu.changm@northeastern.edu>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200309205238.GH4916@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Changming
+Hi Laurent,
 
-On Sun, Mar 8, 2020 at 3:32 AM Changming Liu
-<liu.changm@northeastern.edu> wrote:
+On 3/9/20 1:52 PM, Laurent Pinchart wrote:
+> Hi Steve,
 >
-> This email was sent due to the previous one was rejected because of it's =
-in HTML form.
->
-> From: Changming Liu
-> Sent: Saturday, March 7, 2020 8:33 PM
-> To: prabhakar.csengg@gmail.com
-> Cc: linux-media@vger.kernel.org; yaohway@gmail.com
-> Subject: [bug-report] drivers/media/platform/am437x/: illegal value of en=
-um in vpfe_ccdc_set_params
->
-> Hi Lad,
-> Greetings, I'm a first-year PhD student who is interested in the usage of=
- UBSan in linux kernel. With some experiments, I've found that, a unsigned =
-underflow might cause undesired behavior in
-> drivers/media/platform/am437x/am437x-vpfe.c function vpfe_ccdc_set_params=
-.
->
-> More specifically, after the execution of
-> x =3D copy_from_user(&raw_params, params, sizeof(raw_params));
-> the raw_params are filled with data from user space.
->
-> Then diving into function vpfe_ccdc_validate_param, when calling function=
- ccdc_data_size_max_bit, at
-> max_data =3D ccdc_data_size_max_bit(ccdcparam->data_sz);
-> the enum member, named data_sz, of structure ccdcparam is compared with 7=
-, otherwise data_sz is subtracted from 15, as in
-> return sz =3D=3D VPFE_CCDC_DATA_8BITS ? 7 : 15 - sz;
->
-> The potential problem with this snippet of code is that, although in func=
-tion ccdc_data_size_max_bit, ccdcparam->data_sz is treated as an enumeratio=
-n with the range from 0 to 7 according to the definition of enum vpfe_ccdc_=
-data_size, however it's essentially an unsigned 32 bit integer from user sp=
-ace. As a consequence, the return value of function ccdc_data_size_max_bit =
-might be any value from 0 to 255 due to the unsigned underflow and truncati=
-on.
->
-> It's worth noting that, although the usage of function of ccdc_gamma_widt=
-h_max_bit has similar underflow problem, i.e. the value of ccdcparam->alaw.=
-gamma_wd is also an unsigned 32 bit from user space, while itself is a enum=
- type. However it's checked in
-> if (ccdcparam->alaw.gamma_wd > VPFE_CCDC_GAMMA_BITS_09_0 ||
->     max_gamma > max_data) {
->                 vpfe_dbg(1, vpfe, "Invalid data line select\n");
->                 return -EINVAL;
-> }
-> This if clause exclude all illegal values and keep the enum variable in r=
-ange, I wonder if it's necessary to apply the similar check to ccdcparam->d=
-ata_sz to keep the its value legal as well.
->
-> Due to the lack of knowledge of the interaction between this module and t=
-he user space, I'm not able to assess if this is a security-related issue. =
-Judging from the appearance, a malicious user can possibly manipulate the r=
-eturn value of ccdc_data_size_max_bit and make the check of "max_gamma > ma=
-x_data" always pass. I'd be more than happy to hear your valuable opinions =
-and provide more information if needed. If such a check is unnecessary, I w=
-ould appreciate it if I can know why, this can help me understand linux a l=
-ot!
->
-Totally agree (good catch!), vpfe_ccdc_validate_param() should be more
-stringent on checking the user space params. Would you create a patch
-fixing it ?
+> On Thu, Oct 24, 2019 at 08:11:20AM -0700, Steve Longerbeam wrote:
+>> On 10/23/19 5:41 PM, Laurent Pinchart wrote:
+>>> Commit 4791bd7d6adc ("media: imx: Try colorimetry at both sink and
+>>> source pads") reworked the way that formats are set on the sink pad of
+>>> the CSI subdevice, and accidentally removed video field handling.
+>> Well, let me restate the problem. This driver never did have correct
+>> field handling (as you demonstrate in this patch, the driver never
+>> set/propagated the field type to its source pad). So it's not accurate
+>> to say the patch is a fix. A better description is that it adds
+>> rudimentary field handling.
+> Didn't it ? The above commit removed a call to
+> imx_media_fill_default_mbus_fields() from imx7_csi_try_fmt(), and that
+> function had rudimentary field handling. The Fixes: tag isn't there to
+> blame you :-)
 
-Cheers,
---Prabhakar
+Sorry, you're right, 4791bd7d6adc should have placed some sane field 
+value back at sink pad in imx7_csi_try_fmt(). But the problem is that at 
+the time, I didn't know what a sane field value for imx7 would be (your 
+patch resolved that question, by stating only NONE and INTERLACED are 
+supported). But I must stand by my statement that field was never 
+propagated to source. I guess I was waiting for someone to implement 
+basic field handling, instead of possibly doing the wrong thing myself. 
+I should have clarified at the time that there needed to be basic field 
+handling added.
 
-> Looking forward to your response!
+Steve
+
 >
-> Best regards,
-> Changming Liu
+>>> Restore it by defaulting to V4L2_FIELD_NONE if the field value isn't
+>>> supported, with the only two supported value being V4L2_FIELD_NONE and
+>>> V4L2_FIELD_ALTERNATE.
+>>>
+>>> Fixes: 4791bd7d6adc ("media: imx: Try colorimetry at both sink and source pads")
+>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> ---
+>>>    drivers/staging/media/imx/imx7-media-csi.c | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+>>> index ac07f55a63e3..0db6473caf13 100644
+>>> --- a/drivers/staging/media/imx/imx7-media-csi.c
+>>> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+>>> @@ -1017,6 +1017,7 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
+>>>    		sdformat->format.width = in_fmt->width;
+>>>    		sdformat->format.height = in_fmt->height;
+>>>    		sdformat->format.code = in_fmt->code;
+>>> +		sdformat->format.field = in_fmt->field;
+>>>    		*cc = in_cc;
+>>>    
+>>>    		sdformat->format.colorspace = in_fmt->colorspace;
+>>> @@ -1031,6 +1032,9 @@ static int imx7_csi_try_fmt(struct imx7_csi *csi,
+>>>    							 false);
+>>>    			sdformat->format.code = (*cc)->codes[0];
+>>>    		}
+>>> +
+>>> +		if (sdformat->format.field != V4L2_FIELD_INTERLACED)
+>>> +			sdformat->format.field = V4L2_FIELD_NONE;
+>>>    		break;
+>>>    	default:
+>>>    		return -EINVAL;
+
