@@ -2,84 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 566B3180AB1
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 22:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 530A9180B28
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 23:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727559AbgCJVnB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 17:43:01 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:43366 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726307AbgCJVnB (ORCPT
+        id S1726411AbgCJWFN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 18:05:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57852 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726273AbgCJWFN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 17:43:01 -0400
-Received: by mail-ot1-f65.google.com with SMTP id a6so6835261otb.10;
-        Tue, 10 Mar 2020 14:43:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=eW7ELASoG0OtB4K4kA9IffK9e9FfpEljMwdF56ZNsBk=;
-        b=tO8O5zhXJbmoZC6uRx5s19hdIJa+1iRecyFxKk7xZMAyp/EP7eSf3hleGemuc0vXjM
-         0h954VsG4gKP1CEL/6yGcU2JsNwmVoLOohLVihT/Cta8fvdsLYyrKzlgiksvcwZshFKa
-         wWVOCYpt5ZCXwIbOKp3XcPzTkOnFFGQ+p0WvFoAgWieOPnT30Xv45Kqck5aOZeSYY5wT
-         sFknNB/X4l7YwAqX1F+3lComIwhf9lGH6RdKNkWye6czwgoAsbJTQ2yGOCfDgi6IdQbE
-         5qRT/RtKNmwePm5NJUOML3dhwtQ60HSV8knbOoyUiBXjq9x3votm8Jzzm4u+aRf1cowf
-         pzBw==
-X-Gm-Message-State: ANhLgQ2Z5NIdkEQE4phfiKnFAV4b9Xi0UMdVgrhtBO0hZnif5rgUU6VX
-        pva4rTYhmYQfzDgfZiOVYRIwTa8=
-X-Google-Smtp-Source: ADFU+vvwZI4JYSOwNE4eXQ6CWBvYrUySTEekRgHvm0zdXlyuecA4eZ99Vd7iwCtwQbRRdnA94c8SHw==
-X-Received: by 2002:a9d:4007:: with SMTP id m7mr18762385ote.268.1583876580662;
-        Tue, 10 Mar 2020 14:43:00 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id j5sm16353458otl.71.2020.03.10.14.42.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 14:43:00 -0700 (PDT)
-Received: (nullmailer pid 20627 invoked by uid 1000);
-        Tue, 10 Mar 2020 21:42:59 -0000
-Date:   Tue, 10 Mar 2020 16:42:59 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v3] dt-bindings: rcar-vin: Convert bindings to json-schema
-Message-ID: <20200310214259.GA20527@bogus>
-References: <20200305005537.385602-1-niklas.soderlund@ragnatech.se>
+        Tue, 10 Mar 2020 18:05:13 -0400
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9182D5F;
+        Tue, 10 Mar 2020 23:05:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1583877911;
+        bh=qtf5CtWwzL4eef3leSfCzkSfu9FPLFJTb62oHfkQJM8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CHJTbbWco1ivFV3VcaR4Hf/LAX/25DuhbJa/oHaE1LEh0/2Vlhlb+N6wKebBGOJCi
+         1hoHCIY1Dw+S7SQBk3w70dDIG6o4+P8ZlGZLr3lrNI7TsxhfTfEDZOY3dGyHoYwGqU
+         UYHX2jyDsJ90wKuuNfJWre42BjnfJw5KdVJjN9+Y=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Subject: [PATCH 9/8] media: imx: utils: Constify mbus argument to imx_media_mbus_fmt_to_pix_fmt
+Date:   Wed, 11 Mar 2020 00:05:05 +0200
+Message-Id: <20200310220505.25322-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
+References: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200305005537.385602-1-niklas.soderlund@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu,  5 Mar 2020 01:55:37 +0100, =?UTF-8?q?Niklas=20S=C3=B6derlund?= wrote:
-> From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Convert Renesas R-Car VIN bindings documentation to json-schema.
-> 
-> As the examples in the bindings now can be tested add a new one which
-> describes how the both a parallel and a CSI-2 source can be connected on
-> Gen3 SoCs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
->  .../bindings/media/renesas,vin.yaml           | 402 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 403 insertions(+), 218 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
-> 
+The imx_media_mbus_fmt_to_pix_fmt() function doesn't need to modify its
+mbus argument. Make it const.
 
-Applied, thanks.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ drivers/staging/media/imx/imx-media.h       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Rob
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 06415c8f707e..6cb2122d5f3f 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -566,7 +566,7 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
+ EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
+ 
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+-				  struct v4l2_mbus_framefmt *mbus,
++				  const struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc)
+ {
+ 	u32 width;
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
+index cd80f1c59a5c..bb73a76eea84 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -177,7 +177,7 @@ int imx_media_init_cfg(struct v4l2_subdev *sd,
+ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
+ 			       bool ic_route);
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+-				  struct v4l2_mbus_framefmt *mbus,
++				  const struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc);
+ int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+ 				    struct v4l2_mbus_framefmt *mbus);
+-- 
+Regards,
+
+Laurent Pinchart
+
