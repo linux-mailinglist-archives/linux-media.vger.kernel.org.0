@@ -2,151 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8487717FBFB
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA0C617FE96
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:36:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731562AbgCJNRn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 09:17:43 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:31755 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731543AbgCJNRn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 09:17:43 -0400
-X-IronPort-AV: E=Sophos;i="5.70,537,1574089200"; 
-   d="scan'208";a="41499820"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Mar 2020 22:17:42 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B97574290415;
-        Tue, 10 Mar 2020 22:17:40 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 3/3] media: i2c: imx219: Add support for cropped 640x480 resolution
-Date:   Tue, 10 Mar 2020 13:17:09 +0000
-Message-Id: <1583846229-6799-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1583846229-6799-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1583846229-6799-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S1726932AbgCJMnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 08:43:06 -0400
+Received: from mga05.intel.com ([192.55.52.43]:62686 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727496AbgCJMnG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Mar 2020 08:43:06 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Mar 2020 05:43:05 -0700
+X-IronPort-AV: E=Sophos;i="5.70,537,1574150400"; 
+   d="scan'208";a="235924495"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Mar 2020 05:43:03 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id BEA8F209DF; Tue, 10 Mar 2020 14:43:01 +0200 (EET)
+Date:   Tue, 10 Mar 2020 14:43:01 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH] media: i2c: ov5645: Add virtual_channel module parameter
+Message-ID: <20200310124301.GD5379@paasikivi.fi.intel.com>
+References: <20200228164126.17517-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200305114314.GP5379@paasikivi.fi.intel.com>
+ <CA+V-a8tGEYT7sOqzLRu8cx3u1DySt4mOz0UujU57SZSGqXB=Pw@mail.gmail.com>
+ <CA+V-a8sXP98EkrvepX6hqj8oNE8c5o5PUtU306V_QYb1Bowjpw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8sXP98EkrvepX6hqj8oNE8c5o5PUtU306V_QYb1Bowjpw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds mode table entry for capturing cropped 640x480 resolution
+On Tue, Mar 10, 2020 at 11:17:10AM +0000, Lad, Prabhakar wrote:
+> Hi Sakari,
+> 
+> On Fri, Mar 6, 2020 at 10:18 AM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> >
+> > Hi Sakari,
+> >
+> > On Thu, Mar 5, 2020 at 11:43 AM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > On Fri, Feb 28, 2020 at 04:41:26PM +0000, Lad Prabhakar wrote:
+> > > > OV5645 can operate in virtual channel 0-3 in CSI2 interfaces, this patch
+> > > > adds support for module parameter virtual_channel to select the required
+> > > > channel. By default OV5645 operates in virtual channel 0.
+> > >
+> > > What's your use case for different virtual channels?
+> > >
+> > Just ability to switch to different virtual channel, based on ov5640
+> > driver. The rcar-csi2
+> > has capability to capture  from multiple channels so that we can
+> > capture simultaneously
+> > from two sensors.
+> >
+> Any thoughts on how this could be handled ?
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/imx219.c | 70 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 69 insertions(+), 1 deletion(-)
+A module parameter to support sending the pixel data on virtual channels is
+certainly a hack. You couldn't support the same kind of sensors with
+different virtual channel configuration in a deterministic way nor the
+receiver would have an ability to verify the hardware is properly
+configured.
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 3207487..cb03bde 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -54,6 +54,7 @@
- #define IMX219_VTS_15FPS		0x0dc6
- #define IMX219_VTS_30FPS_1080P		0x06e3
- #define IMX219_VTS_30FPS_BINNED		0x06e3
-+#define IMX219_VTS_30FPS_640x480	0x06e3
- #define IMX219_VTS_MAX			0xffff
- 
- #define IMX219_VBLANK_MIN		4
-@@ -138,7 +139,7 @@ struct imx219_mode {
- /*
-  * Register sets lifted off the i2C interface from the Raspberry Pi firmware
-  * driver.
-- * 3280x2464 = mode 2, 1920x1080 = mode 1, and 1640x1232 = mode 4.
-+ * 3280x2464 = mode 2, 1920x1080 = mode 1, 1640x1232 = mode 4, 640x480 = mode 7.
-  */
- static const struct imx219_reg mode_3280x2464_regs[] = {
- 	{0x0100, 0x00},
-@@ -313,6 +314,63 @@ static const struct imx219_reg mode_1640_1232_regs[] = {
- 	{0x0163, 0x78},
- };
- 
-+static const struct imx219_reg mode_640_480_regs[] = {
-+	{0x0100, 0x00},
-+	{0x30eb, 0x05},
-+	{0x30eb, 0x0c},
-+	{0x300a, 0xff},
-+	{0x300b, 0xff},
-+	{0x30eb, 0x05},
-+	{0x30eb, 0x09},
-+	{0x0114, 0x01},
-+	{0x0128, 0x00},
-+	{0x012a, 0x18},
-+	{0x012b, 0x00},
-+	{0x0162, 0x0d},
-+	{0x0163, 0x78},
-+	{0x0164, 0x03},
-+	{0x0165, 0xe8},
-+	{0x0166, 0x08},
-+	{0x0167, 0xe7},
-+	{0x0168, 0x02},
-+	{0x0169, 0xf0},
-+	{0x016a, 0x06},
-+	{0x016b, 0xaf},
-+	{0x016c, 0x02},
-+	{0x016d, 0x80},
-+	{0x016e, 0x01},
-+	{0x016f, 0xe0},
-+	{0x0170, 0x01},
-+	{0x0171, 0x01},
-+	{0x0174, 0x03},
-+	{0x0175, 0x03},
-+	{0x0301, 0x05},
-+	{0x0303, 0x01},
-+	{0x0304, 0x03},
-+	{0x0305, 0x03},
-+	{0x0306, 0x00},
-+	{0x0307, 0x39},
-+	{0x030b, 0x01},
-+	{0x030c, 0x00},
-+	{0x030d, 0x72},
-+	{0x0624, 0x06},
-+	{0x0625, 0x68},
-+	{0x0626, 0x04},
-+	{0x0627, 0xd0},
-+	{0x455e, 0x00},
-+	{0x471e, 0x4b},
-+	{0x4767, 0x0f},
-+	{0x4750, 0x14},
-+	{0x4540, 0x00},
-+	{0x47b4, 0x14},
-+	{0x4713, 0x30},
-+	{0x478b, 0x10},
-+	{0x478f, 0x10},
-+	{0x4793, 0x10},
-+	{0x4797, 0x0e},
-+	{0x479b, 0x0e},
-+};
-+
- static const struct imx219_reg raw8_framefmt_regs[] = {
- 	{0x018c, 0x08},
- 	{0x018d, 0x08},
-@@ -431,6 +489,16 @@ static const struct imx219_mode supported_modes[] = {
- 			.regs = mode_1640_1232_regs,
- 		},
- 	},
-+	{
-+		/* 640x480 30fps mode */
-+		.width = 640,
-+		.height = 480,
-+		.vts_def = IMX219_VTS_30FPS_640x480,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
-+			.regs = mode_640_480_regs,
-+		},
-+	},
- };
- 
- struct imx219 {
+The multiplexed streams patchset (subject "[PATCH v3 00/31] v4l: add
+support for multiplexed streams" on LMML) adds support for CSI-2 virtual
+channels and data types. It's been a while since a version of that was
+posted though.
+
+Jacopo, what are your plans regarding that set?
+
 -- 
-2.7.4
+Kind regards,
 
+Sakari Ailus
