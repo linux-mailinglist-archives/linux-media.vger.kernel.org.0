@@ -2,41 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8563D17FF26
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B732117FF4E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 14:46:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbgCJNon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 09:44:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37698 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727231AbgCJNnT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 09:43:19 -0400
-Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8DE5C246B4;
-        Tue, 10 Mar 2020 13:43:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583847797;
-        bh=OPGYmieXKETcyEj5QfTyd0VUv6QXCI4OfGbmwHtuc8g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CLlCgW1Q8yWm9KWqJYC58YsnWKUiBdlfHL1hbcGw/RVrU4qf5e7t+1/IM/DtD+x9w
-         2OUXVxZvCX/FLVVZTdQXndK7UQZh1am2knD5GytB+l0XSUUjstz6I9BDypM5Y5c1G4
-         YDD1uUUjfS0VP5ecwdq1+zeSy0BuUkIx2eoB1LG8=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jBfAB-0005wt-PU; Tue, 10 Mar 2020 14:43:15 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2 22/22] media: docs: get rid of Documentation/media/
-Date:   Tue, 10 Mar 2020 14:43:13 +0100
-Message-Id: <50b933ab1f2e42e6905c72be6bd53dc1c30621d3.1583847557.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1583847556.git.mchehab+huawei@kernel.org>
-References: <cover.1583847556.git.mchehab+huawei@kernel.org>
+        id S1726847AbgCJNqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 09:46:09 -0400
+Received: from mail-wm1-f51.google.com ([209.85.128.51]:56316 "EHLO
+        mail-wm1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726390AbgCJNqJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Mar 2020 09:46:09 -0400
+Received: by mail-wm1-f51.google.com with SMTP id 6so1462989wmi.5
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 06:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wD/rjwDaFSH4m0qLvYcsJe5uINdhvscpogJ3gh+ddBE=;
+        b=abZrokerv1XQs4CdYgMZDC/O5UauiH6mqKC2Rrdy1tv4xSXq1RKsr+iLSyaMu5QRrY
+         eNToWk64+vZzKd5eeIFecdjcgvg5U62vU7dexhWjTJGcM9vb+TmvA6P4A4xsOXQvW2fi
+         wb2/v2YN1HJGBWhNsaZaJsTHq9C+BIA4ID0FoIbZUuGmip1war0RJ9oU2O6ca/Eb8bnp
+         lKwQxo9FxcvxnukaM01tLAXT2mdTHQ+BWTwNmBjHEBFWXKM+WWrV9KQRZ9Gjn8GzG1NP
+         UzG8pjbwxIVQlVYsWb8vQaUL2aaeAjFaIZ9pL5L7SBi0tKFDOAG5ttq+QXKgWrlHYdsw
+         mQKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wD/rjwDaFSH4m0qLvYcsJe5uINdhvscpogJ3gh+ddBE=;
+        b=fzN36XsSfnvt93483oeiBFKQV0/OMmW7c4KGlUAB8bUbTU1reLKh1qS7d85BM/r7LX
+         65T9/UoOA29emwnveQ3q1UXYzUVQWV142pzG0bqiCDHRt9L7zJKG8iI9qOCIyRsiNmVL
+         DrV+Uqft+hDmDkjRfhXsZ2z7fdBR5ILsYnMHJNPi5wfFl9Vv1i3zsZuTo6qWvAKnN0BE
+         zhPTFiqA6TYK8+L2XG/O032xMWloTMLkdhWjxuTLUrLuPd5wGPviOKpgIfSl5b7hk8u+
+         knJiVgzDVkme8k500dQ0eeg+SkIRhwXY5iBKXvNBYkdAbs5gk3rfpoqFJK+ea4M0N7QO
+         M6jA==
+X-Gm-Message-State: ANhLgQ3T4SX5x31/vzifthrTiMUIHwlBs3rEwFbHPWbP4C+Wl1ZkBjoQ
+        /fY6l86QCf7KDe+5rsd9Dz31vA==
+X-Google-Smtp-Source: ADFU+vsAqODaD7c54dhNVCiGo6mkHHmbHDjZbcCM9Ns8rtR6QHeWU2SEQUgGGnzoUNA8SRhX+nS2rA==
+X-Received: by 2002:a1c:f60d:: with SMTP id w13mr628899wmc.171.1583847967491;
+        Tue, 10 Mar 2020 06:46:07 -0700 (PDT)
+Received: from xps7590.local ([2a02:2450:102f:13b8:e50c:c780:9a1:8b61])
+        by smtp.gmail.com with ESMTPSA id d63sm4074009wmd.44.2020.03.10.06.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 06:46:06 -0700 (PDT)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     ben.kao@intel.com, mchehab@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, matthias.bgg@gmail.com, davem@davemloft.net,
+        gregkh@linuxfoundation.org, Jonathan.Cameron@huawei.com,
+        andriy.shevchenko@linux.intel.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Robert Foss <robert.foss@linaro.org>
+Subject: [v1 0/3] media: ov8856: Add sensor modes & devicetree support
+Date:   Tue, 10 Mar 2020 14:46:00 +0100
+Message-Id: <20200310134603.30260-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -44,83 +67,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that everything got moved, we can get rid of the
-old media directory.
+This adds devicetree support to the ov8856 driver.
+In order to to aid debugging and enable future sensor
+modes to be supported, module revision detection is also added.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/driver-api/index.rst    |  1 +
- Documentation/index.rst               |  1 -
- Documentation/media/index.rst         | 23 -----------------------
- Documentation/userspace-api/index.rst |  1 +
- 4 files changed, 2 insertions(+), 24 deletions(-)
- delete mode 100644 Documentation/media/index.rst
+Dongchun Zhu (1):
+  media: dt-bindings: ov8856: Document YAML bindings
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 0ebe205efd0c..92c2570277ac 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -62,6 +62,7 @@ available subsections can be seen below.
-    pinctl
-    gpio/index
-    md/index
-+   media/index
-    misc_devices
-    nfc/index
-    dmaengine/index
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index e99d0bd2589d..7139190f1c01 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -108,7 +108,6 @@ needed).
-    isdn/index
-    infiniband/index
-    leds/index
--   media/index
-    netlabel/index
-    networking/index
-    pcmcia/index
-diff --git a/Documentation/media/index.rst b/Documentation/media/index.rst
-deleted file mode 100644
-index e93fd88881af..000000000000
---- a/Documentation/media/index.rst
-+++ /dev/null
-@@ -1,23 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--Linux Media Subsystem Documentation
--===================================
--
--.. only:: html
--
--   .. class:: toc-title
--
--        Table of Contents
--
--.. toctree::
--   :maxdepth: 2
--
--   ../userspace-api/media/index
--   ../driver-api/media/index
--
--.. only:: html and subproject
--
--   Indices
--   =======
--
--   * :ref:`genindex`
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index e983488b48b1..69fc5167e648 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -22,6 +22,7 @@ place where this information is gathered.
-    spec_ctrl
-    accelerators/ocxl
-    ioctl/index
-+   media/index
- 
- .. only::  subproject and html
- 
+Robert Foss (2):
+  media: ov8856: Add devicetree support
+  media: ov8856: Implement sensor module revision identification
+
+ .../devicetree/bindings/media/i2c/ov8856.yaml | 129 +++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/ov8856.c                    | 153 +++++++++++++++++-
+ 3 files changed, 281 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+
 -- 
-2.24.1
+2.20.1
 
