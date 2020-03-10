@@ -2,69 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A23180263
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 16:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF9618026F
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2020 16:51:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbgCJPtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 11:49:42 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54870 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726414AbgCJPtm (ORCPT
+        id S1726647AbgCJPvu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 11:51:50 -0400
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:41093 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgCJPvt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 11:49:42 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3039F5F;
-        Tue, 10 Mar 2020 16:49:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1583855380;
-        bh=KPQEc6tGjY5MuTHPCGgzyuO5uKy1bBUWd0iN+abo+FI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aej1YabqujMPHxSGRFS3lHy615v2G29FsUBPjQKMAikzlUPnnhY2vfuzHzMCFNNXf
-         FHTjlAyeZRrHodCmGIwuiwV6rCoBFC5x0tgLfDyg3zwRlNkTtggQy7h2HbFDn6lAoJ
-         iAgfnbcXNs254XtEG/lquWzbsv+YTj5E4xmAtzxs=
-Date:   Tue, 10 Mar 2020 17:49:37 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: Re: [PATCH 7/7] media: imx: imx7-media-csi: Fix video field handling
-Message-ID: <20200310154937.GA32319@pendragon.ideasonboard.com>
-References: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
- <20191024004155.32068-8-laurent.pinchart@ideasonboard.com>
- <3d979bfa-0bb2-0dde-9bc7-83ee3923d33a@gmail.com>
- <20200309205238.GH4916@pendragon.ideasonboard.com>
- <ed913970-573e-4bee-ce84-28513a7869a9@gmail.com>
+        Tue, 10 Mar 2020 11:51:49 -0400
+Received: by mail-oi1-f181.google.com with SMTP id i1so14309101oie.8
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 08:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TzI3NS1us/9nonvG5pXz3Br1CySTtDhQY55j7Q6IipQ=;
+        b=mBsQ1xKQINy5A2P1Vw/LPVEj2a/HGVi3YKU2BuXz7iz+6/A9Eil5VZpaX3mlZF9AcW
+         atj5utXs4c9T1S3OZJD6POMTEW7jwHwEXghN2Nl2NuSnK1Zbl2/1nALHQlEV45bcNPPZ
+         1Nr0WiCF+FyXxDy16mSv9QxcDB9j05vBTWytODhswMM9R4dCmyLpc4BoMOf60TyHKJAx
+         441St8WmfCXE4Jnp29UQo9gFpqMkuzMG7HdUs7jI5UEaclGhaimPK1x/Y9aPQLpR+nTx
+         kivYTX3ggu/6XjGjpJ6cPuAZ0AdBJ0+mQN0m7I+Onvr83jg/yJKs/wQ08bAbDLwh12de
+         uPLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TzI3NS1us/9nonvG5pXz3Br1CySTtDhQY55j7Q6IipQ=;
+        b=i0X4g4l1zk4SghXMsu2obfiefnuQlDyUq9ISaB9E/GC0xijFCIkFAF/gMvanXK3hS6
+         ZrD9895ekZ99TjHqR/ZCdNfFga0WNyP1+mmlmgGB2z9wCAF8Mx4ubOQWl1bkDpGUf4V7
+         C3MTz1fj58RgCnRx4g93uTjurPo20C10urFjzMiI64nH7s38VP2vhUFUOCJ6zEpWMive
+         WMiaMBhYdecDZCLSnnYU1bANH3sASxyJTZasJU2+bhPTnurr99S9MVLpXIndTkY+8K+e
+         4ZiurXa0bvH1DoXjNvSdFiPDFKvY6E2uKz96GphhnbwhNq0sXZ8qGbWBN01EtV3pfhTr
+         Hi4A==
+X-Gm-Message-State: ANhLgQ1AUIWjNUsOJHD600pGXspV++Mik75tPdhkzGSpo0PppnCjcGwU
+        l3JyKJxUJK9XltztHbzmA7l5H5Ihgtnk0N6YJ+OcpQ==
+X-Google-Smtp-Source: ADFU+vto/+p/nquy8sen8kW/eAjYeNh2K6wTtdo9nvKXrCLZxqA2YN3nxqEtyQvwvv7lf4XKqCo9hac02b0WuwtUEl8=
+X-Received: by 2002:aca:ab16:: with SMTP id u22mr1571231oie.133.1583855507476;
+ Tue, 10 Mar 2020 08:51:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ed913970-573e-4bee-ce84-28513a7869a9@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200310134603.30260-1-robert.foss@linaro.org>
+ <20200310134603.30260-2-robert.foss@linaro.org> <CAOMZO5C9Oj+SmTroE+bSsGcOPpz6se+WOqw1qJU9x6TrzbzZKw@mail.gmail.com>
+In-Reply-To: <CAOMZO5C9Oj+SmTroE+bSsGcOPpz6se+WOqw1qJU9x6TrzbzZKw@mail.gmail.com>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Tue, 10 Mar 2020 16:51:36 +0100
+Message-ID: <CAG3jFyuLMxUEr7yZAHT99JK8NoUZc-aquuMEtSBH_Vipa-_giQ@mail.gmail.com>
+Subject: Re: [v1 1/3] media: dt-bindings: ov8856: Document YAML bindings
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     ben.kao@intel.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan.Cameron@huawei.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-mediatek@lists.infradead.org,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve and Rui,
+Hey Fabio,
 
-I've spent more time on the i.MX7 support in the i.MX media staging
-driver today, and I've reached a point where I'm not comfortable moving
-forward without your ack.
+Thanks for having a look at this series so quickly.
 
-I found format handling to be very broken, the driver enumerates formats
-that are not supported by the device, and doesn't properly handle the
-supported formats. While trying to fix that, I found out that the common
-i.MX6 and i.MX7 helpers (imx-media-capture.c and imx-media-utils.c) get
-in the way, as i.MX6 and i.MX7 format support are very entangled. I
-would like to split the two in order to clean up the i.MX7 code, which
-would also give an opportunity to later clean the i.MX6 code if desired.
+On Tue, 10 Mar 2020 at 14:57, Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Robert,
+>
+> On Tue, Mar 10, 2020 at 10:46 AM Robert Foss <robert.foss@linaro.org> wrote:
+>
+> > +    ov8856: camera-sensor@10 {
+> > +        compatible = "ovti,ov8856";
+> > +        reg = <0x10>;
+> > +        reset-gpios = <&pio 111 GPIO_ACTIVE_HIGH>;
+>
+> Could you double check this is correct? Other OmniVision sensors have
+> reset-gpios as active low.
 
-Before moving in that time-consuming direction, I want to make sure this
-will be accepted, as I don't want to spend days of work for nothing. If
-you want to discuss this in real time, I'm available in the #v4l channel
-on Freenode (nickname pinchartl).
+I have tested this, unfortunately I don't have access to a ov8856
+datasheet that includes
+this level of detail. But I have tested this.
 
--- 
-Regards,
+>
+> I suspect that the driver has also an inverted logic, so that's why it works.
 
-Laurent Pinchart
+That could explain it still working. Let me have a look into the
+driver and see what it does.
+
+>
+> I don't have access to the datasheet though, so I am just guessing.
+
+Me neither unfortunately, if anyone does have a link for it, I would
+very much appreciate it.
