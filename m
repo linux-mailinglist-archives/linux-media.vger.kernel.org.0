@@ -2,118 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C567D181B69
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 15:35:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5278E181B78
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 15:38:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729824AbgCKOfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 10:35:20 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45152 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729309AbgCKOfU (ORCPT
+        id S1729746AbgCKOih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 10:38:37 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54673 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729479AbgCKOih (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 10:35:20 -0400
-Received: by mail-wr1-f68.google.com with SMTP id m9so2890886wro.12
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 07:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=IQs+phBZ3S/GYnVfw9fs/6+DM3h/UBTUu4IQmErnRl0=;
-        b=nSr92DBMadEBkWQ6le78I7owyV7u1YAk7udC/1HFUrHu+gXkp6DDe4xJsRvldP14aQ
-         82kPuDnG6uMTxNtPT4XiN11eRpoitgBgS0JuJruBvYHAgrzsBk/C0usbgiY3dSzDnkrj
-         s4MPHGMAAIkfjbW6FvTwk4rTuq/N2FfpdLwR0GQIxAYrTw3qTjrxzbpwpzhXtQXacjbZ
-         xgjZJ3lN/qKlSVJr98J2zNtkdVE3bAuvkwIM0JNALFoKjLjRaMv0S9LpMSWye2MDcoZz
-         r6CXnAUk1sEqOauu0uQwl+ffTIsMvsv1sX4PryZkRvQEJA/Jdty7KlPMgi9OjB7ZaTd2
-         OHvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=IQs+phBZ3S/GYnVfw9fs/6+DM3h/UBTUu4IQmErnRl0=;
-        b=hfp71uLCwv78ENJg/1jB75T59NUwjs/vKvT/2ZopyvP4jWpTXOS2qCv1yXqORgASS7
-         0MLCW06ep/0/LUim2scxE2yXS75WsjwThMXJmoNHYXhilc+PVaop2lLycIjcZPR54x2Y
-         ehfA8vbwX6kgDOsyW32+/UExczRIfbEPEjuwU6MOIdZuO3Zup3/CbkRdISs06G18HhRd
-         BlXanqr4CWn/kq9m7tLfsqPDd853czpNNQ9eOUc065Mey8c6d7ZXQFliuuUPAtn5WGG9
-         giZML+3h+C5GsuNrhD9+qEJnIyeeWZM7WuQuMe8JPoTdrwRLSm4asNBphbxOYHCAXJBM
-         YnIw==
-X-Gm-Message-State: ANhLgQ2n22Ez1lrAS96KGgoArHnZDCCSTW8hOFtlUdSsDq2usSig5slk
-        6SYv0cptS7nO05djJdYlHWk=
-X-Google-Smtp-Source: ADFU+vsVLsGvDctUv5N3FkS0igaaWFRRfqrOrvYtJRyM3CFSaUi8/aVYtssZIOaYgZGF0iNc8OCD/w==
-X-Received: by 2002:a5d:528e:: with SMTP id c14mr4920154wrv.308.1583937318624;
-        Wed, 11 Mar 2020 07:35:18 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id p10sm69610393wrx.81.2020.03.11.07.35.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 07:35:17 -0700 (PDT)
-Date:   Wed, 11 Mar 2020 14:35:15 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH 0/8] media: imx: Miscalleanous format-related cleanups
-Message-ID: <20200311143515.j2k6hfaw5tjwjo7e@arch-thunder.localdomain>
-References: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
+        Wed, 11 Mar 2020 10:38:37 -0400
+Received: from [IPv6:2001:420:44c1:2577:d578:21fa:bf61:c876]
+ ([IPv6:2001:420:44c1:2577:d578:21fa:bf61:c876])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id C2VDjSCdG9Im2C2VHjfOTz; Wed, 11 Mar 2020 15:38:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583937515; bh=93gbJEZGv+Vb4LdfY39/SprMTUOXomKvrI3YLTNS7UE=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ecK7XKc0FRJUertVTKoU5+NVjwWzGBFa6pgSo/bdBmvAs1P62Y/8wGHAyw7W5YW6z
+         f0AVQ9+B5ZuWdaSAdpYf/rXlXE2vk/WQHymRwtZImoj3i1gV+HOc9SFz4NCYiE19OD
+         xkMpbILNSedD7HLa3K8vFxh6YN+NTINxYFH6AOFglbglD0+c7PNBXiXxXCGCcmYJH3
+         ZuTNSlROlcir7/pot1NTl8OYJmc8sSV7PMN3MIi7ye//EhlkKCNcHmXye7j6FTt/KD
+         +WVafqSQHEp1Q8d42kNJg7GyMhiYi5NpRmTJ2aXOUX6c59fSJN5EdplShx2oOTlsRd
+         iPBXH2aGOrhlA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.7] Various fixes
+Message-ID: <bc2880a4-42b7-8dab-241f-b263b26e20e7@xs4all.nl>
+Date:   Wed, 11 Mar 2020 15:38:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFZmpodpaDU0eRljgXU8NIkFBZOYoEmTR1q1N8fZUaTxNOhNmJ8CDiK+mVm3MnKLyzWxy18MaEL++lD0Oi3VpZvafrZOVOfjsbG5XI0flQ86N1bwPF0P
+ e2t5M6XvvYBrWhSUBuUzvq/H9AlJFldYT+iQuAbYol3aOCZFOhdxLIZ52Ec28S45NJ2Gj4pneZJ/Mm7CJdz8ZXrJkzMuaMgnlZFCU1nYAPQIFNbsCMuMM7ib
+ 1qlySqf+ZTjmivyHoKbEWn3LqOCsLCNEGUs2EP7pFiAKF3kQPr7m+1JO2r+gDw0x
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-Thanks for the cleanups on this.
-On Tue, Mar 10, 2020 at 06:18:37PM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series started as an attempt to fix the format get and set
-> subdev operations on the i.MX7 CSI-2 receiver subdev, which it does in
-> patch 1/8. Patch 2/8 further cleans up the format-related code in that
-> subdev.
+The following changes since commit 00c43088aa680989407b6afbda295f67b3f123f1:
 
-for the imx7 part:
+  media: meson: vdec: add VP9 decoder support (2020-03-05 23:05:34 +0100)
 
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+are available in the Git repository at:
 
-------
-Cheers,
-     Rui
-> 
-> Patches 3/8 to 8/8 pushes the cleanups further as I was attempting to
-> fix the format enumeration on the video node at the end of the pipeline.
-> I realized as part of that effort that there's more work than I
-> anticipated, and I'm currently evaluating the possible options.
-> Nonetheless, I think the cleanups make sense even without what I wanted
-> to build on top of them, so I'm sending them out already.
-> 
-> Laurent Pinchart (8):
->   media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
->   media: imx: imx7-mipi-csis: Centralize initialization of pad formats
->   media: imx: utils: Inline init_mbus_colorimetry() in its caller
->   media: imx: utils: Handle Bayer format lookup through a selection flag
->   media: imx: utils: Simplify IPU format lookup and enumeration
->   media: imx: utils: Make imx_media_pixfmt handle variable number of
->     codes
->   media: imx: utils: Remove unneeded argument to (find|enum)_format()
->   media: imx: utils: Rename format lookup and enumeration functions
-> 
->  drivers/staging/media/imx/imx-ic-prp.c        |   8 +-
->  drivers/staging/media/imx/imx-ic-prpencvf.c   |   6 +-
->  drivers/staging/media/imx/imx-media-capture.c |  22 +-
->  .../staging/media/imx/imx-media-csc-scaler.c  |   2 +-
->  drivers/staging/media/imx/imx-media-csi.c     |  26 +-
->  drivers/staging/media/imx/imx-media-utils.c   | 313 ++++++++----------
->  drivers/staging/media/imx/imx-media-vdic.c    |   6 +-
->  drivers/staging/media/imx/imx-media.h         |  24 +-
->  drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
->  drivers/staging/media/imx/imx7-mipi-csis.c    | 138 ++++----
->  10 files changed, 271 insertions(+), 289 deletions(-)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
->
-> 
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7h
+
+for you to fetch changes up to 08f57612561cd93e9a6834c1b07be780f3e7873d:
+
+  media: am437x-vpfe: exclude illegal values for enum when validing params from user space (2020-03-11 15:26:32 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Benoit Parrot (1):
+      media: ti-vpe: cal: fix a kernel oops when unloading module
+
+Changming Liu (1):
+      media: am437x-vpfe: exclude illegal values for enum when validing params from user space
+
+Hsin-Yi Wang (1):
+      media: mtk-vpu: avoid unaligned access to DTCM buffer.
+
+ drivers/media/platform/am437x/am437x-vpfe.c     |  1 +
+ drivers/media/platform/mtk-mdp/mtk_mdp_vpu.c    |  9 +++++----
+ drivers/media/platform/mtk-vcodec/vdec_vpu_if.c |  6 +++---
+ drivers/media/platform/mtk-vcodec/venc_vpu_if.c | 12 ++++++------
+ drivers/media/platform/mtk-vpu/mtk_vpu.c        | 45 +++++++++++++++++++++++----------------------
+ drivers/media/platform/mtk-vpu/mtk_vpu.h        |  2 +-
+ drivers/media/platform/ti-vpe/cal.c             | 13 ++++++++-----
+ 7 files changed, 47 insertions(+), 41 deletions(-)
