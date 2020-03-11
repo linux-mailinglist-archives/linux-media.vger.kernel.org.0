@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51BAE181FE7
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 18:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45541181FF1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 18:48:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730649AbgCKRrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 13:47:15 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33054 "EHLO
+        id S1730679AbgCKRrT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 13:47:19 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33070 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730487AbgCKRrP (ORCPT
+        with ESMTP id S1730645AbgCKRrS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 13:47:15 -0400
+        Wed, 11 Mar 2020 13:47:18 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 639D72912DD
+        with ESMTPSA id 1BB3F2912DA
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org
@@ -26,9 +26,9 @@ Cc:     Tomasz Figa <tfiga@chromium.org>,
         Alexandre Courbot <acourbot@chromium.org>,
         Jeffrey Kardatzke <jkardatzke@chromium.org>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH 1/6] v4l2-mem2mem: return CAPTURE buffer first
-Date:   Wed, 11 Mar 2020 14:42:55 -0300
-Message-Id: <20200311174300.19407-2-ezequiel@collabora.com>
+Subject: [PATCH 2/6] hantro: Set buffers' zeroth plane payload in .buf_prepare
+Date:   Wed, 11 Mar 2020 14:42:56 -0300
+Message-Id: <20200311174300.19407-3-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200311174300.19407-1-ezequiel@collabora.com>
 References: <20200311174300.19407-1-ezequiel@collabora.com>
@@ -39,53 +39,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the request API is used, typically an OUTPUT (src) buffer
-will be part of a request. A userspace process will be typically
-blocked, waiting on the request file descriptor.
+Buffers' zeroth plane payload size is calculated at format
+negotiation time, and so it can be set in .buf_prepare.
 
-Returning the OUTPUT (src) buffer will wake-up such processes,
-who will immediately attempt to dequeue the CAPTURE buffer,
-only to find it's still unavailable.
-
-Therefore, change v4l2_m2m_buf_done_and_job_finish returning
-the CAPTURE (dst) buffer first, to avoid signalling the request
-file descriptor prematurely, i.e. before the CAPTURE buffer is done.
-
-When the request API is not used, this change should have
-no impact.
+Keep in mind that, to make this change easier, hantro_buf_prepare
+is refactored, using the cedrus driver as reference. This results
+in cleaner code as byproduct.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/staging/media/hantro/hantro_v4l2.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 8986c31176e9..62ac9424c92a 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -504,12 +504,21 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index f4ae2cee0f18..3142ab6697d5 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -608,7 +608,7 @@ hantro_queue_setup(struct vb2_queue *vq, unsigned int *num_buffers,
+ }
  
- 	if (WARN_ON(!src_buf || !dst_buf))
- 		goto unlock;
--	v4l2_m2m_buf_done(src_buf, state);
- 	dst_buf->is_held = src_buf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
- 	if (!dst_buf->is_held) {
- 		v4l2_m2m_dst_buf_remove(m2m_ctx);
- 		v4l2_m2m_buf_done(dst_buf, state);
- 	}
-+	/*
-+	 * If the request API is being used, returning the OUTPUT
-+	 * (src) buffer will wake-up any process waiting on the
-+	 * request file descriptor.
-+	 *
-+	 * Therefore, return the CAPTURE (dst) buffer first,
-+	 * to avoid signalling the request file descriptor
-+	 * before the CAPTURE buffer is done.
-+	 */
-+	v4l2_m2m_buf_done(src_buf, state);
- 	schedule_next = _v4l2_m2m_job_finish(m2m_dev, m2m_ctx);
- unlock:
- 	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+ static int
+-hantro_buf_plane_check(struct vb2_buffer *vb, const struct hantro_fmt *vpu_fmt,
++hantro_buf_plane_check(struct vb2_buffer *vb,
+ 		       struct v4l2_pix_format_mplane *pixfmt)
+ {
+ 	unsigned int sz;
+@@ -630,12 +630,18 @@ static int hantro_buf_prepare(struct vb2_buffer *vb)
+ {
+ 	struct vb2_queue *vq = vb->vb2_queue;
+ 	struct hantro_ctx *ctx = vb2_get_drv_priv(vq);
++	struct v4l2_pix_format_mplane *pix_fmt;
++	int ret;
+ 
+ 	if (V4L2_TYPE_IS_OUTPUT(vq->type))
+-		return hantro_buf_plane_check(vb, ctx->vpu_src_fmt,
+-						  &ctx->src_fmt);
+-
+-	return hantro_buf_plane_check(vb, ctx->vpu_dst_fmt, &ctx->dst_fmt);
++		pix_fmt = &ctx->src_fmt;
++	else
++		pix_fmt = &ctx->dst_fmt;
++	ret = hantro_buf_plane_check(vb, pix_fmt);
++	if (ret)
++		return ret;
++	vb2_set_plane_payload(vb, 0, pix_fmt->plane_fmt[0].sizeimage);
++	return 0;
+ }
+ 
+ static void hantro_buf_queue(struct vb2_buffer *vb)
 -- 
 2.25.0
 
