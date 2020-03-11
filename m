@@ -2,105 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21200182581
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 00:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3146718260D
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 00:54:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731382AbgCKXCp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 19:02:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54623 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729739AbgCKXCp (ORCPT
+        id S1731530AbgCKXyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 19:54:39 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37843 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731399AbgCKXyj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 19:02:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1583967764;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S22WCBK32dW62v5FBfF/eaiBnVwh5JRqi9VfbTFA4vk=;
-        b=co8v6T7EE0IvKKwulsXHOT9jgcI+FHkfg6Rds6IXX9yOC0t3WHHHYai+cmvGv9mfKRzyhY
-        4Q4DkE4tw+KDJnDefn6XizEbxIuKhplK2Tf9uhlh4ACSJdsoHNz++2SWnxu/Zxf3Q9viFB
-        Z+5a0MviTCj3OmFYq3vLCnyuEyYKiHg=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-0_LJSmxhM-K-NmYjUzd9iQ-1; Wed, 11 Mar 2020 19:02:43 -0400
-X-MC-Unique: 0_LJSmxhM-K-NmYjUzd9iQ-1
-Received: by mail-qv1-f72.google.com with SMTP id g12so2351671qvp.20
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 16:02:42 -0700 (PDT)
+        Wed, 11 Mar 2020 19:54:39 -0400
+Received: by mail-pf1-f195.google.com with SMTP id p14so2261116pfn.4
+        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 16:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=8aa3VbfYvsZsaOnvHAClwet0b5DN6/vyfQby/ceUlvU=;
+        b=o/xNsKnZa0ZBfoXAenHovZ/FSnayOvxFcQMrXnYKBisYmXKmlSLLbCGR3mM8gMrbVf
+         a3wHrCoI23+ZhI7z+1lqi8/0vup2J11aujRMTZnFr7HlUaNDr29QxEOwljFNIvI/F/rn
+         devSrHhuh7U5QevxgILQ4OdwtjR7ajKC2SURJvH1cbb4xVYB8XbAKPc80sWWxqW7mLQJ
+         exD/bKQ/WGSwTdkCrfU0KN2TuyySLBFrl4Gxm+n7zZ6q1hmV15aXLrSDtah6CJOv5Dww
+         36pVET8Nc8Qj7yKvGRB2KDiI7Q38NzwP1ftmOhZxqvLf19nl8XFYw8CtUK8tJPLTKi4F
+         +Dxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=S22WCBK32dW62v5FBfF/eaiBnVwh5JRqi9VfbTFA4vk=;
-        b=gZI3ScrDKPfY/AmrHeRiBxMdlB1TaWHYETmu7PH2wAujJMpp7xQ6eE2JJvUex6a9DD
-         J9LH493j9N0re80Ra09eupcaC3X2R+nfMYD4oHVrgD/fQ8Nd1q7usRlAh90/Gr2BQu3R
-         iojTXUQYK1Hm5G0++ORj/vHp+DSCppl0RgxQng9Uy5/ngcVJgLgzg16kVt4SLJmfxL/3
-         FPXtuHojdRVc/gdss18wRj1ZK4DwJ6b22/koqeDizCI/wq1CQZ/vIWZK5Q/EH+LhIpEt
-         llc0za0uesjiqJly5F3xESOQiliL/QFesxi13QbFroz3J/oXvHRvrtTar8GfUy3FnsMg
-         IzpQ==
-X-Gm-Message-State: ANhLgQ0fQ7KpTO36UQlPwkr6tfJb68x6JtApIAe9AZ44bE14HILzque7
-        x/A5J9DxJ1i6/lOh4NVZgRH70LszlNT3K214qtNBzOHZoJ9I2VdfSCmhHOvZPUFHBd3cR8jMOIf
-        kYVIPVen1C7Pd5D39E6CR7zs=
-X-Received: by 2002:a0c:fb06:: with SMTP id c6mr5062587qvp.122.1583967762535;
-        Wed, 11 Mar 2020 16:02:42 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vvS/go2gmlbv8VHFqdnlZeBdO239g7k/V8qddp+HdRMjPSgdahO9YGEzt44xW+XIjVC7ERSmQ==
-X-Received: by 2002:a0c:fb06:: with SMTP id c6mr5062573qvp.122.1583967762308;
-        Wed, 11 Mar 2020 16:02:42 -0700 (PDT)
-Received: from desoxy (c-24-61-245-152.hsd1.ma.comcast.net. [24.61.245.152])
-        by smtp.gmail.com with ESMTPSA id x51sm5490005qtj.82.2020.03.11.16.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 16:02:41 -0700 (PDT)
-Message-ID: <59bce0ac12d70810880f77d276571dc5d686a9f8.camel@redhat.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-From:   Adam Jackson <ajax@redhat.com>
-To:     Jason Ekstrand <jason@jlekstrand.net>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
-        Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Daniel Stone <daniel@fooishbar.org>
-Date:   Wed, 11 Mar 2020 19:02:37 -0400
-In-Reply-To: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.0 (3.34.0-1.fc31) 
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=8aa3VbfYvsZsaOnvHAClwet0b5DN6/vyfQby/ceUlvU=;
+        b=eozLyWu4RpxAr2NA85MvS15NgrkoFAWxyALtoYnhoXmWBcYZof20yrUSSV50gYueNc
+         089AlL23GN2l05jiLGw4V7TZiAsyFtaxEQhG71DPe0eyC/6Wrep6TPugb3+2GlsWVPoV
+         VHzGkFMxbYvr0+v25sjHp/WRAY0b/Cdp7oA6G6KM6CdWTAL/Nsktvij8PqU0H0WxaYk1
+         qJ/tXTleA4VeleiDZn0kxTEDR+O4v1KjUZplhsvyUNQVnm66KC4vn0nmgOHcVMC22q4G
+         xUDNkZJhoJnPvX8OiMBXXZgXC8D+HMR2wd3FVl9JNXOsxzIno7ng5hdAHQ+DIrciqHgl
+         C38w==
+X-Gm-Message-State: ANhLgQ2ntnF9poRHBmyLWFDIs6rr50tMoNx4wzXGxTnMySeuhRln8pXD
+        x4rWrADnQ8injLW9GyQ57Lag8P+ecV8=
+X-Google-Smtp-Source: ADFU+vs5XE1XmRlaS9pycut/i+PDgcfjA4ZnKL/oRs1Ol+aiheHAA7YOSZsRF4JKtci3KpjGg8MwHw==
+X-Received: by 2002:a62:2f82:: with SMTP id v124mr3969635pfv.120.1583970877728;
+        Wed, 11 Mar 2020 16:54:37 -0700 (PDT)
+Received: from ?IPv6:2605:e000:d445:6a00:a54b:c8f0:3b71:1a5b? ([2605:e000:d445:6a00:a54b:c8f0:3b71:1a5b])
+        by smtp.gmail.com with ESMTPSA id u23sm52047726pfm.29.2020.03.11.16.54.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Mar 2020 16:54:37 -0700 (PDT)
+Subject: Re: [PATCH 7/7] media: imx: imx7-media-csi: Fix video field handling
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+References: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
+ <20191024004155.32068-8-laurent.pinchart@ideasonboard.com>
+ <3d979bfa-0bb2-0dde-9bc7-83ee3923d33a@gmail.com>
+ <20200309205238.GH4916@pendragon.ideasonboard.com>
+ <ed913970-573e-4bee-ce84-28513a7869a9@gmail.com>
+ <20200310154937.GA32319@pendragon.ideasonboard.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <e981b9cd-c5ab-1771-5b7f-2cd087215d79@gmail.com>
+Date:   Wed, 11 Mar 2020 16:54:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
+In-Reply-To: <20200310154937.GA32319@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2020-03-11 at 12:31 -0500, Jason Ekstrand wrote:
+Hi Laurent,
 
->  - X11: With present, it has these "explicit" fence objects but
-> they're always a shmfence which lets the X server and client do a
-> userspace CPU-side hand-off without going over the socket (and
-> round-tripping through the kernel).  However, the only thing that
-> fence does is order the OpenGL API calls in the client and server and
-> the real synchronization is still implicit.
 
-I'm pretty sure "the only thing that fence does" is an implementation
-detail. PresentPixmap blocks until the wait-fence signals, but when and
-how it signals are properties of the fence itself. You could have drm
-give the client back a fence fd, pass that to xserver to create a fence
-object, and name that in the PresentPixmap request, and then drm can do
-whatever it wants to signal the fence.
+On 3/10/20 8:49 AM, Laurent Pinchart wrote:
+> Hi Steve and Rui,
+>
+> I've spent more time on the i.MX7 support in the i.MX media staging
+> driver today, and I've reached a point where I'm not comfortable moving
+> forward without your ack.
+>
+> I found format handling to be very broken, the driver enumerates formats
+> that are not supported by the device, and doesn't properly handle the
+> supported formats. While trying to fix that, I found out that the common
+> i.MX6 and i.MX7 helpers (imx-media-capture.c and imx-media-utils.c) get
+> in the way, as i.MX6 and i.MX7 format support are very entangled. I
+> would like to split the two in order to clean up the i.MX7 code, which
+> would also give an opportunity to later clean the i.MX6 code if desired.
+>
+> Before moving in that time-consuming direction, I want to make sure this
+> will be accepted, as I don't want to spend days of work for nothing. If
+> you want to discuss this in real time, I'm available in the #v4l channel
+> on Freenode (nickname pinchartl).
 
-> From my perspective, as a Vulkan driver developer, I have to deal with
-> the fact that Vulkan is an explicit sync API but Wayland and X11
-> aren't.
+I'm on vacation returning March 16, maybe we can chat on irc when I 
+return. I'm in California (PDT).
 
-I'm quite sure we can give you an explicit-sync X11 API. I think you
-may already have one.
-
-- ajax
+Steve
 
