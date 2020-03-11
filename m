@@ -2,146 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4316180EA8
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 04:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E97D180EAE
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 04:44:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727693AbgCKDnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 23:43:35 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:34917 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727659AbgCKDnf (ORCPT
+        id S1728103AbgCKDoM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 23:44:12 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42372 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727659AbgCKDoJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 23:43:35 -0400
-Received: by mail-ed1-f67.google.com with SMTP id a20so1161551edj.2
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 20:43:34 -0700 (PDT)
+        Tue, 10 Mar 2020 23:44:09 -0400
+Received: by mail-pf1-f194.google.com with SMTP id x2so124820pfn.9
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 20:44:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CCpVdCL5A6Oia90+I5IH75I8Yb81GbOHYhkCg0SoRo4=;
-        b=nJ8/+eXQLL14Bq3hAfEKaNkcuE0LJoTv4/4MeEEXgzMp4KLSx9aY7HnJZ9UhVp3W9Y
-         fXxkd5cNxriEVWhu7CxUFZ/Wk0e50qIqXnTH6Ri9UJZf9mPscvZif0BVieasPbLbv5kb
-         GQmVIMXbKASfnhROqiBIDAe48wIKVspe9m4dDZnvUuNZ9UaPD8GcRDiL3X0ldOcZ+pnI
-         k2gVgpXexZUSH7fKQ3eFnG3kD3wsPIhFOiRjGQo1kylrAqUGMYwz1s6/jMMNH/ytSVv8
-         KQeML8Q5Nqh30BBdkcpyaonvrG4g9J2RN2B//RrG0wjhlVWCt5pZSIHQzypaJKqJS2g5
-         rV6w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=P16W7ep8HpZEZbf2VCVYHJ7H+KUUPSbN1YkIr+6sSlQ=;
+        b=tCu4TDguooR4tfYyACvCoI7MEVLwPSOiIShWk5/IPARU5TQg0GCHpx5pvxZfZ/2jdb
+         vz0gO9H8hR1jEQgMkpKTiBJoiS7EtJ5+Re21/zT/7+dEqFcH4QhtEq7iklHDQz8aZ4ED
+         h5o+fe9jj8aLNJTdEiFpmQESnjguXQE+DxAy48m+ri2NqUj0ck/EJ53Od44WbappO0u6
+         M5PMHUWsJ1AUzq32iKUreC8B7vS4OMjdorltjcDguKGnPO99on/KtQaiHpEBS1en5UC6
+         brO2nCR/2wZiFp6/kxIWfN0gQg4kxueOlrX2kwHyBurpODi7jr2aWxqMP0R/7BccEPV3
+         ysWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CCpVdCL5A6Oia90+I5IH75I8Yb81GbOHYhkCg0SoRo4=;
-        b=bAkKyBt7C04WvRxGgTJnZ04dVALeNH6RHnTCb0w2NKmLrohTJ8wWIfyCCb36PEvwUd
-         mod4zzSkMKMjhQWbcV5LFuovzNCcnmFMaZ3Lrir71O6X94zK73arm5saYBfAvA9itb7b
-         sEAY7I5rn7tgbqcjshe8zv6zR8CI/IXcbGvb8nsms9el2w3Il/+RYrRUC1pJD3DcvT1+
-         Acn2QttjFAMXGxodK/v03gXUG+rHDkl9YUPuGjCqR/NJgH5SqiZVORIUOXM2NOQ1MpCz
-         R9W3Crdaj8V0hIt46Qjh2/egVn4fvvjbheax/YMx+DUN22iFn5oxwyZ24jPcAgExtnqY
-         Bmcw==
-X-Gm-Message-State: ANhLgQ3UnGOua1oLgCYulHUR3ILx7ufMwiibMUBdc0l/i0H9Vm147D40
-        rhNSXX0zWta+uhQpI8tYaouZX0pFBMrqKVHCydR28Q==
-X-Google-Smtp-Source: ADFU+vvpVyJEYOHSvxTt0jv9faPw/cY00LFVDFiLuvXyfzEgv30x/D/c6hrhc0XXqk7qHc23+OeLh0RzP5ZxEyP2RYI=
-X-Received: by 2002:a50:f38e:: with SMTP id g14mr958779edm.168.1583898213971;
- Tue, 10 Mar 2020 20:43:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200225235856.975366-1-jason@jlekstrand.net> <8066d8b2-dd6a-10ef-a7bb-2c18a0661912@amd.com>
- <20200226100523.GQ2363188@phenom.ffwll.local> <CAOFGe94O66HL212aXqhi9tdYqw---Xm-fwNSV4pxHyPmpSGpbg@mail.gmail.com>
- <CAP+8YyEUz29fXDW5kO_0ZG6c849=TuFWCK8ynT3LuM+Tn+rMzw@mail.gmail.com>
- <810a26e7-4294-a615-b7ee-18148ac70641@amd.com> <CAOFGe96namyeQXTvdrduM+=wkJuoWWx34CxcsJHS3fcCaKDadw@mail.gmail.com>
- <21aeacc0-f3ae-c5dd-66df-4d2f3d73f73e@amd.com> <CAOFGe95Gx=kX=sxwhx1FYmXQuPtGAKwt2V5YodQBwJXujE3WwA@mail.gmail.com>
- <CAOFGe97XSxgzCViOH=2+B2_d5P3vGifKmvAw-JrzRQbbRMRbcg@mail.gmail.com>
- <6fb8becf-9e6b-f59e-9c22-2b20069241a7@amd.com> <CAOFGe94gv9N+6n6oEC2aRtsmy7kBfx1D_R6WLQSGq7-8yUM_OQ@mail.gmail.com>
- <203505dc-7b75-1135-587e-cc6e88ade8cd@amd.com>
-In-Reply-To: <203505dc-7b75-1135-587e-cc6e88ade8cd@amd.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=P16W7ep8HpZEZbf2VCVYHJ7H+KUUPSbN1YkIr+6sSlQ=;
+        b=fQGEK1DyMFHvI0uoOXT/PrqQtwjbpkj6nQVwWAfMGxyt7kbC3S/kN14YgdLRuejcsT
+         zbCrLnmeTSMMQHU5BFSM6bSECCHlPFca0R2Zp8dx+VVb324/jcrpsET3qg8bk7xZO6Fy
+         wtx1WXK81OjeNQfHx2TIbdVm7aA7gxRBZa5QeEt1EKMv2f7xhv4U+PZMNLh0+birMqpY
+         v8n04oKBaKVo3+1L2C681gwsw8REzQ2PvhFh7nYqHQVX/1ydtTR30+X8j5bTN9uAY+Zj
+         jFOCwAtz3hXeiqDlmR8ivHWWWeJ+1l85PGIqFEmdr0aN9scwnOZy5cnquuTxSHPhEQvZ
+         cTJQ==
+X-Gm-Message-State: ANhLgQ2aP7mr9ULGe5uZpLyY0aJbqhxJgRniqNeSRGubz+3CKAj/VbRW
+        7zlRo5deWOZ+RdPi490Dv9dbAQ==
+X-Google-Smtp-Source: ADFU+vuNjXuDPqhg8zCHX7akIbl+E1cdU/rjV0v8i4t9fu91z6NCzwwYTmCz8DLIFQqRHKFy7riJrw==
+X-Received: by 2002:a63:7e1a:: with SMTP id z26mr900050pgc.226.1583898247079;
+        Tue, 10 Mar 2020 20:44:07 -0700 (PDT)
+Received: from omlet.com ([2605:6000:1026:c273::ce4])
+        by smtp.gmail.com with ESMTPSA id bb13sm3650846pjb.43.2020.03.10.20.44.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2020 20:44:06 -0700 (PDT)
 From:   Jason Ekstrand <jason@jlekstrand.net>
-Date:   Tue, 10 Mar 2020 22:43:22 -0500
-Message-ID: <CAOFGe94DnZcTb51TE3kFYxMgLkEWdNg2Yz3f4BEWNXz4GTOs7Q@mail.gmail.com>
-Subject: Re: [PATCH] RFC: dma-buf: Add an API for importing and exporting sync files
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Dave Airlie <airlied@redhat.com>,
-        Jesse Hall <jessehall@google.com>,
-        James Jones <jajones@nvidia.com>,
-        Daniel Stone <daniels@collabora.com>,
-        =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@google.com>,
+Cc:     airlied@redhat.com, christian.koenig@amd.com, jessehall@google.com,
+        jajones@nvidia.com, daniels@collabora.com, hoegsberg@google.com,
+        daniel.vetter@ffwll.ch, bas@basnieuwenhuizen.nl,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Jason Ekstrand <jason@jlekstrand.net>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Chenbo Feng <fengc@google.com>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Greg Hackmann <ghackmann@google.com>,
-        linux-media@vger.kernel.org,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Chenbo Feng <fengc@google.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] dma-buf: add dma_fence_array_for_each (v2)
+Date:   Tue, 10 Mar 2020 22:43:46 -0500
+Message-Id: <20200311034351.1275197-1-jason@jlekstrand.net>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200303190318.522103-1-jason@jlekstrand.net>
+References: <20200303190318.522103-1-jason@jlekstrand.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 9, 2020 at 11:21 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 05.03.20 um 16:54 schrieb Jason Ekstrand:
-> > On Thu, Mar 5, 2020 at 7:06 AM Christian K=C3=B6nig <christian.koenig@a=
-md.com> wrote:
-> >> [SNIP]
-> >> Well as far as I can see this won't work because it would break the
-> >> semantics of the timeline sync.
-> > I'm not 100% convinced it has to.  We already have support for the
-> > seqno regressing and we ensure that we still wait for all the fences.
-> > I thought maybe we could use that but I haven't spent enough time
-> > looking at the details to be sure.  I may be missing something.
->
-> That won't work. The seqno regression works by punishing userspace for
-> doing something stupid and undefined.
->
-> Be we can't do that under normal circumstances.
->
-> >> I can prototype that if you want, shouldn't be more than a few hours o=
-f
-> >> hacking anyway.
-> > If you'd like to, go for it.  I'd be happy to give it a go as well but
-> > if you already know what you want, it may be easier for you to just
-> > write the patch for the cursor.
->
-> Send you two patches for that a few minutes ago. But keep in mind that
-> those are completely untested.
+From: Christian König <ckoenig.leichtzumerken@gmail.com>
 
-No worries.  They were full of bugs but I think I've got them sorted
-out now.  The v2's I'm about to send seem to work.  I'm going to leave
-a Vulkan demo running all night long just to make sure I'm not leaking
-memory like mad.
+Add a helper to iterate over all fences in a dma_fence_array object.
 
---Jason
+v2 (Jason Ekstrand)
+ - Return NULL from dma_fence_array_first if head == NULL.  This matches
+   the iterator behavior of dma_fence_chain_for_each in that it iterates
+   zero times if head == NULL.
+ - Return NULL from dma_fence_array_next if index > array->num_fences.
 
-> > Two more questions:
-> >
-> >   1. Do you want this collapsing to happen every time we create a
-> > dma_fence_array or should it be a special entrypoint?  Collapsing all
-> > the time likely means doing extra array calculations instead of the
-> > dma_fence_array taking ownership of the array that's passed in.  My
-> > gut says that cost is ok; but my gut doesn't spend much time in kernel
-> > space.
->
-> In my prototype implementation that is a dma_resv function you call and
-> get either a single fence or a dma_fence_array with the collapsed fences
-> in return.
->
-> But I wouldn't add that to the general dma_fence_array_init function
-> since this is still a rather special case. Well see the patches, they
-> should be pretty self explaining.
->
-> >   2. When we do the collapsing, should we call dma_fence_is_signaled()
-> > to avoid adding signaled fences to the array?  It seems like avoiding
-> > adding references to fences that are already signaled would let the
-> > kernel clean them up faster and reduce the likelihood that a fence
-> > will hang around forever because it keeps getting added to arrays with
-> > other unsignaled fences.
->
-> I think so. Can't think of a good reason why we would want to add
-> already signaled fences to the array.
->
-> Christian.
->
-> >
-> > --Jason
->
+Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+---
+ drivers/dma-buf/dma-fence-array.c | 27 +++++++++++++++++++++++++++
+ include/linux/dma-fence-array.h   | 17 +++++++++++++++++
+ 2 files changed, 44 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index d3fbd950be94..2ac1afc697d0 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -201,3 +201,30 @@ bool dma_fence_match_context(struct dma_fence *fence, u64 context)
+ 	return true;
+ }
+ EXPORT_SYMBOL(dma_fence_match_context);
++
++struct dma_fence *dma_fence_array_first(struct dma_fence *head)
++{
++	struct dma_fence_array *array;
++
++	if (!head)
++		return NULL;
++
++	array = to_dma_fence_array(head);
++	if (!array)
++		return head;
++
++	return array->fences[0];
++}
++EXPORT_SYMBOL(dma_fence_array_first);
++
++struct dma_fence *dma_fence_array_next(struct dma_fence *head,
++				       unsigned int index)
++{
++	struct dma_fence_array *array = to_dma_fence_array(head);
++
++	if (!array || index >= array->num_fences)
++		return NULL;
++
++	return array->fences[index];
++}
++EXPORT_SYMBOL(dma_fence_array_next);
+diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+index 303dd712220f..588ac8089dd6 100644
+--- a/include/linux/dma-fence-array.h
++++ b/include/linux/dma-fence-array.h
+@@ -74,6 +74,19 @@ to_dma_fence_array(struct dma_fence *fence)
+ 	return container_of(fence, struct dma_fence_array, base);
+ }
+ 
++/**
++ * dma_fence_array_for_each - iterate over all fences in array
++ * @fence: current fence
++ * @index: index into the array
++ * @head: potential dma_fence_array object
++ *
++ * Test if @array is a dma_fence_array object and if yes iterate over all fences
++ * in the array. If not just iterate over the fence in @array itself.
++ */
++#define dma_fence_array_for_each(fence, index, head)			\
++	for (index = 0, fence = dma_fence_array_first(head); fence;	\
++	     ++(index), fence = dma_fence_array_next(head, index))
++
+ struct dma_fence_array *dma_fence_array_create(int num_fences,
+ 					       struct dma_fence **fences,
+ 					       u64 context, unsigned seqno,
+@@ -81,4 +94,8 @@ struct dma_fence_array *dma_fence_array_create(int num_fences,
+ 
+ bool dma_fence_match_context(struct dma_fence *fence, u64 context);
+ 
++struct dma_fence *dma_fence_array_first(struct dma_fence *head);
++struct dma_fence *dma_fence_array_next(struct dma_fence *head,
++				       unsigned int index);
++
+ #endif /* __LINUX_DMA_FENCE_ARRAY_H */
+-- 
+2.24.1
+
