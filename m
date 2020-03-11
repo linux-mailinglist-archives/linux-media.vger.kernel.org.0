@@ -2,307 +2,389 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 007EA180FCC
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 06:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44B58181244
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 08:46:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728001AbgCKFXR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 01:23:17 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:32931 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725958AbgCKFXR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 01:23:17 -0400
-Received: by mail-ed1-f68.google.com with SMTP id z65so1379959ede.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 22:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JM9zu4grKzwKY2OIbM2yqTOoFgqOAS5Vs32abRmGmUM=;
-        b=KQwCs+/l9EaTxy3RwXy50wGVDvK1dSgCff/KUauW5pN1fszV3LSPQc2T2D0ZiwIx9t
-         It135UhmhIw3RafGKWFO5x46JRKtPf/yCz3+ghgGnnBX0vLOrx8pa7ofGX5mLaBZ/FU9
-         KNfPSwQwjCMRyuMwYpUTRRnmURbl3WDAw8ZuJO+7SSiVfLYLDkV0hxkTkbGrufYD2xq9
-         LUVrfmy/I7z1CrtTBF9CzaixYTGyHPvApKxsAxYr4bms5hIc+bhw6HeVx6RgQ3+5H/UD
-         tQJtbuSVnpB0YgV/ePW0f6Po03AqU3xPr34KwUBX0xzTVlNvjK4PZx7zbGbUeT+ggO+k
-         Mbrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JM9zu4grKzwKY2OIbM2yqTOoFgqOAS5Vs32abRmGmUM=;
-        b=NN+H+yCnUVOT1YAHzTW2QfMmYr8PmojSdWL57A2dQa3ZhMi0ETGNOHX2qFTRDCgycu
-         dFkkXOOHdUsxtfhAai8P5LrOtus/RkJATBor8IKkYYr5MrqoocYqixcY9PGlZYLZJ8ia
-         ayfdPF25pSMfXGkXX4GX/v3o4sQWDUXk/BgVZGgcCDNujLAA4VexlLOAUeXKn6fPLWFK
-         M+4v6kSQWMDFe2MgS+iFTkWTwzeExPK6tOzrC/PBMEzawvEwQDrJYNKwCP0K0EvWXupy
-         71OnFxDQFo7y/CD6RfSU2NdYyqz5GasW3UNpryqf1tGzCUAwvSw5PfxPJukIORIbqpD6
-         G77Q==
-X-Gm-Message-State: ANhLgQ14/NCNTWBErSrF5y5PvLZ9ELlb7h0kMUEduJ9KyuTyeGa+4WGz
-        M5TJgWDCHlxAudWbl+MPJb2pJk+jDQ8Q58Lm5PmShQ==
-X-Google-Smtp-Source: ADFU+vuTDvC9t080L+LZ2YE+PW/zd8Eu9TQJoE8XAM9NvA1Xqm/2oKnjT2jJhZKEQMuGlrbALvs8u36+drjZYwbvN/E=
-X-Received: by 2002:a17:906:385:: with SMTP id b5mr913477eja.268.1583904194983;
- Tue, 10 Mar 2020 22:23:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1583896344.git.joe@perches.com> <2e6818291503f032e7662f1fa45fb64c7751a7ae.1583896348.git.joe@perches.com>
-In-Reply-To: <2e6818291503f032e7662f1fa45fb64c7751a7ae.1583896348.git.joe@perches.com>
-From:   Amit Kucheria <amit.kucheria@linaro.org>
-Date:   Wed, 11 Mar 2020 10:53:03 +0530
-Message-ID: <CAHLCerPFWFoUpt6Soc1awDiCy6aBn=qTbQ8G5vjhmX-g2=8znA@mail.gmail.com>
-Subject: Re: [PATCH -next 011/491] ARM/QUALCOMM SUPPORT: Use fallthrough;
-To:     Joe Perches <joe@perches.com>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-media@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-gpio@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        Linux PM list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728150AbgCKHqo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 03:46:44 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50370 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726160AbgCKHqo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Mar 2020 03:46:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 6C6B7ABCF;
+        Wed, 11 Mar 2020 07:46:40 +0000 (UTC)
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH] media: siano: Use scnprintf() for avoiding potential buffer overflow
+Date:   Wed, 11 Mar 2020 08:46:38 +0100
+Message-Id: <20200311074638.8572-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 10:37 AM Joe Perches <joe@perches.com> wrote:
->
-> Convert the various uses of fallthrough comments to fallthrough;
->
-> Done via script
-> Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
+Since snprintf() returns the would-be-output size instead of the
+actual output size, the succeeding calls may go beyond the given
+buffer limit.  Fix it by replacing with scnprintf().
 
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ drivers/media/common/siano/smsdvb-debugfs.c | 208 ++++++++++++++--------------
+ 1 file changed, 104 insertions(+), 104 deletions(-)
 
-Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
+diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
+index c95d4583498e..e624028198da 100644
+--- a/drivers/media/common/siano/smsdvb-debugfs.c
++++ b/drivers/media/common/siano/smsdvb-debugfs.c
+@@ -45,88 +45,88 @@ static void smsdvb_print_dvb_stats(struct smsdvb_debugfs *debug_data,
+ 
+ 	buf = debug_data->stats_data;
+ 
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_rf_locked = %d\n", p->is_rf_locked);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_demod_locked = %d\n", p->is_demod_locked);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_external_lna_on = %d\n", p->is_external_lna_on);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "SNR = %d\n", p->SNR);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "ber = %d\n", p->ber);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "FIB_CRC = %d\n", p->FIB_CRC);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "ts_per = %d\n", p->ts_per);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "MFER = %d\n", p->MFER);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "RSSI = %d\n", p->RSSI);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "in_band_pwr = %d\n", p->in_band_pwr);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "carrier_offset = %d\n", p->carrier_offset);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "modem_state = %d\n", p->modem_state);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "frequency = %d\n", p->frequency);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "bandwidth = %d\n", p->bandwidth);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "transmission_mode = %d\n", p->transmission_mode);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "modem_state = %d\n", p->modem_state);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "guard_interval = %d\n", p->guard_interval);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "code_rate = %d\n", p->code_rate);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "lp_code_rate = %d\n", p->lp_code_rate);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "hierarchy = %d\n", p->hierarchy);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "constellation = %d\n", p->constellation);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "burst_size = %d\n", p->burst_size);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "burst_duration = %d\n", p->burst_duration);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "burst_cycle_time = %d\n", p->burst_cycle_time);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "calc_burst_cycle_time = %d\n",
+ 		      p->calc_burst_cycle_time);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_rows = %d\n", p->num_of_rows);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_padd_cols = %d\n", p->num_of_padd_cols);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_punct_cols = %d\n", p->num_of_punct_cols);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "error_ts_packets = %d\n", p->error_ts_packets);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "total_ts_packets = %d\n", p->total_ts_packets);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_valid_mpe_tlbs = %d\n", p->num_of_valid_mpe_tlbs);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_invalid_mpe_tlbs = %d\n", p->num_of_invalid_mpe_tlbs);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_corrected_mpe_tlbs = %d\n", p->num_of_corrected_mpe_tlbs);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "ber_error_count = %d\n", p->ber_error_count);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "ber_bit_count = %d\n", p->ber_bit_count);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "sms_to_host_tx_errors = %d\n", p->sms_to_host_tx_errors);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "pre_ber = %d\n", p->pre_ber);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "cell_id = %d\n", p->cell_id);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "dvbh_srv_ind_hp = %d\n", p->dvbh_srv_ind_hp);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "dvbh_srv_ind_lp = %d\n", p->dvbh_srv_ind_lp);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_mpe_received = %d\n", p->num_mpe_received);
+ 
+ 	debug_data->stats_count = n;
+@@ -148,42 +148,42 @@ static void smsdvb_print_isdb_stats(struct smsdvb_debugfs *debug_data,
+ 
+ 	buf = debug_data->stats_data;
+ 
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "statistics_type = %d\t", p->statistics_type);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "full_size = %d\n", p->full_size);
+ 
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_rf_locked = %d\t\t", p->is_rf_locked);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_demod_locked = %d\t", p->is_demod_locked);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_external_lna_on = %d\n", p->is_external_lna_on);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "SNR = %d dB\t\t", p->SNR);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "RSSI = %d dBm\t\t", p->RSSI);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "in_band_pwr = %d dBm\n", p->in_band_pwr);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "carrier_offset = %d\t", p->carrier_offset);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "bandwidth = %d\t\t", p->bandwidth);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "frequency = %d Hz\n", p->frequency);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "transmission_mode = %d\t", p->transmission_mode);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "modem_state = %d\t\t", p->modem_state);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "guard_interval = %d\n", p->guard_interval);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "system_type = %d\t\t", p->system_type);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "partial_reception = %d\t", p->partial_reception);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_layers = %d\n", p->num_of_layers);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "sms_to_host_tx_errors = %d\n", p->sms_to_host_tx_errors);
+ 
+ 	for (i = 0; i < 3; i++) {
+@@ -191,31 +191,31 @@ static void smsdvb_print_isdb_stats(struct smsdvb_debugfs *debug_data,
+ 		    p->layer_info[i].number_of_segments > 13)
+ 			continue;
+ 
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
+ 			      p->layer_info[i].code_rate);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
+ 			      p->layer_info[i].constellation);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
+ 			      p->layer_info[i].ber);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
+ 			      p->layer_info[i].ber_error_count);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
+ 			      p->layer_info[i].ber_bit_count);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
+ 			      p->layer_info[i].pre_ber);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
+ 			      p->layer_info[i].ts_per);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
+ 			      p->layer_info[i].error_ts_packets);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
+ 			      p->layer_info[i].total_ts_packets);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
+ 			      p->layer_info[i].ti_ldepth_i);
+-		n += snprintf(&buf[n], PAGE_SIZE - n,
++		n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 			      "\tnumber_of_segments = %d\t",
+ 			      p->layer_info[i].number_of_segments);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
+ 			      p->layer_info[i].tmcc_errors);
+ 	}
+ 
+@@ -238,44 +238,44 @@ static void smsdvb_print_isdb_stats_ex(struct smsdvb_debugfs *debug_data,
+ 
+ 	buf = debug_data->stats_data;
+ 
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "statistics_type = %d\t", p->statistics_type);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "full_size = %d\n", p->full_size);
+ 
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_rf_locked = %d\t\t", p->is_rf_locked);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_demod_locked = %d\t", p->is_demod_locked);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "is_external_lna_on = %d\n", p->is_external_lna_on);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "SNR = %d dB\t\t", p->SNR);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "RSSI = %d dBm\t\t", p->RSSI);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "in_band_pwr = %d dBm\n", p->in_band_pwr);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "carrier_offset = %d\t", p->carrier_offset);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "bandwidth = %d\t\t", p->bandwidth);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "frequency = %d Hz\n", p->frequency);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "transmission_mode = %d\t", p->transmission_mode);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "modem_state = %d\t\t", p->modem_state);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "guard_interval = %d\n", p->guard_interval);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "system_type = %d\t\t", p->system_type);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "partial_reception = %d\t", p->partial_reception);
+-	n += snprintf(&buf[n], PAGE_SIZE - n,
++	n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 		      "num_of_layers = %d\n", p->num_of_layers);
+-	n += snprintf(&buf[n], PAGE_SIZE - n, "segment_number = %d\t",
++	n += scnprintf(&buf[n], PAGE_SIZE - n, "segment_number = %d\t",
+ 		      p->segment_number);
+-	n += snprintf(&buf[n], PAGE_SIZE - n, "tune_bw = %d\n",
++	n += scnprintf(&buf[n], PAGE_SIZE - n, "tune_bw = %d\n",
+ 		      p->tune_bw);
+ 
+ 	for (i = 0; i < 3; i++) {
+@@ -283,31 +283,31 @@ static void smsdvb_print_isdb_stats_ex(struct smsdvb_debugfs *debug_data,
+ 		    p->layer_info[i].number_of_segments > 13)
+ 			continue;
+ 
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
+ 			      p->layer_info[i].code_rate);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
+ 			      p->layer_info[i].constellation);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
+ 			      p->layer_info[i].ber);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
+ 			      p->layer_info[i].ber_error_count);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
+ 			      p->layer_info[i].ber_bit_count);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
+ 			      p->layer_info[i].pre_ber);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
+ 			      p->layer_info[i].ts_per);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
+ 			      p->layer_info[i].error_ts_packets);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
+ 			      p->layer_info[i].total_ts_packets);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
+ 			      p->layer_info[i].ti_ldepth_i);
+-		n += snprintf(&buf[n], PAGE_SIZE - n,
++		n += scnprintf(&buf[n], PAGE_SIZE - n,
+ 			      "\tnumber_of_segments = %d\t",
+ 			      p->layer_info[i].number_of_segments);
+-		n += snprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
++		n += scnprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
+ 			      p->layer_info[i].tmcc_errors);
+ 	}
+ 
+-- 
+2.16.4
 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  drivers/media/platform/qcom/venus/vdec.c |  2 +-
->  drivers/phy/qualcomm/phy-qcom-usb-hs.c   |  2 +-
->  drivers/pinctrl/qcom/pinctrl-spmi-gpio.c |  4 ++--
->  drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c |  2 +-
->  drivers/rpmsg/qcom_glink_native.c        |  4 ++--
->  drivers/soc/qcom/socinfo.c               | 16 ++++++++--------
->  drivers/thermal/qcom/tsens-v0_1.c        |  8 ++++----
->  drivers/thermal/qcom/tsens-v1.c          |  4 ++--
->  8 files changed, 21 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index f34920..9e0451 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -983,7 +983,7 @@ static int vdec_stop_capture(struct venus_inst *inst)
->         switch (inst->codec_state) {
->         case VENUS_DEC_STATE_DECODING:
->                 ret = hfi_session_flush(inst, HFI_FLUSH_ALL);
-> -               /* fallthrough */
-> +               fallthrough;
->         case VENUS_DEC_STATE_DRAIN:
->                 vdec_cancel_dst_buffers(inst);
->                 inst->codec_state = VENUS_DEC_STATE_STOPPED;
-> diff --git a/drivers/phy/qualcomm/phy-qcom-usb-hs.c b/drivers/phy/qualcomm/phy-qcom-usb-hs.c
-> index 610542..327df1a 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-usb-hs.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-usb-hs.c
-> @@ -53,7 +53,7 @@ static int qcom_usb_hs_phy_set_mode(struct phy *phy,
->                 case PHY_MODE_USB_OTG:
->                 case PHY_MODE_USB_HOST:
->                         val |= ULPI_INT_IDGRD;
-> -                       /* fall through */
-> +                       fallthrough;
->                 case PHY_MODE_USB_DEVICE:
->                         val |= ULPI_INT_SESS_VALID;
->                 default:
-> diff --git a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-> index fe0be8..3b0ab0e 100644
-> --- a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-> +++ b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
-> @@ -793,13 +793,13 @@ static int pmic_gpio_populate(struct pmic_gpio_state *state,
->         switch (subtype) {
->         case PMIC_GPIO_SUBTYPE_GPIO_4CH:
->                 pad->have_buffer = true;
-> -               /* Fall through */
-> +               fallthrough;
->         case PMIC_GPIO_SUBTYPE_GPIOC_4CH:
->                 pad->num_sources = 4;
->                 break;
->         case PMIC_GPIO_SUBTYPE_GPIO_8CH:
->                 pad->have_buffer = true;
-> -               /* Fall through */
-> +               fallthrough;
->         case PMIC_GPIO_SUBTYPE_GPIOC_8CH:
->                 pad->num_sources = 8;
->                 break;
-> diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
-> index 338a15..b5949f7 100644
-> --- a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
-> +++ b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
-> @@ -346,7 +346,7 @@ static int pm8xxx_pin_config_set(struct pinctrl_dev *pctldev,
->                                 return -EINVAL;
->                         }
->                         pin->pull_up_strength = arg;
-> -                       /* FALLTHROUGH */
-> +                       fallthrough;
->                 case PIN_CONFIG_BIAS_PULL_UP:
->                         pin->bias = pin->pull_up_strength;
->                         banks |= BIT(2);
-> diff --git a/drivers/rpmsg/qcom_glink_native.c b/drivers/rpmsg/qcom_glink_native.c
-> index 1995f5b..f40312 100644
-> --- a/drivers/rpmsg/qcom_glink_native.c
-> +++ b/drivers/rpmsg/qcom_glink_native.c
-> @@ -553,7 +553,7 @@ static void qcom_glink_receive_version(struct qcom_glink *glink,
->                 break;
->         case GLINK_VERSION_1:
->                 glink->features &= features;
-> -               /* FALLTHROUGH */
-> +               fallthrough;
->         default:
->                 qcom_glink_send_version_ack(glink);
->                 break;
-> @@ -584,7 +584,7 @@ static void qcom_glink_receive_version_ack(struct qcom_glink *glink,
->                         break;
->
->                 glink->features &= features;
-> -               /* FALLTHROUGH */
-> +               fallthrough;
->         default:
->                 qcom_glink_send_version(glink);
->                 break;
-> diff --git a/drivers/soc/qcom/socinfo.c b/drivers/soc/qcom/socinfo.c
-> index 7864b7..8ae5646 100644
-> --- a/drivers/soc/qcom/socinfo.c
-> +++ b/drivers/soc/qcom/socinfo.c
-> @@ -325,7 +325,7 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
->                 debugfs_create_x32("raw_device_number", 0400,
->                                    qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.raw_device_num);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 11):
->         case SOCINFO_VERSION(0, 10):
->         case SOCINFO_VERSION(0, 9):
-> @@ -333,12 +333,12 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
->
->                 debugfs_create_u32("foundry_id", 0400, qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.foundry_id);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 8):
->         case SOCINFO_VERSION(0, 7):
->                 DEBUGFS_ADD(info, pmic_model);
->                 DEBUGFS_ADD(info, pmic_die_rev);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 6):
->                 qcom_socinfo->info.hw_plat_subtype =
->                         __le32_to_cpu(info->hw_plat_subtype);
-> @@ -346,7 +346,7 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
->                 debugfs_create_u32("hardware_platform_subtype", 0400,
->                                    qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.hw_plat_subtype);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 5):
->                 qcom_socinfo->info.accessory_chip =
->                         __le32_to_cpu(info->accessory_chip);
-> @@ -354,27 +354,27 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
->                 debugfs_create_u32("accessory_chip", 0400,
->                                    qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.accessory_chip);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 4):
->                 qcom_socinfo->info.plat_ver = __le32_to_cpu(info->plat_ver);
->
->                 debugfs_create_u32("platform_version", 0400,
->                                    qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.plat_ver);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 3):
->                 qcom_socinfo->info.hw_plat = __le32_to_cpu(info->hw_plat);
->
->                 debugfs_create_u32("hardware_platform", 0400,
->                                    qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.hw_plat);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 2):
->                 qcom_socinfo->info.raw_ver  = __le32_to_cpu(info->raw_ver);
->
->                 debugfs_create_u32("raw_version", 0400, qcom_socinfo->dbg_root,
->                                    &qcom_socinfo->info.raw_ver);
-> -               /* Fall through */
-> +               fallthrough;
->         case SOCINFO_VERSION(0, 1):
->                 DEBUGFS_ADD(info, build_id);
->                 break;
-> diff --git a/drivers/thermal/qcom/tsens-v0_1.c b/drivers/thermal/qcom/tsens-v0_1.c
-> index 4b8dd6..893ce1 100644
-> --- a/drivers/thermal/qcom/tsens-v0_1.c
-> +++ b/drivers/thermal/qcom/tsens-v0_1.c
-> @@ -163,7 +163,7 @@ static int calibrate_8916(struct tsens_priv *priv)
->                 p2[4] = (qfprom_cdata[1] & MSM8916_S4_P2_MASK) >> MSM8916_S4_P2_SHIFT;
->                 for (i = 0; i < priv->num_sensors; i++)
->                         p2[i] = ((base1 + p2[i]) << 3);
-> -               /* Fall through */
-> +               fallthrough;
->         case ONE_PT_CALIB2:
->                 base0 = (qfprom_cdata[0] & MSM8916_BASE0_MASK);
->                 p1[0] = (qfprom_cdata[0] & MSM8916_S0_P1_MASK) >> MSM8916_S0_P1_SHIFT;
-> @@ -228,7 +228,7 @@ static int calibrate_8974(struct tsens_priv *priv)
->                         p2[8] = (calib[5] & S8_P2_BKP_MASK) >> S8_P2_BKP_SHIFT;
->                         p2[9] = (calib[5] & S9_P2_BKP_MASK) >> S9_P2_BKP_SHIFT;
->                         p2[10] = (calib[5] & S10_P2_BKP_MASK) >> S10_P2_BKP_SHIFT;
-> -                       /* Fall through */
-> +                       fallthrough;
->                 case ONE_PT_CALIB:
->                 case ONE_PT_CALIB2:
->                         base1 = bkp[0] & BASE1_MASK;
-> @@ -263,7 +263,7 @@ static int calibrate_8974(struct tsens_priv *priv)
->                         p2[8] = (calib[4] & S8_P2_MASK) >> S8_P2_SHIFT;
->                         p2[9] = (calib[4] & S9_P2_MASK) >> S9_P2_SHIFT;
->                         p2[10] = (calib[4] & S10_P2_MASK) >> S10_P2_SHIFT;
-> -                       /* Fall through */
-> +                       fallthrough;
->                 case ONE_PT_CALIB:
->                 case ONE_PT_CALIB2:
->                         base1 = calib[0] & BASE1_MASK;
-> @@ -293,7 +293,7 @@ static int calibrate_8974(struct tsens_priv *priv)
->                         p2[i] <<= 2;
->                         p2[i] |= BIT_APPEND;
->                 }
-> -               /* Fall through */
-> +               fallthrough;
->         case ONE_PT_CALIB2:
->                 for (i = 0; i < priv->num_sensors; i++) {
->                         p1[i] += base1;
-> diff --git a/drivers/thermal/qcom/tsens-v1.c b/drivers/thermal/qcom/tsens-v1.c
-> index bd2ddb..d096d3 100644
-> --- a/drivers/thermal/qcom/tsens-v1.c
-> +++ b/drivers/thermal/qcom/tsens-v1.c
-> @@ -202,7 +202,7 @@ static int calibrate_v1(struct tsens_priv *priv)
->                 p2[9] = (qfprom_cdata[3] & S9_P2_MASK) >> S9_P2_SHIFT;
->                 for (i = 0; i < priv->num_sensors; i++)
->                         p2[i] = ((base1 + p2[i]) << 2);
-> -               /* Fall through */
-> +               fallthrough;
->         case ONE_PT_CALIB2:
->                 base0 = (qfprom_cdata[4] & BASE0_MASK) >> BASE0_SHIFT;
->                 p1[0] = (qfprom_cdata[0] & S0_P1_MASK) >> S0_P1_SHIFT;
-> @@ -263,7 +263,7 @@ static int calibrate_8976(struct tsens_priv *priv)
->
->                 for (i = 0; i < priv->num_sensors; i++)
->                         p2[i] = ((base1 + p2[i]) << 2);
-> -               /* Fall through */
-> +               fallthrough;
->         case ONE_PT_CALIB2:
->                 base0 = qfprom_cdata[0] & MSM8976_BASE0_MASK;
->                 p1[0] = (qfprom_cdata[0] & MSM8976_S0_P1_MASK) >> MSM8976_S0_P1_SHIFT;
-> --
-> 2.24.0
->
