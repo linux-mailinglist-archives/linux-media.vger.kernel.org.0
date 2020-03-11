@@ -2,109 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40FF81812B4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 09:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FACA1812B6
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 09:15:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728488AbgCKIPZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728525AbgCKIP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 04:15:26 -0400
+Received: from mga04.intel.com ([192.55.52.120]:60039 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726198AbgCKIPZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 11 Mar 2020 04:15:25 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:47868 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbgCKIPZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 04:15:25 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02B8DQfd160273;
-        Wed, 11 Mar 2020 08:15:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=BWtgwQqg+qr3NeWwSyT6ZVGkZLlZgwxjgiPe4aYBh90=;
- b=rjVYZkbj4s1R2wAalIOIzTFolVMfQawidhaQngtvCgy6AaF3DYe5S4IwJfZN4flo33uH
- uu5DHJj+QB3XK//F8JDjQUc7K3KgQuGrK3gT5KQH+jh84td1zhjKg3sEOVdC5Tlyp1Nv
- x3uqY4VFhqyb57bfsGtkCeFDf+vVfwEFBS+mXXd60ZFuH8CWk4gq8buV9Hyu5SJ3vRR7
- oXLgBii72RH2NCjc5u465SEmBLWDnr4KQ19OR4RmFt6TgnyW1jrc8q1ffrxImeUyTwCW
- cmN1z6onmZ9LBzeuWc+eIiGJEyPVtpuHQpU3MBeOVsYw76idK42b5/pIg6vvYZ7Yr6Kz +w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 2yp7hm6cj6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 11 Mar 2020 08:15:22 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02B8Ct2N189764;
-        Wed, 11 Mar 2020 08:15:21 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 2yp8p0us2f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 11 Mar 2020 08:15:21 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02B8FKk8011120;
-        Wed, 11 Mar 2020 08:15:20 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 11 Mar 2020 01:15:19 -0700
-Date:   Wed, 11 Mar 2020 11:15:11 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     amasule@codeaurora.org
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] media: venus: introduce core selection
-Message-ID: <20200311081511.GA7593@mwanda>
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 01:15:24 -0700
+X-IronPort-AV: E=Sophos;i="5.70,540,1574150400"; 
+   d="scan'208";a="236352943"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 01:15:21 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0FA612096B; Wed, 11 Mar 2020 10:15:19 +0200 (EET)
+Date:   Wed, 11 Mar 2020 10:15:19 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH v12 04/19] media: v4l2-fwnode: add endpoint id field to
+ v4l2_fwnode_link
+Message-ID: <20200311081518.GE5379@paasikivi.fi.intel.com>
+References: <20200309101428.15267-1-m.felsch@pengutronix.de>
+ <20200309101428.15267-5-m.felsch@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20200309101428.15267-5-m.felsch@pengutronix.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 phishscore=0
- spamscore=0 malwarescore=0 adultscore=0 suspectscore=1 mlxlogscore=643
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003110053
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9556 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0
- priorityscore=1501 clxscore=1011 mlxscore=0 impostorscore=0
- mlxlogscore=704 suspectscore=1 phishscore=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003110053
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Aniket Masule,
+Hi Marco,
 
-The patch 4ebf969375bc: "media: venus: introduce core selection" from
-Dec 2, 2019, leads to the following static checker warning:
+On Mon, Mar 09, 2020 at 11:14:13AM +0100, Marco Felsch wrote:
+> A link is between two endpoints not between two ports to be more
+> precise. Add the local_id/remote_id field which stores the endpoint
+> reg/port property to the link. Now the link holds all necessary
+> information about a link.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+> 
+> v12:
+> - New in this serie
+> 
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 2 ++
+>  include/media/v4l2-fwnode.h           | 4 ++++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index 6ece4320e1d2..78c32aebbe03 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -565,6 +565,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *__fwnode,
+>  
+>  	memset(link, 0, sizeof(*link));
+>  
+> +	fwnode_property_read_u32(__fwnode, "reg", &link->local_id);
+>  	fwnode = fwnode_get_parent(__fwnode);
+>  	fwnode_property_read_u32(fwnode, port_prop, &link->local_port);
+>  	fwnode = fwnode_get_next_parent(fwnode);
+> @@ -578,6 +579,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *__fwnode,
+>  		return -ENOLINK;
+>  	}
+>  
+> +	fwnode_property_read_u32(fwnode, "reg", &link->remote_id);
 
-	drivers/media/platform/qcom/venus/vdec.c:968 vdec_start_streaming()
-	warn: inconsistent returns 'inst->lock'.
+This code really should use fwnode_graph_parse_endpoint(), and not
+implement the parsing locally.
 
-drivers/media/platform/qcom/venus/vdec.c
-   943  static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
-   944  {
-   945          struct venus_inst *inst = vb2_get_drv_priv(q);
-   946          int ret;
-   947  
-   948          mutex_lock(&inst->lock);
-   949  
-   950          ret = venus_pm_acquire_core(inst);
-   951          if (ret)
-   952                  return ret;
+I do think the end result would be better if the code using this function
+would be calling the fwnode graph APIs directly.
 
-goto error or just goto unlock?
+>  	fwnode = fwnode_get_parent(fwnode);
+>  	fwnode_property_read_u32(fwnode, port_prop, &link->remote_port);
+>  	fwnode = fwnode_get_next_parent(fwnode);
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index f6a7bcd13197..7bba6dfa3fd6 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -113,14 +113,18 @@ struct v4l2_fwnode_endpoint {
+>   * struct v4l2_fwnode_link - a link between two endpoints
+>   * @local_node: pointer to device_node of this endpoint
+>   * @local_port: identifier of the port this endpoint belongs to
+> + * @local_id: identifier of the id this endpoint belongs to
+>   * @remote_node: pointer to device_node of the remote endpoint
+>   * @remote_port: identifier of the port the remote endpoint belongs to
+> + * @remote_id: identifier of the id the remote endpoint belongs to
+>   */
+>  struct v4l2_fwnode_link {
+>  	struct fwnode_handle *local_node;
+>  	unsigned int local_port;
+> +	unsigned int local_id;
+>  	struct fwnode_handle *remote_node;
+>  	unsigned int remote_port;
+> +	unsigned int remote_id;
+>  };
+>  
+>  /**
 
-   953  
-   954          if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-   955                  ret = vdec_start_capture(inst);
-   956          else
-   957                  ret = vdec_start_output(inst);
-   958  
-   959          if (ret)
-   960                  goto error;
-   961  
-   962          mutex_unlock(&inst->lock);
-   963          return 0;
-   964  
-   965  error:
-   966          venus_helper_buffers_done(inst, VB2_BUF_STATE_QUEUED);
-   967          mutex_unlock(&inst->lock);
-   968          return ret;
-   969  }
-
-regards,
-dan carpenter
+-- 
+Sakari Ailus
