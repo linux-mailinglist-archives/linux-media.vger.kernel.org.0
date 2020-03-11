@@ -2,37 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65EC8181FFA
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 18:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95BD3182141
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 19:53:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730737AbgCKRrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 13:47:37 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33124 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730500AbgCKRrh (ORCPT
+        id S1730780AbgCKSxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 14:53:41 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:36393 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730705AbgCKSxl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 13:47:37 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 04D2F291F30
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        Wed, 11 Mar 2020 14:53:41 -0400
+Received: by mail-qk1-f196.google.com with SMTP id u25so3183870qkk.3
+        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 11:53:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=/dNPHeH2JZmJ2dMMclVWXH5FnCXDvSk9raw7HY/zLIQ=;
+        b=ygDsOdtY6QApFOfgyPzrx2YcP1OlBPCDu+mbKNx62lxfET7c++bIcIv7VAPT7xD+AM
+         HBLi/TBK9SQzFp6tSZ1apwYr4NEZtIjQKrVdleubLxSXTK9HiMiJ6OTmZt3eDFFoy9Mo
+         66tCLtaGGmTijrMelKjuDHFOas9Rl6fYaBH5AfQR8a4FgZAx8dUSt0aGPAfgkn/4FDL7
+         eKhzvpKLREUjx5S1Hh3hSJakrnOsra+GKMUeE510a9zYDWmO3GmJYrD6U5m2cewGd7N/
+         SkzHDu/3OQzW47rJkLahb0aKEACA0ITGxh1SMrT0N5r3CvGCNeggcird9UZZBL4QWxDg
+         mEXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=/dNPHeH2JZmJ2dMMclVWXH5FnCXDvSk9raw7HY/zLIQ=;
+        b=XFD42pDkZX1drzPu6l1qsvjSkUm6+t/gl5t5Th8M9QcKjBvgVZJdkIKJS0IS5o/8FR
+         nFYf8ZlU+4rtTwItIY7ynTIr1weTOAfHPxKPXymvSX3M8lasQYqbT5dyy7t8CHKLsQRK
+         5bHk7fTSziTUEl1YTXXEvIKrxmfisn5OeVzzSljXkCnmCiFDC1I7h3eIfYWD7hs9zMZp
+         mF7BMbk4lindO+IZtnex98lqiITNA9bMgR4yQznK4TrLPRinGeKfDk4qHvPNFPmGn/S9
+         R0nixYOdMmYiW+BzUxaYpUP4iX8saAwfTALBQlPolxMRGmftPd4cNg6It2tqLOEc8pNr
+         TRbw==
+X-Gm-Message-State: ANhLgQ0KqJRNIuJQ//HjniwKsNTVRuUXl+Zv37PWTLRhl7TKwJOtpaXo
+        fITjqvzHnBDSPcWsdWfOEKFPfEDIaq9wJg==
+X-Google-Smtp-Source: ADFU+vtD1QK3Nnp06tnpyor3kMVvaCQ5Li6lEy6jtxXZyL53FFKlmeks+gc5PIIA+MN2WNDram2iHA==
+X-Received: by 2002:a37:b304:: with SMTP id c4mr4250035qkf.348.1583952820524;
+        Wed, 11 Mar 2020 11:53:40 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2610:98:8005::527])
+        by smtp.gmail.com with ESMTPSA id f13sm21354104qkm.42.2020.03.11.11.53.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2020 11:53:39 -0700 (PDT)
+Message-ID: <7b0e33f9c66dd87904b787218389c3d639f7469a.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/6] v4l2-mem2mem: return CAPTURE buffer first
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Jonas Karlman <jonas@kwiboo.se>,
         Heiko Stuebner <heiko@sntech.de>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH 6/6] hantro: Refactor for V4L2 API spec compliancy
-Date:   Wed, 11 Mar 2020 14:43:00 -0300
-Message-Id: <20200311174300.19407-7-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200311174300.19407-1-ezequiel@collabora.com>
+        Jeffrey Kardatzke <jkardatzke@chromium.org>
+Date:   Wed, 11 Mar 2020 14:53:37 -0400
+In-Reply-To: <20200311174300.19407-2-ezequiel@collabora.com>
 References: <20200311174300.19407-1-ezequiel@collabora.com>
+         <20200311174300.19407-2-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,188 +70,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Refactor how S_FMT and TRY_FMT are handled, and also make sure
-internal initial format and format reset are done properly.
+Le mercredi 11 mars 2020 à 14:42 -0300, Ezequiel Garcia a écrit :
+> When the request API is used, typically an OUTPUT (src) buffer
+> will be part of a request. A userspace process will be typically
+> blocked, waiting on the request file descriptor.
+> 
+> Returning the OUTPUT (src) buffer will wake-up such processes,
+> who will immediately attempt to dequeue the CAPTURE buffer,
+> only to find it's still unavailable.
+> 
+> Therefore, change v4l2_m2m_buf_done_and_job_finish returning
+> the CAPTURE (dst) buffer first, to avoid signalling the request
+> file descriptor prematurely, i.e. before the CAPTURE buffer is done.
+> 
+> When the request API is not used, this change should have
+> no impact.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-The latter is achieved by making sure the same hantro_{set,try}_fmt
-helpers are called on all paths that set the format (which is
-part of the driver state).
+This was tested with upcoming GStreamer element with O_NONBLOCK flag passed when
+opening the video node. Before this change, EAGAIN would from time to time be
+returned when DQBUF(CAPTURE) was called.
 
-This commit removes the following v4l2-compliance warnings:
+  gst-launch-1.0 filesrc location=somefile.mp4 ! parsebin ! v4l2slh264dec ! fakevideosink
+  https://gitlab.freedesktop.org/ndufresne/gst-plugins-bad/-/blob/v4l2codecs-hantro-v3/sys/v4l2codecs/gstv4l2decoder.c#L139
 
-test VIDIOC_G_FMT: OK
-	fail: v4l2-test-formats.cpp(711): Video Capture Multiplanar: TRY_FMT(G_FMT) != G_FMT
-test VIDIOC_TRY_FMT: FAIL
-	fail: v4l2-test-formats.cpp(1116): Video Capture Multiplanar: S_FMT(G_FMT) != G_FMT
-test VIDIOC_S_FMT: FAIL
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/staging/media/hantro/hantro_v4l2.c | 70 ++++++++++++++--------
- 1 file changed, 45 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 458b502ff01b..f28a94e2fa93 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -30,6 +30,11 @@
- #include "hantro_hw.h"
- #include "hantro_v4l2.h"
- 
-+static int hantro_set_fmt_out(struct hantro_ctx *ctx,
-+			      struct v4l2_pix_format_mplane *pix_mp);
-+static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
-+			      struct v4l2_pix_format_mplane *pix_mp);
-+
- static const struct hantro_fmt *
- hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
- {
-@@ -227,12 +232,12 @@ static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
- 	return 0;
- }
- 
--static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
--			  bool capture)
-+static int hantro_try_fmt(const struct hantro_ctx *ctx,
-+			  struct v4l2_pix_format_mplane *pix_mp,
-+			  enum v4l2_buf_type type)
- {
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
--	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
- 	const struct hantro_fmt *fmt, *vpu_fmt;
-+	bool capture = !V4L2_TYPE_IS_OUTPUT(type);
- 	bool coded;
- 
- 	coded = capture == hantro_is_encoder_ctx(ctx);
-@@ -246,7 +251,7 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
- 	fmt = hantro_find_format(ctx, pix_mp->pixelformat);
- 	if (!fmt) {
- 		fmt = hantro_get_default_fmt(ctx, coded);
--		f->fmt.pix_mp.pixelformat = fmt->fourcc;
-+		pix_mp->pixelformat = fmt->fourcc;
- 	}
- 
- 	if (coded) {
-@@ -294,13 +299,13 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
- static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
- 				     struct v4l2_format *f)
- {
--	return vidioc_try_fmt(file, priv, f, true);
-+	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
- }
- 
- static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
- 				     struct v4l2_format *f)
- {
--	return vidioc_try_fmt(file, priv, f, false);
-+	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
- }
- 
- static void
-@@ -334,11 +339,12 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
- 	}
- 
- 	hantro_reset_fmt(fmt, vpu_fmt);
--	fmt->num_planes = 1;
- 	fmt->width = vpu_fmt->frmsize.min_width;
- 	fmt->height = vpu_fmt->frmsize.min_height;
--	fmt->plane_fmt[0].sizeimage = vpu_fmt->header_size +
--				fmt->width * fmt->height * vpu_fmt->max_depth;
-+	if (hantro_is_encoder_ctx(ctx))
-+		hantro_set_fmt_cap(ctx, fmt);
-+	else
-+		hantro_set_fmt_out(ctx, fmt);
- }
- 
- static void
-@@ -360,9 +366,12 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
- 	}
- 
- 	hantro_reset_fmt(raw_fmt, raw_vpu_fmt);
--	v4l2_fill_pixfmt_mp(raw_fmt, raw_vpu_fmt->fourcc,
--			    encoded_fmt->width,
--			    encoded_fmt->height);
-+	raw_fmt->width = encoded_fmt->width;
-+	raw_fmt->width = encoded_fmt->width;
-+	if (hantro_is_encoder_ctx(ctx))
-+		hantro_set_fmt_out(ctx, raw_fmt);
-+	else
-+		hantro_set_fmt_cap(ctx, raw_fmt);
- }
- 
- void hantro_reset_fmts(struct hantro_ctx *ctx)
-@@ -388,15 +397,15 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
- 	}
- }
- 
--static int
--vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
-+static int hantro_set_fmt_out(struct hantro_ctx *ctx,
-+			      struct v4l2_pix_format_mplane *pix_mp)
- {
--	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
--	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-+	struct vb2_queue *vq;
- 	int ret;
- 
--	ret = vidioc_try_fmt_out_mplane(file, priv, f);
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+			     V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-+	ret = hantro_try_fmt(ctx, pix_mp, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
- 	if (ret)
- 		return ret;
- 
-@@ -458,16 +467,15 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
- 	return 0;
- }
- 
--static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
--				   struct v4l2_format *f)
-+static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
-+			      struct v4l2_pix_format_mplane *pix_mp)
- {
--	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
--	struct hantro_ctx *ctx = fh_to_ctx(priv);
- 	struct vb2_queue *vq;
- 	int ret;
- 
- 	/* Change not allowed if queue is busy. */
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-+	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
- 	if (vb2_is_busy(vq))
- 		return -EBUSY;
- 
-@@ -488,7 +496,7 @@ static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
- 			return -EBUSY;
- 	}
- 
--	ret = vidioc_try_fmt_cap_mplane(file, priv, f);
-+	ret = hantro_try_fmt(ctx, pix_mp, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
- 	if (ret)
- 		return ret;
- 
-@@ -522,6 +530,18 @@ static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
- 	return 0;
- }
- 
-+static int
-+vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
-+{
-+	return hantro_set_fmt_out(fh_to_ctx(priv), &f->fmt.pix_mp);
-+}
-+
-+static int
-+vidioc_s_fmt_cap_mplane(struct file *file, void *priv, struct v4l2_format *f)
-+{
-+	return hantro_set_fmt_cap(fh_to_ctx(priv), &f->fmt.pix_mp);
-+}
-+
- const struct v4l2_ioctl_ops hantro_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
- 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
--- 
-2.25.0
+> ---
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-
+> core/v4l2-mem2mem.c
+> index 8986c31176e9..62ac9424c92a 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -504,12 +504,21 @@ void v4l2_m2m_buf_done_and_job_finish(struct
+> v4l2_m2m_dev *m2m_dev,
+>  
+>  	if (WARN_ON(!src_buf || !dst_buf))
+>  		goto unlock;
+> -	v4l2_m2m_buf_done(src_buf, state);
+>  	dst_buf->is_held = src_buf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+>  	if (!dst_buf->is_held) {
+>  		v4l2_m2m_dst_buf_remove(m2m_ctx);
+>  		v4l2_m2m_buf_done(dst_buf, state);
+>  	}
+> +	/*
+> +	 * If the request API is being used, returning the OUTPUT
+> +	 * (src) buffer will wake-up any process waiting on the
+> +	 * request file descriptor.
+> +	 *
+> +	 * Therefore, return the CAPTURE (dst) buffer first,
+> +	 * to avoid signalling the request file descriptor
+> +	 * before the CAPTURE buffer is done.
+> +	 */
+> +	v4l2_m2m_buf_done(src_buf, state);
+>  	schedule_next = _v4l2_m2m_job_finish(m2m_dev, m2m_ctx);
+>  unlock:
+>  	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
 
