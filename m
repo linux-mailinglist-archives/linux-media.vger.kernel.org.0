@@ -2,346 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55EEF181C0A
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 16:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CB55181C22
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 16:16:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729898AbgCKPIR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 11:08:17 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34488 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729846AbgCKPIR (ORCPT
+        id S1729572AbgCKPQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 11:16:30 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:43799 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729408AbgCKPQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 11:08:17 -0400
-Received: by mail-wr1-f65.google.com with SMTP id z15so3107487wrl.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 08:08:14 -0700 (PDT)
+        Wed, 11 Mar 2020 11:16:30 -0400
+Received: by mail-qk1-f194.google.com with SMTP id q18so2377794qki.10
+        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 08:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=D9+oQ/AkN6mT0HJLMTysmgvzQqWfDcsZo+DqGnqUceE=;
-        b=HBdtMy7oumAOt97wxjYYeP+KqA9TVYMGitlhqfYx3qYWScj3y4mSTC3d1oNJgu0Tlj
-         VsEMHGSgsvwX05rxKJDQYm0lJhuJVjj4jskKOPbyOCnN5VV+g4IOUXzQX7cjYbz84O1U
-         4tmkalJmFNtTlVySKVUOjX9EFwNUji/4r5NNZj43KMix5/ElGiWg5Oxt4NK/gEkiylrN
-         UtFR/S5osbOQM/xiev9JLDoxpsUtHc/UM6Ju8ul2awoaeKguQdiUTx0074Viohi7GT6h
-         aWAyV7hFLs8MUis2VcG3HlBuTGWv8pKLOnzO+GrAE80yJSq4mwyqeJLdVNiIvhSp1wBq
-         AKUg==
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=YfeEZNntQatr2rfVTp26Dszgk98dSuoaAz+RqyxG8zA=;
+        b=a0/l+cWGS7TaNDHLW5zyOeUwEmubnMinF2vIxx2qiNzANgT7HHgTlLN9dXPka1KSoC
+         p+nNQx6XWD4agqQaJLMw+htNP58jagGxXvwtD2oMwzQOALxzpkRLuSwiqUz3h+5x7Bfj
+         e/7i3xaGltvschGa41kBgqyXjrO/k5iUtNhItUPTvuGizc6VnpgrsUXNAIB847Azqte/
+         FApuKp+czTcPGq0g9ADPNUJBYAYPCzQ8nuWzTC5ohhDf0oYLJOdn79pIju1hQIvw/2nf
+         hwAtMkGzCuD+NFaVqz/1+18vP6n3HpwncQF+9ufm4CJHPNVUGisUn7dGCV2AvNDFBHnY
+         Vijw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D9+oQ/AkN6mT0HJLMTysmgvzQqWfDcsZo+DqGnqUceE=;
-        b=RbpYCatxijdlHVASDkKW4KEvBWBXc03GkobwrVoh+99HH6KN/yOUmZXUxo1gb8b/Sq
-         q2EbXuCoIWXTxwGSd3UIFd17KRQOKq6hhea6iPFV+aGNihy4ssoia97C6k0WnlgxbDP4
-         B663vkf8ogj9R87opdaTUtu8iP5QFeudia5rrCAfGvy6yjXpqvySvEXmn4XJ8Ag4c52W
-         9DWTGUgHHS8wMCuaEPWg/dz1uditszKNvj+GmYhsHvWDUtMgAMhud0DnNn/oeHEn5d8u
-         8sNQ1yZfEyOZeJvaFQdbIfliCpuOqHY8+XEsHm3ZskYNYiIPMrdoF81GBCbNzQ1g/Rxs
-         Vzow==
-X-Gm-Message-State: ANhLgQ1LL5WImWEC/+gzXOsqpD4Pc2MWatpOeuy2lPUo0VIGUDJpYAWO
-        Nksti/5JV3tfZStE3QzUUawbvsCj/gUiUnVUdKs=
-X-Google-Smtp-Source: ADFU+vusHvnblWQ2EnefgfomrePe1WvcbbDa0+uv4vHliLmG2ZdGPa4rVAbpjUbTMu63R7e6B90WEWp4lchh/qc/tZc=
-X-Received: by 2002:a5d:6688:: with SMTP id l8mr4891232wru.362.1583939294083;
- Wed, 11 Mar 2020 08:08:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200311135158.3310-1-christian.koenig@amd.com> <20200311135158.3310-6-christian.koenig@amd.com>
-In-Reply-To: <20200311135158.3310-6-christian.koenig@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Wed, 11 Mar 2020 11:08:03 -0400
-Message-ID: <CADnq5_Ma8yaoULpOkc0DL=CPb-euUaXy+e33mY6O00oG4892cw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] drm/amdgpu: add support for exporting VRAM using
- DMA-buf v2
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     Chunming Zhou <David1.Zhou@amd.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YfeEZNntQatr2rfVTp26Dszgk98dSuoaAz+RqyxG8zA=;
+        b=EKQwnV60ZuDkPpNa8YnuGEBaEna+Enda1gP7bjT5pCiJRih4AweHuGV1aHlsxxxx01
+         l+Fch2ZvXcWnZJLgLHBDP+VveKTm7p9zJTQ9nMvIhy9SDJLcyORBcXBgR82rkCClBvIC
+         MQK0Pov/KEZ3uoD1McrdumS/xWwJezekHJh7dRxTN8m54GMKLDIplZql1NH3KYVem1Vu
+         xxzUKIMZqB9u4dQOhcQr36hXjqFrTQT0joHuC+kiA0PMraN08HFjA+Hj3JDd7P424I4o
+         47lNoiiOy87GSr1xaAdqpEiis7BrChi3zydYJWhXdYg70IHkmczVlTL12YmEpewDqiiZ
+         tR9A==
+X-Gm-Message-State: ANhLgQ2nkNwwFa9uA+WFWd0ynhV1Td4JZeq1quM4pOjoruOuzeQZ7AB+
+        fALW/3D9MR582X/H5VGgqzou2t595OQ=
+X-Google-Smtp-Source: ADFU+vvLEVQTOrs8t1sfQYZOuputZv7223A0tpVXFucfC1zR1jut+OIDuFYrQYURjsZ/OwW0+gLxYA==
+X-Received: by 2002:a37:b002:: with SMTP id z2mr3155537qke.289.1583939787174;
+        Wed, 11 Mar 2020 08:16:27 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2610:98:8005::527])
+        by smtp.gmail.com with ESMTPSA id z11sm8038468qti.23.2020.03.11.08.16.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2020 08:16:18 -0700 (PDT)
+Message-ID: <a60bb7221c23161929aefeb09b5617bb170f93a1.camel@ndufresne.ca>
+Subject: Re: [PATCH 0/5] Stateful Encoding: final bits
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Date:   Wed, 11 Mar 2020 11:16:16 -0400
+In-Reply-To: <20191220144734.31667e9c@litschi.hi.pengutronix.de>
+References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+         <20191220144734.31667e9c@litschi.hi.pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 9:52 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> We should be able to do this now after checking all the prerequisites.
->
-> v2: fix entrie count in the sgt
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c  | 56 ++++++++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h      | 12 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 97 ++++++++++++++++++++
->  3 files changed, 151 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_dma_buf.c
-> index bbf67800c8a6..43d8ed7dbd00 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> @@ -276,14 +276,21 @@ static struct sg_table *amdgpu_dma_buf_map(struct d=
-ma_buf_attachment *attach,
->         struct dma_buf *dma_buf =3D attach->dmabuf;
->         struct drm_gem_object *obj =3D dma_buf->priv;
->         struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
-> +       struct amdgpu_device *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
->         struct sg_table *sgt;
->         long r;
->
->         if (!bo->pin_count) {
-> -               /* move buffer into GTT */
-> +               /* move buffer into GTT or VRAM */
->                 struct ttm_operation_ctx ctx =3D { false, false };
-> +               unsigned domains =3D AMDGPU_GEM_DOMAIN_GTT;
->
-> -               amdgpu_bo_placement_from_domain(bo, AMDGPU_GEM_DOMAIN_GTT=
-);
-> +               if (bo->preferred_domains & AMDGPU_GEM_DOMAIN_VRAM &&
-> +                   attach->peer2peer) {
-> +                       bo->flags |=3D AMDGPU_GEM_CREATE_CPU_ACCESS_REQUI=
-RED;
-> +                       domains |=3D AMDGPU_GEM_DOMAIN_VRAM;
-> +               }
-> +               amdgpu_bo_placement_from_domain(bo, domains);
->                 r =3D ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
->                 if (r)
->                         return ERR_PTR(r);
-> @@ -293,20 +300,34 @@ static struct sg_table *amdgpu_dma_buf_map(struct d=
-ma_buf_attachment *attach,
->                 return ERR_PTR(-EBUSY);
->         }
->
-> -       sgt =3D drm_prime_pages_to_sg(bo->tbo.ttm->pages, bo->tbo.num_pag=
-es);
-> -       if (IS_ERR(sgt))
-> -               return sgt;
-> -
-> -       if (!dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents, dir,
-> -                             DMA_ATTR_SKIP_CPU_SYNC))
-> -               goto error_free;
-> +       switch (bo->tbo.mem.mem_type) {
-> +       case TTM_PL_TT:
-> +               sgt =3D drm_prime_pages_to_sg(bo->tbo.ttm->pages,
-> +                                           bo->tbo.num_pages);
-> +               if (IS_ERR(sgt))
-> +                       return sgt;
-> +
-> +               if (!dma_map_sg_attrs(attach->dev, sgt->sgl, sgt->nents, =
-dir,
-> +                                     DMA_ATTR_SKIP_CPU_SYNC))
-> +                       goto error_free;
-> +               break;
-> +
-> +       case TTM_PL_VRAM:
-> +               r =3D amdgpu_vram_mgr_alloc_sgt(adev, &bo->tbo.mem, attac=
-h->dev,
-> +                                             dir, &sgt);
-> +               if (r)
-> +                       return ERR_PTR(r);
-> +               break;
-> +       default:
-> +               return ERR_PTR(-EINVAL);
-> +       }
->
->         return sgt;
->
->  error_free:
->         sg_free_table(sgt);
->         kfree(sgt);
-> -       return ERR_PTR(-ENOMEM);
-> +       return ERR_PTR(-EBUSY);
->  }
->
->  /**
-> @@ -322,9 +343,18 @@ static void amdgpu_dma_buf_unmap(struct dma_buf_atta=
-chment *attach,
->                                  struct sg_table *sgt,
->                                  enum dma_data_direction dir)
->  {
-> -       dma_unmap_sg(attach->dev, sgt->sgl, sgt->nents, dir);
-> -       sg_free_table(sgt);
-> -       kfree(sgt);
-> +       struct dma_buf *dma_buf =3D attach->dmabuf;
-> +       struct drm_gem_object *obj =3D dma_buf->priv;
-> +       struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
-> +       struct amdgpu_device *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
-> +
-> +       if (sgt->sgl->page_link) {
-> +               dma_unmap_sg(attach->dev, sgt->sgl, sgt->nents, dir);
-> +               sg_free_table(sgt);
-> +               kfree(sgt);
-> +       } else {
-> +               amdgpu_vram_mgr_free_sgt(adev, attach->dev, dir, sgt);
-> +       }
->  }
->
->  /**
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ttm.h
-> index 7551f3729445..a99d813b23a5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -24,8 +24,9 @@
->  #ifndef __AMDGPU_TTM_H__
->  #define __AMDGPU_TTM_H__
->
-> -#include "amdgpu.h"
-> +#include <linux/dma-direction.h>
->  #include <drm/gpu_scheduler.h>
-> +#include "amdgpu.h"
->
->  #define AMDGPU_PL_GDS          (TTM_PL_PRIV + 0)
->  #define AMDGPU_PL_GWS          (TTM_PL_PRIV + 1)
-> @@ -74,6 +75,15 @@ uint64_t amdgpu_gtt_mgr_usage(struct ttm_mem_type_mana=
-ger *man);
->  int amdgpu_gtt_mgr_recover(struct ttm_mem_type_manager *man);
->
->  u64 amdgpu_vram_mgr_bo_visible_size(struct amdgpu_bo *bo);
-> +int amdgpu_vram_mgr_alloc_sgt(struct amdgpu_device *adev,
-> +                             struct ttm_mem_reg *mem,
-> +                             struct device *dev,
-> +                             enum dma_data_direction dir,
-> +                             struct sg_table **sgt);
-> +void amdgpu_vram_mgr_free_sgt(struct amdgpu_device *adev,
-> +                             struct device *dev,
-> +                             enum dma_data_direction dir,
-> +                             struct sg_table *sgt);
->  uint64_t amdgpu_vram_mgr_usage(struct ttm_mem_type_manager *man);
->  uint64_t amdgpu_vram_mgr_vis_usage(struct ttm_mem_type_manager *man);
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_vram_mgr.c
-> index 82a3299e53c0..c6e7f00c5b21 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -22,6 +22,7 @@
->   * Authors: Christian K=C3=B6nig
->   */
->
-> +#include <linux/dma-mapping.h>
->  #include "amdgpu.h"
->  #include "amdgpu_vm.h"
->  #include "amdgpu_atomfirmware.h"
-> @@ -458,6 +459,102 @@ static void amdgpu_vram_mgr_del(struct ttm_mem_type=
-_manager *man,
->         mem->mm_node =3D NULL;
->  }
->
-> +/**
-> + * amdgpu_vram_mgr_alloc_sgt - allocate and fill a sg table
-> + *
-> + * @adev: amdgpu device pointer
-> + * @mem: TTM memory object
-> + * @dev: the other device
-> + * @dir: dma direction
-> + * @sgt: resulting sg table
-> + *
-> + * Allocate and fill a sg table from a VRAM allocation.
-> + */
-> +int amdgpu_vram_mgr_alloc_sgt(struct amdgpu_device *adev,
-> +                             struct ttm_mem_reg *mem,
-> +                             struct device *dev,
-> +                             enum dma_data_direction dir,
-> +                             struct sg_table **sgt)
-> +{
-> +       struct drm_mm_node *node;
-> +       struct scatterlist *sg;
-> +       int num_entries =3D 0;
-> +       unsigned int pages;
-> +       int i, r;
-> +
-> +       *sgt =3D kmalloc(sizeof(*sg), GFP_KERNEL);
-> +       if (!*sgt)
-> +               return -ENOMEM;
-> +
-> +       for (pages =3D mem->num_pages, node =3D mem->mm_node;
-> +            pages; pages -=3D node->size, ++node)
-> +               ++num_entries;
-> +
-> +       r =3D sg_alloc_table(*sgt, num_entries, GFP_KERNEL);
-> +       if (r)
-> +               goto error_free;
-> +
-> +       for_each_sg((*sgt)->sgl, sg, num_entries, i)
-> +               sg->length =3D 0;
-> +
-> +       node =3D mem->mm_node;
-> +       for_each_sg((*sgt)->sgl, sg, num_entries, i) {
-> +               phys_addr_t phys =3D (node->start << PAGE_SHIFT) +
-> +                       adev->gmc.aper_base;
-> +               size_t size =3D node->size << PAGE_SHIFT;
-> +               dma_addr_t addr;
-> +
-> +               ++node;
-> +               addr =3D dma_map_resource(dev, phys, size, dir,
-> +                                       DMA_ATTR_SKIP_CPU_SYNC);
-> +               r =3D dma_mapping_error(dev, addr);
-> +               if (r)
-> +                       goto error_unmap;
-> +
-> +               sg_set_dma_addr(sg, addr, size, 0);
-> +       }
-> +       return 0;
-> +
-> +error_unmap:
-> +       for_each_sg((*sgt)->sgl, sg, num_entries, i) {
-> +               if (!sg->length)
-> +                       continue;
-> +
-> +               dma_unmap_resource(dev, sg->dma_address,
-> +                                  sg->length, dir,
-> +                                  DMA_ATTR_SKIP_CPU_SYNC);
-> +       }
-> +       sg_free_table(*sgt);
-> +
-> +error_free:
-> +       kfree(*sgt);
-> +       return r;
-> +}
-> +
-> +/**
-> + * amdgpu_vram_mgr_alloc_sgt - allocate and fill a sg table
+Le vendredi 20 décembre 2019 à 14:47 +0100, Michael Tretter a écrit :
+> Hello Hans,
+> 
+> On Tue, 19 Nov 2019 12:34:52 +0100, Hans Verkuil wrote:
+> > This series adds support for fractions in the control framework,
+> > and a way to obtain the min and max values of compound controls
+> > such as v4l2_fract.
+> > 
+> > Next it adds the V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to
+> > set the framerate for the encoder.
+> > 
+> > The next patch adds support for the V4L2_BUF_FLAG_TOO_SMALL flag
+> > to signal that the capture buffer was too small.
+> > 
+> > The final patch adds the encoder spec (unchanged from v3).
+> > 
+> > Michael, can you add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+> > to your encoder driver? Let me know if something isn't working.
+> 
+> I implemented the control and hooked it up with S_PARM as well. The
+> implementation was straightforward without any real issues. I'll send a
+> patch in reply to this mail. Having a control for configuring the frame
+> rate that is encoded into the SPS feels correct. This is in line with
+> configuring the bitrate, level, etc.
+> 
+> However, after seeing the implementation and fiddling around with it in
+> userspace, I am not convinced that S_PARM should be used signal the
+> rate at which frames are submitted.
+> 
+> Setting the frame submission rate to something different than the
+> frame rate of the stream would be most interesting for transcoding use
+> cases. The user space would either want to run the encoding as fast as
+> possible or, if there are multiple encoding processes, as fast as
+> possible with properly shared resources. Boiling this information down
+> into a single number (and calling is "rate at which frames are
+> submitted") sounds kind of wrong, because the userspace does not know
+> which submission rate would lead to a good result.
+> 
+> Using the frame rate for such a setting seems pretty unique to the
+> allegro encoder. Other encoders might use different mechanisms to boost
+> the encoding speed, e.g., might be able to temporarily increase the
+> clock rate of the codec. In these cases, the driver would need to
+> translate the "framerate" set via S_PARM to a clock rate for the codec.
+> This does not sound right.
+> 
+> However, in the end, this would lead to exposing single parameters that
+> allow to tune the codec via generic controls. This does not seem to be
+> the right way, at all. Maybe we could have a control that tells the
+> encoder to "run as fast as possible" or to "run with as little
+> resources as possible", which would be applicable to more encoders and
+> the driver would have to decide how to implement this "profile".
+> 
+> Still, I am not really sure, if this is the proper way to solve this.
+> 
+> > I need to add a test control for this to vivid as well and add support
+> > for this to v4l2-ctl, that's on my TODO list.
+> > 
+> > Open questions:
+> > 
+> > 1) Existing encoder drivers use S_PARM to signal the frameperiod,
+> > but as discussed in Lyon this should be the rate at which frames are
+> > submitted for encoding, which can be different from
+> > V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE. But given the current use-cases
+> > I was wondering if calling S_PARM should set the ENC_FRAME_RATE
+> > control as well, and you would need to explicitly set the control
+> > after S_PARM if the two are not the same. This would mean that
+> > existing applications that don't know about the control can keep working.
+> 
+> In the patch I did exactly that and we should be backwards compatible
+> to applications that use only S_PARM.
 
-This should be:
-amdgpu_vram_mgr_free_sgt - unmap and free an sg table
+As per today's IRC discussion, adding a new FRAME_RATE control will in the end
+only move a functionality from one place to another with a different form. If we
+want to be reasonnable, despite our common dislike of s_parm, I believe we
+should stay were we are with S_PARM, and just make sure drivers don't use this
+to scale the HW performance, or not make this the default at least.
 
+In the end, the S_PARM will tell the encoder what to do for CBR with a B/s
+configuration and will allow the driver to calculate the contraints to be
+written into bitstream headers when supported by the bitstream.
 
-> + *
-> + * @adev: amdgpu device pointer
-> + * @sgt: sg table to free
-> + *
-> + * Free a previously allocate sg table.
-> + */
-> +void amdgpu_vram_mgr_free_sgt(struct amdgpu_device *adev,
-> +                             struct device *dev,
-> +                             enum dma_data_direction dir,
-> +                             struct sg_table *sgt)
-> +{
-> +       struct scatterlist *sg;
-> +       int i;
-> +
-> +       for_each_sg(sgt->sgl, sg, sgt->nents, i)
-> +               dma_unmap_resource(dev, sg->dma_address,
-> +                                  sg->length, dir,
-> +                                  DMA_ATTR_SKIP_CPU_SYNC);
-> +       sg_free_table(sgt);
-> +       kfree(sgt);
-> +}
-> +
->  /**
->   * amdgpu_vram_mgr_usage - how many bytes are used in this domain
->   *
-> --
-> 2.17.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+What I'm suggesting for now is to scope out this change until we have a better
+reason to ask userspace folks to port. Is that reasonnable ? And we can forcus
+on other aspects.
+
+> 
+> Michael
+
