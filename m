@@ -2,289 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 956D1180EB4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 04:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99419180EF4
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 05:34:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727693AbgCKDo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 23:44:26 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37473 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728122AbgCKDoY (ORCPT
+        id S1726406AbgCKEeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 00:34:22 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44761 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725958AbgCKEeW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 23:44:24 -0400
-Received: by mail-pl1-f195.google.com with SMTP id f16so411394plj.4
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 20:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hMsZ5n2u+PGel/PKPO0Vzp2oWzKhB5uQ11WvL+UIaGQ=;
-        b=V5wbqKyJdEhdokczEP+Q5Y6Dyulhe9f0DbqMR2ZIGhbprsU5DH44E5w3d5AO9p5kbu
-         iIK59Mz4eF6hX2NQwg+IyXgDMvDI6El7sRYmq/rNCo9nHUxicwczbY6PtvXjB5pZ+n0o
-         1gqYd6xP6287IAfRlWETYX8bFynx313rFUmRUb9Qn1giSAvjFU0cV0VpuCqclcUqUSle
-         swVCzsasC1RUT2WJNLArpISSY3A2S/rUi8ehqlm3KXPEIDdmeIi+EAmK/aMt9Inpeyc5
-         LumXVbgjvQwS5wEJIssoCybhdSwtxVnBOkm1LGUkzO2iaWFmAXeJqHbVZ3a5GORFi+BF
-         p4Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hMsZ5n2u+PGel/PKPO0Vzp2oWzKhB5uQ11WvL+UIaGQ=;
-        b=AbW7ev6yZq6NaI5vYWP95UipPFehEJVYFls0QwAzoliH0Nlv7fNKVIlnB7NX7yD6w3
-         odnO1WwDy6HMFVqrxcYxvYyAndYTfs3Aey0ibDRjg8gbd0eotp/jZV19pG+8N0c6njKu
-         EV3yAHMVFImV+N8R+TFK7uxEaXwGMP/CISS7aZpHlffIZbvFtNz0jmXU1sUzHBGl9Yoo
-         zHrIgUN2uH2LU23H3mgPxO/vTbsGPdATO9FpgvRQ2CT3XL6+y9e70NKQ8waMpwlxp8ua
-         ILTQdp61kMoNH1JupsdjJhTPaR4Vum4XGcV0wUHmzHfXJask7+8tZMxuSSRvJX0ihI4a
-         aDFQ==
-X-Gm-Message-State: ANhLgQ1gPHvWfygNSA5Z2OUKf8eOrPbRu+aqG4/uk3cYknIm5eRcR/s5
-        MTn8lyLaeOHcnHElo0V4uBxg7g==
-X-Google-Smtp-Source: ADFU+vsyc38HlAKduJYbrL0y2cac0FOPPUwBSZxhe9PfTZjeQKeX1PZpmFU0vNIubE/s8pv2abm3Yw==
-X-Received: by 2002:a17:902:d703:: with SMTP id w3mr1144366ply.264.1583898261589;
-        Tue, 10 Mar 2020 20:44:21 -0700 (PDT)
-Received: from omlet.com ([2605:6000:1026:c273::ce4])
-        by smtp.gmail.com with ESMTPSA id bb13sm3650846pjb.43.2020.03.10.20.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 20:44:20 -0700 (PDT)
-From:   Jason Ekstrand <jason@jlekstrand.net>
-Cc:     airlied@redhat.com, christian.koenig@amd.com, jessehall@google.com,
-        jajones@nvidia.com, daniels@collabora.com, hoegsberg@google.com,
-        daniel.vetter@ffwll.ch, bas@basnieuwenhuizen.nl,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Greg Hackmann <ghackmann@google.com>,
-        Chenbo Feng <fengc@google.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting sync files (v4)
-Date:   Tue, 10 Mar 2020 22:43:48 -0500
-Message-Id: <20200311034351.1275197-3-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200311034351.1275197-1-jason@jlekstrand.net>
-References: <20200303190318.522103-1-jason@jlekstrand.net>
- <20200311034351.1275197-1-jason@jlekstrand.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+        Wed, 11 Mar 2020 00:34:22 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:6904:4109:ccc3:6732])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Bt4UjOOzt9Im2Bt4VjcOax; Wed, 11 Mar 2020 05:34:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583901259; bh=Kj419aI8WRkCDE2HEwk2fBtpvaP0mCHH8ocAYvCcVqc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Yrlkmx8ftGIl5jcNnz/11TO8h1SPvhr6KkVFwS1F/wf8QviAuO3UC1JEnbojfUWyq
+         3tNsE8ZYYnEG9Werw2dYDJNPI2GqRTuw4bcQSLACFff9KXnsMuTqtMvmktEWMIJ+Ab
+         f4WQV3W5zB2n3Y2OVhDtuMYcfX8iOjh0cTmBL+Sxt4iCx043FVhz1rPabSpXnncjd2
+         +6HszvZXbXW6lI+19gddlh+alZowMxwbz0ZTMnyOfkOIRTEgLL5aQ2PNKe1g9EjE0g
+         9xb4VRHIAQVosc625WKpR/2qogUoN2PxKQk5hqabQQToTY+gYdPfNoY0hcPStB8oeV
+         7I8UzlkXJTVaw==
+Message-ID: <ec8aab68c3146d8a0e153cfaa84e9ff4@smtp-cloud9.xs4all.net>
+Date:   Wed, 11 Mar 2020 05:34:18 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfCDV2lQ+m8dDQfO7wKdM7lP4ml3KQ9Ka7MLnm/6ZAf2Zwu4nxftmPHEBuYF2b0+0zxIvcn4bFNNAg62qHiQlcSWRAPTgk0zRMS8GmBlljsY9mkU3FGZ7
+ GYnkP5MRBws0szXOBBmQn+IxId2CJ7/tHMaMyPQTZzgAbNqHcOMJepKWtqUYKAgZcSwlyuVhU5pCGjTAIatyjkEl+exGrlmHnNz8wloJ0rFztXTbZ1E/tStP
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Explicit synchronization is the future.  At least, that seems to be what
-most userspace APIs are agreeing on at this point.  However, most of our
-Linux APIs (both userspace and kernel UAPI) are currently built around
-implicit synchronization with dma-buf.  While work is ongoing to change
-many of the userspace APIs and protocols to an explicit synchronization
-model, switching over piecemeal is difficult due to the number of
-potential components involved.  On the kernel side, many drivers use
-dma-buf including GPU (3D/compute), display, v4l, and others.  In
-userspace, we have X11, several Wayland compositors, 3D drivers, compute
-drivers (OpenCL etc.), media encode/decode, and the list goes on.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This patch provides a path forward by allowing userspace to manually
-manage the fences attached to a dma-buf.  Alternatively, one can think
-of this as making dma-buf's implicit synchronization simply a carrier
-for an explicit fence.  This is accomplished by adding two IOCTLs to
-dma-buf for importing and exporting a sync file to/from the dma-buf.
-This way a userspace component which is uses explicit synchronization,
-such as a Vulkan driver, can manually set the write fence on a buffer
-before handing it off to an implicitly synchronized component such as a
-Wayland compositor or video encoder.  In this way, each of the different
-components can be upgraded to an explicit synchronization model one at a
-time as long as the userspace pieces connecting them are aware of it and
-import/export fences at the right times.
+Results of the daily build of media_tree:
 
-There is a potential race condition with this API if userspace is not
-careful.  A typical use case for implicit synchronization is to wait for
-the dma-buf to be ready, use it, and then signal it for some other
-component.  Because a sync_file cannot be created until it is guaranteed
-to complete in finite time, userspace can only signal the dma-buf after
-it has already submitted the work which uses it to the kernel and has
-received a sync_file back.  There is no way to atomically submit a
-wait-use-signal operation.  This is not, however, really a problem with
-this API so much as it is a problem with explicit synchronization
-itself.  The way this is typically handled is to have very explicit
-ownership transfer points in the API or protocol which ensure that only
-one component is using it at any given time.  Both X11 (via the PRESENT
-extension) and Wayland provide such ownership transfer points via
-explicit present and idle messages.
+date:			Wed Mar 11 05:00:09 CET 2020
+media-tree git hash:	00c43088aa680989407b6afbda295f67b3f123f1
+media_build git hash:	6c715bb60eb5f601ae3fe59a5ec772300a5ddb2a
+v4l-utils git hash:	257a454a1499ab8dbb23ff31912b2a7f61b867ee
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a9a31a4bbe5628b0da1fbc7ade073443848f3adb
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-The decision was intentionally made in this patch to make the import and
-export operations IOCTLs on the dma-buf itself rather than as a DRM
-IOCTL.  This makes it the import/export operation universal across all
-components which use dma-buf including GPU, display, v4l, and others.
-It also means that a userspace component can do the import/export
-without access to the DRM fd which may be tricky to get in cases where
-the client communicates with DRM via a userspace API such as OpenGL or
-Vulkan.  At a future date we may choose to add direct import/export APIs
-to components such as drm_syncobj to avoid allocating a file descriptor
-and going through two ioctls.  However, that seems to be something of a
-micro-optimization as import/export operations are likely to happen at a
-rate of a few per frame of rendered or decoded video.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: WARNINGS
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: WARNINGS
 
-v2 (Jason Ekstrand):
- - Use a wrapper dma_fence_array of all fences including the new one
-   when importing an exclusive fence.
+Detailed results are available here:
 
-v3 (Jason Ekstrand):
- - Lock around setting shared fences as well as exclusive
- - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
- - Initialize ret to 0 in dma_buf_wait_sync_file
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-v4 (Jason Ekstrand):
- - Use the new dma_resv_get_singleton helper
+Detailed regression test results are available here:
 
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
----
- drivers/dma-buf/dma-buf.c    | 96 ++++++++++++++++++++++++++++++++++++
- include/uapi/linux/dma-buf.h | 13 ++++-
- 2 files changed, 107 insertions(+), 2 deletions(-)
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index d4097856c86b..09973c689866 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -20,6 +20,7 @@
- #include <linux/debugfs.h>
- #include <linux/module.h>
- #include <linux/seq_file.h>
-+#include <linux/sync_file.h>
- #include <linux/poll.h>
- #include <linux/dma-resv.h>
- #include <linux/mm.h>
-@@ -348,6 +349,95 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	return ret;
- }
- 
-+static long dma_buf_wait_sync_file(struct dma_buf *dmabuf,
-+				   const void __user *user_data)
-+{
-+	struct dma_buf_sync_file arg;
-+	struct dma_fence *fence;
-+	int ret = 0;
-+
-+	if (copy_from_user(&arg, user_data, sizeof(arg)))
-+		return -EFAULT;
-+
-+	if (arg.flags != 0 && arg.flags != DMA_BUF_SYNC_FILE_SYNC_WRITE)
-+		return -EINVAL;
-+
-+	fence = sync_file_get_fence(arg.fd);
-+	if (!fence)
-+		return -EINVAL;
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
-+		struct dma_fence *singleton = NULL;
-+		ret = dma_resv_get_singleton(dmabuf->resv, fence, &singleton);
-+		if (!ret && singleton)
-+			dma_resv_add_excl_fence(dmabuf->resv, singleton);
-+	} else {
-+		dma_resv_add_shared_fence(dmabuf->resv, fence);
-+	}
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_fence_put(fence);
-+
-+	return ret;
-+}
-+
-+static long dma_buf_signal_sync_file(struct dma_buf *dmabuf,
-+				     void __user *user_data)
-+{
-+	struct dma_buf_sync_file arg;
-+	struct dma_fence *fence = NULL;
-+	struct sync_file *sync_file;
-+	int fd, ret;
-+
-+	if (copy_from_user(&arg, user_data, sizeof(arg)))
-+		return -EFAULT;
-+
-+	if (arg.flags != 0 && arg.flags != DMA_BUF_SYNC_FILE_SYNC_WRITE)
-+		return -EINVAL;
-+
-+	fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fd < 0)
-+		return fd;
-+
-+	if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
-+		/* We need to include both the exclusive fence and all of
-+		 * the shared fences in our fence.
-+		 */
-+		ret = dma_resv_get_singleton(dmabuf->resv, NULL, &fence);
-+		if (ret)
-+			goto err_put_fd;
-+	} else {
-+		fence = dma_resv_get_excl_rcu(dmabuf->resv);
-+	}
-+
-+	if (!fence)
-+		fence = dma_fence_get_stub();
-+
-+	sync_file = sync_file_create(fence);
-+
-+	dma_fence_put(fence);
-+
-+	if (!sync_file) {
-+		ret = -EINVAL;
-+		goto err_put_fd;
-+	}
-+
-+	fd_install(fd, sync_file->file);
-+
-+	arg.fd = fd;
-+	if (copy_to_user(user_data, &arg, sizeof(arg)))
-+		return -EFAULT;
-+
-+	return 0;
-+
-+err_put_fd:
-+	put_unused_fd(fd);
-+	return ret;
-+}
-+
- static long dma_buf_ioctl(struct file *file,
- 			  unsigned int cmd, unsigned long arg)
- {
-@@ -390,6 +480,12 @@ static long dma_buf_ioctl(struct file *file,
- 	case DMA_BUF_SET_NAME:
- 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
- 
-+	case DMA_BUF_IOCTL_WAIT_SYNC_FILE:
-+		return dma_buf_wait_sync_file(dmabuf, (const void __user *)arg);
-+
-+	case DMA_BUF_IOCTL_SIGNAL_SYNC_FILE:
-+		return dma_buf_signal_sync_file(dmabuf, (void __user *)arg);
-+
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index dbc7092e04b5..86e07acca90c 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -37,8 +37,17 @@ struct dma_buf_sync {
- 
- #define DMA_BUF_NAME_LEN	32
- 
-+struct dma_buf_sync_file {
-+	__u32 flags;
-+	__s32 fd;
-+};
-+
-+#define DMA_BUF_SYNC_FILE_SYNC_WRITE	(1 << 0)
-+
- #define DMA_BUF_BASE		'b'
--#define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
--#define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_IOCTL_SYNC	    _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-+#define DMA_BUF_SET_NAME	    _IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_IOCTL_WAIT_SYNC_FILE	_IOW(DMA_BUF_BASE, 2, struct dma_buf_sync)
-+#define DMA_BUF_IOCTL_SIGNAL_SYNC_FILE	_IOWR(DMA_BUF_BASE, 3, struct dma_buf_sync)
- 
- #endif
--- 
-2.24.1
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
