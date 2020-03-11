@@ -2,322 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38BED18196F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 14:18:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C535181991
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 14:23:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729521AbgCKNSY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 09:18:24 -0400
-Received: from mail-co1nam11on2055.outbound.protection.outlook.com ([40.107.220.55]:64385
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729232AbgCKNSY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 09:18:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LGJDu7BfAJbJW6M5fCzrHAMJl/W9KjiGn9B39tTx1MHJvrN74cZ3Bte7vwsY37oGSO0DH+Ua78l7QF1BilREb2nvEwiH322bAdOgnNRw5fhigxtP8qpcr1gVWmjiaolAl9R/FSQTbVmn69xG4AtKst7qOA+FT6uAcIFEQusJnvt7wPmZkrTkfmEZzWrb5t8HRhxKinjqiKZq6pNGBCuy8zCPIGoeRCTCMs6dBsYIuiahCXrFf0+jbQYb4/dLwAv0tEsjNT1rprd8nDOw3jHZvjcOTZ0HmuRxBLl8FCnWJP2TXa0Cqae7eWegSfg8AHWgYLxe6+kQhuyn6Cfr2lBYHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lrThXZkjgIZaBgvlf0qoh0kcPiuLhBphetOpt30Wl7M=;
- b=ng+VRtyWnSYvMUWlw52vsYh6w2toT3XA3B1HHGpqvmIdeb8rC+r6B7sOpzzOzI6dFBRJhLFnryqkwgIh+mczP5qRGiV1T2qt4q3MLMN07r/zrlSntIajqZI9+QUk+9GYWIxUe3Us2kEGI5MQFV8wW14TDCVz3ss6pbF18uLYP4kLycY2tcTVQ9yzp64EbdMbu2QNXMh6I1x9FOU0r3ZAd90wSfgJ9E/byjXiLzIR1VxwHo+SWOzOJILyt1gJwY7RcHyeKJfZkZgdT+gy4WHax+rSKtx5ufVUuMHDm3Hf2uIvZXx7SBenyX7po/HpQWx5d3QmCDacLtR6z8EqCp8gnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lrThXZkjgIZaBgvlf0qoh0kcPiuLhBphetOpt30Wl7M=;
- b=QBcIL3XCsK3kzYSoN6rs+XqkiPxPNphg14fMQsKOKEvjFzE+83kwkxNIgFadcYQpWZEw0lbQaPKz6sJfMg8O/yhKHu1lRNx5FpteAPre9rMSUl4tz7h2lWaOCz21c8sdg5EC+qht/0aGueLgQSjeHb9Qdqe49I+ZQb1uAY7rhDc=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (2603:10b6:3:10c::22)
- by DM5PR12MB1451.namprd12.prod.outlook.com (2603:10b6:4:d::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Wed, 11 Mar 2020 13:18:20 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::d40e:7339:8605:bc92%11]) with mapi id 15.20.2793.018; Wed, 11 Mar
- 2020 13:18:20 +0000
-Subject: Re: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting
- sync files (v4)
-To:     Jason Ekstrand <jason@jlekstrand.net>
-Cc:     airlied@redhat.com, jessehall@google.com, jajones@nvidia.com,
-        daniels@collabora.com, hoegsberg@google.com,
-        daniel.vetter@ffwll.ch, bas@basnieuwenhuizen.nl,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Greg Hackmann <ghackmann@google.com>,
-        Chenbo Feng <fengc@google.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-References: <20200303190318.522103-1-jason@jlekstrand.net>
- <20200311034351.1275197-1-jason@jlekstrand.net>
- <20200311034351.1275197-3-jason@jlekstrand.net>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <bcd22ed3-c1fe-c018-5cb2-a077562eb1ff@amd.com>
-Date:   Wed, 11 Mar 2020 14:18:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200311034351.1275197-3-jason@jlekstrand.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: FR2P281CA0011.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::21) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
+        id S1729604AbgCKNXL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 09:23:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54096 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729103AbgCKNXK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Mar 2020 09:23:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 66BA9AFEC;
+        Wed, 11 Mar 2020 13:23:05 +0000 (UTC)
+Subject: Re: [PATCH v11 3/5] clk / soc: mediatek: Move mt8173 MMSYS to
+ platform driver
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
+        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
+        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
+        laurent.pinchart@ideasonboard.com
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media@vger.kernel.org, Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-mediatek@lists.infradead.org,
+        Collabora Kernel ML <kernel@collabora.com>,
+        dri-devel@lists.freedesktop.org,
+        Seiya Wang <seiya.wang@mediatek.com>,
+        linux-kernel@vger.kernel.org, wens@csie.org,
+        Daniel Vetter <daniel@ffwll.ch>, linux-clk@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        devicetree@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        frank-w@public-files.de, linux-arm-kernel@lists.infradead.org,
+        hsinyi@chromium.org, Richard Fontana <rfontana@redhat.com>,
+        mtk01761 <wendell.lin@mediatek.com>,
+        Weiyi Lu <weiyi.lu@mediatek.com>, sean.wang@mediatek.com,
+        rdunlap@infradead.org, matthias.bgg@kernel.org,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Fabien Parent <fparent@baylibre.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Owen Chen <owen.chen@mediatek.com>
+References: <20200311115614.1425528-1-enric.balletbo@collabora.com>
+ <20200311115614.1425528-4-enric.balletbo@collabora.com>
+From:   Matthias Brugger <mbrugger@suse.com>
+Autocrypt: addr=mbrugger@suse.com; prefer-encrypt=mutual; keydata=
+ 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
+ HxUCQ9Y1Y/Ct
+Message-ID: <7157b75b-0b9d-33d0-6548-ac2433ab9154@suse.com>
+Date:   Wed, 11 Mar 2020 14:23:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by FR2P281CA0011.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.16 via Frontend Transport; Wed, 11 Mar 2020 13:18:17 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4cc76f37-e918-47ac-288f-08d7c5beab23
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1451:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB14519AD72BA75A88E6A6AE9483FC0@DM5PR12MB1451.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0339F89554
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(199004)(36756003)(86362001)(31686004)(6666004)(31696002)(478600001)(4326008)(6486002)(5660300002)(8936002)(66946007)(54906003)(316002)(2906002)(16526019)(8676002)(7416002)(6916009)(186003)(66556008)(81156014)(2616005)(52116002)(81166006)(66476007);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1451;H:DM5PR12MB1705.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tunja+SRvum3Ce13cC9n9/QqbdfiCzMiatwCY1xpsDVXyjy8IuTetZK6t8/LdG07ddYFZ08p9kEeS6JNdrJf1TYrJVjuPy9igadEw5FJJU/ALNFF6YryCxY3kPvKPpdUNOye+66i/9vjw+N/vVbL2UIZxFEfeYWq4aTMBNqWp9eRK4l15yuyK0CRUTaPuK7Hrxf5LZoUsYiXO1YJTXWPz8rxN/xKLUTlVXCNZmIQmBE0Ud+ACE8fOxXiUzTgTe9c3Y/5D5A811D61tQm4bH2lMYqRXP4W+xgcUW6VtffKCe3q7zmU+OQN87Mi89+EOqME8XlhzHYGO0W/ja0ZYHrsnDfauQjthBqyicHrHX680pYJU0ovpsRsFUjX8gOpd6jetYPcFylHmNNYPXkgISrqdLbjBCT7Uz9SyZZ7jrN4G6chec8ANvYnKd4VDs09cXc
-X-MS-Exchange-AntiSpam-MessageData: 321WkAqk8XNkss6YSG5o0GiCp1tHsfSTzT9mPPYcsakwN7fJ9Yi1RZJUVBJFGSLTpk70cwgp8tEDnKlFOM1BqQZQSU01oiQWBxQH5D3B95eIyubkF/PWdowxhDCU50t19vGuQkc/vuTQL46IGbP25/wGO3QEz46PN96EKkaxhp6v2P1BBrkX3/kwHwUMHH0PV2d5NZaRoHebZeDaZE6ItA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cc76f37-e918-47ac-288f-08d7c5beab23
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 13:18:20.7248
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8OJATtBygH+gYcDrZMYVFHUVRJ5eP/6D3fJUGWvSiuOtqej8ecLizU7MQRQG6fco
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1451
+In-Reply-To: <20200311115614.1425528-4-enric.balletbo@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 11.03.20 um 04:43 schrieb Jason Ekstrand:
-> Explicit synchronization is the future.  At least, that seems to be what
-> most userspace APIs are agreeing on at this point.  However, most of our
-> Linux APIs (both userspace and kernel UAPI) are currently built around
-> implicit synchronization with dma-buf.  While work is ongoing to change
-> many of the userspace APIs and protocols to an explicit synchronization
-> model, switching over piecemeal is difficult due to the number of
-> potential components involved.  On the kernel side, many drivers use
-> dma-buf including GPU (3D/compute), display, v4l, and others.  In
-> userspace, we have X11, several Wayland compositors, 3D drivers, compute
-> drivers (OpenCL etc.), media encode/decode, and the list goes on.
->
-> This patch provides a path forward by allowing userspace to manually
-> manage the fences attached to a dma-buf.  Alternatively, one can think
-> of this as making dma-buf's implicit synchronization simply a carrier
-> for an explicit fence.  This is accomplished by adding two IOCTLs to
-> dma-buf for importing and exporting a sync file to/from the dma-buf.
-> This way a userspace component which is uses explicit synchronization,
-> such as a Vulkan driver, can manually set the write fence on a buffer
-> before handing it off to an implicitly synchronized component such as a
-> Wayland compositor or video encoder.  In this way, each of the different
-> components can be upgraded to an explicit synchronization model one at a
-> time as long as the userspace pieces connecting them are aware of it and
-> import/export fences at the right times.
->
-> There is a potential race condition with this API if userspace is not
-> careful.  A typical use case for implicit synchronization is to wait for
-> the dma-buf to be ready, use it, and then signal it for some other
-> component.  Because a sync_file cannot be created until it is guaranteed
-> to complete in finite time, userspace can only signal the dma-buf after
-> it has already submitted the work which uses it to the kernel and has
-> received a sync_file back.  There is no way to atomically submit a
-> wait-use-signal operation.  This is not, however, really a problem with
-> this API so much as it is a problem with explicit synchronization
-> itself.  The way this is typically handled is to have very explicit
-> ownership transfer points in the API or protocol which ensure that only
-> one component is using it at any given time.  Both X11 (via the PRESENT
-> extension) and Wayland provide such ownership transfer points via
-> explicit present and idle messages.
->
-> The decision was intentionally made in this patch to make the import and
-> export operations IOCTLs on the dma-buf itself rather than as a DRM
-> IOCTL.  This makes it the import/export operation universal across all
-> components which use dma-buf including GPU, display, v4l, and others.
-> It also means that a userspace component can do the import/export
-> without access to the DRM fd which may be tricky to get in cases where
-> the client communicates with DRM via a userspace API such as OpenGL or
-> Vulkan.  At a future date we may choose to add direct import/export APIs
-> to components such as drm_syncobj to avoid allocating a file descriptor
-> and going through two ioctls.  However, that seems to be something of a
-> micro-optimization as import/export operations are likely to happen at a
-> rate of a few per frame of rendered or decoded video.
->
-> v2 (Jason Ekstrand):
->   - Use a wrapper dma_fence_array of all fences including the new one
->     when importing an exclusive fence.
->
-> v3 (Jason Ekstrand):
->   - Lock around setting shared fences as well as exclusive
->   - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
->   - Initialize ret to 0 in dma_buf_wait_sync_file
->
-> v4 (Jason Ekstrand):
->   - Use the new dma_resv_get_singleton helper
->
-> Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+
+
+On 11/03/2020 12:56, Enric Balletbo i Serra wrote:
+> From: Matthias Brugger <mbrugger@suse.com>
+> 
+> There is no strong reason for this to use CLK_OF_DECLARE instead of
+> being a platform driver. Plus, MMSYS provides clocks but also a shared
+> register space for the mediatek-drm and the mediatek-mdp
+> driver. So move the MMSYS clocks to a new platform driver and also
+> create a new MMSYS platform driver in drivers/soc/mediatek that
+> instantiates the clock driver.
+> 
+> Signed-off-by: Matthias Brugger <mbrugger@suse.com>
+> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
 > ---
->   drivers/dma-buf/dma-buf.c    | 96 ++++++++++++++++++++++++++++++++++++
->   include/uapi/linux/dma-buf.h | 13 ++++-
->   2 files changed, 107 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index d4097856c86b..09973c689866 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -20,6 +20,7 @@
->   #include <linux/debugfs.h>
->   #include <linux/module.h>
->   #include <linux/seq_file.h>
-> +#include <linux/sync_file.h>
->   #include <linux/poll.h>
->   #include <linux/dma-resv.h>
->   #include <linux/mm.h>
-> @@ -348,6 +349,95 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
->   	return ret;
->   }
->   
-> +static long dma_buf_wait_sync_file(struct dma_buf *dmabuf,
-> +				   const void __user *user_data)
-> +{
-> +	struct dma_buf_sync_file arg;
-> +	struct dma_fence *fence;
-> +	int ret = 0;
-> +
-> +	if (copy_from_user(&arg, user_data, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	if (arg.flags != 0 && arg.flags != DMA_BUF_SYNC_FILE_SYNC_WRITE)
-> +		return -EINVAL;
-> +
-> +	fence = sync_file_get_fence(arg.fd);
-> +	if (!fence)
-> +		return -EINVAL;
-> +
-> +	dma_resv_lock(dmabuf->resv, NULL);
-> +
-> +	if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
-> +		struct dma_fence *singleton = NULL;
-> +		ret = dma_resv_get_singleton(dmabuf->resv, fence, &singleton);
-> +		if (!ret && singleton)
-> +			dma_resv_add_excl_fence(dmabuf->resv, singleton);
-> +	} else {
-> +		dma_resv_add_shared_fence(dmabuf->resv, fence);
-> +	}
+> 
+> Changes in v11:
+> - Leave the clocks part in drivers/clk (clk-mt8173-mm)
+> - Instantiate the clock driver from the mtk-mmsys driver.
+> - Add default config option to not break anything.
+> - Removed the Reviewed-by CK tag as changed the organization.
+> 
+> Changes in v10:
+> - Renamed to be generic mtk-mmsys
+> - Add driver data support to be able to support diferent SoCs
+> 
+> Changes in v9:
+> - Move mmsys to drivers/soc/mediatek (CK)
+> 
+> Changes in v8:
+> - Be a builtin_platform_driver like other mediatek mmsys drivers.
+> 
+> Changes in v7:
+> - Free clk_data->clks as well
+> - Get rid of private data structure
+> 
+>  drivers/clk/mediatek/Kconfig         |   7 ++
+>  drivers/clk/mediatek/Makefile        |   1 +
+>  drivers/clk/mediatek/clk-mt8173-mm.c | 146 +++++++++++++++++++++++++++
+>  drivers/clk/mediatek/clk-mt8173.c    | 104 -------------------
 
-You also need to create a singleton when adding a shared fences.
+I'm not sure we really need that. We can just convert the mmsys clock bits in
+clk-mt8173.c to a platform driver with no need put them in a seperate file.
+If you think a seperate file is worth doing, I think the approach is to put the
+driver in a seperate file first and in a following patch change it to a platform
+driver.
 
-The problem is that shared fences must always signal after exclusive 
-ones and you can't guarantee that for the fence you add here.
+Anyway its Stephen to make the decision. If he thinks things are fine like this,
+I'm happy to take the patch through my tree.
+
+>  drivers/soc/mediatek/Kconfig         |   8 ++
+>  drivers/soc/mediatek/Makefile        |   1 +
+>  drivers/soc/mediatek/mtk-mmsys.c     |  50 +++++++++
+>  7 files changed, 213 insertions(+), 104 deletions(-)
+>  create mode 100644 drivers/clk/mediatek/clk-mt8173-mm.c
+>  create mode 100644 drivers/soc/mediatek/mtk-mmsys.c
+> 
+
+<snip>
+
+> diff --git a/drivers/soc/mediatek/Kconfig b/drivers/soc/mediatek/Kconfig
+> index 2114b563478c..e84513318725 100644
+> --- a/drivers/soc/mediatek/Kconfig
+> +++ b/drivers/soc/mediatek/Kconfig
+> @@ -44,4 +44,12 @@ config MTK_SCPSYS
+>  	  Say yes here to add support for the MediaTek SCPSYS power domain
+>  	  driver.
+>  
+> +config MTK_MMSYS
+> +	bool "MediaTek MMSYS Support"
+> +	depends on COMMON_CLK_MT8173_MMSYS
+> +	default COMMON_CLK_MT8173_MMSYS
+
+If we don't create a new file, we would need to depend on COMMON_CLK_MT8173 or
+maybe not even that. I suppose the system does not get anywhere without the
+clock driver.
 
 Regards,
-Christian.
-
-> +
-> +	dma_resv_unlock(dmabuf->resv);
-> +
-> +	dma_fence_put(fence);
-> +
-> +	return ret;
-> +}
-> +
-> +static long dma_buf_signal_sync_file(struct dma_buf *dmabuf,
-> +				     void __user *user_data)
-> +{
-> +	struct dma_buf_sync_file arg;
-> +	struct dma_fence *fence = NULL;
-> +	struct sync_file *sync_file;
-> +	int fd, ret;
-> +
-> +	if (copy_from_user(&arg, user_data, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	if (arg.flags != 0 && arg.flags != DMA_BUF_SYNC_FILE_SYNC_WRITE)
-> +		return -EINVAL;
-> +
-> +	fd = get_unused_fd_flags(O_CLOEXEC);
-> +	if (fd < 0)
-> +		return fd;
-> +
-> +	if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
-> +		/* We need to include both the exclusive fence and all of
-> +		 * the shared fences in our fence.
-> +		 */
-> +		ret = dma_resv_get_singleton(dmabuf->resv, NULL, &fence);
-> +		if (ret)
-> +			goto err_put_fd;
-> +	} else {
-> +		fence = dma_resv_get_excl_rcu(dmabuf->resv);
-> +	}
-> +
-> +	if (!fence)
-> +		fence = dma_fence_get_stub();
-> +
-> +	sync_file = sync_file_create(fence);
-> +
-> +	dma_fence_put(fence);
-> +
-> +	if (!sync_file) {
-> +		ret = -EINVAL;
-> +		goto err_put_fd;
-> +	}
-> +
-> +	fd_install(fd, sync_file->file);
-> +
-> +	arg.fd = fd;
-> +	if (copy_to_user(user_data, &arg, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +
-> +err_put_fd:
-> +	put_unused_fd(fd);
-> +	return ret;
-> +}
-> +
->   static long dma_buf_ioctl(struct file *file,
->   			  unsigned int cmd, unsigned long arg)
->   {
-> @@ -390,6 +480,12 @@ static long dma_buf_ioctl(struct file *file,
->   	case DMA_BUF_SET_NAME:
->   		return dma_buf_set_name(dmabuf, (const char __user *)arg);
->   
-> +	case DMA_BUF_IOCTL_WAIT_SYNC_FILE:
-> +		return dma_buf_wait_sync_file(dmabuf, (const void __user *)arg);
-> +
-> +	case DMA_BUF_IOCTL_SIGNAL_SYNC_FILE:
-> +		return dma_buf_signal_sync_file(dmabuf, (void __user *)arg);
-> +
->   	default:
->   		return -ENOTTY;
->   	}
-> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> index dbc7092e04b5..86e07acca90c 100644
-> --- a/include/uapi/linux/dma-buf.h
-> +++ b/include/uapi/linux/dma-buf.h
-> @@ -37,8 +37,17 @@ struct dma_buf_sync {
->   
->   #define DMA_BUF_NAME_LEN	32
->   
-> +struct dma_buf_sync_file {
-> +	__u32 flags;
-> +	__s32 fd;
-> +};
-> +
-> +#define DMA_BUF_SYNC_FILE_SYNC_WRITE	(1 << 0)
-> +
->   #define DMA_BUF_BASE		'b'
-> -#define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-> -#define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
-> +#define DMA_BUF_IOCTL_SYNC	    _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-> +#define DMA_BUF_SET_NAME	    _IOW(DMA_BUF_BASE, 1, const char *)
-> +#define DMA_BUF_IOCTL_WAIT_SYNC_FILE	_IOW(DMA_BUF_BASE, 2, struct dma_buf_sync)
-> +#define DMA_BUF_IOCTL_SIGNAL_SYNC_FILE	_IOWR(DMA_BUF_BASE, 3, struct dma_buf_sync)
->   
->   #endif
-
+Matthias
