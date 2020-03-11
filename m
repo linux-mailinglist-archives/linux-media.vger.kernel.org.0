@@ -2,95 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 902BA1819EC
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 14:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3294F1819F2
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 14:36:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729639AbgCKNfd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 09:35:33 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:48343 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729551AbgCKNfc (ORCPT
+        id S1729551AbgCKNgR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 09:36:17 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:36199 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729514AbgCKNgR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 09:35:32 -0400
-X-UUID: 1b2608dd0db04fff83e9cf39cfe30b47-20200311
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=McO5u8qL+2dJhFVvrj+B5fmGSNs+dJJtNOnC6DdTdJc=;
-        b=Aq27vvjZcvPOEPPn1VNJtKGPz6WrJtnaFEyaa8jSyrsFfrILJyPzYOqgxePyAya8KC2mLT8/vgOfd6KPFoZSr+Y4pZ9gWMtNGzSiletX7KV/lmGONr6a2bmjO6WedI3oBdfT8+Ak1lf87cpENZBvc4592FWQK54VW8YlFht246c=;
-X-UUID: 1b2608dd0db04fff83e9cf39cfe30b47-20200311
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1823203278; Wed, 11 Mar 2020 21:35:27 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 11 Mar 2020 21:35:26 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 11 Mar 2020 21:35:10 +0800
-Message-ID: <1583933726.1550.1.camel@mtksdaap41>
-Subject: Re: [PATCH v11 5/5] soc / drm: mediatek: Fix mediatek-drm device
- probing
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Matthias Brugger <mbrugger@suse.com>
-CC:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <p.zabel@pengutronix.de>, <airlied@linux.ie>,
-        <mturquette@baylibre.com>, <sboyd@kernel.org>,
-        <ulrich.hecht+renesas@gmail.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-media@vger.kernel.org>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-mediatek@lists.infradead.org>,
-        "Collabora Kernel ML" <kernel@collabora.com>,
-        <dri-devel@lists.freedesktop.org>,
-        "Seiya Wang" <seiya.wang@mediatek.com>,
-        <linux-kernel@vger.kernel.org>, <wens@csie.org>,
-        Daniel Vetter <daniel@ffwll.ch>, <linux-clk@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        <devicetree@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-        <frank-w@public-files.de>, <linux-arm-kernel@lists.infradead.org>,
-        <hsinyi@chromium.org>, Richard Fontana <rfontana@redhat.com>,
-        mtk01761 <wendell.lin@mediatek.com>,
-        Weiyi Lu <weiyi.lu@mediatek.com>, <sean.wang@mediatek.com>,
-        <rdunlap@infradead.org>, <matthias.bgg@kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-Date:   Wed, 11 Mar 2020 21:35:26 +0800
-In-Reply-To: <4e30f8a7-7334-494b-7ef6-205f5d6d4d36@suse.com>
-References: <20200311115614.1425528-1-enric.balletbo@collabora.com>
-         <20200311115614.1425528-6-enric.balletbo@collabora.com>
-         <4e30f8a7-7334-494b-7ef6-205f5d6d4d36@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Wed, 11 Mar 2020 09:36:17 -0400
+Received: by mail-io1-f71.google.com with SMTP id s66so1501942iod.3
+        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 06:36:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=B6+pwT0gZafpVjC1uFsztM6A9cG4YUfExspz24y936U=;
+        b=WEmCKQwNy5RCOqbUeuHbcOCssfUC1vUFQT1S85rbxcMHWboLiAbfguBTNo1EUWhHzY
+         ARwm/YXvH6kaNxWqNcAarkheEHD0aodTS+4y0hP2fDKLhruA6kR19AR1sGUoFYpY9gI4
+         OSfsX2pIu5V66RtUGl1FvfHJk3ac587wyBKb+WUlNkBExmBBdTXA5971pXqXGI6oz0p0
+         PsjLWONWzULBGxkFvtaTOES5I8xcAzrUa3NWerLDnJIchxvdlOGOi8A4wpBEzqOVGlOw
+         mCboBpnbUP2jLlAIo311MXPW0ZQXr2I+K+mWA7aVCUKNSsESpU/i9vKHJZIstWKc0PPa
+         EK1Q==
+X-Gm-Message-State: ANhLgQ3QL5NA0TOb5m6ZJwVVSXe0Nb/hhXBz22iqXdODa48CmoRyu4Jw
+        fsx0TcnA/A9411fgh0hqTlV5Bu4Xjjy5AtGJp+nFnHH7IW0U
+X-Google-Smtp-Source: ADFU+vuLxefO+UDW/tYunN18EVyA6TyIEtNg86ZkgNJ7UPyQWxTCqY1YwLupkTwbW3PKLI13wVWZKuk2yLt5OeZ1mHHX7C7I3CU5
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+X-Received: by 2002:a92:9edc:: with SMTP id s89mr3251008ilk.229.1583933775736;
+ Wed, 11 Mar 2020 06:36:15 -0700 (PDT)
+Date:   Wed, 11 Mar 2020 06:36:15 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000000cf74105a094527d@google.com>
+Subject: general protection fault in ir_raw_event_store_with_filter
+From:   syzbot <syzbot+34008406ee9a31b13c73@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, andriin@fb.com, ast@kernel.org,
+        bpf@vger.kernel.org, daniel@iogearbox.net, kafai@fb.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        netdev@vger.kernel.org, songliubraving@fb.com,
+        syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gV2VkLCAyMDIwLTAzLTExIGF0IDE0OjI2ICswMTAwLCBNYXR0aGlhcyBCcnVnZ2VyIHdyb3Rl
-Og0KPiANCj4gT24gMTEvMDMvMjAyMCAxMjo1NiwgRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSB3cm90
-ZToNCj4gPiBJbiB0aGUgYWN0dWFsIGltcGxlbWVudGF0aW9uIHRoZSBzYW1lIGNvbXBhdGlibGUg
-c3RyaW5nDQo+ID4gIm1lZGlhdGVrLDxjaGlwPi1tbXN5cyIgaXMgdXNlZCB0byBiaW5kIHRoZSBj
-bG9jayBkcml2ZXJzDQo+ID4gKGRyaXZlcnMvc29jL21lZGlhdGVrKSBhcyB3ZWxsIGFzIHRvIHRo
-ZSBncHUgZHJpdmVyDQo+ID4gKGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5j
-KS4gVGhpcyBlbmRzIHdpdGggdGhlIHByb2JsZW0NCj4gPiB0aGF0IHRoZSBvbmx5IHByb2JlZCBk
-cml2ZXIgaXMgdGhlIGNsb2NrIGRyaXZlciBhbmQgdGhlcmUgaXMgbm8gZGlzcGxheQ0KPiA+IGF0
-IGFsbC4NCj4gPiANCj4gPiBJbiBhbnkgY2FzZSBoYXZpbmcgdGhlIHNhbWUgY29tcGF0aWJsZSBz
-dHJpbmcgZm9yIHR3byBkcml2ZXJzIGlzIG5vdA0KPiA+IGNvcnJlY3QgYW5kIHNob3VsZCBiZSBm
-aXhlZC4gVG8gZml4IHRoaXMsIGFuZCBtYWludGFpbiBiYWNrd2FyZA0KPiA+IGNvbXBhdGliaWxp
-dHksIHdlIGNhbiBjb25zaWRlciB0aGF0IHRoZSBtbXN5cyBkcml2ZXIgaXMgdGhlIHRvcC1sZXZl
-bA0KPiA+IGVudHJ5IHBvaW50IGZvciB0aGUgbXVsdGltZWRpYSBzdWJzeXN0ZW0sIHNvIGlzIG5v
-dCBhIHB1cmUgY2xvY2sNCj4gPiBjb250cm9sbGVyIGJ1dCBhIHN5c3RlbSBjb250cm9sbGVyLCBh
-bmQgdGhlIGRybSBkcml2ZXIgaXMgaW5zdGFudGlhdGVkDQo+ID4gYnkgdGhhdCBNTVNZUyBkcml2
-ZXIuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5y
-aWMuYmFsbGV0Ym9AY29sbGFib3JhLmNvbT4NCj4gPiBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1
-QG1lZGlhdGVrLmNvbT4NCj4gDQo+IFNhbWUgaGVyZS4NCg0KQWNrZWQtYnk6IENLIEh1IDxjay5o
-dUBtZWRpYXRlay5jb20+DQo=
+Hello,
 
+syzbot found the following crash on:
+
+HEAD commit:    d6ff8147 usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=14d0f655e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=90a3d9bed5648419
+dashboard link: https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1743a061e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1775f5c3e00000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+34008406ee9a31b13c73@syzkaller.appspotmail.com
+
+rc rc0: IR event FIFO is full!
+rc rc0: IR event FIFO is full!
+rc rc0: IR event FIFO is full!
+rc rc0: IR event FIFO is full!
+rc rc0: IR event FIFO is full!
+general protection fault, probably for non-canonical address 0xdffffc0000000219: 0000 [#1] SMP KASAN
+KASAN: probably user-memory-access in range [0x00000000000010c8-0x00000000000010cf]
+CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.6.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:ir_raw_event_store_with_filter+0x41b/0x580 drivers/media/rc/rc-ir-raw.c:186
+Code: 80 3c 02 00 0f 85 5b 01 00 00 4c 8b a5 f0 05 00 00 48 b8 00 00 00 00 00 fc ff df 49 8d bc 24 c8 10 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 4b 01 00 00 48 ba 00 00 00 00 00 fc ff df 48 89
+RSP: 0018:ffff8881db309948 EFLAGS: 00010002
+RAX: dffffc0000000000 RBX: ffff8881db3099b8 RCX: 0000000000000000
+RDX: 0000000000000219 RSI: ffffffff8406b41d RDI: 00000000000010c8
+RBP: ffff8881ccc8c000 R08: 000000000000001e R09: ffffed103b66439f
+R10: ffffed103b66439e R11: ffff8881db321cf3 R12: 0000000000000000
+R13: ffff8881db3099bd R14: 000000000001f400 R15: ffff8881ccc8c5f0
+FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc50e2e1000 CR3: 00000001ce093000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <IRQ>
+ sz_push.isra.0+0xa4/0x1e0 drivers/media/rc/streamzap.c:118
+ sz_push_half_space drivers/media/rc/streamzap.c:182 [inline]
+ streamzap_callback+0x337/0x8a0 drivers/media/rc/streamzap.c:234
+ __usb_hcd_giveback_urb+0x1f2/0x470 drivers/usb/core/hcd.c:1648
+ usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1713
+ dummy_timer+0x1258/0x32ae drivers/usb/gadget/udc/dummy_hcd.c:1966
+ call_timer_fn+0x195/0x6f0 kernel/time/timer.c:1404
+ expire_timers kernel/time/timer.c:1449 [inline]
+ __run_timers kernel/time/timer.c:1773 [inline]
+ __run_timers kernel/time/timer.c:1740 [inline]
+ run_timer_softirq+0x5f9/0x1500 kernel/time/timer.c:1786
+ __do_softirq+0x21e/0x950 kernel/softirq.c:292
+ invoke_softirq kernel/softirq.c:373 [inline]
+ irq_exit+0x178/0x1a0 kernel/softirq.c:413
+ exiting_irq arch/x86/include/asm/apic.h:546 [inline]
+ smp_apic_timer_interrupt+0x141/0x540 arch/x86/kernel/apic/apic.c:1146
+ apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:829
+ </IRQ>
+RIP: 0010:default_idle+0x28/0x300 arch/x86/kernel/process.c:696
+Code: cc cc 41 56 41 55 65 44 8b 2d 94 c9 72 7a 41 54 55 53 0f 1f 44 00 00 e8 16 bb b5 fb e9 07 00 00 00 0f 00 2d 3a 5f 53 00 fb f4 <65> 44 8b 2d 70
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
