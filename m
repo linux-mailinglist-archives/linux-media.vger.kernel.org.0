@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 009D3181C50
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 16:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB96181C99
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 16:44:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729846AbgCKP2n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 11:28:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58870 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729100AbgCKP2m (ORCPT
+        id S1730070AbgCKPoh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 11:44:37 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:36751 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729999AbgCKPoh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 11:28:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Transfer-Encoding
-        :Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=SIqPqQL4E4jqHkpffGX9pDEDtDuqr9oIINOLiMZ97lI=; b=ENYhknSFl8/K5NlY4EPf9Auvnj
-        qUAA16q+DsyWvkT0HMYKNGi+4561WycRIwnqzsgJJdmC9/iermrLG9eGBd9QEyr3+f6v3jMFOgrpy
-        bRgs7v4vVxhl3qRg23yI8uUvzXfwIaAvjN7aiUIrSp1JH4A2ghP0lhPa+osE4j8OucHQVr7uXjbZn
-        w/76MEQXIegQl51dZ6XWBuHDMIPxt/8wZom9zWExXNSNA6/BO6FcPYEB+3CCow2/X2Zvh2+vkMLRA
-        61WI+RVKdlxXNDgPB5a0xK3U4wzmAzm5Q1/GHuzpN5IhcZ/0Pn3YUMi8ZcM+0anqiWN5+3I67Ffd0
-        cpVtmnFA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jC3Hi-0006RL-K0; Wed, 11 Mar 2020 15:28:38 +0000
-Date:   Wed, 11 Mar 2020 08:28:38 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     David1.Zhou@amd.com, hch@infradead.org, jgg@ziepe.ca,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
-Message-ID: <20200311152838.GA24280@infradead.org>
-References: <20200311135158.3310-1-christian.koenig@amd.com>
- <20200311135158.3310-2-christian.koenig@amd.com>
+        Wed, 11 Mar 2020 11:44:37 -0400
+X-Originating-IP: 90.89.41.158
+Received: from localhost.localdomain (lfbn-tou-1-1473-158.w90-89.abo.wanadoo.fr [90.89.41.158])
+        (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 9CB761C0004;
+        Wed, 11 Mar 2020 15:44:33 +0000 (UTC)
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Kamal Dasu <kdasu.kdev@gmail.com>, linux-kernel@vger.kernel.org
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Paul Burton <paulburton@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mips@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+        linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
+        linux-mtd@lists.infradead.org, dri-devel@lists.freedesktop.org,
+        James Hogan <jhogan@kernel.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Brian Norris <computersforpeace@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH V4 3/3] mtd: rawnand: brcmnand: Add support for flash-edu for dma transfers
+Date:   Wed, 11 Mar 2020 16:44:33 +0100
+Message-Id: <20200311154433.25431-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200122213313.35820-4-kdasu.kdev@gmail.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-linux-mtd-patch-notification: thanks
+X-linux-mtd-patch-commit: a5d53ad26a8b441325eb9de8e9bb816584ebca7c
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200311135158.3310-2-christian.koenig@amd.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 11, 2020 at 02:51:53PM +0100, Christian König wrote:
-> This can be used by drivers to setup P2P DMA between device
-> memory which is not backed by struct pages.
+On Wed, 2020-01-22 at 21:33:13 UTC, Kamal Dasu wrote:
+> Legacy mips soc platforms that have controller v5.0 and 6.0 use
+> flash-edu block for dma transfers. This change adds support for
+> nand dma transfers using the EDU block.
 > 
-> The drivers of the involved devices are responsible for
-> setting up and tearing down DMA addresses as necessary
-> using dma_map_resource().
-> 
-> The page pointer is set to NULL and only the DMA address,
-> length and offset values are valid.
+> Signed-off-by: Kamal Dasu <kdasu.kdev@gmail.com>
 
-NAK.  The only valid way to fill DMA address in scatterlists is
-dma_map_sg / dma_map_sg_attr.
+Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next, thanks.
+
+Miquel
