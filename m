@@ -2,189 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA7C180E45
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 04:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4316180EA8
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 04:43:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727588AbgCKDEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Mar 2020 23:04:47 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44618 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727307AbgCKDEr (ORCPT
+        id S1727693AbgCKDnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Mar 2020 23:43:35 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:34917 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727659AbgCKDnf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Mar 2020 23:04:47 -0400
-Received: by mail-ot1-f66.google.com with SMTP id v22so446432otq.11
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 20:04:46 -0700 (PDT)
+        Tue, 10 Mar 2020 23:43:35 -0400
+Received: by mail-ed1-f67.google.com with SMTP id a20so1161551edj.2
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 20:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cc/y94pTTaN3pV5By9oa68NXOY/kGNd87nE1UcwsCUE=;
-        b=RNFHOuKi34s11GpOukBh0HStpY/JN8PkOaSp4edSPraYCR+bE5H3MFExHNG70W4/ZS
-         Wi6cM54wXx2o7+uvDXOeQhRwwKbb3s+IIFkbRl20jsraFa0yA2qaWHC9Ekrw2jtt6YYD
-         vinjAdl2j6XWm2IjDCGcbsde3IdY4JLpR68I0=
+         :cc:content-transfer-encoding;
+        bh=CCpVdCL5A6Oia90+I5IH75I8Yb81GbOHYhkCg0SoRo4=;
+        b=nJ8/+eXQLL14Bq3hAfEKaNkcuE0LJoTv4/4MeEEXgzMp4KLSx9aY7HnJZ9UhVp3W9Y
+         fXxkd5cNxriEVWhu7CxUFZ/Wk0e50qIqXnTH6Ri9UJZf9mPscvZif0BVieasPbLbv5kb
+         GQmVIMXbKASfnhROqiBIDAe48wIKVspe9m4dDZnvUuNZ9UaPD8GcRDiL3X0ldOcZ+pnI
+         k2gVgpXexZUSH7fKQ3eFnG3kD3wsPIhFOiRjGQo1kylrAqUGMYwz1s6/jMMNH/ytSVv8
+         KQeML8Q5Nqh30BBdkcpyaonvrG4g9J2RN2B//RrG0wjhlVWCt5pZSIHQzypaJKqJS2g5
+         rV6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cc/y94pTTaN3pV5By9oa68NXOY/kGNd87nE1UcwsCUE=;
-        b=L2QuygjEgXoJbxU61OLto7T8qNaxYqItWsQddZqTPKyju/cdJzZRLlTZFl+B4mQH/U
-         DnpIHh/cRRewZ8Iu7YaShxBICEgM0vgn6BYfJSw97P7CaiXlNDjo1sCJrHwPETP3XP9p
-         ojtlYRmWenVsqBKVgkS6q5nbhB54g96hLaN6AE8aCJlbm4oKXFnIOgcWabDM4diYPz1h
-         MDUUNr32ws1WRXH7tqhtvygZkTrAPbg2zN0QApf5oh+f0tj42r4+nqOctZnYCeHj2IaR
-         yDeMDEjLs7OKR6TYZPEFzmUkF0AIhsSLtBMduZtZ8O5j1TN3pm9lxP9oJb/4YQ9zEeLf
-         goTA==
-X-Gm-Message-State: ANhLgQ3hyAfZOav7/qrqR6VXNCaYqnJGQOmHOPPgPWUjim4oVXtMAj2t
-        vZjiFmlYm8Vk7qnFvJ6r16JbM+tVEkc=
-X-Google-Smtp-Source: ADFU+vvLfD98u5BtoU8v0r/2pVDlYjrq3+FMQ5Y0qgBoz2wo1T1OZ8fjQLwPeGB5Ou3kgU+wocj0QQ==
-X-Received: by 2002:a9d:6654:: with SMTP id q20mr721701otm.180.1583895885416;
-        Tue, 10 Mar 2020 20:04:45 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id k17sm5042949oic.45.2020.03.10.20.04.44
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2020 20:04:44 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id 66so451197otd.9
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2020 20:04:44 -0700 (PDT)
-X-Received: by 2002:a05:6830:19e2:: with SMTP id t2mr642738ott.97.1583895883624;
- Tue, 10 Mar 2020 20:04:43 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=CCpVdCL5A6Oia90+I5IH75I8Yb81GbOHYhkCg0SoRo4=;
+        b=bAkKyBt7C04WvRxGgTJnZ04dVALeNH6RHnTCb0w2NKmLrohTJ8wWIfyCCb36PEvwUd
+         mod4zzSkMKMjhQWbcV5LFuovzNCcnmFMaZ3Lrir71O6X94zK73arm5saYBfAvA9itb7b
+         sEAY7I5rn7tgbqcjshe8zv6zR8CI/IXcbGvb8nsms9el2w3Il/+RYrRUC1pJD3DcvT1+
+         Acn2QttjFAMXGxodK/v03gXUG+rHDkl9YUPuGjCqR/NJgH5SqiZVORIUOXM2NOQ1MpCz
+         R9W3Crdaj8V0hIt46Qjh2/egVn4fvvjbheax/YMx+DUN22iFn5oxwyZ24jPcAgExtnqY
+         Bmcw==
+X-Gm-Message-State: ANhLgQ3UnGOua1oLgCYulHUR3ILx7ufMwiibMUBdc0l/i0H9Vm147D40
+        rhNSXX0zWta+uhQpI8tYaouZX0pFBMrqKVHCydR28Q==
+X-Google-Smtp-Source: ADFU+vvpVyJEYOHSvxTt0jv9faPw/cY00LFVDFiLuvXyfzEgv30x/D/c6hrhc0XXqk7qHc23+OeLh0RzP5ZxEyP2RYI=
+X-Received: by 2002:a50:f38e:: with SMTP id g14mr958779edm.168.1583898213971;
+ Tue, 10 Mar 2020 20:43:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1583472756-7611-1-git-send-email-mansur@codeaurora.org>
- <CAPBb6MW-zxK+=HHUP5=+pO4Mswkhm=hDX7V56ABDm+BCzDaGHg@mail.gmail.com> <CA+ddPcNdC4r3XBd+dQmv2oHwF6MA3bTJrWZZpJthruBQR_THBA@mail.gmail.com>
-In-Reply-To: <CA+ddPcNdC4r3XBd+dQmv2oHwF6MA3bTJrWZZpJthruBQR_THBA@mail.gmail.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Wed, 11 Mar 2020 12:04:32 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MVyTFqrVXAXqA6u=-0WtXcdWnozzN3gGk7y8TDK12-6Gg@mail.gmail.com>
-Message-ID: <CAPBb6MVyTFqrVXAXqA6u=-0WtXcdWnozzN3gGk7y8TDK12-6Gg@mail.gmail.com>
-Subject: Re: [PATCH] venus: avoid extra locking in driver
-To:     Jeffrey Kardatzke <jkardatzke@google.com>
-Cc:     Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+References: <20200225235856.975366-1-jason@jlekstrand.net> <8066d8b2-dd6a-10ef-a7bb-2c18a0661912@amd.com>
+ <20200226100523.GQ2363188@phenom.ffwll.local> <CAOFGe94O66HL212aXqhi9tdYqw---Xm-fwNSV4pxHyPmpSGpbg@mail.gmail.com>
+ <CAP+8YyEUz29fXDW5kO_0ZG6c849=TuFWCK8ynT3LuM+Tn+rMzw@mail.gmail.com>
+ <810a26e7-4294-a615-b7ee-18148ac70641@amd.com> <CAOFGe96namyeQXTvdrduM+=wkJuoWWx34CxcsJHS3fcCaKDadw@mail.gmail.com>
+ <21aeacc0-f3ae-c5dd-66df-4d2f3d73f73e@amd.com> <CAOFGe95Gx=kX=sxwhx1FYmXQuPtGAKwt2V5YodQBwJXujE3WwA@mail.gmail.com>
+ <CAOFGe97XSxgzCViOH=2+B2_d5P3vGifKmvAw-JrzRQbbRMRbcg@mail.gmail.com>
+ <6fb8becf-9e6b-f59e-9c22-2b20069241a7@amd.com> <CAOFGe94gv9N+6n6oEC2aRtsmy7kBfx1D_R6WLQSGq7-8yUM_OQ@mail.gmail.com>
+ <203505dc-7b75-1135-587e-cc6e88ade8cd@amd.com>
+In-Reply-To: <203505dc-7b75-1135-587e-cc6e88ade8cd@amd.com>
+From:   Jason Ekstrand <jason@jlekstrand.net>
+Date:   Tue, 10 Mar 2020 22:43:22 -0500
+Message-ID: <CAOFGe94DnZcTb51TE3kFYxMgLkEWdNg2Yz3f4BEWNXz4GTOs7Q@mail.gmail.com>
+Subject: Re: [PATCH] RFC: dma-buf: Add an API for importing and exporting sync files
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Dave Airlie <airlied@redhat.com>,
+        Jesse Hall <jessehall@google.com>,
+        James Jones <jajones@nvidia.com>,
+        Daniel Stone <daniels@collabora.com>,
+        =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Chenbo Feng <fengc@google.com>,
+        Greg Hackmann <ghackmann@google.com>,
+        linux-media@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
         LKML <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
+        Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 7:07 AM Jeffrey Kardatzke <jkardatzke@google.com> wrote:
+On Mon, Mar 9, 2020 at 11:21 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> On Thu, Mar 5, 2020 at 11:50 PM Alexandre Courbot <acourbot@chromium.org> wrote:
-> >
-> > On Fri, Mar 6, 2020 at 2:34 PM Mansur Alisha Shaik
-> > <mansur@codeaurora.org> wrote:
-> > >
-> > > This change will avoid extra locking in driver.
-> >
-> > Could you elaborate a bit more on the problem that this patch solves?
+> Am 05.03.20 um 16:54 schrieb Jason Ekstrand:
+> > On Thu, Mar 5, 2020 at 7:06 AM Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+> >> [SNIP]
+> >> Well as far as I can see this won't work because it would break the
+> >> semantics of the timeline sync.
+> > I'm not 100% convinced it has to.  We already have support for the
+> > seqno regressing and we ensure that we still wait for all the fences.
+> > I thought maybe we could use that but I haven't spent enough time
+> > looking at the details to be sure.  I may be missing something.
 >
-> For us it fixes a kernel null deref that happens when we run the
-> MultipleEncoders test (I've verified this to be true).
+> That won't work. The seqno regression works by punishing userspace for
+> doing something stupid and undefined.
 >
-> >
-> > >
-> > > Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> > > ---
-> > >  drivers/media/platform/qcom/venus/core.c       |  2 +-
-> > >  drivers/media/platform/qcom/venus/core.h       |  2 +-
-> > >  drivers/media/platform/qcom/venus/helpers.c    | 11 +++++++++--
-> > >  drivers/media/platform/qcom/venus/pm_helpers.c |  8 ++++----
-> > >  4 files changed, 15 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> > > index 194b10b9..75d38b8 100644
-> > > --- a/drivers/media/platform/qcom/venus/core.c
-> > > +++ b/drivers/media/platform/qcom/venus/core.c
-> > > @@ -447,7 +447,7 @@ static const struct freq_tbl sdm845_freq_table[] = {
-> > >         {  244800, 100000000 }, /* 1920x1080@30 */
-> > >  };
-> > >
-> > > -static struct codec_freq_data sdm845_codec_freq_data[] =  {
-> > > +static const struct codec_freq_data sdm845_codec_freq_data[] =  {
-> > >         { V4L2_PIX_FMT_H264, VIDC_SESSION_TYPE_ENC, 675, 10 },
-> > >         { V4L2_PIX_FMT_HEVC, VIDC_SESSION_TYPE_ENC, 675, 10 },
-> > >         { V4L2_PIX_FMT_VP8, VIDC_SESSION_TYPE_ENC, 675, 10 },
-> > > diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> > > index ab7c360..8c8d0e9 100644
-> > > --- a/drivers/media/platform/qcom/venus/core.h
-> > > +++ b/drivers/media/platform/qcom/venus/core.h
-> > > @@ -245,7 +245,7 @@ struct venus_buffer {
-> > >  struct clock_data {
-> > >         u32 core_id;
-> > >         unsigned long freq;
-> > > -       const struct codec_freq_data *codec_freq_data;
-> > > +       struct codec_freq_data codec_freq_data;
-> > >  };
-> > >
-> > >  #define to_venus_buffer(ptr)   container_of(ptr, struct venus_buffer, vb)
-> > > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> > > index bcc6038..550c4ff 100644
-> > > --- a/drivers/media/platform/qcom/venus/helpers.c
-> > > +++ b/drivers/media/platform/qcom/venus/helpers.c
-> > > @@ -807,6 +807,7 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
-> > >         unsigned int i, data_size;
-> > >         u32 pixfmt;
-> > >         int ret = 0;
-> > > +       bool found = false;
-> > >
-> > >         if (!IS_V4(inst->core))
-> > >                 return 0;
-> > > @@ -816,16 +817,22 @@ int venus_helper_init_codec_freq_data(struct venus_inst *inst)
-> > >         pixfmt = inst->session_type == VIDC_SESSION_TYPE_DEC ?
-> > >                         inst->fmt_out->pixfmt : inst->fmt_cap->pixfmt;
-> > >
-> > > +       memset(&inst->clk_data.codec_freq_data, 0,
-> > > +               sizeof(inst->clk_data.codec_freq_data));
-> > > +
-> > >         for (i = 0; i < data_size; i++) {
-> > >                 if (data[i].pixfmt == pixfmt &&
-> > >                     data[i].session_type == inst->session_type) {
-> > > -                       inst->clk_data.codec_freq_data = &data[i];
-> > > +                       inst->clk_data.codec_freq_data = data[i];
-> >
-> > From the patch I'd infer that inst->clk_data.codec_freq_data needs to
-> > change at runtime. Is this what happens? Why? I'd expect that
-> > frequency tables remain constant, and thus that the global
-> > sdm845_codec_freq_data can remain constant while
-> > clock_data::codec_freq_data is a const reference to it. What prevents
-> > this from happening?
-> >
-> > > +                       found = true;
-> > >                         break;
-> > >                 }
-> > >         }
-> > >
-> > > -       if (!inst->clk_data.codec_freq_data)
-> > > +       if (!found) {
-> > > +               dev_err(inst->core->dev, "cannot find codec freq data\n");
-> > >                 ret = -EINVAL;
-> > > +       }
-> > >
-> > >         return ret;
-> > >  }
-> > > diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> > > index abf9315..240845e 100644
-> > > --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> > > +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> > > @@ -496,7 +496,7 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
-> > >         list_for_each_entry(inst_pos, &core->instances, list) {
-> > >                 if (inst_pos == inst)
-> > >                         continue;
-> > > -               vpp_freq = inst_pos->clk_data.codec_freq_data->vpp_freq;
-> > > +               vpp_freq = inst_pos->clk_data.codec_freq_data.vpp_freq;
+> Be we can't do that under normal circumstances.
 >
-> This is the main thing it fixes (this is where the null deref occurs).
-> If there's multiple instances in use and the other instance hasn't
-> populated the codec_freq_data pointer then we'll hit a null deref
-> here.
+> >> I can prototype that if you want, shouldn't be more than a few hours o=
+f
+> >> hacking anyway.
+> > If you'd like to, go for it.  I'd be happy to give it a go as well but
+> > if you already know what you want, it may be easier for you to just
+> > write the patch for the cursor.
+>
+> Send you two patches for that a few minutes ago. But keep in mind that
+> those are completely untested.
 
-Couldn't this be fixed by checking the pointer for NULL here or
-(probably better) populating codec_freq_data earlier so that it is
-always valid?
+No worries.  They were full of bugs but I think I've got them sorted
+out now.  The v2's I'm about to send seem to work.  I'm going to leave
+a Vulkan demo running all night long just to make sure I'm not leaking
+memory like mad.
 
-This fix looks like it is replacing a NULL pointer dereference with
-access to data initialized to fallback values (which may or may not be
-meaningful), and I don't see the need to copy what is effectively
-constant data into each instance.
+--Jason
+
+> > Two more questions:
+> >
+> >   1. Do you want this collapsing to happen every time we create a
+> > dma_fence_array or should it be a special entrypoint?  Collapsing all
+> > the time likely means doing extra array calculations instead of the
+> > dma_fence_array taking ownership of the array that's passed in.  My
+> > gut says that cost is ok; but my gut doesn't spend much time in kernel
+> > space.
+>
+> In my prototype implementation that is a dma_resv function you call and
+> get either a single fence or a dma_fence_array with the collapsed fences
+> in return.
+>
+> But I wouldn't add that to the general dma_fence_array_init function
+> since this is still a rather special case. Well see the patches, they
+> should be pretty self explaining.
+>
+> >   2. When we do the collapsing, should we call dma_fence_is_signaled()
+> > to avoid adding signaled fences to the array?  It seems like avoiding
+> > adding references to fences that are already signaled would let the
+> > kernel clean them up faster and reduce the likelihood that a fence
+> > will hang around forever because it keeps getting added to arrays with
+> > other unsignaled fences.
+>
+> I think so. Can't think of a good reason why we would want to add
+> already signaled fences to the array.
+>
+> Christian.
+>
+> >
+> > --Jason
+>
