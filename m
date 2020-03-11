@@ -2,108 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A9C181B28
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 15:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0CD0181B4C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 15:33:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729309AbgCKO3Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 10:29:24 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54693 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729057AbgCKO3Y (ORCPT
+        id S1729908AbgCKOdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 10:33:05 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46326 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729309AbgCKOdF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 10:29:24 -0400
-Received: by mail-wm1-f68.google.com with SMTP id n8so2323547wmc.4
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 07:29:22 -0700 (PDT)
+        Wed, 11 Mar 2020 10:33:05 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n15so2869225wrw.13
+        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 07:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uLHgIzjARDspW7AaPWyUfxn2AvoCszn7mW3ogUVfK90=;
-        b=ceBHs2/cjNl2DIe1sNqz52y4WNb09pz6CJTXKG82Q/SNizDZJb9nRTvD5lca7s70HG
-         AiXmXyxsNASWFoc6K+bn+EXTEp3wyDul9UGSZcPAq280+28etFQKROM80QB7avHOnKty
-         Se40vC7oi8E8An76EZsJtNQ3SfRWg2vQIIsobnx7Jd8r0gQWC9NPl6xtMgBmAmETQXQR
-         Jr2xi+6pbH7HGEz90f4GMn1nR8QOMSqSbL7CrUtqQ9TkNey3VNKvz3YmFZQ1LSfUCGcj
-         YIq8GrzZ2W7sIbIHJj7nRaUEx2//Gfy8+l9rswnNUioIS5kdw+2ZCN6lg0liX8oogRA1
-         Ju7g==
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=CQ0JDxNrcN3shv6a5m0suWWdeJt0vyxFrdr4rHmqkqU=;
+        b=iCG7ITCPV+6IA471m5arYSpjP/9x2Omj5aJ3wCYIEKDtN4MZ0oizDH6Xn9Q+jqcjXx
+         MeOITCcMjtOHua4CH48S2fIv+2ZV0Iy39e4zuX7clFNibnupKM9pqmRHDVtbib2fAuVe
+         f1TA+ZAVqrtKUHa8qQSD9dlM1mEUrok++8+mYnjRBtfKwQD2RF899GZjDSApZFbhg6PQ
+         ZMxKARTyEig6ahtFNIG8Ps+QJqobSbEVFakQk/qAQe2IOgF23/WuqVhvdg61tOUb6wLM
+         oUzGJWwRa2gECudS0qx9dqcG1IkF7EmIoOg0Kee/kvBbKyTTcZCh+2eZnScEEtHk+1ap
+         NNYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uLHgIzjARDspW7AaPWyUfxn2AvoCszn7mW3ogUVfK90=;
-        b=WQoE6WLp88qD33GdnoALisoI91JsfOkt/pxEXf2Vc/p947Xj3PIx1OJJlu+WNZuXzH
-         GrDorpj4F9UYHw/lBduKHaklUnTP+H/HA27smIN1TxFH5WD9PDEDP9ocjwa91oY+OSFu
-         G28CXvxp7FNmVTO/iJ9T89GbwL21T+8t0gTAfDQDhg930DRpGJOFSZim/PWErgfO3w3r
-         QCUm8ow4Jqig7kLhgAJ6X1Z75gwOWFUbhfqwd+Uq8aUjmMQ0cq4IKSs4YiH2yf9JXQd8
-         zulIy+3/ZMDLFeDfo4WLlVWkvOo9RMxoTjQ+NsOy62UjzocFrx4b1qFlbcBTotNFAuH1
-         m5Gg==
-X-Gm-Message-State: ANhLgQ0Pcn3vT805t0EAGRzWNediU9BX+rLptUhkU0OkrMQ9YdBhWyge
-        m04iBP9PjdUAZMfCFk8+F50=
-X-Google-Smtp-Source: ADFU+vuJ0BRRyGAHRNIteumxQxkknsWMFb/omM6SAtn+kQC63ev9yKprFJnD3SuBLVZqkGSDthdelA==
-X-Received: by 2002:a7b:c05a:: with SMTP id u26mr4049951wmc.74.1583936961844;
-        Wed, 11 Mar 2020 07:29:21 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id r19sm8250364wmh.26.2020.03.11.07.29.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 07:29:20 -0700 (PDT)
-Date:   Wed, 11 Mar 2020 14:29:18 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v2 10/10] media: imx: imx7-media-csi: Support clamping
- Y10 and Y12 to Y8
-Message-ID: <20200311142918.pbaeztyw5jyvord2@arch-thunder.localdomain>
-References: <20200310160633.950-1-laurent.pinchart@ideasonboard.com>
- <20200310160633.950-11-laurent.pinchart@ideasonboard.com>
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=CQ0JDxNrcN3shv6a5m0suWWdeJt0vyxFrdr4rHmqkqU=;
+        b=QrrHXYuek23MhSWRT4rXkXvMnZLXVNh6p49u4u60Pt+4N2tVjr95DnjmIp2wnwVkuq
+         IPsyvxw4e7chzX2rzVM5ymtJ/KqABZNMNWxVQ3hsTcT984ne2wYBS0CeN3KBwxwr1hhU
+         6Ly7A18brq69OiU5KlbQOlnsqPVyTAxpthYqfjFohXad4EOyTXExDbqKCiwWP5GmgYjo
+         BbtgKZGLAQRIbotGYOfe4fX72LuqQVOE7PQnlSNMpthqt0z448x4VK3469vCmR/OSg63
+         PhcSv0WHCf0iKwyHy6ncuOKqgxgKsN3c/HGjAIn3ROklckyQ7v9lYn1lMpnX36mIoDtS
+         ghqg==
+X-Gm-Message-State: ANhLgQ0iHXr+a/8n6OOpk29TPEzK4VKcOIQVIRKblMEAlZ/OM5lBtx6w
+        cErogWYysBcX41t1nKW0jlo=
+X-Google-Smtp-Source: ADFU+vupajy8DiEtdmUz0h9BP/XwMnaErjf8sHC5057XwoWGaDuCWiInFXD/bVB1J78ZSPNA/rAVZw==
+X-Received: by 2002:a5d:4d48:: with SMTP id a8mr4915400wru.246.1583937183716;
+        Wed, 11 Mar 2020 07:33:03 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id c13sm10921011wro.96.2020.03.11.07.33.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 Mar 2020 07:33:02 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 4/6] drm/amdgpu: add checks if DMA-buf P2P is supported
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     David1.Zhou@amd.com, hch@infradead.org, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        Logan Gunthorpe <logang@deltatee.com>
+References: <20200311135158.3310-1-christian.koenig@amd.com>
+ <20200311135158.3310-5-christian.koenig@amd.com>
+ <20200311140415.GB31668@ziepe.ca>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <848c2f50-1529-f036-69cd-5104b7ebe27b@gmail.com>
+Date:   Wed, 11 Mar 2020 15:33:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200310160633.950-11-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20200311140415.GB31668@ziepe.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-Thanks for this, I think this is the only one I did not acked.
+Am 11.03.20 um 15:04 schrieb Jason Gunthorpe:
+> On Wed, Mar 11, 2020 at 02:51:56PM +0100, Christian König wrote:
+>> Check if we can do peer2peer on the PCIe bus.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> index aef12ee2f1e3..bbf67800c8a6 100644
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>> @@ -38,6 +38,7 @@
+>>   #include <drm/amdgpu_drm.h>
+>>   #include <linux/dma-buf.h>
+>>   #include <linux/dma-fence-array.h>
+>> +#include <linux/pci-p2pdma.h>
+>>   
+>>   /**
+>>    * amdgpu_gem_prime_vmap - &dma_buf_ops.vmap implementation
+>> @@ -179,6 +180,9 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
+>>   	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>   	int r;
+>>   
+>> +	if (pci_p2pdma_distance_many(adev->pdev, &attach->dev, 1, true) < 0)
+>> +		attach->peer2peer = false;
+>> +
+> Are there other related patches than this series?
+>
+> p2p dma mapping needs to be done in common code, in p2pdma.c - ie this
+> open coding is missing the bus_offset stuff, at least.
 
-On Tue, Mar 10, 2020 at 06:06:33PM +0200, Laurent Pinchart wrote:
-> 10-bit and 12-bit greyscale input data to the CSI can be written as
-> 8-bit data to memory. Support this.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Yeah, I'm aware of this. But I couldn't find a better way for now.
 
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> I really do not want to see drivers open code this stuff.
+>
+> We already have a p2pdma API for handling the struct page case, so I
+> suggest adding some new p2pdma API to handle this for non-struct page
+> cases.
+>
+> ie some thing like:
+>
+> int 'p2pdma map bar'(
+>     struct pci_device *source,
+>     unsigned int source_bar_number,
+>     struct pci_device *dest,
+>     physaddr&len *array_of_offsets & length pairs into source bar,
+>     struct scatterlist *output_sgl)
 
-------
-Cheers,
-     Rui
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index e85202255168..3225082ce58d 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -804,6 +804,14 @@ static int imx7_csi_configure(struct imx7_csi *csi)
->  	case V4L2_PIX_FMT_YUYV:
->  		cr18 |= BIT_MIPI_DATA_FORMAT_YUV422_8B;
->  		break;
-> +	case V4L2_PIX_FMT_GREY:
-> +		if (in_code == MEDIA_BUS_FMT_Y8_1X8)
-> +			cr18 |= BIT_MIPI_DATA_FORMAT_RAW8;
-> +		else if (in_code == MEDIA_BUS_FMT_Y10_1X10)
-> +			cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
-> +		else
-> +			cr18 |= BIT_MIPI_DATA_FORMAT_RAW12;
-> +		break;
->  	case V4L2_PIX_FMT_Y10:
->  		cr18 |= BIT_MIPI_DATA_FORMAT_RAW10;
->  		cr1 |= BIT_PIXEL_BIT;
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+Well that's exactly what I have to avoid since I don't have the array of 
+offsets around and want to avoid constructing it.
+
+Similar problem for dma_map_resource(). My example does this on demand, 
+but essentially we also have use cases where this is done only once.
+
+Ideally we would have some function to create an sgl based on some 
+arbitrary collection of offsets and length inside a BAR.
+
+Regards,
+Christian.
+
+>
+> Jason
+
