@@ -2,155 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90A101819AB
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 14:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFE791819B1
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 14:26:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729649AbgCKN0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 09:26:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59552 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729408AbgCKN0K (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 09:26:10 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id B1030AD10;
-        Wed, 11 Mar 2020 13:26:06 +0000 (UTC)
-Subject: Re: [PATCH v11 5/5] soc / drm: mediatek: Fix mediatek-drm device
- probing
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
-        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
-        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
-        laurent.pinchart@ideasonboard.com
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-mediatek@lists.infradead.org,
-        Collabora Kernel ML <kernel@collabora.com>,
-        dri-devel@lists.freedesktop.org,
-        Seiya Wang <seiya.wang@mediatek.com>,
-        linux-kernel@vger.kernel.org, wens@csie.org,
-        Daniel Vetter <daniel@ffwll.ch>, linux-clk@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        devicetree@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        frank-w@public-files.de, linux-arm-kernel@lists.infradead.org,
-        hsinyi@chromium.org, Richard Fontana <rfontana@redhat.com>,
-        mtk01761 <wendell.lin@mediatek.com>,
-        Weiyi Lu <weiyi.lu@mediatek.com>, sean.wang@mediatek.com,
-        rdunlap@infradead.org, matthias.bgg@kernel.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>
-References: <20200311115614.1425528-1-enric.balletbo@collabora.com>
- <20200311115614.1425528-6-enric.balletbo@collabora.com>
-From:   Matthias Brugger <mbrugger@suse.com>
-Autocrypt: addr=mbrugger@suse.com; prefer-encrypt=mutual; keydata=
- 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
- HxUCQ9Y1Y/Ct
-Message-ID: <4e30f8a7-7334-494b-7ef6-205f5d6d4d36@suse.com>
-Date:   Wed, 11 Mar 2020 14:26:04 +0100
+        id S1729570AbgCKN0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 09:26:52 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46425 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729558AbgCKN0w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Mar 2020 09:26:52 -0400
+Received: from [IPv6:2001:420:44c1:2577:d578:21fa:bf61:c876]
+ ([IPv6:2001:420:44c1:2577:d578:21fa:bf61:c876])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id C1NmjUCJkEE3qC1NpjPzQP; Wed, 11 Mar 2020 14:26:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583933210; bh=d4zk5YWXejQ8kjLxF1sj4FKOLbv++IgtZnhKk9AS/l4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Aixh6akpxMOsjNu9RgfbsGafMaaTKSBDtJy6Lzk7i4pLVGz4Gm/4UIT/EWOETfYAS
+         ZAkSmHroYI5d4yJ7/L02YkZTJet1Vp56SorwGirz7NitUyWUHqIlUMPocBWQbhNXAV
+         PhUEIe42ubVI41va/Sc/tEjdeFlyXaE4YxKwrWNydqforvsAt3p3Ga/2EUIqda++En
+         Z+M0p3Ng39h916/aC06gmRlV18ZJTyE5qlAKu8lO99nRnFSln2AgDJP7Gv1b0sMeVr
+         ZnCCanSAKgT42cO3+9167M4f4k1D0M2XV4FtG6AKxwiii0khEo3sQ/mTYM1yFacvtt
+         tqXoIf7rC1kDg==
+Subject: Re: [PATCH v2 0/1] Virtio Video V4L2 driver
+To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        linux-media@vger.kernel.org
+Cc:     virtio-dev@lists.oasis-open.org, acourbot@chromium.org,
+        alexlau@chromium.org, daniel@ffwll.ch, dgreid@chromium.org,
+        dstaessens@chromium.org, egranata@google.com, fziglio@redhat.com,
+        keiichiw@chromium.org, kraxel@redhat.com, marcheu@chromium.org,
+        posciak@chromium.org, spice-devel@lists.freedesktop.org,
+        stevensd@chromium.org, tfiga@chromium.org, uril@redhat.com,
+        samiullah.khawaja@opensynergy.com, kiran.pawar@opensynergy.com
+References: <20200218202753.652093-1-dmitry.sepp@opensynergy.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c4d7622b-e396-3920-0e14-5a73a0225c0f@xs4all.nl>
+Date:   Wed, 11 Mar 2020 14:26:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200311115614.1425528-6-enric.balletbo@collabora.com>
+In-Reply-To: <20200218202753.652093-1-dmitry.sepp@opensynergy.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfADoSisLI3D7g4efSivmeW6JWdvVKJLlAoP0SrXsfclrkCLX8/cA0oUYw/fDHrV0fBiCT/fAyakptZ3gopDcXQtitlIcaRhc27dQNWxGy/0mFin9Bph5
+ rfHwIH0/um50LItNKgWD7Z/cIII+cIbkyRe0PwyVnfKUpEQyVCjKlidJNZTpRt9rmXajTMHk2XcJ8FaKM7GXL5IJkLpN56tc7gp8y/C3fHO+m4Wq2xk/uAah
+ Lc6oUl7KyDhAN7o6invofM1GhjzCoiNQVuawuHHdS8wW4lRWNJWYVdQU3LAKvP11HqIRJPs4guI0xt/MIfSc4cUzhTlZBYXm0iKWAnb+U96w7bBsCAf1a4L/
+ ErA2Y0ynn4q4F04POA0HyS0LL4/14sE6X9y5RzKxfOgPxCIkoFduGicyFT5Q7v8iFtWPkJ2e0Cz+xn6N1Jo/cxVgl1K5SZTYw2olPnLXMg1hhP1/NyPuQlqb
+ plGO4UwLdpHaGuN014FKOiVrOEOVjNt7ntdIRvvA69SnXX9wd4/11SQOVHCSvaczDnC8+zpezfdXefQRXzjpEdnpjj9wlEl/1kZRxa+6Hf/3EbAMx6IpJwbc
+ tHnYZmtUFAHA7P+WlMgE7vIHGHWZaxseuCFOduzC9WHFTP20DyoMHq1kBQk65wG74pFUHNe1sPFRn+oYYq1yGcTloqEhFOX8EA7lySNfwcjDYrayZMkeeZxD
+ VSFDG0ZcOOAr7+z/2hqopuTOVDZSt2EocnRda2B4phiW7JqCvTsNbDEOj3gEIXr6B5xf4Uamc11/+n7CfIx15HVAXYYVKxgoEmsWHkPunRX+GtEFR8UbRJPn
+ LjO/u+9YxsYpr2QDPuym0BpzhJ+YgiFpVQbbGNAd5wyJxlvuwTywd2a6u4OsbLE129GDAlc3pK/xsTy/aOmTTiaBCtlsxV/nvIsNAjhH/qfnCrBbL3ESUq8v
+ Lg0Yvg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Dmitry,
 
-
-On 11/03/2020 12:56, Enric Balletbo i Serra wrote:
-> In the actual implementation the same compatible string
-> "mediatek,<chip>-mmsys" is used to bind the clock drivers
-> (drivers/soc/mediatek) as well as to the gpu driver
-> (drivers/gpu/drm/mediatek/mtk_drm_drv.c). This ends with the problem
-> that the only probed driver is the clock driver and there is no display
-> at all.
+On 2/18/20 9:27 PM, Dmitry Sepp wrote:
+> Hi all,
 > 
-> In any case having the same compatible string for two drivers is not
-> correct and should be fixed. To fix this, and maintain backward
-> compatibility, we can consider that the mmsys driver is the top-level
-> entry point for the multimedia subsystem, so is not a pure clock
-> controller but a system controller, and the drm driver is instantiated
-> by that MMSYS driver.
+> This is a v4l2 virtio video driver for the virtio-video device
+> specification v3 [1].
 > 
-> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> The first version of the driver was introduced here [2].
+> 
+> Changes v1 -> v2:
+> * support the v3 spec (mostly)
+> * add a module parameter to ask for pages from ZONE_DMA
+> 
+> What is not implemented:
+> * Plane layout flags should be used to propagate number of planes to
+>   user-space
+> * There is no real use of stream creation with bitstream format in the
+>   parameter list. The driver just uses the first bitstream format from
+>   the list.
+> * Setting bitrate is done in a different way compared to the spec. This
+>   is because it has been already agreed on that the way the spec
+>   currently describes it requires changes.
+> 
+> Potential improvements:
+> * Do not send stream_create from open. Use corresponding state machine
+>   condition to do this.
+> * Do not send stream_destroy from close. Do it in reqbufs(0).
+> * Cache format and control settings. Reduce calls to the device.
 
-Same here.
+Some general notes:
+
+Before this can be merged it needs to pass v4l2-compliance.
+
+I also strongly recommend adding support for V4L2_PIX_FMT_FWHT to
+allow testing with the vicodec emulation driver. This will also
+allow testing all sorts of corner cases without requiring special
+hardware.
+
+Regards,
+
+	Hans
+
+> 
+> Best regards,
+> Dmitry.
+> 
+> [1] https://markmail.org/message/dmw3pr4fuajvarth
+> [2] https://markmail.org/message/wnnv6r6myvgb5at6
+> 
+> 
+
