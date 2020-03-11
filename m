@@ -2,169 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99419180EF4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 05:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F03D4180F3B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 06:07:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgCKEeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 00:34:22 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44761 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725958AbgCKEeW (ORCPT
+        id S1728195AbgCKFHL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 01:07:11 -0400
+Received: from smtprelay0059.hostedemail.com ([216.40.44.59]:47948 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728154AbgCKFHK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 00:34:22 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:6904:4109:ccc3:6732])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Bt4UjOOzt9Im2Bt4VjcOax; Wed, 11 Mar 2020 05:34:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1583901259; bh=Kj419aI8WRkCDE2HEwk2fBtpvaP0mCHH8ocAYvCcVqc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Yrlkmx8ftGIl5jcNnz/11TO8h1SPvhr6KkVFwS1F/wf8QviAuO3UC1JEnbojfUWyq
-         3tNsE8ZYYnEG9Werw2dYDJNPI2GqRTuw4bcQSLACFff9KXnsMuTqtMvmktEWMIJ+Ab
-         f4WQV3W5zB2n3Y2OVhDtuMYcfX8iOjh0cTmBL+Sxt4iCx043FVhz1rPabSpXnncjd2
-         +6HszvZXbXW6lI+19gddlh+alZowMxwbz0ZTMnyOfkOIRTEgLL5aQ2PNKe1g9EjE0g
-         9xb4VRHIAQVosc625WKpR/2qogUoN2PxKQk5hqabQQToTY+gYdPfNoY0hcPStB8oeV
-         7I8UzlkXJTVaw==
-Message-ID: <ec8aab68c3146d8a0e153cfaa84e9ff4@smtp-cloud9.xs4all.net>
-Date:   Wed, 11 Mar 2020 05:34:18 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfCDV2lQ+m8dDQfO7wKdM7lP4ml3KQ9Ka7MLnm/6ZAf2Zwu4nxftmPHEBuYF2b0+0zxIvcn4bFNNAg62qHiQlcSWRAPTgk0zRMS8GmBlljsY9mkU3FGZ7
- GYnkP5MRBws0szXOBBmQn+IxId2CJ7/tHMaMyPQTZzgAbNqHcOMJepKWtqUYKAgZcSwlyuVhU5pCGjTAIatyjkEl+exGrlmHnNz8wloJ0rFztXTbZ1E/tStP
+        Wed, 11 Mar 2020 01:07:10 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 5C3691805A816;
+        Wed, 11 Mar 2020 05:07:04 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:2:41:355:379:541:800:960:967:973:982:988:989:1260:1311:1314:1345:1359:1437:1515:1535:1605:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3865:3866:3867:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4051:4120:4321:4605:5007:6119:6261:6742:7903:9025:9036:10004:10848:11026:11473:11657:11658:11914:12043:12048:12294:12296:12297:12438:12555:12679:12698:12737:12895:12986:13894:14394:14877:21080:21433:21611:21627:21811:21939:21990:30045:30054:30075,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: part68_204fd3f78a028
+X-Filterd-Recvd-Size: 9986
+Received: from joe-laptop.perches.com (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf16.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 11 Mar 2020 05:07:01 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Amit Kucheria <amit.kucheria@linaro.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: [PATCH -next 011/491] ARM/QUALCOMM SUPPORT: Use fallthrough;
+Date:   Tue, 10 Mar 2020 21:51:25 -0700
+Message-Id: <2e6818291503f032e7662f1fa45fb64c7751a7ae.1583896348.git.joe@perches.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1583896344.git.joe@perches.com>
+References: <cover.1583896344.git.joe@perches.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Convert the various uses of fallthrough comments to fallthrough;
 
-Results of the daily build of media_tree:
+Done via script
+Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
 
-date:			Wed Mar 11 05:00:09 CET 2020
-media-tree git hash:	00c43088aa680989407b6afbda295f67b3f123f1
-media_build git hash:	6c715bb60eb5f601ae3fe59a5ec772300a5ddb2a
-v4l-utils git hash:	257a454a1499ab8dbb23ff31912b2a7f61b867ee
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a9a31a4bbe5628b0da1fbc7ade073443848f3adb
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ drivers/media/platform/qcom/venus/vdec.c |  2 +-
+ drivers/phy/qualcomm/phy-qcom-usb-hs.c   |  2 +-
+ drivers/pinctrl/qcom/pinctrl-spmi-gpio.c |  4 ++--
+ drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c |  2 +-
+ drivers/rpmsg/qcom_glink_native.c        |  4 ++--
+ drivers/soc/qcom/socinfo.c               | 16 ++++++++--------
+ drivers/thermal/qcom/tsens-v0_1.c        |  8 ++++----
+ drivers/thermal/qcom/tsens-v1.c          |  4 ++--
+ 8 files changed, 21 insertions(+), 21 deletions(-)
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: WARNINGS
-spec-git: OK
-virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: WARNINGS
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index f34920..9e0451 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -983,7 +983,7 @@ static int vdec_stop_capture(struct venus_inst *inst)
+ 	switch (inst->codec_state) {
+ 	case VENUS_DEC_STATE_DECODING:
+ 		ret = hfi_session_flush(inst, HFI_FLUSH_ALL);
+-		/* fallthrough */
++		fallthrough;
+ 	case VENUS_DEC_STATE_DRAIN:
+ 		vdec_cancel_dst_buffers(inst);
+ 		inst->codec_state = VENUS_DEC_STATE_STOPPED;
+diff --git a/drivers/phy/qualcomm/phy-qcom-usb-hs.c b/drivers/phy/qualcomm/phy-qcom-usb-hs.c
+index 610542..327df1a 100644
+--- a/drivers/phy/qualcomm/phy-qcom-usb-hs.c
++++ b/drivers/phy/qualcomm/phy-qcom-usb-hs.c
+@@ -53,7 +53,7 @@ static int qcom_usb_hs_phy_set_mode(struct phy *phy,
+ 		case PHY_MODE_USB_OTG:
+ 		case PHY_MODE_USB_HOST:
+ 			val |= ULPI_INT_IDGRD;
+-			/* fall through */
++			fallthrough;
+ 		case PHY_MODE_USB_DEVICE:
+ 			val |= ULPI_INT_SESS_VALID;
+ 		default:
+diff --git a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
+index fe0be8..3b0ab0e 100644
+--- a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
++++ b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
+@@ -793,13 +793,13 @@ static int pmic_gpio_populate(struct pmic_gpio_state *state,
+ 	switch (subtype) {
+ 	case PMIC_GPIO_SUBTYPE_GPIO_4CH:
+ 		pad->have_buffer = true;
+-		/* Fall through */
++		fallthrough;
+ 	case PMIC_GPIO_SUBTYPE_GPIOC_4CH:
+ 		pad->num_sources = 4;
+ 		break;
+ 	case PMIC_GPIO_SUBTYPE_GPIO_8CH:
+ 		pad->have_buffer = true;
+-		/* Fall through */
++		fallthrough;
+ 	case PMIC_GPIO_SUBTYPE_GPIOC_8CH:
+ 		pad->num_sources = 8;
+ 		break;
+diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
+index 338a15..b5949f7 100644
+--- a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
++++ b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
+@@ -346,7 +346,7 @@ static int pm8xxx_pin_config_set(struct pinctrl_dev *pctldev,
+ 				return -EINVAL;
+ 			}
+ 			pin->pull_up_strength = arg;
+-			/* FALLTHROUGH */
++			fallthrough;
+ 		case PIN_CONFIG_BIAS_PULL_UP:
+ 			pin->bias = pin->pull_up_strength;
+ 			banks |= BIT(2);
+diff --git a/drivers/rpmsg/qcom_glink_native.c b/drivers/rpmsg/qcom_glink_native.c
+index 1995f5b..f40312 100644
+--- a/drivers/rpmsg/qcom_glink_native.c
++++ b/drivers/rpmsg/qcom_glink_native.c
+@@ -553,7 +553,7 @@ static void qcom_glink_receive_version(struct qcom_glink *glink,
+ 		break;
+ 	case GLINK_VERSION_1:
+ 		glink->features &= features;
+-		/* FALLTHROUGH */
++		fallthrough;
+ 	default:
+ 		qcom_glink_send_version_ack(glink);
+ 		break;
+@@ -584,7 +584,7 @@ static void qcom_glink_receive_version_ack(struct qcom_glink *glink,
+ 			break;
+ 
+ 		glink->features &= features;
+-		/* FALLTHROUGH */
++		fallthrough;
+ 	default:
+ 		qcom_glink_send_version(glink);
+ 		break;
+diff --git a/drivers/soc/qcom/socinfo.c b/drivers/soc/qcom/socinfo.c
+index 7864b7..8ae5646 100644
+--- a/drivers/soc/qcom/socinfo.c
++++ b/drivers/soc/qcom/socinfo.c
+@@ -325,7 +325,7 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
+ 		debugfs_create_x32("raw_device_number", 0400,
+ 				   qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.raw_device_num);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 11):
+ 	case SOCINFO_VERSION(0, 10):
+ 	case SOCINFO_VERSION(0, 9):
+@@ -333,12 +333,12 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
+ 
+ 		debugfs_create_u32("foundry_id", 0400, qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.foundry_id);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 8):
+ 	case SOCINFO_VERSION(0, 7):
+ 		DEBUGFS_ADD(info, pmic_model);
+ 		DEBUGFS_ADD(info, pmic_die_rev);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 6):
+ 		qcom_socinfo->info.hw_plat_subtype =
+ 			__le32_to_cpu(info->hw_plat_subtype);
+@@ -346,7 +346,7 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
+ 		debugfs_create_u32("hardware_platform_subtype", 0400,
+ 				   qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.hw_plat_subtype);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 5):
+ 		qcom_socinfo->info.accessory_chip =
+ 			__le32_to_cpu(info->accessory_chip);
+@@ -354,27 +354,27 @@ static void socinfo_debugfs_init(struct qcom_socinfo *qcom_socinfo,
+ 		debugfs_create_u32("accessory_chip", 0400,
+ 				   qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.accessory_chip);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 4):
+ 		qcom_socinfo->info.plat_ver = __le32_to_cpu(info->plat_ver);
+ 
+ 		debugfs_create_u32("platform_version", 0400,
+ 				   qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.plat_ver);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 3):
+ 		qcom_socinfo->info.hw_plat = __le32_to_cpu(info->hw_plat);
+ 
+ 		debugfs_create_u32("hardware_platform", 0400,
+ 				   qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.hw_plat);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 2):
+ 		qcom_socinfo->info.raw_ver  = __le32_to_cpu(info->raw_ver);
+ 
+ 		debugfs_create_u32("raw_version", 0400, qcom_socinfo->dbg_root,
+ 				   &qcom_socinfo->info.raw_ver);
+-		/* Fall through */
++		fallthrough;
+ 	case SOCINFO_VERSION(0, 1):
+ 		DEBUGFS_ADD(info, build_id);
+ 		break;
+diff --git a/drivers/thermal/qcom/tsens-v0_1.c b/drivers/thermal/qcom/tsens-v0_1.c
+index 4b8dd6..893ce1 100644
+--- a/drivers/thermal/qcom/tsens-v0_1.c
++++ b/drivers/thermal/qcom/tsens-v0_1.c
+@@ -163,7 +163,7 @@ static int calibrate_8916(struct tsens_priv *priv)
+ 		p2[4] = (qfprom_cdata[1] & MSM8916_S4_P2_MASK) >> MSM8916_S4_P2_SHIFT;
+ 		for (i = 0; i < priv->num_sensors; i++)
+ 			p2[i] = ((base1 + p2[i]) << 3);
+-		/* Fall through */
++		fallthrough;
+ 	case ONE_PT_CALIB2:
+ 		base0 = (qfprom_cdata[0] & MSM8916_BASE0_MASK);
+ 		p1[0] = (qfprom_cdata[0] & MSM8916_S0_P1_MASK) >> MSM8916_S0_P1_SHIFT;
+@@ -228,7 +228,7 @@ static int calibrate_8974(struct tsens_priv *priv)
+ 			p2[8] = (calib[5] & S8_P2_BKP_MASK) >> S8_P2_BKP_SHIFT;
+ 			p2[9] = (calib[5] & S9_P2_BKP_MASK) >> S9_P2_BKP_SHIFT;
+ 			p2[10] = (calib[5] & S10_P2_BKP_MASK) >> S10_P2_BKP_SHIFT;
+-			/* Fall through */
++			fallthrough;
+ 		case ONE_PT_CALIB:
+ 		case ONE_PT_CALIB2:
+ 			base1 = bkp[0] & BASE1_MASK;
+@@ -263,7 +263,7 @@ static int calibrate_8974(struct tsens_priv *priv)
+ 			p2[8] = (calib[4] & S8_P2_MASK) >> S8_P2_SHIFT;
+ 			p2[9] = (calib[4] & S9_P2_MASK) >> S9_P2_SHIFT;
+ 			p2[10] = (calib[4] & S10_P2_MASK) >> S10_P2_SHIFT;
+-			/* Fall through */
++			fallthrough;
+ 		case ONE_PT_CALIB:
+ 		case ONE_PT_CALIB2:
+ 			base1 = calib[0] & BASE1_MASK;
+@@ -293,7 +293,7 @@ static int calibrate_8974(struct tsens_priv *priv)
+ 			p2[i] <<= 2;
+ 			p2[i] |= BIT_APPEND;
+ 		}
+-		/* Fall through */
++		fallthrough;
+ 	case ONE_PT_CALIB2:
+ 		for (i = 0; i < priv->num_sensors; i++) {
+ 			p1[i] += base1;
+diff --git a/drivers/thermal/qcom/tsens-v1.c b/drivers/thermal/qcom/tsens-v1.c
+index bd2ddb..d096d3 100644
+--- a/drivers/thermal/qcom/tsens-v1.c
++++ b/drivers/thermal/qcom/tsens-v1.c
+@@ -202,7 +202,7 @@ static int calibrate_v1(struct tsens_priv *priv)
+ 		p2[9] = (qfprom_cdata[3] & S9_P2_MASK) >> S9_P2_SHIFT;
+ 		for (i = 0; i < priv->num_sensors; i++)
+ 			p2[i] = ((base1 + p2[i]) << 2);
+-		/* Fall through */
++		fallthrough;
+ 	case ONE_PT_CALIB2:
+ 		base0 = (qfprom_cdata[4] & BASE0_MASK) >> BASE0_SHIFT;
+ 		p1[0] = (qfprom_cdata[0] & S0_P1_MASK) >> S0_P1_SHIFT;
+@@ -263,7 +263,7 @@ static int calibrate_8976(struct tsens_priv *priv)
+ 
+ 		for (i = 0; i < priv->num_sensors; i++)
+ 			p2[i] = ((base1 + p2[i]) << 2);
+-		/* Fall through */
++		fallthrough;
+ 	case ONE_PT_CALIB2:
+ 		base0 = qfprom_cdata[0] & MSM8976_BASE0_MASK;
+ 		p1[0] = (qfprom_cdata[0] & MSM8976_S0_P1_MASK) >> MSM8976_S0_P1_SHIFT;
+-- 
+2.24.0
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
