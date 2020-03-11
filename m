@@ -2,92 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21093181387
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 09:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 265691813C3
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2020 09:58:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728339AbgCKIoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 04:44:07 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51125 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728146AbgCKIoG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 04:44:06 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jBwy5-0006ae-OG; Wed, 11 Mar 2020 09:43:57 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jBwy5-0002zo-9A; Wed, 11 Mar 2020 09:43:57 +0100
-Date:   Wed, 11 Mar 2020 09:43:57 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v12 06/19] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20200311084357.jodtsrcfaeanv7hz@pengutronix.de>
-References: <20200309101428.15267-1-m.felsch@pengutronix.de>
- <20200309101428.15267-7-m.felsch@pengutronix.de>
- <20200311081703.GF5379@paasikivi.fi.intel.com>
+        id S1728626AbgCKI4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Mar 2020 04:56:02 -0400
+Received: from mga12.intel.com ([192.55.52.136]:8691 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728150AbgCKI4C (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Mar 2020 04:56:02 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 01:56:00 -0700
+X-IronPort-AV: E=Sophos;i="5.70,540,1574150400"; 
+   d="scan'208";a="277295646"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 01:55:57 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 3E8972096B; Wed, 11 Mar 2020 10:55:55 +0200 (EET)
+Date:   Wed, 11 Mar 2020 10:55:55 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v4 5/6] at24: Support probing while off
+Message-ID: <20200311085555.GH5379@paasikivi.fi.intel.com>
+References: <20200121134157.20396-1-sakari.ailus@linux.intel.com>
+ <20200121134157.20396-6-sakari.ailus@linux.intel.com>
+ <CAMpxmJU5dG49N2FA0oSQsOfKrCr3KQ1BisON4c+nUJJmZQG=bQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200311081703.GF5379@paasikivi.fi.intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:40:08 up 116 days, 23:58, 136 users,  load average: 0.11, 0.10,
- 0.09
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMpxmJU5dG49N2FA0oSQsOfKrCr3KQ1BisON4c+nUJJmZQG=bQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Bartosz,
 
-On 20-03-11 10:17, Sakari Ailus wrote:
-> Hi Marco,
+Thanks for the reply.
+
+On Wed, Jan 29, 2020 at 02:36:17PM +0100, Bartosz Golaszewski wrote:
+> wt., 21 sty 2020 o 14:41 Sakari Ailus <sakari.ailus@linux.intel.com> napisał(a):
+> >
+> > In certain use cases (where the chip is part of a camera module, and the
+> > camera module is wired together with a camera privacy LED), powering on
+> > the device during probe is undesirable. Add support for the at24 to
+> > execute probe while being powered off. For this to happen, a hint in form
+> > of a device property is required from the firmware.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/misc/eeprom/at24.c | 31 +++++++++++++++++++++----------
+> >  1 file changed, 21 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/drivers/misc/eeprom/at24.c b/drivers/misc/eeprom/at24.c
+> > index 0681d5fdd538a..5fc1162b67618 100644
+> > --- a/drivers/misc/eeprom/at24.c
+> > +++ b/drivers/misc/eeprom/at24.c
+> > @@ -564,6 +564,7 @@ static int at24_probe(struct i2c_client *client)
+> >         bool i2c_fn_i2c, i2c_fn_block;
+> >         unsigned int i, num_addresses;
+> >         struct at24_data *at24;
+> > +       bool low_power;
+> >         struct regmap *regmap;
+> >         bool writable;
+> >         u8 test_byte;
+> > @@ -701,19 +702,24 @@ static int at24_probe(struct i2c_client *client)
+> >
+> >         i2c_set_clientdata(client, at24);
+> >
+> > -       /* enable runtime pm */
+> > -       pm_runtime_set_active(dev);
+> > +       low_power = acpi_dev_state_low_power(&client->dev);
+> > +       if (!low_power)
+> > +               pm_runtime_set_active(dev);
+> > +
+> >         pm_runtime_enable(dev);
+> >
+> >         /*
+> > -        * Perform a one-byte test read to verify that the
+> > -        * chip is functional.
+> > +        * Perform a one-byte test read to verify that the chip is functional,
+> > +        * unless powering on the device is to be avoided during probe (i.e.
+> > +        * it's powered off right now).
+> >          */
+> > -       err = at24_read(at24, 0, &test_byte, 1);
+> > -       pm_runtime_idle(dev);
+> > -       if (err) {
+> > -               pm_runtime_disable(dev);
+> > -               return -ENODEV;
+> > +       if (!low_power) {
+> > +               err = at24_read(at24, 0, &test_byte, 1);
+> > +               pm_runtime_idle(dev);
+> > +               if (err) {
+> > +                       pm_runtime_disable(dev);
+> > +                       return -ENODEV;
+> > +               }
+> >         }
+> >
+> >         if (writable)
+> > @@ -728,8 +734,12 @@ static int at24_probe(struct i2c_client *client)
+> >
+> >  static int at24_remove(struct i2c_client *client)
+> >  {
+> > +       bool low_power;
+> > +
+> >         pm_runtime_disable(&client->dev);
+> > -       pm_runtime_set_suspended(&client->dev);
+> > +       low_power = acpi_dev_state_low_power(&client->dev);
 > 
-> On Mon, Mar 09, 2020 at 11:14:15AM +0100, Marco Felsch wrote:
-> ...
-> > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
-> > +{
-> > +	struct v4l2_connector_link *link, *tmp;
-> > +
-> > +	if (IS_ERR_OR_NULL(connector) ||
-> > +	    connector->type == V4L2_CONN_UNKNOWN)
-> > +		return;
-> > +
-> > +	list_for_each_entry_safe(link, tmp, &connector->links, head) {
-> > +		v4l2_fwnode_put_link(&link->fwnode_link);
-> > +		list_del(&link->head);
-> > +		kfree(link);
-> > +	}
-> > +
-> > +	kfree(connector->label);
-> > +	connector->label = NULL;
-> > +	connector = NULL;
-> 
-> No need to set connector NULL here.
+> This is inconsistent. You define the low_power field in the context
+> structure (BTW the name low_power is a bit vague here - without
+> looking at its assignment it would make me think it's about something
+> battery-related, how about 'off_at_probe'?) and instead of reusing
 
-My intention was to make it safe e.g. if a caller calls this twice for
-the same connector.
+The field was called probe_powered_off in v1, but I changed it to
+probe_low_power (and renamed related functions etc.) based on review
+comments --- for the device may not be powered off actually.
 
+> this field here, you call acpi_dev_state_low_power() again. Either
+> don't store the context for the life-time of the device if not
+> necessary or don't call acpi_dev_state_low_power() at remove, although
+> the commit message doesn't describe whether the latter is done on
+> purpose.
+
+Right. probe-low-power property has the same effect on remove for
+consistency, i.e. the device can remain in low power state during remove.
+This is documented in probe_low_power field documentation in the first
+patch.
+
+-- 
 Regards,
-  Marco
 
-> > +}
-> 
-> -- 
-> Sakari Ailus
+Sakari Ailus
