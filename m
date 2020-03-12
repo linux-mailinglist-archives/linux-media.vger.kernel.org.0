@@ -2,127 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2F35183646
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 17:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C297183B12
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 22:12:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgCLQhp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 12:37:45 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:36807 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbgCLQho (ORCPT
+        id S1726520AbgCLVMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 17:12:46 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:36001 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726312AbgCLVMp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 12:37:44 -0400
-Received: by mail-ot1-f42.google.com with SMTP id j14so6966216otq.3
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2020 09:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MYtEPdrTksnGvDZU5deL4CbY9Pr9ioIV5tkxQ/zHu9E=;
-        b=K9wdZeHL5rkylrZz3QIeSH+2rSRaU/h8JfwlYHPQVkc1YTeX3aYZHzKozu1Uh9dGmW
-         al/g5ZOeGmatS1po/OOiwYPpVnuwgNjRDMnm37LUrARxdr2D7c+UQ8BfOm773vJ38KB4
-         WyJL6FoyqANhVa43OkIu37Qm+iMm4zKxaNoyM1dwCOxiTEHUeCvSpIqJa5SWrNPYI0mG
-         7FEO4d6rMrB+CWnvO+a1xme3jdmlAWODxkI6xVbkFJ7KojYC/IAy1zx8BHJZZW4NU2XD
-         duN5csFpY+MN/H6Y4wwobhExb+fpRbdG/uyLFsrcm7iHlXNPYNlOPB4/MKHiQ8sgTL20
-         wivg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MYtEPdrTksnGvDZU5deL4CbY9Pr9ioIV5tkxQ/zHu9E=;
-        b=O4syZV5y34huRQTiUUXBHnW+62nKspLqWeHZIY4Uh+703AMJ1NY2lKn2EGcaGt0rxh
-         gGO6v59ugKcJuAg/R9yVXTqwwc6BFVZX95PXdmGCH3sl8kN1A67WQfCGCod/iiBiO8DM
-         NA1IyJDSGQn5TWYoHWe0gAAMVrXM8kKNjqrWgbgtmOfYemNvcHlYK5IHZaKMA6PSVltF
-         zhdPtfxTLZoQ9d39qnpzZ0faVeOrceQ246EwzSUoNgq+2H4ZMWpWtU5m6ni69MiGL2lm
-         EVNU95w4UVMSkw45UssACAXtXdItfiw7ILDZ4si9lfdto+xcngKmPLOvUQGtcrd6f8z7
-         tWzg==
-X-Gm-Message-State: ANhLgQ2c9dnSB2uW/guuKk9ID8lrc14rrNB2a1jNB5WFmHQ07cBv9Twq
-        coZ+mIR9K0rQRbEytVmA03Arhwv4/UDa7w1+hdsPVA==
-X-Google-Smtp-Source: ADFU+vtZrRh7IowOp5OH0oSfDw8psJiJhEtJqqx6lihfLrI2TL2niHppJIGBv22OqVb3O+3TasH0O7liOBZUKkgfp2I=
-X-Received: by 2002:a9d:7756:: with SMTP id t22mr6718289otl.272.1584031064139;
- Thu, 12 Mar 2020 09:37:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200310134603.30260-1-robert.foss@linaro.org>
- <20200310134603.30260-4-robert.foss@linaro.org> <20200310143014.GL1922688@smile.fi.intel.com>
-In-Reply-To: <20200310143014.GL1922688@smile.fi.intel.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 12 Mar 2020 17:37:33 +0100
-Message-ID: <CAG3jFyuSj4NRAPHk0qch4SXg3iS7zss6tbRuC3mBnVL=MsLwVw@mail.gmail.com>
-Subject: Re: [v1 3/3] media: ov8856: Implement sensor module revision identification
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     ben.kao@intel.com, linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 12 Mar 2020 17:12:45 -0400
+X-IronPort-AV: E=Sophos;i="5.70,546,1574089200"; 
+   d="scan'208";a="41730099"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 13 Mar 2020 06:12:43 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2D7DB400C0A8;
+        Fri, 13 Mar 2020 06:12:39 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 0/3] ov5645: Switch to assigned-clock-rates
+Date:   Thu, 12 Mar 2020 21:12:29 +0000
+Message-Id: <1584047552-20166-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Andy,
+Hi All,
 
-On Tue, 10 Mar 2020 at 15:30, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Mar 10, 2020 at 02:46:03PM +0100, Robert Foss wrote:
-> > Query the sensor for its module revision, and compare it
-> > to known revisions.
-> > Currently only the '1B' revision has been added.
->
-> Are you sure you send latest version?
->
-> I have a d=C3=A9j=C4=85 vu that I have seen this already and this one doe=
-sn't address any
-> comment given.
+This patch series adds support for using assigned-clock-rates for
+specifying clock rates for ov5645 driver
 
-I think pulled a series Dongchun Zhus earlier series apart and used some of=
- it,
-I may have missed some of the feedback given to his v3. Sorry about that.
+Thanks,
+Prabhakar
 
->
-> ...
->
-> > +     dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x=
-\n",
-> > +             val,
->
-> > +             val =3D=3D OV8856_1B_MODULE ? "1B" : "unknown revision",
->
-> This is weird. Can you add a bit more general way of showing revision?
+Changes for V2:
+* Instead of completely dropping clock-frequency property marked it as
+  deprecated.
+* Split up imx6qdl-wandboard.dtsi changes as separate patch.
 
-This is modeled after the ov7251 driver, since that output came in
-handy during bringup.
 
-    dev_info(dev, "OV7251 revision %x (%s) detected at address 0x%02x\n",
-         chip_rev,
-         chip_rev =3D=3D 0x4 ? "1A / 1B" :
-         chip_rev =3D=3D 0x5 ? "1C / 1D" :
-         chip_rev =3D=3D 0x6 ? "1E" :
-         chip_rev =3D=3D 0x7 ? "1F" : "unknown",
-         client->addr);
+Lad Prabhakar (3):
+  media: dt-bindings: media: i2c: Switch to assigned-clock-rates
+  media: i2c: ov5645: Switch to assigned-clock-rates
+  ARM: dts: imx6qdl-wandboard: Switch to assigned-clock-rates for ov5645
+    node
 
-To me this is pretty general approach, at least until this revision
-information is used in other places.
-I'm not quite sure what you had in mind. Maybe the current
-implementation is a little bit clunky in the case of ov8856 since
-there's only one revision number known currently.
+ .../devicetree/bindings/media/i2c/ov5645.txt       |  5 +++--
+ arch/arm/boot/dts/imx6qdl-wandboard.dtsi           |  3 ++-
+ drivers/media/i2c/ov5645.c                         | 24 +++++++++++++++-------
+ 3 files changed, 22 insertions(+), 10 deletions(-)
 
-Either way, I'll happily change it. But I don't quite know what you
-have in mind.
+-- 
+2.7.4
 
->
-> > +             client->addr);
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
