@@ -2,186 +2,339 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE867183551
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 16:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB24D18359E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 16:57:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727798AbgCLPqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 11:46:33 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:41437 "EHLO
+        id S1727192AbgCLP5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 11:57:51 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:41884 "EHLO
         mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727526AbgCLPqd (ORCPT
+        with ESMTP id S1727059AbgCLP5v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:46:33 -0400
-Received: by mail-ed1-f67.google.com with SMTP id m25so8002572edq.8
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2020 08:46:31 -0700 (PDT)
+        Thu, 12 Mar 2020 11:57:51 -0400
+Received: by mail-ed1-f67.google.com with SMTP id m25so8060482edq.8
+        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2020 08:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5cTrrpEJFcic24XujNFhCjsMl+60VWq4PDTREg8h96A=;
-        b=TYLYodTKe0dhiYfU9BavzBm/Gww+zTvaS3cbCaM1DeOKROStbKSllP8n/J5dDlig3Q
-         XpjnWxLm82FVW1VeRnNk8FztNqV717pZ6t/GSyAW3ZNUbltoh/bs+lp2SPTkWo/vVHmw
-         k9qsVi6GDRWikBcMYkkWPAqYnKxXw9IUPUsW7cWThHepsCX+iX4muhTxc7M4m8hwKmQY
-         Xx/kC1DhqVddy0wxOj7USgaMp3aBW7aNhQT6OJqJkjKvyIhxp+a3OiRSg8hDl1N2erW5
-         Vf3YkKeHhpPayz4+B40RqpOhRzp2lqf/9VxEF8eQeA9iTgfRolAaHxA/Zq87o0XuH7j0
-         ZiVA==
+         :cc:content-transfer-encoding;
+        bh=KFoqHlKe9Gz1nlNRRZBNdmBmwauPKFbN5aYg7hDMwdo=;
+        b=WLT7lfY1Zqf5BYzaQ3nByDF7r8CnBHJmE8k2xiyOm5ryCtZVvF3kqw9VEgPERQ3doW
+         jl7Zbji/5as/viceoo72pqyg9iLh0ho5veyGgzrYbGSJO0lnMBIIrg01a7TcN1aCzZu9
+         oHn0i+nC7jlLU/VstInQEF3vfZfmEClUdqxjySThnoXB3dANG2jVLqiKWLY9QEr6A34u
+         7KZehc4ThmcKDtfbR/oCwHgiC+NBBryX9pDxL262/x6dHtJOU6ZrgNOmxsUccM+F3zkE
+         idCpGSxw+0v0vYwIC+IarVC5vhHEcniYv9Hos0h/Z0H8O90meja4D03QH47TzZqw0xrI
+         MOyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5cTrrpEJFcic24XujNFhCjsMl+60VWq4PDTREg8h96A=;
-        b=d8pwPHUS4GePYW8b02emfkzdlSuIe18QeU/2soblM5fcCu7I5pzpjixau/g1MMg1LK
-         h+X8QN7sZ5VR4n2QMEJzUb+SgEUJ70D3TtIG8QzKJ3isHGk9cjAcakdbAl3iTmqgUIE4
-         a7Ety8mWlHHPPPi99TCU8NMx8p+5sZNU8WAsV+fh5/U9AWM3oQfqkQcYGC6pPBAxBEW3
-         8Ay5xrLQlh6BAKFaqhwNUhxDO6QrLq6GDNwKtTsyIkux4E5r9khRkZtwTOLKhmqX/265
-         v+2X347UZk/bR4v4Zp8cdDgDd0zPi5IuhbIuG42A2u3ZB+81DpXil2UwdveZbUi2YYac
-         c3Mw==
-X-Gm-Message-State: ANhLgQ1tE97L9MSnedBW9tTkI9vNJT80aZVTWOCvxoHzEMZIC25HpWL6
-        hPnrLvlPuwA+fnfiEztD1EFIOLwMJNCqpg2eLmQJ2A==
-X-Google-Smtp-Source: ADFU+vtOmrV2cAZBkLwL59bH0e6wkoESkgo54aRn0jjCQKHn037BDREuV9Z9qkUa/KlbjY5gdH6LaCYwIfL8fr7E7lU=
-X-Received: by 2002:aa7:d585:: with SMTP id r5mr4139922edq.241.1584027990906;
- Thu, 12 Mar 2020 08:46:30 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KFoqHlKe9Gz1nlNRRZBNdmBmwauPKFbN5aYg7hDMwdo=;
+        b=au0moMMZECd84TB6Hes/sEPoNIML1gmL1cLmf9j2ypvrZuM5RqTz7O5dM7uCPyGoli
+         7RIrBvrZSRgKnJq/235dYNGgqJTsTXlcU37uwCXtpTjijDNuTswi0lymBqMg5Y1lBAyG
+         gUq/tkfz90+ydSTtdk83rmNCcqXm9S4jQqGMke3aUFQbFbWBQ7t3sE8pqlGyMZWNIid8
+         hI/yxfjnF6uKVjZLYPEbepdebL9prS4D6xKD/Tkhl9k7FjWgbzDLO53ZC8193zq1hjZA
+         U0B/HIHzQ9ZY8yHy8eSXivyuSDloDubrjdUYXC40ipw97+7RXSwaqU1wgxVCSiKgDT3v
+         sVxQ==
+X-Gm-Message-State: ANhLgQ3yAllIMgK6XXVMBaP0Vc1x1nT6TQsWD/ZnBxMASb/shdsW+JSA
+        dBwW8XMO0IZbF8CTX0Q4pVILPaHlvwTZOvfuHBwmCQ==
+X-Google-Smtp-Source: ADFU+vtrhhYk6GUgRImv9L/MfX6bT3C6fKT+3UCMlb5umWq+7s3Q85gXhMXy72HAwJfbPATR6JHEwoaAgknMk5a0RPc=
+X-Received: by 2002:a50:9998:: with SMTP id m24mr8165526edb.98.1584028669210;
+ Thu, 12 Mar 2020 08:57:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <59bce0ac12d70810880f77d276571dc5d686a9f8.camel@redhat.com>
-In-Reply-To: <59bce0ac12d70810880f77d276571dc5d686a9f8.camel@redhat.com>
+References: <20200303190318.522103-1-jason@jlekstrand.net> <20200311034351.1275197-1-jason@jlekstrand.net>
+ <20200311034351.1275197-3-jason@jlekstrand.net> <bcd22ed3-c1fe-c018-5cb2-a077562eb1ff@amd.com>
+In-Reply-To: <bcd22ed3-c1fe-c018-5cb2-a077562eb1ff@amd.com>
 From:   Jason Ekstrand <jason@jlekstrand.net>
-Date:   Thu, 12 Mar 2020 10:46:19 -0500
-Message-ID: <CAOFGe94LKyxOA-+cwvNRaqhtFQdjLDqUxgpYc87E0RmD0gFPqg@mail.gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-To:     Adam Jackson <ajax@redhat.com>
-Cc:     ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
-        Dave Airlie <airlied@gmail.com>,
+Date:   Thu, 12 Mar 2020 10:57:37 -0500
+Message-ID: <CAOFGe96gbU03odF2OoLMnA7t7UgM6XrscogOD75dk62=hVFRmA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting
+ sync files (v4)
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Dave Airlie <airlied@redhat.com>,
+        Jesse Hall <jessehall@google.com>,
+        James Jones <jajones@nvidia.com>,
+        Daniel Stone <daniels@collabora.com>,
+        =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@google.com>,
         Daniel Vetter <daniel.vetter@ffwll.ch>,
         Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Daniel Stone <daniel@fooishbar.org>
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Greg Hackmann <ghackmann@google.com>,
+        Chenbo Feng <fengc@google.com>, linux-media@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It seems I may have not set the tone I intended with this e-mail... My
-intention was never to stomp on anyone's favorite window system (Adam,
-isn't the only one who's seemed a bit miffed).  My intention was to
-try and solve some very real problems that we have with Vulkan and I
-had the hope that a solution there could be helpful for others.
-
-The problem we have in Vulkan is that we have an inherently explicit
-sync graphics API and we're trying to strap it onto some inherently
-implicit sync window systems and kernel interfaces.  Our mechanisms
-for doing so have evolved over the course of the last 4-5 years and
-it's way better now than it was when we started but it's still pretty
-bad and very invasive to the driver.  My objective is to completely
-remove the concept of implicit sync from the Vulkan driver eventually.
-
-Also (and this is going further down the rabbit hole), I would like to
-begin cleaning up our i915 UAPI to better separate memory residency
-handling, command submission, and synchronization.  Eventually (and
-this may sound crazy to some), I'd like to get to the point where i915
-doesn't own any of the synchronization primitives except what it needs
-to handle memory management internally.  Linux graphics UAPI is about
-10 years behind Windows in terms of design (roughly equivalent to
-Win7) and I think it's costing us in terms of latency and CPU
-overhead.  Some of that may just be implementation problems in i915;
-some of it may be core API design.  It's a bit unclear.
-
-Why am I bringing up kernel APIs?  Because one of the biggest problems
-in evolving things is the fact that our kernel APIs are tied to
-implicit sync on dma-buf.  We can't detangle that until we can remove
-implicit dma-buf signaling from the command execution APIs.  This
-means that we either need to get rid of ALL implicit synchronization
-from window-system APIs far enough back in time that we don't run the
-risk of "breaking userspace" or else we need a plan which lets the
-kernel driver not support implicit sync but make implicit sync work
-anyway.  What I'm proposing with dma-buf sync_file import/export is
-one such plan.
-
-So, while this may not solve any problems for Wayland compositors as I
-previously thought (KMS/atomic supports sync_file.  Yay!), we still
-have a very real problem in Vulkan.  It's great that Wayland has an
-explicit sync API but until all compositors have supported it for at
-least 2 years, I can't assume it's existence and start deleting my old
-code paths.  Currently, it's only implemented in Weston and the
-ChromeOS compositor; gnome-shell, kwin, and sway are all still 100%
-implicit sync AFAIK.  We also have to deal with X11.
-
-For those who are asking the question in the back of their minds:
-Yes, I'm trying to solve a userspace problem with kernel code and, no,
-I don't think that's necessarily the wrong way around.  Don't get me
-wrong; I very much want to solve the problem "properly" but unless
-we're very sure we can get it solved properly everywhere quickly, a
-solution which lets us improve our driver kernel APIs independently of
-misc. Wayland compositors seems advantageous.
-
-On Wed, Mar 11, 2020 at 6:02 PM Adam Jackson <ajax@redhat.com> wrote:
+On Wed, Mar 11, 2020 at 8:18 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> On Wed, 2020-03-11 at 12:31 -0500, Jason Ekstrand wrote:
+> Am 11.03.20 um 04:43 schrieb Jason Ekstrand:
+> > Explicit synchronization is the future.  At least, that seems to be wha=
+t
+> > most userspace APIs are agreeing on at this point.  However, most of ou=
+r
+> > Linux APIs (both userspace and kernel UAPI) are currently built around
+> > implicit synchronization with dma-buf.  While work is ongoing to change
+> > many of the userspace APIs and protocols to an explicit synchronization
+> > model, switching over piecemeal is difficult due to the number of
+> > potential components involved.  On the kernel side, many drivers use
+> > dma-buf including GPU (3D/compute), display, v4l, and others.  In
+> > userspace, we have X11, several Wayland compositors, 3D drivers, comput=
+e
+> > drivers (OpenCL etc.), media encode/decode, and the list goes on.
+> >
+> > This patch provides a path forward by allowing userspace to manually
+> > manage the fences attached to a dma-buf.  Alternatively, one can think
+> > of this as making dma-buf's implicit synchronization simply a carrier
+> > for an explicit fence.  This is accomplished by adding two IOCTLs to
+> > dma-buf for importing and exporting a sync file to/from the dma-buf.
+> > This way a userspace component which is uses explicit synchronization,
+> > such as a Vulkan driver, can manually set the write fence on a buffer
+> > before handing it off to an implicitly synchronized component such as a
+> > Wayland compositor or video encoder.  In this way, each of the differen=
+t
+> > components can be upgraded to an explicit synchronization model one at =
+a
+> > time as long as the userspace pieces connecting them are aware of it an=
+d
+> > import/export fences at the right times.
+> >
+> > There is a potential race condition with this API if userspace is not
+> > careful.  A typical use case for implicit synchronization is to wait fo=
+r
+> > the dma-buf to be ready, use it, and then signal it for some other
+> > component.  Because a sync_file cannot be created until it is guarantee=
+d
+> > to complete in finite time, userspace can only signal the dma-buf after
+> > it has already submitted the work which uses it to the kernel and has
+> > received a sync_file back.  There is no way to atomically submit a
+> > wait-use-signal operation.  This is not, however, really a problem with
+> > this API so much as it is a problem with explicit synchronization
+> > itself.  The way this is typically handled is to have very explicit
+> > ownership transfer points in the API or protocol which ensure that only
+> > one component is using it at any given time.  Both X11 (via the PRESENT
+> > extension) and Wayland provide such ownership transfer points via
+> > explicit present and idle messages.
+> >
+> > The decision was intentionally made in this patch to make the import an=
+d
+> > export operations IOCTLs on the dma-buf itself rather than as a DRM
+> > IOCTL.  This makes it the import/export operation universal across all
+> > components which use dma-buf including GPU, display, v4l, and others.
+> > It also means that a userspace component can do the import/export
+> > without access to the DRM fd which may be tricky to get in cases where
+> > the client communicates with DRM via a userspace API such as OpenGL or
+> > Vulkan.  At a future date we may choose to add direct import/export API=
+s
+> > to components such as drm_syncobj to avoid allocating a file descriptor
+> > and going through two ioctls.  However, that seems to be something of a
+> > micro-optimization as import/export operations are likely to happen at =
+a
+> > rate of a few per frame of rendered or decoded video.
+> >
+> > v2 (Jason Ekstrand):
+> >   - Use a wrapper dma_fence_array of all fences including the new one
+> >     when importing an exclusive fence.
+> >
+> > v3 (Jason Ekstrand):
+> >   - Lock around setting shared fences as well as exclusive
+> >   - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
+> >   - Initialize ret to 0 in dma_buf_wait_sync_file
+> >
+> > v4 (Jason Ekstrand):
+> >   - Use the new dma_resv_get_singleton helper
+> >
+> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
+> > ---
+> >   drivers/dma-buf/dma-buf.c    | 96 +++++++++++++++++++++++++++++++++++=
++
+> >   include/uapi/linux/dma-buf.h | 13 ++++-
+> >   2 files changed, 107 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index d4097856c86b..09973c689866 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -20,6 +20,7 @@
+> >   #include <linux/debugfs.h>
+> >   #include <linux/module.h>
+> >   #include <linux/seq_file.h>
+> > +#include <linux/sync_file.h>
+> >   #include <linux/poll.h>
+> >   #include <linux/dma-resv.h>
+> >   #include <linux/mm.h>
+> > @@ -348,6 +349,95 @@ static long dma_buf_set_name(struct dma_buf *dmabu=
+f, const char __user *buf)
+> >       return ret;
+> >   }
+> >
+> > +static long dma_buf_wait_sync_file(struct dma_buf *dmabuf,
+> > +                                const void __user *user_data)
+> > +{
+> > +     struct dma_buf_sync_file arg;
+> > +     struct dma_fence *fence;
+> > +     int ret =3D 0;
+> > +
+> > +     if (copy_from_user(&arg, user_data, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     if (arg.flags !=3D 0 && arg.flags !=3D DMA_BUF_SYNC_FILE_SYNC_WRI=
+TE)
+> > +             return -EINVAL;
+> > +
+> > +     fence =3D sync_file_get_fence(arg.fd);
+> > +     if (!fence)
+> > +             return -EINVAL;
+> > +
+> > +     dma_resv_lock(dmabuf->resv, NULL);
+> > +
+> > +     if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
+> > +             struct dma_fence *singleton =3D NULL;
+> > +             ret =3D dma_resv_get_singleton(dmabuf->resv, fence, &sing=
+leton);
+> > +             if (!ret && singleton)
+> > +                     dma_resv_add_excl_fence(dmabuf->resv, singleton);
+> > +     } else {
+> > +             dma_resv_add_shared_fence(dmabuf->resv, fence);
+> > +     }
 >
-> >  - X11: With present, it has these "explicit" fence objects but
-> > they're always a shmfence which lets the X server and client do a
-> > userspace CPU-side hand-off without going over the socket (and
-> > round-tripping through the kernel).  However, the only thing that
-> > fence does is order the OpenGL API calls in the client and server and
-> > the real synchronization is still implicit.
+> You also need to create a singleton when adding a shared fences.
 >
-> I'm pretty sure "the only thing that fence does" is an implementation
-> detail.
+> The problem is that shared fences must always signal after exclusive
+> ones and you can't guarantee that for the fence you add here.
 
-So I've been told, many times.
+I'm beginning to think that I should just drop the flags and always
+wait on all fences and always take what's currently the "write" path.
+Otherwise, something's going to get it wrong somewhere.  Thoughts?
 
-> PresentPixmap blocks until the wait-fence signals, but when and
-> how it signals are properties of the fence itself. You could have drm
-> give the client back a fence fd, pass that to xserver to create a fence
-> object, and name that in the PresentPixmap request, and then drm can do
-> whatever it wants to signal the fence.
-
-Poking around at things, X11 may not be quite as bad as I thought
-here.  It's not really set up for sync_file for a couple reasons:
-
- 1. It only passes the file descriptor in once at
-xcb_dri3_fence_from_fd rather than re-creating every frame from a new
-sync_file
- 2. It only takes a fence on present and doesn't return one in the
-PRESENT_COMPLETE event
-
-That said, plumbing syncobj in as an extension looks like a real
-possibility.  A syncobj is just a container that holds a pointer to a
-dma_fence and it has roughly the same CPU signal/reset behavior that's
-exposed by the SyncFenceFuncsRec struct.  There's a few things I'm not
-sure how to handle:
-
- 1. The Sync extension has these trigger funcs which get called when
-the fence is signalled.  I'm not sure how to handle that with syncobj
-without a thread polling on them somehow.
- 2. Not all kernel GPU drivers support syncobj; currently it's just
-i915, amdgpu, and maybe freedreno AFAIK.  How do we handle cases such
-as Intel+Nvidia?
- 3. I have no idea what kinds of issues we'd run into with plumbing it
-all through.  Hopefully, X is sufficiently abstracted but I really
-don't know.
-
-Please excuse my trepidation but I've got a bit of PTSD from
-modifiers.  That was the last time I tried to solve a problem with
-someone writing X11 patches and it's been 2-3 years and it's still not
-shipping in distros.  If said syncobj extension suffers the same fate,
-it isn't a real solution.
-
-> > From my perspective, as a Vulkan driver developer, I have to deal with
-> > the fact that Vulkan is an explicit sync API but Wayland and X11
-> > aren't.
->
-> I'm quite sure we can give you an explicit-sync X11 API. I think you
-> may already have one.
-
-It looks like we at least have a bunch of pieces which can probably be
-used to build one.
+Also, Michelle (added to CC) commented on IRC today that amdgpu does
+something with implicit sync fences where it sorts out the fences
+which affect one queue vs. others.  He thought that stuffing fences in
+the dma-buf in this way might cause that to not work.  Thoughts?
 
 --Jason
+
+
+> Regards,
+> Christian.
+>
+> > +
+> > +     dma_resv_unlock(dmabuf->resv);
+> > +
+> > +     dma_fence_put(fence);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static long dma_buf_signal_sync_file(struct dma_buf *dmabuf,
+> > +                                  void __user *user_data)
+> > +{
+> > +     struct dma_buf_sync_file arg;
+> > +     struct dma_fence *fence =3D NULL;
+> > +     struct sync_file *sync_file;
+> > +     int fd, ret;
+> > +
+> > +     if (copy_from_user(&arg, user_data, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     if (arg.flags !=3D 0 && arg.flags !=3D DMA_BUF_SYNC_FILE_SYNC_WRI=
+TE)
+> > +             return -EINVAL;
+> > +
+> > +     fd =3D get_unused_fd_flags(O_CLOEXEC);
+> > +     if (fd < 0)
+> > +             return fd;
+> > +
+> > +     if (arg.flags & DMA_BUF_SYNC_FILE_SYNC_WRITE) {
+> > +             /* We need to include both the exclusive fence and all of
+> > +              * the shared fences in our fence.
+> > +              */
+> > +             ret =3D dma_resv_get_singleton(dmabuf->resv, NULL, &fence=
+);
+> > +             if (ret)
+> > +                     goto err_put_fd;
+> > +     } else {
+> > +             fence =3D dma_resv_get_excl_rcu(dmabuf->resv);
+> > +     }
+> > +
+> > +     if (!fence)
+> > +             fence =3D dma_fence_get_stub();
+> > +
+> > +     sync_file =3D sync_file_create(fence);
+> > +
+> > +     dma_fence_put(fence);
+> > +
+> > +     if (!sync_file) {
+> > +             ret =3D -EINVAL;
+> > +             goto err_put_fd;
+> > +     }
+> > +
+> > +     fd_install(fd, sync_file->file);
+> > +
+> > +     arg.fd =3D fd;
+> > +     if (copy_to_user(user_data, &arg, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     return 0;
+> > +
+> > +err_put_fd:
+> > +     put_unused_fd(fd);
+> > +     return ret;
+> > +}
+> > +
+> >   static long dma_buf_ioctl(struct file *file,
+> >                         unsigned int cmd, unsigned long arg)
+> >   {
+> > @@ -390,6 +480,12 @@ static long dma_buf_ioctl(struct file *file,
+> >       case DMA_BUF_SET_NAME:
+> >               return dma_buf_set_name(dmabuf, (const char __user *)arg)=
+;
+> >
+> > +     case DMA_BUF_IOCTL_WAIT_SYNC_FILE:
+> > +             return dma_buf_wait_sync_file(dmabuf, (const void __user =
+*)arg);
+> > +
+> > +     case DMA_BUF_IOCTL_SIGNAL_SYNC_FILE:
+> > +             return dma_buf_signal_sync_file(dmabuf, (void __user *)ar=
+g);
+> > +
+> >       default:
+> >               return -ENOTTY;
+> >       }
+> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.=
+h
+> > index dbc7092e04b5..86e07acca90c 100644
+> > --- a/include/uapi/linux/dma-buf.h
+> > +++ b/include/uapi/linux/dma-buf.h
+> > @@ -37,8 +37,17 @@ struct dma_buf_sync {
+> >
+> >   #define DMA_BUF_NAME_LEN    32
+> >
+> > +struct dma_buf_sync_file {
+> > +     __u32 flags;
+> > +     __s32 fd;
+> > +};
+> > +
+> > +#define DMA_BUF_SYNC_FILE_SYNC_WRITE (1 << 0)
+> > +
+> >   #define DMA_BUF_BASE                'b'
+> > -#define DMA_BUF_IOCTL_SYNC   _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync=
+)
+> > -#define DMA_BUF_SET_NAME     _IOW(DMA_BUF_BASE, 1, const char *)
+> > +#define DMA_BUF_IOCTL_SYNC       _IOW(DMA_BUF_BASE, 0, struct dma_buf_=
+sync)
+> > +#define DMA_BUF_SET_NAME         _IOW(DMA_BUF_BASE, 1, const char *)
+> > +#define DMA_BUF_IOCTL_WAIT_SYNC_FILE _IOW(DMA_BUF_BASE, 2, struct dma_=
+buf_sync)
+> > +#define DMA_BUF_IOCTL_SIGNAL_SYNC_FILE       _IOWR(DMA_BUF_BASE, 3, st=
+ruct dma_buf_sync)
+> >
+> >   #endif
+>
