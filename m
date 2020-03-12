@@ -2,66 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6C4182FCA
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 13:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A2E2183003
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 13:13:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbgCLMEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 08:04:04 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:35502 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726044AbgCLMEE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 08:04:04 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jCMXI-00Byhj-Sh; Thu, 12 Mar 2020 12:02:00 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jCMal-0001Db-J0; Thu, 12 Mar 2020 12:05:35 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.7] TVP5150 Features and Fixes (#62126)
-Date:   Thu, 12 Mar 2020 12:05:35 +0000
-Message-Id: <20200312120535.4642-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <76233d4e-2085-1a1a-86ad-0799292b419f@xs4all.nl>
-References: 
+        id S1726591AbgCLMNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 08:13:36 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39991 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726395AbgCLMNf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Mar 2020 08:13:35 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id CMiQjwwHGhVf8CMiTjMQcI; Thu, 12 Mar 2020 13:13:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584015214; bh=iMMmpzaewMqTxlsvphdwNMzOi9JXO7q1yCjLBDHnGkQ=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=l1ZMD6CqwSYj7ccbVX0H3Tv+ayIzlPfRHvfw1tLsbtf+zOOWV0fFMnxzu+azImVWv
+         yYZQh4q9vX4C0VY9PJA3rN/vNTuBi/6AdPUV8Otv1DgGRHazPfbvBJ/4M1NfFC3v7l
+         Dvg9fnvRGox7LnMjkOGBlvcxwVQZgv/Jj7ZX83WDcj3uvN187f5E6VzJPQ6z7evZqc
+         Z82G5hb3d5l3tkPnboL6yKWtWi9SROW6+PkkwYyIJBZ61bTsasiIOdbWpVr3BEJRat
+         OgdyrxdGGI++Axr9dzFDD9bKRxzaGOjOik0AC45FkTiVrA50KcLt7v/ijsztYdeoa4
+         K/AvTx7mTShyg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Johan Hovold <johan@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.7] Various fixes
+Message-ID: <b8db3a3f-33d4-99d3-f03f-25b968ba1907@xs4all.nl>
+Date:   Thu, 12 Mar 2020 13:13:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDk8mHGazj8sYRp4EbkmAgASR6oA0TLbn9XfiFBgRl0Ib5ZHMcqWyvY1QYv/NHGYA9Z2bnz55vhBfjboYpm4LQdRGoc41fZNuj/BsQ3hFKdcdPJPDJZq
+ Z7Rj2hbw5zcTGiFwRZBJoIvmnfyEBZAPBCdCPfLgoHO4SsGYDjoSE18tDre0YZSdx0cMEK03sqpsYVdSauUYuHe2HTYcopP2WjY=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+The following changes since commit eceeea5481d4eeb6073e8ccb2f229bb0dd14a44d:
 
-Pull request: https://patchwork.linuxtv.org/patch/62126/
-Build log: https://builder.linuxtv.org/job/patchwork/41969/
-Build time: 00:25:25
-Link: https://lore.kernel.org/linux-media/76233d4e-2085-1a1a-86ad-0799292b419f@xs4all.nl
+  media: lmedm04: remove redundant assignment to variable gate (2020-03-12 09:47:33 +0100)
 
-gpg: Signature made Thu 12 Mar 2020 11:26:54 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+are available in the Git repository at:
 
-Summary: 3 patches and/or PDF generation with issues, being 0 at build time
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7i
 
-Error/warnings:
+for you to fetch changes up to 7b03d504269160d7fe68724b970a74b658c150fa:
 
+  media: mtk-mdp: Check return value of of_clk_get (2020-03-12 12:48:29 +0100)
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-dt-bindings-display-add-sdtv-standards-defines.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-dt-bindings-display-add-sdtv-standards-defines.patch
-patches/0002-dt-bindings-display-add-sdtv-standards-defines.patch:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+----------------------------------------------------------------
+Tag branch
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-partial-revert-of-media-tvp5150-add-HW-input-connect.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-partial-revert-of-media-tvp5150-add-HW-input-connect.patch
-patches/0009-partial-revert-of-media-tvp5150-add-HW-input-connect.patch:237: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.txt
+----------------------------------------------------------------
+Alexandre Courbot (1):
+      media: videobuf2-core: fix dprintk level
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-media-tvp5150-fix-set_selection-rectangle-handling.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-media-tvp5150-fix-set_selection-rectangle-handling.patch
-patches/0012-media-tvp5150-fix-set_selection-rectangle-handling.patch:57: WARNING: line over 80 characters
+Etienne Carriere (2):
+      media: platform: stm32: defer probe for auxiliary clock
+      media: platform: stm32: don't print an error on probe deferral
 
+Johan Hovold (3):
+      media: ov519: add missing endpoint sanity checks
+      media: stv06xx: add missing descriptor sanity checks
+      media: xirlink_cit: add missing descriptor sanity checks
+
+Matthias Brugger (1):
+      media: mtk-mdp: Check return value of of_clk_get
+
+Ricardo Ribalda Delgado (1):
+      imx214: Remove redundant code
+
+Sebastian Gross (1):
+      media: i2c: s5c73m3: Fix number in auto focus cluster
+
+ drivers/media/common/videobuf2/videobuf2-core.c  |  4 ++--
+ drivers/media/i2c/imx214.c                       |  1 -
+ drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c        |  2 +-
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c    |  6 ++++++
+ drivers/media/platform/stm32/stm32-cec.c         | 10 ++++++++--
+ drivers/media/usb/gspca/ov519.c                  | 10 ++++++++++
+ drivers/media/usb/gspca/stv06xx/stv06xx.c        | 19 ++++++++++++++++++-
+ drivers/media/usb/gspca/stv06xx/stv06xx_pb0100.c |  4 ++++
+ drivers/media/usb/gspca/xirlink_cit.c            | 18 +++++++++++++++++-
+ 9 files changed, 66 insertions(+), 8 deletions(-)
