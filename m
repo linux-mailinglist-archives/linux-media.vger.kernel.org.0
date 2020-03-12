@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0D95182DC9
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 11:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC04182DCA
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 11:32:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgCLKcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 06:32:41 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42729 "EHLO
+        id S1726998AbgCLKck (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 06:32:40 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:41053 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726893AbgCLKc1 (ORCPT
+        with ESMTP id S1726913AbgCLKc1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 12 Mar 2020 06:32:27 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1jCL8T-0002xo-Au; Thu, 12 Mar 2020 11:32:17 +0100
+        id 1jCL8T-0002xp-At; Thu, 12 Mar 2020 11:32:17 +0100
 Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1jCL8R-0001Jv-By; Thu, 12 Mar 2020 11:32:15 +0100
+        id 1jCL8R-0001Jy-CL; Thu, 12 Mar 2020 11:32:15 +0100
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
         robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
         linux-media@vger.kernel.org
-Subject: [PATCH v13 03/21] media: v4l: link dt-bindings and uapi
-Date:   Thu, 12 Mar 2020 11:31:38 +0100
-Message-Id: <20200312103156.3178-4-m.felsch@pengutronix.de>
+Subject: [PATCH v13 04/21] media: v4l2-fwnode: fix v4l2_fwnode_parse_link handling
+Date:   Thu, 12 Mar 2020 11:31:39 +0100
+Message-Id: <20200312103156.3178-5-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200312103156.3178-1-m.felsch@pengutronix.de>
 References: <20200312103156.3178-1-m.felsch@pengutronix.de>
@@ -43,38 +43,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since we expose the definition to the dt-bindings we need to keep those
-definitions in sync. To address this the patch adds a simple cross
-reference to the dt-bindings.
+Currently the driver differentiate the port number property handling for
+ACPI and DT. This is wrong as because ACPI should use the "reg" val too
+[1].
 
+[1] https://patchwork.kernel.org/patch/11421985/
+
+Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Changelog:
+ drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v11:
-- new patch since the split https://patchwork.linuxtv.org/patch/58491/
-
-v2-v10:
-- nothing
-
- include/uapi/linux/videodev2.h | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 5f9357dcb060..f48e47e230c3 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1242,6 +1242,10 @@ struct v4l2_selection {
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 6ece4320e1d2..d56eee9c09b8 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -560,7 +560,7 @@ EXPORT_SYMBOL_GPL(v4l2_fwnode_endpoint_alloc_parse);
+ int v4l2_fwnode_parse_link(struct fwnode_handle *__fwnode,
+ 			   struct v4l2_fwnode_link *link)
+ {
+-	const char *port_prop = is_of_node(__fwnode) ? "reg" : "port";
++	const char *port_prop = "reg";
+ 	struct fwnode_handle *fwnode;
  
- typedef __u64 v4l2_std_id;
- 
-+/*
-+ * Attention: Keep the V4L2_STD_* bit definitions in sync with
-+ * include/dt-bindings/display/sdtv-standards.h SDTV_STD_* bit definitions.
-+ */
- /* one bit for each */
- #define V4L2_STD_PAL_B          ((v4l2_std_id)0x00000001)
- #define V4L2_STD_PAL_B1         ((v4l2_std_id)0x00000002)
+ 	memset(link, 0, sizeof(*link));
 -- 
 2.20.1
 
