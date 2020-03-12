@@ -2,122 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17F32182BD5
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 10:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23CC0182C4D
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 10:22:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbgCLJEJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 12 Mar 2020 05:04:09 -0400
-Received: from plasma4.jpberlin.de ([80.241.57.33]:39081 "EHLO
-        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726000AbgCLJEI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 05:04:08 -0400
-Received: from hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
-        by plasma.jpberlin.de (Postfix) with ESMTP id 5D23FBDBE9;
-        Thu, 12 Mar 2020 10:04:03 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([91.198.250.140])
-        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
-        with ESMTP id Rqa_x91R7uHK; Thu, 12 Mar 2020 10:03:59 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id C879CBDA56;
-        Thu, 12 Mar 2020 10:03:58 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 12 Mar
- 2020 10:03:58 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     <linux-media@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
-CC:     <virtio-dev@lists.oasis-open.org>, <acourbot@chromium.org>,
-        <alexlau@chromium.org>, <daniel@ffwll.ch>, <dgreid@chromium.org>,
-        <dstaessens@chromium.org>, <egranata@google.com>,
-        <fziglio@redhat.com>, <keiichiw@chromium.org>, <kraxel@redhat.com>,
-        <marcheu@chromium.org>, <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>, <stevensd@chromium.org>,
-        <tfiga@chromium.org>, <uril@redhat.com>,
-        <samiullah.khawaja@opensynergy.com>, <kiran.pawar@opensynergy.com>
-Subject: Re: [PATCH v2 0/1] Virtio Video V4L2 driver
-Date:   Thu, 12 Mar 2020 10:03:58 +0100
-Message-ID: <3182728.aeNJFYEL58@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <c4d7622b-e396-3920-0e14-5a73a0225c0f@xs4all.nl>
-References: <20200218202753.652093-1-dmitry.sepp@opensynergy.com> <c4d7622b-e396-3920-0e14-5a73a0225c0f@xs4all.nl>
+        id S1726712AbgCLJWr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 05:22:47 -0400
+Received: from gofer.mess.org ([88.97.38.141]:44079 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726099AbgCLJWq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Mar 2020 05:22:46 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 55FDFC6366; Thu, 12 Mar 2020 09:22:45 +0000 (GMT)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Cc:     Phong Tran <tranmanphong@gmail.com>
+Subject: [PATCH] media: dvb: digitv: remove unused array element 0
+Date:   Thu, 12 Mar 2020 09:22:45 +0000
+Message-Id: <20200312092245.4471-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
-X-Originating-IP: [10.25.255.1]
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+The first element of the key array is not used. Remove it, and
+along with it a uninitialized memory read.
 
-Thanks for reviewing.
+This should fix the rc debug message.
 
-Sure, we understand the driver must pass v4l2-compliance. But the spec is not 
-finalized yet, so it was a bit out of the scope.
+Link: https://www.spinics.net/lists/kernel/msg3374861.html
 
-Best regards,
-Dmitry.
+Suggested-by: Phong Tran <tranmanphong@gmail.com>
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/usb/dvb-usb/digitv.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-On Mittwoch, 11. März 2020 14:26:46 CET Hans Verkuil wrote:
-> Hi Dmitry,
-> 
-> On 2/18/20 9:27 PM, Dmitry Sepp wrote:
-> > Hi all,
-> > 
-> > This is a v4l2 virtio video driver for the virtio-video device
-> > specification v3 [1].
-> > 
-> > The first version of the driver was introduced here [2].
-> > 
-> > Changes v1 -> v2:
-> > * support the v3 spec (mostly)
-> > * add a module parameter to ask for pages from ZONE_DMA
-> > 
-> > What is not implemented:
-> > * Plane layout flags should be used to propagate number of planes to
-> > 
-> >   user-space
-> > 
-> > * There is no real use of stream creation with bitstream format in the
-> > 
-> >   parameter list. The driver just uses the first bitstream format from
-> >   the list.
-> > 
-> > * Setting bitrate is done in a different way compared to the spec. This
-> > 
-> >   is because it has been already agreed on that the way the spec
-> >   currently describes it requires changes.
-> > 
-> > Potential improvements:
-> > * Do not send stream_create from open. Use corresponding state machine
-> > 
-> >   condition to do this.
-> > 
-> > * Do not send stream_destroy from close. Do it in reqbufs(0).
-> > * Cache format and control settings. Reduce calls to the device.
-> 
-> Some general notes:
-> 
-> Before this can be merged it needs to pass v4l2-compliance.
-> 
-> I also strongly recommend adding support for V4L2_PIX_FMT_FWHT to
-> allow testing with the vicodec emulation driver. This will also
-> allow testing all sorts of corner cases without requiring special
-> hardware.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > Best regards,
-> > Dmitry.
-> > 
-> > [1] https://markmail.org/message/dmw3pr4fuajvarth
-> > [2] https://markmail.org/message/wnnv6r6myvgb5at6
-
+diff --git a/drivers/media/usb/dvb-usb/digitv.c b/drivers/media/usb/dvb-usb/digitv.c
+index 99a39339d45d..8ae259693900 100644
+--- a/drivers/media/usb/dvb-usb/digitv.c
++++ b/drivers/media/usb/dvb-usb/digitv.c
+@@ -231,13 +231,13 @@ static struct rc_map_table rc_map_digitv_table[] = {
+ static int digitv_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
+ {
+ 	int ret, i;
+-	u8 key[5];
++	u8 key[4];
+ 	u8 b[4] = { 0 };
+ 
+ 	*event = 0;
+ 	*state = REMOTE_NO_KEY_PRESSED;
+ 
+-	ret = digitv_ctrl_msg(d, USB_READ_REMOTE, 0, NULL, 0, &key[1], 4);
++	ret = digitv_ctrl_msg(d, USB_READ_REMOTE, 0, NULL, 0, key, 4);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -248,20 +248,20 @@ static int digitv_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
+ 		return ret;
+ 
+ 	/* if something is inside the buffer, simulate key press */
+-	if (key[1] != 0)
++	if (key[0] != 0)
+ 	{
+ 		  for (i = 0; i < d->props.rc.legacy.rc_map_size; i++) {
+-			if (rc5_custom(&d->props.rc.legacy.rc_map_table[i]) == key[1] &&
+-			    rc5_data(&d->props.rc.legacy.rc_map_table[i]) == key[2]) {
++			if (rc5_custom(&d->props.rc.legacy.rc_map_table[i]) == key[0] &&
++			    rc5_data(&d->props.rc.legacy.rc_map_table[i]) == key[1]) {
+ 				*event = d->props.rc.legacy.rc_map_table[i].keycode;
+ 				*state = REMOTE_KEY_PRESSED;
+ 				return 0;
+ 			}
+ 		}
++
++		deb_rc("key: %*ph\n", 4, key);
+ 	}
+ 
+-	if (key[0] != 0)
+-		deb_rc("key: %*ph\n", 5, key);
+ 	return 0;
+ }
+ 
+-- 
+2.24.1
 
