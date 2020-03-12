@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC03183D85
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 00:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EB99183D86
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 00:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbgCLXrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 19:47:33 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34476 "EHLO
+        id S1726917AbgCLXrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 19:47:35 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34486 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726895AbgCLXrd (ORCPT
+        with ESMTP id S1726895AbgCLXre (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 19:47:33 -0400
+        Thu, 12 Mar 2020 19:47:34 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 997BF9D3;
-        Fri, 13 Mar 2020 00:47:31 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 543B1134B;
+        Fri, 13 Mar 2020 00:47:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584056851;
-        bh=UzT+v5dwZBcwRhmNAMgXcxWbGGSJfc5xgwDIE5BUElA=;
+        s=mail; t=1584056852;
+        bh=zF47wBqlDAv+1UOCTn/dpU2OibiCIwXx91pnbMpoBPo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GxRiSaHJTrq4o04QD0rmii0mEqrzelO2O9CjvX7dIAhLOrIqRN/IqHcfshXzEYhgp
-         +s5Ouutm5BIyp/pX1obBLl/AYoQ2tZYO5zfOq5i8OcSvLiVrfaSYM0JTO4ggPm+4aK
-         gYshqhe+yUWPZwNfIK2uVZ5JRfy/21t+SF+CtW6E=
+        b=JvremsbTxrZHoz6quW/yq65UitlfdwCzSRtztC3oI7H89/rJXKbLE9hLYKD7R191+
+         8b1sS7Otb9oBkGHtm06aCf7Mwq7oamLdmIs7loyi2mp5vtzHXj2DqKVN0i4m/sRsvx
+         SQpEp4EnH/k1kvbBaNHaVuuLsrNa0dc/9d/f5iSE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH 01/14] media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
-Date:   Fri, 13 Mar 2020 01:47:09 +0200
-Message-Id: <20200312234722.23483-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 02/14] media: imx: imx7-mipi-csis: Centralize initialization of pad formats
+Date:   Fri, 13 Mar 2020 01:47:10 +0200
+Message-Id: <20200312234722.23483-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200312234722.23483-1-laurent.pinchart@ideasonboard.com>
 References: <20200312234722.23483-1-laurent.pinchart@ideasonboard.com>
@@ -40,155 +40,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The subdev set pad format operation currently misbehaves in multiple ways:
-
-- mipi_csis_try_format() unconditionally stores the format in the device
-  state, even for V4L2_SUBDEV_FORMAT_TRY.
-
-- The format is never stored in the pad cfg, but the pad cfg format
-  always overwrites the format requested by the user.
-
-- The sink format is not propagated to the source.
-
-Fix all this by reworking the set format operation as follows:
-
-1. For the source pad, turn set() into get() as the source format is not
-   modifiable.
-2. Validate the requested format and updated the stored format
-   accordingly.
-3. Return the format actually set.
-4. Propagate the format from sink to source.
+Pad formats for the active configuration are manually initialized in
+mipi_csis_subdev_init(), while pad formats for the TRY configurations
+are initialized by the subdev .init_cfg() operation. This creates a risk
+of the two configurations not being synchronized. Fix it by initializing
+formats in the .init_cfg() operation only, and calling it from
+mipi_csis_subdev_init().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 82 ++++++++++------------
- 1 file changed, 37 insertions(+), 45 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 56 ++++++++++++----------
+ 1 file changed, 32 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index de17a1d22873..25017ab78095 100644
+index 25017ab78095..52d59047ee36 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -669,28 +669,6 @@ static int mipi_csis_init_cfg(struct v4l2_subdev *mipi_sd,
- 	return 0;
+@@ -649,26 +649,6 @@ static int mipi_csis_link_setup(struct media_entity *entity,
+ 	return ret;
  }
  
--static struct csis_pix_format const *
--mipi_csis_try_format(struct v4l2_subdev *mipi_sd, struct v4l2_mbus_framefmt *mf)
+-static int mipi_csis_init_cfg(struct v4l2_subdev *mipi_sd,
+-			      struct v4l2_subdev_pad_config *cfg)
 -{
--	struct csi_state *state = mipi_sd_to_csis_state(mipi_sd);
--	struct csis_pix_format const *csis_fmt;
+-	struct v4l2_mbus_framefmt *mf;
+-	unsigned int i;
+-	int ret;
 -
--	csis_fmt = find_csis_format(mf->code);
--	if (!csis_fmt)
--		csis_fmt = &mipi_csis_formats[0];
+-	for (i = 0; i < CSIS_PADS_NUM; i++) {
+-		mf = v4l2_subdev_get_try_format(mipi_sd, cfg, i);
 -
--	v4l_bound_align_image(&mf->width, 1, CSIS_MAX_PIX_WIDTH,
--			      csis_fmt->pix_width_alignment,
--			      &mf->height, 1, CSIS_MAX_PIX_HEIGHT, 1,
--			      0);
+-		ret = imx_media_init_mbus_fmt(mf, MIPI_CSIS_DEF_PIX_HEIGHT,
+-					      MIPI_CSIS_DEF_PIX_WIDTH, 0,
+-					      V4L2_FIELD_NONE, NULL);
+-		if (ret < 0)
+-			return ret;
+-	}
 -
--	state->format_mbus.code = csis_fmt->code;
--	state->format_mbus.width = mf->width;
--	state->format_mbus.height = mf->height;
--
--	return csis_fmt;
+-	return 0;
 -}
 -
  static struct v4l2_mbus_framefmt *
  mipi_csis_get_format(struct csi_state *state,
  		     struct v4l2_subdev_pad_config *cfg,
-@@ -703,53 +681,67 @@ mipi_csis_get_format(struct csi_state *state,
+@@ -681,6 +661,37 @@ mipi_csis_get_format(struct csi_state *state,
  	return &state->format_mbus;
  }
  
--static int mipi_csis_set_fmt(struct v4l2_subdev *mipi_sd,
-+static int mipi_csis_get_fmt(struct v4l2_subdev *mipi_sd,
- 			     struct v4l2_subdev_pad_config *cfg,
- 			     struct v4l2_subdev_format *sdformat)
- {
- 	struct csi_state *state = mipi_sd_to_csis_state(mipi_sd);
--	struct csis_pix_format const *csis_fmt;
- 	struct v4l2_mbus_framefmt *fmt;
- 
--	if (sdformat->pad >= CSIS_PADS_NUM)
--		return -EINVAL;
--
--	fmt = mipi_csis_get_format(state, cfg, sdformat->which, sdformat->pad);
--
- 	mutex_lock(&state->lock);
--	if (sdformat->pad == CSIS_PAD_SOURCE) {
--		sdformat->format = *fmt;
--		goto unlock;
--	}
--
--	csis_fmt = mipi_csis_try_format(mipi_sd, &sdformat->format);
--
-+	fmt = mipi_csis_get_format(state, cfg, sdformat->which, sdformat->pad);
- 	sdformat->format = *fmt;
--
--	if (csis_fmt && sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
--		state->csis_fmt = csis_fmt;
--	else
--		cfg->try_fmt = sdformat->format;
--
--unlock:
- 	mutex_unlock(&state->lock);
- 
- 	return 0;
- }
- 
--static int mipi_csis_get_fmt(struct v4l2_subdev *mipi_sd,
-+static int mipi_csis_set_fmt(struct v4l2_subdev *mipi_sd,
- 			     struct v4l2_subdev_pad_config *cfg,
- 			     struct v4l2_subdev_format *sdformat)
- {
- 	struct csi_state *state = mipi_sd_to_csis_state(mipi_sd);
-+	struct csis_pix_format const *csis_fmt;
- 	struct v4l2_mbus_framefmt *fmt;
- 
--	mutex_lock(&state->lock);
++static int mipi_csis_init_cfg(struct v4l2_subdev *mipi_sd,
++			      struct v4l2_subdev_pad_config *cfg)
++{
++	struct csi_state *state = mipi_sd_to_csis_state(mipi_sd);
++	struct v4l2_mbus_framefmt *fmt_sink;
++	struct v4l2_mbus_framefmt *fmt_source;
++	enum v4l2_subdev_format_whence which;
++	int ret;
++
++	which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
++	fmt_sink = mipi_csis_get_format(state, cfg, which, CSIS_PAD_SINK);
++	ret = imx_media_init_mbus_fmt(fmt_sink, MIPI_CSIS_DEF_PIX_WIDTH,
++				      MIPI_CSIS_DEF_PIX_HEIGHT, 0,
++				      V4L2_FIELD_NONE, NULL);
++	if (ret < 0)
++		return ret;
++
 +	/*
-+	 * The CSIS can't transcode in any way, the source format can't be
-+	 * modified.
++	 * When called from mipi_csis_subdev_init() to initialize the active
++	 * configuration, cfg is NULL, which indicates there's no source pad
++	 * configuration to set.
 +	 */
-+	if (sdformat->pad == CSIS_PAD_SOURCE)
-+		return mipi_csis_get_fmt(mipi_sd, cfg, sdformat);
++	if (!cfg)
++		return 0;
 +
-+	if (sdformat->pad != CSIS_PAD_SINK)
-+		return -EINVAL;
++	fmt_source = mipi_csis_get_format(state, cfg, which, CSIS_PAD_SOURCE);
++	*fmt_source = *fmt_sink;
++
++	return 0;
++}
++
+ static int mipi_csis_get_fmt(struct v4l2_subdev *mipi_sd,
+ 			     struct v4l2_subdev_pad_config *cfg,
+ 			     struct v4l2_subdev_format *sdformat)
+@@ -875,10 +886,7 @@ static int mipi_csis_subdev_init(struct v4l2_subdev *mipi_sd,
+ 	mipi_sd->dev = &pdev->dev;
  
- 	fmt = mipi_csis_get_format(state, cfg, sdformat->which, sdformat->pad);
+ 	state->csis_fmt = &mipi_csis_formats[0];
+-	state->format_mbus.code = mipi_csis_formats[0].code;
+-	state->format_mbus.width = MIPI_CSIS_DEF_PIX_WIDTH;
+-	state->format_mbus.height = MIPI_CSIS_DEF_PIX_HEIGHT;
+-	state->format_mbus.field = V4L2_FIELD_NONE;
++	mipi_csis_init_cfg(mipi_sd, NULL);
  
-+	mutex_lock(&state->lock);
-+
-+	/* Validate the media bus code and clamp the size. */
-+	csis_fmt = find_csis_format(sdformat->format.code);
-+	if (!csis_fmt)
-+		csis_fmt = &mipi_csis_formats[0];
-+
-+	fmt->code = csis_fmt->code;
-+	fmt->width = sdformat->format.width;
-+	fmt->height = sdformat->format.height;
-+
-+	v4l_bound_align_image(&fmt->width, 1, CSIS_MAX_PIX_WIDTH,
-+			      csis_fmt->pix_width_alignment,
-+			      &fmt->height, 1, CSIS_MAX_PIX_HEIGHT, 1, 0);
-+
- 	sdformat->format = *fmt;
+ 	v4l2_set_subdevdata(mipi_sd, &pdev->dev);
  
-+	/* Propagate the format from sink to source. */
-+	fmt = mipi_csis_get_format(state, cfg, sdformat->which,
-+				   CSIS_PAD_SOURCE);
-+	*fmt = sdformat->format;
-+
-+	/* Store the CSIS format descriptor for active formats. */
-+	if (sdformat->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		state->csis_fmt = csis_fmt;
-+
- 	mutex_unlock(&state->lock);
- 
- 	return 0;
 -- 
 Regards,
 
