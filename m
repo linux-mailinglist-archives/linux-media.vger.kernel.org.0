@@ -2,127 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E2F118354D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 16:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B9B4183552
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 16:46:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbgCLPpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 11:45:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52870 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727729AbgCLPpf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:45:35 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 553672067C;
-        Thu, 12 Mar 2020 15:45:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584027935;
-        bh=OUpt6j7Pzh/svOdSmDhS9hkfvYHoOfsbbS3pYuOL7p0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=k79YPItDcJV5gYVHF7rLcIQpCgeW3Em0KKcTnHDl5C6mLP6642ob/8QRl0m6qurMy
-         DawIg0VflX/ffwMTKXPMN/mCOwnWRDPe1s7czTanp/MNCBd4Owts7JSRQJS0P4iTGW
-         Rw2k249Wwg08ChF2wMYdBHgD//gn210L2fEgghMs=
-Date:   Thu, 12 Mar 2020 16:45:30 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [GIT PULL FOR v5.7] TVP5150 Features and Fixes
-Message-ID: <20200312164530.101bd31c@coco.lan>
-In-Reply-To: <76233d4e-2085-1a1a-86ad-0799292b419f@xs4all.nl>
-References: <76233d4e-2085-1a1a-86ad-0799292b419f@xs4all.nl>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727902AbgCLPqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 11:46:35 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43992 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727526AbgCLPqf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Mar 2020 11:46:35 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 7DD0A296A72
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH v2 0/2] fix fwnode API usage and remove v4l2_mbus_config field
+Date:   Thu, 12 Mar 2020 16:46:02 +0100
+Message-Id: <20200312154604.24996-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 12 Mar 2020 12:29:07 +0100
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+This patchset fixes usage of the APIs.
+This fixes the item in the TODO file:
 
-> This finally landed!
+* Don't use v4l2_async_notifier_parse_fwnode_endpoints_by_port().
+e.g. isp_parse_of_endpoints in drivers/media/platform/omap3isp/isp.c
+cio2_parse_firmware in drivers/media/pci/intel/ipu3/ipu3-cio2.c.
 
-Congrats!
+Patches summary:
 
-This was waiting for a really long time to be matured. So, I went ahead and
-reviewed/applied the patches today.
+- The first patch removes the field v4l2_mbus_config from
+'struct rkisp1_sensor_async'.
 
-PS.: I'm currently unable to test it with my tvp5150 devices.
+- The second patch removes the usage of
+v4l2_async_notifier_parse_fwnode_endpoints_by_port.
+The code is very similar to the code in the function cio2_parse_firmware
+but instead of iterating the ports it iterates the id's.
+The patch also removes the relevant item from the TODO file.
 
-One minor issue: the DT bindings are still using the .txt format. 
+changes since v1:
+- patch 2 - in the function rkisp1_subdev_notifier:
+1. move the test 'if (next_id == 0)' outside of the while loop
+2. remove the 'end' label.
+The changes are due to Helen Koike's comments
 
-Marco,
+Dafna Hirschfeld (2):
+  media: staging: rkisp1: remove mbus field from rkisp1_sensor_async
+  media: staging: rkisp1: replace the call to
+    v4l2_async_notifier_parse_fwnode_endpoints_by_port
 
-Could you please send us a followup patch converting it to the new
-yaml format?
+ drivers/staging/media/rkisp1/TODO            |   3 -
+ drivers/staging/media/rkisp1/rkisp1-common.h |   3 +-
+ drivers/staging/media/rkisp1/rkisp1-dev.c    | 106 ++++++++++---------
+ drivers/staging/media/rkisp1/rkisp1-isp.c    |  52 +++------
+ 4 files changed, 74 insertions(+), 90 deletions(-)
 
-Thanks,
-Mauro
+-- 
+2.17.1
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit eceeea5481d4eeb6073e8ccb2f229bb0dd14a44d:
-> 
->   media: lmedm04: remove redundant assignment to variable gate (2020-03-12 09:47:33 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7g
-> 
-> for you to fetch changes up to 16ea6c19e137314b760241625437bafb97fb31e4:
-> 
->   media: tvp5150: make debug output more readable (2020-03-12 11:55:00 +0100)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Javier Martinez Canillas (1):
->       partial revert of "[media] tvp5150: add HW input connectors support"
-> 
-> Marco Felsch (19):
->       dt-bindings: connector: analog: add sdtv standards property
->       dt-bindings: display: add sdtv-standards defines
->       media: v4l: link dt-bindings and uapi
->       media: v4l2-fwnode: fix v4l2_fwnode_parse_link handling
->       media: v4l2-fwnode: simplify v4l2_fwnode_parse_link
->       media: v4l2-fwnode: add endpoint id field to v4l2_fwnode_link
->       media: v4l2-fwnode: add v4l2_fwnode_connector
->       media: v4l2-fwnode: add initial connector parsing support
->       media: tvp5150: add input source selection of_graph support
->       media: dt-bindings: tvp5150: Add input port connectors DT bindings
->       media: tvp5150: fix set_selection rectangle handling
->       media: tvp5150: add FORMAT_TRY support for get/set selection handlers
->       media: tvp5150: move irq en-/disable into runtime-pm ops
->       media: tvp5150: add v4l2-event support
->       media: tvp5150: add subdev open/close callbacks
->       media: dt-bindings: tvp5150: cleanup bindings stlye
->       media: dt-bindings: tvp5150: add optional sdtv standards documentation
->       media: tvp5150: add support to limit sdtv standards
->       media: tvp5150: make debug output more readable
-> 
-> Michael Tretter (1):
->       media: tvp5150: initialize subdev before parsing device tree
-> 
->  Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt |   6 +
->  Documentation/devicetree/bindings/media/i2c/tvp5150.txt                     | 146 ++++++++--
->  drivers/media/i2c/tvp5150.c                                                 | 802 +++++++++++++++++++++++++++++++++++++++++------------
->  drivers/media/v4l2-core/v4l2-fwnode.c                                       | 192 +++++++++++--
->  include/dt-bindings/display/sdtv-standards.h                                |  76 +++++
->  include/dt-bindings/media/tvp5150.h                                         |   2 -
->  include/media/v4l2-fwnode.h                                                 | 143 ++++++++++
->  include/uapi/linux/videodev2.h                                              |   4 +
->  8 files changed, 1156 insertions(+), 215 deletions(-)
->  create mode 100644 include/dt-bindings/display/sdtv-standards.h
-
-
-
-Thanks,
-Mauro
