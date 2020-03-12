@@ -2,134 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99731182662
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 01:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30A221827D1
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 05:35:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387486AbgCLAzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Mar 2020 20:55:49 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39175 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387404AbgCLAzt (ORCPT
+        id S1726534AbgCLEfE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 00:35:04 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33935 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725978AbgCLEfE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Mar 2020 20:55:49 -0400
-Received: by mail-pf1-f196.google.com with SMTP id w65so2322410pfb.6
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2020 17:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=HQdjkKpBz7yEFg2fY92kWUE8JymTANsWv8RztaIPcIM=;
-        b=FHLtJ2t3rSxY5RoqL24Db8KwTm38P69ofz4hDkiunbhIgaD2qzWm6WAjQo5QvlDDpV
-         w0DKadbM08nShzZHvFFxZfjRbP/nObaConPEnY0GfuU135qiZJS6zvnHtDKcpUGCla0Y
-         MKdPq1MFwRmQ2WytmtcIOxY/mvP/HEwnPSqLtoBP7Qut37fN6yPcQ2/i5ZobYb//+nY2
-         YeO5e5yi6U6Trsvm8I/ISzCDo883k0Q75EaAAbxHh/0Vk2S3b0ptzX284CUpgnlILdsr
-         SBDAzNzKFdeynt+Y0W3au31FhE+RUhEZZdCaRx8pIRJ4KBw49/H0CzCszmB6y/qCPa4r
-         RRiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=HQdjkKpBz7yEFg2fY92kWUE8JymTANsWv8RztaIPcIM=;
-        b=Ue3AHSR95OTYN8kR/VKPny1plnhUurCyItJrMGdgvpaYyDLWgS3tN+XqxRnBTX+G7t
-         EhMJtVVu7ensq0/xI5u8FLIrV1dedVMSPEyFhZVdzpqbvFHclBkH6LKFkdbnoM6qXQtd
-         d/DKOhioqdj44AG72i1iVknnAMEkapFaEpkPqN9gDqVGHxArR8QjyKF1TigAea+xWP5n
-         +mkxAw7SbkIKPp/O63y9LehOhQdqgM2xnw1A7+43gCgUleE/upS8DcmYJ2Y3QKvKL+t3
-         iScipCVK968GP1Lm2D3p9d1P1dBWxhnu9z3qqe7DMfDvugDSQMxO5p1JuWrOwpfHzImh
-         Cd/w==
-X-Gm-Message-State: ANhLgQ2xtD8mN0yG9q6snipaf4fKxcc+gy0mbB5ubYUscWTVvZBu+l/6
-        1TTHLXIw5sPgWuBjj4POdtM=
-X-Google-Smtp-Source: ADFU+vsJo//0jAuPFYADX6OP8i4N3OMIywJ9YALbo9Jc+SRL6+Kmwia933v/e8lEQmdJV0Gzim4j7g==
-X-Received: by 2002:a63:e141:: with SMTP id h1mr5030313pgk.129.1583974547638;
-        Wed, 11 Mar 2020 17:55:47 -0700 (PDT)
-Received: from ?IPv6:2605:e000:d445:6a00:bd03:a881:a59:15cb? ([2605:e000:d445:6a00:bd03:a881:a59:15cb])
-        by smtp.gmail.com with ESMTPSA id 129sm46322500pgf.10.2020.03.11.17.55.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Mar 2020 17:55:47 -0700 (PDT)
-Subject: Re: [PATCH 0/8] media: imx: Miscalleanous format-related cleanups
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-References: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
- <5b773016-8a71-9739-237d-69c0dc8bd349@gmail.com>
- <20200312004735.GG1639@pendragon.ideasonboard.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <73211643-9b87-4d66-6b3c-83803a76366b@gmail.com>
-Date:   Wed, 11 Mar 2020 17:55:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200312004735.GG1639@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        Thu, 12 Mar 2020 00:35:04 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:1080:1de7:9d9d:9a5f])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id CFYijWFfZ9Im2CFYjji7a9; Thu, 12 Mar 2020 05:35:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583987701; bh=pHLzvSEmMPn79/0DdrH8Xj76WJ+wi4uFg1QC7v4V2yY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=OuWSH/0cl/js8UkskxmU6jFP3TivbPi/Sqj83hkojXrnW4nqi8UO7/RR3Kpqthezw
+         OcrEBI6T2TlrKMqXjcrVLa7Fdp96cCcEx9QwyYetU55mbMcE7O1p6VJ9iF9qRagjUC
+         6K/IcqsgAZwmc7Csbqp4AmozaT5YYVQ4gIx68ZhrJyCMic76zICqxU4CVOdK1ESmFL
+         3VilFQLG6UvScKa7oocMgOlHOQoP6z/EuSZW0DYz0cIWpnLo27hMQPRL2pDTW8R9eP
+         9XEDZSJ9IjIL+tqJnPa2Sp217vKpfbjq1qeadxBhdBvd0zjja6rEz2pfEEU0zjtoEx
+         VKqSGNfxLLbxw==
+Message-ID: <4859b9f1b8629f0b69c5d5eefe508a78@smtp-cloud9.xs4all.net>
+Date:   Thu, 12 Mar 2020 05:35:00 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfEjkhXizedLgagtlklYt4j3Zj2TJveFP3IzhAF8z45WGfirzbmFgDQqsP+/GVKL3MeRLjr/20FSTo8gQAezq817Q0LvhDN9PqiQrkFq3wrmcW0lkWdAi
+ UqM8g2es5kGlPEF2CpUc5tv1+UPekV6vA/rCGwWaDvE2oW4F3fyM7hHMheFOmk64XWh55tz2vQgEzPN9fD8vMVLzxj8XeAwPt8ETRKi+nThT9mc6RqWO07HB
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
 
-On 3/11/20 5:47 PM, Laurent Pinchart wrote:
-> Hi Steve,
->
-> On Wed, Mar 11, 2020 at 05:16:49PM -0700, Steve Longerbeam wrote:
->> Hi Laurent,
->>
->> I agree that the find/enum format code in imx-utils needs cleanup, it's
->> too confusing. I will be ready to give my ack to the imx-utils patches
->> once I do some smoke testing on a sabre target when I return from vacation.
->>
->> Note that Phillip also submitted a fixup patch to the find/enum format
->> code, IIRC it did more consolidating of the imx_media_pixfmt tables. I
->> can't find it and it has gotten lost, but I tested and provided a
->> reviewed-by at the time.
-> I've found them in the mail archive. There were 3 patches, Hans said he
-> would take the first two, but only the first one got merged. I'll take
-> the two others and build on top of them, fixing the issues pointed out
-> by the kbuild robot and addressing Hans concerns.
+date:			Thu Mar 12 05:00:10 CET 2020
+media-tree git hash:	00c43088aa680989407b6afbda295f67b3f123f1
+media_build git hash:	6c715bb60eb5f601ae3fe59a5ec772300a5ddb2a
+v4l-utils git hash:	257a454a1499ab8dbb23ff31912b2a7f61b867ee
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a9a31a4bbe5628b0da1fbc7ade073443848f3adb
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-Thanks!
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: WARNINGS
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
+sparse: OK
+smatch: WARNINGS
 
-Steve
+Detailed results are available here:
 
->
->> On 3/10/20 9:18 AM, Laurent Pinchart wrote:
->>> Hello,
->>>
->>> This patch series started as an attempt to fix the format get and set
->>> subdev operations on the i.MX7 CSI-2 receiver subdev, which it does in
->>> patch 1/8. Patch 2/8 further cleans up the format-related code in that
->>> subdev.
->>>
->>> Patches 3/8 to 8/8 pushes the cleanups further as I was attempting to
->>> fix the format enumeration on the video node at the end of the pipeline.
->>> I realized as part of that effort that there's more work than I
->>> anticipated, and I'm currently evaluating the possible options.
->>> Nonetheless, I think the cleanups make sense even without what I wanted
->>> to build on top of them, so I'm sending them out already.
->>>
->>> Laurent Pinchart (8):
->>>     media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
->>>     media: imx: imx7-mipi-csis: Centralize initialization of pad formats
->>>     media: imx: utils: Inline init_mbus_colorimetry() in its caller
->>>     media: imx: utils: Handle Bayer format lookup through a selection flag
->>>     media: imx: utils: Simplify IPU format lookup and enumeration
->>>     media: imx: utils: Make imx_media_pixfmt handle variable number of
->>>       codes
->>>     media: imx: utils: Remove unneeded argument to (find|enum)_format()
->>>     media: imx: utils: Rename format lookup and enumeration functions
->>>
->>>    drivers/staging/media/imx/imx-ic-prp.c        |   8 +-
->>>    drivers/staging/media/imx/imx-ic-prpencvf.c   |   6 +-
->>>    drivers/staging/media/imx/imx-media-capture.c |  22 +-
->>>    .../staging/media/imx/imx-media-csc-scaler.c  |   2 +-
->>>    drivers/staging/media/imx/imx-media-csi.c     |  26 +-
->>>    drivers/staging/media/imx/imx-media-utils.c   | 313 ++++++++----------
->>>    drivers/staging/media/imx/imx-media-vdic.c    |   6 +-
->>>    drivers/staging/media/imx/imx-media.h         |  24 +-
->>>    drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
->>>    drivers/staging/media/imx/imx7-mipi-csis.c    | 138 ++++----
->>>    10 files changed, 271 insertions(+), 289 deletions(-)
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
