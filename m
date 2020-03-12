@@ -2,232 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E7C18286D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 06:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EED7E18299E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 08:19:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387786AbgCLFbq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 12 Mar 2020 01:31:46 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:46053 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387677AbgCLFbq (ORCPT
+        id S2388072AbgCLHS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 03:18:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:35791 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387959AbgCLHS6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 01:31:46 -0400
-Received: by mail-ed1-f68.google.com with SMTP id h62so5818981edd.12;
-        Wed, 11 Mar 2020 22:31:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+Zc8FmIA0ABnvFYgr2cfqyf8WsoARKD3906NOO9ORho=;
-        b=f0xdI6NBX9OgPg83uf0+X/HDns0fUI+5CfRmSR3oWhHOzCOVtzOq+f894IR3MQBx6x
-         fBcIzVbd1d1XUptIT4cOttU+pY6lqwpg8QOVNrC838W/x/8XwiuPSh8LV8uNID+HRGO/
-         ZO4piEhPGr2Tk5umfjoBp0PeY5wJCFEO0b9ZNmWTi5Cy//HlPPjzD09oqhBIrNfzmhXa
-         0prYr98PgHqctFhaZzG7IuxkbFIb9NF79e+o8SdRjuSJKdOCOJMoKOLwOPDoF7XwLYO6
-         R9psOruDw2FUQDbEkNJfKDabROT2qJ+rGsaIi6C2impqP+xUtVtDnX0SnGub3lqnhE7t
-         R+Uw==
-X-Gm-Message-State: ANhLgQ24sFinZzi1CS1yPGikXHioy2Dlw0iA5010u7DgiMO/tE/WL2rW
-        vD/XYVt8ckJvn/AqK7s+ORa6rgbtxOE=
-X-Google-Smtp-Source: ADFU+vuEPAEdxTWL0gh/Jyg97pcc/Efcuk6ll2O1KJ3ZBPUhseqCtZ1GvpzE3SDcoBH4SZ1JOda2uA==
-X-Received: by 2002:aa7:d702:: with SMTP id t2mr6339358edq.342.1583991101601;
-        Wed, 11 Mar 2020 22:31:41 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id h4sm1957939ejl.25.2020.03.11.22.31.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Mar 2020 22:31:41 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id v11so5746773wrm.9;
-        Wed, 11 Mar 2020 22:31:40 -0700 (PDT)
-X-Received: by 2002:a5d:6208:: with SMTP id y8mr8943772wru.64.1583991100322;
- Wed, 11 Mar 2020 22:31:40 -0700 (PDT)
+        Thu, 12 Mar 2020 03:18:58 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id CI7IjX0mY9Im2CI7LjicOY; Thu, 12 Mar 2020 08:18:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1583997536; bh=/KrqBcwqQoOO3I1OlZC6/TWeeXBmR+fGZij0cskbKt4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=EiaFIDoLpU60E7OwVGs78+0VGvwODGDVAPrK0KaJmI7Xukm7+1AgycCFX1xSPB0a4
+         ODXxFqvO4RTI34tA5H7kdsudoFc6GlDcX0PGgo8762wngiT4tn78QEvqkKDs3Xnn7a
+         WyvChN78d4wTrUGKk+QXlYChhu0VJdjUTOzMA6YP7w74twuZWLkQ+8RJ9hQHx/UGfA
+         MBo/P3YCEwU5qbnTpRjXoc9djjAMwg0+bncxHQcfeEwE/WUhcuziVk6OkmDjzrW38+
+         e4thAFs08y8DatE+lebjlbjP1gBZx3AxguF8Ww4d0HcXNKn/gN+684Ya4DHA74djUo
+         Ogq6j946m8hxA==
+Subject: Re: [PATCH v2 03/22] media: docs: split cpia2.rst on two files
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-media@vger.kernel.org
+References: <cover.1583847556.git.mchehab+huawei@kernel.org>
+ <7f013c412e20cec66bf605bfccddc7f90fe187cd.1583847556.git.mchehab+huawei@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <bffb67d7-a8d3-ce4a-011e-f6bb4564e84c@xs4all.nl>
+Date:   Thu, 12 Mar 2020 08:18:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200124232014.574989-1-jernej.skrabec@siol.net> <4206703.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <4206703.LvFx2qVVIh@jernej-laptop>
-From:   Chen-Yu Tsai <wens@csie.org>
-Date:   Thu, 12 Mar 2020 13:31:28 +0800
-X-Gmail-Original-Message-ID: <CAGb2v647N4oSf=txbCfc05L6j8_U4bBtfa+XxYX6ZUMmrYbs0Q@mail.gmail.com>
-Message-ID: <CAGb2v647N4oSf=txbCfc05L6j8_U4bBtfa+XxYX6ZUMmrYbs0Q@mail.gmail.com>
-Subject: Re: [linux-sunxi] [PATCH 0/8] media: sunxi: Add DE2 rotate driver
-To:     =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc:     Maxime Ripard <mripard@kernel.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mike Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <7f013c412e20cec66bf605bfccddc7f90fe187cd.1583847556.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCnLJc1+mUDUwo5XOiKjuMOYHub20gGEvyZ1yixmkswaqc8+zpxD7EcqWczu5JRENhgQdac2bXrqdk8DrxIZyued385ppROoZpwdirql98oFZgF0F1Eu
+ NvizudMjeZ3hq0xGX4AnJraEEsyEwdjqVXViGwfAToF/LeqgVU+9kkjRylezVnp0z/2CcMI5jhbin8zYjwByr9fnMj5b+8Xuah54MNIxV6IVnDCWVqQLjDjp
+ +YB3HKN3JhHCjeJ/x4fWHXhyDCwCophaqlOQM4x42nhYb955EwhtFBmvB0sOwA/0WF9ubLXVRs5wGFqd7EFIAA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 3:13 AM Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
->
-> Dne sobota, 25. januar 2020 ob 00:20:06 CET je Jernej Skrabec napisal(a):
-> > Some of Allwinner SoCs like A83T and A64 SoCs contain DE2 rotate core
-> > which can flip image horizontal and vertical and rotate it in 90 deg.
-> > steps. It support a lot of output formats, but a bit less capture
-> > formats. All YUV input formats get converted to yuv420p, while RGB
-> > formats are preserved.
-> >
-> > Patches 1-2 fix few issues with DE2 clocks.
-> >
-> > Patches 3-4 fix register range of DE2 clocks (it would overlap with
-> > rotate driver)
-> >
-> > Patches 5-8 provide binding, implement driver and add nodes.
-> >
-> > v4l2-compliance SHA: ec55a961487b449bedbe07650674b4965814cf07, 32 bits,
-> > 32-bit time_t
-> >
-> > Compliance test for sun8i-rotate device /dev/video0:
-> >
-> > Driver Info:
-> >         Driver name      : sun8i-rotate
-> >         Card type        : sun8i-rotate
-> >         Bus info         : platform:sun8i-rotate
-> >         Driver version   : 5.5.0
-> >         Capabilities     : 0x84208000
-> >                 Video Memory-to-Memory
-> >                 Streaming
-> >                 Extended Pix Format
-> >                 Device Capabilities
-> >         Device Caps      : 0x04208000
-> >                 Video Memory-to-Memory
-> >                 Streaming
-> >                 Extended Pix Format
-> >
-> > Required ioctls:
-> >         test VIDIOC_QUERYCAP: OK
-> >
-> > Allow for multiple opens:
-> >         test second /dev/video0 open: OK
-> >         test VIDIOC_QUERYCAP: OK
-> >         test VIDIOC_G/S_PRIORITY: OK
-> >         test for unlimited opens: OK
-> >
-> >         test invalid ioctls: OK
-> > Debug ioctls:
-> >         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> >         test VIDIOC_LOG_STATUS: OK
-> >
-> > Input ioctls:
-> >         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> >         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> >         test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> >         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> >         test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> >         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> >
-> > Output ioctls:
-> >         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> >         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> >         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> >         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> >         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> >
-> > Input/Output configuration ioctls:
-> >         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> >         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> >         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> >         test VIDIOC_G/S_EDID: OK (Not Supported)
-> >
-> > Control ioctls:
-> >         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> >         test VIDIOC_QUERYCTRL: OK
-> >         test VIDIOC_G/S_CTRL: OK
-> >         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> >         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> >         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> >         Standard Controls: 4 Private Controls: 0
-> >
-> > Format ioctls:
-> >         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> >         test VIDIOC_G/S_PARM: OK (Not Supported)
-> >         test VIDIOC_G_FBUF: OK (Not Supported)
-> >         test VIDIOC_G_FMT: OK
-> >         test VIDIOC_TRY_FMT: OK
-> >         test VIDIOC_S_FMT: OK
-> >         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> >         test Cropping: OK (Not Supported)
-> >         test Composing: OK (Not Supported)
-> >         test Scaling: OK (Not Supported)
-> >
-> > Codec ioctls:
-> >         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> >         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> >         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> >
-> > Buffer ioctls:
-> >         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> >         test VIDIOC_EXPBUF: OK
-> >         test Requests: OK (Not Supported)
-> >
-> > Total for sun8i-rotate device /dev/video0: 45, Succeeded: 45, Failed: 0,
-> > Warnings: 0
-> >
-> > Best regards,
-> > Jernej
-> >
-> > Jernej Skrabec (8):
-> >   clk: sunxi-ng: sun8i-de2: Swap A64 and H6 definitions
-> >   clk: sunxi-ng: sun8i-de2: Fix A83T clocks and reset
->
-> Please disregard above two patches. It turns out that many more changes are
-> required to fix mess with rotation clocks and reset. I sent separate patch
-> series: http://lists.infradead.org/pipermail/linux-arm-kernel/2020-February/
-> 710242.html
->
-> Comments on the rest of the series are welcome, though.
->
-> Best regards,
-> Jernej
->
-> >   ARM: dts: sunxi: Fix DE2 clocks register range
-> >   arm64: dts: allwinner: a64: Fix display clock register range
-> >   media: dt-bindings: media: Add Allwinner A83T Rotate driver
-> >   media: sun8i: Add Allwinner A83T Rotate driver
-> >   ARM: dts: sun8i: a83t: Add device node for rotation core
-> >   arm64: dts: allwinner: a64: add node for rotation core
+On 3/10/20 2:42 PM, Mauro Carvalho Chehab wrote:
+> In order to be able to better organize the subsystem, split the
+> cpia2 information on two files: one user-facing and another one
+> from Kernel development PoV.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/media/v4l-drivers/cpia2.rst     | 46 ---------------
+>  .../media/v4l-drivers/cpia2_devel.rst         | 56 +++++++++++++++++++
 
-Merged the DTS patches for 5.7.
+In other patches the devel file is called foo-devel.rst, here it is cpia2_devel.rst
+Can you change this to cpia2-devel.rst as well?
 
-ChenYu
+Also, IMHO using -dev instead of -devel feels nicer, although that might be
+because I use debian where all developer packages use -dev as suffix :-)
 
-> >  .../allwinner,sun8i-a83t-de2-rotate.yaml      |  70 ++
-> >  MAINTAINERS                                   |   8 +
-> >  arch/arm/boot/dts/sun8i-a83t.dtsi             |  13 +-
-> >  arch/arm/boot/dts/sun8i-r40.dtsi              |   2 +-
-> >  arch/arm/boot/dts/sun8i-v3s.dtsi              |   2 +-
-> >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            |   2 +-
-> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  14 +-
-> >  drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  49 +-
-> >  drivers/media/platform/Kconfig                |  12 +
-> >  drivers/media/platform/sunxi/Makefile         |   1 +
-> >  .../platform/sunxi/sun8i-rotate/Makefile      |   2 +
-> >  .../sunxi/sun8i-rotate/sun8i-formats.c        | 273 ++++++
-> >  .../sunxi/sun8i-rotate/sun8i-formats.h        |  25 +
-> >  .../sunxi/sun8i-rotate/sun8i-rotate.c         | 924 ++++++++++++++++++
-> >  .../sunxi/sun8i-rotate/sun8i-rotate.h         | 135 +++
-> >  15 files changed, 1512 insertions(+), 20 deletions(-)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-de2-rotate.yam
-> > l create mode 100644 drivers/media/platform/sunxi/sun8i-rotate/Makefile
-> > create mode 100644
-> > drivers/media/platform/sunxi/sun8i-rotate/sun8i-formats.c create mode
-> > 100644 drivers/media/platform/sunxi/sun8i-rotate/sun8i-formats.h create
-> > mode 100644 drivers/media/platform/sunxi/sun8i-rotate/sun8i-rotate.c create
-> > mode 100644 drivers/media/platform/sunxi/sun8i-rotate/sun8i-rotate.h
->
->
->
->
+Regards,
+
+	Hans
+
+>  Documentation/media/v4l-drivers/index.rst     |  2 +
+>  3 files changed, 58 insertions(+), 46 deletions(-)
+>  create mode 100644 Documentation/media/v4l-drivers/cpia2_devel.rst
+> 
+> diff --git a/Documentation/media/v4l-drivers/cpia2.rst b/Documentation/media/v4l-drivers/cpia2.rst
+> index a86baa1c83f1..6f4258aebbfe 100644
+> --- a/Documentation/media/v4l-drivers/cpia2.rst
+> +++ b/Documentation/media/v4l-drivers/cpia2.rst
+> @@ -147,49 +147,3 @@ We are providing a modified gqcam application to view the output. In
+>  order to avoid confusion, here it is called mview.  There is also the qx5view
+>  program which can also control the lights on the qx5 microscope. MJPEG Tools
+>  (http://mjpeg.sourceforge.net) can also be used to record from the camera.
+> -
+> -Notes to developers
+> -~~~~~~~~~~~~~~~~~~~
+> -
+> -   - This is a driver version stripped of the 2.4 back compatibility
+> -     and old MJPEG ioctl API. See cpia2.sf.net for 2.4 support.
+> -
+> -Programmer's overview of cpia2 driver
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> -
+> -Cpia2 is the second generation video coprocessor from VLSI Vision Ltd (now a
+> -division of ST Microelectronics).  There are two versions.  The first is the
+> -STV0672, which is capable of up to 30 frames per second (fps) in frame sizes
+> -up to CIF, and 15 fps for VGA frames.  The STV0676 is an improved version,
+> -which can handle up to 30 fps VGA.  Both coprocessors can be attached to two
+> -CMOS sensors - the vvl6410 CIF sensor and the vvl6500 VGA sensor.  These will
+> -be referred to as the 410 and the 500 sensors, or the CIF and VGA sensors.
+> -
+> -The two chipsets operate almost identically.  The core is an 8051 processor,
+> -running two different versions of firmware.  The 672 runs the VP4 video
+> -processor code, the 676 runs VP5.  There are a few differences in register
+> -mappings for the two chips.  In these cases, the symbols defined in the
+> -header files are marked with VP4 or VP5 as part of the symbol name.
+> -
+> -The cameras appear externally as three sets of registers. Setting register
+> -values is the only way to control the camera.  Some settings are
+> -interdependant, such as the sequence required to power up the camera. I will
+> -try to make note of all of these cases.
+> -
+> -The register sets are called blocks.  Block 0 is the system block.  This
+> -section is always powered on when the camera is plugged in.  It contains
+> -registers that control housekeeping functions such as powering up the video
+> -processor.  The video processor is the VP block.  These registers control
+> -how the video from the sensor is processed.  Examples are timing registers,
+> -user mode (vga, qvga), scaling, cropping, framerates, and so on.  The last
+> -block is the video compressor (VC).  The video stream sent from the camera is
+> -compressed as Motion JPEG (JPEGA).  The VC controls all of the compression
+> -parameters.  Looking at the file cpia2_registers.h, you can get a full view
+> -of these registers and the possible values for most of them.
+> -
+> -One or more registers can be set or read by sending a usb control message to
+> -the camera.  There are three modes for this.  Block mode requests a number
+> -of contiguous registers.  Random mode reads or writes random registers with
+> -a tuple structure containing address/value pairs.  The repeat mode is only
+> -used by VP4 to load a firmware patch.  It contains a starting address and
+> -a sequence of bytes to be written into a gpio port.
+> diff --git a/Documentation/media/v4l-drivers/cpia2_devel.rst b/Documentation/media/v4l-drivers/cpia2_devel.rst
+> new file mode 100644
+> index 000000000000..decaa4768c78
+> --- /dev/null
+> +++ b/Documentation/media/v4l-drivers/cpia2_devel.rst
+> @@ -0,0 +1,56 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +The cpia2 driver
+> +================
+> +
+> +Authors: Peter Pregler <Peter_Pregler@email.com>,
+> +Scott J. Bertin <scottbertin@yahoo.com>, and
+> +Jarl Totland <Jarl.Totland@bdc.no> for the original cpia driver, which
+> +this one was modelled from.
+> +
+> +
+> +Notes to developers
+> +~~~~~~~~~~~~~~~~~~~
+> +
+> +   - This is a driver version stripped of the 2.4 back compatibility
+> +     and old MJPEG ioctl API. See cpia2.sf.net for 2.4 support.
+> +
+> +Programmer's overview of cpia2 driver
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Cpia2 is the second generation video coprocessor from VLSI Vision Ltd (now a
+> +division of ST Microelectronics).  There are two versions.  The first is the
+> +STV0672, which is capable of up to 30 frames per second (fps) in frame sizes
+> +up to CIF, and 15 fps for VGA frames.  The STV0676 is an improved version,
+> +which can handle up to 30 fps VGA.  Both coprocessors can be attached to two
+> +CMOS sensors - the vvl6410 CIF sensor and the vvl6500 VGA sensor.  These will
+> +be referred to as the 410 and the 500 sensors, or the CIF and VGA sensors.
+> +
+> +The two chipsets operate almost identically.  The core is an 8051 processor,
+> +running two different versions of firmware.  The 672 runs the VP4 video
+> +processor code, the 676 runs VP5.  There are a few differences in register
+> +mappings for the two chips.  In these cases, the symbols defined in the
+> +header files are marked with VP4 or VP5 as part of the symbol name.
+> +
+> +The cameras appear externally as three sets of registers. Setting register
+> +values is the only way to control the camera.  Some settings are
+> +interdependant, such as the sequence required to power up the camera. I will
+> +try to make note of all of these cases.
+> +
+> +The register sets are called blocks.  Block 0 is the system block.  This
+> +section is always powered on when the camera is plugged in.  It contains
+> +registers that control housekeeping functions such as powering up the video
+> +processor.  The video processor is the VP block.  These registers control
+> +how the video from the sensor is processed.  Examples are timing registers,
+> +user mode (vga, qvga), scaling, cropping, framerates, and so on.  The last
+> +block is the video compressor (VC).  The video stream sent from the camera is
+> +compressed as Motion JPEG (JPEGA).  The VC controls all of the compression
+> +parameters.  Looking at the file cpia2_registers.h, you can get a full view
+> +of these registers and the possible values for most of them.
+> +
+> +One or more registers can be set or read by sending a usb control message to
+> +the camera.  There are three modes for this.  Block mode requests a number
+> +of contiguous registers.  Random mode reads or writes random registers with
+> +a tuple structure containing address/value pairs.  The repeat mode is only
+> +used by VP4 to load a firmware patch.  It contains a starting address and
+> +a sequence of bytes to be written into a gpio port.
+> diff --git a/Documentation/media/v4l-drivers/index.rst b/Documentation/media/v4l-drivers/index.rst
+> index eca22b82de94..72fbb394f6a2 100644
+> --- a/Documentation/media/v4l-drivers/index.rst
+> +++ b/Documentation/media/v4l-drivers/index.rst
+> @@ -65,3 +65,5 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	vimc
+>  	vivid
+>  	zr364xx
+> +
+> +	cpia2_devel
+> 
+
