@@ -2,88 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 833F4182EC0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 12:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE26182EFD
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 12:23:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726817AbgCLLPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 07:15:00 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:45115 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726299AbgCLLPA (ORCPT
+        id S1726952AbgCLLXo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 07:23:44 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40124 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbgCLLXo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 07:15:00 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jCLnh-0000ai-SG; Thu, 12 Mar 2020 12:14:53 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jCLnf-0005LE-Uz; Thu, 12 Mar 2020 12:14:51 +0100
-Date:   Thu, 12 Mar 2020 12:14:51 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
-        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v13 04/21] media: v4l2-fwnode: fix v4l2_fwnode_parse_link
- handling
-Message-ID: <20200312111451.fg7t7qflnxq4ka6u@pengutronix.de>
-References: <20200312103156.3178-1-m.felsch@pengutronix.de>
- <20200312103156.3178-5-m.felsch@pengutronix.de>
- <20200312104222.GN5379@paasikivi.fi.intel.com>
- <20200312104312.GO5379@paasikivi.fi.intel.com>
+        Thu, 12 Mar 2020 07:23:44 -0400
+Received: by mail-lj1-f195.google.com with SMTP id 19so5947015ljj.7;
+        Thu, 12 Mar 2020 04:23:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8aZKo7Q2cqRqibh5c2BV/6haAmX7g2ZMzNvIuDIe6Xs=;
+        b=TyMc0wF8StKmepPEPnsdFhTTXLzwZHUosGKyBRq4WkbEyZNvu6A27F4C9l7tYJ57QY
+         3EtrN+VRXBxJXiLz0h99zF5S3whRk02KjU/x9kO1/lqG0DpVsbkRzBhX0RpWZ5gDygkL
+         PXuTmhdh2EHPd1WQbfzeibKKQm0xWOVFltiRp5akJkPGdigf6xvNTG3KOPrnpPU9Ph++
+         h1vKSW7eQeDTgf9CpJHSm6Lyzgkc+DruhpGQVN8dId9mJf91ws3zm5H9XaGrXcYjkJXN
+         2rAZmJF+TmQMRF5H63Rc/3XUHZ/U4BCp6sTNL2KP+agwK0tZVqn/7lgXmC2LkzfQJXiV
+         5JZw==
+X-Gm-Message-State: ANhLgQ1nDyAKUHsqWQaDTujfzDBbfNHRjUf9T4UKNin4WqRRLvzq8oQi
+        Q/DbwLh6ywP0MXZXl5XtfvE=
+X-Google-Smtp-Source: ADFU+vsCAl+/iukSnAL7ZY+TR9w4fgriCQ+WchBtcxuaJ3FfNHYfeYP25Ngr4meXpQzPXNd1vtbE8w==
+X-Received: by 2002:a05:651c:118b:: with SMTP id w11mr5034584ljo.80.1584012222136;
+        Thu, 12 Mar 2020 04:23:42 -0700 (PDT)
+Received: from xi.terra (c-12aae455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.170.18])
+        by smtp.gmail.com with ESMTPSA id f26sm26589790ljn.104.2020.03.12.04.23.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 04:23:41 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@kernel.org>)
+        id 1jCLw2-0005pa-1h; Thu, 12 Mar 2020 12:23:30 +0100
+Date:   Thu, 12 Mar 2020 12:23:30 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sean Young <sean@mess.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH 0/6] media: fix USB descriptor issues
+Message-ID: <20200312112330.GO14211@localhost>
+References: <20200103163513.1229-1-johan@kernel.org>
+ <20200214080254.GK4150@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200312104312.GO5379@paasikivi.fi.intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:12:17 up 118 days,  2:30, 135 users,  load average: 0.03, 0.11,
- 0.14
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20200214080254.GK4150@localhost>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On 20-03-12 12:43, Sakari Ailus wrote:
-> On Thu, Mar 12, 2020 at 12:42:22PM +0200, Sakari Ailus wrote:
-> > On Thu, Mar 12, 2020 at 11:31:39AM +0100, Marco Felsch wrote:
-> > > Currently the driver differentiate the port number property handling for
-> > > ACPI and DT. This is wrong as because ACPI should use the "reg" val too
-> > > [1].
-> > > 
-> > > [1] https://patchwork.kernel.org/patch/11421985/
-> > > 
-> > > Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > 
-> > Oh well, I guess this is OK; I noticed the next patch that depends on this
-> > one. But it should be merged with the next patch so that it won't be
-> > accidentally backported alone.
-> > 
-> > Then, please add:
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Fri, Feb 14, 2020 at 09:02:54AM +0100, Johan Hovold wrote:
+> On Fri, Jan 03, 2020 at 05:35:07PM +0100, Johan Hovold wrote:
+> > This series fixes a number of issues due to missing or incomplete sanity
+> > checks that could lead to NULL-pointer dereferences, memory corruption
+> > or driver misbehaviour when a device has unexpected descriptors.
 > 
-> Forgot that no ACPI driver uses it. So _no_ changes are needed to this, and
-> you can add the ack.
+> > Johan Hovold (6):
+> >   media: flexcop-usb: fix endpoint sanity check
+> >   media: ov519: add missing endpoint sanity checks
+> >   media: stv06xx: add missing descriptor sanity checks
+> >   media: xirlink_cit: add missing descriptor sanity checks
+> >   media: dib0700: fix rc endpoint lookup
+> >   media: iguanair: fix endpoint sanity check
 > 
-> Thanks.
+> Just sending a reminder about these as it seems only the last one has
+> made into mainline (and stable) yet.
 
-I thought about it too and in the end I splitted the patche for possible
-backport reasons. Squashing shouldn't be a problem for Hans?
+Another month, another reminder. Three of the above patches still hasn't
+been applied.
 
-Regards,
-  Marco
+Johan
