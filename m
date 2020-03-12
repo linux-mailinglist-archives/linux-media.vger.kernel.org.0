@@ -2,134 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E410182D33
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 11:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC396182D3B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2020 11:14:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726733AbgCLKOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Mar 2020 06:14:12 -0400
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:38169 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726591AbgCLKOL (ORCPT
+        id S1726044AbgCLKO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Mar 2020 06:14:28 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40344 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725978AbgCLKO1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Mar 2020 06:14:11 -0400
-Received: by mail-oi1-f180.google.com with SMTP id k21so4925430oij.5
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2020 03:14:11 -0700 (PDT)
+        Thu, 12 Mar 2020 06:14:27 -0400
+Received: by mail-wr1-f65.google.com with SMTP id p2so6643875wrw.7
+        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2020 03:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jmkbYdX8+j8+5rRfl7f3e7GwQSqimyD7SYnYxFyR5E0=;
-        b=DmyVra3yF33pND3KBYCG1WrIzqhrPuc37FpVnMX4LRRIrYiXGMpvgPZFZ7bNhx38Jy
-         bhBBWOZx+Hi9tJnU7TiJIYR5QAN9paP3kNEAOpLdvqCbpSmYXC0ndWO8Wn/G8hMEoBWI
-         7UbF6503aN9fGMsUHVjHpDJ76xjYIUVcSLLlauXJTrBry+6gqbCXkADBm/lhFTPE2dP1
-         m6psJHurWRf9QyJqhxENGmofwGS/ziPISB+aR3e8Ybrc6JRvHO8HRLcHdNUT0jYcd5Iz
-         uNQuf9VPV1M4kv2mOkskGWHMi8hhUlsOp9R+iuDNgOSSId1M6ByOnNrpRR+9MNvpccEg
-         cW6w==
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=99zCoGvBDUcvfpO9a9LFfTGeDECAtBMxFB8De2EMWp0=;
+        b=DMpTpwApva9r8u9lx0Op6r/whtC4At15bKd8fkbJdGqjQmio4yaGOYfzdcgindAbK5
+         a7IJacyFiFVDhWiooi8BZ1gmXDW51k7Cu4OwA92puB3ehtgeShNeQm/yORTN/rMIZsjP
+         x0tnmnRUeruhgJD/DksHtunDqv65HV+HpSFPKh0Ag5N2owWZVZjBtZ8Fi2gskr1OTNEa
+         k1KAwLcYReLu0/Qda9qtjPmaxH1fDxytxmTHE5Jbwl32hEe/AM4Fshde1kNpgW97hYwD
+         iOh3Hmoez2s6Q7A52Ek10fpT00nYOdsHcoamPgYGt59j9pogB7fbSq3yLAAu1i7xfBRK
+         0AJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jmkbYdX8+j8+5rRfl7f3e7GwQSqimyD7SYnYxFyR5E0=;
-        b=kshxQ+/VvD4eVJg/Fv0FI7NJe2gf8H8RzBpmW1UknSNpM3r+c064LOUqtEkQrphnlI
-         wpJWeL/+Ls1OaJRhXrEKV7OkPpYWmiG5ofGrxTQdC7txKhg69ShA21cC+iPt6f9T8GT4
-         1jyZSnrv7F3n9nndQTRFyoT9jKZPvLRUHfPbRRJ6Lr2Em8ziN/nouGh04z0+/b8ddfiD
-         Jzl9YM2G/twqWXc+ezFFqrPlIEF/mkVTy785wdOEZkZoE+5R0Fvl7mzW/vL+I3iq1JTr
-         +RXEtoOFZC+afg1mbhh4DYJ9cmE6knJeE6y8nlh1WhQr80tnPankG5MJJxeKZR3hnVH/
-         bXfg==
-X-Gm-Message-State: ANhLgQ3caWwvnpfh1kYY14g8YN/BezlpjvT9/xvYy2NySwQMbNAAHKVj
-        ArH750LDxUcwJsj2FAzvBJg3tu8p1hVUZMB2fZ9dprRQ9Zk=
-X-Google-Smtp-Source: ADFU+vuvLA7OJNogZQsqCnB5B9kakN6GgYe45+rLlUxm/uBRIXUsVnDaJlTEPNY27ZGSH15nNbJL51uwKZO17iVx8DY=
-X-Received: by 2002:aca:ab4b:: with SMTP id u72mr2054085oie.26.1584008050585;
- Thu, 12 Mar 2020 03:14:10 -0700 (PDT)
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=99zCoGvBDUcvfpO9a9LFfTGeDECAtBMxFB8De2EMWp0=;
+        b=DW0hcvbPR1yKTpHttv4qdzjjzy3GtIjfYkuij3oeu7vs9ur7cgpEI5Hx9cxaOvBCQ7
+         Ev2eqUFPpiID0FTQSWtcLlymhOqJL6ZQRfYaDYs6HKNbRyCspzWQIScKOmUK5yzWkxJH
+         3W7ck318H1vErJ6xZ2f87lcox68U8vivO8tAZI6YRkQgC56in9I57h6UHsimKjGdU0aP
+         J4JjWq+YygD7aCU/volxuoVTvBiK9+FAlyA6AMcvYu1c6vxWZhbs4HflWyR6ViUD6CA+
+         GOiL27qAu8fN92oKJZ3+oq6bHvHFTy4DJ8ZdZHEmbQIjLX2GCVfcdabE0q96VgTzsM8Z
+         W23w==
+X-Gm-Message-State: ANhLgQ09DowFzOsbnuKx3bKJ7HfptG5jbapAFQSJ10rIwhKXZdf15w4U
+        cN8e9ixwxDCHbHxYa9L33Gs=
+X-Google-Smtp-Source: ADFU+vt9s8OYMtKOql4lFTOfhZHcw/9Pzcas2QNpKDhr/rEHArSKwzODj38Q68fYVw1jBI8UvymV/Q==
+X-Received: by 2002:adf:db84:: with SMTP id u4mr10434358wri.317.1584008064004;
+        Thu, 12 Mar 2020 03:14:24 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id a9sm27966191wrv.59.2020.03.12.03.14.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 12 Mar 2020 03:14:23 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     David1.Zhou@amd.com, jgg@ziepe.ca, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+References: <20200311135158.3310-1-christian.koenig@amd.com>
+ <20200311135158.3310-2-christian.koenig@amd.com>
+ <20200311152838.GA24280@infradead.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
+Date:   Thu, 12 Mar 2020 11:14:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200310134603.30260-1-robert.foss@linaro.org>
- <20200310134603.30260-2-robert.foss@linaro.org> <CAOMZO5C9Oj+SmTroE+bSsGcOPpz6se+WOqw1qJU9x6TrzbzZKw@mail.gmail.com>
- <CAG3jFyuLMxUEr7yZAHT99JK8NoUZc-aquuMEtSBH_Vipa-_giQ@mail.gmail.com>
-In-Reply-To: <CAG3jFyuLMxUEr7yZAHT99JK8NoUZc-aquuMEtSBH_Vipa-_giQ@mail.gmail.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 12 Mar 2020 11:13:59 +0100
-Message-ID: <CAG3jFytyTO9h311WzTGDwDzGF-rwY1ANC=mhXXGxn6v83Anqmw@mail.gmail.com>
-Subject: Re: [v1 1/3] media: dt-bindings: ov8856: Document YAML bindings
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     ben.kao@intel.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan.Cameron@huawei.com,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200311152838.GA24280@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 10 Mar 2020 at 16:51, Robert Foss <robert.foss@linaro.org> wrote:
->
-> Hey Fabio,
->
-> Thanks for having a look at this series so quickly.
->
-> On Tue, 10 Mar 2020 at 14:57, Fabio Estevam <festevam@gmail.com> wrote:
-> >
-> > Hi Robert,
-> >
-> > On Tue, Mar 10, 2020 at 10:46 AM Robert Foss <robert.foss@linaro.org> wrote:
-> >
-> > > +    ov8856: camera-sensor@10 {
-> > > +        compatible = "ovti,ov8856";
-> > > +        reg = <0x10>;
-> > > +        reset-gpios = <&pio 111 GPIO_ACTIVE_HIGH>;
-> >
-> > Could you double check this is correct? Other OmniVision sensors have
-> > reset-gpios as active low.
->
-> I have tested this, unfortunately I don't have access to a ov8856
-> datasheet that includes
-> this level of detail. But I have tested this.
->
-> >
-> > I suspect that the driver has also an inverted logic, so that's why it works.
->
-> That could explain it still working. Let me have a look into the
-> driver and see what it does.
->
+Am 11.03.20 um 16:28 schrieb Christoph Hellwig:
+> On Wed, Mar 11, 2020 at 02:51:53PM +0100, Christian König wrote:
+>> This can be used by drivers to setup P2P DMA between device
+>> memory which is not backed by struct pages.
+>>
+>> The drivers of the involved devices are responsible for
+>> setting up and tearing down DMA addresses as necessary
+>> using dma_map_resource().
+>>
+>> The page pointer is set to NULL and only the DMA address,
+>> length and offset values are valid.
+> NAK.  The only valid way to fill DMA address in scatterlists is
+> dma_map_sg / dma_map_sg_attr.
 
-I had a look at some of OmniVision drivers, and there does seem to be
-a logical inversion in some of them,
-but not all of them.
+How can we then map PCIe BARs into an scatterlist which are not backed 
+by struct pages?
 
-ov7251:
-- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-  to the hardware pin XSHUTDOWN which is physically active low.
-
-ov5640:
-- reset-gpios: reference to the GPIO connected to the reset pin, if any.
-           This is an active low signal to the OV5640.
-
-I think the confusion stems from the XSHUTDOWN pin being mapped to a
-GPIO called reset, and the two being logically inverted. Currently
-this series does several mappings.
-
-XSHUTDOWN -> reset-gpio -> n_shutdn_gpio
-       ^                           ^                      ^
-Physical Pin               DT                Driver
-
-I think changing to what ov5640 does makes the most sense.
-XSHUTDOWN -> reset-gpio -> reset_gpio
-
-> >
-> > I don't have access to the datasheet though, so I am just guessing.
->
-> Me neither unfortunately, if anyone does have a link for it, I would
-> very much appreciate it.
+Regards,
+Christian.
