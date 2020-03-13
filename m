@@ -2,103 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05D1F1847C2
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 14:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCDAF1847E3
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 14:20:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbgCMNPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 09:15:46 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40962 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbgCMNPq (ORCPT
+        id S1726535AbgCMNUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 09:20:04 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:47314 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgCMNUE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 09:15:46 -0400
-Received: by mail-lf1-f65.google.com with SMTP id q10so7822168lfo.8;
-        Fri, 13 Mar 2020 06:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KIlDjbCvX/lL3/UnPy9wEqymHeVXohWQ8Y8B1yC6PRM=;
-        b=KzAls5VPN5rgeewhLttE0V+ho/T3Ym0N8W6508ZiquWU0EYsOUdidva2DssKJ4lYxn
-         uHXqUJDkB86E2t5r/eB9iGlGisYdIMLmBQiH9MPnfYOmEDVnllOVfQLj9HF709kiHpnp
-         cwU1mUkswFKeNpF3GtRHEYFOlpNkR2g1mgkD2dORECKUvUHKGYiLIRo6j++y873uepg7
-         jaerNMJFJshhCNfgPdd2sD5V+MMOfB4oM7iQax4TYMZN9TQHwN9KxGIUJHtaOGJEmqTg
-         oipHY3FV1tu/xMXCFIhIZ57QRrzeaB7TMzVGFXmdex3iWpZ6c3VDdxKiIXzNYMUC+Ad3
-         q5lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KIlDjbCvX/lL3/UnPy9wEqymHeVXohWQ8Y8B1yC6PRM=;
-        b=SnjqDp86+FZAmAp0xTcYDN+BUZWqFba29Oc8MOxb31udC4pYRAQo1eKPq/Irt9hSdM
-         ourFXHZ/0jQR0xhg1GJZVrZPa3xE95SXeT+uKCpYD/qXAN0KJcrySfWE2dA0weNJnSzP
-         jB2k73IhpoIcQowKyQ7tVuoSB9rxjHBnJTuuznEK4xOAbukhXyPxlCouGUkPCdwW7XnA
-         6VG/JRuhUhSHSzobGCIwzzIQoNDyV0YkpqOQz+qmVX8tc7CPWGrPXRq0pI1p3UYdBDm9
-         CfNzEoaZxUYcWEJ8H8x5AlZ4qyBVP8PE/sK1BHgJ3prKY90dgOU07MTEVdk2MQabwnXr
-         eUkw==
-X-Gm-Message-State: ANhLgQ3JA3o0VINVtw5bIqmu82Ib+y/10n4geJb/zgWSN9IS0JLNw0VP
-        H3OAg3fbIgP9HTSuS4OEiG0LsA+Q2is+2LjnMHE=
-X-Google-Smtp-Source: ADFU+vu3syumX09pf4wOKGU3FAmPDFh1VT9bOFZcHAgG0CF2SaVacKKBMemJsFE1v+otRGv8dY21fvqrZd57AKGk+4w=
-X-Received: by 2002:a05:6512:1054:: with SMTP id c20mr8394251lfb.69.1584105343706;
- Fri, 13 Mar 2020 06:15:43 -0700 (PDT)
+        Fri, 13 Mar 2020 09:20:04 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02DDJxdY065029;
+        Fri, 13 Mar 2020 08:19:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1584105599;
+        bh=uZ5+CPpljghxpDFAb/P/yOko/1QSxdmbXGs1Ogg0kcM=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=YA5XF+Ywq+FJAMhkedMBDw5c2j7BogA8m4XYsIQKaVeTVruvbjhxauAP1/9gMLmkO
+         6TbNbh7kx3nY61ODh9xq7VB8Na0CLvMk4MgmE/N6e39beei6JxLF7lKIzak2SekUPG
+         2Y6yfUgxrIhF85jbm/tUNs/vi9E3+YhYTMUwGSPo=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02DDJxwm081299
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 13 Mar 2020 08:19:59 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
+ Mar 2020 08:19:59 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 13 Mar 2020 08:19:59 -0500
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02DDJv3h066993;
+        Fri, 13 Mar 2020 08:19:57 -0500
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Tomi Valkeinen <tomi.valkeinen@ti.com>, <stable@vger.kernel.org>
+Subject: [PATCH v2] media: ov5640: fix use of destroyed mutex
+Date:   Fri, 13 Mar 2020 15:19:48 +0200
+Message-ID: <20200313131948.13803-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200313082258.6930-1-tomi.valkeinen@ti.com>
+References: <20200313082258.6930-1-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-References: <20200313110350.10864-1-robert.foss@linaro.org> <20200313110350.10864-3-robert.foss@linaro.org>
-In-Reply-To: <20200313110350.10864-3-robert.foss@linaro.org>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Fri, 13 Mar 2020 10:15:31 -0300
-Message-ID: <CAOMZO5D9bmXt9_qGTXw+qUG6JDHfuNtx++fJPJtn+mj1Dzsbag@mail.gmail.com>
-Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert,
+v4l2_ctrl_handler_free() uses hdl->lock, which in ov5640 driver is set
+to sensor's own sensor->lock. In ov5640_remove(), the driver destroys the
+sensor->lock first, and then calls v4l2_ctrl_handler_free(), resulting
+in the use of the destroyed mutex.
 
-On Fri, Mar 13, 2020 at 8:04 AM Robert Foss <robert.foss@linaro.org> wrote:
+Fix this by calling moving the mutex_destroy() to the end of the cleanup
+sequence, as there's no need to destroy the mutex as early as possible.
 
-> +static int __ov8856_power_on(struct ov8856 *ov8856)
-> +{
-> +       struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> +       int ret;
-> +
-> +       ret = clk_prepare_enable(ov8856->xvclk);
-> +       if (ret < 0) {
-> +               dev_err(&client->dev, "failed to enable xvclk\n");
-> +               return ret;
-> +       }
-> +
-> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/media/i2c/ov5640.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The parameter of gpiod_set_value_cansleep() is typically 0 (inactive
-state) or 1 (active state), so:
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 854031f0b64a..2fe4a7ac0592 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -3093,8 +3093,8 @@ static int ov5640_probe(struct i2c_client *client)
+ free_ctrls:
+ 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+ entity_cleanup:
+-	mutex_destroy(&sensor->lock);
+ 	media_entity_cleanup(&sensor->sd.entity);
++	mutex_destroy(&sensor->lock);
+ 	return ret;
+ }
+ 
+@@ -3104,9 +3104,9 @@ static int ov5640_remove(struct i2c_client *client)
+ 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+ 
+ 	v4l2_async_unregister_subdev(&sensor->sd);
+-	mutex_destroy(&sensor->lock);
+ 	media_entity_cleanup(&sensor->sd.entity);
+ 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
++	mutex_destroy(&sensor->lock);
+ 
+ 	return 0;
+ }
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
- gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
-
-> +
-> +       ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
-> +                                   ov8856->supplies);
-> +       if (ret < 0) {
-> +               dev_err(&client->dev, "failed to enable regulators\n");
-> +               goto disable_clk;
-> +       }
-> +
-> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
-
-and here it should be:
-
-gpiod_set_value_cansleep(ov8856->reset_gpio, 0);
-
-Also, don't you need a reset period between the two?
