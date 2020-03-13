@@ -2,108 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D881184676
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 13:04:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48FA91846A9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 13:17:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbgCMMEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 08:04:55 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:40928 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbgCMMEz (ORCPT
+        id S1726535AbgCMMRp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 08:17:45 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:45027 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726395AbgCMMRp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 08:04:55 -0400
-Received: by mail-ed1-f67.google.com with SMTP id a24so11585194edy.7
-        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2020 05:04:54 -0700 (PDT)
+        Fri, 13 Mar 2020 08:17:45 -0400
+Received: by mail-qt1-f195.google.com with SMTP id h16so7220532qtr.11
+        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2020 05:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KVQaV5WPaAITEfXGJD3iw4zrtyye7kAolYp6oZ1quUI=;
-        b=GVZv6ChaXLEWYvbrWTdhS4i8fMw2qeJSXb/2JBjNdfMY6mhOggh6/Z5mOaWCYPz6Ad
-         PetuwUXpdI272XaInycenRqesHqQBmYhwOBAMPaM4DCpfbCev1WQekRbj0o7QM4YsMTi
-         FkvBwDPMqy4tbFaLyfxVfYKBPgeGMPLpoi1kp2ylMBm1/Ithj6eoLKXkBEzlhpA/ihLd
-         qL22Qiw9DAFKOJT6+N8KPo5aUP110lqB7mD++bhFrTZXbdce6Qd/U/JEnBbgdbSZBnq/
-         AaqJO9+Hx6eGmoHph7LwUFG+z4KSEcnIHB1QgOQ3JYmudJ1VcD4R91SoUMJraYGdukpk
-         vEcw==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aqslJJ5bOf4ey2RANXL60FLOBW00NolP+CogM9HtYzU=;
+        b=fnLvydTyvgwKngHoJknFmEckFBQX2TR0x0WgLYgJaIP2ICqATNg9WQ9cP/lfj4yVwh
+         6mSSjRuG8nN+xIg2fA3Wd7Xt1BuckJTkHy5pwwlzksrBV2ZaY3FQvZpwWhr3ygDLDNAu
+         vd67ky4AC/TpUDHBms5GP5WwHKK0QuHePWyU5pAXvMtzJwXELqz+UHhRHgKztLdSw7xT
+         z9yD2/kP/N3e9eeVkrTyN4ecuy111HRBS030woDmFrAHJwyhiisQS0w+p64Q+vE4KqFb
+         kFZ6v1pjSxCFLj4rKECs4vbLkU3eWHuyBdsVqrNKA3EQmpLAhIwVsZho0dP4f4DWiRMK
+         AzKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KVQaV5WPaAITEfXGJD3iw4zrtyye7kAolYp6oZ1quUI=;
-        b=iCF6zQlUSqYyerAhnMzv1S0TDnST3R7q0u3EpGpIknjaSzvH9j4Zb2ItuaEI4Mw3Jm
-         DFeJY2PJrdHm5sZxJsGa8DuAU9zqnJYYXyni5XJFAXAOjvy8gFvSf5H2Vh20wgeoNiii
-         4KW119h5uBPEUNp3rvqPC6XS8+YdcPXog6S5WpbPkPtTTxWAc4X4bPo3EFucxqSKHbmG
-         eluUIrNwAXJ6hkn2FzMl+qt2UThsP3XFfPcc7HcC+VQUf/CTgaUUsSNHVfTGBK7e0NBj
-         Wz/0jP9QVGYNMa3phdZumlDsAIyfz3u4tz0H8O6VGxadWA9tA4gcJL4ymsiyQw0lgb1W
-         pxaQ==
-X-Gm-Message-State: ANhLgQ06EUIOwHUU2D2yeUBpUwGPuY+ZcbChWEzW5PwKvaDJb8WuY7jh
-        y8pzlYfO1/hXJJu/R1C8vbtnSA==
-X-Google-Smtp-Source: ADFU+vskqub7CpCaC/ugUWZs2oR/RvePIrTwC+6a82eCHZMWi25KAtvuE8JcxWJt62Qtis9Q1Vw0NQ==
-X-Received: by 2002:a17:906:76c6:: with SMTP id q6mr11068012ejn.176.1584101092902;
-        Fri, 13 Mar 2020 05:04:52 -0700 (PDT)
-Received: from [192.168.1.9] ([84.238.208.211])
-        by smtp.googlemail.com with ESMTPSA id v25sm4584220edx.89.2020.03.13.05.04.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2020 05:04:52 -0700 (PDT)
-Subject: Re: [PATCH -next 011/491] ARM/QUALCOMM SUPPORT: Use fallthrough;
-To:     Joe Perches <joe@perches.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Amit Kucheria <amit.kucheria@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-pm@vger.kernel.org
-References: <cover.1583896344.git.joe@perches.com>
- <2e6818291503f032e7662f1fa45fb64c7751a7ae.1583896348.git.joe@perches.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <2ac47436-e13c-bc87-d661-e4a423c7ef5b@linaro.org>
-Date:   Fri, 13 Mar 2020 14:04:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aqslJJ5bOf4ey2RANXL60FLOBW00NolP+CogM9HtYzU=;
+        b=HQUupqC62ph9tM7zg/u+Bl8d8d5Xh5ZdZfO1iV2fL3CYPi2eJfiZdtFhepRUBBCh3i
+         v6ws1RKC388a9hokIdiNQeyofuSEKOSB7KhFejSwMSdDibS4VJ3xupKVmjeDkQPkCEYA
+         MjHwxbb2t6r76HSfSEi88UN0MBLTjKoYgyvprNQCqe/4+Gvg6uTb4skH6yDEY6hvuv15
+         HeejiIGB5QZEktrRejEPNlTAVfQY/3agi4Xce+iFIm6reaw2iYrc8HzUlMLxyIigkMho
+         o8UfjlEXFlJjyxdMKmJfJWvz6JWjbhZai+rWRt4Uqh08JndphrCIZgwaCufDmchbLIO1
+         tb0A==
+X-Gm-Message-State: ANhLgQ1Hgv2bN8H8Q4TQoTwxY82ByjavnBlkHctVheAT62S8P4XcIXuz
+        Jnjab3QtWtQg8FGN4rOycm9LqA==
+X-Google-Smtp-Source: ADFU+vvnZ++eeJohQNCGbL8UURJNf+LwktEkIgtg9LmyZVqXbslskSadTwZYDIFrd8k/gWvAv2Asig==
+X-Received: by 2002:ac8:3659:: with SMTP id n25mr12061900qtb.254.1584101864517;
+        Fri, 13 Mar 2020 05:17:44 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id e2sm362936qkg.63.2020.03.13.05.17.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 13 Mar 2020 05:17:43 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jCjG2-0001qS-KQ; Fri, 13 Mar 2020 09:17:42 -0300
+Date:   Fri, 13 Mar 2020 09:17:42 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        David1.Zhou@amd.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
+Message-ID: <20200313121742.GZ31668@ziepe.ca>
+References: <20200311135158.3310-1-christian.koenig@amd.com>
+ <20200311135158.3310-2-christian.koenig@amd.com>
+ <20200311152838.GA24280@infradead.org>
+ <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
+ <20200312101943.GA14618@infradead.org>
+ <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
+ <20200312104729.GA26031@infradead.org>
+ <20200312141928.GK31668@ziepe.ca>
+ <20200313112139.GA4913@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <2e6818291503f032e7662f1fa45fb64c7751a7ae.1583896348.git.joe@perches.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200313112139.GA4913@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 3/11/20 6:51 AM, Joe Perches wrote:
-> Convert the various uses of fallthrough comments to fallthrough;
+On Fri, Mar 13, 2020 at 04:21:39AM -0700, Christoph Hellwig wrote:
+> On Thu, Mar 12, 2020 at 11:19:28AM -0300, Jason Gunthorpe wrote:
+> > The non-page scatterlist is also a big concern for RDMA as we have
+> > drivers that want the page list, so even if we did as this series
+> > contemplates I'd have still have to split the drivers and create the
+> > notion of a dma-only SGL.
 > 
-> Done via script
-> Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
+> The drivers I looked at want a list of IOVA address, aligned to the
+> device "page size".  What other data do drivers want?  Execept for the
+> software protocol stack drivers, which of couse need pages for the
+> stack futher down.
+
+In principle it is possible to have just an aligned page list -
+however the page size is variable, following certain rules, and today
+the drivers still determine the correct page size largely on their
+own.  
+
+Some progress was made recently to consolidate this, but more is
+needed.
+
+If the common code doesn't know the device page size in advance then
+today's approach of sending largest possible dma mapped SGLs into the
+device driver is best. The driver only has to do splitting.
+
+> > I haven't used bio_vecs before, do they support chaining like SGL so
+> > they can be very big? RDMA dma maps gigabytes of memory
 > 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  drivers/media/platform/qcom/venus/vdec.c |  2 +-
+> bio_vecs itself don't have the chaining, but the bios build around them
+> do.  But each entry can map a huge pile.  If needed we could use the
+> same chaining scheme we use for scatterlists for bio_vecs as well, but
+> lets see if we really end up needing that.
 
-For the Venus bits:
+RDMA surely needs something to generate huge lists of dma mapped
+memory. MRs are very big objects
 
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
->  drivers/phy/qualcomm/phy-qcom-usb-hs.c   |  2 +-
->  drivers/pinctrl/qcom/pinctrl-spmi-gpio.c |  4 ++--
->  drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c |  2 +-
->  drivers/rpmsg/qcom_glink_native.c        |  4 ++--
->  drivers/soc/qcom/socinfo.c               | 16 ++++++++--------
->  drivers/thermal/qcom/tsens-v0_1.c        |  8 ++++----
->  drivers/thermal/qcom/tsens-v1.c          |  4 ++--
->  8 files changed, 21 insertions(+), 21 deletions(-)
-> 
-
--- 
-regards,
-Stan
+Jason
