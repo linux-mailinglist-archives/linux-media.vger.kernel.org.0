@@ -2,162 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3061845B5
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 12:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4279A1845B9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 12:15:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgCMLMI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 07:12:08 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:42106 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726455AbgCMLMI (ORCPT
+        id S1726491AbgCMLPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 07:15:43 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:45646 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbgCMLPn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 07:12:08 -0400
-Received: by mail-ed1-f67.google.com with SMTP id b21so1011810edy.9
-        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2020 04:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ghIpRGiQVwJbhKxwoqlN1gAo19Cr4ajPPSiWPX3Momc=;
-        b=M5rpR3t9vw3aAFdk8Rj95LtJ5sdgab5t7hG3QQY1cQx8F6TpGcySH69iNNDmyOFJwn
-         bjAjxQP4Jb4pmlP2X6mySwbIFdvBHNLEavP/vaUjs8YuL5NkNiaY/p6l1oCma3UFzgr6
-         LAWZAn3XL4+z1UW4dkwxcHsNmUphcTi0sQa9c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ghIpRGiQVwJbhKxwoqlN1gAo19Cr4ajPPSiWPX3Momc=;
-        b=azMO1ovqguf9hn2q8AmOBISIs/hhX3GkvgXktEvZyGL+XbjTHmLyBrg/3hjNj4MrYi
-         VPjN4e9F7gzj/hYyqsdTJIjQ4mYGaE5d07v1xBI3sOZw4gDGjC9XIZQh93ZGgdz/26D0
-         KWdGdvVrfNnrD8dEQyAxP+iAoCBSLPoWmtEQa0rlMTIczjZidbQQsQbEjnXo3rdPQBPe
-         nqrfADTmpzr/CM3XzpEg/KVSPmtm/xU6yzxOibwhmdv1r6Kc/RbeBt2nRgPwFc83Iu04
-         hzf37eoKBUpqgxweiK0Y9ECoZuydRBtZ0D6YwxtCemYQLgHTRKYWz6eT/rRv7V5zjOnp
-         doCQ==
-X-Gm-Message-State: ANhLgQ041xsATc/skJe8EcjM0noJUCebyEN1RREr2XMwJBCcgM9F9ZLt
-        rQcA5Avp3chxcYMp27U7MjbZNHvfUqzvnw==
-X-Google-Smtp-Source: ADFU+vvCzBvJsycFJ5GN0uTmM7t9OJuYXqZQxhNXFQry+16peJHfuRWZqZ7p5K3VN3sjFhjJo9kOhw==
-X-Received: by 2002:a50:d901:: with SMTP id t1mr7914197edj.34.1584097925241;
-        Fri, 13 Mar 2020 04:12:05 -0700 (PDT)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
-        by smtp.gmail.com with ESMTPSA id y4sm3189481ejm.77.2020.03.13.04.12.03
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2020 04:12:04 -0700 (PDT)
-Received: by mail-wr1-f42.google.com with SMTP id v11so11561201wrm.9
-        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2020 04:12:03 -0700 (PDT)
-X-Received: by 2002:adf:f545:: with SMTP id j5mr17149866wrp.295.1584097923138;
- Fri, 13 Mar 2020 04:12:03 -0700 (PDT)
+        Fri, 13 Mar 2020 07:15:43 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02DBFZvQ028353;
+        Fri, 13 Mar 2020 06:15:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1584098135;
+        bh=7tkZfvNOHZxe71ShBvxWyV8f/kaONotNf9K/ix8Md60=;
+        h=To:From:Subject:Date;
+        b=Hh2MW16ihS8lG7CdpXc2309/anqWT+any5IYaL0s/UzCXP6Tg3ZaxO9SYl/IkLrte
+         1KmhyNiKGihYGQjt6HQlgCR5XJx1/KYPhBp9/sf0CVm8QeSzfBj3glwmsDzfVJdmpG
+         I6+BkQc0SHaCgGu1IBX5b0JNNL3AAGMspM7MxUHo=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02DBFZWe039729
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 13 Mar 2020 06:15:35 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
+ Mar 2020 06:15:35 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 13 Mar 2020 06:15:35 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02DBFXd7116374;
+        Fri, 13 Mar 2020 06:15:33 -0500
+To:     Benoit Parrot <bparrot@ti.com>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        <linux-media@vger.kernel.org>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: OV5640 CSI2 problems
+Message-ID: <d0510b81-9ae1-9b6f-02c5-f4eb08e67bfa@ti.com>
+Date:   Fri, 13 Mar 2020 13:15:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200218202753.652093-1-dmitry.sepp@opensynergy.com>
- <12620787.dW097sEU6C@os-lin-dmo> <CAAFQd5BdS2oT+vgM3Qg64wPqWdPRi1uE6ZmOPwXwudv==3JQVA@mail.gmail.com>
- <6194402.K2JlShyGXD@os-lin-dmo>
-In-Reply-To: <6194402.K2JlShyGXD@os-lin-dmo>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 13 Mar 2020 12:11:51 +0100
-X-Gmail-Original-Message-ID: <CAAFQd5A-ZaTkx8YEdq=Q_KpbmzZ4kGxJ1ju8shXMot9WMytd=w@mail.gmail.com>
-Message-ID: <CAAFQd5A-ZaTkx8YEdq=Q_KpbmzZ4kGxJ1ju8shXMot9WMytd=w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] video_video: Add the Virtio Video V4L2 driver
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        virtio-dev@lists.oasis-open.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>, dstaessens@chromium.org,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>, uril@redhat.com,
-        samiullah.khawaja@opensynergy.com, kiran.pawar@opensynergy.com,
-        Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 11:27 AM Dmitry Sepp
-<dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Tomasz,
->
-> On Freitag, 13. M=C3=A4rz 2020 11:05:35 CET Tomasz Figa wrote:
-> > On Thu, Mar 12, 2020 at 12:48 PM Dmitry Sepp
-> >
-> > <dmitry.sepp@opensynergy.com> wrote:
-> > > Hi Hans,
-> > >
-> > > One more thing:
-> > > > GFP_DMA? That's unusual. I'd expect GFP_DMA32. All V4L2 drivers use
-> > > > that.
-> > >
-> > > GFP_DMA32 had no effect for me on arm64. Probably I need to recheck.
-> >
-> > What's the reason to use any specific GFP flags at all? GFP_DMA(32)
-> > memory in the guest would typically correspond to host pages without
-> > any specific location guarantee.
-> >
->
-> Typically, but not always, especially for non x86. Say, some platforms do=
-n't
-> have IOMMUs for codec devices and those devices require physically contig=
- low
-> memory. We had to find a way to handle that.
+Hi all,
 
-So basically your hypervisor guarantees that the guest pages inside
-the GFP_DMA zone are contiguous and DMA-able on the host as well?
-Given the Linux-specific aspect of GFP flags and differences in the
-implementation across architectures, perhaps it would be a better idea
-to use the DMA mask instead? That wouldn't currently affect vb2_dma_sg
-allocations, but in that case the host decoder would have some IOMMU
-anyway, right?
+I've been testing and debugging OV5640 with TI's DRA76 and AM65 platforms, which have the CAL IP for 
+MIPI CSI2 RX.
 
->
-> Best regards,
-> Dmitry.
->
-> > Best regards,
-> > Tomasz
-> >
-> > > Best regards,
-> > > Dmitry.
-> > >
-> > > On Donnerstag, 12. M=C3=A4rz 2020 11:18:26 CET Hans Verkuil wrote:
-> > > > On 3/12/20 11:15 AM, Dmitry Sepp wrote:
-> > > > > Hi Hans,
-> > > > >
-> > > > > Thank you for your great detailed review!
-> > > > >
-> > > > > I won't provide inline answers as your comments totally make sens=
-e.
-> > > > > There
-> > > > > is>
-> > > > >
-> > > > > only one thing I want to mention:
-> > > > >>> + struct video_plane_format plane_format[VIRTIO_VIDEO_MAX_PLANE=
-S];
-> > > > >>
-> > > > >> Why is this virtio specific? Any reason for not using
-> > > > >> VIDEO_MAX_PLANES?
-> > > > >
-> > > > > I'd say this is because VIDEO_MAX_PLANES does not exist outside o=
-f the
-> > > > > Linux OS, so for whatever other system we need a virtio specific
-> > > > > definition.
-> > > >
-> > > > OK, good reason :-)
-> > > >
-> > > > It's probably a good thing to add a comment where
-> > > > VIRTIO_VIDEO_MAX_PLANES is defined that explains this.
-> > > >
-> > > > Regards,
-> > > >
-> > > >       Hans
->
->
+The most clear problem is that 1280x720@30 doesn't work at all, but with all resolutions I can see 
+occasional PHY errors reported when starting the streaming.
+
+The OV5640 spec lists the video timings, but I haven't been able to figure out what exactly they 
+mean, as e.g. the vsync time doesn't seem to match the other times according to my calculations.
+
+In any case, I was poking here and there, and noticed that if I use the htot value from the spec 
+(2844), instead of the current value (1896 for most resolutions), 1280x720 works, and the PHY errors 
+are gone.
+
+Testing more, I found out that the smaller the htot, the more unreliable the RX becomes, and going 
+down from 2844, somewhere around 2400 I start to see errors.
+
+I'm not that much familiar with CSI-2, and very little with OV5640. Does anyone have a clue about 
+what I'm observing here? Does 1280x720@30 work on other platforms with CSI2? Where do the current 
+OV5640 video timings come from?
+
+  Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
