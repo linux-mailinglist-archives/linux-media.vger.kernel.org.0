@@ -2,179 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E2C1848B7
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 15:03:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 442BF1848C5
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 15:07:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgCMODR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 10:03:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48708 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbgCMODR (ORCPT
+        id S1726709AbgCMOHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 10:07:06 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53852 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgCMOHG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 10:03:17 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7424D5F;
-        Fri, 13 Mar 2020 15:03:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584108194;
-        bh=gPbT+x8g4idIbaikR9Dwjy5YbKNa0Oc/b944BUbYp8g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t8hHE13nXX9VIWZinuqgdGWhyDAqrEY+0vA6raNkjindaw8wudaqfCinONqV11u76
-         F4u3MRrL+CaxPUsld63J+lEA0Rj7cZLZA3pumQFCZesYvGk6MIzBFz4k3Pm0J5DT5E
-         qzEHE4Ba7j3qjEfHNJFQPMabKaY6Pd9FMchsHCz8=
-Date:   Fri, 13 Mar 2020 16:03:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] media: ti-vpe: cal: fix DMA memory corruption
-Message-ID: <20200313140311.GF4751@pendragon.ideasonboard.com>
-References: <20200313082639.7743-1-tomi.valkeinen@ti.com>
+        Fri, 13 Mar 2020 10:07:06 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 0B7BC29714B
+Subject: Re: [PATCH v2 2/2] media: staging: rkisp1: replace the call to
+ v4l2_async_notifier_parse_fwnode_endpoints_by_port
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com
+References: <20200312154604.24996-1-dafna.hirschfeld@collabora.com>
+ <20200312154604.24996-3-dafna.hirschfeld@collabora.com>
+ <20200313091804.GP5379@paasikivi.fi.intel.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <ea74e214-6fba-dede-5355-2b1c48e1a3a0@collabora.com>
+Date:   Fri, 13 Mar 2020 11:06:54 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
+In-Reply-To: <20200313091804.GP5379@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200313082639.7743-1-tomi.valkeinen@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Hi Sakari,
 
-Thank you for the patch.
-
-On Fri, Mar 13, 2020 at 10:26:39AM +0200, Tomi Valkeinen wrote:
-> When the CAL driver stops streaming, it will shut everything down
-> without waiting for the current frame to finish. This leaves the CAL DMA
-> in a slightly undefined state, and when CAL DMA is enabled when the
-> stream is started the next time, the old DMA transfer will continue.
+On 3/13/20 6:18 AM, Sakari Ailus wrote:
+> Hi Dafna,
 > 
-> It is not clear if the old DMA transfer continues with the exact
-> settings of the original transfer, or is it a mix of old and new
-> settings, but in any case the end result is memory corruption as the
-> destination memory address is no longer valid.
+> Thanks for the patch.
 > 
-> I could not find any way to ensure that any old DMA transfer would be
-> discarded, except perhaps full CAL reset. But we cannot do a full reset
-> when one port is getting enabled, as that would reset both ports.
+> On Thu, Mar 12, 2020 at 04:46:04PM +0100, Dafna Hirschfeld wrote:
+>> don't call 'v4l2_async_notifier_parse_fwnode_endpoints_by_port'
+>> in order to register async subdevices. Instead call
+>> 'v4l2_fwnode_endpoint_parse' to parse the remote endpoints
+>> and then register each async subdev with
+>> 'v4l2_async_notifier_add_fwnode_remote_subdev'
+>>
+>> Also remove the relevant item in the TODO file
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>  drivers/staging/media/rkisp1/TODO         |  3 -
+>>  drivers/staging/media/rkisp1/rkisp1-dev.c | 94 +++++++++++++----------
+>>  2 files changed, 55 insertions(+), 42 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
+>> index 0aa9877dd64a..1aa3bb9fd6cb 100644
+>> --- a/drivers/staging/media/rkisp1/TODO
+>> +++ b/drivers/staging/media/rkisp1/TODO
+>> @@ -1,6 +1,3 @@
+>> -* Don't use v4l2_async_notifier_parse_fwnode_endpoints_by_port().
+>> -e.g. isp_parse_of_endpoints in drivers/media/platform/omap3isp/isp.c
+>> -cio2_parse_firmware in drivers/media/pci/intel/ipu3/ipu3-cio2.c.
+>>  * Fix pad format size for statistics and parameters entities.
+>>  * Use threaded interrupt for rkisp1_stats_isr(), remove work queue.
+>>  * Fix checkpatch errors.
+>> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+>> index d2186856bb24..1035a39f3e49 100644
+>> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
+>> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+>> @@ -233,35 +233,6 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+>>  	return 0;
+>>  }
+>>  
+>> -static int rkisp1_fwnode_parse(struct device *dev,
+>> -			       struct v4l2_fwnode_endpoint *vep,
+>> -			       struct v4l2_async_subdev *asd)
+>> -{
+>> -	struct rkisp1_sensor_async *s_asd =
+>> -			container_of(asd, struct rkisp1_sensor_async, asd);
+>> -
+>> -	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
+>> -		dev_err(dev, "Only CSI2 bus type is currently supported\n");
+>> -		return -EINVAL;
+>> -	}
+>> -
+>> -	if (vep->base.port != 0) {
+>> -		dev_err(dev, "The ISP has only port 0\n");
+>> -		return -EINVAL;
+>> -	}
+>> -
+>> -	s_asd->mbus_type = vep->bus_type;
+>> -	s_asd->lanes = vep->bus.mipi_csi2.num_data_lanes;
+>> -
+>> -	/* Parallel bus is currently not supported */
+>> -	s_asd->parallel_bus_flags = 0;
+>> -
+>> -	if (s_asd->lanes < 1 || s_asd->lanes > 4)
+>> -		return -EINVAL;
+>> -
+>> -	return 0;
+>> -}
+>> -
+>>  static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
+>>  	.bound = rkisp1_subdev_notifier_bound,
+>>  	.unbind = rkisp1_subdev_notifier_unbind,
+>> @@ -271,23 +242,68 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
+>>  static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+>>  {
+>>  	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
+>> -	struct device *dev = rkisp1->dev;
+>> +	int next_id = 0;
+>>  	int ret;
+>>  
+>>  	v4l2_async_notifier_init(ntf);
+>>  
+>> -	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(dev, ntf,
+>> -					sizeof(struct rkisp1_sensor_async),
+>> -					0, rkisp1_fwnode_parse);
+>> -	if (ret)
+>> -		return ret;
+>> +	while (1) {
 > 
-> This patch tries to make sure that the DMA transfer is finished properly
-> when the stream is being stopped. I say "tries", as, as mentioned above,
-> I don't see a way to force the DMA transfer to finish. I believe this
-> fixes the corruptions for normal cases, but if for some reason the DMA
-> of the final frame would stall a lot, resulting in timeout in the code
-> waiting for the DMA to finish, we'll again end up with unfinished DMA
-> transfer. However, I don't know what could cause such a timeout.
+> I might loop over each port here instead.
+
+ISP has a single port (please, see my comment below).
+
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/media/platform/ti-vpe/cal.c | 32 +++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+>> +		struct v4l2_fwnode_endpoint vep = {
+>> +			.bus_type = V4L2_MBUS_CSI2_DPHY
+>> +		};
+>> +		struct rkisp1_sensor_async *rk_asd = NULL;
+>> +		struct fwnode_handle *ep;
+>>  
+>> -	if (list_empty(&ntf->asd_list))
+>> -		return -ENODEV;
+>> +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
+>> +			0, next_id, FWNODE_GRAPH_ENDPOINT_NEXT);
 > 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index be54806180a5..b857cab120ad 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -414,6 +414,8 @@ struct cal_ctx {
->  	struct cal_buffer	*cur_frm;
->  	/* Pointer pointing to next v4l2_buffer */
->  	struct cal_buffer	*next_frm;
-> +
-> +	bool dma_act;
->  };
->  
->  static const struct cal_fmt *find_format_by_pix(struct cal_ctx *ctx,
-> @@ -944,6 +946,7 @@ static void csi2_lane_config(struct cal_ctx *ctx)
->  
->  static void csi2_ppi_enable(struct cal_ctx *ctx)
->  {
-> +	reg_write(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port), BIT(3));
->  	reg_write_field(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port),
->  			CAL_GEN_ENABLE, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
->  }
-> @@ -1206,15 +1209,25 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
->  		if (isportirqset(irqst2, 1)) {
->  			ctx = dev->ctx[0];
->  
-> +			spin_lock(&ctx->slock);
-> +			ctx->dma_act = false;
-> +
->  			if (ctx->cur_frm != ctx->next_frm)
->  				cal_process_buffer_complete(ctx);
-> +
-> +			spin_unlock(&ctx->slock);
->  		}
->  
->  		if (isportirqset(irqst2, 2)) {
->  			ctx = dev->ctx[1];
->  
-> +			spin_lock(&ctx->slock);
-> +			ctx->dma_act = false;
-> +
->  			if (ctx->cur_frm != ctx->next_frm)
->  				cal_process_buffer_complete(ctx);
-> +
-> +			spin_unlock(&ctx->slock);
->  		}
->  	}
->  
-> @@ -1230,6 +1243,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
->  			dma_q = &ctx->vidq;
->  
->  			spin_lock(&ctx->slock);
-> +			ctx->dma_act = true;
->  			if (!list_empty(&dma_q->active) &&
->  			    ctx->cur_frm == ctx->next_frm)
->  				cal_schedule_next_buffer(ctx);
-> @@ -1241,6 +1255,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
->  			dma_q = &ctx->vidq;
->  
->  			spin_lock(&ctx->slock);
-> +			ctx->dma_act = true;
->  			if (!list_empty(&dma_q->active) &&
->  			    ctx->cur_frm == ctx->next_frm)
->  				cal_schedule_next_buffer(ctx);
-> @@ -1713,10 +1728,27 @@ static void cal_stop_streaming(struct vb2_queue *vq)
->  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
->  	struct cal_dmaqueue *dma_q = &ctx->vidq;
->  	struct cal_buffer *buf, *tmp;
-> +	unsigned long timeout;
->  	unsigned long flags;
->  	int ret;
-> +	bool dma_act;
->  
->  	csi2_ppi_disable(ctx);
-> +
-> +	/* wait for stream and dma to finish */
-> +	dma_act = true;
-> +	timeout = jiffies + msecs_to_jiffies(500);
-> +	while (dma_act && time_before(jiffies, timeout)) {
-> +		msleep(50);
-> +
-> +		spin_lock_irqsave(&ctx->slock, flags);
-> +		dma_act = ctx->dma_act;
-> +		spin_unlock_irqrestore(&ctx->slock, flags);
-> +	}
+> The port number is always zero, whereas the endpoint id changes on each
+> iteration. Is that intended?
 
-Waiting for the transfer to complete seems to be a good idea, but how
-about using a wait queue instead of such a loop ? That would allow
-better usage of CPU time and faster reaction time, and shouldn't be
-difficult to implement. You may also want to replace dma_act with a
-state if needed (in case you need to express running/stopping/stopped
-states), and I would rename it to running if you just need a boolean.
+Yes, so ISP has a single connection port (a single MIPI-DPHY bus), but hardware can plug more then one
+sensor in this port (but only one can be active at a time).
 
-> +
-> +	if (dma_act)
-> +		ctx_err(ctx, "failed to disable dma cleanly\n");
-> +
->  	disable_irqs(ctx);
->  	csi2_phy_deinit(ctx);
->  
+At least this is how I understand how the modeling should be.
+And this is how we modeled the device tree bindings:
+https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml#n139
 
--- 
-Regards,
+Make sense?
 
-Laurent Pinchart
+Thanks for reviewing this,
+Helen
+
+> 
+>>  
+>> -	ntf->ops = &rkisp1_subdev_notifier_ops;
+>> +		if (!ep)
+>> +			break;
+>> +
+>> +		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+>> +		if (ret)
+>> +			goto err_parse;
+>> +
+>> +		rk_asd = kzalloc(sizeof(*rk_asd), GFP_KERNEL);
+>> +		if (!rk_asd) {
+>> +			ret = -ENOMEM;
+>> +			goto err_parse;
+>> +		}
+>> +
+>> +		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
+>> +		rk_asd->mbus_type = vep.bus_type;
+>> +
+>> +		/* Parallel bus is currently not supported */
+>> +		rk_asd->parallel_bus_flags = 0;
+>> +		ret = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
+>> +								   &rk_asd->asd);
+>> +		if (ret)
+>> +			goto err_parse;
+>> +
+>> +		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
+>> +			vep.base.id, rk_asd->lanes);
+>> +
+>> +		next_id = vep.base.id + 1;
+>> +
+>> +		fwnode_handle_put(ep);
+>>  
+>> -	return v4l2_async_notifier_register(&rkisp1->v4l2_dev, ntf);
+>> +		continue;
+>> +err_parse:
+>> +		fwnode_handle_put(ep);
+>> +		kfree(rk_asd);
+>> +		v4l2_async_notifier_cleanup(ntf);
+>> +		return ret;
+>> +	}
+>> +
+>> +	if (next_id == 0)
+>> +		dev_warn(rkisp1->dev, "no remote subdevice found\n");
+> 
+> I guess the driver will be loaded if the module is around and the device
+> exists. If the board has no cameras, is that something on which a warning
+> should be produced? I'd perhaps use dev_dbg(), if I'd print this at all.
+> 
+>> +	ntf->ops = &rkisp1_subdev_notifier_ops;
+>> +	ret = v4l2_async_notifier_register(&rkisp1->v4l2_dev, ntf);
+>> +	if (ret) {
+>> +		v4l2_async_notifier_cleanup(ntf);
+>> +		return ret;
+>> +	}
+>> +	return 0;
+>>  }
+>>  
+>>  /* ----------------------------------------------------------------------------
+> 
