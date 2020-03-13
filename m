@@ -2,106 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E86AE184278
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 09:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C61E718427D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 09:23:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbgCMIVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 04:21:11 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54945 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726230AbgCMIVL (ORCPT
+        id S1726395AbgCMIXN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 04:23:13 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:39856 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbgCMIXN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 04:21:11 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id CfZ3j1HP0hVf8CfZ6jO98M; Fri, 13 Mar 2020 09:21:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584087669; bh=XOx2gtrl0/QdQw4FtDRbotgoOYOMw8gbaDUKtBrXmIU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=f9n1dUEocS4ZbKtJv1ujdPQ+Sb6+Z2baEEGpQe73vOdLOHnQ+fKmXsMHIzatbxnmB
-         xxTdqa1lUSHiJJjqlPfzZRbuVmAiOPa4azzajjYqywen+hYMgRi54ELArDDahA69Ip
-         WauM5r0lewkJgbCuYfeG3LlmhKrEAqC79D5U1qPCAmdCusSk9StFd8NTEjIdGQYwYk
-         8iO/QUfWGN5Chb+4+44oxWG0wbfLBZmX9cyY7SIGKK1YuqtETz3onH/+kx01Vqv67T
-         8iX++s7J6iwO4BuZhkge0tINE7y4PkYeOVPaoWlhaNgdNG8SW3ixQ2FWMYoaz7zU0g
-         y0B87Pixn+Jjg==
-Subject: Re: [PATCH 0/8] media: i2c: adv748x: add support for HDMI audio
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Fri, 13 Mar 2020 04:23:13 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02D8N9Ig073136;
+        Fri, 13 Mar 2020 03:23:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1584087789;
+        bh=g8TOPqbAbMz+FTxhaillOh4xnBaj0rIl94rlAcKQJ/A=;
+        h=From:To:CC:Subject:Date;
+        b=qEcARGHTzysj3YfopmuajBaZd43U8jH6CwVeeWCVmMKo3m++Qn0q5n5JWbqjkCEA8
+         vNxp+YZnoZm1lmwdGE/uvmMRXS+lwAoAqxLpcfuhewO+/qGuhsUrEDESdARso3dsoR
+         ppolVIIc3euHoU1iteCfEmsWl9vjBi4agaRA/C+o=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02D8N9g0027809;
+        Fri, 13 Mar 2020 03:23:09 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
+ Mar 2020 03:23:09 -0500
+Received: from localhost.localdomain (10.64.41.19) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 13 Mar 2020 03:23:08 -0500
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+        by localhost.localdomain (8.15.2/8.15.2) with ESMTP id 02D8N6h1107901;
+        Fri, 13 Mar 2020 03:23:07 -0500
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20200113141459.GA3606@pflmari>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e93e6e1e-11dc-d505-7287-46b115a4a609@xs4all.nl>
-Date:   Fri, 13 Mar 2020 09:21:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        <stable@vger.kernel.org>
+Subject: [PATCH] media: ov5640: fix use of destroyed mutex
+Date:   Fri, 13 Mar 2020 10:22:58 +0200
+Message-ID: <20200313082258.6930-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200113141459.GA3606@pflmari>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO/W7Ox867vsX2/fQCV+/X9vTuQGo/HQDazp7UvW8nqZsCyj7IkNo50nZuDB6xx2OB/oqZxaNPwA2ybQtLJHH4UFyKbbfRIjzY2yy2WZUa/2NA93YL7a
- TwkUzK5wcpPQlxxDkuWlo7xW9lU5KjOcElOLWDktwzE3kfCXyt22exvZfmWCfKpLFQkIno+fjRS1S95ikcDhW/wGnpQO/kws0BiaQ912gCuoer1N9+A3/vmf
- J7TTAxuUEkb/yFMnBNXhEh7z9TOMY3Qo9ifmd32AiEnE6z+TgZlt2ts2I4xgRbEuVVWEyCPtUTW2hJjkHv9QaiZtkKrGqaUvyfM0sPiSJR6jVqra1cwq+Ghm
- 3MTkO0zdiBsRBPNjeb8lURM1QubTtoCRIgOX9NRaoKGcpNQVtgZbhdQ+63hyTssfm7VWy1PluCwjwCI1mknicCKA0qD1to86bTC0CdfIZoWT+XghdJYwJOzA
- KiX4tmq2ccDiBA3wqJP+IMrbXN7FR5FsVx7OFt2TKyZLXQS5UlOEhkFq9kz4m9ZJvNYpwEgr5rUbhPZBgIEaPCzelCBO9VmcogrHCvc5meY7CUDHQHg7+bcP
- jFk=
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+v4l2_ctrl_handler_free() uses hdl->lock, which in ov5640 driver is set
+to sensor's own sensor->lock. In ov5640_remove(), the driver destroys the
+sensor->lock first, and then calls v4l2_ctrl_handler_free(), resulting
+in the use of the destroyed mutex.
 
-Again, sorry for the late reply.
+Fix this by calling v4l2_ctrl_handler_free() before mutex_destroy().
 
-Patch 2/8 has its own comment since that approach won't work.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/media/i2c/ov5640.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As a general note for this series: it might be better to have two
-patch series: one for patches 1 and 3-6 (not sure whether 5 can be included
-or not), and one where the public API changes (i.e. new V4L2 audio controls)
-are added. The first can probably be merged fairly quickly, the second will
-likely require more iterations since public API patches always take much longer
-before they are mature.
-
-Regards,
-
-	Hans
-
-On 1/13/20 3:14 PM, Alex Riesen wrote:
-> This adds minimal support for controlling the audio output I2S port available
-> on ADV7481 and ADV7482 HDMI decoder devices by ADI. The port carries audio
-> signal from the decoded HDMI stream.
-> 
-> An ADV7482 on the Renesas Salvator-X ES1.1 was used during development of this
-> code.
-> 
-> Alex Riesen (8):
->   media: adv748x: add a device-specific wrapper for register block read
->   media: adv748x: add audio mute control and output selection ioctls
->   media: adv748x: add log_status ioctl
->   media: adv748x: reserve space for the audio (I2S) port in the driver
->     structures
->   media: adv748x: add an ASoC DAI definition to the driver
->   media: adv748x: reduce amount of code for bitwise modification of
->     device registers
->   dt-bindings: adv748x: add information about serial audio interface
->     (I2S/TDM)
->   arm64: dts: renesas: salvator: add a connection from adv748x codec
->     (HDMI input) to the R-Car SoC
-> 
->  .../devicetree/bindings/media/i2c/adv748x.txt |  13 +-
->  .../dts/renesas/r8a7795-es1-salvator-x.dts    |  24 +-
->  .../boot/dts/renesas/salvator-common.dtsi     |  35 +-
->  drivers/media/i2c/adv748x/adv748x-core.c      |  54 +++
->  drivers/media/i2c/adv748x/adv748x-hdmi.c      | 355 ++++++++++++++++++
->  drivers/media/i2c/adv748x/adv748x.h           |  53 ++-
->  6 files changed, 523 insertions(+), 11 deletions(-)
-> 
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 854031f0b64a..64511de4eea8 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -3104,9 +3104,9 @@ static int ov5640_remove(struct i2c_client *client)
+ 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+ 
+ 	v4l2_async_unregister_subdev(&sensor->sd);
++	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+ 	mutex_destroy(&sensor->lock);
+ 	media_entity_cleanup(&sensor->sd.entity);
+-	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+ 
+ 	return 0;
+ }
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
