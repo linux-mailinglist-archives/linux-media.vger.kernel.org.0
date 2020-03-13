@@ -2,108 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F821846DB
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 13:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1B91184721
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 13:44:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbgCMM2H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 08:28:07 -0400
-Received: from mga18.intel.com ([134.134.136.126]:6234 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726395AbgCMM2H (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 08:28:07 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Mar 2020 05:28:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,548,1574150400"; 
-   d="scan'208";a="290013497"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Mar 2020 05:28:04 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jCjQ6-009G8T-69; Fri, 13 Mar 2020 14:28:06 +0200
-Date:   Fri, 13 Mar 2020 14:28:06 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        id S1726684AbgCMMo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 08:44:56 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:34186 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726652AbgCMMo4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Mar 2020 08:44:56 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id F3C2F634C89;
+        Fri, 13 Mar 2020 14:43:53 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jCjfO-0001it-7j; Fri, 13 Mar 2020 14:43:54 +0200
+Date:   Fri, 13 Mar 2020 14:43:54 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Robert Foss <robert.foss@linaro.org>
 Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Fabio Estevam <festevam@gmail.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
-Message-ID: <20200313122806.GT1922688@smile.fi.intel.com>
+Subject: Re: [v2 3/3] media: ov8856: Implement sensor module revision
+ identification
+Message-ID: <20200313124354.GE5730@valkosipuli.retiisi.org.uk>
 References: <20200313110350.10864-1-robert.foss@linaro.org>
- <20200313110350.10864-3-robert.foss@linaro.org>
+ <20200313110350.10864-4-robert.foss@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200313110350.10864-3-robert.foss@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200313110350.10864-4-robert.foss@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 12:03:49PM +0100, Robert Foss wrote:
-> Add devicetree match table, and enable ov8856_probe()
-> to initialize power, clocks and reset pins.
+Hi Robert,
 
-Thanks for an update.
-My comments below.
-
-...
-
-> +	ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
-
-In many frameworks we have '_optional' variants of API. Please use it instead
-of open coded approach.
-
-> +	if (PTR_ERR(ov8856->xvclk) == -ENOENT) {
-> +		dev_info(&client->dev, "xvclk clock not defined, continuing...\n");
-> +		ov8856->xvclk = NULL;
-> +	} else if (IS_ERR(ov8856->xvclk)) {
-> +		dev_err(&client->dev, "could not get xvclk clock (%ld)\n",
-> +			PTR_ERR(ov8856->xvclk));
-> +		return PTR_ERR(ov8856->xvclk);
-> +	}
+On Fri, Mar 13, 2020 at 12:03:50PM +0100, Robert Foss wrote:
+> Query the sensor for its module revision, and compare it
+> to known revisions.
+> Currently only the '1B' revision has been added.
+> 
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>  drivers/media/i2c/ov8856.c | 54 +++++++++++++++++++++++++++++++++-----
+>  1 file changed, 48 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+> index db61eed223e8..39662d3d86dd 100644
+> --- a/drivers/media/i2c/ov8856.c
+> +++ b/drivers/media/i2c/ov8856.c
+> @@ -34,6 +34,18 @@
+>  #define OV8856_MODE_STANDBY		0x00
+>  #define OV8856_MODE_STREAMING		0x01
+>  
+> +/* define 1B module revision */
+> +#define OV8856_1B_MODULE		0x02
 > +
-> +	ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
+> +/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
+> + * of the byte in the OTP that means the module revision
+> + */
+> +#define OV8856_MODULE_REVISION		0x700f
+> +#define OV8856_OTP_MODE_CTRL		0x3d84
+> +#define OV8856_OTP_LOAD_CTRL		0x3d81
+> +#define OV8856_OTP_MODE_AUTO		0x00
+> +#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
+> +
+>  /* vertical-timings from sensor */
+>  #define OV8856_REG_VTS			0x380e
+>  #define OV8856_VTS_MAX			0x7fff
+> @@ -711,6 +723,25 @@ static int ov8856_test_pattern(struct ov8856 *ov8856, u32 pattern)
+>  				OV8856_REG_VALUE_08BIT, pattern);
+>  }
+>  
+> +static int ov8856_check_revision(struct ov8856 *ov8856)
+
+There are no version checks being done here, nor apparently the version is
+read by this function. 
+
+> +{
+> +	int ret;
+> +
+> +	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
+> +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
+> +	if (ret)
 > +		return ret;
-> +	}
 > +
-
-> +	ov8856->reset_gpio = devm_gpiod_get(&client->dev, "reset",
-> +					       GPIOD_OUT_HIGH);
-
-Same here.
-
-> +	if (IS_ERR(ov8856->reset_gpio)) {
-> +		dev_err(&client->dev, "failed to get reset-gpios\n");
-> +		return PTR_ERR(ov8856->reset_gpio);
-> +	}
+> +	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
+> +			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
+> +	if (ret)
+> +		return ret;
 > +
-> +	for (i = 0; i < ARRAY_SIZE(ov8856_supply_names); i++)
-> +		ov8856->supplies[i].supply = ov8856_supply_names[i];
+> +	return ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
+> +				OV8856_REG_VALUE_08BIT,
+> +				OV8856_OTP_LOAD_CTRL_ENABLE);
+
+If streaming is started to read the EEPROM, shouldn't it be stopped after
+reading it as well?
+
+> +}
 > +
-
-> +	ret = devm_regulator_bulk_get(&client->dev,
-> +				      ARRAY_SIZE(ov8856_supply_names),
-> +				      ov8856->supplies);
-
-Luckily regulator framework will create dummy ones if there is none found.
-
+>  static int ov8856_set_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct ov8856 *ov8856 = container_of(ctrl->handler,
+> @@ -1144,6 +1175,23 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
+>  		return -ENXIO;
+>  	}
+>  
+> +	/* check sensor hardware revision */
+> +	ret = ov8856_check_revision(ov8856);
 > +	if (ret) {
-> +		dev_warn(&client->dev, "failed to get regulators\n");
+> +		dev_err(&client->dev, "failed to check sensor revision");
 > +		return ret;
 > +	}
+> +
+> +	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
+> +			      OV8856_REG_VALUE_08BIT, &val);
+> +	if (ret)
+> +		return ret;
+
+How about moving this inside the check_revision function above? It looks as
+if it's dependent on that.
+
+> +
+> +	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
+> +		val,
+> +		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
+> +		client->addr);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1254,12 +1302,6 @@ static int ov8856_probe(struct i2c_client *client)
+>  		return PTR_ERR(ov8856->xvclk);
+>  	}
+>  
+> -	ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
+
+This seems like an unrelated change.
+
+> -	if (ret < 0) {
+> -		dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
+> -		return ret;
+> -	}
+> -
+>  	ov8856->reset_gpio = devm_gpiod_get(&client->dev, "reset",
+>  					       GPIOD_OUT_HIGH);
+>  	if (IS_ERR(ov8856->reset_gpio)) {
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Sakari Ailus
