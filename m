@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 418AC184987
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 15:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED2A7184989
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 15:37:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbgCMOhv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 10:37:51 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:55365 "EHLO
+        id S1726810AbgCMOhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 10:37:55 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:60313 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726216AbgCMOhu (ORCPT
+        with ESMTP id S1726216AbgCMOhz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 10:37:50 -0400
+        Fri, 13 Mar 2020 10:37:55 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id DB65FFF806;
-        Fri, 13 Mar 2020 14:37:45 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id E357AFF811;
+        Fri, 13 Mar 2020 14:37:49 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
@@ -25,10 +25,12 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         niklas.soderlund+renesas@ragnatech.se,
         kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 0/4] v4l2-subdev: Introduce get_mbus_format pad op
-Date:   Fri, 13 Mar 2020 15:40:31 +0100
-Message-Id: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+Subject: [PATCH 1/4] media: i2c: adv748x: Adjust TXA data lanes number
+Date:   Fri, 13 Mar 2020 15:40:32 +0100
+Message-Id: <20200313144035.401430-2-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -36,61 +38,120 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series introduces a pad oriented operation, much similar to the existing
-s/g_mbus_config subdv video operation, to allow dyanmic negotiation of media
-bus parameter.
+When outputting SD-Core output through the TXA MIPI CSI-2 interface,
+the number of enabled data lanes should be reduced in order to guarantee
+the two video format produced by the SD-Core (480i and 576i) generate a
+MIPI CSI-2 link clock frequency compatible with the MIPI D-PHY
+specifications.
 
-The existing s/g_mbus_format are on their way to deprecation, due to the fact
-they operate at device level being a video op instead of pad level as this new
-implementation does.
+Limit the number of enabled data lanes to 2, which is guaranteed to
+support 480i and 576i formats.
 
-The use case I'm addressing is described here, in the RFC sent one year ago
-on top of Sakari's v4l-multiplexed work, where I tried to extend the frame
-descriptor to transport media bus information.
+Cache the number of enabled data lanes to be able to report it through
+the new get_mbus_config operation introduced in the following patches.
 
-Quoting:
-https://patchwork.kernel.org/cover/10855919/
-"The use case this series cover is the following one:
-the Gen-3 R-Car boards include an ADV748x HDMI/CVBS to CSI-2 converter
-connected to its CSI-2 receivers. The ADV748x chip has recently gained support
-for routing both HDMI and analogue video streams through its 4 lanes TXA
-transmitter, specifically to support the Ebisu board that has a single CSI-2
-receiver, compared to all other Gen-3 board where the ADV748x TXes are connected
-to different CSI-2 receivers, and where analogue video is streamed out from the
-ADV748x single lane TXB transmitter.
-To properly support transmission of analogue video through TXA, the number of
-data lanes shall be dynamically reduced to 1, in order to comply with the MIPI
-CSI-2 minimum clock frequency requirements"
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ drivers/media/i2c/adv748x/adv748x-core.c | 31 ++++++++++++++++++------
+ drivers/media/i2c/adv748x/adv748x.h      |  1 +
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-During the discussion of the RFC, Dave reported another use case for media
-bus parameter negotiation on his platform:
-https://patchwork.kernel.org/patch/10855923/#22569149
-
-Another possible use case is for parallel bus multiplexing, where multiple image
-sensor share the parallel bus lines and they get activated alternatively through
-an enable signal. While this might not be most clever design, it's often seen
-in the wild, and this operation allow receivers to re-configure their bus
-parameter in between streaming session.
-
-For now I have left untouched definitions and users of the existing
-s/g_mbus_config ops, waiting for feedback on this first implementation.
-
-Thanks
-   j
-
-Jacopo Mondi (4):
-  media: i2c: adv748x: Adjust TXA data lanes number
-  media: v4l2-subdv: Introduce get_mbus_config pad op
-  media: i2c: adv748x: Implement get_mbus_config
-  media: rcar-vin: csi2: Negotiate data lanes number
-
- drivers/media/i2c/adv748x/adv748x-core.c    | 31 +++++++---
- drivers/media/i2c/adv748x/adv748x-csi2.c    | 15 +++++
- drivers/media/i2c/adv748x/adv748x.h         |  1 +
- drivers/media/platform/rcar-vin/rcar-csi2.c | 49 ++++++++++++++-
- include/media/v4l2-subdev.h                 | 67 +++++++++++++++++++++
- 5 files changed, 153 insertions(+), 10 deletions(-)
-
---
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 23e02ff27b17..1fe7f97c6d52 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -241,10 +241,10 @@ static int adv748x_power_up_tx(struct adv748x_csi2 *tx)
+ 	int ret = 0;
+ 
+ 	/* Enable n-lane MIPI */
+-	adv748x_write_check(state, page, 0x00, 0x80 | tx->num_lanes, &ret);
++	adv748x_write_check(state, page, 0x00, 0x80 | tx->active_lanes, &ret);
+ 
+ 	/* Set Auto DPHY Timing */
+-	adv748x_write_check(state, page, 0x00, 0xa0 | tx->num_lanes, &ret);
++	adv748x_write_check(state, page, 0x00, 0xa0 | tx->active_lanes, &ret);
+ 
+ 	/* ADI Required Write */
+ 	if (tx->src == &state->hdmi.sd) {
+@@ -270,7 +270,7 @@ static int adv748x_power_up_tx(struct adv748x_csi2 *tx)
+ 	usleep_range(2000, 2500);
+ 
+ 	/* Power-up CSI-TX */
+-	adv748x_write_check(state, page, 0x00, 0x20 | tx->num_lanes, &ret);
++	adv748x_write_check(state, page, 0x00, 0x20 | tx->active_lanes, &ret);
+ 	usleep_range(1000, 1500);
+ 
+ 	/* ADI Required Writes */
+@@ -292,7 +292,7 @@ static int adv748x_power_down_tx(struct adv748x_csi2 *tx)
+ 	adv748x_write_check(state, page, 0x1e, 0x00, &ret);
+ 
+ 	/* Enable n-lane MIPI */
+-	adv748x_write_check(state, page, 0x00, 0x80 | tx->num_lanes, &ret);
++	adv748x_write_check(state, page, 0x00, 0x80 | tx->active_lanes, &ret);
+ 
+ 	/* i2c_mipi_pll_en - 1'b1 */
+ 	adv748x_write_check(state, page, 0xda, 0x01, &ret);
+@@ -357,14 +357,29 @@ static int adv748x_link_setup(struct media_entity *entity,
+ 	if (state->afe.tx) {
+ 		/* AFE Requires TXA enabled, even when output to TXB */
+ 		io10 |= ADV748X_IO_10_CSI4_EN;
+-		if (is_txa(tx))
++		if (is_txa(tx)) {
++			/*
++			 * Output from the SD-core (480i and 576i) from the TXA
++			 * interface requires reducing the number of enabled
++			 * data lanes in order to guarantee a valid link
++			 * frequency.
++			 */
++			tx->active_lanes = min(tx->num_lanes, 2U);
+ 			io10 |= ADV748X_IO_10_CSI4_IN_SEL_AFE;
+-		else
++		} else {
++			/* TXB has a single data lane, no need to adjust. */
+ 			io10 |= ADV748X_IO_10_CSI1_EN;
++		}
+ 	}
+ 
+-	if (state->hdmi.tx)
++	if (state->hdmi.tx) {
++		/*
++		 * Restore the number of active lanes, in case we have gone
++		 * through an AFE->TXA streaming sessions.
++		 */
++		tx->active_lanes = tx->num_lanes;
+ 		io10 |= ADV748X_IO_10_CSI4_EN;
++	}
+ 
+ 	return io_clrset(state, ADV748X_IO_10, io10_mask, io10);
+ }
+@@ -596,6 +611,7 @@ static int adv748x_parse_csi2_lanes(struct adv748x_state *state,
+ 		}
+ 
+ 		state->txa.num_lanes = num_lanes;
++		state->txa.active_lanes = num_lanes;
+ 		adv_dbg(state, "TXA: using %u lanes\n", state->txa.num_lanes);
+ 	}
+ 
+@@ -607,6 +623,7 @@ static int adv748x_parse_csi2_lanes(struct adv748x_state *state,
+ 		}
+ 
+ 		state->txb.num_lanes = num_lanes;
++		state->txb.active_lanes = num_lanes;
+ 		adv_dbg(state, "TXB: using %u lanes\n", state->txb.num_lanes);
+ 	}
+ 
+diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+index fccb388ce179..1061f425ece5 100644
+--- a/drivers/media/i2c/adv748x/adv748x.h
++++ b/drivers/media/i2c/adv748x/adv748x.h
+@@ -79,6 +79,7 @@ struct adv748x_csi2 {
+ 	unsigned int page;
+ 	unsigned int port;
+ 	unsigned int num_lanes;
++	unsigned int active_lanes;
+ 
+ 	struct media_pad pads[ADV748X_CSI2_NR_PADS];
+ 	struct v4l2_ctrl_handler ctrl_hdl;
+-- 
 2.25.1
 
