@@ -2,179 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7A6C18428E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 09:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 633C11842A7
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 09:31:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbgCMI0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 04:26:50 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:57590 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbgCMI0t (ORCPT
+        id S1726512AbgCMIbW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 04:31:22 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:40135 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbgCMIbV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 04:26:49 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02D8Qjbx077264;
-        Fri, 13 Mar 2020 03:26:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1584088006;
-        bh=2bdXDCOVDjRjbQeEOa6u440gjSuQopkMK3OEOqfHEbw=;
-        h=From:To:CC:Subject:Date;
-        b=B+oGXnAUQocz0I6EYxrX3yADZptvLTyMoERZM1oPC9wo0MLHgRK9VY31ABk07kFAD
-         3uV4+OBojRXPcHmO7Lq3+bVU1dOyb1u9m2p3uVHMmeGFCn5ZAybg4Ay9QByfdONEIh
-         pXOKHPYhz0k0JehN3CjUg8rcykBsDVBOvQjH/otQ=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02D8Qj0X059369
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 13 Mar 2020 03:26:45 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 13
- Mar 2020 03:26:45 -0500
-Received: from localhost.localdomain (10.64.41.19) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 13 Mar 2020 03:26:45 -0500
-Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
-        by localhost.localdomain (8.15.2/8.15.2) with ESMTP id 02D8Qhdf113654;
-        Fri, 13 Mar 2020 03:26:44 -0500
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH] media: ti-vpe: cal: fix DMA memory corruption
-Date:   Fri, 13 Mar 2020 10:26:39 +0200
-Message-ID: <20200313082639.7743-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 13 Mar 2020 04:31:21 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mr9O4-1jiCrb2HEU-00oFj6; Fri, 13 Mar 2020 09:31:09 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id C340E650117;
+        Fri, 13 Mar 2020 08:31:08 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id cxOrl4KuroB3; Fri, 13 Mar 2020 09:31:08 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 5C8C964FBDA;
+        Fri, 13 Mar 2020 09:31:08 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.10.2.141) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 13 Mar 2020 09:31:08 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id EB30A804F8; Fri, 13 Mar 2020 09:31:07 +0100 (CET)
+Date:   Fri, 13 Mar 2020 09:31:07 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        <devel@driverdev.osuosl.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/8] media: i2c: adv748x: add support for HDMI audio
+Message-ID: <20200313083107.GB3832@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devel@driverdev.osuosl.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200113141459.GA3606@pflmari>
+ <e93e6e1e-11dc-d505-7287-46b115a4a609@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <e93e6e1e-11dc-d505-7287-46b115a4a609@xs4all.nl>
+X-Originating-IP: [10.10.2.141]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536A627063
+X-Provags-ID: V03:K1:fjYydfuJxQy/H8udIdxXYJOsSL6CEuFrOL2Fk27fHc9ELzJwygD
+ tSR2eDKm9wVKROUb22OoSignvMm//2ihBwndyENNAK1vw/GGwbcPzSuRsgCu/zXswPhjrJn
+ QsZzGMdofYcDj+izAhTTtYzE5VeqCNqGS4xRBqOAryw0OIO6FHPkMRAt/l4/5JB4YS/HPn4
+ kp84HfyyRUDGN8AOVHeUQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nKFlS+QJRi8=:1hjS7oGd246sQU4texx2hz
+ 4v7AJxdCoJqx8xpbGKHdB9Pvql+H9DIKCZmGbdhJ61fgZfWZgzxSnlk+ZAEbigmrPk0kKyKrW
+ PHPZDGOpXzDeA8Ef2W0HEQjyfAQuCKobDjYHbVMh/nyAglluh2o47IDnbhoxkSZhw7pcafeba
+ K2HqgerOeNZAUqNArlqJ1NqQ/3OwMFA9DPEM2qWzQ8fUMBlA9fWoTMrvlWCWd2WcQAYlstWIy
+ o70LXvpY+iDiRz+c3WYjesFkIMry8EVlFrXYohAfYxhwQCVTiuLQORvwwvJSZtvU9R01sdamG
+ yaY0BJYKO4U1QmMrP9BQV5e7e4CY5urvdeO3Ix4e3um3lS0qmnupPFlw7D/Yep7Dlxmo53mGy
+ bjyUacXnvTtr30ea36Q5GDn4qDIt5dehhaSOjQmZpaGXLWI8zRv5mvbGAnkL+AhM4l2GoS6Dz
+ K7ofXW9K11lGMcq0xZcT5ZyHg1/7yYqz//H0oyCneSERixHlNZqMaMagyrUvD0vwTUHXzA4zO
+ 2i0PaJyzb+1gcT7XIHEvQQbM9wYFO1aCbeVmW/MHE6PM439FQGxZQr8X+LNgjUatujp5nkggt
+ 6iDjtuATX6TQ/NjqSTSqkdEpMQVRbJ9Fx6bJal80kQOK+DlABQFHLHWntV2BNNoMyQup653l3
+ LofCZS37X6F/5PQRn01zznxopDl2SjoAzAO5NyhlPqYAANlXqzk1Wn8YsdwoBddys6LRWz2WN
+ C6nb47Ai2HZ1IYQxf59b00qmuIywIUKxMaFIZKYdl3uxm/p7qByxHkNpBAzdPxQXsXtC5QGho
+ /Vegu7uGUml07e2l1aSEQlYklRNoFYobAa7tzF1fnLzLgiuj4TfGQZvwveoH3k1M1jZiZ1a
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the CAL driver stops streaming, it will shut everything down
-without waiting for the current frame to finish. This leaves the CAL DMA
-in a slightly undefined state, and when CAL DMA is enabled when the
-stream is started the next time, the old DMA transfer will continue.
+Hi Hans,
 
-It is not clear if the old DMA transfer continues with the exact
-settings of the original transfer, or is it a mix of old and new
-settings, but in any case the end result is memory corruption as the
-destination memory address is no longer valid.
+Hans Verkuil, Fri, Mar 13, 2020 09:21:05 +0100:
+> As a general note for this series: it might be better to have two
+> patch series: one for patches 1 and 3-6 (not sure whether 5 can be included
+> or not), and one where the public API changes (i.e. new V4L2 audio controls)
+> are added. The first can probably be merged fairly quickly, the second will
+> likely require more iterations since public API patches always take much longer
+> before they are mature.
 
-I could not find any way to ensure that any old DMA transfer would be
-discarded, except perhaps full CAL reset. But we cannot do a full reset
-when one port is getting enabled, as that would reset both ports.
+I see. After the discussion started, I started to have suspicions of my own
+regarding the V4L2 ioctls. Except for log-status, which is a practical
+diagnostics feature (even supported by v4l2-ctl), I'm thinking about dropping
+them altogether in favor of audio soc DAI implementation.
+The DAI implementation does all we ever needed from the device. Besides,
+selecting a I2S protocol variant from user space (I2S vs I2S/TDM) never felt
+right.
 
-This patch tries to make sure that the DMA transfer is finished properly
-when the stream is being stopped. I say "tries", as, as mentioned above,
-I don't see a way to force the DMA transfer to finish. I believe this
-fixes the corruptions for normal cases, but if for some reason the DMA
-of the final frame would stall a lot, resulting in timeout in the code
-waiting for the DMA to finish, we'll again end up with unfinished DMA
-transfer. However, I don't know what could cause such a timeout.
+Shall I submit the log-status separately?
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: stable@vger.kernel.org
----
- drivers/media/platform/ti-vpe/cal.c | 32 +++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Regards,
+Alex
 
-diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index be54806180a5..b857cab120ad 100644
---- a/drivers/media/platform/ti-vpe/cal.c
-+++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -414,6 +414,8 @@ struct cal_ctx {
- 	struct cal_buffer	*cur_frm;
- 	/* Pointer pointing to next v4l2_buffer */
- 	struct cal_buffer	*next_frm;
-+
-+	bool dma_act;
- };
- 
- static const struct cal_fmt *find_format_by_pix(struct cal_ctx *ctx,
-@@ -944,6 +946,7 @@ static void csi2_lane_config(struct cal_ctx *ctx)
- 
- static void csi2_ppi_enable(struct cal_ctx *ctx)
- {
-+	reg_write(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port), BIT(3));
- 	reg_write_field(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port),
- 			CAL_GEN_ENABLE, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
- }
-@@ -1206,15 +1209,25 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 		if (isportirqset(irqst2, 1)) {
- 			ctx = dev->ctx[0];
- 
-+			spin_lock(&ctx->slock);
-+			ctx->dma_act = false;
-+
- 			if (ctx->cur_frm != ctx->next_frm)
- 				cal_process_buffer_complete(ctx);
-+
-+			spin_unlock(&ctx->slock);
- 		}
- 
- 		if (isportirqset(irqst2, 2)) {
- 			ctx = dev->ctx[1];
- 
-+			spin_lock(&ctx->slock);
-+			ctx->dma_act = false;
-+
- 			if (ctx->cur_frm != ctx->next_frm)
- 				cal_process_buffer_complete(ctx);
-+
-+			spin_unlock(&ctx->slock);
- 		}
- 	}
- 
-@@ -1230,6 +1243,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 			dma_q = &ctx->vidq;
- 
- 			spin_lock(&ctx->slock);
-+			ctx->dma_act = true;
- 			if (!list_empty(&dma_q->active) &&
- 			    ctx->cur_frm == ctx->next_frm)
- 				cal_schedule_next_buffer(ctx);
-@@ -1241,6 +1255,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
- 			dma_q = &ctx->vidq;
- 
- 			spin_lock(&ctx->slock);
-+			ctx->dma_act = true;
- 			if (!list_empty(&dma_q->active) &&
- 			    ctx->cur_frm == ctx->next_frm)
- 				cal_schedule_next_buffer(ctx);
-@@ -1713,10 +1728,27 @@ static void cal_stop_streaming(struct vb2_queue *vq)
- 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
- 	struct cal_dmaqueue *dma_q = &ctx->vidq;
- 	struct cal_buffer *buf, *tmp;
-+	unsigned long timeout;
- 	unsigned long flags;
- 	int ret;
-+	bool dma_act;
- 
- 	csi2_ppi_disable(ctx);
-+
-+	/* wait for stream and dma to finish */
-+	dma_act = true;
-+	timeout = jiffies + msecs_to_jiffies(500);
-+	while (dma_act && time_before(jiffies, timeout)) {
-+		msleep(50);
-+
-+		spin_lock_irqsave(&ctx->slock, flags);
-+		dma_act = ctx->dma_act;
-+		spin_unlock_irqrestore(&ctx->slock, flags);
-+	}
-+
-+	if (dma_act)
-+		ctx_err(ctx, "failed to disable dma cleanly\n");
-+
- 	disable_irqs(ctx);
- 	csi2_phy_deinit(ctx);
- 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
+> On 1/13/20 3:14 PM, Alex Riesen wrote:
+> > This adds minimal support for controlling the audio output I2S port available
+> > on ADV7481 and ADV7482 HDMI decoder devices by ADI. The port carries audio
+> > signal from the decoded HDMI stream.
+> > 
+> > An ADV7482 on the Renesas Salvator-X ES1.1 was used during development of this
+> > code.
+> > 
+> > Alex Riesen (8):
+> >  1. media: adv748x: add a device-specific wrapper for register block read
+> >  2. media: adv748x: add audio mute control and output selection ioctls
+> >  3. media: adv748x: add log_status ioctl
+> >  4. media: adv748x: reserve space for the audio (I2S) port in the driver
+> >     structures
+> >  5. media: adv748x: add an ASoC DAI definition to the driver
+> >  6. media: adv748x: reduce amount of code for bitwise modification of
+> >     device registers
+> >  7. dt-bindings: adv748x: add information about serial audio interface
+> >     (I2S/TDM)
+> >  8. arm64: dts: renesas: salvator: add a connection from adv748x codec
+> >     (HDMI input) to the R-Car SoC
+> > 
+> >  .../devicetree/bindings/media/i2c/adv748x.txt |  13 +-
+> >  .../dts/renesas/r8a7795-es1-salvator-x.dts    |  24 +-
+> >  .../boot/dts/renesas/salvator-common.dtsi     |  35 +-
+> >  drivers/media/i2c/adv748x/adv748x-core.c      |  54 +++
+> >  drivers/media/i2c/adv748x/adv748x-hdmi.c      | 355 ++++++++++++++++++
+> >  drivers/media/i2c/adv748x/adv748x.h           |  53 ++-
+> >  6 files changed, 523 insertions(+), 11 deletions(-)
+> > 
