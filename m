@@ -2,44 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1B91184721
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 13:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D1F1847C2
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 14:15:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726684AbgCMMo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 08:44:56 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:34186 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726652AbgCMMo4 (ORCPT
+        id S1726770AbgCMNPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 09:15:46 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:40962 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgCMNPq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 08:44:56 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id F3C2F634C89;
-        Fri, 13 Mar 2020 14:43:53 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jCjfO-0001it-7j; Fri, 13 Mar 2020 14:43:54 +0200
-Date:   Fri, 13 Mar 2020 14:43:54 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
+        Fri, 13 Mar 2020 09:15:46 -0400
+Received: by mail-lf1-f65.google.com with SMTP id q10so7822168lfo.8;
+        Fri, 13 Mar 2020 06:15:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KIlDjbCvX/lL3/UnPy9wEqymHeVXohWQ8Y8B1yC6PRM=;
+        b=KzAls5VPN5rgeewhLttE0V+ho/T3Ym0N8W6508ZiquWU0EYsOUdidva2DssKJ4lYxn
+         uHXqUJDkB86E2t5r/eB9iGlGisYdIMLmBQiH9MPnfYOmEDVnllOVfQLj9HF709kiHpnp
+         cwU1mUkswFKeNpF3GtRHEYFOlpNkR2g1mgkD2dORECKUvUHKGYiLIRo6j++y873uepg7
+         jaerNMJFJshhCNfgPdd2sD5V+MMOfB4oM7iQax4TYMZN9TQHwN9KxGIUJHtaOGJEmqTg
+         oipHY3FV1tu/xMXCFIhIZ57QRrzeaB7TMzVGFXmdex3iWpZ6c3VDdxKiIXzNYMUC+Ad3
+         q5lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KIlDjbCvX/lL3/UnPy9wEqymHeVXohWQ8Y8B1yC6PRM=;
+        b=SnjqDp86+FZAmAp0xTcYDN+BUZWqFba29Oc8MOxb31udC4pYRAQo1eKPq/Irt9hSdM
+         ourFXHZ/0jQR0xhg1GJZVrZPa3xE95SXeT+uKCpYD/qXAN0KJcrySfWE2dA0weNJnSzP
+         jB2k73IhpoIcQowKyQ7tVuoSB9rxjHBnJTuuznEK4xOAbukhXyPxlCouGUkPCdwW7XnA
+         6VG/JRuhUhSHSzobGCIwzzIQoNDyV0YkpqOQz+qmVX8tc7CPWGrPXRq0pI1p3UYdBDm9
+         CfNzEoaZxUYcWEJ8H8x5AlZ4qyBVP8PE/sK1BHgJ3prKY90dgOU07MTEVdk2MQabwnXr
+         eUkw==
+X-Gm-Message-State: ANhLgQ3JA3o0VINVtw5bIqmu82Ib+y/10n4geJb/zgWSN9IS0JLNw0VP
+        H3OAg3fbIgP9HTSuS4OEiG0LsA+Q2is+2LjnMHE=
+X-Google-Smtp-Source: ADFU+vu3syumX09pf4wOKGU3FAmPDFh1VT9bOFZcHAgG0CF2SaVacKKBMemJsFE1v+otRGv8dY21fvqrZd57AKGk+4w=
+X-Received: by 2002:a05:6512:1054:: with SMTP id c20mr8394251lfb.69.1584105343706;
+ Fri, 13 Mar 2020 06:15:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200313110350.10864-1-robert.foss@linaro.org> <20200313110350.10864-3-robert.foss@linaro.org>
+In-Reply-To: <20200313110350.10864-3-robert.foss@linaro.org>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Fri, 13 Mar 2020 10:15:31 -0300
+Message-ID: <CAOMZO5D9bmXt9_qGTXw+qUG6JDHfuNtx++fJPJtn+mj1Dzsbag@mail.gmail.com>
+Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
 To:     Robert Foss <robert.foss@linaro.org>
 Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [v2 3/3] media: ov8856: Implement sensor module revision
- identification
-Message-ID: <20200313124354.GE5730@valkosipuli.retiisi.org.uk>
-References: <20200313110350.10864-1-robert.foss@linaro.org>
- <20200313110350.10864-4-robert.foss@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200313110350.10864-4-robert.foss@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -47,119 +67,38 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Robert,
 
-On Fri, Mar 13, 2020 at 12:03:50PM +0100, Robert Foss wrote:
-> Query the sensor for its module revision, and compare it
-> to known revisions.
-> Currently only the '1B' revision has been added.
-> 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
->  drivers/media/i2c/ov8856.c | 54 +++++++++++++++++++++++++++++++++-----
->  1 file changed, 48 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index db61eed223e8..39662d3d86dd 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -34,6 +34,18 @@
->  #define OV8856_MODE_STANDBY		0x00
->  #define OV8856_MODE_STREAMING		0x01
->  
-> +/* define 1B module revision */
-> +#define OV8856_1B_MODULE		0x02
-> +
-> +/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
-> + * of the byte in the OTP that means the module revision
-> + */
-> +#define OV8856_MODULE_REVISION		0x700f
-> +#define OV8856_OTP_MODE_CTRL		0x3d84
-> +#define OV8856_OTP_LOAD_CTRL		0x3d81
-> +#define OV8856_OTP_MODE_AUTO		0x00
-> +#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
-> +
->  /* vertical-timings from sensor */
->  #define OV8856_REG_VTS			0x380e
->  #define OV8856_VTS_MAX			0x7fff
-> @@ -711,6 +723,25 @@ static int ov8856_test_pattern(struct ov8856 *ov8856, u32 pattern)
->  				OV8856_REG_VALUE_08BIT, pattern);
->  }
->  
-> +static int ov8856_check_revision(struct ov8856 *ov8856)
+On Fri, Mar 13, 2020 at 8:04 AM Robert Foss <robert.foss@linaro.org> wrote:
 
-There are no version checks being done here, nor apparently the version is
-read by this function. 
-
+> +static int __ov8856_power_on(struct ov8856 *ov8856)
 > +{
-> +	int ret;
+> +       struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> +       int ret;
 > +
-> +	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-> +	if (ret)
-> +		return ret;
+> +       ret = clk_prepare_enable(ov8856->xvclk);
+> +       if (ret < 0) {
+> +               dev_err(&client->dev, "failed to enable xvclk\n");
+> +               return ret;
+> +       }
 > +
-> +	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
-> +				OV8856_REG_VALUE_08BIT,
-> +				OV8856_OTP_LOAD_CTRL_ENABLE);
+> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
 
-If streaming is started to read the EEPROM, shouldn't it be stopped after
-reading it as well?
+The parameter of gpiod_set_value_cansleep() is typically 0 (inactive
+state) or 1 (active state), so:
 
-> +}
-> +
->  static int ov8856_set_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct ov8856 *ov8856 = container_of(ctrl->handler,
-> @@ -1144,6 +1175,23 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
->  		return -ENXIO;
->  	}
->  
-> +	/* check sensor hardware revision */
-> +	ret = ov8856_check_revision(ov8856);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to check sensor revision");
-> +		return ret;
-> +	}
-> +
-> +	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
-> +			      OV8856_REG_VALUE_08BIT, &val);
-> +	if (ret)
-> +		return ret;
-
-How about moving this inside the check_revision function above? It looks as
-if it's dependent on that.
+ gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
 
 > +
-> +	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
-> +		val,
-> +		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
-> +		client->addr);
+> +       ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
+> +                                   ov8856->supplies);
+> +       if (ret < 0) {
+> +               dev_err(&client->dev, "failed to enable regulators\n");
+> +               goto disable_clk;
+> +       }
 > +
->  	return 0;
->  }
->  
-> @@ -1254,12 +1302,6 @@ static int ov8856_probe(struct i2c_client *client)
->  		return PTR_ERR(ov8856->xvclk);
->  	}
->  
-> -	ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
+> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
 
-This seems like an unrelated change.
+and here it should be:
 
-> -	if (ret < 0) {
-> -		dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
-> -		return ret;
-> -	}
-> -
->  	ov8856->reset_gpio = devm_gpiod_get(&client->dev, "reset",
->  					       GPIOD_OUT_HIGH);
->  	if (IS_ERR(ov8856->reset_gpio)) {
+gpiod_set_value_cansleep(ov8856->reset_gpio, 0);
 
--- 
-Regards,
-
-Sakari Ailus
+Also, don't you need a reset period between the two?
