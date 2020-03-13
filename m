@@ -2,145 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90126184836
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 14:34:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 25E2C1848B7
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2020 15:03:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgCMNeA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Mar 2020 09:34:00 -0400
-Received: from mail-eopbgr680056.outbound.protection.outlook.com ([40.107.68.56]:13186
-        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726323AbgCMNeA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Mar 2020 09:34:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bN1HYwEwvBONBC1rO5l1W2hoAVFWuzwKiLyEmlolj1l79ujTAH0jA/BNAgjV7/oH7jP2Qfg5x/aoIoMp+6vjCBXIkCdrDqmE7GkvQJDDX8B1tLex4kMTEn3sAMUu9g4PtoylhxA3b/JPkm5xLDpO+TcPLGvQ5NOM+ZrbBt/wHU63VetRrO8lml4GcJwKfXub3kd9J41qAAEx7GoCpg+bAddihVLKyAVnmqLrNOQ/9iwpxcI7RDeu8L5GwEPVQ8AKCOyyrMPA8ijfuEvHLt5WFgFqCSmLH0ilPBeb4zD4Ql2W0ieejHOvAUm+ZCM6ADbYLrvtXbpD5870C21b30txdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ylnX//eralmqw1boCGRLSksDrlq2UQuXz9e91UJT+oY=;
- b=UXGKmZN1OuZAZ4oTaHN3KE8tM6hu/Rra1J9KMhsAgCg4iTvAGN+R+AePqKq5NBiqMeFsM62hTrVYUYYcySIU2AzgtxCR+6QdrGASZiFxpdpkxIkWtWNZFwBpmsj8uvLNtwhHY9bYI1bEeBbg00DL78g6sSbu2IegB3jQK6vGcXASPjXs5cr7JM82PKX0RwPZAJmNYpzhmKkKR65veW2mPGXddSQRPqMhv46/MGKG5xYVCeFWNMNFw486jz6etUFg5je6CWCBOK3d0+lwWihaZ2zsn47ik1kqhU/w+MWoHMEoppY30l/gSbwwOYeVUkVy8NIR6JLK4I7NkJbRqdicKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ylnX//eralmqw1boCGRLSksDrlq2UQuXz9e91UJT+oY=;
- b=O7dKIf+sLv7F9Q3c3BkJ2fY7kASZMn+80uLAgyjB8LoXQ5pBVwGIijL3Yp3xIyvvHBkRZJ0n7vw1ojKihpKEfJnnF+JhAPvRJXJy77rE8ztjkeN9O9g5D6Z7IgyGgkywRzgnt16PPk6nbs9r1zH/4dnMATgnhhMK+AmWPFwle54=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-Received: from DM5PR12MB1578.namprd12.prod.outlook.com (2603:10b6:4:e::7) by
- DM5PR12MB1658.namprd12.prod.outlook.com (2603:10b6:4:5::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Fri, 13 Mar 2020 13:33:43 +0000
-Received: from DM5PR12MB1578.namprd12.prod.outlook.com
- ([fe80::113e:3059:1470:c73c]) by DM5PR12MB1578.namprd12.prod.outlook.com
- ([fe80::113e:3059:1470:c73c%7]) with mapi id 15.20.2793.021; Fri, 13 Mar 2020
- 13:33:43 +0000
-Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
-To:     Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     David1.Zhou@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        Logan Gunthorpe <logang@deltatee.com>
-References: <20200311135158.3310-1-christian.koenig@amd.com>
- <20200311135158.3310-2-christian.koenig@amd.com>
- <20200311152838.GA24280@infradead.org>
- <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
- <20200312101943.GA14618@infradead.org>
- <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
- <20200312104729.GA26031@infradead.org> <20200312141928.GK31668@ziepe.ca>
- <20200313112139.GA4913@infradead.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <0beef7ca-dd77-b442-5f45-f3a496189731@amd.com>
-Date:   Fri, 13 Mar 2020 14:33:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <20200313112139.GA4913@infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: AM0PR0102CA0048.eurprd01.prod.exchangelabs.com
- (2603:10a6:208::25) To DM5PR12MB1578.namprd12.prod.outlook.com
- (2603:10b6:4:e::7)
+        id S1726526AbgCMODR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Mar 2020 10:03:17 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48708 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbgCMODR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Mar 2020 10:03:17 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7424D5F;
+        Fri, 13 Mar 2020 15:03:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584108194;
+        bh=gPbT+x8g4idIbaikR9Dwjy5YbKNa0Oc/b944BUbYp8g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=t8hHE13nXX9VIWZinuqgdGWhyDAqrEY+0vA6raNkjindaw8wudaqfCinONqV11u76
+         F4u3MRrL+CaxPUsld63J+lEA0Rj7cZLZA3pumQFCZesYvGk6MIzBFz4k3Pm0J5DT5E
+         qzEHE4Ba7j3qjEfHNJFQPMabKaY6Pd9FMchsHCz8=
+Date:   Fri, 13 Mar 2020 16:03:11 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] media: ti-vpe: cal: fix DMA memory corruption
+Message-ID: <20200313140311.GF4751@pendragon.ideasonboard.com>
+References: <20200313082639.7743-1-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR0102CA0048.eurprd01.prod.exchangelabs.com (2603:10a6:208::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.16 via Frontend Transport; Fri, 13 Mar 2020 13:33:42 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: d48c0ca7-2d79-4639-9cdf-08d7c753264f
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1658:|DM5PR12MB1658:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB165803FB9A82F627DD983FCE83FA0@DM5PR12MB1658.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 034119E4F6
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(136003)(396003)(376002)(346002)(39860400002)(199004)(86362001)(52116002)(81166006)(31696002)(81156014)(5660300002)(4326008)(6486002)(6666004)(478600001)(8676002)(31686004)(186003)(16526019)(2906002)(110136005)(66476007)(66556008)(66946007)(316002)(36756003)(8936002)(2616005);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1658;H:DM5PR12MB1578.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dJ9wANfwoC5IJZfK5WDR+HflR2ng8AnvtFdsxslPFfMtcD95MUALMMZabUQn6VxVZUhL1pYu6vIiqAPN0l9736Kej/eCxxSJUC/Xx2wzaU2nx8J/Fs50ESrBRGOJPW+TFd4ThzfTV65/y8IWu3N4fDXf8hewJCqv/5AI935yGgP33CO1W4B+N7e5xWLiwfdivkEWkruNEEPKVR2WgLFqDRHKjjQnnK35k11YsI/4+rdT9ohddKKGqkux2lnjbfJZFE95y35EqscUj98dEqEEnBouAh5CLhh6kW6MkihwuxP3YLjDKkd4V5K9JOJGqRxvAIXHiR3hLhdxdNIoMlxaNhBNMg2uoRX3K3On59uhqo49Y4ftZegievLw5fZuD0Rish6VDunmziz0k+bpXLBvKfOvT6ftJTlhzY5LXAnb+/Be5Wjzg5M7hltpGMo9M1w7
-X-MS-Exchange-AntiSpam-MessageData: NtjCa5SSqEVsxmcYVtUkH8+wkp2hrqH2Zq+Hg/U0ojM9GZxxw3VCHcJsTbYVf8IlF387/tfIxIFLTgO63Sy/6Q3BKrjRONPDuZtjg+zAxI6kPwjh7Vn8luGR0IB2vtO7gQfWr1D96kyrXIWLvD2xwqLmj31dCJvBIO+2BpEpMYcxZ3uxGY9jE4TmhwRQ2AwrRsF9MO6nKoo5IMSemvqpRw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d48c0ca7-2d79-4639-9cdf-08d7c753264f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2020 13:33:43.7288
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3mDCkjTFhm2hZt5VrICpYq/KI3LGzl0xiMPooaR0XY9LpxHJwdFR4Yk4CUdMEdPY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1658
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200313082639.7743-1-tomi.valkeinen@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.03.20 um 12:21 schrieb Christoph Hellwig:
-> On Thu, Mar 12, 2020 at 11:19:28AM -0300, Jason Gunthorpe wrote:
->> The non-page scatterlist is also a big concern for RDMA as we have
->> drivers that want the page list, so even if we did as this series
->> contemplates I'd have still have to split the drivers and create the
->> notion of a dma-only SGL.
-> The drivers I looked at want a list of IOVA address, aligned to the
-> device "page size".  What other data do drivers want?
+Hi Tomi,
 
-Well for GPUs I have the requirement that those IOVA addresses allow 
-random access.
+Thank you for the patch.
 
-That's the reason why we currently convert the sg_table into a linear 
-arrays of addresses and pages. To solve that keeping the length in 
-separate optional array would be ideal for us.
+On Fri, Mar 13, 2020 at 10:26:39AM +0200, Tomi Valkeinen wrote:
+> When the CAL driver stops streaming, it will shut everything down
+> without waiting for the current frame to finish. This leaves the CAL DMA
+> in a slightly undefined state, and when CAL DMA is enabled when the
+> stream is started the next time, the old DMA transfer will continue.
+> 
+> It is not clear if the old DMA transfer continues with the exact
+> settings of the original transfer, or is it a mix of old and new
+> settings, but in any case the end result is memory corruption as the
+> destination memory address is no longer valid.
+> 
+> I could not find any way to ensure that any old DMA transfer would be
+> discarded, except perhaps full CAL reset. But we cannot do a full reset
+> when one port is getting enabled, as that would reset both ports.
+> 
+> This patch tries to make sure that the DMA transfer is finished properly
+> when the stream is being stopped. I say "tries", as, as mentioned above,
+> I don't see a way to force the DMA transfer to finish. I believe this
+> fixes the corruptions for normal cases, but if for some reason the DMA
+> of the final frame would stall a lot, resulting in timeout in the code
+> waiting for the DMA to finish, we'll again end up with unfinished DMA
+> transfer. However, I don't know what could cause such a timeout.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/media/platform/ti-vpe/cal.c | 32 +++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index be54806180a5..b857cab120ad 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -414,6 +414,8 @@ struct cal_ctx {
+>  	struct cal_buffer	*cur_frm;
+>  	/* Pointer pointing to next v4l2_buffer */
+>  	struct cal_buffer	*next_frm;
+> +
+> +	bool dma_act;
+>  };
+>  
+>  static const struct cal_fmt *find_format_by_pix(struct cal_ctx *ctx,
+> @@ -944,6 +946,7 @@ static void csi2_lane_config(struct cal_ctx *ctx)
+>  
+>  static void csi2_ppi_enable(struct cal_ctx *ctx)
+>  {
+> +	reg_write(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port), BIT(3));
+>  	reg_write_field(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port),
+>  			CAL_GEN_ENABLE, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
+>  }
+> @@ -1206,15 +1209,25 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>  		if (isportirqset(irqst2, 1)) {
+>  			ctx = dev->ctx[0];
+>  
+> +			spin_lock(&ctx->slock);
+> +			ctx->dma_act = false;
+> +
+>  			if (ctx->cur_frm != ctx->next_frm)
+>  				cal_process_buffer_complete(ctx);
+> +
+> +			spin_unlock(&ctx->slock);
+>  		}
+>  
+>  		if (isportirqset(irqst2, 2)) {
+>  			ctx = dev->ctx[1];
+>  
+> +			spin_lock(&ctx->slock);
+> +			ctx->dma_act = false;
+> +
+>  			if (ctx->cur_frm != ctx->next_frm)
+>  				cal_process_buffer_complete(ctx);
+> +
+> +			spin_unlock(&ctx->slock);
+>  		}
+>  	}
+>  
+> @@ -1230,6 +1243,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>  			dma_q = &ctx->vidq;
+>  
+>  			spin_lock(&ctx->slock);
+> +			ctx->dma_act = true;
+>  			if (!list_empty(&dma_q->active) &&
+>  			    ctx->cur_frm == ctx->next_frm)
+>  				cal_schedule_next_buffer(ctx);
+> @@ -1241,6 +1255,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>  			dma_q = &ctx->vidq;
+>  
+>  			spin_lock(&ctx->slock);
+> +			ctx->dma_act = true;
+>  			if (!list_empty(&dma_q->active) &&
+>  			    ctx->cur_frm == ctx->next_frm)
+>  				cal_schedule_next_buffer(ctx);
+> @@ -1713,10 +1728,27 @@ static void cal_stop_streaming(struct vb2_queue *vq)
+>  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+>  	struct cal_dmaqueue *dma_q = &ctx->vidq;
+>  	struct cal_buffer *buf, *tmp;
+> +	unsigned long timeout;
+>  	unsigned long flags;
+>  	int ret;
+> +	bool dma_act;
+>  
+>  	csi2_ppi_disable(ctx);
+> +
+> +	/* wait for stream and dma to finish */
+> +	dma_act = true;
+> +	timeout = jiffies + msecs_to_jiffies(500);
+> +	while (dma_act && time_before(jiffies, timeout)) {
+> +		msleep(50);
+> +
+> +		spin_lock_irqsave(&ctx->slock, flags);
+> +		dma_act = ctx->dma_act;
+> +		spin_unlock_irqrestore(&ctx->slock, flags);
+> +	}
 
-But this is so a special use case that I'm not sure if we want to 
-support this in the common framework or not.
+Waiting for the transfer to complete seems to be a good idea, but how
+about using a wait queue instead of such a loop ? That would allow
+better usage of CPU time and faster reaction time, and shouldn't be
+difficult to implement. You may also want to replace dma_act with a
+state if needed (in case you need to express running/stopping/stopped
+states), and I would rename it to running if you just need a boolean.
 
-> Execept for the software protocol stack drivers, which of couse need pages for the
-> stack futher down.
+> +
+> +	if (dma_act)
+> +		ctx_err(ctx, "failed to disable dma cleanly\n");
+> +
+>  	disable_irqs(ctx);
+>  	csi2_phy_deinit(ctx);
+>  
 
-Yes completely agree.
+-- 
+Regards,
 
-For the GPUs I will propose a patch to stop copying the page from the 
-sg_table over into our linear arrays and see if anybody starts to scream.
-
-I don't think so, but probably better to double check.
-
-Thanks,
-Christian.
-
->
->> I haven't used bio_vecs before, do they support chaining like SGL so
->> they can be very big? RDMA dma maps gigabytes of memory
-> bio_vecs itself don't have the chaining, but the bios build around them
-> do.  But each entry can map a huge pile.  If needed we could use the
-> same chaining scheme we use for scatterlists for bio_vecs as well, but
-> lets see if we really end up needing that.
->
->> So I'm guessing the path forward is something like
->>
->>   - Add some generic dma_sg data structure and helper
->>   - Add dma mapping code to go from pages to dma_sg
-> That has been on my todo list for a while.  All the DMA consolidatation
-> is to prepare for that and we're finally getting close.
-
+Laurent Pinchart
