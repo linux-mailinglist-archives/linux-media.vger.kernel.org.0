@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5969C1859FA
-	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 05:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65ABB185A21
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 06:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726089AbgCOEEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Mar 2020 00:04:55 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35429 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725788AbgCOEEz (ORCPT
+        id S1726823AbgCOFJf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Mar 2020 01:09:35 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39435 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726329AbgCOFJf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Mar 2020 00:04:55 -0400
+        Sun, 15 Mar 2020 01:09:35 -0400
 Received: from localhost ([IPv6:2001:983:e9a7:1:4d33:2851:7fd5:4e67])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id D1LIjl0HNEE3qD1LJjYvuH; Sat, 14 Mar 2020 08:36:21 +0100
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id CybcjmPmA9Im2CybdjtmTD; Sat, 14 Mar 2020 05:41:01 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584171381; bh=Y3xZlqbAtXcdvrDTOCYajwNQldH6t1xwdpDgi9UcY7Y=;
+        t=1584160861; bh=Y3xZlqbAtXcdvrDTOCYajwNQldH6t1xwdpDgi9UcY7Y=;
         h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=luT7FV0teotkh6r7FhCoi/TwQBY+mtTJ4mee1nosfIuj/TPR/K29n02K2cluk3tzN
-         GLIyx+A+9632l4LWImWN1bKdbJXeG1wN+D/9x2gzM6+BKhxO4NmPpWHuugmi+vdGBu
-         SExT5LVnQGEgS5qVT8CTMTimlTnPVJAs4kyehdy+CtRBh3nqPImE/NCcZmHFs7hsI1
-         eVj91f0QD5zc17Xj6KIje05JN/LCE9zxiHamdCDGwBOvrgo7qwe96gTYj5+bO7ovGN
-         ANSdYMGFJa7rXGbP8NkaXTDvsWkev0kU0fbwILY7xXannTwBv82ixr39+51zJsfObT
-         hslJfXhWQsn/Q==
-Message-ID: <09096215cdf0f905a0b41b1a31cb424d@smtp-cloud7.xs4all.net>
-Date:   Sat, 14 Mar 2020 08:36:20 +0100
+        b=virlPort54bOiI5eWiQc9QdBa0UE2kFuZ0JB0zvPdL5o8ZJaOOP3PkEwz25zmS1VT
+         LrzvmV17U7FkUlD7fi+m/srWSNEmeON4RYbo1aW63CbevjrIoX2jA/WeO9jI3nitDs
+         LHnQeeYhZEDc9w1z4j7/BMpdJhSGlWFYevO8tFGaEKVrOiA4EfAFTMojT4JANkPSHv
+         NzjeG2Gj1Lt+ocBKoe9/6Xof4v4dHgRU3L2Ke38+3cUGPz0j1cV3oFnfzpJQZmvcXF
+         6t0kjAJwrjQ77YwGqrfpibAsZQxo6xaz2eeuqN8rj99rDYkrQk2ZAODfPT+waXzVVk
+         agFQi1L1jfsRw==
+Message-ID: <d180204f7bc4bf677650d111b7bcde83@smtp-cloud9.xs4all.net>
+Date:   Sat, 14 Mar 2020 05:41:00 +0100
 From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfKRBLHjmNqip2yul2beemgyG8hN2pmTKd7RUCq6BBhrbk0ZZynWVgR04zqvh+iiwo71zuMM+itRp3HpHqnavWAhYWNeX7xM+MRosdFRY6Qj+0pgJpiVn
- rzctAEfuaFGCz+6cjS9gFrossEg0JOgfX3YMhLe3TOLLiY30O9X5oxxlDBCx+8OEqwt2icTeY7p+mXawM59kYOidlUk/Jsle9IOWA1tbyYOKJ7VAybT1vHsk
+X-CMAE-Envelope: MS4wfGyqe3QCbuGtxg5ObVX4/yMWBxRiTXscAPxmGUlb7eyfa28GSbDSATVdcVa2318Oye+dxgdEe9bPP4x4Vsh/gsOTFSCNC5TUeNc+L93r2LeMZYk4IYko
+ kEcvH9ctvx4LDX2im/eYmO9szAAZbYHqVo7ZZcsiua45i1dFu2Lq1Y5dk7VMIit6EgXnQ7GwX2hMOtUNXqNTWzWwtxASPigaeOSYUb9Mei2Mzx1VQ6RHgZ68
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
