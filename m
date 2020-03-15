@@ -2,135 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D6CA186018
-	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 22:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA6EF186037
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 23:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729210AbgCOVoZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Mar 2020 17:44:25 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:44991 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729166AbgCOVoZ (ORCPT
+        id S1729284AbgCOWVF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Mar 2020 18:21:05 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3021 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729213AbgCOWVF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Mar 2020 17:44:25 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 6F304240008;
-        Sun, 15 Mar 2020 21:44:11 +0000 (UTC)
-Date:   Sun, 15 Mar 2020 22:47:07 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
- fwnode matching
-Message-ID: <20200315214707.uo246kwe3njtc452@uno.localdomain>
-References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
+        Sun, 15 Mar 2020 18:21:05 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e6eaa200000>; Sun, 15 Mar 2020 15:20:16 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sun, 15 Mar 2020 15:21:04 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sun, 15 Mar 2020 15:21:04 -0700
+Received: from [10.2.175.141] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 15 Mar
+ 2020 22:21:03 +0000
+Subject: Re: [RFC PATCH v4 8/8] arm64: tegra: Add Tegra VI CSI support in
+ device tree
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <helen.koike@collabora.com>, <sboyd@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1584236766-24819-1-git-send-email-skomatineni@nvidia.com>
+ <1584236766-24819-9-git-send-email-skomatineni@nvidia.com>
+ <b4bbcc1d-d38c-14c5-7205-2f7657ab8712@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <80805c85-a6b0-62c4-877c-6af3831bce1d@nvidia.com>
+Date:   Sun, 15 Mar 2020 15:21:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <b4bbcc1d-d38c-14c5-7205-2f7657ab8712@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584310816; bh=+e0QisX1Z4jXTDX4Ud8ppSbrPDDTZh9nrZyl/tz1gm0=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=SdjV7v5ZXAJPdwkJv7XrI0jhiPGdHft7NiD4UZhm5/pqMPz24r8XNJp8Yihv0QJAf
+         QKU2dskuAFdRY63eiMV4yG6PWEnK5NIiKl08W1PsGE0f3LzkLtUF1VNkDGlEZpBZtM
+         Tpc70Jc58zjcsMcAIDyWMPpz1ViDNZSOP8VWfVq6xX1qGJsqykua3J7vHG4u50RLf2
+         JpQr/Sd3x3nQHuIPY2jWU90j7Y7utSNQnkEjJGXEssCUYC4OMMD9JxFdyZi7qBpCq9
+         rojX94Td42GK0Mj7vykmBBrfqP21yQ7HvEoHLmwhKYodalibnrxOHCSgyUNKo8LK8I
+         T/QlxbfzkkzSw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-On Sun, Mar 15, 2020 at 02:55:11PM +0200, Laurent Pinchart wrote:
-> fwnode matching was designed to match on nodes corresponding to a
-> device. Some drivers, however, needed to match on endpoints, and have
-> passed endpoint fwnodes to v4l2-async. This works when both the subdev
-> and the notifier use the same fwnode types (endpoint or device), but
-> makes drivers that use different types incompatible.
+On 3/15/20 5:54 AM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
 >
-> Fix this by extending the fwnode match to handle fwnodes of different
-> types. When the types (deduced from the node name) are different,
-> retrieve the device fwnode for the side that provides an endpoint
-> fwnode, and compare it with the device fwnode provided by the other
-> side. This allows interoperability between all drivers, regardless of
-> which type of fwnode they use for matching.
 >
+> 15.03.2020 04:46, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> Tegra210 contains VI controller for video input capture from MIPI
+>> CSI camera sensors and also supports built-in test pattern generator.
+>>
+>> CSI ports can be one-to-one mapped to VI channels for capturing from
+>> an external sensor or from built-in test pattern generator.
+>>
+>> This patch adds support for VI and CSI and enables them in Tegra210
+>> device tree.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+> Hello Sowjanya,
+>
+> ...
+>> +
+>> +                     pd_venc: venc {
+>> +                             clocks =3D <&tegra_car TEGRA210_CLK_VI>,
+>> +                                      <&tegra_car TEGRA210_CLK_CSI>;
+>> +                             resets =3D <&tegra_car 20>,
+> What is the clock #20?
 
-I'm sorry but I'm not sure why would make a difference compared to
-what Kieran's patch did.
-https://lore.kernel.org/patchwork/patch/788637/
+Hi Dmitry,
 
-If the bridge matches on device node, and the remote registers more
-than one endpoints it is possible to get a false match.
+20 is VI_RST not defined in include/dt-bindings/reset/tegra210-car.h
 
-I'm not sure how that would happen in practice, as the bridge would be
-registering the fwnode of the remote device twice, but I think that
-was the reason kieran's patch has not been collected or am I
-mistaken ?
+Will add define and will fix to use it.
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> This has been compile-tested only. Prabhakar, could you check if it
-> fixes your issue ?
+
+
+>> +                                      <&tegra_car TEGRA210_CLK_CSI>,
+>> +                                      <&mc TEGRA210_MC_RESET_VI>;
+> Does this order means that memory controller will be reset *after*
+> resetting the CSI/VI hardware? This is incorrect reset sequence.
 >
->  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
->  1 file changed, 41 insertions(+), 1 deletion(-)
+> The memory controller reset should be kept asserted during of the time
+> of the hardware resetting procedure.
 >
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 8bde33c21ce4..995e5464cba7 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
+> The correct sequence should be as follows:
 >
->  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
->  {
-> -	return sd->fwnode == asd->match.fwnode;
-> +	struct fwnode_handle *other_fwnode;
-> +	struct fwnode_handle *dev_fwnode;
-> +	bool asd_fwnode_is_ep;
-> +	bool sd_fwnode_is_ep;
-> +	const char *name;
-> +
-> +	/*
-> +	 * Both the subdev and the async subdev can provide either an endpoint
-> +	 * fwnode or a device fwnode. Start with the simple case of direct
-> +	 * fwnode matching.
-> +	 */
-> +	if (sd->fwnode == asd->match.fwnode)
-> +		return true;
-> +
-> +	/*
-> +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> +	 * endpoint or a device. If they're of the same type, there's no match.
-> +	 */
-> +	name = fwnode_get_name(sd->fwnode);
-> +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> +	name = fwnode_get_name(asd->match.fwnode);
-> +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> +
-> +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> +		return false;
-> +
-> +	/*
-> +	 * The sd and asd fwnodes are of different types. Get the device fwnode
-> +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
-> +	 */
-> +	if (sd_fwnode_is_ep) {
-> +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
-> +		other_fwnode = asd->match.fwnode;
-> +	} else {
-> +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
-> +		other_fwnode = sd->fwnode;
-> +	}
-> +
-> +	fwnode_handle_put(dev_fwnode);
-> +
-> +	return dev_fwnode == other_fwnode;
->  }
->
->  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> --
-> Regards,
->
-> Laurent Pinchart
->
+> 1. Assert MC
+> 2. Reset VI
+> 3. Deassert MC
+Right, will fix order. Thanks
