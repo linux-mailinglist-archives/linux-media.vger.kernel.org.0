@@ -2,299 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BD6C185FCA
-	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 21:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51895185FDB
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 21:54:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729158AbgCOUaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Mar 2020 16:30:08 -0400
-Received: from mxout014.mail.hostpoint.ch ([217.26.49.174]:24008 "EHLO
-        mxout014.mail.hostpoint.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729103AbgCOUaI (ORCPT
+        id S1729165AbgCOUyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Mar 2020 16:54:39 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41678 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729152AbgCOUyj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Mar 2020 16:30:08 -0400
-X-Greylist: delayed 3166 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Mar 2020 16:30:06 EDT
-Received: from [10.0.2.46] (helo=asmtp013.mail.hostpoint.ch)
-        by mxout014.mail.hostpoint.ch with esmtp (Exim 4.92.3 (FreeBSD))
-        (envelope-from <linux-dvb@kaiser-linux.li>)
-        id 1jDZ4Y-000Kpp-Ba
-        for linux-media@vger.kernel.org; Sun, 15 Mar 2020 20:37:18 +0100
-Received: from [31.10.27.202] (helo=[192.168.10.100])
-        by asmtp013.mail.hostpoint.ch with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3 (FreeBSD))
-        (envelope-from <linux-dvb@kaiser-linux.li>)
-        id 1jDZ4Y-000PER-7A
-        for linux-media@vger.kernel.org; Sun, 15 Mar 2020 20:37:18 +0100
-X-Authenticated-Sender-Id: thomas.kaiser@sks.li
+        Sun, 15 Mar 2020 16:54:39 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id C1B5828A3FD
+From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
-From:   Thomas Kaiser <linux-dvb@kaiser-linux.li>
-Subject: [PATCH] dtv-scan-tables: add Dorfnetz for Liechtenstein
-Message-ID: <33ca7cb2-4939-5bba-a05c-9e8b70ec4aa8@kaiser-linux.li>
-Date:   Sun, 15 Mar 2020 20:37:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [RFC PATCH v4l-utils 0/1] Introduce the meson build system
+Date:   Sun, 15 Mar 2020 17:54:20 -0300
+Message-Id: <20200315205421.28797-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added the initial scan file for cable provider Dorfnetz from Liechtenstein.
+Here's a first step towards using meson:
 
-Signed-off-by: Thomas Kaiser <thomas@kaiser-linux.li>
----
+    https://mesonbuild.com/
 
-diff --git a/dvb-c/li-kabel-Dorfnetz b/dvb-c/li-kabel-Dorfnetz
-index e69de29..a1ef90c 100644
---- a/dvb-c/li-kabel-Dorfnetz
-+++ b/dvb-c/li-kabel-Dorfnetz
-@@ -0,0 +1,247 @@
-+# DVB-C transponder/muxes scan
-+# Dorfnetz provided ny TV-COM AG, Liechtenstein
-+# www.orfnetz.li
-+# Network ID: 335
-+# 2020-03-15
-+
-+# freq      sr      fec  mod    Comment
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 506000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 346000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 354000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 362000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 370000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 378000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 386000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 394000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 402000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 442000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 450000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 458000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 466000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 514000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 522000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 530000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 538000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 554000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 562000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 602000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 610000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 618000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 626000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 634000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 642000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 650000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 658000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 578000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 586000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
-+[CHANNEL]
-+	DELIVERY_SYSTEM = DVBC/ANNEX_A
-+	FREQUENCY = 594000000
-+	SYMBOL_RATE = 6900000
-+	INNER_FEC = NONE
-+	MODULATION = QAM/256
-+	INVERSION = AUTO
-+
+As you can see, this doesn't include all tools and libraries
+(are there any libv4l1 users?), but otherwise tries to cover
+as much as possible.
+
+I'm sending this early patch, hoping to get some reviews
+and possibly some testing.
+
+Let me know what you think.
+
+Thanks,
+
+Ezequiel Garcia (1):
+  Add support for meson building
+
+ gen-version.sh                      |  36 ++++++++++
+ lib/libdvbv5/meson.build            |  87 ++++++++++++++++++++++
+ lib/libv4l2/meson.build             |  43 +++++++++++
+ lib/libv4lconvert/meson.build       |  79 ++++++++++++++++++++
+ lib/meson.build                     |   6 ++
+ meson.build                         | 108 ++++++++++++++++++++++++++++
+ meson_options.txt                   |  19 +++++
+ utils/cec-compliance/meson.build    |  39 ++++++++++
+ utils/cec-ctl/meson.build           |  33 +++++++++
+ utils/cec-follower/meson.build      |  35 +++++++++
+ utils/gen_media_bus_format_codes.sh |   7 ++
+ utils/gen_media_bus_format_names.sh |   7 ++
+ utils/ir-ctl/meson.build            |  30 ++++++++
+ utils/libcecutil/meson.build        |  46 ++++++++++++
+ utils/media-ctl/meson.build         |  35 +++++++++
+ utils/meson.build                   |  32 +++++++++
+ utils/v4l2-compliance/meson.build   |  52 ++++++++++++++
+ utils/v4l2-ctl/meson.build          |  65 +++++++++++++++++
+ version.h.in                        |   1 +
+ 19 files changed, 760 insertions(+)
+ create mode 100755 gen-version.sh
+ create mode 100644 lib/libdvbv5/meson.build
+ create mode 100644 lib/libv4l2/meson.build
+ create mode 100644 lib/libv4lconvert/meson.build
+ create mode 100644 lib/meson.build
+ create mode 100644 meson.build
+ create mode 100644 meson_options.txt
+ create mode 100644 utils/cec-compliance/meson.build
+ create mode 100644 utils/cec-ctl/meson.build
+ create mode 100644 utils/cec-follower/meson.build
+ create mode 100644 utils/gen_media_bus_format_codes.sh
+ create mode 100644 utils/gen_media_bus_format_names.sh
+ create mode 100644 utils/ir-ctl/meson.build
+ create mode 100644 utils/libcecutil/meson.build
+ create mode 100644 utils/media-ctl/meson.build
+ create mode 100644 utils/meson.build
+ create mode 100644 utils/v4l2-compliance/meson.build
+ create mode 100644 utils/v4l2-ctl/meson.build
+ create mode 100644 version.h.in
+
+-- 
+2.25.0
+
