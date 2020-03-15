@@ -2,76 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C7BA185BBD
-	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 10:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A8F185BED
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2020 11:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728195AbgCOJzB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Mar 2020 05:55:01 -0400
-Received: from mailoutvs50.siol.net ([185.57.226.241]:55161 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728159AbgCOJzB (ORCPT
+        id S1728248AbgCOK1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Mar 2020 06:27:39 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37631 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728230AbgCOK1j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Mar 2020 05:55:01 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 245EC521C76;
-        Sun, 15 Mar 2020 10:54:58 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id m-yTtJ4oR4UU; Sun, 15 Mar 2020 10:54:57 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id D192F521D2C;
-        Sun, 15 Mar 2020 10:54:57 +0100 (CET)
-Received: from localhost.localdomain (cpe-194-152-20-232.static.triera.net [194.152.20.232])
-        (Authenticated sender: 031275009)
-        by mail.siol.net (Postfix) with ESMTPSA id 16ACC521C76;
-        Sun, 15 Mar 2020 10:54:55 +0100 (CET)
-From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, jernej.skrabec@siol.net,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cedrus: h264: Fix 4K decoding on H6
-Date:   Sun, 15 Mar 2020 10:54:46 +0100
-Message-Id: <20200315095446.454882-1-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.25.1
+        Sun, 15 Mar 2020 06:27:39 -0400
+Received: by mail-wr1-f65.google.com with SMTP id 6so17541053wre.4;
+        Sun, 15 Mar 2020 03:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pqm0PezCCdfuI97ApKbyt3LnL9VFZxah2FPqIKHnX0w=;
+        b=VLjEFbXFE5x9GBhCgoIExA0aVaVqvPUcT4E5pbWxZyUDXbzuiQJlTuiWbO9urbHkwu
+         VT83BtZpyfUhpFSW4u+uB9LPlDu3fiQe0VzopeQDDdzBkU6Wr2k+BawCN02a/cXqnD4O
+         AxwYkfYNe5PoOFYi8JK/jMwcI/FdszMm5Er/RAA7lNp0vbBVcu1xBLYQA7Jx6PBK+ge+
+         x30eBLdeYa+6umoOgegu3FkSwCiIYCDb95jMmgzvvoyqiD8UVBMd15LrxQ/xBjaJqkNO
+         xyRatiuZBPdRRNJ9/IdrXiNQvHNHrKGMLqNj4rVG/n+dRPjPYVA8RqTfMRgMpSUesgKZ
+         T1EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pqm0PezCCdfuI97ApKbyt3LnL9VFZxah2FPqIKHnX0w=;
+        b=V1EgUAM5Q3a9iG22q1x2KMoVV+8VIHOgL9+CxHbuyNuc1DgAfe6ssPGqvAASkWSNye
+         u5O3adMnb7DUgyh2FwdQbSuqX0joa8g/gr+rzgLEHKI04BihPsZHXxtOfQo+Ce75IwIu
+         Y/W0psVU2Ls3KJIF+aPjfRhuM8sx8gyyXx58vb9Kx2S945aNMg0ZOPQDEeqqHGa6dWiY
+         z5KmUgT1PQCvnDySC32heteZjgr1reEzRBAKAcJ10x8qdRU/YKOLXTKbZ5C8WvzaSX93
+         ToAo41gFh1DGizPJpE+dvV/Uk8P0VtY4h0mJiH+zENxAPvxdj/eMeKEzfCIqpM94ushN
+         V10A==
+X-Gm-Message-State: ANhLgQ3b+VhYPxmngLhUtKIFWgknqLDXOwsmfGPPOyW7fO6dNTIranfD
+        b97QsTXm8VfNfJT8OuS5SnI=
+X-Google-Smtp-Source: ADFU+vsTmcIviMV4vJ/hno2hqUEhcSA8Lnh1f0YRw4PvD2ZwSES5j/oCoHOFQUtz2x7upZ+fBX1KWw==
+X-Received: by 2002:adf:cf08:: with SMTP id o8mr27979007wrj.192.1584268056357;
+        Sun, 15 Mar 2020 03:27:36 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2510:d000:2c12:3438:7cb7:556d])
+        by smtp.gmail.com with ESMTPSA id z129sm25765190wmb.7.2020.03.15.03.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2020 03:27:35 -0700 (PDT)
+From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Niklas <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] rcar-csi2: make use V4L2_ASYNC_MATCH_CUSTOM to do fwnode matching
+Date:   Sun, 15 Mar 2020 10:27:22 +0000
+Message-Id: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Due to unknown reason, H6 needs larger intraprediction buffer for 4K
-videos than other SoCs. This was discovered by playing 4096x2304 video,
-which is maximum what H6 VPU is supposed to support.
+Hi All,
 
-Fixes: 03e612e701a6 ("media: cedrus: Fix H264 4k support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+This patch series adds support for fwnode matching to be handled by rcar-csi2 driver.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-index bfb4a4820a67..54ee2aa423e2 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -610,8 +610,12 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 			goto err_mv_col_buf;
- 		}
-=20
-+		/*
-+		 * NOTE: Multiplying by two deviates from CedarX logic, but it
-+		 * is for some unknown reason needed for H264 4K decoding on H6.
-+		 */
- 		ctx->codec.h264.intra_pred_buf_size =3D
--			ALIGN(ctx->src_fmt.width, 64) * 5;
-+			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
- 		ctx->codec.h264.intra_pred_buf =3D
- 			dma_alloc_coherent(dev->dev,
- 					   ctx->codec.h264.intra_pred_buf_size,
---=20
-2.25.1
+Thanks,
+Prabhakar
+
+Lad Prabhakar (2):
+  media: v4l2-async: Pass pointer to struct v4l2_subdev in match_custom
+    callback
+  media: rcar-csi2: Let the driver handle fwnode matching using
+    match_custom callback
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 46 +++++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-async.c        |  2 +-
+ include/media/v4l2-async.h                  |  4 +-
+ 3 files changed, 46 insertions(+), 6 deletions(-)
+
+-- 
+2.20.1
 
