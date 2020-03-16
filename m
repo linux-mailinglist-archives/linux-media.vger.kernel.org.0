@@ -2,105 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACBEF1867CD
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 10:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F5BD1867FB
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 10:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730218AbgCPJZi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 05:25:38 -0400
-Received: from gofer.mess.org ([88.97.38.141]:36433 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730056AbgCPJZh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 05:25:37 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 4A01311A001; Mon, 16 Mar 2020 09:25:36 +0000 (GMT)
-Date:   Mon, 16 Mar 2020 09:25:36 +0000
-From:   Sean Young <sean@mess.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [RFC PATCH v4l-utils 0/1] Introduce the meson build system
-Message-ID: <20200316092536.GA10923@gofer.mess.org>
-References: <20200315205421.28797-1-ezequiel@collabora.com>
- <20200316085312.GN4732@pendragon.ideasonboard.com>
+        id S1730436AbgCPJgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 05:36:54 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:41671 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730056AbgCPJgy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Mar 2020 05:36:54 -0400
+Received: from tschai.fritz.box ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id DmAyjwybrEE3qDmB1jdJxD; Mon, 16 Mar 2020 10:36:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584351412; bh=S8gJjNg45/rBUz38ZnB9zRcEKuk4G/KNiRtJ3/FINP4=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=dtpGU0M35EjCujAEcv49g2VUB29yoTzu/nByPz5n8EYpy+m5G0M18Wj13re6OZMhd
+         yyXs7m4kjM7E3rj0jzMKe0dtf0fILnWex6meoSccS8OHM69J+hrKPLLO7bJH7kHsg/
+         Zjad+8/tZ41vZxqw+CYyNkJ2pyIfrGe1acHRSIf8S4iA25MXWiQ+s3sU7L/2zyFtR7
+         Sx6rINZ6L++OtLCVZX0kIDILDjaXTgNLh3tOEZwcP2lCMI61ucMWHWBQtajEljojzc
+         uBKNj5bdslYuIPDKlV2AQeWRcyYVfMypnShKiFvhU9DuNV5ElHTIS84mHDX5O7alUv
+         g41TUqNpOVTSQ==
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 0/2] cec: two small changes
+Date:   Mon, 16 Mar 2020 10:36:46 +0100
+Message-Id: <20200316093648.1280689-1-hverkuil@xs4all.nl>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200316085312.GN4732@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfDaWk2F5em+x6HoDQRYP3KxlNC1sxz+oA7cj9QxTZRkXoC4KlafAsvkM1Os4fmzA27PVWvbqw7Acev1PcxDrSoMZOSZ1b02rpmn69xQFJLwQrm0idzkO
+ LRox19YTfD6qA3gqdDswWCtyirdoWXQDfmqZnAzCSzSGqbzEg7bZCsMomRf8Hf6/xBnxUqPv7ipRyg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
+From: Hans Verkuil <hans.verkuil@cisco.com>
 
-On Mon, Mar 16, 2020 at 10:53:12AM +0200, Laurent Pinchart wrote:
-> On Sun, Mar 15, 2020 at 05:54:20PM -0300, Ezequiel Garcia wrote:
-> > Here's a first step towards using meson:
-> > 
-> >     https://mesonbuild.com/
-> > 
-> > As you can see, this doesn't include all tools and libraries
-> > (are there any libv4l1 users?), but otherwise tries to cover
-> > as much as possible.
-> > 
-> > I'm sending this early patch, hoping to get some reviews
-> > and possibly some testing.
-> > 
-> > Let me know what you think.
-> 
-> I like the concept :-) Is there a plan to drop autotools support ?
+The first patch renames an argument to prepare for future work and
+the second makes cec_notifier_get_conn() static since drivers no longer
+call this function.
 
-I think it's great. I've toyed with meson in the past and liked it a lot.
+I have more patches pending but those need more testing.
 
-Long term, supporting both meson and autotools might be a maintenance
-burden.
+Regards,
 
+	Hans
 
-Sean
+Hans Verkuil (2):
+  cec-notifier: rename conn_name to port_name
+  cec-notifier: make cec_notifier_get_conn() static
 
+ drivers/media/cec/cec-notifier.c | 41 +++++++++++++++++++++-----------
+ include/media/cec-notifier.h     | 39 +++++++-----------------------
+ 2 files changed, 35 insertions(+), 45 deletions(-)
 
-> 
-> > Ezequiel Garcia (1):
-> >   Add support for meson building
-> > 
-> >  gen-version.sh                      |  36 ++++++++++
-> >  lib/libdvbv5/meson.build            |  87 ++++++++++++++++++++++
-> >  lib/libv4l2/meson.build             |  43 +++++++++++
-> >  lib/libv4lconvert/meson.build       |  79 ++++++++++++++++++++
-> >  lib/meson.build                     |   6 ++
-> >  meson.build                         | 108 ++++++++++++++++++++++++++++
-> >  meson_options.txt                   |  19 +++++
-> >  utils/cec-compliance/meson.build    |  39 ++++++++++
-> >  utils/cec-ctl/meson.build           |  33 +++++++++
-> >  utils/cec-follower/meson.build      |  35 +++++++++
-> >  utils/gen_media_bus_format_codes.sh |   7 ++
-> >  utils/gen_media_bus_format_names.sh |   7 ++
-> >  utils/ir-ctl/meson.build            |  30 ++++++++
-> >  utils/libcecutil/meson.build        |  46 ++++++++++++
-> >  utils/media-ctl/meson.build         |  35 +++++++++
-> >  utils/meson.build                   |  32 +++++++++
-> >  utils/v4l2-compliance/meson.build   |  52 ++++++++++++++
-> >  utils/v4l2-ctl/meson.build          |  65 +++++++++++++++++
-> >  version.h.in                        |   1 +
-> >  19 files changed, 760 insertions(+)
-> >  create mode 100755 gen-version.sh
-> >  create mode 100644 lib/libdvbv5/meson.build
-> >  create mode 100644 lib/libv4l2/meson.build
-> >  create mode 100644 lib/libv4lconvert/meson.build
-> >  create mode 100644 lib/meson.build
-> >  create mode 100644 meson.build
-> >  create mode 100644 meson_options.txt
-> >  create mode 100644 utils/cec-compliance/meson.build
-> >  create mode 100644 utils/cec-ctl/meson.build
-> >  create mode 100644 utils/cec-follower/meson.build
-> >  create mode 100644 utils/gen_media_bus_format_codes.sh
-> >  create mode 100644 utils/gen_media_bus_format_names.sh
-> >  create mode 100644 utils/ir-ctl/meson.build
-> >  create mode 100644 utils/libcecutil/meson.build
-> >  create mode 100644 utils/media-ctl/meson.build
-> >  create mode 100644 utils/meson.build
-> >  create mode 100644 utils/v4l2-compliance/meson.build
-> >  create mode 100644 utils/v4l2-ctl/meson.build
-> >  create mode 100644 version.h.in
+-- 
+2.25.1
+
