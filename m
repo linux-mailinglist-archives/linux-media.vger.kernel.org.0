@@ -2,172 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61CB518672D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 09:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5DC186734
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 10:00:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730255AbgCPI5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 04:57:19 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:49671 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730253AbgCPI5T (ORCPT
+        id S1730208AbgCPJAA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 05:00:00 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46058 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730204AbgCPJAA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 04:57:19 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 2E6321BF21D;
-        Mon, 16 Mar 2020 08:56:39 +0000 (UTC)
-Date:   Mon, 16 Mar 2020 09:59:34 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Mon, 16 Mar 2020 05:00:00 -0400
+Received: from [IPv6:2a02:810a:113f:ad1c:bc0f:a2f4:ae8d:5d99] (unknown [IPv6:2a02:810a:113f:ad1c:bc0f:a2f4:ae8d:5d99])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E1EA0293EC9;
+        Mon, 16 Mar 2020 08:59:58 +0000 (GMT)
+Subject: Re: [PATCH] media: v4l2-common: Add BGR666 to v4l2_format_info
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
- fwnode matching
-Message-ID: <20200316085934.c4lwqreaki2sbamm@uno.localdomain>
-References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200315214707.uo246kwe3njtc452@uno.localdomain>
- <20200316063444.GE4732@pendragon.ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org
+References: <20200316070123.2434-1-dafna.hirschfeld@collabora.com>
+ <20200316072214.GA16123@pendragon.ideasonboard.com>
+ <31efd58f-1ab1-d3d0-e4b9-ea9072e608fa@collabora.com>
+ <20200316081516.GK4732@pendragon.ideasonboard.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <401a9aca-f61f-d818-28dc-0e4cf7c2ac20@collabora.com>
+Date:   Mon, 16 Mar 2020 09:59:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200316063444.GE4732@pendragon.ideasonboard.com>
+In-Reply-To: <20200316081516.GK4732@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
 
-On Mon, Mar 16, 2020 at 08:34:44AM +0200, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Sun, Mar 15, 2020 at 10:47:07PM +0100, Jacopo Mondi wrote:
-> > On Sun, Mar 15, 2020 at 02:55:11PM +0200, Laurent Pinchart wrote:
-> > > fwnode matching was designed to match on nodes corresponding to a
-> > > device. Some drivers, however, needed to match on endpoints, and have
-> > > passed endpoint fwnodes to v4l2-async. This works when both the subdev
-> > > and the notifier use the same fwnode types (endpoint or device), but
-> > > makes drivers that use different types incompatible.
-> > >
-> > > Fix this by extending the fwnode match to handle fwnodes of different
-> > > types. When the types (deduced from the node name) are different,
-> > > retrieve the device fwnode for the side that provides an endpoint
-> > > fwnode, and compare it with the device fwnode provided by the other
-> > > side. This allows interoperability between all drivers, regardless of
-> > > which type of fwnode they use for matching.
-> >
-> > I'm sorry but I'm not sure why would make a difference compared to
-> > what Kieran's patch did.
-> > https://lore.kernel.org/patchwork/patch/788637/
-> >
-> > If the bridge matches on device node, and the remote registers more
-> > than one endpoints it is possible to get a false match.
->
-> How so ? If a notifier entry points to a device node, and two subdevs
-> are registered with different endpoint nodes that are both part of the
-> same device node, the notifier will get either of them. Which subdev
-> match the notifier won't be guaranteed, but that's what the notifier
-> asked for if it contains a device node and not an endpoint node: any
-> subdev corresponding to the device node.
->
-> In practice notifiers will need to move to endpoint matching if they
-> want to get a particular subdev of a device, and this change allows
-> doing so without mass-patching every driver. It allows a notifier to
-> switch to endpoint nodes, while subdevs still use device nodes and are
-> gradually ported.
->
 
-In case a device has two CSI-2 receivers, different IPs, different
-drivers which register different notifiers, and they are connected in
-DTS to a device like adv748x which registers two async
-devices for its two CSI-2 transmitter on endpoints, depending on which
-CSI-2 receiver gets probed first, it matches any of the two CSI-2 Tx.
-The media graph would complete but it won't be what's described in
-dts.
+On 16.03.20 09:15, Laurent Pinchart wrote:
+> Hi Dafna,
+> 
+> On Mon, Mar 16, 2020 at 09:07:16AM +0100, Dafna Hirschfeld wrote:
+>> On 16.03.20 08:22, Laurent Pinchart wrote:
+>>> On Mon, Mar 16, 2020 at 08:01:23AM +0100, Dafna Hirschfeld wrote:
+>>>> Add V4L2_PIX_FMT_BGR666 to the format table.
+>>>>
+>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>> ---
+>>>> Hi,
+>>>> BGR66 is needed for the rkisp1 driver.
+>>>> Currently it crashes since the call to
+>>>> v4l2_format_info returns NULL.
+>>>>
+>>>>    drivers/media/v4l2-core/v4l2-common.c | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+>>>> index d0e5ebc736f9..d7f82b2aa22f 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-common.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-common.c
+>>>> @@ -253,6 +253,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>>>>    		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>>>>    		{ .format = V4L2_PIX_FMT_RGB565,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>>>>    		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>>>> +		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>>>
+>>> Isn't BGR666 stored in 3 bytes per pixel ?
+>>
+>> Hi, I also discussed it with Helen. From the documentation we
+>> understood that it uses 4 bytes and the last one is empty.
+>> https://linuxtv.org/downloads/v4l-dvb-apis/uapi/v4l/pixfmt-rgb.html
+> 
+> Would you then also understand V4L2_PIX_FMT_RGB565 to use 4 bytes with
+> the last 2 bytes empty ? :-)
+hmm, the formats between BGR24 and XRGB32 in the docs table have vertical lines crossing all 4 bytes so we understood that they are all 4 bytes. Isn't it?
+Format RGB565 doesn't have does vertical lines on the last two bytes which means it uses 2. At least that is what we understood.
 
-I agree it's unlikely, and having something like this or what kieran
-did in is better than the current situation, so I'm not pushing this
-back, at all. Just pointing possible reasons why we still don't have
-any solution to this issue in mainline.
+Dafna
 
-Thanks
-   j
-
-> > I'm not sure how that would happen in practice, as the bridge would be
-> > registering the fwnode of the remote device twice, but I think that
-> > was the reason kieran's patch has not been collected or am I
-> > mistaken ?
-> >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > > This has been compile-tested only. Prabhakar, could you check if it
-> > > fixes your issue ?
-> > >
-> > >  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
-> > >  1 file changed, 41 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > index 8bde33c21ce4..995e5464cba7 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
-> > >
-> > >  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> > >  {
-> > > -	return sd->fwnode == asd->match.fwnode;
-> > > +	struct fwnode_handle *other_fwnode;
-> > > +	struct fwnode_handle *dev_fwnode;
-> > > +	bool asd_fwnode_is_ep;
-> > > +	bool sd_fwnode_is_ep;
-> > > +	const char *name;
-> > > +
-> > > +	/*
-> > > +	 * Both the subdev and the async subdev can provide either an endpoint
-> > > +	 * fwnode or a device fwnode. Start with the simple case of direct
-> > > +	 * fwnode matching.
-> > > +	 */
-> > > +	if (sd->fwnode == asd->match.fwnode)
-> > > +		return true;
-> > > +
-> > > +	/*
-> > > +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> > > +	 * endpoint or a device. If they're of the same type, there's no match.
-> > > +	 */
-> > > +	name = fwnode_get_name(sd->fwnode);
-> > > +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> > > +	name = fwnode_get_name(asd->match.fwnode);
-> > > +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> > > +
-> > > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> > > +		return false;
-> > > +
-> > > +	/*
-> > > +	 * The sd and asd fwnodes are of different types. Get the device fwnode
-> > > +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
-> > > +	 */
-> > > +	if (sd_fwnode_is_ep) {
-> > > +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
-> > > +		other_fwnode = asd->match.fwnode;
-> > > +	} else {
-> > > +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
-> > > +		other_fwnode = sd->fwnode;
-> > > +	}
-> > > +
-> > > +	fwnode_handle_put(dev_fwnode);
-> > > +
-> > > +	return dev_fwnode == other_fwnode;
-> > >  }
-> > >
-> > >  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> 
+> I agree that the documentation is somehow ambiguous and should be fixed.
+> Patches are welcome ;-)
+> 
+>>>>    
+>>>>    		/* YUV packed formats */
+>>>>    		{ .format = V4L2_PIX_FMT_YUYV,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+> 
