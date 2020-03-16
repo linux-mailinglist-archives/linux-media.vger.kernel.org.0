@@ -2,149 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 167C1186937
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E5A518695B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:47:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730604AbgCPKhF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 16 Mar 2020 06:37:05 -0400
-Received: from plasma4.jpberlin.de ([80.241.57.33]:48877 "EHLO
-        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730497AbgCPKhF (ORCPT
+        id S1730709AbgCPKrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 06:47:37 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36062 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730478AbgCPKrh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 06:37:05 -0400
-Received: from spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125])
-        by plasma.jpberlin.de (Postfix) with ESMTP id BFE0CBA040;
-        Mon, 16 Mar 2020 11:37:00 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id BUj_QcXenZVA; Mon, 16 Mar 2020 11:36:56 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id E665FB9E50;
-        Mon, 16 Mar 2020 11:36:55 +0100 (CET)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
- (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 16 Mar
- 2020 11:36:44 +0100
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        <virtio-dev@lists.oasis-open.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>, <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>,
-        David Stevens <stevensd@chromium.org>, <uril@redhat.com>,
-        <samiullah.khawaja@opensynergy.com>, <kiran.pawar@opensynergy.com>,
-        Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>
-Subject: Re: [PATCH v2 1/1] video_video: Add the Virtio Video V4L2 driver
-Date:   Mon, 16 Mar 2020 11:36:55 +0100
-Message-ID: <2171890.ElGaqSPkdT@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAAFQd5A-ZaTkx8YEdq=Q_KpbmzZ4kGxJ1ju8shXMot9WMytd=w@mail.gmail.com>
-References: <20200218202753.652093-1-dmitry.sepp@opensynergy.com> <6194402.K2JlShyGXD@os-lin-dmo> <CAAFQd5A-ZaTkx8YEdq=Q_KpbmzZ4kGxJ1ju8shXMot9WMytd=w@mail.gmail.com>
+        Mon, 16 Mar 2020 06:47:37 -0400
+Received: by mail-wm1-f66.google.com with SMTP id g62so17453557wme.1
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2020 03:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3Fvzm0jnK7nG9oC/6t8l32p7bVJdfH91TDz1GxmcK6o=;
+        b=Tjqzg7L5eO71rNRVxaTUpg2ybm9nuMmLUvBFvUFpIQZyJKwjFV6wC8EItjIOEl2spT
+         olwPrkbkrWRQswvsG9QIYXYC7fIegpxCeTy3M8I4bYz367Jdbye0vGxMMvkEkF3Zv7N+
+         rpMPdUUd6w9E3MiGTwHRCxzTTcEut92p4n71SQsA/z1kmvfh0YdtZdtWlHlYb2W3vWgL
+         6Utv7Sb4SppDiHbGAy06ML6YLby4UcvSQEA0a2qZ3kA4Pg3aOSOJKX5Nv8BGpw6QWolV
+         zOzAT48JCZyWG3Xv+eG10D3q3nPtD2g+n4fjYRTUswEx7qmjoDkDMoUp9SOLes45Izmr
+         Ss5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3Fvzm0jnK7nG9oC/6t8l32p7bVJdfH91TDz1GxmcK6o=;
+        b=ZMLIglS2BjJy3Crcv7HrGA/qJljyG+XOQgxteTudTMse2gxJvN7kbEBQI5NReoPw3e
+         fQQZQL+z2t+X4kheXVBx9DUsvG0p03EPvKfLOcd5Jkf5UENS9XBr7PNJoxB9p1c7lqhP
+         Y9qX8qvLfGPZKne6FETEsZS3iibNW/6iVva2w5eiSpttf2VOvkZpHYbrrtJEMLVOJ9dZ
+         4q39j3Cemj+dNar+g6qezJwp/MCvIObxy82p4fxaKrSjtbn5Pf/94yOz2uKGyI6mwuTR
+         Q3WtQiNGQLVX6uOGynMGMRj5FO+pMnBpMhgxXOS7+KaaQk/wgFuJg+Hl9QowFgf9zdOY
+         iK2A==
+X-Gm-Message-State: ANhLgQ04rC5IuTFdsbWhuyz+T2BBq47a9m8LHpxadQ4fAd+6yo8cKYZ5
+        wvskhvTKsPFBJGpINwrYxM4h/auf
+X-Google-Smtp-Source: ADFU+vubuovec7WG+7mQaqMDUjmOMPnf+ADc1/6RK1ouRyw4AzHnCVAr2HN3FlcNJmsmBa0l5jAO4Q==
+X-Received: by 2002:a05:600c:1006:: with SMTP id c6mr17836286wmc.96.1584355654676;
+        Mon, 16 Mar 2020 03:47:34 -0700 (PDT)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id k9sm14325535wrd.74.2020.03.16.03.47.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2020 03:47:34 -0700 (PDT)
+Date:   Mon, 16 Mar 2020 10:47:31 +0000
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH 00/14] media: imx: Miscellaneous fixes for i.MX7 CSI-2
+ receiver
+Message-ID: <20200316104731.xeamvurfjy4czy7m@arch-thunder.localdomain>
+References: <20200312234722.23483-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
-X-Originating-IP: [10.25.255.1]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200312234722.23483-1-laurent.pinchart@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi Laurent,
+Thanks for this series.
 
-On Freitag, 13. März 2020 12:11:51 CET Tomasz Figa wrote:
-> On Fri, Mar 13, 2020 at 11:27 AM Dmitry Sepp
+On Fri, Mar 13, 2020 at 01:47:08AM +0200, Laurent Pinchart wrote:
+> Hello,
 > 
-> <dmitry.sepp@opensynergy.com> wrote:
-> > Hi Tomasz,
-> > 
-> > On Freitag, 13. März 2020 11:05:35 CET Tomasz Figa wrote:
-> > > On Thu, Mar 12, 2020 at 12:48 PM Dmitry Sepp
-> > > 
-> > > <dmitry.sepp@opensynergy.com> wrote:
-> > > > Hi Hans,
-> > > > 
-> > > > One more thing:
-> > > > > GFP_DMA? That's unusual. I'd expect GFP_DMA32. All V4L2 drivers use
-> > > > > that.
-> > > > 
-> > > > GFP_DMA32 had no effect for me on arm64. Probably I need to recheck.
-> > > 
-> > > What's the reason to use any specific GFP flags at all? GFP_DMA(32)
-> > > memory in the guest would typically correspond to host pages without
-> > > any specific location guarantee.
-> > 
-> > Typically, but not always, especially for non x86. Say, some platforms
-> > don't have IOMMUs for codec devices and those devices require physically
-> > contig low memory. We had to find a way to handle that.
+> This patch series completes (for now :-)) my rework of the CSI-2
+> receiver found in the i.MX7 SoCs.
 > 
-> So basically your hypervisor guarantees that the guest pages inside
-> the GFP_DMA zone are contiguous and DMA-able on the host as well?
-> Given the Linux-specific aspect of GFP flags and differences in the
-> implementation across architectures, perhaps it would be a better idea
-> to use the DMA mask instead? That wouldn't currently affect vb2_dma_sg
-> allocations, but in that case the host decoder would have some IOMMU
-> anyway, right?
+> Patches 01/14 and 02/14 have already been tested and acked. The next
+> four patches (03/14 to 06/14) fix format handling by adding missing
+> formats and removing unsupported formats, and patches 07/14 to 09/14
+> then clean up and fix image width alignment handling.
 > 
+> The next three patches (10/14 to 12/14) are again miscellaneous
+> cleanups. Patch 13/14 removes usage of the only imx-media-utils helper
+> used in this driver as the helper isn't compatible with the i.MX7 CSI-2
+> receiver formats. Patch 14/14 finally implements the subdev
+> .enum_mbus_code() pad operation to allow enumeration of media bus codes
+> from userspace.
+> 
+> The patches have been tested on an i.MX7Q with a 10-bit greyscale MIPI
+> CSI-2 sensor.
 
-DMA mask has no effect for vb2_dma_sg, but GFP has. Unfortunately we need to 
-support both of the two: low mem phys contig and low mem sg. So DMA mask 
-cannot be an option. No, there are use-cases with obsolutely no iommus.
+For the all series:
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-Best regards,
-Dmitry.
+------
+Cheers,
+     Rui
 
-> > Best regards,
-> > Dmitry.
-> > 
-> > > Best regards,
-> > > Tomasz
-> > > 
-> > > > Best regards,
-> > > > Dmitry.
-> > > > 
-> > > > On Donnerstag, 12. März 2020 11:18:26 CET Hans Verkuil wrote:
-> > > > > On 3/12/20 11:15 AM, Dmitry Sepp wrote:
-> > > > > > Hi Hans,
-> > > > > > 
-> > > > > > Thank you for your great detailed review!
-> > > > > > 
-> > > > > > I won't provide inline answers as your comments totally make
-> > > > > > sense.
-> > > > > > There
-> > > > > > is>
-> > > > > > 
-> > > > > > only one thing I want to mention:
-> > > > > >>> + struct video_plane_format
-> > > > > >>> plane_format[VIRTIO_VIDEO_MAX_PLANES];
-> > > > > >> 
-> > > > > >> Why is this virtio specific? Any reason for not using
-> > > > > >> VIDEO_MAX_PLANES?
-> > > > > > 
-> > > > > > I'd say this is because VIDEO_MAX_PLANES does not exist outside of
-> > > > > > the
-> > > > > > Linux OS, so for whatever other system we need a virtio specific
-> > > > > > definition.
-> > > > > 
-> > > > > OK, good reason :-)
-> > > > > 
-> > > > > It's probably a good thing to add a comment where
-> > > > > VIRTIO_VIDEO_MAX_PLANES is defined that explains this.
-> > > > > 
-> > > > > Regards,
-> > > > > 
-> > > > >       Hans
-
-
+> 
+> Laurent Pinchart (14):
+>   media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
+>   media: imx: imx7-mipi-csis: Centralize initialization of pad formats
+>   media: imx: imx7-mipi-csis: Add missing RAW formats
+>   media: imx: imx7-mipi-csis: Expose correct YUV formats
+>   media: imx: imx7-mipi-csis: Fix MEDIA_BUS_FMT_UYVY8_2X8 data alignment
+>   media: imx: imx7-mipi-csis: Add MEDIA_BUS_FMT_UYVY10_2X10 support
+>   media: imx: imx7-mipi-csis: Rename data_alignment field to width
+>   media: imx: imx7-mipi-csis: Align image width based on format
+>   media: imx: imx7-mipi-csis: Never set MIPI_CSIS_ISPCFG_ALIGN_32BIT
+>   media: imx: imx7-mipi-csis: Align macro definitions
+>   media: imx: imx7-mipi-csis: Remove link setup on source pad
+>   media: imx: imx7-mipi-csis: Cleanup includes
+>   media: imx: imx7-mipi-csis: Don't use imx-media-utils helpers
+>   media: imx: imx7-mipi-csis: Implement the .enum_mbus_code() operation
+> 
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 446 +++++++++++++--------
+>  1 file changed, 274 insertions(+), 172 deletions(-)
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
