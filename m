@@ -2,85 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CD17186BD7
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 14:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30554186C02
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 14:27:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731153AbgCPNN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 09:13:29 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:43494 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731025AbgCPNN2 (ORCPT
+        id S1731342AbgCPN1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 09:27:35 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:45647 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731234AbgCPN1f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 09:13:28 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02GDDPAS100488;
-        Mon, 16 Mar 2020 08:13:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1584364405;
-        bh=tHi0rNmBrBnUKIa7jtPlKNrjxNGBZpUmXXoPS+hhX0U=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=sSGMsiZ55jdoS2n6meMtwVCcFbs1CsQLaXk8SIwrtladOLCQ8VYsJ3VQx+FOYe57C
-         hZzbd4Gv7bP7Dmko51BU3sYv//cCd1LNG8Jf5DabMzUDiquBIh2ezdZWWWjwY5riQj
-         qb8Z9TvaN+u3Ad5/GlYykeba9rH/BDMAZR7nD3GQ=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02GDDOIJ046341
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 16 Mar 2020 08:13:25 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
- Mar 2020 08:13:23 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Mon, 16 Mar 2020 08:13:23 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02GDDJsT115765;
-        Mon, 16 Mar 2020 08:13:21 -0500
-Subject: Re: [PATCH 11/16] media: ti-vpe: cal: program number of lines
- properly
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
- <20200313114121.32182-11-tomi.valkeinen@ti.com>
- <20200316123732.GD4732@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <92abe975-f88a-1d86-3ab3-9aa9ba65806a@ti.com>
-Date:   Mon, 16 Mar 2020 15:13:18 +0200
+        Mon, 16 Mar 2020 09:27:35 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id DpmEjyX79EE3qDpmHjeXlJ; Mon, 16 Mar 2020 14:27:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584365253; bh=9ELFXIM7LEy9JN9rplsVjEND/RZuXyGXzzNdnzAIyiw=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=lSFSS74aEO2iVjCInOBg7eltVXqWGRJG+/Tte6NtsJxfN/2jWU8apo0RnYhrNdGsi
+         F90Xd2lax4s9oVKJgBAdEMDjJWIOACy4u4RLp2nj3ytRV25Aa1ip2MTchUf6nmlSOZ
+         QlHwAzujxCjemFB1c6fdxFtopIu7IOnf/siH2Ww6jjeNMTu/4+olKByoaAaNVxS5av
+         gcQPlNuwvIH7+g3zTemOU/CsNcHvzmyIHp72XAAsQTimlfp+PqdD28P4saI7SWRPA6
+         TfUaJqhj0sIGP7uvEuaipJeGefMdeItCBmOdrUO0dXyVUQrWWMWEd3f30QvGkXz/d2
+         L5ffrIg9wf+pA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.7] Various fixes
+Message-ID: <1c3b8d02-2073-2bb2-c613-b72c90112e5a@xs4all.nl>
+Date:   Mon, 16 Mar 2020 14:27:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200316123732.GD4732@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfLY1RdYfZ5YLO9wvxNXx/sFv2LYxpbqmE6Tp6dyeztXNzRl9vl5sqpGyVRX5BUu3hdlR9SkyZMO/thoHNInZRhrF3ZZVoRP0mPC3vkI60otQOUE/SBUG
+ 7JB0YXo6lPnaMO4rO5czGsJuBWC0gpd/kH7Uktb0js4+IzN8A3Z1NKs9QOaI4jvgynQx9s/rSN42xw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/03/2020 14:37, Laurent Pinchart wrote:
-> On Fri, Mar 13, 2020 at 01:41:16PM +0200, Tomi Valkeinen wrote:
->> CAL_CSI2_CTX register has LINES field, which, according to the
->> documentation, should be programmed to the number of lines transmitted
->> by the camera. If the number of lines is unknown, it can be set to 0.
->> The driver sets the field to 0 for some reason, even if we know the
->> number of lines.
->>
->> This patch sets the number of lines properly, which will allow the HW to
->> discard extra lines (if the sensor would send such for some reason),
->> and, according to documentation: "This leads to regular video timings
->> and avoids potential artifacts".
-> 
-> And possibly buffer overflows !
+The following changes since commit 6fafbbe8d4140e44e0a64d6c914d628bdb2902ed:
 
-There's a register in the DMA block which defines the max number of lines the DMA will transfer. So 
-overflow should not be possible even without this patch.
+  device property: Export fwnode_get_name() (2020-03-16 07:47:58 +0100)
 
-  Tomi
+are available in the Git repository at:
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7k
+
+for you to fetch changes up to d1c099ed30d6dc1a6d028f6ee3e8b188cfa759dc:
+
+  cec-notifier: make cec_notifier_get_conn() static (2020-03-16 13:51:52 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Daniel Glöckner (2):
+      media: v4l: Add 14-bit raw greyscale pixel format
+      media: v4l: Add 1X14 14-bit greyscale media bus code definition
+
+Hans Verkuil (2):
+      cec-notifier: rename conn_name to port_name
+      cec-notifier: make cec_notifier_get_conn() static
+
+Lad Prabhakar (1):
+      media: am437x-vpfe: Make use of to_vpfe() to get a pointer to vpfe_device
+
+Sakari Ailus (1):
+      media: v4l: Add 14-bit raw bayer pixel formats
+
+ Documentation/media/uapi/v4l/pixfmt-bayer.rst   |  1 +
+ Documentation/media/uapi/v4l/pixfmt-srggb14.rst | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/pixfmt-y14.rst     | 72 +++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/subdev-formats.rst | 37 ++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/yuv-formats.rst    |  1 +
+ drivers/media/cec/cec-notifier.c                | 41 +++++++++++++++++----------
+ drivers/media/platform/am437x/am437x-vpfe.c     | 10 +++----
+ drivers/media/v4l2-core/v4l2-ioctl.c            |  5 ++++
+ include/media/cec-notifier.h                    | 39 ++++++--------------------
+ include/uapi/linux/media-bus-format.h           |  3 +-
+ include/uapi/linux/videodev2.h                  |  5 ++++
+ 11 files changed, 245 insertions(+), 51 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-srggb14.rst
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-y14.rst
