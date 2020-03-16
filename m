@@ -2,247 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA899186E7D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 16:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57530186EA8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 16:33:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731803AbgCPP0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 11:26:44 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:33467 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731770AbgCPP0n (ORCPT
+        id S1731698AbgCPPdm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 11:33:42 -0400
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:45255 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731505AbgCPPdm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 11:26:43 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jDrda-0000lT-1l; Mon, 16 Mar 2020 16:26:42 +0100
-Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jDrdY-00055h-V1; Mon, 16 Mar 2020 16:26:40 +0100
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH v2 18/18] media: allegro: create new struct for channel parameters
-Date:   Mon, 16 Mar 2020 16:26:38 +0100
-Message-Id: <20200316152638.19457-19-m.tretter@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200316152638.19457-1-m.tretter@pengutronix.de>
-References: <20200316152638.19457-1-m.tretter@pengutronix.de>
+        Mon, 16 Mar 2020 11:33:42 -0400
+Received: by mail-ua1-f67.google.com with SMTP id 9so6183200uav.12
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2020 08:33:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=OOpKdMuO0bDghAl1po0Af4aim/SSjCkrie/0/cp73lU=;
+        b=D6F8C/Le+ytFWnA5GJQsHEBX1s5QJUr0lipoYlUvpDIB+X4tHiEePVLO7ijdzAFtWm
+         6LSWJOKxcds+uu8EBPDBt+MMxHn4WY2MaLonQj6aG+NLl7wPdMmM8WbUXrntHcq4oREC
+         0NisBi1WD/DhCldv5r8ruai4IQ1axDmbuuGTxVgKxKM5slvTB4A4Y4kYZD6gRJjPFhh/
+         xkkOtDT3VIXD0eiYFmBIJaZ9o38YGYQN5UjQqYP9/E3L/RLfiaZgR3L6cIfTnLXC3nf4
+         C5j5qvcYjRIxT91scOyAAIDfpC/PX4SJAnsZOu5BdvclR0AArEI/N78H4NG8XutqZblv
+         C1PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=OOpKdMuO0bDghAl1po0Af4aim/SSjCkrie/0/cp73lU=;
+        b=hchhQ/hiwFZX4eKIG6JaF8pSyznpEwZ6WdSh9JIEv6q7YLPfP/PerjH4z+OJ7YX8Dt
+         EYBbg3zcRVOqdto0eMIDT75wZPjC3RLdHHpt6TTa82CLSQ7252QhDV+6hpwc3VvOlbXo
+         wYJtYnE+w3inOUEisGk+DPorxRk+D+6mduLMhJZNB/4bSEALPcNhbL5yz2dnd/MPuTda
+         UemeINmFLMOYIqZOWhL9aNnIhiL4Wa9gVhYRDC+dId5ZxWfjJfq/351uHI1ZvH+xn6EI
+         bOgJLBFAEQn56myLBvL8q/s8FSPhUzlaUFfigHS24m3ut56gC3bQgEc6QGNUD/sTlnpe
+         Th6Q==
+X-Gm-Message-State: ANhLgQ21pra4jHqO2bEXa9xmON44lZdJHT3JFIgROt2ZH/sN7qqPsaHr
+        C1OYkuZfTwY1xPtaYE8aq5nEup2SH9w+3KBcoJI=
+X-Google-Smtp-Source: ADFU+vtZY6VkseC6FahQXcXk0qPa9D2LLphky1tm/elWDs1+bnJKzR9jG0ocJHUh5/I1L+5gxTJQ/oWJB4D+Lcrdc8g=
+X-Received: by 2002:ab0:67:: with SMTP id 94mr427135uai.139.1584372820899;
+ Mon, 16 Mar 2020 08:33:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+ <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
+ <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
+ <20200316102034.GA30883@pendragon.ideasonboard.com> <CAO1ALz=us11a8=M6MWGdLwXakeR3Ltd=iyAN4G5-GkvNXctGeA@mail.gmail.com>
+ <CAPj87rPnk6181unams0vBT3ZpdNY=gMM5iFf=E5iPuj=eG28yQ@mail.gmail.com>
+In-Reply-To: <CAPj87rPnk6181unams0vBT3ZpdNY=gMM5iFf=E5iPuj=eG28yQ@mail.gmail.com>
+From:   Tomek Bury <tomek.bury@gmail.com>
+Date:   Mon, 16 Mar 2020 15:33:29 +0000
+Message-ID: <CAO1ALzmghMQo31noEBW_0gVzJp=BZrNaNtXE+86TR0hR86Y1Jw@mail.gmail.com>
+Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        xorg-devel <xorg-devel@lists.x.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        "wayland-devel @ lists . freedesktop . org" 
+        <wayland-devel@lists.freedesktop.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+        Dave Airlie <airlied@gmail.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new struct for the channel parameters that is contained in the
-CREATE_CHANNEL message. This is in preparation for newer firmwares that
-pass the channel parameters in a dedicated buffer instead of embedding
-the parameters into the CREATE_CHANNEL message.
+> GL and GLES are not relevant. What is relevant is EGL, which defines
+> interfaces to make things work on the native platform.
+Yes and no. This is what EGL spec says about sharing a texture between cont=
+exts:
 
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
-Changelog:
+"OpenGL and OpenGL ES makes no attempt to synchronize access to
+texture objects. If a texture object is bound to more than one
+context, then it is up to the programmer to ensure that the contents
+of the object are not being changed via one context while another
+context is using the texture object for rendering. The results of
+changing a texture object while another context is using it are
+undefined."
 
-v1 -> v2:
-- Fix checkpatch warnings
----
- .../staging/media/allegro-dvt/allegro-core.c  | 134 ++++++++++--------
- .../staging/media/allegro-dvt/allegro-mail.h  |  10 +-
- 2 files changed, 80 insertions(+), 64 deletions(-)
+There are similar statements with regards to the lack of
+synchronisation guarantees for EGL images or between GL and native
+rendering, etc. But the main thing here is that EGL and Vulkan differ
+significantly. The eglSwapBuffers() is expected to post an unspecified
+"back buffer" to the display system using some internal driver magic.
+EGL driver is then expected to obtain another back buffer at some
+unspecified point in the future. Vulkan on the other hand is very
+specific and explicit. The vkQueuePresentKHR() is expected to post a
+specific vkImage with an explicit set of set of semaphores. Another
+image is obtained through vkAcquireNextImageKHR() and it's the
+application's decision whether it wants a fence, a semaphore, both or
+none with the acquired buffer. The implicit synchronisation doesn't
+mix well with Vulkan drivers and requires a lot of extra plumbing  in
+the WSI code.
 
-diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-index ed5e9a33b7f9..6bba296dfc40 100644
---- a/drivers/staging/media/allegro-dvt/allegro-core.c
-+++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-@@ -859,80 +859,92 @@ static s16 get_qp_delta(int minuend, int subtrahend)
- 		return minuend - subtrahend;
- }
- 
--static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
--					   struct allegro_channel *channel)
-+static int fill_create_channel_param(struct allegro_channel *channel,
-+				     struct create_channel_param *param)
- {
--	struct mcu_msg_create_channel msg;
- 	int i_frame_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_i_frame_qp);
- 	int p_frame_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_p_frame_qp);
- 	int b_frame_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_b_frame_qp);
- 	int bitrate_mode = v4l2_ctrl_g_ctrl(channel->mpeg_video_bitrate_mode);
- 
-+	param->width = channel->width;
-+	param->height = channel->height;
-+	param->format = v4l2_pixelformat_to_mcu_format(channel->pixelformat);
-+	param->colorspace =
-+		v4l2_colorspace_to_mcu_colorspace(channel->colorspace);
-+	param->src_mode = 0x0;
-+	param->profile = v4l2_profile_to_mcu_profile(channel->profile);
-+	param->constraint_set_flags = BIT(1);
-+	param->codec = v4l2_pixelformat_to_mcu_codec(channel->codec);
-+	param->level = v4l2_level_to_mcu_level(channel->level);
-+	param->tier = 0;
-+	param->sps_param = BIT(20) | 0x4a;
-+	param->pps_param = BIT(2);
-+	param->enc_option = AL_OPT_RDO_COST_MODE | AL_OPT_LF_X_TILE |
-+			    AL_OPT_LF_X_SLICE | AL_OPT_LF;
-+	param->beta_offset = -1;
-+	param->tc_offset = -1;
-+	param->num_slices = 1;
-+	param->me_range[0] = 8;
-+	param->me_range[1] = 8;
-+	param->me_range[2] = 16;
-+	param->me_range[3] = 16;
-+	param->max_cu_size = ilog2(SIZE_MACROBLOCK);
-+	param->min_cu_size = ilog2(8);
-+	param->max_tu_size = 2;
-+	param->min_tu_size = 2;
-+	param->max_transfo_depth_intra = 1;
-+	param->max_transfo_depth_inter = 1;
-+
-+	param->prefetch_auto = 0;
-+	param->prefetch_mem_offset = 0;
-+	param->prefetch_mem_size = 0;
-+
-+	param->rate_control_mode = channel->frame_rc_enable ?
-+		v4l2_bitrate_mode_to_mcu_mode(bitrate_mode) : 0;
-+
-+	param->cpb_size = v4l2_cpb_size_to_mcu(channel->cpb_size,
-+					       channel->bitrate_peak);
-+	/* Shall be ]0;cpb_size in 90 kHz units]. Use maximum value. */
-+	param->initial_rem_delay = param->cpb_size;
-+	param->framerate = DIV_ROUND_UP(channel->framerate.numerator,
-+					channel->framerate.denominator);
-+	param->clk_ratio = channel->framerate.denominator == 1001 ? 1001 : 1000;
-+	param->target_bitrate = channel->bitrate;
-+	param->max_bitrate = channel->bitrate_peak;
-+	param->initial_qp = i_frame_qp;
-+	param->min_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_min_qp);
-+	param->max_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_max_qp);
-+	param->ip_delta = get_qp_delta(i_frame_qp, p_frame_qp);
-+	param->pb_delta = get_qp_delta(p_frame_qp, b_frame_qp);
-+	param->golden_ref = 0;
-+	param->golden_delta = 2;
-+	param->golden_ref_frequency = 10;
-+	param->rate_control_option = 0x00000000;
-+
-+	param->gop_ctrl_mode = 0x00000000;
-+	param->freq_idr = channel->gop_size;
-+	param->freq_lt = 0;
-+	param->gdr_mode = 0x00000000;
-+	param->gop_length = channel->gop_size;
-+	param->subframe_latency = 0x00000000;
-+
-+	return 0;
-+}
-+
-+static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
-+					   struct allegro_channel *channel)
-+{
-+	struct mcu_msg_create_channel msg;
-+
- 	memset(&msg, 0, sizeof(msg));
- 
- 	msg.header.type = MCU_MSG_TYPE_CREATE_CHANNEL;
- 	msg.header.length = sizeof(msg) - sizeof(msg.header);
- 
- 	msg.user_id = channel->user_id;
--	msg.width = channel->width;
--	msg.height = channel->height;
--	msg.format = v4l2_pixelformat_to_mcu_format(channel->pixelformat);
--	msg.colorspace = v4l2_colorspace_to_mcu_colorspace(channel->colorspace);
--	msg.src_mode = 0x0;
--	msg.profile = v4l2_profile_to_mcu_profile(channel->profile);
--	msg.constraint_set_flags = BIT(1);
--	msg.codec = v4l2_pixelformat_to_mcu_codec(channel->codec);
--	msg.level = v4l2_level_to_mcu_level(channel->level);
--	msg.tier = 0;
--	msg.sps_param = BIT(20) | 0x4a;
--	msg.pps_param = BIT(2);
--	msg.enc_option = AL_OPT_RDO_COST_MODE | AL_OPT_LF_X_TILE |
--			 AL_OPT_LF_X_SLICE | AL_OPT_LF;
--	msg.beta_offset = -1;
--	msg.tc_offset = -1;
--	msg.num_slices = 1;
--	msg.me_range[0] = 8;
--	msg.me_range[1] = 8;
--	msg.me_range[2] = 16;
--	msg.me_range[3] = 16;
--	msg.max_cu_size = ilog2(SIZE_MACROBLOCK);
--	msg.min_cu_size = ilog2(8);
--	msg.max_tu_size = 2;
--	msg.min_tu_size = 2;
--	msg.max_transfo_depth_intra = 1;
--	msg.max_transfo_depth_inter = 1;
--
--	if (channel->frame_rc_enable)
--		msg.rate_control_mode =
--			v4l2_bitrate_mode_to_mcu_mode(bitrate_mode);
--	else
--		msg.rate_control_mode = 0;
- 
--	msg.cpb_size = v4l2_cpb_size_to_mcu(channel->cpb_size,
--					    channel->bitrate_peak);
--	/* Shall be ]0;cpb_size in 90 kHz units]. Use maximum value. */
--	msg.initial_rem_delay = msg.cpb_size;
--	msg.framerate = DIV_ROUND_UP(channel->framerate.numerator,
--				     channel->framerate.denominator);
--	msg.clk_ratio = channel->framerate.denominator == 1001 ? 1001 : 1000;
--	msg.target_bitrate = channel->bitrate;
--	msg.max_bitrate = channel->bitrate_peak;
--	msg.initial_qp = i_frame_qp;
--	msg.min_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_min_qp);
--	msg.max_qp = v4l2_ctrl_g_ctrl(channel->mpeg_video_h264_max_qp);
--	msg.ip_delta = get_qp_delta(i_frame_qp, p_frame_qp);
--	msg.pb_delta = get_qp_delta(p_frame_qp, b_frame_qp);
--	msg.golden_ref = 0;
--	msg.golden_delta = 2;
--	msg.golden_ref_frequency = 10;
--	msg.rate_control_option = 0x00000000;
--
--	msg.gop_ctrl_mode = 0x00000000;
--	msg.freq_idr = channel->gop_size;
--	msg.freq_lt = 0;
--	msg.gdr_mode = 0x00000000;
--	msg.gop_length = channel->gop_size;
--	msg.subframe_latency = 0x00000000;
-+	fill_create_channel_param(channel, &msg.param);
- 
- 	allegro_mbox_write(dev, &dev->mbox_command, &msg, sizeof(msg));
- 	allegro_mcu_interrupt(dev);
-diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.h b/drivers/staging/media/allegro-dvt/allegro-mail.h
-index 4a50c595720a..1fd36f65be78 100644
---- a/drivers/staging/media/allegro-dvt/allegro-mail.h
-+++ b/drivers/staging/media/allegro-dvt/allegro-mail.h
-@@ -40,9 +40,7 @@ struct mcu_msg_init_response {
- 	u32 reserved0;
- } __attribute__ ((__packed__));
- 
--struct mcu_msg_create_channel {
--	struct mcu_msg_header header;
--	u32 user_id;
-+struct create_channel_param {
- 	u16 width;
- 	u16 height;
- 	u32 format;
-@@ -131,6 +129,12 @@ struct mcu_msg_create_channel {
- 	u32 unknown41;
- } __attribute__ ((__packed__));
- 
-+struct mcu_msg_create_channel {
-+	struct mcu_msg_header header;
-+	u32 user_id;
-+	struct create_channel_param param;
-+} __attribute__ ((__packed__));
-+
- struct mcu_msg_create_channel_response {
- 	struct mcu_msg_header header;
- 	u32 channel_id;
--- 
-2.20.1
+> If you are using EGL_WL_bind_wayland_display, then one of the things
+> it is explicitly allowed/expected to do is to create a Wayland
+> protocol interface between client and compositor, which can be used to
+> pass buffer handles and metadata in a platform-specific way. Adding
+> synchronisation is also possible.
+Only one-way synchronisation is possible with this mechanism. There's
+a standard protocol for recycling buffers - wl_buffer_release() so
+buffer hand-over from the compositor to client remains unsynchronised
+- see below.
 
+> > The most troublesome part was Wayland buffer release mechanism, as it o=
+nly involves a CPU signalling over Wayland IPC, without any 3D driver invol=
+vement. The choices were: explicit synchronisation extension or a buffer co=
+py in the compositor (i.e. compositor textures from the copy, so the client=
+ can re-write the original), or some implicit synchronisation in kernel spa=
+ce (but that wasn't an option in Broadcom driver).
+>
+> You can add your own explicit synchronisation extension.
+I could but that requires implementing in in the driver and in a
+number of compositors, therefore a standard extension
+zwp_linux_explicit_synchronization_v1 is much better choice here than
+a custom one.
+
+> In every cross-process and cross-subsystem usecase, synchronisation is
+> obviously required. The two options for this are to implement kernel
+> support for implicit synchronisation (as everyone else has done),
+That would require major changes in driver architecture or a 2nd
+mechanisms doing the same thing but in kernel space - both are
+non-starters.
+
+> or implement generic support for explicit synchronisation (as we have
+> been working on with implementations inside Weston and Exosphere at
+> least),
+The zwp_linux_explicit_synchronization_v1 is a good step forward. I'm
+using this extension as a main synchronisation mechanism in EGL and
+Vulkan driver whenever available. I remember that Gustavo Padovan was
+working on explicit sync support in the display system some time ago.
+I hope it got merged into kernel by now, but I don't know to what
+extend it's actually being used.
+
+> or implement private support for explicit synchronisation,
+If everything else fails, that would be the last resort scenario, but
+far from ideal and very costly in terms of implementation and
+maintenance as it would require maintaining custom patches for various
+3rd party components or littering them with multiple custom explicit
+synchronisation schemes.
+
+> or do nothing and then be surprised at the lack of synchronisation.
+Thank you, but no, thank you :)
+
+Cheers,
+Tomek
