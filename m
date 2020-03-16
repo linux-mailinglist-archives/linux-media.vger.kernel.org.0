@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 674E9187402
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 21:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 556A3187404
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 21:25:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732566AbgCPUZW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 16:25:22 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:54871 "EHLO
+        id S1732546AbgCPUZY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 16:25:24 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:53291 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732556AbgCPUZW (ORCPT
+        with ESMTP id S1732556AbgCPUZX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 16:25:22 -0400
+        Mon, 16 Mar 2020 16:25:23 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 5729EFF803;
-        Mon, 16 Mar 2020 20:25:19 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 44635FF804;
+        Mon, 16 Mar 2020 20:25:21 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     kieran.bingham+renesas@ideasonboard.com,
         niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, hyunk@xilinx.com,
         manivannan.sadhasivam@linaro.org,
         linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 4/5] dt-bindings: media: max9286: Add reverse channel amplitude
-Date:   Mon, 16 Mar 2020 21:27:56 +0100
-Message-Id: <20200316202757.529740-5-jacopo+renesas@jmondi.org>
+Subject: [PATCH 5/5] media: i2c: max9286: Parse channel amplitude
+Date:   Mon, 16 Mar 2020 21:27:57 +0100
+Message-Id: <20200316202757.529740-6-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
 References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
@@ -36,72 +36,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The MAX9286 chip exposes registers to control the reverse channel
-amplitude signal. The channel amplitude has to be configured according
-to the connected remote serializer settings, in order to guarantee
-reliable communications.
+Parse the 'maxim,reverse-channel-amplitude' property value and cache its
+content to later program the initial reverse channel amplitude.
 
-Serializer might be pre-programmed and initialize with their reverse
-channel noise threshold level increased. While this is intended to
-increase the signal/noise immunity ratio on the channel, the
-deserializer should be initialized accordingly, with its channel
-amplitude increased to 170mV.
-
-Add to the bindings documentation a required property to allow DTS users
-to specify the initial setting of the deserializer reverse channel and
-accommodate different serializer models.
+Only support 100mV and 170mV values for the moment. The property could
+be easily expanded to support more values.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- .../bindings/media/i2c/maxim,max9286.yaml     | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/media/i2c/max9286.c | 39 ++++++++++++++++++++++++++++++++-----
+ 1 file changed, 34 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-index ee8e0418b3f0..a1c56734a727 100644
---- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-@@ -54,6 +54,25 @@ properties:
-     allOf:
-       - $ref: /schemas/types.yaml#/definitions/uint32
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index 0357515860b2..24af8002535e 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -168,6 +168,7 @@ struct max9286_priv {
+ 	struct max9286_source sources[MAX9286_NUM_GMSL];
+ 	struct v4l2_async_notifier notifier;
  
-+  maxim,reverse-channel-amplitude:
-+    description: |
-+      The reverse channel amplitude initial value, in milliVolts. If the remote
-+      serializer is pre-programmed with an high reverse channel noise threshold,
-+      the deserializer channel amplitude shall initially be increased to 170mV
-+      to allow the two to communicate reliably. Likewise, if the remote
-+      serializer probes without an increased reverse channel noise threshold,
-+      the deserializer initial reverse channel amplitude should be set to 100mV
-+      to be later increased to 170mV after serializers have increased their
-+      reverse channel noise threshold.
-+    maxItems: 1
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+    # The property can be easily expanded to support more values if needed,
-+    # but that's what's supported today by the driver.
-+    oneOf:
-+      - const: 100
-+      - const: 170
++	u32 reverse_chan_amp;
+ 	u32 overlap_window;
+ };
+ 
+@@ -479,10 +480,15 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+ 	 * All enabled sources have probed and enabled their reverse control
+ 	 * channels:
+ 	 *
+-	 * - Verify all configuration links are properly detected
++	 * - Increase reverse channel amplitude to 170mV if not initially
++	 *   compensated
+ 	 * - Disable auto-ack as communication on the control channel are now
+ 	 *   stable.
+ 	 */
++	if (priv->reverse_chan_amp == 100)
++		max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) |
++			      MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X);
 +
-   ports:
-     type: object
-     description: |
-@@ -155,6 +174,7 @@ required:
-   - compatible
-   - reg
-   - maxim,overlap-window
-+  - maxim,reverse-channel-amplitude
-   - ports
-   - i2c-mux
+ 	max9286_check_config_link(priv, priv->source_mask);
  
-@@ -177,6 +197,7 @@ examples:
-         poc-supply = <&camera_poc_12v>;
-         enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
-         maxim,overlap-window = MAX9286_OVLP_WINDOW_DISABLED;
-+        maxim,reverse-channel-amplitude = <170>;
+ 	/*
+@@ -830,6 +836,8 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
  
-         ports {
-           #address-cells = <1>;
+ static int max9286_setup(struct max9286_priv *priv)
+ {
++	u8 chan_amp = MAX9286_REV_TRF(1);
++
+ 	/*
+ 	 * Link ordering values for all enabled links combinations. Orders must
+ 	 * be assigned sequentially from 0 to the number of enabled links
+@@ -869,12 +877,18 @@ static int max9286_setup(struct max9286_priv *priv)
+ 	 *
+ 	 * - Enable custom reverse channel configuration (through register 0x3f)
+ 	 *   and set the first pulse length to 35 clock cycles.
+-	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+-	 *   high threshold enabled by the serializer driver.
++	 * - Set initial reverse channel amplitude according the DTS property.
++	 *   If the initial channel amplitude is 100mV it should be increase
++	 *   later after the serializers high threshold have been enabled.
++	 *   If the initial value is 170mV the serializer has been
++	 *   pre-programmed and we can compensate immediately.
+ 	 */
+ 	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+-	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+-		      MAX9286_REV_AMP_X);
++	if (priv->reverse_chan_amp == 100)
++		chan_amp |= MAX9286_REV_AMP(100);
++	else
++		chan_amp |= MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X;
++	max9286_write(priv, 0x3b, chan_amp);
+ 	usleep_range(2000, 2500);
+ 
+ 	/*
+@@ -1069,6 +1083,21 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+ 		return -EINVAL;
+ 	}
+ 
++	ret = of_property_read_u32(dev->of_node, "maxim,reverse-channel-amplitude",
++				   &priv->reverse_chan_amp);
++	if (ret) {
++		dev_err(dev,
++			"Missing property \"maxim,reverse-channel-amplitude\"\n");
++		of_node_put(dev->of_node);
++		return -EINVAL;
++	}
++	if (priv->reverse_chan_amp != 100 && priv->reverse_chan_amp != 170) {
++		dev_err(dev, "Unsupported  channel amplitude %umV\n",
++			priv->reverse_chan_amp);
++		of_node_put(dev->of_node);
++		return -EINVAL;
++	}
++
+ 	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+ 	if (!i2c_mux) {
+ 		dev_err(dev, "Failed to find i2c-mux node\n");
 -- 
 2.25.1
 
