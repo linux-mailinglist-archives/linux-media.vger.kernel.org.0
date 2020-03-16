@@ -2,165 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F2F61868AF
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FF4D1868BB
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:12:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730544AbgCPKGY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 06:06:24 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:43471 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730529AbgCPKGY (ORCPT
+        id S1730491AbgCPKL7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 06:11:59 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:53946 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730468AbgCPKL7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 06:06:24 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id DmdWjxB6nEE3qDmdajdULx; Mon, 16 Mar 2020 11:06:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584353182; bh=0fvE65fftrSUDF2Kt8WX6KMpXHHvTu3Bm2orBeWolE0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=qw5WO9SwGkxONfA7YgJaE0KgqZK3S/uWLPbiiA2vI2ePEoyWLCNkFaBrEOBNZzUMg
-         Gfz3QU5KVqRgk/+VvY9p06s5wc2Iofhn2ljBMcwjGZySY6OYW/V7NqboLT2E0ySok8
-         mzZHB4JK1ooz84CAPvD5zSpZgwHNnDl5ODVneQgkx6HxnS0AcmDLapWqQQQw19YzVq
-         vg0SK8cnw4xAKDX6tih7kuhftFXcFny1sti4Qr9RF+EJQQrNIIa1Kv3mA40Fs6fUeF
-         XE+lycdjXXA0HFhl7geDuATeyu0b6Be4/wFn2gtdCJyIu8ZstIWFPYQc4Fm6mmqnfE
-         qZvUaRONSXsCg==
-Subject: Re: [PATCH 03/16] media: ti-vpe: cal: catch error irqs and print
- errors
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 16 Mar 2020 06:11:59 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02GABtrn013117;
+        Mon, 16 Mar 2020 05:11:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1584353515;
+        bh=yNmvgpYn7ogOdwoQm4MkrQ2aTuMpR7B0uJW101hOLmc=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=crxAk4dZe4d2+Xh6pR9inq1qps90cOZ0O3vO/XA+kE13rvpicl9yYarZaHUemFwaC
+         rOiZ/uguAYAXEB8VuGDvaDUosgY2adZxfa8S+76oXkrMNo1hdvD8qa4OMxXiBT45Qt
+         Wk+NB3P/icbkHYHUIbXvn5Om3rAyi4WDoynZMw6A=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02GABto8045247
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 16 Mar 2020 05:11:55 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
+ Mar 2020 05:11:55 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 16 Mar 2020 05:11:55 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02GABp5o028467;
+        Mon, 16 Mar 2020 05:11:52 -0500
+Subject: Re: [PATCH 14/16] media: ti-vpe: cal: improve wait for CIO resetdone
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
+        Benoit Parrot <bparrot@ti.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
- <20200313114121.32182-3-tomi.valkeinen@ti.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <dd31db33-c73b-cb05-ac18-90643a2a0074@xs4all.nl>
-Date:   Mon, 16 Mar 2020 11:06:18 +0100
+ <20200313114121.32182-14-tomi.valkeinen@ti.com>
+ <1da1aa0c-ac99-bfcb-d341-452be9997611@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <bc9e71c8-5aea-3c7c-98e6-c6e2f0adaff7@ti.com>
+Date:   Mon, 16 Mar 2020 12:11:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200313114121.32182-3-tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1da1aa0c-ac99-bfcb-d341-452be9997611@xs4all.nl>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPuvk6pxwaSqzzdYRLhNKOhG9Lzpb9kbhjvCAtZM2jKQrj9cLUnupuNp7epAJRiTiCD/OdsIKr6++xwYCXsqg0Wh/bjKKAR7EA/EQmHmnqPalVhK4Fq3
- LsJc8nTzzZIRm08Ko80sJNIWZEjeBJBub+wvfLkk8GFyQuKG1DTN75gJJILhsdtOtqH8LUHrEyRbgH14+KA+kL6NLymo95zPivn7bEL3ES3sosWUybE+H6ng
- 8qqNpU2rpO+20j+2jkfrAvnSmr2pT1L7ReN7yPl1XCYPUUYSoJmgIobdjHXD0KE2ln/QLrToSh64s69RhFFM6A==
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-
-On 3/13/20 12:41 PM, Tomi Valkeinen wrote:
-> CAL reports various errors via IRQs, which are not handled at all by the
-> current driver. Add code to enable and catch those IRQs and print
-> errors. This will make it much easier to notice and debug issues with
-> sensors.
-
-Can you rebase your series to the media_tree master branch? Other recently
-merged patches from Benoit now conflict with at least this patch.
-
-I reviewed this series and it looks good otherwise (just one other small comment
-about a confusing log message), so once I have a rebased version I can make
-a PR for it.
-
-Regards,
-
-	Hans
-
+On 16/03/2020 12:05, Hans Verkuil wrote:
+> On 3/13/20 12:41 PM, Tomi Valkeinen wrote:
+>> Sometimes waiting for ComplexIO resetdone timeouts.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/media/platform/ti-vpe/cal.c      | 46 +++++++++++++++++++++++-
->  drivers/media/platform/ti-vpe/cal_regs.h |  3 ++
->  2 files changed, 48 insertions(+), 1 deletion(-)
+> This sentence is hard to read. You probably mean:
 > 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index b4a9f4d16ce4..f6ce0558752a 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -692,6 +692,21 @@ static void cal_quickdump_regs(struct cal_dev *dev)
->   */
->  static void enable_irqs(struct cal_ctx *ctx)
->  {
-> +	const u32 cio_err_mask =
-> +		((1 << 20) - 1) |	/* lane errors */
-> +		BIT(27) |		/* FIFO_OVR */
-> +		BIT(28) |		/* SHORT_PACKET */
-> +		BIT(30);		/* ECC_NO_CORRECTION */
-> +
-> +	/* Enable CIO error irqs */
-> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1),
-> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
-> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
-> +		  cio_err_mask);
-> +
-> +	/* Always enable OCP error */
-> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1), BIT(6));
-> +
->  	/* Enable IRQ_WDMA_END 0/1 */
->  	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(2), 1 << (ctx->csi2_port - 1));
->  	/* Enable IRQ_WDMA_START 0/1 */
-> @@ -702,6 +717,12 @@ static void enable_irqs(struct cal_ctx *ctx)
->  
->  static void disable_irqs(struct cal_ctx *ctx)
->  {
-> +	/* Disable CIO error irqs */
-> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(1),
-> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
-> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
-> +		  0);
-> +
->  	/* Disable IRQ_WDMA_END 0/1 */
->  	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(2), 1 << (ctx->csi2_port - 1));
->  	/* Disable IRQ_WDMA_START 0/1 */
-> @@ -1169,7 +1190,30 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
->  	struct cal_dev *dev = (struct cal_dev *)data;
->  	struct cal_ctx *ctx;
->  	struct cal_dmaqueue *dma_q;
-> -	u32 irqst2, irqst3;
-> +	u32 irqst1, irqst2, irqst3;
-> +
-> +	irqst1 = reg_read(dev, CAL_HL_IRQSTATUS(1));
-> +	if (irqst1) {
-> +		int i;
-> +
-> +		reg_write(dev, CAL_HL_IRQSTATUS(1), irqst1);
-> +
-> +		if (irqst1 & BIT(6))
-> +			dev_err_ratelimited(&dev->pdev->dev, "OCP ERROR\n");
-> +
-> +		for (i = 1; i <= 2; ++i) {
-> +			if (irqst1 & CAL_HL_IRQ_CIO_MASK(i)) {
-> +				u32 cio_stat = reg_read(dev,
-> +							CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
-> +
-> +				dev_err_ratelimited(&dev->pdev->dev,
-> +						    "CIO%d error: %#08x\n", i, cio_stat);
-> +
-> +				reg_write(dev, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
-> +					  cio_stat);
-> +			}
-> +		}
-> +	}
->  
->  	/* Check which DMA just finished */
->  	irqst2 = reg_read(dev, CAL_HL_IRQSTATUS(2));
-> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-> index 0b76d1186074..a29198cc3efe 100644
-> --- a/drivers/media/platform/ti-vpe/cal_regs.h
-> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
-> @@ -158,6 +158,9 @@
->  #define CAL_HL_IRQ_ENABLED				0x1
->  #define CAL_HL_IRQ_PENDING				0x1
->  
-> +#define CAL_HL_IRQ_CIO_MASK(i)			BIT(16 + (i-1) * 8)
-> +#define CAL_HL_IRQ_VC_MASK(i)			BIT(17 + (i-1) * 8)
-> +
->  #define CAL_PIX_PROC_EN_MASK			BIT(0)
->  #define CAL_PIX_PROC_EXTRACT_MASK		GENMASK(4, 1)
->  #define CAL_PIX_PROC_EXTRACT_B6				0x0
-> 
+> Sometimes there is a timeout when waiting for the 'ComplexIO Reset Done'.
 
+Ah, indeed, it's confusing. And same with the next patch. I'll update the desc.
+
+  Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
