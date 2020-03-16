@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FFC6186ACE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 13:25:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E577F186AD7
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 13:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730954AbgCPMZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 08:25:16 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35676 "EHLO
+        id S1730942AbgCPM2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 08:28:10 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35692 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730878AbgCPMZQ (ORCPT
+        with ESMTP id S1730896AbgCPM2J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 08:25:16 -0400
+        Mon, 16 Mar 2020 08:28:09 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52010A3B;
-        Mon, 16 Mar 2020 13:25:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B5A7A3B;
+        Mon, 16 Mar 2020 13:28:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584361514;
-        bh=EcMmrk8Ii9LCPuWWPn5As6qXIWFB+iNRBDBwKYWuiO4=;
+        s=mail; t=1584361688;
+        bh=gCVzrBKB4bQmEPa765vBkIGK3gKRbNgpXjSJst9cufI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CHp0nDjgZYGHi3rGKaKW/EplHJEeFxVLVoYOWqILoMb6K6TAJOL8nKDdkV3i+0RC/
-         z7T6jeZzOHJXGSDY6Xe9u/0ZgIoVxXYXjS+ookaBKJ+wg1Y2zDTkckDlqL8gziWa6E
-         cx9NL5tdJjOQ7ApZvH/ZLKVNwJDmDK37m8NJZXWQ=
-Date:   Mon, 16 Mar 2020 14:24:05 +0200
+        b=t4xsFPNRWt191loXFc/XgDsbJl3kQN/m0clbeRXAuCPradX5xn2G7hHDSrPljTfEj
+         Hc4fJdU2SbpM7G0RUKIlok7PqPnU58JWqbzPSZTde3FUJL/FgjIcRl42Rzw9TPFqxt
+         Zq2hrjaDAYw03TFVvYw5qtOfUGIRMXmIVv5AW2Og=
+Date:   Mon, 16 Mar 2020 14:28:03 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
 Cc:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 06/16] media: ti-vpe: cal: remove useless CAL_GEN_* macros
-Message-ID: <20200316122405.GW4732@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 02/16] media: ti-vpe: cal: use runtime_resume for errata
+ handling
+Message-ID: <20200316122803.GX4732@pendragon.ideasonboard.com>
 References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
- <20200313114121.32182-6-tomi.valkeinen@ti.com>
+ <20200313114121.32182-2-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200313114121.32182-6-tomi.valkeinen@ti.com>
+In-Reply-To: <20200313114121.32182-2-tomi.valkeinen@ti.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -45,109 +46,87 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Fri, Mar 13, 2020 at 01:41:11PM +0200, Tomi Valkeinen wrote:
-> These macros only obfuscate the code, so drop them.
+On Fri, Mar 13, 2020 at 01:41:07PM +0200, Tomi Valkeinen wrote:
+> We need to do errata handling every time CAL is being enabled. The code
+> is currently in cal_runtime_get(), which is not the correct place for
+> it.
+> 
+> Move the code to cal_runtime_resume, which is called every time CAL is
+> enabled.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal.c | 36 ++++++++++++++++++-----------
+>  1 file changed, 22 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 4b584c419e98..b4a9f4d16ce4 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -653,20 +653,7 @@ static void i913_errata(struct cal_dev *dev, unsigned int port)
+>  
+>  static int cal_runtime_get(struct cal_dev *dev)
+>  {
+> -	int r;
+> -
+> -	r = pm_runtime_get_sync(&dev->pdev->dev);
+> -
+> -	if (dev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
+> -		/*
+> -		 * Apply errata on both port eveytime we (re-)enable
+> -		 * the clock
+> -		 */
+> -		i913_errata(dev, 0);
+> -		i913_errata(dev, 1);
+> -	}
+> -
+> -	return r;
+> +	return pm_runtime_get_sync(&dev->pdev->dev);
+>  }
+>  
+>  static inline void cal_runtime_put(struct cal_dev *dev)
+> @@ -2397,11 +2384,32 @@ static const struct of_device_id cal_of_match[] = {
+>  MODULE_DEVICE_TABLE(of, cal_of_match);
+>  #endif
+>  
+> +static int cal_runtime_resume(struct device *dev)
+> +{
+> +	struct cal_dev *caldev = dev_get_drvdata(dev);
+> +
+> +	if (caldev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
+> +		/*
+> +		 * Apply errata on both port eveytime we (re-)enable
+
+s/eveytime/everytime/
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  drivers/media/platform/ti-vpe/cal.c      | 20 ++++++++------------
->  drivers/media/platform/ti-vpe/cal_regs.h |  9 ---------
->  2 files changed, 8 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index 0888d6aac3f4..cd788c6687cb 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -775,10 +775,8 @@ static void csi2_phy_init(struct cal_ctx *ctx)
->  
->  	/* 3.B. Program Stop States */
->  	val = reg_read(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port));
-> -	set_field(&val, CAL_GEN_ENABLE,
-> -		  CAL_CSI2_TIMING_STOP_STATE_X16_IO1_MASK);
-> -	set_field(&val, CAL_GEN_DISABLE,
-> -		  CAL_CSI2_TIMING_STOP_STATE_X4_IO1_MASK);
-> +	set_field(&val, 1, CAL_CSI2_TIMING_STOP_STATE_X16_IO1_MASK);
-> +	set_field(&val, 0, CAL_CSI2_TIMING_STOP_STATE_X4_IO1_MASK);
->  	set_field(&val, 407, CAL_CSI2_TIMING_STOP_STATE_COUNTER_IO1_MASK);
->  	reg_write(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port), val);
->  	ctx_dbg(3, ctx, "CAL_CSI2_TIMING(%d) = 0x%08x Stop States\n",
-> @@ -787,8 +785,7 @@ static void csi2_phy_init(struct cal_ctx *ctx)
->  
->  	/* 4. Force FORCERXMODE */
->  	val = reg_read(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port));
-> -	set_field(&val, CAL_GEN_ENABLE,
-> -		  CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK);
-> +	set_field(&val, 1, CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK);
->  	reg_write(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port), val);
->  	ctx_dbg(3, ctx, "CAL_CSI2_TIMING(%d) = 0x%08x Force RXMODE\n",
->  		ctx->csi2_port,
-> @@ -851,8 +848,7 @@ static void csi2_wait_for_phy(struct cal_ctx *ctx)
->  	for (i = 0; i < 10; i++) {
->  		if (reg_read_field(ctx->dev,
->  				   CAL_CSI2_TIMING(ctx->csi2_port),
-> -				   CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK) ==
-> -		    CAL_GEN_DISABLE)
-> +				   CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK) == 0)
->  			break;
->  		usleep_range(1000, 1100);
->  	}
-> @@ -949,13 +945,13 @@ static void csi2_ppi_enable(struct cal_ctx *ctx)
->  {
->  	reg_write(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port), BIT(3));
->  	reg_write_field(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port),
-> -			CAL_GEN_ENABLE, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
-> +			1, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
->  }
->  
->  static void csi2_ppi_disable(struct cal_ctx *ctx)
->  {
->  	reg_write_field(ctx->dev, CAL_CSI2_PPI_CTRL(ctx->csi2_port),
-> -			CAL_GEN_DISABLE, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
-> +			0, CAL_CSI2_PPI_CTRL_IF_EN_MASK);
->  }
->  
->  static void csi2_ctx_config(struct cal_ctx *ctx)
-> @@ -1030,7 +1026,7 @@ static void pix_proc_config(struct cal_ctx *ctx)
->  	set_field(&val, CAL_PIX_PROC_DPCME_BYPASS, CAL_PIX_PROC_DPCME_MASK);
->  	set_field(&val, pack, CAL_PIX_PROC_PACK_MASK);
->  	set_field(&val, ctx->csi2_port, CAL_PIX_PROC_CPORT_MASK);
-> -	set_field(&val, CAL_GEN_ENABLE, CAL_PIX_PROC_EN_MASK);
-> +	set_field(&val, 1, CAL_PIX_PROC_EN_MASK);
->  	reg_write(ctx->dev, CAL_PIX_PROC(ctx->csi2_port), val);
->  	ctx_dbg(3, ctx, "CAL_PIX_PROC(%d) = 0x%08x\n", ctx->csi2_port,
->  		reg_read(ctx->dev, CAL_PIX_PROC(ctx->csi2_port)));
-> @@ -1050,7 +1046,7 @@ static void cal_wr_dma_config(struct cal_ctx *ctx,
->  		  CAL_WR_DMA_CTRL_MODE_MASK);
->  	set_field(&val, CAL_WR_DMA_CTRL_PATTERN_LINEAR,
->  		  CAL_WR_DMA_CTRL_PATTERN_MASK);
-> -	set_field(&val, CAL_GEN_ENABLE, CAL_WR_DMA_CTRL_STALL_RD_MASK);
-> +	set_field(&val, 1, CAL_WR_DMA_CTRL_STALL_RD_MASK);
->  	reg_write(ctx->dev, CAL_WR_DMA_CTRL(ctx->csi2_port), val);
->  	ctx_dbg(3, ctx, "CAL_WR_DMA_CTRL(%d) = 0x%08x\n", ctx->csi2_port,
->  		reg_read(ctx->dev, CAL_WR_DMA_CTRL(ctx->csi2_port)));
-> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-> index a29198cc3efe..532d4a95740a 100644
-> --- a/drivers/media/platform/ti-vpe/cal_regs.h
-> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
-> @@ -100,15 +100,6 @@
->  /* CAL Control Module Core Camerrx Control register offsets */
->  #define CM_CTRL_CORE_CAMERRX_CONTROL	0x000
->  
-> -/*********************************************************************
-> -* Generic value used in various field below
-> -*********************************************************************/
-> -
-> -#define CAL_GEN_DISABLE			0
-> -#define CAL_GEN_ENABLE			1
-> -#define CAL_GEN_FALSE			0
-> -#define CAL_GEN_TRUE			1
-> -
->  /*********************************************************************
->  * Field Definition Macros
->  *********************************************************************/
+Now that cal_runtime_get() and cal_runtime_put() are just wrappers
+around pm_runtime_get_sync() and pm_runtime_put_sync(), how about
+dropping the wrappers ?
+
+> +		 * the clock
+> +		 */
+> +		i913_errata(caldev, 0);
+> +		i913_errata(caldev, 1);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops cal_pm_ops = {
+> +	.runtime_resume = cal_runtime_resume,
+> +};
+> +
+>  static struct platform_driver cal_pdrv = {
+>  	.probe		= cal_probe,
+>  	.remove		= cal_remove,
+>  	.driver		= {
+>  		.name	= CAL_MODULE_NAME,
+> +		.pm	= &cal_pm_ops,
+>  		.of_match_table = of_match_ptr(cal_of_match),
+>  	},
+>  };
 
 -- 
 Regards,
