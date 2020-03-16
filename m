@@ -2,121 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E5A518695B
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CA61186975
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:51:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730709AbgCPKrh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 06:47:37 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36062 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730478AbgCPKrh (ORCPT
+        id S1730684AbgCPKvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 06:51:35 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53517 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730612AbgCPKvf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 06:47:37 -0400
-Received: by mail-wm1-f66.google.com with SMTP id g62so17453557wme.1
-        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2020 03:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3Fvzm0jnK7nG9oC/6t8l32p7bVJdfH91TDz1GxmcK6o=;
-        b=Tjqzg7L5eO71rNRVxaTUpg2ybm9nuMmLUvBFvUFpIQZyJKwjFV6wC8EItjIOEl2spT
-         olwPrkbkrWRQswvsG9QIYXYC7fIegpxCeTy3M8I4bYz367Jdbye0vGxMMvkEkF3Zv7N+
-         rpMPdUUd6w9E3MiGTwHRCxzTTcEut92p4n71SQsA/z1kmvfh0YdtZdtWlHlYb2W3vWgL
-         6Utv7Sb4SppDiHbGAy06ML6YLby4UcvSQEA0a2qZ3kA4Pg3aOSOJKX5Nv8BGpw6QWolV
-         zOzAT48JCZyWG3Xv+eG10D3q3nPtD2g+n4fjYRTUswEx7qmjoDkDMoUp9SOLes45Izmr
-         Ss5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3Fvzm0jnK7nG9oC/6t8l32p7bVJdfH91TDz1GxmcK6o=;
-        b=ZMLIglS2BjJy3Crcv7HrGA/qJljyG+XOQgxteTudTMse2gxJvN7kbEBQI5NReoPw3e
-         fQQZQL+z2t+X4kheXVBx9DUsvG0p03EPvKfLOcd5Jkf5UENS9XBr7PNJoxB9p1c7lqhP
-         Y9qX8qvLfGPZKne6FETEsZS3iibNW/6iVva2w5eiSpttf2VOvkZpHYbrrtJEMLVOJ9dZ
-         4q39j3Cemj+dNar+g6qezJwp/MCvIObxy82p4fxaKrSjtbn5Pf/94yOz2uKGyI6mwuTR
-         Q3WtQiNGQLVX6uOGynMGMRj5FO+pMnBpMhgxXOS7+KaaQk/wgFuJg+Hl9QowFgf9zdOY
-         iK2A==
-X-Gm-Message-State: ANhLgQ04rC5IuTFdsbWhuyz+T2BBq47a9m8LHpxadQ4fAd+6yo8cKYZ5
-        wvskhvTKsPFBJGpINwrYxM4h/auf
-X-Google-Smtp-Source: ADFU+vubuovec7WG+7mQaqMDUjmOMPnf+ADc1/6RK1ouRyw4AzHnCVAr2HN3FlcNJmsmBa0l5jAO4Q==
-X-Received: by 2002:a05:600c:1006:: with SMTP id c6mr17836286wmc.96.1584355654676;
-        Mon, 16 Mar 2020 03:47:34 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id k9sm14325535wrd.74.2020.03.16.03.47.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2020 03:47:34 -0700 (PDT)
-Date:   Mon, 16 Mar 2020 10:47:31 +0000
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH 00/14] media: imx: Miscellaneous fixes for i.MX7 CSI-2
- receiver
-Message-ID: <20200316104731.xeamvurfjy4czy7m@arch-thunder.localdomain>
-References: <20200312234722.23483-1-laurent.pinchart@ideasonboard.com>
+        Mon, 16 Mar 2020 06:51:35 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id DnLFjxULsEE3qDnLIjdjNY; Mon, 16 Mar 2020 11:51:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584355892; bh=9vVUHLhyCLfDk7DShbXHRw8JIn8i31ae6aqhdM31uI8=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=NGgGk4bx4vYnC0h2ksQG9EBZwLc+sOvgGuRR3GS0cdsBZLlBWQhw2p8WZbaWWgTT4
+         UkbOZF0D8fkOQQNYqeBA3ogRBdrWGbXLBHgvFJr+Q+6MbssFZ37cXeFaxeHK56PDtu
+         d+PNHIh+kmIwlS5g9l/4nAKflTSucMMOLh0FGOwlDrMrfCqSW5HIgRzSZj9EIbnNkg
+         5Uw9dzQ1u5k/tDa+xndvmTtwwhepaPsLiFKa6HtXNzFWYKT/zEFFRV5PVxeLAzA4vc
+         SpQPwJ8gvodJ2lhU493OZ8qFy2oU/xsIzRaOqax8ETNr19J8mgk4lmKcJep9q6HW6a
+         NbwoNvtRYqyVQ==
+Subject: Re: [PATCH 03/16] media: ti-vpe: cal: catch error irqs and print
+ errors
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
+ <20200313114121.32182-3-tomi.valkeinen@ti.com>
+ <dd31db33-c73b-cb05-ac18-90643a2a0074@xs4all.nl>
+Message-ID: <9af07911-54e7-fb04-1e34-26f306299e6e@xs4all.nl>
+Date:   Mon, 16 Mar 2020 11:51:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200312234722.23483-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <dd31db33-c73b-cb05-ac18-90643a2a0074@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLzRqA92jWZMtOlzpLIq/ebsyfY4cXDHEmcDpHL/HKZLVGNqTwaF7FjaC0jkoV+/k0nrF2C9PAsP8/YkQifmW5i6IWlCMwQm7VFcY4B7QmK1BLVet/Fc
+ jeDMjYcSHTTmdzqdUzgPF6GkQNYnbm9Gp2AkRyjuLbFBk2h812SlEZkT5aXjjBmRN6tzNUWAmXQDBixfxvsX5PXYn9X8TqZfNIWJUFzSZZQ2Wpa/Gc13LMMB
+ /86gtuug8YBs0v1hHosICTzTem+FLQayqFP/dN4yEk19AEkxZ6o/ZOulvD26ufqU1jfqZnlJoe7AayC0eYdgKQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-Thanks for this series.
+On 3/16/20 11:06 AM, Hans Verkuil wrote:
+> Hi Tomi,
+> 
+> On 3/13/20 12:41 PM, Tomi Valkeinen wrote:
+>> CAL reports various errors via IRQs, which are not handled at all by the
+>> current driver. Add code to enable and catch those IRQs and print
+>> errors. This will make it much easier to notice and debug issues with
+>> sensors.
+> 
+> Can you rebase your series to the media_tree master branch? Other recently
+> merged patches from Benoit now conflict with at least this patch.
+> 
+> I reviewed this series and it looks good otherwise (just one other small comment
+> about a confusing log message), so once I have a rebased version I can make
+> a PR for it.
 
-On Fri, Mar 13, 2020 at 01:47:08AM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series completes (for now :-)) my rework of the CSI-2
-> receiver found in the i.MX7 SoCs.
-> 
-> Patches 01/14 and 02/14 have already been tested and acked. The next
-> four patches (03/14 to 06/14) fix format handling by adding missing
-> formats and removing unsupported formats, and patches 07/14 to 09/14
-> then clean up and fix image width alignment handling.
-> 
-> The next three patches (10/14 to 12/14) are again miscellaneous
-> cleanups. Patch 13/14 removes usage of the only imx-media-utils helper
-> used in this driver as the helper isn't compatible with the i.MX7 CSI-2
-> receiver formats. Patch 14/14 finally implements the subdev
-> .enum_mbus_code() pad operation to allow enumeration of media bus codes
-> from userspace.
-> 
-> The patches have been tested on an i.MX7Q with a 10-bit greyscale MIPI
-> CSI-2 sensor.
+Just to confirm: this series has been tested with a real sensor, right? If so,
+please add a Tested-by line as well.
 
-For the all series:
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Regards,
 
-------
-Cheers,
-     Rui
+	Hans
 
 > 
-> Laurent Pinchart (14):
->   media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
->   media: imx: imx7-mipi-csis: Centralize initialization of pad formats
->   media: imx: imx7-mipi-csis: Add missing RAW formats
->   media: imx: imx7-mipi-csis: Expose correct YUV formats
->   media: imx: imx7-mipi-csis: Fix MEDIA_BUS_FMT_UYVY8_2X8 data alignment
->   media: imx: imx7-mipi-csis: Add MEDIA_BUS_FMT_UYVY10_2X10 support
->   media: imx: imx7-mipi-csis: Rename data_alignment field to width
->   media: imx: imx7-mipi-csis: Align image width based on format
->   media: imx: imx7-mipi-csis: Never set MIPI_CSIS_ISPCFG_ALIGN_32BIT
->   media: imx: imx7-mipi-csis: Align macro definitions
->   media: imx: imx7-mipi-csis: Remove link setup on source pad
->   media: imx: imx7-mipi-csis: Cleanup includes
->   media: imx: imx7-mipi-csis: Don't use imx-media-utils helpers
->   media: imx: imx7-mipi-csis: Implement the .enum_mbus_code() operation
-> 
->  drivers/staging/media/imx/imx7-mipi-csis.c | 446 +++++++++++++--------
->  1 file changed, 274 insertions(+), 172 deletions(-)
-> 
-> -- 
 > Regards,
 > 
-> Laurent Pinchart
+> 	Hans
 > 
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>  drivers/media/platform/ti-vpe/cal.c      | 46 +++++++++++++++++++++++-
+>>  drivers/media/platform/ti-vpe/cal_regs.h |  3 ++
+>>  2 files changed, 48 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+>> index b4a9f4d16ce4..f6ce0558752a 100644
+>> --- a/drivers/media/platform/ti-vpe/cal.c
+>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>> @@ -692,6 +692,21 @@ static void cal_quickdump_regs(struct cal_dev *dev)
+>>   */
+>>  static void enable_irqs(struct cal_ctx *ctx)
+>>  {
+>> +	const u32 cio_err_mask =
+>> +		((1 << 20) - 1) |	/* lane errors */
+>> +		BIT(27) |		/* FIFO_OVR */
+>> +		BIT(28) |		/* SHORT_PACKET */
+>> +		BIT(30);		/* ECC_NO_CORRECTION */
+>> +
+>> +	/* Enable CIO error irqs */
+>> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1),
+>> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
+>> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
+>> +		  cio_err_mask);
+>> +
+>> +	/* Always enable OCP error */
+>> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1), BIT(6));
+>> +
+>>  	/* Enable IRQ_WDMA_END 0/1 */
+>>  	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(2), 1 << (ctx->csi2_port - 1));
+>>  	/* Enable IRQ_WDMA_START 0/1 */
+>> @@ -702,6 +717,12 @@ static void enable_irqs(struct cal_ctx *ctx)
+>>  
+>>  static void disable_irqs(struct cal_ctx *ctx)
+>>  {
+>> +	/* Disable CIO error irqs */
+>> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(1),
+>> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
+>> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
+>> +		  0);
+>> +
+>>  	/* Disable IRQ_WDMA_END 0/1 */
+>>  	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(2), 1 << (ctx->csi2_port - 1));
+>>  	/* Disable IRQ_WDMA_START 0/1 */
+>> @@ -1169,7 +1190,30 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>>  	struct cal_dev *dev = (struct cal_dev *)data;
+>>  	struct cal_ctx *ctx;
+>>  	struct cal_dmaqueue *dma_q;
+>> -	u32 irqst2, irqst3;
+>> +	u32 irqst1, irqst2, irqst3;
+>> +
+>> +	irqst1 = reg_read(dev, CAL_HL_IRQSTATUS(1));
+>> +	if (irqst1) {
+>> +		int i;
+>> +
+>> +		reg_write(dev, CAL_HL_IRQSTATUS(1), irqst1);
+>> +
+>> +		if (irqst1 & BIT(6))
+>> +			dev_err_ratelimited(&dev->pdev->dev, "OCP ERROR\n");
+>> +
+>> +		for (i = 1; i <= 2; ++i) {
+>> +			if (irqst1 & CAL_HL_IRQ_CIO_MASK(i)) {
+>> +				u32 cio_stat = reg_read(dev,
+>> +							CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
+>> +
+>> +				dev_err_ratelimited(&dev->pdev->dev,
+>> +						    "CIO%d error: %#08x\n", i, cio_stat);
+>> +
+>> +				reg_write(dev, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
+>> +					  cio_stat);
+>> +			}
+>> +		}
+>> +	}
+>>  
+>>  	/* Check which DMA just finished */
+>>  	irqst2 = reg_read(dev, CAL_HL_IRQSTATUS(2));
+>> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
+>> index 0b76d1186074..a29198cc3efe 100644
+>> --- a/drivers/media/platform/ti-vpe/cal_regs.h
+>> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
+>> @@ -158,6 +158,9 @@
+>>  #define CAL_HL_IRQ_ENABLED				0x1
+>>  #define CAL_HL_IRQ_PENDING				0x1
+>>  
+>> +#define CAL_HL_IRQ_CIO_MASK(i)			BIT(16 + (i-1) * 8)
+>> +#define CAL_HL_IRQ_VC_MASK(i)			BIT(17 + (i-1) * 8)
+>> +
+>>  #define CAL_PIX_PROC_EN_MASK			BIT(0)
+>>  #define CAL_PIX_PROC_EXTRACT_MASK		GENMASK(4, 1)
+>>  #define CAL_PIX_PROC_EXTRACT_B6				0x0
+>>
+> 
+
