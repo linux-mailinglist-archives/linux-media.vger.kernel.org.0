@@ -2,512 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B476186E39
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 16:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75783186E8E
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 16:27:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731650AbgCPPGW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 11:06:22 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:46029 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731539AbgCPPGW (ORCPT
+        id S1731732AbgCPP1A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 11:27:00 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:51237 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731483AbgCPP0n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 11:06:22 -0400
-Received: by mail-ed1-f68.google.com with SMTP id h62so22379815edd.12
-        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2020 08:06:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xD+nSk9hpc/s809VHCQUhI8ZbaGuXK7DKrvQPcl/fbA=;
-        b=FZEJ5OAsNyv3xTXM7LxGZvF4cHZtiXprXJXt2RSGF7lOgR0up6lJ5aqsRxuDkMu+kn
-         yVCTC/WE/7s7BWg5bIVnrSH/uRYyjwVcyd0y90/dckfXgRDB/2RKLbXg5i3jD5VBdZ57
-         m6pCjeT3XY17HAlSylxv7MWeG9Sp/Jb+jriOyVqogx7KpXLjLK/CfNT2KBAICLtvj56l
-         ZE79COa6XPtfnLv8XNUl/l8CelriBUTqNtAhR7yEpctA+68Url1Pc2ko47V9crbCq6R0
-         OomzfXOsjpCOua1ygPKPG9DxRje/34nye9j3YlXZ6/RK6CdBsMNI1TRXNGhMIAuk7JRt
-         aRlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xD+nSk9hpc/s809VHCQUhI8ZbaGuXK7DKrvQPcl/fbA=;
-        b=tFcie1eV8M11jUT3i9isUMmglYzaOKkGR33+SmCPa9Tai7H4hWVH0c3uR5cWsooywt
-         5B2ygqrAcQCPsJ14t38wZEzNQZfKZdlHuHWN6s2QYS/NWCUkb5nzbPaYNUbv2/W5opaD
-         lrRUyUpqXVWZ7sOSj/p0/71w2WBhoIoYxshyR58U+fB7ntuILeR9IlMalZ6hoE0wCjVc
-         ZNkM84zHBmf9mqei0bFJ5EIBYxeEi/qH9J1xv1fKVFMIA2DJbey+WyUd65RmNcEhXegV
-         upjeRO7SU40+IOnoVcrQ6pNjOA4JPNgM0brWo8vVR8+DkwMbVndnbPRwxzqPQ9eW3gN0
-         TIDg==
-X-Gm-Message-State: ANhLgQ0kG/1uDg9JQt+97UhYuRzQ6wpyqDotR0d6koNj26KyRAzfieOf
-        4qF4IcMX017Fd8cwEUUJXaVnktIShIee7yN6NwzjfA==
-X-Google-Smtp-Source: ADFU+vsXqyR/sSlWXyj4JCPL3hXk3pMMlQY79MpgGck9rY+C5DBBaJyuVuUleCoqrm/yN1Hx6EXFODLiTkngsLXKYIw=
-X-Received: by 2002:a50:f38e:: with SMTP id g14mr382372edm.168.1584371178899;
- Mon, 16 Mar 2020 08:06:18 -0700 (PDT)
+        Mon, 16 Mar 2020 11:26:43 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1jDrdZ-0000lA-5Z; Mon, 16 Mar 2020 16:26:41 +0100
+Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1jDrdY-00054q-GK; Mon, 16 Mar 2020 16:26:40 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH v2 00/18] media: allegro: fixes and new features
+Date:   Mon, 16 Mar 2020 16:26:20 +0100
+Message-Id: <20200316152638.19457-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca> <20200316102034.GA30883@pendragon.ideasonboard.com>
-In-Reply-To: <20200316102034.GA30883@pendragon.ideasonboard.com>
-From:   Jason Ekstrand <jason@jlekstrand.net>
-Date:   Mon, 16 Mar 2020 10:06:07 -0500
-Message-ID: <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
-        Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 16, 2020 at 5:20 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Mar 11, 2020 at 04:18:55PM -0400, Nicolas Dufresne wrote:
-> > (I know I'm going to be spammed by so many mailing list ...)
-> >
-> > Le mercredi 11 mars 2020 =C3=A0 14:21 -0500, Jason Ekstrand a =C3=A9cri=
-t :
-> > > On Wed, Mar 11, 2020 at 12:31 PM Jason Ekstrand <jason@jlekstrand.net=
-> wrote:
-> > > > All,
-> > > >
-> > > > Sorry for casting such a broad net with this one. I'm sure most peo=
-ple
-> > > > who reply will get at least one mailing list rejection.  However, t=
-his
-> > > > is an issue that affects a LOT of components and that's why it's
-> > > > thorny to begin with.  Please pardon the length of this e-mail as
-> > > > well; I promise there's a concrete point/proposal at the end.
-> > > >
-> > > >
-> > > > Explicit synchronization is the future of graphics and media.  At
-> > > > least, that seems to be the consensus among all the graphics people
-> > > > I've talked to.  I had a chat with one of the lead Android graphics
-> > > > engineers recently who told me that doing explicit sync from the st=
-art
-> > > > was one of the best engineering decisions Android ever made.  It's
-> > > > also the direction being taken by more modern APIs such as Vulkan.
-> > > >
-> > > >
-> > > > ## What are implicit and explicit synchronization?
-> > > >
-> > > > For those that aren't familiar with this space, GPUs, media encoder=
-s,
-> > > > etc. are massively parallel and synchronization of some form is
-> > > > required to ensure that everything happens in the right order and
-> > > > avoid data races.  Implicit synchronization is when bits of work (3=
-D,
-> > > > compute, video encode, etc.) are implicitly based on the absolute
-> > > > CPU-time order in which API calls occur.  Explicit synchronization =
-is
-> > > > when the client (whatever that means in any given context) provides
-> > > > the dependency graph explicitly via some sort of synchronization
-> > > > primitives.  If you're still confused, consider the following
-> > > > examples:
-> > > >
-> > > > With OpenGL and EGL, almost everything is implicit sync.  Say you h=
-ave
-> > > > two OpenGL contexts sharing an image where one writes to it and the
-> > > > other textures from it.  The way the OpenGL spec works, the client =
-has
-> > > > to make the API calls to render to the image before (in CPU time) i=
-t
-> > > > makes the API calls which texture from the image.  As long as it do=
-es
-> > > > this (and maybe inserts a glFlush?), the driver will ensure that th=
-e
-> > > > rendering completes before the texturing happens and you get correc=
-t
-> > > > contents.
-> > > >
-> > > > Implicit synchronization can also happen across processes.  Wayland=
-,
-> > > > for instance, is currently built on implicit sync where the client
-> > > > does their rendering and then does a hand-off (via wl_surface::comm=
-it)
-> > > > to tell the compositor it's done at which point the compositor can =
-now
-> > > > texture from the surface.  The hand-off ensures that the client's
-> > > > OpenGL API calls happen before the server's OpenGL API calls.
-> > > >
-> > > > A good example of explicit synchronization is the Vulkan API.  Ther=
-e,
-> > > > a client (or multiple clients) can simultaneously build command
-> > > > buffers in different threads where one of those command buffers
-> > > > renders to an image and the other textures from it and then submit
-> > > > both of them at the same time with instructions to the driver for
-> > > > which order to execute them in.  The execution order is described v=
-ia
-> > > > the VkSemaphore primitive.  With the new VK_KHR_timeline_semaphore
-> > > > extension, you can even submit the work which does the texturing
-> > > > BEFORE the work which does the rendering and the driver will sort i=
-t
-> > > > out.
-> > > >
-> > > > The #1 problem with implicit synchronization (which explicit solves=
-)
-> > > > is that it leads to a lot of over-synchronization both in client sp=
-ace
-> > > > and in driver/device space.  The client has to synchronize a lot mo=
-re
-> > > > because it has to ensure that the API calls happen in a particular
-> > > > order.  The driver/device have to synchronize a lot more because th=
-ey
-> > > > never know what is going to end up being a synchronization point as=
- an
-> > > > API call on another thread/process may occur at any time.  As we mo=
-ve
-> > > > to more and more multi-threaded programming this synchronization (o=
-n
-> > > > the client-side especially) becomes more and more painful.
-> > > >
-> > > >
-> > > > ## Current status in Linux
-> > > >
-> > > > Implicit synchronization in Linux works via a the kernel's internal
-> > > > dma_buf and dma_fence data structures.  A dma_fence is a tiny objec=
-t
-> > > > which represents the "done" status for some bit of work.  Typically=
-,
-> > > > dma_fences are created as a by-product of someone submitting some b=
-it
-> > > > of work (say, 3D rendering) to the kernel.  The dma_buf object has =
-a
-> > > > set of dma_fences on it representing shared (read) and exclusive
-> > > > (write) access to the object.  When work is submitted which, for
-> > > > instance renders to the dma_buf, it's queued waiting on all the fen=
-ces
-> > > > on the dma_buf and and a dma_fence is created representing the end =
-of
-> > > > said rendering work and it's installed as the dma_buf's exclusive
-> > > > fence.  This way, the kernel can manage all its internal queues (3D
-> > > > rendering, display, video encode, etc.) and know which things to
-> > > > submit in what order.
-> > > >
-> > > > For the last few years, we've had sync_file in the kernel and it's
-> > > > plumbed into some drivers.  A sync_file is just a wrapper around a
-> > > > single dma_fence.  A sync_file is typically created as a by-product=
- of
-> > > > submitting work (3D, compute, etc.) to the kernel and is signaled w=
-hen
-> > > > that work completes.  When a sync_file is created, it is guaranteed=
- by
-> > > > the kernel that it will become signaled in finite time and, once it=
-'s
-> > > > signaled, it remains signaled for the rest of time.  A sync_file is
-> > > > represented in UAPIs as a file descriptor and can be used with norm=
-al
-> > > > file APIs such as dup().  It can be passed into another UAPI which
-> > > > does some bit of queue'd work and the submitted work will wait for =
-the
-> > > > sync_file to be triggered before executing.  A sync_file also suppo=
-rts
-> > > > poll() if  you want to wait on it manually.
-> > > >
-> > > > Unfortunately, sync_file is not broadly used and not all kernel GPU
-> > > > drivers support it.  Here's a very quick overview of my understandi=
-ng
-> > > > of the status of various components (I don't know the status of
-> > > > anything in the media world):
-> > > >
-> > > >  - Vulkan: Explicit synchronization all the way but we have to go
-> > > > implicit as soon as we interact with a window-system.  Vulkan has A=
-PIs
-> > > > to import/export sync_files to/from it's VkSemaphore and VkFence
-> > > > synchronization primitives.
-> > > >  - OpenGL: Implicit all the way.  There are some EGL extensions to
-> > > > enable some forms of explicit sync via sync_file but OpenGL itself =
-is
-> > > > still implicit.
-> > > >  - Wayland: Currently depends on implicit sync in the kernel (acces=
-sed
-> > > > via EGL/OpenGL).  There is an unstable extension to allow passing
-> > > > sync_files around but it's questionable how useful it is right now
-> > > > (more on that later).
-> > > >  - X11: With present, it has these "explicit" fence objects but
-> > > > they're always a shmfence which lets the X server and client do a
-> > > > userspace CPU-side hand-off without going over the socket (and
-> > > > round-tripping through the kernel).  However, the only thing that
-> > > > fence does is order the OpenGL API calls in the client and server a=
-nd
-> > > > the real synchronization is still implicit.
-> > > >  - linux/i915/gem: Fully supports using sync_file or syncobj for ex=
-plicit
-> > > > sync.
-> > > >  - linux/amdgpu: Supports sync_file and syncobj but it still
-> > > > implicitly syncs sometimes due to it's internal memory residency
-> > > > handling which can lead to over-synchronization.
-> > > >  - KMS: Implicit sync all the way.  There are no KMS APIs which tak=
-e
-> > > > explicit sync primitives.
-> > >
-> > > Correction:  Apparently, I missed some things.  If you use atomic, KM=
-S
-> > > does have explicit in- and out-fences.  Non-atomic users (e.g. X11)
-> > > are still in trouble but most Wayland compositors use atomic these
-> > > days
-> > >
-> > > >  - v4l: ???
-> > > >  - gstreamer: ???
-> > > >  - Media APIs such as vaapi etc.:  ???
-> >
-> > GStreamer is consumer for V4L2, VAAPI and other stuff. Using asynchrono=
-us buffer
-> > synchronisation is something we do already with GL (even if limited). W=
-e place
-> > GLSync object in the pipeline and attach that on related GstBuffer. We =
-wait on
-> > these GLSync as late as possible (or superseed the sync if we queue mor=
-e work
-> > into the same GL context). That requires a special mode of operation of=
- course.
-> > We don't usually like making lazy blocking call implicit, as it tends t=
-o cause
-> > random issues. If we need to wait, we think it's better to wait int he =
-module
-> > that is responsible, so in general, we try to negotiate and fallback lo=
-cally
-> > (it's plugin base, so this can be really messy otherwise).
-> >
-> > So basically this problem needs to be solved in V4L2, VAAPI and other l=
-ower
-> > level APIs first. We need API that provides us these fence (in or out),=
- and then
-> > we can consider using them. For V4L2, there was an attempt, but it was =
-a bit of
-> > a miss-fit. Your proposal could work, need to be tested I guess, but it=
- does not
-> > solve some of other issues that was discussed. Notably for camera captu=
-re, were
-> > the HW timestamp is capture about at the same time the frame is ready. =
-But the
-> > timestamp is not part of the paylaod, so you need an entire API asynchr=
-onously
-> > deliver that metadata. It's the biggest pain point I've found, such an =
-API would
-> > be quite invasive or if made really generic, might just never be adopte=
-d widely
-> > enough.
->
-> Another issue is that V4L2 doesn't offer any guarantee on job ordering.
-> When you queue multiple buffers for camera capture for instance, you
-> don't know until capture complete in which buffer the frame has been
-> captured.
+Hello,
 
-Is this a Kernel UAPI issue?  Surely the kernel driver knows at the
-start of frame capture which buffer it's getting written into.  I
-would think that the kernel APIs could be adjusted (if we find good
-reason to do so!) such that they return earlier and return a (buffer,
-fence) pair.  Am I missing something fundamental about video here?
+This is v2 of the series containing various patches for the allegro-dvt
+driver.
 
-I must admit that V4L is a bit of an odd case since the kernel driver
-is the producer and not the consumer.
+I fixed the various errors/warnings/checks reported by checkpatch.pl. Except
+for a warning about a potential update in MAINTAINERS, which is not required,
+because I am already the maintainer for that directory, and a check for
+the alignment with an open parenthesis, which I ignored, because readability
+gets worse if I fix it, checkpatch.pl does not report any problems anymore.
 
-> In the normal case buffers are processed in sequence, but if
-> an error occurs during capture, they can be recycled internally and put
-> to the back of the queue.
+I combined the BITRATE_MODE, BITRATE and BITRATE_PEAK controls into a control
+cluster, which ensures that BITRATE_PEAK is always at least BITRATE.
 
-Are those errors something that can happen at any time in the middle
-of a frame capture?  If so, that does make things stickier.
+I fixed a build warning due to casting pointers to u64. Since I need the u64
+in the messages that are passed to the firmware, I properly convert the
+pointers to u64 now.
 
-> Unless I'm mistaken, this problem also exists
-> with stateful codecs. And if you don't know in advance which buffer you
-> will receive from the device, the usefulness of fences becomes very
-> questionable :-)
+Finally, I changed the functions to retrieve buffers from the shadows lists to
+return NULL if a buffer cannot be found to be able to handle errors in the
+allegro_channel_finish_frame() function. I also fixed a bug, which resulted in
+the last but one buffer to be marked as the last buffer, because the driver
+missed a check if there are any buffers still in the source shadow list.
 
-Yeah, if you really are in a situation where there's no way to know
-until the full frame capture has been completed which buffer is next,
-then fences are useless.  You aren't in an implicit synchronization
-setting either; you're in a "full flush" setting.  It's arguably worse
-for performance but perhaps unavoidable?
+v4l2-compliance still produces a warning, because I implemented s_parm, but
+don't support enum_frameintervals. However, once I implement
+enum_frameintervals, it produces a failure, because I don't implement s_parm
+on OUTPUT _and_ CAPTURE, but I am understanding, that s_parm for setting the
+framerate should be only implemented on OUTPUT. I am not sure what to do with
+that.
 
-Trying to understand. :-)
+Michael
 
---Jason
+This is the v4l-compliance test result:
 
+v4l2-compliance SHA: 0b239af2ca93726b63dfa9c64a8622644f898a25, 64 bits, 64-bit time_t
 
-> > There is other elements that would implement fencing, notably kmssink, =
-but no
-> > one actually dared porting it to atomic KMS, so clearly there is very l=
-ittle
-> > comunity interest. glimagsink could clearly benifit. Right now if we im=
-port a
-> > DMABuf, and that this DMAbuf is used for render, a implicit fence is at=
-tached,
-> > which we are unaware. Philippe Zabbel is working on a patch, so V4L2 QB=
-UF would
-> > wait, but waiting in QBUF is not allowed if O_NONBLOCK was set (which G=
-Streamer
-> > uses), so then the operation will just fail where it worked before (bre=
-aking
-> > userspace). If it was an explcit fence, we could handle that in GStream=
-er
-> > cleanly as we do for new APIs.
-> >
-> > > > ## Chicken and egg problems
-> > > >
-> > > > Ok, this is where it starts getting depressing.  I made the claim
-> > > > above that Wayland has an explicit synchronization protocol that's =
-of
-> > > > questionable usefulness.  I would claim that basically any bit of
-> > > > plumbing we do through window systems is currently of questionable
-> > > > usefulness.  Why?
-> > > >
-> > > > From my perspective, as a Vulkan driver developer, I have to deal w=
-ith
-> > > > the fact that Vulkan is an explicit sync API but Wayland and X11
-> > > > aren't.  Unfortunately, the Wayland extension solves zero problems =
-for
-> > > > me because I can't really use it unless it's implemented in all of =
-the
-> > > > compositors.  Until every Wayland compositor I care about my users
-> > > > being able to use (which is basically all of them) supports the
-> > > > extension, I have to continue carry around my pile of hacks to keep
-> > > > implicit sync and Vulkan working nicely together.
-> > > >
-> > > > From the perspective of a Wayland compositor (I used to play in thi=
-s
-> > > > space), they'd love to implement the new explicit sync extension bu=
-t
-> > > > can't.  Sure, they could wire up the extension, but the moment they=
- go
-> > > > to flip a client buffer to the screen directly, they discover that =
-KMS
-> > > > doesn't support any explicit sync APIs.
-> > >
-> > > As per the above correction, Wayland compositors aren't nearly as bad
-> > > off as I initially thought.  There may still be weird screen capture
-> > > cases but the normal cases of compositing and displaying via
-> > > KMS/atomic should be in reasonably good shape.
-> > >
-> > > > So, yes, they can technically
-> > > > implement the extension assuming the EGL stack they're running on h=
-as
-> > > > the sync_file extensions but any client buffers which come in using
-> > > > the explicit sync Wayland extension have to be composited and can't=
- be
-> > > > scanned out directly.  As a 3D driver developer, I absolutely don't
-> > > > want compositors doing that because my users will complain about
-> > > > performance issues due to the extra blit.
-> > > >
-> > > > Ok, so let's say we get KMS wired up with implicit sync.  That solv=
-es
-> > > > all our problems, right?  It does, right up until someone decides t=
-hat
-> > > > they wan to screen capture their Wayland session via some hardware
-> > > > media encoder that doesn't support explicit sync.  Now we have to
-> > > > plumb it all the way through the media stack, gstreamer, etc.  Grea=
-t,
-> > > > so let's do that!  Oh, but gstreamer won't want to plumb it through
-> > > > until they're guaranteed that they can use explicit sync when
-> > > > displaying on X11 or Wayland.  Are you seeing the problem?
-> > > >
-> > > > To make matters worse, since most things are doing implicit
-> > > > synchronization today, it's really easy to get your explicit
-> > > > synchronization wrong and never notice.  If you forget to pass a
-> > > > sync_file into one place (say you never notice KMS doesn't support
-> > > > them), it will probably work anyway thanks to all the implicit sync
-> > > > that's going on elsewhere.
-> > > >
-> > > > So, clearly, we all need to go write piles of code that we can't
-> > > > actually properly test until everyone else has written their piece =
-and
-> > > > then we use explicit sync if and only if all components support it.
-> > > > Really?  We're going to do multiple years of development and then j=
-ust
-> > > > hope it works when we finally flip the switch?  That doesn't sound
-> > > > like a good plan to me.
-> > > >
-> > > >
-> > > > ## A proposal: Implicit and explicit sync together
-> > > >
-> > > > How to solve all these chicken-and-egg problems is something I've b=
-een
-> > > > giving quite a bit of thought (and talking with many others about) =
-in
-> > > > the last couple of years.  One motivation for this is that we have =
-to
-> > > > deal with a mismatch in Vulkan.  Another motivation is that I'm
-> > > > becoming increasingly unhappy with the way that synchronization,
-> > > > memory residency, and command submission are inherently intertwined=
- in
-> > > > i915 and would like to break things apart.  Towards that end, I hav=
-e
-> > > > an actual proposal.
-> > > >
-> > > > A couple weeks ago, I sent a series of patches to the dri-devel
-> > > > mailing list which adds a pair of new ioctls to dma-buf which allow
-> > > > userspace to manually import or export a sync_file from a dma-buf.
-> > > > The idea is that something like a Wayland compositor can switch to
-> > > > 100% explicit sync internally once the ioctl is available.  If it g=
-ets
-> > > > buffers in from a client that doesn't use the explicit sync extensi=
-on,
-> > > > it can pull a sync_file from the dma-buf and use that exactly as it
-> > > > would a sync_file passed via the explicit sync extension.  When it
-> > > > goes to scan out a user buffer and discovers that KMS doesn't accep=
-t
-> > > > sync_files (or if it tries to use that pesky media encoder no one h=
-as
-> > > > converted), it can take it's sync_file for display and stuff it int=
-o
-> > > > the dma-buf before handing it to KMS.
-> > > >
-> > > > Along with the kernel patches, I've also implemented support for th=
-is
-> > > > in the Vulkan WSI code used by ANV and RADV.  With those patches, t=
-he
-> > > > only requirement on the Vulkan drivers is that you be able to expor=
-t
-> > > > any VkSemaphore as a sync_file and temporarily import a sync_file i=
-nto
-> > > > any VkFence or VkSemaphore.  As long as that works, the core Vulkan
-> > > > driver only ever sees explicit synchronization via sync_file.  The =
-WSI
-> > > > code uses these new ioctls to translate the implicit sync of X11 an=
-d
-> > > > Wayland to the explicit sync the Vulkan driver wants.
-> > > >
-> > > > I'm hoping (and here's where I want a sanity check) that a simple A=
-PI
-> > > > like this will allow us to finally start moving the Linux ecosystem
-> > > > over to explicit synchronization one piece at a time in a way that'=
-s
-> > > > actually correct.  (No Wayland explicit sync with compositors hopin=
-g
-> > > > KMS magically works even though it doesn't have a sync_file API.)
-> > > > Once some pieces in the ecosystem start moving, there will be
-> > > > motivation to start moving others and maybe we can actually build t=
-he
-> > > > momentum to get most everything converted.
-> > > >
-> > > > For reference, you can find the kernel RFC patches and mesa MR here=
-:
-> > > >
-> > > > https://lists.freedesktop.org/archives/dri-devel/2020-March/258833.=
-html
-> > > >
-> > > > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
-> > > >
-> > > > At this point, I welcome your thoughts, comments, objections, and
-> > > > maybe even help/review. :-)
-> > > >
-> > > > --Jason Ekstrand
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Compliance test for allegro device /dev/video3:
+
+Driver Info:
+	Driver name      : allegro
+	Card type        : Allegro DVT Video Encoder
+	Bus info         : platform:a0009000.video-codec
+	Driver version   : 5.6.0
+	Capabilities     : 0x84208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+	Detected Stateful Encoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video3 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 16 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+		warn: v4l2-test-formats.cpp(1329): S_PARM is supported for buftype 2, but not for ENUM_FRAMEINTERVALS
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture: Captured 60 buffers
+	test MMAP (select): OK
+	Video Capture: Captured 60 buffers
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for allegro device /dev/video3: 50, Succeeded: 50, Failed: 0, Warnings: 1
+
+Changelog:
+
+v1 -> v2:
+- Fix checkpatch.pl errors/warnings/checks
+- Use control cluster for bitrate controls
+- Fix build warnings of ptr casts to u64
+- Fix handling of errors on shadow lists
+
+Michael Tretter (18):
+  media: allegro: print message on mcu error
+  media: allegro: fail encoding only on actual errors
+  media: allegro: fix type of gop_length in channel_create message
+  media: allegro: remove unknown39 field from create_channel
+  media: allegro: start a GOP with an IDR frame
+  media: allegro: fix calculation of CPB size
+  media: allegro: fix reset if WAKEUP has not been set properly
+  media: allegro: extract mcu and codec address calculation
+  media: allegro: warn if response message has an unexpected size
+  media: allegro: skip filler data if possible
+  media: allegro: make frame rate configurable
+  media: allegro: make QP configurable
+  media: allegro: read bitrate mode directly from control
+  media: allegro: handle dependency of bitrate and bitrate_peak
+  media: allegro: verify source and destination buffer in VCU response
+  media: allegro: pass buffers through firmware
+  media: allegro: move mail definitions to separate file
+  media: allegro: create new struct for channel parameters
+
+ drivers/staging/media/allegro-dvt/Makefile    |   2 +-
+ .../staging/media/allegro-dvt/allegro-core.c  | 905 ++++++++++--------
+ .../staging/media/allegro-dvt/allegro-mail.c  |  37 +
+ .../staging/media/allegro-dvt/allegro-mail.h  | 267 ++++++
+ 4 files changed, 824 insertions(+), 387 deletions(-)
+ create mode 100644 drivers/staging/media/allegro-dvt/allegro-mail.c
+ create mode 100644 drivers/staging/media/allegro-dvt/allegro-mail.h
+
+-- 
+2.20.1
+
