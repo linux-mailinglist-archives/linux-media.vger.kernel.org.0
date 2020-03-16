@@ -2,152 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B1C818762A
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 00:19:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5FA8187650
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 00:39:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732916AbgCPXTM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 19:19:12 -0400
-Received: from [37.49.224.149] ([37.49.224.149]:57515 "EHLO
-        adcoconstruction.com" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732900AbgCPXTM (ORCPT
+        id S1733014AbgCPXjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 19:39:32 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:44366 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732930AbgCPXjc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 19:19:12 -0400
-From:   "Christopher Hills" <chris@adcoconstruction.com>
-To:     linux-media@vger.kernel.org
-Subject: RE: NEW ORDER/DOCUMENT_0554312
-Date:   17 Mar 2020 00:19:10 +0100
-Message-ID: <20200317001910.CCBB867D16DC5B0C@adcoconstruction.com>
+        Mon, 16 Mar 2020 19:39:32 -0400
+Received: by mail-il1-f196.google.com with SMTP id j69so18353301ila.11
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2020 16:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8QGPaFUD2cvNFVcORLjGpJvbfVbFJLU8MbBNokDs+A4=;
+        b=HpJuxcyVqahcWR6kvLai/Fuh39wdmcWuNdGGMlMcYAOSTfaou3H00df5r5Z7C0+NvB
+         frOs/WSPvKZvmIr6lD/Bi+r1ZXFrohZBHSHu+j1eWP5Ds2PsfYMR4a/mNfdpSntEqYSL
+         5pKfIS3yvSSmhb7TxSU2UH5YZATWMjNbDDWc+YeYGFvP1bV5fO2UiqVpjmDnXCC2o4fV
+         229Df7l5hkFau0lSZhaMi6hvN5HUmYTIb5XL26RDty7kt2v4PL3g2bauHLiFbmOWRT3Z
+         vZ0SDwRRkp4f9SgheF6Wzez/jXeeK1T1wPa9C5tjkhLCigJ4d6Te/QKpZ0ynBwRccHxD
+         3VbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8QGPaFUD2cvNFVcORLjGpJvbfVbFJLU8MbBNokDs+A4=;
+        b=JhCoYCyiqlNKeYz6KXsYKf9owTl2zxyNIwmCgqatkqZ17Ojv06sJlf5zHmPvsTcuWB
+         BgyUJ9bm5FINvmc6ij4geQbz+MsRV27NXuHkCoqRkSS7AURsntuDQPjm4/kNTH11jqNh
+         bKW+vMI42sw6njP1AKfTsVhNFGv6b1oZhJXVMbFVJxqlkXBUpTDirc+Q8E4HTpohakNF
+         RaxbBnfop3kns5fzQreInQaDD/nMKuRT7EtWBw2/jq0Scj8gdO5vQG+wfgrDflZFvodT
+         X83+AavexO+ZnBryjER2Hlh595jw2ih1SXfFu3aQM8t86u/N/EXIGPs/eDi39xI1HPwu
+         roiA==
+X-Gm-Message-State: ANhLgQ1l6C5zvVWE53GCMXLQRyqrUrHBcxAYWbCIjDEWfVL9nbJ5QVnU
+        UCq2QqASgxYMlkWrPUJLA7entUQACl8lPcmYDl0=
+X-Google-Smtp-Source: ADFU+vvW7VUJSX1H7NguH89ivTAhsuq6Qf4GfNMeFvWM3pLLDPRGldFLSTxijnKtNURW9kpwnDeVcPm6Npff47WXO4g=
+X-Received: by 2002:a92:da51:: with SMTP id p17mr2343524ilq.254.1584401970350;
+ Mon, 16 Mar 2020 16:39:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
-        boundary="----=_NextPart_000_0012_96DBC440.27F442DE"
+References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+ <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
+In-Reply-To: <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
+From:   Roman Gilg <subdiff@gmail.com>
+Date:   Tue, 17 Mar 2020 00:41:29 +0100
+Message-ID: <CAJcyoys6FOsBmDe_rSeM8VSwPuB55a-v+3igaknQLyq=6aPa9A@mail.gmail.com>
+Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
+To:     Jason Ekstrand <jason@jlekstrand.net>
+Cc:     ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        "wayland-devel @ lists . freedesktop . org" 
+        <wayland-devel@lists.freedesktop.org>,
+        xorg-devel <xorg-devel@lists.x.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
+        Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
+On Wed, Mar 11, 2020 at 8:21 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+>
+> On Wed, Mar 11, 2020 at 12:31 PM Jason Ekstrand <jason@jlekstrand.net> wrote:
+> >
+> > All,
+> >
+> > Sorry for casting such a broad net with this one. I'm sure most people
+> > who reply will get at least one mailing list rejection.  However, this
+> > is an issue that affects a LOT of components and that's why it's
+> > thorny to begin with.  Please pardon the length of this e-mail as
+> > well; I promise there's a concrete point/proposal at the end.
+> >
+> >
+> > Explicit synchronization is the future of graphics and media.  At
+> > least, that seems to be the consensus among all the graphics people
+> > I've talked to.  I had a chat with one of the lead Android graphics
+> > engineers recently who told me that doing explicit sync from the start
+> > was one of the best engineering decisions Android ever made.  It's
+> > also the direction being taken by more modern APIs such as Vulkan.
+> >
+> >
+> > ## What are implicit and explicit synchronization?
+> >
+> > For those that aren't familiar with this space, GPUs, media encoders,
+> > etc. are massively parallel and synchronization of some form is
+> > required to ensure that everything happens in the right order and
+> > avoid data races.  Implicit synchronization is when bits of work (3D,
+> > compute, video encode, etc.) are implicitly based on the absolute
+> > CPU-time order in which API calls occur.  Explicit synchronization is
+> > when the client (whatever that means in any given context) provides
+> > the dependency graph explicitly via some sort of synchronization
+> > primitives.  If you're still confused, consider the following
+> > examples:
+> >
+> > With OpenGL and EGL, almost everything is implicit sync.  Say you have
+> > two OpenGL contexts sharing an image where one writes to it and the
+> > other textures from it.  The way the OpenGL spec works, the client has
+> > to make the API calls to render to the image before (in CPU time) it
+> > makes the API calls which texture from the image.  As long as it does
+> > this (and maybe inserts a glFlush?), the driver will ensure that the
+> > rendering completes before the texturing happens and you get correct
+> > contents.
+> >
+> > Implicit synchronization can also happen across processes.  Wayland,
+> > for instance, is currently built on implicit sync where the client
+> > does their rendering and then does a hand-off (via wl_surface::commit)
+> > to tell the compositor it's done at which point the compositor can now
+> > texture from the surface.  The hand-off ensures that the client's
+> > OpenGL API calls happen before the server's OpenGL API calls.
+> >
+> > A good example of explicit synchronization is the Vulkan API.  There,
+> > a client (or multiple clients) can simultaneously build command
+> > buffers in different threads where one of those command buffers
+> > renders to an image and the other textures from it and then submit
+> > both of them at the same time with instructions to the driver for
+> > which order to execute them in.  The execution order is described via
+> > the VkSemaphore primitive.  With the new VK_KHR_timeline_semaphore
+> > extension, you can even submit the work which does the texturing
+> > BEFORE the work which does the rendering and the driver will sort it
+> > out.
+> >
+> > The #1 problem with implicit synchronization (which explicit solves)
+> > is that it leads to a lot of over-synchronization both in client space
+> > and in driver/device space.  The client has to synchronize a lot more
+> > because it has to ensure that the API calls happen in a particular
+> > order.  The driver/device have to synchronize a lot more because they
+> > never know what is going to end up being a synchronization point as an
+> > API call on another thread/process may occur at any time.  As we move
+> > to more and more multi-threaded programming this synchronization (on
+> > the client-side especially) becomes more and more painful.
+> >
+> >
+> > ## Current status in Linux
+> >
+> > Implicit synchronization in Linux works via a the kernel's internal
+> > dma_buf and dma_fence data structures.  A dma_fence is a tiny object
+> > which represents the "done" status for some bit of work.  Typically,
+> > dma_fences are created as a by-product of someone submitting some bit
+> > of work (say, 3D rendering) to the kernel.  The dma_buf object has a
+> > set of dma_fences on it representing shared (read) and exclusive
+> > (write) access to the object.  When work is submitted which, for
+> > instance renders to the dma_buf, it's queued waiting on all the fences
+> > on the dma_buf and and a dma_fence is created representing the end of
+> > said rendering work and it's installed as the dma_buf's exclusive
+> > fence.  This way, the kernel can manage all its internal queues (3D
+> > rendering, display, video encode, etc.) and know which things to
+> > submit in what order.
+> >
+> > For the last few years, we've had sync_file in the kernel and it's
+> > plumbed into some drivers.  A sync_file is just a wrapper around a
+> > single dma_fence.  A sync_file is typically created as a by-product of
+> > submitting work (3D, compute, etc.) to the kernel and is signaled when
+> > that work completes.  When a sync_file is created, it is guaranteed by
+> > the kernel that it will become signaled in finite time and, once it's
+> > signaled, it remains signaled for the rest of time.  A sync_file is
+> > represented in UAPIs as a file descriptor and can be used with normal
+> > file APIs such as dup().  It can be passed into another UAPI which
+> > does some bit of queue'd work and the submitted work will wait for the
+> > sync_file to be triggered before executing.  A sync_file also supports
+> > poll() if  you want to wait on it manually.
+> >
+> > Unfortunately, sync_file is not broadly used and not all kernel GPU
+> > drivers support it.  Here's a very quick overview of my understanding
+> > of the status of various components (I don't know the status of
+> > anything in the media world):
+> >
+> >  - Vulkan: Explicit synchronization all the way but we have to go
+> > implicit as soon as we interact with a window-system.  Vulkan has APIs
+> > to import/export sync_files to/from it's VkSemaphore and VkFence
+> > synchronization primitives.
+> >  - OpenGL: Implicit all the way.  There are some EGL extensions to
+> > enable some forms of explicit sync via sync_file but OpenGL itself is
+> > still implicit.
+> >  - Wayland: Currently depends on implicit sync in the kernel (accessed
+> > via EGL/OpenGL).  There is an unstable extension to allow passing
+> > sync_files around but it's questionable how useful it is right now
+> > (more on that later).
+> >  - X11: With present, it has these "explicit" fence objects but
+> > they're always a shmfence which lets the X server and client do a
+> > userspace CPU-side hand-off without going over the socket (and
+> > round-tripping through the kernel).  However, the only thing that
+> > fence does is order the OpenGL API calls in the client and server and
+> > the real synchronization is still implicit.
+> >  - linux/i915/gem: Fully supports using sync_file or syncobj for explicit sync.
+> >  - linux/amdgpu: Supports sync_file and syncobj but it still
+> > implicitly syncs sometimes due to it's internal memory residency
+> > handling which can lead to over-synchronization.
+> >  - KMS: Implicit sync all the way.  There are no KMS APIs which take
+> > explicit sync primitives.
+>
+> Correction:  Apparently, I missed some things.  If you use atomic, KMS
+> does have explicit in- and out-fences.  Non-atomic users (e.g. X11)
+> are still in trouble but most Wayland compositors use atomic these
+> days
 
-------=_NextPart_000_0012_96DBC440.27F442DE
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Jason,
 
-Dear Sir/Madam,
+thanks for pushing this forward and the comprehensive explanation on
+what it is about.
 
-Please confirm if this requisition will be ready by 3rd April
+My question would be what exactly do you now need from Wayland compositor devs?
+I understood a Wayland compositor needs to:
+* do atomic page flips,
+* support [1].
 
-and i will send you the complete details.
+Is there something else? You described a mechanism to pull out and
+push in these sync_files to dma-bufs depending on what the client
+provides and what kind of output the compositor puts the final image
+onto. That's for now just an idea (plus your wip implementation in
+Vulkan/kernel) and there is not yet anything that can be done for this
+specifically in Wayland compositors, or is there?
 
-Kind Regards.
+Thanks
+Roman
 
-Christopher Hills
-Purchase Manager
-Adco Constructions Pty. Ltd.
-
+[1] https://gitlab.freedesktop.org/wayland/wayland-protocols/blob/master/unstable/linux-explicit-synchronization/linux-explicit-synchronization-unstable-v1.xml
 
 
-I will like a receipt of your acknowledgment mail
-------=_NextPart_000_0012_96DBC440.27F442DE
-Content-Type: application/msword; name="PO0554312.doc"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="PO0554312.doc"
-
-e1xydGYxICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHtcb2JqZWN0e1w0ODE4Nzk0MDh9XG9iamxpbmt7XDQ4MTg3OTQw
-OH1cb2JqdzQxOTd7XDQ4MTg3OTQwOH1cb2JqaDc1MTB7XDQ4MTg3OTQwOH17XDQ4MTg3OTQw
-OH17XG9iamRhdGENXHRzZDUzNjcxOFxndXR0ZXI1ODk2ODU0NzVcJ+8gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-e1xvYmplY3RcTFFRR0pWSFlPVnJzbHp0eGRtc3d5aHI1NzkxMzkwNTg4MzA1OTM1MTU2MDQ5
-NUxRUUdKVkhZT1Zyc2x6dHhkbXN3eWhye1xPUFhSVVlXRUdXT1duZmxrYmxsam5qeWx5aXZw
-ZXc1MzgyMTc5MzIxMDQwNTYwODcyMzg2ODY2Mjk1T1BYUlVZV0VHV09XbmZsa2JsbGpuanls
-eWl2cGV3fX0xODZjNzg0NzAyMDAwMDAwMGIwMDAwMDA0NTUxNTU0MTU0Njk2ZjZlMntcbWxp
-bSBce1x7XG1ncm91cENocn0NZTMzMDAwMDAwMDAwMDAwMDAwMDAwYjYwODAwMDAwMzRkM2M4
-Mjg4YTkwMTA4YjhiY2I5Nzk5ZTdkZDQ4MWU5M2RlMTM3ZDQ4YjM5OGIwN2JiZDVjZDJkMTU4
-MWViMjU2NmU3MTQ4YjFiNTBmZmQzMDU5OWYwNDJkMzA1OTExMGJkMmNmZmUwNjVjZTA4NDMw
-MGI2ZTdlNmMxOGUwMjg4MjhjNDMzMjhlZjJkNmYxYTYxZDc0MDY3MGNkYWE2OGQxODVlNjU2
-NjBmNDU1ZDkwOGI2NjE2MjNhMjI0ZjVlM2I3ZTk0MGJlNzJjMzgwNTNmZDI2NjI1OTU0MjQ4
-NDk3YmM4OTg0YTg0MGJiOTM3NTMwMzhmNzdhOTVhZWJiNDk5OTA4NzA1YzMzMmRjMWI0YzQy
-Y2Q2Yzg1ZWNmMjM1MWQ0NWYxMmU1NzE5NGZhN2ZkOTk2NzZkYWVmZGNhYTNkY2Y1YjI1YWY0
-ZTdmY2Y4ZWQwOWEyMTM2YTY3NTBlZjIyNjFhY2Y5NmE1MGIyZWVmMmE3NmIxZDY1NGE0MDky
-ZGYwMjg4MGZkMjkxMGMwOTdjOTIxNzk0NWZkNjk0NjFiOTQ4NDMyZDgzMTE3YjllZGQzY2U3
-ZDI1M2VjMjE1NjdhMTM2NGMzYjg5ZjgyMDY2NzBmZGNlNDE4N2M4YzVjYTkxZTJlMTZkYmVm
-MTI1ODMyMTE1ZGEyMGZjYjQ3ZDlmYTNkMDhmZjk3YTFmZWNmNjEwNjkzZTE0YmNmMmY4Njcy
-MTA0M2QzZTQ5YTBlNmExNjljOTA4NDliM2JiZTc2Y2MwNDQ3ZjczNmEyMDk0MmExNGU5NTgw
-MTAwMDBhMGM0ZDlmYWU1NDNkNzNiNGEwOWM5NjQ3ZTk2YjMxY2E3NGYyYzk2OWZiY2ExYzAz
-MWM3OGY5MjYyMDVjOTQ2YTVlN2I5OWEyNDA1OTkxMWZhNWNiNjMyN2E4ZGI3YzQ2YTFjZDAx
-ODQyYjIwZTQwNzE1OThmNTA5NmMxYzhhNWM3ODJiZjFkY2U1MDUwNTk2ODQ5NjkwMDg0MmU0
-ZmZiOGJhNGQ3YmI5NTcxYWU3MGFkYzE5MzRmMTc2NjlhZDU4NzE0NjkwMDY3YTQ3YjkxMTI1
-MDYxNTAxZGY5ZmM0NDg5NjNjNGZlMTM3ODA1ZDA2Nzg0MWUwZjY1NzZjMzU3NjQyMTM4YzQ2
-YTgwOWMzYjc5ZWUxZGEwYzA2YzNkMWVlNWRjMTY2NDNmNGE5MWUyMWMyMGFkMTFmZjZjYmVh
-YWRkMjZhY2ViNWQ2NTMzZDUxZmE3MWY3MWYxMDg5NjA4MWM4ZTRjNjk5NjY0ZDIyNTUwMTNj
-MmQzNjZjZTExNGM3M2E2NDdmMGJiZDRiZWUwODBmNmU1NDQzMDRkODI4NWIwZmFlODkwOWQ0
-ODQ2MWE3ZmUwZGFkNTFiMTczOGMxYTYxZDg1NTcwODRjYmVkZDFlNjBmMjk4ZmFiYjgyMTIy
-MjlmNjk1N2NlNzM3MjNlMmQwNzc4OWE5ZGM4YjQ4NWY3MGRlOGEwYzE0ZGIzNGI3YTYzYzFl
-ZGQzZDExOTJmZjJmYjUwNDFhZjY4ZDAxNWQ3MDYxYzlmNmQ2NTA1MWNlNGY3ZjE0YTY3NTcx
-Y2E5MTM3ZmQ3YzIzOTExYzQ1ZDlkOTExYWNhYmFhN2U2MWNmZDVlNDU2NjA3NjlhOTA0ZWU1
-YTFlZDQ3OWU5N2I3OTY5MzRiMzk4YWFmYTA0MWVhN2UxNGI3NTc0YWUyZWQ0ZTgyYjAyMDAw
-MGU5MTUwMjAwMDBlYjYzZTk0ZjAyMDAwMGViNWNlOTI0MDIwMDAwZTlkMDAwMDAwMGViNTA5
-YzUyZWIwNDk2MmUyNGY0ODFjMjIxMTQwMDAwNTM1NjVlNWI4ZDkyZTM2MDAwMDA1YTlkZTk3
-OTAyMDAwMGU5Y2IwMDAwMDBlOWIwMDEwMDAwZTk4NDAwMDAwMDUzNWJlYjE3ZWIwMjc0YTJl
-YmM2ZTk4NDAxMDAwMGViMDVlOWRjMDIwMDAwZTk5NjAwMDAwMGViZWJlOWUwMDEwMDAwOGRh
-ZWU1MDIwMDAwOWM1MTgxYzE5ZDMwMDAwMDgxZTkzZDFlMDAwMDU5OWRlYjRhZWI2ZTljNTI1
-MDA1ZGE3MTAwMDA4ZDgwZmIyNTAwMDA1ODVhZWIwYTUxNzgyYjM5NTE5MmQ5Y2ViYzAxOWRl
-YmM3ZTkzZDAyMDAwMGViMGFhY2Y4Y2EzZTJmOTY2MTRiZThiM2U5OGEwMTAwMDBlOWNmMDAw
-MDAwZWI2OGViMzdlOTUxMDEwMDAwZTk2YjAxMDAwMDZiYzkwMGU5YTUwMDAwMDBlOTZhMDEw
-MDAwZTk2Y2ZmZmZmZmU5NDQwMjAwMDBlOWM1MDEwMDAwZTk2ZTAxMDAwMGU5MzQwMTAwMDBl
-OTRjMDEwMDAwZWIyOGU5ZDEwMDAwMDBlOTYwZmZmZmZmOTBlOWU2MDEwMDAwZTk0MmZmZmZm
-ZmViYjBlOTAzZmZmZmZmZTk3YjAxMDAwMGU5MTgwMTAwMDBlYjYwZTljZjAwMDAwMGViNzk2
-OWM5ZGQwNjU1MjRlYmI4OWM1MzgxYzM1MTA2MDAwMDgxZWI3MjQ2MDAwMDgxZWJmZTExMDAw
-MDViNTA1ODlkNTA1ODljNTdlYjBiZDgxYWIwYTdhMzNmZjQ3MzZlNTc1ZjUxODFlZmM1MTUw
-MDAwOGQ4ZjEwMWIwMDAwOGRiOWQxNmQwMDAwNTk1ZjlkZTk2ZjAxMDAwMGU5NGEwMTAwMDBl
-YmFkZTk3OWZmZmZmZjkwZTlkZGZlZmZmZmViNjZlOThiMDAwMDAwZTk2Y2ZmZmZmZmU5ODFm
-ZWZmZmZlOTIwMDEwMDAwZTliYTAwMDAwMGU5MzNmZmZmZmZlYjQxOWM1NjUxOGQ4OTBmNTEw
-MDAwOGRiNjEwMjEwMDAwOGQ4OWJhMjYwMDAwODFlZTAzM2MwMDAwNTk1ZTlkZTk2ODAxMDAw
-MGViMWNlYjc0ZTllZjAwMDAwMDM5ZWVlOTY0MDEwMDAwZWIzZGViN2NlOTNiZmZmZmZmZTlk
-MGZlZmZmZmU5ZDlmZWZmZmZlOWE5MDAwMDAwZWIyM2ViNTNlOWMwMDAwMDAwZTllN2ZlZmZm
-ZjljNTA1MDhkODBkMTA3MDAwMDJkZmQzMDAwMDA4ZDgwMWUzYjAwMDA1ODU4OWRlYjBjZWIw
-ZmU5YzJmZWZmZmZlOTdiZmVmZmZmZTk4NzAwMDAwMDVlODFjNjQ1MDMwMDAwZTk4MmZlZmZm
-ZjMxMGVlOTAwZmVmZmZmZTlhYzAwMDAwMGU5MDJmZWZmZmZlYmVkZTkxYmZlZmZmZjUyNWFl
-OWJhZmVmZmZmZTljZGZlZmZmZjgxYzEzNzk1Njc1YzljNTc1MTUxODFlOWQ1N2YwMDAwODFj
-NzIzNTQwMDAwOGRiOTg1MGIwMDAwOGQ4OTJlMDEwMDAwODFjMTI0MjcwMDAwODFlOTg5NDUw
-MDAwNTk1OTVmOWQ5MGU5NTZmZmZmZmZlYmFlZTkzNWZmZmZmZjUzNWJlOTc3ZmZmZmZmNTc1
-ZmU5MTZmZWZmZmZlOTZiZmZmZmZmZTk2ZmZlZmZmZjgzYzYwNGU5MGNmZmZmZmZlYjc3ZWJm
-NGU5MTFmZWZmZmZlOTBjZmZmZmZmZWI1MzljNTY1MzhkOWVlZjY0MDAwMDgxZWVhNjM2MDAw
-MDkwOGRiMzIyM2EwMDAwNWI1ZTlkZWJiMGU5MDlmZmZmZmZlOWUwZmVmZmZmZWJkMjljNTM4
-MWViMjI1NjAwMDA4ZDliNjE1YTAwMDA4MWMzMjEzZTAwMDA4MWMzNmE3YzAwMDA4MWMzYjYz
-ZTAwMDA4MWViNmE1ZTAwMDA1YjlkNTA1ODUzNWJlOTVmZmVmZmZmZTlmYWZlZmZmZmViYmNl
-YjAzOTA5ZDE0ZTkyOGZmZmZmZmU5MjFmZGZmZmY1NjVlZTliYWZkZmZmZjBmODJlM2ZkZmZm
-ZmI2NzllNzVlYjJhZjdkYzRlMTZkZDgxMDc0ZDM4NjBhNWJhMTdkMTBjNmQ0MTY1MTI1OGUx
-N2M0MjgzNzQ5ZGViZjJhYTA2MGYyZmI1YzNiYTllOTYxNDk3OGMyNjI2YzExOGE3Mzk4Zjkx
-YjIwNTI1MzhjMzJhZGQ5ZDA3Y2ExNDc5NTViY2ZlNzY5ZGFiNzFlNzkzZjUxYTA3YzBkNTkx
-OGVjZmIzN2I0MmQ0ZGYyM2NlYjFkMjY3ODQ4M2IxOWI3ODQ3ZTIxOGU4MDFiYjk1MDllMDdi
-ODAxYmQxZjI5MjA4NmVmZDcxMGYzZWMxZGZkZWE4NDVkYzgxNjk1MDE1N2U0OWZjNDVhZGRi
-NDUyMDEzYmU1MjYxNGNhMDI4NDdiNGQ4MDJiNjZhYjg4ZTA0NTEyZjZiMmM4NDllYWZhZGY2
-NTY3ZjhiYTZiZGYzY2M5NWY1ZDVhYmNhMTc3NGM4M2U5ZTIzMzRlZmZjYjcyOGQ2MTI5NDBm
-MGYxNGM0OGI3ZjkzZTdjMjIwNWQ3ZjVlM2NmNjJkNjI5MmI1Y2NmZTU2MmNjZTZjOTNlYTZi
-YWQ1MmNlYzMwNGEwYjU0ZDY5OGVhN2IxM2ViOTU3OWE2MWYzY2UwZDI1YjU5NGEwYTQ1ZDYz
-OGI5MWU1ZmM4NzUxMWZmNDNmMTQwYjU0YjkyNzdmOTQyMTBmMjBlYWYxNzIxZjczYjM3YjQ5
-ZDE2Nzk5YmQ5OTZiMTA2NTg2NDUxNjVkYmU3ZGM2OGI5NWFhY2ZmMjk4YWJiNWEyMDM3ZjZl
-OTAxZDdjODVjYTA5NjcyYTMwZjQ5NmRlZWY1Zjc4ZWFkMWFiNGE1OTAzOTVkZGY4N2E5ZmI4
-YWMyOTVkOTdhYjEzNWVkMjQwNGJkMGFlMGFiMDcyOGExZDZkYmNkZjJmNThjMzljN2I4ZmFi
-NjA5MGYyZTU4ZGUyYTViMTA3Zjc5YmE1ZmM2YWMyNDY5YzhiM2VmZmRmMmJlNWMwMTU1M2Qx
-MjM0MmFlMGM5OGVhYTk3Nzk5NTA0OTI3ZTM2YjE0MWJhMzQ4NzQ0ZTRhYjcwZmNjYzdkMWJk
-MjFjYTIxOWYwODEzYTcyNmU1YzA2ODk0YzJjOGM2ZDZlYjQyOWEzMDk5OWQ3ZmUyYzBmNDBl
-MmMzYzEzZDYzZWIwZDZhNTQ5ZGVkMzMxZTU1MjQ1ZWYzYTdhYTc5MGNlZjkwMWVlNWQzYTky
-MWIyMjk4MGYzNDFjOTNlMDRlMjFjOGM5YmNlN2Y5YjBjZTczMmY0ZmNmOTQ1OTUyNzhhZWU1
-MDk2NDY0OTdmZTZkODRjMGEwMjgwYmEzNDY1MDUzMTFlOTFjNTJlMDNjZDFmNTZjMGM1ZDU2
-Nzk3ZWUwYzI3YmU5OTAxNjEwOWI0OTk3N2FhYTU5MmM5NmM2YTk1MTcyMDgxNTJhOTEwMjlj
-Y2E4MTliMGViNGI0NjJiNGU4MmJlY2JiYjI5ZDhlNDVlYjhkODAwZDNjNzVmYzU2YzJmMzRl
-ZDAxOTlhM2NmYmRkMjk1MGQzZDQ0OWRmODUwMDQ3YWM5NjI4YmI4YmZiOWM3MTkzZTM5Zjhj
-MjJiMWM0YzAxZWZlNWI2ZmFkYWI0YzNhMDZjMzBhNDE3M2QyZjViMTQxOTY5M2FiMTM3YmEy
-ZTM4OTRjN2YyMTFlNDUwMzZlYmM0Y2Y3NTY2MjNjNDc2YWFkYzJkZjNjZDYwZmFlZTIwYzQx
-NWY5MDQ0YWU4NDQyZDdjMDJlM2ZlN2M0M2U3ODNjYzg1NDAwNjA4ZDgxOTFiNjU5YjUzYzJh
-YTk2NmRjM2EwOTU2ZDdhNTRiNGNlZTdjNTkxNWNjNWQyYzNkMzFlYTVkOTQ1N2VkNDM5ZmJh
-NDhmNjQzNDJlNGNhNmU5YzhmMjdiOWNjMDMzYzBlMDJkZWNlM2UwNTdkZTlmYjIzNjgxZTRl
-YTc4YmNkZDVjZTVmYzdhMzViZTYwMTQwYTlmMTUwZjMyMDAwMDAwMDB9XG9ianVwZGF0ZTk4
-MzkwMTk3Mn19
-
-------=_NextPart_000_0012_96DBC440.27F442DE--
+> >  - v4l: ???
+> >  - gstreamer: ???
+> >  - Media APIs such as vaapi etc.:  ???
+> >
+> >
+> > ## Chicken and egg problems
+> >
+> > Ok, this is where it starts getting depressing.  I made the claim
+> > above that Wayland has an explicit synchronization protocol that's of
+> > questionable usefulness.  I would claim that basically any bit of
+> > plumbing we do through window systems is currently of questionable
+> > usefulness.  Why?
+> >
+> > From my perspective, as a Vulkan driver developer, I have to deal with
+> > the fact that Vulkan is an explicit sync API but Wayland and X11
+> > aren't.  Unfortunately, the Wayland extension solves zero problems for
+> > me because I can't really use it unless it's implemented in all of the
+> > compositors.  Until every Wayland compositor I care about my users
+> > being able to use (which is basically all of them) supports the
+> > extension, I have to continue carry around my pile of hacks to keep
+> > implicit sync and Vulkan working nicely together.
+> >
+> > From the perspective of a Wayland compositor (I used to play in this
+> > space), they'd love to implement the new explicit sync extension but
+> > can't.  Sure, they could wire up the extension, but the moment they go
+> > to flip a client buffer to the screen directly, they discover that KMS
+> > doesn't support any explicit sync APIs.
+>
+> As per the above correction, Wayland compositors aren't nearly as bad
+> off as I initially thought.  There may still be weird screen capture
+> cases but the normal cases of compositing and displaying via
+> KMS/atomic should be in reasonably good shape.
+>
+> > So, yes, they can technically
+> > implement the extension assuming the EGL stack they're running on has
+> > the sync_file extensions but any client buffers which come in using
+> > the explicit sync Wayland extension have to be composited and can't be
+> > scanned out directly.  As a 3D driver developer, I absolutely don't
+> > want compositors doing that because my users will complain about
+> > performance issues due to the extra blit.
+> >
+> > Ok, so let's say we get KMS wired up with implicit sync.  That solves
+> > all our problems, right?  It does, right up until someone decides that
+> > they wan to screen capture their Wayland session via some hardware
+> > media encoder that doesn't support explicit sync.  Now we have to
+> > plumb it all the way through the media stack, gstreamer, etc.  Great,
+> > so let's do that!  Oh, but gstreamer won't want to plumb it through
+> > until they're guaranteed that they can use explicit sync when
+> > displaying on X11 or Wayland.  Are you seeing the problem?
+> >
+> > To make matters worse, since most things are doing implicit
+> > synchronization today, it's really easy to get your explicit
+> > synchronization wrong and never notice.  If you forget to pass a
+> > sync_file into one place (say you never notice KMS doesn't support
+> > them), it will probably work anyway thanks to all the implicit sync
+> > that's going on elsewhere.
+> >
+> > So, clearly, we all need to go write piles of code that we can't
+> > actually properly test until everyone else has written their piece and
+> > then we use explicit sync if and only if all components support it.
+> > Really?  We're going to do multiple years of development and then just
+> > hope it works when we finally flip the switch?  That doesn't sound
+> > like a good plan to me.
+> >
+> >
+> > ## A proposal: Implicit and explicit sync together
+> >
+> > How to solve all these chicken-and-egg problems is something I've been
+> > giving quite a bit of thought (and talking with many others about) in
+> > the last couple of years.  One motivation for this is that we have to
+> > deal with a mismatch in Vulkan.  Another motivation is that I'm
+> > becoming increasingly unhappy with the way that synchronization,
+> > memory residency, and command submission are inherently intertwined in
+> > i915 and would like to break things apart.  Towards that end, I have
+> > an actual proposal.
+> >
+> > A couple weeks ago, I sent a series of patches to the dri-devel
+> > mailing list which adds a pair of new ioctls to dma-buf which allow
+> > userspace to manually import or export a sync_file from a dma-buf.
+> > The idea is that something like a Wayland compositor can switch to
+> > 100% explicit sync internally once the ioctl is available.  If it gets
+> > buffers in from a client that doesn't use the explicit sync extension,
+> > it can pull a sync_file from the dma-buf and use that exactly as it
+> > would a sync_file passed via the explicit sync extension.  When it
+> > goes to scan out a user buffer and discovers that KMS doesn't accept
+> > sync_files (or if it tries to use that pesky media encoder no one has
+> > converted), it can take it's sync_file for display and stuff it into
+> > the dma-buf before handing it to KMS.
+> >
+> > Along with the kernel patches, I've also implemented support for this
+> > in the Vulkan WSI code used by ANV and RADV.  With those patches, the
+> > only requirement on the Vulkan drivers is that you be able to export
+> > any VkSemaphore as a sync_file and temporarily import a sync_file into
+> > any VkFence or VkSemaphore.  As long as that works, the core Vulkan
+> > driver only ever sees explicit synchronization via sync_file.  The WSI
+> > code uses these new ioctls to translate the implicit sync of X11 and
+> > Wayland to the explicit sync the Vulkan driver wants.
+> >
+> > I'm hoping (and here's where I want a sanity check) that a simple API
+> > like this will allow us to finally start moving the Linux ecosystem
+> > over to explicit synchronization one piece at a time in a way that's
+> > actually correct.  (No Wayland explicit sync with compositors hoping
+> > KMS magically works even though it doesn't have a sync_file API.)
+> > Once some pieces in the ecosystem start moving, there will be
+> > motivation to start moving others and maybe we can actually build the
+> > momentum to get most everything converted.
+> >
+> > For reference, you can find the kernel RFC patches and mesa MR here:
+> >
+> > https://lists.freedesktop.org/archives/dri-devel/2020-March/258833.html
+> >
+> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/4037
+> >
+> > At this point, I welcome your thoughts, comments, objections, and
+> > maybe even help/review. :-)
+> >
+> > --Jason Ekstrand
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
