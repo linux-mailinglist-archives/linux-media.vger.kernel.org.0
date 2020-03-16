@@ -2,167 +2,281 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C62418605C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 00:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B405186117
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 01:59:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728589AbgCOXM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Mar 2020 19:12:28 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:40439 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728512AbgCOXM2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Mar 2020 19:12:28 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9C86C20003;
-        Sun, 15 Mar 2020 23:12:22 +0000 (UTC)
-Date:   Mon, 16 Mar 2020 00:15:17 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
-Message-ID: <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
-References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
- <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
- <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
- <20200228181303.GA21745@smtp.xilinx.com>
+        id S1729327AbgCPA7z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Mar 2020 20:59:55 -0400
+Received: from mga03.intel.com ([134.134.136.65]:1585 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729315AbgCPA7z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 15 Mar 2020 20:59:55 -0400
+IronPort-SDR: bxUZn05lgCanNMH4/W7xSDgh01OCa/5Vv6v9EHyuNbqRlKsykItjx1OgPFJF+GMAZ89vREuQ10
+ seO7+JjLUd2Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2020 17:59:46 -0700
+IronPort-SDR: SpIJ6cc/3OJUb0aE6Y20LBnB+6z5MIDVXJjvtX6B/oUpHw0/v+vqcdQFetBrsZNhXdci3Wh4r2
+ vAilSCWrQtqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,558,1574150400"; 
+   d="scan'208";a="416964497"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 15 Mar 2020 17:59:45 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jDe6a-00063p-KX; Mon, 16 Mar 2020 08:59:44 +0800
+Date:   Mon, 16 Mar 2020 08:59:18 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 2a9c226da9aa997d862a22292279e806114a9db8
+Message-ID: <5e6ecf66.vO+bV2/Tk9CPyNIK%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200228181303.GA21745@smtp.xilinx.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hyun, Kieran,
-   it's great you are looking into this!
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 2a9c226da9aa997d862a22292279e806114a9db8  media: imx: imx7-media-csi: Support clamping Y10 and Y12 to Y8
 
-On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
-> Hi Kieran,
->
-> Thanks for sharing a patch.
->
-[snip]
+elapsed time: 4813m
 
-> > > +
-> > > +	/*
-> > > +	 * Set the I2C bus speed.
-> > > +	 *
-> > > +	 * Enable I2C Local Acknowledge during the probe sequences of the camera
-> > > +	 * only. This should be disabled after the mux is initialised.
-> > > +	 */
-> > > +	max9286_configure_i2c(priv, true);
-> > > +
-> > > +	/*
-> > > +	 * Reverse channel setup.
-> > > +	 *
-> > > +	 * - Enable custom reverse channel configuration (through register 0x3f)
-> > > +	 *   and set the first pulse length to 35 clock cycles.
-> > > +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> > > +	 *   high threshold enabled by the serializer driver.
-> > > +	 */
-> > > +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> > > +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> > > +		      MAX9286_REV_AMP_X);
-> > > +	usleep_range(2000, 2500);
-> > > +
-> > > +	/*
-> > > +	 * Enable GMSL links, mask unused ones and autodetect link
-> > > +	 * used as CSI clock source.
-> > > +	 */
-> > > +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> > > +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
-> > > +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
-> > > +
-> > > +	/*
-> > > +	 * Video format setup:
-> > > +	 * Disable CSI output, VC is set according to Link number.
-> > > +	 */
-> > > +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> > > +
-> > > +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
-> > > +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
-> > > +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
-> > > +		      MAX9286_DATATYPE_YUV422_8BIT);
-> > > +
-> > > +	/* Automatic: FRAMESYNC taken from the slowest Link. */
-> > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> > > +		      MAX9286_FSYNCMETH_AUTO);
-> > > +
-> > > +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> > > +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
-> > > +		      MAX9286_HVSRC_D14);
->
+configs tested: 222
+configs skipped: 0
 
-I agree we need to make some of these configurable, we need that too
-to handle both rdacm20 and 21.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> Some of these configs in fact need some handshake between serializer and
-> de-serializer. For example, I had to invert vsync in serializer [3] to make
-> it work with this patch.
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+riscv                          rv32_defconfig
+csky                                defconfig
+sh                          rsk7269_defconfig
+i386                                defconfig
+riscv                               defconfig
+um                                  defconfig
+nios2                         10m50_defconfig
+mips                      fuloong2e_defconfig
+parisc                generic-32bit_defconfig
+s390                             alldefconfig
+i386                             alldefconfig
+sh                                allnoconfig
+um                           x86_64_defconfig
+powerpc                           allnoconfig
+nios2                         3c120_defconfig
+openrisc                 simple_smp_defconfig
+ia64                                defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+openrisc                    or1ksim_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+alpha                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      malta_kvm_defconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                generic-64bit_defconfig
+i386                 randconfig-a003-20200313
+i386                 randconfig-a001-20200313
+x86_64               randconfig-a001-20200313
+i386                 randconfig-a002-20200313
+x86_64               randconfig-a003-20200313
+x86_64               randconfig-a002-20200313
+x86_64               randconfig-a001-20200311
+x86_64               randconfig-a002-20200311
+x86_64               randconfig-a003-20200311
+i386                 randconfig-a001-20200311
+i386                 randconfig-a002-20200311
+i386                 randconfig-a003-20200311
+alpha                randconfig-a001-20200312
+m68k                 randconfig-a001-20200312
+mips                 randconfig-a001-20200312
+nds32                randconfig-a001-20200312
+parisc               randconfig-a001-20200312
+riscv                randconfig-a001-20200312
+riscv                randconfig-a001-20200313
+nds32                randconfig-a001-20200313
+alpha                randconfig-a001-20200313
+m68k                 randconfig-a001-20200313
+parisc               randconfig-a001-20200313
+mips                 randconfig-a001-20200313
+c6x                  randconfig-a001-20200312
+h8300                randconfig-a001-20200312
+microblaze           randconfig-a001-20200312
+nios2                randconfig-a001-20200312
+sparc64              randconfig-a001-20200312
+c6x                  randconfig-a001-20200313
+h8300                randconfig-a001-20200313
+microblaze           randconfig-a001-20200313
+nios2                randconfig-a001-20200313
+sparc64              randconfig-a001-20200313
+csky                 randconfig-a001-20200313
+openrisc             randconfig-a001-20200313
+s390                 randconfig-a001-20200313
+xtensa               randconfig-a001-20200313
+csky                 randconfig-a001-20200312
+openrisc             randconfig-a001-20200312
+s390                 randconfig-a001-20200312
+sh                   randconfig-a001-20200312
+xtensa               randconfig-a001-20200312
+sh                   randconfig-a001-20200313
+x86_64               randconfig-b001-20200311
+x86_64               randconfig-b002-20200311
+x86_64               randconfig-b003-20200311
+i386                 randconfig-b001-20200311
+i386                 randconfig-b002-20200311
+i386                 randconfig-b003-20200311
+x86_64               randconfig-c001-20200313
+i386                 randconfig-c001-20200313
+x86_64               randconfig-c002-20200313
+i386                 randconfig-c002-20200313
+i386                 randconfig-c003-20200313
+x86_64               randconfig-c003-20200313
+x86_64               randconfig-c001-20200311
+x86_64               randconfig-c002-20200311
+x86_64               randconfig-c003-20200311
+i386                 randconfig-c001-20200311
+i386                 randconfig-c002-20200311
+i386                 randconfig-c003-20200311
+x86_64               randconfig-d001-20200312
+x86_64               randconfig-d002-20200312
+x86_64               randconfig-d003-20200312
+i386                 randconfig-d001-20200312
+i386                 randconfig-d002-20200312
+i386                 randconfig-d003-20200312
+x86_64               randconfig-d001-20200313
+i386                 randconfig-d001-20200313
+i386                 randconfig-d003-20200313
+i386                 randconfig-d002-20200313
+x86_64               randconfig-d002-20200313
+x86_64               randconfig-d003-20200313
+x86_64               randconfig-e001-20200312
+x86_64               randconfig-e002-20200312
+x86_64               randconfig-e003-20200312
+i386                 randconfig-e001-20200312
+i386                 randconfig-e002-20200312
+i386                 randconfig-e003-20200312
+x86_64               randconfig-f001-20200312
+x86_64               randconfig-f002-20200312
+x86_64               randconfig-f003-20200312
+i386                 randconfig-f001-20200312
+i386                 randconfig-f002-20200312
+i386                 randconfig-f003-20200312
+i386                 randconfig-f002-20200313
+x86_64               randconfig-f001-20200313
+i386                 randconfig-f003-20200313
+i386                 randconfig-f001-20200313
+x86_64               randconfig-f002-20200313
+x86_64               randconfig-f003-20200313
+i386                 randconfig-g003-20200313
+i386                 randconfig-g001-20200313
+x86_64               randconfig-g003-20200313
+x86_64               randconfig-g002-20200313
+x86_64               randconfig-g001-20200313
+i386                 randconfig-g002-20200313
+x86_64               randconfig-g001-20200312
+x86_64               randconfig-g002-20200312
+x86_64               randconfig-g003-20200312
+i386                 randconfig-g001-20200312
+i386                 randconfig-g002-20200312
+i386                 randconfig-g003-20200312
+x86_64               randconfig-h001-20200312
+x86_64               randconfig-h002-20200312
+x86_64               randconfig-h003-20200312
+i386                 randconfig-h001-20200312
+i386                 randconfig-h002-20200312
+i386                 randconfig-h003-20200312
+x86_64               randconfig-h001-20200313
+i386                 randconfig-h001-20200313
+x86_64               randconfig-h002-20200313
+x86_64               randconfig-h003-20200313
+i386                 randconfig-h002-20200313
+i386                 randconfig-h003-20200313
+arc                  randconfig-a001-20200312
+arm                  randconfig-a001-20200312
+arm64                randconfig-a001-20200312
+ia64                 randconfig-a001-20200312
+powerpc              randconfig-a001-20200312
+sparc                randconfig-a001-20200312
+arc                  randconfig-a001-20200313
+ia64                 randconfig-a001-20200313
+arm                  randconfig-a001-20200313
+arm64                randconfig-a001-20200313
+sparc                randconfig-a001-20200313
+powerpc              randconfig-a001-20200313
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                            allmodconfig
+s390                       zfcpdump_defconfig
+s390                          debug_defconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sh                               allmodconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                             i386_defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
 
-Quickly skamming through the datasheet I'm surprised there is no way
-to control the vsync input polarity and you have to go through the
-crossbar :) Oh well, I think this could be well controlled through a
-device property of the serializer, what do you think?
-
-We have standard properties to control vsync and hsync polarities, but
-they're usually used for output signals, and I would reserve them for
-that future usage.. maybe a custom property to control the input vsync
-and hsync polarities would do...
-
->
-> In addition to that, I need a couple of additional programmings on max9286
-> (registers 0x0 to 0x63/0x64- disable overlap window and 0xf4 to 0x1c which
-> oddly change reserved bits) to get frames. The datasheet doesn't explain
-> enough for me to understand. I'm talking to Maxim to get more details and
-> see if those can be handled by serilizer driver.
-
-I would be really interested in knowing what's the overlap window control
-about... it's very little detailed in the manual, I agree :) 0xf4 is
-not even documented in my version. I assume it's something related to
-fsync sync locking (Fig. 46) as I failed to achieve it without that
-setting. How did it fail for you ?
-
-On how to control overlap window a integer would do ? Setting it to 0
-disables it, so we could use a boolean property for convenience..
-
-Not knowing what it does I would be careful.. I think we should
-actualy require a mandatory property, so all current dts select their
-behaviour explicitly. If we later find out what it does we could
-define a default behaviour by defining a boolean property. New dts
-simpler and old dts still happy. What do you think ?
-
->
-> In a longer term, it'd be nice if such alignment between serializer and
-> de-serializer is handled in more scalable way.
->
-
-Indeed :)
-
-Thanks
-  j
-
-> Thanks,
-> -hyun
->
-> [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/3bd2dded834492f4ee89e370c22877b97c2e106e
-> [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fb0ad7fd699d90d6bbc78fc55dd98639389cfc5b
-> [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fe0b33b174b2850bf0bb25b3a367319127ae12ee
->
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
