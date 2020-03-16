@@ -2,179 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 153A018684D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 10:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B1818684F
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 10:56:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730423AbgCPJ4s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 05:56:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34526 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730025AbgCPJ4r (ORCPT
+        id S1730461AbgCPJ4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 05:56:53 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37789 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730431AbgCPJ4x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 05:56:47 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC69AA3B;
-        Mon, 16 Mar 2020 10:56:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584352605;
-        bh=KQzCDEzosk0OtYICUWi7wqC64t0xB5zHpPYBGUK3JJo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WCx7Gy9rsGwz+xTOLLMuCtqY6MyrgLZbO92LZtlqwuaXWoR0QwEkdn8juql9putjs
-         0kvnv70TiGPruGkfbCv7SSqo4jpTPf6aGsmqgKDMqzz1muCJ82daSrIv0dj6yEab/J
-         mZX75ZhpiVQhfBsYP/eRM2B4HNwJhX2y9vvpkb8k=
-Date:   Mon, 16 Mar 2020 11:56:38 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
- fwnode matching
-Message-ID: <20200316095638.GQ4732@pendragon.ideasonboard.com>
-References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200315214707.uo246kwe3njtc452@uno.localdomain>
- <20200316063444.GE4732@pendragon.ideasonboard.com>
- <20200316085934.c4lwqreaki2sbamm@uno.localdomain>
+        Mon, 16 Mar 2020 05:56:53 -0400
+Received: by mail-wr1-f66.google.com with SMTP id 6so20320792wre.4
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2020 02:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=4uFjuIar5NrPLcBZJPObOsb7IgzEi+xWM2W1XFlAhG0=;
+        b=MKnh4eqiajGVxiWBSEZMhJK78EufIWCaAajO2U8EZBruc02ewFnzmSll3FPGSyz4Hk
+         xPq8uLRmHc0q0D4U9xamBCevqwUDOHipFL6D5kF9zcnF8d7pv6w3+C3wGNepqSZVK7sA
+         1GiLkSHxkP0/BmZATcbxmT7B1ucb7SosFQg/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=4uFjuIar5NrPLcBZJPObOsb7IgzEi+xWM2W1XFlAhG0=;
+        b=g4HTIWN1IDC25h4WbrkUPQBeUdvjwLTp8QRVvHlVHSJNtgn9AhU0ImZPBRHyaMZsBd
+         Ij7Y9FEEC3tfFQSzX3IyJSbKfJ1xQc9MjMaFZfludCz4yfiAbo/y8xWowchigFKpTSEz
+         kkbPpbkwaUI9qv7LQM1hziPurHGir/JLiq/qC+E7shh9W3viHzLShQgNU+Fksx92GNDK
+         tbo96kgiISoGOl3qtaYdKwtQDWQmRVjsVhaRhnDWCHE7JI1hMbUjn/x6uMKIVAPxNRvQ
+         2fDOtLwByo8jIYgkaVOcsG46n4kyiLZ6vXnKkbpkBl5WvCmQ5VdHd/FYlmipyNj2Fkj1
+         OnRQ==
+X-Gm-Message-State: ANhLgQ3V6xNJN8SgLZ78SybZBET+PzCx4kWt6GvxtDhPMHpvJEwQ0gtF
+        JM5J/JWJZoo1SBU/bNOLL07e1w==
+X-Google-Smtp-Source: ADFU+vtMt31tP7+bdrL8Xnvjkbvor50IyCbDn+WnCnsbJXMAyj9Melvbj6Mpc4exxa3r1An2EKb0dg==
+X-Received: by 2002:a5d:6150:: with SMTP id y16mr35501106wrt.352.1584352611440;
+        Mon, 16 Mar 2020 02:56:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id i6sm29154761wru.40.2020.03.16.02.56.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2020 02:56:50 -0700 (PDT)
+Date:   Mon, 16 Mar 2020 10:56:49 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Joe Perches <joe@perches.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Sebastian Duda <sebastian.duda@fau.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH] MAINTAINERS: adjust to reservation.h renaming
+Message-ID: <20200316095649.GK2363188@phenom.ffwll.local>
+Mail-Followup-To: Joe Perches <joe@perches.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        intel-gfx@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Sebastian Duda <sebastian.duda@fau.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+References: <20200304120711.12117-1-lukas.bulwahn@gmail.com>
+ <b0296e3a-31f8-635a-f26d-8b0bc490aae3@amd.com>
+ <20200306103946.GT2363188@phenom.ffwll.local>
+ <155f99baffe11836fc9d794ff297bdcee7831050.camel@perches.com>
+ <20200316095007.GI2363188@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200316085934.c4lwqreaki2sbamm@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200316095007.GI2363188@phenom.ffwll.local>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Mon, Mar 16, 2020 at 09:59:34AM +0100, Jacopo Mondi wrote:
-> On Mon, Mar 16, 2020 at 08:34:44AM +0200, Laurent Pinchart wrote:
-> > On Sun, Mar 15, 2020 at 10:47:07PM +0100, Jacopo Mondi wrote:
-> >> On Sun, Mar 15, 2020 at 02:55:11PM +0200, Laurent Pinchart wrote:
-> >>> fwnode matching was designed to match on nodes corresponding to a
-> >>> device. Some drivers, however, needed to match on endpoints, and have
-> >>> passed endpoint fwnodes to v4l2-async. This works when both the subdev
-> >>> and the notifier use the same fwnode types (endpoint or device), but
-> >>> makes drivers that use different types incompatible.
-> >>>
-> >>> Fix this by extending the fwnode match to handle fwnodes of different
-> >>> types. When the types (deduced from the node name) are different,
-> >>> retrieve the device fwnode for the side that provides an endpoint
-> >>> fwnode, and compare it with the device fwnode provided by the other
-> >>> side. This allows interoperability between all drivers, regardless of
-> >>> which type of fwnode they use for matching.
-> >>
-> >> I'm sorry but I'm not sure why would make a difference compared to
-> >> what Kieran's patch did.
-> >> https://lore.kernel.org/patchwork/patch/788637/
-> >>
-> >> If the bridge matches on device node, and the remote registers more
-> >> than one endpoints it is possible to get a false match.
-> >
-> > How so ? If a notifier entry points to a device node, and two subdevs
-> > are registered with different endpoint nodes that are both part of the
-> > same device node, the notifier will get either of them. Which subdev
-> > match the notifier won't be guaranteed, but that's what the notifier
-> > asked for if it contains a device node and not an endpoint node: any
-> > subdev corresponding to the device node.
-> >
-> > In practice notifiers will need to move to endpoint matching if they
-> > want to get a particular subdev of a device, and this change allows
-> > doing so without mass-patching every driver. It allows a notifier to
-> > switch to endpoint nodes, while subdevs still use device nodes and are
-> > gradually ported.
+On Mon, Mar 16, 2020 at 10:50:07AM +0100, Daniel Vetter wrote:
+> On Fri, Mar 06, 2020 at 02:56:06AM -0800, Joe Perches wrote:
+> > On Fri, 2020-03-06 at 11:39 +0100, Daniel Vetter wrote:
+> > > On Wed, Mar 04, 2020 at 01:08:32PM +0100, Christian König wrote:
+> > > > Am 04.03.20 um 13:07 schrieb Lukas Bulwahn:
+> > > > > Commit 52791eeec1d9 ("dma-buf: rename reservation_object to dma_resv")
+> > > > > renamed include/linux/reservation.h to include/linux/dma-resv.h, but
+> > > > > missed the reference in the MAINTAINERS entry.
+> > > > > 
+> > > > > Since then, ./scripts/get_maintainer.pl --self-test complains:
+> > > > > 
+> > > > >    warning: no file matches F: include/linux/reservation.h
+> > > > > 
+> > > > > Adjust the DMA BUFFER SHARING FRAMEWORK entry in MAINTAINERS.
+> > > > > 
+> > > > > Co-developed-by: Sebastian Duda <sebastian.duda@fau.de>
+> > > > > Signed-off-by: Sebastian Duda <sebastian.duda@fau.de>
+> > > > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > > > 
+> > > > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > > 
+> > > You'll push this too?
+> > > -Daniel
+> > > 
+> > > > > ---
+> > > > > Christian, please pick this patch.
+> > > > > applies cleanly on current master and next-20200303
+> > > > > 
+> > > > >   MAINTAINERS | 2 +-
+> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > > index 6158a143a13e..3d6cb2789c9e 100644
+> > > > > --- a/MAINTAINERS
+> > > > > +++ b/MAINTAINERS
+> > > > > @@ -5022,7 +5022,7 @@ L:	dri-devel@lists.freedesktop.org
+> > > > >   L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+> > > > >   F:	drivers/dma-buf/
+> > > > >   F:	include/linux/dma-buf*
+> > > > > -F:	include/linux/reservation.h
+> > > > > +F:	include/linux/dma-resv.h
+> > > > >   F:	include/linux/*fence.h
+> > > > >   F:	Documentation/driver-api/dma-buf.rst
+> > > > >   K:	dma_(buf|fence|resv)
+> > 
+> > Slightly unrelated:
+> > 
+> > The K: entry matches a lot of other things
+> > and may have a lot of false positive matches
+> > like any variable named dma_buffer
+> > 
+> > This should also use (?:...) to avoid a perl
+> > capture group.
+> > 
+> > Perhaps:
+> > 
+> > K:	'\bdma_(?:buf|fence|resv)\b'
 > 
-> In case a device has two CSI-2 receivers, different IPs, different
-> drivers which register different notifiers, and they are connected in
-> DTS to a device like adv748x which registers two async
-> devices for its two CSI-2 transmitter on endpoints, depending on which
-> CSI-2 receiver gets probed first, it matches any of the two CSI-2 Tx.
-> The media graph would complete but it won't be what's described in
-> dts.
+> Hm either people aren't using get_maintainers.pl consistently, or it
+> doesn't seem to be a real world problem. I'm not seeing any unrelated
+> patches on dri-devel at least.
 > 
-> I agree it's unlikely, and having something like this or what kieran
-> did in is better than the current situation, so I'm not pushing this
-> back, at all. Just pointing possible reasons why we still don't have
-> any solution to this issue in mainline.
+> But happy to merge such a patch if it shows up ofc, it's definitely the
+> more correct thing :-)
 
-Regardless of whether it's likely or not, to support this correctly,
-endpoint matching is required, there's no way around that. This change
-doesn't introduce any regression, and allows migrating subdevs and
-subdevs users independently from each other, so I see no drawback :-)
+Ofc as usual if you lean out the window you immediately get to eat your
+hat, right after sending this I got a mail from syzbot about some random
+stuff because of this :-)
 
-> >> I'm not sure how that would happen in practice, as the bridge would be
-> >> registering the fwnode of the remote device twice, but I think that
-> >> was the reason kieran's patch has not been collected or am I
-> >> mistaken ?
-> >>
-> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>> ---
-> >>> This has been compile-tested only. Prabhakar, could you check if it
-> >>> fixes your issue ?
-> >>>
-> >>>  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
-> >>>  1 file changed, 41 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> >>> index 8bde33c21ce4..995e5464cba7 100644
-> >>> --- a/drivers/media/v4l2-core/v4l2-async.c
-> >>> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> >>> @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
-> >>>
-> >>>  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> >>>  {
-> >>> -	return sd->fwnode == asd->match.fwnode;
-> >>> +	struct fwnode_handle *other_fwnode;
-> >>> +	struct fwnode_handle *dev_fwnode;
-> >>> +	bool asd_fwnode_is_ep;
-> >>> +	bool sd_fwnode_is_ep;
-> >>> +	const char *name;
-> >>> +
-> >>> +	/*
-> >>> +	 * Both the subdev and the async subdev can provide either an endpoint
-> >>> +	 * fwnode or a device fwnode. Start with the simple case of direct
-> >>> +	 * fwnode matching.
-> >>> +	 */
-> >>> +	if (sd->fwnode == asd->match.fwnode)
-> >>> +		return true;
-> >>> +
-> >>> +	/*
-> >>> +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> >>> +	 * endpoint or a device. If they're of the same type, there's no match.
-> >>> +	 */
-> >>> +	name = fwnode_get_name(sd->fwnode);
-> >>> +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> >>> +	name = fwnode_get_name(asd->match.fwnode);
-> >>> +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> >>> +
-> >>> +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> >>> +		return false;
-> >>> +
-> >>> +	/*
-> >>> +	 * The sd and asd fwnodes are of different types. Get the device fwnode
-> >>> +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
-> >>> +	 */
-> >>> +	if (sd_fwnode_is_ep) {
-> >>> +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
-> >>> +		other_fwnode = asd->match.fwnode;
-> >>> +	} else {
-> >>> +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
-> >>> +		other_fwnode = sd->fwnode;
-> >>> +	}
-> >>> +
-> >>> +	fwnode_handle_put(dev_fwnode);
-> >>> +
-> >>> +	return dev_fwnode == other_fwnode;
-> >>>  }
-> >>>
-> >>>  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-
+I'm gonna do the patch now ...
+-Daniel
 -- 
-Regards,
-
-Laurent Pinchart
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
