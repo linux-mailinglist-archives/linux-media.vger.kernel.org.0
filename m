@@ -2,131 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94CCA1868FF
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 167C1186937
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:37:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730586AbgCPK2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 06:28:38 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34910 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730550AbgCPK2i (ORCPT
+        id S1730604AbgCPKhF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 16 Mar 2020 06:37:05 -0400
+Received: from plasma4.jpberlin.de ([80.241.57.33]:48877 "EHLO
+        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730497AbgCPKhF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 06:28:38 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A122A3B;
-        Mon, 16 Mar 2020 11:28:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584354515;
-        bh=Gy0jFxAgSgBVXWYXnVTZRRzHj1Q2FLsea2SAuGyRbGA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d8JTeTh05Y0GLTow0DIEhbxtVkpE9BEPHTU/5KNs2CjbMiqPX0VPAoq51dGQ+j+hP
-         qehXN8mIDk75CMTp83EPKtmZRees+AGWLOLumrTsBZE0OOKc8j9RhSTSDQmVMsZ874
-         Ut2CfblNOTL3ehRYHadrV5R8r7Cwh7iy78DwrSas=
-Date:   Mon, 16 Mar 2020 12:28:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] media: ti-vpe: cal: fix DMA memory corruption
-Message-ID: <20200316102830.GT4732@pendragon.ideasonboard.com>
-References: <20200313082639.7743-1-tomi.valkeinen@ti.com>
- <20200313140311.GF4751@pendragon.ideasonboard.com>
- <79e87213-6648-8056-1db5-718ed3963ed3@ti.com>
+        Mon, 16 Mar 2020 06:37:05 -0400
+Received: from spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125])
+        by plasma.jpberlin.de (Postfix) with ESMTP id BFE0CBA040;
+        Mon, 16 Mar 2020 11:37:00 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id BUj_QcXenZVA; Mon, 16 Mar 2020 11:36:56 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id E665FB9E50;
+        Mon, 16 Mar 2020 11:36:55 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
+ (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 16 Mar
+ 2020 11:36:44 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        <virtio-dev@lists.oasis-open.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>, <dstaessens@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>, <uril@redhat.com>,
+        <samiullah.khawaja@opensynergy.com>, <kiran.pawar@opensynergy.com>,
+        Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>
+Subject: Re: [PATCH v2 1/1] video_video: Add the Virtio Video V4L2 driver
+Date:   Mon, 16 Mar 2020 11:36:55 +0100
+Message-ID: <2171890.ElGaqSPkdT@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAAFQd5A-ZaTkx8YEdq=Q_KpbmzZ4kGxJ1ju8shXMot9WMytd=w@mail.gmail.com>
+References: <20200218202753.652093-1-dmitry.sepp@opensynergy.com> <6194402.K2JlShyGXD@os-lin-dmo> <CAAFQd5A-ZaTkx8YEdq=Q_KpbmzZ4kGxJ1ju8shXMot9WMytd=w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <79e87213-6648-8056-1db5-718ed3963ed3@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Hi Tomasz,
 
-On Fri, Mar 13, 2020 at 04:18:13PM +0200, Tomi Valkeinen wrote:
-> On 13/03/2020 16:03, Laurent Pinchart wrote:
+On Freitag, 13. März 2020 12:11:51 CET Tomasz Figa wrote:
+> On Fri, Mar 13, 2020 at 11:27 AM Dmitry Sepp
 > 
-> >> +	/* wait for stream and dma to finish */
-> >> +	dma_act = true;
-> >> +	timeout = jiffies + msecs_to_jiffies(500);
-> >> +	while (dma_act && time_before(jiffies, timeout)) {
-> >> +		msleep(50);
-> >> +
-> >> +		spin_lock_irqsave(&ctx->slock, flags);
-> >> +		dma_act = ctx->dma_act;
-> >> +		spin_unlock_irqrestore(&ctx->slock, flags);
-> >> +	}
+> <dmitry.sepp@opensynergy.com> wrote:
+> > Hi Tomasz,
 > > 
-> > Waiting for the transfer to complete seems to be a good idea, but how
-> > about using a wait queue instead of such a loop ? That would allow
-> > better usage of CPU time and faster reaction time, and shouldn't be
-> > difficult to implement. You may also want to replace dma_act with a
-> > state if needed (in case you need to express running/stopping/stopped
-> > states), and I would rename it to running if you just need a boolean.
+> > On Freitag, 13. März 2020 11:05:35 CET Tomasz Figa wrote:
+> > > On Thu, Mar 12, 2020 at 12:48 PM Dmitry Sepp
+> > > 
+> > > <dmitry.sepp@opensynergy.com> wrote:
+> > > > Hi Hans,
+> > > > 
+> > > > One more thing:
+> > > > > GFP_DMA? That's unusual. I'd expect GFP_DMA32. All V4L2 drivers use
+> > > > > that.
+> > > > 
+> > > > GFP_DMA32 had no effect for me on arm64. Probably I need to recheck.
+> > > 
+> > > What's the reason to use any specific GFP flags at all? GFP_DMA(32)
+> > > memory in the guest would typically correspond to host pages without
+> > > any specific location guarantee.
+> > 
+> > Typically, but not always, especially for non x86. Say, some platforms
+> > don't have IOMMUs for codec devices and those devices require physically
+> > contig low memory. We had to find a way to handle that.
 > 
-> Maybe, but I wasn't sure how to implement it safely.
+> So basically your hypervisor guarantees that the guest pages inside
+> the GFP_DMA zone are contiguous and DMA-able on the host as well?
+> Given the Linux-specific aspect of GFP flags and differences in the
+> implementation across architectures, perhaps it would be a better idea
+> to use the DMA mask instead? That wouldn't currently affect vb2_dma_sg
+> allocations, but in that case the host decoder would have some IOMMU
+> anyway, right?
 > 
-> So, when we call csi2_ppi_disable() (just above the wait code above), the HW will stop the DMA after 
-> the next frame has ended.
-> 
-> But there's no way to know in the irq handler if the DMA transfer that just ended was the last one 
-> or not. And I don't see how I could set a "disabling" flag before calling csi2_ppi_disable(), as I 
-> think that would always be racy with the irq handler.
-> 
-> So I went with a safe way: call csi2_ppi_disable(), then wait a bit so that we are sure that either 
-> 1) the last frame is on going 2) the last frame has finished (instead of the previous-to-last frame 
-> is on going or finished). Then see if the DMA is active. If yes, we loop for it to end.
-> 
-> I think the loop could be replaced with a wait queue, but we still need the initial sleep to ensure 
-> we don't end the wait when the previous-to-last frame DMA has been finished.
 
-I think you can solve this by introducing a new enum state field with
-RUNNING, STOPPING and STOPPED values, protected by a spinlock. Here's
-what I have in the VSP1 driver for instance:
+DMA mask has no effect for vb2_dma_sg, but GFP has. Unfortunately we need to 
+support both of the two: low mem phys contig and low mem sg. So DMA mask 
+cannot be an option. No, there are use-cases with obsolutely no iommus.
 
-bool vsp1_pipeline_stopped(struct vsp1_pipeline *pipe)
-{
-	unsigned long flags;
-	bool stopped;
+Best regards,
+Dmitry.
 
-	spin_lock_irqsave(&pipe->irqlock, flags);
-	stopped = pipe->state == VSP1_PIPELINE_STOPPED;
-	spin_unlock_irqrestore(&pipe->irqlock, flags);
+> > Best regards,
+> > Dmitry.
+> > 
+> > > Best regards,
+> > > Tomasz
+> > > 
+> > > > Best regards,
+> > > > Dmitry.
+> > > > 
+> > > > On Donnerstag, 12. März 2020 11:18:26 CET Hans Verkuil wrote:
+> > > > > On 3/12/20 11:15 AM, Dmitry Sepp wrote:
+> > > > > > Hi Hans,
+> > > > > > 
+> > > > > > Thank you for your great detailed review!
+> > > > > > 
+> > > > > > I won't provide inline answers as your comments totally make
+> > > > > > sense.
+> > > > > > There
+> > > > > > is>
+> > > > > > 
+> > > > > > only one thing I want to mention:
+> > > > > >>> + struct video_plane_format
+> > > > > >>> plane_format[VIRTIO_VIDEO_MAX_PLANES];
+> > > > > >> 
+> > > > > >> Why is this virtio specific? Any reason for not using
+> > > > > >> VIDEO_MAX_PLANES?
+> > > > > > 
+> > > > > > I'd say this is because VIDEO_MAX_PLANES does not exist outside of
+> > > > > > the
+> > > > > > Linux OS, so for whatever other system we need a virtio specific
+> > > > > > definition.
+> > > > > 
+> > > > > OK, good reason :-)
+> > > > > 
+> > > > > It's probably a good thing to add a comment where
+> > > > > VIRTIO_VIDEO_MAX_PLANES is defined that explains this.
+> > > > > 
+> > > > > Regards,
+> > > > > 
+> > > > >       Hans
 
-	return stopped;
-}
 
-int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
-{
-	...
-	spin_lock_irqsave(&pipe->irqlock, flags);
-	if (pipe->state == VSP1_PIPELINE_RUNNING)
-		pipe->state = VSP1_PIPELINE_STOPPING;
-	spin_unlock_irqrestore(&pipe->irqlock, flags);
-
-	ret = wait_event_timeout(pipe->wq, vsp1_pipeline_stopped(pipe),
-				 msecs_to_jiffies(500));
-	ret = ret == 0 ? -ETIMEDOUT : 0;
-	...
-}
-
-and in the interrupt handler:
-
-	state = pipe->state;
-	pipe->state = VSP1_PIPELINE_STOPPED;
-
-	/*
-	 * If a stop has been requested, mark the pipeline as stopped and
-	 * return. Otherwise restart the pipeline if ready.
-	 */
-	if (state == VSP1_PIPELINE_STOPPING)
-		wake_up(&pipe->wq);
-	else if (vsp1_pipeline_ready(pipe))
-		vsp1_video_pipeline_run(pipe);
-
--- 
-Regards,
-
-Laurent Pinchart
