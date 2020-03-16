@@ -2,40 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E577F186AD7
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 13:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABD48186AD8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 13:28:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730942AbgCPM2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 08:28:10 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35692 "EHLO
+        id S1730957AbgCPM27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 08:28:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35712 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730896AbgCPM2J (ORCPT
+        with ESMTP id S1730896AbgCPM27 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 08:28:09 -0400
+        Mon, 16 Mar 2020 08:28:59 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B5A7A3B;
-        Mon, 16 Mar 2020 13:28:08 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 553AEA3B;
+        Mon, 16 Mar 2020 13:28:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584361688;
-        bh=gCVzrBKB4bQmEPa765vBkIGK3gKRbNgpXjSJst9cufI=;
+        s=mail; t=1584361737;
+        bh=E9Zb5ZVZsnjV1m92y30FZ6OxuGnHrkx4IJYg0AZ1ClE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t4xsFPNRWt191loXFc/XgDsbJl3kQN/m0clbeRXAuCPradX5xn2G7hHDSrPljTfEj
-         Hc4fJdU2SbpM7G0RUKIlok7PqPnU58JWqbzPSZTde3FUJL/FgjIcRl42Rzw9TPFqxt
-         Zq2hrjaDAYw03TFVvYw5qtOfUGIRMXmIVv5AW2Og=
-Date:   Mon, 16 Mar 2020 14:28:03 +0200
+        b=f8srCPws+KQVV2G0CjL67JWpuvVfmgc7EvivPq7EbEJRPygJLs2qshyq3Z0iE/Uds
+         aigDcroR54mkqnNxVY5XXb3qGxZKQmJyU/kWC/7zcoVOhrBqvacEPerYsYhfOp6odK
+         sddah+c44bDgbbQnQMQn7Y8DigDuFm12307O8yPU=
+Date:   Mon, 16 Mar 2020 14:28:51 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
 Cc:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 02/16] media: ti-vpe: cal: use runtime_resume for errata
- handling
-Message-ID: <20200316122803.GX4732@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 01/16] media: ti-vpe: cal: fix use of wrong macro
+Message-ID: <20200316122851.GY4732@pendragon.ideasonboard.com>
 References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
- <20200313114121.32182-2-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200313114121.32182-2-tomi.valkeinen@ti.com>
+In-Reply-To: <20200313114121.32182-1-tomi.valkeinen@ti.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -46,87 +44,35 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Fri, Mar 13, 2020 at 01:41:07PM +0200, Tomi Valkeinen wrote:
-> We need to do errata handling every time CAL is being enabled. The code
-> is currently in cal_runtime_get(), which is not the correct place for
-> it.
+On Fri, Mar 13, 2020 at 01:41:06PM +0200, Tomi Valkeinen wrote:
+> i913_errata() sets a bit to 1 in PHY_REG10, but for some reason uses
+> CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE for the bit value. The value of
+> that macro is 1, so it works, but is still wrong.
 > 
-> Move the code to cal_runtime_resume, which is called every time CAL is
-> enabled.
+> Fix this to 1.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/media/platform/ti-vpe/cal.c | 36 ++++++++++++++++++-----------
->  1 file changed, 22 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index 4b584c419e98..b4a9f4d16ce4 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -653,20 +653,7 @@ static void i913_errata(struct cal_dev *dev, unsigned int port)
->  
->  static int cal_runtime_get(struct cal_dev *dev)
->  {
-> -	int r;
-> -
-> -	r = pm_runtime_get_sync(&dev->pdev->dev);
-> -
-> -	if (dev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
-> -		/*
-> -		 * Apply errata on both port eveytime we (re-)enable
-> -		 * the clock
-> -		 */
-> -		i913_errata(dev, 0);
-> -		i913_errata(dev, 1);
-> -	}
-> -
-> -	return r;
-> +	return pm_runtime_get_sync(&dev->pdev->dev);
->  }
->  
->  static inline void cal_runtime_put(struct cal_dev *dev)
-> @@ -2397,11 +2384,32 @@ static const struct of_device_id cal_of_match[] = {
->  MODULE_DEVICE_TABLE(of, cal_of_match);
->  #endif
->  
-> +static int cal_runtime_resume(struct device *dev)
-> +{
-> +	struct cal_dev *caldev = dev_get_drvdata(dev);
-> +
-> +	if (caldev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
-> +		/*
-> +		 * Apply errata on both port eveytime we (re-)enable
-
-s/eveytime/everytime/
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Now that cal_runtime_get() and cal_runtime_put() are just wrappers
-around pm_runtime_get_sync() and pm_runtime_put_sync(), how about
-dropping the wrappers ?
-
-> +		 * the clock
-> +		 */
-> +		i913_errata(caldev, 0);
-> +		i913_errata(caldev, 1);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops cal_pm_ops = {
-> +	.runtime_resume = cal_runtime_resume,
-> +};
-> +
->  static struct platform_driver cal_pdrv = {
->  	.probe		= cal_probe,
->  	.remove		= cal_remove,
->  	.driver		= {
->  		.name	= CAL_MODULE_NAME,
-> +		.pm	= &cal_pm_ops,
->  		.of_match_table = of_match_ptr(cal_of_match),
->  	},
->  };
+> ---
+>  drivers/media/platform/ti-vpe/cal.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index e44b34dfac1a..4b584c419e98 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -645,8 +645,7 @@ static void i913_errata(struct cal_dev *dev, unsigned int port)
+>  {
+>  	u32 reg10 = reg_read(dev->cc[port], CAL_CSI2_PHY_REG10);
+>  
+> -	set_field(&reg10, CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE,
+> -		  CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK);
+> +	set_field(&reg10, 1, CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK);
+>  
+>  	cal_dbg(1, dev, "CSI2_%d_REG10 = 0x%08x\n", port, reg10);
+>  	reg_write(dev->cc[port], CAL_CSI2_PHY_REG10, reg10);
 
 -- 
 Regards,
