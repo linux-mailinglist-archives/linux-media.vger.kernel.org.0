@@ -2,107 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73E8318685E
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3E71186898
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 11:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730431AbgCPKAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 06:00:44 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34564 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730399AbgCPKAo (ORCPT
+        id S1730564AbgCPKFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 06:05:08 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:55945 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730557AbgCPKFI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 06:00:44 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61A46A3B;
-        Mon, 16 Mar 2020 11:00:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584352842;
-        bh=MhKFBXr7qX2BbApNO78j8Sdn8/qcNYJHxKWov/TsZRk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VHwx2pQ4h74PyW1eF8NVWYVZkcEDTDLaHnCHZj1/7a8Z7T6g7Cp9VgQEKPUWZ4LRe
-         XK/zRmg0JLkbIZh7djhvx0DZZvgy96SywFrgqWfWPru1s7OvccQQy46S0tpr0HHkeX
-         njDIbE3dy+V1u6RA0doIjahOm+RXJoBrWrd+tZbs=
-Date:   Mon, 16 Mar 2020 12:00:36 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org
-Subject: Re: [PATCH] media: v4l2-common: Add BGR666 to v4l2_format_info
-Message-ID: <20200316100036.GR4732@pendragon.ideasonboard.com>
-References: <20200316070123.2434-1-dafna.hirschfeld@collabora.com>
- <20200316072214.GA16123@pendragon.ideasonboard.com>
- <31efd58f-1ab1-d3d0-e4b9-ea9072e608fa@collabora.com>
- <20200316081516.GK4732@pendragon.ideasonboard.com>
- <401a9aca-f61f-d818-28dc-0e4cf7c2ac20@collabora.com>
+        Mon, 16 Mar 2020 06:05:08 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id DmcIjxAXQEE3qDmcLjdTuh; Mon, 16 Mar 2020 11:05:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584353106; bh=2MzIfRVY9hk4rDe47x8OpIaKR2XtBgFnCFMQsgDqjos=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=XUwwRkGeeve7U3LWSiiZggBCff2ch9yls8yjDWVNCYQyI3e1WqL2UG3zkyNn94K64
+         hvHRwO0lqSi7P35uDGzA2//QCNPXumO2W6uGZgDaenjZMlBQi4y3jjoewUhUARZcgT
+         7leYOUAxqjzEH1e7p0nn0vvHMNWyHqxBAG8wdYE8xRl+RpEdSRFpWR+hmvo7YNPpZH
+         YEY5QnXJAP9ZtCzlnop6zBMv0PbU99MgBH0uiFecMvy+oNFpToZedEioxvgO8nH1sw
+         Y1QM43r8SqB9uXMamAvuIOug59ExGp2KgqexS/Fp6YA3OmI+dAJWY/KwD6rRALb/+D
+         E63OI9ByHFPNg==
+Subject: Re: [PATCH 14/16] media: ti-vpe: cal: improve wait for CIO resetdone
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
+ <20200313114121.32182-14-tomi.valkeinen@ti.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1da1aa0c-ac99-bfcb-d341-452be9997611@xs4all.nl>
+Date:   Mon, 16 Mar 2020 11:05:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200313114121.32182-14-tomi.valkeinen@ti.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <401a9aca-f61f-d818-28dc-0e4cf7c2ac20@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPKD+a6RjKIHyCB9bGkF1o4Ch/ct+NYpGb9woFWEbx/ko+zMgGaAO9SMJZOXLjuTzHsq+07cUho/AjEQ6GV7pJNlwJPcOLJoh04yhVEFz4lPWRfkpiKj
+ O6YdmsiFbe97GluqmbTUdu+K9fP5nTDb3bi1LUfFtwIX6UQQ7v9wE/BB0PGh4ytUZ36t+taxx5ADZJf4NEjvMAWyPZQu0SfJpa32PNzM3R0dgEkcwTyEJIUu
+ sd3vvMbp+aAOD9gNeDEZ5ue0D8zYLtIu/x98jMyDQAH1WrTcUPkIFvSQ03ggUbPfNzPyeVxZ8BGkATy5YWjizQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+On 3/13/20 12:41 PM, Tomi Valkeinen wrote:
+> Sometimes waiting for ComplexIO resetdone timeouts. 
 
-On Mon, Mar 16, 2020 at 09:59:56AM +0100, Dafna Hirschfeld wrote:
-> On 16.03.20 09:15, Laurent Pinchart wrote:
-> > On Mon, Mar 16, 2020 at 09:07:16AM +0100, Dafna Hirschfeld wrote:
-> >> On 16.03.20 08:22, Laurent Pinchart wrote:
-> >>> On Mon, Mar 16, 2020 at 08:01:23AM +0100, Dafna Hirschfeld wrote:
-> >>>> Add V4L2_PIX_FMT_BGR666 to the format table.
-> >>>>
-> >>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >>>> ---
-> >>>> Hi,
-> >>>> BGR66 is needed for the rkisp1 driver.
-> >>>> Currently it crashes since the call to
-> >>>> v4l2_format_info returns NULL.
-> >>>>
-> >>>>    drivers/media/v4l2-core/v4l2-common.c | 1 +
-> >>>>    1 file changed, 1 insertion(+)
-> >>>>
-> >>>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> >>>> index d0e5ebc736f9..d7f82b2aa22f 100644
-> >>>> --- a/drivers/media/v4l2-core/v4l2-common.c
-> >>>> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> >>>> @@ -253,6 +253,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
-> >>>>    		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>>>    		{ .format = V4L2_PIX_FMT_RGB565,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>>>    		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>>> +		{ .format = V4L2_PIX_FMT_BGR666,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>>
-> >>> Isn't BGR666 stored in 3 bytes per pixel ?
-> >>
-> >> Hi, I also discussed it with Helen. From the documentation we
-> >> understood that it uses 4 bytes and the last one is empty.
-> >> https://linuxtv.org/downloads/v4l-dvb-apis/uapi/v4l/pixfmt-rgb.html
-> > 
-> > Would you then also understand V4L2_PIX_FMT_RGB565 to use 4 bytes with
-> > the last 2 bytes empty ? :-)
->
-> hmm, the formats between BGR24 and XRGB32 in the docs table have vertical lines crossing all 4 bytes so we understood that they are all 4 bytes. Isn't it?
-> Format RGB565 doesn't have does vertical lines on the last two bytes which means it uses 2. At least that is what we understood.
+This sentence is hard to read. You probably mean:
 
-I stand corrected, looking at the drivers implementing
-V4L2_PIX_FMT_BGR666, they all handle it as a 32bpp format.
+Sometimes there is a timeout when waiting for the 'ComplexIO Reset Done'.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> > I agree that the documentation is somehow ambiguous and should be fixed.
-> > Patches are welcome ;-)
-
-I think adding explicit '-' or 'x' in the cells that contain "don't
-care" bits would help avoiding confusion.
-
-> >>>>    
-> >>>>    		/* YUV packed formats */
-> >>>>    		{ .format = V4L2_PIX_FMT_YUYV,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 2, .vdiv = 1 },
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+Testing shows that
+> sometimes we need to wait more than what the current code does. It is
+> not clear how long this wait can be, but it is based on how quickly the
+> sensor provides a valid clock, and how quickly CAL syncs to it.
+> 
+> Change the code to make it more obvious how long we'll wait, and set a
+> wider range for usleep_range. Increase the timeout to 750ms.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 319312770eea..929f9b3ca4f9 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -824,20 +824,21 @@ static void csi2_phy_init(struct cal_ctx *ctx)
+>  
+>  static void csi2_wait_complexio_reset(struct cal_ctx *ctx)
+>  {
+> -	int i;
+> +	unsigned long timeout;
+>  
+> -	for (i = 0; i < 250; i++) {
+> +	timeout = jiffies + msecs_to_jiffies(750);
+> +	while (time_before(jiffies, timeout)) {
+>  		if (reg_read_field(ctx->dev,
+>  				   CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port),
+>  				   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) ==
+>  		    CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED)
+>  			break;
+> -		usleep_range(1000, 1100);
+> +		usleep_range(500, 5000);
+>  	}
+> -	ctx_dbg(3, ctx, "CAL_CSI2_COMPLEXIO_CFG(%d) = 0x%08x Complex IO Reset Done (%d) %s\n",
+> +
+> +	ctx_dbg(3, ctx, "CAL_CSI2_COMPLEXIO_CFG(%d) = 0x%08x Complex IO Reset Done\n",
+>  		ctx->csi2_port,
+> -		reg_read(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port)), i,
+> -		(i >= 250) ? "(timeout)" : "");
+> +		reg_read(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port)));
+>  
+>  	if (reg_read_field(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port),
+>  			   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) !=
+> 
+
