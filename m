@@ -2,169 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9EF3186438
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 05:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14C2F18650C
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 07:34:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729526AbgCPEdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 00:33:18 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47059 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729429AbgCPEdS (ORCPT
+        id S1729498AbgCPGew (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 02:34:52 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:32880 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729455AbgCPGew (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 00:33:18 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:9048:e61f:71b5:10fe])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id DhREjvUzrEE3qDhRFjcaRl; Mon, 16 Mar 2020 05:33:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584333197; bh=F7DaEVzPSWdJtGci62k5Pyl8jz1Nl7LrhrNtl5MCg+M=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=qGbIsfSPDyRtZ/CvAB+MAoAMOHZxmCHiJEaeImFVsfb75lFpGC0TBr+e4I2f5sfVU
-         W2C2MKGGbjfrMiSGdFXtg5wzei4xr3QOrkskU6P9xzfARS7riYVFkLIOYVb6LJTOpI
-         /buZkJH4yoSMU9uY/DLKQ/+OLdb52KG17ehl8tpfza96/MQ0A3mY7GRPxfdg3jcx/C
-         j20XJtdT+1GghuPN9ztOqx3V3SRhlwGe4c4gM/76laUz6nUNIPUZCLKqVk51rreODd
-         +ZUR6D0/SkCYoyTBi616yEJGrYw/vrXRIS9c1lrNo3h9ShPnOY9HP9a/buyTEBDL9N
-         MelxFGYvnY/6A==
-Message-ID: <3a88ad6f1921e8b052ccce102ac2dcf4@smtp-cloud7.xs4all.net>
-Date:   Mon, 16 Mar 2020 05:33:16 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfA2+W0SBf7Z1wSpfY7/Dh+Nk1tD6N/4zEUqf8n4f7Bx4tt53XTecyLzscwb55kH9Uoc+zDuKNP3TI1Ip9wpeBh83C3DWP+kX8XOPwKzyP86MbJeNm+eT
- 1cp/Eo25B4LxA1zd7Ckxps+tmRprrdVboE29KdLtqio1mBYs/D0Gmnjz2FcmY3tLEXVL3XTwfGAFNukYeNK5PkoC/a6Ojji14qEJFm1+7f387yunwa1qocU+
+        Mon, 16 Mar 2020 02:34:52 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A5732D6;
+        Mon, 16 Mar 2020 07:34:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584340489;
+        bh=hP9h+LkCAdhJTcNMR1hVp/EsP8KP6e/7dIQfBiMjxaw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Z11OOLFuakFHc2gAcvEgBwcoiWFiFdgZ/adsZqoI3m3vMXqJkIyY1tQ5Mf51m/DJN
+         QBPq+1sOcImK6pKH7vyZCiuSBbYct50h2fZyJr50GndFJj1et2tA9jJgBkkDRnsrWx
+         Kz2CNZbET7nsGlN5EB/4WAZ/m0aFE2iKf6NZWfIU=
+Date:   Mon, 16 Mar 2020 08:34:44 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
+ fwnode matching
+Message-ID: <20200316063444.GE4732@pendragon.ideasonboard.com>
+References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200315214707.uo246kwe3njtc452@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200315214707.uo246kwe3njtc452@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Jacopo,
 
-Results of the daily build of media_tree:
+On Sun, Mar 15, 2020 at 10:47:07PM +0100, Jacopo Mondi wrote:
+> On Sun, Mar 15, 2020 at 02:55:11PM +0200, Laurent Pinchart wrote:
+> > fwnode matching was designed to match on nodes corresponding to a
+> > device. Some drivers, however, needed to match on endpoints, and have
+> > passed endpoint fwnodes to v4l2-async. This works when both the subdev
+> > and the notifier use the same fwnode types (endpoint or device), but
+> > makes drivers that use different types incompatible.
+> >
+> > Fix this by extending the fwnode match to handle fwnodes of different
+> > types. When the types (deduced from the node name) are different,
+> > retrieve the device fwnode for the side that provides an endpoint
+> > fwnode, and compare it with the device fwnode provided by the other
+> > side. This allows interoperability between all drivers, regardless of
+> > which type of fwnode they use for matching.
+> 
+> I'm sorry but I'm not sure why would make a difference compared to
+> what Kieran's patch did.
+> https://lore.kernel.org/patchwork/patch/788637/
+> 
+> If the bridge matches on device node, and the remote registers more
+> than one endpoints it is possible to get a false match.
 
-date:			Mon Mar 16 05:00:09 CET 2020
-media-tree git hash:	2a9c226da9aa997d862a22292279e806114a9db8
-media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
-v4l-utils git hash:	2157de9b324a82e3e252ebbc65aa123679b42e58
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d2e7fbcfb9978b0d30f96056c21718f3dbd96598
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+How so ? If a notifier entry points to a device node, and two subdevs
+are registered with different endpoint nodes that are both part of the
+same device node, the notifier will get either of them. Which subdev
+match the notifier won't be guaranteed, but that's what the notifier
+asked for if it contains a device node and not an endpoint node: any
+subdev corresponding to the device node.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+In practice notifiers will need to move to endpoint matching if they
+want to get a particular subdev of a device, and this change allows
+doing so without mass-patching every driver. It allows a notifier to
+switch to endpoint nodes, while subdevs still use device nodes and are
+gradually ported.
 
-Detailed results are available here:
+> I'm not sure how that would happen in practice, as the bridge would be
+> registering the fwnode of the remote device twice, but I think that
+> was the reason kieran's patch has not been collected or am I
+> mistaken ?
+> 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > This has been compile-tested only. Prabhakar, could you check if it
+> > fixes your issue ?
+> >
+> >  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
+> >  1 file changed, 41 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index 8bde33c21ce4..995e5464cba7 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
+> >
+> >  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> >  {
+> > -	return sd->fwnode == asd->match.fwnode;
+> > +	struct fwnode_handle *other_fwnode;
+> > +	struct fwnode_handle *dev_fwnode;
+> > +	bool asd_fwnode_is_ep;
+> > +	bool sd_fwnode_is_ep;
+> > +	const char *name;
+> > +
+> > +	/*
+> > +	 * Both the subdev and the async subdev can provide either an endpoint
+> > +	 * fwnode or a device fwnode. Start with the simple case of direct
+> > +	 * fwnode matching.
+> > +	 */
+> > +	if (sd->fwnode == asd->match.fwnode)
+> > +		return true;
+> > +
+> > +	/*
+> > +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
+> > +	 * endpoint or a device. If they're of the same type, there's no match.
+> > +	 */
+> > +	name = fwnode_get_name(sd->fwnode);
+> > +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
+> > +	name = fwnode_get_name(asd->match.fwnode);
+> > +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
+> > +
+> > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
+> > +		return false;
+> > +
+> > +	/*
+> > +	 * The sd and asd fwnodes are of different types. Get the device fwnode
+> > +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
+> > +	 */
+> > +	if (sd_fwnode_is_ep) {
+> > +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
+> > +		other_fwnode = asd->match.fwnode;
+> > +	} else {
+> > +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
+> > +		other_fwnode = sd->fwnode;
+> > +	}
+> > +
+> > +	fwnode_handle_put(dev_fwnode);
+> > +
+> > +	return dev_fwnode == other_fwnode;
+> >  }
+> >
+> >  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+-- 
+Regards,
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Laurent Pinchart
