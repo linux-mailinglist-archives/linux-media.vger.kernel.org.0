@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1303418736C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 20:33:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F1E2187370
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 20:34:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732512AbgCPTdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 15:33:32 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51874 "EHLO
+        id S1732521AbgCPTdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 15:33:36 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51888 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732366AbgCPTdc (ORCPT
+        with ESMTP id S1732522AbgCPTdg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 15:33:32 -0400
+        Mon, 16 Mar 2020 15:33:36 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 2B18E294879
+        with ESMTPSA id 574E5293369
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, hans.verkuil@cisco.com,
         niklas.soderlund@ragnatech.se, mchehab@kernel.org,
         Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH 3/4] media: staging: rkisp1: use v4l2_pipeline_stream_{enable,disable} helpers
-Date:   Mon, 16 Mar 2020 16:33:04 -0300
-Message-Id: <20200316193305.428378-4-helen.koike@collabora.com>
+Subject: [PATCH 4/4] media: vimc: use v4l2_pipeline_stream_{enable,disable} helpers
+Date:   Mon, 16 Mar 2020 16:33:05 -0300
+Message-Id: <20200316193305.428378-5-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200316193305.428378-1-helen.koike@collabora.com>
 References: <20200316193305.428378-1-helen.koike@collabora.com>
@@ -37,120 +37,182 @@ X-Mailing-List: linux-media@vger.kernel.org
 Use v4l2_pipeline_stream_{enable,disable} to call .s_stream() subdevice
 callbacks through the pipeline.
 
-Tested by streaming on RockPi4 with imx219.
+Tested streaming works with:
+
+media-ctl -d /dev/media0 -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d /dev/media0 -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d /dev/media0 -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d /dev/media0 -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d /dev/media0 -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
+media-ctl -d /dev/media0 -V '"Scaler":0[crop:(100,50)/400x150]'
+media-ctl -d /dev/media0 -V '"Scaler":1[fmt:RGB888_1X24/1920x1440]'
+v4l2-ctl -d /dev/video2 -v width=1200,height=450
+v4l2-ctl -d /dev/video0 -v pixelformat=BA81
+v4l2-ctl -d /dev/video1 -v pixelformat=BA81
+v4l2-ctl --stream-mmap --stream-count=10 -d /dev/video2 --stream-to=/tmp/test.raw
 
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
+
 ---
 
- drivers/staging/media/rkisp1/rkisp1-capture.c | 74 +------------------
- 1 file changed, 4 insertions(+), 70 deletions(-)
+ drivers/media/platform/vimc/vimc-capture.c  | 28 +++++++-----
+ drivers/media/platform/vimc/vimc-streamer.c | 49 +++------------------
+ 2 files changed, 23 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-index 24fe6a7888aa..9e1f3e022016 100644
---- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-@@ -838,71 +838,6 @@ static void rkisp1_return_all_buffers(struct rkisp1_capture *cap,
- 	spin_unlock_irqrestore(&cap->buf.lock, flags);
+diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+index 23e740c1c5c0..f65d59728d8f 100644
+--- a/drivers/media/platform/vimc/vimc-capture.c
++++ b/drivers/media/platform/vimc/vimc-capture.c
+@@ -233,21 +233,27 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ 	vcap->sequence = 0;
+ 
+-	/* Start the media pipeline */
+ 	ret = media_pipeline_start(entity, &vcap->stream.pipe);
+-	if (ret) {
+-		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+-		return ret;
+-	}
++	if (ret)
++		goto err_return_all_buffers;
++
++	ret = v4l2_pipeline_stream_enable(entity, &vcap->stream.pipe);
++	if (ret)
++		goto err_stop_media_pipe;
+ 
+ 	ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
+-	if (ret) {
+-		media_pipeline_stop(entity);
+-		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+-		return ret;
+-	}
++	if (ret)
++		goto err_stop_stream;
+ 
+ 	return 0;
++
++err_stop_stream:
++	v4l2_pipeline_stream_disable(entity, &vcap->stream.pipe);
++err_stop_media_pipe:
++	media_pipeline_stop(entity);
++err_return_all_buffers:
++	vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
++	return ret;
  }
  
--/*
-- * rkisp1_pipeline_sink_walk - Walk through the pipeline and call cb
-- * @from: entity at which to start pipeline walk
-- * @until: entity at which to stop pipeline walk
+ /*
+@@ -260,6 +266,8 @@ static void vimc_cap_stop_streaming(struct vb2_queue *vq)
+ 
+ 	vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 0);
+ 
++	v4l2_pipeline_stream_disable(&vcap->vdev.entity, &vcap->stream.pipe);
++
+ 	/* Stop the media pipeline */
+ 	media_pipeline_stop(&vcap->vdev.entity);
+ 
+diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+index 65feb3c596db..c0085f4695c2 100644
+--- a/drivers/media/platform/vimc/vimc-streamer.c
++++ b/drivers/media/platform/vimc/vimc-streamer.c
+@@ -36,33 +36,6 @@ static struct media_entity *vimc_get_source_entity(struct media_entity *ent)
+ 	return NULL;
+ }
+ 
+-/**
+- * vimc_streamer_pipeline_terminate - Disable stream in all ved in stream
 - *
-- * Walk the entities chain starting at the pipeline video node and stop
-- * all subdevices in the chain.
+- * @stream: the pointer to the stream structure with the pipeline to be
+- *	    disabled.
 - *
-- * If the until argument isn't NULL, stop the pipeline walk when reaching the
-- * until entity. This is used to disable a partially started pipeline due to a
-- * subdev start error.
+- * Calls s_stream to disable the stream in each entity of the pipeline
+- *
 - */
--static int rkisp1_pipeline_sink_walk(struct media_entity *from,
--				     struct media_entity *until,
--				     int (*cb)(struct media_entity *from,
--					       struct media_entity *curr))
+-static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
 -{
--	struct media_entity *entity = from;
--	struct media_pad *pad;
--	unsigned int i;
--	int ret;
+-	struct vimc_ent_device *ved;
+-	struct v4l2_subdev *sd;
 -
--	while (1) {
--		pad = NULL;
--		/* Find remote source pad */
--		for (i = 0; i < entity->num_pads; i++) {
--			struct media_pad *spad = &entity->pads[i];
+-	while (stream->pipe_size) {
+-		stream->pipe_size--;
+-		ved = stream->ved_pipeline[stream->pipe_size];
+-		stream->ved_pipeline[stream->pipe_size] = NULL;
 -
--			if (!(spad->flags & MEDIA_PAD_FL_SINK))
--				continue;
--			pad = media_entity_remote_pad(spad);
--			if (pad && is_media_entity_v4l2_subdev(pad->entity))
--				break;
--		}
--		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
--			break;
+-		if (!is_media_entity_v4l2_subdev(ved->ent))
+-			continue;
 -
--		entity = pad->entity;
--		if (entity == until)
--			break;
--
--		ret = cb(from, entity);
--		if (ret)
--			return ret;
+-		sd = media_entity_to_v4l2_subdev(ved->ent);
+-		v4l2_subdev_call(sd, video, s_stream, 0);
 -	}
--
--	return 0;
 -}
 -
--static int rkisp1_pipeline_disable_cb(struct media_entity *from,
--				      struct media_entity *curr)
--{
--	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
--
--	return v4l2_subdev_call(sd, video, s_stream, false);
--}
--
--static int rkisp1_pipeline_enable_cb(struct media_entity *from,
--				     struct media_entity *curr)
--{
--	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
--
--	return v4l2_subdev_call(sd, video, s_stream, true);
--}
--
- static void rkisp1_stream_stop(struct rkisp1_capture *cap)
- {
- 	int ret;
-@@ -929,8 +864,8 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
+ /**
+  * vimc_streamer_pipeline_init - Initializes the stream structure
+  *
+@@ -82,27 +55,15 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 	struct media_entity *entity;
+ 	struct video_device *vdev;
+ 	struct v4l2_subdev *sd;
+-	int ret = 0;
  
- 	rkisp1_stream_stop(cap);
- 	media_pipeline_stop(&node->vdev.entity);
--	ret = rkisp1_pipeline_sink_walk(&node->vdev.entity, NULL,
--					rkisp1_pipeline_disable_cb);
-+	ret = v4l2_pipeline_stream_disable(&node->vdev.entity,
-+					   &cap->rkisp1->pipe);
- 	if (ret)
- 		dev_err(rkisp1->dev,
- 			"pipeline stream-off failed error:%d\n", ret);
-@@ -1005,8 +940,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
- 	rkisp1_stream_start(cap);
+ 	stream->pipe_size = 0;
+ 	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
+ 		if (!ved) {
+-			vimc_streamer_pipeline_terminate(stream);
++			stream->pipe_size = 0;
+ 			return -EINVAL;
+ 		}
+ 		stream->ved_pipeline[stream->pipe_size++] = ved;
  
- 	/* start sub-devices */
--	ret = rkisp1_pipeline_sink_walk(entity, NULL,
--					rkisp1_pipeline_enable_cb);
-+	ret = v4l2_pipeline_stream_enable(entity, &cap->rkisp1->pipe);
- 	if (ret)
- 		goto err_stop_stream;
+-		if (is_media_entity_v4l2_subdev(ved->ent)) {
+-			sd = media_entity_to_v4l2_subdev(ved->ent);
+-			ret = v4l2_subdev_call(sd, video, s_stream, 1);
+-			if (ret && ret != -ENOIOCTLCMD) {
+-				dev_err(ved->dev, "subdev_call error %s\n",
+-					ved->ent->name);
+-				vimc_streamer_pipeline_terminate(stream);
+-				return ret;
+-			}
+-		}
+-
+ 		entity = vimc_get_source_entity(ved->ent);
+ 		/* Check if the end of the pipeline was reached */
+ 		if (!entity) {
+@@ -111,7 +72,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 				dev_err(ved->dev,
+ 					"first entity in the pipe '%s' is not a source\n",
+ 					ved->ent->name);
+-				vimc_streamer_pipeline_terminate(stream);
++				stream->pipe_size = 0;
+ 				return -EPIPE;
+ 			}
+ 			return 0;
+@@ -129,7 +90,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 		}
+ 	}
  
-@@ -1019,7 +953,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+-	vimc_streamer_pipeline_terminate(stream);
++	stream->pipe_size = 0;
+ 	return -EINVAL;
+ }
+ 
+@@ -210,7 +171,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+ 		if (IS_ERR(stream->kthread)) {
+ 			ret = PTR_ERR(stream->kthread);
+ 			dev_err(ved->dev, "kthread_run failed with %d\n", ret);
+-			vimc_streamer_pipeline_terminate(stream);
++			stream->pipe_size = 0;
+ 			stream->kthread = NULL;
+ 			return ret;
+ 		}
+@@ -231,7 +192,7 @@ int vimc_streamer_s_stream(struct vimc_stream *stream,
+ 
+ 		stream->kthread = NULL;
+ 
+-		vimc_streamer_pipeline_terminate(stream);
++		stream->pipe_size = 0;
+ 	}
+ 
  	return 0;
- 
- err_pipe_disable:
--	rkisp1_pipeline_sink_walk(entity, NULL, rkisp1_pipeline_disable_cb);
-+	v4l2_pipeline_stream_disable(entity, &cap->rkisp1->pipe);
- err_stop_stream:
- 	rkisp1_stream_stop(cap);
- 	v4l2_pipeline_pm_put(entity);
 -- 
 2.25.0
 
