@@ -2,83 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4284186720
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 09:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61CB518672D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 09:57:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730197AbgCPI4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 04:56:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40864 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730075AbgCPI4p (ORCPT
+        id S1730255AbgCPI5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 04:57:19 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:49671 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730253AbgCPI5T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 04:56:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7pDz5ADqTojT39uknaN/wTkWGyi3TS8NPv+4TYh5v3I=; b=bq/MSiU2m4+OhStcr92bexqdrY
-        xXm4OjEzLuxQccuIZxS2Cnmc8fEo5hGe7oYOJVyK8LhJ0aLuhZit23uhRss8ySr2gjqIXvgUEGeAH
-        6gHAckpYmwaW/45GXPI0wcFT5dQ7S+Da0TG1mTuoUNNoDlBV2kkM4q9xt9zGfzg82h9SOocWDINfn
-        ttGpiVHVYNl6xPM8SNEQ75FyeWTPPZavoTVk2y8/VRk1J+W1G1ndVrYASq1frz5nEAQv6ZlHaMg1t
-        L446+ceQ1rBHrOfA5i1JC6PntL5GoRHacJZ94WgN9/8nUOjxhofZ6gHyqrOQTvEjp3lO7hTA2BExY
-        RN1PPV4A==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jDlYB-0004si-0O; Mon, 16 Mar 2020 08:56:43 +0000
-Date:   Mon, 16 Mar 2020 01:56:42 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        David1.Zhou@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH 1/6] lib/scatterlist: add sg_set_dma_addr() function
-Message-ID: <20200316085642.GC1831@infradead.org>
-References: <20200311135158.3310-1-christian.koenig@amd.com>
- <20200311135158.3310-2-christian.koenig@amd.com>
- <20200311152838.GA24280@infradead.org>
- <f2b46f49-a8d0-9d43-3120-e1ed36fc3a80@gmail.com>
- <20200312101943.GA14618@infradead.org>
- <b5db44eb-1dde-1671-feb0-9e47d120f172@amd.com>
- <20200312104729.GA26031@infradead.org>
- <20200312141928.GK31668@ziepe.ca>
- <20200313112139.GA4913@infradead.org>
- <20200313121742.GZ31668@ziepe.ca>
+        Mon, 16 Mar 2020 04:57:19 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 2E6321BF21D;
+        Mon, 16 Mar 2020 08:56:39 +0000 (UTC)
+Date:   Mon, 16 Mar 2020 09:59:34 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
+ fwnode matching
+Message-ID: <20200316085934.c4lwqreaki2sbamm@uno.localdomain>
+References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200315214707.uo246kwe3njtc452@uno.localdomain>
+ <20200316063444.GE4732@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200313121742.GZ31668@ziepe.ca>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200316063444.GE4732@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 09:17:42AM -0300, Jason Gunthorpe wrote:
-> On Fri, Mar 13, 2020 at 04:21:39AM -0700, Christoph Hellwig wrote:
-> > On Thu, Mar 12, 2020 at 11:19:28AM -0300, Jason Gunthorpe wrote:
-> > > The non-page scatterlist is also a big concern for RDMA as we have
-> > > drivers that want the page list, so even if we did as this series
-> > > contemplates I'd have still have to split the drivers and create the
-> > > notion of a dma-only SGL.
-> > 
-> > The drivers I looked at want a list of IOVA address, aligned to the
-> > device "page size".  What other data do drivers want?  Execept for the
-> > software protocol stack drivers, which of couse need pages for the
-> > stack futher down.
-> 
-> In principle it is possible to have just an aligned page list -
-> however the page size is variable, following certain rules, and today
-> the drivers still determine the correct page size largely on their
-> own.  
-> 
-> Some progress was made recently to consolidate this, but more is
-> needed.
-> 
-> If the common code doesn't know the device page size in advance then
-> today's approach of sending largest possible dma mapped SGLs into the
-> device driver is best. The driver only has to do splitting.
+Hi Laurent,
 
-The point was that drivers don't need pages, drivers need IOVAs.  In
-what form they are stuffed into the hardware is the drivers problem.
+On Mon, Mar 16, 2020 at 08:34:44AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Sun, Mar 15, 2020 at 10:47:07PM +0100, Jacopo Mondi wrote:
+> > On Sun, Mar 15, 2020 at 02:55:11PM +0200, Laurent Pinchart wrote:
+> > > fwnode matching was designed to match on nodes corresponding to a
+> > > device. Some drivers, however, needed to match on endpoints, and have
+> > > passed endpoint fwnodes to v4l2-async. This works when both the subdev
+> > > and the notifier use the same fwnode types (endpoint or device), but
+> > > makes drivers that use different types incompatible.
+> > >
+> > > Fix this by extending the fwnode match to handle fwnodes of different
+> > > types. When the types (deduced from the node name) are different,
+> > > retrieve the device fwnode for the side that provides an endpoint
+> > > fwnode, and compare it with the device fwnode provided by the other
+> > > side. This allows interoperability between all drivers, regardless of
+> > > which type of fwnode they use for matching.
+> >
+> > I'm sorry but I'm not sure why would make a difference compared to
+> > what Kieran's patch did.
+> > https://lore.kernel.org/patchwork/patch/788637/
+> >
+> > If the bridge matches on device node, and the remote registers more
+> > than one endpoints it is possible to get a false match.
+>
+> How so ? If a notifier entry points to a device node, and two subdevs
+> are registered with different endpoint nodes that are both part of the
+> same device node, the notifier will get either of them. Which subdev
+> match the notifier won't be guaranteed, but that's what the notifier
+> asked for if it contains a device node and not an endpoint node: any
+> subdev corresponding to the device node.
+>
+> In practice notifiers will need to move to endpoint matching if they
+> want to get a particular subdev of a device, and this change allows
+> doing so without mass-patching every driver. It allows a notifier to
+> switch to endpoint nodes, while subdevs still use device nodes and are
+> gradually ported.
+>
+
+In case a device has two CSI-2 receivers, different IPs, different
+drivers which register different notifiers, and they are connected in
+DTS to a device like adv748x which registers two async
+devices for its two CSI-2 transmitter on endpoints, depending on which
+CSI-2 receiver gets probed first, it matches any of the two CSI-2 Tx.
+The media graph would complete but it won't be what's described in
+dts.
+
+I agree it's unlikely, and having something like this or what kieran
+did in is better than the current situation, so I'm not pushing this
+back, at all. Just pointing possible reasons why we still don't have
+any solution to this issue in mainline.
+
+Thanks
+   j
+
+> > I'm not sure how that would happen in practice, as the bridge would be
+> > registering the fwnode of the remote device twice, but I think that
+> > was the reason kieran's patch has not been collected or am I
+> > mistaken ?
+> >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > ---
+> > > This has been compile-tested only. Prabhakar, could you check if it
+> > > fixes your issue ?
+> > >
+> > >  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
+> > >  1 file changed, 41 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > > index 8bde33c21ce4..995e5464cba7 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > > @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
+> > >
+> > >  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> > >  {
+> > > -	return sd->fwnode == asd->match.fwnode;
+> > > +	struct fwnode_handle *other_fwnode;
+> > > +	struct fwnode_handle *dev_fwnode;
+> > > +	bool asd_fwnode_is_ep;
+> > > +	bool sd_fwnode_is_ep;
+> > > +	const char *name;
+> > > +
+> > > +	/*
+> > > +	 * Both the subdev and the async subdev can provide either an endpoint
+> > > +	 * fwnode or a device fwnode. Start with the simple case of direct
+> > > +	 * fwnode matching.
+> > > +	 */
+> > > +	if (sd->fwnode == asd->match.fwnode)
+> > > +		return true;
+> > > +
+> > > +	/*
+> > > +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
+> > > +	 * endpoint or a device. If they're of the same type, there's no match.
+> > > +	 */
+> > > +	name = fwnode_get_name(sd->fwnode);
+> > > +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
+> > > +	name = fwnode_get_name(asd->match.fwnode);
+> > > +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
+> > > +
+> > > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
+> > > +		return false;
+> > > +
+> > > +	/*
+> > > +	 * The sd and asd fwnodes are of different types. Get the device fwnode
+> > > +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
+> > > +	 */
+> > > +	if (sd_fwnode_is_ep) {
+> > > +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
+> > > +		other_fwnode = asd->match.fwnode;
+> > > +	} else {
+> > > +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
+> > > +		other_fwnode = sd->fwnode;
+> > > +	}
+> > > +
+> > > +	fwnode_handle_put(dev_fwnode);
+> > > +
+> > > +	return dev_fwnode == other_fwnode;
+> > >  }
+> > >
+> > >  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
