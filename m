@@ -2,94 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5BE9186AB4
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 13:16:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EAF2186AC9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 13:22:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730939AbgCPMQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 08:16:39 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:55935 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730902AbgCPMQj (ORCPT
+        id S1730909AbgCPMW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 08:22:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35644 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730878AbgCPMW0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 08:16:39 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Dofajy2jdEE3qDofdjeACI; Mon, 16 Mar 2020 13:16:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584360998; bh=Ux4QfPTmuo45GHoEzNIoN2PkPH27Qwp1lF0MnJkglaA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=mBmcTlL5+8PdQCyfWhLAjkWQfGPnZna8ec49vgyP4kjECfFhbacHdcfmI6D9GvR3Q
-         LwdM+LRJbME4B5nOToa31VcolSJVBw8oACLJ0Lelqt/ZLW6eiXpO7GM1zCwy0X9/Et
-         ba/Iza7GCc9x9HynbB2hpahfvoFjaK/AgTqp7HJUJ0FgXwB2aT+7az+tiIwnXt9qOd
-         RapiWq7kezByxMp6sm8LvfcRZc/EaDN4OGqPWKj/+eL1GRikfXVbMA9YZNpDdr1gV5
-         lwtdvLIMY7OocKK03zfj4xD7WMWB/EqP8BEWqobKcH10st1rOhE9ScI/pQMYO9JEz0
-         Xtu8JJpTjHWjg==
+        Mon, 16 Mar 2020 08:22:26 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAA53A3B;
+        Mon, 16 Mar 2020 13:22:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584361343;
+        bh=aRfkf5pakK3gSQ9QBQDexefh95Wf863cbxGvsanKxTU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TmH8+urgiuk/xs412/PSdYDeHXF/mTqsti7TT1YLMTGm6bC2i0p0QeLWcvIHRSo75
+         D0y9oX4yGau4hcZCaySFncYUG5GNGnj2V+z0k/fYtvvMwvy1/jbPVfH5SXw7iEN7xA
+         LrNkN73nA9R+JWapSzaeayAbny3uBRCzrcSvK5H4=
+Date:   Mon, 16 Mar 2020 14:22:18 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Subject: Re: [PATCH 03/16] media: ti-vpe: cal: catch error irqs and print
  errors
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        linux-media@vger.kernel.org, Benoit Parrot <bparrot@ti.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <20200316122218.GV4732@pendragon.ideasonboard.com>
 References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
  <20200313114121.32182-3-tomi.valkeinen@ti.com>
- <dd31db33-c73b-cb05-ac18-90643a2a0074@xs4all.nl>
- <9af07911-54e7-fb04-1e34-26f306299e6e@xs4all.nl>
- <77ef2fbd-486e-c564-806c-48686472295f@ti.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ddca0047-626b-8b1d-b425-74f4e961046c@xs4all.nl>
-Date:   Mon, 16 Mar 2020 13:16:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <77ef2fbd-486e-c564-806c-48686472295f@ti.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJ/oC2Wc9gefDOSAU2q8n0sCOR7tAgAPnLxkN7OI+uoTC9uVE1Wex8xyxt7ZNuNTXM93T2NDsiz0+uDcupJJC2NdQW8TdZZEF6MN+PkExGHWSWtv2IEd
- JpeTUh8HdYl0lWdQvoVAYdjxaZnkqjRwrd2EDvOdQ3HMSXsruTZAecWHmsO5L8i/X/JhZ9Zibsr6xbq4lvqEaZsiCCRhYqbtDRzPiZRQI68EUsIFmeikcZl6
- ZhgYED2nwvXPC8JjLxjqx2YVHxyDSl2oqqzphasj+7tAZOtzEDglv0BjtokVOhQfHQ7W6PhRnxRbfAYGBAkMOQ==
+Content-Disposition: inline
+In-Reply-To: <20200313114121.32182-3-tomi.valkeinen@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/16/20 1:00 PM, Tomi Valkeinen wrote:
-> On 16/03/2020 12:51, Hans Verkuil wrote:
->> On 3/16/20 11:06 AM, Hans Verkuil wrote:
->>> Hi Tomi,
->>>
->>> On 3/13/20 12:41 PM, Tomi Valkeinen wrote:
->>>> CAL reports various errors via IRQs, which are not handled at all by the
->>>> current driver. Add code to enable and catch those IRQs and print
->>>> errors. This will make it much easier to notice and debug issues with
->>>> sensors.
->>>
->>> Can you rebase your series to the media_tree master branch? Other recently
->>> merged patches from Benoit now conflict with at least this patch.
->>>
->>> I reviewed this series and it looks good otherwise (just one other small comment
->>> about a confusing log message), so once I have a rebased version I can make
->>> a PR for it.
->>
->> Just to confirm: this series has been tested with a real sensor, right? If so,
->> please add a Tested-by line as well.
+Hi Tomi,
+
+Thank you for the patch.
+
+On Fri, Mar 13, 2020 at 01:41:08PM +0200, Tomi Valkeinen wrote:
+> CAL reports various errors via IRQs, which are not handled at all by the
+> current driver. Add code to enable and catch those IRQs and print
+> errors. This will make it much easier to notice and debug issues with
+> sensors.
 > 
-> Yes, I'm using OV5640.
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal.c      | 46 +++++++++++++++++++++++-
+>  drivers/media/platform/ti-vpe/cal_regs.h |  3 ++
+>  2 files changed, 48 insertions(+), 1 deletion(-)
 > 
-> I thought tested-by by the author is implicit, unless otherwise clearly noted. But if it's the 
-> custom with linux-media, I can add those.
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index b4a9f4d16ce4..f6ce0558752a 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -692,6 +692,21 @@ static void cal_quickdump_regs(struct cal_dev *dev)
+>   */
+>  static void enable_irqs(struct cal_ctx *ctx)
+>  {
+> +	const u32 cio_err_mask =
+> +		((1 << 20) - 1) |	/* lane errors */
+> +		BIT(27) |		/* FIFO_OVR */
+> +		BIT(28) |		/* SHORT_PACKET */
+> +		BIT(30);		/* ECC_NO_CORRECTION */
 
-It's not custom, but this series has a lot of low-level changes and so it's good
-to have an explicit confirmation that this has been tested.
+Could you create macros for those bits ?
 
-I wouldn't have asked if a v2 wasn't needed anyway.
+> +
+> +	/* Enable CIO error irqs */
+> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1),
+> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
+> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
+> +		  cio_err_mask);
+> +
+> +	/* Always enable OCP error */
+> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1), BIT(6));
 
+And for this bit too.
+
+> +
+>  	/* Enable IRQ_WDMA_END 0/1 */
+>  	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(2), 1 << (ctx->csi2_port - 1));
+>  	/* Enable IRQ_WDMA_START 0/1 */
+> @@ -702,6 +717,12 @@ static void enable_irqs(struct cal_ctx *ctx)
+>  
+>  static void disable_irqs(struct cal_ctx *ctx)
+>  {
+> +	/* Disable CIO error irqs */
+> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(1),
+> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
+> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
+> +		  0);
+> +
+>  	/* Disable IRQ_WDMA_END 0/1 */
+>  	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(2), 1 << (ctx->csi2_port - 1));
+>  	/* Disable IRQ_WDMA_START 0/1 */
+> @@ -1169,7 +1190,30 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>  	struct cal_dev *dev = (struct cal_dev *)data;
+>  	struct cal_ctx *ctx;
+>  	struct cal_dmaqueue *dma_q;
+> -	u32 irqst2, irqst3;
+> +	u32 irqst1, irqst2, irqst3;
+> +
+> +	irqst1 = reg_read(dev, CAL_HL_IRQSTATUS(1));
+> +	if (irqst1) {
+> +		int i;
+> +
+> +		reg_write(dev, CAL_HL_IRQSTATUS(1), irqst1);
+> +
+> +		if (irqst1 & BIT(6))
+> +			dev_err_ratelimited(&dev->pdev->dev, "OCP ERROR\n");
+> +
+> +		for (i = 1; i <= 2; ++i) {
+> +			if (irqst1 & CAL_HL_IRQ_CIO_MASK(i)) {
+> +				u32 cio_stat = reg_read(dev,
+> +							CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
+> +
+> +				dev_err_ratelimited(&dev->pdev->dev,
+> +						    "CIO%d error: %#08x\n", i, cio_stat);
+> +
+> +				reg_write(dev, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
+> +					  cio_stat);
+> +			}
+> +		}
+> +	}
+>  
+>  	/* Check which DMA just finished */
+>  	irqst2 = reg_read(dev, CAL_HL_IRQSTATUS(2));
+> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
+> index 0b76d1186074..a29198cc3efe 100644
+> --- a/drivers/media/platform/ti-vpe/cal_regs.h
+> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
+> @@ -158,6 +158,9 @@
+>  #define CAL_HL_IRQ_ENABLED				0x1
+>  #define CAL_HL_IRQ_PENDING				0x1
+>  
+> +#define CAL_HL_IRQ_CIO_MASK(i)			BIT(16 + (i-1) * 8)
+
+This should be
+
+	BIT(16 + ((i)-1) * 8)
+
+> +#define CAL_HL_IRQ_VC_MASK(i)			BIT(17 + (i-1) * 8)
+
+Same here.
+
+> +
+>  #define CAL_PIX_PROC_EN_MASK			BIT(0)
+>  #define CAL_PIX_PROC_EXTRACT_MASK		GENMASK(4, 1)
+>  #define CAL_PIX_PROC_EXTRACT_B6				0x0
+
+-- 
 Regards,
 
-	Hans
-
-> 
->   Tomi
-> 
-
+Laurent Pinchart
