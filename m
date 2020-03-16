@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46AB3187368
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 20:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 331F018736A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2020 20:33:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732489AbgCPTd0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 15:33:26 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51860 "EHLO
+        id S1732502AbgCPTd3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 15:33:29 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51864 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732366AbgCPTd0 (ORCPT
+        with ESMTP id S1732366AbgCPTd3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 15:33:26 -0400
+        Mon, 16 Mar 2020 15:33:29 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 29BE6293517
+        with ESMTPSA id 2B27B293369
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
         linux-rockchip@lists.infradead.org, hans.verkuil@cisco.com,
         niklas.soderlund@ragnatech.se, mchehab@kernel.org,
         Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH 1/4] media: mc-entity.c: add media_graph_walk_next_stream()
-Date:   Mon, 16 Mar 2020 16:33:02 -0300
-Message-Id: <20200316193305.428378-2-helen.koike@collabora.com>
+Subject: [PATCH 2/4] media: v4l2-common: add helper functions to call s_stream() callbacks
+Date:   Mon, 16 Mar 2020 16:33:03 -0300
+Message-Id: <20200316193305.428378-3-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200316193305.428378-1-helen.koike@collabora.com>
 References: <20200316193305.428378-1-helen.koike@collabora.com>
@@ -34,129 +34,195 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add media_graph_walk_next_stream() function to follow links only from
-sink to source (not the opposite) to allow iteration only through the
-entities participating in a given stream.
+Add v4l2_pipeline_stream_{enable,disable} helper functions to iterate
+through the subdevices in a given stream (i.e following links from sink
+to source) and call .s_stream() callback.
 
-This is useful to allow calling .s_stream() callback only in the
-subdevices that requires to be enabled/disabled, and avoid calling this
-callback when not required.
+Add stream_count on the subdevice object for simultaneous streaming from
+different video devices which shares subdevices.
+
+Prevent calling .s_stream(true) if it was already called previously by
+another stream.
+
+Prevent calling .s_stream(false) from one stream when there are still
+others active.
 
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
 ---
 
- drivers/media/mc/mc-entity.c | 34 +++++++++++++++++++++++++++++++---
- include/media/media-entity.h | 15 +++++++++++++++
- 2 files changed, 46 insertions(+), 3 deletions(-)
+ drivers/media/v4l2-core/v4l2-common.c | 99 +++++++++++++++++++++++++++
+ include/media/v4l2-common.h           | 30 ++++++++
+ include/media/v4l2-subdev.h           |  2 +
+ 3 files changed, 131 insertions(+)
 
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 211279c5fd77..0d44c2de23e6 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -228,6 +228,11 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
-  * Graph traversal
-  */
- 
-+enum media_graph_walk_type {
-+	MEDIA_GRAPH_WALK_CONNECTED_NODES,
-+	MEDIA_GRAPH_WALK_STREAM_NODES,
-+};
-+
- static struct media_entity *
- media_entity_other(struct media_entity *entity, struct media_link *link)
- {
-@@ -305,7 +310,8 @@ void media_graph_walk_start(struct media_graph *graph,
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index d0e5ebc736f9..6a5a3d2c282e 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -441,3 +441,102 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(media_graph_walk_start);
- 
--static void media_graph_walk_iter(struct media_graph *graph)
-+static void media_graph_walk_iter(struct media_graph *graph,
-+				  enum media_graph_walk_type type)
- {
- 	struct media_entity *entity = stack_top(graph);
- 	struct media_link *link;
-@@ -326,6 +332,15 @@ static void media_graph_walk_iter(struct media_graph *graph)
- 	/* Get the entity in the other end of the link . */
- 	next = media_entity_other(entity, link);
- 
-+	if (type == MEDIA_GRAPH_WALK_STREAM_NODES
-+	    && next == link->sink->entity) {
-+		link_top(graph) = link_top(graph)->next;
-+		dev_dbg(entity->graph_obj.mdev->dev,
-+			"walk: skipping '%s' (outside of the stream path)\n",
-+			link->sink->entity->name);
-+		return;
+ EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
++
++int v4l2_pipeline_stream_disable(struct media_entity *entity,
++				 struct media_pipeline *pipe)
++{
++	struct media_device *mdev = entity->graph_obj.mdev;
++	int ret = 0;
++
++	mutex_lock(&mdev->graph_mutex);
++
++	if (!pipe->streaming_count) {
++		ret = media_graph_walk_init(&pipe->graph, mdev);
++		if (ret) {
++			mutex_unlock(&mdev->graph_mutex);
++			return ret;
++		}
 +	}
 +
- 	/* Has the entity already been visited? */
- 	if (media_entity_enum_test_and_set(&graph->ent_enum, next)) {
- 		link_top(graph) = link_top(graph)->next;
-@@ -342,7 +357,9 @@ static void media_graph_walk_iter(struct media_graph *graph)
- 		next->name);
- }
- 
--struct media_entity *media_graph_walk_next(struct media_graph *graph)
-+static struct media_entity *
-+__media_graph_walk_next(struct media_graph *graph,
-+			enum media_graph_walk_type type)
- {
- 	struct media_entity *entity;
- 
-@@ -355,7 +372,7 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
- 	 * found.
- 	 */
- 	while (link_top(graph) != &stack_top(graph)->links)
--		media_graph_walk_iter(graph);
-+		media_graph_walk_iter(graph, type);
- 
- 	entity = stack_pop(graph);
- 	dev_dbg(entity->graph_obj.mdev->dev,
-@@ -363,8 +380,19 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
- 
- 	return entity;
- }
++	media_graph_walk_start(&pipe->graph, entity);
 +
-+struct media_entity *media_graph_walk_next(struct media_graph *graph)
-+{
-+	return __media_graph_walk_next(graph, MEDIA_GRAPH_WALK_CONNECTED_NODES);
-+}
- EXPORT_SYMBOL_GPL(media_graph_walk_next);
- 
-+struct media_entity *media_graph_walk_next_stream(struct media_graph *graph)
-+{
-+	return __media_graph_walk_next(graph,  MEDIA_GRAPH_WALK_STREAM_NODES);
-+}
-+EXPORT_SYMBOL_GPL(media_graph_walk_next_stream);
++	while ((entity = media_graph_walk_next_stream(&pipe->graph))) {
++		struct v4l2_subdev *sd;
 +
- int media_entity_get_fwnode_pad(struct media_entity *entity,
- 				struct fwnode_handle *fwnode,
- 				unsigned long direction_flags)
-diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-index 8cb2c504a05c..f17a5180ce52 100644
---- a/include/media/media-entity.h
-+++ b/include/media/media-entity.h
-@@ -927,6 +927,21 @@ void media_graph_walk_start(struct media_graph *graph,
-  */
- struct media_entity *media_graph_walk_next(struct media_graph *graph);
++		if (!is_media_entity_v4l2_subdev(entity))
++			continue;
++
++		sd = media_entity_to_v4l2_subdev(entity);
++		if (!sd->stream_count || --sd->stream_count)
++			continue;
++
++		ret = v4l2_subdev_call(sd, video, s_stream, false);
++		if (ret && ret != -ENOIOCTLCMD)
++			dev_dbg(mdev->dev,
++				"couldn't disable stream for subdevice '%s'\n",
++				entity->name);
++			break;
++		}
++
++		dev_dbg(mdev->dev,
++			"stream disabled for subdevice '%s'\n", entity->name);
++	}
++
++	if (!pipe->streaming_count)
++		media_graph_walk_cleanup(&pipe->graph);
++
++	mutex_unlock(&mdev->graph_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_disable);
++
++__must_check int v4l2_pipeline_stream_enable(struct media_entity *entity,
++					     struct media_pipeline *pipe)
++{
++	struct media_device *mdev = entity->graph_obj.mdev;
++	int ret = 0;
++
++	mutex_lock(&mdev->graph_mutex);
++
++	if (!pipe->streaming_count) {
++		ret = media_graph_walk_init(&pipe->graph, mdev);
++		if (ret) {
++			mutex_unlock(&mdev->graph_mutex);
++			return ret;
++		}
++	}
++
++	media_graph_walk_start(&pipe->graph, entity);
++
++	while ((entity = media_graph_walk_next_stream(&pipe->graph))) {
++		struct v4l2_subdev *sd;
++
++		if (!is_media_entity_v4l2_subdev(entity))
++			continue;
++
++		sd = media_entity_to_v4l2_subdev(entity);
++		if (sd->stream_count++)
++			continue;
++
++		ret = v4l2_subdev_call(sd, video, s_stream, true);
++		if (ret && ret != -ENOIOCTLCMD)
++			dev_dbg(mdev->dev,
++				"couldn't enable stream for subdevice '%s'\n",
++				entity->name);
++			v4l2_pipeline_stream_disable(entity, pipe);
++			break;
++		}
++
++		dev_dbg(mdev->dev,
++			"stream enabled for subdevice '%s'\n", entity->name);
++	}
++
++	if (!pipe->streaming_count)
++		media_graph_walk_cleanup(&pipe->graph);
++
++	mutex_unlock(&mdev->graph_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_enable);
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 150ee16ebd81..46c0857d07c4 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -519,6 +519,36 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+ 			u32 width, u32 height);
  
 +/**
-+ * media_graph_walk_next_stream - Get the next entity in the graph
-+ * @graph: Media graph structure
++ * media_pipeline_stop - Mark a pipeline as not streaming
++ * @entity: Starting entity
++ * @pipe: Media pipeline to iterate through the topology
 + *
-+ * Perform a depth-first traversal of the given media entities graph only
-+ * following links from sink to source (and not the opposite).
++ * Call .s_stream(false) callback in all the subdevices participating in the
++ * stream, i.e. following links from sink to source.
 + *
-+ * The graph structure must have been previously initialized with a call to
-+ * media_graph_walk_start().
-+ *
-+ * Return: returns the next entity in the graph in the stream path
-+ * or %NULL if the whole stream path have been traversed.
++ * If multiple calls to v4l2_pipeline_stream_enable() have been made, the
++ * same number of calls to this function are required.
 + */
-+struct media_entity *media_graph_walk_next_stream(struct media_graph *graph);
++int v4l2_pipeline_stream_disable(struct media_entity *entity,
++				 struct media_pipeline *pipe);
 +
- /**
-  * media_pipeline_start - Mark a pipeline as streaming
-  * @entity: Starting entity
++/**
++ * v4l2_pipeline_stream_enable - Call .s_stream(true) callbacks in the stream
++ * @entity: Starting entity
++ * @pipe: Media pipeline to iterate through the topology
++ *
++ * Call .s_stream(true) callback in all the subdevices participating in the
++ * stream, i.e. following links from sink to source.
++ *
++ * Calls to this function can be nested, in which case the same number of
++ * v4l2_pipeline_stream_disable() calls will be required to stop streaming.
++ * The  pipeline pointer must be identical for all nested calls to
++ * v4l2_pipeline_stream_enable().
++ */
++__must_check int v4l2_pipeline_stream_enable(struct media_entity *entity,
++					     struct media_pipeline *pipe);
++
+ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+ {
+ 	/*
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index a4848de59852..20f913a9f70c 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -838,6 +838,7 @@ struct v4l2_subdev_platform_data {
+  * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+  *		     device using v4l2_device_register_sensor_subdev().
+  * @pdata: common part of subdevice platform data
++ * @stream_count: Stream count for the subdevice.
+  *
+  * Each instance of a subdev driver should create this struct, either
+  * stand-alone or embedded in a larger struct.
+@@ -869,6 +870,7 @@ struct v4l2_subdev {
+ 	struct v4l2_async_notifier *notifier;
+ 	struct v4l2_async_notifier *subdev_notifier;
+ 	struct v4l2_subdev_platform_data *pdata;
++	unsigned int stream_count;
+ };
+ 
+ 
 -- 
 2.25.0
 
