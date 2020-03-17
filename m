@@ -2,278 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13AE31884B3
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 14:06:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C387E188505
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 14:12:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726609AbgCQNGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 09:06:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52822 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726605AbgCQNGJ (ORCPT
+        id S1726643AbgCQNM3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 09:12:29 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:32796 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726607AbgCQNM3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 09:06:09 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6656F9;
-        Tue, 17 Mar 2020 14:06:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584450366;
-        bh=xtH0bDLpMkUvinxoqjDvNNNSX8xAjRmQhH16MC4/OZg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BLKoTmP8ePpg7KFfmoKjHXjFeH8op+CHW/ky6VhNzRmDpYbiwrFkRt7lYs99kBTVy
-         RplL6t39RXeF2OPMIjs8nBaS5CvFEZfC8CcT39koXujcVFrxqlqGPjq2ENwda1PkDX
-         0ZIMVWX7lrK4ccfx4FTA0TIAlfbjBv3Ntv0ffKRE=
-Date:   Tue, 17 Mar 2020 15:06:01 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH/RFC] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200317130601.GI4864@pendragon.ideasonboard.com>
-References: <20200313152406.13347-1-laurent.pinchart@ideasonboard.com>
- <20200317115854.h4oh2m2kipzjhmg3@uno.localdomain>
+        Tue, 17 Mar 2020 09:12:29 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 0CE9B295965
+Subject: Re: [PATCH v2 2/2] media: staging: rkisp1: replace the call to
+ v4l2_async_notifier_parse_fwnode_endpoints_by_port
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com
+References: <20200312154604.24996-1-dafna.hirschfeld@collabora.com>
+ <20200312154604.24996-3-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <89b1c5e1-4659-b489-25d1-a8278949c048@collabora.com>
+Date:   Tue, 17 Mar 2020 10:12:22 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
+In-Reply-To: <20200312154604.24996-3-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200317115854.h4oh2m2kipzjhmg3@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Dafna,
 
-On Tue, Mar 17, 2020 at 12:58:54PM +0100, Jacopo Mondi wrote:
-> On Fri, Mar 13, 2020 at 05:24:06PM +0200, Laurent Pinchart wrote:
-> > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > with drivers implementing one of the following behaviours:
-> >
-> > - No support for VIDIOC_ENUM_FMT at all
-> > - Enumerating all formats supported by the video node, regardless of the
-> >   configuration of the pipeline
-> > - Enumerating formats supported by the video node for the active
-> >   configuration of the connected subdevice
-> >
-> > The first behaviour is obviously useless for applications. The second
-> > behaviour provides the most information, but doesn't offer a way to find
-> > what formats are compatible with a given pipeline configuration. The
-> > third behaviour fixes that, but with the drawback that applications
-> > can't enumerate all supported formats anymore, and have to modify the
-> > active configuration of the pipeline to enumerate formats.
-> >
-> > The situation is messy as none of the implemented behaviours are ideal,
-> > and userspace can't predict what will happen as the behaviour is
-> > driver-specific.
-> >
-> > To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-> > enumerating pixel formats for a given media bus code. The media bus code
-> > is passed through the v4l2_fmtdesc structure in a new mbus_code field
-> > (repurposed from the reserved fields), and an additional flag is added
-> > to report if the driver supports this API extension. With this
-> > capability in place, applications can enumerate pixel formats for a
-> > given media bus code without modifying the active configuration of the
-> > device.
-> >
-> > The current behaviour of the ioctl is preserved when the new mbus_code
-> > field is set to 0, ensuring compatibility with existing userspace. This
-> > behaviour is now documented as mandatory for MC-centric devices as well
-> > as the traditional video node-centric devices. This allows applications
-> > to query MC-centric devices for all the supported pixel formats, as well
-> > as for the pixel formats corresponding to a given media bus code.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Hello,
-> >
-> > This API extension comes from a need I encountered when working on a
-> > simple pipeline handler for libcamera. The pipeline handlers we have so
-> > far are device-specific, and hardcode knowledge about the device drivers
-> > in their implementation, such as the mapping from media bus codes to
-> > pixel formats. For "simple" devices (currently defined as linear
-> > pipelines with no processing, which we will probably extend to include
-> > basic processing such as scaling and format conversion in the future),
-> > we want to have a single pipeline handler that will auto-configure the
-> > pipeline based on information retrieved from the kernel. I thus need an
-> > API to extract the mapping from media bus code to pixel format.
-> >
-> > Once Niklas patches that add V4L2_CAP_IO_MC land in master, I think this
-> > patch should be rebased, and specify that this API is mandatory for
-> > drivers that expose V4L2_CAP_IO_MC and invalid otherwise. It would be a
-> > good step towards correctly specifying the behaviour of video nodes for
-> > MC-centric devices.
-> >
-> > I will of course provide patches for v4l2-ctrl to support this
-> > extension, as well as for v4l2-compliance, but I would like feedback on
-> > the API first.
-> >
-> >  .../media/uapi/v4l/vidioc-enum-fmt.rst        | 40 +++++++++++++------
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 10 ++++-
-> >  include/uapi/linux/videodev2.h                |  4 +-
-> >  3 files changed, 38 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > index 8ca6ab701e4a..60cac7eef76c 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > @@ -39,19 +39,26 @@ Arguments
-> >  Description
-> >  ===========
-> >
-> > -To enumerate image formats applications initialize the ``type`` and
-> > -``index`` field of struct :c:type:`v4l2_fmtdesc` and call
-> > -the :ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers
-> > -fill the rest of the structure or return an ``EINVAL`` error code. All
-> > -formats are enumerable by beginning at index zero and incrementing by
-> > -one until ``EINVAL`` is returned. If applicable, drivers shall return
-> > -formats in preference order, where preferred formats are returned before
-> > -(that is, with lower ``index`` value) less-preferred formats.
-> > -
-> > -.. note::
-> > -
-> > -   After switching input or output the list of enumerated image
-> > -   formats may be different.
-> > +To enumerate image formats applications initialize the ``type``, ``index`` and
-> > +``mbus_code`` fields of struct :c:type:`v4l2_fmtdesc` and call the
-> > +:ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers fill the
-> > +rest of the structure or return an ``EINVAL`` error code. All formats are
-> > +enumerable by beginning at index zero and incrementing by one until ``EINVAL``
-> > +is returned. If applicable, drivers shall return formats in preference order,
-> > +where preferred formats are returned before (that is, with lower ``index``
-> > +value) less-preferred formats.
-> > +
-> > +If the ``mbus_code`` is set to zero, drivers shall enumerate all image formats
-> > +supported by the device. For video node-centric devices, the enumerated formats
-> > +may depend on the active input or output of the device. For MC-centric devices,
-> > +the enumerated formats shall not depend on the active configuration of the
-> > +device.
+On 3/12/20 12:46 PM, Dafna Hirschfeld wrote:
+> don't call 'v4l2_async_notifier_parse_fwnode_endpoints_by_port'
+> in order to register async subdevices. Instead call
+> 'v4l2_fwnode_endpoint_parse' to parse the remote endpoints
+> and then register each async subdev with
+> 'v4l2_async_notifier_add_fwnode_remote_subdev'
 > 
-> s/device/pipeline ?
-
-I meant the video device node, but it's worth mentioning both.
-
-> > +
-> > +If the ``mbus_code`` field is set to a non-zero value, drivers shall restrict
-> > +enumeration to only the image formats that can be produced from that media bus
-> > +code, and set the ``V4L2_FMT_FLAG_MBUS_CODE`` flag in the ``flags`` field. The
-> > +enumerated imge formats shall not depend on the active configuration of the
-> > +device. Enumeration shall otherwise operate as previously described.
+> Also remove the relevant item in the TODO file
 > 
-> If I got this right an application can set mbus_code != 0 to a driver
-> non supporting restricted enumeration and receive back a list of
-> formats. It's up to the application to check for the V4L2_FMT_FLAG_MBUS_CODE
-> flag to see if enumeration is restricted or not.
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+
+It would be nice to have a changelog here as well.
+
+>  drivers/staging/media/rkisp1/TODO         |  3 -
+>  drivers/staging/media/rkisp1/rkisp1-dev.c | 94 +++++++++++++----------
+>  2 files changed, 55 insertions(+), 42 deletions(-)
 > 
-> This is a bit of a ping-pong that could be saved having driver
-> non-supporting nbus-restricted enumeration returning an error if the
-> mbus_code field is set. I know, this implies changing all current
-> drivers to check for the mbus_config field and return an error in case
-> they don't support it.
+> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
+> index 0aa9877dd64a..1aa3bb9fd6cb 100644
+> --- a/drivers/staging/media/rkisp1/TODO
+> +++ b/drivers/staging/media/rkisp1/TODO
+> @@ -1,6 +1,3 @@
+> -* Don't use v4l2_async_notifier_parse_fwnode_endpoints_by_port().
+> -e.g. isp_parse_of_endpoints in drivers/media/platform/omap3isp/isp.c
+> -cio2_parse_firmware in drivers/media/pci/intel/ipu3/ipu3-cio2.c.
+>  * Fix pad format size for statistics and parameters entities.
+>  * Use threaded interrupt for rkisp1_stats_isr(), remove work queue.
+>  * Fix checkpatch errors.
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+> index d2186856bb24..1035a39f3e49 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+> @@ -233,35 +233,6 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+>  	return 0;
+>  }
+>  
+> -static int rkisp1_fwnode_parse(struct device *dev,
+> -			       struct v4l2_fwnode_endpoint *vep,
+> -			       struct v4l2_async_subdev *asd)
+> -{
+> -	struct rkisp1_sensor_async *s_asd =
+> -			container_of(asd, struct rkisp1_sensor_async, asd);
+> -
+> -	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
+> -		dev_err(dev, "Only CSI2 bus type is currently supported\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	if (vep->base.port != 0) {
+> -		dev_err(dev, "The ISP has only port 0\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	s_asd->mbus_type = vep->bus_type;
+> -	s_asd->lanes = vep->bus.mipi_csi2.num_data_lanes;
+> -
+> -	/* Parallel bus is currently not supported */
+> -	s_asd->parallel_bus_flags = 0;
+> -
+> -	if (s_asd->lanes < 1 || s_asd->lanes > 4)
+> -		return -EINVAL;
+> -
+> -	return 0;
+> -}
+> -
+>  static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
+>  	.bound = rkisp1_subdev_notifier_bound,
+>  	.unbind = rkisp1_subdev_notifier_unbind,
+> @@ -271,23 +242,68 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
+>  static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
+>  {
+>  	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
+> -	struct device *dev = rkisp1->dev;
+> +	int next_id = 0;
 
-One issue is that it wouldn't work on older kernels. Drivers will ignore
-the mbus_code field in that case, so applications won't know if this is
-supported. We could require applications to check the kernel version
-though.
+This is endpoint id right?
+Maybe just change it to unsigned.
 
-> I have not followed CAP_IO_MC closely, but I
-> wonder if that could help catching that situation in the core and
-> return an error earlier. Maybe there could be a way for drivers to
-> advertise support for that feature to the core and fail earlier if
-> mbus_code is set and they don't claim to support it ?
+The scope says it should be u32:
 
-I was thinking of linking the two, making this extension mandatory for
-drivers that advertise CAP_IO_MC, in which case we could indeed drop the
-flag.
+struct fwnode_handle *
+fwnode_graph_get_endpoint_by_id(const struct fwnode_handle *fwnode,
+				u32 port, u32 endpoint, unsigned long flags)
 
-Hans, what's your preference ?
 
-> >
-> >  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-> > @@ -145,6 +152,13 @@ formats in preference order, where preferred formats are returned before
-> >  	parameters are detected. This flag can only be used in combination
-> >  	with the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to
-> >  	compressed formats only. It is also only applies to stateful codecs.
-> > +    * - ``V4L2_FMT_FLAG_MBUS_CODE``
-> > +      - 0x0010
-> > +      - The ``mbus_code`` field has been taken into account and only formats
-> > +        compatible with the supplied media bus code are enumerated. This flag
-> > +        shall only be  set by drivers, and only when ``mbus_code`` is not zero.
-> > +        Applications may read the flag to check if code-aware enumeration is
-> > +        supported by the driver.
-> >
-> >
-> >  Return Value
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index aaf83e254272..2d635a5f0797 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_fmtdesc *p = arg;
-> >
-> > -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
-> > +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
-> >  		p->index, prt_names(p->type, v4l2_type_names),
-> >  		p->flags, (p->pixelformat & 0xff),
-> >  		(p->pixelformat >>  8) & 0xff,
-> >  		(p->pixelformat >> 16) & 0xff,
-> >  		(p->pixelformat >> 24) & 0xff,
-> > +		p->mbus_code,
-> >  		(int)sizeof(p->description), p->description);
-> >  }
-> >
-> > @@ -1416,12 +1417,17 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
-> >  	struct video_device *vdev = video_devdata(file);
-> >  	struct v4l2_fmtdesc *p = arg;
-> >  	int ret = check_fmt(file, p->type);
-> > +	u32 mbus_code;
-> >  	u32 cap_mask;
-> >
-> >  	if (ret)
-> >  		return ret;
-> >  	ret = -EINVAL;
-> >
-> > +	mbus_code = p->mbus_code;
-> > +	CLEAR_AFTER_FIELD(p, type);
-> > +	p->mbus_code = mbus_code;
-> > +
-> >  	switch (p->type) {
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> > @@ -2703,7 +2709,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
-> >
-> >  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
-> >  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
-> > -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
-> > +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
-> >  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
-> >  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
-> >  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index 5f9357dcb060..b13e54e196e3 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -777,13 +777,15 @@ struct v4l2_fmtdesc {
-> >  	__u32               flags;
-> >  	__u8		    description[32];   /* Description string */
-> >  	__u32		    pixelformat;       /* Format fourcc      */
-> > -	__u32		    reserved[4];
-> > +	__u32		    mbus_code;		/* Media bus code    */
-> > +	__u32		    reserved[3];
-> >  };
-> >
-> >  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
-> >  #define V4L2_FMT_FLAG_EMULATED			0x0002
-> >  #define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM	0x0004
-> >  #define V4L2_FMT_FLAG_DYN_RESOLUTION		0x0008
-> > +#define V4L2_FMT_FLAG_MBUS_CODE			0x0010
-> >
-> >  	/* Frame Size and frame rate enumeration */
-> >  /*
+>  	int ret;
+>  
+>  	v4l2_async_notifier_init(ntf);
+>  
+> -	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(dev, ntf,
+> -					sizeof(struct rkisp1_sensor_async),
+> -					0, rkisp1_fwnode_parse);
+> -	if (ret)
+> -		return ret;
+> +	while (1) {
+> +		struct v4l2_fwnode_endpoint vep = {
+> +			.bus_type = V4L2_MBUS_CSI2_DPHY
+> +		};
+> +		struct rkisp1_sensor_async *rk_asd = NULL;
+> +		struct fwnode_handle *ep;
+>  
+> -	if (list_empty(&ntf->asd_list))
+> -		return -ENODEV;
+> +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
+> +			0, next_id, FWNODE_GRAPH_ENDPOINT_NEXT);
+>  
 
--- 
-Regards,
+Please, remove this new line, so the error check is near the function which generated it.
 
-Laurent Pinchart
+> -	ntf->ops = &rkisp1_subdev_notifier_ops;
+> +		if (!ep)
+> +			break;
+> +
+> +		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> +		if (ret)
+> +			goto err_parse;
+> +
+> +		rk_asd = kzalloc(sizeof(*rk_asd), GFP_KERNEL);
+> +		if (!rk_asd) {
+> +			ret = -ENOMEM;
+> +			goto err_parse;
+> +		}
+> +
+> +		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
+> +		rk_asd->mbus_type = vep.bus_type;
+> +
+> +		/* Parallel bus is currently not supported */
+> +		rk_asd->parallel_bus_flags = 0;
+
+Please see my comment in previous patch of this series.
+
+> +		ret = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
+> +								   &rk_asd->asd);
+> +		if (ret)
+> +			goto err_parse;
+> +
+> +		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
+> +			vep.base.id, rk_asd->lanes);
+> +
+> +		next_id = vep.base.id + 1;
+> +
+> +		fwnode_handle_put(ep);
+>  
+> -	return v4l2_async_notifier_register(&rkisp1->v4l2_dev, ntf);
+> +		continue;
+> +err_parse:
+> +		fwnode_handle_put(ep);
+> +		kfree(rk_asd);
+> +		v4l2_async_notifier_cleanup(ntf);
+> +		return ret;
+
+Question:
+
+If parsing one endpoint fails, should you:
+
+1) Parse all the other endpoints and ignore the one which fails?
+2) Cleanup and free all the other endpoints?
+
+In any case, this code is just stopping in the first one that fails and not
+cleaning up the previous one, so it is not doing any of the previous
+behaviors.
+
+I see that ipu3-cio2.c does the same. Sakari, could you comment on this?
+
+Thanks
+Helen
+
+> +	}
+> +
+> +	if (next_id == 0)
+> +		dev_warn(rkisp1->dev, "no remote subdevice found\n");
+> +	ntf->ops = &rkisp1_subdev_notifier_ops;
+> +	ret = v4l2_async_notifier_register(&rkisp1->v4l2_dev, ntf);
+> +	if (ret) {
+> +		v4l2_async_notifier_cleanup(ntf);
+> +		return ret;
+> +	}
+> +	return 0;
+>  }
+>  
+>  /* ----------------------------------------------------------------------------
+> 
