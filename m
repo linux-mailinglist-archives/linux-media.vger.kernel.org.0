@@ -2,311 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F56187661
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 00:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66449187699
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 01:11:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732973AbgCPXwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Mar 2020 19:52:02 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42496 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732873AbgCPXwC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Mar 2020 19:52:02 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BF22F9;
-        Tue, 17 Mar 2020 00:51:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584402719;
-        bh=ah838C6kO7EjMOpuhkiD9DrsPers0LMY1pfngi2hEdY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U8aUYMCq9h/nChsnhklWlLUgMCrrfFG0maNU8rHxDNvQU+N2z4yiQxDJbQTobo7Xj
-         AKc0EDZ8oaynkud9M1XP48NBa0qt8s6q3iFDnC95JV6CaQPBwxm3cb0A0v5LiJ6D8E
-         qlJrpd5HErSUGXcvCbRJh5u4bwXItR1qZE0XpeT8=
-Date:   Tue, 17 Mar 2020 01:51:54 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, mchehab@kernel.org
-Subject: Re: [PATCH] media: doc-rst: in the RGB formats table add '-' in
- undefined bits
-Message-ID: <20200316235154.GY4732@pendragon.ideasonboard.com>
-References: <20200316155626.20272-1-dafna.hirschfeld@collabora.com>
- <8acdc0fe-7657-a65b-ab8c-f84419701c1a@collabora.com>
+        id S1733078AbgCQALn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Mar 2020 20:11:43 -0400
+Received: from mail.uic.edu.hk ([61.143.62.86]:48979 "EHLO umgp.uic.edu.hk"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1733047AbgCQALn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Mar 2020 20:11:43 -0400
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
+   d="scan'208";a="17243176"
+Received: from unknown (HELO zpmail.uic.edu.hk) ([192.168.111.249])
+  by umgp.uic.edu.hk with ESMTP; 17 Mar 2020 08:11:35 +0800
+Received: from zpmail.uic.edu.hk (localhost [127.0.0.1])
+        by zpmail.uic.edu.hk (Postfix) with ESMTPS id D96D941C05A3;
+        Tue, 17 Mar 2020 08:11:32 +0800 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by zpmail.uic.edu.hk (Postfix) with ESMTP id D554341C0957;
+        Tue, 17 Mar 2020 08:11:31 +0800 (CST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zpmail.uic.edu.hk D554341C0957
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uic.edu.hk;
+        s=6465647E-9D7B-11E8-B17B-42130C7FA3B9; t=1584403892;
+        bh=Wn2BcVyAdGxyDvB/5AnVfCr/iJTzisyuX4dwKssec6E=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=N1pNhkd2l8zz69kDtEsPH5n7SDL70Ak/Rgb/NYqC0+ZCBZFg/G0QkldxXmMRPmztz
+         HwkJ6HHAibMur3rytYhnqKeG349hpGDQCbhvoJdZWkvkFCa93STWbitRqMynzR+Wj5
+         wLEdN7i9CyVDDhspocQMykx6lSGq645dTckJSCrsFHg+uR95rTW6kz2/3F5tST7+Uo
+         ELvvW8oTRw+C3DdE82L8ao85KfwNAx6BRhhB+sNBssPbo3CqQ69/PO1/J9gy3aGO+s
+         FwDrxpCEm2RIo68N7oaYrAjY/FUGCbKk/MsqrV+VDqizldOqfTDFamlvQc82rVkjYy
+         rx6v80NBgwdtg==
+Received: from zpmail.uic.edu.hk ([127.0.0.1])
+        by localhost (zpmail.uic.edu.hk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id gCmMIXxwS0HE; Tue, 17 Mar 2020 08:11:31 +0800 (CST)
+Received: from zpmail.uic.edu.hk (zpmail.uic.edu.hk [192.168.111.249])
+        by zpmail.uic.edu.hk (Postfix) with ESMTP id 1549641C058D;
+        Tue, 17 Mar 2020 08:11:27 +0800 (CST)
+Date:   Tue, 17 Mar 2020 08:11:26 +0800 (CST)
+From:   David Ibe <ylawrence@uic.edu.hk>
+Reply-To: David Ibe <davidibe718@gmail.com>
+Message-ID: <2065446646.63699156.1584403886963.JavaMail.zimbra@uic.edu.hk>
+Subject: 
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8acdc0fe-7657-a65b-ab8c-f84419701c1a@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.111.160]
+X-Mailer: Zimbra 8.8.15_GA_3829 (ZimbraWebClient - GC80 (Win)/8.8.15_GA_3829)
+Thread-Index: 8IMjdxPQWBZshE+F+QJEttpRaFVxcQ==
+Thread-Topic: 
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-Thank you for the patch.
 
-On Mon, Mar 16, 2020 at 05:31:25PM +0100, Dafna Hirschfeld wrote:
-> hi, adding suggested-by
-> 
-> On 16.03.20 16:56, Dafna Hirschfeld wrote:
-> > In the table of the RGB formats, add an explicit '-' signs
-> > to cells that contain undefined bits.
-> > This makes it more clear how many bits and bytes are used
-> > for each format.
-> > 
-> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Good Day,                
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I am Mr. David Ibe, I work with the International Standards on Auditing, I have seen on records, that several times people has divert your funds into their own personal accounts.
 
-> > ---
-> >   Documentation/media/uapi/v4l/pixfmt-rgb.rst | 136 ++++++++++----------
-> >   1 file changed, 68 insertions(+), 68 deletions(-)
-> > 
-> > diff --git a/Documentation/media/uapi/v4l/pixfmt-rgb.rst b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
-> > index 4ce305cc45da..e4adac7f2e4c 100644
-> > --- a/Documentation/media/uapi/v4l/pixfmt-rgb.rst
-> > +++ b/Documentation/media/uapi/v4l/pixfmt-rgb.rst
-> > @@ -128,10 +128,10 @@ next to each other in memory.
-> >         - b\ :sub:`1`
-> >         - b\ :sub:`0`
-> >   
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >         - r\ :sub:`3`
-> >         - r\ :sub:`2`
-> >         - r\ :sub:`1`
-> > @@ -169,10 +169,10 @@ next to each other in memory.
-> >         - b\ :sub:`2`
-> >         - b\ :sub:`1`
-> >         - b\ :sub:`0`
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >   
-> >         - r\ :sub:`3`
-> >         - r\ :sub:`2`
-> > @@ -220,10 +220,10 @@ next to each other in memory.
-> >         - r\ :sub:`1`
-> >         - r\ :sub:`0`
-> >   
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >         - b\ :sub:`3`
-> >         - b\ :sub:`2`
-> >         - b\ :sub:`1`
-> > @@ -261,10 +261,10 @@ next to each other in memory.
-> >         - r\ :sub:`2`
-> >         - r\ :sub:`1`
-> >         - r\ :sub:`0`
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >   
-> >         - b\ :sub:`3`
-> >         - b\ :sub:`2`
-> > @@ -312,7 +312,7 @@ next to each other in memory.
-> >         - b\ :sub:`1`
-> >         - b\ :sub:`0`
-> >   
-> > -      -
-> > +      - `-`
-> >         - r\ :sub:`4`
-> >         - r\ :sub:`3`
-> >         - r\ :sub:`2`
-> > @@ -356,7 +356,7 @@ next to each other in memory.
-> >         - b\ :sub:`2`
-> >         - b\ :sub:`1`
-> >         - b\ :sub:`0`
-> > -      -
-> > +      - `-`
-> >   
-> >         - r\ :sub:`4`
-> >         - r\ :sub:`3`
-> > @@ -404,7 +404,7 @@ next to each other in memory.
-> >         - r\ :sub:`1`
-> >         - r\ :sub:`0`
-> >   
-> > -      -
-> > +      - `-`
-> >         - b\ :sub:`4`
-> >         - b\ :sub:`3`
-> >         - b\ :sub:`2`
-> > @@ -448,7 +448,7 @@ next to each other in memory.
-> >         - r\ :sub:`2`
-> >         - r\ :sub:`1`
-> >         - r\ :sub:`0`
-> > -      -
-> > +      - `-`
-> >   
-> >         - b\ :sub:`4`
-> >         - b\ :sub:`3`
-> > @@ -510,7 +510,7 @@ next to each other in memory.
-> >         - ``V4L2_PIX_FMT_XRGB555X``
-> >         - 'XR15' | (1 << 31)
-> >   
-> > -      -
-> > +      - `-`
-> >         - r\ :sub:`4`
-> >         - r\ :sub:`3`
-> >         - r\ :sub:`2`
-> > @@ -640,21 +640,21 @@ next to each other in memory.
-> >   
-> >         - r\ :sub:`1`
-> >         - r\ :sub:`0`
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >       * .. _V4L2-PIX-FMT-ABGR32:
-> >   
-> >         - ``V4L2_PIX_FMT_ABGR32``
-> > @@ -727,14 +727,14 @@ next to each other in memory.
-> >         - r\ :sub:`1`
-> >         - r\ :sub:`0`
-> >   
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >       * .. _V4L2-PIX-FMT-BGRA32:
-> >   
-> >         - ``V4L2_PIX_FMT_BGRA32``
-> > @@ -780,14 +780,14 @@ next to each other in memory.
-> >         - ``V4L2_PIX_FMT_BGRX32``
-> >         - 'RX24'
-> >   
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >   
-> >         - b\ :sub:`7`
-> >         - b\ :sub:`6`
-> > @@ -887,14 +887,14 @@ next to each other in memory.
-> >         - b\ :sub:`1`
-> >         - b\ :sub:`0`
-> >   
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >       * .. _V4L2-PIX-FMT-ARGB32:
-> >   
-> >         - ``V4L2_PIX_FMT_ARGB32``
-> > @@ -940,14 +940,14 @@ next to each other in memory.
-> >         - ``V4L2_PIX_FMT_XRGB32``
-> >         - 'BX24'
-> >   
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > -      -
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> > +      - `-`
-> >   
-> >         - r\ :sub:`7`
-> >         - r\ :sub:`6`
-> > 
+Now I am writing to you in respect of the amount which I have been able to send to you through our International United Nations accredited and approved Diplomat, who has arrived Africa, I want you to know that the diplomat would deliver the funds which I have packaged as a diplomatic compensation to you and the amount in the consignment is  $10,000,000.00 United State Dollars.
 
--- 
-Regards,
+I did not disclose the contents to the diplomat, but I told him that it is your compensation from the Auditing Corporate Governance and Stewardship, Auditing and Assurance Standards Board. I want you to know that these funds would help with your financial status as I have seen in records that you have spent a lot trying to receive these funds and I am not demanding so much from you but only 30% for my stress and logistics.
 
-Laurent Pinchart
+I would like you to get back to me with your personal contact details, so that I can give you the contact information's of the diplomat who has arrived Africa and has been waiting to get your details so that he can proceed with the delivery to you.
+
+Yours Sincerely,
+Kindly forward your details to: mrdavidibe966@gmail.com
+Mr. David Ibe
+International Auditor,
+Corporate Governance and Stewardship
