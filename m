@@ -2,104 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB0A188DBF
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 20:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BA35188E98
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 21:06:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbgCQTJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 15:09:21 -0400
-Received: from mail.v3.sk ([167.172.186.51]:46710 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726388AbgCQTJV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 15:09:21 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 2340FE021B;
-        Tue, 17 Mar 2020 19:09:38 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id DLLls_Mq1N8K; Tue, 17 Mar 2020 19:09:36 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 44473E0116;
-        Tue, 17 Mar 2020 19:09:36 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id vjvflx8zMQmd; Tue, 17 Mar 2020 19:09:36 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id C22C4DFFBE;
-        Tue, 17 Mar 2020 19:09:35 +0000 (UTC)
-Date:   Tue, 17 Mar 2020 20:09:13 +0100
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
+        id S1726733AbgCQUFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 16:05:36 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:40974 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726452AbgCQUFf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Mar 2020 16:05:35 -0400
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 17 Mar 2020 13:05:34 -0700
+Received: from gurus-linux.qualcomm.com ([10.46.162.81])
+  by ironmsg05-sd.qualcomm.com with ESMTP; 17 Mar 2020 13:05:34 -0700
+Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
+        id B6ECB2164; Tue, 17 Mar 2020 13:05:34 -0700 (PDT)
+From:   Guru Das Srinagesh <gurus@codeaurora.org>
+To:     linux-pwm@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
+        linux-kernel@vger.kernel.org,
+        Guru Das Srinagesh <gurus@codeaurora.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 13/28] dt-bindings: serial: move Marvell compatible
- string to 8250 binding doc
-Message-ID: <20200317190913.GA24359@furthur.local>
-References: <20200317093922.20785-1-lkundrak@v3.sk>
- <20200317093922.20785-14-lkundrak@v3.sk>
- <20200317134805.GO24270@lunn.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200317134805.GO24270@lunn.ch>
+        Richard Fontana <rfontana@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Allison Randal <allison@lohutok.net>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v9 03/11] ir-rx51: Use 64-bit division macro
+Date:   Tue, 17 Mar 2020 13:05:18 -0700
+Message-Id: <f57ccf7a30d2af5111f979947100ec57c8fc5979.1584473399.git.gurus@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1584473399.git.gurus@codeaurora.org>
+References: <cover.1584473399.git.gurus@codeaurora.org>
+In-Reply-To: <cover.1584473399.git.gurus@codeaurora.org>
+References: <cover.1584473399.git.gurus@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 02:48:05PM +0100, Andrew Lunn wrote:
-> On Tue, Mar 17, 2020 at 10:39:07AM +0100, Lubomir Rintel wrote:
-> > These ports are compatible with NS8250 and handled by the same driver.
-> > Get rid of the extra document that fails to document the properties that
-> > are actually supported.
-> 
-> Hi Lubmir
-> 
-> This is needs a bit closer examination. By the PXA maintainers. It
-> appears there are two serial drivers, the 8250 and a PXA specific
-> driver.
+Since the PWM framework is switching struct pwm_state.period's datatype
+to u64, prepare for this transition by using DIV_ROUND_CLOSEST_ULL to
+handle a 64-bit dividend.
 
-Well, for "mrvl,mmp-uart", there are three: SERIAL_OF_PLATFORM,
-SERIAL_8250_PXA and SERIAL_PXA:
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Richard Fontana <rfontana@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>
+Cc: Allison Randal <allison@lohutok.net>
+Cc: linux-media@vger.kernel.org
 
-  drivers/tty/serial/8250/8250_of.c:      { .compatible = "mrvl,mmp-uart",
-  drivers/tty/serial/8250/8250_pxa.c:     { .compatible = "mrvl,mmp-uart", },
-  drivers/tty/serial/pxa.c:       { .compatible = "mrvl,mmp-uart", },
+Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
+Acked-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/ir-rx51.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-For that matter, the hardware is also compatible with intel,xscale-uart
-and the mrvl,mmp-uart compatible string is perhaps entirely unnecessary.
+diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
+index 8574eda..9a5dfd7 100644
+--- a/drivers/media/rc/ir-rx51.c
++++ b/drivers/media/rc/ir-rx51.c
+@@ -241,7 +241,8 @@ static int ir_rx51_probe(struct platform_device *dev)
+ 	}
+ 
+ 	/* Use default, in case userspace does not set the carrier */
+-	ir_rx51.freq = DIV_ROUND_CLOSEST(pwm_get_period(pwm), NSEC_PER_SEC);
++	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm),
++			NSEC_PER_SEC);
+ 	pwm_put(pwm);
+ 
+ 	hrtimer_init(&ir_rx51.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-I guess the story is somewhat similar for mrvl,pxa-uart; I can not
-verify though.
-
-I suppose SERIAL_PXA is not really needed at this point and if support
-for mrvl,pxa-uart was added to SERIAL_OF_PLATFORM, then SERIAL_8250_PXA
-would only be useful for platforms that don't use DT and the DT bits
-could be stripped from it eventually. That is -- if PXA maintainers
-agree, of course.
-
-> 	Andrew
-
-Regards
-Lubo
