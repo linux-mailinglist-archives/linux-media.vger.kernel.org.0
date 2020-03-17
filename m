@@ -2,208 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE8CA18844C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 13:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B9C18846A
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 13:40:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726902AbgCQMdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 08:33:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52622 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726550AbgCQMdM (ORCPT
+        id S1726066AbgCQMks (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 08:40:48 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:52032 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbgCQMks (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 08:33:12 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1A1A504;
-        Tue, 17 Mar 2020 13:33:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584448390;
-        bh=ChaPSA5GV8Hr5aNJGgWAOdC3my92xcXCev0HTwhdU+k=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=LP0fPdkxDvVOiOHieYbxAfphgo9NTAMpUPJWzbdkpGX3J0xI/VNJPjvVy54h/jzMr
-         xLH7dB54n3oWRvymGY7B6/FXVoripLTNhsBdcei0rHF+P3Iny/uNAkGiG0vBbNUH83
-         dKD5N6NTXpAHlwEuCdCcRlW/3kljY26aztQgsuWQ=
-Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
- fwnode matching
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200316214012.GB2324872@oden.dyn.berto.se>
- <20200316214727.GX4732@pendragon.ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <b647c536-98cb-9ecc-d6b3-14954da78868@ideasonboard.com>
-Date:   Tue, 17 Mar 2020 12:33:07 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        Tue, 17 Mar 2020 08:40:48 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02HCecCM011056;
+        Tue, 17 Mar 2020 07:40:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1584448838;
+        bh=Y12vBHiSmtg4JMP4AYAFDNxXyed6YQeAsAbAO68GYZs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=w1edVx14OINA2poxnNSVgPdkMK9A+9r/sGZkDIUkBERafRBo8f0gAS4MlksHHiqLe
+         r3v6Rz/2WUAyAeySTPfCxkU200DRHHlzNVkHlyDMovWlf6Xow/8y1ZEOFDtZMAjioJ
+         hGkY6EcJb0PTperetTSmgEQ9tPKjP7s3aEHjDX80=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02HCec45010455
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 17 Mar 2020 07:40:38 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
+ Mar 2020 07:40:37 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Tue, 17 Mar 2020 07:40:37 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02HCeZXQ079307;
+        Tue, 17 Mar 2020 07:40:35 -0500
+Subject: Re: OV5640 CSI2 problemsg
+To:     Jacopo Mondi <jacopo@jmondi.org>
+CC:     Benoit Parrot <bparrot@ti.com>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        <linux-media@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
+References: <d0510b81-9ae1-9b6f-02c5-f4eb08e67bfa@ti.com>
+ <20200317102214.kc2rh7s67ycl4req@uno.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <1496451e-b3ba-efbb-1836-6eb321993b11@ti.com>
+Date:   Tue, 17 Mar 2020 14:40:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200316214727.GX4732@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200317102214.kc2rh7s67ycl4req@uno.localdomain>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On 16/03/2020 21:47, Laurent Pinchart wrote:
-> Hi Niklas,
+On 17/03/2020 12:22, Jacopo Mondi wrote:
+> Hi Tomi,
+>     welcome to the ov5640 bandwagon
 > 
-> On Mon, Mar 16, 2020 at 10:40:12PM +0100, Niklas Söderlund wrote:
->> On 2020-03-15 14:55:11 +0200, Laurent Pinchart wrote:
->>> fwnode matching was designed to match on nodes corresponding to a
->>> device. Some drivers, however, needed to match on endpoints, and have
->>> passed endpoint fwnodes to v4l2-async. This works when both the subdev
->>> and the notifier use the same fwnode types (endpoint or device), but
->>> makes drivers that use different types incompatible.
->>>
->>> Fix this by extending the fwnode match to handle fwnodes of different
->>> types. When the types (deduced from the node name) are different,
->>> retrieve the device fwnode for the side that provides an endpoint
->>> fwnode, and compare it with the device fwnode provided by the other
->>> side. This allows interoperability between all drivers, regardless of
->>> which type of fwnode they use for matching.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>
->> I tested this on R-Car CSI-2 and ADV748x without any regressions. As 
->> Jacopo already pointed out it's similar to what have been tried before 
-
-This was the patch that I had believed was accepted, but ended up stuck
-in Sakari's tree:
-
-https://git.linuxtv.org/sailus/media_tree.git/commit/?h=fwnode-const&id=35c32d99b2c3f5086b911ec817926de9b7bc3b41
-
-(it's already a little bit-rotted though)
-
-
->> and have the potential problem for new transmitters registering multiple 
->> endpoints (like ADV748x) being used together with older receivers who 
->> register a single device node in v4l-async. But this do not introduce 
-
-So if an 'old' receiver wants to use the 'new' features, it must upgrade
-to endpoint matching.
-
-I think that's fine.
-
->> any regressions and is a good first step to move everything to endpoint 
->> matching.
->>
->> Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>
->> Maybe a info message should be logged if a match is made between 
->> endpoint and node? It would make it easy to spot if one needs to debug a 
->> miss match and would be a clear message one driver should be moved to 
->> endpoint matching. Maybe adding such a log message would count as a 
->> regression for some.
+> This driver received lot of attention and reworking, but there are
+> indeed several issues at the moment :(
 > 
-> WARN("FIX YOUR DRIVER TO USE ENDPOINT MATCHING") ? :-)
-
-Indeed, a notification that they need to update their matching would be
-useful in that scenario.
-
-I believe we need to move forward with this somehow, as we have Xilinx
-trying to use MAX9286 with Xilinx drivers, (endpoint matching subdev
-with dev node matching receiver) and Renesas trying to use non-endpoint
-subdevices against an endpoint matched RCar-VIN ...?
-
-
-> Jokes aside, something a bit less harsh such as "Matching endpoint with
-> device node, consider fixing driver %s to use endpoints" wouldn't be a
-> bad idea.
-
-Yes, Is there anything else we can do? Even if we 'started' converting
-other receivers to match on endpoints, it would take time - so I think
-an intermediate stage like this is still very useful.
-
-Of course this patch also lets us push the updates back to those who
-care about those drivers too ...
-
->>> ---
->>> This has been compile-tested only. Prabhakar, could you check if it
->>> fixes your issue ?
->>>
->>>  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
->>>  1 file changed, 41 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
->>> index 8bde33c21ce4..995e5464cba7 100644
->>> --- a/drivers/media/v4l2-core/v4l2-async.c
->>> +++ b/drivers/media/v4l2-core/v4l2-async.c
->>> @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
->>>  
->>>  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
->>>  {
->>> -	return sd->fwnode == asd->match.fwnode;
->>> +	struct fwnode_handle *other_fwnode;
->>> +	struct fwnode_handle *dev_fwnode;
->>> +	bool asd_fwnode_is_ep;
->>> +	bool sd_fwnode_is_ep;
->>> +	const char *name;
->>> +
->>> +	/*
->>> +	 * Both the subdev and the async subdev can provide either an endpoint
->>> +	 * fwnode or a device fwnode. Start with the simple case of direct
->>> +	 * fwnode matching.
->>> +	 */
->>> +	if (sd->fwnode == asd->match.fwnode)
->>> +		return true;
->>> +
->>> +	/*
->>> +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
->>> +	 * endpoint or a device. If they're of the same type, there's no match.
->>> +	 */
->>> +	name = fwnode_get_name(sd->fwnode);
->>> +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
->>> +	name = fwnode_get_name(asd->match.fwnode);
->>> +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
->>> +
->>> +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
->>> +		return false;
-
-Ok, so this looks like a good safety check for edge cases which would
-potentially have got through in my version.
-
->>> +
->>> +	/*
->>> +	 * The sd and asd fwnodes are of different types. Get the device fwnode
->>> +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
->>> +	 */
->>> +	if (sd_fwnode_is_ep) {
->>> +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
->>> +		other_fwnode = asd->match.fwnode;
->>> +	} else {
->>> +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
->>> +		other_fwnode = sd->fwnode;
->>> +	}
->>> +
->>> +	fwnode_handle_put(dev_fwnode);
-
-It seems in my implementation these got leaked too :-)
-
-I'm sold. This one is better than the old version I had.
-
-Hopefully we can get this moving so that we can progress towards
-endpoint matching throughout next.
-
-(Ideally with a warning to convert non-endpoint matching drivers...)
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
->>> +
->>> +	return dev_fwnode == other_fwnode;
->>>  }
->>>  
->>>  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> On Fri, Mar 13, 2020 at 01:15:33PM +0200, Tomi Valkeinen wrote:
+>> Hi all,
+>>
+>> I've been testing and debugging OV5640 with TI's DRA76 and AM65 platforms,
+>> which have the CAL IP for MIPI CSI2 RX.
+>>
+>> The most clear problem is that 1280x720@30 doesn't work at all, but with all
+>> resolutions I can see occasional PHY errors reported when starting the
+>> streaming.
 > 
+> I've been testing a CSI-2 setup with 2 data lanes on an IMX6 platform,
+> just for the record
 
+Two lanes here too.
+
+>> The OV5640 spec lists the video timings, but I haven't been able to figure
+>> out what exactly they mean, as e.g. the vsync time doesn't seem to match the
+>> other times according to my calculations.
+>>
+> 
+> Are you referring to the ov5640_mode_info structures ?
+
+Yes.
+
+Looking at the git log, these values seem to have been there from the start. Initially in the raw 
+register sequences, then moved from there to ov5640_mode_info. But the numbers have been the same.
+
+I wonder where they came originally, and whether they have ever been correct.
+
+Perhaps I'll cook up a patch where I'll update the values to what the sensor sheet suggests, and 
+other people can try and see if the driver still works for them.
+
+>> In any case, I was poking here and there, and noticed that if I use the htot
+>> value from the spec (2844), instead of the current value (1896 for most
+>> resolutions), 1280x720 works, and the PHY errors are gone.
+>>
+>> Testing more, I found out that the smaller the htot, the more unreliable the
+>> RX becomes, and going down from 2844, somewhere around 2400 I start to see
+>> errors.
+>>
+> 
+> That's a good finding!
+> 
+> I recall I had issues as well with that mode, and fixed them by
+> doubling the MIPI bus clock speed You might have noticed these lines
+> in the CSI-2 clock tree calculation function ov5640_set_mipi_pclk()
+> 
+> 	/*
+> 	 * 1280x720 is reported to use 'SUBSAMPLING' only,
+> 	 * but according to the sensor manual it goes through the
+> 	 * scaler before subsampling.
+> 	 */
+> 	if (mode->dn_mode == SCALING ||
+> 	   (mode->id == OV5640_MODE_720P_1280_720))
+> 		mipi_div = OV5640_MIPI_DIV_SCLK; // THIS is 1
+> 	else
+> 		mipi_div = OV5640_MIPI_DIV_PCLK; // THIS is 2: halve the MIPI clock speed
+> 
+> I had that mode working, but after a good year or so trying to decode
+> the clock tree of the sensor with only partially satisfactory results,
+> I can't tell if that was by accident or not :)
+
+The comment says that the above is according to the sensor manual, but I couldn't find mention of 
+that. Do you recall where you found that information?
+
+>> I'm not that much familiar with CSI-2, and very little with OV5640. Does
+>> anyone have a clue about what I'm observing here? Does 1280x720@30 work on
+> 
+> Hugues made a great effort by sampling the actual frequencies on the
+> bus, and he found out the actual frequencies are off compared to my
+> theoretical calculations. After that I've actually dropped the ball and
+> moved on, but maybe throwing your htot findings in the mix could help?
+> 
+> Here you have the thread with more information and Hugues measurement
+> results:
+> https://patchwork.kernel.org/patch/11019673/
+> 
+>> other platforms with CSI2? Where do the current OV5640 video timings come
+>> from?
+>>
+> 
+> I suggest you have a look at
+> dfbfb7aa832c ("media: ov5640: Compute the clock rate at runtime")
+> 
+> htot is used to calculate the desired pixel clock, so it could indeed
+> be one of the reasons why the above clock tree calculations are off.
+> 
+> Hope it helps a bit.
+
+Thanks! Seems that this is all a bit of a detective work =). I have no means to measure the CSI 
+clock/data lanes, so debugging this is obviously rather frustrating.
+
+  Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
