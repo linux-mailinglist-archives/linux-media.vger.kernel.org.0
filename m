@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9638D187B9A
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 09:56:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E22B187BB2
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 10:04:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725837AbgCQI4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 04:56:06 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:55452 "EHLO
+        id S1726039AbgCQJER (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 05:04:17 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:56758 "EHLO
         fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbgCQI4G (ORCPT
+        with ESMTP id S1725872AbgCQJER (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 04:56:06 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02H8u2Nj085947;
-        Tue, 17 Mar 2020 03:56:02 -0500
+        Tue, 17 Mar 2020 05:04:17 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02H94D2J088221;
+        Tue, 17 Mar 2020 04:04:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1584435362;
-        bh=7Jass23Z7vv2TJIC1Oxodpvn58VovJbGZYMvS3JwgPk=;
+        s=ti-com-17Q1; t=1584435853;
+        bh=k4rmioWeFbTMw9hiNMlflMr6AKefkvjCId5PvEkXWco=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=xpk4zv9bpo138LHt0iRImR+GHVgH8vIrEGSZ4LXt+WvWaDxFE4Z8Xe6wi9wqZNbCf
-         2d3blzgQM+dhgMFE+kyRfAT5zzKWAceTN8JACBeCj8IqjNXDyNt+23u+miKfr3Cqzh
-         xsT/AFLH1AWDmY9nzYMTFc/IeLqqCdH9aKAAVnX4=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02H8u2pn065637;
-        Tue, 17 Mar 2020 03:56:02 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+        b=tv7dzb57zheWPScqXRks3wmUs0AcIjFpXIa8opeeY0pdqzpprX0C0Vt0SnGt9WTnB
+         o+XymH+Wpl42DiBc2JGp3TLKtVgMh4E0tn3Quh63iRB9OH1fOBm5c5wEOgS6yrLRfz
+         oSqG5KIpe+jEzsh92aVJR6kdO7q2GOR2hAZ3N4ic=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02H94D6c038801
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 17 Mar 2020 04:04:13 -0500
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 17
- Mar 2020 03:56:02 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ Mar 2020 04:04:12 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 17 Mar 2020 03:56:02 -0500
+ Frontend Transport; Tue, 17 Mar 2020 04:04:12 -0500
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02H8u0uV018222;
-        Tue, 17 Mar 2020 03:56:01 -0500
-Subject: Re: [PATCH 03/16] media: ti-vpe: cal: catch error irqs and print
- errors
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02H94AJP105804;
+        Tue, 17 Mar 2020 04:04:11 -0500
+Subject: Re: [PATCH 13/16] media: ti-vpe: cal: move code to separate functions
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 CC:     <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20200313114121.32182-1-tomi.valkeinen@ti.com>
- <20200313114121.32182-3-tomi.valkeinen@ti.com>
- <20200316122218.GV4732@pendragon.ideasonboard.com>
+ <20200313114121.32182-13-tomi.valkeinen@ti.com>
+ <20200316124141.GF4732@pendragon.ideasonboard.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <1ad97d7b-c1d8-7673-ab68-954afb41cd98@ti.com>
-Date:   Tue, 17 Mar 2020 10:56:00 +0200
+Message-ID: <2ec39de6-f33c-48cb-5200-f5bd313bb05f@ti.com>
+Date:   Tue, 17 Mar 2020 11:04:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200316122218.GV4732@pendragon.ideasonboard.com>
+In-Reply-To: <20200316124141.GF4732@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -60,121 +60,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/03/2020 14:22, Laurent Pinchart wrote:
+On 16/03/2020 14:41, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Fri, Mar 13, 2020 at 01:41:08PM +0200, Tomi Valkeinen wrote:
->> CAL reports various errors via IRQs, which are not handled at all by the
->> current driver. Add code to enable and catch those IRQs and print
->> errors. This will make it much easier to notice and debug issues with
->> sensors.
+> On Fri, Mar 13, 2020 at 01:41:18PM +0200, Tomi Valkeinen wrote:
+>> To make csi2_wait_for_phy() more readable, move code to separate
+>> functions.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 >> ---
->>   drivers/media/platform/ti-vpe/cal.c      | 46 +++++++++++++++++++++++-
->>   drivers/media/platform/ti-vpe/cal_regs.h |  3 ++
->>   2 files changed, 48 insertions(+), 1 deletion(-)
+>>   drivers/media/platform/ti-vpe/cal.c | 38 ++++++++++++++++++++---------
+>>   1 file changed, 26 insertions(+), 12 deletions(-)
 >>
 >> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
->> index b4a9f4d16ce4..f6ce0558752a 100644
+>> index 64ea92dbfac5..319312770eea 100644
 >> --- a/drivers/media/platform/ti-vpe/cal.c
 >> +++ b/drivers/media/platform/ti-vpe/cal.c
->> @@ -692,6 +692,21 @@ static void cal_quickdump_regs(struct cal_dev *dev)
->>    */
->>   static void enable_irqs(struct cal_ctx *ctx)
+>> @@ -822,20 +822,10 @@ static void csi2_phy_init(struct cal_ctx *ctx)
+>>   	csi2_cio_pwr(ctx, true);
+>>   }
+>>   
+>> -static void csi2_wait_for_phy(struct cal_ctx *ctx)
+>> +static void csi2_wait_complexio_reset(struct cal_ctx *ctx)
 >>   {
->> +	const u32 cio_err_mask =
->> +		((1 << 20) - 1) |	/* lane errors */
->> +		BIT(27) |		/* FIFO_OVR */
->> +		BIT(28) |		/* SHORT_PACKET */
->> +		BIT(30);		/* ECC_NO_CORRECTION */
+>>   	int i;
 > 
-> Could you create macros for those bits ?
+> unsigned int ?
 > 
->> +
->> +	/* Enable CIO error irqs */
->> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1),
->> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
->> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
->> +		  cio_err_mask);
->> +
->> +	/* Always enable OCP error */
->> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(1), BIT(6));
-> 
-> And for this bit too.
-
-Yep, will do.
-
->> +
->>   	/* Enable IRQ_WDMA_END 0/1 */
->>   	reg_write(ctx->dev, CAL_HL_IRQENABLE_SET(2), 1 << (ctx->csi2_port - 1));
->>   	/* Enable IRQ_WDMA_START 0/1 */
->> @@ -702,6 +717,12 @@ static void enable_irqs(struct cal_ctx *ctx)
 >>   
->>   static void disable_irqs(struct cal_ctx *ctx)
->>   {
->> +	/* Disable CIO error irqs */
->> +	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(1),
->> +		  CAL_HL_IRQ_CIO_MASK(ctx->csi2_port));
->> +	reg_write(ctx->dev, CAL_CSI2_COMPLEXIO_IRQENABLE(ctx->csi2_port),
->> +		  0);
->> +
->>   	/* Disable IRQ_WDMA_END 0/1 */
->>   	reg_write(ctx->dev, CAL_HL_IRQENABLE_CLR(2), 1 << (ctx->csi2_port - 1));
->>   	/* Disable IRQ_WDMA_START 0/1 */
->> @@ -1169,7 +1190,30 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
->>   	struct cal_dev *dev = (struct cal_dev *)data;
->>   	struct cal_ctx *ctx;
->>   	struct cal_dmaqueue *dma_q;
->> -	u32 irqst2, irqst3;
->> +	u32 irqst1, irqst2, irqst3;
->> +
->> +	irqst1 = reg_read(dev, CAL_HL_IRQSTATUS(1));
->> +	if (irqst1) {
->> +		int i;
->> +
->> +		reg_write(dev, CAL_HL_IRQSTATUS(1), irqst1);
->> +
->> +		if (irqst1 & BIT(6))
->> +			dev_err_ratelimited(&dev->pdev->dev, "OCP ERROR\n");
->> +
->> +		for (i = 1; i <= 2; ++i) {
->> +			if (irqst1 & CAL_HL_IRQ_CIO_MASK(i)) {
->> +				u32 cio_stat = reg_read(dev,
->> +							CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
->> +
->> +				dev_err_ratelimited(&dev->pdev->dev,
->> +						    "CIO%d error: %#08x\n", i, cio_stat);
->> +
->> +				reg_write(dev, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
->> +					  cio_stat);
->> +			}
->> +		}
->> +	}
+>> -	/* Steps
+>> -	 *  2. Wait for completion of reset
+>> -	 *          Note if the external sensor is not sending byte clock,
+>> -	 *          the reset will timeout
+>> -	 *  4.Force FORCERXMODE
+>> -	 *      G. Wait for all enabled lane to reach stop state
+>> -	 *      H. Disable pull down using pad control
+>> -	 */
+>> -
+>> -	/* 2. Wait for reset completion */
+>>   	for (i = 0; i < 250; i++) {
+>>   		if (reg_read_field(ctx->dev,
+>>   				   CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port),
+>> @@ -854,7 +844,12 @@ static void csi2_wait_for_phy(struct cal_ctx *ctx)
+>>   			   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED)
+>>   		ctx_err(ctx, "Timeout waiting for Complex IO reset done\n");
 >>   
->>   	/* Check which DMA just finished */
->>   	irqst2 = reg_read(dev, CAL_HL_IRQSTATUS(2));
->> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
->> index 0b76d1186074..a29198cc3efe 100644
->> --- a/drivers/media/platform/ti-vpe/cal_regs.h
->> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
->> @@ -158,6 +158,9 @@
->>   #define CAL_HL_IRQ_ENABLED				0x1
->>   #define CAL_HL_IRQ_PENDING				0x1
->>   
->> +#define CAL_HL_IRQ_CIO_MASK(i)			BIT(16 + (i-1) * 8)
+>> -	/* 4. G. Wait for all enabled lane to reach stop state */
+>> +}
+>> +
+>> +static void csi2_wait_stop_state(struct cal_ctx *ctx)
+>> +{
+>> +	int i;
 > 
-> This should be
-> 
-> 	BIT(16 + ((i)-1) * 8)
-> 
->> +#define CAL_HL_IRQ_VC_MASK(i)			BIT(17 + (i-1) * 8)
-> 
-> Same here.
+> Ditto.
 
-Right. Thanks!
+I'll leave these, as they were "int" also in the original code, and I remove these in the next patches.
 
   Tomi
 
