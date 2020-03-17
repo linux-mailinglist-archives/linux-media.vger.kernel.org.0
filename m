@@ -2,100 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE6C31887A4
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 15:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F8451887AE
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 15:40:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbgCQOiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 10:38:46 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:42263 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbgCQOiq (ORCPT
+        id S1726294AbgCQOkv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 10:40:51 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:50147 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbgCQOkv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 10:38:46 -0400
-Received: by mail-ed1-f65.google.com with SMTP id b21so16424160edy.9
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2020 07:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jlekstrand-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=58E8O3m6t+KgZRbknRUT1fbjtg6lCF8mlzGXozHsZLI=;
-        b=BKjx5GxjtPf5TPEDBnuMSgESLn6y4nsg9DPWOCwQKhF3s62lwdV/DxSK8/c5eobv6d
-         51rKZiSe3dl6f3w1ru0untIXiQ31rEFO318tRU1KhZy1q44+SNKkurjHT/fVnMI2gUoP
-         dPFPdx8DJHdLIolT21N89p5cd6a9wZw4YY+gxIGiFb62syceA83loj687Qdi3O5RXpzv
-         WeDVB084vKjwRioNkoGfe6KwW/k+7s2u8Mucso09MzFdOnZbDGxVS/U9b5omgpwsqXKK
-         Okdf9OcBUeEFLQssq+XvsUWXOCAplKx04/xuTEm1K1dUNa4U+w3KOSottFFcFvYCkdZR
-         fBEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=58E8O3m6t+KgZRbknRUT1fbjtg6lCF8mlzGXozHsZLI=;
-        b=bKWA8Rixl1pNv36Hh9HDeZmssVUAOQQZej3DVRziAGyC8+HAiyDNN9Vc99fskD3BtI
-         hIG65AR0BJt1R14Er03uyUpOnybjra7nSPcau3s+mCdYynLvpe4uHuw8CyfJcd9dyWWb
-         b7aT+1BDzC4+xEAIcMGCKtGByqWdeNhEy4uopDYI1HQAT4NiIvitnK1vDWEyVoKwLVYe
-         cSiyIjKgx3qWsm9NuBPNCVM1GwDhAf/Iv+OXcmIp35Ogf+OZpPEPjhGOmkMzGGOvTEMJ
-         ogjZs+tcdmQAOXjNvcwiQhCl5/ptPvt4latA+TdchYCrz+89TzdDK1RxjRBW8/OCU9oh
-         rYRg==
-X-Gm-Message-State: ANhLgQ0lBIp+ghBLwpns3nkTBUp/Mk/FBDUTf2Rn0s/A77+WFYCLGINW
-        jGUgIku//wrsY4w5cIAwIXtkq8W5q8U1ebH1+KOLbg==
-X-Google-Smtp-Source: ADFU+vsFSMTrSBQzzVz0fns2aVhYRgz8om7siPBypK9bv6eKullnoKrCBPCjz8ZdyB5DIdM56eZbTEPZ9DOJmnbIGpg=
-X-Received: by 2002:aa7:d64a:: with SMTP id v10mr5738252edr.324.1584455922976;
- Tue, 17 Mar 2020 07:38:42 -0700 (PDT)
+        Tue, 17 Mar 2020 10:40:51 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id B6836240002;
+        Tue, 17 Mar 2020 14:40:47 +0000 (UTC)
+Date:   Tue, 17 Mar 2020 15:43:42 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     Benoit Parrot <bparrot@ti.com>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>
+Subject: Re: OV5640 CSI2 problemsg
+Message-ID: <20200317144342.6ylc2xlkxtzuc3h2@uno.localdomain>
+References: <d0510b81-9ae1-9b6f-02c5-f4eb08e67bfa@ti.com>
+ <20200317102214.kc2rh7s67ycl4req@uno.localdomain>
+ <1496451e-b3ba-efbb-1836-6eb321993b11@ti.com>
 MIME-Version: 1.0
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com> <CAO1ALz=us11a8=M6MWGdLwXakeR3Ltd=iyAN4G5-GkvNXctGeA@mail.gmail.com>
- <CAPj87rPnk6181unams0vBT3ZpdNY=gMM5iFf=E5iPuj=eG28yQ@mail.gmail.com>
- <CAO1ALzmghMQo31noEBW_0gVzJp=BZrNaNtXE+86TR0hR86Y1Jw@mail.gmail.com>
- <CAOFGe94crnBBvjfP=0W3awUrxu+ZZG1_Q3bO03ti6jBckgTf_g@mail.gmail.com> <Y9H86RTKcPvmzxnEtxZ13-XX87Y6YIAbA8qSYhDsYVgAKBp8zVlC342pyTaC7JFJr-s9B4jMtfDPz_I2v9D9fYpKaZtpNOl--Brk8aobnSE=@emersion.fr>
-In-Reply-To: <Y9H86RTKcPvmzxnEtxZ13-XX87Y6YIAbA8qSYhDsYVgAKBp8zVlC342pyTaC7JFJr-s9B4jMtfDPz_I2v9D9fYpKaZtpNOl--Brk8aobnSE=@emersion.fr>
-From:   Jason Ekstrand <jason@jlekstrand.net>
-Date:   Tue, 17 Mar 2020 09:38:31 -0500
-Message-ID: <CAOFGe95joO91aBpZCHf+5TR3JDocrgdiQJ+Qxg1H3J3m+dKPsA@mail.gmail.com>
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-To:     Simon Ser <contact@emersion.fr>
-Cc:     Tomek Bury <tomek.bury@gmail.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Dave Airlie <airlied@gmail.com>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1496451e-b3ba-efbb-1836-6eb321993b11@ti.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 3:01 AM Simon Ser <contact@emersion.fr> wrote:
->
-> On Monday, March 16, 2020 5:04 PM, Jason Ekstrand <jason@jlekstrand.net> wrote:
->
-> > Hopefully, that will provide some motivation for other compositors
-> > (kwin, gnome-shell, etc.) because they now have a real user of it in
-> > an upstream driver for a major desktop platform and not just a few
-> > weston examples. However, someone is going to have to drive the
-> > actual development in those compositors. I'd be very happy if more
-> > people got involved, :-)
->
-> FWIW, a wlroots pull request is in progress [0]. The plan is first to
-> accept fence FDs from clients, then send them our fences as a second
-> step.
+Hi Tomi,
 
-What exactly are the semantics there?  Are you going to somehow wait
-inside wlroots for the buffer to be 100% idle or are you expecting the
-client to somehow use explicit for sending buffers implicit to wait
-for idle?  If it's the latter, that's not going to work.
+On Tue, Mar 17, 2020 at 02:40:35PM +0200, Tomi Valkeinen wrote:
+> On 17/03/2020 12:22, Jacopo Mondi wrote:
+> > Hi Tomi,
+> >     welcome to the ov5640 bandwagon
+> >
+> > This driver received lot of attention and reworking, but there are
+> > indeed several issues at the moment :(
+> >
+> > On Fri, Mar 13, 2020 at 01:15:33PM +0200, Tomi Valkeinen wrote:
+> > > Hi all,
+> > >
+> > > I've been testing and debugging OV5640 with TI's DRA76 and AM65 platforms,
+> > > which have the CAL IP for MIPI CSI2 RX.
+> > >
+> > > The most clear problem is that 1280x720@30 doesn't work at all, but with all
+> > > resolutions I can see occasional PHY errors reported when starting the
+> > > streaming.
+> >
+> > I've been testing a CSI-2 setup with 2 data lanes on an IMX6 platform,
+> > just for the record
+>
+> Two lanes here too.
+>
+> > > The OV5640 spec lists the video timings, but I haven't been able to figure
+> > > out what exactly they mean, as e.g. the vsync time doesn't seem to match the
+> > > other times according to my calculations.
+> > >
+> >
+> > Are you referring to the ov5640_mode_info structures ?
+>
+> Yes.
+>
+> Looking at the git log, these values seem to have been there from the start.
+> Initially in the raw register sequences, then moved from there to
+> ov5640_mode_info. But the numbers have been the same.
+>
 
---Jason
+Yup, that's my understanding as well
+
+> I wonder where they came originally, and whether they have ever been correct.
+>
+> Perhaps I'll cook up a patch where I'll update the values to what the sensor
+> sheet suggests, and other people can try and see if the driver still works
+> for them.
+>
+> > > In any case, I was poking here and there, and noticed that if I use the htot
+> > > value from the spec (2844), instead of the current value (1896 for most
+> > > resolutions), 1280x720 works, and the PHY errors are gone.
+> > >
+> > > Testing more, I found out that the smaller the htot, the more unreliable the
+> > > RX becomes, and going down from 2844, somewhere around 2400 I start to see
+> > > errors.
+> > >
+> >
+> > That's a good finding!
+> >
+> > I recall I had issues as well with that mode, and fixed them by
+> > doubling the MIPI bus clock speed You might have noticed these lines
+> > in the CSI-2 clock tree calculation function ov5640_set_mipi_pclk()
+> >
+> > 	/*
+> > 	 * 1280x720 is reported to use 'SUBSAMPLING' only,
+> > 	 * but according to the sensor manual it goes through the
+> > 	 * scaler before subsampling.
+> > 	 */
+> > 	if (mode->dn_mode == SCALING ||
+> > 	   (mode->id == OV5640_MODE_720P_1280_720))
+> > 		mipi_div = OV5640_MIPI_DIV_SCLK; // THIS is 1
+> > 	else
+> > 		mipi_div = OV5640_MIPI_DIV_PCLK; // THIS is 2: halve the MIPI clock speed
+> >
+> > I had that mode working, but after a good year or so trying to decode
+> > the clock tree of the sensor with only partially satisfactory results,
+> > I can't tell if that was by accident or not :)
+>
+> The comment says that the above is according to the sensor manual, but I
+> couldn't find mention of that. Do you recall where you found that
+> information?
+>
+
+In my datasheet version (2.03) page 22 reports a list of modes and
+the associated "scaling method". 1280x720 is reported as "cropping +
+subsampling" that's where I got the mode "goes through the scaler".
+
+> > > I'm not that much familiar with CSI-2, and very little with OV5640. Does
+> > > anyone have a clue about what I'm observing here? Does 1280x720@30 work on
+> >
+> > Hugues made a great effort by sampling the actual frequencies on the
+> > bus, and he found out the actual frequencies are off compared to my
+> > theoretical calculations. After that I've actually dropped the ball and
+> > moved on, but maybe throwing your htot findings in the mix could help?
+> >
+> > Here you have the thread with more information and Hugues measurement
+> > results:
+> > https://patchwork.kernel.org/patch/11019673/
+> >
+> > > other platforms with CSI2? Where do the current OV5640 video timings come
+> > > from?
+> > >
+> >
+> > I suggest you have a look at
+> > dfbfb7aa832c ("media: ov5640: Compute the clock rate at runtime")
+> >
+> > htot is used to calculate the desired pixel clock, so it could indeed
+> > be one of the reasons why the above clock tree calculations are off.
+> >
+> > Hope it helps a bit.
+>
+> Thanks! Seems that this is all a bit of a detective work =). I have no means
+
+It is I'm afraid.
+
+Thanks for your effort!
+
+> to measure the CSI clock/data lanes, so debugging this is obviously rather
+> frustrating.
+>
+>  Tomi
+>
+> --
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
