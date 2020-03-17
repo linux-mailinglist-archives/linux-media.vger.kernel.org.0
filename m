@@ -2,256 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA211188484
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 13:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13AE31884B3
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 14:06:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbgCQMwl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 08:52:41 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60866 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbgCQMwk (ORCPT
+        id S1726609AbgCQNGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 09:06:09 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52822 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726605AbgCQNGJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 08:52:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 7507E2950E2
-Subject: Re: [PATCH v2 1/2] media: staging: rkisp1: remove mbus field from
- rkisp1_sensor_async
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com
-References: <20200312154604.24996-1-dafna.hirschfeld@collabora.com>
- <20200312154604.24996-2-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <19a93392-f646-6bfc-d918-16c2a4c7e7e4@collabora.com>
-Date:   Tue, 17 Mar 2020 09:52:32 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Tue, 17 Mar 2020 09:06:09 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6656F9;
+        Tue, 17 Mar 2020 14:06:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584450366;
+        bh=xtH0bDLpMkUvinxoqjDvNNNSX8xAjRmQhH16MC4/OZg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BLKoTmP8ePpg7KFfmoKjHXjFeH8op+CHW/ky6VhNzRmDpYbiwrFkRt7lYs99kBTVy
+         RplL6t39RXeF2OPMIjs8nBaS5CvFEZfC8CcT39koXujcVFrxqlqGPjq2ENwda1PkDX
+         0ZIMVWX7lrK4ccfx4FTA0TIAlfbjBv3Ntv0ffKRE=
+Date:   Tue, 17 Mar 2020 15:06:01 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH/RFC] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <20200317130601.GI4864@pendragon.ideasonboard.com>
+References: <20200313152406.13347-1-laurent.pinchart@ideasonboard.com>
+ <20200317115854.h4oh2m2kipzjhmg3@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200312154604.24996-2-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200317115854.h4oh2m2kipzjhmg3@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi Jacopo,
 
-Thanks for the patch, just a small comment below.
-
-On 3/12/20 12:46 PM, Dafna Hirschfeld wrote:
-> 'struct v4l2_mbus_config' is a legacy struct that should not be used
-> in new drivers. So replace it with the fields:
+On Tue, Mar 17, 2020 at 12:58:54PM +0100, Jacopo Mondi wrote:
+> On Fri, Mar 13, 2020 at 05:24:06PM +0200, Laurent Pinchart wrote:
+> > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> > node. For MC-centric devices, its behaviour has always been ill-defined,
+> > with drivers implementing one of the following behaviours:
+> >
+> > - No support for VIDIOC_ENUM_FMT at all
+> > - Enumerating all formats supported by the video node, regardless of the
+> >   configuration of the pipeline
+> > - Enumerating formats supported by the video node for the active
+> >   configuration of the connected subdevice
+> >
+> > The first behaviour is obviously useless for applications. The second
+> > behaviour provides the most information, but doesn't offer a way to find
+> > what formats are compatible with a given pipeline configuration. The
+> > third behaviour fixes that, but with the drawback that applications
+> > can't enumerate all supported formats anymore, and have to modify the
+> > active configuration of the pipeline to enumerate formats.
+> >
+> > The situation is messy as none of the implemented behaviours are ideal,
+> > and userspace can't predict what will happen as the behaviour is
+> > driver-specific.
+> >
+> > To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
+> > enumerating pixel formats for a given media bus code. The media bus code
+> > is passed through the v4l2_fmtdesc structure in a new mbus_code field
+> > (repurposed from the reserved fields), and an additional flag is added
+> > to report if the driver supports this API extension. With this
+> > capability in place, applications can enumerate pixel formats for a
+> > given media bus code without modifying the active configuration of the
+> > device.
+> >
+> > The current behaviour of the ioctl is preserved when the new mbus_code
+> > field is set to 0, ensuring compatibility with existing userspace. This
+> > behaviour is now documented as mandatory for MC-centric devices as well
+> > as the traditional video node-centric devices. This allows applications
+> > to query MC-centric devices for all the supported pixel formats, as well
+> > as for the pixel formats corresponding to a given media bus code.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Hello,
+> >
+> > This API extension comes from a need I encountered when working on a
+> > simple pipeline handler for libcamera. The pipeline handlers we have so
+> > far are device-specific, and hardcode knowledge about the device drivers
+> > in their implementation, such as the mapping from media bus codes to
+> > pixel formats. For "simple" devices (currently defined as linear
+> > pipelines with no processing, which we will probably extend to include
+> > basic processing such as scaling and format conversion in the future),
+> > we want to have a single pipeline handler that will auto-configure the
+> > pipeline based on information retrieved from the kernel. I thus need an
+> > API to extract the mapping from media bus code to pixel format.
+> >
+> > Once Niklas patches that add V4L2_CAP_IO_MC land in master, I think this
+> > patch should be rebased, and specify that this API is mandatory for
+> > drivers that expose V4L2_CAP_IO_MC and invalid otherwise. It would be a
+> > good step towards correctly specifying the behaviour of video nodes for
+> > MC-centric devices.
+> >
+> > I will of course provide patches for v4l2-ctrl to support this
+> > extension, as well as for v4l2-compliance, but I would like feedback on
+> > the API first.
+> >
+> >  .../media/uapi/v4l/vidioc-enum-fmt.rst        | 40 +++++++++++++------
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 10 ++++-
+> >  include/uapi/linux/videodev2.h                |  4 +-
+> >  3 files changed, 38 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > index 8ca6ab701e4a..60cac7eef76c 100644
+> > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > @@ -39,19 +39,26 @@ Arguments
+> >  Description
+> >  ===========
+> >
+> > -To enumerate image formats applications initialize the ``type`` and
+> > -``index`` field of struct :c:type:`v4l2_fmtdesc` and call
+> > -the :ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers
+> > -fill the rest of the structure or return an ``EINVAL`` error code. All
+> > -formats are enumerable by beginning at index zero and incrementing by
+> > -one until ``EINVAL`` is returned. If applicable, drivers shall return
+> > -formats in preference order, where preferred formats are returned before
+> > -(that is, with lower ``index`` value) less-preferred formats.
+> > -
+> > -.. note::
+> > -
+> > -   After switching input or output the list of enumerated image
+> > -   formats may be different.
+> > +To enumerate image formats applications initialize the ``type``, ``index`` and
+> > +``mbus_code`` fields of struct :c:type:`v4l2_fmtdesc` and call the
+> > +:ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers fill the
+> > +rest of the structure or return an ``EINVAL`` error code. All formats are
+> > +enumerable by beginning at index zero and incrementing by one until ``EINVAL``
+> > +is returned. If applicable, drivers shall return formats in preference order,
+> > +where preferred formats are returned before (that is, with lower ``index``
+> > +value) less-preferred formats.
+> > +
+> > +If the ``mbus_code`` is set to zero, drivers shall enumerate all image formats
+> > +supported by the device. For video node-centric devices, the enumerated formats
+> > +may depend on the active input or output of the device. For MC-centric devices,
+> > +the enumerated formats shall not depend on the active configuration of the
+> > +device.
 > 
-> enum v4l2_mbus_type mbus_type;
-> unsigned int parallel_bus_flags;
+> s/device/pipeline ?
+
+I meant the video device node, but it's worth mentioning both.
+
+> > +
+> > +If the ``mbus_code`` field is set to a non-zero value, drivers shall restrict
+> > +enumeration to only the image formats that can be produced from that media bus
+> > +code, and set the ``V4L2_FMT_FLAG_MBUS_CODE`` flag in the ``flags`` field. The
+> > +enumerated imge formats shall not depend on the active configuration of the
+> > +device. Enumeration shall otherwise operate as previously described.
 > 
-> The field 'parallel_bus_flags' is used only for buses of types
-> V4L2_MBUS_BT656, V4L2_MBUS_PARALLEL which are not yet supported
-> so they are set to 0.
+> If I got this right an application can set mbus_code != 0 to a driver
+> non supporting restricted enumeration and receive back a list of
+> formats. It's up to the application to check for the V4L2_FMT_FLAG_MBUS_CODE
+> flag to see if enumeration is restricted or not.
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-common.h |  3 +-
->  drivers/staging/media/rkisp1/rkisp1-dev.c    | 22 ++-------
->  drivers/staging/media/rkisp1/rkisp1-isp.c    | 52 +++++++-------------
->  3 files changed, 24 insertions(+), 53 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> index b291cc60de8e..f5ee72dc19d3 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> @@ -80,8 +80,9 @@ enum rkisp1_isp_pad {
->   */
->  struct rkisp1_sensor_async {
->  	struct v4l2_async_subdev asd;
-> -	struct v4l2_mbus_config mbus;
->  	unsigned int lanes;
-> +	enum v4l2_mbus_type mbus_type;
-> +	unsigned int parallel_bus_flags;
->  	struct v4l2_subdev *sd;
->  	struct v4l2_ctrl *pixel_rate_ctrl;
->  	struct phy *dphy;
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> index b1b3c058e957..d2186856bb24 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> @@ -250,26 +250,14 @@ static int rkisp1_fwnode_parse(struct device *dev,
->  		return -EINVAL;
->  	}
->  
-> -	s_asd->mbus.type = vep->bus_type;
-> -	s_asd->mbus.flags = vep->bus.mipi_csi2.flags;
-> +	s_asd->mbus_type = vep->bus_type;
->  	s_asd->lanes = vep->bus.mipi_csi2.num_data_lanes;
->  
-> -	switch (vep->bus.mipi_csi2.num_data_lanes) {
-> -	case 1:
-> -		s_asd->mbus.flags |= V4L2_MBUS_CSI2_1_LANE;
-> -		break;
-> -	case 2:
-> -		s_asd->mbus.flags |= V4L2_MBUS_CSI2_2_LANE;
-> -		break;
-> -	case 3:
-> -		s_asd->mbus.flags |= V4L2_MBUS_CSI2_3_LANE;
-> -		break;
-> -	case 4:
-> -		s_asd->mbus.flags |= V4L2_MBUS_CSI2_4_LANE;
-> -		break;
-> -	default:
-> +	/* Parallel bus is currently not supported */
-> +	s_asd->parallel_bus_flags = 0;
+> This is a bit of a ping-pong that could be saved having driver
+> non-supporting nbus-restricted enumeration returning an error if the
+> mbus_code field is set. I know, this implies changing all current
+> drivers to check for the mbus_config field and return an error in case
+> they don't support it.
 
-Why not just:
+One issue is that it wouldn't work on older kernels. Drivers will ignore
+the mbus_code field in that case, so applications won't know if this is
+supported. We could require applications to check the kernel version
+though.
 
-s_asd->parallel_bus_flags = vep->bus.mipi_csi2.flags
+> I have not followed CAP_IO_MC closely, but I
+> wonder if that could help catching that situation in the core and
+> return an error earlier. Maybe there could be a way for drivers to
+> advertise support for that feature to the core and fail earlier if
+> mbus_code is set and they don't claim to support it ?
 
-So when it gets supported, we don't need to change this, and you also don't
-change the logic here, since this patch was supposed to just replace
-struct v4l2_mbus_config by other variables.
+I was thinking of linking the two, making this extension mandatory for
+drivers that advertise CAP_IO_MC, in which case we could indeed drop the
+flag.
 
-Make sense?
+Hans, what's your preference ?
 
-> +
-> +	if (s_asd->lanes < 1 || s_asd->lanes > 4)
->  		return -EINVAL;
-> -	}
->  
->  	return 0;
->  }
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> index fa53f05e37d8..bd17c3c498af 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> @@ -291,7 +291,7 @@ static int rkisp1_config_isp(struct rkisp1_device *rkisp1)
->  	if (sink_fmt->fmt_type == RKISP1_FMT_BAYER) {
->  		acq_mult = 1;
->  		if (src_fmt->fmt_type == RKISP1_FMT_BAYER) {
-> -			if (sensor->mbus.type == V4L2_MBUS_BT656)
-> +			if (sensor->mbus_type == V4L2_MBUS_BT656)
->  				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_RAW_PICT_ITU656;
->  			else
->  				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_RAW_PICT;
-> @@ -299,17 +299,17 @@ static int rkisp1_config_isp(struct rkisp1_device *rkisp1)
->  			rkisp1_write(rkisp1, RKISP1_CIF_ISP_DEMOSAIC_TH(0xc),
->  				     RKISP1_CIF_ISP_DEMOSAIC);
->  
-> -			if (sensor->mbus.type == V4L2_MBUS_BT656)
-> +			if (sensor->mbus_type == V4L2_MBUS_BT656)
->  				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_BAYER_ITU656;
->  			else
->  				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_BAYER_ITU601;
->  		}
->  	} else if (sink_fmt->fmt_type == RKISP1_FMT_YUV) {
->  		acq_mult = 2;
-> -		if (sensor->mbus.type == V4L2_MBUS_CSI2_DPHY) {
-> +		if (sensor->mbus_type == V4L2_MBUS_CSI2_DPHY) {
->  			isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU601;
->  		} else {
-> -			if (sensor->mbus.type == V4L2_MBUS_BT656)
-> +			if (sensor->mbus_type == V4L2_MBUS_BT656)
->  				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU656;
->  			else
->  				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU601;
-> @@ -319,17 +319,17 @@ static int rkisp1_config_isp(struct rkisp1_device *rkisp1)
->  	}
->  
->  	/* Set up input acquisition properties */
-> -	if (sensor->mbus.type == V4L2_MBUS_BT656 ||
-> -	    sensor->mbus.type == V4L2_MBUS_PARALLEL) {
-> -		if (sensor->mbus.flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> +	if (sensor->mbus_type == V4L2_MBUS_BT656 ||
-> +	    sensor->mbus_type == V4L2_MBUS_PARALLEL) {
-> +		if (sensor->parallel_bus_flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
->  			signal = RKISP1_CIF_ISP_ACQ_PROP_POS_EDGE;
+> >
+> >  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> > @@ -145,6 +152,13 @@ formats in preference order, where preferred formats are returned before
+> >  	parameters are detected. This flag can only be used in combination
+> >  	with the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to
+> >  	compressed formats only. It is also only applies to stateful codecs.
+> > +    * - ``V4L2_FMT_FLAG_MBUS_CODE``
+> > +      - 0x0010
+> > +      - The ``mbus_code`` field has been taken into account and only formats
+> > +        compatible with the supplied media bus code are enumerated. This flag
+> > +        shall only be  set by drivers, and only when ``mbus_code`` is not zero.
+> > +        Applications may read the flag to check if code-aware enumeration is
+> > +        supported by the driver.
+> >
+> >
+> >  Return Value
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index aaf83e254272..2d635a5f0797 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
+> >  {
+> >  	const struct v4l2_fmtdesc *p = arg;
+> >
+> > -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
+> > +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
+> >  		p->index, prt_names(p->type, v4l2_type_names),
+> >  		p->flags, (p->pixelformat & 0xff),
+> >  		(p->pixelformat >>  8) & 0xff,
+> >  		(p->pixelformat >> 16) & 0xff,
+> >  		(p->pixelformat >> 24) & 0xff,
+> > +		p->mbus_code,
+> >  		(int)sizeof(p->description), p->description);
+> >  }
+> >
+> > @@ -1416,12 +1417,17 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+> >  	struct video_device *vdev = video_devdata(file);
+> >  	struct v4l2_fmtdesc *p = arg;
+> >  	int ret = check_fmt(file, p->type);
+> > +	u32 mbus_code;
+> >  	u32 cap_mask;
+> >
+> >  	if (ret)
+> >  		return ret;
+> >  	ret = -EINVAL;
+> >
+> > +	mbus_code = p->mbus_code;
+> > +	CLEAR_AFTER_FIELD(p, type);
+> > +	p->mbus_code = mbus_code;
+> > +
+> >  	switch (p->type) {
+> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> > @@ -2703,7 +2709,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
+> >
+> >  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+> >  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
+> > -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
+> > +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
+> >  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
+> >  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
+> >  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index 5f9357dcb060..b13e54e196e3 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -777,13 +777,15 @@ struct v4l2_fmtdesc {
+> >  	__u32               flags;
+> >  	__u8		    description[32];   /* Description string */
+> >  	__u32		    pixelformat;       /* Format fourcc      */
+> > -	__u32		    reserved[4];
+> > +	__u32		    mbus_code;		/* Media bus code    */
+> > +	__u32		    reserved[3];
+> >  };
+> >
+> >  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
+> >  #define V4L2_FMT_FLAG_EMULATED			0x0002
+> >  #define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM	0x0004
+> >  #define V4L2_FMT_FLAG_DYN_RESOLUTION		0x0008
+> > +#define V4L2_FMT_FLAG_MBUS_CODE			0x0010
+> >
+> >  	/* Frame Size and frame rate enumeration */
+> >  /*
 
-You check both bus types, I understand that V4L2_MBUS_BT656 is also a parallel interface,
-but I think it would be less confusing to name it just bus_flags, what do you think?
-
+-- 
 Regards,
-Helen
 
->  	}
->  
-> -	if (sensor->mbus.type == V4L2_MBUS_PARALLEL) {
-> -		if (sensor->mbus.flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> +	if (sensor->mbus_type == V4L2_MBUS_PARALLEL) {
-> +		if (sensor->parallel_bus_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
->  			signal |= RKISP1_CIF_ISP_ACQ_PROP_VSYNC_LOW;
->  
-> -		if (sensor->mbus.flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-> +		if (sensor->parallel_bus_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
->  			signal |= RKISP1_CIF_ISP_ACQ_PROP_HSYNC_LOW;
->  	}
->  
-> @@ -401,29 +401,11 @@ static int rkisp1_config_dvp(struct rkisp1_device *rkisp1)
->  static int rkisp1_config_mipi(struct rkisp1_device *rkisp1)
->  {
->  	const struct rkisp1_isp_mbus_info *sink_fmt = rkisp1->isp.sink_fmt;
-> -	unsigned int lanes;
-> +	unsigned int lanes = rkisp1->active_sensor->lanes;
->  	u32 mipi_ctrl;
->  
-> -	/*
-> -	 * rkisp1->active_sensor->mbus is set in isp or d-phy notifier_bound
-> -	 * function
-> -	 */
-> -	switch (rkisp1->active_sensor->mbus.flags & V4L2_MBUS_CSI2_LANES) {
-> -	case V4L2_MBUS_CSI2_4_LANE:
-> -		lanes = 4;
-> -		break;
-> -	case V4L2_MBUS_CSI2_3_LANE:
-> -		lanes = 3;
-> -		break;
-> -	case V4L2_MBUS_CSI2_2_LANE:
-> -		lanes = 2;
-> -		break;
-> -	case V4L2_MBUS_CSI2_1_LANE:
-> -		lanes = 1;
-> -		break;
-> -	default:
-> +	if (lanes < 1 || lanes > 4)
->  		return -EINVAL;
-> -	}
->  
->  	mipi_ctrl = RKISP1_CIF_MIPI_CTRL_NUM_LANES(lanes - 1) |
->  		    RKISP1_CIF_MIPI_CTRL_SHUTDOWNLANES(0xf) |
-> @@ -470,11 +452,11 @@ static int rkisp1_config_path(struct rkisp1_device *rkisp1)
->  	u32 dpcl = rkisp1_read(rkisp1, RKISP1_CIF_VI_DPCL);
->  	int ret = 0;
->  
-> -	if (sensor->mbus.type == V4L2_MBUS_BT656 ||
-> -	    sensor->mbus.type == V4L2_MBUS_PARALLEL) {
-> +	if (sensor->mbus_type == V4L2_MBUS_BT656 ||
-> +	    sensor->mbus_type == V4L2_MBUS_PARALLEL) {
->  		ret = rkisp1_config_dvp(rkisp1);
->  		dpcl |= RKISP1_CIF_VI_DPCL_IF_SEL_PARALLEL;
-> -	} else if (sensor->mbus.type == V4L2_MBUS_CSI2_DPHY) {
-> +	} else if (sensor->mbus_type == V4L2_MBUS_CSI2_DPHY) {
->  		ret = rkisp1_config_mipi(rkisp1);
->  		dpcl |= RKISP1_CIF_VI_DPCL_IF_SEL_MIPI;
->  	}
-> @@ -561,7 +543,7 @@ static void rkisp1_isp_start(struct rkisp1_device *rkisp1)
->  	rkisp1_config_clk(rkisp1);
->  
->  	/* Activate MIPI */
-> -	if (sensor->mbus.type == V4L2_MBUS_CSI2_DPHY) {
-> +	if (sensor->mbus_type == V4L2_MBUS_CSI2_DPHY) {
->  		val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
->  		rkisp1_write(rkisp1, val | RKISP1_CIF_MIPI_CTRL_OUTPUT_ENA,
->  			     RKISP1_CIF_MIPI_CTRL);
-> @@ -956,7 +938,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
->  	rkisp1->active_sensor = container_of(sensor_sd->asd,
->  					     struct rkisp1_sensor_async, asd);
->  
-> -	if (rkisp1->active_sensor->mbus.type != V4L2_MBUS_CSI2_DPHY)
-> +	if (rkisp1->active_sensor->mbus_type != V4L2_MBUS_CSI2_DPHY)
->  		return -EINVAL;
->  
->  	atomic_set(&rkisp1->isp.frame_sequence, -1);
-> 
+Laurent Pinchart
