@@ -2,127 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D5B187E12
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 11:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65902187E80
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 11:38:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725933AbgCQKTx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 06:19:53 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:36839 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbgCQKTx (ORCPT
+        id S1726277AbgCQKiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 06:38:02 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45880 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbgCQKiC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:19:53 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 1C5CE240009;
-        Tue, 17 Mar 2020 10:19:18 +0000 (UTC)
-Date:   Tue, 17 Mar 2020 11:22:14 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     Benoit Parrot <bparrot@ti.com>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: Re: OV5640 CSI2 problemsg
-Message-ID: <20200317102214.kc2rh7s67ycl4req@uno.localdomain>
-References: <d0510b81-9ae1-9b6f-02c5-f4eb08e67bfa@ti.com>
+        Tue, 17 Mar 2020 06:38:02 -0400
+Received: by mail-lf1-f68.google.com with SMTP id x143so507414lff.12
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2020 03:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=7mUtSodRzVFrNOdwotyLpGRUL0sXdt0yPPIiSrVrsLs=;
+        b=PPMraiP7BrnvbgEUdY7vtJGlY/uq1xXN0yspKo+AerSKh+3S/VAgqVbKJPIs3l0k7U
+         ut6qoQMdEwd7W3g0K8vz6PZfWVjKyFLUpSo+bOxY9DSGFmBoMTXOYKfP+G8N0BxszBLV
+         9HOPnE3mLGCz2eO7SrH+k89yt2n3fCLD9mpcts/8gq5t7kZytl/xqlIjZR3MWh5/gYln
+         Hs+1EX00oS9H9TViCN6KUHqH+UV7vLXXAcNnEYlRp1tTH7tt00Zn+hT/IP6uIWfV8FQO
+         FF9vMbelEhdvFltQ+P363Wqfo/crm/zEjIGfsHAxCWhjBfprUGL7wE6fC+NnNkdCDGds
+         4F6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=7mUtSodRzVFrNOdwotyLpGRUL0sXdt0yPPIiSrVrsLs=;
+        b=H2nAC3Fr5ZyXaFZ42aN9bIYno6xJD351Jcwkp32IIXwK5BIM8EHrg8b/6PDEKk9sex
+         u+VnoaXOkWZfGnU/oXxsXyrHB0RJH+eTceTiG9+79Y/6yps5M2u0wwqG8eMDs809SQvP
+         sRxVmTm1hzGXyzlfMyX+H3NiGgjJwdMY5LGboGhb6OJd+pnLPfRQEaE1ea7FOjmxun4n
+         DuqVCDCD50O1hUSVSDFK5LZv7LE4cIXtjS32trLX+YNP7KcaXhoJ6vm/SrtruwaYq1hO
+         5WNoYaDfbVLVx2rWfvpzs2BSW402IzBIL75lUajWitqC/mQa06Rx9L32IdNvVaSZgeLR
+         GAjw==
+X-Gm-Message-State: ANhLgQ3uf4w4h0f26S7cC5KIe8LRqc9Rpd+JXublLHohrsmhKOGKosN6
+        qLaKlVzvZN3nQVilWP8tWePipg==
+X-Google-Smtp-Source: ADFU+vtVlYRQTZ5F59LQqxdeWy9nM1l8g9ypwAvky2egMozG6VNQd4T99otV//QeFt6Y/pXumoW8qQ==
+X-Received: by 2002:ac2:59c6:: with SMTP id x6mr730389lfn.177.1584441477770;
+        Tue, 17 Mar 2020 03:37:57 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id y11sm1989763ljn.83.2020.03.17.03.37.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 03:37:56 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 11:37:56 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Suresh Udipi <sudipi@jp.adit-jv.com>
+Cc:     akiyama@nds-osk.co.jp, efriedrich@de.adit-jv.com,
+        erosca@de.adit-jv.com, hverkuil-cisco@xs4all.nl,
+        jacopo+renesas@jmondi.org, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, mrodin@de.adit-jv.com,
+        securitycheck@denso.co.jp
+Subject: Re: [PATCH v2] [RFC] rcar-vin: rcar-csi2: Correct the selection of
+ hsfreqrange
+Message-ID: <20200317103756.GC2496015@oden.dyn.berto.se>
+References: <20200316130247.GA2258968@oden.dyn.berto.se>
+ <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <d0510b81-9ae1-9b6f-02c5-f4eb08e67bfa@ti.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
-   welcome to the ov5640 bandwagon
+Hi Suresh,
 
-This driver received lot of attention and reworking, but there are
-indeed several issues at the moment :(
+Thanks for your work.
 
-On Fri, Mar 13, 2020 at 01:15:33PM +0200, Tomi Valkeinen wrote:
-> Hi all,
->
-> I've been testing and debugging OV5640 with TI's DRA76 and AM65 platforms,
-> which have the CAL IP for MIPI CSI2 RX.
->
-> The most clear problem is that 1280x720@30 doesn't work at all, but with all
-> resolutions I can see occasional PHY errors reported when starting the
-> streaming.
+On 2020-03-17 16:08:25 +0900, Suresh Udipi wrote:
+> hsfreqrange should be chosen based on the calculated mbps which
+> is closer to the default bit rate  and within the range as per
+> table[1]. But current calculation always selects first value which
+> is greater than or equal to the calculated mbps which may lead
+> to chosing a wrong range in some cases.
+> 
+> For example for 360 mbps for H3/M3N
+> Existing logic selects
+> Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
+> 
+> This hsfreqrange is out of range.
+> 
+> The logic is changed to get the default value which is closest to the
+> calculated value [1]
+> 
+> Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
+> 
+> [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+> 
+> There is one exectpion value 227Mbps, which may cause out of
+> range.
 
-I've been testing a CSI-2 setup with 2 data lanes on an IMX6 platform,
-just for the record
+Then something else is needed I think :-)
 
->
-> The OV5640 spec lists the video timings, but I haven't been able to figure
-> out what exactly they mean, as e.g. the vsync time doesn't seem to match the
-> other times according to my calculations.
->
+I liked v1 of this RFC more, where you added a u16 min and max to struct 
+rcsi2_mbps_reg. I think that is the right solution.
 
-Are you referring to the ov5640_mode_info structures ?
+What I tried to express in my review of v1 was
 
-> In any case, I was poking here and there, and noticed that if I use the htot
-> value from the spec (2844), instead of the current value (1896 for most
-> resolutions), 1280x720 works, and the PHY errors are gone.
->
-> Testing more, I found out that the smaller the htot, the more unreliable the
-> RX becomes, and going down from 2844, somewhere around 2400 I start to see
-> errors.
->
+- You should remove the mbps member from struct rcsi2_mbps_reg.
+- Update the walk of the array in rcsi2_set_phypll() so that it finds 
+  the first entry where the calculated target value is between min and 
+  max and use the reg setting for that entry.
 
-That's a good finding!
+Would that solution make sens too you? Sorry if I expressed myself a but 
+muddy in v1 about this.
 
-I recall I had issues as well with that mode, and fixed them by
-doubling the MIPI bus clock speed You might have noticed these lines
-in the CSI-2 clock tree calculation function ov5640_set_mipi_pclk()
+> 
+> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> 
+> Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+> Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+> ---
+> Changes in v2:
+>   - Added the boundary check for the maximum bit rate.
+>   
+>   - Simplified the logic by remmoving range check 
+>     as only the closest default value covers most 
+>     of the use cases.
+> 
+>   - Aligning the commit message based on the above change
+> 
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index faa9fb2..6573625 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -199,6 +199,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+>  /* PHY Frequency Control */
+>  #define PHYPLL_REG			0x68
+>  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+> +#define PHYPLL_HSFREQRANGE_MAX		1500
+>  
+>  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+>  	{ .mbps =   80, .reg = 0x00 },
+> @@ -431,16 +432,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+>  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+>  {
+>  	const struct rcsi2_mbps_reg *hsfreq;
+> +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+>  
+> -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+> -		if (hsfreq->mbps >= mbps)
+> -			break;
+> -
+> -	if (!hsfreq->mbps) {
+> +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
+>  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+>  		return -ERANGE;
+>  	}
+>  
+> +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+> +		if (hsfreq->mbps >= mbps)
+> +			break;
+> +		hsfreq_prev = hsfreq;
+> +	}
+> +
+> +	if (hsfreq_prev &&
+> +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+> +		hsfreq = hsfreq_prev;
+> +
+>  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+>  
+>  	return 0;
+> -- 
+> 2.7.4
+> 
 
-	/*
-	 * 1280x720 is reported to use 'SUBSAMPLING' only,
-	 * but according to the sensor manual it goes through the
-	 * scaler before subsampling.
-	 */
-	if (mode->dn_mode == SCALING ||
-	   (mode->id == OV5640_MODE_720P_1280_720))
-		mipi_div = OV5640_MIPI_DIV_SCLK; // THIS is 1
-	else
-		mipi_div = OV5640_MIPI_DIV_PCLK; // THIS is 2: halve the MIPI clock speed
-
-I had that mode working, but after a good year or so trying to decode
-the clock tree of the sensor with only partially satisfactory results,
-I can't tell if that was by accident or not :)
-
-> I'm not that much familiar with CSI-2, and very little with OV5640. Does
-> anyone have a clue about what I'm observing here? Does 1280x720@30 work on
-
-Hugues made a great effort by sampling the actual frequencies on the
-bus, and he found out the actual frequencies are off compared to my
-theoretical calculations. After that I've actually dropped the ball and
-moved on, but maybe throwing your htot findings in the mix could help?
-
-Here you have the thread with more information and Hugues measurement
-results:
-https://patchwork.kernel.org/patch/11019673/
-
-> other platforms with CSI2? Where do the current OV5640 video timings come
-> from?
->
-
-I suggest you have a look at
-dfbfb7aa832c ("media: ov5640: Compute the clock rate at runtime")
-
-htot is used to calculate the desired pixel clock, so it could indeed
-be one of the reasons why the above clock tree calculations are off.
-
-Hope it helps a bit.
-
-Thanks
-   j
-
->  Tomi
->
-> --
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+-- 
+Regards,
+Niklas Söderlund
