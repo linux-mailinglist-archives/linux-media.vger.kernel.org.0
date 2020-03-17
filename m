@@ -2,136 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF8D187BD5
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 10:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 267B9187C2E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 10:39:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725871AbgCQJSm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 05:18:42 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38489 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgCQJSm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 05:18:42 -0400
-Received: by mail-lj1-f193.google.com with SMTP id w1so21939425ljh.5
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2020 02:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=EXTECaoRIAH/N+0cnidFBTckkNu/Y2stcECyKBiKMSM=;
-        b=UhKugyo3yoN72voK54QuLJMl4GpEybWwDmr5RUKgYhDnUEY3C/BamPXbZHjSZt+xJP
-         wiNB5uxvOMT1Pq8TwnUh4jjpYuLrzTvW52Ib2j7VyaU9JrVJpE60gM6Zj0N4jYSxIdvD
-         XnQsynrO/r0qlUYNFBMy8y4x5KSbUOc5WhStk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=EXTECaoRIAH/N+0cnidFBTckkNu/Y2stcECyKBiKMSM=;
-        b=TdtN0WIyEsGXz54LS7Epxg2g7U3CYBcKvEzb3ksAU2WVr6wM7e0oxBDrQppQ4u/dnj
-         vXVnThTtsU7jyRqWXn7o1eLmzycTSz6YDfJbccT6Fh+s+9CzuUNgHKHWEUHmzU0lz9F/
-         183W3ZUQF8zg4EFAAi8jnw4DyWOfGqUy72laqvh3c1riDQdHsoaD+CRgCfwSKTYTB0/1
-         rX6CuGu748aFYQeNVJz9KgO7QOOC869MHC876+hmQff9TyASH5o++kThVmAr47xSUull
-         6BSiqfjk7ZlON8LpaUSgJ9h5fnpaIZ3o+SZDoKI9KS8uHMesZt4jrcoK8F7rhZyGXvzj
-         nJbw==
-X-Gm-Message-State: ANhLgQ02cnhXChcbCqGtb1p+9joQyUP3tDdW2FK/f8sn6NjOpxkJBE4N
-        nk21Zb+dtd0+zsDXUah+3/4zIS+HGb1Y9ERP/3n3dA==
-X-Google-Smtp-Source: ADFU+vvCGkBqd8UYmCkxH7QhX19fR7M4LzHZzhe0fWYk25rvmbHcfqtGsff4qjoOyG08qyL1bPshtFsiowz+j5+pErc=
-X-Received: by 2002:a2e:8798:: with SMTP id n24mr2250808lji.114.1584436717382;
- Tue, 17 Mar 2020 02:18:37 -0700 (PDT)
+        id S1726121AbgCQJjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 05:39:36 -0400
+Received: from v6.sk ([167.172.42.174]:49946 "EHLO v6.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725916AbgCQJjf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Mar 2020 05:39:35 -0400
+Received: from localhost (v6.sk [IPv6:::1])
+        by v6.sk (Postfix) with ESMTP id D181F60EC2;
+        Tue, 17 Mar 2020 09:39:31 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 00/28] DT: Improve validation for Marvell SoCs
+Date:   Tue, 17 Mar 2020 10:38:54 +0100
+Message-Id: <20200317093922.20785-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200218202753.652093-1-dmitry.sepp@opensynergy.com>
- <CAD90VcZ5rYHw9qqS7pvaX0TP240qcmoA5MKxKuVVn-eVVrORSA@mail.gmail.com>
- <CAD90VcbON1XTuBpuqxV6E+reY8dYq08N8G-jrAO=z-6ytcvtHQ@mail.gmail.com> <1780647.tdWV9SEqCh@os-lin-dmo>
-In-Reply-To: <1780647.tdWV9SEqCh@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Tue, 17 Mar 2020 18:18:26 +0900
-Message-ID: <CAD90VcbG2QJvj7L-Ek64AHb4sg3tkYJKsrDn2fVO4FLiwMYOxQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] video_video: Add the Virtio Video V4L2 driver
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>,
-        Nikolay Martyanov <Nikolay.Martyanov@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 6:10 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> w=
-rote:
->
-> Hi Keiichi,
->
-> On Dienstag, 17. M=C3=A4rz 2020 07:53:26 CET Keiichi Watanabe wrote:
-> > > > diff --git a/include/uapi/linux/virtio_video.h
-> > > > b/include/uapi/linux/virtio_video.h new file mode 100644
-> > > > index 000000000000..0dd98a2237c6
-> > > > --- /dev/null
-> > > > +++ b/include/uapi/linux/virtio_video.h
-> > > > @@ -0,0 +1,469 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > >
-> > > I suspect it's not expected to use GPL licence without exceptions in =
-a
-> > > UAPI header file:
-> > > https://www.kernel.org/doc/html/v5.4/process/license-rules.html
-> > >
-> > > If GPL is used here, only GPL user programs can include this header
-> > > file, can't they?
-> > > So, can we use BSD licence like other virtio headers (e.g. virtio_gpu=
-.h)?
-> > >
-> > > Note that I found this program when running
-> > > /scripts/headers_install.sh. Though it suggested to add "WITH
-> > > Linux-syscall-note", it shouldn't be the case because this header
-> > > doesn't provide syscall interface.
-> > >
-> > > Best regards,
-> > > Keiichi
-> > >
-> > > > +/*
-> > > > + * Virtio Video Device
-> > > > + *
-> > > > + * This header is BSD licensed so anyone can use the definitions
-> > > > + * to implement compatible drivers/servers:
-> > > > + *
-> >
-> > Ah, this line says this header is BSD licensed.
-> > So, the SPDX-License-Identifier above should be simply wrong.
-> >
->
-> According to some recent upstream discussion about virtio-snd, which was =
-also
-> proposed by our engineers, it should be
-> /* SPDX-License-Identifier: BSD-3-Clause */
->
+Hello World,
 
-Sounds good. Thanks for letting me know.
+chained to this message is a set of patches that improve coverage of Device
+Tree validation for devices typically found on Marvell SoCs. It converts most
+of the peripheral binding documentation to YAML and fixes up validation issues
+in the SoC device trees.
 
-Best regards,
-Keiichi
+It starts with fixing the issues:
 
-> Best regards,
-> Dmitry.
->
-> > Best regards,
-> > Keiichi
->
->
+  [PATCH 01/28] ARM: dts: kirkwood: Fix interrupt controller node name
+  [PATCH 02/28] ARM: dts: dove: Fix interrupt controller node name
+  [PATCH 03/28] ARM: dts: pxa168: Add missing address/size cells to i2c
+  [PATCH 04/28] ARM: dts: pxa168: Fix the gpio interrupt cell number
+  [PATCH 05/28] ARM: dts: pxa3xx: Fix up encoding of the /gpio
+  [PATCH 06/28] ARM: dts: pxa910: Fix the gpio interrupt cell number
+  [PATCH 07/28] ARM: dts: pxa*: Fix up encoding of the /rtc interrupts
+  [PATCH 08/28] ARM: dts: mmp*: Fix up encoding of the /rtc interrupts
+  [PATCH 09/28] ARM: dts: mmp3: fix L2 cache controller node name
+  [PATCH 10/28] ARM: dts: mmp3: fix USB & USB PHY node names
+  [PATCH 11/28] ARM: dts: berlin*: Fix up the SDHCI node names
+
+Then the binding fixes follow.
+
+When converting .txt binding files that were not written by myself,
+I didn't include the SPDX license tag and set the maintaners: to the
+devicetree@ list. The reason is that the original binding files don't
+contain the information and I didn't want to speak for anyone else and
+make it up.
+
+If this is not the correct thing to do, or the respective binding
+contributors want to clarify the licensing or be listed as maintainers,
+please respond and I'll send an updated patch set. I'm also happy to
+maintain any of these bindings.
+
+  [PATCH 12/28] spi: dt-bindings: spi-controller: Slaves have no
+  [PATCH 13/28] dt-bindings: serial: move Marvell compatible string to
+  [PATCH 14/28] dt-bindings: arm: l2x0: Tauros 3 is PL310 compatible
+  [PATCH 15/28] dt-bindings: arm: mrvl: Add missing compatible strings
+  [PATCH 16/28] dt-bindings: Add "mrvl", a legacy vendor prefix for
+  [PATCH 17/28] dt-bindings: mmc: Fix up clk-phase-sd-hs in an example
+  [PATCH 18/28] dt-bindings: mmc: Fix node name in an example
+  [PATCH 19/28] dt-bindings: mmc: Convert sdhci-pxa to json-schema
+  [PATCH 20/28] dt-bindings: phy: Convert phy-mmp3-usb to json-schema
+  [PATCH 21/28] dt-bindings: gpio: Convert mrvl-gpio to json-schema
+  [PATCH 22/28] dt-bindings: i2c: Convert i2c-pxa to json-schema
+  [PATCH 23/28] dt-bindings: interrupt-controller: Convert mrvl,intc to
+  [PATCH 24/28] dt-bindings: media: Convert marvell,mmp2-ccic to
+  [PATCH 25/28] dt-bindings: rtc: Convert sa1100-rtc to json-schema
+  [PATCH 26/28] dt-bindings: spi: Convert spi-pxa2xx to json-schema
+  [PATCH 27/28] dt-bindings: timer: Convert mrvl,mmp-timer to
+  [PATCH 28/28] dt-bindings: usb: Convert ehci-mv to json-schema
+
+None of the patches depends on any other and they can be applied in any
+order.
+
+Love,
+Lubo
+
+
