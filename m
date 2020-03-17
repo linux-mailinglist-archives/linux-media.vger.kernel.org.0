@@ -2,226 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C387E188505
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 14:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC5A188531
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2020 14:19:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbgCQNM3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 09:12:29 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:32796 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726607AbgCQNM3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 09:12:29 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 0CE9B295965
-Subject: Re: [PATCH v2 2/2] media: staging: rkisp1: replace the call to
- v4l2_async_notifier_parse_fwnode_endpoints_by_port
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com
-References: <20200312154604.24996-1-dafna.hirschfeld@collabora.com>
- <20200312154604.24996-3-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <89b1c5e1-4659-b489-25d1-a8278949c048@collabora.com>
-Date:   Tue, 17 Mar 2020 10:12:22 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        id S1726761AbgCQNTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 09:19:09 -0400
+Received: from foss.arm.com ([217.140.110.172]:38088 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726082AbgCQNTJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Mar 2020 09:19:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CCF330E;
+        Tue, 17 Mar 2020 06:19:08 -0700 (PDT)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B9523F534;
+        Tue, 17 Mar 2020 06:19:08 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 13:19:06 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 00/28] DT: Improve validation for Marvell SoCs
+Message-ID: <20200317131906.GF3971@sirena.org.uk>
+References: <20200317093922.20785-1-lkundrak@v3.sk>
 MIME-Version: 1.0
-In-Reply-To: <20200312154604.24996-3-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="A9z/3b/E4MkkD+7G"
+Content-Disposition: inline
+In-Reply-To: <20200317093922.20785-1-lkundrak@v3.sk>
+X-Cookie: There's only one everything.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-On 3/12/20 12:46 PM, Dafna Hirschfeld wrote:
-> don't call 'v4l2_async_notifier_parse_fwnode_endpoints_by_port'
-> in order to register async subdevices. Instead call
-> 'v4l2_fwnode_endpoint_parse' to parse the remote endpoints
-> and then register each async subdev with
-> 'v4l2_async_notifier_add_fwnode_remote_subdev'
-> 
-> Also remove the relevant item in the TODO file
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
+--A9z/3b/E4MkkD+7G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-It would be nice to have a changelog here as well.
+On Tue, Mar 17, 2020 at 10:38:54AM +0100, Lubomir Rintel wrote:
 
->  drivers/staging/media/rkisp1/TODO         |  3 -
->  drivers/staging/media/rkisp1/rkisp1-dev.c | 94 +++++++++++++----------
->  2 files changed, 55 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
-> index 0aa9877dd64a..1aa3bb9fd6cb 100644
-> --- a/drivers/staging/media/rkisp1/TODO
-> +++ b/drivers/staging/media/rkisp1/TODO
-> @@ -1,6 +1,3 @@
-> -* Don't use v4l2_async_notifier_parse_fwnode_endpoints_by_port().
-> -e.g. isp_parse_of_endpoints in drivers/media/platform/omap3isp/isp.c
-> -cio2_parse_firmware in drivers/media/pci/intel/ipu3/ipu3-cio2.c.
->  * Fix pad format size for statistics and parameters entities.
->  * Use threaded interrupt for rkisp1_stats_isr(), remove work queue.
->  * Fix checkpatch errors.
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> index d2186856bb24..1035a39f3e49 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> @@ -233,35 +233,6 @@ static int rkisp1_subdev_notifier_complete(struct v4l2_async_notifier *notifier)
->  	return 0;
->  }
->  
-> -static int rkisp1_fwnode_parse(struct device *dev,
-> -			       struct v4l2_fwnode_endpoint *vep,
-> -			       struct v4l2_async_subdev *asd)
-> -{
-> -	struct rkisp1_sensor_async *s_asd =
-> -			container_of(asd, struct rkisp1_sensor_async, asd);
-> -
-> -	if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
-> -		dev_err(dev, "Only CSI2 bus type is currently supported\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	if (vep->base.port != 0) {
-> -		dev_err(dev, "The ISP has only port 0\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	s_asd->mbus_type = vep->bus_type;
-> -	s_asd->lanes = vep->bus.mipi_csi2.num_data_lanes;
-> -
-> -	/* Parallel bus is currently not supported */
-> -	s_asd->parallel_bus_flags = 0;
-> -
-> -	if (s_asd->lanes < 1 || s_asd->lanes > 4)
-> -		return -EINVAL;
-> -
-> -	return 0;
-> -}
-> -
->  static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops = {
->  	.bound = rkisp1_subdev_notifier_bound,
->  	.unbind = rkisp1_subdev_notifier_unbind,
-> @@ -271,23 +242,68 @@ static const struct v4l2_async_notifier_operations rkisp1_subdev_notifier_ops =
->  static int rkisp1_subdev_notifier(struct rkisp1_device *rkisp1)
->  {
->  	struct v4l2_async_notifier *ntf = &rkisp1->notifier;
-> -	struct device *dev = rkisp1->dev;
-> +	int next_id = 0;
+> None of the patches depends on any other and they can be applied in any
+> order.
 
-This is endpoint id right?
-Maybe just change it to unsigned.
+For future reference since this is a large set of mostly unrelated
+changes it'd be as well to split it up via subsystem or something so
+that the CC lists get reduced.
 
-The scope says it should be u32:
+--A9z/3b/E4MkkD+7G
+Content-Type: application/pgp-signature; name="signature.asc"
 
-struct fwnode_handle *
-fwnode_graph_get_endpoint_by_id(const struct fwnode_handle *fwnode,
-				u32 port, u32 endpoint, unsigned long flags)
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5wzkkACgkQJNaLcl1U
+h9B6lQf+JamIVdYxjeWpJEdZLraQ2ZAnjCDDODoguz6v4CAvK8mbvceAlz/ugLsK
+mjNdEb4Z3nOWKxnpII99UfKyDb0s1EhYcovC0vJ71uSHJA9fIFxtnvxk9YSEP2Cd
+nfXaYzDl1OJJ3DRJXCrudH/j2dwtX2hGBFjIx/havnLkr2dwzfUzsI3uUSFAWwgt
+mv2uHQwNP6rR230/NWLqUPNN6/Gal8/4Pj2cAimegQOFW7493PQQKHoG9JttRQgC
+PGbYFjB/JV+gk9Sg4R+afcEFHQN7D17H/Lb+HwFPu6+jWqgUEdLgSTOyELAXnamE
+me5/+eb94GmNyA3atUU9W4Ju5o+joQ==
+=WksN
+-----END PGP SIGNATURE-----
 
->  	int ret;
->  
->  	v4l2_async_notifier_init(ntf);
->  
-> -	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(dev, ntf,
-> -					sizeof(struct rkisp1_sensor_async),
-> -					0, rkisp1_fwnode_parse);
-> -	if (ret)
-> -		return ret;
-> +	while (1) {
-> +		struct v4l2_fwnode_endpoint vep = {
-> +			.bus_type = V4L2_MBUS_CSI2_DPHY
-> +		};
-> +		struct rkisp1_sensor_async *rk_asd = NULL;
-> +		struct fwnode_handle *ep;
->  
-> -	if (list_empty(&ntf->asd_list))
-> -		return -ENODEV;
-> +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(rkisp1->dev),
-> +			0, next_id, FWNODE_GRAPH_ENDPOINT_NEXT);
->  
-
-Please, remove this new line, so the error check is near the function which generated it.
-
-> -	ntf->ops = &rkisp1_subdev_notifier_ops;
-> +		if (!ep)
-> +			break;
-> +
-> +		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> +		if (ret)
-> +			goto err_parse;
-> +
-> +		rk_asd = kzalloc(sizeof(*rk_asd), GFP_KERNEL);
-> +		if (!rk_asd) {
-> +			ret = -ENOMEM;
-> +			goto err_parse;
-> +		}
-> +
-> +		rk_asd->lanes = vep.bus.mipi_csi2.num_data_lanes;
-> +		rk_asd->mbus_type = vep.bus_type;
-> +
-> +		/* Parallel bus is currently not supported */
-> +		rk_asd->parallel_bus_flags = 0;
-
-Please see my comment in previous patch of this series.
-
-> +		ret = v4l2_async_notifier_add_fwnode_remote_subdev(ntf, ep,
-> +								   &rk_asd->asd);
-> +		if (ret)
-> +			goto err_parse;
-> +
-> +		dev_dbg(rkisp1->dev, "registered ep id %d with %d lanes\n",
-> +			vep.base.id, rk_asd->lanes);
-> +
-> +		next_id = vep.base.id + 1;
-> +
-> +		fwnode_handle_put(ep);
->  
-> -	return v4l2_async_notifier_register(&rkisp1->v4l2_dev, ntf);
-> +		continue;
-> +err_parse:
-> +		fwnode_handle_put(ep);
-> +		kfree(rk_asd);
-> +		v4l2_async_notifier_cleanup(ntf);
-> +		return ret;
-
-Question:
-
-If parsing one endpoint fails, should you:
-
-1) Parse all the other endpoints and ignore the one which fails?
-2) Cleanup and free all the other endpoints?
-
-In any case, this code is just stopping in the first one that fails and not
-cleaning up the previous one, so it is not doing any of the previous
-behaviors.
-
-I see that ipu3-cio2.c does the same. Sakari, could you comment on this?
-
-Thanks
-Helen
-
-> +	}
-> +
-> +	if (next_id == 0)
-> +		dev_warn(rkisp1->dev, "no remote subdevice found\n");
-> +	ntf->ops = &rkisp1_subdev_notifier_ops;
-> +	ret = v4l2_async_notifier_register(&rkisp1->v4l2_dev, ntf);
-> +	if (ret) {
-> +		v4l2_async_notifier_cleanup(ntf);
-> +		return ret;
-> +	}
-> +	return 0;
->  }
->  
->  /* ----------------------------------------------------------------------------
-> 
+--A9z/3b/E4MkkD+7G--
