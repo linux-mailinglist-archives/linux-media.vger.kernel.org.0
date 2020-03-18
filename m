@@ -2,107 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D46E189FE7
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 16:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1703718A03C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 17:13:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbgCRPqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 11:46:30 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33813 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726866AbgCRPqa (ORCPT
+        id S1727027AbgCRQNI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 12:13:08 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17015 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726733AbgCRQNI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 11:46:30 -0400
-Received: by mail-ot1-f65.google.com with SMTP id j16so25973160otl.1
-        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2020 08:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=id6fBYRzTbPVezHvRzigBUZtyyZNpNKX7bIyeQ3xLJM=;
-        b=ZqY5AWHXrV9Z2i8Ua3vsaXc3to2MTtBlwtEXOAVw9RupFkSH1bX6L0cTqQDlwqErWb
-         eomul9v2lD950rkiS2a3jZwWiAsWjYXZrR8M08zA59FVXYUq2pYVkUxqdViqpwow6hhW
-         FoMJAtslfTAk3nhnW2Vn9bjp2QrldSTw0/1RUEf+XHEPlzHVg8d2h67gK9F5UPDdogwi
-         F3cRlXyOuE51QSLJaSnfl8ECEjYS9ZWxtkwcx/YH/PTOxO/A1sk9G67aTh5bQqmoJa5V
-         1enPYeqqN2ThSayKVcx8K7gywVPMjaaRznUF+j7FWO5+TRBcx8VpnA4b0TZLaBDDXVe4
-         UfUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=id6fBYRzTbPVezHvRzigBUZtyyZNpNKX7bIyeQ3xLJM=;
-        b=InV1kPaspIFFGGrp9ed8AsScIt8qYmjFfzuZi4WYlCmoyfawkYY7QzXwr3+XFtSgWF
-         BMFeAaCjer+F48Qi+JAPy3qwG/CUHgkm5CbwhYriOKwVFyYfZILLYub6XC0q0lMnqY6a
-         lwNNZSkinaGU+kGoSa2YouaC1bfH+hsIffNqI6XmEBOV2VG8y+QP2cS5NkKONqYcwjIx
-         4m7tooyd0Zyq2lC6v5GO7/GwRUO303kZ0QaiNyO0Xs0z8VkoO+QJmOrJ1nzLDMhaNzgm
-         tjSx74TzFoefQhOLD+JTtd/15S/bmc0rW9GEKlb6756rbbPCKpjxlau8C+ha8PLzUCJg
-         QrOw==
-X-Gm-Message-State: ANhLgQ2CqcTiUq+thP0NoeyJiweI84oEU0UOqgGcrUBdY/esUTOTVyDj
-        REcIbWMMmIEOmP/vG3UclHQ7cFXbZQCU6JFA7neRaw==
-X-Google-Smtp-Source: ADFU+vvX20CIlM83oLPc+apgYzRAvWB4Y3fF6uDgiS0UN5JGeqEbtOLb0rxc9QNhm7ohNQlk5lyNBFi0+55SbHMyakg=
-X-Received: by 2002:a05:6830:193:: with SMTP id q19mr4286283ota.164.1584546389617;
- Wed, 18 Mar 2020 08:46:29 -0700 (PDT)
+        Wed, 18 Mar 2020 12:13:08 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e7248320000>; Wed, 18 Mar 2020 09:11:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 18 Mar 2020 09:13:07 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 18 Mar 2020 09:13:07 -0700
+Received: from [10.2.175.141] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 18 Mar
+ 2020 16:13:06 +0000
+Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>,
+        <helen.koike@collabora.com>, <sboyd@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
+ <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
+ <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
+ <dc592f29-3109-d10c-7df7-ffdb2755ade0@xs4all.nl>
+ <b3933aa1-0717-183d-f00c-2d5fd6836a18@nvidia.com>
+ <12a36c2a-593c-e555-d44e-e2e6c4c1a562@nvidia.com>
+ <5f54c018-5670-8193-7c68-969f9bde92f6@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <19081d90-62cc-e6eb-0337-f108fb6ca9bc@nvidia.com>
+Date:   Wed, 18 Mar 2020 09:14:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200317205643.1028398-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200317205643.1028398-1-daniel.vetter@ffwll.ch>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Wed, 18 Mar 2020 21:16:17 +0530
-Message-ID: <CAO_48GH1YkA4mvjyQ=88VRrDPc4Kh8fiFsm-MOaNFfWhhaxfbw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Better regex for dma_buf|fence|resv
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        Joe Perches <joe@perches.com>, Sam Ravnborg <sam@ravnborg.org>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5f54c018-5670-8193-7c68-969f9bde92f6@xs4all.nl>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584547890; bh=tIHZbQLtSkJ53RrtKu9vilUV11m0jEsmcYMmUk3NErg=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=MkFrRgcrqQAzQJcI2+1Q40+Pr9qGESvro4Iislxt2Izw1pDw9+uxYindJKOuhauPP
+         9TnHwD3EhYiI9hppup43ZWHvkPwGzWf67CXtKZSkssNgDM3QHbkyRu4XknC4xIkJy7
+         0VRO3RaUv2p+fnA2Kajs5enDYxis8R1g8z7tPlWDF3k7kRjOE3LkpGyu+5G8+/bdcC
+         ueokh3NujrDWrfILfiHFTGU7F7JTdXIZY/aE/vkbfUQBaLofWMZ6Dbm81SZRzCUkjt
+         LbstXrBXFK4BuI8wySVdDQHWo/JL1vu0Nq7eKTKkHG4j+nzsKG8kZDPLJ05SKHrEMk
+         jVKoZVqhUP0IQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Daniel,
 
-Thanks for the patch.
+On 3/18/20 4:48 AM, Hans Verkuil wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 2/24/20 5:45 AM, Sowjanya Komatineni wrote:
+>> On 2/20/20 11:11 AM, Sowjanya Komatineni wrote:
+>>> On 2/20/20 5:33 AM, Hans Verkuil wrote:
+>>>> External email: Use caution opening links or attachments
+>>>>
+>>>>
+>>>> (Replying to myself so I can explain this a bit more)
+>>>>
+>>>> On 2/20/20 1:44 PM, Hans Verkuil wrote:
+>>>>>> +
+>>>>>> +static int tegra_csi_tpg_channels_alloc(struct tegra_csi *csi)
+>>>>>> +{
+>>>>>> +    struct device_node *node = csi->dev->of_node;
+>>>>>> +    unsigned int port_num;
+>>>>>> +    int ret;
+>>>>>> +    struct tegra_csi_channel *item;
+>>>>>> +    unsigned int tpg_channels = csi->soc->csi_max_channels;
+>>>>>> +
+>>>>>> +    /* allocate CSI channel for each CSI x2 ports */
+>>>>>> +    for (port_num = 0; port_num < tpg_channels; port_num++) {
+>>>>>> +            item = devm_kzalloc(csi->dev, sizeof(*item), GFP_KERNEL);
+>>>>> Using devm_*alloc can be dangerous. If someone unbinds the driver, then
+>>>>> all memory allocated with devm_ is immediately freed. But if an
+>>>>> application
+>>>>> still has a filehandle open, then when it closes it it might still
+>>>>> reference
+>>>>> this already-freed memory.
+>>>>>
+>>>>> I recommend that you avoid using devm_*alloc for media drivers.
+>>>> A good test is to unbind & bind the driver:
+>>>>
+>>>> cd /sys/devices/platform/50000000.host1x/54080000.vi/driver
+>>>> echo -n 54080000.vi >unbind
+>>>> echo -n 54080000.vi >bind
+>>>>
+>>>> First just do this without the driver being used. That already
+>>>> gives me 'list_del corruption' kernel messages (list debugging
+>>>> is turned on in my kernel).
+>> Will fix in v4 to use kzalloc and also proper release v4l2 to make sure
+>> unbind/bind works properly.
+>>
+>> BTW, tegra vi and csi are registered as clients to host1x video driver.
+>>
+>> So, unbind and bind should be done with host1x video driver "tegra-video"
+>>
+>> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
+>> echo -n tegra-video > unbind
+>> echo -n tegra-video > bind
+> This still crashes with v4, at least if I am streaming with v4l2-ctl --stream-mmap.
+> Is that known?
+>
+> It's not a big deal at this moment, just want to know if this will be looked
+> at later.
+>
+> Regards,
+>
+>          Hans
 
-On Wed, 18 Mar 2020 at 02:26, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> We're getting some random other stuff that we're not really interested
-> in, so match only word boundaries. Also avoid the capture group while
-> at it.
->
-> Suggested by Joe Perches.
->
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: Joe Perches <joe@perches.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Weird, I tested streaming after unbind and bind as well and don't see 
+crash. Did below steps and tried several times unbind/bind as well.
 
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> ---
-> v2: No single quotes in MAINTAINERS (Joe)
-> v3: Fix typo in commit message (Sam)
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3005be638c2c..ed6088a01bfe 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5025,7 +5025,7 @@ F:        include/linux/dma-buf*
->  F:     include/linux/reservation.h
->  F:     include/linux/*fence.h
->  F:     Documentation/driver-api/dma-buf.rst
-> -K:     dma_(buf|fence|resv)
-> +K:     \bdma_(?:buf|fence|resv)\b
->  T:     git git://anongit.freedesktop.org/drm/drm-misc
->
->  DMA-BUF HEAPS FRAMEWORK
-> --
-> 2.25.1
->
+./v4l2-ctl --stream-mmap --stream-count=1 -d /dev/video3
+cd /sys/devices/platform/50000000.host1x/tegra-video/driver
+echo -n tegra-video > unbind
+sleep 1
+echo -n tegra-video > bind
+cd /home/ubuntu
+./v4l2-ctl --stream-mmap --stream-count=1 -d /dev/video3
+
+Can you post call trace when you saw crash?
+
+>>>> Note that this first test is basically identical to a rmmod/modprobe
+>>>> of the driver. But when I compiled the driver as a module it didn't
+>>>> create any video device nodes! Nor did I see any errors in the kernel
+>>>> log. I didn't pursue this, and perhaps I did something wrong, but it's
+>>>> worth taking a look at.
+>>>>
+>>>> The next step would be to have a video node open with:
+>>>>
+>>>> v4l2-ctl --sleep 10
+>>>>
+>>>> then while it is sleeping unbind the driver and see what happens
+>>>> when v4l2-ctl exits.
+>>>>
+>>>> Worst case is when you are streaming:
+>>>>
+>>>> v4l2-ctl --stream-mmap
+>>>>
+>>>> and then unbind.
+>>>>
+>>>> In general, the best way to get this to work correctly is:
+>>>>
+>>>> 1) don't use devm_*alloc
+>>>> 2) set the release callback of struct v4l2_device and do all freeing
+>>>> there.
+>>>> 3) in the platform remove() callback you call media_device_unregister()
+>>>>      and video_unregister_device().
+>>> Reg 3, in current patch, media_device_unregister is called in
+>>> host1x_video_remove
+>>> video_unregister_device happens during host1x_video_remove ->
+>>> host1x_device_exit -> tegra_vi_exit -> tegra_vi_channels_cleanup
+>>>
+>>>> It's worth getting this right in this early stage, rather than fixing it
+>>>> in the future.
+>>>>
+>>>> Regards,
+>>>>
+>>>>           Hans
