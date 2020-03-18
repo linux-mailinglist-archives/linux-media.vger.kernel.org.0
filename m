@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6972E18A406
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 21:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 565D518A409
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 21:48:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727341AbgCRUrx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 16:47:53 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:33303 "EHLO
+        id S1727363AbgCRUr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 16:47:56 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:50729 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbgCRUrw (ORCPT
+        with ESMTP id S1726840AbgCRUrz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 16:47:52 -0400
+        Wed, 18 Mar 2020 16:47:55 -0400
 X-Originating-IP: 2.224.242.101
 Received: from localhost.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 82DB720003;
-        Wed, 18 Mar 2020 20:47:49 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 5269120005;
+        Wed, 18 Mar 2020 20:47:52 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -25,11 +25,10 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         tfiga@google.com, pavel@ucw.cz
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)), libcamera-devel@lists.libcamera.org,
-        Rob Herring <robh@kernel.org>, Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH v7 01/11] dt-bindings: video-interfaces: Document 'location' property
-Date:   Wed, 18 Mar 2020 21:50:24 +0100
-Message-Id: <20200318205034.949531-2-jacopo@jmondi.org>
+        (V4L/DVB)), libcamera-devel@lists.libcamera.org
+Subject: [PATCH v7 02/11] media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_LOCATION
+Date:   Wed, 18 Mar 2020 21:50:25 +0100
+Message-Id: <20200318205034.949531-3-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200318205034.949531-1-jacopo@jmondi.org>
 References: <20200318205034.949531-1-jacopo@jmondi.org>
@@ -40,39 +39,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the 'location' device property, used to specify a device mounting
-position. The property is particularly meaningful for mobile devices
-with a well defined usage orientation.
+Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
+control. The newly added read-only control reports the camera device
+mounting position.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-Acked-by: Tomasz Figa <tfiga@chromium.org>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../devicetree/bindings/media/video-interfaces.txt    | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../media/uapi/v4l/ext-ctrls-camera.rst       | 32 +++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-index f884ada0bffc..1211bdf80722 100644
---- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-+++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-@@ -89,6 +89,17 @@ Optional properties
-   but a number of degrees counter clockwise. Typical values are 0 and 180
-   (upside down).
+diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+index 51c1d5c9eb00..b151c016256c 100644
+--- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
++++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+@@ -510,6 +510,38 @@ enum v4l2_scene_mode -
+     value down. A value of zero stops the motion if one is in progress
+     and has no effect otherwise.
  
-+- location: The mount location of a device (typically an image sensor or a flash
-+  LED) expressed as a position relative to the usage orientation of the system
-+  where the device is installed on.
-+  Possible values are:
-+  0 - Front. The device is mounted on the front facing side of the system.
-+  For mobile devices such as smartphones, tablets and laptops the front side is
-+  the user facing side.
-+  1 - Back. The device is mounted on the back side of the system, which is
-+  defined as the opposite side of the front facing one.
-+  2 - External. The device is not attached directly to the system but is
-+  attached in a way that allows it to move freely.
- 
- Optional endpoint properties
- ----------------------------
++``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
++    This read-only control describes the camera sensor location by reporting
++    its mounting position on the device where the camera is installed. The
++    control value is constant and not modifiable by software. This control is
++    particularly meaningful for devices which have a well defined orientation,
++    such as phones, laptops and portable devices since the camera location is
++    expressed as a position relative to the device's intended usage orientation.
++    For example, a camera sensor installed on the user-facing side of a phone,
++    a tablet or a laptop device is said to be installed in the
++    ``V4L2_LOCATION_FRONT`` location while camera sensors installed on the side
++    opposite the front one are said to be installed in the
++    ``V4L2_LOCATION_BACK`` location. Camera sensors not directly attached to
++    the device or attached in a way that allows them to move freely, such as
++    webcams and digital cameras, are said to have the ``V4L2_LOCATION_EXTERNAL``
++    location.
++
++
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - ``V4L2_LOCATION_FRONT``
++      - The camera sensor is located on the front side of the device.
++    * - ``V4L2_LOCATION_BACK``
++      - The camera sensor is located on the back side of the device.
++    * - ``V4L2_LOCATION_EXTERNAL``
++      - The camera sensor is not directly attached to the device and is
++        freely movable.
++
++
++
+ .. [#f1]
+    This control may be changed to a menu control in the future, if more
+    options are required.
 -- 
 2.25.1
 
