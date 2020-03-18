@@ -2,171 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76735189DDC
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 15:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D46E189FE7
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 16:46:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbgCROaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 10:30:00 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:48835 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCROaA (ORCPT
+        id S1726911AbgCRPqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 11:46:30 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33813 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726866AbgCRPqa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 10:30:00 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 123A9200015;
-        Wed, 18 Mar 2020 14:29:53 +0000 (UTC)
-Date:   Wed, 18 Mar 2020 15:32:50 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com,
-        hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 5/5] media: i2c: max9286: Parse channel amplitude
-Message-ID: <20200318143250.tfz3frapsq2s2lyu@uno.localdomain>
-References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
- <20200316202757.529740-6-jacopo+renesas@jmondi.org>
- <0de21347-4c06-50a1-0393-a1f4c1efad28@ideasonboard.com>
+        Wed, 18 Mar 2020 11:46:30 -0400
+Received: by mail-ot1-f65.google.com with SMTP id j16so25973160otl.1
+        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2020 08:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=id6fBYRzTbPVezHvRzigBUZtyyZNpNKX7bIyeQ3xLJM=;
+        b=ZqY5AWHXrV9Z2i8Ua3vsaXc3to2MTtBlwtEXOAVw9RupFkSH1bX6L0cTqQDlwqErWb
+         eomul9v2lD950rkiS2a3jZwWiAsWjYXZrR8M08zA59FVXYUq2pYVkUxqdViqpwow6hhW
+         FoMJAtslfTAk3nhnW2Vn9bjp2QrldSTw0/1RUEf+XHEPlzHVg8d2h67gK9F5UPDdogwi
+         F3cRlXyOuE51QSLJaSnfl8ECEjYS9ZWxtkwcx/YH/PTOxO/A1sk9G67aTh5bQqmoJa5V
+         1enPYeqqN2ThSayKVcx8K7gywVPMjaaRznUF+j7FWO5+TRBcx8VpnA4b0TZLaBDDXVe4
+         UfUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=id6fBYRzTbPVezHvRzigBUZtyyZNpNKX7bIyeQ3xLJM=;
+        b=InV1kPaspIFFGGrp9ed8AsScIt8qYmjFfzuZi4WYlCmoyfawkYY7QzXwr3+XFtSgWF
+         BMFeAaCjer+F48Qi+JAPy3qwG/CUHgkm5CbwhYriOKwVFyYfZILLYub6XC0q0lMnqY6a
+         lwNNZSkinaGU+kGoSa2YouaC1bfH+hsIffNqI6XmEBOV2VG8y+QP2cS5NkKONqYcwjIx
+         4m7tooyd0Zyq2lC6v5GO7/GwRUO303kZ0QaiNyO0Xs0z8VkoO+QJmOrJ1nzLDMhaNzgm
+         tjSx74TzFoefQhOLD+JTtd/15S/bmc0rW9GEKlb6756rbbPCKpjxlau8C+ha8PLzUCJg
+         QrOw==
+X-Gm-Message-State: ANhLgQ2CqcTiUq+thP0NoeyJiweI84oEU0UOqgGcrUBdY/esUTOTVyDj
+        REcIbWMMmIEOmP/vG3UclHQ7cFXbZQCU6JFA7neRaw==
+X-Google-Smtp-Source: ADFU+vvX20CIlM83oLPc+apgYzRAvWB4Y3fF6uDgiS0UN5JGeqEbtOLb0rxc9QNhm7ohNQlk5lyNBFi0+55SbHMyakg=
+X-Received: by 2002:a05:6830:193:: with SMTP id q19mr4286283ota.164.1584546389617;
+ Wed, 18 Mar 2020 08:46:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0de21347-4c06-50a1-0393-a1f4c1efad28@ideasonboard.com>
+References: <20200317205643.1028398-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200317205643.1028398-1-daniel.vetter@ffwll.ch>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Wed, 18 Mar 2020 21:16:17 +0530
+Message-ID: <CAO_48GH1YkA4mvjyQ=88VRrDPc4Kh8fiFsm-MOaNFfWhhaxfbw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Better regex for dma_buf|fence|resv
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        Joe Perches <joe@perches.com>, Sam Ravnborg <sam@ravnborg.org>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hello Daniel,
 
-On Wed, Mar 18, 2020 at 09:57:48AM +0000, Kieran Bingham wrote:
-> Hi Jacopo,
+Thanks for the patch.
+
+On Wed, 18 Mar 2020 at 02:26, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> On 16/03/2020 20:27, Jacopo Mondi wrote:
-> > Parse the 'maxim,reverse-channel-amplitude' property value and cache its
-> > content to later program the initial reverse channel amplitude.
-> >
-> > Only support 100mV and 170mV values for the moment. The property could
-> > be easily expanded to support more values.
+> We're getting some random other stuff that we're not really interested
+> in, so match only word boundaries. Also avoid the capture group while
+> at it.
 >
-> Can we (in the future) support arbitrary values from a range, or only
-> from a fixed list?
-
-Good question. The 0x3b register of the deserializer is not documented
-in my datasheet version, I got this from the application developer
-guide that reports
-
-        Increase reverse amplitude from 100mV to
-        170mV. This compensates for the higher
-        threshold of step 5.
-
-and reports the following list of supported values in the 0x3b
-register description.
-
-        Reverse channel amplitude
-        000 = 30mV
-        001 = 40mV
-        010 = 50mV
-        011 = 60mV
-        100 = 70mV
-        101 = 80mV
-        110 = 90mV
-        111 = 100mV
-
-with an optional +100mV boost option.
-
-Going forward we can add more values to the list of supported ones in
-the bindings and control their configuration in the driver.
-
-Maybe worth noting it down with a fixme note ?
-
+> Suggested by Joe Perches.
 >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/max9286.c | 39 ++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 34 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 0357515860b2..24af8002535e 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -168,6 +168,7 @@ struct max9286_priv {
-> >  	struct max9286_source sources[MAX9286_NUM_GMSL];
-> >  	struct v4l2_async_notifier notifier;
-> >
-> > +	u32 reverse_chan_amp;
-> >  	u32 overlap_window;
-> >  };
-> >
-> > @@ -479,10 +480,15 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
-> >  	 * All enabled sources have probed and enabled their reverse control
-> >  	 * channels:
-> >  	 *
-> > -	 * - Verify all configuration links are properly detected
-> > +	 * - Increase reverse channel amplitude to 170mV if not initially
-> > +	 *   compensated
-> >  	 * - Disable auto-ack as communication on the control channel are now
-> >  	 *   stable.
-> >  	 */
-> > +	if (priv->reverse_chan_amp == 100)
-> > +		max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) |
-> > +			      MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X);
-> > +
-> >  	max9286_check_config_link(priv, priv->source_mask);
-> >
-> >  	/*
-> > @@ -830,6 +836,8 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
-> >
-> >  static int max9286_setup(struct max9286_priv *priv)
-> >  {
-> > +	u8 chan_amp = MAX9286_REV_TRF(1);
-> > +
-> >  	/*
-> >  	 * Link ordering values for all enabled links combinations. Orders must
-> >  	 * be assigned sequentially from 0 to the number of enabled links
-> > @@ -869,12 +877,18 @@ static int max9286_setup(struct max9286_priv *priv)
-> >  	 *
-> >  	 * - Enable custom reverse channel configuration (through register 0x3f)
-> >  	 *   and set the first pulse length to 35 clock cycles.
-> > -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> > -	 *   high threshold enabled by the serializer driver.
-> > +	 * - Set initial reverse channel amplitude according the DTS property.
-> > +	 *   If the initial channel amplitude is 100mV it should be increase
-> > +	 *   later after the serializers high threshold have been enabled.
-> > +	 *   If the initial value is 170mV the serializer has been
-> > +	 *   pre-programmed and we can compensate immediately.>  	 */
-> >  	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> > -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> > -		      MAX9286_REV_AMP_X);
-> > +	if (priv->reverse_chan_amp == 100)
-> > +		chan_amp |= MAX9286_REV_AMP(100);
-> > +	else
-> > +		chan_amp |= MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X;
-> > +	max9286_write(priv, 0x3b, chan_amp);
-> >  	usleep_range(2000, 2500);
-> >
-> >  	/*
-> > @@ -1069,6 +1083,21 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> >  		return -EINVAL;
-> >  	}
-> >
-> > +	ret = of_property_read_u32(dev->of_node, "maxim,reverse-channel-amplitude",
-> > +				   &priv->reverse_chan_amp);
-> > +	if (ret) {
-> > +		dev_err(dev,
-> > +			"Missing property \"maxim,reverse-channel-amplitude\"\n");
-> > +		of_node_put(dev->of_node);
-> > +		return -EINVAL;
-> > +	}
-> > +	if (priv->reverse_chan_amp != 100 && priv->reverse_chan_amp != 170) {
-> > +		dev_err(dev, "Unsupported  channel amplitude %umV\n",
-> > +			priv->reverse_chan_amp);
-> > +		of_node_put(dev->of_node);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> >  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> >  	if (!i2c_mux) {
-> >  		dev_err(dev, "Failed to find i2c-mux node\n");
-> >
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+
+Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+> ---
+> v2: No single quotes in MAINTAINERS (Joe)
+> v3: Fix typo in commit message (Sam)
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3005be638c2c..ed6088a01bfe 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5025,7 +5025,7 @@ F:        include/linux/dma-buf*
+>  F:     include/linux/reservation.h
+>  F:     include/linux/*fence.h
+>  F:     Documentation/driver-api/dma-buf.rst
+> -K:     dma_(buf|fence|resv)
+> +K:     \bdma_(?:buf|fence|resv)\b
+>  T:     git git://anongit.freedesktop.org/drm/drm-misc
+>
+>  DMA-BUF HEAPS FRAMEWORK
+> --
+> 2.25.1
 >
