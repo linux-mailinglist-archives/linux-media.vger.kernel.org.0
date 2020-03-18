@@ -2,111 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13113189419
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 03:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27FA31894F6
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 05:33:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgCRCrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 22:47:39 -0400
-Received: from mail-lf1-f48.google.com ([209.85.167.48]:34071 "EHLO
-        mail-lf1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726607AbgCRCrj (ORCPT
+        id S1726553AbgCREdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 00:33:24 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:60503 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726506AbgCREdY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 22:47:39 -0400
-Received: by mail-lf1-f48.google.com with SMTP id f3so8789263lfc.1;
-        Tue, 17 Mar 2020 19:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O+4NUWZR9n4+H9VOG36R2FnEsYCl9QO/Z2irsj8TMuY=;
-        b=TfpA1v9+IFo+nvdmYx5W4F+Rkhaeh0hE3hLOSa0d6lDHyJM8zbqY+1sVqaPWLiYLR9
-         6wkqCYr5/tlEDljN4TK+iU39tKubnIPYaCJ7iLChzUpyt8Gv6kbgwcAS6bl5hy12eqcB
-         npRrKFFq+okbm2w6TAF1B2HbRtg75fwA/zcKS38lyA34+QNLiP+FaYuTilqtoqOdCFa6
-         8oge0vSPjkUXp1qBu6rEFxIA2CxG3YlWwTHFNkG2LbF/hAZrnLPlAJI+BBTIxMrA6x3e
-         BAXV5m5QTpZ1QDxJwEdiNA2anFqmLqiw9GQXriFNeWoZUc8M26bWDOQjxkB+8UMv9Hl7
-         r4yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O+4NUWZR9n4+H9VOG36R2FnEsYCl9QO/Z2irsj8TMuY=;
-        b=scez8qwl/DbfHWl679e/A5IDz+7GgDnBEYZokO5n4xRwViTyt0+59ML6P4z+3Rgikk
-         lEwAJ2FawZHHwcfvUxmTOtwuZbKWFciL4RRl4v8KyGJgPctDLBXUbva1EnGjSUH0opr0
-         ImgLZs8zcNQIn1ZWnVQtYr4mfQ59kLWHw+kKIlfQbBHn6tD02838Umd5fQ54lZR9coam
-         t6cf96OBMM8YodV2Y/Q9sxzTLad+HtBNR/Y45O9kDl9iPsGAhzhVJ7/8wHYbHPvPu7VC
-         lSvbL1NiNWIvQehI69jTU4oFVQH4SB2p1muZ+Exa4mhckPKdnv6Kd8lnUk6o06FKDUEe
-         Fl2g==
-X-Gm-Message-State: ANhLgQ18xvuJzvbKSNKaoYN491V7MOGHZA9LS0j1/+BuGUd2RZKtXH3X
-        Vu0Bftwem6/bGsveEs8QjPma29MGyyduEKtm5Cg=
-X-Google-Smtp-Source: ADFU+vuC+GAiuLlKc2ZHzuRFwQtGPBS2O7mnSZSR1EJfI7E9MFQ2dHOCbkH1RAEpF0FnhRkIpBPRNZvipOHaREzoFqU=
-X-Received: by 2002:a19:550c:: with SMTP id n12mr1451958lfe.11.1584499656637;
- Tue, 17 Mar 2020 19:47:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com> <8613a6fb-1f3f-81e9-54c9-7356ce99cf87@kernel.org>
-In-Reply-To: <8613a6fb-1f3f-81e9-54c9-7356ce99cf87@kernel.org>
-From:   xiaolong he <hexiaolong2008@gmail.com>
-Date:   Wed, 18 Mar 2020 10:47:15 +0800
-Message-ID: <CAN9aa7rj_UwPdeZGrdZzWDE=mR5z77dKHMfOC=c4LNJXXuiByw@mail.gmail.com>
-Subject: Re: [v2] dma-buf: heaps: bugfix for selftest failure
-To:     shuah <shuah@kernel.org>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, Leon He <leon.he@unisoc.com>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 18 Mar 2020 00:33:24 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:2082:2deb:9c9:e401])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id EQONjBgX3EE3qEQOOjlhL2; Wed, 18 Mar 2020 05:33:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584506001; bh=/rFy3z4JKlsNhEVGs5mHoiRXBRlBoOEGXHCgs+sF3oI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=h4GToSp2XdPRM0h8h0v4YLsHNJ0Xjq6KcuCjRRfEPM1T0IX32bYaOiX8UDvVEF4c7
+         /Ysk9RnQPvn9vHVrpnaTkGUL+opC/Xq+BR1glK10GMuAV6mf7cGwa2NJKcaUqQAF59
+         1YITx3kCUEHqy7z3hgpvhE3Ji1ztLBrs51n6NW28qWD/GC3bJb7XnJD84jeqWG1jB9
+         CwvrQyCrbnRp7qFJFDADu7L/GMpKrpusRmGO7imipAjq+QShDF5oZ4ersRS4Ht1VsI
+         Fr1NZUBlWDAbq2pX6scLvsQ+kVzvlPwV4QHQtWlqlH80M133ovFctasneCjeEWOhad
+         hbhYV6XKRa2MQ==
+Message-ID: <86d8cbbd4b092663df3c86077b3f936d@smtp-cloud7.xs4all.net>
+Date:   Wed, 18 Mar 2020 05:33:19 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfO3FsnJurg7CvezGOAIVRnHClDHaeQTE8rHFiizQ/NpUGXUYNMvQMKqO2svnSPnb6Nm4JWE8Zq7RJtx9PBbZi8HBxr51tB5OKHAXt8iEcfyxKJcdv/uK
+ sLpXX2JIFJg2BCOVDIv89nG5mXJFnLFiY29knA+GWx53UVnYI1UAGOoOd3PMwdknL1Yqq45yRgDJ/h4uKjjUGHbDfNEgs6chRwEZkxd219+VfnQkbaxp3q/3
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Shuah:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-> > @@ -357,7 +357,7 @@ static int test_alloc_errors(char *heap_name)
-> >       if (heap_fd >= 0)
-> >               close(heap_fd);
-> >
-> > -     return ret;
-> > +     return !ret;
->
-> This change doesn't make sense. Initializing ret to 0 is a better
-> way to go.
->
+Results of the daily build of media_tree:
 
-I don't agree with you about this comment. Initializing ret to 0 can
-not solve this problem.
-Because the ret value will be override by the following
-dmabuf_heap_alloc() calls.
+date:			Wed Mar 18 05:00:08 CET 2020
+media-tree git hash:	6fafbbe8d4140e44e0a64d6c914d628bdb2902ed
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	b9456940ee8889016ef0729f11b2237bce55625d
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d2e7fbcfb9978b0d30f96056c21718f3dbd96598
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-static int test_alloc_errors(char *heap_name)
-{
-        int ret;
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-        ret = dmabuf_heap_alloc(...);
-        ...
-        ret = dmabuf_heap_alloc(...);
-        ...
-        ret = dmabuf_heap_alloc_fdflags(...);
-        ...
+Detailed results are available here:
 
-        return ret;
-}
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-The purpose for test_alloc_errors() is to pass some invalid parameters
-to dmabuf_heap_alloc()
-and wish it return some errors. So -1 is what we expect from
-test_alloc_errors(). But the code
-in main() will break the loop when the ret value is -1. So I reversed
-the return value in test_alloc_errors().
+Detailed regression test results are available here:
 
-int main(void)
-{
-        while(...) {
-                ...
-                ret = test_alloc_errors(dir->d_name);
-                if (ret)
-                        break;
-        }
-}
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-thanks,
--- Leon
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
