@@ -2,148 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 020E0189A89
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 12:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 705D2189B2E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 12:49:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbgCRLWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 07:22:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44584 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726486AbgCRLWX (ORCPT
+        id S1727039AbgCRLsv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 07:48:51 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54977 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726586AbgCRLsu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 07:22:23 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 517A3F9;
-        Wed, 18 Mar 2020 12:22:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584530541;
-        bh=1ihwVuUKLCioC7VH4pTXgg5vACyhvYbBxErmRPr0VVI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YMaY9dt9zv5a/Rl78xUEtC3k4L7RE0xe/8KUk/wB0GbNFkFMZJ3+pu4gLa+HvYiwS
-         FAXhwzyJRp06AvzrqXWhjSbHMB6ZopCKVFTyNfw9xM1U42LHK8tkohl+pNpMwT3I2W
-         JNWjs9bkh0fRtm9y4rQFhnEMk2r8XDcXanUod3rk=
-Date:   Wed, 18 Mar 2020 13:22:16 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] media: v4l2-async: Accept endpoints and devices for
- fwnode matching
-Message-ID: <20200318112216.GC4733@pendragon.ideasonboard.com>
-References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315125511.25756-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200317124455.GC13878@kekkonen.localdomain>
- <20200317230432.GO2527@pendragon.ideasonboard.com>
- <20200318001726.GQ2527@pendragon.ideasonboard.com>
- <20200318075225.GA2101@mara.localdomain>
+        Wed, 18 Mar 2020 07:48:50 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id EXBkjlhXZfHuvEXBnjap5t; Wed, 18 Mar 2020 12:48:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584532128; bh=khEp2I8LHm4HvDGtASxAHrHxJnhSF2yTyhJnoLBOGY4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=iBdzVVXyhBP2nEUkOIPTZIiBjqoW5rADs11fygjelrCdLqvO6Cfk0nxMrfyDix/Tw
+         OHhOFr71S0sX6aE7kmemwv+pucArj/R6afCPEMybC+qMo8ucl/lxVgFRdDxMBfrPTr
+         i2FTj6qpDHdu6onnD07bEMVYyGMcYItJzNnCnoW9cY4k1bPlzzzh292J/MRV4S4jW2
+         SePonrJlg+tr6DhZZwdE/oujGLdGlxPBQQDeIYh1ypMUDObrcceGMWxmvK6QRd+FJt
+         cLyDH0Cu8eXOWhDC2Po7LYgRe/BQZ7vgApLxlXl46Dsv67NT8vuBA+VSCCgUcjXSE3
+         TzTdUIehjBNmg==
+Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        helen.koike@collabora.com, sboyd@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
+ <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
+ <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
+ <dc592f29-3109-d10c-7df7-ffdb2755ade0@xs4all.nl>
+ <b3933aa1-0717-183d-f00c-2d5fd6836a18@nvidia.com>
+ <12a36c2a-593c-e555-d44e-e2e6c4c1a562@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5f54c018-5670-8193-7c68-969f9bde92f6@xs4all.nl>
+Date:   Wed, 18 Mar 2020 12:48:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <12a36c2a-593c-e555-d44e-e2e6c4c1a562@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200318075225.GA2101@mara.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfNwp9oXmpvDLlU0y6yBiCGF+VBdilY6z9Cy/qdkxPcn40eWB/r6e9Te3ZFqwW+zTWphUslj27araajeEl8ItMcVphxVvmx1wOq4tJ77CiNTBKx/fCA9i
+ tSRmFih2blN9n/2QWo2mKp6V+5uPegrVxr1k4/Xk2YNsZo3j8qn2EKGuoMUQkR9n1pqkbK+/45VI0fmfqVsqV5WYX9ZGdTVsbprlUS29sQzOqbjscRnE1rxf
+ 0zTUZ556r9bxBGOEcnB//sy7dMF2Hde+ysTYNkl64I5t/S+3BmTpIPKDhTH2tWiYgx5BO6lkA3JSOOWVMu1cOtvSQo9IHEcXYFZKytgpzFxKJLoqjhu+4QNu
+ TtsbR8Fm/pJbeLaPq1d3vdYZHKoPESD4eRiG1/9Bs/7zVLo4vibLr5x60bARuEe/M+aTyk0zwKm2oOm+9JTey4lC/R36GwU6lxN6nwFmi9CiVzqekAtPdZ7z
+ H79/19gQ3cLu0Xopm3k9l187ks9LfJP006rO9SPx9WQ/J4W1D11EPk3NKB/MxL9z6S1611rFy0aiqMgJ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Wed, Mar 18, 2020 at 09:52:25AM +0200, Sakari Ailus wrote:
-> On Wed, Mar 18, 2020 at 02:17:26AM +0200, Laurent Pinchart wrote:
-> > On Wed, Mar 18, 2020 at 01:04:32AM +0200, Laurent Pinchart wrote:
-> >> On Tue, Mar 17, 2020 at 02:44:56PM +0200, Sakari Ailus wrote:
-> >>> On Sun, Mar 15, 2020 at 02:55:11PM +0200, Laurent Pinchart wrote:
-> >>>> fwnode matching was designed to match on nodes corresponding to a
-> >>>> device. Some drivers, however, needed to match on endpoints, and have
-> >>>> passed endpoint fwnodes to v4l2-async. This works when both the subdev
-> >>>> and the notifier use the same fwnode types (endpoint or device), but
-> >>>> makes drivers that use different types incompatible.
-> >>>> 
-> >>>> Fix this by extending the fwnode match to handle fwnodes of different
-> >>>> types. When the types (deduced from the node name) are different,
-> >>>> retrieve the device fwnode for the side that provides an endpoint
-> >>>> fwnode, and compare it with the device fwnode provided by the other
-> >>>> side. This allows interoperability between all drivers, regardless of
-> >>>> which type of fwnode they use for matching.
-> >>>> 
-> >>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>>> ---
-> >>>> This has been compile-tested only. Prabhakar, could you check if it
-> >>>> fixes your issue ?
-> >>>> 
-> >>>>  drivers/media/v4l2-core/v4l2-async.c | 42 +++++++++++++++++++++++++++-
-> >>>>  1 file changed, 41 insertions(+), 1 deletion(-)
-> >>>> 
-> >>>> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> >>>> index 8bde33c21ce4..995e5464cba7 100644
-> >>>> --- a/drivers/media/v4l2-core/v4l2-async.c
-> >>>> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> >>>> @@ -71,7 +71,47 @@ static bool match_devname(struct v4l2_subdev *sd,
-> >>>>  
-> >>>>  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> >>>>  {
-> >>>> -	return sd->fwnode == asd->match.fwnode;
-> >>>> +	struct fwnode_handle *other_fwnode;
-> >>>> +	struct fwnode_handle *dev_fwnode;
-> >>>> +	bool asd_fwnode_is_ep;
-> >>>> +	bool sd_fwnode_is_ep;
-> >>>> +	const char *name;
-> >>>> +
-> >>>> +	/*
-> >>>> +	 * Both the subdev and the async subdev can provide either an endpoint
-> >>>> +	 * fwnode or a device fwnode. Start with the simple case of direct
-> >>>> +	 * fwnode matching.
-> >>>> +	 */
-> >>>> +	if (sd->fwnode == asd->match.fwnode)
-> >>>> +		return true;
-> >>>> +
-> >>>> +	/*
-> >>>> +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> >>>> +	 * endpoint or a device. If they're of the same type, there's no match.
-> >>>> +	 */
-> >>>> +	name = fwnode_get_name(sd->fwnode);
-> >>>> +	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> >>>> +	name = fwnode_get_name(asd->match.fwnode);
-> >>>> +	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> >>> 
-> >>> Apart from the fact that you're parsing graph node names here, this looks
-> >>> good.
-> > 
-> > And why is that an issue btw ? the ACPI fwnode ops seem to provide a
-> > .get_name() operation, would it return the ACPI bus ID here ?
+On 2/24/20 5:45 AM, Sowjanya Komatineni wrote:
 > 
-> I'd really prefer not to do graph parsing outside the main parser(s), OF,
-> ACPI and property frameworks.
+> On 2/20/20 11:11 AM, Sowjanya Komatineni wrote:
+>>
+>> On 2/20/20 5:33 AM, Hans Verkuil wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> (Replying to myself so I can explain this a bit more)
+>>>
+>>> On 2/20/20 1:44 PM, Hans Verkuil wrote:
+>>>>> +
+>>>>> +static int tegra_csi_tpg_channels_alloc(struct tegra_csi *csi)
+>>>>> +{
+>>>>> +    struct device_node *node = csi->dev->of_node;
+>>>>> +    unsigned int port_num;
+>>>>> +    int ret;
+>>>>> +    struct tegra_csi_channel *item;
+>>>>> +    unsigned int tpg_channels = csi->soc->csi_max_channels;
+>>>>> +
+>>>>> +    /* allocate CSI channel for each CSI x2 ports */
+>>>>> +    for (port_num = 0; port_num < tpg_channels; port_num++) {
+>>>>> +            item = devm_kzalloc(csi->dev, sizeof(*item), GFP_KERNEL);
+>>>> Using devm_*alloc can be dangerous. If someone unbinds the driver, then
+>>>> all memory allocated with devm_ is immediately freed. But if an 
+>>>> application
+>>>> still has a filehandle open, then when it closes it it might still 
+>>>> reference
+>>>> this already-freed memory.
+>>>>
+>>>> I recommend that you avoid using devm_*alloc for media drivers.
+>>> A good test is to unbind & bind the driver:
+>>>
+>>> cd /sys/devices/platform/50000000.host1x/54080000.vi/driver
+>>> echo -n 54080000.vi >unbind
+>>> echo -n 54080000.vi >bind
+>>>
+>>> First just do this without the driver being used. That already
+>>> gives me 'list_del corruption' kernel messages (list debugging
+>>> is turned on in my kernel).
 > 
-> Just for an example, the v4l2_fwnode_link_parse() was broken for ACPI for a
-> long time just because it did not use the graph parsing functions, but
-> implemented graph parsing on its own.
+> Will fix in v4 to use kzalloc and also proper release v4l2 to make sure 
+> unbind/bind works properly.
 > 
-> >>> How about checking instead that calling
-> >>> fwnode_graph_get_remote_endpoint(fwnode_graph_get_remote_endpoint()) yields
-> >>> the same node? That would ensure you're dealing with endpoint nodes without
-> >>> explicitly parsing the graph in any way.
-> >> 
-> >> Would it be simpler to check for the presence of an endpoint property ?
+> BTW, tegra vi and csi are registered as clients to host1x video driver.
 > 
-> There's no endpoint property, apart from an old ACPI definition.
+> So, unbind and bind should be done with host1x video driver "tegra-video"
+> 
+> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
+> echo -n tegra-video > unbind
+> echo -n tegra-video > bind
 
-There isn't ? How does it work on ACPI then ?
-acpi_graph_get_remote_endpoint() starts with
+This still crashes with v4, at least if I am streaming with v4l2-ctl --stream-mmap.
+Is that known?
 
-	ret = acpi_node_get_property_reference(__fwnode, "remote-endpoint", 0,
-					       &args);
+It's not a big deal at this moment, just want to know if this will be looked
+at later.
 
-> There are differences in the implementations and this is not the best place
-> to try to take them all into account.
-
-OK, but in that case I think we need an fwnode_graph_is_endpoint().
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+>>>
+>>> Note that this first test is basically identical to a rmmod/modprobe
+>>> of the driver. But when I compiled the driver as a module it didn't
+>>> create any video device nodes! Nor did I see any errors in the kernel
+>>> log. I didn't pursue this, and perhaps I did something wrong, but it's
+>>> worth taking a look at.
+>>>
+>>> The next step would be to have a video node open with:
+>>>
+>>> v4l2-ctl --sleep 10
+>>>
+>>> then while it is sleeping unbind the driver and see what happens
+>>> when v4l2-ctl exits.
+>>>
+>>> Worst case is when you are streaming:
+>>>
+>>> v4l2-ctl --stream-mmap
+>>>
+>>> and then unbind.
+>>>
+>>> In general, the best way to get this to work correctly is:
+>>>
+>>> 1) don't use devm_*alloc
+>>> 2) set the release callback of struct v4l2_device and do all freeing 
+>>> there.
+>>> 3) in the platform remove() callback you call media_device_unregister()
+>>>     and video_unregister_device().
+>> Reg 3, in current patch, media_device_unregister is called in 
+>> host1x_video_remove
+>> video_unregister_device happens during host1x_video_remove -> 
+>> host1x_device_exit -> tegra_vi_exit -> tegra_vi_channels_cleanup
+>>
+>>> It's worth getting this right in this early stage, rather than fixing it
+>>> in the future.
+>>>
+>>> Regards,
+>>>
+>>>          Hans
+
