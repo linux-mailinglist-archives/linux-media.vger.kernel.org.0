@@ -2,295 +2,292 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E1C189758
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 09:36:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA1E018975E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 09:43:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbgCRIgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 04:36:24 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56919 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726390AbgCRIgY (ORCPT
+        id S1726586AbgCRIn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 04:43:28 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60652 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726390AbgCRIn2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 04:36:24 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id EUBVjDMA9EE3qEUBZjmaZa; Wed, 18 Mar 2020 09:36:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584520581; bh=Ays4RUvqZzdrpPKoz9UpvpjkHDRf2mBxVQgL4oGLo4U=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rfJlQezNSHL3YXVs03GwWXY4cYOlYwPqv1y5g2G50FaAp21BUSxa0xQWgZPzDTLV2
-         5dd5YjJsRBYGDWI3HJIjVIcabBJAuobJPIaVU0XdADV8QQDBgtEg4BaBts/q0dKKCt
-         R8SIt0Am1QfgFgbiZLjTwuC7UlS8VMJOCs7k45yOC3KIJG+eguENO9lwDT3ZAii5dY
-         mqKDi4scQ5R7nrSlRTMnH2pkQJ4yKbH8pWt+he45szLyuDtz79PrVSi9Fp+cb0tfNr
-         z1mgvHdkB9qSsyTUxBkPTJus5E47YTtoUE7fqlZMnPoDuQk9nE+GKjDofcwkjnEAR7
-         8s73Au/kh823w==
-Subject: Re: [PATCH/RFC] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20200313152406.13347-1-laurent.pinchart@ideasonboard.com>
- <20200317115854.h4oh2m2kipzjhmg3@uno.localdomain>
- <20200317130601.GI4864@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b321e91d-7b02-8e78-b9af-6527456a6d99@xs4all.nl>
-Date:   Wed, 18 Mar 2020 09:36:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Wed, 18 Mar 2020 04:43:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=laocdoFfC8BF0yiFG5s2DtCNbe1PtE+qM3lE7QjksiE=; b=pqrd2dDs+WktHotWvY7YC4zmF7
+        CpgAzrUlHjAxWma4dy9PsfzHuMQ4s6iNk97Ek8esDNPe4E2aWdzsL4tosQgtf+iYQ5ip0xyViAHsR
+        w77boplTJtoakZuoe2In6sFpHtZkkZ8I4GVp5dtqdO6tDO8hWAreL+Q73q4kgodutD32B/mvLYtmg
+        COl56NcHFsgcHDWTjoh29ebX1Jhkn4uRwnnxlQPKbogLvDoTcGjcyjL+7jN+gGLVPtNKW9sEnsT+O
+        LMfIh2+m1EDAC0CU5gXQ/AEnb2cvlWhIrwXrY2MKWd1Hf0fKFK1XM2hBxIQWj4byStXkkqoLjrRI6
+        hyy38axg==;
+Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jEUIO-0004nd-7e; Wed, 18 Mar 2020 08:43:24 +0000
+Date:   Wed, 18 Mar 2020 09:43:17 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [RFC 2/3] media: dvb_dummy_fe.c: lose TS lock on bad snr
+Message-ID: <20200318094317.35c4efc1@coco.lan>
+In-Reply-To: <20200318060018.3437750-3-dwlsalmeida@gmail.com>
+References: <20200318060018.3437750-1-dwlsalmeida@gmail.com>
+        <20200318060018.3437750-3-dwlsalmeida@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200317130601.GI4864@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPaoQsWkDA9sXZct1AX6TKdvmZg8e11SqAw66JD5Hvpch40QBDSIvTUlwF9kyZjWNMnQmZ2+l8qeec/08jaxg2xItGSBiyEazE43Pwy5OxLsGLySD1Sh
- I89NHVpSqkIK21CYj108wcucxlffBtAtHhGcf+5WWW8lnpTZLbBrha92u3i16R67aFfyCROCxwzuyF+1BlQ/ACN3d2hxnehGrNzywKf/VXFGgjBpElKgf489
- nuDocybbgSix17v4NI1sF6kw/g4hhS5FmQFGr2n64ajBraipUN0b0tYvybbLLnAr84G0yrfsTQZv7ooLAsALXqdGmZncwWnVbRD7R69bzzI=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/17/20 2:06 PM, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> On Tue, Mar 17, 2020 at 12:58:54PM +0100, Jacopo Mondi wrote:
->> On Fri, Mar 13, 2020 at 05:24:06PM +0200, Laurent Pinchart wrote:
->>> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
->>> node. For MC-centric devices, its behaviour has always been ill-defined,
->>> with drivers implementing one of the following behaviours:
->>>
->>> - No support for VIDIOC_ENUM_FMT at all
->>> - Enumerating all formats supported by the video node, regardless of the
->>>   configuration of the pipeline
->>> - Enumerating formats supported by the video node for the active
->>>   configuration of the connected subdevice
->>>
->>> The first behaviour is obviously useless for applications. The second
->>> behaviour provides the most information, but doesn't offer a way to find
->>> what formats are compatible with a given pipeline configuration. The
->>> third behaviour fixes that, but with the drawback that applications
->>> can't enumerate all supported formats anymore, and have to modify the
->>> active configuration of the pipeline to enumerate formats.
->>>
->>> The situation is messy as none of the implemented behaviours are ideal,
->>> and userspace can't predict what will happen as the behaviour is
->>> driver-specific.
->>>
->>> To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
->>> enumerating pixel formats for a given media bus code. The media bus code
->>> is passed through the v4l2_fmtdesc structure in a new mbus_code field
->>> (repurposed from the reserved fields), and an additional flag is added
->>> to report if the driver supports this API extension. With this
->>> capability in place, applications can enumerate pixel formats for a
->>> given media bus code without modifying the active configuration of the
->>> device.
->>>
->>> The current behaviour of the ioctl is preserved when the new mbus_code
->>> field is set to 0, ensuring compatibility with existing userspace. This
->>> behaviour is now documented as mandatory for MC-centric devices as well
->>> as the traditional video node-centric devices. This allows applications
->>> to query MC-centric devices for all the supported pixel formats, as well
->>> as for the pixel formats corresponding to a given media bus code.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> ---
->>> Hello,
->>>
->>> This API extension comes from a need I encountered when working on a
->>> simple pipeline handler for libcamera. The pipeline handlers we have so
->>> far are device-specific, and hardcode knowledge about the device drivers
->>> in their implementation, such as the mapping from media bus codes to
->>> pixel formats. For "simple" devices (currently defined as linear
->>> pipelines with no processing, which we will probably extend to include
->>> basic processing such as scaling and format conversion in the future),
->>> we want to have a single pipeline handler that will auto-configure the
->>> pipeline based on information retrieved from the kernel. I thus need an
->>> API to extract the mapping from media bus code to pixel format.
->>>
->>> Once Niklas patches that add V4L2_CAP_IO_MC land in master, I think this
->>> patch should be rebased, and specify that this API is mandatory for
->>> drivers that expose V4L2_CAP_IO_MC and invalid otherwise. It would be a
->>> good step towards correctly specifying the behaviour of video nodes for
->>> MC-centric devices.
->>>
->>> I will of course provide patches for v4l2-ctrl to support this
->>> extension, as well as for v4l2-compliance, but I would like feedback on
->>> the API first.
->>>
->>>  .../media/uapi/v4l/vidioc-enum-fmt.rst        | 40 +++++++++++++------
->>>  drivers/media/v4l2-core/v4l2-ioctl.c          | 10 ++++-
->>>  include/uapi/linux/videodev2.h                |  4 +-
->>>  3 files changed, 38 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
->>> index 8ca6ab701e4a..60cac7eef76c 100644
->>> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
->>> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
->>> @@ -39,19 +39,26 @@ Arguments
->>>  Description
->>>  ===========
->>>
->>> -To enumerate image formats applications initialize the ``type`` and
->>> -``index`` field of struct :c:type:`v4l2_fmtdesc` and call
->>> -the :ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers
->>> -fill the rest of the structure or return an ``EINVAL`` error code. All
->>> -formats are enumerable by beginning at index zero and incrementing by
->>> -one until ``EINVAL`` is returned. If applicable, drivers shall return
->>> -formats in preference order, where preferred formats are returned before
->>> -(that is, with lower ``index`` value) less-preferred formats.
->>> -
->>> -.. note::
->>> -
->>> -   After switching input or output the list of enumerated image
->>> -   formats may be different.
->>> +To enumerate image formats applications initialize the ``type``, ``index`` and
->>> +``mbus_code`` fields of struct :c:type:`v4l2_fmtdesc` and call the
->>> +:ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers fill the
->>> +rest of the structure or return an ``EINVAL`` error code. All formats are
->>> +enumerable by beginning at index zero and incrementing by one until ``EINVAL``
->>> +is returned. If applicable, drivers shall return formats in preference order,
->>> +where preferred formats are returned before (that is, with lower ``index``
->>> +value) less-preferred formats.
->>> +
->>> +If the ``mbus_code`` is set to zero, drivers shall enumerate all image formats
->>> +supported by the device. For video node-centric devices, the enumerated formats
->>> +may depend on the active input or output of the device. For MC-centric devices,
->>> +the enumerated formats shall not depend on the active configuration of the
->>> +device.
->>
->> s/device/pipeline ?
-> 
-> I meant the video device node, but it's worth mentioning both.
-> 
->>> +
->>> +If the ``mbus_code`` field is set to a non-zero value, drivers shall restrict
->>> +enumeration to only the image formats that can be produced from that media bus
->>> +code, and set the ``V4L2_FMT_FLAG_MBUS_CODE`` flag in the ``flags`` field. The
->>> +enumerated imge formats shall not depend on the active configuration of the
->>> +device. Enumeration shall otherwise operate as previously described.
->>
->> If I got this right an application can set mbus_code != 0 to a driver
->> non supporting restricted enumeration and receive back a list of
->> formats. It's up to the application to check for the V4L2_FMT_FLAG_MBUS_CODE
->> flag to see if enumeration is restricted or not.
->>
->> This is a bit of a ping-pong that could be saved having driver
->> non-supporting nbus-restricted enumeration returning an error if the
->> mbus_code field is set. I know, this implies changing all current
->> drivers to check for the mbus_config field and return an error in case
->> they don't support it.
-> 
-> One issue is that it wouldn't work on older kernels. Drivers will ignore
-> the mbus_code field in that case, so applications won't know if this is
-> supported. We could require applications to check the kernel version
-> though.
-> 
->> I have not followed CAP_IO_MC closely, but I
->> wonder if that could help catching that situation in the core and
->> return an error earlier. Maybe there could be a way for drivers to
->> advertise support for that feature to the core and fail earlier if
->> mbus_code is set and they don't claim to support it ?
-> 
-> I was thinking of linking the two, making this extension mandatory for
-> drivers that advertise CAP_IO_MC, in which case we could indeed drop the
-> flag.
-> 
-> Hans, what's your preference ?
+Em Wed, 18 Mar 2020 03:00:17 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-That would be my preference as well. Drivers that set CAP_IO_MC also support
-mbus_code in ENUM_FMT. v4l2-compliance can easily test for that, always highly
-desirable in my view.
-
-Regards,
-
-	Hans
-
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
->>>
->>>  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
->>> @@ -145,6 +152,13 @@ formats in preference order, where preferred formats are returned before
->>>  	parameters are detected. This flag can only be used in combination
->>>  	with the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to
->>>  	compressed formats only. It is also only applies to stateful codecs.
->>> +    * - ``V4L2_FMT_FLAG_MBUS_CODE``
->>> +      - 0x0010
->>> +      - The ``mbus_code`` field has been taken into account and only formats
->>> +        compatible with the supplied media bus code are enumerated. This flag
->>> +        shall only be  set by drivers, and only when ``mbus_code`` is not zero.
->>> +        Applications may read the flag to check if code-aware enumeration is
->>> +        supported by the driver.
->>>
->>>
->>>  Return Value
->>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> index aaf83e254272..2d635a5f0797 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
->>>  {
->>>  	const struct v4l2_fmtdesc *p = arg;
->>>
->>> -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
->>> +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
->>>  		p->index, prt_names(p->type, v4l2_type_names),
->>>  		p->flags, (p->pixelformat & 0xff),
->>>  		(p->pixelformat >>  8) & 0xff,
->>>  		(p->pixelformat >> 16) & 0xff,
->>>  		(p->pixelformat >> 24) & 0xff,
->>> +		p->mbus_code,
->>>  		(int)sizeof(p->description), p->description);
->>>  }
->>>
->>> @@ -1416,12 +1417,17 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->>>  	struct video_device *vdev = video_devdata(file);
->>>  	struct v4l2_fmtdesc *p = arg;
->>>  	int ret = check_fmt(file, p->type);
->>> +	u32 mbus_code;
->>>  	u32 cap_mask;
->>>
->>>  	if (ret)
->>>  		return ret;
->>>  	ret = -EINVAL;
->>>
->>> +	mbus_code = p->mbus_code;
->>> +	CLEAR_AFTER_FIELD(p, type);
->>> +	p->mbus_code = mbus_code;
->>> +
->>>  	switch (p->type) {
->>>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->>>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
->>> @@ -2703,7 +2709,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
->>>
->>>  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
->>>  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
->>> -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
->>> +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
->>>  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
->>>  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
->>>  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 5f9357dcb060..b13e54e196e3 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -777,13 +777,15 @@ struct v4l2_fmtdesc {
->>>  	__u32               flags;
->>>  	__u8		    description[32];   /* Description string */
->>>  	__u32		    pixelformat;       /* Format fourcc      */
->>> -	__u32		    reserved[4];
->>> +	__u32		    mbus_code;		/* Media bus code    */
->>> +	__u32		    reserved[3];
->>>  };
->>>
->>>  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
->>>  #define V4L2_FMT_FLAG_EMULATED			0x0002
->>>  #define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM	0x0004
->>>  #define V4L2_FMT_FLAG_DYN_RESOLUTION		0x0008
->>> +#define V4L2_FMT_FLAG_MBUS_CODE			0x0010
->>>
->>>  	/* Frame Size and frame rate enumeration */
->>>  /*
+> Periodically check the signal quality and eventually lose the lock if
+> the quality is sub-par. A fake tuner can return a bad quality signal to
+> the demod if the frequency is too far off from a valid frequency.
 > 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  drivers/media/dvb-frontends/dvb_dummy_fe.c | 149 ++++++++++++++++++++-
+>  1 file changed, 144 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> index 9ff1ebaa5e04..726c964a523d 100644
+> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> @@ -9,24 +9,155 @@
+>  #include <linux/init.h>
+>  #include <linux/string.h>
+>  #include <linux/slab.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/random.h>
+>  
+>  #include <media/dvb_frontend.h>
+>  #include "dvb_dummy_fe.h"
+>  
+>  
+> +struct dvb_dummy_fe_cnr_to_qual_s {
+> +	/* attempt to use the same values as libdvbv5 */
+> +	u32 modulation;
+> +	u32 fec;
+> +	u32 cnr_ok, cnr_good;
+> +};
+> +
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_c_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code */
+> +	{ QAM_256, FEC_NONE,  34., 38.},
+> +	{ QAM_64,  FEC_NONE,  30., 34.},
+> +};
+> +
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_s_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code */
+> +	{ QPSK, FEC_1_2,  7., 10.},
+> +
+> +	{ QPSK, FEC_2_3,  9., 12.},
+> +	{ QPSK, FEC_3_4, 10., 13.},
+> +	{ QPSK, FEC_5_6, 11., 14.},
+> +
+> +	{ QPSK, FEC_7_8, 12., 15.},
+> +};
+> +
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_s2_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code */
+> +	{ QPSK,  FEC_1_2,   9.,  12.},
+> +	{ QPSK,  FEC_2_3,  11.,  14.},
+> +	{ QPSK,  FEC_3_4,  12.,  15.},
+> +	{ QPSK,  FEC_5_6,  12.,  15.},
+> +	{ QPSK,  FEC_8_9,  13.,  16.},
+> +	{ QPSK,  FEC_9_10, 13.5, 16.5},
+> +	{ PSK_8, FEC_2_3,  14.5, 17.5},
+> +	{ PSK_8, FEC_3_4,  16.,  19.},
+> +	{ PSK_8, FEC_5_6,  17.5, 20.5},
+> +	{ PSK_8, FEC_8_9,  19.,  22.},
+> +};
+> +
+> +static struct dvb_dummy_fe_cnr_to_qual_s dvb_t_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code */
+> +	{   QPSK, FEC_1_2,  4.1,  5.9},
+> +	{   QPSK, FEC_2_3,  6.1,  9.6},
+> +	{   QPSK, FEC_3_4,  7.2, 12.4},
+> +	{   QPSK, FEC_5_6,  8.5, 15.6},
+> +	{   QPSK, FEC_7_8,  9.2, 17.5},
+> +
+> +	{ QAM_16, FEC_1_2,  9.8, 11.8},
+> +	{ QAM_16, FEC_2_3, 12.1, 15.3},
+> +	{ QAM_16, FEC_3_4, 13.4, 18.1},
+> +	{ QAM_16, FEC_5_6, 14.8, 21.3},
+> +	{ QAM_16, FEC_7_8, 15.7, 23.6},
+> +
+> +	{ QAM_64, FEC_1_2, 14.0, 16.0},
+> +	{ QAM_64, FEC_2_3, 19.9, 25.4},
+> +	{ QAM_64, FEC_3_4, 24.9, 27.9},
+> +	{ QAM_64, FEC_5_6, 21.3, 23.3},
+> +	{ QAM_64, FEC_7_8, 22.0, 24.0},
+> +};
 
+Same comment as before: multiply everything to 1000.
+
+> +
+> +struct dvb_dummy_fe_config {
+> +	/* probability of losing the lock due to low snr */
+> +	u8 drop_tslock_probability_on_low_snr;
+> +};
+> +
+>  struct dvb_dummy_fe_state {
+>  	struct dvb_frontend frontend;
+> +	struct dvb_dummy_fe_config config;
+> +	struct delayed_work poll_snr;
+> +	enum fe_status status;
+>  };
+>  
+> +void poll_snr_handler(struct work_struct *work)
+> +{
+> +	/* periodically check the signal quality and eventually
+> +	 * lose the TS lock if it dips too low
+> +	 */
+
+We use multi-line comments at the Kernel as:
+
+	/*
+	 * foo
+	 * bar
+	 */
+
+
+> +	struct dvb_dummy_fe_state *state =
+> +		container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
+> +	struct dtv_frontend_properties *c = &state->frontend.dtv_property_cache;
+> +	struct dvb_dummy_fe_cnr_to_qual_s *cnr2qual = NULL;
+> +	struct dvb_dummy_fe_config *config = &state->config;
+> +	u32 array_size = 0;
+> +	u16 snr = 0;
+> +	u32 i;
+
+Please avoid breaking assignments on multiple lines. It makes harder
+to read.
+
+What I would do, instead, is to split it on a different way:
+
+	struct dvb_dummy_fe_state *state;
+	struct dtv_frontend_properties *c;
+	struct dvb_dummy_fe_config *config;
+	...
+
+	state = container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
+	c = &state->frontend.dtv_property_cache;
+	config = &state->config;
+
+
+
+> +
+> +	if (!state->frontend.ops.tuner_ops.get_rf_strength)
+> +		return;
+> +
+> +	state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
+> +
+> +	switch (c->delivery_system) {
+> +	case SYS_DVBT:
+> +	case SYS_DVBT2:
+> +		cnr2qual = dvb_t_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_t_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBS:
+> +		cnr2qual = dvb_s_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_s_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBS2:
+> +		cnr2qual = dvb_s2_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_s2_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBC_ANNEX_A:
+> +		cnr2qual = dvb_c_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_c_cnr_2_qual);
+> +		break;
+> +
+> +	default:
+> +		pr_warn("%s: unsupported delivery system: %u\n",
+> +			__func__,
+> +			c->delivery_system);
+> +		break;
+> +	}
+> +
+> +	for (i = 0; i <= array_size; i++) {
+> +		if (cnr2qual[i].modulation == c->modulation &&
+> +		    cnr2qual[i].fec == c->fec_inner) {
+> +
+> +			if (snr < cnr2qual[i].cnr_ok) {
+> +				/* eventually lose the TS lock */
+> +				if (prandom_u32_max(100) <
+> +				    config->drop_tslock_probability_on_low_snr)
+> +					state->status = 0;
+> +			}
+
+Hmm.. what about the reverse: if it lost TS lock, shouldn't it 
+randomly recover?
+
+> +		}
+> +	}
+> +
+> +	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
+> +}
+>  
+>  static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
+>  				    enum fe_status *status)
+>  {
+> -	*status = FE_HAS_SIGNAL
+> -		| FE_HAS_CARRIER
+> -		| FE_HAS_VITERBI
+> -		| FE_HAS_SYNC
+> -		| FE_HAS_LOCK;
+> +
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> +
+> +	*status = state->status;
+>  
+>  	return 0;
+>  }
+> @@ -80,11 +211,18 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
+>  
+>  static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
+>  {
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> +
+> +	cancel_delayed_work_sync(&(state->poll_snr));
+>  	return 0;
+>  }
+>  
+>  static int dvb_dummy_fe_init(struct dvb_frontend *fe)
+>  {
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> +
+> +	INIT_DELAYED_WORK(&(state->poll_snr), &poll_snr_handler);
+> +	schedule_delayed_work(&(state->poll_snr), msecs_to_jiffies(2000));
+>  	return 0;
+>  }
+>  
+> @@ -104,6 +242,7 @@ static void dvb_dummy_fe_release(struct dvb_frontend *fe)
+>  {
+>  	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+>  
+> +	cancel_delayed_work_sync(&(state->poll_snr));
+>  	kfree(state);
+>  }
+>  
+
+The rest of the code sounds good to me.
+
+
+Thanks,
+Mauro
