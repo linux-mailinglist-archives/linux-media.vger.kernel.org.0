@@ -2,115 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1542B189D81
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 15:00:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 833EA189D87
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 15:03:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgCROAv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 10:00:51 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:51229 "EHLO
+        id S1726857AbgCROD6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 10:03:58 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:43929 "EHLO
         relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726851AbgCROAu (ORCPT
+        with ESMTP id S1726730AbgCROD6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 10:00:50 -0400
+        Wed, 18 Mar 2020 10:03:58 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 6A30E60015;
-        Wed, 18 Mar 2020 14:00:30 +0000 (UTC)
-Date:   Wed, 18 Mar 2020 15:03:26 +0100
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 859276000D;
+        Wed, 18 Mar 2020 14:03:54 +0000 (UTC)
+Date:   Wed, 18 Mar 2020 15:06:50 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] media: v4l2-async: Log message in case of
- heterogenous fwnode match
-Message-ID: <20200318140326.nbgyhad3zxgaxjgd@uno.localdomain>
-References: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200318002507.30336-4-laurent.pinchart+renesas@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com,
+        hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/5] media: i2c: max9286: Put of node on error
+Message-ID: <20200318140650.jehzd77tocgxjbw2@uno.localdomain>
+References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
+ <20200316202757.529740-2-jacopo+renesas@jmondi.org>
+ <09e74f7c-932b-fe63-c234-166b6ebe89f6@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200318002507.30336-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <09e74f7c-932b-fe63-c234-166b6ebe89f6@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Kieran,
 
-On Wed, Mar 18, 2020 at 02:25:06AM +0200, Laurent Pinchart wrote:
-> When a notifier supplies a device fwnode and a subdev supplies an
-> endpoint fwnode, incorrect matches may occur if multiple subdevs
-> correspond to the same device fwnode. This can't be handled
-> transparently in the framework, and requires the notifier to switch to
-> endpoint fwnodes. Log a message to notify of this problem. A second
-> message is added to help accelerating the transition to endpoint
-> matching.
+On Wed, Mar 18, 2020 at 09:32:45AM +0000, Kieran Bingham wrote:
+> Hi Jacopo
 >
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 24 +++++++++++++++++++++++-
->  1 file changed, 23 insertions(+), 1 deletion(-)
+> On 16/03/2020 20:27, Jacopo Mondi wrote:
+> > Put the device of node in case of dt parsing error.
+> >
 >
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 224b39a7aeb1..9f393a7be455 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -77,6 +77,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	struct fwnode_handle *dev_fwnode;
->  	bool asd_fwnode_is_ep;
->  	bool sd_fwnode_is_ep;
-> +	struct device *dev;
->  	const char *name;
->
->  	/*
-> @@ -113,7 +114,28 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->
->  	fwnode_handle_put(dev_fwnode);
->
-> -	return dev_fwnode == other_fwnode;
-> +	if (dev_fwnode != other_fwnode)
-> +		return false;
-> +
-> +	/*
-> +	 * We have an heterogenous match. Retrieve the struct device of the
-> +	 * side that matched on a device fwnode to print its driver name.
-> +	 */
-> +	if (sd_fwnode_is_ep)
-> +		dev = notifier->v4l2_dev ? notifier->v4l2_dev->dev
-> +		    : notifier->sd->dev;
+> Ooops, it does look like this probably leaks - but isn't it also leaking
+> in other code paths in this function too?
 
-Have you considered passing the device directly ? seems notifier is
-only used for that...
+I checked and got confused by the very last
+        of_node_put(node);
 
-Apart this small nit, for the series
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+which should be coupled with and additional
+        of_node_put(dev->of_node);
 
-Thanks
-   j
+I don't see any additional leak, am I mistaken ?
 
-> +	else
-> +		dev = sd->dev;
-> +
-> +	if (dev && dev->driver) {
-> +		if (sd_fwnode_is_ep)
-> +			dev_info(dev, "Driver %s uses device fwnode, incorrect match may occur\n",
-> +				 dev->driver->name);
-> +		dev_info(dev, "Consider updating driver %s to match on endpoints\n",
-> +			 dev->driver->name);
-> +	}
-> +
-> +	return true;
->  }
 >
->  static bool match_custom(struct v4l2_async_notifier *notifier,
-> --
-> Regards,
+> If we fix here, we should fix all leaks of this usage. (and perhaps
+> identify if there are leaks of other refcnts too ;-S )
 >
-> Laurent Pinchart
+>
+> > Fixes: 9eed4185c7a0 ("media: i2c: Add MAX9286 driver")
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/max9286.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > index a20829297ef6..06edd8bd3e82 100644
+> > --- a/drivers/media/i2c/max9286.c
+> > +++ b/drivers/media/i2c/max9286.c
+> > @@ -1046,6 +1046,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+> >  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+> >  	if (!i2c_mux) {
+> >  		dev_err(dev, "Failed to find i2c-mux node\n");
+> > +		of_node_put(dev->of_node);
+> >  		return -EINVAL;
+> >  	}
+> >
+> >
 >
