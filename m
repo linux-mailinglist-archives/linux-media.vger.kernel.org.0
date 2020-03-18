@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6BD218A70B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 22:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C0518A710
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 22:31:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727160AbgCRVbJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 17:31:09 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:7578 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726840AbgCRVbI (ORCPT
+        id S1727177AbgCRVbK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 17:31:10 -0400
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:53525 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726747AbgCRVbK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 17:31:08 -0400
-X-Halon-ID: b279901d-695f-11ea-9f40-0050569116f7
+        Wed, 18 Mar 2020 17:31:10 -0400
+X-Halon-ID: b2e1d9bc-695f-11ea-9f40-0050569116f7
 Authorized-sender: niklas@soderlund.pp.se
 Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
         by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id b279901d-695f-11ea-9f40-0050569116f7;
-        Wed, 18 Mar 2020 22:30:32 +0100 (CET)
+        id b2e1d9bc-695f-11ea-9f40-0050569116f7;
+        Wed, 18 Mar 2020 22:30:33 +0100 (CET)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
@@ -26,9 +26,9 @@ To:     Hans Verkuil <hverkuil@xs4all.nl>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [RFC 3/5] mc-device.c: If graph completes status is available report it to user-space
-Date:   Wed, 18 Mar 2020 22:30:49 +0100
-Message-Id: <20200318213051.3200981-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [RFC 4/5] rcar-vin: Report the completeness of the media graph
+Date:   Wed, 18 Mar 2020 22:30:50 +0100
+Message-Id: <20200318213051.3200981-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200318213051.3200981-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20200318213051.3200981-1-niklas.soderlund+renesas@ragnatech.se>
@@ -40,29 +40,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the media device implements the graph_complete callback utilise it
-and fill in the completes of the graph in the struct media_device_info.
+Implement the graph_complete callback and report if the media graph is
+complete or not.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/mc/mc-device.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/rcar-vin/rcar-core.c | 13 +++++++++++++
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  4 ++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index da8088351135298a..64c786570b6df129 100644
---- a/drivers/media/mc/mc-device.c
-+++ b/drivers/media/mc/mc-device.c
-@@ -75,6 +75,10 @@ static long media_device_get_info(struct media_device *dev, void *arg)
- 	info->driver_version = info->media_version;
- 	info->hw_revision = dev->hw_revision;
- 
-+	if (dev->ops && dev->ops->graph_complete)
-+		info->flags |= dev->ops->graph_complete(dev) ?
-+			MEDIA_INFO_FLAG_COMPLETE : MEDIA_INFO_FLAG_INCOMPLETE;
-+
- 	return 0;
+diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+index 7440c8965d27e64f..21ce3de8168c3224 100644
+--- a/drivers/media/platform/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/rcar-vin/rcar-core.c
+@@ -221,8 +221,16 @@ static int rvin_group_link_notify(struct media_link *link, u32 flags,
+ 	return ret;
  }
  
++static bool rvin_group_graph_complete(struct media_device *mdev)
++{
++	struct rvin_group *group = container_of(mdev, struct rvin_group, mdev);
++
++	return group->complete;
++}
++
+ static const struct media_device_ops rvin_media_ops = {
+ 	.link_notify = rvin_group_link_notify,
++	.graph_complete = rvin_group_graph_complete,
+ };
+ 
+ /* -----------------------------------------------------------------------------
+@@ -735,6 +743,9 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+ 			break;
+ 		}
+ 	}
++
++	vin->group->complete = true;
++
+ 	mutex_unlock(&vin->group->lock);
+ 
+ 	return ret;
+@@ -761,6 +772,8 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+ 		break;
+ 	}
+ 
++	vin->group->complete = false;
++
+ 	mutex_unlock(&vin->group->lock);
+ }
+ 
+diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+index c19d077ce1cb4f4b..ff04adbb969b07de 100644
+--- a/drivers/media/platform/rcar-vin/rcar-vin.h
++++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+@@ -263,6 +263,8 @@ struct rvin_dev {
+  * @vin:		VIN instances which are part of the group
+  * @csi:		array of pairs of fwnode and subdev pointers
+  *			to all CSI-2 subdevices.
++ * @complete:		True if all devices of the group are in the media graph,
++ *			false otherwise.
+  */
+ struct rvin_group {
+ 	struct kref refcount;
+@@ -278,6 +280,8 @@ struct rvin_group {
+ 		struct fwnode_handle *fwnode;
+ 		struct v4l2_subdev *subdev;
+ 	} csi[RVIN_CSI_MAX];
++
++	bool complete;
+ };
+ 
+ int rvin_dma_register(struct rvin_dev *vin, int irq);
 -- 
 2.25.1
 
