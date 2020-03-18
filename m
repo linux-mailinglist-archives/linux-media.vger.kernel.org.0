@@ -2,32 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 018F818A276
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 19:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E3C18A280
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 19:36:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgCRSgD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 14:36:03 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:36547 "EHLO
+        id S1726747AbgCRSgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 14:36:54 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:56747 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726836AbgCRSgD (ORCPT
+        with ESMTP id S1726647AbgCRSgy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 14:36:03 -0400
+        Wed, 18 Mar 2020 14:36:54 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1jEdXt-00011Z-OM; Wed, 18 Mar 2020 19:36:01 +0100
+        id 1jEdYj-0001UQ-HY; Wed, 18 Mar 2020 19:36:53 +0100
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Tim Harvey <tharvey@gateworks.com>
-Subject: [PATCH v2 6/6] media: coda: lock capture queue wakeup against decoder stop command
-Date:   Wed, 18 Mar 2020 19:35:36 +0100
-Message-Id: <20200318183536.15779-7-p.zabel@pengutronix.de>
+Cc:     kernel@pengutronix.de
+Subject: [PATCH] media: coda: add RC enable controls
+Date:   Wed, 18 Mar 2020 19:36:49 +0100
+Message-Id: <20200318183649.16831-1-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200318183536.15779-1-p.zabel@pengutronix.de>
-References: <20200318183536.15779-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -39,71 +34,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Similar to commit 9ee50a9489f1 ("media: coda: lock capture queue wakeup
-against encoder stop command"), make sure that a JPEG decoder stop
-command running concurrently with a decoder finish_run always either
-flags the last returned buffer or wakes up the capture queue to signal
-the end of stream condition afterwards.
-
-This was not necessary for BIT processor contexts because of the need to
-release the bitstream buffer with the stream end condition. In contrast,
-the JPEG decoder can be finished with decoding the image between the
-time the application queues the last output buffer and the time it
-issues the decoder stop command.
+Currently the encoder enables the rate control algorithms if the bitrate
+control is non-zero. Implement the V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE
+and V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE controls to allow userspace to
+choose frame-level or macroblock-level rate control updates, or to
+explicitly disable rate control. Both controls are initially enabled to
+keep the current behavior.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/coda/coda-common.c | 3 +++
- drivers/media/platform/coda/coda-jpeg.c   | 8 ++++++++
- 2 files changed, 11 insertions(+)
+ drivers/media/platform/coda/coda-bit.c    |  9 +++++++--
+ drivers/media/platform/coda/coda-common.c | 10 ++++++++++
+ drivers/media/platform/coda/coda.h        |  2 ++
+ 3 files changed, 19 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+index 3443396ba5f3..b021604eceaa 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -1215,7 +1215,8 @@ static int coda_start_encoding(struct coda_ctx *ctx)
+ 		coda_write(dev, value, CODA_CMD_ENC_SEQ_GOP_SIZE);
+ 	}
+ 
+-	if (ctx->params.bitrate) {
++	if (ctx->params.bitrate && (ctx->params.frame_rc_enable ||
++				    ctx->params.mb_rc_enable)) {
+ 		ctx->params.bitrate_changed = false;
+ 		ctx->params.h264_intra_qp_changed = false;
+ 
+@@ -1276,7 +1277,11 @@ static int coda_start_encoding(struct coda_ctx *ctx)
+ 	}
+ 	coda_write(dev, value, CODA_CMD_ENC_SEQ_OPTION);
+ 
+-	coda_write(dev, 0, CODA_CMD_ENC_SEQ_RC_INTERVAL_MODE);
++	if (ctx->params.frame_rc_enable && !ctx->params.mb_rc_enable)
++		value = 1;
++	else
++		value = 0;
++	coda_write(dev, value, CODA_CMD_ENC_SEQ_RC_INTERVAL_MODE);
+ 
+ 	coda_setup_iram(ctx);
+ 
 diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index f3d85205ec9f..175504141a2c 100644
+index 175504141a2c..c8bbe0983b71 100644
 --- a/drivers/media/platform/coda/coda-common.c
 +++ b/drivers/media/platform/coda/coda-common.c
-@@ -1229,6 +1229,8 @@ static int coda_decoder_cmd(struct file *file, void *fh,
- 		stream_end = false;
- 		wakeup = false;
- 
-+		mutex_lock(&ctx->wakeup_mutex);
-+
- 		buf = v4l2_m2m_last_src_buf(ctx->fh.m2m_ctx);
- 		if (buf) {
- 			coda_dbg(1, ctx, "marking last pending buffer\n");
-@@ -1265,6 +1267,7 @@ static int coda_decoder_cmd(struct file *file, void *fh,
- 			coda_wake_up_capture_queue(ctx);
- 		}
- 
-+		mutex_unlock(&ctx->wakeup_mutex);
+@@ -2222,6 +2222,12 @@ static int coda_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_MPEG_VIDEO_H264_CONSTRAINED_INTRA_PREDICTION:
+ 		ctx->params.h264_constrained_intra_pred_flag = ctrl->val;
  		break;
- 	default:
- 		return -EINVAL;
-diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
-index 05e755207dfc..28fbb3169724 100644
---- a/drivers/media/platform/coda/coda-jpeg.c
-+++ b/drivers/media/platform/coda/coda-jpeg.c
-@@ -1428,6 +1428,12 @@ static void coda9_jpeg_finish_decode(struct coda_ctx *ctx)
++	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
++		ctx->params.frame_rc_enable = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
++		ctx->params.mb_rc_enable = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET:
+ 		ctx->params.h264_chroma_qp_index_offset = ctrl->val;
+ 		break;
+@@ -2320,6 +2326,10 @@ static void coda_encode_ctrls(struct coda_ctx *ctx)
+ 	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
+ 		V4L2_CID_MPEG_VIDEO_H264_CONSTRAINED_INTRA_PREDICTION, 0, 1, 1,
+ 		0);
++	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
++		V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE, 0, 1, 1, 1);
++	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
++		V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE, 0, 1, 1, 1);
+ 	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
+ 		V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET, -12, 12, 1, 0);
+ 	v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
+diff --git a/drivers/media/platform/coda/coda.h b/drivers/media/platform/coda/coda.h
+index af0f8252b0c6..b81f3aca9209 100644
+--- a/drivers/media/platform/coda/coda.h
++++ b/drivers/media/platform/coda/coda.h
+@@ -148,6 +148,8 @@ struct coda_params {
+ 	bool			h264_intra_qp_changed;
+ 	bool			intra_refresh_changed;
+ 	bool			slice_mode_changed;
++	bool			frame_rc_enable;
++	bool			mb_rc_enable;
+ };
  
- 	coda_write(dev, 0, CODA9_REG_JPEG_BBC_FLUSH_CMD);
- 
-+	/*
-+	 * Lock to make sure that a decoder stop command running in parallel
-+	 * will either already have marked src_buf as last, or it will wake up
-+	 * the capture queue after the buffers are returned.
-+	 */
-+	mutex_lock(&ctx->wakeup_mutex);
- 	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
- 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 	dst_buf->sequence = ctx->osequence++;
-@@ -1447,6 +1453,8 @@ static void coda9_jpeg_finish_decode(struct coda_ctx *ctx)
- 	coda_m2m_buf_done(ctx, dst_buf, err_mb ? VB2_BUF_STATE_ERROR :
- 						 VB2_BUF_STATE_DONE);
- 
-+	mutex_unlock(&ctx->wakeup_mutex);
-+
- 	coda_dbg(1, ctx, "job finished: decoded frame (%u)%s\n",
- 		 dst_buf->sequence,
- 		 (dst_buf->flags & V4L2_BUF_FLAG_LAST) ? " (last)" : "");
+ struct coda_buffer_meta {
 -- 
 2.20.1
 
