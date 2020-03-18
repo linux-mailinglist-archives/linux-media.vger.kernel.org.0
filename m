@@ -2,370 +2,627 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8684618992B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 11:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E74189952
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 11:29:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727281AbgCRKUy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 06:20:54 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:63793 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727144AbgCRKUy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 06:20:54 -0400
-X-UUID: 28918b7d628648d9a6d5348d4f20b886-20200318
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=q7w+ff+OkgNRRznCvu3F2DnDbhEmk9ORZpPlMsohg0U=;
-        b=Oy8iYa+kbnQKKSvwO0RVFGXOu35UKB5ed1uajFmjV8jjA8PLdoqQr1EcvHJizS08fDWIw1OAVGUKj289YakCxRUGH9xnxy8ZgjHTi8ZchMTe2fn0iSCDOe1dgiaXgzzmJ00yzHUWQlKoIiSXWX/td6CSZ+fdoTunBu3R1Ra5tjY=;
-X-UUID: 28918b7d628648d9a6d5348d4f20b886-20200318
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1724478438; Wed, 18 Mar 2020 18:20:25 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Wed, 18 Mar
- 2020 18:20:19 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 18 Mar 2020 18:20:15 +0800
-Message-ID: <1584526824.5781.56.camel@mhfsdcap03>
+        id S1727566AbgCRK34 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 06:29:56 -0400
+Received: from mga03.intel.com ([134.134.136.65]:48494 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726310AbgCRK34 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Mar 2020 06:29:56 -0400
+IronPort-SDR: lUJYx7aCOqC3fUcResLxTFTdJUIwHy02UXtuth9Uf1CqRO9M+VtEM3bQyKjrWqiNJtbpkH1u0+
+ fh746NDznNVw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2020 03:29:54 -0700
+IronPort-SDR: ZwxpERxjz7FmvkAIsodt5XAdOOTTywY/USynlOPlJWskxDcv+BVwnjNw37hxgLNNt9LOol6xUW
+ F1YVDGhJUMAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,566,1574150400"; 
+   d="scan'208";a="445824962"
+Received: from thoyle-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.45.52])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Mar 2020 03:29:49 -0700
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id DD07221F46; Wed, 18 Mar 2020 12:29:37 +0200 (EET)
+Date:   Wed, 18 Mar 2020 12:29:37 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, drinkcat@chromium.org,
+        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
 Subject: Re: [V3, 2/2] media: i2c: Add DW9768 VCM driver
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <drinkcat@chromium.org>, <tfiga@chromium.org>,
-        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
-        <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
-Date:   Wed, 18 Mar 2020 18:20:24 +0800
-In-Reply-To: <20200305120516.GQ5379@paasikivi.fi.intel.com>
+Message-ID: <20200318102937.GA15448@kekkonen.localdomain>
 References: <20200228155958.20657-1-dongchun.zhu@mediatek.com>
-         <20200228155958.20657-3-dongchun.zhu@mediatek.com>
-         <20200305120516.GQ5379@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+ <20200228155958.20657-3-dongchun.zhu@mediatek.com>
+ <20200305120516.GQ5379@paasikivi.fi.intel.com>
+ <1584526824.5781.56.camel@mhfsdcap03>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: B93F049E13CD441DD759E4CFC49188E04B918DB9DFBB874A99C8CE09738A97662000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1584526824.5781.56.camel@mhfsdcap03>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgU2FrYXJpLA0KDQpPbiBUaHUsIDIwMjAtMDMtMDUgYXQgMTQ6MDUgKzAyMDAsIFNha2FyaSBB
-aWx1cyB3cm90ZToNCj4gSGkgRG9uZ2NodW4sDQo+IA0KPiBUaGFua3MgZm9yIHRoZSB1cGRhdGUu
-DQo+IA0KPiBPbiBGcmksIEZlYiAyOCwgMjAyMCBhdCAxMTo1OTo1OFBNICswODAwLCBEb25nY2h1
-biBaaHUgd3JvdGU6DQo+ID4gVGhpcyBwYXRjaCBhZGRzIGEgVjRMMiBzdWItZGV2aWNlIGRyaXZl
-ciBmb3IgRFc5NzY4IGxlbnMgdm9pY2UgY29pbCwNCj4gPiBhbmQgcHJvdmlkZXMgY29udHJvbCB0
-byBzZXQgdGhlIGRlc2lyZWQgZm9jdXMgdmlhIEkyQyBzZXJpYWwgaW50ZXJmYWNlLg0KPiA+IA0K
-PiA+IFNpZ25lZC1vZmYtYnk6IERvbmdjaHVuIFpodSA8ZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNv
-bT4NCj4gPiAtLS0NCj4gPiAgTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgfCAgIDEgKw0KPiA+
-ICBkcml2ZXJzL21lZGlhL2kyYy9LY29uZmlnICB8ICAxMCArKw0KPiA+ICBkcml2ZXJzL21lZGlh
-L2kyYy9NYWtlZmlsZSB8ICAgMSArDQo+ID4gIGRyaXZlcnMvbWVkaWEvaTJjL2R3OTc2OC5jIHwg
-NDM3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICA0
-IGZpbGVzIGNoYW5nZWQsIDQ0OSBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBkcml2ZXJzL21lZGlhL2kyYy9kdzk3NjguYw0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9NQUlO
-VEFJTkVSUyBiL01BSU5UQUlORVJTDQo+ID4gaW5kZXggYjgwNWUyOS4uMGJiODk0YSAxMDA2NDQN
-Cj4gPiAtLS0gYS9NQUlOVEFJTkVSUw0KPiA+ICsrKyBiL01BSU5UQUlORVJTDQo+ID4gQEAgLTUx
-MzksNiArNTEzOSw3IEBAIE06CURvbmdjaHVuIFpodSA8ZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNv
-bT4NCj4gPiAgTDoJbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnDQo+ID4gIFQ6CWdpdCBnaXQ6
-Ly9saW51eHR2Lm9yZy9tZWRpYV90cmVlLmdpdA0KPiA+ICBTOglNYWludGFpbmVkDQo+ID4gK0Y6
-CWRyaXZlcnMvbWVkaWEvaTJjL2R3OTc2OC5jDQo+ID4gIEY6CURvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvZG9uZ3dvb24sZHc5NzY4LnlhbWwNCj4gPiAgDQo+ID4g
-IERPTkdXT09OIERXOTgwNyBMRU5TIFZPSUNFIENPSUwgRFJJVkVSDQo+ID4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvbWVkaWEvaTJjL0tjb25maWcgYi9kcml2ZXJzL21lZGlhL2kyYy9LY29uZmlnDQo+
-ID4gaW5kZXggYzY4ZTAwMi4uYWE2MDc4MSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21lZGlh
-L2kyYy9LY29uZmlnDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvS2NvbmZpZw0KPiA+IEBA
-IC0xMDI0LDYgKzEwMjQsMTYgQEAgY29uZmlnIFZJREVPX0RXOTcxNA0KPiA+ICAJICBjYXBhYmls
-aXR5LiBUaGlzIGlzIGRlc2lnbmVkIGZvciBsaW5lYXIgY29udHJvbCBvZg0KPiA+ICAJICB2b2lj
-ZSBjb2lsIG1vdG9ycywgY29udHJvbGxlZCB2aWEgSTJDIHNlcmlhbCBpbnRlcmZhY2UuDQo+ID4g
-IA0KPiA+ICtjb25maWcgVklERU9fRFc5NzY4DQo+ID4gKwl0cmlzdGF0ZSAiRFc5NzY4IGxlbnMg
-dm9pY2UgY29pbCBzdXBwb3J0Ig0KPiA+ICsJZGVwZW5kcyBvbiBJMkMgJiYgVklERU9fVjRMMiAm
-JiBNRURJQV9DT05UUk9MTEVSDQo+ID4gKwlkZXBlbmRzIG9uIFZJREVPX1Y0TDJfU1VCREVWX0FQ
-SQ0KPiA+ICsJaGVscA0KPiA+ICsJICBUaGlzIGlzIGEgZHJpdmVyIGZvciB0aGUgRFc5NzY4IGNh
-bWVyYSBsZW5zIHZvaWNlIGNvaWwuDQo+ID4gKwkgIERXOTc2OCBpcyBhIDEwIGJpdCBEQUMgd2l0
-aCAxMDBtQSBvdXRwdXQgY3VycmVudCBzaW5rDQo+ID4gKwkgIGNhcGFiaWxpdHkuIFRoaXMgaXMg
-ZGVzaWduZWQgZm9yIGxpbmVhciBjb250cm9sIG9mDQo+ID4gKwkgIHZvaWNlIGNvaWwgbW90b3Jz
-LCBjb250cm9sbGVkIHZpYSBJMkMgc2VyaWFsIGludGVyZmFjZS4NCj4gPiArDQo+ID4gIGNvbmZp
-ZyBWSURFT19EVzk4MDdfVkNNDQo+ID4gIAl0cmlzdGF0ZSAiRFc5ODA3IGxlbnMgdm9pY2UgY29p
-bCBzdXBwb3J0Ig0KPiA+ICAJZGVwZW5kcyBvbiBJMkMgJiYgVklERU9fVjRMMiAmJiBNRURJQV9D
-T05UUk9MTEVSDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxlIGIv
-ZHJpdmVycy9tZWRpYS9pMmMvTWFrZWZpbGUNCj4gPiBpbmRleCBjMTQ3YmI5Li5lYzk0NDM0IDEw
-MDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxlDQo+ID4gKysrIGIvZHJp
-dmVycy9tZWRpYS9pMmMvTWFrZWZpbGUNCj4gPiBAQCAtMjQsNiArMjQsNyBAQCBvYmotJChDT05G
-SUdfVklERU9fU0FBNjc1MkhTKSArPSBzYWE2NzUyaHMubw0KPiA+ICBvYmotJChDT05GSUdfVklE
-RU9fQUQ1ODIwKSAgKz0gYWQ1ODIwLm8NCj4gPiAgb2JqLSQoQ09ORklHX1ZJREVPX0FLNzM3NSkg
-ICs9IGFrNzM3NS5vDQo+ID4gIG9iai0kKENPTkZJR19WSURFT19EVzk3MTQpICArPSBkdzk3MTQu
-bw0KPiA+ICtvYmotJChDT05GSUdfVklERU9fRFc5NzY4KSAgKz0gZHc5NzY4Lm8NCj4gPiAgb2Jq
-LSQoQ09ORklHX1ZJREVPX0RXOTgwN19WQ00pICArPSBkdzk4MDctdmNtLm8NCj4gPiAgb2JqLSQo
-Q09ORklHX1ZJREVPX0FEVjcxNzApICs9IGFkdjcxNzAubw0KPiA+ICBvYmotJChDT05GSUdfVklE
-RU9fQURWNzE3NSkgKz0gYWR2NzE3NS5vDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEv
-aTJjL2R3OTc2OC5jIGIvZHJpdmVycy9tZWRpYS9pMmMvZHc5NzY4LmMNCj4gPiBuZXcgZmlsZSBt
-b2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAuLmRlYzFhYmMNCj4gPiAtLS0gL2Rldi9udWxs
-DQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvZHc5NzY4LmMNCj4gPiBAQCAtMCwwICsxLDQz
-NyBAQA0KPiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICsvLyBD
-b3B5cmlnaHQgKGMpIDIwMjAgTWVkaWFUZWsgSW5jLg0KPiA+ICsNCj4gPiArI2luY2x1ZGUgPGxp
-bnV4L2RlbGF5Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9pMmMuaD4NCj4gPiArI2luY2x1ZGUg
-PGxpbnV4L21vZHVsZS5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVy
-Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+DQo+IA0KPiBBbHBoYWJldGlj
-YWwgb3JkZXIgd291bGQgYmUgbmljZS4NCj4gDQo+ID4gKyNpbmNsdWRlIDxtZWRpYS92NGwyLWFz
-eW5jLmg+DQo+ID4gKyNpbmNsdWRlIDxtZWRpYS92NGwyLWN0cmxzLmg+DQo+ID4gKyNpbmNsdWRl
-IDxtZWRpYS92NGwyLWRldmljZS5oPg0KPiA+ICsjaW5jbHVkZSA8bWVkaWEvdjRsMi1zdWJkZXYu
-aD4NCj4gPiArDQo+ID4gKyNkZWZpbmUgRFc5NzY4X05BTUUJCQkJImR3OTc2OCINCj4gPiArI2Rl
-ZmluZSBEVzk3NjhfTUFYX0ZPQ1VTX1BPUwkJCTEwMjMNCj4gPiArLyoNCj4gPiArICogVGhpcyBz
-ZXRzIHRoZSBtaW5pbXVtIGdyYW51bGFyaXR5IGZvciB0aGUgZm9jdXMgcG9zaXRpb25zLg0KPiA+
-ICsgKiBBIHZhbHVlIG9mIDEgZ2l2ZXMgbWF4aW11bSBhY2N1cmFjeSBmb3IgYSBkZXNpcmVkIGZv
-Y3VzIHBvc2l0aW9uDQo+ID4gKyAqLw0KPiA+ICsjZGVmaW5lIERXOTc2OF9GT0NVU19TVEVQUwkJ
-CTENCj4gPiArDQo+ID4gKy8qDQo+ID4gKyAqIFJpbmcgY29udHJvbCBhbmQgUG93ZXIgY29udHJv
-bCByZWdpc3Rlcg0KPiA+ICsgKiBCaXRbMV0gUklOR19FTg0KPiA+ICsgKiAwOiBEaXJlY3QgbW9k
-ZQ0KPiA+ICsgKiAxOiBBQUMgbW9kZSAocmluZ2luZyBjb250cm9sIG1vZGUpDQo+ID4gKyAqIEJp
-dFswXSBQRA0KPiA+ICsgKiAwOiBOb3JtYWwgb3BlcmF0aW9uIG1vZGUNCj4gPiArICogMTogUG93
-ZXIgZG93biBtb2RlDQo+ID4gKyAqIERXOTc2OCByZXF1aXJlcyB3YWl0aW5nIHRpbWUgb2YgVG9w
-ciBhZnRlciBQRCByZXNldCB0YWtlcyBwbGFjZS4NCj4gPiArICovDQo+ID4gKyNkZWZpbmUgRFc5
-NzY4X1JJTkdfUERfQ09OVFJPTF9SRUcJCTB4MDINCj4gPiArI2RlZmluZSBEVzk3NjhfUERfTU9E
-RV9PRkYJCQkweDAwDQo+ID4gKyNkZWZpbmUgRFc5NzY4X1BEX01PREVfRU4JCQlCSVQoMCkNCj4g
-PiArI2RlZmluZSBEVzk3NjhfQUFDX01PREVfRU4JCQlCSVQoMSkNCj4gPiArDQo+ID4gKy8qDQo+
-ID4gKyAqIERXOTc2OCBzZXBhcmF0ZXMgdHdvIHJlZ2lzdGVycyB0byBjb250cm9sIHRoZSBWQ00g
-cG9zaXRpb24uDQo+ID4gKyAqIE9uZSBmb3IgTVNCIHZhbHVlLCBhbm90aGVyIGlzIExTQiB2YWx1
-ZS4NCj4gPiArICogREFDX01TQjogRFs5OjhdIChBREQ6IDB4MDMpDQo+ID4gKyAqIERBQ19MU0I6
-IERbNzowXSAoQUREOiAweDA0KQ0KPiA+ICsgKiBEWzk6MF0gREFDIGRhdGEgaW5wdXQ6IHBvc2l0
-aXZlIG91dHB1dCBjdXJyZW50ID0gRFs5OjBdIC8gMTAyMyAqIDEwMFttQV0NCj4gPiArICovDQo+
-ID4gKyNkZWZpbmUgRFc5NzY4X01TQl9BRERSCQkJCTB4MDMNCj4gPiArI2RlZmluZSBEVzk3Njhf
-TFNCX0FERFIJCQkJMHgwNA0KPiA+ICsjZGVmaW5lIERXOTc2OF9TVEFUVVNfQUREUgkJCTB4MDUN
-Cj4gPiArDQo+ID4gKy8qDQo+ID4gKyAqIEFBQyBtb2RlIGNvbnRyb2wgJiBwcmVzY2FsZSByZWdp
-c3Rlcg0KPiA+ICsgKiBCaXRbNzo1XSBOYW1lbHkgQUNbMjowXSwgZGVjaWRlIHRoZSBWQ00gbW9k
-ZSBhbmQgb3BlcmF0aW9uIHRpbWUuDQo+ID4gKyAqIDAwMCBEaXJlY3QoZGVmYXVsdCkNCj4gPiAr
-ICogMDAxIEFBQzIgMC40OHhUdmliDQo+ID4gKyAqIDAxMCBBQUMzIDAuNzB4VHZpYg0KPiA+ICsg
-KiAwMTEgQUFDNCAwLjc1eFR2aWINCj4gPiArICogMTAwIFJlc2VydmVkDQo+ID4gKyAqIDEwMSBB
-QUM4IDEuMTN4VHZpYg0KPiA+ICsgKiAxMTAgUmVzZXJ2ZWQNCj4gPiArICogMTExIFJlc2VydmVk
-DQo+ID4gKyAqIEJpdFsyOjBdIE5hbWVseSBQUkVTQ1syOjBdLCBzZXQgdGhlIGludGVybmFsIGNs
-b2NrIGRpdmlkaW5nIHJhdGUgYXMgZm9sbG93Lg0KPiA+ICsgKiAwMDAgMg0KPiA+ICsgKiAwMDEg
-MShkZWZhdWx0KQ0KPiA+ICsgKiAwMTAgMS8yDQo+ID4gKyAqIDAxMSAxLzQNCj4gPiArICogMTAw
-IDgNCj4gPiArICogMTAxIDQNCj4gPiArICogMTEwIFJlc2VydmVkDQo+ID4gKyAqIDExMSBSZXNl
-cnZlZA0KPiA+ICsgKi8NCj4gPiArI2RlZmluZSBEVzk3NjhfQUFDX1BSRVNDX1JFRwkJCTB4MDYN
-Cj4gPiArI2RlZmluZSBEVzk3NjhfQUFDM19TRUxFQ1RfRElWSURJTkdfUkFURV8xCTB4NDENCj4g
-PiArDQo+ID4gKy8qDQo+ID4gKyAqIFZDTSBwZXJpb2Qgb2YgdmlicmF0aW9uIHJlZ2lzdGVyDQo+
-ID4gKyAqIEJpdFs1OjBdIERlZmluZWQgYXMgVkNNIHJpc2luZyBwZXJpb2RpYyB0aW1lIChUdmli
-KSB0b2dldGhlciB3aXRoIFBSRVNDWzI6MF0NCj4gPiArICogVHZpYiA9ICg2LjNtcyArIEFBQ1Rb
-NTowXSAqIDAuMW1zKSAqIERpdmlkaW5nIFJhdGUNCj4gPiArICogRGl2aWRpbmcgUmF0ZSBpcyB0
-aGUgaW50ZXJuYWwgY2xvY2sgZGl2aWRpbmcgcmF0ZSB0aGF0IGlzIGRlZmluZWQgYXQNCj4gPiAr
-ICogUFJFU0NBTEUgcmVnaXN0ZXIgKEFERDogMHgwNikNCj4gPiArICovDQo+ID4gKyNkZWZpbmUg
-RFc5NzY4X0FBQ19USU1FX1JFRwkJCTB4MDcNCj4gPiArI2RlZmluZSBEVzk3NjhfQUFDVF9DTlQJ
-CQkJMHgzOQ0KPiANCj4gSSB3b25kZXIgaG93IGhhcmR3YXJlIHNwZWNpZmljIGFyZSB0aGVzZSB2
-YWx1ZXMsIHRoaXMgYW5kIHRoZSBkaXZpZGVyPw0KPiANCj4gVGhlIERXOTgwNyBoYXMgc2ltaWxh
-ciBjb25maWd1cmF0aW9uIGJ1dCB0aGUgZGVmYXVsdHMgc2VlbSB0byBiZSBqdXN0DQo+IGZpbmUu
-IFdoYXQgYXJlIHRoZSBkZWZhdWx0cyBpbiB0aGlzIGNhc2U/DQo+IA0KDQpGcm9tIGhhcmR3YXJl
-IHNwZWNpZmljLCB0aGUgZGVmYXVsdCB2YWx1ZSBvZiBBQUNfUFJFU0NfUkVHIGlzIDB4MDEsIGFu
-ZA0KdGhhdCB2YWx1ZSBvZiBBQUNfVElNRV9SRUcgaXMgMHgyMC4NCg0KRm9yIHRoZXNlIHR3byBy
-ZWdpc3RlcnMsIGVhY2ggYml0IGlzIGRlZmluZWQgYXMgYmVsb3cuDQpEWzc6MF0gKERbNzo1XS0+
-IEFDWzI6MF0sIERbMjowXS0+IFBSU0VDWzI6MF0pDQorLS0tLS0tKy0tLS0tLSstLS0tLS0rLS0t
-LS0tKy0tLS0tLSstLS0tLS0rLS0tLS0tKy0tLS0tLSsNCnwgQUMyICB8IEFDMSAgfCBBQzAgIHwt
-LS0tLS18LS0tLS0tfFBSRVNDMnxQUkVTQzF8UFJFU0MwfA0KKy0tLS0tLSstLS0tLS0rLS0tLS0t
-Ky0tLS0tLSstLS0tLS0rLS0tLS0tKy0tLS0tLSstLS0tLS0rDQoNCkRbNzowXSAoRFs1OjBdLT4g
-QUFDVFs1OjBdKS4NCistLS0tLS0rLS0tLS0tKy0tLS0tLSstLS0tLS0rLS0tLS0tKy0tLS0tLSst
-LS0tLS0rLS0tLS0tKw0KfC0tLS0tLSstLS0tLS0rIEFBQ1Q1fCBBQUNUNHwgQUFDVDN8IEFBQ1Qy
-fCBBQUNUMXwgQUFDVDB8DQorLS0tLS0tKy0tLS0tLSstLS0tLS0rLS0tLS0tKy0tLS0tLSstLS0t
-LS0rLS0tLS0tKy0tLS0tLSsNCg0KPiA+ICsNCj4gPiArLyoNCj4gPiArICogRFc5NzY4IHJlcXVp
-cmVzIHdhaXRpbmcgdGltZSAoZGVsYXkgdGltZSkgb2YgdF9PUFIgYWZ0ZXIgcG93ZXItdXAsDQo+
-ID4gKyAqIG9yIGluIHRoZSBjYXNlIG9mIFBEIHJlc2V0IHRha2luZyBwbGFjZS4NCj4gPiArICov
-DQo+ID4gKyNkZWZpbmUgRFc5NzY4X1RfT1BSX1VTCQkJCTEwMDANCj4gPiArDQo+ID4gKy8qDQo+
-ID4gKyAqIFRoaXMgYWN0cyBhcyB0aGUgbWluaW11bSBncmFudWxhcml0eSBvZiBsZW5zIG1vdmVt
-ZW50Lg0KPiA+ICsgKiBLZWVwIHRoaXMgdmFsdWUgcG93ZXIgb2YgMiwgc28gdGhlIGNvbnRyb2wg
-c3RlcHMgY2FuIGJlDQo+ID4gKyAqIHVuaWZvcm1seSBhZGp1c3RlZCBmb3IgZ3JhZHVhbCBsZW5z
-IG1vdmVtZW50LCB3aXRoIGRlc2lyZWQNCj4gPiArICogbnVtYmVyIG9mIGNvbnRyb2wgc3RlcHMu
-DQo+ID4gKyAqLw0KPiA+ICsjZGVmaW5lIERXOTc2OF9NT1ZFX1NURVBTCQkJMTYNCj4gPiArDQo+
-ID4gKy8qDQo+ID4gKyAqIERXOTc2OF9BQUNfUFJFU0NfUkVHICYgRFc5NzY4X0FBQ19USU1FX1JF
-RyBkZXRlcm1pbmUgVkNNIG9wZXJhdGlvbiB0aW1lLg0KPiA+ICsgKiBJZiBEVzk3NjhfQUFDX1BS
-RVNDX1JFRyBzZXQgdG8gYmUgMHg0MSwgRFc5NzY4X0FBQ19USU1FX1JFRyBzZXQgdG8gYmUgMHgz
-OSwNCj4gPiArICogVkNNIG1vZGUgd291bGQgYmUgQUFDMywgT3BlcmF0aW9uIFRpbWUgd291bGQg
-YmUgMC43MHhUdmliLCB0aGF0IGlzIDguNDBtcy4NCj4gPiArICovDQo+ID4gKyNkZWZpbmUgRFc5
-NzY4X01PVkVfREVMQVlfVVMJCQk4NDAwDQo+ID4gKyNkZWZpbmUgRFc5NzY4X1NUQUJMRV9USU1F
-X1VTCQkJMjAwMDANCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBjaGFyICogY29uc3QgZHc5NzY4
-X3N1cHBseV9uYW1lc1tdID0gew0KPiA+ICsJInZpbiIsCS8qIEkyQyBJL08gaW50ZXJmYWNlIHBv
-d2VyICovDQo+ID4gKwkidmRkIiwJLyogVkNNIHBvd2VyICovDQo+ID4gK307DQo+ID4gKw0KPiA+
-ICsjZGVmaW5lIERXOTc2OF9OVU1fU1VQUExJRVMgQVJSQVlfU0laRShkdzk3Njhfc3VwcGx5X25h
-bWVzKQ0KPiANCj4gUGxlYXNlIHVzZSBBUlJBWV9TSVpFKCkgZGlyZWN0bHkgaW5zdGVhZC4NCj4g
-DQo+ID4gKw0KPiA+ICsvKiBkdzk3NjggZGV2aWNlIHN0cnVjdHVyZSAqLw0KPiA+ICtzdHJ1Y3Qg
-ZHc5NzY4IHsNCj4gPiArCXN0cnVjdCByZWd1bGF0b3JfYnVsa19kYXRhIHN1cHBsaWVzW0RXOTc2
-OF9OVU1fU1VQUExJRVNdOw0KPiA+ICsJc3RydWN0IHY0bDJfY3RybF9oYW5kbGVyIGN0cmxzOw0K
-PiA+ICsJc3RydWN0IHY0bDJfY3RybCAqZm9jdXM7DQo+ID4gKwlzdHJ1Y3QgdjRsMl9zdWJkZXYg
-c2Q7DQo+ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW5saW5lIHN0cnVjdCBkdzk3NjggKnRv
-X2R3OTc2OChzdHJ1Y3QgdjRsMl9jdHJsICpjdHJsKQ0KPiA+ICt7DQo+ID4gKwlyZXR1cm4gY29u
-dGFpbmVyX29mKGN0cmwtPmhhbmRsZXIsIHN0cnVjdCBkdzk3NjgsIGN0cmxzKTsNCj4gPiArfQ0K
-PiA+ICsNCj4gPiArc3RhdGljIGlubGluZSBzdHJ1Y3QgZHc5NzY4ICpzZF90b19kdzk3Njgoc3Ry
-dWN0IHY0bDJfc3ViZGV2ICpzdWJkZXYpDQo+ID4gK3sNCj4gPiArCXJldHVybiBjb250YWluZXJf
-b2Yoc3ViZGV2LCBzdHJ1Y3QgZHc5NzY4LCBzZCk7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0cnVj
-dCByZWd2YWxfbGlzdCB7DQo+ID4gKwl1OCByZWdfbnVtOw0KPiA+ICsJdTggdmFsdWU7DQo+ID4g
-K307DQo+ID4gKw0KPiA+ICtzdGF0aWMgc3RydWN0IHJlZ3ZhbF9saXN0IGR3OTc2OF9pbml0X3Jl
-Z3NbXSA9IHsNCj4gDQo+IGNvbnN0DQo+IA0KPiA+ICsJe0RXOTc2OF9SSU5HX1BEX0NPTlRST0xf
-UkVHLCBEVzk3NjhfQUFDX01PREVfRU59LA0KPiA+ICsJe0RXOTc2OF9BQUNfUFJFU0NfUkVHLCBE
-Vzk3NjhfQUFDM19TRUxFQ1RfRElWSURJTkdfUkFURV8xfSwNCj4gPiArCXtEVzk3NjhfQUFDX1RJ
-TUVfUkVHLCBEVzk3NjhfQUFDVF9DTlR9LA0KPiA+ICt9Ow0KPiA+ICsNCj4gPiArc3RhdGljIGlu
-dCBkdzk3Njhfd3JpdGVfYXJyYXkoc3RydWN0IGR3OTc2OCAqZHc5NzY4LCBzdHJ1Y3QgcmVndmFs
-X2xpc3QgKnZhbHMsDQo+ID4gKwkJCSAgICAgIHNpemVfdCBsZW4pDQo+ID4gK3sNCj4gPiArCXN0
-cnVjdCBpMmNfY2xpZW50ICpjbGllbnQgPSB2NGwyX2dldF9zdWJkZXZkYXRhKCZkdzk3NjgtPnNk
-KTsNCj4gPiArCXVuc2lnbmVkIGludCBpOw0KPiA+ICsJaW50IHJldDsNCj4gPiArDQo+ID4gKwlm
-b3IgKGkgPSAwOyBpIDwgbGVuOyBpKyspIHsNCj4gPiArCQlyZXQgPSBpMmNfc21idXNfd3JpdGVf
-Ynl0ZV9kYXRhKGNsaWVudCwgdmFsc1tpXS5yZWdfbnVtLA0KPiA+ICsJCQkJCQl2YWxzW2ldLnZh
-bHVlKTsNCj4gPiArCQlpZiAocmV0IDwgMCkNCj4gPiArCQkJcmV0dXJuIHJldDsNCj4gPiArCX0N
-Cj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IGR3OTc2OF9z
-ZXRfZGFjKHN0cnVjdCBkdzk3NjggKmR3OTc2OCwgdTE2IHZhbCkNCj4gPiArew0KPiA+ICsJc3Ry
-dWN0IGkyY19jbGllbnQgKmNsaWVudCA9IHY0bDJfZ2V0X3N1YmRldmRhdGEoJmR3OTc2OC0+c2Qp
-Ow0KPiA+ICsNCj4gPiArCS8qIFdyaXRlIFZDTSBwb3NpdGlvbiB0byByZWdpc3RlcnMgKi8NCj4g
-PiArCXJldHVybiBpMmNfc21idXNfd3JpdGVfd29yZF9kYXRhKGNsaWVudCwgRFc5NzY4X01TQl9B
-RERSLA0KPiA+ICsJCQkJCSBzd2FiMTYodmFsKSk7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRp
-YyBpbnQgZHc5NzY4X2luaXQoc3RydWN0IGR3OTc2OCAqZHc5NzY4KQ0KPiA+ICt7DQo+ID4gKwlz
-dHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0gdjRsMl9nZXRfc3ViZGV2ZGF0YSgmZHc5NzY4LT5z
-ZCk7DQo+ID4gKwlpbnQgcmV0LCB2YWw7DQo+ID4gKw0KPiA+ICsJLyogUmVzZXQgRFc5NzY4X1JJ
-TkdfUERfQ09OVFJPTF9SRUcgdG8gZGVmYXVsdCBzdGF0dXMgMHgwMCAqLw0KPiA+ICsJcmV0ID0g
-aTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShjbGllbnQsIERXOTc2OF9SSU5HX1BEX0NPTlRST0xf
-UkVHLA0KPiA+ICsJCQkJCURXOTc2OF9QRF9NT0RFX09GRik7DQo+ID4gKwlpZiAocmV0IDwgMCkN
-Cj4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ICsNCj4gPiArCS8qDQo+ID4gKwkgKiBEVzk3NjkgcmVx
-dWlyZXMgd2FpdGluZyBkZWxheSB0aW1lIG9mIHRfT1BSDQo+ID4gKwkgKiBhZnRlciBQRCByZXNl
-dCB0YWtlcyBwbGFjZS4NCj4gPiArCSAqLw0KPiA+ICsJdXNsZWVwX3JhbmdlKERXOTc2OF9UX09Q
-Ul9VUywgRFc5NzY4X1RfT1BSX1VTICsgMTAwKTsNCj4gPiArDQo+ID4gKwlyZXQgPSBkdzk3Njhf
-d3JpdGVfYXJyYXkoZHc5NzY4LCBkdzk3NjhfaW5pdF9yZWdzLA0KPiA+ICsJCQkJIEFSUkFZX1NJ
-WkUoZHc5NzY4X2luaXRfcmVncykpOw0KPiA+ICsJaWYgKHJldCkNCj4gPiArCQlyZXR1cm4gcmV0
-Ow0KPiA+ICsNCj4gPiArCWZvciAodmFsID0gZHc5NzY4LT5mb2N1cy0+dmFsICUgRFc5NzY4X01P
-VkVfU1RFUFM7DQo+ID4gKwkgICAgIHZhbCA8PSBkdzk3NjgtPmZvY3VzLT52YWw7DQo+ID4gKwkg
-ICAgIHZhbCArPSBEVzk3NjhfTU9WRV9TVEVQUykgew0KPiA+ICsJCXJldCA9IGR3OTc2OF9zZXRf
-ZGFjKGR3OTc2OCwgdmFsKTsNCj4gPiArCQlpZiAocmV0KSB7DQo+ID4gKwkJCWRldl9lcnIoJmNs
-aWVudC0+ZGV2LCAiJXMgSTJDIGZhaWx1cmU6ICVkIiwNCj4gPiArCQkJCV9fZnVuY19fLCByZXQp
-Ow0KPiA+ICsJCQlyZXR1cm4gcmV0Ow0KPiA+ICsJCX0NCj4gPiArCQl1c2xlZXBfcmFuZ2UoRFc5
-NzY4X01PVkVfREVMQVlfVVMsDQo+ID4gKwkJCSAgICAgRFc5NzY4X01PVkVfREVMQVlfVVMgKyAx
-MDAwKTsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4g
-PiArc3RhdGljIGludCBkdzk3NjhfcmVsZWFzZShzdHJ1Y3QgZHc5NzY4ICpkdzk3NjgpDQo+ID4g
-K3sNCj4gPiArCXN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQgPSB2NGwyX2dldF9zdWJkZXZkYXRh
-KCZkdzk3NjgtPnNkKTsNCj4gPiArCWludCByZXQsIHZhbDsNCj4gPiArDQo+ID4gKwlmb3IgKHZh
-bCA9IHJvdW5kX2Rvd24oZHc5NzY4LT5mb2N1cy0+dmFsLCBEVzk3NjhfTU9WRV9TVEVQUyk7DQo+
-ID4gKwkgICAgIHZhbCA+PSAwOyB2YWwgLT0gRFc5NzY4X01PVkVfU1RFUFMpIHsNCj4gPiArCQly
-ZXQgPSBkdzk3Njhfc2V0X2RhYyhkdzk3NjgsIHZhbCk7DQo+ID4gKwkJaWYgKHJldCkgew0KPiA+
-ICsJCQlkZXZfZXJyKCZjbGllbnQtPmRldiwgIiVzIEkyQyBmYWlsdXJlOiAlZCIsDQo+ID4gKwkJ
-CQlfX2Z1bmNfXywgcmV0KTsNCj4gPiArCQkJcmV0dXJuIHJldDsNCj4gPiArCQl9DQo+ID4gKwkJ
-dXNsZWVwX3JhbmdlKERXOTc2OF9NT1ZFX0RFTEFZX1VTLA0KPiA+ICsJCQkgICAgIERXOTc2OF9N
-T1ZFX0RFTEFZX1VTICsgMTAwMCk7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJLyoNCj4gPiArCSAq
-IFdhaXQgZm9yIHRoZSBtb3RvciB0byBzdGFiaWxpemUgYWZ0ZXIgdGhlIGxhc3QgbW92ZW1lbnQN
-Cj4gPiArCSAqIHRvIHByZXZlbnQgdGhlIG1vdG9yIGZyb20gc2hha2luZy4NCj4gPiArCSAqLw0K
-PiA+ICsJdXNsZWVwX3JhbmdlKERXOTc2OF9TVEFCTEVfVElNRV9VUyAtIERXOTc2OF9NT1ZFX0RF
-TEFZX1VTLA0KPiA+ICsJCSAgICAgRFc5NzY4X1NUQUJMRV9USU1FX1VTIC0gRFc5NzY4X01PVkVf
-REVMQVlfVVMgKyAxMDAwKTsNCj4gPiArDQo+ID4gKwlyZXQgPSBpMmNfc21idXNfd3JpdGVfYnl0
-ZV9kYXRhKGNsaWVudCwgRFc5NzY4X1JJTkdfUERfQ09OVFJPTF9SRUcsDQo+ID4gKwkJCQkJRFc5
-NzY4X1BEX01PREVfRU4pOw0KPiA+ICsJaWYgKHJldCA8IDApDQo+ID4gKwkJcmV0dXJuIHJldDsN
-Cj4gPiArDQo+ID4gKwkvKg0KPiA+ICsJICogRFc5NzY5IHJlcXVpcmVzIHdhaXRpbmcgZGVsYXkg
-dGltZSBvZiB0X09QUg0KPiA+ICsJICogYWZ0ZXIgUEQgcmVzZXQgdGFrZXMgcGxhY2UuDQo+ID4g
-KwkgKi8NCj4gPiArCXVzbGVlcF9yYW5nZShEVzk3NjhfVF9PUFJfVVMsIERXOTc2OF9UX09QUl9V
-UyArIDEwMCk7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCj4gPiArDQo+ID4gKy8q
-IFBvd2VyIGhhbmRsaW5nICovDQo+ID4gK3N0YXRpYyBpbnQgX19tYXliZV91bnVzZWQgZHc5NzY4
-X3J1bnRpbWVfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4gK3sNCj4gPiArCXN0cnVj
-dCBpMmNfY2xpZW50ICpjbGllbnQgPSB0b19pMmNfY2xpZW50KGRldik7DQo+ID4gKwlzdHJ1Y3Qg
-djRsMl9zdWJkZXYgKnNkID0gaTJjX2dldF9jbGllbnRkYXRhKGNsaWVudCk7DQo+ID4gKwlzdHJ1
-Y3QgZHc5NzY4ICpkdzk3NjggPSBzZF90b19kdzk3Njgoc2QpOw0KPiA+ICsNCj4gPiArCWR3OTc2
-OF9yZWxlYXNlKGR3OTc2OCk7DQo+ID4gKwlyZWd1bGF0b3JfYnVsa19kaXNhYmxlKERXOTc2OF9O
-VU1fU1VQUExJRVMsIGR3OTc2OC0+c3VwcGxpZXMpOw0KPiA+ICsNCj4gPiArCXJldHVybiAwOw0K
-PiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IF9fbWF5YmVfdW51c2VkIGR3OTc2OF9ydW50
-aW1lX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCBpMmNf
-Y2xpZW50ICpjbGllbnQgPSB0b19pMmNfY2xpZW50KGRldik7DQo+ID4gKwlzdHJ1Y3QgdjRsMl9z
-dWJkZXYgKnNkID0gaTJjX2dldF9jbGllbnRkYXRhKGNsaWVudCk7DQo+ID4gKwlzdHJ1Y3QgZHc5
-NzY4ICpkdzk3NjggPSBzZF90b19kdzk3Njgoc2QpOw0KPiA+ICsJaW50IHJldDsNCj4gPiArDQo+
-ID4gKwlyZXQgPSByZWd1bGF0b3JfYnVsa19lbmFibGUoRFc5NzY4X05VTV9TVVBQTElFUywgZHc5
-NzY4LT5zdXBwbGllcyk7DQo+ID4gKwlpZiAocmV0IDwgMCkgew0KPiA+ICsJCWRldl9lcnIoZGV2
-LCAiZmFpbGVkIHRvIGVuYWJsZSByZWd1bGF0b3JzXG4iKTsNCj4gPiArCQlyZXR1cm4gcmV0Ow0K
-PiA+ICsJfQ0KPiA+ICsNCj4gPiArCS8qDQo+ID4gKwkgKiBUaGUgZGF0YXNoZWV0IHJlZmVycyB0
-byB0X09QUiB0aGF0IG5lZWRzIHRvIGJlIHdhaXRlZCBiZWZvcmUgc2VuZGluZw0KPiA+ICsJICog
-STJDIGNvbW1hbmRzIGFmdGVyIHBvd2VyLXVwLg0KPiA+ICsJICovDQo+ID4gKwl1c2xlZXBfcmFu
-Z2UoRFc5NzY4X1RfT1BSX1VTLCBEVzk3NjhfVF9PUFJfVVMgKyAxMDApOw0KPiA+ICsNCj4gPiAr
-CXJldCA9IGR3OTc2OF9pbml0KGR3OTc2OCk7DQo+ID4gKwlpZiAocmV0IDwgMCkNCj4gPiArCQln
-b3RvIGRpc2FibGVfcmVndWxhdG9yOw0KPiA+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICsNCj4g
-PiArZGlzYWJsZV9yZWd1bGF0b3I6DQo+ID4gKwlyZWd1bGF0b3JfYnVsa19kaXNhYmxlKERXOTc2
-OF9OVU1fU1VQUExJRVMsIGR3OTc2OC0+c3VwcGxpZXMpOw0KPiA+ICsNCj4gPiArCXJldHVybiBy
-ZXQ7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgZHc5NzY4X3NldF9jdHJsKHN0cnVj
-dCB2NGwyX2N0cmwgKmN0cmwpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCBkdzk3NjggKmR3OTc2OCA9
-IHRvX2R3OTc2OChjdHJsKTsNCj4gPiArDQo+ID4gKwlpZiAoY3RybC0+aWQgPT0gVjRMMl9DSURf
-Rk9DVVNfQUJTT0xVVEUpDQo+ID4gKwkJcmV0dXJuIGR3OTc2OF9zZXRfZGFjKGR3OTc2OCwgY3Ry
-bC0+dmFsKTsNCj4gPiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3Rh
-dGljIGNvbnN0IHN0cnVjdCB2NGwyX2N0cmxfb3BzIGR3OTc2OF9jdHJsX29wcyA9IHsNCj4gPiAr
-CS5zX2N0cmwgPSBkdzk3Njhfc2V0X2N0cmwsDQo+ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMg
-aW50IGR3OTc2OF9vcGVuKHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsIHN0cnVjdCB2NGwyX3N1YmRl
-dl9maCAqZmgpDQo+ID4gK3sNCj4gPiArCWludCByZXQ7DQo+ID4gKw0KPiA+ICsJcmV0ID0gcG1f
-cnVudGltZV9nZXRfc3luYyhzZC0+ZGV2KTsNCj4gPiArCWlmIChyZXQgPCAwKSB7DQo+ID4gKwkJ
-cG1fcnVudGltZV9wdXRfbm9pZGxlKHNkLT5kZXYpOw0KPiA+ICsJCXJldHVybiByZXQ7DQo+ID4g
-Kwl9DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBp
-bnQgZHc5NzY4X2Nsb3NlKHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsIHN0cnVjdCB2NGwyX3N1YmRl
-dl9maCAqZmgpDQo+ID4gK3sNCj4gPiArCXBtX3J1bnRpbWVfcHV0KHNkLT5kZXYpOw0KPiA+ICsN
-Cj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0
-IHY0bDJfc3ViZGV2X2ludGVybmFsX29wcyBkdzk3NjhfaW50X29wcyA9IHsNCj4gPiArCS5vcGVu
-ID0gZHc5NzY4X29wZW4sDQo+ID4gKwkuY2xvc2UgPSBkdzk3NjhfY2xvc2UsDQo+ID4gK307DQo+
-ID4gKw0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHY0bDJfc3ViZGV2X29wcyBkdzk3Njhfb3Bz
-ID0geyB9Ow0KPiA+ICsNCj4gPiArc3RhdGljIGludCBkdzk3NjhfaW5pdF9jb250cm9scyhzdHJ1
-Y3QgZHc5NzY4ICpkdzk3NjgpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCB2NGwyX2N0cmxfaGFuZGxl
-ciAqaGRsID0gJmR3OTc2OC0+Y3RybHM7DQo+ID4gKwljb25zdCBzdHJ1Y3QgdjRsMl9jdHJsX29w
-cyAqb3BzID0gJmR3OTc2OF9jdHJsX29wczsNCj4gPiArDQo+ID4gKwl2NGwyX2N0cmxfaGFuZGxl
-cl9pbml0KGhkbCwgMSk7DQo+ID4gKw0KPiA+ICsJZHc5NzY4LT5mb2N1cyA9IHY0bDJfY3RybF9u
-ZXdfc3RkKGhkbCwgb3BzLCBWNEwyX0NJRF9GT0NVU19BQlNPTFVURSwNCj4gPiArCQkJCQkgIDAs
-IERXOTc2OF9NQVhfRk9DVVNfUE9TLA0KPiA+ICsJCQkJCSAgRFc5NzY4X0ZPQ1VTX1NURVBTLCAw
-KTsNCj4gPiArDQo+ID4gKwlpZiAoaGRsLT5lcnJvcikNCj4gPiArCQlyZXR1cm4gaGRsLT5lcnJv
-cjsNCj4gPiArDQo+ID4gKwlkdzk3NjgtPnNkLmN0cmxfaGFuZGxlciA9IGhkbDsNCj4gPiArDQo+
-ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGludCBkdzk3NjhfcHJv
-YmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCkNCj4gPiArew0KPiA+ICsJc3RydWN0IGRldmlj
-ZSAqZGV2ID0gJmNsaWVudC0+ZGV2Ow0KPiA+ICsJc3RydWN0IGR3OTc2OCAqZHc5NzY4Ow0KPiA+
-ICsJdW5zaWduZWQgaW50IGk7DQo+ID4gKwlpbnQgcmV0Ow0KPiA+ICsNCj4gPiArCWR3OTc2OCA9
-IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqZHc5NzY4KSwgR0ZQX0tFUk5FTCk7DQo+ID4gKwlp
-ZiAoIWR3OTc2OCkNCj4gPiArCQlyZXR1cm4gLUVOT01FTTsNCj4gPiArDQo+ID4gKwl2NGwyX2ky
-Y19zdWJkZXZfaW5pdCgmZHc5NzY4LT5zZCwgY2xpZW50LCAmZHc5NzY4X29wcyk7DQo+ID4gKw0K
-PiA+ICsJZm9yIChpID0gMDsgaSA8IERXOTc2OF9OVU1fU1VQUExJRVM7IGkrKykNCj4gPiArCQlk
-dzk3NjgtPnN1cHBsaWVzW2ldLnN1cHBseSA9IGR3OTc2OF9zdXBwbHlfbmFtZXNbaV07DQo+ID4g
-Kw0KPiA+ICsJcmV0ID0gZGV2bV9yZWd1bGF0b3JfYnVsa19nZXQoZGV2LCBEVzk3NjhfTlVNX1NV
-UFBMSUVTLA0KPiA+ICsJCQkJICAgICAgZHc5NzY4LT5zdXBwbGllcyk7DQo+ID4gKwlpZiAocmV0
-KSB7DQo+ID4gKwkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gZ2V0IHJlZ3VsYXRvcnNcbiIpOw0K
-PiA+ICsJCXJldHVybiByZXQ7DQo+ID4gKwl9DQo+ID4gKw0KPiANCj4gSSdkIHRyeSB0byBzZWUg
-dGhlIGNoaXAgaXMgYWNjZXNzaWJsZSBpbiBwcm9iZSgpLg0KPiANCg0KSWYgcHJvYmUgZmFpbGVk
-LCBhY3R1YXRvciBkZXZpY2Ugbm9kZSB3b3VsZCBub3QgYmUgZ2VuZXJhdGVkLg0KV2hlbiB1c2Vy
-IHRyaWVzIHRvIG9wZW4gZmQsIGl0IHNob3VsZCByZXBvcnQgZXJyb3IgYWxzby4NCg0KPiA+ICsJ
-cmV0ID0gZHc5NzY4X2luaXRfY29udHJvbHMoZHc5NzY4KTsNCj4gPiArCWlmIChyZXQpDQo+ID4g
-KwkJZ290byBlbnRpdHlfY2xlYW51cDsNCj4gPiArDQo+ID4gKwlkdzk3NjgtPnNkLmZsYWdzIHw9
-IFY0TDJfU1VCREVWX0ZMX0hBU19ERVZOT0RFOw0KPiA+ICsJZHc5NzY4LT5zZC5pbnRlcm5hbF9v
-cHMgPSAmZHc5NzY4X2ludF9vcHM7DQo+ID4gKw0KPiA+ICsJcmV0ID0gbWVkaWFfZW50aXR5X3Bh
-ZHNfaW5pdCgmZHc5NzY4LT5zZC5lbnRpdHksIDAsIE5VTEwpOw0KPiA+ICsJaWYgKHJldCA8IDAp
-DQo+ID4gKwkJZ290byBlbnRpdHlfY2xlYW51cDsNCj4gPiArDQo+ID4gKwlkdzk3NjgtPnNkLmVu
-dGl0eS5mdW5jdGlvbiA9IE1FRElBX0VOVF9GX0xFTlM7DQo+ID4gKw0KPiA+ICsJcmV0ID0gdjRs
-Ml9hc3luY19yZWdpc3Rlcl9zdWJkZXYoJmR3OTc2OC0+c2QpOw0KPiA+ICsJaWYgKHJldCA8IDAp
-DQo+ID4gKwkJZ290byBlbnRpdHlfY2xlYW51cDsNCj4gPiArDQo+ID4gKwlwbV9ydW50aW1lX2Vu
-YWJsZShkZXYpOw0KPiANCj4gWW91ciBkcml2ZXIgYXBwZWFycyB0byBkZXBlbmQgb24gcnVudGlt
-ZSBQTSBvbiBEVCBiYXNlZCBzeXN0ZW1zLg0KPiANCj4gWW91IHNob3VsZCBlaXRoZXIgYWRkIGEg
-ZGVwZW5kZW5jeSB0byBDT05GSUdfUE0sIG9yIG11Y2ggbW9yZSBwcmVmZXJyYWJseQ0KPiBtYWtl
-IGl0IHdvcmsgd2l0aG91dCBydW50aW1lIFBNLg0KPiANCg0KRG8geW91IG1lYW4gdXNpbmcgdGhl
-IG1hY3JvIGxpa2UgdGhpczoNCiNpZmRlZiBDT05GSUdfUE0NCi4uLg0KI2VuZGlmDQoNCj4gPiAr
-DQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArDQo+ID4gK2VudGl0eV9jbGVhbnVwOg0KPiA+ICsJdjRs
-Ml9jdHJsX2hhbmRsZXJfZnJlZSgmZHc5NzY4LT5jdHJscyk7DQo+ID4gKwltZWRpYV9lbnRpdHlf
-Y2xlYW51cCgmZHc5NzY4LT5zZC5lbnRpdHkpOw0KPiA+ICsJcmV0dXJuIHJldDsNCj4gPiArfQ0K
-PiA+ICsNCj4gPiArc3RhdGljIGludCBkdzk3NjhfcmVtb3ZlKHN0cnVjdCBpMmNfY2xpZW50ICpj
-bGllbnQpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCB2NGwyX3N1YmRldiAqc2QgPSBpMmNfZ2V0X2Ns
-aWVudGRhdGEoY2xpZW50KTsNCj4gPiArCXN0cnVjdCBkdzk3NjggKmR3OTc2OCA9IHNkX3RvX2R3
-OTc2OChzZCk7DQo+ID4gKw0KPiA+ICsJcG1fcnVudGltZV9kaXNhYmxlKCZjbGllbnQtPmRldik7
-DQo+ID4gKwl2NGwyX2FzeW5jX3VucmVnaXN0ZXJfc3ViZGV2KCZkdzk3NjgtPnNkKTsNCj4gPiAr
-CXY0bDJfY3RybF9oYW5kbGVyX2ZyZWUoJmR3OTc2OC0+Y3RybHMpOw0KPiA+ICsJbWVkaWFfZW50
-aXR5X2NsZWFudXAoJmR3OTc2OC0+c2QuZW50aXR5KTsNCj4gPiArCWlmICghcG1fcnVudGltZV9z
-dGF0dXNfc3VzcGVuZGVkKCZjbGllbnQtPmRldikpDQo+ID4gKwkJZHc5NzY4X3J1bnRpbWVfc3Vz
-cGVuZCgmY2xpZW50LT5kZXYpOw0KPiA+ICsJcG1fcnVudGltZV9zZXRfc3VzcGVuZGVkKCZjbGll
-bnQtPmRldik7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0
-YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGR3OTc2OF9vZl90YWJsZVtdID0gew0KPiA+
-ICsJeyAuY29tcGF0aWJsZSA9ICJkb25nd29vbixkdzk3NjgiIH0sDQo+ID4gKwl7fQ0KPiA+ICt9
-Ow0KPiA+ICtNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBkdzk3Njhfb2ZfdGFibGUpOw0KPiA+ICsN
-Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZfcG1fb3BzIGR3OTc2OF9wbV9vcHMgPSB7DQo+
-ID4gKwlTRVRfU1lTVEVNX1NMRUVQX1BNX09QUyhwbV9ydW50aW1lX2ZvcmNlX3N1c3BlbmQsDQo+
-ID4gKwkJCQlwbV9ydW50aW1lX2ZvcmNlX3Jlc3VtZSkNCj4gPiArCVNFVF9SVU5USU1FX1BNX09Q
-Uyhkdzk3NjhfcnVudGltZV9zdXNwZW5kLCBkdzk3NjhfcnVudGltZV9yZXN1bWUsIE5VTEwpDQo+
-ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMgc3RydWN0IGkyY19kcml2ZXIgZHc5NzY4X2kyY19k
-cml2ZXIgPSB7DQo+ID4gKwkuZHJpdmVyID0gew0KPiA+ICsJCS5uYW1lID0gRFc5NzY4X05BTUUs
-DQo+ID4gKwkJLnBtID0gJmR3OTc2OF9wbV9vcHMsDQo+ID4gKwkJLm9mX21hdGNoX3RhYmxlID0g
-ZHc5NzY4X29mX3RhYmxlLA0KPiA+ICsJfSwNCj4gPiArCS5wcm9iZV9uZXcgID0gZHc5NzY4X3By
-b2JlLA0KPiA+ICsJLnJlbW92ZSA9IGR3OTc2OF9yZW1vdmUsDQo+ID4gK307DQo+ID4gKw0KPiA+
-ICttb2R1bGVfaTJjX2RyaXZlcihkdzk3NjhfaTJjX2RyaXZlcik7DQo+ID4gKw0KPiA+ICtNT0RV
-TEVfQVVUSE9SKCJEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20+Iik7DQo+
-ID4gK01PRFVMRV9ERVNDUklQVElPTigiRFc5NzY4IFZDTSBkcml2ZXIiKTsNCj4gPiArTU9EVUxF
-X0xJQ0VOU0UoIkdQTCB2MiIpOw0KPiANCg0K
+Hi Dongchun,
 
+On Wed, Mar 18, 2020 at 06:20:24PM +0800, Dongchun Zhu wrote:
+> Hi Sakari,
+> 
+> On Thu, 2020-03-05 at 14:05 +0200, Sakari Ailus wrote:
+> > Hi Dongchun,
+> > 
+> > Thanks for the update.
+> > 
+> > On Fri, Feb 28, 2020 at 11:59:58PM +0800, Dongchun Zhu wrote:
+> > > This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
+> > > and provides control to set the desired focus via I2C serial interface.
+> > > 
+> > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > ---
+> > >  MAINTAINERS                |   1 +
+> > >  drivers/media/i2c/Kconfig  |  10 ++
+> > >  drivers/media/i2c/Makefile |   1 +
+> > >  drivers/media/i2c/dw9768.c | 437 +++++++++++++++++++++++++++++++++++++++++++++
+> > >  4 files changed, 449 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/dw9768.c
+> > > 
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index b805e29..0bb894a 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -5139,6 +5139,7 @@ M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > >  L:	linux-media@vger.kernel.org
+> > >  T:	git git://linuxtv.org/media_tree.git
+> > >  S:	Maintained
+> > > +F:	drivers/media/i2c/dw9768.c
+> > >  F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+> > >  
+> > >  DONGWOON DW9807 LENS VOICE COIL DRIVER
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index c68e002..aa60781 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -1024,6 +1024,16 @@ config VIDEO_DW9714
+> > >  	  capability. This is designed for linear control of
+> > >  	  voice coil motors, controlled via I2C serial interface.
+> > >  
+> > > +config VIDEO_DW9768
+> > > +	tristate "DW9768 lens voice coil support"
+> > > +	depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > +	depends on VIDEO_V4L2_SUBDEV_API
+> > > +	help
+> > > +	  This is a driver for the DW9768 camera lens voice coil.
+> > > +	  DW9768 is a 10 bit DAC with 100mA output current sink
+> > > +	  capability. This is designed for linear control of
+> > > +	  voice coil motors, controlled via I2C serial interface.
+> > > +
+> > >  config VIDEO_DW9807_VCM
+> > >  	tristate "DW9807 lens voice coil support"
+> > >  	depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > > index c147bb9..ec94434 100644
+> > > --- a/drivers/media/i2c/Makefile
+> > > +++ b/drivers/media/i2c/Makefile
+> > > @@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
+> > >  obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
+> > >  obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
+> > >  obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
+> > > +obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
+> > >  obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
+> > >  obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
+> > >  obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
+> > > diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+> > > new file mode 100644
+> > > index 0000000..dec1abc
+> > > --- /dev/null
+> > > +++ b/drivers/media/i2c/dw9768.c
+> > > @@ -0,0 +1,437 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +// Copyright (c) 2020 MediaTek Inc.
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/i2c.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/regulator/consumer.h>
+> > > +#include <linux/pm_runtime.h>
+> > 
+> > Alphabetical order would be nice.
+> > 
+> > > +#include <media/v4l2-async.h>
+> > > +#include <media/v4l2-ctrls.h>
+> > > +#include <media/v4l2-device.h>
+> > > +#include <media/v4l2-subdev.h>
+> > > +
+> > > +#define DW9768_NAME				"dw9768"
+> > > +#define DW9768_MAX_FOCUS_POS			1023
+> > > +/*
+> > > + * This sets the minimum granularity for the focus positions.
+> > > + * A value of 1 gives maximum accuracy for a desired focus position
+> > > + */
+> > > +#define DW9768_FOCUS_STEPS			1
+> > > +
+> > > +/*
+> > > + * Ring control and Power control register
+> > > + * Bit[1] RING_EN
+> > > + * 0: Direct mode
+> > > + * 1: AAC mode (ringing control mode)
+> > > + * Bit[0] PD
+> > > + * 0: Normal operation mode
+> > > + * 1: Power down mode
+> > > + * DW9768 requires waiting time of Topr after PD reset takes place.
+> > > + */
+> > > +#define DW9768_RING_PD_CONTROL_REG		0x02
+> > > +#define DW9768_PD_MODE_OFF			0x00
+> > > +#define DW9768_PD_MODE_EN			BIT(0)
+> > > +#define DW9768_AAC_MODE_EN			BIT(1)
+> > > +
+> > > +/*
+> > > + * DW9768 separates two registers to control the VCM position.
+> > > + * One for MSB value, another is LSB value.
+> > > + * DAC_MSB: D[9:8] (ADD: 0x03)
+> > > + * DAC_LSB: D[7:0] (ADD: 0x04)
+> > > + * D[9:0] DAC data input: positive output current = D[9:0] / 1023 * 100[mA]
+> > > + */
+> > > +#define DW9768_MSB_ADDR				0x03
+> > > +#define DW9768_LSB_ADDR				0x04
+> > > +#define DW9768_STATUS_ADDR			0x05
+> > > +
+> > > +/*
+> > > + * AAC mode control & prescale register
+> > > + * Bit[7:5] Namely AC[2:0], decide the VCM mode and operation time.
+> > > + * 000 Direct(default)
+> > > + * 001 AAC2 0.48xTvib
+> > > + * 010 AAC3 0.70xTvib
+> > > + * 011 AAC4 0.75xTvib
+> > > + * 100 Reserved
+> > > + * 101 AAC8 1.13xTvib
+> > > + * 110 Reserved
+> > > + * 111 Reserved
+> > > + * Bit[2:0] Namely PRESC[2:0], set the internal clock dividing rate as follow.
+> > > + * 000 2
+> > > + * 001 1(default)
+> > > + * 010 1/2
+> > > + * 011 1/4
+> > > + * 100 8
+> > > + * 101 4
+> > > + * 110 Reserved
+> > > + * 111 Reserved
+> > > + */
+> > > +#define DW9768_AAC_PRESC_REG			0x06
+> > > +#define DW9768_AAC3_SELECT_DIVIDING_RATE_1	0x41
+> > > +
+> > > +/*
+> > > + * VCM period of vibration register
+> > > + * Bit[5:0] Defined as VCM rising periodic time (Tvib) together with PRESC[2:0]
+> > > + * Tvib = (6.3ms + AACT[5:0] * 0.1ms) * Dividing Rate
+> > > + * Dividing Rate is the internal clock dividing rate that is defined at
+> > > + * PRESCALE register (ADD: 0x06)
+> > > + */
+> > > +#define DW9768_AAC_TIME_REG			0x07
+> > > +#define DW9768_AACT_CNT				0x39
+> > 
+> > I wonder how hardware specific are these values, this and the divider?
+> > 
+> > The DW9807 has similar configuration but the defaults seem to be just
+> > fine. What are the defaults in this case?
+> > 
+> 
+> From hardware specific, the default value of AAC_PRESC_REG is 0x01, and
+> that value of AAC_TIME_REG is 0x20.
+> 
+> For these two registers, each bit is defined as below.
+> D[7:0] (D[7:5]-> AC[2:0], D[2:0]-> PRSEC[2:0])
+> +------+------+------+------+------+------+------+------+
+> | AC2  | AC1  | AC0  |------|------|PRESC2|PRESC1|PRESC0|
+> +------+------+------+------+------+------+------+------+
+> 
+> D[7:0] (D[5:0]-> AACT[5:0]).
+> +------+------+------+------+------+------+------+------+
+> |------+------+ AACT5| AACT4| AACT3| AACT2| AACT1| AACT0|
+> +------+------+------+------+------+------+------+------+
+> 
+> > > +
+> > > +/*
+> > > + * DW9768 requires waiting time (delay time) of t_OPR after power-up,
+> > > + * or in the case of PD reset taking place.
+> > > + */
+> > > +#define DW9768_T_OPR_US				1000
+> > > +
+> > > +/*
+> > > + * This acts as the minimum granularity of lens movement.
+> > > + * Keep this value power of 2, so the control steps can be
+> > > + * uniformly adjusted for gradual lens movement, with desired
+> > > + * number of control steps.
+> > > + */
+> > > +#define DW9768_MOVE_STEPS			16
+> > > +
+> > > +/*
+> > > + * DW9768_AAC_PRESC_REG & DW9768_AAC_TIME_REG determine VCM operation time.
+> > > + * If DW9768_AAC_PRESC_REG set to be 0x41, DW9768_AAC_TIME_REG set to be 0x39,
+> > > + * VCM mode would be AAC3, Operation Time would be 0.70xTvib, that is 8.40ms.
+> > > + */
+> > > +#define DW9768_MOVE_DELAY_US			8400
+> > > +#define DW9768_STABLE_TIME_US			20000
+> > > +
+> > > +static const char * const dw9768_supply_names[] = {
+> > > +	"vin",	/* I2C I/O interface power */
+> > > +	"vdd",	/* VCM power */
+> > > +};
+> > > +
+> > > +#define DW9768_NUM_SUPPLIES ARRAY_SIZE(dw9768_supply_names)
+> > 
+> > Please use ARRAY_SIZE() directly instead.
+> > 
+> > > +
+> > > +/* dw9768 device structure */
+> > > +struct dw9768 {
+> > > +	struct regulator_bulk_data supplies[DW9768_NUM_SUPPLIES];
+> > > +	struct v4l2_ctrl_handler ctrls;
+> > > +	struct v4l2_ctrl *focus;
+> > > +	struct v4l2_subdev sd;
+> > > +};
+> > > +
+> > > +static inline struct dw9768 *to_dw9768(struct v4l2_ctrl *ctrl)
+> > > +{
+> > > +	return container_of(ctrl->handler, struct dw9768, ctrls);
+> > > +}
+> > > +
+> > > +static inline struct dw9768 *sd_to_dw9768(struct v4l2_subdev *subdev)
+> > > +{
+> > > +	return container_of(subdev, struct dw9768, sd);
+> > > +}
+> > > +
+> > > +struct regval_list {
+> > > +	u8 reg_num;
+> > > +	u8 value;
+> > > +};
+> > > +
+> > > +static struct regval_list dw9768_init_regs[] = {
+> > 
+> > const
+> > 
+> > > +	{DW9768_RING_PD_CONTROL_REG, DW9768_AAC_MODE_EN},
+> > > +	{DW9768_AAC_PRESC_REG, DW9768_AAC3_SELECT_DIVIDING_RATE_1},
+> > > +	{DW9768_AAC_TIME_REG, DW9768_AACT_CNT},
+> > > +};
+> > > +
+> > > +static int dw9768_write_array(struct dw9768 *dw9768, struct regval_list *vals,
+> > > +			      size_t len)
+> > > +{
+> > > +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> > > +	unsigned int i;
+> > > +	int ret;
+> > > +
+> > > +	for (i = 0; i < len; i++) {
+> > > +		ret = i2c_smbus_write_byte_data(client, vals[i].reg_num,
+> > > +						vals[i].value);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +	}
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int dw9768_set_dac(struct dw9768 *dw9768, u16 val)
+> > > +{
+> > > +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> > > +
+> > > +	/* Write VCM position to registers */
+> > > +	return i2c_smbus_write_word_data(client, DW9768_MSB_ADDR,
+> > > +					 swab16(val));
+> > > +}
+> > > +
+> > > +static int dw9768_init(struct dw9768 *dw9768)
+> > > +{
+> > > +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> > > +	int ret, val;
+> > > +
+> > > +	/* Reset DW9768_RING_PD_CONTROL_REG to default status 0x00 */
+> > > +	ret = i2c_smbus_write_byte_data(client, DW9768_RING_PD_CONTROL_REG,
+> > > +					DW9768_PD_MODE_OFF);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	/*
+> > > +	 * DW9769 requires waiting delay time of t_OPR
+> > > +	 * after PD reset takes place.
+> > > +	 */
+> > > +	usleep_range(DW9768_T_OPR_US, DW9768_T_OPR_US + 100);
+> > > +
+> > > +	ret = dw9768_write_array(dw9768, dw9768_init_regs,
+> > > +				 ARRAY_SIZE(dw9768_init_regs));
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	for (val = dw9768->focus->val % DW9768_MOVE_STEPS;
+> > > +	     val <= dw9768->focus->val;
+> > > +	     val += DW9768_MOVE_STEPS) {
+> > > +		ret = dw9768_set_dac(dw9768, val);
+> > > +		if (ret) {
+> > > +			dev_err(&client->dev, "%s I2C failure: %d",
+> > > +				__func__, ret);
+> > > +			return ret;
+> > > +		}
+> > > +		usleep_range(DW9768_MOVE_DELAY_US,
+> > > +			     DW9768_MOVE_DELAY_US + 1000);
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int dw9768_release(struct dw9768 *dw9768)
+> > > +{
+> > > +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> > > +	int ret, val;
+> > > +
+> > > +	for (val = round_down(dw9768->focus->val, DW9768_MOVE_STEPS);
+> > > +	     val >= 0; val -= DW9768_MOVE_STEPS) {
+> > > +		ret = dw9768_set_dac(dw9768, val);
+> > > +		if (ret) {
+> > > +			dev_err(&client->dev, "%s I2C failure: %d",
+> > > +				__func__, ret);
+> > > +			return ret;
+> > > +		}
+> > > +		usleep_range(DW9768_MOVE_DELAY_US,
+> > > +			     DW9768_MOVE_DELAY_US + 1000);
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Wait for the motor to stabilize after the last movement
+> > > +	 * to prevent the motor from shaking.
+> > > +	 */
+> > > +	usleep_range(DW9768_STABLE_TIME_US - DW9768_MOVE_DELAY_US,
+> > > +		     DW9768_STABLE_TIME_US - DW9768_MOVE_DELAY_US + 1000);
+> > > +
+> > > +	ret = i2c_smbus_write_byte_data(client, DW9768_RING_PD_CONTROL_REG,
+> > > +					DW9768_PD_MODE_EN);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	/*
+> > > +	 * DW9769 requires waiting delay time of t_OPR
+> > > +	 * after PD reset takes place.
+> > > +	 */
+> > > +	usleep_range(DW9768_T_OPR_US, DW9768_T_OPR_US + 100);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +/* Power handling */
+> > > +static int __maybe_unused dw9768_runtime_suspend(struct device *dev)
+> > > +{
+> > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
+> > > +
+> > > +	dw9768_release(dw9768);
+> > > +	regulator_bulk_disable(DW9768_NUM_SUPPLIES, dw9768->supplies);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int __maybe_unused dw9768_runtime_resume(struct device *dev)
+> > > +{
+> > > +	struct i2c_client *client = to_i2c_client(dev);
+> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
+> > > +	int ret;
+> > > +
+> > > +	ret = regulator_bulk_enable(DW9768_NUM_SUPPLIES, dw9768->supplies);
+> > > +	if (ret < 0) {
+> > > +		dev_err(dev, "failed to enable regulators\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * The datasheet refers to t_OPR that needs to be waited before sending
+> > > +	 * I2C commands after power-up.
+> > > +	 */
+> > > +	usleep_range(DW9768_T_OPR_US, DW9768_T_OPR_US + 100);
+> > > +
+> > > +	ret = dw9768_init(dw9768);
+> > > +	if (ret < 0)
+> > > +		goto disable_regulator;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +disable_regulator:
+> > > +	regulator_bulk_disable(DW9768_NUM_SUPPLIES, dw9768->supplies);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int dw9768_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > +{
+> > > +	struct dw9768 *dw9768 = to_dw9768(ctrl);
+> > > +
+> > > +	if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE)
+> > > +		return dw9768_set_dac(dw9768, ctrl->val);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct v4l2_ctrl_ops dw9768_ctrl_ops = {
+> > > +	.s_ctrl = dw9768_set_ctrl,
+> > > +};
+> > > +
+> > > +static int dw9768_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	ret = pm_runtime_get_sync(sd->dev);
+> > > +	if (ret < 0) {
+> > > +		pm_runtime_put_noidle(sd->dev);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int dw9768_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+> > > +{
+> > > +	pm_runtime_put(sd->dev);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_internal_ops dw9768_int_ops = {
+> > > +	.open = dw9768_open,
+> > > +	.close = dw9768_close,
+> > > +};
+> > > +
+> > > +static const struct v4l2_subdev_ops dw9768_ops = { };
+> > > +
+> > > +static int dw9768_init_controls(struct dw9768 *dw9768)
+> > > +{
+> > > +	struct v4l2_ctrl_handler *hdl = &dw9768->ctrls;
+> > > +	const struct v4l2_ctrl_ops *ops = &dw9768_ctrl_ops;
+> > > +
+> > > +	v4l2_ctrl_handler_init(hdl, 1);
+> > > +
+> > > +	dw9768->focus = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FOCUS_ABSOLUTE,
+> > > +					  0, DW9768_MAX_FOCUS_POS,
+> > > +					  DW9768_FOCUS_STEPS, 0);
+> > > +
+> > > +	if (hdl->error)
+> > > +		return hdl->error;
+> > > +
+> > > +	dw9768->sd.ctrl_handler = hdl;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int dw9768_probe(struct i2c_client *client)
+> > > +{
+> > > +	struct device *dev = &client->dev;
+> > > +	struct dw9768 *dw9768;
+> > > +	unsigned int i;
+> > > +	int ret;
+> > > +
+> > > +	dw9768 = devm_kzalloc(dev, sizeof(*dw9768), GFP_KERNEL);
+> > > +	if (!dw9768)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	v4l2_i2c_subdev_init(&dw9768->sd, client, &dw9768_ops);
+> > > +
+> > > +	for (i = 0; i < DW9768_NUM_SUPPLIES; i++)
+> > > +		dw9768->supplies[i].supply = dw9768_supply_names[i];
+> > > +
+> > > +	ret = devm_regulator_bulk_get(dev, DW9768_NUM_SUPPLIES,
+> > > +				      dw9768->supplies);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "failed to get regulators\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > 
+> > I'd try to see the chip is accessible in probe().
+> > 
+> 
+> If probe failed, actuator device node would not be generated.
+
+Yes, this would be preferred.
+
+> When user tries to open fd, it should report error also.
+> 
+> > > +	ret = dw9768_init_controls(dw9768);
+> > > +	if (ret)
+> > > +		goto entity_cleanup;
+> > > +
+> > > +	dw9768->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > +	dw9768->sd.internal_ops = &dw9768_int_ops;
+> > > +
+> > > +	ret = media_entity_pads_init(&dw9768->sd.entity, 0, NULL);
+> > > +	if (ret < 0)
+> > > +		goto entity_cleanup;
+> > > +
+> > > +	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
+> > > +
+> > > +	ret = v4l2_async_register_subdev(&dw9768->sd);
+> > > +	if (ret < 0)
+> > > +		goto entity_cleanup;
+> > > +
+> > > +	pm_runtime_enable(dev);
+> > 
+> > Your driver appears to depend on runtime PM on DT based systems.
+> > 
+> > You should either add a dependency to CONFIG_PM, or much more preferrably
+> > make it work without runtime PM.
+> > 
+> 
+> Do you mean using the macro like this:
+> #ifdef CONFIG_PM
+> ...
+> #endif
+
+No. If CONFIG_PM is disabled, the runtime PM functions do nothing. Would
+your driver work in that case?
+
+> 
+> > > +
+> > > +	return 0;
+> > > +
+> > > +entity_cleanup:
+> > > +	v4l2_ctrl_handler_free(&dw9768->ctrls);
+> > > +	media_entity_cleanup(&dw9768->sd.entity);
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int dw9768_remove(struct i2c_client *client)
+> > > +{
+> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
+> > > +
+> > > +	pm_runtime_disable(&client->dev);
+> > > +	v4l2_async_unregister_subdev(&dw9768->sd);
+> > > +	v4l2_ctrl_handler_free(&dw9768->ctrls);
+> > > +	media_entity_cleanup(&dw9768->sd.entity);
+> > > +	if (!pm_runtime_status_suspended(&client->dev))
+> > > +		dw9768_runtime_suspend(&client->dev);
+> > > +	pm_runtime_set_suspended(&client->dev);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct of_device_id dw9768_of_table[] = {
+> > > +	{ .compatible = "dongwoon,dw9768" },
+> > > +	{}
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, dw9768_of_table);
+> > > +
+> > > +static const struct dev_pm_ops dw9768_pm_ops = {
+> > > +	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> > > +				pm_runtime_force_resume)
+> > > +	SET_RUNTIME_PM_OPS(dw9768_runtime_suspend, dw9768_runtime_resume, NULL)
+> > > +};
+> > > +
+> > > +static struct i2c_driver dw9768_i2c_driver = {
+> > > +	.driver = {
+> > > +		.name = DW9768_NAME,
+> > > +		.pm = &dw9768_pm_ops,
+> > > +		.of_match_table = dw9768_of_table,
+> > > +	},
+> > > +	.probe_new  = dw9768_probe,
+> > > +	.remove = dw9768_remove,
+> > > +};
+> > > +
+> > > +module_i2c_driver(dw9768_i2c_driver);
+> > > +
+> > > +MODULE_AUTHOR("Dongchun Zhu <dongchun.zhu@mediatek.com>");
+> > > +MODULE_DESCRIPTION("DW9768 VCM driver");
+> > > +MODULE_LICENSE("GPL v2");
+> > 
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
