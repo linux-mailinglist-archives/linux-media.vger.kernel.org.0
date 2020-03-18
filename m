@@ -2,120 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E3C18A280
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 19:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 443C818A38C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 21:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726747AbgCRSgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 14:36:54 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:56747 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726647AbgCRSgy (ORCPT
+        id S1726822AbgCRUN2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 16:13:28 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:42414 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726647AbgCRUN1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 14:36:54 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jEdYj-0001UQ-HY; Wed, 18 Mar 2020 19:36:53 +0100
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de
-Subject: [PATCH] media: coda: add RC enable controls
-Date:   Wed, 18 Mar 2020 19:36:49 +0100
-Message-Id: <20200318183649.16831-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        Wed, 18 Mar 2020 16:13:27 -0400
+Received: by mail-oi1-f194.google.com with SMTP id 13so158390oiy.9;
+        Wed, 18 Mar 2020 13:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TTrA+tMwfg5GaaL0pTTB4SX2vmA9Q9FMRW/WsoCZ0JE=;
+        b=EdyaXSK/9dSzcuY7KwTimocBCtQucM4yN4ilyd0nhsZPKf/UZPVgHsa27qIqIEWXnQ
+         cPh0Eqo1ASE1ekQGfsFtJNbZhhy1L/klvGKLYsRpvUQhWP06l5H7cwN0ynA4d7cnjgB9
+         +mSQIHNkMZW8leB3bfjIIfD9iUaGIpkiVUeiZ526JEb9RorazGGJUyLQGtYJ1Rp9Vngi
+         XiuI7qVILh/vxu/878w2zvYPf99V8I/i1Fon1swKN8rVHN1BILMMtig7NlQzyC2xR3Vl
+         90HSAqD4+MRRWe0jOLDzen4quH5t9LZP3htJmM24EpiC7E4DvRe4sti7AhcEdUghPqIK
+         ZVag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TTrA+tMwfg5GaaL0pTTB4SX2vmA9Q9FMRW/WsoCZ0JE=;
+        b=ekdjUyFQv2TSMcoOYLYe9YJcq4hwSQZM4jcNX3jjjug/alRE/pMZGcnMhKi6qxWYm8
+         s19DRdCoZAjj++czh1IdTQIPfulOAFIO0pjmoUogbRutOvo3P9zmoFuhJIScr9yuIM7H
+         LiPFmlt3bLaEsfVe9Io0UP1sMtlOr297ax5ZdBhvP6JpYKexSVx8h7Z19P+hFHT0uQ5U
+         0TbLIKFECs2B99Stk787Ox7zS2QZEIuPJAwUvXrLcbNv9M3JfR9iDm643kOniuCaP3rC
+         GXvs6NE8BFXUyxA5E+JtjfsodSJnTih8OvHzSR/EAFh5iNlVJ27OsLztNL8VIsy6+Tnw
+         AC9Q==
+X-Gm-Message-State: ANhLgQ3CT6GATjWRYXWJgU3Y5G2ceYxba5LOOu3bFvru0B56hu1ruLgn
+        +4u4eD5MZpgdKJ1k4jg/+CQUuaZoPPNeiR0ls4M=
+X-Google-Smtp-Source: ADFU+vufu0AMNL2diBAQJHFss43B9g2oEZMBku7DzmuqAqCY+mQmcA2SGVTBSVyu9mf3O/z+lZkGA1kzO8O/MIO5lqs=
+X-Received: by 2002:aca:7512:: with SMTP id q18mr4630250oic.71.1584562407110;
+ Wed, 18 Mar 2020 13:13:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200313212012.GL4751@pendragon.ideasonboard.com> <OSBPR01MB35905D6D72DCBF154FCF7C88AAFA0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+ <20200313212717.GO4751@pendragon.ideasonboard.com>
+In-Reply-To: <20200313212717.GO4751@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 18 Mar 2020 20:13:00 +0000
+Message-ID: <CA+V-a8veXbwMrda8UEu2mN6gGgrBJA8Mp7gdN7Q3-iXNw9c4pg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to assigned-clock-rates
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently the encoder enables the rate control algorithms if the bitrate
-control is non-zero. Implement the V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE
-and V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE controls to allow userspace to
-choose frame-level or macroblock-level rate control updates, or to
-explicitly disable rate control. Both controls are initially enabled to
-keep the current behavior.
+Hi Laurent,
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/media/platform/coda/coda-bit.c    |  9 +++++++--
- drivers/media/platform/coda/coda-common.c | 10 ++++++++++
- drivers/media/platform/coda/coda.h        |  2 ++
- 3 files changed, 19 insertions(+), 2 deletions(-)
+On Fri, Mar 13, 2020 at 9:27 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, Mar 13, 2020 at 09:25:01PM +0000, Prabhakar Mahadev Lad wrote:
+> > On Sent: 13 March 2020 21:20, Laurent Pinchart wrote:
+> > > On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
+> > > > Use assigned-clock-rates to specify the clock rate. Also mark
+> > > > clock-frequency property as deprecated.
+> > >
+> > > I would phrase it the other way around, this patch mainly deprecates clock-
+> > > frequency, and as a side effect recommends usage of assigned-clock-rates.
+> > >
+> > > "Deprecate usage of the clock-frequency propertly. The preferred method
+> > > to set clock rates is to use assigned-clock-rates."
+> >
+> > Agreed will do that.
+> >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
+> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > index 72ad992..e62fe82 100644
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > @@ -8,7 +8,7 @@ Required Properties:
+> > > >  - compatible: Value should be "ovti,ov5645".
+> > > >  - clocks: Reference to the xclk clock.
+> > > >  - clock-names: Should be "xclk".
+> > > > -- clock-frequency: Frequency of the xclk clock.
+> > > > +- clock-frequency (deprecated): Frequency of the xclk clock.
+> > >
+> > > I would drop this completely. Drivers need to ensure backward compatibility,
+> > > but DT bindings should only document the latest version, the history is
+> > > available in git.
+> > >
+> > Sure will drop it.
+> >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > While at it, can I enlist you to convert these bindings to yaml ? :-)
+> > >
+> > Sure will do the honours , will make sure yaml patch is ontop of this patch too.
+>
+Shall I enlist you as the maintainer  in the json-schema ?
+dt_binding_check says  'maintainers' is a required property.
 
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
-index 3443396ba5f3..b021604eceaa 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -1215,7 +1215,8 @@ static int coda_start_encoding(struct coda_ctx *ctx)
- 		coda_write(dev, value, CODA_CMD_ENC_SEQ_GOP_SIZE);
- 	}
- 
--	if (ctx->params.bitrate) {
-+	if (ctx->params.bitrate && (ctx->params.frame_rc_enable ||
-+				    ctx->params.mb_rc_enable)) {
- 		ctx->params.bitrate_changed = false;
- 		ctx->params.h264_intra_qp_changed = false;
- 
-@@ -1276,7 +1277,11 @@ static int coda_start_encoding(struct coda_ctx *ctx)
- 	}
- 	coda_write(dev, value, CODA_CMD_ENC_SEQ_OPTION);
- 
--	coda_write(dev, 0, CODA_CMD_ENC_SEQ_RC_INTERVAL_MODE);
-+	if (ctx->params.frame_rc_enable && !ctx->params.mb_rc_enable)
-+		value = 1;
-+	else
-+		value = 0;
-+	coda_write(dev, value, CODA_CMD_ENC_SEQ_RC_INTERVAL_MODE);
- 
- 	coda_setup_iram(ctx);
- 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 175504141a2c..c8bbe0983b71 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -2222,6 +2222,12 @@ static int coda_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_H264_CONSTRAINED_INTRA_PREDICTION:
- 		ctx->params.h264_constrained_intra_pred_flag = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
-+		ctx->params.frame_rc_enable = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
-+		ctx->params.mb_rc_enable = ctrl->val;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET:
- 		ctx->params.h264_chroma_qp_index_offset = ctrl->val;
- 		break;
-@@ -2320,6 +2326,10 @@ static void coda_encode_ctrls(struct coda_ctx *ctx)
- 	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
- 		V4L2_CID_MPEG_VIDEO_H264_CONSTRAINED_INTRA_PREDICTION, 0, 1, 1,
- 		0);
-+	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
-+		V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE, 0, 1, 1, 1);
-+	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
-+		V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE, 0, 1, 1, 1);
- 	v4l2_ctrl_new_std(&ctx->ctrls, &coda_ctrl_ops,
- 		V4L2_CID_MPEG_VIDEO_H264_CHROMA_QP_INDEX_OFFSET, -12, 12, 1, 0);
- 	v4l2_ctrl_new_std_menu(&ctx->ctrls, &coda_ctrl_ops,
-diff --git a/drivers/media/platform/coda/coda.h b/drivers/media/platform/coda/coda.h
-index af0f8252b0c6..b81f3aca9209 100644
---- a/drivers/media/platform/coda/coda.h
-+++ b/drivers/media/platform/coda/coda.h
-@@ -148,6 +148,8 @@ struct coda_params {
- 	bool			h264_intra_qp_changed;
- 	bool			intra_refresh_changed;
- 	bool			slice_mode_changed;
-+	bool			frame_rc_enable;
-+	bool			mb_rc_enable;
- };
- 
- struct coda_buffer_meta {
--- 
-2.20.1
+Cheers,
+--Prabhakar Lad
 
+> Thank you :-)
+>
+> > > >  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+> > > >    to the hardware pin PWDNB which is physically active low.
+> > > >  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> > > > @@ -37,7 +37,8 @@ Example:
+> > > >
+> > > >  clocks = <&clks 200>;
+> > > >  clock-names = "xclk";
+> > > > -clock-frequency = <24000000>;
+> > > > +assigned-clocks = <&clks 200>;
+> > > > +assigned-clock-rates = <24000000>;
+> > > >
+> > > >  vdddo-supply = <&camera_dovdd_1v8>;
+> > > >  vdda-supply = <&camera_avdd_2v8>;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
