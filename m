@@ -2,93 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA80189C22
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 13:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C473B189CBF
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 14:21:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726894AbgCRMlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 08:41:52 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44008 "EHLO
+        id S1727015AbgCRNVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 09:21:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44446 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726881AbgCRMlv (ORCPT
+        with ESMTP id S1726638AbgCRNVs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 08:41:51 -0400
+        Wed, 18 Mar 2020 09:21:48 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: aratiu)
-        with ESMTPSA id EB4992965DF
-From:   Adrian Ratiu <adrian.ratiu@collabora.com>
-To:     Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
-Subject: Re: [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
-In-Reply-To: <a15c3694-021f-c6af-7d09-dfca14c0ea7b@gmail.com>
-References: <20191113150538.9807-1-p.zabel@pengutronix.de>
- <87sgi6gd25.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
- <a15c3694-021f-c6af-7d09-dfca14c0ea7b@gmail.com>
-Date:   Wed, 18 Mar 2020 14:42:51 +0200
-Message-ID: <87pnd9hm0k.fsf@collabora.com>
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 60E0429661A
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Rob Herring <robh@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 0/8] hantro: set of small cleanups and fixes
+Date:   Wed, 18 Mar 2020 10:21:00 -0300
+Message-Id: <20200318132108.21873-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrzej,
+Hi all,
 
-On Wed, 18 Mar 2020, Andrzej Pietrasiewicz 
-<andrzejtp2010@gmail.com> wrote:
-> Hi Adrian, 
-> 
-> W dniu 18.03.2020 o 11:41, Adrian Ratiu pisze: 
->  > Hi Philipp, 
->  > 
->  > Further testing revealed the decoder rejects jpegs with 
->  > optimized huffman tables, but the following decoder patch 
->  > makes them work. 
->  > 
->  > Feel free to include these changes in your next version. 
->  >  
->  > Adrian 
->  >  
->  > drivers/media/platform/coda/coda-jpeg.c | 10 +++++----- 1 
->  > file changed, 5 insertions(+), 5 deletions(-)>> 
->  > 
->  > diff --git a/drivers/media/platform/coda/coda-jpeg.c 
->  > b/drivers/media/platform 
-> <snip> 
-> 
->  > 		} -		if (huffman_tables[i].length != 
->  > ((i & 2) ? 178 : 28)) { +		if 
->  > (huffman_tables[i].length < 17) { v4l2_err(&dev->v4l2_dev, 
->  > "invalid Huffman table %d length: %zu\n", i, 
->  > huffman_tables[i].length); 
-> 
-> Shouldn't you also be checking the upper bound on the table 
-> length, to ensure that you won't exceed the memcpy() 
-> destination's capacity below?
+Cleanups and fixes, second iteration.
 
-Good point, it's always good to have an upper bound sanity check 
-test, even though in practice the optimized tables are smaller 
-than the std ones by definition, there are never enough checks 
-against bugs :)
+The main idea here is to address two issues, and while
+at it, clean the driver a bit.
+
+The first issue can be found in Patch 1, when the Request
+API is used, the CAPTURE buffer should be returned _before_
+the OUTPUT buffer, to avoid waking up userspace prematurely.
+
+I noticed this issue while working on the rkvdec driver,
+but this time I've decided to tackle it at the core,
+in v4l2_m2m_buf_done_and_job_finish().
+
+The second issue is a simple compliance issue, which is solved
+by refactoring the driver, dealing with internal set format
+properly.
+
+Changes v2:
+
+* Fix compile warning introduced by patch 6.
+
+* I'm adding two additional patches this time.
+  Patch 7 converts the binding to json-schema,
+  and patch 8 puts linux-rockchip mailing list in MAINTAINERS. 
 
 Thanks,
-Adrian
+Ezequiel
 
->
-> <snip>
->
->  > -	memcpy(huff_tab->dc_values[0], huffman_tables[0].start + 16, 12);
->  > +	memcpy(huff_tab->dc_values[0], huffman_tables[0].start + 16, 
-> huffman_tables[0].length - 16);
->
->
-> Andrzej
+Ezequiel Garcia (8):
+  v4l2-mem2mem: return CAPTURE buffer first
+  hantro: Set buffers' zeroth plane payload in .buf_prepare
+  hantro: Use v4l2_m2m_buf_done_and_job_finish
+  hantro: Remove unneeded hantro_dec_buf_finish
+  hantro: Move H264 motion vector calculation to a helper
+  hantro: Refactor for V4L2 API spec compliancy
+  dt-bindings: rockchip-vpu: Convert bindings to json-schema
+  hantro: Add linux-rockchip mailing list to MAINTAINERS
+
+ .../bindings/media/rockchip-vpu.txt           |  43 -------
+ .../bindings/media/rockchip-vpu.yaml          |  82 +++++++++++++
+ MAINTAINERS                                   |   3 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  11 +-
+ drivers/staging/media/hantro/hantro.h         |   7 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  37 ++----
+ drivers/staging/media/hantro/hantro_hw.h      |  31 +++++
+ drivers/staging/media/hantro/hantro_v4l2.c    | 111 +++++++++---------
+ 8 files changed, 194 insertions(+), 131 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.txt
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+
+-- 
+2.25.0
+
