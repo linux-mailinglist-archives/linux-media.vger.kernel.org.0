@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC4C418984C
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 10:45:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E682C18987E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 10:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727593AbgCRJpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 05:45:19 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41890 "EHLO
+        id S1727560AbgCRJu2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 05:50:28 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41922 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727540AbgCRJpT (ORCPT
+        with ESMTP id S1726786AbgCRJu1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 05:45:19 -0400
+        Wed, 18 Mar 2020 05:50:27 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2690F9;
-        Wed, 18 Mar 2020 10:45:16 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1AAFF9;
+        Wed, 18 Mar 2020 10:50:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584524717;
-        bh=SjB4WrG5Cvh4/ecX+bx1L6N3BtX1CRYvdWcFVhHF3bI=;
+        s=mail; t=1584525025;
+        bh=uom6CNTKpjWXa8wXRgwyabs6AYLWSbGZ8qHV1TXKP6k=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=H43ZxQtzeyCjt6+MdCSr5eJORngQAfregC7eYZ6Bmu3AXRwOYBNHtknX3MS7R3lqD
-         bSarVIRocQDy3GhbHUHINZ4TBXpng/rf38L3J6XBNalbeWhWf0GiynYi5Mb9nFQztJ
-         CdTselcWhGKy9PcUTVtxyocYxCPtQ4RSVrc34MTw=
+        b=wlcyULUmr6sbfjSUgZKaHdbZe5H18MiH1Y//0Fw1wX4m+h7VmJi5A3sn4HkqOSSLx
+         SM8nXmr4BAnVBdjNuKUjbXshJVKtx9te+Op1mRC25tqXURLlH1EPZXVCJGd8RUgR5D
+         FNHcJN6AYMfvbimS2LoDCzopkDnZbddLnu5mhMsg=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 2/5] dt-bindings: media: max9286: Add overlap window
+Subject: Re: [PATCH 3/5] media: i2c: max9286: Parse overlap window value
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com
 Cc:     hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
         linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
 References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
- <20200316202757.529740-3-jacopo+renesas@jmondi.org>
+ <20200316202757.529740-4-jacopo+renesas@jmondi.org>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <c029c8b3-928b-24d0-777e-add1136bf051@ideasonboard.com>
-Date:   Wed, 18 Mar 2020 09:45:14 +0000
+Message-ID: <2b648a3f-f7e6-f994-ae2e-1746e2bbf4ba@ideasonboard.com>
+Date:   Wed, 18 Mar 2020 09:50:22 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200316202757.529740-3-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200316202757.529740-4-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -49,130 +49,101 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Jacopo,
 
 On 16/03/2020 20:27, Jacopo Mondi wrote:
-> The MAX9286 chip exposes a way to control the 'overlap window'
-> parameter, most probably used in calculation of the frame
-> synchronization interval.
+> Parse the 'maxim,overlap-window' property value and cache its
+> content to later program registers 0x63 and 0x64.
 > 
-> When used in conjunction with some serializers, the overlap window has to
-> be disabled in order to correctly achieve frame sync locking.
+> As specified by the bindings documentation, the property is mandatory as
+> long as a default value cannot be established to guarantee DTB backward
+> compatibility.
+
+Well, we don't yet have the DTB bindings 'in' I don't believe so I don't
+think we need to worry about backwards compatibility yet...
+
+Oh, or do you mean in the future it wouldn't have to be mandatory
+perhaps ...
+
 > 
-> As the exact meaning of that control is not documented in the chip's
-> manual, require all DTS users to specify the value of the window. When,
-> and if, in future the meaning of control gets clarified and a default
-
-/in future/in the future/
-/of control/of the control/
-
-> behaviour (window enabled or disabled) can be established, a new boolean
-> property could supersede this one while being sure that older DTB are
-
-/DTB/DTBs/
-
-> fully specified to avoid confusion.
-> 
-> Provide a few convenience macros for the window disabled and window
-> default value.
-
-Well it's not the best solution (putting hardcode values into the DTB)
-but I agree, without documentation these are almost 'magic values for
-the hardware' which is unfortunate.
-
-I do fear this may be the wrong place still though.
-
-This is dependent upon the 'serializer' connected, so is it a property
-of the serializer that the max9286 should query at probe time to see
-what it has connected?
-
-But that's just back to the whole topic of bus-parameter negotiations
-between the serializer and deserializer ...
-
-
-But with this solution, any dtb segment or overlay for the serializer
-needs to modify the max9286 depending on it's requirements ... that
-feels a bit odd. Possible, I think, but odd.
-
-Do we have any precedence in existing DT to reference on this topic?
-
-
-
-
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml  | 11 +++++++++++
->  MAINTAINERS                                           |  1 +
->  include/dt-bindings/media/maxim-gmsl.h                |  9 +++++++++
->  3 files changed, 21 insertions(+)
->  create mode 100644 include/dt-bindings/media/maxim-gmsl.h
+>  drivers/media/i2c/max9286.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> index f9d3e5712c59..ee8e0418b3f0 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> @@ -46,6 +46,14 @@ properties:
->      description: GPIO connected to the \#PWDN pin with inverted polarity
->      maxItems: 1
->  
-> +  # Until the overlap window control gets not clarified, require dts
-> +  # to set its value explicitly,
-> +  maxim,overlap-window:
-> +    description: Overlap window duration, in pixel clock cycles.
-> +    maxItems: 1
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 06edd8bd3e82..0357515860b2 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -117,6 +117,9 @@
+>  #define MAX9286_REV_FLEN(n)		((n) - 20)
+>  /* Register 0x49 */
+>  #define MAX9286_VIDEO_DETECT_MASK	0x0f
+> +/* Register 0x64 */
+> +#define MAX9286_OVLP_WINDOWH_MASK	GENMASK(4, 0)
 > +
->    ports:
->      type: object
->      description: |
-> @@ -146,6 +154,7 @@ properties:
->  required:
->    - compatible
->    - reg
-> +  - maxim,overlap-window
->    - ports
->    - i2c-mux
->  
-> @@ -154,6 +163,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/maxim-gmsl.h>
->  
->      i2c@e66d8000 {
->        #address-cells = <1>;
-> @@ -166,6 +176,7 @@ examples:
->          reg = <0x2c>;
->          poc-supply = <&camera_poc_12v>;
->          enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
-> +        maxim,overlap-window = MAX9286_OVLP_WINDOW_DISABLED;
->  
->          ports {
->            #address-cells = <1>;
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 21a9ff4fe684..3d2455085c80 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10190,6 +10190,7 @@ M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> +F:	include/dt-bindings/media/maxim-gmsl.h
->  F:	drivers/media/i2c/max9286.c
->  
->  MAX9860 MONO AUDIO VOICE CODEC DRIVER
-> diff --git a/include/dt-bindings/media/maxim-gmsl.h b/include/dt-bindings/media/maxim-gmsl.h
-> new file mode 100644
-> index 000000000000..47945ffc3a4d
-> --- /dev/null
-> +++ b/include/dt-bindings/media/maxim-gmsl.h
-> @@ -0,0 +1,9 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _DT_BINDINGS_MEDIA_MAXIM_GMSL_H
-> +#define _DT_BINDINGS_MEDIA_MAXIM_GMSL_H
+>  /* Register 0x69 */
+>  #define MAX9286_LFLTBMONMASKED		BIT(7)
+>  #define MAX9286_LOCKMONMASKED		BIT(6)
+> @@ -164,6 +167,8 @@ struct max9286_priv {
+>  	unsigned int csi2_data_lanes;
+>  	struct max9286_source sources[MAX9286_NUM_GMSL];
+>  	struct v4l2_async_notifier notifier;
 > +
-> +/* MAX9286 default overlap values. */
-> +#define MAX9286_OVLP_WINDOW_DISABLED	<0>
-> +#define MAX9286_OVLP_WINDOW_DEFAULT	<0x1680>
+> +	u32 overlap_window;
+>  };
+>  
+>  static struct max9286_source *next_source(struct max9286_priv *priv,
+> @@ -895,6 +900,11 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+>  		      MAX9286_FSYNCMETH_AUTO);
+>  
+> +	/* Configure overlap window. */
+> +	max9286_write(priv, 0x63, priv->overlap_window);
+> +	max9286_write(priv, 0x64, (priv->overlap_window >> 8) &
+> +				  MAX9286_OVLP_WINDOWH_MASK);
 > +
-> +#endif /* _DT_BINDINGS_MEDIA_MAXIM_GMSL_H */
+>  	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+>  	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+>  		      MAX9286_HVSRC_D14);
+> @@ -1041,8 +1051,24 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	struct device_node *i2c_mux;
+>  	struct device_node *node = NULL;
+>  	unsigned int i2c_mux_mask = 0;
+> +	int ret;
+>  
+>  	of_node_get(dev->of_node);
+> +
+> +	/*
+> +	 * FIXM: Require overlap window value to be specified by DTS as long as
+
+/FIXM/FIXME/
+
+> +	 * the control function is not clarified. As soon as a default
+> +	 * behaviour can be established drop this requirement, while older
+
+/established/established,/
+/requirement,/requirement/
+
+
+> +	 * DTBs are guaranteed to be fully specified.
+> +	 */
+> +	ret = of_property_read_u32(dev->of_node, "maxim,overlap-window",
+> +				   &priv->overlap_window);
+> +	if (ret) {
+> +		dev_err(dev, "Missing property \"maxim,overlap-window\"\n");
+> +		of_node_put(dev->of_node);
+> +		return -EINVAL;
+> +	}
+> +
+
+Other wise, this looks fine except for my concerns and wondering if this
+could be approached by defining a property of the requirements in the
+serializer and parsing that in some form.
+
+
+--
+Kieran
+
+>  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>  	if (!i2c_mux) {
+>  		dev_err(dev, "Failed to find i2c-mux node\n");
 > 
 
