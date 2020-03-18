@@ -2,99 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 245821897AA
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 10:13:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B27B41897B9
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 10:16:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbgCRJN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 05:13:56 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36298 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726994AbgCRJNz (ORCPT
+        id S1727441AbgCRJQG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 05:16:06 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41706 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727144AbgCRJQG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 05:13:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=uZ0zRS3WXiCJbgYe8K6NCdPLyH3g2ZSIxznfnHohJPA=; b=uuBpKfOsrUt6XXPL5cC4HSPERm
-        XqFGvVRWbxekVFPHv2e8ZPS1UbNQiI2EureZ0s/rGoG2nbnXdwHC1q2YUoxrFhZ2oN2hFfZSQqzK5
-        ydQvReb1fQ8aATBX/KaQT1mTlxyBGBKLnBDvwaCHgFBLNVy/6M4JQnHhfgAe5+wZh8eXgce+/wcm+
-        i+IIl5f35faLNWQB0AY/wLFSo8lARnstctC2ZZ37HvZMeKsCw1MRSId0jaRZOgoJ0pJlWuoagVyCg
-        JMIZYhsijLPLJbM7qXeQgBA5FYMT2dMoIUPUPCzH1TVn3y0lJgqZps28SDvW09WxjgBmgXEFR7Zch
-        dZ6JImXA==;
-Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jEUlo-0007t4-9Z; Wed, 18 Mar 2020 09:13:48 +0000
-Date:   Wed, 18 Mar 2020 10:13:43 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, sean@mess.org,
-        kstewart@linuxfoundation.org, allison@lohutok.net,
-        tglx@linutronix.de, linux-media@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [RFC 1/3] media: dvb_dummy_tuner: implement driver skeleton
-Message-ID: <20200318101343.7d68ae15@coco.lan>
-In-Reply-To: <9a7bdcf5-502e-45c2-ddcd-e04c5c939a09@ideasonboard.com>
-References: <20200318060018.3437750-1-dwlsalmeida@gmail.com>
-        <20200318060018.3437750-2-dwlsalmeida@gmail.com>
-        <9a7bdcf5-502e-45c2-ddcd-e04c5c939a09@ideasonboard.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Wed, 18 Mar 2020 05:16:06 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E228F9;
+        Wed, 18 Mar 2020 10:16:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584522964;
+        bh=3o2/e8gyLj/2x2Z4LY2FFr8Posxc/v6Q8FfiiZysezo=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=HLk2tHuEjfqAw20uYRP3dLD9zawAaYyWLJnoihDHI+pllw1H/ml4q8KWUnqRJTjgC
+         LEH2kZaBYIHhn7aW76gEhXXDt5V5EW1kTeJiTwluPZvZOlVGjht9szCeE6Zr5qTDem
+         1C+jx3Om3Lq5MQdwvuUFi1uZHO1qOJsJ9yaSsu0w=
+Subject: Re: [PATCH v2 3/4] media: v4l2-async: Log message in case of
+ heterogenous fwnode match
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200318002507.30336-4-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <a7d96e73-c86c-951e-d586-a1cee1a7fa59@ideasonboard.com>
+Date:   Wed, 18 Mar 2020 09:16:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200318002507.30336-4-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 18 Mar 2020 08:54:18 +0000
-Kieran Bingham <kieran.bingham+renesas@ideasonboard.com> escreveu:
+Hi Laurent,
 
-> Hi Daniel,
+On 18/03/2020 00:25, Laurent Pinchart wrote:
+> When a notifier supplies a device fwnode and a subdev supplies an
+> endpoint fwnode, incorrect matches may occur if multiple subdevs
+> correspond to the same device fwnode. This can't be handled
+> transparently in the framework, and requires the notifier to switch to
+> endpoint fwnodes. Log a message to notify of this problem. A second
+> message is added to help accelerating the transition to endpoint
+> matching.
+
+Only minor comments and discussion below:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
 > 
-> On 18/03/2020 06:00, Daniel W. S. Almeida wrote:
-> > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> > 
-> > The virtual DVB test driver serves as a reference DVB driver and helps
-> > validate the existing APIs in the media subsystem. It can also aid developers
-> > working on userspace applications.
-> > 
-> > This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
-> > ISDB-T and ATSC when completed.  
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 224b39a7aeb1..9f393a7be455 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -77,6 +77,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  	struct fwnode_handle *dev_fwnode;
+>  	bool asd_fwnode_is_ep;
+>  	bool sd_fwnode_is_ep;
+> +	struct device *dev;
+>  	const char *name;
+>  
+>  	/*
+> @@ -113,7 +114,28 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  
+>  	fwnode_handle_put(dev_fwnode);
+>  
+> -	return dev_fwnode == other_fwnode;
+> +	if (dev_fwnode != other_fwnode)
+> +		return false;
+> +
+> +	/*
+> +	 * We have an heterogenous match. Retrieve the struct device of the
 
-...
+s/an/a/
 
-> > +static struct i2c_driver dvb_dummy_tuner_i2c_driver = {
-> > +	.driver = {
-> > +		.name = "dvb_dummy_tuner",
-> > +		.suppress_bind_attrs = true,
-> > +	},
-> > +	.probe		= dvb_dummy_tuner_i2c_probe,
-> > +	.remove		= dvb_dummy_tuner_i2c_remove,
-> > +	.id_table	= dvb_dummy_tuner_i2c_id_table,
-> > +};
-> > +module_i2c_driver(dvb_dummy_tuner_i2c_driver);  
+s/heterogenous/heterogeneous/ (and that's not an en-gb/en-us thing)
+Also in $SUBJECT
+
+> +	 * side that matched on a device fwnode to print its driver name.
+> +	 */
+> +	if (sd_fwnode_is_ep)
+> +		dev = notifier->v4l2_dev ? notifier->v4l2_dev->dev
+> +		    : notifier->sd->dev;
+
+Eugh ... I guess if this gets needed elsewhere, notifiers need a helper
+to get the appropriate dev out... but if this is the only place, then so
+be it.
+
+
+> +	else
+> +		dev = sd->dev;
+> +
+> +	if (dev && dev->driver) {
+> +		if (sd_fwnode_is_ep)
+> +			dev_info(dev, "Driver %s uses device fwnode, incorrect match may occur\n",
+> +				 dev->driver->name);
+> +		dev_info(dev, "Consider updating driver %s to match on endpoints\n",
+> +			 dev->driver->name);
+
+I think I interpret that in the case that existing drivers match on
+dev->dev (i.e. no endpoints involved) then this will not print, as we
+would already have matched and returned earlier in the function.
+
+I don't think that's a problem, but it means people will not be
+'encouraged' to move to endpoint matching until they encounter a device
+which uses endpoints.
+
+Perhaps that's ok ... but I was almost thinking of being more 'pushy'
+and guiding device matches to move to endpoints too ;-)
+
+
+> +	}
+> +
+> +	return true;
+>  }
+>  
+>  static bool match_custom(struct v4l2_async_notifier *notifier,
 > 
-> I suspect as a dummy tuner, this should be a platform driver or such
-> rather than an I2C driver, as I assume there is not actual bus or device
-> to bind to, and it would then require 'hogging' an available I2C address.
 
-Interesting point. Yet, I guess that the best it to keep it as i2c. 
-
-The DVB framework splits the driver on 3 parts:
-
-	- a frontend driver;
-	- a tuner driver;
-	- a bridge driver.
-
-on all real hardware, the frontend and bridge drivers are i2c (with
-very few exceptions, where it is integrated on the same chipset and
-don't use an i2c-like bus internally).
-
-Keeping it as an I2C driver helps to keep it closer to a real hardware,
-with would help driver developers to use it as a reference for their
-projects.
-
-Thanks,
-Mauro
