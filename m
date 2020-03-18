@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2417218A40C
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 21:48:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD82D18A40F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 21:48:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727318AbgCRUsC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 16:48:02 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:54207 "EHLO
+        id S1727326AbgCRUsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 16:48:04 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:48597 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727377AbgCRUsB (ORCPT
+        with ESMTP id S1726893AbgCRUsD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 16:48:01 -0400
+        Wed, 18 Mar 2020 16:48:03 -0400
 X-Originating-IP: 2.224.242.101
 Received: from localhost.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id BADDB20002;
-        Wed, 18 Mar 2020 20:47:57 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 139CD20005;
+        Wed, 18 Mar 2020 20:47:59 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -26,9 +26,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB)), libcamera-devel@lists.libcamera.org
-Subject: [PATCH v7 04/11] media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
-Date:   Wed, 18 Mar 2020 21:50:27 +0100
-Message-Id: <20200318205034.949531-5-jacopo@jmondi.org>
+Subject: [PATCH v7 05/11] media: v4l2-ctrls: Add camera location and rotation
+Date:   Wed, 18 Mar 2020 21:50:28 +0100
+Message-Id: <20200318205034.949531-6-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200318205034.949531-1-jacopo@jmondi.org>
 References: <20200318205034.949531-1-jacopo@jmondi.org>
@@ -39,147 +39,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
-control. The newly added read-only control reports the rotation
-correction to be applied to images before displaying them to the user.
+Add support for the newly defined V4L2_CID_CAMERA_SENSOR_LOCATION
+and V4L2_CID_CAMERA_SENSOR_ROTATION read-only controls used to report
+the camera device mounting position and orientation respectively.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../media/uapi/v4l/ext-ctrls-camera.rst       | 121 ++++++++++++++++++
- 1 file changed, 121 insertions(+)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 4 ++++
+ include/uapi/linux/v4l2-controls.h   | 7 +++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-index b151c016256c..0fab9b004015 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-@@ -542,6 +542,127 @@ enum v4l2_scene_mode -
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 2928c5e0a73d..e0aa24e8ad84 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -1015,6 +1015,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+ 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
+ 	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
++	case V4L2_CID_CAMERA_SENSOR_LOCATION:	return "Camera Sensor Location";
++	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
  
+ 	/* FM Radio Modulator controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1341,6 +1343,8 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		break;
+ 	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
+ 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
++	case V4L2_CID_CAMERA_SENSOR_LOCATION:
++	case V4L2_CID_CAMERA_SENSOR_ROTATION:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+ 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 		break;
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 5a7bedee2b0e..2517d2f63d2f 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -912,6 +912,13 @@ enum v4l2_auto_focus_range {
+ #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
+ #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
  
++#define V4L2_CID_CAMERA_SENSOR_LOCATION		(V4L2_CID_CAMERA_CLASS_BASE+34)
++#define V4L2_LOCATION_FRONT			0
++#define V4L2_LOCATION_BACK			1
++#define V4L2_LOCATION_EXTERNAL			2
++
++#define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
++
+ /* FM Modulator class control IDs */
  
-+``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-+    This read-only control describes the rotation correction in degrees in the
-+    counter-clockwise direction to be applied to the captured images once
-+    captured to memory to compensate for the camera sensor mounting rotation.
-+
-+    For a precise definition of the sensor mounting rotation refer to the
-+    extensive description of the 'rotation' properties in the device tree
-+    bindings file 'video-interfaces.txt'.
-+
-+    A few examples are below reported, using a shark swimming from left to
-+    right in front of the user as the example scene to capture. ::
-+
-+                 0               X-axis
-+               0 +------------------------------------->
-+                 !
-+                 !
-+                 !
-+                 !           |\____)\___
-+                 !           ) _____  __`<
-+                 !           |/     )/
-+                 !
-+                 !
-+                 !
-+                 V
-+               Y-axis
-+
-+    Example one - Webcam
-+
-+    Assuming you can bring your laptop with you while swimming with sharks,
-+    the camera module of the laptop is installed on the user facing part of a
-+    laptop screen casing, and is typically used for video calls. The captured
-+    images are meant to be displayed in landscape mode (width > height) on the
-+    laptop screen.
-+
-+    The camera is typically mounted upside-down to compensate the lens optical
-+    inversion effect. In this case the value of the
-+    V4L2_CID_CAMERA_SENSOR_ROTATION control is 0, no rotation is required to
-+    display images correctly to the user.
-+
-+    If the camera sensor is not mounted upside-down it is required to compensate
-+    the lens optical inversion effect and the value of the
-+    V4L2_CID_CAMERA_SENSOR_ROTATION control is 180 degrees, as images will
-+    result rotated when captured to memory. ::
-+
-+                 +--------------------------------------+
-+                 !                                      !
-+                 !                                      !
-+                 !                                      !
-+                 !              __/(_____/|             !
-+                 !            >.___  ____ (             !
-+                 !                 \(    \|             !
-+                 !                                      !
-+                 !                                      !
-+                 !                                      !
-+                 +--------------------------------------+
-+
-+    A software rotation correction of 180 degrees has to be applied to correctly
-+    display the image on the user screen. ::
-+
-+                 +--------------------------------------+
-+                 !                                      !
-+                 !                                      !
-+                 !                                      !
-+                 !             |\____)\___              !
-+                 !             ) _____  __`<            !
-+                 !             |/     )/                !
-+                 !                                      !
-+                 !                                      !
-+                 !                                      !
-+                 +--------------------------------------+
-+
-+    Example two - Phone camera
-+
-+    It is more handy to go and swim with sharks with only your mobile phone
-+    with you and take pictures with the camera that is installed on the back
-+    side of the device, facing away from the user. The captured images are meant
-+    to be displayed in portrait mode (height > width) to match the device screen
-+    orientation and the device usage orientation used when taking the picture.
-+
-+    The camera sensor is typically mounted with its pixel array longer side
-+    aligned to the device longer side, upside-down mounted to compensate for
-+    the lens optical inversion effect.
-+
-+    The images once captured to memory will be rotated and the value of the
-+    V4L2_CID_CAMERA_SENSOR_ROTATION will report a 90 degree rotation. ::
-+
-+
-+                 +-------------------------------------+
-+                 |                 _ _                 |
-+                 |                \   /                |
-+                 |                 | |                 |
-+                 |                 | |                 |
-+                 |                 |  >                |
-+                 |                <  |                 |
-+                 |                 | |                 |
-+                 |                   .                 |
-+                 |                  V                  |
-+                 +-------------------------------------+
-+
-+    A correction of 90 degrees in counter-clockwise direction has to be
-+    applied to correctly display the image in portrait mode on the device
-+    screen. ::
-+
-+                          +--------------------+
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          |   |\____)\___      |
-+                          |   ) _____  __`<    |
-+                          |   |/     )/        |
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          |                    |
-+                          +--------------------+
-+
-+
- .. [#f1]
-    This control may be changed to a menu control in the future, if more
-    options are required.
+ #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
 -- 
 2.25.1
 
