@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8D631893FA
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 03:19:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13113189419
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2020 03:47:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727197AbgCRCTp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Mar 2020 22:19:45 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33987 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbgCRCTp (ORCPT
+        id S1726777AbgCRCrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Mar 2020 22:47:39 -0400
+Received: from mail-lf1-f48.google.com ([209.85.167.48]:34071 "EHLO
+        mail-lf1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726607AbgCRCrj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Mar 2020 22:19:45 -0400
-Received: by mail-lf1-f67.google.com with SMTP id f3so8751234lfc.1;
-        Tue, 17 Mar 2020 19:19:43 -0700 (PDT)
+        Tue, 17 Mar 2020 22:47:39 -0400
+Received: by mail-lf1-f48.google.com with SMTP id f3so8789263lfc.1;
+        Tue, 17 Mar 2020 19:47:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2+VfuB29bj2H8QrZo10ASzsk+M2zZbRzyQjPcMMzwV4=;
-        b=T89vFjMXgz577doE0CXCapQR3nnlT34DYxkvP8owAxarl2u8Ugp/gO2BWu8ZhjYhud
-         FvM0erR2Vd8I7CFJtw/8wNxC4LyznUteEbs2FMElFVKoITWmscb+dVDGL8m7nFitUuaa
-         KQH58lbj+ETX2wNm3C80QAjU962ghiyEewfzCf9MJsWXAhHyWfn5/UzejTaUqnvWuArh
-         UpCZ5NIxbXvZMAgueHerOK3kw+WX4ICjzeLY+Vbez0XvummtXUN3WOIJWUsiAhbPqlHM
-         DictrMEoiaSsyo6b5hDtTkNlq0uKh5zRXlwsd0njP37fqO5UQXo+AfArZxNzJkjku+qI
-         tOLw==
+        bh=O+4NUWZR9n4+H9VOG36R2FnEsYCl9QO/Z2irsj8TMuY=;
+        b=TfpA1v9+IFo+nvdmYx5W4F+Rkhaeh0hE3hLOSa0d6lDHyJM8zbqY+1sVqaPWLiYLR9
+         6wkqCYr5/tlEDljN4TK+iU39tKubnIPYaCJ7iLChzUpyt8Gv6kbgwcAS6bl5hy12eqcB
+         npRrKFFq+okbm2w6TAF1B2HbRtg75fwA/zcKS38lyA34+QNLiP+FaYuTilqtoqOdCFa6
+         8oge0vSPjkUXp1qBu6rEFxIA2CxG3YlWwTHFNkG2LbF/hAZrnLPlAJI+BBTIxMrA6x3e
+         BAXV5m5QTpZ1QDxJwEdiNA2anFqmLqiw9GQXriFNeWoZUc8M26bWDOQjxkB+8UMv9Hl7
+         r4yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2+VfuB29bj2H8QrZo10ASzsk+M2zZbRzyQjPcMMzwV4=;
-        b=J4cqyLwr0axPsE/lWLXrpixfiypWQPZCkISNhG7qTG1Bv0OoffZ6jN8Cy3sxB/RvEk
-         aqtT2qWIaNL1W0BBO7PtkqDt7FrZn29D/rNlcg2C7IyL416phhs/Na1ijFNhT6K6E2n6
-         CEhx0TtqIwP/eokNup9wwzJ6L1mlGmxf8J8qKG8oStOp4w6/LznDJ6amxsABiwJbaIGS
-         akf+qaIPZ2GHUneVcTgZnh/mTgcNgT6ttavBXThAiivXpP6uDoO3pIQWg2eX+XYba9tF
-         XtinUCI2okgRWvGl5WWLVDCiAvXNJoFsuB7cebTRkWPutOD1OH94QAIcPd/hQQ/I/yHb
-         aTEQ==
-X-Gm-Message-State: ANhLgQ0ppbIk1kuBImajIC4QVOhAdZWOnlPtXSvFy/6XsZAXYMvtkn25
-        A+JYB1o/5Y68Z51EP4dUWhEBRsYpcaI7YQ0JDGg=
-X-Google-Smtp-Source: ADFU+vvpU0kyxySDVrSQPRlOHLgNV3BJCSJ95MCdS4ihBCkxWEsR6ymOk2rRF3KseI9E+Lu10U20qB1TnPzWKh04oJY=
-X-Received: by 2002:ac2:4191:: with SMTP id z17mr115723lfh.73.1584497983022;
- Tue, 17 Mar 2020 19:19:43 -0700 (PDT)
+        bh=O+4NUWZR9n4+H9VOG36R2FnEsYCl9QO/Z2irsj8TMuY=;
+        b=scez8qwl/DbfHWl679e/A5IDz+7GgDnBEYZokO5n4xRwViTyt0+59ML6P4z+3Rgikk
+         lEwAJ2FawZHHwcfvUxmTOtwuZbKWFciL4RRl4v8KyGJgPctDLBXUbva1EnGjSUH0opr0
+         ImgLZs8zcNQIn1ZWnVQtYr4mfQ59kLWHw+kKIlfQbBHn6tD02838Umd5fQ54lZR9coam
+         t6cf96OBMM8YodV2Y/Q9sxzTLad+HtBNR/Y45O9kDl9iPsGAhzhVJ7/8wHYbHPvPu7VC
+         lSvbL1NiNWIvQehI69jTU4oFVQH4SB2p1muZ+Exa4mhckPKdnv6Kd8lnUk6o06FKDUEe
+         Fl2g==
+X-Gm-Message-State: ANhLgQ18xvuJzvbKSNKaoYN491V7MOGHZA9LS0j1/+BuGUd2RZKtXH3X
+        Vu0Bftwem6/bGsveEs8QjPma29MGyyduEKtm5Cg=
+X-Google-Smtp-Source: ADFU+vuC+GAiuLlKc2ZHzuRFwQtGPBS2O7mnSZSR1EJfI7E9MFQ2dHOCbkH1RAEpF0FnhRkIpBPRNZvipOHaREzoFqU=
+X-Received: by 2002:a19:550c:: with SMTP id n12mr1451958lfe.11.1584499656637;
+ Tue, 17 Mar 2020 19:47:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <1583300076-28392-1-git-send-email-leon.he@unisoc.com> <9be2873c-79c2-2d02-f15a-1e6e0ff7e898@kernel.org>
-In-Reply-To: <9be2873c-79c2-2d02-f15a-1e6e0ff7e898@kernel.org>
+References: <1583589765-19344-1-git-send-email-hexiaolong2008@gmail.com> <8613a6fb-1f3f-81e9-54c9-7356ce99cf87@kernel.org>
+In-Reply-To: <8613a6fb-1f3f-81e9-54c9-7356ce99cf87@kernel.org>
 From:   xiaolong he <hexiaolong2008@gmail.com>
-Date:   Wed, 18 Mar 2020 10:19:22 +0800
-Message-ID: <CAN9aa7qfmY6nuVf7CLYLn4i5h28pDOMceup4vFNQmKM1gLdPqA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: heaps: bugfix for selftest failure
+Date:   Wed, 18 Mar 2020 10:47:15 +0800
+Message-ID: <CAN9aa7rj_UwPdeZGrdZzWDE=mR5z77dKHMfOC=c4LNJXXuiByw@mail.gmail.com>
+Subject: Re: [v2] dma-buf: heaps: bugfix for selftest failure
 To:     shuah <shuah@kernel.org>
 Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
         linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -59,45 +59,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->
-> On 3/3/20 10:34 PM, Leon He wrote:
-> > If the 'name' array in check_vgem() was not initialized to null, the
-> > value of name[4] may be random. Which will cause strcmp(name, "vgem")
-> > failed.
->
-> Nit: "to fail" instead of "failed"
+Dear Shuah:
 
-OK, thanks!
-
->
->
+> > @@ -357,7 +357,7 @@ static int test_alloc_errors(char *heap_name)
+> >       if (heap_fd >= 0)
+> >               close(heap_fd);
 > >
-> > Signed-off-by: Leon He <leon.he@unisoc.com>
-> > ---
-> >   tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-> > index cd5e1f6..21f3d19 100644
-> > --- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-> > +++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-> > @@ -22,7 +22,7 @@
-> >   static int check_vgem(int fd)
-> >   {
-> >       drm_version_t version = { 0 };
-> > -     char name[5];
-> > +     char name[5] = { 0 };
-> >       int ret;
-> >
-> >       version.name_len = 4;
-> >
+> > -     return ret;
+> > +     return !ret;
 >
-> return !strcmp(name, "vgem");
->
-> While you are at it, why not change strcmp() to strncmp()?
+> This change doesn't make sense. Initializing ret to 0 is a better
+> way to go.
 >
 
-OK, I'll change it in patch v3.
+I don't agree with you about this comment. Initializing ret to 0 can
+not solve this problem.
+Because the ret value will be override by the following
+dmabuf_heap_alloc() calls.
+
+static int test_alloc_errors(char *heap_name)
+{
+        int ret;
+
+        ret = dmabuf_heap_alloc(...);
+        ...
+        ret = dmabuf_heap_alloc(...);
+        ...
+        ret = dmabuf_heap_alloc_fdflags(...);
+        ...
+
+        return ret;
+}
+
+The purpose for test_alloc_errors() is to pass some invalid parameters
+to dmabuf_heap_alloc()
+and wish it return some errors. So -1 is what we expect from
+test_alloc_errors(). But the code
+in main() will break the loop when the ret value is -1. So I reversed
+the return value in test_alloc_errors().
+
+int main(void)
+{
+        while(...) {
+                ...
+                ret = test_alloc_errors(dir->d_name);
+                if (ret)
+                        break;
+        }
+}
 
 thanks,
 -- Leon
