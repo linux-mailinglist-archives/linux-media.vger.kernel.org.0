@@ -2,266 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8594918B351
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 13:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68A0B18B3A9
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 13:45:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbgCSMW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 08:22:26 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:6990 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726864AbgCSMW0 (ORCPT
+        id S1727009AbgCSMo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 08:44:59 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:33199 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726589AbgCSMo6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 08:22:26 -0400
-X-IronPort-AV: E=Sophos;i="5.70,571,1574089200"; 
-   d="scan'208";a="42339866"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2020 21:22:25 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8C96142ED940;
-        Thu, 19 Mar 2020 21:22:21 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Thu, 19 Mar 2020 08:44:58 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 172F258066E;
+        Thu, 19 Mar 2020 08:44:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 19 Mar 2020 08:44:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=fPef86flXx0XBtfvoeNEs+6nqE5
+        kjHbY/H2scm6omuc=; b=P54ryr6cYmDL3HtEmHxTsHrnPfMlr4pYagLUkS7ib6U
+        IOsPIXi8dXU4dBWVk8gkZr2UKAt1i+V1i0veGvLvTAWfaPNSqzxjTYDC4Kk9OxKw
+        FJTjiecptq6P3vlPWZxPF8W6AiAMprS5FeVKu7yUg/uCwo+g+WDFDeKVPULVHN4/
+        zcYD4Yxo7qj93XuM75MVktOz4aIbcrpWGzI7yiupyv+H8c3L7xbnNRJR/gIpvgEt
+        dQWyzJX8TZZJlfOA3GEQcEOlsUp/8qYUOZ1KLKa5cDr3KUOhvJ1nazwc+ERjlEmm
+        5B3PEl2iAPM66FtXNnrVm3jIAZVFNez3aDYMo+qucdQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fPef86
+        flXx0XBtfvoeNEs+6nqE5kjHbY/H2scm6omuc=; b=BJksx+PBF56TFgnOUEJ/kw
+        QYXX0L26+g+4Cw1qAQ79baQSlMIrv7ZTfJLTnWZVVV6wQFmy82Dc8FaOaidq1CKo
+        +2JoVnkIBoaTOLU87oR//m2HOUsHzqw7y5jAW8O4xV6hkqY5UDsQctLlwR4AMVHg
+        GYKD47FuwoDwgzbx0yILhumliPKt3JN/iLDrxL+bp7JvYGkyjKrVQ08UWKgFDPni
+        eAHy1x7Zi9xAYq8g34OQ+uuWTXfRU5ovY931qS6bQQ9y8m/195yyn1xo1uhn1Rb4
+        f/Wx4H3Df1KWSY8HXG1TUokdODU9QKDr4g16hLhSv9Zyk2/t/gbpSGRUno9L2Odg
+        ==
+X-ME-Sender: <xms:RmlzXoTyYLruReR4fEM0EZvVGx3em7prj6ItaYEYTSZV26yRnpGTFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudefledggeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
+    drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:RmlzXtY1tPKrM6iWyQqASsTBEGtmgOPWGqhrEs3xnNQqk5vuqNZGyw>
+    <xmx:RmlzXjcrygJZCEd_r1wE2kBm2DARMoXFqq3ORMp_UnaSKchfDCJm2Q>
+    <xmx:RmlzXmKOKO9aidJcE9GYNfnbTaV_5jXHPN6vJMdMmBwUC3t183rxYQ>
+    <xmx:SWlzXp97jLbUzb-fmPLA-z2NnPcEfHSko1oXqiOB69IY6YKZfezmkg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 8AF24328005D;
+        Thu, 19 Mar 2020 08:44:54 -0400 (EDT)
+Date:   Thu, 19 Mar 2020 13:44:52 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 5/5] media: dt-bindings: media: i2c: convert ov5645 bindings to json-schema
-Date:   Thu, 19 Mar 2020 12:19:23 +0000
-Message-Id: <1584620363-2255-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to
+ assigned-clock-rates
+Message-ID: <20200319124452.3yfcvq754vi4q2rv@gilmour.lan>
+References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="5j65trj5d3psj2o7"
+Content-Disposition: inline
+In-Reply-To: <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert ov5645 bindings to json-schema.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- .../devicetree/bindings/media/i2c/ov5645.txt  |  54 -------
- .../devicetree/bindings/media/i2c/ov5645.yaml | 140 ++++++++++++++++++
- 2 files changed, 140 insertions(+), 54 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+--5j65trj5d3psj2o7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-deleted file mode 100644
-index 1c85c78ec58c..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-+++ /dev/null
-@@ -1,54 +0,0 @@
--* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
--
--The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
--an active array size of 2592H x 1944V. It is programmable through a serial I2C
--interface.
--
--Required Properties:
--- compatible: Value should be "ovti,ov5645".
--- clocks: Reference to the xclk clock.
--- clock-names: Should be "xclk".
--- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
--  to the hardware pin PWDNB which is physically active low.
--- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
--  the hardware pin RESETB.
--- vdddo-supply: Chip digital IO regulator.
--- vdda-supply: Chip analog regulator.
--- vddd-supply: Chip digital core regulator.
--
--The device node must contain one 'port' child node for its digital output
--video port, in accordance with the video interface bindings defined in
--Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--
--	&i2c1 {
--		...
--
--		ov5645: ov5645@3c {
--			compatible = "ovti,ov5645";
--			reg = <0x3c>;
--
--			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
--			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
--			pinctrl-names = "default";
--			pinctrl-0 = <&camera_rear_default>;
--
--			clocks = <&clks 200>;
--			clock-names = "xclk";
--			assigned-clocks = <&clks 200>;
--			assigned-clock-rates = <24000000>;
--
--			vdddo-supply = <&camera_dovdd_1v8>;
--			vdda-supply = <&camera_avdd_2v8>;
--			vddd-supply = <&camera_dvdd_1v2>;
--
--			port {
--				ov5645_ep: endpoint {
--					clock-lanes = <1>;
--					data-lanes = <0 2>;
--					remote-endpoint = <&csi0_ep>;
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-new file mode 100644
-index 000000000000..4bf58ad210c5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-@@ -0,0 +1,140 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ov5645.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
-+
-+maintainers:
-+  - Sakari Ailus <sakari.ailus@linux.intel.com>
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+
-+description: |-
-+ The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
-+ an active array size of 2592H x 1944V. It is programmable through a serial I2C
-+ interface.
-+
-+properties:
-+  compatible:
-+    const: ovti,ov5645
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: xclk
-+
-+  assigned-clocks:
-+    maxItems: 1
-+
-+  assigned-clock-rates:
-+     items:
-+     - description: Must be 24MHz (24000000).
-+
-+  enable-gpios:
-+    description: |-
-+      Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-+      to the hardware pin PWDNB which is physically active low.
-+
-+  reset-gpios:
-+    description: |-
-+      Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-+      the hardware pin RESETB.
-+
-+  vdddo-supply:
-+    description:
-+      Chip digital IO regulator.
-+
-+  vdda-supply:
-+    description:
-+      Chip analog regulator.
-+
-+  vddd-supply:
-+    description:
-+      Chip digital core regulator.
-+
-+  # See ../video-interfaces.txt for more details
-+  port:
-+    type: object
-+    properties:
-+      endpoint:
-+        type: object
-+
-+        properties:
-+          data-lanes:
-+            description: |-
-+              The sensor supports two-lane operation.
-+              For two-lane operation the property must be set to <1 2>.
-+            items:
-+              - const: 1
-+              - const: 2
-+
-+          clock-lanes:
-+            description:
-+              should be set to <0> (clock lane on hardware lane 0).
-+            items:
-+              - const: 0
-+
-+          remote-endpoint: true
-+
-+        required:
-+          - data-lanes
-+          - clock-lanes
-+          - remote-endpoint
-+
-+        additionalProperties: false
-+
-+    additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - assigned-clocks
-+  - assigned-clock-rates
-+  - enable-gpios
-+  - reset-gpios
-+  - vdddo-supply
-+  - vdda-supply
-+  - vddd-supply
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c1 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        ov5645: sensor@3c {
-+            compatible = "ovti,ov5645";
-+            reg = <0x3c>;
-+            clocks = <&ov5645_cl>;
-+            clock-names = "xclk";
-+            assigned-clocks = <&ov5645_cl>;
-+            assigned-clock-rates = <24000000>;
-+            enable-gpios = <&gpio1 6 /* GPIO_ACTIVE_HIGH */>;
-+            reset-gpios = <&gpio5 20 /* GPIO_ACTIVE_LOW */>;
-+            vdddo-supply = <&camera_dovdd_1v8>;
-+            vdda-supply = <&camera_avdd_2v8>;
-+            vddd-supply = <&camera_dvdd_1v2>;
-+
-+            port {
-+                ov5645_0: endpoint {
-+                    remote-endpoint = <&csi1_ep>;
-+                    clock-lanes = <0>;
-+                    data-lanes = <1 2>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
--- 
-2.20.1
+Hi,
 
+On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
+> Use assigned-clock-rates to specify the clock rate. Also mark
+> clock-frequency property as deprecated.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> index 72ad992..e62fe82 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> @@ -8,7 +8,7 @@ Required Properties:
+>  - compatible: Value should be "ovti,ov5645".
+>  - clocks: Reference to the xclk clock.
+>  - clock-names: Should be "xclk".
+> -- clock-frequency: Frequency of the xclk clock.
+> +- clock-frequency (deprecated): Frequency of the xclk clock.
+>  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+>    to the hardware pin PWDNB which is physically active low.
+>  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> @@ -37,7 +37,8 @@ Example:
+>
+>  			clocks = <&clks 200>;
+>  			clock-names = "xclk";
+> -			clock-frequency = <24000000>;
+> +			assigned-clocks = <&clks 200>;
+> +			assigned-clock-rates = <24000000>;
+>
+>  			vdddo-supply = <&camera_dovdd_1v8>;
+>  			vdda-supply = <&camera_avdd_2v8>;
+
+clock-frequency is quite different from assigned-clock-rates though,
+semantically speaking. clock-frequency is only about what the clock
+frequency is, while assigned-clock-rates will change the rate as well,
+and you have no idea how long it will last.
+
+If you want to retrieve that through the clock framework, then just
+making clock-frequency optional is enough and falling back to
+clk_get_rate on the clocks property already provided is enough.
+
+Maxime
+
+--5j65trj5d3psj2o7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXnNpRAAKCRDj7w1vZxhR
+xesHAP9VTAePw+WAADpRdawWbVIeQrmRXEWIUIh4/u+DB1CnCQEAtrdAD6cdnFZV
+PoQsLM8/8h0mlE9auOHjPVUcOLYy1gs=
+=qLmi
+-----END PGP SIGNATURE-----
+
+--5j65trj5d3psj2o7--
