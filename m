@@ -2,134 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCA8218AE6C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 09:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EABC318AE86
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 09:43:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbgCSIfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 04:35:44 -0400
-Received: from [37.49.224.149] ([37.49.224.149]:61660 "EHLO
-        walker-construction.co.uk" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725601AbgCSIfo (ORCPT
+        id S1726913AbgCSInI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 04:43:08 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:52127 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgCSInH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 04:35:44 -0400
-From:   "Wilson Jasper" <wilson@walker-construction.co.uk>
-To:     linux-media@vger.kernel.org
-Subject: RE: Walker Construction_RFQ
-Date:   19 Mar 2020 09:35:41 +0100
-Message-ID: <20200319093541.5527047F037D2EB4@walker-construction.co.uk>
+        Thu, 19 Mar 2020 04:43:07 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8C38620008;
+        Thu, 19 Mar 2020 08:43:00 +0000 (UTC)
+Date:   Thu, 19 Mar 2020 09:45:57 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hyun Kwon <hyun.kwon@xilinx.com>
+Cc:     Hyun Kwon <hyunk@xilinx.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
+Message-ID: <20200319084557.v5hw54mmw4swzwly@uno.localdomain>
+References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
+ <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
+ <20200228181303.GA21745@smtp.xilinx.com>
+ <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
+ <20200319010734.GA27556@smtp.xilinx.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
-        boundary="----=_NextPart_000_0012_9EA5F536.10BC5961"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200319010734.GA27556@smtp.xilinx.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
+Hi Hyun,
 
-------=_NextPart_000_0012_9EA5F536.10BC5961
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Mar 18, 2020 at 06:07:35PM -0700, Hyun Kwon wrote:
+> Hi Jacobo,
+>
+> On Sun, 2020-03-15 at 16:15:17 -0700, Jacopo Mondi wrote:
+> > Hello Hyun, Kieran,
+> >    it's great you are looking into this!
+> >
+> > On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
+> > > Hi Kieran,
+> > >
+> > > Thanks for sharing a patch.
+> > >
+> > [snip]
+> >
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Set the I2C bus speed.
+> > > > > +	 *
+> > > > > +	 * Enable I2C Local Acknowledge during the probe sequences of the camera
+> > > > > +	 * only. This should be disabled after the mux is initialised.
+> > > > > +	 */
+> > > > > +	max9286_configure_i2c(priv, true);
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Reverse channel setup.
+> > > > > +	 *
+> > > > > +	 * - Enable custom reverse channel configuration (through register 0x3f)
+> > > > > +	 *   and set the first pulse length to 35 clock cycles.
+> > > > > +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+> > > > > +	 *   high threshold enabled by the serializer driver.
+> > > > > +	 */
+> > > > > +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+> > > > > +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+> > > > > +		      MAX9286_REV_AMP_X);
+> > > > > +	usleep_range(2000, 2500);
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Enable GMSL links, mask unused ones and autodetect link
+> > > > > +	 * used as CSI clock source.
+> > > > > +	 */
+> > > > > +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
+> > > > > +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
+> > > > > +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Video format setup:
+> > > > > +	 * Disable CSI output, VC is set according to Link number.
+> > > > > +	 */
+> > > > > +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+> > > > > +
+> > > > > +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
+> > > > > +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
+> > > > > +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+> > > > > +		      MAX9286_DATATYPE_YUV422_8BIT);
+> > > > > +
+> > > > > +	/* Automatic: FRAMESYNC taken from the slowest Link. */
+> > > > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > > > > +		      MAX9286_FSYNCMETH_AUTO);
+> > > > > +
+> > > > > +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+> > > > > +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+> > > > > +		      MAX9286_HVSRC_D14);
+> > >
+> >
+> > I agree we need to make some of these configurable, we need that too
+> > to handle both rdacm20 and 21.
+> >
+> > > Some of these configs in fact need some handshake between serializer and
+> > > de-serializer. For example, I had to invert vsync in serializer [3] to make
+> > > it work with this patch.
+> >
+> > Quickly skamming through the datasheet I'm surprised there is no way
+> > to control the vsync input polarity and you have to go through the
+> > crossbar :) Oh well, I think this could be well controlled through a
+> > device property of the serializer, what do you think?
+> >
+> > We have standard properties to control vsync and hsync polarities, but
+> > they're usually used for output signals, and I would reserve them for
+> > that future usage.. maybe a custom property to control the input vsync
+> > and hsync polarities would do...
+>
+> Thanks for sharing pointers. These are not really hardened - static properties
+> so I'm not sure if device tree is the right place. I was thinking something
+> more similar to phy_configure_opts_mipi_dphy in phy subsystem.
 
-Dear Sir/Madam,,
+Let's take a step back, as it seems I was confused as well.
 
-Please confirm and give quotation as per attached,quote according=20
-to Bill of
-materials
+Not knowing the device, I can only guess on why you need to invert
+the input VSYNC signal in the cross-bar. I see two options:
 
-Highlighted items will be supplied in large quantity.
+1) Looking at Figure 1 (Functional block diagram) the sensor vsync signal
+is fed to the video timing generation circtuit. The cross-bar switch
+comes after the timing generation circuit, and inverting vsync there
+is then equivalent to invert the vsync output of the timing generation
+block. If that's the case, instead of going through the crossbar,
+the same result can be obtained by setting the VSYNC_INV bit of
+register cxtp (0x4d[3]). If that's the case, I agree this setting
+should be negotiated between ser/desr, as the VS_OUT signal in Figure
+18 is inverted in the serialized byte stream. Is this the case ?
 
-Kind Regards.
+2) Alternatively, you need to invert the input vsync polarity to trigger
+the timing generation circuit. This mean vsync is inverted -before-
+being fed to timing generation, and this was my first understanding,
+as I assumed the crossbar switch come -before- the timing generation
+circtuitry. If this is the case, this setting should not be negotiated
+between ser/deser but between the serializer and the connected camera
+sensor.
 
-Wilson Jasper=20
-Purchase Manager
-Walker Construction (UK) Ltd
+Which case are you trying to address ?
 
+>
+> >
+> > >
+> > > In addition to that, I need a couple of additional programmings on max9286
+> > > (registers 0x0 to 0x63/0x64- disable overlap window and 0xf4 to 0x1c which
+> > > oddly change reserved bits) to get frames. The datasheet doesn't explain
+> > > enough for me to understand. I'm talking to Maxim to get more details and
+> > > see if those can be handled by serilizer driver.
+> >
+> > I would be really interested in knowing what's the overlap window control
+> > about... it's very little detailed in the manual, I agree :) 0xf4 is
+> > not even documented in my version. I assume it's something related to
+> > fsync sync locking (Fig. 46) as I failed to achieve it without that
+> > setting. How did it fail for you ?
+> >
+>
+> I received one doc "Frame Synchronization Block" that explains the overlap
+> window in more details. It's essentially a window between camera vsync and
+> frame sync. If those 2 don't happen within the window, it errors out. So it
+> gives a validation check, but may not work depending on the vsync patterm from
+> camera or the window should be bigger, which makes the validation less
+> useful in my opinion.
 
-I will like a receipt of your acknowledgment mail.
-------=_NextPart_000_0012_9EA5F536.10BC5961
-Content-Type: application/msword; name="PO032411.doc"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="PO032411.doc"
+Thanks for the detailed info!
 
-e1xydGY2ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtcb2JqZWN0e1w5
-MDYzOTIzOTB9XG9iamxpbmt7XDkwNjM5MjM5MH1cb2Jqdzg3OTJ7XDkwNjM5MjM5MH1cb2Jq
-aDI4MHtcOTA2MzkyMzkwfXtcOTA2MzkyMzkwfXtcb2JqZGF0YQ1ccHN6NTIyODIzNTQ2XHly
-MDU5NzcyMzIwMlwnPwkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
-CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
-CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
-CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQl7XG9iamVjdFxkbGJncHljbXdt
-cm9qWldCRUlYQkNaQ0hDRUlPVFdETDQwNzUxMjU2NzgxNDc1MzQwNDg4NDVkbGJncHljbXdt
-cm9qWldCRUlYQkNaQ0hDRUlPVFdETDUwODAxMDAzOTgxe1xhaXJqcXZqeHBtaHVkdHlwd2d1
-bnlza3JTSFFBUVFOU1BWWlFHWko5NzcwMTc5MTU1MjgzNDAwNzg0NjA4NDk2NGFpcmpxdmp4
-cG1odWR0eXB3Z3VueXNrclNIUUFRUU5TUFZaUUdaSjQwNDk2Njc5MDE0ODM2NjkwMTAzODUy
-NDUxOX19Zjk3MmIzNGIwMjAwMDAwMDBiMDAwMDAwNjU1MTc1NjE3NDY5NmY0e1xtYmVnQ2hy
-IFx7XHtcbWVuZENocn0NZTJlMzMwMDAwMDAwMDAwMDAwMDAwMDBiOTA2MDAwMDAyNjBmMWIy
-ZDVhMTAxMDhhYjFkYjg3ZWZmYzc1ZDI1M2RiZDZkODI4YjE4OGIxYmI4OWJhNGE2YzMwNTE1
-YzM5ZjNjOGIzMDUzZmZkNjA1YWM3MWQ4MTkyZDBhNzFkODE5ZmZlMGQzYjdmY2VhZWI0NDAw
-NDQ2NjIzNTZiMWI1ZTFhNjJjYTc0MDdjMDc2ZjViNGM2ZjAzNDM4NmE2NDgwYjgzNDRjMTFi
-NTljYzk4YmEyYTUwZGY2NzNlMWYyMGJkNDkzNzI2ODliYzU3YjZmMDMxMDM2NjBjN2I1Mzg0
-OTBiMmQxMmFkNTM2NjljY2NkZDBkZTE2YjczZjIwNDNjMDBkNGNjMDNjOWIxY2VmMmJjYzQ5
-MjBjZmEwZWIzM2Y5M2I4NzEyM2JhNjJiYzRiNzRiZmE2ODY1NTg2NWQwYWJjM2U5NDQwMTAw
-MDAzOWVhYzhlYmM3MGFmOWNhMmFjODk2YTk5NjI4MjViMGFlMGFiYThlY2Y3ODQyYjc0MmRl
-YmE5ZThhNGM3YTAwOWNiNzY1MTkyMDM3MzdlZWI3NDhjMTgyMmYwYjI0MjNjZTg0MTk5ZDhl
-ZDkyYTgyNWM5OWY2Njc1OWY0NzQyYTE5ZmUyNTI4ZThlZjY5ODAwMTYxYWU1ZGQ1OThiNzI2
-NGJiNmRjY2NmYzA1NDhmZTc0MmYzNzczNzY4NjQxMjczNTNlOGM5NjljYWQxMjA1ODc5M2Uz
-YjgwODRlNjIzYmE2MjM4NjlhOTY3OTFhYWIwOTFkZmYzZjYwODA2Njc0NmRmNzE3ZThiY2Y3
-YWZmY2NiNWZkYjE1NDlhZGEwZTE1ZDQ4OTM4Y2RlYjcyMTA5OWJlNGNhNGM5NTY0NWU5MzQz
-YTc0ODk5Y2I0OGMwZTE0YzQyMThmNDE2MzZmMjk4ZjFhNTg1MWQ1MzNkZGQ5OGFiMDYxOTFi
-OWFiMWFkMDEzNGQyOWUyYzQ2MjNjODNhOGFiZTFjZDFmMDY1ZGFkZmUxYmRkZWQxNzQ4Y2Nm
-ZDdiN2ZlNmYyYWVhZTZjZTQxYzVmNTk4MWZhZDA2NDQ4MjAzNTQ2NDMyNTdiZmQ5MzhhZTBk
-MWIyNWMzMjQ3NTQ4M2Y1MTQ4ZjkwOTg0NDdkNDcwOTJiN2YzODI3M2I0M2IzYjgzNzA5MmNi
-YzM2YTIzZDkxN2JjOTliZDg1NTI2YmM1N2MyODBiNzIwYjkzMzViOTI4N2MyOTQ0ZTk5Y2U1
-YWZjYmMxNzRjZWVlMTIxZGUxNTg0M2FmZTczMGUxYmRjOTAxOGNkZGFiZmMzNmU5MjEzNzY0
-M2ZlYjAzYTk3MTQzZThmNDAwMDAwMGU5ZDcwMDAwMDBlOWI4MDEwMDAwOWM1NjUyNTc5MDlj
-NTI4MWMyNjMwODAwMDA4MWVhNTgxNjAwMDA4MWMyNmIwNzAwMDA4MWMyOGM1YjAwMDA1YTlk
-OTA4MWVlNzQzMzAwMDA4MWVlOTQxNzAwMDA4MWVlZmMyNTAwMDA4MWVlMzU3MjAwMDA4MWM3
-MWM2MTAwMDA4MWMyY2UxZDAwMDA1ZjVhNWU5ZGU5ZGMwMDAwMDA4MWMxZDkwMTAwMDBlYjc5
-OWM1MDJkYjQ3NjAwMDAwNThiNWYwMDAwOGQ4MDQzNGYwMDAwMmQ0NzEyMDAwMDhkODBjMjUy
-MDAwMDA1ZDExYjAwMDA1ODlkZWIwNzY3NTlmYjdlMjk5M2U2ZTkwOTAxMDAwMGViNDk1NjVl
-OWM1MzUwOGQ5ODI2MzYwMDAwZWIwODU3NWZmZDM0NWE0OTViZDk1MjVhOGQ4M2NkNzkwMDAw
-NTc1ZmViMDdmMDUxY2RkMGI3MDQxYjgxZWI4MDU4MDAwMDgxZWJlMTU4MDAwMDhkODM0NzEx
-MDAwMDU4NWI5ZDU2NWVlOWQ2MDAwMDAwOTBlYmIyZWIzNzhkOTllYjAyMDAwMDZiYzAwMDkw
-NjljMDQ3MDdjMTQ1ZWI0NWViMWVlYjc3NTllOTVmZmZmZmZmZWIzOWViMTBmZmExY2MxZDdk
-ZWIwOTRkYzRlNDdkYzM1N2QxYTk0NmViNWJlOWJjMDAwMDAwZWJkZDljNTM4MWViOTY1NjAw
-MDA4M2ViNzI4MWViOTk2MTAwMDA4ZDliZTk2ZjAwMDA1YjlkZTkxZmZmZmZmZmViNmEwNTg1
-NTE5Nzc1ZWJiNDljNTM1NzUwODFjNzM0NWIwMDAwOGQ5ZmUyMTMwMDAwMDU4ZTQ5MDAwMDhk
-YmIyZDU0MDAwMDhkYjg3ZTBjMDAwMDU4NWY1YjlkZWIwNjMyNDYyZWYwYWQ1MzMxMDFlYjU4
-NTA1ODljNTI1MDU4OTA1MWViMDhlNTdlODc0MDJhZDY1NDBlODFjMTk5MjIwMDAwODFlOTJh
-MTQwMDAwOGQ5MTc0NzEwMDAwODFjMTJiNzYwMDAwNTk1YTlkZTkzZGZmZmZmZmViOTQ1NjVl
-ZTk1YmZlZmZmZmU5ZGZmZWZmZmZlOTQ2ZmZmZmZmZWIwNzcwZTBjYzlmMGFiZDg2ZTk3M2Zm
-ZmZmZmU5Y2NmZWZmZmY4M2MxMDRlYjA1ZTkwZGZmZmZmZjM5ZDkwZjgyMGZmZmZmZmYwNGJk
-MTc3NzY4OTBlNjk2NWQzNmZjMGE1MDk1MjNlN2I1NDk3MWVmYjgyYjg0OTg4ZDBmZjU0ZWEw
-ZDY3Mjc5ZTUwZjY5YTNlMGYwY2YyOGJkZmE1NjAzOTQ2NjdjOWY2N2FiZTAzMDBmZjBmYjBi
-YTk2MzVjMjJjOTMyNzgzNzQ1MTZjMDA2Y2QxNTJlMjc3MjljYjZlM2Y0YWY1MDZhMDZiNDc1
-MmVkMDkyNzcwZWM0ODg0N2ZhZTAyMzY3MWZkZDE0NmNhODJjZmIxZDZjMTQ3ZDQyYmM1ZDZk
-YWUyZDg2OTIzMGRmZjY0ZTc5MTFhZDUxZGJhYmU4Y2UxMmNjMDU3NjQ5ZTBlMDQwNjIwYmRk
-ZTc0ZWU1ZDBlYjZkMDIzNTMxN2Q2YzM4ZmJmYWZiMGQzZTcwYmUyMGI1MTA5ZTY1YWVjN2Zj
-ODgzODFiOTAzZGUyNTNjNzcwYWU3ODMzOTU1NmVjODhkODI4NjM3ZjZkYWJjYTg1YzAxNzU4
-NWZjNTk5NjBmNTI4ZDcwMTIzOWRkZWIwMmQxMDIwOWI0OWY1MmQyNTM3YTgyYmQzYWFjZGNm
-YmQ5ZTEyOGUwOGQwNjg2ZWQwMzdhNmUwOTYyYTAyZjdiNWQ3YjA2MjBmZDIwN2NjN2E0MjZm
-NTJlODBmNGNjMDU0ZjE0NjdjNDM1NmQyMjQ2OTM5YmU3ZmI1MGE1ZDk0OWE0MjVjYjc2NmIx
-YjUxYWNlMzFiOGMzZjBiMzhkMmZjODY2YTA2MTMyYjFlNTQ2YTQxODA4NmNiNmIxYmRiNmY5
-YmNmMGYxNTNlOTE1OTNlOTViNTg2MjNkY2VlZDg5NzVkMDQwZTU2N2M0NDUxZDU2NjJhODA4
-NzRhNTFkNGQ1NjAxOTAzZjE4ZWE3NTQwMjhhN2Y4MDYwMzlmNGRhN2JlNGZlMDFkNDk4ZmE1
-ODQyNWZhNDhjOTQ5OWI3ZGY0ZDlmODMwNzcxNmNhZDVhYTllNDg5OGI3NWRlZWFkZjFkOTNi
-ODBhZWQxZjAwNWE4NjhhZmU4ZjIwZjlhZGRhZmY5YTJkMGY1MDcwMGU1YmNmM2YxMzgxZmEx
-ZTI3OWQxMDg3MzUyY2EwZmZhMmM4MjkyNDFkZmE0NzM2MGViMjYzODBhNTQ3ODI2YWFjN2E5
-ZGNkYWQ3NjdiNjFjMmU3NGI4OGJiNDcxNmVhZmFhMzE0NTlhNWJmZTU2MmM2Mjg1ZTVlMDM0
-YTUyZWYzZjVmMjIyOWQ1YzgwNmE1NGNkMDBkYjE1MGFlM2ZmMDA0ZjAxYWIwM2EyYTU2MTlk
-NzA5NzA2MTFlMjY4ODRkYzU5MzNlMzE0NWQ5OTdmNjc3ZDE1NDBlZjY1NTkwZjhjZDYwOGZh
-MTE2ODY1YzkxYzM5Nzc0NDcyNTBkYTU3ZTBlNzAxYmUwYWI0OWE0OTQzYzc3MzVjODdkNGNj
-NjZlNGVlMzUzYTU0OGQ0N2FlMmUzNmJlZjNlZjMyOTA3MDhiOWU3Y2Y3ZDhkMzZlNmIwM2Uy
-NTE4MWY1YzVkZjI4YTYyMzg3M2M4ODgxMGRhYjUzN2NiNzYwMWMxMzNmMjJkNTc5ZmNiODhj
-YjkyODllMjhjZWFjMWFmZWVkYWI0YTY3ODVlYzJiYWIzYzRhYjZjZTk2NTE4OTU2ZGI3Y2M5
-YjBkN2NmNGVmMjk3YzUyZWIzNmYwYjQ5NTVkYTM2YTUxYjU2ZjM1M2VlNjM0ODc3YmY1NmVm
-NmExZjk0OTY4Nzg1MzU0NjhiOGNiM2NjZDc4MjU1YTVmYjczMTA1MzA3MGQxMWMyYTI5OTgz
-NjQ2ZjM2YjQwMTYwNWUwNDBiOTYzYTVjYzA0YzI4MmY1ZGQ4MWZjYjNjZmM3Mzk4ODIwOTI3
-MzI3Y2JhZGUwY2FmYmExNDJhYWE5YThjNTA1ZTkxNWU2ZDk4NDg0Nzc5NWQxYWQ4NGUxNmVm
-NDcyOWQzZGFkZGU1MTc1MDJlOTczNGU0YTYzZjZlMWEyNGUzYTg2MTAwMDAwMDAwfVxvYmp1
-cGRhdGU2MzkzNTkxMTF9fQ==
+This reinforces the idea this setting should be disabled by default.
+If we want to enable it, a value should be provided explicitly. I
+still think DTS are the right place for this setting, as this is a
+deserializer-only configuration parameter..
 
-------=_NextPart_000_0012_9EA5F536.10BC5961--
+>
+> I believe 0x1c has something to do with BWS as mentioned in my previous reply.
+> The max9286 on my board sets BWS pin as open, and it makes the bandwidth
+> to be 27 bit mode by default. So writing 0xf4 to 0x1c register sets to 24 bit
+> mode (while 0xf6 = 27 bit mode). But I didn't hear back from Maxim regarding
+> this yet. And unfortunately, I couldn't make it work with 27 bit mode on both
+> max9286 and max96705.
+>
+> So this and similar properties may also be something that can be handled by
+> the negotiating call mentioned above, while the configuraton through external
+> pins can be modeled as device tree properties?
+
+Indeed external pin configuration fits well as DTS property. Would you
+like to have a go ?
+
+Thanks
+   j
+
+>
+> Thanks,
+> -hyun
+>
+> > On how to control overlap window a integer would do ? Setting it to 0
+> > disables it, so we could use a boolean property for convenience..
+> >
+> > Not knowing what it does I would be careful.. I think we should
+> > actualy require a mandatory property, so all current dts select their
+> > behaviour explicitly. If we later find out what it does we could
+> > define a default behaviour by defining a boolean property. New dts
+> > simpler and old dts still happy. What do you think ?
+> >
+> > >
+> > > In a longer term, it'd be nice if such alignment between serializer and
+> > > de-serializer is handled in more scalable way.
+> > >
+> >
+> > Indeed :)
+> >
+> > Thanks
+> >   j
+> >
+> > > Thanks,
+> > > -hyun
+> > >
+> > > [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/3bd2dded834492f4ee89e370c22877b97c2e106e
+> > > [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fb0ad7fd699d90d6bbc78fc55dd98639389cfc5b
+> > > [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fe0b33b174b2850bf0bb25b3a367319127ae12ee
+> > >
