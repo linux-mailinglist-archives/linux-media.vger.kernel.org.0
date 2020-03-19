@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EC9B18B336
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 13:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DF318B33D
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 13:20:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbgCSMTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 08:19:47 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:30118 "EHLO
+        id S1727318AbgCSMUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 08:20:25 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:18010 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727112AbgCSMTr (ORCPT
+        by vger.kernel.org with ESMTP id S1727001AbgCSMUZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 08:19:47 -0400
+        Thu, 19 Mar 2020 08:20:25 -0400
 X-IronPort-AV: E=Sophos;i="5.70,571,1574089200"; 
-   d="scan'208";a="42339692"
+   d="scan'208";a="42339758"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2020 21:19:45 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2020 21:20:24 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8488342BCBC0;
-        Thu, 19 Mar 2020 21:19:41 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 79A8042BCBB7;
+        Thu, 19 Mar 2020 21:20:20 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -35,58 +35,48 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Lad Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 0/5] ov5645: Deprecate usage of the clock-frequency
-Date:   Thu, 19 Mar 2020 12:19:18 +0000
-Message-Id: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 1/5] media: dt-bindings: media: i2c: Deprecate usage of the clock-frequency property
+Date:   Thu, 19 Mar 2020 12:19:19 +0000
+Message-Id: <1584620363-2255-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+Deprecate usage of the clock-frequency property. The preferred method to
+set clock rates is to use assigned-clock-rates.
 
-This patch series does the following:
-1: Deprecate usage of the clock-frequency property.
-2: Increases tolerance level to 5% for external clock frequency
-3: Converts bindings to json-schema
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ Documentation/devicetree/bindings/media/i2c/ov5645.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Prabhakar
-
-Changes for v4:
-* Addressed to comments from Laurent updated patch description for
-  patch 1/5, 4/5.
-* Included Reviewed-by tags from Laurent.
-* Increased tolerance level to 5% for external clock frequency.
-* Patch 5/5 is new patch which converts bindings to json-schema.
-
-Changed for v3:
-* Dropped reading assigned-clock-rates
-* Increased the maximum clock frequency to 24480000
-
-Changes for v2:
-* Instead of completely dropping clock-frequency property marked it as
-  deprecated.
-* Split up imx6qdl-wandboard.dtsi changes as separate patch.
-
-Lad Prabhakar (5):
-  media: dt-bindings: media: i2c: Deprecate usage of the clock-frequency
-    property
-  media: i2c: ov5645: Switch to assigned-clock-rates
-  media: i2c: ov5645: Increase tolerance of external clock frequency
-  ARM: dts: imx6qdl-wandboard: Switch to assigned-clock-rates for ov5645
-    node
-  media: dt-bindings: media: i2c: convert ov5645 bindings to json-schema
-
- .../devicetree/bindings/media/i2c/ov5645.txt  |  54 -------
- .../devicetree/bindings/media/i2c/ov5645.yaml | 140 ++++++++++++++++++
- arch/arm/boot/dts/imx6qdl-wandboard.dtsi      |   3 +-
- drivers/media/i2c/ov5645.c                    |  30 ++--
- 4 files changed, 156 insertions(+), 71 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+index 72ad992f77be..1c85c78ec58c 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
++++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+@@ -8,7 +8,6 @@ Required Properties:
+ - compatible: Value should be "ovti,ov5645".
+ - clocks: Reference to the xclk clock.
+ - clock-names: Should be "xclk".
+-- clock-frequency: Frequency of the xclk clock.
+ - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+   to the hardware pin PWDNB which is physically active low.
+ - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+@@ -37,7 +36,8 @@ Example:
+ 
+ 			clocks = <&clks 200>;
+ 			clock-names = "xclk";
+-			clock-frequency = <24000000>;
++			assigned-clocks = <&clks 200>;
++			assigned-clock-rates = <24000000>;
+ 
+ 			vdddo-supply = <&camera_dovdd_1v8>;
+ 			vdda-supply = <&camera_avdd_2v8>;
 -- 
 2.20.1
 
