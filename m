@@ -2,161 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C816418BF80
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 19:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5D018BF9A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 19:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbgCSSjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 14:39:41 -0400
-Received: from mail-pj1-f66.google.com ([209.85.216.66]:54372 "EHLO
-        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgCSSjl (ORCPT
+        id S1727282AbgCSSsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 14:48:23 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:7492 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbgCSSsW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 14:39:41 -0400
-Received: by mail-pj1-f66.google.com with SMTP id np9so1386264pjb.4
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 11:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=+v+RPEZwPZEDzUs9bNPfmq3HBKn8LXc51P54GEG+Zlc=;
-        b=lk/n1AoQSX4xtj1zLXWTfemx7Q2NXCfKhPy2xOqrpC7sxmNVJ4ZlZjoZqsM/CRlj3A
-         dlVIjkeT5OHdLJvapo3alw8svhsYnKi2B5FzmFumFwiclSDS5oha6nkf9VXK7kjo2IfE
-         dDkr6yqicI3BmkdZJfvZPxHUGE2zbWmiIlNXq+htKalubOljsBMLNLDfY/DM61UTY2Th
-         HIJhw8d74nRAqYwv6/R46oLYL7uGk2Xkw1gwTLbRnCYhUnceG7SXXwxw2QxPwPaemUA7
-         rqLv/s+GOKS4VrxlhX2hWsgVrCNuqinFL9AyA7vdtaPjQZPxt10loLVinHaoHBqck8Hh
-         Hm2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=+v+RPEZwPZEDzUs9bNPfmq3HBKn8LXc51P54GEG+Zlc=;
-        b=M4s5d8g7482rYJ9Z8OvZAvkGX5ThPweOjjwrpaQJ2cqY+KCE/nLm7KCZ83sXskfV3V
-         E4KmQf8D6I7gyCohtzDvH05Q/6oA4sQXCzdHYxmWPosB1z5Gh8bFFDNhlZfHeqYjWKJo
-         l7Ay9Cq5MEBWcwfGVAFLYTDyMgMSU0qlQRM8anoRVHoIMEHuZajorrtJfiktfWUW9SIO
-         kvZBIEGFgNx2y/SIbP35GmQaV4HHS5oqxILsI6FKdVl9KErnjWC4ALuRJTMuk4AvoLrU
-         gvDtBPWE/rnV7RLqCRGmcFSLlkZzdt7bOSOKQJgOx2IjevdGgO0VvpFoBFpWNfgm+XEe
-         UeWA==
-X-Gm-Message-State: ANhLgQ1Xyop2p5PU2Dfw768bk1BmOEQ5fCkjnfqUEa8ont+YLxeAjrQf
-        5VI9KPYJUc0VjRYIWnGFCloVHa46
-X-Google-Smtp-Source: ADFU+vuqmtJPB+C3MOFssWHlS+E3nbolzG/Jr7Ewt3/RnWCyjWO7tJlUUano4awG8LxtVw4Pr/m5Ng==
-X-Received: by 2002:a17:90b:14c2:: with SMTP id jz2mr5150855pjb.152.1584643179310;
-        Thu, 19 Mar 2020 11:39:39 -0700 (PDT)
-Received: from mappy.hsd1.ca.comcast.net (c-67-169-51-108.hsd1.ca.comcast.net. [67.169.51.108])
-        by smtp.gmail.com with ESMTPSA id 63sm3171419pfx.132.2020.03.19.11.39.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 11:39:38 -0700 (PDT)
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH] media: imx.rst: Add example media graph
-Date:   Thu, 19 Mar 2020 11:39:32 -0700
-Message-Id: <20200319183932.12403-1-slongerbeam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 19 Mar 2020 14:48:22 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e73be430001>; Thu, 19 Mar 2020 11:47:31 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 19 Mar 2020 11:48:21 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 19 Mar 2020 11:48:21 -0700
+Received: from [10.2.175.141] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 19 Mar
+ 2020 18:48:21 +0000
+Subject: Re: [RFC PATCH v3 4/6] media: tegra: Add Tegra210 Video input driver
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>,
+        <helen.koike@collabora.com>, <sboyd@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1581704608-31219-1-git-send-email-skomatineni@nvidia.com>
+ <1581704608-31219-5-git-send-email-skomatineni@nvidia.com>
+ <b301c247-537d-d78e-b057-a3225b10de7e@xs4all.nl>
+ <dc592f29-3109-d10c-7df7-ffdb2755ade0@xs4all.nl>
+ <b3933aa1-0717-183d-f00c-2d5fd6836a18@nvidia.com>
+ <12a36c2a-593c-e555-d44e-e2e6c4c1a562@nvidia.com>
+ <5f54c018-5670-8193-7c68-969f9bde92f6@xs4all.nl>
+ <19081d90-62cc-e6eb-0337-f108fb6ca9bc@nvidia.com>
+ <061eabf1-4b6f-83c0-6851-df8a193a84e8@nvidia.com>
+ <a5377068-3c70-1af4-6398-630d205e794b@nvidia.com>
+ <bc571308-93e5-e720-1cac-eb3effe1acdd@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <6be84f2c-12d7-3077-73af-55301c24627b@nvidia.com>
+Date:   Thu, 19 Mar 2020 11:49:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <bc571308-93e5-e720-1cac-eb3effe1acdd@xs4all.nl>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1584643651; bh=PxupzcuW7ZMqezNCkpHo/442CvyUUHdXbp9nBekxA8s=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=SVLsdmXr0WHfrf0hgtzDisiZAxfyuyHfFUYHMSE5yS6u/4Se6YF/kjPJI36XBgV7C
+         sWjIv8li/pz/2v5oEe1pZa+biz6i+bsXx0WxOnyjHYQTTScsU8sA/ziPPGwWCCymH2
+         Dq6yudjoWcmcAf7teraxlh0uM0xKVcl3bNqBSGVGBW6B+eGVoLC0tuf8n1m4UsXTZy
+         Ph9oQldvv2ByWsz1SME8kS2BEQ2gkhwAXEYEFbI2zfZO/zPoPt5qceKvJnnGv4JVMj
+         TXes3AVdpajZMP7mIv3694rgWIWkphycqj4EEJWK427vojqHgKmJyo8G94xygZpdFe
+         xOSGV/UEkPiAQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the media graph topology for the i.MX6Q SabreSD.
 
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
----
- Documentation/media/v4l-drivers/imx.rst       | 14 +++++
- .../media/v4l-drivers/imx6q-sabresd.dot       | 56 +++++++++++++++++++
- 2 files changed, 70 insertions(+)
- create mode 100644 Documentation/media/v4l-drivers/imx6q-sabresd.dot
+On 3/19/20 7:29 AM, Hans Verkuil wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 3/18/20 6:17 PM, Sowjanya Komatineni wrote:
+>> On 3/18/20 9:25 AM, Sowjanya Komatineni wrote:
+>>> On 3/18/20 9:14 AM, Sowjanya Komatineni wrote:
+>>>> On 3/18/20 4:48 AM, Hans Verkuil wrote:
+>>>>> External email: Use caution opening links or attachments
+>>>>>
+>>>>>
+>>>>> On 2/24/20 5:45 AM, Sowjanya Komatineni wrote:
+>>>>>> On 2/20/20 11:11 AM, Sowjanya Komatineni wrote:
+>>>>>>> On 2/20/20 5:33 AM, Hans Verkuil wrote:
+>>>>>>>> External email: Use caution opening links or attachments
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> (Replying to myself so I can explain this a bit more)
+>>>>>>>>
+>>>>>>>> On 2/20/20 1:44 PM, Hans Verkuil wrote:
+>>>>>>>>>> +
+>>>>>>>>>> +static int tegra_csi_tpg_channels_alloc(struct tegra_csi *csi)
+>>>>>>>>>> +{
+>>>>>>>>>> +    struct device_node *node =3D csi->dev->of_node;
+>>>>>>>>>> +    unsigned int port_num;
+>>>>>>>>>> +    int ret;
+>>>>>>>>>> +    struct tegra_csi_channel *item;
+>>>>>>>>>> +    unsigned int tpg_channels =3D csi->soc->csi_max_channels;
+>>>>>>>>>> +
+>>>>>>>>>> +    /* allocate CSI channel for each CSI x2 ports */
+>>>>>>>>>> +    for (port_num =3D 0; port_num < tpg_channels; port_num++) {
+>>>>>>>>>> +            item =3D devm_kzalloc(csi->dev, sizeof(*item),
+>>>>>>>>>> GFP_KERNEL);
+>>>>>>>>> Using devm_*alloc can be dangerous. If someone unbinds the
+>>>>>>>>> driver, then
+>>>>>>>>> all memory allocated with devm_ is immediately freed. But if an
+>>>>>>>>> application
+>>>>>>>>> still has a filehandle open, then when it closes it it might stil=
+l
+>>>>>>>>> reference
+>>>>>>>>> this already-freed memory.
+>>>>>>>>>
+>>>>>>>>> I recommend that you avoid using devm_*alloc for media drivers.
+>>>>>>>> A good test is to unbind & bind the driver:
+>>>>>>>>
+>>>>>>>> cd /sys/devices/platform/50000000.host1x/54080000.vi/driver
+>>>>>>>> echo -n 54080000.vi >unbind
+>>>>>>>> echo -n 54080000.vi >bind
+>>>>>>>>
+>>>>>>>> First just do this without the driver being used. That already
+>>>>>>>> gives me 'list_del corruption' kernel messages (list debugging
+>>>>>>>> is turned on in my kernel).
+>>>>>> Will fix in v4 to use kzalloc and also proper release v4l2 to make
+>>>>>> sure
+>>>>>> unbind/bind works properly.
+>>>>>>
+>>>>>> BTW, tegra vi and csi are registered as clients to host1x video
+>>>>>> driver.
+>>>>>>
+>>>>>> So, unbind and bind should be done with host1x video driver
+>>>>>> "tegra-video"
+>>>>>>
+>>>>>> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
+>>>>>> echo -n tegra-video > unbind
+>>>>>> echo -n tegra-video > bind
+>>>>> This still crashes with v4, at least if I am streaming with v4l2-ctl
+>>>>> --stream-mmap.
+>>>>> Is that known?
+>>>>>
+>>>>> It's not a big deal at this moment, just want to know if this will
+>>>>> be looked
+>>>>> at later.
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>>           Hans
+>>>> Weird, I tested streaming after unbind and bind as well and don't see
+>>>> crash. Did below steps and tried several times unbind/bind as well.
+>>>>
+>>>> ./v4l2-ctl --stream-mmap --stream-count=3D1 -d /dev/video3
+>>>> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
+>>>> echo -n tegra-video > unbind
+>>>> sleep 1
+>>>> echo -n tegra-video > bind
+>>>> cd /home/ubuntu
+>>>> ./v4l2-ctl --stream-mmap --stream-count=3D1 -d /dev/video3
+>>>>
+>>>> Can you post call trace when you saw crash?
+>>> Tried unbind when  node is open with v4l2-ctl --sleep 10 as well and
+>>> bind back.
+>>>
+>>> I don't see crash. Will confirm on doing unbind/bind with stream-mmap..=
+.
+>>>
+>> Able to repro when unbind/bind happens while stream-mmap.
+> That's indeed what I did. I don't want to try it again since I'm working =
+from home
+> and the Jetson is in the office. And once it crashes I need someone in th=
+e office
+> to press the reset button. I hope I can pick it up next week to keep it a=
+t home as
+> that will make testing a lot easier.
 
-diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
-index 1246573c1019..9ce4b7d122e5 100644
---- a/Documentation/media/v4l-drivers/imx.rst
-+++ b/Documentation/media/v4l-drivers/imx.rst
-@@ -102,6 +102,20 @@ Some of the features of this driver include:
-   problems with the ADV718x video decoders.
- 
- 
-+Topology
-+--------
-+  
-+The following shows the media topology for the i.MX6Q SabreSD:
-+
-+.. _imx6q_sabresd_topology_graph:
-+
-+.. kernel-figure:: imx6q-sabresd.dot
-+    :alt:   Diagram of the i.MX6Q SabreSD media pipeline topology
-+    :align: center
-+
-+    Media pipeline graph on i.MX6Q SabreSD
-+
-+
- Entities
- --------
- 
-diff --git a/Documentation/media/v4l-drivers/imx6q-sabresd.dot b/Documentation/media/v4l-drivers/imx6q-sabresd.dot
-new file mode 100644
-index 000000000000..7d56cafa1944
---- /dev/null
-+++ b/Documentation/media/v4l-drivers/imx6q-sabresd.dot
-@@ -0,0 +1,56 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0} | ipu1_csi0\n/dev/v4l-subdev0 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port2 -> n00000005 [style=dashed]
-+	n00000001:port1 -> n0000000f:port0 [style=dashed]
-+	n00000001:port1 -> n0000000b:port0 [style=dashed]
-+	n00000005 [label="ipu1_csi0 capture\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000b [label="{{<port0> 0 | <port1> 1} | ipu1_vdic\n/dev/v4l-subdev1 | {<port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000b:port2 -> n0000000f:port0 [style=dashed]
-+	n0000000f [label="{{<port0> 0} | ipu1_ic_prp\n/dev/v4l-subdev2 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000f:port1 -> n00000013:port0 [style=dashed]
-+	n0000000f:port2 -> n0000001c:port0 [style=dashed]
-+	n00000013 [label="{{<port0> 0} | ipu1_ic_prpenc\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000013:port1 -> n00000016 [style=dashed]
-+	n00000016 [label="ipu1_ic_prpenc capture\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-+	n0000001c [label="{{<port0> 0} | ipu1_ic_prpvf\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000001c:port1 -> n0000001f [style=dashed]
-+	n0000001f [label="ipu1_ic_prpvf capture\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-+	n0000002f [label="{{<port0> 0} | ipu1_csi1\n/dev/v4l-subdev5 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000002f:port2 -> n00000033 [style=dashed]
-+	n0000002f:port1 -> n0000000f:port0 [style=dashed]
-+	n0000002f:port1 -> n0000000b:port0 [style=dashed]
-+	n00000033 [label="ipu1_csi1 capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-+	n0000003d [label="{{<port0> 0} | ipu2_csi0\n/dev/v4l-subdev6 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000003d:port2 -> n00000041 [style=dashed]
-+	n0000003d:port1 -> n0000004b:port0 [style=dashed]
-+	n0000003d:port1 -> n00000047:port0 [style=dashed]
-+	n00000041 [label="ipu2_csi0 capture\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-+	n00000047 [label="{{<port0> 0 | <port1> 1} | ipu2_vdic\n/dev/v4l-subdev7 | {<port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000047:port2 -> n0000004b:port0 [style=dashed]
-+	n0000004b [label="{{<port0> 0} | ipu2_ic_prp\n/dev/v4l-subdev8 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000004b:port1 -> n0000004f:port0 [style=dashed]
-+	n0000004b:port2 -> n00000058:port0 [style=dashed]
-+	n0000004f [label="{{<port0> 0} | ipu2_ic_prpenc\n/dev/v4l-subdev9 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000004f:port1 -> n00000052 [style=dashed]
-+	n00000052 [label="ipu2_ic_prpenc capture\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-+	n00000058 [label="{{<port0> 0} | ipu2_ic_prpvf\n/dev/v4l-subdev10 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000058:port1 -> n0000005b [style=dashed]
-+	n0000005b [label="ipu2_ic_prpvf capture\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-+	n0000006b [label="{{<port0> 0} | ipu2_csi1\n/dev/v4l-subdev11 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000006b:port2 -> n0000006f [style=dashed]
-+	n0000006b:port1 -> n0000004b:port0 [style=dashed]
-+	n0000006b:port1 -> n00000047:port0 [style=dashed]
-+	n0000006f [label="ipu2_csi1 capture\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-+	n00000079 [label="{{<port0> 0} | imx6-mipi-csi2\n/dev/v4l-subdev12 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000079:port2 -> n0000002f:port0 [style=dashed]
-+	n00000079:port3 -> n0000003d:port0 [style=dashed]
-+	n00000079:port1 -> n0000007f:port0 [style=dashed]
-+	n00000079:port4 -> n00000083:port0 [style=dashed]
-+	n0000007f [label="{{<port0> 0 | <port1> 1} | ipu1_csi0_mux\n/dev/v4l-subdev13 | {<port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000007f:port2 -> n00000001:port0 [style=dashed]
-+	n00000083 [label="{{<port0> 0 | <port1> 1} | ipu2_csi1_mux\n/dev/v4l-subdev14 | {<port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000083:port2 -> n0000006b:port0 [style=dashed]
-+	n00000087 [label="{{} | ov5640 1-003c\n/dev/v4l-subdev15 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000087:port0 -> n00000079:port0 [style=dashed]
-+}
--- 
-2.17.1
+Hi Hans, no problem. I repro'd and fixed it. Will include the fix in v5.
 
+Tested fix to make sure of no crash with unbind/bind during sleep and=20
+also during streaming.
+
+during sleep, after specified time it shows below info but no crash.
+
+Test VIDIOC_QUERYCAP:
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 VIDIOC_QUERYCAP returned -1 (No such device)
+VIDIOC_QUERYCAP: No such device
+
+Thanks
+
+Sowjanya
+
+>
+>> Will look and have fix in v5.
+> Nice!
+>
+> Thank you,
+>
+>          Hans
+>
+>> Thanks Hans.
+>>
+>>>>>>>> Note that this first test is basically identical to a rmmod/modpro=
+be
+>>>>>>>> of the driver. But when I compiled the driver as a module it didn'=
+t
+>>>>>>>> create any video device nodes! Nor did I see any errors in the
+>>>>>>>> kernel
+>>>>>>>> log. I didn't pursue this, and perhaps I did something wrong, but
+>>>>>>>> it's
+>>>>>>>> worth taking a look at.
+>>>>>>>>
+>>>>>>>> The next step would be to have a video node open with:
+>>>>>>>>
+>>>>>>>> v4l2-ctl --sleep 10
+>>>>>>>>
+>>>>>>>> then while it is sleeping unbind the driver and see what happens
+>>>>>>>> when v4l2-ctl exits.
+>>>>>>>>
+>>>>>>>> Worst case is when you are streaming:
+>>>>>>>>
+>>>>>>>> v4l2-ctl --stream-mmap
+>>>>>>>>
+>>>>>>>> and then unbind.
+>>>>>>>>
+>>>>>>>> In general, the best way to get this to work correctly is:
+>>>>>>>>
+>>>>>>>> 1) don't use devm_*alloc
+>>>>>>>> 2) set the release callback of struct v4l2_device and do all freei=
+ng
+>>>>>>>> there.
+>>>>>>>> 3) in the platform remove() callback you call
+>>>>>>>> media_device_unregister()
+>>>>>>>>       and video_unregister_device().
+>>>>>>> Reg 3, in current patch, media_device_unregister is called in
+>>>>>>> host1x_video_remove
+>>>>>>> video_unregister_device happens during host1x_video_remove ->
+>>>>>>> host1x_device_exit -> tegra_vi_exit -> tegra_vi_channels_cleanup
+>>>>>>>
+>>>>>>>> It's worth getting this right in this early stage, rather than
+>>>>>>>> fixing it
+>>>>>>>> in the future.
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>>
+>>>>>>>>            Hans
