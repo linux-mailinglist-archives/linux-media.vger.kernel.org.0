@@ -2,127 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1414C18A92C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 00:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B6D18A9F4
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 01:47:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbgCRXWo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 19:22:44 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42586 "EHLO
+        id S1726840AbgCSArN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 20:47:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47778 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbgCRXWo (ORCPT
+        with ESMTP id S1726623AbgCSArN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 19:22:44 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97FC55F;
-        Thu, 19 Mar 2020 00:22:41 +0100 (CET)
+        Wed, 18 Mar 2020 20:47:13 -0400
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D69A15F;
+        Thu, 19 Mar 2020 01:47:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584573761;
-        bh=1QAaixOPnCwRw0nvHVWpdyGWaxWNnlcsHJ49Rt5k58U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oE6t/vXko3yx5XAp9J589i8nmC888tp0v4tRNpiAWr96RdlwpAmyPgSnKB6ylZ3Ed
-         KCyszDJ5PVG8nNuo9n3ParRafUZPjU/cytzUaXu726C2RtCCbBFPU/TxL+ESM52ohX
-         G6UZkWgj7t41IP17PvvPQAychsPHRSDWPCPYrEyI=
-Date:   Thu, 19 Mar 2020 01:22:36 +0200
+        s=mail; t=1584578831;
+        bh=BcMOyRrUsL1SHvIG76gQJHO0cS3lweqorql079gGhn4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qs0xWh0osMCVL80SpZtS45jEID1HwXReE8M8WsVsRaD+PR0OYAlapSQ/RAxtrFTJe
+         2taVDT8XhpPnk9CpuLeT6MqUnRVieP/Iyk/3x5smoAjQWIPsO9Ao9TM8mHZ84wV/b9
+         xITKVsSC6Szrclcpe48AcBQhtnu8jXVmxHNCK3tA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
+To:     linux-media@vger.kernel.org
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v3 3/4] media: i2c: ov5645: Set maximum leverage of
- external clock frequency to 24480000
-Message-ID: <20200318232236.GJ24538@pendragon.ideasonboard.com>
-References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1584133954-6953-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200313212345.GM4751@pendragon.ideasonboard.com>
- <OSBPR01MB359079EAA32E0DCBF63C6886AAFA0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <CA+V-a8t-rA-6AmZry63QeXN6pvGWVtcEEuHaDA1jsS-x+30oiQ@mail.gmail.com>
+        linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v6 0/5] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+Date:   Thu, 19 Mar 2020 02:46:56 +0200
+Message-Id: <20200319004701.30416-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8t-rA-6AmZry63QeXN6pvGWVtcEEuHaDA1jsS-x+30oiQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Hello,
 
-On Wed, Mar 18, 2020 at 10:41:57PM +0000, Lad, Prabhakar wrote:
-> On Fri, Mar 13, 2020 at 9:31 PM Prabhakar Mahadev Lad wrote:
-> > On 13 March 2020 21:24, Laurent Pinchart wrote:
-> >> On Fri, Mar 13, 2020 at 09:12:33PM +0000, Lad Prabhakar wrote:
-> >>> While testing on Renesas RZ/G2E platform, noticed the clock frequency
-> >>> to be 24242424 as a result the probe failed. However increasing the
-> >>> maximum leverage of external clock frequency to 24480000 fixes this
-> >>> issue. Since this difference is small enough and is insignificant set
-> >>> the same in the driver.
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>> ---
-> >>>  drivers/media/i2c/ov5645.c | 6 ++++--
-> >>>  1 file changed, 4 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> >>> index 4fbabf3..b49359b 100644
-> >>> --- a/drivers/media/i2c/ov5645.c
-> >>> +++ b/drivers/media/i2c/ov5645.c
-> >>> @@ -1107,8 +1107,10 @@ static int ov5645_probe(struct i2c_client *client)
-> >>>  }
-> >>>
-> >>>  xclk_freq = clk_get_rate(ov5645->xclk);
-> >>> -/* external clock must be 24MHz, allow 1% tolerance */
-> >>> -if (xclk_freq < 23760000 || xclk_freq > 24240000) {
-> >>> +/* external clock must be 24MHz, allow a minimum 1% and a
-> >> maximum of 2%
-> >>> + * tolerance
-> >>
-> >> So where do these numbers come from ? I understand that 2% is what you
-> >> need to make your clock fit in the range, but why -1%/+2% instead of -
-> >> 2%/+2% ? And why not 2.5 or 3% ? The sensor datasheet documents the
-> >> range of supported xvclk frequencies to be 6MHz to 54MHz. I understand
-> >> that PLL parameters depend on the clock frequency, but could they be
-> >> calculated instead of hardcoded, to avoid requiring an exact 24MHz input
-> >> frequency ?
-> >>
-> > To be honest I don't have the datasheet for ov5645, the flyer says 6-54Mhz but the
-> > logs/comment says 24Mhz.
-> >
-> Comparing to ov5640 datasheet [1] (which I am assuming might be
-> similar to ov5645),
+This is the sixth version of Niklas' eponymous series that aims to
+reduce the amount of boiler plate code in video device drivers who's
+inputs and/or outputs are controlled by the Media Controller instead of
+the V4L2 API. I have merged it with the VIDIOC_ENUM_FMT extension for
+MC-centric devices that was posted in [1], as the two are related.
 
-Let's assume this to be the case, I see no reason not to :-)
+Patch 1/5 adds the new video device capability flag V4L2_CAP_IO_MC and
+is unchanged compared to Niklas' v5. Patch 2/5 is the rebased version of
+the VIDIOC_ENUM_FMT extension that now depends on the V4L2_CAP_IO_MC
+flag.
 
-> this change should affect the driver.
+Patches 3/5, 4/5 and 5/5 converts the R-Car VIN, Intel IPU3 and VIMC
+drivers to use the new default handlers and capability flag and delete
+the now redundant boiler plate code. The IPU3 and VIMC drivers also
+implement the VIDIOC_ENUM_FMT extension. This should be added to the
+R-Car VIN driver in patch 3/5, that Niklas has nicely proposed to handle
+for me :-)
 
-How do you mean ?
+A separate patch to v4l-utils has been posted ([2]) to add a test for
+the V4L2_CAP_IO_MC feature to v4l2-compliance. Once the VIDIOC_ENUM_FMT
+extension will stabilize, I will do the same for it.
 
-> [1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
-> 
-> >>> + */
-> >>> +if (xclk_freq < 23760000 || xclk_freq > 24480000) {
-> >>>  dev_err(dev, "external clock frequency %u is not supported\n",
-> >>>  xclk_freq);
-> >>>  return -EINVAL;
+[1] https://lore.kernel.org/linux-media/20200313152406.13347-1-laurent.pinchart@ideasonboard.com/
+[2] https://lore.kernel.org/linux-media/20200318132722.3089925-1-niklas.soderlund+renesas@ragnatech.se/
+
+Laurent Pinchart (1):
+  media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices
+
+Niklas Söderlund (4):
+  v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+  rcar-vin: Make use of V4L2_CAP_IO_MC
+  staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
+  vimc: Make use of V4L2_CAP_IO_MC
+
+ .../media/uapi/v4l/vidioc-enum-fmt.rst        | 19 +++--
+ .../media/uapi/v4l/vidioc-querycap.rst        |  6 ++
+ .../media/videodev2.h.rst.exceptions          |  1 +
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   | 17 +----
+ drivers/media/platform/vimc/vimc-capture.c    | 10 ++-
+ drivers/media/v4l2-core/v4l2-dev.c            | 25 +++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 70 +++++++++++++++++--
+ drivers/staging/media/ipu3/ipu3-v4l2.c        | 64 ++---------------
+ include/uapi/linux/videodev2.h                |  5 +-
+ 9 files changed, 125 insertions(+), 92 deletions(-)
 
 -- 
 Regards,
 
 Laurent Pinchart
+
