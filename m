@@ -2,94 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A95BA18B0D2
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 11:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AC8318B18E
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 11:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbgCSKDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 06:03:50 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:28059 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726663AbgCSKDu (ORCPT
+        id S1727023AbgCSKeo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 06:34:44 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:34123 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725768AbgCSKeo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 06:03:50 -0400
-X-UUID: c72239bd6bf04386b49ecb403e10a707-20200319
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=NQc97c+bFcajvwqMNAIU5Im4/Ht7RtZjA7gAha/i0is=;
-        b=PzQZfb2qdoPZppyDhZw2qodlmIbRahFn37M/cZS+fJSV1IO6WkDJ4jmxpHehxJpkTEcT6QiJD5RQkKj4eH9n0wce63YBduPXBOLmEDsjFScNVeE/Cw/CRemAUyNOQBqiVnPKDlQUB3g1+/Y2WHa4i4irDIekYFfx2ZI8EYgb8V0=;
-X-UUID: c72239bd6bf04386b49ecb403e10a707-20200319
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1258962981; Thu, 19 Mar 2020 18:03:35 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Thu, 19 Mar
- 2020 18:03:25 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 19 Mar 2020 18:03:24 +0800
-Message-ID: <1584612215.5781.62.camel@mhfsdcap03>
-Subject: Re: [V3, 2/2] media: i2c: Add DW9768 VCM driver
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <bingbu.cao@intel.com>, <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        <sj.huang@mediatek.com>,
-        "Linux Media Mailing List" <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
-Date:   Thu, 19 Mar 2020 18:03:35 +0800
-In-Reply-To: <CAHp75Vf5km-YitoTUAFkr8LZVq2QMep1rC19ZpR-YRbeXgJOVQ@mail.gmail.com>
-References: <20200228155958.20657-1-dongchun.zhu@mediatek.com>
-         <20200228155958.20657-3-dongchun.zhu@mediatek.com>
-         <20200305120516.GQ5379@paasikivi.fi.intel.com>
-         <CAHp75Vf5km-YitoTUAFkr8LZVq2QMep1rC19ZpR-YRbeXgJOVQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Thu, 19 Mar 2020 06:34:44 -0400
+Received: by mail-wr1-f66.google.com with SMTP id z15so2185401wrl.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 03:34:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+HsihkrBV/Vt2ATCPXC+nbaVsuM4g0AQNEdfwqBce2w=;
+        b=i7ytroA6IFoY56neWMQRdmqsJF+XwgwP0QuMdAXb+b8Q67dIexlUI2biFAF1sa/cmN
+         mtAdTS8M7LC92pRr4HjTcfkPryjW+itGJiwyqYg/+YXjRWjOdB6hL2YEEiBPiWu+ao17
+         Z9mjkmydrTqqMr2ZiD3kd+3XxNA5AuDs+uPPk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+HsihkrBV/Vt2ATCPXC+nbaVsuM4g0AQNEdfwqBce2w=;
+        b=M7LzYwOPwWlTbfzgfcAuGS9V+BK8aiEesgi0VbgnujY+50CtT/Qo8fBqXmESV04TeK
+         TX/26/ZzvrD702KI4ufuwCYAOyTc7KOmrBk5K1u93p3HiOxj+0sDc89o42tcNF4JrKYd
+         IVp/4afbxGuO1JIOqn9lkmB/lWfGzPQVEcbfSoWDRxKYy//iadZTtPprzMGmRRYy3Hw3
+         uDRPZU0DYX45UQ7IJn1GD+rbtdRUjbuVP2Nmuj04nQwp7wWGKuNSJZPsK4iq2q1HiXuP
+         J/HceOOoa4cV44XPf3XnDHjb+yaqkwEG09WlGqA1VeMNvg6n55S9InAD6Gkj428BjMGW
+         ZX5Q==
+X-Gm-Message-State: ANhLgQ236VAwHaxG+B8xS66penTrksOF9TuzWEK5NmL7eScBgQDVipSY
+        ZNS+GEcwM35ysauhYvpxcna5Yw==
+X-Google-Smtp-Source: ADFU+vsMVI1BEcGQKKKo+aVa8NuKFNjePiIKK/z1ToX/o3DCKebfP+Mg2xY266tS9kf2MfW9je6Bjw==
+X-Received: by 2002:adf:e891:: with SMTP id d17mr3387478wrm.348.1584614082081;
+        Thu, 19 Mar 2020 03:34:42 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id h12sm1550335wml.12.2020.03.19.03.34.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2020 03:34:41 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 11:34:39 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Jason Ekstrand <jason@jlekstrand.net>
+Cc:     Jacob Lifshay <programmerjake@gmail.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        xorg-devel <xorg-devel@lists.x.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        "wayland-devel @ lists . freedesktop . org" 
+        <wayland-devel@lists.freedesktop.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>
+Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
+ ecosystem
+Message-ID: <20200319103439.GC2363188@phenom.ffwll.local>
+References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+ <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
+ <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
+ <20200316102034.GA30883@pendragon.ideasonboard.com>
+ <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
+ <20200316211502.GW4732@pendragon.ideasonboard.com>
+ <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
+ <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
+ <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
+ <CAOFGe94vX5CMyjs8jehXj3f7t9yu__=-N+etNz5eY7sqwqb-jA@mail.gmail.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: AAF735A607185470B296EBAC9A1830596A83AB95D1C73C00CFE0BC853D96BD352000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOFGe94vX5CMyjs8jehXj3f7t9yu__=-N+etNz5eY7sqwqb-jA@mail.gmail.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQW5keSwNCg0KT24gVHVlLCAyMDIwLTAzLTEwIGF0IDEyOjEwICswMjAwLCBBbmR5IFNoZXZj
-aGVua28gd3JvdGU6DQo+IE9uIFRodSwgTWFyIDUsIDIwMjAgYXQgMjowNyBQTSBTYWthcmkgQWls
-dXMNCj4gPHNha2FyaS5haWx1c0BsaW51eC5pbnRlbC5jb20+IHdyb3RlOg0KPiA+IE9uIEZyaSwg
-RmViIDI4LCAyMDIwIGF0IDExOjU5OjU4UE0gKzA4MDAsIERvbmdjaHVuIFpodSB3cm90ZToNCj4g
-PiA+IFRoaXMgcGF0Y2ggYWRkcyBhIFY0TDIgc3ViLWRldmljZSBkcml2ZXIgZm9yIERXOTc2OCBs
-ZW5zIHZvaWNlIGNvaWwsDQo+ID4gPiBhbmQgcHJvdmlkZXMgY29udHJvbCB0byBzZXQgdGhlIGRl
-c2lyZWQgZm9jdXMgdmlhIEkyQyBzZXJpYWwgaW50ZXJmYWNlLg0KPiANCj4gLi4uDQo+IA0KPiA+
-ID4gLS0tIGEvTUFJTlRBSU5FUlMNCj4gPiA+ICsrKyBiL01BSU5UQUlORVJTDQo+ID4gPiBAQCAt
-NTEzOSw2ICs1MTM5LDcgQEAgTTogICAgICBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRp
-YXRlay5jb20+DQo+ID4gPiAgTDogICBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj4gPiA+
-ICBUOiAgIGdpdCBnaXQ6Ly9saW51eHR2Lm9yZy9tZWRpYV90cmVlLmdpdA0KPiA+ID4gIFM6ICAg
-TWFpbnRhaW5lZA0KPiA+ID4gK0Y6ICAgZHJpdmVycy9tZWRpYS9pMmMvZHc5NzY4LmMNCj4gPiA+
-ICBGOiAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvZG9uZ3dv
-b24sZHc5NzY4LnlhbWwNCj4gDQo+IFRoaXMgaGFzIG9yZGVyaW5nIGlzc3Vlcy4NCj4gUnVuIHBh
-cnNlLW1haW50YWluZXJzLnBsIHRvIGZpeC4NCj4gDQoNClBhcmRvbiwgaG93IHRvIHJ1biBwYXJz
-ZS1tYWludGFpbmVycy5wbD8NCkxvY2FsbHkgSSByYW4gdGhpcyBzY3JpcHQsIGl0IG9jY3VycyBz
-b21lIHN5bnRheCBhcyBiZWxvdy4NCiQuL3NjcmlwdHMvcGFyc2UtbWFpbnRhaW5lcnMucGwNCnN5
-bnRheCBlcnJvciBhdCAuL3NjcmlwdHMvcGFyc2UtbWFpbnRhaW5lcnMucGwgbGluZSAxMDgsIG5l
-YXINCiIkaGFzaHJlZnsiDQpHbG9iYWwgc3ltYm9sICIkcGF0dGVybiIgcmVxdWlyZXMgZXhwbGlj
-aXQgcGFja2FnZSBuYW1lDQphdCAuL3NjcmlwdHMvcGFyc2UtbWFpbnRhaW5lcnMucGwgbGluZSAx
-MDkuDQpzeW50YXggZXJyb3IgYXQgLi9zY3JpcHRzL3BhcnNlLW1haW50YWluZXJzLnBsIGxpbmUg
-MTEyLCBuZWFyICJ9Ig0KR2xvYmFsIHN5bWJvbCAiJGZpbGUiIHJlcXVpcmVzIGV4cGxpY2l0IHBh
-Y2thZ2UgbmFtZQ0KYXQgLi9zY3JpcHRzL3BhcnNlLW1haW50YWluZXJzLnBsIGxpbmUgMTEzLg0K
-Q2FuJ3QgdXNlIGdsb2JhbCBAXyBpbiAibXkiIGF0IC4vc2NyaXB0cy9wYXJzZS1tYWludGFpbmVy
-cy5wbCBsaW5lIDExNywNCm5lYXIgIihAXyINCnN5bnRheCBlcnJvciBhdCAuL3NjcmlwdHMvcGFy
-c2UtbWFpbnRhaW5lcnMucGwgbGluZSAxNTIsIG5lYXIgIn0iDQpFeGVjdXRpb24gb2YgLi9zY3Jp
-cHRzL3BhcnNlLW1haW50YWluZXJzLnBsIGFib3J0ZWQgZHVlIHRvIGNvbXBpbGF0aW9uDQplcnJv
-cnMuDQoNCg==
+On Tue, Mar 17, 2020 at 12:18:47PM -0500, Jason Ekstrand wrote:
+> On Tue, Mar 17, 2020 at 12:13 PM Jacob Lifshay <programmerjake@gmail.com> wrote:
+> >
+> > One related issue with explicit sync using sync_file is that combined
+> > CPUs/GPUs (the CPU cores *are* the GPU cores) that do all the
+> > rendering in userspace (like llvmpipe but for Vulkan and with extra
+> > instructions for GPU tasks) but need to synchronize with other
+> > drivers/processes is that there should be some way to create an
+> > explicit fence/semaphore from userspace and later signal it. This
+> > seems to conflict with the requirement for a sync_file to complete in
+> > finite time, since the user process could be stopped or killed.
+> 
+> Yeah... That's going to be a problem.  The only way I could see that
+> working is if you created a sync_file that had a timeout associated
+> with it.  However, then you run into the issue where you may have
+> corruption if stuff doesn't complete on time.  Then again, you're not
+> really dealing with an external unit and so the latency cost of going
+> across the window system protocol probably isn't massively different
+> from the latency cost of triggering the sync_file.  Maybe the answer
+> there is to just do everything in-order and not worry about
+> synchronization?
 
+vgem does that already (fences with timeout). The corruption issue is also
+not new, if your shaders take forever real gpus will nick your rendering
+with a quick reset. Iirc someone (from cros google team maybe) was even
+looking into making llvmpipe run on top of vgem as a real dri/drm mesa
+driver.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
