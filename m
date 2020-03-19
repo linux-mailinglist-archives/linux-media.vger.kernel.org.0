@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA65C18AAC4
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 03:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8272C18AAC6
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 03:42:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbgCSCk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 22:40:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58014 "EHLO
+        id S1726697AbgCSCmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 22:42:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58034 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCSCk0 (ORCPT
+        with ESMTP id S1726596AbgCSCmB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 22:40:26 -0400
+        Wed, 18 Mar 2020 22:42:01 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F392D5F;
-        Thu, 19 Mar 2020 03:40:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84AF35F;
+        Thu, 19 Mar 2020 03:41:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584585625;
-        bh=+xx6tGusxpIlN365QsnOwyDPEVrhuSCTZc2KAoX6uGA=;
+        s=mail; t=1584585719;
+        bh=i9fDJ/bw55VHprROCKltFiRDFfOsbhWlzsavGdr68tg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vnXJ6uDo0MzsiT1hZxdgVIrkBRuAD6KoMV/oKG9a+NW15XG/u0jgZGkYTccOYTe3a
-         LAU8anYbfiklFNNaHKKFz0ojxTJOstC2xRjIL3jnMWrKHBnoJH+MTtuVnTE4yYxqQq
-         spS8KxJzTTXQ4yC6xP46VCb0pZajSWyQ8bsKCd6Q=
-Date:   Thu, 19 Mar 2020 04:40:19 +0200
+        b=gmtw9aMYGM+fsNIBlUNeWOT1YraW+t4Nw6w+elMpPODSG6EShGksiL3s9cU/oTlOx
+         r57W0ddFIAXgIv78OvP+Am/2KwqCUX3JB0FmAIAaCuZ4mYobHJvEIz2q4J2uUwQHdC
+         VtqD7Ya5TPVr16avoKM0ZtdmUUHymjd90F+V1pfo=
+Date:   Thu, 19 Mar 2020 04:41:54 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC 2/5] media-device: Add a graph_complete callback to struct
- media_device_ops
-Message-ID: <20200319024019.GE27375@pendragon.ideasonboard.com>
+Subject: Re: [RFC 4/5] rcar-vin: Report the completeness of the media graph
+Message-ID: <20200319024154.GF27375@pendragon.ideasonboard.com>
 References: <20200318213051.3200981-1-niklas.soderlund+renesas@ragnatech.se>
- <20200318213051.3200981-3-niklas.soderlund+renesas@ragnatech.se>
+ <20200318213051.3200981-5-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200318213051.3200981-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20200318213051.3200981-5-niklas.soderlund+renesas@ragnatech.se>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -48,44 +47,85 @@ Hi Niklas,
 
 Thank you for the patch.
 
-On Wed, Mar 18, 2020 at 10:30:48PM +0100, Niklas Söderlund wrote:
-> Add a new graph_complete operation to struct media_device_ops. The
-> callback is optional to implement. If it's implemented it shall return
-> the status about the media graphs completes. If all entities that the
-> media device could contain is registered in the graph it shall return
-> true, otherwise false.
-
-I'd rather do it the other way around, implement a function that drivers
-can call to signal completion. It will store the flag internally in
-media_device, and will also be able to send an event to notify
-userspace (once we get MC events).
-
+On Wed, Mar 18, 2020 at 10:30:50PM +0100, Niklas Söderlund wrote:
+> Implement the graph_complete callback and report if the media graph is
+> complete or not.
+> 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  include/media/media-device.h | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/media/platform/rcar-vin/rcar-core.c | 13 +++++++++++++
+>  drivers/media/platform/rcar-vin/rcar-vin.h  |  4 ++++
+>  2 files changed, 17 insertions(+)
 > 
-> diff --git a/include/media/media-device.h b/include/media/media-device.h
-> index fa089543072052cf..f637ad2eee38f456 100644
-> --- a/include/media/media-device.h
-> +++ b/include/media/media-device.h
-> @@ -61,6 +61,8 @@ struct media_entity_notify {
->   *	       request (and thus the buffer) must be available to the driver.
->   *	       And once a buffer is queued, then the driver can complete
->   *	       or delete objects from the request before req_queue exits.
-> + * @graph_complete: Check if the media device graph is complete and all entries
-> + *		    have been added to the graph.
->   */
->  struct media_device_ops {
->  	int (*link_notify)(struct media_link *link, u32 flags,
-> @@ -69,6 +71,7 @@ struct media_device_ops {
->  	void (*req_free)(struct media_request *req);
->  	int (*req_validate)(struct media_request *req);
->  	void (*req_queue)(struct media_request *req);
-> +	bool (*graph_complete)(struct media_device *mdev);
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 7440c8965d27e64f..21ce3de8168c3224 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -221,8 +221,16 @@ static int rvin_group_link_notify(struct media_link *link, u32 flags,
+>  	return ret;
+>  }
+>  
+> +static bool rvin_group_graph_complete(struct media_device *mdev)
+> +{
+> +	struct rvin_group *group = container_of(mdev, struct rvin_group, mdev);
+> +
+> +	return group->complete;
+> +}
+> +
+>  static const struct media_device_ops rvin_media_ops = {
+>  	.link_notify = rvin_group_link_notify,
+> +	.graph_complete = rvin_group_graph_complete,
 >  };
 >  
->  /**
+>  /* -----------------------------------------------------------------------------
+> @@ -735,6 +743,9 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+>  			break;
+>  		}
+>  	}
+> +
+> +	vin->group->complete = true;
+
+Going from incomplete to complete is fine...
+
+> +
+>  	mutex_unlock(&vin->group->lock);
+>  
+>  	return ret;
+> @@ -761,6 +772,8 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+>  		break;
+>  	}
+>  
+> +	vin->group->complete = false;
+> +
+
+... but the other way around is more problematic. We need to define the
+exact semantics for userspace, and how it should handle this event.
+
+>  	mutex_unlock(&vin->group->lock);
+>  }
+>  
+> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> index c19d077ce1cb4f4b..ff04adbb969b07de 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> @@ -263,6 +263,8 @@ struct rvin_dev {
+>   * @vin:		VIN instances which are part of the group
+>   * @csi:		array of pairs of fwnode and subdev pointers
+>   *			to all CSI-2 subdevices.
+> + * @complete:		True if all devices of the group are in the media graph,
+> + *			false otherwise.
+>   */
+>  struct rvin_group {
+>  	struct kref refcount;
+> @@ -278,6 +280,8 @@ struct rvin_group {
+>  		struct fwnode_handle *fwnode;
+>  		struct v4l2_subdev *subdev;
+>  	} csi[RVIN_CSI_MAX];
+> +
+> +	bool complete;
+>  };
+>  
+>  int rvin_dma_register(struct rvin_dev *vin, int irq);
 
 -- 
 Regards,
