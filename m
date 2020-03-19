@@ -2,149 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A37E18B1A7
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 11:42:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2598018B1B6
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 11:51:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726802AbgCSKmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 06:42:35 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51485 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725767AbgCSKmf (ORCPT
+        id S1726767AbgCSKve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 06:51:34 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:40680 "EHLO
+        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbgCSKvd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 06:42:35 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c187so1563553wme.1
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 03:42:32 -0700 (PDT)
+        Thu, 19 Mar 2020 06:51:33 -0400
+Received: by mail-wr1-f44.google.com with SMTP id f3so2236978wrw.7
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 03:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wrCnl50923ooR99IVXGrzyLo3gD95lf5EcrmhIw2T/U=;
-        b=k7ptxr7r6tVxQml/fxPdoD1r7WkFfy38t+nRdEvgOq/Jg5JXpoQy3TApI+9X/PqHBs
-         34r5HdTz/NTJweI9gDvV9uHZDNkg7puLNgVPol6Q3cqraSnyv1LeBiOuUlhmnMD2yV1w
-         PtEiPxEwXA3YqExVwlthYRYcdo3nGMW95pX18=
+        bh=/RXi4E6N2BrHZ7nZPIDPshoq9XlJz4tXbLpi7SJ8rvk=;
+        b=IrUTJak5anMDl/TSTYtpbGyjX4cb7wbtHeGdMjFolrQW9YexSz8k7vzEZWaX/wqjvI
+         khTEPPcieXiAUCVnMFn1T6l9EWkt7TvY4115BOHxoH6tefXDxZG+6eOUInXUN/N2+S6E
+         2pvbfpU2ujUz1BD2achNsFhbTamXb+kQrrUVI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=wrCnl50923ooR99IVXGrzyLo3gD95lf5EcrmhIw2T/U=;
-        b=QnLDMlO+6Kg6paAb5hGmYFlgX5wW2av/KDwoFH+ttKKXkfVkISoTnWVCVSvGEU5AUr
-         tvgZQpTuDC5zHwDHpVXLb5bTKEiGMzATjMCLc8V7sCnB/nc1ULHznRMU92MaZDKGPLPg
-         ehWM7oWjH95E+EL3oYQpagyK0xi0VlDZU9VQKIckvrP56v5V3XYSe+sTYYljD+Rtt5vH
-         6XHmo3SeJiNrVDX2a3g+I+AIvdKFfPABClCdD4asakid2Kom8Ej2TPwPn0bmbHOS5CRs
-         7ww2k9WbvGMTBDgV1JCJ7wHyXNBuMcSZDxDJ+Oq4AZICF0zKDO4IAz7XuLU8iGanne4R
-         bHKg==
-X-Gm-Message-State: ANhLgQ2S/9yNKEnAJtdSsW3cRz0GXYsfZdTnfyptJfyUV/2u4Uu8aMug
-        0lBrOAUH8dycNtZE1jzL+aFicw==
-X-Google-Smtp-Source: ADFU+vtb/6CSbOxpnVNWstrUW9Bx3WyrMXNbpvZsxC0e4GMAIQvuf/kkzGA428rRu1Qchn20TXkMNQ==
-X-Received: by 2002:a1c:6385:: with SMTP id x127mr2916492wmb.141.1584614551970;
-        Thu, 19 Mar 2020 03:42:31 -0700 (PDT)
+        bh=/RXi4E6N2BrHZ7nZPIDPshoq9XlJz4tXbLpi7SJ8rvk=;
+        b=mujOPEadaFEPpkoDwaM6dOPrsAjiMhgTVvq3JNAUO97PlHlZLeG32GOtGHuT9qNWNq
+         gnd+I+MJlCqdK5z8K3opU/MSf8Y/MZbQTqVsEXEHoUtXA28Fr0rNYgbJnSkPmOZZEiOl
+         1S9csJphKxqr+tXdE3ljGeEiqelINvfMx1tT4qWn/pPsBRMYjeUjyGV4dZpURBc7BjUS
+         /3ehLjZBJTrnyDx2c8THD9b46IYjzArWUFjcPxysxrS/WDZhRh5EmLPxbHlBY+IxQ9BV
+         QIKKV8YDS4C58GvKbykEuFIs0q5xxUxRKQR4PafulbtEUG85lEMPVBj8UIytP3sozKgX
+         h+vA==
+X-Gm-Message-State: ANhLgQ0pvYvXfw5NWGUldctnk4GdZaS520YFNbm62fNKsL6YkfnifA91
+        jnGjOxjGaeyWytuIMRJpxmNziA==
+X-Google-Smtp-Source: ADFU+vvUA2QcRpbnGKfFXs6t1PT7JukCMEhlBYJupowdhcJ7r9ZnCkaEdec3wJdJloK5j9a2Av8QAQ==
+X-Received: by 2002:adf:e9c4:: with SMTP id l4mr3483827wrn.421.1584615091968;
+        Thu, 19 Mar 2020 03:51:31 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id i1sm2730943wrq.89.2020.03.19.03.42.30
+        by smtp.gmail.com with ESMTPSA id v10sm2555208wml.44.2020.03.19.03.51.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 03:42:30 -0700 (PDT)
-Date:   Thu, 19 Mar 2020 11:42:28 +0100
+        Thu, 19 Mar 2020 03:51:31 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 11:51:29 +0100
 From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jason Ekstrand <jason@jlekstrand.net>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
+To:     Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
+Cc:     Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
         xorg-devel <xorg-devel@lists.x.org>,
         Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org,
-        Dave Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        Daniel Stone <daniel@fooishbar.org>
+        <dri-devel@lists.freedesktop.org>,
+        "wayland-devel @ lists . freedesktop . org" 
+        <wayland-devel@lists.freedesktop.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+        linux-media@vger.kernel.org
 Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-Message-ID: <20200319104228.GE2363188@phenom.ffwll.local>
+Message-ID: <20200319105129.GF2363188@phenom.ffwll.local>
 References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
- <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
- <20200316102034.GA30883@pendragon.ideasonboard.com>
- <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
- <20200316211502.GW4732@pendragon.ideasonboard.com>
- <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
- <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
+ <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
+ <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+ <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
+ <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
+ <CAAxE2A5D2HaqjS52jymMbwOUEsaXG_cMeeA9_esqaC54-52Kgw@mail.gmail.com>
+ <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
+In-Reply-To: <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
 X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 11:27:28AM -0500, Jason Ekstrand wrote:
-> On Tue, Mar 17, 2020 at 10:33 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> >
-> > Le lundi 16 mars 2020 � 23:15 +0200, Laurent Pinchart a �crit :
-> > > Hi Jason,
-> > >
-> > > On Mon, Mar 16, 2020 at 10:06:07AM -0500, Jason Ekstrand wrote:
-> > > > On Mon, Mar 16, 2020 at 5:20 AM Laurent Pinchart wrote:
-> > > > > Another issue is that V4L2 doesn't offer any guarantee on job ordering.
-> > > > > When you queue multiple buffers for camera capture for instance, you
-> > > > > don't know until capture complete in which buffer the frame has been
-> > > > > captured.
-> > > >
-> > > > Is this a Kernel UAPI issue?  Surely the kernel driver knows at the
-> > > > start of frame capture which buffer it's getting written into.  I
-> > > > would think that the kernel APIs could be adjusted (if we find good
-> > > > reason to do so!) such that they return earlier and return a (buffer,
-> > > > fence) pair.  Am I missing something fundamental about video here?
-> > >
-> > > For cameras I believe we could do that, yes. I was pointing out the
-> > > issues caused by the current API. For video decoders I'll let Nicolas
-> > > answer the question, he's way more knowledgeable that I am on that
-> > > topic.
-> >
-> > Right now, there is simply no uAPI for supporting asynchronous errors
-> > reporting when fences are invovled. That is true for both camera's and
-> > CODEC. It's likely what all the attempt was missing, I don't know
-> > enough myself to suggest something.
-> >
-> > Now, why Stateless video decoders are special is another subject. In
-> > CODECs, the decoding and the presentation order may differ. For
-> > Stateless kind of CODEC, a bitstream is passed to the HW. We don't know
-> > if this bitstream is fully valid, since the it is being parsed and
-> > validated by the firmware. It's also firmware job to decide which
-> > buffer should be presented first.
-> >
-> > In most firmware interface, that information is communicated back all
-> > at once when the frame is ready to be presented (which may be quite
-> > some time after it was decoded). So indeed, a fence model is not really
-> > easy to add, unless the firmware was designed with that model in mind.
+On Tue, Mar 17, 2020 at 11:01:57AM +0100, Michel Dänzer wrote:
+> On 2020-03-16 7:33 p.m., Marek Olšák wrote:
+> > On Mon, Mar 16, 2020 at 5:57 AM Michel Dänzer <michel@daenzer.net> wrote:
+> >> On 2020-03-16 4:50 a.m., Marek Olšák wrote:
+> >>> The synchronization works because the Mesa driver waits for idle (drains
+> >>> the GFX pipeline) at the end of command buffers and there is only 1
+> >>> graphics queue, so everything is ordered.
+> >>>
+> >>> The GFX pipeline runs asynchronously to the command buffer, meaning the
+> >>> command buffer only starts draws and doesn't wait for completion. If the
+> >>> Mesa driver didn't wait at the end of the command buffer, the command
+> >>> buffer would finish and a different process could start execution of its
+> >>> own command buffer while shaders of the previous process are still
+> >> running.
+> >>>
+> >>> If the Mesa driver submits a command buffer internally (because it's
+> >> full),
+> >>> it doesn't wait, so the GFX pipeline doesn't notice that a command buffer
+> >>> ended and a new one started.
+> >>>
+> >>> The waiting at the end of command buffers happens only when the flush is
+> >>> external (Swap buffers, glFlush).
+> >>>
+> >>> It's a performance problem, because the GFX queue is blocked until the
+> >> GFX
+> >>> pipeline is drained at the end of every frame at least.
+> >>>
+> >>> So explicit fences for SwapBuffers would help.
+> >>
+> >> Not sure what difference it would make, since the same thing needs to be
+> >> done for explicit fences as well, doesn't it?
+> > 
+> > No. Explicit fences don't require userspace to wait for idle in the command
+> > buffer. Fences are signalled when the last draw is complete and caches are
+> > flushed. Before that happens, any command buffer that is not dependent on
+> > the fence can start execution. There is never a need for the GPU to be idle
+> > if there is enough independent work to do.
 > 
-> Just to be clear, I think we should do whatever makes sense here and
-> not try to slam sync_file in when it doesn't make sense just because
-> we have it.  The more I read on this thread, the less out-fences from
-> video decode sound like they make sense unless we have a really solid
-> plan for async error reporting.  It's possible, depending on how many
-> processes are involved in the pipeline, that async error reporting
-> could help reduce latency a bit if it let the kernel report the error
-> directly to the last process in the chain.  However, I'm not convinced
-> the potential for userspace programmer error is worth it..  That said,
-> I'm happy to leave that up to the actual video experts. (I just do 3D)
+> I don't think explicit fences in the context of this discussion imply
+> using that different fence signalling mechanism though. My understanding
+> is that the API proposed by Jason allows implicit fences to be used as
+> explicit ones and vice versa, so presumably they have to use the same
+> signalling mechanism.
+> 
+> 
+> Anyway, maybe the different fence signalling mechanism you describe
+> could be used by the amdgpu kernel driver in general, then Mesa could
+> drop the waits for idle and get the benefits with implicit sync as well?
 
-dma_fence has an error state which you can set when things went south. The
-fence still completes (to guarantee forward progress).
+Yeah, this is entirely about the programming model visible to userspace.
+There shouldn't be any impact on the driver's choice of a top vs. bottom
+of the gpu pipeline used for synchronization, that's entirely up to what
+you're hw/driver/scheduler can pull off.
 
-Currently that error code isn't really propagated anywhere (well i915 iirc
-does something like that since it tracks the depedencies internally in the
-scheduler). Definitely not at the dma_fence level, since we don't track
-the dependency graph there at all. We might want to add that, would at
-least be possible.
+Doing a full gfx pipeline flush for shared buffers, when your hw can do
+be, sounds like an issue to me that's not related to this here at all. It
+might be intertwined with amdgpu's special interpretation of dma_resv
+fences though, no idea. We might need to revamp all that. But for a
+userspace client that does nothing fancy (no multiple render buffer
+targets in one bo, or vk style "I write to everything all the time,
+perhaps" stuff) there should be 0 perf difference between implicit sync
+through dma_resv and explicit sync through sync_file/syncobj/dma_fence
+directly.
 
-If we track the cascading dma_fence error state in the kernel I do think
-this could work. I'm not sure whether it's actually a good/useful idea
-still.
+If there is I'd consider that a bit a driver bug.
 -Daniel
 -- 
 Daniel Vetter
