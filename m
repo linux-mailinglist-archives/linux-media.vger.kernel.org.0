@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E98C818AD99
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 08:51:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A4218AD9A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 08:51:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbgCSHvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 03:51:11 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:33334 "EHLO
+        id S1726988AbgCSHvM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 03:51:12 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:33340 "EHLO
         lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbgCSHvK (ORCPT
+        with ESMTP id S1726462AbgCSHvM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 03:51:10 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02J7p8Ru114236;
-        Thu, 19 Mar 2020 02:51:08 -0500
+        Thu, 19 Mar 2020 03:51:12 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02J7p9B8114243;
+        Thu, 19 Mar 2020 02:51:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1584604268;
-        bh=jdWXGCtwSJlVPHlp6NdT3+malgYS6cXlA0SFsXGKnXc=;
+        s=ti-com-17Q1; t=1584604269;
+        bh=p97UI6EDj7hgYrW1qXw0+zf9DM7cjNU4Hx4vrT+fQf4=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=ldsKJl9PNtg70IorETpnqdEKZLfetOLJtfYrDLNg2LPjkT7QQmwTq88F8/UmYfdGv
-         PiHHEF9Nkpw4PkEShl0hZJI2ak+Rhm9OyVM+Bbqd6BNAx0vETiYfe1JcPelJdwkPHZ
-         OqZ3r1nLNgOeIWfJQo9qXvDWJIa5ZirXJS9CppgU=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02J7p7Ks130385
+        b=IuULNwr8Mecx8ah915ZrO3LzNWSxY8oOt8RiqRDHztud6id4IlQNDWEqgRJOWVkij
+         Yn6ArrSv8LEOMCs08po2hdRQttyYk+tN0CA6H2yg0ofJEtGXKWK4nGo13NVtXdXXbx
+         z1kDi6k3PzGhv7qwD9EQrQR1S5mOSHZ8b7WGHUzQ=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02J7p9FL120356
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 19 Mar 2020 02:51:08 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 19 Mar 2020 02:51:09 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
- Mar 2020 02:51:07 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ Mar 2020 02:51:09 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 19 Mar 2020 02:51:07 -0500
+ Frontend Transport; Thu, 19 Mar 2020 02:51:09 -0500
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02J7oXqv047151;
-        Thu, 19 Mar 2020 02:51:06 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02J7oXqw047151;
+        Thu, 19 Mar 2020 02:51:07 -0500
 From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
 To:     <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
 CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 18/19] media: ti-vpe: cal: improve wait for stop-state
-Date:   Thu, 19 Mar 2020 09:50:22 +0200
-Message-ID: <20200319075023.22151-19-tomi.valkeinen@ti.com>
+Subject: [PATCH v2 19/19] media: ti-vpe: cal: fix stop state timeout
+Date:   Thu, 19 Mar 2020 09:50:23 +0200
+Message-ID: <20200319075023.22151-20-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200319075023.22151-1-tomi.valkeinen@ti.com>
 References: <20200319075023.22151-1-tomi.valkeinen@ti.com>
@@ -57,49 +57,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sometimes there is a timeout when waiting for the Stop-State.  Testing
-shows that sometimes we need to wait more than what the current code
-does. It is not clear how long this wait can be, but it is based on how
-quickly the sensor provides a valid clock, and how quickly CAL syncs to
-it.
+The stop-state timeout needs to be over 100us as per CSI spec. With the
+CAL fclk of 266 MHZ on DRA76, with the current value the driver uses,
+the timeout is 24us. Too small timeout will cause failure to enable the
+streaming.
 
-Change the code to make it more obvious how long we'll wait, and set a
-wider range for usleep_range. Increase the timeout to 750ms.
+Also, the fclk can be different on other SoCs, as is the case with AM65x
+where the fclk is 250 MHz.
+
+This patch fixes the timeout by calculating it correctly based on the
+fclk rate.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Tested-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 0dc7892881e7..0f90078ee8c2 100644
+index 0f90078ee8c2..d935c628597b 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -846,19 +846,16 @@ static void csi2_wait_complexio_reset(struct cal_ctx *ctx)
+@@ -6,6 +6,7 @@
+  * Benoit Parrot, <bparrot@ti.com>
+  */
  
- static void csi2_wait_stop_state(struct cal_ctx *ctx)
++#include <linux/clk.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/ioctl.h>
+@@ -340,6 +341,7 @@ static const struct cal_data am654_cal_data = {
+  * all instances.
+  */
+ struct cal_dev {
++	struct clk		*fclk;
+ 	int			irq;
+ 	void __iomem		*base;
+ 	struct resource		*res;
+@@ -767,6 +769,7 @@ static void csi2_phy_config(struct cal_ctx *ctx);
+ static void csi2_phy_init(struct cal_ctx *ctx)
  {
--	int i;
-+	unsigned long timeout;
+ 	u32 val;
++	u32 sscounter;
  
--	for (i = 0; i < 10; i++) {
-+	timeout = jiffies + msecs_to_jiffies(750);
-+	while (time_before(jiffies, timeout)) {
- 		if (reg_read_field(ctx->dev,
- 				   CAL_CSI2_TIMING(ctx->csi2_port),
- 				   CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK) == 0)
- 			break;
--		usleep_range(1000, 1100);
-+		usleep_range(500, 5000);
- 	}
--	ctx_dbg(3, ctx, "CAL_CSI2_TIMING(%d) = 0x%08x Stop State Reached %s\n",
--		ctx->csi2_port,
--		reg_read(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port)),
--		(i >= 10) ? "(timeout)" : "");
+ 	/* Steps
+ 	 *  1. Configure D-PHY mode and enable required lanes
+@@ -803,10 +806,20 @@ static void csi2_phy_init(struct cal_ctx *ctx)
+ 	csi2_phy_config(ctx);
  
- 	if (reg_read_field(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port),
- 			   CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK) != 0)
+ 	/* 3.B. Program Stop States */
++	/*
++	 * The stop-state-counter is based on fclk cycles, and we always use
++	 * the x16 and x4 settings, so stop-state-timeout =
++	 * fclk-cycle * 16 * 4 * counter.
++	 *
++	 * Stop-state-timeout must be more than 100us as per CSI2 spec, so we
++	 * calculate a timeout that's 100us (rounding up).
++	 */
++	sscounter = DIV_ROUND_UP(clk_get_rate(ctx->dev->fclk), 10000 *  16 * 4);
++
+ 	val = reg_read(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port));
+ 	set_field(&val, 1, CAL_CSI2_TIMING_STOP_STATE_X16_IO1_MASK);
+-	set_field(&val, 0, CAL_CSI2_TIMING_STOP_STATE_X4_IO1_MASK);
+-	set_field(&val, 407, CAL_CSI2_TIMING_STOP_STATE_COUNTER_IO1_MASK);
++	set_field(&val, 1, CAL_CSI2_TIMING_STOP_STATE_X4_IO1_MASK);
++	set_field(&val, sscounter, CAL_CSI2_TIMING_STOP_STATE_COUNTER_IO1_MASK);
+ 	reg_write(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port), val);
+ 	ctx_dbg(3, ctx, "CAL_CSI2_TIMING(%d) = 0x%08x Stop States\n",
+ 		ctx->csi2_port,
+@@ -2257,6 +2270,12 @@ static int cal_probe(struct platform_device *pdev)
+ 	/* save pdev pointer */
+ 	dev->pdev = pdev;
+ 
++	dev->fclk = devm_clk_get(&pdev->dev, "fck");
++	if (IS_ERR(dev->fclk)) {
++		dev_err(&pdev->dev, "cannot get CAL fclk\n");
++		return PTR_ERR(dev->fclk);
++	}
++
+ 	syscon_camerrx = syscon_regmap_lookup_by_phandle(parent,
+ 							 "ti,camerrx-control");
+ 	ret = of_property_read_u32_index(parent, "ti,camerrx-control", 1,
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
