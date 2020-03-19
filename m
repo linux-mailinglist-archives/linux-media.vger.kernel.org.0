@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF40218BE7F
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 18:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 527FE18BE88
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 18:43:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgCSRmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 13:42:55 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:46013 "EHLO
+        id S1728189AbgCSRnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 13:43:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:48861 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728707AbgCSRmy (ORCPT
+        with ESMTP id S1727253AbgCSRnW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 13:42:54 -0400
+        Thu, 19 Mar 2020 13:43:22 -0400
 Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MirfG-1jklAo0rRs-00ewy3; Thu, 19 Mar 2020 18:42:38 +0100
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1N7iOw-1jIkSq3XAQ-014kda; Thu, 19 Mar 2020 18:43:02 +0100
 Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id C8F7D65021B;
-        Thu, 19 Mar 2020 17:42:37 +0000 (UTC)
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id 904AA65021B;
+        Thu, 19 Mar 2020 17:43:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at cetitec.com
 Received: from mail.cetitecgmbh.com ([127.0.0.1])
         by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id rCQ0aGqQS6Qb; Thu, 19 Mar 2020 18:42:37 +0100 (CET)
+        with ESMTP id l9p27oZph5Ql; Thu, 19 Mar 2020 18:42:59 +0100 (CET)
 Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 5154864FCB4;
-        Thu, 19 Mar 2020 18:42:37 +0100 (CET)
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id E237F64FD58;
+        Thu, 19 Mar 2020 18:42:59 +0100 (CET)
 Received: from pflmari.corp.cetitec.com (10.8.5.52) by
  PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 19 Mar 2020 18:42:37 +0100
+ id 15.0.1497.2; Thu, 19 Mar 2020 18:42:59 +0100
 Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
-        id 97D288050C; Thu, 19 Mar 2020 18:42:36 +0100 (CET)
-Date:   Thu, 19 Mar 2020 18:42:36 +0100
+        id 2690A8051E; Thu, 19 Mar 2020 18:42:59 +0100 (CET)
+Date:   Thu, 19 Mar 2020 18:42:59 +0100
 From:   Alex Riesen <alexander.riesen@cetitec.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -43,9 +43,8 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <devel@driverdev.osuosl.org>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH v2 07/10] dt-bindings: adv748x: add information about serial
- audio interface (I2S/TDM)
-Message-ID: <c9ff553f804f178a247dca356306948e971432fb.1584639664.git.alexander.riesen@cetitec.com>
+Subject: [PATCH v2 09/10] media: adv748x: add support for log_status ioctl
+Message-ID: <a33c4d1e72f2fac5bfca16db475dab4f10a9bc43.1584639664.git.alexander.riesen@cetitec.com>
 Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -68,91 +67,287 @@ X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
  PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
 X-EsetResult: clean, is OK
 X-EsetId: 37303A290D7F536A6D7762
-X-Provags-ID: V03:K1:SGVgOTMTxP8wV9Ot+30RlSw7fUNFAugQDlIO/7tEF1SXcAopXJE
- wktuyPMUjQKDIsNRJGZNbl6u1wyyQ6BjIv0YhH+3oroTIs9ax+cyQHbtdWCcUpzX+vkYKEP
- SWaIOdGCG4oO6nHj0+jPhoadhOCYDoRJNpXTJPasbuOjyg57TCR3Jh54ej2kfYruGCM9Rgt
- 63WKAm3xGBK1z1Jj62HyQ==
+X-Provags-ID: V03:K1:9xW2UIvnsUBkndS3gGEhPCoMDVCekXMlpXfKI2If4rgYE7YM2Fo
+ q04Dq/XF3wyd1KYnCEnbP79Fc8JTHtkbiLign1PtIA+SwmkitMlHLWdBR0chgX+LfSbuNX0
+ kMfPRkcOn1djoTXayt5nKVNKLAutJIlCjr8cRfNcA3k8Wn1je5W2VnJKgHNor5735DrKSCh
+ DlXQ8dyLil2LanV7CMQbA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iJv2zxx1E/c=:vlETZON/2o5onOAbEdzExv
- IJHdpFjICIu6p/oBKMlmAzxWH4+PWlA/AmYYTT2uRqNHd52CZ+aS2E5t9Y1eKL/0mNLjf6OSV
- gJXHU9/Eai55eeH2y+MAPlmtgBYo1/JdpnKgaBa80rSBc6p42w68FpkPRdjzBGFrCa+J9a220
- xmLqdRlAoh3kXqV8CpY27gRupnPnN9CEobkScjEdJeWH9K6DHzke9X1JteIyB3deIIEvO/lkx
- LJm1CWEM+3Gg8EkRECT7snx0GwqqS5FYHa6ga84ATmyK80Jpeiam8P8n+wjior6soUd2GUAmL
- cFsQR93PkWATrAS6LqtsQmwotyPPi5kEAIrfS+h4xJNKjwIC8vnIbuV5/RcXRAXDD3rB4kQOw
- sN8mKLrNB3EhhXeg6A6oBUB6aT1j/xzfYQY/86DfXvnyV+d7DAyi5iaqm5Q5SeoZqMkVBENIv
- GbXGZOs6G35+PDj9psmVMavJTOoofj2nh1xwHScNtEYpNrWSb6BlGyTTXMkUKtfitztqXcYWo
- Ao/UMAHD1GWMnLRWv6PZqlRgCydqAacRM2Lovqai9YlxKSvrr70yBSbExrk3YfPoSBO5hMyvJ
- XpEYz+hVGji4dJnswSTNb4XAYgT57nTrFSNdcAbbD77rUk3bOYG7cdNa2MaoNaDTscToSp7ls
- fHLg6mxG5dUPA6PFZsFhQhlWTpey96h+J+ChIAc8GH7+KzjGG7Nq/RBIxTgZeVpX2uwtcz3tz
- xxtqZQth+y2Y53PFA0BmTgST4y9lJfnIVAUuyd8Ln5qQuPGseMs3EzYM3UdWQId0qreTK3KFE
- 3C9tjLuk4kcVdwidMuw4ug1bQTXGAsRd73kMcyZhgL3dqMOhoG4jM2jQZLye433UNs4n1vx
+X-UI-Out-Filterresults: notjunk:1;V03:K0:boT6EyTm9iY=:J6EaZZFfzIel5ks3F5zVsC
+ MenwVk7KZE7vhxPKEIdRwAtnom9u4/wg3tTOkG4z/ehk1yGvxTJgFyMTdbGrJ/2CgDW0PU8Ah
+ V5OBiF5gZ7kQCEMjTUNAPwTmFdj0phzAScB1AvreRJcJ2TUqY5P0nOJ24pi3j1eBRquIkEtNl
+ MT8jSLD2RFtGiEVogK+0qycgp16KONnBvW63mTvdc64qeIGR3uMM+nzb70N722OXx/uWzrUff
+ J/31Vg4prgSUzGi80fdwJQL3t5Ig2UIO2o0aSqqyTSXDz9NFF8SasQm94NnmyBDHq3AAxF8lK
+ sfd+/hxq4LiKoKFqZsDb3V7LUROFz7WtRgpHWhwmjhsQRAHBcBus84kmkgJ+Gj84kZyB1jGdO
+ ga5YkJtMahfY3FnbPI0fKJEFxmmwoTh7BSGJL5X9TPXVq5AjgMG5oOCOgwERqprrYEGziQ55j
+ yd5R3LincwfUXlzcN/LvMlh8F4EiMoGCYx/lk0qT7apkwuuBG1bIp7pTavlDiYn75m04BbPMA
+ BCIrxMiqsY8IoPjbnSyqP+cfx9MToXEc6o4g8sryIdTfYXj6ZSHiQY4ykgibED470iUWRMLYK
+ bxr9ahTKOrdCrgmtuX/NiDWrXXQcuRGkV+bs1JG0t3b+JSuJHNpWTQN1g08QlXfrrE6EabjWp
+ JeiJIDRbfazKqqLwfNmexZ8MrNeNcZbEFyZsijmosF7lBOviKAZhlEui3y2H6VVdp9R9vLuMY
+ epD17ZeYEbd3yqhR/1nInNBJz93xfPbABf7gFAX5Za6GncRPEdxRzRfFxKqbkVRFwGq60WxML
+ I/TX+lIQrCWI5EWGBA6xy9mmPpIIsyrTBxWG77v5a5uEjnPENIMUi+U3d09ycmZiuD4BQIS
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As the driver has some support for the audio interface of the device,
-the bindings file should mention it.
+The logged information provides insights about cable connection and the
+state of the HDMI decoder. It is very useful when debugging hardware
+problems in environments without easy access to the connectors.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This change adds a device-specific wrapper for register block read,
+because some of the devices I2C-accessible registers (for instance,
+cs_data for stereo channel information or tmds_params for TMDS channel
+information) located in adjacent cells. According to manufacturers
+information, these registers can be read using block transactions.
+
 Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
 ---
- .../devicetree/bindings/media/i2c/adv748x.txt    | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/media/i2c/adv748x/adv748x-core.c |  15 ++
+ drivers/media/i2c/adv748x/adv748x-hdmi.c | 179 +++++++++++++++++++++++
+ drivers/media/i2c/adv748x/adv748x.h      |   2 +
+ 3 files changed, 196 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.txt b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
-index 4f91686e54a6..7d6db052c294 100644
---- a/Documentation/devicetree/bindings/media/i2c/adv748x.txt
-+++ b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
-@@ -2,7 +2,9 @@
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 2c0bd58038e6..fbc502ad12b5 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -95,6 +95,21 @@ static const struct adv748x_register_map adv748x_default_addresses[] = {
+ 	[ADV748X_PAGE_TXA] = { "txa", 0x4a },
+ };
  
- The ADV7481 and ADV7482 are multi format video decoders with an integrated
- HDMI receiver. They can output CSI-2 on two independent outputs TXA and TXB
--from three input sources HDMI, analog and TTL.
-+from three input sources HDMI, analog and TTL. There is also support for an
-+I2S compatible interface connected to the audio processor of the HDMI decoder.
-+The interface has TDM capability (8 slots, 32 bits, left or right justified).
- 
- Required Properties:
- 
-@@ -16,6 +18,8 @@ Required Properties:
-     slave device on the I2C bus. The main address is mandatory, others are
-     optional and remain at default values if not specified.
- 
-+  - #clock-cells: must be <0> if the I2S port is used
++int adv748x_read_block(struct adv748x_state *state, u8 client_page, u8 reg,
++		       void *val, size_t reg_count)
++{
++	struct i2c_client *client = state->i2c_clients[client_page];
++	int err;
 +
- Optional Properties:
- 
-   - interrupt-names: Should specify the interrupts as "intrq1", "intrq2" and/or
-@@ -47,6 +51,7 @@ are numbered as follows.
- 	  TTL		sink		9
- 	  TXA		source		10
- 	  TXB		source		11
-+	  I2S		source		12
- 
- The digital output port nodes, when present, shall contain at least one
- endpoint. Each of those endpoints shall contain the data-lanes property as
-@@ -72,6 +77,7 @@ Example:
- 
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-+		#clock-cells = <0>;
- 
- 		interrupt-parent = <&gpio6>;
- 		interrupt-names = "intrq1", "intrq2";
-@@ -113,4 +119,12 @@ Example:
- 				remote-endpoint = <&csi20_in>;
- 			};
- 		};
++	err = regmap_bulk_read(state->regmap[client_page], reg, val, reg_count);
++	if (err) {
++		adv_err(state, "error reading %02x, %02x-%02lx: %d\n",
++				client->addr, reg, reg + reg_count - 1, err);
++		return err;
++	}
++	return 0;
++}
 +
-+		port@c {
-+			reg = <12>;
+ static int adv748x_read_check(struct adv748x_state *state,
+ 			      int client_page, u8 reg)
+ {
+diff --git a/drivers/media/i2c/adv748x/adv748x-hdmi.c b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+index 0dffcdf79ff2..7655d817ceb6 100644
+--- a/drivers/media/i2c/adv748x/adv748x-hdmi.c
++++ b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+@@ -5,6 +5,7 @@
+  * Copyright (C) 2017 Renesas Electronics Corp.
+  */
+ 
++#include <linux/version.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ 
+@@ -601,11 +602,189 @@ static const struct v4l2_subdev_pad_ops adv748x_pad_ops_hdmi = {
+ 	.enum_dv_timings = adv748x_hdmi_enum_dv_timings,
+ };
+ 
++struct tmds_params {
++	u32 cts, n;
++	u16 tmdsfreq, tmdsfreq_frac;
++};
 +
-+			adv7482_i2s: endpoint {
-+				remote-endpoint = <&i2s_in>;
-+			};
-+		};
- 	};
++static inline const char *cs_data_smpl_freq_str(u8 cs_data_3)
++{
++	switch (cs_data_3 & 0xf) {
++	case 0:
++		return "44.1";
++	case 2:
++		return "48";
++	case 3:
++		return "32";
++	case 8:
++		return "88.2";
++	case 10:
++		return "96";
++	case 12:
++		return "176";
++	case 14:
++		return "192";
++	}
++	return "reserved";
++}
++
++static inline const char *cs_data_clk_lvl_str(u8 cs_data_3)
++{
++	switch (cs_data_3 & 0x30) {
++	case 0:
++		return "Level II";
++	case 1:
++		return "Level I";
++	case 2:
++		return "Level III, variable pitch shifted";
++	}
++	return "reserved";
++}
++
++static inline const char *i2s_out_mode_str(u8 i2s_mode)
++{
++	switch (i2s_mode & ADV748X_HDMI_I2SOUTMODE_MASK) {
++	case 0 << ADV748X_HDMI_I2SOUTMODE_SHIFT:
++		return "I2S";
++	case 1 << ADV748X_HDMI_I2SOUTMODE_SHIFT:
++		return "right";
++	case 2 << ADV748X_HDMI_I2SOUTMODE_SHIFT:
++		return "left";
++	case 3 << ADV748X_HDMI_I2SOUTMODE_SHIFT:
++		return "spdif";
++	}
++	return "";
++}
++
++static int adv748x_hdmi_log_status(struct v4l2_subdev *sd)
++{
++	struct adv748x_hdmi *hdmi = adv748x_sd_to_hdmi(sd);
++	struct adv748x_state *state = adv748x_hdmi_to_state(hdmi);
++	u8 rv, i2s_tdm_mode_enable;
++	u8 cts_n[5];
++	u8 cs_data[0x3a - 0x36 + 1];
++	u8 tmdsfreq[2]; /* both tmdsfreq and tmdsfreq_frac */
++	struct tmds_params tmds_params;
++
++	/* Audio control and configuration */
++	rv = io_read(state, 0x71);
++	pr_info("cable_det_a_raw         %s\n",
++		rv & BIT(6) ? "detected" : "no cable");
++	pr_info("tmds_clk_a_raw          %s\n",
++		rv & BIT(3) ? "detected" : "no TMDS clock");
++	pr_info("tmdspll_lck_a_raw       %s\n",
++		rv & BIT(7) ? "locked to incoming clock" : "not locked");
++	pr_info("hdmi_encrpt_a_raw       %s\n",
++		rv & BIT(5) ? "current frame encrypted" : "not encrypted");
++	rv = hdmi_read(state, 0x04);
++	pr_info("audio_pll_locked        0x%02lx\n", rv & BIT(0));
++	pr_info("tmds_pll_locked         0x%02lx\n", rv & BIT(1));
++	rv = io_read(state, 0x6c);
++	pr_info("gamut_mdata_raw         %s\n",
++		rv & BIT(0) ? "received" : "-");
++	pr_info("audio_c_pckt_raw        %s\n",
++		rv & BIT(1) ? "ACR received" : "-");
++	pr_info("gen_ctl_pckt_raw        %s\n",
++		rv & BIT(2) ? "received" : "-");
++	pr_info("hdmi_mode_raw           %s\n",
++		rv & BIT(3) ? "HDMI/MHL" : "-");
++	pr_info("audio_ch_md_raw         %s\n",
++		rv & BIT(4) ? "multichannel" : "-");
++	pr_info("av_mute_raw             %s\n",
++		rv & BIT(5) ? "received" : "-");
++	pr_info("internal_mute_raw       %s\n",
++		rv & BIT(6) ? "asserted" : "-");
++	pr_info("cs_data_valid_raw       %s\n",
++		rv & BIT(7) ? "valid" : "-");
++	rv = hdmi_read(state, 0x6d);
++	pr_info("i2s_tdm_mode_enable     %s\n",
++		rv & BIT(7) ? "TDM (multichannel)" : "I2S (stereo)");
++	i2s_tdm_mode_enable = rv & BIT(7);
++
++	/* i2s_tdm_mode_enable must be unset */
++	if (adv748x_read_block(state, ADV748X_PAGE_HDMI, 0x36,
++			       cs_data, ARRAY_SIZE(cs_data)) == 0) {
++		pr_info("... cs_data %s\n",
++			cs_data[0] & BIT(0) ? "pro" : "consumer");
++		pr_info("... cs_data %s\n",
++			cs_data[0] & BIT(1) ? "other" : "L-PCM");
++		pr_info("... cs_data %s copyright\n",
++			cs_data[0] & BIT(2) ? "no" : "asserted");
++		pr_info("... cs_data %s (%lu)\n",
++			cs_data[0] & GENMASK(5, 3) ?
++			"50/15" : "no pre-emphasis",
++			(cs_data[0] & GENMASK(5, 3)) >> 4);
++		pr_info("... cs_data channels status mode %lu\n",
++			(cs_data[0] & GENMASK(7, 6)) >> 7);
++		pr_info("... cs_data category code 0x%02x\n", cs_data[1]);
++		pr_info("... cs_data source number %u\n", cs_data[2] & 0xf);
++		pr_info("... cs_data channel number %u\n",
++			(cs_data[2] & 0xf0) >> 4);
++		pr_info("... cs_data sampling frequency %s (%u)\n",
++			cs_data_smpl_freq_str(cs_data[3]), cs_data[3] & 0xf);
++		pr_info("... cs_data clock accuracy %s\n",
++			cs_data_clk_lvl_str(cs_data[3]));
++	}
++	rv = hdmi_read(state, ADV748X_HDMI_I2S);
++	pr_info("i2soutmode              %s\n", i2s_out_mode_str(rv));
++	pr_info("i2sbitwidth             %u\n", rv & 0x1fu);
++	rv = hdmi_read(state, 0x05);
++	pr_info("hdmi_mode               %s\n", rv & BIT(7) ? "HDMI" : "DVI");
++	rv = hdmi_read(state, 0x07);
++	pr_info("audio_channel_mode      %s\n",
++		rv & BIT(6) ? "multichannel" : "stereo or compressed");
++	rv = hdmi_read(state, 0x0f);
++	/* The bits 6 and 7 must be 1 if TDM mode */
++	pr_info("man_audio_dl_bypass     0x%02lx\n", rv & BIT(7));
++	pr_info("audio_delay_line_bypass 0x%02lx\n", rv & BIT(6));
++	rv = hdmi_read(state, 0x6e);
++	pr_info("mux_spdif_to_i2s_enable %s\n", rv & BIT(3) ? "SPDIF" : "I2S");
++	rv = dpll_read(state, ADV748X_DPLL_MCLK_FS);
++	pr_info("mclk_fs_n               %lu\n",
++		((rv & ADV748X_DPLL_MCLK_FS_N_MASK) + 1) * 128);
++
++	/* i2s_tdm_mode_enable must be set */
++	memset(&tmds_params, 0, sizeof(tmds_params));
++	if (adv748x_read_block(state, ADV748X_PAGE_HDMI, 0x5b, cts_n, 5) == 0) {
++		tmds_params.cts  = cts_n[0] << 12;
++		tmds_params.cts |= cts_n[1] << 4;
++		tmds_params.cts |= cts_n[2] >> 4;
++		tmds_params.n  = (cts_n[2] & 0xf) << 16;
++		tmds_params.n |= cts_n[3] << 8;
++		tmds_params.n |= cts_n[4];
++		pr_info("... TDM: ACR cts  %u\n", tmds_params.cts);
++		pr_info("... TDM: ACR n    %u\n", tmds_params.n);
++	}
++	if (adv748x_read_block(state, ADV748X_PAGE_HDMI, 0x51,
++			       tmdsfreq, 2) == 0) {
++		tmds_params.tmdsfreq  = tmdsfreq[0] << 1;
++		tmds_params.tmdsfreq |= tmdsfreq[1] >> 7;
++		tmds_params.tmdsfreq_frac = tmdsfreq[1] & 0x7f;
++		pr_info("... TDM: tmdsfreq       %d MHz\n",
++			tmds_params.tmdsfreq);
++		pr_info("... TDM: tmdsfreq_frac  %d 1/128\n",
++			tmds_params.tmdsfreq_frac);
++	}
++	if (i2s_tdm_mode_enable)
++		pr_info("... TDM: sampling frequency %u Hz\n",
++			tmds_params.cts ?
++			(tmds_params.tmdsfreq * tmds_params.n +
++			 tmds_params.tmdsfreq_frac * tmds_params.n / 128) *
++			1000 / (128 * tmds_params.cts / 1000) :
++			UINT_MAX);
++	return 0;
++}
++
++static const struct v4l2_subdev_core_ops adv748x_core_ops_hdmi = {
++	.log_status = adv748x_hdmi_log_status,
++};
++
+ /* -----------------------------------------------------------------------------
+  * v4l2_subdev_ops
+  */
+ 
+ static const struct v4l2_subdev_ops adv748x_ops_hdmi = {
++	.core = &adv748x_core_ops_hdmi,
+ 	.video = &adv748x_video_ops_hdmi,
+ 	.pad = &adv748x_pad_ops_hdmi,
+ };
+diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+index af70632926b5..3ce7ae7f2ec5 100644
+--- a/drivers/media/i2c/adv748x/adv748x.h
++++ b/drivers/media/i2c/adv748x/adv748x.h
+@@ -432,6 +432,8 @@ struct adv748x_state {
+ /* Register handling */
+ 
+ int adv748x_read(struct adv748x_state *state, u8 addr, u8 reg);
++int adv748x_read_block(struct adv748x_state *state, u8 page, u8 reg,
++		       void *val, size_t reg_count);
+ int adv748x_write(struct adv748x_state *state, u8 page, u8 reg, u8 value);
+ int adv748x_write_block(struct adv748x_state *state, int client_page,
+ 			unsigned int init_reg, const void *val,
 -- 
 2.25.1.25.g9ecbe7eb18
 
