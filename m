@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2257618AA97
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 03:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A193218AA98
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 03:18:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbgCSCSh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Mar 2020 22:18:37 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39898 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCSCSg (ORCPT
+        id S1726877AbgCSCSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Mar 2020 22:18:41 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:36334 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726596AbgCSCSl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Mar 2020 22:18:36 -0400
-Received: by mail-pl1-f196.google.com with SMTP id m1so348274pll.6
-        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2020 19:18:34 -0700 (PDT)
+        Wed, 18 Mar 2020 22:18:41 -0400
+Received: by mail-pg1-f195.google.com with SMTP id z72so348856pgz.3
+        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2020 19:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6bBz5V/WtkwwqhyJmsiCB2xh086GQ/HDrZAoGycCDqY=;
-        b=FyBQtPsq8bx5OCsSO0dGRPlcZN4yQ4dilDnc0G/EjPeWrM+7Z9NNLmLnKUTTpEgpOW
-         fotqM6GXOjifswMfDoV4MXousDAWQo2iZFgpf7jXcx8OEy8uSQ1pzPHzCqDztZHpAR1a
-         ZJkUESD3QWhQ6MTVbTdcaYamhKJnqPErNPakQ=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1C8jLhXuPfBb7h90RHOdI3Yy2sESPpspTtCUaNxuRxE=;
+        b=ab9aZhwV8Ief16HW0MRvphHu2sqdH+8TGCXu2J/DZM2sTVAcH82y5neSsPEP+v4s/g
+         kKOhY1f8E1gjgR7A75Y5DkfTT00HG+m9S9p44G5AO7UyphRi0nUwZXnpRcJ4/qBxtqM/
+         gXiqeeT6GPF6I/JHU0G2kMo9Xp3OFyMnF8MB0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6bBz5V/WtkwwqhyJmsiCB2xh086GQ/HDrZAoGycCDqY=;
-        b=fRjo8NZ1zhAhPy+zdQ3pyBB1YZu/TSuxCQg7ByKMVt5fFaVwY8q3RDaLB3oYhjF+U8
-         uq4G9uEnW+Y1Un7D5xK/FWQ89WP80s2PtdSTo7n0ad4UdUNquMlZybTbdnFb8SQqMQ5e
-         2Tt19XUZSsFkc8/uhHWOftIh45ER6QpruxXI5WSiufYJv8r2CZ5MZg0g522H0j+2W+WH
-         fmaNWXROeS2Py6s6JhD6cirEudYQlC3JacMLu7xFeghqSN23pngvtaCb1qrqYrMLXqFP
-         Sffy8Wjl0AmdmLo6NY5Q8IY1Tad3YHKHlK0VM+KJVZGk9ea7/YFqQKOj1IH5SnR6Rrxu
-         y9MA==
-X-Gm-Message-State: ANhLgQ3Zm9a8mJpwFSlHv7j4+MmPndiREs7GrQFQ7UkkjMfw+ilEOEJY
-        oMgIznTsPL9Qa+0c93kfImkU3eeCRXg=
-X-Google-Smtp-Source: ADFU+vu185Om/KiLaJ5I6R9LggSBMYF/vdJXMV0dPyaYDQ0gYr8yH5gFBEPHWK46VajxmqHXBz9gGA==
-X-Received: by 2002:a17:90a:730b:: with SMTP id m11mr1305446pjk.195.1584584314128;
-        Wed, 18 Mar 2020 19:18:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1C8jLhXuPfBb7h90RHOdI3Yy2sESPpspTtCUaNxuRxE=;
+        b=JofWp+1UHyW4a9EI/U7WSYQUXO3oh5qLgAYK0O5ah6YUPIooCwua0P7VjEPbzLprpP
+         28CoM2hSMtqxIoCDB8p8wJlxGKrEqtKZLHkztOWxg6BiUguASgRIlemIYvFnaEw3yG02
+         ytkhQIpls3uPXqTs65Q5BCzDEkyWU9/ZrgnDVFNMznXfCTo3wfbARSed8SWT/7XWnvgA
+         42z0Ucsk7PNNt307SKDyDEB9iU5WkzvXc10siwv0grT4zzAyoo+kE1rhqFNvVT/xVfBP
+         10yvjCcRImSKBpspjIZE8ZkzDftaJw1ZVokAUHvHll9eOErp1vxp+bBk4i2lFs2CN+5X
+         SVtg==
+X-Gm-Message-State: ANhLgQ2hqvjNjyMqwVhJ7XcEWLNCvovcfXclAqDAwEeqRD+cW/yqefqm
+        E/qAWcWeon3+N1ogk97mge8uQw==
+X-Google-Smtp-Source: ADFU+vsA3Do93d+fKRKpI4+KnCX1CyGpYNhUlFZFW824PU6sMlngpOx8GyHpGZj6qH3Whemhlg7jTw==
+X-Received: by 2002:aa7:870f:: with SMTP id b15mr1443454pfo.190.1584584318862;
+        Wed, 18 Mar 2020 19:18:38 -0700 (PDT)
 Received: from localhost ([2401:fa00:8f:203:30f2:7a9c:387e:6c7])
-        by smtp.gmail.com with ESMTPSA id d11sm305928pfo.39.2020.03.18.19.18.30
+        by smtp.gmail.com with ESMTPSA id m18sm327988pgd.39.2020.03.18.19.18.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2020 19:18:33 -0700 (PDT)
+        Wed, 18 Mar 2020 19:18:38 -0700 (PDT)
 From:   David Stevens <stevensd@chromium.org>
 To:     virtio-comment@lists.oasis-open.org
 Cc:     Gerd Hoffmann <kraxel@redhat.com>,
@@ -58,10 +58,12 @@ Cc:     Gerd Hoffmann <kraxel@redhat.com>,
         qemu-devel <qemu-devel@nongnu.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         David Stevens <stevensd@chromium.org>
-Subject: [PATCH v4 0/2] Cross-device resource sharing
-Date:   Thu, 19 Mar 2020 11:18:21 +0900
-Message-Id: <20200319021823.57219-1-stevensd@chromium.org>
+Subject: [PATCH v4 1/2] content: define what an exported object is
+Date:   Thu, 19 Mar 2020 11:18:22 +0900
+Message-Id: <20200319021823.57219-2-stevensd@chromium.org>
 X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
+In-Reply-To: <20200319021823.57219-1-stevensd@chromium.org>
+References: <20200319021823.57219-1-stevensd@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -69,32 +71,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Define a mechanism for sharing objects between different virtio
+devices.
 
-This is the next iteration of patches for adding support for sharing
-resources between different virtio devices. The corresponding Linux
-implementation is [1].
-
-In addition to these patches, the most recent virtio-video patchset
-includes a patch for importing objects into that device [2].
-
-[1] https://markmail.org/thread/bfy6uk4q4v4cus7h
-[2] https://markmail.org/message/wxdne5re7aaugbjg
-
-Changes v3 -> v4:
- - Add virtio-gpu feature bit
- - Move virtio-gpu assign uuid command into 2d command group
- - Rename virtio-gpu uuid response
-
-David Stevens (2):
-  content: define what an exported object is
-  virtio-gpu: add the ability to export resources
-
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
  content.tex      | 12 ++++++++++++
  introduction.tex |  4 ++++
- virtio-gpu.tex   | 29 +++++++++++++++++++++++++++++
- 3 files changed, 45 insertions(+)
+ 2 files changed, 16 insertions(+)
 
+diff --git a/content.tex b/content.tex
+index b1ea9b9..c8a367b 100644
+--- a/content.tex
++++ b/content.tex
+@@ -373,6 +373,18 @@ \section{Driver Notifications} \label{sec:Virtqueues / Driver notifications}
+ 
+ \input{shared-mem.tex}
+ 
++\section{Exporting Objects}\label{sec:Basic Facilities of a Virtio Device / Exporting Objects}
++
++When an object created by one virtio device needs to be
++shared with a seperate virtio device, the first device can
++export the object by generating a UUID which can then
++be passed to the second device to identify the object.
++
++What constitutes an object, how to export objects, and
++how to import objects are defined by the individual device
++types. It is RECOMMENDED that devices generate version 4
++UUIDs as specified by \hyperref[intro:rfc4122]{[RFC4122]}.
++
+ \chapter{General Initialization And Device Operation}\label{sec:General Initialization And Device Operation}
+ 
+ We start with an overview of device initialization, then expand on the
+diff --git a/introduction.tex b/introduction.tex
+index 40f16f8..fc2aa50 100644
+--- a/introduction.tex
++++ b/introduction.tex
+@@ -40,6 +40,10 @@ \section{Normative References}\label{sec:Normative References}
+ 	\phantomsection\label{intro:rfc2119}\textbf{[RFC2119]} &
+ Bradner S., ``Key words for use in RFCs to Indicate Requirement
+ Levels'', BCP 14, RFC 2119, March 1997. \newline\url{http://www.ietf.org/rfc/rfc2119.txt}\\
++	\phantomsection\label{intro:rfc4122}\textbf{[RFC4122]} &
++Leach, P., Mealling, M., and R. Salz, ``A Universally Unique
++IDentifier (UUID) URN Namespace'', RFC 4122, DOI 10.17487/RFC4122,
++July 2005. \newline\url{http://www.ietf.org/rfc/rfc4122.txt}\\
+ 	\phantomsection\label{intro:S390 PoP}\textbf{[S390 PoP]} & z/Architecture Principles of Operation, IBM Publication SA22-7832, \newline\url{http://publibfi.boulder.ibm.com/epubs/pdf/dz9zr009.pdf}, and any future revisions\\
+ 	\phantomsection\label{intro:S390 Common I/O}\textbf{[S390 Common I/O]} & ESA/390 Common I/O-Device and Self-Description, IBM Publication SA22-7204, \newline\url{http://publibfp.dhe.ibm.com/cgi-bin/bookmgr/BOOKS/dz9ar501/CCONTENTS}, and any future revisions\\
+ 	\phantomsection\label{intro:PCI}\textbf{[PCI]} &
 -- 
 2.25.1.481.gfbce0eb801-goog
 
