@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DF318B33D
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 13:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76D1218B342
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 13:21:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727318AbgCSMUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 08:20:25 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:18010 "EHLO
+        id S1726926AbgCSMVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 08:21:22 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:58800 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727001AbgCSMUZ (ORCPT
+        by vger.kernel.org with ESMTP id S1726864AbgCSMVV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 08:20:25 -0400
+        Thu, 19 Mar 2020 08:21:21 -0400
 X-IronPort-AV: E=Sophos;i="5.70,571,1574089200"; 
-   d="scan'208";a="42339758"
+   d="scan'208";a="42339811"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2020 21:20:24 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 Mar 2020 21:21:20 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 79A8042BCBB7;
-        Thu, 19 Mar 2020 21:20:20 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CF1A44013DFF;
+        Thu, 19 Mar 2020 21:21:16 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -35,9 +35,9 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Lad Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 1/5] media: dt-bindings: media: i2c: Deprecate usage of the clock-frequency property
-Date:   Thu, 19 Mar 2020 12:19:19 +0000
-Message-Id: <1584620363-2255-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 2/5] media: i2c: ov5645: Switch to assigned-clock-rates
+Date:   Thu, 19 Mar 2020 12:19:20 +0000
+Message-Id: <1584620363-2255-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -46,37 +46,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Deprecate usage of the clock-frequency property. The preferred method to
-set clock rates is to use assigned-clock-rates.
+This patch switches to assigned-clock-rates for specifying the clock rate.
+The clk-conf.c internally handles setting the clock rate when
+assigned-clock-rates is passed.
+
+The driver now sets the clock frequency only if the deprecated property
+clock-frequency is defined instead assigned-clock-rates, this is to avoid
+breakage with existing DT binaries.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/media/i2c/ov5645.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov5645.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-index 72ad992f77be..1c85c78ec58c 100644
---- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-+++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-@@ -8,7 +8,6 @@ Required Properties:
- - compatible: Value should be "ovti,ov5645".
- - clocks: Reference to the xclk clock.
- - clock-names: Should be "xclk".
--- clock-frequency: Frequency of the xclk clock.
- - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-   to the hardware pin PWDNB which is physically active low.
- - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-@@ -37,7 +36,8 @@ Example:
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index a6c17d15d754..e298acdadeef 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -1094,25 +1094,25 @@ static int ov5645_probe(struct i2c_client *client)
+ 		return PTR_ERR(ov5645->xclk);
+ 	}
  
- 			clocks = <&clks 200>;
- 			clock-names = "xclk";
--			clock-frequency = <24000000>;
-+			assigned-clocks = <&clks 200>;
-+			assigned-clock-rates = <24000000>;
+-	ret = of_property_read_u32(dev->of_node, "clock-frequency", &xclk_freq);
+-	if (ret) {
+-		dev_err(dev, "could not get xclk frequency\n");
+-		return ret;
++	/* check if deprecated property clock-frequency is defined */
++	ret = of_property_read_u32(dev->of_node, "clock-frequency",
++				   &xclk_freq);
++	if (!ret) {
++		ret = clk_set_rate(ov5645->xclk, xclk_freq);
++		if (ret) {
++			dev_err(dev, "could not set xclk frequency\n");
++			return ret;
++		}
+ 	}
  
- 			vdddo-supply = <&camera_dovdd_1v8>;
- 			vdda-supply = <&camera_avdd_2v8>;
+ 	/* external clock must be 24MHz, allow 1% tolerance */
++	xclk_freq = clk_get_rate(ov5645->xclk);
+ 	if (xclk_freq < 23760000 || xclk_freq > 24240000) {
+ 		dev_err(dev, "external clock frequency %u is not supported\n",
+ 			xclk_freq);
+ 		return -EINVAL;
+ 	}
+ 
+-	ret = clk_set_rate(ov5645->xclk, xclk_freq);
+-	if (ret) {
+-		dev_err(dev, "could not set xclk frequency\n");
+-		return ret;
+-	}
+-
+ 	for (i = 0; i < OV5645_NUM_SUPPLIES; i++)
+ 		ov5645->supplies[i].supply = ov5645_supply_name[i];
+ 
 -- 
 2.20.1
 
