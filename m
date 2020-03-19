@@ -2,51 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EABC318AE86
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 09:43:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CABF18AED6
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 09:57:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbgCSInI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 04:43:08 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:52127 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgCSInH (ORCPT
+        id S1726063AbgCSI5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 04:57:45 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:59147 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbgCSI5o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 04:43:07 -0400
+        Thu, 19 Mar 2020 04:57:44 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8C38620008;
-        Thu, 19 Mar 2020 08:43:00 +0000 (UTC)
-Date:   Thu, 19 Mar 2020 09:45:57 +0100
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 83F351BF20B;
+        Thu, 19 Mar 2020 08:57:37 +0000 (UTC)
+Date:   Thu, 19 Mar 2020 10:00:33 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Hyun Kwon <hyun.kwon@xilinx.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "niklas.soderlund@ragnatech.se" <niklas.soderlund@ragnatech.se>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>, Hyun Kwon <hyunk@xilinx.com>,
+        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
-Message-ID: <20200319084557.v5hw54mmw4swzwly@uno.localdomain>
-References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
- <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
- <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
- <20200228181303.GA21745@smtp.xilinx.com>
- <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
- <20200319010734.GA27556@smtp.xilinx.com>
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 2/5] dt-bindings: media: max9286: Add overlap window
+Message-ID: <20200319090033.m3mhldb2algcqvzi@uno.localdomain>
+References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
+ <20200316202757.529740-3-jacopo+renesas@jmondi.org>
+ <c029c8b3-928b-24d0-777e-add1136bf051@ideasonboard.com>
+ <20200318141939.wzn7tdaxpb4anyou@uno.localdomain>
+ <20200319010813.GB27556@smtp.xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200319010734.GA27556@smtp.xilinx.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200319010813.GB27556@smtp.xilinx.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -54,160 +49,136 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hyun,
 
-On Wed, Mar 18, 2020 at 06:07:35PM -0700, Hyun Kwon wrote:
-> Hi Jacobo,
+On Wed, Mar 18, 2020 at 06:08:13PM -0700, Hyun Kwon wrote:
+> Hi Jacopo,
 >
-> On Sun, 2020-03-15 at 16:15:17 -0700, Jacopo Mondi wrote:
-> > Hello Hyun, Kieran,
-> >    it's great you are looking into this!
+> On Wed, 2020-03-18 at 07:19:39 -0700, Jacopo Mondi wrote:
+> > Hi Kieran,
 > >
-> > On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
-> > > Hi Kieran,
+> > On Wed, Mar 18, 2020 at 09:45:14AM +0000, Kieran Bingham wrote:
+> > > Hi Jacopo,
 > > >
-> > > Thanks for sharing a patch.
+> > > On 16/03/2020 20:27, Jacopo Mondi wrote:
+> > > > The MAX9286 chip exposes a way to control the 'overlap window'
+> > > > parameter, most probably used in calculation of the frame
+> > > > synchronization interval.
+> > > >
+> > > > When used in conjunction with some serializers, the overlap window has to
+> > > > be disabled in order to correctly achieve frame sync locking.
+> > > >
+> > > > As the exact meaning of that control is not documented in the chip's
+> > > > manual, require all DTS users to specify the value of the window. When,
+> > > > and if, in future the meaning of control gets clarified and a default
 > > >
-> > [snip]
-> >
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Set the I2C bus speed.
-> > > > > +	 *
-> > > > > +	 * Enable I2C Local Acknowledge during the probe sequences of the camera
-> > > > > +	 * only. This should be disabled after the mux is initialised.
-> > > > > +	 */
-> > > > > +	max9286_configure_i2c(priv, true);
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Reverse channel setup.
-> > > > > +	 *
-> > > > > +	 * - Enable custom reverse channel configuration (through register 0x3f)
-> > > > > +	 *   and set the first pulse length to 35 clock cycles.
-> > > > > +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> > > > > +	 *   high threshold enabled by the serializer driver.
-> > > > > +	 */
-> > > > > +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> > > > > +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> > > > > +		      MAX9286_REV_AMP_X);
-> > > > > +	usleep_range(2000, 2500);
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Enable GMSL links, mask unused ones and autodetect link
-> > > > > +	 * used as CSI clock source.
-> > > > > +	 */
-> > > > > +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> > > > > +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
-> > > > > +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Video format setup:
-> > > > > +	 * Disable CSI output, VC is set according to Link number.
-> > > > > +	 */
-> > > > > +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> > > > > +
-> > > > > +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
-> > > > > +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
-> > > > > +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
-> > > > > +		      MAX9286_DATATYPE_YUV422_8BIT);
-> > > > > +
-> > > > > +	/* Automatic: FRAMESYNC taken from the slowest Link. */
-> > > > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> > > > > +		      MAX9286_FSYNCMETH_AUTO);
-> > > > > +
-> > > > > +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> > > > > +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
-> > > > > +		      MAX9286_HVSRC_D14);
+> > > /in future/in the future/
+> > > /of control/of the control/
 > > >
-> >
-> > I agree we need to make some of these configurable, we need that too
-> > to handle both rdacm20 and 21.
-> >
-> > > Some of these configs in fact need some handshake between serializer and
-> > > de-serializer. For example, I had to invert vsync in serializer [3] to make
-> > > it work with this patch.
-> >
-> > Quickly skamming through the datasheet I'm surprised there is no way
-> > to control the vsync input polarity and you have to go through the
-> > crossbar :) Oh well, I think this could be well controlled through a
-> > device property of the serializer, what do you think?
-> >
-> > We have standard properties to control vsync and hsync polarities, but
-> > they're usually used for output signals, and I would reserve them for
-> > that future usage.. maybe a custom property to control the input vsync
-> > and hsync polarities would do...
->
-> Thanks for sharing pointers. These are not really hardened - static properties
-> so I'm not sure if device tree is the right place. I was thinking something
-> more similar to phy_configure_opts_mipi_dphy in phy subsystem.
-
-Let's take a step back, as it seems I was confused as well.
-
-Not knowing the device, I can only guess on why you need to invert
-the input VSYNC signal in the cross-bar. I see two options:
-
-1) Looking at Figure 1 (Functional block diagram) the sensor vsync signal
-is fed to the video timing generation circtuit. The cross-bar switch
-comes after the timing generation circuit, and inverting vsync there
-is then equivalent to invert the vsync output of the timing generation
-block. If that's the case, instead of going through the crossbar,
-the same result can be obtained by setting the VSYNC_INV bit of
-register cxtp (0x4d[3]). If that's the case, I agree this setting
-should be negotiated between ser/desr, as the VS_OUT signal in Figure
-18 is inverted in the serialized byte stream. Is this the case ?
-
-2) Alternatively, you need to invert the input vsync polarity to trigger
-the timing generation circuit. This mean vsync is inverted -before-
-being fed to timing generation, and this was my first understanding,
-as I assumed the crossbar switch come -before- the timing generation
-circtuitry. If this is the case, this setting should not be negotiated
-between ser/deser but between the serializer and the connected camera
-sensor.
-
-Which case are you trying to address ?
-
->
+> > > > behaviour (window enabled or disabled) can be established, a new boolean
+> > > > property could supersede this one while being sure that older DTB are
+> > >
+> > > /DTB/DTBs/
+> > >
+> > > > fully specified to avoid confusion.
+> > > >
+> > > > Provide a few convenience macros for the window disabled and window
+> > > > default value.
+> > >
+> > > Well it's not the best solution (putting hardcode values into the DTB)
+> > > but I agree, without documentation these are almost 'magic values for
+> > > the hardware' which is unfortunate.
 > >
 > > >
-> > > In addition to that, I need a couple of additional programmings on max9286
-> > > (registers 0x0 to 0x63/0x64- disable overlap window and 0xf4 to 0x1c which
-> > > oddly change reserved bits) to get frames. The datasheet doesn't explain
-> > > enough for me to understand. I'm talking to Maxim to get more details and
-> > > see if those can be handled by serilizer driver.
+> > > I do fear this may be the wrong place still though.
+> > >
+> > > This is dependent upon the 'serializer' connected, so is it a property
+> > > of the serializer that the max9286 should query at probe time to see
+> > > what it has connected?
 > >
-> > I would be really interested in knowing what's the overlap window control
-> > about... it's very little detailed in the manual, I agree :) 0xf4 is
-> > not even documented in my version. I assume it's something related to
-> > fsync sync locking (Fig. 46) as I failed to achieve it without that
-> > setting. How did it fail for you ?
+> > I see two distinct issues here:
+> > 1) overlap window: this is really a property of the deserializer and
+> > should be here specified
+> > 2) reverse channel amplitude: this depends on the serializer
+> > configuration. we could make this a serializer property and have the
+> > deserializer read it from the remote end,  which, if I'm not
+> > mistaken is a no-go (not sure I recall why, but I refrained to do so
+> > as I recall it was considered bad practice).
+> >
+> > This should work by ideally rewriting the deser properties when
+> > loading overlays, or simply configuring the deserializer correctly
+> > depending on which serializer is connected in your system. I don't see
+> > it working differently than any other endpoint property. If you have a
+> > parallel video port configured with an active high vsync polarity and
+> > you want to connect a camera with a low active signal state you should
+> > change you video input port ni your .dts or rewrite it with an overlay
+> > in case of dynamic loading.
+> >
+> > >
+> > > But that's just back to the whole topic of bus-parameter negotiations
+> > > between the serializer and deserializer ...
+> > >
+> >
+> > The real solution here would be to have operations to call on the
+> > remote to get the bus configuration and act accordingly...
+> >
+> > I recently proposed
+> > https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=256127
+> > which works on remote pads though, and we have one pad per gmsl
+> > channel, while this should be queried from the device. Yes we can bend
+> > this to interrogate the remote side on the first connected channel and
+> > ignore the pad argument in the callee, but maybe we can do better than
+> > proposing an API and working it around immediately ? :)
 > >
 >
-> I received one doc "Frame Synchronization Block" that explains the overlap
-> window in more details. It's essentially a window between camera vsync and
-> frame sync. If those 2 don't happen within the window, it errors out. So it
-> gives a validation check, but may not work depending on the vsync patterm from
-> camera or the window should be bigger, which makes the validation less
-> useful in my opinion.
+> What should be worked around here? To me, this seems better solution than
+> device tree because those are not really hardened properties, and some even
+> have to be passed between ser - deser. So adding a gmsl config to the pad
+> config would do, correct? I can (and would like to) try that out if you don't
+> ee any obvious issue. :-)
 
-Thanks for the detailed info!
+As you know I'm not yet sure which properties should come from DTS and
+which ones negotiated, but for sure some of them fit better in a
+ser/deser negotiation and the reverse channel amplitude setting is
+indeed one of them.
 
-This reinforces the idea this setting should be disabled by default.
-If we want to enable it, a value should be provided explicitly. I
-still think DTS are the right place for this setting, as this is a
-deserializer-only configuration parameter..
+Why my get_mbus_config() should be "worked around": the proposed
+operation is a pad operation. The deserializer has 4 input pads, one
+for each gmsl input channel. Currently we configure the reverse
+channel amplitude once, then probe all the four channels, and finally
+we compensate it. I said "work it around" as in this scenario we have
+to query the first enabled remote channel, and apply the reported
+settings for all the channels.
 
->
-> I believe 0x1c has something to do with BWS as mentioned in my previous reply.
-> The max9286 on my board sets BWS pin as open, and it makes the bandwidth
-> to be 27 bit mode by default. So writing 0xf4 to 0x1c register sets to 24 bit
-> mode (while 0xf6 = 27 bit mode). But I didn't hear back from Maxim regarding
-> this yet. And unfortunately, I couldn't make it work with 27 bit mode on both
-> max9286 and max96705.
->
-> So this and similar properties may also be something that can be handled by
-> the negotiating call mentioned above, while the configuraton through external
-> pins can be modeled as device tree properties?
+BUT I'm now thinking we should actually change how we setup reverse
+channel in the deserializer and make it a per-channel procedure, which
+is what the programming guide suggests as well.
 
-Indeed external pin configuration fits well as DTS property. Would you
-like to have a go ?
+Using get_mbus_config() with the current implementation would look like
+
+        config = get_mbus_config(first_enabled_channel)
+        configure_reverse_channel(config)
+
+        for_each_channel(c):
+                setup_serializer(c)
+
+        if (config.amplitude < 170)
+                increase_amplitude(config)
+
+And I'm really not thrilled by this.
+What we should do is actually
+
+        for_each_channel(c):
+                config = get_mbus_config(c)
+                configure_reverse_channel(config);
+
+                setup_serializer(c)
+
+                if (config.amplitude < 170)
+                        increase_amplitude(config)
+
+And I would like this much better, it also gives get_mbus_config() one
+more user which would help having that operation accepted in mainline.
+
+I will give this a go! What do you think ?
 
 Thanks
    j
@@ -216,29 +187,101 @@ Thanks
 > Thanks,
 > -hyun
 >
-> > On how to control overlap window a integer would do ? Setting it to 0
-> > disables it, so we could use a boolean property for convenience..
-> >
-> > Not knowing what it does I would be careful.. I think we should
-> > actualy require a mandatory property, so all current dts select their
-> > behaviour explicitly. If we later find out what it does we could
-> > define a default behaviour by defining a boolean property. New dts
-> > simpler and old dts still happy. What do you think ?
-> >
 > > >
-> > > In a longer term, it'd be nice if such alignment between serializer and
-> > > de-serializer is handled in more scalable way.
-> > >
+> > > But with this solution, any dtb segment or overlay for the serializer
+> > > needs to modify the max9286 depending on it's requirements ... that
+> > > feels a bit odd. Possible, I think, but odd.
 > >
-> > Indeed :)
+> > Really not someone with any dt overlay experience here, but re-writing
+> > properties of nodes defined in the DTS seems like an intentended
+> > feature of overlays... Is anyone with more experience listenting (says
+> > Jacopo looking at Geert ?)
 > >
 > > Thanks
-> >   j
-> >
-> > > Thanks,
-> > > -hyun
+> >    j
 > > >
-> > > [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/3bd2dded834492f4ee89e370c22877b97c2e106e
-> > > [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fb0ad7fd699d90d6bbc78fc55dd98639389cfc5b
-> > > [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fe0b33b174b2850bf0bb25b3a367319127ae12ee
+> > > Do we have any precedence in existing DT to reference on this topic?
+> > >
+> > >
+> > >
+> > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/maxim,max9286.yaml  | 11 +++++++++++
+> > > >  MAINTAINERS                                           |  1 +
+> > > >  include/dt-bindings/media/maxim-gmsl.h                |  9 +++++++++
+> > > >  3 files changed, 21 insertions(+)
+> > > >  create mode 100644 include/dt-bindings/media/maxim-gmsl.h
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > index f9d3e5712c59..ee8e0418b3f0 100644
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > @@ -46,6 +46,14 @@ properties:
+> > > >      description: GPIO connected to the \#PWDN pin with inverted polarity
+> > > >      maxItems: 1
+> > > >
+> > > > +  # Until the overlap window control gets not clarified, require dts
+> > > > +  # to set its value explicitly,
+> > > > +  maxim,overlap-window:
+> > > > +    description: Overlap window duration, in pixel clock cycles.
+> > > > +    maxItems: 1
+> > > > +    allOf:
+> > > > +      - $ref: /schemas/types.yaml#/definitions/uint32
+> > > > +
+> > > >    ports:
+> > > >      type: object
+> > > >      description: |
+> > > > @@ -146,6 +154,7 @@ properties:
+> > > >  required:
+> > > >    - compatible
+> > > >    - reg
+> > > > +  - maxim,overlap-window
+> > > >    - ports
+> > > >    - i2c-mux
+> > > >
+> > > > @@ -154,6 +163,7 @@ additionalProperties: false
+> > > >  examples:
+> > > >    - |
+> > > >      #include <dt-bindings/gpio/gpio.h>
+> > > > +    #include <dt-bindings/media/maxim-gmsl.h>
+> > > >
+> > > >      i2c@e66d8000 {
+> > > >        #address-cells = <1>;
+> > > > @@ -166,6 +176,7 @@ examples:
+> > > >          reg = <0x2c>;
+> > > >          poc-supply = <&camera_poc_12v>;
+> > > >          enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+> > > > +        maxim,overlap-window = MAX9286_OVLP_WINDOW_DISABLED;
+> > > >
+> > > >          ports {
+> > > >            #address-cells = <1>;
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index 21a9ff4fe684..3d2455085c80 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -10190,6 +10190,7 @@ M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > >  L:	linux-media@vger.kernel.org
+> > > >  S:	Maintained
+> > > >  F:	Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > +F:	include/dt-bindings/media/maxim-gmsl.h
+> > > >  F:	drivers/media/i2c/max9286.c
+> > > >
+> > > >  MAX9860 MONO AUDIO VOICE CODEC DRIVER
+> > > > diff --git a/include/dt-bindings/media/maxim-gmsl.h b/include/dt-bindings/media/maxim-gmsl.h
+> > > > new file mode 100644
+> > > > index 000000000000..47945ffc3a4d
+> > > > --- /dev/null
+> > > > +++ b/include/dt-bindings/media/maxim-gmsl.h
+> > > > @@ -0,0 +1,9 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +#ifndef _DT_BINDINGS_MEDIA_MAXIM_GMSL_H
+> > > > +#define _DT_BINDINGS_MEDIA_MAXIM_GMSL_H
+> > > > +
+> > > > +/* MAX9286 default overlap values. */
+> > > > +#define MAX9286_OVLP_WINDOW_DISABLED	<0>
+> > > > +#define MAX9286_OVLP_WINDOW_DEFAULT	<0x1680>
+> > > > +
+> > > > +#endif /* _DT_BINDINGS_MEDIA_MAXIM_GMSL_H */
+> > > >
 > > >
