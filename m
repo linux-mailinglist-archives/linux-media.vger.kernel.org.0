@@ -2,149 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2598018B1B6
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 11:51:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A461718B226
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 12:13:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbgCSKve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 06:51:34 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:40680 "EHLO
-        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgCSKvd (ORCPT
+        id S1726881AbgCSLN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 07:13:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41512 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbgCSLN3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 06:51:33 -0400
-Received: by mail-wr1-f44.google.com with SMTP id f3so2236978wrw.7
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 03:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/RXi4E6N2BrHZ7nZPIDPshoq9XlJz4tXbLpi7SJ8rvk=;
-        b=IrUTJak5anMDl/TSTYtpbGyjX4cb7wbtHeGdMjFolrQW9YexSz8k7vzEZWaX/wqjvI
-         khTEPPcieXiAUCVnMFn1T6l9EWkt7TvY4115BOHxoH6tefXDxZG+6eOUInXUN/N2+S6E
-         2pvbfpU2ujUz1BD2achNsFhbTamXb+kQrrUVI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/RXi4E6N2BrHZ7nZPIDPshoq9XlJz4tXbLpi7SJ8rvk=;
-        b=mujOPEadaFEPpkoDwaM6dOPrsAjiMhgTVvq3JNAUO97PlHlZLeG32GOtGHuT9qNWNq
-         gnd+I+MJlCqdK5z8K3opU/MSf8Y/MZbQTqVsEXEHoUtXA28Fr0rNYgbJnSkPmOZZEiOl
-         1S9csJphKxqr+tXdE3ljGeEiqelINvfMx1tT4qWn/pPsBRMYjeUjyGV4dZpURBc7BjUS
-         /3ehLjZBJTrnyDx2c8THD9b46IYjzArWUFjcPxysxrS/WDZhRh5EmLPxbHlBY+IxQ9BV
-         QIKKV8YDS4C58GvKbykEuFIs0q5xxUxRKQR4PafulbtEUG85lEMPVBj8UIytP3sozKgX
-         h+vA==
-X-Gm-Message-State: ANhLgQ0pvYvXfw5NWGUldctnk4GdZaS520YFNbm62fNKsL6YkfnifA91
-        jnGjOxjGaeyWytuIMRJpxmNziA==
-X-Google-Smtp-Source: ADFU+vvUA2QcRpbnGKfFXs6t1PT7JukCMEhlBYJupowdhcJ7r9ZnCkaEdec3wJdJloK5j9a2Av8QAQ==
-X-Received: by 2002:adf:e9c4:: with SMTP id l4mr3483827wrn.421.1584615091968;
-        Thu, 19 Mar 2020 03:51:31 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v10sm2555208wml.44.2020.03.19.03.51.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 03:51:31 -0700 (PDT)
-Date:   Thu, 19 Mar 2020 11:51:29 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Cc:     Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        linux-media@vger.kernel.org
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-Message-ID: <20200319105129.GF2363188@phenom.ffwll.local>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
- <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
- <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
- <CAAxE2A5D2HaqjS52jymMbwOUEsaXG_cMeeA9_esqaC54-52Kgw@mail.gmail.com>
- <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
+        Thu, 19 Mar 2020 07:13:29 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CACBDA53;
+        Thu, 19 Mar 2020 12:13:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584616406;
+        bh=dwk50ZmP4DkI3ZDxDB4OuJRFsIgPz3laRgR7dhUkL7s=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=kfbQqzegTOBSbgR0SnX6q3I+XTHbQu9TITiMBIR7Kv9HjVUKl/U7dz6PUGiKIuNFA
+         RJt5T8tX0Pu8oTJ1Y0+xwh+6cBYxgGo+5qKSe7KJTqMFyY4RHXyyYd4CgD6JNGuQbF
+         y4TwyWdaXRLr5b2T4+JTVc7sefk26yDHZRX0OcYs=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 5/5] media: i2c: max9286: Parse channel amplitude
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com,
+        hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
+ <20200316202757.529740-6-jacopo+renesas@jmondi.org>
+ <0de21347-4c06-50a1-0393-a1f4c1efad28@ideasonboard.com>
+ <20200318143250.tfz3frapsq2s2lyu@uno.localdomain>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <f33f3ed4-28b6-aa53-eb4a-bd796e69f1b4@ideasonboard.com>
+Date:   Thu, 19 Mar 2020 11:13:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
+In-Reply-To: <20200318143250.tfz3frapsq2s2lyu@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 11:01:57AM +0100, Michel Dänzer wrote:
-> On 2020-03-16 7:33 p.m., Marek Olšák wrote:
-> > On Mon, Mar 16, 2020 at 5:57 AM Michel Dänzer <michel@daenzer.net> wrote:
-> >> On 2020-03-16 4:50 a.m., Marek Olšák wrote:
-> >>> The synchronization works because the Mesa driver waits for idle (drains
-> >>> the GFX pipeline) at the end of command buffers and there is only 1
-> >>> graphics queue, so everything is ordered.
-> >>>
-> >>> The GFX pipeline runs asynchronously to the command buffer, meaning the
-> >>> command buffer only starts draws and doesn't wait for completion. If the
-> >>> Mesa driver didn't wait at the end of the command buffer, the command
-> >>> buffer would finish and a different process could start execution of its
-> >>> own command buffer while shaders of the previous process are still
-> >> running.
-> >>>
-> >>> If the Mesa driver submits a command buffer internally (because it's
-> >> full),
-> >>> it doesn't wait, so the GFX pipeline doesn't notice that a command buffer
-> >>> ended and a new one started.
-> >>>
-> >>> The waiting at the end of command buffers happens only when the flush is
-> >>> external (Swap buffers, glFlush).
-> >>>
-> >>> It's a performance problem, because the GFX queue is blocked until the
-> >> GFX
-> >>> pipeline is drained at the end of every frame at least.
-> >>>
-> >>> So explicit fences for SwapBuffers would help.
-> >>
-> >> Not sure what difference it would make, since the same thing needs to be
-> >> done for explicit fences as well, doesn't it?
-> > 
-> > No. Explicit fences don't require userspace to wait for idle in the command
-> > buffer. Fences are signalled when the last draw is complete and caches are
-> > flushed. Before that happens, any command buffer that is not dependent on
-> > the fence can start execution. There is never a need for the GPU to be idle
-> > if there is enough independent work to do.
+On 18/03/2020 14:32, Jacopo Mondi wrote:
+> Hi Kieran,
 > 
-> I don't think explicit fences in the context of this discussion imply
-> using that different fence signalling mechanism though. My understanding
-> is that the API proposed by Jason allows implicit fences to be used as
-> explicit ones and vice versa, so presumably they have to use the same
-> signalling mechanism.
+> On Wed, Mar 18, 2020 at 09:57:48AM +0000, Kieran Bingham wrote:
+>> Hi Jacopo,
+>>
+>> On 16/03/2020 20:27, Jacopo Mondi wrote:
+>>> Parse the 'maxim,reverse-channel-amplitude' property value and cache its
+>>> content to later program the initial reverse channel amplitude.
+>>>
+>>> Only support 100mV and 170mV values for the moment. The property could
+>>> be easily expanded to support more values.
+>>
+>> Can we (in the future) support arbitrary values from a range, or only
+>> from a fixed list?
 > 
+> Good question. The 0x3b register of the deserializer is not documented
+> in my datasheet version, I got this from the application developer
+> guide that reports
 > 
-> Anyway, maybe the different fence signalling mechanism you describe
-> could be used by the amdgpu kernel driver in general, then Mesa could
-> drop the waits for idle and get the benefits with implicit sync as well?
+>         Increase reverse amplitude from 100mV to
+>         170mV. This compensates for the higher
+>         threshold of step 5.
+> 
+> and reports the following list of supported values in the 0x3b
+> register description.
+> 
+>         Reverse channel amplitude
+>         000 = 30mV
+>         001 = 40mV
+>         010 = 50mV
+>         011 = 60mV
+>         100 = 70mV
+>         101 = 80mV
+>         110 = 90mV
+>         111 = 100mV
+> 
+> with an optional +100mV boost option.
 
-Yeah, this is entirely about the programming model visible to userspace.
-There shouldn't be any impact on the driver's choice of a top vs. bottom
-of the gpu pipeline used for synchronization, that's entirely up to what
-you're hw/driver/scheduler can pull off.
+Ok, so we have two supported 'ranges'
+ 30-100mV and 130-200mV.
 
-Doing a full gfx pipeline flush for shared buffers, when your hw can do
-be, sounds like an issue to me that's not related to this here at all. It
-might be intertwined with amdgpu's special interpretation of dma_resv
-fences though, no idea. We might need to revamp all that. But for a
-userspace client that does nothing fancy (no multiple render buffer
-targets in one bo, or vk style "I write to everything all the time,
-perhaps" stuff) there should be 0 perf difference between implicit sync
-through dma_resv and explicit sync through sync_file/syncobj/dma_fence
-directly.
+Indeed it's probably best not to express that as a single range :-)
 
-If there is I'd consider that a bit a driver bug.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+> Going forward we can add more values to the list of supported ones in
+> the bindings and control their configuration in the driver.
+> 
+> Maybe worth noting it down with a fixme note ?
+
+I wonder if it should be expressed as a supported range, with a boost,
+which matches the hardware, and presumably will match the requirements
+on the serializer side too ?
+
+Presumably if the boost is needed, we 'know' when it's needed? although
+that doesn't quite fit either. I see you're going from 100mV to 70mV so
+you're actually onnly applying a 'boost' of 70mV not 100 ?
+
+Hrm ... I'll have to do more digging to understand what's going here.
+
+--
+Kieran
+
+
+> 
+>>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  drivers/media/i2c/max9286.c | 39 ++++++++++++++++++++++++++++++++-----
+>>>  1 file changed, 34 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+>>> index 0357515860b2..24af8002535e 100644
+>>> --- a/drivers/media/i2c/max9286.c
+>>> +++ b/drivers/media/i2c/max9286.c
+>>> @@ -168,6 +168,7 @@ struct max9286_priv {
+>>>  	struct max9286_source sources[MAX9286_NUM_GMSL];
+>>>  	struct v4l2_async_notifier notifier;
+>>>
+>>> +	u32 reverse_chan_amp;
+>>>  	u32 overlap_window;
+>>>  };
+>>>
+>>> @@ -479,10 +480,15 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>>>  	 * All enabled sources have probed and enabled their reverse control
+>>>  	 * channels:
+>>>  	 *
+>>> -	 * - Verify all configuration links are properly detected
+>>> +	 * - Increase reverse channel amplitude to 170mV if not initially
+>>> +	 *   compensated
+>>>  	 * - Disable auto-ack as communication on the control channel are now
+>>>  	 *   stable.
+>>>  	 */
+>>> +	if (priv->reverse_chan_amp == 100)
+>>> +		max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) |
+>>> +			      MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X);
+>>> +
+>>>  	max9286_check_config_link(priv, priv->source_mask);
+>>>
+>>>  	/*
+>>> @@ -830,6 +836,8 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>>>
+>>>  static int max9286_setup(struct max9286_priv *priv)
+>>>  {
+>>> +	u8 chan_amp = MAX9286_REV_TRF(1);
+>>> +
+>>>  	/*
+>>>  	 * Link ordering values for all enabled links combinations. Orders must
+>>>  	 * be assigned sequentially from 0 to the number of enabled links
+>>> @@ -869,12 +877,18 @@ static int max9286_setup(struct max9286_priv *priv)
+>>>  	 *
+>>>  	 * - Enable custom reverse channel configuration (through register 0x3f)
+>>>  	 *   and set the first pulse length to 35 clock cycles.
+>>> -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+>>> -	 *   high threshold enabled by the serializer driver.
+>>> +	 * - Set initial reverse channel amplitude according the DTS property.
+>>> +	 *   If the initial channel amplitude is 100mV it should be increase
+>>> +	 *   later after the serializers high threshold have been enabled.
+>>> +	 *   If the initial value is 170mV the serializer has been
+>>> +	 *   pre-programmed and we can compensate immediately.>  	 */
+>>>  	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+>>> -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+>>> -		      MAX9286_REV_AMP_X);
+>>> +	if (priv->reverse_chan_amp == 100)
+>>> +		chan_amp |= MAX9286_REV_AMP(100);
+>>> +	else
+>>> +		chan_amp |= MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X;
+>>> +	max9286_write(priv, 0x3b, chan_amp);
+>>>  	usleep_range(2000, 2500);
+>>>
+>>>  	/*
+>>> @@ -1069,6 +1083,21 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>>>  		return -EINVAL;
+>>>  	}
+>>>
+>>> +	ret = of_property_read_u32(dev->of_node, "maxim,reverse-channel-amplitude",
+>>> +				   &priv->reverse_chan_amp);
+>>> +	if (ret) {
+>>> +		dev_err(dev,
+>>> +			"Missing property \"maxim,reverse-channel-amplitude\"\n");
+>>> +		of_node_put(dev->of_node);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +	if (priv->reverse_chan_amp != 100 && priv->reverse_chan_amp != 170) {
+>>> +		dev_err(dev, "Unsupported  channel amplitude %umV\n",
+>>> +			priv->reverse_chan_amp);
+>>> +		of_node_put(dev->of_node);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>>  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>>>  	if (!i2c_mux) {
+>>>  		dev_err(dev, "Failed to find i2c-mux node\n");
+>>>
+>>
+
