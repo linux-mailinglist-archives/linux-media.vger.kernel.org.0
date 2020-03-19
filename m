@@ -2,79 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F108918B263
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 12:33:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 148B018B26C
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 12:36:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgCSLd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 07:33:56 -0400
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:33422 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727064AbgCSLd4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 07:33:56 -0400
-Received: by mail-pj1-f65.google.com with SMTP id dw20so2243093pjb.0
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 04:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=oK/5AnAIQtAzwp5LtDPsr0B0YqK3MbYelmVR8oZRePM=;
-        b=S4lPMkx9sAM4YOhfGPGNuTyQk5plJbvRwkvWecLxjItv/X/kJ8I5it2EoQn4PwgX0P
-         XqcyQhaTg0wn+r/h4mhL4moLNQbjYTvb9KRWPZM9yw6TAI4Cce7IqxlK6aZ8HyU7rded
-         fm7cL9Ha7cRqSN0LORxD5Q4pjeqmE1Ls5xSy+998DN/lW8qkKSGjoPMuD7oXIEKvLNcL
-         dlNHuyNoNL5A9o7V1TAu37gvzWl2VXuEnh9w7TESmmnYxoJAYGDtwnx9LhQ9Tm73SS/s
-         RIOtcx7utIJhp9cyayCLOBswZfKC84XeH6qNqSOxbqb4s/vEJPGXY/G317iE4NDPOBwY
-         or/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=oK/5AnAIQtAzwp5LtDPsr0B0YqK3MbYelmVR8oZRePM=;
-        b=Pk0YqhG2XH3scomVDSDxYDnIW2HPjFCg8MEksWndo6/ph/ijA+O7I9zZ3sP2TcGYoN
-         dLxV6eiGJ5Hu8avRgj2XKwIKSazfsAKNPax94J8ALw+ZMopXLAJ/FpUju8TsFRjy76Nh
-         PqPGRue6VvcwUKzPvXjrReJDZmjEk2IOongEZpc+oOf2vBB6mA5r7xpiPNqDLfruMBWy
-         dhEQiu2Ra6p3RCrqnTvON1MsDqvfyeOOPSw6flYuRRCVzaO5WH5lbTHzakX884RJCGR2
-         Wc0CDh5xXOwBmL7Sghnqvf3Yf5LIf7kG+PuIqqS1QwokgzzkXavfwm9wHD1cE1EEqC+G
-         juUQ==
-X-Gm-Message-State: ANhLgQ3NpHplKSUXxmjCNKyeINxuiZCZl0fvNe+nJlGc9L4HrZSp38PH
-        P6kGQxK5AQR9+imo/FMmYmA8ulgPOisA9TngQko=
-X-Google-Smtp-Source: ADFU+vvXEwXItatFF+HGJsntLDLkJyTdRBfQ3W1H5ImMaexn4WF6EGyR+8+XnyVb/Jhb38q9CNKn2i/t08aibSPdo9g=
-X-Received: by 2002:a17:90a:c482:: with SMTP id j2mr3388270pjt.71.1584617634754;
- Thu, 19 Mar 2020 04:33:54 -0700 (PDT)
+        id S1726983AbgCSLgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 07:36:14 -0400
+Received: from mga03.intel.com ([134.134.136.65]:28282 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725767AbgCSLgN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Mar 2020 07:36:13 -0400
+IronPort-SDR: e8zNjWbh0ykkkWfYJWE+GlBp9NqQPwvmsZFeZh5QG1ETpTowMxQDyWk+lj0VdDiZV5o3Sk6y3t
+ K+Bv3W88I1+A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 04:36:12 -0700
+IronPort-SDR: zLFal0iZZQ0ZeR6+e3XbpetkEaXpQZVwtGXSMeK5IxeonJZfwJg60dAil2oiypArdRd8mzsDIw
+ R6s5MCiPToyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,571,1574150400"; 
+   d="scan'208";a="444534943"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga005.fm.intel.com with ESMTP; 19 Mar 2020 04:36:09 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1jEtT9-00B3pc-1y; Thu, 19 Mar 2020 13:36:11 +0200
+Date:   Thu, 19 Mar 2020 13:36:11 +0200
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        sj.huang@mediatek.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>, louis.kuo@mediatek.com,
+        shengnan.wang@mediatek.com
+Subject: Re: [V3, 2/2] media: i2c: Add DW9768 VCM driver
+Message-ID: <20200319113611.GJ1922688@smile.fi.intel.com>
+References: <20200228155958.20657-1-dongchun.zhu@mediatek.com>
+ <20200228155958.20657-3-dongchun.zhu@mediatek.com>
+ <20200305120516.GQ5379@paasikivi.fi.intel.com>
+ <CAHp75Vf5km-YitoTUAFkr8LZVq2QMep1rC19ZpR-YRbeXgJOVQ@mail.gmail.com>
+ <1584612215.5781.62.camel@mhfsdcap03>
 MIME-Version: 1.0
-Received: by 2002:a17:90a:a501:0:0:0:0 with HTTP; Thu, 19 Mar 2020 04:33:54
- -0700 (PDT)
-Reply-To: micheasawadogo072@gmail.com
-From:   "Mr.Michea Sawadogo" <honbarrzongoibrahim@gmail.com>
-Date:   Thu, 19 Mar 2020 04:33:54 -0700
-Message-ID: <CAKZhgJTNvYZAbX2o7f3-zD_6S+HfwrfyNcVzCEa44_4YqemqBA@mail.gmail.com>
-Subject: HI
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1584612215.5781.62.camel@mhfsdcap03>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Mar 19, 2020 at 06:03:35PM +0800, Dongchun Zhu wrote:
+> On Tue, 2020-03-10 at 12:10 +0200, Andy Shevchenko wrote:
+> > On Thu, Mar 5, 2020 at 2:07 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > > On Fri, Feb 28, 2020 at 11:59:58PM +0800, Dongchun Zhu wrote:
+> > > > This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
+> > > > and provides control to set the desired focus via I2C serial interface.
+> > 
+> > ...
+> > 
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -5139,6 +5139,7 @@ M:      Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > >  L:   linux-media@vger.kernel.org
+> > > >  T:   git git://linuxtv.org/media_tree.git
+> > > >  S:   Maintained
+> > > > +F:   drivers/media/i2c/dw9768.c
+> > > >  F:   Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+> > 
+> > This has ordering issues.
+> > Run parse-maintainers.pl to fix.
+> > 
+> 
+> Pardon, how to run parse-maintainers.pl?
+> Locally I ran this script, it occurs some syntax as below.
+> $./scripts/parse-maintainers.pl
+
+It's a perl script which is made non-executable by some reason.
+
+So, proper run as a parameter to the language interpreter, i.e.
+	$ perl scripts/parse-maintainer.pl
+
 -- 
-Hello,
+With Best Regards,
+Andy Shevchenko
 
-We are here to notify you that the sum of US$2,800,000.00 was
-generated and awarded to you by the United Arab Emirates, and Qatar's
-United Development (UD) under (CBI) Foundation of Burkina Faso, for a
-charity project, The achieve and results of this is to help financial
-problem in the nation.
 
-This award was been selected through the internet, where your e-mail
-address was indicated and notified. The Foundation collect all the
-email addresses of the people that are active online, among the
-Billions of customers who used all those means of Money Transfer, in
-their business transactions. Four people are selected yearly to
-benefit from this promotion and you are one of the Selected Winners.
-
-For your prize contact the Agent: Mr Michea Sawadogo. With this code
-(X220E) His E-mail (micheasawadogo072@gmail.com) he will direct you on what
-to do for the releasing of your prize.
-
-Yours Faithfully,
-Awards Coordinator Mr. Samie Salam,
-Chief executive Jassim Al-Othman.
