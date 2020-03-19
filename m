@@ -2,125 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79AD118AE48
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 09:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA8218AE6C
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 09:35:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726783AbgCSIZ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 04:25:29 -0400
-Received: from mga01.intel.com ([192.55.52.88]:59668 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725767AbgCSIZ2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 04:25:28 -0400
-IronPort-SDR: V3xDiXuuevIVLB7rkD/bAG0tUnQSRz+bzwLHpOotGZUh8/ttrUFROpDkRdIwfT//c8gO+B+4Yi
- ZkzOrdn2EYBg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 01:25:27 -0700
-IronPort-SDR: ezbv3nHIeBj2vCjcfUBDzlqMZOQMonkuN95wzIjc5khHr1d7LoLhYNYf1VjzwhtvPMe1an8B1n
- HtcDG62vKheA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,570,1574150400"; 
-   d="scan'208";a="238857769"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 19 Mar 2020 01:25:16 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jEqUL-0004jm-7R; Thu, 19 Mar 2020 16:25:13 +0800
-Date:   Thu, 19 Mar 2020 16:24:40 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v6 2/5] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <202003191623.S2BkroWn%lkp@intel.com>
-References: <20200319004701.30416-3-laurent.pinchart@ideasonboard.com>
+        id S1726623AbgCSIfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 04:35:44 -0400
+Received: from [37.49.224.149] ([37.49.224.149]:61660 "EHLO
+        walker-construction.co.uk" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725601AbgCSIfo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Mar 2020 04:35:44 -0400
+From:   "Wilson Jasper" <wilson@walker-construction.co.uk>
+To:     linux-media@vger.kernel.org
+Subject: RE: Walker Construction_RFQ
+Date:   19 Mar 2020 09:35:41 +0100
+Message-ID: <20200319093541.5527047F037D2EB4@walker-construction.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200319004701.30416-3-laurent.pinchart@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/mixed;
+        boundary="----=_NextPart_000_0012_9EA5F536.10BC5961"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+This is a multi-part message in MIME format.
 
-I love your patch! Perhaps something to improve:
+------=_NextPart_000_0012_9EA5F536.10BC5961
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on v5.6-rc6]
-[also build test WARNING on next-20200318]
-[cannot apply to linuxtv-media/master]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+Dear Sir/Madam,,
 
-url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/v4l2-dev-ioctl-Add-V4L2_CAP_IO_MC/20200319-084846
-base:    fb33c6510d5595144d585aa194d377cf74d31911
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-181-g83789bbc-dirty
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+Please confirm and give quotation as per attached,quote according=20
+to Bill of
+materials
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+Highlighted items will be supplied in large quantity.
+
+Kind Regards.
+
+Wilson Jasper=20
+Purchase Manager
+Walker Construction (UK) Ltd
 
 
-sparse warnings: (new ones prefixed by >>)
+I will like a receipt of your acknowledgment mail.
+------=_NextPart_000_0012_9EA5F536.10BC5961
+Content-Type: application/msword; name="PO032411.doc"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="PO032411.doc"
 
->> drivers/media/pci/ivtv/ivtv-ioctl.c:925:17: sparse: sparse: bogus scalar initializer
-   drivers/media/pci/ivtv/ivtv-ioctl.c:930:17: sparse: sparse: bogus scalar initializer
-   drivers/media/pci/ivtv/ivtv-ioctl.c:951:17: sparse: sparse: bogus scalar initializer
-   drivers/media/pci/ivtv/ivtv-ioctl.c:956:17: sparse: sparse: bogus scalar initializer
---
->> drivers/media/pci/cx18/cx18-ioctl.c:470:58: sparse: sparse: bogus scalar initializer
-   drivers/media/pci/cx18/cx18-ioctl.c:473:46: sparse: sparse: bogus scalar initializer
-   drivers/media/pci/cx18/cx18-ioctl.c:476:52: sparse: sparse: bogus scalar initializer
+e1xydGY2ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHtcb2JqZWN0e1w5
+MDYzOTIzOTB9XG9iamxpbmt7XDkwNjM5MjM5MH1cb2Jqdzg3OTJ7XDkwNjM5MjM5MH1cb2Jq
+aDI4MHtcOTA2MzkyMzkwfXtcOTA2MzkyMzkwfXtcb2JqZGF0YQ1ccHN6NTIyODIzNTQ2XHly
+MDU5NzcyMzIwMlwnPwkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQl7XG9iamVjdFxkbGJncHljbXdt
+cm9qWldCRUlYQkNaQ0hDRUlPVFdETDQwNzUxMjU2NzgxNDc1MzQwNDg4NDVkbGJncHljbXdt
+cm9qWldCRUlYQkNaQ0hDRUlPVFdETDUwODAxMDAzOTgxe1xhaXJqcXZqeHBtaHVkdHlwd2d1
+bnlza3JTSFFBUVFOU1BWWlFHWko5NzcwMTc5MTU1MjgzNDAwNzg0NjA4NDk2NGFpcmpxdmp4
+cG1odWR0eXB3Z3VueXNrclNIUUFRUU5TUFZaUUdaSjQwNDk2Njc5MDE0ODM2NjkwMTAzODUy
+NDUxOX19Zjk3MmIzNGIwMjAwMDAwMDBiMDAwMDAwNjU1MTc1NjE3NDY5NmY0e1xtYmVnQ2hy
+IFx7XHtcbWVuZENocn0NZTJlMzMwMDAwMDAwMDAwMDAwMDAwMDBiOTA2MDAwMDAyNjBmMWIy
+ZDVhMTAxMDhhYjFkYjg3ZWZmYzc1ZDI1M2RiZDZkODI4YjE4OGIxYmI4OWJhNGE2YzMwNTE1
+YzM5ZjNjOGIzMDUzZmZkNjA1YWM3MWQ4MTkyZDBhNzFkODE5ZmZlMGQzYjdmY2VhZWI0NDAw
+NDQ2NjIzNTZiMWI1ZTFhNjJjYTc0MDdjMDc2ZjViNGM2ZjAzNDM4NmE2NDgwYjgzNDRjMTFi
+NTljYzk4YmEyYTUwZGY2NzNlMWYyMGJkNDkzNzI2ODliYzU3YjZmMDMxMDM2NjBjN2I1Mzg0
+OTBiMmQxMmFkNTM2NjljY2NkZDBkZTE2YjczZjIwNDNjMDBkNGNjMDNjOWIxY2VmMmJjYzQ5
+MjBjZmEwZWIzM2Y5M2I4NzEyM2JhNjJiYzRiNzRiZmE2ODY1NTg2NWQwYWJjM2U5NDQwMTAw
+MDAzOWVhYzhlYmM3MGFmOWNhMmFjODk2YTk5NjI4MjViMGFlMGFiYThlY2Y3ODQyYjc0MmRl
+YmE5ZThhNGM3YTAwOWNiNzY1MTkyMDM3MzdlZWI3NDhjMTgyMmYwYjI0MjNjZTg0MTk5ZDhl
+ZDkyYTgyNWM5OWY2Njc1OWY0NzQyYTE5ZmUyNTI4ZThlZjY5ODAwMTYxYWU1ZGQ1OThiNzI2
+NGJiNmRjY2NmYzA1NDhmZTc0MmYzNzczNzY4NjQxMjczNTNlOGM5NjljYWQxMjA1ODc5M2Uz
+YjgwODRlNjIzYmE2MjM4NjlhOTY3OTFhYWIwOTFkZmYzZjYwODA2Njc0NmRmNzE3ZThiY2Y3
+YWZmY2NiNWZkYjE1NDlhZGEwZTE1ZDQ4OTM4Y2RlYjcyMTA5OWJlNGNhNGM5NTY0NWU5MzQz
+YTc0ODk5Y2I0OGMwZTE0YzQyMThmNDE2MzZmMjk4ZjFhNTg1MWQ1MzNkZGQ5OGFiMDYxOTFi
+OWFiMWFkMDEzNGQyOWUyYzQ2MjNjODNhOGFiZTFjZDFmMDY1ZGFkZmUxYmRkZWQxNzQ4Y2Nm
+ZDdiN2ZlNmYyYWVhZTZjZTQxYzVmNTk4MWZhZDA2NDQ4MjAzNTQ2NDMyNTdiZmQ5MzhhZTBk
+MWIyNWMzMjQ3NTQ4M2Y1MTQ4ZjkwOTg0NDdkNDcwOTJiN2YzODI3M2I0M2IzYjgzNzA5MmNi
+YzM2YTIzZDkxN2JjOTliZDg1NTI2YmM1N2MyODBiNzIwYjkzMzViOTI4N2MyOTQ0ZTk5Y2U1
+YWZjYmMxNzRjZWVlMTIxZGUxNTg0M2FmZTczMGUxYmRjOTAxOGNkZGFiZmMzNmU5MjEzNzY0
+M2ZlYjAzYTk3MTQzZThmNDAwMDAwMGU5ZDcwMDAwMDBlOWI4MDEwMDAwOWM1NjUyNTc5MDlj
+NTI4MWMyNjMwODAwMDA4MWVhNTgxNjAwMDA4MWMyNmIwNzAwMDA4MWMyOGM1YjAwMDA1YTlk
+OTA4MWVlNzQzMzAwMDA4MWVlOTQxNzAwMDA4MWVlZmMyNTAwMDA4MWVlMzU3MjAwMDA4MWM3
+MWM2MTAwMDA4MWMyY2UxZDAwMDA1ZjVhNWU5ZGU5ZGMwMDAwMDA4MWMxZDkwMTAwMDBlYjc5
+OWM1MDJkYjQ3NjAwMDAwNThiNWYwMDAwOGQ4MDQzNGYwMDAwMmQ0NzEyMDAwMDhkODBjMjUy
+MDAwMDA1ZDExYjAwMDA1ODlkZWIwNzY3NTlmYjdlMjk5M2U2ZTkwOTAxMDAwMGViNDk1NjVl
+OWM1MzUwOGQ5ODI2MzYwMDAwZWIwODU3NWZmZDM0NWE0OTViZDk1MjVhOGQ4M2NkNzkwMDAw
+NTc1ZmViMDdmMDUxY2RkMGI3MDQxYjgxZWI4MDU4MDAwMDgxZWJlMTU4MDAwMDhkODM0NzEx
+MDAwMDU4NWI5ZDU2NWVlOWQ2MDAwMDAwOTBlYmIyZWIzNzhkOTllYjAyMDAwMDZiYzAwMDkw
+NjljMDQ3MDdjMTQ1ZWI0NWViMWVlYjc3NTllOTVmZmZmZmZmZWIzOWViMTBmZmExY2MxZDdk
+ZWIwOTRkYzRlNDdkYzM1N2QxYTk0NmViNWJlOWJjMDAwMDAwZWJkZDljNTM4MWViOTY1NjAw
+MDA4M2ViNzI4MWViOTk2MTAwMDA4ZDliZTk2ZjAwMDA1YjlkZTkxZmZmZmZmZmViNmEwNTg1
+NTE5Nzc1ZWJiNDljNTM1NzUwODFjNzM0NWIwMDAwOGQ5ZmUyMTMwMDAwMDU4ZTQ5MDAwMDhk
+YmIyZDU0MDAwMDhkYjg3ZTBjMDAwMDU4NWY1YjlkZWIwNjMyNDYyZWYwYWQ1MzMxMDFlYjU4
+NTA1ODljNTI1MDU4OTA1MWViMDhlNTdlODc0MDJhZDY1NDBlODFjMTk5MjIwMDAwODFlOTJh
+MTQwMDAwOGQ5MTc0NzEwMDAwODFjMTJiNzYwMDAwNTk1YTlkZTkzZGZmZmZmZmViOTQ1NjVl
+ZTk1YmZlZmZmZmU5ZGZmZWZmZmZlOTQ2ZmZmZmZmZWIwNzcwZTBjYzlmMGFiZDg2ZTk3M2Zm
+ZmZmZmU5Y2NmZWZmZmY4M2MxMDRlYjA1ZTkwZGZmZmZmZjM5ZDkwZjgyMGZmZmZmZmYwNGJk
+MTc3NzY4OTBlNjk2NWQzNmZjMGE1MDk1MjNlN2I1NDk3MWVmYjgyYjg0OTg4ZDBmZjU0ZWEw
+ZDY3Mjc5ZTUwZjY5YTNlMGYwY2YyOGJkZmE1NjAzOTQ2NjdjOWY2N2FiZTAzMDBmZjBmYjBi
+YTk2MzVjMjJjOTMyNzgzNzQ1MTZjMDA2Y2QxNTJlMjc3MjljYjZlM2Y0YWY1MDZhMDZiNDc1
+MmVkMDkyNzcwZWM0ODg0N2ZhZTAyMzY3MWZkZDE0NmNhODJjZmIxZDZjMTQ3ZDQyYmM1ZDZk
+YWUyZDg2OTIzMGRmZjY0ZTc5MTFhZDUxZGJhYmU4Y2UxMmNjMDU3NjQ5ZTBlMDQwNjIwYmRk
+ZTc0ZWU1ZDBlYjZkMDIzNTMxN2Q2YzM4ZmJmYWZiMGQzZTcwYmUyMGI1MTA5ZTY1YWVjN2Zj
+ODgzODFiOTAzZGUyNTNjNzcwYWU3ODMzOTU1NmVjODhkODI4NjM3ZjZkYWJjYTg1YzAxNzU4
+NWZjNTk5NjBmNTI4ZDcwMTIzOWRkZWIwMmQxMDIwOWI0OWY1MmQyNTM3YTgyYmQzYWFjZGNm
+YmQ5ZTEyOGUwOGQwNjg2ZWQwMzdhNmUwOTYyYTAyZjdiNWQ3YjA2MjBmZDIwN2NjN2E0MjZm
+NTJlODBmNGNjMDU0ZjE0NjdjNDM1NmQyMjQ2OTM5YmU3ZmI1MGE1ZDk0OWE0MjVjYjc2NmIx
+YjUxYWNlMzFiOGMzZjBiMzhkMmZjODY2YTA2MTMyYjFlNTQ2YTQxODA4NmNiNmIxYmRiNmY5
+YmNmMGYxNTNlOTE1OTNlOTViNTg2MjNkY2VlZDg5NzVkMDQwZTU2N2M0NDUxZDU2NjJhODA4
+NzRhNTFkNGQ1NjAxOTAzZjE4ZWE3NTQwMjhhN2Y4MDYwMzlmNGRhN2JlNGZlMDFkNDk4ZmE1
+ODQyNWZhNDhjOTQ5OWI3ZGY0ZDlmODMwNzcxNmNhZDVhYTllNDg5OGI3NWRlZWFkZjFkOTNi
+ODBhZWQxZjAwNWE4NjhhZmU4ZjIwZjlhZGRhZmY5YTJkMGY1MDcwMGU1YmNmM2YxMzgxZmEx
+ZTI3OWQxMDg3MzUyY2EwZmZhMmM4MjkyNDFkZmE0NzM2MGViMjYzODBhNTQ3ODI2YWFjN2E5
+ZGNkYWQ3NjdiNjFjMmU3NGI4OGJiNDcxNmVhZmFhMzE0NTlhNWJmZTU2MmM2Mjg1ZTVlMDM0
+YTUyZWYzZjVmMjIyOWQ1YzgwNmE1NGNkMDBkYjE1MGFlM2ZmMDA0ZjAxYWIwM2EyYTU2MTlk
+NzA5NzA2MTFlMjY4ODRkYzU5MzNlMzE0NWQ5OTdmNjc3ZDE1NDBlZjY1NTkwZjhjZDYwOGZh
+MTE2ODY1YzkxYzM5Nzc0NDcyNTBkYTU3ZTBlNzAxYmUwYWI0OWE0OTQzYzc3MzVjODdkNGNj
+NjZlNGVlMzUzYTU0OGQ0N2FlMmUzNmJlZjNlZjMyOTA3MDhiOWU3Y2Y3ZDhkMzZlNmIwM2Uy
+NTE4MWY1YzVkZjI4YTYyMzg3M2M4ODgxMGRhYjUzN2NiNzYwMWMxMzNmMjJkNTc5ZmNiODhj
+YjkyODllMjhjZWFjMWFmZWVkYWI0YTY3ODVlYzJiYWIzYzRhYjZjZTk2NTE4OTU2ZGI3Y2M5
+YjBkN2NmNGVmMjk3YzUyZWIzNmYwYjQ5NTVkYTM2YTUxYjU2ZjM1M2VlNjM0ODc3YmY1NmVm
+NmExZjk0OTY4Nzg1MzU0NjhiOGNiM2NjZDc4MjU1YTVmYjczMTA1MzA3MGQxMWMyYTI5OTgz
+NjQ2ZjM2YjQwMTYwNWUwNDBiOTYzYTVjYzA0YzI4MmY1ZGQ4MWZjYjNjZmM3Mzk4ODIwOTI3
+MzI3Y2JhZGUwY2FmYmExNDJhYWE5YThjNTA1ZTkxNWU2ZDk4NDg0Nzc5NWQxYWQ4NGUxNmVm
+NDcyOWQzZGFkZGU1MTc1MDJlOTczNGU0YTYzZjZlMWEyNGUzYTg2MTAwMDAwMDAwfVxvYmp1
+cGRhdGU2MzkzNTkxMTF9fQ==
 
-vim +925 drivers/media/pci/ivtv/ivtv-ioctl.c
-
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  919  
-3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  920  static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
-3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  921  {
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  922  	static const struct v4l2_fmtdesc hm12 = {
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  923  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
-368f080b6870e65 drivers/media/video/ivtv/ivtv-ioctl.c Ian Armstrong 2007-11-05  924  		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27 @925  		{ 0, 0, 0, 0 }
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  926  	};
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  927  	static const struct v4l2_fmtdesc mpeg = {
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  928  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  929  		"MPEG", V4L2_PIX_FMT_MPEG,
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  930  		{ 0, 0, 0, 0 }
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  931  	};
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  932  	struct ivtv *itv = fh2id(fh)->itv;
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  933  	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  934  
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  935  	if (fmt->index)
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  936  		return -EINVAL;
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  937  	if (s->type == IVTV_ENC_STREAM_TYPE_MPG)
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  938  		*fmt = mpeg;
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  939  	else if (s->type == IVTV_ENC_STREAM_TYPE_YUV)
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  940  		*fmt = hm12;
-bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  941  	else
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  942  		return -EINVAL;
-3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  943  	return 0;
-1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  944  }
-3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  945  
-
-:::::: The code at line 925 was first introduced by commit
-:::::: 1a0adaf37c30e89e44d1470ef604a930999a5826 V4L/DVB (5345): ivtv driver for Conexant cx23416/cx23415 MPEG encoder/decoder
-
-:::::: TO: Hans Verkuil <hverkuil@xs4all.nl>
-:::::: CC: Mauro Carvalho Chehab <mchehab@infradead.org>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+------=_NextPart_000_0012_9EA5F536.10BC5961--
