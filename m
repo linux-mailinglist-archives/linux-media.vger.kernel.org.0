@@ -2,56 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8944318C31E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 23:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC5818C322
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 23:44:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727383AbgCSWnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 18:43:42 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:53190 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726867AbgCSWnl (ORCPT
+        id S1727402AbgCSWoO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 18:44:14 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:48856 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbgCSWoN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 18:43:41 -0400
+        Thu, 19 Mar 2020 18:44:13 -0400
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02JMhcmc115271;
-        Thu, 19 Mar 2020 17:43:38 -0500
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02JMiAqE046922;
+        Thu, 19 Mar 2020 17:44:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1584657818;
-        bh=zfLWX1cm2n5IGW6MDrbUt3JUla5yUerfPfbYG97ZOEs=;
+        s=ti-com-17Q1; t=1584657850;
+        bh=Si3aM70De/I+lxZrag3o6eFo531e54DnZtgE5yWExGE=;
         h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=jWzhh+2oKvO1Ok4fwTgSkemGPLQ5fqx+aTMRnTkLimO7nMkmi5v/82WbL4FNkfElY
-         hmQ1QjapW3RP5wq8RruXEVZ1X469ZNIRIgVMkXwAhyTjVo7JrOYI7+6L5e1JP4kEIx
-         XgiWuNcCAjDgIeeR9ZnHrIDqwhzalnzZWrAuew1U=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02JMhc36029671
+        b=M8gW8M6rOfJKoTpvnrQ4+N9o37y3TqjB1hw0JXEDe8QnKY69JZI5Ax05U6/1E59sU
+         PqGk8BXkEWCeNe6jQi8THSXKVcCLRt+m7KSpg9ckUWawBJVkr83SItNOtgkoSqSU6V
+         QmOmbn6WqiyU/zcKH7ZcRLaBJilKLmKtBuxdi6cs=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02JMiAOG030704
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 19 Mar 2020 17:43:38 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 19 Mar 2020 17:44:10 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
- Mar 2020 17:43:38 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ Mar 2020 17:44:10 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 19 Mar 2020 17:43:38 -0500
+ Frontend Transport; Thu, 19 Mar 2020 17:44:10 -0500
 Received: from [10.250.87.129] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02JMhbbA114333;
-        Thu, 19 Mar 2020 17:43:38 -0500
-Subject: Re: [PATCH v2 13/19] media: ti-vpe: cal: fix dummy read to phy
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02JMi9dc058397;
+        Thu, 19 Mar 2020 17:44:09 -0500
+Subject: Re: [PATCH v2 14/19] media: ti-vpe: cal: program number of lines
+ properly
 To:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         <linux-media@vger.kernel.org>
 CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Hans Verkuil <hverkuil@xs4all.nl>
 References: <20200319075023.22151-1-tomi.valkeinen@ti.com>
- <20200319075023.22151-14-tomi.valkeinen@ti.com>
+ <20200319075023.22151-15-tomi.valkeinen@ti.com>
 From:   Benoit Parrot <bparrot@ti.com>
-Message-ID: <b329c519-4a77-5a07-f4b0-88d8d9b573f4@ti.com>
-Date:   Thu, 19 Mar 2020 17:43:37 -0500
+Message-ID: <77e59aed-5e5d-0d6c-d830-731c37350f26@ti.com>
+Date:   Thu, 19 Mar 2020 17:44:09 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200319075023.22151-14-tomi.valkeinen@ti.com>
+In-Reply-To: <20200319075023.22151-15-tomi.valkeinen@ti.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -66,35 +67,39 @@ Tomi,
 Thanks for the patch.
 
 On 3/19/20 2:50 AM, Tomi Valkeinen wrote:
-> After ComplexIO reset, a dummy read to PHY is needed as per CAL spec to
-> finish the reset. Currently the driver reads a ComplexIO register, not
-> PHY register. Fix this.
+> CAL_CSI2_CTX register has LINES field, which, according to the
+> documentation, should be programmed to the number of lines transmitted
+> by the camera. If the number of lines is unknown, it can be set to 0.
+> The driver sets the field to 0 for some reason, even if we know the
+> number of lines.
+> 
+> This patch sets the number of lines properly, which will allow the HW to
+> discard extra lines (if the sensor would send such for some reason),
+> and, according to documentation: "This leads to regular video timings
+> and avoids potential artifacts".
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > Tested-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Nice catch.
-
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 
 > ---
->  drivers/media/platform/ti-vpe/cal.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/media/platform/ti-vpe/cal.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index ed32b199aabe..e6f766ba3079 100644
+> index e6f766ba3079..a59931ba3ed7 100644
 > --- a/drivers/media/platform/ti-vpe/cal.c
 > +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -796,8 +796,8 @@ static void csi2_phy_init(struct cal_ctx *ctx)
->  		ctx->csi2_port,
->  		reg_read(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port)));
->  
-> -	/* Dummy read to allow SCP to complete */
-> -	val = reg_read(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port));
-> +	/* Dummy read to allow SCP reset to complete */
-> +	reg_read(ctx->cc, CAL_CSI2_PHY_REG0);
->  
->  	/* 3.A. Program Phy Timing Parameters */
->  	csi2_phy_config(ctx);
+> @@ -962,8 +962,7 @@ static void csi2_ctx_config(struct cal_ctx *ctx)
+>  	set_field(&val, 0x1, CAL_CSI2_CTX_DT_MASK);
+>  	/* Virtual Channel from the CSI2 sensor usually 0! */
+>  	set_field(&val, ctx->virtual_channel, CAL_CSI2_CTX_VC_MASK);
+> -	/* NUM_LINES_PER_FRAME => 0 means auto detect */
+> -	set_field(&val, 0, CAL_CSI2_CTX_LINES_MASK);
+> +	set_field(&val, ctx->v_fmt.fmt.pix.height, CAL_CSI2_CTX_LINES_MASK);
+>  	set_field(&val, CAL_CSI2_CTX_ATT_PIX, CAL_CSI2_CTX_ATT_MASK);
+>  	set_field(&val, CAL_CSI2_CTX_PACK_MODE_LINE,
+>  		  CAL_CSI2_CTX_PACK_MODE_MASK);
 > 
