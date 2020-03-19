@@ -2,107 +2,407 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C8018BB6F
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 16:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF48C18BBB5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 16:57:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727767AbgCSPpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 11:45:09 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:20436 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727619AbgCSPpJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584632707;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uarX0K0WkQyekg6RxqpBFi4oNpTA2DnAzyM8/zQnD+s=;
-        b=cJGITio++tJ2yjSR5VFoBdamYQhPxABhX+N20aUnDl3Fs2SbmoUe6pkeDop9MJyvLH1pd0
-        9bBnalMhILHV3SMuHOE6jA+dFiu94RqnRW7qrCH7zxGW+QB4eDOFhAnkADFo3WQMqcjC6D
-        LQaz8bHrdYhMhKINVAmLnV/PeXJ8ha4=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-vCEu9I5_OgG5KN_2pvXDug-1; Thu, 19 Mar 2020 11:45:05 -0400
-X-MC-Unique: vCEu9I5_OgG5KN_2pvXDug-1
-Received: by mail-qv1-f69.google.com with SMTP id ev8so3162519qvb.1
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 08:45:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=uarX0K0WkQyekg6RxqpBFi4oNpTA2DnAzyM8/zQnD+s=;
-        b=dJZ1sxOPiCwZ2t3iMEv+j6tQs5xO5BkUH93CgtX8GAvMuTAAd0wQ4q7suZpgSMTnub
-         hlXHRUu3TcdNXHeNBmAjuT2LYnjumTo/uv4SX1oY+cT2T2RReo739r/Ex0jKoq5RX1hy
-         3sYEY9KRXMLS83T75qPklUdIbnUJyYrpQkPhVmQwh+9gvm/vHlBCITpoGjCorbUXFuw0
-         iWItUOiHXG80Wlx+p+G+FA4O1081wbtd/LnCzPU7eKmPy65PXXSMp2Sz/U1tB3+zDNJb
-         u4mpZpZyeDsBkA1s8c0ldnS9Pdc9DTvIaG9sVyuyKKY3wHaABisoy2KeiDfwPt3tLaOv
-         cdXw==
-X-Gm-Message-State: ANhLgQ0H1VO3bVZD4xvaWeUdNEskm6kziSPpKlpuulWMc6MM+3JgzNm9
-        5x9QsEAREHQHUk+y34YBysDnifioJjV14TUnbNVi2NQJ63hzimgk+sIOO+pHaL4wCg3WNdDLVAW
-        2BFFNTdN91uZ/IBelgLCj2K8=
-X-Received: by 2002:a05:6214:286:: with SMTP id l6mr3683847qvv.200.1584632704942;
-        Thu, 19 Mar 2020 08:45:04 -0700 (PDT)
-X-Google-Smtp-Source: ADFU+vuB21gw3DQ47Dzt+RdMDtOLxO2AyCZvMSK2YS3agFz+vf8F01Q1TUib7Xf1+lv5J8NGf4xmAA==
-X-Received: by 2002:a05:6214:286:: with SMTP id l6mr3683742qvv.200.1584632703694;
-        Thu, 19 Mar 2020 08:45:03 -0700 (PDT)
-Received: from desoxy (c-24-61-245-152.hsd1.ma.comcast.net. [24.61.245.152])
-        by smtp.gmail.com with ESMTPSA id f13sm1771431qti.47.2020.03.19.08.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2020 08:45:02 -0700 (PDT)
-Message-ID: <edfc1443ad26af30bd954127ede24a0f2fc349fd.camel@redhat.com>
-Subject: Re: [Mesa-dev] Plumbing explicit synchronization through the Linux
- ecosystem
-From:   Adam Jackson <ajax@redhat.com>
-To:     Jacob Lifshay <programmerjake@gmail.com>,
-        Jason Ekstrand <jason@jlekstrand.net>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org
-Date:   Thu, 19 Mar 2020 11:45:00 -0400
-In-Reply-To: <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
-         <CAOFGe97LnmEHVoitgKdo+hbw9rYacofkzkt3pPcQSaw9BaKyaA@mail.gmail.com>
-         <33d1749d876a83416c44671efcb37c74f87d1bd4.camel@ndufresne.ca>
-         <20200316102034.GA30883@pendragon.ideasonboard.com>
-         <CAOFGe95JUUBCuE=dWKtZVXjTLqxyf2oybpqAZ7hZhpBEKQ=Y-Q@mail.gmail.com>
-         <20200316211502.GW4732@pendragon.ideasonboard.com>
-         <74477a20fa78758dd6cf8c32d7a77d1cccf2646f.camel@ndufresne.ca>
-         <CAOFGe963WUB+rkA=FURuXEk6BVjsP18yk4sJ3y_7VxKmscShrA@mail.gmail.com>
-         <CAC2bXD5qJgT9sWJgL_ej5OY42a-xzYaeLrwioKUreQuPJ1idpg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.0 (3.34.0-1.fc31) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727521AbgCSP5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 11:57:31 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58554 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727260AbgCSP5b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Mar 2020 11:57:31 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 4CD91AD11;
+        Thu, 19 Mar 2020 15:57:28 +0000 (UTC)
+Date:   Thu, 19 Mar 2020 16:57:28 +0100
+Message-ID: <s5ha74cuyl3.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: siano: Use scnprintf() for avoiding potential buffer overflow
+In-Reply-To: <20200311074638.8572-1-tiwai@suse.de>
+References: <20200311074638.8572-1-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-03-17 at 10:12 -0700, Jacob Lifshay wrote:
-> One related issue with explicit sync using sync_file is that combined
-> CPUs/GPUs (the CPU cores *are* the GPU cores) that do all the
-> rendering in userspace (like llvmpipe but for Vulkan and with extra
-> instructions for GPU tasks) but need to synchronize with other
-> drivers/processes is that there should be some way to create an
-> explicit fence/semaphore from userspace and later signal it. This
-> seems to conflict with the requirement for a sync_file to complete in
-> finite time, since the user process could be stopped or killed.
+On Wed, 11 Mar 2020 08:46:38 +0100,
+Takashi Iwai wrote:
+> 
+> Since snprintf() returns the would-be-output size instead of the
+> actual output size, the succeeding calls may go beyond the given
+> buffer limit.  Fix it by replacing with scnprintf().
+> 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-DRI3 (okay, libxshmfence specifically) uses futexes for this. Would
-that work for you? IIRC the semantics there are that if the process
-dies the futex is treated as triggered, which seems like the only
-sensible thing to do.
+A gentle reminder for this forgotten patch.
+Let me know if any further changes are needed.
 
-- ajax
 
+thanks,
+
+Takashi
+
+> ---
+>  drivers/media/common/siano/smsdvb-debugfs.c | 208 ++++++++++++++--------------
+>  1 file changed, 104 insertions(+), 104 deletions(-)
+> 
+> diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
+> index c95d4583498e..e624028198da 100644
+> --- a/drivers/media/common/siano/smsdvb-debugfs.c
+> +++ b/drivers/media/common/siano/smsdvb-debugfs.c
+> @@ -45,88 +45,88 @@ static void smsdvb_print_dvb_stats(struct smsdvb_debugfs *debug_data,
+>  
+>  	buf = debug_data->stats_data;
+>  
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_rf_locked = %d\n", p->is_rf_locked);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_demod_locked = %d\n", p->is_demod_locked);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_external_lna_on = %d\n", p->is_external_lna_on);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "SNR = %d\n", p->SNR);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "ber = %d\n", p->ber);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "FIB_CRC = %d\n", p->FIB_CRC);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "ts_per = %d\n", p->ts_per);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "MFER = %d\n", p->MFER);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "RSSI = %d\n", p->RSSI);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "in_band_pwr = %d\n", p->in_band_pwr);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "carrier_offset = %d\n", p->carrier_offset);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "modem_state = %d\n", p->modem_state);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "frequency = %d\n", p->frequency);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "bandwidth = %d\n", p->bandwidth);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "transmission_mode = %d\n", p->transmission_mode);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "modem_state = %d\n", p->modem_state);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "guard_interval = %d\n", p->guard_interval);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "code_rate = %d\n", p->code_rate);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "lp_code_rate = %d\n", p->lp_code_rate);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "hierarchy = %d\n", p->hierarchy);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "constellation = %d\n", p->constellation);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "burst_size = %d\n", p->burst_size);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "burst_duration = %d\n", p->burst_duration);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "burst_cycle_time = %d\n", p->burst_cycle_time);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "calc_burst_cycle_time = %d\n",
+>  		      p->calc_burst_cycle_time);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_rows = %d\n", p->num_of_rows);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_padd_cols = %d\n", p->num_of_padd_cols);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_punct_cols = %d\n", p->num_of_punct_cols);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "error_ts_packets = %d\n", p->error_ts_packets);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "total_ts_packets = %d\n", p->total_ts_packets);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_valid_mpe_tlbs = %d\n", p->num_of_valid_mpe_tlbs);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_invalid_mpe_tlbs = %d\n", p->num_of_invalid_mpe_tlbs);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_corrected_mpe_tlbs = %d\n", p->num_of_corrected_mpe_tlbs);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "ber_error_count = %d\n", p->ber_error_count);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "ber_bit_count = %d\n", p->ber_bit_count);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "sms_to_host_tx_errors = %d\n", p->sms_to_host_tx_errors);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "pre_ber = %d\n", p->pre_ber);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "cell_id = %d\n", p->cell_id);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "dvbh_srv_ind_hp = %d\n", p->dvbh_srv_ind_hp);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "dvbh_srv_ind_lp = %d\n", p->dvbh_srv_ind_lp);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_mpe_received = %d\n", p->num_mpe_received);
+>  
+>  	debug_data->stats_count = n;
+> @@ -148,42 +148,42 @@ static void smsdvb_print_isdb_stats(struct smsdvb_debugfs *debug_data,
+>  
+>  	buf = debug_data->stats_data;
+>  
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "statistics_type = %d\t", p->statistics_type);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "full_size = %d\n", p->full_size);
+>  
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_rf_locked = %d\t\t", p->is_rf_locked);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_demod_locked = %d\t", p->is_demod_locked);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_external_lna_on = %d\n", p->is_external_lna_on);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "SNR = %d dB\t\t", p->SNR);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "RSSI = %d dBm\t\t", p->RSSI);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "in_band_pwr = %d dBm\n", p->in_band_pwr);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "carrier_offset = %d\t", p->carrier_offset);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "bandwidth = %d\t\t", p->bandwidth);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "frequency = %d Hz\n", p->frequency);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "transmission_mode = %d\t", p->transmission_mode);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "modem_state = %d\t\t", p->modem_state);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "guard_interval = %d\n", p->guard_interval);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "system_type = %d\t\t", p->system_type);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "partial_reception = %d\t", p->partial_reception);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_layers = %d\n", p->num_of_layers);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "sms_to_host_tx_errors = %d\n", p->sms_to_host_tx_errors);
+>  
+>  	for (i = 0; i < 3; i++) {
+> @@ -191,31 +191,31 @@ static void smsdvb_print_isdb_stats(struct smsdvb_debugfs *debug_data,
+>  		    p->layer_info[i].number_of_segments > 13)
+>  			continue;
+>  
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
+>  			      p->layer_info[i].code_rate);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
+>  			      p->layer_info[i].constellation);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
+>  			      p->layer_info[i].ber);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
+>  			      p->layer_info[i].ber_error_count);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
+>  			      p->layer_info[i].ber_bit_count);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
+>  			      p->layer_info[i].pre_ber);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
+>  			      p->layer_info[i].ts_per);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
+>  			      p->layer_info[i].error_ts_packets);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
+>  			      p->layer_info[i].total_ts_packets);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
+>  			      p->layer_info[i].ti_ldepth_i);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n,
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  			      "\tnumber_of_segments = %d\t",
+>  			      p->layer_info[i].number_of_segments);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
+>  			      p->layer_info[i].tmcc_errors);
+>  	}
+>  
+> @@ -238,44 +238,44 @@ static void smsdvb_print_isdb_stats_ex(struct smsdvb_debugfs *debug_data,
+>  
+>  	buf = debug_data->stats_data;
+>  
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "statistics_type = %d\t", p->statistics_type);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "full_size = %d\n", p->full_size);
+>  
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_rf_locked = %d\t\t", p->is_rf_locked);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_demod_locked = %d\t", p->is_demod_locked);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "is_external_lna_on = %d\n", p->is_external_lna_on);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "SNR = %d dB\t\t", p->SNR);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "RSSI = %d dBm\t\t", p->RSSI);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "in_band_pwr = %d dBm\n", p->in_band_pwr);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "carrier_offset = %d\t", p->carrier_offset);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "bandwidth = %d\t\t", p->bandwidth);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "frequency = %d Hz\n", p->frequency);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "transmission_mode = %d\t", p->transmission_mode);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "modem_state = %d\t\t", p->modem_state);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "guard_interval = %d\n", p->guard_interval);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "system_type = %d\t\t", p->system_type);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "partial_reception = %d\t", p->partial_reception);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n,
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  		      "num_of_layers = %d\n", p->num_of_layers);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n, "segment_number = %d\t",
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n, "segment_number = %d\t",
+>  		      p->segment_number);
+> -	n += snprintf(&buf[n], PAGE_SIZE - n, "tune_bw = %d\n",
+> +	n += scnprintf(&buf[n], PAGE_SIZE - n, "tune_bw = %d\n",
+>  		      p->tune_bw);
+>  
+>  	for (i = 0; i < 3; i++) {
+> @@ -283,31 +283,31 @@ static void smsdvb_print_isdb_stats_ex(struct smsdvb_debugfs *debug_data,
+>  		    p->layer_info[i].number_of_segments > 13)
+>  			continue;
+>  
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\nLayer %d\n", i);
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tcode_rate = %d\t",
+>  			      p->layer_info[i].code_rate);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "constellation = %d\n",
+>  			      p->layer_info[i].constellation);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber = %-5d\t",
+>  			      p->layer_info[i].ber);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tber_error_count = %-5d\t",
+>  			      p->layer_info[i].ber_error_count);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "ber_bit_count = %-5d\n",
+>  			      p->layer_info[i].ber_bit_count);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tpre_ber = %-5d\t",
+>  			      p->layer_info[i].pre_ber);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\tts_per = %-5d\n",
+>  			      p->layer_info[i].ts_per);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "\terror_ts_packets = %-5d\t",
+>  			      p->layer_info[i].error_ts_packets);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "total_ts_packets = %-5d\t",
+>  			      p->layer_info[i].total_ts_packets);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "ti_ldepth_i = %d\n",
+>  			      p->layer_info[i].ti_ldepth_i);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n,
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n,
+>  			      "\tnumber_of_segments = %d\t",
+>  			      p->layer_info[i].number_of_segments);
+> -		n += snprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
+> +		n += scnprintf(&buf[n], PAGE_SIZE - n, "tmcc_errors = %d\n",
+>  			      p->layer_info[i].tmcc_errors);
+>  	}
+>  
+> -- 
+> 2.16.4
+> 
