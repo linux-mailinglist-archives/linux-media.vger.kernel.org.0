@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7610F18C31D
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 23:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46FC518C320
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2020 23:44:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727313AbgCSWna (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 18:43:30 -0400
-Received: from gateway36.websitewelcome.com ([192.185.188.18]:21104 "EHLO
-        gateway36.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726867AbgCSWna (ORCPT
+        id S1727392AbgCSWoI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Mar 2020 18:44:08 -0400
+Received: from gateway32.websitewelcome.com ([192.185.145.115]:36512 "EHLO
+        gateway32.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726867AbgCSWoI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 18:43:30 -0400
-X-Greylist: delayed 1341 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 18:43:29 EDT
+        Thu, 19 Mar 2020 18:44:08 -0400
+X-Greylist: delayed 1295 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 18:44:07 EDT
 Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
-        by gateway36.websitewelcome.com (Postfix) with ESMTP id 5B2D3402A82E7
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 16:37:12 -0500 (CDT)
+        by gateway32.websitewelcome.com (Postfix) with ESMTP id 819E7F95AD
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2020 17:22:32 -0500 (CDT)
 Received: from gator4166.hostgator.com ([108.167.133.22])
         by cmsmtp with SMTP
-        id F3XIjZ9Iu8vkBF3XIjQB4m; Thu, 19 Mar 2020 17:21:08 -0500
+        id F3YejZAxf8vkBF3YejQCj4; Thu, 19 Mar 2020 17:22:32 -0500
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
@@ -26,17 +26,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Ejt0U9xF8uKBQhWJIyxqaJFvv89Skw/oMh2ar5ojGfw=; b=oLL9zKsAPSXHRamY1lZiC24mzX
-        fQX8i72OeDaqcpVp8/PJVj5aA78c3JqbnBMdplk0/2pWLsMtG2EPsz06hUsK481YU+AZQMGVoDF0l
-        v1WLi3sWfeJREHcXXp7cMa6d/L97gZKSE211pMuv4Sk5reihfLKkZONGc0hoIZEO1XLfDFkyOpzoH
-        0GnAvrSDYPdcNp04p8FmFk6N0yqekinAwNGzWrKHFAjn0NUl0T4rXYPzQ1lVOIt89q9JzsDiyFd6w
-        ks7KMEcjLZiYEyh2yqrW3bitKFa0mg+haCXd9xN+IzocGZriL8FCKPeHyNIJxPHX1yngUQ1MEyKba
-        VfavbZBw==;
-Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53880 helo=embeddedor)
+        bh=Fch2gw+FxFOXUz75GYw483nOatBMsFwMZSrEf6kFfTg=; b=l3k+wfE4lVqBWzoz4AH1Y3aB4X
+        SNG1oTH5L8odnCiD4YykyzsTml/8wJx0Nh3HQ5xOyW9QdscofmWrhUoksFaYLna1vptrw4dH7u0OR
+        JQ/z2YgbjGQYyiTjWegOVTfZTG+G0+mabbHUMsPZs9XhLRksK+sWYqVAlQcBuaPl/qkoYYGLyXrB5
+        PC3zlrvGU52YVAz6nur+atgPOezOttLLEeDD++9BdlbxykWlKNZRh1gBk7e2iJXpdJx7To+tSUoTe
+        XgzlFwksvHPa4oQpM1NfeFzE1xSw8FcfB+JxFOqiKEJ9k1tEzdDLc1Kylt1gxrEJkcj3oMD0MAnj9
+        bU+P7o4A==;
+Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53888 helo=embeddedor)
         by gator4166.hostgator.com with esmtpa (Exim 4.92)
         (envelope-from <gustavo@embeddedor.com>)
-        id 1jF3XH-0023Gm-0B; Thu, 19 Mar 2020 17:21:07 -0500
-Date:   Thu, 19 Mar 2020 17:21:05 -0500
+        id 1jF3Yc-0023qC-18; Thu, 19 Mar 2020 17:22:30 -0500
+Date:   Thu, 19 Mar 2020 17:22:29 -0500
 From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Andy Gross <agross@kernel.org>,
@@ -45,9 +45,9 @@ To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH][next] media: venus: hfi_cmds.h: Replace zero-length array
+Subject: [PATCH][next] media: venus: hfi_msgs.h: Replace zero-length array
  with flexible-array member
-Message-ID: <20200319222105.GA19104@embeddedor.com>
+Message-ID: <20200319222229.GA19280@embeddedor.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -60,13 +60,13 @@ X-AntiAbuse: Sender Address Domain - embeddedor.com
 X-BWhitelist: no
 X-Source-IP: 189.218.116.241
 X-Source-L: No
-X-Exim-ID: 1jF3XH-0023Gm-0B
+X-Exim-ID: 1jF3Yc-0023qC-18
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53880
+X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53888
 X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 5
+X-Email-Count: 12
 X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
 X-Local-Domain: yes
 Sender: linux-media-owner@vger.kernel.org
@@ -104,22 +104,58 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/hfi_msgs.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-index cae9d5d61c0c..83705e237f1c 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-@@ -107,7 +107,7 @@ struct hfi_session_abort_pkt {
- struct hfi_session_set_property_pkt {
- 	struct hfi_session_hdr_pkt shdr;
- 	u32 num_properties;
+diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.h b/drivers/media/platform/qcom/venus/hfi_msgs.h
+index 7694b1d25d9d..526d9f5b487b 100644
+--- a/drivers/media/platform/qcom/venus/hfi_msgs.h
++++ b/drivers/media/platform/qcom/venus/hfi_msgs.h
+@@ -155,7 +155,7 @@ struct hfi_msg_session_empty_buffer_done_pkt {
+ 	u32 input_tag;
+ 	u32 packet_buffer;
+ 	u32 extradata_buffer;
 -	u32 data[0];
 +	u32 data[];
  };
  
- struct hfi_session_set_buffers_pkt {
+ struct hfi_msg_session_fbd_compressed_pkt {
+@@ -175,7 +175,7 @@ struct hfi_msg_session_fbd_compressed_pkt {
+ 	u32 picture_type;
+ 	u32 packet_buffer;
+ 	u32 extradata_buffer;
+-	u32 data[0];
++	u32 data[];
+ };
+ 
+ struct hfi_msg_session_fbd_uncompressed_plane0_pkt {
+@@ -202,7 +202,7 @@ struct hfi_msg_session_fbd_uncompressed_plane0_pkt {
+ 	u32 picture_type;
+ 	u32 packet_buffer;
+ 	u32 extradata_buffer;
+-	u32 data[0];
++	u32 data[];
+ };
+ 
+ struct hfi_msg_session_fbd_uncompressed_plane1_pkt {
+@@ -211,7 +211,7 @@ struct hfi_msg_session_fbd_uncompressed_plane1_pkt {
+ 	u32 filled_len;
+ 	u32 offset;
+ 	u32 packet_buffer2;
+-	u32 data[0];
++	u32 data[];
+ };
+ 
+ struct hfi_msg_session_fbd_uncompressed_plane2_pkt {
+@@ -220,7 +220,7 @@ struct hfi_msg_session_fbd_uncompressed_plane2_pkt {
+ 	u32 filled_len;
+ 	u32 offset;
+ 	u32 packet_buffer3;
+-	u32 data[0];
++	u32 data[];
+ };
+ 
+ struct hfi_msg_session_parse_sequence_header_done_pkt {
 -- 
 2.23.0
 
