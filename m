@@ -2,107 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AA1618C931
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 09:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65EEA18C95B
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 09:58:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbgCTIuf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 04:50:35 -0400
-Received: from mail.netline.ch ([148.251.143.178]:51038 "EHLO
-        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgCTIuf (ORCPT
+        id S1726838AbgCTI6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 04:58:09 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:60111 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgCTI6I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 04:50:35 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by netline-mail3.netline.ch (Postfix) with ESMTP id B834F2A6016;
-        Fri, 20 Mar 2020 09:50:32 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
-        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id RaTPwCQfUc8e; Fri, 20 Mar 2020 09:50:32 +0100 (CET)
-Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch [83.76.80.252])
-        by netline-mail3.netline.ch (Postfix) with ESMTPSA id 2838A2A6042;
-        Fri, 20 Mar 2020 09:50:32 +0100 (CET)
-Received: from localhost ([::1])
-        by thor with esmtp (Exim 4.93)
-        (envelope-from <michel@daenzer.net>)
-        id 1jFDM7-0007vl-16; Fri, 20 Mar 2020 09:50:15 +0100
-Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
-To:     =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        xorg-devel <xorg-devel@lists.x.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        "wayland-devel @ lists . freedesktop . org" 
-        <wayland-devel@lists.freedesktop.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
-        linux-media@vger.kernel.org
-References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
- <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
- <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
- <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
- <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
- <CAAxE2A5D2HaqjS52jymMbwOUEsaXG_cMeeA9_esqaC54-52Kgw@mail.gmail.com>
- <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
- <20200319105129.GF2363188@phenom.ffwll.local>
- <CAAxE2A4-YocvFctj7x4mHe=hMx4Q6DBzjPBisbi+Tmh1UMjCpg@mail.gmail.com>
-From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Message-ID: <0b547156-ea58-90ab-1ad0-36d8cc433f90@daenzer.net>
-Date:   Fri, 20 Mar 2020 09:50:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Fri, 20 Mar 2020 04:58:08 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mo7if-1jeAAm1Fxz-00pewW; Fri, 20 Mar 2020 09:57:51 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id D01EF64E13A;
+        Fri, 20 Mar 2020 08:57:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8WVdriKV_24H; Fri, 20 Mar 2020 09:57:49 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 88A6664E076;
+        Fri, 20 Mar 2020 09:57:49 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.8.5.41) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 20 Mar 2020 09:57:49 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id 03CEB80524; Fri, 20 Mar 2020 09:57:49 +0100 (CET)
+Date:   Fri, 20 Mar 2020 09:57:48 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v2 05/10] media: adv748x: add support for HDMI audio
+Message-ID: <20200320085748.GC4344@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+References: <cover.1584639664.git.alexander.riesen@cetitec.com>
+ <252bb433f47b0ccb61bb077abdbd892091abc550.1584639664.git.alexander.riesen@cetitec.com>
+ <CAMuHMdXOAQtuxCAfb=sZKodyJWwSrf-GO-pdV3HYkOytQW4ENg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAxE2A4-YocvFctj7x4mHe=hMx4Q6DBzjPBisbi+Tmh1UMjCpg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-CA
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXOAQtuxCAfb=sZKodyJWwSrf-GO-pdV3HYkOytQW4ENg@mail.gmail.com>
+X-Originating-IP: [10.8.5.41]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536A6D7764
+X-Provags-ID: V03:K1:wVJ3OvhV0Lvry0hgcgROi8Lpbax9cgifbiymKG7FRbbbjAK1rX0
+ Is0O+5SFuT17dvunKoqEGCwkjWmyvRAwfuARYtS+7Hfh785pgLXdL6dcbIOi6sp+zn7cFrT
+ lwdJU/vpOTIFoz3tYZKAhrUG8jPAGIhmJumC2obezAomNKeWhJ91+U2KXS752GQWo3q5RJU
+ RLerO04OwjnEpPnGC9Vzg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uNMETWAQjQg=:vLEFwoWAelStQ0k7nCUVNT
+ aCVw9ozlhp45UIJqEh/USKF9RgevErT2upztWoeYjACvqVIBIEEogFQakTQsiipMm1CDW6MoB
+ XnAqzycEx64LZ7rmN470XIj0avElWBShMm+zyN0K2t+JFt5vKLHhwY7YGPIMVwy+yTdTjg/rP
+ 99SU4WMGxUt8ulLUdPsgVEGgnLsdBnoVsblpGsM+gwxjCXNLDMNREKAGv8ixgE+UJZtJIfRp+
+ FpZKH0yADUGcZxKDOKzCCeNPxN0YgxIrGG5Jpz3pek3PLzaZW/GCxen9LZuQhsV4LyeuXWL5C
+ F576r7CXv9zaxd9eScgDaeta68I2xklolW2cfo0R4Ks2azs4lyo2BAkuJb5xRbKL7j2RSYcKS
+ plEGX4KSs1je913qrf44VhgZKzN8GmeC8GlJTcn+Xt24pyfb922HVEBfsMSm/caWpBiXsino+
+ yJhgeuycnrseXlpENT78oBd+OW6/ocUNj/XmiQXkJfISAfriZTRLYjdCQsNoaZsq0MtbRwPxN
+ qesn7vFjAbM9aEbZsHF2ePInrD4g1ESAVo4Re5KPNpOHY60kZ/RJx2mh+tCTTWkjPnT3BVTk/
+ A9y363R6OQ707Kn37QjqY+ed8vOBKtMCvnzGzwAoI9rA5iggSnPcK3MPYm+764GfEistE89xM
+ 6+jnmggijWTyUVottTgIJw4aW3JloGlsTJTHmzylgjb350BLxlpBR3rljcJsUiah7j4LfJuOG
+ ey9WEan1X3myyUZLH9tZ0LbI5sPAoaMMPYSvSkuAXMxp/UqhPsJecI5Q4wLpY2OLfUdQWZDui
+ u+GNLb6zZ5GFBuSzElEldypinSlBLkPjv80wi8buFIT3E1KE8Qi5vo6jIGuBv9llBUigJ87
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-03-19 8:54 p.m., Marek Olšák wrote:
-> On Thu., Mar. 19, 2020, 06:51 Daniel Vetter, <daniel@ffwll.ch>
-> wrote:
->> 
->> Yeah, this is entirely about the programming model visible to
->> userspace. There shouldn't be any impact on the driver's choice of
->> a top vs. bottom of the gpu pipeline used for synchronization,
->> that's entirely up to what you're hw/driver/scheduler can pull
->> off.
->> 
->> Doing a full gfx pipeline flush for shared buffers, when your hw
->> can do be, sounds like an issue to me that's not related to this
->> here at all. It might be intertwined with amdgpu's special
->> interpretation of dma_resv fences though, no idea. We might need to
->> revamp all that. But for a userspace client that does nothing fancy
->> (no multiple render buffer targets in one bo, or vk style "I write
->> to everything all the time, perhaps" stuff) there should be 0 perf
->> difference between implicit sync through dma_resv and explicit sync
->> through sync_file/syncobj/dma_fence directly.
->> 
->> If there is I'd consider that a bit a driver bug.
+Hi Geert,
+
+Geert Uytterhoeven, Fri, Mar 20, 2020 09:43:29 +0100:
+> CC linux-clk for the clock provider.
+
+Thanks!
+
+> > +int adv748x_dai_init(struct adv748x_dai *dai)
+> > +{
+> > +       int ret;
+> > +       struct adv748x_state *state = adv748x_dai_to_state(dai);
+> > +
+> > +       dai->mclk = clk_register_fixed_rate(state->dev,
+> > +                                           "adv748x-hdmi-i2s-mclk",
 > 
-> Last time I checked, there was no fence sync in gnome shell and
-> compiz after an app passes a buffer to it.
+> I assume there can be multiple adv748x instances in the system?
+> Hence the clock name should be unique for each instance.
 
-They are not required (though encouraged) to do that.
+I think that can happen.
 
+Is it alright to derive the clock name from the device name? E.g.:
+adv748x.4-0070-mclk? Where "adv748x.4-0070" is a struct device->name.
 
-> So drivers have to invent hacks to work around it and decrease
-> performance. It's not a driver bug.
-> 
-> Implicit sync really means that apps and compositors don't sync, so
-> the driver has to guess when it should sync.
+Regards,
+Alex
 
-Making implicit sync work correctly is ultimately the kernel driver's
-responsibility. It sounds like radeonsi is having to work around the
-amdgpu/radeon kernel driver(s) not fully living up to this responsibility.
-
-
--- 
-Earthling Michel Dänzer               |               https://redhat.com
-Libre software enthusiast             |             Mesa and X developer
