@@ -2,113 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A9C318C98F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 10:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCE6518C99B
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 10:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbgCTJIo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 05:08:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:38943 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726602AbgCTJIo (ORCPT
+        id S1727015AbgCTJKq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 05:10:46 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42033 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726690AbgCTJKq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 05:08:44 -0400
-Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MjBNV-1jj4si1s7J-00f7hk; Fri, 20 Mar 2020 10:08:29 +0100
-Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id 980C964FD3A;
-        Fri, 20 Mar 2020 09:08:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at cetitec.com
-Received: from mail.cetitecgmbh.com ([127.0.0.1])
-        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EbSnlHvf-AW5; Fri, 20 Mar 2020 10:08:27 +0100 (CET)
-Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 306B264C7C8;
-        Fri, 20 Mar 2020 10:08:27 +0100 (CET)
-Received: from pflmari.corp.cetitec.com (10.8.5.41) by
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 20 Mar 2020 10:08:27 +0100
-Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
-        id 8E5AA8051E; Fri, 20 Mar 2020 10:08:26 +0100 (CET)
-Date:   Fri, 20 Mar 2020 10:08:26 +0100
-From:   Alex Riesen <alexander.riesen@cetitec.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        <devel@driverdev.osuosl.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 03/10] media: adv748x: reduce amount of code for
- bitwise modifications of device registers
-Message-ID: <20200320090826.GE4344@pflmari>
-Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 20 Mar 2020 05:10:46 -0400
+Received: by mail-ot1-f67.google.com with SMTP id a2so5258855otq.9;
+        Fri, 20 Mar 2020 02:10:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=Tg5BjS+sqoKmcQ+42q9TxLcAJmVp9TX8V+2Cw9tSbTc=;
+        b=aTcVktbEX8rrXl/LM4BLIEi3AcDdULW8imP+UQd+83ol927lkqqyFhnxPmFXYO7PxW
+         FEy2nLzIk4gIaGzlxosaQ5JYaG+DJAczIxAHBhe9hmUtYP/7wQTo7AQACPMdQvPrffQo
+         s1IovBhLxhO3/IyvayndMiWkXq72qjebMieBhaRUP+1fiMHfals4sZCZLLzOJ13YuCLX
+         Am/S83dgH8ovyRAKTBqjLS05LhxCsYd92+0XQs0ytYmsK/oiAA8aax1PgRXkw4yc+TML
+         IwOw0P6gDPp8kGFdOjEVtrq91Q+z06VMxEDRE/jcog/fxAHjajc3HiqDvq1B9CX2i9rT
+         Ealg==
+X-Gm-Message-State: ANhLgQ0Zc2jfbB5Sn1Rn/8vFxmFYqrDEpDrj19Afnqq5gyMAxtdzm6nu
+        vrodkNfTcy1W4oDkPDF5iXpQlGhT2Htk/V7bQhBzNQ==
+X-Google-Smtp-Source: ADFU+vsUtq7aKxlPk7a6wmuKLwOjxCxHK6YYdo8yUXNmA1Av41cm11S+ggWl9zkA56I5lN+TzJt+7vYyBdanbV3/AIo=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr5844474otk.145.1584695445126;
+ Fri, 20 Mar 2020 02:10:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1584639664.git.alexander.riesen@cetitec.com>
+ <252bb433f47b0ccb61bb077abdbd892091abc550.1584639664.git.alexander.riesen@cetitec.com>
+ <CAMuHMdXOAQtuxCAfb=sZKodyJWwSrf-GO-pdV3HYkOytQW4ENg@mail.gmail.com> <20200320085748.GC4344@pflmari>
+In-Reply-To: <20200320085748.GC4344@pflmari>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 20 Mar 2020 10:10:24 +0100
+Message-ID: <CAMuHMdUvLGx41631HD-jOrpiw7Nyode-iXk0hxDhBHZ9JEqy7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] media: adv748x: add support for HDMI audio
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <cover.1584639664.git.alexander.riesen@cetitec.com>
- <099ebaa317156ec8edab973d0445851337139e6b.1584639664.git.alexander.riesen@cetitec.com>
- <20200319180614.GL14585@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200319180614.GL14585@pendragon.ideasonboard.com>
-X-Originating-IP: [10.8.5.41]
-X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A290D7F536A6D7764
-X-Provags-ID: V03:K1:GyfE3ge5dmMuJn+E68M2Bvu+1hVUKfBccN31Q0J8lSRwpfZtuoi
- 4VOjT4n+AMeUJmDaIqgbbDEMXYrE6u60hxfOSDKQfqmTaxyp22ykfgbHYpriPMkRjmPMUS3
- PGiZjHQ0EflMC3YfvPOnCUfKS0X00CrYtBbnyZIrSziijPOCAh3Ap+TOxh5z1B9XyK0Uk5v
- Txuvu8681A+Kp41klS7Sw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wpgr3zQ1hOI=:CrXtxd9Io/+n37h8ZS8OCW
- mIcXBISOpY6MvadLKr3exW8jmSn5ikIDxZmGYFS1IQnGXgzcbRtagRXYybYIM5dACzitlRmRw
- uQxQ5y41G3TIYdCSeg5mhNy5LQGGobA9RxJyLxA3KUy2QMBq6ZVgs6Y95UNu2ZpPmA3eaK1BS
- 3yXTmDKin9vF7WXC88SzIBgBZqnZTcnVmAQClV3tX5M74e8ZMH/0QKNnh9h+tabEU7ZNLyZGo
- Tn83JhUhvZiCOE5QVL6ok5ddIUEjPD/FBqxBZdIO4n0R/aU2h9BACQaN/zzcY0mNX0t4ha8H+
- C65h2fmsrt877FiWugLd7NyqtuDUXBEFz5crPcNAVlr3wHPsL9C0Qt0jXX5G+pv6yIfvvKHVM
- dxWWXXeBWU9gfi5ctBt6/+lIExlimA0TlrTXc8hrLwn2qbO1ud6AzF8b56JZoWdarNRgNpXI0
- 5uKRXH9a7IxD1djb6IuvZhxjLrWQqiMWTYkRD/sbT1Qtuy7lfnugc42+9ZWwCgxwLVhIqc9Z7
- V98PQsHC3hKShSVZ0pJKWH/qFrLexQX9lEUS2izfTWSc0RM0bD7rZOsId7vjLKI4VFfTb5Xl4
- Ra7XEnRX+5qIvXPHsUsMVMBJrDmQvVPMu/IcryAqL2w8LBKYwfoGToeSaOtsLTlm81urNMoqy
- D2Wm0auDbIqTD9LHh3LVjCOB5ME83WnOi3DOf4MLNEgOYw8UefMVwJifVswmr2T9WSm1pO7Hd
- ibMIWzTZ37oHIU2w6vlMIIoK6phSX8nc3RML2kJntVjmeYl8ZewWxMgz5BAqHQCJSfIMV7URt
- DyoH3XpYYfTerofP2Tsn919N0X9VA8Bjo526SF7gCYSIgbJcrOANbYOmkCmpbYkH1IdvxpU
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Laurent Pinchart, Thu, Mar 19, 2020 19:06:14 +0100:
-> On Thu, Mar 19, 2020 at 06:41:53PM +0100, Alex Riesen wrote:
-> >  #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
-> >  #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
-> > -#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~(m)) | (v))
-> > +#define io_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_IO, r, m, v)
-> > +#define io_update(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_IO, r, m, v)
-> 
-> Those two are identical. Do we need both ? I would standardize on either
-> *_update or *_clrset for all the functions here. Apart from that,
+Hi Alex,
 
-Shame on me. *_clrset that is (it was there before me).
+On Fri, Mar 20, 2020 at 9:58 AM Alex Riesen
+<alexander.riesen@cetitec.com> wrote:
+> Geert Uytterhoeven, Fri, Mar 20, 2020 09:43:29 +0100:
+> > > +int adv748x_dai_init(struct adv748x_dai *dai)
+> > > +{
+> > > +       int ret;
+> > > +       struct adv748x_state *state = adv748x_dai_to_state(dai);
+> > > +
+> > > +       dai->mclk = clk_register_fixed_rate(state->dev,
+> > > +                                           "adv748x-hdmi-i2s-mclk",
+> >
+> > I assume there can be multiple adv748x instances in the system?
+> > Hence the clock name should be unique for each instance.
+>
+> I think that can happen.
+>
+> Is it alright to derive the clock name from the device name? E.g.:
+> adv748x.4-0070-mclk? Where "adv748x.4-0070" is a struct device->name.
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Yes, that's the idea.
 
-Thanks!
+Gr{oetje,eeting}s,
 
-Regards,
-Alex
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
