@@ -2,79 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40F5818CCB9
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 12:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D8B518CE7C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 14:13:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727145AbgCTLWE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 07:22:04 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:38258 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726902AbgCTLV6 (ORCPT
+        id S1727101AbgCTNNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 09:13:01 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:51781 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726902AbgCTNNB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:21:58 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k21so6080830oij.5
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2020 04:21:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=gXr8iqrFPWrUhIliERP+Rlw7D9XFBjLMvK5JfWrCwC1wCwV70lx2adPhEP+5LqtKBG
-         O7JxXe77iNTDDKteRIXyf/+5d6XSEUrRv+eG+L2zubgUkC+eWkybCOuucPHhc0ShVd1L
-         7mmc4fyfvf0Od1Bi4HewoE3FoNz+THwrf6rX53/BkajGTcaqNUtHUSKj+8dpdvKadb4o
-         I6t5k90iaDwdED7mSjm4SxMxu1mD1nZuxQ9ZeNQ+a6TGw/3h7X0TvsVG77lyIB9Bk3MP
-         RcyvjUdW1zADACdtH+UIpYKPK/PGfBGesTi7w5wMvW1LxvX8cJVM9F6GMvVusKZ+9xMh
-         9qFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=hwTbA/o/AyDJD6mNDq4/Rkui2OgW6Psr1eJSAWv8Lsec9dc0m24iRKCYvg9pHm4qBb
-         xurlOeefbmNaYuElUd4EOSbv58icfdm3K/AfJkqbVvN/MgJCcfWAND9+UFMdVkhIsQUY
-         jyiKQvdDgaY3dpFDldTYfBH1yMR9CgDwnSqJFMARriZq8tY4B10mO5cUjal6nHG8FZ0C
-         jiEGHkihRDDKw44iRDZZw9enSRBo3MrdQW3V5GnBpdug7kO12BizvUqVV2+pUvlwXF2E
-         p1w/hzHTPS1ghQurc96SkuyFN+bn95GktO31cA0spjqT/875S/hpVsN5vXJWYZUJMXJg
-         gHuw==
-X-Gm-Message-State: ANhLgQ0c2pH7zAudO2wAPHisy+gacWC5PA4czFe+bEzenYlY6Efc81tU
-        gl5db8no7PGJ8eLCb8u/yMk+ZjlgkeTH9SPdwOQ=
-X-Google-Smtp-Source: ADFU+vsEhnx2OvxntOwweiY4ejI8hgMnvqEI1mkGNtS4be2GVSqcT+fJU/MBEybdWCiYRkYwkzCyurhmJwBn7Zr4Sgs=
-X-Received: by 2002:aca:210c:: with SMTP id 12mr5681362oiz.0.1584703317715;
- Fri, 20 Mar 2020 04:21:57 -0700 (PDT)
+        Fri, 20 Mar 2020 09:13:01 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1jFHSO-0001XK-3z; Fri, 20 Mar 2020 14:13:00 +0100
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, kernel@pengutronix.de,
+        devicetree@vger.kernel.org
+Subject: [PATCH v6 0/4] Add initial i.MX8MQ support
+Date:   Fri, 20 Mar 2020 14:12:52 +0100
+Message-Id: <20200320131256.23294-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a05:6838:40c6:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:21:57
- -0700 (PDT)
-From:   ECOWAS COMMITEE <ecowasmonitoringcommitteeabj@gmail.com>
-Date:   Fri, 20 Mar 2020 11:21:57 +0000
-Message-ID: <CAHHubrYVO=2YdPqKZhJ+2V5OGE9v-76hg5HAnvmVr7enpkq_MA@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Sir/Madam
+With the i.MX8MQ decoders in active use and the i.MX8MM power domain
+support still up in the air, I think it makes sense to merge i.MX8MQ
+Hantro support now and accept that i.MX8MM may or may not require
+different bindings.
 
-HAPPY SURVIVAL OF CORONAVIRUS
+Patch 4 depends on [2] for the MAINTAINERS change.
 
-We the West African Monitoring Committee of the West African Economic
-Community(ECOWAS)are contacting you for a business transaction which
-we feel will be of great interest to you.
+Changes since v5 [1]:
+ - Drop merged patches
+ - Drop i.MX8MM bindings
+ - Change example node name to video-codec
+ - Convert i.MX8MQ bindings to YAML
+ - Drop i.MX8MM support
+ - Rebase onto media/master
+ - Enable h.264 and VP8 decoding
+ - Enable post-processing
 
-Our duty is to see to the coming in and out of funds into this sub
-region.There is a fund which we confiscated worth of $12.5 million
-dollars.We will like you to receive this fund on your name in your
-account and as well helping us in the investment.
+[1] https://lore.kernel.org/linux-media/20190612093915.18973-1-p.zabel@pengutronix.de
+[2] https://lore.kernel.org/linux-media/20200318132108.21873-9-ezequiel@collabora.com
 
-You are advised to contact us as soon as you get this message for
-details of the transaction if you find it interesting.
+regards
+Philipp
 
-Best Regards,
+Philipp Zabel (4):
+  media: dt-bindings: Document i.MX8MQ VPU bindings
+  media: hantro: add initial i.MX8MQ support
+  arm64: dts: imx8mq: enable Hantro G1/G2 VPU
+  media: MAINTAINERS: add myself to co-maintain Hantro G1/G2 for i.MX8MQ
 
-Mr John Aka
+ .../bindings/media/nxp,imx8mq-vpu.yaml        |  77 ++++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  27 +++
+ drivers/staging/media/hantro/Kconfig          |  16 +-
+ drivers/staging/media/hantro/Makefile         |   3 +
+ drivers/staging/media/hantro/hantro_drv.c     |   3 +
+ drivers/staging/media/hantro/hantro_hw.h      |   1 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 220 ++++++++++++++++++
+ 8 files changed, 345 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+ create mode 100644 drivers/staging/media/hantro/imx8m_vpu_hw.c
 
-Chairman
-ECOWAS
-West African Monitoring Committee
-Tel 00225 6716 6756
-Abidjan Cote D'Ivoire
+-- 
+2.20.1
+
