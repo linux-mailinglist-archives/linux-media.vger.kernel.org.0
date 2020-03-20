@@ -2,135 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47AC318C541
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 03:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60D6E18C686
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 05:33:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbgCTCZX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Mar 2020 22:25:23 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:14764 "EHLO
-        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726789AbgCTCZX (ORCPT
+        id S1727046AbgCTEdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 00:33:36 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59599 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725996AbgCTEdg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Mar 2020 22:25:23 -0400
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20200320022520epoutp044815172f1a27213a5a653498399558c2~94fz_Fl580646206462epoutp04r
-        for <linux-media@vger.kernel.org>; Fri, 20 Mar 2020 02:25:20 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20200320022520epoutp044815172f1a27213a5a653498399558c2~94fz_Fl580646206462epoutp04r
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1584671120;
-        bh=HesHIhTOkXFLSniSRlUirXX+eZ+4Ng8C/JZymLphEl0=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=pzjIE7miu36pQLcA2Ud2DZYu8t9ggOLCGHIDuW3rhWfoFlUvz9E4UdC3wS2MaWHtm
-         jxINLTZ2/ZPzdCNpeZREe/OLCoWTyY4RqWHKzthaZG2IIG3DteQKmkTAZ1C8SL2Uwy
-         DFQatOxjY152u4KfCHVoypJ9JN1UzglZ50UXIYw8=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
-        20200320022519epcas2p2007a9d6a02bc9586e6694093972434d2~94fzT5qDc3060430604epcas2p2w;
-        Fri, 20 Mar 2020 02:25:19 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.40.185]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 48k70Q11ZZzMqYkf; Fri, 20 Mar
-        2020 02:25:10 +0000 (GMT)
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        93.6D.04128.D69247E5; Fri, 20 Mar 2020 11:24:45 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-        20200320022445epcas2p40ea2f166aff45e67825b3e1a4e2308dd~94fTDfrLw0324703247epcas2p4e;
-        Fri, 20 Mar 2020 02:24:45 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200320022445epsmtrp1acb1cc4a01c8b9005e8fdba2453e9a2c~94fTC5nAU0813708137epsmtrp17;
-        Fri, 20 Mar 2020 02:24:45 +0000 (GMT)
-X-AuditID: b6c32a45-f9bff70000001020-72-5e74296d5b9e
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        60.64.04158.D69247E5; Fri, 20 Mar 2020 11:24:45 +0900 (KST)
-Received: from KEI.dsn.sec.samsung.com (unknown [12.36.155.227]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200320022445epsmtip108039125cbfb3d4529d58879b1e1088f~94fS6_g1j2420024200epsmtip1N;
-        Fri, 20 Mar 2020 02:24:45 +0000 (GMT)
-From:   Seungchul Kim <sc377.kim@samsung.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Seungchul Kim <sc377.kim@samsung.com>
-Subject: [PATCH] media: v4l2-fh: define v4l2_fh struct regardless of
- condition
-Date:   Fri, 20 Mar 2020 11:16:43 +0900
-Message-Id: <1584670603-19837-1-git-send-email-sc377.kim@samsung.com>
-X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7bCmmW6uZkmcwfbHqhaXd81hs+jZsJXV
-        YtmmP0wW0+5MYHRg8di0qpPNo2/LKkaPz5vkApijcmwyUhNTUosUUvOS81My89JtlbyD453j
-        Tc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgLYpKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yV
-        UgtScgoMDQv0ihNzi0vz0vWS83OtDA0MjEyBKhNyMjqfz2QraOOsWNY5k7mB8TB7FyMnh4SA
-        icSyiWfYuhi5OIQEdjBK/Ns5hQnC+cQo8erGTjaQKiGBb4wSCxf7wXS8m7ufGaJoL6PE2alb
-        WCGcr4wSv09PYAKpYhPQlri6eh4ziC0ioCfxfPNFFhCbWSBNYu6NFrAaYYEAiTNd98E2sAio
-        Snx4fZERxOYVcJVouHWCFWKbnMTNc51g2yQEHrJKPL3+kBki4SJxZ/V5KFtY4tXxLVAPSUm8
-        7G+DssslPjzaygTR3MEo0fT1DhtEwlhi1rN2oG0cQBdpSqzfpQ9iSggoSxy5BXUnn0TH4b/s
-        EGFeiY42IYhGZYnVf/uhtkpK7P97ggnC9pCYs2MjKySwYiVaHj5nncAoOwth/gJGxlWMYqkF
-        xbnpqcVGBYbIkbSJEZyCtFx3MM4453OIUYCDUYmH16GlOE6INbGsuDL3EKMEB7OSCK9uOlCI
-        NyWxsiq1KD++qDQntfgQoykw8CYyS4km5wPTY15JvKGpkZmZgaWphamZkYWSOO9m7psxQgLp
-        iSWp2ampBalFMH1MHJxSDYwS/C+y48WN7zdWx7y4opuV9EA8MKNZOSP0HIffFxmTS8yfykOq
-        PXpeCm7mXO+oKqq733vX29qrfw8bc/608grQKyiUftfM4W4RO+uYf1uK4gTddRNdlvU+NawI
-        6HHb6zBRdiP7QrfFbxK+FGh8kF/RPk1jwwtWiUlTr3I41k9nXNzbEnKZV4mlOCPRUIu5qDgR
-        ALcm1/pXAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEJMWRmVeSWpSXmKPExsWy7bCSnG6uZkmcwaEzfBaXd81hs+jZsJXV
-        YtmmP0wW0+5MYHRg8di0qpPNo2/LKkaPz5vkApijuGxSUnMyy1KL9O0SuDI6n89kK2jjrFjW
-        OZO5gfEwexcjJ4eEgInEu7n7mbsYuTiEBHYzSvyfeIKxi5EDKCEp0XK4AKJGWOJ+yxFWiJrP
-        jBKLNrSBNbMJaEtcXT2PGcQWEdCTeL75IguIzSyQIXFy6zGwGmEBP4npZzrYQGwWAVWJD68v
-        MoLYvAKuEg23TrBCLJCTuHmuk3kCI88CRoZVjJKpBcW56bnFhgVGeanlesWJucWleel6yfm5
-        mxjBIaGltYPxxIn4Q4wCHIxKPLwOLcVxQqyJZcWVuYcYJTiYlUR4ddOBQrwpiZVVqUX58UWl
-        OanFhxilOViUxHnl849FCgmkJ5akZqemFqQWwWSZODilGhht1XonN33ny7Bpfaw4Z1lAn8qV
-        pFMW2fP2nGaYlPxm8kKrmU9D7H37pBZyWpQsum4ZunRHysJ1jbOW3hPJvPbjSWnWtkL1+6rv
-        Xnsd2Pb1XsOaK8f9pvNvTAjsjLcxPKMt5jJV6/1eti6WULt+K0//2C+y677G1/lseHS9o8PE
-        lcFd1slVaJ0SS3FGoqEWc1FxIgBh+4dwBQIAAA==
-X-CMS-MailID: 20200320022445epcas2p40ea2f166aff45e67825b3e1a4e2308dd
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200320022445epcas2p40ea2f166aff45e67825b3e1a4e2308dd
-References: <CGME20200320022445epcas2p40ea2f166aff45e67825b3e1a4e2308dd@epcas2p4.samsung.com>
+        Fri, 20 Mar 2020 00:33:36 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:b167:7d32:26a0:1bc1])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id F9LfjrKIULu1fF9LgjkxIn; Fri, 20 Mar 2020 05:33:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584678813; bh=lYtNZl4Y0/8eMTPyUtMzcaMEPIAiNt7ct6EXg6mxH4s=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=eZ72OwSq0cxomDBo4V5DwDVluGvWPryOW+T0sptvghEw44YDOXli2nWMw7I4GVw4u
+         ms9GZpfdqV3WIghTtnDcFN/B456coH+MMz+Gq4G2nOPaSxX2WCLU1iqf+tOJBiX0kC
+         8anhxNRd7EL3ILKDyTPHzncU2vdxDHWpwSE0Fi0oZop2BiElRYxKG4YAUSTC6tC4XL
+         WmGopzW02Citi7Dj9ENP/3JumrAWV0bylHGSuDw0mx1sRX4ms0fSU9o3Zc5Z3eoL2j
+         JUyS7YKLLhseZ/3X8b2EFxz4606+0j7tRYnV+Rl+LKzcZg4rT3+mQ0OUrjSs6aT86d
+         094Ec/7Qgj9tg==
+Message-ID: <8b5fb4ea188051c4fce6698d0561cb3b@smtp-cloud7.xs4all.net>
+Date:   Fri, 20 Mar 2020 05:33:31 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfMyk1shgBGxytEnSZ9YZx6GORrifDuZljYgt2cQ9rjCfEb3mqXqvvtAR3WlTUXVnJV2iM+2ddeWFGwkLngVQqfXHnlxXe7uG/GQVXYizTNEO0RDlMNCB
+ QCpSC79eu5oni7nuarqh/iwjGDysa5r/XjtUTzm02Q6ZFEehsaZf1zKR3amYHPKr3yyWHoswF629q/JaBLoIaDCeakQveGVO6ST0G0YDg8QDRI6F6XeoGOps
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4l2_fh struct define differently by CONFIG_V4L2_MEM2MEM_DEV.
-If some vendors use CONFIG_V4L2_MEM2MEM_DEV by module,
-it can make the mismatch of v4l2_fh sturct.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-By the mismatch, the following error occurs.
-===============================
-[    7.533506] v4l2_mem2mem: disagrees about version of symbol video_devdata
-[    7.533594] v4l2_mem2mem: Unknown symbol video_devdata (err -22)
-[    7.535319] v4l2_mem2mem: disagrees about version of symbol v4l2_event_pending
-[    7.542532] v4l2_mem2mem: Unknown symbol v4l2_event_pending (err -22)
-===============================
+Results of the daily build of media_tree:
 
-So v4l2_fh struct is modified to does not have dependency
-for CONFIG_V4L2_MEM2MEM_DEV.
+date:			Fri Mar 20 05:00:09 CET 2020
+media-tree git hash:	6fafbbe8d4140e44e0a64d6c914d628bdb2902ed
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	fa0e9cde7e847601b550868e535965ea058b68ab
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d2e7fbcfb9978b0d30f96056c21718f3dbd96598
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-Signed-off-by: Seungchul Kim <sc377.kim@samsung.com>
----
- include/media/v4l2-fh.h | 2 --
- 1 file changed, 2 deletions(-)
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
-index 53b4dbb..b5b3e00 100644
---- a/include/media/v4l2-fh.h
-+++ b/include/media/v4l2-fh.h
-@@ -53,9 +53,7 @@ struct v4l2_fh {
- 	unsigned int		navailable;
- 	u32			sequence;
- 
--#if IS_ENABLED(CONFIG_V4L2_MEM2MEM_DEV)
- 	struct v4l2_m2m_ctx	*m2m_ctx;
--#endif
- };
- 
- /**
--- 
-2.7.4
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
