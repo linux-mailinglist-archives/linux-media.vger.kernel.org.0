@@ -2,95 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC64B18C92B
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 09:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AA1618C931
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 09:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgCTIs1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 04:48:27 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:38642 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgCTIs0 (ORCPT
+        id S1726767AbgCTIuf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 04:50:35 -0400
+Received: from mail.netline.ch ([148.251.143.178]:51038 "EHLO
+        netline-mail3.netline.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgCTIuf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 04:48:26 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k21so5701747oij.5;
-        Fri, 20 Mar 2020 01:48:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=r20INFdy7c88gDnE8p93UG+z/HnHRIMdNoDb/T153Dk=;
-        b=eetNd92+QHCzwMwIExa+dOG89N27YT60kOLduTUztYrJSCAm8zt5TRchD6rC3e0ttK
-         RyVwTzFhVTu5cyFulgFZmd/Hh5mWm8ir338ne0HTv6Sz05wmjmZuSd1RZMj81l4qr4FK
-         ltJhRW5jPB1/8oikJX8RWyVCBFHUIJnAzG3tOPoXeXqQNP9qektmkJhvbf6ORqmACkCH
-         aqiZMqtknATxdkFvN/x9QOjIRjq7ZcXmciSe+jCRkdIg7Zei8/n8PrqtEPSuVz2FK54+
-         oxw9lI+87TTsI4wJ4bIbO0sHbxTQB3onO2QruJh/YKlCGRjeHIgB6xzA694CO+ARGJyl
-         9s7g==
-X-Gm-Message-State: ANhLgQ0V0cSwCqmFxVEDjnvC9jOD89yTH3GKr1PMyZj2qMvlGLgiblZS
-        nJ+khveqdfmubZXHFkQUta8QwPzdDiaZsyejSOXOHA==
-X-Google-Smtp-Source: ADFU+vuodlM7mvUF+rTQ9nef3TgHryKYhBbHdZc1CmVWQ2CDidna4tAYWLd1J2bx8M6xmj0E3O52PNbuj3QsnGbiDSk=
-X-Received: by 2002:aca:4e57:: with SMTP id c84mr5311062oib.148.1584694105840;
- Fri, 20 Mar 2020 01:48:25 -0700 (PDT)
+        Fri, 20 Mar 2020 04:50:35 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by netline-mail3.netline.ch (Postfix) with ESMTP id B834F2A6016;
+        Fri, 20 Mar 2020 09:50:32 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+        by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id RaTPwCQfUc8e; Fri, 20 Mar 2020 09:50:32 +0100 (CET)
+Received: from thor (252.80.76.83.dynamic.wline.res.cust.swisscom.ch [83.76.80.252])
+        by netline-mail3.netline.ch (Postfix) with ESMTPSA id 2838A2A6042;
+        Fri, 20 Mar 2020 09:50:32 +0100 (CET)
+Received: from localhost ([::1])
+        by thor with esmtp (Exim 4.93)
+        (envelope-from <michel@daenzer.net>)
+        id 1jFDM7-0007vl-16; Fri, 20 Mar 2020 09:50:15 +0100
+Subject: Re: Plumbing explicit synchronization through the Linux ecosystem
+To:     =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        xorg-devel <xorg-devel@lists.x.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        "wayland-devel @ lists . freedesktop . org" 
+        <wayland-devel@lists.freedesktop.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>,
+        Jason Ekstrand <jason@jlekstrand.net>,
+        ML mesa-dev <mesa-dev@lists.freedesktop.org>,
+        linux-media@vger.kernel.org
+References: <CAOFGe94jy2VYDPbkMW8ZuNdAeM+HS8sM1OAYFGd9JKc1V7PVOQ@mail.gmail.com>
+ <CAAxE2A4q9sZDz8vSLAvT0HH4BGukf8Ug68eqSV1ojqrm_5uFFg@mail.gmail.com>
+ <170e13edbb0.27ad.c6988b7ea6112e3e892765a0d4287e0c@jlekstrand.net>
+ <CAAxE2A6hMs2Ngd4zEv+hEJnEUKmPDuXmeWUaUU-4YCTRHNzr1w@mail.gmail.com>
+ <e470a1d0-cf91-5811-d280-322e005888a8@daenzer.net>
+ <CAAxE2A5D2HaqjS52jymMbwOUEsaXG_cMeeA9_esqaC54-52Kgw@mail.gmail.com>
+ <ea771b02-b74b-2a89-e55c-2977d641558d@daenzer.net>
+ <20200319105129.GF2363188@phenom.ffwll.local>
+ <CAAxE2A4-YocvFctj7x4mHe=hMx4Q6DBzjPBisbi+Tmh1UMjCpg@mail.gmail.com>
+From:   =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Message-ID: <0b547156-ea58-90ab-1ad0-36d8cc433f90@daenzer.net>
+Date:   Fri, 20 Mar 2020 09:50:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <cover.1584639664.git.alexander.riesen@cetitec.com>
- <c9ff553f804f178a247dca356306948e971432fb.1584639664.git.alexander.riesen@cetitec.com>
- <20200319180125.GJ14585@pendragon.ideasonboard.com> <20200320084406.GB4344@pflmari>
-In-Reply-To: <20200320084406.GB4344@pflmari>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Mar 2020 09:48:14 +0100
-Message-ID: <CAMuHMdUdVb0LwZDx-MH2FLYYPvgq=uj_3Nrzo9obWAi-Q-2ZnA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] dt-bindings: adv748x: add information about
- serial audio interface (I2S/TDM)
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAxE2A4-YocvFctj7x4mHe=hMx4Q6DBzjPBisbi+Tmh1UMjCpg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+On 2020-03-19 8:54 p.m., Marek Olšák wrote:
+> On Thu., Mar. 19, 2020, 06:51 Daniel Vetter, <daniel@ffwll.ch>
+> wrote:
+>> 
+>> Yeah, this is entirely about the programming model visible to
+>> userspace. There shouldn't be any impact on the driver's choice of
+>> a top vs. bottom of the gpu pipeline used for synchronization,
+>> that's entirely up to what you're hw/driver/scheduler can pull
+>> off.
+>> 
+>> Doing a full gfx pipeline flush for shared buffers, when your hw
+>> can do be, sounds like an issue to me that's not related to this
+>> here at all. It might be intertwined with amdgpu's special
+>> interpretation of dma_resv fences though, no idea. We might need to
+>> revamp all that. But for a userspace client that does nothing fancy
+>> (no multiple render buffer targets in one bo, or vk style "I write
+>> to everything all the time, perhaps" stuff) there should be 0 perf
+>> difference between implicit sync through dma_resv and explicit sync
+>> through sync_file/syncobj/dma_fence directly.
+>> 
+>> If there is I'd consider that a bit a driver bug.
+> 
+> Last time I checked, there was no fence sync in gnome shell and
+> compiz after an app passes a buffer to it.
 
-On Fri, Mar 20, 2020 at 9:44 AM Alex Riesen
-<alexander.riesen@cetitec.com> wrote:
-> Laurent Pinchart, Thu, Mar 19, 2020 19:01:25 +0100:
-> > On Thu, Mar 19, 2020 at 06:42:36PM +0100, Alex Riesen wrote:
-> > > As the driver has some support for the audio interface of the device,
-> > > the bindings file should mention it.
+They are not required (though encouraged) to do that.
 
-> > > @@ -16,6 +18,8 @@ Required Properties:
-> > >      slave device on the I2C bus. The main address is mandatory, others are
-> > >      optional and remain at default values if not specified.
-> > >
-> > > +  - #clock-cells: must be <0> if the I2S port is used
-> >
-> > Wouldn't it be simpler to set it to 0 unconditionally ?
->
-> Would it? If the port itself is optional, shouldn't the clock be an option
-> too?
 
-You'd be surprised how many board designers would consider this a cheap
-12.288 MHz clock source, without using the I2S port ;-)
+> So drivers have to invent hacks to work around it and decrease
+> performance. It's not a driver bug.
+> 
+> Implicit sync really means that apps and compositors don't sync, so
+> the driver has to guess when it should sync.
 
-Gr{oetje,eeting}s,
+Making implicit sync work correctly is ultimately the kernel driver's
+responsibility. It sounds like radeonsi is having to work around the
+amdgpu/radeon kernel driver(s) not fully living up to this responsibility.
 
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Earthling Michel Dänzer               |               https://redhat.com
+Libre software enthusiast             |             Mesa and X developer
