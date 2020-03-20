@@ -2,169 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60D6E18C686
-	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 05:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D151E18C79A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Mar 2020 07:41:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgCTEdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 00:33:36 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59599 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725996AbgCTEdg (ORCPT
+        id S1726631AbgCTGlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 02:41:53 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:58130 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726602AbgCTGlx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 00:33:36 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:b167:7d32:26a0:1bc1])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id F9LfjrKIULu1fF9LgjkxIn; Fri, 20 Mar 2020 05:33:33 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1584678813; bh=lYtNZl4Y0/8eMTPyUtMzcaMEPIAiNt7ct6EXg6mxH4s=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=eZ72OwSq0cxomDBo4V5DwDVluGvWPryOW+T0sptvghEw44YDOXli2nWMw7I4GVw4u
-         ms9GZpfdqV3WIghTtnDcFN/B456coH+MMz+Gq4G2nOPaSxX2WCLU1iqf+tOJBiX0kC
-         8anhxNRd7EL3ILKDyTPHzncU2vdxDHWpwSE0Fi0oZop2BiElRYxKG4YAUSTC6tC4XL
-         WmGopzW02Citi7Dj9ENP/3JumrAWV0bylHGSuDw0mx1sRX4ms0fSU9o3Zc5Z3eoL2j
-         JUyS7YKLLhseZ/3X8b2EFxz4606+0j7tRYnV+Rl+LKzcZg4rT3+mQ0OUrjSs6aT86d
-         094Ec/7Qgj9tg==
-Message-ID: <8b5fb4ea188051c4fce6698d0561cb3b@smtp-cloud7.xs4all.net>
-Date:   Fri, 20 Mar 2020 05:33:31 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfMyk1shgBGxytEnSZ9YZx6GORrifDuZljYgt2cQ9rjCfEb3mqXqvvtAR3WlTUXVnJV2iM+2ddeWFGwkLngVQqfXHnlxXe7uG/GQVXYizTNEO0RDlMNCB
- QCpSC79eu5oni7nuarqh/iwjGDysa5r/XjtUTzm02Q6ZFEehsaZf1zKR3amYHPKr3yyWHoswF629q/JaBLoIaDCeakQveGVO6ST0G0YDg8QDRI6F6XeoGOps
+        Fri, 20 Mar 2020 02:41:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584686511;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zIiMql8rUOL5/l47A6mLqkL+iilKl56+acJaSeSetcI=;
+        b=MX/I842Oqkv20LNI5/Ffb1l77PJjXIc0CsMBDEV26GgTG1RKYYxn78yset2YjhhdghBAPB
+        jUu74Z435y/zUWK3+7f8ivn9GAjns779uNl/psEze1rfUhuxbq6mPPksq0ju5xdBTYYgur
+        dJCcMpbd7ZbRqzkfFtTLsXFFldLYqcE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-WiowU-PiM_6ez1OPaTiO_w-1; Fri, 20 Mar 2020 02:41:47 -0400
+X-MC-Unique: WiowU-PiM_6ez1OPaTiO_w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E97D418B60B8;
+        Fri, 20 Mar 2020 06:41:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6CEF094945;
+        Fri, 20 Mar 2020 06:41:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 9930C9DB3; Fri, 20 Mar 2020 07:41:43 +0100 (CET)
+Date:   Fri, 20 Mar 2020 07:41:43 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     virtio-comment@lists.oasis-open.org,
+        Dylan Reid <dgreid@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Zach Reizner <zachr@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v4 0/2] Cross-device resource sharing
+Message-ID: <20200320064143.4b2kyskr5clxsczs@sirius.home.kraxel.org>
+References: <20200319021823.57219-1-stevensd@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200319021823.57219-1-stevensd@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, Mar 19, 2020 at 11:18:21AM +0900, David Stevens wrote:
+> Hi all,
+> 
+> This is the next iteration of patches for adding support for sharing
+> resources between different virtio devices. The corresponding Linux
+> implementation is [1].
+> 
+> In addition to these patches, the most recent virtio-video patchset
+> includes a patch for importing objects into that device [2].
 
-Results of the daily build of media_tree:
+Looks good to me.
 
-date:			Fri Mar 20 05:00:09 CET 2020
-media-tree git hash:	6fafbbe8d4140e44e0a64d6c914d628bdb2902ed
-media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
-v4l-utils git hash:	fa0e9cde7e847601b550868e535965ea058b68ab
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: d2e7fbcfb9978b0d30f96056c21718f3dbd96598
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+So, open a github issue to kick the TC vote process and get this merged?
+(see virtio-spec/.github/PULL_REQUEST_TEMPLATE.md).
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+cheers,
+  Gerd
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
