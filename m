@@ -2,353 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D237A18DB74
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2020 00:02:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B2A18DD0F
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2020 02:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbgCTXCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 19:02:21 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50558 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726666AbgCTXCV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 19:02:21 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C3A4A54;
-        Sat, 21 Mar 2020 00:02:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584745337;
-        bh=FdeA4AFM88TFVqjKgwLQYlugyWomwvTHQ37p1k9DNu8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AJhjQfwp9HPwH6GNQfxzerDcLsdxt/3fxoLKffzSiQu6OAUrnjzutSdtbvAeUD56F
-         UUtFmuVFO0lTkm+ouxbqDvPH7xakHSWoBGHTQDtn75JThCIqcm2cQWKsS3nldhUTJJ
-         ssYy+WgQelpDGVE24ChgLfhMp/8wy74cXg13IFo0=
-Date:   Sat, 21 Mar 2020 01:02:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v4 5/5] media: dt-bindings: media: i2c: convert ov5645
- bindings to json-schema
-Message-ID: <20200320230211.GV5193@pendragon.ideasonboard.com>
-References: <1584620363-2255-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1584620363-2255-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200319151035.GC14585@pendragon.ideasonboard.com>
- <20200320224836.GA27024@bogus>
+        id S1727158AbgCUBJe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Mar 2020 21:09:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42914 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726840AbgCUBJd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Mar 2020 21:09:33 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 120862072C;
+        Sat, 21 Mar 2020 01:09:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584752972;
+        bh=1TMSACbNS6snXsOh2chfn6p2kjbS1jSTgaqql6DheHw=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=yeIm/T7/7y1KH1Gbu+UR/1UIDDnUApqSCB7y14Yi+8X2cQl3dY9W9sm2U07WBj0uS
+         YZhyyKsgTUn+hlTiw1pI5dvaYofvwEaMovHPdIpHnq6KqA+eB9sN61MicN5adBFcez
+         YR7zPDRPAXKXRrhzra4E66H0cDSb5fXLTf7R80S4=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200320224836.GA27024@bogus>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <82828e89ccf4173de4e5e52dcecacc4d5168315c.1584720678.git.alexander.riesen@cetitec.com>
+References: <cover.1584720678.git.alexander.riesen@cetitec.com> <82828e89ccf4173de4e5e52dcecacc4d5168315c.1584720678.git.alexander.riesen@cetitec.com>
+Subject: Re: [PATCH v3 05/11] media: adv748x: add support for HDMI audio
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-clk <linux-clk@vger.kernel.org>
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Date:   Fri, 20 Mar 2020 18:09:31 -0700
+Message-ID: <158475297119.125146.8177273856843293558@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Quoting Alex Riesen (2020-03-20 09:12:00)
+> diff --git a/drivers/media/i2c/adv748x/adv748x-dai.c b/drivers/media/i2c/=
+adv748x/adv748x-dai.c
+> new file mode 100644
+> index 000000000000..6fce7d000423
+> --- /dev/null
+> +++ b/drivers/media/i2c/adv748x/adv748x-dai.c
+> @@ -0,0 +1,265 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Driver for Analog Devices ADV748X HDMI receiver with AFE
+> + * The implementation of DAI.
+> + */
+> +
+> +#include "adv748x.h"
+> +
+> +#include <linux/clk.h>
 
-On Fri, Mar 20, 2020 at 04:48:36PM -0600, Rob Herring wrote:
-> On Thu, Mar 19, 2020 at 05:10:35PM +0200, Laurent Pinchart wrote:
-> > On Thu, Mar 19, 2020 at 12:19:23PM +0000, Lad Prabhakar wrote:
-> > > Convert ov5645 bindings to json-schema.
-> > 
-> > \o/
-> > 
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 -------
-> > >  .../devicetree/bindings/media/i2c/ov5645.yaml | 140 ++++++++++++++++++
-> > >  2 files changed, 140 insertions(+), 54 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > deleted file mode 100644
-> > > index 1c85c78ec58c..000000000000
-> > > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > +++ /dev/null
-> > > @@ -1,54 +0,0 @@
-> > > -* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
-> > > -
-> > > -The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
-> > > -an active array size of 2592H x 1944V. It is programmable through a serial I2C
-> > > -interface.
-> > > -
-> > > -Required Properties:
-> > > -- compatible: Value should be "ovti,ov5645".
-> > > -- clocks: Reference to the xclk clock.
-> > > -- clock-names: Should be "xclk".
-> > > -- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-> > > -  to the hardware pin PWDNB which is physically active low.
-> > > -- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-> > > -  the hardware pin RESETB.
-> > > -- vdddo-supply: Chip digital IO regulator.
-> > > -- vdda-supply: Chip analog regulator.
-> > > -- vddd-supply: Chip digital core regulator.
-> > > -
-> > > -The device node must contain one 'port' child node for its digital output
-> > > -video port, in accordance with the video interface bindings defined in
-> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > -
-> > > -Example:
-> > > -
-> > > -	&i2c1 {
-> > > -		...
-> > > -
-> > > -		ov5645: ov5645@3c {
-> > > -			compatible = "ovti,ov5645";
-> > > -			reg = <0x3c>;
-> > > -
-> > > -			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-> > > -			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
-> > > -			pinctrl-names = "default";
-> > > -			pinctrl-0 = <&camera_rear_default>;
-> > > -
-> > > -			clocks = <&clks 200>;
-> > > -			clock-names = "xclk";
-> > > -			assigned-clocks = <&clks 200>;
-> > > -			assigned-clock-rates = <24000000>;
-> > > -
-> > > -			vdddo-supply = <&camera_dovdd_1v8>;
-> > > -			vdda-supply = <&camera_avdd_2v8>;
-> > > -			vddd-supply = <&camera_dvdd_1v2>;
-> > > -
-> > > -			port {
-> > > -				ov5645_ep: endpoint {
-> > > -					clock-lanes = <1>;
-> > > -					data-lanes = <0 2>;
-> > > -					remote-endpoint = <&csi0_ep>;
-> > > -				};
-> > > -			};
-> > > -		};
-> > > -	};
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-> > > new file mode 100644
-> > > index 000000000000..4bf58ad210c5
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-> > > @@ -0,0 +1,140 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/ov5645.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
-> > 
-> > s/Mp/MP/ ?
-> > 
-> > > +
-> > > +maintainers:
-> > > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > +
-> > > +description: |-
-> > > + The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
-> > > + an active array size of 2592H x 1944V. It is programmable through a serial I2C
-> > > + interface.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: ovti,ov5645
-> > > +
-> > > +  reg:
-> > > +    description: I2C device address
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: xclk
-> > > +
-> > > +  assigned-clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  assigned-clock-rates:
-> > > +     items:
-> > > +     - description: Must be 24MHz (24000000).
-> > 
-> > These two properties shouldn't be part of the bindings, they're generic.
-> 
-> The fact that they have 1 entry is part of this binding.
+Is this include used? Please try to make a clk provider or a clk
+consumer and not both unless necessary.
 
-I'm not sure to agree. assigned-clocks and assigned-clock-rates are very
-losely defined, and could be placed (at least in theory) in any node.
-Furthermore, in order to cotnrol the rate of xclk, we may need
-assigned-clocks and assigned-clock-rates entries for parents of the xclk
-clock too. There's really nothing that's specific to this device.
+> +#include <linux/clk-provider.h>
+> +#include <sound/pcm_params.h>
+> +
+> +#define state_of(soc_dai) \
+> +       adv748x_dai_to_state(container_of((soc_dai)->driver, \
+> +                                         struct adv748x_dai, \
+> +                                         drv))
+> +
+> +static const char ADV748X_DAI_NAME[] =3D "adv748x-i2s";
+> +
+[...]
+> +       .set_sysclk =3D adv748x_dai_set_sysclk,
+> +       .set_fmt =3D adv748x_dai_set_fmt,
+> +       .startup =3D adv748x_dai_startup,
+> +       .hw_params =3D adv748x_dai_hw_params,
+> +       .mute_stream =3D adv748x_dai_mute_stream,
+> +       .shutdown =3D adv748x_dai_shutdown,
+> +};
+> +
+> +static int adv748x_of_xlate_dai_name(struct snd_soc_component *component,
+> +                                     struct of_phandle_args *args,
+> +                                     const char **dai_name)
+> +{
+> +       if (dai_name)
+> +               *dai_name =3D ADV748X_DAI_NAME;
+> +       return 0;
+> +}
+> +
+> +static const struct snd_soc_component_driver adv748x_codec =3D {
+> +       .of_xlate_dai_name =3D adv748x_of_xlate_dai_name,
+> +};
+> +
+> +int adv748x_dai_init(struct adv748x_dai *dai)
+> +{
+> +       int ret;
+> +       struct adv748x_state *state =3D adv748x_dai_to_state(dai);
+> +
+> +       dai->mclk_name =3D kasprintf(GFP_KERNEL, "%s.%s-i2s-mclk",
+> +                                  state->dev->driver->name,
+> +                                  dev_name(state->dev));
+> +       if (!dai->mclk_name) {
+> +               ret =3D -ENOMEM;
+> +               adv_err(state, "No memory for MCLK\n");
+> +               goto fail;
+> +       }
+> +       dai->mclk =3D clk_register_fixed_rate(state->dev,
 
-Anway, I think the driver should just set the clock rate, so we can drop
-these two properties and skip arguing over them :-)
+Please register with clk_hw_register_fixed_rate() instead.
 
-> > > +  enable-gpios:
-> > > +    description: |-
-> > > +      Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-> > > +      to the hardware pin PWDNB which is physically active low.
-> > 
-> > Specifying that the polarity is GPIO_ACTIVE_HIGH is confusing in my
-> > opinion. If there's an inverter on the board, you'll need
-> > GPIO_ACTIVE_LOW. We could possibly drop the sentence, as all GPIOs in DT
-> > are supposed to be active high, but the fact that the GPIO name
-> > corresponds to the opposite of the pin probably has to be documented. I
-> > have no better wording to propose now I'm afraid, but it needs to be
-> > addressed. Maybe Rob or Maxime could help.
-> 
-> All GPIOs in DT are active high? What? 
+> +                                           dai->mclk_name,
+> +                                           NULL /* parent_name */,
+> +                                           0 /* flags */,
+> +                                           12288000 /* rate */);
 
-Re-reading my comment, I've expressed myself very badly here. The point
-is that the GPIO "object" (enable-gpios), conceptually, hides the
-polarity. What's exposed to the OS is something that can be asserted or
-deasserted to have an effect indicated by the GPIO name. The polarity
-then describes what electrical level of the physical GPIO pin
-corresponds to that action. In this case, asserting the GPIO performs
-the "enable" action. As this is connected to the PWDNB pin, we have to
-specify a polarity (active high) that is inverted compared to the PWDNB
-pin polarity (active low). This should be captured in the bindings, but
-syaing that "the polarity is GPIO_ACTIVE_HIGH" is wrong. The polarity
-depends on how the signal is routed on the board. I'm not sure how to
-express all these neatly in the bindings. We may not want to address it
-as part of the conversion to YAML, but I think template sentences for
-GPIO descriptions would be useful as guidelines for binding authors.
+Not sure these comments are useful.
 
-> Using 'powerdown-gpios' would have made more sense here, but we're stuck 
-> with it now. In any case, the description was good enough before and I 
-> don't care to re-review it as part of the conversion.
-> 
-> > > +  reset-gpios:
-> > > +    description: |-
-> > > +      Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-> > > +      the hardware pin RESETB.
-> > 
-> > Here you could just drop the second sentence, or apply the same fix as
-> > for enable-gpios.
-> 
-> A description that's specific to this chip seems good to me.
->  
-> > > +
-> > > +  vdddo-supply:
-> > > +    description:
-> > > +      Chip digital IO regulator.
-> > 
-> > You can move the description on the same line as the "description:" key.
-> > Same below.
-> > 
-> > > +
-> > > +  vdda-supply:
-> > > +    description:
-> > > +      Chip analog regulator.
-> > > +
-> > > +  vddd-supply:
-> > > +    description:
-> > > +      Chip digital core regulator.
-> > > +
-> > > +  # See ../video-interfaces.txt for more details
-> > > +  port:
-> > > +    type: object
-> > > +    properties:
-> > > +      endpoint:
-> > > +        type: object
-> > > +
-> > > +        properties:
-> > > +          data-lanes:
-> > > +            description: |-
-> > > +              The sensor supports two-lane operation.
-> > > +              For two-lane operation the property must be set to <1 2>.
-> > > +            items:
-> > > +              - const: 1
-> > > +              - const: 2
-> > 
-> > 
-> > What if only one lane is wired, does the sensor support that ?
-> > 
-> > > +
-> > > +          clock-lanes:
-> > > +            description:
-> > > +              should be set to <0> (clock lane on hardware lane 0).
-> > > +            items:
-> > > +              - const: 0
-> > > +
-> > > +          remote-endpoint: true
-> > > +
-> > > +        required:
-> > > +          - data-lanes
-> > > +          - clock-lanes
-> > > +          - remote-endpoint
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +    additionalProperties: false
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - assigned-clocks
-> > > +  - assigned-clock-rates
-> > 
-> > Those two properties should be dropped.
-> > 
-> > > +  - enable-gpios
-> > > +  - reset-gpios
-> > 
-> > Are the GPIOs mandatory ? What if the signals are hardwired on the board
-> > ?
-> > 
-> > > +  - vdddo-supply
-> > > +  - vdda-supply
-> > > +  - vddd-supply
-> > > +  - port
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    i2c1 {
-> > 
-> > s/i2c1/i2c/
-> > 
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        ov5645: sensor@3c {
-> > > +            compatible = "ovti,ov5645";
-> > > +            reg = <0x3c>;
-> > > +            clocks = <&ov5645_cl>;
-> > > +            clock-names = "xclk";
-> > > +            assigned-clocks = <&ov5645_cl>;
-> > > +            assigned-clock-rates = <24000000>;
-> > > +            enable-gpios = <&gpio1 6 /* GPIO_ACTIVE_HIGH */>;
-> > > +            reset-gpios = <&gpio5 20 /* GPIO_ACTIVE_LOW */>;
-> > > +            vdddo-supply = <&camera_dovdd_1v8>;
-> > > +            vdda-supply = <&camera_avdd_2v8>;
-> > > +            vddd-supply = <&camera_dvdd_1v2>;
-> > > +
-> > > +            port {
-> > > +                ov5645_0: endpoint {
-> > > +                    remote-endpoint = <&csi1_ep>;
-> > > +                    clock-lanes = <0>;
-> > > +                    data-lanes = <1 2>;
-> > > +                };
-> > > +            };
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
+> +       if (IS_ERR_OR_NULL(dai->mclk)) {
+> +               ret =3D PTR_ERR(dai->mclk);
+> +               adv_err(state, "Failed to register MCLK (%d)\n", ret);
+> +               goto fail;
+> +       }
+> +       ret =3D of_clk_add_provider(state->dev->of_node, of_clk_src_simpl=
+e_get,
+> +                                 dai->mclk);
+> +       if (ret < 0) {
+> +               adv_err(state, "Failed to add MCLK provider (%d)\n", ret);
+> +               goto unreg_mclk;
+> +       }
+> +       dai->drv.name =3D ADV748X_DAI_NAME;
+> +       dai->drv.ops =3D &adv748x_dai_ops;
+> +       dai->drv.capture =3D (struct snd_soc_pcm_stream){
 
--- 
-Regards,
+Can this be const?
 
-Laurent Pinchart
+> +               .stream_name    =3D "Capture",
+> +               .channels_min   =3D 8,
+> +               .channels_max   =3D 8,
+> +               .rates =3D SNDRV_PCM_RATE_48000,
+> +               .formats =3D SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_U=
+24_LE,
+> +       };
+> +
+> +       ret =3D devm_snd_soc_register_component(state->dev, &adv748x_code=
+c,
+> +                                             &dai->drv, 1);
+> +       if (ret < 0) {
+> +               adv_err(state, "Failed to register the codec (%d)\n", ret=
+);
+> +               goto cleanup_mclk;
+> +       }
+> +       return 0;
+> +
+> +cleanup_mclk:
+> +       of_clk_del_provider(state->dev->of_node);
+> +unreg_mclk:
+> +       clk_unregister_fixed_rate(dai->mclk);
+> +fail:
+> +       return ret;
+> +}
+> +
+> +void adv748x_dai_cleanup(struct adv748x_dai *dai)
+> +{
+> +       struct adv748x_state *state =3D adv748x_dai_to_state(dai);
+> +
+> +       of_clk_del_provider(state->dev->of_node);
+> +       clk_unregister_fixed_rate(dai->mclk);
+> +       kfree(dai->mclk_name);
+> +}
+> +
+
+Please drop extra newline at end of file.
