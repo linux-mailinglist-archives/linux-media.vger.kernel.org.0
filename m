@@ -2,184 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B2A18DD0F
-	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2020 02:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 615BB18DDDE
+	for <lists+linux-media@lfdr.de>; Sat, 21 Mar 2020 05:36:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727158AbgCUBJe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Mar 2020 21:09:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42914 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726840AbgCUBJd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Mar 2020 21:09:33 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 120862072C;
-        Sat, 21 Mar 2020 01:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584752972;
-        bh=1TMSACbNS6snXsOh2chfn6p2kjbS1jSTgaqql6DheHw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=yeIm/T7/7y1KH1Gbu+UR/1UIDDnUApqSCB7y14Yi+8X2cQl3dY9W9sm2U07WBj0uS
-         YZhyyKsgTUn+hlTiw1pI5dvaYofvwEaMovHPdIpHnq6KqA+eB9sN61MicN5adBFcez
-         YR7zPDRPAXKXRrhzra4E66H0cDSb5fXLTf7R80S4=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <82828e89ccf4173de4e5e52dcecacc4d5168315c.1584720678.git.alexander.riesen@cetitec.com>
-References: <cover.1584720678.git.alexander.riesen@cetitec.com> <82828e89ccf4173de4e5e52dcecacc4d5168315c.1584720678.git.alexander.riesen@cetitec.com>
-Subject: Re: [PATCH v3 05/11] media: adv748x: add support for HDMI audio
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-clk <linux-clk@vger.kernel.org>
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Date:   Fri, 20 Mar 2020 18:09:31 -0700
-Message-ID: <158475297119.125146.8177273856843293558@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+        id S1725879AbgCUEgj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Mar 2020 00:36:39 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39255 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725763AbgCUEgj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 21 Mar 2020 00:36:39 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:f9fa:4b7a:4c40:fc02])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id FVsCjB2zqBr2bFVsEj19eK; Sat, 21 Mar 2020 05:36:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584765398; bh=cnCvsOCoSFVSPo9vtgRl8D67b3dtGHIoiLrVuwWTKg8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=SIXCMXm517+MpPj4U4wOWLU4mCCBVNLJ1aaWxKgv9SCXM08U3AHk2u+pvniDcKtax
+         32SzeXG/pk4cTXE6236Y70DGv30Jcr5vVrTdInH7q0F2JCqUcwMtc/Usy4Qo+LHRQR
+         GzUCmsdK1hZvIMIWlUox1/PKKTON7w2PcHwmN96ajQgkbGYx5+x2iLkx/35PzoL7BP
+         Hil+3dk+vrKTiukc+mG1jEcKq+CYkQgLc24VyCV/xJgiFTsm6oBPDCw4LPX13B1ciF
+         /dYXZwrcZsoB3N65MQhVq6MLyLHSJ/7sfa0oc8zjkM9dLSWXcL0oLlU43aSdA3Djxf
+         2Fa7QoEtNXNgg==
+Message-ID: <3e060f2cdcf3a522515ca9dd04ed6c99@smtp-cloud8.xs4all.net>
+Date:   Sat, 21 Mar 2020 05:36:36 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfCrItJUZV9+19SHDYwq006ciBeAJwViQFr+Qo+8lvV219hcXDyymkQd/RyWM+SPAhgoYmMCwSVDcq9mK8MPJ1lGn/91yBrpBfRBXJ4mV3G5+fSmjdedJ
+ /RVkWojlaNHhXpFWGjjTad3wngUObOq0qr+feg1Z38XKx9pL7MTjiOGbMQ4LynmyZLZIChx6uzqwJ2yQDD1dUSUQsrIiadj4Bn6HAcij2ON8z6/qBB2wXg0p
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Alex Riesen (2020-03-20 09:12:00)
-> diff --git a/drivers/media/i2c/adv748x/adv748x-dai.c b/drivers/media/i2c/=
-adv748x/adv748x-dai.c
-> new file mode 100644
-> index 000000000000..6fce7d000423
-> --- /dev/null
-> +++ b/drivers/media/i2c/adv748x/adv748x-dai.c
-> @@ -0,0 +1,265 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Driver for Analog Devices ADV748X HDMI receiver with AFE
-> + * The implementation of DAI.
-> + */
-> +
-> +#include "adv748x.h"
-> +
-> +#include <linux/clk.h>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Is this include used? Please try to make a clk provider or a clk
-consumer and not both unless necessary.
+Results of the daily build of media_tree:
 
-> +#include <linux/clk-provider.h>
-> +#include <sound/pcm_params.h>
-> +
-> +#define state_of(soc_dai) \
-> +       adv748x_dai_to_state(container_of((soc_dai)->driver, \
-> +                                         struct adv748x_dai, \
-> +                                         drv))
-> +
-> +static const char ADV748X_DAI_NAME[] =3D "adv748x-i2s";
-> +
-[...]
-> +       .set_sysclk =3D adv748x_dai_set_sysclk,
-> +       .set_fmt =3D adv748x_dai_set_fmt,
-> +       .startup =3D adv748x_dai_startup,
-> +       .hw_params =3D adv748x_dai_hw_params,
-> +       .mute_stream =3D adv748x_dai_mute_stream,
-> +       .shutdown =3D adv748x_dai_shutdown,
-> +};
-> +
-> +static int adv748x_of_xlate_dai_name(struct snd_soc_component *component,
-> +                                     struct of_phandle_args *args,
-> +                                     const char **dai_name)
-> +{
-> +       if (dai_name)
-> +               *dai_name =3D ADV748X_DAI_NAME;
-> +       return 0;
-> +}
-> +
-> +static const struct snd_soc_component_driver adv748x_codec =3D {
-> +       .of_xlate_dai_name =3D adv748x_of_xlate_dai_name,
-> +};
-> +
-> +int adv748x_dai_init(struct adv748x_dai *dai)
-> +{
-> +       int ret;
-> +       struct adv748x_state *state =3D adv748x_dai_to_state(dai);
-> +
-> +       dai->mclk_name =3D kasprintf(GFP_KERNEL, "%s.%s-i2s-mclk",
-> +                                  state->dev->driver->name,
-> +                                  dev_name(state->dev));
-> +       if (!dai->mclk_name) {
-> +               ret =3D -ENOMEM;
-> +               adv_err(state, "No memory for MCLK\n");
-> +               goto fail;
-> +       }
-> +       dai->mclk =3D clk_register_fixed_rate(state->dev,
+date:			Sat Mar 21 05:00:10 CET 2020
+media-tree git hash:	af72bc8cd6ab32be2105129f05eb4502f45577df
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	fa0e9cde7e847601b550868e535965ea058b68ab
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d2e7fbcfb9978b0d30f96056c21718f3dbd96598
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-Please register with clk_hw_register_fixed_rate() instead.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-> +                                           dai->mclk_name,
-> +                                           NULL /* parent_name */,
-> +                                           0 /* flags */,
-> +                                           12288000 /* rate */);
+Detailed results are available here:
 
-Not sure these comments are useful.
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-> +       if (IS_ERR_OR_NULL(dai->mclk)) {
-> +               ret =3D PTR_ERR(dai->mclk);
-> +               adv_err(state, "Failed to register MCLK (%d)\n", ret);
-> +               goto fail;
-> +       }
-> +       ret =3D of_clk_add_provider(state->dev->of_node, of_clk_src_simpl=
-e_get,
-> +                                 dai->mclk);
-> +       if (ret < 0) {
-> +               adv_err(state, "Failed to add MCLK provider (%d)\n", ret);
-> +               goto unreg_mclk;
-> +       }
-> +       dai->drv.name =3D ADV748X_DAI_NAME;
-> +       dai->drv.ops =3D &adv748x_dai_ops;
-> +       dai->drv.capture =3D (struct snd_soc_pcm_stream){
+Detailed regression test results are available here:
 
-Can this be const?
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
 
-> +               .stream_name    =3D "Capture",
-> +               .channels_min   =3D 8,
-> +               .channels_max   =3D 8,
-> +               .rates =3D SNDRV_PCM_RATE_48000,
-> +               .formats =3D SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_U=
-24_LE,
-> +       };
-> +
-> +       ret =3D devm_snd_soc_register_component(state->dev, &adv748x_code=
-c,
-> +                                             &dai->drv, 1);
-> +       if (ret < 0) {
-> +               adv_err(state, "Failed to register the codec (%d)\n", ret=
-);
-> +               goto cleanup_mclk;
-> +       }
-> +       return 0;
-> +
-> +cleanup_mclk:
-> +       of_clk_del_provider(state->dev->of_node);
-> +unreg_mclk:
-> +       clk_unregister_fixed_rate(dai->mclk);
-> +fail:
-> +       return ret;
-> +}
-> +
-> +void adv748x_dai_cleanup(struct adv748x_dai *dai)
-> +{
-> +       struct adv748x_state *state =3D adv748x_dai_to_state(dai);
-> +
-> +       of_clk_del_provider(state->dev->of_node);
-> +       clk_unregister_fixed_rate(dai->mclk);
-> +       kfree(dai->mclk_name);
-> +}
-> +
+Full logs are available here:
 
-Please drop extra newline at end of file.
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
