@@ -2,90 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06C6F18E768
-	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2020 08:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E89018E86D
+	for <lists+linux-media@lfdr.de>; Sun, 22 Mar 2020 12:39:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbgCVH57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Mar 2020 03:57:59 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:60803 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725769AbgCVH57 (ORCPT
+        id S1726976AbgCVLjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Mar 2020 07:39:00 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33678 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726896AbgCVLjA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Mar 2020 03:57:59 -0400
-X-UUID: e8fc1f60d13d4fecb20824b8b5ac1334-20200322
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=0SlVnuKkPvNl1cm3aUi1MmMi33v297Tf8W2wHp9Pizo=;
-        b=m/T+oeODnMdXZQhCkTIr2D164EKWkksrg/KPGUNIqDGIXN6Zjk8uvwt9LV8VNZdeu+djRhrwSW9kSiOAEEaBOvgAQYaNjt8YswWL52dVbrEdhdr5dVpXykqrzo+76DHj8TQ39rrhQAJydadUaudcxA4Ud0l7Z4f/72MB2wDnMYI=;
-X-UUID: e8fc1f60d13d4fecb20824b8b5ac1334-20200322
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <gtk_ruiwang@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 507518638; Sun, 22 Mar 2020 15:57:54 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Sun, 22 Mar 2020 15:55:24 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Sun, 22 Mar 2020 15:58:07 +0800
-From:   <gtk_ruiwang@mediatek.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Erin Lo <erin.lo@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        <gtk_ruiwang@mediatek.com>, <srv_heupstream@mediatek.com>
-Subject: [PATCH] media: mtk-vpu: load vpu firmware from the new location
-Date:   Sun, 22 Mar 2020 15:57:45 +0800
-Message-ID: <20200322075745.6133-1-gtk_ruiwang@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        Sun, 22 Mar 2020 07:39:00 -0400
+Received: by mail-pf1-f196.google.com with SMTP id j1so3291883pfe.0;
+        Sun, 22 Mar 2020 04:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Z+r+Ca5wy4wGRgdBd/D74jqqWNbUOBR9cUPVfMcIPhI=;
+        b=uxOB2o16Ee1fduqLQBOWbIJFB2t8k9yyl73bpylT+j6pX6Tqeo1mZYo6j30lEej0dh
+         2af30A9uzLyBWK75QZGafmoz17qdAbIDNBJ0YLBZBEb4tby2g16/FsrUGeQqMVIWQAqk
+         C7GjnohnYNd6zToIT2Q3HGmL3tdoxN7xN0+GRCgM4qf3eWylyVnlftmOX4zBwgqvlp/z
+         22mWqBWTIakkr1YK2nKYNda3k21hqfJa7U0JeA5gdpPkoT4pOyBu38SokPQNFpVDqtwu
+         BoTYEQz57MVJCvHbl71TtpAQ7jpf8CLr5mOqdiUpjW+UIUHy9Y+iuqajdETkw3fVQo96
+         G/UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Z+r+Ca5wy4wGRgdBd/D74jqqWNbUOBR9cUPVfMcIPhI=;
+        b=adImztvhmKQItfNtIWb1CXv9q9OG5tyRbUNPCZ/XSxrZghXZQG/HuBa1JRUmO6E63H
+         MttRg6GLIuwiwt1BtAIgvy5rDt3WJlg4NiELVExACy7NzWr5YuUaVFZqDPQlAZsf5zi4
+         dfX6xhMvlGHPsxERUBHV2w87GJDzT2tXhQCmjKxZ2yAcvEMpLwgmeFAQARmKUY3yMC8Q
+         Nx1Y7Hlzcq0toCJh9rpoMXevFrEq08NX1pLlRadfD8OsaypcvwPC1+0wx7QO/gWiZamX
+         j8I/EMmoAlCxGIU0EhqkhQjXmsGt1ExNf8kFb0rG5mdO+eRPGNL0uA7Uqj5xupVmf0Kh
+         lwxw==
+X-Gm-Message-State: ANhLgQ09iPFLNcb+I/prs8KBLB83kXE7vx4mopv7HcQumQz43QWtISA8
+        3yre+DZ8aK0TqaNN0bwTk1HsVfex2QI=
+X-Google-Smtp-Source: ADFU+vs7NwrhSo9TcVfHDTikYxjPBNlGMHUU1LCMZhjEcqLlxHVm2YdFqJYnLbwaUBw+97Gb+1QP9A==
+X-Received: by 2002:a63:b60:: with SMTP id a32mr17655841pgl.417.1584877138268;
+        Sun, 22 Mar 2020 04:38:58 -0700 (PDT)
+Received: from localhost.localdomain ([203.109.114.220])
+        by smtp.gmail.com with ESMTPSA id w19sm9902111pgm.27.2020.03.22.04.38.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 22 Mar 2020 04:38:57 -0700 (PDT)
+From:   Raag Jadav <raagjadav@gmail.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     mchehab@kernel.org, wenyou.yang@microchip.com,
+        Raag Jadav <raagjadav@gmail.com>
+Subject: [PATCH] media: ov7740: use SCCB regmap
+Date:   Sun, 22 Mar 2020 17:08:11 +0530
+Message-Id: <1584877091-16838-1-git-send-email-raagjadav@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogZ3RrX3J1aXdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNvbT4NCg0KbXQ4MTczIFZQ
-VSBmaXJtd2FyZSBoYXMgYmVlbiBtb3ZlZCB0byBhIHN1Yi1mb2xkZXIgb2YNCmxpbnV4LWZpcm13
-YXJlLCBzbyBsb2FkIHZwdS1mdyBmcm9tIHRoZSBuZXcgbG9jYXRpb24gZmlyc3QsDQppZiBpdCBm
-YWlscywgdGhlbiBmcm9tIHRoZSBvbGQgb25lLg0KDQpTaWduZWQtb2ZmLWJ5OiBSdWkgV2FuZyA8
-Z3RrX3J1aXdhbmdAbWVkaWF0ZWsuY29tPg0KLS0tDQogZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9t
-dGstdnB1L210a192cHUuYyB8IDE2ICsrKysrKysrKysrKystLS0NCiAxIGZpbGUgY2hhbmdlZCwg
-MTMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3Jt
-L210ay12cHUvbXRrX3ZwdS5jDQppbmRleCBhNzY4NzA3YWJiOTQuLjg5Mjc0ODQyZTA3YiAxMDA2
-NDQNCi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMNCisrKyBi
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMNCkBAIC00Niw2ICs0Niw4
-IEBADQogLyogYmluYXJ5IGZpcm13YXJlIG5hbWUgKi8NCiAjZGVmaW5lIFZQVV9QX0ZXCQkidnB1
-X3AuYmluIg0KICNkZWZpbmUgVlBVX0RfRlcJCSJ2cHVfZC5iaW4iDQorI2RlZmluZSBWUFVfUF9G
-V19ORVcJCSJtZWRpYXRlay9tdDgxNzMvdnB1X3AuYmluIg0KKyNkZWZpbmUgVlBVX0RfRldfTkVX
-CQkibWVkaWF0ZWsvbXQ4MTczL3ZwdV9kLmJpbiINCiANCiAjZGVmaW5lIFZQVV9SRVNFVAkJMHgw
-DQogI2RlZmluZSBWUFVfVENNX0NGRwkJMHgwMDA4DQpAQCAtNDc3LDE2ICs0NzksMjQgQEAgc3Rh
-dGljIGludCBsb2FkX3JlcXVlc3RlZF92cHUoc3RydWN0IG10a192cHUgKnZwdSwNCiAJc2l6ZV90
-IHRjbV9zaXplID0gZndfdHlwZSA/IFZQVV9EVENNX1NJWkUgOiBWUFVfUFRDTV9TSVpFOw0KIAlz
-aXplX3QgZndfc2l6ZSA9IGZ3X3R5cGUgPyBWUFVfRF9GV19TSVpFIDogVlBVX1BfRldfU0laRTsN
-CiAJY2hhciAqZndfbmFtZSA9IGZ3X3R5cGUgPyBWUFVfRF9GVyA6IFZQVV9QX0ZXOw0KKwljaGFy
-ICpmd19uZXdfbmFtZSA9IGZ3X3R5cGUgPyBWUFVfRF9GV19ORVcgOiBWUFVfUF9GV19ORVc7DQog
-CWNvbnN0IHN0cnVjdCBmaXJtd2FyZSAqdnB1X2Z3Ow0KIAlzaXplX3QgZGxfc2l6ZSA9IDA7DQog
-CXNpemVfdCBleHRyYV9md19zaXplID0gMDsNCiAJdm9pZCAqZGVzdDsNCiAJaW50IHJldDsNCiAN
-Ci0JcmV0ID0gcmVxdWVzdF9maXJtd2FyZSgmdnB1X2Z3LCBmd19uYW1lLCB2cHUtPmRldik7DQor
-CXJldCA9IHJlcXVlc3RfZmlybXdhcmUoJnZwdV9mdywgZndfbmV3X25hbWUsIHZwdS0+ZGV2KTsN
-CiAJaWYgKHJldCA8IDApIHsNCi0JCWRldl9lcnIodnB1LT5kZXYsICJGYWlsZWQgdG8gbG9hZCAl
-cywgJWRcbiIsIGZ3X25hbWUsIHJldCk7DQotCQlyZXR1cm4gcmV0Ow0KKwkJZGV2X2luZm8odnB1
-LT5kZXYsICJGYWlsZWQgdG8gbG9hZCAlcywgJWQsIHJldHJ5XG4iLA0KKwkJCSBmd19uZXdfbmFt
-ZSwgcmV0KTsNCisNCisJCXJldCA9IHJlcXVlc3RfZmlybXdhcmUoJnZwdV9mdywgZndfbmFtZSwg
-dnB1LT5kZXYpOw0KKwkJaWYgKHJldCA8IDApIHsNCisJCQlkZXZfZXJyKHZwdS0+ZGV2LCAiRmFp
-bGVkIHRvIGxvYWQgJXMsICVkXG4iLCBmd19uYW1lLA0KKwkJCQlyZXQpOw0KKwkJCXJldHVybiBy
-ZXQ7DQorCQl9DQogCX0NCiAJZGxfc2l6ZSA9IHZwdV9mdy0+c2l6ZTsNCiAJaWYgKGRsX3NpemUg
-PiBmd19zaXplKSB7DQotLSANCjIuMTguMA0K
+Make use of SCCB APIs for regmap operations.
+
+Signed-off-by: Raag Jadav <raagjadav@gmail.com>
+---
+ drivers/media/i2c/ov7740.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
+
+diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
+index 732655f..5832461 100644
+--- a/drivers/media/i2c/ov7740.c
++++ b/drivers/media/i2c/ov7740.c
+@@ -1068,13 +1068,6 @@ static int ov7740_probe(struct i2c_client *client)
+ 	struct v4l2_subdev *sd;
+ 	int ret;
+ 
+-	if (!i2c_check_functionality(client->adapter,
+-				     I2C_FUNC_SMBUS_BYTE_DATA)) {
+-		dev_err(&client->dev,
+-			"OV7740: I2C-Adapter doesn't support SMBUS\n");
+-		return -EIO;
+-	}
+-
+ 	ov7740 = devm_kzalloc(&client->dev, sizeof(*ov7740), GFP_KERNEL);
+ 	if (!ov7740)
+ 		return -ENOMEM;
+@@ -1091,7 +1084,7 @@ static int ov7740_probe(struct i2c_client *client)
+ 	if (ret)
+ 		return ret;
+ 
+-	ov7740->regmap = devm_regmap_init_i2c(client, &ov7740_regmap_config);
++	ov7740->regmap = devm_regmap_init_sccb(client, &ov7740_regmap_config);
+ 	if (IS_ERR(ov7740->regmap)) {
+ 		ret = PTR_ERR(ov7740->regmap);
+ 		dev_err(&client->dev, "Failed to allocate register map: %d\n",
+@@ -1100,7 +1093,6 @@ static int ov7740_probe(struct i2c_client *client)
+ 	}
+ 
+ 	sd = &ov7740->subdev;
+-	client->flags |= I2C_CLIENT_SCCB;
+ 	v4l2_i2c_subdev_init(sd, client, &ov7740_subdev_ops);
+ 
+ #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+-- 
+2.7.4
 
