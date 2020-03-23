@@ -2,135 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24C1718F28E
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 11:19:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F04C18F29C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 11:21:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbgCWKT5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Mar 2020 06:19:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43730 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727858AbgCWKT5 (ORCPT
+        id S1727866AbgCWKVu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Mar 2020 06:21:50 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58176 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727827AbgCWKVu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Mar 2020 06:19:57 -0400
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30E55308
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2020 11:19:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584958795;
-        bh=tDelpjEnSC+njxk5UoB9rLW0UvrB2GvteAVNi0FgE34=;
-        h=From:To:Subject:Date:From;
-        b=WeusS1DTa0mKpiFW4ikT/L58TCPGvIUVmohxsA1tleykdoQmbSgzgUxpxgZslCM7W
-         cZ9HiYF1du914ZGJGXd8ZaA6ksz+WPqZsPaHG0brQO5L34B7IHOpRlFqx0ekYl4O2j
-         4IHuttPo8PdNKhKz6qcg4Nv1RSjg65sHDY9vQX4s=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] media: pci: Fill v4l2_fmtdesc with designated initializers
-Date:   Mon, 23 Mar 2020 12:19:41 +0200
-Message-Id: <20200323101941.9888-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.24.1
+        Mon, 23 Mar 2020 06:21:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=3WfSQ3OZhM0uMtvR96lPO9D2XEhT6VnleEL2HTMq9qc=; b=B5q6NfBAhKcSzZ3KlhdFVBHL7w
+        DZB2imhu75xJbB3QtYbJRRfGTzNKz/YBND322z63b+tNyIQuKPbKkUZWry1fWF5T0/wsNa5MZpEfm
+        Z3eEjbwIg8P7CrA/OOneVnMtgehQijD/+dIePxPF9uo/UPfCwTcpoqatNj54Z4WEc85Tw1YPAfGMK
+        uVL9iBX5OyyKfNdtnWQW+pLmpCjMd0bqTghGYIZbjy0UEjxgGS3ktZJATt+VhxDnnfiuUif3khhOX
+        ikM/lun32HfmT6ajMX9N6aDSPhtx4W/Ih/hXHQ1cblAEZZWO+DGSSV0GVgSxQl3Ei5IR2IaBEyEAp
+        9XfudGdQ==;
+Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jGKDM-0005ME-AT; Mon, 23 Mar 2020 10:21:48 +0000
+Date:   Mon, 23 Mar 2020 11:21:42 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Martin Knoblauch <knobi@knobisoft.de>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: Build error on 5.5.10 after activating v4l in .config
+Message-ID: <20200323112142.457a8a28@coco.lan>
+In-Reply-To: <CAJtcoLZKbiSqRPvLMz-Bp142sxEFhuAkbZzx7P3n3VW2bNCtQA@mail.gmail.com>
+References: <CAJtcoLYiGLa3UWQ-XBVc=ATQEnsFrfZuU0i_fS22b7Uv+S-Ysw@mail.gmail.com>
+        <20200320161301.36866c31@coco.lan>
+        <CAJtcoLZKbiSqRPvLMz-Bp142sxEFhuAkbZzx7P3n3VW2bNCtQA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace initialization of static const v4l2_fmtdesc instances that
-specify every struct member with designated initializers. This allows
-not zeroing the reserved fields explicitly, and will avoid a need to
-patch these drivers every time a reserved field is repurposed.
+Em Mon, 23 Mar 2020 10:44:42 +0100
+Martin Knoblauch <knobi@knobisoft.de> escreveu:
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/pci/cx18/cx18-ioctl.c | 22 ++++++++++++++++------
- drivers/media/pci/ivtv/ivtv-ioctl.c | 26 ++++++++++++++------------
- 2 files changed, 30 insertions(+), 18 deletions(-)
+> On Fri, Mar 20, 2020 at 4:13 PM Mauro Carvalho Chehab <mchehab@kernel.org>
+> wrote:
+> 
+> > Em Fri, 20 Mar 2020 15:56:16 +0100
+> > Martin Knoblauch <knobi@knobisoft.de> escreveu:
+> >  
+> > > Hi, (sesending without attachment)
+> > >
+> > >  today I tried to build 5.5.10 based on a working 5.5.6 configuration. I
+> > > also enabled v4l in the configuration using menuconfig. This resulted in
+> > > the following build error:
+> > >
+> > >   AS      arch/x86/boot/compressed/efi_thunk_64.o
+> > >   CC      arch/x86/boot/compressed/misc.o
+> > >   XZKERN  arch/x86/boot/compressed/vmlinux.bin.xz
+> > > ERROR: "__devm_regmap_init_i2c" [drivers/media/i2c/tvp5150.ko] undefined!
+> > > make[1]: *** [scripts/Makefile.modpost:94: __modpost] Error 1
+> > > make: *** [Makefile:1282: modules] Error 2
+> > > make: *** Waiting for unfinished jobs....
+> > >
+> > > After some searching the universal support tool, I applied the following
+> > > patch:
+> > >
+> > > --- ./drivers/media/i2c/Kconfig-orig 2020-03-18 13:57:30.288639392 +0100
+> > > +++ ./drivers/media/i2c/Kconfig 2020-03-18 16:44:03.938384192 +0100
+> > > @@ -378,6 +378,7 @@
+> > >  config VIDEO_TVP5150
+> > >   tristate "Texas Instruments TVP5150 video decoder"
+> > >   depends on VIDEO_V4L2 && I2C
+> > > + select REGMAP_I2C
+> > >   select V4L2_FWNODE
+> > >   help
+> > >    Support for the Texas Instruments TVP5150 video decoder.
+> > >
+> > > This made my build work again. But I am absolutely not sure this is the
+> > > right fix or whether it is complete.  
+> >
+> > Yes, it is. There are other places where the same select is needed.
+> >
+> > There's already a patch upstream (linux-next) addressing this issue.
+> >
+> > It should be merged for 5.7.
+> >
+> > Regards,
+> > Mauro
+> >  
+> 
+> Hi Mauro,
+> 
+>  so I had the same issue again with 5.5.11 (expected). In order to avoid
+> keeping a local patch until 5.5.7, I tried to deselect the driver. But it
+> seems I cannot. Only options I have for it are "M" or "*". So, what makes
+> this device different from e.g. TVP514x? I do not have the TVP5150 and the
+> driver is also not loaded. To me it seems the forced selection should not
+> happen in the first place ?
 
-diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
-index fa57e12f2ac8..4864def20676 100644
---- a/drivers/media/pci/cx18/cx18-ioctl.c
-+++ b/drivers/media/pci/cx18/cx18-ioctl.c
-@@ -466,14 +466,24 @@ static int cx18_enum_fmt_vid_cap(struct file *file, void *fh,
- 					struct v4l2_fmtdesc *fmt)
- {
- 	static const struct v4l2_fmtdesc formats[] = {
--		{ 0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
--		  "HM12 (YUV 4:1:1)", V4L2_PIX_FMT_HM12, { 0, 0, 0, 0 }
-+		{
-+			.index = 0,
-+			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
-+			.description = "HM12 (YUV 4:1:1)",
-+			.pixelformat = V4L2_PIX_FMT_HM12,
- 		},
--		{ 1, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
--		  "MPEG", V4L2_PIX_FMT_MPEG, { 0, 0, 0, 0 }
-+		{
-+			.index = 1,
-+			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
-+			.flags = V4L2_FMT_FLAG_COMPRESSED,
-+			.description = "MPEG",
-+			.pixelformat = V4L2_PIX_FMT_MPEG,
- 		},
--		{ 2, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
--		  "UYVY 4:2:2", V4L2_PIX_FMT_UYVY, { 0, 0, 0, 0 }
-+		{
-+			.index = 2,
-+			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
-+			.description = "UYVY 4:2:2",
-+			.pixelformat = V4L2_PIX_FMT_UYVY,
- 		},
- 	};
- 
-diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-index 137853944e46..35dccb31174c 100644
---- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-+++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-@@ -920,14 +920,15 @@ static int ivtv_g_selection(struct file *file, void *fh,
- static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
- {
- 	static const struct v4l2_fmtdesc hm12 = {
--		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
--		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
--		{ 0, 0, 0, 0 }
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
-+		.description = "HM12 (YUV 4:2:0)",
-+		.pixelformat = V4L2_PIX_FMT_HM12,
- 	};
- 	static const struct v4l2_fmtdesc mpeg = {
--		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
--		"MPEG", V4L2_PIX_FMT_MPEG,
--		{ 0, 0, 0, 0 }
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
-+		.flags = V4L2_FMT_FLAG_COMPRESSED,
-+		.description = "MPEG",
-+		.pixelformat = V4L2_PIX_FMT_MPEG,
- 	};
- 	struct ivtv *itv = fh2id(fh)->itv;
- 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
-@@ -946,14 +947,15 @@ static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdes
- static int ivtv_enum_fmt_vid_out(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
- {
- 	static const struct v4l2_fmtdesc hm12 = {
--		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, 0,
--		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
--		{ 0, 0, 0, 0 }
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
-+		.description = "HM12 (YUV 4:2:0)",
-+		.pixelformat = V4L2_PIX_FMT_HM12,
- 	};
- 	static const struct v4l2_fmtdesc mpeg = {
--		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, V4L2_FMT_FLAG_COMPRESSED,
--		"MPEG", V4L2_PIX_FMT_MPEG,
--		{ 0, 0, 0, 0 }
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
-+		.flags = V4L2_FMT_FLAG_COMPRESSED,
-+		.description = "MPEG",
-+		.pixelformat = V4L2_PIX_FMT_MPEG,
- 	};
- 	struct ivtv *itv = fh2id(fh)->itv;
- 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
--- 
-Regards,
+Some other driver you selected may support boards with tvp5150. By default,
+it will auto-select all possible dependencies. 
 
-Laurent Pinchart
+You can disable MEDIA_SUBDRV_AUTOSELECT. Please notice, however, that this
+may break support for some hardware.
 
+Thanks,
+Mauro
