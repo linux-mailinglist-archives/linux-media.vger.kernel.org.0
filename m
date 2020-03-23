@@ -2,96 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A42D18F58C
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 14:19:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E7C18F5B9
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 14:28:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728368AbgCWNT0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Mar 2020 09:19:26 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:41930 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728357AbgCWNTZ (ORCPT
+        id S1728385AbgCWN2Q convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 23 Mar 2020 09:28:16 -0400
+Received: from plasma4.jpberlin.de ([80.241.57.33]:54771 "EHLO
+        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728344AbgCWN2Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Mar 2020 09:19:25 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id DE5051C0321; Mon, 23 Mar 2020 14:19:23 +0100 (CET)
-Date:   Mon, 23 Mar 2020 14:19:23 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     sean@mess.org, hverkuil-cisco@xs4all.nl,
-        mchehab+samsung@kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH] Minimal libv4l2 support for complex cameras
-Message-ID: <20200323131922.GA719@duo.ucw.cz>
-References: <20200323114727.GA31063@amd>
- <20200323115753.GC12103@pendragon.ideasonboard.com>
- <20200323122216.GA18697@duo.ucw.cz>
- <20200323122442.GD12103@pendragon.ideasonboard.com>
+        Mon, 23 Mar 2020 09:28:16 -0400
+Received: from hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 4FE1FBA32B;
+        Mon, 23 Mar 2020 14:28:11 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([91.198.250.140])
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id WJGZGc0gbrGQ; Mon, 23 Mar 2020 14:28:09 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 793D8BAE9C;
+        Mon, 23 Mar 2020 14:28:09 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 23 Mar
+ 2020 14:28:08 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>
+CC:     Gerd Hoffmann <kraxel@redhat.com>,
+        <virtio-dev@lists.oasis-open.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        David Staessens <dstaessens@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, <uril@redhat.com>,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        Kiran Pawar <kiran.pawar@opensynergy.com>
+Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
+Date:   Mon, 23 Mar 2020 14:28:08 +0100
+Message-ID: <8121654.T7Z3S40VBb@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAD90VcaYi2KawNOewRaL1QihUjgja6nLyzU+0R7nsHPN3voXDA@mail.gmail.com>
+References: <20200206102058.247258-1-keiichiw@chromium.org> <CAPBb6MVPjgLkbVjOY6O3srywNm8Zb1pMR2pGM1NinByhgFaZ_A@mail.gmail.com> <CAD90VcaYi2KawNOewRaL1QihUjgja6nLyzU+0R7nsHPN3voXDA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
-Content-Disposition: inline
-In-Reply-To: <20200323122442.GD12103@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Keiichi,
 
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Montag, 23. März 2020 13:07:54 CET Keiichi Watanabe wrote:
+> Hi everyone,
+> 
+> I have implemented a virtio-video device following my v3 spec in
+> crosvm, which worked well together with Dmitry's driver [1]. I've
+> started preparing v4 proposal to address problems found while
+> implementing the driver and the devices.
 
-Hi!
+Great news!
 
-> On Mon, Mar 23, 2020 at 01:22:17PM +0100, Pavel Machek wrote:
-> > > On Mon, Mar 23, 2020 at 12:47:27PM +0100, Pavel Machek wrote:
-> > >> Hi!
-> > >>=20
-> > >> We now have easy-to-install support for complex camera in form of
-> > >> Maemo Leste on N900.... Unfortunately we don't have anything in
-> > >> userspace that can be used to work with the camera.
-> > >>=20
-> > >> This attempts to be minimal solution to get libv4l2 to work.
-> > >=20
-> > > libv4l2 is mostly deprecated. How about contributing an OMAP3 ISP
-> > > pipeline handler to libcamera instead ? :-)
-> >=20
-> > Why should it be instead?
-> >=20
-> > I need something for kernel testing, and there is ton of apps using
-> > it. Let me do this. libcamera might be future, but...
->=20
-> Sure, if it's useful for you, I won't prevent you from developing any
-> code you want :-) But there's very little chance of getting it merged,
-> and it would be useful to more people to have a support for that
-> platform in libcamera. It's really your decision, and I'm not blaming
-> you.
+> 
+> Regarding v3 protocol, I'm thinking about how we can differentiate
+> 'parameters' and 'controls' in the virtio-video spec?
+> In the previous discussion, we decided to have a profile, level and
+> bitrate as controls because we want to query supported values for each
+> field.
+> But, I don't think it's a good criteria because it'd be possible to
+> query other values in params.
 
-When you have libcamera ready, you'll still need some hardware and
-kernel to work with it. Do you have something more suitable than
-N9/N900? Droid 4 has separate CPU to run the camera, Librem 5 camera
-does not have autofocus (and I believe nor has PinePhone).
+Could you elaborate on this? Do you now how the design could look like or it 
+is just an idea? AFAIR during the discussion of OpenSynergy's original v1 spec 
+your point was to separate something that we call 'controls' now to reduce the 
+command data size and make command handling less error prone.
 
-My patch is not complex, and libv4l2 is full of similar hardware
-support code. What would be reason not to merge it?
+On one hand if don't really see any difference in params vs controls it would 
+for sure make sense to remove one of the two. On the other hand I'd of course 
+like to avoid moving back in forth, especially when it comes to such a major 
+driver rework.
+
+> 
+> So, I'm thinking about what should be the difference between params
+> and controls. If no difference, we should deprecate
+> virtio_video_params and have every field there as a control value
+> instead.
+
+I deem we should then deprecate controls instead. Params seem to be more 
+abstract. Width and height don't sound like a control for me.
+
+> If we add a new command to get and set multiple controls at once, this
+> change won't cause overhead.
+> 
+
+How would we do this? Provide a flexible array member where each entry has a 
+type field first?
+
+What can also make sense is to potentially join set and get calls (probably 
+provide 'get' stuff automatically within a response to 'set'). Anyway set and 
+get are currently used in conjunction all the time.
 
 Best regards,
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+Dmitry.
 
---gKMricLos+KVdGMg
-Content-Type: application/pgp-signature; name="signature.asc"
+> What do you think? Is there anything I missed?
+> If it sounds fine, I'll remove virtio_video_params from the v4 spec
+> proposal.
+> 
+> Best regards,
+> Keiichi
+> 
+> [1]: https://patchwork.linuxtv.org/patch/61717/
 
------BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXni3WgAKCRAw5/Bqldv6
-8tJ+AJwKCdSeTfp7OkIfo15LTGeVlxq2dACeI8bZ4e5gTXKuFaA2+BepyPvUT5Y=
-=OtqU
------END PGP SIGNATURE-----
-
---gKMricLos+KVdGMg--
