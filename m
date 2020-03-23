@@ -2,129 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A94618F6CB
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 15:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC94518F6DD
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 15:27:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbgCWOZn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Mar 2020 10:25:43 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:38992 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbgCWOZm (ORCPT
+        id S1727036AbgCWO11 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Mar 2020 10:27:27 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:36580 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727022AbgCWO11 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Mar 2020 10:25:42 -0400
-Received: by mail-io1-f68.google.com with SMTP id c19so14284103ioo.6
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2020 07:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RU40jWGhj6lpOmcR0rhPbXxuDL08twmkF5lowZlfdA4=;
-        b=On3knLcVMH7gqWiW24pMmTOlwxhJsmZOhwh2r4ySimnUYot7WSDpY+1cbATjWSI1oU
-         1Ye6cPD3cflw7nxYJK/ZIjWEYTTU+DSSWLfJX0001yf/+y+sCBjuwpZkgOhvbapUV248
-         AWzDQPwoYqsqVnInKAPEX70g4G9weVWMyiz0M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RU40jWGhj6lpOmcR0rhPbXxuDL08twmkF5lowZlfdA4=;
-        b=ORzc7fx1V/+TlPhozSfJPh7R0lEzdfq/+f0wHGPA5iJuI6F2oqSCb6H96WJFCin6KL
-         9WdZ8aPtSQRNXSsvGBwHD38K30LHfaUPxul8Ijkx8Bc/h3Pe4jwRMoSQgphlplTkTJ25
-         OiSBL0RCF6wn7591rP3tO340ic5YTawTkf4QZhI99j70SeUruWNwxOF9+uwECqaDHqJ+
-         D00NpSQETF4/WCyGdcCun87BdwAD9WTpymASMKZsqLWaiFfzmg/Rop2dWIZpAJ0o3frI
-         LYrK6DOE2kpxKt9mISaSwp7+nhXROCHEQ57OjaKcqlCefSnf60jF9lLJI65mp8JRyjGO
-         opVQ==
-X-Gm-Message-State: ANhLgQ0lAhWsU4wDlaUfzWVVbjss/Ui94pRsvTOCqn5X3TL7d0oVQDEb
-        lanFrVpS71xncAY84iJM0i+6DlvxNc/QZg==
-X-Google-Smtp-Source: ADFU+vuK8CeX9NHLdAyLzDGpZsLAGmk0SS7HcDH/yS8DAgbsx34F3wOIYvLsaaYo1oQ/4D2GmVj1uQ==
-X-Received: by 2002:a02:a813:: with SMTP id f19mr20023219jaj.35.1584973540463;
-        Mon, 23 Mar 2020 07:25:40 -0700 (PDT)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com. [209.85.166.46])
-        by smtp.gmail.com with ESMTPSA id p189sm4358909iof.17.2020.03.23.07.25.40
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2020 07:25:40 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id h131so14341567iof.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2020 07:25:40 -0700 (PDT)
-X-Received: by 2002:a6b:3c01:: with SMTP id k1mr5299442iob.120.1584973539652;
- Mon, 23 Mar 2020 07:25:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <1584973116-13148-1-git-send-email-bingbu.cao@intel.com>
-In-Reply-To: <1584973116-13148-1-git-send-email-bingbu.cao@intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 23 Mar 2020 15:25:26 +0100
-X-Gmail-Original-Message-ID: <CAAFQd5DqLWhSdu6oB8M1=5h_SakMCPo4eu-Fd17rkgoiucL-fg@mail.gmail.com>
-Message-ID: <CAAFQd5DqLWhSdu6oB8M1=5h_SakMCPo4eu-Fd17rkgoiucL-fg@mail.gmail.com>
-Subject: Re: [PATCH] media: staging: imgu: do not hold spinlock during freeing
- mmu page table
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@linux.intel.com>
+        Mon, 23 Mar 2020 10:27:27 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 3E4FF2965CC
+Message-ID: <c1fbc7912187302fdc27d9e333fab43b0c253507.camel@collabora.com>
+Subject: Re: [PATCH 2/2] media: coda: be more flexible wrt jpeg dimensions
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com, kernel@pengutronix.de,
+        Tim Harvey <tharvey@gateworks.com>
+Date:   Mon, 23 Mar 2020 11:27:15 -0300
+In-Reply-To: <20200323130937.3666244-3-adrian.ratiu@collabora.com>
+References: <20200323130937.3666244-1-adrian.ratiu@collabora.com>
+         <20200323130937.3666244-3-adrian.ratiu@collabora.com>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
-
-On Mon, Mar 23, 2020 at 3:15 PM Bingbu Cao <bingbu.cao@intel.com> wrote:
->
-> The spinlock should not be hold during ImgU page alloc and free, the
-> irq should be enabled during memory cache flush - cpa_flush(). The
-> spinlock should be released before freeing pages table.
-
-Thanks for the patch! Would be good to explain why it is so.
-
-Otherwise feel free to add
-
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-
-Best regards,
-Tomasz
-
->
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+On Mon, 2020-03-23 at 15:09 +0200, Adrian Ratiu wrote:
+> Don't require jpeg dimensions to exactly match format dimensions,
+> so we are able to decode and display a wider range jpegs instead
+> of outright rejecting the ones which don't match.
+> 
+> This is useful in applications which pass jpegs with arbitrary
+> dimensions, where buffers can be reused to decode smaller jpegs
+> without having to do expensive renegotiations.
+> 
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
 > ---
->  drivers/staging/media/ipu3/ipu3-mmu.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-> index 5f3ff964f3e7..cb9bf5fb29a5 100644
-> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
-> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-> @@ -174,8 +174,10 @@ static u32 *imgu_mmu_get_l2pt(struct imgu_mmu *mmu, u32 l1pt_idx)
->         spin_lock_irqsave(&mmu->lock, flags);
->
->         l2pt = mmu->l2pts[l1pt_idx];
-> -       if (l2pt)
-> -               goto done;
-> +       if (l2pt) {
-> +               spin_unlock_irqrestore(&mmu->lock, flags);
-> +               return l2pt;
-> +       }
->
->         spin_unlock_irqrestore(&mmu->lock, flags);
->
-> @@ -190,8 +192,9 @@ static u32 *imgu_mmu_get_l2pt(struct imgu_mmu *mmu, u32 l1pt_idx)
->
->         l2pt = mmu->l2pts[l1pt_idx];
->         if (l2pt) {
-> +               spin_unlock_irqrestore(&mmu->lock, flags);
->                 imgu_mmu_free_page_table(new_l2pt);
-> -               goto done;
-> +               return l2pt;
->         }
->
->         l2pt = new_l2pt;
-> @@ -200,7 +203,6 @@ static u32 *imgu_mmu_get_l2pt(struct imgu_mmu *mmu, u32 l1pt_idx)
->         pteval = IPU3_ADDR2PTE(virt_to_phys(new_l2pt));
->         mmu->l1pt[l1pt_idx] = pteval;
->
-> -done:
->         spin_unlock_irqrestore(&mmu->lock, flags);
->         return l2pt;
->  }
-> --
-> 2.7.4
->
+>  drivers/media/platform/coda/coda-jpeg.c | 7 -------
+>  1 file changed, 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
+> index 162ba28a6b95..782a78dcaf4d 100644
+> --- a/drivers/media/platform/coda/coda-jpeg.c
+> +++ b/drivers/media/platform/coda/coda-jpeg.c
+> @@ -302,13 +302,6 @@ int coda_jpeg_decode_header(struct coda_ctx *ctx, struct vb2_buffer *vb)
+>  	}
+>  
+>  	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+> -	if (header.frame.height != q_data_src->height ||
+> -	    header.frame.width != q_data_src->width) {
+> -		v4l2_err(&dev->v4l2_dev,
+> -			 "dimensions don't match format: %dx%d\n",
+> -			 header.frame.width, header.frame.height);
+> -		return -EINVAL;
+> -	}
+
+Since you are dropping this check, and allowing other sizes to be
+decoded using, do you have any check to make sure you don't overrun
+(in bytes, not in width x height) the CAPTURE (decoded) buffer?
+
+Also, IIUC your application is negotiating W x H, but then
+passing a different size: I wonder if this is not an abuse
+of the spec?
+
+Thanks,
+Ezequiel
+
+>  
+>  	if (header.frame.num_components != 3) {
+>  		v4l2_err(&dev->v4l2_dev,
+
+
