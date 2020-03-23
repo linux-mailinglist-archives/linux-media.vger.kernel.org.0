@@ -2,107 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E4C318F27D
-	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 11:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24C1718F28E
+	for <lists+linux-media@lfdr.de>; Mon, 23 Mar 2020 11:19:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727857AbgCWKM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Mar 2020 06:12:57 -0400
-Received: from mga01.intel.com ([192.55.52.88]:31838 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727816AbgCWKM5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Mar 2020 06:12:57 -0400
-IronPort-SDR: kI7hjC5B2LQROY5wef/k1KYLcT0Vm2/lK1QxzXnaHCimixW2rsjV09FfN4rpJmOTSl7fdSbk/2
- z/HP80e08VrA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2020 03:12:56 -0700
-IronPort-SDR: t1zgyaZwCvr/MEys3Q70J1eusWikkaNBQSVGY4zPCM+Yz7N18dBORL95jIpkmcwYsC9stVp1x/
- 1Rqyd7aaVVMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,296,1580803200"; 
-   d="scan'208";a="239354031"
-Received: from sciuca-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.47.6])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Mar 2020 03:12:54 -0700
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id C874221EF2; Mon, 23 Mar 2020 12:12:50 +0200 (EET)
-Date:   Mon, 23 Mar 2020 12:12:50 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-renesas-soc@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v6 2/5] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200323101250.GB20664@kekkonen.localdomain>
-References: <20200319004701.30416-1-laurent.pinchart@ideasonboard.com>
- <20200319004701.30416-3-laurent.pinchart@ideasonboard.com>
- <20200323100328.GA20664@kekkonen.localdomain>
- <20200323100727.GA4768@pendragon.ideasonboard.com>
+        id S1727867AbgCWKT5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Mar 2020 06:19:57 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43730 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727858AbgCWKT5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Mar 2020 06:19:57 -0400
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30E55308
+        for <linux-media@vger.kernel.org>; Mon, 23 Mar 2020 11:19:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584958795;
+        bh=tDelpjEnSC+njxk5UoB9rLW0UvrB2GvteAVNi0FgE34=;
+        h=From:To:Subject:Date:From;
+        b=WeusS1DTa0mKpiFW4ikT/L58TCPGvIUVmohxsA1tleykdoQmbSgzgUxpxgZslCM7W
+         cZ9HiYF1du914ZGJGXd8ZaA6ksz+WPqZsPaHG0brQO5L34B7IHOpRlFqx0ekYl4O2j
+         4IHuttPo8PdNKhKz6qcg4Nv1RSjg65sHDY9vQX4s=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: pci: Fill v4l2_fmtdesc with designated initializers
+Date:   Mon, 23 Mar 2020 12:19:41 +0200
+Message-Id: <20200323101941.9888-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200323100727.GA4768@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 23, 2020 at 12:07:27PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Mon, Mar 23, 2020 at 12:03:28PM +0200, Sakari Ailus wrote:
-> > On Thu, Mar 19, 2020 at 02:46:58AM +0200, Laurent Pinchart wrote:
-> > > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > > with drivers implementing one of the following behaviours:
-> > > 
-> > > - No support for VIDIOC_ENUM_FMT at all
-> > > - Enumerating all formats supported by the video node, regardless of the
-> > >   configuration of the pipeline
-> > > - Enumerating formats supported by the video node for the active
-> > >   configuration of the connected subdevice
-> > > 
-> > > The first behaviour is obviously useless for applications. The second
-> > > behaviour provides the most information, but doesn't offer a way to find
-> > > what formats are compatible with a given pipeline configuration. The
-> > > third behaviour fixes that, but with the drawback that applications
-> > > can't enumerate all supported formats anymore, and have to modify the
-> > > active configuration of the pipeline to enumerate formats.
-> > > 
-> > > The situation is messy as none of the implemented behaviours are ideal,
-> > > and userspace can't predict what will happen as the behaviour is
-> > > driver-specific.
-> > > 
-> > > To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-> > > enumerating pixel formats for a given media bus code. The media bus code
-> > > is passed through the v4l2_fmtdesc structure in a new mbus_code field
-> > > (repurposed from the reserved fields). With this capability in place,
-> > > applications can enumerate pixel formats for a given media bus code
-> > > without modifying the active configuration of the device.
-> > > 
-> > > The current behaviour of the ioctl is preserved when the new mbus_code
-> > > field is set to 0, ensuring compatibility with existing userspace. The
-> > > API extension is documented as mandatory for MC-centric devices (as
-> > > advertised through the V4L2_CAP_IO_MC capability), allowing applications
-> > > and compliance tools to easily determine the availability of the
-> > > VIDIOC_ENUM_FMT extension.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > I'd address setting the reserved fields explicitly in a separate patch,
-> > simply by removing them. As another field in the struct is assigned, the
-> > memory is zeroed and explicit assignment is redundant.
-> 
-> I'm not sure to follow you, what code are you referring to ?
+Replace initialization of static const v4l2_fmtdesc instances that
+specify every struct member with designated initializers. This allows
+not zeroing the reserved fields explicitly, and will avoid a need to
+patch these drivers every time a reserved field is repurposed.
 
-Have you seen the e-mails from the kbuild bot?
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/pci/cx18/cx18-ioctl.c | 22 ++++++++++++++++------
+ drivers/media/pci/ivtv/ivtv-ioctl.c | 26 ++++++++++++++------------
+ 2 files changed, 30 insertions(+), 18 deletions(-)
 
+diff --git a/drivers/media/pci/cx18/cx18-ioctl.c b/drivers/media/pci/cx18/cx18-ioctl.c
+index fa57e12f2ac8..4864def20676 100644
+--- a/drivers/media/pci/cx18/cx18-ioctl.c
++++ b/drivers/media/pci/cx18/cx18-ioctl.c
+@@ -466,14 +466,24 @@ static int cx18_enum_fmt_vid_cap(struct file *file, void *fh,
+ 					struct v4l2_fmtdesc *fmt)
+ {
+ 	static const struct v4l2_fmtdesc formats[] = {
+-		{ 0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
+-		  "HM12 (YUV 4:1:1)", V4L2_PIX_FMT_HM12, { 0, 0, 0, 0 }
++		{
++			.index = 0,
++			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
++			.description = "HM12 (YUV 4:1:1)",
++			.pixelformat = V4L2_PIX_FMT_HM12,
+ 		},
+-		{ 1, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
+-		  "MPEG", V4L2_PIX_FMT_MPEG, { 0, 0, 0, 0 }
++		{
++			.index = 1,
++			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
++			.flags = V4L2_FMT_FLAG_COMPRESSED,
++			.description = "MPEG",
++			.pixelformat = V4L2_PIX_FMT_MPEG,
+ 		},
+-		{ 2, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
+-		  "UYVY 4:2:2", V4L2_PIX_FMT_UYVY, { 0, 0, 0, 0 }
++		{
++			.index = 2,
++			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
++			.description = "UYVY 4:2:2",
++			.pixelformat = V4L2_PIX_FMT_UYVY,
+ 		},
+ 	};
+ 
+diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
+index 137853944e46..35dccb31174c 100644
+--- a/drivers/media/pci/ivtv/ivtv-ioctl.c
++++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
+@@ -920,14 +920,15 @@ static int ivtv_g_selection(struct file *file, void *fh,
+ static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
+ {
+ 	static const struct v4l2_fmtdesc hm12 = {
+-		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
+-		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
+-		{ 0, 0, 0, 0 }
++		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
++		.description = "HM12 (YUV 4:2:0)",
++		.pixelformat = V4L2_PIX_FMT_HM12,
+ 	};
+ 	static const struct v4l2_fmtdesc mpeg = {
+-		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
+-		"MPEG", V4L2_PIX_FMT_MPEG,
+-		{ 0, 0, 0, 0 }
++		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
++		.description = "MPEG",
++		.pixelformat = V4L2_PIX_FMT_MPEG,
+ 	};
+ 	struct ivtv *itv = fh2id(fh)->itv;
+ 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
+@@ -946,14 +947,15 @@ static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdes
+ static int ivtv_enum_fmt_vid_out(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
+ {
+ 	static const struct v4l2_fmtdesc hm12 = {
+-		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, 0,
+-		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
+-		{ 0, 0, 0, 0 }
++		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
++		.description = "HM12 (YUV 4:2:0)",
++		.pixelformat = V4L2_PIX_FMT_HM12,
+ 	};
+ 	static const struct v4l2_fmtdesc mpeg = {
+-		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, V4L2_FMT_FLAG_COMPRESSED,
+-		"MPEG", V4L2_PIX_FMT_MPEG,
+-		{ 0, 0, 0, 0 }
++		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
++		.flags = V4L2_FMT_FLAG_COMPRESSED,
++		.description = "MPEG",
++		.pixelformat = V4L2_PIX_FMT_MPEG,
+ 	};
+ 	struct ivtv *itv = fh2id(fh)->itv;
+ 	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
+
