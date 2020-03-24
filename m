@@ -2,82 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2195F191B5A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 21:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09B23191BA5
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 22:04:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728326AbgCXUqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 16:46:21 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58504 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728299AbgCXUqU (ORCPT
+        id S1727937AbgCXVEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 17:04:44 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8513 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727160AbgCXVEo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 16:46:20 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F7A52D2;
-        Tue, 24 Mar 2020 21:46:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585082778;
-        bh=U0n7oZ9KuKIc+UfH46Id9kcgZ5vT9XPc8ip+OnadaMQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Khq6yQR4I9DlbU3B0OrA/h+4+uLAPoOCCu8DNit6P8OxUQBtEnKYl9VGpagEPjen8
-         YMfjMlq9uYEVBRtSbyk9UM9I7uc3yUvq2pOgx38PkJx46Y7KaAk1guzoyvHsgHzXby
-         51YvVcaCno2mKZLB+sU6P/9YVmOgONkUwM0P0wKo=
-Date:   Tue, 24 Mar 2020 22:46:16 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com
-Subject: Re: [libcamera-devel] [PATCH 4/4] media: bcm2835: Fix trivial
- whitespace error
-Message-ID: <20200324204616.GD20997@pendragon.ideasonboard.com>
-References: <20200324202844.1518292-1-jacopo@jmondi.org>
- <20200324202844.1518292-5-jacopo@jmondi.org>
+        Tue, 24 Mar 2020 17:04:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e7a75de0000>; Tue, 24 Mar 2020 14:04:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 24 Mar 2020 14:04:43 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 24 Mar 2020 14:04:43 -0700
+Received: from [10.2.160.81] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 24 Mar
+ 2020 21:04:42 +0000
+Subject: Re: [RFC PATCH v5 9/9] arm64: tegra: Add Tegra VI CSI support in
+ device tree
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-10-git-send-email-skomatineni@nvidia.com>
+ <672819ea-01d3-2eca-8bb7-84ffd64256d4@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <a218142f-295e-6bd5-b1d7-47d9ab8eba3e@nvidia.com>
+Date:   Tue, 24 Mar 2020 14:04:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200324202844.1518292-5-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <672819ea-01d3-2eca-8bb7-84ffd64256d4@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1585083870; bh=Jw74m552tkhq3CDH0HzPuxcv0/HVM2uSanL+YVCFqAI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=FjmjOIFjIJyyES0zkDgAnNtuUa/HTvrK+JEzJqWCHEncYg+7Wgs2yeM6jtjhMlA4l
+         x1rZOhZcpGUc/YUtfxBi7huUy3zHCllGBOT33L5Eogt2fM2CWB9A/qtybX/LZcpO9N
+         1lEZ/VahTuu6pWj0rjwX1rZtmFjXSKGQzcGAFvLlK/obRWKFVlX5kx3yVqTu8UB+Ne
+         w3AkxsjVT0BXCrV8rUk06VqM/xSZ5MyjgHSQKhqMK3B0JejaVPQdmL73im+sP+Supn
+         ghhur0AM6S7e4TowUeh47qGaZbN4WxjTvQ2Lf4K1vvUtnkIE/dqtqEa8HzCMnrTReO
+         d8tmkCLuOFnew==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
 
-Thank you for the patch.
-
-On Tue, Mar 24, 2020 at 09:28:44PM +0100, Jacopo Mondi wrote:
-> Cosmetic change only.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/platform/bcm2835/bcm2835-unicam.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/bcm2835/bcm2835-unicam.c b/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> index 5001976dcebc..65534a18d3d4 100644
-> --- a/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> +++ b/drivers/media/platform/bcm2835/bcm2835-unicam.c
-> @@ -2462,7 +2462,7 @@ static int unicam_set_ctrl(struct v4l2_ctrl *ctrl)
->  		/* Change the number of frames of delay we believe there
->  		 * to be between updating analogue gain and it taking effect.
->  		 */
-> -		return unicam_update_delay(unicam, 
-> +		return unicam_update_delay(unicam,
->  			V4L2_CID_ANALOGUE_GAIN, ctrl->val);
-
-While at it, write it
-
-		return unicam_update_delay(unicam, V4L2_CID_ANALOGUE_GAIN,
-					   ctrl->val);
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  
->  	default:
-
--- 
-Regards,
-
-Laurent Pinchart
+On 3/24/20 12:19 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 23.03.2020 20:52, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>> +                     pd_venc: venc {
+>> +                             clocks =3D <&tegra_car TEGRA210_CLK_VI>,
+>> +                                      <&tegra_car TEGRA210_CLK_CSI>;
+>> +                             resets =3D <&mc TEGRA210_MC_RESET_VI>,
+> The MC resetting should be needed only for a hardware hot-resetting. It
+> should be wrong to add it to the power domain.
+TRM recommends to do MC client hot-reset during VE power gate and ungate.
+>
+>> +                                      <&tegra_car TEGRA210_RST_VI>,
+>> +                                      <&tegra_car TEGRA210_CLK_CSI>;
+>> +                             #power-domain-cells =3D <0>;
+>> +                     };
+>>                };
