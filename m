@@ -2,105 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC736190C81
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 12:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E32190D3E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 13:21:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbgCXLar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 07:30:47 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38458 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727148AbgCXLar (ORCPT
+        id S1727553AbgCXMU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 08:20:58 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:59055 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727422AbgCXMU6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 07:30:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=pgidfk1CzMJBNlrTU9Rz3yjEi/6uZEwyGV8n3CqpEdg=; b=R/d0WjIIt+6uNMGN5b50i7c+IJ
-        GWccyT591AP+YueGzQdeZsjth3Qxjd9Yr91nwoJizBg36QvBy6NYJxk6EpWInf+INVKW+Dk0ZUVqp
-        gpI18MUks279v9XEQH4i2dWvwkcodknjR/bFp+2J5I6h2pBacXtml0I/9yhOlERpo89YUqEcw1wJz
-        rW6Hd4SecnzilvwlyaVh2zXkqlRocMNHVbg6whForKlqKVjBDcafAILe0hK76OlZdpBujQc+8eJFj
-        C7Ykc1b8I4M70KXtPLqdGUFgEFh0lXRuvQkdybR5wp+GeeTKhEiWIAIhr93/6VcoUrGMZUXceKZs/
-        cka76aCQ==;
-Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jGhla-0005IZ-SL; Tue, 24 Mar 2020 11:30:43 +0000
-Date:   Tue, 24 Mar 2020 12:30:33 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, sean@mess.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: A bit confused on i2c communication between modules
-Message-ID: <20200324123033.5538c38d@coco.lan>
-In-Reply-To: <20200324110122.GG1134@ninjato>
-References: <55204992-9060-6008-31c7-c2855f712e70@gmail.com>
-        <20200324082236.2c4d2ae4@coco.lan>
-        <bc91be3d-802c-a58c-bd27-740e15516180@ideasonboard.com>
-        <20200324095810.GC1134@ninjato>
-        <63742e62-d0b6-9d7a-b491-d7969f8ea7e2@ideasonboard.com>
-        <20200324102704.GD1134@ninjato>
-        <7d82a76f-5165-5e7c-bcde-552f527da0d2@ideasonboard.com>
-        <20200324110122.GG1134@ninjato>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Tue, 24 Mar 2020 08:20:58 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id GiY4jVrsjBr2bGiY8jCVHV; Tue, 24 Mar 2020 13:20:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585052455; bh=q8/Nxldo0LneGCdfQpNyLduJF8p8iKBwes/hSH0SxlM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qupwrIayFeTsrlTx4+9FCeHD636QJ2URJOpz0zDyrsmgIvLumwAOXyRBYwiyIUJKi
+         UlnunWkyu3CDjdXMWAw8zQ/yG1u7xWxO8vWCuTRl+GPGXSnc9A6eqkPWtg25iC+ars
+         nL+7OKvhKX45SH2Fi/pWZ/n8OuNoK6wgdXYQB/2CG/4yjMZDW2xhGz6A9nQu4jfR9p
+         LAOC+KA4O1Cf2sMGMuJ/xY5lVp5Cf+8zr+xNjDmBvHMblW+22uUaSGwGOrkRCzUMLO
+         nXF0Em7pjFM+T9dqtPnc0f8mfgX0ajrPC0sUS4XqcCfm3i52BCeBkdgmX6chA8L9J7
+         kqjAOYjUgSyLw==
+Subject: Re: [PATCH] media: mtk-vpu: load vpu firmware from the new location
+To:     gtk_ruiwang@mediatek.com,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Erin Lo <erin.lo@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        srv_heupstream@mediatek.com
+References: <20200322075745.6133-1-gtk_ruiwang@mediatek.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <396021fd-ec2e-1ec1-602e-08b9393c5ae9@xs4all.nl>
+Date:   Tue, 24 Mar 2020 13:20:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200322075745.6133-1-gtk_ruiwang@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPcSfPBFnE60zpFmF76AlV/HJsSpaQpqXlnD5wDic0hiCQOCEZhacKr2KO3ERRpWPwCGDnIhG3WHoksBYOMelaGBPqt1t9paNJH0Kw0WaAIlqnhhuLE4
+ gAGQ5OYYcwupJvWJefx8UXCvyvrhZafMSETMwl7oQTB9JmAsXu5lXKPeiH+1rK2tST7TlRwpJAgpwkJhQlAL8906mhdxXmORyndb+7k5YAtwH3WdO5nPDg8O
+ bA+5zEzsCzTVCan4hRn7fIAvbSLIO52qOclO0LJIII50/iDroZmAsvu6uxpWuVQw4k2OIvtiNs9rez0l3gDpqp1FHaNXPEFOLiAvYmdRw5Z+2RhBTCoXf0tR
+ /oeOi2aGlgFwKuBo8wtN2ncHWQ4IIC+uv5zYuR0c+VLI+CYKVdpUbV06Rzr9jqKc5+wI5ghk8ydBWa5U+imU/9u9pRo4+H3kEhVA9PfoTw+L/rIWToQzuIKm
+ VSnQZKQeSI2OsDIZ0vQ56lxiP3G2ls+oBZomsJrmrAiffRU5wwBS4+904yk3SQNauEkdlIGAtszGJ18Pjlh1WCX+O5P95k0X+HehJef1qf6pUCkKJxzvFfV/
+ /tpwNPKPJg/46GozwS0i58kadUPDKgybfHGG6fY7JwfvD6RnZCx3uBMgg5DQhAkkQyxSAM5z1WvDPo5NKU+pwxnz0rBzZqunVJkAQGyGAcnBnbR9lxsZO+3x
+ idjdCb5gpuY=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 24 Mar 2020 12:01:22 +0100
-Wolfram Sang <wsa@the-dreams.de> escreveu:
-
-> On Tue, Mar 24, 2020 at 10:49:55AM +0000, Kieran Bingham wrote:
-> > +cc: linux-i2c@vger.kernel.org
-> > Moving /this/ to the linux-i2c list ;-)
-> > 
-> > Thanks Wolfram,
-> > 
-> > On 24/03/2020 10:27, Wolfram Sang wrote:  
-> > >   
-> > >> Maybe we should have a whole virtual I2C bus for virtual devices :-)
-> > >>
-> > >> (Hrm, that started out as a joke, and now I'm not sure if it's a real
-> > >> option or not...)  
-> > > 
-> > > Just one final thought: I think this is actually the best option. Zero
-> > > chance of address collisions (which could happen if you have a not
-> > > perfectly-described real HW bus). No RPM mangling of real and virtual
-> > > devices. A clear seperation what is real and what is virtual. Plus, you
-> > > can implement it right away, no need to wait for the dynamic address
-> > > assignment.  
-> > 
-> > Agreed - even better all round! But I presume we don't yet have a
-> > 'virtual' i2c bus? So it's a patch-set to do first? Or is it already
-> > feasible?  
+On 3/22/20 8:57 AM, gtk_ruiwang@mediatek.com wrote:
+> From: gtk_ruiwang <gtk_ruiwang@mediatek.com>
 > 
-> From what I understand, you won't need an API for that. What I
-> understand:
+> mt8173 VPU firmware has been moved to a sub-folder of
+> linux-firmware, so load vpu-fw from the new location first,
+> if it fails, then from the old one.
 > 
-> There will be a master device (a DVB or something). This will register
-> its own i2c_adapter with a dummy .xfer callback. The sub-devices will be
-> i2c_clients, then. 
+> Signed-off-by: Rui Wang <gtk_ruiwang@mediatek.com>
 
-Yes. That's what the current drivers that have integrated hardware
-at the same silicon (like rtl28xx) do: their .xfer callback splits the
-I2C addresses reserved for "internal" devices, and use a different set
-of registers to handle those, instead of the normal ones used to
-communicate with a real I2C hardware.
+Hmm, I'm getting this from checkpatch.pl --strict:
 
-The cx231xx uses a different strategy: it has multiple I2C buses, being
-one of them reserved for its own integrated I2C like bus.
+WARNING: Missing Signed-off-by: line by nominal patch author 'gtk_ruiwang <gtk_ruiwang@mediatek.com>'
 
-> I don't know how you want communication between
-> those. Maybe the .xfer callback will need to do some message parsing?
+Rather than sending this from 'gtk_ruiwang@mediatek.com', can you send this from
+'Rui Wang <gtk_ruiwang@mediatek.com>'?
+
+Then the two are the same.
+
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/platform/mtk-vpu/mtk_vpu.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+> index a768707abb94..89274842e07b 100644
+> --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
+> +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
+> @@ -46,6 +46,8 @@
+>  /* binary firmware name */
+>  #define VPU_P_FW		"vpu_p.bin"
+>  #define VPU_D_FW		"vpu_d.bin"
+> +#define VPU_P_FW_NEW		"mediatek/mt8173/vpu_p.bin"
+> +#define VPU_D_FW_NEW		"mediatek/mt8173/vpu_d.bin"
+>  
+>  #define VPU_RESET		0x0
+>  #define VPU_TCM_CFG		0x0008
+> @@ -477,16 +479,24 @@ static int load_requested_vpu(struct mtk_vpu *vpu,
+>  	size_t tcm_size = fw_type ? VPU_DTCM_SIZE : VPU_PTCM_SIZE;
+>  	size_t fw_size = fw_type ? VPU_D_FW_SIZE : VPU_P_FW_SIZE;
+>  	char *fw_name = fw_type ? VPU_D_FW : VPU_P_FW;
+> +	char *fw_new_name = fw_type ? VPU_D_FW_NEW : VPU_P_FW_NEW;
+>  	const struct firmware *vpu_fw;
+>  	size_t dl_size = 0;
+>  	size_t extra_fw_size = 0;
+>  	void *dest;
+>  	int ret;
+>  
+> -	ret = request_firmware(&vpu_fw, fw_name, vpu->dev);
+> +	ret = request_firmware(&vpu_fw, fw_new_name, vpu->dev);
+>  	if (ret < 0) {
+> -		dev_err(vpu->dev, "Failed to load %s, %d\n", fw_name, ret);
+> -		return ret;
+> +		dev_info(vpu->dev, "Failed to load %s, %d, retry\n",
+> +			 fw_new_name, ret);
+> +
+> +		ret = request_firmware(&vpu_fw, fw_name, vpu->dev);
+> +		if (ret < 0) {
+> +			dev_err(vpu->dev, "Failed to load %s, %d\n", fw_name,
+> +				ret);
+> +			return ret;
+> +		}
+>  	}
+>  	dl_size = vpu_fw->size;
+>  	if (dl_size > fw_size) {
 > 
 
-
-
-Thanks,
-Mauro
