@@ -2,131 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21E32190D3E
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 13:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A0F2190E07
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 13:48:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727553AbgCXMU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 08:20:58 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:59055 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727422AbgCXMU6 (ORCPT
+        id S1727338AbgCXMsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 08:48:53 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:64123 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727323AbgCXMsx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 08:20:58 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id GiY4jVrsjBr2bGiY8jCVHV; Tue, 24 Mar 2020 13:20:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585052455; bh=q8/Nxldo0LneGCdfQpNyLduJF8p8iKBwes/hSH0SxlM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=qupwrIayFeTsrlTx4+9FCeHD636QJ2URJOpz0zDyrsmgIvLumwAOXyRBYwiyIUJKi
-         UlnunWkyu3CDjdXMWAw8zQ/yG1u7xWxO8vWCuTRl+GPGXSnc9A6eqkPWtg25iC+ars
-         nL+7OKvhKX45SH2Fi/pWZ/n8OuNoK6wgdXYQB/2CG/4yjMZDW2xhGz6A9nQu4jfR9p
-         LAOC+KA4O1Cf2sMGMuJ/xY5lVp5Cf+8zr+xNjDmBvHMblW+22uUaSGwGOrkRCzUMLO
-         nXF0Em7pjFM+T9dqtPnc0f8mfgX0ajrPC0sUS4XqcCfm3i52BCeBkdgmX6chA8L9J7
-         kqjAOYjUgSyLw==
-Subject: Re: [PATCH] media: mtk-vpu: load vpu firmware from the new location
-To:     gtk_ruiwang@mediatek.com,
+        Tue, 24 Mar 2020 08:48:53 -0400
+X-UUID: 3f55144b779c472bbd3c960727b4aeab-20200324
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=dPrwEORYxiJbRkftSzBHfBY2aV9JKjm3BUQRpBuvvv4=;
+        b=EtIkbkmzyuLGenVOcV+TzYXpdxV5qx+H+OSgFOXNLnhV0hA1iuU+OC7sbvzXgfMEoBTJim20syBhXLW5C8ns16Z6teP+Q8guCMaRXfsgcyF1boKMKvDqCuLIdat1L6kqoSTgmN1PANXP7gCgS0JS8Z9s3EEsDT24aybNex7EVP0=;
+X-UUID: 3f55144b779c472bbd3c960727b4aeab-20200324
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw01.mediatek.com
+        (envelope-from <gtk_ruiwang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1946592548; Tue, 24 Mar 2020 20:48:49 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 24 Mar 2020 20:48:46 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 24 Mar 2020 20:48:46 +0800
+From:   <gtk_ruiwang@mediatek.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Alexandre Courbot <acourbot@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Erin Lo <erin.lo@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Erin Lo <erin.lo@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
         Houlong Wei <houlong.wei@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Maoguang Meng <maoguang.meng@mediatek.com>,
-        srv_heupstream@mediatek.com
-References: <20200322075745.6133-1-gtk_ruiwang@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <396021fd-ec2e-1ec1-602e-08b9393c5ae9@xs4all.nl>
-Date:   Tue, 24 Mar 2020 13:20:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        <gtk_ruiwang@mediatek.com>, <srv_heupstream@mediatek.com>
+Subject: [PATCH v2] media: mtk-vpu: load vpu firmware from the new location
+Date:   Tue, 24 Mar 2020 20:48:49 +0800
+Message-ID: <20200324124849.9490-1-gtk_ruiwang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <20200322075745.6133-1-gtk_ruiwang@mediatek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPcSfPBFnE60zpFmF76AlV/HJsSpaQpqXlnD5wDic0hiCQOCEZhacKr2KO3ERRpWPwCGDnIhG3WHoksBYOMelaGBPqt1t9paNJH0Kw0WaAIlqnhhuLE4
- gAGQ5OYYcwupJvWJefx8UXCvyvrhZafMSETMwl7oQTB9JmAsXu5lXKPeiH+1rK2tST7TlRwpJAgpwkJhQlAL8906mhdxXmORyndb+7k5YAtwH3WdO5nPDg8O
- bA+5zEzsCzTVCan4hRn7fIAvbSLIO52qOclO0LJIII50/iDroZmAsvu6uxpWuVQw4k2OIvtiNs9rez0l3gDpqp1FHaNXPEFOLiAvYmdRw5Z+2RhBTCoXf0tR
- /oeOi2aGlgFwKuBo8wtN2ncHWQ4IIC+uv5zYuR0c+VLI+CYKVdpUbV06Rzr9jqKc5+wI5ghk8ydBWa5U+imU/9u9pRo4+H3kEhVA9PfoTw+L/rIWToQzuIKm
- VSnQZKQeSI2OsDIZ0vQ56lxiP3G2ls+oBZomsJrmrAiffRU5wwBS4+904yk3SQNauEkdlIGAtszGJ18Pjlh1WCX+O5P95k0X+HehJef1qf6pUCkKJxzvFfV/
- /tpwNPKPJg/46GozwS0i58kadUPDKgybfHGG6fY7JwfvD6RnZCx3uBMgg5DQhAkkQyxSAM5z1WvDPo5NKU+pwxnz0rBzZqunVJkAQGyGAcnBnbR9lxsZO+3x
- idjdCb5gpuY=
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/22/20 8:57 AM, gtk_ruiwang@mediatek.com wrote:
-> From: gtk_ruiwang <gtk_ruiwang@mediatek.com>
-> 
-> mt8173 VPU firmware has been moved to a sub-folder of
-> linux-firmware, so load vpu-fw from the new location first,
-> if it fails, then from the old one.
-> 
-> Signed-off-by: Rui Wang <gtk_ruiwang@mediatek.com>
-
-Hmm, I'm getting this from checkpatch.pl --strict:
-
-WARNING: Missing Signed-off-by: line by nominal patch author 'gtk_ruiwang <gtk_ruiwang@mediatek.com>'
-
-Rather than sending this from 'gtk_ruiwang@mediatek.com', can you send this from
-'Rui Wang <gtk_ruiwang@mediatek.com>'?
-
-Then the two are the same.
-
-Regards,
-
-	Hans
-
-> ---
->  drivers/media/platform/mtk-vpu/mtk_vpu.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vpu/mtk_vpu.c b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> index a768707abb94..89274842e07b 100644
-> --- a/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> +++ b/drivers/media/platform/mtk-vpu/mtk_vpu.c
-> @@ -46,6 +46,8 @@
->  /* binary firmware name */
->  #define VPU_P_FW		"vpu_p.bin"
->  #define VPU_D_FW		"vpu_d.bin"
-> +#define VPU_P_FW_NEW		"mediatek/mt8173/vpu_p.bin"
-> +#define VPU_D_FW_NEW		"mediatek/mt8173/vpu_d.bin"
->  
->  #define VPU_RESET		0x0
->  #define VPU_TCM_CFG		0x0008
-> @@ -477,16 +479,24 @@ static int load_requested_vpu(struct mtk_vpu *vpu,
->  	size_t tcm_size = fw_type ? VPU_DTCM_SIZE : VPU_PTCM_SIZE;
->  	size_t fw_size = fw_type ? VPU_D_FW_SIZE : VPU_P_FW_SIZE;
->  	char *fw_name = fw_type ? VPU_D_FW : VPU_P_FW;
-> +	char *fw_new_name = fw_type ? VPU_D_FW_NEW : VPU_P_FW_NEW;
->  	const struct firmware *vpu_fw;
->  	size_t dl_size = 0;
->  	size_t extra_fw_size = 0;
->  	void *dest;
->  	int ret;
->  
-> -	ret = request_firmware(&vpu_fw, fw_name, vpu->dev);
-> +	ret = request_firmware(&vpu_fw, fw_new_name, vpu->dev);
->  	if (ret < 0) {
-> -		dev_err(vpu->dev, "Failed to load %s, %d\n", fw_name, ret);
-> -		return ret;
-> +		dev_info(vpu->dev, "Failed to load %s, %d, retry\n",
-> +			 fw_new_name, ret);
-> +
-> +		ret = request_firmware(&vpu_fw, fw_name, vpu->dev);
-> +		if (ret < 0) {
-> +			dev_err(vpu->dev, "Failed to load %s, %d\n", fw_name,
-> +				ret);
-> +			return ret;
-> +		}
->  	}
->  	dl_size = vpu_fw->size;
->  	if (dl_size > fw_size) {
-> 
+RnJvbTogUnVpIFdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNvbT4NCg0KbXQ4MTczIFZQVSBm
+aXJtd2FyZSBoYXMgYmVlbiBtb3ZlZCB0byBhIHN1Yi1mb2xkZXIgb2YNCmxpbnV4LWZpcm13YXJl
+LCBzbyBsb2FkIHZwdS1mdyBmcm9tIHRoZSBuZXcgbG9jYXRpb24gZmlyc3QsDQppZiBpdCBmYWls
+cywgdGhlbiBmcm9tIHRoZSBvbGQgb25lLg0KDQpTaWduZWQtb2ZmLWJ5OiBSdWkgV2FuZyA8Z3Rr
+X3J1aXdhbmdAbWVkaWF0ZWsuY29tPg0KLS0tDQpDaGFuZ2VkIGluIHYyOg0KLSByZXNsb3ZlIFdh
+cm5pbmc6IE1pc3NpbmcgU09CIG5vbWluYWwgcGF0Y2ggYXV0aG9yDQotLS0NCiBkcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL210ay12cHUvbXRrX3ZwdS5jIHwgMTYgKysrKysrKysrKysrKy0tLQ0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdnB1L210a192cHUuYyBiL2RyaXZlcnMv
+bWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMNCmluZGV4IGE3Njg3MDdhYmI5NC4uODky
+NzQ4NDJlMDdiIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdnB1L210
+a192cHUuYw0KKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstdnB1L210a192cHUuYw0K
+QEAgLTQ2LDYgKzQ2LDggQEANCiAvKiBiaW5hcnkgZmlybXdhcmUgbmFtZSAqLw0KICNkZWZpbmUg
+VlBVX1BfRlcJCSJ2cHVfcC5iaW4iDQogI2RlZmluZSBWUFVfRF9GVwkJInZwdV9kLmJpbiINCisj
+ZGVmaW5lIFZQVV9QX0ZXX05FVwkJIm1lZGlhdGVrL210ODE3My92cHVfcC5iaW4iDQorI2RlZmlu
+ZSBWUFVfRF9GV19ORVcJCSJtZWRpYXRlay9tdDgxNzMvdnB1X2QuYmluIg0KIA0KICNkZWZpbmUg
+VlBVX1JFU0VUCQkweDANCiAjZGVmaW5lIFZQVV9UQ01fQ0ZHCQkweDAwMDgNCkBAIC00NzcsMTYg
+KzQ3OSwyNCBAQCBzdGF0aWMgaW50IGxvYWRfcmVxdWVzdGVkX3ZwdShzdHJ1Y3QgbXRrX3ZwdSAq
+dnB1LA0KIAlzaXplX3QgdGNtX3NpemUgPSBmd190eXBlID8gVlBVX0RUQ01fU0laRSA6IFZQVV9Q
+VENNX1NJWkU7DQogCXNpemVfdCBmd19zaXplID0gZndfdHlwZSA/IFZQVV9EX0ZXX1NJWkUgOiBW
+UFVfUF9GV19TSVpFOw0KIAljaGFyICpmd19uYW1lID0gZndfdHlwZSA/IFZQVV9EX0ZXIDogVlBV
+X1BfRlc7DQorCWNoYXIgKmZ3X25ld19uYW1lID0gZndfdHlwZSA/IFZQVV9EX0ZXX05FVyA6IFZQ
+VV9QX0ZXX05FVzsNCiAJY29uc3Qgc3RydWN0IGZpcm13YXJlICp2cHVfZnc7DQogCXNpemVfdCBk
+bF9zaXplID0gMDsNCiAJc2l6ZV90IGV4dHJhX2Z3X3NpemUgPSAwOw0KIAl2b2lkICpkZXN0Ow0K
+IAlpbnQgcmV0Ow0KIA0KLQlyZXQgPSByZXF1ZXN0X2Zpcm13YXJlKCZ2cHVfZncsIGZ3X25hbWUs
+IHZwdS0+ZGV2KTsNCisJcmV0ID0gcmVxdWVzdF9maXJtd2FyZSgmdnB1X2Z3LCBmd19uZXdfbmFt
+ZSwgdnB1LT5kZXYpOw0KIAlpZiAocmV0IDwgMCkgew0KLQkJZGV2X2Vycih2cHUtPmRldiwgIkZh
+aWxlZCB0byBsb2FkICVzLCAlZFxuIiwgZndfbmFtZSwgcmV0KTsNCi0JCXJldHVybiByZXQ7DQor
+CQlkZXZfaW5mbyh2cHUtPmRldiwgIkZhaWxlZCB0byBsb2FkICVzLCAlZCwgcmV0cnlcbiIsDQor
+CQkJIGZ3X25ld19uYW1lLCByZXQpOw0KKw0KKwkJcmV0ID0gcmVxdWVzdF9maXJtd2FyZSgmdnB1
+X2Z3LCBmd19uYW1lLCB2cHUtPmRldik7DQorCQlpZiAocmV0IDwgMCkgew0KKwkJCWRldl9lcnIo
+dnB1LT5kZXYsICJGYWlsZWQgdG8gbG9hZCAlcywgJWRcbiIsIGZ3X25hbWUsDQorCQkJCXJldCk7
+DQorCQkJcmV0dXJuIHJldDsNCisJCX0NCiAJfQ0KIAlkbF9zaXplID0gdnB1X2Z3LT5zaXplOw0K
+IAlpZiAoZGxfc2l6ZSA+IGZ3X3NpemUpIHsNCi0tIA0KMi4xOC4wDQo=
 
