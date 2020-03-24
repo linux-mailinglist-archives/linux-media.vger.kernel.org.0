@@ -2,106 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7BA9190E36
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 13:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51246190E5C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 14:08:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727376AbgCXM42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 08:56:28 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:64730 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727083AbgCXM41 (ORCPT
+        id S1727379AbgCXNIC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 09:08:02 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:50957 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726190AbgCXNIC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 08:56:27 -0400
-X-UUID: aaa37f338d034e6f9b6edf6c6c0c9f71-20200324
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=ik4urh0s9/sTZNn7i7tAqN7eathzuR+7EqLI9vueugY=;
-        b=fu+Yy7CI4h1f5rxfvRKCQ5QJ5dfNiAccwbs5lldVLq3gsoF3Cs3kXaTjE/w5ViQnMQFA8jYCnYMGqX6DpKAgJjtuATgFiewPB3wbxu/QogHhJmSGXom7fTSPGM0qlJjGAOHd1urNQJrgPA1YnZikwpj5qs2k9hqMPS7G8vWbh9w=;
-X-UUID: aaa37f338d034e6f9b6edf6c6c0c9f71-20200324
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <gtk_ruiwang@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 412146991; Tue, 24 Mar 2020 20:56:18 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Tue, 24 Mar
- 2020 20:56:16 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 24 Mar 2020 20:56:16 +0800
-Message-ID: <1585054582.6276.24.camel@mhfsdcap03>
-Subject: Re: [PATCH] media: mtk-vpu: load vpu firmware from the new location
-From:   gtk_ruiwang <gtk_ruiwang@mediatek.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Alexandre Courbot <acourbot@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Tomasz Figa" <tfiga@chromium.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Erin Lo <erin.lo@mediatek.com>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        "Andrew-CT Chen" <andrew-ct.chen@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        <srv_heupstream@mediatek.com>
-Date:   Tue, 24 Mar 2020 20:56:22 +0800
-In-Reply-To: <396021fd-ec2e-1ec1-602e-08b9393c5ae9@xs4all.nl>
-References: <20200322075745.6133-1-gtk_ruiwang@mediatek.com>
-         <396021fd-ec2e-1ec1-602e-08b9393c5ae9@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Tue, 24 Mar 2020 09:08:02 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id GjHfjWGmyBr2bGjHjjCpNO; Tue, 24 Mar 2020 14:07:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585055279; bh=8an7+sIdB7NJzPGkxiHi8p0RMo7NATo0kBQR6ciqnh8=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Jf09rQzH10MRI9StFXWvkCxLlixFyo88EREHFVz5d3dkIHOAhYhvYRMX1WfmrjHi5
+         r8Gxe5nAqmLArCDFmGA2vcR7uqc3aJlSWqOIKfZCaUZP6H676e5TYl4yYc2enlxUWD
+         YyrooJxucW/JW2rvhn6irUjeGD4faTg4qazxaQKeFx8e6o1VLheIIwTE+ZOeySmHWQ
+         QLep0tV2OEbDN3+pnur4A0iunbpWMYIUU4TGOKLIjcIUX/KiTHsFFUngT0ae8JFCH6
+         ipMC9nlLaaiaEeFrv1JydYJDoE9t6g9SSaan3uWUlzSYNYZrM0ayPZ8EO8nBDR2XpS
+         qpEuqNGeoB77A==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.7] Various fixes, add i.MX8MQ hantro support
+Message-ID: <270c0340-e052-7466-4a7b-2155a643d35f@xs4all.nl>
+Date:   Tue, 24 Mar 2020 14:07:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: C39E2D690E3AA5905C6E84713D6ABD87D4D1C41A2322D8E148CE3102567C89072000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJ952qqIbAWIhg2/rJkf9waDFO6tal8SwObCrLlHeAIpxB8rCuF1UCeEO5wM2Ed8UCOJN2HvxuQuxw+zr0yBaWcX9axoFI4eD6OhdxTWZ7UdEdXJn90+
+ tJ6bX/PZWyWa6lxm56QB3YbNicL9gTKaAjr4E6i6pUDF3MzD1JfQdjikgtoDds2bS5sOey9i4jxdvG5rbJNZDRbAHRX9tRZlBMIK9QQ7SgznuOcUtOy/8u6r
+ 33OiTcEzZQr6XM4OPW9eMg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RGVhciBIYW5zLA0KDQpQYXRjaCBWMiBoYXMgc2VudCwgdGhhbmtzIGEgbG90Lg0KDQpTaW5jZXJl
-bHkgUmVnYXJkcw0KDQpPbiBUdWUsIDIwMjAtMDMtMjQgYXQgMTM6MjAgKzAxMDAsIEhhbnMgVmVy
-a3VpbCB3cm90ZToNCj4gT24gMy8yMi8yMCA4OjU3IEFNLCBndGtfcnVpd2FuZ0BtZWRpYXRlay5j
-b20gd3JvdGU6DQo+ID4gRnJvbTogZ3RrX3J1aXdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNv
-bT4NCj4gPiANCj4gPiBtdDgxNzMgVlBVIGZpcm13YXJlIGhhcyBiZWVuIG1vdmVkIHRvIGEgc3Vi
-LWZvbGRlciBvZg0KPiA+IGxpbnV4LWZpcm13YXJlLCBzbyBsb2FkIHZwdS1mdyBmcm9tIHRoZSBu
-ZXcgbG9jYXRpb24gZmlyc3QsDQo+ID4gaWYgaXQgZmFpbHMsIHRoZW4gZnJvbSB0aGUgb2xkIG9u
-ZS4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBSdWkgV2FuZyA8Z3RrX3J1aXdhbmdAbWVkaWF0
-ZWsuY29tPg0KPiANCj4gSG1tLCBJJ20gZ2V0dGluZyB0aGlzIGZyb20gY2hlY2twYXRjaC5wbCAt
-LXN0cmljdDoNCj4gDQo+IFdBUk5JTkc6IE1pc3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZSBieSBu
-b21pbmFsIHBhdGNoIGF1dGhvciAnZ3RrX3J1aXdhbmcgPGd0a19ydWl3YW5nQG1lZGlhdGVrLmNv
-bT4nDQo+IA0KPiBSYXRoZXIgdGhhbiBzZW5kaW5nIHRoaXMgZnJvbSAnZ3RrX3J1aXdhbmdAbWVk
-aWF0ZWsuY29tJywgY2FuIHlvdSBzZW5kIHRoaXMgZnJvbQ0KPiAnUnVpIFdhbmcgPGd0a19ydWl3
-YW5nQG1lZGlhdGVrLmNvbT4nPw0KPiANCj4gVGhlbiB0aGUgdHdvIGFyZSB0aGUgc2FtZS4NCj4g
-DQo+IFJlZ2FyZHMsDQo+IA0KPiAJSGFucw0KPiANCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS9tdGstdnB1L210a192cHUuYyB8IDE2ICsrKysrKysrKysrKystLS0NCj4gPiAg
-MSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+ID4gDQo+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZwdS9tdGtfdnB1LmMg
-Yi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12cHUvbXRrX3ZwdS5jDQo+ID4gaW5kZXggYTc2
-ODcwN2FiYjk0Li44OTI3NDg0MmUwN2IgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9tdGstdnB1L210a192cHUuYw0KPiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZv
-cm0vbXRrLXZwdS9tdGtfdnB1LmMNCj4gPiBAQCAtNDYsNiArNDYsOCBAQA0KPiA+ICAvKiBiaW5h
-cnkgZmlybXdhcmUgbmFtZSAqLw0KPiA+ICAjZGVmaW5lIFZQVV9QX0ZXCQkidnB1X3AuYmluIg0K
-PiA+ICAjZGVmaW5lIFZQVV9EX0ZXCQkidnB1X2QuYmluIg0KPiA+ICsjZGVmaW5lIFZQVV9QX0ZX
-X05FVwkJIm1lZGlhdGVrL210ODE3My92cHVfcC5iaW4iDQo+ID4gKyNkZWZpbmUgVlBVX0RfRldf
-TkVXCQkibWVkaWF0ZWsvbXQ4MTczL3ZwdV9kLmJpbiINCj4gPiAgDQo+ID4gICNkZWZpbmUgVlBV
-X1JFU0VUCQkweDANCj4gPiAgI2RlZmluZSBWUFVfVENNX0NGRwkJMHgwMDA4DQo+ID4gQEAgLTQ3
-NywxNiArNDc5LDI0IEBAIHN0YXRpYyBpbnQgbG9hZF9yZXF1ZXN0ZWRfdnB1KHN0cnVjdCBtdGtf
-dnB1ICp2cHUsDQo+ID4gIAlzaXplX3QgdGNtX3NpemUgPSBmd190eXBlID8gVlBVX0RUQ01fU0la
-RSA6IFZQVV9QVENNX1NJWkU7DQo+ID4gIAlzaXplX3QgZndfc2l6ZSA9IGZ3X3R5cGUgPyBWUFVf
-RF9GV19TSVpFIDogVlBVX1BfRldfU0laRTsNCj4gPiAgCWNoYXIgKmZ3X25hbWUgPSBmd190eXBl
-ID8gVlBVX0RfRlcgOiBWUFVfUF9GVzsNCj4gPiArCWNoYXIgKmZ3X25ld19uYW1lID0gZndfdHlw
-ZSA/IFZQVV9EX0ZXX05FVyA6IFZQVV9QX0ZXX05FVzsNCj4gPiAgCWNvbnN0IHN0cnVjdCBmaXJt
-d2FyZSAqdnB1X2Z3Ow0KPiA+ICAJc2l6ZV90IGRsX3NpemUgPSAwOw0KPiA+ICAJc2l6ZV90IGV4
-dHJhX2Z3X3NpemUgPSAwOw0KPiA+ICAJdm9pZCAqZGVzdDsNCj4gPiAgCWludCByZXQ7DQo+ID4g
-IA0KPiA+IC0JcmV0ID0gcmVxdWVzdF9maXJtd2FyZSgmdnB1X2Z3LCBmd19uYW1lLCB2cHUtPmRl
-dik7DQo+ID4gKwlyZXQgPSByZXF1ZXN0X2Zpcm13YXJlKCZ2cHVfZncsIGZ3X25ld19uYW1lLCB2
-cHUtPmRldik7DQo+ID4gIAlpZiAocmV0IDwgMCkgew0KPiA+IC0JCWRldl9lcnIodnB1LT5kZXYs
-ICJGYWlsZWQgdG8gbG9hZCAlcywgJWRcbiIsIGZ3X25hbWUsIHJldCk7DQo+ID4gLQkJcmV0dXJu
-IHJldDsNCj4gPiArCQlkZXZfaW5mbyh2cHUtPmRldiwgIkZhaWxlZCB0byBsb2FkICVzLCAlZCwg
-cmV0cnlcbiIsDQo+ID4gKwkJCSBmd19uZXdfbmFtZSwgcmV0KTsNCj4gPiArDQo+ID4gKwkJcmV0
-ID0gcmVxdWVzdF9maXJtd2FyZSgmdnB1X2Z3LCBmd19uYW1lLCB2cHUtPmRldik7DQo+ID4gKwkJ
-aWYgKHJldCA8IDApIHsNCj4gPiArCQkJZGV2X2Vycih2cHUtPmRldiwgIkZhaWxlZCB0byBsb2Fk
-ICVzLCAlZFxuIiwgZndfbmFtZSwNCj4gPiArCQkJCXJldCk7DQo+ID4gKwkJCXJldHVybiByZXQ7
-DQo+ID4gKwkJfQ0KPiA+ICAJfQ0KPiA+ICAJZGxfc2l6ZSA9IHZwdV9mdy0+c2l6ZTsNCj4gPiAg
-CWlmIChkbF9zaXplID4gZndfc2l6ZSkgew0KPiA+IA0KPiANCg0K
+Various fixes that should go into v5.7.
 
+Also add hantro support for the i.MX8MQ. It's a bit late in the cycle, but it
+is similar to adding a card for a USB or PCI driver in that it doesn't touch
+the existing hardware that supports the hantro IP.
+
+Regards,
+
+	Hans
+
+The following changes since commit af72bc8cd6ab32be2105129f05eb4502f45577df:
+
+  media: siano: Use scnprintf() for avoiding potential buffer overflow (2020-03-20 16:28:07 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7m
+
+for you to fetch changes up to 2bcbf79e4823f48c2546251271fd7b86bc38107c:
+
+  media: mtk-vpu: load vpu firmware from the new location (2020-03-24 13:50:59 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Ezequiel Garcia (1):
+      hantro: Add linux-rockchip mailing list to MAINTAINERS
+
+Hans Verkuil (1):
+      vivid: fix incorrect PA assignment to HDMI outputs
+
+Jernej Skrabec (1):
+      media: cedrus: h264: Fix 4K decoding on H6
+
+Matt Ranostay (1):
+      media: i2c: video-i2c: fix build errors due to 'imply hwmon'
+
+Philipp Zabel (3):
+      media: dt-bindings: Document i.MX8MQ VPU bindings
+      media: hantro: add initial i.MX8MQ support
+      media: MAINTAINERS: add myself to co-maintain Hantro G1/G2 for i.MX8MQ
+
+Rui Wang (1):
+      media: mtk-vpu: load vpu firmware from the new location
+
+ Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml |  77 +++++++++++++++
+ MAINTAINERS                                                 |   3 +
+ drivers/media/i2c/video-i2c.c                               |   2 +-
+ drivers/media/platform/mtk-vpu/mtk_vpu.c                    |  16 ++-
+ drivers/media/platform/vivid/vivid-core.c                   |   4 +-
+ drivers/staging/media/hantro/Kconfig                        |  16 ++-
+ drivers/staging/media/hantro/Makefile                       |   3 +
+ drivers/staging/media/hantro/hantro_drv.c                   |   3 +
+ drivers/staging/media/hantro/hantro_hw.h                    |   1 +
+ drivers/staging/media/hantro/imx8m_vpu_hw.c                 | 220 +++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c            |   6 +-
+ 11 files changed, 340 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+ create mode 100644 drivers/staging/media/hantro/imx8m_vpu_hw.c
