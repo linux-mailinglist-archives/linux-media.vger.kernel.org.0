@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 181DF191320
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 15:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2572119131E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 15:27:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728495AbgCXO0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 10:26:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35806 "EHLO mail.kernel.org"
+        id S1728249AbgCXO0a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 10:26:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728171AbgCXO00 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 10:26:26 -0400
+        id S1728224AbgCXO01 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Mar 2020 10:26:27 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF19D218AC;
+        by mail.kernel.org (Postfix) with ESMTPSA id E429821927;
         Tue, 24 Mar 2020 14:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1585059986;
-        bh=siNRHVsZSzIvazHmR1WEv2+cQMZrL0G006nOx0Nkxo8=;
+        bh=oSsb+HN55pEmPfT+clNvUwcyNluPUo3+cd4CjUseYKo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i8tKfJ1A6co6Qh1YEAA3jDwoogMKcUN8vf2mma/c3wzMnyzgOVheRkO+lO7GTpaae
-         9hJ8xqLCDJDGBZdM36xRI5BMi5cdKtmryy6UtFSCStQl8K5DVimyowQzXPUPWBqsjU
-         hiITxwMGnKG/nwYwucJH9/Qhj8+kxvEdG789iK3w=
+        b=XQspI4/GUWC57HDEi4kc7G8lOmzKMvC+tIu6V8hOzBACbS/WfiNzhn5Dk9is66W5F
+         udumSTrak+I25S72IJsuhQi6xa5sAT27ULzfUqTOYallAYbCZ5+VlrgbwLxXBnXZ7f
+         17XNeUCUUUYxxiXwfH/QiZDXV5JZo7HAhlenzBcM=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jGkVc-00267h-5A; Tue, 24 Mar 2020 15:26:24 +0100
+        id 1jGkVc-00267m-6e; Tue, 24 Mar 2020 15:26:24 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net
-Subject: [PATCH v2 17/20] media: Kconfig: mode firewire comment to firewire/Kconfig
-Date:   Tue, 24 Mar 2020 15:26:18 +0100
-Message-Id: <3ffedfd6d10ff653ebcb5c8c6f72e27e627e446e.1585059897.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH v2 18/20] media: Kconfig: place all options under a sub-menu
+Date:   Tue, 24 Mar 2020 15:26:19 +0100
+Message-Id: <967506cc001ad7f194ee24e823a398c293b352ab.1585059897.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1585059896.git.mchehab+huawei@kernel.org>
 References: <cover.1585059896.git.mchehab+huawei@kernel.org>
@@ -44,48 +42,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This comment should only be visible if the DVB_FIREDTV
-config will show.
+That should make easier for people setting the media
+subsystem config options, as they'll be split by the
+type of functionality that will be enabled.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/Kconfig          | 2 --
- drivers/media/firewire/Kconfig | 5 ++++-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/Kconfig | 43 ++++++++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 7d4088cfe3ef..026a1151273c 100644
+index 026a1151273c..6c55d20458ee 100644
 --- a/drivers/media/Kconfig
 +++ b/drivers/media/Kconfig
-@@ -186,8 +186,6 @@ source "drivers/media/mmc/Kconfig"
+@@ -124,48 +124,49 @@ config MEDIA_TEST_SUPPORT
+ 	  Say Y when you have a software defined radio device.
+ endmenu # media device types
  
- endif # MEDIA_EMBEDDED_SUPPORT
+-comment "Media core options"
+-
+-#
+-# Video4Linux support
+-#	Only enables if one of the V4L2 types (ATV, webcam, radio) is selected
+-#
++menu "Media core support"
++	visible if !MEDIA_SUPPORT_FILTER
  
--comment "FireWire (IEEE 1394) Adapters"
--	depends on DVB_CORE && FIREWIRE
+ config VIDEO_DEV
+-	tristate
++	tristate "Video4Linux core"
+ 	depends on MEDIA_SUPPORT
+ 	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || V4L_PLATFORM_DRIVERS
++	help
++	  Enables the V4L2 API, used by cameras, analog TV, video grabbers,
++	  radio devices and by some input devices.
+ 
+ config MEDIA_CONTROLLER
+ 	bool "Media Controller API"
+-	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT
++	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_EMBEDDED_SUPPORT
+ 	help
+ 	  Enable the media controller API used to query media devices internal
+ 	  topology and configure it dynamically.
+ 
+ 	  This API is mostly used by camera interfaces in embedded platforms.
+ 
+-#
+-# DVB Core
+-#	Only enables if one of DTV is selected
+-#
+-
+ config DVB_CORE
+-	tristate
++	tristate "Digital TV core"
+ 	depends on MEDIA_SUPPORT
+-	depends on MEDIA_DIGITAL_TV_SUPPORT
++	default MEDIA_DIGITAL_TV_SUPPORT
+ 	depends on (I2C || I2C=n)
+-	default y
+ 	select CRC32
+-
+ 	help
++	  Enables the DVB API, used by Digital TV devices. Supports several
++	  standards, including DVB, ATSC, ISDB and CMDB.
+ 
++endmenu # Media core support
++
++#
++# Extra per-media API core functionality
++
++menu "Media core additional options"
+ source "drivers/media/v4l2-core/Kconfig"
+ source "drivers/media/mc/Kconfig"
+ source "drivers/media/dvb-core/Kconfig"
+ source "drivers/media/cec/Kconfig"
++endmenu
+ 
+-comment "Media drivers"
++menu "Media drivers"
+ 
+ #
+ # V4L platform/mem2mem drivers
+@@ -188,7 +189,9 @@ endif # MEDIA_EMBEDDED_SUPPORT
+ 
  source "drivers/media/firewire/Kconfig"
  
- comment "Media ancillary drivers (tuners, sensors, i2c, spi, frontends)"
-diff --git a/drivers/media/firewire/Kconfig b/drivers/media/firewire/Kconfig
-index e7837da5905b..0c1f326f581f 100644
---- a/drivers/media/firewire/Kconfig
-+++ b/drivers/media/firewire/Kconfig
-@@ -1,7 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+if DVB_CORE && FIREWIRE
-+comment "FireWire (IEEE 1394) Adapters"
+-comment "Media ancillary drivers (tuners, sensors, i2c, spi, frontends)"
++endmenu
 +
- config DVB_FIREDTV
- 	tristate "FireDTV and FloppyDTV"
--	depends on DVB_CORE && FIREWIRE
- 	help
- 	  Support for DVB receivers from Digital Everywhere
- 	  which are connected via IEEE 1394 (FireWire).
-@@ -18,3 +20,4 @@ config DVB_FIREDTV_INPUT
- 	def_bool INPUT = y || (INPUT = m && DVB_FIREDTV = m)
++menu "Media ancillary drivers (tuners, sensors, i2c, spi, frontends)"
  
- endif # DVB_FIREDTV
-+endif # DVB_CORE && FIREWIRE
+ #
+ # Ancillary drivers (tuners, i2c, spi, frontends)
+@@ -233,4 +236,6 @@ source "drivers/media/spi/Kconfig"
+ source "drivers/media/tuners/Kconfig"
+ source "drivers/media/dvb-frontends/Kconfig"
+ 
++endmenu
++
+ endif # MEDIA_SUPPORT
 -- 
 2.24.1
 
