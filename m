@@ -2,68 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBDD6190975
-	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 10:21:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C38311909E8
+	for <lists+linux-media@lfdr.de>; Tue, 24 Mar 2020 10:47:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgCXJVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 05:21:33 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:57139 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726565AbgCXJVd (ORCPT
+        id S1727164AbgCXJrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 05:47:36 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56240 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726129AbgCXJrf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 05:21:33 -0400
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <pza@pengutronix.de>)
-        id 1jGfkZ-0005UZ-S6; Tue, 24 Mar 2020 10:21:31 +0100
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <pza@pengutronix.de>)
-        id 1jGfkZ-0005lD-I0; Tue, 24 Mar 2020 10:21:31 +0100
-Date:   Tue, 24 Mar 2020 10:21:31 +0100
-From:   Philipp Zabel <pza@pengutronix.de>
-To:     Adrian Ratiu <adrian.ratiu@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
-        kernel@pengutronix.de, Tim Harvey <tharvey@gateworks.com>
-Subject: Re: [PATCH 2/2] media: coda: be more flexible wrt jpeg dimensions
-Message-ID: <20200324092131.GB12488@pengutronix.de>
-References: <20200323130937.3666244-1-adrian.ratiu@collabora.com>
- <20200323130937.3666244-3-adrian.ratiu@collabora.com>
+        Tue, 24 Mar 2020 05:47:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=vcY4LovXnAkMYtSUeDtTCNCAPqqsgEMMoWrKTOHbwH8=; b=FAjTXzDcqNzo1++ZRsUSgcFXi1
+        zyNeO7lMM62SghpMdM7XRp/8rwmY/7lVSKnrijfHzpDAULrq4aCsFFXsTyAF/DqpdtzuM7h0G4CUF
+        U8rFLyYIHtzwLtHzt2BSxUlkzoU1YS1PC8cu4tshMMuGoUwa0b6K8HbMb56O2XaRCZ3u+hzs6tjYp
+        u6iM711EH3dfBbckOxVX9TndURmTMq4XzcEXVaMO0BHoAECK9s8mPIFTYWkr6c3UGcOVotrBqLNGz
+        bSf3/QCJdIkvvf4dMSTNJ/FsKjoGj1KElJszq1jMs6SURqDvhoEuiXqcjwXSZf/5evvJ+tTme7jOd
+        4K7HXM5Q==;
+Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jGg9h-00027h-ST; Tue, 24 Mar 2020 09:47:30 +0000
+Date:   Tue, 24 Mar 2020 10:47:22 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Michael Ira Krufky <mkrufky@gmail.com>,
+        Helen Koike <helen.koike@collabora.com>
+Subject: Re: [PATCH 2/2] media: Remove VIDEO_DEV unneeded dependency
+Message-ID: <20200324104722.1c605792@coco.lan>
+In-Reply-To: <20200323211022.28297-3-ezequiel@collabora.com>
+References: <20200323211022.28297-1-ezequiel@collabora.com>
+        <20200323211022.28297-3-ezequiel@collabora.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200323130937.3666244-3-adrian.ratiu@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:11:42 up 33 days, 16:42, 79 users,  load average: 0.12, 0.20,
- 0.23
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Adrian,
+Em Mon, 23 Mar 2020 18:10:22 -0300
+Ezequiel Garcia <ezequiel@collabora.com> escreveu:
 
-On Mon, Mar 23, 2020 at 03:09:37PM +0200, Adrian Ratiu wrote:
-> Don't require jpeg dimensions to exactly match format dimensions,
-> so we are able to decode and display a wider range jpegs instead
-> of outright rejecting the ones which don't match.
+> Enable VIDEO_DEV (which compiles Video4Linux core)
+> when MEDIA_SUPPORT is selected. This is needed, in order
+> to be able to enable devices such as stateless codecs.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  drivers/media/Kconfig | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> index b36a41332867..7de472ad07a2 100644
+> --- a/drivers/media/Kconfig
+> +++ b/drivers/media/Kconfig
+> @@ -93,13 +93,11 @@ source "drivers/media/mc/Kconfig"
+>  
+>  #
+>  # Video4Linux support
+> -#	Only enables if one of the V4L2 types (ATV, webcam, radio) is selected
+>  #
+>  
+>  config VIDEO_DEV
+>  	tristate
+>  	depends on MEDIA_SUPPORT
+> -	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+>  	default y
+>  
+>  config VIDEO_V4L2_SUBDEV_API
 
-I don't think this is right. If userspace feeds us an incomatible
-JPEG we should probably stop decoding and send a source change
-event instead [1].
+The rationale of the above is to exclude Digital TV and remote
+controller.
 
-[1] https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/v4l/dev-decoder.html#dynamic-resolution-change
+Removing the above will make the V4L2 core available every time, even
+if all the user wants is remote controller or Digital TV support.
 
-regards
-Philipp
+I'm working on a patchset that should hopefully address the issues
+you're concerning.
+
+Thanks,
+Mauro
