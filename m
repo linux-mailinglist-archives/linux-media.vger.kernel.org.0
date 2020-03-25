@@ -2,139 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B5C193201
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 21:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFCA19320A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 21:45:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727391AbgCYUic (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 16:38:32 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39401 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbgCYUic (ORCPT
+        id S1727358AbgCYUpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 16:45:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51180 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727351AbgCYUpm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 16:38:32 -0400
-Received: by mail-pf1-f194.google.com with SMTP id d25so1628428pfn.6
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 13:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=q5FLHoJRoSI2yWPkxN43ftWlKD8uJFvwFo1mnxXm5Tk=;
-        b=YPL0aqoYcG2QH58yVrGPOCn9vXClVNvaaiXbEzutPN/N9v869qVDLaxiscUCESKHxI
-         BRx45tGvIfwGmeyrWibi5w/aJ0vr0RIvx1n9oCozRlBJnfa/un9GKyJ/xxOJuRkxvaTi
-         6MprjBqQgF+/O/xvUylG5H228VU2HGqpAaf1PbzG4s30pIacftPvsOpNfcMcCDfAZcfv
-         rpxJ3QZVbEXm2QghdxGxK3nJ3WMRlqHfKwrCBTx9+L+wtv9gMvPK1pmEkp0I8ChiEVkc
-         W82wDnm0EAwF7YH7p9p5zHsSc+1B7bYqJSx+IS3YBqctJkb3MgKaUTqmpqg1C935ueVF
-         L0Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=q5FLHoJRoSI2yWPkxN43ftWlKD8uJFvwFo1mnxXm5Tk=;
-        b=KPDfJ/f2BO6JRK3+a81cx8haLWvyfe693BHE+dRvI5vWrePtd50s5R/P85WfPzNALN
-         5nQfF4mZbcOAn+Q0qjtYpi2SvJXh+Y0jQfwWtHavQjC6gFob9WkkAQns+3rWyiApaYcp
-         DL2Ug8EhCDkrNBtRTKBv9egZVbiMHdFa4LA2tloXtjw+n2iTmIcOldSdO3igcLYx+usd
-         32YCc7SmAm1v0QsaikQXzX9Wb6yRiJa7Xj4qNunDkeEkxV1SaKfm9E3C3RemlRlls6J1
-         ZLnCKJB01gPsx6EKNzW/fgnnsEN3fwvOzUwKDYW7F5z8t4WMMLH49IFSpy60GcigcGvv
-         iZww==
-X-Gm-Message-State: ANhLgQ0LxUACnICaNIoNrX+AqW+zV30memP1eygInivk2IW6Ondfnn4m
-        6bUwC0brf1H1tG1rPp2xU6X20xK7
-X-Google-Smtp-Source: ADFU+vvG9rmIa7UzHYYPSKbqFm+kv+3qhwODma7OE0osyPlM8ffs6/Cx/8d+EN+blj/BybiAcMFHuw==
-X-Received: by 2002:a63:f113:: with SMTP id f19mr5136246pgi.168.1585168710235;
-        Wed, 25 Mar 2020 13:38:30 -0700 (PDT)
-Received: from deeUbuntu ([103.228.147.248])
-        by smtp.gmail.com with ESMTPSA id r8sm123176pjo.22.2020.03.25.13.38.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 25 Mar 2020 13:38:29 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 02:08:24 +0530
-From:   Deepak R Varma <mh12gx2825@gmail.com>
-To:     outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org,
-        daniel.baluta@gmail.com, kieran.bingham@ideasonboard.com
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v5] media: staging/intel-ipu3: css: simplify expression
-Message-ID: <20200325203819.GA30916@deeUbuntu>
+        Wed, 25 Mar 2020 16:45:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=jeLX2eDvorNrgXxmnXUFLq3GqxHiIApgN7ztDvCeAso=; b=OkJcxH3c1qgGvhyuFVIArN7OYX
+        d02hElVqTGg/qhhpLaU8hrK01yC/AhI2iFobDU6k7XGC65VzetnNv7Pcf+cFfH0b4+yjXTnOISCLA
+        CNydCSXLyD+Awz2GqIjZxU9HfNSeqZssG4xZmORspOyFuAGa1oZIjCy5mMGCz/W02T5sQzkJxrS4C
+        IaTIJ/pZV79z30nnWCPdcm9TpcVvFXTU/HYStGQW1apBsqpfq2oIJH9OKvFxOMtcleVQ2YFe96rAz
+        fepKzeAK439dPx/IWCLXR+pBwJ3zKCRrHCpe7ZHfAxst0dPD8yGty8zVeHtPaVLDhnjdPgBobDP9I
+        QfC/RHaw==;
+Received: from ip5f5ad4e9.dynamic.kabel-deutschland.de ([95.90.212.233] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jHCuC-0003XO-F5; Wed, 25 Mar 2020 20:45:40 +0000
+Date:   Wed, 25 Mar 2020 21:45:36 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, sean@mess.org,
+        linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: We should settle on a name for the new DVB virtual driver.
+Message-ID: <20200325214536.387c9494@coco.lan>
+In-Reply-To: <66165ca2-1e48-2dbf-cf5b-c3b583e7d0c6@gmail.com>
+References: <66165ca2-1e48-2dbf-cf5b-c3b583e7d0c6@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-An array index computed inside square brackets complicates the code
-and also extends the line beyond 80 character. Add new variable to
-compute array index separately and use it as an index during assignment.
+Em Wed, 25 Mar 2020 17:00:30 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
----
+> It has come to my attention that this patch=C2=A0 -=20
+> https://patchwork.linuxtv.org/patch/62494/=C2=A0 - has reorganized a few=
+=20
+> directories in the media tree, pushing test drivers into their own=20
+> directory.
 
-Changes since v4:
-	1. phase_taps variable implementation is now consistent in both
-	the code blocks as suggested by Stefano.
-	2. Also including linux-media list as a receipient of the media
-	patch as advised by Sakari Ailus.
-	
-Changes since v3:
-        1. Removed extra 'i' alongside word PATCH in the subject line
-        2. Removed extra curly braces that are no more needed post
-        implemented changes. Pointed out by Stefano.
-Changes since v2:
-  - Added feedback from Julia
-        1. Rephrase patch description to make it concise and simpler.
-Changes since v1:
-  - Added feedback from Helen
-        1. Updated variable type to "unsigned int" from earlier "int"
-        2. Implemented the change in another area in same scope
-        3. Left newly added variable uninitialised.
+True. Please notice that this was not applied yet. It may suffer some
+changes, but yeah, it makes sense to have a separate directory for
+test drivers.
 
+> In an effort to reduce the amount of renaming down the line, and also to=
+=20
+> adapt to the new structure presented above I think it is a good time to=20
+> come up with a name for the DVB virtual driver. It might also be a good=20
+> idea to move it to its own directory as well while we're at it.
 
- drivers/staging/media/ipu3/ipu3-css-params.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Yes, agreed.
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index 4533dacad4be..fbd53d7c097c 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -49,14 +49,13 @@ imgu_css_scaler_setup_lut(unsigned int taps, unsigned int input_width,
- 	int tap, phase, phase_sum_left, phase_sum_right;
- 	int exponent = imgu_css_scaler_get_exp(output_width, input_width);
- 	int mantissa = (1 << exponent) * output_width;
--	unsigned int phase_step;
-+	unsigned int phase_step, phase_taps;
- 
- 	if (input_width == output_width) {
- 		for (phase = 0; phase < IMGU_SCALER_PHASES; phase++) {
--			for (tap = 0; tap < taps; tap++) {
--				coeff_lut[phase * IMGU_SCALER_FILTER_TAPS + tap]
--					= 0;
--			}
-+			phase_taps = phase * IMGU_SCALER_FILTER_TAPS;
-+			for (tap = 0; tap < taps; tap++)
-+				coeff_lut[phase_taps + tap] = 0;
- 		}
- 
- 		info->phase_step = IMGU_SCALER_PHASES *
-@@ -71,6 +70,7 @@ imgu_css_scaler_setup_lut(unsigned int taps, unsigned int input_width,
- 	}
- 
- 	for (phase = 0; phase < IMGU_SCALER_PHASES; phase++) {
-+		phase_taps = phase * IMGU_SCALER_FILTER_TAPS;
- 		for (tap = 0; tap < taps; tap++) {
- 			/* flip table to for convolution reverse indexing */
- 			s64 coeff = coeffs[coeffs_size -
-@@ -81,9 +81,7 @@ imgu_css_scaler_setup_lut(unsigned int taps, unsigned int input_width,
- 			/* Add +"0.5" */
- 			coeff += 1 << (IMGU_SCALER_COEFF_BITS - 1);
- 			coeff >>= IMGU_SCALER_COEFF_BITS;
--
--			coeff_lut[phase * IMGU_SCALER_FILTER_TAPS + tap] =
--				coeff;
-+			coeff_lut[phase_taps + tap] = coeff;
- 		}
- 	}
- 
--- 
-2.17.1
+> My personal preference is vidvb, which is somewhat in line with the=20
+> naming scheme used by other virtual drivers for the media subsystem.
 
+"vidvb" works for me, but maybe "vidtv" would even be better.
+
+Regards,
+Mauro
+
+Thanks,
+Mauro
