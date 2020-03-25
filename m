@@ -2,109 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39071192CB3
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 16:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50216192DB8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 17:04:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727703AbgCYPhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 11:37:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42216 "EHLO mail.kernel.org"
+        id S1728041AbgCYQEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 12:04:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53260 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727598AbgCYPhH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 11:37:07 -0400
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1727846AbgCYQEC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Mar 2020 12:04:02 -0400
+Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7E3F207FC;
-        Wed, 25 Mar 2020 15:37:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id ECC0D2077D;
+        Wed, 25 Mar 2020 16:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585150627;
-        bh=oFXULYKX2minzKx5vxHtI63XAdjYTOaBbYv6XpZTy8U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EmXJ2ROEV4uIH8BVYnhJow+4A1BNHgFJhRUt9XQCD6kAaBxpBQ9HUZgP/XrSHK5bj
-         h411zoPSO8xwuCbPMBajeLkGTqC6LflkOK0k89zrhsMNcNwB79zSWQ8gkX1NCxcuMl
-         UqyaakkDQgHMStjvRjvEPxTPWKjs7WOVKBmfOH8Y=
-Received: by mail-ed1-f51.google.com with SMTP id de14so2921639edb.4;
-        Wed, 25 Mar 2020 08:37:06 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2B6uIAJpvwbNRha58/NuFm5VlXCKDbgu5vvcB5/RS7aFH/4A1p
-        DyGGDf1Arg9V3t+2FrsEm2zNB5UlbiHqWXnaZg==
-X-Google-Smtp-Source: ADFU+vvSoNJiU20ECt+7uu1vArut7MOjxMslvG/4PUR+3ZtOhd8DgCxmMnQcFYZJdkJa/fK+7IMDcrBp7ZaC6D/3Es4=
-X-Received: by 2002:a50:9f07:: with SMTP id b7mr3556024edf.148.1585150625023;
- Wed, 25 Mar 2020 08:37:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
- <20200311165322.1594233-4-enric.balletbo@collabora.com> <158474603935.125146.14986079780178656133@swboyd.mtv.corp.google.com>
-In-Reply-To: <158474603935.125146.14986079780178656133@swboyd.mtv.corp.google.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Wed, 25 Mar 2020 23:36:52 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8jPkOrdUx7iH=q7kTH2+nPE8igX5-p6ZzwC7aHkQwF+A@mail.gmail.com>
-Message-ID: <CAAOTY_8jPkOrdUx7iH=q7kTH2+nPE8igX5-p6ZzwC7aHkQwF+A@mail.gmail.com>
-Subject: Re: [PATCH v12 3/5] clk / soc: mediatek: Move mt8173 MMSYS to
- platform driver
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        David Airlie <airlied@linux.ie>, CK Hu <ck.hu@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mark Rutland <mark.rutland@arm.com>, mturquette@baylibre.com,
-        p.zabel@pengutronix.de, Rob Herring <robh+dt@kernel.org>,
-        ulrich.hecht+renesas@gmail.com,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        James Liao <jamesjj.liao@mediatek.com>,
-        hat.com@freedesktop.org,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Fabien Parent <fparent@baylibre.com>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        linux-clk@vger.kernel.org, Nicolas Boichat <drinkcat@chromium.org>,
-        Weiyi Lu <weiyi.lu@mediatek.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>, wens@csie.org,
-        Allison Randal <allison@lohutok.net>,
-        mtk01761 <wendell.lin@mediatek.com>,
-        Owen Chen <owen.chen@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
-        sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
-        linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        s=default; t=1585152241;
+        bh=/YZy1j5dX52QBA68q9SViv2y+oiaFKA4xv2QbEhOZA4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ClsJ9UYWBbp4Uz4XmfRkQk92n+yf7yV4SxCYgHSBdz2Gh7Th6OlxpUqO2W7f8mo7V
+         CPGOZ727NTJiTNbIckIlIOuODwoyzR/WuJelJpvDnv2xK5QMhbfh2GkmVrv1W5SpT5
+         3V8zz02wGsvYVpYQuFHE8jvZpGviVt2iGFpo0qH4=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jH8Va-003MJ8-K9; Wed, 25 Mar 2020 17:03:58 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Yong Deng <yong.deng@magewell.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
         linux-arm-kernel@lists.infradead.org,
-        Matthias Brugger <mbrugger@suse.com>,
+        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rdunlap@infradead.org, linux-kernel@vger.kernel.org,
-        matthias.bgg@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 0/4]  media Kconfig reorg - part 2
+Date:   Wed, 25 Mar 2020 17:03:53 +0100
+Message-Id: <cover.1585151701.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Stephen Boyd <sboyd@kernel.org> =E6=96=BC 2020=E5=B9=B43=E6=9C=8821=E6=97=
-=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=887:14=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Quoting Enric Balletbo i Serra (2020-03-11 09:53:20)
-> > From: Matthias Brugger <mbrugger@suse.com>
-> >
-> > There is no strong reason for this to use CLK_OF_DECLARE instead of
-> > being a platform driver. Plus, MMSYS provides clocks but also a shared
-> > register space for the mediatek-drm and the mediatek-mdp
-> > driver. So move the MMSYS clocks to a new platform driver and also
-> > create a new MMSYS platform driver in drivers/soc/mediatek that
-> > instantiates the clock driver.
-> >
-> > Signed-off-by: Matthias Brugger <mbrugger@suse.com>
-> > Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> > ---
->
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
->
-> Unless you want me to pick this up by itself?
+That's the second part of media Kconfig changes. The entire series is
+at:
 
-I would like Matthias to pick up this series together.
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+It addresses some issues I noticed when reviewing the series, and do
+some changes on how things will be displayed.
+
+It also simplify dependencencies on media-controller-dependent drivers,
+by auto-selecting the needed deps.
+
+It should be noticed that the media controller may also optionally
+selected for several other drivers, so there is still a prompt to allow
+manually enabling it, in the case it was not auto-selected.
+
+PS.: While not needed anymore, because all dependent drivers auto
+select, at least for now, I opted to keep the prompt for:
+
+- VIDEO_V4L2_SUBDEV_API
+
+  The rationale is that there are a few drivers that can optionally depend
+  on it (like tvp5150). So, better to keep the dependency, in order to be
+  able to test those drivers with and without the option.
+
+- MEDIA_CONTROLLER_REQUEST_API
+
+  The rationale is that there are some warnings at the Request API, and
+  it would be good to keep it, at least while drivers are on staging.
+
+Mauro Carvalho Chehab (4):
+  media: dvb-core: Kconfig: default to use dynamic minors
+  media: Kconfig files: use select for V4L2 subdevs and MC
+  media: i2c/Kconfig: reorganize items there
+  media: Kconfig: don't use visible for device type select
+
+ drivers/media/Kconfig                         |  25 +-
+ drivers/media/dvb-core/Kconfig                |   1 +
+ drivers/media/i2c/Kconfig                     | 406 +++++++++++-------
+ drivers/media/i2c/et8ek8/Kconfig              |   4 +-
+ drivers/media/i2c/m5mols/Kconfig              |   5 +-
+ drivers/media/i2c/smiapp/Kconfig              |   5 +-
+ drivers/media/pci/cobalt/Kconfig              |   4 +-
+ drivers/media/pci/intel/ipu3/Kconfig          |   4 +-
+ drivers/media/pci/sta2x11/Kconfig             |   6 +-
+ drivers/media/platform/Kconfig                |  28 +-
+ drivers/media/platform/am437x/Kconfig         |   4 +-
+ drivers/media/platform/atmel/Kconfig          |   4 +-
+ drivers/media/platform/cadence/Kconfig        |   8 +-
+ drivers/media/platform/exynos4-is/Kconfig     |   5 +-
+ drivers/media/platform/rcar-vin/Kconfig       |   8 +-
+ .../media/platform/sunxi/sun4i-csi/Kconfig    |   4 +-
+ .../media/platform/sunxi/sun6i-csi/Kconfig    |   4 +-
+ drivers/media/platform/xilinx/Kconfig         |   4 +-
+ drivers/media/spi/Kconfig                     |   4 +-
+ drivers/media/test_drivers/vimc/Kconfig       |   4 +-
+ drivers/staging/media/hantro/Kconfig          |   5 +-
+ drivers/staging/media/imx/Kconfig             |   5 +-
+ drivers/staging/media/ipu3/Kconfig            |   3 +-
+ drivers/staging/media/omap4iss/Kconfig        |   4 +-
+ drivers/staging/media/rkisp1/Kconfig          |   4 +-
+ drivers/staging/media/sunxi/cedrus/Kconfig    |   5 +-
+ 26 files changed, 349 insertions(+), 214 deletions(-)
+
+-- 
+2.25.1
+
+
