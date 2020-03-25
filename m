@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F4131932D1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 22:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 543E91932D5
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 22:35:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727666AbgCYVfZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 17:35:25 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39908 "EHLO
+        id S1727697AbgCYVfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 17:35:31 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39924 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727401AbgCYVfY (ORCPT
+        with ESMTP id S1726664AbgCYVfb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 17:35:24 -0400
+        Wed, 25 Mar 2020 17:35:31 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 6D0EC293F04
+        with ESMTPSA id 0EDA1293ED0
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org
@@ -28,10 +28,11 @@ Cc:     Tomasz Figa <tfiga@chromium.org>,
         Rob Herring <robh@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         devicetree@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 5/7] hantro: Move H264 motion vector calculation to a helper
-Date:   Wed, 25 Mar 2020 18:34:36 -0300
-Message-Id: <20200325213439.16509-6-ezequiel@collabora.com>
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH v3 6/7] hantro: Refactor for V4L2 API spec compliancy
+Date:   Wed, 25 Mar 2020 18:34:37 -0300
+Message-Id: <20200325213439.16509-7-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.26.0.rc2
 In-Reply-To: <20200325213439.16509-1-ezequiel@collabora.com>
 References: <20200325213439.16509-1-ezequiel@collabora.com>
@@ -42,119 +43,203 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the extra bytes calculation that are needed for H264
-motion vector to a helper. This is just a cosmetic cleanup.
+Refactor how S_FMT and TRY_FMT are handled, and also make sure
+internal initial format and format reset are done properly.
 
+The latter is achieved by making sure the same hantro_{set,try}_fmt
+helpers are called on all paths that set the format (which is
+part of the driver state).
+
+This commit removes the following v4l2-compliance warnings:
+
+test VIDIOC_G_FMT: OK
+	fail: v4l2-test-formats.cpp(711): Video Capture Multiplanar: TRY_FMT(G_FMT) != G_FMT
+test VIDIOC_TRY_FMT: FAIL
+	fail: v4l2-test-formats.cpp(1116): Video Capture Multiplanar: S_FMT(G_FMT) != G_FMT
+test VIDIOC_S_FMT: FAIL
+
+Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/staging/media/hantro/hantro.h      |  4 ---
- drivers/staging/media/hantro/hantro_hw.h   | 31 ++++++++++++++++++++++
- drivers/staging/media/hantro/hantro_v4l2.c | 25 ++---------------
- 3 files changed, 33 insertions(+), 27 deletions(-)
+ drivers/staging/media/hantro/hantro.h      |  3 +-
+ drivers/staging/media/hantro/hantro_v4l2.c | 70 ++++++++++++++--------
+ 2 files changed, 47 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 327ddef45345..2089f88a44a2 100644
+index 2089f88a44a2..3005207fc6fb 100644
 --- a/drivers/staging/media/hantro/hantro.h
 +++ b/drivers/staging/media/hantro/hantro.h
-@@ -26,10 +26,6 @@
+@@ -417,7 +417,8 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
+ }
  
- #include "hantro_hw.h"
- 
--#define MB_DIM			16
--#define MB_WIDTH(w)		DIV_ROUND_UP(w, MB_DIM)
--#define MB_HEIGHT(h)		DIV_ROUND_UP(h, MB_DIM)
--
- struct hantro_ctx;
- struct hantro_codec_ops;
- 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 7dfc9bad7297..4053d8710e04 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -18,6 +18,10 @@
- 
- #define DEC_8190_ALIGN_MASK	0x07U
- 
-+#define MB_DIM			16
-+#define MB_WIDTH(w)		DIV_ROUND_UP(w, MB_DIM)
-+#define MB_HEIGHT(h)		DIV_ROUND_UP(h, MB_DIM)
-+
- struct hantro_dev;
- struct hantro_ctx;
- struct hantro_buf;
-@@ -176,6 +180,33 @@ void hantro_g1_h264_dec_run(struct hantro_ctx *ctx);
- int hantro_h264_dec_init(struct hantro_ctx *ctx);
- void hantro_h264_dec_exit(struct hantro_ctx *ctx);
- 
-+static inline size_t
-+hantro_h264_mv_size(unsigned int width, unsigned int height)
-+{
-+	/*
-+	 * A decoded 8-bit 4:2:0 NV12 frame may need memory for up to
-+	 * 448 bytes per macroblock with additional 32 bytes on
-+	 * multi-core variants.
-+	 *
-+	 * The H264 decoder needs extra space on the output buffers
-+	 * to store motion vectors. This is needed for reference
-+	 * frames and only if the format is non-post-processed NV12.
-+	 *
-+	 * Memory layout is as follow:
-+	 *
-+	 * +---------------------------+
-+	 * | Y-plane   256 bytes x MBs |
-+	 * +---------------------------+
-+	 * | UV-plane  128 bytes x MBs |
-+	 * +---------------------------+
-+	 * | MV buffer  64 bytes x MBs |
-+	 * +---------------------------+
-+	 * | MC sync          32 bytes |
-+	 * +---------------------------+
-+	 */
-+	return 64 * MB_WIDTH(width) * MB_WIDTH(height) + 32;
-+}
-+
- void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx);
- void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx);
- void hantro_mpeg2_dec_copy_qtable(u8 *qtable,
+ static inline bool
+-hantro_needs_postproc(struct hantro_ctx *ctx, const struct hantro_fmt *fmt)
++hantro_needs_postproc(const struct hantro_ctx *ctx,
++		      const struct hantro_fmt *fmt)
+ {
+ 	return !hantro_is_encoder_ctx(ctx) && fmt->fourcc != V4L2_PIX_FMT_NV12;
+ }
 diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 3142ab6697d5..458b502ff01b 100644
+index 458b502ff01b..f28a94e2fa93 100644
 --- a/drivers/staging/media/hantro/hantro_v4l2.c
 +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -273,32 +273,11 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
- 		/* Fill remaining fields */
- 		v4l2_fill_pixfmt_mp(pix_mp, fmt->fourcc, pix_mp->width,
- 				    pix_mp->height);
--		/*
--		 * A decoded 8-bit 4:2:0 NV12 frame may need memory for up to
--		 * 448 bytes per macroblock with additional 32 bytes on
--		 * multi-core variants.
--		 *
--		 * The H264 decoder needs extra space on the output buffers
--		 * to store motion vectors. This is needed for reference
--		 * frames and only if the format is non-post-processed NV12.
--		 *
--		 * Memory layout is as follow:
--		 *
--		 * +---------------------------+
--		 * | Y-plane   256 bytes x MBs |
--		 * +---------------------------+
--		 * | UV-plane  128 bytes x MBs |
--		 * +---------------------------+
--		 * | MV buffer  64 bytes x MBs |
--		 * +---------------------------+
--		 * | MC sync          32 bytes |
--		 * +---------------------------+
--		 */
- 		if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE &&
- 		    !hantro_needs_postproc(ctx, fmt))
- 			pix_mp->plane_fmt[0].sizeimage +=
--				64 * MB_WIDTH(pix_mp->width) *
--				     MB_WIDTH(pix_mp->height) + 32;
-+				hantro_h264_mv_size(pix_mp->width,
-+						    pix_mp->height);
- 	} else if (!pix_mp->plane_fmt[0].sizeimage) {
- 		/*
- 		 * For coded formats the application can specify
+@@ -30,6 +30,11 @@
+ #include "hantro_hw.h"
+ #include "hantro_v4l2.h"
+ 
++static int hantro_set_fmt_out(struct hantro_ctx *ctx,
++			      struct v4l2_pix_format_mplane *pix_mp);
++static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
++			      struct v4l2_pix_format_mplane *pix_mp);
++
+ static const struct hantro_fmt *
+ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
+ {
+@@ -227,12 +232,12 @@ static int vidioc_g_fmt_cap_mplane(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
+-static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
+-			  bool capture)
++static int hantro_try_fmt(const struct hantro_ctx *ctx,
++			  struct v4l2_pix_format_mplane *pix_mp,
++			  enum v4l2_buf_type type)
+ {
+-	struct hantro_ctx *ctx = fh_to_ctx(priv);
+-	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+ 	const struct hantro_fmt *fmt, *vpu_fmt;
++	bool capture = !V4L2_TYPE_IS_OUTPUT(type);
+ 	bool coded;
+ 
+ 	coded = capture == hantro_is_encoder_ctx(ctx);
+@@ -246,7 +251,7 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
+ 	fmt = hantro_find_format(ctx, pix_mp->pixelformat);
+ 	if (!fmt) {
+ 		fmt = hantro_get_default_fmt(ctx, coded);
+-		f->fmt.pix_mp.pixelformat = fmt->fourcc;
++		pix_mp->pixelformat = fmt->fourcc;
+ 	}
+ 
+ 	if (coded) {
+@@ -294,13 +299,13 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
+ static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
+ 				     struct v4l2_format *f)
+ {
+-	return vidioc_try_fmt(file, priv, f, true);
++	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
+ }
+ 
+ static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
+ 				     struct v4l2_format *f)
+ {
+-	return vidioc_try_fmt(file, priv, f, false);
++	return hantro_try_fmt(fh_to_ctx(priv), &f->fmt.pix_mp, f->type);
+ }
+ 
+ static void
+@@ -334,11 +339,12 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+ 	}
+ 
+ 	hantro_reset_fmt(fmt, vpu_fmt);
+-	fmt->num_planes = 1;
+ 	fmt->width = vpu_fmt->frmsize.min_width;
+ 	fmt->height = vpu_fmt->frmsize.min_height;
+-	fmt->plane_fmt[0].sizeimage = vpu_fmt->header_size +
+-				fmt->width * fmt->height * vpu_fmt->max_depth;
++	if (hantro_is_encoder_ctx(ctx))
++		hantro_set_fmt_cap(ctx, fmt);
++	else
++		hantro_set_fmt_out(ctx, fmt);
+ }
+ 
+ static void
+@@ -360,9 +366,12 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+ 	}
+ 
+ 	hantro_reset_fmt(raw_fmt, raw_vpu_fmt);
+-	v4l2_fill_pixfmt_mp(raw_fmt, raw_vpu_fmt->fourcc,
+-			    encoded_fmt->width,
+-			    encoded_fmt->height);
++	raw_fmt->width = encoded_fmt->width;
++	raw_fmt->width = encoded_fmt->width;
++	if (hantro_is_encoder_ctx(ctx))
++		hantro_set_fmt_out(ctx, raw_fmt);
++	else
++		hantro_set_fmt_cap(ctx, raw_fmt);
+ }
+ 
+ void hantro_reset_fmts(struct hantro_ctx *ctx)
+@@ -388,15 +397,15 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
+ 	}
+ }
+ 
+-static int
+-vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
++static int hantro_set_fmt_out(struct hantro_ctx *ctx,
++			      struct v4l2_pix_format_mplane *pix_mp)
+ {
+-	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+-	struct hantro_ctx *ctx = fh_to_ctx(priv);
+-	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
++	struct vb2_queue *vq;
+ 	int ret;
+ 
+-	ret = vidioc_try_fmt_out_mplane(file, priv, f);
++	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++			     V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
++	ret = hantro_try_fmt(ctx, pix_mp, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -458,16 +467,15 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+ 	return 0;
+ }
+ 
+-static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
+-				   struct v4l2_format *f)
++static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
++			      struct v4l2_pix_format_mplane *pix_mp)
+ {
+-	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+-	struct hantro_ctx *ctx = fh_to_ctx(priv);
+ 	struct vb2_queue *vq;
+ 	int ret;
+ 
+ 	/* Change not allowed if queue is busy. */
+-	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
++	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+ 	if (vb2_is_busy(vq))
+ 		return -EBUSY;
+ 
+@@ -488,7 +496,7 @@ static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
+ 			return -EBUSY;
+ 	}
+ 
+-	ret = vidioc_try_fmt_cap_mplane(file, priv, f);
++	ret = hantro_try_fmt(ctx, pix_mp, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -522,6 +530,18 @@ static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static int
++vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
++{
++	return hantro_set_fmt_out(fh_to_ctx(priv), &f->fmt.pix_mp);
++}
++
++static int
++vidioc_s_fmt_cap_mplane(struct file *file, void *priv, struct v4l2_format *f)
++{
++	return hantro_set_fmt_cap(fh_to_ctx(priv), &f->fmt.pix_mp);
++}
++
+ const struct v4l2_ioctl_ops hantro_ioctl_ops = {
+ 	.vidioc_querycap = vidioc_querycap,
+ 	.vidioc_enum_framesizes = vidioc_enum_framesizes,
 -- 
 2.26.0.rc2
 
