@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FC7C192495
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 10:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04460192493
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 10:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727462AbgCYJtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 05:49:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51186 "EHLO mail.kernel.org"
+        id S1727358AbgCYJtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 05:49:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727265AbgCYJtk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1727339AbgCYJtk (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 25 Mar 2020 05:49:40 -0400
 Received: from mail.kernel.org (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C3A612078A;
+        by mail.kernel.org (Postfix) with ESMTPSA id CAA272078D;
         Wed, 25 Mar 2020 09:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585129779;
-        bh=r75CGhHuggkfdZX8ir10LW7XCTC74UJvik/L1BZeITE=;
+        s=default; t=1585129780;
+        bh=1vb9vh+95ah3C+NiQFX7cwPOTr+QIJDrzKOUv4TlVvs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Klf87/tdX9YI1Vci1/ELQg+sLDt/ko9lQbq7rOCCFkIWYRjyWkUiWxWngbA82YSqc
-         CGcw585qzaoJVRWii4S5GbLoMYQnjTT2hMJ1ueQebOvOFYi5xb0WrPsEOKfFkDe6ap
-         hRSoFO/Jtmufs9e1ki689H0QKEempBS/7cjO19Rk=
+        b=Vb8vxG6gm6diqgCtON7D6cqYpfBlcg4di37YeMym4YqyfOUO7TqdZCwfuFOIS6ah7
+         o4yoLRA7F4TizkpA5J6y3xoQuGa9zUDzEDjytbwTZ5IQwmErjoDcsvmvDn7UREAqsn
+         BvgI33FktblAJCpzfXYidu9lYjf5pwYjH0uZf9dc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jH2fK-003HT9-1g; Wed, 25 Mar 2020 10:49:38 +0100
+        id 1jH2fK-003HTD-2p; Wed, 25 Mar 2020 10:49:38 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH v3 02/22] media: Kconfig: add an option to filter in/out platform drivers
-Date:   Wed, 25 Mar 2020 10:49:16 +0100
-Message-Id: <a0f04b4fa949ef09585b636e1b531009a4bd85bf.1585129041.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 03/22] media: Kconfig: not all V4L2 platform drivers are for camera
+Date:   Wed, 25 Mar 2020 10:49:17 +0100
+Message-Id: <6a277befc48f421c455a4054ee987e7e99b1e79b.1585129041.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1585129041.git.mchehab+huawei@kernel.org>
 References: <cover.1585129041.git.mchehab+huawei@kernel.org>
@@ -42,59 +42,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Most systems don't need support for those, while others only
-need those, instead of the others.
+When the platform drivers got added, they were all part of
+complex camera support. This is not the case anymore, as we
+now have codecs and other stuff there too.
 
-So, add an option to filter in/out platform drivers.
+So, fix the dependencies, in order to not require users to
+manually select something that it doesn't make sense.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/Kconfig | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/media/Kconfig          | 3 +--
+ drivers/media/platform/Kconfig | 3 ---
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 9dfea5c4b6ab..03c295a2710a 100644
+index 03c295a2710a..184c7f4f057b 100644
 --- a/drivers/media/Kconfig
 +++ b/drivers/media/Kconfig
-@@ -87,6 +87,18 @@ config MEDIA_CEC_SUPPORT
- 	  Say Y when you have an HDMI receiver, transmitter or a USB CEC
- 	  adapter that supports HDMI CEC.
+@@ -111,8 +111,7 @@ source "drivers/media/mc/Kconfig"
+ config VIDEO_DEV
+ 	tristate
+ 	depends on MEDIA_SUPPORT
+-	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+-	default y
++	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || MEDIA_PLATFORM_SUPPORT
  
-+config MEDIA_PLATFORM_SUPPORT
-+	bool "Platform-specific devices"
-+	help
-+	  Enable support for complex cameras, codecs, and other hardware
-+	  that are integrated at the CPU, GPU or on Image Signalling Processor
-+	  and don't use PCI, USB or Firewire buses.
-+
-+	  This is found on Embedded hardware (SoC), on V4L2 codecs and
-+	  on some GPU and newer CPU chipsets.
-+
-+	  Say Y when you want to be able so see such devices.
-+
- source "drivers/media/cec/Kconfig"
+ config VIDEO_V4L2_SUBDEV_API
+ 	bool "V4L2 sub-device userspace API"
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index e01bbb9dd1c1..c4178420d2c5 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -5,7 +5,6 @@
  
- source "drivers/media/mc/Kconfig"
-@@ -161,15 +173,14 @@ source "drivers/media/dvb-core/Kconfig"
+ menuconfig V4L_PLATFORM_DRIVERS
+ 	bool "V4L platform devices"
+-	depends on MEDIA_CAMERA_SUPPORT
+ 	help
+ 	  Say Y here to enable support for platform-specific V4L drivers.
  
- comment "Media drivers"
+@@ -43,7 +42,6 @@ config VIDEO_ASPEED
  
--#
--# V4L platform/mem2mem drivers
--#
--
- source "drivers/media/usb/Kconfig"
- source "drivers/media/pci/Kconfig"
-+source "drivers/media/radio/Kconfig"
-+
-+if MEDIA_PLATFORM_SUPPORT
- source "drivers/media/platform/Kconfig"
- source "drivers/media/mmc/Kconfig"
--source "drivers/media/radio/Kconfig"
-+endif
- 
- comment "Supported FireWire (IEEE 1394) Adapters"
- 	depends on DVB_CORE && FIREWIRE
+ config VIDEO_SH_VOU
+ 	tristate "SuperH VOU video output driver"
+-	depends on MEDIA_CAMERA_SUPPORT
+ 	depends on VIDEO_DEV && I2C
+ 	depends on ARCH_SHMOBILE || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+@@ -165,7 +163,6 @@ endif # V4L_PLATFORM_DRIVERS
+ menuconfig V4L_MEM2MEM_DRIVERS
+ 	bool "Memory-to-memory multimedia devices"
+ 	depends on VIDEO_V4L2
+-	depends on MEDIA_CAMERA_SUPPORT
+ 	help
+ 	  Say Y here to enable selecting drivers for V4L devices that
+ 	  use system memory for both source and destination buffers, as opposed
 -- 
 2.25.1
 
