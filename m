@@ -2,150 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6365193012
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 19:10:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3FB9193092
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 19:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727402AbgCYSKA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 14:10:00 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46113 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbgCYSKA (ORCPT
+        id S1727391AbgCYSnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 14:43:22 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36091 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727006AbgCYSnW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 14:10:00 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q3so1411697pff.13
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 11:09:59 -0700 (PDT)
+        Wed, 25 Mar 2020 14:43:22 -0400
+Received: by mail-wr1-f68.google.com with SMTP id 31so4552587wrs.3;
+        Wed, 25 Mar 2020 11:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=kHhtZb9BdOMmIM9dI5kq3Pvqrt9Ka9bZcdFJXR+4aR8=;
-        b=d2WplmfLACUicAh1J03oOjeDAwM8J48IOz0IOm72ed9/NZ+leRqvN7LbI470/sijTO
-         HAnHks3iIgVjYe7Qk58s/jIY8c+w0QlmDtYrJl/9JUzrAxLtGaky2kuy8v61V9Eax6Ue
-         sY1OmKUSgoMCkLWkTeZoKPliCbSZGNKvZY9bmZh18AG/X2WjB2G8SKb/GP4R9d3oMf2c
-         NgcSpRXhaNLEnunbUDxUkGBYtvUrKKo4krZNs8zt7qGGBor9I/Eyt/X6bAQjb/lnsqb/
-         bgGgmVX2IFdsnaYacY3oOwSCZfXhTJKr2av7NEYMPkLRBmLLab8FRHmmk8Js7IJzfxQ9
-         tp6A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7O9ynMa/XszSiQjU9DnfA69BL3KK4uFcPsr5Zfru8hM=;
+        b=netoBFLdadXAoh2L96ovXCkEk9G7QhSid9/SVDV3erhTy8xriUACPmZRHgkMG0RerT
+         yvbw5JE2FdbT84nNaEJ4UUbVyG6oUJCNswSMmPCPULNvUEdTCBzgjSSjE0ZgoXVYirEz
+         QKZ9EGgzvtMlwNvW7i2i9UfbsJnNiZFehh0dSVh6v+FPP1vATUI0TLMyRLgdPndYccR/
+         c9TdR1IRgjrObZmVXmRehXBU901ho2hT+LPwzuNvk1MKogbTpulFyl2eGa3Y6PSBxpx+
+         OtL2Hn/Js5qUH09Z/cA0fylwu7cUvnNnB29QjMh6qmRG2AXHlwTJT1ynVzmn99lh9qn+
+         RPYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=kHhtZb9BdOMmIM9dI5kq3Pvqrt9Ka9bZcdFJXR+4aR8=;
-        b=sAgSx0dRQQ5PkoyZpqCYnMiUR0zigvb9SP+5YOa6bKHQlfbcqsh+ifQwAjAy5/lI8/
-         8ljfwAxEL8JJcWqdhJWgEFtZjxywQJqTz+EpGVxHFbbdUeCzjE67s7qROde7UNuomOan
-         8nZ01O7wTcNztQTvwWbBTw1yyPuK6pdB7bXgueGzv8KKuE/tDxEBzABYp9IVI3QAIZoj
-         yfys2JUtC6CvNesDNOAfURJlCPSfdtdhF1+cikf4hzbRHCJ5i97j8/t98Vc2lm9h39tu
-         GgcgpEGJR61u/NxS1xlhy8SPzBaIN9ss1f/6P6GPEYMM6T3A1zroTWtz9JzO9ycJPKSr
-         GHfg==
-X-Gm-Message-State: ANhLgQ1SqNhkMw4dOwYZFS1XxzvTOFIc0Dx3AEIMg611Tw57LWt2HB6c
-        ifevFsSpOkXNwWJgqDhabeU=
-X-Google-Smtp-Source: ADFU+vtTJPsInKcm/78S4PZAreU02DbGKJ5tJ48wIHk8fGS/waftci1/fzv8+5uwlGgDRoscaSvz7w==
-X-Received: by 2002:aa7:8f03:: with SMTP id x3mr4831642pfr.40.1585159799144;
-        Wed, 25 Mar 2020 11:09:59 -0700 (PDT)
-Received: from [192.168.2.82] (104-10-251-90.lightspeed.sntcca.sbcglobal.net. [104.10.251.90])
-        by smtp.gmail.com with ESMTPSA id y18sm18243520pfe.19.2020.03.25.11.09.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2020 11:09:58 -0700 (PDT)
-Subject: Re: [PATCH v4 00/17] media: imx: Create media links in bound
- notifiers
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200303234256.8928-1-slongerbeam@gmail.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <2ed0b76d-a1b1-ba5d-4ac1-a6e7c28d3838@gmail.com>
-Date:   Wed, 25 Mar 2020 11:09:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7O9ynMa/XszSiQjU9DnfA69BL3KK4uFcPsr5Zfru8hM=;
+        b=SECqYR7KsCpHaZdHdIGjJwvbZG1bpM9qjW4ojM1XlRYg2qvaDODNXbIr8abspUgEtL
+         6iV08l/LuePK7Exsatz6LT8csIlf90BJ+34de4iMMBFi7aeObeAv5IGt5Zatxuk4F1+s
+         VF8xJO08MCCgCfq2T1FCfAIA0cVL3JSwDkfKS7fAVKkW1fbqsVbv7Lir2LnIkFX9HJx/
+         P97hd4X0jD3D7pbwWLcSjlH2giANrq00GRH7C1YEfE+9asGDnuuDqfGLg4lI1mmhCMAF
+         gem+KDZK1xAiET+hIPSXHLU+Rzfg9rqCeGTD7aojijYO8SRG9OxViqWgT8GLXjWYq3Tv
+         4kJQ==
+X-Gm-Message-State: ANhLgQ1fH84z0ZNBZCXOXjeFe2nsl0VIBAOVrLIXaPnA+GbqOaof9/99
+        6tVGaKjAVHLPH7ESVpfEH465tvT+f4UieglswoW8xg==
+X-Google-Smtp-Source: ADFU+vtotW0hSWfsINdHPqKmskY8pGIuk5Gng3pWSqBKe0+phrdgl8o1zuoQd71BKYd/PsX6PY7UPK+NTvuaTbvqFCE=
+X-Received: by 2002:a5d:6187:: with SMTP id j7mr5053880wru.419.1585161798469;
+ Wed, 25 Mar 2020 11:43:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200303234256.8928-1-slongerbeam@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20200324125442.21983-1-geert+renesas@glider.be>
+In-Reply-To: <20200324125442.21983-1-geert+renesas@glider.be>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Wed, 25 Mar 2020 14:43:07 -0400
+Message-ID: <CADnq5_M+2afonwdY2-8kdzx-_aidWPZ4OxwxRY31odPOJ8togg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Improve CONFIG_DMABUF_MOVE_NOTIFY help text
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Tue, Mar 24, 2020 at 8:54 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Improve the help text for the CONFIG_DMABUF_MOVE_NOTIFY symbol by:
+>   1. Removing duplicated single quotes,
+>   2. Adding a missing subject,
+>   3. Fixing a misspelling of "yet",
+>   4. Wrapping long lines.
+>
+> Fixes: bb42df4662a44765 ("dma-buf: add dynamic DMA-buf handling v15")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-When you have time can you review this series.
+Applied.  Thanks!
 
-TIA!
+Alex
 
-Steve
-
-On 3/3/20 3:42 PM, Steve Longerbeam wrote:
-> Move media link creation into the notifier bound callbacks in the
-> minimum set of subdevices required by imx (imx5/6/7 CSI,
-> imx6/7 MIPI CSI-2, and video mux).
+> ---
+>  drivers/dma-buf/Kconfig | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 >
-> History:
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index ef73b678419c6d86..9626673f1d83ae64 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -43,11 +43,12 @@ config DMABUF_MOVE_NOTIFY
+>         bool "Move notify between drivers (EXPERIMENTAL)"
+>         default n
+>         help
+> -         Don''t pin buffers if the dynamic DMA-buf interface is available on both the
+> -         exporter as well as the importer. This fixes a security problem where
+> -         userspace is able to pin unrestricted amounts of memory through DMA-buf.
+> -         But marked experimental because we don''t jet have a consistent execution
+> -         context and memory management between drivers.
+> +         Don't pin buffers if the dynamic DMA-buf interface is available on
+> +         both the exporter as well as the importer. This fixes a security
+> +         problem where userspace is able to pin unrestricted amounts of memory
+> +         through DMA-buf.
+> +         This is marked experimental because we don't yet have a consistent
+> +         execution context and memory management between drivers.
 >
-> v4:
-> - Removed the endpoint parsing callback APIs from video-mux and imx drivers
->    as suggested by Sakari, replacing with endpoint parsing local to the
->    drivers and the use of v4l2_async_notifier_add_fwnode_remote_subdev().
->    As a result convenience function v4l2_async_register_fwnode_subdev()
->    is no longer used and is reverted.
+>  config DMABUF_SELFTESTS
+>         tristate "Selftests for the dma-buf interfaces"
+> --
+> 2.17.1
 >
-> v3:
-> - The changes to the default behaviour in media_entity_get_fwnode_pad(),
->    and the fixes to current media drivers that call it inconsistently, have
->    been put-off to another time. Instead this version implements the
->    get_fwnode_pad operation where required in the imx and video-mux
->    subdevices to make media link creation work correctly. The
->    improvements to media_entity_get_fwnode_pad() can wait to another
->    patch series.
->
-> v2:
-> - rename/move the notifier-to-state inlines in imx7-mipi-csis.c and
->    imx7-media-csi.c, suggested by Rui Silva.
-> - rewrite imx_media_create_links() to only add the missing media links
->    from the imx6 MIPI CSI-2 receiver.
->
->
-> Steve Longerbeam (17):
->    media: entity: Pass entity to get_fwnode_pad operation
->    media: video-mux: Parse information from firmware without using
->      callbacks
->    media: imx: Parse information from firmware without using callbacks
->    Revert "media: v4l2-fwnode: Add a convenience function for registering
->      subdevs with notifiers"
->    media: imx: csi: Implement get_fwnode_pad op
->    media: imx: mipi csi-2: Implement get_fwnode_pad op
->    media: video-mux: Implement get_fwnode_pad op
->    media: imx: Add imx_media_create_fwnode_pad_link()
->    media: video-mux: Create media links in bound notifier
->    media: imx: mipi csi-2: Create media links in bound notifier
->    media: imx7: mipi csis: Create media links in bound notifier
->    media: imx7: csi: Create media links in bound notifier
->    media: imx: csi: Create media links in bound notifier
->    media: imx: csi: Lookup upstream endpoint with
->      imx_media_get_pad_fwnode
->    media: imx: Create missing links from CSI-2 receiver
->    media: imx: silence a couple debug messages
->    media: imx: TODO: Remove media link creation todos
->
->   drivers/media/mc/mc-entity.c                  |   2 +-
->   drivers/media/platform/video-mux.c            | 185 ++++++++++++++++--
->   drivers/media/v4l2-core/v4l2-fwnode.c         |  62 ------
->   drivers/staging/media/imx/TODO                |  29 ---
->   drivers/staging/media/imx/imx-media-csi.c     | 136 ++++++++-----
->   .../staging/media/imx/imx-media-dev-common.c  |  50 ++---
->   drivers/staging/media/imx/imx-media-dev.c     |   2 +-
->   .../staging/media/imx/imx-media-internal-sd.c |   6 +-
->   drivers/staging/media/imx/imx-media-of.c      | 114 -----------
->   drivers/staging/media/imx/imx-media-utils.c   | 124 ++++++++++++
->   drivers/staging/media/imx/imx-media.h         |   9 +-
->   drivers/staging/media/imx/imx6-mipi-csi2.c    | 119 +++++++++--
->   drivers/staging/media/imx/imx7-media-csi.c    | 100 +++++++---
->   drivers/staging/media/imx/imx7-mipi-csis.c    | 105 +++++++---
->   include/media/media-entity.h                  |   3 +-
->   include/media/v4l2-fwnode.h                   |  38 ----
->   16 files changed, 654 insertions(+), 430 deletions(-)
->
-
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
