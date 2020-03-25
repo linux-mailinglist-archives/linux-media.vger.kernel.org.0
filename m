@@ -2,158 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68E7F191F16
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 03:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9609519202F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 05:33:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbgCYCcw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 22:32:52 -0400
-Received: from mail-pf1-f173.google.com ([209.85.210.173]:37672 "EHLO
-        mail-pf1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727262AbgCYCcw (ORCPT
+        id S1725907AbgCYEdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 00:33:38 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:51813 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725815AbgCYEdi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 22:32:52 -0400
-Received: by mail-pf1-f173.google.com with SMTP id h72so304448pfe.4
-        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2020 19:32:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=L0byPyKsVMZgh2TI47PblbS4cxi4k/gb3aMdbr//qWM=;
-        b=MVkLuY0qbCwRfXrKb6jF3fByfM+IIR1jD6Eetdv5shDt4UFneVZfWXgc7E1r3AL7gN
-         VtXM0qRKvJukcN70k0M+sSaTuDKU61RcT25oiOU5G6tReaQ2RkRcFHPSFN+C86badtHc
-         eilCyY46wrMdqs+nzxEHoWV4ff+0ak97PKq6c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=L0byPyKsVMZgh2TI47PblbS4cxi4k/gb3aMdbr//qWM=;
-        b=To1PTYB1VhLqhyIxxGWvORWwFNACZQB/bsyrm/+ZUOb5Pq1WwXZSDNVkjJfpcHIwwS
-         EhQU/9yeR1clBILZ1u+OAyfu7uO1KV5sc9BU2vG2xWzq5UzqAD58QWOiLR6O2F/JALbe
-         zf/3mFJuCyAINEezWtqflyyQseeGGHDFdyvcpo+TjF4J1axC+r7A1DxYzLhz4J9qIpyZ
-         kGdp4Kei32UnToI7h49tV3c2xyCDKhljwcbot06o1KRnoM8WEpjiCsqbclVzU7p3kyWF
-         oRftXlwvIC5vwqdD2sv+X51cmtT5jCl93uExQ+PjTGdwHbuxPxtOc0ktay54l+/QgRz7
-         xAJQ==
-X-Gm-Message-State: ANhLgQ3RaQKNNsT9nWRInCE9pLMfnW/GLQ1p8ydve+qW1+FSUhqMUT7b
-        s3X7vxiHbye0lPADhVcnvyO1/g==
-X-Google-Smtp-Source: ADFU+vsG1erswUWnA2vJL77FIxAJXmJEtWnlPjHHAGst27S8TWcKk204VE/Jwm/vsrSAlFkbNHo43w==
-X-Received: by 2002:a65:6244:: with SMTP id q4mr842322pgv.84.1585103570795;
-        Tue, 24 Mar 2020 19:32:50 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id e3sm15638759pgm.15.2020.03.24.19.32.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 19:32:50 -0700 (PDT)
-Date:   Wed, 25 Mar 2020 11:32:48 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        nicolas.dufresne@collabora.co.uk
-Subject: Re: [PATCHv4 04/11] videobuf2: add queue memory consistency parameter
-Message-ID: <20200325023248.GA241329@google.com>
-References: <20200302041213.27662-1-senozhatsky@chromium.org>
- <20200302041213.27662-5-senozhatsky@chromium.org>
- <6e4fc7f9-0068-92ff-77d7-9c77c047f3db@collabora.com>
- <20200324023909.GA201720@google.com>
- <1187a3f660b092d8a9d5437445155edfc0744a4f.camel@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1187a3f660b092d8a9d5437445155edfc0744a4f.camel@collabora.com>
+        Wed, 25 Mar 2020 00:33:38 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:140b:8e33:87a8:ec4a])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id GxjRjZubSfHuvGxjSjw1BN; Wed, 25 Mar 2020 05:33:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585110815; bh=iKSd+ariBT74/FZCBQLOpdezlMuoQ2czbEv9PACRYA4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=J1j+CfO5gJp5f3UtUUg5pK1U68WOsXx5LmMyyU0RxVVWAvjtUZyOXjhUB5hLReZMT
+         Q3l5WTfN8B1+uYytTBbLeEhzEheOHqZsiZsw5MBLijenuCDdrfTtC6yxswqGDvZByW
+         Ak/i6E4zzRaePjYE1E+XtwgXI9Oor3qAk3Dl98/QGJaINiXh2uR4ijydo5nLAz+oys
+         RyyF3JlKw32OrUHUrkS70q7Al+rXbY9pV5sa28qiP2opozYVe2CeCX/EHbnEKM80hB
+         L7yRmzHpp7iFNxMCATk13t3VR2c5iQVgZRKov6Wp9PfJ2xEVTF9nZKVGYH98NsAVqa
+         9PR6e9muiHgJA==
+Message-ID: <e5c37016bdbbdfaee7e59cc018a20238@smtp-cloud9.xs4all.net>
+Date:   Wed, 25 Mar 2020 05:33:33 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfHnlPNCR+yKl0mY+AUNR3MkBOJQTcCH6BQNWSz+rtHMsgvFibzwzQm5mDQyllLS4UxdQ3qtkjPGS0MGHNrAYyeHQV6DMCd8MDG94NjCJobELHOptoThb
+ XDs0nHBnwiGSRH6omGbVTV0q3Ygb/i98XOp2nQUHkbDBFjm7/kwTtIaL+BBYY9vKz3X/oMToafZ9LnnTnKd/5ZcqS6BXB4e6YS4iyLjbpPQdJfNMg3n2WA3i
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/03/24 07:17), Ezequiel Garcia wrote:
-[..]
-> > > > +static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
-> > > > +{
-> > > > +	if (!vb2_queue_allows_cache_hints(q))
-> > > > +		return;
-> > > > +
-> > > > +	if (consistent_mem)
-> > > > +		q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
-> > > > +	else
-> > > > +		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
-> > > > +}
-> > > > +
-> > > >   int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-> > > > -		unsigned int *count)
-> > > > +		bool consistent_mem, unsigned int *count)
-> > > You extended the vb2_core_reqbufs accepting a new boolean that
-> > > is decided according to the setting of the V4L2_FLAG_MEMORY_NON_CONSISTENT
-> > > but in the future some other flags might be added, and so I think it
-> > > is better to replace the boolean with a u32 consisting of all the flags.
-> > 
-> > Don't have any objections. Can change the `bool' to `u32'.
-> > 
-> 
-> or maybe an enum instead? That would help get a cleaner
-> interface.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Hmm, interesting.
+Results of the daily build of media_tree:
 
-The flags in question can be from different, unrelated groups
-(types), controlling various parts of the stack. Not necessarily
-all of them are memory_consistency related. We can, for instance,
-pass some additional flags to underlying memory allocators (contig,
-sg), etc.
+date:			Wed Mar 25 05:00:09 CET 2020
+media-tree git hash:	ad71693f41aa60217eaf1c29afb49b3aa0a2db5d
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	b671c48c34b6f4f7d7e36966940e53968f45cf6c
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: d2e7fbcfb9978b0d30f96056c21718f3dbd96598
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-E.g.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-	enum MEMORY_ATTR {
-		MEM_NON_CONSISTENT,
-		...
-	};
+Detailed results are available here:
 
-	enum VMALLOC_ALLOCATOR_ATTR {
-		DO_A_BARREL_ROLL,
-		...
-	};
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-	enum DMA_SG_ALLOCATOR_ATTR {
-		WRITEBACK_TO_TAPE_DEVICE,
-		...
-	};
+Detailed regression test results are available here:
 
-	enum DMA_CONTIG_ALLOCATOR_ATTR {
-		PREFER_HTTPS,
-		...
-	};
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-and so on. We maybe can keep all of those in one enum (umm, what should
-be the name?), and then either make sure that all of them are proper powers
-of two
+Full logs are available here:
 
-	enum AUX_FLAGS {
-		MEM_NON_CONSISTENT		= (1 << 0),
-		DO_A_BARREL_ROLL		= (1 << 1),
-		WRITEBACK_TO_TAPE_DEVICE	= (1 << 2),
-		PREFER_HTTPS			= (1 << 3),
-	};
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
-or
-	enum AUX_FLAGS {
-		MEM_NON_CONSISTENT		= 0,
-		DO_A_BARREL_ROLL,
-		WRITEBACK_TO_TAPE_DEVICE,
-		PREFER_HTTPS,
-	};
+The Media Infrastructure API from this daily build is here:
 
-and make sure that those are not flags, but bits.
-IOW, if (flags & BIT(MEM_NON_CONSISTENT)).
-
-
-What do others think?
-
-	-ss
+http://www.xs4all.nl/~hverkuil/spec/index.html
