@@ -2,128 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68FB11931EE
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 21:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B5C193201
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 21:38:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727374AbgCYUao (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 16:30:44 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39118 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727236AbgCYUan (ORCPT
+        id S1727391AbgCYUic (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 16:38:32 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39401 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727275AbgCYUic (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 16:30:43 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 4D7FB2971D9
-Message-ID: <648c8411353071a7e1ffd3576d268b01177ab678.camel@collabora.com>
-Subject: Re: [PATCH v2 3/8] hantro: Use v4l2_m2m_buf_done_and_job_finish
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Rob Herring <robh@kernel.org>
-Date:   Wed, 25 Mar 2020 17:30:32 -0300
-In-Reply-To: <50d764ec-1c15-99bd-192b-9aa6ae5bf368@xs4all.nl>
-References: <20200318132108.21873-1-ezequiel@collabora.com>
-         <20200318132108.21873-4-ezequiel@collabora.com>
-         <13b1efe1-8b52-070b-cf11-b230bd405d3e@xs4all.nl>
-         <0a8f6d97e6869ff694aedd67a3176217a885c938.camel@ndufresne.ca>
-         <50d764ec-1c15-99bd-192b-9aa6ae5bf368@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        Wed, 25 Mar 2020 16:38:32 -0400
+Received: by mail-pf1-f194.google.com with SMTP id d25so1628428pfn.6
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 13:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=q5FLHoJRoSI2yWPkxN43ftWlKD8uJFvwFo1mnxXm5Tk=;
+        b=YPL0aqoYcG2QH58yVrGPOCn9vXClVNvaaiXbEzutPN/N9v869qVDLaxiscUCESKHxI
+         BRx45tGvIfwGmeyrWibi5w/aJ0vr0RIvx1n9oCozRlBJnfa/un9GKyJ/xxOJuRkxvaTi
+         6MprjBqQgF+/O/xvUylG5H228VU2HGqpAaf1PbzG4s30pIacftPvsOpNfcMcCDfAZcfv
+         rpxJ3QZVbEXm2QghdxGxK3nJ3WMRlqHfKwrCBTx9+L+wtv9gMvPK1pmEkp0I8ChiEVkc
+         W82wDnm0EAwF7YH7p9p5zHsSc+1B7bYqJSx+IS3YBqctJkb3MgKaUTqmpqg1C935ueVF
+         L0Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=q5FLHoJRoSI2yWPkxN43ftWlKD8uJFvwFo1mnxXm5Tk=;
+        b=KPDfJ/f2BO6JRK3+a81cx8haLWvyfe693BHE+dRvI5vWrePtd50s5R/P85WfPzNALN
+         5nQfF4mZbcOAn+Q0qjtYpi2SvJXh+Y0jQfwWtHavQjC6gFob9WkkAQns+3rWyiApaYcp
+         DL2Ug8EhCDkrNBtRTKBv9egZVbiMHdFa4LA2tloXtjw+n2iTmIcOldSdO3igcLYx+usd
+         32YCc7SmAm1v0QsaikQXzX9Wb6yRiJa7Xj4qNunDkeEkxV1SaKfm9E3C3RemlRlls6J1
+         ZLnCKJB01gPsx6EKNzW/fgnnsEN3fwvOzUwKDYW7F5z8t4WMMLH49IFSpy60GcigcGvv
+         iZww==
+X-Gm-Message-State: ANhLgQ0LxUACnICaNIoNrX+AqW+zV30memP1eygInivk2IW6Ondfnn4m
+        6bUwC0brf1H1tG1rPp2xU6X20xK7
+X-Google-Smtp-Source: ADFU+vvG9rmIa7UzHYYPSKbqFm+kv+3qhwODma7OE0osyPlM8ffs6/Cx/8d+EN+blj/BybiAcMFHuw==
+X-Received: by 2002:a63:f113:: with SMTP id f19mr5136246pgi.168.1585168710235;
+        Wed, 25 Mar 2020 13:38:30 -0700 (PDT)
+Received: from deeUbuntu ([103.228.147.248])
+        by smtp.gmail.com with ESMTPSA id r8sm123176pjo.22.2020.03.25.13.38.26
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 25 Mar 2020 13:38:29 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 02:08:24 +0530
+From:   Deepak R Varma <mh12gx2825@gmail.com>
+To:     outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org,
+        daniel.baluta@gmail.com, kieran.bingham@ideasonboard.com
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v5] media: staging/intel-ipu3: css: simplify expression
+Message-ID: <20200325203819.GA30916@deeUbuntu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-   1. On Wed, 2020-03-25 at 16:28 +0100, Hans Verkuil wrote:
-> On 3/25/20 3:02 PM, Nicolas Dufresne wrote:
-> > Le mercredi 25 mars 2020 à 09:22 +0100, Hans Verkuil a écrit :
-> > > On 3/18/20 2:21 PM, Ezequiel Garcia wrote:
-> > > > Let the core sort out the nuances of returning buffers
-> > > > to userspace, by using the v4l2_m2m_buf_done_and_job_finish
-> > > > helper.
-> > > > 
-> > > > This change also removes usage of buffer sequence fields,
-> > > > which shouldn't have any meaning for stateless decoders.
-> > > 
-> > > Uh, why remove this? For one, doesn't this cause fails in v4l2-compliance?
-> > > Also, while I agree that it is not terribly useful, it doesn't hurt, does it?
-> > > 
-> > > And the V4L2 spec makes no exception for stateless codecs with respect to the
-> > > sequence field.
-> > > 
-> > > Nacked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > 
-> > The spec also does not say what it means either. As an example, you
-> > have spec for ALTERNATE interlacing mode that changes the meaning of
-> > the sequence, but not for alternate H264 fields (which cannot be part
-> > of the format, since this changes often). We also don't have spec for
-> > the the sequence behaviour while using HOLD features.
-> 
-> I hate it that the spec changes the sequence meaning for FIELD_ALTERNATE,
-> I always thought that that made drivers unnecessarily complicated. Unfortunately,
-> this is something we inherited.
-> 
-> Currently the spec says for sequence:
-> 
-> "Set by the driver, counting the frames (not fields!) in sequence. This field is set
->  for both input and output devices."
-> 
-> The only thing missing here is that it should say that for compressed formats this
-> counts the buffers, since one buffer with compressed data may not have a one-to-one
-> mapping with frames.
-> 
-> This description for 'sequence' was never updated when compressed data formats were
-> added, so it is a bit out of date.
-> 
-> > I'm worried we are falling into the test driven trap, were people
-> > implement features to satisfy a test, while the added complexity don't
-> > really make sense. Shouldn't we change our approach and opt-out
-> > features for new type of HW, so that we can keep the drivers code
-> > saner?
-> 
-> Why wasn't the existing code in this patch sane? Sure, we can change the spec, but
-> then 1) all existing drivers need to be updated as well, and 2) v4l2-compliance needs
-> to be changed to test specifically for this class of drivers and ensure that for those
-> the sequence field is set to 0. Not to mention introducing an exception in the uAPI
-> where the sequence field suddenly isn't used anymore.
-> 
-> Frankly, I would prefer that the whole sequence handling is moved to videobuf2-v4l2.c.
-> It really doesn't belong in drivers, with the exception of incrementing the sequence
-> counter in case of dropped frames.
-> 
-> I think I suggested it when vb2 was being designed, but at the time the preference
-> was to keep it in the driver. Long time ago, though.
-> 
+An array index computed inside square brackets complicates the code
+and also extends the line beyond 80 character. Add new variable to
+compute array index separately and use it as an index during assignment.
 
-Do you think we could try to move this to the core?
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+---
 
-I might be able find some time to try that.
+Changes since v4:
+	1. phase_taps variable implementation is now consistent in both
+	the code blocks as suggested by Stefano.
+	2. Also including linux-media list as a receipient of the media
+	patch as advised by Sakari Ailus.
+	
+Changes since v3:
+        1. Removed extra 'i' alongside word PATCH in the subject line
+        2. Removed extra curly braces that are no more needed post
+        implemented changes. Pointed out by Stefano.
+Changes since v2:
+  - Added feedback from Julia
+        1. Rephrase patch description to make it concise and simpler.
+Changes since v1:
+  - Added feedback from Helen
+        1. Updated variable type to "unsigned int" from earlier "int"
+        2. Implemented the change in another area in same scope
+        3. Left newly added variable uninitialised.
 
-> And another reason why I want to keep it: I find it actually useful to see a running
-> counter: it helps keeping track of how many buffers you've processed since you started
-> streaming.
-> 
 
-+1
+ drivers/staging/media/ipu3/ipu3-css-params.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-> Finally, the removal of the sequence counter simply does not belong in this patch.
-> 
-
-Agreed, no complaints on my side.
-
-I am actually happy about this feedback.
-
-Thanks,
-Ezequiel
+diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+index 4533dacad4be..fbd53d7c097c 100644
+--- a/drivers/staging/media/ipu3/ipu3-css-params.c
++++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+@@ -49,14 +49,13 @@ imgu_css_scaler_setup_lut(unsigned int taps, unsigned int input_width,
+ 	int tap, phase, phase_sum_left, phase_sum_right;
+ 	int exponent = imgu_css_scaler_get_exp(output_width, input_width);
+ 	int mantissa = (1 << exponent) * output_width;
+-	unsigned int phase_step;
++	unsigned int phase_step, phase_taps;
+ 
+ 	if (input_width == output_width) {
+ 		for (phase = 0; phase < IMGU_SCALER_PHASES; phase++) {
+-			for (tap = 0; tap < taps; tap++) {
+-				coeff_lut[phase * IMGU_SCALER_FILTER_TAPS + tap]
+-					= 0;
+-			}
++			phase_taps = phase * IMGU_SCALER_FILTER_TAPS;
++			for (tap = 0; tap < taps; tap++)
++				coeff_lut[phase_taps + tap] = 0;
+ 		}
+ 
+ 		info->phase_step = IMGU_SCALER_PHASES *
+@@ -71,6 +70,7 @@ imgu_css_scaler_setup_lut(unsigned int taps, unsigned int input_width,
+ 	}
+ 
+ 	for (phase = 0; phase < IMGU_SCALER_PHASES; phase++) {
++		phase_taps = phase * IMGU_SCALER_FILTER_TAPS;
+ 		for (tap = 0; tap < taps; tap++) {
+ 			/* flip table to for convolution reverse indexing */
+ 			s64 coeff = coeffs[coeffs_size -
+@@ -81,9 +81,7 @@ imgu_css_scaler_setup_lut(unsigned int taps, unsigned int input_width,
+ 			/* Add +"0.5" */
+ 			coeff += 1 << (IMGU_SCALER_COEFF_BITS - 1);
+ 			coeff >>= IMGU_SCALER_COEFF_BITS;
+-
+-			coeff_lut[phase * IMGU_SCALER_FILTER_TAPS + tap] =
+-				coeff;
++			coeff_lut[phase_taps + tap] = coeff;
+ 		}
+ 	}
+ 
+-- 
+2.17.1
 
