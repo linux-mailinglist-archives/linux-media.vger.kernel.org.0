@@ -2,110 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 069B7193229
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 21:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3190E19323A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 21:57:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727356AbgCYUtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 16:49:08 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:39780 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727306AbgCYUtH (ORCPT
+        id S1727395AbgCYU5O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 16:57:14 -0400
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:34838 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727253AbgCYU5O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 16:49:07 -0400
-Received: by mail-pg1-f194.google.com with SMTP id b22so1738779pgb.6
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 13:49:07 -0700 (PDT)
+        Wed, 25 Mar 2020 16:57:14 -0400
+Received: by mail-pj1-f68.google.com with SMTP id g9so1522589pjp.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 13:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DCl6Uzk3YCvxFy/Sfh1MfDqSBV/2m3KHS+BeAcBStpI=;
-        b=KqfheSdLUbvTZrQhHcW2KBQjYjXbwlp+Uqveb1rUxCwMYxXCXurmQpkszV1Z9iK7BC
-         xJH8LV9ssFQiymx7peOGhoTbAD0RUQ8azhcgNvGD7p5Q2YQPXY3I/xQZb5QjI8pVYyAL
-         QSpHKkhZfkX1eaNMCI7h/71Pk3CMhamHYMJYMqWdYw97DFufX9sz3H7ssFl/I64pG9N/
-         19o4RbEm77FOCVqoHIljnoObGkVNthUSYtG5Ijet7qVG30DiWvtcTdlly8bPkU2wwMzD
-         eNCcMO0hU4IXvxTt/H7HQCRoog8K7tMutI55n4Gh0PBhU6YnqT/2OQUqdu/cNyGsirmE
-         3ncA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=g8PMREI45krrfKGXVv90/j3U7ZUWFxhnJ91n7OAeL7o=;
+        b=j1dV94+YwpQvRWCXHU6PrOPRHgkUIVMFl5RRTSA+ulI86iK9DssyBjbH7t2pj6/K9J
+         scXDEwrxuVdirmoD6KA4BDsCxjX8+da639Vtp0PC4/7yPlfkBwWwqkD6r3UptDJrFcxf
+         pKzE4onqzApyYbcIWJVjXzDV8BdRNA/W/I8SyoUm3Hp5QVpUL7XEBdAAFqXSozMPqYNK
+         VuvAIC8r+yVkEQRTfQttysAdkcRqIFlgt479FK9YwjKOOG6Wln7jFCg0V28cXC5uznwZ
+         M90V+q76Ss6SPGymfwlH5rMKR+VIgI393xVjrk9Zeal0z8qW0AXqKIZhZR7AFiZ9Y1zb
+         8s5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DCl6Uzk3YCvxFy/Sfh1MfDqSBV/2m3KHS+BeAcBStpI=;
-        b=OTyEaPAIu+RBq+vQzUEECts7n3Zyq4IkF/lC+ghRaeoY+8Ghkl+5fMwTtkxtGlFR28
-         4i0WOWBP/Jx/ZqxxtZGKjs6yk2+aRZrmB35H15oZJRF8JHUCCt58BjA9ui/hJClGLfee
-         q5zHLsZZnldRaRQ9s2llVEj74XBBNN0rsz9R7febbuEjCFINTphOLDAzMBQK+TMPONzR
-         KR0zoDYHN3YAQc/Kcsw2hn6XcOko7kc+hl8osL7v37estGV/BWntzBjqAmN3R72OjHLO
-         dVr3IniMSlhCciwQL4QYs++BjYn2ad+TfrksUKaLkSTpzMutx23vJCQBED9z5L+qSUHG
-         bc4Q==
-X-Gm-Message-State: ANhLgQ3+vMqCa+BIKWs2UODIvoc1STkUq0RO7WjaEcpQv3Qa9cc4R17U
-        e9jynfqXwHfsuFrNn4C9R3g=
-X-Google-Smtp-Source: ADFU+vu9cSQOQz/ahBeWgJ/aq8cp7OZCT3xjZk7MpKQJL0YY8IBjZxPCVTxTubjF7BaVwud4yAszmg==
-X-Received: by 2002:a63:f243:: with SMTP id d3mr4878985pgk.254.1585169346826;
-        Wed, 25 Mar 2020 13:49:06 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=g8PMREI45krrfKGXVv90/j3U7ZUWFxhnJ91n7OAeL7o=;
+        b=jnxsay2BxjfAyOQlOR92Crq0koAq2F1jW+5JXkLyhDoy8T8OAGKpLVhxadBxdhPnnM
+         Yzsl8XXm+LmHlVGRcZV9zAOjnPYes0IPzEJ4nqaaFi/awh+0XfE+jBu/ENKdMQrsH4cu
+         VNxrwjv7f/DCyCBv8N0+YMtB4vISJxgA7UoyF3AZuJS53Zjau1BZsV+Ugt88Lbhh6pcM
+         3yDjA6kKsadnIu+ikDBSGGvqMvsaZxwTxLCDltaQlGk3C4RnIjxkfu4e5OARWce5aQe7
+         oDKdxRHK7uEB0rSxpupydx6HLjwXUd24T9tOyqCX4aW/e1VEA4vKxjfRS06M86lDZaI7
+         Sz7A==
+X-Gm-Message-State: ANhLgQ1Nggn0qlXvhA880yqDv/QvAitUAjOX/ZRh7cDGDCHN7PeByqKR
+        ZVbjGlqiEDQjmTKuSqT6trEqk9/8
+X-Google-Smtp-Source: ADFU+vt2cd1Gimyp/0yJLYasiv274qonL+zkdQaMWfZ1m9pKQ4kqgHeoU0R6UXz9ynoiXVJozslWKg==
+X-Received: by 2002:a17:902:7201:: with SMTP id ba1mr5089296plb.198.1585169832879;
+        Wed, 25 Mar 2020 13:57:12 -0700 (PDT)
 Received: from deeUbuntu ([103.228.147.248])
-        by smtp.gmail.com with ESMTPSA id u21sm141310pjy.8.2020.03.25.13.48.56
+        by smtp.gmail.com with ESMTPSA id i20sm39894pfd.89.2020.03.25.13.57.06
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 25 Mar 2020 13:49:06 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 02:18:49 +0530
-From:   DEEPAK VARMA <mh12gx2825@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     outreachy-kernel@googlegroups.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Baluta <daniel.baluta@gmail.com>,
-        kieran.bingham@ideasonboard.com,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wed, 25 Mar 2020 13:57:12 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 02:26:44 +0530
+From:   Deepak R Varma <mh12gx2825@gmail.com>
+To:     outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org,
+        daniel.baluta@gmail.com, kieran.bingham@ideasonboard.com
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: staging/intel-ipu3: Reformat pointer
- initialization
-Message-ID: <20200325204844.GA30732@deeUbuntu>
-References: <20200322185350.GA12377@deeUbuntu>
- <CAHp75VcP1O_QwepgAHPBaTLcr_3=ynV6hsmcgvYnBCz7DdoWxw@mail.gmail.com>
- <20200323151710.GA22110@deeUbuntu>
+Subject: [PATCH] media: staging/intel-ipu3: Remove extra blank lines
+Message-ID: <20200325205632.GA31257@deeUbuntu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200323151710.GA22110@deeUbuntu>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adding Linux-media list as advised by Sakari Ailus.
+Remove extra blank lines from the code blocks.
 
-On Mon, Mar 23, 2020 at 08:47:12PM +0530, DEEPAK VARMA wrote:
-> On Mon, Mar 23, 2020 at 01:35:58AM +0200, Andy Shevchenko wrote:
-> > On Sun, Mar 22, 2020 at 8:54 PM Deepak R Varma <mh12gx2825@gmail.com> wrote:
-> > >
-> > > Reformat pointer initialization to make it more readable as per the
-> > > coding standards. Problem detected by checkpatch.
-> > 
-> > > -       struct imgu_v4l2_subdev *imgu_sd =
-> > > -               container_of(ctrl->handler, struct imgu_v4l2_subdev, ctrl_handler);
-> > > +       struct imgu_v4l2_subdev *imgu_sd = container_of(ctrl->handler,
-> > > +                                                       struct imgu_v4l2_subdev,
-> > > +                                                       ctrl_handler);
-> > 
-> > I'm sorry I don't see benefit of this change, actually an opposite.
-> 
-> Hello Andy,
-> Thank you for your comment. To me, it helps quickly and clearly spot
-> *imgu_sd. Also the initialization looks more structured. But that's just
-> me.
-> 
-> I will wait to see if anyone else wants to share their thoughts, and
-> then circle back to you on next steps. Is that fine?
-> 
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 
-Hello Andy and all,
-I have not seen any additional comments on this thread. Let me know if
-you approve the proposed change or want me to leave it as is.
+---
+NOTE: Resending patch to linux-media list as suggested by Sakari Ailus.
+No changes since last version.
 
-Thank you,
-Deepak.
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> Deepak.
-> > 
-> > -- 
-> > With Best Regards,
-> > Andy Shevchenko
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index 097c10d9da2a..e8f33539a217 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -152,7 +152,6 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
+ 	struct imgu_v4l2_subdev *imgu_sd = container_of(sd,
+ 							struct imgu_v4l2_subdev,
+ 							subdev);
+-
+ 	struct v4l2_mbus_framefmt *mf;
+ 	u32 pad = fmt->pad;
+ 	unsigned int pipe = imgu_sd->pipe;
+@@ -485,7 +484,6 @@ static int imgu_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	if (r < 0)
+ 		goto fail_return_bufs;
+ 
+-
+ 	if (!imgu_all_nodes_streaming(imgu, node))
+ 		return 0;
+ 
+-- 
+2.17.1
+
