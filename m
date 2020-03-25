@@ -2,347 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5D71933D1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 23:38:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C4CE1933E6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 23:54:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727456AbgCYWie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 18:38:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49110 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727374AbgCYWie (ORCPT
+        id S1727451AbgCYWyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 18:54:16 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:63769 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727358AbgCYWyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 18:38:34 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7ED9880C;
-        Wed, 25 Mar 2020 23:38:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585175911;
-        bh=AVI4NrSNvMDC+J4SD0cJd8IWh9pevhw8VqJzHuidiEI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O9S3d2MH9H2lCjrraX36kS5mkYmOlsth7xqDuEbMU/2UywrP6T9eIj9Udwtett9Ex
-         Rb7vydKhTo5+GrbHOZrbgWRBLCVjq5QJpqRMZExcnViK8fRR1TZq1YKWsvF40lYhQs
-         T5J6v7i1W1FM0XpDofp4ocJ45yYrCARTzKbcLScc=
-Date:   Thu, 26 Mar 2020 00:38:25 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
+        Wed, 25 Mar 2020 18:54:16 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id DFAAF40003;
+        Wed, 25 Mar 2020 22:54:11 +0000 (UTC)
+Date:   Wed, 25 Mar 2020 23:57:10 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
         hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
         sakari.ailus@linux.intel.com
-Subject: Re: [libcamera-devel] [PATCH 1/4] Documentation: media: Document
- read-only subdevice
-Message-ID: <20200325223825.GA18686@pendragon.ideasonboard.com>
+Subject: Re: [libcamera-devel] [PATCH 2/4] media: v4l2-dev: Add
+ v4l2_device_register_ro_subdev_node()
+Message-ID: <20200325225710.nwycq7lqw5kzodi5@uno.localdomain>
 References: <20200324202844.1518292-1-jacopo@jmondi.org>
- <20200324202844.1518292-2-jacopo@jmondi.org>
- <20200325213720.GU19171@pendragon.ideasonboard.com>
+ <20200324202844.1518292-3-jacopo@jmondi.org>
+ <20200325214536.GV19171@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200325213720.GU19171@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200325214536.GV19171@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Laurent,
 
-On Wed, Mar 25, 2020 at 11:37:20PM +0200, Laurent Pinchart wrote:
-> On Tue, Mar 24, 2020 at 09:28:41PM +0100, Jacopo Mondi wrote:
-> > Document a new kapi function to register subdev device nodes in read only
-> > mode and for each affected ioctl report how access is restricted.
-> > 
+On Wed, Mar 25, 2020 at 11:45:36PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Tue, Mar 24, 2020 at 09:28:42PM +0100, Jacopo Mondi wrote:
+> > Add to the V4L2 code a function to register device nodes for video
+> > subdevices in read-only mode.
+> >
+> > Registering a device node in read-only mode is useful to expose to
+> > userspace the current sub-device configuration, without allowing
+> > application to change it by using the V4L2 subdevice ioctls.
+> >
 > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > > ---
-> >  Documentation/media/kapi/v4l2-subdev.rst      | 38 +++++++++++++++++++
-> >  .../media/uapi/v4l/vidioc-g-dv-timings.rst    |  6 +++
-> >  Documentation/media/uapi/v4l/vidioc-g-std.rst |  6 +++
-> >  .../media/uapi/v4l/vidioc-subdev-g-crop.rst   |  9 +++++
-> >  .../media/uapi/v4l/vidioc-subdev-g-fmt.rst    |  8 ++++
-> >  .../v4l/vidioc-subdev-g-frame-interval.rst    |  8 ++++
-> >  .../uapi/v4l/vidioc-subdev-g-selection.rst    |  8 ++++
-> >  7 files changed, 83 insertions(+)
-> > 
-> > diff --git a/Documentation/media/kapi/v4l2-subdev.rst b/Documentation/media/kapi/v4l2-subdev.rst
-> > index 29e07e23f888..26edb4178eea 100644
-> > --- a/Documentation/media/kapi/v4l2-subdev.rst
-> > +++ b/Documentation/media/kapi/v4l2-subdev.rst
-> > @@ -327,6 +327,44 @@ Private ioctls
-> >  	All ioctls not in the above list are passed directly to the sub-device
-> >  	driver through the core::ioctl operation.
-> >  
-> > +Read-only sub-device userspace API
-> > +----------------------------------
-> > +
-> > +Bridge drivers that control their connected subdevices through direct calls to
-> > +the kernel API realized by :c:type:`v4l2_subdev_ops` structure do not usually
-> > +want userspace to be able to change the same parameters through the subdevice
-> > +device node and thus do not usually register any.
-> 
-> I think part of this belongs to the previous section.
-> 
-> diff --git a/Documentation/media/kapi/v4l2-subdev.rst b/Documentation/media/kapi/v4l2-subdev.rst
-> index 29e07e23f888..41ccb3e5c707 100644
-> --- a/Documentation/media/kapi/v4l2-subdev.rst
-> +++ b/Documentation/media/kapi/v4l2-subdev.rst
-> @@ -275,8 +275,13 @@ system the .unbind() method is called. All three callbacks are optional.
->  V4L2 sub-device userspace API
->  -----------------------------
->  
-> -Beside exposing a kernel API through the :c:type:`v4l2_subdev_ops` structure,
-> -V4L2 sub-devices can also be controlled directly by userspace applications.
-> +Bridge drivers traditionally expose one or multiple video nodes to userspace,
-> +and control subdevices through the :c:type:`v4l2_subdev_ops` operations in
-> +response to video node operations. This hides the complexity of the underlying
-> +hardware from applications. For complex devices, finer-grained control of the
-> +device than what the video nodes offer may be required. In those cases, bridge
-> +drivers that implement :ref:`the media controller API <media_controller>` may
-> +opt for making the subdevice operations directly accessible from userpace.
->  
->  Device nodes named ``v4l-subdev``\ *X* can be created in ``/dev`` to access
->  sub-devices directly. If a sub-device supports direct userspace configuration
-> 
-> > +
-> > +Although, it is sometime useful to report to userspace the current subdevice
-> 
-> s/Although/However/
-> s/sometime/sometimes/
-> 
-> > +configuration through a read-only API, that do not allow any change to the
-> > +device parameters but allows userspace applications to interface to the
-> > +subdevice device node and inspect them. To register a read-only device node for
-> > +all the registered sub-devices marked with ``V4L2_SUBDEV_FL_HAS_DEVNODE``
-> > +the :c:type:`v4l2_device` driver should call
-> > +:c:func:`v4l2_device_register_ro_subdev_nodes`.
-> 
-> This would become
-> 
-> It is sometimes useful to report detailed information about subdevice
-> configuration to userspace without exposing full direct control of the
-> subdevice. For instance, to implement cameras based on computational
-> photography, userspace needs to know the detailed camera sensor configuration
-> (in terms of skipping, binning, cropping and scaling) for each supported
-> output resolution. To support such use cases, bridge drivers may opt for
-> exposing subdevice operations to userspace in a read-only fashion.
-> 
-> The subdevice read-only userspace API requires the subdevices to set the
-> ``V4L2_SUBDEV_FL_HAS_DEVNODE`` before being registered, exactly as for the
-> previously described subdevice userspace API. The :c:type:`v4l2_device`
-> driver shall then call :c:func:`v4l2_device_register_ro_subdev_nodes` to
-> create the subdevice device nodes.
+> >  drivers/media/v4l2-core/v4l2-device.c | 16 +++++++++++++++-
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 19 +++++++++++++++++++
+> >  include/media/v4l2-dev.h              |  7 +++++++
+> >  include/media/v4l2-device.h           | 10 ++++++++++
+> >  4 files changed, 51 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
+> > index 63d6b147b21e..6f9dba36eda1 100644
+> > --- a/drivers/media/v4l2-core/v4l2-device.c
+> > +++ b/drivers/media/v4l2-core/v4l2-device.c
+> > @@ -188,7 +188,8 @@ static void v4l2_device_release_subdev_node(struct video_device *vdev)
+> >  	kfree(vdev);
+> >  }
+> >
+> > -int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+> > +int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
+> > +					bool read_only)
+> >  {
+> >  	struct video_device *vdev;
+> >  	struct v4l2_subdev *sd;
+> > @@ -217,6 +218,8 @@ int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+> >  		vdev->fops = &v4l2_subdev_fops;
+> >  		vdev->release = v4l2_device_release_subdev_node;
+> >  		vdev->ctrl_handler = sd->ctrl_handler;
+> > +		if (read_only)
+> > +			vdev->flags |= V4L2_FL_RO_DEVNODE;
+>
+> As Andrey pointed out, this should be BIT(V4L2_FL_RO_DEVNODE).
+>
 
-I would like to publicly apologize for proposing a full rewrite of your
-work. I realize how harsh this is, and I want to emphasize that I didn't
-mean to imply in any way that your version was unacceptable or to
-diminish your work. Please feel free to ignore these comments.
+the rest of the v4l2 core seems to be use set_bit()/test_bit() when
+handling V4L2_FL_ (which, my bad, I rarely encoutered compared to the
+to me more canonical BIT() combined with bitops).
 
-> > +Access to the following ioctls for userspace applications is restricted on
-> > +sub-device device nodes registered with
-> > +:c:func:`v4l2_device_register_ro_subdev_nodes`.
-> > +
-> > +``VIDIOC_SUBDEV_S_FMT``
-> > +``VIDIOC_SUBDEV_S_FRAME_INTERVAL``
-> > +``VIDIOC_SUBDEV_S_SELECTION``
-> > +``VIDIOC_SUBDEV_S_DV_TIMINGS``
-> > +``VIDIOC_SUBDEV_S_CROP``
-> > +``VIDIOC_SUBDEV_S_STD``
-> > +
-> > +``VIDIOC_SUBDEV_S_FMT``, ``VIDIOC_SUBDEV_S_SELECTION`` and
-> > +``VIDIOC_SUBDEV_S_CROP`` are only allowed on a read-only subdevice device node
-> > +only if the format to modify is set to ``V4L2_SUBDEV_FORMAT_TRY`` (
-> > +:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`).
-> > +
-> > +``VIDIOC_SUBDEV_S_FRAME_INTERVAL``, ``VIDIOC_S_DV_TIMINGS`` and
-> > +``VIDIOC_SUBDEV_S_STD`` are always disallowed on a read-only subdevice node.
-> > +
-> > +In case the ioclt is not allowed at all or the format to modify is set to
-> > +``V4L2_SUBDEV_FORMAT_ACTIVE``, the core returns a negative error code and
-> > +sets the errno variable to ``-EPERM``.
-> 
-> I would split the list in two.
-> 
-> ``VIDIOC_SUBDEV_S_FMT``,
-> ``VIDIOC_SUBDEV_S_CROP``,
-> ``VIDIOC_SUBDEV_S_SELECTION``:
-> 
-> 	These ioctls are only allowed for the
-> 	:ref:`V4L2_SUBDEV_FORMAT_TRY <v4l2-subdev-format-whence>` formats and
-> 	selection rectangles. Any attempt to access the
-> 	:ref:`V4L2_SUBDEV_FORMAT_ACTIVE <v4l2-subdev-format-whence>`
-> 	configuration results in a ``-EPERM`` error.
-> 
-> ``VIDIOC_SUBDEV_S_FRAME_INTERVAL``,
-> ``VIDIOC_SUBDEV_S_DV_TIMINGS``,
-> ``VIDIOC_SUBDEV_S_STD``:
-> 
-> 	These ioctls are not allowed and result in a ``-EPERM`` error.
-> 
-> >  
-> >  I2C sub-device drivers
-> >  ----------------------
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst b/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst
-> > index 5712bd48e687..435d955aaf85 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst
-> > @@ -57,6 +57,10 @@ pointer to the struct :c:type:`v4l2_dv_timings`
-> >  structure as argument. If the ioctl is not supported or the timing
-> >  values are not correct, the driver returns ``EINVAL`` error code.
-> >  
-> > +Calling ``VIDIOC_SUBDEV_S_DV_TIMINGS`` on a subdev device node that has been
-> > +registered in read-only mode is not allowed. An error is returned and the errno
-> > +variable is set to ``-EPERM``.
-> > +
-> >  The ``linux/v4l2-dv-timings.h`` header can be used to get the timings of
-> >  the formats in the :ref:`cea861` and :ref:`vesadmt` standards. If
-> >  the current input or output does not support DV timings (e.g. if
-> > @@ -81,6 +85,8 @@ ENODATA
-> >  EBUSY
-> >      The device is busy and therefore can not change the timings.
-> >  
-> > +EPERM
-> > +    ``VIDIOC_SUBDEV_S_DV_TIMINGS`` has been called on a read-only subdevice.
-> >  
-> >  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-> >  
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-g-std.rst b/Documentation/media/uapi/v4l/vidioc-g-std.rst
-> > index e633e42e3910..e220b38b859f 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-g-std.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-g-std.rst
-> > @@ -66,6 +66,9 @@ video timings (e.g. if :ref:`VIDIOC_ENUMINPUT`
-> >  does not set the ``V4L2_IN_CAP_STD`` flag), then ``ENODATA`` error code is
-> >  returned.
-> >  
-> > +Calling ``VIDIOC_SUBDEV_S_STD`` on a subdev device node that has been registered
-> > +in read-only mode is not allowed. An error is returned and the errno variable is
-> > +set to ``-EPERM``.
-> >  
-> >  Return Value
-> >  ============
-> > @@ -79,3 +82,6 @@ EINVAL
-> >  
-> >  ENODATA
-> >      Standard video timings are not supported for this input or output.
-> > +
-> > +EPERM
-> > +    ``VIDIOC_SUBDEV_S_STD`` has been called on a read-only subdevice.
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst
-> > index 632ee053accc..62f5d9870ca7 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst
-> > @@ -73,6 +73,11 @@ crop rectangles and stored in the sub-device file handle. Two
-> >  applications querying the same sub-device would thus not interact with
-> >  each other.
-> >  
-> > +If the subdev device node has been registered in read-only mode calls to
-> > +``VIDIOC_SUBDEV_S_CROP`` are only valid if the ``which`` field is set to
-> > +``V4L2_SUBDEV_FORMAT_TRY``, otherwise an error is returned and the errno
-> > +variable is set to ``-EPERM``.
-> > +
-> >  Drivers must not return an error solely because the requested crop
-> >  rectangle doesn't match the device capabilities. They must instead
-> >  modify the rectangle to match what the hardware can provide. The
-> > @@ -123,3 +128,7 @@ EINVAL
-> >      references a non-existing pad, the ``which`` field references a
-> >      non-existing format, or cropping is not supported on the given
-> >      subdev pad.
-> > +
-> > +EPERM
-> > +    The ``VIDIOC_SUBDEV_S_CROP`` ioctl has been called on a read-only subdevice
-> > +    and the ``which`` field is set to ``V4L2_SUBDEV_FORMAT_ACTIVE``.
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst
-> > index 472577bd1745..3a2f64bb00e7 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst
-> > @@ -78,6 +78,11 @@ current links configuration or sub-device controls value. For instance,
-> >  a low-pass noise filter might crop pixels at the frame boundaries,
-> >  modifying its output frame size.
-> >  
-> > +If the subdev device node has been registered in read-only mode calls to
-> > +``VIDIOC_SUBDEV_S_FMT`` are only valid if the ``which`` field is set to
-> > +``V4L2_SUBDEV_FORMAT_TRY``, otherwise an error is returned and the errno
-> > +variable is set to ``-EPERM``.
-> > +
-> >  Drivers must not return an error solely because the requested format
-> >  doesn't match the device capabilities. They must instead modify the
-> >  format to match what the hardware can provide. The modified format
-> > @@ -146,6 +151,9 @@ EINVAL
-> >      ``pad`` references a non-existing pad, or the ``which`` field
-> >      references a non-existing format.
-> >  
-> > +EPERM
-> > +    The ``VIDIOC_SUBDEV_S_FMT`` ioctl has been called on a read-only subdevice
-> > +    and the ``which`` field is set to ``V4L2_SUBDEV_FORMAT_ACTIVE``.
-> >  
-> >  ============
-> >  
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst
-> > index 4b1b4bc78bfe..34aa39096e3d 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst
-> > @@ -65,6 +65,10 @@ struct
-> >  contains the current frame interval as would be returned by a
-> >  ``VIDIOC_SUBDEV_G_FRAME_INTERVAL`` call.
-> >  
-> > +Calling ``VIDIOC_SUBDEV_S_FRAME_INTERVAL`` on a subdev device node that has been
-> > +registered in read-only mode is not allowed. An error is returned and the errno
-> > +variable is set to ``-EPERM``.
-> > +
-> >  Drivers must not return an error solely because the requested interval
-> >  doesn't match the device capabilities. They must instead modify the
-> >  interval to match what the hardware can provide. The modified interval
-> > @@ -118,3 +122,7 @@ EINVAL
-> >      :c:type:`v4l2_subdev_frame_interval`
-> >      ``pad`` references a non-existing pad, or the pad doesn't support
-> >      frame intervals.
-> > +
-> > +EPERM
-> > +    The ``VIDIOC_SUBDEV_S_FRAME_INTERVAL`` ioctl has been called on a read-only
-> > +    subdevice.
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst
-> > index fc73d27e6d74..abd046cef612 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst
-> > @@ -53,6 +53,10 @@ function of the crop API, and more, are supported by the selections API.
-> >  See :ref:`subdev` for more information on how each selection target
-> >  affects the image processing pipeline inside the subdevice.
-> >  
-> > +If the subdev device node has been registered in read-only mode calls to
-> > +``VIDIOC_SUBDEV_S_SELECTION`` are only valid if the ``which`` field is set to
-> > +``V4L2_SUBDEV_FORMAT_TRY``, otherwise an error is returned and the errno
-> > +variable is set to ``-EPERM``.
-> >  
-> >  Types of selection targets
-> >  --------------------------
-> > @@ -123,3 +127,7 @@ EINVAL
-> >      ``pad`` references a non-existing pad, the ``which`` field
-> >      references a non-existing format, or the selection target is not
-> >      supported on the given subdev pad.
-> > +
-> > +EPERM
-> > +    The ``VIDIOC_SUBDEV_S_SELECTION`` ioctl has been called on a read-only
-> > +    subdevice and the ``which`` field is set to ``V4L2_SUBDEV_FORMAT_ACTIVE``.
-> 
-> This looks good, but you also need to explain the read-only subdev API
-> in dev-subdev.rst.
-> 
-> diff --git a/Documentation/media/uapi/v4l/dev-subdev.rst b/Documentation/media/uapi/v4l/dev-subdev.rst
-> index 029bb2d9928a..6082f9c2f8f4 100644
-> --- a/Documentation/media/uapi/v4l/dev-subdev.rst
-> +++ b/Documentation/media/uapi/v4l/dev-subdev.rst
-> @@ -39,6 +39,11 @@ will feature a character device node on which ioctls can be called to
->  Sub-device character device nodes, conventionally named
->  ``/dev/v4l-subdev*``, use major number 81.
->  
-> +Drivers may opt to limit the sub-device character devices to only expose
-> +operations that don't modify the device state. In such a case the sub-devices
-> +are referred to as ``read-only`` in the rest of this documentation, and the
-> +related restrictions are documented in individual ioctls.
-> +
->  
->  Controls
->  ========
-> 
+I would then go for them then
 
--- 
-Regards,
+> >  		err = __video_register_device(vdev, VFL_TYPE_SUBDEV, -1, 1,
+> >  					      sd->owner);
+> >  		if (err < 0) {
+> > @@ -254,8 +257,19 @@ int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+> >
+> >  	return err;
+> >  }
+> > +
+> > +int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+> > +{
+> > +	return __v4l2_device_register_subdev_nodes(v4l2_dev, false);
+> > +}
+> >  EXPORT_SYMBOL_GPL(v4l2_device_register_subdev_nodes);
+> >
+> > +int v4l2_device_register_ro_subdev_nodes(struct v4l2_device *v4l2_dev)
+> > +{
+> > +	return __v4l2_device_register_subdev_nodes(v4l2_dev, true);
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_device_register_ro_subdev_nodes);
+>
+> I would export __v4l2_device_register_subdev_nodes and implement these
+> two functions as static inline in include/media/v4l2-device.h.
+>
 
-Laurent Pinchart
+Good point we could save a function call.
+
+> > +
+> >  void v4l2_device_unregister_subdev(struct v4l2_subdev *sd)
+> >  {
+> >  	struct v4l2_device *v4l2_dev;
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index f725cd9b66b9..9247ee6c293f 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -331,6 +331,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  	struct v4l2_fh *vfh = file->private_data;
+> >  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> >  	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+> > +	bool ro_devnode = !!(vdev->flags & V4L2_FL_RO_DEVNODE);
+>
+> Same here, BIT(V4L2_FL_RO_DEVNODE).
+>
+> I would name the variable ro_api to emphasize this is not about the
+> device node being read-only (in the sense of POSIX file permissions).
+>
+
+Ack, even if I would like ro_subdev a bit more. Anyway bikesheeding on
+variable names, ro_api is fine.
+
+Thanks
+  j
+
+
+> >  	int rval;
+> >  #endif
+> >
+> > @@ -453,6 +454,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  	case VIDIOC_SUBDEV_S_FMT: {
+> >  		struct v4l2_subdev_format *format = arg;
+> >
+> > +		if (format->which != V4L2_SUBDEV_FORMAT_TRY && ro_devnode)
+> > +			return -EPERM;
+> > +
+> >  		memset(format->reserved, 0, sizeof(format->reserved));
+> >  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> >  		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
+> > @@ -480,6 +484,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  		struct v4l2_subdev_crop *crop = arg;
+> >  		struct v4l2_subdev_selection sel;
+> >
+> > +		if (crop->which != V4L2_SUBDEV_FORMAT_TRY && ro_devnode)
+> > +			return -EPERM;
+> > +
+> >  		memset(crop->reserved, 0, sizeof(crop->reserved));
+> >  		memset(&sel, 0, sizeof(sel));
+> >  		sel.which = crop->which;
+> > @@ -521,6 +528,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  	case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
+> >  		struct v4l2_subdev_frame_interval *fi = arg;
+> >
+> > +		if (ro_devnode)
+> > +			return -EPERM;
+> > +
+> >  		memset(fi->reserved, 0, sizeof(fi->reserved));
+> >  		return v4l2_subdev_call(sd, video, s_frame_interval, arg);
+> >  	}
+> > @@ -544,6 +554,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  	case VIDIOC_SUBDEV_S_SELECTION: {
+> >  		struct v4l2_subdev_selection *sel = arg;
+> >
+> > +		if (sel->which != V4L2_SUBDEV_FORMAT_TRY && ro_devnode)
+> > +			return -EPERM;
+> > +
+> >  		memset(sel->reserved, 0, sizeof(sel->reserved));
+> >  		return v4l2_subdev_call(
+> >  			sd, pad, set_selection, subdev_fh->pad, sel);
+> > @@ -580,6 +593,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  		return v4l2_subdev_call(sd, video, g_dv_timings, arg);
+> >
+> >  	case VIDIOC_SUBDEV_S_DV_TIMINGS:
+> > +		if (ro_devnode)
+> > +			return -EPERM;
+> > +
+> >  		return v4l2_subdev_call(sd, video, s_dv_timings, arg);
+> >
+> >  	case VIDIOC_SUBDEV_G_STD:
+> > @@ -588,6 +604,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >  	case VIDIOC_SUBDEV_S_STD: {
+> >  		v4l2_std_id *std = arg;
+> >
+> > +		if (ro_devnode)
+> > +			return -EPERM;
+> > +
+> >  		return v4l2_subdev_call(sd, video, s_std, *std);
+> >  	}
+> >
+> > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> > index 48531e57cc5a..029873a338f2 100644
+> > --- a/include/media/v4l2-dev.h
+> > +++ b/include/media/v4l2-dev.h
+> > @@ -82,11 +82,18 @@ struct v4l2_ctrl_handler;
+> >   *	but the old crop API will still work as expected in order to preserve
+> >   *	backwards compatibility.
+> >   *	Never set this flag for new drivers.
+> > + * @V4L2_FL_RO_DEVNODE:
+> > + *	indicates that the video device node is registered in read-only mode.
+> > + *	The flag only applies to device nodes registered for sub-devices, it is
+> > + *	set by the core when the sub-devices device nodes are registered with
+> > + *	v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
+> > + *	handler to restrict access to some ioctl calls.
+> >   */
+> >  enum v4l2_video_device_flags {
+> >  	V4L2_FL_REGISTERED		= 0,
+> >  	V4L2_FL_USES_V4L2_FH		= 1,
+> >  	V4L2_FL_QUIRK_INVERTED_CROP	= 2,
+> > +	V4L2_FL_RO_DEVNODE		= 3,
+> >  };
+> >
+> >  /* Priority helper functions */
+> > diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
+> > index e0b8f2602670..0df667ba9938 100644
+> > --- a/include/media/v4l2-device.h
+> > +++ b/include/media/v4l2-device.h
+> > @@ -183,6 +183,16 @@ void v4l2_device_unregister_subdev(struct v4l2_subdev *sd);
+> >  int __must_check
+> >  v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev);
+> >
+> > +/**
+> > + * v4l2_device_register_ro_subdev_nodes - Registers read-only device nodes for
+> > + *      all subdevs of the v4l2 device that are marked with the
+> > + *      %V4L2_SUBDEV_FL_HAS_DEVNODE flag.
+> > + *
+> > + * @v4l2_dev: pointer to struct v4l2_device
+> > + */
+> > +int __must_check
+> > +v4l2_device_register_ro_subdev_nodes(struct v4l2_device *v4l2_dev);
+> > +
+> >  /**
+> >   * v4l2_subdev_notify - Sends a notification to v4l2_device.
+> >   *
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
