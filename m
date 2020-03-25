@@ -2,184 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6DD193136
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 20:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A245193149
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 20:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbgCYTgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 15:36:48 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:38494 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727281AbgCYTgr (ORCPT
+        id S1727541AbgCYTn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 15:43:28 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37619 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727236AbgCYTn2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 15:36:47 -0400
-Received: from [IPv6:2804:431:e7cc:972:9d5e:9691:eec8:dd70] (unknown [IPv6:2804:431:e7cc:972:9d5e:9691:eec8:dd70])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CE96129718F;
-        Wed, 25 Mar 2020 19:36:36 +0000 (GMT)
-Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Yong Deng <yong.deng@magewell.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <cover.1585151701.git.mchehab+huawei@kernel.org>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
-Date:   Wed, 25 Mar 2020 16:36:31 -0300
+        Wed, 25 Mar 2020 15:43:28 -0400
+Received: by mail-lj1-f194.google.com with SMTP id r24so3885930ljd.4;
+        Wed, 25 Mar 2020 12:43:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iOneQkgu81OkUpAJwJMMMqvZuhai2Fs8dCS/2N+5OpE=;
+        b=sE7Ldf+g5xXUlgrOhgxrUtrz3LrZaBVWTDibYdk5kTO6NfTwat88fMUaLVcScOBqkN
+         QUBGdAxU+nRzHoajnAzWCSWNahA1XyJijsxPVgEAuYJZGa+XhR/q7gQIgeS6v++LEDAW
+         25uoPaOvtsppD1Q6hM5gtNIRC3nQZ1ergaTjUty3JpfgfKpLQR6ZTkt148Va7wRIbkwS
+         QwybV7EuqDmQr74jORTcxNJOgpe6EZSAEh1YwGseMhtBjZQxrcKrX3u2di2HChYKcHSH
+         0wd2jWvrhCAUOH+6snkZaF2s/1iJ+zkQkQ1xhGV6Up4HD1/5U1QjjpHd/9FpyFU24umt
+         E7eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iOneQkgu81OkUpAJwJMMMqvZuhai2Fs8dCS/2N+5OpE=;
+        b=jYQCOIwV5hYi+jl0dpgc5h8hZZL+BapJqyIFxX9f/JHUjMEajetXRhgPFYuLRCOCkc
+         mUh2K7MZwQ3HgFf01lJNyYjZLIjLPVvVSgdHBp/STS8sVRVeH09xAYg60xUH7kUdqwwx
+         u0wEXQWDiMHBTMYfhZ8UdoYlM3kLuh2jtBvMFRsLYsOjbqN8n/O1hUAwONMJ/yyBdr5D
+         DXj3kKLniTuTj9e9aSquF9vM7xIq7+1Og8vZ7jASszGPcUMuAQ9O6nX/SIxJCMfMV4NK
+         Y7DNfxW6jlRtXD+i/g+dysnJqvzWxHuWl/9ep+cgxp6yvGi8xiiQDFs5TwVAm71Syj2A
+         yr4A==
+X-Gm-Message-State: AGi0PuZeaIM/tFGP7QD/YCBSfonjaKP+SI6MHK24e6XocWVFamOVqs6A
+        O+GZgnFcK4C2pTRseraepeD7l1tcgYU=
+X-Google-Smtp-Source: APiQypJOX/JZ7gyO+5CYBBAesaASBAWWtv+2hbVcKVQZAj1tIg89BvEqhaznZLQjU4PKjLNyuCnS3g==
+X-Received: by 2002:a2e:87c5:: with SMTP id v5mr2964473ljj.166.1585165404437;
+        Wed, 25 Mar 2020 12:43:24 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id e1sm97237ljo.16.2020.03.25.12.43.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Mar 2020 12:43:23 -0700 (PDT)
+Subject: Re: [RFC PATCH v5 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-7-git-send-email-skomatineni@nvidia.com>
+ <8f44e42d-2008-fe53-f4fb-b57502da91a8@gmail.com>
+ <5695fc27-6839-dda3-9d06-77ef36ecfd43@nvidia.com>
+ <f59eb7fa-5b26-60e4-771f-f6f9ecfa0b5f@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <265b13e7-633f-5fa4-8df9-e461bf7e386a@gmail.com>
+Date:   Wed, 25 Mar 2020 22:43:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1585151701.git.mchehab+huawei@kernel.org>
+In-Reply-To: <f59eb7fa-5b26-60e4-771f-f6f9ecfa0b5f@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
-> That's the second part of media Kconfig changes. The entire series is
-> at:
+25.03.2020 04:15, Sowjanya Komatineni пишет:
 > 
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
+> On 3/24/20 6:08 PM, Sowjanya Komatineni wrote:
+>>
+>> On 3/24/20 5:34 PM, Dmitry Osipenko wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> 23.03.2020 20:52, Sowjanya Komatineni пишет:
+>>>> +static void tegra_channel_vi_soft_reset(struct tegra_vi_channel *chan)
+>>>> +{
+>>>> +     /* disable clock gating to enable continuous clock */
+>>>> +     tegra_vi_write(chan, TEGRA_VI_CFG_CG_CTRL, 0);
+>>>> +     /*
+>>>> +      * Soft reset memory client interface, pixel format logic, sensor
+>>>> +      * control logic, and a shadow copy logic to bring VI to clean
+>>>> state.
+>>>> +      */
+>>>> +     vi_csi_write(chan, TEGRA_VI_CSI_SW_RESET, 0xf);
+>>>> +     usleep_range(100, 200);
+>>>> +     vi_csi_write(chan, TEGRA_VI_CSI_SW_RESET, 0x0);
+>>> Is it safe to reset MCCIF without blocking and flushing memory requests
+>>> at first?
+>> Yes to bring VI to clean state on errors its recommended by HW design
+>> team.
+> BTW, just to be clear this is Software reset.
 
-I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
-I asked him to enable Vimc (from default configs, where multimedia starts disabled).
-He knows that Vimc is a virtual camera driver, and this is how he behaved:
-
-=== Start of experiment:
-
-* He pressed '/' and searched for vimc to see the location path.
-* Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
-* He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
-* He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
-* He seemed a bit lost, going back and forth in the menus a couple of times.
-* Then he pressed '/' again to search for vimc and see the location path, and he realized that there
-should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
-* He went back to "Media device types" again and start re-reading the options.
-* He selected "Cameras and video grabbers" ant went back to "Media drivers".
-* He sees "V4L test drivers", selects it, and enter this menu.
-* He selects "Virtual Media Controller Driver".
-
-I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
-to combine "Test drivers" with "Cameras and video grabbers".
-He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
-
-Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
-realized by himself until that moment, nor tried it out to see what would happen).
-
-He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
-He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.
-
-=== End of experiment
-
-This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
-and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
-kernel development (kernel dev newbies for instance).
-
-Just another remark from me:
-
-From the default config, "Media drivers" shows USB and PCI, and selecting those doesn't do anything, and people can even think
-that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
-shows up.
-
-I hope this helps
-Helen
-
-
-> 
-> It addresses some issues I noticed when reviewing the series, and do
-> some changes on how things will be displayed.
-> 
-> It also simplify dependencencies on media-controller-dependent drivers,
-> by auto-selecting the needed deps.
-> 
-> It should be noticed that the media controller may also optionally
-> selected for several other drivers, so there is still a prompt to allow
-> manually enabling it, in the case it was not auto-selected.
-> 
-> PS.: While not needed anymore, because all dependent drivers auto
-> select, at least for now, I opted to keep the prompt for:
-> 
-> - VIDEO_V4L2_SUBDEV_API
-> 
->   The rationale is that there are a few drivers that can optionally depend
->   on it (like tvp5150). So, better to keep the dependency, in order to be
->   able to test those drivers with and without the option.
-> 
-> - MEDIA_CONTROLLER_REQUEST_API
-> 
->   The rationale is that there are some warnings at the Request API, and
->   it would be good to keep it, at least while drivers are on staging.
-> 
-> Mauro Carvalho Chehab (4):
->   media: dvb-core: Kconfig: default to use dynamic minors
->   media: Kconfig files: use select for V4L2 subdevs and MC
->   media: i2c/Kconfig: reorganize items there
->   media: Kconfig: don't use visible for device type select
-> 
->  drivers/media/Kconfig                         |  25 +-
->  drivers/media/dvb-core/Kconfig                |   1 +
->  drivers/media/i2c/Kconfig                     | 406 +++++++++++-------
->  drivers/media/i2c/et8ek8/Kconfig              |   4 +-
->  drivers/media/i2c/m5mols/Kconfig              |   5 +-
->  drivers/media/i2c/smiapp/Kconfig              |   5 +-
->  drivers/media/pci/cobalt/Kconfig              |   4 +-
->  drivers/media/pci/intel/ipu3/Kconfig          |   4 +-
->  drivers/media/pci/sta2x11/Kconfig             |   6 +-
->  drivers/media/platform/Kconfig                |  28 +-
->  drivers/media/platform/am437x/Kconfig         |   4 +-
->  drivers/media/platform/atmel/Kconfig          |   4 +-
->  drivers/media/platform/cadence/Kconfig        |   8 +-
->  drivers/media/platform/exynos4-is/Kconfig     |   5 +-
->  drivers/media/platform/rcar-vin/Kconfig       |   8 +-
->  .../media/platform/sunxi/sun4i-csi/Kconfig    |   4 +-
->  .../media/platform/sunxi/sun6i-csi/Kconfig    |   4 +-
->  drivers/media/platform/xilinx/Kconfig         |   4 +-
->  drivers/media/spi/Kconfig                     |   4 +-
->  drivers/media/test_drivers/vimc/Kconfig       |   4 +-
->  drivers/staging/media/hantro/Kconfig          |   5 +-
->  drivers/staging/media/imx/Kconfig             |   5 +-
->  drivers/staging/media/ipu3/Kconfig            |   3 +-
->  drivers/staging/media/omap4iss/Kconfig        |   4 +-
->  drivers/staging/media/rkisp1/Kconfig          |   4 +-
->  drivers/staging/media/sunxi/cedrus/Kconfig    |   5 +-
->  26 files changed, 349 insertions(+), 214 deletions(-)
-> 
+Ok
