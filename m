@@ -2,193 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C7FC192A5A
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 14:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8914192A6E
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 14:51:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727430AbgCYNtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 09:49:00 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37127 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727097AbgCYNtA (ORCPT
+        id S1727420AbgCYNvF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 09:51:05 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:32881 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727360AbgCYNvF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 09:49:00 -0400
-Received: by mail-qt1-f195.google.com with SMTP id z24so895672qtu.4
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 06:48:59 -0700 (PDT)
+        Wed, 25 Mar 2020 09:51:05 -0400
+Received: by mail-wr1-f68.google.com with SMTP id a25so3234903wrd.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 06:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=aqwoIFeWasu7LFGFPdHVV0Lyd6mKkML5MpjpybFPze8=;
-        b=EE74JW5sNUSawE/nieOmfd+x2MIF880p7qtUdiqMYpYg6462zQ2kLJOkZBp/zZ8luR
-         LeLF/vFfOcLYUdB62zmY3K51QFgSZmG/iP4GGx+I5a0SE92IP0U4RF+7aM2l93Qy7Vud
-         nvG2VFeMmjohJfjcA0bvIVnJrlCW4v3YxJX2ttJ7WVlcmnMkkyLf4udfKgZJ/2hbbbxA
-         rCT2KtINfMQhgJ3CW1CthXBftOq80dz84C2ah45qIhat6XDiKK88vUbHCHvBUfpTJm+4
-         sEemxlKWAnJ7BDYhfbS0cKaPeCpokGUgyvW0dQfjILwPQGskDrXNcOe8Zz1MyWcy3S/N
-         MB5g==
+         :cc;
+        bh=lOsNC531XACTtIuPtUgZeHVrQrHshlecbxgyHUHhDKA=;
+        b=JVMOBqei+k17yKCYfOCH6y3ZOzWuShrL6SI0fMqpEDRvkgqx9284/0BRaUJM49gmvh
+         SDtT5s2jpJeQHOREET2kI4XUs8HQH2OOjd/MBT/rBwrYPJivWhPvOtx/MaJPr/fGDsNr
+         m/OqdtYmtqkSDDmS8wRwbi0O51GggH7jnm1iT6I3Nl6590mIlJrvJpx8CmQiMpKKV5NK
+         JbvyPnawG+iDnRTW41aTGTMo0u0qNDpdxQTGJfVZCFpVbfFk/hRmLG3p7z6RsFlv+YN7
+         MU7il0v7QY9ejsmFD50OT5EPQYX8oy+s/ppjt7XSvc7JGZIlrcSD116EKzMqDCwFzPCB
+         yhsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=aqwoIFeWasu7LFGFPdHVV0Lyd6mKkML5MpjpybFPze8=;
-        b=m7PIivW+jHPplohVqaJpeui6LQYVo9MdfAuk/skzuVsz6lXJxI7s4yeJQIPQ2uge5r
-         GcFXpwsyJ/VmdktbLz6OG6Z3Hn3n5uBc+jyCMqS4O1LerE/zMjb/3m/StJSeOFUTAvSm
-         Zu+PVRvqLsuReqL3yCqW3m89HUc7tmBDenXuykFCtI0DaHlmQWtwaIT052DZb9TgKXvU
-         RlhO4nNlwBdhBSTeSo+WL75N5W81VDWcq0BmqRcDTxOFiv3kz1Gtd3E6lc0pLWE8fNBD
-         WRsmTnknQAGl1lKNn4jzyFY7e+lsjpRY9wUEeQV/XU04GKSnKnLPRh5m73KJAxCVPzIB
-         DBMQ==
-X-Gm-Message-State: ANhLgQ2c/mbi+lypEiGV8bPHMRUld1oUgThFJnwXwvsERuJJDyRA6jGr
-        sNFxlu2tn6pVpuzqYBVrNEUqCshx4RmWKzFCMRZH3Q==
-X-Google-Smtp-Source: ADFU+vsE+BgKySCoO4pRBagePhRdwuGbjDKSjEAF01BWlpD26chP3U1ysGLrMg10mGmwQ1lasf+U/m2D1z5qMj0K+oU=
-X-Received: by 2002:aed:3c4b:: with SMTP id u11mr2955112qte.208.1585144138478;
- Wed, 25 Mar 2020 06:48:58 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=lOsNC531XACTtIuPtUgZeHVrQrHshlecbxgyHUHhDKA=;
+        b=Njs55qKAggvzj0BA7i1xRFWjyp1ltif3O7ZBGBISPI6vaZoODuWRoFRoRwg1kFyxCR
+         qATqtLh6HMxG8QYAMiVUjOiSAddWFXGGBptHao6b+HLZ4hH9ojhmkEE1Cr5fxkfgiO4D
+         gkwzxqANgPbXsyZW9RLvMlSBxS3ePo1So1lkg69m7yWJzblGPC08jjXXlZ2bza5LznbB
+         QsDS7wX7ksIH6OpbJRJLudZg2vDzKbmZAqrym4tKDjrLCh8tZYQO+NagkPnUnORXKAKR
+         lY79Zl+ShPen4wxqekWot/2wXEGRTlulDMGRINWk+dA/Sy9ilQhhK68qV0++ezjc0oGI
+         agvg==
+X-Gm-Message-State: ANhLgQ2qvmVi78LZpAgTaUoxwmrz53QqCjz7ddp2V+48EOygFZDPv4ZX
+        f7OSPOckb6AODg1SAJR19ruI8yBsa5kIW5vO/65fyw==
+X-Google-Smtp-Source: ADFU+vueNW+ud3adc9sdMQGJpfGgl8pZxjCLD1WyE2eGeE9k+4E8bJq+1frTxYs8uznWf6pRZX9wnqRRnofKdjL1lYc=
+X-Received: by 2002:a5d:490f:: with SMTP id x15mr1360714wrq.47.1585144262458;
+ Wed, 25 Mar 2020 06:51:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200121134157.20396-1-sakari.ailus@linux.intel.com>
- <20200121134157.20396-6-sakari.ailus@linux.intel.com> <CAMpxmJU5dG49N2FA0oSQsOfKrCr3KQ1BisON4c+nUJJmZQG=bQ@mail.gmail.com>
- <20200311085555.GH5379@paasikivi.fi.intel.com> <CAMpxmJVPTKW+sYSJ3dnfF8nLAOKEa4Ob7bpxG0KD3Tkdm+rtYw@mail.gmail.com>
- <20200323213101.GB21174@kekkonen.localdomain>
-In-Reply-To: <20200323213101.GB21174@kekkonen.localdomain>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 25 Mar 2020 14:48:47 +0100
-Message-ID: <CAMpxmJVdyTkZMVuhSy0Ux8VUYTmQN_YEfH-akQsAL3zrwiz8Dw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/6] at24: Support probing while off
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>, linux-acpi@vger.kernel.org,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Hyungwoo Yang <hyungwoo.yang@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>
+References: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
+ <20190916115207.GO843@valkosipuli.retiisi.org.uk> <2c0da850-7073-0fc6-7246-9e530a54cf26@xs4all.nl>
+ <CAPY8ntCOAeq1OLS4dn846ubujnbUxSwMu-Tfb9fcNgaDcn3_JQ@mail.gmail.com>
+In-Reply-To: <CAPY8ntCOAeq1OLS4dn846ubujnbUxSwMu-Tfb9fcNgaDcn3_JQ@mail.gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 25 Mar 2020 13:50:44 +0000
+Message-ID: <CAPY8ntCL+j=hia=WHJnpcGosD7hTxR2-aJWYrY+E3qpT-+g=0Q@mail.gmail.com>
+Subject: Re: [PATCHv2 0/2] Add helper functions to print a fourcc
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pon., 23 mar 2020 o 22:31 Sakari Ailus <sakari.ailus@linux.intel.com>
-napisa=C5=82(a):
+On Wed, 29 Jan 2020 at 11:52, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
 >
-> Bartosz,
+> Hi Hans.
 >
-> On Thu, Mar 12, 2020 at 02:10:32PM +0100, Bartosz Golaszewski wrote:
-> > =C5=9Br., 11 mar 2020 o 09:56 Sakari Ailus <sakari.ailus@linux.intel.co=
-m> napisa=C5=82(a):
-> > >
-> > > Hi Bartosz,
-> > >
-> > > Thanks for the reply.
-> > >
-> > > On Wed, Jan 29, 2020 at 02:36:17PM +0100, Bartosz Golaszewski wrote:
-> > > > wt., 21 sty 2020 o 14:41 Sakari Ailus <sakari.ailus@linux.intel.com=
-> napisa=C5=82(a):
-> > > > >
-> > > > > In certain use cases (where the chip is part of a camera module, =
-and the
-> > > > > camera module is wired together with a camera privacy LED), power=
-ing on
-> > > > > the device during probe is undesirable. Add support for the at24 =
-to
-> > > > > execute probe while being powered off. For this to happen, a hint=
- in form
-> > > > > of a device property is required from the firmware.
-> > > > >
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  drivers/misc/eeprom/at24.c | 31 +++++++++++++++++++++----------
+> On Mon, 16 Sep 2019 at 13:00, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
 > >
-> > [snip!]
-> >
-> > > > >
-> > > > >  static int at24_remove(struct i2c_client *client)
-> > > > >  {
-> > > > > +       bool low_power;
-> > > > > +
-> > > > >         pm_runtime_disable(&client->dev);
-> > > > > -       pm_runtime_set_suspended(&client->dev);
-> > > > > +       low_power =3D acpi_dev_state_low_power(&client->dev);
-> > > >
-> > > > This is inconsistent. You define the low_power field in the context
-> > > > structure (BTW the name low_power is a bit vague here - without
-> > > > looking at its assignment it would make me think it's about somethi=
-ng
-> > > > battery-related, how about 'off_at_probe'?) and instead of reusing
+> > On 9/16/19 1:52 PM, Sakari Ailus wrote:
+> > > On Mon, Sep 16, 2019 at 12:04:31PM +0200, Hans Verkuil wrote:
+> > >> It turns out that Sakari posted a newer patch in 2018. I used that
+> > >> for this v2: https://patchwork.linuxtv.org/patch/48372/
+> > >>
+> > >> Mauro commented on that original patch that there was no need to
+> > >> have this available for userspace.
+> > >>
+> > >> I disagree: why wouldn't userspace want to report pixelformats?
+> > >>
+> > >> It happens in several places in v4l-utils, and there the pixelformats are
+> > >> printed in different ways as well. Providing a standard way of reporting
+> > >> a V4L2 fourcc is very useful.
 > > >
-> > > The field was called probe_powered_off in v1, but I changed it to
-> > > probe_low_power (and renamed related functions etc.) based on review
-> > > comments --- for the device may not be powered off actually.
+> > > Thanks, Hans!
+> > >
+> > > Can you take these to your tree (perhaps pending some sort of agreement
+> > > with Mauro)?
 > > >
 > >
-> > But is it actually ever low-power? What are the possible logical
-> > states of the device? If I understood correctly: it's either off or on
-> > at probe - not actually low-power. Am I missing something? In your
-> > cover letter you're writing: "These patches enable calling (and
-> > finishing) a driver's probe function without powering on the
-> > respective device on busses where the practice is to power on the
-> > device for probe." To me there's no mention of a low-power state,
-> > which makes the name 'probe_low_power' seem completely unrelated.
->
-> See <URL:https://patchwork.kernel.org/patch/10938483/>
->
-> I've updated the patches according to the comments but did not update the
-> cover page accordingly.
->
-
-I see.
-
-Rafael: I think that there are two issues with patch 1/5:
-1. It adds a very specific boolean flag to a structure that's meant to
-be very general. As I pointed out in the i2c patch: at the very least
-this could be made into an int storing flag values, instead of a
-boolean field. But rather than that - it looks to me more like a
-device (or bus) feature than a driver feature. Is there any ACPI flag
-we could use to pass this information to the driver model without
-changing the driver structure?
-2. The name is still misleading: probe_low_power doesn't correspond
-with what it actually does at all (neither did power_off). I'd go with
-something like probe_allow_low_power.
-
-> Generally drivers are interested whether a device is powered on so it can
-> be accessed, but the actual power state of the device isn't known to the
-> driver when it is, well, not in an operational state. A device may be
-> powered from a regulator that is always enabled, for instance.
->
+> > Certainly.
 > >
-> > > > this field here, you call acpi_dev_state_low_power() again. Either
-> > > > don't store the context for the life-time of the device if not
-> > > > necessary or don't call acpi_dev_state_low_power() at remove, altho=
-ugh
-> > > > the commit message doesn't describe whether the latter is done on
-> > > > purpose.
-> > >
-> > > Right. probe-low-power property has the same effect on remove for
-> > > consistency, i.e. the device can remain in low power state during rem=
-ove.
-> > > This is documented in probe_low_power field documentation in the firs=
-t
-> > > patch.
-> > >
-> >
-> > Just please don't store any state if you're not using it outside of
-> > the probe() function.
+> >         Hans
 >
-> What exactly are you referring to? The patch adds a local variable to the
-> driver's probe and remove functions.
+> What happened to these? Patchwork is flagging them as rejected[1], but
+> there's only been positive responses to them on the mailing list.
+
+Ping. Why were these patches rejected?
+  Dave
+
+> Thanks.
+>   Dave
 >
-
-Yes, sorry, I looked at the patch and somehow thought it adds a new
-field to the data structure and then doesn't reuse it. My bad. Maybe
-it was a previous version IDK.
-
-
-Bartosz
-
-> --
-> Kind regards,
->
-> Sakari Ailus
+> [1] https://patchwork.linuxtv.org/patch/58781/ and
+> https://patchwork.linuxtv.org/patch/58780/
