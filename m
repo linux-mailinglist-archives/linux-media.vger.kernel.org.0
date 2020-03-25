@@ -2,102 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8914192A6E
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 14:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB16B192A71
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 14:52:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbgCYNvF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 09:51:05 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:32881 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727360AbgCYNvF (ORCPT
+        id S1727374AbgCYNwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 09:52:01 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40025 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727316AbgCYNwB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 09:51:05 -0400
-Received: by mail-wr1-f68.google.com with SMTP id a25so3234903wrd.0
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 06:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lOsNC531XACTtIuPtUgZeHVrQrHshlecbxgyHUHhDKA=;
-        b=JVMOBqei+k17yKCYfOCH6y3ZOzWuShrL6SI0fMqpEDRvkgqx9284/0BRaUJM49gmvh
-         SDtT5s2jpJeQHOREET2kI4XUs8HQH2OOjd/MBT/rBwrYPJivWhPvOtx/MaJPr/fGDsNr
-         m/OqdtYmtqkSDDmS8wRwbi0O51GggH7jnm1iT6I3Nl6590mIlJrvJpx8CmQiMpKKV5NK
-         JbvyPnawG+iDnRTW41aTGTMo0u0qNDpdxQTGJfVZCFpVbfFk/hRmLG3p7z6RsFlv+YN7
-         MU7il0v7QY9ejsmFD50OT5EPQYX8oy+s/ppjt7XSvc7JGZIlrcSD116EKzMqDCwFzPCB
-         yhsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lOsNC531XACTtIuPtUgZeHVrQrHshlecbxgyHUHhDKA=;
-        b=Njs55qKAggvzj0BA7i1xRFWjyp1ltif3O7ZBGBISPI6vaZoODuWRoFRoRwg1kFyxCR
-         qATqtLh6HMxG8QYAMiVUjOiSAddWFXGGBptHao6b+HLZ4hH9ojhmkEE1Cr5fxkfgiO4D
-         gkwzxqANgPbXsyZW9RLvMlSBxS3ePo1So1lkg69m7yWJzblGPC08jjXXlZ2bza5LznbB
-         QsDS7wX7ksIH6OpbJRJLudZg2vDzKbmZAqrym4tKDjrLCh8tZYQO+NagkPnUnORXKAKR
-         lY79Zl+ShPen4wxqekWot/2wXEGRTlulDMGRINWk+dA/Sy9ilQhhK68qV0++ezjc0oGI
-         agvg==
-X-Gm-Message-State: ANhLgQ2qvmVi78LZpAgTaUoxwmrz53QqCjz7ddp2V+48EOygFZDPv4ZX
-        f7OSPOckb6AODg1SAJR19ruI8yBsa5kIW5vO/65fyw==
-X-Google-Smtp-Source: ADFU+vueNW+ud3adc9sdMQGJpfGgl8pZxjCLD1WyE2eGeE9k+4E8bJq+1frTxYs8uznWf6pRZX9wnqRRnofKdjL1lYc=
-X-Received: by 2002:a5d:490f:: with SMTP id x15mr1360714wrq.47.1585144262458;
- Wed, 25 Mar 2020 06:51:02 -0700 (PDT)
+        Wed, 25 Mar 2020 09:52:01 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id H6RnjMKHiLu1fH6Rrj05ps; Wed, 25 Mar 2020 14:51:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585144319; bh=E82g3bAlHQRhLwgWcS4OMvuWyXjxuvCJu7c42w5wcdc=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=YDejTGv6hLnsFwvk5PJHPs/MV2soXlZ/0pc8V5Mb/iKM+iSnrQCxrm//N2m/D/cuJ
+         mibHtORB4VmlK33BD7KYrI9thUCIFfUByDZe0vle5dEKN/rPii4wxo2neNPiXqoviv
+         Vl1Y/jom9Wt0vVKxvFSx0MqfmgnA5zOE9+NTbIhHBSFGo2QY4HVT4WVg8rKjbhIkLR
+         XB61Ov8ha139lwevazDvlJknoZKGQ9ewqo3BaiW1QVqvI773W8LMuu9W2k+NBDJvxV
+         ++bYcvV6gE6Yh/EMVIe+jE1Bq/3Feu/vCTyNX+et081Tcrb83Zd4mWaVHBuFu4CzsW
+         beAdleGtNqnGw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.7] ti-vpe/cal and imx7-mipi-csis cleanups/fixes
+Message-ID: <64c740ae-3ebd-cec3-14f4-e65f2cb53af3@xs4all.nl>
+Date:   Wed, 25 Mar 2020 14:51:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
- <20190916115207.GO843@valkosipuli.retiisi.org.uk> <2c0da850-7073-0fc6-7246-9e530a54cf26@xs4all.nl>
- <CAPY8ntCOAeq1OLS4dn846ubujnbUxSwMu-Tfb9fcNgaDcn3_JQ@mail.gmail.com>
-In-Reply-To: <CAPY8ntCOAeq1OLS4dn846ubujnbUxSwMu-Tfb9fcNgaDcn3_JQ@mail.gmail.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 25 Mar 2020 13:50:44 +0000
-Message-ID: <CAPY8ntCL+j=hia=WHJnpcGosD7hTxR2-aJWYrY+E3qpT-+g=0Q@mail.gmail.com>
-Subject: Re: [PATCHv2 0/2] Add helper functions to print a fourcc
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHsyeG9/TbHqQajiVNEQd95522nq3KoBS6piG6KgMfx/RQg3imr11WV3O6f4+n+XgypBxR8cUrSsXm4TmItR8mbjUCm6zqiuGKbkabb17iDD92QDzujX
+ mZjQX11htylGnofRP0PAuxRSA1N+vGAvc0p1DKawKw9bsIPJmZ6GgAxTBSw5kj8ojKnvI+09mpZ2c9RxhU41NpQR0IgxEJzB/W6ccuadqV8eTwU++EGPvqKS
+ +f6wOIJvddX7wvDgi7WYPd5/mO4039sPT6PMevdwuHQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 29 Jan 2020 at 11:52, Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Hans.
->
-> On Mon, 16 Sep 2019 at 13:00, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >
-> > On 9/16/19 1:52 PM, Sakari Ailus wrote:
-> > > On Mon, Sep 16, 2019 at 12:04:31PM +0200, Hans Verkuil wrote:
-> > >> It turns out that Sakari posted a newer patch in 2018. I used that
-> > >> for this v2: https://patchwork.linuxtv.org/patch/48372/
-> > >>
-> > >> Mauro commented on that original patch that there was no need to
-> > >> have this available for userspace.
-> > >>
-> > >> I disagree: why wouldn't userspace want to report pixelformats?
-> > >>
-> > >> It happens in several places in v4l-utils, and there the pixelformats are
-> > >> printed in different ways as well. Providing a standard way of reporting
-> > >> a V4L2 fourcc is very useful.
-> > >
-> > > Thanks, Hans!
-> > >
-> > > Can you take these to your tree (perhaps pending some sort of agreement
-> > > with Mauro)?
-> > >
-> >
-> > Certainly.
-> >
-> >         Hans
->
-> What happened to these? Patchwork is flagging them as rejected[1], but
-> there's only been positive responses to them on the mailing list.
+The following changes since commit ad71693f41aa60217eaf1c29afb49b3aa0a2db5d:
 
-Ping. Why were these patches rejected?
-  Dave
+  media: mtk-vpu: load vpu firmware from the new location (2020-03-24 17:11:47 +0100)
 
-> Thanks.
->   Dave
->
-> [1] https://patchwork.linuxtv.org/patch/58781/ and
-> https://patchwork.linuxtv.org/patch/58780/
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7n
+
+for you to fetch changes up to 938b4f6cbbd7c7bd2236f4594ef37431c519f7a7:
+
+  media: ti-vpe: cal: fix stop state timeout (2020-03-25 13:21:59 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Laurent Pinchart (14):
+      media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
+      media: imx: imx7-mipi-csis: Centralize initialization of pad formats
+      media: imx: imx7-mipi-csis: Add missing RAW formats
+      media: imx: imx7-mipi-csis: Expose correct YUV formats
+      media: imx: imx7-mipi-csis: Fix MEDIA_BUS_FMT_UYVY8_2X8 data alignment
+      media: imx: imx7-mipi-csis: Add MEDIA_BUS_FMT_UYVY10_2X10 support
+      media: imx: imx7-mipi-csis: Rename data_alignment field to width
+      media: imx: imx7-mipi-csis: Align image width based on format
+      media: imx: imx7-mipi-csis: Never set MIPI_CSIS_ISPCFG_ALIGN_32BIT
+      media: imx: imx7-mipi-csis: Align macro definitions
+      media: imx: imx7-mipi-csis: Remove link setup on source pad
+      media: imx: imx7-mipi-csis: Cleanup includes
+      media: imx: imx7-mipi-csis: Don't use imx-media-utils helpers
+      media: imx: imx7-mipi-csis: Implement the .enum_mbus_code() operation
+
+Tomi Valkeinen (19):
+      media: ti-vpe: cal: fix DMA memory corruption
+      media: ti-vpe: cal: improve enable_irqs
+      media: ti-vpe: cal: fix use of wrong macro
+      media: ti-vpe: cal: use runtime_resume for errata handling
+      media: ti-vpe: cal: drop cal_runtime_get/put
+      media: ti-vpe: cal: catch error irqs and print errors
+      media: ti-vpe: cal: print errors on timeouts
+      media: ti-vpe: cal: simplify irq handling
+      media: ti-vpe: cal: remove useless CAL_GEN_* macros
+      media: ti-vpe: cal: remove useless IRQ defines
+      media: ti-vpe: cal: use reg_write_field
+      media: ti-vpe: cal: cleanup CIO power enable/disable
+      media: ti-vpe: cal: fix dummy read to phy
+      media: ti-vpe: cal: program number of lines properly
+      media: ti-vpe: cal: set DMA max seg size
+      media: ti-vpe: cal: move code to separate functions
+      media: ti-vpe: cal: improve wait for CIO resetdone
+      media: ti-vpe: cal: improve wait for stop-state
+      media: ti-vpe: cal: fix stop state timeout
+
+ drivers/media/platform/ti-vpe/cal.c        | 397 ++++++++++++++++++++++++++++++---------------------
+ drivers/media/platform/ti-vpe/cal_regs.h   |  21 +--
+ drivers/staging/media/imx/imx7-mipi-csis.c | 446 ++++++++++++++++++++++++++++++++++++----------------------
+ 3 files changed, 518 insertions(+), 346 deletions(-)
