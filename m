@@ -2,104 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB16B192A71
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 14:52:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA61A192AB6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 15:03:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727374AbgCYNwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 09:52:01 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40025 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727316AbgCYNwB (ORCPT
+        id S1727652AbgCYOC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 10:02:57 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:36973 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727539AbgCYOCz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 09:52:01 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id H6RnjMKHiLu1fH6Rrj05ps; Wed, 25 Mar 2020 14:51:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585144319; bh=E82g3bAlHQRhLwgWcS4OMvuWyXjxuvCJu7c42w5wcdc=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=YDejTGv6hLnsFwvk5PJHPs/MV2soXlZ/0pc8V5Mb/iKM+iSnrQCxrm//N2m/D/cuJ
-         mibHtORB4VmlK33BD7KYrI9thUCIFfUByDZe0vle5dEKN/rPii4wxo2neNPiXqoviv
-         Vl1Y/jom9Wt0vVKxvFSx0MqfmgnA5zOE9+NTbIhHBSFGo2QY4HVT4WVg8rKjbhIkLR
-         XB61Ov8ha139lwevazDvlJknoZKGQ9ewqo3BaiW1QVqvI773W8LMuu9W2k+NBDJvxV
-         ++bYcvV6gE6Yh/EMVIe+jE1Bq/3Feu/vCTyNX+et081Tcrb83Zd4mWaVHBuFu4CzsW
-         beAdleGtNqnGw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.7] ti-vpe/cal and imx7-mipi-csis cleanups/fixes
-Message-ID: <64c740ae-3ebd-cec3-14f4-e65f2cb53af3@xs4all.nl>
-Date:   Wed, 25 Mar 2020 14:51:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Wed, 25 Mar 2020 10:02:55 -0400
+Received: by mail-qt1-f194.google.com with SMTP id z24so943717qtu.4
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 07:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=LQq3EFJ59LIxHUdp5oSLSjexBDEoJBV/NBKXaRpQgvc=;
+        b=1OGHB3mXWgyadxhaLY3ieAeTgpSZKH4oRsUgiE3HazXkZEVAwqsCRLErTjKZtIQdyN
+         fbkDrEC6S+VmzZgQboXDr9IDzkdf0gQ5BlpMljeciRq+LbVEaU/k/yarN+NAAI1/jg/7
+         2vSDUIueLoLxp1spvUureG4jyqJ2ViAI7Iz3oUlmnKEZ60/P1Xi5uPW7BQ3FLPvwjlkx
+         jTaYjo4FnyTKvfspmo/7mF6GezdoN0nwoodUN9z1Nd8WV5bJx9mZ+UwoTYYfHeqf/wgP
+         sUG26792imTiGn9U3g/fcpbJb1ds+juIomMff0DjZZ9m1nJqhKVQMY1f61mKiT2dwF0W
+         IRFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LQq3EFJ59LIxHUdp5oSLSjexBDEoJBV/NBKXaRpQgvc=;
+        b=Yij0rfyIffsbiUlRH8cWs4SR7FanC9XhqyS8rXpsMpJ4bGOeH23oMQUV9NZ6131vwN
+         30TNbiKOOxUX0fJPoEE+1j88CWQwW6IRtBBoOQjtefQQOwIK5Zkm36e80HY84251H7Hx
+         D00xtQoRAcBIHFv/YRWPmbvbfCCyfQBKCUpcts5pbPY70zL+lpq/wXOJbrt/cNIMgaxo
+         bgsq1cbw5EyVswDmJLtzNp5VHD/0mHlNFl4RfYewW1Jt79pEuMySD6/nn3ZDAsVXB4wU
+         zNwpRr5XMZqFUkqF0aYuPIQOAQRLqf2+5x02JRTBCzdO76UaAT0bgCQzN7YGK7XP18Ck
+         GIpg==
+X-Gm-Message-State: ANhLgQ11mQoleYLssoPBOO5oLNlnyaXnNeboRFkR/kekRI2G3k3tO+zD
+        wPGrjx4XK0Gg1cApit6h+wkZPA==
+X-Google-Smtp-Source: ADFU+vvlCeU0s4GsVkEXhSCM1T2ufqjJODHpGR+21Q3IE7jl3Boob14Pq3km6w6nKoKmA15mc4/Zvg==
+X-Received: by 2002:ac8:6f46:: with SMTP id n6mr2978711qtv.119.1585144975048;
+        Wed, 25 Mar 2020 07:02:55 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id 79sm15313675qkg.38.2020.03.25.07.02.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2020 07:02:54 -0700 (PDT)
+Message-ID: <0a8f6d97e6869ff694aedd67a3176217a885c938.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 3/8] hantro: Use v4l2_m2m_buf_done_and_job_finish
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Rob Herring <robh@kernel.org>
+Date:   Wed, 25 Mar 2020 10:02:52 -0400
+In-Reply-To: <13b1efe1-8b52-070b-cf11-b230bd405d3e@xs4all.nl>
+References: <20200318132108.21873-1-ezequiel@collabora.com>
+         <20200318132108.21873-4-ezequiel@collabora.com>
+         <13b1efe1-8b52-070b-cf11-b230bd405d3e@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHsyeG9/TbHqQajiVNEQd95522nq3KoBS6piG6KgMfx/RQg3imr11WV3O6f4+n+XgypBxR8cUrSsXm4TmItR8mbjUCm6zqiuGKbkabb17iDD92QDzujX
- mZjQX11htylGnofRP0PAuxRSA1N+vGAvc0p1DKawKw9bsIPJmZ6GgAxTBSw5kj8ojKnvI+09mpZ2c9RxhU41NpQR0IgxEJzB/W6ccuadqV8eTwU++EGPvqKS
- +f6wOIJvddX7wvDgi7WYPd5/mO4039sPT6PMevdwuHQ=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit ad71693f41aa60217eaf1c29afb49b3aa0a2db5d:
+Le mercredi 25 mars 2020 à 09:22 +0100, Hans Verkuil a écrit :
+> On 3/18/20 2:21 PM, Ezequiel Garcia wrote:
+> > Let the core sort out the nuances of returning buffers
+> > to userspace, by using the v4l2_m2m_buf_done_and_job_finish
+> > helper.
+> > 
+> > This change also removes usage of buffer sequence fields,
+> > which shouldn't have any meaning for stateless decoders.
+> 
+> Uh, why remove this? For one, doesn't this cause fails in v4l2-compliance?
+> Also, while I agree that it is not terribly useful, it doesn't hurt, does it?
+> 
+> And the V4L2 spec makes no exception for stateless codecs with respect to the
+> sequence field.
+> 
+> Nacked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-  media: mtk-vpu: load vpu firmware from the new location (2020-03-24 17:11:47 +0100)
+The spec also does not say what it means either. As an example, you
+have spec for ALTERNATE interlacing mode that changes the meaning of
+the sequence, but not for alternate H264 fields (which cannot be part
+of the format, since this changes often). We also don't have spec for
+the the sequence behaviour while using HOLD features.
 
-are available in the Git repository at:
+I'm worried we are falling into the test driven trap, were people
+implement features to satisfy a test, while the added complexity don't
+really make sense. Shouldn't we change our approach and opt-out
+features for new type of HW, so that we can keep the drivers code
+saner?
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.7n
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >  drivers/staging/media/hantro/hantro_drv.c | 27 ++++++++---------------
+> >  1 file changed, 9 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> > index 0b1200fc0e1a..ec889d755cd6 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -94,32 +94,23 @@ static void hantro_job_finish(struct hantro_dev *vpu,
+> >  			      unsigned int bytesused,
+> >  			      enum vb2_buffer_state result)
+> >  {
+> > -	struct vb2_v4l2_buffer *src, *dst;
+> >  	int ret;
+> >  
+> >  	pm_runtime_mark_last_busy(vpu->dev);
+> >  	pm_runtime_put_autosuspend(vpu->dev);
+> >  	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
+> >  
+> > -	src = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> > -	dst = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > -
+> > -	if (WARN_ON(!src))
+> > -		return;
+> > -	if (WARN_ON(!dst))
+> > -		return;
+> > -
+> > -	src->sequence = ctx->sequence_out++;
+> > -	dst->sequence = ctx->sequence_cap++;
+> > -
+> > -	ret = ctx->buf_finish(ctx, &dst->vb2_buf, bytesused);
+> > -	if (ret)
+> > -		result = VB2_BUF_STATE_ERROR;
+> > +	if (ctx->buf_finish) {
+> > +		struct vb2_v4l2_buffer *dst;
+> >  
+> > -	v4l2_m2m_buf_done(src, result);
+> > -	v4l2_m2m_buf_done(dst, result);
+> > +		dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > +		ret = ctx->buf_finish(ctx, &dst->vb2_buf, bytesused);
+> > +		if (ret)
+> > +			result = VB2_BUF_STATE_ERROR;
+> > +	}
+> >  
+> > -	v4l2_m2m_job_finish(vpu->m2m_dev, ctx->fh.m2m_ctx);
+> > +	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+> > +					 result);
+> >  }
+> >  
+> >  void hantro_irq_done(struct hantro_dev *vpu, unsigned int bytesused,
+> > 
 
-for you to fetch changes up to 938b4f6cbbd7c7bd2236f4594ef37431c519f7a7:
-
-  media: ti-vpe: cal: fix stop state timeout (2020-03-25 13:21:59 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Laurent Pinchart (14):
-      media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
-      media: imx: imx7-mipi-csis: Centralize initialization of pad formats
-      media: imx: imx7-mipi-csis: Add missing RAW formats
-      media: imx: imx7-mipi-csis: Expose correct YUV formats
-      media: imx: imx7-mipi-csis: Fix MEDIA_BUS_FMT_UYVY8_2X8 data alignment
-      media: imx: imx7-mipi-csis: Add MEDIA_BUS_FMT_UYVY10_2X10 support
-      media: imx: imx7-mipi-csis: Rename data_alignment field to width
-      media: imx: imx7-mipi-csis: Align image width based on format
-      media: imx: imx7-mipi-csis: Never set MIPI_CSIS_ISPCFG_ALIGN_32BIT
-      media: imx: imx7-mipi-csis: Align macro definitions
-      media: imx: imx7-mipi-csis: Remove link setup on source pad
-      media: imx: imx7-mipi-csis: Cleanup includes
-      media: imx: imx7-mipi-csis: Don't use imx-media-utils helpers
-      media: imx: imx7-mipi-csis: Implement the .enum_mbus_code() operation
-
-Tomi Valkeinen (19):
-      media: ti-vpe: cal: fix DMA memory corruption
-      media: ti-vpe: cal: improve enable_irqs
-      media: ti-vpe: cal: fix use of wrong macro
-      media: ti-vpe: cal: use runtime_resume for errata handling
-      media: ti-vpe: cal: drop cal_runtime_get/put
-      media: ti-vpe: cal: catch error irqs and print errors
-      media: ti-vpe: cal: print errors on timeouts
-      media: ti-vpe: cal: simplify irq handling
-      media: ti-vpe: cal: remove useless CAL_GEN_* macros
-      media: ti-vpe: cal: remove useless IRQ defines
-      media: ti-vpe: cal: use reg_write_field
-      media: ti-vpe: cal: cleanup CIO power enable/disable
-      media: ti-vpe: cal: fix dummy read to phy
-      media: ti-vpe: cal: program number of lines properly
-      media: ti-vpe: cal: set DMA max seg size
-      media: ti-vpe: cal: move code to separate functions
-      media: ti-vpe: cal: improve wait for CIO resetdone
-      media: ti-vpe: cal: improve wait for stop-state
-      media: ti-vpe: cal: fix stop state timeout
-
- drivers/media/platform/ti-vpe/cal.c        | 397 ++++++++++++++++++++++++++++++---------------------
- drivers/media/platform/ti-vpe/cal_regs.h   |  21 +--
- drivers/staging/media/imx/imx7-mipi-csis.c | 446 ++++++++++++++++++++++++++++++++++++----------------------
- 3 files changed, 518 insertions(+), 346 deletions(-)
