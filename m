@@ -2,88 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BAD1191DD7
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 01:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6CC3191DEA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 01:15:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727281AbgCYABM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Mar 2020 20:01:12 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15473 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727262AbgCYABM (ORCPT
+        id S1727113AbgCYAPh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Mar 2020 20:15:37 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:42372 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727103AbgCYAPh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Mar 2020 20:01:12 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e7a9eec0000>; Tue, 24 Mar 2020 16:59:40 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 24 Mar 2020 17:01:11 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 24 Mar 2020 17:01:11 -0700
-Received: from [10.2.160.81] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 25 Mar
- 2020 00:01:10 +0000
-Subject: Re: [RFC PATCH v5 9/9] arm64: tegra: Add Tegra VI CSI support in
- device tree
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
- <1584985955-19101-10-git-send-email-skomatineni@nvidia.com>
- <672819ea-01d3-2eca-8bb7-84ffd64256d4@gmail.com>
- <a218142f-295e-6bd5-b1d7-47d9ab8eba3e@nvidia.com>
- <fee09e1e-48a3-e0a0-12dc-9aeeb3438ded@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <7d7c982e-7755-5f3d-cb90-9622f87df283@nvidia.com>
-Date:   Tue, 24 Mar 2020 17:01:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Tue, 24 Mar 2020 20:15:37 -0400
+Received: by mail-ua1-f68.google.com with SMTP id m18so122850uap.9
+        for <linux-media@vger.kernel.org>; Tue, 24 Mar 2020 17:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mAdTQptNFRB90va1oFe34xXDEx5hodOJMrHH9X7ZVgw=;
+        b=ypZqe3r23vC5JFNZHhN9NF0wAcK2wX6fQAOnWi0xz3NVojYm9Xo9AZH/o4HK+dmXEr
+         LhxUkys3w6oiSmBy87evog2O2lfkmxzE4YRUhYkXmY3145OU1ONnvm9LEngbE2DS7pw0
+         sH0aRWyLwGwPj4AJ6d39WQPVcJN+VuGFcteh1KjOTRjqlXWUKppvOZDOa3BmzZEkIZQD
+         C0vsafUNC7m379tURfQX/n/LF1BptzT5EbSwrfyei9JiffNQUareBofpQJaJ26DEx1AD
+         7whdMJ5shdtaR1sVMHQ8Pr1b1ePoPtTP96UpCx+Nul12q/gJMGiRgytROhsanlGab7FE
+         8B4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mAdTQptNFRB90va1oFe34xXDEx5hodOJMrHH9X7ZVgw=;
+        b=hqCxXTrOrwTqI6fJOUdF4iLgISMDyGB6YJKlLefFkzipioLNgrWYuZZG2A1Hwyez9Q
+         h2Jn4GO10fvnQq5EtfPjxRmDvI9nHR4c5seaX4lToOIuLJShJ6+RDIMDk4Dmd52Ay7PL
+         nhQ56kWv7VdPCL5Ma+DhE3jrnH3YRFmuUw8sdlWkn+Imhz1LIwHW6/9hj5FkEhkUttwr
+         AdUlzLTKzCs0Z9yTX8820SjgByww4rh1kKFbZvn3pG05EmiBr7UuYr3XYlrvCpbEOKAS
+         c1nqUFNYLxTtoCAf9eqYr6pjXQuRgKhR6w7IuRhDrs2w68jbDv0hd7wYMc58TE5/Xmb+
+         scVg==
+X-Gm-Message-State: ANhLgQ3ZpYUQMaW8yGpjHhcN9ZGr7sDd8lNMeguX+yBwBQgyzq1RazTu
+        46RqwMMuo29Xpl5Vl+eUaViqaRNyqtZ3dFIGfmb+fIlUkEKsrg==
+X-Google-Smtp-Source: ADFU+vueNfZAEteOkuxTmhHL6e0X/c2p6XFW9JW1BLPL3jgeqwvqLb0ct5lgwQeQi3AyHmBe1pbqlyU/HdCCaf6lAcY=
+X-Received: by 2002:a9f:2478:: with SMTP id 111mr622936uaq.0.1585095334646;
+ Tue, 24 Mar 2020 17:15:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <fee09e1e-48a3-e0a0-12dc-9aeeb3438ded@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1585094380; bh=UlxBKHdiYfVf84pWue7S26iqlGChyU/5RVRLZidgwwY=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=rqWZy+mxTmPdOwYibjStZKZSubndUNS8+XhlzGnz5s3ZA4tZUoYEr+KvptK6GAJ3j
-         14LqB77/IfcA2rtKMXyg2Nqz14NIMP901W8KCMnYTotoYx4aHKQxUlxowFE2WQBxbG
-         l+dEM7XVgtK1PROmxIWXax9ZtjzWUVAdq8saJSs9QeN6se6VAFjALh9nXgEvB0FFW/
-         TMqVp9DsOuv8ML6ZpsYlCTw6tRwTfWmMPEjCRN9CBVHgv9Q5RuuDe/9ljx2/cKQL8S
-         oVdsIHp1lmY/f+YsU+eiUZ2k1Bnx+Isi8/wfeuQ+BloO/7BYBPgdUPCXms2YHlUnuJ
-         hL/lDjN/OPDjA==
+References: <cover.1585059896.git.mchehab+huawei@kernel.org> <e39e656c49c05829f0cf9affd7918818351d09e6.1585059896.git.mchehab+huawei@kernel.org>
+In-Reply-To: <e39e656c49c05829f0cf9affd7918818351d09e6.1585059896.git.mchehab+huawei@kernel.org>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 24 Mar 2020 21:15:22 -0300
+Message-ID: <CAAEAJfDB27v4WoxKf_8w+LLfKo_YucOwSOEtA7pi2erpcAxxLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/20] media: Kconfig: not all V4L2 platform drivers
+ are for camera
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, 24 Mar 2020 at 11:26, Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> When the platform drivers got added, they were all part of
+> complex camera support. This is not the case anymore, as we
+> now have codecs and other stuff there too.
+>
+> So, fix the dependencies, in order to not require users to
+> manually select something that it doesn't make sense.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/media/Kconfig          | 3 +--
+>  drivers/media/platform/Kconfig | 1 -
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> index 9dfea5c4b6ab..4af21fa73fcf 100644
+> --- a/drivers/media/Kconfig
+> +++ b/drivers/media/Kconfig
+> @@ -99,8 +99,7 @@ source "drivers/media/mc/Kconfig"
+>  config VIDEO_DEV
+>         tristate
+>         depends on MEDIA_SUPPORT
+> -       depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+> -       default y
+> +       default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || V4L_PLATFORM_DRIVERS
+>
 
-On 3/24/20 3:48 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 25.03.2020 00:04, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 3/24/20 12:19 PM, Dmitry Osipenko wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> 23.03.2020 20:52, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>> ...
->>>> +                     pd_venc: venc {
->>>> +                             clocks =3D <&tegra_car TEGRA210_CLK_VI>,
->>>> +                                      <&tegra_car TEGRA210_CLK_CSI>;
->>>> +                             resets =3D <&mc TEGRA210_MC_RESET_VI>,
->>> The MC resetting should be needed only for a hardware hot-resetting. It
->>> should be wrong to add it to the power domain.
->> TRM recommends to do MC client hot-reset during VE power gate and ungate=
-.
-> Could you please tell what TRM it is and what's the page#?
-Tegra TX1 TRM Page 425, Section 12.2.7.14 Procedures for VE Power Domains
+This is missing V4L_MEM2MEM_DRIVERS. Without, some mem-to-mem drivers
+will be hidden.
+
+Thanks,
+Ezequiel
