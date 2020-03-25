@@ -2,111 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11A281924DE
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 11:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 152DA19250E
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 11:05:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbgCYKBF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 06:01:05 -0400
-Received: from mga17.intel.com ([192.55.52.151]:47002 "EHLO mga17.intel.com"
+        id S1727275AbgCYKFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 06:05:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726109AbgCYKBE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 06:01:04 -0400
-IronPort-SDR: 7mK8EBfLFXsA0WT1iipMo+vWnlAOhEj37KeHdZOnuRtQGjeygLRi3oGsKgdDPeOo23DOcJR629
- pS/SOOepDjog==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 03:01:04 -0700
-IronPort-SDR: Df9BL9YhXrQ6Iw5Q8oGdllynI4X3BnmYveyWadwicvs13Eq3qdC5+K8g18sKtdJmokOSnwiEkm
- 0JTheD4/42DQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,303,1580803200"; 
-   d="scan'208";a="250364172"
-Received: from lduhem-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.249.35.162])
-  by orsmga006.jf.intel.com with ESMTP; 25 Mar 2020 03:01:02 -0700
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id 254EC21F8C; Wed, 25 Mar 2020 12:01:00 +0200 (EET)
-Date:   Wed, 25 Mar 2020 12:00:59 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 15/22] media: Kconfig: move media controller core
- select to main Kconfig
-Message-ID: <20200325100059.GB22904@kekkonen.localdomain>
+        id S1726206AbgCYKFb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Mar 2020 06:05:31 -0400
+Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EA26D2077D;
+        Wed, 25 Mar 2020 10:05:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585130730;
+        bh=nJwc46UoKsBYS1sNnl8QXdrd03hFSDdM/unfYLTUv40=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JvxSXNnPkAJWWixi9+FasM3KzDzSJELFD3SfhHBZYjhhunyihrqhFITOMeVvC2IhA
+         GkUpvnVjA0jiK8vzpBZX2P3dm/BcbtQzGHUzoyF8DaVPHSpVrhpRmPsNv1sd4JXY0o
+         wZifjykHuZTP10EF04N/3beGVwXr1FEb8BSfsYZc=
+Date:   Wed, 25 Mar 2020 11:05:24 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Andy Walls <awalls@md.metrocast.net>, Mike Isely <isely@pobox.com>
+Subject: Re: [PATCH v3 22/22] media: Kconfig: better support hybrid TV
+ devices
+Message-ID: <20200325110524.433ef745@coco.lan>
+In-Reply-To: <dc2d32af44bc03620bde14fc3c3ea5f9bde5530d.1585129041.git.mchehab+huawei@kernel.org>
 References: <cover.1585129041.git.mchehab+huawei@kernel.org>
- <ac58d0e580d93a190e44c79507dd4969679ecb36.1585129041.git.mchehab+huawei@kernel.org>
+        <dc2d32af44bc03620bde14fc3c3ea5f9bde5530d.1585129041.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac58d0e580d93a190e44c79507dd4969679ecb36.1585129041.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Em Wed, 25 Mar 2020 10:49:36 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-On Wed, Mar 25, 2020 at 10:49:29AM +0100, Mauro Carvalho Chehab wrote:
-> Let's place the main API selections at the media/Kconfig file,
-> as this way we can better organize things.
+> Right now, if one has an hybrid TV card, it has to select
+> both analog and digital TV support, as otherwise the needed
+> core support won't be selected.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/media/Kconfig    | 9 +++++++++
->  drivers/media/mc/Kconfig | 9 ---------
->  2 files changed, 9 insertions(+), 9 deletions(-)
+> Change the logic to auto-select the core support for those
+> drivers, as this is a way more intuitive.
 > 
-> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-> index d6766085c91b..3872e46545e6 100644
-> --- a/drivers/media/Kconfig
-> +++ b/drivers/media/Kconfig
-> @@ -144,6 +144,15 @@ config VIDEO_DEV
->  	depends on MEDIA_SUPPORT
->  	default MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT || MEDIA_PLATFORM_SUPPORT
->  
-> +config MEDIA_CONTROLLER
-> +	bool "Media Controller API"
-> +	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT
-> +	help
-> +	  Enable the media controller API used to query media devices internal
-> +	  topology and configure it dynamically.
-> +
-> +	  This API is mostly used by camera interfaces in embedded platforms.
-> +
->  source "drivers/media/v4l2-core/Kconfig"
->  
->  #
-> diff --git a/drivers/media/mc/Kconfig b/drivers/media/mc/Kconfig
-> index 3b9795cfcb36..b3579d6c9e32 100644
-> --- a/drivers/media/mc/Kconfig
-> +++ b/drivers/media/mc/Kconfig
-> @@ -3,15 +3,6 @@
->  #	Selectable only for webcam/grabbers, as other drivers don't use it
->  #
->  
-> -config MEDIA_CONTROLLER
-> -	bool "Media Controller API"
-> -	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT
-> -	help
-> -	  Enable the media controller API used to query media devices internal
-> -	  topology and configure it dynamically.
-> -
-> -	  This API is mostly used by camera interfaces in embedded platforms.
-> -
->  config MEDIA_CONTROLLER_DVB
->  	bool "Enable Media controller for DVB (EXPERIMENTAL)"
->  	depends on MEDIA_CONTROLLER && DVB_CORE
+> It should be noticed that, as now both DVB_CORE and VIDEO_DEV
+> defaults depends on selecting a hybrid cards, we had to remove
+> the explicit dependencies there, in order to avoid circular
+> dependencies. In order to get it right, we used a little trick,
+> to ensure that the core will be built as "y" if any driver
+> was built with "y".
+> 
+> Note: while here, moved two pure V4L2 PCI drivers out of the
+> "hybrid" part of config and consider pvrusb2 as an hybrid
+> device.
 
-This moves the main MC configuration out of the directory but leaves the
-rest of the MC configuration under the mc directory. All MC related
-configuration is currently in a single place, which makes sense.
+Found some issues on this patch. Please ignore it.
 
-I guess you can always have arguments for and against, but my preference is
-keeping it as-is.
+I'm trying to see if are there any other way of doing that
+without incurring into circular dependencies nor allowing
+errors at build time or warnings at make menuconfig time.
 
--- 
-Kind regards,
+I remember I tried to do something like that in the past,
+but the dependency chain is too complex.
 
-Sakari Ailus
+Suggestions are welcomed.
+
+Regards,
+Mauro
