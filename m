@@ -2,108 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4111192814
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 13:20:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C7FC192A5A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 14:49:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727491AbgCYMUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 08:20:11 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:42132 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727137AbgCYMUL (ORCPT
+        id S1727430AbgCYNtA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 09:49:00 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37127 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727097AbgCYNtA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 08:20:11 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02PCK8ai063515;
-        Wed, 25 Mar 2020 07:20:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1585138808;
-        bh=HVTSXMIwZpVCubTilDBdhYSPhm3IUZFIotzyKC7APK0=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=qUKL51BZYVciw2chUBkV2gZcrjdGK+rts4LPGaLijGa52V8ZyaK7fxxwjQvh3iyzd
-         IgE+1RjJ0X4bIyP5FaLcdbscof2+R5jL8NOgO295HZbHdD1W+gg8f9KBdrThz8gsxO
-         AU5MevI0udeufbE8i229s4w4RS/dB8O5sKVL0tZE=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 02PCK829019629
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 25 Mar 2020 07:20:08 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 25
- Mar 2020 07:20:07 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 25 Mar 2020 07:20:07 -0500
-Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02PCK5XZ037237;
-        Wed, 25 Mar 2020 07:20:06 -0500
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-To:     <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Tomi Valkeinen <tomi.valkeinen@ti.com>, <stable@vger.kernel.org>
-Subject: [PATCH v3] media: ov5640: fix use of destroyed mutex
-Date:   Wed, 25 Mar 2020 14:20:00 +0200
-Message-ID: <20200325122000.26531-1-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200313131948.13803-1-tomi.valkeinen@ti.com>
-References: <20200313131948.13803-1-tomi.valkeinen@ti.com>
+        Wed, 25 Mar 2020 09:49:00 -0400
+Received: by mail-qt1-f195.google.com with SMTP id z24so895672qtu.4
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 06:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=aqwoIFeWasu7LFGFPdHVV0Lyd6mKkML5MpjpybFPze8=;
+        b=EE74JW5sNUSawE/nieOmfd+x2MIF880p7qtUdiqMYpYg6462zQ2kLJOkZBp/zZ8luR
+         LeLF/vFfOcLYUdB62zmY3K51QFgSZmG/iP4GGx+I5a0SE92IP0U4RF+7aM2l93Qy7Vud
+         nvG2VFeMmjohJfjcA0bvIVnJrlCW4v3YxJX2ttJ7WVlcmnMkkyLf4udfKgZJ/2hbbbxA
+         rCT2KtINfMQhgJ3CW1CthXBftOq80dz84C2ah45qIhat6XDiKK88vUbHCHvBUfpTJm+4
+         sEemxlKWAnJ7BDYhfbS0cKaPeCpokGUgyvW0dQfjILwPQGskDrXNcOe8Zz1MyWcy3S/N
+         MB5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aqwoIFeWasu7LFGFPdHVV0Lyd6mKkML5MpjpybFPze8=;
+        b=m7PIivW+jHPplohVqaJpeui6LQYVo9MdfAuk/skzuVsz6lXJxI7s4yeJQIPQ2uge5r
+         GcFXpwsyJ/VmdktbLz6OG6Z3Hn3n5uBc+jyCMqS4O1LerE/zMjb/3m/StJSeOFUTAvSm
+         Zu+PVRvqLsuReqL3yCqW3m89HUc7tmBDenXuykFCtI0DaHlmQWtwaIT052DZb9TgKXvU
+         RlhO4nNlwBdhBSTeSo+WL75N5W81VDWcq0BmqRcDTxOFiv3kz1Gtd3E6lc0pLWE8fNBD
+         WRsmTnknQAGl1lKNn4jzyFY7e+lsjpRY9wUEeQV/XU04GKSnKnLPRh5m73KJAxCVPzIB
+         DBMQ==
+X-Gm-Message-State: ANhLgQ2c/mbi+lypEiGV8bPHMRUld1oUgThFJnwXwvsERuJJDyRA6jGr
+        sNFxlu2tn6pVpuzqYBVrNEUqCshx4RmWKzFCMRZH3Q==
+X-Google-Smtp-Source: ADFU+vsE+BgKySCoO4pRBagePhRdwuGbjDKSjEAF01BWlpD26chP3U1ysGLrMg10mGmwQ1lasf+U/m2D1z5qMj0K+oU=
+X-Received: by 2002:aed:3c4b:: with SMTP id u11mr2955112qte.208.1585144138478;
+ Wed, 25 Mar 2020 06:48:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200121134157.20396-1-sakari.ailus@linux.intel.com>
+ <20200121134157.20396-6-sakari.ailus@linux.intel.com> <CAMpxmJU5dG49N2FA0oSQsOfKrCr3KQ1BisON4c+nUJJmZQG=bQ@mail.gmail.com>
+ <20200311085555.GH5379@paasikivi.fi.intel.com> <CAMpxmJVPTKW+sYSJ3dnfF8nLAOKEa4Ob7bpxG0KD3Tkdm+rtYw@mail.gmail.com>
+ <20200323213101.GB21174@kekkonen.localdomain>
+In-Reply-To: <20200323213101.GB21174@kekkonen.localdomain>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Wed, 25 Mar 2020 14:48:47 +0100
+Message-ID: <CAMpxmJVdyTkZMVuhSy0Ux8VUYTmQN_YEfH-akQsAL3zrwiz8Dw@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] at24: Support probing while off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>, linux-acpi@vger.kernel.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4l2_ctrl_handler_free() uses hdl->lock, which in ov5640 driver is set
-to sensor's own sensor->lock. In ov5640_remove(), the driver destroys the
-sensor->lock first, and then calls v4l2_ctrl_handler_free(), resulting
-in the use of the destroyed mutex.
+pon., 23 mar 2020 o 22:31 Sakari Ailus <sakari.ailus@linux.intel.com>
+napisa=C5=82(a):
+>
+> Bartosz,
+>
+> On Thu, Mar 12, 2020 at 02:10:32PM +0100, Bartosz Golaszewski wrote:
+> > =C5=9Br., 11 mar 2020 o 09:56 Sakari Ailus <sakari.ailus@linux.intel.co=
+m> napisa=C5=82(a):
+> > >
+> > > Hi Bartosz,
+> > >
+> > > Thanks for the reply.
+> > >
+> > > On Wed, Jan 29, 2020 at 02:36:17PM +0100, Bartosz Golaszewski wrote:
+> > > > wt., 21 sty 2020 o 14:41 Sakari Ailus <sakari.ailus@linux.intel.com=
+> napisa=C5=82(a):
+> > > > >
+> > > > > In certain use cases (where the chip is part of a camera module, =
+and the
+> > > > > camera module is wired together with a camera privacy LED), power=
+ing on
+> > > > > the device during probe is undesirable. Add support for the at24 =
+to
+> > > > > execute probe while being powered off. For this to happen, a hint=
+ in form
+> > > > > of a device property is required from the firmware.
+> > > > >
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > >  drivers/misc/eeprom/at24.c | 31 +++++++++++++++++++++----------
+> >
+> > [snip!]
+> >
+> > > > >
+> > > > >  static int at24_remove(struct i2c_client *client)
+> > > > >  {
+> > > > > +       bool low_power;
+> > > > > +
+> > > > >         pm_runtime_disable(&client->dev);
+> > > > > -       pm_runtime_set_suspended(&client->dev);
+> > > > > +       low_power =3D acpi_dev_state_low_power(&client->dev);
+> > > >
+> > > > This is inconsistent. You define the low_power field in the context
+> > > > structure (BTW the name low_power is a bit vague here - without
+> > > > looking at its assignment it would make me think it's about somethi=
+ng
+> > > > battery-related, how about 'off_at_probe'?) and instead of reusing
+> > >
+> > > The field was called probe_powered_off in v1, but I changed it to
+> > > probe_low_power (and renamed related functions etc.) based on review
+> > > comments --- for the device may not be powered off actually.
+> > >
+> >
+> > But is it actually ever low-power? What are the possible logical
+> > states of the device? If I understood correctly: it's either off or on
+> > at probe - not actually low-power. Am I missing something? In your
+> > cover letter you're writing: "These patches enable calling (and
+> > finishing) a driver's probe function without powering on the
+> > respective device on busses where the practice is to power on the
+> > device for probe." To me there's no mention of a low-power state,
+> > which makes the name 'probe_low_power' seem completely unrelated.
+>
+> See <URL:https://patchwork.kernel.org/patch/10938483/>
+>
+> I've updated the patches according to the comments but did not update the
+> cover page accordingly.
+>
 
-Fix this by calling moving the mutex_destroy() to the end of the cleanup
-sequence, as there's no need to destroy the mutex as early as possible.
+I see.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: stable@vger.kernel.org # v4.14+
-Reviewed-by: Benoit Parrot <bparrot@ti.com>
----
+Rafael: I think that there are two issues with patch 1/5:
+1. It adds a very specific boolean flag to a structure that's meant to
+be very general. As I pointed out in the i2c patch: at the very least
+this could be made into an int storing flag values, instead of a
+boolean field. But rather than that - it looks to me more like a
+device (or bus) feature than a driver feature. Is there any ACPI flag
+we could use to pass this information to the driver model without
+changing the driver structure?
+2. The name is still misleading: probe_low_power doesn't correspond
+with what it actually does at all (neither did power_off). I'd go with
+something like probe_allow_low_power.
 
-Added reviewed-by from Benoit
-Added stable version
+> Generally drivers are interested whether a device is powered on so it can
+> be accessed, but the actual power state of the device isn't known to the
+> driver when it is, well, not in an operational state. A device may be
+> powered from a regulator that is always enabled, for instance.
+>
+> >
+> > > > this field here, you call acpi_dev_state_low_power() again. Either
+> > > > don't store the context for the life-time of the device if not
+> > > > necessary or don't call acpi_dev_state_low_power() at remove, altho=
+ugh
+> > > > the commit message doesn't describe whether the latter is done on
+> > > > purpose.
+> > >
+> > > Right. probe-low-power property has the same effect on remove for
+> > > consistency, i.e. the device can remain in low power state during rem=
+ove.
+> > > This is documented in probe_low_power field documentation in the firs=
+t
+> > > patch.
+> > >
+> >
+> > Just please don't store any state if you're not using it outside of
+> > the probe() function.
+>
+> What exactly are you referring to? The patch adds a local variable to the
+> driver's probe and remove functions.
+>
 
- drivers/media/i2c/ov5640.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Yes, sorry, I looked at the patch and somehow thought it adds a new
+field to the data structure and then doesn't reuse it. My bad. Maybe
+it was a previous version IDK.
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 854031f0b64a..2fe4a7ac0592 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3093,8 +3093,8 @@ static int ov5640_probe(struct i2c_client *client)
- free_ctrls:
- 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
- entity_cleanup:
--	mutex_destroy(&sensor->lock);
- 	media_entity_cleanup(&sensor->sd.entity);
-+	mutex_destroy(&sensor->lock);
- 	return ret;
- }
- 
-@@ -3104,9 +3104,9 @@ static int ov5640_remove(struct i2c_client *client)
- 	struct ov5640_dev *sensor = to_ov5640_dev(sd);
- 
- 	v4l2_async_unregister_subdev(&sensor->sd);
--	mutex_destroy(&sensor->lock);
- 	media_entity_cleanup(&sensor->sd.entity);
- 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-+	mutex_destroy(&sensor->lock);
- 
- 	return 0;
- }
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
+Bartosz
+
+> --
+> Kind regards,
+>
+> Sakari Ailus
