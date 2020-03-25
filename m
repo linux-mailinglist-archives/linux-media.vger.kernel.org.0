@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A49C1927F8
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 13:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C931927F9
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 13:16:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727469AbgCYMQH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 08:16:07 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:41802 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727286AbgCYMQG (ORCPT
+        id S1727483AbgCYMQJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 08:16:09 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:39314 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727286AbgCYMQJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 08:16:06 -0400
+        Wed, 25 Mar 2020 08:16:09 -0400
 Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02PCG4tv062599;
-        Wed, 25 Mar 2020 07:16:04 -0500
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 02PCG60O078524;
+        Wed, 25 Mar 2020 07:16:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1585138564;
-        bh=cZJwp65vYohd5HAxMGhETHbv8wxpd9PR332Sr1BuADA=;
+        s=ti-com-17Q1; t=1585138566;
+        bh=0NvQwr4geNSED7nzsef812hmZpUS3Q5SDOTKBytWIY8=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=FAoiiMci5cVAGY8GAaCOV1sGsIxO7uBF3zS87ltJioo5vidnzDhFREob8ENwto//4
-         S59aOBQHXJcqd8QHlTEm1fKGZZYU+6msFPhSQNQEgYbdEyr3rIy1ZC+ZydkJJGqsDE
-         P444Nm21iyBjiIXAcob/FrNFQ6j0PB1zfNzm5pEY=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02PCG4QV003387;
-        Wed, 25 Mar 2020 07:16:04 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+        b=pu8Ti5yNzy0B6fygHSna7y07QaInY/Q5EgzWlFLSIn2ftay7DcCdeI6wwEfhnEUY5
+         KFHclzawwUUIvn67yl0nBiK8PFWYIDeYmVup6LrLozk+naOhAK0S6VPkK3mnD9/bM6
+         NBQXZ7ZCidy2fIh4GFcHziOqno14jsUElOw2zr08=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02PCG6Bh003495;
+        Wed, 25 Mar 2020 07:16:06 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 25
- Mar 2020 07:16:03 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Mar 2020 07:16:05 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 25 Mar 2020 07:16:03 -0500
+ Frontend Transport; Wed, 25 Mar 2020 07:16:05 -0500
 Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02PCFm56085323;
-        Wed, 25 Mar 2020 07:16:02 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 02PCFm57085323;
+        Wed, 25 Mar 2020 07:16:04 -0500
 From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
 To:     <linux-media@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Hans Verkuil <hverkuil@xs4all.nl>
 CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v3 07/19] media: ti-vpe: cal: print errors on timeouts
-Date:   Wed, 25 Mar 2020 14:14:58 +0200
-Message-ID: <20200325121510.25923-8-tomi.valkeinen@ti.com>
+Subject: [PATCH v3 08/19] media: ti-vpe: cal: simplify irq handling
+Date:   Wed, 25 Mar 2020 14:14:59 +0200
+Message-ID: <20200325121510.25923-9-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200325121510.25923-1-tomi.valkeinen@ti.com>
 References: <20200325121510.25923-1-tomi.valkeinen@ti.com>
@@ -56,54 +56,110 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver does not print any errors on ComplexIO reset timeout or when
-waiting for stop-state, making it difficult to debug and notice
-problems.
-
-Add error prints for these cases.
+Instead of having identical code block to handle irqs for the two CAL
+ports, we can have a for loop and a single code block.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Tested-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 68 +++++++++++------------------
+ 1 file changed, 25 insertions(+), 43 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 838215a3f230..9bfe83fdd76e 100644
+index 9bfe83fdd76e..df06ecfdfc6a 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -839,10 +839,11 @@ static void csi2_wait_for_phy(struct cal_ctx *ctx)
- 			break;
- 		usleep_range(1000, 1100);
- 	}
--	ctx_dbg(3, ctx, "CAL_CSI2_COMPLEXIO_CFG(%d) = 0x%08x Complex IO Reset Done (%d) %s\n",
--		ctx->csi2_port,
--		reg_read(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port)), i,
--		(i >= 250) ? "(timeout)" : "");
+@@ -1221,64 +1221,46 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+ 	/* Check which DMA just finished */
+ 	irqst2 = reg_read(dev, CAL_HL_IRQSTATUS(2));
+ 	if (irqst2) {
++		int i;
 +
-+	if (reg_read_field(ctx->dev, CAL_CSI2_COMPLEXIO_CFG(ctx->csi2_port),
-+			   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_MASK) !=
-+			   CAL_CSI2_COMPLEXIO_CFG_RESET_DONE_RESETCOMPLETED)
-+		ctx_err(ctx, "Timeout waiting for Complex IO reset done\n");
+ 		/* Clear Interrupt status */
+ 		reg_write(dev, CAL_HL_IRQSTATUS(2), irqst2);
  
- 	/* 4. G. Wait for all enabled lane to reach stop state */
- 	for (i = 0; i < 10; i++) {
-@@ -853,10 +854,10 @@ static void csi2_wait_for_phy(struct cal_ctx *ctx)
- 			break;
- 		usleep_range(1000, 1100);
+-		/* Need to check both port */
+-		if (isportirqset(irqst2, 1)) {
+-			ctx = dev->ctx[0];
+-
+-			spin_lock(&ctx->slock);
+-			ctx->dma_act = false;
+-
+-			if (ctx->cur_frm != ctx->next_frm)
+-				cal_process_buffer_complete(ctx);
+-
+-			spin_unlock(&ctx->slock);
+-		}
+-
+-		if (isportirqset(irqst2, 2)) {
+-			ctx = dev->ctx[1];
++		for (i = 1; i <= 2; ++i) {
++			if (isportirqset(irqst2, i)) {
++				ctx = dev->ctx[i - 1];
+ 
+-			spin_lock(&ctx->slock);
+-			ctx->dma_act = false;
++				spin_lock(&ctx->slock);
++				ctx->dma_act = false;
+ 
+-			if (ctx->cur_frm != ctx->next_frm)
+-				cal_process_buffer_complete(ctx);
++				if (ctx->cur_frm != ctx->next_frm)
++					cal_process_buffer_complete(ctx);
+ 
+-			spin_unlock(&ctx->slock);
++				spin_unlock(&ctx->slock);
++			}
+ 		}
  	}
--	ctx_dbg(3, ctx, "CAL_CSI2_TIMING(%d) = 0x%08x Stop State Reached %s\n",
--		ctx->csi2_port,
--		reg_read(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port)),
--		(i >= 10) ? "(timeout)" : "");
-+
-+	if (reg_read_field(ctx->dev, CAL_CSI2_TIMING(ctx->csi2_port),
-+			   CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK) != 0)
-+		ctx_err(ctx, "Timeout waiting for stop state\n");
  
- 	ctx_dbg(1, ctx, "CSI2_%d_REG1 = 0x%08x (Bit(31,28) should be set!)\n",
- 		(ctx->csi2_port - 1), reg_read(ctx->cc, CAL_CSI2_PHY_REG1));
+ 	/* Check which DMA just started */
+ 	irqst3 = reg_read(dev, CAL_HL_IRQSTATUS(3));
+ 	if (irqst3) {
++		int i;
++
+ 		/* Clear Interrupt status */
+ 		reg_write(dev, CAL_HL_IRQSTATUS(3), irqst3);
+ 
+-		/* Need to check both port */
+-		if (isportirqset(irqst3, 1)) {
+-			ctx = dev->ctx[0];
+-			dma_q = &ctx->vidq;
+-
+-			spin_lock(&ctx->slock);
+-			ctx->dma_act = true;
+-			if (!list_empty(&dma_q->active) &&
+-			    ctx->cur_frm == ctx->next_frm)
+-				cal_schedule_next_buffer(ctx);
+-			spin_unlock(&ctx->slock);
+-		}
+-
+-		if (isportirqset(irqst3, 2)) {
+-			ctx = dev->ctx[1];
+-			dma_q = &ctx->vidq;
+-
+-			spin_lock(&ctx->slock);
+-			ctx->dma_act = true;
+-			if (!list_empty(&dma_q->active) &&
+-			    ctx->cur_frm == ctx->next_frm)
+-				cal_schedule_next_buffer(ctx);
+-			spin_unlock(&ctx->slock);
++		for (i = 1; i <= 2; ++i) {
++			if (isportirqset(irqst3, i)) {
++				ctx = dev->ctx[i - 1];
++				dma_q = &ctx->vidq;
++
++				spin_lock(&ctx->slock);
++				ctx->dma_act = true;
++				if (!list_empty(&dma_q->active) &&
++				    ctx->cur_frm == ctx->next_frm)
++					cal_schedule_next_buffer(ctx);
++				spin_unlock(&ctx->slock);
++			}
+ 		}
+ 	}
+ 
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
