@@ -2,133 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C60F192285
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 09:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B62F5192309
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 09:42:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726154AbgCYIWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 04:22:18 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56641 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725903AbgCYIWS (ORCPT
+        id S1727565AbgCYImf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 04:42:35 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:37035 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727559AbgCYIme (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 04:22:18 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id H1IajKJ5TLu1fH1Iejyo5M; Wed, 25 Mar 2020 09:22:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585124536; bh=/aDo3zrCti3BBCrxSQ/TeptM5Zr/TgtJSYJzo5ajLRM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=PTXhT7dx6nfIYWPJYYNIHXYeLNorVkxVHVFnY1pjFqOiq7smMs9LtERuxEDmmnW3m
-         7uMabsKF0l2keatFvhWzYFHNhn1ZU0hfnfz4PYp4GKM3JxNp8Ysr1YAEBxjCzvryId
-         6nMHe4ztg8JtfgeW6InhTa/1YVo5ZrbC2CTLYNkyPN9N///tuH0rMagAA16k9yt4Fu
-         EhUJ1x7bkNUYPiD2bqfLqxMThVxb9S29DJvOCQsMp0mr9iaoasiPmo3qtiYW8KbWt+
-         uQSx/mxT4Z24OjUNY9g1qO89kpwP8vZKnx6NGyCll5S9QL8jXJDcOmfwCZalRc8kaD
-         GcVEOtJGBE9Lg==
-Subject: Re: [PATCH v2 3/8] hantro: Use v4l2_m2m_buf_done_and_job_finish
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Rob Herring <robh@kernel.org>
-References: <20200318132108.21873-1-ezequiel@collabora.com>
- <20200318132108.21873-4-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <13b1efe1-8b52-070b-cf11-b230bd405d3e@xs4all.nl>
-Date:   Wed, 25 Mar 2020 09:22:04 +0100
+        Wed, 25 Mar 2020 04:42:34 -0400
+Received: by mail-lj1-f196.google.com with SMTP id r24so1539600ljd.4
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 01:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6ZInQ7P2kWfW5JLJarR/YZgcnvg7Lm/+5nKFHObLkXk=;
+        b=r/6AJPQeqEYeuT/qWLoTXhttgDIWmYy6htJ0cV9xtJo6lz88VHvfnetIpXArPjyQ2D
+         lgMsgjII6O1Ge+PhBT640YeF4jl3cp+auq85e6m1bnEHqnAY1kMODoNTvLbzkVCwvrpW
+         Aj9NMW6ypBunR7qC6IuS0pflwlcr6nMXsT1t8MG8/vs00ycZci8B5bFNj3z7/iAHx5+5
+         /8ax1sM+8NO6BuODqnL+IXYZfnOrqrOFuE8fh7kHi0qW7WP96+FQiiJaADmw2/9wGyYK
+         cd5K4VTdQwoXp+IB6M/yWWApb5BixoY3O9m0bOxIvGr2hwAH/uu5hV6SYNDsN2efKWRD
+         atMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6ZInQ7P2kWfW5JLJarR/YZgcnvg7Lm/+5nKFHObLkXk=;
+        b=JV3IJMr1adx+iVB9hh6vvQUAWHBtioLUvPsadq4ky1TXce/ahRTPWKmHnTboedAXmv
+         dzyuxBZAonQzGu9IhssnukFmH6qHDMuzGXdTjdclg5sV+wPh5MSa7yV2I1PmzT6WBdtD
+         oy+l7T87EzTcCR/cMf0CT/T+npyzbvfKxewxFUtKR/Gzk+ylMtmDW10wSfgMSl4dw0va
+         GxehOXnA18qUgBgx0AT0WC0y27f4ttTX+zxlaQhrlXI9FSQwvaHkln67gOOgIiaU/Ysj
+         kEUhE3E4IcUY5Y8ylBLVj+VARdVHGnIyQ3DQtFsn4QwylEvL+HXTjzrKO/B05ZXxDHXU
+         1b6Q==
+X-Gm-Message-State: AGi0PuYB4HhnudWaIj5DRxcvuVFpNWsmhntA19FV8GoB1ncZcbr+mf2L
+        2crr7q4gb1MDhfSlatzMQVhlFA==
+X-Google-Smtp-Source: ADFU+vv+Q2CS2Rvp0B5xrEvQl0g8ZdyXuPwfxVYwHnNBuuvOmT2ruc/0R4aVA+tJ9pUs4Z6xP6jmUg==
+X-Received: by 2002:a2e:b801:: with SMTP id u1mr1281617ljo.84.1585125749909;
+        Wed, 25 Mar 2020 01:42:29 -0700 (PDT)
+Received: from [192.168.118.216] (37-144-159-139.broadband.corbina.ru. [37.144.159.139])
+        by smtp.gmail.com with ESMTPSA id u7sm1525603ljo.1.2020.03.25.01.42.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Mar 2020 01:42:29 -0700 (PDT)
+Subject: Re: [libcamera-devel] [PATCH 2/4] media: v4l2-dev: Add
+ v4l2_device_register_ro_subdev_node()
+To:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Cc:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com
+References: <20200324202844.1518292-1-jacopo@jmondi.org>
+ <20200324202844.1518292-3-jacopo@jmondi.org>
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+Message-ID: <313fcb7e-6612-9cf5-a4eb-ba6edb39f754@linaro.org>
+Date:   Wed, 25 Mar 2020 11:42:27 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200318132108.21873-4-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200324202844.1518292-3-jacopo@jmondi.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfE8LnAJGtJIuF9Ii9JP2ReP31A+tuYGruVID7G/PunDtKNEu8GDpAbT3oeVtzLFV3wjOopKFvqkPc55xYZuuwPuHicMbx8cgOp3Ifllw4olxPk8FZhYu
- jarfWIDfSOSqpUvHqBAieb3Q2OgmMYlPiyUg2tc0BajXXb4MfpV2zbUMhNmiDPi8Qz6AfhQtPjeX5AkVgThhFhuW3QL/+WJ3VCJJLaaWcoWQLBMCXAtPqSj3
- XjfbR7Z2itflfbso8OM9hfsSLCvMS/zE2A7++XvpuE2VbDrUsCnO0dyGYPX1kAk31ZCJVsEaM4miXingB1jsOrVAORb1f+xK5W/4JJLiQZ4EWla+sUQlNZFw
- OEAkky79aV5R4vqlI1wjjfATAc9Q6X5qyNt9wCvT/8BDY5YviK8MoZhOz9rhhIMFudCnMw75A1JOuh0ep7Dbj522yZSZUuK+q+/PjaTgk6ZMjtTcBV7qkRM/
- SEnYI7rCyVBrDzCx3ham7nRG4lwtLrqqfnIdCtAI0AnzD2xz27skmqMxzTeZwhKCMWimJh1zZpSDLx2a
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/18/20 2:21 PM, Ezequiel Garcia wrote:
-> Let the core sort out the nuances of returning buffers
-> to userspace, by using the v4l2_m2m_buf_done_and_job_finish
-> helper.
+Hi Jacopo,
+
+Thank you for your patch set!
+
+On 24.03.2020 23:28, Jacopo Mondi wrote:
+> Add to the V4L2 code a function to register device nodes for video
+> subdevices in read-only mode.
 > 
-> This change also removes usage of buffer sequence fields,
-> which shouldn't have any meaning for stateless decoders.
-
-Uh, why remove this? For one, doesn't this cause fails in v4l2-compliance?
-Also, while I agree that it is not terribly useful, it doesn't hurt, does it?
-
-And the V4L2 spec makes no exception for stateless codecs with respect to the
-sequence field.
-
-Nacked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
+> Registering a device node in read-only mode is useful to expose to
+> userspace the current sub-device configuration, without allowing
+> application to change it by using the V4L2 subdevice ioctls.
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/staging/media/hantro/hantro_drv.c | 27 ++++++++---------------
->  1 file changed, 9 insertions(+), 18 deletions(-)
+>   drivers/media/v4l2-core/v4l2-device.c | 16 +++++++++++++++-
+>   drivers/media/v4l2-core/v4l2-subdev.c | 19 +++++++++++++++++++
+>   include/media/v4l2-dev.h              |  7 +++++++
+>   include/media/v4l2-device.h           | 10 ++++++++++
+>   4 files changed, 51 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 0b1200fc0e1a..ec889d755cd6 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -94,32 +94,23 @@ static void hantro_job_finish(struct hantro_dev *vpu,
->  			      unsigned int bytesused,
->  			      enum vb2_buffer_state result)
->  {
-> -	struct vb2_v4l2_buffer *src, *dst;
->  	int ret;
->  
->  	pm_runtime_mark_last_busy(vpu->dev);
->  	pm_runtime_put_autosuspend(vpu->dev);
->  	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
->  
-> -	src = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> -	dst = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> -
-> -	if (WARN_ON(!src))
-> -		return;
-> -	if (WARN_ON(!dst))
-> -		return;
-> -
-> -	src->sequence = ctx->sequence_out++;
-> -	dst->sequence = ctx->sequence_cap++;
-> -
-> -	ret = ctx->buf_finish(ctx, &dst->vb2_buf, bytesused);
-> -	if (ret)
-> -		result = VB2_BUF_STATE_ERROR;
-> +	if (ctx->buf_finish) {
-> +		struct vb2_v4l2_buffer *dst;
->  
-> -	v4l2_m2m_buf_done(src, result);
-> -	v4l2_m2m_buf_done(dst, result);
-> +		dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +		ret = ctx->buf_finish(ctx, &dst->vb2_buf, bytesused);
-> +		if (ret)
-> +			result = VB2_BUF_STATE_ERROR;
-> +	}
->  
-> -	v4l2_m2m_job_finish(vpu->m2m_dev, ctx->fh.m2m_ctx);
-> +	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
-> +					 result);
->  }
->  
->  void hantro_irq_done(struct hantro_dev *vpu, unsigned int bytesused,
-> 
+> diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
+> index 63d6b147b21e..6f9dba36eda1 100644
+> --- a/drivers/media/v4l2-core/v4l2-device.c
+> +++ b/drivers/media/v4l2-core/v4l2-device.c
+> @@ -188,7 +188,8 @@ static void v4l2_device_release_subdev_node(struct video_device *vdev)
+>   	kfree(vdev);
+>   }
+>   
+> -int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+> +int __v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev,
+> +					bool read_only)
+>   {
+>   	struct video_device *vdev;
+>   	struct v4l2_subdev *sd;
+> @@ -217,6 +218,8 @@ int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+>   		vdev->fops = &v4l2_subdev_fops;
+>   		vdev->release = v4l2_device_release_subdev_node;
+>   		vdev->ctrl_handler = sd->ctrl_handler;
+> +		if (read_only)
+> +			vdev->flags |= V4L2_FL_RO_DEVNODE;
 
+<snip>
+
+> @@ -331,6 +331,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>   	struct v4l2_fh *vfh = file->private_data;
+>   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>   	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+> +	bool ro_devnode = !!(vdev->flags & V4L2_FL_RO_DEVNODE);
+
+So V4L2_FL_RO_DEVNODE is a bit mask, ...
+
+<snip>
+
+> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> index 48531e57cc5a..029873a338f2 100644
+> --- a/include/media/v4l2-dev.h
+> +++ b/include/media/v4l2-dev.h
+> @@ -82,11 +82,18 @@ struct v4l2_ctrl_handler;
+>    *	but the old crop API will still work as expected in order to preserve
+>    *	backwards compatibility.
+>    *	Never set this flag for new drivers.
+> + * @V4L2_FL_RO_DEVNODE:
+> + *	indicates that the video device node is registered in read-only mode.
+> + *	The flag only applies to device nodes registered for sub-devices, it is
+> + *	set by the core when the sub-devices device nodes are registered with
+> + *	v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
+> + *	handler to restrict access to some ioctl calls.
+>    */
+>   enum v4l2_video_device_flags {
+>   	V4L2_FL_REGISTERED		= 0,
+>   	V4L2_FL_USES_V4L2_FH		= 1,
+>   	V4L2_FL_QUIRK_INVERTED_CROP	= 2,
+> +	V4L2_FL_RO_DEVNODE		= 3,
+
+... then V4L2_FL_RO_DEVNODE should rather be equal to 4, than to (V4L2_FL_USES_V4L2_FH | V4L2_FL_QUIRK_INVERTED_CROP)
+
+Thanks,
+Andrey
+
+>   };
+>   
+>   /* Priority helper functions */
+> diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
+> index e0b8f2602670..0df667ba9938 100644
+> --- a/include/media/v4l2-device.h
+> +++ b/include/media/v4l2-device.h
+> @@ -183,6 +183,16 @@ void v4l2_device_unregister_subdev(struct v4l2_subdev *sd);
+>   int __must_check
+>   v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev);
+>   
+> +/**
+> + * v4l2_device_register_ro_subdev_nodes - Registers read-only device nodes for
+> + *      all subdevs of the v4l2 device that are marked with the
+> + *      %V4L2_SUBDEV_FL_HAS_DEVNODE flag.
+> + *
+> + * @v4l2_dev: pointer to struct v4l2_device
+> + */
+> +int __must_check
+> +v4l2_device_register_ro_subdev_nodes(struct v4l2_device *v4l2_dev);
+> +
+>   /**
+>    * v4l2_subdev_notify - Sends a notification to v4l2_device.
+>    *
+> 
