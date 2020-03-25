@@ -2,182 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2F2192F40
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 18:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C270192F6C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 18:35:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbgCYRbz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 13:31:55 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37204 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727129AbgCYRby (ORCPT
+        id S1727488AbgCYRfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 13:35:05 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39043 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727253AbgCYRfF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 13:31:54 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 699BD296A72
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To:     robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
-        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
-        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
-        laurent.pinchart@ideasonboard.com
-Cc:     linux-mediatek@lists.infradead.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        rdunlap@infradead.org, frank-w@public-files.de, wens@csie.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        devicetree@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Richard Fontana <rfontana@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        matthias.bgg@kernel.org, Allison Randal <allison@lohutok.net>,
-        linux-kernel@vger.kernel.org, hsinyi@chromium.org,
-        Seiya Wang <seiya.wang@mediatek.com>,
-        linux-clk@vger.kernel.org, mtk01761 <wendell.lin@mediatek.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Matthias Brugger <mbrugger@suse.com>, sean.wang@mediatek.com,
-        Weiyi Lu <weiyi.lu@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Subject: [RESEND PATCH v12 5/5] soc / drm: mediatek: Fix mediatek-drm device probing
-Date:   Wed, 25 Mar 2020 18:31:23 +0100
-Message-Id: <20200325173123.3569606-6-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200325173123.3569606-1-enric.balletbo@collabora.com>
-References: <20200325173123.3569606-1-enric.balletbo@collabora.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 25 Mar 2020 13:35:05 -0400
+Received: by mail-ot1-f67.google.com with SMTP id x11so2832203otp.6
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 10:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=SNBvqruIJbsSWKYqMDqatKlNO0h6Vc5uC5fqznY6rW4=;
+        b=VBfoNJbEEb5ILO/sU6WuuevrS3mAgcEu9XagkD8w/Wf4tckW0C7YodI0AoNZZ/TE6v
+         xWXp02EQbsvF/igGHFij85c0f23suX7dWLpm9hyt5fQMlduIr7XGDt2ufT4A1P6kFkN5
+         uCimkloxaLDv8CCUu1X0G32SP7IVULSyP6xBm1Q6KCXQRbfgLFCKIGaYQCc3qA7e6ie8
+         qWUdw7S/CkSM0T0qfMm2fydzXcZSIJzF5c0JAjlFgjmZgBAqGA54ivatrO9M6+uTMEt7
+         X0ytr3kh8n/rlvPvS/aTnKNAWJRxi+dtVTEIUchi0RWEIx7Uh/qHShPyvK5g19UcxYDa
+         u9/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SNBvqruIJbsSWKYqMDqatKlNO0h6Vc5uC5fqznY6rW4=;
+        b=QF5tpTUWawGK9GF7A4CakgXfoCYMg0d20SlPmIvxPmnbHad4VFewTV9Q7+H6M3LwOf
+         2J18YFKjCrNJhoYY1ROlQQUFQp0xUQJjY6eEkGKSjiSJX31o+7vYPXxaSmhTw/ek78/m
+         /3Lfw3gyzqdP8lxd4mwetakX6q+YgtV0wk6KJLlrBZdJR/awcjXgAlToQgrAvPfA51CY
+         GZsdDntY7fZWEc9WY7Dr6x/2qcGK0/45/pyRQ7VE/XSc/pg+jaWrHF6TWgtwmAUE/pXe
+         +F0Xd0KVQsG/m6tgt9F7m424wGuJxUSWfI+4qeIrXV0nNsWDhqZ9ZWWtksV46E0oajvX
+         KqzQ==
+X-Gm-Message-State: ANhLgQ2yfW1Zk5NmbCysXXu3a4d05o0OqRTUMtGUwfkaI1YAVr+uieDl
+        0hNoHTODv+dWY9DHkaJfPaO1GaGSZwM=
+X-Google-Smtp-Source: ADFU+vtnJ5FE9bRGOXr0M94eMhHgQPAHVKPPWcvx7UHQ98Y5bzGO/N9e7TKgutil1OlIgid55h9Yiw==
+X-Received: by 2002:a05:6830:3150:: with SMTP id c16mr3109185ots.251.1585157702867;
+        Wed, 25 Mar 2020 10:35:02 -0700 (PDT)
+Received: from mappy.hsd1.ca.comcast.net (104-10-251-90.lightspeed.sntcca.sbcglobal.net. [104.10.251.90])
+        by smtp.gmail.com with ESMTPSA id q196sm656504ooq.19.2020.03.25.10.35.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2020 10:35:02 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH] media: imx: utils: Default colorspace to SRGB
+Date:   Wed, 25 Mar 2020 10:34:56 -0700
+Message-Id: <20200325173456.21455-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the actual implementation the same compatible string
-"mediatek,<chip>-mmsys" is used to bind the clock drivers
-(drivers/soc/mediatek) as well as to the gpu driver
-(drivers/gpu/drm/mediatek/mtk_drm_drv.c). This ends with the problem
-that the only probed driver is the clock driver and there is no display
-at all.
+The function init_mbus_colorimetry() is used to initialize the imx
+subdevice mbus colorimetry to some sane defaults when the subdevice is
+registered. Currently it guesses at a colorspace based on the passed
+mbus pixel format. If the format is RGB, it chooses colorspace
+V4L2_COLORSPACE_SRGB, and if the format is YUV, it chooses
+V4L2_COLORSPACE_SMPTE170M.
 
-In any case having the same compatible string for two drivers is not
-correct and should be fixed. To fix this, and maintain backward
-compatibility, we can consider that the mmsys driver is the top-level
-entry point for the multimedia subsystem, so is not a pure clock
-controller but a system controller, and the drm driver is instantiated
-by that MMSYS driver.
+While that might be a good guess, it's not necessarily true that a RGB
+pixel format encoding uses a SRGB colorspace, or that a YUV encoding
+uses a SMPTE170M colorspace. Instead of making this dubious guess,
+just default the colorspace to SRGB.
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Acked-by: CK Hu <ck.hu@mediatek.com>
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
+ drivers/staging/media/imx/imx-media-utils.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Changes in v12: None
-Changes in v10:
-- Match driver data to get display routing.
-
-Changes in v9:
-- Do not move the display routing from the drm driver (CK)
-
-Changes in v8:
-- New patch introduced in this series.
-
-Changes in v7: None
-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 31 ++++++++++++++++----------
- drivers/soc/mediatek/mtk-mmsys.c       |  6 +++++
- 2 files changed, 25 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index f2f07098265d..e2bb0d19ef99 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -422,9 +422,21 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	{ }
- };
- 
-+static const struct of_device_id mtk_drm_of_ids[] = {
-+	{ .compatible = "mediatek,mt2701-mmsys",
-+	  .data = &mt2701_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt2712-mmsys",
-+	  .data = &mt2712_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8173-mmsys",
-+	  .data = &mt8173_mmsys_driver_data},
-+	{ }
-+};
-+
- static int mtk_drm_probe(struct platform_device *pdev)
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index fae981698c49..8344675bfd05 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -236,8 +236,7 @@ static const struct imx_media_pixfmt ipu_rgb_formats[] = {
+ static void init_mbus_colorimetry(struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *fmt)
  {
- 	struct device *dev = &pdev->dev;
-+	struct device_node *phandle = dev->parent->of_node;
-+	const struct of_device_id *of_id;
- 	struct mtk_drm_private *private;
- 	struct device_node *node;
- 	struct component_match *match = NULL;
-@@ -442,8 +454,14 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	}
- 
-+	of_id = of_match_node(mtk_drm_of_ids, phandle);
-+	if (!of_id)
-+		return -ENODEV;
-+
-+	private->data = of_id->data;
-+
- 	/* Iterate over sibling DISP function blocks */
--	for_each_child_of_node(dev->of_node->parent, node) {
-+	for_each_child_of_node(phandle->parent, node) {
- 		const struct of_device_id *of_id;
- 		enum mtk_ddp_comp_type comp_type;
- 		int comp_id;
-@@ -577,22 +595,11 @@ static int mtk_drm_sys_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
- 			 mtk_drm_sys_resume);
- 
--static const struct of_device_id mtk_drm_of_ids[] = {
--	{ .compatible = "mediatek,mt2701-mmsys",
--	  .data = &mt2701_mmsys_driver_data},
--	{ .compatible = "mediatek,mt2712-mmsys",
--	  .data = &mt2712_mmsys_driver_data},
--	{ .compatible = "mediatek,mt8173-mmsys",
--	  .data = &mt8173_mmsys_driver_data},
--	{ }
--};
--
- static struct platform_driver mtk_drm_platform_driver = {
- 	.probe	= mtk_drm_probe,
- 	.remove	= mtk_drm_remove,
- 	.driver	= {
- 		.name	= "mediatek-drm",
--		.of_match_table = mtk_drm_of_ids,
- 		.pm     = &mtk_drm_pm_ops,
- 	},
- };
-diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-index 4b286b525cd3..32a92ec447c5 100644
---- a/drivers/soc/mediatek/mtk-mmsys.c
-+++ b/drivers/soc/mediatek/mtk-mmsys.c
-@@ -285,6 +285,7 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
- 	const struct mtk_mmsys_driver_data *data;
- 	struct device *dev = &pdev->dev;
- 	struct platform_device *clks;
-+	struct platform_device *drm;
- 	void __iomem *config_regs;
- 	struct resource *mem;
- 	int ret;
-@@ -307,6 +308,11 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
- 	if (IS_ERR(clks))
- 		return PTR_ERR(clks);
- 
-+	drm = platform_device_register_data(&pdev->dev, "mediatek-drm",
-+					    PLATFORM_DEVID_AUTO, NULL, 0);
-+	if (IS_ERR(drm))
-+		return PTR_ERR(drm);
-+
- 	return 0;
- }
- 
+-	mbus->colorspace = (fmt->cs == IPUV3_COLORSPACE_RGB) ?
+-		V4L2_COLORSPACE_SRGB : V4L2_COLORSPACE_SMPTE170M;
++	mbus->colorspace = V4L2_COLORSPACE_SRGB;
+ 	mbus->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(mbus->colorspace);
+ 	mbus->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(mbus->colorspace);
+ 	mbus->quantization =
 -- 
-2.25.1
+2.17.1
 
