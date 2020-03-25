@@ -2,66 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EB89192389
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 09:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5C8F192397
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 10:02:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727360AbgCYI7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 04:59:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44788 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726105AbgCYI7k (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 04:59:40 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC28320663;
-        Wed, 25 Mar 2020 08:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585126780;
-        bh=cOn4xweSXTjnIBdVVy7zlvAJx1b+MPNOhF7f/SvJVtQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xQC5Ih3hLcbZJRHGtrKpb8yn1ichnhGO1RqPmWYrlqvsm9829JJgzDLGTSNVjcWWa
-         I40Wh6XsucAcBLauxgR6yogL5mBCB04aZtY4skOD1t25Fhbr5yKQH4ViMUvVQixQSd
-         w7U5G2kKkCu600AcV10hIUPiV9c7E3DNgqxa+FCA=
-Date:   Wed, 25 Mar 2020 09:59:36 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Seungchul Kim <sc377.kim@samsung.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-fh: define v4l2_fh struct regardless of
- condition
-Message-ID: <20200325085936.GA3072245@kroah.com>
-References: <CGME20200323023045epcas2p12007502edd2a65efcccb00eb899d5532@epcas2p1.samsung.com>
- <000601d600bb$0e2d4320$2a87c960$@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000601d600bb$0e2d4320$2a87c960$@samsung.com>
+        id S1727320AbgCYJB5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 05:01:57 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43432 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726276AbgCYJB5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Mar 2020 05:01:57 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b2so1816046wrj.10;
+        Wed, 25 Mar 2020 02:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=nbiq64+XzLhBz/5xIW7PmevCceTu0q5VBUbnWqborHc=;
+        b=bhpzp8yk8Uwxp4ei1Ow0WJmAdcLW53JUOHAu5oHAlZ9dKYDKkqJ6pzz4nv1/jBieA+
+         YAE7AMPZF085cFPz8Dt/KDJRESWtQFWxwdZZXBjf7CVM9YpflrPFWfZ2vCHtWeB25OU5
+         JjzaZ7szVCGPTivODh9rzYa/PYBvUhsNdP/TwKigAG3FO55a2gcCsOdE7HSzSbZfBML6
+         kOJzyfRHxRjwtAnhl4cdIjH9zNFiI9jdf6XPKoVa1TNxdZpPOSvnVBMQt5p8SfjeeZkH
+         BZ3E5NmvNBkzwYk/hAKIrICcM2UHrkfU31v4XBXq3xCYLO2SD8M+GRG9Laywc0cYNati
+         73Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nbiq64+XzLhBz/5xIW7PmevCceTu0q5VBUbnWqborHc=;
+        b=pXZAX1+YxfDQKp65mahzTV2zhy8OE2o1KQQEkDpxCbvSCk/yt8000QT1bdnY9WU+X2
+         i+aBKZkk2GyFkwSoWDEOWXKzoPpY7PE16/bG0ALee83j7968jVIOzwmyWewMrTZxcTVu
+         QXCOA6oUqcPr/rl3yox1EWkWOz3zRmClS0j9xopJkRje37WgAKKaMSQ8ViQq9vHgNsBU
+         Bhg9pz6kZqiRQXpxQrT/4L8oNe9x2QK4Ps1KoFmCx0RbOj67dDAUsw3iaHVkPbC0YUAp
+         SoT7GUPlLBKsCpIdefW8H+7+UE0zLI3eU8ig5TTORon07TqXAhPqFxycsd+jA17T1C+H
+         EE2w==
+X-Gm-Message-State: ANhLgQ24ehlSvcwT+3gV/N6lwopCgmE2PwVj8GdKWPEo/UEdW881wK/b
+        TP2f/XihdFSi4RfGxgy8v+g7eNkLWSw=
+X-Google-Smtp-Source: ADFU+vsYtlC0mqbY2opJhHZeQt2yJWwUXpodXoYAxLr8opxwERXjUC+5rmFS04nEeXR1cnzG7CzhVA==
+X-Received: by 2002:adf:9b96:: with SMTP id d22mr2381487wrc.249.1585126915420;
+        Wed, 25 Mar 2020 02:01:55 -0700 (PDT)
+Received: from localhost.localdomain ([185.239.71.98])
+        by smtp.gmail.com with ESMTPSA id s131sm8148776wmf.35.2020.03.25.02.01.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2020 02:01:54 -0700 (PDT)
+From:   Xiaolong Huang <butterflyhuangxx@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, tglx@linutronix.de,
+        mpe@ellerman.id.au, allison@lohutok.net
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiaolong Huang <butterflyhuangxx@gmail.com>
+Subject: [PATCH] media: media/pci: prevent memory leak in bttv_probe
+Date:   Wed, 25 Mar 2020 17:01:22 +0800
+Message-Id: <20200325090122.9308-1-butterflyhuangxx@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 23, 2020 at 11:30:45AM +0900, Seungchul Kim wrote:
-> v4l2_fh struct define differently by CONFIG_V4L2_MEM2MEM_DEV.
-> If some vendors use CONFIG_V4L2_MEM2MEM_DEV by module, it can make the
-> mismatch of v4l2_fh sturct.
-> 
-> By the mismatch, the following error occurs.
-> ===============================
-> [    7.533506] v4l2_mem2mem: disagrees about version of symbol video_devdata
-> [    7.533594] v4l2_mem2mem: Unknown symbol video_devdata (err -22)
-> [    7.535319] v4l2_mem2mem: disagrees about version of symbol
-> v4l2_event_pending
-> [    7.542532] v4l2_mem2mem: Unknown symbol v4l2_event_pending (err -22)
-> ===============================
-> 
-> So v4l2_fh struct is modified to does not have dependency for
-> CONFIG_V4L2_MEM2MEM_DEV.
-> 
-> Signed-off-by: Seungchul Kim <sc377.kim@samsung.com>
-> ---
->  include/media/v4l2-fh.h | 2 --
->  1 file changed, 2 deletions(-)
+In bttv_probe if some functions such as pci_enable_device,
+pci_set_dma_mask and request_mem_region fails the allocated
+ memory for btv should be released.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Xiaolong Huang <butterflyhuangxx@gmail.com>
+---
+ drivers/media/pci/bt8xx/bttv-driver.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index a359da7773a9..37ac59110383 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -4013,10 +4013,14 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+ 	btv->id  = dev->device;
+ 	if (pci_enable_device(dev)) {
+ 		pr_warn("%d: Can't enable device\n", btv->c.nr);
++		bttvs[btv->c.nr] = NULL;
++		kfree(btv);
+ 		return -EIO;
+ 	}
+ 	if (pci_set_dma_mask(dev, DMA_BIT_MASK(32))) {
+ 		pr_warn("%d: No suitable DMA available\n", btv->c.nr);
++		bttvs[btv->c.nr] = NULL;
++		kfree(btv);
+ 		return -EIO;
+ 	}
+ 	if (!request_mem_region(pci_resource_start(dev,0),
+@@ -4025,6 +4029,8 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+ 		pr_warn("%d: can't request iomem (0x%llx)\n",
+ 			btv->c.nr,
+ 			(unsigned long long)pci_resource_start(dev, 0));
++		bttvs[btv->c.nr] = NULL;
++		kfree(btv);
+ 		return -EBUSY;
+ 	}
+ 	pci_set_master(dev);
+@@ -4211,6 +4217,8 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+ 	release_mem_region(pci_resource_start(btv->c.pci,0),
+ 			   pci_resource_len(btv->c.pci,0));
+ 	pci_disable_device(btv->c.pci);
++	bttvs[btv->c.nr] = NULL;
++	kfree(btv);
+ 	return result;
+ }
+ 
+-- 
+2.17.1
+
