@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E30811925F2
-	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 11:40:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 234F61925F5
+	for <lists+linux-media@lfdr.de>; Wed, 25 Mar 2020 11:41:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727259AbgCYKk6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 06:40:58 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:42204 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726264AbgCYKk6 (ORCPT
+        id S1727540AbgCYKlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 06:41:10 -0400
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:40765 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727137AbgCYKlJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 06:40:58 -0400
-Received: by mail-pl1-f195.google.com with SMTP id e1so650377plt.9
-        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 03:40:57 -0700 (PDT)
+        Wed, 25 Mar 2020 06:41:09 -0400
+Received: by mail-pj1-f65.google.com with SMTP id kx8so845609pjb.5
+        for <linux-media@vger.kernel.org>; Wed, 25 Mar 2020 03:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DvKg2IHi3Qj70iBHg+WUL8Lkjl5cn54XoVnrEhL3Mm8=;
-        b=jjB2X695zwinTyCqhhpHsSpEM1BFt/EQHCZAQkZrno2Ypr109M5Xwhg20kV0IpfCqs
-         y0terG7TofI2Q9YoV1N7NVeZ74FBif6BvbIVxdnIdXBHZWnUtMGkRPfdtsBSW1RAFlnx
-         CTblKpJvHFL+XYXDBQHhLGUh3VBAfgLTAF4+4=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0w5nM8eEqQa+r3KlscSzF1yUgJx8tEKgLzGL8Rz2s0c=;
+        b=cQv7O1va/xcwK7waoRTXeVhcaoVWq8hoqVkL6LPFOmaBXH+Jcx6Al9s3vOweh9wfJ3
+         0Yo8eflvHHdMQ8NqCZvE5sEO5fUj2qneXFO6UM4ZYsPFERzadTXE1scBIGUndu7hE9AB
+         EUEuxkknO1/HEBYO2WEDvpi9o3y07FjqRmXts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DvKg2IHi3Qj70iBHg+WUL8Lkjl5cn54XoVnrEhL3Mm8=;
-        b=eBxwxP+6CxZtwn3SiszKNx2KujvaNmNTwmIpQhyG2/wNy6u04w25/SaSgxKMILM61O
-         WrPPe4IxMz1qIYm9lK3xMo0ZouokcP6OlXeEm9E5Q1V+VTtA3D70qOd8Q+0+7j4trC2S
-         ix/qNNAqnSPn16w8U66HCxMFKsLsD+bmGlNhRdexXhVxbniwjV2rqkoqDV8i7pUeWnzt
-         tKCgINBDe+6tqWoBjRgpE4wOIGytdOJRC4MubPCL26qIzG1b31KT++5NKKo2whzxolsP
-         Cj9flECLe/xvo7+6kmJoJmnBmUfLgzo/Q8RtunGADIyKpgz2Tw6dtZDneB0oxAK3DV7J
-         IHNw==
-X-Gm-Message-State: ANhLgQ1DjBmbY/VCtz+LSIg4RqLMsi5Dp7zj+JtssKxKAXfKvpaXXP3K
-        YKmf1wQnT1RuFrdsAdjiQdjONQ==
-X-Google-Smtp-Source: ADFU+vvXebHRwUAL4QYgPA/E5Nymgdnz5gpZduRO6NtNGffciBeXDeNZkR6KYzkdrkpatyvnsfHqjQ==
-X-Received: by 2002:a17:90a:6501:: with SMTP id i1mr3013827pjj.32.1585132856562;
-        Wed, 25 Mar 2020 03:40:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0w5nM8eEqQa+r3KlscSzF1yUgJx8tEKgLzGL8Rz2s0c=;
+        b=cUkk7nDsKjZXPnqPkyzu2l+I/N1DS7rHIme8eFpw0z37VvOUu+2C/M9EtTFTquyqg3
+         xR+f3t45+V/GN37ofooqyK6HnWQgGYVFo+5duwHfILcdNkCMhwpRe9y/3NlwNhvXJFoQ
+         CT3KWC1vxlIAbSvq1L0HIusrHdNdcdB9zEW7mck4fc2qZmXWIiHpG/pFvWlYEDGjmI/x
+         NyjqVUPlNUiybtAUXTJA40T3Ikjh+B+i+UgatKOpamkbeEC47bRg714F+2//QkoSjCBN
+         MCARrP9QHMU2kIkUHosULiIF++0xQAfQ7m8RcvJSTCjdqQ1Gzees/KSd801pirKgAyNk
+         sXzg==
+X-Gm-Message-State: ANhLgQ27tp/CasSOdv7NFlX1YGPFzzmtmDTKFolEm9bg/kLnBnqXW2Au
+        q2wLHLbcoZtrxqY+njBcThXKdg==
+X-Google-Smtp-Source: ADFU+vtpgOPhDFufb83T8XOKlz0DNGzZV4YgUxIRZNF/9L2mB+aQZoPRmc8JxyykyPk7MxVy2t7DMA==
+X-Received: by 2002:a17:90a:af81:: with SMTP id w1mr3017572pjq.14.1585132866277;
+        Wed, 25 Mar 2020 03:41:06 -0700 (PDT)
 Received: from keiichiw1.tok.corp.google.com ([2401:fa00:8f:203:863a:e217:a16c:53f2])
-        by smtp.gmail.com with ESMTPSA id v26sm5150320pfn.51.2020.03.25.03.40.50
+        by smtp.gmail.com with ESMTPSA id v26sm5150320pfn.51.2020.03.25.03.41.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 03:40:55 -0700 (PDT)
+        Wed, 25 Mar 2020 03:41:05 -0700 (PDT)
 From:   Keiichi Watanabe <keiichiw@chromium.org>
 To:     virtio-dev@lists.oasis-open.org, linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -59,10 +59,12 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         acourbot@chromium.org, alexlau@chromium.org, egranata@google.com,
         hverkuil@xs4all.nl, kraxel@redhat.com, posciak@chromium.org,
         stevensd@chromium.org, tfiga@chromium.org
-Subject: [PATCH RFC 0/1] Support virtio objects in virtio-video driver
-Date:   Wed, 25 Mar 2020 19:40:38 +0900
-Message-Id: <20200325104039.196058-1-keiichiw@chromium.org>
+Subject: [PATCH RFC 1/1] drivers: media: virtio: Support virtio objects in virtio-video driver
+Date:   Wed, 25 Mar 2020 19:40:39 +0900
+Message-Id: <20200325104039.196058-2-keiichiw@chromium.org>
 X-Mailer: git-send-email 2.25.1.696.g5e7596f4ac-goog
+In-Reply-To: <20200325104039.196058-1-keiichiw@chromium.org>
+References: <20200325104039.196058-1-keiichiw@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -70,26 +72,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This implements a feature in virtio-video driver to use exported virtio
-objects as video buffers. So, the users will be able to use resources
-allocated by other virtio devices such as virtio-gpu.
+This patch makes the virtio-video driver use virtio objects as DMA buffers.
+So, users will beable to import resources exported by other virtio devices
+such as virtio-gpu.
 
-The virtio protocol for this feature is proposed by [1].
+Currently, we assumes that only one virtio object for each v4l2_buffer
+format even if it's for a multiplanar format.
 
-This commit depends on the following unmerged patches:
-* Virtio-video driver patch [2]
-* Patch series for virtio cross-device resources [3]
-* ChromeOS's local patch to use data_offset for offset of multiplanar
-  format [4]
-
-[1]: https://markmail.org/message/wxdne5re7aaugbjg
-[2]: https://patchwork.linuxtv.org/patch/61717/
-[3]: https://patchwork.kernel.org/project/linux-media/list/?series=254707
-[4]: https://chromium.googlesource.com/chromiumos/third_party/kernel/+/1057eb620ccd3da4632c14df269d545cb9a1ccb2
-
-Keiichi Watanabe (1):
-  drivers: media: virtio: Support virtio objects in virtio-video driver
-
+Signed-off-by: Keiichi Watanabe <keiichiw@chromium.org>
+---
  drivers/media/virtio/virtio_video.h        |  26 +++-
  drivers/media/virtio/virtio_video_dec.c    |   1 +
  drivers/media/virtio/virtio_video_device.c | 131 ++++++++++++++++++++-
@@ -98,5 +89,478 @@ Keiichi Watanabe (1):
  include/uapi/linux/virtio_video.h          |  15 ++-
  6 files changed, 243 insertions(+), 36 deletions(-)
 
+diff --git a/drivers/media/virtio/virtio_video.h b/drivers/media/virtio/virtio_video.h
+index c5a5704326c0..b74e5a06753f 100644
+--- a/drivers/media/virtio/virtio_video.h
++++ b/drivers/media/virtio/virtio_video.h
+@@ -25,6 +25,7 @@
+ #include <linux/virtio_config.h>
+ #include <linux/virtio_video.h>
+ #include <linux/list.h>
++#include <media/videobuf2-core.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-mem2mem.h>
+ #include <media/v4l2-ctrls.h>
+@@ -123,10 +124,17 @@ struct virtio_video_queue {
+ 	struct work_struct dequeue_work;
+ };
+
++enum virtio_video_resource_type {
++	RESOURCE_TYPE_GUEST_PAGES = 0,
++	RESOURCE_TYPE_VIRTIO_OBJECT,
++};
++
+ struct virtio_video {
+ 	struct v4l2_device v4l2_dev;
+ 	int instance;
+
++	enum virtio_video_resource_type res_type;
++
+ 	struct virtio_device *vdev;
+ 	struct virtio_video_queue commandq;
+ 	struct virtio_video_queue eventq;
+@@ -207,6 +215,9 @@ struct virtio_video_buffer {
+ 	struct v4l2_m2m_buffer v4l2_m2m_vb;
+ 	uint32_t resource_id;
+ 	bool queued;
++
++	/* Only for virtio object buffer */
++	uuid_t uuid;
+ };
+
+ static inline gfp_t
+@@ -300,12 +311,14 @@ int virtio_video_cmd_stream_create(struct virtio_video *vv, uint32_t stream_id,
+ int virtio_video_cmd_stream_destroy(struct virtio_video *vv,
+ 				    uint32_t stream_id);
+ int virtio_video_cmd_stream_drain(struct virtio_video *vv, uint32_t stream_id);
+-int virtio_video_cmd_resource_create(struct virtio_video *vv,
+-				     uint32_t stream_id, uint32_t resource_id,
+-				     uint32_t queue_type,
+-				     struct virtio_video_mem_entry *ents,
+-				    unsigned int num_planes,
+-				     unsigned int *num_entry);
++int virtio_video_cmd_resource_create_page(
++	struct virtio_video *vv, uint32_t stream_id, uint32_t resource_id,
++	uint32_t queue_type, unsigned int num_planes, unsigned int *num_entries,
++	struct virtio_video_mem_entry *ents);
++int virtio_video_cmd_resource_create_object(
++	struct virtio_video *vv, uint32_t stream_id, uint32_t resource_id,
++	uint32_t queue_type, unsigned int num_planes, struct vb2_plane *planes,
++	struct virtio_video_object_entry *ents);
+ int virtio_video_cmd_resource_destroy_all(struct virtio_video *vv,
+ 					  struct virtio_video_stream *stream,
+ 					  uint32_t queue_type);
+@@ -354,6 +367,7 @@ void virtio_video_mark_drain_complete(struct virtio_video_stream *stream,
+ int virtio_video_queue_setup(struct vb2_queue *vq, unsigned int *num_buffers,
+ 			     unsigned int *num_planes, unsigned int sizes[],
+ 			     struct device *alloc_devs[]);
++int virtio_video_buf_prepare(struct vb2_buffer *vb);
+ int virtio_video_buf_init(struct vb2_buffer *vb);
+ void virtio_video_buf_cleanup(struct vb2_buffer *vb);
+ int virtio_video_querycap(struct file *file, void *fh,
+diff --git a/drivers/media/virtio/virtio_video_dec.c b/drivers/media/virtio/virtio_video_dec.c
+index 4b85337bb9f3..5d763191f436 100644
+--- a/drivers/media/virtio/virtio_video_dec.c
++++ b/drivers/media/virtio/virtio_video_dec.c
+@@ -122,6 +122,7 @@ static void virtio_video_dec_stop_streaming(struct vb2_queue *vq)
+ static const struct vb2_ops virtio_video_dec_qops = {
+ 	.queue_setup	 = virtio_video_queue_setup,
+ 	.buf_init	 = virtio_video_buf_init,
++	.buf_prepare	 = virtio_video_buf_prepare,
+ 	.buf_cleanup	 = virtio_video_buf_cleanup,
+ 	.buf_queue	 = virtio_video_dec_buf_queue,
+ 	.start_streaming = virtio_video_dec_start_streaming,
+diff --git a/drivers/media/virtio/virtio_video_device.c b/drivers/media/virtio/virtio_video_device.c
+index 8e6bc317339b..e91107082d97 100644
+--- a/drivers/media/virtio/virtio_video_device.c
++++ b/drivers/media/virtio/virtio_video_device.c
+@@ -17,6 +17,7 @@
+  * along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+
++#include <linux/dma-buf.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/videobuf2-dma-sg.h>
+@@ -49,7 +50,47 @@ int virtio_video_queue_setup(struct vb2_queue *vq, unsigned int *num_buffers,
+ 	return 0;
+ }
+
+-int virtio_video_buf_init(struct vb2_buffer *vb)
++static int virtio_video_get_dma_buf_id(struct virtio_video_device *vvd,
++			  struct vb2_buffer *vb, uuid_t *uuid)
++{
++	/**
++	 * For multiplanar formats, we assume all planes are on one DMA buffer.
++	 */
++	struct dma_buf *dma_buf = dma_buf_get(vb->planes[0].m.fd);
++
++	return dma_buf_get_uuid(dma_buf, uuid);
++}
++
++static int virtio_video_send_resource_create_object(struct vb2_buffer *vb,
++						    uint32_t resource_id,
++						    uuid_t uuid)
++{
++	struct virtio_video_stream *stream = vb2_get_drv_priv(vb->vb2_queue);
++	struct virtio_video *vv = to_virtio_vd(stream->video_dev)->vv;
++	struct virtio_video_object_entry *ent;
++	int queue_type;
++	int ret;
++
++	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
++		queue_type = VIRTIO_VIDEO_QUEUE_TYPE_INPUT;
++	else
++		queue_type = VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT;
++
++	ent = kcalloc(1, sizeof(*ent), GFP_KERNEL);
++	uuid_copy((uuid_t *) &ent->uuid, &uuid);
++
++	ret = virtio_video_cmd_resource_create_object(vv, stream->stream_id,
++						      resource_id,
++						      queue_type,
++						      vb->num_planes,
++						      vb->planes, ent);
++	if (ret)
++		kfree(ent);
++
++	return ret;
++}
++
++static int virtio_video_buf_init_guest_pages(struct vb2_buffer *vb)
+ {
+ 	int ret = 0;
+ 	unsigned int i, j;
+@@ -109,11 +150,10 @@ int virtio_video_buf_init(struct vb2_buffer *vb)
+ 					ents[i].addr, ents[i].length);
+ 	}
+
+-	ret = virtio_video_cmd_resource_create(vv, stream->stream_id,
+-					       resource_id,
+-					       to_virtio_queue_type(queue_type),
+-					       ents, vb->num_planes,
+-					       num_ents);
++	ret = virtio_video_cmd_resource_create_page(
++		vv, stream->stream_id, resource_id,
++		to_virtio_queue_type(queue_type), vb->num_planes, num_ents,
++		ents);
+ 	if (ret) {
+ 		virtio_video_resource_id_put(vvd->vv, resource_id);
+ 		kfree(ents);
+@@ -127,6 +167,85 @@ int virtio_video_buf_init(struct vb2_buffer *vb)
+ 	return 0;
+ }
+
++static int virtio_video_buf_init_virtio_object(struct vb2_buffer *vb)
++{
++	struct virtio_video_stream *stream = vb2_get_drv_priv(vb->vb2_queue);
++	struct virtio_video_buffer *virtio_vb = to_virtio_vb(vb);
++	struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
++	struct virtio_video *vv = vvd->vv;
++	int ret;
++	uint32_t resource_id;
++	uuid_t uuid;
++
++	ret = virtio_video_get_dma_buf_id(vvd, vb, &uuid);
++	if (ret) {
++		v4l2_err(&vv->v4l2_dev, "failed to get DMA-buf handle");
++		return ret;
++	}
++	virtio_video_resource_id_get(vv, &resource_id);
++
++	ret = virtio_video_send_resource_create_object(vb, resource_id, uuid);
++	if (ret) {
++		virtio_video_resource_id_put(vv, resource_id);
++		return ret;
++	}
++
++	virtio_vb->queued = false;
++	virtio_vb->resource_id = resource_id;
++	virtio_vb->uuid = uuid;
++
++	return 0;
++}
++
++int virtio_video_buf_init(struct vb2_buffer *vb)
++{
++	struct virtio_video_stream *stream = vb2_get_drv_priv(vb->vb2_queue);
++	struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
++	struct virtio_video *vv = vvd->vv;
++
++	switch (vv->res_type) {
++	case RESOURCE_TYPE_GUEST_PAGES:
++		return virtio_video_buf_init_guest_pages(vb);
++	case RESOURCE_TYPE_VIRTIO_OBJECT:
++		return virtio_video_buf_init_virtio_object(vb);
++	default:
++		return -EINVAL;
++	}
++}
++
++int virtio_video_buf_prepare(struct vb2_buffer *vb)
++{
++	struct virtio_video_stream *stream = vb2_get_drv_priv(vb->vb2_queue);
++	struct virtio_video_buffer *virtio_vb = to_virtio_vb(vb);
++	struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
++	struct virtio_video *vv = vvd->vv;
++	uuid_t uuid;
++	int ret;
++
++	if (vv->res_type != RESOURCE_TYPE_VIRTIO_OBJECT)
++		return 0;
++
++	ret = virtio_video_get_dma_buf_id(vvd, vb, &uuid);
++	if (ret) {
++		v4l2_err(&vv->v4l2_dev, "failed to get DMA-buf handle");
++		return ret;
++	}
++
++	/**
++	 * If a user gave a different object as a buffer from the previous
++	 * one, send RESOURCE_CREATE again to register the object.
++	 */
++	if (!uuid_equal(&uuid, &virtio_vb->uuid)) {
++		ret = virtio_video_send_resource_create_object(
++			vb, virtio_vb->resource_id, uuid);
++		if (ret)
++			return ret;
++		virtio_vb->uuid = uuid;
++	}
++
++	return ret;
++}
++
+ void virtio_video_buf_cleanup(struct vb2_buffer *vb)
+ {
+ 	struct virtio_video_stream *stream = vb2_get_drv_priv(vb->vb2_queue);
+diff --git a/drivers/media/virtio/virtio_video_driver.c b/drivers/media/virtio/virtio_video_driver.c
+index 2d4fd7671f4f..f01b744587c8 100644
+--- a/drivers/media/virtio/virtio_video_driver.c
++++ b/drivers/media/virtio/virtio_video_driver.c
+@@ -171,16 +171,27 @@ static int virtio_video_probe(struct virtio_device *vdev)
+ 		virtio_video_cmd_ack,
+ 		virtio_video_event_ack
+ 	};
+-
+-	if (!virtio_has_feature(vdev, VIRTIO_VIDEO_F_RESOURCE_GUEST_PAGES)) {
+-		dev_err(dev, "device must support guest allocated buffers\n");
+-		return -ENODEV;
+-	}
+-
+ 	vv = devm_kzalloc(dev, sizeof(*vv), GFP_KERNEL);
+ 	if (!vv)
+ 		return -ENOMEM;
+
++	/**
++	 * RESOURCE_GUEST_PAGES is prioritized when both resource type is
++	 * supported.
++	 * TODO: Can we provide users with a way of specifying a
++	 *  resource type when both are supported?
++	 */
++	if (virtio_has_feature(vdev, VIRTIO_VIDEO_F_RESOURCE_GUEST_PAGES)) {
++		vv->res_type = RESOURCE_TYPE_GUEST_PAGES;
++	} else if (virtio_has_feature(vdev,
++				      VIRTIO_VIDEO_F_RESOURCE_VIRTIO_OBJECT)) {
++		vv->res_type = RESOURCE_TYPE_VIRTIO_OBJECT;
++	} else {
++		dev_err(dev, "device must support guest allocated buffers or virtio objects\n");
++		ret = -ENODEV;
++		goto err_res_type;
++	}
++
+ 	vv->vdev = vdev;
+ 	vv->debug = debug;
+ 	vv->use_dma_mem = use_dma_mem;
+@@ -267,6 +278,7 @@ static int virtio_video_probe(struct virtio_device *vdev)
+ err_vqs:
+ 	v4l2_device_unregister(&vv->v4l2_dev);
+ err_v4l2_reg:
++err_res_type:
+ 	devm_kfree(&vdev->dev, vv);
+
+ 	return ret;
+@@ -292,6 +304,7 @@ static struct virtio_device_id id_table[] = {
+ static unsigned int features[] = {
+ 	VIRTIO_VIDEO_F_RESOURCE_GUEST_PAGES,
+ 	VIRTIO_VIDEO_F_RESOURCE_NON_CONTIG,
++	VIRTIO_VIDEO_F_RESOURCE_VIRTIO_OBJECT,
+ };
+
+ static struct virtio_driver virtio_video_driver = {
+diff --git a/drivers/media/virtio/virtio_video_vq.c b/drivers/media/virtio/virtio_video_vq.c
+index 4679e6b49cf3..dc5e1b7a320e 100644
+--- a/drivers/media/virtio/virtio_video_vq.c
++++ b/drivers/media/virtio/virtio_video_vq.c
+@@ -411,6 +411,18 @@ int virtio_video_cmd_stream_create(struct virtio_video *vv, uint32_t stream_id,
+ {
+ 	struct virtio_video_stream_create *req_p;
+ 	struct virtio_video_vbuffer *vbuf;
++	int resource_type;
++
++	switch (vv->res_type) {
++	case RESOURCE_TYPE_GUEST_PAGES:
++		resource_type = VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES;
++		break;
++	case RESOURCE_TYPE_VIRTIO_OBJECT:
++		resource_type = VIRTIO_VIDEO_MEM_TYPE_VIRTIO_OBJECT;
++		break;
++	default:
++		return -EINVAL;
++	}
+
+ 	req_p = virtio_video_alloc_req(vv, &vbuf, sizeof(*req_p));
+ 	if (IS_ERR(req_p))
+@@ -418,9 +430,10 @@ int virtio_video_cmd_stream_create(struct virtio_video *vv, uint32_t stream_id,
+
+ 	req_p->hdr.type = cpu_to_le32(VIRTIO_VIDEO_CMD_STREAM_CREATE);
+ 	req_p->hdr.stream_id = cpu_to_le32(stream_id);
+-	req_p->in_mem_type = cpu_to_le32(VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES);
+-	req_p->out_mem_type = cpu_to_le32(VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES);
+ 	req_p->coded_format = cpu_to_le32(format);
++	req_p->in_mem_type = cpu_to_le32(resource_type);
++	req_p->out_mem_type = cpu_to_le32(resource_type);
++
+ 	strncpy(req_p->tag, tag, sizeof(req_p->tag) - 1);
+ 	req_p->tag[sizeof(req_p->tag) - 1] = 0;
+
+@@ -457,30 +470,38 @@ int virtio_video_cmd_stream_drain(struct virtio_video *vv, uint32_t stream_id)
+ 	return virtio_video_queue_cmd_buffer(vv, vbuf);
+ }
+
+-int virtio_video_cmd_resource_create(struct virtio_video *vv,
+-				     uint32_t stream_id, uint32_t resource_id,
+-				     uint32_t queue_type,
+-				     struct virtio_video_mem_entry *ents,
+-				     unsigned int num_planes,
+-				     unsigned int *num_entry)
++static void virtio_video_cmd_resource_create_core(
++	struct virtio_video *vv, struct virtio_video_resource_create *req_p,
++	uint32_t stream_id, uint32_t resource_id, uint32_t queue_type,
++	unsigned int num_planes)
++{
++	req_p->hdr.type = cpu_to_le32(VIRTIO_VIDEO_CMD_RESOURCE_CREATE);
++	req_p->hdr.stream_id = cpu_to_le32(stream_id);
++	req_p->resource_id = cpu_to_le32(resource_id);
++	req_p->queue_type = cpu_to_le32(queue_type);
++	req_p->num_planes = cpu_to_le32(num_planes);
++}
++
++int virtio_video_cmd_resource_create_page(
++	struct virtio_video *vv, uint32_t stream_id, uint32_t resource_id,
++	uint32_t queue_type, unsigned int num_planes, unsigned int *num_entries,
++	struct virtio_video_mem_entry *ents)
+ {
+-	unsigned int i = 0, nents = 0;
+ 	struct virtio_video_resource_create *req_p;
+ 	struct virtio_video_vbuffer *vbuf;
++	unsigned int nents = 0;
++	int i;
+
+ 	req_p = virtio_video_alloc_req(vv, &vbuf, sizeof(*req_p));
+ 	if (IS_ERR(req_p))
+ 		return PTR_ERR(req_p);
+
+-	req_p->hdr.type = cpu_to_le32(VIRTIO_VIDEO_CMD_RESOURCE_CREATE);
+-	req_p->hdr.stream_id = cpu_to_le32(stream_id);
+-	req_p->resource_id = cpu_to_le32(resource_id);
+-	req_p->queue_type = cpu_to_le32(queue_type);
+-	 req_p->num_planes = cpu_to_le32(num_planes);
++	virtio_video_cmd_resource_create_core(vv, req_p, stream_id, resource_id,
++					      queue_type, num_planes);
+
+ 	for (i = 0; i < num_planes; i++) {
+-		nents += num_entry[i];
+-		req_p->num_entries[i] = cpu_to_le32(num_entry[i]);
++		nents += num_entries[i];
++		req_p->num_entries[i] = cpu_to_le32(num_entries[i]);
+ 	}
+
+ 	vbuf->data_buf = ents;
+@@ -489,6 +510,33 @@ int virtio_video_cmd_resource_create(struct virtio_video *vv,
+ 	return virtio_video_queue_cmd_buffer(vv, vbuf);
+ }
+
++int virtio_video_cmd_resource_create_object(
++	struct virtio_video *vv, uint32_t stream_id, uint32_t resource_id,
++	uint32_t queue_type, unsigned int num_planes, struct vb2_plane *planes,
++	struct virtio_video_object_entry *ents)
++{
++	struct virtio_video_resource_create *req_p;
++	struct virtio_video_vbuffer *vbuf;
++	int i;
++
++	req_p = virtio_video_alloc_req(vv, &vbuf, sizeof(*req_p));
++	if (IS_ERR(req_p))
++		return PTR_ERR(req_p);
++
++	virtio_video_cmd_resource_create_core(vv, req_p, stream_id, resource_id,
++					      queue_type, num_planes);
++
++	req_p->planes_layout =
++		cpu_to_le32(VIRTIO_VIDEO_PLANES_LAYOUT_SINGLE_BUFFER);
++	for (i = 0; i < num_planes; i++)
++		req_p->plane_offsets[i] = planes[i].data_offset;
++
++	vbuf->data_buf = ents;
++	vbuf->data_size = sizeof(*ents);
++
++	return virtio_video_queue_cmd_buffer(vv, vbuf);
++}
++
+ int virtio_video_cmd_resource_destroy_all(struct virtio_video *vv,
+ 					  struct virtio_video_stream *stream,
+ 					  enum virtio_video_queue_type qtype)
+@@ -1009,4 +1057,3 @@ int virtio_video_cmd_set_control(struct virtio_video *vv, uint32_t stream_id,
+
+ 	return virtio_video_queue_cmd_buffer(vv, vbuf);
+ }
+-
+diff --git a/include/uapi/linux/virtio_video.h b/include/uapi/linux/virtio_video.h
+index 0dd98a2237c6..f7b3f94f9dbb 100644
+--- a/include/uapi/linux/virtio_video.h
++++ b/include/uapi/linux/virtio_video.h
+@@ -49,6 +49,8 @@
+  * scatter-gather lists.
+  */
+ #define VIRTIO_VIDEO_F_RESOURCE_NON_CONTIG 1
++/* Objects exported by another virtio device can be used for video buffers */
++#define VIRTIO_VIDEO_F_RESOURCE_VIRTIO_OBJECT 2
+
+ /*
+  * Image formats
+@@ -240,6 +242,7 @@ struct virtio_video_query_capability_resp {
+ /* VIRTIO_VIDEO_CMD_STREAM_CREATE */
+ enum virtio_video_mem_type {
+ 	VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES,
++	VIRTIO_VIDEO_MEM_TYPE_VIRTIO_OBJECT,
+ };
+
+ struct virtio_video_stream_create {
+@@ -268,6 +271,10 @@ struct virtio_video_mem_entry {
+ 	__u8 padding[4];
+ };
+
++struct virtio_video_object_entry {
++	__u8 uuid[16];
++};
++
+ #define VIRTIO_VIDEO_MAX_PLANES 8
+
+ struct virtio_video_resource_create {
+@@ -278,7 +285,13 @@ struct virtio_video_resource_create {
+ 	__le32 num_planes;
+ 	__le32 plane_offsets[VIRTIO_VIDEO_MAX_PLANES];
+ 	__le32 num_entries[VIRTIO_VIDEO_MAX_PLANES];
+-	/* Followed by struct virtio_video_mem_entry entries[] */
++	/**
++	 * Followed by either
++	 * - struct virtio_video_mem_entry entries[]
++	 *   for VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES
++	 * - struct virtio_video_object_entry entries[]
++	 *   for VIRTIO_VIDEO_MEM_TYPE_VIRTIO_OBJECT
++	 */
+ };
+
+ /* VIRTIO_VIDEO_CMD_RESOURCE_QUEUE */
 --
 2.25.1.696.g5e7596f4ac-goog
