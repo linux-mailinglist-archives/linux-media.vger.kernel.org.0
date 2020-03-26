@@ -2,262 +2,369 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E86EB193ACE
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5362B193AD0
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:28:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727787AbgCZI2p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 04:28:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45828 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727772AbgCZI2p (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:28:45 -0400
-Received: from coco.lan (x2f7f9e9.dyn.telefonica.de [2.247.249.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B6C32070A;
-        Thu, 26 Mar 2020 08:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585211324;
-        bh=ReDk69Qo37KGy5ASDUUx4h0c+v4mtaJXcZof+Spm6f8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cEKU4NWO3blZyQDp6TDlbUH4YgHggIHDgjZhGXM9W+34CNHB6B+UmI9Ie5EYGBW2p
-         bMBWfeoXZXL7xAQDrudpzEMD9rHD73/y5qEoyuMq6xsXcoC0aL/Zkj83aHRFE9lwO/
-         1ARof01IFCY54Qj2o3g1kW5vPx6rPRmAbqxCmQBo=
-Date:   Thu, 26 Mar 2020 09:28:32 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Yong Deng <yong.deng@magewell.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund@ragnatech.se>
-Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
-Message-ID: <20200326092832.069a4d17@coco.lan>
-In-Reply-To: <20200325221343.GW19171@pendragon.ideasonboard.com>
-References: <cover.1585151701.git.mchehab+huawei@kernel.org>
-        <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
-        <20200325223820.1c74aed3@coco.lan>
-        <20200325221343.GW19171@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727792AbgCZI2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 04:28:47 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39825 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727751AbgCZI2q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Mar 2020 04:28:46 -0400
+Received: by mail-lj1-f196.google.com with SMTP id i20so5458355ljn.6
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 01:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=mTsg/k3T0RBYLp/O6KmyTIl2SHP8mSvBsvX2HycEfC8=;
+        b=WPuUm1D8PLIutfQxvZDsYq02yN30wXwnJM94AVzerPESuci6fUO7DQJt4FkmDECGxL
+         cO/Rh9y66uV9rO/8pYuZq2ip6PiRNMTiOKoVWPmnbuSt3G72EyFzx2UjWDAprIt+M+dA
+         ILdj2PL8snxcjnyTv8GVP+WGnFEiKlslzzq+BSz/5TwcKrNXGrduX+ajHJg+2d9IqpCy
+         5dxdxMs+yOJYJ/yO/TrJgthiWJXBcGypvErqKR0mXKoqwNE8fe8TcRzWIsTmYDdCcf2f
+         dTuiR8KqQAejbC15LDOmeEUgmorsjQhs3t29QbO/A9hHuDxy+NrK8SqqL8eoprKJaJox
+         LBew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=mTsg/k3T0RBYLp/O6KmyTIl2SHP8mSvBsvX2HycEfC8=;
+        b=gyinrxJZ3D6OU2wBWuFTgra12DxSXGl5mFW9dNet12tLVW2Fqp//7dJ/4hDYev+COD
+         xlk28tH4S90HYA+BWsqicueJYiw/9wwK6W4NxF0Ya1tg/W2UgWtfu6MM1SQ4LM3Llg3A
+         /UVeBeqPc+nb7GC8+p1X258jANWS4LHi3gF/YI9+Ri/0dMffw0CoOTAVsJG00U511H05
+         DxzEcucP8hInSeCAsXYkiBvEsW1qSF+Wh3EsjffhFPhPn0Ndz7LlhTW+acZQ4HKVnWvQ
+         6PwZikb36OnFrlZ65lkGdFMfEahenFCPMxf0lOtK7XA3FTE2zEUcyIJe4nTTqAP0c9m4
+         a/Tg==
+X-Gm-Message-State: ANhLgQ040MYYCIoNpzvylkNZnR/vIiD1csXAs1xhzEYFXXepjzBjBpTR
+        Gna9ERSipnpbJAm17h/Vy0f3d/m73FA=
+X-Google-Smtp-Source: APiQypIoNJzvYZB25rdb4PBPxvTh9mAJBmpKzfx/ZJNz0tJCf8fl7Mcg/JPAb6HXv8RltbdK4q2rmw==
+X-Received: by 2002:a05:651c:1061:: with SMTP id y1mr4186192ljm.285.1585211322009;
+        Thu, 26 Mar 2020 01:28:42 -0700 (PDT)
+Received: from [192.168.7.22] ([217.148.211.220])
+        by smtp.gmail.com with ESMTPSA id l21sm1061643lfh.63.2020.03.26.01.28.41
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2020 01:28:41 -0700 (PDT)
+To:     linux-media@vger.kernel.org
+From:   =?UTF-8?B?0JzQuNGF0LDQudC70L7QsiDQkNC70LXQutGB0LXQuSDQkNC90LDRgtC+0Ls=?=
+         =?UTF-8?B?0YzQtdCy0LjRhw==?= <minimumlaw@gmail.com>
+Subject: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
+Message-ID: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
+Date:   Thu, 26 Mar 2020 11:28:41 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 26 Mar 2020 00:13:43 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Hi!
 
-> Hi Mauro,
-> 
-> On Wed, Mar 25, 2020 at 10:38:20PM +0100, Mauro Carvalho Chehab wrote:
-> > Em Wed, 25 Mar 2020 16:36:31 -0300 Helen Koike escreveu:  
-> > > On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:  
-> > > > That's the second part of media Kconfig changes. The entire series is
-> > > > at:
-> > > > 
-> > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig    
-> > > 
-> > > I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
-> > > I asked him to enable Vimc (from default configs, where multimedia starts disabled).
-> > > He knows that Vimc is a virtual camera driver, and this is how he behaved:
-> > > 
-> > > === Start of experiment:
-> > > 
-> > > * He pressed '/' and searched for vimc to see the location path.
-> > > * Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
-> > > * He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
-> > > * He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
-> > > * He seemed a bit lost, going back and forth in the menus a couple of times.
-> > > * Then he pressed '/' again to search for vimc and see the location path, and he realized that there
-> > > should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
-> > > * He went back to "Media device types" again and start re-reading the options.
-> > > * He selected "Cameras and video grabbers" ant went back to "Media drivers".
-> > > * He sees "V4L test drivers", selects it, and enter this menu.
-> > > * He selects "Virtual Media Controller Driver".
-> > > 
-> > > I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
-> > > to combine "Test drivers" with "Cameras and video grabbers".
-> > > He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
-> > > 
-> > > Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
-> > > realized by himself until that moment, nor tried it out to see what would happen).
-> > > 
-> > > He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
-> > > He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.  
-> > 
-> > That's easy to solve: all it needs is to add something similar
-> > to this at drivers/media/Kconfig:
-> > 
-> > 	+	comment "Drivers are filtered by MEDIA_SUPPORT_FILTER"
-> > 	+		visible if MEDIA_SUPPORT_FILTER
-> > 	+
-> > 	+	comment "All available drivers are shown below"
-> > 	+		visible if !MEDIA_SUPPORT_FILTER
-> > 	+
-> > 	menu "Media drivers"
-> > 
-> > 	source "drivers/media/usb/Kconfig"
-> >   
-> > > === End of experiment
-> > > 
-> > > This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
-> > > and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
-> > > kernel development (kernel dev newbies for instance).
-> > > 
-> > > Just another remark from me:
-> > > 
-> > > From the default config, "Media drivers" shows USB and PCI,   
-> > 
-> > Well, assuming that there are 2 billion computers, 1% with Linux
-> > installed, and 10% of them have a media device (camera or TV),
-> > we have about 2 millions of people running Linux. That excludes
-> > Android and Embedded devices, where people usually don't touch.
-> > 
-> > During an entire year, there are about 4000 of Kernel developers 
-> > that has at least one patch accepted upstream (this number
-> > includes developers for Android and other SoCs). Also, the 
-> > number of Kernel developers submitting patches upstream for the
-> > media subsystem is around 20-40 people along an year.  
-> 
-> $ git log --since 2019-01-01 --until 2020-01-01 --no-merges -- drivers/media/ | grep '^Author: ' | sort | uniq -c | wc -l   
-> 215
-> 
-> There's some duplication of e-mail addresses, but it's still roughly an
-> order or magnitude bigger (and it's not counting staging, headers or
-> documentation).
-> 
-> > So, about 99,9998% of the users using the media subsystems aren't
-> > Kernel hackers. I bet that almost all of those will either need
-> > to enable USB or a PCI driver.  
-> 
-> And the extremely vast majority of these will never enable a kernel
-> option because they will never compile a kernel. They don't even know
-> what a kernel is :-)
-> 
-> > Granted, 99,9998% seems too optimistic, but, assuming that this
-> > would reduce to something like 80% (e. g. only 200 users
-> > would ever try to build a media driver, with is a *very conservative*
-> > number) this is still a lot more than the number of media Kernel
-> > developers.
-> > 
-> > Also, a Kernel hacker will sooner or later find a way to enable it.
-> > A normal user may find it a lot more trickier and will very likely
-> > require more support, if the menus are too technical and the
-> > default options are wrong.  
-> 
-> I'm not sure to follow you. Are you implying that this patch series,
-> which Helen has tested against a real user, not an experienced kernel
-> hacker, may make the configuration options more difficult for kernel
-> hackers, but improves the situation for users ?
+We build custom CPU Module with NXP/Freescale IMX6QuadPlus CPU.I use 
+latest stable kernel from kernel.org. This time kernel version 5.5.11. 
+Also I connect to I.MX MIPI cameras from RaspberryPI (Rev 2.1 with Sony 
+IMX219). For IMX219 used actual driver from [1]. Usersapce based on 
+Gentoo Linux, have media-utils version 1.2.1, v4l2-utils version 1.18.0, 
+gstreamer version 1.14.5 with v4l2 plugins. Also Wayland version 1.17 
+based graphics with XWayland.
 
-Come on, it is not harder for Kernel hackers. It is just different than
-what it used to be before the changes. At the above experience, at the
-very first time this Kernel hacker looked on it, it was able to figure
-out how to enable the driver. I bet that, if you now repeat the experiment
-with the same guy, he would be able to enable another driver a lot quicker.
+Camera write in DTB:
+==== cut: DTB fragments ====
+/ {
+[skiped]
+	imx219_clk: camera-clk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <24000000>;
+	};
 
-My view is that, with the option of either enable or disable the
-filtering mechanism, it will be easier for everybody:
+	imx219_1v2_reg: cam1v2_regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "IMX219_1V2";
+		regulator-min-microvolt = <1200000>;
+		regulator-max-microvolt = <1200000>;
+		vin-supply = <&p3v3_reg>;
+		regulator-always-on;
+	};
 
-- Distro maintainers for PCs can just disable platform and
-  test drivers, and keep the other drivers enabled;
+	imx219_1v8_reg: cam1v8_regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "IMX219_1V8";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		vin-supply = <&p3v3_reg>;
+		regulator-always-on;
+	};
 
-- An experienced Kernel hacker will disable the filter and select
-  the needed drivers directly.
+	imx219_2v8_reg: cam2v8_regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "IMX219_2V8";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		vin-supply = <&p3v3_reg>;
+		regulator-always-on;
+	};
+[skiped]
+csi_i2c: i2c-mux@1 { /* CSI camera */
+	#address-cells = <1>;
+	#size-cells = <0>;
+	reg = <1>;
+	sensor@10 {	/* Raspberry Camera V2 */
+		compatible = "sony,imx219";
+		reg = <0x10>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&imx219_clk>;
+		clock-names = "xclk";
+		DOVDD-supply = <&imx219_1v8_reg>; /* 1.8v */
+		AVDD-supply = <&imx219_2v8_reg>;  /* 2.8v */
+		DVDD-supply = <&imx219_1v2_reg>;  /* 1.2v */
 
-- An user wanting to test a driver with new patches (or a new driver)
-  use the filters to select the USB driver he needs (probably using the
-  media_tree.git, in order to see only the media options).
+		port {
+			csi_sensor_out: endpoint {
+				remote-endpoint = <&csi_port_in>;
+				link-frequencies = /bits/ 64 <456000000>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
+};
+[skiped]
+&mipi_csi {
+	status = "okay";
 
+	port@0 {
+		reg = <0>;
+		csi_port_in: endpoint {
+			remote-endpoint = <&csi_sensor_out>;
+			clock-lanes = <0>;
+			data-lanes = <1 2>;
+		};
+	};
+};
+[skiped]
+==== cut: DTB fragments ====
 
-> > -
-> > 
-> > Even with that, based on your small experiment (of someone from the
-> > area), I suspect that, if you had asked him to enable, for example,
-> > em28xx or dvbsky (with are some of the most popular drivers
-> > those days), he would be able to enable it a lot faster.  
-> 
-> This is the *only* real piece of evidence we have, let's not assume we
-> know better.
-> 
-> > > and selecting those doesn't do anything, and people can even think
-> > > that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
-> > > shows up.  
-> > 
-> > It is hard to comment on individual experiments. In the past, our
-> > Kconfig system were like that: written for technical people with
-> > background on computer engineering and some experience building the
-> > Kernel.
-> > 
-> > E.g. people that knows that "/" activates a search mechanism at
-> > the Kernel building system.
-> > 
-> > We usually had to spend *a lot of time* both on IRC and on e-mail
-> > explaining people that just want to have their card supported,
-> > how to do that. After the reorg (with added those more user-faced
-> > interfaces), the number of people with problems reduced a lot.  
-> 
-> Don't you think that could come mainly from better support for media
-> devices in distributions ?
-> 
-> > Btw, if one tries to compile from media-build (with lots of users
-> > do), this is even more relevant.  
-> 
-> Can you quantify "lots of users" ?
+I use script for init connected camera
 
-Enough to make us to decide that re-working the Kconfig menus and 
-add the MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT would worth the
-efforts.
+==== cut: Camera init script ===
+#!/bin/bash
 
-Guess what? The efforts were fully paid, as it reduced a lot the
-amount of time we had to weekly spend helping people to build their
-Kernels in order to test support for their new hardware.
+# sensor output format and resolutions
+# RaspberryPI Camera rev 2.1 (Sony I.MX219)
+I_FORMAT=SRGGB10_1X10
+I_RESOLUTION=1920x1080
+CROP=(0,0)/640x480
 
-It also helped a lot to set the right Kconfig options on distros.
-I did my contributions on that time by improving Fedora and on RHEL,
-making their build rely on MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT.
+# capture format and resolution
+O_FORMAT=AYUV32
+O_RESOLUTION=640x480
 
-See, for some random distro maintainer, new Kconfig symbols pops up
-every time. Enabling all of them is usually a very bad idea. So, a
-filtering mechanism that would, for example, hide test and skeleton
-drivers to be built is a very nice feat, as it means a lot less
-symbols for them to study and decide whether such new options should
-be enabled or not
+# viewport format and resolution
+V_FORMAT=AYUV32
+V_RESOLUTION=640x480
 
-Thanks,
-Mauro
+# Reset all media links
+media-ctl -r
+
+# Sersor to IPU and PRP path
+# RaspberryPI Camera rev 2.1 (Sony I.MX219)
+media-ctl -l "'imx219 9-0010':0 -> 'imx6-mipi-csi2':0[1]"
+media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
+# media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]" # /dev/video3 
+(unused, unprocessed)
+# IPU to capture
+media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
+media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]" # 
+/dev/video1
+# IPU to viewport
+media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
+media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]" # 
+/dev/video2
+
+# RaspberryPI Camera rev 2.1 (Sony I.MX219)
+media-ctl -V "'imx219 9-0010':0 [fmt:${I_FORMAT}/${I_RESOLUTION} 
+field:none]"
+media-ctl -V "'imx6-mipi-csi2':2 [fmt:${I_FORMAT}/${I_RESOLUTION} 
+field:none]"
+media-ctl -V "'ipu1_csi1':0 [crop:${CROP}]"
+media-ctl -V "'ipu1_csi1':1 [fmt:${I_FORMAT}/${O_RESOLUTION} field:none]"
+
+media-ctl -V "'ipu1_ic_prp':1 [fmt:${O_FORMAT}/${O_RESOLUTION} field:none]"
+media-ctl -V "'ipu1_ic_prpenc':1 [fmt:${O_FORMAT}/${O_RESOLUTION} 
+field:none]"
+
+media-ctl -V "'ipu1_ic_prp':2 [fmt:${V_FORMAT}/${V_RESOLUTION} field:none]"
+media-ctl -V "'ipu1_ic_prpvf':1 [fmt:${V_FORMAT}/${V_RESOLUTION} 
+field:none]"
+==== cut: Camera init script ===
+
+I try start system with V2.1 camera and start capture frames:
+[...]
+# ./camera_init.sh
+# gst-launch-1.0 -v v4l2src device=/dev/video2 ! fakesink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+Setting pipeline to PLAYING ...
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps = 
+video/x-raw, format=(string)YUY2, framerate=(fraction)30000/1001, 
+width=(int)640, height=(int)480, colorimetry=(string)2:4:7:1, 
+interlace-mode=(string)progressive
+/GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps = 
+video/x-raw, format=(string)YUY2, framerate=(fraction)30000/1001, 
+width=(int)640, height=(int)480, colorimetry=(string)2:4:7:1, 
+interlace-mode=(string)progressive
+New clock: GstSystemClock
+ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed 
+to allocate required memory.
+Additional debug info:
+/var/tmp/portage/media-plugins/gst-plugins-v4l2-1.14.5/work/gst-plugins-good-1.14.5/sys/v4l2/gstv4l2src.c(656): 
+gst_v4l2src_decide_allocation (): 
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+Buffer pool activation failed
+Execution ended after 0:00:00.014952667
+Setting pipeline to PAUSED ...
+Setting pipeline to READY ...
+Setting pipeline to NULL ...
+Freeing pipeline ...
+# media-ctl -p
+Media controller API version 5.5.13
+
+Media device information
+------------------------
+driver          imx-media
+model           imx-media
+serial
+bus info
+hw revision     0x0
+driver version  5.5.13
+
+Device topology
+[...]
+- entity 15: ipu1_ic_prp (3 pads, 5 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev2
+         pad0: Sink
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "ipu1_csi0":1 []
+                 <- "ipu1_vdic":2 []
+                 <- "ipu1_csi1":1 [ENABLED]
+         pad1: Source
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_ic_prpenc":0 [ENABLED]
+         pad2: Source
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_ic_prpvf":0 [ENABLED]
+
+- entity 19: ipu1_ic_prpenc (2 pads, 2 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev3
+         pad0: Sink
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "ipu1_ic_prp":1 [ENABLED]
+         pad1: Source
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:lim-range]
+                 -> "ipu1_ic_prpenc capture":0 [ENABLED]
+
+- entity 22: ipu1_ic_prpenc capture (1 pad, 1 link)
+              type Node subtype V4L flags 0
+              device node name /dev/video1
+         pad0: Sink
+                 <- "ipu1_ic_prpenc":1 [ENABLED]
+
+- entity 28: ipu1_ic_prpvf (2 pads, 2 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev4
+         pad0: Sink
+                 [fmt:AYUV8_1X32/640x480@1001/30000 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "ipu1_ic_prp":2 [ENABLED]
+         pad1: Source
+                 [fmt:AYUV8_1X32/640x480@1001/30000 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+                 -> "ipu1_ic_prpvf capture":0 [ENABLED]
+
+- entity 31: ipu1_ic_prpvf capture (1 pad, 1 link)
+              type Node subtype V4L flags 0
+              device node name /dev/video2
+         pad0: Sink
+                 <- "ipu1_ic_prpvf":1 [ENABLED]
+
+- entity 47: ipu1_csi1 (3 pads, 4 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev5
+         pad0: Sink
+                 [fmt:SRGGB10_1X10/1920x1080@1/30 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+                  crop.bounds:(0,0)/1920x1080
+                  crop:(0,0)/640x480
+                  compose.bounds:(0,0)/640x480
+                  compose:(0,0)/640x480]
+                 <- "imx6-mipi-csi2":2 [ENABLED]
+         pad1: Source
+                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_ic_prp":0 [ENABLED]
+                 -> "ipu1_vdic":0 []
+         pad2: Source
+                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_csi1 capture":0 []
+[...]
+- entity 121: imx6-mipi-csi2 (5 pads, 5 links)
+               type V4L2 subdev subtype Unknown flags 0
+               device node name /dev/v4l-subdev12
+         pad0: Sink
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "imx219 9-0010":0 [ENABLED]
+         pad1: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_csi0_mux":0 []
+         pad2: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_csi1":0 [ENABLED]
+         pad3: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu2_csi0":0 []
+         pad4: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu2_csi1_mux":0 []
+[...]
+- entity 135: imx219 9-0010 (1 pad, 1 link)
+               type V4L2 subdev subtype Sensor flags 0
+               device node name /dev/v4l-subdev15
+         pad0: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "imx6-mipi-csi2":0 [ENABLED]
+localhost ~ # dmesg -c
+[...]
+[   51.941858] ipu1_ic_prpvf: pipeline start failed with -32
+localhost ~ #
+
+I think EPIPE (-32) caused by link between pad1 ipu1_csi1 
+(fmt:SRGGB10_1X10/640x480@1/30) and pad0 ipu1_ic_prp 
+(fmt:AYUV8_1X32/640x480@1/30) - format mismatch. But I don't know how 
+fix this trouble. Theory, I also have RaspberryPI camera rev 1.3 with 
+OmniVision OV5647 camera. Unfortunately, she did not work either.
+
+Anybody can help me?
+
+[1] https://git.linuxtv.org/media_tree.git/tree/drivers/media/i2c/imx219.c
