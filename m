@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D5A194AEB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 22:48:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43FF4194AEE
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 22:48:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727714AbgCZVr7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 17:47:59 -0400
-Received: from mail2.protonmail.ch ([185.70.40.22]:10724 "EHLO
-        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727690AbgCZVr6 (ORCPT
+        id S1727729AbgCZVsG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 17:48:06 -0400
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:15755 "EHLO
+        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727677AbgCZVsF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 17:47:58 -0400
-Date:   Thu, 26 Mar 2020 21:47:51 +0000
+        Thu, 26 Mar 2020 17:48:05 -0400
+Date:   Thu, 26 Mar 2020 21:47:59 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1585259277;
-        bh=18CceoDh9UrcHTAVgytEoyZx8kyTstuJIIJjwoHl4TE=;
+        s=default; t=1585259281;
+        bh=xAhb2jD8fRstbshctXAPntc9/a9/tfFIRtiWV8Fq83A=;
         h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=c7EYnump6tFPcO299rWZ8X6sJZE976P/peUKGUJJuqHgi3iOsrjPUGwrgv+FF3d+R
-         /Xc365MqGJLcUBE6DQ7ewGGlyEuLwmpPbK8zMtdAUao1ppJ1PVUNkGyF8LVW2Oc2KO
-         AEYiBGcpIOAVVxK7W3hmoB1oP9XtzHwMqSWLD/3c=
+        b=nV51aD6XTecsTgdnorfX03ielmjOP/YBhN/ZzLMpqVTMi4mdOesC6gsBcpgNQep3i
+         JE2/5FzP8UD41BW0VBLHAU2gqwtPRauZUXx/6OtBY8aTHanOB6C2CMSh8roXQcGtED
+         5y/dC3+EZfMblUJuUf9p5xnqyUJ6qUjTdkSdNrb8=
 To:     linux-media@vger.kernel.org
 From:   =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
         <nfraprado@protonmail.com>
@@ -30,8 +30,8 @@ Cc:     Helen Koike <helen.koike@collabora.com>,
         linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
 Reply-To: =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
           <nfraprado@protonmail.com>
-Subject: [PATCH v2 2/3] media: vimc: Add missing {RGB,BGR,GBR}888 media bus codes
-Message-ID: <20200326214730.2449707-3-nfraprado@protonmail.com>
+Subject: [PATCH v2 3/3] media: vimc: deb: Add support for {RGB,BGR,GBR}888 bus formats on source pad
+Message-ID: <20200326214730.2449707-4-nfraprado@protonmail.com>
 In-Reply-To: <20200326214730.2449707-1-nfraprado@protonmail.com>
 References: <20200326214730.2449707-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
@@ -46,9 +46,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing RGB888_*, BGR888_* and GBR888_* media bus codes in the
-vimc_pix_map_list. Since there is no GBR24 pixelformat, use the RGB24
-pixelformat for MEDIA_BUS_FMT_GBR888_1X24.
+Add support for RGB888_*, BGR888_* and GBR888_* media bus formats on
+the source pad of debayer subdevices.
 
 Co-developed-by: Vitor Massaru Iha <vitor@massaru.org>
 Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
@@ -56,63 +55,160 @@ Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
 ---
 
 Changes in v2:
-- Fix array formatting
 - Change commit message to reflect v2 changes
-- Change code array size
-- Add other BGR888 and RGB888 formats to BGR24 and RGB24 pixelformats
+- Rename variables
+- Fix array formatting
+- Add vimc_deb_is_src_code_valid function
+- Add other BGR888 and RGB888 formats to debayer source pad supported
+  formats
 
- drivers/media/platform/vimc/vimc-common.c | 16 ++++++++++++++--
- drivers/media/platform/vimc/vimc-common.h |  2 +-
- 2 files changed, 15 insertions(+), 3 deletions(-)
+ drivers/media/platform/vimc/vimc-debayer.c | 61 +++++++++++++++++-----
+ 1 file changed, 49 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/plat=
-form/vimc/vimc-common.c
-index 119846f3eaa5..11489334cff7 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -19,13 +19,25 @@ static const struct vimc_pix_map vimc_pix_map_list[] =
+diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/pla=
+tform/vimc/vimc-debayer.c
+index baf6bf9f65b5..33a9bea770bc 100644
+--- a/drivers/media/platform/vimc/vimc-debayer.c
++++ b/drivers/media/platform/vimc/vimc-debayer.c
+@@ -51,6 +51,19 @@ static const struct v4l2_mbus_framefmt sink_fmt_default =
 =3D {
+ =09.colorspace =3D V4L2_COLORSPACE_DEFAULT,
+ };
 =20
- =09/* RGB formats */
++static const u32 vimc_deb_src_mbus_codes[] =3D {
++=09MEDIA_BUS_FMT_GBR888_1X24,
++=09MEDIA_BUS_FMT_BGR888_1X24,
++=09MEDIA_BUS_FMT_BGR888_3X8,
++=09MEDIA_BUS_FMT_RGB888_1X24,
++=09MEDIA_BUS_FMT_RGB888_2X12_BE,
++=09MEDIA_BUS_FMT_RGB888_2X12_LE,
++=09MEDIA_BUS_FMT_RGB888_3X8,
++=09MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++=09MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
++=09MEDIA_BUS_FMT_RGB888_1X32_PADHI,
++};
++
+ static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] =3D {
  =09{
--=09=09.code =3D { MEDIA_BUS_FMT_BGR888_1X24 },
-+=09=09.code =3D {
-+=09=09=09MEDIA_BUS_FMT_BGR888_1X24,
-+=09=09=09MEDIA_BUS_FMT_BGR888_3X8
-+=09=09},
- =09=09.pixelformat =3D V4L2_PIX_FMT_BGR24,
- =09=09.bpp =3D 3,
- =09=09.bayer =3D false,
- =09},
- =09{
--=09=09.code =3D { MEDIA_BUS_FMT_RGB888_1X24 },
-+=09=09.code =3D {
-+=09=09=09MEDIA_BUS_FMT_RGB888_1X24,
-+=09=09=09MEDIA_BUS_FMT_RGB888_2X12_BE,
-+=09=09=09MEDIA_BUS_FMT_RGB888_2X12_LE,
-+=09=09=09MEDIA_BUS_FMT_RGB888_3X8,
-+=09=09=09MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+=09=09=09MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-+=09=09=09MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-+=09=09=09MEDIA_BUS_FMT_GBR888_1X24
-+=09=09},
- =09=09.pixelformat =3D V4L2_PIX_FMT_RGB24,
- =09=09.bpp =3D 3,
- =09=09.bayer =3D false,
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/plat=
-form/vimc/vimc-common.h
-index 585441694c86..d5e0e8d32542 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -69,7 +69,7 @@ do {=09=09=09=09=09=09=09=09=09\
-  * V4L2_PIX_FMT_* fourcc pixelformat and its bytes per pixel (bpp)
-  */
- struct vimc_pix_map {
--=09unsigned int code[1];
-+=09unsigned int code[8];
- =09unsigned int bpp;
- =09u32 pixelformat;
- =09bool bayer;
+ =09=09.code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
+@@ -125,6 +138,17 @@ static const struct vimc_deb_pix_map *vimc_deb_pix_map=
+_by_code(u32 code)
+ =09return NULL;
+ }
+=20
++static int vimc_deb_is_src_code_invalid(u32 code)
++{
++=09unsigned int i;
++
++=09for (i =3D 0; i < ARRAY_SIZE(vimc_deb_src_mbus_codes); i++)
++=09=09if (vimc_deb_src_mbus_codes[i] =3D=3D code)
++=09=09=09return 0;
++
++=09return -EINVAL;
++}
++
+ static int vimc_deb_init_cfg(struct v4l2_subdev *sd,
+ =09=09=09     struct v4l2_subdev_pad_config *cfg)
+ {
+@@ -148,14 +172,11 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev=
+ *sd,
+ =09=09=09=09   struct v4l2_subdev_pad_config *cfg,
+ =09=09=09=09   struct v4l2_subdev_mbus_code_enum *code)
+ {
+-=09/* We only support one format for source pads */
+ =09if (VIMC_IS_SRC(code->pad)) {
+-=09=09struct vimc_deb_device *vdeb =3D v4l2_get_subdevdata(sd);
+-
+-=09=09if (code->index)
++=09=09if (code->index >=3D ARRAY_SIZE(vimc_deb_src_mbus_codes))
+ =09=09=09return -EINVAL;
+=20
+-=09=09code->code =3D vdeb->src_code;
++=09=09code->code =3D vimc_deb_src_mbus_codes[code->index];
+ =09} else {
+ =09=09if (code->index >=3D ARRAY_SIZE(vimc_deb_pix_map_list))
+ =09=09=09return -EINVAL;
+@@ -170,8 +191,6 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev =
+*sd,
+ =09=09=09=09    struct v4l2_subdev_pad_config *cfg,
+ =09=09=09=09    struct v4l2_subdev_frame_size_enum *fse)
+ {
+-=09struct vimc_deb_device *vdeb =3D v4l2_get_subdevdata(sd);
+-
+ =09if (fse->index)
+ =09=09return -EINVAL;
+=20
+@@ -181,7 +200,7 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev =
+*sd,
+=20
+ =09=09if (!vpix)
+ =09=09=09return -EINVAL;
+-=09} else if (fse->code !=3D vdeb->src_code) {
++=09} else if (vimc_deb_is_src_code_invalid(fse->code)) {
+ =09=09return -EINVAL;
+ =09}
+=20
+@@ -237,6 +256,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+ {
+ =09struct vimc_deb_device *vdeb =3D v4l2_get_subdevdata(sd);
+ =09struct v4l2_mbus_framefmt *sink_fmt;
++=09u32 *src_code;
+=20
+ =09if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+ =09=09/* Do not change the format while stream is on */
+@@ -244,8 +264,10 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+ =09=09=09return -EBUSY;
+=20
+ =09=09sink_fmt =3D &vdeb->sink_fmt;
++=09=09src_code =3D &vdeb->src_code;
+ =09} else {
+ =09=09sink_fmt =3D v4l2_subdev_get_try_format(sd, cfg, 0);
++=09=09src_code =3D &v4l2_subdev_get_try_format(sd, cfg, 1)->code;
+ =09}
+=20
+ =09/*
+@@ -253,9 +275,14 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+ =09 * it is propagated from the sink
+ =09 */
+ =09if (VIMC_IS_SRC(fmt->pad)) {
++=09=09u32 code =3D fmt->format.code;
++
+ =09=09fmt->format =3D *sink_fmt;
+-=09=09/* TODO: Add support for other formats */
+-=09=09fmt->format.code =3D vdeb->src_code;
++
++=09=09if (!vimc_deb_is_src_code_invalid(code))
++=09=09=09*src_code =3D code;
++
++=09=09fmt->format.code =3D *src_code;
+ =09} else {
+ =09=09/* Set the new format in the sink pad */
+ =09=09vimc_deb_adjust_sink_fmt(&fmt->format);
+@@ -291,11 +318,21 @@ static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x24(str=
+uct vimc_deb_device *vdeb,
+ =09=09=09=09=09=09  unsigned int col,
+ =09=09=09=09=09=09  unsigned int rgb[3])
+ {
++=09const struct vimc_pix_map *vpix;
+ =09unsigned int i, index;
+=20
++=09vpix =3D vimc_pix_map_by_code(vdeb->src_code);
+ =09index =3D VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+-=09for (i =3D 0; i < 3; i++)
+-=09=09vdeb->src_frame[index + i] =3D rgb[i];
++=09for (i =3D 0; i < 3; i++) {
++=09=09switch (vpix->pixelformat) {
++=09=09case V4L2_PIX_FMT_RGB24:
++=09=09=09vdeb->src_frame[index + i] =3D rgb[i];
++=09=09=09break;
++=09=09case V4L2_PIX_FMT_BGR24:
++=09=09=09vdeb->src_frame[index + i] =3D rgb[2-i];
++=09=09=09break;
++=09=09}
++=09}
+ }
+=20
+ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
 --=20
 2.25.2
 
