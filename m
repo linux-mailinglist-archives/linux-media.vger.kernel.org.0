@@ -2,206 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6973194745
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 20:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71764194755
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 20:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728563AbgCZTOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 15:14:18 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52240 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726359AbgCZTOR (ORCPT
+        id S1727976AbgCZTRn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 15:17:43 -0400
+Received: from mail-lf1-f54.google.com ([209.85.167.54]:42780 "EHLO
+        mail-lf1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbgCZTRn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 15:14:17 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 530B4297A10
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Rob Herring <robh@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v4] dt-bindings: rockchip-vpu: Convert bindings to json-schema
-Date:   Thu, 26 Mar 2020 16:13:43 -0300
-Message-Id: <20200326191343.1989-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.26.0.rc2
-In-Reply-To: <20200325213439.16509-8-ezequiel@collabora.com>
-References: <20200325213439.16509-8-ezequiel@collabora.com>
+        Thu, 26 Mar 2020 15:17:43 -0400
+Received: by mail-lf1-f54.google.com with SMTP id t21so5851678lfe.9
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 12:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=lnvA9EG0/j/Gkw/ooyO6kB/OszSwNJvY+TB0VL7FdUw=;
+        b=IzsBl36P3rAMbbVB89JRx0NkdyPcryRSo3S5kzhp5GxoJtI05DiCEFfm6v6YtbLQUn
+         z3TPkIoCRq4pSFvRFbN5UXci2kWP0RICC4WgoGfYU0nkrHYjS49QVgGXtbmzGqjSzxXH
+         B8qVyr1oqKK223eev9qzgtr0nIRN22sc3WNeuM+ovfu4z5wSHWhfmIkm2nVhaCMUQ99p
+         eMono5bHqpzTEf/Zkn+2lic7TjMrWSbTYJ6r0qAZsUwydmshTa26LyJncqnEkrc9e1+W
+         Mh4yWHaL2gvoDxLYM1OGdeTDYhqDMlosInhuBxSnaD92Z7EvMuUD/hnkhHdmfgt8glF5
+         I+FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lnvA9EG0/j/Gkw/ooyO6kB/OszSwNJvY+TB0VL7FdUw=;
+        b=PAJbK6m6153cZ85hXp7iz+roZL/2HaNVUERXqx/CHzRlXvjsjFIbRjOvDmh8ZCGAen
+         PHXpHmlT/mCSAimIo758UlU7SJDWlLPWH4A4NzKdZGHWGDyDHQgfClBhRQM1YZJ21gO8
+         KW3b3aL8gK65ToeNdru8qhUa2v8PtptzAgfU9eIw5jWT5ITOHArx1WCGKsNsDfs85wnp
+         LLmbok8//JWLevhxSLzla7RkiGfvgZXuXgV75+bmCr0Lz4HfC6nDvHfFIxJmWG3lCQyP
+         EiQRq7poFxOjg1IcS1cTToCfnazPp6XgXAbk/fprD9feMfCC0higf7lAj/wGeRM5gjo/
+         oHhA==
+X-Gm-Message-State: ANhLgQ3TLpkb7XBveJ6kFye2kkKSJQZ72MlwLAGHo5NYlrmLDB+O7D0Y
+        KMLRt6f7nH14tbjjpcuZhMdkZ7zSdyprNCK9XfE=
+X-Google-Smtp-Source: ADFU+vtrq2HygTzjHemp4owvtQrjMaW3JZESvIaDWXvMl0q0gsCwxbCBr6+8kIq7DJYmPp7jGbqBwWEQVM1F7wbcVUY=
+X-Received: by 2002:a05:6512:1116:: with SMTP id l22mr6703428lfg.70.1585250259740;
+ Thu, 26 Mar 2020 12:17:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
+In-Reply-To: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Thu, 26 Mar 2020 16:17:31 -0300
+Message-ID: <CAOMZO5Bz+qh7S3s8SfJRPVjjvokMx-r6udzFg=0poJmCbzMj9w@mail.gmail.com>
+Subject: Re: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
+To:     =?UTF-8?B?0JzQuNGF0LDQudC70L7QsiDQkNC70LXQutGB0LXQuSDQkNC90LDRgtC+0LvRjNC10LLQuNGH?= 
+        <minimumlaw@gmail.com>, Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert Rockchip VPU (Hantro IP block) codec driver documentation to
-json-schema.
+On Thu, Mar 26, 2020 at 5:30 AM =D0=9C=D0=B8=D1=85=D0=B0=D0=B9=D0=BB=D0=BE=
+=D0=B2 =D0=90=D0=BB=D0=B5=D0=BA=D1=81=D0=B5=D0=B9 =D0=90=D0=BD=D0=B0=D1=82=
+=D0=BE=D0=BB=D1=8C=D0=B5=D0=B2=D0=B8=D1=87
+<minimumlaw@gmail.com> wrote:
+>
+> Hi!
+>
+> We build custom CPU Module with NXP/Freescale IMX6QuadPlus CPU.I use
+> latest stable kernel from kernel.org. This time kernel version 5.5.11.
+> Also I connect to I.MX MIPI cameras from RaspberryPI (Rev 2.1 with Sony
+> IMX219). For IMX219 used actual driver from [1]. Usersapce based on
+> Gentoo Linux, have media-utils version 1.2.1, v4l2-utils version 1.18.0,
+> gstreamer version 1.14.5 with v4l2 plugins. Also Wayland version 1.17
+> based graphics with XWayland.
+>
+> Camera write in DTB:
+> =3D=3D=3D=3D cut: DTB fragments =3D=3D=3D=3D
+> / {
+> [skiped]
+>         imx219_clk: camera-clk {
+>                 compatible =3D "fixed-clock";
+>                 #clock-cells =3D <0>;
+>                 clock-frequency =3D <24000000>;
+>         };
+>
+>         imx219_1v2_reg: cam1v2_regulator {
+>                 compatible =3D "regulator-fixed";
+>                 regulator-name =3D "IMX219_1V2";
+>                 regulator-min-microvolt =3D <1200000>;
+>                 regulator-max-microvolt =3D <1200000>;
+>                 vin-supply =3D <&p3v3_reg>;
+>                 regulator-always-on;
+>         };
+>
+>         imx219_1v8_reg: cam1v8_regulator {
+>                 compatible =3D "regulator-fixed";
+>                 regulator-name =3D "IMX219_1V8";
+>                 regulator-min-microvolt =3D <1800000>;
+>                 regulator-max-microvolt =3D <1800000>;
+>                 vin-supply =3D <&p3v3_reg>;
+>                 regulator-always-on;
+>         };
+>
+>         imx219_2v8_reg: cam2v8_regulator {
+>                 compatible =3D "regulator-fixed";
+>                 regulator-name =3D "IMX219_2V8";
+>                 regulator-min-microvolt =3D <2800000>;
+>                 regulator-max-microvolt =3D <2800000>;
+>                 vin-supply =3D <&p3v3_reg>;
+>                 regulator-always-on;
+>         };
+> [skiped]
+> csi_i2c: i2c-mux@1 { /* CSI camera */
+>         #address-cells =3D <1>;
+>         #size-cells =3D <0>;
+>         reg =3D <1>;
+>         sensor@10 {     /* Raspberry Camera V2 */
+>                 compatible =3D "sony,imx219";
+>                 reg =3D <0x10>;
+>                 #address-cells =3D <1>;
+>                 #size-cells =3D <0>;
+>                 clocks =3D <&imx219_clk>;
+>                 clock-names =3D "xclk";
 
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Rob Herring <robh@kernel.org>
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
-v4:
-* Fix issues pointed out by Rob,
-  and make sure now dt_binding_check passes.
+No clock-names is described in
+Documentation/devicetree/bindings/media/i2c/imx219.yaml
 
- .../bindings/media/rockchip-vpu.txt           | 43 -----------
- .../bindings/media/rockchip-vpu.yaml          | 74 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 75 insertions(+), 44 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.txt
- create mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>                 DOVDD-supply =3D <&imx219_1v8_reg>; /* 1.8v */
+>                 AVDD-supply =3D <&imx219_2v8_reg>;  /* 2.8v */
+>                 DVDD-supply =3D <&imx219_1v2_reg>;  /* 1.2v */
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.txt b/Documentation/devicetree/bindings/media/rockchip-vpu.txt
-deleted file mode 100644
-index 339252d9c515..000000000000
---- a/Documentation/devicetree/bindings/media/rockchip-vpu.txt
-+++ /dev/null
-@@ -1,43 +0,0 @@
--device-tree bindings for rockchip VPU codec
--
--Rockchip (Video Processing Unit) present in various Rockchip platforms,
--such as RK3288, RK3328 and RK3399.
--
--Required properties:
--- compatible: value should be one of the following
--		"rockchip,rk3288-vpu";
--		"rockchip,rk3328-vpu";
--		"rockchip,rk3399-vpu";
--- interrupts: encoding and decoding interrupt specifiers
--- interrupt-names: should be
--		"vepu", "vdpu" on RK3288 and RK3399,
--		"vdpu" on RK3328.
--- clocks: phandle to VPU aclk, hclk clocks
--- clock-names: should be "aclk" and "hclk"
--- power-domains: phandle to power domain node
--- iommus: phandle to a iommu node
--
--Example:
--SoC-specific DT entry:
--	vpu: video-codec@ff9a0000 {
--		compatible = "rockchip,rk3288-vpu";
--		reg = <0x0 0xff9a0000 0x0 0x800>;
--		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
--			     <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "vepu", "vdpu";
--		clocks = <&cru ACLK_VCODEC>, <&cru HCLK_VCODEC>;
--		clock-names = "aclk", "hclk";
--		power-domains = <&power RK3288_PD_VIDEO>;
--		iommus = <&vpu_mmu>;
--	};
--
--	vpu: video-codec@ff350000 {
--		compatible = "rockchip,rk3328-vpu";
--		reg = <0x0 0xff350000 0x0 0x800>;
--		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "vdpu";
--		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
--		clock-names = "aclk", "hclk";
--		power-domains = <&power RK3328_PD_VPU>;
--		iommus = <&vpu_mmu>;
--	};
-diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-new file mode 100644
-index 000000000000..d7a42e6f9bcf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-@@ -0,0 +1,74 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/media/rockchip-vpu.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Hantro G1 VPU codecs implemented on Rockchip SoCs
-+
-+maintainers:
-+  - Ezequiel Garcia <ezequiel@collabora.com>
-+
-+description:
-+  Hantro G1 video encode and decode accelerators present on Rockchip SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - rockchip,rk3288-vpu
-+      - rockchip,rk3328-vpu
-+      - rockchip,rk3399-vpu
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 2
-+
-+  interrupt-names:
-+    items:
-+      - const: vepu
-+      - const: vdpu
-+
-+  clocks:
-+    maxItems: 2
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: hclk
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  iommus:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+        #include <dt-bindings/clock/rk3288-cru.h>
-+        #include <dt-bindings/interrupt-controller/arm-gic.h>
-+        #include <dt-bindings/power/rk3288-power.h>
-+
-+        vpu: video-codec@ff9a0000 {
-+                compatible = "rockchip,rk3288-vpu";
-+                reg = <0x0 0xff9a0000 0x0 0x800>;
-+                interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-+                             <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
-+                interrupt-names = "vepu", "vdpu";
-+                clocks = <&cru ACLK_VCODEC>, <&cru HCLK_VCODEC>;
-+                clock-names = "aclk", "hclk";
-+                power-domains = <&power RK3288_PD_VIDEO>;
-+                iommus = <&vpu_mmu>;
-+        };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d66ac41ef587..2b8b3e7f3df3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14320,7 +14320,7 @@ L:	linux-rockchip@lists.infradead.org
- S:	Maintained
- F:	drivers/staging/media/hantro/
- F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
--F:	Documentation/devicetree/bindings/media/rockchip-vpu.txt
-+F:	Documentation/devicetree/bindings/media/rockchip-vpu.yaml
- 
- ROCKER DRIVER
- M:	Jiri Pirko <jiri@resnulli.us>
--- 
-2.26.0.rc2
-
+These supplies names do not match the ones described in:
+Documentation/devicetree/bindings/media/i2c/imx219.yaml
