@@ -2,169 +2,368 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C772E194684
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 19:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E381946BC
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 19:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728463AbgCZSaH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 14:30:07 -0400
-Received: from mail-qv1-f68.google.com ([209.85.219.68]:36401 "EHLO
-        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727192AbgCZSaG (ORCPT
+        id S1727611AbgCZSp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 14:45:57 -0400
+Received: from mail-lj1-f176.google.com ([209.85.208.176]:35790 "EHLO
+        mail-lj1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726340AbgCZSp5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 14:30:06 -0400
-Received: by mail-qv1-f68.google.com with SMTP id z13so3572733qvw.3
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 11:30:05 -0700 (PDT)
+        Thu, 26 Mar 2020 14:45:57 -0400
+Received: by mail-lj1-f176.google.com with SMTP id k21so7583306ljh.2
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 11:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=L9DrCA/EQHd8jdwveo8WB0n14bq7yGLSzZRVaNtKOrs=;
-        b=iB7rqAN6jeIbSZfKYuy8sMd7TSkM3YjZagIPsTb7Y89qtMEwT3aZ6XjqnYy+hmH/Z+
-         oyhSxv4YgXavcDrKegi5kkVIaU7Z24Zd8FMe7pKWSl58bgrA3gRNNpWd0TFV/Vorwsex
-         ei2qmtjpLBVAJ2UqNogppLnOkIkrnEaU8HDYG3dscfdBS3upd3h3KfsfeRrvNtVFwj2f
-         IOnim0aOPoBnGNl55M+CK9ShbujuVgjx9wDDZEmsl7D3A/uCrTqh51lYO+8bh+THXJ1R
-         4i98KCClqxK0YVegzHEvzR4Ukp5FPPMyRvh58TlJanklRmsBB784Kw4Z6lv7wSX3D04k
-         T3Ug==
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=1mqLG6QEE+31XTDvw31tXFj2q6Z2VK/8kgCej+OIm6M=;
+        b=eJyGO+RWRLZJ+u/1mqi9lq4zYL3OOMS8dUOpnd3uS/wNDdDIFmg77q1Z0Kl0+IbeQQ
+         TU+x5EWaBsEy4r1/tMw/xf0MijO/clNPKj7Ieug6jqYL0XFtgl4moP1cc1FlF9AusWkM
+         GEwHOdHB9Q5kePag91+l6o9weaTIi867oWWJTGF5dEOZ9RBHJRl1VCSRsEf8yEKN1JdU
+         Rw0unDSM4TZPXg7fyO9GYkrAtkVR6mHuKFR90Et34YBGoR7/UnDOaMMJGTzSR7/1KVlz
+         c77y8Ph5SZMEcdalWPjdvowkSm/wReBPwmrm5XYzoWqxMKhgLQo/7vOqphDkf3oUsSK5
+         vdiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=L9DrCA/EQHd8jdwveo8WB0n14bq7yGLSzZRVaNtKOrs=;
-        b=TBq7pkHVNBRn5FrXj9UaKkHV0qcpnB4wxcmOpLoOWk99s/b+JOsqfzU1g5WxkVAYYp
-         wG4m94lja9/MXpQbsX8/riAEVga1pr9tMrbe95AlXZhhtwwCsCmB87nmdEBZLLFbcgHJ
-         mw5QUufDWZVxp//+8jKn5VmcU10dtczppVe0Xre+nQBbvuC3aiqmimT81wHUb/1qWoh2
-         i5O2wuQECkSpUT0jY06WjkHvYu1ao2BtfhFo2Np0DBrJb3pZ463VsboIZKxtE3nqzKCC
-         B+vSfsUtYKTFy3fkSL2RPVtOKFqQ+nHH9TfhmgyA1ouDCh1X+Ixz7vydZprYWGGC+6Z0
-         X7fw==
-X-Gm-Message-State: ANhLgQ0x4+q0UosnazoaxPR7rItM8nbsrDbw0BHLgmldqnv27E7cVYee
-        wvzBt/r9znZHmL5qp3/1+bdP6g==
-X-Google-Smtp-Source: ADFU+vt6K8GAQVwSKHIYexBPxdvx1dHoDAis8RLP4ledoNV32sheix2hQWb8suQQAoBCFpRvETYj5Q==
-X-Received: by 2002:ad4:4bc3:: with SMTP id l3mr9280133qvw.79.1585247404992;
-        Thu, 26 Mar 2020 11:30:04 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id l7sm1917676qkb.47.2020.03.26.11.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 11:30:03 -0700 (PDT)
-Message-ID: <3fb1dcdbbf54051d9a8fee1d1498583c3a79cecd.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 3/8] hantro: Use v4l2_m2m_buf_done_and_job_finish
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Rob Herring <robh@kernel.org>
-Date:   Thu, 26 Mar 2020 14:30:01 -0400
-In-Reply-To: <648c8411353071a7e1ffd3576d268b01177ab678.camel@collabora.com>
-References: <20200318132108.21873-1-ezequiel@collabora.com>
-                 <20200318132108.21873-4-ezequiel@collabora.com>
-                 <13b1efe1-8b52-070b-cf11-b230bd405d3e@xs4all.nl>
-                 <0a8f6d97e6869ff694aedd67a3176217a885c938.camel@ndufresne.ca>
-                 <50d764ec-1c15-99bd-192b-9aa6ae5bf368@xs4all.nl>
-         <648c8411353071a7e1ffd3576d268b01177ab678.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=1mqLG6QEE+31XTDvw31tXFj2q6Z2VK/8kgCej+OIm6M=;
+        b=VW7rA5cRgUGQKSSfU2SdpP0e+PE1PFqpr0iH7zGuGzYXB+c3xvprw9lF6SqiEdglrR
+         uEVbUQztz8NtNErzjAjUipcacie83J0wb8zlgACQFoSt8E3gU5flBhJ0gscspXLYO5Cs
+         VkDJ6uJ8abgSnykx3T5YgoxYVK6cMJu+G3a8eY3n0BCRV++cyYOYM4kaeKRLV5T1hC/s
+         pKx+SwFCA2/BDXbnJZlS6IO8WjSazyjumfpBYFggM9owefQ/SVn6yMV0qyUgsg/zOQLp
+         fXaLwflu0/gDK8Jc1XdTtYuP1MLx3ikyfH+eewrlcX9Ls4khmR+R4lZnoJfB5/5LRikm
+         Vbgg==
+X-Gm-Message-State: AGi0PuaoMTV6XZKnJZhzl/P3LhcRXCxYhB6ZohcSIVYd95+115VW1RIU
+        LwCxw3Rin2aXB9oG1soD/KMzqpad
+X-Google-Smtp-Source: APiQypLI/+0pEokTk4cPQfLQUgVfCiGE37LMWBlgstaWHMchIX3Bq7ntX1IfEW8Mriy+DalXa7o/9A==
+X-Received: by 2002:a2e:99c8:: with SMTP id l8mr1829016ljj.48.1585248353449;
+        Thu, 26 Mar 2020 11:45:53 -0700 (PDT)
+Received: from personal.lan ([89.20.14.21])
+        by smtp.googlemail.com with ESMTPSA id r10sm1836855ljk.13.2020.03.26.11.45.52
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2020 11:45:52 -0700 (PDT)
+To:     linux-media@vger.kernel.org
+From:   Alex Mihaylov <minimumlaw@gmail.com>
+Subject: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
+Message-ID: <c35f4d97-9916-90d2-410c-c9114a1f6dcc@gmail.com>
+Date:   Thu, 26 Mar 2020 21:45:52 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: ru
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 25 mars 2020 à 17:30 -0300, Ezequiel Garcia a écrit :
->    1. On Wed, 2020-03-25 at 16:28 +0100, Hans Verkuil wrote:
-> > On 3/25/20 3:02 PM, Nicolas Dufresne wrote:
-> > > Le mercredi 25 mars 2020 à 09:22 +0100, Hans Verkuil a écrit :
-> > > > On 3/18/20 2:21 PM, Ezequiel Garcia wrote:
-> > > > > Let the core sort out the nuances of returning buffers
-> > > > > to userspace, by using the v4l2_m2m_buf_done_and_job_finish
-> > > > > helper.
-> > > > > 
-> > > > > This change also removes usage of buffer sequence fields,
-> > > > > which shouldn't have any meaning for stateless decoders.
-> > > > 
-> > > > Uh, why remove this? For one, doesn't this cause fails in v4l2-compliance?
-> > > > Also, while I agree that it is not terribly useful, it doesn't hurt, does it?
-> > > > 
-> > > > And the V4L2 spec makes no exception for stateless codecs with respect to the
-> > > > sequence field.
-> > > > 
-> > > > Nacked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > > 
-> > > The spec also does not say what it means either. As an example, you
-> > > have spec for ALTERNATE interlacing mode that changes the meaning of
-> > > the sequence, but not for alternate H264 fields (which cannot be part
-> > > of the format, since this changes often). We also don't have spec for
-> > > the the sequence behaviour while using HOLD features.
-> > 
-> > I hate it that the spec changes the sequence meaning for FIELD_ALTERNATE,
-> > I always thought that that made drivers unnecessarily complicated. Unfortunately,
-> > this is something we inherited.
-> > 
-> > Currently the spec says for sequence:
-> > 
-> > "Set by the driver, counting the frames (not fields!) in sequence. This field is set
-> >  for both input and output devices."
-> > 
-> > The only thing missing here is that it should say that for compressed formats this
-> > counts the buffers, since one buffer with compressed data may not have a one-to-one
-> > mapping with frames.
+Hi!
 
-That's also why I think it's programatically useless in that case, there is no
-logic for which input/output can be related unless you know what the framing is.
+We build custom CPU Module with NXP/Freescale IMX6QuadPlus CPU.I use 
+latest stable kernel from kernel.org. This time kernel version 5.5.11. 
+Also I connect to I.MX MIPI cameras from RaspberryPI (Rev 2.1 with Sony 
+IMX219). For IMX219 used actual driver from [1]. Usersapce based on 
+Gentoo Linux, have media-utils version 1.2.1, v4l2-utils version 1.18.0, 
+gstreamer version 1.14.5 with v4l2 plugins. Also Wayland version 1.17 
+based graphics with XWayland.
 
-> > 
-> > This description for 'sequence' was never updated when compressed data formats were
-> > added, so it is a bit out of date.
-> > 
-> > > I'm worried we are falling into the test driven trap, were people
-> > > implement features to satisfy a test, while the added complexity don't
-> > > really make sense. Shouldn't we change our approach and opt-out
-> > > features for new type of HW, so that we can keep the drivers code
-> > > saner?
-> > 
-> > Why wasn't the existing code in this patch sane? Sure, we can change the spec, but
-> > then 1) all existing drivers need to be updated as well, and 2) v4l2-compliance needs
-> > to be changed to test specifically for this class of drivers and ensure that for those
-> > the sequence field is set to 0. Not to mention introducing an exception in the uAPI
-> > where the sequence field suddenly isn't used anymore.
-> > 
-> > Frankly, I would prefer that the whole sequence handling is moved to videobuf2-v4l2.c.
-> > It really doesn't belong in drivers, with the exception of incrementing the sequence
-> > counter in case of dropped frames.
-> > 
-> > I think I suggested it when vb2 was being designed, but at the time the preference
-> > was to keep it in the driver. Long time ago, though.
-> > 
-> 
-> Do you think we could try to move this to the core?
+Camera write in DTB:
+==== cut: DTB fragments ====
+/ {
+[skiped]
+     imx219_clk: camera-clk {
+         compatible = "fixed-clock";
+         #clock-cells = <0>;
+         clock-frequency = <24000000>;
+     };
 
-I'm also happy as long as drivers stop having to implement this generic
-statistic. Note, that only applies to existing m2m, we still need that counter
-to detect driver side frame drops in CAPTURE only devices (like UVC cameras).
+     imx219_1v2_reg: cam1v2_regulator {
+         compatible = "regulator-fixed";
+         regulator-name = "IMX219_1V2";
+         regulator-min-microvolt = <1200000>;
+         regulator-max-microvolt = <1200000>;
+         vin-supply = <&p3v3_reg>;
+         regulator-always-on;
+     };
 
-> 
-> I might be able find some time to try that.
-> 
-> > And another reason why I want to keep it: I find it actually useful to see a running
-> > counter: it helps keeping track of how many buffers you've processed since you started
-> > streaming.
-> > 
-> 
-> +1
-> 
-> > Finally, the removal of the sequence counter simply does not belong in this patch.
-> > 
-> 
-> Agreed, no complaints on my side.
-> 
-> I am actually happy about this feedback.
-> 
-> Thanks,
-> Ezequiel
-> 
-> 
+     imx219_1v8_reg: cam1v8_regulator {
+         compatible = "regulator-fixed";
+         regulator-name = "IMX219_1V8";
+         regulator-min-microvolt = <1800000>;
+         regulator-max-microvolt = <1800000>;
+         vin-supply = <&p3v3_reg>;
+         regulator-always-on;
+     };
 
+     imx219_2v8_reg: cam2v8_regulator {
+         compatible = "regulator-fixed";
+         regulator-name = "IMX219_2V8";
+         regulator-min-microvolt = <2800000>;
+         regulator-max-microvolt = <2800000>;
+         vin-supply = <&p3v3_reg>;
+         regulator-always-on;
+     };
+[skiped]
+csi_i2c: i2c-mux@1 { /* CSI camera */
+     #address-cells = <1>;
+     #size-cells = <0>;
+     reg = <1>;
+     sensor@10 {    /* Raspberry Camera V2 */
+         compatible = "sony,imx219";
+         reg = <0x10>;
+         #address-cells = <1>;
+         #size-cells = <0>;
+         clocks = <&imx219_clk>;
+         clock-names = "xclk";
+         DOVDD-supply = <&imx219_1v8_reg>; /* 1.8v */
+         AVDD-supply = <&imx219_2v8_reg>;  /* 2.8v */
+         DVDD-supply = <&imx219_1v2_reg>;  /* 1.2v */
+
+         port {
+             csi_sensor_out: endpoint {
+                 remote-endpoint = <&csi_port_in>;
+                 link-frequencies = /bits/ 64 <456000000>;
+                 clock-lanes = <0>;
+                 data-lanes = <1 2>;
+             };
+         };
+     };
+};
+[skiped]
+&mipi_csi {
+     status = "okay";
+
+     port@0 {
+         reg = <0>;
+         csi_port_in: endpoint {
+             remote-endpoint = <&csi_sensor_out>;
+             clock-lanes = <0>;
+             data-lanes = <1 2>;
+         };
+     };
+};
+[skiped]
+==== cut: DTB fragments ====
+
+I use script for init connected camera
+
+==== cut: Camera init script ===
+#!/bin/bash
+
+# sensor output format and resolutions
+# RaspberryPI Camera rev 2.1 (Sony I.MX219)
+I_FORMAT=SRGGB10_1X10
+I_RESOLUTION=1920x1080
+CROP=(0,0)/640x480
+
+# capture format and resolution
+O_FORMAT=AYUV32
+O_RESOLUTION=640x480
+
+# viewport format and resolution
+V_FORMAT=AYUV32
+V_RESOLUTION=640x480
+
+# Reset all media links
+media-ctl -r
+
+# Sersor to IPU and PRP path
+# RaspberryPI Camera rev 2.1 (Sony I.MX219)
+media-ctl -l "'imx219 9-0010':0 -> 'imx6-mipi-csi2':0[1]"
+media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
+# media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]" # /dev/video3 
+(unused, unprocessed)
+# IPU to capture
+media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
+media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]" # 
+/dev/video1
+# IPU to viewport
+media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
+media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]" # 
+/dev/video2
+
+# RaspberryPI Camera rev 2.1 (Sony I.MX219)
+media-ctl -V "'imx219 9-0010':0 [fmt:${I_FORMAT}/${I_RESOLUTION} 
+field:none]"
+media-ctl -V "'imx6-mipi-csi2':2 [fmt:${I_FORMAT}/${I_RESOLUTION} 
+field:none]"
+media-ctl -V "'ipu1_csi1':0 [crop:${CROP}]"
+media-ctl -V "'ipu1_csi1':1 [fmt:${I_FORMAT}/${O_RESOLUTION} field:none]"
+
+media-ctl -V "'ipu1_ic_prp':1 [fmt:${O_FORMAT}/${O_RESOLUTION} field:none]"
+media-ctl -V "'ipu1_ic_prpenc':1 [fmt:${O_FORMAT}/${O_RESOLUTION} 
+field:none]"
+
+media-ctl -V "'ipu1_ic_prp':2 [fmt:${V_FORMAT}/${V_RESOLUTION} field:none]"
+media-ctl -V "'ipu1_ic_prpvf':1 [fmt:${V_FORMAT}/${V_RESOLUTION} 
+field:none]"
+==== cut: Camera init script ===
+
+I try start system with V2.1 camera and start capture frames:
+[...]
+# ./camera_init.sh
+# gst-launch-1.0 -v v4l2src device=/dev/video2 ! fakesink
+Setting pipeline to PAUSED ...
+Pipeline is live and does not need PREROLL ...
+Setting pipeline to PLAYING ...
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps = 
+video/x-raw, format=(string)YUY2, framerate=(fraction)30000/1001, 
+width=(int)640, height=(int)480, colorimetry=(string)2:4:7:1, 
+interlace-mode=(string)progressive
+/GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps = 
+video/x-raw, format=(string)YUY2, framerate=(fraction)30000/1001, 
+width=(int)640, height=(int)480, colorimetry=(string)2:4:7:1, 
+interlace-mode=(string)progressive
+New clock: GstSystemClock
+ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed 
+to allocate required memory.
+Additional debug info:
+/var/tmp/portage/media-plugins/gst-plugins-v4l2-1.14.5/work/gst-plugins-good-1.14.5/sys/v4l2/gstv4l2src.c(656): 
+gst_v4l2src_decide_allocation (): 
+/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+Buffer pool activation failed
+Execution ended after 0:00:00.014952667
+Setting pipeline to PAUSED ...
+Setting pipeline to READY ...
+Setting pipeline to NULL ...
+Freeing pipeline ...
+# media-ctl -p
+Media controller API version 5.5.13
+
+Media device information
+------------------------
+driver          imx-media
+model           imx-media
+serial
+bus info
+hw revision     0x0
+driver version  5.5.13
+
+Device topology
+[...]
+- entity 15: ipu1_ic_prp (3 pads, 5 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev2
+         pad0: Sink
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "ipu1_csi0":1 []
+                 <- "ipu1_vdic":2 []
+                 <- "ipu1_csi1":1 [ENABLED]
+         pad1: Source
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_ic_prpenc":0 [ENABLED]
+         pad2: Source
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_ic_prpvf":0 [ENABLED]
+
+- entity 19: ipu1_ic_prpenc (2 pads, 2 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev3
+         pad0: Sink
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "ipu1_ic_prp":1 [ENABLED]
+         pad1: Source
+                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:lim-range]
+                 -> "ipu1_ic_prpenc capture":0 [ENABLED]
+
+- entity 22: ipu1_ic_prpenc capture (1 pad, 1 link)
+              type Node subtype V4L flags 0
+              device node name /dev/video1
+         pad0: Sink
+                 <- "ipu1_ic_prpenc":1 [ENABLED]
+
+- entity 28: ipu1_ic_prpvf (2 pads, 2 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev4
+         pad0: Sink
+                 [fmt:AYUV8_1X32/640x480@1001/30000 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "ipu1_ic_prp":2 [ENABLED]
+         pad1: Source
+                 [fmt:AYUV8_1X32/640x480@1001/30000 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
+                 -> "ipu1_ic_prpvf capture":0 [ENABLED]
+
+- entity 31: ipu1_ic_prpvf capture (1 pad, 1 link)
+              type Node subtype V4L flags 0
+              device node name /dev/video2
+         pad0: Sink
+                 <- "ipu1_ic_prpvf":1 [ENABLED]
+
+- entity 47: ipu1_csi1 (3 pads, 4 links)
+              type V4L2 subdev subtype Unknown flags 0
+              device node name /dev/v4l-subdev5
+         pad0: Sink
+                 [fmt:SRGGB10_1X10/1920x1080@1/30 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+                  crop.bounds:(0,0)/1920x1080
+                  crop:(0,0)/640x480
+                  compose.bounds:(0,0)/640x480
+                  compose:(0,0)/640x480]
+                 <- "imx6-mipi-csi2":2 [ENABLED]
+         pad1: Source
+                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_ic_prp":0 [ENABLED]
+                 -> "ipu1_vdic":0 []
+         pad2: Source
+                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
+colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_csi1 capture":0 []
+[...]
+- entity 121: imx6-mipi-csi2 (5 pads, 5 links)
+               type V4L2 subdev subtype Unknown flags 0
+               device node name /dev/v4l-subdev12
+         pad0: Sink
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 <- "imx219 9-0010":0 [ENABLED]
+         pad1: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_csi0_mux":0 []
+         pad2: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu1_csi1":0 [ENABLED]
+         pad3: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu2_csi0":0 []
+         pad4: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "ipu2_csi1_mux":0 []
+[...]
+- entity 135: imx219 9-0010 (1 pad, 1 link)
+               type V4L2 subdev subtype Sensor flags 0
+               device node name /dev/v4l-subdev15
+         pad0: Source
+                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+xfer:srgb ycbcr:601 quantization:full-range]
+                 -> "imx6-mipi-csi2":0 [ENABLED]
+localhost ~ # dmesg -c
+[...]
+[   51.941858] ipu1_ic_prpvf: pipeline start failed with -32
+localhost ~ #
+
+I think EPIPE (-32) caused by link between pad1 ipu1_csi1 
+(fmt:SRGGB10_1X10/640x480@1/30) and pad0 ipu1_ic_prp 
+(fmt:AYUV8_1X32/640x480@1/30) - format mismatch. But I don't know how 
+fix this trouble. Theory, I also have RaspberryPI camera rev 1.3 with 
+OmniVision OV5647 camera. Unfortunately, she did not work either.
+
+Anybody can help (fix???) me?
+
+[1] https://git.linuxtv.org/media_tree.git/tree/drivers/media/i2c/imx219.c
