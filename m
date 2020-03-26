@@ -2,180 +2,279 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB063193B8C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 10:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E859193CBB
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 11:13:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727729AbgCZJMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 05:12:55 -0400
-Received: from mga06.intel.com ([134.134.136.31]:45684 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726318AbgCZJMz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 05:12:55 -0400
-IronPort-SDR: Sib9+aQ9oZuifg/4gU4qMZssMeoQnbYmmcD9Q7PdpvOpOrCl77PoN+w7wDb6SQAicAGmDLpYjl
- 1efpQ4iPc20A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 02:12:55 -0700
-IronPort-SDR: kHzOeCPYUo+tfH+GkGmrjSpApAHx+gDW4AkG0n8zfPH2N51F0OZlPo2pVGX8vSkFse6Z6qyioi
- GepWSjZKhSaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,307,1580803200"; 
-   d="scan'208";a="282434658"
-Received: from ipu5-build.bj.intel.com ([10.238.232.196])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Mar 2020 02:12:52 -0700
-From:   Bingbu Cao <bingbu.cao@intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
-        laurent.pinchart@ideasonboard.com, rajmohan.mani@intel.com,
-        bingbu.cao@intel.com, bingbu.cao@linux.intel.com
-Subject: [PATCH v2] media: staging/intel-ipu3: Implement lock for stream on/off operations
-Date:   Thu, 26 Mar 2020 17:16:30 +0800
-Message-Id: <1585214190-30310-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727800AbgCZKNk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 06:13:40 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57018 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726298AbgCZKNk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Mar 2020 06:13:40 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA1FF2DC;
+        Thu, 26 Mar 2020 11:13:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1585217617;
+        bh=Ph6XOD3yl1HjeWfouB+OXNPerwxf190pXAsdWrIlQzA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SGXSWNzJk1R9eALqvJBwCFcxdASplyWDLeMJLJU6IKRg4fRnBE4pc4L/BzqSKZKa7
+         ogRY+dUDucCSEqi7Ln649U6ke3ED5EGsYjfCCZK5b5u+jOLyrAzidKa7yCLiXjNZrL
+         zp2UuUPdQwWLSI+mUReY8ICrS8hG0ridS6gPshSE=
+Date:   Thu, 26 Mar 2020 12:13:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Yong Deng <yong.deng@magewell.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+Message-ID: <20200326101333.GH20581@pendragon.ideasonboard.com>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+ <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+ <20200325223820.1c74aed3@coco.lan>
+ <20200325221343.GW19171@pendragon.ideasonboard.com>
+ <20200326092832.069a4d17@coco.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200326092832.069a4d17@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently concurrent stream off operations on ImgU nodes are not
-synchronized, leading to use-after-free bugs (as reported by KASAN).
+Hi Mauro,
 
-[  250.090724] BUG: KASAN: use-after-free in
-ipu3_dmamap_free+0xc5/0x116 [ipu3_imgu]
-[  250.090726] Read of size 8 at addr ffff888127b29bc0 by task
-yavta/18836
-[  250.090731] Hardware name: HP Soraka/Soraka, BIOS
-Google_Soraka.10431.17.0 03/22/2018
-[  250.090732] Call Trace:
-[  250.090735]  dump_stack+0x6a/0xb1
-[  250.090739]  print_address_description+0x8e/0x279
-[  250.090743]  ? ipu3_dmamap_free+0xc5/0x116 [ipu3_imgu]
-[  250.090746]  kasan_report+0x260/0x28a
-[  250.090750]  ipu3_dmamap_free+0xc5/0x116 [ipu3_imgu]
-[  250.090754]  ipu3_css_pool_cleanup+0x24/0x37 [ipu3_imgu]
-[  250.090759]  ipu3_css_pipeline_cleanup+0x61/0xb9 [ipu3_imgu]
-[  250.090763]  ipu3_css_stop_streaming+0x1f2/0x321 [ipu3_imgu]
-[  250.090768]  imgu_s_stream+0x94/0x443 [ipu3_imgu]
-[  250.090772]  ? ipu3_vb2_buf_queue+0x280/0x280 [ipu3_imgu]
-[  250.090775]  ? vb2_dma_sg_unmap_dmabuf+0x16/0x6f [videobuf2_dma_sg]
-[  250.090778]  ? vb2_buffer_in_use+0x36/0x58 [videobuf2_common]
-[  250.090782]  ipu3_vb2_stop_streaming+0xf9/0x135 [ipu3_imgu]
+On Thu, Mar 26, 2020 at 09:28:32AM +0100, Mauro Carvalho Chehab wrote:
+> Em Thu, 26 Mar 2020 00:13:43 +0200 Laurent Pinchart escreveu:
+> > On Wed, Mar 25, 2020 at 10:38:20PM +0100, Mauro Carvalho Chehab wrote:
+> > > Em Wed, 25 Mar 2020 16:36:31 -0300 Helen Koike escreveu:  
+> > > > On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:  
+> > > > > That's the second part of media Kconfig changes. The entire series is
+> > > > > at:
+> > > > > 
+> > > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig    
+> > > > 
+> > > > I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+> > > > I asked him to enable Vimc (from default configs, where multimedia starts disabled).
+> > > > He knows that Vimc is a virtual camera driver, and this is how he behaved:
+> > > > 
+> > > > === Start of experiment:
+> > > > 
+> > > > * He pressed '/' and searched for vimc to see the location path.
+> > > > * Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
+> > > > * He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
+> > > > * He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
+> > > > * He seemed a bit lost, going back and forth in the menus a couple of times.
+> > > > * Then he pressed '/' again to search for vimc and see the location path, and he realized that there
+> > > > should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
+> > > > * He went back to "Media device types" again and start re-reading the options.
+> > > > * He selected "Cameras and video grabbers" ant went back to "Media drivers".
+> > > > * He sees "V4L test drivers", selects it, and enter this menu.
+> > > > * He selects "Virtual Media Controller Driver".
+> > > > 
+> > > > I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
+> > > > to combine "Test drivers" with "Cameras and video grabbers".
+> > > > He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
+> > > > 
+> > > > Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
+> > > > realized by himself until that moment, nor tried it out to see what would happen).
+> > > > 
+> > > > He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
+> > > > He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.  
+> > > 
+> > > That's easy to solve: all it needs is to add something similar
+> > > to this at drivers/media/Kconfig:
+> > > 
+> > > 	+	comment "Drivers are filtered by MEDIA_SUPPORT_FILTER"
+> > > 	+		visible if MEDIA_SUPPORT_FILTER
+> > > 	+
+> > > 	+	comment "All available drivers are shown below"
+> > > 	+		visible if !MEDIA_SUPPORT_FILTER
+> > > 	+
+> > > 	menu "Media drivers"
+> > > 
+> > > 	source "drivers/media/usb/Kconfig"
+> > >   
+> > > > === End of experiment
+> > > > 
+> > > > This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
+> > > > and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
+> > > > kernel development (kernel dev newbies for instance).
+> > > > 
+> > > > Just another remark from me:
+> > > > 
+> > > > From the default config, "Media drivers" shows USB and PCI,   
+> > > 
+> > > Well, assuming that there are 2 billion computers, 1% with Linux
+> > > installed, and 10% of them have a media device (camera or TV),
+> > > we have about 2 millions of people running Linux. That excludes
+> > > Android and Embedded devices, where people usually don't touch.
+> > > 
+> > > During an entire year, there are about 4000 of Kernel developers 
+> > > that has at least one patch accepted upstream (this number
+> > > includes developers for Android and other SoCs). Also, the 
+> > > number of Kernel developers submitting patches upstream for the
+> > > media subsystem is around 20-40 people along an year.  
+> > 
+> > $ git log --since 2019-01-01 --until 2020-01-01 --no-merges -- drivers/media/ | grep '^Author: ' | sort | uniq -c | wc -l   
+> > 215
+> > 
+> > There's some duplication of e-mail addresses, but it's still roughly an
+> > order or magnitude bigger (and it's not counting staging, headers or
+> > documentation).
+> > 
+> > > So, about 99,9998% of the users using the media subsystems aren't
+> > > Kernel hackers. I bet that almost all of those will either need
+> > > to enable USB or a PCI driver.  
+> > 
+> > And the extremely vast majority of these will never enable a kernel
+> > option because they will never compile a kernel. They don't even know
+> > what a kernel is :-)
+> > 
+> > > Granted, 99,9998% seems too optimistic, but, assuming that this
+> > > would reduce to something like 80% (e. g. only 200 users
+> > > would ever try to build a media driver, with is a *very conservative*
+> > > number) this is still a lot more than the number of media Kernel
+> > > developers.
+> > > 
+> > > Also, a Kernel hacker will sooner or later find a way to enable it.
+> > > A normal user may find it a lot more trickier and will very likely
+> > > require more support, if the menus are too technical and the
+> > > default options are wrong.  
+> > 
+> > I'm not sure to follow you. Are you implying that this patch series,
+> > which Helen has tested against a real user, not an experienced kernel
+> > hacker, may make the configuration options more difficult for kernel
+> > hackers, but improves the situation for users ?
+> 
+> Come on, it is not harder for Kernel hackers. It is just different than
+> what it used to be before the changes.
 
-Implemented a lock to synchronize imgu stream on / off operations and
-the modification of streaming flag (in struct imgu_device), to prevent
-these issues.
+Sorry, I didn't meant to say it would be more complex for me (I mostly
+don't use menuconfig anyway, I edit the .config file manually :-)), but
+I was reading your e-mail as implying that, and was wondering if it was
+me misreading it.
 
-Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 9 +++++++++
- drivers/staging/media/ipu3/ipu3.c      | 3 +++
- drivers/staging/media/ipu3/ipu3.h      | 4 ++++
- 3 files changed, 16 insertions(+)
+> At the above experience, at the
+> very first time this Kernel hacker looked on it, it was able to figure
+> out how to enable the driver. I bet that, if you now repeat the experiment
+> with the same guy, he would be able to enable another driver a lot quicker.
+> 
+> My view is that, with the option of either enable or disable the
+> filtering mechanism, it will be easier for everybody:
+> 
+> - Distro maintainers for PCs can just disable platform and
+>   test drivers, and keep the other drivers enabled;
+> 
+> - An experienced Kernel hacker will disable the filter and select
+>   the needed drivers directly.
+> 
+> - An user wanting to test a driver with new patches (or a new driver)
+>   use the filters to select the USB driver he needs (probably using the
+>   media_tree.git, in order to see only the media options).
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 09c8ede1457c..0358d0998314 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -367,8 +367,10 @@ static void imgu_vb2_buf_queue(struct vb2_buffer *vb)
- 
- 	vb2_set_plane_payload(vb, 0, need_bytes);
- 
-+	mutex_lock(&imgu->streaming_lock);
- 	if (imgu->streaming)
- 		imgu_queue_buffers(imgu, false, node->pipe);
-+	mutex_unlock(&imgu->streaming_lock);
- 
- 	dev_dbg(&imgu->pci_dev->dev, "%s for pipe %u node %u", __func__,
- 		node->pipe, node->id);
-@@ -468,10 +470,12 @@ static int imgu_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	dev_dbg(dev, "%s node name %s pipe %u id %u", __func__,
- 		node->name, node->pipe, node->id);
- 
-+	mutex_lock(&imgu->streaming_lock);
- 	if (imgu->streaming) {
- 		r = -EBUSY;
- 		goto fail_return_bufs;
- 	}
-+	mutex_unlock(&imgu->streaming_lock);
- 
- 	if (!node->enabled) {
- 		dev_err(dev, "IMGU node is not enabled");
-@@ -498,9 +502,11 @@ static int imgu_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
- 
- 	/* Start streaming of the whole pipeline now */
- 	dev_dbg(dev, "IMGU streaming is ready to start");
-+	mutex_lock(&imgu->streaming_lock);
- 	r = imgu_s_stream(imgu, true);
- 	if (!r)
- 		imgu->streaming = true;
-+	mutex_unlock(&imgu->streaming_lock);
- 
- 	return 0;
- 
-@@ -532,6 +538,7 @@ static void imgu_vb2_stop_streaming(struct vb2_queue *vq)
- 		dev_err(&imgu->pci_dev->dev,
- 			"failed to stop subdev streaming\n");
- 
-+	mutex_lock(&imgu->streaming_lock);
- 	/* Was this the first node with streaming disabled? */
- 	if (imgu->streaming && imgu_all_nodes_streaming(imgu, node)) {
- 		/* Yes, really stop streaming now */
-@@ -542,6 +549,8 @@ static void imgu_vb2_stop_streaming(struct vb2_queue *vq)
- 	}
- 
- 	imgu_return_all_buffers(imgu, node, VB2_BUF_STATE_ERROR);
-+	mutex_unlock(&imgu->streaming_lock);
-+
- 	media_pipeline_stop(&node->vdev.entity);
- }
- 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index 4d53aad31483..a25a997cfd7e 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -675,6 +675,7 @@ static int imgu_pci_probe(struct pci_dev *pci_dev,
- 		return r;
- 
- 	mutex_init(&imgu->lock);
-+	mutex_init(&imgu->streaming_lock);
- 	atomic_set(&imgu->qbuf_barrier, 0);
- 	init_waitqueue_head(&imgu->buf_drain_wq);
- 
-@@ -738,6 +739,7 @@ static int imgu_pci_probe(struct pci_dev *pci_dev,
- out_css_powerdown:
- 	imgu_css_set_powerdown(&pci_dev->dev, imgu->base);
- out_mutex_destroy:
-+	mutex_destroy(&imgu->streaming_lock);
- 	mutex_destroy(&imgu->lock);
- 
- 	return r;
-@@ -755,6 +757,7 @@ static void imgu_pci_remove(struct pci_dev *pci_dev)
- 	imgu_css_set_powerdown(&pci_dev->dev, imgu->base);
- 	imgu_dmamap_exit(imgu);
- 	imgu_mmu_exit(imgu->mmu);
-+	mutex_destroy(&imgu->streaming_lock);
- 	mutex_destroy(&imgu->lock);
- }
- 
-diff --git a/drivers/staging/media/ipu3/ipu3.h b/drivers/staging/media/ipu3/ipu3.h
-index 73b123b2b8a2..8cd6a0077d99 100644
---- a/drivers/staging/media/ipu3/ipu3.h
-+++ b/drivers/staging/media/ipu3/ipu3.h
-@@ -146,6 +146,10 @@ struct imgu_device {
- 	 * vid_buf.list and css->queue
- 	 */
- 	struct mutex lock;
-+
-+	/* Lock to protect writes to streaming flag in this struct */
-+	struct mutex streaming_lock;
-+
- 	/* Forbid streaming and buffer queuing during system suspend. */
- 	atomic_t qbuf_barrier;
- 	/* Indicate if system suspend take place while imgu is streaming. */
+My personal view is that this makes things more complex, and more
+complexity usually means less clarity. If we want to be serious about
+the usability of our Kconfig menu, we should get real users involved in
+the design, at least by testing it on them, and getting feedback.
+Otherwise we'll just be a bunch of kernel developers sitting in our
+ivory tower thinking we know better than our users what is good for
+them.
+
+> > > -
+> > > 
+> > > Even with that, based on your small experiment (of someone from the
+> > > area), I suspect that, if you had asked him to enable, for example,
+> > > em28xx or dvbsky (with are some of the most popular drivers
+> > > those days), he would be able to enable it a lot faster.  
+> > 
+> > This is the *only* real piece of evidence we have, let's not assume we
+> > know better.
+> > 
+> > > > and selecting those doesn't do anything, and people can even think
+> > > > that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
+> > > > shows up.  
+> > > 
+> > > It is hard to comment on individual experiments. In the past, our
+> > > Kconfig system were like that: written for technical people with
+> > > background on computer engineering and some experience building the
+> > > Kernel.
+> > > 
+> > > E.g. people that knows that "/" activates a search mechanism at
+> > > the Kernel building system.
+> > > 
+> > > We usually had to spend *a lot of time* both on IRC and on e-mail
+> > > explaining people that just want to have their card supported,
+> > > how to do that. After the reorg (with added those more user-faced
+> > > interfaces), the number of people with problems reduced a lot.  
+> > 
+> > Don't you think that could come mainly from better support for media
+> > devices in distributions ?
+> > 
+> > > Btw, if one tries to compile from media-build (with lots of users
+> > > do), this is even more relevant.  
+> > 
+> > Can you quantify "lots of users" ?
+> 
+> Enough to make us to decide that re-working the Kconfig menus and 
+> add the MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT would worth the
+> efforts.
+> 
+> Guess what? The efforts were fully paid, as it reduced a lot the
+> amount of time we had to weekly spend helping people to build their
+> Kernels in order to test support for their new hardware.
+> 
+> It also helped a lot to set the right Kconfig options on distros.
+> I did my contributions on that time by improving Fedora and on RHEL,
+> making their build rely on MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT.
+> 
+> See, for some random distro maintainer, new Kconfig symbols pops up
+> every time. Enabling all of them is usually a very bad idea. So, a
+> filtering mechanism that would, for example, hide test and skeleton
+> drivers to be built is a very nice feat, as it means a lot less
+> symbols for them to study and decide whether such new options should
+> be enabled or not
+
+The fact that test drivers are not shipped by some distros is annoying
+for developers ;-) But that's a very small minority, and out of topic.
+
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
