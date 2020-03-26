@@ -2,119 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 992551941E1
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 15:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A593F1941EA
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 15:48:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbgCZOrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 10:47:46 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:35046 "EHLO
+        id S1727938AbgCZOsl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 10:48:41 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:35070 "EHLO
         hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727547AbgCZOrq (ORCPT
+        by vger.kernel.org with ESMTP id S1726270AbgCZOsl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 10:47:46 -0400
+        Thu, 26 Mar 2020 10:48:41 -0400
 Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id EA1C4634C90;
-        Thu, 26 Mar 2020 16:47:26 +0200 (EET)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id D0130634C90;
+        Thu, 26 Mar 2020 16:48:21 +0200 (EET)
 Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
         (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jHTn4-0000iB-0A; Thu, 26 Mar 2020 16:47:26 +0200
-Date:   Thu, 26 Mar 2020 16:47:25 +0200
+        id 1jHTnw-0000iH-Up; Thu, 26 Mar 2020 16:48:20 +0200
+Date:   Thu, 26 Mar 2020 16:48:20 +0200
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
-Message-ID: <20200326144725.GA2394@valkosipuli.retiisi.org.uk>
-References: <20200313110350.10864-1-robert.foss@linaro.org>
- <20200313110350.10864-3-robert.foss@linaro.org>
- <20200313121746.GC5730@valkosipuli.retiisi.org.uk>
- <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, helen.koike@collabora.com, digetx@gmail.com,
+        sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v5 6/9] media: tegra: Add Tegra210 Video input driver
+Message-ID: <20200326144820.GB2394@valkosipuli.retiisi.org.uk>
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-7-git-send-email-skomatineni@nvidia.com>
+ <20200325110358.GB853@valkosipuli.retiisi.org.uk>
+ <a219aeb2-3d00-016e-eed9-503a9fbd0d13@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com>
+In-Reply-To: <a219aeb2-3d00-016e-eed9-503a9fbd0d13@nvidia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert,
+Hi Sowjanya,
 
-On Thu, Mar 26, 2020 at 12:56:37PM +0100, Robert Foss wrote:
-...
-> > > +static int __ov8856_power_on(struct ov8856 *ov8856)
+On Wed, Mar 25, 2020 at 11:30:18PM -0700, Sowjanya Komatineni wrote:
+> 
+> On 3/25/20 4:03 AM, Sakari Ailus wrote:
+> > > +static int tegra_channel_enum_input(struct file *file, void *fh,
+> > > +                                 struct v4l2_input *inp)
 > > > +{
-> > > +     struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> > > +     int ret;
+> > > +     /* currently driver supports internal TPG only */
+> > > +     if (inp->index)
+> > > +             return -EINVAL;
 > > > +
-> > > +     ret = clk_prepare_enable(ov8856->xvclk);
-> > > +     if (ret < 0) {
-> > > +             dev_err(&client->dev, "failed to enable xvclk\n");
-> > > +             return ret;
-> > > +     }
+> > > +     inp->type = V4L2_INPUT_TYPE_CAMERA;
+> > > +     strscpy(inp->name, "Tegra TPG", sizeof(inp->name));
 > > > +
-> > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
+> > > +     return 0;
+> > > +}
 > > > +
-> > > +     ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
-> > > +                                 ov8856->supplies);
-> > > +     if (ret < 0) {
-> > > +             dev_err(&client->dev, "failed to enable regulators\n");
-> > > +             goto disable_clk;
-> > > +     }
+> > > +static int tegra_channel_g_input(struct file *file, void *priv,
+> > > +                              unsigned int *i)
+> > > +{
+> > > +     *i = 0;
+> > > +     return 0;
+> > > +}
 > > > +
-> > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
+> > > +static int tegra_channel_s_input(struct file *file, void *priv,
+> > > +                              unsigned int input)
+> > > +{
+> > > +     if (input > 0)
+> > > +             return -EINVAL;
 > > > +
-> > > +     usleep_range(1500, 1800);
-> >
-> > I think you could omit the delay on ACPI based systems. Or just bail out
-> > early in that case.
+> > > +     return 0;
+> > > +}
+> > Please see patchset on topic "v4l2-dev/ioctl: Add V4L2_CAP_IO_MC" on
+> > linux-media; it's relevant here, too.
 > 
-> I'll add a check for reset_gpio being NULL, and skip the sleep for that case.
-
-There could also be a regulator but no GPIO.
-
-I think if you don't have either, then certainly there's no need for a
-delay.
-
-...
-
-> > > +             ov8856->xvclk = NULL;
-> > > +     } else if (IS_ERR(ov8856->xvclk)) {
-> > > +             dev_err(&client->dev, "could not get xvclk clock (%ld)\n",
-> > > +                     PTR_ERR(ov8856->xvclk));
-> > > +             return PTR_ERR(ov8856->xvclk);
-> > > +     }
-> > > +
-> > > +     ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
-> >
-> > This should either come from platform data, or perhaps it'd be even better
-> > to get the clock rate and use assigned-clock-rates. I guess that's
-> > preferred nowadays.
+> Can update in v6 to add device caps V4L2_CAP_IO_MC and remove enum/g/s_input
+> ioctls.
 > 
-> I'm a bit unsure about what this would look like.
-> 
-> Are you thinking something like the way ext_clk is used in smiapp_core.c?
-> I went ahead and implemented support for retrieving and storing
-> 'clock-rates' during the ov8856_check_hwcfg() call, and then setting
-> the rate to the configured rate during probing.
+> But, I don't see this patch "v4l2-dev/ioctl: Add V4L2_CAP_IO_MC" on latest
+> linux-next
 
-With assigned-clock-rates, you can simply use clk_get_rate().
-
-As you get the actual rate, it could be somewhat off of the intended one.
+It's not merged yet but likely will be very soon.
 
 -- 
-Kind regards,
-
 Sakari Ailus
