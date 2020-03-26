@@ -2,115 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBED7194162
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 15:29:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 992551941E1
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 15:47:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728322AbgCZO24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 10:28:56 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:34020 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728316AbgCZO2z (ORCPT
+        id S1727931AbgCZOrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 10:47:46 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:35046 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727547AbgCZOrq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 10:28:55 -0400
-Received: by mail-vs1-f67.google.com with SMTP id b5so3980989vsb.1
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 07:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m96cR6V03dd7lbjAOl6gquDvXkdRzHGRSDXkk0VydMg=;
-        b=d0GbhldybAe0gmG8ZlfyrlQwNBKzrfy5JDwFDaOsHBBgGdMkw0TJb3XjhMtRqSbv7U
-         raadlG2wUvxjwaK8JQEXjXpEDrxdok4PtGhzk8vlvcx6tqX50JoBJjW9oeCcSufljH6d
-         zXUOtYr9xOurSTFj6t0Jo5XxpR4v0b0dQlHfJkM50DxfClQkvWEwr0+ZVMW14u+Ih3zr
-         bXT7WivtSYOhdHJnSZYPl0aXpH0+RKcAZCDkMR+fTMFW7uZMY/N5YrpJM+980D1BsBA0
-         B429AUyrl4jmmVgGSaDLzpQR41VY8fCcxS1hN7EuVUp7OYsa1cZg42gDGUtJY7L1P3No
-         T3ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m96cR6V03dd7lbjAOl6gquDvXkdRzHGRSDXkk0VydMg=;
-        b=l1ZvhiEwS+Y1IBluPzfIN7HH7JQi68kmzqMsShKDSxPWiYfdIEsIqZn/fjpkFISYad
-         q+8Bd9ZL5acNHETH7u8lluOuKYo3GPFemF7OAoqH6+Zptg8JakeXDJ1H1DFM4bndl/wr
-         Z1DXeiXmXY47CflJzrA16ijeWIOzPJX2ITIGYEe4jETeQ6h4oCqbwW2q87rJ6/qc8rsX
-         nkw7Oc1r5brBJurYhvtj/TmErAsCsAS6CM+1wpCXq+cKR5tMPx3sB4NWjjiAYdx9ADqz
-         AZwgzuvM6FB9REXVkMQ3rSKkjkeIxo5vKGUCSss3rDBuaL64wJLl3zYVSJazph2q4SE8
-         TCvA==
-X-Gm-Message-State: ANhLgQ30KoqQE5dnlSqyzaTIjbnfGyr7Qgg9oMF1UjXp4/FOBMeljghB
-        hwqEKmoTDwaHcQJ9Z9DBWva39ZDXem6hjOCBOp6ugA==
-X-Google-Smtp-Source: ADFU+vuWH5zQui20lK3L0xhEESoh9O6oNICswpYudGihwgeVkXw9INd4a0Qcv2xNvGUAEUT8yqdnif+9yZAdCYPExLo=
-X-Received: by 2002:a67:646:: with SMTP id 67mr6606515vsg.34.1585232933632;
- Thu, 26 Mar 2020 07:28:53 -0700 (PDT)
+        Thu, 26 Mar 2020 10:47:46 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id EA1C4634C90;
+        Thu, 26 Mar 2020 16:47:26 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jHTn4-0000iB-0A; Thu, 26 Mar 2020 16:47:26 +0200
+Date:   Thu, 26 Mar 2020 16:47:25 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
+Message-ID: <20200326144725.GA2394@valkosipuli.retiisi.org.uk>
+References: <20200313110350.10864-1-robert.foss@linaro.org>
+ <20200313110350.10864-3-robert.foss@linaro.org>
+ <20200313121746.GC5730@valkosipuli.retiisi.org.uk>
+ <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200317093922.20785-1-lkundrak@v3.sk> <20200317093922.20785-19-lkundrak@v3.sk>
-In-Reply-To: <20200317093922.20785-19-lkundrak@v3.sk>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 26 Mar 2020 15:28:17 +0100
-Message-ID: <CAPDyKFrcrgMrd9Nv425XuzssBhd+GvSUu29hXoVShwS0GNyjtQ@mail.gmail.com>
-Subject: Re: [PATCH 18/28] dt-bindings: mmc: Fix node name in an example
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org,
-        Linux USB List <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 17 Mar 2020 at 10:40, Lubomir Rintel <lkundrak@v3.sk> wrote:
->
-> The $nodename allows only "mmc@*" whereas the example node is named
-> "sdhci".
->
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Hi Robert,
 
-Applied for next, thanks!
+On Thu, Mar 26, 2020 at 12:56:37PM +0100, Robert Foss wrote:
+...
+> > > +static int __ov8856_power_on(struct ov8856 *ov8856)
+> > > +{
+> > > +     struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> > > +     int ret;
+> > > +
+> > > +     ret = clk_prepare_enable(ov8856->xvclk);
+> > > +     if (ret < 0) {
+> > > +             dev_err(&client->dev, "failed to enable xvclk\n");
+> > > +             return ret;
+> > > +     }
+> > > +
+> > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
+> > > +
+> > > +     ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
+> > > +                                 ov8856->supplies);
+> > > +     if (ret < 0) {
+> > > +             dev_err(&client->dev, "failed to enable regulators\n");
+> > > +             goto disable_clk;
+> > > +     }
+> > > +
+> > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
+> > > +
+> > > +     usleep_range(1500, 1800);
+> >
+> > I think you could omit the delay on ACPI based systems. Or just bail out
+> > early in that case.
+> 
+> I'll add a check for reset_gpio being NULL, and skip the sleep for that case.
 
-Kind regards
-Uffe
+There could also be a regulator but no GPIO.
 
+I think if you don't have either, then certainly there's no need for a
+delay.
 
-> ---
->  Documentation/devicetree/bindings/mmc/mmc-controller.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/mmc-controller.yaml b/Documentation/devicetree/bindings/mmc/mmc-controller.yaml
-> index c9384ed685b8f..c03fe268c29a0 100644
-> --- a/Documentation/devicetree/bindings/mmc/mmc-controller.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/mmc-controller.yaml
-> @@ -351,7 +351,7 @@ dependencies:
->
->  examples:
->    - |
-> -    sdhci@ab000000 {
-> +    mmc@ab000000 {
->          compatible = "sdhci";
->          reg = <0xab000000 0x200>;
->          interrupts = <23>;
-> --
-> 2.25.1
->
+...
+
+> > > +             ov8856->xvclk = NULL;
+> > > +     } else if (IS_ERR(ov8856->xvclk)) {
+> > > +             dev_err(&client->dev, "could not get xvclk clock (%ld)\n",
+> > > +                     PTR_ERR(ov8856->xvclk));
+> > > +             return PTR_ERR(ov8856->xvclk);
+> > > +     }
+> > > +
+> > > +     ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
+> >
+> > This should either come from platform data, or perhaps it'd be even better
+> > to get the clock rate and use assigned-clock-rates. I guess that's
+> > preferred nowadays.
+> 
+> I'm a bit unsure about what this would look like.
+> 
+> Are you thinking something like the way ext_clk is used in smiapp_core.c?
+> I went ahead and implemented support for retrieving and storing
+> 'clock-rates' during the ov8856_check_hwcfg() call, and then setting
+> the rate to the configured rate during probing.
+
+With assigned-clock-rates, you can simply use clk_get_rate().
+
+As you get the actual rate, it could be somewhat off of the intended one.
+
+-- 
+Kind regards,
+
+Sakari Ailus
