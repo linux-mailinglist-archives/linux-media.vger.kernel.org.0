@@ -2,369 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5362B193AD0
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A609C193B1E
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727792AbgCZI2r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 04:28:47 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39825 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727751AbgCZI2q (ORCPT
+        id S1726318AbgCZIhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 04:37:25 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35501 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727652AbgCZIhY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:28:46 -0400
-Received: by mail-lj1-f196.google.com with SMTP id i20so5458355ljn.6
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 01:28:43 -0700 (PDT)
+        Thu, 26 Mar 2020 04:37:24 -0400
+Received: by mail-wr1-f66.google.com with SMTP id d5so6674829wrn.2
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 01:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=mTsg/k3T0RBYLp/O6KmyTIl2SHP8mSvBsvX2HycEfC8=;
-        b=WPuUm1D8PLIutfQxvZDsYq02yN30wXwnJM94AVzerPESuci6fUO7DQJt4FkmDECGxL
-         cO/Rh9y66uV9rO/8pYuZq2ip6PiRNMTiOKoVWPmnbuSt3G72EyFzx2UjWDAprIt+M+dA
-         ILdj2PL8snxcjnyTv8GVP+WGnFEiKlslzzq+BSz/5TwcKrNXGrduX+ajHJg+2d9IqpCy
-         5dxdxMs+yOJYJ/yO/TrJgthiWJXBcGypvErqKR0mXKoqwNE8fe8TcRzWIsTmYDdCcf2f
-         dTuiR8KqQAejbC15LDOmeEUgmorsjQhs3t29QbO/A9hHuDxy+NrK8SqqL8eoprKJaJox
-         LBew==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:autocrypt:organization:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pXR82osHIkK+BAujG1JZhhCQ8WhSN81meh6IAg+eIhY=;
+        b=Ub7Ye3VqwM2djDzizU6cSyxA3L3kJlmoDWEL3/sRxrgMsxi5ek3FWL5WuB2NSlh+Id
+         JgrPaNcjtBEDrM5M0SaZWt+201gkW10H+dcn9DxSzqjW5JOy84nF26gdbDAxFwZzCNTN
+         VtAA3u0ovxjRSkfvIgAVjUniM/avIaXnoHRb9XXGJUBLYC2YT2VUFsIYNNOps9OUZMeK
+         WGAAqlRaSMSU639OznxEdrHAr5lliv9tGj6li6m05s4Q88wrQ25TeqnsbXwXBPucnb+k
+         l0aCfXqU3QePgij9m+m119sYDTdRGYNR2xyIbWEHoHx0E/qJm2Po1jKd/oHGfcWYXeCn
+         QUMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=mTsg/k3T0RBYLp/O6KmyTIl2SHP8mSvBsvX2HycEfC8=;
-        b=gyinrxJZ3D6OU2wBWuFTgra12DxSXGl5mFW9dNet12tLVW2Fqp//7dJ/4hDYev+COD
-         xlk28tH4S90HYA+BWsqicueJYiw/9wwK6W4NxF0Ya1tg/W2UgWtfu6MM1SQ4LM3Llg3A
-         /UVeBeqPc+nb7GC8+p1X258jANWS4LHi3gF/YI9+Ri/0dMffw0CoOTAVsJG00U511H05
-         DxzEcucP8hInSeCAsXYkiBvEsW1qSF+Wh3EsjffhFPhPn0Ndz7LlhTW+acZQ4HKVnWvQ
-         6PwZikb36OnFrlZ65lkGdFMfEahenFCPMxf0lOtK7XA3FTE2zEUcyIJe4nTTqAP0c9m4
-         a/Tg==
-X-Gm-Message-State: ANhLgQ040MYYCIoNpzvylkNZnR/vIiD1csXAs1xhzEYFXXepjzBjBpTR
-        Gna9ERSipnpbJAm17h/Vy0f3d/m73FA=
-X-Google-Smtp-Source: APiQypIoNJzvYZB25rdb4PBPxvTh9mAJBmpKzfx/ZJNz0tJCf8fl7Mcg/JPAb6HXv8RltbdK4q2rmw==
-X-Received: by 2002:a05:651c:1061:: with SMTP id y1mr4186192ljm.285.1585211322009;
-        Thu, 26 Mar 2020 01:28:42 -0700 (PDT)
-Received: from [192.168.7.22] ([217.148.211.220])
-        by smtp.gmail.com with ESMTPSA id l21sm1061643lfh.63.2020.03.26.01.28.41
-        for <linux-media@vger.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=pXR82osHIkK+BAujG1JZhhCQ8WhSN81meh6IAg+eIhY=;
+        b=GAqgHL/XMGaw1RQ7lNjYHhWP7yaScGGl2Y/oCJBO9C9Y/MTypRbl128p+3f3OCJ2eE
+         V27ijG+HnrXo9xPqYCJ1Y8vxf+tilO91l9MTsj2Ftx72Qvxc17c4iy3eA4mYAVhpBPjn
+         5XYLIkT30xqBMt/omY3zZCyGQHVCioo7NODWEaS8F9vMMfCVi6RAQgp96+WWHvsXnmh6
+         2VjkNDKm/xegpon83WDRMLF4HlRT4Ymoe7f0RPG9SxIzhnYQLGDqefe01NPf7sVmnwTG
+         Y1wi3AW/p2ooESjwb7p/prLapZyEy4Vn5xQMi6s9x7ZvGJ6/LDyC4GzC2ZZpJs8ve4Tt
+         xivQ==
+X-Gm-Message-State: ANhLgQ22vhh6jVRza9iqsAR0aW5BleqBU8VVjKCSDqLMAJBJaQ3tO81h
+        i+LjhgoiPKqwc9TflDPUQHudrQ==
+X-Google-Smtp-Source: ADFU+vsYjTqfEWPknLjNwIub37ZfUBmR6EQVrktciDTTfd+VYo7Gj0t8gLB5S6/mFNn+5Z/4WT4x9A==
+X-Received: by 2002:a5d:574b:: with SMTP id q11mr7894476wrw.417.1585211839977;
+        Thu, 26 Mar 2020 01:37:19 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:5c5f:613e:f775:b6a2? ([2a01:e35:2ec0:82b0:5c5f:613e:f775:b6a2])
+        by smtp.gmail.com with ESMTPSA id b67sm2492273wmh.29.2020.03.26.01.37.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 01:28:41 -0700 (PDT)
-To:     linux-media@vger.kernel.org
-From:   =?UTF-8?B?0JzQuNGF0LDQudC70L7QsiDQkNC70LXQutGB0LXQuSDQkNC90LDRgtC+0Ls=?=
-         =?UTF-8?B?0YzQtdCy0LjRhw==?= <minimumlaw@gmail.com>
-Subject: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
-Message-ID: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
-Date:   Thu, 26 Mar 2020 11:28:41 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Thu, 26 Mar 2020 01:37:19 -0700 (PDT)
+Subject: Re: [PATCH 4/4] dt-bindings: Add missing 'additionalProperties:
+ false'
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Guillaume La Roque <glaroque@baylibre.com>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Zhang Rui <rui.zhang@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        netdev@vger.kernel.org
+References: <20200325220542.19189-1-robh@kernel.org>
+ <20200325220542.19189-5-robh@kernel.org>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <88deb8bb-718c-f8ce-885e-dbc122201f16@baylibre.com>
+Date:   Thu, 26 Mar 2020 09:37:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+In-Reply-To: <20200325220542.19189-5-robh@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+On 25/03/2020 23:05, Rob Herring wrote:
+> Setting 'additionalProperties: false' is frequently omitted, but is
+> important in order to check that there aren't extra undocumented
+> properties in a binding.
+> 
+> Ideally, we'd just add this automatically and make this the default, but
+> there's some cases where it doesn't work. For example, if a common
+> schema is referenced, then properties in the common schema aren't part
+> of what's considered for 'additionalProperties'. Also, sometimes there
+> are bus specific properties such as 'spi-max-frequency' that go into
+> bus child nodes, but aren't defined in the child node's schema.
+> 
+> So let's stick with the json-schema defined default and add
+> 'additionalProperties: false' where needed. This will be a continual
+> review comment and game of wack-a-mole.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/arm/altera/socfpga-clk-manager.yaml    | 2 ++
+>  .../bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml       | 2 ++
+>  Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml       | 2 ++
+>  Documentation/devicetree/bindings/arm/renesas,prr.yaml         | 2 ++
+>  .../devicetree/bindings/arm/samsung/exynos-chipid.yaml         | 2 ++
+>  Documentation/devicetree/bindings/arm/samsung/pmu.yaml         | 2 ++
+>  .../bindings/arm/samsung/samsung-secure-firmware.yaml          | 2 ++
+>  .../devicetree/bindings/arm/stm32/st,stm32-syscon.yaml         | 2 ++
+>  Documentation/devicetree/bindings/clock/fsl,plldig.yaml        | 2 ++
+>  Documentation/devicetree/bindings/clock/imx8mn-clock.yaml      | 2 ++
+>  Documentation/devicetree/bindings/clock/imx8mp-clock.yaml      | 2 ++
+>  Documentation/devicetree/bindings/clock/milbeaut-clock.yaml    | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-ipq8074.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-msm8996.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-msm8998.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-qcs404.yaml   | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-sc7180.yaml   | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-sm8150.yaml   | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,mmcc.yaml         | 2 ++
+>  .../devicetree/bindings/clock/qcom,msm8998-gpucc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml       | 2 ++
+>  .../devicetree/bindings/clock/qcom,sc7180-dispcc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,sc7180-gpucc.yaml | 2 ++
+>  .../devicetree/bindings/clock/qcom,sc7180-videocc.yaml         | 2 ++
+>  .../devicetree/bindings/clock/qcom,sdm845-dispcc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,sdm845-gpucc.yaml | 2 ++
+>  .../devicetree/bindings/clock/qcom,sdm845-videocc.yaml         | 2 ++
+>  .../devicetree/bindings/display/amlogic,meson-vpu.yaml         | 2 ++
+>  .../devicetree/bindings/dma/sifive,fu540-c000-pdma.yaml        | 2 ++
+>  Documentation/devicetree/bindings/dsp/fsl,dsp.yaml             | 2 ++
+>  Documentation/devicetree/bindings/eeprom/at24.yaml             | 2 ++
+>  .../firmware/intel,ixp4xx-network-processing-engine.yaml       | 3 +++
+>  .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml          | 2 ++
+>  .../devicetree/bindings/gpio/socionext,uniphier-gpio.yaml      | 2 ++
+>  Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml | 2 ++
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml    | 2 ++
+>  Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml    | 2 ++
+>  Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml     | 2 ++
+>  Documentation/devicetree/bindings/gpu/samsung-rotator.yaml     | 2 ++
+>  Documentation/devicetree/bindings/hwmon/adi,adm1177.yaml       | 2 ++
+>  Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml       | 2 ++
+>  Documentation/devicetree/bindings/hwmon/pmbus/ti,ucd90320.yaml | 2 ++
+>  Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml         | 2 ++
+>  Documentation/devicetree/bindings/iio/accel/bosch,bma400.yaml  | 2 ++
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml    | 2 ++
+>  .../devicetree/bindings/iio/adc/microchip,mcp3911.yaml         | 2 ++
+>  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml        | 2 ++
+>  .../devicetree/bindings/iio/chemical/plantower,pms7003.yaml    | 2 ++
+>  .../devicetree/bindings/iio/chemical/sensirion,sps30.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml    | 2 ++
+>  Documentation/devicetree/bindings/iio/light/adux1020.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/light/bh1750.yaml        | 2 ++
+>  Documentation/devicetree/bindings/iio/light/isl29018.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/light/noa1305.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/stk33xx.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/tsl2583.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/tsl2772.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/veml6030.yaml      | 2 ++
+>  .../devicetree/bindings/iio/pressure/asc,dlhl60d.yaml          | 2 ++
+>  Documentation/devicetree/bindings/iio/pressure/bmp085.yaml     | 2 ++
+>  .../devicetree/bindings/iio/proximity/devantech-srf04.yaml     | 2 ++
+>  .../devicetree/bindings/iio/proximity/parallax-ping.yaml       | 2 ++
+>  .../devicetree/bindings/iio/temperature/adi,ltc2983.yaml       | 2 ++
+>  Documentation/devicetree/bindings/input/gpio-vibrator.yaml     | 2 ++
+>  Documentation/devicetree/bindings/input/max77650-onkey.yaml    | 3 +++
+>  .../bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml  | 2 ++
+>  Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml    | 2 ++
+>  Documentation/devicetree/bindings/leds/leds-max77650.yaml      | 3 +++
+>  Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml  | 3 +++
+>  .../devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml    | 2 ++
+>  Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml   | 2 ++
+>  .../devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml     | 2 ++
+>  Documentation/devicetree/bindings/media/renesas,ceu.yaml       | 2 ++
+>  Documentation/devicetree/bindings/mfd/max77650.yaml            | 2 ++
+>  Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml   | 2 ++
+>  .../bindings/misc/intel,ixp4xx-ahb-queue-manager.yaml          | 2 ++
+>  Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml      | 2 ++
+>  .../devicetree/bindings/phy/allwinner,sun50i-h6-usb3-phy.yaml  | 2 ++
+>  .../bindings/phy/amlogic,meson-g12a-usb3-pcie-phy.yaml         | 2 ++
+>  Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml  | 2 ++
+>  .../devicetree/bindings/phy/marvell,mmp3-hsic-phy.yaml         | 2 ++
+>  Documentation/devicetree/bindings/phy/ti,phy-j721e-wiz.yaml    | 2 ++
+>  .../devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml    | 2 ++
+>  .../devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml    | 2 ++
+>  .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml    | 2 ++
+>  .../devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml          | 2 ++
+>  .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml       | 2 ++
+>  .../devicetree/bindings/power/reset/syscon-poweroff.yaml       | 2 ++
+>  .../devicetree/bindings/power/reset/syscon-reboot.yaml         | 2 ++
+>  .../devicetree/bindings/power/supply/max77650-charger.yaml     | 3 +++
+>  Documentation/devicetree/bindings/ptp/ptp-idtcm.yaml           | 2 ++
+>  .../devicetree/bindings/regulator/max77650-regulator.yaml      | 3 +++
+>  .../devicetree/bindings/reset/amlogic,meson-reset.yaml         | 2 ++
+>  .../bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml          | 2 ++
+>  Documentation/devicetree/bindings/rng/amlogic,meson-rng.yaml   | 2 ++
+>  Documentation/devicetree/bindings/rng/brcm,bcm2835.yaml        | 2 ++
+>  Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml      | 2 ++
+>  Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml        | 2 ++
+>  .../devicetree/bindings/serial/amlogic,meson-uart.yaml         | 2 ++
+>  .../devicetree/bindings/soc/amlogic/amlogic,canvas.yaml        | 2 ++
+>  Documentation/devicetree/bindings/sound/adi,adau7118.yaml      | 2 ++
+>  Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml      | 2 ++
+>  Documentation/devicetree/bindings/sound/renesas,fsi.yaml       | 2 ++
+>  Documentation/devicetree/bindings/sound/samsung,odroid.yaml    | 2 ++
+>  Documentation/devicetree/bindings/sound/samsung-i2s.yaml       | 2 ++
+>  Documentation/devicetree/bindings/sram/qcom,ocmem.yaml         | 2 ++
+>  Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml | 2 ++
+>  Documentation/devicetree/bindings/timer/arm,arch_timer.yaml    | 2 ++
+>  .../devicetree/bindings/timer/arm,arch_timer_mmio.yaml         | 2 ++
+>  Documentation/devicetree/bindings/timer/arm,global_timer.yaml  | 2 ++
+>  .../devicetree/bindings/timer/intel,ixp4xx-timer.yaml          | 2 ++
+>  .../devicetree/bindings/timer/samsung,exynos4210-mct.yaml      | 2 ++
+>  Documentation/devicetree/bindings/trivial-devices.yaml         | 2 ++
+>  117 files changed, 240 insertions(+)
+> 
 
-We build custom CPU Module with NXP/Freescale IMX6QuadPlus CPU.I use 
-latest stable kernel from kernel.org. This time kernel version 5.5.11. 
-Also I connect to I.MX MIPI cameras from RaspberryPI (Rev 2.1 with Sony 
-IMX219). For IMX219 used actual driver from [1]. Usersapce based on 
-Gentoo Linux, have media-utils version 1.2.1, v4l2-utils version 1.18.0, 
-gstreamer version 1.14.5 with v4l2 plugins. Also Wayland version 1.17 
-based graphics with XWayland.
+For:
+ .../bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml       | 2 ++
+ .../devicetree/bindings/display/amlogic,meson-vpu.yaml         | 2 ++
+ .../devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml    | 2 ++
+ .../devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml     | 2 ++
+ Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml   | 2 ++
+ .../bindings/phy/amlogic,meson-g12a-usb3-pcie-phy.yaml         | 2 ++
+ .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml       | 2 ++
+ .../devicetree/bindings/reset/amlogic,meson-reset.yaml         | 2 ++
+ Documentation/devicetree/bindings/rng/amlogic,meson-rng.yaml   | 2 ++
+ .../devicetree/bindings/serial/amlogic,meson-uart.yaml         | 2 ++
+ .../devicetree/bindings/soc/amlogic/amlogic,canvas.yaml        | 2 ++
+ Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml | 2 ++
 
-Camera write in DTB:
-==== cut: DTB fragments ====
-/ {
-[skiped]
-	imx219_clk: camera-clk {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <24000000>;
-	};
-
-	imx219_1v2_reg: cam1v2_regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "IMX219_1V2";
-		regulator-min-microvolt = <1200000>;
-		regulator-max-microvolt = <1200000>;
-		vin-supply = <&p3v3_reg>;
-		regulator-always-on;
-	};
-
-	imx219_1v8_reg: cam1v8_regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "IMX219_1V8";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-		vin-supply = <&p3v3_reg>;
-		regulator-always-on;
-	};
-
-	imx219_2v8_reg: cam2v8_regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "IMX219_2V8";
-		regulator-min-microvolt = <2800000>;
-		regulator-max-microvolt = <2800000>;
-		vin-supply = <&p3v3_reg>;
-		regulator-always-on;
-	};
-[skiped]
-csi_i2c: i2c-mux@1 { /* CSI camera */
-	#address-cells = <1>;
-	#size-cells = <0>;
-	reg = <1>;
-	sensor@10 {	/* Raspberry Camera V2 */
-		compatible = "sony,imx219";
-		reg = <0x10>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-		clocks = <&imx219_clk>;
-		clock-names = "xclk";
-		DOVDD-supply = <&imx219_1v8_reg>; /* 1.8v */
-		AVDD-supply = <&imx219_2v8_reg>;  /* 2.8v */
-		DVDD-supply = <&imx219_1v2_reg>;  /* 1.2v */
-
-		port {
-			csi_sensor_out: endpoint {
-				remote-endpoint = <&csi_port_in>;
-				link-frequencies = /bits/ 64 <456000000>;
-				clock-lanes = <0>;
-				data-lanes = <1 2>;
-			};
-		};
-	};
-};
-[skiped]
-&mipi_csi {
-	status = "okay";
-
-	port@0 {
-		reg = <0>;
-		csi_port_in: endpoint {
-			remote-endpoint = <&csi_sensor_out>;
-			clock-lanes = <0>;
-			data-lanes = <1 2>;
-		};
-	};
-};
-[skiped]
-==== cut: DTB fragments ====
-
-I use script for init connected camera
-
-==== cut: Camera init script ===
-#!/bin/bash
-
-# sensor output format and resolutions
-# RaspberryPI Camera rev 2.1 (Sony I.MX219)
-I_FORMAT=SRGGB10_1X10
-I_RESOLUTION=1920x1080
-CROP=(0,0)/640x480
-
-# capture format and resolution
-O_FORMAT=AYUV32
-O_RESOLUTION=640x480
-
-# viewport format and resolution
-V_FORMAT=AYUV32
-V_RESOLUTION=640x480
-
-# Reset all media links
-media-ctl -r
-
-# Sersor to IPU and PRP path
-# RaspberryPI Camera rev 2.1 (Sony I.MX219)
-media-ctl -l "'imx219 9-0010':0 -> 'imx6-mipi-csi2':0[1]"
-media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
-media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
-# media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]" # /dev/video3 
-(unused, unprocessed)
-# IPU to capture
-media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
-media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]" # 
-/dev/video1
-# IPU to viewport
-media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
-media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]" # 
-/dev/video2
-
-# RaspberryPI Camera rev 2.1 (Sony I.MX219)
-media-ctl -V "'imx219 9-0010':0 [fmt:${I_FORMAT}/${I_RESOLUTION} 
-field:none]"
-media-ctl -V "'imx6-mipi-csi2':2 [fmt:${I_FORMAT}/${I_RESOLUTION} 
-field:none]"
-media-ctl -V "'ipu1_csi1':0 [crop:${CROP}]"
-media-ctl -V "'ipu1_csi1':1 [fmt:${I_FORMAT}/${O_RESOLUTION} field:none]"
-
-media-ctl -V "'ipu1_ic_prp':1 [fmt:${O_FORMAT}/${O_RESOLUTION} field:none]"
-media-ctl -V "'ipu1_ic_prpenc':1 [fmt:${O_FORMAT}/${O_RESOLUTION} 
-field:none]"
-
-media-ctl -V "'ipu1_ic_prp':2 [fmt:${V_FORMAT}/${V_RESOLUTION} field:none]"
-media-ctl -V "'ipu1_ic_prpvf':1 [fmt:${V_FORMAT}/${V_RESOLUTION} 
-field:none]"
-==== cut: Camera init script ===
-
-I try start system with V2.1 camera and start capture frames:
-[...]
-# ./camera_init.sh
-# gst-launch-1.0 -v v4l2src device=/dev/video2 ! fakesink
-Setting pipeline to PAUSED ...
-Pipeline is live and does not need PREROLL ...
-Setting pipeline to PLAYING ...
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0.GstPad:src: caps = 
-video/x-raw, format=(string)YUY2, framerate=(fraction)30000/1001, 
-width=(int)640, height=(int)480, colorimetry=(string)2:4:7:1, 
-interlace-mode=(string)progressive
-/GstPipeline:pipeline0/GstFakeSink:fakesink0.GstPad:sink: caps = 
-video/x-raw, format=(string)YUY2, framerate=(fraction)30000/1001, 
-width=(int)640, height=(int)480, colorimetry=(string)2:4:7:1, 
-interlace-mode=(string)progressive
-New clock: GstSystemClock
-ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed 
-to allocate required memory.
-Additional debug info:
-/var/tmp/portage/media-plugins/gst-plugins-v4l2-1.14.5/work/gst-plugins-good-1.14.5/sys/v4l2/gstv4l2src.c(656): 
-gst_v4l2src_decide_allocation (): 
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-Buffer pool activation failed
-Execution ended after 0:00:00.014952667
-Setting pipeline to PAUSED ...
-Setting pipeline to READY ...
-Setting pipeline to NULL ...
-Freeing pipeline ...
-# media-ctl -p
-Media controller API version 5.5.13
-
-Media device information
-------------------------
-driver          imx-media
-model           imx-media
-serial
-bus info
-hw revision     0x0
-driver version  5.5.13
-
-Device topology
-[...]
-- entity 15: ipu1_ic_prp (3 pads, 5 links)
-              type V4L2 subdev subtype Unknown flags 0
-              device node name /dev/v4l-subdev2
-         pad0: Sink
-                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 <- "ipu1_csi0":1 []
-                 <- "ipu1_vdic":2 []
-                 <- "ipu1_csi1":1 [ENABLED]
-         pad1: Source
-                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_ic_prpenc":0 [ENABLED]
-         pad2: Source
-                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_ic_prpvf":0 [ENABLED]
-
-- entity 19: ipu1_ic_prpenc (2 pads, 2 links)
-              type V4L2 subdev subtype Unknown flags 0
-              device node name /dev/v4l-subdev3
-         pad0: Sink
-                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 <- "ipu1_ic_prp":1 [ENABLED]
-         pad1: Source
-                 [fmt:AYUV8_1X32/640x480@1/30 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:lim-range]
-                 -> "ipu1_ic_prpenc capture":0 [ENABLED]
-
-- entity 22: ipu1_ic_prpenc capture (1 pad, 1 link)
-              type Node subtype V4L flags 0
-              device node name /dev/video1
-         pad0: Sink
-                 <- "ipu1_ic_prpenc":1 [ENABLED]
-
-- entity 28: ipu1_ic_prpvf (2 pads, 2 links)
-              type V4L2 subdev subtype Unknown flags 0
-              device node name /dev/v4l-subdev4
-         pad0: Sink
-                 [fmt:AYUV8_1X32/640x480@1001/30000 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-                 <- "ipu1_ic_prp":2 [ENABLED]
-         pad1: Source
-                 [fmt:AYUV8_1X32/640x480@1001/30000 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:lim-range]
-                 -> "ipu1_ic_prpvf capture":0 [ENABLED]
-
-- entity 31: ipu1_ic_prpvf capture (1 pad, 1 link)
-              type Node subtype V4L flags 0
-              device node name /dev/video2
-         pad0: Sink
-                 <- "ipu1_ic_prpvf":1 [ENABLED]
-
-- entity 47: ipu1_csi1 (3 pads, 4 links)
-              type V4L2 subdev subtype Unknown flags 0
-              device node name /dev/v4l-subdev5
-         pad0: Sink
-                 [fmt:SRGGB10_1X10/1920x1080@1/30 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
-                  crop.bounds:(0,0)/1920x1080
-                  crop:(0,0)/640x480
-                  compose.bounds:(0,0)/640x480
-                  compose:(0,0)/640x480]
-                 <- "imx6-mipi-csi2":2 [ENABLED]
-         pad1: Source
-                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_ic_prp":0 [ENABLED]
-                 -> "ipu1_vdic":0 []
-         pad2: Source
-                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_csi1 capture":0 []
-[...]
-- entity 121: imx6-mipi-csi2 (5 pads, 5 links)
-               type V4L2 subdev subtype Unknown flags 0
-               device node name /dev/v4l-subdev12
-         pad0: Sink
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 <- "imx219 9-0010":0 [ENABLED]
-         pad1: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_csi0_mux":0 []
-         pad2: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_csi1":0 [ENABLED]
-         pad3: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu2_csi0":0 []
-         pad4: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu2_csi1_mux":0 []
-[...]
-- entity 135: imx219 9-0010 (1 pad, 1 link)
-               type V4L2 subdev subtype Sensor flags 0
-               device node name /dev/v4l-subdev15
-         pad0: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "imx6-mipi-csi2":0 [ENABLED]
-localhost ~ # dmesg -c
-[...]
-[   51.941858] ipu1_ic_prpvf: pipeline start failed with -32
-localhost ~ #
-
-I think EPIPE (-32) caused by link between pad1 ipu1_csi1 
-(fmt:SRGGB10_1X10/640x480@1/30) and pad0 ipu1_ic_prp 
-(fmt:AYUV8_1X32/640x480@1/30) - format mismatch. But I don't know how 
-fix this trouble. Theory, I also have RaspberryPI camera rev 1.3 with 
-OmniVision OV5647 camera. Unfortunately, she did not work either.
-
-Anybody can help me?
-
-[1] https://git.linuxtv.org/media_tree.git/tree/drivers/media/i2c/imx219.c
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
