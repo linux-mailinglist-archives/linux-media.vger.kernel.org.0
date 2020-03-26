@@ -2,116 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2903A193AA7
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E86EB193ACE
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:28:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727901AbgCZIRC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 04:17:02 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:41681 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727821AbgCZIRB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:17:01 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id HNh9jRVkrLu1fHNhCj2KAP; Thu, 26 Mar 2020 09:16:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585210619; bh=IdHvLiex0OKHR3v/yq/bT44NRwc/GzOlOdVvGMv56YU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=OC7eHg5//Kl6DYiIEwTog6H6Wi+FwYyD1qoYfbF1JoIdul10J/0Nh+t/EvgB9LTT0
-         EBmCECyQ+Sp3F2xkGxsd6wp3gVFoFQTivqRYQsRcNPO8DwEFRj1cHr6JFeW76xhJlY
-         so1URjc8OLI9vxMTdehbernUtK6P/s+OJsS11Dy233sGX2QAY5h8AYVP3Ymu3gbRkK
-         4puTFTKL0heL4HmGxl5hovkPgrvPjDqkPMtv1NxJavCmwO6+/lhungAx48lWiho41O
-         8gNbHc1ow5tEYxz0SDO+zxMLOmqEmBlagepzzJisjl+6e2fJIs47tsbV01A1lLb/+r
-         MZyI8SCH7+nJw==
-Subject: Re: [PATCH] media: v4l2-fh: define v4l2_fh struct regardless of
- condition
-To:     Seungchul Kim <sc377.kim@samsung.com>, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CGME20200323023045epcas2p12007502edd2a65efcccb00eb899d5532@epcas2p1.samsung.com>
- <000601d600bb$0e2d4320$2a87c960$@samsung.com>
- <1a0ad24c-e577-e6d2-32ca-514a645b008f@xs4all.nl>
- <007b01d60316$7e554690$7affd3b0$@samsung.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3e38fc75-f555-7d91-2561-9c95f76694d1@xs4all.nl>
-Date:   Thu, 26 Mar 2020 09:16:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727787AbgCZI2p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 04:28:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45828 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727772AbgCZI2p (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Mar 2020 04:28:45 -0400
+Received: from coco.lan (x2f7f9e9.dyn.telefonica.de [2.247.249.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B6C32070A;
+        Thu, 26 Mar 2020 08:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585211324;
+        bh=ReDk69Qo37KGy5ASDUUx4h0c+v4mtaJXcZof+Spm6f8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cEKU4NWO3blZyQDp6TDlbUH4YgHggIHDgjZhGXM9W+34CNHB6B+UmI9Ie5EYGBW2p
+         bMBWfeoXZXL7xAQDrudpzEMD9rHD73/y5qEoyuMq6xsXcoC0aL/Zkj83aHRFE9lwO/
+         1ARof01IFCY54Qj2o3g1kW5vPx6rPRmAbqxCmQBo=
+Date:   Thu, 26 Mar 2020 09:28:32 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Yong Deng <yong.deng@magewell.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+Message-ID: <20200326092832.069a4d17@coco.lan>
+In-Reply-To: <20200325221343.GW19171@pendragon.ideasonboard.com>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+        <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+        <20200325223820.1c74aed3@coco.lan>
+        <20200325221343.GW19171@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <007b01d60316$7e554690$7affd3b0$@samsung.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMtHPk9IgeYpRmxlKLFIYSoByU7M3rcWzdealPyxlyt1KNs8SKdEEiW0sYY+3yHUViqvjEQzXM6c6hoUNXQAY7ZGub+nezIKIhYlQxA7TsGY8vX86CmS
- VT6VPkfj9SfLhTFPwUAMkqCxRc6OzHRWSJ9SWOFSS6nyWOO0gNhABCtGecZeQtb4cNQmo3BN67VS5Fa1rbA/4d7pyMrDOyEpGAKwo42ee1HVSOLdt0yzpHu1
- hbJVxPRbOPoyMqekQdcYgWQ3oX3/yzHTl6850R2t/SRdXM+wTPfKRWYg2icgvHY1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/26/20 3:30 AM, Seungchul Kim wrote:
-> On 3/25/20 5:54 PM, Hans Verkuil wrote:
->> On 3/23/20 3:30 AM, Seungchul Kim wrote:
->>> v4l2_fh struct define differently by CONFIG_V4L2_MEM2MEM_DEV.
->>> If some vendors use CONFIG_V4L2_MEM2MEM_DEV by module, it can make the
->>> mismatch of v4l2_fh sturct.
->>>
->>> By the mismatch, the following error occurs.
->>> ===============================
->>> [    7.533506] v4l2_mem2mem: disagrees about version of symbol
->> video_devdata
->>> [    7.533594] v4l2_mem2mem: Unknown symbol video_devdata (err -22)
->>> [    7.535319] v4l2_mem2mem: disagrees about version of symbol
->>> v4l2_event_pending
->>> [    7.542532] v4l2_mem2mem: Unknown symbol v4l2_event_pending (err -22)
->>> ===============================
->>>
->>> So v4l2_fh struct is modified to does not have dependency for
->>> CONFIG_V4L2_MEM2MEM_DEV.
->>>
->>> Signed-off-by: Seungchul Kim <sc377.kim@samsung.com>
->>> ---
->>>  include/media/v4l2-fh.h | 2 --
->>>  1 file changed, 2 deletions(-)
->>>
->>> diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h index
->>> 53b4dbb..b5b3e00 100644
->>> --- a/include/media/v4l2-fh.h
->>> +++ b/include/media/v4l2-fh.h
->>> @@ -53,9 +53,7 @@ struct v4l2_fh {
->>>  	unsigned int		navailable;
->>>  	u32			sequence;
->>>
->>> -#if IS_ENABLED(CONFIG_V4L2_MEM2MEM_DEV)
->>>  	struct v4l2_m2m_ctx	*m2m_ctx;
->>> -#endif
->>
->> This is a good change, but please also remove the same #if from
->> v4l2_ioctl_get_lock() in drivers/media/v4l2-core/v4l2-ioctl.c. That is now
->> no longer needed there either and without removing that those vendor
->> drivers would be using the wrong lock.
->>
->> Regards,
->>
->> 	Hans
+Em Thu, 26 Mar 2020 00:13:43 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+
+> Hi Mauro,
 > 
-> Thank you for your comment. I worried about the same thing with you.
-> But vfh->m2m_ctx on v4l2_ioctl_get_lock() is always null
-> without CONFIG_V4L2_MEM2MEM_DEV, because m2m_ctx of v4l2-fh
-> is initialized only in v4l2_mem2mem.c.
-> Therefore it doesn't have a problem using an wrong lock
-> regardless of modification, so I did not fix it.
+> On Wed, Mar 25, 2020 at 10:38:20PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Wed, 25 Mar 2020 16:36:31 -0300 Helen Koike escreveu:  
+> > > On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:  
+> > > > That's the second part of media Kconfig changes. The entire series is
+> > > > at:
+> > > > 
+> > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig    
+> > > 
+> > > I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+> > > I asked him to enable Vimc (from default configs, where multimedia starts disabled).
+> > > He knows that Vimc is a virtual camera driver, and this is how he behaved:
+> > > 
+> > > === Start of experiment:
+> > > 
+> > > * He pressed '/' and searched for vimc to see the location path.
+> > > * Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
+> > > * He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
+> > > * He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
+> > > * He seemed a bit lost, going back and forth in the menus a couple of times.
+> > > * Then he pressed '/' again to search for vimc and see the location path, and he realized that there
+> > > should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
+> > > * He went back to "Media device types" again and start re-reading the options.
+> > > * He selected "Cameras and video grabbers" ant went back to "Media drivers".
+> > > * He sees "V4L test drivers", selects it, and enter this menu.
+> > > * He selects "Virtual Media Controller Driver".
+> > > 
+> > > I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
+> > > to combine "Test drivers" with "Cameras and video grabbers".
+> > > He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
+> > > 
+> > > Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
+> > > realized by himself until that moment, nor tried it out to see what would happen).
+> > > 
+> > > He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
+> > > He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.  
+> > 
+> > That's easy to solve: all it needs is to add something similar
+> > to this at drivers/media/Kconfig:
+> > 
+> > 	+	comment "Drivers are filtered by MEDIA_SUPPORT_FILTER"
+> > 	+		visible if MEDIA_SUPPORT_FILTER
+> > 	+
+> > 	+	comment "All available drivers are shown below"
+> > 	+		visible if !MEDIA_SUPPORT_FILTER
+> > 	+
+> > 	menu "Media drivers"
+> > 
+> > 	source "drivers/media/usb/Kconfig"
+> >   
+> > > === End of experiment
+> > > 
+> > > This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
+> > > and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
+> > > kernel development (kernel dev newbies for instance).
+> > > 
+> > > Just another remark from me:
+> > > 
+> > > From the default config, "Media drivers" shows USB and PCI,   
+> > 
+> > Well, assuming that there are 2 billion computers, 1% with Linux
+> > installed, and 10% of them have a media device (camera or TV),
+> > we have about 2 millions of people running Linux. That excludes
+> > Android and Embedded devices, where people usually don't touch.
+> > 
+> > During an entire year, there are about 4000 of Kernel developers 
+> > that has at least one patch accepted upstream (this number
+> > includes developers for Android and other SoCs). Also, the 
+> > number of Kernel developers submitting patches upstream for the
+> > media subsystem is around 20-40 people along an year.  
+> 
+> $ git log --since 2019-01-01 --until 2020-01-01 --no-merges -- drivers/media/ | grep '^Author: ' | sort | uniq -c | wc -l   
+> 215
+> 
+> There's some duplication of e-mail addresses, but it's still roughly an
+> order or magnitude bigger (and it's not counting staging, headers or
+> documentation).
+> 
+> > So, about 99,9998% of the users using the media subsystems aren't
+> > Kernel hackers. I bet that almost all of those will either need
+> > to enable USB or a PCI driver.  
+> 
+> And the extremely vast majority of these will never enable a kernel
+> option because they will never compile a kernel. They don't even know
+> what a kernel is :-)
+> 
+> > Granted, 99,9998% seems too optimistic, but, assuming that this
+> > would reduce to something like 80% (e. g. only 200 users
+> > would ever try to build a media driver, with is a *very conservative*
+> > number) this is still a lot more than the number of media Kernel
+> > developers.
+> > 
+> > Also, a Kernel hacker will sooner or later find a way to enable it.
+> > A normal user may find it a lot more trickier and will very likely
+> > require more support, if the menus are too technical and the
+> > default options are wrong.  
+> 
+> I'm not sure to follow you. Are you implying that this patch series,
+> which Helen has tested against a real user, not an experienced kernel
+> hacker, may make the configuration options more difficult for kernel
+> hackers, but improves the situation for users ?
 
-It is: if your out-of-tree driver sets CONFIG_V4L2_MEM2MEM_DEV, then
-I assume it will set vfh->m2m_ctx, and so the v4l2 core should also
-return the right lock for that out-of-tree driver.
+Come on, it is not harder for Kernel hackers. It is just different than
+what it used to be before the changes. At the above experience, at the
+very first time this Kernel hacker looked on it, it was able to figure
+out how to enable the driver. I bet that, if you now repeat the experiment
+with the same guy, he would be able to enable another driver a lot quicker.
 
-But in any case, if m2m_ctx is always part of v4l2-fh.h, then that
-#if in v4l2-ioctl.c has become pointless and should be removed in any
-case.
+My view is that, with the option of either enable or disable the
+filtering mechanism, it will be easier for everybody:
 
-Regards,
+- Distro maintainers for PCs can just disable platform and
+  test drivers, and keep the other drivers enabled;
 
-	Hans
+- An experienced Kernel hacker will disable the filter and select
+  the needed drivers directly.
+
+- An user wanting to test a driver with new patches (or a new driver)
+  use the filters to select the USB driver he needs (probably using the
+  media_tree.git, in order to see only the media options).
+
+
+> > -
+> > 
+> > Even with that, based on your small experiment (of someone from the
+> > area), I suspect that, if you had asked him to enable, for example,
+> > em28xx or dvbsky (with are some of the most popular drivers
+> > those days), he would be able to enable it a lot faster.  
+> 
+> This is the *only* real piece of evidence we have, let's not assume we
+> know better.
+> 
+> > > and selecting those doesn't do anything, and people can even think
+> > > that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
+> > > shows up.  
+> > 
+> > It is hard to comment on individual experiments. In the past, our
+> > Kconfig system were like that: written for technical people with
+> > background on computer engineering and some experience building the
+> > Kernel.
+> > 
+> > E.g. people that knows that "/" activates a search mechanism at
+> > the Kernel building system.
+> > 
+> > We usually had to spend *a lot of time* both on IRC and on e-mail
+> > explaining people that just want to have their card supported,
+> > how to do that. After the reorg (with added those more user-faced
+> > interfaces), the number of people with problems reduced a lot.  
+> 
+> Don't you think that could come mainly from better support for media
+> devices in distributions ?
+> 
+> > Btw, if one tries to compile from media-build (with lots of users
+> > do), this is even more relevant.  
+> 
+> Can you quantify "lots of users" ?
+
+Enough to make us to decide that re-working the Kconfig menus and 
+add the MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT would worth the
+efforts.
+
+Guess what? The efforts were fully paid, as it reduced a lot the
+amount of time we had to weekly spend helping people to build their
+Kernels in order to test support for their new hardware.
+
+It also helped a lot to set the right Kconfig options on distros.
+I did my contributions on that time by improving Fedora and on RHEL,
+making their build rely on MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT.
+
+See, for some random distro maintainer, new Kconfig symbols pops up
+every time. Enabling all of them is usually a very bad idea. So, a
+filtering mechanism that would, for example, hide test and skeleton
+drivers to be built is a very nice feat, as it means a lot less
+symbols for them to study and decide whether such new options should
+be enabled or not
+
+Thanks,
+Mauro
