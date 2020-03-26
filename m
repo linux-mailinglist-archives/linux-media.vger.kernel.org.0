@@ -2,406 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C33A19352E
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 02:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 146A51935F0
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 03:30:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727574AbgCZBNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Mar 2020 21:13:07 -0400
-Received: from mail-dm6nam11on2043.outbound.protection.outlook.com ([40.107.223.43]:46945
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727539AbgCZBNH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Mar 2020 21:13:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=grG4GSTUzSCZb5zo1NoKRX0rwU2EgMMWgDtKcrMXgjZs6cj/aqtI3t5lO0ZxXqvXGrLce7lLGcWuyB4xCu1QNCVVSEQYqWHBEWDniF/M9lcAqSiwsaekE2mwcWu4iK0/Lz7zIGWNYcNpRvQOjvpkc/4+Zf2OLgqFu1dhvuEcLQDg+a3oZrduMGOCn1c7MBhNBdQNPM8sH3HYgYG4XN3FWSVxpZqgf6BCjmBAfL+FAnDB8/n3no/QHN/pZVKVdymKjnxbCl+hZk6CFT5dK3ZnYErHr/XOn9boi7I9WI9ohaXZm2HGUjorsnfDLPnvzPIw7RV3h6MwKM2bquraVZBLcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BifAIRKDrq7unZuCNxhIO/2TgFXdTEbK6JLlH+QC+M0=;
- b=AcIJadePHHTHDL/ijg/4pxdNLaR8frTA417p/ZJJAG2CE+EzsaIZeNrbHyNUSrhTt2Nqp+n2N4SDkcjocZ6Gj68rW2RBH0N+oqQO/MADwYVrqNG8p9mRHryBTWkTbFOWX1TZCBubbaEX+/qt5BgtkOorS9Atdcxizp5EQfYnRPXGJ2gBQ8G+NW32MD9UDBaWBXX28ITEx5uvW9ArO3msTKQ7ko1DBnqwChBGjdhQFooHJxapSMJ/IicB6JtjKoEbkdjREs33K9umgeKMlUj4vJ0NiqemI4M4nuQiELSWq8QEfXkvZZh8jZxK0YuiD2reElgNT37hUkyE/0x4Uh/6QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=ragnatech.se smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BifAIRKDrq7unZuCNxhIO/2TgFXdTEbK6JLlH+QC+M0=;
- b=F5ju0YL0Vugnsopzg2xkUMoO0U1K7oS+DZkyhSylNXXTi26vVTYFZCNpEfd+zAoozZX05JTJblNy6fP0tPD3FuqSIX5LNShmcleew1ugxCEY7fkCqoemnMFrk+Zyj9IuZBcLfFGemupckufVyXjGjY27Uj8pD50DOuIN/35fv+w=
-Received: from SN6PR16CA0070.namprd16.prod.outlook.com (2603:10b6:805:ca::47)
- by DM6PR02MB4218.namprd02.prod.outlook.com (2603:10b6:5:a0::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.18; Thu, 26 Mar
- 2020 01:13:03 +0000
-Received: from SN1NAM02FT017.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:ca:cafe::e8) by SN6PR16CA0070.outlook.office365.com
- (2603:10b6:805:ca::47) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.21 via Frontend
- Transport; Thu, 26 Mar 2020 01:13:03 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; ragnatech.se; dkim=none (message not signed)
- header.d=none;ragnatech.se; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT017.mail.protection.outlook.com (10.152.72.115) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2856.17
- via Frontend Transport; Thu, 26 Mar 2020 01:13:02 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1jHH4w-0006z2-6S; Wed, 25 Mar 2020 18:13:02 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1jHH4r-0007wv-30; Wed, 25 Mar 2020 18:12:57 -0700
-Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66] (may be forged))
-        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 02Q1Crcc022555;
-        Wed, 25 Mar 2020 18:12:53 -0700
-Received: from [172.19.2.244] (helo=localhost)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1jHH4n-0007wl-56; Wed, 25 Mar 2020 18:12:53 -0700
-Date:   Wed, 25 Mar 2020 18:12:53 -0700
-From:   Hyun Kwon <hyun.kwon@xilinx.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
-Message-ID: <20200326011251.GA9997@smtp.xilinx.com>
-References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
- <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
- <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
- <20200228181303.GA21745@smtp.xilinx.com>
- <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
- <20200319010734.GA27556@smtp.xilinx.com>
- <20200319084557.v5hw54mmw4swzwly@uno.localdomain>
- <20200319232003.GA20549@smtp.xilinx.com>
+        id S1727689AbgCZCa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Mar 2020 22:30:29 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:63627 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727690AbgCZCa1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Mar 2020 22:30:27 -0400
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200326023024epoutp01d56d5c65dc7239b341563596e867d3b1~-ub85SXW92721927219epoutp01g
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 02:30:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200326023024epoutp01d56d5c65dc7239b341563596e867d3b1~-ub85SXW92721927219epoutp01g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1585189824;
+        bh=jtVYgCGuby3iSRnMo4bBnO6fEfC3+klbF+vAhRZg3Rw=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=dMfzkiA2befLb4neQnXI7sXqvdoYxhUp+Dm47CNDIaQ5H+m8YgJ3I7gTpWUV1KI+Y
+         quGKHTWxZbpk1HobD8K7Q4gsDh5uS82HKLEKYuYwMDXc/ThHbqK25nQOe0S3vRiscG
+         jDaVJen1cj3Vp/GxXm+qUJ6Gc9lqSW9L4ZBL6/R0=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+        20200326023024epcas2p2b5f7373b8f13e9d1ad2722302766ec32~-ub8mbaNT2121121211epcas2p2i;
+        Thu, 26 Mar 2020 02:30:24 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.40.188]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 48npqf1k91zMqYkn; Thu, 26 Mar
+        2020 02:30:22 +0000 (GMT)
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+        epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        56.35.04142.CB31C7E5; Thu, 26 Mar 2020 11:30:20 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200326023019epcas2p2a220ad74f38ac0598355b2c627317aeb~-ub4V05Fq2112621126epcas2p2v;
+        Thu, 26 Mar 2020 02:30:19 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200326023019epsmtrp1a9edace3725effc03efaf04c89c5381a~-ub4U405V2328423284epsmtrp1U;
+        Thu, 26 Mar 2020 02:30:19 +0000 (GMT)
+X-AuditID: b6c32a46-3e1ff7000000102e-3d-5e7c13bcced0
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        D7.25.04024.BB31C7E5; Thu, 26 Mar 2020 11:30:19 +0900 (KST)
+Received: from KORDO036463 (unknown [12.36.155.134]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20200326023019epsmtip2a9da98dc87838188f1ac593db628b093~-ub4MCUUh3085630856epsmtip2b;
+        Thu, 26 Mar 2020 02:30:19 +0000 (GMT)
+From:   "Seungchul Kim" <sc377.kim@samsung.com>
+To:     "'Hans Verkuil'" <hverkuil@xs4all.nl>, <mchehab@kernel.org>
+Cc:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+In-Reply-To: <1a0ad24c-e577-e6d2-32ca-514a645b008f@xs4all.nl>
+Subject: RE: [PATCH] media: v4l2-fh: define v4l2_fh struct regardless of
+ condition
+Date:   Thu, 26 Mar 2020 11:30:19 +0900
+Message-ID: <007b01d60316$7e554690$7affd3b0$@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200319232003.GA20549@smtp.xilinx.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;IPV:;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(346002)(376002)(136003)(39850400004)(396003)(46966005)(9786002)(82740400003)(1076003)(8936002)(316002)(4326008)(70206006)(70586007)(33656002)(2906002)(54906003)(966005)(356004)(5660300002)(30864003)(47076004)(336012)(6916009)(44832011)(81166006)(81156014)(186003)(8676002)(7416002)(426003)(26005)(478600001)(42866002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR02MB4218;H:xsj-pvapsmtpgw01;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-83.xilinx.com;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8c241716-88ea-401d-c217-08d7d122d4f3
-X-MS-TrafficTypeDiagnostic: DM6PR02MB4218:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB4218E88981BB35E4950E9552D6CF0@DM6PR02MB4218.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0354B4BED2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cfJK6ewynEntHJRyfFq+huyX6v0ClbjM4jk4dHGVBBky+NAMjyZ/J3fZ+ExKL8eOStEXV0CtWl7fYVU7zTeJjuH55nzReyOQM6UjzF+32nCNUsyr26/aRKc9s4aYDU5gMqhjk95SznRnbT6h7gDsg1IDE03LGCOpgzxl6Tj6vqZXBzVGJ5Lb7Pi4HknnHXfTguxlbjl5pdUeMNqWCD07Cd5A0bE7DZljIHqP6mypnQVx92PNg0DeEVak3JcXfgo5V/xUSDw6s3vgswHDy+XNtTouSFrfLy02zi1dOfPNlA8VGKROALWdpfbo4rJZSE1wF+SrcJFANv1GCNGD22s3NWLrLoQJlTXryurVwVdWYmAzH0C+ExAUUOpDsTu8ikStMOJLmZEvDYvsgFeeu1S2bVRDv/sjXz1U0c7bO2vyvhvgsQOOiN73xxp45VAMIzoewNOjiRa5aUNpTBVSYFFtYYB/2jvjLUdbBvgp7NkT2F4UN0ag/q/8SJSh7IPp8FWWmXAya2APohSDt4n0Cyx4kJhj3OpVGyUu4EpNtdLh34vqyp2dWumWch0BI0YofOdVJqEoM1QyfQGzWG2pSW49EEyYWYsYa4If2hWldwN1zo8=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2020 01:13:02.6203
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c241716-88ea-401d-c217-08d7d122d4f3
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4218
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 14.0
+Content-Language: ko
+Thread-Index: AQKZs4uAsfK6WHGqjpC7tIjGw6qnkgHEzIy+AnQm2p+msO+rEA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0iTURjm7Nvmp7U8zZVvI2p9UmRgbrOtKa7sJoP5Q+hCRGlfetqk3di3
+        eY2SorUksCvkVJKMIouSpSamXZyUGhapRHaBshJmSKIWBEpt+xb57znP+z7ned5zXpqSesVy
+        usjmIk4ba2HEccK2QLIupTPhaJ6y/j3W9V8cE+iGOurEurPNrSLdDf+sIEto8DedERum/SsM
+        /T+nY3KpfZZMM2ELiVNBbAX2wiKbSc8Yd+Zvy9dolaoUVbpuI6OwsVaiZ7bn5KZkF1lCboyi
+        mLW4Q1Quy3FM6qZMp93tIgqznXPpGeIotDhUKsd6jrVybptpfYHdmqFSKtWaUOdBi3n0/UHH
+        6/jSpjpZJXq1sArF0oA3wGDQi6pQHC3F7QjGa5+KwgUpnkIw0ruWL/xC0Dz5UPBPUX3pZgxf
+        6ELQdX0meggi+H3hbaRLjFPg6twfFMYyvBlm3wyLw5jCW6CxbyCCY7Eegpc7Q2KaTsC7oGMm
+        OUwL8WqY+jYRoSU4HUZerAjTErwY+mq+CvlbVsKDiTqKz6OA9oHviOdlUHvGQ/GuW+Hz49OR
+        yQD3isE/zEcAvB0Ge66JeJwA489bYngsh2C1J4pLYHK0VcCLvQhO/PwQFaeBbyx8Kx1yS4Z7
+        HalhCDgJet5Fsy0Cb2Auhqcl4PVIeWES3J6rjkZeBo/negXnEOObN5lv3mS+edP4/ns1IGET
+        WkocnNVEOLVDPf+j/Siyheuy29H1lzndCNOIWShpTq/Ik4rYYq7M2o2AphiZ5D4pzZNKCtmy
+        cuK05zvdFsJ1I03o3c9T8iUF9tBO21z5Ko1aq1Wma3QarVrHJEr8C0b2S7GJdZEjhDiI859O
+        QMfKK9Hd+wYpHfBdzDI++vij7amz09znKcs8/kWu2FXQl8ie2tNfgdas7C3z7HhxzHSg/0aa
+        Z7l2a7l1R2pWwJg2fWV8sCSjg+jdv1b13Om61/hpEXXeH7dUNGj5kthya2IJbaCnK+qHGp4N
+        9VTVBFs3sE+MJ4OVsrt74zcf/rg7cCi+mRFyZla1jnJy7F+U71uRmwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrELMWRmVeSWpSXmKPExsWy7bCSvO5u4Zo4gxNXjS1OTX7GZHF51xw2
+        i54NW1ktlm36w+TA4rFpVSebx+dNch6nvn5mD2CO4rJJSc3JLEst0rdL4Mp4dDuh4CJ/xao5
+        Ig2M53m6GDk5JARMJPqnLGfvYuTiEBLYzSixcfV9xi5GDqCEpETL4QKIGmGJ+y1HWCFqnjNK
+        nDw9lwUkwSagKzH/739GEFtEwFHie8MjsF5mAWeJB49tQMJCAnsYJS4/VAGxOQVsJV5O3cMO
+        YgsLBEmseX0XzGYRUJX49PQtO0grr4ClxM3TciBhXgFBiZMzn4BtYhbQluh92MoIYctLbH87
+        hxniNAWJHWdfQ8VFJGZ3tjFDXOMk8XB/O+MERuFZSEbNQjJqFpJRs5C0L2BkWcUomVpQnJue
+        W2xYYJiXWq5XnJhbXJqXrpecn7uJERwTWpo7GC8viT/EKMDBqMTDu8GyOk6INbGsuDL3EKME
+        B7OSCO/m1Io4Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rxP845FCgmkJ5akZqemFqQWwWSZODil
+        GhgdlpQdMrYqaIlNLo/R37wh+miTTHeFaoBFT820WI3oc0tVlDovn3hzq3T5tGCxZc+i107c
+        LnzIpuy2pXv+HkMeoRKXDzfvz7/L/mF2oekp3vVlmwt2HjmRzad/8VTqOzXRHS8m/t64cbe/
+        61Pzd05dtx4mv94VPsXRLr75qmnPNW43lqQLfaJKLMUZiYZazEXFiQAj+JY4hQIAAA==
+X-CMS-MailID: 20200326023019epcas2p2a220ad74f38ac0598355b2c627317aeb
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200323023045epcas2p12007502edd2a65efcccb00eb899d5532
+References: <CGME20200323023045epcas2p12007502edd2a65efcccb00eb899d5532@epcas2p1.samsung.com>
+        <000601d600bb$0e2d4320$2a87c960$@samsung.com>
+        <1a0ad24c-e577-e6d2-32ca-514a645b008f@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+On 3/25/20 5:54 PM, Hans Verkuil wrote:
+> On 3/23/20 3:30 AM, Seungchul Kim wrote:
+> > v4l2_fh struct define differently by CONFIG_V4L2_MEM2MEM_DEV.
+> > If some vendors use CONFIG_V4L2_MEM2MEM_DEV by module, it can make the
+> > mismatch of v4l2_fh sturct.
+> >
+> > By the mismatch, the following error occurs.
+> > ===============================
+> > [    7.533506] v4l2_mem2mem: disagrees about version of symbol
+> video_devdata
+> > [    7.533594] v4l2_mem2mem: Unknown symbol video_devdata (err -22)
+> > [    7.535319] v4l2_mem2mem: disagrees about version of symbol
+> > v4l2_event_pending
+> > [    7.542532] v4l2_mem2mem: Unknown symbol v4l2_event_pending (err -22)
+> > ===============================
+> >
+> > So v4l2_fh struct is modified to does not have dependency for
+> > CONFIG_V4L2_MEM2MEM_DEV.
+> >
+> > Signed-off-by: Seungchul Kim <sc377.kim@samsung.com>
+> > ---
+> >  include/media/v4l2-fh.h | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h index
+> > 53b4dbb..b5b3e00 100644
+> > --- a/include/media/v4l2-fh.h
+> > +++ b/include/media/v4l2-fh.h
+> > @@ -53,9 +53,7 @@ struct v4l2_fh {
+> >  	unsigned int		navailable;
+> >  	u32			sequence;
+> >
+> > -#if IS_ENABLED(CONFIG_V4L2_MEM2MEM_DEV)
+> >  	struct v4l2_m2m_ctx	*m2m_ctx;
+> > -#endif
+> 
+> This is a good change, but please also remove the same #if from
+> v4l2_ioctl_get_lock() in drivers/media/v4l2-core/v4l2-ioctl.c. That is now
+> no longer needed there either and without removing that those vendor
+> drivers would be using the wrong lock.
+> 
+> Regards,
+> 
+> 	Hans
 
-On Thu, 2020-03-19 at 16:20:05 -0700, Hyun Kwon wrote:
-> Hi Jacopo,
-> 
-> On Thu, 2020-03-19 at 01:45:57 -0700, Jacopo Mondi wrote:
-> > Hi Hyun,
-> > 
-> > On Wed, Mar 18, 2020 at 06:07:35PM -0700, Hyun Kwon wrote:
-> > > Hi Jacobo,
-> > >
-> > > On Sun, 2020-03-15 at 16:15:17 -0700, Jacopo Mondi wrote:
-> > > > Hello Hyun, Kieran,
-> > > >    it's great you are looking into this!
-> > > >
-> > > > On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
-> > > > > Hi Kieran,
-> > > > >
-> > > > > Thanks for sharing a patch.
-> > > > >
-> > > > [snip]
-> > > >
-> > > > > > > +
-> > > > > > > +	/*
-> > > > > > > +	 * Set the I2C bus speed.
-> > > > > > > +	 *
-> > > > > > > +	 * Enable I2C Local Acknowledge during the probe sequences of the camera
-> > > > > > > +	 * only. This should be disabled after the mux is initialised.
-> > > > > > > +	 */
-> > > > > > > +	max9286_configure_i2c(priv, true);
-> > > > > > > +
-> > > > > > > +	/*
-> > > > > > > +	 * Reverse channel setup.
-> > > > > > > +	 *
-> > > > > > > +	 * - Enable custom reverse channel configuration (through register 0x3f)
-> > > > > > > +	 *   and set the first pulse length to 35 clock cycles.
-> > > > > > > +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> > > > > > > +	 *   high threshold enabled by the serializer driver.
-> > > > > > > +	 */
-> > > > > > > +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> > > > > > > +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> > > > > > > +		      MAX9286_REV_AMP_X);
-> > > > > > > +	usleep_range(2000, 2500);
-> > > > > > > +
-> > > > > > > +	/*
-> > > > > > > +	 * Enable GMSL links, mask unused ones and autodetect link
-> > > > > > > +	 * used as CSI clock source.
-> > > > > > > +	 */
-> > > > > > > +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> > > > > > > +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
-> > > > > > > +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
-> > > > > > > +
-> > > > > > > +	/*
-> > > > > > > +	 * Video format setup:
-> > > > > > > +	 * Disable CSI output, VC is set according to Link number.
-> > > > > > > +	 */
-> > > > > > > +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> > > > > > > +
-> > > > > > > +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
-> > > > > > > +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
-> > > > > > > +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
-> > > > > > > +		      MAX9286_DATATYPE_YUV422_8BIT);
-> > > > > > > +
-> > > > > > > +	/* Automatic: FRAMESYNC taken from the slowest Link. */
-> > > > > > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> > > > > > > +		      MAX9286_FSYNCMETH_AUTO);
-> > > > > > > +
-> > > > > > > +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> > > > > > > +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
-> > > > > > > +		      MAX9286_HVSRC_D14);
-> > > > >
-> > > >
-> > > > I agree we need to make some of these configurable, we need that too
-> > > > to handle both rdacm20 and 21.
-> > > >
-> > > > > Some of these configs in fact need some handshake between serializer and
-> > > > > de-serializer. For example, I had to invert vsync in serializer [3] to make
-> > > > > it work with this patch.
-> > > >
-> > > > Quickly skamming through the datasheet I'm surprised there is no way
-> > > > to control the vsync input polarity and you have to go through the
-> > > > crossbar :) Oh well, I think this could be well controlled through a
-> > > > device property of the serializer, what do you think?
-> > > >
-> > > > We have standard properties to control vsync and hsync polarities, but
-> > > > they're usually used for output signals, and I would reserve them for
-> > > > that future usage.. maybe a custom property to control the input vsync
-> > > > and hsync polarities would do...
-> > >
-> > > Thanks for sharing pointers. These are not really hardened - static properties
-> > > so I'm not sure if device tree is the right place. I was thinking something
-> > > more similar to phy_configure_opts_mipi_dphy in phy subsystem.
-> > 
-> > Let's take a step back, as it seems I was confused as well.
-> > 
-> > Not knowing the device, I can only guess on why you need to invert
-> > the input VSYNC signal in the cross-bar. I see two options:
-> > 
-> > 1) Looking at Figure 1 (Functional block diagram) the sensor vsync signal
-> > is fed to the video timing generation circtuit. The cross-bar switch
-> > comes after the timing generation circuit, and inverting vsync there
-> > is then equivalent to invert the vsync output of the timing generation
-> > block. If that's the case, instead of going through the crossbar,
-> > the same result can be obtained by setting the VSYNC_INV bit of
-> > register cxtp (0x4d[3]). If that's the case, I agree this setting
-> > should be negotiated between ser/desr, as the VS_OUT signal in Figure
-> > 18 is inverted in the serialized byte stream. Is this the case ?
-> > 
-> > 2) Alternatively, you need to invert the input vsync polarity to trigger
-> > the timing generation circuit. This mean vsync is inverted -before-
-> > being fed to timing generation, and this was my first understanding,
-> > as I assumed the crossbar switch come -before- the timing generation
-> > circtuitry. If this is the case, this setting should not be negotiated
-> > between ser/deser but between the serializer and the connected camera
-> > sensor.
-> > 
-> > Which case are you trying to address ?
-> > 
-> 
-> My case is simpler in fact :-), hence the executive summary is,
-> The sensor vsync signal is active high, and it passes through the serializer.
-> Since the vsync is already inverted in de-serializer by this patch, expecting
-> active low, I'm inverting it again in serializer to match.
-> 
-> 	sensor -- (vsync active high) --> serializer -- (vsync active low) --> de-serializer
->     
-> If the vsync inversion becomes a device tree property of max9286, the property
-> value will have to align with polarity of vsync source. In my case, I can
-> disable the inversion knowing the sensor vsync is active high. But in other
-> cases, such chain can be quite deep and may be inconvinient for users to check.
-> 
-> Another one is the BWS setting, which is just between ser and de-ser.
-> 
-> With mbus_get_config() operation, the problem can be isolated nicely in
-> my opinion, and the solution handles all above and scales better.
-> - The de-serializer checks the vsync polarity of all channels using GMSL
->   config. If all are active low, invert the vsync (if it can)
-> 
-> 	vsync_bitmap = 0;
-> 	for(chan : channels) {
-> 		config = get_mbus_config(chan);
-> 		if (config->type != gmsl)
-> 			error;
-> 
-> 		if (config->gmsl.vsync == +)
-> 			vsync_bitmap |= << chan->chan_id;
-> 	}
-> 
-> 	if (vsync_bitmap == (1 << channels.size() - 1))
-> 		nop(); // all active high. don't invert
-> 	else if (vsync_bitmap == 0)
-> 		invert_vsync(ser);
-> 	else
-> 		error;
-> 
-> - The serializer checks vsync polarity in the parallel port config, and
->   if it's active low (and if it can), invert to make it active high.
->   Otherwise mark it in GMSL config, so the de-serializer can hanle.
-> 
-> 	max96705_get_mbus_config()
-> 	{
-> 		config = get_mbus_config(sensor);
-> 		if (config->type != parallel)
-> 			error;
-> 
-> 		if (config->parallel.vsync == -) {
-> 			if (invert_vsync(ser))
-> 				ser_config->gmsl.vsync = +;
-> 			else
-> 				ser_config->gmsl.vsync = -;
-> 		}
-> 
-> 		return ser_config;
-> 	}
-> 
-> The same can be used for bandwidth setting. The max96705 driver sets 24 bit
-> mode only as supported bandwidth. The deserializer driver can pick it up from
-> mbus_get_config(), and adjust its own config accordingly. It will need some
-> remote node handling in each driver, but seems worth to me.
-> 
-> This became too lengthy! Hope it explains better and aligns with your thought,
-> described in other thread. I will give it a try too!
-> 
+Thank you for your comment. I worried about the same thing with you.
+But vfh->m2m_ctx on v4l2_ioctl_get_lock() is always null
+without CONFIG_V4L2_MEM2MEM_DEV, because m2m_ctx of v4l2-fh
+is initialized only in v4l2_mem2mem.c.
+Therefore it doesn't have a problem using an wrong lock
+regardless of modification, so I did not fix it.
 
-And I got a chance to try.
-- used the mbus config for sync between devices. Ex, vsync inversion in [1]
-- made the overlap window of max9286 as a control in [2]
-- some other configs using the mbus config in [3]
-Let me know if this aligns with your thought.
+Regards,
+	Seungchul Kim
 
-Thanks,
--hyun
-
-[1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/a1d812c0452905a644d83f715c43e91ade11b266
-[2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/c3d55a9e0a8d2b67f27996529582bb7cfa551b6a
-[3] https://github.com/xlnx-hyunkwon/linux-xlnx/commits/hyunk/vision-wip-5.4-next
-
-
-> Thanks,
-> -hyun
-> 
-> > >
-> > > >
-> > > > >
-> > > > > In addition to that, I need a couple of additional programmings on max9286
-> > > > > (registers 0x0 to 0x63/0x64- disable overlap window and 0xf4 to 0x1c which
-> > > > > oddly change reserved bits) to get frames. The datasheet doesn't explain
-> > > > > enough for me to understand. I'm talking to Maxim to get more details and
-> > > > > see if those can be handled by serilizer driver.
-> > > >
-> > > > I would be really interested in knowing what's the overlap window control
-> > > > about... it's very little detailed in the manual, I agree :) 0xf4 is
-> > > > not even documented in my version. I assume it's something related to
-> > > > fsync sync locking (Fig. 46) as I failed to achieve it without that
-> > > > setting. How did it fail for you ?
-> > > >
-> > >
-> > > I received one doc "Frame Synchronization Block" that explains the overlap
-> > > window in more details. It's essentially a window between camera vsync and
-> > > frame sync. If those 2 don't happen within the window, it errors out. So it
-> > > gives a validation check, but may not work depending on the vsync patterm from
-> > > camera or the window should be bigger, which makes the validation less
-> > > useful in my opinion.
-> > 
-> > Thanks for the detailed info!
-> > 
-> > This reinforces the idea this setting should be disabled by default.
-> > If we want to enable it, a value should be provided explicitly. I
-> > still think DTS are the right place for this setting, as this is a
-> > deserializer-only configuration parameter..
-> > 
-> > >
-> > > I believe 0x1c has something to do with BWS as mentioned in my previous reply.
-> > > The max9286 on my board sets BWS pin as open, and it makes the bandwidth
-> > > to be 27 bit mode by default. So writing 0xf4 to 0x1c register sets to 24 bit
-> > > mode (while 0xf6 = 27 bit mode). But I didn't hear back from Maxim regarding
-> > > this yet. And unfortunately, I couldn't make it work with 27 bit mode on both
-> > > max9286 and max96705.
-> > >
-> > > So this and similar properties may also be something that can be handled by
-> > > the negotiating call mentioned above, while the configuraton through external
-> > > pins can be modeled as device tree properties?
-> > 
-> > Indeed external pin configuration fits well as DTS property. Would you
-> > like to have a go ?
-> > 
-> > Thanks
-> >    j
-> > 
-> > >
-> > > Thanks,
-> > > -hyun
-> > >
-> > > > On how to control overlap window a integer would do ? Setting it to 0
-> > > > disables it, so we could use a boolean property for convenience..
-> > > >
-> > > > Not knowing what it does I would be careful.. I think we should
-> > > > actualy require a mandatory property, so all current dts select their
-> > > > behaviour explicitly. If we later find out what it does we could
-> > > > define a default behaviour by defining a boolean property. New dts
-> > > > simpler and old dts still happy. What do you think ?
-> > > >
-> > > > >
-> > > > > In a longer term, it'd be nice if such alignment between serializer and
-> > > > > de-serializer is handled in more scalable way.
-> > > > >
-> > > >
-> > > > Indeed :)
-> > > >
-> > > > Thanks
-> > > >   j
-> > > >
-> > > > > Thanks,
-> > > > > -hyun
-> > > > >
-> > > > > [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/3bd2dded834492f4ee89e370c22877b97c2e106e
-> > > > > [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fb0ad7fd699d90d6bbc78fc55dd98639389cfc5b
-> > > > > [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fe0b33b174b2850bf0bb25b3a367319127ae12ee
-> > > > >
