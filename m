@@ -2,90 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC0251948FB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 21:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04857194A3F
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 22:12:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728883AbgCZU2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 16:28:23 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35089 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728863AbgCZU2W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:28:22 -0400
-Received: by mail-lj1-f193.google.com with SMTP id k21so7903211ljh.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 13:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
-        b=YVNmI5X6phcrckh6RoQu9a+teygYOVbW/Bl4PBt0SBu31zUt+xwqv/EEUDu4u3Wfsu
-         TtAMZDxWg0qLC7YfdoYqGTePcdYifxTv5zTCiwpmN2rwH0DQUsnuvWw3o6apGIPLiQ0N
-         7xYGXQWrw231F4xiARaKVUUBWWvaSi0xaySIAnAAV4ZZ7vNh1QX0Y9+CMrBdEGLGg5/1
-         hrQH/A3PAiSHetLesdJtU2rEhvWLHi0tKa0CWz5LhLN6eX2CPqw6YAbgihnrT8KDqaHN
-         azF03eprFppfA+OpE8sTl5kO0H7hnhZE9nEMHe8Nzgc6wVyjru9ZWc4fMoalXU4pL6UK
-         9N/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=uIvUjlehSVigkxhw02yxSAS/Jekd0JL8sbxoZE/mhG8=;
-        b=RtwUAb7hNl1IvUFnm6z8/6P3b98gOdBpQheAvwIHUkHjgrtV2aq1QY53dK1I/g5HfT
-         iWieCD8N418JScH0tdPKopbG2UMqejyur55EPgdo5lkUsKKCHOrvWb7cY3wtdsnI3AWG
-         usb+vLzJkPWG3nZVJvlOr8JbidBD+j0tIQbZ8WHMbi/axtgdFm83/sJoeG++IRYq/nnh
-         wPUB/KWzEH3u3DOdPnpV5HW2356j16X9oUfwoTYMbbJiOt7krTjegk+COt6Cysyvhl+a
-         6Co7/Wy5vC8v6IDGvWCf/rMfA9SJM6NJ/+qIfhqlxqNMpvHdvQ2NNxAG59kZyEI9vI6f
-         4w2A==
-X-Gm-Message-State: AGi0PuamO8FQ3K+XTaB0nK1sJbH13hPCDZ8VGxI4tIOuiuxpiMx6L25d
-        q2VCKczq4kH0vZNtSsl/zbC2GsOZFahaToXCLwY=
-X-Google-Smtp-Source: ADFU+vvMzR/OdU42YUFRp9s1QrUWHpyqFi8ArC68Bh588bo08Lo2bBjjUOCxvBVCfTMUD++UfiIyHVUWPsCy0PRGM7c=
-X-Received: by 2002:a2e:7307:: with SMTP id o7mr6203242ljc.118.1585254500357;
- Thu, 26 Mar 2020 13:28:20 -0700 (PDT)
+        id S1727439AbgCZVJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 17:09:51 -0400
+Received: from sauhun.de ([88.99.104.3]:54266 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726034AbgCZVJv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Mar 2020 17:09:51 -0400
+Received: from localhost (p54B3331F.dip0.t-ipconnect.de [84.179.51.31])
+        by pokefinder.org (Postfix) with ESMTPSA id 3C38E2C1F84;
+        Thu, 26 Mar 2020 22:09:48 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/6] media: convert to use new I2C API
+Date:   Thu, 26 Mar 2020 22:09:40 +0100
+Message-Id: <20200326210947.12747-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a2e:8556:0:0:0:0:0 with HTTP; Thu, 26 Mar 2020 13:28:19
- -0700 (PDT)
-Reply-To: officework_progress@yahoo.com
-From:   Andrew Ede <lmenkwa12@gmail.com>
-Date:   Thu, 26 Mar 2020 22:28:19 +0200
-Message-ID: <CAHPhtMDxeqYVxJC_4doKGC6fVM=pMH3-AGBCn4FA77JtRnW6fQ@mail.gmail.com>
-Subject: CAN YOU WORK WITH US?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Good day.
+We are deprecating calls which return NULL in favor of new variants which
+return an ERR_PTR. Only build tested.
 
-My reason of contacting you is that I and my colleagues working in our
-country=E2=80=99s National Petroleum Corporation want to buy any existing
-modern crude oil refinery in any part of the world.
 
-We are ready to buy any available land to build the Refinery or buy
-the existing one anywhere outside Africa. We will make you our foreign
-partner abroad with some percentage shareholding if you will be
-interested to work with us on this project.
+Wolfram Sang (6):
+  media: pci: cx88: convert to use i2c_new_client_device()
+  media: pci: saa7134: convert to use i2c_new_client_device()
+  media: marvell-ccic: convert to use i2c_new_client_device()
+  media: usb: cx231xx: convert to use i2c_new_client_device()
+  media: usb: hdpvr: convert to use i2c_new_client_device()
+  media: usb: pvrusb2: convert to use i2c_new_client_device()
 
-We have the sum of ($600 Million Dollars) Six Hundred Million Dollars
-for this project.
+ drivers/media/pci/cx88/cx88-core.c                | 3 +--
+ drivers/media/pci/cx88/cx88-input.c               | 2 +-
+ drivers/media/pci/cx88/cx88-video.c               | 2 +-
+ drivers/media/pci/saa7134/saa7134-input.c         | 2 +-
+ drivers/media/platform/marvell-ccic/cafe-driver.c | 2 +-
+ drivers/media/usb/cx231xx/cx231xx-input.c         | 5 ++---
+ drivers/media/usb/hdpvr/hdpvr-core.c              | 4 ++--
+ drivers/media/usb/hdpvr/hdpvr-i2c.c               | 2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c      | 4 ++--
+ 9 files changed, 12 insertions(+), 14 deletions(-)
 
-Meanwhile, this amount of ($600 Million Dollars) will be accessible
-through Foreign Contract Purchase Fund. We are going to clarify what
-we meant by Foreign Contract Purchase Fund as soon as we hear from you
-for better understanding and the way forward.
+-- 
+2.20.1
 
-However, in case you are not capable to handle this project with us,
-please kindly connect us to any capable person or company that would
-handle the project with us in order to enable us proceed at once.
-
-We hope to hear you in no distance time through this e-mail address
-at: officework_progress@yahoo.com, for immediate communication and
-more facts on how to go on.
-
-With respect
-
-Best Regards
-
-Andrew Ede and Co,,
