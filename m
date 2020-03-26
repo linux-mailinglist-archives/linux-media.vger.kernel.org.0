@@ -2,235 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F891944CA
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 17:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A26A1944FF
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 18:04:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727612AbgCZQ7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 12:59:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59208 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726163AbgCZQ7o (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 12:59:44 -0400
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DABEF20714;
-        Thu, 26 Mar 2020 16:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585241983;
-        bh=BmW7FxFVukavIOrW+jQGBgKkYkX/kfC7K9PYVROC7RU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FjeyKBikzyrKjMdNGQGxhejsOWXOhRprOD5gF/BoikJcFabZVTQCw6otkmwTz8mXn
-         4dI4JlWs/UMa/N3D+pudD7bRGuQY876yXtM7MDAvLRyZ1pKSMvDiBCg7e93wvj3bo/
-         vss/IGZrluz0sLCPNoFapuP4DAQQL+Ku+P9hbpTY=
-Received: by mail-qt1-f177.google.com with SMTP id z12so5996917qtq.5;
-        Thu, 26 Mar 2020 09:59:42 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ0Fhc2qOQ0gxyiEfWKrELIITL29T76NK4IiPNY0aKrkNuVQcG8y
-        K96l2dnAaYWxIv+y5xew/h1OfVqbKv74n+Xo6Q==
-X-Google-Smtp-Source: ADFU+vs3QmARN1t+P26l8fJv4eGuhB4B2N/8wI4lIJEQdYu1/Emm4XyORuYHclEyIIdiycs4GS6s5QFchoTZ1Y8aNwU=
-X-Received: by 2002:ac8:59:: with SMTP id i25mr9336327qtg.110.1585241981963;
- Thu, 26 Mar 2020 09:59:41 -0700 (PDT)
+        id S1727717AbgCZREF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 13:04:05 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8681 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbgCZREF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Mar 2020 13:04:05 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e7ce0760004>; Thu, 26 Mar 2020 10:03:50 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 26 Mar 2020 10:04:04 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 26 Mar 2020 10:04:04 -0700
+Received: from [10.2.160.81] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 26 Mar
+ 2020 17:04:03 +0000
+Subject: Re: [RFC PATCH v5 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <helen.koike@collabora.com>, <digetx@gmail.com>,
+        <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-7-git-send-email-skomatineni@nvidia.com>
+ <20200325110358.GB853@valkosipuli.retiisi.org.uk>
+ <a219aeb2-3d00-016e-eed9-503a9fbd0d13@nvidia.com>
+ <20200326144820.GB2394@valkosipuli.retiisi.org.uk>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <927e0263-38b4-4502-f2ad-ab76f31412e4@nvidia.com>
+Date:   Thu, 26 Mar 2020 10:04:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200325213439.16509-1-ezequiel@collabora.com> <20200325213439.16509-8-ezequiel@collabora.com>
-In-Reply-To: <20200325213439.16509-8-ezequiel@collabora.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 26 Mar 2020 10:59:30 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+oBsDoDVpRUeW6z-92_wYbA1CHvJnSX-ALk3igbMmJJg@mail.gmail.com>
-Message-ID: <CAL_Jsq+oBsDoDVpRUeW6z-92_wYbA1CHvJnSX-ALk3igbMmJJg@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] dt-bindings: rockchip-vpu: Convert bindings to json-schema
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200326144820.GB2394@valkosipuli.retiisi.org.uk>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1585242231; bh=ArIq0uQfFAe5fhuSNbr2KiN+eIVzFbu+br9BrixrP1c=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=gs3bJfO5d/ogtrFvlXEV5q+y4otlWnnyxl0dWXESAteNwOC1RBhxufltT7vcZEN88
+         80RtkFvKzwrl2YYayEd0D6EccKh0YhjMphzjaETqAaXH4iBuC4H5rmJu9Y1WXbT2E1
+         VH0axj8t8rrswd7X8q3qN+QbEp9YgSGZxQsDSJ5s62UkdZnRPvgwsfnZUon4bXMU1o
+         uu1Uv2FbYosRYtDrIJs3LMWZoOQ8Fi+gEyajt/ilcvPexEItxvyrPK1Ukat6R9x2EJ
+         YZVIT6o4YaWC1MSaP+OFaK+vlARoy27UaqhUpBAymErZGk1rPreU8a5EJvHu886Qks
+         L+R7mhOHtQojQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 3:35 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+
+On 3/26/20 7:48 AM, Sakari Ailus wrote:
+> External email: Use caution opening links or attachments
 >
-> Convert Rockchip VPU (Hantro IP block) codec driver documentation to
-> json-schema.
 >
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../bindings/media/rockchip-vpu.txt           | 43 ----------
->  .../bindings/media/rockchip-vpu.yaml          | 82 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 83 insertions(+), 44 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.txt
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> Hi Sowjanya,
 >
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.txt b/Documentation/devicetree/bindings/media/rockchip-vpu.txt
-> deleted file mode 100644
-> index 339252d9c515..000000000000
-> --- a/Documentation/devicetree/bindings/media/rockchip-vpu.txt
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -device-tree bindings for rockchip VPU codec
-> -
-> -Rockchip (Video Processing Unit) present in various Rockchip platforms,
-> -such as RK3288, RK3328 and RK3399.
-> -
-> -Required properties:
-> -- compatible: value should be one of the following
-> -               "rockchip,rk3288-vpu";
-> -               "rockchip,rk3328-vpu";
-> -               "rockchip,rk3399-vpu";
-> -- interrupts: encoding and decoding interrupt specifiers
-> -- interrupt-names: should be
-> -               "vepu", "vdpu" on RK3288 and RK3399,
-> -               "vdpu" on RK3328.
-> -- clocks: phandle to VPU aclk, hclk clocks
-> -- clock-names: should be "aclk" and "hclk"
-> -- power-domains: phandle to power domain node
-> -- iommus: phandle to a iommu node
-> -
-> -Example:
-> -SoC-specific DT entry:
-> -       vpu: video-codec@ff9a0000 {
-> -               compatible = "rockchip,rk3288-vpu";
-> -               reg = <0x0 0xff9a0000 0x0 0x800>;
-> -               interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> -                            <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
-> -               interrupt-names = "vepu", "vdpu";
-> -               clocks = <&cru ACLK_VCODEC>, <&cru HCLK_VCODEC>;
-> -               clock-names = "aclk", "hclk";
-> -               power-domains = <&power RK3288_PD_VIDEO>;
-> -               iommus = <&vpu_mmu>;
-> -       };
-> -
-> -       vpu: video-codec@ff350000 {
-> -               compatible = "rockchip,rk3328-vpu";
-> -               reg = <0x0 0xff350000 0x0 0x800>;
-> -               interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-> -               interrupt-names = "vdpu";
-> -               clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> -               clock-names = "aclk", "hclk";
-> -               power-domains = <&power RK3328_PD_VPU>;
-> -               iommus = <&vpu_mmu>;
-> -       };
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> new file mode 100644
-> index 000000000000..a0c45e05cf03
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
-> @@ -0,0 +1,82 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/media/rockchip-vpu.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Hantro G1 VPU codecs implemented on Rockchip SoCs
-> +
-> +maintainers:
-> +  - Ezequiel Garcia <ezequiel@collabora.com>
-> +
-> +description:
-> +  Hantro G1 video encode and decode accelerators present on Rockchip SoCs.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - rockchip,rk3288-vpu
-> +      - rockchip,rk3328-vpu
-> +      - rockchip,rk3399-vpu
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 2
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: vepu
-> +      - const: vdpu
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-
-Add:
-
-additionalProperties: false
-
-> +
-> +examples:
-> +  - |
-> +        #include <dt-bindings/clock/rk3288-cru.h>
-> +        #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +        vpu: video-codec@ff9a0000 {
-> +                compatible = "rockchip,rk3288-vpu";
-> +                reg = <0x0 0xff9a0000 0x0 0x800>;
-> +                interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
-> +                             <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
-> +                interrupt-names = "vepu", "vdpu";
-> +                clocks = <&cru ACLK_VCODEC>, <&cru HCLK_VCODEC>;
-> +                clock-names = "aclk", "hclk";
-> +                power-domains = <&power RK3288_PD_VIDEO>;
-
-Header for this define?
-
-> +                iommus = <&vpu_mmu>;
-> +        };
-> +
-> +        vpu: video-codec@ff350000 {
-> +                compatible = "rockchip,rk3328-vpu";
-> +                reg = <0x0 0xff350000 0x0 0x800>;
-> +                interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
-> +                interrupt-names = "vdpu";
-> +                clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
-> +                clock-names = "aclk", "hclk";
-> +                power-domains = <&power RK3328_PD_VPU>;
-> +                iommus = <&vpu_mmu>;
-> +        };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d66ac41ef587..2b8b3e7f3df3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14320,7 +14320,7 @@ L:      linux-rockchip@lists.infradead.org
->  S:     Maintained
->  F:     drivers/staging/media/hantro/
->  F:     Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
-> -F:     Documentation/devicetree/bindings/media/rockchip-vpu.txt
-> +F:     Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> On Wed, Mar 25, 2020 at 11:30:18PM -0700, Sowjanya Komatineni wrote:
+>> On 3/25/20 4:03 AM, Sakari Ailus wrote:
+>>>> +static int tegra_channel_enum_input(struct file *file, void *fh,
+>>>> +                                 struct v4l2_input *inp)
+>>>> +{
+>>>> +     /* currently driver supports internal TPG only */
+>>>> +     if (inp->index)
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     inp->type = V4L2_INPUT_TYPE_CAMERA;
+>>>> +     strscpy(inp->name, "Tegra TPG", sizeof(inp->name));
+>>>> +
+>>>> +     return 0;
+>>>> +}
+>>>> +
+>>>> +static int tegra_channel_g_input(struct file *file, void *priv,
+>>>> +                              unsigned int *i)
+>>>> +{
+>>>> +     *i = 0;
+>>>> +     return 0;
+>>>> +}
+>>>> +
+>>>> +static int tegra_channel_s_input(struct file *file, void *priv,
+>>>> +                              unsigned int input)
+>>>> +{
+>>>> +     if (input > 0)
+>>>> +             return -EINVAL;
+>>>> +
+>>>> +     return 0;
+>>>> +}
+>>> Please see patchset on topic "v4l2-dev/ioctl: Add V4L2_CAP_IO_MC" on
+>>> linux-media; it's relevant here, too.
+>> Can update in v6 to add device caps V4L2_CAP_IO_MC and remove enum/g/s_input
+>> ioctls.
+>>
+>> But, I don't see this patch "v4l2-dev/ioctl: Add V4L2_CAP_IO_MC" on latest
+>> linux-next
+> It's not merged yet but likely will be very soon.
 >
->  ROCKER DRIVER
->  M:     Jiri Pirko <jiri@resnulli.us>
 > --
-> 2.26.0.rc2
->
+> Sakari Ailus
+
+OK, Will wait and send v6 once I see that patch merged. Thanks Sakari.
+
