@@ -2,149 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEFCC1946FC
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 20:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F40194702
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 20:06:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727541AbgCZTFn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 15:05:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:46127 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726340AbgCZTFm (ORCPT
+        id S1728524AbgCZTF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 15:05:58 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46300 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728405AbgCZTF5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 15:05:42 -0400
-Received: by mail-pf1-f196.google.com with SMTP id q3so3239669pff.13
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 12:05:41 -0700 (PDT)
+        Thu, 26 Mar 2020 15:05:57 -0400
+Received: by mail-pg1-f193.google.com with SMTP id k191so3361787pgc.13
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 12:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=kiD6plPdxGEWW1g2a38FdDHwUsqwwC5eT5Avd+8qM6E=;
-        b=Ojc6un62E2Y8Nc7OZgPYUpwVLCHvFZ3aZthG2rc+Fw0iRVtrP6p3p1DnaJGC5ZqC/U
-         Tbsnu0zx9ywxrLf7Y8tx066Nn6yC1l4hb9swL0qMMm8sPsYr0wcxe1f8H52ahh4CV/UH
-         qcYsmDGSsNNtFfX6y6yQSQC+YZotleMmXg8BZlkd4ugtc20fdP7Tpy8IM1K9YNU+NYs5
-         by80d0pJJD3ReIWse18oDrTQX9C0TCpfUJrbuXmGoK3bF+4QaZHCOUGOB27KBLEQIfoM
-         Hq8m2fUA4zs+OXgozfY7NePbZJFLnQgVtufP/MGomjnzMkyLuKXAA1uilJJoJ4BsWeDQ
-         Kk6Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=PYb7LeVvOeL2a6oZQDOdPyF6X+hLJ7m1n6ZrjzCa1kg=;
+        b=QUtE79rtONvO/YU0AAIhDWrTWTIkd2Fgu1RrCkOVhsQ0uOtElmNc+8t95IMShtiPMx
+         YkIbln5880fXu0p6cUN6Pga1ogt5dSQfxJP39qFlpJwbpEWMHdRwOvLKTQeTWVH3P3Is
+         RrVB4SdffkfB28ad296peGe4RUoGR9lo0A484VIkvj4yaS845ECP0NXQwsDA9gASCWGX
+         Zz4xodshT3GPUrfbd5X1oeXg7ESTD0v70a5XJVEQnPQlkqbBYYtr9X9Kb5zsID9bFbO2
+         tpS0v2XBXaFPuJnDIEZoifwiPP9EIBz5258t50uuLLSUis27G+kCR7fP2KfiKavqtGLi
+         j/zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=kiD6plPdxGEWW1g2a38FdDHwUsqwwC5eT5Avd+8qM6E=;
-        b=KuYbcaBFR9mP95vTXSFK6B+0poUrfCGROGYqKfOAQLIt4D5NzONjJaY+Zg6SzEiHDR
-         lBJOZDo2xa2gI2aLjkj2N5yLSxbdFVUYzlaUDX3LQcwePxcJtg+yYhITfyUc7vIeVkZl
-         Wy1ZJr1QVgcJQ+m7VCexmzaaFpBRyIEQG8sNxm+qOcyzRCLGlG3BcyVs5NqmsGfj1zJK
-         l8m1jZeJzWAbwPHpMbMTGa8rPXOQSjH+vV2UuraRtdDA/2MZIWTEOZWOm/ULMqaJZRIt
-         jH9XO5+i3HAfFOs9KwdbBnfjsKIAzCbf5qCfKmhYGTBw64E6VX1o4eJ5+zhd+p+/ac7U
-         +iCA==
-X-Gm-Message-State: ANhLgQ2dAs0/sSuQr70jCKsyqBssofboxea5Zl1g/79HJFZpzuNpu0Nu
-        R6HFJ1etztM2pnbmObweqHVdYj8LKyE=
-X-Google-Smtp-Source: ADFU+vt2xw/Kn6t3PDDpVIWYTTKWqxsGYUez3q7cwpzh2HozPv2NtHn++3x6S5j1UbIWpYwapC4Hsw==
-X-Received: by 2002:a63:5406:: with SMTP id i6mr1611044pgb.6.1585249541155;
-        Thu, 26 Mar 2020 12:05:41 -0700 (PDT)
-Received: from [172.30.89.221] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id d3sm2329001pfq.126.2020.03.26.12.05.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 12:05:40 -0700 (PDT)
-Subject: Re: [PATCH 0/8] media: imx: Miscalleanous format-related cleanups
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-References: <20200310161845.1588-1-laurent.pinchart@ideasonboard.com>
- <5b773016-8a71-9739-237d-69c0dc8bd349@gmail.com>
- <20200312004735.GG1639@pendragon.ideasonboard.com>
- <1a10d9b2-3e5b-4cbd-d703-5012fa8fa6ad@gmail.com>
- <20200314223209.GC5320@pendragon.ideasonboard.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=PYb7LeVvOeL2a6oZQDOdPyF6X+hLJ7m1n6ZrjzCa1kg=;
+        b=Uk7XIti4Y71JCze22gaX7H6TTICP9hK4YvXxCNNKXzKf+ed6FEXCNGA7Bnc276e/0O
+         uAElzpgu5BKSAxixA06OnKxJ6Y9vNHurXEcOSvEaEPo3zw7wyheE5HkyTxfeO7Qv1GzF
+         KBLCnek8eGBBp3PmjYIHwVuZgniDRqewb5F9kM89YJ4iZ5hvPpCLaEyCnpaFbNvAKssJ
+         gkszONSh9CLBNYuUIElcRM6uyGM+ID1dBnLiN8yVHvfc2UP4WsnyaeTsOZvIw9xNLtXD
+         b8aKpwUecEGRvkCr9PIf/M9IY8ufE97eeh+Wv39q60pcwxsjg9C1uTPluLCCMnWMPYBT
+         RyQw==
+X-Gm-Message-State: ANhLgQ1CjSJI9jkeuL0ngICPO9mHSiv+tIl+IL0H98k5ZTFI2a1wyr+p
+        odQ/B8fSQ4yJRhoIeg42esMsKqi4jNQ=
+X-Google-Smtp-Source: ADFU+vslWKyrkWJp08MnSi68nkLL2dbYNjt5GCJuxKMIjzsAdI65q7mKO1qecy8Rlvd8ht2eB2tN0Q==
+X-Received: by 2002:a63:798a:: with SMTP id u132mr10410681pgc.203.1585249554963;
+        Thu, 26 Mar 2020 12:05:54 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
+        by smtp.googlemail.com with ESMTPSA id q103sm7414623pjc.1.2020.03.26.12.05.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 12:05:54 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <f77e8a90-f83a-1022-7e4f-571bd5df551d@gmail.com>
-Date:   Thu, 26 Mar 2020 12:05:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200314223209.GC5320@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+To:     linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH 05/10] media: imx: utils: Simplify IPU format lookup and enumeration
+Date:   Thu, 26 Mar 2020 12:05:39 -0700
+Message-Id: <20200326190544.16349-6-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200326190544.16349-1-slongerbeam@gmail.com>
+References: <20200326190544.16349-1-slongerbeam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-On 3/14/20 3:32 PM, Laurent Pinchart wrote:
-> Hi Steve,
->
-> On Sat, Mar 14, 2020 at 03:30:53PM -0700, Steve Longerbeam wrote:
->> On 3/11/20 5:47 PM, Laurent Pinchart wrote:
->>> On Wed, Mar 11, 2020 at 05:16:49PM -0700, Steve Longerbeam wrote:
->>>> Hi Laurent,
->>>>
->>>> I agree that the find/enum format code in imx-utils needs cleanup, it's
->>>> too confusing. I will be ready to give my ack to the imx-utils patches
->>>> once I do some smoke testing on a sabre target when I return from vacation.
->>>>
->>>> Note that Phillip also submitted a fixup patch to the find/enum format
->>>> code, IIRC it did more consolidating of the imx_media_pixfmt tables. I
->>>> can't find it and it has gotten lost, but I tested and provided a
->>>> reviewed-by at the time.
->>> I've found them in the mail archive. There were 3 patches, Hans said he
->>> would take the first two, but only the first one got merged. I'll take
->>> the two others and build on top of them, fixing the issues pointed out
->>> by the kbuild robot and addressing Hans concerns.
->> I found the thread finally. In fact I did some work on this set already,
->> I fixed the kbuild warnings as well as added some function headers
->> describing all the format search criteria arguments. Also changed a
->> local var in enum_formats() to better document the enum algorithm.
->>
->> Unless you've started on this work already, I will be returning from
->> vaca tomorrow and can pick this up again, merging in your patches, as
->> well as splitting up find|enum_formats() into find|enum_formats() and
->> find|enum_codes(), which is the remaining suggestion from Hans.
-> I've done this already, I'll try to send the patches on Monday.
+The IPU formats are stored in two separate tables, one for YUV and one
+for RGB formats. This complicates the lookup and enumeration function
+without really increasing efficiency, as both tables contain a single
+element. Merge the two tables and simplify the functions, and move the
+resulting table next to the functions that use it.
 
-If you don't mind, I've done this work and tested on an imx6 target. So 
-I will post a series.
+slongerbeam:
+- imx_media_enum_ipu_format() has been modified slightly to make use
+  of a local match_index to compare with the requested index, to be
+  consistent with the other format enumeration functions.
 
-Steve
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-utils.c | 132 ++++++++------------
+ 1 file changed, 52 insertions(+), 80 deletions(-)
 
->
->>>> On 3/10/20 9:18 AM, Laurent Pinchart wrote:
->>>>> Hello,
->>>>>
->>>>> This patch series started as an attempt to fix the format get and set
->>>>> subdev operations on the i.MX7 CSI-2 receiver subdev, which it does in
->>>>> patch 1/8. Patch 2/8 further cleans up the format-related code in that
->>>>> subdev.
->>>>>
->>>>> Patches 3/8 to 8/8 pushes the cleanups further as I was attempting to
->>>>> fix the format enumeration on the video node at the end of the pipeline.
->>>>> I realized as part of that effort that there's more work than I
->>>>> anticipated, and I'm currently evaluating the possible options.
->>>>> Nonetheless, I think the cleanups make sense even without what I wanted
->>>>> to build on top of them, so I'm sending them out already.
->>>>>
->>>>> Laurent Pinchart (8):
->>>>>      media: imx: imx7-mipi-csis: Cleanup and fix subdev pad format handling
->>>>>      media: imx: imx7-mipi-csis: Centralize initialization of pad formats
->>>>>      media: imx: utils: Inline init_mbus_colorimetry() in its caller
->>>>>      media: imx: utils: Handle Bayer format lookup through a selection flag
->>>>>      media: imx: utils: Simplify IPU format lookup and enumeration
->>>>>      media: imx: utils: Make imx_media_pixfmt handle variable number of
->>>>>        codes
->>>>>      media: imx: utils: Remove unneeded argument to (find|enum)_format()
->>>>>      media: imx: utils: Rename format lookup and enumeration functions
->>>>>
->>>>>     drivers/staging/media/imx/imx-ic-prp.c        |   8 +-
->>>>>     drivers/staging/media/imx/imx-ic-prpencvf.c   |   6 +-
->>>>>     drivers/staging/media/imx/imx-media-capture.c |  22 +-
->>>>>     .../staging/media/imx/imx-media-csc-scaler.c  |   2 +-
->>>>>     drivers/staging/media/imx/imx-media-csi.c     |  26 +-
->>>>>     drivers/staging/media/imx/imx-media-utils.c   | 313 ++++++++----------
->>>>>     drivers/staging/media/imx/imx-media-vdic.c    |   6 +-
->>>>>     drivers/staging/media/imx/imx-media.h         |  24 +-
->>>>>     drivers/staging/media/imx/imx7-media-csi.c    |  15 +-
->>>>>     drivers/staging/media/imx/imx7-mipi-csis.c    | 138 ++++----
->>>>>     10 files changed, 271 insertions(+), 289 deletions(-)
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 334c9670e481..d27787012ff3 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -186,30 +186,6 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 	},
+ };
+ 
+-static const struct imx_media_pixfmt ipu_yuv_formats[] = {
+-	{
+-		.fourcc = V4L2_PIX_FMT_YUV32,
+-		.codes  = {MEDIA_BUS_FMT_AYUV8_1X32},
+-		.cs     = IPUV3_COLORSPACE_YUV,
+-		.bpp    = 32,
+-		.ipufmt = true,
+-	},
+-};
+-
+-#define NUM_IPU_YUV_FORMATS ARRAY_SIZE(ipu_yuv_formats)
+-
+-static const struct imx_media_pixfmt ipu_rgb_formats[] = {
+-	{
+-		.fourcc	= V4L2_PIX_FMT_XRGB32,
+-		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
+-		.cs     = IPUV3_COLORSPACE_RGB,
+-		.bpp    = 32,
+-		.ipufmt = true,
+-	},
+-};
+-
+-#define NUM_IPU_RGB_FORMATS ARRAY_SIZE(ipu_rgb_formats)
+-
+ static const struct imx_media_pixfmt *find_format(u32 fourcc,
+ 						  u32 code,
+ 						  enum codespace_sel cs_sel,
+@@ -316,81 +292,77 @@ int imx_media_enum_mbus_format(u32 *code, u32 index, enum codespace_sel cs_sel)
+ }
+ EXPORT_SYMBOL_GPL(imx_media_enum_mbus_format);
+ 
++/* -----------------------------------------------------------------------------
++ * IPU Formats Lookup and Enumeration
++ */
++
++static const struct imx_media_pixfmt ipu_formats[] = {
++	{
++		.fourcc = V4L2_PIX_FMT_YUV32,
++		.codes  = {MEDIA_BUS_FMT_AYUV8_1X32},
++		.cs     = IPUV3_COLORSPACE_YUV,
++		.bpp    = 32,
++		.ipufmt = true,
++	}, {
++		.fourcc	= V4L2_PIX_FMT_XRGB32,
++		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
++		.cs     = IPUV3_COLORSPACE_RGB,
++		.bpp    = 32,
++		.ipufmt = true,
++	},
++};
++
+ const struct imx_media_pixfmt *
+ imx_media_find_ipu_format(u32 code, enum codespace_sel cs_sel)
+ {
+-	const struct imx_media_pixfmt *array, *fmt, *ret = NULL;
+-	u32 array_size;
+-	int i, j;
+-
+-	cs_sel &= ~CS_SEL_BAYER;
++	bool accept_yuv = cs_sel & CS_SEL_YUV;
++	bool accept_rgb = cs_sel & CS_SEL_RGB;
++	unsigned int i, j;
+ 
+-	switch (cs_sel) {
+-	case CS_SEL_YUV:
+-		array_size = NUM_IPU_YUV_FORMATS;
+-		array = ipu_yuv_formats;
+-		break;
+-	case CS_SEL_RGB:
+-		array_size = NUM_IPU_RGB_FORMATS;
+-		array = ipu_rgb_formats;
+-		break;
+-	case CS_SEL_YUV_RGB:
+-		array_size = NUM_IPU_YUV_FORMATS + NUM_IPU_RGB_FORMATS;
+-		array = ipu_yuv_formats;
+-		break;
+-	default:
++	if (!code)
+ 		return NULL;
+-	}
+ 
+-	for (i = 0; i < array_size; i++) {
+-		if (cs_sel == CS_SEL_YUV_RGB && i >= NUM_IPU_YUV_FORMATS)
+-			fmt = &ipu_rgb_formats[i - NUM_IPU_YUV_FORMATS];
+-		else
+-			fmt = &array[i];
++	for (i = 0; i < ARRAY_SIZE(ipu_formats); i++) {
++		const struct imx_media_pixfmt *fmt = &ipu_formats[i];
+ 
+-		for (j = 0; code && fmt->codes[j]; j++) {
+-			if (code == fmt->codes[j]) {
+-				ret = fmt;
+-				goto out;
+-			}
++		if ((!accept_yuv && fmt->cs == IPUV3_COLORSPACE_YUV) ||
++		    (!accept_rgb && fmt->cs == IPUV3_COLORSPACE_RGB))
++			continue;
++
++		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
++			if (code == fmt->codes[j])
++				return fmt;
+ 		}
+ 	}
+ 
+-out:
+-	return ret;
++	return NULL;
+ }
+ EXPORT_SYMBOL_GPL(imx_media_find_ipu_format);
+ 
+ int imx_media_enum_ipu_format(u32 *code, u32 index, enum codespace_sel cs_sel)
+ {
+-	cs_sel &= ~CS_SEL_BAYER;
++	bool accept_yuv = cs_sel & CS_SEL_YUV;
++	bool accept_rgb = cs_sel & CS_SEL_RGB;
++	unsigned int i, j = 0, match_index = 0;
+ 
+-	switch (cs_sel) {
+-	case CS_SEL_YUV:
+-		if (index >= NUM_IPU_YUV_FORMATS)
+-			return -EINVAL;
+-		*code = ipu_yuv_formats[index].codes[0];
+-		break;
+-	case CS_SEL_RGB:
+-		if (index >= NUM_IPU_RGB_FORMATS)
+-			return -EINVAL;
+-		*code = ipu_rgb_formats[index].codes[0];
+-		break;
+-	case CS_SEL_YUV_RGB:
+-		if (index >= NUM_IPU_YUV_FORMATS + NUM_IPU_RGB_FORMATS)
+-			return -EINVAL;
+-		if (index >= NUM_IPU_YUV_FORMATS) {
+-			index -= NUM_IPU_YUV_FORMATS;
+-			*code = ipu_rgb_formats[index].codes[0];
+-		} else {
+-			*code = ipu_yuv_formats[index].codes[0];
++	for (i = 0; i < ARRAY_SIZE(ipu_formats); i++) {
++		const struct imx_media_pixfmt *fmt = &ipu_formats[i];
++
++		if ((!accept_yuv && fmt->cs == IPUV3_COLORSPACE_YUV) ||
++		    (!accept_rgb && fmt->cs == IPUV3_COLORSPACE_RGB))
++			continue;
++
++		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
++			if (index == match_index) {
++				*code = fmt->codes[j];
++				return 0;
++			}
++
++			match_index++;
+ 		}
+-		break;
+-	default:
+-		return -EINVAL;
+ 	}
+ 
+-	return 0;
++	return -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(imx_media_enum_ipu_format);
+ 
+-- 
+2.17.1
 
