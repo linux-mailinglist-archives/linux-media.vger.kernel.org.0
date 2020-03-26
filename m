@@ -2,206 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5D3193B32
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 09:39:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB918193B98
+	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 10:17:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727683AbgCZIjZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 04:39:25 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40185 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727600AbgCZIjY (ORCPT
+        id S1727636AbgCZJRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 05:17:39 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:15445 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727560AbgCZJRj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:39:24 -0400
-Received: by mail-wr1-f65.google.com with SMTP id u10so6625798wro.7
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 01:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:autocrypt:organization:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TLKfrWP8AcWMfXeFe+OL6HzlrP4WSBWNABjm4srbTno=;
-        b=J5gCYRRbYEj1hCUaEBVlU8bi9gpdFIkdCjjUKomRB01ovaQLmGoZezSV4UymD5J3Vk
-         UAQxUniYX12deWTkW2AoIfX8E0qqGRlViNFjELQqjswB0Ky5fe73mKF7U2oK3f+87AGk
-         apIJUNtPXDBW+DXgBlYQQ8G2wNlz5goRvUYS2XlnXUNWPg/ZkWNo6JPPdnEam/DLwCQo
-         lcizhqwTuoW7QH+u8TPnsYPhxgo0kuYLCsz+05OmYvB080/4lnQthTrOeNgwUYsfHhuY
-         V82r7rl7iMbh/wAzhsNyWZYchZdm8rEWBKL/b9eIdJLE9vEG7Zgqfl5mTb1K50VXGdJJ
-         UVew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=TLKfrWP8AcWMfXeFe+OL6HzlrP4WSBWNABjm4srbTno=;
-        b=f6pcgvex+ior1MrKT0MPtreEjpUVFfjqWM+ZRFbrkhiybSJ0blskNVceJh1wnTQr+R
-         0//2DgkA4/c2Bo4y5kGlZBzolRdCgI1bvLw73Dyol/r0V/N3AwVmVHA2gaJtF9mTpHwd
-         xtA7tgtzc53J92ozkrHbJTmUWkO6hiZ9XJMILUiH81U34kNwQFN6Kl0NJGpbNGAMZh1A
-         DRHBuLovNCEGju6SeA71pcsayJHUla49Y+2+ocMPrMk6n83FkmRqiau7CU0EMj9R82i7
-         bBcCnQ5+N3dV0Mb38/ldGj0Nb8ezUeqw+G1tBCPPv5Ix7tM++SOTXKbcD6OLqQF0QNXb
-         uRtA==
-X-Gm-Message-State: ANhLgQ1MmkkwYUB21Fx8+SqpPBY+BqcZ60icqcU2uvTzOrzINDh8Q0kF
-        pbQHBIRHo7ZC9hbIawJ5Ojm/Sg==
-X-Google-Smtp-Source: ADFU+vvzuQ4QxVS/s0ibmVMZp4jdcmJoedPChELBVbuKyTFcPAB+5OcyntAwpr9Tl9sZS9yiTvZRQg==
-X-Received: by 2002:adf:c587:: with SMTP id m7mr8354429wrg.64.1585211961242;
-        Thu, 26 Mar 2020 01:39:21 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:25f2:833f:2a30:1344? ([2a01:e35:2ec0:82b0:25f2:833f:2a30:1344])
-        by smtp.gmail.com with ESMTPSA id l4sm1317884wru.1.2020.03.26.01.39.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 01:39:20 -0700 (PDT)
-Subject: Re: [PATCH 3/4] dt-bindings: Clean-up schema errors due to missing
- 'addtionalProperties: false'
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Brian Masney <masneyb@onstation.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Zhang Rui <rui.zhang@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        netdev@vger.kernel.org
-References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-4-robh@kernel.org>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <e60df575-c70d-a194-6c54-32b5ae69a041@baylibre.com>
-Date:   Thu, 26 Mar 2020 09:39:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200325220542.19189-4-robh@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Thu, 26 Mar 2020 05:17:39 -0400
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200326091736epoutp01d4a1961d1ec940a32052fbafb047cdc9~-z-e7HoAl3103931039epoutp01R
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 09:17:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200326091736epoutp01d4a1961d1ec940a32052fbafb047cdc9~-z-e7HoAl3103931039epoutp01R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1585214256;
+        bh=onuYfqDYIOCuYPJgDNR7ttwIKwGYq/9ECZgsogSZ2n0=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=ckeM8v59cRn1tB2Kznx1rRKhO7g2SmZwqNfQi+iJ1KSgZc34l102E9YBNGNo5uL0x
+         wvIZmQuiiGs85oMgX6ajZ16M1fTNeJwUHbXCTfCGa+ZRyz6fyJS2xOr+xv/nlGYDPg
+         HXvFWUUYCj2YgoHFCd0O/usRQQsfjOYr30RCLryg=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+        20200326091736epcas2p4512b097c588a20a997677fd7654d5681~-z-ej2Rv22126021260epcas2p4I;
+        Thu, 26 Mar 2020 09:17:36 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.40.186]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 48nzsV2RNZzMqYkf; Thu, 26 Mar
+        2020 09:17:34 +0000 (GMT)
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
+        epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        B5.17.04142.C237C7E5; Thu, 26 Mar 2020 18:17:32 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200326091732epcas2p2be24b70dca0039b10b828e8b9102f6bf~-z-a2xUAt1413814138epcas2p2P;
+        Thu, 26 Mar 2020 09:17:32 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200326091732epsmtrp2d6626bb580590dbc1055f468101fa012~-z-a1sK_71240612406epsmtrp2c;
+        Thu, 26 Mar 2020 09:17:32 +0000 (GMT)
+X-AuditID: b6c32a46-3e1ff7000000102e-29-5e7c732ce5db
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        BF.F7.04158.C237C7E5; Thu, 26 Mar 2020 18:17:32 +0900 (KST)
+Received: from KEI.dsn.sec.samsung.com (unknown [12.36.155.227]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200326091732epsmtip2773add7b7a4f68e550b3e8f207f07426~-z-ar8gQM2849628496epsmtip2e;
+        Thu, 26 Mar 2020 09:17:32 +0000 (GMT)
+From:   Seungchul Kim <sc377.kim@samsung.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Seungchul Kim <sc377.kim@samsung.com>
+Subject: [PATCH] media: v4l2-fh: define v4l2_fh struct regardless of
+ condition
+Date:   Thu, 26 Mar 2020 18:09:46 +0900
+Message-Id: <1585213786-39068-1-git-send-email-sc377.kim@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMKsWRmVeSWpSXmKPExsWy7bCmma5OcU2cwdxZBhaXd81hs+jZsJXV
+        YtmmP0wW0+5MYHRg8di0qpPNo2/LKkaPz5vkApijcmwyUhNTUosUUvOS81My89JtlbyD453j
+        Tc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgLYpKZQl5pQChQISi4uV9O1sivJLS1IVMvKLS2yV
+        UgtScgoMDQv0ihNzi0vz0vWS83OtDA0MjEyBKhNyMq51rWcraOKvWDhjA0sD42GeLkZODgkB
+        E4mvjb/Yuxi5OIQEdjBK3L/xiRUkISTwiVHi2hxXiMQ3RokNN68xwXS8fHkdqmMvo8TsdeeY
+        IDq+MkqcW58NYrMJaEtcXT2PGcQWEdCTeL75IguIzSyQJjH3RgtYvbBAgMSZrvtsIDaLgKrE
+        xqO3GUFsXgFXiUWrXrJDLJOTuHmukxlkmYTAQ1aJA48/QCVcJA7/3cwMYQtLvDq+BSouJfH5
+        3V42CLtc4sOjrUwQzR2MEk1f70AljCVmPWsH2sYBdJGmxPpd+iCmhICyxJFbUHfySXQc/ssO
+        EeaV6GgTgmhUllj9tx9qq6TE/r8noGHiIXHs5WZoMMRKTG+bzjaBUXYWwvwFjIyrGMVSC4pz
+        01OLjQqMkONoEyM4AWm57WBccs7nEKMAB6MSD+8Gy+o4IdbEsuLK3EOMEhzMSiK8TyNr4oR4
+        UxIrq1KL8uOLSnNSiw8xmgIDbyKzlGhyPjA55pXEG5oamZkZWJpamJoZWSiJ827ivhkjJJCe
+        WJKanZpakFoE08fEwSnVwLj2me2mY/GreN7MOlFz5MLnpvjOCVuCDi9Z29rCmHF5wnHf41Gx
+        p1InKJ4s+Mbg6SL7awGL8Cm1yQ05iWV5M33TnQRkG9RZ7epV3Hbu2Vn1kd+7xE9upW4US+T9
+        NzFc/84ZrX1bHB/JZuj2eUKaIsPZjZ+iay+q1Wbv4E53MdzVlvRr0eqHi5RYijMSDbWYi4oT
+        ATtKgDxWAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEJMWRmVeSWpSXmKPExsWy7bCSvK5OcU2cwf0nghaXd81hs+jZsJXV
+        YtmmP0wW0+5MYHRg8di0qpPNo2/LKkaPz5vkApijuGxSUnMyy1KL9O0SuDKuda1nK2jir1g4
+        YwNLA+Nhni5GTg4JAROJly+vs3cxcnEICexmlPjR8RnI4QBKSEq0HC6AqBGWuN9yhBWi5jOj
+        xPVZs9lAEmwC2hJXV89jBrFFBPQknm++yAJiMwtkSJzceowdxBYW8JOYfqYDrJ5FQFVi49Hb
+        jCA2r4CrxKJVL9khFshJ3DzXyTyBkWcBI8MqRsnUguLc9NxiwwKjvNRyveLE3OLSvHS95Pzc
+        TYzgkNDS2sF44kT8IUYBDkYlHt4I8+o4IdbEsuLK3EOMEhzMSiK8TyNr4oR4UxIrq1KL8uOL
+        SnNSiw8xSnOwKInzyucfixQSSE8sSc1OTS1ILYLJMnFwSjUwln15yOjsvCXo6SVJ5TOryx58
+        s5YUFzc5mrQq/sayJCMGRt9Z4Xa3JDSywtYcvfvLxLBDpvKafoHns51iBmubq9ylF904uH3z
+        pRlJORu3lvyVOf/lwtSHpQt9/301XJ1o+TXfTH+GXkDUiRUXrpnnHVW9td7tVJJeD2/9VT2d
+        2ndmG5XPnr4rp8RSnJFoqMVcVJwIAFvxPeAFAgAA
+X-CMS-MailID: 20200326091732epcas2p2be24b70dca0039b10b828e8b9102f6bf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200326091732epcas2p2be24b70dca0039b10b828e8b9102f6bf
+References: <CGME20200326091732epcas2p2be24b70dca0039b10b828e8b9102f6bf@epcas2p2.samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/03/2020 23:05, Rob Herring wrote:
-> Numerous schemas are missing 'additionalProperties: false' statements which
-> ensures a binding doesn't have any extra undocumented properties or child
-> nodes. Fixing this reveals various missing properties, so let's fix all
-> those occurrences.
-> 
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Hartmut Knaack <knaack.h@gmx.de>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Guillaume La Roque <glaroque@baylibre.com>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/clock/fsl,plldig.yaml |  3 +++
->  .../gpio/socionext,uniphier-gpio.yaml         |  2 ++
->  .../bindings/gpu/arm,mali-bifrost.yaml        |  6 ++---
->  .../bindings/gpu/arm,mali-midgard.yaml        |  3 +++
->  .../bindings/iio/adc/adi,ad7192.yaml          |  1 -
->  .../bindings/iio/pressure/bmp085.yaml         |  3 +++
->  .../media/amlogic,meson-gx-ao-cec.yaml        |  9 +++++---
->  .../bindings/mfd/rohm,bd71828-pmic.yaml       |  3 +++
->  .../bindings/net/ti,cpsw-switch.yaml          | 23 ++++++++++++-------
->  .../regulator/max77650-regulator.yaml         |  2 +-
->  .../bindings/thermal/amlogic,thermal.yaml     |  2 ++
->  .../bindings/timer/arm,arch_timer_mmio.yaml   |  2 ++
->  12 files changed, 43 insertions(+), 16 deletions(-)
-> 
+v4l2_fh struct define differently by CONFIG_V4L2_MEM2MEM_DEV.
+If some vendors use CONFIG_V4L2_MEM2MEM_DEV by module,
+it can make the mismatch of v4l2_fh sturct.
 
-For:
-  .../bindings/gpu/arm,mali-bifrost.yaml        |  6 ++---
-  .../bindings/gpu/arm,mali-midgard.yaml        |  3 +++
-  .../media/amlogic,meson-gx-ao-cec.yaml        |  9 +++++---
-  .../bindings/thermal/amlogic,thermal.yaml     |  2 ++
+By the mismatch, the following error occurs.
+===============================
+[    7.533506] v4l2_mem2mem: disagrees about version of symbol video_devdata
+[    7.533594] v4l2_mem2mem: Unknown symbol video_devdata (err -22)
+[    7.535319] v4l2_mem2mem: disagrees about version of symbol v4l2_event_pending
+[    7.542532] v4l2_mem2mem: Unknown symbol v4l2_event_pending (err -22)
+===============================
 
+So v4l2_fh struct is modified to does not have dependency
+for CONFIG_V4L2_MEM2MEM_DEV.
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Signed-off-by: Seungchul Kim <sc377.kim@samsung.com>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 --
+ include/media/v4l2-fh.h              | 2 --
+ 2 files changed, 4 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index fbcc7a2..befafcd 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -2800,13 +2800,11 @@ static struct mutex *v4l2_ioctl_get_lock(struct video_device *vdev,
+ {
+ 	if (_IOC_NR(cmd) >= V4L2_IOCTLS)
+ 		return vdev->lock;
+-#if IS_ENABLED(CONFIG_V4L2_MEM2MEM_DEV)
+ 	if (vfh && vfh->m2m_ctx &&
+ 	    (v4l2_ioctls[_IOC_NR(cmd)].flags & INFO_FL_QUEUE)) {
+ 		if (vfh->m2m_ctx->q_lock)
+ 			return vfh->m2m_ctx->q_lock;
+ 	}
+-#endif
+ 	if (vdev->queue && vdev->queue->lock &&
+ 			(v4l2_ioctls[_IOC_NR(cmd)].flags & INFO_FL_QUEUE))
+ 		return vdev->queue->lock;
+diff --git a/include/media/v4l2-fh.h b/include/media/v4l2-fh.h
+index 53b4dbb..b5b3e00 100644
+--- a/include/media/v4l2-fh.h
++++ b/include/media/v4l2-fh.h
+@@ -53,9 +53,7 @@ struct v4l2_fh {
+ 	unsigned int		navailable;
+ 	u32			sequence;
+ 
+-#if IS_ENABLED(CONFIG_V4L2_MEM2MEM_DEV)
+ 	struct v4l2_m2m_ctx	*m2m_ctx;
+-#endif
+ };
+ 
+ /**
+-- 
+2.7.4
 
