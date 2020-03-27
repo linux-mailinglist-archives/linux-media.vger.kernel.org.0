@@ -2,110 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 251A31954BC
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 11:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 260DF195558
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 11:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbgC0KEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 06:04:13 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46512 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726027AbgC0KEM (ORCPT
+        id S1726661AbgC0Kcq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 06:32:46 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:45869 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbgC0Kcn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 06:04:12 -0400
-Received: by mail-lj1-f195.google.com with SMTP id r7so1910976ljg.13
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 03:04:12 -0700 (PDT)
+        Fri, 27 Mar 2020 06:32:43 -0400
+Received: by mail-ot1-f67.google.com with SMTP id c9so9145066otl.12
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 03:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qtl1Eialsdl3z7ZP76hLFrTUnrm/Xwed3O3Is0v5u2s=;
-        b=fm1BGbXw3YbyFJAFmqHvsEnrwOu7+/+ujtJ86z5Orejx852KLJeCDtQq+soYhGzfCj
-         2rAfF7PxQg2H2Sgjn2JBjFbILfIVHBT7QxDFDZh2R3HOuTeyVGc0fKnVbnrXO43QCj8x
-         cXlH+JS+Jobqck2T5KLCJ/QxbIlZUnxiWcd/WFLXFPVgiIHA/VQnYBo2xwwlOuCaoBNf
-         PV01d4t1H3eQqxbYRIT2/sc/hXgoikPd8X3chF1TEDLMvJhtp9ZecGoNxVyrMZXDYddu
-         VUti7wxKuFzjCVhJlxMkwTw2df/O1qZUfem6Ydt42/5xj5qm4D1YHiUkYri/dNaN3Cn1
-         sdLQ==
+        bh=YYF9IlkYIan1+UFMEoSWkc8FBz64pPNX5SeJSHAu8kg=;
+        b=xXRePv+8SgkF6sJVJLkuv6mQ3y/WTJtU4pKOk2h/g4ZRRHoUdhWf7be/9xVvXKJdOJ
+         39uHfWxJUgkVtpS11k+sbvlmqrHPQZp4BnoMDUn9WmW3l093QS/IYdfe9Ov6MsLD0orX
+         w3om+wu4CpiMG2891c46ivxP+5hF4oDBg/2XwZVmw0wycDU+vm++0LepD4VMusQXW9M8
+         3DH+9eMSAFaeaUdQAvQIXWhp1gr1VgSA3s58G7EWE8Lwv+23SbpOZn67vq4HXZzLA10c
+         9m/EzI/Ld/dq/n+X1pjXT4ciAgnrosOzyR+x1GIxsSkrvCUkSM+eiZJ1mgeNdRZhOWaY
+         lCgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qtl1Eialsdl3z7ZP76hLFrTUnrm/Xwed3O3Is0v5u2s=;
-        b=p/LmB38UCInTbMJv5ya1FE27Xz/k1IwwFdA2ptnDfK3MMKl3y1nzAPCYBOiA7INFgU
-         MFm7RolT42uIH4tyB1aRWzUYUs8BghptZDoH93xoOt3WCJFZUDVswpRMbK8djqKii8nh
-         p9waK4C7EoBvJtnp6lFI1mnA5fLx61Tp5JqRK1TalqmHrMy+UfZS78nbwrMRFHO4ix0v
-         g9HWqWBQIgTFSZq6fYUNL9eows6Lpu9C2PQp3Yg8RP3SYsj+rWHQ/g16EdJ7JdkkWq7x
-         fXdgRTard3YDHCd6Q4mJMhLA+/QCPVpPsepHXUVnjcMuOTwNwolkDic/wIUm1d77Pk5R
-         mJtg==
-X-Gm-Message-State: AGi0Pubk5tAY+Y8PTs5qTnlZug4sgEk16tkzq5yOaFnU22wOMQ8NEUPn
-        xKUN2sdnRr7zqDK5Xuxzh8FZEOKp6gbKh8Wx59rkSw==
-X-Google-Smtp-Source: ADFU+vsLFzRSaI0mp4F0YlxEk/ZWtLbeZk2X0x8rIBWVbKHsUZE12xxYtPOS4x7TLee1muHrdP/vfqhKQcCaKg9I0tI=
-X-Received: by 2002:a2e:9605:: with SMTP id v5mr7696484ljh.258.1585303451336;
- Fri, 27 Mar 2020 03:04:11 -0700 (PDT)
+        bh=YYF9IlkYIan1+UFMEoSWkc8FBz64pPNX5SeJSHAu8kg=;
+        b=UbxHl3QcFi/Rl6s1yYwHBpKIzLZgghaF/2yzd6Xu04+J/7zT0bw2ttPqqEfaWrWW04
+         xF/qXqAUCWvLO+iCih3p7CHpLhNSQKiFV/35FLMzu4M0vd1TIT3QEdOkUYkM0uJESjUl
+         rehnWp86HuHe0B3qIPbzYTBYAaZzFaByjWNVGgqOo8hTbq8AFsA4Lckdvix+suja7/hU
+         rmzDsx17nBV2YWH3FdtwpK1iWTFEOnuXtU7aL1JAgt6bVZifjcpoQeafflQgPLzMOJmp
+         SMpiCyav49ZBdfWCdPTObWK75hngAg8mWdDtpftAGv6+e/IRzMw3PZpq+vTOlD+iFF+U
+         FpiA==
+X-Gm-Message-State: ANhLgQ0Cw7k52i28H/zStkuD/ztz8QQL22+PVgzMms7Ghe5VyRx/8+ri
+        ctmvMX18sH/MqPX6Rtqtv0tYKM/QE+uSMkE6urpG64noTxw=
+X-Google-Smtp-Source: ADFU+vseCXoMGXatVYtvuIKCvvYcHpzp5L/GUxqGEUSN7+BRDLJCxO7pyQfJM0X4rU4ScjZZJpwRtscCky9sePUUX9s=
+X-Received: by 2002:a9d:27a7:: with SMTP id c36mr9836243otb.68.1585305162293;
+ Fri, 27 Mar 2020 03:32:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200317093922.20785-1-lkundrak@v3.sk> <20200317093922.20785-22-lkundrak@v3.sk>
-In-Reply-To: <20200317093922.20785-22-lkundrak@v3.sk>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 27 Mar 2020 11:04:00 +0100
-Message-ID: <CACRpkdaEnODObC7emg2M7Ayn_JkeLuc3HpV4VhJcwaZ+=sDLcg@mail.gmail.com>
-Subject: Re: [PATCH 21/28] dt-bindings: gpio: Convert mrvl-gpio to json-schema
-To:     Lubomir Rintel <lkundrak@v3.sk>,
-        Robert Jarzmik <robert.jarzmik@free.fr>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
+References: <20200313110350.10864-1-robert.foss@linaro.org>
+ <20200313110350.10864-3-robert.foss@linaro.org> <20200313121746.GC5730@valkosipuli.retiisi.org.uk>
+ <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com> <20200326144725.GA2394@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20200326144725.GA2394@valkosipuli.retiisi.org.uk>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Fri, 27 Mar 2020 11:32:29 +0100
+Message-ID: <CAG3jFyu=HOsWNeRFC2t4HjzYrFrLjsbXzAm4+zD50Xq48mqzcw@mail.gmail.com>
+Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-i2c <linux-i2c@vger.kernel.org>,
-        linux-media@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-rtc@vger.kernel.org,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        linux-usb <linux-usb@vger.kernel.org>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lubomir!
+On Thu, 26 Mar 2020 at 15:47, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+> Hi Robert,
+>
+> On Thu, Mar 26, 2020 at 12:56:37PM +0100, Robert Foss wrote:
+> ...
+> > > > +static int __ov8856_power_on(struct ov8856 *ov8856)
+> > > > +{
+> > > > +     struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> > > > +     int ret;
+> > > > +
+> > > > +     ret = clk_prepare_enable(ov8856->xvclk);
+> > > > +     if (ret < 0) {
+> > > > +             dev_err(&client->dev, "failed to enable xvclk\n");
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
+> > > > +
+> > > > +     ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
+> > > > +                                 ov8856->supplies);
+> > > > +     if (ret < 0) {
+> > > > +             dev_err(&client->dev, "failed to enable regulators\n");
+> > > > +             goto disable_clk;
+> > > > +     }
+> > > > +
+> > > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
+> > > > +
+> > > > +     usleep_range(1500, 1800);
+> > >
+> > > I think you could omit the delay on ACPI based systems. Or just bail out
+> > > early in that case.
+> >
+> > I'll add a check for reset_gpio being NULL, and skip the sleep for that case.
+>
+> There could also be a regulator but no GPIO.
+>
+> I think if you don't have either, then certainly there's no need for a
+> delay.
 
-Excellent work! Just nitpicks:
+Removing the delay if no action is taken makes sense, but I'm not sure
+how best to do it.
+If there are no regulators dummy ones are created automatically, which
+makes distinguishing between a little bit cumbersome. The regulator
+structs could of course all be inspected, and if all are dummy ones,
+the delay could be skipped. But is there a neater way of doing this?
+Manually inspecting the regs strikes me as a bit inelegant.
 
-On Tue, Mar 17, 2020 at 10:40 AM Lubomir Rintel <lkundrak@v3.sk> wrote:
+>
+> ...
+>
+> > > > +             ov8856->xvclk = NULL;
+> > > > +     } else if (IS_ERR(ov8856->xvclk)) {
+> > > > +             dev_err(&client->dev, "could not get xvclk clock (%ld)\n",
+> > > > +                     PTR_ERR(ov8856->xvclk));
+> > > > +             return PTR_ERR(ov8856->xvclk);
+> > > > +     }
+> > > > +
+> > > > +     ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
+> > >
+> > > This should either come from platform data, or perhaps it'd be even better
+> > > to get the clock rate and use assigned-clock-rates. I guess that's
+> > > preferred nowadays.
+> >
+> > I'm a bit unsure about what this would look like.
+> >
+> > Are you thinking something like the way ext_clk is used in smiapp_core.c?
+> > I went ahead and implemented support for retrieving and storing
+> > 'clock-rates' during the ov8856_check_hwcfg() call, and then setting
+> > the rate to the configured rate during probing.
+>
+> With assigned-clock-rates, you can simply use clk_get_rate().
 
-> +++ b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
-> @@ -0,0 +1,173 @@
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpio/mrvl-gpio.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Marvell PXA GPIO controller
+Ah, I see.
 
-This binding is lacking a license. Please use the dual GPL+BSD license
-tag.
+I'll switch to that approach then.
 
-> +maintainers:
-> +  - devicetree@vger.kernel.org
-
-I don't know if Robert Jarzmik is in on maintaining this, would you accept
-it Robert?
-
-Yours,
-Linus Walleij
+>
+> As you get the actual rate, it could be somewhat off of the intended one.
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
