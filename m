@@ -2,253 +2,308 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 436351959FA
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 16:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6522F195A4C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 16:52:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbgC0Pfb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 11:35:31 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39599 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbgC0Pfb (ORCPT
+        id S1727242AbgC0PwH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 11:52:07 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49518 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbgC0PwH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 11:35:31 -0400
-Received: by mail-ot1-f67.google.com with SMTP id x11so10127775otp.6;
-        Fri, 27 Mar 2020 08:35:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=m2VgctS9k0onJoQ+C26IEDnuG2AgnqBi68w0KHrlzNA=;
-        b=RR1nu05LuVJW27A/u2yx3lBIycNb4JHH7fREUrmFKI6nCA93RAiOdvMrCjUd1Cn4dP
-         euODJCmoiFPEA5UjaPnHxEspc1Vk558XbkOTd/QQXan3Dba2jDqMBmHCo3LLphfjut0a
-         V30dLmVmJEzZJ2ROeRwMj9Ci+6ccSstT/DOkknvfPbxzMlddz549IkDUWRjSvlZox1/J
-         1N84vH4ByD+Npmu7I7zGHL9q+LVtvrxP9MHo3CT+YcTYA5zPBIxE5iMBIFhzKvckVfUQ
-         IOicaQH7G8Fs26V41+7wbe4aVSoCCxStlYkdWyOpt4pJLEBIvtwYWvazG+T6ZyNh8FuH
-         xGzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m2VgctS9k0onJoQ+C26IEDnuG2AgnqBi68w0KHrlzNA=;
-        b=UZWzqN3rAXRDqeux74iiypbiCB79zF0KGiNQMEhnjDYBRgR9RS4dwRYwvCzYzuTgTV
-         cA1oUxFrNow0Fq4xC4EOw1SHzd4D5nuy2c9pZ5vw11xC2FgRy/kPo7Eb5HKkv6GZJuOy
-         LMbZYKOwW3z2HgE7AntbzLAulzY9tcuTe3oEUzDG597Vzp+8Mfmnb7HcsTqrNho6JDq1
-         2EAfSkrPqElyXmJ4tL974M7oTQZXGdcloUbpWLp9KdQCdX5FANmHzBIgXyD+qqrkIn00
-         XNcUP01QLWu77QHU+LCgOpglC1MIp/wGGVx0TZUCRCKi+WOq/MVntN8/jMXpL69yK+n7
-         xCtQ==
-X-Gm-Message-State: ANhLgQ2pIFTK9DAmB66iDSCSl5sUueF+tV7Kh7o7LEheNB/j6gyXykDk
-        +Bg+P0LaMO21Iajn/jJsuX0tPnPWpnNUvTuHm1o=
-X-Google-Smtp-Source: ADFU+vsUKu6cs4FScroGgeKtpc8cwJ46ysU1li4E5NRjEIjx2ULrApBboKPsivXVWH+9bvG1E75z/j5i8AVRisHGh5M=
-X-Received: by 2002:a4a:2c55:: with SMTP id o82mr9791474ooo.33.1585323329619;
- Fri, 27 Mar 2020 08:35:29 -0700 (PDT)
+        Fri, 27 Mar 2020 11:52:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=TIWJKpVu/nfshxnm/DkzHlOOeJuDAPZT7l8sSuly9AI=; b=nqqaLM8IIbKMZsR8EBsPbVP7zS
+        pReXUFy953KenkVmEeZJpNplSyDA6BdQOggATTzKcYCT4pcEsIhdz5zag/j28ffSPFgDpEuhmkujU
+        8nPrd7/nSzot8q8CT3pV+xfjmWTiTQ1Xx/maDaTORxeyF88NgXYUI5b3rInuXD/XffXamgtJs5KUe
+        MWM7gsUCr0HPS2hqYTdLQPsjq6nSemt/jNKq4q5W40brS1Uix/ANeXKbJIUOnpaKe4dDLsno8uPei
+        mqhHrSNZJ20kz20ZOC1WhSxts1N+OOTGUT2LEG5EAQODlBpYHLow69nyV7NpphoB0EvOwDNjmNzkg
+        LYNErajg==;
+Received: from ip5f5ad4d8.dynamic.kabel-deutschland.de ([95.90.212.216] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jHrH8-00048G-Mc; Fri, 27 Mar 2020 15:52:03 +0000
+Date:   Fri, 27 Mar 2020 16:51:56 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [RFC, WIP, v2 2/3] media: dvb_dummy_fe.c: lose TS lock on bad
+ snr
+Message-ID: <20200327165156.055b256f@coco.lan>
+In-Reply-To: <20200323125732.281976-3-dwlsalmeida@gmail.com>
+References: <20200323125732.281976-1-dwlsalmeida@gmail.com>
+        <20200323125732.281976-3-dwlsalmeida@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200318170638.18562-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200318170638.18562-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200319131312.GA3192108@oden.dyn.berto.se>
-In-Reply-To: <20200319131312.GA3192108@oden.dyn.berto.se>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 27 Mar 2020 15:35:03 +0000
-Message-ID: <CA+V-a8sf3p8jDQ+WJhcZGHwhrWBO_DBVtZH0Y6n3k0_89tOU_A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] media: rcar-vin: Add support for
- MEDIA_BUS_FMT_SRGGB8_1X8 format
-To:     Niklas <niklas.soderlund@ragnatech.se>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Em Mon, 23 Mar 2020 09:57:31 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-On Thu, Mar 19, 2020 at 1:13 PM Niklas <niklas.soderlund@ragnatech.se> wrot=
-e:
->
-> Hi Prabhakar,
->
-> Thanks for your work.
->
-> On 2020-03-18 17:06:37 +0000, Lad Prabhakar wrote:
-> > Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by setting
-> > format type to RAW8 in VNMC register and appropriately setting the
-> > bpp, bytesperline to enable V4L2_PIX_FMT_SRGGB8.
->
-> > For RAW8 format data is transferred by 4-Byte unit so VnIS register is
-> > configured accordingly.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-core.c |  1 +
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 11 ++++++++++-
-> >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
-> >  3 files changed, 15 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/medi=
-a/platform/rcar-vin/rcar-core.c
-> > index 7440c8965d27..76daf2fe5bcd 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > @@ -469,6 +469,7 @@ static int rvin_parallel_subdevice_attach(struct rv=
-in_dev *vin,
-> >               case MEDIA_BUS_FMT_UYVY8_2X8:
-> >               case MEDIA_BUS_FMT_UYVY10_2X10:
-> >               case MEDIA_BUS_FMT_RGB888_1X24:
-> > +             case MEDIA_BUS_FMT_SRGGB8_1X8:
->
-> This is wrong RAW formats are only supported on the CSI-2 interface and
-> not the parallel one. This line shall be dropped.
->
-sure will drop this.
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Periodically check the signal quality and eventually lose the lock if
+> the quality is sub-par. A fake tuner can return a bad quality signal to
+> the demod if the frequency is too far off from a valid frequency.
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  drivers/media/dvb-frontends/dvb_dummy_fe.c | 160 ++++++++++++++++++++-
+>  1 file changed, 155 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> index 9ff1ebaa5e04..14446f2bdcde 100644
+> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> @@ -9,24 +9,166 @@
+>  #include <linux/init.h>
+>  #include <linux/string.h>
+>  #include <linux/slab.h>
+> +#include <linux/workqueue.h>
+> +#include <linux/random.h>
+>  
+>  #include <media/dvb_frontend.h>
+>  #include "dvb_dummy_fe.h"
+>  
+>  
+> +struct dvb_dummy_fe_cnr_to_qual_s {
+> +	/* attempt to use the same values as libdvbv5 */
+> +	u32 modulation;
+> +	u32 fec;
+> +	u32 cnr_ok, cnr_good;
+> +};
+> +
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_dummy_fe_c_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db */
+> +	{ QAM_256, FEC_NONE,  34000, 38000},
+> +	{ QAM_64,  FEC_NONE,  30000, 34000},
+> +};
+> +
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_dummy_fe_s_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db */
+> +	{ QPSK, FEC_1_2,  7000, 10000},
+> +	{ QPSK, FEC_2_3,  9000, 12000},
+> +	{ QPSK, FEC_3_4, 10000, 13000},
+> +	{ QPSK, FEC_5_6, 11000, 14000},
+> +	{ QPSK, FEC_7_8, 12000, 15000},
+> +};
+> +
+> +struct dvb_dummy_fe_cnr_to_qual_s dvb_dummy_fe_s2_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db */
+> +	{ QPSK,  FEC_1_2,   9000,  12000},
+> +	{ QPSK,  FEC_2_3,  11000,  14000},
+> +	{ QPSK,  FEC_3_4,  12000,  15000},
+> +	{ QPSK,  FEC_5_6,  12000,  15000},
+> +	{ QPSK,  FEC_8_9,  13000,  16000},
+> +	{ QPSK,  FEC_9_10, 13500, 16500},
+> +	{ PSK_8, FEC_2_3,  14500, 17500},
+> +	{ PSK_8, FEC_3_4,  16000,  19000},
+> +	{ PSK_8, FEC_5_6,  17500, 20500},
+> +	{ PSK_8, FEC_8_9,  19000,  22000},
+> +};
+> +
+> +static struct dvb_dummy_fe_cnr_to_qual_s dvb_dummy_fe_t_cnr_2_qual[] = {
+> +	/* from libdvbv5 source code, in milli db*/
+> +	{   QPSK, FEC_1_2,  4100,  5900},
+> +	{   QPSK, FEC_2_3,  6100,  9600},
+> +	{   QPSK, FEC_3_4,  7200, 12400},
+> +	{   QPSK, FEC_5_6,  8500, 15600},
+> +	{   QPSK, FEC_7_8,  9200, 17500},
+> +
+> +	{ QAM_16, FEC_1_2,  9800, 11800},
+> +	{ QAM_16, FEC_2_3, 12100, 15300},
+> +	{ QAM_16, FEC_3_4, 13400, 18100},
+> +	{ QAM_16, FEC_5_6, 14800, 21300},
+> +	{ QAM_16, FEC_7_8, 15700, 23600},
+> +
+> +	{ QAM_64, FEC_1_2, 14000, 16000},
+> +	{ QAM_64, FEC_2_3, 19900, 25400},
+> +	{ QAM_64, FEC_3_4, 24900, 27900},
+> +	{ QAM_64, FEC_5_6, 21300, 23300},
+> +	{ QAM_64, FEC_7_8, 22000, 24000},
+> +};
+> +
+> +struct dvb_dummy_fe_config {
+> +	/* probability of losing the lock due to low snr */
+> +	u8 drop_tslock_prob_on_low_snr;
+> +	u8 recover_tslock_prob_on_good_snr;
+> +};
+> +
+>  struct dvb_dummy_fe_state {
+>  	struct dvb_frontend frontend;
+> +	struct dvb_dummy_fe_config config;
+> +	struct delayed_work poll_snr;
+> +	enum fe_status status;
+>  };
+>  
+> +static void poll_snr_handler(struct work_struct *work)
+> +{
+> +	/*
+> +	 * periodically check the signal quality and eventually
+> +	 * lose the TS lock if it dips too low
+> +	 */
+> +	struct dvb_dummy_fe_state *state;
+> +	struct dtv_frontend_properties *c;
+> +	struct dvb_dummy_fe_cnr_to_qual_s *cnr2qual = NULL;
+> +	struct dvb_dummy_fe_config *config;
+> +	u32 array_size = 0;
+> +	u16 snr = 0;
+> +	u32 i;
+> +
+> +	state = container_of(work, struct dvb_dummy_fe_state, poll_snr.work);
+> +	c = &state->frontend.dtv_property_cache;
+> +	config = &state->config;
+> +
+> +	if (!state->frontend.ops.tuner_ops.get_rf_strength)
+> +		return;
+> +
+> +	state->frontend.ops.tuner_ops.get_rf_strength(&state->frontend, &snr);
+> +
+> +	switch (c->delivery_system) {
+> +	case SYS_DVBT:
+> +	case SYS_DVBT2:
+> +		cnr2qual = dvb_dummy_fe_t_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_fe_t_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBS:
+> +		cnr2qual = dvb_dummy_fe_s_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_fe_s_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBS2:
+> +		cnr2qual = dvb_dummy_fe_s2_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_fe_s2_cnr_2_qual);
+> +		break;
+> +
+> +	case SYS_DVBC_ANNEX_A:
+> +		cnr2qual = dvb_dummy_fe_c_cnr_2_qual;
+> +		array_size = ARRAY_SIZE(dvb_dummy_fe_c_cnr_2_qual);
+> +		break;
+> +
+> +	default:
+> +		pr_warn("%This is missing one important case:
+s: unsupported delivery system: %u\n",
+> +			__func__,
+> +			c->delivery_system);
+> +		break;
+> +	}
+> +
 
-> >                       vin->mbus_code =3D code.code;
-> >                       vin_dbg(vin, "Found media bus format for %s: %d\n=
-",
-> >                               subdev->name, vin->mbus_code);
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media=
-/platform/rcar-vin/rcar-dma.c
-> > index 1a30cd036371..ec7b49c0b281 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -85,6 +85,7 @@
-> >  #define VNMC_INF_YUV8_BT601  (1 << 16)
-> >  #define VNMC_INF_YUV10_BT656 (2 << 16)
-> >  #define VNMC_INF_YUV10_BT601 (3 << 16)
-> > +#define VNMC_INF_RAW8                (4 << 16)
-> >  #define VNMC_INF_YUV16               (5 << 16)
-> >  #define VNMC_INF_RGB888              (6 << 16)
-> >  #define VNMC_VUP             (1 << 10)
-> > @@ -587,13 +588,14 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
-> >       rvin_write(vin, vin->crop.top, VNSLPRC_REG);
-> >       rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG=
-);
-> >
-> > -
-> >       /* TODO: Add support for the UDS scaler. */
-> >       if (vin->info->model !=3D RCAR_GEN3)
-> >               rvin_crop_scale_comp_gen2(vin);
-> >
-> >       fmt =3D rvin_format_from_pixel(vin, vin->format.pixelformat);
-> >       stride =3D vin->format.bytesperline / fmt->bpp;
-> > +     if (vin->format.pixelformat =3D=3D V4L2_PIX_FMT_SRGGB8)
-> > +             stride /=3D 2;
->
-> I'm sorry this makes no sens to me.
->
-> - The width of the image is number of pixels in the raw format.
-> - In memory each row is either is either RGRGRG... or GBGBGB...
-> - The pixel size is 1 byte per pixel.
-> - We calculate bytesperline as ALIGN(width, align) * bpp, where align is
->   how much we need to "adjust" the width to match the VNIS_REG reg
->   value.  We do this in rvin_format_bytesperline().
-> - We then remove bpp from bytesperline and we have a unit in pixels
->   which is our stride.
->
-> I can't see why you need to cut the stride in half. In my view you
-> should add a check for V4L2_PIX_FMT_SRGGB8 in rvin_format_bytesperline()
-> and pick an alignment value that matches the restrictions.
->
-> I might miss something, but then I wish to learn.
->
-I have replied for this issue on v2
-(https://lkml.org/lkml/2020/3/27/384) as the VIN
-processes RAW8 as 2 byte per pixel.
+The loop below is missing one important case: tuner is at completely
+wrong frequency (e. g. when signal strength is 0).
 
-> >       rvin_write(vin, stride, VNIS_REG);
-> >  }
-> >
-> > @@ -676,6 +678,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> >
-> >               input_is_yuv =3D true;
-> >               break;
-> > +     case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > +             vnmc |=3D VNMC_INF_RAW8;
-> > +             break;
->
-> Here and ...
->
-> >       default:
-> >               break;
-> >       }
-> > @@ -737,6 +742,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> >       case V4L2_PIX_FMT_ABGR32:
-> >               dmr =3D VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTM=
-D_ARGB;
-> >               break;
-> > +     case V4L2_PIX_FMT_SRGGB8:
-> > +             dmr =3D 0;
-> > +             break;
->
-> ... here we have a new problem, sorry for not thinking of it before.
->
-> Up until now the VIN was capable to convert any of its supported input
-> mbus formats to any of it's supported output pixel formats. With the
-> addition of RAW formats this is no longer true. This new restriction
-> needs to be added to the driver.
->
-> Luck has it we can fix ...
->
-> >       default:
-> >               vin_err(vin, "Invalid pixelformat (0x%x)\n",
-> >                       vin->format.pixelformat);
-> > @@ -1110,6 +1118,7 @@ static int rvin_mc_validate_format(struct rvin_de=
-v *vin, struct v4l2_subdev *sd,
-> >       case MEDIA_BUS_FMT_UYVY8_2X8:
-> >       case MEDIA_BUS_FMT_UYVY10_2X10:
-> >       case MEDIA_BUS_FMT_RGB888_1X24:
-> > +     case MEDIA_BUS_FMT_SRGGB8_1X8:
-> >               vin->mbus_code =3D fmt.format.code;
->
-> ... this here by changes this to
->
->         switch (fmt.format.code) {
->         case MEDIA_BUS_FMT_YUYV8_1X16:
->         case MEDIA_BUS_FMT_UYVY8_1X16:
->         case MEDIA_BUS_FMT_UYVY8_2X8:
->         case MEDIA_BUS_FMT_UYVY10_2X10:
->                 break;
->         case MEDIA_BUS_FMT_RGB888_1X24:
->                 if (vin->format.pixelformat !=3D V4L2_PIX_FMT_SRGGB8)
->                     return -EPIPE:
->                 break;
->         default:
->                 return -EPIPE;
->         }
->
->         vin->mbus_code =3D fmt.format.code;
->
-Will fix it as above.
+Ok, ideally, the thread shouldn't even be running on such cases,
+but, from your code, you're starting the thread when the driver is
+initialized. So, a test like this would be needed here.
 
-Cheers,
---Prabhakar
+Well, I would actually do it on a different way, but then you'll need
+to add more logic:
 
-> >               break;
-> >       default:
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/medi=
-a/platform/rcar-vin/rcar-v4l2.c
-> > index 5151a3cd8a6e..ca542219e8ae 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[]=
- =3D {
-> >               .fourcc                 =3D V4L2_PIX_FMT_ABGR32,
-> >               .bpp                    =3D 4,
-> >       },
-> > +     {
-> > +             .fourcc                 =3D V4L2_PIX_FMT_SRGGB8,
-> > +             .bpp                    =3D 1,
-> > +     },
-> >  };
-> >
-> >  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev=
- *vin,
-> > --
-> > 2.20.1
-> >
->
-> --
-> Regards,
-> Niklas S=C3=B6derlund
+- store the CNR returned by the tuner after calls to set_frontend;
+
+- if the stored CNR is -1, don't run the &state->poll_snr;
+
+- if the stored CNR is between "ok" and "good" (e. g. frequency
+  shift is zero), don't run this tread. Just fill the signal
+  as if the channel is tunned;
+
+- Otherwise, run this thread.
+
+- At suspend, stop the thread only if it was running before;
+- At resume, start the thread only if it was suspended with the
+  thread running. Extra care should be taken here, as some tuner
+  status change might happen at resume time (for example, due to
+  a ioctl syscall to set_frontend, or due to a release syscall).
+
+> +	for (i = 0; i <= array_size; i++) {
+> +		if (cnr2qual[i].modulation == c->modulation &&
+> +		    cnr2qual[i].fec == c->fec_inner) {
+
+
+
+> +			if (snr < cnr2qual[i].cnr_ok) {
+> +				/* eventually lose the TS lock */
+> +				if (prandom_u32_max(100) <
+> +				    config->drop_tslock_prob_on_low_snr)
+> +					state->status = 0;
+> +			} else {
+> +				/* recover if the signal improves */
+> +				if (prandom_u32_max(100) <
+> +				    config->recover_tslock_prob_on_good_snr)
+> +					state->status = FE_HAS_SIGNAL  |
+> +							FE_HAS_CARRIER |
+> +							FE_HAS_VITERBI |
+> +							FE_HAS_SYNC    |
+> +							FE_HAS_LOCK;
+> +			}
+
+Please add a:
+			break;
+
+as, once you get the right modulation/fec, there's no need to look up
+further.
+
+> +		}
+> +	}
+> +
+> +	schedule_delayed_work(&state->poll_snr, msecs_to_jiffies(2000));
+> +}
+>  
+>  static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
+>  				    enum fe_status *status)
+>  {
+> -	*status = FE_HAS_SIGNAL
+> -		| FE_HAS_CARRIER
+> -		| FE_HAS_VITERBI
+> -		| FE_HAS_SYNC
+> -		| FE_HAS_LOCK;
+> +
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> +
+> +	*status = state->status;
+>  
+>  	return 0;
+>  }
+> @@ -80,11 +222,18 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
+>  
+>  static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
+>  {
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> +
+> +	cancel_delayed_work_sync(&state->poll_snr);
+>  	return 0;
+>  }
+>  
+>  static int dvb_dummy_fe_init(struct dvb_frontend *fe)
+>  {
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> +
+> +	INIT_DELAYED_WORK(&state->poll_snr, &poll_snr_handler);
+> +	schedule_delayed_work(&state->poll_snr, msecs_to_jiffies(2000));
+>  	return 0;
+>  }
+>  
+> @@ -104,6 +253,7 @@ static void dvb_dummy_fe_release(struct dvb_frontend *fe)
+>  {
+>  	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+>  
+> +	cancel_delayed_work_sync(&state->poll_snr);
+>  	kfree(state);
+>  }
+>  
+
+
+
+Thanks,
+Mauro
