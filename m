@@ -2,112 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A45A195822
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 14:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88C6195851
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 14:48:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727345AbgC0Nh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 09:37:29 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:45640 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726275AbgC0Nh3 (ORCPT
+        id S1727444AbgC0Nr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 09:47:56 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33878 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgC0Nr4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 09:37:29 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 14E41634C90;
-        Fri, 27 Mar 2020 15:37:06 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jHpAX-0000og-4s; Fri, 27 Mar 2020 15:37:05 +0200
-Date:   Fri, 27 Mar 2020 15:37:05 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Fri, 27 Mar 2020 09:47:56 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id C4333297E7F
+Message-ID: <c82b6c7be2e2f05c6924df00256caee6c5e32b23.camel@collabora.com>
+Subject: Re: [PATCH 2/2] media: Remove VIDEO_DEV unneeded dependency
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
-Message-ID: <20200327133705.GC2394@valkosipuli.retiisi.org.uk>
-References: <20200313110350.10864-1-robert.foss@linaro.org>
- <20200313110350.10864-3-robert.foss@linaro.org>
- <20200313121746.GC5730@valkosipuli.retiisi.org.uk>
- <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com>
- <20200326144725.GA2394@valkosipuli.retiisi.org.uk>
- <CAG3jFyu=HOsWNeRFC2t4HjzYrFrLjsbXzAm4+zD50Xq48mqzcw@mail.gmail.com>
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Michael Ira Krufky <mkrufky@gmail.com>,
+        Helen Koike <helen.koike@collabora.com>
+Date:   Fri, 27 Mar 2020 10:47:44 -0300
+In-Reply-To: <0336a046563a3d0556c988a67be2642194831710.camel@collabora.com>
+References: <20200323211022.28297-1-ezequiel@collabora.com>
+         <20200323211022.28297-3-ezequiel@collabora.com>
+         <20200324104722.1c605792@coco.lan>
+         <0336a046563a3d0556c988a67be2642194831710.camel@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG3jFyu=HOsWNeRFC2t4HjzYrFrLjsbXzAm4+zD50Xq48mqzcw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert,
+Hi Mauro,
 
-On Fri, Mar 27, 2020 at 11:32:29AM +0100, Robert Foss wrote:
-> On Thu, 26 Mar 2020 at 15:47, Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> >
-> > Hi Robert,
-> >
-> > On Thu, Mar 26, 2020 at 12:56:37PM +0100, Robert Foss wrote:
-> > ...
-> > > > > +static int __ov8856_power_on(struct ov8856 *ov8856)
-> > > > > +{
-> > > > > +     struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> > > > > +     int ret;
-> > > > > +
-> > > > > +     ret = clk_prepare_enable(ov8856->xvclk);
-> > > > > +     if (ret < 0) {
-> > > > > +             dev_err(&client->dev, "failed to enable xvclk\n");
-> > > > > +             return ret;
-> > > > > +     }
-> > > > > +
-> > > > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
-> > > > > +
-> > > > > +     ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
-> > > > > +                                 ov8856->supplies);
-> > > > > +     if (ret < 0) {
-> > > > > +             dev_err(&client->dev, "failed to enable regulators\n");
-> > > > > +             goto disable_clk;
-> > > > > +     }
-> > > > > +
-> > > > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
-> > > > > +
-> > > > > +     usleep_range(1500, 1800);
-> > > >
-> > > > I think you could omit the delay on ACPI based systems. Or just bail out
-> > > > early in that case.
-> > >
-> > > I'll add a check for reset_gpio being NULL, and skip the sleep for that case.
-> >
-> > There could also be a regulator but no GPIO.
-> >
-> > I think if you don't have either, then certainly there's no need for a
-> > delay.
+On Tue, 2020-03-24 at 07:18 -0300, Ezequiel Garcia wrote:
+> On Tue, 2020-03-24 at 10:47 +0100, Mauro Carvalho Chehab wrote:
+> > Em Mon, 23 Mar 2020 18:10:22 -0300
+> > Ezequiel Garcia <ezequiel@collabora.com> escreveu:
+> > 
+> > > Enable VIDEO_DEV (which compiles Video4Linux core)
+> > > when MEDIA_SUPPORT is selected. This is needed, in order
+> > > to be able to enable devices such as stateless codecs.
+> > > 
+> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > ---
+> > >  drivers/media/Kconfig | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> > > index b36a41332867..7de472ad07a2 100644
+> > > --- a/drivers/media/Kconfig
+> > > +++ b/drivers/media/Kconfig
+> > > @@ -93,13 +93,11 @@ source "drivers/media/mc/Kconfig"
+> > >  
+> > >  #
+> > >  # Video4Linux support
+> > > -#	Only enables if one of the V4L2 types (ATV, webcam, radio) is selected
+> > >  #
+> > >  
+> > >  config VIDEO_DEV
+> > >  	tristate
+> > >  	depends on MEDIA_SUPPORT
+> > > -	depends on MEDIA_CAMERA_SUPPORT || MEDIA_ANALOG_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
+> > >  	default y
+> > >  
+> > >  config VIDEO_V4L2_SUBDEV_API
+> > 
+> > The rationale of the above is to exclude Digital TV and remote
+> > controller.
+> > 
+> > Removing the above will make the V4L2 core available every time, even
+> > if all the user wants is remote controller or Digital TV support.
+> > 
 > 
-> Removing the delay if no action is taken makes sense, but I'm not sure
-> how best to do it.
-> If there are no regulators dummy ones are created automatically, which
-> makes distinguishing between a little bit cumbersome. The regulator
-> structs could of course all be inspected, and if all are dummy ones,
-> the delay could be skipped. But is there a neater way of doing this?
-> Manually inspecting the regs strikes me as a bit inelegant.
+> Hm, right.
+> 
+> > I'm working on a patchset that should hopefully address the issues
+> > you're concerning.
+> > 
+> 
+> Thanks, I'll appreciate that.
+> 
 
-I guess the cleanest, easy way to make this right, albeit slightly
-unoptimal in very rare cases where you have none of the above resources in
-a DT system, is to bail out if you're running on an ACPI based system.
+It seems the config rework you sent will undergo some
+extended discussions, which is fine given it's a full rework.
 
-I.e. checking for e.g. is_acpi_node(dev->fwnode).
+I'd like to send a smaller (ideally just one or two patches)
+series, so we can improve the situation on codecs on a smaller
+timeframe.
 
--- 
-Sakari Ailus
+Thanks!
+Ezequiel
+
