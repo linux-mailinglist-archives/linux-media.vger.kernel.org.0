@@ -2,251 +2,357 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50574195E8F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 20:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55A74195EA6
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 20:28:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727143AbgC0TXt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 15:23:49 -0400
-Received: from mail-qv1-f43.google.com ([209.85.219.43]:44988 "EHLO
-        mail-qv1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726738AbgC0TXt (ORCPT
+        id S1727749AbgC0T2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 15:28:30 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:44675 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726959AbgC0T23 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 15:23:49 -0400
-Received: by mail-qv1-f43.google.com with SMTP id ef12so3441104qvb.11
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 12:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=COviC50TfGFFke5Tw6FIl+KemNZ2/egDJog7vCaVKUc=;
-        b=ifzMe/TuudRoT+CFnffxuSXE2Abyfs+hlyv0moEMOcYdzds403xarRvKXiosRnVVUW
-         cHQV1q2q9J6Ih8sOHnW8i2gOqTFGgz1me1wElaIvL57TMxhxSbaEyWtLMaZ4QVg85N6O
-         +0kG/Gh9VNv4iem9CkUBGXiwRjyjKcMe1BhM9x316RjEv2id5XQwocQpsscHnHvX1BsD
-         LaifObIHNcAbI4v6RqL6nYWtKx1qBkqQSXSp6tiMsXPQoNwqv7DMrBcDQUNbUDJ8dxxr
-         vDWUMQDrT3fcyL7gWf+fN7nHBlFyA6aFyjweN7ACY3Dczcb2ekoWVhVMGxt0BrbWhOfd
-         qO9Q==
+        Fri, 27 Mar 2020 15:28:29 -0400
+Received: by mail-io1-f68.google.com with SMTP id v3so10941236iot.11;
+        Fri, 27 Mar 2020 12:28:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=COviC50TfGFFke5Tw6FIl+KemNZ2/egDJog7vCaVKUc=;
-        b=KiRMKjjmOdlRZODsX4/r8MMiJzsdZMywgCsMOZAWWmJJBr/ssk5QynhZOG4EhJyumW
-         jvRiGu8uJubdMH9uRC92CRJxHqzGLWCqd53xnwZdx9bAocwYZpdTvX9bBg3THk0XnpbK
-         gBM2zzJ0USS0NW8D0rgvGWH61B90/fEgPP6nCof9mS+SossYg15/tJQxhzD1xp4O7LJl
-         ZKyG1daoU1xFpWDFGAygbqUvUbau4df6FybOYtT5y7rym3H2kRIQf6nxQOzLefVtNRAk
-         1ACcy6IvmfgVFTm5gUdKRydw3LVenp46ISAEes9u5R7Kats0Av9mQCc1EPzggWAZawr1
-         biiA==
-X-Gm-Message-State: ANhLgQ1XUlgAREnuqF1sWOvJM1CCco7cuvnuNRh8g10JeRTQeGHB0c0x
-        7jAPhYJvybD1Rhe0B/wnhrc=
-X-Google-Smtp-Source: ADFU+vvB8n8teTUhyOxLQ5F4QwAhqD54gntwJlHjoh4LT77Qg5Xn8TJ5o0ewobiCpjyCQe2jZREXzQ==
-X-Received: by 2002:a0c:f709:: with SMTP id w9mr789932qvn.159.1585337027703;
-        Fri, 27 Mar 2020 12:23:47 -0700 (PDT)
-Received: from ?IPv6:2804:14d:72b1:8920:a2ce:f815:f14d:bfac? ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id u13sm4252326qku.92.2020.03.27.12.23.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2020 12:23:47 -0700 (PDT)
-Subject: Re: [RFC, WIP, v2 3/3] media: dvb_dummy_fe.c: write PSI information
- into DMX buffer
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
-        tglx@linutronix.de, linux-media@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20200323125732.281976-1-dwlsalmeida@gmail.com>
- <20200323125732.281976-4-dwlsalmeida@gmail.com>
- <20200327174740.5d5935ae@coco.lan>
- <a4066f72-ae83-c1ef-8bf7-d4bbcfa29b31@gmail.com>
-Message-ID: <3c072783-59f4-ba0f-6634-978ca0e6ae49@gmail.com>
-Date:   Fri, 27 Mar 2020 16:23:42 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wSuTgZKTO0qQOqXByUSPaUzWdLN8577ii/3i8TYD/j4=;
+        b=jPYR9vVO4YMsP5fstaCfQDfCt2nr2hfTiEXjXqI+lJlLGWfeFE2WEA8WnCYqFXPdTP
+         CMZyy5fK8/sy4aagLTaumNySbBgWkElzN9pXyTjzYrIR73IoQTCr3Qa5c3d9TbI2EGHm
+         7mjnaTQmmBWO2hzOp4dFrmjlX2ZXTy91OwSlt1CBHi/U6Rnj1E+wFwpUhJsgTxaLFBI8
+         r4RB9dkNOQk6Rhx05QTMJC0Aed06K3m/1ANF02NXJVY9Ohdlj2E1OPjLrn2RtitahMLx
+         HMqP0DLrqjjy/8N88iKxhRZc7B2tq3xXbIduBA42CgKBNAP7YNXdp4cnqQtNQ8hETeYY
+         9YPQ==
+X-Gm-Message-State: ANhLgQ3zzimEB0nSq8IB/MUMoLbd68zjWZrKRjJKoDICZCdBv/Ryt52G
+        WImD77BOqRo+fSHTudiOUA==
+X-Google-Smtp-Source: ADFU+vth6s3C4OMa7P2NrAFx24kevxMVVS6l73efVN15xapS4Cr/+y7vVrxHjDFNT97ioEaZowh09g==
+X-Received: by 2002:a02:cd2d:: with SMTP id h13mr455298jaq.46.1585337306126;
+        Fri, 27 Mar 2020 12:28:26 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id c12sm2129545ile.12.2020.03.27.12.28.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 12:28:25 -0700 (PDT)
+Received: (nullmailer pid 31924 invoked by uid 1000);
+        Fri, 27 Mar 2020 19:28:20 -0000
+Date:   Fri, 27 Mar 2020 13:28:20 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 21/28] dt-bindings: gpio: Convert mrvl-gpio to json-schema
+Message-ID: <20200327192820.GA8577@bogus>
+References: <20200317093922.20785-1-lkundrak@v3.sk>
+ <20200317093922.20785-22-lkundrak@v3.sk>
 MIME-Version: 1.0
-In-Reply-To: <a4066f72-ae83-c1ef-8bf7-d4bbcfa29b31@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200317093922.20785-22-lkundrak@v3.sk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro, as always, thank you for reviewing my code!
+On Tue, Mar 17, 2020 at 10:39:15AM +0100, Lubomir Rintel wrote:
+> This converts the mrvl-gpio binding to DT schema format using json-schema.
+> 
+> Various fixes were done during the conversion, such as adding more
+> properties that are in fact mandatory or extending the examples to
+> include child nodes with extra GPIO blocks.
 
+Ugg, not how I would have done this. Differences in register layout 
+should be implied by the compatible strings. But I guess we have to live 
+with it now.
 
-Sorry for making you repeat yourself on the alignment of arguments and 
-on multi-line comment syntax, I am aware of these and I thought I had 
-fixed them all, but some just slip by sometimes.
+> The compatible strings are a mess. It is not clear why so many of them
+> are needed; the driver doesn't really seem to differentiate between the
+> models. Some of them, like marvell,pxa93x-gpio and marvell,pxa1928-gpio
+> are not used at all, so it's not known how many interrupts they utilize.
+> On the other hand, mrvl,pxa-gpio has been seen in the tree, but it
+> doesn't end up in any actual DTB file.
 
+I added pxa1928 and then work on it ended. I think it is safe to remove, 
+but I dug up dts file and it is 1 irq.
 
- > As we talked via IRC in priv, the best would be to implement the MPEG_TS
- > generator as part of the bridge DVB driver.
- >
- > Anyway, I will review the code below assuming that you'll be moving the
- > implementation to the right place.
+> In any case -- the schema merely copies whatever was in the original
+> binding document, so it's hopefully no more wrong that the original.
+> 
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  .../devicetree/bindings/gpio/mrvl-gpio.txt    |  48 -----
+>  .../devicetree/bindings/gpio/mrvl-gpio.yaml   | 173 ++++++++++++++++++
+>  2 files changed, 173 insertions(+), 48 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/gpio/mrvl-gpio.txt
+>  create mode 100644 Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/mrvl-gpio.txt b/Documentation/devicetree/bindings/gpio/mrvl-gpio.txt
+> deleted file mode 100644
+> index 30fd2201b3d4c..0000000000000
+> --- a/Documentation/devicetree/bindings/gpio/mrvl-gpio.txt
+> +++ /dev/null
+> @@ -1,48 +0,0 @@
+> -* Marvell PXA GPIO controller
+> -
+> -Required properties:
+> -- compatible : Should be "intel,pxa25x-gpio", "intel,pxa26x-gpio",
+> -		"intel,pxa27x-gpio", "intel,pxa3xx-gpio",
+> -		"marvell,pxa93x-gpio", "marvell,mmp-gpio",
+> -		"marvell,mmp2-gpio" or marvell,pxa1928-gpio.
+> -- reg : Address and length of the register set for the device
+> -- interrupts : Should be the port interrupt shared by all gpio pins.
+> -  There're three gpio interrupts in arch-pxa, and they're gpio0,
+> -  gpio1 and gpio_mux. There're only one gpio interrupt in arch-mmp,
+> -  gpio_mux.
+> -- interrupt-names : Should be the names of irq resources. Each interrupt
+> -  uses its own interrupt name, so there should be as many interrupt names
+> -  as referenced interrupts.
+> -- interrupt-controller : Identifies the node as an interrupt controller.
+> -- #interrupt-cells: Specifies the number of cells needed to encode an
+> -  interrupt source.
+> -- gpio-controller : Marks the device node as a gpio controller.
+> -- #gpio-cells : Should be two.  The first cell is the pin number and
+> -  the second cell is used to specify flags. See gpio.txt for possible
+> -  values.
+> -
+> -Example for a MMP platform:
+> -
+> -	gpio: gpio@d4019000 {
+> -		compatible = "marvell,mmp-gpio";
+> -		reg = <0xd4019000 0x1000>;
+> -		interrupts = <49>;
+> -		interrupt-names = "gpio_mux";
+> -		gpio-controller;
+> -		#gpio-cells = <2>;
+> -		interrupt-controller;
+> -		#interrupt-cells = <1>;
+> -      };
+> -
+> -Example for a PXA3xx platform:
+> -
+> -	gpio: gpio@40e00000 {
+> -		compatible = "intel,pxa3xx-gpio";
+> -		reg = <0x40e00000 0x10000>;
+> -		interrupt-names = "gpio0", "gpio1", "gpio_mux";
+> -		interrupts = <8 9 10>;
+> -		gpio-controller;
+> -		#gpio-cells = <0x2>;
+> -		interrupt-controller;
+> -		#interrupt-cells = <0x2>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
+> new file mode 100644
+> index 0000000000000..5c713bf59b06d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
+> @@ -0,0 +1,173 @@
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/mrvl-gpio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Marvell PXA GPIO controller
+> +
+> +maintainers:
+> +  - devicetree@vger.kernel.org
 
-Yes. Please let me know when the changes in experimental/media-kconfig 
-land, since I'd like to rename and move all the code - including the 
-bridge I have been working on - to test_drivers/vidtv.
+Needs to be a real person that cares about this h/w.
 
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - intel,pxa25x-gpio
+> +              - intel,pxa26x-gpio
+> +              - intel,pxa27x-gpio
+> +              - intel,pxa3xx-gpio
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 3
+> +          maxItems: 3
+> +        interrupt-names:
+> +          items:
+> +            - const: gpio0
+> +            - const: gpio1
+> +            - const: gpio_mux
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - marvell,mmp-gpio
+> +              - marvell,mmp2-gpio
 
- > +static void dvb_dummy_fe_thread_mpeg_ts_tick(struct dvb_frontend *fe)
- > +{
- > +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
- > +	const unsigned int SLEEP_MSECS = 10;
- > +	u32 ticks = 0;
- > +	u32 i;
- > +	char *buf = kzalloc(DMX_BUF_LEN, GFP_KERNEL);
- > +	u32 buffer_offset;
- > +
- > +	struct dvb_dummy_table_pat pat = {0};
- > +	struct dvb_dummy_table_sdt sdt = {0};
- > I guess it is ok here, but allocating too much stuff at the stack is
- > dangerous. Linux Kernel stack is very small. Perhaps the best would
- > be to place those at the driver's private struct (with is allocated with
- > kalloc).
- >
-Well, I wasn't aware of that, but most of the data for these tables are 
-heap-allocated. How small are we talking about?
+I'd make this an else clause.
 
-But your suggestion is OK with me as well. It would be even better if 
-this entire function wasn't in this patch at all, since it will have to 
-be moved to the bridge driver anyways.
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          maxItems: 1
+> +        interrupt-names:
+> +          items:
+> +            - const: gpio_mux
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: '^gpio@[0-9a-f]+$'
+> +
+> +  compatible:
+> +    enum:
+> +      - intel,pxa25x-gpio
+> +      - intel,pxa26x-gpio
+> +      - intel,pxa27x-gpio
+> +      - intel,pxa3xx-gpio
+> +      - marvell,mmp-gpio
+> +      - marvell,mmp2-gpio
+> +      - marvell,pxa93x-gpio
+> +      - marvell,pxa1928-gpio
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ranges: true
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 1
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
 
-The *_write_args structures are also pretty small.
+My pxa1928 dts has this in the child nodes. Sure this is right?
 
- >> +
- >> +	struct dvb_dummy_table_pmt *pmt_sections;
- >> +
- >> +	struct dvb_dummy_table_pat_program *programs = NULL;
- >> +	struct dvb_dummy_table_sdt_service *services = NULL;
- >> +
- >> +	bool update_version_num = false;
- >> +	u16 pmt_pid;
- >> +
- >> +	programs = dummy_fe_pat_prog_cat_into_new(state->channels);
- >> +	services = dummy_fe_sdt_serv_cat_into_new(state->channels);
- >> +
- >> +	/* assemble all programs and assign to PAT */
- >> +	dummy_fe_pat_program_assign(&pat, programs);
- >> +
- >> +	/* assemble all services and assign to SDT */
- >> +	dummy_fe_sdt_service_assign(&sdt, services);
- >> +
- >> +	/* a section for each program_id */
- >> +	pmt_sections = kcalloc(pat.programs,
- >> +			       sizeof(struct dvb_dummy_table_pmt),
- >> +			       GFP_KERNEL);
- >> +
- >> +	dummy_fe_pmt_create_section_for_each_pat_entry(&pat,
- >> +						       pmt_sections);
- >> +
- >> +	dummy_fe_pmt_stream_match_with_sections(state->channels,
- >> +						pmt_sections,
- >> +						pat.programs);
- >> +
- >> +	dummy_fe_pat_table_init(&pat,
- >> +				update_version_num,
- >> +				TRANSPORT_STREAM_ID);
- >> +
- >> +	dummy_fe_sdt_table_init(&sdt,
- >> +				update_version_num,
- >> +				TRANSPORT_STREAM_ID);
- >> +	while (true) {
- >> +		memset(buf, 0, DMX_BUF_LEN);
- >> +		buffer_offset = 0;
- >> +
- >> +		if ((ticks % 50) == 0) {
- >> +			/* push PSI packets into the buffer */
- >> +
- >> +			buffer_offset +=
- >> +				dummy_fe_pat_write_into(buf,
- >> +							buffer_offset,
- >> +							&pat);
- >> +			for (i = 0; i < pat.programs; ++i) {
- >> +				pmt_pid =
- >> +				dummy_fe_pmt_get_pid(&pmt_sections[i],
- >> +						     &pat);
- >> +
- >> +				/* not found */
- >> +				WARN_ON(pmt_pid > LAST_VALID_TS_PID);
- >> +
- >> +				/* write each section into buffer */
- >> +				buffer_offset +=
- >> +				dummy_fe_pmt_write_into(buf,
- >> +							buffer_offset,
- >> +							&pmt_sections[i],
- >> +							pmt_pid);
- >> +			}
- >> +
- >> +			buffer_offset +=
- >> +				dummy_fe_sdt_write_into(buf,
- >> +							buffer_offset,
- >> +							&sdt);
- >> +
- >> +			WARN_ON(buffer_offset > DMX_BUF_LEN); /* overflow */
- >> +			msleep_interruptible(SLEEP_MSECS);
- > That doesn't sound right, for two reasons:
- >
- > 1) msleep_interruptible() can take less time than expected, if
- >    interupted;
- > 2) the time may vary a lot.
- >
- > I would use the high-res timer here, giving a range for it (maybe a 10ms
- > range?), e. g., something like:
- >
- > 			usleep_range(SLEEP_USECS, SLEEP_USECS + 10000);
- >
- >
- >
-OK. I wonder if this will have to be rewritten in the future, since 
-decoders will probably expect X amount of video/audio per Y amount of time?
+> +
+> +  interrupts: true
+> +
+> +  interrupt-names: true
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +
+> +patternProperties:
+> +  '^gpio@[0-9a-f]*$':
+> +    type: object
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +  - reg
+> +  - gpio-controller
+> +  - '#gpio-cells'
+> +  - interrupts
+> +  - interrupt-names
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +  - ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/pxa-clock.h>
+> +    gpio@40e00000 {
+> +        compatible = "intel,pxa3xx-gpio";
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        reg = <0x40e00000 0x10000>;
+> +        gpio-controller;
+> +        #gpio-cells = <2>;
+> +        interrupts = <8>, <9>, <10>;
+> +        interrupt-names = "gpio0", "gpio1", "gpio_mux";
+> +        clocks = <&clks CLK_GPIO>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <2>;
+> +        ranges;
 
+No child, so there should be no ranges here.
 
-As for buffer overflows, maybe a better strategy would be to use a 
-dynamic array? I would wrap all memcpy() calls and call krealloc() as 
-necessary. If we go with a big enough initial size (say, 20 TS packets) 
-then this wouldn't happen very often, if at all. That would be a simple 
-solution to completely eliminate this problem, in my opinion.
-
-
-I don't know if there's a limit on how much data you can pass to the 
-demux at once, but if there is, we can just split the buffer into 
-smaller chunks when calling dmx_swfilter_packets(), since the amount of 
-bytes actually present in the buffer will be a multiple of 188 anyways.
-
-
- > +	}
- > +
- > +	length += CRC_SIZE_IN_BYTES;
- > +
- > +	WARN_ON(length > SDT_MAX_SECTION_LEN);
- > even assuming that you fix the above code, and update "s" to the next
- > SDT data, this is still too dangerous: if are there any risk of going
- > past the buffer size, you should check *before* the bad condition 
-happens,
- > e. g., something like:
- >
- > 	while (s && length + CRC_SIZE_IN_BYTES < SDT_MAX_SECTION_LEN) {
- > 		...
- > 	}
- >
- > 	if (s)
- > 		WARN_ON(length > SDT_MAX_SECTION_LEN);
- >
- >> +	return length;
- >> +}
- >> +
-
-My understanding is that, e.g.
-
-length > SDT_MAX_SECTION_LEN
-
-doesn't mean that the buffer will necessarily overflow. It is just 
-against the spec.
-
-
-Best regards
-
-- Daniel.
+> +    };
+> +  - |
+> +    #include <dt-bindings/clock/marvell,pxa910.h>
+> +    gpio@d4019000 {
+> +        compatible = "marvell,mmp-gpio";
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        reg = <0xd4019000 0x1000>;
+> +        gpio-controller;
+> +        #gpio-cells = <2>;
+> +        interrupts = <49>;
+> +        interrupt-names = "gpio_mux";
+> +        clocks = <&soc_clocks PXA910_CLK_GPIO>;
+> +        resets = <&soc_clocks PXA910_CLK_GPIO>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <2>;
+> +        ranges;
+> +
+> +        gpio@d4019000 {
+> +            reg = <0xd4019000 0x4>;
+> +        };
+> +
+> +        gpio@d4019004 {
+> +            reg = <0xd4019004 0x4>;
+> +        };
+> +
+> +        gpio@d4019008 {
+> +            reg = <0xd4019008 0x4>;
+> +        };
+> +
+> +        gpio@d4019100 {
+> +            reg = <0xd4019100 0x4>;
+> +        };
+> +     };
+> +
+> +...
+> -- 
+> 2.25.1
+> 
