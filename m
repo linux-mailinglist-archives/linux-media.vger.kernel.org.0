@@ -2,162 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DAAE195251
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 08:49:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1B15195297
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 09:09:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbgC0HtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 03:49:13 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39465 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbgC0HtN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 03:49:13 -0400
-Received: by mail-lf1-f68.google.com with SMTP id h6so1288059lfp.6
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 00:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Xd3qTFAXr4cf1mT72QUSMZACuhEIZhlt1egZDbqQLcQ=;
-        b=VDIrF+/PKJYGewqSuGThQWmnczhWDsApyzccp0p7BljD5ZL5PcKdd7FheHe9wXIwEl
-         mvioh45//+49SMKI/4D4ZG2fZ9tLldDUdF4MbNk7q4sezAFfnimMIPTwzAGmFdW5G4cQ
-         LFn3z4og1JF1CmQmpW8zKL+CJv2GytD+DaNMP10Z1vRSDM5Dh87VP4k24w6cVkM/LTIp
-         ME3uCUeK9yZxKGIBNqJGajHirXg7ybi6aja5Cb2+pmzxFM4HpC9QRHfPqV/ysn7Nmguj
-         DJWQFCzOixRG2u/Hek2Gj1hsutr4QGxxJhGM/zvYplJIBAOdY6ZCw8DFh587LHL+14BN
-         QCsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Xd3qTFAXr4cf1mT72QUSMZACuhEIZhlt1egZDbqQLcQ=;
-        b=GbhaqkApUG7dT+RfJEjurT3w9ZeZ7Rmh9xJZGxVO8pU2zoBZHFQgYVziYOIte2OCUh
-         2HZWmhysX7lkdWQ1rmERUNoQjdKVUd2knhqjmpXM6V5CSR6TfORzmBvBp5Ei5KfNPbEH
-         J8Qja1UxHoRIH5lW1wKC1dG0tTpbWZH1vxz9yRqKiwoMIAOgcPpCQKmFyfBBmHNDqawx
-         ixdeaDeHo7EsOQFIn6LX/Iy0JYfn6HR6wtXxcLVhi88UAAuUQd0YG1/XEIzpmCdBEMew
-         s2ojsTCoZvAk43I07yYwizSUDGlz8jKZwjeenJrAf+mdb0lZ69X8G2WetyTu7sNTFZco
-         ouRQ==
-X-Gm-Message-State: ANhLgQ3+iQRNWUzBRvvaoBTa5+RMsc9SIBn/qHgqxBCG5+jckOQRAMR6
-        e7hyvslV8oGosmbnguGueL4BsHMiPW0bVg==
-X-Google-Smtp-Source: ADFU+vul4WzuaUmsZjfxRvR3LeEoELVin7Ge+sW2He7pBqHEqLo1wnoYXtY8rwCtsOqM5h3Z3gWNXg==
-X-Received: by 2002:a19:7e01:: with SMTP id z1mr8236798lfc.196.1585295349466;
-        Fri, 27 Mar 2020 00:49:09 -0700 (PDT)
-Received: from [192.168.7.22] ([217.148.211.220])
-        by smtp.gmail.com with ESMTPSA id e14sm2358098ljb.97.2020.03.27.00.49.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2020 00:49:09 -0700 (PDT)
-Subject: Re: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
-To:     Fabio Estevam <festevam@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media <linux-media@vger.kernel.org>
-References: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
- <CAOMZO5Bz+qh7S3s8SfJRPVjjvokMx-r6udzFg=0poJmCbzMj9w@mail.gmail.com>
-From:   Alex Mihaylov <minimumlaw@gmail.com>
-Message-ID: <e9603747-f7d9-161f-b9e6-9adc7f1cdf7e@gmail.com>
-Date:   Fri, 27 Mar 2020 10:49:07 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726168AbgC0IJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 04:09:09 -0400
+Received: from mga12.intel.com ([192.55.52.136]:5075 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725946AbgC0IJJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Mar 2020 04:09:09 -0400
+IronPort-SDR: byQVSpgGCJSypZfLSkPIEm0ZWH110YDTn7InO0r1uWuNNmyXEBavycJUvLdc3BZIb3oQe430Fd
+ lxd8CMAtuu0w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2020 01:09:09 -0700
+IronPort-SDR: 5J/RwyflbWm32w71GF4z5lmYGOl2kbe497SSuaCuBRRLLps1quezNfpbggSyq9bGdKLmHglGB0
+ ujwe7da4WDxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,311,1580803200"; 
+   d="scan'208";a="236561315"
+Received: from jmikkola-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.32.179])
+  by orsmga007.jf.intel.com with ESMTP; 27 Mar 2020 01:09:05 -0700
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id DB1CE21F8C; Fri, 27 Mar 2020 10:08:58 +0200 (EET)
+Date:   Fri, 27 Mar 2020 10:08:58 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dafna Hirschfeld <dafna3@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org
+Subject: Re: [PATCH 1/2] media: media.h: Add a pad flag MEDIA_PAD_FL_METADATA
+Message-ID: <20200327080858.GB23713@kekkonen.localdomain>
+References: <20200325212704.29862-1-dafna.hirschfeld@collabora.com>
+ <20200325212704.29862-2-dafna.hirschfeld@collabora.com>
+ <20200325222621.GX19171@pendragon.ideasonboard.com>
+ <CAJ1myNS5jdqCXAtueA_j+ULkiioDxhegfCLQWFXrvL6_AYPwFg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOMZO5Bz+qh7S3s8SfJRPVjjvokMx-r6udzFg=0poJmCbzMj9w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ1myNS5jdqCXAtueA_j+ULkiioDxhegfCLQWFXrvL6_AYPwFg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+Dafna, Laurent,
 
-Oooppps! My mistake. Before you answer in logs:
+On Thu, Mar 26, 2020 at 08:59:04AM +0100, Dafna Hirschfeld wrote:
+> On Wed, Mar 25, 2020 at 11:26 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Dafna,
+> >
+> > Thank you for the patch.
+> >
+> > On Wed, Mar 25, 2020 at 10:27:03PM +0100, Dafna Hirschfeld wrote:
+> > > Add a flag to the flags field of 'struct media_pad_desc'
+> > > that indicates that the data transmitted by the pad is
+> > > metadata.
+> > >
+> > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > > ---
+> > >  Documentation/media/uapi/mediactl/media-types.rst | 4 ++++
+> > >  include/uapi/linux/media.h                        | 1 +
+> > >  2 files changed, 5 insertions(+)
+> > >
+> > > diff --git a/Documentation/media/uapi/mediactl/media-types.rst b/Documentation/media/uapi/mediactl/media-types.rst
+> > > index 3af6a414b501..4ca902478971 100644
+> > > --- a/Documentation/media/uapi/mediactl/media-types.rst
+> > > +++ b/Documentation/media/uapi/mediactl/media-types.rst
+> > > @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+> > >  .. _MEDIA-PAD-FL-SINK:
+> > >  .. _MEDIA-PAD-FL-SOURCE:
+> > >  .. _MEDIA-PAD-FL-MUST-CONNECT:
+> > > +.. _MEDIA-PAD-FL-METADATA:
+> > >
+> > >  .. flat-table:: Media pad flags
+> > >      :header-rows:  0
+> > > @@ -381,6 +382,9 @@ Types and flags used to represent the media graph elements
+> > >         configuration dependent) for the pad to need enabled links even
+> > >         when this flag isn't set; the absence of the flag doesn't imply
+> > >         there is none.
+> > > +    *  -  ``MEDIA_PAD_FL_METADATA``
+> > > +       -  This flag indicates that the data transmitted by the pad is of
+> > > +          type metadata.
+> > >
+> > >
+> > >  One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
+> > > diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+> > > index 383ac7b7d8f0..ae37226eb5c9 100644
+> > > --- a/include/uapi/linux/media.h
+> > > +++ b/include/uapi/linux/media.h
+> > > @@ -210,6 +210,7 @@ struct media_entity_desc {
+> > >  #define MEDIA_PAD_FL_SINK                    (1 << 0)
+> > >  #define MEDIA_PAD_FL_SOURCE                  (1 << 1)
+> > >  #define MEDIA_PAD_FL_MUST_CONNECT            (1 << 2)
+> > > +#define MEDIA_PAD_FL_METADATA                        (1 << 3)
+> >
+> > I think we need to reserve a few bits here. We'll have more than
+> > metadata. Audio comes to mind, there will likely be more. Having
+> > independent flags would not only waste a bit of space in the bitfield
+> > (not that we're about to run out of bits, but still), but would make it
+> > possible to specify invalid configurations such as MEDIA_PAD_FL_METADATA
+> > | MEDIA_PAD_FL_AUDIO. And now that I've written this, I realize that
+> > audio metadata could be a thing, so maybe a metadata flag is actually
+> > the best option :-)
+> hehe, ok, but drivers that set the METADATA flag should also set the media
+> bus code to MEDIA_BUS_FMT_FIXED ? If yes then setting
+> the METADATA flag with a different media bus is also an invalid configuration.
 
-localhost ~ # dmesg | grep -i imx219
-IMX219_1V2: supplied by P3V3
-IMX219_1V8: supplied by P3V3
-IMX219_2V8: supplied by P3V3
-imx219 9-0010: 9-0010 supply VANA not found, using dummy regulator
-imx219 9-0010: 9-0010 supply VDIG not found, using dummy regulator
-imx219 9-0010: 9-0010 supply VDDL not found, using dummy regulator
-imx-media: imx219 9-0010:0 -> imx6-mipi-csi2:0
-localhost ~ #
+That may be currently the case, but not all non-image data (metadata in
+practice) will be using MEDIA_BUS_FMT_FIXED, for instance sensor embedded
+data when we support that in upstream.
 
-P3V3 always on regulator, so all 3 regs always on. On Raspberry Camera 
-V2.1 all of them enabled by single GPIO. This GPIO on my schematic 
-pull-up to 3,3V. So for first step I fix DTB
-- clock-names = "xclk";
-- DOVDD-supply = <&imx219_1v8_reg>; /* 1.8v */
-- AVDD-supply = <&imx219_2v8_reg>;  /* 2.8v */
-- DVDD-supply = <&imx219_1v2_reg>;  /* 1.2v */
-+ VDIG-supply = <&imx219_1v8_reg>; /* 1.8v */
-+ VANA-supply = <&imx219_2v8_reg>; /* 2.8v */
-+ VDDL-supply = <&imx219_1v2_reg>; /* 1.2v */
+Note that whether metadata flows over a pad is dynamic configuration. I
+wonder if it is useful to tell this to the user, as the user, in many
+cases, will be making the configuration affecting this. There definitely
+are devices where this configuration would be static, but many of those
+cases (ISPs in particular) have DMAs (i.e. video nodes) directly connected
+over a link, where you'll find this information on the video node.
 
-Result:
-localhost ~ # dmesg | grep -i imx219
-[    0.102656] IMX219_1V2: supplied by P3V3
-[    0.102737] IMX219_1V8: supplied by P3V3
-[    0.102798] IMX219_2V8: supplied by P3V3
-[   13.851525] imx-media: imx219 9-0010:0 -> imx6-mipi-csi2:0
-localhost ~ #
+-- 
+Regards,
 
-No visible changes from original message.
-
-Next step. Our schematic have separate, controlled by GPIO, voltage 
-switch for raspberry camera 3,3V supply. I try use them:
-
-@@ -111,7 +108,6 @@ p3v3_cam_reg: p3v3_cam_regulator {
-  regulator-max-microvolt = <3300000>;
-  vin-supply = <&p3v3_reg>;
-  gpio = <&gpio2 25 GPIO_ACTIVE_LOW>;
-- regulator-always-on; /* XP25: force on (1-2)/normal (2-3) */
-};
-
-also in all IMX219 regulators fix vin-supply and disable always-on mode
-- vin-supply = <&p3v3_reg>;
-- regulator-always-on;
-+ vin-supply = <&p3v3_cam_reg>;
-
-I see more noice about regulators in log, but capture still not start
-
-localhost ~ # dmesg | grep -i imx219
-[    0.103533] IMX219_1V2: supplied by P3V3_CAM
-[    0.103612] IMX219_1V8: supplied by P3V3_CAM
-[    0.103672] IMX219_2V8: supplied by P3V3_CAM
-[   13.668314] imx-media: imx219 9-0010:0 -> imx6-mipi-csi2:0
-[   35.671233] IMX219_1V2: disabling
-[   35.671246] IMX219_1V8: disabling
-[   35.671255] IMX219_2V8: disabling
-localhost ~ # ./camera_init.sh
-localhost ~ # gst-launch-1.0 v4l2src device=/dev/video2 ! fakesink
-Setting pipeline to PAUSED ...
-Pipeline is live and does not need PREROLL ...
-Setting pipeline to PLAYING ...
-New clock: GstSystemClock
-ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed 
-to allocate required memory.
-Additional debug info:
-/var/tmp/portage/media-plugins/gst-plugins-v4l2-1.14.5/work/gst-plugins-good-1.14.5/sys/v4l2/gstv4l2src.c(656): 
-gst_v4l2src_decide_allocation (): 
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-Buffer pool activation failed
-Execution ended after 0:00:00.017843333
-Setting pipeline to PAUSED ...
-Setting pipeline to READY ...
-Setting pipeline to NULL ...
-Freeing pipeline ...
-#
-
-So, I fix cosmetic with DTS. But, unfortunately, this not fix troubles.
-
-> 
-> No clock-names is described in
-> Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> 
->>                  DOVDD-supply = <&imx219_1v8_reg>; /* 1.8v */
->>                  AVDD-supply = <&imx219_2v8_reg>;  /* 2.8v */
->>                  DVDD-supply = <&imx219_1v2_reg>;  /* 1.2v */
-> 
-> These supplies names do not match the ones described in:
-> Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> 
+Sakari Ailus
