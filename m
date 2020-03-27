@@ -2,37 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06D8F194B47
-	for <lists+linux-media@lfdr.de>; Thu, 26 Mar 2020 23:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C63194DA7
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 01:00:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbgCZWJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 18:09:04 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42062 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727606AbgCZWJD (ORCPT
+        id S1727509AbgC0AAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Mar 2020 20:00:41 -0400
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:45726 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbgC0AAl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 18:09:03 -0400
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F258197C;
-        Thu, 26 Mar 2020 23:08:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585260537;
-        bh=DtP8tun5EBHtcfcdHAeOMDNp8vig2EQyzDuBmYovyHw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HvS7EBnsqaJQ0e/xRM2DoqX2t93MzJ6UoF7VvAJnS48+alB2rJNtQGUwP3W1sfNPx
-         +IA7R4LTTHnc5DC9gcTe37HRK7g4hmiKGfGAKdJsJI/jBvy08mCj7fFrB4+PsAwKpi
-         ouJr1PyoFiGzbMxImom7oBz4zqck1IaOiKs4qfN4=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH v2 11/11] media: imx: utils: Add ability to filter pixel formats by mbus code
-Date:   Fri, 27 Mar 2020 00:08:40 +0200
-Message-Id: <20200326220840.18540-12-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200326220840.18540-1-laurent.pinchart@ideasonboard.com>
-References: <20200326220840.18540-1-laurent.pinchart@ideasonboard.com>
+        Thu, 26 Mar 2020 20:00:41 -0400
+Received: by mail-qv1-f67.google.com with SMTP id g4so4070606qvo.12
+        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 17:00:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=B1cbJ5t0R8UFJzXjhB07WkOzZd1rE012lQD1DP4BjA0=;
+        b=jy0ZW8nurx5JIQ/7GXHvi3ghS4ycVNNtoKAgftbo829Cs3GqHvCydxhYb3jDWnW5GH
+         EhWYKa7aCVUfPU9bl6my0nIO5PKQ86WzJ6SVNciMXbeVeZoQ+sJO+bFYWY3m7VV6fZ3i
+         ZRTIKx3M2S6UfKbcJUO5E2BTIVX22uRXuaz675ptRQNqaXMthVXKFUOj/xglM08Rj5IX
+         MB1+poVKAcIxzHVlWHGjIEXcmcbckwZlYwMtuw6oNp6t4Xc1jpq3cIcSUmnP4vlknRmX
+         GtloUk2Rf1+0BtjKRgRsiON97FQFcUXk1ylPmomy7bajZM9lMfjwWSBGxqPJpRV9DTv5
+         Pd/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=B1cbJ5t0R8UFJzXjhB07WkOzZd1rE012lQD1DP4BjA0=;
+        b=OSdFiFEhu0waEKsWQW1PJIxoqbJrYZ9KHbUKL0tO0MqdNB/NWqcvRXcpKrGiFRdN9h
+         DDd4aP9s5PsDzJ6pnJ2Z1WqCf0r4Ee1wcxRblp7wHIc+9Syjnxo1JIZVTFHRBb4y68EW
+         W2DBHKjb6NEXjnAGDvXpCpir6kUpHYCdcce4nueLeA3MwcvKKjVxIjIBvsBdHVvwUH+D
+         CCpMkASAKZiPk3TnUCFKRIuIydDu+uT+HvPfZ+svML4YnotaP3I4nmBOCd5BLnQcat+2
+         RJh7K/OKCCSbGTDkxHCIvWVLirRAG2p08yCg2MK5TdeoUZ1/1FacU5VWtPCMo4AeTGK9
+         Jtxw==
+X-Gm-Message-State: ANhLgQ1j10eNkVliehe1PjfY7+1/dYD9uuY+8VsAFgXwX0EoQCZX71oP
+        QE7/NyuVVyXfPTYZIWtnCmi3Xw==
+X-Google-Smtp-Source: ADFU+vvh4mOat/Qc+DvsrHYwATNq6DpfS7/J/Bsrk8fJrHCcrVu4ajNZasDIa7wr3Kn9fwsoXb2tWQ==
+X-Received: by 2002:a05:6214:1414:: with SMTP id n20mr11349975qvx.160.1585267239831;
+        Thu, 26 Mar 2020 17:00:39 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id s4sm2690844qte.36.2020.03.26.17.00.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 17:00:38 -0700 (PDT)
+Message-ID: <1df4b3c75ebef8001b2d47a8dbe1d688b4df0968.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH v4l-utils 1/1] Introduce support for meson building
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Sean Young <sean@mess.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Date:   Thu, 26 Mar 2020 20:00:36 -0400
+In-Reply-To: <20200325102654.GE4760@pendragon.ideasonboard.com>
+References: <20200315205421.28797-1-ezequiel@collabora.com>
+         <20200315205421.28797-2-ezequiel@collabora.com>
+         <e7edde336329f8765e3801281bb91e07c754b2b8.camel@ndufresne.ca>
+         <20200325102654.GE4760@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -40,108 +68,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a media bus code argument to the imx_media_enum_pixel_formats(). If
-set to a non-zero value, the function will only consider pixel formats
-that match the given media bus code.
+Le mercredi 25 mars 2020 à 12:26 +0200, Laurent Pinchart a écrit :
+> > Custom reporting is no longer recommended, meson have a option driven
+> > report (summary). The plus side is that it will be printed at the end
+> > properly even if this project is used as subproject.
+> 
+> I didn't know about that, it's nice. The option has been added to meson
+> 0.53 though, which may be a tad too recent ?
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/imx-media-capture.c |  5 +++--
- .../staging/media/imx/imx-media-csc-scaler.c  |  2 +-
- drivers/staging/media/imx/imx-media-utils.c   | 21 ++++++++++++++++++-
- drivers/staging/media/imx/imx-media.h         |  2 +-
- 4 files changed, 25 insertions(+), 5 deletions(-)
+Indeed, but be careful with such an argument, since someone could come back and
+say meson is too early, it's not over 10 years old yet. I think best is too look
+at how often distro updates this library. If they only update when the entire
+distro is updated, my recommendation is to use the version that best suite your
+work. If they tend to backport on stable distro, then maybe it's best to be
+conservative.
 
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 1b3f783f3f72..9924840dd15e 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -174,7 +174,8 @@ static int capture_enum_fmt_vid_cap(struct file *file, void *fh,
- 		u32 cs_sel = (cc_src->cs == IPUV3_COLORSPACE_YUV) ?
- 			CS_SEL_YUV : CS_SEL_RGB;
- 
--		ret = imx_media_enum_pixel_formats(&fourcc, f->index, cs_sel);
-+		ret = imx_media_enum_pixel_formats(&fourcc, f->index, cs_sel,
-+						   0);
- 		if (ret)
- 			return ret;
- 	} else {
-@@ -221,7 +222,7 @@ static int __capture_try_fmt_vid_cap(struct capture_priv *priv,
- 
- 		cc = imx_media_find_pixel_format(fourcc, cs_sel);
- 		if (!cc) {
--			imx_media_enum_pixel_formats(&fourcc, 0, cs_sel);
-+			imx_media_enum_pixel_formats(&fourcc, 0, cs_sel, 0);
- 			cc = imx_media_find_pixel_format(fourcc, cs_sel);
- 		}
- 	} else {
-diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
-index d8904a78228d..426d1ff3b62c 100644
---- a/drivers/staging/media/imx/imx-media-csc-scaler.c
-+++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
-@@ -164,7 +164,7 @@ static int ipu_csc_scaler_enum_fmt(struct file *file, void *fh,
- 	u32 fourcc;
- 	int ret;
- 
--	ret = imx_media_enum_pixel_formats(&fourcc, f->index, CS_SEL_ANY);
-+	ret = imx_media_enum_pixel_formats(&fourcc, f->index, CS_SEL_ANY, 0);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index ff2202e95a48..1efdfa751523 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -220,7 +220,7 @@ imx_media_find_pixel_format(u32 fourcc, enum codespace_sel cs_sel)
- EXPORT_SYMBOL_GPL(imx_media_find_pixel_format);
- 
- int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
--				 enum codespace_sel cs_sel)
-+				 enum codespace_sel cs_sel, u32 code)
- {
- 	bool allow_bayer = cs_sel & CS_SEL_BAYER;
- 	unsigned int i;
-@@ -237,6 +237,25 @@ int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
- 		if (!(cs_sel & fmt_cs_sel) || (!allow_bayer && fmt->bayer))
- 			continue;
- 
-+		/*
-+		 * If a media bus code is specified, only consider formats that
-+		 * match it.
-+		 */
-+		if (code) {
-+			unsigned int j;
-+
-+			if (!fmt->codes)
-+				continue;
-+
-+			for (j = 0; fmt->codes[j]; j++) {
-+				if (code == fmt->codes[j])
-+					break;
-+			}
-+
-+			if (!fmt->codes[j])
-+				continue;
-+		}
-+
- 		if (index == 0) {
- 			*fourcc = fmt->fourcc;
- 			return 0;
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index bb73a76eea84..bf4daaaf3165 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -160,7 +160,7 @@ enum codespace_sel {
- const struct imx_media_pixfmt *
- imx_media_find_pixel_format(u32 fourcc, enum codespace_sel cs_sel);
- int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
--				 enum codespace_sel cs_sel);
-+				 enum codespace_sel cs_sel, u32 code);
- const struct imx_media_pixfmt *
- imx_media_find_mbus_format(u32 code, enum codespace_sel cs_sel);
- int imx_media_enum_mbus_formats(u32 *code, u32 index,
--- 
-Regards,
+In GStreamer we do both, we stick with older meson in stable release (1.16)
+unless there is a bug in meson that caused a bad build. And use the most recent
+version in development, so that next when distro moves to a new stable, they
+have to update meson at the same time, obviously for the benifit of their users.
+(Also because a some upcoming meson feature are written by GStreamer developers,just to be honnest). 
 
-Laurent Pinchart
+Nicolas
 
