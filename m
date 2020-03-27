@@ -2,282 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FA64194FB5
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 04:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C56C194FFA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 05:18:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbgC0Df3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Mar 2020 23:35:29 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:34130 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgC0Df2 (ORCPT
+        id S1726002AbgC0ESL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 00:18:11 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:32803 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725904AbgC0ESK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Mar 2020 23:35:28 -0400
-Received: by mail-lj1-f193.google.com with SMTP id p10so8543341ljn.1
-        for <linux-media@vger.kernel.org>; Thu, 26 Mar 2020 20:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XeKEAn+hfGPdPoufqsnHb2SpBKodsES2luZcQ7Ela5Q=;
-        b=CSR5bJDBXMcoSEbB5Nd3zgKhlO79Icw0k7BnNPNgE2X3XmM1u5brug+nIpe3TRrBOF
-         jRUFpO5GwXhRXzorRWkSuJBpTlh8HF1y+9oMW9vTWKyeHGW29CEX027LEwybcle+gz7h
-         Q487S1K2luqmNMlKkOrrbCMm1TqjPAqPHfUUI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XeKEAn+hfGPdPoufqsnHb2SpBKodsES2luZcQ7Ela5Q=;
-        b=DYMduyagGzASrHafaAdSv3H7kusmyyrkC4QhEHOD3yygQxlBoLU5kYxSH5FvOdqjrw
-         2PAG8TPQErxOuCaIE/nFMLeEMV+u6pGnP3gkUD9AjiddrBhsezS5Ez5+vlmq5AL52Gtr
-         CjnwFWW2DezqJARsin735ql43FR2Y022+K9EIi/MrWlyG1UXhmFjFfU6g6K60inxUZyp
-         HdwZaFTSbYzSMyQRvvendjwcCElI3vw1tw8xG5rvvWYn16PhX3CfU9fuX5nzJjkJAnuA
-         6OBKUjOvEO4U2wV2a6qplqGbtdYvwdOumVGoZgtFr34I1/XjyMjF65nWglY/4+/2pJu0
-         n5fQ==
-X-Gm-Message-State: AGi0PuYDpbP3PZLOHE17ck/5RucVAgqn2gY5iJ3c6urwNab5bIIr1Y9q
-        YjlkUrP1++AIkEaNav7PRcliwFUj6Sxy1hDVuScKew==
-X-Google-Smtp-Source: ADFU+vtjulxSFTo36CtAnIJ5vsca80/mJlumHbCNSz5io67ukcq/GXdbEhAvsymt/X08b3XnJVezylK5cLVVj08J43s=
-X-Received: by 2002:a2e:95c3:: with SMTP id y3mr7108877ljh.149.1585280124808;
- Thu, 26 Mar 2020 20:35:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200206102058.247258-1-keiichiw@chromium.org>
- <8121654.T7Z3S40VBb@os-lin-dmo> <CAD90VcZ2zzzwveYgDs5UdjfZUt=yX4wNX-f_-3V18xz93_fpvQ@mail.gmail.com>
- <6557912.4vTCxPXJkl@os-lin-dmo>
-In-Reply-To: <6557912.4vTCxPXJkl@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Fri, 27 Mar 2020 12:35:13 +0900
-Message-ID: <CAD90VcZMDt=Xx0E+1h6U-8xa9EMjmhpvSqRb_GYq8BAHhnpTLw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 27 Mar 2020 00:18:10 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:b108:5f4d:7b2b:f9d8])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id HgRbjXWTdLu1fHgRcj5FAG; Fri, 27 Mar 2020 05:18:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585282688; bh=xiUwVxJXcq4d4bOhu9ykdBjIU1Sr6U+9MnVUcX/2p3c=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=drXZJoHeKiz7DTjAouPR01fi66n9WIm9GaoFJaeV44UibN/OnSI1WSJEM9bVMHTGG
+         k87nxymuKG6HoYQQg0tF82O0FtNI4HCn3Z0oyjlNMj8z13JpDhKSGAZo2B626R0Jdo
+         RaUTg34zYkarJfe7SYJcYXZ+XUf+9e+Rp+XSLdEW8iLbM8BgrWuZhddmJsEPT7zdcf
+         LePbdWjQm5NzvkZHMnNpVJ35uddSkXbUsBc1c9VZCK/9XcN4845Wd7WWevKwcp3TJn
+         3MSonOxcmp6bhPRN/NyGmaXoV6NaasGilBDyO+XzdlS7jIW+mMex16pquJUE2M0DRM
+         nlV6M92w5cIyQ==
+Message-ID: <1c9e04b3ab24bcd0a76bd2caa6409800@smtp-cloud7.xs4all.net>
+Date:   Fri, 27 Mar 2020 05:18:07 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfO+deNrDuJja+iV2E2tIN0Tnvjd0Ohndu/666ilNZ3YXrg0AB53ntZ/dLggcWY3f9nDaeZZ3PkGu4DZZqJ+r87TNvrtqlgo9EkqjlsW+wI1IuThcMLaX
+ h12vxLX16BCvKz4EoXENMVVg6UQezEU9uwceHS6dyNhbs9Uei/bDkVvRPZc9niOE3Z332KcXv6KIR3/kHts5z0YJCRCQu4xoqZUeqEnJCuSL9WZsWO95mPZO
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Wed, Mar 25, 2020 at 6:47 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> w=
-rote:
->
-> Hi Keiichi,
->
-> On Montag, 23. M=C3=A4rz 2020 16:48:14 CET Keiichi Watanabe wrote:
-> > Hi,
-> >
-> > On Mon, Mar 23, 2020 at 10:28 PM Dmitry Sepp
-> >
-> > <dmitry.sepp@opensynergy.com> wrote:
-> > > Hi Keiichi,
-> > >
-> > > On Montag, 23. M=C3=A4rz 2020 13:07:54 CET Keiichi Watanabe wrote:
-> > > > Hi everyone,
-> > > >
-> > > > I have implemented a virtio-video device following my v3 spec in
-> > > > crosvm, which worked well together with Dmitry's driver [1]. I've
-> > > > started preparing v4 proposal to address problems found while
-> > > > implementing the driver and the devices.
-> > >
-> > > Great news!
-> > >
-> > > > Regarding v3 protocol, I'm thinking about how we can differentiate
-> > > > 'parameters' and 'controls' in the virtio-video spec?
-> > > > In the previous discussion, we decided to have a profile, level and
-> > > > bitrate as controls because we want to query supported values for e=
-ach
-> > > > field.
-> > > > But, I don't think it's a good criteria because it'd be possible to
-> > > > query other values in params.
-> > >
-> > > Could you elaborate on this? Do you now how the design could look lik=
-e or
-> > > it is just an idea? AFAIR during the discussion of OpenSynergy's orig=
-inal
-> > > v1 spec your point was to separate something that we call 'controls' =
-now
-> > > to reduce the command data size and make command handling less error
-> > > prone.
-> >
-> > The problem in v3 is that if we want to add a new value to be set it'd
-> > be unclear which params or controls is better to be extended.
-> > One possible rule may be "if a value can be queried by the driver, it
-> > should be a control". However, this rule doesn't explain why we have
-> > "format" in params for example. So, I think we need a discussion and
-> > may want to rearrange the structures.
-> >
-> > Yeah, in the previous discussion, I suggested to have profile, level
-> > and bitrate as control values instead of members of params. Now, I'm
-> > wondering whether we can have every values as control values.
-> > I don't think it's a perfect idea, but I haven't come up with any
-> > better concrete design yet. So, I'd really appreciate if you could
-> > share your thoughts.
-> >
->
-> Ok, we can for example add more precise definition to input and output. L=
-et's
-> say we have 'bitstream' format structure and a 'image' format structure. =
-E.g.
-> for decoder obviously bitstream is input and image is output.
->
-> Then instead of params and controls we can define some abstract 'properti=
-es'.
-> And make some of the properties assigned/mapped/available to bitstream an=
-d
-> some to image, depending on the current function. I think that could make
-> sense as for example for decoder 'bitstream' probably requires very few b=
-asic
-> 'properties' like fourcc format, in contrast to 'image'. But for encoder
-> 'bitstream' will also have the bitrate 'property' set.
+Results of the daily build of media_tree:
 
-Ah, it sounds like a good idea to have separate structs for bitstreams
-and images.
-Okay, let me sort out properties based on the idea.
+date:			Fri Mar 27 05:00:08 CET 2020
+media-tree git hash:	ad71693f41aa60217eaf1c29afb49b3aa0a2db5d
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	81e45d957c4db39397f893100b3d2729ef39b052
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: bce6094eab68fd9c0d5763c4d9e242d8d3732492
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-# Bitstream
-* format
-* min/max number of buffers
-* bitrate (encoder only)
-* profile (depending on format)
-* level (depending on format/profile)
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6-rc1-i686: OK
+linux-5.6-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 372, Succeeded: 372, Failed: 0, Warnings: 0
+virtme-32: ERRORS
+sparse: OK
+smatch: OK
 
-# Image
-* format
-* min/max number of buffers
-* width/height
-* crop information
-* number of planes
-* plane format
-* plane layout
+Detailed results are available here:
 
-Then, we have three categories here:
-(a) Mandatory properties for bitstreams for both functions
-(b) Mandatory properties for images for both functions
-(c) Optional properties for bitstream (e.g. bitrate, profile, level)
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-So, how about defining structs for each (a), (b) and (c)?
+Detailed regression test results are available here:
 
-(a) and (b) can be similar to virtio_video_params in v3 spec draft:
-e.g.
-struct virtio_video_{bitstream, image}_info {
-  int format;
-  int min_buffers;
-  int max_buffers;
-  ...
-}
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
-(c) would be very similar to struct virtio_video_*_control in v3.
-Renaming them to 'properties' would be a nice idea as Dmitry said.
+Full logs are available here:
 
-While the designs of structs are not changed from 'params' and
-'controls', we now have rules for differentiation at least.
-What do you think?
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-Best regards,
-Keiichi
+The Media Infrastructure API from this daily build is here:
 
-
-
->
-> > > On one hand if don't really see any difference in params vs controls =
-it
-> > > would for sure make sense to remove one of the two. On the other hand=
- I'd
-> > > of course like to avoid moving back in forth, especially when it come=
-s to
-> > > such a major driver rework.
-> >
-> > Yes, I understand that it may require a big change in the implementatio=
-n.
-> > I'm sorry for not being able to think of this point seriously in the
-> > previous thread.
-> >
-> > Of course, I'd also really like to avoid rework, but I believe we
-> > shouldn't give up defining a clean and reasonable specification.
-> > Let's find a clear definition in this cycle to avoid future rework.
-> >
-> > > > So, I'm thinking about what should be the difference between params
-> > > > and controls. If no difference, we should deprecate
-> > > > virtio_video_params and have every field there as a control value
-> > > > instead.
-> > >
-> > > I deem we should then deprecate controls instead. Params seem to be m=
-ore
-> > > abstract. Width and height don't sound like a control for me.
-> >
-> > Though this is actually one of options, how can we query profiles and
-> > levels if they are in params?
-> > This is why we decided them as controls.
-> >
-> > Best regards,
-> > Keiichi
-> >
-> > > > If we add a new command to get and set multiple controls at once, t=
-his
-> > > > change won't cause overhead.
-> > >
-> > > How would we do this? Provide a flexible array member where each entr=
-y has
-> > > a type field first?
-> >
-> > Yeah, something like the idea. But, I haven't designed an actual struct=
-ure
-> > yet.
-> > > What can also make sense is to potentially join set and get calls
-> > > (probably
-> > > provide 'get' stuff automatically within a response to 'set'). Anyway=
- set
-> > > and get are currently used in conjunction all the time.
-> >
-> > It'd make sense to return new input and output params when one of
-> > params is updated.
-> > But, if we choose this design, we need to assume one device has just
-> > two params; input and output.
-> >
-> > This is okay for video decoder and encoder, but it may become a
-> > problem if we want to support other types of video device that has
-> > only one direction. (e.g. video capture device)
-> > Though we have no plan for supporting this, OpenSynergy's v1 proposal
-> > contained this type IIRC.
->
-> Honestly speaking, the idea is not completely abandoned. The spec and the
-> driver has more than enough functionality to handle a simple Android EVS
-> camera use-case. But I think let's discuss this separately later.
->
-> Best regards,
-> Dmitry.
->
-> >
-> > Best regards,
-> > Keiichi
-> >
-> > > Best regards,
-> > > Dmitry.
-> > >
-> > > > What do you think? Is there anything I missed?
-> > > > If it sounds fine, I'll remove virtio_video_params from the v4 spec
-> > > > proposal.
-> > > >
-> > > > Best regards,
-> > > > Keiichi
-> > > >
-> > > > [1]: https://patchwork.linuxtv.org/patch/61717/
->
->
+http://www.xs4all.nl/~hverkuil/spec/index.html
