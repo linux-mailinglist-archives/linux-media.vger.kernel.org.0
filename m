@@ -2,1851 +2,995 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B986195B68
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 17:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68020195BDF
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 18:05:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbgC0QtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 12:49:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41720 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727606AbgC0QtH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 12:49:07 -0400
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DCAE21841;
-        Fri, 27 Mar 2020 16:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585327746;
-        bh=sftXe1TQ9SE2ZETc6l/4pxEWad/Esa3klr1jCSk24Eo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jyHRjh3siZ9+e4d1VXfTp/I/8kAiPBm5Qp7kK9qRP/vGH/rPo82x5p8gQewLAoSWy
-         6AwbPcer85Gq0ED1jU6t3oDthFLxfhEJcXe/RjFO8sSbDH7pHEGo4tmt4jClrTJwgG
-         h4QaRCsTtRVY91J9QGH6Cu6uSkz22c39cE4BIAZQ=
-Date:   Fri, 27 Mar 2020 17:48:55 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
-        tglx@linutronix.de, linux-media@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [RFC, WIP, v2 3/3] media: dvb_dummy_fe.c: write PSI information
- into DMX buffer
-Message-ID: <20200327174740.5d5935ae@coco.lan>
-In-Reply-To: <20200323125732.281976-4-dwlsalmeida@gmail.com>
-References: <20200323125732.281976-1-dwlsalmeida@gmail.com>
-        <20200323125732.281976-4-dwlsalmeida@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727806AbgC0RFL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 13:05:11 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:40167 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727354AbgC0RFL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Mar 2020 13:05:11 -0400
+Received: by mail-oi1-f195.google.com with SMTP id y71so9388517oia.7;
+        Fri, 27 Mar 2020 10:05:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Cmc3lAmMWhjyo4loBSxUFc5RCiorU4r8eRuGkd4JFwk=;
+        b=AcuJsIhON9BbCwx9RE5nka0ChI0k9dHDStv8mr7qtQcn9GaMemB1ixOxkyIiUHdK9D
+         HnJdWbCteVS9GMWbRqupCtOFK6ZH837BzyIr0s4HNhEHYsie0BB5LknRWTkEfYpYxMst
+         NctX6SKtG7V2n9/Mqnxk1wSVA7mAhG8cDIoJbhujUYF5IMxY/1NFGmKAXO1et9OjphnA
+         vBCejvT2Zo6APKYcbmgRVhCcq0ua41UDeND+IQKs1eqq7ZNjoYsmo3Kxy3TvkJCchhRi
+         6zCiBQgIYDXmCm7jkP0Aq5B/hR1ln3CnS05Fe+swfsL/vt8e6zQAO+SIur1PQFGIOCG6
+         hE1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Cmc3lAmMWhjyo4loBSxUFc5RCiorU4r8eRuGkd4JFwk=;
+        b=In1TB4/CLzgMwbXNIRYzOOeD1lJddNxVtAkdRbtlofVAzdI/uXkbENMNDnnRMmtYdK
+         9KfhlpWxjgO9ydF9lAwGXnZgcBa1dfjUqoiSR16DDW+HYcaktWNPiA+71/9srWcgw2r9
+         paFcqhMJfikKcCg2E1Dk2jG0ifnpmuZXigGFtVYyvNKiFzXMhGa+0YqGIcDyibdELo8D
+         E+27gLQjeMYOJEXvuOsFBvL9iv5rPVLl4msIW1fMajvQ3hCEAgd1RVJPk2ogxO/whOf8
+         Mi3AoFT3TJC6of0hMSE5cudGhIPvVMr1/+A9I2ncFe08Iv2sz+uqP+Eci9ZYp54JoMoI
+         Op0A==
+X-Gm-Message-State: ANhLgQ012oVOuqe7nfa6hf8Vm3lYNZ8adxIEPU8r/3RKBg/m8XvvAa7N
+        CBh9SDYGMesx+3Fhrl8aN34=
+X-Google-Smtp-Source: ADFU+vtmincihMyjWLT/TMF1o5zAakqdF/krFBVXH05ycFCQ/fswOS7FE+yoFrLzjUxW/Y3ano3/mw==
+X-Received: by 2002:aca:130d:: with SMTP id e13mr4771150oii.98.1585328709106;
+        Fri, 27 Mar 2020 10:05:09 -0700 (PDT)
+Received: from ziggy.stardust ([213.195.113.243])
+        by smtp.gmail.com with ESMTPSA id h16sm1890423ots.80.2020.03.27.10.04.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2020 10:05:07 -0700 (PDT)
+Subject: Re: [PATCH v12 4/5] soc / drm: mediatek: Move routing control to
+ mmsys device
+To:     CK Hu <ck.hu@mediatek.com>, Matthias Brugger <mbrugger@suse.com>
+Cc:     mark.rutland@arm.com, Kate Stewart <kstewart@linuxfoundation.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>, airlied@linux.ie,
+        mturquette@baylibre.com, dri-devel@lists.freedesktop.org,
+        Richard Fontana <rfontana@redhat.com>,
+        laurent.pinchart@ideasonboard.com, ulrich.hecht+renesas@gmail.com,
+        Collabora Kernel ML <kernel@collabora.com>,
+        linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
+        wens@csie.org, linux-arm-kernel@lists.infradead.org,
+        mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        frank-w@public-files.de, Seiya Wang <seiya.wang@mediatek.com>,
+        sean.wang@mediatek.com, Houlong Wei <houlong.wei@mediatek.com>,
+        robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+        hsinyi@chromium.org, Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Allison Randal <allison@lohutok.net>, sboyd@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+        p.zabel@pengutronix.de, matthias.bgg@kernel.org,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
+ <20200311165322.1594233-5-enric.balletbo@collabora.com>
+ <02290a21-7392-a2cf-576c-215091ec05e8@suse.com>
+ <1585177534.26117.4.camel@mtksdaap41>
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+Autocrypt: addr=matthias.bgg@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <c4c404ff-8ead-7017-5139-2ea4c0efb1b6@gmail.com>
+Date:   Fri, 27 Mar 2020 18:04:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <1585177534.26117.4.camel@mtksdaap41>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 23 Mar 2020 09:57:32 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
+Hi CK,
 
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+On 26/03/2020 00:05, CK Hu wrote:
+> Hi, Matthias:
 > 
-> Periodically feed the demux with PSI packets. This is needed so userspace
-> apps can retrieve information about the Transport Stream and eventually
-> tune into a (dummy) channel.
+> On Wed, 2020-03-25 at 17:16 +0100, Matthias Brugger wrote:
+>>
+>> On 11/03/2020 17:53, Enric Balletbo i Serra wrote:
+>>> Provide a mtk_mmsys_ddp_connect() and mtk_mmsys_disconnect() functions to
+>>> replace mtk_ddp_add_comp_to_path() and mtk_ddp_remove_comp_from_path().
+>>> Those functions will allow DRM driver and others to control the data
+>>> path routing.
+>>>
+>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+>>> Acked-by: CK Hu <ck.hu@mediatek.com>
+>>
+>> This patch does not apply against v5.6-rc1.
+>> Please rebase as this is a quite big patch and it won't be easy to do that by hand.
 > 
-> Currently this commit adds support for working with 3 PSI tables:
-> PAT, PMT and SDT. A dummy service with a dummy program is hardcoded
-> in the driver code.
+> I think this patch depends on [1] which has been acked by me and I have
+> not picked it. The simple way is that you pick [1] first and then pick
+> this series.
+> 
+> [1] 
+> https://patchwork.kernel.org/patch/11406227/
 
-As we talked via IRC in priv, the best would be to implement the MPEG_TS
-generator as part of the bridge DVB driver.
+In the end Enric rebased his branch on top of v5.6-rc1 so I won't take this
+patch into branch. So feel free to take it through yours.
 
-Anyway, I will review the code below assuming that you'll be moving the
-implementation to the right place.
-
-PS.: I didn't actually check if the tables are filled properly. This is
-something that we can do later, once the code is running.
-
+Regards,
+Matthias
 
 > 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> ---
->  drivers/media/dvb-frontends/Makefile          |   1 +
->  drivers/media/dvb-frontends/dvb_dummy_fe.c    | 265 ++++-
->  drivers/media/dvb-frontends/dvb_dummy_fe.h    |  32 +
->  .../media/dvb-frontends/dvb_dummy_fe_common.h |  55 ++
->  .../media/dvb-frontends/dvb_dummy_fe_psi.c    | 902 ++++++++++++++++++
->  .../media/dvb-frontends/dvb_dummy_fe_psi.h    | 287 ++++++
->  6 files changed, 1522 insertions(+), 20 deletions(-)
->  create mode 100644 drivers/media/dvb-frontends/dvb_dummy_fe_common.h
->  create mode 100644 drivers/media/dvb-frontends/dvb_dummy_fe_psi.c
->  create mode 100644 drivers/media/dvb-frontends/dvb_dummy_fe_psi.h
+> Regards,
+> CK
 > 
-> diff --git a/drivers/media/dvb-frontends/Makefile b/drivers/media/dvb-frontends/Makefile
-> index e9179162658c..2a44239de74d 100644
-> --- a/drivers/media/dvb-frontends/Makefile
-> +++ b/drivers/media/dvb-frontends/Makefile
-> @@ -15,6 +15,7 @@ stv0900-objs := stv0900_core.o stv0900_sw.o
->  drxd-objs := drxd_firm.o drxd_hard.o
->  cxd2820r-objs := cxd2820r_core.o cxd2820r_c.o cxd2820r_t.o cxd2820r_t2.o
->  drxk-objs := drxk_hard.o
-> +dvb_dummy_fe-objs := dvb_dummy_fe_psi.o
->  
->  obj-$(CONFIG_DVB_PLL) += dvb-pll.o
->  obj-$(CONFIG_DVB_STV0299) += stv0299.o
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> index 14446f2bdcde..ff0c510bdff5 100644
-> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-> @@ -14,14 +14,8 @@
->  
->  #include <media/dvb_frontend.h>
->  #include "dvb_dummy_fe.h"
-> -
-> -
-> -struct dvb_dummy_fe_cnr_to_qual_s {
-> -	/* attempt to use the same values as libdvbv5 */
-> -	u32 modulation;
-> -	u32 fec;
-> -	u32 cnr_ok, cnr_good;
-> -};
-> +#include "dvb_dummy_fe_common.h"
-> +#include "dvb_dummy_fe_psi.h"
->  
->  struct dvb_dummy_fe_cnr_to_qual_s dvb_dummy_fe_c_cnr_2_qual[] = {
->  	/* from libdvbv5 source code, in milli db */
-> @@ -73,18 +67,248 @@ static struct dvb_dummy_fe_cnr_to_qual_s dvb_dummy_fe_t_cnr_2_qual[] = {
->  	{ QAM_64, FEC_7_8, 22000, 24000},
->  };
->  
-> -struct dvb_dummy_fe_config {
-> -	/* probability of losing the lock due to low snr */
-> -	u8 drop_tslock_prob_on_low_snr;
-> -	u8 recover_tslock_prob_on_good_snr;
-> -};
-> +static void
-> +dvb_dummy_fe_init_channels(struct dvb_dummy_channel channels[NUM_CHANNELS])
-> +{
-> +	const u16 pac_service_id = 0x880;
-> +	const u16 pac_program_num = 0x880;
-> +	const u16 pac_program_pid = 0x101; /* packet id for PMT*/
-> +	const u16 pac_audio_stream_id = 0x111;
-> +
-> +	struct dvb_dummy_channel pac; /* PCM Audio Channel */
-> +	struct dvb_dummy_table_sdt_service *pac_service;
-> +	struct dvb_dummy_desc_service *pac_s_desc;
-> +	u16 desc_length;
-> +
-> +	pac_service = dummy_fe_sdt_service_init(NULL, pac_service_id);
-> +
-> +	pac_s_desc = (struct dvb_dummy_desc_service *)
-> +		     dummy_fe_desc_init(NULL,
-> +					SERVICE_DESCRIPTOR,
-> +					sizeof(*pac_s_desc));
-> +
-> +	pac_s_desc->name = "Sine Wave PCM Audio";
-> +	pac_s_desc->service_type = DIGITAL_TELEVISION_SERVICE;
-> +	pac_s_desc->length = 8 /* u8 service_type */
-> +			     + strlen(pac_s_desc->name)
-> +			     + strlen(pac_s_desc->name_emph)
-> +			     + strlen(pac_s_desc->provider)
-> +			     + strlen(pac_s_desc->provider_emph);
-
-Please use a define for the "8" magic number, like
-
-	#define SDT_HEADER_SIZE 8
-
-(or something like that)
-
-
-Then the above would be::
-
-	pac_s_desc->length = SDT_HEADER_SIZE
-			     + strlen(pac_s_desc->name)
-			     + strlen(pac_s_desc->name_emph)
-			     + strlen(pac_s_desc->provider)
-			     + strlen(pac_s_desc->provider_emph);
-	
-Please do the same for other similar header sizes you may need.
-
-
-> +
-> +	dummy_fe_desc_assign((struct dvb_dummy_desc *)
-> +				   pac_s_desc,
-> +				   (struct dvb_dummy_desc *)
-> +				   pac_service->descriptor,
-> +				   &desc_length);
-
-Please fix the alignments. it shold be, instead:
-
-	dummy_fe_desc_assign((struct dvb_dummy_desc *) pac_s_desc,
-			     (struct dvb_dummy_desc *) pac_service->descriptor,
-			     &desc_length);
-
-Yet, there's no need to do explicit typecasts. Please change the above
-to:
-
-	dummy_fe_desc_assign(pac_s_desc, pac_service->descriptor,
-			     &desc_length);
-
-
-> +
-> +	pac_service->desc_length = desc_length;
-> +
-> +	pac.transport_stream_id = TRANSPORT_STREAM_ID;
-> +
-> +	pac.program = dummy_fe_pat_program_init(NULL,
-> +						pac_service_id,
-> +						pac_program_pid);
-> +
-> +	pac.program_num = pac_program_num;
-> +	pac.streams = dummy_fe_pmt_stream_init(NULL,
-> +					       ISO_IEC_13818_3_AUDIO,
-> +					       pac_audio_stream_id);
-> +
-> +	memcpy(&channels[0], &pac, sizeof(struct dvb_dummy_channel));
-> +}
->  
-> -struct dvb_dummy_fe_state {
-> -	struct dvb_frontend frontend;
-> -	struct dvb_dummy_fe_config config;
-> -	struct delayed_work poll_snr;
-> -	enum fe_status status;
-> -};
-> +static void
-> +dvb_dummy_fe_channels_destroy(struct dvb_dummy_channel channels[NUM_CHANNELS])
-> +{
-> +	u32 i;
-> +	struct dvb_dummy_channel *curr;
-> +
-> +	for (i = 0; i < NUM_CHANNELS; ++i) {
-> +		curr = &channels[i];
-> +		dummy_fe_sdt_service_destroy(curr->service);
-> +		dummy_fe_pat_program_destroy(curr->program);
-> +		dummy_fe_pmt_stream_destroy(curr->streams);
-> +	}
-> +}
-> +
-> +static struct dvb_dummy_table_sdt_service*
-> +dummy_fe_sdt_serv_cat_into_new(struct dvb_dummy_channel channels[NUM_CHANNELS])
-> +{
-> +	u32 i;
-> +	struct dvb_dummy_table_sdt_service *curr = NULL;
-> +	struct dvb_dummy_table_sdt_service *head = NULL;
-> +	struct dvb_dummy_table_sdt_service *tail = NULL;
-> +	u16 service_id;
-> +
-> +	for (i = 0; i < NUM_CHANNELS; ++i) {
-> +		curr = channels[i].service;
-> +		service_id = curr->service_id;
-> +
-> +		if (!curr)
-> +			continue;
-> +
-> +		while (curr->next) {
-> +			tail = dummy_fe_sdt_service_init(tail, service_id);
-> +
-> +			if (!head)
-> +				head = tail;
-> +
-> +			curr = curr->next;
-> +		}
-> +	}
-> +
-> +	return head;
-> +}
-> +
-> +static struct dvb_dummy_table_pat_program*
-> +dummy_fe_pat_prog_cat_into_new(struct dvb_dummy_channel channels[NUM_CHANNELS])
-> +{
-> +	u32 i;
-> +	struct dvb_dummy_table_pat_program *curr = NULL;
-> +	struct dvb_dummy_table_pat_program *head = NULL;
-> +	struct dvb_dummy_table_pat_program *tail = NULL;
-> +
-> +	for (i = 0; i < NUM_CHANNELS; ++i) {
-> +		curr = channels[i].program;
-> +
-> +		if (!curr)
-> +			continue;
-> +
-> +		while (curr->next) {
-> +			tail = dummy_fe_pat_program_init
-> +			       (tail, curr->service_id, curr->pid);
-
-Please do, instead:
-
-			tail = dummy_fe_pat_program_init(tail,
-							  curr->service_id,
-							  curr->pid);
-
-
-> +
-> +			if (!head)
-> +				head = tail;
-> +
-> +			curr = curr->next;
-> +		}
-> +	}
-> +
-> +	return head;
-> +}
-> +
-> +static void
-> +dummy_fe_pmt_stream_match_with_sections(struct dvb_dummy_channel *channels,
-> +					struct dvb_dummy_table_pmt *sections,
-> +					u32 nsections)
-
-Please align the parenthesis.
-
-I would actually rename it, as the name is too big for my taste.
-I suspect that this name would be good enough:
-
-	dummy_fe_pmt_match_sections()
-
-
-
-> +{
-> +	struct dvb_dummy_table_pmt *curr_section = NULL;
-> +	u32 i, j;
-> +
-> +	for (i = 0; i < NUM_CHANNELS; ++i) {
-> +		for (j = 0; j < nsections; ++j) {
-> +			curr_section = &sections[j];
-> +
-> +			if (!curr_section)
-> +				continue;
-> +
-> +			if (curr_section->header.id ==
-> +			    channels[i].program_num) {
-> +				dummy_fe_pmt_stream_assign(curr_section,
-> +							   channels[i].streams);
-> +				break;
-> +			}
-> +		}
-> +	}
-> +}
-> +
-> +static void dvb_dummy_fe_thread_mpeg_ts_tick(struct dvb_frontend *fe)
-> +{
-> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
-> +	const unsigned int SLEEP_MSECS = 10;
-> +	u32 ticks = 0;
-> +	u32 i;
-> +	char *buf = kzalloc(DMX_BUF_LEN, GFP_KERNEL);
-> +	u32 buffer_offset;
-> +
-> +	struct dvb_dummy_table_pat pat = {0};
-> +	struct dvb_dummy_table_sdt sdt = {0};
-
-I guess it is ok here, but allocating too much stuff at the stack is
-dangerous. Linux Kernel stack is very small. Perhaps the best would
-be to place those at the driver's private struct (with is allocated with
-kalloc).
-
-> +
-> +	struct dvb_dummy_table_pmt *pmt_sections;
-> +
-> +	struct dvb_dummy_table_pat_program *programs = NULL;
-> +	struct dvb_dummy_table_sdt_service *services = NULL;
-> +
-> +	bool update_version_num = false;
-> +	u16 pmt_pid;
-> +
-> +	programs = dummy_fe_pat_prog_cat_into_new(state->channels);
-> +	services = dummy_fe_sdt_serv_cat_into_new(state->channels);
-> +
-> +	/* assemble all programs and assign to PAT */
-> +	dummy_fe_pat_program_assign(&pat, programs);
-> +
-> +	/* assemble all services and assign to SDT */
-> +	dummy_fe_sdt_service_assign(&sdt, services);
-> +
-> +	/* a section for each program_id */
-> +	pmt_sections = kcalloc(pat.programs,
-> +			       sizeof(struct dvb_dummy_table_pmt),
-> +			       GFP_KERNEL);
-> +
-> +	dummy_fe_pmt_create_section_for_each_pat_entry(&pat,
-> +						       pmt_sections);
-> +
-> +	dummy_fe_pmt_stream_match_with_sections(state->channels,
-> +						pmt_sections,
-> +						pat.programs);
-> +
-> +	dummy_fe_pat_table_init(&pat,
-> +				update_version_num,
-> +				TRANSPORT_STREAM_ID);
-> +
-> +	dummy_fe_sdt_table_init(&sdt,
-> +				update_version_num,
-> +				TRANSPORT_STREAM_ID);
-> +	while (true) {
-> +		memset(buf, 0, DMX_BUF_LEN);
-> +		buffer_offset = 0;
-> +
-> +		if ((ticks % 50) == 0) {
-> +			/* push PSI packets into the buffer */
-> +
-> +			buffer_offset +=
-> +				dummy_fe_pat_write_into(buf,
-> +							buffer_offset,
-> +							&pat);
-> +			for (i = 0; i < pat.programs; ++i) {
-> +				pmt_pid =
-> +				dummy_fe_pmt_get_pid(&pmt_sections[i],
-> +						     &pat);
-> +
-> +				/* not found */
-> +				WARN_ON(pmt_pid > LAST_VALID_TS_PID);
-> +
-> +				/* write each section into buffer */
-> +				buffer_offset +=
-> +				dummy_fe_pmt_write_into(buf,
-> +							buffer_offset,
-> +							&pmt_sections[i],
-> +							pmt_pid);
-> +			}
-> +
-> +			buffer_offset +=
-> +				dummy_fe_sdt_write_into(buf,
-> +							buffer_offset,
-> +							&sdt);
-> +
-> +			WARN_ON(buffer_offset > DMX_BUF_LEN); /* overflow */
-
-> +			msleep_interruptible(SLEEP_MSECS);
-
-That doesn't sound right, for two reasons:
-
-1) msleep_interruptible() can take less time than expected, if
-   interupted;
-2) the time may vary a lot.
-
-I would use the high-res timer here, giving a range for it (maybe a 10ms
-range?), e. g., something like:
-
-			usleep_range(SLEEP_USECS, SLEEP_USECS + 10000);
-
-
-
-> +		}
-> +	}
-> +
-> +	dummy_fe_pat_table_destroy(&pat);
-> +	dummy_fe_sdt_table_destroy(&sdt);
-> +
-> +	for (i = 0; i < pat.programs; ++i) {
-> +		/* destroy all PMT sections */
-> +		dummy_fe_pmt_table_destroy(&pmt_sections[i]);
-> +		kfree(&pmt_sections[i]);
-> +	}
-> +
-> +	kfree(buf);
-
-The above code will never be called, as there's an infinite loop at the
-task.
-
-Either you should do something like:
-
-	while(st->psi_running) {
-		...
-	}
-	/* Free code */
-
-or rewrite it and use some something like kthread, workqueue, ...
-
-> +}
-
-
-
->  
->  static void poll_snr_handler(struct work_struct *work)
->  {
-> @@ -165,7 +389,6 @@ static void poll_snr_handler(struct work_struct *work)
->  static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
->  				    enum fe_status *status)
->  {
-> -
->  	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
->  
->  	*status = state->status;
-> @@ -232,6 +455,7 @@ static int dvb_dummy_fe_init(struct dvb_frontend *fe)
->  {
->  	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
->  
-> +	dvb_dummy_fe_init_channels(state->channels);
->  	INIT_DELAYED_WORK(&state->poll_snr, &poll_snr_handler);
->  	schedule_delayed_work(&state->poll_snr, msecs_to_jiffies(2000));
->  	return 0;
-> @@ -254,6 +478,7 @@ static void dvb_dummy_fe_release(struct dvb_frontend *fe)
->  	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
->  
->  	cancel_delayed_work_sync(&state->poll_snr);
-> +	dvb_dummy_fe_channels_destroy(state->channels);
->  	kfree(state);
->  }
->  
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.h b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-> index 463abf5ebd56..02efa1aed09c 100644
-> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.h
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-> @@ -10,6 +10,38 @@
->  
->  #include <linux/dvb/frontend.h>
->  #include <media/dvb_frontend.h>
-> +#include "dvb_dummy_fe_common.h"
-> +#include "dvb_dummy_fe_psi.h"
-> +
-> +struct dvb_dummy_fe_cnr_to_qual_s {
-> +	/* attempt to use the same values as libdvbv5 */
-> +	u32 modulation;
-> +	u32 fec;
-> +	u32 cnr_ok, cnr_good;
-> +};
-> +
-> +struct dvb_dummy_channel {
-> +	u16 transport_stream_id;
-> +	struct dvb_dummy_table_sdt_service *service;
-> +	u16 program_num;
-> +	/* a single program with one or more streams associated with it */
-> +	struct dvb_dummy_table_pat_program *program;
-> +	struct dvb_dummy_table_pmt_stream *streams;
-> +};
-> +
-> +struct dvb_dummy_fe_config {
-> +	/* prob of losing the lock due to low snr */
-> +	u8 drop_tslock_prob_on_low_snr;
-> +	u8 recover_tslock_prob_on_good_snr;
-> +};
-> +
-> +struct dvb_dummy_fe_state {
-> +	struct dvb_frontend frontend;
-> +	struct dvb_dummy_fe_config config;
-> +	struct delayed_work poll_snr;
-> +	enum fe_status status;
-> +	struct dvb_dummy_channel channels[NUM_CHANNELS];
-> +};
->  
->  #if IS_REACHABLE(CONFIG_DVB_DUMMY_FE)
->  struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe_common.h b/drivers/media/dvb-frontends/dvb_dummy_fe_common.h
-> new file mode 100644
-> index 000000000000..c43b24e2b363
-> --- /dev/null
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe_common.h
-> @@ -0,0 +1,55 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef DVB_DUMMY_FE_PRIV_H
-> +#define DVB_DUMMY_FE_PRIV_H
-> +
-> +#include <linux/types.h>
-> +#include <media/dvb_frontend.h>
-> +
-> +#define CRC_SIZE_IN_BYTES 32
-> +#define NUM_CHANNELS 1
-> +#define TRANSPORT_STREAM_ID 0x744 /* a single stream */
-> +#define TS_SYNC_BYTE 0x47
-> +#define TS_PACKET_LEN 188
-> +#define TS_PAYLOAD_LEN 184
-> +#define DMX_BUF_LEN (20 * TS_PACKET_LEN)
-> +#define LAST_VALID_TS_PID 8191
-> +
-> +/* to be used by both PSI and ES */
-> +struct dvb_dummy_mpeg_ts_adaption {
-> +	u8 length;
-> +	struct {
-> +		u8 extension:1;
-> +		u8 private_data:1;
-> +		u8 splicing_point:1;
-> +		u8 OPCR:1;
-> +		u8 PCR:1;
-> +		u8 priority:1;
-> +		u8 random_access:1;
-> +		u8 discontinued:1;
-> +	} __packed;
-> +	u8 data[];
-> +} __packed;
-> +
-> +/* to be used by both PSI and ES */
-> +struct dvb_dummy_mpeg_ts {
-> +	u8 sync_byte;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 pid:13;
-> +			u16 priority:1;
-> +			u16 payload_start:1;
-> +			u16 tei:1;
-> +		} __packed;
-> +	} __packed;
-> +	struct {
-> +		u8 continuity_counter:4;
-> +		u8 payload:1;
-> +		u8 adaptation_field:1;
-> +		u8 scrambling:2;
-> +	} __packed;
-> +	struct dvb_dummy_mpeg_ts_adaption adaption[];
-> +} __packed;
-> +
-> +#endif // DVB_DUMMY_FE_PRIV_H
-> \ No newline at end of file
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe_psi.c b/drivers/media/dvb-frontends/dvb_dummy_fe_psi.c
-> new file mode 100644
-> index 000000000000..8cf0fc1e584e
-> --- /dev/null
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe_psi.c
-> @@ -0,0 +1,902 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/types.h>
-> +#include <linux/string.h>
-> +#include <linux/slab.h>
-> +#include <linux/crc32.h>
-> +#include <linux/string.h>
-> +
-> +#include "dvb_dummy_fe_common.h"
-> +#include "dvb_dummy_fe_psi.h"
-> +
-> +static u32 dummy_fe_ts_psi_write_stuffing(void *to, u32 len)
-> +{
-> +	memset(to, 0xff, len);
-> +	return len;
-> +}
-> +
-> +static u32
-> +dummy_fe_ts_psi_write_into(struct psi_write_args args)
-> +{
-> +	/*
-> +	 * Packetize PSI sections into TS packets:
-> +	 *  push a TS header (4bytes) every 184 bytes
-> +	 *  manage the continuity_counter
-> +	 *  add stuffing after the CRC
-> +	 */
-> +
-> +	u32 nbytes_past_boundary = (args.offset % TS_PACKET_LEN);
-> +	bool aligned = nbytes_past_boundary == 0;
-> +	bool split = args.len > TS_PAYLOAD_LEN;
-> +	u32 payload_write_len = (split) ? TS_PAYLOAD_LEN : args.len;
-> +
-> +	struct psi_write_args new_args = {0};
-> +	struct dvb_dummy_mpeg_ts ts_header = {0};
-> +
-> +	u32 nbytes = 0; /* number of bytes written by this function */
-> +
-> +	if (args.new_psi_section && !aligned) {
-> +		/*
-> +		 * must pad the buffer with the complement to get a
-> +		 * multiple of 188
-> +		 */
-> +		nbytes += dummy_fe_ts_psi_write_stuffing(args.to +
-> +							 args.offset +
-> +							 nbytes,
-> +							 TS_PACKET_LEN -
-> +							 nbytes_past_boundary);
-> +
-> +		/*
-> +		 * if we were not at a packet boundary, we are now after
-> +		 * stuffing the buffer with 0xff
-> +		 */
-> +		aligned = true;
-> +	}
-> +
-> +	if (aligned) {
-> +		/* if at a packet boundary, write a new TS header */
-> +		ts_header.sync_byte = TS_SYNC_BYTE;
-> +		ts_header.tei = 0;
-> +		ts_header.payload_start = 1;
-> +		ts_header.pid = args.pid;
-> +		ts_header.priority = 0;
-> +		ts_header.scrambling = 0; /* not scrambled */
-> +		ts_header.continuity_counter = *args.continuity_counter;
-> +		ts_header.payload_start = 0; /* no adaption for now */
-> +
-> +		/* copy the header minus the adaption pointer*/
-> +		memcpy(args.to + args.offset + nbytes,
-> +		       &ts_header,
-> +		       sizeof(ts_header));
-> +
-> +		nbytes += sizeof(ts_header);
-> +	}
-> +
-> +	if (args.new_psi_section) {
-> +		/* write the pointer_field in the first byte of the payload */
-> +		memset(args.to + args.offset + nbytes, 0x0, 1);
-> +		nbytes += 1;
-> +		--payload_write_len; /* one byte was used by the pointer field*/
-> +	}
-> +
-> +	/* write as much of the payload as we possibly can */
-> +	memcpy(args.to + args.offset + nbytes,
-> +	       args.from,
-> +	       payload_write_len);
-> +
-> +	nbytes += payload_write_len;
-> +
-> +	if (split) {
-> +		/*
-> +		 * next TS packet keeps the same PID, but increments the
-> +		 * counter
-> +		 */
-> +		++(*args.continuity_counter);
-> +		/* 'nbytes' written from a total of 'len' requested*/
-> +		args.len -= nbytes;
-> +		/*
-> +		 * recursively write the rest of the data until we do not
-> +		 * need to split it anymore
-> +		 */
-> +		memcpy(&new_args, &args, sizeof(struct psi_write_args));
-> +		new_args.from = args.from + nbytes;
-> +		new_args.offset = args.offset + nbytes;
-> +		new_args.new_psi_section = false;
-> +
-> +		nbytes += dummy_fe_ts_psi_write_into(new_args);
-> +	}
-> +
-> +	if (args.is_crc)
-> +		/*
-> +		 * as the CRC is last in the section, stuff the rest of the
-> +		 * packet if there is any remaining space in there
-> +		 */
-> +
-> +		nbytes += dummy_fe_ts_psi_write_stuffing(args.to + nbytes,
-> +							 TS_PAYLOAD_LEN -
-> +							 nbytes);
-> +
-> +	return nbytes;
-> +}
-> +
-> +static u32 table_section_crc32_write_into(struct crc32_write_args args)
-> +{
-> +	/* the CRC is the last entry in the section */
-> +	u32 nbytes = 0;
-> +	u32 crc;
-> +	struct psi_write_args psi_args = {0};
-> +
-> +	crc = crc32(0, args.to, args.offset);
-> +
-> +	psi_args.to = args.to;
-> +	psi_args.from = &crc;
-> +	psi_args.len = CRC_SIZE_IN_BYTES;
-> +	psi_args.offset = args.offset;
-> +	psi_args.pid = args.pid;
-> +	psi_args.new_psi_section = false;
-> +	psi_args.continuity_counter = args.continuity_counter;
-> +	psi_args.is_crc = true;
-> +
-> +	nbytes += dummy_fe_ts_psi_write_into(psi_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +struct dvb_dummy_desc *dummy_fe_desc_init(struct dvb_dummy_desc *head,
-> +					  u8 type,
-> +					  u8 length)
-> +{
-> +	struct dvb_dummy_desc *desc;
-> +
-> +	/* alloc enough memory for the flexible array too */
-> +	desc = kzalloc(sizeof(*desc) + length, GFP_KERNEL);
-> +
-> +	desc->type = type;
-> +	desc->length = length;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = desc;
-> +	}
-> +
-> +	return desc;
-> +}
-> +
-> +void dummy_fe_desc_destroy(struct dvb_dummy_desc *desc)
-> +{
-> +	struct dvb_dummy_desc *curr = desc;
-> +	struct dvb_dummy_desc *tmp = NULL;
-> +
-> +	while (curr) {
-> +		tmp = curr;
-> +		curr = curr->next;
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +static u32
-> +dummy_fe_desc_comp_len(struct dvb_dummy_desc *desc)
-> +{
-> +	u32 length = 0;
-> +
-> +	if (!desc)
-> +		return 0;
-> +
-> +	while (desc) {
-> +		length += desc->length;
-> +		desc = desc->next;
-> +	}
-> +
-> +	return length;
-> +}
-> +
-> +void dummy_fe_desc_assign(struct dvb_dummy_desc *desc,
-> +			  struct dvb_dummy_desc *desc_ptr,
-> +			  u16 *desc_length)
-> +{
-> +	if (desc_ptr)
-> +		/* clean the old data */
-> +		dummy_fe_desc_destroy(desc_ptr);
-
-Never do that:
-
-	if (foo)
-		/* some comment */
-		something();
-
-This will very easily get sideways, if one wants to add more stuff at
-the if. We usually, just do, instead:
-
-	/* clean the old data */
-	if (desc_ptr)
-		dummy_fe_desc_destroy(desc_ptr);
-
-
-> +
-> +	*desc_length = dummy_fe_desc_comp_len(desc);
-> +	desc_ptr = desc;
-> +}
-> +
-> +static u32 dummy_fe_desc_write_into(struct desc_write_args args)
-> +{
-> +	u32 nbytes = 0; /* the number of bytes written by this function */
-> +	struct psi_write_args psi_args = {0};
-> +
-> +	psi_args.to = args.to;
-> +	psi_args.from = args.desc;
-> +	psi_args.len = 16; /* u8 type + u8 length */
-> +	psi_args.offset = args.offset;
-> +	psi_args.pid = args.pid;
-> +	psi_args.new_psi_section = false;
-> +	psi_args.continuity_counter = args.continuity_counter;
-> +	psi_args.is_crc = false;
-> +
-> +	nbytes += dummy_fe_ts_psi_write_into(psi_args);
-> +
-> +	/* move 'from' pointer to point to u8 data[] */
-> +	psi_args.from = args.desc + nbytes + sizeof(struct dvb_dummy_desc *);
-> +	psi_args.len = args.desc->length;
-> +	psi_args.offset = args.offset + nbytes;
-> +
-> +	nbytes += dummy_fe_ts_psi_write_into(psi_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +static u32
-> +dummy_fe_table_header_write_into(struct header_write_args args)
-> +{
-> +	/* the number of bytes written by this function */
-> +	u32 nbytes = 0;
-> +	struct psi_write_args psi_args = {0};
-> +
-> +	psi_args.to = args.to;
-> +	psi_args.from = args.h;
-> +	psi_args.len = sizeof(struct dvb_dummy_table_header);
-> +	psi_args.offset = args.offset;
-> +	psi_args.pid = args.pid;
-> +	psi_args.new_psi_section = true;
-> +	psi_args.continuity_counter = args.continuity_counter;
-> +	psi_args.is_crc = false;
-> +
-> +	nbytes += dummy_fe_ts_psi_write_into(psi_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +static u16
-> +dummy_fe_pat_table_comp_sec_len(struct dvb_dummy_table_pat *pat)
-> +{
-> +	/* see ISO/IEC 13818-1 : 2000 p.43 */
-> +	u16 length = 0;
-> +	u32 i;
-> +
-> +	/* from immediately after 'section_length' until 'last_section_number'*/
-> +	length += PAT_LEN_UNTIL_LAST_SECTION_NUMBER;
-> +
-> +	for (i = 0; i < pat->programs; ++i)
-> +		/* do not count the pointer */
-> +		length += sizeof(struct dvb_dummy_table_pat_program) -
-> +			  sizeof(struct dvb_dummy_table_pat_program *);
-> +
-> +	length += CRC_SIZE_IN_BYTES;
-> +
-> +	WARN_ON(length > PAT_MAX_SECTION_LEN);
-> +	return length;
-> +}
-> +
-> +static u16
-> +dummy_fe_pmt_table_comp_sec_len(struct dvb_dummy_table_pmt *pmt)
-> +{
-> +	/* see ISO/IEC 13818-1 : 2000 p.46 */
-> +	u16 length = 0;
-> +	struct dvb_dummy_table_pmt_stream *s = pmt->stream;
-> +
-> +	/* from immediately after 'section_length' until 'program_info_length'*/
-> +	length += PMT_LEN_UNTIL_PROGRAM_INFO_LENGTH;
-> +
-> +	/* do not fail if 'desc_length' has not been computed yet */
-> +	length += dummy_fe_desc_comp_len(pmt->descriptor);
-> +	length += pmt->desc_length;
-> +
-> +	while (s) {
-> +		/* skip both pointers at the end */
-> +		length += sizeof(struct dvb_dummy_table_pmt_stream) -
-> +			  sizeof(struct dvb_dummy_desc *) -
-> +			  sizeof(struct dvb_dummy_table_pmt_stream *);
-> +
-> +		length += dummy_fe_desc_comp_len(s->descriptor);
-> +		s = s->next;
-> +	}
-> +
-> +	length += CRC_SIZE_IN_BYTES;
-> +
-> +	WARN_ON(length > PMT_MAX_SECTION_LEN);
-> +	return length;
-> +}
-> +
-> +static u16
-> +dummy_fe_sdt_table_comp_sec_len
-> +(struct dvb_dummy_table_sdt *sdt)
-> +{
-> +	/* see ETSI EN 300 468 V 1.10.1 p.24 */
-> +	u16 length = 0;
-> +	struct dvb_dummy_table_sdt_service *s = sdt->service;
-> +
-> +	/*
-> +	 * from immediately after 'section_length' until
-> +	 * 'reserved_for_future_use'
-> +	 */
-> +	length += SDT_LEN_UNTIL_RESERVED_FOR_FUTURE_USE;
-> +
-> +	while (s) {
-> +		/* skip both pointers at the end */
-> +		length += sizeof(struct dvb_dummy_table_pmt_stream) -
-> +			  sizeof(struct dvb_dummy_desc *) -
-> +			  sizeof(struct dvb_dummy_table_pmt_stream *);
-> +		/* do not fail if 'desc_length' has not been computed yet */
-> +		length += dummy_fe_desc_comp_len(s->descriptor);
-
-There's something really weird here: "s" var is not modified here,
-so the while() will always be true (or false).
-
-> +	}
-> +
-> +	length += CRC_SIZE_IN_BYTES;
-> +
-> +	WARN_ON(length > SDT_MAX_SECTION_LEN);
-
-even assuming that you fix the above code, and update "s" to the next
-SDT data, this is still too dangerous: if are there any risk of going 
-past the buffer size, you should check *before* the bad condition happens,
-e. g., something like:
-
-	while (s && length + CRC_SIZE_IN_BYTES < SDT_MAX_SECTION_LEN) {
-		...
-	}
-
-	if (s)
-		WARN_ON(length > SDT_MAX_SECTION_LEN);
-
-> +	return length;
-> +}
-> +
-> +struct dvb_dummy_table_pat_program*
-> +dummy_fe_pat_program_init(struct dvb_dummy_table_pat_program *head,
-> +			  u16 service_id,
-> +			  u16 pid)
-> +{
-> +	struct dvb_dummy_table_pat_program *program;
-> +
-> +	program = kzalloc(sizeof(*program), GFP_KERNEL);
-> +
-> +	program->service_id = service_id;
-> +	program->pid = pid; /* pid for the PMT section in the TS */
-> +	program->next = NULL;
-> +	program->reserved = 0x7;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = program;
-> +	}
-> +
-> +	return program;
-> +}
-> +
-> +void
-> +dummy_fe_pat_program_destroy(struct dvb_dummy_table_pat_program *p)
-> +{
-> +	struct dvb_dummy_table_pat_program *curr = p;
-> +	struct dvb_dummy_table_pat_program *tmp = NULL;
-> +
-> +	while (curr) {
-> +		tmp = curr;
-> +		curr = curr->next;
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +void
-> +dummy_fe_pat_program_assign(struct dvb_dummy_table_pat *pat,
-> +			    struct dvb_dummy_table_pat_program *p)
-> +{
-> +	u16 program_count = 0;
-> +	struct dvb_dummy_table_pat_program *program = p;
-> +
-> +	if (pat->program)
-> +		dummy_fe_pat_program_destroy(pat->program);
-> +
-> +	while (program) {
-> +		++program_count;
-> +		program = program->next;
-> +	}
-> +
-> +	pat->programs = program_count;
-> +
-> +	/* Recompute section length */
-> +	pat->header.section_length = dummy_fe_pat_table_comp_sec_len(pat);
-> +
-> +	pat->program = p;
-> +}
-> +
-> +void dummy_fe_pat_table_init(struct dvb_dummy_table_pat *pat,
-> +			     bool update_version_num,
-> +			     u16 transport_stream_id)
-> +{
-> +	static u8 pat_version;
-> +
-> +	pat->header.table_id = 0x0;
-> +	pat->header.syntax = 0x1;
-> +	pat->header.zero = 0x0;
-> +	pat->header.one = 0x03;
-> +
-> +	pat->header.id = transport_stream_id; /* transport stream ID, at will */
-> +	pat->header.current_next = 0x1;
-> +
-> +	/* ETSI 300 468: indicates changes in the TS described by this table*/
-> +	if (update_version_num)
-> +		++pat_version;
-> +
-> +	pat->header.version = pat_version;
-> +
-> +	pat->header.one2 = 0x03;
-> +	pat->header.section_id = 0x0;
-> +	pat->header.last_section = 0x0;
-> +
-> +	pat->programs = 0;
-> +
-> +	pat->header.section_length = dummy_fe_pat_table_comp_sec_len(pat);
-> +}
-> +
-> +u32 dummy_fe_pat_write_into(char *buf,
-> +			    u32 offset,
-> +			    struct dvb_dummy_table_pat *pat)
-> +{
-> +	u32 nbytes = 0; /* the number of bytes written by this function */
-> +	u8 continuity_counter = 0;
-> +	const u16 pat_pid = pat->header.table_id; /* always 0x0 */
-> +
-> +	struct dvb_dummy_table_pat_program *p = pat->program;
-> +	struct header_write_args h_args = {0};
-> +	struct psi_write_args args = {0};
-> +	struct crc32_write_args c_args = {0};
-
-How much data are you allocating here at the small Linux stack?
-
-> +
-> +	h_args.to = buf;
-> +	h_args.offset = offset;
-> +	h_args.h = &pat->header;
-> +	h_args.pid = pat_pid;
-> +	h_args.continuity_counter = &continuity_counter;
-> +
-> +	nbytes += dummy_fe_table_header_write_into(h_args);
-> +
-> +	args.to = buf;
-> +	args.from = pat + sizeof(struct dvb_dummy_table_header),
-> +	args.len = sizeof(pat->programs);
-> +	args.offset = offset + nbytes;
-> +	args.pid = pat_pid;
-> +	args.new_psi_section = false;
-> +	args.continuity_counter = &continuity_counter;
-> +	args.is_crc = false;
-> +
-> +	nbytes += dummy_fe_ts_psi_write_into(args);
-> +
-> +	while (p) {
-> +		args.from = p;
-> +		/* skip the pointer */
-> +		args. len = sizeof(*p) -
-> +			    sizeof(struct dvb_dummy_table_pat_program *);
-> +		args.offset = offset + nbytes;
-> +
-> +		nbytes += dummy_fe_ts_psi_write_into(args);
-> +		p = p->next;
-> +	}
-
-Please also protect here to avoid going past the buffer size.
-
-> +
-> +	c_args.to = buf;
-> +	c_args.offset = offset + nbytes;
-> +	c_args.pid = pat_pid;
-> +	c_args.continuity_counter = &continuity_counter;
-> +
-> +	nbytes += table_section_crc32_write_into(c_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +void
-> +dummy_fe_pat_table_destroy(struct dvb_dummy_table_pat *p)
-> +{
-> +	dummy_fe_pat_program_destroy(p->program);
-> +}
-> +
-> +struct dvb_dummy_table_pmt_stream*
-> +dummy_fe_pmt_stream_init(struct dvb_dummy_table_pmt_stream *head,
-> +			 enum dvb_dummy_stream_types stream_type,
-> +			 u16 es_pid)
-> +{
-> +	struct dvb_dummy_table_pmt_stream *stream;
-> +
-> +	stream = kzalloc(sizeof(*stream), GFP_KERNEL);
-> +
-> +	stream->type = stream_type;
-> +	stream->elementary_pid = es_pid;
-> +	stream->reserved = 0x07;
-> +
-> +	stream->desc_length = dummy_fe_desc_comp_len(stream->descriptor);
-> +
-> +	stream->zero = 0x0;
-> +	stream->reserved2 = 0x0f;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = stream;
-> +	}
-> +
-> +	return stream;
-> +}
-> +
-> +void dummy_fe_pmt_stream_destroy(struct dvb_dummy_table_pmt_stream *s)
-> +{
-> +	struct dvb_dummy_table_pmt_stream *curr_stream = s;
-> +	struct dvb_dummy_table_pmt_stream *tmp_stream = NULL;
-> +
-> +	while (curr_stream) {
-> +		tmp_stream = curr_stream;
-> +		curr_stream = curr_stream->next;
-> +		kfree(tmp_stream);
-> +	}
-> +}
-> +
-> +void dummy_fe_pmt_stream_assign(struct dvb_dummy_table_pmt *pmt,
-> +				struct dvb_dummy_table_pmt_stream *s)
-> +{
-> +	struct dvb_dummy_table_pmt_stream *stream = s;
-> +	struct dvb_dummy_desc *desc = s->descriptor;
-> +
-> +	if (pmt->stream)
-> +		dummy_fe_pmt_stream_destroy(pmt->stream);
-> +
-> +	while (stream)
-> +		stream = stream->next;
-> +
-> +	while (desc)
-> +		desc = desc->next;
-> +
-> +	/* Recompute section length */
-> +	pmt->header.section_length = dummy_fe_pmt_table_comp_sec_len(pmt);
-> +
-> +	pmt->stream = s;
-> +}
-> +
-> +u16 dummy_fe_pmt_get_pid(struct dvb_dummy_table_pmt *section,
-> +			 struct dvb_dummy_table_pat *pat)
-> +{
-> +	struct dvb_dummy_table_pat_program *program = pat->program;
-> +
-> +	while (program)
-> +		/*
-> +		 * service_id is the same as program_number in the
-> +		 * corresponding program_map_section
-> +		 * see ETSI EN 300 468 v1.15.1 p. 24
-> +		 */
-> +		if (program->service_id == section->header.id)
-> +			return pat->program->pid;
-> +
-> +	return LAST_VALID_TS_PID + 1; /* not found */
-> +}
-> +
-> +void dummy_fe_pmt_table_init(struct dvb_dummy_table_pmt *pmt,
-> +			     bool update_version_num,
-> +			     u16 program_number,
-> +			     u16 pcr_pid)
-> +{
-> +	static u8 pmt_version;
-> +
-> +	pmt->header.table_id = 0x2;
-> +	pmt->header.syntax = 0x1;
-> +	pmt->header.zero = 0x0;
-> +	pmt->header.one = 0x3;
-> +
-> +	pmt->header.id = program_number;
-> +	pmt->header.current_next = 0x1;
-> +
-> +	/* ETSI 300 468: indicates changes in the TS described by this table*/
-> +	if (update_version_num)
-> +		++pmt_version;
-> +
-> +	pmt->header.version = pmt_version;
-> +
-> +	pmt->header.one2 = 0x3;
-> +	pmt->header.section_id = 0;
-> +	pmt->header.last_section = 0;
-> +
-> +	pmt->pcr_pid = (pcr_pid) ? pcr_pid : 0x1fff;
-> +	pmt->reserved2 = 0x03;
-> +
-> +	pmt->reserved3 = 0x0f;
-> +	pmt->zero3 = 0x0;
-> +
-> +	pmt->desc_length = dummy_fe_desc_comp_len(pmt->descriptor);
-> +
-> +	pmt->header.section_length = dummy_fe_pmt_table_comp_sec_len(pmt);
-> +}
-> +
-> +u32 dummy_fe_pmt_write_into(char *buf,
-> +			    u32 offset,
-> +			    struct dvb_dummy_table_pmt *pmt,
-> +			    u16 pid)
-> +{
-> +	u32 nbytes = 0; /* the number of bytes written by this function */
-> +	u8 continuity_counter = 0;
-> +	struct dvb_dummy_desc *table_descriptor = pmt->descriptor;
-> +	struct dvb_dummy_table_pmt_stream *stream = pmt->stream;
-> +	struct dvb_dummy_desc *stream_descriptor = (stream) ?
-> +						    pmt->stream->descriptor :
-> +						    NULL;
-> +
-> +	struct header_write_args h_args = {0};
-> +	struct psi_write_args args = {0};
-> +	struct desc_write_args d_args = {0};
-> +	struct crc32_write_args c_args = {0};
-
-same here: how much data are you allocating at the Linux small stack?
-
-> +
-> +	h_args.to = buf;
-> +	h_args.offset = offset;
-> +	h_args.h = &pmt->header;
-> +	h_args.pid = pid;
-> +	h_args.continuity_counter = &continuity_counter;
-> +
-> +	nbytes += dummy_fe_table_header_write_into(h_args);
-> +
-> +	args.to = buf;
-> +	args.from = pmt + sizeof(struct dvb_dummy_table_header);
-> +	args.len = 32;
-> +	args.offset = offset + nbytes;
-> +	args.pid = pid;
-> +	args.new_psi_section = false;
-> +	args.continuity_counter = &continuity_counter;
-> +	args.is_crc = false;
-> +
-> +	nbytes += dummy_fe_ts_psi_write_into(args);
-> +
-> +	while (table_descriptor) {
-> +		d_args.to = buf;
-> +		d_args.offset = offset + nbytes;
-> +		d_args.desc = table_descriptor;
-> +		d_args.pid = pid;
-> +		d_args.continuity_counter = &continuity_counter;
-> +		nbytes += dummy_fe_desc_write_into(d_args);
-> +
-> +		table_descriptor = table_descriptor->next;
-> +	}
-> +
-> +	while (stream) {
-> +		args.from = stream;
-> +		args.len = 40; /* u8 type + (2* u16) bitfields */
-> +		args.offset = offset + nbytes;
-> +
-> +		nbytes += dummy_fe_ts_psi_write_into(args);
-> +
-> +		while (stream_descriptor) {
-> +			d_args.desc = stream_descriptor;
-> +			d_args.offset = offset + nbytes;
-> +			nbytes += dummy_fe_desc_write_into(d_args);
-> +
-> +			stream_descriptor = stream_descriptor->next;
-> +		}
-> +
-> +		stream = stream->next;
-> +	}
-
-Please protect both above loops against buffer overflow.
-
-> +
-> +	c_args.to = buf;
-> +	c_args.offset = offset + nbytes;
-> +	c_args.pid = pid;
-> +	c_args.continuity_counter = &continuity_counter;
-> +
-> +	nbytes += table_section_crc32_write_into(c_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +void dummy_fe_pmt_table_destroy(struct dvb_dummy_table_pmt *pmt)
-> +{
-> +	struct dvb_dummy_desc *curr_desc = pmt->descriptor;
-> +	struct dvb_dummy_desc *tmp_desc = NULL;
-> +
-> +	while (curr_desc) {
-> +		tmp_desc = curr_desc;
-> +		curr_desc = curr_desc->next;
-> +		dummy_fe_desc_destroy(tmp_desc);
-> +		kfree(tmp_desc);
-> +	}
-> +
-> +	dummy_fe_pmt_stream_destroy(pmt->stream);
-> +}
-> +
-> +void dummy_fe_sdt_table_init(struct dvb_dummy_table_sdt *sdt,
-> +			     bool update_version_num,
-> +			     u16 transport_stream_id)
-> +{
-> +	static u8 sdt_version;
-> +
-> +	sdt->header.table_id = 0x42;
-> +
-> +	sdt->header.one = 0x3;
-> +	sdt->header.zero = 0x1;
-> +	/*
-> +	 * The PAT, PMT, and CAT all set this to 0.
-> +	 * Other tables set this to 1.
-> +	 */
-> +	sdt->header.syntax = 0x1;
-> +
-> +	/*
-> +	 * This is a 16-bit field which serves as a label for identification
-> +	 * of the TS, about which the SDT informs, from any other multiplex
-> +	 * within the delivery system.
-> +	 */
-> +	sdt->header.id = transport_stream_id;
-> +	sdt->header.current_next = 0x1;
-> +
-> +	/* ETSI 300 468: indicates changes in the TS described by this table*/
-> +	if (update_version_num)
-> +		++sdt_version;
-> +
-> +	sdt->header.version = sdt_version;
-> +
-> +	sdt->header.one2 = 0x3;
-> +	sdt->header.section_id = 0;
-> +	sdt->header.last_section = 0;
-> +
-> +	sdt->network_id = transport_stream_id;
-> +	sdt->reserved = 0xff;
-> +
-> +	sdt->header.section_length =
-> +		dummy_fe_sdt_table_comp_sec_len(sdt);
-> +}
-> +
-> +u32 dummy_fe_sdt_write_into(char *buf,
-> +			    u32 offset,
-> +			    struct dvb_dummy_table_sdt *sdt)
-> +{
-> +	u32 nbytes = 0; /* the number of bytes written */
-> +	u16 sdt_pid = 0x11; /* see ETSI EN 300 468 v1.15.1 p. 11 */
-> +	u8 continuity_counter = 0;
-> +
-> +	struct dvb_dummy_table_sdt_service *service = sdt->service;
-> +	struct dvb_dummy_desc *service_desc = (sdt->service) ?
-> +					       sdt->service->descriptor :
-> +					       NULL;
-> +
-> +	struct header_write_args h_args = {0};
-> +	struct psi_write_args args = {0};
-> +	struct desc_write_args d_args = {0};
-
-
-same here: how much data are you allocating at the Linux small stack?
-
-
-> +	struct crc32_write_args c_args = {0};
-> +
-> +	h_args.to = buf;
-> +	h_args.offset = offset;
-> +	h_args.h = &sdt->header;
-> +	h_args.pid = sdt_pid;
-> +	h_args.continuity_counter = &continuity_counter;
-> +
-> +	nbytes += dummy_fe_table_header_write_into(h_args);
-> +
-> +	args.to = buf;
-> +	args.from = sdt + sizeof(struct dvb_dummy_table_header);
-> +	args.len = 16;
-> +	args.offset = offset + nbytes;
-> +	args.pid = sdt_pid;
-> +	args.new_psi_section = false;
-> +	args.continuity_counter = &continuity_counter;
-> +	args.is_crc = false;
-> +
-> +	/* copy u16 network_id + u8 reserved)*/
-> +	nbytes += dummy_fe_ts_psi_write_into(args);
-> +
-> +	while (service) {
-> +		/* u16 service_id + u8 + u16 bitfield */
-> +		args.from = service;
-> +		args.len = 40;
-> +		args.offset = offset + nbytes;
-> +
-> +		nbytes += dummy_fe_ts_psi_write_into(args);
-> +
-> +		while (service_desc) {
-> +			d_args.to = buf;
-> +			d_args.offset = offset + nbytes;
-> +			d_args.desc = service_desc;
-> +			d_args.pid = sdt_pid;
-> +			d_args.continuity_counter = &continuity_counter;
-> +			nbytes += dummy_fe_desc_write_into(d_args);
-> +
-> +			service_desc = service_desc->next;
-> +		}
-> +
-> +		service = service->next;
-> +	}
-
-Protect against buffer overflows.
-
-> +
-> +	c_args.to = buf;
-> +	c_args.offset = offset + nbytes;
-> +	c_args.pid = sdt_pid;
-> +	c_args.continuity_counter = &continuity_counter;
-> +
-> +	nbytes += table_section_crc32_write_into(c_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +void dummy_fe_sdt_table_destroy(struct dvb_dummy_table_sdt *sdt)
-> +{
-> +	struct dvb_dummy_table_sdt_service *curr_service = sdt->service;
-> +	struct dvb_dummy_table_sdt_service *tmp_service = NULL;
-> +	struct dvb_dummy_desc *curr_desc = (sdt->service) ?
-> +					   sdt->service->descriptor : NULL;
-> +	struct dvb_dummy_desc *tmp_desc = NULL;
-> +
-> +	while (curr_service) {
-> +		curr_desc = curr_service->descriptor;
-> +
-> +		while (curr_desc) {
-> +			/* clear all descriptors for the service */
-> +			tmp_desc = curr_desc;
-> +			curr_desc = curr_desc->next;
-> +			dummy_fe_desc_destroy(tmp_desc);
-> +			kfree(tmp_desc);
-> +		}
-> +
-> +		/* then clear the current service */
-> +		tmp_service = curr_service;
-> +		curr_service = curr_service->next;
-> +		kfree(tmp_service);
-> +	}
-> +}
-> +
-> +struct dvb_dummy_table_sdt_service*
-> +dummy_fe_sdt_service_init(struct dvb_dummy_table_sdt_service *head,
-> +			  u16 service_id)
-> +{
-> +	struct dvb_dummy_table_sdt_service *service;
-> +
-> +	service = kzalloc(sizeof(*service), GFP_KERNEL);
-> +
-> +	/*
-> +	 * ETSI 300 468: this is a 16bit field which serves as a label to
-> +	 * identify this service from any other service within the TS.
-> +	 * The service id is the same as the program number in the
-> +	 * corresponding program_map_section
-> +	 */
-> +	service->service_id = service_id;
-> +	service->EIT_schedule = 0x0; /* TODO */
-> +	service->EIT_present_following = 0x0; /* TODO */
-> +	service->reserved = 0x3f; /* all bits on */
-> +	service->free_CA_mode = 0x0; /* not scrambled */
-> +	service->running_status = RUNNING;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = service;
-> +	}
-> +
-> +	return service;
-> +}
-> +
-> +void
-> +dummy_fe_sdt_service_destroy(struct dvb_dummy_table_sdt_service *service)
-> +{
-> +	struct dvb_dummy_table_sdt_service *curr = service;
-> +	struct dvb_dummy_table_sdt_service *tmp = NULL;
-> +
-> +	while (curr) {
-> +		tmp = curr;
-> +		curr = curr->next;
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +void
-> +dummy_fe_sdt_service_assign(struct dvb_dummy_table_sdt *sdt,
-> +			    struct dvb_dummy_table_sdt_service *service)
-> +{
-> +	if (sdt->service)
-> +		/* clean up old services */
-> +		dummy_fe_sdt_service_destroy(sdt->service);
-> +
-> +	sdt->service = service;
-> +
-> +	sdt->header.section_length = dummy_fe_sdt_table_comp_sec_len(sdt);
-> +}
-> +
-> +void
-> +dummy_fe_pmt_create_section_for_each_pat_entry(struct dvb_dummy_table_pat *pat,
-> +					       struct dvb_dummy_table_pmt *sec)
-> +
-> +{
-> +	/*
-> +	 * PMTs contain information about programs. For each program,
-> +	 * there is one PMT
-> +	 */
-> +	struct dvb_dummy_table_pat_program *program = pat->program;
-> +	u32 i = 0;
-> +
-> +	while (program) {
-> +		dummy_fe_pmt_table_init(&sec[i],
-> +					false,
-> +					sec[i].header.id,
-> +					0);
-> +
-> +		++i;
-> +		program = program->next;
-> +	}
-> +}
-> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe_psi.h b/drivers/media/dvb-frontends/dvb_dummy_fe_psi.h
-> new file mode 100644
-> index 000000000000..17118481148f
-> --- /dev/null
-> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe_psi.h
-> @@ -0,0 +1,287 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef DVB_DUMMY_FE_PSI_H
-> +#define DVB_DUMMY_FE_PSI_H
-> +
-> +#include <linux/types.h>
-> +
-> +/*
-> + * all section lengths start immediately after the 'section_length' field
-> + * see ISO/IEC 13818-1 : 2000 and ETSI EN 300 468 V 1.10.1 for
-> + * reference
-> + */
-> +#define PAT_LEN_UNTIL_LAST_SECTION_NUMBER 40
-> +#define PAT_MAX_SECTION_LEN 1021
-> +#define PMT_LEN_UNTIL_PROGRAM_INFO_LENGTH 72
-> +#define PMT_MAX_SECTION_LEN 1021
-> +#define SDT_LEN_UNTIL_RESERVED_FOR_FUTURE_USE 64
-> +#define SDT_MAX_SECTION_LEN 1021
-> +
-> +enum dvb_dummy_descriptors {
-> +	SERVICE_DESCRIPTOR = 0x48,
-> +};
-> +
-> +enum dvb_dummy_stream_types {
-> +	ISO_IEC_13818_3_AUDIO = 0x4,
-> +};
-> +
-> +struct dvb_dummy_desc {
-> +	u8 type;
-> +	u8 length;
-> +	struct dvb_dummy_desc *next;
-> +	u8 data[];
-> +} __packed;
-> +
-> +struct dvb_dummy_desc_service {
-> +	u8 type;
-> +	u8 length;
-> +	struct dvb_desc *next;
-> +
-> +	u8 service_type;
-> +	char *name;
-> +	char *name_emph;
-> +	char *provider;
-> +	char *provider_emph;
-> +} __packed;
-> +
-> +struct dvb_dummy_table_header {
-> +	u8  table_id;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 section_length:12;
-> +			u8  one:2;
-> +			u8  zero:1;
-> +			u8  syntax:1;
-> +		} __packed;
-> +	} __packed;
-> +	u16 id;			/* TS ID */
-> +	u8  current_next:1;
-> +	u8  version:5;
-> +	u8  one2:2;
-> +
-> +	u8  section_id;		/* section_number */
-> +	u8  last_section;		/* last_section_number */
-> +} __packed;
-> +
-> +struct dvb_dummy_table_pat_program {
-> +	u16 service_id;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 pid:13;
-> +			u8  reserved:3;
-> +		} __packed;
-> +	} __packed;
-> +	struct dvb_dummy_table_pat_program *next;
-> +} __packed;
-> +
-> +struct dvb_dummy_table_pat {
-> +	struct dvb_dummy_table_header header;
-> +	u16 programs;
-> +	struct dvb_dummy_table_pat_program *program;
-> +} __packed;
-> +
-> +struct dvb_dummy_table_sdt_service {
-> +	u16 service_id;
-> +	u8 EIT_present_following:1;
-> +	u8 EIT_schedule:1;
-> +	u8 reserved:6;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 desc_length:12;
-> +			u16 free_CA_mode:1;
-> +			u16 running_status:3;
-> +		} __packed;
-> +	} __packed;
-> +	struct dvb_dummy_desc *descriptor;
-> +	struct dvb_dummy_table_sdt_service *next;
-> +} __packed;
-> +
-> +struct dvb_dummy_table_sdt {
-> +	struct dvb_dummy_table_header header;
-> +	u16 network_id;
-> +	u8  reserved;
-> +	struct dvb_dummy_table_sdt_service *service;
-> +} __packed;
-> +
-> +enum service_running_status {
-> +	RUNNING,
-> +};
-> +
-> +enum service_type {
-> +	/* see ETSI EN 300 468 v1.15.1 p. 77 */
-> +	DIGITAL_TELEVISION_SERVICE = 0x1,
-> +};
-> +
-> +struct dvb_dummy_table_pmt_stream {
-> +	u8 type;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 elementary_pid:13;
-> +			u16 reserved:3;
-> +		} __packed;
-> +	} __packed;
-> +	union {
-> +		u16 bitfield2;
-> +		struct {
-> +			u16 desc_length:10;
-> +			u16 zero:2;
-> +			u16 reserved2:4;
-> +		} __packed;
-> +	} __packed;
-> +	struct dvb_dummy_desc *descriptor;
-> +	struct dvb_dummy_table_pmt_stream *next;
-> +} __packed;
-> +
-> +struct dvb_dummy_table_pmt {
-> +	struct dvb_dummy_table_header header;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 pcr_pid:13;
-> +			u16 reserved2:3;
-> +		} __packed;
-> +	} __packed;
-> +
-> +	union {
-> +		u16 bitfield2;
-> +		struct {
-> +			u16 desc_length:10;
-> +			u16 zero3:2;
-> +			u16 reserved3:4;
-> +		} __packed;
-> +	} __packed;
-> +	struct dvb_dummy_desc *descriptor;
-> +	struct dvb_dummy_table_pmt_stream *stream;
-> +} __packed;
-> +
-> +struct psi_write_args {
-> +	void *to;
-> +	void *from;
-> +	size_t len; /* how much to write */
-> +	u32 offset; /* where to start writing in the buffer */
-> +	u16 pid; /* TS packet ID */
-> +	bool new_psi_section; /* set when starting a table section */
-> +	u8 *continuity_counter; /* TS: incremented when section gets split */
-> +	bool is_crc; /* set when writing the CRC at the end */
-> +};
-> +
-> +struct desc_write_args {
-> +	void *to;
-> +	u32 offset;
-> +	struct dvb_dummy_desc *desc;
-> +	u16 pid;
-> +	u8 *continuity_counter;
-> +};
-> +
-> +struct crc32_write_args {
-> +	void *to;
-> +	u32 offset;
-> +	u16 pid;
-> +	u8 *continuity_counter;
-> +};
-> +
-> +struct header_write_args {
-> +	void *to;
-> +	u32 offset;
-> +	struct dvb_dummy_table_header *h;
-> +	u16 pid;
-> +	u8 *continuity_counter;
-> +};
-> +
-> +struct dvb_dummy_desc *dummy_fe_desc_init(struct dvb_dummy_desc *head,
-> +					  u8 type,
-> +					  u8 length);
-> +
-> +void dummy_fe_pat_table_init(struct dvb_dummy_table_pat *pat,
-> +			     bool update_version_num,
-> +			     u16 transport_stream_id);
-> +
-> +struct dvb_dummy_table_pat_program*
-> +dummy_fe_pat_program_init(struct dvb_dummy_table_pat_program *head,
-> +			  u16 service_id,
-> +			  u16 pid);
-> +
-> +struct dvb_dummy_table_pmt_stream*
-> +dummy_fe_pmt_stream_init(struct dvb_dummy_table_pmt_stream *head,
-> +			 enum dvb_dummy_stream_types stream_type,
-> +			 u16 es_pid);
-> +
-> +void dummy_fe_pmt_table_init(struct dvb_dummy_table_pmt *pmt,
-> +			     bool update_version_num,
-> +			     u16 program_number,
-> +			     u16 pcr_pid);
-> +
-> +void
-> +dummy_fe_sdt_table_init(struct dvb_dummy_table_sdt *sdt,
-> +			bool update_version_num,
-> +			u16 transport_stream_id);
-> +
-> +struct dvb_dummy_table_sdt_service*
-> +dummy_fe_sdt_service_init(struct dvb_dummy_table_sdt_service *head,
-> +			  u16 service_id);
-> +
-> +void
-> +dummy_fe_desc_destroy(struct dvb_dummy_desc *desc);
-> +
-> +void
-> +dummy_fe_pat_program_destroy(struct dvb_dummy_table_pat_program *p);
-> +
-> +void
-> +dummy_fe_pat_table_destroy(struct dvb_dummy_table_pat *p);
-> +
-> +void
-> +dummy_fe_pmt_stream_destroy(struct dvb_dummy_table_pmt_stream *s);
-> +
-> +void
-> +dummy_fe_pmt_table_destroy(struct dvb_dummy_table_pmt *pmt);
-> +
-> +void
-> +dummy_fe_sdt_table_destroy(struct dvb_dummy_table_sdt *sdt);
-> +
-> +void
-> +dummy_fe_sdt_service_destroy(struct dvb_dummy_table_sdt_service *service);
-> +
-> +void
-> +dummy_fe_desc_destroy(struct dvb_dummy_desc *desc);
-> +
-> +void
-> +dummy_fe_pat_program_destroy(struct dvb_dummy_table_pat_program *p);
-> +
-> +void
-> +dummy_fe_sdt_service_assign(struct dvb_dummy_table_sdt *sdt,
-> +			    struct dvb_dummy_table_sdt_service *service);
-> +
-> +void dummy_fe_desc_assign(struct dvb_dummy_desc *desc,
-> +			  struct dvb_dummy_desc *desc_ptr,
-> +			  u16 *desc_length);
-> +
-> +void dummy_fe_pat_program_assign(struct dvb_dummy_table_pat *pat,
-> +				 struct dvb_dummy_table_pat_program *p);
-> +
-> +void dummy_fe_pmt_stream_assign(struct dvb_dummy_table_pmt *pmt,
-> +				struct dvb_dummy_table_pmt_stream *s);
-> +void
-> +dummy_fe_pmt_create_section_for_each_pat_entry(struct dvb_dummy_table_pat *pat,
-> +					       struct dvb_dummy_table_pmt *sec);
-> +
-> +u16 dummy_fe_pmt_get_pid(struct dvb_dummy_table_pmt *section,
-> +			 struct dvb_dummy_table_pat *pat);
-> +
-> +u32 dummy_fe_pat_write_into(char *buf,
-> +			    u32 offset,
-> +			    struct dvb_dummy_table_pat *pat);
-> +
-> +u32 dummy_fe_sdt_write_into(char *buf,
-> +			    u32 offset,
-> +			    struct dvb_dummy_table_sdt *sdt);
-> +
-> +u32 dummy_fe_pmt_write_into(char *buf,
-> +			    u32 offset,
-> +			    struct dvb_dummy_table_pmt *pmt,
-> +			    u16 pid);
-> +
-> +#endif // DVB_DUMMY_FE_PSI_H
-
-
-
-Thanks,
-Mauro
+>>
+>> Regards,
+>> Matthias
+>>
+>>> ---
+>>>
+>>> Changes in v12: None
+>>> Changes in v10:
+>>> - Select CONFIG_MTK_MMSYS (CK)
+>>> - Pass device pointer of mmsys device instead of config regs (CK)
+>>>
+>>> Changes in v9:
+>>> - Introduced a new patch to move routing control into mmsys driver.
+>>> - Removed the patch to use regmap as is not needed anymore.
+>>>
+>>> Changes in v8: None
+>>> Changes in v7: None
+>>>
+>>>  drivers/gpu/drm/mediatek/Kconfig        |   1 +
+>>>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  19 +-
+>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c  | 256 ----------------------
+>>>  drivers/gpu/drm/mediatek/mtk_drm_ddp.h  |   7 -
+>>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  14 +-
+>>>  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |   2 +-
+>>>  drivers/soc/mediatek/mtk-mmsys.c        | 279 ++++++++++++++++++++++++
+>>>  include/linux/soc/mediatek/mtk-mmsys.h  |  20 ++
+>>>  8 files changed, 316 insertions(+), 282 deletions(-)
+>>>  create mode 100644 include/linux/soc/mediatek/mtk-mmsys.h
+>>>
+>>> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/Kconfig
+>>> index fa5ffc4fe823..c420f5a3d33b 100644
+>>> --- a/drivers/gpu/drm/mediatek/Kconfig
+>>> +++ b/drivers/gpu/drm/mediatek/Kconfig
+>>> @@ -11,6 +11,7 @@ config DRM_MEDIATEK
+>>>  	select DRM_MIPI_DSI
+>>>  	select DRM_PANEL
+>>>  	select MEMORY
+>>> +	select MTK_MMSYS
+>>>  	select MTK_SMI
+>>>  	select VIDEOMODE_HELPERS
+>>>  	help
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> index 0e05683d7b53..579a5a5d4472 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+>>> @@ -6,6 +6,7 @@
+>>>  #include <linux/clk.h>
+>>>  #include <linux/pm_runtime.h>
+>>>  #include <linux/soc/mediatek/mtk-cmdq.h>
+>>> +#include <linux/soc/mediatek/mtk-mmsys.h>
+>>>  
+>>>  #include <asm/barrier.h>
+>>>  #include <soc/mediatek/smi.h>
+>>> @@ -28,7 +29,7 @@
+>>>   * @enabled: records whether crtc_enable succeeded
+>>>   * @planes: array of 4 drm_plane structures, one for each overlay plane
+>>>   * @pending_planes: whether any plane has pending changes to be applied
+>>> - * @config_regs: memory mapped mmsys configuration register space
+>>> + * @mmsys_dev: pointer to the mmsys device for configuration registers
+>>>   * @mutex: handle to one of the ten disp_mutex streams
+>>>   * @ddp_comp_nr: number of components in ddp_comp
+>>>   * @ddp_comp: array of pointers the mtk_ddp_comp structures used by this crtc
+>>> @@ -50,7 +51,7 @@ struct mtk_drm_crtc {
+>>>  	u32				cmdq_event;
+>>>  #endif
+>>>  
+>>> -	void __iomem			*config_regs;
+>>> +	struct device			*mmsys_dev;
+>>>  	struct mtk_disp_mutex		*mutex;
+>>>  	unsigned int			ddp_comp_nr;
+>>>  	struct mtk_ddp_comp		**ddp_comp;
+>>> @@ -296,9 +297,9 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+>>>  	}
+>>>  
+>>>  	for (i = 0; i < mtk_crtc->ddp_comp_nr - 1; i++) {
+>>> -		mtk_ddp_add_comp_to_path(mtk_crtc->config_regs,
+>>> -					 mtk_crtc->ddp_comp[i]->id,
+>>> -					 mtk_crtc->ddp_comp[i + 1]->id);
+>>> +		mtk_mmsys_ddp_connect(mtk_crtc->mmsys_dev,
+>>> +				      mtk_crtc->ddp_comp[i]->id,
+>>> +				      mtk_crtc->ddp_comp[i + 1]->id);
+>>>  		mtk_disp_mutex_add_comp(mtk_crtc->mutex,
+>>>  					mtk_crtc->ddp_comp[i]->id);
+>>>  	}
+>>> @@ -355,9 +356,9 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+>>>  					   mtk_crtc->ddp_comp[i]->id);
+>>>  	mtk_disp_mutex_disable(mtk_crtc->mutex);
+>>>  	for (i = 0; i < mtk_crtc->ddp_comp_nr - 1; i++) {
+>>> -		mtk_ddp_remove_comp_from_path(mtk_crtc->config_regs,
+>>> -					      mtk_crtc->ddp_comp[i]->id,
+>>> -					      mtk_crtc->ddp_comp[i + 1]->id);
+>>> +		mtk_mmsys_ddp_disconnect(mtk_crtc->mmsys_dev,
+>>> +					 mtk_crtc->ddp_comp[i]->id,
+>>> +					 mtk_crtc->ddp_comp[i + 1]->id);
+>>>  		mtk_disp_mutex_remove_comp(mtk_crtc->mutex,
+>>>  					   mtk_crtc->ddp_comp[i]->id);
+>>>  	}
+>>> @@ -761,7 +762,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>>>  	if (!mtk_crtc)
+>>>  		return -ENOMEM;
+>>>  
+>>> -	mtk_crtc->config_regs = priv->config_regs;
+>>> +	mtk_crtc->mmsys_dev = priv->mmsys_dev;
+>>>  	mtk_crtc->ddp_comp_nr = path_len;
+>>>  	mtk_crtc->ddp_comp = devm_kmalloc_array(dev, mtk_crtc->ddp_comp_nr,
+>>>  						sizeof(*mtk_crtc->ddp_comp),
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>>> index b885f60f474c..014c1bbe1df2 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+>>> @@ -13,26 +13,6 @@
+>>>  #include "mtk_drm_ddp.h"
+>>>  #include "mtk_drm_ddp_comp.h"
+>>>  
+>>> -#define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN	0x040
+>>> -#define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN	0x044
+>>> -#define DISP_REG_CONFIG_DISP_OD_MOUT_EN		0x048
+>>> -#define DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN	0x04c
+>>> -#define DISP_REG_CONFIG_DISP_UFOE_MOUT_EN	0x050
+>>> -#define DISP_REG_CONFIG_DISP_COLOR0_SEL_IN	0x084
+>>> -#define DISP_REG_CONFIG_DISP_COLOR1_SEL_IN	0x088
+>>> -#define DISP_REG_CONFIG_DSIE_SEL_IN		0x0a4
+>>> -#define DISP_REG_CONFIG_DSIO_SEL_IN		0x0a8
+>>> -#define DISP_REG_CONFIG_DPI_SEL_IN		0x0ac
+>>> -#define DISP_REG_CONFIG_DISP_RDMA2_SOUT		0x0b8
+>>> -#define DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN	0x0c4
+>>> -#define DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN	0x0c8
+>>> -#define DISP_REG_CONFIG_MMSYS_CG_CON0		0x100
+>>> -
+>>> -#define DISP_REG_CONFIG_DISP_OVL_MOUT_EN	0x030
+>>> -#define DISP_REG_CONFIG_OUT_SEL			0x04c
+>>> -#define DISP_REG_CONFIG_DSI_SEL			0x050
+>>> -#define DISP_REG_CONFIG_DPI_SEL			0x064
+>>> -
+>>>  #define MT2701_DISP_MUTEX0_MOD0			0x2c
+>>>  #define MT2701_DISP_MUTEX0_SOF0			0x30
+>>>  
+>>> @@ -94,48 +74,6 @@
+>>>  #define MUTEX_SOF_DSI2			5
+>>>  #define MUTEX_SOF_DSI3			6
+>>>  
+>>> -#define OVL0_MOUT_EN_COLOR0		0x1
+>>> -#define OD_MOUT_EN_RDMA0		0x1
+>>> -#define OD1_MOUT_EN_RDMA1		BIT(16)
+>>> -#define UFOE_MOUT_EN_DSI0		0x1
+>>> -#define COLOR0_SEL_IN_OVL0		0x1
+>>> -#define OVL1_MOUT_EN_COLOR1		0x1
+>>> -#define GAMMA_MOUT_EN_RDMA1		0x1
+>>> -#define RDMA0_SOUT_DPI0			0x2
+>>> -#define RDMA0_SOUT_DPI1			0x3
+>>> -#define RDMA0_SOUT_DSI1			0x1
+>>> -#define RDMA0_SOUT_DSI2			0x4
+>>> -#define RDMA0_SOUT_DSI3			0x5
+>>> -#define RDMA1_SOUT_DPI0			0x2
+>>> -#define RDMA1_SOUT_DPI1			0x3
+>>> -#define RDMA1_SOUT_DSI1			0x1
+>>> -#define RDMA1_SOUT_DSI2			0x4
+>>> -#define RDMA1_SOUT_DSI3			0x5
+>>> -#define RDMA2_SOUT_DPI0			0x2
+>>> -#define RDMA2_SOUT_DPI1			0x3
+>>> -#define RDMA2_SOUT_DSI1			0x1
+>>> -#define RDMA2_SOUT_DSI2			0x4
+>>> -#define RDMA2_SOUT_DSI3			0x5
+>>> -#define DPI0_SEL_IN_RDMA1		0x1
+>>> -#define DPI0_SEL_IN_RDMA2		0x3
+>>> -#define DPI1_SEL_IN_RDMA1		(0x1 << 8)
+>>> -#define DPI1_SEL_IN_RDMA2		(0x3 << 8)
+>>> -#define DSI0_SEL_IN_RDMA1		0x1
+>>> -#define DSI0_SEL_IN_RDMA2		0x4
+>>> -#define DSI1_SEL_IN_RDMA1		0x1
+>>> -#define DSI1_SEL_IN_RDMA2		0x4
+>>> -#define DSI2_SEL_IN_RDMA1		(0x1 << 16)
+>>> -#define DSI2_SEL_IN_RDMA2		(0x4 << 16)
+>>> -#define DSI3_SEL_IN_RDMA1		(0x1 << 16)
+>>> -#define DSI3_SEL_IN_RDMA2		(0x4 << 16)
+>>> -#define COLOR1_SEL_IN_OVL1		0x1
+>>> -
+>>> -#define OVL_MOUT_EN_RDMA		0x1
+>>> -#define BLS_TO_DSI_RDMA1_TO_DPI1	0x8
+>>> -#define BLS_TO_DPI_RDMA1_TO_DSI		0x2
+>>> -#define DSI_SEL_IN_BLS			0x0
+>>> -#define DPI_SEL_IN_BLS			0x0
+>>> -#define DSI_SEL_IN_RDMA			0x1
+>>>  
+>>>  struct mtk_disp_mutex {
+>>>  	int id;
+>>> @@ -246,200 +184,6 @@ static const struct mtk_ddp_data mt8173_ddp_driver_data = {
+>>>  	.mutex_sof_reg = MT2701_DISP_MUTEX0_SOF0,
+>>>  };
+>>>  
+>>> -static unsigned int mtk_ddp_mout_en(enum mtk_ddp_comp_id cur,
+>>> -				    enum mtk_ddp_comp_id next,
+>>> -				    unsigned int *addr)
+>>> -{
+>>> -	unsigned int value;
+>>> -
+>>> -	if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_OVL0_MOUT_EN;
+>>> -		value = OVL0_MOUT_EN_COLOR0;
+>>> -	} else if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_RDMA0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_OVL_MOUT_EN;
+>>> -		value = OVL_MOUT_EN_RDMA;
+>>> -	} else if (cur == DDP_COMPONENT_OD0 && next == DDP_COMPONENT_RDMA0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+>>> -		value = OD_MOUT_EN_RDMA0;
+>>> -	} else if (cur == DDP_COMPONENT_UFOE && next == DDP_COMPONENT_DSI0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_UFOE_MOUT_EN;
+>>> -		value = UFOE_MOUT_EN_DSI0;
+>>> -	} else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_OVL1_MOUT_EN;
+>>> -		value = OVL1_MOUT_EN_COLOR1;
+>>> -	} else if (cur == DDP_COMPONENT_GAMMA && next == DDP_COMPONENT_RDMA1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN;
+>>> -		value = GAMMA_MOUT_EN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_OD1 && next == DDP_COMPONENT_RDMA1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+>>> -		value = OD1_MOUT_EN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> -		value = RDMA0_SOUT_DPI0;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> -		value = RDMA0_SOUT_DPI1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> -		value = RDMA0_SOUT_DSI1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI2) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> -		value = RDMA0_SOUT_DSI2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI3) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> -		value = RDMA0_SOUT_DSI3;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> -		value = RDMA1_SOUT_DSI1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> -		value = RDMA1_SOUT_DSI2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> -		value = RDMA1_SOUT_DSI3;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> -		value = RDMA1_SOUT_DPI0;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> -		value = RDMA1_SOUT_DPI1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> -		value = RDMA2_SOUT_DPI0;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> -		value = RDMA2_SOUT_DPI1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> -		value = RDMA2_SOUT_DSI1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> -		value = RDMA2_SOUT_DSI2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> -		value = RDMA2_SOUT_DSI3;
+>>> -	} else {
+>>> -		value = 0;
+>>> -	}
+>>> -
+>>> -	return value;
+>>> -}
+>>> -
+>>> -static unsigned int mtk_ddp_sel_in(enum mtk_ddp_comp_id cur,
+>>> -				   enum mtk_ddp_comp_id next,
+>>> -				   unsigned int *addr)
+>>> -{
+>>> -	unsigned int value;
+>>> -
+>>> -	if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_COLOR0_SEL_IN;
+>>> -		value = COLOR0_SEL_IN_OVL0;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+>>> -		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> -		value = DPI0_SEL_IN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+>>> -		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> -		value = DPI1_SEL_IN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
+>>> -		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> -		value = DSI0_SEL_IN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+>>> -		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+>>> -		value = DSI1_SEL_IN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+>>> -		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> -		value = DSI2_SEL_IN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+>>> -		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+>>> -		value = DSI3_SEL_IN_RDMA1;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+>>> -		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> -		value = DPI0_SEL_IN_RDMA2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+>>> -		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> -		value = DPI1_SEL_IN_RDMA2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI0) {
+>>> -		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> -		value = DSI0_SEL_IN_RDMA2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+>>> -		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+>>> -		value = DSI1_SEL_IN_RDMA2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+>>> -		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> -		value = DSI2_SEL_IN_RDMA2;
+>>> -	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+>>> -		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> -		value = DSI3_SEL_IN_RDMA2;
+>>> -	} else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+>>> -		*addr = DISP_REG_CONFIG_DISP_COLOR1_SEL_IN;
+>>> -		value = COLOR1_SEL_IN_OVL1;
+>>> -	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+>>> -		*addr = DISP_REG_CONFIG_DSI_SEL;
+>>> -		value = DSI_SEL_IN_BLS;
+>>> -	} else {
+>>> -		value = 0;
+>>> -	}
+>>> -
+>>> -	return value;
+>>> -}
+>>> -
+>>> -static void mtk_ddp_sout_sel(void __iomem *config_regs,
+>>> -			     enum mtk_ddp_comp_id cur,
+>>> -			     enum mtk_ddp_comp_id next)
+>>> -{
+>>> -	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+>>> -		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+>>> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>>> -	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+>>> -		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+>>> -			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>>> -		writel_relaxed(DSI_SEL_IN_RDMA,
+>>> -			       config_regs + DISP_REG_CONFIG_DSI_SEL);
+>>> -		writel_relaxed(DPI_SEL_IN_BLS,
+>>> -			       config_regs + DISP_REG_CONFIG_DPI_SEL);
+>>> -	}
+>>> -}
+>>> -
+>>> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+>>> -			      enum mtk_ddp_comp_id cur,
+>>> -			      enum mtk_ddp_comp_id next)
+>>> -{
+>>> -	unsigned int addr, value, reg;
+>>> -
+>>> -	value = mtk_ddp_mout_en(cur, next, &addr);
+>>> -	if (value) {
+>>> -		reg = readl_relaxed(config_regs + addr) | value;
+>>> -		writel_relaxed(reg, config_regs + addr);
+>>> -	}
+>>> -
+>>> -	mtk_ddp_sout_sel(config_regs, cur, next);
+>>> -
+>>> -	value = mtk_ddp_sel_in(cur, next, &addr);
+>>> -	if (value) {
+>>> -		reg = readl_relaxed(config_regs + addr) | value;
+>>> -		writel_relaxed(reg, config_regs + addr);
+>>> -	}
+>>> -}
+>>> -
+>>> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+>>> -				   enum mtk_ddp_comp_id cur,
+>>> -				   enum mtk_ddp_comp_id next)
+>>> -{
+>>> -	unsigned int addr, value, reg;
+>>> -
+>>> -	value = mtk_ddp_mout_en(cur, next, &addr);
+>>> -	if (value) {
+>>> -		reg = readl_relaxed(config_regs + addr) & ~value;
+>>> -		writel_relaxed(reg, config_regs + addr);
+>>> -	}
+>>> -
+>>> -	value = mtk_ddp_sel_in(cur, next, &addr);
+>>> -	if (value) {
+>>> -		reg = readl_relaxed(config_regs + addr) & ~value;
+>>> -		writel_relaxed(reg, config_regs + addr);
+>>> -	}
+>>> -}
+>>> -
+>>>  struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id)
+>>>  {
+>>>  	struct mtk_ddp *ddp = dev_get_drvdata(dev);
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>>> index 827be424a148..6b691a57be4a 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.h
+>>> @@ -12,13 +12,6 @@ struct regmap;
+>>>  struct device;
+>>>  struct mtk_disp_mutex;
+>>>  
+>>> -void mtk_ddp_add_comp_to_path(void __iomem *config_regs,
+>>> -			      enum mtk_ddp_comp_id cur,
+>>> -			      enum mtk_ddp_comp_id next);
+>>> -void mtk_ddp_remove_comp_from_path(void __iomem *config_regs,
+>>> -				   enum mtk_ddp_comp_id cur,
+>>> -				   enum mtk_ddp_comp_id next);
+>>> -
+>>>  struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id);
+>>>  int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex);
+>>>  void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>> index 8e2d3cb62ad5..208f9c5256ef 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+>>> @@ -10,6 +10,7 @@
+>>>  #include <linux/of_address.h>
+>>>  #include <linux/of_platform.h>
+>>>  #include <linux/pm_runtime.h>
+>>> +#include <linux/soc/mediatek/mtk-mmsys.h>
+>>>  #include <linux/dma-mapping.h>
+>>>  
+>>>  #include <drm/drm_atomic.h>
+>>> @@ -425,7 +426,6 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>>>  {
+>>>  	struct device *dev = &pdev->dev;
+>>>  	struct mtk_drm_private *private;
+>>> -	struct resource *mem;
+>>>  	struct device_node *node;
+>>>  	struct component_match *match = NULL;
+>>>  	int ret;
+>>> @@ -436,14 +436,10 @@ static int mtk_drm_probe(struct platform_device *pdev)
+>>>  		return -ENOMEM;
+>>>  
+>>>  	private->data = of_device_get_match_data(dev);
+>>> -
+>>> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>>> -	private->config_regs = devm_ioremap_resource(dev, mem);
+>>> -	if (IS_ERR(private->config_regs)) {
+>>> -		ret = PTR_ERR(private->config_regs);
+>>> -		dev_err(dev, "Failed to ioremap mmsys-config resource: %d\n",
+>>> -			ret);
+>>> -		return ret;
+>>> +	private->mmsys_dev = dev->parent;
+>>> +	if (!private->mmsys_dev) {
+>>> +		dev_err(dev, "Failed to get MMSYS device\n");
+>>> +		return -ENODEV;
+>>>  	}
+>>>  
+>>>  	/* Iterate over sibling DISP function blocks */
+>>> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>>> index 17bc99b9f5d4..b5be63e53176 100644
+>>> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>>> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+>>> @@ -39,7 +39,7 @@ struct mtk_drm_private {
+>>>  
+>>>  	struct device_node *mutex_node;
+>>>  	struct device *mutex_dev;
+>>> -	void __iomem *config_regs;
+>>> +	struct device *mmsys_dev;
+>>>  	struct device_node *comp_node[DDP_COMPONENT_ID_MAX];
+>>>  	struct mtk_ddp_comp *ddp_comp[DDP_COMPONENT_ID_MAX];
+>>>  	const struct mtk_mmsys_driver_data *data;
+>>> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+>>> index dbdfedd302fa..4b286b525cd3 100644
+>>> --- a/drivers/soc/mediatek/mtk-mmsys.c
+>>> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+>>> @@ -5,8 +5,76 @@
+>>>   */
+>>>  
+>>>  #include <linux/clk-provider.h>
+>>> +#include <linux/device.h>
+>>>  #include <linux/of_device.h>
+>>>  #include <linux/platform_device.h>
+>>> +#include <linux/soc/mediatek/mtk-mmsys.h>
+>>> +
+>>> +#include "../../gpu/drm/mediatek/mtk_drm_ddp.h"
+>>> +#include "../../gpu/drm/mediatek/mtk_drm_ddp_comp.h"
+>>> +
+>>> +#define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN	0x040
+>>> +#define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN	0x044
+>>> +#define DISP_REG_CONFIG_DISP_OD_MOUT_EN		0x048
+>>> +#define DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN	0x04c
+>>> +#define DISP_REG_CONFIG_DISP_UFOE_MOUT_EN	0x050
+>>> +#define DISP_REG_CONFIG_DISP_COLOR0_SEL_IN	0x084
+>>> +#define DISP_REG_CONFIG_DISP_COLOR1_SEL_IN	0x088
+>>> +#define DISP_REG_CONFIG_DSIE_SEL_IN		0x0a4
+>>> +#define DISP_REG_CONFIG_DSIO_SEL_IN		0x0a8
+>>> +#define DISP_REG_CONFIG_DPI_SEL_IN		0x0ac
+>>> +#define DISP_REG_CONFIG_DISP_RDMA2_SOUT		0x0b8
+>>> +#define DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN	0x0c4
+>>> +#define DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN	0x0c8
+>>> +#define DISP_REG_CONFIG_MMSYS_CG_CON0		0x100
+>>> +
+>>> +#define DISP_REG_CONFIG_DISP_OVL_MOUT_EN	0x030
+>>> +#define DISP_REG_CONFIG_OUT_SEL			0x04c
+>>> +#define DISP_REG_CONFIG_DSI_SEL			0x050
+>>> +#define DISP_REG_CONFIG_DPI_SEL			0x064
+>>> +
+>>> +#define OVL0_MOUT_EN_COLOR0			0x1
+>>> +#define OD_MOUT_EN_RDMA0			0x1
+>>> +#define OD1_MOUT_EN_RDMA1			BIT(16)
+>>> +#define UFOE_MOUT_EN_DSI0			0x1
+>>> +#define COLOR0_SEL_IN_OVL0			0x1
+>>> +#define OVL1_MOUT_EN_COLOR1			0x1
+>>> +#define GAMMA_MOUT_EN_RDMA1			0x1
+>>> +#define RDMA0_SOUT_DPI0				0x2
+>>> +#define RDMA0_SOUT_DPI1				0x3
+>>> +#define RDMA0_SOUT_DSI1				0x1
+>>> +#define RDMA0_SOUT_DSI2				0x4
+>>> +#define RDMA0_SOUT_DSI3				0x5
+>>> +#define RDMA1_SOUT_DPI0				0x2
+>>> +#define RDMA1_SOUT_DPI1				0x3
+>>> +#define RDMA1_SOUT_DSI1				0x1
+>>> +#define RDMA1_SOUT_DSI2				0x4
+>>> +#define RDMA1_SOUT_DSI3				0x5
+>>> +#define RDMA2_SOUT_DPI0				0x2
+>>> +#define RDMA2_SOUT_DPI1				0x3
+>>> +#define RDMA2_SOUT_DSI1				0x1
+>>> +#define RDMA2_SOUT_DSI2				0x4
+>>> +#define RDMA2_SOUT_DSI3				0x5
+>>> +#define DPI0_SEL_IN_RDMA1			0x1
+>>> +#define DPI0_SEL_IN_RDMA2			0x3
+>>> +#define DPI1_SEL_IN_RDMA1			(0x1 << 8)
+>>> +#define DPI1_SEL_IN_RDMA2			(0x3 << 8)
+>>> +#define DSI0_SEL_IN_RDMA1			0x1
+>>> +#define DSI0_SEL_IN_RDMA2			0x4
+>>> +#define DSI1_SEL_IN_RDMA1			0x1
+>>> +#define DSI1_SEL_IN_RDMA2			0x4
+>>> +#define DSI2_SEL_IN_RDMA1			(0x1 << 16)
+>>> +#define DSI2_SEL_IN_RDMA2			(0x4 << 16)
+>>> +#define DSI3_SEL_IN_RDMA1			(0x1 << 16)
+>>> +#define DSI3_SEL_IN_RDMA2			(0x4 << 16)
+>>> +#define COLOR1_SEL_IN_OVL1			0x1
+>>> +
+>>> +#define OVL_MOUT_EN_RDMA			0x1
+>>> +#define BLS_TO_DSI_RDMA1_TO_DPI1		0x8
+>>> +#define BLS_TO_DPI_RDMA1_TO_DSI			0x2
+>>> +#define DSI_SEL_IN_BLS				0x0
+>>> +#define DPI_SEL_IN_BLS				0x0
+>>> +#define DSI_SEL_IN_RDMA				0x1
+>>>  
+>>>  struct mtk_mmsys_driver_data {
+>>>  	const char *clk_driver;
+>>> @@ -16,10 +84,221 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+>>>  	.clk_driver = "clk-mt8173-mm",
+>>>  };
+>>>  
+>>> +static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
+>>> +					  enum mtk_ddp_comp_id next,
+>>> +					  unsigned int *addr)
+>>> +{
+>>> +	unsigned int value;
+>>> +
+>>> +	if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_OVL0_MOUT_EN;
+>>> +		value = OVL0_MOUT_EN_COLOR0;
+>>> +	} else if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_RDMA0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_OVL_MOUT_EN;
+>>> +		value = OVL_MOUT_EN_RDMA;
+>>> +	} else if (cur == DDP_COMPONENT_OD0 && next == DDP_COMPONENT_RDMA0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+>>> +		value = OD_MOUT_EN_RDMA0;
+>>> +	} else if (cur == DDP_COMPONENT_UFOE && next == DDP_COMPONENT_DSI0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_UFOE_MOUT_EN;
+>>> +		value = UFOE_MOUT_EN_DSI0;
+>>> +	} else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_OVL1_MOUT_EN;
+>>> +		value = OVL1_MOUT_EN_COLOR1;
+>>> +	} else if (cur == DDP_COMPONENT_GAMMA && next == DDP_COMPONENT_RDMA1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_GAMMA_MOUT_EN;
+>>> +		value = GAMMA_MOUT_EN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_OD1 && next == DDP_COMPONENT_RDMA1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_OD_MOUT_EN;
+>>> +		value = OD1_MOUT_EN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> +		value = RDMA0_SOUT_DPI0;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DPI1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> +		value = RDMA0_SOUT_DPI1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> +		value = RDMA0_SOUT_DSI1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI2) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> +		value = RDMA0_SOUT_DSI2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA0 && next == DDP_COMPONENT_DSI3) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA0_SOUT_EN;
+>>> +		value = RDMA0_SOUT_DSI3;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> +		value = RDMA1_SOUT_DSI1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> +		value = RDMA1_SOUT_DSI2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> +		value = RDMA1_SOUT_DSI3;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> +		value = RDMA1_SOUT_DPI0;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA1_SOUT_EN;
+>>> +		value = RDMA1_SOUT_DPI1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> +		value = RDMA2_SOUT_DPI0;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> +		value = RDMA2_SOUT_DPI1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> +		value = RDMA2_SOUT_DSI1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> +		value = RDMA2_SOUT_DSI2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_RDMA2_SOUT;
+>>> +		value = RDMA2_SOUT_DSI3;
+>>> +	} else {
+>>> +		value = 0;
+>>> +	}
+>>> +
+>>> +	return value;
+>>> +}
+>>> +
+>>> +static unsigned int mtk_mmsys_ddp_sel_in(enum mtk_ddp_comp_id cur,
+>>> +					 enum mtk_ddp_comp_id next,
+>>> +					 unsigned int *addr)
+>>> +{
+>>> +	unsigned int value;
+>>> +
+>>> +	if (cur == DDP_COMPONENT_OVL0 && next == DDP_COMPONENT_COLOR0) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_COLOR0_SEL_IN;
+>>> +		value = COLOR0_SEL_IN_OVL0;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI0) {
+>>> +		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> +		value = DPI0_SEL_IN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DPI1) {
+>>> +		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> +		value = DPI1_SEL_IN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI0) {
+>>> +		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> +		value = DSI0_SEL_IN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI1) {
+>>> +		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+>>> +		value = DSI1_SEL_IN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI2) {
+>>> +		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> +		value = DSI2_SEL_IN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA1 && next == DDP_COMPONENT_DSI3) {
+>>> +		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+>>> +		value = DSI3_SEL_IN_RDMA1;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI0) {
+>>> +		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> +		value = DPI0_SEL_IN_RDMA2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DPI1) {
+>>> +		*addr = DISP_REG_CONFIG_DPI_SEL_IN;
+>>> +		value = DPI1_SEL_IN_RDMA2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI0) {
+>>> +		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> +		value = DSI0_SEL_IN_RDMA2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI1) {
+>>> +		*addr = DISP_REG_CONFIG_DSIO_SEL_IN;
+>>> +		value = DSI1_SEL_IN_RDMA2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI2) {
+>>> +		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> +		value = DSI2_SEL_IN_RDMA2;
+>>> +	} else if (cur == DDP_COMPONENT_RDMA2 && next == DDP_COMPONENT_DSI3) {
+>>> +		*addr = DISP_REG_CONFIG_DSIE_SEL_IN;
+>>> +		value = DSI3_SEL_IN_RDMA2;
+>>> +	} else if (cur == DDP_COMPONENT_OVL1 && next == DDP_COMPONENT_COLOR1) {
+>>> +		*addr = DISP_REG_CONFIG_DISP_COLOR1_SEL_IN;
+>>> +		value = COLOR1_SEL_IN_OVL1;
+>>> +	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+>>> +		*addr = DISP_REG_CONFIG_DSI_SEL;
+>>> +		value = DSI_SEL_IN_BLS;
+>>> +	} else {
+>>> +		value = 0;
+>>> +	}
+>>> +
+>>> +	return value;
+>>> +}
+>>> +
+>>> +static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
+>>> +				   enum mtk_ddp_comp_id cur,
+>>> +				   enum mtk_ddp_comp_id next)
+>>> +{
+>>> +	if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DSI0) {
+>>> +		writel_relaxed(BLS_TO_DSI_RDMA1_TO_DPI1,
+>>> +			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>>> +	} else if (cur == DDP_COMPONENT_BLS && next == DDP_COMPONENT_DPI0) {
+>>> +		writel_relaxed(BLS_TO_DPI_RDMA1_TO_DSI,
+>>> +			       config_regs + DISP_REG_CONFIG_OUT_SEL);
+>>> +		writel_relaxed(DSI_SEL_IN_RDMA,
+>>> +			       config_regs + DISP_REG_CONFIG_DSI_SEL);
+>>> +		writel_relaxed(DPI_SEL_IN_BLS,
+>>> +			       config_regs + DISP_REG_CONFIG_DPI_SEL);
+>>> +	}
+>>> +}
+>>> +
+>>> +void mtk_mmsys_ddp_connect(struct device *dev,
+>>> +			   enum mtk_ddp_comp_id cur,
+>>> +			   enum mtk_ddp_comp_id next)
+>>> +{
+>>> +	void __iomem *config_regs = dev_get_drvdata(dev);
+>>> +	unsigned int addr, value, reg;
+>>> +
+>>> +	value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
+>>> +	if (value) {
+>>> +		reg = readl_relaxed(config_regs + addr) | value;
+>>> +		writel_relaxed(reg, config_regs + addr);
+>>> +	}
+>>> +
+>>> +	mtk_mmsys_ddp_sout_sel(config_regs, cur, next);
+>>> +
+>>> +	value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
+>>> +	if (value) {
+>>> +		reg = readl_relaxed(config_regs + addr) | value;
+>>> +		writel_relaxed(reg, config_regs + addr);
+>>> +	}
+>>> +}
+>>> +
+>>> +void mtk_mmsys_ddp_disconnect(struct device *dev,
+>>> +			      enum mtk_ddp_comp_id cur,
+>>> +			      enum mtk_ddp_comp_id next)
+>>> +{
+>>> +	void __iomem *config_regs = dev_get_drvdata(dev);
+>>> +	unsigned int addr, value, reg;
+>>> +
+>>> +	value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
+>>> +	if (value) {
+>>> +		reg = readl_relaxed(config_regs + addr) & ~value;
+>>> +		writel_relaxed(reg, config_regs + addr);
+>>> +	}
+>>> +
+>>> +	value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
+>>> +	if (value) {
+>>> +		reg = readl_relaxed(config_regs + addr) & ~value;
+>>> +		writel_relaxed(reg, config_regs + addr);
+>>> +	}
+>>> +}
+>>> +
+>>>  static int mtk_mmsys_probe(struct platform_device *pdev)
+>>>  {
+>>>  	const struct mtk_mmsys_driver_data *data;
+>>> +	struct device *dev = &pdev->dev;
+>>>  	struct platform_device *clks;
+>>> +	void __iomem *config_regs;
+>>> +	struct resource *mem;
+>>> +	int ret;
+>>> +
+>>> +	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>>> +	config_regs = devm_ioremap_resource(dev, mem);
+>>> +	if (IS_ERR(config_regs)) {
+>>> +		ret = PTR_ERR(config_regs);
+>>> +		dev_err(dev, "Failed to ioremap mmsys-config resource: %d\n",
+>>> +			ret);
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	platform_set_drvdata(pdev, config_regs);
+>>>  
+>>>  	data = of_device_get_match_data(&pdev->dev);
+>>>  
+>>> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+>>> new file mode 100644
+>>> index 000000000000..7bab5d9a3d31
+>>> --- /dev/null
+>>> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+>>> @@ -0,0 +1,20 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>> +/*
+>>> + * Copyright (c) 2015 MediaTek Inc.
+>>> + */
+>>> +
+>>> +#ifndef __MTK_MMSYS_H
+>>> +#define __MTK_MMSYS_H
+>>> +
+>>> +enum mtk_ddp_comp_id;
+>>> +struct device;
+>>> +
+>>> +void mtk_mmsys_ddp_connect(struct device *dev,
+>>> +			   enum mtk_ddp_comp_id cur,
+>>> +			   enum mtk_ddp_comp_id next);
+>>> +
+>>> +void mtk_mmsys_ddp_disconnect(struct device *dev,
+>>> +			      enum mtk_ddp_comp_id cur,
+>>> +			      enum mtk_ddp_comp_id next);
+>>> +
+>>> +#endif /* __MTK_MMSYS_H */
+>>>
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
