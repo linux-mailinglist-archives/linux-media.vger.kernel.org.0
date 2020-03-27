@@ -2,190 +2,272 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4FA5195F52
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 20:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB87195F5F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 20:56:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727349AbgC0TzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 15:55:24 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:42049 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726900AbgC0TzY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 15:55:24 -0400
-Received: by mail-il1-f193.google.com with SMTP id f16so9920519ilj.9;
-        Fri, 27 Mar 2020 12:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=csHMLQRL98LenQ/lQbpc93jnwU8kRqtxGH56mtF9FXU=;
-        b=WvKu/ivGejE4Hwf4vzr15vb+mRRxfsHTz1l00dqUZpX3xWclAVX8gZsXG2TCMfWqwJ
-         s3pgZZ7d23GQRo9gfvSdHXxq3+fX80E9y8eZBWjtiP0YT+5fXEAB7IqD4vTIMPHjrYob
-         B7eOLpcsVxd3Xx1JLwAFLg60BTAcfSRDF1H5ViDWtQYOfSiqk47ibp7/WZZtN2PuOb7t
-         bpqzqZWe29Z2rCzf9nTSi2Jtfd2Q52NbX4zMFHcZkWuCHMbM5EFeb7oSXc0nPNCkmY59
-         lqs/XETfHPgwnHvEwPl5Wjo281URi/7CLAE3uFLAE++rRnKIXo0NShcoyBmD4t5npuTr
-         15ug==
-X-Gm-Message-State: ANhLgQ0X9uHhwnIDG8j/WobhSk1HnaZykm4qrJ+9B/vVw5CFU1r1LGF1
-        oQAnaa0WgSSpSbR6v5oitw==
-X-Google-Smtp-Source: ADFU+vvK/OlPRlrv0zdhRACJE4TlaiS+cpaAN0toP14RA+18Djh+2NRPMAxrfVKb7LtTlW0/j9dRrw==
-X-Received: by 2002:a92:39c9:: with SMTP id h70mr826045ilf.74.1585338922613;
-        Fri, 27 Mar 2020 12:55:22 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id l6sm2204381ilh.27.2020.03.27.12.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2020 12:55:21 -0700 (PDT)
-Received: (nullmailer pid 4525 invoked by uid 1000);
-        Fri, 27 Mar 2020 19:55:20 -0000
-Date:   Fri, 27 Mar 2020 13:55:20 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 28/28] dt-bindings: usb: Convert ehci-mv to json-schema
-Message-ID: <20200327195520.GA2235@bogus>
-References: <20200317093922.20785-1-lkundrak@v3.sk>
- <20200317093922.20785-29-lkundrak@v3.sk>
+        id S1727352AbgC0T43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 15:56:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43448 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726959AbgC0T43 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Mar 2020 15:56:29 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E542206F1;
+        Fri, 27 Mar 2020 19:56:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585338988;
+        bh=q9WXsrVAL6OTb1WwQbjE+mN1RI4JRLTezgTAXhjgq1w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=vaq7myZlzqh5SK0zW+NZefQzN4RuCf2xbL+GPs143vgesoWDWy3PSalgfMWniQEQy
+         BS+4DVIcusHgX0ukebUqQW93KVRvc03FcYYZvQ4KrJeOGCYDbqfNQm/EKG9XaY4JA8
+         IXli6derCT0d5KVa/0/w1nNEBRkZt0W5wFUYPRwM=
+Date:   Fri, 27 Mar 2020 20:56:22 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [RFC, WIP, v2 3/3] media: dvb_dummy_fe.c: write PSI information
+ into DMX buffer
+Message-ID: <20200327205622.5d7e8c81@coco.lan>
+In-Reply-To: <a4066f72-ae83-c1ef-8bf7-d4bbcfa29b31@gmail.com>
+References: <20200323125732.281976-1-dwlsalmeida@gmail.com>
+        <20200323125732.281976-4-dwlsalmeida@gmail.com>
+        <20200327174740.5d5935ae@coco.lan>
+        <a4066f72-ae83-c1ef-8bf7-d4bbcfa29b31@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200317093922.20785-29-lkundrak@v3.sk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 10:39:22AM +0100, Lubomir Rintel wrote:
-> A straightforward conversion of the ehci-mv binding to DT schema format
-> using json-schema.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> ---
->  .../devicetree/bindings/usb/ehci-mv.txt       | 23 -------
->  .../bindings/usb/marvell,pxau2o-ehci.yaml     | 60 +++++++++++++++++++
->  2 files changed, 60 insertions(+), 23 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/ehci-mv.txt
->  create mode 100644 Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/ehci-mv.txt b/Documentation/devicetree/bindings/usb/ehci-mv.txt
-> deleted file mode 100644
-> index 335589895763e..0000000000000
-> --- a/Documentation/devicetree/bindings/usb/ehci-mv.txt
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -* Marvell PXA/MMP EHCI controller.
-> -
-> -Required properties:
-> -
-> -- compatible: must be "marvell,pxau2o-ehci"
-> -- reg: physical base addresses of the controller and length of memory mapped region
-> -- interrupts: one EHCI controller interrupt should be described here
-> -- clocks: phandle list of usb clocks
-> -- clock-names: should be "USBCLK"
-> -- phys: phandle for the PHY device
-> -- phy-names: should be "usb"
-> -
-> -Example:
-> -
-> -	ehci0: usb-ehci@d4208000 {
-> -		compatible = "marvell,pxau2o-ehci";
-> -		reg = <0xd4208000 0x200>;
-> -		interrupts = <44>;
-> -		clocks = <&soc_clocks MMP2_CLK_USB>;
-> -		clock-names = "USBCLK";
-> -		phys = <&usb_otg_phy>;
-> -		phy-names = "usb";
-> -	};
-> diff --git a/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml b/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
-> new file mode 100644
-> index 0000000000000..189025ef1e92e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
+Em Fri, 27 Mar 2020 16:16:50 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-Same license comment.
-
-> +# Copyright 2019,2020 Lubomir Rintel <lkundrak@v3.sk>
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/marvell,pxau2o-ehci.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Marvell PXA/MMP EHCI bindings
-> +
-> +maintainers:
-> +  - Lubomir Rintel <lkundrak@v3.sk>
-> +
-> +allOf:
-> +  - $ref: usb-hcd.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: marvell,pxau2o-ehci
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: USBCLK
-> +
-> +  phys:
-> +    maxItems: 1
-> +
-> +  phy-names:
-> +    const: usb
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - phys
-> +  - phy-names
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/marvell,mmp2.h>
-> +    usb@d4208000 {
-> +        compatible = "marvell,pxau2o-ehci";
-> +        reg = <0xd4208000 0x200>;
-> +        interrupts = <44>;
-> +        clocks = <&soc_clocks MMP2_CLK_USB>;
-> +        clock-names = "USBCLK";
-> +        phys = <&usb_otg_phy>;
-> +        phy-names = "usb";
-> +    };
-> +
-> +...
-> -- 
-> 2.25.1
+> Hi Mauro, as always, thank you for reviewing my code!
 > 
+> 
+> Sorry for making you repeat yourself on the alignment of arguments and 
+> on multi-line comment syntax, I am aware of these and I thought I had 
+> fixed them all, but some just slip by sometimes.
+> 
+> 
+> > As we talked via IRC in priv, the best would be to implement the MPEG_TS
+> > generator as part of the bridge DVB driver.
+> >
+> > Anyway, I will review the code below assuming that you'll be moving the
+> > implementation to the right place.  
+> 
+> Yes. Please let me know when the changes in experimental/media-kconfig 
+> land, since I'd like to rename and move all the code - including the 
+> bridge I have been working on - to test_drivers/vidtv.
+
+Ok.
+
+> 
+> 
+> > +static void dvb_dummy_fe_thread_mpeg_ts_tick(struct dvb_frontend *fe)
+> > +{
+> > +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+> > +	const unsigned int SLEEP_MSECS = 10;
+> > +	u32 ticks = 0;
+> > +	u32 i;
+> > +	char *buf = kzalloc(DMX_BUF_LEN, GFP_KERNEL);
+> > +	u32 buffer_offset;
+> > +
+> > +	struct dvb_dummy_table_pat pat = {0};
+> > +	struct dvb_dummy_table_sdt sdt = {0};
+> > I guess it is ok here, but allocating too much stuff at the stack is
+> > dangerous. Linux Kernel stack is very small. Perhaps the best would
+> > be to place those at the driver's private struct (with is allocated with
+> > kalloc).
+> >  
+> Well, I wasn't aware of that, but most of the data for these tables are 
+> heap-allocated. How small are we talking about?
+
+On x86 is 8KB, I guess, but I've seen patches floating around proposing
+changes (both increasing and decreasing). We try to avoid letting any
+function to allocate more than a certain at the data on the heap. There is
+a warning with sets a maximum limit per function. see for example those
+commits:
+
+	1a03f91c2c24 ("media: vivid: work around high stack usage with clang")
+	03aa4f191a36 ("media: saa7146: avoid high stack usage with clang")
+
+See also the FRAME_WARN config var at lib/Kconfig.debug:
+
+	config FRAME_WARN
+		int "Warn for stack frames larger than"
+		range 0 8192
+		default 2048 if GCC_PLUGIN_LATENT_ENTROPY
+		default 1280 if (!64BIT && PARISC)
+		default 1024 if (!64BIT && !PARISC)
+		default 2048 if 64BIT
+
+Please also notice that, when some features are enabled (like KASAN),
+or when the compiler tries to do some kinds of optimization, the stack 
+usage may increase a lot, easily going above that threshold when
+someone adds struct vars to the stack.
+
+So, when I see struct on heap, it rises me a mental flag that it could
+have some problems.
+
+This article helps to understand a little bit about the stack size:
+
+	https://lwn.net/Articles/600644/
+
+> 
+> But your suggestion is OK with me as well. It would be even better if 
+> this entire function wasn't in this patch at all, since it will have to 
+> be moved to the bridge driver anyways.
+> 
+> The *_write_args structures are also pretty small.
+> 
+> >> +
+> >> +	struct dvb_dummy_table_pmt *pmt_sections;
+> >> +
+> >> +	struct dvb_dummy_table_pat_program *programs = NULL;
+> >> +	struct dvb_dummy_table_sdt_service *services = NULL;
+> >> +
+> >> +	bool update_version_num = false;
+> >> +	u16 pmt_pid;
+> >> +
+> >> +	programs = dummy_fe_pat_prog_cat_into_new(state->channels);
+> >> +	services = dummy_fe_sdt_serv_cat_into_new(state->channels);
+> >> +
+> >> +	/* assemble all programs and assign to PAT */
+> >> +	dummy_fe_pat_program_assign(&pat, programs);
+> >> +
+> >> +	/* assemble all services and assign to SDT */
+> >> +	dummy_fe_sdt_service_assign(&sdt, services);
+> >> +
+> >> +	/* a section for each program_id */
+> >> +	pmt_sections = kcalloc(pat.programs,
+> >> +			       sizeof(struct dvb_dummy_table_pmt),
+> >> +			       GFP_KERNEL);
+> >> +
+> >> +	dummy_fe_pmt_create_section_for_each_pat_entry(&pat,
+> >> +						       pmt_sections);
+> >> +
+> >> +	dummy_fe_pmt_stream_match_with_sections(state->channels,
+> >> +						pmt_sections,
+> >> +						pat.programs);
+> >> +
+> >> +	dummy_fe_pat_table_init(&pat,
+> >> +				update_version_num,
+> >> +				TRANSPORT_STREAM_ID);
+> >> +
+> >> +	dummy_fe_sdt_table_init(&sdt,
+> >> +				update_version_num,
+> >> +				TRANSPORT_STREAM_ID);
+> >> +	while (true) {
+> >> +		memset(buf, 0, DMX_BUF_LEN);
+> >> +		buffer_offset = 0;
+> >> +
+> >> +		if ((ticks % 50) == 0) {
+> >> +			/* push PSI packets into the buffer */
+> >> +
+> >> +			buffer_offset +=
+> >> +				dummy_fe_pat_write_into(buf,
+> >> +							buffer_offset,
+> >> +							&pat);
+> >> +			for (i = 0; i < pat.programs; ++i) {
+> >> +				pmt_pid =
+> >> +				dummy_fe_pmt_get_pid(&pmt_sections[i],
+> >> +						     &pat);
+> >> +
+> >> +				/* not found */
+> >> +				WARN_ON(pmt_pid > LAST_VALID_TS_PID);
+> >> +
+> >> +				/* write each section into buffer */
+> >> +				buffer_offset +=
+> >> +				dummy_fe_pmt_write_into(buf,
+> >> +							buffer_offset,
+> >> +							&pmt_sections[i],
+> >> +							pmt_pid);
+> >> +			}
+> >> +
+> >> +			buffer_offset +=
+> >> +				dummy_fe_sdt_write_into(buf,
+> >> +							buffer_offset,
+> >> +							&sdt);
+> >> +
+> >> +			WARN_ON(buffer_offset > DMX_BUF_LEN); /* overflow */
+> >> +			msleep_interruptible(SLEEP_MSECS);  
+> > That doesn't sound right, for two reasons:
+> >
+> > 1) msleep_interruptible() can take less time than expected, if
+> >     interupted;
+> > 2) the time may vary a lot.
+> >
+> > I would use the high-res timer here, giving a range for it (maybe a 10ms
+> > range?), e. g., something like:
+> >
+> > 			usleep_range(SLEEP_USECS, SLEEP_USECS + 10000);
+> >
+> >
+> >  
+> OK. I wonder if this will have to be rewritten in the future, since 
+> decoders will probably expect X amount of video/audio per Y amount of time?
+
+Well, nothing prevents that you keep waking at the same rate, but just
+fill a larger buffer.
+
+> As for buffer overflows, maybe a better strategy would be to use a 
+> dynamic array? I would wrap all memcpy() calls and call krealloc() as 
+> necessary. If we go with a big enough initial size (say, 20 TS packets) 
+> then this wouldn't happen very often, if at all. That would be a simple 
+> solution to completely eliminate this problem, in my opinion.
+
+It should have an upper limit anyway, as we don't want to spend all Kernel
+memory with MPEG frame generation.
+
+> I don't know if there's a limit on how much data you can pass to the 
+> demux at once, but if there is, we can just split the buffer into 
+> smaller chunks when calling dmx_swfilter_packets(), since the amount of 
+> bytes actually present in the buffer will be a multiple of 188 anyways.
+
+The DVB core has a default size, but userspace can change it via 
+DMX_SET_BUFFER_SIZE ioctl (most userspace apps do). The DVB framework 
+will handle it as a circular buffer. When it is overflowed, it will
+just starts over, overriding past data there.
+
+> > +	}
+> > +
+> > +	length += CRC_SIZE_IN_BYTES;
+> > +
+> > +	WARN_ON(length > SDT_MAX_SECTION_LEN);
+> > even assuming that you fix the above code, and update "s" to the next
+> > SDT data, this is still too dangerous: if are there any risk of going
+> > past the buffer size, you should check*before*  the bad condition happens,
+> > e. g., something like:
+> >
+> > 	while (s && length + CRC_SIZE_IN_BYTES < SDT_MAX_SECTION_LEN) {
+> > 		...
+> > 	}
+> >
+> > 	if (s)
+> > 		WARN_ON(length > SDT_MAX_SECTION_LEN);
+> >  
+> >> +	return length;
+> >> +}
+> >> +  
+> 
+> My understanding is that, e.g.
+> 
+> length > SDT_MAX_SECTION_LEN
+> 
+> doesn't mean that the buffer will necessarily overflow. It is just 
+> against the spec.
+
+Well, if it is against the spec, it could cause troubles at userspace
+side. So, better to avoid it before it happens.
+
+Thanks,
+Mauro
