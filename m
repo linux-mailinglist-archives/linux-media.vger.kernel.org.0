@@ -2,178 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6DF195673
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 12:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A4F01956CD
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 13:10:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726742AbgC0Lez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 07:34:55 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:39618 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbgC0Ley (ORCPT
+        id S1726900AbgC0MJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 08:09:57 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33712 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727600AbgC0MJw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 07:34:54 -0400
-Received: by mail-ed1-f65.google.com with SMTP id a43so10633075edf.6
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 04:34:53 -0700 (PDT)
+        Fri, 27 Mar 2020 08:09:52 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 22so9459396otf.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 05:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+HBDIdNbauUzWWpYygi2C8elHABQwqvtXozjKK9jHI8=;
-        b=g9mIfMvDXBJf9IKXU+ep7HNuIrcACmkCAlfPqrOeebATZu/zp+1kFgDcYwIlwtarnT
-         uGHcciMeUHiOiCf9zVFQo8SK+++7ueQJZcS0YbeFeq49y5a+IbMjk7Bhnm8v5+wj16ow
-         nSVG6bfxiVbsBcMTQ9hRdH+zTtM7PL50EsVYs=
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=6AzsbaBnXkz3OM6AFQR1SIwxBjyJjyhL1gvcLvlX+dM=;
+        b=ToWPcL7MBMuCD6lHM8jMGYrdQnHY68Go5SyCO1+7SBETQkSaYoiXcKOwsNQ6EqdYrv
+         7qxGuppqd8T+z13H0AYEZ947RysscnL/CF1alo1ZWFRI672RGlQPAZH78wuOQcZ9oMJs
+         q8VhwZ0PEFmWZIsnZ+s2p0zkMFDfSFyuYhHd9KIVW+ErjSlWyQLfVvT/yOtxnaOk4QEx
+         qTgzc+4SZUx1xKJiVphQHZFpDqnqF4LWcJJx7oI41grr0O7C7pLUUOF4o7lWL//3vv60
+         GSZdslp1ehGbV2b455TMRyoN8cgPb7bx9bhumu2yy6XHtdWH8HsUIfg7T5OHSCcE5a2P
+         +J0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+HBDIdNbauUzWWpYygi2C8elHABQwqvtXozjKK9jHI8=;
-        b=cCpsKTGbqnBtmHUMrlIF3Ebhnz8q+O0vuX0ZeBk4aPO+WQusL1s+hS3rNUgBxT6v83
-         tewXELpdeuTmf986/XX4ux64yCT/agGwFaRI7e4fWK4EdlWTZwnV1tCiKjRLg6QLJPTQ
-         aJ84KJTkqnkpWkhr4gexT+l0qdYRDO6p0YbNskfuAbauNwWBNDXY7ZNOTi0xCHWbdida
-         41Zy8GfarYPE9cQLHujpSsOy4tCnu2GfS+WvumII76WjUV2tmW96BxWC7jzoZ80HviyF
-         Rqde4N1UxGOKNA/2eqjcXrxRfHGPiooV+ZccpECpLtRRihFaAGb2+IK56rr/mamVo7I5
-         wWRQ==
-X-Gm-Message-State: ANhLgQ0+shvq6TJ9RvKBuD0bkuH25oSalWpBTWdOERDybtrjg1sQc327
-        xsTEaYtpAw27tvMaxuDZyVVssipuYrc7VQ==
-X-Google-Smtp-Source: ADFU+vudhwRzzCFkVdObyUZCWkukVLPhs8EaOKutiYkDu03uNOoVR0AmE/C5Eh/h/iByXcZ0z9Rorg==
-X-Received: by 2002:a17:906:18a1:: with SMTP id c1mr11714210ejf.344.1585308892082;
-        Fri, 27 Mar 2020 04:34:52 -0700 (PDT)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id h22sm640372edw.34.2020.03.27.04.34.51
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2020 04:34:51 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id i7so5686874edq.3
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 04:34:51 -0700 (PDT)
-X-Received: by 2002:adf:f0c5:: with SMTP id x5mr14731096wro.415.1585308473751;
- Fri, 27 Mar 2020 04:27:53 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=6AzsbaBnXkz3OM6AFQR1SIwxBjyJjyhL1gvcLvlX+dM=;
+        b=M6uhIDcnWIPzW7xpecsu7cigaVh/5ffFuoCA03D4DzT3/MP3dNZlMCTa+Iq9b8bpdm
+         yTS4egEgTzOflD+hxSEfxETSOTw7uyPxFPGVOhG1k4iJYBYDjtbCH34aRe4r2d46le8D
+         Rzg4dfVn3Ay25Dr9Dh87F7KRwUddrnLf0yCXrphqgGbLiVPjdNOeeXAfA5mPUkwpJCb5
+         R3PZpMArAGhDgvZy8+jDkbemTmUgKewL5UbKQGJe9rp+mmTi10TIJEIsFs3ySm6gBwtz
+         Z47BFgiYA5JzpCOW3FvMv8kPAGfNgA2wr/YzrXzAQmXbaf/sf4RTKCTaaKiGjqe4boPr
+         8STg==
+X-Gm-Message-State: ANhLgQ19NqSA1wDVHU7r9wR4FRkzsk8qMTVFJ1xHrGlKDecviFwVcleG
+        +t+atHGdzSbFfdqVE2+yVitbI47oWFQQzTZ7IQM=
+X-Google-Smtp-Source: ADFU+vvITJODYsI9WxPpNdXpzWJA22v8HmXu97ic9zBaMScNnnHkKitrbQOARZTF4ublOLVtL7KwLmpOtduoGX2GNeE=
+X-Received: by 2002:a9d:3b6:: with SMTP id f51mr10696411otf.255.1585310991422;
+ Fri, 27 Mar 2020 05:09:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200302041213.27662-1-senozhatsky@chromium.org>
- <20200302041213.27662-5-senozhatsky@chromium.org> <6e4fc7f9-0068-92ff-77d7-9c77c047f3db@collabora.com>
- <20200324023909.GA201720@google.com> <1187a3f660b092d8a9d5437445155edfc0744a4f.camel@collabora.com>
- <20200325023248.GA241329@google.com>
-In-Reply-To: <20200325023248.GA241329@google.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 27 Mar 2020 12:27:41 +0100
-X-Gmail-Original-Message-ID: <CAAFQd5BhDLcKHR1aO2U5Lf6EBhoqtBJbg6LzWDQd7XkDJ1YUaw@mail.gmail.com>
-Message-ID: <CAAFQd5BhDLcKHR1aO2U5Lf6EBhoqtBJbg6LzWDQd7XkDJ1YUaw@mail.gmail.com>
-Subject: Re: [PATCHv4 04/11] videobuf2: add queue memory consistency parameter
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        nicolas.dufresne@collabora.co.uk
+Received: by 2002:ac9:7c15:0:0:0:0:0 with HTTP; Fri, 27 Mar 2020 05:09:50
+ -0700 (PDT)
+Reply-To: robertandersonhappy1@gmail.com
+From:   robert <emekanawafo@gmail.com>
+Date:   Fri, 27 Mar 2020 05:09:50 -0700
+Message-ID: <CAH0FejzHC=weONeYbFxNdhh-of4+bp3BfE+vO2siWBJg264GAg@mail.gmail.com>
+Subject: very good
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 3:32 AM Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> On (20/03/24 07:17), Ezequiel Garcia wrote:
-> [..]
-> > > > > +static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
-> > > > > +{
-> > > > > +       if (!vb2_queue_allows_cache_hints(q))
-> > > > > +               return;
-> > > > > +
-> > > > > +       if (consistent_mem)
-> > > > > +               q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
-> > > > > +       else
-> > > > > +               q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
-> > > > > +}
-> > > > > +
-> > > > >   int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-> > > > > -               unsigned int *count)
-> > > > > +               bool consistent_mem, unsigned int *count)
-> > > > You extended the vb2_core_reqbufs accepting a new boolean that
-> > > > is decided according to the setting of the V4L2_FLAG_MEMORY_NON_CONSISTENT
-> > > > but in the future some other flags might be added, and so I think it
-> > > > is better to replace the boolean with a u32 consisting of all the flags.
-> > >
-> > > Don't have any objections. Can change the `bool' to `u32'.
-> > >
-> >
-> > or maybe an enum instead? That would help get a cleaner
-> > interface.
->
-> Hmm, interesting.
->
-> The flags in question can be from different, unrelated groups
-> (types), controlling various parts of the stack. Not necessarily
-> all of them are memory_consistency related. We can, for instance,
-> pass some additional flags to underlying memory allocators (contig,
-> sg), etc.
->
-> E.g.
->
->         enum MEMORY_ATTR {
->                 MEM_NON_CONSISTENT,
->                 ...
->         };
->
->         enum VMALLOC_ALLOCATOR_ATTR {
->                 DO_A_BARREL_ROLL,
->                 ...
->         };
->
->         enum DMA_SG_ALLOCATOR_ATTR {
->                 WRITEBACK_TO_TAPE_DEVICE,
->                 ...
->         };
->
->         enum DMA_CONTIG_ALLOCATOR_ATTR {
->                 PREFER_HTTPS,
->                 ...
->         };
->
-> and so on. We maybe can keep all of those in one enum (umm, what should
-> be the name?), and then either make sure that all of them are proper powers
-> of two
->
->         enum AUX_FLAGS {
->                 MEM_NON_CONSISTENT              = (1 << 0),
->                 DO_A_BARREL_ROLL                = (1 << 1),
->                 WRITEBACK_TO_TAPE_DEVICE        = (1 << 2),
->                 PREFER_HTTPS                    = (1 << 3),
->         };
->
-> or
->         enum AUX_FLAGS {
->                 MEM_NON_CONSISTENT              = 0,
->                 DO_A_BARREL_ROLL,
->                 WRITEBACK_TO_TAPE_DEVICE,
->                 PREFER_HTTPS,
->         };
->
-> and make sure that those are not flags, but bits.
-> IOW, if (flags & BIT(MEM_NON_CONSISTENT)).
->
->
-> What do others think?
-
-My feeling is that there it's a bit of an abuse of the language
-construct. Enum is expected to be an enumeration type, where the value
-is always one and only one of the defined values at the same time.
-Making a bitwise OR of several values makes the resulting value
-outside of the enum specification.
-
-AFAICT, the typical approach in the kernel is to just have a block of
-#define statements to define the flags and have the flag names
-prefixed with some consistent prefix, e.g. VB2_QUEUE_FLAG_. The flags
-itself would be defined using BIT() so they can be used directly in
-the bitwise arithmetics.
-
-Best regards,
-Tomasz
+Querido amigo,
+Meu nome =C3=A9 Bar.robert anderson Eu sou advogado e particular
+gerente de conta para meu cliente atrasado. No ano de 2015, meu
+cliente pelo nome
+Sr. Carlos, faleceu. A raz=C3=A3o pela qual eu entrei em contato com voc=C3=
+=AA =C3=A9
+porque voc=C3=AA
+tem o mesmo sobrenome do falecido, e posso apresent=C3=A1-lo como
+o benefici=C3=A1rio e parente pr=C3=B3ximo aos meus fundos de clientes
+atrasados, ent=C3=A3o voc=C3=AA vai
+permanecer como seu parente mais pr=C3=B3ximo e reivindicar os fundos.
+deixando para tr=C3=A1s um dinheiro
+heran=C3=A7a de sete milh=C3=B5es quinhentos mil Estados Unidos
+(US $ 7.500.000,00). Meu cliente e amigo =C3=ADntimo falecido cresceu em
+um "lar de beb=C3=AAs sem m=C3=A3e". Ele n=C3=A3o tinha fam=C3=ADlia, nem b=
+enefici=C3=A1rio nem pr=C3=B3ximo
+parentes dos Fundos de heran=C3=A7a deixados para tr=C3=A1s no Banco.
+Voc=C3=AA deve entrar em contato comigo atrav=C3=A9s do meu endere=C3=A7o d=
+e e-mail particular:
+robertandersonhappy1@gmail.com
+Cumprimentos,
+Barra. Robert Anderson
