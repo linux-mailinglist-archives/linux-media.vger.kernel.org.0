@@ -2,144 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5ABB195F8D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 21:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CBA6196059
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 22:20:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727541AbgC0UWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 16:22:14 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:38568 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726710AbgC0UWN (ORCPT
+        id S1727509AbgC0VUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 17:20:22 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:38604 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727444AbgC0VUW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 16:22:13 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 14C2B804E5;
-        Fri, 27 Mar 2020 21:22:01 +0100 (CET)
-Date:   Fri, 27 Mar 2020 21:21:59 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Guillaume La Roque <glaroque@baylibre.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Lee Jones <lee.jones@linaro.org>, linux-clk@vger.kernel.org,
-        Kevin Hilman <khilman@baylibre.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        linux-amlogic@lists.infradead.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Hartmut Knaack <knaack.h@gmx.de>, linux-media@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: iio/accel: Drop duplicate adi,
- adxl345/6 from trivial-devices.yaml
-Message-ID: <20200327202159.GA12749@ravnborg.org>
-References: <20200325220542.19189-1-robh@kernel.org>
- <20200325220542.19189-2-robh@kernel.org>
+        Fri, 27 Mar 2020 17:20:22 -0400
+Received: by mail-pg1-f195.google.com with SMTP id x7so5184995pgh.5
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 14:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=SOYiLhDiq8w8ULU07FyqyDYKEpXbM2MVkzrjFBhsGxQ=;
+        b=KxATo8SwKwC98AtUDS2ME+TUxD837R0eEXwC4Qok/lPoB8/V+189jPlKdd9BQHQK4a
+         1MTwWEpdn/1ewscBAntVEtAvb3AQamIienWXP5Qkpx4+WiDUb3JGb399Tm8oM3scwS5u
+         wnTnhXlM3TRTw+lSvY160HVwDSdT5aBLgFk029momZyQWLr2IouDlf4lswn415H8ogEy
+         J6uU+FCjmbv4MCl3r8lMub61RjRiX0MHFdsKfMnd2GMQM28ySO1qfHcqOFsGgNB+5c1E
+         tl8GbTknvTzaaDXmWQXSJBGwM2QaamcrpIpey1c4Wdj8ROQHQoPxZhzzKuKfu9faMRfa
+         a7Pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=SOYiLhDiq8w8ULU07FyqyDYKEpXbM2MVkzrjFBhsGxQ=;
+        b=ZT23v7H5ymZDv/qI+buJ6hV9Epvi0i3E1WSX2VZfWSHmRC32RSUKEmb8cNdUeOojrt
+         r6vWxvaYjHo+29FC5MDzLeMbDhPajl8YrsBtqSWqsqh9j2QHRZf3ydq4A6KOgrt6RAnq
+         N4P+NAzs++/KYovEI/agBkeRGJZxe/VhIwweJj5Rl4tn/Ue/fi7aMevd1ZaERUX+iD7W
+         HC0r0LX6oaI4cgCM1uUjVHKmz52jgXB/kaH29k1WlPCd1udTbfxc4zV1d1EKKsCNXuQL
+         zNOS/NpOc6eKNxzvRVCxNWnl0n3JJ89YG/M95CrHGHJ4c7foJyS30s1vA5MzuM8qoEmk
+         eJng==
+X-Gm-Message-State: ANhLgQ2XSPtp1zOBMPUKaIzVETxIDsES6onEcOq1m/z8X2w+AyeRtrvN
+        3MjIoY88+nMudpz35lBGAGA5tMFR4q4=
+X-Google-Smtp-Source: ADFU+vvhN7QF1MFEoouIjt/td3kwiTPMPizlJW8N1rjtOYncM5TSkT5CwxlP9rM0GWTvpDU3AKjslg==
+X-Received: by 2002:aa7:9511:: with SMTP id b17mr1204213pfp.243.1585344020612;
+        Fri, 27 Mar 2020 14:20:20 -0700 (PDT)
+Received: from [172.30.90.112] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id c201sm4855777pfc.73.2020.03.27.14.20.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2020 14:20:20 -0700 (PDT)
+Subject: Re: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
+To:     Alex Mihaylov <minimumlaw@gmail.com>,
+        Philipp Zabel <pza@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>
+References: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
+ <CAOMZO5B3NXBEmQdUqKDSTYpf=Y5LLZYz7mJLqRMh8T3+O6WvqA@mail.gmail.com>
+ <20200327074523.GA3412@pengutronix.de>
+ <a565cb1a-0c08-cd58-5e83-683b60055e90@gmail.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <17308e3e-3dd8-7c75-f890-398ffca730b9@gmail.com>
+Date:   Fri, 27 Mar 2020 14:18:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200325220542.19189-2-robh@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=gAnH3GRIAAAA:8
-        a=VwQbUJbxAAAA:8 a=DN42nk9sAAAA:8 a=e5mUnYsNAAAA:8 a=KWDWuRJ9IF3UujpQpV0A:9
-        a=CjuIK1q_8ugA:10 a=oVHKYsEdi7-vN-J5QA_j:22 a=AjGcO6oz07-iQ99wixmX:22
-        a=ee1JA_unvF1TMR62yWF-:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <a565cb1a-0c08-cd58-5e83-683b60055e90@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob.
+Hi Alex,
 
-On Wed, Mar 25, 2020 at 04:05:38PM -0600, Rob Herring wrote:
-> The 'adi,adxl345' definition is a duplicate as there's a full binding in:
-> Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> 
-> The trivial-devices binding doesn't capture that 'adi,adxl346' has a
-> fallback compatible 'adi,adxl345', so let's add it to adi,adxl345.yaml.
-> 
-> Cc: Michael Hennerich <michael.hennerich@analog.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Hartmut Knaack <knaack.h@gmx.de>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-> Cc: linux-iio@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/iio/accel/adi,adxl345.yaml     | 10 +++++++---
->  Documentation/devicetree/bindings/trivial-devices.yaml |  4 ----
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> index c602b6fe1c0c..d124eba1ce54 100644
-> --- a/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml
-> @@ -17,9 +17,13 @@ description: |
->  
->  properties:
->    compatible:
-> -    enum:
-> -      - adi,adxl345
-> -      - adi,adxl375
-> +    oneOf:
-> +      - items:
-> +          - const: adi,adxl346
-> +          - const: adi,adxl345
-> +      - enum:
-> +          - adi,adxl345
-> +          - adi,adxl375
+On 3/27/20 1:12 AM, Alex Mihaylov wrote:
+> Hi!
+>
+> Ok. This time I try to check hardware and not need image processing. I 
+> uncomment this line in script:
+>
+> [...]
+> - entity 47: ipu1_csi1 (3 pads, 4 links)
+>              type V4L2 subdev subtype Unknown flags 0
+>              device node name /dev/v4l-subdev5
+>         pad0: Sink
+>                 [fmt:SRGGB10_1X10/1920x1080@1/30 field:none 
+> colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+>                  crop.bounds:(0,0)/1920x1080
+>                  crop:(0,0)/640x480
+>                  compose.bounds:(0,0)/640x480
+>                  compose:(0,0)/640x480]
+>                 <- "imx6-mipi-csi2":2 [ENABLED]
 
-I assume it is my schema understanding that is poor.
-But I cannot parse the above.
+This is virtual channel 1 output from the imx6-mipi-csi2 receiver. Make 
+sure the imx219 is indeed transmitting on virtual channel 1.
 
-The mix of items, enum and const confuses me.
+> pad1: Source
+>                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
+> colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "ipu1_ic_prp":0 []
+>                 -> "ipu1_vdic":0 []
+>         pad2: Source
+>                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
+> colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "ipu1_csi1 capture":0 [ENABLED]
+>
+> - entity 51: ipu1_csi1 capture (1 pad, 1 link)
+>              type Node subtype V4L flags 0
+>              device node name /dev/video3
+>         pad0: Sink
+>                 <- "ipu1_csi1":2 [ENABLED]
 
-I guess that if I am confused then others may end in the same situation.
-Can we improve readability here or amybe add a comment?
+What is the format on /dev/video3 ? Please provide output from 'v4l2-ctl 
+-d3 -V'
 
-	Sam
+> [...]
+>
+> - entity 121: imx6-mipi-csi2 (5 pads, 5 links)
+>               type V4L2 subdev subtype Unknown flags 0
+>               device node name /dev/v4l-subdev12
+>         pad0: Sink
+>                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+> xfer:srgb ycbcr:601 quantization:full-range]
+>                 <- "imx219 9-0010":0 [ENABLED]
+>         pad1: Source
+>                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+> xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "ipu1_csi0_mux":0 []
+>         pad2: Source
+>                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+> xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "ipu1_csi1":0 [ENABLED]
+>         pad3: Source
+>                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+> xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "ipu2_csi0":0 []
+>         pad4: Source
+>                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+> xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "ipu2_csi1_mux":0 []
+>
+> - entity 135: imx219 9-0010 (1 pad, 1 link)
+>               type V4L2 subdev subtype Sensor flags 0
+>               device node name /dev/v4l-subdev15
+>         pad0: Source
+>                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
+> xfer:srgb ycbcr:601 quantization:full-range]
+>                 -> "imx6-mipi-csi2":0 [ENABLED]
+>
+> [...]
+> localhost ~ # gst-launch-1.0 v4l2src device=/dev/video3 ! fakesink
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Setting pipeline to PLAYING ...
+> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: 
+> Internal data stream error.
+> Additional debug info:
+> /var/tmp/portage/media-libs/gstreamer-1.14.5/work/gstreamer-1.14.5/libs/gst/base/gstbasesrc.c(3055): 
+> gst_base_src_loop (): /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> streaming stopped, reason not-negotiated (-4)
+> Execution ended after 0:00:00.000606666
+> Setting pipeline to PAUSED ...
+> Setting pipeline to READY ...
+> Setting pipeline to NULL ...
+> Freeing pipeline ...
+> localhost ~ # dmesg -c
+>
+> Another error, but some result. I think fakesink must got Bayer format 
+> (as specific /dev/null for v4l2).
 
->  
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> index 978de7d37c66..51d1f6e43c02 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -42,10 +42,6 @@ properties:
->            - adi,adt7476
->              # +/-1C TDM Extended Temp Range I.C
->            - adi,adt7490
-> -            # Three-Axis Digital Accelerometer
-> -          - adi,adxl345
-> -            # Three-Axis Digital Accelerometer (backward-compatibility value "adi,adxl345" must be listed too)
-> -          - adi,adxl346
->              # AMS iAQ-Core VOC Sensor
->            - ams,iaq-core
->              # i2c serial eeprom  (24cxx)
-> -- 
-> 2.20.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Can you try simply:
+
+localhost ~ # v4l2-ctl -d3 --stream-mmap
+
+and let me know if you receive frames.
+
+Steve
+
+>
+>
+>>>> # media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]" # 
+>>>> /dev/video3
+>>>> (unused, unprocessed)
+>>        ^
+>> The IPUv3 IC hardware does not support processing Bayer formats.
+>> Those can only be written straight to RAM using this path.
+
