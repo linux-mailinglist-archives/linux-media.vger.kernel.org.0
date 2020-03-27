@@ -2,163 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1B151952A8
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 09:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7694E1952DC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 09:31:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726168AbgC0IMn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 04:12:43 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:44136 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbgC0IMm (ORCPT
+        id S1727115AbgC0IbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 04:31:11 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43885 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726165AbgC0IbL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 04:12:42 -0400
-Received: by mail-lf1-f68.google.com with SMTP id j188so7093133lfj.11
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 01:12:40 -0700 (PDT)
+        Fri, 27 Mar 2020 04:31:11 -0400
+Received: by mail-wr1-f67.google.com with SMTP id m11so4444975wrx.10
+        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 01:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FbtFVtI3I+MfUeIoqOLXgUV6Epi6pLfQ6Z1/AvbUeLw=;
-        b=Ny2qz7EYgHHO4tFqJnpaARRrMhH+ihH/qB+zBHHks6LcwokOJQWVEwQSMLVFoR0IU8
-         /XvJMfldzklZrQTa4XhebF8kuGeZG4tQZJfZko1EAucUGp5+FtHqujS6zPZKABGB/5kB
-         mAGSEgin4PO78aKmnPYBeWTxZ7L5qj+7/5mnE553yh/t4DIQBoLFSN22uYL5IvyvXiDu
-         aDhhH1vAuBj+icjcsnx25VomuMHFM6qhSL63zNLVyC1VYtJ+n3S423sebxV84/izRFLY
-         Kd2pSiwAfd1/5CQcyD/LtJQX5G1rlE5u98VX+RbtC5DDIej3c760ainYgdSG2UwnV1PD
-         QF+g==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=7qMxcUuECzy6UW7EY22DAqOxFR3J+yYatNeUV89Utj0=;
+        b=Re9nh7mY7E2XnsoW7UqnE/ZbPpu/RAKnPlkcHVa+kmfTNDW7Q8B+tS5p7UHi+5cQzr
+         BoVPWRVPSDacWjh56gaT78/RFhIEV+yvCIrnphWAOihwXMbTJ3wEJabJ9p/kvd359VZW
+         DHiulHb5HIhXw2KzkMMZ/m6cgb0duHKD+TrVUQa4iTBBFWqefNuYnKCdHNTIOS8awbKW
+         ElPVI6HDUuw7o2+SI6O/SoB/QrV4uSimO/Lht54lGbHc5r0Jr0thhgokUFlgR3yS/VBV
+         LJQVP8XMaQrc+enAiFb6qurB13hn5fbTUYDDiEfWMdTFHH579thoAdWbrBFW7mHhF5DR
+         nkaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FbtFVtI3I+MfUeIoqOLXgUV6Epi6pLfQ6Z1/AvbUeLw=;
-        b=GZRdxlNII6y4UYLl35o/VYTnAKlaApFdx2FLgRD1+6b/FsaUezr3B0g75gbi484XXU
-         FHTk/U/jKUnL1WKzVxKTZWdtZwyTMusFDFgYKOe7BkMo/qc8pM0ToEQmhoC1dkFhUJwo
-         7CBcWygUOuz7Bi0mc/On3P6OAQzkFknxlqEl8U2yR1VgHH2DLTcOxbWT3fxAXSZ953rn
-         g4WCfQUafVUN2azwrpHqYW2oxtX04/Z/AOrOJyNyAoNwnKvHYnirLSonAJr2482YaZZC
-         ixIzOTE7HRQWEgcey6odIrpi8iBfkXEG2buuGSNyk0g4fRATVaVe9xiIxpYYeLp6lr6u
-         DSXg==
-X-Gm-Message-State: AGi0PuZl6HV4IMCLHMn1WwN9bh7FzirNqaC6jSnVOMENeyrvF9YqhDXp
-        zjZBsJ9/ufEGXIO1dMcy6HmqIo9+ZNWWqw==
-X-Google-Smtp-Source: APiQypLAXaxzljp1q3kiAmL+5Gzm2k8NlecqYY4rOl3PsW4RHxOtaptJlE/SNQK7fPyOFb6Fsd6kNw==
-X-Received: by 2002:a05:6512:1095:: with SMTP id j21mr5080428lfg.118.1585296759551;
-        Fri, 27 Mar 2020 01:12:39 -0700 (PDT)
-Received: from [192.168.7.22] ([217.148.211.220])
-        by smtp.gmail.com with ESMTPSA id w24sm2389006ljh.57.2020.03.27.01.12.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Mar 2020 01:12:39 -0700 (PDT)
-Subject: Re: IMX219 MIPI Sensor (meda-tree) with vaniila I.MX6Q media drivers
-To:     Philipp Zabel <pza@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>
-References: <30c5947f-a026-66a9-75f2-d2531cc73a1e@gmail.com>
- <CAOMZO5B3NXBEmQdUqKDSTYpf=Y5LLZYz7mJLqRMh8T3+O6WvqA@mail.gmail.com>
- <20200327074523.GA3412@pengutronix.de>
-From:   Alex Mihaylov <minimumlaw@gmail.com>
-Message-ID: <a565cb1a-0c08-cd58-5e83-683b60055e90@gmail.com>
-Date:   Fri, 27 Mar 2020 11:12:38 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=7qMxcUuECzy6UW7EY22DAqOxFR3J+yYatNeUV89Utj0=;
+        b=iuvxkC8reWdTHl8D06lw/1mMyi8oH07lOBAxTr7ZFengTjy+Et6DYd3bnmag4+Vt/C
+         O3mdYcJR75hO324MdCrn5Jl05EcrwzgAMvsK5KQvYb7k+2vcJnpwOFR3QlNB09At7r5T
+         pbl1kjxOeD71jzr9L7gAZSQjUA7pZ9h0plXTtHwIMfuO9mFVr2NV68Tj62bPUoNQ2O4v
+         UPpc3WhAtJe4Z+siqpt9/IqZtCB9o06N0+JTWGb89/2a6+zolrPmdvTpIFt4+swri32+
+         jEB2SZbFXc6LMRViRxe+SSDfoY2JaZvyGbMWY5mcNzFpxgb06jbhSW7N3kHZbhnE3wjb
+         DU+w==
+X-Gm-Message-State: ANhLgQ0yrD8wRU7pARZH9y412T3O6Audpz4P0wXuPHJzrX8SOei1TY6x
+        8LxcftlSxrs2VXazvAmxphHNbg==
+X-Google-Smtp-Source: ADFU+vsnkuuXK5PCN3CGLGb7k6BWdwMd/4riN9BWBlsjaqEq6fO9cPeQcvyc9vM82ENDj4wZ1oJO+A==
+X-Received: by 2002:a5d:5141:: with SMTP id u1mr12997224wrt.146.1585297868413;
+        Fri, 27 Mar 2020 01:31:08 -0700 (PDT)
+Received: from dell ([95.149.164.95])
+        by smtp.gmail.com with ESMTPSA id q3sm7373231wru.87.2020.03.27.01.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 01:31:07 -0700 (PDT)
+Date:   Fri, 27 Mar 2020 08:31:57 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Guillaume La Roque <glaroque@baylibre.com>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Zhang Rui <rui.zhang@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH 4/4] dt-bindings: Add missing 'additionalProperties:
+ false'
+Message-ID: <20200327083157.GI603801@dell>
+References: <20200325220542.19189-1-robh@kernel.org>
+ <20200325220542.19189-5-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200327074523.GA3412@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200325220542.19189-5-robh@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+On Wed, 25 Mar 2020, Rob Herring wrote:
 
-Ok. This time I try to check hardware and not need image processing. I 
-uncomment this line in script:
+> Setting 'additionalProperties: false' is frequently omitted, but is
+> important in order to check that there aren't extra undocumented
+> properties in a binding.
+> 
+> Ideally, we'd just add this automatically and make this the default, but
+> there's some cases where it doesn't work. For example, if a common
+> schema is referenced, then properties in the common schema aren't part
+> of what's considered for 'additionalProperties'. Also, sometimes there
+> are bus specific properties such as 'spi-max-frequency' that go into
+> bus child nodes, but aren't defined in the child node's schema.
+> 
+> So let's stick with the json-schema defined default and add
+> 'additionalProperties: false' where needed. This will be a continual
+> review comment and game of wack-a-mole.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/arm/altera/socfpga-clk-manager.yaml    | 2 ++
+>  .../bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml       | 2 ++
+>  Documentation/devicetree/bindings/arm/msm/qcom,llcc.yaml       | 2 ++
+>  Documentation/devicetree/bindings/arm/renesas,prr.yaml         | 2 ++
+>  .../devicetree/bindings/arm/samsung/exynos-chipid.yaml         | 2 ++
+>  Documentation/devicetree/bindings/arm/samsung/pmu.yaml         | 2 ++
+>  .../bindings/arm/samsung/samsung-secure-firmware.yaml          | 2 ++
+>  .../devicetree/bindings/arm/stm32/st,stm32-syscon.yaml         | 2 ++
+>  Documentation/devicetree/bindings/clock/fsl,plldig.yaml        | 2 ++
+>  Documentation/devicetree/bindings/clock/imx8mn-clock.yaml      | 2 ++
+>  Documentation/devicetree/bindings/clock/imx8mp-clock.yaml      | 2 ++
+>  Documentation/devicetree/bindings/clock/milbeaut-clock.yaml    | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-apq8064.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-ipq8074.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-msm8996.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-msm8998.yaml  | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-qcs404.yaml   | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-sc7180.yaml   | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc-sm8150.yaml   | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,gcc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,mmcc.yaml         | 2 ++
+>  .../devicetree/bindings/clock/qcom,msm8998-gpucc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,rpmhcc.yaml       | 2 ++
+>  .../devicetree/bindings/clock/qcom,sc7180-dispcc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,sc7180-gpucc.yaml | 2 ++
+>  .../devicetree/bindings/clock/qcom,sc7180-videocc.yaml         | 2 ++
+>  .../devicetree/bindings/clock/qcom,sdm845-dispcc.yaml          | 2 ++
+>  Documentation/devicetree/bindings/clock/qcom,sdm845-gpucc.yaml | 2 ++
+>  .../devicetree/bindings/clock/qcom,sdm845-videocc.yaml         | 2 ++
+>  .../devicetree/bindings/display/amlogic,meson-vpu.yaml         | 2 ++
+>  .../devicetree/bindings/dma/sifive,fu540-c000-pdma.yaml        | 2 ++
+>  Documentation/devicetree/bindings/dsp/fsl,dsp.yaml             | 2 ++
+>  Documentation/devicetree/bindings/eeprom/at24.yaml             | 2 ++
+>  .../firmware/intel,ixp4xx-network-processing-engine.yaml       | 3 +++
+>  .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml          | 2 ++
+>  .../devicetree/bindings/gpio/socionext,uniphier-gpio.yaml      | 2 ++
+>  Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml | 2 ++
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml    | 2 ++
+>  Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml    | 2 ++
+>  Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml     | 2 ++
+>  Documentation/devicetree/bindings/gpu/samsung-rotator.yaml     | 2 ++
+>  Documentation/devicetree/bindings/hwmon/adi,adm1177.yaml       | 2 ++
+>  Documentation/devicetree/bindings/hwmon/adi,ltc2947.yaml       | 2 ++
+>  Documentation/devicetree/bindings/hwmon/pmbus/ti,ucd90320.yaml | 2 ++
+>  Documentation/devicetree/bindings/hwmon/ti,tmp513.yaml         | 2 ++
+>  Documentation/devicetree/bindings/iio/accel/bosch,bma400.yaml  | 2 ++
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml    | 2 ++
+>  .../devicetree/bindings/iio/adc/microchip,mcp3911.yaml         | 2 ++
+>  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml        | 2 ++
+>  .../devicetree/bindings/iio/chemical/plantower,pms7003.yaml    | 2 ++
+>  .../devicetree/bindings/iio/chemical/sensirion,sps30.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/dac/lltc,ltc1660.yaml    | 2 ++
+>  Documentation/devicetree/bindings/iio/light/adux1020.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/light/bh1750.yaml        | 2 ++
+>  Documentation/devicetree/bindings/iio/light/isl29018.yaml      | 2 ++
+>  Documentation/devicetree/bindings/iio/light/noa1305.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/stk33xx.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/tsl2583.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/tsl2772.yaml       | 2 ++
+>  Documentation/devicetree/bindings/iio/light/veml6030.yaml      | 2 ++
+>  .../devicetree/bindings/iio/pressure/asc,dlhl60d.yaml          | 2 ++
+>  Documentation/devicetree/bindings/iio/pressure/bmp085.yaml     | 2 ++
+>  .../devicetree/bindings/iio/proximity/devantech-srf04.yaml     | 2 ++
+>  .../devicetree/bindings/iio/proximity/parallax-ping.yaml       | 2 ++
+>  .../devicetree/bindings/iio/temperature/adi,ltc2983.yaml       | 2 ++
+>  Documentation/devicetree/bindings/input/gpio-vibrator.yaml     | 2 ++
+>  Documentation/devicetree/bindings/input/max77650-onkey.yaml    | 3 +++
+>  .../bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml  | 2 ++
+>  Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml    | 2 ++
+>  Documentation/devicetree/bindings/leds/leds-max77650.yaml      | 3 +++
+>  Documentation/devicetree/bindings/leds/rohm,bd71828-leds.yaml  | 3 +++
+>  .../devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml    | 2 ++
+>  Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml   | 2 ++
+>  .../devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml     | 2 ++
+>  Documentation/devicetree/bindings/media/renesas,ceu.yaml       | 2 ++
 
-[...]
-- entity 47: ipu1_csi1 (3 pads, 4 links)
-              type V4L2 subdev subtype Unknown flags 0
-              device node name /dev/v4l-subdev5
-         pad0: Sink
-                 [fmt:SRGGB10_1X10/1920x1080@1/30 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
-                  crop.bounds:(0,0)/1920x1080
-                  crop:(0,0)/640x480
-                  compose.bounds:(0,0)/640x480
-                  compose:(0,0)/640x480]
-                 <- "imx6-mipi-csi2":2 [ENABLED]
-         pad1: Source
-                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_ic_prp":0 []
-                 -> "ipu1_vdic":0 []
-         pad2: Source
-                 [fmt:SRGGB10_1X10/640x480@1/30 field:none 
-colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_csi1 capture":0 [ENABLED]
+>  Documentation/devicetree/bindings/mfd/max77650.yaml            | 2 ++
+>  Documentation/devicetree/bindings/mfd/rohm,bd71828-pmic.yaml   | 2 ++
 
-- entity 51: ipu1_csi1 capture (1 pad, 1 link)
-              type Node subtype V4L flags 0
-              device node name /dev/video3
-         pad0: Sink
-                 <- "ipu1_csi1":2 [ENABLED]
-[...]
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-- entity 121: imx6-mipi-csi2 (5 pads, 5 links)
-               type V4L2 subdev subtype Unknown flags 0
-               device node name /dev/v4l-subdev12
-         pad0: Sink
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 <- "imx219 9-0010":0 [ENABLED]
-         pad1: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_csi0_mux":0 []
-         pad2: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu1_csi1":0 [ENABLED]
-         pad3: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu2_csi0":0 []
-         pad4: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "ipu2_csi1_mux":0 []
-
-- entity 135: imx219 9-0010 (1 pad, 1 link)
-               type V4L2 subdev subtype Sensor flags 0
-               device node name /dev/v4l-subdev15
-         pad0: Source
-                 [fmt:SRGGB10_1X10/1920x1080 field:none colorspace:srgb 
-xfer:srgb ycbcr:601 quantization:full-range]
-                 -> "imx6-mipi-csi2":0 [ENABLED]
-
-[...]
-localhost ~ # gst-launch-1.0 v4l2src device=/dev/video3 ! fakesink
-Setting pipeline to PAUSED ...
-Pipeline is live and does not need PREROLL ...
-Setting pipeline to PLAYING ...
-ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Internal 
-data stream error.
-Additional debug info:
-/var/tmp/portage/media-libs/gstreamer-1.14.5/work/gstreamer-1.14.5/libs/gst/base/gstbasesrc.c(3055): 
-gst_base_src_loop (): /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-streaming stopped, reason not-negotiated (-4)
-Execution ended after 0:00:00.000606666
-Setting pipeline to PAUSED ...
-Setting pipeline to READY ...
-Setting pipeline to NULL ...
-Freeing pipeline ...
-localhost ~ # dmesg -c
-
-Another error, but some result. I think fakesink must got Bayer format 
-(as specific /dev/null for v4l2).
-
-
->>> # media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]" # /dev/video3
->>> (unused, unprocessed)
->        ^
-> The IPUv3 IC hardware does not support processing Bayer formats.
-> Those can only be written straight to RAM using this path.
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
