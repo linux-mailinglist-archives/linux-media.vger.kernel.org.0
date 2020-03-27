@@ -2,80 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A4F01956CD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 13:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A45A195822
+	for <lists+linux-media@lfdr.de>; Fri, 27 Mar 2020 14:37:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgC0MJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Mar 2020 08:09:57 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33712 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727600AbgC0MJw (ORCPT
+        id S1727345AbgC0Nh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Mar 2020 09:37:29 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:45640 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726275AbgC0Nh3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Mar 2020 08:09:52 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 22so9459396otf.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Mar 2020 05:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6AzsbaBnXkz3OM6AFQR1SIwxBjyJjyhL1gvcLvlX+dM=;
-        b=ToWPcL7MBMuCD6lHM8jMGYrdQnHY68Go5SyCO1+7SBETQkSaYoiXcKOwsNQ6EqdYrv
-         7qxGuppqd8T+z13H0AYEZ947RysscnL/CF1alo1ZWFRI672RGlQPAZH78wuOQcZ9oMJs
-         q8VhwZ0PEFmWZIsnZ+s2p0zkMFDfSFyuYhHd9KIVW+ErjSlWyQLfVvT/yOtxnaOk4QEx
-         qTgzc+4SZUx1xKJiVphQHZFpDqnqF4LWcJJx7oI41grr0O7C7pLUUOF4o7lWL//3vv60
-         GSZdslp1ehGbV2b455TMRyoN8cgPb7bx9bhumu2yy6XHtdWH8HsUIfg7T5OHSCcE5a2P
-         +J0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=6AzsbaBnXkz3OM6AFQR1SIwxBjyJjyhL1gvcLvlX+dM=;
-        b=M6uhIDcnWIPzW7xpecsu7cigaVh/5ffFuoCA03D4DzT3/MP3dNZlMCTa+Iq9b8bpdm
-         yTS4egEgTzOflD+hxSEfxETSOTw7uyPxFPGVOhG1k4iJYBYDjtbCH34aRe4r2d46le8D
-         Rzg4dfVn3Ay25Dr9Dh87F7KRwUddrnLf0yCXrphqgGbLiVPjdNOeeXAfA5mPUkwpJCb5
-         R3PZpMArAGhDgvZy8+jDkbemTmUgKewL5UbKQGJe9rp+mmTi10TIJEIsFs3ySm6gBwtz
-         Z47BFgiYA5JzpCOW3FvMv8kPAGfNgA2wr/YzrXzAQmXbaf/sf4RTKCTaaKiGjqe4boPr
-         8STg==
-X-Gm-Message-State: ANhLgQ19NqSA1wDVHU7r9wR4FRkzsk8qMTVFJ1xHrGlKDecviFwVcleG
-        +t+atHGdzSbFfdqVE2+yVitbI47oWFQQzTZ7IQM=
-X-Google-Smtp-Source: ADFU+vvITJODYsI9WxPpNdXpzWJA22v8HmXu97ic9zBaMScNnnHkKitrbQOARZTF4ublOLVtL7KwLmpOtduoGX2GNeE=
-X-Received: by 2002:a9d:3b6:: with SMTP id f51mr10696411otf.255.1585310991422;
- Fri, 27 Mar 2020 05:09:51 -0700 (PDT)
+        Fri, 27 Mar 2020 09:37:29 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 14E41634C90;
+        Fri, 27 Mar 2020 15:37:06 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jHpAX-0000og-4s; Fri, 27 Mar 2020 15:37:05 +0200
+Date:   Fri, 27 Mar 2020 15:37:05 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
+Message-ID: <20200327133705.GC2394@valkosipuli.retiisi.org.uk>
+References: <20200313110350.10864-1-robert.foss@linaro.org>
+ <20200313110350.10864-3-robert.foss@linaro.org>
+ <20200313121746.GC5730@valkosipuli.retiisi.org.uk>
+ <CAG3jFytpx8_+DKhUVZnUFeMYK82Z1hFWcEnbyD0=4a8p3ojteg@mail.gmail.com>
+ <20200326144725.GA2394@valkosipuli.retiisi.org.uk>
+ <CAG3jFyu=HOsWNeRFC2t4HjzYrFrLjsbXzAm4+zD50Xq48mqzcw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ac9:7c15:0:0:0:0:0 with HTTP; Fri, 27 Mar 2020 05:09:50
- -0700 (PDT)
-Reply-To: robertandersonhappy1@gmail.com
-From:   robert <emekanawafo@gmail.com>
-Date:   Fri, 27 Mar 2020 05:09:50 -0700
-Message-ID: <CAH0FejzHC=weONeYbFxNdhh-of4+bp3BfE+vO2siWBJg264GAg@mail.gmail.com>
-Subject: very good
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG3jFyu=HOsWNeRFC2t4HjzYrFrLjsbXzAm4+zD50Xq48mqzcw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Querido amigo,
-Meu nome =C3=A9 Bar.robert anderson Eu sou advogado e particular
-gerente de conta para meu cliente atrasado. No ano de 2015, meu
-cliente pelo nome
-Sr. Carlos, faleceu. A raz=C3=A3o pela qual eu entrei em contato com voc=C3=
-=AA =C3=A9
-porque voc=C3=AA
-tem o mesmo sobrenome do falecido, e posso apresent=C3=A1-lo como
-o benefici=C3=A1rio e parente pr=C3=B3ximo aos meus fundos de clientes
-atrasados, ent=C3=A3o voc=C3=AA vai
-permanecer como seu parente mais pr=C3=B3ximo e reivindicar os fundos.
-deixando para tr=C3=A1s um dinheiro
-heran=C3=A7a de sete milh=C3=B5es quinhentos mil Estados Unidos
-(US $ 7.500.000,00). Meu cliente e amigo =C3=ADntimo falecido cresceu em
-um "lar de beb=C3=AAs sem m=C3=A3e". Ele n=C3=A3o tinha fam=C3=ADlia, nem b=
-enefici=C3=A1rio nem pr=C3=B3ximo
-parentes dos Fundos de heran=C3=A7a deixados para tr=C3=A1s no Banco.
-Voc=C3=AA deve entrar em contato comigo atrav=C3=A9s do meu endere=C3=A7o d=
-e e-mail particular:
-robertandersonhappy1@gmail.com
-Cumprimentos,
-Barra. Robert Anderson
+Hi Robert,
+
+On Fri, Mar 27, 2020 at 11:32:29AM +0100, Robert Foss wrote:
+> On Thu, 26 Mar 2020 at 15:47, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> > Hi Robert,
+> >
+> > On Thu, Mar 26, 2020 at 12:56:37PM +0100, Robert Foss wrote:
+> > ...
+> > > > > +static int __ov8856_power_on(struct ov8856 *ov8856)
+> > > > > +{
+> > > > > +     struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> > > > > +     int ret;
+> > > > > +
+> > > > > +     ret = clk_prepare_enable(ov8856->xvclk);
+> > > > > +     if (ret < 0) {
+> > > > > +             dev_err(&client->dev, "failed to enable xvclk\n");
+> > > > > +             return ret;
+> > > > > +     }
+> > > > > +
+> > > > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
+> > > > > +
+> > > > > +     ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
+> > > > > +                                 ov8856->supplies);
+> > > > > +     if (ret < 0) {
+> > > > > +             dev_err(&client->dev, "failed to enable regulators\n");
+> > > > > +             goto disable_clk;
+> > > > > +     }
+> > > > > +
+> > > > > +     gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
+> > > > > +
+> > > > > +     usleep_range(1500, 1800);
+> > > >
+> > > > I think you could omit the delay on ACPI based systems. Or just bail out
+> > > > early in that case.
+> > >
+> > > I'll add a check for reset_gpio being NULL, and skip the sleep for that case.
+> >
+> > There could also be a regulator but no GPIO.
+> >
+> > I think if you don't have either, then certainly there's no need for a
+> > delay.
+> 
+> Removing the delay if no action is taken makes sense, but I'm not sure
+> how best to do it.
+> If there are no regulators dummy ones are created automatically, which
+> makes distinguishing between a little bit cumbersome. The regulator
+> structs could of course all be inspected, and if all are dummy ones,
+> the delay could be skipped. But is there a neater way of doing this?
+> Manually inspecting the regs strikes me as a bit inelegant.
+
+I guess the cleanest, easy way to make this right, albeit slightly
+unoptimal in very rare cases where you have none of the above resources in
+a DT system, is to bail out if you're running on an ACPI based system.
+
+I.e. checking for e.g. is_acpi_node(dev->fwnode).
+
+-- 
+Sakari Ailus
