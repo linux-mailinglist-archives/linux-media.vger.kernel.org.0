@@ -2,110 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B9541966CE
-	for <lists+linux-media@lfdr.de>; Sat, 28 Mar 2020 15:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B5361969FA
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 00:10:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgC1Oo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Mar 2020 10:44:27 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43120 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725807AbgC1Oo1 (ORCPT
+        id S1727401AbgC1XKM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Mar 2020 19:10:12 -0400
+Received: from mail-pf1-f170.google.com ([209.85.210.170]:44597 "EHLO
+        mail-pf1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727176AbgC1XKM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Mar 2020 10:44:27 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id A67BB292552
-From:   Ezequiel Garcia <ezequiel@collabora.com>
+        Sat, 28 Mar 2020 19:10:12 -0400
+Received: by mail-pf1-f170.google.com with SMTP id b72so6548739pfb.11
+        for <linux-media@vger.kernel.org>; Sat, 28 Mar 2020 16:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yhKtc2k1meueXUMIfVGqWBsTH8w6oZQ3EEPRwf9lsIg=;
+        b=B5XVKp8rUXU0WFp7W3J2maFeezhs7tqbM7DjHFeradPB3BH/X7F5m2z5eiokXqXCtN
+         Xcvs4UgTjEHBoPMeqzrPMX2kleIE6JIJE+IRmA+4XfbQFrrgpJj/EFfH8pWOIvGy8Nfz
+         bOgN5xeCtSZNyyO2s8/TFCjDXCIsTn1LI1xsYHydc/IrQqh5fn64k5CWrfYPrBzMUzSH
+         ejAWrTc1gaAjpN6bM+bnM8tXomsjBzDsQarwnW0zEOWsjyB4Tw8yn6IR3CezGE/nkGeR
+         K/rp+cfwknkYC0tcDIlZpOhI2nr6W9bxSp71kLRjSUdxLEsOHlLHUF9qWx8EVyhdri+D
+         IBEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yhKtc2k1meueXUMIfVGqWBsTH8w6oZQ3EEPRwf9lsIg=;
+        b=gJYqMrAS0tatkvflIBdSP22FLbWbSJVv9H5CgR2oJurC/VSWljq0hF6wxCop2qvDrp
+         yjtywGAO+ZMlSUuDh6PjcF43WaGueC8fb+zjhhrxvBDRVwHgQCo4r03EY1mep+Xyyfa6
+         v/71TlwxmWQyrEVk/o6a7sYoTw9L5pgn4BIywUo5vAwf4y7swQ3dnSEPOeQoHaE31rRg
+         ZUe1xAYOISj6u+eqGoXT8C95mLptZ4Tj8JDsXGlM7giftFTnM5isKUCvsHPvlGHj8UTC
+         y3durpNHR0KaAB567G4EIVYrV46ux9s/KTVpiz1zBFOsqAwPkxt7yRg7lI9fYt4e0r45
+         P4ZQ==
+X-Gm-Message-State: ANhLgQ3ofQ0EnvA9+Qux/UfmHK/cEcBV1o2kEoMLyD8tU4pRX5XM3nv7
+        p6eiOrAxxIGfWHYAuwsXsW2cd+W7Ozw=
+X-Google-Smtp-Source: ADFU+vuyfCw5I1GSqdJb2LnQlvEE+Vq/ztBI7qxQsNeI81o1ftPZgRlQvFV9nS/xfQ+WHLva+Ki4gQ==
+X-Received: by 2002:aa7:931a:: with SMTP id 26mr5853287pfj.11.1585437010537;
+        Sat, 28 Mar 2020 16:10:10 -0700 (PDT)
+Received: from mappy.nv.charter.com ([2600:6c4e:200:e053:3081:8132:c81a:db99])
+        by smtp.gmail.com with ESMTPSA id w74sm3978602pfd.112.2020.03.28.16.10.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2020 16:10:09 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH] vim2m: Remove unneeded buffer lock
-Date:   Sat, 28 Mar 2020 11:44:16 -0300
-Message-Id: <20200328144416.15912-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.26.0.rc2
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v2 00/10] media: imx: Miscellaneous format-related cleanups
+Date:   Sat, 28 Mar 2020 16:09:52 -0700
+Message-Id: <20200328231002.649-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This spinlock is used solely to call v4l2_m2m_buf_done().
+This series picks up Laurent Pinchart's series:
 
-Since buffers are obtained only after being removed
-from the ready queue, there's no concurrent access, and
-so no need for synchronization.
+[PATCH 0/8] media: imx: Miscalleanous format-related cleanups
 
-Remove the spinlock to make sure no one copies this pattern.
+with a merge of two patches from Philipp Zabel's series:
 
-Some archaeology shows this is a small leftover from ancient code.
-This driver (then called m2m_testdev) used the videobuf1 framework;
-commit d80ee38cd845 ("[media] v4l: mem2mem: port m2m_testdev to vb2")
-converted it to videobuf2. The spinlock was then no longer needed,
-and this simply went unnoticed.
+[PATCH 1/3] media: imx: enable V4L2_PIX_FMT_XBGR32, _BGRX32, and _RGBX32
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/media/platform/vim2m.c | 8 --------
- 1 file changed, 8 deletions(-)
+with an additional patch at the end that splits up the find_enum_format()
+functions into separate functions for in-memory fourcc codes and mbus
+codes, as requested by Hans Verkuil in the series from Philipp.
 
-diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
-index ac6717fbb764..a776bb8e0e09 100644
---- a/drivers/media/platform/vim2m.c
-+++ b/drivers/media/platform/vim2m.c
-@@ -216,7 +216,6 @@ struct vim2m_ctx {
- 
- 	struct mutex		vb_mutex;
- 	struct delayed_work	work_run;
--	spinlock_t		irqlock;
- 
- 	/* Abort requested by m2m */
- 	int			aborting;
-@@ -622,7 +621,6 @@ static void device_work(struct work_struct *w)
- 	struct vim2m_ctx *curr_ctx;
- 	struct vim2m_dev *vim2m_dev;
- 	struct vb2_v4l2_buffer *src_vb, *dst_vb;
--	unsigned long flags;
- 
- 	curr_ctx = container_of(w, struct vim2m_ctx, work_run.work);
- 
-@@ -638,10 +636,8 @@ static void device_work(struct work_struct *w)
- 
- 	curr_ctx->num_processed++;
- 
--	spin_lock_irqsave(&curr_ctx->irqlock, flags);
- 	v4l2_m2m_buf_done(src_vb, VB2_BUF_STATE_DONE);
- 	v4l2_m2m_buf_done(dst_vb, VB2_BUF_STATE_DONE);
--	spin_unlock_irqrestore(&curr_ctx->irqlock, flags);
- 
- 	if (curr_ctx->num_processed == curr_ctx->translen
- 	    || curr_ctx->aborting) {
-@@ -1084,7 +1080,6 @@ static void vim2m_stop_streaming(struct vb2_queue *q)
- {
- 	struct vim2m_ctx *ctx = vb2_get_drv_priv(q);
- 	struct vb2_v4l2_buffer *vbuf;
--	unsigned long flags;
- 
- 	cancel_delayed_work_sync(&ctx->work_run);
- 
-@@ -1097,9 +1092,7 @@ static void vim2m_stop_streaming(struct vb2_queue *q)
- 			return;
- 		v4l2_ctrl_request_complete(vbuf->vb2_buf.req_obj.req,
- 					   &ctx->hdl);
--		spin_lock_irqsave(&ctx->irqlock, flags);
- 		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
--		spin_unlock_irqrestore(&ctx->irqlock, flags);
- 	}
- }
- 
-@@ -1226,7 +1219,6 @@ static int vim2m_open(struct file *file)
- 	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, ctx, &queue_init);
- 
- 	mutex_init(&ctx->vb_mutex);
--	spin_lock_init(&ctx->irqlock);
- 	INIT_DELAYED_WORK(&ctx->work_run, device_work);
- 
- 	if (IS_ERR(ctx->fh.m2m_ctx)) {
+History:
+v2:
+- fixed a bug:
+  "for (j=0; j < fmt->codes[j]; j++)" should be
+  "for (j=0; fmt->codes[j]; j++)", in the mbus format enum functions.
+  Caught by Laurent.
+- move some local vars under the pixel_formats[] loop. Suggested by Laurent.
+- decrement the index passed to the enum functions, instead of introducing
+  a match_index local var. Suggested by Laurent.
+
+
+Laurent Pinchart (7):
+  media: imx: utils: Inline init_mbus_colorimetry() in its caller
+  media: imx: utils: Handle Bayer format lookup through a selection flag
+  media: imx: utils: Simplify IPU format lookup and enumeration
+  media: imx: utils: Make imx_media_pixfmt handle variable number of
+    codes
+  media: imx: utils: Remove unneeded argument to (find|enum)_format()
+  media: imx: utils: Rename format lookup and enumeration functions
+  media: imx: utils: Constify mbus argument to
+    imx_media_mbus_fmt_to_pix_fmt
+
+Philipp Zabel (2):
+  media: imx: utils: fix and simplify pixel format enumeration
+  media: imx: utils: fix media bus format enumeration
+
+Steve Longerbeam (1):
+  media: imx: utils: Split find|enum_format into fourcc and mbus
+    functions
+
+ drivers/staging/media/imx/imx-ic-prp.c        |  12 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |  11 +-
+ drivers/staging/media/imx/imx-media-capture.c |  20 +-
+ .../staging/media/imx/imx-media-csc-scaler.c  |   3 +-
+ drivers/staging/media/imx/imx-media-csi.c     |  26 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 539 ++++++++----------
+ drivers/staging/media/imx/imx-media-vdic.c    |   6 +-
+ drivers/staging/media/imx/imx-media.h         |  27 +-
+ drivers/staging/media/imx/imx7-media-csi.c    |  14 +-
+ 9 files changed, 308 insertions(+), 350 deletions(-)
+
 -- 
-2.26.0.rc2
+2.17.1
 
