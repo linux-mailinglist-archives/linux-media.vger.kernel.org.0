@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22DBA19706B
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 22:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BC1719706C
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 22:59:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728883AbgC2U7k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Mar 2020 16:59:40 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:35655 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728848AbgC2U7j (ORCPT
+        id S1728884AbgC2U7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Mar 2020 16:59:41 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:46379 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728877AbgC2U7k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Mar 2020 16:59:39 -0400
-Received: by mail-pf1-f194.google.com with SMTP id u68so7574625pfb.2
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2020 13:59:38 -0700 (PDT)
+        Sun, 29 Mar 2020 16:59:40 -0400
+Received: by mail-pl1-f193.google.com with SMTP id s23so5870797plq.13
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2020 13:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=93Rj8w4z1HwRyZ2xPLUHuYDoYaMnmWIZNibl2hindZw=;
-        b=KiwnjVLNomn91oZ5CfHKhpP++Y7l/SmPFdYQJvCHJmF1TQ5d2/lWBRgLjgANlOWtE5
-         YQ0KamX5QtKodF69S6IoxZH0A+vUjPAHhw51BmPCtYKEz6rpn7jCH773nIzASLko7leQ
-         X3B88uPHNBnQy7lNOzd/aZsnOCC1Qt1K10kZZpzlgh3Q1orTCUJ+KumS/pH+olscyP1b
-         N9tWr/zMd9UWzo6aZJPZHGWSWd7b/JyvyAUtiKnpJhW8I6jckHmihQ3fs+6ViF9jkbrA
-         zire/3tIqMf9Niyuzw9taDfofbQwKPNzNhHmxOjHj+eo+QuIhILNarzgGfeYPEA1lRwi
-         aRMg==
+        bh=5sJD5xIjNlxz/g0J87s1sg6I98WfwUaCUZi8fa8tcFs=;
+        b=sB/yOpeRPcy6vg7NIuQ+qKvH3JSJOmJuvcEhPgk2kQucVyh1UW8dzRK3FxNHHs77dn
+         /YKGkjfRiOXpECX9gY2ps3/GI02Bd5MI3HHsa1hxNSipqEy3TADjc3xoW1UlveXp9PKe
+         fPHfxMG1JQsuwgfus0XswewILrp+w8jQFhCQxeQjXNY79qrXBnq7uYufbytpJduE16BK
+         l2I8XjAAUvf5aprSqq5vDJJhTMDZNTwnJyBTNjmJfz3pOp7Rebsd39L1g2wdi4G2HRBi
+         jVNhh61xiKVFUxLGBgcH1XoPTGwjaONNNkCLlV+RLluuRoJUml8BHk0xiuxsx6MdjVFN
+         Mziw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=93Rj8w4z1HwRyZ2xPLUHuYDoYaMnmWIZNibl2hindZw=;
-        b=Rn3RpHem8jWBookgI027hsiRQtVzOsQ5kDf4tkCajfCKgNmcRcCdWlNJe658hNPOMp
-         HK6m0SQDp0goqdmvGWnmUdUkUSwpSVerIXMkvCd3120dh8iZbpa07CvGXtBg7P1ZSbTG
-         5g6/td2CZsxwCLVdAeQdpMeJqxifOpLgjCnJFtLps/+3fGDeXLXjGNeRYmq9RdWljKjF
-         Ulj7PR2W9ebVlgV9VBXAuQl/krhXBgujq1/mBC/g4omddkHmsKC5PI/Nl9WnCaG7crm+
-         P1MzEqbyAgljGwTDZI4hbaj/x6s//takBduP2Dh9wz4ctwKWtZbUetse50d7xzq+sinX
-         XX+A==
-X-Gm-Message-State: ANhLgQ32xDXQiWd53V/oEaJE2Kg0kRR3xFLtJSO+5dLiswhcsgG9TTTD
-        L26X+/+Yv8iU7nG9ro/o2rax1WKvrFs=
-X-Google-Smtp-Source: ADFU+vtas2tHxkjK//QFAmRJACLtRgKR+8NznDBA91a/RpcicKbj9ghqTvVdSITjIY2fylk+oCI1ow==
-X-Received: by 2002:aa7:947d:: with SMTP id t29mr9483018pfq.184.1585515577922;
-        Sun, 29 Mar 2020 13:59:37 -0700 (PDT)
+        bh=5sJD5xIjNlxz/g0J87s1sg6I98WfwUaCUZi8fa8tcFs=;
+        b=UWUUQ9k75M65ytZBPUft7mVysDC1K5hzYaobUxkzG6se88Ir8YUi5tDcwnDxPe3n9x
+         Tmbs7sWI0MO/CJBsAxoXQYwVgYfbcjcQ2UwTr8n9WVoqSTOXIJ1m7OfPCEdL0t8gCTaU
+         7TQMqTk7wfP5NmiUmYhcUNZkThV0ZHbo9ShQQZCCUo4YKYBxqm3MnEhJApJmVJhaEg/w
+         UaqDzZvnU9cmfVj76wVlxVB6lD9jbW5uTIBYzCSiHWhApvs4lQvtrdBZO82WEF4LPCNa
+         i3KfJyVNGy+/sJNhaJtEtpkumHxTl25HrChLvDMAOmc1BOSrSIXZxhEpSAhTBN7QMzUD
+         sK7w==
+X-Gm-Message-State: ANhLgQ2zjOlo6Qf5adyyFqO2UNBI+KZP0Bz/TsSWRCwiBkpPYwLiPIpU
+        1Zm+IhQ3/b6iwfVbhazK1/h1oETI2d0=
+X-Google-Smtp-Source: ADFU+vt/1HZeykf4BNm3djkoyBApfWyBm92c2rbxKRCJuSxCyuHK2/Tv8QmumiBp8zeevFdbxSSW6Q==
+X-Received: by 2002:a17:90a:25c8:: with SMTP id k66mr12228220pje.90.1585515579226;
+        Sun, 29 Mar 2020 13:59:39 -0700 (PDT)
 Received: from mappy.nv.charter.com ([2600:6c4e:200:e053:a0c5:5fbc:c28e:f91f])
-        by smtp.gmail.com with ESMTPSA id 15sm8606049pfu.186.2020.03.29.13.59.36
+        by smtp.gmail.com with ESMTPSA id 15sm8606049pfu.186.2020.03.29.13.59.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2020 13:59:37 -0700 (PDT)
+        Sun, 29 Mar 2020 13:59:38 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v4 09/11] media: imx: utils: Constify mbus argument to imx_media_mbus_fmt_to_*
-Date:   Sun, 29 Mar 2020 13:59:18 -0700
-Message-Id: <20200329205920.20118-10-slongerbeam@gmail.com>
+Subject: [PATCH v4 10/11] media: imx: utils: Constify ipu_image argument to imx_media_ipu_image_to_mbus_fmt()
+Date:   Sun, 29 Mar 2020 13:59:19 -0700
+Message-Id: <20200329205920.20118-11-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200329205920.20118-1-slongerbeam@gmail.com>
 References: <20200329205920.20118-1-slongerbeam@gmail.com>
@@ -61,58 +61,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The imx_media_ipu_image_to_mbus_fmt() function doesn't need to modify its
+ipu_image argument. Make it const.
 
-The imx_media_mbus_fmt_to_pix_fmt() and imx_media_mbus_fmt_to_ipu_image()
-functions do not need to modify their mbus argument. Make them const.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-[Constified mbus arg to imx_media_mbus_fmt_to_ipu_image() as well]
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-utils.c | 4 ++--
- drivers/staging/media/imx/imx-media.h       | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/imx/imx-media-utils.c | 2 +-
+ drivers/staging/media/imx/imx-media.h       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 5631b01510ef..b30045221841 100644
+index b30045221841..1b0cadb601cd 100644
 --- a/drivers/staging/media/imx/imx-media-utils.c
 +++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -501,7 +501,7 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
- EXPORT_SYMBOL_GPL(imx_media_try_colorimetry);
+@@ -571,7 +571,7 @@ int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+ EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
  
- int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
--				  struct v4l2_mbus_framefmt *mbus,
-+				  const struct v4l2_mbus_framefmt *mbus,
- 				  const struct imx_media_pixfmt *cc)
+ int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    struct ipu_image *image)
++				    const struct ipu_image *image)
  {
- 	u32 width;
-@@ -553,7 +553,7 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
- EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
- 
- int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
--				    struct v4l2_mbus_framefmt *mbus)
-+				    const struct v4l2_mbus_framefmt *mbus)
- {
- 	int ret;
+ 	const struct imx_media_pixfmt *fmt;
  
 diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index 67983a26e5ff..f4b0fe508553 100644
+index f4b0fe508553..a8985966568a 100644
 --- a/drivers/staging/media/imx/imx-media.h
 +++ b/drivers/staging/media/imx/imx-media.h
-@@ -178,10 +178,10 @@ int imx_media_init_cfg(struct v4l2_subdev *sd,
- void imx_media_try_colorimetry(struct v4l2_mbus_framefmt *tryfmt,
- 			       bool ic_route);
- int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
--				  struct v4l2_mbus_framefmt *mbus,
-+				  const struct v4l2_mbus_framefmt *mbus,
- 				  const struct imx_media_pixfmt *cc);
+@@ -183,7 +183,7 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
  int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
--				    struct v4l2_mbus_framefmt *mbus);
-+				    const struct v4l2_mbus_framefmt *mbus);
+ 				    const struct v4l2_mbus_framefmt *mbus);
  int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
- 				    struct ipu_image *image);
+-				    struct ipu_image *image);
++				    const struct ipu_image *image);
  void imx_media_grp_id_to_sd_name(char *sd_name, int sz,
+ 				 u32 grp_id, int ipu_id);
+ struct v4l2_subdev *
 -- 
 2.17.1
 
