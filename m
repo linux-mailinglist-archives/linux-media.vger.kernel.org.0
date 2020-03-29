@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BC1719706C
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 22:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B53FD19706D
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 22:59:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728884AbgC2U7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Mar 2020 16:59:41 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:46379 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728877AbgC2U7k (ORCPT
+        id S1728892AbgC2U7n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Mar 2020 16:59:43 -0400
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:51424 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728891AbgC2U7m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Mar 2020 16:59:40 -0400
-Received: by mail-pl1-f193.google.com with SMTP id s23so5870797plq.13
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2020 13:59:40 -0700 (PDT)
+        Sun, 29 Mar 2020 16:59:42 -0400
+Received: by mail-pj1-f68.google.com with SMTP id w9so6639202pjh.1
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2020 13:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=5sJD5xIjNlxz/g0J87s1sg6I98WfwUaCUZi8fa8tcFs=;
-        b=sB/yOpeRPcy6vg7NIuQ+qKvH3JSJOmJuvcEhPgk2kQucVyh1UW8dzRK3FxNHHs77dn
-         /YKGkjfRiOXpECX9gY2ps3/GI02Bd5MI3HHsa1hxNSipqEy3TADjc3xoW1UlveXp9PKe
-         fPHfxMG1JQsuwgfus0XswewILrp+w8jQFhCQxeQjXNY79qrXBnq7uYufbytpJduE16BK
-         l2I8XjAAUvf5aprSqq5vDJJhTMDZNTwnJyBTNjmJfz3pOp7Rebsd39L1g2wdi4G2HRBi
-         jVNhh61xiKVFUxLGBgcH1XoPTGwjaONNNkCLlV+RLluuRoJUml8BHk0xiuxsx6MdjVFN
-         Mziw==
+        bh=jikzjO1cIZhKqzQJbxfjm0dX3etS4p3p0i6KNgHmYWM=;
+        b=XthSF840k1NNNWAU8p6RZG1wrhFEu7srtLhR8sr/Jdb80fBRlXxwffOoI/+LRLUvF4
+         Cl16WiGSOYfSegtfYHtW+FTFbCRgiFEAIY5g37+li3XtcfKAMa/OzaNwxS3QxY/8A87O
+         TZ2TLV1XbPV7wlgdIx0EAfHLuxnqnh0y8telq/SYNCjqiDuWXwwtvyra6AzWo+AaLY5a
+         oEs9oRtEfQajXWIhDlWqyqLwnrWFy4qQ4OtFlrSaO+rAMLP/QhfE+4bYNUhiPwpunb1b
+         YPfFr32KBaPiquYyWIEAJ/o6An4TEkLo+QRK2aiG4vX4GEQqz3JJvH6ufvu/2k6gWva4
+         BG8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=5sJD5xIjNlxz/g0J87s1sg6I98WfwUaCUZi8fa8tcFs=;
-        b=UWUUQ9k75M65ytZBPUft7mVysDC1K5hzYaobUxkzG6se88Ir8YUi5tDcwnDxPe3n9x
-         Tmbs7sWI0MO/CJBsAxoXQYwVgYfbcjcQ2UwTr8n9WVoqSTOXIJ1m7OfPCEdL0t8gCTaU
-         7TQMqTk7wfP5NmiUmYhcUNZkThV0ZHbo9ShQQZCCUo4YKYBxqm3MnEhJApJmVJhaEg/w
-         UaqDzZvnU9cmfVj76wVlxVB6lD9jbW5uTIBYzCSiHWhApvs4lQvtrdBZO82WEF4LPCNa
-         i3KfJyVNGy+/sJNhaJtEtpkumHxTl25HrChLvDMAOmc1BOSrSIXZxhEpSAhTBN7QMzUD
-         sK7w==
-X-Gm-Message-State: ANhLgQ2zjOlo6Qf5adyyFqO2UNBI+KZP0Bz/TsSWRCwiBkpPYwLiPIpU
-        1Zm+IhQ3/b6iwfVbhazK1/h1oETI2d0=
-X-Google-Smtp-Source: ADFU+vt/1HZeykf4BNm3djkoyBApfWyBm92c2rbxKRCJuSxCyuHK2/Tv8QmumiBp8zeevFdbxSSW6Q==
-X-Received: by 2002:a17:90a:25c8:: with SMTP id k66mr12228220pje.90.1585515579226;
-        Sun, 29 Mar 2020 13:59:39 -0700 (PDT)
+        bh=jikzjO1cIZhKqzQJbxfjm0dX3etS4p3p0i6KNgHmYWM=;
+        b=qQG6W8/VV6dnq0Ei47UOMx4v3S2NBe5Iel2ub3kwv0kIV/SXaZjRMh/TsZB3lyauS5
+         XtvcO7tsZraOPQ3iCZ4YMqVWOfBxLdi0l1g1m5YBHHJ9ObN1u5oAcddR1RIlf53Y9VPY
+         i95/1x2dotX1s3dPAa1bmJyBMxSE9q9AxlJuqCZkG0m4HPGnDxyFKKjfMYtayx2rueBf
+         wzv2q4YdgxGa+cWy8pfg6ykM6X6yr46++aP3Kvrwlty8ejdAnRoCcERdhEdbaQbzOYVX
+         NVzGkXGAe0n0+eSIzCflWLfg1/AS/1WP00RJUI7kphrS6bct8PTNrk962P84IM5v3x4G
+         lKEg==
+X-Gm-Message-State: ANhLgQ1RqkA2bu0UXX6rON3A/8UtxTXbX9CTDHdLpdglfUeWNW9HhpxR
+        /evkXphRWDz2JD8Tl97tlCZO9gkojf4=
+X-Google-Smtp-Source: ADFU+vsFYQFcotDmP8/kMmVmrOETH/I6bjdq0i6FmG8TkI1ZnicnBCUW2vAxqxpUG5CQCDx2B7FebQ==
+X-Received: by 2002:a17:902:9042:: with SMTP id w2mr9729932plz.269.1585515580327;
+        Sun, 29 Mar 2020 13:59:40 -0700 (PDT)
 Received: from mappy.nv.charter.com ([2600:6c4e:200:e053:a0c5:5fbc:c28e:f91f])
-        by smtp.gmail.com with ESMTPSA id 15sm8606049pfu.186.2020.03.29.13.59.38
+        by smtp.gmail.com with ESMTPSA id 15sm8606049pfu.186.2020.03.29.13.59.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2020 13:59:38 -0700 (PDT)
+        Sun, 29 Mar 2020 13:59:39 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v4 10/11] media: imx: utils: Constify ipu_image argument to imx_media_ipu_image_to_mbus_fmt()
-Date:   Sun, 29 Mar 2020 13:59:19 -0700
-Message-Id: <20200329205920.20118-11-slongerbeam@gmail.com>
+Subject: [PATCH v4 11/11] media: imx: utils: Split find|enum_format into fourcc and mbus functions
+Date:   Sun, 29 Mar 2020 13:59:20 -0700
+Message-Id: <20200329205920.20118-12-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200329205920.20118-1-slongerbeam@gmail.com>
 References: <20200329205920.20118-1-slongerbeam@gmail.com>
@@ -61,41 +61,206 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx_media_ipu_image_to_mbus_fmt() function doesn't need to modify its
-ipu_image argument. Make it const.
+To make the code easier to follow, split up find_format() into separate
+search functions for pixel formats and media-bus codes. In the process
+inline the code into the exported functions imx_media_find_pixel_format()
+and imx_media_find_mbus_format(). Do the equivalent for enum_formats().
+
+Also add comment blocks for the exported find|enum functions.
 
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-utils.c | 2 +-
- drivers/staging/media/imx/imx-media.h       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/imx/imx-media-utils.c | 131 +++++++++++++-------
+ 1 file changed, 88 insertions(+), 43 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index b30045221841..1b0cadb601cd 100644
+index 1b0cadb601cd..4be588313681 100644
 --- a/drivers/staging/media/imx/imx-media-utils.c
 +++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -571,7 +571,7 @@ int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
- EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
+@@ -192,28 +192,58 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 	},
+ };
  
- int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
--				    struct ipu_image *image)
-+				    const struct ipu_image *image)
+-static const struct imx_media_pixfmt *find_format(u32 fourcc,
+-						  u32 code,
+-						  enum codespace_sel cs_sel)
++/*
++ * Search for and return an entry in the pixel_formats[] array that matches
++ * the requested search criteria.
++ *
++ * @fourcc: Search for an entry with the given fourcc pixel format.
++ * @cs_sel: Search for entries with the given codespace encodings
++ *          (YUV, RGB, and/or BAYER).
++ */
++const struct imx_media_pixfmt *
++imx_media_find_pixel_format(u32 fourcc, enum codespace_sel cs_sel)
  {
- 	const struct imx_media_pixfmt *fmt;
+ 	unsigned int i;
  
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index f4b0fe508553..a8985966568a 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -183,7 +183,7 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
- int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
- 				    const struct v4l2_mbus_framefmt *mbus);
- int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
--				    struct ipu_image *image);
-+				    const struct ipu_image *image);
- void imx_media_grp_id_to_sd_name(char *sd_name, int sz,
- 				 u32 grp_id, int ipu_id);
- struct v4l2_subdev *
+ 	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
+ 		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
+ 		enum codespace_sel fmt_cs_sel;
+-		unsigned int j;
+ 
+ 		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
+ 			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
+ 			 CS_SEL_YUV : CS_SEL_RGB);
+ 
+-		if (!(fmt_cs_sel & cs_sel) || (!fourcc && !fmt->codes))
+-			continue;
+-
+-		if (fourcc && fmt->fourcc == fourcc)
++		if ((fmt_cs_sel & cs_sel) && fmt->fourcc == fourcc)
+ 			return fmt;
++	}
++
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(imx_media_find_pixel_format);
++
++/*
++ * Search for and return an entry in the pixel_formats[] array that matches
++ * the requested search criteria.
++ *
++ * @code: Search for an entry with the given media-bus code.
++ * @cs_sel: Search for entries with the given codespace encodings
++ *          (YUV, RGB, and/or BAYER).
++ */
++const struct imx_media_pixfmt *
++imx_media_find_mbus_format(u32 code, enum codespace_sel cs_sel)
++{
++	unsigned int i;
+ 
+-		if (!code || !fmt->codes)
++	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
++		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
++		enum codespace_sel fmt_cs_sel;
++		unsigned int j;
++
++		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
++			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
++			 CS_SEL_YUV : CS_SEL_RGB);
++
++		if (!(fmt_cs_sel & cs_sel) || !fmt->codes)
+ 			continue;
+ 
+ 		for (j = 0; fmt->codes[j]; j++) {
+@@ -224,33 +254,74 @@ static const struct imx_media_pixfmt *find_format(u32 fourcc,
+ 
+ 	return NULL;
+ }
++EXPORT_SYMBOL_GPL(imx_media_find_mbus_format);
+ 
+-static int enum_formats(u32 *fourcc, u32 *code, u32 index,
+-			enum codespace_sel cs_sel)
++/*
++ * Enumerate entries in the pixel_formats[] array that match the
++ * requested search criteria. Returns the fourcc that matches the
++ * search criteria at the requested match index.
++ *
++ * @fourcc: The returned fourcc that matches the search criteria at
++ *          the requested match index.
++ * @index: The requested match index.
++ * @cs_sel: Include in the enumeration entries with the given codespace
++ *          encodings (YUV, RGB, and/or BAYER).
++ */
++int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
++				 enum codespace_sel cs_sel)
+ {
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
+ 		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
+ 		enum codespace_sel fmt_cs_sel;
+-		unsigned int j;
+ 
+ 		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
+ 			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
+ 			 CS_SEL_YUV : CS_SEL_RGB);
+ 
+-		if (!(fmt_cs_sel & cs_sel) || (!fourcc && !fmt->codes))
++		if (!(fmt_cs_sel & cs_sel))
+ 			continue;
+ 
+-		if (fourcc && index == 0) {
++		if (index == 0) {
+ 			*fourcc = fmt->fourcc;
+ 			return 0;
+ 		}
+ 
+-		if (!code) {
+-			index--;
++		index--;
++	}
++
++	return -EINVAL;
++}
++EXPORT_SYMBOL_GPL(imx_media_enum_pixel_formats);
++
++/*
++ * Enumerate entries in the pixel_formats[] array that match the
++ * requested search criteria. Returns the media-bus code that matches
++ * the search criteria at the requested match index.
++ *
++ * @code: The returned media-bus code that matches the search criteria at
++ *        the requested match index.
++ * @index: The requested match index.
++ * @cs_sel: Include in the enumeration entries with the given codespace
++ *          encodings (YUV, RGB, and/or BAYER).
++ */
++int imx_media_enum_mbus_formats(u32 *code, u32 index,
++				enum codespace_sel cs_sel)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
++		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
++		enum codespace_sel fmt_cs_sel;
++		unsigned int j;
++
++		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
++			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
++			 CS_SEL_YUV : CS_SEL_RGB);
++
++		if (!(fmt_cs_sel & cs_sel) || !fmt->codes)
+ 			continue;
+-		}
+ 
+ 		for (j = 0; fmt->codes[j]; j++) {
+ 			if (index == 0) {
+@@ -264,32 +335,6 @@ static int enum_formats(u32 *fourcc, u32 *code, u32 index,
+ 
+ 	return -EINVAL;
+ }
+-
+-const struct imx_media_pixfmt *
+-imx_media_find_pixel_format(u32 fourcc, enum codespace_sel cs_sel)
+-{
+-	return find_format(fourcc, 0, cs_sel);
+-}
+-EXPORT_SYMBOL_GPL(imx_media_find_pixel_format);
+-
+-int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
+-				 enum codespace_sel cs_sel)
+-{
+-	return enum_formats(fourcc, NULL, index, cs_sel);
+-}
+-EXPORT_SYMBOL_GPL(imx_media_enum_pixel_formats);
+-
+-const struct imx_media_pixfmt *
+-imx_media_find_mbus_format(u32 code, enum codespace_sel cs_sel)
+-{
+-	return find_format(0, code, cs_sel);
+-}
+-EXPORT_SYMBOL_GPL(imx_media_find_mbus_format);
+-
+-int imx_media_enum_mbus_formats(u32 *code, u32 index, enum codespace_sel cs_sel)
+-{
+-	return enum_formats(NULL, code, index, cs_sel);
+-}
+ EXPORT_SYMBOL_GPL(imx_media_enum_mbus_formats);
+ 
+ /* -----------------------------------------------------------------------------
 -- 
 2.17.1
 
