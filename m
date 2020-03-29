@@ -2,156 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CAD71196C64
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 12:19:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2EBD196EF6
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 19:40:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbgC2KTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Mar 2020 06:19:47 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:35266 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727639AbgC2KTr (ORCPT
+        id S1728373AbgC2RkS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Mar 2020 13:40:18 -0400
+Received: from mail-pj1-f49.google.com ([209.85.216.49]:56169 "EHLO
+        mail-pj1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728041AbgC2RkR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Mar 2020 06:19:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-        Content-Transfer-Encoding:MIME-Version:Subject:To:From:Reply-To:Cc:Content-ID
-        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=5WrfeUimojviy2HjJMi7aeH/0NoQUltqxT3CXWVCzx0=; b=eEi88isOmCrBj9ES1hAHC+gaJ7
-        eEhhNuFrM4dtxYeUU3UUu9s1U9BAy8HDqUbR8ry41elB/CCz76xZjcj46eMb55KQMCVzbdjJPeOd9
-        gz5z4XzRbgRl9vqMcaCJQQwYsaMhd5jXuUAHFBfLV2aDzTZ6E57gE9edSsluerXShmNrfEYtBxrYX
-        8Ard77CCUSwjcovug28TCplnTzkDVlye3EdoO/bBpVR2HK76yGRyR5wOeljVMxeaKBFz4OsQatI4M
-        EugXmzrcpn7E9BtdkBY3Ri4BNNjIgK/49y3Qow9Yjlt8wirJghmWZhi8tYqZwsveCPD9uKDe43vPK
-        7/maUOxw==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([2001:4d48:ad52:3201:222:68ff:fe15:37dd]:37572 helo=rmk-PC.armlinux.org.uk)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1jIV27-0004Li-Hd; Sun, 29 Mar 2020 11:19:11 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1jIV26-0005X3-RS; Sun, 29 Mar 2020 11:19:10 +0100
-From:   Russell King <rmk+kernel@armlinux.org.uk>
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH] Update my email address in various drivers
+        Sun, 29 Mar 2020 13:40:17 -0400
+Received: by mail-pj1-f49.google.com with SMTP id fh8so1383988pjb.5
+        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2020 10:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0BXbcs6LNWdWaEPsc6zJHbrgX/7I6uANOSBPjvu32Bk=;
+        b=IKC/848AY34uBJ3gXkTUiU1eOCsXjjmAUj6h4f6w8g44/CMpSu18F2RsxDwlbQZrQg
+         J1Ptw94k8hv51COO31DtkYc0hHhk1Dg919VF8lHNYFMfj94jAT7wnptA2Ilc2r3qAB5W
+         AuAbInAuPtvGDcsz8xbVs7zk7CxHICBSk+50fSBqjPkKaRIZwsG2H6zhVJBBwGDIlk7A
+         Z+R+t4N7Hpx6Y9CezoaOHtXh3IAAVeijLAlTF8jb32/W22sVDCa7cj7foJofcUBvmo7r
+         zEVkoc0Rh1kPSmbtEPuzwBwOGDrSsO7HyY0FIepiErhz74bUl/CGAG6vvidA7F3wWQD+
+         cmrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0BXbcs6LNWdWaEPsc6zJHbrgX/7I6uANOSBPjvu32Bk=;
+        b=C3/+aDHdi932AHMOI/tKENUBxoM7gTY/AnqZN+QTGVkjJ6G6OceH1CtuD21Z5mH1yH
+         FL/vEVJXcdrMIU1D4JuOXtGCLWs30JJMCCrvkkNaLsl9GvszZNJcjIpGrtIXAxeJJI9u
+         Wq/qadn1jy69dDWoB/Q+YytJIT73JC1KvAkK2s6Wm7wbMTBmwRVRDi2TyuhMb6xhhq0m
+         hiLI6IpDn1SJOauSkaeK0/dTtJIL1M/VRy1tV3S/kHvaN6UwFDFBZPHiw88FKNjGxjM8
+         Asws/EV6RQW3D4XqBYwxF4x+W36lSuwKKJNsc2zuS7zBnv0vb0NCZVpEPBi+AY6+RjzN
+         BgeA==
+X-Gm-Message-State: ANhLgQ29ngW5llsY1O9OnNf9usSlNTznWWaNacjO2LWfrqbeEL0lzZts
+        vmhH5D4rsnIUkdPlhwmhCQ+e2uRxkgE=
+X-Google-Smtp-Source: ADFU+vshYq9RNjKHc3ir6qt7XBeZ4UeW6dFoRwDKR0OqYfjawlvXXYXuYoEI7Yxp1pszrjA4gvSIQQ==
+X-Received: by 2002:a17:902:aa84:: with SMTP id d4mr9295184plr.158.1585503616388;
+        Sun, 29 Mar 2020 10:40:16 -0700 (PDT)
+Received: from mappy.nv.charter.com ([2600:6c4e:200:e053:a0c5:5fbc:c28e:f91f])
+        by smtp.gmail.com with ESMTPSA id b133sm7031253pfb.180.2020.03.29.10.40.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2020 10:40:15 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v3 00/10]  media: imx: Miscellaneous format-related cleanups
+Date:   Sun, 29 Mar 2020 10:40:00 -0700
+Message-Id: <20200329174010.12304-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
-Date:   Sun, 29 Mar 2020 11:19:10 +0100
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Globally update my email address in six files scattered through the
-tree.
+This series picks up Laurent Pinchart's series:
 
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
----
- drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
- drivers/media/cec/cec-notifier.c                    | 2 +-
- drivers/net/phy/swphy.c                             | 2 +-
- include/media/cec-notifier.h                        | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+[PATCH 0/8] media: imx: Miscalleanous format-related cleanups
 
-diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-index 3df2dacf4c94..5a82a12cd105 100644
---- a/drivers/gpu/drm/armada/armada_drv.c
-+++ b/drivers/gpu/drm/armada/armada_drv.c
-@@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
- }
- module_exit(armada_drm_exit);
- 
--MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-+MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
- MODULE_DESCRIPTION("Armada DRM Driver");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("platform:armada-drm");
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-index e8e3e9339ff9..f6f55776e43e 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-@@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
- 
- module_platform_driver(snd_dw_hdmi_driver);
- 
--MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-+MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
- MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("platform:" DRIVER_NAME);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 1f9c01be40d7..d6798f716b77 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
- module_exit(etnaviv_exit);
- 
- MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
--MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-+MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
- MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
- MODULE_DESCRIPTION("etnaviv DRM Driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
-index 7cf42b133dbc..2d4f7dd7cef7 100644
---- a/drivers/media/cec/cec-notifier.c
-+++ b/drivers/media/cec/cec-notifier.c
-@@ -2,7 +2,7 @@
- /*
-  * cec-notifier.c - notify CEC drivers of physical address changes
-  *
-- * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-+ * Copyright 2016 Russell King.
-  * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-  */
- 
-diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
-index 53c214a22b95..774814714c82 100644
---- a/drivers/net/phy/swphy.c
-+++ b/drivers/net/phy/swphy.c
-@@ -2,7 +2,7 @@
- /*
-  * Software PHY emulation
-  *
-- * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
-+ * Code taken from fixed_phy.c by Russell King.
-  *
-  * Author: Vitaly Bordug <vbordug@ru.mvista.com>
-  *         Anton Vorontsov <avorontsov@ru.mvista.com>
-diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
-index 985afea1ee36..e2b1b894aae7 100644
---- a/include/media/cec-notifier.h
-+++ b/include/media/cec-notifier.h
-@@ -2,7 +2,7 @@
- /*
-  * cec-notifier.h - notify CEC drivers of physical address changes
-  *
-- * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-+ * Copyright 2016 Russell King.
-  * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-  */
- 
+with a merge of two patches from Philipp Zabel's series:
+
+[PATCH 1/3] media: imx: enable V4L2_PIX_FMT_XBGR32, _BGRX32, and _RGBX32
+
+with an additional patch at the end that splits up the find_enum_format()
+functions into separate functions for in-memory fourcc codes and mbus
+codes, as requested by Hans Verkuil in the series from Philipp.
+
+History:
+
+v3:
+- fixed derefencing a NULL cc->codes on return from imx_media_find_format()
+  in several places.
+
+v2:
+- fixed a bug:
+  "for (j=0; j < fmt->codes[j]; j++)" should be
+  "for (j=0; fmt->codes[j]; j++)", in the mbus format enum functions.
+  Caught by Laurent.
+- move some local vars under the pixel_formats[] loop. Suggested by Laurent.
+- decrement the index passed to the enum functions, instead of introducing
+  a match_index local var. Suggested by Laurent.
+
+Laurent Pinchart (7):
+  media: imx: utils: Inline init_mbus_colorimetry() in its caller
+  media: imx: utils: Handle Bayer format lookup through a selection flag
+  media: imx: utils: Simplify IPU format lookup and enumeration
+  media: imx: utils: Make imx_media_pixfmt handle variable number of
+    codes
+  media: imx: utils: Remove unneeded argument to (find|enum)_format()
+  media: imx: utils: Rename format lookup and enumeration functions
+  media: imx: utils: Constify mbus argument to
+    imx_media_mbus_fmt_to_pix_fmt
+
+Philipp Zabel (2):
+  media: imx: utils: fix and simplify pixel format enumeration
+  media: imx: utils: fix media bus format enumeration
+
+Steve Longerbeam (1):
+  media: imx: utils: Split find|enum_format into fourcc and mbus
+    functions
+
+ drivers/staging/media/imx/imx-ic-prp.c        |  12 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |  11 +-
+ drivers/staging/media/imx/imx-media-capture.c |  24 +-
+ .../staging/media/imx/imx-media-csc-scaler.c  |   3 +-
+ drivers/staging/media/imx/imx-media-csi.c     |  26 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 542 ++++++++----------
+ drivers/staging/media/imx/imx-media-vdic.c    |   6 +-
+ drivers/staging/media/imx/imx-media.h         |  27 +-
+ drivers/staging/media/imx/imx7-media-csi.c    |  14 +-
+ 9 files changed, 312 insertions(+), 353 deletions(-)
+
 -- 
-2.20.1
+2.17.1
 
