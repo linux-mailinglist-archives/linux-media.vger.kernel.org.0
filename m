@@ -2,265 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76865196F00
-	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 19:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7FC5197044
+	for <lists+linux-media@lfdr.de>; Sun, 29 Mar 2020 22:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728466AbgC2Rka (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Mar 2020 13:40:30 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:43134 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728489AbgC2Rka (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Mar 2020 13:40:30 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f206so7400352pfa.10
-        for <linux-media@vger.kernel.org>; Sun, 29 Mar 2020 10:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=p9NT3rzEn5Uwidk/XYZ1HQVtghscilmVZcsHmDp1yws=;
-        b=ObUdQMBGTWY/FPvc+z+WcQx/gsgKPzwnF/hc0OOdMSIbVMrGk3gSY/RpeON3YBus3O
-         TIjXBTPCeMPAfyEDwxny/3jk0on1+hJTAPLu50XnpeCtHE2CDSL/SzLyBjvZcgClUTAf
-         NO0IuwhGE1/13if1JqiB8JX7J4mxUnvt7X6IbtD2cDYIIBDoA1sZYd9nmoej4xU3BuPC
-         4wMIOnlHNW0Jx9sFLueuhYN9cgJ9kwg6xVMGwLl1iwpMgCSSyWbXcfDY8sOWUoEXN5sv
-         JmmWmSszfq1WwuXNwPEnGzEfnI9RtyxVAQzp3KhUNFhFTjhpALHDOPupZoPUo6qZ6eQB
-         d0MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=p9NT3rzEn5Uwidk/XYZ1HQVtghscilmVZcsHmDp1yws=;
-        b=GwU9m9elfgxu8OJZYjmstw855CTZo0+CvaA9nTYcuf7EURLZbib2mDjVb1EiSET/FW
-         nmjRUwNNPAUWB3+4Tf52yvqquhEkTRf8IWuyscrVVlQGpfQp8IxRhHjf3PnZJWe+VuDm
-         FrUT1s1dxBon6PQ5ygE9nyyKxVyIi4tgoB8tOacyl/sBn7C5/9d40Un36wz+dZVOVQXA
-         lZMm28u0q6gStw971s5OwX41mFjsCaCXShyiqKRN4g60wpJKJqfvePDTYswME+IvwxZp
-         U84G0XdmJ8MBheMWvRdeS8+WUbYcH3IjyqQX7styKTvcfPfwHi/cBBhECRnsuqMxQb7v
-         DSmg==
-X-Gm-Message-State: ANhLgQ3mlygLekdil5P7mBZi1dV8kbZPIau0t3pydZvbHlWWyzkTBaKj
-        atyTvQfzmOQIBP4AlYOPxl+l5kSYQgg=
-X-Google-Smtp-Source: ADFU+vtEQWwHssPGHvac9LY60DSt5gmvoYDN44LQQCn/yHmBtJu6VYOAWH4ILMzPAHkO9ndNG2ufdQ==
-X-Received: by 2002:a62:687:: with SMTP id 129mr9759796pfg.209.1585503629137;
-        Sun, 29 Mar 2020 10:40:29 -0700 (PDT)
-Received: from mappy.nv.charter.com ([2600:6c4e:200:e053:a0c5:5fbc:c28e:f91f])
-        by smtp.gmail.com with ESMTPSA id b133sm7031253pfb.180.2020.03.29.10.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2020 10:40:28 -0700 (PDT)
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v3 10/10] media: imx: utils: Split find|enum_format into fourcc and mbus functions
-Date:   Sun, 29 Mar 2020 10:40:10 -0700
-Message-Id: <20200329174010.12304-11-slongerbeam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200329174010.12304-1-slongerbeam@gmail.com>
-References: <20200329174010.12304-1-slongerbeam@gmail.com>
+        id S1728539AbgC2Ubf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Mar 2020 16:31:35 -0400
+Received: from mail-eopbgr690102.outbound.protection.outlook.com ([40.107.69.102]:12610
+        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727370AbgC2Ubf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 29 Mar 2020 16:31:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FvoRcjNFS5kKZ55N3NDum3pJ7fj4ewoKsG6Dl/c49kHcc2Qrxz+j307f7BaNMqK1Jz7i+1BFPAOTrBNHDrx+Q2aKN4zRO4NTAfSWeAk5+c4hKvtzoeRl73m0D3tRiMSOUzbGmkZndvGZ+qZZo+Y3YxbbuUTTXk2UXfKUzTbFofiP0VN+NyjWhFK+jpQpFMqaEZiep091GRF9B0BiGoauT7dAvzmVlGjG5WtPBcTVmBaKJMj+oqrnIVsRLY3pbr8FCX3bEQ1Gn9mOUi0klJetpaeUxDbYyl97EwNdQeugycZSopcR6j2Wcdh5LxD/izLhKsvzxMd6/6wEF6EIU4J5jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AO04l4gGsS1w7rJlCrFkAw3HYEDi4Je2t8KM0Ac/Ahs=;
+ b=XwDpuzt3C6tRQCpUzJsdv37FnL8tIkTD/g3PkYvhkCex8xKpoySDLY25bA782v249mtyeWUBhgC/Mmg9ANYCe7gGf44ZrXS8Ve7fJtW9Pj4UfAPLECOEqK6yOyIDwbApbCWiFE3DYnh0ZMbFekLHIGFESR8IYxA7lKA34h1UxneAvh9LWcNDScWz9aKpGeBaFVQ2Gc8NQAzcDGkxmHmYSQv6HmbzYSbK2U3U0c3pCE3iRNvgPbeVzzd4LH5FeZm+DAm2omXtw+X81Nc37e3K/EQ3xuJT/lQDhryY89SYXaomdv49zYfs8kXN9p5eMupf6fJCh0Kd4aeq94YT6BxzIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=northeastern.edu; dmarc=pass action=none
+ header.from=northeastern.edu; dkim=pass header.d=northeastern.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=northeastern.edu;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AO04l4gGsS1w7rJlCrFkAw3HYEDi4Je2t8KM0Ac/Ahs=;
+ b=NubTrXxReEjwclnd1hUeR5Nkl5SCys6zOARdG9QaZqfUmM7rDfTc5YC1zDq+Jhj9b6/i/0ZmT8/wI2hQCYuPwNMcMtPMQvIwh12Uky/GYZ8iZ6V6LW7jeY0Cuk6tfetE5xq6GckUR5REJAijfSkd0Afp4nah1F8/fqausuR5y3k=
+Received: from BL0PR06MB4548.namprd06.prod.outlook.com (2603:10b6:208:56::26)
+ by BL0PR06MB4754.namprd06.prod.outlook.com (2603:10b6:208:58::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.20; Sun, 29 Mar
+ 2020 20:31:31 +0000
+Received: from BL0PR06MB4548.namprd06.prod.outlook.com
+ ([fe80::20f8:a2f2:5ebc:da2]) by BL0PR06MB4548.namprd06.prod.outlook.com
+ ([fe80::20f8:a2f2:5ebc:da2%7]) with mapi id 15.20.2856.019; Sun, 29 Mar 2020
+ 20:31:31 +0000
+From:   Changming Liu <liu.changm@northeastern.edu>
+To:     "mporter@kernel.crashing.org" <mporter@kernel.crashing.org>,
+        "alex.bou9@gmail.com" <alex.bou9@gmail.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "yaohway@gmail.com" <yaohway@gmail.com>,
+        "Lu, Long" <l.lu@northeastern.edu>
+Subject: [Bug Report] drivers/rapidio: integer overflow in rio_mport_maint_rd
+ and 
+Thread-Topic: [Bug Report] drivers/rapidio: integer overflow in
+ rio_mport_maint_rd and 
+Thread-Index: AdYGAsewaHVHbFTDQ4aivM4PIZPJZA==
+Date:   Sun, 29 Mar 2020 20:31:31 +0000
+Message-ID: <BL0PR06MB4548F541520DA55D6756E8D4E5CA0@BL0PR06MB4548.namprd06.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=liu.changm@northeastern.edu; 
+x-originating-ip: [2601:197:a7f:5cb0:217d:acb0:7278:589d]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6e27fd1e-be0f-42b8-61f0-08d7d4202ac5
+x-ms-traffictypediagnostic: BL0PR06MB4754:|BL0PR06MB4754:
+x-ld-processed: a8eec281-aaa3-4dae-ac9b-9a398b9215e7,ExtFwd
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BL0PR06MB47549A89762C9C98518B9478E5CA0@BL0PR06MB4754.namprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 035748864E
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR06MB4548.namprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(396003)(376002)(366004)(346002)(39850400004)(136003)(478600001)(81156014)(8936002)(8676002)(75432002)(5660300002)(52536014)(2906002)(4326008)(81166006)(33656002)(4743002)(6506007)(86362001)(55016002)(7696005)(64756008)(71200400001)(786003)(9686003)(66946007)(66476007)(66556008)(316002)(54906003)(107886003)(110136005)(76116006)(66446008)(186003);DIR:OUT;SFP:1102;
+received-spf: None (protection.outlook.com: northeastern.edu does not
+ designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /cvsdR50qqoOlz0RCZmXq8Qc04tUmTj8QoKxqde4APR2TE0p9mrvs31tIQf22tSCLs176uTxSHGK5Zh+IbUSQBxZHbmj8HbrxbS5HG6GqCh1U291SD/gZqQddGVjiZSWy40GPnN+cxTUyd5NshLADKSWtNt2N0bSIFCD68kblDgSk89UAP6NT7JQ+6/Zpr47Qcj3Yraq5WTnf2k+VfBv3nk+b/swvCxprY4Rq7QoYo3fQb7l2an+GOq90inus94vVWbOT9is/bw+8MOhkTjxYAU/sSM6Wd4JvRIKMHR6pgzbMla8LFAaIEytAJTWePJTcvZVkLhuYMoyIDHCeHrAc15kNskho19vs7h/ylrehMKh/Fi+Gtpg5khfQsOwhZiTY0DQ4H6f3KnCYL4Y/ufls/4CVBzt0/RgDTZXX44hYVVnvBv83AusC0SV+vcDPkHS
+x-ms-exchange-antispam-messagedata: YIV++3GfzWO5e/cjJdrU+V0G9gwxIDqWCQCt1AppDsHSH2mCMOM2paNszVvmo8nHgdDlcFeIS/cu9K7PHsDVpVpTwl+SpQNp2PAjYpZE9Dd9PUuhLS4qn24MvtNXg2CfpOPTg+eTY9HPydGaJ6Jkfq1erlqB4OYOXXAdQQhiLMdSWoHgojGGeJSKczXYbDuqPmaah0nYlmVHxPv6F1F6fg==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: northeastern.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e27fd1e-be0f-42b8-61f0-08d7d4202ac5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2020 20:31:31.6765
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a8eec281-aaa3-4dae-ac9b-9a398b9215e7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DAdURMqnxYkhGJsVBDl3PlNoPJUK76nHgR+WFQWzOA+/MIsxJlFt7blk49cLKtS5qYHJeMoQ+Bc048IAu07O5OxLq+iiHCO8fs+fKd0/1kc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR06MB4754
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To make the code easier to follow, split up find_format() into separate
-search functions for pixel formats and media-bus codes. In the process
-inline the code into the exported functions imx_media_find_pixel_format()
-and imx_media_find_mbus_format(). Do the equivalent for enum_formats().
+Hi Matt and Alexandre,
+Greetings, I'm a first-year PhD student who is interested in the usage of U=
+BSan in linux kernel. With some experiments, I found that in=20
+drivers/rapidio/devices/rio_mport_cdev.c function rio_mport_maint_rd and ri=
+o_mport_maint_wr, there are respectively 2 similar integer overflows that m=
+ight cause unexpected behavior.
 
-Also add comment blocks for the exported find|enum functions.
+More specifically, after the execution of copy_from_user in these 2 functio=
+ns, the main_io structures are filled with data from user space,  the two a=
+ddition at line 273 and line 318 in these two function which both are:
 
-Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
----
- drivers/staging/media/imx/imx-media-utils.c | 131 +++++++++++++-------
- 1 file changed, 88 insertions(+), 43 deletions(-)
+(maint_io.length + maint_io.offset) > RIO_MAINT_SPACE_SZ
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-index 95fef529b741..aaf71ffab7f6 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -192,28 +192,58 @@ static const struct imx_media_pixfmt pixel_formats[] = {
- 	},
- };
- 
--static const struct imx_media_pixfmt *find_format(u32 fourcc,
--						  u32 code,
--						  enum codespace_sel cs_sel)
-+/*
-+ * Search for and return an entry in the pixel_formats[] array that matches
-+ * the requested search criteria.
-+ *
-+ * @fourcc: Search for an entry with the given fourcc pixel format.
-+ * @cs_sel: Search for entries with the given codespace encodings
-+ *          (YUV, RGB, and/or BAYER).
-+ */
-+const struct imx_media_pixfmt *
-+imx_media_find_pixel_format(u32 fourcc, enum codespace_sel cs_sel)
- {
- 	unsigned int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
- 		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
- 		enum codespace_sel fmt_cs_sel;
--		unsigned int j;
- 
- 		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
- 			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
- 			 CS_SEL_YUV : CS_SEL_RGB);
- 
--		if (!(fmt_cs_sel & cs_sel) || (!fourcc && !fmt->codes))
--			continue;
--
--		if (fourcc && fmt->fourcc == fourcc)
-+		if ((fmt_cs_sel & cs_sel) && fmt->fourcc == fourcc)
- 			return fmt;
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(imx_media_find_pixel_format);
-+
-+/*
-+ * Search for and return an entry in the pixel_formats[] array that matches
-+ * the requested search criteria.
-+ *
-+ * @code: Search for an entry with the given media-bus code.
-+ * @cs_sel: Search for entries with the given codespace encodings
-+ *          (YUV, RGB, and/or BAYER).
-+ */
-+const struct imx_media_pixfmt *
-+imx_media_find_mbus_format(u32 code, enum codespace_sel cs_sel)
-+{
-+	unsigned int i;
- 
--		if (!code || !fmt->codes)
-+	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
-+		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
-+		enum codespace_sel fmt_cs_sel;
-+		unsigned int j;
-+
-+		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
-+			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
-+			 CS_SEL_YUV : CS_SEL_RGB);
-+
-+		if (!(fmt_cs_sel & cs_sel) || !fmt->codes)
- 			continue;
- 
- 		for (j = 0; fmt->codes[j]; j++) {
-@@ -224,33 +254,74 @@ static const struct imx_media_pixfmt *find_format(u32 fourcc,
- 
- 	return NULL;
- }
-+EXPORT_SYMBOL_GPL(imx_media_find_mbus_format);
- 
--static int enum_formats(u32 *fourcc, u32 *code, u32 index,
--			enum codespace_sel cs_sel)
-+/*
-+ * Enumerate entries in the pixel_formats[] array that match the
-+ * requested search criteria. Returns the fourcc that matches the
-+ * search criteria at the requested match index.
-+ *
-+ * @fourcc: The returned fourcc that matches the search criteria at
-+ *          the requested match index.
-+ * @index: The requested match index.
-+ * @cs_sel: Include in the enumeration entries with the given codespace
-+ *          encodings (YUV, RGB, and/or BAYER).
-+ */
-+int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
-+				 enum codespace_sel cs_sel)
- {
- 	unsigned int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
- 		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
- 		enum codespace_sel fmt_cs_sel;
--		unsigned int j;
- 
- 		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
- 			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
- 			 CS_SEL_YUV : CS_SEL_RGB);
- 
--		if (!(fmt_cs_sel & cs_sel) || (!fourcc && !fmt->codes))
-+		if (!(fmt_cs_sel & cs_sel))
- 			continue;
- 
--		if (fourcc && index == 0) {
-+		if (index == 0) {
- 			*fourcc = fmt->fourcc;
- 			return 0;
- 		}
- 
--		if (!code) {
--			index--;
-+		index--;
-+	}
-+
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL_GPL(imx_media_enum_pixel_formats);
-+
-+/*
-+ * Enumerate entries in the pixel_formats[] array that match the
-+ * requested search criteria. Returns the media-bus code that matches
-+ * the search criteria at the requested match index.
-+ *
-+ * @code: The returned media-bus code that matches the search criteria at
-+ *        the requested match index.
-+ * @index: The requested match index.
-+ * @cs_sel: Include in the enumeration entries with the given codespace
-+ *          encodings (YUV, RGB, and/or BAYER).
-+ */
-+int imx_media_enum_mbus_formats(u32 *code, u32 index,
-+				enum codespace_sel cs_sel)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
-+		const struct imx_media_pixfmt *fmt = &pixel_formats[i];
-+		enum codespace_sel fmt_cs_sel;
-+		unsigned int j;
-+
-+		fmt_cs_sel = fmt->bayer ? CS_SEL_BAYER :
-+			((fmt->cs == IPUV3_COLORSPACE_YUV) ?
-+			 CS_SEL_YUV : CS_SEL_RGB);
-+
-+		if (!(fmt_cs_sel & cs_sel) || !fmt->codes)
- 			continue;
--		}
- 
- 		for (j = 0; fmt->codes[j]; j++) {
- 			if (index == 0) {
-@@ -264,32 +335,6 @@ static int enum_formats(u32 *fourcc, u32 *code, u32 index,
- 
- 	return -EINVAL;
- }
--
--const struct imx_media_pixfmt *
--imx_media_find_pixel_format(u32 fourcc, enum codespace_sel cs_sel)
--{
--	return find_format(fourcc, 0, cs_sel);
--}
--EXPORT_SYMBOL_GPL(imx_media_find_pixel_format);
--
--int imx_media_enum_pixel_formats(u32 *fourcc, u32 index,
--				 enum codespace_sel cs_sel)
--{
--	return enum_formats(fourcc, NULL, index, cs_sel);
--}
--EXPORT_SYMBOL_GPL(imx_media_enum_pixel_formats);
--
--const struct imx_media_pixfmt *
--imx_media_find_mbus_format(u32 code, enum codespace_sel cs_sel)
--{
--	return find_format(0, code, cs_sel);
--}
--EXPORT_SYMBOL_GPL(imx_media_find_mbus_format);
--
--int imx_media_enum_mbus_formats(u32 *code, u32 index, enum codespace_sel cs_sel)
--{
--	return enum_formats(NULL, code, index, cs_sel);
--}
- EXPORT_SYMBOL_GPL(imx_media_enum_mbus_formats);
- 
- /* -----------------------------------------------------------------------------
--- 
-2.17.1
+could overflow because maint_io.length and maint_io.offset are both 32-bit =
+user-provided unsigned integers. And this check can be bypassed due to this=
+ overflow.
+As a consequence, the parameters passed to vmalloc() or other following cal=
+lee functions e.g. rio_mport_write_config_32  can be manipulated directly b=
+y users.
 
+Due to the lack of knowledge of the interaction between this module and the=
+ user space, I'm not able to assess if this is security-related problem.=20
+Judging from the appearance, a malicious user can possibly allocate big chu=
+nk of kernel memory and cause performance issue.=20
+I'd be more than happy to hear you valuable opinions on whether this is wor=
+th fixing or not, if not, I'd be very interested to know why, this will hel=
+p me understand the kernel and UBSan a lot!
+
+Looking forward to your valuable response!
+
+Changming Liu
