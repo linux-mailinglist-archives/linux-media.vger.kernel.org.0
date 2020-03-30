@@ -2,184 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D84011982ED
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2020 20:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D22E6198346
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2020 20:22:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727711AbgC3SEy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Mar 2020 14:04:54 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:35158 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727255AbgC3SEx (ORCPT
+        id S1726672AbgC3SWs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Mar 2020 14:22:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35244 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726385AbgC3SWs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Mar 2020 14:04:53 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 014EC804E5;
-        Mon, 30 Mar 2020 20:04:45 +0200 (CEST)
-Date:   Mon, 30 Mar 2020 20:04:44 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Russell King <rmk+kernel@armlinux.org.uk>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] Update my email address in various drivers
-Message-ID: <20200330180444.GA16073@ravnborg.org>
-References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+        Mon, 30 Mar 2020 14:22:48 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id AB60B28D93B
+Message-ID: <9304066ca10c9ccdf8a5fd88866425a5f45a330a.camel@collabora.com>
+Subject: Re: [PATCH] media: v4l2-common: change the pixel_enc of
+ V4L2_PIX_FMT_GREY to YUV
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, helen.koike@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+Date:   Mon, 30 Mar 2020 15:22:38 -0300
+In-Reply-To: <20200323173618.14058-1-dafna.hirschfeld@collabora.com>
+References: <20200323173618.14058-1-dafna.hirschfeld@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=PHq6YzTAAAAA:8
-        a=drOt6m5kAAAA:8 a=7gkXJVJtAAAA:8 a=pGLkceISAAAA:8 a=fk1lIlRQAAAA:8
-        a=e5mUnYsNAAAA:8 a=J_AMR1hbAAXD1OJ71a8A:9 a=pLlZParSi1_HdBrb:21
-        a=f4gn02k5W12urO4c:21 a=CjuIK1q_8ugA:10 a=ZKzU8r6zoKMcqsNulkmm:22
-        a=RMMjzBEyIzXRtoq5n5K6:22 a=E9Po1WZjFZOl8hwRPBS3:22
-        a=U75ogvRika4pmaD_UPO0:22 a=Vxmtnl_E_bksehYqCbjh:22
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Russell.
+Hi Dafna,
 
-On Sun, Mar 29, 2020 at 11:19:10AM +0100, Russell King wrote:
-> Globally update my email address in six files scattered through the
-> tree.
+Nice catch, thanks a lot.
+
+On Mon, 2020-03-23 at 18:36 +0100, Dafna Hirschfeld wrote:
+> V4L2_PIX_FMT_GREY format is Ycbcr format without
+
+A nitpick s/Ycbcr/YCbCr. Maybe Hans can amend
+this when applying.
+
+It's no big deal anyway.
+
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+
+> the color data, therefore its pixel_enc should
+> set to V4L2_PIXEL_ENC_YUV.
 > 
-> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 > ---
->  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
->  drivers/media/cec/cec-notifier.c                    | 2 +-
->  drivers/net/phy/swphy.c                             | 2 +-
->  include/media/cec-notifier.h                        | 2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
-
-This changes all cases of:
-   
-   rmk+kernel@arm.linux.org.uk
-
-to
-
-  rmk+kernel@armlinux.org.uk or no mail address.
-
-But I am confused.
-
-The new address does not appear anywhere in MAINTAINERS and is used
-only in three other files.
-
-And there are a few other mail addresses that would reach you.
-But no matter how confused I am the patch looks fine so:
-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-And if the change is for private reaons then I do not have to know
-anyway so feel free to ignore my confusion.
-
-	Sam
-
+>  drivers/media/v4l2-core/v4l2-common.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-> index 3df2dacf4c94..5a82a12cd105 100644
-> --- a/drivers/gpu/drm/armada/armada_drv.c
-> +++ b/drivers/gpu/drm/armada/armada_drv.c
-> @@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
->  }
->  module_exit(armada_drm_exit);
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index d0e5ebc736f9..054f2e607dff 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -250,7 +250,6 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_RGBA32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_ABGR32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_BGRA32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
+> -		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_RGB565,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
 >  
-> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
->  MODULE_DESCRIPTION("Armada DRM Driver");
->  MODULE_LICENSE("GPL");
->  MODULE_ALIAS("platform:armada-drm");
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> index e8e3e9339ff9..f6f55776e43e 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
-> @@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
+> @@ -274,6 +273,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_YUV420,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv =
+> 2, .vdiv = 2 },
+>  		{ .format = V4L2_PIX_FMT_YVU420,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv =
+> 2, .vdiv = 2 },
+>  		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv =
+> 2, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv =
+> 1, .vdiv = 1 },
 >  
->  module_platform_driver(snd_dw_hdmi_driver);
->  
-> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
->  MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
->  MODULE_LICENSE("GPL v2");
->  MODULE_ALIAS("platform:" DRIVER_NAME);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> index 1f9c01be40d7..d6798f716b77 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-> @@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
->  module_exit(etnaviv_exit);
->  
->  MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
-> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
-> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
->  MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
->  MODULE_DESCRIPTION("etnaviv DRM Driver");
->  MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
-> index 7cf42b133dbc..2d4f7dd7cef7 100644
-> --- a/drivers/media/cec/cec-notifier.c
-> +++ b/drivers/media/cec/cec-notifier.c
-> @@ -2,7 +2,7 @@
->  /*
->   * cec-notifier.c - notify CEC drivers of physical address changes
->   *
-> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-> + * Copyright 2016 Russell King.
->   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
-> index 53c214a22b95..774814714c82 100644
-> --- a/drivers/net/phy/swphy.c
-> +++ b/drivers/net/phy/swphy.c
-> @@ -2,7 +2,7 @@
->  /*
->   * Software PHY emulation
->   *
-> - * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
-> + * Code taken from fixed_phy.c by Russell King.
->   *
->   * Author: Vitaly Bordug <vbordug@ru.mvista.com>
->   *         Anton Vorontsov <avorontsov@ru.mvista.com>
-> diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
-> index 985afea1ee36..e2b1b894aae7 100644
-> --- a/include/media/cec-notifier.h
-> +++ b/include/media/cec-notifier.h
-> @@ -2,7 +2,7 @@
->  /*
->   * cec-notifier.h - notify CEC drivers of physical address changes
->   *
-> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
-> + * Copyright 2016 Russell King.
->   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
+>  		/* YUV planar formats, non contiguous variant */
+>  		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv =
+> 2, .vdiv = 2 },
 > -- 
-> 2.20.1
+> 2.17.1
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+
+
