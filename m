@@ -2,187 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3FE6197A49
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2020 13:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D877F197A90
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2020 13:18:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729684AbgC3LCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Mar 2020 07:02:06 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50117 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729254AbgC3LCG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Mar 2020 07:02:06 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id IsB6jGMqIBr2bIsB9jcAOi; Mon, 30 Mar 2020 13:02:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585566124; bh=EJbg6Ztd1dBdHlhw61R9P5II8XyAIpbmV/eJjtNCSF0=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=VZB6LqjRQ2smZEwfdABBx/qdgc22ZMRYUUps8G9Hp/2x0fPOH6tym7h388HRJUTuw
-         hpnYbH1RmRst+eEPEky18htgB24hiJL28vNR/WhRXO2m+eW3ubo3ZDUH5NZoPza8n7
-         329tcdjLeb7oNQX+VPUDMuoKPAhQEtSYpDrlnOwJr40lXxPiiylEOjdx7VNGDsYBMB
-         vm0uW61OXkw8TC2CuGUdAqNEzhrVTeUv9t/s6DhzxS91uS1WJuFGuqYcltYMAPJjAm
-         4pDNiNY6rtrviwfHoN2LyMyZLpzdjkvheHTPenjplVDIt6uXskbNwBkxTzitAysibX
-         fjauwNLyQ4Pww==
-Subject: Re: [RFC PATCH v5 0/9] Add Tegra driver for video capture
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        helen.koike@collabora.com
-Cc:     digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
- <4bb6a3b8-3332-014b-e763-bce9076179dd@xs4all.nl>
-Message-ID: <5ca1583a-889e-abd0-f823-eab93f09a365@xs4all.nl>
-Date:   Mon, 30 Mar 2020 13:02:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1729564AbgC3LSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Mar 2020 07:18:54 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:37382 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729267AbgC3LSy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Mar 2020 07:18:54 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jIsOw-00GRfC-KL; Mon, 30 Mar 2020 11:16:18 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jIsT2-0005pW-Lf; Mon, 30 Mar 2020 11:20:32 +0000
+Date:   Mon, 30 Mar 2020 11:20:32 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <523140859.0.1585567232636.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <100906530.5.1584093704738.JavaMail.jenkins@builder.linuxtv.org>
+References: <100906530.5.1584093704738.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: ZBar #12
 MIME-Version: 1.0
-In-Reply-To: <4bb6a3b8-3332-014b-e763-bce9076179dd@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGUkMuVlTSeEOEnZPXVlqKnzWyWGO+AuGZHKEXBJCliSVvxMwK+MsX7IYt4bGVYhdS+5Z1ul/F+I8TIrgPabWihPsUg23wCJ7IQ6Vk+7NIQLl6ZVIHbu
- YfphoJo2XhTBq01420Ey5Wq/qndFtH8/NaukIcrydgfQc2RXXKhnsuzbW6wXpcUfk65iKDEOuQiPQHKUwZHL0w9lTw0rQ6Rr6hyOCfMIGFkLbSv/czhM9RoC
- ZbtOSDL5I0WYVruqiw8YIBALWz5vQqTeUb+NOKD57jBKOoS/h70nl57rUbwzVWvyA74u94ZTx7hid0Yum5ca8Jx5ZujNhp94tHdbkcxt8tDlAIqVYkHQIHAZ
- 6hF5nduMWW8eF+jDOC46Qc/IID2mZPeQ3H3KYHNhMbdhRBYzHmuO7edZrtmTIa5wQICP7kFBYOIQv0hDkZIrYmT+1wPET/g8NyH6qwzwuABt/RqlnVtjP71b
- a8fJBfXUW34sXIPyKg4utZhoqI8J5v5h2SgKaWnm0EHDL9FIPvFDN7pY1eYRTSndcut6RvdyFFFLT77jWQgYKBAuVdTD7zEZXwcU4A==
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: ZBar
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 3/30/20 12:04 PM, Hans Verkuil wrote:
-> Hi Sowjanya,
-> 
-> On 3/23/20 6:52 PM, Sowjanya Komatineni wrote:
->> This series adds Tegra210 VI and CSI driver for built-in test pattern
->> generator (TPG) capture.
->>
->> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
->> CSI port is one-to-one mapped to VI channel for video capture.
->>
->> This series has TPG support only where it creates hard media links
->> between CSI subdevice and VI video device without device graphs.
->>
->> v4l2-compliance results are available below the patch diff.
->>
->> [v5]:	Includes,
->> 	- v4 feedback
->> 	- fix for venc powergate mc reset order.
->> 	- fix to have unbind and bind work during v4l2-ctl sleep and streaming.
-> 
-> Unfortunately, I still crash on this.
-> 
-> I do the following:
-> 
-> Run: v4l2-ctl --stream-mmap
-> 
-> Then, from another shell as root:
-> 
-> cd /sys/devices/platform/50000000.host1x/tegra-video/driver
-> echo -n tegra-video > unbind
-> 
-> I get this crash:
-> 
-> [  315.691971] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000b0
-> [  315.700749] Mem abort info:
-> [  315.703536]   ESR = 0x96000004
-> [  315.706587]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [  315.711886]   SET = 0, FnV = 0
-> [  315.714933]   EA = 0, S1PTW = 0
-> [  315.718064] Data abort info:
-> [  315.720936]   ISV = 0, ISS = 0x00000004
-> [  315.724763]   CM = 0, WnR = 0
-> [  315.727726] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000178ee8000
-> [  315.734152] [00000000000000b0] pgd=0000000000000000
-> [  315.739024] Internal error: Oops: 96000004 [#1] PREEMPT SMP
-> [  315.744584] Modules linked in: r8152 nouveau lp855x_bl tegra_drm ttm
-> [  315.750942] CPU: 3 PID: 2206 Comm: bash Tainted: G        W         5.6.0-rc1-arm64 #118
-> [  315.759017] Hardware name: NVIDIA Jetson TX1 Developer Kit (DT)
-> [  315.764927] pstate: 20000085 (nzCv daIf -PAN -UAO)
-> [  315.769718] pc : _raw_write_lock_irqsave+0xb0/0x2b8
-> [  315.774590] lr : ida_free+0x48/0x158
-> [  315.778155] sp : ffff800011d8bba0
-> [  315.781462] x29: ffff800011d8bba0 x28: ffff0000f4095400
-> [  315.786766] x27: 0000000000000000 x26: 0000000000000000
-> [  315.792070] x25: 0000000000000000 x24: 0000000000000000
-> [  315.797372] x23: ffff0000f21ad400 x22: ffff0000f5c93000
-> [  315.802674] x21: ffff0000f4095400 x20: ffff0000f86b5540
-> [  315.807975] x19: 0000000000000000 x18: 0000000000000000
-> [  315.813276] x17: 0000000000000001 x16: 0000000000000019
-> [  315.818578] x15: 000000148ccdabe2 x14: 0000000000000136
-> [  315.823879] x13: 0000000000000001 x12: 00000000000003f8
-> [  315.829180] x11: 0000000000000000 x10: 0000000000000000
-> [  315.834482] x9 : ffff0000ff899990 x8 : ffff0000ff899000
-> [  315.839784] x7 : 0000000040000000 x6 : 0000000000210d00
-> [  315.845085] x5 : 0000000000000001 x4 : 0000000000000000
-> [  315.850386] x3 : 00000000000000b0 x2 : 0000000000000001
-> [  315.855687] x1 : 0000000000000000 x0 : 0000000000000001
-> [  315.860988] Call trace:
-> [  315.863432]  _raw_write_lock_irqsave+0xb0/0x2b8
-> [  315.867956]  ida_free+0x48/0x158
-> [  315.871184]  __media_device_unregister_entity+0x28/0xf0
-> [  315.876402]  media_device_unregister+0x6c/0x148
-> [  315.880927]  host1x_video_remove+0x20/0x48
-> [  315.885021]  host1x_device_remove+0x1c/0x30
-> [  315.889198]  device_release_driver_internal+0xf4/0x1c0
-> [  315.894325]  device_driver_detach+0x14/0x20
-> [  315.898503]  unbind_store+0xd4/0xf8
-> [  315.901986]  drv_attr_store+0x20/0x30
-> [  315.905645]  sysfs_kf_write+0x40/0x50
-> [  315.909301]  kernfs_fop_write+0xf8/0x210
-> [  315.913219]  __vfs_write+0x18/0x40
-> [  315.916616]  vfs_write+0xdc/0x1c8
-> [  315.919926]  ksys_write+0x68/0xf0
-> [  315.923235]  __arm64_sys_write+0x18/0x20
-> [  315.927154]  el0_svc_common.constprop.0+0x68/0x160
-> [  315.931936]  do_el0_svc+0x20/0x80
-> [  315.935246]  el0_sync_handler+0x10c/0x180
-> [  315.939246]  el0_sync+0x140/0x180
-> [  315.942560] Code: 8803fc02 35ffffa3 17fffda6 f9800071 (885ffc60)
-> [  315.948644] ---[ end trace e42b943f3c1af06c ]---
-> 
-> The following diff fixes this:
-> 
-> ------------------ cut here ------------------
-> diff --git a/drivers/staging/media/tegra/tegra-vi.c b/drivers/staging/media/tegra/tegra-vi.c
-> index 9714152aa6a7..53cf37af9602 100644
-> --- a/drivers/staging/media/tegra/tegra-vi.c
-> +++ b/drivers/staging/media/tegra/tegra-vi.c
-> @@ -583,7 +583,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
->  	/* initialize the video_device */
->  	chan->video->fops = &tegra_channel_fops;
->  	chan->video->v4l2_dev = &vid->v4l2_dev;
-> -	chan->video->release = video_device_release_empty;
-> +	chan->video->release = video_device_release;
->  	chan->video->queue = &chan->queue;
->  	snprintf(chan->video->name, sizeof(chan->video->name), "%s-%s-%u",
->  		 dev_name(vi->dev), "output", chan->portno);
-> @@ -647,6 +647,7 @@ static int tegra_channel_init(struct tegra_vi_channel *chan)
->  	media_entity_cleanup(&chan->video->entity);
->  release_vdev:
->  	video_device_release(chan->video);
-> +	chan->video = NULL;
->  	return ret;
->  }
-> 
-> @@ -707,7 +708,6 @@ static void tegra_vi_channels_cleanup(struct tegra_vi *vi)
->  			mutex_lock(&chan->video_lock);
->  			vb2_queue_release(&chan->queue);
->  			mutex_unlock(&chan->video_lock);
-> -			video_device_release(chan->video);
->  		}
-> 
->  		if (chan->frame_start_sp)
-> ------------------ cut here ------------------
+See <https://builder.linuxtv.org/job/ZBar/12/display/redirect>
 
-Note: Sakari suggested to embed struct video_device into struct tegra_vi_channel.
-In that case chan->video->release should remain video_device_release_empty and
-all video_device_alloc()/release() calls would have to be dropped.
+Changes:
 
-Regards,
 
-	Hans
+------------------------------------------
+[...truncated 8.31 KB...]
+checking for shared library run path origin... done
+checking for iconv... yes
+checking for working iconv... yes
+checking for iconv declaration... 
+         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+checking poll.h usability... yes
+checking poll.h presence... yes
+checking for poll.h... yes
+checking pthread.h usability... yes
+checking pthread.h presence... yes
+checking for pthread.h... yes
+checking for pthread_create in -lpthread... yes
+checking linux/videodev.h usability... no
+checking linux/videodev.h presence... no
+checking for linux/videodev.h... no
+checking linux/videodev2.h usability... yes
+checking linux/videodev2.h presence... yes
+checking for linux/videodev2.h... yes
+checking libv4l2.h usability... yes
+checking libv4l2.h presence... yes
+checking for libv4l2.h... yes
+checking for V4L2... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for X11/extensions/XShm.h... yes
+checking for XShmQueryVersion in -lXext... yes
+checking for X11/extensions/Xvlib.h... yes
+checking for XvQueryExtension in -lXv... yes
+checking for DBUS... yes
+checking jpeglib.h usability... yes
+checking jpeglib.h presence... yes
+checking for jpeglib.h... yes
+checking jerror.h usability... yes
+checking jerror.h presence... yes
+checking for jerror.h... yes
+checking for jpeg_read_header in -ljpeg... yes
+checking for MAGICK... yes
+configure: trying ImageMagick version 6.9.10
+checking wand/MagickWand.h usability... yes
+checking wand/MagickWand.h presence... yes
+checking for wand/MagickWand.h... yes
+configure: using ImageMagick version 6.9.10
+checking for GTK3... yes
+configure: using GTK+ version 3.24.5
+checking for python3... /usr/bin/python3
+checking whether /usr/bin/python3 version is >= 2.7.0... yes
+checking for /usr/bin/python3 version... 3.7
+checking for /usr/bin/python3 platform... linux
+checking for /usr/bin/python3 script directory... ${prefix}/lib/python3.7/site-packages
+checking for /usr/bin/python3 extension module directory... ${exec_prefix}/lib/python3.7/site-packages
+checking Python.h usability... yes
+checking Python.h presence... yes
+checking for Python.h... yes
+checking for gobject-introspection... yes
+checking for QT... yes
+checking for moc-qt5... no
+checking for moc... moc
+configure: using moc from moc
+configure: using Qt version 5.11.3
+checking for javac... /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+checking for javah... no
+checking for jar... /usr/lib/jvm/java-11-openjdk-amd64/bin/jar
+checking for java... /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+checking jni.h usability... yes
+checking jni.h presence... yes
+checking for jni.h... yes
+checking whether to enable assertions... yes
+checking errno.h usability... yes
+checking errno.h presence... yes
+checking for errno.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking features.h usability... yes
+checking features.h presence... yes
+checking for features.h... yes
+checking for inttypes.h... (cached) yes
+checking float.h usability... yes
+checking float.h presence... yes
+checking for float.h... yes
+checking limits.h usability... yes
+checking limits.h presence... yes
+checking for limits.h... yes
+checking locale.h usability... yes
+checking locale.h presence... yes
+checking for locale.h... yes
+checking stddef.h usability... yes
+checking stddef.h presence... yes
+checking for stddef.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for sys/types.h... (cached) yes
+checking for sys/stat.h... (cached) yes
+checking sys/ioctl.h usability... yes
+checking sys/ioctl.h presence... yes
+checking for sys/ioctl.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking sys/times.h usability... yes
+checking sys/times.h presence... yes
+checking for sys/times.h... yes
+checking sys/ipc.h usability... yes
+checking sys/ipc.h presence... yes
+checking for sys/ipc.h... yes
+checking sys/shm.h usability... yes
+checking sys/shm.h presence... yes
+checking for sys/shm.h... yes
+checking sys/mman.h usability... yes
+checking sys/mman.h presence... yes
+checking for sys/mman.h... yes
+checking whether sys/types.h defines makedev... no
+checking sys/mkdev.h usability... no
+checking sys/mkdev.h presence... no
+checking for sys/mkdev.h... no
+checking sys/sysmacros.h usability... yes
+checking sys/sysmacros.h presence... yes
+checking for sys/sysmacros.h... yes
+checking for stdbool.h that conforms to C99... yes
+checking for _Bool... yes
+checking for int32_t... yes
+checking for uint32_t... yes
+checking for uint8_t... yes
+checking for uintptr_t... yes
+checking for uid_t in sys/types.h... yes
+checking for int32_t... (cached) yes
+checking for int64_t... yes
+checking for off_t... yes
+checking for size_t... yes
+checking for uint16_t... yes
+checking for uint32_t... (cached) yes
+checking for uint64_t... yes
+checking for uint8_t... (cached) yes
+checking for struct stat.st_rdev... yes
+checking for an ANSI C-conforming const... yes
+checking for inline... inline
+checking for stdlib.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for sys/param.h... yes
+checking for getpagesize... yes
+checking for working mmap... yes
+checking for alarm... yes
+checking for clock_gettime... yes
+checking for floor... no
+checking for getcwd... yes
+checking for gettimeofday... yes
+checking for localeconv... yes
+checking for memchr... yes
+checking for memmove... yes
+checking for memset... yes
+checking for modf... yes
+checking for munmap... yes
+checking for pow... no
+checking for select... yes
+checking for setenv... yes
+checking for sqrt... no
+checking for strcasecmp... yes
+checking for strchr... yes
+checking for strdup... yes
+checking for strerror... yes
+checking for strrchr... yes
+checking for strstr... yes
+checking for strtol... yes
+checking for strtoul... yes
+checking for malloc... yes
+checking for realloc... yes
+Generating config files
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating zbar-qt.pc
+config.status: creating Makefile
+config.status: creating gtk/Makefile
+config.status: creating java/Makefile
+config.status: creating zbar/Makefile
+config.status: creating zbar.pc
+config.status: creating zbar-gtk.pc
+config.status: creating doc/doxygen.conf
+config.status: creating test/test_examples.sh
+config.status: creating test/check_dbus.sh
+config.status: creating include/config.h
+config.status: include/config.h is unchanged
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing doc/version.xml commands
+config.status: executing doc/reldate.xml commands
+
+please verify that the detected configuration matches your expectations:
+------------------------------------------------------------------------
+X                      --with-x=yes
+pthreads               --enable-pthread=yes
+doc                    --enable-doc=yes
+v4l                    --enable-video=yes
+jpeg                   --with-jpeg=yes
+Python                 --with-python=python3    python3.7
+GTK                    --with-gtk=gtk3          Gtk3.24.5
+GObject introspection  --with-gir=yes
+Qt                     --with-qt=yes            Qt5.11.3
+Java                   --with-java=yes
+Dbus                   --with-dbus=yes
+ImageMagick            --with-imagemagick=check
+Enabled codes:         ean databar code128 code93 code39 codabar i25 qrcode sqcode
+Disabled codes:        pdf417
+JAVA_HOME              /usr/lib/jvm/java-11-openjdk-amd64
+
+        => the Java unit test will *NOT* be enabled
++ make
+make  all-recursive
+make[1]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
+Making all in zbar
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/zbar'>
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/zbar'>
+Making all in gtk
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+make  all-am
+make[3]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+Making all in java
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+make  all-am
+make[3]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+Making all in .
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
++ make check-local
+/usr/bin/python3 <https://builder.linuxtv.org/job/ZBar/ws/test/barcodetest.py>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.302s
+
+OK
+<https://builder.linuxtv.org/job/ZBar/ws/test/test_decode> -q
+decoder PASSED.
+<https://builder.linuxtv.org/job/ZBar/ws/test/test_examples.sh>
+FAILED: <https://builder.linuxtv.org/job/ZBar/ws/examples/qr-code-binary.png> (da39a3ee5e6b4b0d3255bfef95601890afd80709 instead of df896e459e47a7d392031a7d4962722a143e276b)
+	cmd: <https://builder.linuxtv.org/job/ZBar/ws/zbarimg/zbarimg> --nodbus --raw --oneshot -Sbinary '<https://builder.linuxtv.org/job/ZBar/ws/examples/qr-code-binary.png'>
+	results: make: *** [Makefile:2475: check-images] Error 1
+Build step 'Execute shell' marked build as failure
