@@ -2,296 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D877F197A90
-	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2020 13:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07512197A94
+	for <lists+linux-media@lfdr.de>; Mon, 30 Mar 2020 13:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729564AbgC3LSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Mar 2020 07:18:54 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:37382 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729267AbgC3LSy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Mar 2020 07:18:54 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jIsOw-00GRfC-KL; Mon, 30 Mar 2020 11:16:18 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jIsT2-0005pW-Lf; Mon, 30 Mar 2020 11:20:32 +0000
-Date:   Mon, 30 Mar 2020 11:20:32 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <523140859.0.1585567232636.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <100906530.5.1584093704738.JavaMail.jenkins@builder.linuxtv.org>
-References: <100906530.5.1584093704738.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: ZBar #12
+        id S1729621AbgC3LVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Mar 2020 07:21:03 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47751 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729494AbgC3LVC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Mar 2020 07:21:02 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id IsTQjGUwdBr2bIsTUjcGju; Mon, 30 Mar 2020 13:21:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585567260; bh=A0mrmL7Ta7NGc2pBvhQfIuoNIfXEGiGjLbvgqXhZL6M=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=dm7Kku3riUTrKHeGIHNLRbqANRxluZd+Xce2R7id4j6dO0nDTihhWwb6qZsX/Ju2y
+         s/lja6cV847bpPUxtJO9p5MBi56iv9WZ84IgrOCMdTc9Japg9A/FDb1vX5Yh21VLjn
+         jZ5fOHk4uXQjKWaeFRN1p367z4szamH2PNu+/LwKLPLkvdJlAMHIYQiP60eizc6tXh
+         KEudNp0DvUwCoVPPkqUgiBoPXImx4eDsGiaJfoF+9vh0t0sFoiq29FW60lhed5xn9L
+         Efy5euFoiP4Uq1VNBzoD1aPYZkFN5PfbkRyd9GSBvnO4glZDKRh9bFTOzJRWmZfUmn
+         NAq6U1lAIL5gQ==
+Subject: Re: [PATCH] media: v4l2-ctrl: Add H264 profile and levels
+To:     Maheshwar Ajja <majja@codeaurora.org>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1584398550-19727-1-git-send-email-majja@codeaurora.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <225cb4d6-ca56-8e61-0cd1-a2aa183e446a@xs4all.nl>
+Date:   Mon, 30 Mar 2020 13:20:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1584398550-19727-1-git-send-email-majja@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: ZBar
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+X-CMAE-Envelope: MS4wfGH0B+loUJKUdidcqMJQH0IbRImxAS0XdQnqp7sgupAQGunMcrn4e5wmQcl6QDmpDRNCbSrbySgLufLRuI1WmHHsnyo1rq6cC8gTpRLuVtaOa/rT07f2
+ Oba0Pp2A3n2ec2GKIlaeWQO4tgjvBPFEotVndBlpFsw4wXOGNUOdYsYWUAFAjrCk3t6Xl8LdRwB93NP9fIQGfomrK3hwOWTD0tNRzjiBqbUI8kjl3+s/a/+E
+ Fc/acUHiTGEJ2V00IDC0q9I9iNQEUGf7tdNrZwzmdPh9R8ADyZ+C6TJNoucrr8Hk
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/ZBar/12/display/redirect>
+Hi Maheshwar,
 
-Changes:
+The patch looks good, but you also need to update the documentation
+in Documentation/media/uapi/v4l/ext-ctrls-codec.rst, adding the new
+profile/levels.
 
+You can just post a separate patch for that, and I'll take them both.
 
-------------------------------------------
-[...truncated 8.31 KB...]
-checking for shared library run path origin... done
-checking for iconv... yes
-checking for working iconv... yes
-checking for iconv declaration... 
-         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
-checking poll.h usability... yes
-checking poll.h presence... yes
-checking for poll.h... yes
-checking pthread.h usability... yes
-checking pthread.h presence... yes
-checking for pthread.h... yes
-checking for pthread_create in -lpthread... yes
-checking linux/videodev.h usability... no
-checking linux/videodev.h presence... no
-checking for linux/videodev.h... no
-checking linux/videodev2.h usability... yes
-checking linux/videodev2.h presence... yes
-checking for linux/videodev2.h... yes
-checking libv4l2.h usability... yes
-checking libv4l2.h presence... yes
-checking for libv4l2.h... yes
-checking for V4L2... yes
-checking for X... libraries , headers 
-checking for gethostbyname... yes
-checking for connect... yes
-checking for remove... yes
-checking for shmat... yes
-checking for IceConnectionNumber in -lICE... yes
-checking for X11/extensions/XShm.h... yes
-checking for XShmQueryVersion in -lXext... yes
-checking for X11/extensions/Xvlib.h... yes
-checking for XvQueryExtension in -lXv... yes
-checking for DBUS... yes
-checking jpeglib.h usability... yes
-checking jpeglib.h presence... yes
-checking for jpeglib.h... yes
-checking jerror.h usability... yes
-checking jerror.h presence... yes
-checking for jerror.h... yes
-checking for jpeg_read_header in -ljpeg... yes
-checking for MAGICK... yes
-configure: trying ImageMagick version 6.9.10
-checking wand/MagickWand.h usability... yes
-checking wand/MagickWand.h presence... yes
-checking for wand/MagickWand.h... yes
-configure: using ImageMagick version 6.9.10
-checking for GTK3... yes
-configure: using GTK+ version 3.24.5
-checking for python3... /usr/bin/python3
-checking whether /usr/bin/python3 version is >= 2.7.0... yes
-checking for /usr/bin/python3 version... 3.7
-checking for /usr/bin/python3 platform... linux
-checking for /usr/bin/python3 script directory... ${prefix}/lib/python3.7/site-packages
-checking for /usr/bin/python3 extension module directory... ${exec_prefix}/lib/python3.7/site-packages
-checking Python.h usability... yes
-checking Python.h presence... yes
-checking for Python.h... yes
-checking for gobject-introspection... yes
-checking for QT... yes
-checking for moc-qt5... no
-checking for moc... moc
-configure: using moc from moc
-configure: using Qt version 5.11.3
-checking for javac... /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
-checking for javah... no
-checking for jar... /usr/lib/jvm/java-11-openjdk-amd64/bin/jar
-checking for java... /usr/lib/jvm/java-11-openjdk-amd64/bin/java
-checking jni.h usability... yes
-checking jni.h presence... yes
-checking for jni.h... yes
-checking whether to enable assertions... yes
-checking errno.h usability... yes
-checking errno.h presence... yes
-checking for errno.h... yes
-checking fcntl.h usability... yes
-checking fcntl.h presence... yes
-checking for fcntl.h... yes
-checking features.h usability... yes
-checking features.h presence... yes
-checking for features.h... yes
-checking for inttypes.h... (cached) yes
-checking float.h usability... yes
-checking float.h presence... yes
-checking for float.h... yes
-checking limits.h usability... yes
-checking limits.h presence... yes
-checking for limits.h... yes
-checking locale.h usability... yes
-checking locale.h presence... yes
-checking for locale.h... yes
-checking stddef.h usability... yes
-checking stddef.h presence... yes
-checking for stddef.h... yes
-checking for stdlib.h... (cached) yes
-checking for string.h... (cached) yes
-checking for unistd.h... (cached) yes
-checking for sys/types.h... (cached) yes
-checking for sys/stat.h... (cached) yes
-checking sys/ioctl.h usability... yes
-checking sys/ioctl.h presence... yes
-checking for sys/ioctl.h... yes
-checking sys/time.h usability... yes
-checking sys/time.h presence... yes
-checking for sys/time.h... yes
-checking sys/times.h usability... yes
-checking sys/times.h presence... yes
-checking for sys/times.h... yes
-checking sys/ipc.h usability... yes
-checking sys/ipc.h presence... yes
-checking for sys/ipc.h... yes
-checking sys/shm.h usability... yes
-checking sys/shm.h presence... yes
-checking for sys/shm.h... yes
-checking sys/mman.h usability... yes
-checking sys/mman.h presence... yes
-checking for sys/mman.h... yes
-checking whether sys/types.h defines makedev... no
-checking sys/mkdev.h usability... no
-checking sys/mkdev.h presence... no
-checking for sys/mkdev.h... no
-checking sys/sysmacros.h usability... yes
-checking sys/sysmacros.h presence... yes
-checking for sys/sysmacros.h... yes
-checking for stdbool.h that conforms to C99... yes
-checking for _Bool... yes
-checking for int32_t... yes
-checking for uint32_t... yes
-checking for uint8_t... yes
-checking for uintptr_t... yes
-checking for uid_t in sys/types.h... yes
-checking for int32_t... (cached) yes
-checking for int64_t... yes
-checking for off_t... yes
-checking for size_t... yes
-checking for uint16_t... yes
-checking for uint32_t... (cached) yes
-checking for uint64_t... yes
-checking for uint8_t... (cached) yes
-checking for struct stat.st_rdev... yes
-checking for an ANSI C-conforming const... yes
-checking for inline... inline
-checking for stdlib.h... (cached) yes
-checking for unistd.h... (cached) yes
-checking for sys/param.h... yes
-checking for getpagesize... yes
-checking for working mmap... yes
-checking for alarm... yes
-checking for clock_gettime... yes
-checking for floor... no
-checking for getcwd... yes
-checking for gettimeofday... yes
-checking for localeconv... yes
-checking for memchr... yes
-checking for memmove... yes
-checking for memset... yes
-checking for modf... yes
-checking for munmap... yes
-checking for pow... no
-checking for select... yes
-checking for setenv... yes
-checking for sqrt... no
-checking for strcasecmp... yes
-checking for strchr... yes
-checking for strdup... yes
-checking for strerror... yes
-checking for strrchr... yes
-checking for strstr... yes
-checking for strtol... yes
-checking for strtoul... yes
-checking for malloc... yes
-checking for realloc... yes
-Generating config files
-checking that generated files are newer than configure... done
-configure: creating ./config.status
-config.status: creating zbar-qt.pc
-config.status: creating Makefile
-config.status: creating gtk/Makefile
-config.status: creating java/Makefile
-config.status: creating zbar/Makefile
-config.status: creating zbar.pc
-config.status: creating zbar-gtk.pc
-config.status: creating doc/doxygen.conf
-config.status: creating test/test_examples.sh
-config.status: creating test/check_dbus.sh
-config.status: creating include/config.h
-config.status: include/config.h is unchanged
-config.status: executing depfiles commands
-config.status: executing libtool commands
-config.status: executing doc/version.xml commands
-config.status: executing doc/reldate.xml commands
+Regards,
 
-please verify that the detected configuration matches your expectations:
-------------------------------------------------------------------------
-X                      --with-x=yes
-pthreads               --enable-pthread=yes
-doc                    --enable-doc=yes
-v4l                    --enable-video=yes
-jpeg                   --with-jpeg=yes
-Python                 --with-python=python3    python3.7
-GTK                    --with-gtk=gtk3          Gtk3.24.5
-GObject introspection  --with-gir=yes
-Qt                     --with-qt=yes            Qt5.11.3
-Java                   --with-java=yes
-Dbus                   --with-dbus=yes
-ImageMagick            --with-imagemagick=check
-Enabled codes:         ean databar code128 code93 code39 codabar i25 qrcode sqcode
-Disabled codes:        pdf417
-JAVA_HOME              /usr/lib/jvm/java-11-openjdk-amd64
+	Hans
 
-        => the Java unit test will *NOT* be enabled
-+ make
-make  all-recursive
-make[1]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
-Making all in zbar
-make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/zbar'>
-make[2]: Nothing to be done for 'all'.
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/zbar'>
-Making all in gtk
-make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
-make  all-am
-make[3]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
-make[3]: Nothing to be done for 'all-am'.
-make[3]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
-Making all in java
-make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
-make  all-am
-make[3]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
-make[3]: Nothing to be done for 'all-am'.
-make[3]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
-Making all in .
-make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
-+ make check-local
-/usr/bin/python3 <https://builder.linuxtv.org/job/ZBar/ws/test/barcodetest.py>
-.
-----------------------------------------------------------------------
-Ran 1 test in 0.302s
+On 3/16/20 11:42 PM, Maheshwar Ajja wrote:
+> Add H264 profile "Contrained High" and H264 levels "5.2",
+> "6.0", "6.1" and "6.2".
+> 
+> Signed-off-by: Maheshwar Ajja <majja@codeaurora.org>
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 5 +++++
+>  include/uapi/linux/v4l2-controls.h   | 5 +++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 2928c5e..67ce711 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -336,6 +336,10 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		"4.2",
+>  		"5",
+>  		"5.1",
+> +		"5.2",
+> +		"6.0",
+> +		"6.1",
+> +		"6.2",
+>  		NULL,
+>  	};
+>  	static const char * const h264_loop_filter[] = {
+> @@ -362,6 +366,7 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
+>  		"Scalable High Intra",
+>  		"Stereo High",
+>  		"Multiview High",
+> +		"Constrained High",
+>  		NULL,
+>  	};
+>  	static const char * const vui_sar_idc[] = {
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 5a7bede..fbe3f82d 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -467,6 +467,10 @@ enum v4l2_mpeg_video_h264_level {
+>  	V4L2_MPEG_VIDEO_H264_LEVEL_4_2	= 13,
+>  	V4L2_MPEG_VIDEO_H264_LEVEL_5_0	= 14,
+>  	V4L2_MPEG_VIDEO_H264_LEVEL_5_1	= 15,
+> +	V4L2_MPEG_VIDEO_H264_LEVEL_5_2	= 16,
+> +	V4L2_MPEG_VIDEO_H264_LEVEL_6_0	= 17,
+> +	V4L2_MPEG_VIDEO_H264_LEVEL_6_1	= 18,
+> +	V4L2_MPEG_VIDEO_H264_LEVEL_6_2	= 19,
+>  };
+>  #define V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_ALPHA	(V4L2_CID_MPEG_BASE+360)
+>  #define V4L2_CID_MPEG_VIDEO_H264_LOOP_FILTER_BETA	(V4L2_CID_MPEG_BASE+361)
+> @@ -495,6 +499,7 @@ enum v4l2_mpeg_video_h264_profile {
+>  	V4L2_MPEG_VIDEO_H264_PROFILE_SCALABLE_HIGH_INTRA	= 14,
+>  	V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH		= 15,
+>  	V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH		= 16,
+> +	V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH		= 17,
+>  };
+>  #define V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_HEIGHT	(V4L2_CID_MPEG_BASE+364)
+>  #define V4L2_CID_MPEG_VIDEO_H264_VUI_EXT_SAR_WIDTH	(V4L2_CID_MPEG_BASE+365)
+> 
 
-OK
-<https://builder.linuxtv.org/job/ZBar/ws/test/test_decode> -q
-decoder PASSED.
-<https://builder.linuxtv.org/job/ZBar/ws/test/test_examples.sh>
-FAILED: <https://builder.linuxtv.org/job/ZBar/ws/examples/qr-code-binary.png> (da39a3ee5e6b4b0d3255bfef95601890afd80709 instead of df896e459e47a7d392031a7d4962722a143e276b)
-	cmd: <https://builder.linuxtv.org/job/ZBar/ws/zbarimg/zbarimg> --nodbus --raw --oneshot -Sbinary '<https://builder.linuxtv.org/job/ZBar/ws/examples/qr-code-binary.png'>
-	results: make: *** [Makefile:2475: check-images] Error 1
-Build step 'Execute shell' marked build as failure
