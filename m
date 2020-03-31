@@ -2,156 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BB8719978A
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 15:34:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DFD11997A2
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 15:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731046AbgCaNeD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Mar 2020 09:34:03 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54782 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731045AbgCaNeC (ORCPT
+        id S1730947AbgCaNhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Mar 2020 09:37:37 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:39756 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730216AbgCaNhg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Mar 2020 09:34:02 -0400
-Received: by mail-wm1-f66.google.com with SMTP id c81so2484439wmd.4
-        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2020 06:34:01 -0700 (PDT)
+        Tue, 31 Mar 2020 09:37:36 -0400
+Received: by mail-ot1-f66.google.com with SMTP id x11so22017498otp.6
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2020 06:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Wp21xVStqwrN1N12ROe6rhSLRy5whD/V05w5RA8tsUU=;
-        b=pEaC4MBrF0d7B0b85LQcMeH5zZKdVyVNq5eZv5TiQpSDFkpooH40hCVmw0pLsDRHIT
-         zCmNLYoiXZrdB7Gjd20bco+olUBrpt4JObPEorRc7sU1MVmoRFjMGd4oK4wmCneUn5EF
-         XpmBH+artBLhjllPljF6s5ZhLCokfEcCaoQxg8gApfPIKfmBIfxOIG8b7XOXZEdV9d7T
-         SUR69mrZ66AMDjRvbCHOF+lMJ7BZW+auUkdlO5V1pWSE3WjR6H/+mp46WSUA4HT5Pj2Y
-         +8UuNnmDhB02kHaOSEyosTBd+fQxi5WCA0FI8y7K7ylpuC+rYz0qoqL+ejZ7IvjhK9Ab
-         xWXA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BPQgN4wp/xTiSdMQdV45T5G+Dpby0aslGWWXLQEqKs8=;
+        b=f6egg8JB2oXmb5ZDcYSi37IoKdai/7O4iwDdS9tB5EdjG1fdejo+ualHWyXatNehYR
+         MzuHVPjLmDt6I3mEnAV5vFbzaEDV3VPFLNpNOh9u1Y40GU1HMTPq3hWa6Ce+M6GQiG4b
+         mneV32UAu3ydLOrO+Z4VV8rcPZmrygUm8uZsnmj/Te1Ef8SFeyqA5s845DdfJ+euHwLY
+         NeaZljdmTifBJtQuuV/ekejxCON62UGXsMwWI8Sc7UbD5+iHUWdzyxY3T4ka19793baM
+         Nl/S/m+Mys1Ba6C0/1gDd20aGwIa+3Sko7XR8PvXx54mJfhNJ4jofvoAtgq17f+5ntL1
+         uQ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Wp21xVStqwrN1N12ROe6rhSLRy5whD/V05w5RA8tsUU=;
-        b=JRZIeyrkKQ9lfipQpkHdJqTynXsgFzxZz/h8DY6cG8xPII/19Qqca/pKVdTBSA8Wsn
-         mQ36nbIizPqyDoIn/ZkFbBRv/wC6RwsoBshoggFNw9YJIMEtspyXthkrYLkPyztlP+Ad
-         IEEhRicu1rOY/I4f1ysBVlLU0BKG/Av8dxL+qg/44GWWHMUg2eV4cRs7jKFRvj7DeiqV
-         AV/J6Sm57KicLZztYZAhZnpMVE2Da8GdMllt/ZZqLjBpLEb1wHaYWV3Gh5348SIhKYj5
-         YfrfQfsjHI4ov7mxI3LMGgLRTRSNt7pd2+r4mHk0IZa+thvaAZOZtTW4wVscifhW9J8a
-         Wwog==
-X-Gm-Message-State: ANhLgQ3JO1Ggnkx/GyNsAXcPBHMDL4IhWSvkQvDfctZacotDL8DviDq5
-        UY1riKNt858Wi4jyf1EHQQVpOiU+Sd7kzQ==
-X-Google-Smtp-Source: ADFU+vt6gmU3ICepXWInCQgT7paaToRl88C0JQzwtYhmAlm1bldIjQplA/Nx855WwsF8gsnYyaQSiw==
-X-Received: by 2002:a1c:f70a:: with SMTP id v10mr3441990wmh.72.1585661639903;
-        Tue, 31 Mar 2020 06:33:59 -0700 (PDT)
-Received: from localhost.localdomain ([37.120.50.78])
-        by smtp.gmail.com with ESMTPSA id 61sm28623081wrn.82.2020.03.31.06.33.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 06:33:59 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BPQgN4wp/xTiSdMQdV45T5G+Dpby0aslGWWXLQEqKs8=;
+        b=gbani+5Swlnk0WsOv/sLaOCNI26ZpaS09WWzEIKqLnJTNG4YKQ4TlXzMwNSrCOPIWf
+         mC1PUB3K2mmDM/naKtu9MzmQoO01e4z29+ywf3HcOJ4ONrCLXgSH3LBCSe3W+fy8EhRp
+         C+ZhAXt6rCGbM46+8uhJyGYVdAAxGknQL/fME9xXYVIQr1NL+OutMCgKNlQB0wWMjNvm
+         BZ1ncrEc5CwsSVnKGqPkX61H6L0+0Zn4xLKYxvXiSTwz7C9zrWWjBwNymb9nXP8nGFK/
+         897ti3pZrQGBMAzXaMGzH5PAvVNWggnGNfA1FNJnx3QyX8g75sBEw5u5DN3gZ11D4mC2
+         78sA==
+X-Gm-Message-State: ANhLgQ2qJqB6a0iH73eoLzcVg5yBCydoav7tsL+AAZUFFH8KEUKQ2pn7
+        JjjiT/xcvlhEFwI+7a/WSIzJ279dHZh1t8VpI2yLDA==
+X-Google-Smtp-Source: ADFU+vt5IKuc9tkmr+ASuJda0bZuWGWC0a0b+1r6JL9yr89+s9e71Nso2ucKWJ4k0ClJnzYWXoG2EP313c1QbdzqZj8=
+X-Received: by 2002:a9d:6c88:: with SMTP id c8mr12319517otr.272.1585661854175;
+ Tue, 31 Mar 2020 06:37:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200313110350.10864-1-robert.foss@linaro.org>
+ <20200313110350.10864-3-robert.foss@linaro.org> <CAOMZO5D9bmXt9_qGTXw+qUG6JDHfuNtx++fJPJtn+mj1Dzsbag@mail.gmail.com>
+In-Reply-To: <CAOMZO5D9bmXt9_qGTXw+qUG6JDHfuNtx++fJPJtn+mj1Dzsbag@mail.gmail.com>
 From:   Robert Foss <robert.foss@linaro.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
+Date:   Tue, 31 Mar 2020 15:37:22 +0200
+Message-ID: <CAG3jFystdBKnosNQ0LeWQfHEtMgU4iGSr_XuS2XU3-902c31nQ@mail.gmail.com>
+Subject: Re: [v2 2/3] media: ov8856: Add devicetree support
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sakari Ailus <sakari.ailus@iki.fi>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v3 3/3] media: ov8856: Implement sensor module revision identification
-Date:   Tue, 31 Mar 2020 15:33:46 +0200
-Message-Id: <20200331133346.372517-4-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200331133346.372517-1-robert.foss@linaro.org>
-References: <20200331133346.372517-1-robert.foss@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Query the sensor for its module revision, and compare it
-to known revisions.
-Currently only the '1B' revision has been added.
+On Thu, 26 Mar 2020 at 13:18, Robert Foss <robert.foss@linaro.org> wrote:
+>
+> Hey Fabio,
+>
+> On Fri, 13 Mar 2020 at 14:15, Fabio Estevam <festevam@gmail.com> wrote:
+> >
+> > Hi Robert,
+> >
+> > On Fri, Mar 13, 2020 at 8:04 AM Robert Foss <robert.foss@linaro.org> wrote:
+> >
+> > > +static int __ov8856_power_on(struct ov8856 *ov8856)
+> > > +{
+> > > +       struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> > > +       int ret;
+> > > +
+> > > +       ret = clk_prepare_enable(ov8856->xvclk);
+> > > +       if (ret < 0) {
+> > > +               dev_err(&client->dev, "failed to enable xvclk\n");
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
+> >
+> > The parameter of gpiod_set_value_cansleep() is typically 0 (inactive
+> > state) or 1 (active state), so:
+> >
+> >  gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+>
+> Ack
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
+After testing this change, it breaks the driver during probing.
+I had a quick look into GPIOD_OUT_HIGH & LOW definitions, and they
+seem to never be 0 or 1.
 
-- Changes since v2:
-  * Add module revision 2A
-  * Sakari: Remove ov8856_check_revision()
-  * Sakari: Stop EEPROM streaming mode
+https://elixir.bootlin.com/linux/latest/source/include/linux/gpio/consumer.h#L38
 
-
- drivers/media/i2c/ov8856.c | 51 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
-
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 260aaf332631..c7551cee2bb0 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -32,6 +32,18 @@
- #define OV8856_MODE_STANDBY		0x00
- #define OV8856_MODE_STREAMING		0x01
- 
-+/* define 1B module revision */
-+#define OV8856_1B_MODULE		0x02
-+
-+/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
-+ * of the byte in the OTP that means the module revision
-+ */
-+#define OV8856_MODULE_REVISION		0x700f
-+#define OV8856_OTP_MODE_CTRL		0x3d84
-+#define OV8856_OTP_LOAD_CTRL		0x3d81
-+#define OV8856_OTP_MODE_AUTO		0x00
-+#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
-+
- /* vertical-timings from sensor */
- #define OV8856_REG_VTS			0x380e
- #define OV8856_VTS_MAX			0x7fff
-@@ -1152,6 +1164,45 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 		return -ENXIO;
- 	}
- 
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
-+			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set otp mode");
-+		return ret;
-+	}
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
-+			       OV8856_REG_VALUE_08BIT,
-+			       OV8856_OTP_LOAD_CTRL_ENABLE);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to enable load control");
-+		return ret;
-+	}
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read module revision");
-+		return ret;
-+	}
-+
-+	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
-+		val,
-+		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
-+		client->addr);
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to exit streaming mode");
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.25.1
-
+GPIOD_ASIS = 0,
+GPIOD_IN = 1,
+GPIOD_OUT_LOW = 3
+GPIOD_OUT_HIGH = 7
