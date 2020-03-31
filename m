@@ -2,82 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 464791996DE
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 14:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E66C9199784
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 15:34:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730657AbgCaM5B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Mar 2020 08:57:01 -0400
-Received: from mga01.intel.com ([192.55.52.88]:7135 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730473AbgCaM5B (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Mar 2020 08:57:01 -0400
-IronPort-SDR: AS7BXanqawueLouMcNl9jIc7wqd2uXu/GrrjxUg91b//fu8mmlbz/LMlIQkJetnSzYzrUqekmO
- fvRKyJUv8qbQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 05:57:00 -0700
-IronPort-SDR: 4GtfxegAsZvKcqIX8OQgphkuWcf4/wsKlNmvGx2cA3j/CAzAGWr7/MfSk+oaLGMDrPn8QZjlzr
- 6p/WmIw5lNUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; 
-   d="scan'208";a="272742955"
-Received: from ipu5-build.bj.intel.com ([10.238.232.196])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Mar 2020 05:56:58 -0700
-From:   Bingbu Cao <bingbu.cao@intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
-        bingbu.cao@intel.com, bingbu.cao@linux.intel.com
-Subject: [PATCH] media: ipu3.rst: add yuv-downscaling into pipeline diagram
-Date:   Tue, 31 Mar 2020 21:00:40 +0800
-Message-Id: <1585659640-10049-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1730999AbgCaNd5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Mar 2020 09:33:57 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34644 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730845AbgCaNd5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 31 Mar 2020 09:33:57 -0400
+Received: by mail-wr1-f68.google.com with SMTP id 65so26003678wrl.1
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2020 06:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oWqPN/2F35kUoboB7VuE68BOKEz/BXfljK/zGatyCzo=;
+        b=CX6rpgNk5Dr3qKnrubMvK4q2UgrMeUkjr0E0F1JgHADGyPC55iYFRLqqwEoNKST6nU
+         TpLcGrh+pmaxEVHOtDSD6OuZT/Ndnhg57uaHqlvXy4DomvQNq1AdGLybR7F1F9CJvUxk
+         yA9hK1JEZDI/fRjyCLIUziE6uXDS1AYzE17wfcFI7hlEpU94InlVQbrE6W2sXLF1eGUw
+         gNjpV8lWh5cdXoz8cPICBXHh+x7omJKnUJC80LxDenNWHvPHmlLlEG026qnejDduZWrG
+         oJhe8g2MqDHIUyLNQudXifQmq1vvvFzwdtix95uSlvlOmhJC5tsXDCLfA5GOC+64IRmD
+         dejA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oWqPN/2F35kUoboB7VuE68BOKEz/BXfljK/zGatyCzo=;
+        b=pqcpxt5R9StcJadSQXkyLTVeqDeJpIjP7LHz0Ir6P/3LW3cf5dYfWnGVoj4WGT8+B1
+         6zRmFPd6DztRwhybXM2GIKA0Mmso8jImZAWRK4890cxWyEdBmQJ6rs/Edfq3BpuGE7Em
+         z3vgiX8ZckfjltNqIrSGSAR3EfN2AqQl5L97CJQsEHQUv8xaPvzSisYogBR/HfM5CqKU
+         7wcAonfzDAQ/AskgOwx3pdrHC5wNeVGxMFQsFJlT8a5ilbBVavvL3LD5zEAeEri327mu
+         k1cPWp8gMHyHwyEV/xX5gWP1YB2RNq0utuBGA/+uDEREScwLjZJPTtnSdV+7wwoXZRrO
+         F3yg==
+X-Gm-Message-State: ANhLgQ0zro8lIRALkDbQWClP5JkwzttpzV9QMpKo99NFtq9BNACa96u3
+        gXLlFgoh7Vxjj96JIXUvIPMTCg==
+X-Google-Smtp-Source: ADFU+vu4XlDHD+eAXmhnbIITSDymKAgWq0Yc108LTSVU+JOlZDZX5TChQouQWuBq86nDsCf9jJIwSg==
+X-Received: by 2002:adf:e684:: with SMTP id r4mr20689718wrm.6.1585661635563;
+        Tue, 31 Mar 2020 06:33:55 -0700 (PDT)
+Received: from localhost.localdomain ([37.120.50.78])
+        by smtp.gmail.com with ESMTPSA id 61sm28623081wrn.82.2020.03.31.06.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2020 06:33:54 -0700 (PDT)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v3 0/3] media: ov8856: Add devicetree support
+Date:   Tue, 31 Mar 2020 15:33:43 +0200
+Message-Id: <20200331133346.372517-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For ipu3 ImgU image processing, the frame data from TNR can feed into
-DDR by Output Formatting System or feed into YUV downscaler to do YUV
-downscaling for secondary output, which is usually used for display.
-current ImgU image pipeline diagram misses the YUV downscaling,
-this patch add it to aligh with actual hardware blocks.
+This adds devicetree support to the ov8856 driver.
+In order to to aid debugging and enable future sensor
+modes to be supported, module revision detection is also added.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- Documentation/media/v4l-drivers/ipu3.rst | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Dongchun Zhu (1):
+  media: dt-bindings: ov8856: Document YAML bindings
 
-diff --git a/Documentation/media/v4l-drivers/ipu3.rst b/Documentation/media/v4l-drivers/ipu3.rst
-index a694f49491f9..c200cb5fc91b 100644
---- a/Documentation/media/v4l-drivers/ipu3.rst
-+++ b/Documentation/media/v4l-drivers/ipu3.rst
-@@ -429,16 +429,16 @@ set of parameters as input. The major stages of pipelines are shown here:
-        o [label="Total Color Correction"]
-        p [label="XNR3"]
-        q [label="TNR"]
--       r [label="DDR"]
-+       r [label="DDR", style=filled, fillcolor=yellow, shape=cylinder]
-+       s [label="YUV Downscaling"]
-+       t [label="DDR", style=filled, fillcolor=yellow, shape=cylinder]
- 
--       { rank=same; a -> b -> c -> d -> e -> f }
--       { rank=same; g -> h -> i -> j -> k -> l }
--       { rank=same; m -> n -> o -> p -> q -> r }
-+       { rank=same; a -> b -> c -> d -> e -> f -> g -> h -> i }
-+       { rank=same; j -> k -> l -> m -> n -> o -> p -> q -> s -> t}
- 
--       a -> g -> m [style=invis, weight=10]
--
--       f -> g
--       l -> m
-+       a -> j [style=invis, weight=10]
-+       i -> j
-+       q -> r
-    }
- 
- The table below presents a description of the above algorithms.
+Robert Foss (2):
+  media: ov8856: Add devicetree support
+  media: ov8856: Implement sensor module revision identification
+
+ .../devicetree/bindings/media/i2c/ov8856.yaml | 150 ++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/ov8856.c                    | 192 ++++++++++++++++--
+ 3 files changed, 327 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+
 -- 
-2.7.4
+2.25.1
 
