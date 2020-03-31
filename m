@@ -2,181 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8206E199807
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 16:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33BB419981C
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 16:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731021AbgCaOBJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Mar 2020 10:01:09 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:54855 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730818AbgCaOBI (ORCPT
+        id S1730693AbgCaOGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Mar 2020 10:06:19 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37159 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730442AbgCaOGT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Mar 2020 10:01:08 -0400
-Received: by mail-pj1-f68.google.com with SMTP id np9so1106821pjb.4;
-        Tue, 31 Mar 2020 07:01:07 -0700 (PDT)
+        Tue, 31 Mar 2020 10:06:19 -0400
+Received: by mail-wm1-f66.google.com with SMTP id j19so2825425wmi.2
+        for <linux-media@vger.kernel.org>; Tue, 31 Mar 2020 07:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TFLaiXmun4w8o5+Tq1iKXqKBbdoEIS4c8H+edqwRUVI=;
-        b=Qv/G/OwiwgPPLwotGiBBkiOI5nrvXLm5PXvdLqxL45fQ2wsXl/nZl5d0RQzXRkciG8
-         Iybk/fcn79BMAOI1HV9iPYg9E75fQJEQ4EmZ1t3qzFK0ZhRlsc+Ms+saEdX1mEOVxKQF
-         IP0TKfdebBhFtnrppzhiO0ybbd3OK5iLy8TqWdtzzbEKN3+QkbQeaDVZKPvIpRwP4VRL
-         wAkJabbz0sdRkDTQt0rzlqRWUFZrWHJfKDuA2g3zYFUWtV+20sbMDKX+qCelB4t7l8iJ
-         KU006nHCkkPz1/pyiCTLU4qx2Fpb/J1fhpD92loq0fVQ/kpLnoS2768kfxmgJqcY397I
-         5zEA==
+        bh=Z3XexJv6oSGOBsuJdYGw0E9ezFWfwIVY6vR9BpSIAKs=;
+        b=bH2m3npkP38cXjAjbJ39QJWCZcMDmpREl1nbqVRN4bp18ggblzW+6cqN9ymPzcN0Tr
+         w+uChqD7APbXpu/EnYuspjNk7doTbcKa4Qoac4jJjaw9/EJuVNVu9wk0BINc16LoJ6zR
+         eWQ7xo+zfaJv6jlh/dwkVPDU3F/95qnL2u6rm4xT2eYXNDWyycKEO+KB2jxTyaeMLq9k
+         KeTgm8h+u0xEGfSf/GlB9BQGpHEYqceVEbm0LTwgwBGoIeTmzixwwGOtchjcIrqCWNgh
+         9r2ylYQbU95MiHbI3PJieM3hOMuG/5lvQy/jSLV3IlZKD7uW/peokaOQAwENq13azaiM
+         D6dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TFLaiXmun4w8o5+Tq1iKXqKBbdoEIS4c8H+edqwRUVI=;
-        b=UWIB5GiadsyrTzyaPdGrYqEKo6IGiJ7/Vmul4S2H4WoFLWh8stgEsFIbl0ZjznbYzW
-         9xdyGZvkYl0XIFLVB6bH160LrxkNghItlDdsBeM2iOCZ0dNsNj6ZP/KE1HzYSdEdXbZO
-         lt3+YHwV7kMFmR5c6jgL5CajviXOeAIimnALAB/M162v0l8nrwnvSLk74LQmqPHry+NE
-         fwaJTlFYARkjDkVG9qSiQ77i7yP5oF8Rz6q2eePfil3PgJDDhRVGQav8ObOMNOvsWNb1
-         xaC92/j/mtny6VLSsfqI58GSh5ypGcyudX7v5kZxlrO3NuZM4PIez04vQOhFiITkXdO1
-         7Xsw==
-X-Gm-Message-State: AGi0Puaew+tn4n0wVku0m0Gv2cwKQrxGKk93tKnpFH9bQ7PVEugK1nAQ
-        vCyrzFCiB6X2A0Ii/fM3izwOQEZFJ45Tz2n7IEU=
-X-Google-Smtp-Source: APiQypJB7Jvm09PZHaUiKtbyo6HAV3AG4FiOz7wPm0aCTC1KqAMGu+JBwxYo2PSJ/sRZe+L/LPsMDnKck5AK6WZNPDg=
-X-Received: by 2002:a17:90a:3602:: with SMTP id s2mr4130400pjb.143.1585663267338;
- Tue, 31 Mar 2020 07:01:07 -0700 (PDT)
+        bh=Z3XexJv6oSGOBsuJdYGw0E9ezFWfwIVY6vR9BpSIAKs=;
+        b=L3LENr23LvJGV8baA9MwcYwkm0rc3V4bb8PA9Odhc5gpAJsiKtE61WnavF6JOPVTT6
+         1sBEOn1rCzUJfyyr3AQ1foEO0mEyDo6VxxGaJkWpgQH7Qvq0fwFIrj0Jcc6prpejBxyb
+         IlPBPI8i7EvDlsxAWAg1SpXHtZncL7B8hVxtaTZpY5vAbHnS4Tj0ZvT3M7xStFbkg8RQ
+         paJsA7YQLVA4FedXzw/qODGWR1k2+Akx5Q/mQ3Xn5SOpKo0URQOpGfEfWPN1xwupLcbf
+         IucOk1iejJnrrmPHKRvSZcZZ9WAVPt9kBh/wackU/zqvqHLP/h4b2gWVHWNW2+V1eQgE
+         3PrQ==
+X-Gm-Message-State: ANhLgQ0aZrlcqdEFElmmcGF/Phz4dW0PdXhlwDz5s9LCgpEMM6xgde40
+        klQ5y89Z0jCPvLQTUBIuoMSTLO1eX99KeZg7H+WkUA==
+X-Google-Smtp-Source: ADFU+vsckxJPWgtqo6cMLlt9ekzuTf/KDmsXOFGh6LSmkq/Fj017nPMi6FCTOVECu9MCDvqHfQWTruomqSjqVAud20s=
+X-Received: by 2002:a1c:f213:: with SMTP id s19mr3628190wmc.116.1585663576893;
+ Tue, 31 Mar 2020 07:06:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200331133346.372517-1-robert.foss@linaro.org> <20200331133346.372517-3-robert.foss@linaro.org>
-In-Reply-To: <20200331133346.372517-3-robert.foss@linaro.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 31 Mar 2020 17:01:00 +0300
-Message-ID: <CAHp75VfFKY6nzb8aEWmop73v2haZ0P5+aTsKDEU8M=uUPn0u3g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] media: ov8856: Add devicetree support
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+References: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
+ <20190916115207.GO843@valkosipuli.retiisi.org.uk> <2c0da850-7073-0fc6-7246-9e530a54cf26@xs4all.nl>
+ <CAPY8ntCOAeq1OLS4dn846ubujnbUxSwMu-Tfb9fcNgaDcn3_JQ@mail.gmail.com>
+ <CAPY8ntCL+j=hia=WHJnpcGosD7hTxR2-aJWYrY+E3qpT-+g=0Q@mail.gmail.com> <20200331102742.GH2394@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20200331102742.GH2394@valkosipuli.retiisi.org.uk>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 31 Mar 2020 15:05:59 +0100
+Message-ID: <CAPY8ntAfgZQpjVpV4G13sBiGPX1eQ9pMZ7=6vvq32SMkTXOYDA@mail.gmail.com>
+Subject: Re: [PATCHv2 0/2] Add helper functions to print a fourcc
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 4:36 PM Robert Foss <robert.foss@linaro.org> wrote:
+Hi Sakari
+
+On Tue, 31 Mar 2020 at 11:28, Sakari Ailus <sakari.ailus@iki.fi> wrote:
 >
-> Add devicetree match table, and enable ov8856_probe()
-> to initialize power, clocks and reset pins.
+> Hi Dave,
+>
+> On Wed, Mar 25, 2020 at 01:50:44PM +0000, Dave Stevenson wrote:
+> > On Wed, 29 Jan 2020 at 11:52, Dave Stevenson
+> > <dave.stevenson@raspberrypi.com> wrote:
+> > >
+> > > Hi Hans.
+> > >
+> > > On Mon, 16 Sep 2019 at 13:00, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> > > >
+> > > > On 9/16/19 1:52 PM, Sakari Ailus wrote:
+> > > > > On Mon, Sep 16, 2019 at 12:04:31PM +0200, Hans Verkuil wrote:
+> > > > >> It turns out that Sakari posted a newer patch in 2018. I used that
+> > > > >> for this v2: https://patchwork.linuxtv.org/patch/48372/
+> > > > >>
+> > > > >> Mauro commented on that original patch that there was no need to
+> > > > >> have this available for userspace.
+> > > > >>
+> > > > >> I disagree: why wouldn't userspace want to report pixelformats?
+> > > > >>
+> > > > >> It happens in several places in v4l-utils, and there the pixelformats are
+> > > > >> printed in different ways as well. Providing a standard way of reporting
+> > > > >> a V4L2 fourcc is very useful.
+> > > > >
+> > > > > Thanks, Hans!
+> > > > >
+> > > > > Can you take these to your tree (perhaps pending some sort of agreement
+> > > > > with Mauro)?
+> > > > >
+> > > >
+> > > > Certainly.
+> > > >
+> > > >         Hans
+> > >
+> > > What happened to these? Patchwork is flagging them as rejected[1], but
+> > > there's only been positive responses to them on the mailing list.
+> >
+> > Ping. Why were these patches rejected?
+>
+> This was discussed on media-maint channel. The log is here:
+>
+> <URL:https://linuxtv.org/irc/irclogger_log/media-maint?date=2020-02-06,Thu&raw=on>
 
-...
+Thanks, it's useful to know what's going on. The patchwork information
+was pretty opaque.
 
-> +static int __ov8856_power_on(struct ov8856 *ov8856)
-> +{
-> +       struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> +       int ret;
-> +
-> +       ret = clk_prepare_enable(ov8856->xvclk);
-> +       if (ret < 0) {
-> +               dev_err(&client->dev, "failed to enable xvclk\n");
-> +               return ret;
-> +       }
-> +
+The log includes
+[12:41] <sailus> If you insist, I can write a patch, and put your
+Suggested-by: tag there. :^)
+[12:41] <mchehab> yeah, please do so
+[12:42] <mchehab> the best is to also c/c drm ML
+Has that happened and I've missed it, or is it still on the pending queue?
 
-> +       if (is_acpi_node(ov8856->dev->fwnode))
-
-Use dev_fwnode().
-
-> +               return 0;
-> +
-> +       if (ov8856->reset_gpio) {
-
-> +               gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
-
-This is wrong. You have to fix it to use either 0 or 1.
-
-> +               usleep_range(1000, 2000);
-> +       }
-> +
-> +       ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
-> +                                   ov8856->supplies);
-
-> +       if (ret < 0) {
-
-Do you need all ' < 0' parts all over the series?
-
-> +               dev_err(&client->dev, "failed to enable regulators\n");
-> +               goto disable_clk;
-> +       }
-
-...
-
-> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_LOW);
-
-Ditto.
-
-...
-
-> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
-
-Ditto.
-
-...
-
-> +       gpiod_set_value_cansleep(ov8856->reset_gpio, GPIOD_OUT_HIGH);
-
-Ditto.
-
-...
-
-> -       ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
-> -       if (ret)
-> -               return ret;
-
-Where is it gone? Why?
-
-> +       ov8856->xvclk = devm_clk_get_optional(dev, "xvclk");
-> +       if (IS_ERR(ov8856->xvclk)) {
-
-> +               dev_err(dev, "could not get xvclk clock (%ld)\n",
-> +                       PTR_ERR(ov8856->xvclk));
-
-Also you may use %pe here and in similar cases.
-
-> +               return PTR_ERR(ov8856->xvclk);
-> +       }
-
-> +       ov8856->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> +               GPIOD_OUT_HIGH);
-
-Here parameter is correct. The question is, what the value should be
-HIGH or LOW?
-Basically HIGH means to assert the signal.
-
-> +       if (IS_ERR(ov8856->reset_gpio)) {
-
-> +               dev_dbg(dev, "failed to get reset-gpio\n");
-
-Noise.
-Enable GPIO debug to see this kind of messages.
-
-> +               return PTR_ERR(ov8856->reset_gpio);
-> +       }
-
-...
-
-> +       ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ov8856_supply_names),
-> +                                     ov8856->supplies);
-> +       if (ret) {
-
-> +               dev_warn(dev, "failed to get regulators\n");
-
-If it's a warning, why we return from here?
-Same question to all other places with same issue.
-
-> +               return ret;
->         }
-
--- 
-With Best Regards,
-Andy Shevchenko
+  Dave
