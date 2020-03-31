@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1727719950B
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 13:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 426611994E3
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 13:12:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730511AbgCaLMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Mar 2020 07:12:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57900 "EHLO mail.kernel.org"
+        id S1730644AbgCaLMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Mar 2020 07:12:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57912 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730606AbgCaLMO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Mar 2020 07:12:14 -0400
+        id S1730628AbgCaLMP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 31 Mar 2020 07:12:15 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75EE521744;
+        by mail.kernel.org (Postfix) with ESMTPSA id 898AB21973;
         Tue, 31 Mar 2020 11:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1585653133;
-        bh=bPRfqQ4xcllot9ahDrF1mcivZLob/4AZxgD+3hA+VLY=;
+        bh=g9SDFwMCOXN9T+MEybGY91gbGwYdIY6mnu3Zi0N22aE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G5asgzz2GprXEJIVvBX5ooMT1nFLK1tlH52WTm5G5Ox2NkBLZ6aP6kUL92xeE6Lm1
-         VFzRSsP3Fs67sxwUWq+DWKy/YGPWNxEPffm9ZTDCyWbc5gPVHPth/WRoVICWUH0Uf8
-         M8tqDjt5owPG/Q6+XytKn6gRrHEHE2fyQGXWhVxM=
+        b=g2iyM3a+BlmRq4EvBsTdV3uYqyOMBPhlxuu5nxHyqLyrQcNX/AeRPV8/XQx8xXv6I
+         vaIoPAv33QNE1rUZM8qqEn6RD7HySB9BcFajiAag3D5Ua/W5XiWJwoKo88ZAC305QC
+         2taeA7q8VKl8qQh1yA2Ob4vOJtiihVFsZNn/4OS8=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jJEoV-002brd-P0; Tue, 31 Mar 2020 13:12:11 +0200
+        id 1jJEoV-002bri-Q3; Tue, 31 Mar 2020 13:12:11 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH v4 23/33] media: Kconfig: warn if drivers are filtered
-Date:   Tue, 31 Mar 2020 13:11:59 +0200
-Message-Id: <1f246a17a838c1835ea3fd0798848c2bc7f5228b.1585651678.git.mchehab+huawei@kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v4 24/33] media: Kconfig: move CEC-specific options to cec/Kconfig
+Date:   Tue, 31 Mar 2020 13:12:00 +0200
+Message-Id: <9821a9a3f733336f8b30a5a8fade3a4b126543ea.1585651678.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1585651678.git.mchehab+huawei@kernel.org>
 References: <cover.1585651678.git.mchehab+huawei@kernel.org>
@@ -43,38 +43,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As per a tester feedback, add an option to report when
-the drivers are filtered at the Kconfig menu.
+There's no need to have the CEC definitions inside the
+media Kconfig, as the Kconfig parser doesn't require
+symbols to be declared before their usages.
 
-Cc: Helen Koike <helen.koike@collabora.com>
+With that, the main Kconfig menu becomes cleaner.
+
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/Kconfig | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/Kconfig     |  9 ---------
+ drivers/media/cec/Kconfig | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 8b070fb703f9..79aa83a966db 100644
+index 79aa83a966db..9cc528e0b120 100644
 --- a/drivers/media/Kconfig
 +++ b/drivers/media/Kconfig
-@@ -28,7 +28,7 @@ menuconfig MEDIA_SUPPORT
- if MEDIA_SUPPORT
+@@ -3,15 +3,6 @@
+ # Multimedia device configuration
+ #
  
- config MEDIA_SUPPORT_FILTER
--	bool "Filter devices by their types"
-+	bool "Filter media drivers"
- 	depends on MEDIA_SUPPORT
- 	help
- 	   Configuring the media subsystem can be complex, as there are
-@@ -203,6 +203,9 @@ source "drivers/media/cec/Kconfig"
+-config CEC_CORE
+-	tristate
+-
+-config CEC_NOTIFIER
+-	bool
+-
+-config CEC_PIN
+-	bool
+-
+ source "drivers/media/rc/Kconfig"
  
- comment "Media drivers"
- 
-+comment "Drivers filtered as selected at 'Filter media drivers'"
-+	depends on MEDIA_SUPPORT_FILTER
+ menuconfig MEDIA_SUPPORT
+diff --git a/drivers/media/cec/Kconfig b/drivers/media/cec/Kconfig
+index c01919713ab9..31417feaa213 100644
+--- a/drivers/media/cec/Kconfig
++++ b/drivers/media/cec/Kconfig
+@@ -1,4 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0-only
 +
- source "drivers/media/usb/Kconfig"
- source "drivers/media/pci/Kconfig"
- source "drivers/media/radio/Kconfig"
++config CEC_CORE
++	tristate
++
++config CEC_NOTIFIER
++	bool
++
++config CEC_PIN
++	bool
++
+ config MEDIA_CEC_RC
+ 	bool "HDMI CEC RC integration"
+ 	depends on CEC_CORE && RC_CORE
 -- 
 2.25.1
 
