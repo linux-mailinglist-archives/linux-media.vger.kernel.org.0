@@ -2,169 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7085C198A72
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 05:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99F63198CD5
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 09:21:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727703AbgCaDSv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Mar 2020 23:18:51 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56407 "EHLO
+        id S1729682AbgCaHVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Mar 2020 03:21:01 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:35897 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727464AbgCaDSv (ORCPT
+        by vger.kernel.org with ESMTP id S1726174AbgCaHVA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Mar 2020 23:18:51 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:9160:6b63:478e:d5a1])
+        Tue, 31 Mar 2020 03:21:00 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id J7QOjy1yMLu1fJ7QPjGn9h; Tue, 31 Mar 2020 05:18:49 +0200
+        id JBCajz1YpLu1fJBCejHCjJ; Tue, 31 Mar 2020 09:20:58 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585624729; bh=EIwf852Cv2I3p8Hecb1v4V5OgVRsYp4NTGdjYUANSGo=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=HjufuDnY/fjr8NzDnKxH5eV7SURpYwjh8JdTIIZRFK6S21/mJpgeLto5+EpWwwaRs
-         PwYbzK3sB9HxBCHGLG+XvXXGH+5aarAWDoxTM5lMlFrDe/YSb9fXhY5L0jsjevrSHw
-         IDZiEz6/knL55ZEZGlkn0W33JivAaSMZn9C9MCF3kY2b3xWlxvAyvprhyGfq1PQGPx
-         fa4ZKPzDIAe1MzH1DzHtJav+4ttqt9IN5raBcNbfrMp7FSLGanJdlLRHOIUg08gJkY
-         /q0Ajc81uIhF6L7HeVEuHdDGjIHf+tiIxjaHd7WaobTiaJ/EggE9dc3zXm9nVFwwlO
-         7Eycd6bdp+hfA==
-Message-ID: <ec02c097a4d7dd5d63321f468f29e301@smtp-cloud7.xs4all.net>
-Date:   Tue, 31 Mar 2020 05:18:48 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfIZpK/3ybl3+wL2OkgpKtdG5jtiqCDbQjMGqA/nOQeedf9N7CJNlA4y22IHmF2dPuk2Nh1qHUkHs4xlMf2YioGcKucbydL1Nz7KEZBVXtuAy07OfmYDw
- WBHj1u0rx1q+rlqY6207t89pttw9XMBpsgS8QUcf0/IYsQ9TDkl4VNMl+VoMvj3y3rmYwRQ6eV5jGBtpVIt/eOKxYqzEdhdEhiQcOPyi1LuWNvOOMNvAkGB0
+        t=1585639258; bh=vFLAFhFQyb8gbOSDxO/VdFf8CdbtbKDUC1VbJ0Ed4G8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=gbPi5YAr5hxI+IP+zZ+HYziBEXN0T2iw9gDqp91WtQMjptvSTPRUZ4z0w/kZoiQVU
+         nTPg0EUDN5XnbWKYt91gRC1SqYirOEb0PzZjNH8kmVbpHgjqc5fqvNZH+xv9oEHUrM
+         8Fq74/BqVf9GvIrRHdZ6wd0PZqhwu189HWHwc0FeF0z/WJq3i9KM67H+d24/7YI05m
+         ZRGhTqjpHabK7xpT7AGvDKqSkG70OMPqtVvDm8YmcP51AVqo24kMvAc4QLshzLPwyb
+         mIK+1byC+17cml41lF5WeDYxpjB2Lyu1c1H0IDXjFO8VXNLEHIrNffAWkt7Cp6S5C4
+         dBaiTUPDFMpwQ==
+Subject: Re: [PATCH] Update my email address in various drivers
+To:     Russell King <rmk+kernel@armlinux.org.uk>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linux-media@vger.kernel.org, netdev@vger.kernel.org
+References: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <4362392b-132d-c316-3a54-e6cc05cab659@xs4all.nl>
+Date:   Tue, 31 Mar 2020 09:20:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <E1jIV26-0005X3-RS@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfC+slg84mdYP89l6SxInCHeF3g0JtL9VqM18bDfdysIjAFPUT6OD/g1M51H/cR6bMpfTtDuuoFy2dHpRDp4BgyY7h7u/IYlu59Kzm59ciC0z0BN13Eck
+ yvrPJVFXdzoYP9kSvXta9VQvTMgFCseEXD6rVcCWXpPZOQgglWaOkRsyeTyPEExASsJ0dsVWT5czOOo6QRfi98A61dWYBawRg5ZMBYvykkDfsKirYNYyFKiS
+ QKu3aNNUfhNt4o/AVQIyaOrJW1dMLmCeEzSs9/6i8yuEm48Ujlgj4UFcrtKs/PoWFN9lhdpRpk0DsgNrRxH86vfJLfk8ZARnNOIHsVltDe1GpVhOmiWaLDVa
+ JQOr1dWy9lf7MjKq4nytQgx0TC4zx3cCB50w2raxgFIwMCQpYGSv7Z7lCts2QwqZQbiycnNwIqPEl5Rcx2TpNJhThriuwOf78/PizDhwo+ONWCIPbnLy45bY
+ GzB1iPXCx3Vx8bRwgISgeB76Au28GRYPu4vM9gSn/HCO3XgT5Y9sOoyvP3o9V/xvUWt9xD1I+mIRMWEPuqpM7K9rzChTmcSiFhDUL/4L7Q5+Y/thdbN2K9Yz
+ QKIUh/odmDnuZrjkHboaA6eRZIhQMdXuX4X5hQmBf1Yxs/B3XJ1nuYfEVKWP7EFmTDAh2mv5OX8l4DFtS0gXCeCo6a/4WeJu75oCCCNw03x+8FHvapY1+4p/
+ aK6S0f2dWLF2lwX7w1BCMa8wsjuxERLnsEIrkX8lhxzBaVsgA4N27FanHbO3RQHw48i7MvKZ9M/RDOgNkQLr4wt/J9fuPCJe
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 3/29/20 12:19 PM, Russell King wrote:
+> Globally update my email address in six files scattered through the
+> tree.
+> 
+> Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
 
-Results of the daily build of media_tree:
+For media/cec files:
 
-date:			Tue Mar 31 05:00:11 CEST 2020
-media-tree git hash:	2632e7b618a7730969f9782593c29ca53553aa22
-media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
-v4l-utils git hash:	38f4ce74275ae4625463f7eec78764715a0b6246
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: bce6094eab68fd9c0d5763c4d9e242d8d3732492
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6-rc1-i686: OK
-linux-5.6-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 372, Succeeded: 372, Failed: 0, Warnings: 0
-virtme-32: ERRORS
-sparse: OK
-smatch: OK
+Regards,
 
-Detailed results are available here:
+	Hans
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+> ---
+>  drivers/gpu/drm/armada/armada_drv.c                 | 2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c               | 2 +-
+>  drivers/media/cec/cec-notifier.c                    | 2 +-
+>  drivers/net/phy/swphy.c                             | 2 +-
+>  include/media/cec-notifier.h                        | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
+> index 3df2dacf4c94..5a82a12cd105 100644
+> --- a/drivers/gpu/drm/armada/armada_drv.c
+> +++ b/drivers/gpu/drm/armada/armada_drv.c
+> @@ -389,7 +389,7 @@ static void __exit armada_drm_exit(void)
+>  }
+>  module_exit(armada_drm_exit);
+>  
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_DESCRIPTION("Armada DRM Driver");
+>  MODULE_LICENSE("GPL");
+>  MODULE_ALIAS("platform:armada-drm");
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index e8e3e9339ff9..f6f55776e43e 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -698,7 +698,7 @@ static struct platform_driver snd_dw_hdmi_driver = {
+>  
+>  module_platform_driver(snd_dw_hdmi_driver);
+>  
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_DESCRIPTION("Synopsis Designware HDMI AHB ALSA interface");
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_ALIAS("platform:" DRIVER_NAME);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 1f9c01be40d7..d6798f716b77 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -739,7 +739,7 @@ static void __exit etnaviv_exit(void)
+>  module_exit(etnaviv_exit);
+>  
+>  MODULE_AUTHOR("Christian Gmeiner <christian.gmeiner@gmail.com>");
+> -MODULE_AUTHOR("Russell King <rmk+kernel@arm.linux.org.uk>");
+> +MODULE_AUTHOR("Russell King <rmk+kernel@armlinux.org.uk>");
+>  MODULE_AUTHOR("Lucas Stach <l.stach@pengutronix.de>");
+>  MODULE_DESCRIPTION("etnaviv DRM Driver");
+>  MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+> index 7cf42b133dbc..2d4f7dd7cef7 100644
+> --- a/drivers/media/cec/cec-notifier.c
+> +++ b/drivers/media/cec/cec-notifier.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * cec-notifier.c - notify CEC drivers of physical address changes
+>   *
+> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Copyright 2016 Russell King.
+>   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> diff --git a/drivers/net/phy/swphy.c b/drivers/net/phy/swphy.c
+> index 53c214a22b95..774814714c82 100644
+> --- a/drivers/net/phy/swphy.c
+> +++ b/drivers/net/phy/swphy.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Software PHY emulation
+>   *
+> - * Code taken from fixed_phy.c by Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Code taken from fixed_phy.c by Russell King.
+>   *
+>   * Author: Vitaly Bordug <vbordug@ru.mvista.com>
+>   *         Anton Vorontsov <avorontsov@ru.mvista.com>
+> diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
+> index 985afea1ee36..e2b1b894aae7 100644
+> --- a/include/media/cec-notifier.h
+> +++ b/include/media/cec-notifier.h
+> @@ -2,7 +2,7 @@
+>  /*
+>   * cec-notifier.h - notify CEC drivers of physical address changes
+>   *
+> - * Copyright 2016 Russell King <rmk+kernel@arm.linux.org.uk>
+> + * Copyright 2016 Russell King.
+>   * Copyright 2016-2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> 
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
