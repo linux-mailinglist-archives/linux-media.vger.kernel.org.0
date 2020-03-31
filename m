@@ -2,115 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46661198815
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 01:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACD591989D6
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 04:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729197AbgC3XVD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Mar 2020 19:21:03 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:40951 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728991AbgC3XVD (ORCPT
+        id S1729609AbgCaCQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Mar 2020 22:16:30 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:16902 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729239AbgCaCQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Mar 2020 19:21:03 -0400
-Received: by mail-pj1-f68.google.com with SMTP id kx8so270654pjb.5
-        for <linux-media@vger.kernel.org>; Mon, 30 Mar 2020 16:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=d7O/Y1UZRl9rjdivv3qavnHXyyAe8PaJzLYevt3jOgQ=;
-        b=h8u/jhQufAmXUA5I6XKku2glveFk7ysky/HvcEneNmipgbBkgN+fFLo8ktl2kXPoFB
-         Dux2rO/eKo79YQ4zXQHZMu9aXHcrtl4D46aOl3I0G3JCjPtcK82K3UL41u0XYNRoXGJx
-         J8nGtKjmUGFMEiqFZo7LpdtoSG7mM0O/fJXjlrxKaCoK7tyT8NuONd48HhaAB/pHMoe5
-         Wqa5QdU4FbCPZXjWd6SpSeXw7WZ8lFNuHM6QrzDkRJo/Q6U80SKxJ2gP/te7mNJHNKB2
-         Fs4UDnx+/3EZu+EfX5+zh+fyY5KI1LVmYdCZQp8W5woLcDMRB5adQp2l0WaersrdbRuq
-         GpWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=d7O/Y1UZRl9rjdivv3qavnHXyyAe8PaJzLYevt3jOgQ=;
-        b=JEPIxaxwqeN4na985dugdUfs/2nHmVTSL3rY18z4Dx+bMIQHDxkxZ5JZra5eLgIEVy
-         P3IJwgK/4gaPNTiluMyjAt+w9/6Y/MjfsasJBAaxrfWWzdVJ1vsqpnBmk/8cuJWvl+2G
-         ugwPzo2IGnF5f9OUPxolCZuWM3c+3dU92I21y8We6OIjvRe+BQjtt5eaE8+z8jU8W+79
-         lup5yEd7rKIdx2DNNdhzcJgRRBzfFbwuaKFafAkhd7SDBfrbaQ9gr5MD0PGbpAg9sLhY
-         yrhrLQKequmPZLBIQ9HhX/P621e4amxjyqFMygn8OEu+8D6wV7qOmaUpmt+5G1c7det2
-         SndQ==
-X-Gm-Message-State: AGi0PuYbeCXXhi3wUtl49TpXuwskC2BNPuZiz+JFKoVTI3HKUQXqeoWg
-        BMtB0fYOW+zi8sYsT8ss3FXhbuuP
-X-Google-Smtp-Source: APiQypLWRAfWj9TQwiujWl1MeKNAOQzibGh3EA4igaoWMCuDnqIaoPrCYFxFNUC3JHoaNkq2qf50dA==
-X-Received: by 2002:a17:90a:9408:: with SMTP id r8mr555372pjo.15.1585610462469;
-        Mon, 30 Mar 2020 16:21:02 -0700 (PDT)
-Received: from deeUbuntu ([103.241.226.99])
-        by smtp.gmail.com with ESMTPSA id x4sm9874334pga.54.2020.03.30.16.21.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 30 Mar 2020 16:21:02 -0700 (PDT)
-Date:   Tue, 31 Mar 2020 04:50:57 +0530
-From:   Deepak R Varma <mh12gx2825@gmail.com>
-To:     outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v2] media: staging/intel-ipu3: Simplify single goto jump
-Message-ID: <20200330232053.GA7335@deeUbuntu>
+        Mon, 30 Mar 2020 22:16:30 -0400
+X-UUID: 02dd4ef304ed4ed18834aaebcf31c48d-20200331
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Pi2gmU7gUHGbZuSoj+0wP9cb73MBtHR0fEjpiake8os=;
+        b=GMdHIBZw5IMWn6sQD7pbCNChTp5zKhE7hbHaMyfK8fyV/GrD3w+7aIfGZRqQN7ouclwJCGnCqdKXDEH8ZG04TdBss9yFTzgCYEyvxNMqzDgCcpHblbuJQ2U+zAi5X5mJgEttueYPwKWXsI4sHzEsAnqt1J+MlVzrOOoAbwF3lGk=;
+X-UUID: 02dd4ef304ed4ed18834aaebcf31c48d-20200331
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 589410140; Tue, 31 Mar 2020 10:16:14 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Tue, 31 Mar
+ 2020 10:16:12 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 31 Mar 2020 10:16:10 +0800
+Message-ID: <1585620980.5781.80.camel@mhfsdcap03>
+Subject: Re: [V4, 2/2] media: i2c: Add DW9768 VCM driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>, <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
+Date:   Tue, 31 Mar 2020 10:16:20 +0800
+In-Reply-To: <20200330135751.GQ1922688@smile.fi.intel.com>
+References: <20200330123634.363-1-dongchun.zhu@mediatek.com>
+         <20200330123634.363-3-dongchun.zhu@mediatek.com>
+         <20200330135751.GQ1922688@smile.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-TM-SNTS-SMTP: B146E5EF035629031CDCFBF9CF89F0AFC588A22BD4E14778C43D5F924A3AA11C2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On successful node setup, the code jumps to a cleanup label to perform
-nodes cleanup. This only call to cleanup using goto label can be
-included in the for / if blocks to make it look more associated.
-
-Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
-Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
----
-
-Changes since v1:
-	- Corrected /reduced scope of variable r. Warning generated by Sakari's Kbuild bot.
-	  Change advised by Sakari Ailus.
-	- Patch was earlier reviewed by Stefano. The bot warning came in
-	  later.
-
- drivers/staging/media/ipu3/ipu3-v4l2.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index e8f33539a217..beec8aad2d43 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -1291,19 +1291,17 @@ static void imgu_v4l2_nodes_cleanup_pipe(struct imgu_device *imgu,
- 
- static int imgu_v4l2_nodes_setup_pipe(struct imgu_device *imgu, int pipe)
- {
--	int i, r;
-+	int i;
- 
- 	for (i = 0; i < IMGU_NODE_NUM; i++) {
--		r = imgu_v4l2_node_setup(imgu, pipe, i);
--		if (r)
--			goto cleanup;
--	}
-+		int r = imgu_v4l2_node_setup(imgu, pipe, i);
- 
-+		if (r) {
-+			imgu_v4l2_nodes_cleanup_pipe(imgu, pipe, i);
-+			return r;
-+		}
-+	}
- 	return 0;
--
--cleanup:
--	imgu_v4l2_nodes_cleanup_pipe(imgu, pipe, i);
--	return r;
- }
- 
- static void imgu_v4l2_subdev_cleanup(struct imgu_device *imgu, unsigned int i)
--- 
-2.17.1
+SGkgQW5keSwNCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQpPbiBNb24sIDIwMjAtMDMtMzAg
+YXQgMTY6NTcgKzAzMDAsIEFuZHkgU2hldmNoZW5rbyB3cm90ZToNCj4gT24gTW9uLCBNYXIgMzAs
+IDIwMjAgYXQgMDg6MzY6MzRQTSArMDgwMCwgRG9uZ2NodW4gWmh1IHdyb3RlOg0KPiA+IFRoaXMg
+cGF0Y2ggYWRkcyBhIFY0TDIgc3ViLWRldmljZSBkcml2ZXIgZm9yIERXOTc2OCB2b2ljZSBjb2ls
+IG1vdGVyLA0KPiA+IHByb3ZpZGluZyBjb250cm9sIHRvIHNldCB0aGUgZGVzaXJlZCBmb2N1cyB2
+aWEgSTJDIHNlcmlhbCBpbnRlcmZhY2UuDQo+IA0KPiAuLi4NCj4gDQo+ID4gK3N0YXRpYyBjb25z
+dCBzdHJ1Y3QgZGV2X3BtX29wcyBkdzk3NjhfcG1fb3BzID0gew0KPiA+ICsJU0VUX1NZU1RFTV9T
+TEVFUF9QTV9PUFMocG1fcnVudGltZV9mb3JjZV9zdXNwZW5kLA0KPiA+ICsJCQkJcG1fcnVudGlt
+ZV9mb3JjZV9yZXN1bWUpDQo+ID4gKwlTRVRfUlVOVElNRV9QTV9PUFMoZHc5NzY4X3J1bnRpbWVf
+c3VzcGVuZCwgZHc5NzY4X3J1bnRpbWVfcmVzdW1lLCBOVUxMKQ0KPiA+ICt9Ow0KPiA+ICsNCj4g
+PiArc3RhdGljIHN0cnVjdCBpMmNfZHJpdmVyIGR3OTc2OF9pMmNfZHJpdmVyID0gew0KPiA+ICsJ
+LmRyaXZlciA9IHsNCj4gPiArCQkubmFtZSA9IERXOTc2OF9OQU1FLA0KPiANCj4gPiArCQkucG0g
+PSBJU19FTkFCTEVEKENPTkZJR19QTSkgPyAmZHc5NzY4X3BtX29wcyA6IE5VTEwsDQo+IA0KPiBX
+aGF0IGlzIHRoaXMgY29uZGl0aW9uYWwgZm9yPw0KPiANCg0KRm9yIHRoZSBkdzk3NjhfcG1fb3Bz
+LCBoZXJlIG15IGlkZWEgaXMgdG8gdXNlIGFuIElTX0VOQUJMRUQoKSBjaGVjayB0bw0KYXZvaWQg
+ZGVmaW5pbmcgdGhlIHN0cnVjdHVyZSB3aGVuIENPTkZJR19QTSBpcyBub3Qgc2V0Lg0KDQo+ID4g
+KwkJLm9mX21hdGNoX3RhYmxlID0gZHc5NzY4X29mX3RhYmxlLA0KPiA+ICsJfSwNCj4gPiArCS5w
+cm9iZV9uZXcgID0gZHc5NzY4X3Byb2JlLA0KPiA+ICsJLnJlbW92ZSA9IGR3OTc2OF9yZW1vdmUs
+DQo+ID4gK307DQo+IA0KPiA+ICsNCj4gDQo+IEV4dHJhIGJsYW5rIGxpbmUuDQo+IA0KDQpXZWly
+ZCwgbW9zdCBWNEwyIGRyaXZlcihJMkMgY2xpZW50KSBzZWVtcyB0byBrZWVwIHRoaXMgYmxhbmsg
+bGluZS4NClNha2FyaSwgaXMgaXQgc3RpbGwgdGhlIGNhc2Ugb3IgYW0gSSBtaXN0YWtlbj8NCg0K
+PiA+ICttb2R1bGVfaTJjX2RyaXZlcihkdzk3NjhfaTJjX2RyaXZlcik7DQo+IA0KDQo=
 
