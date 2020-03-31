@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69EC0199504
-	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 13:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20C4E1994EC
+	for <lists+linux-media@lfdr.de>; Tue, 31 Mar 2020 13:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730701AbgCaLMb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Mar 2020 07:12:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57946 "EHLO mail.kernel.org"
+        id S1730675AbgCaLMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Mar 2020 07:12:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57904 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730615AbgCaLMP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1730604AbgCaLMP (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 31 Mar 2020 07:12:15 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 77C2621775;
+        by mail.kernel.org (Postfix) with ESMTPSA id 744FD2173E;
         Tue, 31 Mar 2020 11:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1585653133;
-        bh=XwS4ayLWGntmitgw3x/jeHYYNVZ8iTyIKaq58v4+O9I=;
+        bh=Lm1iaD2aj9rKSlChgjINMsPHW8VpksU3lXgfgXKd7WA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Wrug+N3JhJIOclwYWKhoDM//v/i5TEiEnldj6+rz8gLoMX4YLXL1iTlB2eF8d818K
-         t1nER+yMJbv1lNY4ZZNGhqOaLSEQW4dSvoB63hHoOhAjLmqST+hFTAXAAExf/98F6M
-         iEWee0jneucFU+yLRNZ/5Yusxk+83VSZ4nWQYL5M=
+        b=PINJoweHOhQmxbfol2PR39tItCDEEIcrcyzGftAt/eVK9UsRBxbDuHOyP73LHGYE7
+         pT5Nhm/2zFSV6Lrag7JMUUVc6+yYiIINhBkQ84tiuqB5AbSCZBgY1qcGShpurJe/+d
+         JA5n5v9QaON1appM0Eink/vRqLdMdlK4VWmHkbN4=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jJEoV-002brP-MD; Tue, 31 Mar 2020 13:12:11 +0200
+        id 1jJEoV-002brT-N8; Tue, 31 Mar 2020 13:12:11 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH v4 20/33] media: Kconfig: reorganize the drivers menu options
-Date:   Tue, 31 Mar 2020 13:11:56 +0200
-Message-Id: <a2778b47c9e4b43f1abec8f52fd47ef625d086c2.1585651678.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 21/33] media: Kconfig: use a sub-menu to select supported devices
+Date:   Tue, 31 Mar 2020 13:11:57 +0200
+Message-Id: <33521b7ac775b16177187e39096b3c71aa5610e2.1585651678.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1585651678.git.mchehab+huawei@kernel.org>
 References: <cover.1585651678.git.mchehab+huawei@kernel.org>
@@ -42,72 +42,112 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The comments before some of the drivers support look
-weird, because their Kconfig have their own "comment"
-directive inside it. So, rearrange them to make it
-look a little nicer for the ones with are not too
-familiar with the media system.
+The media subsystem has hundreds of driver-specific options.
+The *_SUPPORT config options work as a sort of filter,
+allowing to reduce its complexity for users that won't
+want to dig into thousands of options they don't need.
+
+Yet, it the filtering options are becoming large. So, let's
+place it on a sub-menu.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/Kconfig | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/media/Kconfig | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index 9c32616f863a..b1a6874acbcc 100644
+index b1a6874acbcc..a57f898fa35e 100644
 --- a/drivers/media/Kconfig
 +++ b/drivers/media/Kconfig
-@@ -104,9 +104,7 @@ config MEDIA_TEST_SUPPORT
+@@ -25,36 +25,35 @@ menuconfig MEDIA_SUPPORT
+ 	  Additional info and docs are available on the web at
+ 	  <https://linuxtv.org>
+ 
+-if MEDIA_SUPPORT
+-
+-comment "Multimedia core support"
++menu "Types of devices to be supported"
++	depends on MEDIA_SUPPORT
+ 
+ #
+ # Multimedia support - automatically enable V4L2 and DVB core
+ #
+ config MEDIA_CAMERA_SUPPORT
+-	bool "Cameras/video grabbers support"
++	bool "Cameras and video grabbers"
+ 	help
+ 	  Enable support for webcams and video grabbers.
+ 
+ 	  Say Y when you have a webcam or a video capture grabber board.
+ 
+ config MEDIA_ANALOG_TV_SUPPORT
+-	bool "Analog TV support"
++	bool "Analog TV"
+ 	help
+ 	  Enable analog TV support.
+ 
+ 	  Say Y when you have a board with analog TV support.
+ 
+ config MEDIA_DIGITAL_TV_SUPPORT
+-	bool "Digital TV support"
++	bool "Digital TV"
+ 	help
+ 	  Enable digital TV support.
+ 
+ 	  Say Y when you have a board with digital TV support.
+ 
+ config MEDIA_RADIO_SUPPORT
+-	bool "AM/FM radio receivers/transmitters support"
++	bool "AM/FM radio receivers/transmitters"
+ 	help
+ 	  Enable AM/FM radio support.
+ 
+@@ -64,14 +63,14 @@ config MEDIA_RADIO_SUPPORT
+ 	  Say Y when you have a board with radio support.
+ 
+ config MEDIA_SDR_SUPPORT
+-	bool "Software defined radio support"
++	bool "Software defined radio"
+ 	help
+ 	  Enable software defined radio support.
+ 
+ 	  Say Y when you have a software defined radio device.
+ 
+ config MEDIA_CEC_SUPPORT
+-	bool "HDMI CEC support"
++	bool "HDMI CEC"
+ 	help
+ 	  Enable support for HDMI CEC (Consumer Electronics Control),
+ 	  which is an optional HDMI feature.
+@@ -80,7 +79,7 @@ config MEDIA_CEC_SUPPORT
+ 	  adapter that supports HDMI CEC.
+ 
+ config MEDIA_PLATFORM_SUPPORT
+-	bool "Platform-specific devices support"
++	bool "Platform-specific devices"
+ 	help
+ 	  Enable support for complex cameras, codecs, and other hardware
+ 	  that are integrated at the CPU, GPU or on Image Signalling Processor
+@@ -92,7 +91,7 @@ config MEDIA_PLATFORM_SUPPORT
+ 	  Say Y when you want to be able so see such devices.
+ 
+ config MEDIA_TEST_SUPPORT
+-	bool "Test drivers support"
++	bool "Test drivers"
+ 	help
+ 	  Those drivers should not be used on production Kernels, but
+ 	  can be useful on debug ones. It enables several dummy drivers
+@@ -103,6 +102,10 @@ config MEDIA_TEST_SUPPORT
+ 	  Say Y if you want to use some virtual test driver.
  
  	  In case of doubts, say N.
- 
--source "drivers/media/cec/Kconfig"
--
--source "drivers/media/mc/Kconfig"
-+comment "Multimedia core features"
- 
- #
- # Video4Linux support
-@@ -130,8 +128,6 @@ config VIDEO_V4L2_SUBDEV_API
- 
- 	  This API is mostly used by camera interfaces in embedded platforms.
- 
--source "drivers/media/v4l2-core/Kconfig"
--
- #
- # DVB Core
- #	Only enables if one of DTV is selected
-@@ -174,7 +170,10 @@ config DVB_NET
- 	  You may want to disable the network support on embedded devices. If
- 	  unsure say Y.
- 
-+source "drivers/media/v4l2-core/Kconfig"
-+source "drivers/media/mc/Kconfig"
- source "drivers/media/dvb-core/Kconfig"
-+source "drivers/media/cec/Kconfig"
- 
- comment "Media drivers"
- 
-@@ -182,6 +181,9 @@ source "drivers/media/usb/Kconfig"
- source "drivers/media/pci/Kconfig"
- source "drivers/media/radio/Kconfig"
- 
-+# Common driver options
-+source "drivers/media/common/Kconfig"
++	  Say Y when you have a software defined radio device.
++endmenu # Types of devices to be supported
 +
- if MEDIA_PLATFORM_SUPPORT
- source "drivers/media/platform/Kconfig"
- source "drivers/media/test_drivers/Kconfig"
-@@ -190,9 +192,6 @@ endif
++if MEDIA_SUPPORT
  
- source "drivers/media/firewire/Kconfig"
+ comment "Multimedia core features"
  
--# Common driver options
--source "drivers/media/common/Kconfig"
--
- comment "Media ancillary drivers (tuners, sensors, i2c, spi, frontends)"
- 
- #
 -- 
 2.25.1
 
