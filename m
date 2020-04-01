@@ -2,426 +2,336 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D3019AEBD
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 17:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6565319B194
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 18:36:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732799AbgDAPb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Apr 2020 11:31:28 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47430 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732623AbgDAPb1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Apr 2020 11:31:27 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BA5FA2A;
-        Wed,  1 Apr 2020 17:31:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585755084;
-        bh=NA0o+D93+9+UcoemUEgCf/TEZsdGwhZT8QBFQuXJyg0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FDR19U0HSELRvDlODm0Bkj/gVUdIOGkOOVHBxPy1NR2tv5vKoshEj0o4AQUDVBBiQ
-         3LU1LOWmGNzddRfNy4Lxuwu5l5ddZpgQPDl1gpAn53mhmJ+u8oXcvNmY9tY+N/89Pf
-         +72Rd6IV5aJFDy7vbhfFCEEL0+50qAR/hZC8GEp4=
-Date:   Wed, 1 Apr 2020 18:31:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: Re: [PATCH v4 06/11] media: imx: utils: Make imx_media_pixfmt handle
- variable number of codes
-Message-ID: <20200401153117.GD4876@pendragon.ideasonboard.com>
-References: <20200329205920.20118-1-slongerbeam@gmail.com>
- <20200329205920.20118-7-slongerbeam@gmail.com>
- <911bd2c6-e409-07e9-8521-b1febd6bb58e@xs4all.nl>
- <02063ed3-e2de-8f15-bd08-84d3c319f79c@gmail.com>
- <20200401003149.GH4767@pendragon.ideasonboard.com>
- <aa5c3fe0-505f-a5e9-a2fe-5d9f86c00c47@gmail.com>
+        id S2388669AbgDAQgI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Apr 2020 12:36:08 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13573 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388529AbgDAQgH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Apr 2020 12:36:07 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e84c2940006>; Wed, 01 Apr 2020 09:34:28 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Wed, 01 Apr 2020 09:36:05 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Wed, 01 Apr 2020 09:36:05 -0700
+Received: from [10.2.164.193] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 1 Apr
+ 2020 16:36:05 +0000
+Subject: Re: [RFC PATCH v5 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Sakari Ailus <sakari.ailus@iki.fi>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>,
+        <helen.koike@collabora.com>, <digetx@gmail.com>,
+        <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1584985955-19101-1-git-send-email-skomatineni@nvidia.com>
+ <1584985955-19101-7-git-send-email-skomatineni@nvidia.com>
+ <20200325110358.GB853@valkosipuli.retiisi.org.uk>
+ <8bc44545-7d1e-0e37-db27-d37784679574@xs4all.nl>
+ <20200331103215.GI2394@valkosipuli.retiisi.org.uk>
+ <ba37eb84-392c-3767-57f6-d297b0ab79a3@xs4all.nl>
+ <20200331111018.GJ2394@valkosipuli.retiisi.org.uk>
+ <a1145ee4-2991-a958-1225-090c57fec533@xs4all.nl>
+ <20200331115221.GA4767@pendragon.ideasonboard.com>
+ <6aa7d86c-3943-d508-ccf6-5ac46546abe9@nvidia.com>
+ <3b00a559-992a-2da9-92b1-bee44e137ba2@nvidia.com>
+Message-ID: <1c60491b-1bb2-6291-80a6-c0fa14094077@nvidia.com>
+Date:   Wed, 1 Apr 2020 09:36:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aa5c3fe0-505f-a5e9-a2fe-5d9f86c00c47@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <3b00a559-992a-2da9-92b1-bee44e137ba2@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1585758868; bh=jHwXLqC0kgYzsezG911Dkh+Vm7Ms3kIpbjomQTfOJPY=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=ZUe4FqCAuAQ4PHLX44ZPmfZCfH6X+TRJhdpjJZ61tgV8QT2tqgvKPQJsEWJEQCcbY
+         fzN/Ime7wqMvgNmMO31yt2YwmcZ+WfJsHGxpI5x+BV66lHndcN7bjWNLukJo7dsWPE
+         vzzFP25NhAFj+FbuDpsM3bzvVkO+KBqBh1BAh1j/vZDPS9XqO1LecPi+eAKKtWw+MP
+         t1r8qAdKF0n6ZUox/5mB/MjGfEVqn2+xVyraECpWOLmt7PNMkVwDY0VsiM2Et03gDP
+         MJjEdrflJjrxElxQSa3P7yvbvExnt89harTpOAdRPyc3tezLiQ9R7RPdedu+h1IKni
+         7rAoV/Yj3/W+g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 01, 2020 at 08:20:59AM -0700, Steve Longerbeam wrote:
-> On 3/31/20 5:31 PM, Laurent Pinchart wrote:
-> > On Tue, Mar 31, 2020 at 04:04:18PM -0700, Steve Longerbeam wrote:
-> >> On 3/31/20 6:45 AM, Hans Verkuil wrote:
-> >>> On 3/29/20 10:59 PM, Steve Longerbeam wrote:
-> >>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>>
-> >>>> The imx_media_pixfmt structures includes a codes member that stores
-> >>>> media bus codes as a fixed array of 4 integers. The functions dealing
-> >>>> with the imx_media_pixfmt structures assume that the array of codes is
-> >>>> terminated by a 0 elements. This mechanism is fragile, as demonstrated
-> >>>
-> >>> elements -> element
-> >>>
-> >>>> by several instances of the structure contained 4 non-zero codes.
-> >>>
-> >>> contained -> that contained
-> >>
-> >> Will fix above language.
-> >>
-> >>>> Fix this by turning the array into a pointer, and providing an
-> >>>> IMX_BUS_FMTS macro to initialize the codes member with a guaranteed 0
-> >>>> element at the end.
-> >>>>
-> >>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>>
-> >>>> [Fix a NULL deref when derefencing a NULL cc->codes on return from
-> >>>>    several calls to imx_media_find_format()]
-> >>>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-> >>>> ---
-> >>>>    drivers/staging/media/imx/imx-media-capture.c |  4 +-
-> >>>>    drivers/staging/media/imx/imx-media-utils.c   | 88 +++++++++++--------
-> >>>>    drivers/staging/media/imx/imx-media.h         |  2 +-
-> >>>>    3 files changed, 53 insertions(+), 41 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> >>>> index d60b49ec4fa4..650c53289f6b 100644
-> >>>> --- a/drivers/staging/media/imx/imx-media-capture.c
-> >>>> +++ b/drivers/staging/media/imx/imx-media-capture.c
-> >>>> @@ -95,7 +95,7 @@ static int capture_enum_framesizes(struct file *file, void *fh,
-> >>>>    	if (!cc)
-> >>>>    		return -EINVAL;
-> >>>>    
-> >>>> -	fse.code = cc->codes[0];
-> >>>> +	fse.code = cc->codes ? cc->codes[0] : 0;
-> >>>>
-> >>> I'm wondering: wouldn't it be better to have a format without codes point to
-> >>> an empty code list containing just 0? That would avoid all the cc->codes checks,
-> >>> which are a bit fragile IMHO.
-> >>
-> >> I'll modify this patch to declare a const codes array 'no_bus_fmts',
-> >> containing a single 0 value, that the in-memory-only imx_media_pixfmt
-> >> entries can point to.
-> >>
-> >>> It would be nice in that case if there is a WARN_ON or something during probe
-> >>> time that checks that the codes field in pixel_formats[] is never NULL.
-> >>
-> >> I'm not so keen on that idea. How about a comment that the
-> >> in-memory-only entries should point to no_bus_fmts ?
-> >
-> > I don't like either of those options I'm afraid. Someone will one day
-> > forget to point to that array when adding a new format, and we'll have a
-> > bug. With code in just a few locations that checks for NULL, we're safe
-> > as the compiler will initialize the pointer to NULL for us. Let's use
-> > the compiler when it helps us, I don't see what removing the NULL check
-> > in the code could bring us except issues :-)
-> 
-> I wasn't planning on removing the NULL checks, only to add the comment 
-> to advise setting .codes = no_bus_fmts. Although I don't really think 
-> that's necessary either.
+Hi Sakari/Laurent,
 
-But if we keep the NULL checks, do we need no_bus_fmts ?
+Few questions to confirm my understanding on below discussion.
 
-As Hans doesn't consider this as a blocker, I'll let you decice which
-option you like best and use that.
+1. Some sensors that you are referring as don't work with single devnode=20
+controlling pipeline devices are ISP built-in sensors where setup of=20
+pipeline and subdevices happen separately?
 
-> >>> As an aside: 'cc'? The struct is called imx_media_pixfmt, so I don't offhand see
-> >>> what 'cc' stands for.
-> >> It's an abbreviation of FourCC. I know, it's obscure and not really
-> >> accurate. I will add a non-functional patch that makes the naming
-> >> consistent, using 'fmt' for imx_media_pixfmt pointers throughout.
-> >>
-> >>>>    	ret = v4l2_subdev_call(priv->src_sd, pad, enum_frame_size, NULL, &fse);
-> >>>>    	if (ret)
-> >>>> @@ -137,7 +137,7 @@ static int capture_enum_frameintervals(struct file *file, void *fh,
-> >>>>    	if (!cc)
-> >>>>    		return -EINVAL;
-> >>>>    
-> >>>> -	fie.code = cc->codes[0];
-> >>>> +	fie.code = cc->codes ? cc->codes[0] : 0;
-> >>>>    
-> >>>>    	ret = v4l2_subdev_call(priv->src_sd, pad, enum_frame_interval,
-> >>>>    			       NULL, &fie);
-> >>>> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> >>>> index 981a8b540a3c..da010eef0ae6 100644
-> >>>> --- a/drivers/staging/media/imx/imx-media-utils.c
-> >>>> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> >>>> @@ -7,6 +7,12 @@
-> >>>>    #include <linux/module.h>
-> >>>>    #include "imx-media.h"
-> >>>>    
-> >>>> +#define IMX_BUS_FMTS(fmts...)	\
-> >>>> +	(const u32[]) {		\
-> >>>> +		fmts,		\
-> >>>> +		0		\
-> >>>> +	}
-> >>>> +
-> >>>>    /*
-> >>>>     * List of supported pixel formats for the subdevs.
-> >>>>     */
-> >>>> @@ -14,18 +20,18 @@ static const struct imx_media_pixfmt pixel_formats[] = {
-> >>>>    	/*** YUV formats start here ***/
-> >>>>    	{
-> >>>>    		.fourcc	= V4L2_PIX_FMT_UYVY,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_UYVY8_2X8,
-> >>>>    			MEDIA_BUS_FMT_UYVY8_1X16
-> >>>> -		},
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_YUV,
-> >>>>    		.bpp    = 16,
-> >>>>    	}, {
-> >>>>    		.fourcc	= V4L2_PIX_FMT_YUYV,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_YUYV8_2X8,
-> >>>>    			MEDIA_BUS_FMT_YUYV8_1X16
-> >>>> -		},
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_YUV,
-> >>>>    		.bpp    = 16,
-> >>>>    	}, {
-> >>>> @@ -57,16 +63,16 @@ static const struct imx_media_pixfmt pixel_formats[] = {
-> >>>>    	/*** RGB formats start here ***/
-> >>>>    	{
-> >>>>    		.fourcc	= V4L2_PIX_FMT_RGB565,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_RGB565_2X8_LE},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_LE),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.cycles = 2,
-> >>>>    	}, {
-> >>>>    		.fourcc	= V4L2_PIX_FMT_RGB24,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_RGB888_1X24,
-> >>>>    			MEDIA_BUS_FMT_RGB888_2X12_LE
-> >>>> -		},
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 24,
-> >>>>    	}, {
-> >>>> @@ -75,7 +81,7 @@ static const struct imx_media_pixfmt pixel_formats[] = {
-> >>>>    		.bpp    = 24,
-> >>>>    	}, {
-> >>>>    		.fourcc	= V4L2_PIX_FMT_XRGB32,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_ARGB8888_1X32),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 32,
-> >>>>    		.ipufmt = true,
-> >>>> @@ -95,91 +101,91 @@ static const struct imx_media_pixfmt pixel_formats[] = {
-> >>>>    	/*** raw bayer and grayscale formats start here ***/
-> >>>>    	{
-> >>>>    		.fourcc = V4L2_PIX_FMT_SBGGR8,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_SBGGR8_1X8},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR8_1X8),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 8,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SGBRG8,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_SGBRG8_1X8},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG8_1X8),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 8,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SGRBG8,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_SGRBG8_1X8},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG8_1X8),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 8,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SRGGB8,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_SRGGB8_1X8},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB8_1X8),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 8,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SBGGR16,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_SBGGR10_1X10,
-> >>>>    			MEDIA_BUS_FMT_SBGGR12_1X12,
-> >>>>    			MEDIA_BUS_FMT_SBGGR14_1X14,
-> >>>>    			MEDIA_BUS_FMT_SBGGR16_1X16
-> >>>> -		},
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SGBRG16,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_SGBRG10_1X10,
-> >>>>    			MEDIA_BUS_FMT_SGBRG12_1X12,
-> >>>>    			MEDIA_BUS_FMT_SGBRG14_1X14,
-> >>>> -			MEDIA_BUS_FMT_SGBRG16_1X16,
-> >>>> -		},
-> >>>> +			MEDIA_BUS_FMT_SGBRG16_1X16
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SGRBG16,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_SGRBG10_1X10,
-> >>>>    			MEDIA_BUS_FMT_SGRBG12_1X12,
-> >>>>    			MEDIA_BUS_FMT_SGRBG14_1X14,
-> >>>> -			MEDIA_BUS_FMT_SGRBG16_1X16,
-> >>>> -		},
-> >>>> +			MEDIA_BUS_FMT_SGRBG16_1X16
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_SRGGB16,
-> >>>> -		.codes  = {
-> >>>> +		.codes  = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_SRGGB10_1X10,
-> >>>>    			MEDIA_BUS_FMT_SRGGB12_1X12,
-> >>>>    			MEDIA_BUS_FMT_SRGGB14_1X14,
-> >>>> -			MEDIA_BUS_FMT_SRGGB16_1X16,
-> >>>> -		},
-> >>>> +			MEDIA_BUS_FMT_SRGGB16_1X16
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_GREY,
-> >>>> -		.codes = {
-> >>>> +		.codes = IMX_BUS_FMTS(
-> >>>>    			MEDIA_BUS_FMT_Y8_1X8,
-> >>>>    			MEDIA_BUS_FMT_Y10_1X10,
-> >>>> -			MEDIA_BUS_FMT_Y12_1X12,
-> >>>> -		},
-> >>>> +			MEDIA_BUS_FMT_Y12_1X12
-> >>>> +		),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 8,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_Y10,
-> >>>> -		.codes = {MEDIA_BUS_FMT_Y10_1X10},
-> >>>> +		.codes = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y10_1X10),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.bayer  = true,
-> >>>>    	}, {
-> >>>>    		.fourcc = V4L2_PIX_FMT_Y12,
-> >>>> -		.codes = {MEDIA_BUS_FMT_Y12_1X12},
-> >>>> +		.codes = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y12_1X12),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 16,
-> >>>>    		.bayer  = true,
-> >>>> @@ -203,16 +209,16 @@ static const struct imx_media_pixfmt *find_format(u32 fourcc,
-> >>>>    			 CS_SEL_YUV : CS_SEL_RGB);
-> >>>>    
-> >>>>    		if (!(fmt_cs_sel & cs_sel) ||
-> >>>> -		    (!allow_non_mbus && !fmt->codes[0]))
-> >>>> +		    (!allow_non_mbus && !fmt->codes))
-> >>>>    			continue;
-> >>>>    
-> >>>>    		if (fourcc && fmt->fourcc == fourcc)
-> >>>>    			return fmt;
-> >>>>    
-> >>>> -		if (!code)
-> >>>> +		if (!code || !fmt->codes)
-> >>>>    			continue;
-> >>>>    
-> >>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
-> >>>> +		for (j = 0; fmt->codes[j]; j++) {
-> >>>>    			if (code == fmt->codes[j])
-> >>>>    				return fmt;
-> >>>>    		}
-> >>>> @@ -237,7 +243,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
-> >>>>    			 CS_SEL_YUV : CS_SEL_RGB);
-> >>>>    
-> >>>>    		if (!(fmt_cs_sel & cs_sel) ||
-> >>>> -		    (!allow_non_mbus && !fmt->codes[0]))
-> >>>> +		    (!allow_non_mbus && !fmt->codes))
-> >>>>    			continue;
-> >>>>    
-> >>>>    		if (fourcc && index == 0) {
-> >>>> @@ -250,7 +256,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
-> >>>>    			continue;
-> >>>>    		}
-> >>>>    
-> >>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
-> >>>> +		for (j = 0; fmt->codes[j]; j++) {
-> >>>>    			if (index == 0) {
-> >>>>    				*code = fmt->codes[j];
-> >>>>    				return 0;
-> >>>> @@ -296,13 +302,13 @@ EXPORT_SYMBOL_GPL(imx_media_enum_mbus_format);
-> >>>>    static const struct imx_media_pixfmt ipu_formats[] = {
-> >>>>    	{
-> >>>>    		.fourcc = V4L2_PIX_FMT_YUV32,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_AYUV8_1X32},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_AYUV8_1X32),
-> >>>>    		.cs     = IPUV3_COLORSPACE_YUV,
-> >>>>    		.bpp    = 32,
-> >>>>    		.ipufmt = true,
-> >>>>    	}, {
-> >>>>    		.fourcc	= V4L2_PIX_FMT_XRGB32,
-> >>>> -		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
-> >>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_ARGB8888_1X32),
-> >>>>    		.cs     = IPUV3_COLORSPACE_RGB,
-> >>>>    		.bpp    = 32,
-> >>>>    		.ipufmt = true,
-> >>>> @@ -327,7 +333,10 @@ imx_media_find_ipu_format(u32 code, enum codespace_sel cs_sel)
-> >>>>    		    (!accept_rgb && fmt->cs == IPUV3_COLORSPACE_RGB))
-> >>>>    			continue;
-> >>>>    
-> >>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
-> >>>> +		if (!fmt->codes)
-> >>>> +			continue;
-> >>>> +
-> >>>> +		for (j = 0; fmt->codes[j]; j++) {
-> >>>>    			if (code == fmt->codes[j])
-> >>>>    				return fmt;
-> >>>>    		}
-> >>>> @@ -351,7 +360,10 @@ int imx_media_enum_ipu_format(u32 *code, u32 index, enum codespace_sel cs_sel)
-> >>>>    		    (!accept_rgb && fmt->cs == IPUV3_COLORSPACE_RGB))
-> >>>>    			continue;
-> >>>>    
-> >>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
-> >>>> +		if (!fmt->codes)
-> >>>> +			continue;
-> >>>> +
-> >>>> +		for (j = 0; fmt->codes[j]; j++) {
-> >>>>    			if (index == 0) {
-> >>>>    				*code = fmt->codes[j];
-> >>>>    				return 0;
-> >>>> @@ -567,7 +579,7 @@ int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
-> >>>>    	const struct imx_media_pixfmt *fmt;
-> >>>>    
-> >>>>    	fmt = imx_media_find_format(image->pix.pixelformat, CS_SEL_ANY);
-> >>>> -	if (!fmt)
-> >>>> +	if (!fmt || !fmt->codes)
-> >>>>    		return -EINVAL;
-> >>>>    
-> >>>>    	memset(mbus, 0, sizeof(*mbus));
-> >>>> diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-> >>>> index 652673a703cd..917b4db02985 100644
-> >>>> --- a/drivers/staging/media/imx/imx-media.h
-> >>>> +++ b/drivers/staging/media/imx/imx-media.h
-> >>>> @@ -69,7 +69,7 @@ enum {
-> >>>>    
-> >>>>    struct imx_media_pixfmt {
-> >>>>    	u32     fourcc;
-> >>>> -	u32     codes[4];
-> >>>> +	const u32 *codes;
-> >>>>    	int     bpp;     /* total bpp */
-> >>>>    	/* cycles per pixel for generic (bayer) formats for the parallel bus */
-> >>>>    	int	cycles;
+2. With driver supporting single device node control of entire pipeline=20
+devices compared to MC-based, limitation is with userspace apps for only=20
+these complex camera sensors?
 
--- 
-Regards,
+3. Does all upstream video capture drivers eventually will be moved to=20
+support MC-based?
 
-Laurent Pinchart
+4. Based on libcamera doc looks like it will work with both types of=20
+MC-based and single devnode based pipeline setup drivers for normal=20
+sensors and limitation is when we use ISP built-in sensor or ISP HW=20
+block. Is my understanding correct?
+
+Thanks
+
+Sowjanya
+
+
+On 3/31/20 11:33 AM, Sowjanya Komatineni wrote:
+>
+> On 3/31/20 9:40 AM, Sowjanya Komatineni wrote:
+>>
+>> On 3/31/20 4:52 AM, Laurent Pinchart wrote:
+>>> External email: Use caution opening links or attachments
+>>>
+>>>
+>>> Hello,
+>>>
+>>> On Tue, Mar 31, 2020 at 01:27:19PM +0200, Hans Verkuil wrote:
+>>>> On 3/31/20 1:10 PM, Sakari Ailus wrote:
+>>>>> On Tue, Mar 31, 2020 at 12:56:57PM +0200, Hans Verkuil wrote:
+>>>>>> On 3/31/20 12:32 PM, Sakari Ailus wrote:
+>>>>>>> On Mon, Mar 30, 2020 at 12:59:15PM +0200, Hans Verkuil wrote:
+>>>>>>>> On 3/25/20 12:03 PM, Sakari Ailus wrote:
+>>>>>>>>> On Mon, Mar 23, 2020 at 10:52:32AM -0700, Sowjanya Komatineni=20
+>>>>>>>>> wrote:
+>>>>>>>>>> Tegra210 contains a powerful Video Input (VI) hardware=20
+>>>>>>>>>> controller
+>>>>>>>>>> which can support up to 6 MIPI CSI camera sensors.
+>>>>>>>>>>
+>>>>>>>>>> Each Tegra CSI port can be one-to-one mapped to VI channel=20
+>>>>>>>>>> and can
+>>>>>>>>>> capture from an external camera sensor connected to CSI or from
+>>>>>>>>>> built-in test pattern generator.
+>>>>>>>>>>
+>>>>>>>>>> Tegra210 supports built-in test pattern generator from CSI to=20
+>>>>>>>>>> VI.
+>>>>>>>>>>
+>>>>>>>>>> This patch adds a V4L2 media controller and capture driver=20
+>>>>>>>>>> support
+>>>>>>>>>> for Tegra210 built-in CSI to VI test pattern generator.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>>>>>>>>> ---
+>>>>>>>>>> =C2=A0 drivers/staging/media/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +
+>>>>>>>>>> =C2=A0 drivers/staging/media/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/Kconfig=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 10 +
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/Makefile=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 8 +
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/TODO=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 10 +
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-common.h | 263 +++++++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-csi.c=C2=A0=C2=A0=C2=A0=
+ | 522=20
+>>>>>>>>>> ++++++++++++++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-csi.h=C2=A0=C2=A0=C2=A0=
+ | 118 ++++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-vi.c=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 1058=20
+>>>>>>>>>> ++++++++++++++++++++++++++++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-vi.h=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 83 +++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-video.c=C2=A0 | 129 +++=
++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra-video.h=C2=A0 | 32 +
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra210.c=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 754=20
+>>>>>>>>>> ++++++++++++++++++++
+>>>>>>>>>> =C2=A0 drivers/staging/media/tegra/tegra210.h=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 192 +++++
+>>>>>>>>> Why staging? Are there reasons not to aim this to the kernel=20
+>>>>>>>>> proper right
+>>>>>>>>> away? If you only support TPG, the driver may not have too=20
+>>>>>>>>> many (if any)
+>>>>>>>>> real users anyway.
+>>>>>>>>>
+>>>>>>>>>> =C2=A0 14 files changed, 3182 insertions(+)
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/Kconfig
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/Makefile
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/TODO
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-comm=
+on.h
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-csi.=
+c
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-csi.=
+h
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-vi.c
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-vi.h
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-vide=
+o.c
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra-vide=
+o.h
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra210.c
+>>>>>>>>>> =C2=A0 create mode 100644 drivers/staging/media/tegra/tegra210.h
+>>>>>>>>>>
+>>>>>>>> <snip>
+>>>>>>>>
+>>>>>>>>>> +static int tegra_channel_g_input(struct file *file, void *priv,
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int *i)
+>>>>>>>>>> +{
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *i =3D 0;
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>>>>>> +}
+>>>>>>>>>> +
+>>>>>>>>>> +static int tegra_channel_s_input(struct file *file, void *priv,
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int input)
+>>>>>>>>>> +{
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (input > 0)
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 return -EINVAL;
+>>>>>>>>>> +
+>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>>>>>> +}
+>>>>>>>>> Please see patchset on topic "v4l2-dev/ioctl: Add=20
+>>>>>>>>> V4L2_CAP_IO_MC" on
+>>>>>>>>> linux-media; it's relevant here, too.
+>>>>>>>> No, it isn't. The pipeline is controlled by the driver, not by=20
+>>>>>>>> userspace.
+>>>>>>>> This is a regular video capture driver, not an ISP driver.
+>>>>>>> I don't think that really makes a difference, whether a device=20
+>>>>>>> is an ISP or
+>>>>>>> not, but instead what does is whether there is something to=20
+>>>>>>> control in its
+>>>>>>> pipeline that cannot be generally done through the regular V4L2=20
+>>>>>>> interface.
+>>>>>>> Even plain CSI-2 receiver drivers should be media device centric=20
+>>>>>>> these days
+>>>>>>> as doing otherwise excludes using a range of sensor drivers with=20
+>>>>>>> them,
+>>>>>>> including any possible future support for e.g. sensor embedded=20
+>>>>>>> data.
+>>>>>>>
+>>>>>> We've been back and forth on this before for this driver. I see=20
+>>>>>> no reason to make things
+>>>>>> complicated, these are simple video pipelines for video capture.=20
+>>>>>> Making this media
+>>>>>> device centric means that existing software using the BSP version=20
+>>>>>> of this driver require
+>>>>>> a full rewrite, which is not desirable.
+>>>>>>
+>>>>>> If we are going to require CSI receiver drivers to be media=20
+>>>>>> centric, then that's a
+>>>>>> major departure of existing practice. And something that needs to=20
+>>>>>> be discussed first,
+>>>>> I'd be happy to discuss that.
+>>>>>
+>>>>> Either way, the current design is problematic as it excludes a=20
+>>>>> range of
+>>>>> camera sensors being used with the driver --- addressing of which=20
+>>>>> requires
+>>>>> converting the driver MC centric. If the driver is merged to=20
+>>>>> mainline, then
+>>>>> the user might face a Kconfig option or a module parameter to choose
+>>>>> between the two --- this defines uAPI behaviour after all.
+>>>>>
+>>>>> The only way to avoid that in the future is to make it MC-centric=20
+>>>>> right
+>>>>> away.
+>>>>>
+>>>>>> since that will require that support for each csi receiver driver=20
+>>>>>> is added to libcamera.
+>>>>>> Is libcamera ready for that? Are common applications using=20
+>>>>>> libcamera yet?
+>>>>>>
+>>>>>> Obviously, if NVIDIA decides that this is worth the effort, then=20
+>>>>>> I have no objection.
+>>>>>> But I don't think it is something we should require at this stage.
+>>>>> Works for me. But in that case NVIDIA should also be aware that=20
+>>>>> doing so
+>>>>> has consequences.
+>>>>>
+>>>>> We also haven't discussed what to do with old V4L2-centric drivers=20
+>>>>> which
+>>>>> you'd use with sensors that expose their own subdevs. The=20
+>>>>> proportion of all
+>>>>> sensors might not be large currently but it is almost certainly=20
+>>>>> bound to
+>>>>> grow in the future.
+>>>>>
+>>>>> FWIW, Intel ipu3-cio2 CSI-2 receiver driver is MC-centric e.g. for=20
+>>>>> the
+>>>>> above reasons. Libcamera supports it currently. I'll let Laurent=20
+>>>>> (cc'd)
+>>>>> comment on the details.
+>>>> I think it would be good to at least describe in some detail what=20
+>>>> you gain
+>>>> by taking the media centric route, and what the obstacles are (loss=20
+>>>> of compatibility
+>>>> with existing applications, requiring libcamera support).
+>>> In this case the main gain is control of the camera sensor. Sensors can
+>>> appear as simple when you don't look too closely at them, but many
+>>> sensors (especially the ones modelled after SMIA++ and the now standard
+>>> - and open! - MIPI CCS specification) have 3 locations to perform
+>>> cropping (analog, digital and output), and 3 locations to perform
+>>> scaling (binning, skipping, and full-featured scaler). All of these=20
+>>> need
+>>> to be controlled by userspace one way or another if you want to
+>>> implement proper camera algorithms, which those platforms target.
+>> Thanks Laurent/Sakari/Hans.
+>>
+>> Based on discussion, seems like its good to change driver now to=20
+>> media-centric rather than later.
+>>
+>> As Jetson is devkit and custom camera sensor module meeting spec can=20
+>> be used, its good to let sensor control to user space.
+>>
+>> Will look into and update to use media-centric APIs.
+> Will discuss this internally and will get back on this...
+>>>
+>>>> My personal feeling has always been that for ISP drivers the pros=20
+>>>> of making
+>>>> a media-centric driver outweigh the cons, but that for a standard=20
+>>>> video capture
+>>>> pipeline without complex processing blocks the cons outweigh the pros.
+>>>>
+>>>> This might change if libcamera becomes widely used, but we're not=20
+>>>> there yet.
+>>>>
+>>>> To be honest, I am not opposed to having a kernel config option for=20
+>>>> drivers
+>>>> like this that select the media-centric API vs a regular API, if=20
+>>>> that can be
+>>>> done without too much work. If you need full control for your=20
+>>>> embedded system,
+>>>> then you enable the option. If you want full compatibility with=20
+>>>> existing
+>>>> applications, then disable it.
+>>> How would distributions be supposed to handle those ? That could in the
+>>> end need to be a per-driver option, and it would be very messy. Maybe
+>>> it's unavoidable, I'm trying to figure out a way to avoid such an=20
+>>> option
+>>> for sensor drivers, to decide to expose them as a single subdev or
+>>> multiple subdevs in order to support multiple streams CSI-2 streams,=20
+>>> and
+>>> I'm not sure I'll succeed.
+>>>
+>>> --=20
+>>> Regards,
+>>>
+>>> Laurent Pinchart
