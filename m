@@ -2,112 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A79F719A9A1
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 12:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3496D19A9E5
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 13:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732153AbgDAKgR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Apr 2020 06:36:17 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:34524 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732146AbgDAKgR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Apr 2020 06:36:17 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jJagi-001jpx-Ro; Wed, 01 Apr 2020 10:33:36 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jJaku-0006ll-Gd; Wed, 01 Apr 2020 10:37:56 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.8] v2: Various fixes/enhancements (#62743)
-Date:   Wed,  1 Apr 2020 10:37:56 +0000
-Message-Id: <20200401103756.25980-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <68df33e0-279c-922c-6ea4-67b76b287451@xs4all.nl>
-References: 
+        id S1732232AbgDALBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Apr 2020 07:01:16 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:60672 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732026AbgDALBP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Apr 2020 07:01:15 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Aqijs155882;
+        Wed, 1 Apr 2020 11:00:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=k/zLhrZsADjqzq+3QwgvoWL1MmcxznVBM92vxIE2puw=;
+ b=ONdjM18avmW5dE+LLNFwYJoAAf8ZcTTxtrswiZj9Chf4Ukg35sdE5LaQNyZPIdnF57su
+ rNKvBN5B8oAGEUdJBq6uMPAyIVRYctUKe+0FKp7+7y/tFbqasY/4kTGVUJKvY2yHN9j1
+ DozpO8Yibrjf7wtChKBzlmYDAipeGswqfWSUMN2qQuUwtppVwbg3mft5tX5fQimrTV1I
+ Hzl6BEm73VTbikMd7HxqnIabVego5iqh4N/YbE0oPL0pjj5FFAw2/8ilVAQrRGjreYAv
+ 1Vuek17GiklF0NZBBKNvbUMVAyhDY12/j938imRsUalvfbg0PRDnkQvrExOJvQb6Ozll Kg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 303aqhn75f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 01 Apr 2020 11:00:18 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Ar08g045201;
+        Wed, 1 Apr 2020 11:00:18 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 304sjk0hsg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 01 Apr 2020 11:00:17 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 031B07RP031187;
+        Wed, 1 Apr 2020 11:00:07 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 01 Apr 2020 04:00:06 -0700
+Date:   Wed, 1 Apr 2020 13:59:49 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pavel Machek <pavel@ucw.cz>, devel@driverdev.osuosl.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Yong Deng <yong.deng@magewell.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+Message-ID: <20200401105949.GB2001@kadam>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+ <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004010100
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 clxscore=1011
+ malwarescore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004010100
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Wed, Mar 25, 2020 at 04:36:31PM -0300, Helen Koike wrote:
+> Hello,
+> 
+> On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
+> > That's the second part of media Kconfig changes. The entire series is
+> > at:
+> > 
+> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
+> 
+> I made a quick experiment (using this branch) with someone who works
+> with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+> I asked him to enable Vimc (from default configs, where multimedia starts disabled).
 
-Pull request: https://patchwork.linuxtv.org/patch/62743/
-Build log: https://builder.linuxtv.org/job/patchwork/44840/
-Build time: 00:07:46
-Link: https://lore.kernel.org/linux-media/68df33e0-279c-922c-6ea4-67b76b287451@xs4all.nl
+The whole config system is really outdated.
 
-gpg: Signature made Wed 01 Apr 2020 10:15:45 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+It should be that this task was done with a command like "kconfig enable
+vimc".  It would ask necessary questions and pull in the dependencies
+automatically.
 
-Summary: 9 patches and/or PDF generation with issues, being 0 at build time
+Twenty years ago it made sense to go through the menus and select things
+one by one.  Does anyone really start from defconfig any more?  Surely
+everyone starts with a known working config and just enables specific
+options.
 
-Error/warnings:
+I started to hack together some code to create a kconfig program to
+enable and disable options.  The problem is that all library code
+assumes we want to display menus so it was a lot of work and I gave up.
 
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-pci-cx88-convert-to-use-i2c_new_client_device.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-pci-cx88-convert-to-use-i2c_new_client_device.patch
-patches/0001-media-pci-cx88-convert-to-use-i2c_new_client_device.patch:53: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-usb-cx231xx-convert-to-use-i2c_new_client_devi.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-usb-cx231xx-convert-to-use-i2c_new_client_devi.patch
-patches/0004-media-usb-cx231xx-convert-to-use-i2c_new_client_devi.patch:24: CHECK: Lines should not end with a '('
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-v4l2-common-change-the-pixel_enc-of-V4L2_PIX_F.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-v4l2-common-change-the-pixel_enc-of-V4L2_PIX_F.patch
-patches/0007-media-v4l2-common-change-the-pixel_enc-of-V4L2_PIX_F.patch:32: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-imx.rst-Add-example-media-graphs.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-imx.rst-Add-example-media-graphs.patch
-patches/0008-media-imx.rst-Add-example-media-graphs.patch:94: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-v4l2-common-Add-BGR666-to-v4l2_format_info.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-v4l2-common-Add-BGR666-to-v4l2_format_info.patch
-patches/0010-media-v4l2-common-Add-BGR666-to-v4l2_format_info.patch:23: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-media-add-v4l2-JPEG-helpers.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-media-add-v4l2-JPEG-helpers.patch
-patches/0012-media-add-v4l2-JPEG-helpers.patch:57: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0012-media-add-v4l2-JPEG-helpers.patch:558: WARNING: Possible switch case/default not preceded by break or fallthrough comment
-patches/0012-media-add-v4l2-JPEG-helpers.patch:559: WARNING: Possible switch case/default not preceded by break or fallthrough comment
-patches/0012-media-add-v4l2-JPEG-helpers.patch:564: CHECK: Alignment should match open parenthesis
-patches/0012-media-add-v4l2-JPEG-helpers.patch:572: CHECK: Alignment should match open parenthesis
-patches/0012-media-add-v4l2-JPEG-helpers.patch:576: CHECK: Alignment should match open parenthesis
-patches/0012-media-add-v4l2-JPEG-helpers.patch:581: CHECK: Alignment should match open parenthesis
-patches/0012-media-add-v4l2-JPEG-helpers.patch:760: WARNING: line over 80 characters
-patches/0012-media-add-v4l2-JPEG-helpers.patch:785: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:45: WARNING: line over 80 characters
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:123: CHECK: Unbalanced braces around else statement
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:201: WARNING: line over 80 characters
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:360: CHECK: Prefer kzalloc(sizeof(*huff_tab)...) over kzalloc(sizeof(struct coda_huff_tab)...)
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:515: CHECK: Alignment should match open parenthesis
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:526: CHECK: Alignment should match open parenthesis
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:718: WARNING: line over 80 characters
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:737: CHECK: Alignment should match open parenthesis
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:746: CHECK: Alignment should match open parenthesis
-patches/0013-media-coda-jpeg-add-CODA960-JPEG-decoder-support.patch:784: CHECK: Alignment should match open parenthesis
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0017-media-coda-jpeg-support-optimized-huffman-tables.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0017-media-coda-jpeg-support-optimized-huffman-tables.patch
-patches/0017-media-coda-jpeg-support-optimized-huffman-tables.patch:46: WARNING: line over 80 characters
-patches/0017-media-coda-jpeg-support-optimized-huffman-tables.patch:47: WARNING: line over 80 characters
-patches/0017-media-coda-jpeg-support-optimized-huffman-tables.patch:48: WARNING: line over 80 characters
-patches/0017-media-coda-jpeg-support-optimized-huffman-tables.patch:49: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0022-media-vimc-add-vimc_ent_type-struct-for-the-callback.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0022-media-vimc-add-vimc_ent_type-struct-for-the-callback.patch
-patches/0022-media-vimc-add-vimc_ent_type-struct-for-the-callback.patch:211: WARNING: line over 80 characters
-patches/0022-media-vimc-add-vimc_ent_type-struct-for-the-callback.patch:221: WARNING: line over 80 characters
-patches/0022-media-vimc-add-vimc_ent_type-struct-for-the-callback.patch:222: WARNING: line over 80 characters
+regards,
+dan carpenter
 
