@@ -2,136 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3496D19A9E5
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 13:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F254219AAA6
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 13:19:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732232AbgDALBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Apr 2020 07:01:16 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60672 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732026AbgDALBP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Apr 2020 07:01:15 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Aqijs155882;
-        Wed, 1 Apr 2020 11:00:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=k/zLhrZsADjqzq+3QwgvoWL1MmcxznVBM92vxIE2puw=;
- b=ONdjM18avmW5dE+LLNFwYJoAAf8ZcTTxtrswiZj9Chf4Ukg35sdE5LaQNyZPIdnF57su
- rNKvBN5B8oAGEUdJBq6uMPAyIVRYctUKe+0FKp7+7y/tFbqasY/4kTGVUJKvY2yHN9j1
- DozpO8Yibrjf7wtChKBzlmYDAipeGswqfWSUMN2qQuUwtppVwbg3mft5tX5fQimrTV1I
- Hzl6BEm73VTbikMd7HxqnIabVego5iqh4N/YbE0oPL0pjj5FFAw2/8ilVAQrRGjreYAv
- 1Vuek17GiklF0NZBBKNvbUMVAyhDY12/j938imRsUalvfbg0PRDnkQvrExOJvQb6Ozll Kg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 303aqhn75f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 01 Apr 2020 11:00:18 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Ar08g045201;
-        Wed, 1 Apr 2020 11:00:18 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 304sjk0hsg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 01 Apr 2020 11:00:17 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 031B07RP031187;
-        Wed, 1 Apr 2020 11:00:07 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 01 Apr 2020 04:00:06 -0700
-Date:   Wed, 1 Apr 2020 13:59:49 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pavel Machek <pavel@ucw.cz>, devel@driverdev.osuosl.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Yong Deng <yong.deng@magewell.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
-Message-ID: <20200401105949.GB2001@kadam>
-References: <cover.1585151701.git.mchehab+huawei@kernel.org>
- <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+        id S1732496AbgDALTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Apr 2020 07:19:10 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:43563 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732242AbgDALTJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Apr 2020 07:19:09 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id JbOejEaAtfHuvJbOijE93z; Wed, 01 Apr 2020 13:19:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585739947; bh=uqPLRrALNQNMHOAuPfLNfqgMziZM77nKqeFI6Bd3NgI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=mhztBS+rIMq+6gI8ni8NF/q3gz1wtv8ZvFGmmRejBT51SB9qE8a/zf5DMZBN3coLg
+         ZogH+Gyv6rsP9z8r9WY8FScWvMPm0gNSz9Whp/gbFmhMaWR9xkcf4ASjHfuQ9GfArr
+         PdW2JoRV2uGpBEi5vlEBji53AbB62yVw46VHyWzSj8ydNMd1VH4+Qx3HLIBxVFd0ZF
+         +6RB1Gv7EcJ+cw3U3NkvxQT3qMp4hvllzlaTVt7paaZSB1YK93Vi2DmrTqBf2L+bUI
+         5aeVrwabe3ncfDL4N7ZaUOa0fyD44fnsiW2oM1iZBKJptSqE5IGGMdn8rlHgccePz3
+         G4cnI/kBzOJnw==
+Subject: Re: [v2 2/3] Documentation: media: Document read-only subdevice
+To:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com
+References: <20200327223522.506832-1-jacopo@jmondi.org>
+ <20200327223522.506832-3-jacopo@jmondi.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <1a51e639-de91-0460-bdac-5183380e9f9d@xs4all.nl>
+Date:   Wed, 1 Apr 2020 13:19:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 mlxscore=0
- malwarescore=0 phishscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004010100
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 clxscore=1011
- malwarescore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004010100
+In-Reply-To: <20200327223522.506832-3-jacopo@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfKH56yuZr98uEsWjD2WaD7WNZXxX4ACSScW3p055c9dh5ZVpMyrRfTcSy65jWiJS8DdUc3kAuHAibSlTKdG0TPIfow10TU5N5gzlWQKboRgVwOS/CPgd
+ k6SE5gWGOGiu7fQlbjbcqpQUBveKOOVoijiWOdEhjDje5khjrBzL8CcUorMMB52EG4ABc5RYcG59o+BYffhWvQrswnGhJcMY6sN5tHU+hBNQsFF9Ihy36fhg
+ aZ7CqVfKFJHjbjtYgBwDz0V+B2QOJ6mmDUYubr/6UaamURw+u9Ql8suSuD/i94dm/SIqzgh+L1wZX4LDB5ukaeAb9QamGDOHFuc6hidFNHA0qnnEpK5g642/
+ YhzY8m+JSrv80iO96KlQRK6ztaW2mj8XVr3g/UHZQmKKLjutFIHPa8Gh+k5aEKAEovwmNou/
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 04:36:31PM -0300, Helen Koike wrote:
-> Hello,
+Hi Jacopo,
+
+Some comments below:
+
+On 3/27/20 11:35 PM, Jacopo Mondi wrote:
+> Document a new kapi function to register subdev device nodes in read only
+
+kAPI
+
+> mode and for each affected ioctl report how access is restricted.
 > 
-> On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
-> > That's the second part of media Kconfig changes. The entire series is
-> > at:
-> > 
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  Documentation/media/kapi/v4l2-subdev.rst      | 44 +++++++++++++++++++
+>  Documentation/media/uapi/v4l/dev-subdev.rst   |  5 +++
+>  .../media/uapi/v4l/vidioc-g-dv-timings.rst    |  6 +++
+>  Documentation/media/uapi/v4l/vidioc-g-std.rst |  6 +++
+>  .../media/uapi/v4l/vidioc-subdev-g-crop.rst   |  9 ++++
+>  .../media/uapi/v4l/vidioc-subdev-g-fmt.rst    |  8 ++++
+>  .../v4l/vidioc-subdev-g-frame-interval.rst    |  8 ++++
+>  .../uapi/v4l/vidioc-subdev-g-selection.rst    |  8 ++++
+>  8 files changed, 94 insertions(+)
 > 
-> I made a quick experiment (using this branch) with someone who works
-> with the kernel for his master degree, but doesn't have much experience in kernel development in general.
-> I asked him to enable Vimc (from default configs, where multimedia starts disabled).
+> diff --git a/Documentation/media/kapi/v4l2-subdev.rst b/Documentation/media/kapi/v4l2-subdev.rst
+> index 41ccb3e5c707..6506a673e6a1 100644
+> --- a/Documentation/media/kapi/v4l2-subdev.rst
+> +++ b/Documentation/media/kapi/v4l2-subdev.rst
+> @@ -332,6 +332,50 @@ Private ioctls
+>  	All ioctls not in the above list are passed directly to the sub-device
+>  	driver through the core::ioctl operation.
+>  
+> +Read-only sub-device userspace API
+> +----------------------------------
+> +
+> +Bridge drivers that control their connected subdevices through direct calls to
+> +the kernel API realized by :c:type:`v4l2_subdev_ops` structure do not usually
+> +want userspace to be able to change the same parameters through the subdevice
+> +device node and thus do not usually register any.
+> +
+> +It is sometimes useful to report to userspace the current subdevice
+> +configuration through a read-only API, that does not permit applications to
+> +change to the device parameters but allows interfacing to the subdevice device
+> +node to inspect them.
+> +
+> +For instance, to implement cameras based on computational photography, userspace
+> +needs to know the detailed camera sensor configuration (in terms of skipping,
+> +binning, cropping and scaling) for each supported output resolution. To support
+> +such use cases, bridge drivers may expose the subdevice operations to userspace
+> +through a read-only API.
+> +
+> +To create a read-only device node for all the subdevices registered with the
+> +``V4L2_SUBDEV_FL_HAS_DEVNODE`` set, the :c:type:`v4l2_device` driver should call
+> +:c:func:`v4l2_device_register_ro_subdev_nodes`.
 
-The whole config system is really outdated.
+Should we add something about creating a /dev/media device as well? It's basically
+required for this functionality.
 
-It should be that this task was done with a command like "kconfig enable
-vimc".  It would ask necessary questions and pull in the dependencies
-automatically.
+I think it might be a good idea to put v4l2_device_register_ro_subdev_nodes()
+under #ifdef CONFIG_MEDIA_CONTROLLER so that this config *has* to be set in order
+to be able to call this function. Or possibly have an explicit test in
+__v4l2_device_register_subdev_nodes for the presence of a media device if
+read_only is true.
 
-Twenty years ago it made sense to go through the menus and select things
-one by one.  Does anyone really start from defconfig any more?  Surely
-everyone starts with a known working config and just enables specific
-options.
+> +
+> +Access to the following ioctls for userspace applications is restricted on
+> +sub-device device nodes registered with
+> +:c:func:`v4l2_device_register_ro_subdev_nodes`.
+> +
+> +``VIDIOC_SUBDEV_S_FMT``,
+> +``VIDIOC_SUBDEV_S_CROP``,
+> +``VIDIOC_SUBDEV_S_SELECTION``:
+> +
+> +	These ioctls are only allowed on a read-only subdevice device node
+> +	for the :ref:`V4L2_SUBDEV_FORMAT_TRY <v4l2-subdev-format-whence>`
+> +	formats and selection rectangles.
+> +
+> +``VIDIOC_SUBDEV_S_FRAME_INTERVAL``,
+> +``VIDIOC_SUBDEV_S_DV_TIMINGS``,
+> +``VIDIOC_SUBDEV_S_STD``:
+> +
+> +	These ioctls are not allowed on a read-only subdevice node.
+> +
+> +In case the ioclt is not allowed, or the format to modify is set to
+> +``V4L2_SUBDEV_FORMAT_ACTIVE``, the core returns a negative error code and
+> +the errno variable is set to ``-EPERM``.
+>  
+>  I2C sub-device drivers
+>  ----------------------
+> diff --git a/Documentation/media/uapi/v4l/dev-subdev.rst b/Documentation/media/uapi/v4l/dev-subdev.rst
+> index 029bb2d9928a..6082f9c2f8f4 100644
+> --- a/Documentation/media/uapi/v4l/dev-subdev.rst
+> +++ b/Documentation/media/uapi/v4l/dev-subdev.rst
+> @@ -39,6 +39,11 @@ will feature a character device node on which ioctls can be called to
+>  Sub-device character device nodes, conventionally named
+>  ``/dev/v4l-subdev*``, use major number 81.
+>  
+> +Drivers may opt to limit the sub-device character devices to only expose
+> +operations that don't modify the device state. In such a case the sub-devices
 
-I started to hack together some code to create a kconfig program to
-enable and disable options.  The problem is that all library code
-assumes we want to display menus so it was a lot of work and I gave up.
+don't -> do not
 
-regards,
-dan carpenter
+("don't" is a bit too informal)
 
+> +are referred to as ``read-only`` in the rest of this documentation, and the
+> +related restrictions are documented in individual ioctls.
+> +
+>  
+>  Controls
+>  ========
+> diff --git a/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst b/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst
+> index e36dd2622857..611f94e4510a 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-g-dv-timings.rst
+> @@ -57,6 +57,10 @@ pointer to the struct :c:type:`v4l2_dv_timings`
+>  structure as argument. If the ioctl is not supported or the timing
+>  values are not correct, the driver returns ``EINVAL`` error code.
+>  
+> +Calling ``VIDIOC_SUBDEV_S_DV_TIMINGS`` on a subdev device node that has been
+> +registered in read-only mode is not allowed. An error is returned and the errno
+> +variable is set to ``-EPERM``.
+> +
+>  The ``linux/v4l2-dv-timings.h`` header can be used to get the timings of
+>  the formats in the :ref:`cea861` and :ref:`vesadmt` standards. If
+>  the current input or output does not support DV timings (e.g. if
+> @@ -81,6 +85,8 @@ ENODATA
+>  EBUSY
+>      The device is busy and therefore can not change the timings.
+>  
+> +EPERM
+> +    ``VIDIOC_SUBDEV_S_DV_TIMINGS`` has been called on a read-only subdevice.
+>  
+>  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+>  
+> diff --git a/Documentation/media/uapi/v4l/vidioc-g-std.rst b/Documentation/media/uapi/v4l/vidioc-g-std.rst
+> index e633e42e3910..e220b38b859f 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-g-std.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-g-std.rst
+> @@ -66,6 +66,9 @@ video timings (e.g. if :ref:`VIDIOC_ENUMINPUT`
+>  does not set the ``V4L2_IN_CAP_STD`` flag), then ``ENODATA`` error code is
+>  returned.
+>  
+> +Calling ``VIDIOC_SUBDEV_S_STD`` on a subdev device node that has been registered
+> +in read-only mode is not allowed. An error is returned and the errno variable is
+> +set to ``-EPERM``.
+>  
+>  Return Value
+>  ============
+> @@ -79,3 +82,6 @@ EINVAL
+>  
+>  ENODATA
+>      Standard video timings are not supported for this input or output.
+> +
+> +EPERM
+> +    ``VIDIOC_SUBDEV_S_STD`` has been called on a read-only subdevice.
+> diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst
+> index 632ee053accc..62f5d9870ca7 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-crop.rst
+> @@ -73,6 +73,11 @@ crop rectangles and stored in the sub-device file handle. Two
+>  applications querying the same sub-device would thus not interact with
+>  each other.
+>  
+> +If the subdev device node has been registered in read-only mode calls to
+
+mode calls -> mode, calls
+
+> +``VIDIOC_SUBDEV_S_CROP`` are only valid if the ``which`` field is set to
+> +``V4L2_SUBDEV_FORMAT_TRY``, otherwise an error is returned and the errno
+> +variable is set to ``-EPERM``.
+> +
+>  Drivers must not return an error solely because the requested crop
+>  rectangle doesn't match the device capabilities. They must instead
+>  modify the rectangle to match what the hardware can provide. The
+> @@ -123,3 +128,7 @@ EINVAL
+>      references a non-existing pad, the ``which`` field references a
+>      non-existing format, or cropping is not supported on the given
+>      subdev pad.
+> +
+> +EPERM
+> +    The ``VIDIOC_SUBDEV_S_CROP`` ioctl has been called on a read-only subdevice
+> +    and the ``which`` field is set to ``V4L2_SUBDEV_FORMAT_ACTIVE``.
+> diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst
+> index 472577bd1745..3a2f64bb00e7 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-fmt.rst
+> @@ -78,6 +78,11 @@ current links configuration or sub-device controls value. For instance,
+>  a low-pass noise filter might crop pixels at the frame boundaries,
+>  modifying its output frame size.
+>  
+> +If the subdev device node has been registered in read-only mode calls to
+
+ditto.
+
+> +``VIDIOC_SUBDEV_S_FMT`` are only valid if the ``which`` field is set to
+> +``V4L2_SUBDEV_FORMAT_TRY``, otherwise an error is returned and the errno
+> +variable is set to ``-EPERM``.
+> +
+>  Drivers must not return an error solely because the requested format
+>  doesn't match the device capabilities. They must instead modify the
+>  format to match what the hardware can provide. The modified format
+> @@ -146,6 +151,9 @@ EINVAL
+>      ``pad`` references a non-existing pad, or the ``which`` field
+>      references a non-existing format.
+>  
+> +EPERM
+> +    The ``VIDIOC_SUBDEV_S_FMT`` ioctl has been called on a read-only subdevice
+> +    and the ``which`` field is set to ``V4L2_SUBDEV_FORMAT_ACTIVE``.
+>  
+>  ============
+>  
+> diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst
+> index 4b1b4bc78bfe..34aa39096e3d 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-frame-interval.rst
+> @@ -65,6 +65,10 @@ struct
+>  contains the current frame interval as would be returned by a
+>  ``VIDIOC_SUBDEV_G_FRAME_INTERVAL`` call.
+>  
+> +Calling ``VIDIOC_SUBDEV_S_FRAME_INTERVAL`` on a subdev device node that has been
+> +registered in read-only mode is not allowed. An error is returned and the errno
+> +variable is set to ``-EPERM``.
+> +
+>  Drivers must not return an error solely because the requested interval
+>  doesn't match the device capabilities. They must instead modify the
+>  interval to match what the hardware can provide. The modified interval
+> @@ -118,3 +122,7 @@ EINVAL
+>      :c:type:`v4l2_subdev_frame_interval`
+>      ``pad`` references a non-existing pad, or the pad doesn't support
+>      frame intervals.
+> +
+> +EPERM
+> +    The ``VIDIOC_SUBDEV_S_FRAME_INTERVAL`` ioctl has been called on a read-only
+> +    subdevice.
+> diff --git a/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst b/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst
+> index fc73d27e6d74..abd046cef612 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-subdev-g-selection.rst
+> @@ -53,6 +53,10 @@ function of the crop API, and more, are supported by the selections API.
+>  See :ref:`subdev` for more information on how each selection target
+>  affects the image processing pipeline inside the subdevice.
+>  
+> +If the subdev device node has been registered in read-only mode calls to
+
+ditto
+
+> +``VIDIOC_SUBDEV_S_SELECTION`` are only valid if the ``which`` field is set to
+> +``V4L2_SUBDEV_FORMAT_TRY``, otherwise an error is returned and the errno
+> +variable is set to ``-EPERM``.
+>  
+>  Types of selection targets
+>  --------------------------
+> @@ -123,3 +127,7 @@ EINVAL
+>      ``pad`` references a non-existing pad, the ``which`` field
+>      references a non-existing format, or the selection target is not
+>      supported on the given subdev pad.
+> +
+> +EPERM
+> +    The ``VIDIOC_SUBDEV_S_SELECTION`` ioctl has been called on a read-only
+> +    subdevice and the ``which`` field is set to ``V4L2_SUBDEV_FORMAT_ACTIVE``.
+> 
+
+Regards,
+
+	Hans
