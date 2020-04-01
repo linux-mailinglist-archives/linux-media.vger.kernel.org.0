@@ -2,442 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3582219A665
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 09:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4CDC19A6D1
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 10:07:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731965AbgDAHjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Apr 2020 03:39:45 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43729 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731680AbgDAHjo (ORCPT
+        id S1732048AbgDAIHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Apr 2020 04:07:17 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:54209 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731680AbgDAIHR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 1 Apr 2020 03:39:44 -0400
-Received: from [192.168.2.10] ([46.9.234.233])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id JXyKj6mx1Lu1fJXyNjMI7F; Wed, 01 Apr 2020 09:39:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1585726781; bh=3WjqU8UmK2eY4Vtb5Omja15PVbKwGzJRDPCRCcnpv7U=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=B2N0rZK5cTOtOe+qEgfh9rKrW4nNHmihIBayXEOkSsxh6ygUzAcVQkPFPBhzGhcKO
-         81DVgb8OkKuFv18ToO2NOlxKoKPNC3S0oOggIjGPDHRa490F3rHe5tUvr57fI4k1hb
-         iub6+87zlUxe0AFerbAnoir51UYkXluy9TN0iR+2JGbup19A2FGrsasU8vC+PAYrfp
-         xv8DecoCEW1rjWX5rPGynu9g214MJQRF/7MmweiqUK0idRkiCMOmQ5RZIN77Jp914A
-         RADRMDNRk2PJFq9IWOu1ucTxBoTB1mbypP9vIKm6K49Vepy1XXybZc+zqeQJ3ua/4n
-         wDyZExse9Q8NQ==
-Subject: Re: [PATCH v4 06/11] media: imx: utils: Make imx_media_pixfmt handle
- variable number of codes
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-References: <20200329205920.20118-1-slongerbeam@gmail.com>
- <20200329205920.20118-7-slongerbeam@gmail.com>
- <911bd2c6-e409-07e9-8521-b1febd6bb58e@xs4all.nl>
- <02063ed3-e2de-8f15-bd08-84d3c319f79c@gmail.com>
- <20200401003149.GH4767@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6980ae7c-02bb-9d39-e8c3-4f48a0ecd791@xs4all.nl>
-Date:   Wed, 1 Apr 2020 09:39:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Wed, 1 Apr 2020 04:07:17 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id E2CA65C00E9;
+        Wed,  1 Apr 2020 04:07:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 01 Apr 2020 04:07:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=U3HCAcUKF+4c66Ou0occ9LnJ9Wv
+        Y2iGisn3uD5htmxM=; b=SP8Uz1vciqkp36GeFFlYKm5l1CM5u6FW52ShX/5HesS
+        Xz285oIrLNmML0H+fiTbXSl7K7rBbWpvjUtnTrua+SC+9zsij5R4WGNfKLFNyjMV
+        fvQS79tXiPOe5g0ovgyuwgZuaCySGliBdOrYSdJjI5cC3G+PZo4ev1ZZv/oaOvtc
+        5vclj4/19PwJosdDx3s0tV+pLSKCqwu/2HDkUj1YRiJglRupDfEV6jI7vlfXHg6B
+        fzEr9QRnqVD/T9j3pKwH4WokVbC6ZvmXtAAKRPXnl69AcIZGeF+firlIUIw+ix7w
+        j1yEq8MS9Y4LA10UZP+P7sEmJhEBkFdZw47AF87rVbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=U3HCAc
+        UKF+4c66Ou0occ9LnJ9WvY2iGisn3uD5htmxM=; b=g2ynUNoi+u1/rT/iuxTpd6
+        TGYyqB1kHtAtI1Om1/l8EiaMbdBatD+0gsTdEQDmnGGmGVKNngLQSdGFcQg6LQtJ
+        65ucXZJSW4F694KemOIKWEI1bh2MwsYfB3gkeWZVXR7D0beenMQv2VnAzoN1H1vW
+        20OPP4RLRsz8TNV6W3Odtd1J2sggm/1bPvRYJAw5Goei8IVER5YiL3gPs/qbzI+q
+        v2HB+UTQM8SSAscaMyN+6uH9FYgt4feiRy2nqmIZ5yAcYSI6u8jz34mlMPBBk/BC
+        D5OcpKIb8p9h4CMMWygDCcJrfItPTzQ48p+7ZUJXgU00sV8i1Wc7xIphdI/dq4xA
+        ==
+X-ME-Sender: <xms:q0uEXveFL0TmZ44yoZ1LdFOMnYhr7b7siaObsJ12XDfWDqCLTADOqA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvucetufdoteggodetrfdotffvucfrrh
+    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
+    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrihhnpeguvg
+    hvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrh
+    hnohdrthgvtghh
+X-ME-Proxy: <xmx:q0uEXlZ59TSToLe17Qqncknm6aKQApp9Zuirgx8jdOZV64JmmDbfhw>
+    <xmx:q0uEXiBXb7P8Pyt2BI6LjG89adNT8k4_PRbAxtYyElXmBObVgIfIrg>
+    <xmx:q0uEXgCOBraRlf-SR-5pbjQOgEEc7MxX3W4JsKhPogl12U3GjrdaUQ>
+    <xmx:skuEXt0AyZkhqnukvpbd9P2rh_H7zwxwXzecpoQQoE6OGuIKHw_d0g>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 003A2328005A;
+        Wed,  1 Apr 2020 04:07:06 -0400 (EDT)
+Date:   Wed, 1 Apr 2020 10:07:05 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
+Message-ID: <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
+References: <20200331133346.372517-1-robert.foss@linaro.org>
+ <20200331133346.372517-2-robert.foss@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200401003149.GH4767@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLLZeU/HbvKbWR2YTOceesXhrdOFQpbKf2YkjVKvdrdWO6mcWeQwxDPfeeouoPUV+RIm/hRTWmRrvqeoW589K9cGAm0GYvI0OypTfBDWkPQG8ppL5JN5
- MgWiuJIJIEYdo44t2OCFNRoG2JffXLXP2Y2+tADSw4C05OYZ0Niunwk2iUrgcpy8D7qtTYR74PT0g5hY57LQ7Eqa00pB2empvE3NOCQzY7+YfYsusCwL+NcO
- mENr7WdqOh+I4fcs6kC+ug0cNP8Hy2QZfioveTtfISQlZbsAXwz1/QHyyJxdTiJOcpJWIGgPVsYl3VNSjAxj4g==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cyib43ljsdkuwwb5"
+Content-Disposition: inline
+In-Reply-To: <20200331133346.372517-2-robert.foss@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/1/20 2:31 AM, Laurent Pinchart wrote:
-> Hello,
-> 
-> On Tue, Mar 31, 2020 at 04:04:18PM -0700, Steve Longerbeam wrote:
->> On 3/31/20 6:45 AM, Hans Verkuil wrote:
->>> On 3/29/20 10:59 PM, Steve Longerbeam wrote:
->>>> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>
->>>> The imx_media_pixfmt structures includes a codes member that stores
->>>> media bus codes as a fixed array of 4 integers. The functions dealing
->>>> with the imx_media_pixfmt structures assume that the array of codes is
->>>> terminated by a 0 elements. This mechanism is fragile, as demonstrated
->>>
->>> elements -> element
->>>
->>>> by several instances of the structure contained 4 non-zero codes.
->>>
->>> contained -> that contained
->>
->> Will fix above language.
->>
->>>> Fix this by turning the array into a pointer, and providing an
->>>> IMX_BUS_FMTS macro to initialize the codes member with a guaranteed 0
->>>> element at the end.
->>>>
->>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>
->>>> [Fix a NULL deref when derefencing a NULL cc->codes on return from
->>>>   several calls to imx_media_find_format()]
->>>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
->>>> ---
->>>>   drivers/staging/media/imx/imx-media-capture.c |  4 +-
->>>>   drivers/staging/media/imx/imx-media-utils.c   | 88 +++++++++++--------
->>>>   drivers/staging/media/imx/imx-media.h         |  2 +-
->>>>   3 files changed, 53 insertions(+), 41 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
->>>> index d60b49ec4fa4..650c53289f6b 100644
->>>> --- a/drivers/staging/media/imx/imx-media-capture.c
->>>> +++ b/drivers/staging/media/imx/imx-media-capture.c
->>>> @@ -95,7 +95,7 @@ static int capture_enum_framesizes(struct file *file, void *fh,
->>>>   	if (!cc)
->>>>   		return -EINVAL;
->>>>   
->>>> -	fse.code = cc->codes[0];
->>>> +	fse.code = cc->codes ? cc->codes[0] : 0;
->>> I'm wondering: wouldn't it be better to have a format without codes point to
->>> an empty code list containing just 0? That would avoid all the cc->codes checks,
->>> which are a bit fragile IMHO.
->>
->> I'll modify this patch to declare a const codes array 'no_bus_fmts', 
->> containing a single 0 value, that the in-memory-only imx_media_pixfmt 
->> entries can point to.
->>
->>> It would be nice in that case if there is a WARN_ON or something during probe
->>> time that checks that the codes field in pixel_formats[] is never NULL.
->>
->> I'm not so keen on that idea. How about a comment that the 
->> in-memory-only entries should point to no_bus_fmts ?
-> 
-> I don't like either of those options I'm afraid. Someone will one day
-> forget to point to that array when adding a new format, and we'll have a
-> bug. With code in just a few locations that checks for NULL, we're safe
-> as the compiler will initialize the pointer to NULL for us. Let's use
-> the compiler when it helps us, I don't see what removing the NULL check
-> in the code could bring us except issues :-)
 
-With the current patch there is a chance that someone adds new code that
-forgets to check if 'codes' is NULL. By always setting 'codes' to a valid
-pointer that problem is solved, but now you need to check somewhere in probe()
-that nobody forgot to set 'codes'. Although this might not be necessary if
-there is already code that walks the full array and uses 'codes'. In that
-case adding a new entry and forgetting to set 'codes' will automatically
-cause a crash, thus making sure that nobody forgets.
+--cyib43ljsdkuwwb5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I think the second approach is more robust in the end.
+Hi,
 
-Just to clarify, this is not a blocking issue since in the end it is mostly a
-matter of taste.
+On Tue, Mar 31, 2020 at 03:33:44PM +0200, Robert Foss wrote:
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+>
+> This patch adds documentation of device tree in YAML schema for the
+> OV8856 CMOS image sensor.
+>
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+>
+> - Changes since v5:
+>   * Add assigned-clocks and assigned-clock-rates
+>   * robher: dt-schema errors
+>
+> - Changes since v4:
+>   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
+>   * Add clock-lanes property to example
+>   * robher: Fix syntax error in devicetree example
+>
+> - Changes since v3:
+>   * robher: Fix syntax error
+>   * robher: Removed maxItems
+>   * Fixes yaml 'make dt-binding-check' errors
+>
+> - Changes since v2:
+>   Fixes comments from from Andy, Tomasz, Sakari, Rob.
+>   * Convert text documentation to YAML schema.
+>
+> - Changes since v1:
+>   Fixes comments from Sakari, Tomasz
+>   * Add clock-frequency and link-frequencies in DT
+>
+>  .../devicetree/bindings/media/i2c/ov8856.yaml | 150 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 151 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> new file mode 100644
+> index 000000000000..beeddfbb8709
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> @@ -0,0 +1,150 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (c) 2019 MediaTek Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
+> +
+> +maintainers:
+> +  - Ben Kao <ben.kao@intel.com>
+> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
+> +
+> +description: |-
+> +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapixel, CMOS
+> +  image sensor that delivers 3264x2448 at 30fps. It provides full-frame,
+> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
+> +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
+> +  serial data output (up to 4-lane).
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov8856
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Input clock for the sensor.
+> +    items:
+> +      - const: xvclk
+> +
+> +  clock-frequency:
+> +    description:
+> +      Frequency of the xvclk clock in Hertz.
 
-Regards,
+We also had that discussion recently for another omnivision sensor
+(ov5645 iirc), but what is clock-frequency useful for?
 
-	Hans
+It seems that the sensor is passed in clocks, so if you need to
+retrieve the clock rate you should use the clock API instead.
 
-> 
->>> As an aside: 'cc'? The struct is called imx_media_pixfmt, so I don't offhand see
->>> what 'cc' stands for.
->>
->> It's an abbreviation of FourCC. I know, it's obscure and not really 
->> accurate. I will add a non-functional patch that makes the naming 
->> consistent, using 'fmt' for imx_media_pixfmt pointers throughout.
->>
->>>>   	ret = v4l2_subdev_call(priv->src_sd, pad, enum_frame_size, NULL, &fse);
->>>>   	if (ret)
->>>> @@ -137,7 +137,7 @@ static int capture_enum_frameintervals(struct file *file, void *fh,
->>>>   	if (!cc)
->>>>   		return -EINVAL;
->>>>   
->>>> -	fie.code = cc->codes[0];
->>>> +	fie.code = cc->codes ? cc->codes[0] : 0;
->>>>   
->>>>   	ret = v4l2_subdev_call(priv->src_sd, pad, enum_frame_interval,
->>>>   			       NULL, &fie);
->>>> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
->>>> index 981a8b540a3c..da010eef0ae6 100644
->>>> --- a/drivers/staging/media/imx/imx-media-utils.c
->>>> +++ b/drivers/staging/media/imx/imx-media-utils.c
->>>> @@ -7,6 +7,12 @@
->>>>   #include <linux/module.h>
->>>>   #include "imx-media.h"
->>>>   
->>>> +#define IMX_BUS_FMTS(fmts...)	\
->>>> +	(const u32[]) {		\
->>>> +		fmts,		\
->>>> +		0		\
->>>> +	}
->>>> +
->>>>   /*
->>>>    * List of supported pixel formats for the subdevs.
->>>>    */
->>>> @@ -14,18 +20,18 @@ static const struct imx_media_pixfmt pixel_formats[] = {
->>>>   	/*** YUV formats start here ***/
->>>>   	{
->>>>   		.fourcc	= V4L2_PIX_FMT_UYVY,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_UYVY8_2X8,
->>>>   			MEDIA_BUS_FMT_UYVY8_1X16
->>>> -		},
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_YUV,
->>>>   		.bpp    = 16,
->>>>   	}, {
->>>>   		.fourcc	= V4L2_PIX_FMT_YUYV,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_YUYV8_2X8,
->>>>   			MEDIA_BUS_FMT_YUYV8_1X16
->>>> -		},
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_YUV,
->>>>   		.bpp    = 16,
->>>>   	}, {
->>>> @@ -57,16 +63,16 @@ static const struct imx_media_pixfmt pixel_formats[] = {
->>>>   	/*** RGB formats start here ***/
->>>>   	{
->>>>   		.fourcc	= V4L2_PIX_FMT_RGB565,
->>>> -		.codes  = {MEDIA_BUS_FMT_RGB565_2X8_LE},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_LE),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.cycles = 2,
->>>>   	}, {
->>>>   		.fourcc	= V4L2_PIX_FMT_RGB24,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_RGB888_1X24,
->>>>   			MEDIA_BUS_FMT_RGB888_2X12_LE
->>>> -		},
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 24,
->>>>   	}, {
->>>> @@ -75,7 +81,7 @@ static const struct imx_media_pixfmt pixel_formats[] = {
->>>>   		.bpp    = 24,
->>>>   	}, {
->>>>   		.fourcc	= V4L2_PIX_FMT_XRGB32,
->>>> -		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_ARGB8888_1X32),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 32,
->>>>   		.ipufmt = true,
->>>> @@ -95,91 +101,91 @@ static const struct imx_media_pixfmt pixel_formats[] = {
->>>>   	/*** raw bayer and grayscale formats start here ***/
->>>>   	{
->>>>   		.fourcc = V4L2_PIX_FMT_SBGGR8,
->>>> -		.codes  = {MEDIA_BUS_FMT_SBGGR8_1X8},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR8_1X8),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 8,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SGBRG8,
->>>> -		.codes  = {MEDIA_BUS_FMT_SGBRG8_1X8},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG8_1X8),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 8,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SGRBG8,
->>>> -		.codes  = {MEDIA_BUS_FMT_SGRBG8_1X8},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG8_1X8),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 8,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SRGGB8,
->>>> -		.codes  = {MEDIA_BUS_FMT_SRGGB8_1X8},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB8_1X8),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 8,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SBGGR16,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_SBGGR10_1X10,
->>>>   			MEDIA_BUS_FMT_SBGGR12_1X12,
->>>>   			MEDIA_BUS_FMT_SBGGR14_1X14,
->>>>   			MEDIA_BUS_FMT_SBGGR16_1X16
->>>> -		},
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SGBRG16,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_SGBRG10_1X10,
->>>>   			MEDIA_BUS_FMT_SGBRG12_1X12,
->>>>   			MEDIA_BUS_FMT_SGBRG14_1X14,
->>>> -			MEDIA_BUS_FMT_SGBRG16_1X16,
->>>> -		},
->>>> +			MEDIA_BUS_FMT_SGBRG16_1X16
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SGRBG16,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_SGRBG10_1X10,
->>>>   			MEDIA_BUS_FMT_SGRBG12_1X12,
->>>>   			MEDIA_BUS_FMT_SGRBG14_1X14,
->>>> -			MEDIA_BUS_FMT_SGRBG16_1X16,
->>>> -		},
->>>> +			MEDIA_BUS_FMT_SGRBG16_1X16
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_SRGGB16,
->>>> -		.codes  = {
->>>> +		.codes  = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_SRGGB10_1X10,
->>>>   			MEDIA_BUS_FMT_SRGGB12_1X12,
->>>>   			MEDIA_BUS_FMT_SRGGB14_1X14,
->>>> -			MEDIA_BUS_FMT_SRGGB16_1X16,
->>>> -		},
->>>> +			MEDIA_BUS_FMT_SRGGB16_1X16
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_GREY,
->>>> -		.codes = {
->>>> +		.codes = IMX_BUS_FMTS(
->>>>   			MEDIA_BUS_FMT_Y8_1X8,
->>>>   			MEDIA_BUS_FMT_Y10_1X10,
->>>> -			MEDIA_BUS_FMT_Y12_1X12,
->>>> -		},
->>>> +			MEDIA_BUS_FMT_Y12_1X12
->>>> +		),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 8,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_Y10,
->>>> -		.codes = {MEDIA_BUS_FMT_Y10_1X10},
->>>> +		.codes = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y10_1X10),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.bayer  = true,
->>>>   	}, {
->>>>   		.fourcc = V4L2_PIX_FMT_Y12,
->>>> -		.codes = {MEDIA_BUS_FMT_Y12_1X12},
->>>> +		.codes = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y12_1X12),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 16,
->>>>   		.bayer  = true,
->>>> @@ -203,16 +209,16 @@ static const struct imx_media_pixfmt *find_format(u32 fourcc,
->>>>   			 CS_SEL_YUV : CS_SEL_RGB);
->>>>   
->>>>   		if (!(fmt_cs_sel & cs_sel) ||
->>>> -		    (!allow_non_mbus && !fmt->codes[0]))
->>>> +		    (!allow_non_mbus && !fmt->codes))
->>>>   			continue;
->>>>   
->>>>   		if (fourcc && fmt->fourcc == fourcc)
->>>>   			return fmt;
->>>>   
->>>> -		if (!code)
->>>> +		if (!code || !fmt->codes)
->>>>   			continue;
->>>>   
->>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
->>>> +		for (j = 0; fmt->codes[j]; j++) {
->>>>   			if (code == fmt->codes[j])
->>>>   				return fmt;
->>>>   		}
->>>> @@ -237,7 +243,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
->>>>   			 CS_SEL_YUV : CS_SEL_RGB);
->>>>   
->>>>   		if (!(fmt_cs_sel & cs_sel) ||
->>>> -		    (!allow_non_mbus && !fmt->codes[0]))
->>>> +		    (!allow_non_mbus && !fmt->codes))
->>>>   			continue;
->>>>   
->>>>   		if (fourcc && index == 0) {
->>>> @@ -250,7 +256,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
->>>>   			continue;
->>>>   		}
->>>>   
->>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
->>>> +		for (j = 0; fmt->codes[j]; j++) {
->>>>   			if (index == 0) {
->>>>   				*code = fmt->codes[j];
->>>>   				return 0;
->>>> @@ -296,13 +302,13 @@ EXPORT_SYMBOL_GPL(imx_media_enum_mbus_format);
->>>>   static const struct imx_media_pixfmt ipu_formats[] = {
->>>>   	{
->>>>   		.fourcc = V4L2_PIX_FMT_YUV32,
->>>> -		.codes  = {MEDIA_BUS_FMT_AYUV8_1X32},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_AYUV8_1X32),
->>>>   		.cs     = IPUV3_COLORSPACE_YUV,
->>>>   		.bpp    = 32,
->>>>   		.ipufmt = true,
->>>>   	}, {
->>>>   		.fourcc	= V4L2_PIX_FMT_XRGB32,
->>>> -		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
->>>> +		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_ARGB8888_1X32),
->>>>   		.cs     = IPUV3_COLORSPACE_RGB,
->>>>   		.bpp    = 32,
->>>>   		.ipufmt = true,
->>>> @@ -327,7 +333,10 @@ imx_media_find_ipu_format(u32 code, enum codespace_sel cs_sel)
->>>>   		    (!accept_rgb && fmt->cs == IPUV3_COLORSPACE_RGB))
->>>>   			continue;
->>>>   
->>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
->>>> +		if (!fmt->codes)
->>>> +			continue;
->>>> +
->>>> +		for (j = 0; fmt->codes[j]; j++) {
->>>>   			if (code == fmt->codes[j])
->>>>   				return fmt;
->>>>   		}
->>>> @@ -351,7 +360,10 @@ int imx_media_enum_ipu_format(u32 *code, u32 index, enum codespace_sel cs_sel)
->>>>   		    (!accept_rgb && fmt->cs == IPUV3_COLORSPACE_RGB))
->>>>   			continue;
->>>>   
->>>> -		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
->>>> +		if (!fmt->codes)
->>>> +			continue;
->>>> +
->>>> +		for (j = 0; fmt->codes[j]; j++) {
->>>>   			if (index == 0) {
->>>>   				*code = fmt->codes[j];
->>>>   				return 0;
->>>> @@ -567,7 +579,7 @@ int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
->>>>   	const struct imx_media_pixfmt *fmt;
->>>>   
->>>>   	fmt = imx_media_find_format(image->pix.pixelformat, CS_SEL_ANY);
->>>> -	if (!fmt)
->>>> +	if (!fmt || !fmt->codes)
->>>>   		return -EINVAL;
->>>>   
->>>>   	memset(mbus, 0, sizeof(*mbus));
->>>> diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
->>>> index 652673a703cd..917b4db02985 100644
->>>> --- a/drivers/staging/media/imx/imx-media.h
->>>> +++ b/drivers/staging/media/imx/imx-media.h
->>>> @@ -69,7 +69,7 @@ enum {
->>>>   
->>>>   struct imx_media_pixfmt {
->>>>   	u32     fourcc;
->>>> -	u32     codes[4];
->>>> +	const u32 *codes;
->>>>   	int     bpp;     /* total bpp */
->>>>   	/* cycles per pixel for generic (bayer) formats for the parallel bus */
->>>>   	int	cycles;
-> 
+Looking at the driver, it looks like it first retrieves the clock, set
+it to clock-frequency, and then checks that this is OV8856_XVCLK_19_2
+(19.2 MHz).
 
+The datasheet says that the sensor can have any frequency in the 6 -
+27 MHz range, so this is a driver limitation and should be set in the
+driver using the clock API, and you can always bail out if it doesn't
+provide a rate that is not acceptable for the drivers assumption.
+
+In any case, you don't need clock-frequency here...
+
+> +  assigned-clocks:
+> +    description:
+> +      Input clock for the sensor.
+> +
+> +  assigned-clock-rates:
+> +    description:
+> +      Frequency of the xvclk clock in Hertz.
+
+And you don't need assigned-clock-rates either.
+
+Maxime
+
+--cyib43ljsdkuwwb5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXoRLqAAKCRDj7w1vZxhR
+xTZUAQD2jZuXcAGddgKgZVErUVHpj/2QR46aWWLx0qVUgCtlcQD/WJPvN3yt7iUv
+JXfc3Ipii5CyHgWsqStgnqMYbiwUJQg=
+=1zlr
+-----END PGP SIGNATURE-----
+
+--cyib43ljsdkuwwb5--
