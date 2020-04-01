@@ -2,114 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F242C19A774
-	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 10:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E4719A94B
+	for <lists+linux-media@lfdr.de>; Wed,  1 Apr 2020 12:17:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731861AbgDAIis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Apr 2020 04:38:48 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:36923 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727723AbgDAIis (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Apr 2020 04:38:48 -0400
-Received: by mail-ed1-f66.google.com with SMTP id de14so28648550edb.4
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2020 01:38:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qedAMkO7HvLO65FKGD4WHqER0H4lcOPhnGRlZf+AyX0=;
-        b=QknYesGt4YCzQ66HY2Ib7fGuiCKy+PfvdCVINGb0euPOFVRvJYagATd6VVJlU/ADs0
-         PaswJqz/nqEOnq84kRWSZonHF9sIwLNnZAgCYbFQM6E+AKpABKAvd/r2EtJRI19WS0Gy
-         v23+5hsCmcj1A0KCFQkYkZ59uMM4zZNY3Oje/ErroeTB+ZXHlpyQnt398poprX1PU5Fy
-         u0PE+t8RfsS/sW3qE+oNHdpjj8HiUCl2cmoMS211QPmffJ2bNsZ+ZI+Cj3wQJ1KCFJug
-         aSfbqBKK2wUsKwsOqRlNUFHU0mhJ/AGN5ZuTwB79+49/wYhDc2RbP8PiSoSLGCB7zIRE
-         dubw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qedAMkO7HvLO65FKGD4WHqER0H4lcOPhnGRlZf+AyX0=;
-        b=VvHnID533sif77ObsHwFwgEW39dd/zyjBmAb6ATTJicFMUR5PnJuwgTVq7BicsOFFs
-         DrPKdg1s0lh5g1HjnXgb/eNj8WlAzV0GeYmK7rm4lE5bNkgWncFtvQCbklHfx3Ac8DTo
-         6FK0saQNpoicg6mr+D10MxFKJKQpJRTYBTUSq5YhVUUVtSFA/Z/xwX4NUkl9nIMZvQmx
-         4q9U3kN5jsUY02VcSvYJmtn2BSn0y4pFL7WQ5F8NMKVIx51bRVpqlML15oRL70L48V7T
-         h7ZyEGss7bkZkyqsV6FZBTRoPA+hInXwG3odMBBIeHKymUGk0c3B9Ui3QFieEUEpf2X0
-         brFQ==
-X-Gm-Message-State: ANhLgQ0LCZBQKycMEvS36yuoqQDsTtcZJaF+kKOGX3+nsDC8D1YYqe4N
-        YL/xlIQpoj5QQSqMNFcJyL/b1o+j3/o=
-X-Google-Smtp-Source: ADFU+vuQjhmU+fjkwGa2mxV5/rznsI7j5uyBOZPzTgXx9rCsRcB7z7VeAAt8jbAodF1OBMZk0wFLzw==
-X-Received: by 2002:a50:ef16:: with SMTP id m22mr7848143eds.82.1585730326304;
-        Wed, 01 Apr 2020 01:38:46 -0700 (PDT)
-Received: from [192.168.1.4] (212-5-158-119.ip.btc-net.bg. [212.5.158.119])
-        by smtp.googlemail.com with ESMTPSA id m21sm277245edb.90.2020.04.01.01.38.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2020 01:38:45 -0700 (PDT)
-Subject: Re: [PATCH][next] media: venus: hfi_msgs.h: Replace zero-length array
- with flexible-array member
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200319222229.GA19280@embeddedor.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <edb3bc39-3f4a-362f-1432-b2675689e874@linaro.org>
-Date:   Wed, 1 Apr 2020 11:38:44 +0300
+        id S1731343AbgDAKR3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Apr 2020 06:17:29 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39333 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725860AbgDAKR3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Apr 2020 06:17:29 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id JaR2jEDSffHuvJaR5jDu6b; Wed, 01 Apr 2020 12:17:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585736247; bh=12Atz1MMPMZ59ChnMc42yXHkHhF4W4mC72fe0HOjkXg=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Fc5s7LPvgdf8B343CMkTVBOqSuniUjsC157dqcMHhQ5Oo5WKW7Am6OzPTB8qDU3gA
+         KzpfhEhOAy4LFZTVn3d4T4gWWBQDBaA2BwNzPX4OLIT2hh4O9wZ67ynQzqgXqDngj9
+         4b4Edi1Qr0d1dEXz82SSPAV1iEYWIe0IGwc657NjbHDiMstG3MeXCdXJpfyv0xgRZ9
+         dvEY77yf4zXe5c5OgVZyWodPmwErLuqAG2iCsadtECoRS/VccAMvUCpcpdydIZ9Eqe
+         RsAhDhZpYZ/JOT3UGGI+ixzziTft1fNQb3F9NSkHMmDH7FgvdIg/y3Fb6AowH0PwNN
+         O4exIG7p3o4ww==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] hantro fixes/improvements
+Message-ID: <3456eb01-c9a0-0fae-2a95-08406a3d2646@xs4all.nl>
+Date:   Wed, 1 Apr 2020 12:17:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200319222229.GA19280@embeddedor.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGUIHXFq19e658+RIdtso8g8+9Kykl8dTs/TDFxmdkKP6kBPQIBUXMdizRKMlkbpdlIrEJGat/UjDJ3KvPhE+wFRICjZNF08D5Kb5YUG8pW9d+8tmZs1
+ cleC+75QESUTVLbCG9Rre85fNEOB0he8pKhsowLGsJfXV9L3LIIRx1Fb7MAqa4nwIBlJhwtlqqoX2Iq8iXwzp3iloKC8z5BFTow=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gustavo,
+The following changes since commit 2632e7b618a7730969f9782593c29ca53553aa22:
 
-Thanks for the patch!
+  media: venus: firmware: Ignore secure call error on first resume (2020-03-30 11:28:18 +0200)
 
-On 3/20/20 12:22 AM, Gustavo A. R. Silva wrote:
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
-> 
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
-> 
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
-> 
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
-> 
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
-> 
-> This issue was found with the help of Coccinelle.
-> 
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
-> ---
->  drivers/media/platform/qcom/venus/hfi_msgs.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+are available in the Git repository at:
 
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8b
 
--- 
-regards,
-Stan
+for you to fetch changes up to c7db6b9c34c68b19767ceb9dfd6e116698122695:
+
+  dt-bindings: rockchip-vpu: Convert bindings to json-schema (2020-03-31 15:37:49 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Ezequiel Garcia (7):
+      v4l2-mem2mem: return CAPTURE buffer first
+      hantro: Set buffers' zeroth plane payload in .buf_prepare
+      hantro: Use v4l2_m2m_buf_done_and_job_finish
+      hantro: Remove unneeded hantro_dec_buf_finish
+      hantro: Move H264 motion vector calculation to a helper
+      hantro: Refactor for V4L2 API spec compliancy
+      dt-bindings: rockchip-vpu: Convert bindings to json-schema
+
+ Documentation/devicetree/bindings/media/rockchip-vpu.txt  |  43 -----------------
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml |  74 +++++++++++++++++++++++++++++
+ MAINTAINERS                                               |   2 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c                    |  11 ++++-
+ drivers/staging/media/hantro/hantro.h                     |   7 +--
+ drivers/staging/media/hantro/hantro_drv.c                 |  28 ++++-------
+ drivers/staging/media/hantro/hantro_hw.h                  |  31 ++++++++++++
+ drivers/staging/media/hantro/hantro_v4l2.c                | 111 ++++++++++++++++++++++---------------------
+ 8 files changed, 185 insertions(+), 122 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.txt
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip-vpu.yaml
