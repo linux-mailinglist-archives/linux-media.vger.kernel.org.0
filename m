@@ -2,136 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4CA119C46E
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 16:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58F0919C48E
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 16:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388405AbgDBOh6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Apr 2020 10:37:58 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42485 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730837AbgDBOh5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Apr 2020 10:37:57 -0400
-Received: by mail-wr1-f65.google.com with SMTP id h15so4481451wrx.9;
-        Thu, 02 Apr 2020 07:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=38AkG1J/VasVYvyO8FLPKGFVB9/daSIsdACwJ1jmT6w=;
-        b=mV6zDSYqDp5UdxncOWm+lXHPzCxZTPcsxD7Y4qZG6GxtIOI7n2Tt1tjtqODXe1XonP
-         OAXcNYyYlMJac/TvM+KVXpF303u1R9YTzAxas6XSeg4X8oEOkNwAVSdGtUffdrDiJtFp
-         flyV4X09h+4tTRXQOf0Myw+NBmc3NsNXpSdZAbDjVkQ9BKab39lNcHZswSQYu1Fpp7qj
-         CwD3rw5ZWHrB8RwDUhhLS+QuwfTVRKShQNQbrrhdOk14h5wFDHxeHqplJt0dE3v/jO2k
-         LMujXX5d5kt24SkX9dQ7Su173WskYyvHna90o4QbwOv3b0cwBqchVgNL2pDMZPI5zpHr
-         cHZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=38AkG1J/VasVYvyO8FLPKGFVB9/daSIsdACwJ1jmT6w=;
-        b=djPyvefGQryXVpMUUn40drG9vcRMWlWSA2E/dGW/m09eWwzL1NL7a2PH0z2VXzcnBL
-         zLurvCwP2z+5XZNV+A68CK8nJ0BIZDG2S5X7+6Amzv01nstxwdktrxsSp9kD92UfL+rr
-         ejH9yIwWU/YiyAS12fFe4gevHX8m3fxD3NS0Itzb87KVrPd03heEDcCxuimpdLCGCjpq
-         BHOXT190egi2yS/ZGdGEJy74QW4nYPo4/lU5g87QXB3gACGL9hwPbNcIl+rUFdvbxinr
-         Ydxa3fCUY6Cgz0fduTmfGYyi0tnHjf28kOn19cmz/bFySzdxkO/uv9SQtmB4vXYkG7Pa
-         5/gA==
-X-Gm-Message-State: AGi0PubpzI8EW7LXJPI2T3y6ACKnqXyqjrsh6U71ez5HpAqOf2Y7fi1N
-        MxjudoSqAgis18H/K1//cd4=
-X-Google-Smtp-Source: APiQypKP/NzZE8Bp6zRGZQB5jMxxV5ROKksg/0lNUpk/3V8+Un9IDmxt1EQ5jKflYscGyO2USHOJHQ==
-X-Received: by 2002:adf:97d0:: with SMTP id t16mr3865783wrb.343.1585838275269;
-        Thu, 02 Apr 2020 07:37:55 -0700 (PDT)
-Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id e5sm7848520wru.92.2020.04.02.07.37.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Apr 2020 07:37:54 -0700 (PDT)
-Subject: Re: [PATCH 3/4] arm64: dts: rockchip: add rx0 mipi-phy for rk3399
-To:     =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>
-Cc:     helen.koike@collabora.com, dafna.hirschfeld@collabora.com,
-        devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
-        ezequiel@collabora.com, hverkuil-cisco@xs4all.nl,
+        id S2388266AbgDBOmv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Apr 2020 10:42:51 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43884 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726927AbgDBOmv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Apr 2020 10:42:51 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id B456128CF7C
+Subject: Re: [PATCH 2/4] dt-bindings: media: rkisp1: move rockchip-isp1
+ bindings out of staging
+To:     Johan Jonker <jbx6244@gmail.com>
+Cc:     dafna.hirschfeld@collabora.com, devel@driverdev.osuosl.org,
+        devicetree@vger.kernel.org, ezequiel@collabora.com,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
         karthik.poduval@gmail.com, kernel@collabora.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-rockchip@lists.infradead.org, mark.rutland@arm.com,
         robh+dt@kernel.org
-References: <20200402000234.226466-4-helen.koike@collabora.com>
- <970b9e48-e38f-7e7a-3472-7dc5a4737e58@gmail.com> <105956984.FXDh2DO4ZE@diego>
-From:   Johan Jonker <jbx6244@gmail.com>
-Message-ID: <76211530-73ff-5f36-8915-8bdc036d4369@gmail.com>
-Date:   Thu, 2 Apr 2020 16:37:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+References: <20200402000234.226466-3-helen.koike@collabora.com>
+ <7e53ec1e-33bd-3385-40a0-de3fd00ad1a1@gmail.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <faacd068-e722-4fa8-efab-c51c723b75c1@collabora.com>
+Date:   Thu, 2 Apr 2020 11:42:39 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <105956984.FXDh2DO4ZE@diego>
+In-Reply-To: <7e53ec1e-33bd-3385-40a0-de3fd00ad1a1@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/2/20 4:31 PM, Heiko Stübner wrote:
-> Am Donnerstag, 2. April 2020, 15:48:02 CEST schrieb Johan Jonker:
->> Hi Helen,
->>
->>> From: Helen Koike <helen.koike@collabora.com>
->>
->>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
->>> index 33cc21fcf4c10..fc0295d2a65a1 100644
->>> --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
->>> +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
->>> @@ -1394,6 +1394,17 @@ io_domains: io-domains {
->>>  			status = "disabled";
->>>  		};
->>>  
->>
->>> +		mipi_dphy_rx0: mipi-dphy-rx0 {
->>
->> For Heiko sort syscon@ff770000 subnodes alphabetical or reg value first?
+Hi Johan,
+
+Thanks for your review.
+
+On 4/2/20 8:35 AM, Johan Jonker wrote:
+> Hi Helen,
 > 
-> Similar to main nodes ... so things without reg alphabetical,
-> the rest by reg address
+>> # SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>> %YAML 1.2
+>> ---
+>> $id: http://devicetree.org/schemas/media/rockchip-isp1.yaml#
+>> $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>
 > 
-alphabetical first:
+>> title: Rockchip SoC Image Signal Processing unit v1
+> 
+> Where do we need 'v1' for? Is there a 'v2'?
 
-io-domains
-mipi-dphy-rx0
-usb2-phy@e450
-.@..
-
-or
-
-with reg values first:
-
-.@..
-emmc_phy: phy@f780
-mipi-dphy-rx0
-pcie-phy
+ISPv1 is the Rockchip's name for the IP block.
 
 > 
 >>
->>> +			compatible = "rockchip,rk3399-mipi-dphy-rx0";
->>> +			clocks = <&cru SCLK_MIPIDPHY_REF>,
+>> maintainers:
+>>   - Helen Koike <helen.koike@collabora.com>
 >>
->>> +				<&cru SCLK_DPHY_RX0_CFG>,
->>> +				<&cru PCLK_VIO_GRF>;
+>> description: |
+>>   Rockchip ISP1 is the Camera interface for the Rockchip series of SoCs
+>>   which contains image processing, scaling, and compression functions.
 >>
->> Align                            ^
+>> properties:
+>>   compatible:
+>>     const: rockchip,rk3399-cif-isp
 >>
->>> +			clock-names = "dphy-ref", "dphy-cfg", "grf";
->>> +			power-domains = <&power RK3399_PD_VIO>;
->>> +			#phy-cells = <0>;
->>> +			status = "disabled";
->>> +		};
->>> +
->>>  		u2phy0: usb2-phy@e450 {
->>>  			compatible = "rockchip,rk3399-usb2phy";
->>>  			reg = <0xe450 0x10>;
+>>   reg:
+>>     maxItems: 1
 >>
+>>   interrupts:
+>>     maxItems: 1
 >>
+>>   iommus:
+>>     maxItems: 1
+>>
+>>   power-domains:
+>>     maxItems: 1
+>>
+>>   phys:
+>>     maxItems: 1
+>>     description: phandle for the PHY port
+>>
+>>   phy-names:
+>>     const: dphy
+>>
+>>   clocks:
+>>     items:
+>>       - description: ISP clock
+>>       - description: ISP AXI clock clock
+>>       - description: ISP AXI clock  wrapper clock
+>>       - description: ISP AHB clock clock
+>>       - description: ISP AHB wrapper clock
+>>
+>>   clock-names:
+>>     items:
+>>       - const: clk_isp
+>>       - const: aclk_isp
+>>       - const: aclk_isp_wrap
+>>       - const: hclk_isp
+>>       - const: hclk_isp_wrap
+>>
+>>   # See ./video-interfaces.txt for details
+>>   ports:
+>>     type: object
+>>     additionalProperties: false
+>>
+>>     properties:
+>>       "#address-cells":
+>>         const: 1
+>>
+>>       "#size-cells":
+>>         const: 0
+>>
+>>       port@0:
+>>         type: object
+>>         description: connection point for sensors at MIPI-DPHY RX0
 > 
+>>         additionalProperties: false
 > 
-> 
-> 
+> Nothing required here?
 
+I was thinking that if there is no endpoint, then nothing is required.
+But if there is, then #address-cells, #size-cells and reg are. I guess
+I can just add them as required.
+
+I'll add it in the patchseries.
+
+> 
+>>
+>>         properties:
+>>           "#address-cells":
+>>             const: 1
+>>
+>>           "#size-cells":
+>>             const: 0
+>>
+>>           reg:
+>>             const: 0
+>>
+>>         patternProperties:
+>>           endpoint:
+>>             type: object
+>>             additionalProperties: false
+>>
+>>             properties:
+>>               reg:
+>>                 maxItems: 1
+>>
+>>               data-lanes:
+>>                 minItems: 1
+>>                 maxItems: 4
+>>
+>>               remote-endpoint: true
+>>
+>>     required:
+> 
+>>       - port@0
+> 
+> The use of '@0' makes "#address-cells" and "#size-cells" also a requirement.
+> 
+> - "#address-cells"
+> - "#size-cells"
+
+Ok, I'll add it.
+
+> 
+>>
+>> required:
+>>   - compatible
+> 
+> How about 'reg'?
+> 
+> - reg
+
+ack, I'll add another patch in the series fixing this.
+
+> 
+>>   - interrupts
+>>   - clocks
+>>   - clock-names
+>>   - power-domains
+>>   - iommus
+>>   - phys
+>>   - phy-names
+>>   - ports
+>>
+>> additionalProperties: false
+>>
+>> examples:
+>>   - |
+>>
+>>     #include <dt-bindings/clock/rk3399-cru.h>
+>>     #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>     #include <dt-bindings/power/rk3399-power.h>
+>>
+>>     parent0: parent@0 {
+>>         #address-cells = <2>;
+>>         #size-cells = <2>;
+>>
+>>         isp0: isp0@ff910000 {
+>>             compatible = "rockchip,rk3399-cif-isp";
+>>             reg = <0x0 0xff910000 0x0 0x4000>;
+>>             interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH 0>;
+>>             clocks = <&cru SCLK_ISP0>,
+>>                      <&cru ACLK_ISP0>, <&cru ACLK_ISP0_WRAPPER>,
+>>                      <&cru HCLK_ISP0>, <&cru HCLK_ISP0_WRAPPER>;
+>>             clock-names = "clk_isp",
+>>                           "aclk_isp", "aclk_isp_wrap",
+>>                           "hclk_isp", "hclk_isp_wrap";
+>>             power-domains = <&power RK3399_PD_ISP0>;
+>>             iommus = <&isp0_mmu>;
+>>             phys = <&dphy>;
+>>             phy-names = "dphy";
+>>
+>>             ports {
+>>                 #address-cells = <1>;
+>>                 #size-cells = <0>;
+>>
+>>                 port@0 {
+>>                     #address-cells = <1>;
+>>                     #size-cells = <0>;
+>>                     reg = <0>;
+>>
+>>                     mipi_in_wcam: endpoint@0 {
+>>                         reg = <0>;
+>>                         remote-endpoint = <&wcam_out>;
+>>                         data-lanes = <1 2>;
+>>                     };
+>>
+>>                     mipi_in_ucam: endpoint@1 {
+>>                         reg = <1>;
+>>                         remote-endpoint = <&ucam_out>;
+>>                         data-lanes = <1>;
+>>                     };
+>>                 };
+>>             };
+>>         };
+>>
+> 
+>>         i2c7: i2c@ff160000 {
+>>             clock-frequency = <400000>;
+>>             #address-cells = <1>;
+>>             #size-cells = <0>;
+> 
+> Incomplete example.
+> From i2c-rk3x.yaml:
+> 
+> required:
+>   - compatible
+>   - reg
+>   - interrupts
+>   - clocks
+>   - clock-names
+
+The idea was to exemplify how to connect to the sensor nodes below.
+But I don't see a problem adding a complete i2c example, I'll add it.
+
+Thanks
+Helen
+
+> 
+>>
+>>             wcam: camera@36 {
+>>                 compatible = "ovti,ov5695";
+>>                 reg = <0x36>;
+>>
+>>                 port {
+>>                     wcam_out: endpoint {
+>>                         remote-endpoint = <&mipi_in_wcam>;
+>>                         data-lanes = <1 2>;
+>>                     };
+>>                 };
+>>             };
+>>
+>>             ucam: camera@3c {
+>>                 compatible = "ovti,ov2685";
+>>                 reg = <0x3c>;
+>>
+>>                   port {
+>>                       ucam_out: endpoint {
+>>                           remote-endpoint = <&mipi_in_ucam>;
+>>                           data-lanes = <1>;
+>>                       };
+>>                   };
+>>             };
+>>         };
+>>     };
