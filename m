@@ -2,126 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8242F19BE8E
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 11:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED7A119BEDC
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 11:48:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387719AbgDBJ2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Apr 2020 05:28:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48560 "EHLO mail.kernel.org"
+        id S2387730AbgDBJsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Apr 2020 05:48:04 -0400
+Received: from foss.arm.com ([217.140.110.172]:40708 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725965AbgDBJ2A (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Apr 2020 05:28:00 -0400
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 549A4206D3;
-        Thu,  2 Apr 2020 09:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585819679;
-        bh=J7RWyOxaAGre4b4DdTI7i7aOZrxrkooqXFQyOQ4KOsY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=B1DZr68ChWCITpuRnRBqBRzDSD79fRF1eAmBOzvVfh1ZuzY/ux6jiR79aVLi2tOFe
-         gjFMQy69GpienXO8q+G6gNoOoriqO9E3NxUHxiqwhL7cG2IRMyrQAJ/3qA81DSw5ur
-         lxsFptASA8ewYAjY+LqZyk0fwAo2xOP5axd8ePV8=
-Date:   Thu, 2 Apr 2020 11:27:47 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pavel Machek <pavel@ucw.cz>, devel@driverdev.osuosl.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund@ragnatech.se>,
-        Yong Deng <yong.deng@magewell.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
-Message-ID: <20200402112747.57dd1cfe@coco.lan>
-In-Reply-To: <20200401105949.GB2001@kadam>
-References: <cover.1585151701.git.mchehab+huawei@kernel.org>
- <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
- <20200401105949.GB2001@kadam>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1725965AbgDBJsE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 2 Apr 2020 05:48:04 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB46E31B;
+        Thu,  2 Apr 2020 02:48:03 -0700 (PDT)
+Received: from [10.57.59.199] (unknown [10.57.59.199])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B477A3F71E;
+        Thu,  2 Apr 2020 02:48:01 -0700 (PDT)
+Subject: Re: [PATCH 1/3] rkisp1: Get rid of unused variable warning
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com
+References: <20200401213721.24173-1-ezequiel@collabora.com>
+ <20200401213721.24173-2-ezequiel@collabora.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <b994a6fe-865b-d5c4-7f3f-ed6b1815f37f@arm.com>
+Date:   Thu, 2 Apr 2020 10:47:58 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200401213721.24173-2-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 1 Apr 2020 13:59:49 +0300
-Dan Carpenter <dan.carpenter@oracle.com> escreveu:
-
-> On Wed, Mar 25, 2020 at 04:36:31PM -0300, Helen Koike wrote:
-> > Hello,
-> > 
-> > On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:  
-> > > That's the second part of media Kconfig changes. The entire series is
-> > > at:
-> > > 
-> > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig  
-> > 
-> > I made a quick experiment (using this branch) with someone who works
-> > with the kernel for his master degree, but doesn't have much experience in kernel development in general.
-> > I asked him to enable Vimc (from default configs, where multimedia starts disabled).  
+On 2020-04-01 10:37 pm, Ezequiel Garcia wrote:
+> If CONFIG_OF is not selected, the compiler will complain:
 > 
-> The whole config system is really outdated.
+> drivers/staging/media/rkisp1/rkisp1-dev.c: In function ‘rkisp1_probe’:
+> drivers/staging/media/rkisp1/rkisp1-dev.c:457:22: warning: unused variable ‘node’ [-Wunused-variable]
+>    457 |  struct device_node *node = pdev->dev.of_node;
+> 
+> Rework the code slightly and make the compiler happy.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>   drivers/staging/media/rkisp1/rkisp1-dev.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+> index b1b3c058e957..5e7e797aad71 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+> @@ -454,7 +454,6 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>   
+>   static int rkisp1_probe(struct platform_device *pdev)
+>   {
+> -	struct device_node *node = pdev->dev.of_node;
+>   	const struct rkisp1_match_data *clk_data;
+>   	const struct of_device_id *match;
+>   	struct device *dev = &pdev->dev;
+> @@ -463,7 +462,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>   	unsigned int i;
+>   	int ret, irq;
+>   
+> -	match = of_match_node(rkisp1_of_match, node);
+> +	match = of_match_node(rkisp1_of_match, pdev->dev.of_node);
 
-Agreed. 
+FWIW you could clean up "match" too by using of_device_get_match_data().
 
-Btw, when compiled against Qt 5.14, "make xconfig" is currently
-broken. I'm sending in a few some fixup patches for it.
+Robin.
 
-> It should be that this task was done with a command like "kconfig enable
-> vimc".  It would ask necessary questions and pull in the dependencies
-> automatically.
-
-Yes. That's something that it is missing for a long time. There were
-some efforts to add a SAT solver at the Kernel that could be used for
-that, but I dunno what's current status.
-
-> Twenty years ago it made sense to go through the menus and select things
-> one by one.  Does anyone really start from defconfig any more?  Surely
-> everyone starts with a known working config and just enables specific
-> options.
-
-Yeah, that's my feeling too.
-
-> I started to hack together some code to create a kconfig program to
-> enable and disable options.  The problem is that all library code
-> assumes we want to display menus so it was a lot of work and I gave up.
-
-:-(
-
-Thanks,
-Mauro
+>   	rkisp1 = devm_kzalloc(dev, sizeof(*rkisp1), GFP_KERNEL);
+>   	if (!rkisp1)
+>   		return -ENOMEM;
+> 
