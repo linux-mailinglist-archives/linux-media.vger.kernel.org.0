@@ -2,174 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F9F19BA4F
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 04:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82FE319BAAA
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 05:34:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732660AbgDBCaF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Apr 2020 22:30:05 -0400
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:33299 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732435AbgDBCaF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Apr 2020 22:30:05 -0400
-Received: by mail-ua1-f65.google.com with SMTP id v24so639407uak.0
-        for <linux-media@vger.kernel.org>; Wed, 01 Apr 2020 19:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lfuxwXdO5Qm1FnVjQ4TY3lkUwjQwsijR0iep+YfIhi8=;
-        b=cxgY3XzAkmh2xMmV1Sm2e+CnYa+3xWXNCjv5MVPGF1/yVpxWTn9A2gHU3p8TIFGsiL
-         DRk+v/FdGeBIURCNaW5i9SQWwnOs79TW/pafrdhvKfufmJEoG2jXPBXMDJzU2gZtD5I3
-         DghL8PBRbtldndjn3uKc2/j5+txcPIwcfzogDdOZ657fEwiWSNHGMFA6DiXsUsx0ezEY
-         3R8iRug0HfO3Qjlbo34M8bzQMXVZiUbBXRdq2+yXDacLXtJe2xXRhmQI+Rld86GH7Ywh
-         BrGJ5BzyoUA0rHvXBTKEuheOrhfgq8fb3+Ki4B4RWKWb2s2CuHwbnbjDn8Z0xNucRCYU
-         7dYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lfuxwXdO5Qm1FnVjQ4TY3lkUwjQwsijR0iep+YfIhi8=;
-        b=OoOD9lMt2AcXlTcwRMoRpwHkQLHZ7DFwykdnDygrRIFuITsdAUy4onfoG7N4G8cWlk
-         sC5q210FruGFFQE1fgienhGL6niT29Hc0pCjPAL8G1nhQUbmVMPodTJRBngIyqNSjcKw
-         c+CTz2deQtjnpQTTys5OtVjbnlK+YfyWCNY0GmdvKrTgXaC5S+cORcWXEg+e/0J0KcI6
-         aWP+9UDTFtwnnLFd8JeXQbNe/xwJnE7cyFZXoboHxOjSUriQ7aBEz39CdyUKeV7UMQ/R
-         uGSem312giDa2gyCFGg9agzLcFq833pytQEJh/5mCJ94tN0AheaqSMgILj0Tqz+q+RPN
-         x9IQ==
-X-Gm-Message-State: AGi0PuamMk/CD8p7jSY873kUNfTsgc/gfovVCZReQ+qmk/C3EtyD100e
-        WhMuQ0xD9x/wWRZoBtXw7cASF4hoqzOQ4gDgz8M=
-X-Google-Smtp-Source: APiQypL6v0APr0Y96z5b5yvzQxGzTiuzCLtBGQcjHhglKlMOwVnPGMa40bzubApt5ri7Xm8H2PIL5cEiJbr3RU+ZWmQ=
-X-Received: by 2002:ab0:477:: with SMTP id 110mr1075527uav.56.1585794603834;
- Wed, 01 Apr 2020 19:30:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFP0Ok_3yTv9QWAykvBk3yLgbThycVPdx0taU9F1Wo_WTnVjyA@mail.gmail.com>
- <c892675e-79c0-5476-52c6-cd364adef4d7@collabora.com>
-In-Reply-To: <c892675e-79c0-5476-52c6-cd364adef4d7@collabora.com>
-From:   karthik poduval <karthik.poduval@gmail.com>
-Date:   Wed, 1 Apr 2020 19:29:51 -0700
-Message-ID: <CAFP0Ok8Ex=roGNc___FyiUVG+mY-bf2RjbQpRaaubmMg0CdWwA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] ARM: dts: rockchip: add ov5647 camera module support
- to tinkerboard
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1733283AbgDBDeg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Apr 2020 23:34:36 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:40731 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732498AbgDBDeg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 1 Apr 2020 23:34:36 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:ad65:89c:7514:c155])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id JqcjjZm6gBr2bJqckjm5c2; Thu, 02 Apr 2020 05:34:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1585798474; bh=r3ElOdbsja3xGFeIk6NMgCyGg7oWQ9aUy4YFjbFoM28=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=jTh/yQyRcTgdLZqSS6TlV35s1T2dBerczVWJHyuID5PB0w5PTRXz8TgzaP4ZlR1VV
+         zQyr/ow/ENcdFpTcz858iKOlCvjV/ue3ywMlBcgGapZxK4bByY4rmx1apwRG8vQyz5
+         jAVQTGwIeS+OW/icexKSZKfdWGvUPqM1KrrWXkVbq8YG9+/EYbF+dmWLzL0fVEXDtC
+         dzA16ddwmVFNxjWo7t4U4N5KqeBZWaRoyQn7qv6zI7rp3KF/ktJlpsdpjddv9bJCNK
+         cb92A8bB5SoUOQycGVuU/CC9b9duwZvQhiNdR2eWF+7gYY1aOt+hXjx/oRuQMdBPeL
+         nm6j0cfnpc2VA==
+Message-ID: <5530f32f9d83ac4a38bb4260d5c31cb2@smtp-cloud8.xs4all.net>
+Date:   Thu, 02 Apr 2020 05:34:33 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfKus/HOvuc4BCwIq6Z4opG0CXfEyyfl3TQCk25PRX4SuWbf/ie6/lZRDjzMYKjm5tnAeTxui3Kx1gISvmb4ntKOE0aYBxhD9vZCADBDZyUyerUzKoHGN
+ s7y2VRfMfB4NSLIwHuPSP9otMQuB4NAshKTaUpC5PBGBAXke5dDyfJku2o+5S4SmPZFDPivojeD8gKkDb1zdTFIzcdKf+QQX6UjCV7UBizNqB4Lagrb4b8ps
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 1, 2020 at 5:00 PM Helen Koike <helen.koike@collabora.com> wrote:
->
-> Hi Karthik,
->
-> It is nice to see this driver being used and tested elsewhere.
->
-> How did you tested the series? It would be nice to add it in the commit message.
->
-Firstly thank you for your work on the rkisp1 and libcamera and
-efforts of bringing it to mainline kernel. I tested the patch series
-using yocto build with meta-rockchip and using media kernel tree TOT.
-I also used libcamera to configure the pipeline (since it was more
-convenient as compared to media-ctl commands). Sure I will add them to
-the commit message in my next commit. Would this commit be the best
-place to include testing instructions or include into all 4 commits
-that I posted ?
-> On 3/31/20 4:57 AM, karthik poduval wrote:
-> > ov5647 is one of the two camera modules as described in
-> > https://tinkerboarding.co.uk/wiki/index.php/CSI-camera
-> >
-> > changes ported over from https://github.com/TinkerBoard/debian_kernel.git
-> >
-> > Reported-by: Karthik Poduval <karthik.poduval@gmail.com>
-> > Signed-off-by: Karthik Poduval <karthik.poduval@gmail.com>
->
-> please, see my comments from previous commit.
->
-> > ---
-> >  arch/arm/boot/dts/rk3288-tinker.dtsi | 37 ++++++++++++++++++++++++++++
->
-> I wondering if changing thinkerboard dts make sense. Is the camera really hardwired
-> on the tinker board, or is it an add-on?
->
-> Regards,
-> Helen
-No the camera isn't hardwired but connects over a flex cable to an
-adapter board, however based on my search I found that only 2 camera
-adapter boards have been made for tinkerboard, IMX219 and OV5647. The
-only camera adapter board I have with me is ov5647. Normally offboard
-peripherals also need device tree entries. The tinkerbaord debain 4.4
-kernel includes imx219 device entry in the device tree and provides
-ov5647 device tree entry as an overlay. What is the recommendation
-here ? Should it be an overlay or not added at all ?
->
-> >  1 file changed, 37 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/rk3288-tinker.dtsi
-> > b/arch/arm/boot/dts/rk3288-tinker.dtsi
-> > index 312582c1bd37..720dd80ea3aa 100644
-> > --- a/arch/arm/boot/dts/rk3288-tinker.dtsi
-> > +++ b/arch/arm/boot/dts/rk3288-tinker.dtsi
-> > @@ -107,6 +107,13 @@
-> >          startup-delay-us = <100000>;
-> >          vin-supply = <&vcc_io>;
-> >      };
-> > +
-> > +    ext_cam_clk: external-camera-clock {
-> > +        compatible = "fixed-clock";
-> > +        clock-frequency = <25000000>;
-> > +        clock-output-names = "CLK_CAMERA_25MHZ";
-> > +        #clock-cells = <0>;
-> > +    };
-> >  };
-> >
-> >  &cpu0 {
-> > @@ -345,12 +352,42 @@
-> >
-> >  &i2c2 {
-> >      status = "okay";
-> > +    camera0: ov5647@36 {
-> > +        compatible = "ovti,ov5647";
-> > +        reg = <0x36>;
-> > +        clocks = <&ext_cam_clk>;
-> > +        status = "okay";
-> > +        enable-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
-> > +        port {
-> > +            ov5647_out: endpoint {
-> > +                remote-endpoint = <&isp_mipi_in>;
-> > +                data-lanes = <1 2>;
-> > +            };
-> > +        };
-> > +    };
-> >  };
-> >
-> >  &i2c5 {
-> >      status = "okay";
-> >  };
-> >
-> > +&isp {
-> > +    status = "okay";
-> > +    phys = <&mipi_phy_rx0>;
-> > +    phy-names = "dphy";
-> > +
-> > +    port {
-> > +        isp_mipi_in: endpoint {
-> > +            remote-endpoint = <&ov5647_out>;
-> > +            data-lanes = <1 2>;
-> > +        };
-> > +    };
-> > +};
-> > +
-> > +&mipi_phy_rx0 {
-> > +    status = "okay";
-> > +};
-> > +
-> >  &i2s {
-> >      #sound-dai-cells = <0>;
-> >      status = "okay";
-> >
->
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
--- 
-Regards,
-Karthik Poduval
+Results of the daily build of media_tree:
+
+date:			Thu Apr  2 05:00:12 CEST 2020
+media-tree git hash:	2632e7b618a7730969f9782593c29ca53553aa22
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	38f4ce74275ae4625463f7eec78764715a0b6246
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: cbd8bfbab9e84c54e1f1dcf8c172c400a10126df
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
