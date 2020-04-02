@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A688F19BEF6
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 11:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 052D919BF1B
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 12:10:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387592AbgDBJ5W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Apr 2020 05:57:22 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:34850 "EHLO
+        id S2387895AbgDBKKN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Apr 2020 06:10:13 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39718 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728803AbgDBJ5W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Apr 2020 05:57:22 -0400
-Received: by mail-ot1-f67.google.com with SMTP id v2so2814819oto.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2020 02:57:21 -0700 (PDT)
+        with ESMTP id S1728135AbgDBKKN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Apr 2020 06:10:13 -0400
+Received: by mail-ot1-f67.google.com with SMTP id x11so2823019otp.6
+        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2020 03:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=k7BONJVnKzuVhtjjNj+qftoNDxpPeWoFQFGqO2BllZ4=;
-        b=RlrMaBDl00mz5wHT4OGSuNFqsCyjlszw2abHjiHD3AUxmMEGyUTX1P09R9ovOsGTAk
-         AUgtBVGV0tova9mq6fSrTsS1/wdwaS5aZALgGP4iMWn+93lB3xUJOtxC6Tn/rk8llQH+
-         QzWQnhhchF7mK+qv+rpfXEmPDtMctDhXEO0vIOzyIBgBzApFDCkMUwHx5VC7z5YDIcX9
-         QpTvWFaLRnvhvv75fXJ+AN7f+oyLe+SZE8urzCsCxn0NTZ/TuzDz+Pczq0d17RegcRYT
-         xfzSoXzH1+SVHB6fKoty/+ltaR7NsJPVoKDNGgd2sD0RVWRjw6f2NQI7uAiE+wDoJdVI
-         Lz/A==
+        bh=MRdlSIlWiqiUEn9v/+BSCM98gAfMn515+Qx9Pso1+1M=;
+        b=eihORtTgxTZlcrTJ/9m6HDeGAe36CEbjF+saO5ljAmLWT/D8IrrbD/k7YTxI3xWXO4
+         ylnchmXj5sp9VZ7zqA/HMR7QDWFcrBNQcuwNPbNnQ4dMocOW51OLPY7OTJak3JK+Oqwp
+         GJzYConXFZ8RL2W+vQ+t4j9yLNaKA5VskegVJPg0L9KNMDortPbE8UtViAiQ3oQZiqeT
+         1C6N66XvBAyAOgQRTKQBfB7K6CRqR/HMkJsA/8LbB6Sa9nSQ2ohnRRwPAUntCv1JAQ84
+         /GgKhieuyOZS50zZ7AjXCxCpmCE+LFNkJl6FW2xiKh2c8FWNGJI4LJFGlhKdoGpRw8/X
+         Uvaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=k7BONJVnKzuVhtjjNj+qftoNDxpPeWoFQFGqO2BllZ4=;
-        b=Y+W2Wf3r6qkHZhstyU030zQgKtyYonMV7G18EJRKwXQWlOGpe3Ilk6jIwiMS5Hdg+h
-         6mqTwooylgd9JgOnFTJB8Th+AaMmTYM73BSXfW9durH45/1lQ4+fOga9/WYbFip6SkDK
-         u/T00u8F13gnKvFP6j8YgEJf/5qYvjM+p/476fuNFlRbJ/Gk5zWScnJ8CfkD2b00tB+I
-         wreF3aQMrw+o/FXmjy/vZT0Vd6/FBZn7F+Sg/mbDj/mvl6jhCOttKdcQVp01lO3UM0oQ
-         daGPk/ReN1vCzg0rPImt9GlvBOZvocLytufceMwMxfgLxYTWUbDIz/cKavOwXMxzUKF5
-         knOw==
-X-Gm-Message-State: AGi0PuYsJWM4Hk8w1oGgSMMwSHzs68CUmSYgwVteUgEADrnzcQ+/qTzG
-        hlxG1//J6nFzQDUvkD0IC7ZFDUnun7ATpeoEHKO2iw==
-X-Google-Smtp-Source: APiQypJvsIEDz687agNDV5HB9tocDbOrr7IGIaIt4p+7ALU7k2BUZOZdtADN61SUSI+h6xq4jL10+O07CT29CbXFI1U=
-X-Received: by 2002:a9d:27a7:: with SMTP id c36mr1717257otb.68.1585821441364;
- Thu, 02 Apr 2020 02:57:21 -0700 (PDT)
+        bh=MRdlSIlWiqiUEn9v/+BSCM98gAfMn515+Qx9Pso1+1M=;
+        b=A5NAxtbHlC6ZwJZ+HTm48TnjJ/uIu4XcDgq72HxF0jwAL24zZOBcRiypgd+2//aFvq
+         rsjsgPY+f7GhC+kgCh1uPwMCKRHPuXMBhtTc82h6KBNiQBuOd3Y7UonxsU8BeaQVTwqv
+         4lTTG0GhOHphWerh2Rl5PAVntR7mEdKL8tdXuElSVNchJTn+0q7XF+Xu/BSSJWTdSHhG
+         j8YCknqwvAizji3cuakWPyZW+wv0gdqxO9quHm09rYS0rkiR67O1ni9PsDZ2xg1uajXK
+         JZnaFf3wLP0aD9H7DggVC03jUjCKj6sChfU0H7yaPirwI42Kydhha2m/Xvo4ojHU3bST
+         ybDA==
+X-Gm-Message-State: AGi0PuZ7MFMs0We3onYPMfr1xw8Lt1B9zoO4qzxhs2yy9v4nG3YIrLZ7
+        zgKqGzK5I9XlQjgsA71AlvjM2tbt/LKr3hnMG0eoBA==
+X-Google-Smtp-Source: APiQypKBm/Lg+9lw65OG6XgOJFxflgoP4WFpsTputiWXnE3eeGtQPAOXhxBX+bGTFsX8n8K4MxbqvgyMTSSGZvo3ZmQ=
+X-Received: by 2002:a9d:6c88:: with SMTP id c8mr1673754otr.272.1585822211618;
+ Thu, 02 Apr 2020 03:10:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200331133346.372517-1-robert.foss@linaro.org>
- <20200331133346.372517-2-robert.foss@linaro.org> <20200331151253.q6ody3erhvsabznz@pengutronix.de>
-In-Reply-To: <20200331151253.q6ody3erhvsabznz@pengutronix.de>
+ <20200331133346.372517-2-robert.foss@linaro.org> <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
+In-Reply-To: <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
 From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 2 Apr 2020 11:57:10 +0200
-Message-ID: <CAG3jFyvBmfwoSoKxZJPh2VcJe2aCYGWRRNmkuky3wU2jOsRwBQ@mail.gmail.com>
+Date:   Thu, 2 Apr 2020 12:10:00 +0200
+Message-ID: <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
 Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-To:     Marco Felsch <m.felsch@pengutronix.de>
+To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Fabio Estevam <festevam@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -66,13 +66,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-'Hey Marco,
+Hey Maxime,
 
-On Tue, 31 Mar 2020 at 17:13, Marco Felsch <m.felsch@pengutronix.de> wrote:
+On Wed, 1 Apr 2020 at 10:07, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> Hi Robert,
+> Hi,
 >
-> On 20-03-31 15:33, Robert Foss wrote:
+> On Tue, Mar 31, 2020 at 03:33:44PM +0200, Robert Foss wrote:
 > > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
 > >
 > > This patch adds documentation of device tree in YAML schema for the
@@ -156,7 +156,32 @@ On Tue, 31 Mar 2020 at 17:13, Marco Felsch <m.felsch@pengutronix.de> wrote:
 > > +    description:
 > > +      Frequency of the xvclk clock in Hertz.
 >
-> Why do we need this here?
+> We also had that discussion recently for another omnivision sensor
+> (ov5645 iirc), but what is clock-frequency useful for?
+>
+> It seems that the sensor is passed in clocks, so if you need to
+> retrieve the clock rate you should use the clock API instead.
+>
+> Looking at the driver, it looks like it first retrieves the clock, set
+> it to clock-frequency, and then checks that this is OV8856_XVCLK_19_2
+> (19.2 MHz).
+
+As far as I understand it, 19.2MHz is requirement for the sensor mode
+that currently defaults to. Some modes require higher clock speeds
+than this however.
+
+>
+> The datasheet says that the sensor can have any frequency in the 6 -
+> 27 MHz range, so this is a driver limitation and should be set in the
+> driver using the clock API, and you can always bail out if it doesn't
+> provide a rate that is not acceptable for the drivers assumption.
+>
+> In any case, you don't need clock-frequency here...
+
+So your suggestion is that we remove all clocks-rate properties, and
+replace the clk_get_rate() calls in the driver with clk_set_rate()
+calls for the desired frequencies?
+
 >
 > > +  assigned-clocks:
 > > +    description:
@@ -166,157 +191,9 @@ On Tue, 31 Mar 2020 at 17:13, Marco Felsch <m.felsch@pengutronix.de> wrote:
 > > +    description:
 > > +      Frequency of the xvclk clock in Hertz.
 >
-> Also this isn't related to the chip. You need this because you are using
-> a qcom platform which provides the clock.
->
-> IMHO you only need to specify the clock. You can get the frequency with
-> the clk_get_rate() function.
+> And you don't need assigned-clock-rates either.
 
-The way I understood this, was that clk_get_rate() would fetch the
-clock rate as defined by the 'assigned-clock-rates'
-Is this not the case? And if so, what rate would cllk_get_rate()
-actually retrieve?
+Ack.
 
 >
-> > +  dovdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as interface power supply.
->
-> Phandle to the interface power supply regulator?
->
-> > +
-> > +  avdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as analog power supply.
-> > +
-> > +  dvdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as digital power supply.
-> > +
-> > +  reset-gpios:
-> > +    description:
-> > +      The phandle and specifier for the GPIO that controls sensor reset.
-> > +      This corresponds to the hardware pin XSHUTDOWN which is physically
-> > +      active low.
-> > +
-> > +  port:
-> > +    type: object
-> > +    additionalProperties: false
-> > +    description:
-> > +      A node containing input and output port nodes with endpoint definitions
-> > +      as documented in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +
-> > +        properties:
-> > +          clock-lanes:
-> > +            maxItems: 1
-> > +
-> > +          data-lanes:
-> > +            maxItems: 1
-> > +
-> > +          remote-endpoint: true
-> > +
-> > +        required:
-> > +          - clock-lanes
-> > +          - data-lanes
-> > +          - remote-endpoint
-> > +
-> > +    required:
-> > +      - endpoint
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - clock-frequency
-> > +  - assigned-clocks
-> > +  - assigned-clock-rates
-> > +  - dovdd-supply
-> > +  - avdd-supply
-> > +  - dvdd-supply
-> > +  - reset-gpios
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/clock/qcom,camcc-sdm845.h>
->
-> IMHO we should avoid examples with hardware specific includes.
-
-The HW specific include is used for the clocks property.
-clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
-
-Is there a non hw specific clock that would be better to use for examples?
-
->
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        ov8856: camera@10 {
-> > +            compatible = "ovti,ov8856";
-> > +            reg = <0x10>;
-> > +
-> > +            reset-gpios = <&pio 111 GPIO_ACTIVE_LOW>;
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&clk_24m_cam>;
-> > +
-> > +            clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
-> > +            clock-names = "xvclk";
-> > +            clock-frequency = <19200000>;
-> > +            assigned-clocks = <&clock_camcc CAM_CC_MCLK0_CLK>;
-> > +            assigned-clock-rates = <19200000>;
-> > +
-> > +            avdd-supply = <&mt6358_vcama2_reg>;
-> > +            dvdd-supply = <&mt6358_vcamd_reg>;
-> > +            dovdd-supply = <&mt6358_vcamio_reg>;
-> > +
-> > +            port {
-> > +                wcam_out: endpoint {
-> > +                    remote-endpoint = <&mipi_in_wcam>;
-> > +                    clock-lanes = <0>;
-> > +                    data-lanes = <1 2 3 4>;
-> > +                    link-frequencies = /bits/ 64 <360000000 180000000>;
->
-> Should we add the link-frequencies as optional param?
->
-> Regards,
->   Marco
->
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > \ No newline at end of file
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index a6fbdf354d34..0f99e863978a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12355,6 +12355,7 @@ L:    linux-media@vger.kernel.org
-> >  T:   git git://linuxtv.org/media_tree.git
-> >  S:   Maintained
-> >  F:   drivers/media/i2c/ov8856.c
-> > +F:   Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >
-> >  OMNIVISION OV9650 SENSOR DRIVER
-> >  M:   Sakari Ailus <sakari.ailus@linux.intel.com>
-> > --
-> > 2.25.1
-> >
-> >
->
-> --
-> Pengutronix e.K.                           |                             |
-> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> Maxime
