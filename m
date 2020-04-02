@@ -2,91 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E4C419BE17
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 10:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8242F19BE8E
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 11:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387813AbgDBIw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Apr 2020 04:52:26 -0400
-Received: from mga17.intel.com ([192.55.52.151]:5611 "EHLO mga17.intel.com"
+        id S2387719AbgDBJ2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Apr 2020 05:28:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48560 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387749AbgDBIw0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 2 Apr 2020 04:52:26 -0400
-IronPort-SDR: Rl8ESYf2lQ8qr7XvpzESBeZZahccIWieKjsW4IDiZPdePh3xZ14iAzHBWqrmyUFN6BroJYcPhD
- rrU86zxcG/iA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2020 01:52:26 -0700
-IronPort-SDR: lSTxC31/lHPveE8rO2r7/yKYE2gQkKeyi8aH5qvCKS22HS/1Hd4IKGn+ruHLVGhkTUBclS8gPv
- 35cNGLbs1wsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,335,1580803200"; 
-   d="scan'208";a="240768676"
-Received: from tronach-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.38.191])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Apr 2020 01:52:22 -0700
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id 0668121F19; Thu,  2 Apr 2020 11:52:16 +0300 (EEST)
-Date:   Thu, 2 Apr 2020 11:52:16 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>, mchehab@kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        hverkuil@xs4all.nl,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        laurent.pinchart@ideasonboard.com,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Ville =?iso-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 1/1] lib/vsprintf: Add support for printing V4L2 and DRM
- fourccs
-Message-ID: <20200402085216.GC1522@kekkonen.localdomain>
-References: <20200401140522.966-1-sakari.ailus@linux.intel.com>
- <87eet6mgk7.fsf@intel.com>
+        id S1725965AbgDBJ2A (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 2 Apr 2020 05:28:00 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 549A4206D3;
+        Thu,  2 Apr 2020 09:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585819679;
+        bh=J7RWyOxaAGre4b4DdTI7i7aOZrxrkooqXFQyOQ4KOsY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=B1DZr68ChWCITpuRnRBqBRzDSD79fRF1eAmBOzvVfh1ZuzY/ux6jiR79aVLi2tOFe
+         gjFMQy69GpienXO8q+G6gNoOoriqO9E3NxUHxiqwhL7cG2IRMyrQAJ/3qA81DSw5ur
+         lxsFptASA8ewYAjY+LqZyk0fwAo2xOP5axd8ePV8=
+Date:   Thu, 2 Apr 2020 11:27:47 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pavel Machek <pavel@ucw.cz>, devel@driverdev.osuosl.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund@ragnatech.se>,
+        Yong Deng <yong.deng@magewell.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+Message-ID: <20200402112747.57dd1cfe@coco.lan>
+In-Reply-To: <20200401105949.GB2001@kadam>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+ <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+ <20200401105949.GB2001@kadam>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87eet6mgk7.fsf@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+Em Wed, 1 Apr 2020 13:59:49 +0300
+Dan Carpenter <dan.carpenter@oracle.com> escreveu:
 
-On Thu, Apr 02, 2020 at 11:34:48AM +0300, Jani Nikula wrote:
-> On Wed, 01 Apr 2020, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
-> > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
-> > the same implementation can be used.
+> On Wed, Mar 25, 2020 at 04:36:31PM -0300, Helen Koike wrote:
+> > Hello,
+> > 
+> > On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:  
+> > > That's the second part of media Kconfig changes. The entire series is
+> > > at:
+> > > 
+> > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig  
+> > 
+> > I made a quick experiment (using this branch) with someone who works
+> > with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+> > I asked him to enable Vimc (from default configs, where multimedia starts disabled).  
 > 
-> I'm not going to take a strong stand in one way or the other regarding
-> the patch at hand, but I do think at some point we have to draw a line
-> what should be included in printk formats. Arguably they should be
-> reserved to things that are generally useful across large parts of the
-> kernel, right?
-> 
-> I think the more specialized you get, the more you should think about
-> just using the plain old %s, and your own helpers. Because frankly, the
-> kernel printk specifiers also start getting more than a little obscure.
+> The whole config system is really outdated.
 
-I don't really disagree... While this is functionality very commonly needed
-in drivers, there are alternatives such as posted here:
+Agreed. 
 
-<URL:https://lore.kernel.org/linux-media/20190916100433.24367-1-hverkuil-cisco@xs4all.nl/>
+Btw, when compiled against Qt 5.14, "make xconfig" is currently
+broken. I'm sending in a few some fixup patches for it.
 
-The 4cc codes added by this set is still relatively generic (while still
-Linux subsystem specific and not related to e.g. hardware standards), but I
-wonder how many other, possibly similar cases there could be in the kernel,
-and how many new specifiers we might get with those all added.
+> It should be that this task was done with a command like "kconfig enable
+> vimc".  It would ask necessary questions and pull in the dependencies
+> automatically.
 
-For what it's worth, even C99 defines macros for printing some formats
-such as PRIu64 for uint64_t.
+Yes. That's something that it is missing for a long time. There were
+some efforts to add a SAT solver at the Kernel that could be used for
+that, but I dunno what's current status.
 
--- 
-Terveisin,
+> Twenty years ago it made sense to go through the menus and select things
+> one by one.  Does anyone really start from defconfig any more?  Surely
+> everyone starts with a known working config and just enables specific
+> options.
 
-Sakari Ailus
+Yeah, that's my feeling too.
+
+> I started to hack together some code to create a kconfig program to
+> enable and disable options.  The problem is that all library code
+> assumes we want to display menus so it was a lot of work and I gave up.
+
+:-(
+
+Thanks,
+Mauro
