@@ -2,198 +2,371 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 052D919BF1B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 12:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B667F19BF82
+	for <lists+linux-media@lfdr.de>; Thu,  2 Apr 2020 12:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387895AbgDBKKN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Apr 2020 06:10:13 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39718 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728135AbgDBKKN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Apr 2020 06:10:13 -0400
-Received: by mail-ot1-f67.google.com with SMTP id x11so2823019otp.6
-        for <linux-media@vger.kernel.org>; Thu, 02 Apr 2020 03:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MRdlSIlWiqiUEn9v/+BSCM98gAfMn515+Qx9Pso1+1M=;
-        b=eihORtTgxTZlcrTJ/9m6HDeGAe36CEbjF+saO5ljAmLWT/D8IrrbD/k7YTxI3xWXO4
-         ylnchmXj5sp9VZ7zqA/HMR7QDWFcrBNQcuwNPbNnQ4dMocOW51OLPY7OTJak3JK+Oqwp
-         GJzYConXFZ8RL2W+vQ+t4j9yLNaKA5VskegVJPg0L9KNMDortPbE8UtViAiQ3oQZiqeT
-         1C6N66XvBAyAOgQRTKQBfB7K6CRqR/HMkJsA/8LbB6Sa9nSQ2ohnRRwPAUntCv1JAQ84
-         /GgKhieuyOZS50zZ7AjXCxCpmCE+LFNkJl6FW2xiKh2c8FWNGJI4LJFGlhKdoGpRw8/X
-         Uvaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MRdlSIlWiqiUEn9v/+BSCM98gAfMn515+Qx9Pso1+1M=;
-        b=A5NAxtbHlC6ZwJZ+HTm48TnjJ/uIu4XcDgq72HxF0jwAL24zZOBcRiypgd+2//aFvq
-         rsjsgPY+f7GhC+kgCh1uPwMCKRHPuXMBhtTc82h6KBNiQBuOd3Y7UonxsU8BeaQVTwqv
-         4lTTG0GhOHphWerh2Rl5PAVntR7mEdKL8tdXuElSVNchJTn+0q7XF+Xu/BSSJWTdSHhG
-         j8YCknqwvAizji3cuakWPyZW+wv0gdqxO9quHm09rYS0rkiR67O1ni9PsDZ2xg1uajXK
-         JZnaFf3wLP0aD9H7DggVC03jUjCKj6sChfU0H7yaPirwI42Kydhha2m/Xvo4ojHU3bST
-         ybDA==
-X-Gm-Message-State: AGi0PuZ7MFMs0We3onYPMfr1xw8Lt1B9zoO4qzxhs2yy9v4nG3YIrLZ7
-        zgKqGzK5I9XlQjgsA71AlvjM2tbt/LKr3hnMG0eoBA==
-X-Google-Smtp-Source: APiQypKBm/Lg+9lw65OG6XgOJFxflgoP4WFpsTputiWXnE3eeGtQPAOXhxBX+bGTFsX8n8K4MxbqvgyMTSSGZvo3ZmQ=
-X-Received: by 2002:a9d:6c88:: with SMTP id c8mr1673754otr.272.1585822211618;
- Thu, 02 Apr 2020 03:10:11 -0700 (PDT)
+        id S2387988AbgDBKkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Apr 2020 06:40:49 -0400
+Received: from mga05.intel.com ([192.55.52.43]:53560 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387968AbgDBKkt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 2 Apr 2020 06:40:49 -0400
+IronPort-SDR: VUg19iuyku5tOnaEWzhrkY3lVCyNbbGSmVV63g4ilrGvwZTrqwBylDmJp5YlX3yOx5BVmpQgFO
+ rJW3ogMz46+Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2020 03:40:48 -0700
+IronPort-SDR: YSyrc4XjfxL4A+wsKtRG0wZkC9A9SCS28WZEJMzfvNEIcWeu0XqBfJ3Kl6gL2fxoxmn7cb8o1p
+ a9AEx8XHCDyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,335,1580803200"; 
+   d="scan'208";a="423086041"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 02 Apr 2020 03:40:46 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jJxHB-000IUL-FP; Thu, 02 Apr 2020 18:40:45 +0800
+Date:   Thu, 02 Apr 2020 18:40:20 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD REGRESSION
+ 2632e7b618a7730969f9782593c29ca53553aa22
+Message-ID: <5e85c114.29jDv7tX924rmL6J%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200331133346.372517-1-robert.foss@linaro.org>
- <20200331133346.372517-2-robert.foss@linaro.org> <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
-In-Reply-To: <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 2 Apr 2020 12:10:00 +0200
-Message-ID: <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Maxime,
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 2632e7b618a7730969f9782593c29ca53553aa22  media: venus: firmware: Ignore secure call error on first resume
 
-On Wed, 1 Apr 2020 at 10:07, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi,
->
-> On Tue, Mar 31, 2020 at 03:33:44PM +0200, Robert Foss wrote:
-> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> >
-> > This patch adds documentation of device tree in YAML schema for the
-> > OV8856 CMOS image sensor.
-> >
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > ---
-> >
-> > - Changes since v5:
-> >   * Add assigned-clocks and assigned-clock-rates
-> >   * robher: dt-schema errors
-> >
-> > - Changes since v4:
-> >   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
-> >   * Add clock-lanes property to example
-> >   * robher: Fix syntax error in devicetree example
-> >
-> > - Changes since v3:
-> >   * robher: Fix syntax error
-> >   * robher: Removed maxItems
-> >   * Fixes yaml 'make dt-binding-check' errors
-> >
-> > - Changes since v2:
-> >   Fixes comments from from Andy, Tomasz, Sakari, Rob.
-> >   * Convert text documentation to YAML schema.
-> >
-> > - Changes since v1:
-> >   Fixes comments from Sakari, Tomasz
-> >   * Add clock-frequency and link-frequencies in DT
-> >
-> >  .../devicetree/bindings/media/i2c/ov8856.yaml | 150 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 151 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > new file mode 100644
-> > index 000000000000..beeddfbb8709
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > @@ -0,0 +1,150 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (c) 2019 MediaTek Inc.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Ben Kao <ben.kao@intel.com>
-> > +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > +
-> > +description: |-
-> > +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapixel, CMOS
-> > +  image sensor that delivers 3264x2448 at 30fps. It provides full-frame,
-> > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
-> > +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
-> > +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
-> > +  serial data output (up to 4-lane).
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ovti,ov8856
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    description:
-> > +      Input clock for the sensor.
-> > +    items:
-> > +      - const: xvclk
-> > +
-> > +  clock-frequency:
-> > +    description:
-> > +      Frequency of the xvclk clock in Hertz.
->
-> We also had that discussion recently for another omnivision sensor
-> (ov5645 iirc), but what is clock-frequency useful for?
->
-> It seems that the sensor is passed in clocks, so if you need to
-> retrieve the clock rate you should use the clock API instead.
->
-> Looking at the driver, it looks like it first retrieves the clock, set
-> it to clock-frequency, and then checks that this is OV8856_XVCLK_19_2
-> (19.2 MHz).
+Regressions in current branch:
 
-As far as I understand it, 19.2MHz is requirement for the sensor mode
-that currently defaults to. Some modes require higher clock speeds
-than this however.
+drivers/media/dvb-frontends/m88ds3103.c:392:6: note: Assuming that condition 'big_symbol' is not redundant
+drivers/media/dvb-frontends/m88ds3103.c:409:9: note: Condition 'big_symbol' is always false
+drivers/media/dvb-frontends/m88ds3103.c:409:9: warning: Condition 'big_symbol' is always false [knownConditionTrueFalse]
+drivers/media/dvb-frontends/m88ds3103.c:454:11: warning: Variable 'reg11' is assigned a value that is never used. [unreadVariable]
+drivers/media/dvb-frontends/m88ds3103.c:982:7: note: ret is assigned
+drivers/media/dvb-frontends/m88ds3103.c:993:6: note: ret is overwritten
+drivers/media/dvb-frontends/m88ds3103.c:993:6: warning: Variable 'ret' is reassigned a value before the old one has been used. [redundantAssignment]
+drivers/media/i2c/imx219.c:599:6: warning: The scope of the variable 'ret' can be reduced. [variableScope]
+drivers/media/i2c/imx219.c:854:29: warning: The scope of the variable 'framefmt' can be reduced. [variableScope]
+drivers/media/i2c/ov5695.c:1017:9: warning: The scope of the variable 'ret' can be reduced. [variableScope]
+drivers/media/i2c/tvp5150.c:1280:20: warning: The scope of the variable 'connector_pad' can be reduced. [variableScope]
+drivers/media/i2c/tvp5150.c:1361:35: warning: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
+drivers/media/i2c/tvp5150.c:1937:32: warning: The scope of the variable 'v4l2c' can be reduced. [variableScope]
+drivers/media/i2c/tvp5150.c:1947:31: warning: The scope of the variable 'link1' can be reduced. [variableScope]
+drivers/media/platform/qcom/venus/core.c:363:6: warning: The scope of the variable 'ret' can be reduced. [variableScope]
+drivers/media/platform/qcom/venus/vdec.c:1196:22: note: Condition 'inst->bit_depth!=ev_data->bit_depth' is redundant
+drivers/media/platform/qcom/venus/vdec.c:1196:22: warning: The statement 'if (inst->bit_depth!=ev_data->bit_depth) inst->bit_depth=ev_data->bit_depth' is logically equivalent to 'inst->bit_depth=ev_data->bit_depth'. [duplicateConditionalAssign]
+drivers/media/platform/qcom/venus/vdec.c:1197:19: note: Assignment 'inst->bit_depth=ev_data->bit_depth'
+flags & MEDIA_LNK_FL_ENABLED ? TVP5150_NORMAL :
+if (big_symbol)
+if (inst->bit_depth != ev_data->bit_depth)
+inst->bit_depth = ev_data->bit_depth;
+reg11 |= 0x02;
+ret = m88ds3103_update_bits(dev, 0xc9, 0x08, 0x08);
+ret = regmap_bulk_write(dev->regmap, 0x5e, buf, 2);
+struct media_pad *connector_pad;
+struct v4l2_connector_link *link1;
+struct v4l2_fwnode_connector *v4l2c;
+u8 reg11 = 0x0A, reg15, reg16, reg1D, reg1E, reg1F, tmp;
 
->
-> The datasheet says that the sensor can have any frequency in the 6 -
-> 27 MHz range, so this is a driver limitation and should be set in the
-> driver using the clock API, and you can always bail out if it doesn't
-> provide a rate that is not acceptable for the drivers assumption.
->
-> In any case, you don't need clock-frequency here...
+Error ids grouped by kconfigs:
 
-So your suggestion is that we remove all clocks-rate properties, and
-replace the clk_get_rate() calls in the driver with clk_set_rate()
-calls for the desired frequencies?
+recent_errors
+|-- i386-allmodconfig
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:note:Assuming-that-condition-big_symbol-is-not-redundant
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:note:Condition-big_symbol-is-always-false
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:note:ret-is-assigned
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:note:ret-is-overwritten
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Condition-big_symbol-is-always-false-knownConditionTrueFalse
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Variable-reg11-is-assigned-a-value-that-is-never-used.-unreadVariable
+|   |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Variable-ret-is-reassigned-a-value-before-the-old-one-has-been-used.-redundantAssignment
+|   |-- drivers-media-i2c-imx219.c:warning:The-scope-of-the-variable-framefmt-can-be-reduced.-variableScope
+|   |-- drivers-media-i2c-imx219.c:warning:The-scope-of-the-variable-ret-can-be-reduced.-variableScope
+|   |-- drivers-media-i2c-ov5695.c:warning:The-scope-of-the-variable-ret-can-be-reduced.-variableScope
+|   |-- drivers-media-i2c-tvp5150.c:warning:Clarify-calculation-precedence-for-and-.-clarifyCalculation
+|   |-- drivers-media-i2c-tvp5150.c:warning:The-scope-of-the-variable-connector_pad-can-be-reduced.-variableScope
+|   |-- drivers-media-i2c-tvp5150.c:warning:The-scope-of-the-variable-link1-can-be-reduced.-variableScope
+|   |-- drivers-media-i2c-tvp5150.c:warning:The-scope-of-the-variable-v4l2c-can-be-reduced.-variableScope
+|   |-- drivers-media-platform-qcom-venus-core.c:warning:The-scope-of-the-variable-ret-can-be-reduced.-variableScope
+|   |-- drivers-media-platform-qcom-venus-vdec.c:note:Assignment-inst-bit_depth-ev_data-bit_depth
+|   |-- drivers-media-platform-qcom-venus-vdec.c:note:Condition-inst-bit_depth-ev_data-bit_depth-is-redundant
+|   |-- drivers-media-platform-qcom-venus-vdec.c:warning:The-statement-if-(inst-bit_depth-ev_data-bit_depth)-inst-bit_depth-ev_data-bit_depth-is-logically-equivalent-to-inst-bit_depth-ev_data-bit_depth-.-dupl
+|   |-- flags-MEDIA_LNK_FL_ENABLED-TVP5150_NORMAL:
+|   |-- if-(big_symbol)
+|   |-- if-(inst-bit_depth-ev_data-bit_depth)
+|   |-- inst-bit_depth-ev_data-bit_depth
+|   |-- reg11
+|   |-- ret-m88ds3103_update_bits(dev-)
+|   |-- ret-regmap_bulk_write(dev-regmap-buf-)
+|   |-- struct-media_pad-connector_pad
+|   |-- struct-v4l2_connector_link-link1
+|   |-- struct-v4l2_fwnode_connector-v4l2c
+|   `-- u8-reg11-A-reg15-reg16-reg1D-reg1E-reg1F-tmp
+`-- x86_64-allyesconfig
+    |-- drivers-media-dvb-frontends-m88ds3103.c:note:Assuming-that-condition-big_symbol-is-not-redundant
+    |-- drivers-media-dvb-frontends-m88ds3103.c:note:Condition-big_symbol-is-always-false
+    |-- drivers-media-dvb-frontends-m88ds3103.c:note:ret-is-assigned
+    |-- drivers-media-dvb-frontends-m88ds3103.c:note:ret-is-overwritten
+    |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Condition-big_symbol-is-always-false-knownConditionTrueFalse
+    |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Variable-reg11-is-assigned-a-value-that-is-never-used.-unreadVariable
+    |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Variable-ret-is-reassigned-a-value-before-the-old-one-has-been-used.-redundantAssignment
+    |-- drivers-media-i2c-imx219.c:warning:The-scope-of-the-variable-framefmt-can-be-reduced.-variableScope
+    |-- drivers-media-i2c-imx219.c:warning:The-scope-of-the-variable-ret-can-be-reduced.-variableScope
+    |-- drivers-media-i2c-ov5695.c:warning:The-scope-of-the-variable-ret-can-be-reduced.-variableScope
+    |-- drivers-media-i2c-tvp5150.c:warning:Clarify-calculation-precedence-for-and-.-clarifyCalculation
+    |-- drivers-media-i2c-tvp5150.c:warning:The-scope-of-the-variable-connector_pad-can-be-reduced.-variableScope
+    |-- drivers-media-i2c-tvp5150.c:warning:The-scope-of-the-variable-link1-can-be-reduced.-variableScope
+    |-- drivers-media-i2c-tvp5150.c:warning:The-scope-of-the-variable-v4l2c-can-be-reduced.-variableScope
+    |-- drivers-media-platform-qcom-venus-core.c:warning:The-scope-of-the-variable-ret-can-be-reduced.-variableScope
+    |-- drivers-media-platform-qcom-venus-vdec.c:note:Assignment-inst-bit_depth-ev_data-bit_depth
+    |-- drivers-media-platform-qcom-venus-vdec.c:note:Condition-inst-bit_depth-ev_data-bit_depth-is-redundant
+    |-- drivers-media-platform-qcom-venus-vdec.c:warning:The-statement-if-(inst-bit_depth-ev_data-bit_depth)-inst-bit_depth-ev_data-bit_depth-is-logically-equivalent-to-inst-bit_depth-ev_data-bit_depth-.-dupl
+    |-- flags-MEDIA_LNK_FL_ENABLED-TVP5150_NORMAL:
+    |-- if-(big_symbol)
+    |-- if-(inst-bit_depth-ev_data-bit_depth)
+    |-- inst-bit_depth-ev_data-bit_depth
+    |-- reg11
+    |-- ret-m88ds3103_update_bits(dev-)
+    |-- ret-regmap_bulk_write(dev-regmap-buf-)
+    |-- struct-media_pad-connector_pad
+    |-- struct-v4l2_connector_link-link1
+    |-- struct-v4l2_fwnode_connector-v4l2c
+    `-- u8-reg11-A-reg15-reg16-reg1D-reg1E-reg1F-tmp
 
->
-> > +  assigned-clocks:
-> > +    description:
-> > +      Input clock for the sensor.
-> > +
-> > +  assigned-clock-rates:
-> > +    description:
-> > +      Frequency of the xvclk clock in Hertz.
->
-> And you don't need assigned-clock-rates either.
+elapsed time: 4368m
 
-Ack.
+configs tested: 219
+configs skipped: 0
 
->
-> Maxime
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+csky                                defconfig
+riscv                    nommu_virt_defconfig
+ia64                                defconfig
+powerpc                             defconfig
+sh                          rsk7269_defconfig
+alpha                               defconfig
+ia64                             allmodconfig
+m68k                             allmodconfig
+h8300                     edosk2674_defconfig
+parisc                generic-64bit_defconfig
+nds32                               defconfig
+microblaze                    nommu_defconfig
+s390                             allmodconfig
+m68k                          multi_defconfig
+i386                              allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+xtensa                          iss_defconfig
+c6x                              allyesconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+nds32                             allnoconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                       m5475evb_defconfig
+m68k                           sun3_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+powerpc                           allnoconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+mips                             allyesconfig
+mips                         64r6el_defconfig
+mips                              allnoconfig
+mips                           32r2_defconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+x86_64               randconfig-a001-20200330
+x86_64               randconfig-a002-20200330
+i386                 randconfig-a001-20200330
+i386                 randconfig-a002-20200330
+i386                 randconfig-a003-20200330
+alpha                randconfig-a001-20200330
+m68k                 randconfig-a001-20200330
+mips                 randconfig-a001-20200330
+nds32                randconfig-a001-20200330
+parisc               randconfig-a001-20200330
+riscv                randconfig-a001-20200330
+alpha                randconfig-a001-20200402
+m68k                 randconfig-a001-20200402
+mips                 randconfig-a001-20200402
+nds32                randconfig-a001-20200402
+parisc               randconfig-a001-20200402
+riscv                randconfig-a001-20200402
+c6x                  randconfig-a001-20200330
+h8300                randconfig-a001-20200330
+microblaze           randconfig-a001-20200330
+nios2                randconfig-a001-20200330
+sparc64              randconfig-a001-20200330
+c6x                  randconfig-a001-20200331
+h8300                randconfig-a001-20200331
+microblaze           randconfig-a001-20200331
+nios2                randconfig-a001-20200331
+sparc64              randconfig-a001-20200331
+sparc64              randconfig-a001-20200402
+h8300                randconfig-a001-20200402
+nios2                randconfig-a001-20200402
+microblaze           randconfig-a001-20200402
+c6x                  randconfig-a001-20200402
+csky                 randconfig-a001-20200330
+openrisc             randconfig-a001-20200330
+s390                 randconfig-a001-20200330
+sh                   randconfig-a001-20200330
+xtensa               randconfig-a001-20200330
+csky                 randconfig-a001-20200331
+openrisc             randconfig-a001-20200331
+s390                 randconfig-a001-20200331
+sh                   randconfig-a001-20200331
+xtensa               randconfig-a001-20200331
+csky                 randconfig-a001-20200402
+openrisc             randconfig-a001-20200402
+s390                 randconfig-a001-20200402
+sh                   randconfig-a001-20200402
+xtensa               randconfig-a001-20200402
+x86_64               randconfig-c001-20200331
+x86_64               randconfig-c002-20200331
+x86_64               randconfig-c003-20200331
+i386                 randconfig-c001-20200331
+i386                 randconfig-c002-20200331
+i386                 randconfig-c003-20200331
+x86_64               randconfig-d001-20200331
+x86_64               randconfig-d002-20200331
+x86_64               randconfig-d003-20200331
+i386                 randconfig-d001-20200331
+i386                 randconfig-d002-20200331
+i386                 randconfig-d003-20200331
+x86_64               randconfig-d003-20200402
+x86_64               randconfig-d001-20200402
+i386                 randconfig-d003-20200402
+i386                 randconfig-d001-20200402
+x86_64               randconfig-d002-20200402
+i386                 randconfig-d002-20200402
+i386                 randconfig-e001-20200402
+x86_64               randconfig-e002-20200402
+i386                 randconfig-e003-20200402
+x86_64               randconfig-e001-20200402
+x86_64               randconfig-e003-20200402
+i386                 randconfig-e002-20200402
+x86_64               randconfig-f001-20200402
+x86_64               randconfig-f002-20200402
+x86_64               randconfig-f003-20200402
+i386                 randconfig-f001-20200402
+i386                 randconfig-f002-20200402
+i386                 randconfig-f003-20200402
+x86_64               randconfig-g002-20200331
+x86_64               randconfig-g003-20200331
+i386                 randconfig-g001-20200331
+i386                 randconfig-g002-20200331
+i386                 randconfig-g003-20200331
+x86_64               randconfig-g001-20200331
+x86_64               randconfig-g003-20200402
+i386                 randconfig-g003-20200402
+x86_64               randconfig-g002-20200402
+i386                 randconfig-g001-20200402
+i386                 randconfig-g002-20200402
+x86_64               randconfig-g001-20200402
+x86_64               randconfig-h002-20200402
+i386                 randconfig-h002-20200402
+i386                 randconfig-h003-20200402
+i386                 randconfig-h001-20200402
+x86_64               randconfig-h001-20200402
+x86_64               randconfig-h003-20200402
+x86_64               randconfig-h001-20200331
+x86_64               randconfig-h002-20200331
+x86_64               randconfig-h003-20200331
+i386                 randconfig-h001-20200331
+i386                 randconfig-h002-20200331
+i386                 randconfig-h003-20200331
+x86_64               randconfig-h001-20200401
+x86_64               randconfig-h002-20200401
+x86_64               randconfig-h003-20200401
+i386                 randconfig-h001-20200401
+i386                 randconfig-h002-20200401
+i386                 randconfig-h003-20200401
+arm64                randconfig-a001-20200402
+sparc                randconfig-a001-20200402
+ia64                 randconfig-a001-20200402
+arc                  randconfig-a001-20200402
+arm                  randconfig-a001-20200402
+powerpc              randconfig-a001-20200402
+arc                  randconfig-a001-20200331
+arm                  randconfig-a001-20200331
+arm64                randconfig-a001-20200331
+ia64                 randconfig-a001-20200331
+powerpc              randconfig-a001-20200331
+sparc                randconfig-a001-20200331
+arc                  randconfig-a001-20200330
+arm                  randconfig-a001-20200330
+arm64                randconfig-a001-20200330
+ia64                 randconfig-a001-20200330
+powerpc              randconfig-a001-20200330
+sparc                randconfig-a001-20200330
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
