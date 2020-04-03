@@ -2,163 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35F5919D4FF
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 12:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BDC019D50A
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 12:29:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728036AbgDCKZA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 06:25:00 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42320 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727774AbgDCKZA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 06:25:00 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 762F3321;
-        Fri,  3 Apr 2020 12:24:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585909497;
-        bh=6AoVQWC6bVmf4rPCkhV3E1jg4poMS4+qepNdH5JPhVA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iRiKiLFMPN5UE41ZLkDupUaGCjHlB/2vNn4igBxHdgWI/tZM7dYRfx9D7Mr66RmCZ
-         Jt5Jhn5PWoJpQFiEazxfqGbvL6VKGQDGFNqgJ9J4vVsgJJrbje+QDU78tcbC5j66so
-         O+9JhRVhwejCsOa4CwMs4JaP8DARZdxgh1AcVfMY=
-Date:   Fri, 3 Apr 2020 13:24:49 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20200403102449.GB4882@pendragon.ideasonboard.com>
-References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+        id S2390632AbgDCK3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 06:29:20 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35466 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727956AbgDCK3U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 06:29:20 -0400
+Received: by mail-oi1-f193.google.com with SMTP id t25so5673886oij.2
+        for <linux-media@vger.kernel.org>; Fri, 03 Apr 2020 03:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UQFLz6/WB3AY/atr6wtt95nBqCir6R4mEcSDWeXfarM=;
+        b=Uy73p90NR0BqqAmHZkTBGrS/B2yIc07LsWozpdahnseeJokC3DZxNNzW8+ccM3O4yk
+         fM4j4FcBmpcin37cef68OT0aGkr9TNU7RUEU5FZrsvoM8Gsp9Bi+hXB/+6WqlFP9LhYt
+         tlNJpfjtPvsw0N1uzXCtjdq+Dw3BhgVJR2acUO+YTYqGMuHQ2zxLLU3n7KCS2P/xspDB
+         SVoRvrFmZs7CuuYNQZ36aXXP/CWtnXRuil62TNOtQ4FHdipoHTf2pucslmsX/jtOoAwq
+         ai2KeZoYg2tBKNrcrkAzGetX7WK5MQMNf1h7ybRZKgECJsB+FRLVnximd3WA0ptVGDi6
+         L3jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UQFLz6/WB3AY/atr6wtt95nBqCir6R4mEcSDWeXfarM=;
+        b=S9ezDgkW03MnDHv9vuvQQyNFedS/2V8+Cpkb4adEQPHcYMfetyfzjALHyGa155Ul4u
+         Wsqd443xi+zKk+aEJy6ldttiQTGozNN/GF3/4AXB5DlWY+m7JAJQPlORB2xxRqWgkKyL
+         vTV09tV/gvIk0LQlwpOZZSfHVyWkiLOz/sUkvrUWikfSWPoHZUeechExuxgIpM/yIy+E
+         x/0Di4zHlzSA94dMLlW6ATcpKPTKVxzd7W6fzZBAneEkDgKalszTwAIG2pzm40FP+xRA
+         1AaE8pMwY9PB3grf598RMHFxSH8Kji+mfFIiWvQ076clQqidTt0S2FIeZHipGBzhJomg
+         /REg==
+X-Gm-Message-State: AGi0Pua8LWOhee6bcepPwNekx44kXjtUuXc2VRg9s+pgeD+4vf2Rvtlb
+        kh18AMZHN+7U/kg+qCH0HFtDDyeOeqJUNrulrug=
+X-Google-Smtp-Source: APiQypIdgHNwrxNrLOu3mUskq53h/hM2m+UuIljS8exP1CD40R+xR6Rohn0M5vVuFnrOA4CUiKZByefaydl5P7K2lCo=
+X-Received: by 2002:aca:d10:: with SMTP id 16mr2482108oin.142.1585909757910;
+ Fri, 03 Apr 2020 03:29:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200331180630.5703-1-dafna.hirschfeld@collabora.com> <CAPY8ntD=4i6VnxTHakt2dnfM3BLfNsBPEhJt6qS229rOfCHZmg@mail.gmail.com>
+In-Reply-To: <CAPY8ntD=4i6VnxTHakt2dnfM3BLfNsBPEhJt6qS229rOfCHZmg@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 3 Apr 2020 11:28:52 +0100
+Message-ID: <CA+V-a8unuigag-c0fgJopMG30cxXz6c6yGf67pY=TUQ8JvCaSw@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: imx219: Fix a bug in imx219_enum_frame_size
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        helen.koike@collabora.com,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        dafna3@gmail.com,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Fri, Apr 3, 2020 at 11:23 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Dafna
+>
+> Thanks for the patch.
+>
+> On Tue, 31 Mar 2020 at 19:06, Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+> >
+> > When enumerating the frame sizes, the value sent to
+> > imx219_get_format_code should be fse->code
+> > (the code from the ioctl) and not imx219->fmt.code
+> > which is the code set currently in the driver.
+> >
+> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thank you for the patch.
+> Agreed that v4l2-ctl --list-formats-ext doesn't list the frame sizes
+> for the mode that isn't selected without this patch. With this patch
+> you get the full list.
+>
+> Does it warrant a "Fixes: 22da1d56e ("media: i2c: imx219: Add support
+> for RAW8 bit bayer format")"? I'd probably say yes.
+>
++1
 
-On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
-> Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
-> pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
-> the same implementation can be used.
-> 
-> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> since v1:
-> 
-> - Improve documentation (add -BE suffix, refer to "FourCC".
-> 
-> - Use '%p4cc' conversion specifier instead of '%ppf'.
-> 
-> - Fix 31st bit handling in printing FourCC codes.
-> 
-> - Use string() correctly, to allow e.g. proper field width handling.
-> 
-> - Remove loop, use put_unaligned_le32() instead.
-> 
->  Documentation/core-api/printk-formats.rst | 12 +++++++++++
->  lib/vsprintf.c                            | 25 +++++++++++++++++++++++
->  2 files changed, 37 insertions(+)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 8ebe46b1af39..550568520ab6 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -545,6 +545,18 @@ For printing netdev_features_t.
->  
->  Passed by reference.
->  
-> +V4L2 and DRM FourCC code (pixel format)
-> +---------------------------------------
-> +
-> +::
-> +
-> +	%p4cc
-> +
-> +Print a FourCC code used by V4L2 or DRM. The "-BE" suffix is added on big endian
-> +formats.
-> +
-> +Passed by reference.
-> +
->  Thanks
->  ======
->  
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 7c488a1ce318..93eea6a320da 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -1721,6 +1721,28 @@ char *netdev_bits(char *buf, char *end, const void *addr,
->  	return special_hex_number(buf, end, num, size);
->  }
->  
-> +static noinline_for_stack
-> +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> +		    struct printf_spec spec, const char *fmt)
-> +{
-> +#define FOURCC_STRING_BE	"-BE"
-> +	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
-> +
-> +	if (check_pointer(&buf, end, fourcc, spec))
-> +		return buf;
-> +
-> +	if (fmt[1] != 'c' || fmt[2] != 'c')
-> +		return error_string(buf, end, "(%p4?)", spec);
-> +
-> +	put_unaligned_le32(*fourcc & ~BIT(31), s);
-> +
-> +	if (*fourcc & BIT(31))
-> +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
-> +			sizeof(FOURCC_STRING_BE));
-> +
-> +	return string(buf, end, s, spec);
+Cheers,
+--Prabhakar
 
-Taking V4L2_PIX_FMT_Y16_BE as an example, this will print 'Y16 -BE'
-(without quotes). There are other 4CCs that contain spaces and would
-suffer from a similar issue. Even in little-endian format, it would
-result in additional spaces in the output string. Is this what we want ?
-Should the caller always enclose the 4CC in quotes or brackets for
-clarity ? Or should still be done here ?
-
-> +}
-> +
->  static noinline_for_stack
->  char *address_val(char *buf, char *end, const void *addr,
->  		  struct printf_spec spec, const char *fmt)
-> @@ -2131,6 +2153,7 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
->   *       correctness of the format string and va_list arguments.
->   * - 'K' For a kernel pointer that should be hidden from unprivileged users
->   * - 'NF' For a netdev_features_t
-> + * - '4cc' V4L2 or DRM FourCC code, with "-BE" suffix on big endian formats.
->   * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
->   *            a certain separator (' ' by default):
->   *              C colon
-> @@ -2223,6 +2246,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
->  		return restricted_pointer(buf, end, ptr, spec);
->  	case 'N':
->  		return netdev_bits(buf, end, ptr, spec, fmt);
-> +	case '4':
-> +		return fourcc_string(buf, end, ptr, spec, fmt);
->  	case 'a':
->  		return address_val(buf, end, ptr, spec, fmt);
->  	case 'd':
-
--- 
-Regards,
-
-Laurent Pinchart
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>
+> > ---
+> >  drivers/media/i2c/imx219.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index b1f30debe449..df2a6ed7c8ac 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -781,7 +781,7 @@ static int imx219_enum_frame_size(struct v4l2_subdev *sd,
+> >         if (fse->index >= ARRAY_SIZE(supported_modes))
+> >                 return -EINVAL;
+> >
+> > -       if (fse->code != imx219_get_format_code(imx219, imx219->fmt.code))
+> > +       if (fse->code != imx219_get_format_code(imx219, fse->code))
+> >                 return -EINVAL;
+> >
+> >         fse->min_width = supported_modes[fse->index].width;
+> > --
+> > 2.17.1
+> >
