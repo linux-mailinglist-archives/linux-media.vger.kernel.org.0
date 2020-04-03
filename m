@@ -2,236 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9321B19D52B
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 12:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 636AC19D536
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 12:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390514AbgDCKnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 06:43:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43410 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727923AbgDCKnp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 06:43:45 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C5C4321;
-        Fri,  3 Apr 2020 12:43:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585910622;
-        bh=7iTPc2MHfNIaPRQoxwy2rEVj6cLN33ZYd1sl6ZxpZ70=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=d1hkXTFFsYYXG0JbQFBX6qp5Uk2qKs+AQpMRKmdTAiDl1OmcqaabMPs5Fkbvl6ZbQ
-         VrsQ9ESM0piYOky5R31N45FXe+PSvoy/xXv79raidmDlVRYJ26zJGQPNOaDrtZRrL0
-         HAQ6cTu6RH0tvafCO8XkQFV50LQ3NTMGTJmL2viw=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v5 1/9] media: adv748x: fix end-of-line terminators in
- diagnostic statements
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <cover.1585852001.git.alexander.riesen@cetitec.com>
- <2f2460435afa594ef417e70068b125af97ddca39.1585852001.git.alexander.riesen@cetitec.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
- V/zwz6hiDrZuHUACDB7X8OaQcwhLaVlq6byfoBr25+hbZG7G3+5EUl9cQ7dQEdvNj6V6y/SC
- rRanWfelwQThCHckbobWiQJfK9n7rYNcPMq9B8e9F020LFH7Kj6YmO95ewJGgLm+idg1Kb3C
- potzWkXc1xmPzcQ1fvQMOfMwdS+4SNw4rY9f07Xb2K99rjMwZVDgESKIzhsDB5GY465sCsiQ
- cSAZRxqE49RTBq2+EQsbrQpIc8XiffAB8qexh5/QPzCmR4kJgCGeHIXBtgRj+nIkCJPZvZtf
- Kr2EAbc6tgg6DkAEHJb+1okosV09+0+TXywYvtEop/WUOWQ+zo+Y/OBd+8Ptgt1pDRyOBzL8
- RXa8ZqRf0Mwg75D+dKntZeJHzPRJyrlfQokngAAs4PaFt6UfS+ypMAF37T6CeDArQC41V3ko
- lPn1yMsVD0p+6i3DPvA/GPIksDC4owjnzVX9kM8Zc5Cx+XoAN0w5Eqo4t6qEVbuettxx55gq
- 8K8FieAjgjMSxngo/HST8TpFeqI5nVeq0/lqtBRQKumuIqDg+Bkr4L1V/PSB6XgQcOdhtd36
- Oe9X9dXB8YSNt7VjOcO7BTmFn/Z8r92mSAfHXpb07YJWJosQOQARAQABtDBLaWVyYW4gQmlu
- Z2hhbSA8a2llcmFuLmJpbmdoYW1AaWRlYXNvbmJvYXJkLmNvbT6JAlcEEwEKAEECGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4ACGQEWIQSQLdeYP70o/eNy1HqhHkZyEKRh/QUCXWTtygUJ
- CyJXZAAKCRChHkZyEKRh/f8dEACTDsbLN2nioNZMwyLuQRUAFcXNolDX48xcUXsWS2QjxaPm
- VsJx8Uy8aYkS85mdPBh0C83OovQR/OVbr8AxhGvYqBs3nQvbWuTl/+4od7DfK2VZOoKBAu5S
- QK2FYuUcikDqYcFWJ8DQnubxfE8dvzojHEkXw0sA4igINHDDFX3HJGZtLio+WpEFQtCbfTAG
- YZslasz1YZRbwEdSsmO3/kqy5eMnczlm8a21A3fKUo3g8oAZEFM+f4DUNzqIltg31OAB/kZS
- enKZQ/SWC8PmLg/ZXBrReYakxXtkP6w3FwMlzOlhGxqhIRNiAJfXJBaRhuUWzPOpEDE9q5YJ
- BmqQL2WJm1VSNNVxbXJHpaWMH1sA2R00vmvRrPXGwyIO0IPYeUYQa3gsy6k+En/aMQJd27dp
- aScf9am9PFICPY5T4ppneeJLif2lyLojo0mcHOV+uyrds9XkLpp14GfTkeKPdPMrLLTsHRfH
- fA4I4OBpRrEPiGIZB/0im98MkGY/Mu6qxeZmYLCcgD6qz4idOvfgVOrNh+aA8HzIVR+RMW8H
- QGBN9f0E3kfwxuhl3omo6V7lDw8XOdmuWZNC9zPq1UfryVHANYbLGz9KJ4Aw6M+OgBC2JpkD
- hXMdHUkC+d20dwXrwHTlrJi1YNp6rBc+xald3wsUPOZ5z8moTHUX/uPA/qhGsbkCDQRWBP1m
- ARAAzijkb+Sau4hAncr1JjOY+KyFEdUNxRy+hqTJdJfaYihxyaj0Ee0P0zEi35CbE6lgU0Uz
- tih9fiUbSV3wfsWqg1Ut3/5rTKu7kLFp15kF7eqvV4uezXRD3Qu4yjv/rMmEJbbD4cTvGCYI
- d6MDC417f7vK3hCbCVIZSp3GXxyC1LU+UQr3fFcOyCwmP9vDUR9JV0BSqHHxRDdpUXE26Dk6
- mhf0V1YkspE5St814ETXpEus2urZE5yJIUROlWPIL+hm3NEWfAP06vsQUyLvr/GtbOT79vXl
- En1aulcYyu20dRRxhkQ6iILaURcxIAVJJKPi8dsoMnS8pB0QW12AHWuirPF0g6DiuUfPmrA5
- PKe56IGlpkjc8cO51lIxHkWTpCMWigRdPDexKX+Sb+W9QWK/0JjIc4t3KBaiG8O4yRX8ml2R
- +rxfAVKM6V769P/hWoRGdgUMgYHFpHGSgEt80OKK5HeUPy2cngDUXzwrqiM5Sz6Od0qw5pCk
- NlXqI0W/who0iSVM+8+RmyY0OEkxEcci7rRLsGnM15B5PjLJjh1f2ULYkv8s4SnDwMZ/kE04
- /UqCMK/KnX8pwXEMCjz0h6qWNpGwJ0/tYIgQJZh6bqkvBrDogAvuhf60Sogw+mH8b+PBlx1L
- oeTK396wc+4c3BfiC6pNtUS5GpsPMMjYMk7kVvEAEQEAAYkCPAQYAQoAJgIbDBYhBJAt15g/
- vSj943LUeqEeRnIQpGH9BQJdizzIBQkLSKZiAAoJEKEeRnIQpGH9eYgQAJpjaWNgqNOnMTmD
- MJggbwjIotypzIXfhHNCeTkG7+qCDlSaBPclcPGYrTwCt0YWPU2TgGgJrVhYT20ierN8LUvj
- 6qOPTd+Uk7NFzL65qkh80ZKNBFddx1AabQpSVQKbdcLb8OFs85kuSvFdgqZwgxA1vl4TFhNz
- PZ79NAmXLackAx3sOVFhk4WQaKRshCB7cSl+RIng5S/ThOBlwNlcKG7j7W2MC06BlTbdEkUp
- ECzuuRBv8wX4OQl+hbWbB/VKIx5HKlLu1eypen/5lNVzSqMMIYkkZcjV2SWQyUGxSwq0O/sx
- S0A8/atCHUXOboUsn54qdxrVDaK+6jIAuo8JiRWctP16KjzUM7MO0/+4zllM8EY57rXrj48j
- sbEYX0YQnzaj+jO6kJtoZsIaYR7rMMq9aUAjyiaEZpmP1qF/2sYenDx0Fg2BSlLvLvXM0vU8
- pQk3kgDu7kb/7PRYrZvBsr21EIQoIjXbZxDz/o7z95frkP71EaICttZ6k9q5oxxA5WC6sTXc
- MW8zs8avFNuA9VpXt0YupJd2ijtZy2mpZNG02fFVXhIn4G807G7+9mhuC4XG5rKlBBUXTvPU
- AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <a111380c-f563-8019-deb8-8916a679227b@ideasonboard.com>
-Date:   Fri, 3 Apr 2020 11:43:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        id S1727923AbgDCKrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 06:47:12 -0400
+Received: from mga18.intel.com ([134.134.136.126]:51370 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727792AbgDCKrL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Apr 2020 06:47:11 -0400
+IronPort-SDR: 7kUbTwD6ao1lMSZbezKXj2bn24mwYfEyPu6b+8p9yOfk8di16VpsDNk+KPtEcKv7pfMjo/VAsc
+ RAc0IG1hUuZw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 03:47:10 -0700
+IronPort-SDR: 8ti4Qol5gbB/MXswR0sGQ9fX6aCU580MMij4U73bTkAipfBPgWDTHjcfnIYtRY7sCvhQJ6msMf
+ oWSzhTIMCqlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; 
+   d="scan'208";a="273909028"
+Received: from seemahan-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.249.38.56])
+  by fmsmga004.fm.intel.com with ESMTP; 03 Apr 2020 03:47:07 -0700
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id 3EF0F21F19; Fri,  3 Apr 2020 13:47:02 +0300 (EEST)
+Date:   Fri, 3 Apr 2020 13:47:02 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl, mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20200403104701.GC3172@kekkonen.localdomain>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+ <20200403102449.GB4882@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <2f2460435afa594ef417e70068b125af97ddca39.1585852001.git.alexander.riesen@cetitec.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403102449.GB4882@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+Hi Laurent,
 
-On 02/04/2020 19:34, Alex Riesen wrote:
-> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thanks for the comments.
 
-I guess we could have also added this directly to the helper macros, but
-there is indeed already a mixed usage so either way would require fixups
-to be consistent.
-
-So this is a good option ;-)
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/adv748x/adv748x-core.c | 24 ++++++++++++------------
->  drivers/media/i2c/adv748x/adv748x-csi2.c |  2 +-
->  2 files changed, 13 insertions(+), 13 deletions(-)
+On Fri, Apr 03, 2020 at 01:24:49PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> index 23e02ff27b17..c3fb113cef62 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> @@ -623,11 +623,11 @@ static int adv748x_parse_dt(struct adv748x_state *state)
->  
->  	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
->  		of_graph_parse_endpoint(ep_np, &ep);
-> -		adv_info(state, "Endpoint %pOF on port %d", ep.local_node,
-> +		adv_info(state, "Endpoint %pOF on port %d\n", ep.local_node,
->  			 ep.port);
->  
->  		if (ep.port >= ADV748X_PORT_MAX) {
-> -			adv_err(state, "Invalid endpoint %pOF on port %d",
-> +			adv_err(state, "Invalid endpoint %pOF on port %d\n",
->  				ep.local_node, ep.port);
->  
->  			continue;
-> @@ -635,7 +635,7 @@ static int adv748x_parse_dt(struct adv748x_state *state)
->  
->  		if (state->endpoints[ep.port]) {
->  			adv_err(state,
-> -				"Multiple port endpoints are not supported");
-> +				"Multiple port endpoints are not supported\n");
->  			continue;
->  		}
->  
-> @@ -702,62 +702,62 @@ static int adv748x_probe(struct i2c_client *client)
->  	/* Discover and process ports declared by the Device tree endpoints */
->  	ret = adv748x_parse_dt(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to parse device tree");
-> +		adv_err(state, "Failed to parse device tree\n");
->  		goto err_free_mutex;
->  	}
->  
->  	/* Configure IO Regmap region */
->  	ret = adv748x_configure_regmap(state, ADV748X_PAGE_IO);
->  	if (ret) {
-> -		adv_err(state, "Error configuring IO regmap region");
-> +		adv_err(state, "Error configuring IO regmap region\n");
->  		goto err_cleanup_dt;
->  	}
->  
->  	ret = adv748x_identify_chip(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to identify chip");
-> +		adv_err(state, "Failed to identify chip\n");
->  		goto err_cleanup_dt;
->  	}
->  
->  	/* Configure remaining pages as I2C clients with regmap access */
->  	ret = adv748x_initialise_clients(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to setup client regmap pages");
-> +		adv_err(state, "Failed to setup client regmap pages\n");
->  		goto err_cleanup_clients;
->  	}
->  
->  	/* SW reset ADV748X to its default values */
->  	ret = adv748x_reset(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to reset hardware");
-> +		adv_err(state, "Failed to reset hardware\n");
->  		goto err_cleanup_clients;
->  	}
->  
->  	/* Initialise HDMI */
->  	ret = adv748x_hdmi_init(&state->hdmi);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe HDMI");
-> +		adv_err(state, "Failed to probe HDMI\n");
->  		goto err_cleanup_clients;
->  	}
->  
->  	/* Initialise AFE */
->  	ret = adv748x_afe_init(&state->afe);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe AFE");
-> +		adv_err(state, "Failed to probe AFE\n");
->  		goto err_cleanup_hdmi;
->  	}
->  
->  	/* Initialise TXA */
->  	ret = adv748x_csi2_init(state, &state->txa);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe TXA");
-> +		adv_err(state, "Failed to probe TXA\n");
->  		goto err_cleanup_afe;
->  	}
->  
->  	/* Initialise TXB */
->  	ret = adv748x_csi2_init(state, &state->txb);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe TXB");
-> +		adv_err(state, "Failed to probe TXB\n");
->  		goto err_cleanup_txa;
->  	}
->  
-> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index 2091cda50935..c43ce5d78723 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -72,7 +72,7 @@ static int adv748x_csi2_registered(struct v4l2_subdev *sd)
->  	struct adv748x_state *state = tx->state;
->  	int ret;
->  
-> -	adv_dbg(state, "Registered %s (%s)", is_txa(tx) ? "TXA":"TXB",
-> +	adv_dbg(state, "Registered %s (%s)\n", is_txa(tx) ? "TXA":"TXB",
->  			sd->name);
->  
->  	/*
+> Thank you for the patch.
 > 
+> On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
+> > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+> > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+> > the same implementation can be used.
+> > 
+> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > since v1:
+> > 
+> > - Improve documentation (add -BE suffix, refer to "FourCC".
+> > 
+> > - Use '%p4cc' conversion specifier instead of '%ppf'.
+> > 
+> > - Fix 31st bit handling in printing FourCC codes.
+> > 
+> > - Use string() correctly, to allow e.g. proper field width handling.
+> > 
+> > - Remove loop, use put_unaligned_le32() instead.
+> > 
+> >  Documentation/core-api/printk-formats.rst | 12 +++++++++++
+> >  lib/vsprintf.c                            | 25 +++++++++++++++++++++++
+> >  2 files changed, 37 insertions(+)
+> > 
+> > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> > index 8ebe46b1af39..550568520ab6 100644
+> > --- a/Documentation/core-api/printk-formats.rst
+> > +++ b/Documentation/core-api/printk-formats.rst
+> > @@ -545,6 +545,18 @@ For printing netdev_features_t.
+> >  
+> >  Passed by reference.
+> >  
+> > +V4L2 and DRM FourCC code (pixel format)
+> > +---------------------------------------
+> > +
+> > +::
+> > +
+> > +	%p4cc
+> > +
+> > +Print a FourCC code used by V4L2 or DRM. The "-BE" suffix is added on big endian
+> > +formats.
+> > +
+> > +Passed by reference.
+> > +
+> >  Thanks
+> >  ======
+> >  
+> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> > index 7c488a1ce318..93eea6a320da 100644
+> > --- a/lib/vsprintf.c
+> > +++ b/lib/vsprintf.c
+> > @@ -1721,6 +1721,28 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+> >  	return special_hex_number(buf, end, num, size);
+> >  }
+> >  
+> > +static noinline_for_stack
+> > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > +		    struct printf_spec spec, const char *fmt)
+> > +{
+> > +#define FOURCC_STRING_BE	"-BE"
+> > +	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
+> > +
+> > +	if (check_pointer(&buf, end, fourcc, spec))
+> > +		return buf;
+> > +
+> > +	if (fmt[1] != 'c' || fmt[2] != 'c')
+> > +		return error_string(buf, end, "(%p4?)", spec);
+> > +
+> > +	put_unaligned_le32(*fourcc & ~BIT(31), s);
+> > +
+> > +	if (*fourcc & BIT(31))
+> > +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
+> > +			sizeof(FOURCC_STRING_BE));
+> > +
+> > +	return string(buf, end, s, spec);
+> 
+> Taking V4L2_PIX_FMT_Y16_BE as an example, this will print 'Y16 -BE'
+> (without quotes). There are other 4CCs that contain spaces and would
+> suffer from a similar issue. Even in little-endian format, it would
+> result in additional spaces in the output string. Is this what we want ?
+> Should the caller always enclose the 4CC in quotes or brackets for
+> clarity ? Or should still be done here ?
+
+Good question. Space is indeed a valid character in a 4cc code.
+
+If I omit one or more spaces, it will no longer be a 4cc, but a 3cc or even
+a 2cc. Jokes aside, there are probably fair arguments both ways.
+
+I presume there's no 4cc code where the location of a space would make a
+difference but all of the spaces are trailing spaces.
+
+It's also worth noting that the formats printed are mostly for debugging
+purpose and thus even getting a hypothetical case wrong is not a grave
+issue. This would also support just printing them as-is though.
+
+I'm leaning slightly towards omitting any spaces if the code has them. This
+is something that couldn't be done by using a macro...
 
 -- 
-Regards
---
-Kieran
+Regards,
+
+Sakari Ailus
