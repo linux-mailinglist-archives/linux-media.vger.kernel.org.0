@@ -2,103 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B3E19D20A
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 10:22:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6214819D338
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 11:12:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390509AbgDCIWJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 04:22:09 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:38439 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390480AbgDCIWJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 04:22:09 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 233BE40011;
-        Fri,  3 Apr 2020 08:22:06 +0000 (UTC)
-Date:   Fri, 3 Apr 2020 10:22:06 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] cedrus: Drop unneeded CONFIG_OF dependency
-Message-ID: <20200403082206.GA626942@aptenodytes>
-References: <20200402194653.13535-1-ezequiel@collabora.com>
+        id S2390609AbgDCJMA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 05:12:00 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:49912 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388221AbgDCJL7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Apr 2020 05:11:59 -0400
+Received: from lanttu.localdomain (lanttu.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::c1:2])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id E54F6634C8B;
+        Fri,  3 Apr 2020 12:11:07 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and DRM fourccs
+Date:   Fri,  3 Apr 2020 12:11:56 +0300
+Message-Id: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="T4sUOijqQbZv57TR"
-Content-Disposition: inline
-In-Reply-To: <20200402194653.13535-1-ezequiel@collabora.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+the same implementation can be used.
 
---T4sUOijqQbZv57TR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+since v1:
 
-Hi Ezequiel,
+- Improve documentation (add -BE suffix, refer to "FourCC".
 
-On Thu 02 Apr 20, 16:46, Ezequiel Garcia wrote:
-> The driver is perfectly capable of being built without CONFIG_OF.
-> Remove this dependency, which is useful for compile-only tests.
+- Use '%p4cc' conversion specifier instead of '%ppf'.
 
-Thanks for the patch!
+- Fix 31st bit handling in printing FourCC codes.
 
-Alas, the driver won't do anything useful without OF enabled, so it seems
-useful to keep that dependency.
+- Use string() correctly, to allow e.g. proper field width handling.
 
-I would suggest making this a: depends on OF || COMPILE_TEST
-instead. What do you think?
+- Remove loop, use put_unaligned_le32() instead.
 
-Cheers,
+ Documentation/core-api/printk-formats.rst | 12 +++++++++++
+ lib/vsprintf.c                            | 25 +++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-Paul
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 8ebe46b1af39..550568520ab6 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -545,6 +545,18 @@ For printing netdev_features_t.
+ 
+ Passed by reference.
+ 
++V4L2 and DRM FourCC code (pixel format)
++---------------------------------------
++
++::
++
++	%p4cc
++
++Print a FourCC code used by V4L2 or DRM. The "-BE" suffix is added on big endian
++formats.
++
++Passed by reference.
++
+ Thanks
+ ======
+ 
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 7c488a1ce318..93eea6a320da 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1721,6 +1721,28 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+ 	return special_hex_number(buf, end, num, size);
+ }
+ 
++static noinline_for_stack
++char *fourcc_string(char *buf, char *end, const u32 *fourcc,
++		    struct printf_spec spec, const char *fmt)
++{
++#define FOURCC_STRING_BE	"-BE"
++	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
++
++	if (check_pointer(&buf, end, fourcc, spec))
++		return buf;
++
++	if (fmt[1] != 'c' || fmt[2] != 'c')
++		return error_string(buf, end, "(%p4?)", spec);
++
++	put_unaligned_le32(*fourcc & ~BIT(31), s);
++
++	if (*fourcc & BIT(31))
++		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
++			sizeof(FOURCC_STRING_BE));
++
++	return string(buf, end, s, spec);
++}
++
+ static noinline_for_stack
+ char *address_val(char *buf, char *end, const void *addr,
+ 		  struct printf_spec spec, const char *fmt)
+@@ -2131,6 +2153,7 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
+  *       correctness of the format string and va_list arguments.
+  * - 'K' For a kernel pointer that should be hidden from unprivileged users
+  * - 'NF' For a netdev_features_t
++ * - '4cc' V4L2 or DRM FourCC code, with "-BE" suffix on big endian formats.
+  * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+  *            a certain separator (' ' by default):
+  *              C colon
+@@ -2223,6 +2246,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 		return restricted_pointer(buf, end, ptr, spec);
+ 	case 'N':
+ 		return netdev_bits(buf, end, ptr, spec, fmt);
++	case '4':
++		return fourcc_string(buf, end, ptr, spec, fmt);
+ 	case 'a':
+ 		return address_val(buf, end, ptr, spec, fmt);
+ 	case 'd':
+-- 
+2.20.1
 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/Kconfig b/drivers/staging=
-/media/sunxi/cedrus/Kconfig
-> index 17733e9a088f..59b8d1b29865 100644
-> --- a/drivers/staging/media/sunxi/cedrus/Kconfig
-> +++ b/drivers/staging/media/sunxi/cedrus/Kconfig
-> @@ -3,7 +3,6 @@ config VIDEO_SUNXI_CEDRUS
->  	tristate "Allwinner Cedrus VPU driver"
->  	depends on VIDEO_DEV && VIDEO_V4L2 && MEDIA_CONTROLLER
->  	depends on HAS_DMA
-> -	depends on OF
->  	depends on MEDIA_CONTROLLER_REQUEST_API
->  	select SUNXI_SRAM
->  	select VIDEOBUF2_DMA_CONTIG
-> --=20
-> 2.26.0.rc2
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---T4sUOijqQbZv57TR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6G8i4ACgkQ3cLmz3+f
-v9E5EAf+LnnIIgFiaXemYf16Hj/6fAMGOm/Qgibd2niaA5siXu/3jrwN+P2BQfAR
-2Yk8j5IulMT8A4UhNQT1H/czCfqEu5tMsKvRpNbhPcgLh9d3EVuT/kEg8dJ7tr8o
-PI5OL2MFtMScsNpqIf9437iAlD/uEy6Ym6ai4AVqCxjjReFLstkG7EdWGsiIhh/p
-sWrtMMXKzc7vFE9IMKUk2JVGWL9b6oJdphGjMI0XvaXlxAO1/kBPcq7LN1F+1Qtk
-AfwKholY4NTB3U93lx1HF6H3KBV5nqjcNK9q/2z2WWKE6Src81844FlGSugzjSSg
-GGwo7ReiQ8aL1c6i+Jx1OJCT5hOYbA==
-=aJii
------END PGP SIGNATURE-----
-
---T4sUOijqQbZv57TR--
