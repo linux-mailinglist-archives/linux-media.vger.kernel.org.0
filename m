@@ -2,85 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0BDE19D755
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 15:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C19D619D8E5
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 16:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403831AbgDCNNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 09:13:22 -0400
-Received: from smtprelay0139.hostedemail.com ([216.40.44.139]:51020 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726087AbgDCNNW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Apr 2020 09:13:22 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 955A4182CED34;
-        Fri,  3 Apr 2020 13:13:21 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2553:2559:2562:2692:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3873:4321:5007:6120:6742:7901:7904:10004:10400:10848:11026:11232:11658:11914:12043:12297:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:21080:21433:21611:21627:30034:30054:30069:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:8,LUA_SUMMARY:none
-X-HE-Tag: lake39_5738fffbee928
-X-Filterd-Recvd-Size: 2320
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf16.hostedemail.com (Postfix) with ESMTPA;
-        Fri,  3 Apr 2020 13:13:19 +0000 (UTC)
-Message-ID: <a5d0029edb7328691f1a08009d564c576924a3eb.camel@perches.com>
-Subject: Re: [PATCH 1/1] lib/vsprintf: Add support for printing V4L2 and DRM
- fourccs
-From:   Joe Perches <joe@perches.com>
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Petr Mladek <pmladek@suse.com>
-Cc:     mchehab@kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        hverkuil@xs4all.nl,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        laurent.pinchart@ideasonboard.com,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= 
-        <ville.syrjala@linux.intel.com>
-Date:   Fri, 03 Apr 2020 06:11:22 -0700
-In-Reply-To: <87zhbtkrc5.fsf@intel.com>
-References: <20200401140522.966-1-sakari.ailus@linux.intel.com>
-         <87eet6mgk7.fsf@intel.com>
-         <04bb934e551f43540d1daacd2759beacc0b3116a.camel@perches.com>
-         <87zhbtkrc5.fsf@intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        id S2391014AbgDCOVq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 10:21:46 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:48057 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390896AbgDCOVq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 10:21:46 -0400
+X-Originating-IP: 77.205.41.241
+Received: from localhost.localdomain (241.41.205.77.rev.sfr.net [77.205.41.241])
+        (Authenticated sender: maxime.chevallier@bootlin.com)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 1D96C1BF22A;
+        Fri,  3 Apr 2020 14:21:41 +0000 (UTC)
+From:   Maxime Chevallier <maxime.chevallier@bootlin.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH 0/3] media: rockchip: Introduce driver for the camera interface on PX30
+Date:   Fri,  3 Apr 2020 16:21:19 +0200
+Message-Id: <20200403142122.297283-1-maxime.chevallier@bootlin.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-04-03 at 09:37 +0300, Jani Nikula wrote:
-> On Thu, 02 Apr 2020, Joe Perches <joe@perches.com> wrote:
-> > On Thu, 2020-04-02 at 11:34 +0300, Jani Nikula wrote:
-> > > Or could we conceive of a way to make this locally extensible yet safe,
-> > > letting callers use something like %{foo}, as well as providing a
-> > > locally relevant function to do the conversion?
-> > 
-> > No.  printf validation would be broken.
-> 
-> I tossed the idea on a whim, and thinking further I could probably come
-> up with a number of challenges, but care to elaborate on what you see as
-> the problem in validation?
+Hello everyone,
 
-I understand you to want to add something like
+Here's a series to add very basic support for the camera interface on
+the Rockchip PX30 SoC.
 
-	%<m> where m is a non-standard format specifier
+This Camera Interface is also supported on other Rockchip SoC such as
+the RK1808, RK3128, RK3288 and RK3288, but for now I've only been able to
+test it on the PX30, using a PAL format.
 
-so using using gcc's extension of
+This driver is mostly based on the driver found in Rockchip's BSP, that
+has been trimmed down to support the set of features that I was able to test,
+that is pretty much a very basic one-frame capture and video streaming
+with GStreamer. 
 
-__attribute__((__format__(printf, string_index, first_to_check))
+This first draft only supports the Parallel interface, although the
+controller has support for BT656 and CSI2.
 
-could not validate the argument type against use of the %<m>
-in the format string.
+Finally, this controller has an iommu that could be used in this driver,
+but as of today I've not been able to get it to work.
 
-	printk("%a\n", a);
+Any review is welcome.
 
-Compiler bleats.
+Thanks,
+
+Maxime
+
+Maxime Chevallier (3):
+  media: dt-bindings: media: Document Rockchip CIF bindings
+  media: rockchip: Introduce driver for Rockhip's camera interface
+  arm64: dts: rockchip: Add the camera interface description of the PX30
+
+ .../bindings/media/rockchip-cif.yaml          |   98 ++
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/Kconfig                |   13 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/rockchip/cif/Makefile  |    3 +
+ drivers/media/platform/rockchip/cif/capture.c | 1170 +++++++++++++++++
+ drivers/media/platform/rockchip/cif/dev.c     |  407 ++++++
+ drivers/media/platform/rockchip/cif/dev.h     |  208 +++
+ drivers/media/platform/rockchip/cif/regs.h    |  256 ++++
+ 9 files changed, 2168 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip-cif.yaml
+ create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+ create mode 100644 drivers/media/platform/rockchip/cif/capture.c
+ create mode 100644 drivers/media/platform/rockchip/cif/dev.c
+ create mode 100644 drivers/media/platform/rockchip/cif/dev.h
+ create mode 100644 drivers/media/platform/rockchip/cif/regs.h
+
+-- 
+2.24.1
 
