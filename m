@@ -2,91 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F18DE19DE35
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 20:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5120D19DE21
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 20:40:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728104AbgDCSxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 14:53:01 -0400
-Received: from a1i272.smtp2go.com ([43.228.185.16]:49385 "EHLO
-        a1i272.smtp2go.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727167AbgDCSxA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 14:53:00 -0400
-X-Greylist: delayed 1153 seconds by postgrey-1.27 at vger.kernel.org; Fri, 03 Apr 2020 14:53:00 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=smtpservice.net; s=m6sda0.a1-4.dyn; x=1585940880; h=Feedback-ID:
-        X-Smtpcorp-Track:Message-Id:Date:Subject:To:From:Reply-To:Sender:
-        List-Unsubscribe; bh=gHr98tVL9aHbHY4xsoNtdTUpIp+dJTf49J1SpMih0O8=; b=kTe03GJa
-        8cF86uK7Y4yqaLPZDlikVwVJ0nVe6F+PoE6wRLkcDrPBJYW8Ky3celJPh8LXqyet4+nFFKrhb9mzQ
-        0JwQb13w57RRGkprgQFpv6fC/wcF4u9l3UAryTPu1ukmdNmAwAgh+vXmfrOAz5HcpT6M5iYOGm0AX
-        vUJZNJw62wYVaECebxtS+Abv9h75p0NYQ2DQ9vt01EBdE0eONeknNA/lIjAQ8riy1gbtrKSz69Fp3
-        OeUUQkprYbVCzIwJwKOuYxHAPLnoXYx6qmmR2ywTT1YDnyGzXecKJ463I2NXEt8HcHcCWWEl8OLUE
-        67nFclyq4BUMprlwBLFTBG7Xpg==;
-Received: from [10.173.255.233] (helo=SmtpCorp)
- by smtpcorp.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92-S2G) (envelope-from <paulb@blazebox.homeip.net>)
- id 1jKR8Q-ItkDpC-9a; Fri, 03 Apr 2020 18:33:42 +0000
-Received: from [10.162.83.196] (helo=mail.blazebox.homeip.net)
- by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92-S2G) (envelope-from <paulb@blazebox.homeip.net>)
- id 1jKR8P-IbZr7A-Tj; Fri, 03 Apr 2020 18:33:41 +0000
-Received: from blazebox.homeip.net (localhost [127.0.0.1])
- by mail.blazebox.homeip.net (Postfix) with ESMTP id 3027961D014;
- Fri,  3 Apr 2020 14:33:41 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at blazebox.homeip.net
-Received: from mail.blazebox.homeip.net ([127.0.0.1])
- by blazebox.homeip.net (mail.blazebox.homeip.net [127.0.0.1]) (amavisd-new,
- port 10024)
- with LMTP id XOzl195AJHOp; Fri,  3 Apr 2020 14:33:39 -0400 (EDT)
-Received: from blaze.homeip.net (blaze
- [IPv6:2001:470:1f07:a3a:dc8:1e2:a6b:6125])
- by mail.blazebox.homeip.net (Postfix) with ESMTP id 989AC61D013;
- Fri,  3 Apr 2020 14:33:39 -0400 (EDT)
-Received: by blaze.homeip.net (Postfix, from userid 4444)
- id 2673320B6D07; Fri,  3 Apr 2020 14:34:00 -0400 (EDT)
-From:   Paul Blazejowski <paulb@blazebox.homeip.net>
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH] drivers/dma-buf/Kconfig: correct typo in description
-Date:   Fri,  3 Apr 2020 14:33:34 -0400
-Message-Id: <20200403183334.11440-1-paulb@blazebox.homeip.net>
-X-Mailer: git-send-email 2.26.0
+        id S2391087AbgDCSka (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 14:40:30 -0400
+Received: from smtprelay0024.hostedemail.com ([216.40.44.24]:43886 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728337AbgDCSka (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Apr 2020 14:40:30 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 232EE837F27B;
+        Fri,  3 Apr 2020 18:40:29 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:2915:3138:3139:3140:3141:3142:3352:3622:3865:3866:3868:3871:4321:5007:6119:6120:6742:7901:7903:10004:10400:10848:11026:11232:11658:11914:12296:12297:12740:12760:12895:13069:13161:13229:13311:13357:13439:14659:14721:21080:21627:30054:30069:30070:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
+X-HE-Tag: head59_210c0a7bd8631
+X-Filterd-Recvd-Size: 2165
+Received: from XPS-9350.home (unknown [47.151.136.130])
+        (Authenticated sender: joe@perches.com)
+        by omf18.hostedemail.com (Postfix) with ESMTPA;
+        Fri,  3 Apr 2020 18:40:26 +0000 (UTC)
+Message-ID: <e44e41317719727ea12aee4ff1e210dea796dd2f.camel@perches.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+From:   Joe Perches <joe@perches.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl, mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Date:   Fri, 03 Apr 2020 11:38:29 -0700
+In-Reply-To: <20200403104701.GC3172@kekkonen.localdomain>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+         <20200403102449.GB4882@pendragon.ideasonboard.com>
+         <20200403104701.GC3172@kekkonen.localdomain>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Smtpcorp-Track: 1MKR8emPZr7jTM.h8GGnwbvF
-Feedback-ID: 316702m:316702a3jAEqy:316702serdr6gnuv
-X-Report-Abuse: Please forward a copy of this message, including all headers,
- to <abuse-report@smtp2go.com>
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While running `make oldconfig` CONFIG_DMABUF_MOVE_NOTIFY
-has a typo in Kconfig description, correct it.
+On Fri, 2020-04-03 at 13:47 +0300, Sakari Ailus wrote:
+> On Fri, Apr 03, 2020 at 01:24:49PM +0300, Laurent Pinchart wrote:
+> > On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
+> > > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+> > > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+> > > the same implementation can be used.
+[]
+> > > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+[]
+> > > +static noinline_for_stack
+> > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > > +		    struct printf_spec spec, const char *fmt)
+[]
+> > > +	if (fmt[1] != 'c' || fmt[2] != 'c')
 
-Signed-off-by: Paul Blazejowski <paulb@blazebox.homeip.net>
----
- drivers/dma-buf/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This could check outside a format string if
+the %p4 is at the end of the format string.
 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index ef73b678419c..04dd09b1667b 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -43,10 +43,10 @@ config DMABUF_MOVE_NOTIFY
- 	bool "Move notify between drivers (EXPERIMENTAL)"
- 	default n
- 	help
--	  Don''t pin buffers if the dynamic DMA-buf interface is available on both the
-+	  Don't pin buffers if the dynamic DMA-buf interface is available on both the
- 	  exporter as well as the importer. This fixes a security problem where
- 	  userspace is able to pin unrestricted amounts of memory through DMA-buf.
--	  But marked experimental because we don''t jet have a consistent execution
-+	  But marked experimental because we don't jet have a consistent execution
- 	  context and memory management between drivers.
- 
- config DMABUF_SELFTESTS
--- 
-2.26.0
+	printk("%p4", fourcc)
+
+So this should verify
+
+	if (!(fmt[1] == 'c' && fmt[2] == 'c'))
+
 
