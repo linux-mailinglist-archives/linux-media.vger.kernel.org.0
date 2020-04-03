@@ -2,333 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F04D319D39E
-	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 11:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E5619D3B8
+	for <lists+linux-media@lfdr.de>; Fri,  3 Apr 2020 11:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390477AbgDCJ1u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 05:27:50 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53634 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727774AbgDCJ1u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 05:27:50 -0400
-Received: from localhost.localdomain (unknown [IPv6:2a02:810a:1140:6758:20a2:167a:3b62:26be])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 86BED2984FB;
-        Fri,  3 Apr 2020 10:27:47 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, sakari.ailus@linux.intel.com
-Subject: [PATCH v2 2/2] media: staging: rkisp1: cap: remove field fmt_type from struct rkisp1_capture_fmt_cfg
-Date:   Fri,  3 Apr 2020 11:27:38 +0200
-Message-Id: <20200403092738.29831-3-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200403092738.29831-1-dafna.hirschfeld@collabora.com>
-References: <20200403092738.29831-1-dafna.hirschfeld@collabora.com>
+        id S2389998AbgDCJbE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 05:31:04 -0400
+Received: from mga05.intel.com ([192.55.52.43]:12998 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388472AbgDCJbE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 3 Apr 2020 05:31:04 -0400
+IronPort-SDR: hMx56VxgWOkMxvSiPtEF3fZyS4vzACpji9paDAj9A7fYYsTNKiS85cFTuD9zBoXtEv/YtpA6h7
+ i8dgcCMwU4zQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 02:31:04 -0700
+IronPort-SDR: Ff+uh1GlRsAzAACn6hWcKwB6L/7wQ6bTYA7eA69rBEVqU7gH6ev/OBSCkNoeT2Ric3r7jt7Mg5
+ r7eRvnv3tT1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,339,1580803200"; 
+   d="scan'208";a="449968404"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga005.fm.intel.com with ESMTP; 03 Apr 2020 02:31:01 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jKIfH-00FOWT-O4; Fri, 03 Apr 2020 12:31:03 +0300
+Date:   Fri, 3 Apr 2020 12:31:03 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Petr Mladek <pmladek@suse.com>, linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20200403093103.GI1922688@smile.fi.intel.com>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pixel encoding can be retrieved from the cap->pix.info.
-Therefore the field fmt_type can be removed from the
-struct rkisp1_capture_fmt_cfg.
+On Fri, Apr 03, 2020 at 12:11:56PM +0300, Sakari Ailus wrote:
+> Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
+> pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
+> the same implementation can be used.
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/staging/media/rkisp1/rkisp1-capture.c | 51 +------------------
- 1 file changed, 2 insertions(+), 49 deletions(-)
+...
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-index 8e8ea7ed8de3..0bef5faf068e 100644
---- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-@@ -52,7 +52,6 @@ enum rkisp1_plane {
-  */
- struct rkisp1_capture_fmt_cfg {
- 	u32 fourcc;
--	u8 fmt_type;
- 	u8 uv_swap;
- 	u32 write_format;
- 	u32 output_format;
-@@ -87,133 +86,106 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
- 	/* yuv422 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_YUYV,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YVYU,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_VYUY,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YUV422P,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV16,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV61,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YVU422M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	},
- 	/* yuv420 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV21,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV12,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV21M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV12M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YUV420,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YVU420,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	},
- 	/* yuv444 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_YUV444M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	},
- 	/* yuv400 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_GREY,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
- 	},
- 	/* raw */
- 	{
- 		.fourcc = V4L2_PIX_FMT_SRGGB8,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SGRBG8,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SGBRG8,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SBGGR8,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SRGGB10,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SGRBG10,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SGBRG10,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SBGGR10,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SRGGB12,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SGRBG12,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SGBRG12,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_SBGGR12,
--		.fmt_type = V4L2_PIXEL_ENC_BAYER,
- 		.write_format = RKISP1_MI_CTRL_MP_WRITE_RAW12,
- 	},
- };
-@@ -222,43 +194,36 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
- 	/* yuv422 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_YUYV,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YVYU,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_VYUY,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YUV422P,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV16,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV61,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YVU422M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-@@ -266,37 +231,31 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
- 	/* yuv420 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV21,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV12,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV21M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_NV12M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_SPLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YUV420,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_YVU420,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 1,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV420,
-@@ -304,7 +263,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
- 	/* yuv444 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_YUV444M,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV444,
-@@ -312,7 +270,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
- 	/* yuv400 */
- 	{
- 		.fourcc = V4L2_PIX_FMT_GREY,
--		.fmt_type = V4L2_PIXEL_ENC_YUV,
- 		.uv_swap = 0,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV400,
-@@ -320,17 +277,14 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
- 	/* rgb */
- 	{
- 		.fourcc = V4L2_PIX_FMT_RGB24,
--		.fmt_type = V4L2_PIXEL_ENC_RGB,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB888,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_RGB565,
--		.fmt_type = V4L2_PIXEL_ENC_RGB,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB565,
- 	}, {
- 		.fourcc = V4L2_PIX_FMT_BGR666,
--		.fmt_type = V4L2_PIXEL_ENC_RGB,
- 		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
- 		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB666,
- 	},
-@@ -504,13 +458,12 @@ static void rkisp1_sp_disable(struct rkisp1_capture *cap)
- 
- static void rkisp1_mp_enable(struct rkisp1_capture *cap)
- {
--	const struct rkisp1_capture_fmt_cfg *isp_fmt = cap->pix.cfg;
- 	u32 mi_ctrl;
- 
- 	rkisp1_mp_disable(cap);
- 
- 	mi_ctrl = rkisp1_read(cap->rkisp1, RKISP1_CIF_MI_CTRL);
--	if (isp_fmt->fmt_type == V4L2_PIXEL_ENC_BAYER)
-+	if (v4l2_is_format_bayer(cap->pix.info))
- 		mi_ctrl |= RKISP1_CIF_MI_CTRL_RAW_ENABLE;
- 	/* YUV */
- 	else
-@@ -1265,7 +1218,7 @@ static int rkisp1_capture_link_validate(struct media_link *link)
- 		return -EPIPE;
- 	}
- 
--	if (cap->pix.cfg->fmt_type != isp->src_fmt->fmt_type) {
-+	if (cap->pix.info->pixel_enc != isp->src_fmt->fmt_type) {
- 		dev_err(cap->rkisp1->dev,
- 			"format type mismatch in link '%s:%d->%s:%d'\n",
- 			link->source->entity->name, link->source->index,
+> +static noinline_for_stack
+> +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> +		    struct printf_spec spec, const char *fmt)
+> +{
+
+> +#define FOURCC_STRING_BE	"-BE"
+> +	char s[sizeof(*fourcc) + sizeof(FOURCC_STRING_BE)] = { 0 };
+
+I guess it makes it too complicated.
+
+	char s[8];
+
+> +	if (check_pointer(&buf, end, fourcc, spec))
+> +		return buf;
+> +
+> +	if (fmt[1] != 'c' || fmt[2] != 'c')
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +
+
+> +	put_unaligned_le32(*fourcc & ~BIT(31), s);
+
+Can you elaborate what the difference in output with this bit set over cleared?
+I.o.w. why don't we need to put it as BE and for LE case addd "-LE"?
+
+> +	if (*fourcc & BIT(31))
+> +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
+> +			sizeof(FOURCC_STRING_BE));
+
+We know the size, and we may put '\0' as well
+	if (*fourcc & BIT(31))
+		strscpy(&s[4], "-BE", sizeof("-BE"));
+	else
+		strscpy(&s[4], "", sizeof(""));
+
+
+> +	return string(buf, end, s, spec);
+> +}
+
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
