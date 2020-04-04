@@ -2,68 +2,370 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A57CC19E1AA
-	for <lists+linux-media@lfdr.de>; Sat,  4 Apr 2020 01:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9923819E1C8
+	for <lists+linux-media@lfdr.de>; Sat,  4 Apr 2020 02:08:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726271AbgDCX5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Apr 2020 19:57:24 -0400
-Received: from smtprelay0173.hostedemail.com ([216.40.44.173]:43072 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726060AbgDCX5Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 3 Apr 2020 19:57:24 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 874B2837F24C;
-        Fri,  3 Apr 2020 23:57:23 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1537:1566:1593:1594:1711:1714:1730:1747:1777:1792:2110:2393:2559:2562:2828:2918:3138:3139:3140:3141:3142:3622:3865:3866:3867:3870:3871:3873:4321:5007:6120:6742:7901:10004:10400:10450:10455:10848:11232:11658:11914:12297:12740:12760:12895:13069:13071:13311:13357:13439:14180:14659:19904:19999:21060:21080:21324:21611:21627:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: book21_232a483c7e13a
-X-Filterd-Recvd-Size: 1743
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf02.hostedemail.com (Postfix) with ESMTPA;
-        Fri,  3 Apr 2020 23:57:21 +0000 (UTC)
-Message-ID: <cabfb02bf36b50463ebfe850ba642025ebeb88b2.camel@perches.com>
-Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-From:   Joe Perches <joe@perches.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S1726028AbgDDAI0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Apr 2020 20:08:26 -0400
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:51313 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725268AbgDDAI0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Apr 2020 20:08:26 -0400
+Received: by mail-pj1-f68.google.com with SMTP id w9so3803387pjh.1
+        for <linux-media@vger.kernel.org>; Fri, 03 Apr 2020 17:08:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=jhN2dpEXu5JwS9AhixAF4oEmbfJr8A9BGT+JXjqohEk=;
+        b=omwyIvff/deBm4EJop0PlBr/zgRmsD11UrOemLJZH1O5E0Iq8TMq58+HV4pF7fQBEO
+         VKAG2exi0sWnM5FHBc8PEdzehVdDYVn1m0DBHS7IZlgNrLSeYgKzOnGrZ1K74G+mG5g/
+         byvHF+vCRGOQlTn7TMBRYrlxVrzkRNr8zKD7IQgM9D36XhtYLQq8AWUxKWqlksfZl6CL
+         /cOwQLOzBvmfd0HQMF2YGEX9a4+Zk4YeejLAyotZtt6ZPAUfjH7C9RrLl3Cp+fMFBS5s
+         zEDHggBn2W6jHgJ2WnccjRDkzkrHDzGYwfSkx1GyT3jIcH7vFDEMaH8+vzaqRcVH7KIA
+         7efQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=jhN2dpEXu5JwS9AhixAF4oEmbfJr8A9BGT+JXjqohEk=;
+        b=IyTCu4ZcLDOOQE87e78Q76MZ09V1W1rK5XLCzv4JtVwBNTYvivoqUrbBV1ttK19wuN
+         3AamLhY9GrkWRyPCUw5o7QaqRa8K1V6lpoxVtv3my8x7Q8gx/NZ5VVm63Qqt2UwU3cm1
+         a1BxQW2DyEyS+dU5R2KJlSJWBTw9pvH9SOdCaE8MfhEamyBbGXfGIMiMGBTBcU8fjEfb
+         Ek8wbtxiegboIhnn5I3wnnjXAjrvDlIC9NrItXX/jG3/ygO48ss1OTYlkzChZBH18B4n
+         2dxQn95OhTOqo4+N0FTcfT+8uraXiKdHIX4OJ14RNJ2FN0OX4xpDs8dMg6X21KWDfgiw
+         faGQ==
+X-Gm-Message-State: AGi0PuZaqbOXkms/VUlCi5SfR7CPky2rTl48Tx/S0DX5uzzkb35dyz+/
+        U8h9dfcxdKFYJFT2nC6WitYHcNWhy2Y=
+X-Google-Smtp-Source: APiQypJzdKwJTdarz2b9qnDjduoHvHNQ+cs7M9yuA6987JgAT7bk2onxBSOj/d6ko2qeL8BQMB8afg==
+X-Received: by 2002:a17:90a:8087:: with SMTP id c7mr12631526pjn.148.1585958904194;
+        Fri, 03 Apr 2020 17:08:24 -0700 (PDT)
+Received: from mappy.world.mentorg.com (c-107-3-184-99.hsd1.ca.comcast.net. [107.3.184.99])
+        by smtp.gmail.com with ESMTPSA id c11sm6589854pfc.216.2020.04.03.17.08.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2020 17:08:23 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Date:   Fri, 03 Apr 2020 16:55:24 -0700
-In-Reply-To: <20200403233647.GA4394@kekkonen.localdomain>
-References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
-         <20200403102449.GB4882@pendragon.ideasonboard.com>
-         <20200403104701.GC3172@kekkonen.localdomain>
-         <e44e41317719727ea12aee4ff1e210dea796dd2f.camel@perches.com>
-         <20200403233647.GA4394@kekkonen.localdomain>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v5 07/12] media: imx: utils: Make imx_media_pixfmt handle variable number of codes
+Date:   Fri,  3 Apr 2020 17:08:17 -0700
+Message-Id: <20200404000817.24752-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200403205839.4531-8-slongerbeam@gmail.com>
+References: <20200403205839.4531-8-slongerbeam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 2020-04-04 at 02:36 +0300, Sakari Ailus wrote:
-> Hi Joe,
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Hi Sakari.
+The imx_media_pixfmt structures include a codes member that stores
+media bus codes as a fixed array of 4 integers. The functions dealing
+with the imx_media_pixfmt structures assume that the array of codes is
+terminated by a 0 element. This mechanism is fragile, as demonstrated
+by several instances of the structure containing 4 non-zero codes.
 
-> How would these be different in functionality? fmt[2] won't be accessed if
-> fmt[1] is not 'c' (including '\0'), just like on the line above. I find the
-> original easier to read.
+Fix this by turning the array into a pointer, and providing an
+IMX_BUS_FMTS macro to initialize the codes member with a guaranteed 0
+element at the end.
 
-Oops. You are right of course.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-cheers, Joe
+[Fixed a NULL deref of the codes pointer in a couple places]
+[Added more comments for the struct imx_media_pixfmt members,
+ includung a bold NOTE! for future developers that codes pointer
+ is NULL for the in-memory-only formats]
+
+Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-capture.c |  4 +-
+ drivers/staging/media/imx/imx-media-utils.c   | 74 ++++++++++---------
+ drivers/staging/media/imx/imx-media.h         |  7 +-
+ 3 files changed, 46 insertions(+), 39 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index ac48cbe35323..32d5b05097a9 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -95,7 +95,7 @@ static int capture_enum_framesizes(struct file *file, void *fh,
+ 	if (!cc)
+ 		return -EINVAL;
+ 
+-	fse.code = cc->codes[0];
++	fse.code = cc->codes ? cc->codes[0] : 0;
+ 
+ 	ret = v4l2_subdev_call(priv->src_sd, pad, enum_frame_size, NULL, &fse);
+ 	if (ret)
+@@ -137,7 +137,7 @@ static int capture_enum_frameintervals(struct file *file, void *fh,
+ 	if (!cc)
+ 		return -EINVAL;
+ 
+-	fie.code = cc->codes[0];
++	fie.code = cc->codes ? cc->codes[0] : 0;
+ 
+ 	ret = v4l2_subdev_call(priv->src_sd, pad, enum_frame_interval,
+ 			       NULL, &fie);
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 00a10bbd9a2d..95913ab6d5b6 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -7,6 +7,8 @@
+ #include <linux/module.h>
+ #include "imx-media.h"
+ 
++#define IMX_BUS_FMTS(fmt...) (const u32[]) {fmt, 0}
++
+ /*
+  * List of supported pixel formats for the subdevs.
+  */
+@@ -14,18 +16,18 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 	/*** YUV formats start here ***/
+ 	{
+ 		.fourcc	= V4L2_PIX_FMT_UYVY,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_UYVY8_2X8,
+ 			MEDIA_BUS_FMT_UYVY8_1X16
+-		},
++		),
+ 		.cs     = IPUV3_COLORSPACE_YUV,
+ 		.bpp    = 16,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_YUYV,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_YUYV8_2X8,
+ 			MEDIA_BUS_FMT_YUYV8_1X16
+-		},
++		),
+ 		.cs     = IPUV3_COLORSPACE_YUV,
+ 		.bpp    = 16,
+ 	}, {
+@@ -55,7 +57,7 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 		.planar = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_YUV32,
+-		.codes  = {MEDIA_BUS_FMT_AYUV8_1X32},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_AYUV8_1X32),
+ 		.cs     = IPUV3_COLORSPACE_YUV,
+ 		.bpp    = 32,
+ 		.ipufmt = true,
+@@ -63,16 +65,16 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 	/*** RGB formats start here ***/
+ 	{
+ 		.fourcc	= V4L2_PIX_FMT_RGB565,
+-		.codes  = {MEDIA_BUS_FMT_RGB565_2X8_LE},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_RGB565_2X8_LE),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.cycles = 2,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_RGB24,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_RGB888_1X24,
+ 			MEDIA_BUS_FMT_RGB888_2X12_LE
+-		},
++		),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 24,
+ 	}, {
+@@ -81,12 +83,12 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 		.bpp    = 24,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_XRGB32,
+-		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_ARGB8888_1X32),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 32,
+ 	}, {
+ 		.fourcc	= V4L2_PIX_FMT_XRGB32,
+-		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_ARGB8888_1X32),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 32,
+ 		.ipufmt = true,
+@@ -106,91 +108,91 @@ static const struct imx_media_pixfmt pixel_formats[] = {
+ 	/*** raw bayer and grayscale formats start here ***/
+ 	{
+ 		.fourcc = V4L2_PIX_FMT_SBGGR8,
+-		.codes  = {MEDIA_BUS_FMT_SBGGR8_1X8},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SBGGR8_1X8),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SGBRG8,
+-		.codes  = {MEDIA_BUS_FMT_SGBRG8_1X8},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGBRG8_1X8),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SGRBG8,
+-		.codes  = {MEDIA_BUS_FMT_SGRBG8_1X8},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SGRBG8_1X8),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SRGGB8,
+-		.codes  = {MEDIA_BUS_FMT_SRGGB8_1X8},
++		.codes  = IMX_BUS_FMTS(MEDIA_BUS_FMT_SRGGB8_1X8),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SBGGR16,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_SBGGR10_1X10,
+ 			MEDIA_BUS_FMT_SBGGR12_1X12,
+ 			MEDIA_BUS_FMT_SBGGR14_1X14,
+ 			MEDIA_BUS_FMT_SBGGR16_1X16
+-		},
++		),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SGBRG16,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_SGBRG10_1X10,
+ 			MEDIA_BUS_FMT_SGBRG12_1X12,
+ 			MEDIA_BUS_FMT_SGBRG14_1X14,
+-			MEDIA_BUS_FMT_SGBRG16_1X16,
+-		},
++			MEDIA_BUS_FMT_SGBRG16_1X16
++		),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SGRBG16,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_SGRBG10_1X10,
+ 			MEDIA_BUS_FMT_SGRBG12_1X12,
+ 			MEDIA_BUS_FMT_SGRBG14_1X14,
+-			MEDIA_BUS_FMT_SGRBG16_1X16,
+-		},
++			MEDIA_BUS_FMT_SGRBG16_1X16
++		),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_SRGGB16,
+-		.codes  = {
++		.codes  = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_SRGGB10_1X10,
+ 			MEDIA_BUS_FMT_SRGGB12_1X12,
+ 			MEDIA_BUS_FMT_SRGGB14_1X14,
+-			MEDIA_BUS_FMT_SRGGB16_1X16,
+-		},
++			MEDIA_BUS_FMT_SRGGB16_1X16
++		),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_GREY,
+-		.codes = {
++		.codes = IMX_BUS_FMTS(
+ 			MEDIA_BUS_FMT_Y8_1X8,
+ 			MEDIA_BUS_FMT_Y10_1X10,
+-			MEDIA_BUS_FMT_Y12_1X12,
+-		},
++			MEDIA_BUS_FMT_Y12_1X12
++		),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 8,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_Y10,
+-		.codes = {MEDIA_BUS_FMT_Y10_1X10},
++		.codes = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y10_1X10),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.bayer  = true,
+ 	}, {
+ 		.fourcc = V4L2_PIX_FMT_Y12,
+-		.codes = {MEDIA_BUS_FMT_Y12_1X12},
++		.codes = IMX_BUS_FMTS(MEDIA_BUS_FMT_Y12_1X12),
+ 		.cs     = IPUV3_COLORSPACE_RGB,
+ 		.bpp    = 16,
+ 		.bayer  = true,
+@@ -220,16 +222,16 @@ static const struct imx_media_pixfmt *find_format(u32 fourcc,
+ 			 PIXFMT_SEL_YUV : PIXFMT_SEL_RGB);
+ 
+ 		if (!(fmt_sel & sel) ||
+-		    (!allow_non_mbus && !fmt->codes[0]))
++		    (!allow_non_mbus && !fmt->codes))
+ 			continue;
+ 
+ 		if (fourcc && fmt->fourcc == fourcc)
+ 			return fmt;
+ 
+-		if (!code)
++		if (!code || !fmt->codes)
+ 			continue;
+ 
+-		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
++		for (j = 0; fmt->codes[j]; j++) {
+ 			if (code == fmt->codes[j])
+ 				return fmt;
+ 		}
+@@ -260,7 +262,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
+ 			 PIXFMT_SEL_YUV : PIXFMT_SEL_RGB);
+ 
+ 		if (!(fmt_sel & sel) ||
+-		    (!allow_non_mbus && !fmt->codes[0]))
++		    (!allow_non_mbus && !fmt->codes))
+ 			continue;
+ 
+ 		if (fourcc && index == 0) {
+@@ -273,7 +275,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
+ 			continue;
+ 		}
+ 
+-		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
++		for (j = 0; fmt->codes[j]; j++) {
+ 			if (index == 0) {
+ 				*code = fmt->codes[j];
+ 				return 0;
+@@ -529,7 +531,7 @@ int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+ 	const struct imx_media_pixfmt *fmt;
+ 
+ 	fmt = imx_media_find_format(image->pix.pixelformat, PIXFMT_SEL_ANY);
+-	if (!fmt)
++	if (!fmt || !fmt->codes || !fmt->codes[0])
+ 		return -EINVAL;
+ 
+ 	memset(mbus, 0, sizeof(*mbus));
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
+index c61592750729..459ec15bcdaf 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -68,8 +68,13 @@ enum {
+ #define IMX_MEDIA_EOF_TIMEOUT       1000
+ 
+ struct imx_media_pixfmt {
++	/* the in-memory FourCC pixel format */
+ 	u32     fourcc;
+-	u32     codes[4];
++	/*
++	 * the set of equivalent media bus codes for the fourcc.
++	 * NOTE! codes pointer is NULL for in-memory-only formats.
++	 */
++	const u32 *codes;
+ 	int     bpp;     /* total bpp */
+ 	/* cycles per pixel for generic (bayer) formats for the parallel bus */
+ 	int	cycles;
+-- 
+2.17.1
 
