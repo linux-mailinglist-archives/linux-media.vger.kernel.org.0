@@ -2,109 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9909D19ED52
-	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2020 20:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2408D19EDA7
+	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2020 21:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727356AbgDESQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Apr 2020 14:16:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60938 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbgDESQd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Apr 2020 14:16:33 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90736312;
-        Sun,  5 Apr 2020 20:16:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586110592;
-        bh=6I2KujTbCZll3Yyt2ypPUSXE5uM18DZss0se4L4MeJo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XSVo29Ai+DigFoYHI7nfEyYeNrFVHAmfXXIIB7JPbAnIFaBRp9qtQf+0S8PHz/Nxf
-         az4tp+PTjRVyx57MKWfNAz7qI9238Lzrm0jEmBS2xP5a9m/E1AOWuTl13NRj04W6+k
-         Wk60nGHqBamJOv/pE6XGwGir1vGMXQ7hmQNx+FH8=
-Date:   Sun, 5 Apr 2020 21:16:23 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 4/5] media: staging: rkisp1: cap: support uv swapped
- plane formats
-Message-ID: <20200405181623.GQ5846@pendragon.ideasonboard.com>
-References: <20200402190419.15155-1-dafna.hirschfeld@collabora.com>
- <20200402190419.15155-5-dafna.hirschfeld@collabora.com>
+        id S1727687AbgDEThy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Apr 2020 15:37:54 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46352 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727356AbgDEThy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Apr 2020 15:37:54 -0400
+Received: by mail-lj1-f196.google.com with SMTP id r7so12320265ljg.13;
+        Sun, 05 Apr 2020 12:37:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/2/BZYY6tziL1rowFqv/WZjJQ1bVo6WtxgyQ+EB6IhI=;
+        b=P+LYUFcU1CdNqGk1ZFGww7kPsFxv289pMKA+OGBQ8mWmub9FhsWGIP2TPoeFI9Xyaz
+         n67YyDPR4osdklykNePsTyH/GfctlRzMcUFq51vu1Nr/V5/ABrITAh6tzgET/Ej3ai5z
+         +Fy4yyGzFVs6LqtSc+yzcaPqN7iw3/EhbC1C7EYNBh6L9KZ7Wu9z0QU1C1BsOKlLy5d/
+         CgSzZPccT/bSRNvSU1L8DhsrWIhVZ++2FI3qHq/ub4EWLkdpLo51X1AGCl+EyRaLXXe8
+         tEkUxsXuj4nyYYBnaXazzdThA0a1qYOOBcmh8YgoBssCGF8PZixqzScMWk0Sc20mrylW
+         dXag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/2/BZYY6tziL1rowFqv/WZjJQ1bVo6WtxgyQ+EB6IhI=;
+        b=f1FPS1zo/FjvuGW7O8kD2v4bRCoGrsfLBYsBGtVFx3ikKgRAO/TQdxCAmTzxk8Irts
+         EqZX8M+Nvi91mKMQ9uhnUc1SzX3VIayxQvQeSvmMBBF54XDugvLfOBw5LetVMFR8evea
+         utrNcx2zQcjry74ZYFYWzQsv50N1b4B8NQlplwdZob0ANNS0V1OM1CMqE9I1rGraUqxD
+         DSp3cQiw6e3IbViHz+zNW0uudHle7S59dpfJxmD868NRr54Nh1WCXC0+Qs0iIUVduwKI
+         J9wJAnkxTyXrcqTo5ft9djzOz7T3lfvC43qgM9UEPr+fQoYZd9DjwXpAKHfbYIWvQOiv
+         3IAA==
+X-Gm-Message-State: AGi0PubgpLMSoGlfMSXN2vvifXROsbZWeBhSDo/V/A+B8Uymz6/PnQNX
+        /IjS4pHODCjJmndtxSAzDek5E/7H
+X-Google-Smtp-Source: APiQypKM/1MzWi2j3tW5sVbf8l7ahjvkA6YmnT2KiVpjwF3GCanIAqK8rWUmndSdp2djevnlKdxIEg==
+X-Received: by 2002:a2e:9b55:: with SMTP id o21mr9853233ljj.74.1586115469896;
+        Sun, 05 Apr 2020 12:37:49 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id q1sm10159991lfc.92.2020.04.05.12.37.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Apr 2020 12:37:49 -0700 (PDT)
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <ca9a792f-ff5e-c82b-c2bc-32c4875e558d@gmail.com>
+Date:   Sun, 5 Apr 2020 22:37:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200402190419.15155-5-dafna.hirschfeld@collabora.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-Thank you for the patch.
-
-On Thu, Apr 02, 2020 at 09:04:18PM +0200, Dafna Hirschfeld wrote:
-> Plane formats with the u and v planes swapped can be
-> supported by changing the address of the cb and cr in
-> the buffer.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> index fa2849209433..2d274e8f565b 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> @@ -41,6 +41,10 @@
->  	(((write_format) == RKISP1_MI_CTRL_MP_WRITE_YUV_SPLA) ||	\
->  	 ((write_format) == RKISP1_MI_CTRL_SP_WRITE_SPLA))
->  
-> +#define RKISP1_IS_PLANAR(write_format)					\
-> +	(((write_format) == RKISP1_MI_CTRL_SP_WRITE_PLA) ||		\
-> +	 ((write_format) == RKISP1_MI_CTRL_MP_WRITE_YUV_PLA_OR_RAW8))
+04.04.2020 04:25, Sowjanya Komatineni пишет:
+...
+> +static int tegra_csi_init(struct host1x_client *client)
+> +{
+> +	struct tegra_csi *csi = host1x_client_to_csi(client);
+> +	struct tegra_video_device *vid = dev_get_drvdata(client->host);
+> +	int ret;
 > +
->  enum rkisp1_plane {
->  	RKISP1_PLANE_Y	= 0,
->  	RKISP1_PLANE_CB	= 1,
-> @@ -788,6 +792,19 @@ static void rkisp1_vb2_buf_queue(struct vb2_buffer *vb)
->  			rkisp1_pixfmt_comp_size(pixm, RKISP1_PLANE_CB);
->  	}
->  
-> +	/*
-> +	 * uv swap can be supported for plane formats by switching
-> +	 * the address of cb and cr
-> +	 */
-> +	if (RKISP1_IS_PLANAR(cap->pix.cfg->write_format) &&
-
-As commented on patch 3/5, could this be checked from the data in
-v4l2_format_info ?
-
-> +	    cap->pix.cfg->uv_swap) {
-> +		ispbuf->buff_addr[RKISP1_PLANE_CR] =
-> +			ispbuf->buff_addr[RKISP1_PLANE_CB];
-> +		ispbuf->buff_addr[RKISP1_PLANE_CB] =
-> +			ispbuf->buff_addr[RKISP1_PLANE_CR] +
-> +			rkisp1_pixfmt_comp_size(pixm, RKISP1_PLANE_CR);
-
-How about
-
-		swap(ispbuf->buff_addr[RKISP1_PLANE_CR],
-		     ispbuf->buff_addr[RKISP1_PLANE_CB]);
-
-?
-
-> +	}
+> +	vid->csi = csi;
 > +
->  	spin_lock_irqsave(&cap->buf.lock, flags);
->  
->  	/*
+> +	INIT_LIST_HEAD(&csi->csi_chans);
+> +
+> +	if (pm_runtime_enabled(csi->dev)) {
+> +		ret = pm_runtime_get_sync(csi->dev);
+> +		if (ret < 0) {
+> +			dev_err(csi->dev,
+> +				"failed to get runtime PM: %d\n", ret);
+> +			pm_runtime_put_noidle(csi->dev);
+> +			return ret;
+> +		}
+> +	} else {
 
--- 
-Regards,
-
-Laurent Pinchart
+RPM is supposed to be always available on Tegra nowadays.
