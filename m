@@ -2,91 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B44AE19EE37
-	for <lists+linux-media@lfdr.de>; Sun,  5 Apr 2020 23:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D5A19EE6D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 00:44:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727794AbgDEVLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Apr 2020 17:11:31 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41299 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727254AbgDEVLb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Apr 2020 17:11:31 -0400
-Received: by mail-lj1-f194.google.com with SMTP id n17so12521626lji.8;
-        Sun, 05 Apr 2020 14:11:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NWGPhfMJZZel0rwMWEjzRwrt83gzNGV4eDnl95RcfAU=;
-        b=eSj2WijVRRdiVl8L9gDAZY9jUY/Fsew/0GhzfAmvk2a8oCD9IzUhxAFvEt3nTYYkpT
-         j7SEnDPqU/DnobMg1ThkNVLb+ZhFOiIwZ/XA2Pg6xEWegpN7VA4oh/nbshBOgYVxDJfa
-         i/EKxS+uuBdDWrWonhJzIrQz2taHsuxq9HNW6jE1yQYLaDC3iOuHFTh0X8y4stjkJpWR
-         RbprIAxyBa51w/UXxC8xtyKWhzG2SppkGDKp/jcSoA1vt5wVEyOep3k6DNL/s0JYYhPR
-         B+/gmSfWVMcjJDVbypi3SqUuyLd2e3M54JwZjpQn4TB3MdV1HEuq6Bmwl7CKQapAQNf6
-         lcrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=NWGPhfMJZZel0rwMWEjzRwrt83gzNGV4eDnl95RcfAU=;
-        b=n9QgRPLVdUK6X6kujGnrzmEn/g+Nx2AhTLFnrhMo6WLmSFQEI5O93DH2YpWgBjFhcs
-         cBXmgfH6hD2yT+UM+Qr73N9gQx90kyVY906Rn+nW+DJ10wgUI7Cs9ScsmRkEWju+UVax
-         kmmuRmiOQzY0P0qgC4H5dN7+er1Cqz5GvRxak/25KSPyGPhskViQF2MSOYrnk4GHyHF3
-         AhHH10Tb1lFMHGSuM7aqA8MsBp8tYU7ofYwqwGfJ0oaoF0+7ywOP8zvz9Ecisy6SezVS
-         Jek4mQ8cZyFEysmaqVXLMLbkpT6ZP16hNpjPLthPhD5FJ781OFlgP6A2daCDywfoyDWl
-         hE3w==
-X-Gm-Message-State: AGi0PuaybAR9DFlzn4xHsfxer8H95AdnnRKlBRGJ/mkt4tvTpX0AJgSj
-        l1QPMQegK/4ds/fOSFb3T1LINbpl
-X-Google-Smtp-Source: APiQypJJ7DJEjhUF1T29Imc2SI1iQoEKCcN3jsiwMvcGVreI86biQ8P1kEb9QblNCiD2v5BJwY2XFQ==
-X-Received: by 2002:a2e:7004:: with SMTP id l4mr10614949ljc.55.1586121089103;
-        Sun, 05 Apr 2020 14:11:29 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id s6sm8971493ljm.58.2020.04.05.14.11.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Apr 2020 14:11:28 -0700 (PDT)
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <40102767-ecdb-e958-66f4-45d11464069c@gmail.com>
-Date:   Mon, 6 Apr 2020 00:11:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727652AbgDEWoI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Apr 2020 18:44:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34412 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727254AbgDEWoI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Apr 2020 18:44:08 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B02C8312;
+        Mon,  6 Apr 2020 00:44:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586126647;
+        bh=sz6sqvto6+1dBFatlRj/VFmY3Pq8kv/LPs6U42sWQ74=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TJrr43fzbJFp83xPbtD+U9PhBk5bKqIW89NC0wNh0CN6Lck4mt3UyObbr1hzAOGfz
+         +Eb+Pat0IUb2xoQXpG7pEhXaD86YS+T6B2BwgTN9LTjzx2phoSINXwZmYGRBypf4Tx
+         KIXd6OImhD3g0mEHWZQkz9rj88mnb6uRFaO8cMv8=
+Date:   Mon, 6 Apr 2020 01:43:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 5/5] media: staging: rkisp1: cap: remove unsupported
+ formats
+Message-ID: <20200405224357.GR5846@pendragon.ideasonboard.com>
+References: <20200402190419.15155-1-dafna.hirschfeld@collabora.com>
+ <20200402190419.15155-6-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20200402190419.15155-6-dafna.hirschfeld@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-04.04.2020 04:25, Sowjanya Komatineni пишет:
-...
-> +static int tegra_vi_tpg_channels_alloc(struct tegra_vi *vi)
-> +{
-> +	struct tegra_vi_channel *chan, *tmp;
-> +	unsigned int port_num;
-> +	unsigned int nchannels = vi->soc->vi_max_channels;
-> +	int ret = 0;
-> +
-> +	for (port_num = 0; port_num < nchannels; port_num++) {
-> +		/*
-> +		 * Do not use devm_kzalloc as memory is freed immediately
-> +		 * when device instance is unbound but application might still
-> +		 * be holding the device node open. Channel memory allocated
-> +		 * with kzalloc is freed during video device release callback.
-> +		 */
-> +		chan = kzalloc(sizeof(*chan), GFP_KERNEL);
+Hi Dafna,
 
-Why anyone would want to unbind this driver in practice?
+Thank you for the patch.
 
-I think it should make more sense to set suppress_bind_attrs=true.
+On Thu, Apr 02, 2020 at 09:04:19PM +0200, Dafna Hirschfeld wrote:
+> For Ycbcr packed formats only YUYV can be supported by
+> the driver. This patch removes the other formats.
+
+The RKISP1_CIF_MI_BYTE_SWAP bit could possibly help achieving other YUV
+orders, but as far as I can tell, it would affect both the main path and
+the self path, so it wouldn't be very convenient. At a quick glance I
+haven't found a way to support those formats, but just to make sure,
+have you double-checked that the nv21_self and nv21_main bits of
+MI_XTD_FORMAT_CTRL don't also affect packed mode ? If they don't,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-capture.c | 21 -------------------
+>  1 file changed, 21 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> index 2d274e8f565b..076335193f40 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> @@ -98,15 +98,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
+>  		.fmt_type = RKISP1_FMT_YUV,
+>  		.uv_swap = 0,
+>  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+> -	}, {
+> -		.fourcc = V4L2_PIX_FMT_YVYU,
+> -		.fmt_type = RKISP1_FMT_YUV,
+> -		.uv_swap = 1,
+> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+> -	}, {
+> -		.fourcc = V4L2_PIX_FMT_VYUY,
+> -		.fmt_type = RKISP1_FMT_YUV,
+> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_YUV422P,
+>  		.fmt_type = RKISP1_FMT_YUV,
+> @@ -234,18 +225,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>  		.uv_swap = 0,
+>  		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+>  		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+> -	}, {
+> -		.fourcc = V4L2_PIX_FMT_YVYU,
+> -		.fmt_type = RKISP1_FMT_YUV,
+> -		.uv_swap = 1,
+> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+> -	}, {
+> -		.fourcc = V4L2_PIX_FMT_VYUY,
+> -		.fmt_type = RKISP1_FMT_YUV,
+> -		.uv_swap = 1,
+> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
+> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
+>  	}, {
+>  		.fourcc = V4L2_PIX_FMT_YUV422P,
+>  		.fmt_type = RKISP1_FMT_YUV,
+
+-- 
+Regards,
+
+Laurent Pinchart
