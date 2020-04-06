@@ -2,105 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFCF119EE77
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 01:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AED19EF93
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 05:33:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727652AbgDEXAs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Apr 2020 19:00:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34506 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726887AbgDEXAs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Apr 2020 19:00:48 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73B45312;
-        Mon,  6 Apr 2020 01:00:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586127646;
-        bh=1nm8g4uUajHc8yxwMII80sm9goTSuR4xERYLGYq2eas=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=J1lZPDIMsu5G/T1p0GvHo0jbk1SM3WHZVlUZu9tbgLv5tJGLVrPrCi8GfOlyNa1Ix
-         cgcJBvbCdibWv62ZT7QY+trmvMymKSi0e/uEuRMogyEZDrFmQnvvA4mYVj4AyP0wbb
-         Zz1nqSgGrwwG9WUzAG89x5ifGu73vIwTqHXJcO/U=
-Date:   Mon, 6 Apr 2020 02:00:37 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, helen.koike@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH] media: v4l2-common: change the pixel_enc of
- V4L2_PIX_FMT_GREY to YUV
-Message-ID: <20200405230037.GT5846@pendragon.ideasonboard.com>
-References: <20200323173618.14058-1-dafna.hirschfeld@collabora.com>
- <9304066ca10c9ccdf8a5fd88866425a5f45a330a.camel@collabora.com>
- <ef6fd691-c8ca-9408-76b4-e47aca0fc9b4@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ef6fd691-c8ca-9408-76b4-e47aca0fc9b4@collabora.com>
+        id S1726455AbgDFDd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Apr 2020 23:33:27 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:56109 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726408AbgDFDd1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 5 Apr 2020 23:33:27 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:a8ed:153:796f:c83d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id LIVojfbPvfHuvLIVpjPaIE; Mon, 06 Apr 2020 05:33:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1586144005; bh=Oh7HzABpJVkh8eHGYbnrfDfQSAShK55b2BE9GlzwwcA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=UAFOK+Zyf+4oJB8NYt+CmujT6LxObm6oFw+cVTGoT2nGBX5wwFW/K3hjR9P74bG1h
+         oh73IHQQjHcOmfDW5PZNJWAnvs3rY5RGFRyeiMIJOAOIKGOu1xdB2ZRWkzSkEN5Na5
+         XkgWIP/7vXSWOhcYxvHuroF6Ul/3cTj51y7tPQeJKBsEeWGv8KZqWH4CfH7c2x2M+C
+         6dMA+YcvZBTRQMFlcygHezu673rVonqWOPbbz0h+D65e2Qed4STeMX48CfMbPAHZ9+
+         AhA/2D//2xOZUdd6dpovTd6f4+tkpMDQ9zTOduaHx3oqezD9bmSxSIv5CcSSFB8ccI
+         AzA6tRo7+tT7A==
+Message-ID: <f4863862be600224170bd7e863d6ec5b@smtp-cloud9.xs4all.net>
+Date:   Mon, 06 Apr 2020 05:33:24 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfCoMwLBHa+eE1NQa/enjaH+JYbPpTsIkN4e5RYS2xrkNvjNZxUw2n2ToFLvia0Qq0yXUz7jHL7oBj1ZkY7QqfqNTOY89D+6s42Vq4rHqFYWvlqNcAESx
+ LMtv2+EP2ah34U0RwB1l8TsS6mOrAHMkD+nOXjsdcmTGa4qAEA1GcntJgxyQm7HBftjOlgl9BDTPQ0vTniKx7MJDb35I0/s1oBd6VKwZho/HTWjHXvW8YkkB
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Tue, Mar 31, 2020 at 09:20:49AM +0200, Dafna Hirschfeld wrote:
-> On 30.03.20 20:22, Ezequiel Garcia wrote:
-> > Hi Dafna,
-> > 
-> > Nice catch, thanks a lot.
->
-> Hi, It was actually Helen's idea,
-> 
-> > On Mon, 2020-03-23 at 18:36 +0100, Dafna Hirschfeld wrote:
-> >> V4L2_PIX_FMT_GREY format is Ycbcr format without
-> > 
-> > A nitpick s/Ycbcr/YCbCr. Maybe Hans can amend
-> > this when applying.
-> > 
-> > It's no big deal anyway.
-> > 
-> > Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > 
-> >> the color data, therefore its pixel_enc should
-> >> set to V4L2_PIXEL_ENC_YUV.
-> >>
-> >> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->
-> Suggested-by: Helen Koike <helen.koike@collabora.com>
+date:			Mon Apr  6 05:00:10 CEST 2020
+media-tree git hash:	2632e7b618a7730969f9782593c29ca53553aa22
+media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
+v4l-utils git hash:	38f4ce74275ae4625463f7eec78764715a0b6246
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: cbd8bfbab9e84c54e1f1dcf8c172c400a10126df
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-> >> ---
-> >>   drivers/media/v4l2-core/v4l2-common.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> >> index d0e5ebc736f9..054f2e607dff 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-common.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> >> @@ -250,7 +250,6 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
-> >>   		{ .format = V4L2_PIX_FMT_RGBA32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>   		{ .format = V4L2_PIX_FMT_ABGR32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>   		{ .format = V4L2_PIX_FMT_BGRA32,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 4, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >> -		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>   		{ .format = V4L2_PIX_FMT_RGB565,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>   		{ .format = V4L2_PIX_FMT_RGB555,  .pixel_enc = V4L2_PIXEL_ENC_RGB, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>   
-> >> @@ -274,6 +273,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
-> >>   		{ .format = V4L2_PIX_FMT_YUV420,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
-> >>   		{ .format = V4L2_PIX_FMT_YVU420,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
-> >>   		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 1 },
-> >> +		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-> >>   
-> >>   		/* YUV planar formats, non contiguous variant */
-> >>   		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 2 },
+Detailed results are available here:
 
--- 
-Regards,
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-Laurent Pinchart
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
