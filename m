@@ -2,56 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0756019F189
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 10:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEAD319F1AD
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 10:36:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgDFI0H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 04:26:07 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44177 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726663AbgDFI0F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 04:26:05 -0400
-Received: by mail-ot1-f65.google.com with SMTP id a49so14374943otc.11
-        for <linux-media@vger.kernel.org>; Mon, 06 Apr 2020 01:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vOURNP/+1sHn2/oMAz9DpyrmfncIc+Lque59yZC/+5w=;
-        b=LNSvxDZjUIJxP4/R0gUjwWEcoIXjaM14W0yLZVSrDlbz182T85YKg9jbdKtsDv4lSw
-         CJiAmks7NsnTkIghjBXK8DlURDeKnUSzJHYlN+12DuAULHbIVlDN8ppxELEfYm4zwqBs
-         aw/ZeWuSYt776wwjblNiwil1Cb3zzS0HMTuWr4qv/qliIlcRDXzDzrT9gX+SGuK3v/KQ
-         SyvKYC+rBZ/4QqGchMam2id0O6G1vGyw3EkfvK4wIoXf3OQ9eMKwadXJfYRiD2FLFq/W
-         QUHuyHh4ngh+RtAjWUyHyUabXwCzTo0oYRE1r8ouVeIQ7FxN8oMye+v/vqt+KJHyEl5z
-         t9mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vOURNP/+1sHn2/oMAz9DpyrmfncIc+Lque59yZC/+5w=;
-        b=aPlccGyTC/zNTFurUjSaOTySoAF+UOijA4YLDtWA6CL9emwE7YHKiZ7+Ld+tF1WyVv
-         6WhLiEQs3eNFxErrCr3O5obmqexA2Ieitg7m9JSpYVOpp2DrmSVeyKGCLsJoRCWJgYyU
-         GuQaKwcUwzuANssJrx9nEp2KZ8KyFR80cbnIsvgh9VvWdnvvu67l6Fx1/n3YLX0G2qZs
-         t10TQdE/PQMUiJCgx93ouhSZKK+McPpMXLOeuAjpu+E0Gkc9b28nn67DfdqyczZKl1eU
-         m/seAB1r1cM97b4efBnakQeZwXHXGthY+wFZ2ksyrKg6jbywIREAJiF/tO79MBlrMF74
-         HxCg==
-X-Gm-Message-State: AGi0PuZ6SzW0Xj3yUvVb8DCfAdloHik8iGIkwlmKkT0lqD3mkGt3Xg0J
-        JvSCXphxCN7Y8P4Nh/8ecfF2orUDHWJKG7JawjNdJQ==
-X-Google-Smtp-Source: APiQypIkuoFfBZNbSuH6xY0DqxdXdxWr0AqNxKMHvTzBtHBZP9ZPw+ZzMKWrTKGg9oy2VTppKuGgJcpLQV7RZVDW/2Y=
-X-Received: by 2002:a4a:e495:: with SMTP id s21mr16488515oov.79.1586161562627;
- Mon, 06 Apr 2020 01:26:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200331133346.372517-1-robert.foss@linaro.org>
- <20200331133346.372517-2-robert.foss@linaro.org> <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
- <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
- <20200403232736.GA6127@valkosipuli.retiisi.org.uk> <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
-In-Reply-To: <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Mon, 6 Apr 2020 10:25:50 +0200
-Message-ID: <CAG3jFytX19r4FCateVtcd6C7mHNHUF4NA24mGTrogs6DWiE1pQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
+        id S1726648AbgDFIgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 04:36:13 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:37940 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726595AbgDFIgM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Apr 2020 04:36:12 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 1B24F634C8C;
+        Mon,  6 Apr 2020 11:35:08 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jLNDn-0002Bc-5M; Mon, 06 Apr 2020 11:35:07 +0300
+Date:   Mon, 6 Apr 2020 11:35:07 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+Cc:     Robert Foss <robert.foss@linaro.org>,
         Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Fabio Estevam <festevam@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -62,18 +35,29 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
         <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
+Message-ID: <20200406083506.GE6127@valkosipuli.retiisi.org.uk>
+References: <20200331133346.372517-1-robert.foss@linaro.org>
+ <20200331133346.372517-2-robert.foss@linaro.org>
+ <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
+ <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
+ <20200403232736.GA6127@valkosipuli.retiisi.org.uk>
+ <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Maxime,
+Hi Maxime,
 
-On Sat, 4 Apr 2020 at 11:34, Maxime Ripard <maxime@cerno.tech> wrote:
->
+On Sat, Apr 04, 2020 at 11:34:46AM +0200, Maxime Ripard wrote:
 > Hi,
->
+> 
 > On Sat, Apr 04, 2020 at 02:27:36AM +0300, Sakari Ailus wrote:
 > > Hi Robert,
 > >
@@ -200,35 +184,54 @@ On Sat, 4 Apr 2020 at 11:34, Maxime Ripard <maxime@cerno.tech> wrote:
 > >
 > > The driver shouldn't set the rate here unless it gets it from DT (but that
 > > was not the intention). So the driver should get the frequency instead.
->
+> 
 > I'm actually saying the opposite :)
->
+> 
 > Like you were saying, the binding (or DT, for that matter) shouldn't
 > assume a particular driver implementation.
->
+> 
 > So one corollary is that if the driver has some restrictions in Linux,
 > it shouldn't be part of the binding, right?
->
+
+Correct.
+
+> 
 > This binding uses multiple clock properties but as far as I can see,
 > the driver retrieves a clock using clocks and makes sure that its rate
 > match its limitation of 19.2MHz using clock-frequency (which is
 > redundant on a clk_get_rate on the clocks provided earlier).
->
+> 
 > I'm suspecting that the parent clock on multiple SoCs can be
 > configured and is not a fixed rate crystal, so assigned-clocks-rate is
 > here just to make sure we set the frequency at the one being checked
 > in the driver's probe so that it all works.
->
+
+Agreed.
+
+> 
 > But that 19.2MHz is not a limitation of the device itself, it's a
 > limitation of our implementation, so we can instead implement
 > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
 > sure that our parent clock is configured at the right rate) and the
 > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
 > been rounded too far apart from the frequency we expect).
->
+> 
 > This is doing exactly the same thing, except that we don't encode our
 > implementation limitations in the DT, but in the driver instead.
->
 
-Thanks for taking the time to explain this.
-I'll spin a new revision that moves the clock rate handling into the driver.
+What I really wanted to say that a driver that doesn't get the clock
+frequency from DT but still sets that frequency is broken.
+
+This frequency is highly system specific, and in many cases only a certain
+frequency is usable, for a few reasons: On many SoCs, not all common
+frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
+are being used as well), and then that frequency affects the usable CSI-2
+bus frequencies directly --- and of those, only safe, known-good ones
+should be used. IOW, getting the external clock frequency wrong typically
+has an effect that that none of the known-good CSI-2 bus clock frequencies
+are available.
+
+-- 
+Regards,
+
+Sakari Ailus
