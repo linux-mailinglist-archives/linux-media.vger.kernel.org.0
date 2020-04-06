@@ -2,125 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C13581A0013
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 23:18:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 525C91A001D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 23:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbgDFVSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 17:18:23 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2374 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbgDFVSW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 17:18:22 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8b9c690000>; Mon, 06 Apr 2020 14:17:29 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 06 Apr 2020 14:18:21 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 06 Apr 2020 14:18:21 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr
- 2020 21:18:21 +0000
-Received: from [10.2.164.193] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr 2020
- 21:18:19 +0000
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
- <782c8c4e-f5c2-d75e-0410-757172dd3090@gmail.com>
- <ac225ff3-8de8-256c-7f81-0225b4153540@nvidia.com>
- <86bbcd55-fa13-5a35-e38b-c23745eafb87@gmail.com>
- <2839b1ee-dedc-d0ee-e484-32729a82a6ea@nvidia.com>
- <7361d00d-9cfe-3e4a-6199-524d37d53bd0@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <ae1a90af-12ff-69dd-74c3-89f42a945a5c@nvidia.com>
-Date:   Mon, 6 Apr 2020 14:18:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726084AbgDFV0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 17:26:31 -0400
+Received: from mail-lj1-f179.google.com ([209.85.208.179]:38638 "EHLO
+        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725895AbgDFV0b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 17:26:31 -0400
+Received: by mail-lj1-f179.google.com with SMTP id v16so1359428ljg.5
+        for <linux-media@vger.kernel.org>; Mon, 06 Apr 2020 14:26:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZQVMe+qDAVZ4ZbUfkeEBQyqSlivCQHTrBDHhj5slEiI=;
+        b=R/IMYZSfYI9ztNbiK5FE7PF4EhwaVo2nB0Rpk6Ib+dI6gsDvt/S6iupO8RQyVKCbU/
+         Fu3shWMFCHDMJjV+YdWmHMUkHt15+NHmce2HEoFK1bw68zdpwS+CjmQQcmbEPU1LG3GA
+         TJ7DFQJ4SBhP8RKE4YdhQ67BDNm1gkbrP/Kr8Jr0JSOqFTFrPqJzXdeuSVSP0tsC/JEW
+         Cc+8vEt57DgyLAY4RBYmyQRffFX1lM5XibiWgiMtGFwkG9CwWpMS0qBDXDoTZ0WWhE9i
+         GB6HWczZQh2e4Cd+oL4maMO2Z92oFuaiBEVEgjOdT6gXrkMljLQ8xJWJ/TGO5a+64f6y
+         RoxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZQVMe+qDAVZ4ZbUfkeEBQyqSlivCQHTrBDHhj5slEiI=;
+        b=hfpOfGyvizZVKPUrAZbABs1a0pQL4zumcRUljPjNLHCm1NDuqdgb62E8Y0BH9H4WEu
+         glRPsPGHPXQ8wqrz0BC2C/TA+h5eqidjNcb4ocVOEuXAe+mRw5ciL24GRIEqh8qZro92
+         JZbRpYsKMvEOaI3W/UOFu1hroDAwao7rVxsvCQw9LMWsz7TJbQJFUQ88ws0PbH6uD6fN
+         M0Wn8CcYLvur0hea7/E6W6LibI7YdFf6yhJIH+S6O03LVzeBeBzeCNlE/gKs8O1xICmH
+         WEAO0x01SoYeFO1HXTs26tJdEBXex8zpLX4A3NpoaKSuQAFIqYxWga00hzg8bejtNx+D
+         Urxw==
+X-Gm-Message-State: AGi0Pua7PhIubJ+mPVre8vVjgXD/wAW+XhWRFUdBBB23aAuzjqReHuNB
+        CVCZLVpgOK/SR7nt02ifXYwX6tgRzZ94GkiKtB4=
+X-Google-Smtp-Source: APiQypIs/fg4UyrKbQNz1s3mathWH3/1esifYXjUFkGU1FGYiOBt+7Bz5AbweIHH3Yr6j8fLqlIEwBBeTslQzL3y4ZA=
+X-Received: by 2002:a2e:9105:: with SMTP id m5mr779545ljg.37.1586208386638;
+ Mon, 06 Apr 2020 14:26:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7361d00d-9cfe-3e4a-6199-524d37d53bd0@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586207849; bh=8nONXWLFCq3lGgRTBCMj368KMxYIgkUaWWlaHerqj5o=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=XgVvToRn6kgcYslV6XANiWSxG4v2jhzDtr4cUsTHn11cD1GrWlnQrexedArMDcrFi
-         k+MWFh/EZtYPBii6Ph5wYVyznw3lf8K9Xe376HYGwwhp4SsPd5u2b7G1vhyrpQL/Ev
-         HwhvNMHvNcwLFR3ES2G8CrCIa/xha//0w0pKNtPpcKO7ZNpHHpmxKkXWzZTLEPX3dO
-         rEsx1E98/5wbVZuO7a9RPd9XpY5xb2y+Zh1Ke1N9QJ04ERp1rYmhJbBSqTFildaxSQ
-         DGLuTN5mrzH9gAeM7LjrVFWGktgA8TzLJY8ZgXp9ky4B0+lgBtHQZF77IX0JV/ni/O
-         adndAvNlEophw==
+References: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
+ <77add588-5756-8684-3e8f-0f46cbb2442b@gmail.com> <CAOMZO5C32M-JzCtfd7_=HtyfMqyqYd6adUEj1XRB6SYGoq0a0Q@mail.gmail.com>
+ <CAOMZO5Ask2GF7fA=K6_RYF7138YEhsg4ERqvyS5SRt6jkh8QvQ@mail.gmail.com>
+ <65b57718-a60e-66bf-61ba-348457fc524f@gmail.com> <CAOMZO5C95_G_Zeff2NRJZ4fxH29VfJP7B74H3h+bMp05WGF2Rg@mail.gmail.com>
+In-Reply-To: <CAOMZO5C95_G_Zeff2NRJZ4fxH29VfJP7B74H3h+bMp05WGF2Rg@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Mon, 6 Apr 2020 18:26:49 -0300
+Message-ID: <CAOMZO5Bw=wowJntuWYA-h9s2nFvPRbkQVWadM4GcUdxWH2rWNw@mail.gmail.com>
+Subject: Re: imx6: Cannot register mem2mem
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Tim Harvey <tharvey@gateworks.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Apr 6, 2020 at 4:39 PM Fabio Estevam <festevam@gmail.com> wrote:
 
-On 4/6/20 1:54 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
+> Nicolas,
 >
+> I am using Gstreamer 1.16.2 on i.MX6 and cannot get the
+> v4l2video8convert to show up.
 >
-> 06.04.2020 23:38, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 4/6/20 1:37 PM, Dmitry Osipenko wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> 06.04.2020 23:20, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> On 4/6/20 1:02 PM, Dmitry Osipenko wrote:
->>>>> External email: Use caution opening links or attachments
->>>>>
->>>>>
->>>>> 04.04.2020 04:25, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>> ...
->>>>>> +static int chan_capture_kthread_start(void *data)
->>>>>> +{
->>>>>> +     struct tegra_vi_channel *chan =3D data;
->>>>>> +     struct tegra_channel_buffer *buf;
->>>>>> +     int err =3D 0;
->>>>>> +     int caps_inflight;
->>>>>> +
->>>>>> +     set_freezable();
->>>>>> +
->>>>>> +     while (1) {
->>>>>> +             try_to_freeze();
->>>>>> +
->>>>>> +             wait_event_interruptible(chan->start_wait,
->>>>>> +                                      !list_empty(&chan->capture) |=
-|
->>>>>> +                                      kthread_should_stop());
->>>>> Is it really okay that list_empty() isn't protected with a lock?
->>>>>
->>>>> Why wait_event is "interruptible"?
->>>> To allow it to sleep until wakeup on thread it to avoid constant
->>>> checking for condition even when no buffers are ready, basically to
->>>> prevent blocking.
->>> So the "interrupt" is for getting event about kthread_should_stop(),
->>> correct?
->> also to prevent blocking and to let is sleep and wakeup based on wait
->> queue to evaluate condition to proceed with the task
-> This looks suspicious, the comment to wait_event_interruptible() says
-> that it will return ERESTARTSYS if signal is recieved..
+> The mem2mem appears at /dev/video8 and it corresponds to i.MX6
+> ipu_ic_pp csc/scaler.
 >
-> Does this mean that I can send signal from userspace to wake it up?
->
-> The "interruptible" part looks wrong to me.
+> Any suggestions?
 
-We are not checking for wait_event_interruptible to handle case when it=20
-returns ERESTARTSYS.
+It seems that it shows up with v4l2convert instead of v4l2video8convert
+and it works fine:
 
-So, signals sent from user space are ignore and we check if when wakeup=20
-happens if kthread_stop has requested to stop thread.
+gst-launch-1.0 videotestsrc ! video/x-raw,width=320,height=240 !
+v4l2convert ! video/x-raw,width=640,height=480 ! kmssink
 
+So we are all fine then :-)
+
+Thanks
