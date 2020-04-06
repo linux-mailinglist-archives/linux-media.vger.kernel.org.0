@@ -2,81 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3BF319F362
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 12:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8895E19F3C4
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 12:44:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726926AbgDFKRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 06:17:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51094 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726675AbgDFKRJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Apr 2020 06:17:09 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C6742054F;
-        Mon,  6 Apr 2020 10:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586168228;
-        bh=ds1MlHuAAnJu9UOEPHBIrpL4Q3PVENppdThGQdxIwfk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TN5qXqqpQh9MR4BCb5crNVwWGvweZM8yzilJu+R/qaeHYukfQk1loDjKumQD1xoNI
-         nK+cyG8r3nwGen6gMvJBVruFahFZdlbyI4Rp4ZMpER4Fr/0EAi5M7gtkHWmQJu86Qm
-         tMH9K2KD7mkKIwvetXxcYB2wTNJoYpSFfiLkFIjQ=
-Date:   Mon, 6 Apr 2020 12:17:04 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Sean Young <sean@mess.org>
-Cc:     stable@vger.kernel.org, linux-media@vger.kernel.org,
-        Takashi Kanamaru <neuralassembly@gmail.com>
-Subject: Re: [PATCH] media: rc: IR signal for Panasonic air conditioner too
- long sequences is too small
-Message-ID: <20200406101704.GA1743709@kroah.com>
-References: <CAKL8oB_qPGVXd3MCj=f1Lzh02ifGzYTS2YAD77s2MY2LAnc+1A@mail.gmail.com>
- <20190612150132.iemhbronjjaonpt2@gofer.mess.org>
- <CAKL8oB-KxsGxHAUac7sYBf-Gs4UkAPVkXg75LwwVbut9GkQ-sQ@mail.gmail.com>
- <20190613084926.bjxv2vdkp3qqpkuu@gofer.mess.org>
- <CAKL8oB-_=07iOBUfiuD4sj_nuL2HURt_Ej4m9EFCL7yNzLYXjg@mail.gmail.com>
- <20200406095154.GA19905@gofer.mess.org>
+        id S1726996AbgDFKoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 06:44:39 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39775 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726948AbgDFKoj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 06:44:39 -0400
+Received: by mail-pf1-f194.google.com with SMTP id k15so7338073pfh.6;
+        Mon, 06 Apr 2020 03:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xpsSm03PNhhxTrDlHzFJiusW57aSpekqQTtY3BOaBJM=;
+        b=UAAKjx9GNKdrzDHCWGjcfG41gX/Cbvy7YW/ZDTHOCFMSnTDLchGMzaZssW3ScDGV/Z
+         7xchbKVwU0h/QPo1jv8RAxe5RxVcjUPD53V97HNIiPvht7dfc+zCDKwkcES05y/PEtcJ
+         rAg9Ae8Xo+ud9jnCybuOAMh4CNwue3K2HYxbG27mWvt9yKfXUcPcaS6xcjuzQ8ulKDvC
+         KIyQgQAo+c3WbeESfa6Vq+e6Apnszf/AWiZRxO5elgadEPGV4l3sV10OmnSeWfDDmNSY
+         Em2V4dRFPNjfWO03MliMwvxHo6lpw6Vnq/29y40ardOztBxJlJp5++zzfo/YXPNqEom1
+         KrLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xpsSm03PNhhxTrDlHzFJiusW57aSpekqQTtY3BOaBJM=;
+        b=XwHe5Ywnbw0sfDM4gbQ9NaQvl+QahJLoSGnKJNynsfjii94FugyMU7DoKs+K3SX3BX
+         V7D3oun34EoffqBsA9e0W3n0rZuYWBY8l81ktQpBwlR+wNPXsgZd9tHbXNqeAcEVowP3
+         3kM+nGnOpzP1yZHmaqWMI0LWFbt7VlEdKif7kH5kp4mkJf1Jqn3Hv9GjjESmeoJQ6g0g
+         VfFPPdcxIa0J2/0wUj4LrU3wmtW4FuG0O5OW639fVS3CmNXZ/YMBPCFxFdXXyMrE0G8/
+         1o5HehrJlGlFjtClllYFuqNIkG4y+j0Kr7Lj15t27Eihg8VXPtm7eSfonM0Q3eFRIqyL
+         hd8w==
+X-Gm-Message-State: AGi0PubUTGYaICDcGaf/jmc6rzOX4rkrLPfkyUz1bPsiNLWctBEVh47W
+        OMKXNcpTMZ6IBOjnYHdtye5wSudGasmrNIsuka4=
+X-Google-Smtp-Source: APiQypLVSCmp8W0PDDGXSdgvI9VwsRklH3NMg3fhaSk4LJ3JUwswPj1zXOnxcgmDKNT+oXenNn+9hpYhOP+QXuhOQUU=
+X-Received: by 2002:a05:6a00:2b4:: with SMTP id q20mr21324803pfs.36.1586169878219;
+ Mon, 06 Apr 2020 03:44:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200406095154.GA19905@gofer.mess.org>
+References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
+ <1105bfe5-88f1-040e-db40-54d7761747d5@rasmusvillemoes.dk> <b1e6213ba9f67da8278dd5c5f5e4def8ab927c83.camel@perches.com>
+ <20200403193242.38611906@coco.lan> <2751400ae13b25d8259a8a9d7b36caf98ec2d367.camel@perches.com>
+ <CAHp75Vf+m_qzOwZb38dObLpKV2N27-J_7beqffhFVoSHaNV2vg@mail.gmail.com> <20200406094645.5f96457a@coco.lan>
+In-Reply-To: <20200406094645.5f96457a@coco.lan>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 6 Apr 2020 13:44:30 +0300
+Message-ID: <CAHp75Vdp+PXaJxrm99DgpJSS+6PcD1FfAfE3U1auFr2oxk5-tA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Joe Perches <joe@perches.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 06, 2020 at 10:51:55AM +0100, Sean Young wrote:
-> Hello stable team, Greg,
-> 
-> On Mon, Apr 06, 2020 at 06:06:29PM +0900, Takashi Kanamaru wrote:
-> > Dear Sean Young and all,
-> > 
-> > In the last year, a change of the value of LIRCBUF_SIZE
-> > from 256 to 1024 was committed to the master branch at the time,
-> > and the new value can be used in the kernel 5.3 or later.
-> > 
-> > https://github.com/torvalds/linux/commit/5c4c8b4a999019f19e770cb55cbacb89c95897bd#diff-3b71f634ae88214ee31a1b6c90f7df5c
-> > 
-> > This change of LIRCBUF_SIZE was proposed
-> > in order to treat long IR sequences of remote controllers
-> > on Raspberry Pi.
-> > 
-> > However, Raspberry Pi now uses kernel 4.19,
-> > so the new value cannot be used.
-> > 
-> > Can you backport the above commit
-> > to the older kernels, i.e.,
-> > 4.19, 4.20, 5.0, 5.1, and 5.2?
-> 
-> I'd like to propose this commit for the stable tree, from kernel 4.16 to
-> 5.2. It has been in the tree from v5.3 onwards and no regressions have
-> been found.
+On Mon, Apr 6, 2020 at 10:46 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> Em Fri, 3 Apr 2020 21:32:42 +0300
+> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+> > On Fri, Apr 3, 2020 at 8:54 PM Joe Perches <joe@perches.com> wrote:
+> > > On Fri, 2020-04-03 at 19:32 +0200, Mauro Carvalho Chehab wrote:
+> > > > Em Fri, 03 Apr 2020 09:56:42 -0700
+> > > > Joe Perches <joe@perches.com> escreveu:
+> >
+> > > It _might_ be useful to use a CONFIG_MEDIA_SUPPORT guard
+> > > in lib/vsprintf for this.
+> >
+> > No need. FourCC, if Sakari makes it more generic, can be used for
+> > other purposes, e.g. printing component names from the chips (not
+> > related to media at all).
+> >
+>
+> Hmm... not 100% sure about what you're meaning with "component names".
 
-The only kernel being supported in that range is 4.19 at the moment, so
-I'll queue it up now, thanks.  All other kernel trees are long
-end-of-life and no one should be using them anymore.
+4cc is pretty much wide standard, media is just one of (famous) users of it.
 
-thanks,
+As I emphasized the example I referring to has nothing to do with media.
 
-greg k-h
+Now, I have already two examples:
+- component name inside hardware register (used by Synopsys DesignWare)
+- CSRT table in ACPI uses this code for vendor ID.
+
+-- 
+With Best Regards,
+Andy Shevchenko
