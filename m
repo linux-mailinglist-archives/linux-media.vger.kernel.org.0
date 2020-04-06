@@ -2,176 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3205A19F0BE
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 09:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D24A319F0C4
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 09:30:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgDFH3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 03:29:06 -0400
-Received: from mga17.intel.com ([192.55.52.151]:63537 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726509AbgDFH3G (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Apr 2020 03:29:06 -0400
-IronPort-SDR: jahqi3kONJ0JXN2xrJezQGIzxgHs+j1Uwl1T6wHAl0JNgpQxNsxlO+zGJyzaj+pfNDTZ6NrEWs
- JfhSu2D43XRg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 00:29:05 -0700
-IronPort-SDR: PTRRg3j9W+zcLsusMj2JOJphF/aWn1Jpkx1T57J4M5dh9NJ+iQqcvF/kqw1HGOEmZ9hLAaBu0q
- L40tKvY5ZtdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,350,1580803200"; 
-   d="scan'208";a="450740106"
-Received: from unknown (HELO kekkonen.fi.intel.com) ([10.252.48.155])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Apr 2020 00:29:02 -0700
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id 5A0A621D18; Mon,  6 Apr 2020 10:28:58 +0300 (EEST)
-Date:   Mon, 6 Apr 2020 10:28:58 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20200406072857.GD5835@kekkonen.localdomain>
-References: <20200403091156.7814-1-sakari.ailus@linux.intel.com>
- <1105bfe5-88f1-040e-db40-54d7761747d5@rasmusvillemoes.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1105bfe5-88f1-040e-db40-54d7761747d5@rasmusvillemoes.dk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726670AbgDFHah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 03:30:37 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46427 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726543AbgDFHah (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 03:30:37 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q3so7098103pff.13
+        for <linux-media@vger.kernel.org>; Mon, 06 Apr 2020 00:30:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=aYyDu5xo6XXrzmH4tjf4pOWN9FZQnxXMDt3z3mrVzPg=;
+        b=NUpweMU/2ZWQ9Wf1b7JP0hf2isQFuhhbak5HRJIE6E8VZ7TTj/FeVgi2ELgHqmWeFr
+         OzzfW6wEUmReg7E0Ivtn0qyYKx7ZtoIgmDJyh8Sm5ZrbLY1weWeRpW5GDAgECiypAKhY
+         PTJA6A89ThKZTwdhwvRpWWXSjCAcQPxyeUVxQjJZvR+y4s+s8wOB6bVZGiYT2etxF8jW
+         F+YrNf08is18Hx3Uacs/Nw4GqQ/BAsE9ZU2tTJlfFNe3+II0TrX5jtoF2qmxediT7aNP
+         EoRHgVmuH5mw8/NsNupb1knetL5WbrmT2hJgztrBG7mYu3ymLZ99GNcDmGu5sfoOGDNk
+         QBVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=aYyDu5xo6XXrzmH4tjf4pOWN9FZQnxXMDt3z3mrVzPg=;
+        b=Uknyh7oWtgjyMzF4eiiaTYS+iYTWfy4BPI2OX6zLxV1c62PCuJHHhZicpYth2vPZGc
+         PE0tVQbuUdx58WkwmYtDRh2EfS6JA45OPXQmauAKn/DEkk8/hlHtZDRewxsIVAgWPzDj
+         KOecsvDh77kKbtL2W4RhGhVJ4BBT/tCGrMMgX8ojDyeQCrJIgU4uezOSu5e0w/TAqYeY
+         PoZtG9b+I6wrzs11tf4jZmOnCJHmcAr4VdnFbsW6ZHJ5dfHc6AH10TvXc00sHErF9uHk
+         0Nr7O/m8v/wsYElo2qm6g04h4FWUVgIM1jYoXELg0E9A1OGaiNQTZVQ/AVsH2uoLnU7Y
+         V8Tg==
+X-Gm-Message-State: AGi0PubJaiYriyl0D5ggfctEWwq0UBE/kQWGUX9l/2FcYAiePbaoueJF
+        2hl4nSWYSReHpqmWsMET/dBwxm9M
+X-Google-Smtp-Source: APiQypLjWvcGpnQl7cXxtZskVM+8ZJK/vn7B88fH/6dAgvpPIs12SnhxmXaECqH8S02ItujFN8C9Nw==
+X-Received: by 2002:a63:7a07:: with SMTP id v7mr10154205pgc.302.1586158235086;
+        Mon, 06 Apr 2020 00:30:35 -0700 (PDT)
+Received: from localhost.localdomain (c-24-4-174-82.hsd1.ca.comcast.net. [24.4.174.82])
+        by smtp.googlemail.com with ESMTPSA id z6sm10170179pgg.39.2020.04.06.00.30.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 00:30:34 -0700 (PDT)
+From:   Karthik Poduval <karthik.poduval@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Karthik Poduval <karthik.poduval@gmail.com>
+Subject: [PATCH v2 0/3] Add Rockchip RK3288 support
+Date:   Mon,  6 Apr 2020 00:30:14 -0700
+Message-Id: <20200406073017.19462-1-karthik.poduval@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <karthik.poduval@gmail.com>
+References: <karthik.poduval@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rasmus,
+Here are the series of patches adding Rockchip RK3288 chipset support to the
+Rockchip ISP1 driver and Rockchip MIPI DPHY RX0 driver. These patches have been
+worked by referring to tinkerbaord debian kernel posted at:-
+https://github.com/TinkerBoard/debian_kernel.git
 
-Thanks for the comments.
+They have been tested on the tinkerbaord using a ov5647 camera
+Example test command (libcamera test tool):
+cam -c 1 -C -F cap
 
-On Fri, Apr 03, 2020 at 02:10:53PM +0200, Rasmus Villemoes wrote:
-> On 03/04/2020 11.11, Sakari Ailus wrote:
-> > Add a printk modifier %ppf (for pixel format) for printing V4L2 and DRM
-> > pixel formats denoted by 4ccs. The 4cc encoding is the same for both so
-> > the same implementation can be used.
-> 
-> This seems quite niche to me, I'm not sure that belongs in vsprintf.c.
-> What's wrong with having a
-> 
-> char *fourcc_string(char *buf, u32 x)
-> 
-> that formats x into buf and returns buf, so it can be used in a
-> 
-> char buf[8];
-> pr_debug("bla: %s\n", fourcc_string(buf, x))
+Some modifications were required to the ov5647 driver to make it work with
+libcamera which were derived from git://gitlab.collabora.com/koike/linux.git
+rockchip/isp/v12 branch.
 
-I guess that could be one option. But changing the implementation could
-require changing the size of all those buffers.
+Those ov5647 driver changes are not a part of this patch series.
 
-We had this approach, too:
+Karthik Poduval (3):
+  media: staging: phy-rockchip-dphy-rx0: add rk3288 support to DPHY
+    driver
+  media: staging: rkisp1: add rk3288 support
+  ARM: dts: rockchip: add rk3288 ISP and DPHY
 
-<URL:https://lore.kernel.org/linux-media/20190916100433.24367-1-hverkuil-cisco@xs4all.nl/>
-
-Let's see if we'll get more comments on this.
-
-> 
-> Or, for that matter, since it's for debugging, why not just print x with
-> 0x%08x?
-
-People generally prefer readable output that they can understand. The codes
-are currently being printed in characters, and that's how they are defined
-in kernel headers, too. Therefore the hexadecimal values are of secondary
-importance (although they could be printed too, as apparently a similar
-function in DRM does).
-
-> 
-> At the very least, the "case '4'" in pointer() should be guarded by
-> appropriate CONFIG_*.
-> 
-> Good that Documentation/ gets updated, but test_printf needs updating as
-> well.
-
-Agreed.
-
-> 
-> 
-> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > since v1:
-> > 
-> > - Improve documentation (add -BE suffix, refer to "FourCC".
-> > 
-> > - Use '%p4cc' conversion specifier instead of '%ppf'.
-> 
-> Cute. Remember to update the commit log (which still says %ppf).
-
-I will.
-
-> 
-> > - Fix 31st bit handling in printing FourCC codes.
-> > 
-> > - Use string() correctly, to allow e.g. proper field width handling.
-> > 
-> > - Remove loop, use put_unaligned_le32() instead.
-> > 
-> >  Documentation/core-api/printk-formats.rst | 12 +++++++++++
-> >  lib/vsprintf.c                            | 25 +++++++++++++++++++++++
-> >  2 files changed, 37 insertions(+)
-> > 
-> > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> > index 8ebe46b1af39..550568520ab6 100644
-> > --- a/Documentation/core-api/printk-formats.rst
-> > +++ b/Documentation/core-api/printk-formats.rst
-> > @@ -545,6 +545,18 @@ For printing netdev_features_t.
-> >  
-> >  Passed by reference.
-> >  
-> > +V4L2 and DRM FourCC code (pixel format)
-> > +---------------------------------------
-> > +
-> > +::
-> > +
-> > +	%p4cc
-> > +
-> > +Print a FourCC code used by V4L2 or DRM. The "-BE" suffix is added on big endian
-> > +formats.
-> > +
-> > +Passed by reference.
-> 
-> Maybe it's obvious to anyone in that business, but perhaps make it more
-> clear the 4cc is stored in a u32 (and not, e.g., a __le32 or some other
-> integer), that obviously matters when the code treats the pointer as a u32*.
-
-The established practice is to use u32 (as this is really no hardware
-involved) but I guess it'd be good to document that here, too.
-
-> > +
-> > +	put_unaligned_le32(*fourcc & ~BIT(31), s);
-> > +
-> > +	if (*fourcc & BIT(31))
-> > +		strscpy(s + sizeof(*fourcc), FOURCC_STRING_BE,
-> > +			sizeof(FOURCC_STRING_BE));
-> 
-> put_unaligned_le32(0x0045422d, s + 4) probably generates smaller code,
-> and is more in line with building the first part of the string with
-> put_unaligned_le32().
-
-Uh. The fourcc code is made of printable characters (apart from the 31st
-bit) so it can be printed, but I wouldn't use that here. "-BE" is just a
-string and not related to 4ccs.
+ arch/arm/boot/dts/rk3288.dtsi                 | 25 +++++++
+ .../bindings/phy/rockchip-mipi-dphy-rx0.yaml  |  1 +
+ .../phy-rockchip-dphy-rx0.c                   | 69 +++++++++++++++++++
+ .../bindings/media/rockchip-isp1.yaml         |  1 +
+ drivers/staging/media/rkisp1/rkisp1-dev.c     | 18 +++++
+ 5 files changed, 114 insertions(+)
 
 -- 
-Regards,
+2.17.1
 
-Sakari Ailus
