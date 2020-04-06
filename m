@@ -2,179 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B88B219FE7F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 21:53:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6609719FE9A
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 22:00:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgDFTx4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 15:53:56 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42404 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726220AbgDFTx4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 15:53:56 -0400
-Received: by mail-lj1-f195.google.com with SMTP id q19so1048244ljp.9;
-        Mon, 06 Apr 2020 12:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QEAzK7b0u2ss864W21oMnrNk924PkZ/JBDmjfBzTVEg=;
-        b=QWujv4RzXQtuEVv4DLH1RqoOyioGG8TfYWsPAM1z1a8U5hXilnwudjqTQDqU2uL0/Z
-         AIl0iExMoc5gGLgjmmUuTuYqbJVa7rtr+i44JexPT2cQDljk/jVHuIder8gvHdE44EDB
-         4PyWtxBjBGWK5721nSe9RGxI9ai/Fze3Uefktb02YesRGRyfsGDhXb6FCbA8upxw7Rsc
-         XDEPWGJlf/F7F22nRJZEzEvQJ+YeaOe/KwhDX9YFb/HvCJbe+DA9bxjts6h6UQPXykMv
-         LCuL+UKQKXg3ez+e0Wt6fFowImdedh6LL66nnBTAnDcfEcaog9u4k2o8jWPAk4X2xP6e
-         8Zmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QEAzK7b0u2ss864W21oMnrNk924PkZ/JBDmjfBzTVEg=;
-        b=noG/i4yahCi+WQX1AQO3riHibGScIxA4qj0VabjPgP8fGqaDfcTDEHeMqCh31SvIyl
-         iMfQjObECopaKAb2ebEfOBHRwxIHMYHIsATGYy6Z4LBiiZu4Uun7IuRgSXSEdJ3eOxWb
-         7zMvF6hwz5mJ5y8tMqAoTFZMdLrpiGQV9zLG52t+IPVsHZYVqsf1m+r2k3Wn03Cwhl37
-         Us1wPZdE34JyFw0bbGK/lpYy9MKhOOCzka/+0AbNnlZ9EXboRBoDDONyPWcbtywe/qm8
-         bdRbV4dRNSBgDfdn/JBIwDHjIVQ5eiIUwgr2NFfCZfBPZyRi2cU0t4mrbwwYBRfsRxR7
-         ugpw==
-X-Gm-Message-State: AGi0PuYh+NNaug5Z5t26/Uvb1EIJv00l81oaKiKh/BGpGs8LzckaALHg
-        ma3j1zcNcSysXZIorqdIsfTmGIIk
-X-Google-Smtp-Source: APiQypLKWt3nl3ocBDP9LHP4kzT5aHOE+NAZLzKLXcli2wWaMewGefGw9f0h5nTLabCr7e6h8KNSgQ==
-X-Received: by 2002:a05:651c:23a:: with SMTP id z26mr7476ljn.179.1586202832949;
-        Mon, 06 Apr 2020 12:53:52 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id 64sm10460457ljj.41.2020.04.06.12.53.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Apr 2020 12:53:52 -0700 (PDT)
+        id S1726380AbgDFUAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 16:00:30 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14025 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725895AbgDFUAa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 16:00:30 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8b8a500001>; Mon, 06 Apr 2020 13:00:16 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 06 Apr 2020 13:00:29 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 06 Apr 2020 13:00:29 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr
+ 2020 20:00:29 +0000
+Received: from [10.2.164.193] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr 2020
+ 20:00:27 +0000
 Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
- <38d921a7-5cdf-8d0a-2772-4399dd1a96a0@gmail.com>
- <9b8cf37b-d2ad-9df2-aad8-216c2c954e69@nvidia.com>
- <1a12974a-7cc7-2c3a-3995-076b9956714d@gmail.com>
- <66cc8646-43d3-3fc8-c31d-d0d2efac505f@nvidia.com>
- <f000f6b9-0f05-b2a5-6dad-37b09803711d@gmail.com>
- <fe6a17c1-fae2-a365-4dd6-6d3a25d47d54@nvidia.com>
- <9038ce90-ac53-93e7-ce65-57f6ff1e9b30@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <abe82fd1-0464-0627-6c97-39c896e53dd0@gmail.com>
-Date:   Mon, 6 Apr 2020 22:53:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <0809c1ae-57c9-508e-2959-724acc4ae068@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <378f0327-c5cd-6910-7d30-533354e89e7c@nvidia.com>
+Date:   Mon, 6 Apr 2020 13:00:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <9038ce90-ac53-93e7-ce65-57f6ff1e9b30@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <0809c1ae-57c9-508e-2959-724acc4ae068@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586203216; bh=a+B6toPknxL+WZOxNj0oDHih81hp/Y5Auh402g2jYb8=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=OkVibJfMkE97WaSQikxdiNt2CxvlYQJiuDU+50dmhHRAhQ/HUs5g2OTg1/FJNVZHs
+         +DOwlzkOY0x0M5OrIyjg/XLhsD4u5ngTnPJ07OXiqMlARZ+mB14xhKUU5hACZzXDav
+         oosatc90HiYPfPsY6gQcZHaOGcfz2jtOiezvJ9fNWKaZnEkUGEpivM7mygCFQcV287
+         Z77kO2bRCobMVWqD76GojdjYTujckIGe2PzjkQn4Nz4LuI/x+jJnYkKOzdvV5oEOtK
+         IWZa12wS6RP/UvSUItQvQtWna06N3/jWQwZJBUVvovh+saMDaeRSjvA65tvfL/WL+h
+         sQdqg9MNWc0uw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-06.04.2020 20:02, Sowjanya Komatineni пишет:
-> 
-> On 4/6/20 9:37 AM, Sowjanya Komatineni wrote:
->>
->> On 4/6/20 9:29 AM, Dmitry Osipenko wrote:
->>> External email: Use caution opening links or attachments
->>>
->>>
->>> 06.04.2020 19:12, Sowjanya Komatineni пишет:
->>>> On 4/6/20 9:05 AM, Dmitry Osipenko wrote:
->>>>> External email: Use caution opening links or attachments
->>>>>
->>>>>
->>>>> 06.04.2020 18:35, Sowjanya Komatineni пишет:
->>>>> ...
->>>>>>>> +     /* wait for syncpt counter to reach frame start event
->>>>>>>> threshold */
->>>>>>>> +     err = host1x_syncpt_wait(chan->frame_start_sp, thresh,
->>>>>>>> + TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
->>>>>>>> +     if (err) {
->>>>>>>> +             dev_err(&chan->video.dev,
->>>>>>>> +                     "frame start syncpt timeout: %d\n", err);
->>>>>>>> +             /* increment syncpoint counter for timedout events */
->>>>>>>> + host1x_syncpt_incr(chan->frame_start_sp);
->>>>>>> Why incrementing is done while hardware is still active?
->>>>>>>
->>>>>>> The sync point's state needs to be completely reset after resetting
->>>>>>> hardware. But I don't think that the current upstream host1x driver
->>>>>>> supports doing that, it's one of the known-long-standing problems of
->>>>>>> the
->>>>>>> host1x driver.
->>>>>>>
->>>>>>> At least the sp->max_val incrementing should be done based on the
->>>>>>> actual
->>>>>>> syncpoint value and this should be done after resetting hardware.
->>>>>> upstream host1x driver don't have API to reset or to equalize max
->>>>>> value
->>>>>> with min/load value.
->>>>>>
->>>>>> So to synchronize missed event, incrementing HW syncpt counter.
->>>>>>
->>>>>> This should not impact as we increment this in case of missed events
->>>>>> only.
->>>>> It's wrong to touch sync point while hardware is active and it's
->>>>> active
->>>>> until being reset.
->>>>>
->>>>> You should re-check the timeout after hw resetting and manually put
->>>>> the
->>>>> syncpoint counter back into sync only if needed.
->>>> There is possibility of timeout to happen any time even during the
->>>> capture also and is not related to hw reset.
->>>>
->>>> Manual synchronization is needed when timeout of any frame events
->>>> happen
->>>> otherwise all subsequence frames will timeout due to mismatch in event
->>>> counters.
->>> My point is that hardware is stopped only after being reset, until then
->>> you should assume that sync point could be incremented by HW at any
->>> time.
->>>
->>> And if this happens that HW increments sync point after the timeout,
->>> then the sync point counter should become out-of-sync in yours case,
->>> IIUC. Because host1x_syncpt_incr() doesn't update the cached counter.
->>
->> We wait for enough time based on frame rate for syncpt increment to
->> happen and if it doesn't happen by then definitely its missed event
->> and we increment HW syncpoint for this timed event.
->>
->> cached value gets updated during syncpt wait for subsequent event.
->>
->> syncpt increment happens for all subsequent frame events during video
->> capture.
->>
-> Just to be clear, syncpt max value increment happens first and syncpt
-> trigger condition is programmed. hw syncpt increment happens based on HW
-> events.
-> 
-> Wait time for HW syncpt to reach threshold is tuned to work for all
-> frame rates. So if increment doesn't happen by then, its definitely
-> missed event.
 
-This is questionable. Technically, speculating about whether the tuned
-value is good for all possible cases is incorrect thing to do.
+On 4/6/20 12:48 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 04.04.2020 04:25, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>> +static int tegra_channel_capture_frame(struct tegra_vi_channel *chan,
+>> +                                    struct tegra_channel_buffer *buf)
+>> +{
+>> +     int err =3D 0;
+>> +     u32 thresh, value, frame_start, mw_ack_done;
+>> +     int bytes_per_line =3D chan->format.bytesperline;
+>> +
+>> +     /* program buffer address by using surface 0 */
+>> +     vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_OFFSET_MSB,
+>> +                  (u64)buf->addr >> 32);
+>> +     vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_OFFSET_LSB, buf->addr);
+>> +     vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_STRIDE, bytes_per_line);
+>> +
+>> +     /*
+>> +      * Tegra VI block interacts with host1x syncpt for synchronizing
+>> +      * programmed condition of capture state and hardware operation.
+>> +      * Frame start and Memory write acknowledge syncpts has their own
+>> +      * FIFO of depth 2.
+>> +      *
+>> +      * Syncpoint trigger conditions set through VI_INCR_SYNCPT registe=
+r
+>> +      * are added to HW syncpt FIFO and when the HW triggers, syncpt
+>> +      * condition is removed from the FIFO and counter at syncpoint ind=
+ex
+>> +      * will be incremented by the hardware and software can wait for
+>> +      * counter to reach threshold to synchronize capturing frame with =
+the
+>> +      * hardware capture events.
+>> +      */
+>> +
+>> +     /* increase channel syncpoint threshold for FRAME_START */
+>> +     thresh =3D host1x_syncpt_incr_max(chan->frame_start_sp, 1);
+>> +
+>> +     /* Program FRAME_START trigger condition syncpt request */
+>> +     frame_start =3D VI_CSI_PP_FRAME_START(chan->portno);
+>> +     value =3D VI_CFG_VI_INCR_SYNCPT_COND(frame_start) |
+>> +             host1x_syncpt_id(chan->frame_start_sp);
+>> +     tegra_vi_write(chan, TEGRA_VI_CFG_VI_INCR_SYNCPT, value);
+>> +
+>> +     /* increase channel syncpoint threshold for MW_ACK_DONE */
+>> +     buf->mw_ack_sp_thresh =3D host1x_syncpt_incr_max(chan->mw_ack_sp, =
+1);
+>> +
+>> +     /* Program MW_ACK_DONE trigger condition syncpt request */
+>> +     mw_ack_done =3D VI_CSI_MW_ACK_DONE(chan->portno);
+>> +     value =3D VI_CFG_VI_INCR_SYNCPT_COND(mw_ack_done) |
+>> +             host1x_syncpt_id(chan->mw_ack_sp);
+>> +     tegra_vi_write(chan, TEGRA_VI_CFG_VI_INCR_SYNCPT, value);
+>> +
+>> +     /* enable single shot capture */
+>> +     vi_csi_write(chan, TEGRA_VI_CSI_SINGLE_SHOT, SINGLE_SHOT_CAPTURE);
+>> +     chan->capture_reqs++;
+>> +
+>> +     /* wait for syncpt counter to reach frame start event threshold */
+>> +     err =3D host1x_syncpt_wait(chan->frame_start_sp, thresh,
+>> +                              TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
+> What is the point of waiting for the frame-start? Why just not to wait
+> for the frame-end?
 
-Although, I guess in practice it should be good enough for the starter
-and could be improved later on, once the host1x driver will be improved.
+Tegra vi supports double buffering where up on receiving frame start=20
+before HW received frame end and finish writing capture data to memory,=20
+we can issue next frame as well a head.
 
-> In case of missed HW event corresponding to syncpt condition, hw syncpt
-> increment does not happen and driver increments it on timeout.
-> 
-> As there is not API to equialize max with min incase of timeout/reset,
-> incrementing HW syncpt for timed out event.
-> 
-> syncpt cached value gets updated during syncpt wait when it loads from
-> HW syncpt.
-> 
-> As syncpt condition is already triggered, without compensating timeout
-> events or leaving syncpt max and hw syncpt in non synchronized state for
-> missed events, subsequent streamings will all timeout even on real events.
-> 
+Also MW_ACK timeout can happen incase of HDMI2CSI bridges as well when=20
+hdmi hot plug happens.
+
+For some sensors down the road we may need to skip few frames in case of=20
+frame start timeout as well which comes later with subsequent patch series.
 
