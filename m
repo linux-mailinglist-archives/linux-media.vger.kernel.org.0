@@ -2,111 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7025719FB15
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D39A619FB25
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729801AbgDFRMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 13:12:15 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:38991 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726546AbgDFRMP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 13:12:15 -0400
-Received: by mail-oi1-f194.google.com with SMTP id d63so13741086oig.6;
-        Mon, 06 Apr 2020 10:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zPvT9nYNJKIlI18d6CVFeb9HSS66c5aP1HzV/cwJ2iA=;
-        b=YFFDLodFgLBNXipDdFrKkNe5KdfTMuCuUWZy9SOzDynX4/zoxOV+WL+e0NBF5wHS7m
-         K2xlX4c+mLFB9R0QcvfqTnPOmVGKFzWOkG0iWwmF5LCzw0E9UWVqly7Dk1SprNmYgm+h
-         JHYWexqjTq7egHo0iQyTN6kM6LF95CTs376RuckrF25VCJ2Z1rqm1kddE2D/SyXjf2bG
-         DokPYV1pM8Hf5N2wOszDExe9/Qod7xhRTogKLDusnPpPe3+MMRPS2qVMiHqhYwcbAfjI
-         kK+ER38azeo+YgVLCUzXCojrerc6K8VZ5veCSkvCLyJ+ADzkhjmedRaVE1hz86ekYpsN
-         PL9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zPvT9nYNJKIlI18d6CVFeb9HSS66c5aP1HzV/cwJ2iA=;
-        b=XHD/EQtuB6l1mpYAoLchMhtGrfN9jIs3gafm9TLjdWPF6cCTMSQmG+z46LF0gtmOhW
-         RfghgGXw7WCS//wWwOUqNXIc+6HBmyPJztXItLjDn8d9CvbU9/p81rIc0pnw682D7RiP
-         7yQeNU6A8lDFxZoCiekRLbPdcHJuAEzuNBKV7bJJEzXR4+thE5JlkmyFNj7VfFj34lTx
-         OYCrrMO14xpW7Cw4PTlBJrSvqOwOhxjgfZ0FU0KOPUeSlSvB1lIFeJSW+OWd9s+ksie5
-         tSReErlLEAKy7yTK0Vh3Tvxd21rQKS8T7Y16uMljJXlsh+cgjqp2Mg4/jQPGvgm/iHmY
-         3LmQ==
-X-Gm-Message-State: AGi0PubxSB14wqRKoZ2JMmy0VBcWcLByswcubi3jZL/bMdBQ405bsYj1
-        iqcTX+8SjRfrOYtZADp962x1nQC4Pz84bU5YM8c=
-X-Google-Smtp-Source: APiQypKEN2WUc7C67Si85BMK8Rs/ssPmf30vW/UZKNuRyXpHzIcqTCLUJHaY3Of9rWarp68OvvmFfK4r3rsGvhQ8uHk=
-X-Received: by 2002:aca:5d83:: with SMTP id r125mr304838oib.8.1586193134784;
- Mon, 06 Apr 2020 10:12:14 -0700 (PDT)
+        id S1729832AbgDFRNx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 13:13:53 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51896 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726551AbgDFRNx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 13:13:53 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC5B380E;
+        Mon,  6 Apr 2020 19:13:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586193231;
+        bh=ukPzAudzQBvAYHEsgfKdDXVabH3Di/A/bJ6ve8PzULk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UOroPd18kbysSMMWsxYub85SfVKtzjzIu+AT7o855JZcCgv1z/L0/hF0wc+UT04bc
+         x2G4Bpp6shv8y/CriIf1rei7DzkjjNFUabCwme99qbrTglAGQxsVA7/pggJXmHQwhm
+         L0VTlBQjZ3ox9cZ1vmfIxXqoU/58YxXjbz1ZdqPU=
+Date:   Mon, 6 Apr 2020 20:13:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Subject: Re: [PATCH v7 05/11] media: imx: Fix some pixel format selections
+Message-ID: <20200406171340.GB16885@pendragon.ideasonboard.com>
+References: <20200406163905.24475-1-slongerbeam@gmail.com>
+ <20200406163905.24475-6-slongerbeam@gmail.com>
 MIME-Version: 1.0
-References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586191361-16598-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200406165108.GA7646@kekkonen.localdomain>
-In-Reply-To: <20200406165108.GA7646@kekkonen.localdomain>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 6 Apr 2020 18:11:48 +0100
-Message-ID: <CA+V-a8vxjJ4Fr2CAtRAnZCgmvoR+3m26DdAKPMOkSMYELDgZ0A@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] media: i2c: ov5645: Drop reading clock-frequency dt-property
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200406163905.24475-6-slongerbeam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Steve,
 
+Thank you for the patch.
 
-On Mon, Apr 6, 2020 at 5:51 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Apr 06, 2020 at 05:42:38PM +0100, Lad Prabhakar wrote:
-> > Modes in the driver are based on xvclk frequency fixed to 24MHz, but where
-> > as the OV5645 sensor can support the xvclk frequency ranging from 6MHz to
-> > 24MHz. So instead making clock-frequency as dt-property just let the
-> > driver enforce the required clock frequency.
->
-> Even if some current systems where the driver is used are using 24 MHz
-> clock, that doesn't mean there wouldn't be systems using another frequency
-> that the driver does not support right now.
->
-> The driver really should not set the frequency unless it gets it from DT,
-> but I think the preferred means is to use assigned-clock-rates instead, and
-> not to involve the driver with setting the frequency.
->
-> Otherwise we'll make it impossible to support other frequencies, at least
-> without more or less random defaults.
->
-Ouch! my previous version of patches switched the driver for using
-assigned-clock-rates but I was asked to
-not do so [1].
+On Mon, Apr 06, 2020 at 09:38:59AM -0700, Steve Longerbeam wrote:
+> - imx_media_capture_device_register() needs to use CS_SEL_ANY when
+>   finding the format from the attached source subdevice, because the
+>   source can be a CSI which supports bayer, and the CSI may have selected
+>   a bayer format when it registered.
+> 
+> - Likewise, imx_media_init_mbus_fmt() is called from the CSI, so the
+>   function may be passed a bayer code. Use CS_SEL_ANY when locating
+>   the format.
+> 
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 
-[1] https://patchwork.linuxtv.org/patch/62185/
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Cheers,
---Prabhakar
+> ---
+>  drivers/staging/media/imx/imx-media-capture.c | 2 +-
+>  drivers/staging/media/imx/imx-media-utils.c   | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+> index fe1c49a33fd9..970f54960cac 100644
+> --- a/drivers/staging/media/imx/imx-media-capture.c
+> +++ b/drivers/staging/media/imx/imx-media-capture.c
+> @@ -792,7 +792,7 @@ int imx_media_capture_device_register(struct imx_media_video_dev *vdev)
+>  	vdev->compose.width = fmt_src.format.width;
+>  	vdev->compose.height = fmt_src.format.height;
+>  	vdev->cc = imx_media_find_format(vdev->fmt.fmt.pix.pixelformat,
+> -					 CS_SEL_YUV_RGB);
+> +					 CS_SEL_ANY);
+>  
+>  	v4l2_info(sd, "Registered %s as /dev/%s\n", vfd->name,
+>  		  video_device_node_name(vfd));
+> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+> index 5552039a9d7e..852badd55bd1 100644
+> --- a/drivers/staging/media/imx/imx-media-utils.c
+> +++ b/drivers/staging/media/imx/imx-media-utils.c
+> @@ -402,7 +402,7 @@ int imx_media_init_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+>  	mbus->field = field;
+>  	if (code == 0)
+>  		imx_media_enum_mbus_format(&code, 0, CS_SEL_YUV);
+> -	lcc = imx_media_find_mbus_format(code, CS_SEL_YUV_RGB);
+> +	lcc = imx_media_find_mbus_format(code, CS_SEL_ANY);
+>  	if (!lcc) {
+>  		lcc = imx_media_find_ipu_format(code, CS_SEL_YUV_RGB);
+>  		if (!lcc)
 
-> --
-> Kind regards,
->
-> Sakari Ailus
+-- 
+Regards,
+
+Laurent Pinchart
