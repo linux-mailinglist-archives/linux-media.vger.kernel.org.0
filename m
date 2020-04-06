@@ -2,135 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1979D19FBBE
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A41419FBD3
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:44:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727717AbgDFRg5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 13:36:57 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35375 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbgDFRg5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 13:36:57 -0400
-Received: by mail-pg1-f196.google.com with SMTP id k5so302134pga.2
-        for <linux-media@vger.kernel.org>; Mon, 06 Apr 2020 10:36:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=m9Z2CJj+yJrYFAzu14y9i6EVhHGD3zxJHlnCyIOpWp0=;
-        b=VJM+FBYADvctjc8djwTYbbJXE5Ra+LPDDYVUTKNGOGmppvSTvcM7BpQ0I62QxUQAJL
-         kTLWY5CqSfV4gcJN/xJpZbrRwxJnAPg72tRl7fyamh+7zHYbsKzdxEJWFVdwgA1b8LFq
-         DTNE8i5AS/F9mr++D49SkIP2caUDOfo+KM4C2YytdxUFTVsdcX8ErbVsXbpXUgD0ULBW
-         4QpH5YvgOfneJS64LOkYqeKLwh77y6DSgN+z9T4YjmskuFyypcAZ/el76Zm2SYg8hDVY
-         hY4fOUIN+f9aZTGlP7DzWJISCtJXncunYXTMuBj1G9oTskfC3s0DIMDmRszJlr7H9bZq
-         6nkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=m9Z2CJj+yJrYFAzu14y9i6EVhHGD3zxJHlnCyIOpWp0=;
-        b=Vt5+5k+c7iA/JgfUp4u3d9IyEabyiT+JkXmX+mDIsSITwQW/odHNQmrcj0GhsW/X4o
-         tOoTnN7z6+r2VYqsJ/oX2QbGsqS5bYxEu7LRUBKTNa2UKULJi3dnZRzK66iYR9M3MNcM
-         VgWW91AbvrFiVyJ0QLTfSSyeIuDX/eqIYm+VsrC3xkrUyOO03YX2bhhobnC3iSPs0Szo
-         vo63BxfZZc0XSyiFMHiYznOIDW6nfi6REaI/35lTXvB5GJpoY6jle2ZCra6T2Ymv2frL
-         u5PaPtvcQhYKYmwj9k7Kd6mKIIUIt0eswTbecaSYgDHA2SHy0T9Hnj4LKYZ7J0qghVJg
-         XjOg==
-X-Gm-Message-State: AGi0PuYi2WD0KHdXkF9CX1y0sy0R9CcHKX0pEigwuo56VR0ArH+09KsR
-        9nts+SATsIxh3FO1nkL1UDY=
-X-Google-Smtp-Source: APiQypLiVOiFLr+3C7viVJcGNRByma+IoiSpbXx7x0ABb5rEa0bDdXCh+C6oFJSQ7HeJCeaQcfSL6Q==
-X-Received: by 2002:a63:db10:: with SMTP id e16mr165760pgg.361.1586194615539;
-        Mon, 06 Apr 2020 10:36:55 -0700 (PDT)
-Received: from [172.30.88.191] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id mg20sm193881pjb.12.2020.04.06.10.36.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Apr 2020 10:36:54 -0700 (PDT)
-Subject: Re: imx6: Cannot register mem2mem
-To:     Fabio Estevam <festevam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Tim Harvey <tharvey@gateworks.com>
-References: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <77add588-5756-8684-3e8f-0f46cbb2442b@gmail.com>
-Date:   Mon, 6 Apr 2020 10:36:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727751AbgDFRn7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 13:43:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52966 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726703AbgDFRn6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 13:43:58 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E65080E;
+        Mon,  6 Apr 2020 19:43:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586195035;
+        bh=TEs3NzWpLHrpFcMT8pI7gku05SwpaHYibdYAcct2ZAI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZelhUvmBLBDidGrdYCAu1wlCuaLmKfdT+a2Ce84aGS9JvCh3+XaAexOUsOzAdxIHE
+         G8pDVnAzM3s2XOMem/bpSz1RpjcV8Y2vIwmgTpFH8y/8g+FzN3Vb2xXUDq9pyVo0bk
+         Pz3dAPoG58cLAGX1ruxW7VKzbQ4ljlE0IZ/i0LvU=
+Date:   Mon, 6 Apr 2020 20:43:46 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v5 5/5] media: dt-bindings: media: i2c: convert ov5645
+ bindings to json-schema
+Message-ID: <20200406174346.GH16885@pendragon.ideasonboard.com>
+References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1586191361-16598-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1586191361-16598-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabio,
+Hi Prabhakar,
 
-On 4/6/20 6:37 AM, Fabio Estevam wrote:
-> Hi,
->
-> I am running kernel 5.6.2 on an imx6qp sabresd, but I cannot get the
-> mem2mem element from imx-media-csc-scaler.c to probe.
->
-> I don't see imx6_media_probe_complete() getting called, hence
-> imx_media_csc_scaler_device_init() is never called and no mem2mem
-> element is registered.
->
-> Any ideas as to how to get mem2mem registered on i.MX6?
+Thank you for the patch.
 
-If you're sabresd does not have the OV5640 module attached, then probe 
-won't complete.
+On Mon, Apr 06, 2020 at 05:42:41PM +0100, Lad Prabhakar wrote:
+> Convert ov5645 bindings to json-schema.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/media/i2c/ov5645.txt  |  52 --------
+>  .../devicetree/bindings/media/i2c/ov5645.yaml | 126 ++++++++++++++++++
+>  2 files changed, 126 insertions(+), 52 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> deleted file mode 100644
+> index a55bb728ea48..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> +++ /dev/null
+> @@ -1,52 +0,0 @@
+> -* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+> -
+> -The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
+> -an active array size of 2592H x 1944V. It is programmable through a serial I2C
+> -interface.
+> -
+> -Required Properties:
+> -- compatible: Value should be "ovti,ov5645".
+> -- clocks: Reference to the xclk clock.
+> -- clock-names: Should be "xclk".
+> -- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+> -  to the hardware pin PWDNB which is physically active low.
+> -- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> -  the hardware pin RESETB.
+> -- vdddo-supply: Chip digital IO regulator.
+> -- vdda-supply: Chip analog regulator.
+> -- vddd-supply: Chip digital core regulator.
+> -
+> -The device node must contain one 'port' child node for its digital output
+> -video port, in accordance with the video interface bindings defined in
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -Example:
+> -
+> -	&i2c1 {
+> -		...
+> -
+> -		ov5645: ov5645@3c {
+> -			compatible = "ovti,ov5645";
+> -			reg = <0x3c>;
+> -
+> -			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+> -			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
+> -			pinctrl-names = "default";
+> -			pinctrl-0 = <&camera_rear_default>;
+> -
+> -			clocks = <&clks 200>;
+> -			clock-names = "xclk";
+> -
+> -			vdddo-supply = <&camera_dovdd_1v8>;
+> -			vdda-supply = <&camera_avdd_2v8>;
+> -			vddd-supply = <&camera_dvdd_1v2>;
+> -
+> -			port {
+> -				ov5645_ep: endpoint {
+> -					clock-lanes = <1>;
+> -					data-lanes = <0 2>;
+> -					remote-endpoint = <&csi0_ep>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+> new file mode 100644
+> index 000000000000..d5cdcf9a1c76
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+> @@ -0,0 +1,126 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ov5645.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision 1/4-Inch 5MP CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Sakari Ailus <sakari.ailus@linux.intel.com>
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description: |-
+> + The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
+> + an active array size of 2592H x 1944V. It is programmable through a serial I2C
+> + interface.
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov5645
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: External clock frequency should range between 6MHz to 27MHz.
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    items:
+> +      - const: xclk
+> +
+> +  enable-gpios:
+> +    description: |-
+> +      Chip enable GPIO. This corresponds to the hardware pin PWDNB which is
+> +      physically active low.
+> +
+> +  reset-gpios:
+> +    description: Chip reset GPIO. This corresponds to the hardware pin RESETB.
+> +
+> +  vdddo-supply:
+> +    description: Chip digital IO regulator.
+> +
+> +  vdda-supply:
+> +    description: Chip analog regulator.
+> +
+> +  vddd-supply:
+> +    description: Chip digital core regulator.
+> +
+> +  # See ../video-interfaces.txt for more details
+> +  port:
+> +    type: object
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +
+> +        properties:
+> +          data-lanes:
 
-You could make the upstream remote availability optional in the 
-imx6-mipi-csi2 receiver driver:
+Don't you need
 
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -537,10 +537,8 @@ static int csi2_parse_endpoint(struct device *dev,
-         struct v4l2_subdev *sd = dev_get_drvdata(dev);
-         struct csi2_dev *csi2 = sd_to_dev(sd);
+		minItems: 1
+		maxItems: 2
 
--       if (!fwnode_device_is_available(asd->match.fwnode)) {
--               v4l2_err(&csi2->sd, "remote is not available\n");
--               return -EINVAL;
--       }
-+       if (!fwnode_device_is_available(asd->match.fwnode))
-+               return -ENOTCONN;
+here ?
 
-         if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
-                 v4l2_err(&csi2->sd, "invalid bus type, must be MIPI 
-CSI2\n");
+> +            description: |-
+> +              The sensor supports either one-lane, or two-lane operation.
+> +              For one-lane operation the property must be set to <1> and
+> +              for two-lane operation the property must be set to <1 2>.
+> +            items:
+> +              - const: 1
+> +              - const: 2
+> +
+> +          clock-lanes:
 
+Same here,
 
-Another option would be to disable the mipi-csi2 receiver in the device 
-tree:
+		maxItems: 1
 
---- a/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
-+++ b/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
-@@ -158,7 +158,7 @@
-  };
+?
 
-  &mipi_csi {
--       status = "okay";
-+       status = "disabled";
+> +            description:
+> +              should be set to <0> (clock lane on hardware lane 0).
 
-         port@0 {
-                 reg = <0>;
+I think you can drop the description, with the items below it's clear
+that the value has to be <0>.
 
+> +            items:
+> +              - const: 0
+> +
+> +          remote-endpoint: true
 
+Should this be
 
-The first patch doesn't make much sense though, without a remote sensor 
-the mipi-csi2 receiver won't function, so there's no point in taking up 
-resources used by the driver.
+             remote-endpoint:
+	       $ref: /schemas/types.yaml#/definitions/phandle
 
-The second option will require migrating the mipi-csi2 receiver 
-enablement to new target .dts files, for example a new 
-"imx6qp-sabresd-mipi.dts". That has already been done for some boards, 
-for example the imx6qdl-icore has a separate target imx6q-icore-mipi, 
-that enables mipi-csi2.
+> +
+> +        required:
+> +          - data-lanes
+> +          - clock-lanes
+> +          - remote-endpoint
+> +
+> +        additionalProperties: false
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - enable-gpios
+> +  - reset-gpios
+> +  - vdddo-supply
+> +  - vdda-supply
+> +  - vddd-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov5645: sensor@3c {
+> +            compatible = "ovti,ov5645";
+> +            reg = <0x3c>;
+> +            clocks = <&ov5645_cl>;
+> +            clock-names = "xclk";
+> +            enable-gpios = <&gpio1 6 /* GPIO_ACTIVE_HIGH */>;
+> +            reset-gpios = <&gpio5 20 /* GPIO_ACTIVE_LOW */>;
+> +            vdddo-supply = <&camera_dovdd_1v8>;
+> +            vdda-supply = <&camera_avdd_2v8>;
+> +            vddd-supply = <&camera_dvdd_1v2>;
+> +
+> +            port {
+> +                ov5645_0: endpoint {
+> +                    remote-endpoint = <&csi1_ep>;
+> +                    clock-lanes = <0>;
+> +                    data-lanes = <1 2>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
+-- 
+Regards,
 
-Steve
-
+Laurent Pinchart
