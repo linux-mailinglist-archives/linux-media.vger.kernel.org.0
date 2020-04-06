@@ -2,141 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6609719FE9A
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 22:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 056F319FEA7
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 22:02:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgDFUAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 16:00:30 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14025 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgDFUAa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 16:00:30 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8b8a500001>; Mon, 06 Apr 2020 13:00:16 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 06 Apr 2020 13:00:29 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 06 Apr 2020 13:00:29 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr
- 2020 20:00:29 +0000
-Received: from [10.2.164.193] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr 2020
- 20:00:27 +0000
+        id S1726277AbgDFUCs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 16:02:48 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46939 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725895AbgDFUCs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 16:02:48 -0400
+Received: by mail-lj1-f194.google.com with SMTP id r7so1051076ljg.13;
+        Mon, 06 Apr 2020 13:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pR0eWnTd5h7tba4NE5cOqCpOayrnfqSpnnxsMjP0HDE=;
+        b=S9IVqKB4cSk/XdyKILImMyvUQLXGZ2R5LA0gSzR07GIJkUPz3uDqjV1VOE6ec2GH3e
+         T/14RAtL4JDD9Nn757zQb3y2ByFxsPsKAz6uU5HHfEblbPvafBdX5YrU5bdQAiT85Jaa
+         ECId3pdWD72nu8iaOc7YBUCkB8kXcnC04xN7aSHY5h7RIZSixm5ljFk5nGxsbyQhK/o3
+         bp+N0BilawMlJhoGJIYJEl2GbpC1QGpEvNB1Lg/AOX6QWW6LevjtFCN4CQB7siQ5T/UF
+         9FxUCN7JfWjhMCBUrrgiJCxBvsdW5cIKSrucX78gLSSHHjLSG6nLmJE145F9EN3Sq/Mf
+         3Rdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pR0eWnTd5h7tba4NE5cOqCpOayrnfqSpnnxsMjP0HDE=;
+        b=ssafBhr3p54jQPraZz2EOKWGRJX9VdrEmMQmENsGMCd4F3ZK0cvm2gu+QWlrJWDTk3
+         OThBvRfJHZpioCOSuwIjZa3J3w4Jr9Eea2u5HGBeEVJcvITvPafk/Toh0M0noEkf+P96
+         WwYG3t6DOudqw1JzdngzZvG1O9+g9MAUVV74kB083WUYlnjsk0rCoyjvA2reB6i5Vl2N
+         yN302p6GMp9oq6h1hAPZGCdV3lTKcH4LWdByQ/fAea2f4e92Vftp+kdsIvSG6wWxfrP2
+         ljFDn0//A/L1qN/ERWV9PZMr9Q38C6R+z64lkG1HBVHU/uP+plYAYTt0nCThfE7l+qxf
+         VrGQ==
+X-Gm-Message-State: AGi0PuZuSD4v8P5mNFek6dHwIZb8H8DQGLjJ4sMZhGdjJDOuiW/EpU6y
+        glwPflLNAOdFauXcGDwSGfiCQ64f
+X-Google-Smtp-Source: APiQypJ8NvRj8C6S/AYBn0Qn7QsGzRpw9wydKuVLHtytJfXqR6C+5dok3IO2ghOEUX4n+r4jgXuHfg==
+X-Received: by 2002:a2e:9c8:: with SMTP id 191mr544920ljj.259.1586203364265;
+        Mon, 06 Apr 2020 13:02:44 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id 22sm10489766ljq.69.2020.04.06.13.02.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Apr 2020 13:02:42 -0700 (PDT)
 Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
- <0809c1ae-57c9-508e-2959-724acc4ae068@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <378f0327-c5cd-6910-7d30-533354e89e7c@nvidia.com>
-Date:   Mon, 6 Apr 2020 13:00:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <782c8c4e-f5c2-d75e-0410-757172dd3090@gmail.com>
+Date:   Mon, 6 Apr 2020 23:02:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <0809c1ae-57c9-508e-2959-724acc4ae068@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586203216; bh=a+B6toPknxL+WZOxNj0oDHih81hp/Y5Auh402g2jYb8=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=OkVibJfMkE97WaSQikxdiNt2CxvlYQJiuDU+50dmhHRAhQ/HUs5g2OTg1/FJNVZHs
-         +DOwlzkOY0x0M5OrIyjg/XLhsD4u5ngTnPJ07OXiqMlARZ+mB14xhKUU5hACZzXDav
-         oosatc90HiYPfPsY6gQcZHaOGcfz2jtOiezvJ9fNWKaZnEkUGEpivM7mygCFQcV287
-         Z77kO2bRCobMVWqD76GojdjYTujckIGe2PzjkQn4Nz4LuI/x+jJnYkKOzdvV5oEOtK
-         IWZa12wS6RP/UvSUItQvQtWna06N3/jWQwZJBUVvovh+saMDaeRSjvA65tvfL/WL+h
-         sQdqg9MNWc0uw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+04.04.2020 04:25, Sowjanya Komatineni пишет:
+...
+> +static int chan_capture_kthread_start(void *data)
+> +{
+> +	struct tegra_vi_channel *chan = data;
+> +	struct tegra_channel_buffer *buf;
+> +	int err = 0;
+> +	int caps_inflight;
+> +
+> +	set_freezable();
+> +
+> +	while (1) {
+> +		try_to_freeze();
+> +
+> +		wait_event_interruptible(chan->start_wait,
+> +					 !list_empty(&chan->capture) ||
+> +					 kthread_should_stop());
 
-On 4/6/20 12:48 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 04.04.2020 04:25, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->> +static int tegra_channel_capture_frame(struct tegra_vi_channel *chan,
->> +                                    struct tegra_channel_buffer *buf)
->> +{
->> +     int err =3D 0;
->> +     u32 thresh, value, frame_start, mw_ack_done;
->> +     int bytes_per_line =3D chan->format.bytesperline;
->> +
->> +     /* program buffer address by using surface 0 */
->> +     vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_OFFSET_MSB,
->> +                  (u64)buf->addr >> 32);
->> +     vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_OFFSET_LSB, buf->addr);
->> +     vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_STRIDE, bytes_per_line);
->> +
->> +     /*
->> +      * Tegra VI block interacts with host1x syncpt for synchronizing
->> +      * programmed condition of capture state and hardware operation.
->> +      * Frame start and Memory write acknowledge syncpts has their own
->> +      * FIFO of depth 2.
->> +      *
->> +      * Syncpoint trigger conditions set through VI_INCR_SYNCPT registe=
-r
->> +      * are added to HW syncpt FIFO and when the HW triggers, syncpt
->> +      * condition is removed from the FIFO and counter at syncpoint ind=
-ex
->> +      * will be incremented by the hardware and software can wait for
->> +      * counter to reach threshold to synchronize capturing frame with =
-the
->> +      * hardware capture events.
->> +      */
->> +
->> +     /* increase channel syncpoint threshold for FRAME_START */
->> +     thresh =3D host1x_syncpt_incr_max(chan->frame_start_sp, 1);
->> +
->> +     /* Program FRAME_START trigger condition syncpt request */
->> +     frame_start =3D VI_CSI_PP_FRAME_START(chan->portno);
->> +     value =3D VI_CFG_VI_INCR_SYNCPT_COND(frame_start) |
->> +             host1x_syncpt_id(chan->frame_start_sp);
->> +     tegra_vi_write(chan, TEGRA_VI_CFG_VI_INCR_SYNCPT, value);
->> +
->> +     /* increase channel syncpoint threshold for MW_ACK_DONE */
->> +     buf->mw_ack_sp_thresh =3D host1x_syncpt_incr_max(chan->mw_ack_sp, =
-1);
->> +
->> +     /* Program MW_ACK_DONE trigger condition syncpt request */
->> +     mw_ack_done =3D VI_CSI_MW_ACK_DONE(chan->portno);
->> +     value =3D VI_CFG_VI_INCR_SYNCPT_COND(mw_ack_done) |
->> +             host1x_syncpt_id(chan->mw_ack_sp);
->> +     tegra_vi_write(chan, TEGRA_VI_CFG_VI_INCR_SYNCPT, value);
->> +
->> +     /* enable single shot capture */
->> +     vi_csi_write(chan, TEGRA_VI_CSI_SINGLE_SHOT, SINGLE_SHOT_CAPTURE);
->> +     chan->capture_reqs++;
->> +
->> +     /* wait for syncpt counter to reach frame start event threshold */
->> +     err =3D host1x_syncpt_wait(chan->frame_start_sp, thresh,
->> +                              TEGRA_VI_SYNCPT_WAIT_TIMEOUT, &value);
-> What is the point of waiting for the frame-start? Why just not to wait
-> for the frame-end?
+Is it really okay that list_empty() isn't protected with a lock?
 
-Tegra vi supports double buffering where up on receiving frame start=20
-before HW received frame end and finish writing capture data to memory,=20
-we can issue next frame as well a head.
+Why wait_event is "interruptible"?
 
-Also MW_ACK timeout can happen incase of HDMI2CSI bridges as well when=20
-hdmi hot plug happens.
+> +		/*
+> +		 * Frame start and MW_ACK_DONE syncpoint condition FIFOs are
+> +		 * of max depth 2. So make sure max 2 capture requests are
+> +		 * in process by the hardware at a time.
+> +		 */
+> +		while (!(kthread_should_stop() || list_empty(&chan->capture))) {
+> +			caps_inflight = chan->capture_reqs - chan->sequence;
+> +			/*
+> +			 * Source is not streaming if error is non-zero.
+> +			 * So, do not dequeue buffers on capture error or when
+> +			 * syncpoint requests in FIFO are full.
+> +			 */
+> +			if (err || caps_inflight >= SYNCPT_FIFO_DEPTH)
+> +				break;
+> +
+> +			/* dequeue the buffer and start capture */
+> +			spin_lock(&chan->start_lock);
+> +			if (list_empty(&chan->capture))
+> +				break;
+> +			buf = list_entry(chan->capture.next,
+> +					 struct tegra_channel_buffer, queue);
 
-For some sensors down the road we may need to skip few frames in case of=20
-frame start timeout as well which comes later with subsequent patch series.
+list_first_entry()
 
+> +			list_del_init(&buf->queue);
+> +			spin_unlock(&chan->start_lock);
+> +
+> +			err = tegra_channel_capture_frame(chan, buf);
+> +			if (err)
+> +				vb2_queue_error(&chan->queue);
+> +		}
+> +
+> +		if (kthread_should_stop())
+> +			break;
+> +	}
+> +
+> +	return 0;
+> +}
