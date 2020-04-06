@@ -2,90 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A24F19FBBC
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1979D19FBBE
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:37:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727441AbgDFRgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 13:36:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52766 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbgDFRgt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 13:36:49 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 597171031;
-        Mon,  6 Apr 2020 19:36:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586194607;
-        bh=YPNE2hB3+Kd4JYl1p59Zx6o1xWVLnWL1+Y6boeKyKUw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OQ+6N8+n1zJZ0/2gH5NJj0mdJcoSxgpgo9vwr7oiQm0EgXP/WfcG1R7OCF1Q7Q7gs
-         sgnuJLn7jlHyoU6HR+MOZFZWLVzUPGO41cT1LkEnU7D77nDcDwb/sNPR8xYKzBCcbT
-         3DLZ9KNu12/OA/QQpUw55JkMIcnoBYMMZ4JIgb+w=
-Date:   Mon, 6 Apr 2020 20:36:37 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v5 4/5] ARM: dts: imx6qdl-wandboard: Drop clock-frequency
- property from ov5645 node
-Message-ID: <20200406173637.GG16885@pendragon.ideasonboard.com>
-References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586191361-16598-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S1727717AbgDFRg5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 13:36:57 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35375 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726492AbgDFRg5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 13:36:57 -0400
+Received: by mail-pg1-f196.google.com with SMTP id k5so302134pga.2
+        for <linux-media@vger.kernel.org>; Mon, 06 Apr 2020 10:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=m9Z2CJj+yJrYFAzu14y9i6EVhHGD3zxJHlnCyIOpWp0=;
+        b=VJM+FBYADvctjc8djwTYbbJXE5Ra+LPDDYVUTKNGOGmppvSTvcM7BpQ0I62QxUQAJL
+         kTLWY5CqSfV4gcJN/xJpZbrRwxJnAPg72tRl7fyamh+7zHYbsKzdxEJWFVdwgA1b8LFq
+         DTNE8i5AS/F9mr++D49SkIP2caUDOfo+KM4C2YytdxUFTVsdcX8ErbVsXbpXUgD0ULBW
+         4QpH5YvgOfneJS64LOkYqeKLwh77y6DSgN+z9T4YjmskuFyypcAZ/el76Zm2SYg8hDVY
+         hY4fOUIN+f9aZTGlP7DzWJISCtJXncunYXTMuBj1G9oTskfC3s0DIMDmRszJlr7H9bZq
+         6nkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=m9Z2CJj+yJrYFAzu14y9i6EVhHGD3zxJHlnCyIOpWp0=;
+        b=Vt5+5k+c7iA/JgfUp4u3d9IyEabyiT+JkXmX+mDIsSITwQW/odHNQmrcj0GhsW/X4o
+         tOoTnN7z6+r2VYqsJ/oX2QbGsqS5bYxEu7LRUBKTNa2UKULJi3dnZRzK66iYR9M3MNcM
+         VgWW91AbvrFiVyJ0QLTfSSyeIuDX/eqIYm+VsrC3xkrUyOO03YX2bhhobnC3iSPs0Szo
+         vo63BxfZZc0XSyiFMHiYznOIDW6nfi6REaI/35lTXvB5GJpoY6jle2ZCra6T2Ymv2frL
+         u5PaPtvcQhYKYmwj9k7Kd6mKIIUIt0eswTbecaSYgDHA2SHy0T9Hnj4LKYZ7J0qghVJg
+         XjOg==
+X-Gm-Message-State: AGi0PuYi2WD0KHdXkF9CX1y0sy0R9CcHKX0pEigwuo56VR0ArH+09KsR
+        9nts+SATsIxh3FO1nkL1UDY=
+X-Google-Smtp-Source: APiQypLiVOiFLr+3C7viVJcGNRByma+IoiSpbXx7x0ABb5rEa0bDdXCh+C6oFJSQ7HeJCeaQcfSL6Q==
+X-Received: by 2002:a63:db10:: with SMTP id e16mr165760pgg.361.1586194615539;
+        Mon, 06 Apr 2020 10:36:55 -0700 (PDT)
+Received: from [172.30.88.191] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id mg20sm193881pjb.12.2020.04.06.10.36.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Apr 2020 10:36:54 -0700 (PDT)
+Subject: Re: imx6: Cannot register mem2mem
+To:     Fabio Estevam <festevam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Tim Harvey <tharvey@gateworks.com>
+References: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <77add588-5756-8684-3e8f-0f46cbb2442b@gmail.com>
+Date:   Mon, 6 Apr 2020 10:36:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1586191361-16598-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Hi Fabio,
 
-Thank you for the patch.
+On 4/6/20 6:37 AM, Fabio Estevam wrote:
+> Hi,
+>
+> I am running kernel 5.6.2 on an imx6qp sabresd, but I cannot get the
+> mem2mem element from imx-media-csc-scaler.c to probe.
+>
+> I don't see imx6_media_probe_complete() getting called, hence
+> imx_media_csc_scaler_device_init() is never called and no mem2mem
+> element is registered.
+>
+> Any ideas as to how to get mem2mem registered on i.MX6?
 
-On Mon, Apr 06, 2020 at 05:42:40PM +0100, Lad Prabhakar wrote:
-> clock-frequency property has been deprecated in ov5645 binding. This patch
-> makes sure it matches the bindings by dropping clock-frequency property
-> from ov5645 node.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+If you're sabresd does not have the OV5640 module attached, then probe 
+won't complete.
 
-This looks good to me, but could you also address imx6qdl-pico.dtsi ?
-With that,
+You could make the upstream remote availability optional in the 
+imx6-mipi-csi2 receiver driver:
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+--- a/drivers/staging/media/imx/imx6-mipi-csi2.c
++++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+@@ -537,10 +537,8 @@ static int csi2_parse_endpoint(struct device *dev,
+         struct v4l2_subdev *sd = dev_get_drvdata(dev);
+         struct csi2_dev *csi2 = sd_to_dev(sd);
 
-> ---
->  arch/arm/boot/dts/imx6qdl-wandboard.dtsi | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/imx6qdl-wandboard.dtsi b/arch/arm/boot/dts/imx6qdl-wandboard.dtsi
-> index c070893c509e..fa01cad65335 100644
-> --- a/arch/arm/boot/dts/imx6qdl-wandboard.dtsi
-> +++ b/arch/arm/boot/dts/imx6qdl-wandboard.dtsi
-> @@ -126,7 +126,6 @@
->  		reg = <0x3c>;
->  		clocks = <&clks IMX6QDL_CLK_CKO2>;
->  		clock-names = "xclk";
-> -		clock-frequency = <24000000>;
->  		vdddo-supply = <&reg_1p8v>;
->  		vdda-supply = <&reg_2p8v>;
->  		vddd-supply = <&reg_1p5v>;
+-       if (!fwnode_device_is_available(asd->match.fwnode)) {
+-               v4l2_err(&csi2->sd, "remote is not available\n");
+-               return -EINVAL;
+-       }
++       if (!fwnode_device_is_available(asd->match.fwnode))
++               return -ENOTCONN;
 
--- 
-Regards,
+         if (vep->bus_type != V4L2_MBUS_CSI2_DPHY) {
+                 v4l2_err(&csi2->sd, "invalid bus type, must be MIPI 
+CSI2\n");
 
-Laurent Pinchart
+
+Another option would be to disable the mipi-csi2 receiver in the device 
+tree:
+
+--- a/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
++++ b/arch/arm/boot/dts/imx6qdl-sabresd.dtsi
+@@ -158,7 +158,7 @@
+  };
+
+  &mipi_csi {
+-       status = "okay";
++       status = "disabled";
+
+         port@0 {
+                 reg = <0>;
+
+
+
+The first patch doesn't make much sense though, without a remote sensor 
+the mipi-csi2 receiver won't function, so there's no point in taking up 
+resources used by the driver.
+
+The second option will require migrating the mipi-csi2 receiver 
+enablement to new target .dts files, for example a new 
+"imx6qp-sabresd-mipi.dts". That has already been done for some boards, 
+for example the imx6qdl-icore has a separate target imx6q-icore-mipi, 
+that enables mipi-csi2.
+
+
+Steve
+
