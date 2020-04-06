@@ -2,83 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 525C91A001D
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 23:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7F661A0068
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 23:40:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726084AbgDFV0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 17:26:31 -0400
-Received: from mail-lj1-f179.google.com ([209.85.208.179]:38638 "EHLO
-        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgDFV0b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 17:26:31 -0400
-Received: by mail-lj1-f179.google.com with SMTP id v16so1359428ljg.5
-        for <linux-media@vger.kernel.org>; Mon, 06 Apr 2020 14:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZQVMe+qDAVZ4ZbUfkeEBQyqSlivCQHTrBDHhj5slEiI=;
-        b=R/IMYZSfYI9ztNbiK5FE7PF4EhwaVo2nB0Rpk6Ib+dI6gsDvt/S6iupO8RQyVKCbU/
-         Fu3shWMFCHDMJjV+YdWmHMUkHt15+NHmce2HEoFK1bw68zdpwS+CjmQQcmbEPU1LG3GA
-         TJ7DFQJ4SBhP8RKE4YdhQ67BDNm1gkbrP/Kr8Jr0JSOqFTFrPqJzXdeuSVSP0tsC/JEW
-         Cc+8vEt57DgyLAY4RBYmyQRffFX1lM5XibiWgiMtGFwkG9CwWpMS0qBDXDoTZ0WWhE9i
-         GB6HWczZQh2e4Cd+oL4maMO2Z92oFuaiBEVEgjOdT6gXrkMljLQ8xJWJ/TGO5a+64f6y
-         RoxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZQVMe+qDAVZ4ZbUfkeEBQyqSlivCQHTrBDHhj5slEiI=;
-        b=hfpOfGyvizZVKPUrAZbABs1a0pQL4zumcRUljPjNLHCm1NDuqdgb62E8Y0BH9H4WEu
-         glRPsPGHPXQ8wqrz0BC2C/TA+h5eqidjNcb4ocVOEuXAe+mRw5ciL24GRIEqh8qZro92
-         JZbRpYsKMvEOaI3W/UOFu1hroDAwao7rVxsvCQw9LMWsz7TJbQJFUQ88ws0PbH6uD6fN
-         M0Wn8CcYLvur0hea7/E6W6LibI7YdFf6yhJIH+S6O03LVzeBeBzeCNlE/gKs8O1xICmH
-         WEAO0x01SoYeFO1HXTs26tJdEBXex8zpLX4A3NpoaKSuQAFIqYxWga00hzg8bejtNx+D
-         Urxw==
-X-Gm-Message-State: AGi0Pua7PhIubJ+mPVre8vVjgXD/wAW+XhWRFUdBBB23aAuzjqReHuNB
-        CVCZLVpgOK/SR7nt02ifXYwX6tgRzZ94GkiKtB4=
-X-Google-Smtp-Source: APiQypIs/fg4UyrKbQNz1s3mathWH3/1esifYXjUFkGU1FGYiOBt+7Bz5AbweIHH3Yr6j8fLqlIEwBBeTslQzL3y4ZA=
-X-Received: by 2002:a2e:9105:: with SMTP id m5mr779545ljg.37.1586208386638;
- Mon, 06 Apr 2020 14:26:26 -0700 (PDT)
+        id S1726310AbgDFVkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 17:40:02 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:10876 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbgDFVkC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Apr 2020 17:40:02 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8ba14b0000>; Mon, 06 Apr 2020 14:38:19 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 06 Apr 2020 14:40:01 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 06 Apr 2020 14:40:01 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr
+ 2020 21:40:00 +0000
+Received: from [10.2.164.193] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 6 Apr 2020
+ 21:39:59 +0000
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
+ <200bb96e-2d07-764f-9e14-55538dc742fd@gmail.com>
+ <23bfab09-b464-6e51-9843-06d13000e9b9@nvidia.com>
+ <be77b0ef-d605-8357-4180-f40b2886d07a@gmail.com>
+ <08cd31d5-e8b9-4d3a-fb0e-0e4462947d96@nvidia.com>
+ <12a834ac-52b1-6dc0-7d3a-3e6a1fa85a2a@gmail.com>
+ <e3712e7b-b335-b35b-a94f-24eb85122dca@nvidia.com>
+ <b1726d33-0d35-9323-a747-407148d0104e@gmail.com>
+ <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+Message-ID: <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
+Date:   Mon, 6 Apr 2020 14:39:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
- <77add588-5756-8684-3e8f-0f46cbb2442b@gmail.com> <CAOMZO5C32M-JzCtfd7_=HtyfMqyqYd6adUEj1XRB6SYGoq0a0Q@mail.gmail.com>
- <CAOMZO5Ask2GF7fA=K6_RYF7138YEhsg4ERqvyS5SRt6jkh8QvQ@mail.gmail.com>
- <65b57718-a60e-66bf-61ba-348457fc524f@gmail.com> <CAOMZO5C95_G_Zeff2NRJZ4fxH29VfJP7B74H3h+bMp05WGF2Rg@mail.gmail.com>
-In-Reply-To: <CAOMZO5C95_G_Zeff2NRJZ4fxH29VfJP7B74H3h+bMp05WGF2Rg@mail.gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Mon, 6 Apr 2020 18:26:49 -0300
-Message-ID: <CAOMZO5Bw=wowJntuWYA-h9s2nFvPRbkQVWadM4GcUdxWH2rWNw@mail.gmail.com>
-Subject: Re: imx6: Cannot register mem2mem
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Tim Harvey <tharvey@gateworks.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586209099; bh=o0hT2mgBLzZYzTwAxCmEeFHH5UCRVvtcMzb/Xs+59co=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=kvQOK4GgGgPHSuaGCrkAEoD0fzmKhvZbHlQmJWp1gFjW7cdoyx4QWJYTb4DgimWxO
+         bpvvSQXr42gHwohZSAMAN98Z19FbSRdV1mWpJ63aNUSsu5sehMjGKB5YUPh6QVSEqn
+         4iYE4xJjzSzwAderHqXG7FFt92y9zgQXBNBtetmBlGt/C8GJa8Zq/bYljyHnR814OR
+         esili6YrDmQzrfqPprS+4sGbSRDzl3Pd+EGQtesSkGMwam9tAVV5vD7Rd/LpAa7bXv
+         sfAZl4DQ8g80XQV36cYYjII3rw38ikQl+klym4HGy8cSfWLWq5Rb4/esUlNty08jF9
+         ehJU23kkDxTFA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 6, 2020 at 4:39 PM Fabio Estevam <festevam@gmail.com> wrote:
 
-> Nicolas,
+On 4/6/20 2:15 PM, Sowjanya Komatineni wrote:
 >
-> I am using Gstreamer 1.16.2 on i.MX6 and cannot get the
-> v4l2video8convert to show up.
+> On 4/6/20 2:11 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 07.04.2020 00:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>>>> Am I understanding correctly that this thread will take 100% CPU,
+>>>>>>>> spinning here, if more than 2 frame-captures queued?
+>>>>>>> on more than 2 frames captures, it breaks thread and on next=20
+>>>>>>> wakeup it
+>>>>>>> continues
+>>>>>> The wait_event() won't wait if condition is true.
+>>>>> condition is checked when waitqueue is woken up
+>>>> https://elixir.bootlin.com/linux/v5.6.2/source/include/linux/wait.h#L4=
+62=20
+>>>>
+>>> process is put to sleep until the condition evaluates to true or signal
+>>> is received.
+>>>
+>>> condition is checked each time the waitqueue head is woken up.
+>> This is a wrong assumption in accordance to the code.
 >
-> The mem2mem appears at /dev/video8 and it corresponds to i.MX6
-> ipu_ic_pp csc/scaler.
+> when every buffer is available as long as we are in streaming, we=20
+> should process it.
 >
-> Any suggestions?
+> So if wake up happens when list has buffer, it will be processed but=20
+> at a time we limit processing 2 simultaneous buffer capture starts only.
+>
+Fixing typo.
 
-It seems that it shows up with v4l2convert instead of v4l2video8convert
-and it works fine:
+I meant when ever buffer is available as long as we are in streaming, we=20
+should process it.
 
-gst-launch-1.0 videotestsrc ! video/x-raw,width=320,height=240 !
-v4l2convert ! video/x-raw,width=640,height=480 ! kmssink
+So capture thread processes as long as buffers are available from user=20
+space limiting 2 simultaneous trigger of captures and thread will be in=20
+sleep when capture buffers list is empty or no stop thread is signaled.
 
-So we are all fine then :-)
-
-Thanks
