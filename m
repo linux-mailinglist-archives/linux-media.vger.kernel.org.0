@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BC4E19FC29
-	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 19:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1188C19FC71
+	for <lists+linux-media@lfdr.de>; Mon,  6 Apr 2020 20:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726819AbgDFR6u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 13:58:50 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:54942 "EHLO www.linuxtv.org"
+        id S1726720AbgDFSFS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 14:05:18 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:55932 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726546AbgDFR6u (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Apr 2020 13:58:50 -0400
+        id S1726436AbgDFSFS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Apr 2020 14:05:18 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1jLVyb-00939N-4C; Mon, 06 Apr 2020 17:56:01 +0000
+        id 1jLW4r-0093bZ-VY; Mon, 06 Apr 2020 18:02:30 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1jLW2x-0003GC-Cm; Mon, 06 Apr 2020 18:00:31 +0000
-Date:   Mon, 6 Apr 2020 18:00:31 +0000 (UTC)
+        id 1jLW9E-0003Ir-LV; Mon, 06 Apr 2020 18:07:00 +0000
+Date:   Mon, 6 Apr 2020 18:07:00 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1240941899.4.1586196031390.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <526647524.3.1586191532397.JavaMail.jenkins@builder.linuxtv.org>
-References: <526647524.3.1586191532397.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: ZBar #15
+Message-ID: <931641768.5.1586196420658.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1240941899.4.1586196031390.JavaMail.jenkins@builder.linuxtv.org>
+References: <1240941899.4.1586196031390.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: ZBar #16
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -39,23 +39,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/ZBar/15/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/ZBar/16/display/redirect>
 
 Changes:
 
-[Mauro Carvalho Chehab] tests: disable V4L2 test if /dev/video0 doesn't exist
-
-[Mauro Carvalho Chehab] zbarimg/Makefile: fix dependency order
-
 
 ------------------------------------------
-[...truncated 8.29 KB...]
-checking for shared library run path origin... done
-checking for iconv... yes
-checking for working iconv... yes
-checking for iconv declaration... 
-         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
-checking poll.h usability... yes
+[...truncated 8.89 KB...]
 checking poll.h presence... yes
 checking for poll.h... yes
 checking pthread.h usability... yes
@@ -289,13 +279,19 @@ make[1]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
 /usr/bin/python3 <https://builder.linuxtv.org/job/ZBar/ws/test/barcodetest.py>
 .
 ----------------------------------------------------------------------
-Ran 1 test in 0.033s
+Ran 1 test in 0.028s
 
 OK
 <https://builder.linuxtv.org/job/ZBar/ws/test/test_decode> -q
 decoder PASSED.
 <https://builder.linuxtv.org/job/ZBar/ws/test/test_examples.sh>
-FAILED: <https://builder.linuxtv.org/job/ZBar/ws/examples/qr-code-binary.png> (da39a3ee5e6b4b0d3255bfef95601890afd80709 instead of df896e459e47a7d392031a7d4962722a143e276b)
-	cmd: <https://builder.linuxtv.org/job/ZBar/ws/zbarimg/zbarimg> --nodbus --raw --oneshot -Sbinary '<https://builder.linuxtv.org/job/ZBar/ws/examples/qr-code-binary.png'>
-	results: make: *** [Makefile:2474: check-images] Error 1
+zbarimg PASSED.
+PYTHONPATH=<https://builder.linuxtv.org/job/ZBar/ws/python/.libs/> \
+	/usr/bin/python3 <https://builder.linuxtv.org/job/ZBar/ws/test/test_python.py> \
+	'<https://builder.linuxtv.org/job/ZBar/ws/examples/ean-13.png'> '9789876543217'
+Traceback (most recent call last):
+  File "<https://builder.linuxtv.org/job/ZBar/ws/test/test_python.py",> line 20, in <module>
+    import zbar, sys
+ImportError: <https://builder.linuxtv.org/job/ZBar/ws/python/.libs/zbar.so>: undefined symbol: PyInt_Type
+make: *** [Makefile:2489: check-python] Error 1
 Build step 'Execute shell' marked build as failure
