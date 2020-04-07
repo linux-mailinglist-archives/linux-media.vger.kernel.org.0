@@ -2,188 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B16531A1706
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 22:51:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC99E1A1733
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 23:08:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgDGUvS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 16:51:18 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44254 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbgDGUvS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 16:51:18 -0400
-Received: from [IPv6:2804:431:e7cc:377d:dcf4:aab0:a7bd:9880] (unknown [IPv6:2804:431:e7cc:377d:dcf4:aab0:a7bd:9880])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CBAC22947F5;
-        Tue,  7 Apr 2020 21:51:13 +0100 (BST)
-Subject: Re: [PATCH v2 2/3] media: staging: rkisp1: use
- v4l2_pipeline_stream_{enable,disable} helpers
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        hans.verkuil@cisco.com, skhan@linuxfoundation.org,
-        mchehab@kernel.org
-References: <20200403213312.1863876-1-helen.koike@collabora.com>
- <20200403213312.1863876-3-helen.koike@collabora.com>
- <20200407193453.GF1716317@oden.dyn.berto.se>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <152f9441-75cf-b400-d57e-e8e003890943@collabora.com>
-Date:   Tue, 7 Apr 2020 17:51:08 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726622AbgDGVIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 17:08:41 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:12001 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgDGVIl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 17:08:41 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8ceba20002>; Tue, 07 Apr 2020 14:07:46 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 07 Apr 2020 14:08:39 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 07 Apr 2020 14:08:39 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr
+ 2020 21:08:39 +0000
+Received: from [10.2.171.175] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr 2020
+ 21:08:37 +0000
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
+ <200bb96e-2d07-764f-9e14-55538dc742fd@gmail.com>
+ <23bfab09-b464-6e51-9843-06d13000e9b9@nvidia.com>
+ <be77b0ef-d605-8357-4180-f40b2886d07a@gmail.com>
+ <08cd31d5-e8b9-4d3a-fb0e-0e4462947d96@nvidia.com>
+ <12a834ac-52b1-6dc0-7d3a-3e6a1fa85a2a@gmail.com>
+ <e3712e7b-b335-b35b-a94f-24eb85122dca@nvidia.com>
+ <b1726d33-0d35-9323-a747-407148d0104e@gmail.com>
+ <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+ <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
+ <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
+ <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
+ <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
+ <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+Message-ID: <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+Date:   Tue, 7 Apr 2020 14:08:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200407193453.GF1716317@oden.dyn.berto.se>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586293666; bh=p0/DWg6pW/GsSUz9X/po1THsEzzlpWiq+7OgvqVf1NM=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=DSq+wk/V3vmE+OZKgrneo9QUGwCD2UhnoTfktGp0A8ZbgG8rvMFFD1PxmZ3QNra9x
+         BpkKprgB69xcX2I6V087N4bEiXFF5pUZUvYVZsbDM3Fav0CS8kVt7Atz2Gd8es02Uj
+         ymYRt1oWbK36galxrWt0IBJ4BjEP2a5tXdqzhi5sg+ZY71xVP6LtoLDYCObeTrZzf8
+         4FbiznmIgevIsI0xYXLA1VHS6VzaceTCVkHhkyP1sDKbrlNH0Rq+v48FDhg2N8ibwP
+         9j6sJ9T1wzbOzdwSYrRHsvfzzeNHO1tBE5SaAR2bRlyxlRtSTeHw7ZHp85fBRl3qw4
+         yoOjVnObn7/5w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
+On 4/6/20 4:48 PM, Sowjanya Komatineni wrote:
+>
+> On 4/6/20 4:18 PM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 07.04.2020 01:07, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> On 4/6/20 3:00 PM, Sowjanya Komatineni wrote:
+>>>> On 4/6/20 2:39 PM, Sowjanya Komatineni wrote:
+>>>>> On 4/6/20 2:15 PM, Sowjanya Komatineni wrote:
+>>>>>> On 4/6/20 2:11 PM, Dmitry Osipenko wrote:
+>>>>>>> External email: Use caution opening links or attachments
+>>>>>>>
+>>>>>>>
+>>>>>>> 07.04.2020 00:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=
+=82:
+>>>>>>>>>>>>> Am I understanding correctly that this thread will take 100%
+>>>>>>>>>>>>> CPU,
+>>>>>>>>>>>>> spinning here, if more than 2 frame-captures queued?
+>>>>>>>>>>>> on more than 2 frames captures, it breaks thread and on next
+>>>>>>>>>>>> wakeup it
+>>>>>>>>>>>> continues
+>>>>>>>>>>> The wait_event() won't wait if condition is true.
+>>>>>>>>>> condition is checked when waitqueue is woken up
+>>>>>>>>> https://elixir.bootlin.com/linux/v5.6.2/source/include/linux/wait=
+.h#L462=20
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>> process is put to sleep until the condition evaluates to true or
+>>>>>>>> signal
+>>>>>>>> is received.
+>>>>>>>>
+>>>>>>>> condition is checked each time the waitqueue head is woken up.
+>>>>>>> This is a wrong assumption in accordance to the code.
+>>>> process is in sleep until the condition is evaluated and when
+>>>> condition is true wakeup still happens only when wake_up on waitqueue
+>>>> is called
+>>>>
+>>>> This is the reason for using this to prevent blocking while waiting
+>>>> for the buffers.
+>>> w.r.t capture list update, wakeup happens when wake_up on waitqueue is
+>>> called.
+>>>
+>>> wakeup also happens on kthread stop signal event.
+>>>
+>>>>
+>>>>>> when every buffer is available as long as we are in streaming, we
+>>>>>> should process it.
+>>>>>>
+>>>>>> So if wake up happens when list has buffer, it will be processed but
+>>>>>> at a time we limit processing 2 simultaneous buffer capture starts
+>>>>>> only.
+>>>>>>
+>>>>> Fixing typo.
+>>>>>
+>>>>> I meant when ever buffer is available as long as we are in streaming,
+>>>>> we should process it.
+>>>>>
+>>>>> So capture thread processes as long as buffers are available from
+>>>>> user space limiting 2 simultaneous trigger of captures and thread
+>>>>> will be in sleep when capture buffers list is empty or no stop thread
+>>>>> is signaled.
+>> IIUC, the waiting won't happen if more than 2 captures are queued and
+>> thread will be spinning until captures are processed.
+>>
+>> I think you need a semaphore with resource count =3D 2.
+> we hold on to issuing capture if more than 2 buffers are queued and it=20
+> continues only after fifo has min 1 slot empty
 
-On 4/7/20 4:34 PM, Niklas Söderlund wrote:
-> Hi Helen,
-> 
-> Thanks for your work.
-> 
-> On 2020-04-03 18:33:11 -0300, Helen Koike wrote:
->> Use v4l2_pipeline_stream_{enable,disable} to call .s_stream() subdevice
->> callbacks through the pipeline.
->>
->> Tested by streaming on RockPi4 with imx219 and on Scarlet Chromebook.
->>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->>
->> ---
->>
->> Changes in v2:
->> - rebase on top of new helpers prototypes
->>
->>  drivers/staging/media/rkisp1/rkisp1-capture.c | 76 +------------------
->>  1 file changed, 3 insertions(+), 73 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> index 24fe6a7888aa4..0c2a357c4a12a 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> @@ -838,71 +838,6 @@ static void rkisp1_return_all_buffers(struct rkisp1_capture *cap,
->>  	spin_unlock_irqrestore(&cap->buf.lock, flags);
->>  }
->>  
->> -/*
->> - * rkisp1_pipeline_sink_walk - Walk through the pipeline and call cb
->> - * @from: entity at which to start pipeline walk
->> - * @until: entity at which to stop pipeline walk
->> - *
->> - * Walk the entities chain starting at the pipeline video node and stop
->> - * all subdevices in the chain.
->> - *
->> - * If the until argument isn't NULL, stop the pipeline walk when reaching the
->> - * until entity. This is used to disable a partially started pipeline due to a
->> - * subdev start error.
->> - */
->> -static int rkisp1_pipeline_sink_walk(struct media_entity *from,
->> -				     struct media_entity *until,
->> -				     int (*cb)(struct media_entity *from,
->> -					       struct media_entity *curr))
->> -{
->> -	struct media_entity *entity = from;
->> -	struct media_pad *pad;
->> -	unsigned int i;
->> -	int ret;
->> -
->> -	while (1) {
->> -		pad = NULL;
->> -		/* Find remote source pad */
->> -		for (i = 0; i < entity->num_pads; i++) {
->> -			struct media_pad *spad = &entity->pads[i];
->> -
->> -			if (!(spad->flags & MEDIA_PAD_FL_SINK))
->> -				continue;
->> -			pad = media_entity_remote_pad(spad);
->> -			if (pad && is_media_entity_v4l2_subdev(pad->entity))
->> -				break;
->> -		}
->> -		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
->> -			break;
->> -
->> -		entity = pad->entity;
->> -		if (entity == until)
->> -			break;
->> -
->> -		ret = cb(from, entity);
->> -		if (ret)
->> -			return ret;
->> -	}
->> -
->> -	return 0;
->> -}
->> -
->> -static int rkisp1_pipeline_disable_cb(struct media_entity *from,
->> -				      struct media_entity *curr)
->> -{
->> -	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
->> -
->> -	return v4l2_subdev_call(sd, video, s_stream, false);
->> -}
->> -
->> -static int rkisp1_pipeline_enable_cb(struct media_entity *from,
->> -				     struct media_entity *curr)
->> -{
->> -	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
->> -
->> -	return v4l2_subdev_call(sd, video, s_stream, true);
->> -}
->> -
->>  static void rkisp1_stream_stop(struct rkisp1_capture *cap)
->>  {
->>  	int ret;
->> @@ -929,11 +864,7 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
->>  
->>  	rkisp1_stream_stop(cap);
->>  	media_pipeline_stop(&node->vdev.entity);
->> -	ret = rkisp1_pipeline_sink_walk(&node->vdev.entity, NULL,
->> -					rkisp1_pipeline_disable_cb);
->> -	if (ret)
->> -		dev_err(rkisp1->dev,
->> -			"pipeline stream-off failed error:%d\n", ret);
->> +	v4l2_pipeline_stream_disable(&node->vdev);
->>  
->>  	rkisp1_return_all_buffers(cap, VB2_BUF_STATE_ERROR);
->>  
->> @@ -1005,8 +936,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
->>  	rkisp1_stream_start(cap);
->>  
->>  	/* start sub-devices */
->> -	ret = rkisp1_pipeline_sink_walk(entity, NULL,
->> -					rkisp1_pipeline_enable_cb);
->> +	ret = v4l2_pipeline_stream_enable(&cap->vnode.vdev);
->>  	if (ret)
->>  		goto err_stop_stream;
->>  
->> @@ -1019,7 +949,7 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
->>  	return 0;
->>  
->>  err_pipe_disable:
->> -	rkisp1_pipeline_sink_walk(entity, NULL, rkisp1_pipeline_disable_cb);
->> +	v4l2_pipeline_stream_disable(entity, &cap->rkisp1->pipe);
-> 
-> This does not match the prototype for v4l2_pipeline_stream_disable() or 
-> am I missing something ?
 
-You are right, I must have messed with my branches, because I'm sure I compiled and tested it.
+Just want to close on this part of feedback. Hope above explanation is=20
+clear regarding triggering/issuing at max 2 frame capture to VI HW and=20
+also regarding capture threads where they use wait_event_interruptible=20
+to prevent blocking waiting for buffers to be available for captures.
 
-Thanks for catching this.
-Helen
+So no changes related to this part are needed in v7.
 
-> 
->>  err_stop_stream:
->>  	rkisp1_stream_stop(cap);
->>  	v4l2_pipeline_pm_put(entity);
->> -- 
->> 2.26.0
->>
-> 
