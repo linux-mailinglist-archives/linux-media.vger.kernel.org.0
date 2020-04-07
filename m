@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9A9F1A0339
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 02:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B80D1A02AA
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 02:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727979AbgDGAHr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Apr 2020 20:07:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34964 "EHLO mail.kernel.org"
+        id S1728322AbgDGAFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Apr 2020 20:05:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36950 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727192AbgDGABj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 6 Apr 2020 20:01:39 -0400
+        id S1726484AbgDGAC1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 6 Apr 2020 20:02:27 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3FDEA2082D;
-        Tue,  7 Apr 2020 00:01:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D929C2078A;
+        Tue,  7 Apr 2020 00:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586217698;
-        bh=Tn71Trm0DME8p2CUNER4Dh2CEke6Q6TIQHnRwW+It9Q=;
+        s=default; t=1586217746;
+        bh=3HsCAiHIhmh9HwXV4C3mMYFFAkRIIvi1FdCduwndbkA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nzXtFBNR6t5AOE07gzlad/jyb7SqJtGTtTka+MFHFmppQN4mIrirUzaXGyf0jHQzl
-         dUbyGMV0EPviGcLtvn05MU9mia4yKlz8cxdDd1uecd4j3ywF6oY4WjuWtbEICTJU5T
-         XX7bApYOKSXANNMvzJVzFLQ/Zj36oBqInNpztuN0=
+        b=oLQ2QkE6nAz8/BCA9cjiwS50IfeRdHZVuJ89EhFtUOvr3dbOkC7F4qsvMRG2kzHJY
+         poZ2vpYXKmAEhU3H4dQdYPj1mjiv5Lf5meou707UoXJhqCZC3r78n1UvgsodRGPqXS
+         2GSldvjRx/cLgQykifEUGSAHlPmz7qCKSfHOAsEA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yintian Tao <yttao@amd.com>,
@@ -31,12 +31,12 @@ Cc:     Yintian Tao <yttao@amd.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.5 31/35] drm/scheduler: fix rare NULL ptr race
-Date:   Mon,  6 Apr 2020 20:00:53 -0400
-Message-Id: <20200407000058.16423-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 28/32] drm/scheduler: fix rare NULL ptr race
+Date:   Mon,  6 Apr 2020 20:01:46 -0400
+Message-Id: <20200407000151.16768-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200407000058.16423-1-sashal@kernel.org>
-References: <20200407000058.16423-1-sashal@kernel.org>
+In-Reply-To: <20200407000151.16768-1-sashal@kernel.org>
+References: <20200407000151.16768-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -49,7 +49,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Yintian Tao <yttao@amd.com>
 
-[ Upstream commit 3c0fdf3302cb4f186c871684eac5c407a107e480 ]
+[ Upstream commit 77bb2f204f1f0a53a602a8fd15816d6826212077 ]
 
 There is one one corner case at dma_fence_signal_locked
 which will raise the NULL pointer problem just like below.
@@ -100,10 +100,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 3c57e84222ca9..5bb9feddbfd6b 100644
+index 2af64459b3d77..dfb29e6eeff1e 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -632,7 +632,9 @@ static void drm_sched_process_job(struct dma_fence *f, struct dma_fence_cb *cb)
+@@ -627,7 +627,9 @@ static void drm_sched_process_job(struct dma_fence *f, struct dma_fence_cb *cb)
  
  	trace_drm_sched_process_job(s_fence);
  
