@@ -2,130 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F6D1A0CD7
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 13:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EED21A0D16
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 13:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbgDGL3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 07:29:20 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:46290 "EHLO
+        id S1728304AbgDGLy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 07:54:28 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37417 "EHLO
         mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728146AbgDGL3U (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 07:29:20 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 111so1316614oth.13
-        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 04:29:18 -0700 (PDT)
+        with ESMTP id S1726562AbgDGLy2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 07:54:28 -0400
+Received: by mail-ot1-f66.google.com with SMTP id g23so2777603otq.4
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 04:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ks+RAtref+Aa1LsW+qIjyIm12wRKmiZeJoTmqqOQJAc=;
-        b=WwLZV5PqTcKdjYS0x26/v/152x7q2BE84BJKWv5T0fkwlP232BkXXojRJGU3wqXEMB
-         eTJ35MYTpY5QgZ+YnFShYrtna/idnsWil9QCzqNUnMc03XPLNojGeZfwcRbIDjcZMkZC
-         46p+Z6IXaKLfS4gJEZMtdVhS2lu5VoVT0vrr/k5Y8C7wH/nYomuIHrE3RFRycbRLhWqB
-         F0mylWILg6s6/G5U/q64JbpqV1ZexEdkOhq1LzmjSGPnpxBbWU4FRoh6AQp+8rVWs+W0
-         5zxR5JcOWhdxqupUCQTENA4KCynXCuZzWw+QmtXOcmWCSafkb3cfokad4WMcSVpr2yxv
-         qpPQ==
+        bh=0gVInTGNxEeCWiXi7ByJUOtO9MudWviZXdaE8J3lgqA=;
+        b=VPEUl9xy/3yJmUlwootYcY6p4TfjwfT21nYeSOLuDbZb/pT/A0Oo5rE94UPOi+4OZg
+         yFdAQCVflN9aOzzhjCyyqanedD04lLYIvEYzPzF9gSn4eiOrcllF3Vr/X8k7heJs3E56
+         En71LbKpsJSzl5Fi0Qrwyyl1xL2p4PQU69VnOEgi5ESpeFz7sDVbxTSpwm4hy4/7Reww
+         lPiEaxRPXcvvjZJHCP3DMJ/t42nPDaP8pm/5aI8iSYKV22Md6cOmpHz58HJypLkESYEI
+         qr4N3S4ziUwDnjdXeoMlTwZmKMnFxJBvGthYQ3anFsBwhVdKoh6FewkjyflHScYAwDya
+         P2aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ks+RAtref+Aa1LsW+qIjyIm12wRKmiZeJoTmqqOQJAc=;
-        b=PLI83Fu3aNMpmqlptJgf9QHSXXJsYfbC0WSqYKt2xw25UXsOgd3ZvpA2Uio1iwn2B5
-         HCkeo6OzG6GwjnA/Y3AkZH/HFxhtU7Onqr0zZPXy19l0QqxtbkADBJvJ6Nuc/UcbYKcC
-         feNEPxiNE3uLshIWyRH8BkNcgNBugWFi0fL9nJuAho/seSBSjsZt2dj+S6q6JBKCqcTI
-         o4f0R07hTHbYWy8hV+mrpiVb21GhLoeRLPbQX6N+Wv1KrA7WROa2VyYlQae3AqTEGD5s
-         SYTO0/m0hvbA8DVb/9M21S7EOnrbHwdM/AV4sy2pw+0xTMOTMwThMqQYUszRf/y/FL5V
-         KXUg==
-X-Gm-Message-State: AGi0PuY+w7EGoGmZ4Wtt/OvhGx+qGQvR+GOBE8/5V0y9qrVPYua9bIAI
-        2S9S3XrDl7UgMZlVhonjeIz1+yTm8Jh/9YccnBc7MA==
-X-Google-Smtp-Source: APiQypIbfbWm+UAuN2LQYpOJrjxSOeEswzyxBe4SbCKqH3dehDKampxrwTbrEfg8it7NBjEQyLOXANbFoJ8NHgeJKvk=
-X-Received: by 2002:a9d:6c88:: with SMTP id c8mr1082037otr.272.1586258957489;
- Tue, 07 Apr 2020 04:29:17 -0700 (PDT)
+        bh=0gVInTGNxEeCWiXi7ByJUOtO9MudWviZXdaE8J3lgqA=;
+        b=XdbKKyCD5BdrRi+nk646Shlahcd9j2S1OYvCX5uLtqev7GInlkte99Ytd2b35bVf7+
+         IQr3hUuTG6eQLShxnEzB8NuURsYJU+XU4nrrclsEeK1A53KdZlksAQx3fgrLDxK/3OxJ
+         LOG8ZPieLWdDuQrcAGrtAmpux650D8wH1rPMWRJmwYwgBUW8L88KCX+0hSuh1wJknWpa
+         FKQHWKxgCj0hjkKmgF4C9qz9vrPBuXXHyZ226JW0Jv0wOI722MCw2M4Rku7I3JsH25Re
+         NtL214vwFPrXxz2jo7DuitTcVAlME9y2/SzC8eLjR3dDwWg3zB6ahdOJMhVfC5a6blWG
+         BkDw==
+X-Gm-Message-State: AGi0Puaes79N2z+pZbktt806oib8/gKS3toGne3rgJD563d80nNpshjU
+        et4ARAbaJIYbqFFGTkS67cUuDongeNlEtg26qaJlooV+5G+2LQ==
+X-Google-Smtp-Source: APiQypJibwnk93QQGPMuzWrmkuiGuHDu4f7E7gQDZD7dePZjiyqGqYbylYQ6+P1BIruFnQqWWTq+vi5yWHSxsysEBzE=
+X-Received: by 2002:a4a:e047:: with SMTP id v7mr1484649oos.49.1586260467063;
+ Tue, 07 Apr 2020 04:54:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200331133346.372517-1-robert.foss@linaro.org>
- <20200331133346.372517-2-robert.foss@linaro.org> <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
- <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
- <20200403232736.GA6127@valkosipuli.retiisi.org.uk> <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
- <20200406083506.GE6127@valkosipuli.retiisi.org.uk> <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
-In-Reply-To: <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 7 Apr 2020 13:29:05 +0200
-Message-ID: <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
+References: <20200403183334.11440-1-paulb@blazebox.homeip.net>
+In-Reply-To: <20200403183334.11440-1-paulb@blazebox.homeip.net>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Tue, 7 Apr 2020 17:24:16 +0530
+Message-ID: <CAO_48GEmjXyA0eEpJbHoeiHjLzYvnzhorWz2t+0o4B++HMH6AQ@mail.gmail.com>
+Subject: Re: [PATCH] drivers/dma-buf/Kconfig: correct typo in description
+To:     Paul Blazejowski <paulb@blazebox.homeip.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Maixme & Sakari,
+Hello Paul,
 
-On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
+On Sat, 4 Apr 2020 at 00:03, Paul Blazejowski <paulb@blazebox.homeip.net> wrote:
 >
-> Hi Sakari,
->
-> On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
-> > > But that 19.2MHz is not a limitation of the device itself, it's a
-> > > limitation of our implementation, so we can instead implement
-> > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
-> > > sure that our parent clock is configured at the right rate) and the
-> > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
-> > > been rounded too far apart from the frequency we expect).
-> > >
-> > > This is doing exactly the same thing, except that we don't encode our
-> > > implementation limitations in the DT, but in the driver instead.
-> >
-> > What I really wanted to say that a driver that doesn't get the clock
-> > frequency from DT but still sets that frequency is broken.
-> >
-> > This frequency is highly system specific, and in many cases only a certain
-> > frequency is usable, for a few reasons: On many SoCs, not all common
-> > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
-> > are being used as well), and then that frequency affects the usable CSI-2
-> > bus frequencies directly --- and of those, only safe, known-good ones
-> > should be used. IOW, getting the external clock frequency wrong typically
-> > has an effect that that none of the known-good CSI-2 bus clock frequencies
-> > are available.
->
-> So clock-frequency is not about the "Frequency of the xvclk clock in
-> Hertz", but the frequency at which that clock must run on this
-> particular SoC / board to be functional?
->
-> If so, then yeah, we should definitely keep it, but the documentation
-> of the binding should be made clearer as well.
->
+> While running `make oldconfig` CONFIG_DMABUF_MOVE_NOTIFY
+> has a typo in Kconfig description, correct it.
 
-Alright so, let me summarise the desired approach then.
+Thanks for your patch.
 
-ACPI:
-  - Fetch the "clock-frequency" property
-  - Verify it to be 19.2Mhz
-
-DT:
-  - Fetch the "clock-frequency" property
-  - Verify it to be 19.2Mhz
-  - Get xvclk clock
-  - Get xvclk clock rate
-  - Verify xvclk clock rate to be 19.2Mhz
-
-Since the xvclk clock isn't available under ACPI, this is how the two
-cases would be distinguished between.
-Does this sound about right?
-
-> assigned-clock-rates should still go away though.
-
-Ack.
+May I request you to please run scripts/get_maintainer.pl while
+submitting patches? This allows all interested people to be able to
+review the patches.
 
 >
-> Maxime
+> Signed-off-by: Paul Blazejowski <paulb@blazebox.homeip.net>
+> ---
+>  drivers/dma-buf/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index ef73b678419c..04dd09b1667b 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -43,10 +43,10 @@ config DMABUF_MOVE_NOTIFY
+>         bool "Move notify between drivers (EXPERIMENTAL)"
+>         default n
+>         help
+> -         Don''t pin buffers if the dynamic DMA-buf interface is available on both the
+> +         Don't pin buffers if the dynamic DMA-buf interface is available on both the
+>           exporter as well as the importer. This fixes a security problem where
+>           userspace is able to pin unrestricted amounts of memory through DMA-buf.
+> -         But marked experimental because we don''t jet have a consistent execution
+> +         But marked experimental because we don't jet have a consistent execution
+>           context and memory management between drivers.
+>
+>  config DMABUF_SELFTESTS
+> --
+> 2.26.0
+>
+
+Best,
+Sumit.
