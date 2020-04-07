@@ -2,163 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 949531A0DB0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 14:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFD61A0E4F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 15:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728673AbgDGMcj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 08:32:39 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:36275 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728482AbgDGMci (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Apr 2020 08:32:38 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 21EA15C01CC;
-        Tue,  7 Apr 2020 08:32:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 07 Apr 2020 08:32:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=AJJDe/ySRz3tiDgYe4Ah8eWUjMw
-        PlBWYVnjlrFiwgpU=; b=CCPrM+UmHvchU6T42mFGaM+xWH2yZfApfdGSBDlSWgo
-        Xh0OdoLnFs1sa+9urnGFkIrs92XYTBbvgLkAfCVLf/SlQ2Ofghm4AdZjNqtXQiXa
-        qIEhanCDEdrxsfpWLM7yVbQGadXlRW+bPu0Ep0gcqfn8pG4//FtyKQK5xl6weXtX
-        wcTHaHaZhDdoEbTJCvwVC07o9NwVbEBGhCVSINs9sXwjnU1+jSo62wRbShe8KLDd
-        r4EQoxgv7KimD0NnfKN0IoUwSAJhT3Dz0g8QkLai4azf5+3zS+Wly+staUfJnR3v
-        akLSQ9NEaTOFnE7B6+E1FojbdGQI5g2JBkQSvyF2xEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=AJJDe/
-        ySRz3tiDgYe4Ah8eWUjMwPlBWYVnjlrFiwgpU=; b=t4RqkwNMROgv8J04ULLbet
-        vNfJFqLnjMojnj+Psea7DWXuOh/qi9j0f4iqKSVPucAeaeOl9kZO/LXN0dCIlU+7
-        LXC3dT0yeGEVqRglpbS/n1NLioGN1BZ1A5m3gecAfIwtHsDgFMDk+PXhf/GIx2gv
-        ZJP3yM2GEzEyqmG2Ty1tfya4a6EzFZ9CTL4vfwZeZQrpkycghppMBk/2V+5ysSDj
-        m0D8zoRXlNJ0Vq3WfczsexvqVfeOWrAHElIXsWIXpWmSAe/1fcnL6+6OV6aGJ4TS
-        /ITx6gNMVYtlXXnYqzt2Y+KLuj6qxbJ4ZcKJEBmzlriPHJK9/6istrrP1vJkXakw
-        ==
-X-ME-Sender: <xms:4nKMXhxx3OJoYu1Ih5_UrKqWFi8ciC_sOMQacN_tG3ySHv8nyBfG5Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehgdehvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
-    epkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
-    hordhtvggthh
-X-ME-Proxy: <xmx:4nKMXuejvC_z9AjzWbD98-bH3EL_wkH29hXxmJoTIFqH24JDdymWHA>
-    <xmx:4nKMXjXiFNgG_f_d-m57ibzOGjIuern_3XWhdOFyfXhyx7MCUIL_Yg>
-    <xmx:4nKMXkMVbbbdHht8-D-F5Xy6xouh6UYJmHL_yohmUauBaFNe6-cwoA>
-    <xmx:5XKMXrqDifzzqHNJWRY_TK0e2EdA0gCx0lQX52w0uDmaoK7YUzidxA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1E3CC328005E;
-        Tue,  7 Apr 2020 08:32:34 -0400 (EDT)
-Date:   Tue, 7 Apr 2020 14:32:32 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
-References: <20200331133346.372517-1-robert.foss@linaro.org>
- <20200331133346.372517-2-robert.foss@linaro.org>
- <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
- <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
- <20200403232736.GA6127@valkosipuli.retiisi.org.uk>
- <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
- <20200406083506.GE6127@valkosipuli.retiisi.org.uk>
- <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
- <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com>
+        id S1728904AbgDGN0i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 09:26:38 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:40783 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726562AbgDGN0i (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 09:26:38 -0400
+Received: by mail-ot1-f67.google.com with SMTP id q2so307650otk.7
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 06:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=chd5WzCy0W5BZwZMM5n5siOhfZK7euPR7nF8zWDeFKg=;
+        b=de06OTPjR8XQn557+eG8TJFSc2cmK5ZXvu3hkZ/51UvlISseAXqJcWlh4n3jupOgug
+         JbmcwNB8WQ/LP5DNePw7HGRnEH+y/l7ZxsTFDPJ2q1S8/CyjWMt1+y1prk0vHZIXUl/D
+         46tXIf8fo9m1uFv3yA2xtyCikAPviSXgWrz8p9jlOuiBnVMVjagm8rnyLiSwpFXm91UI
+         TGDjW1vyHIg0CVVzn94GA8ja75Nenr9GMkuW5A12+WLm7p8Pn0lRNgM5urrXepv96557
+         knql0La/884zBwDExkSzw9/P3413EzeL6j/kTr4JM4qZnqaeoTkQPVtvYh/pzX+vDLK3
+         Ka7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=chd5WzCy0W5BZwZMM5n5siOhfZK7euPR7nF8zWDeFKg=;
+        b=mixfSEHvJQw4zEK15H3bkgOGRyigQOWtnW3qMJ9zaDey/3keOwpaB9s8NKeykeHGIi
+         ztOEWihTjYtjyrQDIySr6ON/xGrNjhOUT0gHMU4SnMlXGzAgVk6Q++QX5WV1XDiKlroZ
+         G6uyl1MMWfW6wFmGe+UjGeCvKQ1cZxN98DMsC0p6hieMi98aF9drzriTqc1IW0EcMivx
+         aPAYJI82s0GKWYnPh5T7MFASvaebOlaSujjojxZGA+YCl3Wc5W3Z5IMNImvoiomqvlH+
+         DD0+ojEGvKth7t7PBqxEQ1NqMlmoWzs2rjQ3RSJDCenfHrNumWpQlBuy4zDp9ndlF5k9
+         xKPg==
+X-Gm-Message-State: AGi0PubZJWzLrNXxklgjhVRudwrcpSJ3yi4YbPYqq1Y/J7eBl7eRqlGq
+        GHU2q/u24eeQ4ful/QFO76ciQx8/S/xK+347t4082g==
+X-Google-Smtp-Source: APiQypJZWdNWLCr8c7kvNmiyUNyP8+q2DylC9N8N3tNEL0K144FrAEg+MPdooShGhw/fVijitpe8PMglbX8QxeHfbSU=
+X-Received: by 2002:a9d:6c19:: with SMTP id f25mr1553187otq.371.1586265997194;
+ Tue, 07 Apr 2020 06:26:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="l6xvrv4jf2wbahni"
-Content-Disposition: inline
-In-Reply-To: <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com>
+References: <20200114134101.159194-1-liumartin@google.com> <20200224033941.GB211610@google.com>
+In-Reply-To: <20200224033941.GB211610@google.com>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Tue, 7 Apr 2020 18:56:25 +0530
+Message-ID: <CAO_48GEPKk64uepCqZEc=6XGiv4tZnPHv=RZdwzKPuUqOxjpow@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: support 32bit DMA_BUF_SET_NAME ioctl
+To:     Martin Liu <liumartin@google.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     minchan@kernel.org, surenb@google.com, wvw@google.com,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>, jenhaochen@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
---l6xvrv4jf2wbahni
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Daniel, your comments here, please?
 
-Hi Robert,
-
-On Tue, Apr 07, 2020 at 01:29:05PM +0200, Robert Foss wrote:
-> On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
-> > > > But that 19.2MHz is not a limitation of the device itself, it's a
-> > > > limitation of our implementation, so we can instead implement
-> > > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
-> > > > sure that our parent clock is configured at the right rate) and the
-> > > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
-> > > > been rounded too far apart from the frequency we expect).
-> > > >
-> > > > This is doing exactly the same thing, except that we don't encode our
-> > > > implementation limitations in the DT, but in the driver instead.
-> > >
-> > > What I really wanted to say that a driver that doesn't get the clock
-> > > frequency from DT but still sets that frequency is broken.
-> > >
-> > > This frequency is highly system specific, and in many cases only a certain
-> > > frequency is usable, for a few reasons: On many SoCs, not all common
-> > > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
-> > > are being used as well), and then that frequency affects the usable CSI-2
-> > > bus frequencies directly --- and of those, only safe, known-good ones
-> > > should be used. IOW, getting the external clock frequency wrong typically
-> > > has an effect that that none of the known-good CSI-2 bus clock frequencies
-> > > are available.
-> >
-> > So clock-frequency is not about the "Frequency of the xvclk clock in
-> > Hertz", but the frequency at which that clock must run on this
-> > particular SoC / board to be functional?
-> >
-> > If so, then yeah, we should definitely keep it, but the documentation
-> > of the binding should be made clearer as well.
+On Mon, 24 Feb 2020 at 09:09, Martin Liu <liumartin@google.com> wrote:
 >
-> Alright so, let me summarise the desired approach then.
-
-There's a separate discussion on the same topic here:
-https://lore.kernel.org/linux-media/20200407122106.GD4751@pendragon.ideasonboard.com/
-
-> ACPI:
->   - Fetch the "clock-frequency" property
->   - Verify it to be 19.2Mhz
+> On Tue, Jan 14, 2020 at 09:41:01PM +0800, Martin Liu wrote:
 >
-> DT:
->   - Fetch the "clock-frequency" property
->   - Verify it to be 19.2Mhz
->   - Get xvclk clock
->   - Get xvclk clock rate
->   - Verify xvclk clock rate to be 19.2Mhz
+> CC more MLs for winder review.
+>
+> > This commit adds SET_NAME ioctl coversion to
+> > support 32 bit ioctl.
+> >
+> > Signed-off-by: Martin Liu <liumartin@google.com>
+> > ---
+> >  drivers/dma-buf/dma-buf.c | 22 +++++++++++++++++++++-
+> >  1 file changed, 21 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index ce41cd9b758a..a73048b34843 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -25,6 +25,7 @@
+> >  #include <linux/mm.h>
+> >  #include <linux/mount.h>
+> >  #include <linux/pseudo_fs.h>
+> > +#include <linux/compat.h>
+> >
+> >  #include <uapi/linux/dma-buf.h>
+> >  #include <uapi/linux/magic.h>
+> > @@ -409,13 +410,32 @@ static void dma_buf_show_fdinfo(struct seq_file *=
+m, struct file *file)
+> >       dma_resv_unlock(dmabuf->resv);
+> >  }
+> >
+> > +#ifdef CONFIG_COMPAT
+> > +static long dma_buf_ioctl_compat(struct file *file, unsigned int cmd,
+> > +                              unsigned long arg)
+> > +{
+> > +     switch (_IOC_NR(cmd)) {
+> > +     case _IOC_NR(DMA_BUF_SET_NAME):
+> > +             /* Fix up pointer size*/
+> > +             if (_IOC_SIZE(cmd) =3D=3D sizeof(compat_uptr_t)) {
+> > +                     cmd &=3D ~IOCSIZE_MASK;
+> > +                     cmd |=3D sizeof(void *) << IOCSIZE_SHIFT;
+> > +             }
+> > +             break;
+> > +     }
+> > +     return dma_buf_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
+> > +}
+> > +#endif
+> > +
+> >  static const struct file_operations dma_buf_fops =3D {
+> >       .release        =3D dma_buf_release,
+> >       .mmap           =3D dma_buf_mmap_internal,
+> >       .llseek         =3D dma_buf_llseek,
+> >       .poll           =3D dma_buf_poll,
+> >       .unlocked_ioctl =3D dma_buf_ioctl,
+> > -     .compat_ioctl   =3D compat_ptr_ioctl,
+> > +#ifdef CONFIG_COMPAT
+> > +     .compat_ioctl   =3D dma_buf_ioctl_compat,
+> > +#endif
+> >       .show_fdinfo    =3D dma_buf_show_fdinfo,
+> >  };
+> >
+> > --
+> > 2.25.0.rc1.283.g88dfdc4193-goog
+> >
 
-The current status is that you should
-'s/clock-frequency/link-frequencies/', and in order to replace
-assigned-clock-rates, you'll want to have a clk_set_rate to 19.2MHz
-between steps 3 and 4
 
-Maxime
 
---l6xvrv4jf2wbahni
-Content-Type: application/pgp-signature; name="signature.asc"
+--=20
+Thanks and regards,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXoxy4AAKCRDj7w1vZxhR
-xVapAQCajMfkGy5KObQodKq6TMZ/f6RLIlLUEGI+a//+esc7rQEA2Ln60lZuEk5u
-dZFJEBn6+y8Nrkp5GApl67Yq210tSQ4=
-=eEag
------END PGP SIGNATURE-----
-
---l6xvrv4jf2wbahni--
+Sumit Semwal
+Linaro Consumer Group - Kernel Team Lead
+Linaro.org =E2=94=82 Open source software for ARM SoCs
