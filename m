@@ -2,224 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 586DA1A09F4
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 11:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6BC1A0A2C
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 11:32:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726591AbgDGJVc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 05:21:32 -0400
-Received: from plasma4.jpberlin.de ([80.241.57.33]:58567 "EHLO
-        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbgDGJVc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 05:21:32 -0400
-Received: from spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116])
-        by plasma.jpberlin.de (Postfix) with ESMTP id 5DB61B9F3B;
-        Tue,  7 Apr 2020 11:21:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de [80.241.56.116]) (amavisd-new, port 10030)
-        with ESMTP id Y2OHnfO7ZGnf; Tue,  7 Apr 2020 11:21:24 +0200 (CEST)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id 00EEAB992E;
-        Tue,  7 Apr 2020 11:21:23 +0200 (CEST)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
- (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 7 Apr 2020
- 11:21:04 +0200
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>
-CC:     Gerd Hoffmann <kraxel@redhat.com>,
-        <virtio-dev@lists.oasis-open.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        "Enrico Granata" <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        "Hans Verkuil" <hverkuil@xs4all.nl>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, <uril@redhat.com>,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-Date:   Tue, 7 Apr 2020 11:21:04 +0200
-Message-ID: <5576106.alqRGMn8q6@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAD90VcYDU+8L4u-CuRY8ZaRyzYD_w0qwV1AN=8TbFYCbfUGz3w@mail.gmail.com>
-References: <20200206102058.247258-1-keiichiw@chromium.org> <CAPBb6MVhVL-2EAJZ3UiN8BwjTyUXVirjF0gnfBBZjuvx07ijKA@mail.gmail.com> <CAD90VcYDU+8L4u-CuRY8ZaRyzYD_w0qwV1AN=8TbFYCbfUGz3w@mail.gmail.com>
+        id S1728081AbgDGJcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 05:32:50 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:52736 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726720AbgDGJcu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 05:32:50 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0379RjTk036982;
+        Tue, 7 Apr 2020 09:32:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=u5binPzmwq1wia3hP0nf4A7It1ZkmNDlq4FQDS+ffpA=;
+ b=Bvu03OM0O8SF1Sc9aYj0P+znrjsUEBZs/vCrf2E21bWpUsXLSflu/gYE7mrn3q64nYPX
+ KRw3a5ss62kiGRcW3qFpz4l1M8IFcODhDIALAEFGMlcqqLIe2uJ8pfsxA2oiutyt1ybc
+ v39mP2h+vJOeHAtX5hPU6ogop1UCp/3fLMmXuGRIG9W0kTjJrLnOM2Ya1dVrEzHt8zDP
+ DUVvWRBKyT3uEj5OwIJ10rjRJHt1CdkfczfvqnXwsAUcuWky9FI/BOH2wKQQXZYmdhJK
+ 4w/766+DoZH/USTXeelkk9QRP6VSVFLQFCYDEk+AAMUCwr2H4YNGivVamuX5Tsd5JGCe Og== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 306j6mbrd1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 07 Apr 2020 09:32:46 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0379VRR4116510;
+        Tue, 7 Apr 2020 09:32:46 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 30741dmtdu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 07 Apr 2020 09:32:46 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0379WjnD029040;
+        Tue, 7 Apr 2020 09:32:45 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 07 Apr 2020 02:32:45 -0700
+Date:   Tue, 7 Apr 2020 12:32:37 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dafna Hirschfeld <dafna3@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: vicodec: Fix error codes in probe function
+Message-ID: <20200407093237.GN68494@mwanda>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
-X-Rspamd-Queue-Id: 5DB61B9F3B
-X-Rspamd-Score: -2.62 / 15.00 / 200.00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004070081
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 mlxscore=0 phishscore=0 adultscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004070080
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexandre, Keiichi,
+If these functions fail then we return success, but we should instead
+preserve negative error code and return that.
 
-Thanks for the updates,
+Fixes: fde649b418d1 ("media: vicodec: Register another node for stateless decoder")
+Fixes: c022a4a95722 ("media: vicodec: add struct for encoder/decoder instance")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/platform/vicodec/vicodec-core.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-On Montag, 6. April 2020 13:46:33 CEST Keiichi Watanabe wrote:
-> 
-> It seems that you're suggesting a big struct where bitstream params,
-> image params and all controls are merged into, right?
-> After rethinking, it makes sense to me.
-> Originally, we had two motivations to have input params and output
-> params separately:
-> (1) We could reuse virtio_video_params for both queues.
-> (2) We have considered extending virtio-video for video capture like V4L2.
-> However, (1) doesn't seem to be a good idea as per the recent discussion.
-> Regarding (2), the virtio-video design shouldn't be affected by other
-> possible use cases. They should be discussed after we finalize
-> virtio-video design.
-> Hence, I guess we have no reason to stick to separate params into two.
-> I'm supportive of this idea now.
-> Also, having only one struct would simplify updating parameters.
-> 
-> > struct codec_params {
-> > 
-> >     u32 frame_width;
-> >     u32 frame_height;
-> >     /* H264, VP8, VP9, etc */
-> >     enum virtio_codec format;
-> >     union {
-> >     
-> >         struct {
-> >         
-> >             enum h264_profile profile;
-> >             enum h264_level level;
-> >         
-> >         } h264;
-> >         struct {
-> >         
-> >             enum vp8_profile profile;
-> >         
-> >         } vp8;
-> >         ....
-> >     
-> >     };
-> >     u32 bitrate;
-> >     ....
-> > 
-> > };
-> 
-> More specifically, this struct would be:
-> 
-> // the word "codec" might not be needed in the struct name.
-> struct virtio_video_codec_params {
->     // Image format
->     enum virtio_video_frame_format frame_format;
->     le32 frame_width;
->     le32 frame_height;
->     le32 min_frame_buffers;
->     le32 max_frame_buffers;
->     le32 cur_frame_buffers; // It's needed for REQBUFS's "count"
->     struct virtio_video_crop crop;
->     le32 frame_rate;
->     le32 num_planes;
->     struct virtio_video_plane_format \
->         plane_formats[VIRTIO_VIDEO_MAX_PLANES];
-> 
->     // Bitstream format
->     enum virtio_video_coded_format coded_format;
->     le32 min_coded_buffers;
->     le32 max_coded_buffers;
->     le32 cur_coded_buffers;
->     le32 bitrate;
->     union {
->         struct {
->           enum h264_profile profile;
->           enum h264_level level;
->         } h264;
->         struct {
->           enum vp8_profile profile;
->         } vp8;
->         ...
->     } codec;
-> }
-> 
-
-I would strongly disagree with this approach as it kills the flexibility and 
-any possibility of having a uni-directional stream for seemingly no reason.
-
-I could be useful if it was possible to store the structure in the config 
-space, but that won't fly as we have multiple streams with different settings. 
-Also one device can support multiple formats, so we won't be able to handle 
-the unions.
-
-> > The idea being that depending on the value of "format", only the
-> > relevant member of the union becomes meaningful. This ensures that the
-> > device/driver does not need to check for every control whether it is
-> > valid in the current context ; it just needs to check what "format" is
-> > and take the values from the relevant members.
-> 
-> I like this idea to use union to make it more structured.
-> 
-
-I don't really have any strong objections agains unions per se, but I deem we 
-need to keep the structure flexible. At the very beginning of the development 
-there was a discussion about stream priority. If I add a 'prio' field to this 
-structure it will break the binary compatibility with older versions.
-
-> > I don't think we even need to have a different queue for both structs
-> > (which is what V4L2 does, but again for its own reasons). Just a
-> > single one per coding or decoding context could be enough AFAICT.
-> > 
-> > Depending on whether we are decoding or encoding, access to some
-> > members would be restricted to read/only for the device or driver. For
-> > instance, when encoding the driver can set "bitrate" to the desired
-> > encoding rate. When decoding, the decoder can report the video's
-> > bitrate there.
-> > 
-> > Now I'm not sure what would be the best way to share this structure.
-> > Either a memory area shared between the driver and device, with
-> > commands/messages sent to notify that something has changed, or
-> > sending the whole structure with each command/message.
-> 
-> I don't think the first idea is feasible in the virtio mechanism. So,
-> we can utilize the same way as the previous proposal; SET_PARAMS and
-> GET_PARAMS.
-> 
-
-For similar thing the virtio config space exists, but as I mentioned above, it 
-won't fit the current virtio-video design (or we probably can pre-define the max 
-number of streams on the device side and have params for each stream in the 
-config space, but this looks clumsy).
-
-> We also need to think of how to advertise supported profiles and
-> levels. Probably, we might want to extend struct
-> virtio_video_format_desc to include supported profiles/levels in a
-> response of QUERY_CAPABLITY.
-> 
-
-It would mean back to spec v1 AFAIR. We probably need to recall why we got rid 
-of that.
-
-> > Now the parameters I have listed above are not subject to changing a
-> > lot, but there are also parameters that we may want to specify/be
-> > notified on with each frame. For instance, whether we want a frame to
-> > be forcibly encoded as a keyframe. V4L2 uses a control for this, but
-> > we could probably do better if we can pass this information with each
-> > frame to be encoded. Maybe we can implement that by using different
-> > QUEUE commands for encoder and decoder, or again by using a union.
-> 
-> Ah, I haven't come up with such a kind of parameter. Perhaps, we can
-> extend struct virtio_video_resource_queue to have this flag.
-> 
-
-This looks sane for me.
-
-Best regards,
-Dmitry.
-
-
+diff --git a/drivers/media/platform/vicodec/vicodec-core.c b/drivers/media/platform/vicodec/vicodec-core.c
+index 30ced1c21387..e879290727ef 100644
+--- a/drivers/media/platform/vicodec/vicodec-core.c
++++ b/drivers/media/platform/vicodec/vicodec-core.c
+@@ -2114,16 +2114,19 @@ static int vicodec_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, dev);
+ 
+-	if (register_instance(dev, &dev->stateful_enc,
+-			      "stateful-encoder", true))
++	ret = register_instance(dev, &dev->stateful_enc, "stateful-encoder",
++				true);
++	if (ret)
+ 		goto unreg_dev;
+ 
+-	if (register_instance(dev, &dev->stateful_dec,
+-			      "stateful-decoder", false))
++	ret = register_instance(dev, &dev->stateful_dec, "stateful-decoder",
++				false);
++	if (ret)
+ 		goto unreg_sf_enc;
+ 
+-	if (register_instance(dev, &dev->stateless_dec,
+-			      "stateless-decoder", false))
++	ret = register_instance(dev, &dev->stateless_dec, "stateless-decoder",
++				false);
++	if (ret)
+ 		goto unreg_sf_dec;
+ 
+ #ifdef CONFIG_MEDIA_CONTROLLER
+-- 
+2.25.1
 
