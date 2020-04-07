@@ -2,121 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E241A1139
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 18:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5F61A111F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 18:21:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728306AbgDGQWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 12:22:00 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:51754 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727582AbgDGQWA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 7 Apr 2020 12:22:00 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 9AC4A634C89;
-        Tue,  7 Apr 2020 19:20:50 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jLqy1-0002MB-Ja; Tue, 07 Apr 2020 19:20:49 +0300
-Date:   Tue, 7 Apr 2020 19:20:49 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200407162049.GK6127@valkosipuli.retiisi.org.uk>
-References: <20200331133346.372517-1-robert.foss@linaro.org>
- <20200331133346.372517-2-robert.foss@linaro.org>
- <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
- <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
- <20200403232736.GA6127@valkosipuli.retiisi.org.uk>
- <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
- <20200406083506.GE6127@valkosipuli.retiisi.org.uk>
- <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
- <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com>
- <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
+        id S1727794AbgDGQVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 12:21:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43440 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726637AbgDGQVH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 12:21:07 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECAE659E;
+        Tue,  7 Apr 2020 18:21:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586276463;
+        bh=9k/b210bXaKEO0jP41fWojcwSZNdDKVOFMT4jx7nUwQ=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=qbnRb6pYBIZS7TlG/84hivA/od637j1PGl9FswDR3DIvgKuIC60YeCh3IjKqEIeJc
+         y1olhG9pByPV/uac90EJnYtDfaSGqs+3K0wK8N0ag94KRilmfeXGquR8GFO0vhdRXu
+         6yPVNVvS4IhzGy3eExXFp109ws0f3MrD/R7b4kAY=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v5 4/9] media: adv748x: add definitions for audio output
+ related registers
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1585852001.git.alexander.riesen@cetitec.com>
+ <26573ecdb48aa816f802b9d8bbe5f74157248021.1585852001.git.alexander.riesen@cetitec.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <a0ff0a59-bd6e-044b-5669-679126c23323@ideasonboard.com>
+Date:   Tue, 7 Apr 2020 17:21:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <26573ecdb48aa816f802b9d8bbe5f74157248021.1585852001.git.alexander.riesen@cetitec.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+Hi Alex,
 
-On Tue, Apr 07, 2020 at 02:32:32PM +0200, Maxime Ripard wrote:
-> Hi Robert,
+On 02/04/2020 19:34, Alex Riesen wrote:
+> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+> ---
+>  drivers/media/i2c/adv748x/adv748x.h | 32 +++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
 > 
-> On Tue, Apr 07, 2020 at 01:29:05PM +0200, Robert Foss wrote:
-> > On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
-> > > > > But that 19.2MHz is not a limitation of the device itself, it's a
-> > > > > limitation of our implementation, so we can instead implement
-> > > > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
-> > > > > sure that our parent clock is configured at the right rate) and the
-> > > > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
-> > > > > been rounded too far apart from the frequency we expect).
-> > > > >
-> > > > > This is doing exactly the same thing, except that we don't encode our
-> > > > > implementation limitations in the DT, but in the driver instead.
-> > > >
-> > > > What I really wanted to say that a driver that doesn't get the clock
-> > > > frequency from DT but still sets that frequency is broken.
-> > > >
-> > > > This frequency is highly system specific, and in many cases only a certain
-> > > > frequency is usable, for a few reasons: On many SoCs, not all common
-> > > > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
-> > > > are being used as well), and then that frequency affects the usable CSI-2
-> > > > bus frequencies directly --- and of those, only safe, known-good ones
-> > > > should be used. IOW, getting the external clock frequency wrong typically
-> > > > has an effect that that none of the known-good CSI-2 bus clock frequencies
-> > > > are available.
-> > >
-> > > So clock-frequency is not about the "Frequency of the xvclk clock in
-> > > Hertz", but the frequency at which that clock must run on this
-> > > particular SoC / board to be functional?
-> > >
-> > > If so, then yeah, we should definitely keep it, but the documentation
-> > > of the binding should be made clearer as well.
-> >
-> > Alright so, let me summarise the desired approach then.
-> 
-> There's a separate discussion on the same topic here:
-> https://lore.kernel.org/linux-media/20200407122106.GD4751@pendragon.ideasonboard.com/
-> 
-> > ACPI:
-> >   - Fetch the "clock-frequency" property
-> >   - Verify it to be 19.2Mhz
-> >
-> > DT:
-> >   - Fetch the "clock-frequency" property
-> >   - Verify it to be 19.2Mhz
-> >   - Get xvclk clock
-> >   - Get xvclk clock rate
-> >   - Verify xvclk clock rate to be 19.2Mhz
-> 
-> The current status is that you should
-> 's/clock-frequency/link-frequencies/', and in order to replace
-> assigned-clock-rates, you'll want to have a clk_set_rate to 19.2MHz
-> between steps 3 and 4
+> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+> index 0a9d78c2870b..1a1ea70086c6 100644
+> --- a/drivers/media/i2c/adv748x/adv748x.h
+> +++ b/drivers/media/i2c/adv748x/adv748x.h
+> @@ -226,6 +226,11 @@ struct adv748x_state {
+>  
+>  #define ADV748X_IO_VID_STD		0x05
+>  
+> +#define ADV748X_IO_PAD_CONTROLS		0x0e
+> +#define ADV748X_IO_PAD_CONTROLS_TRI_AUD	BIT(5)
+> +#define ADV748X_IO_PAD_CONTROLS_PDN_AUD	BIT(1)
+> +#define ADV748X_IO_PAD_CONTROLS1	0x1d
 
-The (CSI-2) link frequency is specified in the endpoint, and is already
-being read by the V4L2 fwnode framework.
+What is CONTROLS1 (1d) referenced from here?
+
+There's no 'field' matching for this register, and the 'bits' (0, 2, 3,
+4) correspond to "pdn_spi, pdn_pix, '-', tri_spi"
+
+Perhaps we need to define those bit fields accordingly and reference
+them where they get used directly?
+
+Perhaps calling bit 3 as:
+ #define ADV748X_IO_PAD_CONTROLS_BIT_3	BIT(3)
+
+Or
+ #define ADV748X_IO_PAD_CONTROLS_RESVD	BIT(3)
+
+(Unless you have documentation that better describes it?)
+
+
+> +
+>  #define ADV748X_IO_10			0x10	/* io_reg_10 */
+>  #define ADV748X_IO_10_CSI4_EN		BIT(7)
+>  #define ADV748X_IO_10_CSI1_EN		BIT(6)
+> @@ -248,7 +253,21 @@ struct adv748x_state {
+>  #define ADV748X_IO_REG_FF		0xff
+>  #define ADV748X_IO_REG_FF_MAIN_RESET	0xff
+>  
+> +/* DPLL Map */
+> +#define ADV748X_DPLL_MCLK_FS		0xb5
+> +#define ADV748X_DPLL_MCLK_FS_N_MASK	GENMASK(2, 0)
+> +
+>  /* HDMI RX Map */
+> +#define ADV748X_HDMI_I2S		0x03	/* I2S mode and width */
+
+Looks like a more appropriate name than the datasheets
+"hdmi_register_03h" :-D
+
+
+> +#define ADV748X_HDMI_I2SBITWIDTH_MASK	GENMASK(4, 0)
+> +#define ADV748X_HDMI_I2SOUTMODE_SHIFT	5
+> +#define ADV748X_HDMI_I2SOUTMODE_MASK	\
+> +	GENMASK(6, ADV748X_HDMI_I2SOUTMODE_SHIFT)
+
+I'd be very tempted to ignore the 80char limit here and put that on the
+line above ... or find a way to remove the 1 character...
+
+In fact, given the entry there - how about just leaving this as:
+
+#define ADV748X_HDMI_I2SOUTMODE_MASK	GENMASK(6, 5)
+
+
+> +#define ADV748X_I2SOUTMODE_I2S 0
+> +#define ADV748X_I2SOUTMODE_RIGHT_J 1
+> +#define ADV748X_I2SOUTMODE_LEFT_J 2
+> +#define ADV748X_I2SOUTMODE_SPDIF 3
+
+Can we align these value in the column with the other values?
+
+And as much as I hate long define names, it seems a bit odd that these
+suddenly lack the HDMI_ part of the define prefix...
+
+Should we either remove the HDMI_ from
+ ADV748X_HDMI_I2SBITWIDTH_MASK
+ ADV748X_HDMI_I2SOUTMODE_SHIFT
+ ADV748X_HDMI_I2SOUTMODE_MASK
+
+or add it to
+ ADV748X_I2SOUTMODE_I2S
+ ADV748X_I2SOUTMODE_RIGHT_J
+ ADV748X_I2SOUTMODE_LEFT_J
+ ADV748X_I2SOUTMODE_SPDIF
+
+?
+
+> +
+>  #define ADV748X_HDMI_LW1		0x07	/* line width_1 */
+>  #define ADV748X_HDMI_LW1_VERT_FILTER	BIT(7)
+>  #define ADV748X_HDMI_LW1_DE_REGEN	BIT(5)
+> @@ -260,6 +279,16 @@ struct adv748x_state {
+>  #define ADV748X_HDMI_F1H1		0x0b	/* field1 height_1 */
+>  #define ADV748X_HDMI_F1H1_INTERLACED	BIT(5)
+>  
+> +#define ADV748X_HDMI_MUTE_CTRL		0x1a
+> +#define ADV748X_HDMI_MUTE_CTRL_MUTE_AUDIO BIT(4)
+> +#define ADV748X_HDMI_MUTE_CTRL_WAIT_UNMUTE_MASK	GENMASK(3, 1)
+> +#define ADV748X_HDMI_MUTE_CTRL_NOT_AUTO_UNMUTE	BIT(0)
+> +
+> +#define ADV748X_HDMI_AUDIO_MUTE_SPEED	0x0f
+
+Can we keep the register definitions in address order please?
+
+> +#define ADV748X_HDMI_AUDIO_MUTE_SPEED_MASK	GENMASK(4, 0)
+> +#define ADV748X_MAN_AUDIO_DL_BYPASS BIT(7)
+> +#define ADV748X_AUDIO_DELAY_LINE_BYPASS BIT(6)
+
+Those bits do not describe the register they are in, not sure how to
+address that without exceptionally long names though.. :-(
+
+So perhaps how you've got them might be the best option...
+
+> +
+>  #define ADV748X_HDMI_HFRONT_PORCH	0x20	/* hsync_front_porch_1 */
+>  #define ADV748X_HDMI_HFRONT_PORCH_MASK	0x1fff
+>  
+> @@ -281,6 +310,9 @@ struct adv748x_state {
+>  #define ADV748X_HDMI_TMDS_1		0x51	/* hdmi_reg_51 */
+>  #define ADV748X_HDMI_TMDS_2		0x52	/* hdmi_reg_52 */
+>  
+> +#define ADV748X_HDMI_REG_6D		0x6d	/* hdmi_reg_6d */
+> +#define ADV748X_I2S_TDM_MODE_ENABLE BIT(7)
+> +
+>  /* HDMI RX Repeater Map */
+>  #define ADV748X_REPEATER_EDID_SZ	0x70	/* primary_edid_size */
+>  #define ADV748X_REPEATER_EDID_SZ_SHIFT	4
+> 
 
 -- 
-Sakari Ailus
+Regards
+--
+Kieran
