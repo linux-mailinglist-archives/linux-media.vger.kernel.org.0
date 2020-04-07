@@ -2,326 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3333F1A0895
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 09:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D711A092A
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 10:15:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgDGHqh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 03:46:37 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37430 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbgDGHqh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 03:46:37 -0400
-Received: by mail-oi1-f194.google.com with SMTP id u20so695166oic.4;
-        Tue, 07 Apr 2020 00:46:36 -0700 (PDT)
+        id S1727946AbgDGIPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 04:15:36 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:39684 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbgDGIPe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 04:15:34 -0400
+Received: by mail-ed1-f66.google.com with SMTP id a43so2924196edf.6
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 01:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eV6suJlufDkfaPy4xOCO1G2qeg8tCCUJrg7dZZNrJrU=;
-        b=thJCazvMCaKSx5YaS9TJp4aIo1s7Xgg2S5lXPMBxW/rRS3oLGAJb9Cir3wHvUJvOfW
-         1iISdoqu8yKLBES5nxUm33EI22hY6jRSN/MHsP4ZkY3OCxnZdd4S6DEUrtP1uxaRIv3Z
-         G+122wYbMthquE3NvXtfBvd9wLaDLC1LK5VrP4AQ16mDRX+qj/ywWPGzO9IPHsdn0yQB
-         D9vlCTp1mUwD1116jxIxYQVgtNNarWvQnw+RSR2ZZCQQ9Np5NQ2FZ4j8W1lbs8siPSqr
-         ZigUAlcrK5BOlYZ2yZ4uMCZNfuXOJLwOrrY/hAkObB7CDyybhy9B2y1Q3eZUHCclYU1m
-         ZYCg==
+        d=linaro.org; s=google;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gYSBPF0kqvjFsMt96b7gq4l3LXMLVPqJ/kTyN1DMzC4=;
+        b=Q14xEyVQtMB9EutZZR+8RRGK9Zf6kbBWZ940ZDnrulLNn06x2V6BdqqTY2KwOAjyB+
+         1DdDvh7XDSL4+3ENES1jPazifAXGACgRDQvf0o+WckllB05VtC07VQtxp5jqxhZ6d/eR
+         WeKjYa+zIP4PHVwh7H5LDDCwXUji2Fwa4ck0haiajLbrZDkCi5jtKF1hG3ufUc5eTZ8H
+         6m7ABzlJ52jurXp5oBrWaT1HUSbM050utDGxa3mSEyoxo+k5GV8pbgtpJWAeCZiOi9GZ
+         yX8FHXHvMF9IZcCQCa+KgmcKzoSF61oPZXSv736Xf+ztL8g9HFRTcyVQfFmOUNuMmZA5
+         4AkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eV6suJlufDkfaPy4xOCO1G2qeg8tCCUJrg7dZZNrJrU=;
-        b=gvIcLVtzv3xHhk6pzPsmQeq0VFhJm4raBhRroGqPV34Rt+vSqoP9bxGH4in4Qkn2PU
-         Vy8CC0v64vHGiaz3aC7I3DQGgEhmL51RXkASqZUbwRXeZ7ZmpW3y4zjnkVz6fDKYNXMS
-         +Pqpvd5DljrLqkrrkrBZfYBDmmlIOn2tTEUPECHQ/sLTw+8ZYUKizS/X5IFl8z/uhshn
-         C10MzatgfSX84dBMPo1vplhJbJA82ZaFVO2I9EW8JKP1uHfXYfsb0Nlt54AFgSVCWgRd
-         Ke9WprygKh9AIGBN4j/zs1LvGoJdQe7UHjqWDYWX9WOnoE+it0foL3Dr13sz6bjoEexc
-         +KzA==
-X-Gm-Message-State: AGi0PuaUFX1iuV7Cjuj8KxtVzfWGS5KdbXFtUvXTcq4HMc+S0l+uwQIK
-        TBumgjt+mXHc6DfaEksLSBf1IfL17M4jr+CiTQs=
-X-Google-Smtp-Source: APiQypL+C5NbV1bUREOiE5KMFuKz5z27VmV/bGIbXh4J5TzoXlD5dagLYllGTPsmYn8pvwbu0DKCWjRpDpGhZelIVMc=
-X-Received: by 2002:aca:5d83:: with SMTP id r125mr761837oib.8.1586245596071;
- Tue, 07 Apr 2020 00:46:36 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gYSBPF0kqvjFsMt96b7gq4l3LXMLVPqJ/kTyN1DMzC4=;
+        b=htFoWMbKh651JBlFR9qrsrL37vZmPdspOvL72ylUr5rVRBVM8xvBXCM94WeY9tyhI8
+         i2JJYCXMVkrsDHbREMCh7Q/fLCwVnaz0ETTQHp/D3T5JwrftKNy8m99NPjZKtyzud9Me
+         nELCAno0nswqKyhiJj92XPAON8Ugsia9qEKcd4zn1aHECQgGdjULScIwMLhAMhSXD56W
+         hlMzKPzSl903N15FtJabIlKF74J5ERDkCY9jOej01LvygSOGRxLuS40DH7BEYgIMllVI
+         FDalzVDLvEtsETzMlEQpRUj1Acg6LYvx0LBh79oUrIRe9X9GDLYTh9YiY20JZL5Q1Ojy
+         tGkA==
+X-Gm-Message-State: AGi0PuZ896EaPvdsxSKEtV44UKOVm+Ep/14c/LOtSGLIf99V+obVc4U+
+        p4RCdsz/1oXbuAzyXU5Mdxxt1g==
+X-Google-Smtp-Source: APiQypJsinurJQlKKhBli7w6pCn0J6twQ6wYYsj5qr8ytdr2SAZP7IWJnQE1AJwhokOlwmwPMtM1cg==
+X-Received: by 2002:a17:907:b1a:: with SMTP id h26mr879545ejl.321.1586247331125;
+        Tue, 07 Apr 2020 01:15:31 -0700 (PDT)
+Received: from [192.168.1.4] (212-5-158-179.ip.btc-net.bg. [212.5.158.179])
+        by smtp.googlemail.com with ESMTPSA id a24sm3175976ejy.38.2020.04.07.01.15.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2020 01:15:30 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: Re: [PATCH] [PATCH] venus: core: remove CNOC voting while device
+ suspend
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org
+References: <1581940891-2376-1-git-send-email-mansur@codeaurora.org>
+Message-ID: <e5b94b17-5864-e02d-435d-beceeceed375@linaro.org>
+Date:   Tue, 7 Apr 2020 11:15:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586191361-16598-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200406174346.GH16885@pendragon.ideasonboard.com>
-In-Reply-To: <20200406174346.GH16885@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 7 Apr 2020 08:46:09 +0100
-Message-ID: <CA+V-a8v2WVEbNyy+cwRKgH-xXtQgnPBfEgV+ssRVGhY96vv_0Q@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] media: dt-bindings: media: i2c: convert ov5645
- bindings to json-schema
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1581940891-2376-1-git-send-email-mansur@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Mansur,
 
-Thank you for the review.
+The patch looks fine and correct but the description should be better.
 
-On Mon, Apr 6, 2020 at 6:43 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Mon, Apr 06, 2020 at 05:42:41PM +0100, Lad Prabhakar wrote:
-> > Convert ov5645 bindings to json-schema.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/ov5645.txt  |  52 --------
-> >  .../devicetree/bindings/media/i2c/ov5645.yaml | 126 ++++++++++++++++++
-> >  2 files changed, 126 insertions(+), 52 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > deleted file mode 100644
-> > index a55bb728ea48..000000000000
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > +++ /dev/null
-> > @@ -1,52 +0,0 @@
-> > -* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
-> > -
-> > -The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
-> > -an active array size of 2592H x 1944V. It is programmable through a serial I2C
-> > -interface.
-> > -
-> > -Required Properties:
-> > -- compatible: Value should be "ovti,ov5645".
-> > -- clocks: Reference to the xclk clock.
-> > -- clock-names: Should be "xclk".
-> > -- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-> > -  to the hardware pin PWDNB which is physically active low.
-> > -- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-> > -  the hardware pin RESETB.
-> > -- vdddo-supply: Chip digital IO regulator.
-> > -- vdda-supply: Chip analog regulator.
-> > -- vddd-supply: Chip digital core regulator.
-> > -
-> > -The device node must contain one 'port' child node for its digital output
-> > -video port, in accordance with the video interface bindings defined in
-> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > -
-> > -Example:
-> > -
-> > -     &i2c1 {
-> > -             ...
-> > -
-> > -             ov5645: ov5645@3c {
-> > -                     compatible = "ovti,ov5645";
-> > -                     reg = <0x3c>;
-> > -
-> > -                     enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-> > -                     reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
-> > -                     pinctrl-names = "default";
-> > -                     pinctrl-0 = <&camera_rear_default>;
-> > -
-> > -                     clocks = <&clks 200>;
-> > -                     clock-names = "xclk";
-> > -
-> > -                     vdddo-supply = <&camera_dovdd_1v8>;
-> > -                     vdda-supply = <&camera_avdd_2v8>;
-> > -                     vddd-supply = <&camera_dvdd_1v2>;
-> > -
-> > -                     port {
-> > -                             ov5645_ep: endpoint {
-> > -                                     clock-lanes = <1>;
-> > -                                     data-lanes = <0 2>;
-> > -                                     remote-endpoint = <&csi0_ep>;
-> > -                             };
-> > -                     };
-> > -             };
-> > -     };
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-> > new file mode 100644
-> > index 000000000000..d5cdcf9a1c76
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
-> > @@ -0,0 +1,126 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ov5645.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Omnivision 1/4-Inch 5MP CMOS Digital Image Sensor
-> > +
-> > +maintainers:
-> > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
-> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > +
-> > +description: |-
-> > + The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
-> > + an active array size of 2592H x 1944V. It is programmable through a serial I2C
-> > + interface.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ovti,ov5645
-> > +
-> > +  reg:
-> > +    description: I2C device address
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    description: External clock frequency should range between 6MHz to 27MHz.
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: xclk
-> > +
-> > +  enable-gpios:
-> > +    description: |-
-> > +      Chip enable GPIO. This corresponds to the hardware pin PWDNB which is
-> > +      physically active low.
-> > +
-> > +  reset-gpios:
-> > +    description: Chip reset GPIO. This corresponds to the hardware pin RESETB.
-> > +
-> > +  vdddo-supply:
-> > +    description: Chip digital IO regulator.
-> > +
-> > +  vdda-supply:
-> > +    description: Chip analog regulator.
-> > +
-> > +  vddd-supply:
-> > +    description: Chip digital core regulator.
-> > +
-> > +  # See ../video-interfaces.txt for more details
-> > +  port:
-> > +    type: object
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +
-> > +        properties:
-> > +          data-lanes:
->
-> Don't you need
->
->                 minItems: 1
->                 maxItems: 2
->
-> here ?
->
-Agreed will add that.
+On 2/17/20 2:01 PM, Mansur Alisha Shaik wrote:
+> video driver is voting for CNOC during probe and not clear
+> while device suspend. Because of which XO shutdown is
+> happing(BCM42: VALID: 0x1 VOTE_X: 0x0000 VOTE_Y: 0x0004).
+> 
+> So, clearing CNOC voting while device suspend.
 
-> > +            description: |-
-> > +              The sensor supports either one-lane, or two-lane operation.
-> > +              For one-lane operation the property must be set to <1> and
-> > +              for two-lane operation the property must be set to <1 2>.
-> > +            items:
-> > +              - const: 1
-> > +              - const: 2
-> > +
-> > +          clock-lanes:
->
-> Same here,
->
->                 maxItems: 1
->
-> ?
->
-As above.
+Maybe something like this ?
 
-> > +            description:
-> > +              should be set to <0> (clock lane on hardware lane 0).
->
-> I think you can drop the description, with the items below it's clear
-> that the value has to be <0>.
->
-OK
+The Venus driver is voting Configuration NoC during .probe but not clear
+voting in .suspend. As a consequence the whole device could leak energy
+while in suspend. Correct this by moving voting in .resume and unvoting
+in .suspend.
 
-> > +            items:
-> > +              - const: 0
-> > +
-> > +          remote-endpoint: true
->
-> Should this be
->
->              remote-endpoint:
->                $ref: /schemas/types.yaml#/definitions/phandle
->
-OK shall replace it.
+> 
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index e7995cb..153effe 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -244,10 +244,6 @@ static int venus_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
+> -	if (ret)
+> -		return ret;
+> -
+>  	ret = hfi_create(core, &venus_core_ops);
+>  	if (ret)
+>  		return ret;
+> @@ -353,6 +349,10 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = icc_set_bw(core->cpucfg_path, 0, 0);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (pm_ops->core_power)
+>  		ret = pm_ops->core_power(dev, POWER_OFF);
+>  
+> @@ -371,6 +371,10 @@ static __maybe_unused int venus_runtime_resume(struct device *dev)
+>  			return ret;
+>  	}
+>  
+> +	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
+> +	if (ret)
+> +		return ret;
+> +
+>  	return hfi_core_resume(core, false);
+>  }
+>  
+> 
 
-Cheers,
---Prabhakar
+-- 
+regards,
+Stan
 
-> > +
-> > +        required:
-> > +          - data-lanes
-> > +          - clock-lanes
-> > +          - remote-endpoint
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - enable-gpios
-> > +  - reset-gpios
-> > +  - vdddo-supply
-> > +  - vdda-supply
-> > +  - vddd-supply
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        ov5645: sensor@3c {
-> > +            compatible = "ovti,ov5645";
-> > +            reg = <0x3c>;
-> > +            clocks = <&ov5645_cl>;
-> > +            clock-names = "xclk";
-> > +            enable-gpios = <&gpio1 6 /* GPIO_ACTIVE_HIGH */>;
-> > +            reset-gpios = <&gpio5 20 /* GPIO_ACTIVE_LOW */>;
-> > +            vdddo-supply = <&camera_dovdd_1v8>;
-> > +            vdda-supply = <&camera_avdd_2v8>;
-> > +            vddd-supply = <&camera_dvdd_1v2>;
-> > +
-> > +            port {
-> > +                ov5645_0: endpoint {
-> > +                    remote-endpoint = <&csi1_ep>;
-> > +                    clock-lanes = <0>;
-> > +                    data-lanes = <1 2>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
->
-> --
-> Regards,
->
-> Laurent Pinchart
+-- 
+regards,
+Stan
