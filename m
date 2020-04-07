@@ -2,109 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AE821A17E9
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 00:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C3431A17EF
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 00:23:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726494AbgDGWWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 18:22:10 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13202 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726438AbgDGWWJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 18:22:09 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8cfca90000>; Tue, 07 Apr 2020 15:20:25 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 07 Apr 2020 15:22:08 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 07 Apr 2020 15:22:08 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr
- 2020 22:22:07 +0000
-Received: from [10.2.171.175] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr 2020
- 22:22:06 +0000
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-7-git-send-email-skomatineni@nvidia.com>
- <200bb96e-2d07-764f-9e14-55538dc742fd@gmail.com>
- <23bfab09-b464-6e51-9843-06d13000e9b9@nvidia.com>
- <be77b0ef-d605-8357-4180-f40b2886d07a@gmail.com>
- <08cd31d5-e8b9-4d3a-fb0e-0e4462947d96@nvidia.com>
- <12a834ac-52b1-6dc0-7d3a-3e6a1fa85a2a@gmail.com>
- <e3712e7b-b335-b35b-a94f-24eb85122dca@nvidia.com>
- <b1726d33-0d35-9323-a747-407148d0104e@gmail.com>
- <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
- <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
- <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
- <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
- <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
- <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
- <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
- <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
-Date:   Tue, 7 Apr 2020 15:22:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726483AbgDGWXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 18:23:00 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42203 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbgDGWXA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 18:23:00 -0400
+Received: by mail-lj1-f195.google.com with SMTP id q19so5475288ljp.9
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 15:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=JVjv/iMNLYTvNloLYajdKiynxay+Ft9mmPFuTOX5WCA=;
+        b=Q4fGCMOtiDvSzntXrtlORGtp3yq5PJA3CVPv8+VFoJvcRvw/1zjUx+s2TmuEKZI9cY
+         9YF6mMK7usfL+vNGDbe2qCGhwJdmrSWeNUsk2Apq8r3j5wWnV5QEsHt52/ENHedPY/aE
+         QGgTbNfCHn577snA7Hg66dNdG9tFfb18avos2GLzYhifiRpVU3Z1D0EeZOQvBVYUb3NC
+         NZzqFRxJTh10ZBqV7R7C5IfbJSRzm5GOHEMO4fqXokwOeX0lKsEfOObXWK9etw4sgC6i
+         AbLdXHxFLJc8shqeNymHZFqjEe+KO7V4S1H4t3KFgp6+DdcmD2WeLrOII7f0rdzu2cWQ
+         tSvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=JVjv/iMNLYTvNloLYajdKiynxay+Ft9mmPFuTOX5WCA=;
+        b=JKug6KAHBAja2xKocyEt7HyThosKHQ9khAOTEPFfqVIWvHF1B11X1LFARI1GVs3+oE
+         Lwmb2iPglXc1mRYeJJR0NUlMkcV7+mTtuvBhejqsaqX2PWoAUe1dxlSz9opkQlJcY8a7
+         HBCyH0ebR/wLtaRsSRr665ujitGkD+iCveNzgi4/qtF97GflkQ3lCo1hBrLfxsjSiY8l
+         yy1akwX+5BKnZdEvnU6EeP52ZTuzsBvV3adhTJ4ZkTNCc+/QnYn2x9MniIzYw6yHR1aN
+         qBdQ0J+q8u5JvapimPsPDVxHYyFbjj0Nyah0y9C3vkMVyUbthC0soQp6H/wU6cJExxS1
+         id0w==
+X-Gm-Message-State: AGi0PuZGgcaO5rp3rVmDgwtMoKveIamHefZMg1oLEhZHPZEYoCZJh7Sn
+        sq41caWgOISZCHSDnoAlf6ByPA==
+X-Google-Smtp-Source: APiQypK3FpInK03TcNoOZ7oV8xziVZb32E1LKiXVCLDdL2aPhSwALOJqvKwRb0eyRag4sfo61W7uKw==
+X-Received: by 2002:a2e:8693:: with SMTP id l19mr3156462lji.132.1586298176734;
+        Tue, 07 Apr 2020 15:22:56 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id z9sm12332865lfd.9.2020.04.07.15.22.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 15:22:56 -0700 (PDT)
+Date:   Wed, 8 Apr 2020 00:22:55 +0200
+From:   "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hyun Kwon <hyun.kwon@xilinx.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
+Message-ID: <20200407222255.GS1716317@oden.dyn.berto.se>
+References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+ <20200313144035.401430-3-jacopo+renesas@jmondi.org>
+ <20200401223037.GB583@smtp.xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586298025; bh=affO1Yr/fVkdDgXtDFDw59Iv7waWtClGoqGLbuDmMvA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=gQN4aVBFGHGfJTH4B+1M5e3V40VRWaNWZ/4VYh6O83zGBgCCkEPn7tt+e+40JAfW1
-         LyY6THdOiL1ww8uD/iOy8wzG4YyNEoYiepsyeHS3cPFJrvmG/hk0wWHEJQKrfU/xVY
-         kKlhkNye6bffxcrrQFV3xQ/bIdjKoo5BG4CTP/CirNy9gMgdx2lpwob70+O9RBk5hF
-         xHrfDGeBjgLLWYilKcS3QWfJ8gALhtXkFruZyu+210ZEkZAmfQZtORygckCHc6fPx9
-         IaCUaNMPEmyknNUyPY8tn3H/mHhuj1EgBiYlZ56GJn7NlTw5AZ8i+xuen6mBQ/1c7e
-         EFZIAi3TcTWcw==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200401223037.GB583@smtp.xilinx.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hyun and Jacopo,
 
-On 4/7/20 3:08 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 08.04.2020 00:08, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->>>> I think you need a semaphore with resource count =3D 2.
->>> we hold on to issuing capture if more than 2 buffers are queued and it
->>> continues only after fifo has min 1 slot empty
->>
->> Just want to close on this part of feedback. Hope above explanation is
->> clear regarding triggering/issuing at max 2 frame capture to VI HW and
->> also regarding capture threads where they use wait_event_interruptible
->> to prevent blocking waiting for buffers to be available for captures.
->>
->> So no changes related to this part are needed in v7.
->  From what I see in the code, you "hold on" by making kthread to spin in
-> a busy-loop while caps_inflight >=3D SYNCPT_FIFO_DEPTH. So some change
-> should be needed to prevent this.
->
-> The wait_event_interruptible seems should be okay.
+On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
+> Hi Jacopo,
+> 
+> Thanks for the patch.
+> 
+> On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
+> > Introduce a new pad operation to allow retrieving the media bus
+> > configuration on a subdevice pad.
+> > 
+> > The newly introduced operation reassembles the s/g_mbus_config video
+> > operation, which have been on their way to be deprecated since a long
+> > time.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 67 insertions(+)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 761aa83a3f3c..3a1afc00e094 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
+> >  	unsigned short num_entries;
+> >  };
+> >  
+> > +/**
+> > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> > + * @hsync_active: hsync active state: true for high, false for low
+> > + * @vsync_active: vsync active state: true for high, false for low
+> > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
+> > + * @data_active: data lines active state: true for high, false for low
+> > + */
+> > +struct v4l2_mbus_parallel_config {
+> > +	bool hsync_active : 1;
+> > +	bool vsync_active : 1;
+> > +	bool pclk_rising : 1;
+> > +	bool data_active : 1;
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
+> > + * @data_lanes: number of data lanes in use
+> > + * @clock_noncontinuous: non continuous clock enable flag
+> > + */
+> > +struct v4l2_mbus_csi2_dphy_config {
+> > +	unsigned int data_lanes : 3;
+> > +	bool clock_noncontinuous : 1;
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
+> > + *
+> > + * TODO
+> > + */
+> > +struct v4l2_mbus_csi2_cphy_config {
+> > +	/* TODO */
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_mbus_pad_config - media bus configuration
+> > + *
+> > + * Report the subdevice media bus information to inform the caller of the
+> > + * current bus configuration. The structure describes bus configuration
+> > + * parameters that might change in-between streaming sessions, in order to allow
+> > + * the caller to adjust its media bus configuration to match what is reported
+> > + * here.
+> > + *
+> > + * TODO: add '_pad_' to the name to distinguish this from the structure
+> > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
+> > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
+> > + * the bus type.
+> > + *
+> > + * @type: mbus type. See &enum v4l2_mbus_type
+> > + * @parallel: parallel bus configuration parameters.
+> > + *	      See &struct v4l2_mbus_parallel_config
+> > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
+> > + *	       See &struct v4l2_mbus_csi2_dphy_config
+> > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
+> > + *	       See &struct v4l2_mbus_csi2_cphy_config
+> > + */
+> > +struct v4l2_mbus_pad_config {
+> > +	enum v4l2_mbus_type type;
+> > +	union {
+> > +		struct v4l2_mbus_parallel_config parallel;
+> > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
+> > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
+> > +	};
+> > +};
+> > +
+> >  /**
+> >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+> >   *				  in video mode.
+> > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
+> >   *
+> >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+> >   *                  may be adjusted by the subdev driver to device capabilities.
+> > + * @get_mbus_config: get the current mbus configuration
+> >   */
+> >  struct v4l2_subdev_pad_ops {
+> >  	int (*init_cfg)(struct v4l2_subdev *sd,
+> > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
+> >  			      struct v4l2_mbus_frame_desc *fd);
+> >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+> >  			      struct v4l2_mbus_frame_desc *fd);
+> > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> > +			       struct v4l2_mbus_pad_config *config);
+> 
+> Because this can be used in many different ways, there's more chance it can
+> be misused. That means, drivers call this in different locations, ex probe,
+> get format, start stream,,,, and on differnt pads, src or sink. So imagine
+> one set of drivers call on sink pad, and the other set call on source pad.
+> It works well only until those are mixed together.
 
-We don't want to prevent that as we already have buffers available for=20
-capture so as soon as VI HW issuing single shot is done and when min 1=20
-slot is empty we should continue with issuing for another capture.
+That subdevice operations can be called at both probe and s_stream() is 
+nothing new, I don't thin this is a new problem. But I agree maybe we 
+could limit get_mbus_config() in the core to only be valid four source 
+pads? Apart from this open question I think this patch looks good.
 
-As long as buffers are available, we should continue to capture and=20
-should not hold
+> 
+> So wouldn't it be better to put some restrictions? One is to document
+> recommendations. I think this better be called in stream on because
+> some bus config may change at runtime depending on other configuration.
+> So any bus config prior to stream-on may be outdated. The other is to
+> enforce in the code. Some, but maybe not all, can be handled in
+> v4l2_subdev_call_pad_wrappers, for example allowing this call only on
+> source pad.
+> 
+> Thanks,
+> -hyun
+> 
+> >  };
+> >  
+> >  /**
+> > -- 
+> > 2.25.1
+> > 
 
+-- 
+Regards,
+Niklas Söderlund
