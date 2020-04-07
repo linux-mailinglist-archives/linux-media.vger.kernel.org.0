@@ -2,123 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9434B1A107A
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 17:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C07A71A108C
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 17:47:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbgDGPo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 11:44:27 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43210 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726760AbgDGPo0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 11:44:26 -0400
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF1D759E;
-        Tue,  7 Apr 2020 17:44:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586274264;
-        bh=6qh5BzbMAlnkA/Tb3uI2dawbLGOU/z4o+b2gnjDgpj0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=W0LS3zkE2W8YxjyDpisUv3oY5+P5F+z3+xTNbvOWSFiTxgs6rLzh5Rf+txjrszq/0
-         KSWuf0rZ/RW3jVF2KOtYYyRUcjXSggUp09m94Oe6xIgvtCOHuN0jqpKO0I31ONHMj0
-         KdflQvtFUOXocOl0vaHHPDLusMauZzGQ8oEOsSrY=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] media: platform: fcp: Set appropriate DMA parameters
-Date:   Tue,  7 Apr 2020 16:44:17 +0100
-Message-Id: <20200407154417.17082-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
+        id S1727512AbgDGPry (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 11:47:54 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:43099 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbgDGPry (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 11:47:54 -0400
+Received: by mail-oi1-f193.google.com with SMTP id k5so1890973oiw.10
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 08:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C5+Tj/x0seqvn19MWhPZoKn+VlDCEMR9Hc+Aq3tkzY8=;
+        b=AqvyHOEKa5D4KldSTXCJnWs49QR2eXk+zF16yQDJ/jO2g384gpvbB+mCb9j8OEA43m
+         A6MJ5P+j9YHQ9ALT8li8x+DrQzx4FYzIUF4jzdSTBguXP75zfrh9l/P+mR2yC9oUFmbh
+         Yn8a9rA4p42mGrhMH+ty00/pUaHnx9ZPa4dmFBsdcEWiR/R8eLwj7ps7YItEsiliVj9x
+         hc7+ZDQQTkrx9SU1xDncAFv/vXs+HvkGPU5/2aEF17mo20t2DhLi36900gUTcWnRYfiV
+         5jI4l5PaOBVH08bwik0C/yypiQ4cZP+kcrCOPLy8/Bm/UM9YAF3+Nh+1nBPDRQ+FHO80
+         SCBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C5+Tj/x0seqvn19MWhPZoKn+VlDCEMR9Hc+Aq3tkzY8=;
+        b=mf91FlvlXssWRpl6Fnrd/ZEY6i6hwwtVUrFuG9lXe0Iqo6fEwcdAw6b6bFTV2l1Hp7
+         hkdtIa8HCo5ZGTlcvOVjXf2Be5fLxeNVpeGt44bHhZbdaI/7MMLgXoA5AzZkp1/55Xx4
+         oVMUhoXVAUn62I6DDKwrfLeWh2cDklH1OivY9sijf3U6l3kE1KJN9E9WCs2SLxos1SSi
+         287nYSJPTBvCfnZF1ATpLNotDuF78Kk7/ZSxABnQOCvTwyJ1uNzA7zDXsfzX/4kQbO07
+         SJ6x6CAf7DZ2FSwcDbJXrYcxlgI1z/VdKaeroawWxvEGraVWW5GsMc6bZwsP3bAXb4fd
+         mGdQ==
+X-Gm-Message-State: AGi0PuZ9iPyOVsI3l+GyjluJU9FXmU3ntPZqae0N21OslZD1d0DetIsG
+        IcAGidKXx2fH8pq90JWQPKKHYblRKzEgOh8l25yTiQ==
+X-Google-Smtp-Source: APiQypJu3SjURBCeHG9XCeUMhTFUk1+T5l/kcmiOEHAKUxA8FMQScTewM/7d0CG0YpkFEyil0R95v+JbbO4tHHpx7Qg=
+X-Received: by 2002:aca:ab16:: with SMTP id u22mr2087293oie.133.1586274473098;
+ Tue, 07 Apr 2020 08:47:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200331133346.372517-1-robert.foss@linaro.org>
+ <20200331133346.372517-2-robert.foss@linaro.org> <20200401080705.j4goeqcqhoswhx4u@gilmour.lan>
+ <CAG3jFyvUd08U9yNVPUD9Y=nd5Xpcx34GcHJRhtvAAycoq3qimg@mail.gmail.com>
+ <20200403232736.GA6127@valkosipuli.retiisi.org.uk> <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
+ <20200406083506.GE6127@valkosipuli.retiisi.org.uk> <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
+ <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com> <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
+In-Reply-To: <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Tue, 7 Apr 2020 17:47:41 +0200
+Message-ID: <CAG3jFysSrZJRE2TvL0bWoRFNnscgDGj8yGr-iwWBm4=1wMbJ9A@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enabling CONFIG_DMA_API_DEBUG=y and CONFIG_DMA_API_DEBUG_SG=y will
-enable extra validation on DMA operations ensuring that the size
-restraints are met.
+On Tue, 7 Apr 2020 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi Robert,
+>
+> On Tue, Apr 07, 2020 at 01:29:05PM +0200, Robert Foss wrote:
+> > On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
+> > > On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
+> > > > > But that 19.2MHz is not a limitation of the device itself, it's a
+> > > > > limitation of our implementation, so we can instead implement
+> > > > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
+> > > > > sure that our parent clock is configured at the right rate) and the
+> > > > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
+> > > > > been rounded too far apart from the frequency we expect).
+> > > > >
+> > > > > This is doing exactly the same thing, except that we don't encode our
+> > > > > implementation limitations in the DT, but in the driver instead.
+> > > >
+> > > > What I really wanted to say that a driver that doesn't get the clock
+> > > > frequency from DT but still sets that frequency is broken.
+> > > >
+> > > > This frequency is highly system specific, and in many cases only a certain
+> > > > frequency is usable, for a few reasons: On many SoCs, not all common
+> > > > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
+> > > > are being used as well), and then that frequency affects the usable CSI-2
+> > > > bus frequencies directly --- and of those, only safe, known-good ones
+> > > > should be used. IOW, getting the external clock frequency wrong typically
+> > > > has an effect that that none of the known-good CSI-2 bus clock frequencies
+> > > > are available.
+> > >
+> > > So clock-frequency is not about the "Frequency of the xvclk clock in
+> > > Hertz", but the frequency at which that clock must run on this
+> > > particular SoC / board to be functional?
+> > >
+> > > If so, then yeah, we should definitely keep it, but the documentation
+> > > of the binding should be made clearer as well.
+> >
+> > Alright so, let me summarise the desired approach then.
+>
+> There's a separate discussion on the same topic here:
+> https://lore.kernel.org/linux-media/20200407122106.GD4751@pendragon.ideasonboard.com/
 
-When using the FCP in conjunction with the VSP1/DU, and display frames,
-the size of the DMA operations is larger than the default maximum
-segment size reported by the DMA core (64K). With the DMA debug enabled,
-this produces a warning such as the following:
+Thanks for the link.
 
-"DMA-API: rcar-fcp fea27000.fcp: mapping sg segment longer than device
-claims to support [len=3145728] [max=65536]"
+>
+> > ACPI:
+> >   - Fetch the "clock-frequency" property
+> >   - Verify it to be 19.2Mhz
+> >
+> > DT:
+> >   - Fetch the "clock-frequency" property
+> >   - Verify it to be 19.2Mhz
+> >   - Get xvclk clock
+> >   - Get xvclk clock rate
+> >   - Verify xvclk clock rate to be 19.2Mhz
+>
+> The current status is that you should
+> 's/clock-frequency/link-frequencies/', and in order to replace
+> assigned-clock-rates, you'll want to have a clk_set_rate to 19.2MHz
+> between steps 3 and 4
 
-We have no specific limitation on the segment size which isn't already
-handled by the VSP1/DU which actually handles the DMA allcoations and
-buffer management, so define a maximum segment size of up to 4GB (a 32
-bit mask).
-
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 7b49235e83b2 ("[media] v4l: Add Renesas R-Car FCP driver")
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-
-v2:
- - Collect tags
- - Fix commit message
-
-I see no reference to any specific limitation on the FCP in regards to
-DMA operation size, but there are limitations on the supported image
-sizes at 8190*8190 pixels. (smaller for FCPC at 3190) As that could be at
-various BPP which is unkown to the FCP driver, and because any maximum
-limitation should already be provided elsewhere, I don't think we need
-to arbitrarly define a maximum segment size here, so defaulting to a '32
-bit maximum' to prevent uneccessary warnings from being printed.
-
-Alternatively, we could assume a 4BPP, and define maximum segment sizes
-based upon the maximum capabilities of each FCP instance, but I'm not
-sure if that will be of much benefit.
-
-Interestingly though, the FCP should have an alignment of 256 byte
-boundarys on buffers, but I don't yet see a means to validate that
-through CONFIG_DMA_API_DEBUG/CONFIG_DMA_API_DEBUG_SG.
-
-Along with Geert's tested-by tag, I've futher validated and run both the VSP
-and DU test suites with this patch.
-
- drivers/media/platform/rcar-fcp.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
-index 43c78620c9d8..5c6b00737fe7 100644
---- a/drivers/media/platform/rcar-fcp.c
-+++ b/drivers/media/platform/rcar-fcp.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/device.h>
-+#include <linux/dma-mapping.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
-@@ -21,6 +22,7 @@
- struct rcar_fcp_device {
- 	struct list_head list;
- 	struct device *dev;
-+	struct device_dma_parameters dma_parms;
- };
- 
- static LIST_HEAD(fcp_devices);
-@@ -136,6 +138,9 @@ static int rcar_fcp_probe(struct platform_device *pdev)
- 
- 	fcp->dev = &pdev->dev;
- 
-+	fcp->dev->dma_parms = &fcp->dma_parms;
-+	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
-+
- 	pm_runtime_enable(&pdev->dev);
- 
- 	mutex_lock(&fcp_lock);
--- 
-2.20.1
-
+Would we want to 's/clock-frequency/link-frequencies/' for ACPI too?
+I imagine that would cause some breakage.
