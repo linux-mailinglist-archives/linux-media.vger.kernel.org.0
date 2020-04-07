@@ -2,50 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE341A17C3
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 00:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE0F91A17D7
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 00:14:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbgDGWId (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 18:08:33 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34149 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726406AbgDGWId (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 18:08:33 -0400
-Received: by mail-lj1-f194.google.com with SMTP id p10so5513492ljn.1;
-        Tue, 07 Apr 2020 15:08:30 -0700 (PDT)
+        id S1726443AbgDGWOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 18:14:10 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36116 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbgDGWOK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 18:14:10 -0400
+Received: by mail-lf1-f65.google.com with SMTP id w145so3627481lff.3;
+        Tue, 07 Apr 2020 15:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+YQ6O1FoLb/MfQceNzDIXhdipEgwi9Vc6NSir8tVQ+0=;
-        b=b5fGARpqiUJ7tcTmKi17zh32/umwOMmRpj5E7VyMWiIibjaXst8RmX8O8P35JUyxoB
-         6Srx0qIWoyb0R3sr5KBfDQoEnvEurTVoixuY6pKVzK6V0nZZaH1WLBHJCgODTyUnqSxc
-         X49o7q+1BAjWXdEHWcb5RBPbkGePf3ZQCcrHIE5gVg8G7dqkVWkgDJtyVY50t+6i1vz7
-         9+Y6CsV3Op9HNxdA7AJcEIcqI4bhlCtefpVpxwuzjXqdpTabAAI1bMAa9VEIUEEBphEf
-         Lr2sVn/gXiqQ8aZkkz6iklP4IDWSm7n0ZR9cfBzhbt+REFpmTKEw0cGFkseFcBPWz3N5
-         wEmA==
+        bh=6uRUHjT3H2vueqpdrwwP13xe2CMDcv0WafFpeyYI7lU=;
+        b=rAbkst+fkeSxUghjYacRPqyPdtQYTMTxLi0WEDiLh/eeZIOXvyTJMVDNdpP7PCvHKj
+         UbvmD4JHXfPK56f/bwbNd63eJem8edKGcsuJ5TFFIIyr5fvsv7D5XJrg2AVYmEbFZ1sN
+         fUQEAuLZ4WqDpYFUeEWRWwdNcEh4Okv0DTOlKYHi0PuHzvBVyJi65DHjEax9WpbKyWmK
+         1t39Snwf4LIo5wv4RoHnO47DmCIh0tA3qXUp17JpCc+dGFA1oWCfj41VTXsbr7UEMJBf
+         5pUceT7Y8uET2RHGMktMxypggnKcT4sc3XJyCmY1P8hQSDUM/mBJDbq21AAsL3ijkAR4
+         b+TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=+YQ6O1FoLb/MfQceNzDIXhdipEgwi9Vc6NSir8tVQ+0=;
-        b=Dp4ULi8Tx2TD3pOwYxK0SYA7e6/9aZK+GIh+WMGENsGl5IK8dOoRu/njwm/jGNfAYe
-         2wwi+rk5fzARxszGXJ89KPXhe/Sosf/lZ++TPa2/9tXIPA1HPM/IywlrEbkU2fVsQfQw
-         etV1bdtw+FyG5hf36IGdiDpVYHw3MyWlJ5DPuHog02H4XnFY8KDD6AbkMtAlDaM4vLDl
-         iqDtCQTe4wGUsdqN17Kffqw0w/EBrKPtb7zTWiMK9ozOCyG9iNegr3B7xs1B2PsRRxon
-         J55CeNOegIBQS8C4Gyw2qgzaFWAzJQrpwsZTacWsTpS7wZKIwWvMcPvFhlxxrRVRelcF
-         lkqQ==
-X-Gm-Message-State: AGi0Pub9aw+NbXq8RFYDMteL6jfWohVs82XHxfTmvN+4inkEsl3q9DEM
-        42+hYCf3oX/SWVjlpc+VHPWQE2sZ
-X-Google-Smtp-Source: APiQypIPFyOuiHqydgiWr6R4XGLm/DccgJs0gnd5vqagCP8wITfmTfFr2KFObqdKFiD8qLk0TEs8AA==
-X-Received: by 2002:a2e:7d09:: with SMTP id y9mr2964718ljc.146.1586297309354;
-        Tue, 07 Apr 2020 15:08:29 -0700 (PDT)
+        bh=6uRUHjT3H2vueqpdrwwP13xe2CMDcv0WafFpeyYI7lU=;
+        b=Ttbe0enW28GkvvD4dElaRdHa9FhrL6wzCwZd2tqUb5M3h9GJ8SZjJaYr3qhs5gv/Rb
+         t4m6jz4oQDJHANBspppCTZWhDT6SqauNEcOAbuDtDThvsi+2mXqVUgBy7glxnJdB5TMt
+         BBTALXyNhn7tMhKk5p7trKeNaDPip8IO87kwKG31a9qw5LPKUr/UTSoIpSyaU+wl3Sp1
+         grH2jijQmrAMpB1D9AIv/MWzK4ydT2NdRa10cksuGI4YNPIKyignK9vdpUQZI0UvfeMf
+         2H+MDkRhQ2HBL0TAEg6th9IHPN5pzy2DdjKKWnxzzUVQ1yh3aVRRdK4JMysEzc9ltSlv
+         /wnQ==
+X-Gm-Message-State: AGi0PuaD1dsQQiKYYLmmBaVTku+zITE3NWqA7wTcJGKG9yjokdeLRyFH
+        +6RYWsRyiBAP3MXyj3kC+oUdIrrp
+X-Google-Smtp-Source: APiQypIugZXxUsd6hzBRHuCzJVvozH9gSOdzFAkV/cOyC5kvexLHlgQQHLEyOFzolrIVXQv3Be/QaA==
+X-Received: by 2002:ac2:46e5:: with SMTP id q5mr1912441lfo.11.1586297646938;
+        Tue, 07 Apr 2020 15:14:06 -0700 (PDT)
 Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id r23sm3140311lfi.33.2020.04.07.15.08.27
+        by smtp.googlemail.com with ESMTPSA id l13sm12381613ljc.84.2020.04.07.15.14.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Apr 2020 15:08:28 -0700 (PDT)
+        Tue, 07 Apr 2020 15:14:06 -0700 (PDT)
 Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
         thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
         hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
@@ -68,13 +69,13 @@ References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
  <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
  <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
-Date:   Wed, 8 Apr 2020 01:08:27 +0300
+ <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
+Message-ID: <ee4cce05-2c60-6de1-2639-fe54abbf8345@gmail.com>
+Date:   Wed, 8 Apr 2020 01:14:05 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+In-Reply-To: <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -83,21 +84,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-08.04.2020 00:08, Sowjanya Komatineni пишет:
-...
->>> I think you need a semaphore with resource count = 2.
->> we hold on to issuing capture if more than 2 buffers are queued and it
->> continues only after fifo has min 1 slot empty
-> 
-> 
-> Just want to close on this part of feedback. Hope above explanation is
-> clear regarding triggering/issuing at max 2 frame capture to VI HW and
-> also regarding capture threads where they use wait_event_interruptible
-> to prevent blocking waiting for buffers to be available for captures.
-> 
-> So no changes related to this part are needed in v7.
-From what I see in the code, you "hold on" by making kthread to spin in
-a busy-loop while caps_inflight >= SYNCPT_FIFO_DEPTH. So some change
-should be needed to prevent this.
+08.04.2020 01:08, Dmitry Osipenko пишет:
+> 08.04.2020 00:08, Sowjanya Komatineni пишет:
+> ...
+>>>> I think you need a semaphore with resource count = 2.
+>>> we hold on to issuing capture if more than 2 buffers are queued and it
+>>> continues only after fifo has min 1 slot empty
+>>
+>>
+>> Just want to close on this part of feedback. Hope above explanation is
+>> clear regarding triggering/issuing at max 2 frame capture to VI HW and
+>> also regarding capture threads where they use wait_event_interruptible
+>> to prevent blocking waiting for buffers to be available for captures.
+>>
+>> So no changes related to this part are needed in v7.
+> From what I see in the code, you "hold on" by making kthread to spin in
+> a busy-loop while caps_inflight >= SYNCPT_FIFO_DEPTH. So some change
+> should be needed to prevent this.
 
-The wait_event_interruptible seems should be okay.
+Looks like some other media drivers do:
+
+	schedule_timeout_uninterruptible(1);
+
+to avoid CPU hogging when contention is detected.
