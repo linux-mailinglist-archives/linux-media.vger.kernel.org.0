@@ -2,100 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EED21A0D16
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 13:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1FFB1A0D2F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 14:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728304AbgDGLy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 07:54:28 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:37417 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbgDGLy2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 07:54:28 -0400
-Received: by mail-ot1-f66.google.com with SMTP id g23so2777603otq.4
-        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 04:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0gVInTGNxEeCWiXi7ByJUOtO9MudWviZXdaE8J3lgqA=;
-        b=VPEUl9xy/3yJmUlwootYcY6p4TfjwfT21nYeSOLuDbZb/pT/A0Oo5rE94UPOi+4OZg
-         yFdAQCVflN9aOzzhjCyyqanedD04lLYIvEYzPzF9gSn4eiOrcllF3Vr/X8k7heJs3E56
-         En71LbKpsJSzl5Fi0Qrwyyl1xL2p4PQU69VnOEgi5ESpeFz7sDVbxTSpwm4hy4/7Reww
-         lPiEaxRPXcvvjZJHCP3DMJ/t42nPDaP8pm/5aI8iSYKV22Md6cOmpHz58HJypLkESYEI
-         qr4N3S4ziUwDnjdXeoMlTwZmKMnFxJBvGthYQ3anFsBwhVdKoh6FewkjyflHScYAwDya
-         P2aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0gVInTGNxEeCWiXi7ByJUOtO9MudWviZXdaE8J3lgqA=;
-        b=XdbKKyCD5BdrRi+nk646Shlahcd9j2S1OYvCX5uLtqev7GInlkte99Ytd2b35bVf7+
-         IQr3hUuTG6eQLShxnEzB8NuURsYJU+XU4nrrclsEeK1A53KdZlksAQx3fgrLDxK/3OxJ
-         LOG8ZPieLWdDuQrcAGrtAmpux650D8wH1rPMWRJmwYwgBUW8L88KCX+0hSuh1wJknWpa
-         FKQHWKxgCj0hjkKmgF4C9qz9vrPBuXXHyZ226JW0Jv0wOI722MCw2M4Rku7I3JsH25Re
-         NtL214vwFPrXxz2jo7DuitTcVAlME9y2/SzC8eLjR3dDwWg3zB6ahdOJMhVfC5a6blWG
-         BkDw==
-X-Gm-Message-State: AGi0Puaes79N2z+pZbktt806oib8/gKS3toGne3rgJD563d80nNpshjU
-        et4ARAbaJIYbqFFGTkS67cUuDongeNlEtg26qaJlooV+5G+2LQ==
-X-Google-Smtp-Source: APiQypJibwnk93QQGPMuzWrmkuiGuHDu4f7E7gQDZD7dePZjiyqGqYbylYQ6+P1BIruFnQqWWTq+vi5yWHSxsysEBzE=
-X-Received: by 2002:a4a:e047:: with SMTP id v7mr1484649oos.49.1586260467063;
- Tue, 07 Apr 2020 04:54:27 -0700 (PDT)
+        id S1728054AbgDGMBU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 08:01:20 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:49758 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726562AbgDGMBU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 7 Apr 2020 08:01:20 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 92C83634C89;
+        Tue,  7 Apr 2020 15:00:11 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jLmtm-0002LB-Mo; Tue, 07 Apr 2020 15:00:10 +0300
+Date:   Tue, 7 Apr 2020 15:00:10 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Tim Harvey <tharvey@gateworks.com>
+Subject: Re: imx6: Cannot register mem2mem
+Message-ID: <20200407120010.GI6127@valkosipuli.retiisi.org.uk>
+References: <CAOMZO5BQEHA-+pMmKzQj8kteNgMACYP==ezFdz_oYhJYFWKXSw@mail.gmail.com>
+ <CAOMZO5CUf5aqaqzTJDjQa1scK1vKQR5YJb40a+TET7dzVRJDLQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200403183334.11440-1-paulb@blazebox.homeip.net>
-In-Reply-To: <20200403183334.11440-1-paulb@blazebox.homeip.net>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Tue, 7 Apr 2020 17:24:16 +0530
-Message-ID: <CAO_48GEmjXyA0eEpJbHoeiHjLzYvnzhorWz2t+0o4B++HMH6AQ@mail.gmail.com>
-Subject: Re: [PATCH] drivers/dma-buf/Kconfig: correct typo in description
-To:     Paul Blazejowski <paulb@blazebox.homeip.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOMZO5CUf5aqaqzTJDjQa1scK1vKQR5YJb40a+TET7dzVRJDLQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Paul,
+On Mon, Apr 06, 2020 at 11:41:33AM -0300, Fabio Estevam wrote:
+> On Mon, Apr 6, 2020 at 10:37 AM Fabio Estevam <festevam@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > I am running kernel 5.6.2 on an imx6qp sabresd, but I cannot get the
+> > mem2mem element from imx-media-csc-scaler.c to probe.
+> >
+> > I don't see imx6_media_probe_complete() getting called, hence
+> > imx_media_csc_scaler_device_init() is never called and no mem2mem
+> > element is registered.
+> >
+> > Any ideas as to how to get mem2mem registered on i.MX6?
+> 
+> It seems that v4l2_async_notifier_can_complete() is always false, so
+> v4l2_async_notifier_call_complete() is never called.
+> 
+> If I change it like this:
+> 
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -213,10 +213,6 @@ v4l2_async_notifier_try_complete(struct
+> v4l2_async_notifier *notifier)
+>         if (!notifier->v4l2_dev)
+>                 return 0;
+> 
+> -       /* Is everything ready? */
+> -       if (!v4l2_async_notifier_can_complete(notifier))
+> -               return 0;
+> -
+>         return v4l2_async_notifier_call_complete(notifier);
+>  }
+> 
+> Then the mem2mem driver can be successfully probed:
+> 
+> [    4.601350] imx-media: Registered ipu_ic_pp csc/scaler as /dev/video11
+> 
+> Any suggestions?
 
-On Sat, 4 Apr 2020 at 00:03, Paul Blazejowski <paulb@blazebox.homeip.net> wrote:
->
-> While running `make oldconfig` CONFIG_DMABUF_MOVE_NOTIFY
-> has a typo in Kconfig description, correct it.
+There are basically async sub-devices that haven't been yet bound in the
+notifier. Once they are, then the device registration will continue.
 
-Thanks for your patch.
-
-May I request you to please run scripts/get_maintainer.pl while
-submitting patches? This allows all interested people to be able to
-review the patches.
-
->
-> Signed-off-by: Paul Blazejowski <paulb@blazebox.homeip.net>
-> ---
->  drivers/dma-buf/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-> index ef73b678419c..04dd09b1667b 100644
-> --- a/drivers/dma-buf/Kconfig
-> +++ b/drivers/dma-buf/Kconfig
-> @@ -43,10 +43,10 @@ config DMABUF_MOVE_NOTIFY
->         bool "Move notify between drivers (EXPERIMENTAL)"
->         default n
->         help
-> -         Don''t pin buffers if the dynamic DMA-buf interface is available on both the
-> +         Don't pin buffers if the dynamic DMA-buf interface is available on both the
->           exporter as well as the importer. This fixes a security problem where
->           userspace is able to pin unrestricted amounts of memory through DMA-buf.
-> -         But marked experimental because we don''t jet have a consistent execution
-> +         But marked experimental because we don't jet have a consistent execution
->           context and memory management between drivers.
->
->  config DMABUF_SELFTESTS
-> --
-> 2.26.0
->
-
-Best,
-Sumit.
+-- 
+Sakari Ailus
