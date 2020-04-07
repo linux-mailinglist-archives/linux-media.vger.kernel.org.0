@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E44E91A18F6
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 01:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5BEC1A18FB
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 01:59:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgDGX66 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 19:58:58 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18946 "EHLO
+        id S1726546AbgDGX7K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 19:59:10 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18963 "EHLO
         hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726407AbgDGX66 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 19:58:58 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8d135a0001>; Tue, 07 Apr 2020 16:57:14 -0700
+        with ESMTP id S1726406AbgDGX7K (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 19:59:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8d13660000>; Tue, 07 Apr 2020 16:57:26 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Tue, 07 Apr 2020 16:58:57 -0700
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 07 Apr 2020 16:59:09 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Tue, 07 Apr 2020 16:58:57 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr
- 2020 23:58:56 +0000
-Received: from [10.2.171.175] (10.124.1.5) by DRHQMAIL107.nvidia.com
+        by hqpgpgate101.nvidia.com on Tue, 07 Apr 2020 16:59:09 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr
+ 2020 23:59:09 +0000
+Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 7 Apr 2020
- 23:57:43 +0000
+ 23:59:06 +0000
 Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
 From:   Sowjanya Komatineni <skomatineni@nvidia.com>
 To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
@@ -51,30 +51,30 @@ References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
  <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
  <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
  <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
-Message-ID: <edefcfd9-b268-0ea5-b438-f5ab5efe61bf@nvidia.com>
-Date:   Tue, 7 Apr 2020 16:57:42 -0700
+Message-ID: <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
+Date:   Tue, 7 Apr 2020 16:59:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 In-Reply-To: <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
 X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586303834; bh=WYYijVJNHfLwjTCH3gNwu8d4A+RLe1YduJ1izGmTGaY=;
+        t=1586303846; bh=WYYijVJNHfLwjTCH3gNwu8d4A+RLe1YduJ1izGmTGaY=;
         h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
          User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
          X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
          Content-Language;
-        b=dmHuwCoULE5BLIDblMLpSgxcHMBKRoftC7H99Z24OQk02WAtj0mCIdy8eQcXX9D2Q
-         CxFpEwlTzVR9sNKcB/tmSyT6VW0af0UGqw1ifekOjAodceqhNYfEi8n3/6FYqSAH4/
-         iOCZJReh/KRpbzI0frdMT3rH8OibhzX4Qnioyi12vqeCir3uW0ve7+i6nspHvwptrH
-         2IlU8dnpB3Q6zTkLqoy3yKwdDWO5kNBO+01i1jlIrBehRX85Cy7fbG3wC5YqpDe7f0
-         U+1KysPlnIpdD8OqQH6AOpvU+54+64jf4P7LbWEpx1tiN+3BCaDlEl8SmZuap1IM3y
-         onRaRvqcBcnMw==
+        b=QTryjX/4DzZcBR7r2dzqEABiLuL8yqfVvq8XgY+HKA5V9myvxFGyQdbQ4XR7GYWPj
+         9YjhGVivtPlmMIIkjrSlG6ZRH2wprYShM1H5XdS7lnAu/slYdToi54nxqiTS0TfA8T
+         i2usj8RrqrnTBoKRM6yBU94Bq8xRenvfjH8RWFUYduf4QRc3X0/KRPx3RB53Plwotl
+         AiO2q1ug5Ue9K+67ftjuxS2UIl8FI0p4Lxqub8tp1DW+8yNk6anhGukEzCJ+vhcfAE
+         MJbsfGtNTxno9SNaGd0Wr7Rw0I/CzSSHKolO0/VoY4MieJ6ucVfTYw6GUnuPWMnHAP
+         hNKEMGFx6Ndlw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
