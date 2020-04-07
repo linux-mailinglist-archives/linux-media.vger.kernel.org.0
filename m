@@ -2,52 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EA821A0880
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 09:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8753F1A088B
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 09:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbgDGHke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 03:40:34 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38210 "EHLO
+        id S1727173AbgDGHno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 03:43:44 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35975 "EHLO
         mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbgDGHkd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 03:40:33 -0400
-Received: by mail-ot1-f66.google.com with SMTP id t28so2129968ott.5;
-        Tue, 07 Apr 2020 00:40:33 -0700 (PDT)
+        with ESMTP id S1726591AbgDGHno (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 03:43:44 -0400
+Received: by mail-ot1-f66.google.com with SMTP id l23so2155535otf.3;
+        Tue, 07 Apr 2020 00:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Wxx6OlhiR+h9ms32GkBM7ZWBPZ4G+uFx6VWz+Zv0PTA=;
-        b=D9gztiIVWfLTyMwY9pRqGBK81vBdNlLpluKWmhYh0n69JJQ0RSrlPCzrCmGtfkygcp
-         8wqCMEQ6VaUShxIpKWCiZlUx3+MqmfZ5UY0qoVnTwxE8A+4ZgECIh491lbEyvX18oGyT
-         9DDSo0G0yhaasTNXbUhk8fk07SdBIYaAm4uvwfCaPf/dDhCiUbKqPWhnkjGn6MSz7dSQ
-         AiaCuolC7Qv6FCYDHngg+kUPBv41ImdVWFsDFVV7Ani27T2lGgUtW+yVSeQpbZd6jb0T
-         RRJKKU1J9HjCeVVfsgJJmnr43vBVc9Bc1GX+9W8ngaP0LNP39/nun/tEvngE/cJO+QJ3
-         xC9Q==
+        bh=oE1P8brteBgNB/YCnZpMaazxZnoFoVLDlG5zmB4pDgo=;
+        b=kcPLvyqhYQ50v8YhtUX8FFqSjQYiVcTka4/bJnGJOUbAyXhCnRpf/KmSHwtYhWoRgU
+         WZ+byt8MVjKVf7dos+9PxzI2/x0kR/QuXmjP7a4DeiaKxZh+SA3A2oEoM/klr7CSHaBc
+         2wS/XiJb4kqHOInxoY1czNpphTpZH5YxUg7NU778JzP7ht0g9nxjyMjGg+7a19EQCsE2
+         zaiFKLpKMDviT5T67ApeAk76ESHZzP4yHILTJu+AmlWh4g4x/AhfAb1jd6YbJeKdKlp1
+         NX+z0FD6vQrbPCwHWenptEq6pNTXGQVgzO/YBrJdfhfsfGUr7IC1vXduDxE9zycUBS6Z
+         fWag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Wxx6OlhiR+h9ms32GkBM7ZWBPZ4G+uFx6VWz+Zv0PTA=;
-        b=sVvcazyY8vq4YMAnOQS8v0s/R14AYv/3mueGfAJfTvI1tx7vK/JqXiWvsAVDsknYjf
-         zCZtvpG9I6IzjeCvf1Nlvqn5gHZ10r1tVc2DyeE8ZyevAYGY5BX1aoUQsjBPYYGTWn26
-         4TeJcxHSV9gFb81skTgKMzun+uenKp/9Bjyjl0soGCG+MgDVy/W+6CS6iCJHkt7qfqpr
-         aqmSdwabWtgw055OiDK0Q7hswfdauG/aqRqbA6YEeakU6F23DoVXv9LHoJxcDArj4YlZ
-         iD+FP3/YhA/QHls4+Y+hLZLqYkvEEKpbN0E+auRE3B0BI80IAKGFjTc7QMqL0lzHCO0D
-         aj8A==
-X-Gm-Message-State: AGi0PuY5AlY0SaGOjtNd8hNm+dU84gxz6+kN7pvKztWbGAxPuLJoLKwP
-        uaAje+U2Cm7Ot7ZzvU4lSiuURW7B8efu/iCFB44=
-X-Google-Smtp-Source: APiQypK8SGsEPq42GhfF0Dfe/vf+FBubxyorRMxV73nV35Eh0GJOOxbn8GdFE9fSkj1azHzzH6p7KtGVItJOhKwXWdM=
-X-Received: by 2002:a9d:220e:: with SMTP id o14mr504851ota.88.1586245232626;
- Tue, 07 Apr 2020 00:40:32 -0700 (PDT)
+        bh=oE1P8brteBgNB/YCnZpMaazxZnoFoVLDlG5zmB4pDgo=;
+        b=Amy5FZiqr8Rn2vVDilN75pHpNUSZMnY9t6NXQBwUQWN5BBjQS8/ZjFB+b7+4CtFxRm
+         BxcKhpM5jj6gXI2wr8EPE+ZxxNmn1I7O/XfdcFcXGk6SP7WzVT8S4/hMsfRC24PF+Iaz
+         l0JXPxXoQSV/CNwkzjmEesEt8mIHTG5J0M4VkmENASh3cDW8Mm+rzItvQ0GT0N8Bb31I
+         ow+hvBDY4LNN0b8WKz4MkDDHNWkya2R6n1T6Vp68EF2ziCil8F8PoMRBV20P1TAEJJrO
+         kqNNMaAjHpnLYNWwxeSCHpTTZf5JxiK/UEO489RY/003Wiv7X67MmXvTfjqg5SUYEFLQ
+         LAeg==
+X-Gm-Message-State: AGi0PuboMf05Dea+c4cTza4GsQf7OCCglM4TrO9yNHgd2Q9Pzy64v3lY
+        fiCu7v4SRjMFGqOCBE23P0L3x3Xo7T1+NH/fwqva7FeP
+X-Google-Smtp-Source: APiQypI2DyIIL0fcNOyS2Ap/cmRjpFvWT9aOUrsOGDAoZC8sUAs4Iyf5Mi2KOAKUvMSzfPs330HGeDMjEIH/ji0exyw=
+X-Received: by 2002:a9d:220e:: with SMTP id o14mr510743ota.88.1586245423956;
+ Tue, 07 Apr 2020 00:43:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586191361-16598-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWiVLt23a0JBDX6ZiKDiru9-ecgt3XF4Y5qzVOWXhLcCw@mail.gmail.com>
-In-Reply-To: <CAMuHMdWiVLt23a0JBDX6ZiKDiru9-ecgt3XF4Y5qzVOWXhLcCw@mail.gmail.com>
+ <1586191361-16598-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX4sGzVWPFYLBiySastZSR2afqMHxmaEh-WhRMAcXFeMQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdX4sGzVWPFYLBiySastZSR2afqMHxmaEh-WhRMAcXFeMQ@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 7 Apr 2020 08:40:06 +0100
-Message-ID: <CA+V-a8tHb1OomhfdsWV5duyuypTKC_EWT4o=mMjWVsxu+aOnBQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] media: i2c: ov5645: Drop reading clock-frequency dt-property
+Date:   Tue, 7 Apr 2020 08:43:18 +0100
+Message-ID: <CA+V-a8uKf-poWO8XGKasnOESxOTYRGQs2dBLArMzq8+xT+1kOA@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] media: i2c: ov5645: Turn probe error into warning
+ for xvclk frequency mismatch
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -77,44 +78,47 @@ Hi Geert,
 
 Thank you for the review.
 
-On Tue, Apr 7, 2020 at 8:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Apr 7, 2020 at 8:19 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
 > On Mon, Apr 6, 2020 at 6:43 PM Lad Prabhakar
 > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Modes in the driver are based on xvclk frequency fixed to 24MHz, but where
-> > as the OV5645 sensor can support the xvclk frequency ranging from 6MHz to
-> > 24MHz. So instead making clock-frequency as dt-property just let the
-> > driver enforce the required clock frequency.
+> > PLL's on platforms might not be so accurate enough to generate the
+> > required clock frequency, so instead of erroring out on xvlck frequency
+>
+> xvclk? (but see below)
+>
+> > mismatch just warn the user and continue ahead in probe.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> However, still wondering about the "xvclk" name above and in the definition
-> below.  Is this the naming from the datasheet?
-> The DT bindings nor the driver use the "xvclk" naming.
+> Like for 2/5, what about the xvclk naming?
 >
-xvclk naming is from the datasheet, although the 0v5645 datasheet on
-publicly available I have referred [1]/[2].
-If I am not wrong all the ov sensors have the same naming convention as xvclk.
-
-[1] https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf
-[2] https://www.ovt.com/download/sensorpdf/126/OmniVision_OV5645.pdf
+> > --- a/drivers/media/i2c/ov5645.c
+> > +++ b/drivers/media/i2c/ov5645.c
+> > @@ -1103,11 +1103,8 @@ static int ov5645_probe(struct i2c_client *client)
+> >         }
+> >         /* external clock must be 24MHz, allow 1% tolerance */
+> >         xclk_freq = clk_get_rate(ov5645->xclk);
+> > -       if (xclk_freq < 23760000 || xclk_freq > 24240000) {
+> > -               dev_err(dev, "external clock frequency %u is not supported\n",
+> > -                       xclk_freq);
+> > -               return -EINVAL;
+> > -       }
+> > +       if (xclk_freq < 23760000 || xclk_freq > 24240000)
+> > +               dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+>
+> Calling it "xvclk" here will confuse the user, as the clock is named
+> "xclk" in DT?
+>
+Agreed Ill replace it with xclk in the warning.
 
 Cheers,
 --Prabhakar
 
-> > --- a/drivers/media/i2c/ov5645.c
-> > +++ b/drivers/media/i2c/ov5645.c
-> > @@ -61,6 +61,8 @@
-> >  #define OV5645_SDE_SAT_U               0x5583
-> >  #define OV5645_SDE_SAT_V               0x5584
-> >
-> > +#define OV5645_XVCLK_FREQ              24000000
-> > +
->
 > Gr{oetje,eeting}s,
 >
 >                         Geert
