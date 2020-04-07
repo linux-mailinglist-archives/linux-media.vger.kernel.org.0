@@ -2,172 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F9A31A0EDB
-	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 16:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BBF61A0F63
+	for <lists+linux-media@lfdr.de>; Tue,  7 Apr 2020 16:36:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729028AbgDGOFt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 10:05:49 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:36577 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728861AbgDGOFt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 10:05:49 -0400
-Received: by mail-ot1-f68.google.com with SMTP id l23so3238454otf.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 07:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1NdsvHQeHu5QTk7zrN8HxtBhQoh7MwqSb5UgLwBlUkg=;
-        b=BoMvFf/VkDwYpMORHYEN6VhZl9zkCF1rwYWePM3AbCC/5ff6rDQ6ThJrNVEODSt+bj
-         C9hPTShy6YVufNgRs01+mvvOpfYGjOhTMAVGjrFoHQ/daQJ5oJwp2XokTIqZS1ksJFln
-         pU3ISmF/3RY5/iz70Bp+Eer6w1lT14oepTW34=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1NdsvHQeHu5QTk7zrN8HxtBhQoh7MwqSb5UgLwBlUkg=;
-        b=Dbx+M13ZOXFTNvpjeC2Y1SekiJAkYecEyWKipV3AmsH06DesM/DCoUrfmEbF+k8V1G
-         69GVkS2Kzoj3UEZCRz1WIZBy6D4Nu1ZHnV+9uk2MRMbI0oo6J35wTqsbkJN1DamweR7p
-         k1PFQ+K87VuxJudMGq69m3QRZwQj1QgvNqlpq/bmV5t8rxRhrPoVQmaKpWD69vlrYhnw
-         sJzAisdUOYQiKaUTm8+ap3/VpH72KMOOVnYoOltDgLmdQsuIv6+8sPI3xqnhzhR0iuUu
-         aNey24DIhiKbNGrHmztn0q9/VtW5CiMmGwPNYWofP4tPSkpi7cJC/v46fVIjTQJm8mwS
-         xfjg==
-X-Gm-Message-State: AGi0PubkYF2UlON8RZ2Irxecf22/ZtGVQeviUiO+MX/UGVqOt7JrdjB1
-        hMq2Fc3bagMqZkQXFf3DZqL1vWw/M2GxRlIpCS4/aQ==
-X-Google-Smtp-Source: APiQypL/RlVT2i69RdrWi7CstJmXxSmQgsRErYEyJetTK19b3yru1qFqr6NV0uNNQhhnA48y6Mo8ViTg31pruJQoNjs=
-X-Received: by 2002:a05:6830:15d4:: with SMTP id j20mr1666775otr.303.1586268346055;
- Tue, 07 Apr 2020 07:05:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200114134101.159194-1-liumartin@google.com> <20200224033941.GB211610@google.com>
- <CAO_48GEPKk64uepCqZEc=6XGiv4tZnPHv=RZdwzKPuUqOxjpow@mail.gmail.com>
-In-Reply-To: <CAO_48GEPKk64uepCqZEc=6XGiv4tZnPHv=RZdwzKPuUqOxjpow@mail.gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 7 Apr 2020 16:05:34 +0200
-Message-ID: <CAKMK7uH9gxp79VPfG+yMp+65_-+=U2iV1UH-SfzRnOc=9T4cPw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: support 32bit DMA_BUF_SET_NAME ioctl
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     Martin Liu <liumartin@google.com>,
-        Minchan Kim <minchan@kernel.org>, surenb@google.com,
-        Wei Wang <wvw@google.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>, jenhaochen@google.com
+        id S1729306AbgDGOf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 10:35:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41454 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729287AbgDGOf4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 10:35:56 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 9F442295A6A
+Message-ID: <5c417620e1baeed7ec4ac750ab481366df2aa590.camel@collabora.com>
+Subject: Re: [PATCH v8 4/5] media: rkvdec: Add the rkvdec driver
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     DVB_Linux_Media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Date:   Tue, 07 Apr 2020 11:35:45 -0300
+In-Reply-To: <CAKQmDh_pCX_s2Ze7b1YBqgvEZHNrgzDUfcjPos8_GZq8x6=5Ng@mail.gmail.com>
+References: <20200403221345.16702-1-ezequiel@collabora.com>
+         <20200403221345.16702-5-ezequiel@collabora.com>
+         <CAKQmDh_pCX_s2Ze7b1YBqgvEZHNrgzDUfcjPos8_GZq8x6=5Ng@mail.gmail.com>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 7, 2020 at 3:26 PM Sumit Semwal <sumit.semwal@linaro.org> wrote=
-:
->
-> Hello,
->
-> Daniel, your comments here, please?
+On Mon, 2020-04-06 at 16:27 -0400, Nicolas Dufresne wrote:
+> Le ven. 3 avr. 2020 à 18:14, Ezequiel Garcia <ezequiel@collabora.com> a écrit :
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> > 
+> > The rockchip vdec block is a stateless decoder that's able to decode
+> > H264, HEVC and VP9 content. This commit adds the core infrastructure
+> > and the H264 backend. Support for VP9 and HEVS will be added later on.
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> 
+> Sorry for the late feedback (got a comment lower) ...
+> 
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
 
-Don't :-)
+Nice, thank you.
 
-I mean rule of thumb you should never need a compat_ioctl for a new
-ioctl, that's just failure to read
-https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.ht=
-ml
+> > --
+> > v8:
+> > * Fix kfree and style changes, as suggested by Andriy.
+> > v7:
+> > * hverkuil-cisco@xs4all.nl: replaced VFL_TYPE_GRABBER by _VIDEO
+> > * Use macros and ARRAY_SIZE instead of magic numbers,
+> >   as suggested by Mauro.
+> > * Renamed M_N macro, suggested by Mauro.
+> > * Use v4l2_m2m_buf_done_and_job_finish.
+> > * Set buffers' zeroth plane payload in .buf_prepare
+> > * Refactor try/s_fmt for spec compliance.
+> > ---
+> >  MAINTAINERS                                |    7 +
+> >  drivers/staging/media/Kconfig              |    2 +
+> >  drivers/staging/media/Makefile             |    1 +
+> >  drivers/staging/media/rkvdec/Kconfig       |   15 +
+> >  drivers/staging/media/rkvdec/Makefile      |    3 +
+> >  drivers/staging/media/rkvdec/TODO          |   11 +
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 1156 ++++++++++++++++++++
+> >  drivers/staging/media/rkvdec/rkvdec-regs.h |  223 ++++
+> >  drivers/staging/media/rkvdec/rkvdec.c      | 1103 +++++++++++++++++++
+> >  drivers/staging/media/rkvdec/rkvdec.h      |  121 ++
+> >  10 files changed, 2642 insertions(+)
+> >  create mode 100644 drivers/staging/media/rkvdec/Kconfig
+> >  create mode 100644 drivers/staging/media/rkvdec/Makefile
+> >  create mode 100644 drivers/staging/media/rkvdec/TODO
+> >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
+> >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
+> >  create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
+> >  create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
+> > 
+> 
+[..]
+> > +
+> > +static void set_ps_field(u32 *buf, struct rkvdec_ps_field field, u32 value)
+> > +{
+> > +       u8 bit = field.offset % 32, word = field.offset / 32;
+> > +       u64 mask = GENMASK_ULL(bit + field.len - 1, bit);
+> > +       u64 val = ((u64)value << bit) & mask;
+> > +
+> > +       buf[word] &= ~mask;
+> > +       buf[word] |= val;
+> > +       if (bit + field.len > 32) {
+> > +               buf[word + 1] &= ~(mask >> 32);
+> > +               buf[word + 1] |= val >> 32;
+> > +       }
+> > +}
+> > +
+> > +static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+> > +                           struct rkvdec_h264_run *run)
+> > +{
+> > +       struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
+> > +       const struct v4l2_ctrl_h264_sps *sps = run->sps;
+> > +       const struct v4l2_ctrl_h264_pps *pps = run->pps;
+> > +       const struct v4l2_ctrl_h264_decode_params *dec_params = run->decode_params;
+> > +       const struct v4l2_h264_dpb_entry *dpb = dec_params->dpb;
+> > +       struct rkvdec_h264_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
+> > +       struct rkvdec_sps_pps_packet *hw_ps;
+> > +       dma_addr_t scaling_list_address;
+> > +       u32 scaling_distance;
+> > +       u32 i;
+> > +
+> > +       /*
+> > +        * HW read the SPS/PPS information from PPS packet index by PPS id.
+> > +        * offset from the base can be calculated by PPS_id * 32 (size per PPS
+> > +        * packet unit). so the driver copy SPS/PPS information to the exact PPS
+> > +        * packet unit for HW accessing.
+> > +        */
+> > +       hw_ps = &priv_tbl->param_set[pps->pic_parameter_set_id];
+> > +       memset(hw_ps, 0, sizeof(*hw_ps));
+> > +
+> > +#define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
+> > +       /* write sps */
+> > +       WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
+> > +       WRITE_PPS(0xff, PROFILE_IDC);
+> > +       WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
+> 
+> At first I found that part rather interesting, but I see this
+> hardcoding matches what Rockchip do.
+> 
+> https://github.com/rockchip-linux/mpp/blob/release/mpp/hal/rkdec/h264d/hal_h264d_rkv_reg.c#L266
+> 
+> > +       WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
+> 
+> But here's it's not so great. This driver does not implement any kind
+> of validation. In fact, if I pass 3
+> here  (YCbCr 4:4:4) it will accept it, and kind of decode some frames,
+> but eventually with crash and
+> reboot is needed. We should (as defined in the Statelss CODEC spec)
+> validate the SPS and refuse if
+> an unsupported profile idc, chroma idc, luma/chroma depth or coded
+> size is requested.
 
-Specifically the char * pointer in the ioctl definition is the
-problem. Now we're somewhat lucky here, since the actual layout of the
-data isn't different between 32 and 64 bit, it's only the ioctl. Which
-is the 2nd issue, the type in there should be the type of the data in
-userspace, not the type of the _pointer_ to the stuff in userspace. So
-here actually variable-sized char[] array, which also doesn't work
-really.
+Perhaps we could validate that at request_validate time,
+or maybe ops.try_ctrl is better.
 
-Anyway I've created a quick patch to have distinct ioctl number
-defines and handle both in the main handler, that should work. Cc'ed
-everyone from this thread, please test.
--Daniel
+</thinking_out_loud>
 
->
-> On Mon, 24 Feb 2020 at 09:09, Martin Liu <liumartin@google.com> wrote:
-> >
-> > On Tue, Jan 14, 2020 at 09:41:01PM +0800, Martin Liu wrote:
-> >
-> > CC more MLs for winder review.
-> >
-> > > This commit adds SET_NAME ioctl coversion to
-> > > support 32 bit ioctl.
-> > >
-> > > Signed-off-by: Martin Liu <liumartin@google.com>
-> > > ---
-> > >  drivers/dma-buf/dma-buf.c | 22 +++++++++++++++++++++-
-> > >  1 file changed, 21 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > index ce41cd9b758a..a73048b34843 100644
-> > > --- a/drivers/dma-buf/dma-buf.c
-> > > +++ b/drivers/dma-buf/dma-buf.c
-> > > @@ -25,6 +25,7 @@
-> > >  #include <linux/mm.h>
-> > >  #include <linux/mount.h>
-> > >  #include <linux/pseudo_fs.h>
-> > > +#include <linux/compat.h>
-> > >
-> > >  #include <uapi/linux/dma-buf.h>
-> > >  #include <uapi/linux/magic.h>
-> > > @@ -409,13 +410,32 @@ static void dma_buf_show_fdinfo(struct seq_file=
- *m, struct file *file)
-> > >       dma_resv_unlock(dmabuf->resv);
-> > >  }
-> > >
-> > > +#ifdef CONFIG_COMPAT
-> > > +static long dma_buf_ioctl_compat(struct file *file, unsigned int cmd=
-,
-> > > +                              unsigned long arg)
-> > > +{
-> > > +     switch (_IOC_NR(cmd)) {
-> > > +     case _IOC_NR(DMA_BUF_SET_NAME):
-> > > +             /* Fix up pointer size*/
-> > > +             if (_IOC_SIZE(cmd) =3D=3D sizeof(compat_uptr_t)) {
-> > > +                     cmd &=3D ~IOCSIZE_MASK;
-> > > +                     cmd |=3D sizeof(void *) << IOCSIZE_SHIFT;
-> > > +             }
-> > > +             break;
-> > > +     }
-> > > +     return dma_buf_ioctl(file, cmd, (unsigned long)compat_ptr(arg))=
-;
-> > > +}
-> > > +#endif
-> > > +
-> > >  static const struct file_operations dma_buf_fops =3D {
-> > >       .release        =3D dma_buf_release,
-> > >       .mmap           =3D dma_buf_mmap_internal,
-> > >       .llseek         =3D dma_buf_llseek,
-> > >       .poll           =3D dma_buf_poll,
-> > >       .unlocked_ioctl =3D dma_buf_ioctl,
-> > > -     .compat_ioctl   =3D compat_ptr_ioctl,
-> > > +#ifdef CONFIG_COMPAT
-> > > +     .compat_ioctl   =3D dma_buf_ioctl_compat,
-> > > +#endif
-> > >       .show_fdinfo    =3D dma_buf_show_fdinfo,
-> > >  };
-> > >
-> > > --
-> > > 2.25.0.rc1.283.g88dfdc4193-goog
-> > >
->
->
->
-> --
-> Thanks and regards,
->
-> Sumit Semwal
-> Linaro Consumer Group - Kernel Team Lead
-> Linaro.org =E2=94=82 Open source software for ARM SoCs
+> Validating the
+> S_FMT is not sufficient as one can trick the driver in allocating
+> buffers that are too small.
+> 
 
+I am not sure I follow you: how do you think the driver
+can be tricked like this?
 
+> What I suspect is that we need to be careful with this HW, as it seems
+> to be a bit half backed, which
+> means it might be supporting more features then supported by the TRM
+> or reference code, and we
+> must disable this with software.
+> 
+> (p.s. I can provide a stream to reproduce the 4:4:4 driver failure)
+> 
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Thanks,
+Ezequiel
+
