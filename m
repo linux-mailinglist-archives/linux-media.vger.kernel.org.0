@@ -2,87 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0931A2B32
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 23:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F7481A2B37
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 23:34:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730680AbgDHVd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 17:33:58 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:43705 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729222AbgDHVd6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 17:33:58 -0400
-Received: by mail-lj1-f196.google.com with SMTP id g27so9251532ljn.10
-        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 14:33:57 -0700 (PDT)
+        id S1730706AbgDHVeC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 17:34:02 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33707 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730702AbgDHVeA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 17:34:00 -0400
+Received: by mail-lf1-f67.google.com with SMTP id h6so6367066lfc.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 14:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=FfmcLu7OaNG5my17Bb1bWpc03LxeJJ91Gr/SWFxHfKY=;
-        b=fdCK9KNPorKg20SE98S/pwHuRJ45w86pgp/d1PdPGgjyxPDJU7n4PxSO1AzW1ZFOzS
-         BjDGZ4JZ34OVZJSxHZOFbXkF7CVk8LsCm1YOVv+uP9mlzH1kCxiRFkt5TzxVTkVTweZ4
-         aQP+5QpWjj7WCBwvx/iEC7GWoizXMpwJB1jyDtEq8ix3+ZFxqWMI8k1LEcDQ4OIPQqgA
-         VK19UmeLEl+ui7w5ZF3EYOaKgSS0I/zF2yM5DRk4p52vRAA/726/XTeLIUlxnakaHd0U
-         VaSW4heO3tTeAipqaby7ZT1G3DtLWbkZdgL0skMnJSdYStSSxPRwVdKyUNlWr2FZjJd8
-         D95A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=dGu6G6U9laSFYPkNmi6ZzG7WVHHi3cCRqEsXprARE/c=;
+        b=eYr8eNy5cDTDVyI+xHQL+AUHFo3gMgU74ThpTvWHIW3Ck+kZLmUFKTThRyC4s2o2WX
+         4JMNsmiGxwTTeyjmM8J8C8vC2ZLnhtQg9DNUGrHLpfA0WQI3qVmmD9iTB/AUG+7gTsMM
+         ArNLz3rYg/01IMOkcFl+3xLznQCC6EPVlkykqTDhUXcSoQyT/MzNt9z35k4+4xL2t9XW
+         nE7pywacVqNzDuxi5l2V9GUXDmOegHvV3CrKM+6Be9sTOQ1Zo7LjTN+96qKUJ/NPa955
+         ercDf30Tqxchp0jjbJebHT5t/C5hhX9GoxGBFK5BEoA404g/XwrQTcZOa9HfkMyrRXoa
+         AEtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=FfmcLu7OaNG5my17Bb1bWpc03LxeJJ91Gr/SWFxHfKY=;
-        b=SyQmnyfA6OjORjIv0DxTBv8LbxsIhh+ssd1HO40xzfb8mYyZ3Xqnn+rlLwHv/oRxRK
-         ohTcdZOdFxx+FoRsLFDl944Arum6BZEEcCkgRVAeernMlaKmHBiClGY990SipuRXqVaw
-         fmkeedHJeJquDb9Djxo11SDGa+Qlxo4WWQzah7vkpDiDScZbJeCeeMo9b3+p7p2h3P0/
-         XEdS3kmHe9aykg9pPjcup1lO9wjbKIGvLuV4ilcxQVWSRgJwOvotz9VJHOT7lHZekQor
-         m3pt1fWpQszyxzEdoN9mOERHLMWrk8uGZQGR/fLZBz5UOSDCfs6gbQiKOoBapguudPqX
-         XVAQ==
-X-Gm-Message-State: AGi0Pub18X2kWQ5aLfK2kJkjp5Rwq0X8E3D+FpT8P0qJCRlCd4SsF1Ps
-        f1mWRWPBzwssCevbXgkqpXGVsqzl6ho=
-X-Google-Smtp-Source: APiQypIpB2e2ViIL0CCnYA4oVkvhs/yNpUwKFGColwjFzRfm4QOmlrGRqt9fD3677H7kyMyuPa9D0A==
-X-Received: by 2002:a2e:b8c1:: with SMTP id s1mr6507942ljp.0.1586381636370;
-        Wed, 08 Apr 2020 14:33:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=dGu6G6U9laSFYPkNmi6ZzG7WVHHi3cCRqEsXprARE/c=;
+        b=YtE0naaFZDe9JheUTUQzvbQ7ISBbnukBtKhC4+lpdMyI8TSd7Kg4uzlFCKY0Q2NjQC
+         Grs1bH9A1Ds84QETKRABgVgOR9hVsgH4NJpk5wcWe/9B13iqOhIovpxSuF0OGGFbsLsN
+         c7bSVUKDo06CXIiKlUhBYey1AqZwBz15bzlXqaBst/SLeIQGKvp05do959Ng76a+YfAc
+         67nGCWhmthrKHloL3F9GKOtf5elT2DYPYgqZwQRV5q30Um68FRqC2+eWnR7ixo0SYm2W
+         rrl9ukbPpr8U+D9HE9Zs+lwuJyiR9GEbaUYaVC7czeCTe3Q6yKdI/DJoWpjCAW1995v+
+         9foQ==
+X-Gm-Message-State: AGi0PuZZXEomHwyN9rtP6iJ6f5TCHbQZGNNZoZA+BYqJ7Hz4pzZvdd16
+        Fw89dYYxZxnF2mmtmfwv+FlEHWIaO78=
+X-Google-Smtp-Source: APiQypJys5JfGvGwfOKAO4N/l/YXrDr/1V9RYF63SNuDS7AhccKshDKvFd9TQV7QnKBo0bgPhrUynQ==
+X-Received: by 2002:a05:6512:318a:: with SMTP id i10mr5747051lfe.96.1586381639108;
+        Wed, 08 Apr 2020 14:33:59 -0700 (PDT)
 Received: from localhost.localdomain (212-5-158-138.ip.btc-net.bg. [212.5.158.138])
-        by smtp.gmail.com with ESMTPSA id t6sm15746688lfb.55.2020.04.08.14.33.53
+        by smtp.gmail.com with ESMTPSA id t6sm15746688lfb.55.2020.04.08.14.33.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2020 14:33:55 -0700 (PDT)
+        Wed, 08 Apr 2020 14:33:58 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 0/7] Venus Codec API addition and few fixes  
-Date:   Thu,  9 Apr 2020 00:33:23 +0300
-Message-Id: <20200408213330.27665-1-stanimir.varbanov@linaro.org>
+Subject: [PATCH 1/7] venus: core: Add missing mutex destroy
+Date:   Thu,  9 Apr 2020 00:33:24 +0300
+Message-Id: <20200408213330.27665-2-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200408213330.27665-1-stanimir.varbanov@linaro.org>
+References: <20200408213330.27665-1-stanimir.varbanov@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This adds missing mutex_destroy in remove method of venus core driver.
 
-Here are few fixes found during testing and one new addition
-related to decoder dynamic-resolution-change Codec API requirement.
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please comment.
-
-Stanimir Varbanov (7):
-  venus: core: Add missing mutex destroy
-  venus: core: Fix mutex destroy in remove
-  venus: core: Constify codec frequency data array
-  venus: helpers: Done buffers per queue type
-  venus: vdec: Mark flushed buffers with error state
-  venus: vdec: Init registered list unconditionally
-  venus: Mark last capture buffer
-
- drivers/media/platform/qcom/venus/core.c     |  6 +-
- drivers/media/platform/qcom/venus/core.h     |  5 +-
- drivers/media/platform/qcom/venus/helpers.c  | 18 ++++--
- drivers/media/platform/qcom/venus/helpers.h  |  2 +-
- drivers/media/platform/qcom/venus/hfi.c      | 10 ++--
- drivers/media/platform/qcom/venus/hfi.h      |  3 +-
- drivers/media/platform/qcom/venus/hfi_msgs.c |  2 +
- drivers/media/platform/qcom/venus/vdec.c     | 58 ++++++++++++++++----
- drivers/media/platform/qcom/venus/venc.c     |  2 +-
- 9 files changed, 80 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 4395cb96fb04..f8b9a732bc65 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -335,6 +335,7 @@ static int venus_remove(struct platform_device *pdev)
+ 
+ 	v4l2_device_unregister(&core->v4l2_dev);
+ 	mutex_destroy(&core->pm_lock);
++	mutex_destroy(&core->lock);
+ 
+ 	return ret;
+ }
 -- 
 2.17.1
 
