@@ -2,161 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 496601A1F6C
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 13:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DB7F1A1FF0
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 13:37:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgDHLIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 07:08:30 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35107 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728294AbgDHLI3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 07:08:29 -0400
-Received: by mail-wr1-f67.google.com with SMTP id g3so7376786wrx.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 04:08:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jeVjBN/6H/gI6gMyuL/+Tdutryht/EUxewf1jqrLbh8=;
-        b=CoSrQxuOgUErP6j4vE5Hnof3IlCEsZecLbmey7kO4uUjcv82/taslS3HKv0A+42o5L
-         OfbEuUrdi0sjmzf9L9MH44bGbnbnhN2vWSuWO9+xJYWDm2mS2PpB9tDa4GSJWUxr1xxA
-         Q8B6NmnYq8CJAjZTwoUszgiOYZ0nNUxeRS6/TuV7+U9ZbMFMgvjwdd3i489E21poNS/e
-         qfg63B8lm51EjOhKSrh+40rsC7XGQrzqGvAHzE7ZZZ3sS6llZOha4jGpQBPQ8Y0ZquY+
-         YNXfDO3eRm56/YZHWf9E94HQkGmp4nJza9reFnnWVLLTGS50ED2VdfYH+rExUOCIdMJM
-         /UGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jeVjBN/6H/gI6gMyuL/+Tdutryht/EUxewf1jqrLbh8=;
-        b=nUOnpxQDIXVt3LO1lnNY5ORVff00MCRa6CB04pe6Aj76fpBhRp9kzM9ZCKX63NR/Fe
-         glLDvUdOT9zpen5+FMiwI4ry8QQIgJ+eLev61de+dwuwPnPGL56gtMReRFmJFOctP1YD
-         sfncUWT1X6k/2lBqis555CVcDk0hcqBVfMdJi2z25e2uL/ssdu6YcOj2hW4gC3iEnjaw
-         CggepJiIvKscnWF2pA5Etf9IPkH4IHzxnY1ClN6+luTvXP/b0BDkqIoaF8bPiUsaBIRU
-         K15bh8D8VKK9xtukmZs+8RUNGwF+XfBhii5O+ayy8TulnKjt6vhyfcYqUxNew02bDUg9
-         u+Qg==
-X-Gm-Message-State: AGi0Pub6y+I0SfwkiHM1I43x/2wWPh/3K5eJYsUBx9aYjh4RA4iodsC0
-        CDDaEzbcy2gWhx9o8NF8fsvFug==
-X-Google-Smtp-Source: APiQypLzDqcFeNJoAa/AvreW1err4IF4jkgQFP1M6cVKPw6A9RRXkIJZFlBSKVJUggBN9Dvq+Tnp2g==
-X-Received: by 2002:a5d:4306:: with SMTP id h6mr7558068wrq.234.1586344107109;
-        Wed, 08 Apr 2020 04:08:27 -0700 (PDT)
-Received: from localhost.localdomain ([37.120.50.78])
-        by smtp.gmail.com with ESMTPSA id i8sm37596253wrb.41.2020.04.08.04.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2020 04:08:26 -0700 (PDT)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v4 3/3] media: ov8856: Implement sensor module revision identification
-Date:   Wed,  8 Apr 2020 13:08:16 +0200
-Message-Id: <20200408110816.2712841-4-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200408110816.2712841-1-robert.foss@linaro.org>
-References: <20200408110816.2712841-1-robert.foss@linaro.org>
+        id S1728539AbgDHLh3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 8 Apr 2020 07:37:29 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:49105 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727934AbgDHLh3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 07:37:29 -0400
+X-Originating-IP: 93.29.109.196
+Received: from collins (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 40B3F40006;
+        Wed,  8 Apr 2020 11:37:25 +0000 (UTC)
+Date:   Wed, 8 Apr 2020 13:37:25 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH] media: cedrus: Implement runtime PM
+Message-ID: <20200408113725.GA1439687@collins>
+References: <20200408010232.48432-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20200408010232.48432-1-samuel@sholland.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Query the sensor for its module revision, and compare it
-to known revisions.
-Currently only the '1B' revision has been added.
+Hi,
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
+On Tue 07 Apr 20, 20:02, Samuel Holland wrote:
+> This allows the VE clocks and PLL_VE to be disabled most of the time.
+> 
+> Since the device is stateless, each frame gets a separate runtime PM
+> reference. Enable autosuspend so the PM callbacks are not run before and
+> after every frame.
 
-- Changes since v3:
-  * Actually add module revision 2A
+Looks good, thanks for the contribution :)
 
-- Changes since v2:
-  * Add module revision 2A
-  * Sakari: Remove ov8856_check_revision()
-  * Sakari: Stop EEPROM streaming mode
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
- drivers/media/i2c/ov8856.c | 53 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+Cheers,
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 473d3245344a..de0b484b85d0 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -32,6 +32,19 @@
- #define OV8856_MODE_STANDBY		0x00
- #define OV8856_MODE_STREAMING		0x01
- 
-+/* module revisions */
-+#define OV8856_2A_MODULE		0x01
-+#define OV8856_1B_MODULE		0x02
-+
-+/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
-+ * of the byte in the OTP that means the module revision
-+ */
-+#define OV8856_MODULE_REVISION		0x700f
-+#define OV8856_OTP_MODE_CTRL		0x3d84
-+#define OV8856_OTP_LOAD_CTRL		0x3d81
-+#define OV8856_OTP_MODE_AUTO		0x00
-+#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
-+
- /* vertical-timings from sensor */
- #define OV8856_REG_VTS			0x380e
- #define OV8856_VTS_MAX			0x7fff
-@@ -1152,6 +1165,46 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 		return -ENXIO;
- 	}
- 
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
-+			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set otp mode");
-+		return ret;
-+	}
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
-+			       OV8856_REG_VALUE_08BIT,
-+			       OV8856_OTP_LOAD_CTRL_ENABLE);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to enable load control");
-+		return ret;
-+	}
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read module revision");
-+		return ret;
-+	}
-+
-+	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
-+		val,
-+		val == OV8856_2A_MODULE ? "2A" :
-+		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
-+		client->addr);
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to exit streaming mode");
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.25.1
+Paul
 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> I tested this with v4l2-request-test. I don't have the setup to do
+> anything more complicated at the moment.
+> 
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |   7 ++
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 115 ++++++++++++------
+>  .../staging/media/sunxi/cedrus/cedrus_hw.h    |   3 +
+>  3 files changed, 88 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> index 3fad5edccd17..9aa1fc8a6c26 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/pm.h>
+>  
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-ioctl.h>
+> @@ -474,6 +475,11 @@ static int cedrus_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct dev_pm_ops cedrus_dev_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(cedrus_hw_suspend,
+> +			   cedrus_hw_resume, NULL)
+> +};
+> +
+>  static const struct cedrus_variant sun4i_a10_cedrus_variant = {
+>  	.mod_rate	= 320000000,
+>  };
+> @@ -559,6 +565,7 @@ static struct platform_driver cedrus_driver = {
+>  	.driver		= {
+>  		.name		= CEDRUS_NAME,
+>  		.of_match_table	= of_match_ptr(cedrus_dt_match),
+> +		.pm		= &cedrus_dev_pm_ops,
+>  	},
+>  };
+>  module_platform_driver(cedrus_driver);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> index daf5f244f93b..b84814d5afe4 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/dma-mapping.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/clk.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+>  #include <linux/soc/sunxi/sunxi_sram.h>
+> @@ -63,6 +64,8 @@ int cedrus_engine_enable(struct cedrus_ctx *ctx, enum cedrus_codec codec)
+>  	if (ctx->src_fmt.width > 2048)
+>  		reg |= VE_MODE_PIC_WIDTH_MORE_2048;
+>  
+> +	pm_runtime_get_sync(ctx->dev->dev);
+> +
+>  	cedrus_write(ctx->dev, VE_MODE, reg);
+>  
+>  	return 0;
+> @@ -71,6 +74,9 @@ int cedrus_engine_enable(struct cedrus_ctx *ctx, enum cedrus_codec codec)
+>  void cedrus_engine_disable(struct cedrus_dev *dev)
+>  {
+>  	cedrus_write(dev, VE_MODE, VE_MODE_DISABLED);
+> +
+> +	pm_runtime_mark_last_busy(dev->dev);
+> +	pm_runtime_put_autosuspend(dev->dev);
+>  }
+>  
+>  void cedrus_dst_format_set(struct cedrus_dev *dev,
+> @@ -134,12 +140,72 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>  	else
+>  		state = VB2_BUF_STATE_DONE;
+>  
+> +	cedrus_engine_disable(dev);
+> +
+>  	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
+>  					 state);
+>  
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +int cedrus_hw_resume(struct device *d)
+> +{
+> +	struct cedrus_dev *dev = dev_get_drvdata(d);
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(dev->ahb_clk);
+> +	if (ret) {
+> +		dev_err(dev->dev, "Failed to enable AHB clock\n");
+> +
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(dev->mod_clk);
+> +	if (ret) {
+> +		dev_err(dev->dev, "Failed to enable MOD clock\n");
+> +
+> +		goto err_ahb_clk;
+> +	}
+> +
+> +	ret = clk_prepare_enable(dev->ram_clk);
+> +	if (ret) {
+> +		dev_err(dev->dev, "Failed to enable RAM clock\n");
+> +
+> +		goto err_mod_clk;
+> +	}
+> +
+> +	ret = reset_control_reset(dev->rstc);
+> +	if (ret) {
+> +		dev_err(dev->dev, "Failed to apply reset\n");
+> +
+> +		goto err_ram_clk;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_ram_clk:
+> +	clk_disable_unprepare(dev->ram_clk);
+> +err_mod_clk:
+> +	clk_disable_unprepare(dev->mod_clk);
+> +err_ahb_clk:
+> +	clk_disable_unprepare(dev->ahb_clk);
+> +
+> +	return ret;
+> +}
+> +
+> +int cedrus_hw_suspend(struct device *d)
+> +{
+> +	struct cedrus_dev *dev = dev_get_drvdata(d);
+> +
+> +	reset_control_assert(dev->rstc);
+> +
+> +	clk_disable_unprepare(dev->ram_clk);
+> +	clk_disable_unprepare(dev->mod_clk);
+> +	clk_disable_unprepare(dev->ahb_clk);
+> +
+> +	return 0;
+> +}
+> +
+>  int cedrus_hw_probe(struct cedrus_dev *dev)
+>  {
+>  	const struct cedrus_variant *variant;
+> @@ -236,42 +302,19 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
+>  		goto err_sram;
+>  	}
+>  
+> -	ret = clk_prepare_enable(dev->ahb_clk);
+> -	if (ret) {
+> -		dev_err(dev->dev, "Failed to enable AHB clock\n");
+> -
+> -		goto err_sram;
+> -	}
+> -
+> -	ret = clk_prepare_enable(dev->mod_clk);
+> -	if (ret) {
+> -		dev_err(dev->dev, "Failed to enable MOD clock\n");
+> -
+> -		goto err_ahb_clk;
+> -	}
+> -
+> -	ret = clk_prepare_enable(dev->ram_clk);
+> -	if (ret) {
+> -		dev_err(dev->dev, "Failed to enable RAM clock\n");
+> -
+> -		goto err_mod_clk;
+> -	}
+> -
+> -	ret = reset_control_reset(dev->rstc);
+> -	if (ret) {
+> -		dev_err(dev->dev, "Failed to apply reset\n");
+> -
+> -		goto err_ram_clk;
+> +	pm_runtime_set_autosuspend_delay(dev->dev, 1000);
+> +	pm_runtime_use_autosuspend(dev->dev);
+> +	pm_runtime_enable(dev->dev);
+> +	if (!pm_runtime_enabled(dev->dev)) {
+> +		ret = cedrus_hw_resume(dev->dev);
+> +		if (ret)
+> +			goto err_pm;
+>  	}
+>  
+>  	return 0;
+>  
+> -err_ram_clk:
+> -	clk_disable_unprepare(dev->ram_clk);
+> -err_mod_clk:
+> -	clk_disable_unprepare(dev->mod_clk);
+> -err_ahb_clk:
+> -	clk_disable_unprepare(dev->ahb_clk);
+> +err_pm:
+> +	pm_runtime_disable(dev->dev);
+>  err_sram:
+>  	sunxi_sram_release(dev->dev);
+>  err_mem:
+> @@ -282,11 +325,9 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
+>  
+>  void cedrus_hw_remove(struct cedrus_dev *dev)
+>  {
+> -	reset_control_assert(dev->rstc);
+> -
+> -	clk_disable_unprepare(dev->ram_clk);
+> -	clk_disable_unprepare(dev->mod_clk);
+> -	clk_disable_unprepare(dev->ahb_clk);
+> +	pm_runtime_disable(dev->dev);
+> +	if (!pm_runtime_status_suspended(dev->dev))
+> +		cedrus_hw_suspend(dev->dev);
+>  
+>  	sunxi_sram_release(dev->dev);
+>  
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> index 604ff932fbf5..17822b470a1e 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> @@ -22,6 +22,9 @@ void cedrus_engine_disable(struct cedrus_dev *dev);
+>  void cedrus_dst_format_set(struct cedrus_dev *dev,
+>  			   struct v4l2_pix_format *fmt);
+>  
+> +int cedrus_hw_resume(struct device *dev);
+> +int cedrus_hw_suspend(struct device *dev);
+> +
+>  int cedrus_hw_probe(struct cedrus_dev *dev);
+>  void cedrus_hw_remove(struct cedrus_dev *dev);
+>  
+> -- 
+> 2.24.1
+> 
