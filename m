@@ -2,122 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B86E1A27E0
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 19:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8911E1A2813
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 19:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728533AbgDHRXn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 13:23:43 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43221 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727327AbgDHRXn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 13:23:43 -0400
-Received: by mail-lj1-f193.google.com with SMTP id g27so8456041ljn.10
-        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 10:23:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0bb2nrCy5pm0c8i9XlYnnzT0iDevSHTFfOkwmC+DgLA=;
-        b=lJnPqtCDl6nLt69QJWktgMVEaFpUHij/siKE6HsAQ8/xboEvtd2Ih/hcHeZn73/TPR
-         bCwSi9gtJCPKRpQBYLHsU9NntLkrY0+EKiA6UjHZ1pfyxJr4dqep1mHK/JaFu7/4jE8A
-         L53m7YJ4uqtvo41kh71qptPh9drIKPxjYEkJNxYayOwvY7zCpE3Co93NGo3+FP3sy3D2
-         h4yzoSwjQNbGpi7lwACsLqiOVayTyV74fx9SVEtu3dFbZYUJVQwMTB+Z7WqNajRKFYc2
-         LQe6nXoRFgeeT51hcixPqClH1vD5q7y8K8966cGkRnFt2MoJ69mfH5P4EQ8HE9ab4uxS
-         X4Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0bb2nrCy5pm0c8i9XlYnnzT0iDevSHTFfOkwmC+DgLA=;
-        b=n1Wa3q/wAOI1pa30U5TqghYjURbRdqLcvbV6j6KfswzE0azjQPOXSO7ubIXHdB2zl6
-         Kx673TKwhN+qRPPb6jkCCP+z9wGvrptKY/u5prJB9UMdUoFiDL4RFirsXY99f+W6kC//
-         REnBtuu1TR018o2fU3cmYg/ZQ/6kT9j7KcZv869Q2JmpigoQugcm1LyEzY3cAQT07iuh
-         kcIc+9P7RtXjEkEb9F9fFNgHe4eG9nqw1sjdAJUlnK8ls8J+B99W5k31loLHVwqWB9HE
-         Ey3Qn6raGmaplCXjCZ5TOng12eAO6ZRgrISl5d0nlXfjEUAF7wGIF054kBXLb29XFM4K
-         Z2OA==
-X-Gm-Message-State: AGi0PuaMvsthqKbuBRpgdQgjV6vIzMCRhpOJvc40zl3zVyx2b8+xleht
-        CdBcGTb96gYHnfQTpqnoGyNgGsF3WsD4IMofJqI=
-X-Google-Smtp-Source: APiQypLMbKN6pNSgHfpev1qxD4ITT4/U2npDi95TL7Ej6JbVCIMryw2Un/1r10hzZ3t/3z6iP8Z8AWeKNEtudqVtvJ8=
-X-Received: by 2002:a05:651c:30b:: with SMTP id a11mr5570771ljp.164.1586366621533;
- Wed, 08 Apr 2020 10:23:41 -0700 (PDT)
+        id S1729468AbgDHRpo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 13:45:44 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6896 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727028AbgDHRpo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 13:45:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8e0dba0001>; Wed, 08 Apr 2020 10:45:30 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 08 Apr 2020 10:45:43 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 08 Apr 2020 10:45:43 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Apr
+ 2020 17:45:43 +0000
+Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 8 Apr 2020
+ 17:45:41 +0000
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <12a834ac-52b1-6dc0-7d3a-3e6a1fa85a2a@gmail.com>
+ <e3712e7b-b335-b35b-a94f-24eb85122dca@nvidia.com>
+ <b1726d33-0d35-9323-a747-407148d0104e@gmail.com>
+ <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+ <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
+ <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
+ <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
+ <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
+ <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+ <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+ <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
+ <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+ <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
+ <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
+ <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
+ <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
+ <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
+ <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
+Date:   Wed, 8 Apr 2020 10:45:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200408123215.2531-1-festevam@gmail.com> <c069af02-af3c-9527-eed4-839681c73ce6@gmail.com>
-In-Reply-To: <c069af02-af3c-9527-eed4-839681c73ce6@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 8 Apr 2020 14:24:07 -0300
-Message-ID: <CAOMZO5BN6igxVGRnOnftv=PGZWi=2Qb2Th0fhBon93Fk-zWj+w@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: imx.rst: Fix the MIPI CSI-2 virtual channel
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586367930; bh=C3x4vYXHJ49cie7cETLtHeDW7HBZDN9Aik/bGZg6QYs=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=ZvHdKxmuJM+G+XgaYTT347VCzFcHYhPRZYubc1sEmcwwkzb/6vxZLBQLs1qf0saEl
+         6g1DkgpIVIiIRIlPleTIEdK2W8I2QMcGy2gFG2lKwPYZgiRLIxi0EmbgIlQukDbNv9
+         pigO87uX7/ZwSLy8dG3gyc3pT4LPDU58fBAxEyr2dZVZzsVGZ4Ykcm7RGH7+mfYUqc
+         yTXwxcbAqAQbajJzvlygoSnbR7hCbHR8gTEFeLMRPrm9Q0QX9eRe9o6snDdVVBuPKh
+         +KG+dJrXb8paWXblRpjIQ4R72jZRDPT4WGHIk4zE78b2p0K1mSQdjW/2jUXCO/KQql
+         3om9KO0W/JBtg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve,
 
-On Wed, Apr 8, 2020 at 1:35 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
-
-> change to:
+On 4/8/20 7:21 AM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
 >
-> media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
+>
+> 08.04.2020 03:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>>>>>> I suppose that taking a shot takes at least few milliseconds, which
+>>>>>> should be unacceptable to waste.
+>>>>> As long as buffers are in queue we have to keep processing each
+>>>>> buffer and between buffers obviously we have to wait for previous
+>>>>> frames to finish and this why we have separate thread for frame
+>>>>> finish where we can have next buffer capture ready and issue while
+>>>>> previous frame memory write happens
+>>> Also we specified numbers buffers as 3 to vb2 queue. So this is rare
+>>> case but to prevent issuing more than 2 at a time as VI HW is only
+>>> double buffered and syncpt fifo max depth is 2 added this to be safer.
+>> To be more clear, when more buffers are enqueued from userspace always
+>> capture list will be full and thread will be busy in capture till either
+>> error or stop stream request happens.
+>>
+> If kthreads take more than 1% of CPU time during capture (video) with
+> more than 2 buffers in queue, then it's not good and I think you should
+> do something about it. If kthreads stay at ~0%, then it should be okay
+> as-is.
 
-If I make this change I get:
+VI outstanding requests max can only be 2=C2=A0 as syncpt fifo depth is 2=
+=C2=A0=20
+and waiting to issue next capture when already 2 captures are inflight=20
+happens only during beginning of streaming where buffers allocated go=20
+thru capture for first time after queuing.
 
-# v4l2-ctl --stream-mmap -d /dev/video1
-[  501.143012] ipu1_ic_prpenc: capture format not valid
-                VIDIOC_STREAMON returned -1 (Invalid argument)
+same buffers are returned to userspace after capture and same allocated=20
+buffers will be queued back for subsequent captures.
 
-Going back to the original example:
+So this case of holding to issue single shot when already single shot is=20
+issue for 2 frames simultaneous happens only during beginning of start=20
+stream and also we set num_buffers to allocate for queue as 3 although 2=20
+is good enough where we will not hit this case even during streaming=20
+start with 2 buffers
 
-#  media-ctl -V "'ipu1_ic_prpenc':1 [fmt:AYUV32/640x480]"
-# v4l2-ctl --stream-mmap -d /dev/video1
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.03 fps
-
-Changing only the resolution:
-
-#  media-ctl -V "'ipu1_ic_prpenc':1 [fmt:AYUV32/800x600]"
-# v4l2-ctl --stream-mmap -d /dev/video1
-[  658.358246] ipu1_ic_prpenc: capture format not valid
-                VIDIOC_STREAMON returned -1 (Invalid argument)
-
-Any ideas?
-
-These are the lines I am currently using as per your feedback:
-
-   # Setup links
-   media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
-   media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
-   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
-   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
-   media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
-   media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
-   # Configure pads
-   media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
-   media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
-   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
-   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
-   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
-   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
-
-Thanks,
-
-Fabio Estevam
-
-   # Setup links
-   media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
-   media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
-   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
-   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
-   media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
-   media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
-   # Configure pads
-   media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
-   media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
-   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
-   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
-   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
-   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
