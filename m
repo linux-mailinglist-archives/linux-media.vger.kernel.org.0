@@ -2,140 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F4891A190E
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 02:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB15A1A192A
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 02:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbgDHAFQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Apr 2020 20:05:16 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:45468 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726416AbgDHAFQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 20:05:16 -0400
-Received: from [IPv6:2804:431:e7cc:377d:dcf4:aab0:a7bd:9880] (unknown [IPv6:2804:431:e7cc:377d:dcf4:aab0:a7bd:9880])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 688EF284F73;
-        Wed,  8 Apr 2020 01:05:09 +0100 (BST)
-Subject: Re: [PATCH v2 0/3] media: add v4l2_pipeline_stream_{enable,disable}
- helpers
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+        id S1726512AbgDHAPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Apr 2020 20:15:32 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:33514 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbgDHAPc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Apr 2020 20:15:32 -0400
+Received: by mail-lj1-f194.google.com with SMTP id q22so1963920ljg.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Apr 2020 17:15:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wBmmkv5EbGKYUNkzEYnIvZ802Zpc4/nWXvJbm9vTzy8=;
+        b=eQF82/r2ns4IEQGeT7nrbn5xT5aRBAStDla9TU6NBrKxHh7t30Ap/GL+oVxfX5SO6n
+         hrq8w/pWG6CrC+hXGF4fOQN15Vzpa1OBgCPURdTOZlOcDb3zOxT0gXre/74ytrRrU650
+         kYEgR36RQZJqjLGY3uq0M8pvBe3MhxzhSrAj4S6Q6ZM3vlSGM+pz+7+VdhqrLIHgmcin
+         QUf8OjddvEtPnRpNdqz3gCyB1Wf4NYPiSJg0ub28hruqrAUIzvICaNtuLOxCnzkQXq9p
+         xnWceezjkOQeLkChvejKfezYXvEF47geoF/OawZloixqeG4hNmRoUzCl/P40j7g7fuw5
+         NENg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wBmmkv5EbGKYUNkzEYnIvZ802Zpc4/nWXvJbm9vTzy8=;
+        b=lMjZLeqB0oCFtNZxiqNJBzg1UJ1UsKrLUE1jWD8MV14k78sQkzlyPuqxnnYHcGmY64
+         cCN/gUSFcWCw8uFqkuYamX86IpC0Ihw7I5nXp4yvzh2LenQca8liePhu3P+iaUJrcNqv
+         nuz1x+vSNKrRXyVqDCB4YXWuXmEKlpDY1IXy3Xdv4G1F8sGVK5k2eL5kl7uEXxFrlmq8
+         qAgyyDC0ZFBlRdeh5+RwkeETznEeDs3gj+hY+CNwpswJhRORk6mwXFA6w+6Zzba9wh7V
+         f+/D3cDu33+LMgbpLyEa4OILb2kggNFpT9UKOPRsuofEBMvM7/oRr9vL6GrmAu47TY1U
+         8XyA==
+X-Gm-Message-State: AGi0Puaqnpaz1/NohtlOcZelhcmkVn5FD11pqoD/CZZTvA3hjQ6jvKJF
+        jC9iRGPmpLsArfhAe9uuIs8HrNpg/D4=
+X-Google-Smtp-Source: APiQypJUuiJTo36iazCjmHoOP1Cj3Ejl1xcr2/9UhmAcs+0WuYL6cL2nXv/XBLNWbQZ0w17jLaqViQ==
+X-Received: by 2002:a2e:8ec2:: with SMTP id e2mr3120283ljl.252.1586304929998;
+        Tue, 07 Apr 2020 17:15:29 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id 133sm12464946ljj.91.2020.04.07.17.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 17:15:29 -0700 (PDT)
+Date:   Wed, 8 Apr 2020 02:15:28 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Helen Koike <helen.koike@collabora.com>
 Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
         linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
         hans.verkuil@cisco.com, skhan@linuxfoundation.org,
         mchehab@kernel.org
+Subject: Re: [PATCH v2 0/3] media: add v4l2_pipeline_stream_{enable,disable}
+ helpers
+Message-ID: <20200408001528.GI1716317@oden.dyn.berto.se>
 References: <20200403213312.1863876-1-helen.koike@collabora.com>
  <20200407193615.GG1716317@oden.dyn.berto.se>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <4be824ea-61e2-4624-4880-fccb4ff804cd@collabora.com>
-Date:   Tue, 7 Apr 2020 21:05:03 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ <4be824ea-61e2-4624-4880-fccb4ff804cd@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20200407193615.GG1716317@oden.dyn.berto.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4be824ea-61e2-4624-4880-fccb4ff804cd@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Helen,
 
+Thanks for your reply.
 
-On 4/7/20 4:36 PM, Niklas SÃ¶derlund wrote:
-> Hi Helen,
-> 
-> On 2020-04-03 18:33:09 -0300, Helen Koike wrote:
->> Hi,
->>
->> Media drivers need to iterate through the pipeline and call .s_stream()
->> callbacks in the subdevices.
->>
->> Instead of repeating code, add helpers for this.
->>
->> These helpers will go walk through the pipeline only visiting entities
->> that participates in the stream, i.e. it follows links from sink to source
->> (and not the opposite).
->>
->> Which means that in a topology like this https://bit.ly/3b2MxjI
->> calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
->> .s_stream(true) for rkisp1_resizer_selfpath.
->>
->> stream_count variable was added in v4l2_subdevice to handle nested calls
->> to the helpers.
->> This is useful when the driver allows streaming from more then one
->> capture device sharing subdevices.
->>
->> This patch came from the error I was facing when multistreaming from
->> rkisp1 driver, where stoping one capture would call s_stream(false) in
->> the pipeline, causing a stall in the second capture device.
->>
->> Also, the vimc patch https://patchwork.kernel.org/patch/10948833/ won't
->> be required with this patchset.
->>
->> This patchset was tested on rkisp1 and vimc drivers.
-> 
-> I'm just curious, with this series applied can I stream simultaneously 
-> on multiple video devises using vimc?
+On 2020-04-07 21:05:03 -0300, Helen Koike wrote:
+> No, this patch only removes the requirement of patch 1/3 in the series
+> "vimc: Allow multiple capture devices to use the same sensor", since the counter
+> is being added in the core, so it won't be required to add it for each subdevice.
+> The other patches in that series are still required.
 
-No, this patch only removes the requirement of patch 1/3 in the series
-"vimc: Allow multiple capture devices to use the same sensor", since the counter
-is being added in the core, so it won't be required to add it for each subdevice.
-The other patches in that series are still required.
+OK, just checking. One step in the that direction at least :-)
 
-
+-- 
 Regards,
-Helen
-
-> 
->>
->> Other cleanup might be possible (but I won't add in this patchset as I
->> don't have the hw to test):
->> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/qcom/camss/camss-video.c#n430
->> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/omap3isp/isp.c#n697
->> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/stm32/stm32-dcmi.c#n680
->> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/xilinx/xilinx-dma.c#n97
->>
->> Changes in V2:
->> ====================
->> The first version was calling the s_stream() callbacks from sensor to
->> capture.
->>
->> This was generating errors in the Scarlet Chromebook, when the sensor
->> was being enabled before the ISP.
->>
->> It make sense to enable subdevices from capture to sensor instead (which
->> is what most drivers do already).
->>
->> This v2 drops the changes from mc-entity.c, and re-implement helpers in
->> v4l2-common.c
->>
->> Overview of patches:
->> ====================
->>
->> Path 1/3 adds the helpers in v4l2-common.c, allowing nested calls by
->> adding stream_count in the subdevice struct.
->>
->> Patch 2/3 cleanup rkisp1 driver to use the helpers.
->>
->> Patch 3/3 cleanup vimc driver to use the helpers.
->>
->> Helen Koike (3):
->>   media: v4l2-common: add helper functions to call s_stream() callbacks
->>   media: staging: rkisp1: use v4l2_pipeline_stream_{enable,disable}
->>     helpers
->>   media: vimc: use v4l2_pipeline_stream_{enable,disable} helpers
->>
->>  drivers/media/platform/vimc/vimc-capture.c    |  28 +++--
->>  drivers/media/platform/vimc/vimc-streamer.c   |  49 +-------
->>  drivers/media/v4l2-core/v4l2-common.c         | 117 ++++++++++++++++++
->>  drivers/staging/media/rkisp1/rkisp1-capture.c |  76 +-----------
->>  include/media/v4l2-common.h                   |  28 +++++
->>  include/media/v4l2-subdev.h                   |   2 +
->>  6 files changed, 173 insertions(+), 127 deletions(-)
->>
->> -- 
->> 2.26.0
->>
-> 
+Niklas Söderlund
