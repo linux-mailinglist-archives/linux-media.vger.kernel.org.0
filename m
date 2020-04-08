@@ -2,215 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6E721A2335
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 15:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6EAF1A2385
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 15:48:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727939AbgDHNnY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 09:43:24 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:59159 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726754AbgDHNnY (ORCPT
+        id S1729395AbgDHNsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 09:48:22 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:45503 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729388AbgDHNsV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Apr 2020 09:43:24 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 6783A396;
-        Wed,  8 Apr 2020 09:43:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 08 Apr 2020 09:43:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=IUoT2yqEtBHFAFuB79MrspiA7L+
-        Ga6nqd4foadbxsMg=; b=mfY0kAUfTRZ2C1hAupkKRm0gFngfrT5dPTCoj7Zlfov
-        YnaX/2F4BxoCAi16ZiI82GDXn9SmvJkwKUTG1MlNUqEoUs6GXyeAkaT2wZBEviib
-        B68JHA1+5uZv7tX2wzYM67xmeIVukgQ8wRimU1cIfozX+uQSPWeBQ2p5Ebc2xf3J
-        QhP/581tt8Ok5vTH1yRKvfWxraMkLCqvUiiKjvr/MW+BMU2QspBbJLdD1AdXqUIf
-        PstBQitE8UcUsrTdKU4ru5ObEExEqASfYe9pFlMTcDasSkuZ1/upSFCDYmc/VH1f
-        0Lx3/yZHmbFG6Ve82fPK6gVLI36qrzcs26YEkKNf/cQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=IUoT2y
-        qEtBHFAFuB79MrspiA7L+Ga6nqd4foadbxsMg=; b=i62LpLV/57xPrHOcLzfPcH
-        2++k+hcBXSe7ZxAkBfziuri1to0e61Cmm3v1Co1mWN/XLsYQXG5tiav5vzN8NmgC
-        TtvV7/WcIE6ImocT/xKhOxTJPzKyTTDLZQ8/V9esDEK92MgA5aWcqtchVtYvC/Ce
-        OoOxZkvVAtX6WmdGgPhtYR4RTHLKb0PdquZcTsZAo9Noeg+ORDOpyNb3k+zknAsm
-        yHYaEHtFf7j6fKCN3KKuGc0mrEf+kAty1d5P3YBTSOlBVChcFhUvCEGJqpMPajuT
-        fMsM00csX2thrTvWyBu4DbxDmtgMQCw5QRdg9a+5gb5X20Ba3MPg3SOzrFwCCvcQ
-        ==
-X-ME-Sender: <xms:9tSNXgOEgd6IJfNlE6-HoJ6dQ7-kn3qZULjt6algrduwCHexWQoOKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudejgdeijecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
-    epkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
-    hordhtvggthh
-X-ME-Proxy: <xmx:9tSNXsPwgnUSIfiOgI6Mqz9m9TyKB2Neswx0vre0vzq9f969NwjRAQ>
-    <xmx:9tSNXo9UZ5PzjRtUO-KSfn4djrnyBeYqWlvrx1YIjoad_8r0KNyv-Q>
-    <xmx:9tSNXg5xFMM0rMyWJktDdIurxLWC4CRNWA76_sfKuyHO-ZaBO4xEQA>
-    <xmx:-NSNXl4KpBwXPI3gCRfZTgvgbQq-sHEfu9HgV-D8aQTC-BnVfNcuNA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A462B328006A;
-        Wed,  8 Apr 2020 09:43:17 -0400 (EDT)
-Date:   Wed, 8 Apr 2020 15:43:15 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Robert Foss <robert.foss@linaro.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200408134315.a7cemmto6bi26arg@gilmour.lan>
-References: <20200406083506.GE6127@valkosipuli.retiisi.org.uk>
- <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
- <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com>
- <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
- <CAG3jFysSrZJRE2TvL0bWoRFNnscgDGj8yGr-iwWBm4=1wMbJ9A@mail.gmail.com>
- <20200407163916.GL6127@valkosipuli.retiisi.org.uk>
- <CAAFQd5BGFB5znb9QyyPVL47kc809Ktu33bssvqg5eA-WwvMgOw@mail.gmail.com>
- <20200407172035.GM6127@valkosipuli.retiisi.org.uk>
- <20200408122127.i27hrmjh3pbjeulk@gilmour.lan>
- <CAAFQd5DNyQra-XksVaSfT_FCkOHTzm9mbn+tMd1vACV=pb9_8g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="owxezxtdimw2wppf"
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5DNyQra-XksVaSfT_FCkOHTzm9mbn+tMd1vACV=pb9_8g@mail.gmail.com>
+        Wed, 8 Apr 2020 09:48:21 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1586353701; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=oAeoV/kVHwPbkrGoZ7aZeGF+eF0FxLtQ1Yra0Lk7RmY=; b=tjFmU0iFkPdOq5XPD3Xg8XedjzqJdZYKeOvwpZ3im7Wk/t8Znhc11QyuTZCObTJMRp+e31JC
+ wdz9b/KO3GxBFgKRoQSBxVeaF//0GvAVTZYbkFf5SHw+Fd4Brnb/BLMEjeeb4mqVfEdXVfLE
+ 8U7ni5mfu8I5Kdu8JJpmFI0/97g=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e8dd61e.7fae422c4f10-smtp-out-n03;
+ Wed, 08 Apr 2020 13:48:14 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B1C7EC38569; Wed,  8 Apr 2020 13:48:13 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 06878C44BC3;
+        Wed,  8 Apr 2020 13:48:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 06878C44BC3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+To:     viresh.kumar@linaro.org, sboyd@kernel.org,
+        bjorn.andersson@linaro.org, agross@kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 16/21] media: venus: core: Add support for opp tables/perf voting
+Date:   Wed,  8 Apr 2020 19:16:42 +0530
+Message-Id: <1586353607-32222-17-git-send-email-rnayak@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1586353607-32222-1-git-send-email-rnayak@codeaurora.org>
+References: <1586353607-32222-1-git-send-email-rnayak@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Add support to add OPP tables and perf voting on the OPP powerdomain.
+This is needed so venus votes on the corresponding performance state
+for the OPP powerdomain along with setting the core clock rate.
 
---owxezxtdimw2wppf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc: linux-media@vger.kernel.org
+---
+ drivers/media/platform/qcom/venus/core.c       | 16 +++++++++++
+ drivers/media/platform/qcom/venus/core.h       |  4 +++
+ drivers/media/platform/qcom/venus/pm_helpers.c | 37 +++++++++++++++++++++++---
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
-On Wed, Apr 08, 2020 at 02:35:28PM +0200, Tomasz Figa wrote:
-> On Wed, Apr 8, 2020 at 2:21 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Tue, Apr 07, 2020 at 08:20:35PM +0300, Sakari Ailus wrote:
-> > > On Tue, Apr 07, 2020 at 06:46:06PM +0200, Tomasz Figa wrote:
-> > > > On Tue, Apr 7, 2020 at 6:40 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > > > >
-> > > > > On Tue, Apr 07, 2020 at 05:47:41PM +0200, Robert Foss wrote:
-> > > > > > On Tue, 7 Apr 2020 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > >
-> > > > > > > Hi Robert,
-> > > > > > >
-> > > > > > > On Tue, Apr 07, 2020 at 01:29:05PM +0200, Robert Foss wrote:
-> > > > > > > > On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
-> > > > > > > > > > > But that 19.2MHz is not a limitation of the device itself, it's a
-> > > > > > > > > > > limitation of our implementation, so we can instead implement
-> > > > > > > > > > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
-> > > > > > > > > > > sure that our parent clock is configured at the right rate) and the
-> > > > > > > > > > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
-> > > > > > > > > > > been rounded too far apart from the frequency we expect).
-> > > > > > > > > > >
-> > > > > > > > > > > This is doing exactly the same thing, except that we don't encode our
-> > > > > > > > > > > implementation limitations in the DT, but in the driver instead.
-> > > > > > > > > >
-> > > > > > > > > > What I really wanted to say that a driver that doesn't get the clock
-> > > > > > > > > > frequency from DT but still sets that frequency is broken.
-> > > > > > > > > >
-> > > > > > > > > > This frequency is highly system specific, and in many cases only a certain
-> > > > > > > > > > frequency is usable, for a few reasons: On many SoCs, not all common
-> > > > > > > > > > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
-> > > > > > > > > > are being used as well), and then that frequency affects the usable CSI-2
-> > > > > > > > > > bus frequencies directly --- and of those, only safe, known-good ones
-> > > > > > > > > > should be used. IOW, getting the external clock frequency wrong typically
-> > > > > > > > > > has an effect that that none of the known-good CSI-2 bus clock frequencies
-> > > > > > > > > > are available.
-> > > > > > > > >
-> > > > > > > > > So clock-frequency is not about the "Frequency of the xvclk clock in
-> > > > > > > > > Hertz", but the frequency at which that clock must run on this
-> > > > > > > > > particular SoC / board to be functional?
-> > > > > > > > >
-> > > > > > > > > If so, then yeah, we should definitely keep it, but the documentation
-> > > > > > > > > of the binding should be made clearer as well.
-> > > > > > > >
-> > > > > > > > Alright so, let me summarise the desired approach then.
-> > > > > > >
-> > > > > > > There's a separate discussion on the same topic here:
-> > > > > > > https://lore.kernel.org/linux-media/20200407122106.GD4751@pendragon.ideasonboard.com/
-> > > > > >
-> > > > > > Thanks for the link.
-> > > > > >
-> > > > > > >
-> > > > > > > > ACPI:
-> > > > > > > >   - Fetch the "clock-frequency" property
-> > > > > > > >   - Verify it to be 19.2Mhz
-> > > > > > > >
-> > > > > > > > DT:
-> > > > > > > >   - Fetch the "clock-frequency" property
-> > > > > > > >   - Verify it to be 19.2Mhz
-> > > > > > > >   - Get xvclk clock
-> > > > > > > >   - Get xvclk clock rate
-> > > > > > > >   - Verify xvclk clock rate to be 19.2Mhz
-> > > > > > >
-> > > > > > > The current status is that you should
-> > > > > > > 's/clock-frequency/link-frequencies/', and in order to replace
-> > > > > > > assigned-clock-rates, you'll want to have a clk_set_rate to 19.2MHz
-> > > > > > > between steps 3 and 4
-> > > > > >
-> > > > > > Would we want to 's/clock-frequency/link-frequencies/' for ACPI too?
-> > > > > > I imagine that would cause some breakage.
-> > > > >
-> > > > > It would, yes, and it would be no more correct on DT either.
-> > > > >
-> > > > > There are basically two possibilities here; either use the clock-frequency
-> > > > > property and set the frequency, or rely on assigned-clock-rates, and get
-> > > > > the frequency instead.
-> > > > >
-> > > > > The latter, while I understand it is generally preferred, comes with having
-> > > > > to figure out the register list set that closest matches the frequency
-> > > > > obtained. The former generally gets around this silently by the clock
-> > > > > driver setting the closest frequency it can support.
-> > > >
-> > > > Wouldn't the former actually cause problems, because the closest
-> > > > frequency the clock driver can support could be pretty far from the
-> > > > one requested? (E.g. 19.2 MHz vs 24 MHz) The driver needs to check the
-> > > > resulting frequency anyway.
-> > >
-> > > That's possible, yes; in this case there wouldn't be a guarantee the
-> > > frequency wouldn't be far off.
-> >
-> > assigned-clock-rates is really fragile... There's zero guarantee on
-> > how far the actual rate is going to be from the asked one, but more
-> > importantly you have zero guarantee on the time frame that rate is
-> > going to be enforced for.
->
-> Is there such a guarantee if clk_set_rate() is called?
-
-with clk_set_rate itself, no, but...
-
-> > It's simply going to change the rate as a one-off thing, and if
-> > there's the next millisecond someone else is going to change its rate
-> > one way or another, it's going to do so and you won't have any
-> > notification.
-
-You can get notified, and you can use clk_set_rate_exclusive if you
-*really* want to enforce it.
-
-Maxime
-
---owxezxtdimw2wppf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXo3U8wAKCRDj7w1vZxhR
-xbYmAQCvwxs2MFAuzyEDUKdjZldNLQc1jKizMLAFVwSMjo//4gD/S2vhR5TU6ijC
-oj73IKft7f4jO+EVP4AM7f34omC7pQI=
-=kKXt
------END PGP SIGNATURE-----
-
---owxezxtdimw2wppf--
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 194b10b9..3853637 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -12,6 +12,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <media/videobuf2-v4l2.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -250,6 +251,11 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	if (core->opp_pmdomain) {
++		core->opp = dev_pm_opp_set_clkname(dev, "core");
++		dev_pm_opp_of_add_table(dev);
++	}
++
+ 	pm_runtime_enable(dev);
+ 
+ 	ret = pm_runtime_get_sync(dev);
+@@ -301,6 +307,8 @@ static int venus_probe(struct platform_device *pdev)
+ err_venus_shutdown:
+ 	venus_shutdown(core);
+ err_runtime_disable:
++	if (core->opp_pmdomain)
++		dev_pm_opp_of_remove_table(dev);
+ 	pm_runtime_set_suspended(dev);
+ 	pm_runtime_disable(dev);
+ 	hfi_destroy(core);
+@@ -326,6 +334,9 @@ static int venus_remove(struct platform_device *pdev)
+ 
+ 	venus_firmware_deinit(core);
+ 
++	if (core->opp_pmdomain)
++		dev_pm_opp_of_remove_table(dev);
++
+ 	pm_runtime_put_sync(dev);
+ 	pm_runtime_disable(dev);
+ 
+@@ -350,6 +361,9 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	if (core->opp_pmdomain)
++		dev_pm_opp_set_rate(dev, 0);
++
+ 	if (pm_ops->core_power)
+ 		ret = pm_ops->core_power(dev, POWER_OFF);
+ 
+@@ -511,6 +525,7 @@ static const struct venus_resources sdm845_res_v2 = {
+ 	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = { "venus", "vcodec0", "vcodec1" },
+ 	.vcodec_pmdomains_num = 3,
++	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
+ 	.vcodec_num = 2,
+ 	.max_load = 3110400,	/* 4096x2160@90 */
+ 	.hfi_version = HFI_VERSION_4XX,
+@@ -556,6 +571,7 @@ static const struct venus_resources sc7180_res = {
+ 	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
++	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
+ 	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_4XX,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index bd3ac6a..90d011d 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -62,6 +62,7 @@ struct venus_resources {
+ 	unsigned int vcodec_clks_num;
+ 	const char * const vcodec_pmdomains[VIDC_PMDOMAINS_NUM_MAX];
+ 	unsigned int vcodec_pmdomains_num;
++	const char **opp_pmdomain;
+ 	unsigned int vcodec_num;
+ 	enum hfi_version hfi_version;
+ 	u32 max_load;
+@@ -144,8 +145,11 @@ struct venus_core {
+ 	struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+ 	struct icc_path *video_path;
+ 	struct icc_path *cpucfg_path;
++	struct opp_table *opp;
+ 	struct device_link *pd_dl_venus;
+ 	struct device *pmdomains[VIDC_PMDOMAINS_NUM_MAX];
++	struct device_link *opp_dl_venus;
++	struct device *opp_pmdomain;
+ 	struct video_device *vdev_dec;
+ 	struct video_device *vdev_enc;
+ 	struct v4l2_device v4l2_dev;
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index abf9315..b35ea7a 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -9,6 +9,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/pm_domain.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/types.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -66,10 +67,9 @@ static void core_clks_disable(struct venus_core *core)
+ 
+ static int core_clks_set_rate(struct venus_core *core, unsigned long freq)
+ {
+-	struct clk *clk = core->clks[0];
+ 	int ret;
+ 
+-	ret = clk_set_rate(clk, freq);
++	ret = dev_pm_opp_set_rate(core->dev, freq);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -740,13 +740,15 @@ static int venc_power_v4(struct device *dev, int on)
+ 
+ static int vcodec_domains_get(struct device *dev)
+ {
++	struct opp_table *opp;
++	struct device **opp_virt_dev;
+ 	struct venus_core *core = dev_get_drvdata(dev);
+ 	const struct venus_resources *res = core->res;
+ 	struct device *pd;
+ 	unsigned int i;
+ 
+ 	if (!res->vcodec_pmdomains_num)
+-		return -ENODEV;
++		goto skip_pmdomains;
+ 
+ 	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
+ 		pd = dev_pm_domain_attach_by_name(dev,
+@@ -763,6 +765,24 @@ static int vcodec_domains_get(struct device *dev)
+ 	if (!core->pd_dl_venus)
+ 		return -ENODEV;
+ 
++skip_pmdomains:
++	if (!res->opp_pmdomain)
++		return 0;
++
++	/* Attach the power domain for setting performance state */
++	opp = dev_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
++	if (IS_ERR(opp))
++		return PTR_ERR(opp);
++	else if (opp_virt_dev) {
++		core->opp_pmdomain = *opp_virt_dev;
++		core->opp_dl_venus = device_link_add(dev, core->opp_pmdomain,
++						     DL_FLAG_RPM_ACTIVE |
++						     DL_FLAG_PM_RUNTIME |
++						     DL_FLAG_STATELESS);
++		if (!core->opp_dl_venus)
++			return -ENODEV;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -773,7 +793,7 @@ static void vcodec_domains_put(struct device *dev)
+ 	unsigned int i;
+ 
+ 	if (!res->vcodec_pmdomains_num)
+-		return;
++		goto skip_pmdomains;
+ 
+ 	if (core->pd_dl_venus)
+ 		device_link_del(core->pd_dl_venus);
+@@ -783,6 +803,15 @@ static void vcodec_domains_put(struct device *dev)
+ 			continue;
+ 		dev_pm_domain_detach(core->pmdomains[i], true);
+ 	}
++
++skip_pmdomains:
++	if (!res->opp_pmdomain)
++		return;
++
++	if (core->opp_dl_venus)
++		device_link_del(core->opp_dl_venus);
++
++	dev_pm_domain_detach(core->opp_pmdomain, true);
+ }
+ 
+ static int core_get_v4(struct device *dev)
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
