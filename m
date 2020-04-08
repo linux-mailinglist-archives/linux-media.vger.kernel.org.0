@@ -2,210 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7CE1A21C9
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 14:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 270181A220F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 14:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728031AbgDHMVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 08:21:33 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:41657 "EHLO
-        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726726AbgDHMVc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Apr 2020 08:21:32 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id B437763A;
-        Wed,  8 Apr 2020 08:21:30 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 08 Apr 2020 08:21:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=eKznV0EiL5YFZpOgXi3T6SWekp5
-        tEc/i2dZyn4lI7YQ=; b=y3G6SnJRMJ7Tk4hZZx8sIMN5la8gvlHS+CaUAFWbE3X
-        /Vb1XWbWYfkKhtxebVqYJ28/vxzsg9bDLTHLMF5NNUEchjO6ds+4093X8CA1fUOE
-        EHR+572XFc7A0MXPnVB3u86Tkz+wG2W5XTYU7WYQw8gF0voKc8ZpjzwTbChCTWTK
-        C6xQaYhb9zlPXoFQkR2UvLJgiiH4vt/8Pk06capoTJbfCKcmhGpJGLTSIuMZinxt
-        OGisGKVFqkNAooHR5EpCgsJMCT0uzr2qWH02sjI5fSX+6h06V2Qxu1K0EZibOult
-        bM2Evg+B1ocQxjnBZbuV3oFN0owIz3CIDriO4IQWFOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eKznV0
-        EiL5YFZpOgXi3T6SWekp5tEc/i2dZyn4lI7YQ=; b=TQl2L42OzyQBtTjJNcWyY+
-        6qxikGDjDfVNQeb+XwsoquQq8fWGCGjYNLNl6PKednklRaBcGAyDfZCkOy9ztUrW
-        YcP3egDOwtqd16/APpKmN0q30nLytvNlrW0HCgll5rw23Om7DBUC6IGg1wC0N8zP
-        bCBhKW9Ce1cjW0HhMGBG74BTC+ciyyFMyFzVf0NRg5TM1/AoK0ygYwPVJaCy4tJl
-        BCjfVPqjCqIuMrhbEQvikJvhUa50KcdEPNROeQfLMn+sjTXCqzhm4k4eqHZr3M6X
-        i0vY9VY8D2pgkRW6E43i18wE1dkrze4/pPlO/9hlgWfim2yw2j8z6h/nDW9k6akA
-        ==
-X-ME-Sender: <xms:ycGNXtk1MzxgRg_KwThRKNaXvYijIRp1Zw8jodCfG5omNEiJ_ZkO1g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudejgdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
-    epkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnh
-    hordhtvggthh
-X-ME-Proxy: <xmx:ycGNXiXGq7FhPt5qpuT2E7PiP8wjLoHZh8iRn3_qd8v_U-emvXZPiQ>
-    <xmx:ycGNXn7I9-wlrv7qgD9ALd8iWNxZl1FRz0VnrEpLVUH-HpaEY5aEPQ>
-    <xmx:ycGNXlLcRgosgpvrJyurZmT3IKu8F0Nkr6FbI1qfigopqq7VvZTW8A>
-    <xmx:ysGNXk8puO2wGE6Qy3VjvwYey2vezEq3FSeB8yA2jO-2-GP_bCsHVg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4EDE33280070;
-        Wed,  8 Apr 2020 08:21:29 -0400 (EDT)
-Date:   Wed, 8 Apr 2020 14:21:27 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200408122127.i27hrmjh3pbjeulk@gilmour.lan>
-References: <20200403232736.GA6127@valkosipuli.retiisi.org.uk>
- <20200404093446.vuvwrhn5436h4d3s@gilmour.lan>
- <20200406083506.GE6127@valkosipuli.retiisi.org.uk>
- <20200407083647.4mocdl7aqa3x737q@gilmour.lan>
- <CAG3jFyvd32pWppubMoOoyH9eO2XLjwUXMC7p4xtv8m+JkPv6vw@mail.gmail.com>
- <20200407123232.ktvaifhqntgzvkap@gilmour.lan>
- <CAG3jFysSrZJRE2TvL0bWoRFNnscgDGj8yGr-iwWBm4=1wMbJ9A@mail.gmail.com>
- <20200407163916.GL6127@valkosipuli.retiisi.org.uk>
- <CAAFQd5BGFB5znb9QyyPVL47kc809Ktu33bssvqg5eA-WwvMgOw@mail.gmail.com>
- <20200407172035.GM6127@valkosipuli.retiisi.org.uk>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kc7rymy56ghls6sm"
-Content-Disposition: inline
-In-Reply-To: <20200407172035.GM6127@valkosipuli.retiisi.org.uk>
+        id S1728454AbgDHMbt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 08:31:49 -0400
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:41686 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728207AbgDHMbt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 08:31:49 -0400
+Received: by mail-qv1-f65.google.com with SMTP id b4so1145980qvw.8
+        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 05:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=av+V9OCAoiE9wtnyqgCwAxBKSBlWviHFTCRPpGmAtvU=;
+        b=Z7WCMy6LxDEH1nSXf/TkIYBm5fK++iqegBNETRE0NB4Jq/82ADO8MK5MI8I5/Wu0vc
+         MGt68ogxcH9XjObrRw3ycZj11nModlbt8lJT5KD32TURV6q+1/sNCeE0LOwdgvV60YV0
+         /ZwsWGuDcUALLNa1v5x1/U1FmU52iny0xoQZapJx4+kJMsRo04bdPA45WMgBdvso0brm
+         XinieRsFULr7fZg8fpOAO2kcnPyvUR6TsUdzR3vlMFlqEEMwt+cGIk9uS2uDVevPtIdj
+         X6foaJP/ppbwPRn7KSWxRvXjw6cCEtTNXues309EHDyNlMJRKb0s91jIKsuZA/id8DRK
+         hCKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=av+V9OCAoiE9wtnyqgCwAxBKSBlWviHFTCRPpGmAtvU=;
+        b=jtd2BnPtK74KKt/dvwfhhzEJOL85NWZydkIdr6isPV8QVy90URmpLvWz+aqzQSJxKW
+         QTyiZbwJYsfO+R1eZLsgRq+Cwa35tnyOdsy4JaxSSffLoOnCTAYvBQ3Gz3GpGVZ86PDW
+         pAgyVLnoVD/RAwdlM835ij1BsHxQKTB8o5rj8qlurlyJPBv8qR8HQzsqewyfZqNC+18q
+         k6raTt4hQa1EJJUBwuKGhTczthqxY4f5lBYDKXHNPSVj/IHo4TbHMaKmYM9Vm+p+Aaqv
+         2O1O/fZreHdXY3EFrPcQ4tbu2GW0zyLsiP+WUfonqAjySyDvUB7unqMTAOvgeGqyjpyw
+         9WJg==
+X-Gm-Message-State: AGi0PuaX05k3Y1VFt6eHIP4Lf9gu3+eMufBaguUjm3j05FmbLqmzM1p5
+        hCbiOpgKY40xCbHPp7zzL6g=
+X-Google-Smtp-Source: APiQypJNIT/5/nRRJ7TyCCN6So8dlvQ5boMzqnjNCfhcNEz3mFPGfHWbkrZ/ant4mxBwYkXvcs6lLQ==
+X-Received: by 2002:a0c:c28c:: with SMTP id b12mr7279894qvi.26.1586349107460;
+        Wed, 08 Apr 2020 05:31:47 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:5bb::4])
+        by smtp.gmail.com with ESMTPSA id z40sm9120377qtj.45.2020.04.08.05.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2020 05:31:46 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH 1/4] media: imx.rst: Fix the MIPI CSI-2 virtual channel
+Date:   Wed,  8 Apr 2020 09:32:12 -0300
+Message-Id: <20200408123215.2531-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The current instructions for imx6q-sabresd do not lead to functional
+capture on OV5640 MIPI CSI-2.
 
---kc7rymy56ghls6sm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The reason for this, as explained by Steve Longerbeam, is that OV5640 by
+default transmits on virtual channel 0, not channel 1 as is given in the
+instructions.
 
-On Tue, Apr 07, 2020 at 08:20:35PM +0300, Sakari Ailus wrote:
-> On Tue, Apr 07, 2020 at 06:46:06PM +0200, Tomasz Figa wrote:
-> > On Tue, Apr 7, 2020 at 6:40 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > >
-> > > On Tue, Apr 07, 2020 at 05:47:41PM +0200, Robert Foss wrote:
-> > > > On Tue, 7 Apr 2020 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > >
-> > > > > Hi Robert,
-> > > > >
-> > > > > On Tue, Apr 07, 2020 at 01:29:05PM +0200, Robert Foss wrote:
-> > > > > > On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
-> > > > > > > > > But that 19.2MHz is not a limitation of the device itself, it's a
-> > > > > > > > > limitation of our implementation, so we can instead implement
-> > > > > > > > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
-> > > > > > > > > sure that our parent clock is configured at the right rate) and the
-> > > > > > > > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
-> > > > > > > > > been rounded too far apart from the frequency we expect).
-> > > > > > > > >
-> > > > > > > > > This is doing exactly the same thing, except that we don't encode our
-> > > > > > > > > implementation limitations in the DT, but in the driver instead.
-> > > > > > > >
-> > > > > > > > What I really wanted to say that a driver that doesn't get the clock
-> > > > > > > > frequency from DT but still sets that frequency is broken.
-> > > > > > > >
-> > > > > > > > This frequency is highly system specific, and in many cases only a certain
-> > > > > > > > frequency is usable, for a few reasons: On many SoCs, not all common
-> > > > > > > > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
-> > > > > > > > are being used as well), and then that frequency affects the usable CSI-2
-> > > > > > > > bus frequencies directly --- and of those, only safe, known-good ones
-> > > > > > > > should be used. IOW, getting the external clock frequency wrong typically
-> > > > > > > > has an effect that that none of the known-good CSI-2 bus clock frequencies
-> > > > > > > > are available.
-> > > > > > >
-> > > > > > > So clock-frequency is not about the "Frequency of the xvclk clock in
-> > > > > > > Hertz", but the frequency at which that clock must run on this
-> > > > > > > particular SoC / board to be functional?
-> > > > > > >
-> > > > > > > If so, then yeah, we should definitely keep it, but the documentation
-> > > > > > > of the binding should be made clearer as well.
-> > > > > >
-> > > > > > Alright so, let me summarise the desired approach then.
-> > > > >
-> > > > > There's a separate discussion on the same topic here:
-> > > > > https://lore.kernel.org/linux-media/20200407122106.GD4751@pendragon.ideasonboard.com/
-> > > >
-> > > > Thanks for the link.
-> > > >
-> > > > >
-> > > > > > ACPI:
-> > > > > >   - Fetch the "clock-frequency" property
-> > > > > >   - Verify it to be 19.2Mhz
-> > > > > >
-> > > > > > DT:
-> > > > > >   - Fetch the "clock-frequency" property
-> > > > > >   - Verify it to be 19.2Mhz
-> > > > > >   - Get xvclk clock
-> > > > > >   - Get xvclk clock rate
-> > > > > >   - Verify xvclk clock rate to be 19.2Mhz
-> > > > >
-> > > > > The current status is that you should
-> > > > > 's/clock-frequency/link-frequencies/', and in order to replace
-> > > > > assigned-clock-rates, you'll want to have a clk_set_rate to 19.2MHz
-> > > > > between steps 3 and 4
-> > > >
-> > > > Would we want to 's/clock-frequency/link-frequencies/' for ACPI too?
-> > > > I imagine that would cause some breakage.
-> > >
-> > > It would, yes, and it would be no more correct on DT either.
-> > >
-> > > There are basically two possibilities here; either use the clock-frequency
-> > > property and set the frequency, or rely on assigned-clock-rates, and get
-> > > the frequency instead.
-> > >
-> > > The latter, while I understand it is generally preferred, comes with having
-> > > to figure out the register list set that closest matches the frequency
-> > > obtained. The former generally gets around this silently by the clock
-> > > driver setting the closest frequency it can support.
-> >
-> > Wouldn't the former actually cause problems, because the closest
-> > frequency the clock driver can support could be pretty far from the
-> > one requested? (E.g. 19.2 MHz vs 24 MHz) The driver needs to check the
-> > resulting frequency anyway.
->
-> That's possible, yes; in this case there wouldn't be a guarantee the
-> frequency wouldn't be far off.
+Adapt the instructions to use virtual channel 0 so that a working
+camera setup can be achieved on imx6q-sabresd.
 
-assigned-clock-rates is really fragile... There's zero guarantee on
-how far the actual rate is going to be from the asked one, but more
-importantly you have zero guarantee on the time frame that rate is
-going to be enforced for.
+Suggested-by: Steve Longerbeam <slongerbeam@gmail.com>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+Hi Steve,
 
-It's simply going to change the rate as a one-off thing, and if
-there's the next millisecond someone else is going to change its rate
-one way or another, it's going to do so and you won't have any
-notification.
+I don't have access to a imx6q sabrelite with camera, but I think
+it needs fixing as well.
 
-And even semantically, they do not share the same meaning at all, so
-we should really stop using assigned-clock-rates if we can, instead of
-pushing it.
+ Documentation/media/v4l-drivers/imx.rst | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-Maxime
+diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
+index 1246573c1019..7c3afd32e456 100644
+--- a/Documentation/media/v4l-drivers/imx.rst
++++ b/Documentation/media/v4l-drivers/imx.rst
+@@ -645,25 +645,26 @@ The OV5640 module connects to MIPI connector J5 (sorry I don't have the
+ compatible module part number or URL).
+ 
+ The following example configures a direct conversion pipeline to capture
+-from the OV5640, transmitting on MIPI CSI-2 virtual channel 1. $sensorfmt
+-can be any format supported by the OV5640. $sensordim is the frame
+-dimension part of $sensorfmt (minus the mbus pixel code). $outputfmt can
+-be any format supported by the ipu1_ic_prpenc entity at its output pad:
++from the OV5640, transmitting on MIPI CSI-2 virtual channel 0:
+ 
+ .. code-block:: none
+ 
+    # Setup links
+    media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+-   media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+-   media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
++   media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
++   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
++   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
+    media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
+    media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
+    # Configure pads
+-   media-ctl -V "'ov5640 1-003c':0 [fmt:$sensorfmt field:none]"
+-   media-ctl -V "'imx6-mipi-csi2':2 [fmt:$sensorfmt field:none]"
+-   media-ctl -V "'ipu1_csi1':1 [fmt:AYUV32/$sensordim field:none]"
+-   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/$sensordim field:none]"
+-   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:$outputfmt field:none]"
++   media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'ipu1_csi0':0 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
++   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
++   media-ctl -V "'ipu1_ic_prpenc':0 [fmt:AYUV32/640x480]"
++   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:AYUV32/640x480]"
+ 
+ Streaming can then begin on "ipu1_ic_prpenc capture" node. The v4l2-ctl
+ tool can be used to select any supported YUV or RGB pixelformat on the
+-- 
+2.17.1
 
---kc7rymy56ghls6sm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXo3BxwAKCRDj7w1vZxhR
-xWhbAP9X25KKaNSaUW1/Jij1L0q+JM7MlxgflP4JGoAWoYhzEwEA0p3y5pIaWdWz
-0+7krLCpqDit6ypGh6H5SOeFZ2zpgAw=
-=IwZI
------END PGP SIGNATURE-----
-
---kc7rymy56ghls6sm--
