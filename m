@@ -2,217 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF1511A23B9
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 16:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DB491A23F5
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 16:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgDHOE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 10:04:28 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53758 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727226AbgDHOE2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 10:04:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 9024929117E
-Message-ID: <f2a044b2c9a0d2920ce3cc327b331a790cd128bb.camel@collabora.com>
-Subject: Re: [PATCH v8 4/5] media: rkvdec: Add the rkvdec driver
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     DVB_Linux_Media <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-Date:   Wed, 08 Apr 2020 11:04:10 -0300
-In-Reply-To: <abe902f2ebdfa41bd4d99b7beb3b6c7ec91d2a8f.camel@ndufresne.ca>
-References: <20200403221345.16702-1-ezequiel@collabora.com>
-                 <20200403221345.16702-5-ezequiel@collabora.com>
-                 <CAKQmDh_pCX_s2Ze7b1YBqgvEZHNrgzDUfcjPos8_GZq8x6=5Ng@mail.gmail.com>
-                 <5c417620e1baeed7ec4ac750ab481366df2aa590.camel@collabora.com>
-         <abe902f2ebdfa41bd4d99b7beb3b6c7ec91d2a8f.camel@ndufresne.ca>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        id S1728620AbgDHOVr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 10:21:47 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44884 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727486AbgDHOVr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 10:21:47 -0400
+Received: by mail-lf1-f67.google.com with SMTP id 131so5226841lfh.11;
+        Wed, 08 Apr 2020 07:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Jf0MyvNrfZeSllBWGHedtbc9gbfyY6waAa4WK3aei6c=;
+        b=BOgb6KT/XVKYSez/v8+1A9WWPBbubsoob5g6qXsuZVeNs532Z9I6fM8sF6fB8xghkY
+         qP+dEBTK3mVa/tcTlHZM3L5qk2jePUvTQe1EPBVKBd33p1Xhlj+y6CbsghxHEgOzv94M
+         ZbYM+/4LONvDQQCWBTTnaHppKB2T4SUourtCjXjhuDoaaWfkOlIwK1zkdJGHcvQl6w9h
+         Rspvj2ZULbLC2F7ZLyhVDwX0sfTOrnJp23EJi2YOYjm80+kmfuPFnz/CUVaRvR+Xc7gB
+         I+96QbxW8VNPc3bqnM6bQlwDWYsGuGiW8f+Wp3F7wyZ6Jv/bkjTyplevyjSjtwaJV+I9
+         nh+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Jf0MyvNrfZeSllBWGHedtbc9gbfyY6waAa4WK3aei6c=;
+        b=WTayKLloEeaC3ujWOb43MQ5a3oojmf4c9rNljAT6aLJm+mtjwVlXoTu0L/t8OKnra+
+         P6ERGX2U7F7X8kOnqGiKrsTSlPx64tao/Zj1/bqpxsCKXh5AqJIBFlQ58xwf232kYaVJ
+         JKwSfp9M6uQ5qATcdyD0P0irk0xPeazDZ1YX9czzzhr6wQHJyg+b9gpft2+u6Qu+xa2z
+         twvWljQDLapS7I7a9G4PBJRd821LjNKWX0u5aQEcGxSnsmHGlLSwFqDIlvAH5PLBUfLi
+         BlOgI3xTUstb6rB+34E4NKzx2Jm1kEHShRMHjduP0MFtZkeUoQasbJKQ1pFaTAdaSaSN
+         0y3Q==
+X-Gm-Message-State: AGi0Pub+E6AL4WNq+9zipRmww28Qv2974nn9LoSa7anUUC8KxzZDZ2Wa
+        yEyD2/Ew/iUlF2mA4Exq9cdXSBXg
+X-Google-Smtp-Source: APiQypI0mxuc5luIqiw00spdsT9+ePChmhF5+4Scec0luiKkg51AuPK0pfMQqpfnOGXrQXb29jk1/A==
+X-Received: by 2002:ac2:58d7:: with SMTP id u23mr4817315lfo.182.1586355701563;
+        Wed, 08 Apr 2020 07:21:41 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id v9sm13821994ljv.82.2020.04.08.07.21.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Apr 2020 07:21:40 -0700 (PDT)
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <08cd31d5-e8b9-4d3a-fb0e-0e4462947d96@nvidia.com>
+ <12a834ac-52b1-6dc0-7d3a-3e6a1fa85a2a@gmail.com>
+ <e3712e7b-b335-b35b-a94f-24eb85122dca@nvidia.com>
+ <b1726d33-0d35-9323-a747-407148d0104e@gmail.com>
+ <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+ <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
+ <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
+ <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
+ <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
+ <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+ <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+ <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
+ <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+ <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
+ <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
+ <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
+ <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
+ <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
+Date:   Wed, 8 Apr 2020 17:21:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-04-07 at 15:36 -0400, Nicolas Dufresne wrote:
-> Le mardi 07 avril 2020 à 11:35 -0300, Ezequiel Garcia a écrit :
-> > On Mon, 2020-04-06 at 16:27 -0400, Nicolas Dufresne wrote:
-> > > Le ven. 3 avr. 2020 à 18:14, Ezequiel Garcia <ezequiel@collabora.com> a écrit :
-> > > > From: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > 
-> > > > The rockchip vdec block is a stateless decoder that's able to decode
-> > > > H264, HEVC and VP9 content. This commit adds the core infrastructure
-> > > > and the H264 backend. Support for VP9 and HEVS will be added later on.
-> > > > 
-> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > 
-> > > Sorry for the late feedback (got a comment lower) ...
-> > > 
-> > > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > 
-> > 
-> > Nice, thank you.
-> > 
-> > > > --
-> > > > v8:
-> > > > * Fix kfree and style changes, as suggested by Andriy.
-> > > > v7:
-> > > > * hverkuil-cisco@xs4all.nl: replaced VFL_TYPE_GRABBER by _VIDEO
-> > > > * Use macros and ARRAY_SIZE instead of magic numbers,
-> > > >   as suggested by Mauro.
-> > > > * Renamed M_N macro, suggested by Mauro.
-> > > > * Use v4l2_m2m_buf_done_and_job_finish.
-> > > > * Set buffers' zeroth plane payload in .buf_prepare
-> > > > * Refactor try/s_fmt for spec compliance.
-> > > > ---
-> > > >  MAINTAINERS                                |    7 +
-> > > >  drivers/staging/media/Kconfig              |    2 +
-> > > >  drivers/staging/media/Makefile             |    1 +
-> > > >  drivers/staging/media/rkvdec/Kconfig       |   15 +
-> > > >  drivers/staging/media/rkvdec/Makefile      |    3 +
-> > > >  drivers/staging/media/rkvdec/TODO          |   11 +
-> > > >  drivers/staging/media/rkvdec/rkvdec-h264.c | 1156 ++++++++++++++++++++
-> > > >  drivers/staging/media/rkvdec/rkvdec-regs.h |  223 ++++
-> > > >  drivers/staging/media/rkvdec/rkvdec.c      | 1103 +++++++++++++++++++
-> > > >  drivers/staging/media/rkvdec/rkvdec.h      |  121 ++
-> > > >  10 files changed, 2642 insertions(+)
-> > > >  create mode 100644 drivers/staging/media/rkvdec/Kconfig
-> > > >  create mode 100644 drivers/staging/media/rkvdec/Makefile
-> > > >  create mode 100644 drivers/staging/media/rkvdec/TODO
-> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
-> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
-> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
-> > > > 
-> > [..]
-> > > > +
-> > > > +static void set_ps_field(u32 *buf, struct rkvdec_ps_field field, u32 value)
-> > > > +{
-> > > > +       u8 bit = field.offset % 32, word = field.offset / 32;
-> > > > +       u64 mask = GENMASK_ULL(bit + field.len - 1, bit);
-> > > > +       u64 val = ((u64)value << bit) & mask;
-> > > > +
-> > > > +       buf[word] &= ~mask;
-> > > > +       buf[word] |= val;
-> > > > +       if (bit + field.len > 32) {
-> > > > +               buf[word + 1] &= ~(mask >> 32);
-> > > > +               buf[word + 1] |= val >> 32;
-> > > > +       }
-> > > > +}
-> > > > +
-> > > > +static void assemble_hw_pps(struct rkvdec_ctx *ctx,
-> > > > +                           struct rkvdec_h264_run *run)
-> > > > +{
-> > > > +       struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
-> > > > +       const struct v4l2_ctrl_h264_sps *sps = run->sps;
-> > > > +       const struct v4l2_ctrl_h264_pps *pps = run->pps;
-> > > > +       const struct v4l2_ctrl_h264_decode_params *dec_params = run->decode_params;
-> > > > +       const struct v4l2_h264_dpb_entry *dpb = dec_params->dpb;
-> > > > +       struct rkvdec_h264_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
-> > > > +       struct rkvdec_sps_pps_packet *hw_ps;
-> > > > +       dma_addr_t scaling_list_address;
-> > > > +       u32 scaling_distance;
-> > > > +       u32 i;
-> > > > +
-> > > > +       /*
-> > > > +        * HW read the SPS/PPS information from PPS packet index by PPS id.
-> > > > +        * offset from the base can be calculated by PPS_id * 32 (size per PPS
-> > > > +        * packet unit). so the driver copy SPS/PPS information to the exact PPS
-> > > > +        * packet unit for HW accessing.
-> > > > +        */
-> > > > +       hw_ps = &priv_tbl->param_set[pps->pic_parameter_set_id];
-> > > > +       memset(hw_ps, 0, sizeof(*hw_ps));
-> > > > +
-> > > > +#define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
-> > > > +       /* write sps */
-> > > > +       WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
-> > > > +       WRITE_PPS(0xff, PROFILE_IDC);
-> > > > +       WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
-> > > 
-> > > At first I found that part rather interesting, but I see this
-> > > hardcoding matches what Rockchip do.
-> > > 
-> > > https://github.com/rockchip-linux/mpp/blob/release/mpp/hal/rkdec/h264d/hal_h264d_rkv_reg.c#L266
-> > > 
-> > > > +       WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
-> > > 
-> > > But here's it's not so great. This driver does not implement any kind
-> > > of validation. In fact, if I pass 3
-> > > here  (YCbCr 4:4:4) it will accept it, and kind of decode some frames,
-> > > but eventually with crash and
-> > > reboot is needed. We should (as defined in the Statelss CODEC spec)
-> > > validate the SPS and refuse if
-> > > an unsupported profile idc, chroma idc, luma/chroma depth or coded
-> > > size is requested.
-> > 
-> > Perhaps we could validate that at request_validate time,
-> > or maybe ops.try_ctrl is better.
-> > 
-> > </thinking_out_loud>
-> > 
-> > > Validating the
-> > > S_FMT is not sufficient as one can trick the driver in allocating
-> > > buffers that are too small.
-> > > 
-> > 
-> > I am not sure I follow you: how do you think the driver
-> > can be tricked like this?
+08.04.2020 03:00, Sowjanya Komatineni пишет:
+...
+>>>>> I suppose that taking a shot takes at least few milliseconds, which
+>>>>> should be unacceptable to waste.
+>>>> As long as buffers are in queue we have to keep processing each
+>>>> buffer and between buffers obviously we have to wait for previous
+>>>> frames to finish and this why we have separate thread for frame
+>>>> finish where we can have next buffer capture ready and issue while
+>>>> previous frame memory write happens
+>> Also we specified numbers buffers as 3 to vb2 queue. So this is rare
+>> case but to prevent issuing more than 2 at a time as VI HW is only
+>> double buffered and syncpt fifo max depth is 2 added this to be safer.
 > 
-> What I see is that there is no cross validation between the SPS
-> register configuration and the frame allocations done through S_FMT. So
-> if I cheat in S_FMT, and then pass an SPS that is larger then
-> announced, the HW could potentially overrun buffers. That entirely
-> depends on how much robustness there is in the HW implementation iself
-> (and if we have a register to pass the buffer size).
-> 
-> This is of course a gut feeling, I haven't found time to test this yet,
-> but it came to my mind after I notice that passing a 4:4:4 choma_idc
-> stream causes driver failure (no visible memory corruption or overrun
-> though, the driver just stops working). So the resulting issues might
-> not be that bad, but you endup loosing the decoder.
+> To be more clear, when more buffers are enqueued from userspace always
+> capture list will be full and thread will be busy in capture till either
+> error or stop stream request happens.
 > 
 
-Note that this driver (as well as Hantro) programs the hardware
-using the negotiated resolution, and ignores what the SPS says
-about it.
-
-It shouldn't be possible to trick the driver this way.
-
-OTOH, both drivers should have additional checks for other SPS
-fields such as chroma_format_idc and luma_bit_depth, as you
-pointed out.
-
-I'll add this to my TODO list. I think it's doable as follow-up
-patches.
-
-Thank,
-Ezequiel
-
-> > > What I suspect is that we need to be careful with this HW, as it seems
-> > > to be a bit half backed, which
-> > > means it might be supporting more features then supported by the TRM
-> > > or reference code, and we
-> > > must disable this with software.
-> > > 
-> > > (p.s. I can provide a stream to reproduce the 4:4:4 driver failure)
-> > > 
-> > 
-> > Thanks,
-> > Ezequiel
-> > 
-> 
-> 
-
-
+If kthreads take more than 1% of CPU time during capture (video) with
+more than 2 buffers in queue, then it's not good and I think you should
+do something about it. If kthreads stay at ~0%, then it should be okay
+as-is.
