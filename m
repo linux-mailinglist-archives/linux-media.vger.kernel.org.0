@@ -2,111 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78E701A2921
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 21:09:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9298C1A2940
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 21:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728363AbgDHTJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 15:09:07 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:36189 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727878AbgDHTJH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 15:09:07 -0400
-Received: from mail-qt1-f176.google.com ([209.85.160.176]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MDQqe-1jTNcV3up4-00ATMZ; Wed, 08 Apr 2020 21:09:06 +0200
-Received: by mail-qt1-f176.google.com with SMTP id m33so814617qtb.3;
-        Wed, 08 Apr 2020 12:09:05 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZ491+mbY3oxlqQ4M1dcqHzSELkRbbHLIeItSgSZSliPJxeqVcn
-        oPeHRlYKYnV8vL91l95d6rt1CMgrQiGfCxoJS1o=
-X-Google-Smtp-Source: APiQypLVZg9HrJ8HaBMPoIbgmXFLy2wkvpPQbu4xfZqD2UDsW3+2l9wXsJzoILy3lNnN0lCMXpZUMWd32YBEbRrW7/A=
-X-Received: by 2002:aed:3b4c:: with SMTP id q12mr8495378qte.18.1586372944700;
- Wed, 08 Apr 2020 12:09:04 -0700 (PDT)
+        id S1728321AbgDHTQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 15:16:28 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:33767 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728209AbgDHTQ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 15:16:28 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v8so723849wma.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 12:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=gOEESxtaQiD0IRRWM2FOpUuRRgo0wUifuQ6M0t+6b4A=;
+        b=T5TFNViGexm+n1COL7WqB8dMi7GkihPJDSyhO1OZtdXv0Gc38TaZyr7TpCuTT1gMpX
+         okEOdbXYzG3pQ38M/4Dqil4lbr0YnTZJzoQXXi8xGPynzeEuOhP3gLeZpkGEvRWo1ZgG
+         xG0QEofPX22bgC0pjMZniIGAfTHqPEi3vrL+IHsttTte17QgMo3mrPhVF3F7hNHAX+Qr
+         yxoncVIduecn9ieIBE5wodsEtFGWxmAjKrFX39ZUcfhMTXIsbjUK4P7wC3BMuGj0RHvY
+         SfldmuWsvuRuy5h4y1rVBaeVi0t3/lKrXnm86Lo0GOY3oHTTlxvQ0w5p0LGeDCHRVkMd
+         wgHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=gOEESxtaQiD0IRRWM2FOpUuRRgo0wUifuQ6M0t+6b4A=;
+        b=PnhzcLivX3ofjTQaV0eLcqFuMacpvEgi7SFrSGpgsG5B1/f9ELEXOoBSxkk24eubjI
+         iiELZPz7gjYYahgckSBifDt/2yev/o4RhVeiep9f8sf3Ys+2HF2B4P7YbIkeFzBMtNDF
+         4/66QaZXb4KPqdEWOBtpACb2AeR2d2WPYULzoaTO8LwOoaNMzk8Cgw7ezFT26nGntfDh
+         Z0yI4Me93TB8k59FBj9603yihPnmY038Q8iB+v6N3Wh1hcGFy4tagovvK4RomPpolRo7
+         nO0LSSAch68MOTw9P6GEkIqR8y/hB8JDL952Iu4Eby6w+dj4xZGHbswP60AmP+MQT7R5
+         Vl2w==
+X-Gm-Message-State: AGi0Puakqn52CC9/jRFCxKA5Fys6+XwH9bD+Klfseujfdiw3vtKDcAP0
+        F7YU8tLAK2zr7mVAtfMIg+ZQ+4UIywk=
+X-Google-Smtp-Source: APiQypJlGLCz4vc7mjgAwOR5Omgs7gzpWqNJYWebgGMUPX9DmxF4VwIiBVLDVyZk0vIZsqxrIBCMcw==
+X-Received: by 2002:a7b:cfc9:: with SMTP id f9mr6358105wmm.137.1586373386256;
+        Wed, 08 Apr 2020 12:16:26 -0700 (PDT)
+Received: from [172.30.89.26] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id 145sm681420wma.1.2020.04.08.12.16.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Apr 2020 12:16:25 -0700 (PDT)
+Subject: Re: [PATCH 1/4] media: imx.rst: Fix the MIPI CSI-2 virtual channel
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>
+References: <20200408123215.2531-1-festevam@gmail.com>
+ <c069af02-af3c-9527-eed4-839681c73ce6@gmail.com>
+ <CAOMZO5BN6igxVGRnOnftv=PGZWi=2Qb2Th0fhBon93Fk-zWj+w@mail.gmail.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <a23d2559-5498-75bb-0bce-3bc11bb6b5ae@gmail.com>
+Date:   Wed, 8 Apr 2020 12:16:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200408155325.2077345-1-arnd@arndb.de> <3336c3105120d2f90dbc20d47ff98e722a123d5b.camel@collabora.com>
-In-Reply-To: <3336c3105120d2f90dbc20d47ff98e722a123d5b.camel@collabora.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 8 Apr 2020 21:08:48 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1K5T2e2kAQMVi=ubPN3v4rYgtb9TaGC6evNXSUc4embQ@mail.gmail.com>
-Message-ID: <CAK8P3a1K5T2e2kAQMVi=ubPN3v4rYgtb9TaGC6evNXSUc4embQ@mail.gmail.com>
-Subject: Re: [PATCH] media: staging: rkisp1: avoid unused variable warning
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacob Chen <jacob2.chen@rock-chips.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Yichong Zhong <zyc@rock-chips.com>,
-        Jacob Chen <cc@rock-chips.com>,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
-        Jeffy Chen <jeffy.chen@rock-chips.com>,
-        Allon Huang <allon.huang@rock-chips.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:ARM/Rockchip SoC support" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:crrBNAV8yqbi0jH2U7RPG67zDB+7n2uASyaZ0z+cSkLafaHrLJ+
- Z4HV1FzXvSyBcN+RT/rF0HGCIHipOQK6ZvVkllXZwiOjRflXsVZVrp/IERJJl6jPwkO0eUb
- 7WhNnhPRKm8cQ405JnuLdsZSw4fZt07p8OJGB7Y6HP4F/PmsR1z36uL3IBoSFNgNe0cfdMu
- PxYp61nO2V/WKMnVq+kYQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:quoD63Xw+Wk=:bqc3nMHuuPzGFx2QZ/v0tC
- WD2Ee+R0Do+oZPHwnqnJjSuYugKWYQN5zLuc27Lo4hWVXaBtJ3J8aWb/bWaGaRTGH/PVvCma6
- 1ody1KdHl0P17a+FvSH8k7kr3hUaLJrzmy9pEzxW0yJMsOTdDngF5gc6b5/j3G6H+UDGkw3ll
- Iu+WXjrP3ZTyxZ6iWplw+wo+ATQ8Tt3WaXmlsQq7JLgm9Aet9lf9ANSyMxdPpFgkvy2+mR4e0
- JOt2dztnVgPT8S2WcSdawZH1MKqmzVho7D1bNa+/M9Avql7Xs6PdD8tAMIp8pCLCV9ht4EY3J
- HR1zgZyDnsOXthwiBA/TjhXNnkYX8h6ymetGfnfxYeyROMt8t0aEt0cj+RUUN20gTQuMRglUQ
- GuhMlW1tc6IJRxRbRJjBRoEu9RL4C+XN+UJi/tl3yBFWlaF/4bIWlPTLdpMPPSj28Jupqoes/
- YPqtXcVqN0dOWTOqhswB67jFXRPkvXRwgBk0ES6rCLFMqbll3lkQg0M1nD2H6aELC8wHlfB3J
- QnUWCo5Dh/PwgfZ11Ytmi6RbwcNqEPNL1X1h6zVSkLsCoU8yf6kFBoAliWzJzRFgngDEC5JS6
- jbei0V/kwaqwNmLtZnTt8XYCS2Kn+DGpJj9A8Hi1fIMBcZKJiFKKS6aHt8q4k4VSZaKQZrunk
- 9MEifnD5+LRp4iE5aRS5UI3rTulSBTbc6oeBrRRDWH3z+NBMocEgRCAYs2vBD2yO40yvHGz+b
- kFiH6c2729rUfx6jwB8DAwsV4DWnCbw0pcSvM5npQtNY35GEkudAZfaCSYqT5ChJovBIac2WJ
- iNHIacGKciNrs3zACUiZ/ywrGPth5Vo+QgwDXK1wUFb0CJqnio=
+In-Reply-To: <CAOMZO5BN6igxVGRnOnftv=PGZWi=2Qb2Th0fhBon93Fk-zWj+w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 8, 2020 at 7:56 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> On Wed, 2020-04-08 at 17:52 +0200, Arnd Bergmann wrote:
-> > When compile-testing with CONFIG_OF disabled, we get a warning
-> > about an unused variable, and about inconsistent Kconfig dependencies:
-> >
-> > WARNING: unmet direct dependencies detected for PHY_ROCKCHIP_DPHY_RX0
-> >   Depends on [n]: STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=m] && (ARCH_ROCKCHIP [=n] || COMPILE_TEST [=y]) && OF [=n]
-> >   Selected by [m]:
-> >   - VIDEO_ROCKCHIP_ISP1 [=m] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=m] && VIDEO_V4L2 [=m] && VIDEO_V4L2_SUBDEV_API [=y] &&
-> > (ARCH_ROCKCHIP [=n] || COMPILE_TEST [=y])
-> >
-> > drivers/staging/media/rkisp1/rkisp1-dev.c: In function 'rkisp1_probe':
-> > drivers/staging/media/rkisp1/rkisp1-dev.c:457:22: error: unused variable 'node' [-Werror=unused-variable]
-> >   457 |  struct device_node *node = pdev->dev.of_node;
-> >
-> > Simply open-coding the pointer dereference in the only place
-> > the variable is used avoids the warning in all configurations,
-> > so we can allow compile-testing as well.
-> >
->
-> Hello Arnd,
->
-> Thanks for your patch.
->
-> I believe this is already fixed here:
->
-> https://patchwork.linuxtv.org/patch/62774/
-> https://patchwork.linuxtv.org/patch/62775/
 
-Ok, sorry for the duplicate. I only tested on mainline from a few days ago,
-so I must have missed it getting merged in the meantime.
 
-    Arnd
+On 4/8/20 10:24 AM, Fabio Estevam wrote:
+> Hi Steve,
+>
+> On Wed, Apr 8, 2020 at 1:35 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
+>
+>> change to:
+>>
+>> media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
+> If I make this change I get:
+>
+> # v4l2-ctl --stream-mmap -d /dev/video1
+> [  501.143012] ipu1_ic_prpenc: capture format not valid
+>                  VIDIOC_STREAMON returned -1 (Invalid argument)
+>
+> Going back to the original example:
+>
+> #  media-ctl -V "'ipu1_ic_prpenc':1 [fmt:AYUV32/640x480]"
+> # v4l2-ctl --stream-mmap -d /dev/video1
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.03 fps
+>
+> Changing only the resolution:
+>
+> #  media-ctl -V "'ipu1_ic_prpenc':1 [fmt:AYUV32/800x600]"
+> # v4l2-ctl --stream-mmap -d /dev/video1
+> [  658.358246] ipu1_ic_prpenc: capture format not valid
+>                  VIDIOC_STREAMON returned -1 (Invalid argument)
+>
+> Any ideas?
+
+You have to set a format at the capture interface as the last step 
+before streaming can start:
+
+# v4l2-ctl -d /dev/video1 --set-fmt-video=pixelformat=RGB3
+
+
+or whatever RGB format is supported. It's enough to sinmply set one parameter, such as width or height or pixelformat. The driver will propagate the reset from the source subdev ipu1_ic_prpenc.
+
+The capture interface used to be automatically propagated from the source subdev, but now it must be done by userland.
+
+Steve
+
+>
+> These are the lines I am currently using as per your feedback:
+>
+>     # Setup links
+>     media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+>     media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
+>     media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
+>     media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
+>     media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
+>     media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
+>     # Configure pads
+>     media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
+>     media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
+>     media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
+>     media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
+>     media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
+>     media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
+>
+> Thanks,
+>
+> Fabio Estevam
+>
+>     # Setup links
+>     media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+>     media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
+>     media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
+>     media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
+>     media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
+>     media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
+>     # Configure pads
+>     media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
+>     media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
+>     media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
+>     media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
+>     media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
+>     media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
+
