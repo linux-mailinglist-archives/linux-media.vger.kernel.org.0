@@ -2,232 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27D551A239A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 15:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF1511A23B9
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 16:04:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728118AbgDHNtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 09:49:40 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:5529 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727505AbgDHNtj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 09:49:39 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 20F1C240009;
-        Wed,  8 Apr 2020 13:49:33 +0000 (UTC)
-Date:   Wed, 8 Apr 2020 15:52:37 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        id S1727929AbgDHOE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 10:04:28 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53758 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727226AbgDHOE2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 10:04:28 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 9024929117E
+Message-ID: <f2a044b2c9a0d2920ce3cc327b331a790cd128bb.camel@collabora.com>
+Subject: Re: [PATCH v8 4/5] media: rkvdec: Add the rkvdec driver
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     DVB_Linux_Media <linux-media@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
-Message-ID: <20200408135237.tmqiqjogokj5kcbb@uno.localdomain>
-References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
- <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
- <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
- <20200228181303.GA21745@smtp.xilinx.com>
- <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
- <20200319010734.GA27556@smtp.xilinx.com>
- <20200319084557.v5hw54mmw4swzwly@uno.localdomain>
- <20200319232003.GA20549@smtp.xilinx.com>
- <20200326011251.GA9997@smtp.xilinx.com>
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Date:   Wed, 08 Apr 2020 11:04:10 -0300
+In-Reply-To: <abe902f2ebdfa41bd4d99b7beb3b6c7ec91d2a8f.camel@ndufresne.ca>
+References: <20200403221345.16702-1-ezequiel@collabora.com>
+                 <20200403221345.16702-5-ezequiel@collabora.com>
+                 <CAKQmDh_pCX_s2Ze7b1YBqgvEZHNrgzDUfcjPos8_GZq8x6=5Ng@mail.gmail.com>
+                 <5c417620e1baeed7ec4ac750ab481366df2aa590.camel@collabora.com>
+         <abe902f2ebdfa41bd4d99b7beb3b6c7ec91d2a8f.camel@ndufresne.ca>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200326011251.GA9997@smtp.xilinx.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hyun,
-   sorry for the very late reply :(
+On Tue, 2020-04-07 at 15:36 -0400, Nicolas Dufresne wrote:
+> Le mardi 07 avril 2020 à 11:35 -0300, Ezequiel Garcia a écrit :
+> > On Mon, 2020-04-06 at 16:27 -0400, Nicolas Dufresne wrote:
+> > > Le ven. 3 avr. 2020 à 18:14, Ezequiel Garcia <ezequiel@collabora.com> a écrit :
+> > > > From: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > 
+> > > > The rockchip vdec block is a stateless decoder that's able to decode
+> > > > H264, HEVC and VP9 content. This commit adds the core infrastructure
+> > > > and the H264 backend. Support for VP9 and HEVS will be added later on.
+> > > > 
+> > > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > 
+> > > Sorry for the late feedback (got a comment lower) ...
+> > > 
+> > > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > 
+> > 
+> > Nice, thank you.
+> > 
+> > > > --
+> > > > v8:
+> > > > * Fix kfree and style changes, as suggested by Andriy.
+> > > > v7:
+> > > > * hverkuil-cisco@xs4all.nl: replaced VFL_TYPE_GRABBER by _VIDEO
+> > > > * Use macros and ARRAY_SIZE instead of magic numbers,
+> > > >   as suggested by Mauro.
+> > > > * Renamed M_N macro, suggested by Mauro.
+> > > > * Use v4l2_m2m_buf_done_and_job_finish.
+> > > > * Set buffers' zeroth plane payload in .buf_prepare
+> > > > * Refactor try/s_fmt for spec compliance.
+> > > > ---
+> > > >  MAINTAINERS                                |    7 +
+> > > >  drivers/staging/media/Kconfig              |    2 +
+> > > >  drivers/staging/media/Makefile             |    1 +
+> > > >  drivers/staging/media/rkvdec/Kconfig       |   15 +
+> > > >  drivers/staging/media/rkvdec/Makefile      |    3 +
+> > > >  drivers/staging/media/rkvdec/TODO          |   11 +
+> > > >  drivers/staging/media/rkvdec/rkvdec-h264.c | 1156 ++++++++++++++++++++
+> > > >  drivers/staging/media/rkvdec/rkvdec-regs.h |  223 ++++
+> > > >  drivers/staging/media/rkvdec/rkvdec.c      | 1103 +++++++++++++++++++
+> > > >  drivers/staging/media/rkvdec/rkvdec.h      |  121 ++
+> > > >  10 files changed, 2642 insertions(+)
+> > > >  create mode 100644 drivers/staging/media/rkvdec/Kconfig
+> > > >  create mode 100644 drivers/staging/media/rkvdec/Makefile
+> > > >  create mode 100644 drivers/staging/media/rkvdec/TODO
+> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-h264.c
+> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-regs.h
+> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec.c
+> > > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec.h
+> > > > 
+> > [..]
+> > > > +
+> > > > +static void set_ps_field(u32 *buf, struct rkvdec_ps_field field, u32 value)
+> > > > +{
+> > > > +       u8 bit = field.offset % 32, word = field.offset / 32;
+> > > > +       u64 mask = GENMASK_ULL(bit + field.len - 1, bit);
+> > > > +       u64 val = ((u64)value << bit) & mask;
+> > > > +
+> > > > +       buf[word] &= ~mask;
+> > > > +       buf[word] |= val;
+> > > > +       if (bit + field.len > 32) {
+> > > > +               buf[word + 1] &= ~(mask >> 32);
+> > > > +               buf[word + 1] |= val >> 32;
+> > > > +       }
+> > > > +}
+> > > > +
+> > > > +static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+> > > > +                           struct rkvdec_h264_run *run)
+> > > > +{
+> > > > +       struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
+> > > > +       const struct v4l2_ctrl_h264_sps *sps = run->sps;
+> > > > +       const struct v4l2_ctrl_h264_pps *pps = run->pps;
+> > > > +       const struct v4l2_ctrl_h264_decode_params *dec_params = run->decode_params;
+> > > > +       const struct v4l2_h264_dpb_entry *dpb = dec_params->dpb;
+> > > > +       struct rkvdec_h264_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
+> > > > +       struct rkvdec_sps_pps_packet *hw_ps;
+> > > > +       dma_addr_t scaling_list_address;
+> > > > +       u32 scaling_distance;
+> > > > +       u32 i;
+> > > > +
+> > > > +       /*
+> > > > +        * HW read the SPS/PPS information from PPS packet index by PPS id.
+> > > > +        * offset from the base can be calculated by PPS_id * 32 (size per PPS
+> > > > +        * packet unit). so the driver copy SPS/PPS information to the exact PPS
+> > > > +        * packet unit for HW accessing.
+> > > > +        */
+> > > > +       hw_ps = &priv_tbl->param_set[pps->pic_parameter_set_id];
+> > > > +       memset(hw_ps, 0, sizeof(*hw_ps));
+> > > > +
+> > > > +#define WRITE_PPS(value, field) set_ps_field(hw_ps->info, field, value)
+> > > > +       /* write sps */
+> > > > +       WRITE_PPS(0xf, SEQ_PARAMETER_SET_ID);
+> > > > +       WRITE_PPS(0xff, PROFILE_IDC);
+> > > > +       WRITE_PPS(1, CONSTRAINT_SET3_FLAG);
+> > > 
+> > > At first I found that part rather interesting, but I see this
+> > > hardcoding matches what Rockchip do.
+> > > 
+> > > https://github.com/rockchip-linux/mpp/blob/release/mpp/hal/rkdec/h264d/hal_h264d_rkv_reg.c#L266
+> > > 
+> > > > +       WRITE_PPS(sps->chroma_format_idc, CHROMA_FORMAT_IDC);
+> > > 
+> > > But here's it's not so great. This driver does not implement any kind
+> > > of validation. In fact, if I pass 3
+> > > here  (YCbCr 4:4:4) it will accept it, and kind of decode some frames,
+> > > but eventually with crash and
+> > > reboot is needed. We should (as defined in the Statelss CODEC spec)
+> > > validate the SPS and refuse if
+> > > an unsupported profile idc, chroma idc, luma/chroma depth or coded
+> > > size is requested.
+> > 
+> > Perhaps we could validate that at request_validate time,
+> > or maybe ops.try_ctrl is better.
+> > 
+> > </thinking_out_loud>
+> > 
+> > > Validating the
+> > > S_FMT is not sufficient as one can trick the driver in allocating
+> > > buffers that are too small.
+> > > 
+> > 
+> > I am not sure I follow you: how do you think the driver
+> > can be tricked like this?
+> 
+> What I see is that there is no cross validation between the SPS
+> register configuration and the frame allocations done through S_FMT. So
+> if I cheat in S_FMT, and then pass an SPS that is larger then
+> announced, the HW could potentially overrun buffers. That entirely
+> depends on how much robustness there is in the HW implementation iself
+> (and if we have a register to pass the buffer size).
+> 
+> This is of course a gut feeling, I haven't found time to test this yet,
+> but it came to my mind after I notice that passing a 4:4:4 choma_idc
+> stream causes driver failure (no visible memory corruption or overrun
+> though, the driver just stops working). So the resulting issues might
+> not be that bad, but you endup loosing the decoder.
+> 
 
-On Wed, Mar 25, 2020 at 06:12:53PM -0700, Hyun Kwon wrote:
-> Hi Jacopo,
->
-> On Thu, 2020-03-19 at 16:20:05 -0700, Hyun Kwon wrote:
-> > Hi Jacopo,
-> >
-> > On Thu, 2020-03-19 at 01:45:57 -0700, Jacopo Mondi wrote:
-> > > Hi Hyun,
-> > >
-> > > On Wed, Mar 18, 2020 at 06:07:35PM -0700, Hyun Kwon wrote:
-> > > > Hi Jacobo,
-> > > >
-> > > > On Sun, 2020-03-15 at 16:15:17 -0700, Jacopo Mondi wrote:
-> > > > > Hello Hyun, Kieran,
-> > > > >    it's great you are looking into this!
-> > > > >
-> > > > > On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
-> > > > > > Hi Kieran,
-> > > > > >
-> > > > > > Thanks for sharing a patch.
-> > > > > >
+Note that this driver (as well as Hantro) programs the hardware
+using the negotiated resolution, and ignores what the SPS says
+about it.
 
-[snip]
+It shouldn't be possible to trick the driver this way.
 
-> > > Which case are you trying to address ?
-> > >
-> >
-> > My case is simpler in fact :-), hence the executive summary is,
-> > The sensor vsync signal is active high, and it passes through the serializer.
-> > Since the vsync is already inverted in de-serializer by this patch, expecting
-> > active low, I'm inverting it again in serializer to match.
-> >
-> > 	sensor -- (vsync active high) --> serializer -- (vsync active low) --> de-serializer
-> >
-> > If the vsync inversion becomes a device tree property of max9286, the property
-> > value will have to align with polarity of vsync source. In my case, I can
-> > disable the inversion knowing the sensor vsync is active high. But in other
-> > cases, such chain can be quite deep and may be inconvinient for users to check.
-> >
-> > Another one is the BWS setting, which is just between ser and de-ser.
-> >
-> > With mbus_get_config() operation, the problem can be isolated nicely in
-> > my opinion, and the solution handles all above and scales better.
-> > - The de-serializer checks the vsync polarity of all channels using GMSL
-> >   config. If all are active low, invert the vsync (if it can)
-> >
-> > 	vsync_bitmap = 0;
-> > 	for(chan : channels) {
-> > 		config = get_mbus_config(chan);
-> > 		if (config->type != gmsl)
-> > 			error;
-> >
-> > 		if (config->gmsl.vsync == +)
-> > 			vsync_bitmap |= << chan->chan_id;
-> > 	}
-> >
-> > 	if (vsync_bitmap == (1 << channels.size() - 1))
-> > 		nop(); // all active high. don't invert
-> > 	else if (vsync_bitmap == 0)
-> > 		invert_vsync(ser);
-> > 	else
-> > 		error;
-> >
-> > - The serializer checks vsync polarity in the parallel port config, and
-> >   if it's active low (and if it can), invert to make it active high.
-> >   Otherwise mark it in GMSL config, so the de-serializer can hanle.
-> >
-> > 	max96705_get_mbus_config()
-> > 	{
-> > 		config = get_mbus_config(sensor);
-> > 		if (config->type != parallel)
-> > 			error;
-> >
-> > 		if (config->parallel.vsync == -) {
-> > 			if (invert_vsync(ser))
-> > 				ser_config->gmsl.vsync = +;
-> > 			else
-> > 				ser_config->gmsl.vsync = -;
-> > 		}
-> >
-> > 		return ser_config;
-> > 	}
-> >
-> > The same can be used for bandwidth setting. The max96705 driver sets 24 bit
-> > mode only as supported bandwidth. The deserializer driver can pick it up from
-> > mbus_get_config(), and adjust its own config accordingly. It will need some
-> > remote node handling in each driver, but seems worth to me.
-> >
-> > This became too lengthy! Hope it explains better and aligns with your thought,
-> > described in other thread. I will give it a try too!
-> >
->
-> And I got a chance to try.
+OTOH, both drivers should have additional checks for other SPS
+fields such as chroma_format_idc and luma_bit_depth, as you
+pointed out.
 
-Thank you!
+I'll add this to my TODO list. I think it's doable as follow-up
+patches.
 
-> - used the mbus config for sync between devices. Ex, vsync inversion in [1]
-> [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/a1d812c0452905a644d83f715c43e91ade11b266
+Thank,
+Ezequiel
 
+> > > What I suspect is that we need to be careful with this HW, as it seems
+> > > to be a bit half backed, which
+> > > means it might be supporting more features then supported by the TRM
+> > > or reference code, and we
+> > > must disable this with software.
+> > > 
+> > > (p.s. I can provide a stream to reproduce the 4:4:4 driver failure)
+> > > 
+> > 
+> > Thanks,
+> > Ezequiel
+> > 
+> 
+> 
 
-So, I understand this works well in practice and I'm happy about it,
-but I wonder if, now that we have clarified this controls is a static[1]
-settings between serializer and deserializer, this should not be
-better expressed with the standard DT property 'vsync-active'. It has
-to be specified to the same value in both remote and local sides, but
-that's nothing new..
-
-I know you're in favor of having them as dynamic configurations
-retrieved through get_mbus_config(), and since we know there are more
-gmsl specific parameter to negotiate I'm not opposed to that. This would
-ease use cases as in [1] also.
-
-I know Sakari might have different opinions, and looking at you patch
-in 3) I understand why: we might end up replicating most dt-properties
-in get_mbus_config(). Sincerely it's not a show-stopper to me, but
-I'll cc him and ask for his opinion first.
-
-[1] With "static" I mean "it does not change at runtime". Of course in
-cases you have to change the remote serializer at run-time, having it
-retrieved through a pad operation is much easier, but that's a very
-advanced and tricky use case which also involves dt-overlay loading
-and other funny things. Luca has a use case, I'll cc him here for
-reference.
-
-> - made the overlap window of max9286 as a control in [2]
-> [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/c3d55a9e0a8d2b67f27996529582bb7cfa551b6a
-
-
-Nice! My idea of having it coming from DT was bit moot, if this should
-be configured dynamically, a control is probably better.
-
-What do you think if we try to merge max9286 driver with overlap window
-defaulted to 0 (we're testing this configuration with our cameras, we
-know for your cameras is ok) and then you could send this patch on top
-?
-
-> - some other configs using the mbus config in [3]
-> [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commits/hyunk/vision-wip-5.4-next
-
-Great work, but I feel like I have the same questions as I have for
-vsync. Are these dynamic properties worth negotiating at run-time, or
-are those better expressed as DT properties ?
-
-This is indeed a GMSL property the could be specified in both the
-deserializer and serializer device nodes:
-https://github.com/xlnx-hyunkwon/linux-xlnx/commit/016ade9a500b30bbd58571c47a94e95ccc40ec0a
-
-This is indeed the bit endianess of the parallel bus
-ie [b0 b1 b2 b3 b4 b5 b6 b7] vs [b7 b6 b5 b4 b3 b2 b1 b0]
-and I'm surprised we don't have it already as a standard DT property
-https://github.com/xlnx-hyunkwon/linux-xlnx/commit/1f0fd7bf0c5149b1d735b795818f5812d4959d9a
-
-I have a use cases for the reverse channel amplitude that could be add
-there and I already tried to express it through a DT property:
-https://patchwork.kernel.org/patch/11441269/
-https://patchwork.kernel.org/patch/11441273/
-
-Something more to think about...
-
-> Let me know if this aligns with your thought.
-
-My thoughts are confused :)
-
-going for dynamic configuration through get_mbus_config() could help
-use cases where the serializer are changed at run-time.
-
-Although, abusing it might end up replicating most DT properties
-like in the vsync case.
-
-Let's see if we get Sakari's input.
-
-Thanks for your work and sorry for the long delay
 
