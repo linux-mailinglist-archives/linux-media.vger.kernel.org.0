@@ -2,96 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2AD11A1ADF
-	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 06:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CEFA1A1D8E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Apr 2020 10:47:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbgDHEUi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 00:20:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33530 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbgDHEUi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 00:20:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=GvKjamk4sUiFDTkcqp3XAfdPqgx9QZfLYdf2cSZ1qKc=; b=SO1uPZFWq9Nmiok273flcRjei6
-        zMiNn9DgT7zswypc0bl0FaKR3j57q4haOMi/ZvDXdsDn/3OobU92p2wJlwbawnvymVX1qvpIJTXia
-        eA5VuDo+6U2R22v7+dEkLEV3Jxw2d1rNX8SdjOI0O/qcaZXaHXgE/rKUkLw9EsIHl3//62waCO7gW
-        DW9Jozfe6VY+rz3vvdupHppSqaaj5yy+pOYrwfsVweB4OzZSpoBbTJ6MIiWpvlFdbiGVS1VRWwqbe
-        yN84Q6GV05opH3H0DoKSBYsdHt/q54LqF64CWoxAwWpSxs++GDzfOuJzsIfzpXa55/oOrnR4xdOXu
-        U0+7g4ig==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jM2Ca-0004vT-R1; Wed, 08 Apr 2020 04:20:36 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH -next] dma-buf: fix documentation build warnings
-Message-ID: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-Date:   Tue, 7 Apr 2020 21:20:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1727469AbgDHIrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 04:47:10 -0400
+Received: from mga18.intel.com ([134.134.136.126]:16260 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726595AbgDHIrK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 8 Apr 2020 04:47:10 -0400
+IronPort-SDR: W59ukdF1DxS8zydZy82vAq0bUamb+jR2nJvg2YFdFN0YodV//hjBI3CalMuYq0nAOfJ8r6KCAl
+ EpAkZwkXOrDA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2020 01:47:08 -0700
+IronPort-SDR: jj5v/uj4/T5iyEbzt7ZxRj6t6OoglxlpuM55Wx7eHqJKi5NQpz4O7xibDvzf+jHoXuMNEqVqDF
+ qt+VRkUX4UlA==
+X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; 
+   d="scan'208";a="286481112"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2020 01:47:06 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A927120502; Wed,  8 Apr 2020 11:47:04 +0300 (EEST)
+Date:   Wed, 8 Apr 2020 11:47:04 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
+Message-ID: <20200408084704.GE5206@paasikivi.fi.intel.com>
+References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+ <20200313144035.401430-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200313144035.401430-3-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Hi Jacopo,
 
-Fix documentation warnings in dma-buf.[hc]:
+Thanks for the patchset.
 
-../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-../include/linux/dma-buf.h:339: warning: Incorrect use of kernel-doc format:          * @move_notify
+"subdev" in the subject.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-buf.c |    4 ++--
- include/linux/dma-buf.h   |    3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+On Fri, Mar 13, 2020 at 03:40:33PM +0100, Jacopo Mondi wrote:
+> Introduce a new pad operation to allow retrieving the media bus
+> configuration on a subdevice pad.
+> 
+> The newly introduced operation reassembles the s/g_mbus_config video
+> operation, which have been on their way to be deprecated since a long
+> time.
 
---- linux-next-20200407.orig/drivers/dma-buf/dma-buf.c
-+++ linux-next-20200407/drivers/dma-buf/dma-buf.c
-@@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-  * calls attach() of dma_buf_ops to allow device-specific attach functionality
-  * @dmabuf:		[in]	buffer to attach device to.
-  * @dev:		[in]	device to be attached.
-- * @importer_ops	[in]	importer operations for the attachment
-- * @importer_priv	[in]	importer private pointer for the attachment
-+ * @importer_ops:	[in]	importer operations for the attachment
-+ * @importer_priv:	[in]	importer private pointer for the attachment
-  *
-  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
-  * must be cleaned up by calling dma_buf_detach().
---- linux-next-20200407.orig/include/linux/dma-buf.h
-+++ linux-next-20200407/include/linux/dma-buf.h
-@@ -329,13 +329,12 @@ struct dma_buf {
- 
- /**
-  * struct dma_buf_attach_ops - importer operations for an attachment
-- * @move_notify: [optional] notification that the DMA-buf is moving
-  *
-  * Attachment operations implemented by the importer.
-  */
- struct dma_buf_attach_ops {
- 	/**
--	 * @move_notify
-+	 * @move_notify: [optional] notification that the DMA-buf is moving
- 	 *
- 	 * If this callback is provided the framework can avoid pinning the
- 	 * backing store while mappings exists.
+How is this expected to work with existing drivers that just get their
+configuration from DT/ACPI? Update to use this API driver by driver as
+needed basis, or something else?
 
+Have you thought about setting the configuration as well?
+
+Where is this expected to be implemented? Transmitters only, and to be
+called by receiver drivers?
+
+I think ideally the g_mbus_config video op should go with this patchset,
+and drivers using it converted. Given the likely small intersection of the
+two (drivers usign the old video op), this might be possible to do later on
+as well. But in that case g_mbus_config should be deprecated in
+documentation.
+
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 761aa83a3f3c..3a1afc00e094 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
+>  	unsigned short num_entries;
+>  };
+>  
+> +/**
+> + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> + * @hsync_active: hsync active state: true for high, false for low
+> + * @vsync_active: vsync active state: true for high, false for low
+> + * @pclk_rising: pixel clock active edge: true for rising, false for falling
+> + * @data_active: data lines active state: true for high, false for low
+> + */
+> +struct v4l2_mbus_parallel_config {
+> +	bool hsync_active : 1;
+> +	bool vsync_active : 1;
+> +	bool pclk_rising : 1;
+> +	bool data_active : 1;
+
+unsigned int, please.
+
+> +};
+> +
+> +/**
+> + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
+> + * @data_lanes: number of data lanes in use
+> + * @clock_noncontinuous: non continuous clock enable flag
+> + */
+> +struct v4l2_mbus_csi2_dphy_config {
+> +	unsigned int data_lanes : 3;
+> +	bool clock_noncontinuous : 1;
+
+This should be unsigned int as well.
+
+> +};
+> +
+> +/**
+> + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
+> + *
+> + * TODO
+> + */
+> +struct v4l2_mbus_csi2_cphy_config {
+> +	/* TODO */
+> +};
+> +
+> +/**
+> + * struct v4l2_mbus_pad_config - media bus configuration
+> + *
+> + * Report the subdevice media bus information to inform the caller of the
+> + * current bus configuration. The structure describes bus configuration
+> + * parameters that might change in-between streaming sessions, in order to allow
+> + * the caller to adjust its media bus configuration to match what is reported
+> + * here.
+> + *
+> + * TODO: add '_pad_' to the name to distinguish this from the structure
+> + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
+> + * video operations. Reuse the there defined enum v4l2_mbus_type to define
+> + * the bus type.
+> + *
+> + * @type: mbus type. See &enum v4l2_mbus_type
+> + * @parallel: parallel bus configuration parameters.
+> + *	      See &struct v4l2_mbus_parallel_config
+> + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
+> + *	       See &struct v4l2_mbus_csi2_dphy_config
+> + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
+> + *	       See &struct v4l2_mbus_csi2_cphy_config
+> + */
+> +struct v4l2_mbus_pad_config {
+> +	enum v4l2_mbus_type type;
+> +	union {
+> +		struct v4l2_mbus_parallel_config parallel;
+> +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
+> +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
+> +	};
+> +};
+> +
+>  /**
+>   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+>   *				  in video mode.
+> @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
+>   *
+>   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+>   *                  may be adjusted by the subdev driver to device capabilities.
+> + * @get_mbus_config: get the current mbus configuration
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
+>  			      struct v4l2_mbus_frame_desc *fd);
+>  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+>  			      struct v4l2_mbus_frame_desc *fd);
+> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> +			       struct v4l2_mbus_pad_config *config);
+>  };
+>  
+>  /**
+
+-- 
+Kind regards,
+
+Sakari Ailus
