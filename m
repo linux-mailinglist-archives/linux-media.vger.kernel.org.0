@@ -2,169 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 195531A2DFB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 05:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFA01A2E01
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 05:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgDIDdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 23:33:33 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39829 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726545AbgDIDdd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 8 Apr 2020 23:33:33 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:b4a8:c22e:2e4d:e23e])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id MNwYjDFJeZJ1DMNwajt8Ss; Thu, 09 Apr 2020 05:33:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1586403212; bh=Px+IgeCpELtozh0VAHuRSfKDcr0riRey0p3usXF9yJY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=gQNEqfwjSSF0hWeWXyhScSCZ23fI1z+BKA0HHa2fDFBXNGHPfxB/Jc8+zCUySa/YX
-         pNrvbxJGylGiOfMNy40skN7tZDNSogmhg0x4hgFl+ZL67xrPc4zoPy+TZk057wcx0s
-         tdknZzSmBFALBTBFLPM6jQrZ4aIMO4FyIkLG66Sycoc77KGahPpU20AV8flGjX/fNa
-         wDwAc2HjgOl3iDvSIp7Jum6IgViyPffLFuWiJ3YkUmkFW7y0YUcXXVccI0IKZuDbNz
-         2mrshgHYezD6G1rQl9TJuaCe3pLSbcimnQlmSvyDbcQmR7JGoQiQAARR5MDBAtpRWb
-         tPvaLXtHZOwfw==
-Message-ID: <23fdfacae376c432777a4651d10ecd57@smtp-cloud9.xs4all.net>
-Date:   Thu, 09 Apr 2020 05:33:30 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfJaMLFQtw4sBjDYObibJ42p5/94/BHHdyfVGgF9BDdXPXie05yn5479zjVccJrARHDCyAgTvg2T91+co/pkStMvl4AnCRpD3PsOETsCe0NF8GfUFg45W
- 1BMDn1e3/Oc8uWet1GFJpqP72k1rfPbrJG8RfoTrpR6feDVqM6PJp0oXXH5anDgzZWMoWtLwtYF0SJYdfwmkYQq+YQXkfNajreuQeDnnr8Zg+BX9V6wPBSmR
+        id S1726589AbgDIDir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 23:38:47 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:14454 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726534AbgDIDir (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 23:38:47 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e8e98910000>; Wed, 08 Apr 2020 20:37:53 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 08 Apr 2020 20:38:46 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 08 Apr 2020 20:38:46 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
+ 2020 03:38:46 +0000
+Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020
+ 03:38:45 +0000
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <eb80178f-30f4-8f46-51cd-ea3f4914b81d@nvidia.com>
+ <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
+ <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
+ <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
+ <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
+ <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+ <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+ <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
+ <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+ <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
+ <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
+ <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
+ <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
+ <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
+ <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
+ <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
+ <a638bb8e-bb50-7aa5-05a0-8de1c6207ba7@nvidia.com>
+ <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
+Message-ID: <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
+Date:   Wed, 8 Apr 2020 20:38:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1586403473; bh=F3HaYrMPuOWwgOrFNUyJnJrQiX8sKdxipOmM0RTMENg=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=V/lySZEDTrNKSUloen7q5QCbi5mqLHaFQ6Y2gcCm/EPx4ZVA0Ml2r/KrvN5qdkA0Y
+         gjw1nZhoHHvu/lQNnDeIcWjV/iouQHEx1u72vmggPBb7jx5fMtqFXkXeachsDRBh6v
+         tIImffl66CeV/sMm6yfOZ1AKgy0i0AVSv/2HOPYrQF8ldIILMwAZzkgBW1y76AAJWq
+         5x3IiqGODYBo7qF3jjByJMCluRc9sx4gmcTqzYkxuHM97ZCjCJI8fVJsI0nyDYvbEY
+         PB9HNjUIjr3yR0wF7l42smtzt0CZJnSaYEKWGLLYTT8QcdFpDmYTQrr780vxRXbdt/
+         pOYd4LQkJ/qZw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
+On 4/8/20 12:38 PM, Sowjanya Komatineni wrote:
+>
+> On 4/8/20 11:58 AM, Sowjanya Komatineni wrote:
+>>
+>> On 4/8/20 10:45 AM, Sowjanya Komatineni wrote:
+>>>
+>>> On 4/8/20 7:21 AM, Dmitry Osipenko wrote:
+>>>> External email: Use caution opening links or attachments
+>>>>
+>>>>
+>>>> 08.04.2020 03:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> ...
+>>>>>>>>> I suppose that taking a shot takes at least few milliseconds,=20
+>>>>>>>>> which
+>>>>>>>>> should be unacceptable to waste.
+>>>>>>>> As long as buffers are in queue we have to keep processing each
+>>>>>>>> buffer and between buffers obviously we have to wait for previous
+>>>>>>>> frames to finish and this why we have separate thread for frame
+>>>>>>>> finish where we can have next buffer capture ready and issue while
+>>>>>>>> previous frame memory write happens
+>>>>>> Also we specified numbers buffers as 3 to vb2 queue. So this is rare
+>>>>>> case but to prevent issuing more than 2 at a time as VI HW is only
+>>>>>> double buffered and syncpt fifo max depth is 2 added this to be=20
+>>>>>> safer.
+>>>>> To be more clear, when more buffers are enqueued from userspace=20
+>>>>> always
+>>>>> capture list will be full and thread will be busy in capture till=20
+>>>>> either
+>>>>> error or stop stream request happens.
+>>>>>
+>>>> If kthreads take more than 1% of CPU time during capture (video) with
+>>>> more than 2 buffers in queue, then it's not good and I think you=20
+>>>> should
+>>>> do something about it. If kthreads stay at ~0%, then it should be okay
+>>>> as-is.
+>>>
+>>> VI outstanding requests max can only be 2=C2=A0 as syncpt fifo depth is=
+=20
+>>> 2=C2=A0 and waiting to issue next capture when already 2 captures are=20
+>>> inflight happens only during beginning of streaming where buffers=20
+>>> allocated go thru capture for first time after queuing.
+>>>
+>>> same buffers are returned to userspace after capture and same=20
+>>> allocated buffers will be queued back for subsequent captures.
+>>>
+>>> So this case of holding to issue single shot when already single=20
+>>> shot is issue for 2 frames simultaneous happens only during=20
+>>> beginning of start stream and also we set num_buffers to allocate=20
+>>> for queue as 3 although 2 is good enough where we will not hit this=20
+>>> case even during streaming start with 2 buffers
+>>>
+>> As 2 buffers are good enough to be clear will update in v7 to use 2=20
+>> buffers so we don't need to check for more than 2 outstanding buffers.
+>
+> correction: With 3 buffers, as soon as buffer is available capture=20
+> starts. So right most times I see it waiting for few ms before 3rd=20
+> capture to get through.
+>
+> As only 2 frames single shot can be issued in sequence (inflight=20
+> requests), instead of waiting for 1 of the request to finish, we can=20
+> use 2 buffers and avoid waiting as 2 buffers are good enough. Will=20
+> change this in v7.
+>
+>
+>
+Tested with 3 buffers and by checking outstanding buffers in process by=20
+VI hw and holding to start capture till one outstanding buffer in=20
+process by HW.
+Also tested with 2 buffers without checking for outstanding buffers.
 
-date:			Thu Apr  9 05:00:10 CEST 2020
-media-tree git hash:	2632e7b618a7730969f9782593c29ca53553aa22
-media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
-v4l-utils git hash:	8b7e6ce9367fe09ca9398b5f3cc75bba2598b162
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: cbd8bfbab9e84c54e1f1dcf8c172c400a10126df
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+In both cases, I see same %CPU for the kthreads and is < 1%
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
