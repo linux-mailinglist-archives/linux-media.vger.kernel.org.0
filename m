@@ -2,180 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B571A2BE2
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 00:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 239D81A2D45
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 03:19:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgDHW1S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 18:27:18 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39103 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726494AbgDHW1R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 18:27:17 -0400
-Received: by mail-lj1-f194.google.com with SMTP id i20so9405827ljn.6
-        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 15:27:16 -0700 (PDT)
+        id S1726626AbgDIBTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Apr 2020 21:19:10 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40160 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726552AbgDIBTK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 21:19:10 -0400
+Received: by mail-wr1-f65.google.com with SMTP id s8so9877044wrt.7
+        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 18:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0IxhJthYzoFGzHPRNJEuwsAmGxzG5+XUgsaLtHukDmo=;
-        b=Jt4UEb08cWeiS20+2wlm3OhfNdeq68MS15GaeQ7aBN6rERE2M6pKSwmxcdCu2CIxAd
-         Nsb/9hmyaCIptWmS7Q8wVxdaWRIKVTd3NnESPyzok7t6R0iYUhjZnD/+WFPEd7D+EQkp
-         k7561fyi3XD5Bf5R0FqG5Jii6fTBO5eH68o9bwYiHvbjhTm4xS1G0WNSNXlFWubhWpxv
-         yNdaUvOI3XtWwuvJfoJhwPSEyvrEpRLxLIBADqcFX/2dwr4Gvb0SNJ8yI0rNUkdo+fNL
-         cRfDeJB6G2RtRBTurl4ijWTPuSAN501p4bPgj2e8IkIxRrZZAKQrmD7JI0mRQxK1OeLS
-         LYqA==
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=E2/NBcIc+EOOv5CPXsarlEbniqcGGi3XbnMq/s2bRBA=;
+        b=ZBwfUKd8Vsbe+JNFT3JuKjRP+irlUu6DZOLBGzPsvElz6xYBEKd1efbnBA1CGX3Qj4
+         rgumpPX3ojbLH78otplwhR990Q7aaOYDSprDQzyHHH/7SSLu9Y2DSfuRSigJLQRjo2Cd
+         1I9QVUdqJHBDcKrHQUQopV+I2BDP4LBdHT4AXXKVNtMJ/Ko+hgdBtzxMvmFZwUvSgR/M
+         SjbyyZpygbGnbDBFSafpkpCX+10q8m5ZFKJogPx7KnaGOHkh02PiVqfxFAuOQS4PqqXP
+         GUErFYADSFxEY83DIqtjZtLSc7WInisbpmEq5Yo/ulcCJjs1PEhNXuMJeNHW9S5qEOLA
+         XTbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0IxhJthYzoFGzHPRNJEuwsAmGxzG5+XUgsaLtHukDmo=;
-        b=kvdNWIGip+kdcCw10A7VspwwfkL5TVctT6/3RU/JjAM8PhxXE818S9uPhZg7dkkuSN
-         JGzOusqgdbor+UY7iXdFWRyIeFoZON9x6DyWuigFoxRdIMXyHk6a9naGwF0zPmiQMlxt
-         /5gKLBISQg0N6G9WSYVoGeUlH3D7z5DjiDo92Q/4uaQkA3zPO++HSfeXVe4TA8ScfjvG
-         o8XMkGtuR2cJbCj65iGA4Lxp3Y5V0tYnSQlO7ciQCfsjg4FXHQsGxLuDMj4m7Vu91s4W
-         9mFjDbLkUw4HeyRbahxS145mWlEeRnb35NAFyDrU921AJef2+FK/88ES7RUXB/TZgrb7
-         5hLw==
-X-Gm-Message-State: AGi0PuYYaw5ErXjxS9I+p8sb8rrR1ccQMajdTA/tgOJauh2VFgrAJwbO
-        Yhp2OYed/24AVGDLofyJ+EzBjbpDBnY545bya6bcpw==
-X-Google-Smtp-Source: APiQypKw3pUMTJPpu9PX8DKDTel9965lGRN2jMKefg+mFHDV23V0n9xzRSOYGpKDCRGHdJbIYIRbz0DZDEi2uCjq5Uc=
-X-Received: by 2002:a2e:9247:: with SMTP id v7mr5980354ljg.215.1586384835570;
- Wed, 08 Apr 2020 15:27:15 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E2/NBcIc+EOOv5CPXsarlEbniqcGGi3XbnMq/s2bRBA=;
+        b=AScROQ+RAJr/SX3km+ubq26GyRE7bNWUF4R5jdI/w6Pe2JnZM6dhbGdp37zcVnHZli
+         cZYgvVbJInD1lyXz6qxvKfuGXSTw4yOyX/qEvCpTeo14F9cGqN9AiMwXWXoFl8es8i3h
+         4yEA68qGeezi2FA3+OkBs0GTO6MZsGByALvFojcc0FOWSPafFVacPOs3+zRtBZNQOKjl
+         Og462xCTyYPiQavxogUiMCp4eMfIWRdXGugGwr+4+nKxJo9tze7lB5B2VS3074lrUaeR
+         9WO/OBcvwHSr+40cQzsZdkaZBuNtHS68tjIoK34GOnSA5b/1qV0zaj9aqLLHtQl9cIYX
+         oWTg==
+X-Gm-Message-State: AGi0PuZKtbAeCrkowh9yqRYQrxwTa77T0FYplUYO623M373xLx6+FEAt
+        b1Qo7uYX25YDLaw8Ql4X13s=
+X-Google-Smtp-Source: APiQypJyeBKgmAxjXeK+fYWfh30Exoa3l6jR+QiQqbiMR//bgSGIRIu5PfUM3KxjZr2JmvLE1+fVVw==
+X-Received: by 2002:adf:e811:: with SMTP id o17mr2770751wrm.390.1586395147857;
+        Wed, 08 Apr 2020 18:19:07 -0700 (PDT)
+Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id y22sm1897570wma.0.2020.04.08.18.19.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Apr 2020 18:19:07 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] ARM: dts: rockchip: add rk3288 ISP and DPHY
+To:     Karthik Poduval <karthik.poduval@gmail.com>,
+        linux-media@vger.kernel.org, heiko@sntech.de,
+        linux-rockchip@lists.infradead.org, helen.koike@collabora.com,
+        ezequiel@collabora.com
+References: <karthik.poduval@gmail.com>
+ <20200406073017.19462-1-karthik.poduval@gmail.com>
+ <20200406073017.19462-4-karthik.poduval@gmail.com>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <2fc95890-f938-30a5-a163-bf3fa2e223df@gmail.com>
+Date:   Thu, 9 Apr 2020 03:19:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <fff664e9-06c9-d2fb-738f-e8e591e09569@linux.com>
-In-Reply-To: <fff664e9-06c9-d2fb-738f-e8e591e09569@linux.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Thu, 9 Apr 2020 00:26:49 +0200
-Message-ID: <CAG48ez09gn1Abv-EwwW5Rgjqo2CQsbq6tjDeTfpr_FnJC7f5zA@mail.gmail.com>
-Subject: Re: Coccinelle rule for CVE-2019-18683
-To:     Alexander Popov <alex.popov@linux.com>
-Cc:     Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>, cocci@systeme.lip6.fr,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        Kees Cook <keescook@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200406073017.19462-4-karthik.poduval@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 9, 2020 at 12:01 AM Alexander Popov <alex.popov@linux.com> wrote:
-> CVE-2019-18683 refers to three similar vulnerabilities caused by the same
-> incorrect approach to locking that is used in vivid_stop_generating_vid_cap(),
-> vivid_stop_generating_vid_out(), and sdr_cap_stop_streaming().
->
-> For fixes please see the commit 6dcd5d7a7a29c1e4 (media: vivid: Fix wrong
-> locking that causes race conditions on streaming stop).
->
-> These three functions are called during streaming stopping with vivid_dev.mutex
-> locked. And they all do the same mistake while stopping their kthreads, which
-> need to lock this mutex as well. See the example from
-> vivid_stop_generating_vid_cap():
->     /* shutdown control thread */
->     vivid_grab_controls(dev, false);
->     mutex_unlock(&dev->mutex);
->     kthread_stop(dev->kthread_vid_cap);
->     dev->kthread_vid_cap = NULL;
->     mutex_lock(&dev->mutex);
->
-> But when this mutex is unlocked, another vb2_fop_read() can lock it instead of
-> the kthread and manipulate the buffer queue. That causes use-after-free.
->
-> I created a Coccinelle rule that detects mutex_unlock+kthread_stop+mutex_lock
-> within one function.
-[...]
-> mutex_unlock@unlock_p(E)
-> ...
-> kthread_stop@stop_p(...)
-> ...
-> mutex_lock@lock_p(E)
+Hi Karthik and others,
 
-Is the kthread_stop() really special here? It seems to me like it's
-pretty much just a normal instance of the "temporarily dropping a
-lock" pattern - which does tend to go wrong quite often, but can also
-be correct.
+Include all mail lists found with:
+./scripts/get_maintainer.pl --nogit-fallback --nogit
 
-I think it would be interesting though to have a list of places that
-drop and then re-acquire a mutex/spinlock/... that was not originally
-acquired in the same block of code (but was instead originally
-acquired in an outer block, or by a parent function, or something like
-that). So things like this:
+Helen is moving isp1 bindings out of staging.
+Clocks and other things don't fit with her patch serie.
+Maybe fix this while still in staging?
 
-void X(...) {
-  mutex_lock(A);
-  for (...) {
-    ...
-    mutex_unlock(A);
-    ...
-    mutex_lock(A);
-    ...
-  }
-  mutex_unlock(A);
-}
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+'phys' is a required property
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+'phy-names' is a required property
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+'ports' is a required property
 
-or like this:
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+'assigned-clock-rates', 'assigned-clocks'
+do not match any of the regexes: 'pinctrl-[0-9]+'
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+clock-names:2: 'aclk_isp_wrap' was expected
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+clock-names:3: 'hclk_isp' was expected
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+clock-names:4: 'hclk_isp_wrap' was expected
 
-void X(...) {
-  ... [no mutex operations on A]
-  mutex_unlock(A);
-  ...
-  mutex_lock(A);
-  ...
-}
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: 'power-domains'
+is a required property
+
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clock-names:1:
+'dphy-cfg' was expected
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clock-names:
+['dphy-ref', 'pclk'] is too short
+arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clocks: [[7,
+126], [7, 358]] is too short
 
 
-But of course, there are places where this kind of behavior is
-correct; so such a script wouldn't just return report code, just code
-that could use a bit more scrutiny than normal. For example, in
-madvise_remove(), the mmap_sem is dropped and then re-acquired, which
-is fine because the caller deals with that possibility properly:
+Inside yaml:
+Use enum and sort.
+>>  properties:
+>>    compatible:
 
-static long madvise_remove(struct vm_area_struct *vma,
-                                struct vm_area_struct **prev,
-                                unsigned long start, unsigned long end)
-{
-        loff_t offset;
-        int error;
-        struct file *f;
+>>      const: rockchip,rk3399-cif-isp
+>> +    const: rockchip,rk3288-rkisp1
 
-        *prev = NULL;   /* tell sys_madvise we drop mmap_sem */
+    enum:
+      - rockchip,rk3288-rkisp1
+      - rockchip,rk3399-cif-isp
 
-        if (vma->vm_flags & VM_LOCKED)
-                return -EINVAL;
+>>  properties:
+>>    compatible:
+>>      const: rockchip,rk3399-mipi-dphy-rx0
+>> +    const: rockchip,rk3288-mipi-dphy-rx0
 
-        f = vma->vm_file;
+    enum:
+      - rockchip,rk3288-mipi-dphy-rx0
+      - rockchip,rk3399-mipi-dphy-rx0
 
-        if (!f || !f->f_mapping || !f->f_mapping->host) {
-                        return -EINVAL;
-        }
+> 
+> Please, keep consistency, or rk3288-cif-isp, or we change rk3399-cif-isp to be rk3399-rkisp1.
 
-        if ((vma->vm_flags & (VM_SHARED|VM_WRITE)) != (VM_SHARED|VM_WRITE))
-                return -EACCES;
 
-        offset = (loff_t)(start - vma->vm_start)
-                        + ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+On 4/6/20 9:30 AM, Karthik Poduval wrote:
+> ISP and DPHY device entries missing so add them.
+> 
 
-        /*
-         * Filesystem's fallocate may need to take i_mutex.  We need to
-         * explicitly grab a reference because the vma (and hence the
-         * vma's reference to the file) can go away as soon as we drop
-         * mmap_sem.
-         */
-        get_file(f);
-        if (userfaultfd_remove(vma, start, end)) {
-                /* mmap_sem was not released by userfaultfd_remove() */
-                up_read(&current->mm->mmap_sem);
-        }
-        error = vfs_fallocate(f,
-                                FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
-                                offset, end - start);
-        fput(f);
-        down_read(&current->mm->mmap_sem);
-        return error;
-}
+> tested on tinkerbaord with ov5647 using command
+> cam -c 1 -C -F cap
+
+Disclose dts node for ov5647 in cover letter, so people can reproduce
+this experiment.
+
+Caution!
+Without dts node this command doesn't work correct.
+
+make ARCH=arm dtbs_check
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+
+make ARCH=arm dtbs_check
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+
+Needed to detect missing: phys, phy-names and ports ,etc.
+
+&isp {
+	status = "okay";
+};
+
+Needed to detect missing: power-domains, etc.
+
+&mipi_phy_rx0 {
+	status = "okay";
+};
+
+> 
+> Reported-by: Karthik Poduval <karthik.poduval@gmail.com>
+> Signed-off-by: Karthik Poduval <karthik.poduval@gmail.com>
+> ---
+>  arch/arm/boot/dts/rk3288.dtsi | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
+> index 9beb662166aa..adea8189abd9 100644
+> --- a/arch/arm/boot/dts/rk3288.dtsi
+> +++ b/arch/arm/boot/dts/rk3288.dtsi
+> @@ -247,6 +247,23 @@
+>  		ports = <&vopl_out>, <&vopb_out>;
+>  	};
+> 
+
+> +	isp: isp@ff910000 {
+
+For nodes:
+Sort things without reg alphabetical first,
+then sort the rest by reg address.
+
+> +		compatible = "rockchip,rk3288-rkisp1";
+> +		reg = <0x0 0xff910000 0x0 0x4000>;
+> +		interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+> +		clocks = <&cru SCLK_ISP>, <&cru ACLK_ISP>,
+> +			 <&cru HCLK_ISP>, <&cru PCLK_ISP_IN>,
+> +			 <&cru SCLK_ISP_JPE>;
+> +		clock-names = "clk_isp", "aclk_isp",
+> +			      "hclk_isp", "pclk_isp_in",
+> +			      "sclk_isp_jpe";
+> +		assigned-clocks = <&cru SCLK_ISP>, <&cru SCLK_ISP_JPE>;
+> +		assigned-clock-rates = <400000000>, <400000000>;
+
+> +		power-domains = <&power RK3288_PD_VIO>;
+> +		iommus = <&isp_mmu>;
+
+sort
+
+Something missing?
+Where are the ports and port nodes?
+
+> +		status = "disabled";
+> +	};
+> +
+>  	sdmmc: mmc@ff0c0000 {
+>  		compatible = "rockchip,rk3288-dw-mshc";
+>  		max-frequency = <150000000>;
+> @@ -891,6 +908,14 @@
+>  			status = "disabled";
+>  		};
+> 
+
+> +		mipi_phy_rx0: mipi-phy-rx0 {
+
+Use separate patch.
+
+For nodes:
+Sort things without reg alphabetical first,
+then sort the rest by reg address.
+
+> +			compatible = "rockchip,rk3288-mipi-dphy-rx0";
+> +			clocks = <&cru SCLK_MIPIDSI_24M>, <&cru PCLK_MIPI_CSI>;
+> +			clock-names = "dphy-ref", "pclk";
+Something missing?
+Does this phy have a power domain?
+
+> +			#phy-cells = <0>;
+> +			status = "disabled";
+> +		};
+> +
+>  		io_domains: io-domains {
+>  			compatible = "rockchip,rk3288-io-voltage-domain";
+>  			status = "disabled";
+> 
+
