@@ -2,106 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B4C21A32CC
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 12:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB70E1A32DA
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 12:54:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgDIKrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 06:47:10 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45755 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726559AbgDIKrJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 06:47:09 -0400
-Received: by mail-lj1-f194.google.com with SMTP id t17so10907187ljc.12
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 03:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9cRaeh08mhFE2IVS+WsO4x0a5cpWTPgRt9aIdP5PwiQ=;
-        b=jFpYGhmgzOldXb8rpUJ/nVO2sXHaWA79GfNvdt8TouA7H3059Acn2M5bjlzHrGMYeu
-         WCdKC2GrhFL1UPT/ZIsmobLgnqCWRZqRwBUZdBWsktKp6VKSNTFwSwx1KFhyKEjZwKtw
-         Tasdv0PYbmo7ZbhxYCj1cMBcTIm/eVxR+nNhs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9cRaeh08mhFE2IVS+WsO4x0a5cpWTPgRt9aIdP5PwiQ=;
-        b=Ec1Ega2dFYiBTOVXzQle0p97tJZrDh9W11hIIexrVOXqtww3m7fWPm8hPjPHY4RD8F
-         W8OnyIMW01OUb7AyOz2lEl92JZTzdtcl8kaAxOr0GbgG+xkyVqCKOnoR5bb4r33T9dAU
-         qO1jlHFaLPhx8ROnEbarhEzzux4TQXZLd6yPA8LR3JqBSL+JuJCO/v1wd43FypL5sOsd
-         lxPP7Sy6xaQnIEWvJPbRhMUoyMFKq6tiI9tZIV+l4GJ0V9cUnnwOVpBq6PasQnyjHDTx
-         97wUH9ln8ww6dW46yl+KDCUzw8AWUaI089ry1XNK7zxXoMxeReTQRVE/2H1uZ5Ffnhrv
-         VPjg==
-X-Gm-Message-State: AGi0PuZivl6zXS7U44PlqSoMTjOEyYc9vYcLJtix9A6yhJXpvCYYly0T
-        Jxy7nJun0Cjqywy6Wpyd5oyx4f29B9dfImkBxWToqw==
-X-Google-Smtp-Source: APiQypInLkppToS8D1aCf9MmTCvnQdp7Jrrf2sFNxcy0G624vRt+PfF5eMJNF1KZM2/L4mVNdYC05Hw90OYtPGbACOE=
-X-Received: by 2002:a2e:b4ca:: with SMTP id r10mr1915591ljm.149.1586429227856;
- Thu, 09 Apr 2020 03:47:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200206102058.247258-1-keiichiw@chromium.org>
- <20200206102058.247258-2-keiichiw@chromium.org> <4320831.CvnuH1ECHv@os-lin-dmo>
-In-Reply-To: <4320831.CvnuH1ECHv@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Thu, 9 Apr 2020 19:46:56 +0900
-Message-ID: <CAD90Vca4jqLPdK4my3mCmPM45Lwc5te6PbDhA+H=0X1QyTFWzQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
+        id S1726589AbgDIKx4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 06:53:56 -0400
+Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:36477 "EHLO
+        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725828AbgDIKx4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Apr 2020 06:53:56 -0400
+X-IronPort-AV: E=Sophos;i="5.72,362,1580770800"; 
+   d="scan'208";a="444554909"
+Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Apr 2020 12:53:54 +0200
+Date:   Thu, 9 Apr 2020 12:53:54 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To:     Alexander Popov <alex.popov@linux.com>
+cc:     Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Michal Marek <michal.lkml@markovi.net>, cocci@systeme.lip6.fr,
+        "kernel-hardening@lists.openwall.com" 
+        <kernel-hardening@lists.openwall.com>,
+        Jann Horn <jannh@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, jannh@google.com
+Subject: Re: [Cocci] Coccinelle rule for CVE-2019-18683
+In-Reply-To: <fff664e9-06c9-d2fb-738f-e8e591e09569@linux.com>
+Message-ID: <alpine.DEB.2.21.2004091248190.2403@hadrien>
+References: <fff664e9-06c9-d2fb-738f-e8e591e09569@linux.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On Tue, Apr 7, 2020 at 11:49 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi,
->
-> > +\item[VIRTIO_VIDEO_CMD_STREAM_DESTROY] Destroy a video stream
-> > +  (context) within the device.
-> > +
-> > +\begin{lstlisting}
-> > +struct virtio_video_stream_destroy {
-> > +        struct virtio_video_cmd_hdr hdr;
-> > +};
-> > +\end{lstlisting}
->
-> Let's add more strict description to stream_destroy, like as follows:
-> Device MUST NOT generate any events for the stream in question after receiving
-> the command. Before completing the command, Device MUST ensure that all
-> asynchronous commands that are related to the stream have been completed and
-> all memory objects are unreferenced.
 
-Sounds good. But, the device should probably be able to generate
-VIRTIO_VIDEO_EVENT_ERROR for a device-wide error?
-Or, should VIRTIO_VIDEO_EVENT_ERROR always be a per-stream error? (I
-haven't documented it in v3)
+On Thu, 9 Apr 2020, Alexander Popov wrote:
 
-Best regards,
-Keiichi
+> Hello!
+>
+> Some time ago I fixed CVE-2019-18683 in the V4L2 subsystem of the Linux kernel.
+>
+> I created a Coccinelle rule that detects that bug pattern. Let me show it.
+
+Thanks for the discussion :)
 
 >
-> Best regards,
-> Dmitry.
+>
+> Bug pattern
+> ===========
+>
+> CVE-2019-18683 refers to three similar vulnerabilities caused by the same
+> incorrect approach to locking that is used in vivid_stop_generating_vid_cap(),
+> vivid_stop_generating_vid_out(), and sdr_cap_stop_streaming().
+>
+> For fixes please see the commit 6dcd5d7a7a29c1e4 (media: vivid: Fix wrong
+> locking that causes race conditions on streaming stop).
+>
+> These three functions are called during streaming stopping with vivid_dev.mutex
+> locked. And they all do the same mistake while stopping their kthreads, which
+> need to lock this mutex as well. See the example from
+> vivid_stop_generating_vid_cap():
+>     /* shutdown control thread */
+>     vivid_grab_controls(dev, false);
+>     mutex_unlock(&dev->mutex);
+>     kthread_stop(dev->kthread_vid_cap);
+>     dev->kthread_vid_cap = NULL;
+>     mutex_lock(&dev->mutex);
+>
+> But when this mutex is unlocked, another vb2_fop_read() can lock it instead of
+> the kthread and manipulate the buffer queue. That causes use-after-free.
+>
+> I created a Coccinelle rule that detects mutex_unlock+kthread_stop+mutex_lock
+> within one function.
 >
 >
+> Coccinelle rule
+> ===============
 >
+> virtual report
+>
+> @race exists@
+> expression E;
+> position stop_p;
+> position unlock_p;
+> position lock_p;
+> @@
+>
+> mutex_unlock@unlock_p(E)
+> ...
+
+It would be good to put when != mutex_lock(E) after the ... above.  Your
+rule doesn't actually prevent the lock from being retaken.
+
+> kthread_stop@stop_p(...)
+> ...
+> mutex_lock@lock_p(E)
+>
+> @script:python@
+> stop_p << race.stop_p;
+> unlock_p << race.unlock_p;
+> lock_p << race.lock_p;
+> E << race.E;
+> @@
+>
+> coccilib.report.print_report(unlock_p[0], 'mutex_unlock(' + E + ') here')
+> coccilib.report.print_report(stop_p[0], 'kthread_stop here')
+> coccilib.report.print_report(lock_p[0], 'mutex_lock(' + E + ') here\n')
+>
+>
+> Testing the rule
+> ================
+>
+> I reverted the commit 6dcd5d7a7a29c1e4 and called:
+> COCCI=./scripts/coccinelle/kthread_race.cocci make coccicheck MODE=report
+>
+> The result:
+>
+> ./drivers/media/platform/vivid/vivid-kthread-out.c:347:1-13: mutex_unlock(& dev
+> -> mutex) here
+> ./drivers/media/platform/vivid/vivid-kthread-out.c:348:1-13: kthread_stop here
+> ./drivers/media/platform/vivid/vivid-kthread-out.c:350:1-11: mutex_lock(& dev ->
+> mutex) here
+>
+> ./drivers/media/platform/vivid/vivid-sdr-cap.c:306:1-13: mutex_unlock(& dev ->
+> mutex) here
+> ./drivers/media/platform/vivid/vivid-sdr-cap.c:307:1-13: kthread_stop here
+> ./drivers/media/platform/vivid/vivid-sdr-cap.c:309:1-11: mutex_lock(& dev ->
+> mutex) here
+>
+> ./drivers/media/platform/vivid/vivid-kthread-cap.c:1001:1-13: mutex_unlock(& dev
+> -> mutex) here
+> ./drivers/media/platform/vivid/vivid-kthread-cap.c:1002:1-13: kthread_stop here
+> ./drivers/media/platform/vivid/vivid-kthread-cap.c:1004:1-11: mutex_lock(& dev
+> -> mutex) here
+>
+> There are no other bugs detected.
+>
+> Do you have any idea how to improve it?
+> Do we need that rule for regression testing in the upstream?
+
+Based on Jann's suggestion, it seem like it could be interesting to find
+these locking pauses, and then collect functions that are used in locks
+and in lock pauses.  If a function is mostly used with locks held, then
+using it in a lock pause could be a sign of a bug.  I will see if it turns
+up anything interesting.
+
+julia
