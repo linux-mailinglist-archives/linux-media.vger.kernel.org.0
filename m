@@ -2,99 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 881321A3640
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 16:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D05211A374C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 17:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727703AbgDIOup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 10:50:45 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44620 "EHLO
+        id S1728278AbgDIPhk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 11:37:40 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:41402 "EHLO
         mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726977AbgDIOuo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 10:50:44 -0400
-Received: by mail-lj1-f196.google.com with SMTP id z26so7632072ljz.11;
-        Thu, 09 Apr 2020 07:50:41 -0700 (PDT)
+        with ESMTP id S1728263AbgDIPhj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 11:37:39 -0400
+Received: by mail-lj1-f196.google.com with SMTP id n17so94530lji.8
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 08:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Q4v9rUwodHK+n75mx+eCJ7ZwO8R88Mb5/tApAMFDSTo=;
-        b=dmyAeQgYSO/YZrU6CKasyEg8GJab178Tx6rckPt9JWLNY9a4QkaZM+cqAiqM9s1djC
-         DktV8Mn+KCvHzRA7EuCsF29x4HCJcZrTULzOwwfI0AOfwQZNUXuWPKn1KvHmGXhy+Pty
-         iQRnOr+a5uZabgG+xV4bAgW/XrpFmeVNuNduBk/4u73QF9WfPdC38tgHAtS1EbuNlDBG
-         57t//ZhHWTbnVyzm3wkVU3yRajomcKKsVbzQG3bkFPdb1jXLMspmn9QdN0/OEu+3vCcJ
-         ZFtqMHMMwjlkRX1Mw5KHvKkEZp3xJLEfcRMuOuPPKglrPVAQoKgUe5+k9i0y/Em9DfLn
-         d9dA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Oi8nKA6/ElSLxWVNM8FupW3/IkPWX0sl86ali4O80XI=;
+        b=O/3kS3pJUPJbyX1pKHrBcd+JGnq/8uPSWxTmQ3xUC2hqXJO2xS7hZbYpk9yAEjAwcC
+         DwtafVPK5YqLzQ8nKd6AVv0ITI/NeWnSU2XcJhO3VZV4KXPQuapJ4U1VyLH0LSRnAKw1
+         +O40Z2nMbyiLOCAM5RZ51fLu/QdRA3Wcmh6RrPgr6KOrxjZGdgwmb98b8TLynHT1usC+
+         LAF8g1FIOPhhu74Yxnl7TdYYygNVsRLIsQGOJR7gQnb5f2QwE+tF2Fv92cHRzZA5/caB
+         lXOrknh3oVFEKUgQ8rgZblYONucXgsGtTvxvAepJ/t51IDGMZ6hznZWaiI0URYrkhC7z
+         U4OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Q4v9rUwodHK+n75mx+eCJ7ZwO8R88Mb5/tApAMFDSTo=;
-        b=Uq7+0zNPMUsGYeFxcB84PMXjGou22ZMVFMi3jS3zG9Uu4ljpXyWI8zjbSZNb86t7av
-         PGe7fRM+kfcIU5/RFz1uZiYmyD5RboYktthRuaLA/mCbV0IJmZgQneCHD4BEsbw1i16p
-         g/EhH4pgCflD1BE4NuzE4DLrHXIMVCGBtg0kYnVCP3AkbdegELHqTOonDJ/oCN49VhTm
-         wciUMQAXUIVLl97BdLkkYm0oZ78Bg2Wjn43YVWI+0hYptIktrnBMAFLTB1vidPyYROQH
-         IjEvnwe7o5E6X8sj1eo4ctK21qYhK6JL83fa5w68mkUYUltXwArb8Lls1jknoCN06jvc
-         1y6g==
-X-Gm-Message-State: AGi0PuYz34ZOIP8/X8phJBQA/iqqEVhBHSsRR/tzsyt+tUfYKPWmd55u
-        tdjYuiu+xS35Ug1QhrySsHGEPvsy
-X-Google-Smtp-Source: APiQypL5/qfqfNmB6bTHUaHBUEIWQAm5mk79vdrTxi98rxkD5Iz0Zf3V24CkGUlbnftqYsE/h8tanA==
-X-Received: by 2002:a2e:905a:: with SMTP id n26mr119665ljg.58.1586443840801;
-        Thu, 09 Apr 2020 07:50:40 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id u7sm1243199lfg.20.2020.04.09.07.50.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2020 07:50:40 -0700 (PDT)
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <dd16c560-ba8f-e7df-5dc4-5227e0043196@nvidia.com>
- <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
- <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
- <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
- <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
- <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
- <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
- <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
- <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
- <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
- <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
- <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
- <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
- <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
- <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
- <a638bb8e-bb50-7aa5-05a0-8de1c6207ba7@nvidia.com>
- <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
- <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7288cacd-badc-cb01-1f4c-286dd024ca10@gmail.com>
-Date:   Thu, 9 Apr 2020 17:50:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Oi8nKA6/ElSLxWVNM8FupW3/IkPWX0sl86ali4O80XI=;
+        b=YRvxTjPiRy6Onn+QP+LopRp34vkb/+1d2RbtrfJ6AjCjFzLSTVcBve6KExGgJ7Go9u
+         9bra+SrFOi8/u3xAhHUSIvbDitj4F1JpaIYVIZ2KG1414NDRA0sTjQgEQcVXmh6Zn2TL
+         H+6BV9PmOcjqaha52wSLmT+tm8Fzq7BVQKkuEAfPmg7nWzZOFtvxQ6OEU7gQk18ECi06
+         +igWRa9WafUh4ip6fBka9HTMC3I4HJUncbsm6tlsPCMih3Ja8jCvaPWF6xgtnCLrD+Z3
+         QevqM0U5MkFwxsCc6q3AY8C2M7o6sELzdzKooh9hckxgJySHtEPzOavsd4a5vn07GKYJ
+         DwYQ==
+X-Gm-Message-State: AGi0PuZ10B/gFaPb5X9TW93FZL9XHoW1SL4h6zapJOr/pbU2kZRDE9fe
+        7rboIwEp8K6zkIHVdCAOYkPh7h3HcL0NxRCvmeStuve1
+X-Google-Smtp-Source: APiQypK70imRWvpzPzDu3zfqW7SyOAyTnwXxD64EpXgnR0nPbdeuCOYbDWfIN6ASzPXVKrY3XnOJ7PmmXpJ0iWzUavw=
+X-Received: by 2002:a2e:9105:: with SMTP id m5mr231750ljg.37.1586446658229;
+ Thu, 09 Apr 2020 08:37:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200406163905.24475-1-slongerbeam@gmail.com> <20200406163905.24475-2-slongerbeam@gmail.com>
+In-Reply-To: <20200406163905.24475-2-slongerbeam@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Thu, 9 Apr 2020 12:38:05 -0300
+Message-ID: <CAOMZO5Cz-2L6bTTC=f4bnPtOP1zZ6Ch5JbhuPg=DYz9wTK_TyQ@mail.gmail.com>
+Subject: Re: [PATCH v7 01/11] media: imx: utils: fix and simplify pixel format enumeration
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-09.04.2020 06:38, Sowjanya Komatineni пишет:
-...
-> Tested with 3 buffers and by checking outstanding buffers in process by
-> VI hw and holding to start capture till one outstanding buffer in
-> process by HW.
-> Also tested with 2 buffers without checking for outstanding buffers.
-> 
-> In both cases, I see same %CPU for the kthreads and is < 1%
-> 
+Hi Steve and Philipp,
 
-I don't see where buffers queue max limit is set to 3 in the code, but
-should be okay if CPU isn't getting hogged. Looking forward to v7.
+On Mon, Apr 6, 2020 at 1:40 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
+>
+> From: Philipp Zabel <p.zabel@pengutronix.de>
+>
+> Merge yuv_formats and rgb_formats into a single array. Always loop over
+> all entries, skipping those that do not match the requested search
+> criteria. This simplifies the code, lets us get rid of the manual
+> counting of array entries, and stops accidentally ignoring some non-mbus
+> RGB formats.
+>
+> Before:
+>
+>   $ v4l2-ctl -d /dev/video14 --list-formats-out
+>   ioctl: VIDIOC_ENUM_FMT
+>         Type: Video Output
+>
+>         [0]: 'UYVY' (UYVY 4:2:2)
+>         [1]: 'YUYV' (YUYV 4:2:2)
+>         [2]: 'YU12' (Planar YUV 4:2:0)
+>         [3]: 'YV12' (Planar YVU 4:2:0)
+>         [4]: '422P' (Planar YUV 4:2:2)
+>         [5]: 'NV12' (Y/CbCr 4:2:0)
+>         [6]: 'NV16' (Y/CbCr 4:2:2)
+>         [7]: 'RGBP' (16-bit RGB 5-6-5)
+>         [8]: 'RGB3' (24-bit RGB 8-8-8)
+>         [9]: 'BX24' (32-bit XRGB 8-8-8-8)
+>
+> After:
+>
+>   $ v4l2-ctl -d /dev/video14 --list-formats-out
+>   ioctl: VIDIOC_ENUM_FMT
+>         Type: Video Output
+>
+>         [0]: 'UYVY' (UYVY 4:2:2)
+>         [1]: 'YUYV' (YUYV 4:2:2)
+>         [2]: 'YU12' (Planar YUV 4:2:0)
+>         [3]: 'YV12' (Planar YVU 4:2:0)
+>         [4]: '422P' (Planar YUV 4:2:2)
+>         [5]: 'NV12' (Y/CbCr 4:2:0)
+>         [6]: 'NV16' (Y/CbCr 4:2:2)
+>         [7]: 'RGBP' (16-bit RGB 5-6-5)
+>         [8]: 'RGB3' (24-bit RGB 8-8-8)
+>         [9]: 'BGR3' (24-bit BGR 8-8-8)
+>         [10]: 'BX24' (32-bit XRGB 8-8-8-8)
+>         [11]: 'XR24' (32-bit BGRX 8-8-8-8)
+>         [12]: 'RX24' (32-bit XBGR 8-8-8-8)
+>         [13]: 'XB24' (32-bit RGBX 8-8-8-8)
+>
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+>
+> [Make loop counters unsigned]
+> [Decrement index instead of adding a counter]
+> [Return directly from within loop instead of breaking]
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> [Fix colorspace comparison error]
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+
+This fixes a bug with an IC conversion pipeline.
+
+Could we have a Fixes tag for this one, so that it can be applied to stable?
+
+Tested on a imx6q-sabresd:
+
+Tested-by: Fabio Estevam <festevam@gmail.com>
