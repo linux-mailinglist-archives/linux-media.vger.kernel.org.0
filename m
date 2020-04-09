@@ -2,115 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79CB01A39CF
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 20:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D22D1A3A13
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 20:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgDIS2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 14:28:18 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:9757 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbgDIS2S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 14:28:18 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e8f690c0000>; Thu, 09 Apr 2020 11:27:24 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 09 Apr 2020 11:28:18 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 09 Apr 2020 11:28:18 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr
- 2020 18:28:17 +0000
-Received: from [10.2.171.241] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Apr 2020
- 18:28:16 +0000
-Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <fea4f0a1-4a20-34d4-9eda-e4a599eeeffc@nvidia.com>
- <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
- <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
- <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
- <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
- <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
- <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
- <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
- <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
- <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
- <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
- <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
- <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
- <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
- <a638bb8e-bb50-7aa5-05a0-8de1c6207ba7@nvidia.com>
- <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
- <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
- <7288cacd-badc-cb01-1f4c-286dd024ca10@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <77c88717-618f-b366-2b6a-f8b4abaa66cc@nvidia.com>
-Date:   Thu, 9 Apr 2020 11:28:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726477AbgDIS7j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 14:59:39 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:39218 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725970AbgDIS7i (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 14:59:38 -0400
+Received: by mail-il1-f194.google.com with SMTP id r5so722395ilq.6
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 11:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=XapjivXGkGsUmtlpUpEqP8y7iiz+mzopvTm3cK2sD+c=;
+        b=VOVPND08BpC28BgAGXOAhRLNjSN53Jd1vGntIRkopRH+0s+GgEIJ3xswzqvnuJ9boB
+         gAyNB7zYQA1872hnVRtAFZ3ewNKwstGPl5ea2GtrX/ZUmkOimH8Y2q6ll9cSa+tDnzcB
+         3jVaXvY5zHEj4bknf115cViBKLOY+1BD7TUUZU6MffawcTbvuL+QTOS+3rQQSfzf2VrY
+         h9haJOM9MHN4/KYXNXnGrdFFXnWx/M+divtrdiFb462BpFipyARaiiGFaGrO/hbKwog8
+         qjbQcpmg+6gOgB2tiSxrRndRccohGDtt2FpRj4yRwcHG925khGSB9t+exkOTwBqQswlE
+         m70g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=XapjivXGkGsUmtlpUpEqP8y7iiz+mzopvTm3cK2sD+c=;
+        b=lh6+ERwGjoIWqf/WIRNXCJL74vmtiYzjDlEjweSwWbLcew1UXhZxkgEoFUGBS23GeE
+         2ZMZD6RhwdhnR057POtqMHHAXcp+l3kP6Tx5yY/64pEy2b4C7cFccPh2ayRRehwXie23
+         nu252ZuDkYrkYJ4no9/el9yy9NZHA26v7nn76TP78vYbB0xkdWHdFtpFYuXxRTo8C4d/
+         Q8K1UtXGwiQTW9Dtv+0AoItV4mT0hC0OsdnF63n6PLRMXp4wphvs9IjZiAXVb3d9B5v7
+         DR79LtMBB16Wjh6Cc4Iiw5TvHbAkVg4QtudtPUS7KuTHAddk4Fn5x3mcrYGgWH4Hrf3r
+         ogIQ==
+X-Gm-Message-State: AGi0Pubr/HJ7lsZp3XztontISXC5Rr0YraMpgeacDUFyVyPybng5eUMD
+        cvmKBCFBBih0vhVMCmUJkQiq9EvnBtwAz4NWsng=
+X-Google-Smtp-Source: APiQypJaSC/8XzcAZlDWxucArJTFMZ6ivB3lJq/s1ZBA/YigwvX8Xy6CjkxVO2eqoMyuz3EveCKbBut+eGC+JZ+VHTM=
+X-Received: by 2002:a92:1596:: with SMTP id 22mr1236840ilv.89.1586458778253;
+ Thu, 09 Apr 2020 11:59:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7288cacd-badc-cb01-1f4c-286dd024ca10@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1586456844; bh=J/aG9q8CC/oWgBUBz0DhAt3fXvAn/5D8wg8H/6egt/k=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=YPzLgxQABUqO8OPEPQuriGTYqhWKxRFVQrPN++BwMsEhM6J9i6K8noQnvD0TY2Knu
-         RiBq8AfHissKuS2udec8T94gBVNUEIdF49dfKr0zhbfzVMgl+IgneaUjB6vIlJqvow
-         qK8v9s3lxrmlKiTI9Ow6XuZsKHp6Ig4oSqJJCnziLNupWfqC/z3kUSbkdKRPLlIDNO
-         h/vRsMsyimqOCe6d1PfptFD6mGbK3Z174Gwhdgp3Fdwy2I4ZxkXFgkEgzO57j1hE+g
-         kqtVlEcahsvxGcs8vH+QZvais40AOL7k/7vszJlqJ4A1IxGLDp9UXAY+qMWoNJvvOM
-         vX53TCKI0iRcg==
+Received: by 2002:a6b:5c0d:0:0:0:0:0 with HTTP; Thu, 9 Apr 2020 11:59:37 -0700 (PDT)
+From:   Mohamed Abdullah <mohabdu0011@gmail.com>
+Date:   Thu, 9 Apr 2020 11:59:37 -0700
+X-Google-Sender-Auth: TjvITrC-Jtrtw7mvUYoxWsfYDJk
+Message-ID: <CAP6GkrimFCB-yNRG_-FDtq3tMM58k_1bk2f2TXP-UtnEY4V66g@mail.gmail.com>
+Subject: ASSALAMU ALAIKUM
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Dearest Friend,
 
-On 4/9/20 7:50 AM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 09.04.2020 06:38, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->> Tested with 3 buffers and by checking outstanding buffers in process by
->> VI hw and holding to start capture till one outstanding buffer in
->> process by HW.
->> Also tested with 2 buffers without checking for outstanding buffers.
->>
->> In both cases, I see same %CPU for the kthreads and is < 1%
->>
-> I don't see where buffers queue max limit is set to 3 in the code, but
-> should be okay if CPU isn't getting hogged. Looking forward to v7.
-Sorry, correction I meant to say pre-queued buffers before streaming not=20
-num_buffers.
-vb2 queue min_buffers_needed was set to 3 as part of one of the issue=20
-debug in earlier version which actually was irrelevant to that issue and=20
-should have been removed. Will remove min_buffers_needed in v7.
+I am Mohamed Abdullah, I want to seek your assistance after my
+discovery during auditing in my bank as I'm the manager of Bill and
+Exchange at the Foreign Remittance Department in Banque Centrale des
+Etats de l'Afrique de l'Ouest (BCEAO) Ouagadougou Burkina Faso.
 
-I added checking for outstanding requests by hardware just to be safer=20
-although we may not hit this case of issuing more than 1 outstanding=20
-frame capture to VI hardware as capture_frame() waits till it sees frame=20
-start event through HW syncpt increment before proceeding for memory=20
-write and issuing next frame capture.
+In my department we discovered a sum of $27.500.000 million in an
+account that belonged to one of our foreign customer. Upon maturity,
+we sent a routine notifications to his forwarding addresses but got no
+response. After some months, we sent a reminder and finally discovered
+that our customer died from an automobile accident. On further
+investigation, I found out that he did not leave a will and all
+attempts to trace his next of kin were fruitless, I therefore, i want
+to used my position at the Bill and Exchange Manager to have the fund
+transferred out of the deceased account to your account, I therefore
+made further investigation and discovered that the person did not
+declare any next of kin in all his official documents, including his
+bank deposit paperwork.
 
-So issuing frame captures are synchronized with frame start and frame end.
+It is therefore upon this discovery that I decided as the head of my
+department to make this business proposal to you, to apply for the
+money as the next of kin or relation to the deceased for safety and
+subsequent disbursement, and you will be given 35% of the total
+amount, 60% will be for me and my colleague in my bank, while 5% will
+be for expenses both parties might have incurred during the process of
+transferring. We will conclude this operation within 21 banking days
+based on the amount of co-operation you will contribute.
 
-Will remove min_buffers_needed and also explicit check for outstanding=20
-buffers in v7.
+You will apply and start the first transfer with Eleven million
+[$11,000.000] upon successful transaction without any disappoint from
+your side, then you shall re-apply for the payment of the remaining
+amount to your account.
+
+upon your positive response and once I am convinced that you are
+capable and will meet up with instruction of a key bank official who
+is deeply involved with me in this business. I need your strong
+assurance that you will never,never let me down. With my influence and
+the position of the bank official we can transfer this money to any
+foreigner's reliable account which you can provide with assurance that
+this money will be intact pending my physical arrival in your country
+for sharing.
+
+Thank you for your understanding as I await your urgent response in
+order to give you more details,
 
 
+Yours faithfully,
+Mohamed Abdullah.
