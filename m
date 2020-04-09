@@ -2,120 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BACB91A2E1D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 05:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20B1C1A2EFE
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 08:06:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbgDID70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Apr 2020 23:59:26 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:38164 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726559AbgDID7Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Apr 2020 23:59:25 -0400
-Received: by mail-ot1-f68.google.com with SMTP id t28so9155834ott.5
-        for <linux-media@vger.kernel.org>; Wed, 08 Apr 2020 20:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XmvlzvuP/vnjEDUAwKX6NbPh583pohCBXmnvTfFr87o=;
-        b=WcfWA0De+txeD+3/qwDi56IMDD7hs+I4DO8x9nTO8TIxgeXl/V6E/fN2vgTJLcstLM
-         886C43uVdfSX+4NagjIP3e0rIvnsIACoAp2qqqM5tvPsuRtdRo/dBdIGz6pgvqafbnCT
-         MsXHtdqENcOPqOgGtN1jR8qa4q/4FJvT2MDhcwQmEOSaIsCkJOoq9bfK6evwJJAQf9p3
-         5uXnh52JdhZywazugrRBkXfhasgQzdTE5rD/ltu3H/cGMygWVnIGBwyE9oE35OHCFXCd
-         +7FEkU/SMbmBstyAFQ85PLXt1sHRn/iZkz4um5cIC0b0Xfayi2XLvfYGZZPAN4AdQCTi
-         4iTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XmvlzvuP/vnjEDUAwKX6NbPh583pohCBXmnvTfFr87o=;
-        b=gMjmYXVU9Yy14aNcIUaRMnsPSitGxfYT426Q/5CvahMsiqVSg3HMDAfzBaqbS5W9zF
-         9cxCiZ5FH3fQubjukaTLR6fmFQ1QeOpaha01+YqAWbc2AFJmANbrHgVai9CD89A71iVG
-         EzP86yA1PTeIGQqLS3lwAor98+CLXtqLrRPtYPTCD7Cka/TEzH7x7JexFU/hUX6kOOlP
-         aFm3mgqNOIxBmeuNbk5VP2VaRsSTJBi2XYWT6k73KxF+lUAY60RjMoZ8ydOfjAmR81J9
-         iPW5PrAQJyAkcuMbAvQEvfhfQfJXsRURKXSLejF+ngXX++1URz0XDmeVj28phsp1n73A
-         hmYQ==
-X-Gm-Message-State: AGi0PuY23p8m1Z92zzarVIfr5ct4qQtvx/ABljRcv7V/+hLdNuVzCO5A
-        l3Qh49OA5hRimebuHtOcNfdLJVFr4t4QD+idKMWA9A==
-X-Google-Smtp-Source: APiQypIL+VSKtQqdwmZy4oiaXjGpHl/0mTLNWmmy5b0h+TbJd0NijtQXz9X0wf4utwLodwHw+mkZqIhkKaDKK9J/bMo=
-X-Received: by 2002:a05:6830:1e79:: with SMTP id m25mr8202815otr.36.1586404765365;
- Wed, 08 Apr 2020 20:59:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-In-Reply-To: <7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Thu, 9 Apr 2020 09:29:13 +0530
-Message-ID: <CAO_48GHuPAMgnbPDHgZs3kd=xDXssBD+H8-xi3zR4nSgsA1hdQ@mail.gmail.com>
-Subject: Re: [PATCH -next] dma-buf: fix documentation build warnings
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+        id S1725997AbgDIGGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 02:06:14 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:10920 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725785AbgDIGGO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 02:06:14 -0400
+X-UUID: 2050a1a23bbe49dfb310be7e50a636f5-20200409
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=QjC6+5aZUfxTDsvCSyH7TSX3u8Y6oTeri4n9IkqY/8M=;
+        b=u+ys5QFl9aDfhLTVUVZZQaXLaZ/eF0tOTjcLD+T0ycDvr6GMR5UauIFp5BxYwAZ4jEbf+EmcfDt85GuzApcXMfkW91SXimaSyW/rWDeVpeP2LOrLVwCHPxKhzeqnSLmTqrhJEZI9InfvU+slJ94hf4bC7esTztfkzhwyh5hxJaM=;
+X-UUID: 2050a1a23bbe49dfb310be7e50a636f5-20200409
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1583815878; Thu, 09 Apr 2020 14:04:56 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 9 Apr
+ 2020 14:04:50 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 9 Apr 2020 14:04:50 +0800
+Message-ID: <1586412280.8804.38.camel@mhfsdcap03>
+Subject: Re: [V6, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <andriy.shevchenko@linux.intel.com>, <mchehab@kernel.org>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
+Date:   Thu, 9 Apr 2020 14:04:40 +0800
+In-Reply-To: <20200408122037.GG5206@paasikivi.fi.intel.com>
+References: <20191211112849.16705-1-dongchun.zhu@mediatek.com>
+         <20191211112849.16705-3-dongchun.zhu@mediatek.com>
+         <20191211143640.GU32742@smile.fi.intel.com>
+         <faf3482d4127464195d04a17cae446b7@mtkmbs05n1.mediatek.inc>
+         <1586346824.8804.12.camel@mhfsdcap03>
+         <20200408122037.GG5206@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 513442C1DEC60A504510EEBD8595EB1CADD9A36F2B881A70E081811C03A06B7C2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Randy,
+SGkgU2FrYXJpLA0KDQpPbiBXZWQsIDIwMjAtMDQtMDggYXQgMTU6MjAgKzAzMDAsIFNha2FyaSBB
+aWx1cyB3cm90ZToNCj4gSGkgRG9uZ2NodW4sDQo+IA0KPiBPbiBXZWQsIEFwciAwOCwgMjAyMCBh
+dCAwNzo1Mzo0NFBNICswODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gSGVsbG8gQW5keSwN
+Cj4gPiANCj4gPiBUaGFua3MgZm9yIHRoZSByZXZpZXcuIFNvcnJ5IGZvciB0aGUgbGF0ZSByZXBs
+eS4NCj4gPiANCj4gPiBPbiBNb24sIDIwMTktMTItMTEgYXQgMTY6MzYgKzAyMDAsIEFuZHkgU2hl
+dmNoZW5rbyB3cm90ZToNCj4gPiA+IE9uIFdlZCwgRGVjIDExLCAyMDE5IGF0IDA3OjI4OjQ5UE0g
+KzA4MDAsIERvbmdjaHVuIFpodSB3cm90ZToNCj4gPiA+ID4gQWRkIGEgVjRMMiBzdWItZGV2aWNl
+IGRyaXZlciBmb3IgT1YwMkExMCBpbWFnZSBzZW5zb3IuIFRoZSBPVjAyQTEwIGlzDQo+ID4gPiA+
+IGEgMS81IiBDTU9TIHNlbnNvciBmcm9tIE9tbml2aXNpb24sIGFzdXBwb3J0aW5nIG91dHB1dCBm
+b3JtYXQ6IDEwLWJpdCBSYXcuDQo+ID4gPiA+DQo+ID4gPiA+IFRoaXMgY2hpcCBoYXMgYSBzaW5n
+bGUgTUlQSSBsYW5lIGludGVyZmFjZSBhbmQgdXNlIHRoZSBJMkMgYnVzIGZvcg0KPiA+ID4gPiBj
+b250cm9sIGFuZCB0aGUgQ1NJLTIgYnVzIGZvciBkYXRhLg0KPiA+ID4gDQo+ID4gPiAuLi4NCj4g
+PiA+IA0KPiA+ID4gPiArI2RlZmluZSBPVjAyQTEwX01BU0tfOF9CSVRTICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIDB4ZmYNCj4gPiA+IA0KPiA+ID4gQmVzaWRlcyBHRU5NQVNLKCkgd2h5IGRv
+IHlvdSBuZWVkIGEgZGVmaW5pdGlvbiBoZXJlPyBXaGF0J3MgdGhlIHBvaW50Pw0KPiA+ID4gDQo+
+ID4gDQo+ID4gRml4ZWQgaW4gbmV4dCByZWxlYXNlLg0KPiA+IA0KPiA+ID4gLi4uDQo+ID4gPiAN
+Cj4gPiA+ID4gK3N0YXRpYyBpbnQgb3YwMmExMF9lbnRpdHlfaW5pdF9jZmcoc3RydWN0IHY0bDJf
+c3ViZGV2ICpzZCwNCj4gPiA+ID4gKyAgIHN0cnVjdCB2NGwyX3N1YmRldl9wYWRfY29uZmlnICpj
+ZmcpIHsNCj4gPiA+ID4gK3N0cnVjdCB2NGwyX3N1YmRldl9mb3JtYXQgZm10ID0gew0KPiA+ID4g
+PiArLndoaWNoID0gY2ZnID8gVjRMMl9TVUJERVZfRk9STUFUX1RSWQ0KPiA+ID4gPiArICAgICA6
+IFY0TDJfU1VCREVWX0ZPUk1BVF9BQ1RJVkUsDQo+ID4gPiA+ICsuZm9ybWF0ID0gew0KPiA+ID4g
+PiArLndpZHRoID0gMTYwMCwNCj4gPiA+IA0KPiA+ID4gPiArLmhlaWdodCA9IDEyMDANCj4gPiA+
+IA0KPiA+ID4gTGVhdmUgY29tbWEgaGVyZS4NCj4gPiA+IA0KPiA+IA0KPiA+IEZpeGVkIGluIG5l
+eHQgcmVsZWFzZS4NCj4gPiANCj4gPiA+ID4gK30NCj4gPiA+ID4gK307DQo+ID4gPiA+ICsNCj4g
+PiA+ID4gK292MDJhMTBfc2V0X2ZtdChzZCwgY2ZnLCAmZm10KTsNCj4gPiA+ID4gKw0KPiA+ID4g
+PiArcmV0dXJuIDA7DQo+ID4gPiA+ICt9DQo+ID4gPiANCj4gPiA+IC4uLg0KPiA+ID4gDQo+ID4g
+PiA+ICtyZXQgPSBpMmNfc21idXNfd3JpdGVfYnl0ZV9kYXRhKGNsaWVudCwgT1YwMkExMF9SRUdf
+R0FJTiwNCj4gPiA+ID4gKyh2YWwgJiBPVjAyQTEwX01BU0tfOF9CSVRTKSk7DQo+ID4gPiANCj4g
+PiA+IFRvbyBtYW55IHBhcmVudGhlc2VzLg0KPiA+ID4gDQo+ID4gDQo+ID4gRml4ZWQgaW4gbmV4
+dCByZWxlYXNlLg0KPiA+IA0KPiA+ID4gPiAraWYgKHJldCA8IDApDQo+ID4gPiA+ICtyZXR1cm4g
+cmV0Ow0KPiA+ID4gDQo+ID4gPiAuLi4NCj4gPiA+IA0KPiA+ID4gPiArc3RhdGljIGludCBvdjAy
+YTEwX3NldF92Ymxhbmsoc3RydWN0IG92MDJhMTAgKm92MDJhMTAsIGludCB2YWwpIHsNCj4gPiA+
+ID4gK3N0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQgPSB2NGwyX2dldF9zdWJkZXZkYXRhKCZvdjAy
+YTEwLT5zdWJkZXYpOw0KPiA+ID4gDQo+ID4gPiBpZiB5b3UgZG8NCj4gPiA+IA0KPiA+ID4gaW50
+IHZ0cyA9IHZhbCArIG92MDJhMTAtPmN1cl9tb2RlLT5oZWlnaHQgLSBPVjAyQTEwX0JBU0lDX0xJ
+TkU7DQo+ID4gPiANCj4gPiA+IHlvdSBtYXkgaW5jcmVhc2UgcmVhZGFiaWxpdHkgYmVsb3cuLi4N
+Cj4gPiA+IA0KPiA+IA0KPiA+IFRoYW5rcyBmb3IgdGhlIHN1Z2dlc3Rpb24uDQo+ID4gSXQgc2Vl
+bXMgYmV0dGVyIG5vdy4NCj4gPiANCj4gPiA+ID4gK2ludCByZXQ7DQo+ID4gPiA+ICsNCj4gPiA+
+ID4gK3JldCA9IGkyY19zbWJ1c193cml0ZV9ieXRlX2RhdGEoY2xpZW50LCBSRUdfUEFHRV9TV0lU
+Q0gsIFJFR19FTkFCTEUpOw0KPiA+ID4gPiAraWYgKHJldCA8IDApDQo+ID4gPiA+ICtyZXR1cm4g
+cmV0Ow0KPiA+ID4gPiArDQo+ID4gPiA+ICtyZXQgPSBpMmNfc21idXNfd3JpdGVfYnl0ZV9kYXRh
+KGNsaWVudCwgT1YwMkExMF9SRUdfVlRTX0gsDQo+ID4gPiA+ICsoKCh2YWwgKyBvdjAyYTEwLT5j
+dXJfbW9kZS0+aGVpZ2h0IC0NCj4gPiA+ID4gK09WMDJBMTBfQkFTSUNfTElORSkgPj4NCj4gPiA+
+ID4gK09WMDJBMTBfVlRTX1NISUZUKSAmDQo+ID4gPiA+ICtPVjAyQTEwX01BU0tfOF9CSVRTKSk7
+DQo+ID4gPiANCj4gPiA+IHJldCA9IGkyY19zbWJ1c193cml0ZV9ieXRlX2RhdGEoY2xpZW50LCBP
+VjAyQTEwX1JFR19WVFNfSCwNCj4gPiA+ICh2dHMgPj4gT1YwMkExMF9WVFNfU0hJRlQpICYNCj4g
+PiA+IE9WMDJBMTBfTUFTS184X0JJVFMpKTsNCj4gPiA+IA0KPiA+ID4gQW5kIGFjdHVhbGx5IHdo
+eSBkbyB5b3UgbmVlZCB0aGlzIG1hc2sgaGVyZT8gSXNuJ3QgZW5vdWdoIHRvIGNhbGwNCj4gPiA+
+IA0KPiA+ID4gcmV0ID0gaTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShjbGllbnQsIE9WMDJBMTBf
+UkVHX1ZUU19ILA0KPiA+ID4gdnRzID4+IE9WMDJBMTBfVlRTX1NISUZUKTsNCj4gPiA+IA0KPiA+
+ID4gaGVyZS4uLg0KPiA+ID4gDQo+ID4gPiANCj4gPiANCj4gPiBZZXMuIE5vdyB3ZSBjb2RlIGxp
+a2UgdGhpcy4NCj4gPiANCj4gPiA+ID4gK2lmIChyZXQgPCAwKQ0KPiA+ID4gPiArcmV0dXJuIHJl
+dDsNCj4gPiA+ID4gKw0KPiA+ID4gPiArcmV0ID0gaTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShj
+bGllbnQsIE9WMDJBMTBfUkVHX1ZUU19MLA0KPiA+ID4gPiArKCh2YWwgKyBvdjAyYTEwLT5jdXJf
+bW9kZS0+aGVpZ2h0IC0NCj4gPiA+ID4gK09WMDJBMTBfQkFTSUNfTElORSkgJg0KPiA+ID4gPiAr
+T1YwMkExMF9NQVNLXzhfQklUUykpOw0KPiA+ID4gDQo+ID4gPiAuLi5hbmQNCj4gPiA+IA0KPiA+
+ID4gcmV0ID0gaTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShjbGllbnQsIE9WMDJBMTBfUkVHX1ZU
+U19MLCB2dHMpOw0KPiA+ID4gDQo+ID4gPiBoZXJlPw0KPiA+ID4gDQo+ID4gDQo+ID4gWWVzLiBG
+aXhlZCBpbiBuZXh0IHJlbGVhc2UuDQo+ID4gDQo+ID4gPiA+ICtpZiAocmV0IDwgMCkNCj4gPiA+
+ID4gK3JldHVybiByZXQ7DQo+ID4gPiA+ICsNCj4gPiA+ID4gK3JldHVybiBpMmNfc21idXNfd3Jp
+dGVfYnl0ZV9kYXRhKGNsaWVudCwgUkVHX0dMT0JBTF9FRkZFQ1RJVkUsDQo+ID4gPiA+ICsgUkVH
+X0VOQUJMRSk7DQo+ID4gPiA+ICt9DQo+ID4gPiANCj4gPiA+IC4uLg0KPiA+ID4gDQo+ID4gPiA+
+ICtzdGF0aWMgaW50IG92MDJhMTBfY2hlY2tfaHdjZmcoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1
+Y3Qgb3YwMmExMA0KPiA+ID4gPiArKm92MDJhMTApIHsNCj4gPiA+ID4gK3N0cnVjdCBmd25vZGVf
+aGFuZGxlICplcDsNCj4gPiA+ID4gK3N0cnVjdCBmd25vZGVfaGFuZGxlICpmd25vZGUgPSBkZXZf
+Zndub2RlKGRldik7DQo+ID4gPiA+ICtzdHJ1Y3QgdjRsMl9md25vZGVfZW5kcG9pbnQgYnVzX2Nm
+ZyA9IHsNCj4gPiA+IA0KPiA+ID4gPiArLmJ1c190eXBlID0gVjRMMl9NQlVTX0NTSTJfRFBIWQ0K
+PiA+ID4gDQo+ID4gPiBMZWF2ZSBjb21tYSBoZXJlLg0KPiA+ID4gDQo+ID4gDQo+ID4gRml4ZWQg
+aW4gbmV4dCByZWxlYXNlLg0KPiA+IA0KPiA+ID4gPiArfTsNCj4gPiA+ID4gK3Vuc2lnbmVkIGlu
+dCBpLCBqOw0KPiA+ID4gPiAraW50IHJldDsNCj4gPiA+IA0KPiA+ID4gPiAraWYgKCFmd25vZGUp
+DQo+ID4gPiA+ICtyZXR1cm4gLUVOWElPOw0KPiA+ID4gDQo+ID4gPiBBIGJpdCBzdHJhbmdlIGVy
+cm9yIGNvZGUgaGVyZS4NCj4gPiA+IA0KPiA+IA0KPiA+IFRoaXMgc2hvdWxkIGJlIHJlcG9ydGVk
+IGFzIC1FSU5WQUwuDQo+ID4gRml4ZWQgaW4gbmV4dCByZWxlYXNlLg0KPiA+IA0KPiA+ID4gPiAr
+DQo+ID4gPiA+ICtlcCA9IGZ3bm9kZV9ncmFwaF9nZXRfbmV4dF9lbmRwb2ludChmd25vZGUsIE5V
+TEwpOw0KPiA+ID4gPiAraWYgKCFlcCkNCj4gPiA+ID4gK3JldHVybiAtRU5YSU87DQo+ID4gPiA+
+ICsNCj4gPiA+ID4gK3JldCA9IHY0bDJfZndub2RlX2VuZHBvaW50X2FsbG9jX3BhcnNlKGVwLCAm
+YnVzX2NmZyk7DQo+ID4gPiA+ICtmd25vZGVfaGFuZGxlX3B1dChlcCk7DQo+ID4gPiA+ICtpZiAo
+cmV0KQ0KPiA+ID4gPiArcmV0dXJuIHJldDsNCj4gPiA+IA0KPiA+ID4gPiAraWYgKCFidXNfY2Zn
+Lm5yX29mX2xpbmtfZnJlcXVlbmNpZXMpIHsNCj4gPiA+ID4gK2Rldl9lcnIoZGV2LCAibm8gbGlu
+ayBmcmVxdWVuY2llcyBkZWZpbmVkIik7DQo+ID4gPiA+ICtyZXQgPSAtRUlOVkFMOw0KPiA+ID4g
+PiArZ290byBjaGVja19od2NmZ19lcnJvcjsNCj4gPiA+ID4gK30NCj4gPiA+IA0KPiA+ID4gSSBz
+dGlsbCB0aGluayBpdCdzIHJlZHVuZGFudCBjaGVjaywgdGhvdWdoIGl0J3MgdXAgdG8gbWFpbnRh
+aW5lcnMuDQo+ID4gPiANCj4gPiANCj4gPiBXZSBzdGlsbCB3YW5uYSBrZWVwIHRoaXMgY2hlY2su
+DQo+ID4gS2VlcCBzYW1lIGFzIG92MjY1OSBhbmQgb3Y4ODU2Lg0KPiA+IA0KPiA+ID4gPiArDQo+
+ID4gPiA+ICtmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShsaW5rX2ZyZXFfbWVudV9pdGVtcyk7
+IGkrKykgew0KPiA+ID4gPiArZm9yIChqID0gMDsgaiA8IGJ1c19jZmcubnJfb2ZfbGlua19mcmVx
+dWVuY2llczsgaisrKSB7DQo+ID4gPiA+ICtpZiAobGlua19mcmVxX21lbnVfaXRlbXNbaV0gPT0N
+Cj4gPiA+ID4gK2J1c19jZmcubGlua19mcmVxdWVuY2llc1tqXSkNCj4gPiA+ID4gK2JyZWFrOw0K
+PiA+ID4gPiArfQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtpZiAoaiA9PSBidXNfY2ZnLm5yX29mX2xp
+bmtfZnJlcXVlbmNpZXMpIHsNCj4gPiA+ID4gK2Rldl9lcnIoZGV2LCAibm8gbGluayBmcmVxdWVu
+Y3kgJWxsZCBzdXBwb3J0ZWQiLA0KPiA+ID4gPiArbGlua19mcmVxX21lbnVfaXRlbXNbaV0pOw0K
+PiA+ID4gPiArcmV0ID0gLUVJTlZBTDsNCj4gPiA+ID4gK2dvdG8gY2hlY2tfaHdjZmdfZXJyb3I7
+DQo+ID4gPiA+ICt9DQo+ID4gPiA+ICt9DQo+ID4gPiA+ICsNCj4gPiA+ID4gK2NoZWNrX2h3Y2Zn
+X2Vycm9yOg0KPiA+ID4gPiArdjRsMl9md25vZGVfZW5kcG9pbnRfZnJlZSgmYnVzX2NmZyk7DQo+
+ID4gPiA+ICsNCj4gPiA+ID4gK3JldHVybiByZXQ7DQo+ID4gPiA+ICt9DQo+ID4gPiANCj4gPiA+
+IC4uLg0KPiA+ID4gDQo+ID4gPiA+ICtzdGF0aWMgaW50IG92MDJhMTBfcHJvYmUoc3RydWN0IGky
+Y19jbGllbnQgKmNsaWVudCkgew0KPiA+ID4gDQo+ID4gPiA+ICsvKiBPcHRpb25hbCBpbmRpY2F0
+aW9uIG9mIHBoeXNpY2FsIHJvdGF0aW9uIG9mIHNlbnNvciAqLw0KPiA+ID4gPiArcmV0ID0gZndu
+b2RlX3Byb3BlcnR5X3JlYWRfdTMyKGRldl9md25vZGUoZGV2KSwgInJvdGF0aW9uIiwNCj4gPiA+
+ID4gKyZyb3RhdGlvbik7DQo+ID4gPiANCj4gPiA+ID4gK2lmICghcmV0KSB7DQo+ID4gPiANCj4g
+PiA+IFdoeSBub3QgcG9zaXRpdmUgY29uZGl0aW9uYWw/DQo+ID4gPiANCj4gPiANCj4gPiBPa2F5
+LiBGaXhlZCBpbiBuZXh0IHJlbGVhc2UuDQo+ID4gDQo+ID4gPiA+ICtvdjAyYTEwLT51cHNpZGVf
+ZG93biA9IHJvdGF0aW9uID09IDE4MDsNCj4gPiA+ID4gK2lmIChyb3RhdGlvbiA9PSAxODApIHsN
+Cj4gPiA+ID4gK292MDJhMTAtPnVwc2lkZV9kb3duID0gdHJ1ZTsNCj4gPiA+ID4gK292MDJhMTAt
+PmZtdC5jb2RlID0gTUVESUFfQlVTX0ZNVF9TUkdHQjEwXzFYMTA7DQo+ID4gPiA+ICt9DQo+ID4g
+PiA+ICt9IGVsc2Ugew0KPiA+ID4gPiArZGV2X3dhcm4oZGV2LCAiZmFpbGVkIHRvIGdldCByb3Rh
+dGlvblxuIik7DQo+ID4gPiA+ICt9DQo+ID4gPiA+ICsNCj4gPiA+ID4gKy8qIE9wdGlvbmFsIGlu
+ZGljYXRpb24gb2YgbWlwaSBUWCBzcGVlZCAqLw0KPiA+ID4gPiArcmV0ID0gZndub2RlX3Byb3Bl
+cnR5X3JlYWRfdTMyKGRldl9md25vZGUoZGV2KSwgIm92dGksbWlwaS10eC1zcGVlZCIsDQo+ID4g
+PiA+ICsgICAgICAgJmNsb2NrX2xhbmVfdHhfc3BlZWQpOw0KPiA+ID4gPiArDQo+ID4gPiANCj4g
+PiA+ID4gK2lmICghcmV0KQ0KPiA+ID4gDQo+ID4gPiBEaXR0by4NCj4gPiA+IA0KPiA+IA0KPiA+
+IEFzIFNha2FyaSBtZW50aW9uZWQgZWFybGllciwgdGhlIHByb3BlcnR5ICJvdnRpLG1pcGktdHgt
+c3BlZWQiIGlzDQo+ID4gb3B0aW9uYWwgdGhhdCBzaG91bGRuJ3Qgd2FybiBpdCdzIG1pc3Npbmcg
+d2hlbiByZXQgaXMgMC4NCj4gPiBTbyB3ZSB3b3VsZCBrZWVwIHRoZSBjb25kaXRpb24gbGlrZSB0
+aGF0LCBqdXN0IHJlbW92aW5nIGVsc2UgY2FzZS4NCj4gDQo+IEkgZG9uJ3QgcmVtZW1iZXIgZGlz
+Y3Vzc2luZyB0aGlzLCBidXQgY291bGQgYmUgYmVjYXVzZSBpdCB3YXMgcXVpdGUgc29tZQ0KPiB0
+aW1lIGFnby4NCj4gDQo+IEl0IGRvZXNuJ3Qgc2VlbSB0byBiZSBkb2N1bWVudGVkLiBXaGF0IGlz
+IGl0IGZvcj8NCj4gDQoNClNvcnJ5IGZvciBub3QgYWRkcmVzc2luZyB0aGlzIHBvaW50IG9uIHY2
+Lg0KIm92dGksbWlwaS10eC1zcGVlZCIgaXMgb25lIHByaXZhdGUgcHJvcGVydHkgaW4gRFQsIHdo
+aWNoIGlzIGFic3RyYWN0ZWQNCnRvIGhhbmRsZSBkaWZmZXJlbnQgcmVnaXN0ZXIgc2V0dGluZ3Mg
+Zm9yIGRpZmZlcmVudCBDaHJvbWUgcHJvamVjdHMuDQoNCk1vcmUgZGV0YWlscyBwbGVhc2Ugc2Vl
+IHRoZSBHb29nbGUgSXNzdWU6DQpodHRwczovL3BhcnRuZXJpc3N1ZXRyYWNrZXIuY29ycC5nb29n
+bGUuY29tL2lzc3Vlcy8xNDM3NDkyMTUNCg0KQW5kIGl0IHdvdWxkIGJlIGRvY3VtZW50ZWQgaW4g
+bmV4dCByZWxlYXNlLg0KDQo+ID4gPiAqKioqKioqKioqKioqKioqKioqKipNRURJQVRFSyBDb25m
+aWRlbnRpYWwvSW50ZXJuYWwgVXNlKioqKioqKioqKioqKioqKioqKioqDQo+IA0KPiBJcyB0aGlz
+IGludGVudGlvbmFsPw0KPiANCg0K
 
-
-On Wed, 8 Apr 2020 at 09:50, Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Fix documentation warnings in dma-buf.[hc]:
-
-Thank you for your patch; I will apply it to drm-misc tree.
->
-> ../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-> ../drivers/dma-buf/dma-buf.c:678: warning: Function parameter or member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-> ../include/linux/dma-buf.h:339: warning: Incorrect use of kernel-doc format:          * @move_notify
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> ---
->  drivers/dma-buf/dma-buf.c |    4 ++--
->  include/linux/dma-buf.h   |    3 +--
->  2 files changed, 3 insertions(+), 4 deletions(-)
->
-> --- linux-next-20200407.orig/drivers/dma-buf/dma-buf.c
-> +++ linux-next-20200407/drivers/dma-buf/dma-buf.c
-> @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
->   * calls attach() of dma_buf_ops to allow device-specific attach functionality
->   * @dmabuf:            [in]    buffer to attach device to.
->   * @dev:               [in]    device to be attached.
-> - * @importer_ops       [in]    importer operations for the attachment
-> - * @importer_priv      [in]    importer private pointer for the attachment
-> + * @importer_ops:      [in]    importer operations for the attachment
-> + * @importer_priv:     [in]    importer private pointer for the attachment
->   *
->   * Returns struct dma_buf_attachment pointer for this attachment. Attachments
->   * must be cleaned up by calling dma_buf_detach().
-> --- linux-next-20200407.orig/include/linux/dma-buf.h
-> +++ linux-next-20200407/include/linux/dma-buf.h
-> @@ -329,13 +329,12 @@ struct dma_buf {
->
->  /**
->   * struct dma_buf_attach_ops - importer operations for an attachment
-> - * @move_notify: [optional] notification that the DMA-buf is moving
->   *
->   * Attachment operations implemented by the importer.
->   */
->  struct dma_buf_attach_ops {
->         /**
-> -        * @move_notify
-> +        * @move_notify: [optional] notification that the DMA-buf is moving
->          *
->          * If this callback is provided the framework can avoid pinning the
->          * backing store while mappings exists.
->
-
-Best,
-Sumit.
