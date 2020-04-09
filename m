@@ -2,126 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D05211A374C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 17:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93F011A3805
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 18:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728278AbgDIPhk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 11:37:40 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:41402 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728263AbgDIPhj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 11:37:39 -0400
-Received: by mail-lj1-f196.google.com with SMTP id n17so94530lji.8
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 08:37:39 -0700 (PDT)
+        id S1726936AbgDIQ3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 12:29:19 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:41827 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726706AbgDIQ3T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 12:29:19 -0400
+Received: by mail-qt1-f194.google.com with SMTP id i3so367758qtv.8
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 09:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Oi8nKA6/ElSLxWVNM8FupW3/IkPWX0sl86ali4O80XI=;
-        b=O/3kS3pJUPJbyX1pKHrBcd+JGnq/8uPSWxTmQ3xUC2hqXJO2xS7hZbYpk9yAEjAwcC
-         DwtafVPK5YqLzQ8nKd6AVv0ITI/NeWnSU2XcJhO3VZV4KXPQuapJ4U1VyLH0LSRnAKw1
-         +O40Z2nMbyiLOCAM5RZ51fLu/QdRA3Wcmh6RrPgr6KOrxjZGdgwmb98b8TLynHT1usC+
-         LAF8g1FIOPhhu74Yxnl7TdYYygNVsRLIsQGOJR7gQnb5f2QwE+tF2Fv92cHRzZA5/caB
-         lXOrknh3oVFEKUgQ8rgZblYONucXgsGtTvxvAepJ/t51IDGMZ6hznZWaiI0URYrkhC7z
-         U4OQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=9P7rafqbXxs9JOuSQyiPCNhemqH5gCU5YG9s65U6l4Y=;
+        b=gI8YDLF2+vG87fxXOQmeYSh7sXfgmw4grvhCSbJbnpKOyxhk8+oxWLBHnwkrHIqA6n
+         fxtJMx4eIHOaekJi0MknOGK5pDUiacsypOFfegnntrwhKen+9FiPp0AgnSwopTD/V9bq
+         8WgVHCZ1TBokcBU1WTRMJAiSBIX/MpRRMq5beuP0iRrSnSM8dmk9DoBTTn+VhQt/viEy
+         vvGQ3+DIJj/u8tb2Na2tXp6sMpJfEedAShd7p2vHmf8ZxAX6u+psZ5yUBE9Fdie/JNqZ
+         BNvRitM47pmU7h2NQjRmiRUxn++SV+uqPDnPt//1s1tYUYceEMX3Qh1tb/gp/uZUn6ql
+         itYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Oi8nKA6/ElSLxWVNM8FupW3/IkPWX0sl86ali4O80XI=;
-        b=YRvxTjPiRy6Onn+QP+LopRp34vkb/+1d2RbtrfJ6AjCjFzLSTVcBve6KExGgJ7Go9u
-         9bra+SrFOi8/u3xAhHUSIvbDitj4F1JpaIYVIZ2KG1414NDRA0sTjQgEQcVXmh6Zn2TL
-         H+6BV9PmOcjqaha52wSLmT+tm8Fzq7BVQKkuEAfPmg7nWzZOFtvxQ6OEU7gQk18ECi06
-         +igWRa9WafUh4ip6fBka9HTMC3I4HJUncbsm6tlsPCMih3Ja8jCvaPWF6xgtnCLrD+Z3
-         QevqM0U5MkFwxsCc6q3AY8C2M7o6sELzdzKooh9hckxgJySHtEPzOavsd4a5vn07GKYJ
-         DwYQ==
-X-Gm-Message-State: AGi0PuZ10B/gFaPb5X9TW93FZL9XHoW1SL4h6zapJOr/pbU2kZRDE9fe
-        7rboIwEp8K6zkIHVdCAOYkPh7h3HcL0NxRCvmeStuve1
-X-Google-Smtp-Source: APiQypK70imRWvpzPzDu3zfqW7SyOAyTnwXxD64EpXgnR0nPbdeuCOYbDWfIN6ASzPXVKrY3XnOJ7PmmXpJ0iWzUavw=
-X-Received: by 2002:a2e:9105:: with SMTP id m5mr231750ljg.37.1586446658229;
- Thu, 09 Apr 2020 08:37:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200406163905.24475-1-slongerbeam@gmail.com> <20200406163905.24475-2-slongerbeam@gmail.com>
-In-Reply-To: <20200406163905.24475-2-slongerbeam@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=9P7rafqbXxs9JOuSQyiPCNhemqH5gCU5YG9s65U6l4Y=;
+        b=UeuHjcc08H+/99bthFHEahpn3dcrhJ88nTzsHTx+xh5FBxuvhr7JsS+8xVe/41UCoI
+         5vVQXxG+zUPNS5Oagej7xGB2xkbb5lDBJ/ZpWiCgvhPRDwGRZpylaAtUZHOfr7PFr763
+         JUZ4/r6/FMmRfvMmE5I/W6ntensWUXjJgu+DZF4KgheGHhx4ZGT8N0Ggv7gB2RFZNTUE
+         zC2cCsn00u9t347h3BAF0HLxhBPDN7ePM5IdEH16kyKVnklIshnaK2hnf/y1fqJRui40
+         LMyWimsnrUKtxcn+8lmjAo7Tn0TBPmS6iw1UtrAdZ6bw5XNDIKd/p2VJBCaQWRfTTb8E
+         IZHw==
+X-Gm-Message-State: AGi0PubLc05La5UukmnjGo59l98mi6whNqpgfqpBWcrO/JC2igMPpp2G
+        peWdTu+WOT7EN2S3PTxAZxpQ9868YRo=
+X-Google-Smtp-Source: APiQypLcDT86pEDmPyrMGti9u+Gkf2lUqsH3tBtD5la9rps3KMWA/sg6V75XXdzVDAFo/RGmW53z4Q==
+X-Received: by 2002:ac8:5388:: with SMTP id x8mr147608qtp.21.1586449758637;
+        Thu, 09 Apr 2020 09:29:18 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:5bb::3])
+        by smtp.gmail.com with ESMTPSA id x66sm16980587qka.121.2020.04.09.09.29.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Apr 2020 09:29:17 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 9 Apr 2020 12:38:05 -0300
-Message-ID: <CAOMZO5Cz-2L6bTTC=f4bnPtOP1zZ6Ch5JbhuPg=DYz9wTK_TyQ@mail.gmail.com>
-Subject: Re: [PATCH v7 01/11] media: imx: utils: fix and simplify pixel format enumeration
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     hverkuil-cisco@xs4all.nl
+Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2 1/4] media: imx.rst: Fix the MIPI CSI-2 virtual channel
+Date:   Thu,  9 Apr 2020 13:29:42 -0300
+Message-Id: <20200409162945.3559-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve and Philipp,
+The current instructions for imx6q-sabresd do not lead to functional
+capture on OV5640 MIPI CSI-2.
 
-On Mon, Apr 6, 2020 at 1:40 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
->
-> From: Philipp Zabel <p.zabel@pengutronix.de>
->
-> Merge yuv_formats and rgb_formats into a single array. Always loop over
-> all entries, skipping those that do not match the requested search
-> criteria. This simplifies the code, lets us get rid of the manual
-> counting of array entries, and stops accidentally ignoring some non-mbus
-> RGB formats.
->
-> Before:
->
->   $ v4l2-ctl -d /dev/video14 --list-formats-out
->   ioctl: VIDIOC_ENUM_FMT
->         Type: Video Output
->
->         [0]: 'UYVY' (UYVY 4:2:2)
->         [1]: 'YUYV' (YUYV 4:2:2)
->         [2]: 'YU12' (Planar YUV 4:2:0)
->         [3]: 'YV12' (Planar YVU 4:2:0)
->         [4]: '422P' (Planar YUV 4:2:2)
->         [5]: 'NV12' (Y/CbCr 4:2:0)
->         [6]: 'NV16' (Y/CbCr 4:2:2)
->         [7]: 'RGBP' (16-bit RGB 5-6-5)
->         [8]: 'RGB3' (24-bit RGB 8-8-8)
->         [9]: 'BX24' (32-bit XRGB 8-8-8-8)
->
-> After:
->
->   $ v4l2-ctl -d /dev/video14 --list-formats-out
->   ioctl: VIDIOC_ENUM_FMT
->         Type: Video Output
->
->         [0]: 'UYVY' (UYVY 4:2:2)
->         [1]: 'YUYV' (YUYV 4:2:2)
->         [2]: 'YU12' (Planar YUV 4:2:0)
->         [3]: 'YV12' (Planar YVU 4:2:0)
->         [4]: '422P' (Planar YUV 4:2:2)
->         [5]: 'NV12' (Y/CbCr 4:2:0)
->         [6]: 'NV16' (Y/CbCr 4:2:2)
->         [7]: 'RGBP' (16-bit RGB 5-6-5)
->         [8]: 'RGB3' (24-bit RGB 8-8-8)
->         [9]: 'BGR3' (24-bit BGR 8-8-8)
->         [10]: 'BX24' (32-bit XRGB 8-8-8-8)
->         [11]: 'XR24' (32-bit BGRX 8-8-8-8)
->         [12]: 'RX24' (32-bit XBGR 8-8-8-8)
->         [13]: 'XB24' (32-bit RGBX 8-8-8-8)
->
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->
-> [Make loop counters unsigned]
-> [Decrement index instead of adding a counter]
-> [Return directly from within loop instead of breaking]
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> [Fix colorspace comparison error]
-> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+The reason for this, as explained by Steve Longerbeam, is that OV5640 by
+default transmits on virtual channel 0, not channel 1 as is given in the
+instructions.
 
-This fixes a bug with an IC conversion pipeline.
+Adapt the instructions to use virtual channel 0 so that a working
+camera setup can be achieved on imx6q-sabresd.
 
-Could we have a Fixes tag for this one, so that it can be applied to stable?
+Also, since we are using an IC direct conversion pipeline, improve
+the example by demonstrating colorspace and scaling.
 
-Tested on a imx6q-sabresd:
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+Changes since v1:
+- Demonstrate colorspace and scaling. (Steve)
 
-Tested-by: Fabio Estevam <festevam@gmail.com>
+ Documentation/media/v4l-drivers/imx.rst | 31 ++++++++++++-------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
+index 1246573c1019..b8df91f83f14 100644
+--- a/Documentation/media/v4l-drivers/imx.rst
++++ b/Documentation/media/v4l-drivers/imx.rst
+@@ -645,30 +645,29 @@ The OV5640 module connects to MIPI connector J5 (sorry I don't have the
+ compatible module part number or URL).
+ 
+ The following example configures a direct conversion pipeline to capture
+-from the OV5640, transmitting on MIPI CSI-2 virtual channel 1. $sensorfmt
+-can be any format supported by the OV5640. $sensordim is the frame
+-dimension part of $sensorfmt (minus the mbus pixel code). $outputfmt can
+-be any format supported by the ipu1_ic_prpenc entity at its output pad:
++from the OV5640, transmitting on MIPI CSI-2 virtual channel 0. It also
++shows colorspace conversion and scaling at IC output.
+ 
+ .. code-block:: none
+ 
+    # Setup links
+    media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
+-   media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
+-   media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
++   media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
++   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
++   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
+    media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
+    media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
+    # Configure pads
+-   media-ctl -V "'ov5640 1-003c':0 [fmt:$sensorfmt field:none]"
+-   media-ctl -V "'imx6-mipi-csi2':2 [fmt:$sensorfmt field:none]"
+-   media-ctl -V "'ipu1_csi1':1 [fmt:AYUV32/$sensordim field:none]"
+-   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/$sensordim field:none]"
+-   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:$outputfmt field:none]"
+-
+-Streaming can then begin on "ipu1_ic_prpenc capture" node. The v4l2-ctl
+-tool can be used to select any supported YUV or RGB pixelformat on the
+-capture device node.
+-
++   media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
++   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
++   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
++   # Set a format at the capture interface
++   v4l2-ctl -d /dev/video1 --set-fmt-video=pixelformat=RGB3
++
++Streaming can then begin on "ipu1_ic_prpenc capture" node.
+ 
+ Known Issues
+ ------------
+-- 
+2.17.1
+
