@@ -2,130 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F011A3805
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 18:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B7361A3806
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 18:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726936AbgDIQ3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 12:29:19 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:41827 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726706AbgDIQ3T (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 12:29:19 -0400
-Received: by mail-qt1-f194.google.com with SMTP id i3so367758qtv.8
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 09:29:19 -0700 (PDT)
+        id S1726946AbgDIQ3Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 12:29:24 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:44139 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726706AbgDIQ3X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 12:29:23 -0400
+Received: by mail-qt1-f193.google.com with SMTP id w24so348474qts.11
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 09:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=9P7rafqbXxs9JOuSQyiPCNhemqH5gCU5YG9s65U6l4Y=;
-        b=gI8YDLF2+vG87fxXOQmeYSh7sXfgmw4grvhCSbJbnpKOyxhk8+oxWLBHnwkrHIqA6n
-         fxtJMx4eIHOaekJi0MknOGK5pDUiacsypOFfegnntrwhKen+9FiPp0AgnSwopTD/V9bq
-         8WgVHCZ1TBokcBU1WTRMJAiSBIX/MpRRMq5beuP0iRrSnSM8dmk9DoBTTn+VhQt/viEy
-         vvGQ3+DIJj/u8tb2Na2tXp6sMpJfEedAShd7p2vHmf8ZxAX6u+psZ5yUBE9Fdie/JNqZ
-         BNvRitM47pmU7h2NQjRmiRUxn++SV+uqPDnPt//1s1tYUYceEMX3Qh1tb/gp/uZUn6ql
-         itYQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=w3Df8xLGfV/1bGxtqXtvF8/jtUvkTYDFnMbV6MxMdlU=;
+        b=n7HAG9r8mnJExzjmaEA/S1jpDDdEMKIsc76hn+DKOwRCi+MZxSaeG7cWLBMcXwseUd
+         UE7I/PHoyYZU2kJTN0WYqTzazsifFvInjG0DmcsPBoG5xHpA2kPhi+yzMf0YuoNSBh0r
+         SuX/wwe/Mlg7Bd4SAx7Sownau/fZoNGWd2ehe6/Y+jDzNhxCJrMNC07gZkUBGolodWlc
+         0mJk6GqFD1mMLtMPM1Ph/w8yBO2SSWzV0QkbZO+RW1FFppWUdqMKI9sjgSrVdP6ybNlC
+         Md+EnN0HgxxyUbE87hGGCv0yFqpr3ZG3md1SJ0ZeX23OWAo8T5yGKa5Y+8817N4mqdMr
+         /AhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=9P7rafqbXxs9JOuSQyiPCNhemqH5gCU5YG9s65U6l4Y=;
-        b=UeuHjcc08H+/99bthFHEahpn3dcrhJ88nTzsHTx+xh5FBxuvhr7JsS+8xVe/41UCoI
-         5vVQXxG+zUPNS5Oagej7xGB2xkbb5lDBJ/ZpWiCgvhPRDwGRZpylaAtUZHOfr7PFr763
-         JUZ4/r6/FMmRfvMmE5I/W6ntensWUXjJgu+DZF4KgheGHhx4ZGT8N0Ggv7gB2RFZNTUE
-         zC2cCsn00u9t347h3BAF0HLxhBPDN7ePM5IdEH16kyKVnklIshnaK2hnf/y1fqJRui40
-         LMyWimsnrUKtxcn+8lmjAo7Tn0TBPmS6iw1UtrAdZ6bw5XNDIKd/p2VJBCaQWRfTTb8E
-         IZHw==
-X-Gm-Message-State: AGi0PubLc05La5UukmnjGo59l98mi6whNqpgfqpBWcrO/JC2igMPpp2G
-        peWdTu+WOT7EN2S3PTxAZxpQ9868YRo=
-X-Google-Smtp-Source: APiQypLcDT86pEDmPyrMGti9u+Gkf2lUqsH3tBtD5la9rps3KMWA/sg6V75XXdzVDAFo/RGmW53z4Q==
-X-Received: by 2002:ac8:5388:: with SMTP id x8mr147608qtp.21.1586449758637;
-        Thu, 09 Apr 2020 09:29:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=w3Df8xLGfV/1bGxtqXtvF8/jtUvkTYDFnMbV6MxMdlU=;
+        b=MzP9kmBs3Q/1VN084z/U4/Xoo/PMBazMDSNY0WPts/7Qr4h+JUR5lq+GSDkL3mh8yQ
+         zT7GQ97Ygv8ozlbb6kKQ1ZtH5GmjiIek816+MHYIblDU86dZ4b/SmX0XcOQlgnRHzeIE
+         Ovai+8AmGnMPc+qGCTPFkTbZpL5p0CfLkLxcphIV9YMcKlu/RNuXdgM/8uQQir/uXZNH
+         VRgyvbZrVx7bbtlON8EocgNh8uI/MeoCPs3e5CITvXOThahOETeCFAnrG/hIes20slbG
+         rHFUdHujnEaD5zz3cVwWOY5Af0OwqkmTXeEYtdPtgWFdGXedaH3dB9cEp6t1r81i5OaU
+         Uq+A==
+X-Gm-Message-State: AGi0PuavDyVXMsY3vQ2avl/gzacE35TfyKL+fF4D1t2gKoxLvBA72xSV
+        2tvI/guidC+HH+x422ZIvps=
+X-Google-Smtp-Source: APiQypJCkRwhTllJ3Gmt7DLt2ZOHNnbuKQWwwcTtOnHcx82d5RUIMKKcAqqSWqLgy/8VL2w7bc9WoQ==
+X-Received: by 2002:ac8:7396:: with SMTP id t22mr146210qtp.15.1586449761428;
+        Thu, 09 Apr 2020 09:29:21 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14c:482:5bb::3])
-        by smtp.gmail.com with ESMTPSA id x66sm16980587qka.121.2020.04.09.09.29.15
+        by smtp.gmail.com with ESMTPSA id x66sm16980587qka.121.2020.04.09.09.29.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 09:29:17 -0700 (PDT)
+        Thu, 09 Apr 2020 09:29:20 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
 To:     hverkuil-cisco@xs4all.nl
 Cc:     slongerbeam@gmail.com, p.zabel@pengutronix.de,
         linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v2 1/4] media: imx.rst: Fix the MIPI CSI-2 virtual channel
-Date:   Thu,  9 Apr 2020 13:29:42 -0300
-Message-Id: <20200409162945.3559-1-festevam@gmail.com>
+Subject: [PATCH v2 2/4] media: imx.rst: Provide an example for unprocessed video capture
+Date:   Thu,  9 Apr 2020 13:29:43 -0300
+Message-Id: <20200409162945.3559-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200409162945.3559-1-festevam@gmail.com>
+References: <20200409162945.3559-1-festevam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current instructions for imx6q-sabresd do not lead to functional
-capture on OV5640 MIPI CSI-2.
+The current example for imx6q-sabresd is for a direct conversion pipeline.
 
-The reason for this, as explained by Steve Longerbeam, is that OV5640 by
-default transmits on virtual channel 0, not channel 1 as is given in the
-instructions.
-
-Adapt the instructions to use virtual channel 0 so that a working
-camera setup can be achieved on imx6q-sabresd.
-
-Also, since we are using an IC direct conversion pipeline, improve
-the example by demonstrating colorspace and scaling.
+Provide an extra example using unprocessed video capture for completeness.
 
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Reviewed-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
 Changes since v1:
-- Demonstrate colorspace and scaling. (Steve)
+- None
 
- Documentation/media/v4l-drivers/imx.rst | 31 ++++++++++++-------------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+ Documentation/media/v4l-drivers/imx.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
-index 1246573c1019..b8df91f83f14 100644
+index b8df91f83f14..fb6e01976254 100644
 --- a/Documentation/media/v4l-drivers/imx.rst
 +++ b/Documentation/media/v4l-drivers/imx.rst
-@@ -645,30 +645,29 @@ The OV5640 module connects to MIPI connector J5 (sorry I don't have the
+@@ -644,6 +644,26 @@ CSI-2 OV5640 has been tested, so the OV5642 node is currently disabled.
+ The OV5640 module connects to MIPI connector J5 (sorry I don't have the
  compatible module part number or URL).
  
- The following example configures a direct conversion pipeline to capture
--from the OV5640, transmitting on MIPI CSI-2 virtual channel 1. $sensorfmt
--can be any format supported by the OV5640. $sensordim is the frame
--dimension part of $sensorfmt (minus the mbus pixel code). $outputfmt can
--be any format supported by the ipu1_ic_prpenc entity at its output pad:
-+from the OV5640, transmitting on MIPI CSI-2 virtual channel 0. It also
-+shows colorspace conversion and scaling at IC output.
- 
- .. code-block:: none
- 
-    # Setup links
-    media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
--   media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
--   media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
++The following example configures unprocessed video capture pipeline to
++capture from the OV5640, transmitting on MIPI CSI-2 virtual channel 0:
++
++.. code-block:: none
++
++   # Setup links
++   media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
 +   media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
 +   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
-+   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
-    media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
-    media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
-    # Configure pads
--   media-ctl -V "'ov5640 1-003c':0 [fmt:$sensorfmt field:none]"
--   media-ctl -V "'imx6-mipi-csi2':2 [fmt:$sensorfmt field:none]"
--   media-ctl -V "'ipu1_csi1':1 [fmt:AYUV32/$sensordim field:none]"
--   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/$sensordim field:none]"
--   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:$outputfmt field:none]"
--
--Streaming can then begin on "ipu1_ic_prpenc capture" node. The v4l2-ctl
--tool can be used to select any supported YUV or RGB pixelformat on the
--capture device node.
--
++   media-ctl -l "'ipu1_csi0':2 -> 'ipu1_csi0 capture':0[1]"
++   # Configure pads
 +   media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
 +   media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
-+   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
-+   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
-+   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
-+   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
-+   # Set a format at the capture interface
-+   v4l2-ctl -d /dev/video1 --set-fmt-video=pixelformat=RGB3
++   media-ctl -V "'ipu1_csi0_mux':0 [fmt:UYVY2X8/640x480]"
++   media-ctl -V "'ipu1_csi0':0 [fmt:AYUV32/640x480]"
 +
-+Streaming can then begin on "ipu1_ic_prpenc capture" node.
- 
- Known Issues
- ------------
++Streaming can then begin on "ipu1_csi0 capture" node. The v4l2-ctl
++tool can be used to select any supported pixelformat on the capture
++device node.
++
+ The following example configures a direct conversion pipeline to capture
+ from the OV5640, transmitting on MIPI CSI-2 virtual channel 0. It also
+ shows colorspace conversion and scaling at IC output.
 -- 
 2.17.1
 
