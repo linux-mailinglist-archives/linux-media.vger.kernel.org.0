@@ -2,60 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A4811A3834
-	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 18:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4D6F1A389D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Apr 2020 19:09:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726744AbgDIQpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 12:45:08 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35798 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726583AbgDIQpI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 12:45:08 -0400
-Received: by mail-wm1-f66.google.com with SMTP id r26so455634wmh.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 09:45:05 -0700 (PDT)
+        id S1726703AbgDIRJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 13:09:12 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43652 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726679AbgDIRJM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Apr 2020 13:09:12 -0400
+Received: by mail-wr1-f66.google.com with SMTP id i10so6456858wrv.10
+        for <linux-media@vger.kernel.org>; Thu, 09 Apr 2020 10:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=7FuZSi+qQVAknL9J9OtXO+lmOQPlq5nooewcdWgy8rw=;
-        b=MP2WdYc/HwtEok89Aqj3Ioq1QxzUuhCVVSAh1LFm9tXTGOfL2OjiJ91dzf5+T7Wokx
-         fwJI4mJH0ksGd+vmf7mUmeGLqTOmBedfA7nnaKlWTLIsFUI7eMGNMRHeRU5lo1oCs7u2
-         pDfsgTwI/Yvkv1/RhjdcbUZnLiXNkUDwAg+6S8kq+6paAEL3cF7UIKo5EJtlVf74e0hc
-         5lHLZnnfQYtN0uB8OxbBZxJ+ehN1+uSUuEidWRp7gLTVOFbsSL6A0C4Wg1USvKVHD4Xn
-         vi4C/IIWZ51mZMacsC7FQDE84kPcf5jzWf/kVyC3pgyGkAXRH3UoMR8bZYH0T/94gMi3
-         EEfw==
+        bh=Y1bnNV7JKP6d5bV0xdeXAsm0Me21jioDr54ks0nQPSM=;
+        b=BCG01LYmqpt3HvVUAdgaYseXqohF6HBf+Ge3j+QBMYChunPiTNJYvmte8PmUbniGra
+         QCfg2wMKY8QsLO8zhRtiEstKtsdmteCKwuUy+VXTcniKSPbhv33pWZyPVXYyWabC4ZRs
+         b9VYYFic3W+IwtSCRK6FdH35QXcv/U/9lOijDU6EqQIjl8JVqFJlFcSNwYIlgvCq6d5a
+         Ay2NyyG9KneUx7WO2+t8mKx1fmCL03NxO1G1TWJUeZb4qVDk8tNDSLRlLM77V6xdpSZk
+         oVPzEIlsrTqbDivdHsm3qNS73ZhHMXGNzD8v+Q4nTEi+x9dUb2q7Xj0DqlNIN5qubyHw
+         i/Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=7FuZSi+qQVAknL9J9OtXO+lmOQPlq5nooewcdWgy8rw=;
-        b=htVNyrc17ArAB8b3Y3TMKa9KKSAHiRtNbjGPIVhswDCI648188d6XwogZk/vtR3Lxo
-         VOPbMR+JefOuy1yq3dUZ2/bahjLpmjdANTbRV8RygZe4uvCbtzzyqbxqAO5Xw10f6QvQ
-         psrJtQUvP3Gfb0XmsO4kPtFBLNxxlR11BKExpyqxxFDhnggLH6uOepxCDxT/Ot0aDco3
-         1reOu6RwmKAZzBDijVXg/ZyS1qMJzZTwRFwvit+ZfUZGEpPrJHahgxr/OBD7B3gX3bO/
-         DFTMSupdk0IYSa85G2I/kdJuKZEOX21NYl7dPi2YbRB//VM2yPztWN57aSnNTpvlWKmD
-         cO3w==
-X-Gm-Message-State: AGi0Pub6fDmAaQ8YTZR+ORojOQv0mg3mrVgWBDcPmt1zV/ZuEVa+UtMN
-        5FJlFwMIoBmdWf/gJ7ulDQ1ESsz0XuU=
-X-Google-Smtp-Source: APiQypIa+xReKiD+rMFSTMp6ync6HeZAGKqLPziG8zn0480inXh+H1I8uqkmLiE3ybsmrCjJNKOuRQ==
-X-Received: by 2002:a1c:bd08:: with SMTP id n8mr724077wmf.23.1586450704379;
-        Thu, 09 Apr 2020 09:45:04 -0700 (PDT)
+        bh=Y1bnNV7JKP6d5bV0xdeXAsm0Me21jioDr54ks0nQPSM=;
+        b=fI2W2X1KMp71J1xiAzuQEFvjrw6JKAodFeBkbbNUpE2zDFHXJAWR4sxvvCyFfo04AB
+         gRqDtxJoq8TBWOhfiGEMq0Ip6oKp52PU82NWAI0HkOSqAlJPr9ucdTeeLCLjJ/nE5/pk
+         6EGAb+a4jFZB8I+YqmL0MxPafC+KaT/ZQoujyiTMBpdZ/k5K24pwrukfx8uN/l8O9uFO
+         /t5ofPfNt5NuOqGkoylvTnhYl/TF4+Hvnpnq8tBw1Teco+PyhWnbjNa2YOohPCBtkVfG
+         2Ozt6gBusJJovliCAjqCIMC88JkuiFOgB/KrA7OSTaGIo8qOZoX5x4Trpn3i392UscAF
+         ydUQ==
+X-Gm-Message-State: AGi0PuaaVC0Y79Z1H76ZPS05EG45UpAxqxpGTjeiKqH8+22T0bhfXOAm
+        K3BRSDn3/YFGi4kel1YbYsN6EDXPn0g=
+X-Google-Smtp-Source: APiQypKh7dQooRgqOBM3n0vuhlApoCAqwcnY6Wz7tWMnFLtsydV/4Bjk9ll0KLHw99o6wmfFHlpvrA==
+X-Received: by 2002:a5d:4e8a:: with SMTP id e10mr149681wru.258.1586452150811;
+        Thu, 09 Apr 2020 10:09:10 -0700 (PDT)
 Received: from [172.30.90.226] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id k14sm1749794wrp.53.2020.04.09.09.45.02
+        by smtp.gmail.com with ESMTPSA id m8sm4264231wmc.28.2020.04.09.10.09.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2020 09:45:03 -0700 (PDT)
-Subject: Re: [PATCH v2 1/4] media: imx.rst: Fix the MIPI CSI-2 virtual channel
+        Thu, 09 Apr 2020 10:09:10 -0700 (PDT)
+Subject: Re: [PATCH v2 4/4] media: imx.rst: Provide streaming examples for
+ imx6q-sabresd
 To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
 Cc:     p.zabel@pengutronix.de, linux-media@vger.kernel.org
 References: <20200409162945.3559-1-festevam@gmail.com>
+ <20200409162945.3559-4-festevam@gmail.com>
 From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <de701447-1fa9-0eb2-c71c-b80aab3a95c4@gmail.com>
-Date:   Thu, 9 Apr 2020 09:45:00 -0700
+Message-ID: <1092ab03-8813-7d2f-8c2f-f54de792b95a@gmail.com>
+Date:   Thu, 9 Apr 2020 10:09:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200409162945.3559-1-festevam@gmail.com>
+In-Reply-To: <20200409162945.3559-4-festevam@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -67,18 +69,8 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 4/9/20 9:29 AM, Fabio Estevam wrote:
-> The current instructions for imx6q-sabresd do not lead to functional
-> capture on OV5640 MIPI CSI-2.
->
-> The reason for this, as explained by Steve Longerbeam, is that OV5640 by
-> default transmits on virtual channel 0, not channel 1 as is given in the
-> instructions.
->
-> Adapt the instructions to use virtual channel 0 so that a working
-> camera setup can be achieved on imx6q-sabresd.
->
-> Also, since we are using an IC direct conversion pipeline, improve
-> the example by demonstrating colorspace and scaling.
+> Improve the documentation by providing examples on how to test camera
+> capture on imx6q-sabresd via v4l2-ctl and Gstreamer.
 >
 > Signed-off-by: Fabio Estevam <festevam@gmail.com>
 
@@ -86,59 +78,72 @@ Reviewed-by: Steve Longerbeam<slongerbeam@gmail.com>
 
 > ---
 > Changes since v1:
-> - Demonstrate colorspace and scaling. (Steve)
+> - Use media-ctl -e to determine the video node. (Steve)
 >
->   Documentation/media/v4l-drivers/imx.rst | 31 ++++++++++++-------------
->   1 file changed, 15 insertions(+), 16 deletions(-)
+>   Documentation/media/v4l-drivers/imx.rst | 45 +++++++++++++++++++++++++
+>   1 file changed, 45 insertions(+)
 >
 > diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
-> index 1246573c1019..b8df91f83f14 100644
+> index 955d27582e10..025f21def7dc 100644
 > --- a/Documentation/media/v4l-drivers/imx.rst
 > +++ b/Documentation/media/v4l-drivers/imx.rst
-> @@ -645,30 +645,29 @@ The OV5640 module connects to MIPI connector J5 (sorry I don't have the
->   compatible module part number or URL).
+> @@ -664,6 +664,28 @@ Streaming can then begin on "ipu1_csi0 capture" node. The v4l2-ctl
+>   tool can be used to select any supported pixelformat on the capture
+>   device node.
 >   
->   The following example configures a direct conversion pipeline to capture
-> -from the OV5640, transmitting on MIPI CSI-2 virtual channel 1. $sensorfmt
-> -can be any format supported by the OV5640. $sensordim is the frame
-> -dimension part of $sensorfmt (minus the mbus pixel code). $outputfmt can
-> -be any format supported by the ipu1_ic_prpenc entity at its output pad:
-> +from the OV5640, transmitting on MIPI CSI-2 virtual channel 0. It also
-> +shows colorspace conversion and scaling at IC output.
->   
->   .. code-block:: none
->   
->      # Setup links
->      media-ctl -l "'ov5640 1-003c':0 -> 'imx6-mipi-csi2':0[1]"
-> -   media-ctl -l "'imx6-mipi-csi2':2 -> 'ipu1_csi1':0[1]"
-> -   media-ctl -l "'ipu1_csi1':1 -> 'ipu1_ic_prp':0[1]"
-> +   media-ctl -l "'imx6-mipi-csi2':1 -> 'ipu1_csi0_mux':0[1]"
-> +   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
-> +   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_ic_prp':0[1]"
->      media-ctl -l "'ipu1_ic_prp':1 -> 'ipu1_ic_prpenc':0[1]"
->      media-ctl -l "'ipu1_ic_prpenc':1 -> 'ipu1_ic_prpenc capture':0[1]"
->      # Configure pads
-> -   media-ctl -V "'ov5640 1-003c':0 [fmt:$sensorfmt field:none]"
-> -   media-ctl -V "'imx6-mipi-csi2':2 [fmt:$sensorfmt field:none]"
-> -   media-ctl -V "'ipu1_csi1':1 [fmt:AYUV32/$sensordim field:none]"
-> -   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/$sensordim field:none]"
-> -   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:$outputfmt field:none]"
-> -
-> -Streaming can then begin on "ipu1_ic_prpenc capture" node. The v4l2-ctl
-> -tool can be used to select any supported YUV or RGB pixelformat on the
-> -capture device node.
-> -
-> +   media-ctl -V "'ov5640 1-003c':0 [fmt:UYVY2X8/640x480]"
-> +   media-ctl -V "'imx6-mipi-csi2':1 [fmt:UYVY2X8/640x480]"
-> +   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/640x480]"
-> +   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/640x480]"
-> +   media-ctl -V "'ipu1_ic_prp':1 [fmt:AYUV32/640x480]"
-> +   media-ctl -V "'ipu1_ic_prpenc':1 [fmt:ARGB8888_1X32/800x600]"
-> +   # Set a format at the capture interface
-> +   v4l2-ctl -d /dev/video1 --set-fmt-video=pixelformat=RGB3
+> +To determine what is the /dev/video node correspondent to
+> +"ipu1_csi0 capture":
 > +
-> +Streaming can then begin on "ipu1_ic_prpenc capture" node.
+> +.. code-block:: none
+> +
+> +   media-ctl -e "ipu1_csi0 capture"
+> +   /dev/video0
+> +
+> +/dev/video0 is the streaming element in this case.
+> +
+> +Starting the streaming via v4l2-ctl:
+> +
+> +.. code-block:: none
+> +
+> +   v4l2-ctl --stream-mmap -d /dev/video0
+> +
+> +Starting the streaming via Gstreamer and sending the content to the display:
+> +
+> +.. code-block:: none
+> +
+> +   gst-launch-1.0 v4l2src device=/dev/video0 ! kmssink
+> +
+>   The following example configures a direct conversion pipeline to capture
+>   from the OV5640, transmitting on MIPI CSI-2 virtual channel 0. It also
+>   shows colorspace conversion and scaling at IC output.
+> @@ -689,6 +711,29 @@ shows colorspace conversion and scaling at IC output.
 >   
+>   Streaming can then begin on "ipu1_ic_prpenc capture" node.
+>   
+> +To determine what is the /dev/video node correspondent to
+> +"ipu1_ic_prpenc capture":
+> +
+> +.. code-block:: none
+> +
+> +   media-ctl -e "ipu1_ic_prpenc capture"
+> +   /dev/video1
+> +
+> +
+> +/dev/video1 is the streaming element in this case.
+> +
+> +Starting the streaming via v4l2-ctl:
+> +
+> +.. code-block:: none
+> +
+> +   v4l2-ctl --stream-mmap -d /dev/video1
+> +
+> +Starting the streaming via Gstreamer and sending the content to the display:
+> +
+> +.. code-block:: none
+> +
+> +   gst-launch-1.0 v4l2src device=/dev/video1 ! kmssink
+> +
 >   Known Issues
 >   ------------
+>   
 
