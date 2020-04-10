@@ -2,42 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CDC81A3F70
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 05:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B16A1A3F7C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 05:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727041AbgDJDsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 23:48:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60644 "EHLO mail.kernel.org"
+        id S1728494AbgDJDtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Apr 2020 23:49:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33058 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726989AbgDJDsx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Apr 2020 23:48:53 -0400
+        id S1728472AbgDJDtO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Apr 2020 23:49:14 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1080221473;
-        Fri, 10 Apr 2020 03:48:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 65A6521473;
+        Fri, 10 Apr 2020 03:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586490533;
-        bh=BTli6aEC2oh+s7XOlwZLRxiWjvJO69p9yn9ye5/6N5M=;
+        s=default; t=1586490554;
+        bh=idCS/o2KJWKLuG5YYj/PRV53FPx4L/x7Hh2m9+2AenI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AvFyVLLrVrk778FdPu5XOqbkAVHB+HQmGz6ghB63IgJx0GPTQTnprIZM6IrrNzX9w
-         IBFHdB4ENdJkoQ8joUISZ0xS0mBIW9QN7NXyspaFQeDkXHAgO/Ls9zZHN0knEGKw1T
-         qxRPlGGBMKpI+RPJcanEZ8duuRLRoZohiuJgS1vY=
+        b=H3SOtWtsGUPl4QH1dKlg9FzYEObfPZK8zd6doj0+NVJJs6KGhsiMtF7+YdP16mhGj
+         dTtSqYnQIS2zQfQ/HiaR7AziK8fuJpWuEENhj0pUpawWj081iOGJcnrLY8DQq+8+r9
+         rF8TNs+hMm/uAlfyVaymzmWjN/tb/m8H1AapbuIs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Stephan Gerhold <stephan@gerhold.net>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.5 44/56] media: i2c: ov5695: Fix power on and off sequences
-Date:   Thu,  9 Apr 2020 23:47:48 -0400
-Message-Id: <20200410034800.8381-44-sashal@kernel.org>
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 03/46] media: venus: hfi_parser: Ignore HEVC encoding for V1
+Date:   Thu,  9 Apr 2020 23:48:26 -0400
+Message-Id: <20200410034909.8922-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200410034800.8381-1-sashal@kernel.org>
-References: <20200410034800.8381-1-sashal@kernel.org>
+In-Reply-To: <20200410034909.8922-1-sashal@kernel.org>
+References: <20200410034909.8922-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -47,132 +45,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+From: Stephan Gerhold <stephan@gerhold.net>
 
-[ Upstream commit f1a64f56663e9d03e509439016dcbddd0166b2da ]
+[ Upstream commit c50cc6dc6c48300af63a6fbc71b647053c15fc80 ]
 
-From the measured hardware signal, OV5695 reset pin goes high for a
-short period of time during boot-up. From the sensor specification, the
-reset pin is active low and the DT binding defines the pin as active
-low, which means that the values set by the driver are inverted and thus
-the value requested in probe ends up high.
+Some older MSM8916 Venus firmware versions also seem to indicate
+support for encoding HEVC, even though they really can't.
+This will lead to errors later because hfi_session_init() fails
+in this case.
 
-Fix it by changing probe to request the reset GPIO initialized to high,
-which makes the initial state of the physical signal low.
+HEVC is already ignored for "dec_codecs", so add the same for
+"enc_codecs" to make these old firmware versions work correctly.
 
-In addition, DOVDD rising must occur before DVDD rising from spec., but
-regulator_bulk_enable() API enables all the regulators asynchronously.
-Use an explicit loops of regulator_enable() instead.
-
-For power off sequence, it is required that DVDD falls first. Given the
-bulk API does not give any guarantee about the order of regulators,
-change the driver to use regulator_disable() instead.
-
-The sensor also requires a delay between reset high and first I2C
-transaction, which was assumed to be 8192 XVCLK cycles, but 1ms is
-recommended by the vendor. Fix this as well.
-
-Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov5695.c | 49 ++++++++++++++++++++++++--------------
- 1 file changed, 31 insertions(+), 18 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_parser.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-index d6cd15bb699ac..cc678d9d2e0da 100644
---- a/drivers/media/i2c/ov5695.c
-+++ b/drivers/media/i2c/ov5695.c
-@@ -971,16 +971,9 @@ static int ov5695_s_stream(struct v4l2_subdev *sd, int on)
- 	return ret;
- }
- 
--/* Calculate the delay in us by clock rate and clock cycles */
--static inline u32 ov5695_cal_delay(u32 cycles)
--{
--	return DIV_ROUND_UP(cycles, OV5695_XVCLK_FREQ / 1000 / 1000);
--}
--
- static int __ov5695_power_on(struct ov5695 *ov5695)
- {
--	int ret;
--	u32 delay_us;
-+	int i, ret;
- 	struct device *dev = &ov5695->client->dev;
- 
- 	ret = clk_prepare_enable(ov5695->xvclk);
-@@ -991,21 +984,28 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
- 
- 	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
- 
--	ret = regulator_bulk_enable(OV5695_NUM_SUPPLIES, ov5695->supplies);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable regulators\n");
--		goto disable_clk;
-+	/*
-+	 * The hardware requires the regulators to be powered on in order,
-+	 * so enable them one by one.
-+	 */
-+	for (i = 0; i < OV5695_NUM_SUPPLIES; i++) {
-+		ret = regulator_enable(ov5695->supplies[i].consumer);
-+		if (ret) {
-+			dev_err(dev, "Failed to enable %s: %d\n",
-+				ov5695->supplies[i].supply, ret);
-+			goto disable_reg_clk;
-+		}
+diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+index 2293d936e49ca..7f515a4b9bd12 100644
+--- a/drivers/media/platform/qcom/venus/hfi_parser.c
++++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+@@ -181,6 +181,7 @@ static void parse_codecs(struct venus_core *core, void *data)
+ 	if (IS_V1(core)) {
+ 		core->dec_codecs &= ~HFI_VIDEO_CODEC_HEVC;
+ 		core->dec_codecs &= ~HFI_VIDEO_CODEC_SPARK;
++		core->enc_codecs &= ~HFI_VIDEO_CODEC_HEVC;
  	}
- 
- 	gpiod_set_value_cansleep(ov5695->reset_gpio, 0);
- 
--	/* 8192 cycles prior to first SCCB transaction */
--	delay_us = ov5695_cal_delay(8192);
--	usleep_range(delay_us, delay_us * 2);
-+	usleep_range(1000, 1200);
- 
- 	return 0;
- 
--disable_clk:
-+disable_reg_clk:
-+	for (--i; i >= 0; i--)
-+		regulator_disable(ov5695->supplies[i].consumer);
- 	clk_disable_unprepare(ov5695->xvclk);
- 
- 	return ret;
-@@ -1013,9 +1013,22 @@ static int __ov5695_power_on(struct ov5695 *ov5695)
- 
- static void __ov5695_power_off(struct ov5695 *ov5695)
- {
-+	struct device *dev = &ov5695->client->dev;
-+	int i, ret;
-+
- 	clk_disable_unprepare(ov5695->xvclk);
- 	gpiod_set_value_cansleep(ov5695->reset_gpio, 1);
--	regulator_bulk_disable(OV5695_NUM_SUPPLIES, ov5695->supplies);
-+
-+	/*
-+	 * The hardware requires the regulators to be powered off in order,
-+	 * so disable them one by one.
-+	 */
-+	for (i = OV5695_NUM_SUPPLIES - 1; i >= 0; i--) {
-+		ret = regulator_disable(ov5695->supplies[i].consumer);
-+		if (ret)
-+			dev_err(dev, "Failed to disable %s: %d\n",
-+				ov5695->supplies[i].supply, ret);
-+	}
  }
  
- static int __maybe_unused ov5695_runtime_resume(struct device *dev)
-@@ -1285,7 +1298,7 @@ static int ov5695_probe(struct i2c_client *client,
- 	if (clk_get_rate(ov5695->xvclk) != OV5695_XVCLK_FREQ)
- 		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
- 
--	ov5695->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	ov5695->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(ov5695->reset_gpio)) {
- 		dev_err(dev, "Failed to get reset-gpios\n");
- 		return -EINVAL;
 -- 
 2.20.1
 
