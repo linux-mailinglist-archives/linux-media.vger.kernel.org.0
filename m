@@ -2,171 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 116351A490A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 19:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B92581A49FD
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 20:48:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbgDJRgt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Apr 2020 13:36:49 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:46334 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726234AbgDJRgt (ORCPT
+        id S1726663AbgDJSr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Apr 2020 14:47:57 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44789 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726177AbgDJSr4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Apr 2020 13:36:49 -0400
-Received: by mail-oi1-f193.google.com with SMTP id q204so1937206oia.13;
-        Fri, 10 Apr 2020 10:36:49 -0700 (PDT)
+        Fri, 10 Apr 2020 14:47:56 -0400
+Received: by mail-lf1-f67.google.com with SMTP id 131so1968386lfh.11;
+        Fri, 10 Apr 2020 11:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=85ZTnVe+xQapPzSFTruKQe7iobQhtV4Z4gYQIGcbe6E=;
+        b=vZFlVaN3kxC2JTIZS2URHTx7Ox81zpmZVIu0PltwZk1iK2GgcsqIU7cFi4qapwRQ3q
+         p9Gl5yV3b+i4i/slFneh/q/pJlkgBQ2qa9+b/TpULmqzlXsERufRxFEVMp6eziJ4mtSd
+         lweH/6hBuTM/nWVRj5NwF1oBMz0tbzgetvIZzCL0CHtoZXKBeyGxSyOT3eGDbQQzCwb9
+         i8m964NkM/E0CCDn21zs5b8pvE34df+d5i8OAKgLaOE+s6pnkgf/dl433CZTFcPvO50s
+         bH6/Vb7GpcdUYWvUR/fA/oZOzpsu32eFdn6a1VvxwkrPr/fzcwWbgHGnXATdQ6Ei08q6
+         Iryw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QBEtm9wj9+GCsvuO7AqmsQRpKjkshfnjy93bDn3pJjg=;
-        b=OzZlldKPcVDPnfJFdyCTsCVHKEvLo0BvyitGBt+6ZhWuJc37oDJNyUndUgQm9x4ApQ
-         zFdE5yUOjF30BCEc3Zfqcv3Bdh/2sMOCOSWzvTUYGR2plwAtimFoeHnbT39/sLhMS+YU
-         Z+v+bko8cbKyTA52rwDViNrRRz9jfIBs3AZU/u/DHvjWUnaggPX0LWlJNbENMDH3WHvJ
-         RDcpPa29FrAO4GPOt6n8/iZJwZRPVp3mvw4IcJGZhF4rZIsmQm7ur6UX/qkNrU6GuceX
-         /vzBPBKPAVXmnxbtDVFxcQ994A+CTYYDTvhELukMeRjencK6+jsFIMw/xPfWbbyVNWRI
-         TtHA==
-X-Gm-Message-State: AGi0PuaXxdcJCxHNEG0X8PrqDJV4y3/ssPVLhWpyzHnH/GjH9T2PBnGL
-        R4dEssFFHySYsoJbDiZHsw==
-X-Google-Smtp-Source: APiQypJvIzXiGQUkFI9BjUhby/lCJa4wLGEtjD/gV8K12mkSAWYPQSvkgPt6INjIArj9sD7aK4V+Kg==
-X-Received: by 2002:aca:34c6:: with SMTP id b189mr4027120oia.63.1586540208773;
-        Fri, 10 Apr 2020 10:36:48 -0700 (PDT)
-Received: from rob-hp-laptop (ip-99-203-29-27.pools.cgn.spcsdns.net. [99.203.29.27])
-        by smtp.gmail.com with ESMTPSA id q187sm1541807oih.48.2020.04.10.10.36.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 10:36:47 -0700 (PDT)
-Received: (nullmailer pid 27880 invoked by uid 1000);
-        Fri, 10 Apr 2020 17:25:27 -0000
-Date:   Fri, 10 Apr 2020 12:25:27 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
-        mark.rutland@arm.com, sakari.ailus@linux.intel.com,
-        drinkcat@chromium.org, tfiga@chromium.org, matthias.bgg@gmail.com,
-        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V4, 1/2] media: i2c: dw9768: Add DT support and MAINTAINERS
- entry
-Message-ID: <20200410172527.GA24529@bogus>
-References: <20200330123634.363-1-dongchun.zhu@mediatek.com>
- <20200330123634.363-2-dongchun.zhu@mediatek.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=85ZTnVe+xQapPzSFTruKQe7iobQhtV4Z4gYQIGcbe6E=;
+        b=GprDF5nQvAC9JK4oqRmKT8/RJJZTqnMlsQePlVHlNayh75EIwdJd3+5QYkt5/jWPln
+         TGdc7WV38ccQEkSx0eTvTlNoCK4lLdyDQSe+zqIifG1vo8X0UOQhUVIhcy6hR6NthRbE
+         uLuxCvx7wwDTUAQEOR8+EZGRbUUk8kUdH6x3YX4wx5iQ2AwKeO70FJH9Go4//YoCTavf
+         So6LE/2ycreQaClCxvOKzhajbdyBdfbex7ATXT8r5vBmxNiOqwLMq4YXS0W1oq41L78h
+         a2oC91gtnrvzftjB95KZ12Ar4VV9N0ZO+HOZir2Ngz9YDIRfBpV/0QupHCYJ8xvYuDVS
+         R9Yw==
+X-Gm-Message-State: AGi0PuYn9nTg0feR+gXNgcz6hX1YDPRc5WniTMQga9VLD/iS+xsbuQsc
+        Vmpmn/7ikR9TpXfWXR/utIjCEbFN
+X-Google-Smtp-Source: APiQypKfUR06Ii67R/bkIubjxr4gW2PFHLyI+D6KL7nIxAOhU74ze+/lJufurIpTACH4zDK+HueqVA==
+X-Received: by 2002:ac2:4112:: with SMTP id b18mr3370285lfi.106.1586544472057;
+        Fri, 10 Apr 2020 11:47:52 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id n24sm1600292lji.19.2020.04.10.11.47.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Apr 2020 11:47:51 -0700 (PDT)
+Subject: Re: [RFC PATCH v6 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
+ <760d071e-0cbc-b3eb-9231-fb9f9ecb44a6@nvidia.com>
+ <9e317f65-8a02-3b15-cfec-8e0d8374130e@gmail.com>
+ <97b35910-4c93-123a-43a0-eb14476ed0f3@nvidia.com>
+ <84ad4e2d-6ac1-e1f4-1c55-5edaae850631@nvidia.com>
+ <15a879b3-8fb9-6821-3cdc-104ba583ac12@gmail.com>
+ <0c425505-347f-7418-af7e-d121fe0d06dc@nvidia.com>
+ <db7c7051-5674-cdb9-0aa4-ee94125b3024@gmail.com>
+ <1a31cd60-739f-0660-1c45-31487d2f2128@nvidia.com>
+ <603084a5-249a-4fe2-3646-e9335ef9ab43@nvidia.com>
+ <7895b9c6-f27d-8939-73d7-67d785e1a8b7@nvidia.com>
+ <ea60b489-990e-4b15-e215-d93381a1371e@nvidia.com>
+ <b2405c2a-73c0-ad69-ccea-0388caf8045c@gmail.com>
+ <15d8b525-67b5-b437-f7fd-89f80cd0d9f6@nvidia.com>
+ <a638bb8e-bb50-7aa5-05a0-8de1c6207ba7@nvidia.com>
+ <ced73258-6f4b-e970-4ca5-ecdf1808a4c3@nvidia.com>
+ <ad646fde-2eed-eeeb-4d85-ec36d6613eb1@nvidia.com>
+ <7288cacd-badc-cb01-1f4c-286dd024ca10@gmail.com>
+ <77c88717-618f-b366-2b6a-f8b4abaa66cc@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <00708f34-cf45-e248-c6b0-c3d2286671ca@gmail.com>
+Date:   Fri, 10 Apr 2020 21:47:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200330123634.363-2-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <77c88717-618f-b366-2b6a-f8b4abaa66cc@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 08:36:33PM +0800, Dongchun Zhu wrote:
-> This patch is to add the Devicetreee binding documentation and
-> MAINTAINERS entry for dw9768 actuator.
+09.04.2020 21:28, Sowjanya Komatineni пишет:
 > 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  .../bindings/media/i2c/dongwoon,dw9768.yaml        | 62 ++++++++++++++++++++++
->  MAINTAINERS                                        |  7 +++
->  2 files changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+> On 4/9/20 7:50 AM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 09.04.2020 06:38, Sowjanya Komatineni пишет:
+>> ...
+>>> Tested with 3 buffers and by checking outstanding buffers in process by
+>>> VI hw and holding to start capture till one outstanding buffer in
+>>> process by HW.
+>>> Also tested with 2 buffers without checking for outstanding buffers.
+>>>
+>>> In both cases, I see same %CPU for the kthreads and is < 1%
+>>>
+>> I don't see where buffers queue max limit is set to 3 in the code, but
+>> should be okay if CPU isn't getting hogged. Looking forward to v7.
+> Sorry, correction I meant to say pre-queued buffers before streaming not
+> num_buffers.
+> vb2 queue min_buffers_needed was set to 3 as part of one of the issue
+> debug in earlier version which actually was irrelevant to that issue and
+> should have been removed. Will remove min_buffers_needed in v7.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> new file mode 100644
-> index 0000000..8a353dc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9768.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Dongwoon Anatech DW9768 Voice Coil Motor (VCM) Device Tree Bindings
-> +
-> +maintainers:
-> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +
-> +description: |-
-> +  The Dongwoon DW9768 is a single 10-bit digital-to-analog (DAC) converter
-> +  with 100 mA output current sink capability. VCM current is controlled with
-> +  a linear mode driver. The DAC is controlled via a 2-wire (I2C-compatible)
-> +  serial interface that operates at clock rates up to 1MHz. This chip
-> +  integrates Advanced Actuator Control (AAC) technology and is intended for
-> +  driving voice coil lenses in camera modules.
-> +
-> +properties:
-> +  compatible:
-> +    const: dongwoon,dw9768
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vin-supply:
-> +    description:
-> +      Definition of the regulator used as I2C I/O interface power supply.
-> +    maxItems: 1
+> I added checking for outstanding requests by hardware just to be safer
+> although we may not hit this case of issuing more than 1 outstanding
+> frame capture to VI hardware as capture_frame() waits till it sees frame
+> start event through HW syncpt increment before proceeding for memory
+> write and issuing next frame capture.
+> 
+> So issuing frame captures are synchronized with frame start and frame end.
+> 
+> Will remove min_buffers_needed and also explicit check for outstanding
+> buffers in v7.
 
-You can drop this. *-supply is always a single entry.
-
-> +
-> +  vdd-supply:
-> +    description:
-> +      Definition of the regulator used as VCM chip power supply.
-> +    maxItems: 1
-
-Same here.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vin-supply
-> +  - vdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c2: i2c@11009000 {
-
-i2c {
-
-> +        clock-frequency = <400000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        dw9768: camera-lens@c {
-> +            compatible = "dongwoon,dw9768";
-> +            reg = <0x0c>;
-> +
-> +            vin-supply = <&mt6358_vcamio_reg>;
-> +            vdd-supply = <&mt6358_vcama2_reg>;
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 38fe2f3..5e124d2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5134,6 +5134,13 @@ S:	Maintained
->  F:	drivers/media/i2c/dw9714.c
->  F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
->  
-> +DONGWOON DW9768 LENS VOICE COIL DRIVER
-> +M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> +
->  DONGWOON DW9807 LENS VOICE COIL DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:	linux-media@vger.kernel.org
-> -- 
-> 2.9.2
+It's still not clear to me how the "pre-queued buffers" will be limited.
+I'll take another look at the v7.
