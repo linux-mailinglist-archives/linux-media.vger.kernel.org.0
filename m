@@ -2,37 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E35E31A40E9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 06:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AE761A4179
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 06:16:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbgDJDqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Apr 2020 23:46:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56864 "EHLO mail.kernel.org"
+        id S1725914AbgDJECb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Apr 2020 00:02:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57408 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726792AbgDJDqq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 9 Apr 2020 23:46:46 -0400
+        id S1726940AbgDJDrD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 9 Apr 2020 23:47:03 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C9F68212CC;
-        Fri, 10 Apr 2020 03:46:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 744B820B1F;
+        Fri, 10 Apr 2020 03:47:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586490406;
-        bh=idCS/o2KJWKLuG5YYj/PRV53FPx4L/x7Hh2m9+2AenI=;
+        s=default; t=1586490423;
+        bh=CImT4A8W+bDgMXzHhYQ9uztQmGjlbf3XrDJF5jnPrRQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yVUk49vO0Tzai0p37Gmy8vRynYZPMDvlWRYSgqivmpU9PasEwgNFhaBtJCNMIp+rw
-         iUUxAjXRsooaIl+Vs/235Vp8e7oCePfdNkid1CJ/xbs1jvWgB1oFG3Fju+bM87jwSk
-         z1opBEiq1eYmD27sFyERs1GrFwGoDs56qXw7+6E0=
+        b=nrk2dD4jqP1G10CuGIwISV8kPJlov8l256ihElSCxEUFMNbT+OK6XTY4Ss0MoHbNR
+         Rhq3sqzliSEn53koaEI9gCuWokhDE0sTY1sel1Cg4crItMm3JhyBZR/aUaMu2p/ARD
+         dL5uJeezjpz/Hw1ao99qeeth+sF1mSy1oT06G98E=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stephan Gerhold <stephan@gerhold.net>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 09/68] media: venus: hfi_parser: Ignore HEVC encoding for V1
-Date:   Thu,  9 Apr 2020 23:45:34 -0400
-Message-Id: <20200410034634.7731-9-sashal@kernel.org>
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.6 22/68] media: imx: imx7_mipi_csis: Power off the source when stopping streaming
+Date:   Thu,  9 Apr 2020 23:45:47 -0400
+Message-Id: <20200410034634.7731-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200410034634.7731-1-sashal@kernel.org>
 References: <20200410034634.7731-1-sashal@kernel.org>
@@ -45,38 +46,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Stephan Gerhold <stephan@gerhold.net>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit c50cc6dc6c48300af63a6fbc71b647053c15fc80 ]
+[ Upstream commit 770cbf89f90b0663499dbb3f03aa81b3322757ec ]
 
-Some older MSM8916 Venus firmware versions also seem to indicate
-support for encoding HEVC, even though they really can't.
-This will lead to errors later because hfi_session_init() fails
-in this case.
+The .s_stream() implementation incorrectly powers on the source when
+stopping the stream. Power it off instead.
 
-HEVC is already ignored for "dec_codecs", so add the same for
-"enc_codecs" to make these old firmware versions work correctly.
-
-Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Fixes: 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for i.MX7")
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/qcom/venus/hfi_parser.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
-index 2293d936e49ca..7f515a4b9bd12 100644
---- a/drivers/media/platform/qcom/venus/hfi_parser.c
-+++ b/drivers/media/platform/qcom/venus/hfi_parser.c
-@@ -181,6 +181,7 @@ static void parse_codecs(struct venus_core *core, void *data)
- 	if (IS_V1(core)) {
- 		core->dec_codecs &= ~HFI_VIDEO_CODEC_HEVC;
- 		core->dec_codecs &= ~HFI_VIDEO_CODEC_SPARK;
-+		core->enc_codecs &= ~HFI_VIDEO_CODEC_HEVC;
- 	}
- }
- 
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 383abecb3bec0..0053e8b0b88e5 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -577,7 +577,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
+ 		state->flags |= ST_STREAMING;
+ 	} else {
+ 		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
+-		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
++		ret = v4l2_subdev_call(state->src_sd, core, s_power, 0);
+ 		mipi_csis_stop_stream(state);
+ 		state->flags &= ~ST_STREAMING;
+ 		if (state->debug)
 -- 
 2.20.1
 
