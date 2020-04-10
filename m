@@ -2,87 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E5351A47B8
-	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 17:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BEF21A4749
+	for <lists+linux-media@lfdr.de>; Fri, 10 Apr 2020 16:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgDJPAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Apr 2020 11:00:11 -0400
-Received: from mail.zaclys.net ([178.33.93.72]:43557 "EHLO mail.zaclys.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726049AbgDJPAK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Apr 2020 11:00:10 -0400
-X-Greylist: delayed 3051 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Apr 2020 11:00:09 EDT
-Received: from [192.168.1.12] (esc31-1-78-245-94-189.fbx.proxad.net [78.245.94.189])
-        (authenticated bits=0)
-        by mail.zaclys.net (8.14.7/8.14.7) with ESMTP id 03AE9H6x038879
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO)
-        for <linux-media@vger.kernel.org>; Fri, 10 Apr 2020 16:09:17 +0200
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.zaclys.net 03AE9H6x038879
-Authentication-Results: mail.zaclys.net; dmarc=fail (p=reject dis=none) header.from=zaclys.net
-Authentication-Results: mail.zaclys.net; spf=fail smtp.mailfrom=nicolas.sangouard@zaclys.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zaclys.net;
-        s=default; t=1586527757;
-        bh=poMf0kXTb9Bkfi5z1G3pjhpGxJFho1kBIB0NIgUEz7s=;
-        h=To:From:Subject:Date:From;
-        b=ri6a0SiNxXMUnzJYn8CUcZfPpsWFcVRIEOCQRgaBok8iy78z7y2Nbclb4oQIT1/YE
-         6pn6/WjZEnC4/Ad1XAp6i65jJPoOue8m8cdYNk5xZ1832/SGuLdV8VwBGqD86T3edY
-         OQ0TQYaI0/sBOKeV6Xj7+Qv5GfJ3+Gy609Xm6qYc=
-To:     linux-media@vger.kernel.org
-From:   Nicolas Sangouard <nicolas.sangouard@zaclys.net>
-Subject: eb1a:5043 eMPIA device driver
-Message-ID: <ce048b0e-d63e-d0c2-e15d-e90dbeee4da0@zaclys.net>
-Date:   Fri, 10 Apr 2020 16:09:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1726701AbgDJOSQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Apr 2020 10:18:16 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:37141 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgDJOSQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Apr 2020 10:18:16 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1jMuU1-0001Ci-F1; Fri, 10 Apr 2020 14:18:13 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: gspca: remove redundant assignment to variable status
+Date:   Fri, 10 Apr 2020 15:18:13 +0100
+Message-Id: <20200410141813.29497-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: fr-FR
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi linux-media contributors,
+From: Colin Ian King <colin.king@canonical.com>
 
-Can someone help me making my video capture device (Masster AVCap) work 
-on my linux ? I've never done something like a driver before but I'd 
-like to try it now and contribute if it works.
+The variable status is being assigned a value that is never read.
+The assignment is redundant and can be removed.
 
-When I plug the device, lsusb says eb1a:5043 eMPIA Technology, Inc.  
-which is not on the EM28xx linuxtv.org page.
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/media/usb/gspca/mr97310a.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-For information, dmesg says :
-
-[345689.777546] usb 3-1: new high-speed USB device number 11 using xhci_hcd
-[345689.926015] usb 3-1: config 1 interface 0 altsetting 0 endpoint 0x82 
-has wMaxPacketSize 0, skipping
-[345689.926022] usb 3-1: config 1 interface 0 altsetting 0 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926027] usb 3-1: config 1 interface 0 altsetting 1 endpoint 0x82 
-has wMaxPacketSize 0, skipping
-[345689.926031] usb 3-1: config 1 interface 0 altsetting 1 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926035] usb 3-1: config 1 interface 0 altsetting 2 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926038] usb 3-1: config 1 interface 0 altsetting 3 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926042] usb 3-1: config 1 interface 0 altsetting 4 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926046] usb 3-1: config 1 interface 0 altsetting 5 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926049] usb 3-1: config 1 interface 0 altsetting 6 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926053] usb 3-1: config 1 interface 0 altsetting 7 endpoint 0x84 
-has wMaxPacketSize 0, skipping
-[345689.926057] usb 3-1: config 1 interface 2 altsetting 0 endpoint 0x83 
-has wMaxPacketSize 0, skipping
-[345689.928712] usb 3-1: New USB device found, idVendor=eb1a, 
-idProduct=5043, bcdDevice= 1.00
-[345689.928719] usb 3-1: New USB device strings: Mfr=0, Product=1, 
-SerialNumber=0
-[345689.928722] usb 3-1: Product: Masster AVCap
-[345689.935439] usb 3-1: can't set config #1, error -71
-
-Thanks a lot
+diff --git a/drivers/media/usb/gspca/mr97310a.c b/drivers/media/usb/gspca/mr97310a.c
+index 502fc2eaffe0..464aa61cd914 100644
+--- a/drivers/media/usb/gspca/mr97310a.c
++++ b/drivers/media/usb/gspca/mr97310a.c
+@@ -287,7 +287,6 @@ static int zero_the_pointer(struct gspca_dev *gspca_dev)
+ 			return err_code;
+ 
+ 		err_code = cam_get_response16(gspca_dev, 0x21, 0);
+-		status = data[0];
+ 		tries++;
+ 		if (err_code < 0)
+ 			return err_code;
+-- 
+2.25.1
 
