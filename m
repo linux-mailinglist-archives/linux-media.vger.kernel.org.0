@@ -2,118 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 949141A5146
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2020 14:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B50C1A527F
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2020 16:27:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728142AbgDKMYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Apr 2020 08:24:39 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58554 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726699AbgDKMYi (ORCPT
+        id S1726129AbgDKO1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Apr 2020 10:27:39 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:34781 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgDKO1i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Apr 2020 08:24:38 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 4F6152A07CD
-Subject: Re: [PATCH v3 3/6] media: staging: rkisp1: cap: change the logic for
- writing to uv swap register
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org
-References: <20200408114822.27360-1-dafna.hirschfeld@collabora.com>
- <20200408114822.27360-4-dafna.hirschfeld@collabora.com>
- <20200408121011.GE4881@pendragon.ideasonboard.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <b27c1762-cdd6-a010-0950-ae2eec89ccab@collabora.com>
-Date:   Sat, 11 Apr 2020 14:24:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Sat, 11 Apr 2020 10:27:38 -0400
+Received: from localhost.localdomain ([90.126.162.40])
+        by mwinf5d41 with ME
+        id RSTW2200A0scBcy03STZ9s; Sat, 11 Apr 2020 16:27:37 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 11 Apr 2020 16:27:37 +0200
+X-ME-IP: 90.126.162.40
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     crope@iki.fi, mchehab@kernel.org, sean@mess.org,
+        brad@nextdimension.cc
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: m88ds3103: Add missing '\n' in log messages
+Date:   Sat, 11 Apr 2020 16:27:29 +0200
+Message-Id: <20200411142729.28699-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200408121011.GE4881@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Message logged by 'dev_xxx()' or 'pr_xxx()' should end with a '\n'.
 
+While at it, change the log level from 'err' to 'debug'.
 
-On 4/8/20 2:10 PM, Laurent Pinchart wrote:
-> Hi Dafna,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Apr 08, 2020 at 01:48:19PM +0200, Dafna Hirschfeld wrote:
->> The register RKISP1_CIF_MI_XTD_FORMAT_CTRL is currently written
->> with "on" only if the u,v streams need to be swapped. This patch
->> also write to it with "off" if they don't need to be swapped.
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> 
-> I think you can squash this with 1/6 and 2/6.
-Hi, as Helen already commented, since it is a combination of
-cleanups and bug fixes, I think it is better to keep them separated.
+Fixes: e6089feca460 ("media: m88ds3103: Add support for ds3103b demod")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/dvb-frontends/m88ds3103.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Dafna
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->> ---
->>   drivers/staging/media/rkisp1/rkisp1-capture.c | 21 ++++++++++---------
->>   1 file changed, 11 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> index 5d0e489505f0..4830083c33fd 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> @@ -383,12 +383,12 @@ static void rkisp1_mp_config(struct rkisp1_capture *cap)
->>   		     cap->config->mi.cr_size_init);
->>   
->>   	rkisp1_irq_frame_end_enable(cap);
->> -	if (cap->pix.cfg->uv_swap) {
->> -		reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->> -
->> +	reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->> +	if (cap->pix.cfg->uv_swap)
->>   		reg |= RKISP1_CIF_MI_XTD_FMT_CTRL_MP_CB_CR_SWAP;
->> -		rkisp1_write(rkisp1, reg, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->> -	}
->> +	else
->> +		reg &= ~RKISP1_CIF_MI_XTD_FMT_CTRL_MP_CB_CR_SWAP;
->> +	rkisp1_write(rkisp1, reg, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->>   
->>   	rkisp1_mi_config_ctrl(cap);
->>   
->> @@ -406,7 +406,7 @@ static void rkisp1_sp_config(struct rkisp1_capture *cap)
->>   {
->>   	const struct v4l2_pix_format_mplane *pixm = &cap->pix.fmt;
->>   	struct rkisp1_device *rkisp1 = cap->rkisp1;
->> -	u32 mi_ctrl;
->> +	u32 mi_ctrl, reg;
->>   
->>   	rkisp1_write(rkisp1, rkisp1_pixfmt_comp_size(pixm, RKISP1_PLANE_Y),
->>   		     cap->config->mi.y_size_init);
->> @@ -420,12 +420,13 @@ static void rkisp1_sp_config(struct rkisp1_capture *cap)
->>   	rkisp1_write(rkisp1, cap->sp_y_stride, RKISP1_CIF_MI_SP_Y_LLENGTH);
->>   
->>   	rkisp1_irq_frame_end_enable(cap);
->> -	if (cap->pix.cfg->uv_swap) {
->> -		u32 reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->>   
->> +	reg = rkisp1_read(rkisp1, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->> +	if (cap->pix.cfg->uv_swap)
->>   		reg |= RKISP1_CIF_MI_XTD_FMT_CTRL_SP_CB_CR_SWAP;
->> -		rkisp1_write(rkisp1, reg, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->> -	}
->> +	else
->> +		reg &= ~RKISP1_CIF_MI_XTD_FMT_CTRL_SP_CB_CR_SWAP;
->> +	rkisp1_write(rkisp1, reg, RKISP1_CIF_MI_XTD_FORMAT_CTRL);
->>   
->>   	rkisp1_mi_config_ctrl(cap);
->>   
-> 
+diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+index d2c28dcf6b42..bc356ac4fe5e 100644
+--- a/drivers/media/dvb-frontends/m88ds3103.c
++++ b/drivers/media/dvb-frontends/m88ds3103.c
+@@ -1898,7 +1898,7 @@ static int m88ds3103_probe(struct i2c_client *client,
+ 		if (ret)
+ 			goto err_kfree;
+ 		dev->dt_addr = ((utmp & 0x80) == 0) ? 0x42 >> 1 : 0x40 >> 1;
+-		dev_err(&client->dev, "dt addr is 0x%02x", dev->dt_addr);
++		dev_dbg(&client->dev, "dt addr is 0x%02x\n", dev->dt_addr);
+ 
+ 		dev->dt_client = i2c_new_dummy_device(client->adapter,
+ 						      dev->dt_addr);
+-- 
+2.20.1
+
