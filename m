@@ -2,32 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B50C1A527F
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2020 16:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1AC51A52C2
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2020 18:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726129AbgDKO1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Apr 2020 10:27:39 -0400
-Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:34781 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgDKO1i (ORCPT
+        id S1726204AbgDKQGM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 11 Apr 2020 12:06:12 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59538 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726129AbgDKQGM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Apr 2020 10:27:38 -0400
-Received: from localhost.localdomain ([90.126.162.40])
-        by mwinf5d41 with ME
-        id RSTW2200A0scBcy03STZ9s; Sat, 11 Apr 2020 16:27:37 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 11 Apr 2020 16:27:37 +0200
-X-ME-IP: 90.126.162.40
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     crope@iki.fi, mchehab@kernel.org, sean@mess.org,
-        brad@nextdimension.cc
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: m88ds3103: Add missing '\n' in log messages
-Date:   Sat, 11 Apr 2020 16:27:29 +0200
-Message-Id: <20200411142729.28699-1-christophe.jaillet@wanadoo.fr>
+        Sat, 11 Apr 2020 12:06:12 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 2FD7C2A11D7
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH v4 0/6] media: staging: rkisp1: cap: various fixes for capture formats
+Date:   Sat, 11 Apr 2020 18:05:56 +0200
+Message-Id: <20200411160602.14637-1-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -36,29 +33,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Message logged by 'dev_xxx()' or 'pr_xxx()' should end with a '\n'.
+This patchset fixes various issues related to
+the supported formats in the rkisp1 capture.
 
-While at it, change the log level from 'err' to 'debug'.
+This patchset is rebased on top of v3 of the patchset:
+"rkisp1: use enum v4l2_pixel_encoding instead of rkisp1_fmt_pix_type"
 
-Fixes: e6089feca460 ("media: m88ds3103: Add support for ds3103b demod")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/dvb-frontends/m88ds3103.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patches summary:
 
-diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
-index d2c28dcf6b42..bc356ac4fe5e 100644
---- a/drivers/media/dvb-frontends/m88ds3103.c
-+++ b/drivers/media/dvb-frontends/m88ds3103.c
-@@ -1898,7 +1898,7 @@ static int m88ds3103_probe(struct i2c_client *client,
- 		if (ret)
- 			goto err_kfree;
- 		dev->dt_addr = ((utmp & 0x80) == 0) ? 0x42 >> 1 : 0x40 >> 1;
--		dev_err(&client->dev, "dt addr is 0x%02x", dev->dt_addr);
-+		dev_dbg(&client->dev, "dt addr is 0x%02x\n", dev->dt_addr);
- 
- 		dev->dt_client = i2c_new_dummy_device(client->adapter,
- 						      dev->dt_addr);
+patches 1,2 - fixes a wrong assignments to the register that swaps the
+'u', 'v' planes in YUV semiplanar formats.
+
+patch 3 - writes to the uv swap with "off" if swapping is not needed.
+
+patch 4 - sets the uv swap register only if the format is semiplanar.
+
+patch 5 - adds support to planar YUV formats with swapped u,v planes
+by swapping the addresses of the planes
+
+patch 6 - removes some packed YUV formats that are not supported
+by the driver.
+
+changes from v1:
+- split the first patch from v1 into two separate patches, the first is a cleanup patch
+the second fixes a bug.
+
+changes from v2:
+- rebasing the patchset on top of v3 of
+"rkisp1: use enum v4l2_pixel_encoding instead of rkisp1_fmt_pix_type"
+- patches 1,2: replace "reg = reg | .." with "reg |= .."
+- adding patch 3 to change the logic of wrrting to uv swap reg
+- patches 4,5: checking if format is (semi)planar using the info pointer and not using the write_format value
+- patch 4: using the "swap" define to swap the cb, cr addresses
+
+changes from v3:
+- In patch 5 in the doc and log message: s/plane formats/planar formats/
+
+
+
+
+
+Dafna Hirschfeld (6):
+  media: staging: rkisp1: cap: cleanup in mainpath config for uv swap
+    format
+  media: staging: rkisp1: cap: fix value written to uv swap register in
+    selfpath
+  media: staging: rkisp1: cap: change the logic for writing to uv swap
+    register
+  media: staging: rkisp1: cap: support uv swap only for semiplanar
+    formats
+  media: staging: rkisp1: cap: support uv swapped planar formats
+  media: staging: rkisp1: cap: remove unsupported formats
+
+ drivers/staging/media/rkisp1/rkisp1-capture.c | 50 +++++++++----------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
+
 -- 
 2.20.1
 
