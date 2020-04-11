@@ -2,206 +2,310 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0707C1A4CC0
-	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2020 02:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 761E81A4CC4
+	for <lists+linux-media@lfdr.de>; Sat, 11 Apr 2020 02:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgDKAKw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Apr 2020 20:10:52 -0400
-Received: from mail-lf1-f49.google.com ([209.85.167.49]:37326 "EHLO
-        mail-lf1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726641AbgDKAKw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Apr 2020 20:10:52 -0400
-Received: by mail-lf1-f49.google.com with SMTP id t11so2450276lfe.4;
-        Fri, 10 Apr 2020 17:10:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:from:to:cc:references:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ScHIcIB77dQcUEBf39WWnnD1yi6BECX6mpqWSLTHIR4=;
-        b=gby0fvPNrNftvfwpdaYdPfSw2L59MNK3Wvn2v+p66Uw/V71GSSIiniIecHK17cnu4x
-         M1uEsqKkFZsIco4fr4IaCxgwiUqX42BkglSabBi/3GXnxBHmWiNFT5dPvorGhJD7txi/
-         wVSnTq2tOXOHUQHYNF8VmImaGFgU+l88PA/43SRd9MhWPiMKA22NKdk+AruHpE20iI/m
-         v3WfEji7JNI8ucnkf8I7IxNwWZqb7+XRbHrnjBSFxNIOTPp4M7gF4rUih8HQsAYrhghW
-         U+FlQYhlf2kZiFP0Oy+LHJzoJ3/bXkzloj3yJjpDmGGKgb9Ialc+V5i945PAAAMnjEJD
-         87hA==
-X-Gm-Message-State: AGi0PuYeg2+5yA5Qf7XOQkfe4bgbGAGY/c56p8GJPmZFBLqKCOoZmXpG
-        vGsKShiVcfXXhAd2UOaug9M=
-X-Google-Smtp-Source: APiQypKngZbjn1WTBKRQtL1mjOia0PDFciRBBWmS+E3MbC5PFXfmWYH9hF35rGVkSzkWXmfouft7xA==
-X-Received: by 2002:ac2:43c6:: with SMTP id u6mr4016963lfl.170.1586563850394;
-        Fri, 10 Apr 2020 17:10:50 -0700 (PDT)
-Received: from [192.168.1.183] ([176.15.215.153])
-        by smtp.gmail.com with ESMTPSA id w24sm2257297lfe.58.2020.04.10.17.10.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2020 17:10:49 -0700 (PDT)
-Reply-To: alex.popov@linux.com
-Subject: Re: Coccinelle rule for CVE-2019-18683
-From:   Alexander Popov <alex.popov@linux.com>
-To:     Jann Horn <jannh@google.com>
-Cc:     Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>, cocci@systeme.lip6.fr,
-        "kernel-hardening@lists.openwall.com" 
-        <kernel-hardening@lists.openwall.com>,
-        Kees Cook <keescook@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Markus Elfring <Markus.Elfring@web.de>
-References: <fff664e9-06c9-d2fb-738f-e8e591e09569@linux.com>
- <CAG48ez09gn1Abv-EwwW5Rgjqo2CQsbq6tjDeTfpr_FnJC7f5zA@mail.gmail.com>
- <e41fc912-0a4f-70c3-b924-50126f0f185a@linux.com>
-Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
- 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
- j3lCqPk=
-Message-ID: <b5e4ce83-f053-0121-dc3e-b3d6ddd87d5b@linux.com>
-Date:   Sat, 11 Apr 2020 03:10:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726648AbgDKAQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 10 Apr 2020 20:16:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55128 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726626AbgDKAQ5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 10 Apr 2020 20:16:57 -0400
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C90952084D;
+        Sat, 11 Apr 2020 00:16:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586564217;
+        bh=kOTfAdWoxGPt+Pg4t+RzeUZoBiHqIBV3wszehwL5Fmc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uLmtjTjHStlIlBf796CnjhrrTFs9zoO8k3NZQ0JMZAkpSAWWQoNCdHfm7DqgPNS/1
+         Y9quCve/LfGW0o8YiH6lLg0yLV432ok8PHtF1V/5ta0lnUkY/hf2QNxhnphRr9oBBq
+         gq6WNyxeDggFLoeKxtJYcz7sjnvxs41G//1qFrnY=
+Received: by mail-ed1-f53.google.com with SMTP id e5so4328856edq.5;
+        Fri, 10 Apr 2020 17:16:56 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZi6W4eixjCkDbgApW42pp+Q8mU1yUbfBtF8Qaf4okKUpyNhQ2x
+        9VCUxyhmGDencWR0muuuA50+S8VudGiKyelNWA==
+X-Google-Smtp-Source: APiQypIqU52AEeQOx9g5Z/gUAqL+lQxRxcsb52JmppFM8dV1tU8n/AnikWop5a9k2DEC7wTXwijhT5rNlXEL91Wwfh8=
+X-Received: by 2002:a05:6402:335:: with SMTP id q21mr7024879edw.47.1586564215179;
+ Fri, 10 Apr 2020 17:16:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e41fc912-0a4f-70c3-b924-50126f0f185a@linux.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20200410071723.19720-1-louis.kuo@mediatek.com> <20200410071723.19720-2-louis.kuo@mediatek.com>
+In-Reply-To: <20200410071723.19720-2-louis.kuo@mediatek.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Sat, 11 Apr 2020 08:16:43 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-=v4ZoPu63kPCUzGKyNFeV6S_=zM4P5_MAkrXB0b5Yew@mail.gmail.com>
+Message-ID: <CAAOTY_-=v4ZoPu63kPCUzGKyNFeV6S_=zM4P5_MAkrXB0b5Yew@mail.gmail.com>
+Subject: Re: [RFC PATCH V6 1/3] media: platform: mtk-isp: Add Mediatek sensor
+ interface driver
+To:     Louis Kuo <louis.kuo@mediatek.com>
+Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
+        tfiga@chromium.org, keiichiw@chromium.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org, Sean.Cheng@mediatek.com,
+        srv_heupstream@mediatek.com, Jerry-ch.Chen@mediatek.com,
+        jungo.lin@mediatek.com, sj.huang@mediatek.com, yuzhao@chromium.org,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, zwisler@chromium.org,
+        christie.yu@mediatek.com, frederic.chen@mediatek.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09.04.2020 22:41, Alexander Popov wrote:
-> On 09.04.2020 01:26, Jann Horn wrote:
->> On Thu, Apr 9, 2020 at 12:01 AM Alexander Popov <alex.popov@linux.com> wrote:
->>> CVE-2019-18683 refers to three similar vulnerabilities caused by the same
->>> incorrect approach to locking that is used in vivid_stop_generating_vid_cap(),
->>> vivid_stop_generating_vid_out(), and sdr_cap_stop_streaming().
->>>
->>> For fixes please see the commit 6dcd5d7a7a29c1e4 (media: vivid: Fix wrong
->>> locking that causes race conditions on streaming stop).
->>>
->>> These three functions are called during streaming stopping with vivid_dev.mutex
->>> locked. And they all do the same mistake while stopping their kthreads, which
->>> need to lock this mutex as well. See the example from
->>> vivid_stop_generating_vid_cap():
->>>     /* shutdown control thread */
->>>     vivid_grab_controls(dev, false);
->>>     mutex_unlock(&dev->mutex);
->>>     kthread_stop(dev->kthread_vid_cap);
->>>     dev->kthread_vid_cap = NULL;
->>>     mutex_lock(&dev->mutex);
->>>
->>> But when this mutex is unlocked, another vb2_fop_read() can lock it instead of
->>> the kthread and manipulate the buffer queue. That causes use-after-free.
->>>
->>> I created a Coccinelle rule that detects mutex_unlock+kthread_stop+mutex_lock
->>> within one function.
->> [...]
->>> mutex_unlock@unlock_p(E)
->>> ...
->>> kthread_stop@stop_p(...)
->>> ...
->>> mutex_lock@lock_p(E)
->>
->> Is the kthread_stop() really special here? It seems to me like it's
->> pretty much just a normal instance of the "temporarily dropping a
->> lock" pattern - which does tend to go wrong quite often, but can also
->> be correct.
-> 
-> Right, searching without kthread_stop() gives more cases.
-> 
->> I think it would be interesting though to have a list of places that
->> drop and then re-acquire a mutex/spinlock/... that was not originally
->> acquired in the same block of code (but was instead originally
->> acquired in an outer block, or by a parent function, or something like
->> that). So things like this:
+Hi, Louis:
 
-The following rule reported 146 matching cases, which might be interesting.
+Louis Kuo <louis.kuo@mediatek.com> =E6=96=BC 2020=E5=B9=B44=E6=9C=8810=E6=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:18=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> This patch adds Mediatek's sensor interface driver. Sensor interface driv=
+er
+> is a MIPI-CSI2 host driver, namely, a HW camera interface controller. It
+> support a widely adopted, simple, high-speed protocol primarily intended =
+for
+> point-to-point image and video transmission between cameras and host
+> devices. The mtk-isp directory will contain drivers for multiple IP block=
+s
+> found in Mediatek ISP system. It will include ISP Pass 1 driver, sensor i=
+nterface
+> driver, DIP driver and face detection driver.
+>
+> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> ---
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/mtk-isp/Kconfig        |   18 +
+>  drivers/media/platform/mtk-isp/Makefile       |    3 +
+>  .../media/platform/mtk-isp/seninf/Makefile    |    5 +
+>  drivers/media/platform/mtk-isp/seninf/TODO    |   18 +
+>  .../platform/mtk-isp/seninf/mtk_seninf.c      | 1173 +++++++++++++
+>  .../platform/mtk-isp/seninf/mtk_seninf_reg.h  | 1491 +++++++++++++++++
+>  .../mtk-isp/seninf/mtk_seninf_rx_reg.h        | 1398 ++++++++++++++++
+>  8 files changed, 4107 insertions(+)
+>  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+>  create mode 100644 drivers/media/platform/mtk-isp/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/Makefile
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/TODO
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf.c
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_reg.=
+h
+>  create mode 100644 drivers/media/platform/mtk-isp/seninf/mtk_seninf_rx_r=
+eg.h
+>
 
-```
-virtual report
-virtual context
+[snip]
 
-@race exists@
-expression E;
-position unlock_p;
-position lock_p;
-@@
+> +
+> +static void mtk_seninf_set_dphy(struct mtk_seninf *priv, unsigned int se=
+ninf)
+> +{
+> +       void __iomem *pmipi_rx_base =3D priv->csi2_rx[CFG_CSI_PORT_0];
+> +       unsigned int port =3D priv->port;
+> +       void __iomem *pmipi_rx =3D priv->csi2_rx[port];
+> +       void __iomem *pmipi_rx_conf =3D priv->base + 0x1000 * seninf;
+> +
+> +       /* Set analog phy mode to DPHY */
+> +       if (is_cdphy_combo(port))
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A, RG_CSI0A_CPHY_=
+EN, 0);
+> +       /* 4D1C: MIPIRX_ANALOG_A_BASE =3D 0x00001A42 */
+> +       if (is_4d1c(port)) {
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L0_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L0_CKSEL, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L1_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L1_CKSEL, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L2_CKMODE_EN, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L2_CKSEL, 1);
+> +       } else {/* MIPIRX_ANALOG_BASE =3D 0x102 */
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L0_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L0_CKSEL, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L1_CKMODE_EN, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L1_CKSEL, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L2_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                           RG_CSI0A_DPHY_L2_CKSEL, 0);
+> +       }
+> +       if (is_cdphy_combo(port))
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B, RG_CSI0B_CPHY_=
+EN, 0);
+> +
+> +       /* Only 4d1c need set CSIB: MIPIRX_ANALOG_B_BASE =3D 0x00001242 *=
+/
+> +       if (is_4d1c(port)) {
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L0_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L0_CKSEL, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L1_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L1_CKSEL, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L2_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L2_CKSEL, 1);
+> +       } else {/* MIPIRX_ANALOG_BASE =3D 0x102 */
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L0_CKSEL, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L1_CKMODE_EN, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L1_CKSEL, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L2_CKMODE_EN, 0);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_DPHY_L2_CKSEL, 0);
+> +       }
+> +       /* Byte clock invert */
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_ANAA8_CSI0A,
+> +                   RG_CSI0A_CDPHY_L0_T0_BYTECK_INVERT, 1);
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_ANAA8_CSI0A,
+> +                   RG_CSI0A_DPHY_L1_BYTECK_INVERT, 1);
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_ANAA8_CSI0A,
+> +                   RG_CSI0A_CDPHY_L2_T1_BYTECK_INVERT, 1);
+> +
+> +       if (is_4d1c(port)) {
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANAA8_CSI0B,
+> +                           RG_CSI0B_CDPHY_L0_T0_BYTECK_INVERT, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANAA8_CSI0B,
+> +                           RG_CSI0B_DPHY_L1_BYTECK_INVERT, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANAA8_CSI0B,
+> +                           RG_CSI0B_CDPHY_L2_T1_BYTECK_INVERT, 1);
+> +       }
+> +
+> +       /* Start ANA EQ tuning */
+> +       if (is_cdphy_combo(port)) {
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI0A,
+> +                           RG_CSI0A_L0_T0AB_EQ_IS, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI0A,
+> +                           RG_CSI0A_L0_T0AB_EQ_BW, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI0A,
+> +                           RG_CSI0A_L1_T1AB_EQ_IS, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI0A,
+> +                           RG_CSI0A_L1_T1AB_EQ_BW, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA20_CSI0A,
+> +                           RG_CSI0A_L2_T1BC_EQ_IS, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA20_CSI0A,
+> +                           RG_CSI0A_L2_T1BC_EQ_BW, 1);
+> +
+> +               if (is_4d1c(port)) { /* 4d1c */
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI0B,
+> +                                   RG_CSI0B_L0_T0AB_EQ_IS, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI0B,
+> +                                   RG_CSI0B_L0_T0AB_EQ_BW, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI0B,
+> +                                   RG_CSI0B_L1_T1AB_EQ_IS, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI0B,
+> +                                   RG_CSI0B_L1_T1AB_EQ_BW, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA20_CSI0B,
+> +                                   RG_CSI0B_L2_T1BC_EQ_IS, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA20_CSI0B,
+> +                                   RG_CSI0B_L2_T1BC_EQ_BW, 1);
+> +               }
+> +       } else {
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1A,
+> +                           RG_CSI1A_L0_EQ_IS, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1A,
+> +                           RG_CSI1A_L0_EQ_BW, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1A,
+> +                           RG_CSI1A_L1_EQ_IS, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1A,
+> +                           RG_CSI1A_L1_EQ_BW, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI1A,
+> +                           RG_CSI1A_L2_EQ_IS, 1);
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI1A,
+> +                           RG_CSI1A_L2_EQ_BW, 1);
+> +
+> +               if (is_4d1c(port)) { /* 4d1c */
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1B,
+> +                                   RG_CSI1B_L0_EQ_IS, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1B,
+> +                                   RG_CSI1B_L0_EQ_BW, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1B,
+> +                                   RG_CSI1B_L1_EQ_IS, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA18_CSI1B,
+> +                                   RG_CSI1B_L1_EQ_BW, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI1B,
+> +                                   RG_CSI1B_L2_EQ_IS, 1);
+> +                       SENINF_BITS(pmipi_rx, MIPI_RX_ANA1C_CSI1B,
+> +                                   RG_CSI1B_L2_EQ_BW, 1);
+> +               }
+> +       }
+> +
+> +       /* End ANA EQ tuning */
+> +       writel(0x90, pmipi_rx_base + MIPI_RX_ANA40_CSI0A);
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_ANA24_CSI0A,
+> +                   RG_CSI0A_RESERVE, 0x40);
+> +       if (is_4d1c(port))
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA24_CSI0B,
+> +                           RG_CSI0B_RESERVE, 0x40);
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_WRAPPER80_CSI0A,
+> +                   CSR_CSI_RST_MODE, 0);
+> +       if (is_4d1c(port))
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_WRAPPER80_CSI0B,
+> +                           CSR_CSI_RST_MODE, 0);
+> +       /* ANA power on */
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                   RG_CSI0A_BG_CORE_EN, 1);
+> +       if (is_4d1c(port))
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_BG_CORE_EN, 1);
+> +       usleep_range(20, 40);
+> +       SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0A,
+> +                   RG_CSI0A_BG_LPF_EN, 1);
+> +       if (is_4d1c(port))
+> +               SENINF_BITS(pmipi_rx, MIPI_RX_ANA00_CSI0B,
+> +                           RG_CSI0B_BG_LPF_EN, 1);
+> +
+> +       udelay(1);
+> +       /* 4d1c: MIPIRX_CONFIG_CSI_BASE =3D 0xC9000000; */
+> +       if (is_4d1c(port)) {
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN0_MUX, 1);
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN1_MUX, 2);
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN2_MUX, 0);
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN3_MUX, 3);
+> +       } else { /* 2d1c: MIPIRX_CONFIG_CSI_BASE =3D 0xE4000000; */
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN0_MUX, 0);
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN1_MUX, 1);
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN2_MUX, 2);
+> +               SENINF_BITS(pmipi_rx_conf, MIPI_RX_CON24_CSI0,
+> +                           CSI0_BIST_LN3_MUX, 3);
+> +       }
+> +}
 
-... when != mutex_lock(E)
-* mutex_unlock@unlock_p(E)
-... when != schedule()
-    when != schedule_timeout(...)
-    when != cond_resched()
-    when != wait_event(...)
-    when != wait_event_timeout(...)
-    when != wait_event_interruptible_timeout(...)
-    when != wait_event_interruptible(...)
-    when != msleep()
-    when != msleep_interruptible(...)
-* mutex_lock@lock_p(E)
+I think the phy control part should be placed in
+drivers/phy/mediatek/. In [1], device csis point to a device mipi_phy.
+csis' driver is in [2], and mipi_phy's driver is in [3]
 
-@script:python@
-unlock_p << race.unlock_p;
-lock_p << race.lock_p;
-E << race.E;
-@@
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/arch/arm/boot/dts/exynos4.dtsi?h=3Dv5.6
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/drivers/media/platform/exynos4-is/mipi-csis.c?h=3Dv5.6
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/drivers/phy/samsung/phy-exynos-mipi-video.c?h=3Dv5.6
 
-coccilib.report.print_report(unlock_p[0], 'see mutex_unlock(' + E + ') here')
-coccilib.report.print_report(lock_p[0], 'see mutex_lock(' + E + ') here\n')
-```
-
-Analysing each matching case would take a lot of time.
-
-However, I'm focused on searching kernel security issues.
-So I will filter out the code that:
- - is not enabled in popular kernel configurations,
- - doesn't create additional attack surface.
-Then I'll take the time to analyse the rest of reported cases.
-
-I'll inform you if I find any bug.
-
-Best regards,
-Alexander
+Regards,
+Chun-Kuang.
