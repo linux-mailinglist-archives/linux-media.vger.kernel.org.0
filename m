@@ -2,169 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5C761A5C59
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2020 05:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15E0D1A5CE0
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2020 07:13:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbgDLDfm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 11 Apr 2020 23:35:42 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41011 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726689AbgDLDfm (ORCPT
+        id S1725832AbgDLFNk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Apr 2020 01:13:40 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:42477 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725812AbgDLFNk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 11 Apr 2020 23:35:42 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id NTPHjMejilKa1NTPIj1nwF; Sun, 12 Apr 2020 05:35:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1586662540; bh=vBqH6ntge4pSaZcUYOvVcnDWt+qj8N0k4/QLz291+ec=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=UgD2dPa+e0Si3VdbuZDSAXW+Wd0SeYPaDxh4ogO/DpftPYsdQuHQhH5aKbxa5VRUR
-         36B0bG1BJr6n8zj6ozt69qJN+UBVG/ayFXKVbv/yR/McHLUBIg7pXLHOCZzjYwfN7s
-         L9a1t5cnKt2A2fq3/urhrhw10r0EoxKYJe5IJzbiFhOfEVjAUjvcZs8NUP5rrYeHhz
-         VeQNGxgizC9BPmV1mIZQ0BYDNWm7kmGdkfJDXUYORK/KbTVvkv6jn/PkZaJGcZqIkH
-         ekKXzGRwPGdTRj1yjvHOB1bgtZEen2JPxH7lDOCcOzAJU/d1DoZTf53PiqS+QUUZbp
-         tkWYFqg5oleFA==
-Message-ID: <bac3bdbe949c1edf2afc246e56e636d4@smtp-cloud8.xs4all.net>
-Date:   Sun, 12 Apr 2020 05:35:39 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfDOvEeYtLzHBifBpzYr20I+3C1AhtNnMMxtAIgSe/mSgqOzYeaHUrrIi/J0tCKtgfOoVSNaBYI6Ze/I/fkvpG5tl1mfk2gf1U0/SVcB6uVbMv5RY0S18
- x5g+I7xIPLVQ2x50YV9tq7bDVMB8o9q6RS1GYf9hIRxFhhHfQ+yc5P75mNNGPOHrBxun6K36nQvLdmc02QdACs8JUo50GRJoWYXnNwMnPFG9WS3oMvMseXtQ
+        Sun, 12 Apr 2020 01:13:40 -0400
+Received: by mail-vs1-f66.google.com with SMTP id s10so3639790vsi.9
+        for <linux-media@vger.kernel.org>; Sat, 11 Apr 2020 22:13:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VHkuUdeEPi0+7niwJqWPOkmkckN1u3oo2P+RqXA92Z4=;
+        b=S0ht9WgHyybeoHczyRndT5jh05Ap75SOojZOmFx3ZB6Y7aPD9k8dd9d2RE4HkRm2xp
+         6bF01bSfQzoj760rJ7oovF7F6sUJbWcP5ki8OHSINM7ILM2es9ZanVeEDTB3PhHPTEAk
+         8c0c/p+TO4vx97LaxtVs8Or+AAsD4Gbao7dDtHuUsSzSd8GV77N06R1oLhcFjW9mgt67
+         mTDGK3qvDHqdnFBM2lqT6JyaN6yv37AxHcKznIRpgSzjg1Wol6z8vgJ9GSHs6B95dh7C
+         ckZ1zFiRz0vMQ+/c4QtD03Rjms67vqjlEFHLa8BUYT6dh3QV8p50CBBw6zkUV3jQ9D37
+         EgTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VHkuUdeEPi0+7niwJqWPOkmkckN1u3oo2P+RqXA92Z4=;
+        b=AYRhsA3Y+nSXCwt+Qa92FAOsxWmkAXLNxoqCIPy2eZ9hy7Z2+tr4c0tfpM00giKtiZ
+         V4xQ/5Qofzyo3IA9++n2XIDk48OmU2COteK3IQC4V6cxwRghN8S/k6tpFKsgoyoocPLC
+         DuOVRCK4f9erXmbc/zwef2gKrFzRMwHWjWhwCQsQ03TzCcYpsn06YvkRQs6xp25+S7N9
+         ZDjwT5q1dgcJtE60EwbvsH5yXwU4bYRh9cOVUJTkqVBso2MUr0NW9tU5C25i4uJb7WbU
+         qN+o4ZnwVrY5pfXNAEjevm8jVLAarL7/QIwbT8VmpmwusA6VqaGa7e3loKeLVKoC6ZWo
+         CAQg==
+X-Gm-Message-State: AGi0PuYeV2yzv1zsqkFA+2sQayibCqkRAzr4+AxxQK8rR2qfJcYGltgB
+        o57U8Z/CaxdCDTL4yEmd4aIUD9LQ8t88xUGvJ5E=
+X-Google-Smtp-Source: APiQypJG91PocYX9obWM0xAdPvZfUC/7YkwZVrJTKzgFswLe0ctNgp5R78tGbaEUcoSRSdCBWRRkWOzEfLjzu0OJlSM=
+X-Received: by 2002:a05:6102:31b7:: with SMTP id d23mr8254971vsh.25.1586668418542;
+ Sat, 11 Apr 2020 22:13:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <karthik.poduval@gmail.com> <20200406073017.19462-1-karthik.poduval@gmail.com>
+ <20200406073017.19462-4-karthik.poduval@gmail.com> <2fc95890-f938-30a5-a163-bf3fa2e223df@gmail.com>
+In-Reply-To: <2fc95890-f938-30a5-a163-bf3fa2e223df@gmail.com>
+From:   karthik poduval <karthik.poduval@gmail.com>
+Date:   Sat, 11 Apr 2020 22:13:27 -0700
+Message-ID: <CAFP0Ok-NxDDF8TMP4pN=xn6w3H=TYqN3DMfGW-vuiC5qB-Oj5g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] ARM: dts: rockchip: add rk3288 ISP and DPHY
+To:     Johan Jonker <jbx6244@gmail.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        heiko@sntech.de, linux-rockchip@lists.infradead.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Thanks Johan for your valuable comments.
 
-Results of the daily build of media_tree:
+On Wed, Apr 8, 2020 at 6:19 PM Johan Jonker <jbx6244@gmail.com> wrote:
+>
+> Hi Karthik and others,
+>
+> Include all mail lists found with:
+> ./scripts/get_maintainer.pl --nogit-fallback --nogit
+>
+> Helen is moving isp1 bindings out of staging.
+> Clocks and other things don't fit with her patch serie.
+> Maybe fix this while still in staging?
+>
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> 'phys' is a required property
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> 'phy-names' is a required property
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> 'ports' is a required property
+>
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> 'assigned-clock-rates', 'assigned-clocks'
+> do not match any of the regexes: 'pinctrl-[0-9]+'
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> clock-names:2: 'aclk_isp_wrap' was expected
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> clock-names:3: 'hclk_isp' was expected
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: isp@ff910000:
+> clock-names:4: 'hclk_isp_wrap' was expected
+>
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: 'power-domains'
+> is a required property
+>
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clock-names:1:
+> 'dphy-cfg' was expected
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clock-names:
+> ['dphy-ref', 'pclk'] is too short
+> arch/arm/boot/dts/rk3288-tinker.dt.yaml: mipi-phy-rx0: clocks: [[7,
+> 126], [7, 358]] is too short
+>
+>
+> Inside yaml:
+> Use enum and sort.
+> >>  properties:
+> >>    compatible:
+>
+> >>      const: rockchip,rk3399-cif-isp
+> >> +    const: rockchip,rk3288-rkisp1
+>
+>     enum:
+>       - rockchip,rk3288-rkisp1
+>       - rockchip,rk3399-cif-isp
+>
+> >>  properties:
+> >>    compatible:
+> >>      const: rockchip,rk3399-mipi-dphy-rx0
+> >> +    const: rockchip,rk3288-mipi-dphy-rx0
+>
+>     enum:
+>       - rockchip,rk3288-mipi-dphy-rx0
+>       - rockchip,rk3399-mipi-dphy-rx0
+>
+> >
+> > Please, keep consistency, or rk3288-cif-isp, or we change rk3399-cif-isp to be rk3399-rkisp1.
+>
+>
+> On 4/6/20 9:30 AM, Karthik Poduval wrote:
+> > ISP and DPHY device entries missing so add them.
+> >
+>
+> > tested on tinkerbaord with ov5647 using command
+> > cam -c 1 -C -F cap
+>
+> Disclose dts node for ov5647 in cover letter, so people can reproduce
+> this experiment.
+>
+> Caution!
+> Without dts node this command doesn't work correct.
+>
+> make ARCH=arm dtbs_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>
+> make ARCH=arm dtbs_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+>
+> Needed to detect missing: phys, phy-names and ports ,etc.
+>
+> &isp {
+>         status = "okay";
+> };
+>
+Makes sense, that's why my kernel compilation passed and I didn't
+these errors. Thanks for the command, I will verify dts for
+correctness in next patch series.
 
-date:			Sun Apr 12 05:00:09 CEST 2020
-media-tree git hash:	2632e7b618a7730969f9782593c29ca53553aa22
-media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
-v4l-utils git hash:	8b7e6ce9367fe09ca9398b5f3cc75bba2598b162
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: cbd8bfbab9e84c54e1f1dcf8c172c400a10126df
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+> Needed to detect missing: power-domains, etc.
+>
+> &mipi_phy_rx0 {
+>         status = "okay";
+> };
+>
+> >
+> > Reported-by: Karthik Poduval <karthik.poduval@gmail.com>
+> > Signed-off-by: Karthik Poduval <karthik.poduval@gmail.com>
+> > ---
+> >  arch/arm/boot/dts/rk3288.dtsi | 25 +++++++++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
+> > index 9beb662166aa..adea8189abd9 100644
+> > --- a/arch/arm/boot/dts/rk3288.dtsi
+> > +++ b/arch/arm/boot/dts/rk3288.dtsi
+> > @@ -247,6 +247,23 @@
+> >               ports = <&vopl_out>, <&vopb_out>;
+> >       };
+> >
+>
+> > +     isp: isp@ff910000 {
+>
+> For nodes:
+> Sort things without reg alphabetical first,
+> then sort the rest by reg address.
+>
+Sure
+> > +             compatible = "rockchip,rk3288-rkisp1";
+> > +             reg = <0x0 0xff910000 0x0 0x4000>;
+> > +             interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+> > +             clocks = <&cru SCLK_ISP>, <&cru ACLK_ISP>,
+> > +                      <&cru HCLK_ISP>, <&cru PCLK_ISP_IN>,
+> > +                      <&cru SCLK_ISP_JPE>;
+> > +             clock-names = "clk_isp", "aclk_isp",
+> > +                           "hclk_isp", "pclk_isp_in",
+> > +                           "sclk_isp_jpe";
+> > +             assigned-clocks = <&cru SCLK_ISP>, <&cru SCLK_ISP_JPE>;
+> > +             assigned-clock-rates = <400000000>, <400000000>;
+>
+> > +             power-domains = <&power RK3288_PD_VIO>;
+> > +             iommus = <&isp_mmu>;
+>
+> sort
+>
+> Something missing?
+> Where are the ports and port nodes?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+I was assuming that this would be a part of the board specific dtsi or
+dts entry where the isp node would be overriden and the i2c camera
+port
+and the isp port remote-endpoints would be connected. I had this as a
+part of my first patch series. However I was advised by Helen to not
+include the ov5647
+dtsi as it isn't hardwired to the SoC and resides on an camera adapter board.
 
-Detailed results are available here:
+Should this be defined without the remote-endpoint phandle since we
+don't know exactly which sensor gets connected in this dtsi file ?
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+>
+> > +             status = "disabled";
+> > +     };
+> > +
+> >       sdmmc: mmc@ff0c0000 {
+> >               compatible = "rockchip,rk3288-dw-mshc";
+> >               max-frequency = <150000000>;
+> > @@ -891,6 +908,14 @@
+> >                       status = "disabled";
+> >               };
+> >
+>
+> > +             mipi_phy_rx0: mipi-phy-rx0 {
+>
+> Use separate patch.
+>
+> For nodes:
+> Sort things without reg alphabetical first,
+> then sort the rest by reg address.
+>
+Sure
 
-Detailed regression test results are available here:
+> > +                     compatible = "rockchip,rk3288-mipi-dphy-rx0";
+> > +                     clocks = <&cru SCLK_MIPIDSI_24M>, <&cru PCLK_MIPI_CSI>;
+> > +                     clock-names = "dphy-ref", "pclk";
+> Something missing?
+> Does this phy have a power domain?
+The tinkerboard debian kernel (where I referred to for this patch)
+didn't have it defined for the DPHY. I would guess that it would be
+the same as the ISP i.e. RK3288_PD_VIO,
+does anyone know the answer to this or do I have to reach out to
+Rockchip engineering ?
+>
+> > +                     #phy-cells = <0>;
+> > +                     status = "disabled";
+> > +             };
+> > +
+> >               io_domains: io-domains {
+> >                       compatible = "rockchip,rk3288-io-voltage-domain";
+> >                       status = "disabled";
+> >
+>
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Regards,
+Karthik Poduval
