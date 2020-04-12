@@ -2,67 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (unknown [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8C461A5FCE
-	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2020 20:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F3461A6095
+	for <lists+linux-media@lfdr.de>; Sun, 12 Apr 2020 22:59:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727580AbgDLSaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 12 Apr 2020 14:30:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.18]:43936 "EHLO
+        id S1728185AbgDLU7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 12 Apr 2020 16:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.18]:42326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727566AbgDLSaI (ORCPT
+        with ESMTP id S1728180AbgDLU7b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 12 Apr 2020 14:30:08 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54314C0086C2;
-        Sun, 12 Apr 2020 11:20:27 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id r17so4995808lff.2;
-        Sun, 12 Apr 2020 11:20:27 -0700 (PDT)
+        Sun, 12 Apr 2020 16:59:31 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C685C0A3BF5;
+        Sun, 12 Apr 2020 13:59:31 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id x2so5839726qtr.0;
+        Sun, 12 Apr 2020 13:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=s7PyP7wM+hSmqY+Nl4dhHB6/+lR7BTTva1Z1R03Oe1A=;
-        b=O3gdcKnk6nH6vW/0o9T/tib9LsIjIxtq7DG8LrEag2qjwgCdtswUsLnNipTw+jT4mP
-         e6cbPPRL2CNlRKZQh2uOMyQo8DyoWKT/QaNU20nlUtHfdcRUNBK4L6HBlspqSom+34R3
-         j5TopCMaCD4NhkoQu4G+WM7fTFuXOdCPJ4KUsfEo9ysytuqSgn7sMNY/2udkVmdpe+Sq
-         E6lHiaVugK/D0cp8oht8TJynVaMa1uDkGVpjyHYgwvMMhfaYM0BhWCdi9naledajb1/J
-         HXbSROWbXH982peXfJctgLkwg1M88T2iLbE70T8ApVkffnPJ8+xumdNgXwejrBbJmrne
-         2Cog==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+oGha8BwVFGHyeSdF+xfvU5jDMPO0lkkRHjX1TTo+IA=;
+        b=ONB8qeJZxdZc5aoz+PTkxRUemiWREghJiaggCxQbAyBsJ0sUzzzOf3b3yJXTaqZLAF
+         IjSIwe2ipOslb4icX98h/FJCd6VPxwTY8FnMXutHj/BBKIDBWKjKKHHLuFbpoy29+5QS
+         OdcsNAY3LtPooiVgJFrhLvUFL5NNs5jkZfJbvTiCk/Na0egCKMgLHZpoUMDHu9U5yx/p
+         t6IIP0Rix0soutpv8mA+n3PAmBwMCZnfux8mmr8oznAmVp/OkFxQju7592ONfsEkFl3o
+         jHnSRYqvGLl0a3sLIuBEI5TmoBlYQ1Pp6ethlWpxnWnPh87DuTmrf+NAy7GsBh+4+T34
+         EIcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=s7PyP7wM+hSmqY+Nl4dhHB6/+lR7BTTva1Z1R03Oe1A=;
-        b=WuCqlVAHLVb9xjw+AnScpKBk8gbwKqUIWZjww3Jxc1tHtd1K/zvkjkBsrQAXnDRRih
-         KTaFTv1XTFGWsmLP+QHoKMJA7o/67L38DaNpOY4ILyBUfcdcJb00msU4XEKJHkM7kwju
-         46lzJ78RuaRCd9w9nUAqHSU996/ZETHuqFW4yUSE9lbUXl9xiVnT0WkBbDEO5LhxKPrv
-         x6OXPI2bDpzWe4V0/ov+eyMlN7Qew9G28eNQVlk3TMeRpjd1JSCWJL/lvZ1w0c+xSV2u
-         TfBjM/9LpcT/dNQ0bpPkdgpl06SQTdazPIqClA1WT/E0fHT1AffEPJONamJuRt0jzcoQ
-         tWhw==
-X-Gm-Message-State: AGi0PuZqDZ2qWonX5J66+PFTgCxjX22Op4WDX+r5ueFqZOolByu2e7hz
-        UtDRqDRnVsLPN/Sti1WJ1Ji2sdznhN8=
-X-Google-Smtp-Source: APiQypJSXZxot3B6tsVUM4YKg3cHraXKHQBplcVR54rLr6Cr3IwsfjmqDogPJQNAHRKGcEqAoTxaPg==
-X-Received: by 2002:a05:6512:10c9:: with SMTP id k9mr8379271lfg.183.1586715625482;
-        Sun, 12 Apr 2020 11:20:25 -0700 (PDT)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id m13sm6434394lfk.12.2020.04.12.11.20.24
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+oGha8BwVFGHyeSdF+xfvU5jDMPO0lkkRHjX1TTo+IA=;
+        b=FOx9swuZQ/bEZKsiErXw0OglFZsipT0WjjV2mv3UPkZVFCiLTxjCj5lRQ/rrcztLQj
+         mnDn0k8YcUudIER8PBWcwjMXHRM/IShhEe405zVmVC6NfMiFqUbSZFxCQ4DD0vk2h0sI
+         7/xialtiN37mgCRB8AwY+p3//wsIujwr4TrRy53UYb0uCpTS6GGzeRNFVdTVIIsfiRNF
+         lQ7hGswfYkkLKH59Dxi7MkkUOy8ElCMG44HsVC0uieE0mwy1mHeVeTXASeku2AmfpIfR
+         RDxnZ2V9diSkL7u1WlToEdF0tPCyT4ziO/LNSqeB41NagSep5aOOg/qlhkYg6eFQKrA0
+         W7sQ==
+X-Gm-Message-State: AGi0PuYIzH/pR8MqsnU79cAUaEuU2Wo7XK7xGl9IKE9MYv/4jfUR+CQh
+        +xDKkoGGzz48s4wPgHJPtlRraA2m
+X-Google-Smtp-Source: APiQypJoEAfUIeLBNG56MDLayNIOgrC4o0T/bEWonL57Vi3Sh+/SgqAJ1asxT3R5slMoYG45RdqkVA==
+X-Received: by 2002:ac8:728b:: with SMTP id v11mr1524147qto.108.1586725170421;
+        Sun, 12 Apr 2020 13:59:30 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:c7f0:399e:5739:49e3:a0ab:5902])
+        by smtp.gmail.com with ESMTPSA id g14sm7190108qtb.24.2020.04.12.13.59.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2020 11:20:25 -0700 (PDT)
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        dri-devel@lists.freedesktop.org
-Cc:     Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Sun, 12 Apr 2020 13:59:29 -0700 (PDT)
+From:   "Carlos E. C. Barbosa" <barbosa.carlos.ec@gmail.com>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v1 4/4] dt-bindings: display: add port support to atmel lcdc
-Date:   Sun, 12 Apr 2020 20:20:12 +0200
-Message-Id: <20200412182012.27515-5-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200412182012.27515-1-sam@ravnborg.org>
-References: <20200412182012.27515-1-sam@ravnborg.org>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org
+Subject: [PATCH v4] media: vimc: get pixformat info from v4l2_format_info
+Date:   Sun, 12 Apr 2020 17:59:16 -0300
+Message-Id: <20200412205916.3333547-1-barbosa.carlos.ec@gmail.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -70,154 +65,355 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update the Atmel LCDC binding to include:
-- pwm. Used for backlight
-- endpoints using port node
-  Used for handle to panel
-- Added wiring property that is used to describe
-  the wiring between the LCDC and the panel
+From: "Carlos E.C. Barbosa" <barbosa.carlos.ec@gmail.com>
 
-Existing properties that should not be used in new
-bindings are deprecated.
+There is overlapping code over two distinct lists. This repurposes
+vimc_pix_map for mapping formats and remaps the calls to the matching
+v4l2_format_info.
 
-Updated example to include the updated way to specify panel etc.
+Signed-off-by: Carlos E. C. Barbosa <barbosa.carlos.ec@gmail.com>
 
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../bindings/display/atmel/lcdc.yaml          | 94 ++++++++++++++++++-
- 1 file changed, 93 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/atmel/lcdc.yaml b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-index 7dcb9a4d5902..b5c2628f7805 100644
---- a/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-+++ b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-@@ -28,6 +28,7 @@ properties:
+Changes in v2:
+As advised by Helen Koike and Hans Verkuil, the const qualifiers are
+not
+removed, the bayer flag is kept and the unnecessary changes are not
+made.
+
+Changes in v3:
+Change declaration order of variables and some minor style changes.
+
+Changes in v4:
+Unused variables were removed.
+
+v4l2-compliance -m /dev/media0 output:
+https://pastebin.com/F98792eW
+---
+ drivers/media/platform/vimc/vimc-capture.c | 14 ++++++++-----
+ drivers/media/platform/vimc/vimc-common.c  | 23 ----------------------
+ drivers/media/platform/vimc/vimc-common.h  |  2 --
+ drivers/media/platform/vimc/vimc-debayer.c |  7 +++++--
+ drivers/media/platform/vimc/vimc-scaler.c  |  8 ++++++--
+ drivers/media/platform/vimc/vimc-sensor.c  |  9 +++++++--
+ 6 files changed, 27 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+index 23e740c1c5c0..4f85e0bb8f27 100644
+--- a/drivers/media/platform/vimc/vimc-capture.c
++++ b/drivers/media/platform/vimc/vimc-capture.c
+@@ -85,6 +85,7 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
+ 				    struct v4l2_format *f)
+ {
+ 	struct v4l2_pix_format *format = &f->fmt.pix;
++	const struct v4l2_format_info *vinfo;
+ 	const struct vimc_pix_map *vpix;
  
-   "#address-cells":
-     const: 1
-+
-   "#size-cells":
-     const: 0
+ 	format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
+@@ -94,12 +95,13 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
  
-@@ -43,13 +44,84 @@ properties:
-   lcd-supply:
-     description: Regulator for LCD supply voltage.
+ 	/* Don't accept a pixelformat that is not on the table */
+ 	vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
+-	if (!vpix) {
++	if (!vpix)
+ 		format->pixelformat = fmt_default.pixelformat;
+-		vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
+-	}
++
++	vinfo = v4l2_format_info(format->pixelformat);
++
+ 	/* TODO: Add support for custom bytesperline values */
+-	format->bytesperline = format->width * vpix->bpp;
++	format->bytesperline = format->width * vinfo->bpp[0];
+ 	format->sizeimage = format->bytesperline * format->height;
  
-+  "#pwm-cells":
-+    description:
-+      This PWM chip use the default 3 cells bindings
-+      defined in ../../pwm/pwm.yaml.
-+    const: 3
-+
-+  clocks:
-+    maxItems: 2
-+
-+  clock-names:
-+    maxItems: 2
-+    items:
-+      - const: lcdc_clk
-+      - const: hclk
-+
-+  port@0:
-+    type: object
-+    description: Endpoints of the display controller
-+
-+    properties:
-+
-+      reg:
-+        const: 0
-+
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+      endpoint@0:
-+        type: object
-+        description: endpoint node that include phandle to panel
-+
-+        properties:
-+
-+          reg:
-+            const: 0
-+
-+          wiring:
-+            enum:
-+              - straight
-+              - red-blue-reversed
-+            description: |
-+              The LCDC is based on a blue-green-red configuration but to adapt
-+              to SW only supporting red-green-blue the data lines for red and blue
-+              may be reversed.
-+              See details in: http://ww1.microchip.com/downloads/en/AppNotes/doc6300.pdf
-+              "straight" - default value. Data lines are not reversed, uses BGR
-+              "red-blue-reversed" - red and green are reversed, uses RGB
-+
-+          remote-endpoint:
-+            $ref: /schemas/types.yaml#/definitions/phandle
-+            description:
-+              phandle to the panel node
-+
-+        required:
-+          - reg
-+          - remote-endpoint
-+
-+        additionalProperties: false
-+
-+    required:
-+      - "#address-cells"
-+      - "#size-cells"
-+      - reg
-+
-+    additionalProperties: false
-+
-   display:
-     $ref: /schemas/types.yaml#/definitions/phandle
-+    deprecated: true
-     description: phandle to display node
+ 	if (format->field == V4L2_FIELD_ANY)
+@@ -386,6 +388,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 				     const char *vcfg_name)
+ {
+ 	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
++	const struct v4l2_format_info *vinfo;
+ 	const struct vimc_pix_map *vpix;
+ 	struct vimc_cap_device *vcap;
+ 	struct video_device *vdev;
+@@ -435,7 +438,8 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 	/* Set default frame format */
+ 	vcap->format = fmt_default;
+ 	vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
+-	vcap->format.bytesperline = vcap->format.width * vpix->bpp;
++	vinfo = v4l2_format_info(vpix->pixelformat);
++	vcap->format.bytesperline = vcap->format.width * vinfo->bpp[0];
+ 	vcap->format.sizeimage = vcap->format.bytesperline *
+ 				 vcap->format.height;
  
- patternProperties:
-   "^display[0-9]$":
-     type: object
-+    deprecated: true
-     description: |
-       Display node is required to initialize the lcd panel.
-       This should be in the board dts
-@@ -107,12 +179,32 @@ required:
+diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+index c95c17c048f2..fc881daee627 100644
+--- a/drivers/media/platform/vimc/vimc-common.c
++++ b/drivers/media/platform/vimc/vimc-common.c
+@@ -21,19 +21,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+ 	{
+ 		.code = MEDIA_BUS_FMT_BGR888_1X24,
+ 		.pixelformat = V4L2_PIX_FMT_BGR24,
+-		.bpp = 3,
+ 		.bayer = false,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_RGB888_1X24,
+ 		.pixelformat = V4L2_PIX_FMT_RGB24,
+-		.bpp = 3,
+ 		.bayer = false,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_ARGB8888_1X32,
+ 		.pixelformat = V4L2_PIX_FMT_ARGB32,
+-		.bpp = 4,
+ 		.bayer = false,
+ 	},
  
- examples:
-   - |
-+    #include <dt-bindings/clock/at91.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-     fb {
-         compatible = "atmel,at91sam9263-lcdc";
-         reg = <0x00700000 0x1000>;
--        interrupts = <23 3 0>;
-+        interrupts = <26 IRQ_TYPE_LEVEL_HIGH 3>;
-+        clocks = <&pmc PMC_TYPE_PERIPHERAL 26>, <&pmc PMC_TYPE_PERIPHERAL 26>;
-+        clock-names = "lcdc_clk", "hclk";
-+
-+        /* pwm for backlight */
-+        #pwm-cells = <3>;
-+
-         #address-cells = <1>;
-         #size-cells = <0>;
-+
-+        port@0 {
-+            reg = <0>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+            endpoint@0 {
-+                reg = <0>;
-+                wiring = "red-blue-reversed";
-+                remote-endpoint = <&panel_input>;
-+            };
-+        };
-     };
+@@ -41,49 +38,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+ 	{
+ 		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
  
-   - |
+@@ -91,25 +80,21 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+ 	{
+ 		.code = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10ALAW8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10ALAW8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10ALAW8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10ALAW8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 
+@@ -117,49 +102,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+ 	{
+ 		.code = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR10DPCM8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG10DPCM8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG10DPCM8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB10DPCM8,
+-		.bpp = 1,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
+ 		.pixelformat = V4L2_PIX_FMT_SBGGR12,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
+ 		.pixelformat = V4L2_PIX_FMT_SGBRG12,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+ 		.pixelformat = V4L2_PIX_FMT_SGRBG12,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ 	{
+ 		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
+ 		.pixelformat = V4L2_PIX_FMT_SRGGB12,
+-		.bpp = 2,
+ 		.bayer = true,
+ 	},
+ };
+diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+index 616d5a6b0754..838d5df7b9ed 100644
+--- a/drivers/media/platform/vimc/vimc-common.h
++++ b/drivers/media/platform/vimc/vimc-common.h
+@@ -62,7 +62,6 @@ do {									\
+  * struct vimc_pix_map - maps media bus code with v4l2 pixel format
+  *
+  * @code:		media bus format code defined by MEDIA_BUS_FMT_* macros
+- * @bbp:		number of bytes each pixel occupies
+  * @pixelformat:	pixel format devined by V4L2_PIX_FMT_* macros
+  *
+  * Struct which matches the MEDIA_BUS_FMT_* codes with the corresponding
+@@ -70,7 +69,6 @@ do {									\
+  */
+ struct vimc_pix_map {
+ 	unsigned int code;
+-	unsigned int bpp;
+ 	u32 pixelformat;
+ 	bool bayer;
+ };
+diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+index baf6bf9f65b5..c141a307851c 100644
+--- a/drivers/media/platform/vimc/vimc-debayer.c
++++ b/drivers/media/platform/vimc/vimc-debayer.c
+@@ -303,6 +303,7 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+ 
+ 	if (enable) {
++		const struct v4l2_format_info *vinfo;
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
+ 
+@@ -311,12 +312,14 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 		/* Calculate the frame size of the source pad */
+ 		vpix = vimc_pix_map_by_code(vdeb->src_code);
++		vinfo = v4l2_format_info(vpix->pixelformat);
+ 		frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
+-				vpix->bpp;
++				vinfo->bpp[0];
+ 
+ 		/* Save the bytes per pixel of the sink */
+ 		vpix = vimc_pix_map_by_code(vdeb->sink_fmt.code);
+-		vdeb->sink_bpp = vpix->bpp;
++		vinfo = v4l2_format_info(vpix->pixelformat);
++		vdeb->sink_bpp = vinfo->bpp[0];
+ 
+ 		/* Get the corresponding pixel map from the table */
+ 		vdeb->sink_pix_map =
+diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+index 7521439747c5..9429aeea9cee 100644
+--- a/drivers/media/platform/vimc/vimc-scaler.c
++++ b/drivers/media/platform/vimc/vimc-scaler.c
+@@ -180,8 +180,10 @@ static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
+ 
+ 	/* Only accept code in the pix map table in non bayer format */
+ 	vpix = vimc_pix_map_by_code(fmt->code);
+-	if (!vpix || vpix->bayer)
++	if (!vpix || vpix->bayer) {
+ 		fmt->code = sink_fmt_default.code;
++		vpix = vimc_pix_map_by_code(fmt->code);
++	}
+ 
+ 	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
+ 			     VIMC_FRAME_MAX_WIDTH) & ~1;
+@@ -331,6 +333,7 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+ 
+ 	if (enable) {
++		const struct v4l2_format_info *vinfo;
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
+ 
+@@ -339,7 +342,8 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 		/* Save the bytes per pixel of the sink */
+ 		vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
+-		vsca->bpp = vpix->bpp;
++		vinfo = v4l2_format_info(vpix->pixelformat);
++		vsca->bpp = vinfo->bpp[0];
+ 
+ 		/* Calculate the width in bytes of the src frame */
+ 		vsca->src_line_size = vsca->crop_rect.width *
+diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+index 92daee58209e..fac2260b939f 100644
+--- a/drivers/media/platform/vimc/vimc-sensor.c
++++ b/drivers/media/platform/vimc/vimc-sensor.c
+@@ -102,10 +102,13 @@ static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
+ {
+ 	const struct vimc_pix_map *vpix =
+ 				vimc_pix_map_by_code(vsen->mbus_format.code);
++	const struct v4l2_format_info *vinfo =
++				v4l2_format_info(vpix->pixelformat);
+ 
+ 	tpg_reset_source(&vsen->tpg, vsen->mbus_format.width,
+ 			 vsen->mbus_format.height, vsen->mbus_format.field);
+-	tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width * vpix->bpp);
++	tpg_s_bytesperline(&vsen->tpg, 0,
++			   vsen->mbus_format.width * vinfo->bpp[0]);
+ 	tpg_s_buf_height(&vsen->tpg, vsen->mbus_format.height);
+ 	tpg_s_fourcc(&vsen->tpg, vpix->pixelformat);
+ 	/* TODO: add support for V4L2_FIELD_ALTERNATE */
+@@ -198,12 +201,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 				container_of(sd, struct vimc_sen_device, sd);
+ 
+ 	if (enable) {
++		const struct v4l2_format_info *vinfo;
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
+ 
+ 		/* Calculate the frame size */
+ 		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+-		frame_size = vsen->mbus_format.width * vpix->bpp *
++		vinfo = v4l2_format_info(vpix->pixelformat);
++		frame_size = vsen->mbus_format.width * vinfo->bpp[0] *
+ 			     vsen->mbus_format.height;
+ 
+ 		/*
 -- 
-2.20.1
+2.26.0
 
