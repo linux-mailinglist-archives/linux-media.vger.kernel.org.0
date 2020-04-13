@@ -2,167 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 079931A64B8
-	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2020 11:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 842321A653A
+	for <lists+linux-media@lfdr.de>; Mon, 13 Apr 2020 12:31:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728384AbgDMJei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Apr 2020 05:34:38 -0400
-Received: from mga03.intel.com ([134.134.136.65]:43265 "EHLO mga03.intel.com"
+        id S1728656AbgDMKbk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 13 Apr 2020 06:31:40 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:47326 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728050AbgDMJeh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Apr 2020 05:34:37 -0400
-IronPort-SDR: BdTNnY34wRw48Zn3p80KWS9Rdmj20UfankRH2NW6xlWGK1eeqokplZsJ7w9axP82F8wYDtTDcm
- 1v/Mw86PUcCg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2020 02:34:36 -0700
-IronPort-SDR: /CZzQ9NntPxfhQZZb9mFLal/uSUqW3loJd1graIFfe5qVa+8MQjYvuIQHgE1kIgeWbQImMbyH5
- ar/7HYJRXzaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,378,1580803200"; 
-   d="scan'208";a="276850248"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Apr 2020 02:34:34 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jNvUA-0006kv-0i; Mon, 13 Apr 2020 17:34:34 +0800
-Date:   Mon, 13 Apr 2020 17:34:06 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH 1/2] media: staging/imx: Don't assume OF port id equals
- pad index
-Message-ID: <202004131756.PwC6hvk8%lkp@intel.com>
-References: <20200413011416.2355-2-laurent.pinchart@ideasonboard.com>
+        id S1728004AbgDMKbi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 13 Apr 2020 06:31:38 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jNwKY-0005qb-82; Mon, 13 Apr 2020 10:28:42 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jNwP4-0003LR-Gd; Mon, 13 Apr 2020 10:33:22 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.8] Venus updates (#63004)
+Date:   Mon, 13 Apr 2020 10:33:22 +0000
+Message-Id: <20200413103322.12816-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200413093000.5567-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200413011416.2355-2-laurent.pinchart@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+From: builder@linuxtv.org
 
-I love your patch! Perhaps something to improve:
+Pull request: https://patchwork.linuxtv.org/patch/63004/
+Build log: https://builder.linuxtv.org/job/patchwork/46568/
+Build time: 00:03:04
+Link: https://lore.kernel.org/linux-media/20200413093000.5567-1-stanimir.varbanov@linaro.org
 
-[auto build test WARNING on linuxtv-media/master]
-[also build test WARNING on v5.7-rc1 next-20200413]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+gpg: Signature made Mon 13 Apr 2020 09:13:46 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/media-imx6-Support-complex-external-topologies/20200413-091602
-base:   git://linuxtv.org/media_tree.git master
+Summary: 1 patches and/or PDF generation with issues, being 0 at build time
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
+Error/warnings:
 
 
-cppcheck warnings: (new ones prefixed by >>)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-venus-vdec-Use-pmruntime-autosuspend.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-venus-vdec-Use-pmruntime-autosuspend.patch
+patches/0001-venus-vdec-Use-pmruntime-autosuspend.patch:57: CHECK: struct mutex definition without comment
 
-   drivers/staging/media/imx/imx-media-of.c:169:6: warning: The scope of the variable 'ret' can be reduced. [variableScope]
-    int ret;
-        ^
->> drivers/staging/media/imx/imx-media-of.c:110:5: warning: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
-       ? MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
-       ^
-   drivers/staging/media/imx/imx-media-of.c:130:38: warning: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
-        pad_flags & MEDIA_PAD_FL_SOURCE ?
-                                        ^
-
-vim +110 drivers/staging/media/imx/imx-media-of.c
-
-    77	
-    78	/*
-    79	 * Create a single media link to/from sd using a fwnode link.
-    80	 *
-    81	 * NOTE: this function assumes that an OF endpoint node is equivalent to a
-    82	 * media link.
-    83	 */
-    84	static int create_of_link(struct imx_media_dev *imxmd,
-    85				  struct v4l2_subdev *sd,
-    86				  struct v4l2_fwnode_link *link)
-    87	{
-    88		struct v4l2_subdev *remote, *src, *sink;
-    89		int src_pad, sink_pad;
-    90		int remote_pad;
-    91		u32 pad_flags;
-    92	
-    93		if (link->local_port >= sd->entity.num_pads)
-    94			return -EINVAL;
-    95	
-    96		remote = imx_media_find_subdev_by_fwnode(imxmd, link->remote_node);
-    97		if (!remote)
-    98			return 0;
-    99	
-   100		/*
-   101		 * Find the remote pad. Try the pad corresponding to the fwnode port id
-   102		 * first. If its direction doesn't correspond to what we expect, use the
-   103		 * first pad that has the right direction.
-   104		 *
-   105		 * FIXME: Media entities should provide an operation to translate from
-   106		 * fwnode port id to pad index.
-   107		 */
-   108		pad_flags = sd->entity.pads[link->local_port].flags;
-   109		pad_flags = pad_flags & MEDIA_PAD_FL_SINK
- > 110			  ? MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
-   111	
-   112		if (link->remote_port < remote->entity.num_pads &&
-   113		    remote->entity.pads[link->remote_port].flags & pad_flags) {
-   114			remote_pad = link->remote_port;
-   115		} else {
-   116			unsigned int i;
-   117	
-   118			remote_pad = -1;
-   119			for (i = 0; i < remote->entity.num_pads; ++i) {
-   120				if (remote->entity.pads[i].flags & pad_flags) {
-   121					remote_pad = i;
-   122					break;
-   123				}
-   124			}
-   125	
-   126			if (remote_pad == -1) {
-   127				v4l2_err(sd->v4l2_dev,
-   128					 "remote entity %s has no %s pad\n",
-   129					 remote->name,
-   130					 pad_flags & MEDIA_PAD_FL_SOURCE ?
-   131					 "source" : "sink");
-   132				return -EINVAL;
-   133			}
-   134		}
-   135	
-   136		/* Mad the local and remote entities to source and sink. */
-   137		if (pad_flags & MEDIA_PAD_FL_SOURCE) {
-   138			src = remote;
-   139			src_pad = remote_pad;
-   140			sink = sd;
-   141			sink_pad = link->local_port;
-   142		} else {
-   143			src = sd;
-   144			src_pad = link->local_port;
-   145			sink = remote;
-   146			sink_pad = remote_pad;
-   147		}
-   148	
-   149		/* Make sure link doesn't already exist before creating it. */
-   150		if (media_entity_find_link(&src->entity.pads[src_pad],
-   151					   &sink->entity.pads[sink_pad]))
-   152			return 0;
-   153	
-   154		v4l2_info(sd->v4l2_dev, "%s:%d -> %s:%d\n",
-   155			  src->name, src_pad, sink->name, sink_pad);
-   156	
-   157		return media_create_pad_link(&src->entity, src_pad,
-   158					     &sink->entity, sink_pad, 0);
-   159	}
-   160	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
