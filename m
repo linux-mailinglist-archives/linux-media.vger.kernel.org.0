@@ -2,148 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC5BD1A76BA
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 10:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC7061A76C4
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 11:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437252AbgDNI7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 04:59:13 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42007 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2437118AbgDNI7M (ORCPT
+        id S2437285AbgDNI75 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 04:59:57 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:44130 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437267AbgDNI7s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 04:59:12 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id OHPKjOrxh7xncOHPNj15dZ; Tue, 14 Apr 2020 10:59:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1586854749; bh=rzPTxABO+GO1ugN9j20FMyIDQtHP+K58senQ24jTmeU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=wIX4lrZYhA1ZNxZ1zu0YHpjfb3/YpkUl4SIXy9p8vUwDC3l9MksiY5zCtsdXZPIcx
-         DrchSwyRHNztaKYhUj8S+mm3TVrFDxSBCXcWLYHMC3xSHSm8Y057DYv31ikZ/Jiznx
-         v8ACZ0ANVNLOAFAze84oTQSZ2PVIeGOX6HDlcSyCsedLpUD1NX6WcOHTyaHs8sVhuY
-         DBMJlesQODpFgurBw82if94aOYyqrTNJ6Q7uif3GwH+3ykGNQya2P/85q+6HTNnqXS
-         4KvioAGuaXLZ8/q5HT64wWCzTJOihjiVI7/MHYyybf+V+KxuQLvKwl1CePTulPhnLj
-         7yk2eS8bDPt7w==
-Subject: Re: gspca webcam: need to plug it 5 times before it works
-To:     Pavel Machek <pavel@ucw.cz>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, samr7@cs.washington.edu,
-        gerard@gkall.hobby.nl
-Cc:     linux@rainbow-software.org, kilgota@auburn.edu, moinejf@free.fr
-References: <20200404184732.GA17534@duo.ucw.cz>
- <20200404191530.GA19753@duo.ucw.cz> <20200404191846.GA20044@duo.ucw.cz>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ae4ed621-8f91-2c6a-bd11-2f4709a056dc@xs4all.nl>
-Date:   Tue, 14 Apr 2020 10:59:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Tue, 14 Apr 2020 04:59:48 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03E8xSgo128474;
+        Tue, 14 Apr 2020 08:59:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=EAe3usIbEQ4RwyhgiOl8ipkDOmr+UhDbllqJssxsJA4=;
+ b=BIPGHUNsuFgB3JQzsbTIgWJmpoo6l+Ti18XZzCJK2OwznVScJXmo8t5IrEjN4R4mIZs5
+ RsPDUi7RnbAsdwhMc3RAHJ0CCT/RxbVRYU7zzR9NlnrL1GN9MPuWRSljNI5hAJQr5w9a
+ BxQYVplIcC2pAR1lJbHYlK9ZG5UNbhrsZdunZSjyOF2Es1vzUcYqCBoaZapcD7XE0pFt
+ JsWX8rkaeYhwtbSwTSMqUgS160A/HnX9CfR2rNqLTpaQckaxsGGG7VhTRHadcvkucgH/
+ LXtmABBJXq/1txgpEYNyvyFhmdSjsf8euZeDaDoyrBdnHoCU9gkYakEJqi4CPrlt36/e 2w== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 30b6hpk69e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 14 Apr 2020 08:59:43 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03E8v50K164561;
+        Tue, 14 Apr 2020 08:59:42 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 30cta9mtp4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 14 Apr 2020 08:59:42 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03E8xeg2025462;
+        Tue, 14 Apr 2020 08:59:40 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 14 Apr 2020 01:59:39 -0700
+Date:   Tue, 14 Apr 2020 11:59:22 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     Colin King <colin.king@canonical.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: mantis: remove redundant assignment to variable
+ err
+Message-ID: <20200414085922.GA1163@kadam>
+References: <20200410113913.14430-1-colin.king@canonical.com>
+ <CAAEAJfCQaCCoShLPTA+EWUhMXdF6bKAxcOCj2SR5nPXMmk7LQg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200404191846.GA20044@duo.ucw.cz>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAOpjT6gnyQpA6kxmqjfE+s0kn+FWY8uOLPLQ8MXzuHjYKzU6z2HfKptcPI+tvk97Uq6fVHNbRPhp5/2mPUBRJYvcFWzGuv/v26d7OPnwgpWM9k6uybj
- 97cHUFYJ4lZP/6xsc4SJAG6t4T3+ISq5xRdr/N4zh2yHz4siBgbFiTT/rIi6EhOcOahX+sYtuvya5Bj3O020xIsq4JPIamZeFKDMjtRAMy5nxcbJSCnm7z9P
- 80pOCqQB2v6KqCFZN4gzHOpcJwrYNlAzZVNRvIZlITM0aOGwCxJnz+W3S33heSO+YDz7VZSpYZNr06Q1iq0a/p4zyDyVQr/ytJdKmmd0OpDkVJtGbRzaSzEK
- 9jR9nB4/ynspMFYsh2qcnGfAZ+9xQ1oIhddNsbj3j4H9iyp/WlU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAEAJfCQaCCoShLPTA+EWUhMXdF6bKAxcOCj2SR5nPXMmk7LQg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9590 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ spamscore=0 adultscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004140075
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9590 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0
+ mlxlogscore=999 clxscore=1011 mlxscore=0 phishscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004140075
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pavel,
-
-On 04/04/2020 21:18, Pavel Machek wrote:
-> Hi!
+On Sat, Apr 11, 2020 at 07:53:51PM -0300, Ezequiel Garcia wrote:
+> There's a redundant err assignment right below here,
+> which you can also get rid of:
 > 
->>> ..but if I'm patient enough, it eventually starts working... somehow.
->>>
->>> Incoming data seems to go in reliably. Outgoing commands (such as
->>> change gain) don't seem to be unreliable.
->>>
->>> Any idea how to debug / what could be wrong?
->>
->> And I can force it to probe like this: which... makes it work, but
->> does not fix the outgoing commands.
->>
->> Any ideas?
+> -       err = mantis_frontend_power(mantis, POWER_ON);
+> +       mantis_frontend_power(mantis, POWER_ON);
+> 
+> I can't test this, but calling mantis_frontend_power twice
+> is possibly redundant.
 
-You're on your own, I'm afraid.
-
-I think I have one or two of these webcams, but they are in the Netherlands
-while I am in Norway, and I have no idea when I will be back.
-
-Frankly, I would recommend buying a uvc webcam rather than spending any time on
-these old crappy webcams.
-
-Regards,
-
-	Hans
+To me that code really looks like a hack-around for flakey hardware and
+I would be afraid to delete it.  But the "err =" could be removed.
 
 > 
-> (Adding people from module_authors to the list.)
-> 
->  								Pavel
->  
->> diff --git a/drivers/media/usb/gspca/sq930x.c b/drivers/media/usb/gspca/sq930x.c
->> index c3610247a90e..c9756c0a78df 100644
->> --- a/drivers/media/usb/gspca/sq930x.c
->> +++ b/drivers/media/usb/gspca/sq930x.c
->> @@ -7,6 +7,7 @@
->>   * Copyright (C) 2007 Sam Revitch <samr7@cs.washington.edu>
->>   */
->>  
->> +#define DEBUG
->>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->>  
->>  #define MODULE_NAME "sq930x"
->> @@ -446,7 +447,7 @@ static void reg_w(struct gspca_dev *gspca_dev, u16 value, u16 index)
->>  			USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
->>  			value, index, NULL, 0,
->>  			500);
->> -	msleep(30);
->> +	msleep(90);
->>  	if (ret < 0) {
->>  		pr_err("reg_w %04x %04x failed %d\n", value, index, ret);
->>  		gspca_dev->usb_err = ret;
->> @@ -635,19 +636,25 @@ static void cmos_probe(struct gspca_dev *gspca_dev)
->>  		SENSOR_MT9V111,
->>  	};
->>  
->> +	printk("CMOS Probing...\n");
->>  	for (i = 0; i < ARRAY_SIZE(probe_order); i++) {
->> +	  printk("Probing type %d...\n", i);
->> +	  
->>  		sensor = &sensor_tb[probe_order[i]];
->>  		ucbus_write(&sd->gspca_dev, sensor->cmd, sensor->cmd_len, 8);
->>  		gpio_init(sd, sensor->gpio);
->> -		msleep(100);
->> +		msleep(200);
->>  		reg_r(gspca_dev, (sensor->i2c_addr << 8) | 0x001c, 1);
->> -		msleep(100);
->> -		if (gspca_dev->usb_buf[0] != 0)
->> +		msleep(200);
->> +		if (gspca_dev->usb_buf[0] != 0) {
->> +		  printk("#### LUCKY! Have type %d\n", i);
->>  			break;
->> +		}
->>  	}
->>  	if (i >= ARRAY_SIZE(probe_order)) {
->> -		pr_err("Unknown sensor\n");
->> -		gspca_dev->usb_err = -EINVAL;
->> +		printk("Unknown sensor ... hmm?\n");
->> +		sd->sensor = probe_order[i-1];
->> +		//gspca_dev->usb_err = -EINVAL;
->>  		return;
->>  	}
->>  	sd->sensor = probe_order[i];
->>
->>
->> -- 
->> (english) http://www.livejournal.com/~pavelmachek
->> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
-> 
-> 
-> 
+> Also, what's the gain from this cleanup? The driver is super
+> old, and it seems any modern compiler would be oblivious
+> of the redundant assignment.
+
+Eventually we would like to enable that warning by default but there are
+still thousands of pointless assignments so it will take years of
+small fixes like this.  Generally cleaning up warnings is good.
+
+regards,
+dan carpenter
 
