@@ -2,108 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C371A78DA
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 12:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD0F1A7907
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 13:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438692AbgDNKzJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 06:55:09 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:53107 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438444AbgDNKfb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 06:35:31 -0400
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jOIue-0007vh-CD; Tue, 14 Apr 2020 12:35:28 +0200
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jOIud-00014C-OU; Tue, 14 Apr 2020 12:35:27 +0200
-Date:   Tue, 14 Apr 2020 12:35:27 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kernel@pengutronix.de
-Subject: Re: [PATCH] media: staging: allegro: fix broken registration of
- controls
-Message-ID: <20200414103527.GB4598@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de
-References: <20200319091630.6981-1-m.tretter@pengutronix.de>
+        id S2438876AbgDNLAK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 07:00:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38428 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2438846AbgDNLAH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Apr 2020 07:00:07 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6BE1F2072D;
+        Tue, 14 Apr 2020 11:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586862006;
+        bh=eC+5cRV6ipOWR8MeZlhnJO4MliXEMvFtGb/1ilRcW5w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WfuBd6RJU+LX8STj+rJ+7Q1cOpH2SdxyKlNq/dUM9AztLPJFyI+PvbTi1xLrXTFPB
+         eWTkl9C4Kx5Euq9xbtZGIeVzEvqFSRz9ENJgSvxC9GJ5vvkmluUc+kPe/VY2ZhPj8U
+         FV1ZebnRBAx0byOZJs4y9nm28+mJqSClB2uys7IQ=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jOJIS-005zbb-AA; Tue, 14 Apr 2020 13:00:04 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] media: docs: fix some broken references
+Date:   Tue, 14 Apr 2020 13:00:03 +0200
+Message-Id: <ec16d2ab4d0bb0344ae6aab74d642f813984b737.1586861981.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200319091630.6981-1-m.tretter@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:32:26 up 54 days, 18:02, 95 users,  load average: 0.09, 0.13,
- 0.15
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 10:16:30AM +0100, Michael Tretter wrote:
-> Since commit cc62c74749a3 ("media: allegro: add missed checks in
-> allegro_open()") the allegro device does provide v4l2 controls to user
-> space anymore. The reason is that v4l2_fh_init() initializes
-> fh->ctrl_handler to vdev->ctrl_handler, which invalidates the previous
-> driver override of the ctrl_handler.
-> 
-> Therefore, v4l2_fh_init() must be called before the driver overrides the
-> fh->ctrl_handler with its own handler.
-> 
-> Move the initialization of the fh back to the top, as the initialization
-> does not does not need to be reverted on errors, but it is enough to
-> free the channel.
+Some media files got moved. Update the corresponding
+references to the referenced files.
 
-Gentle ping.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/media/drivers/vimc-devel.rst | 4 ++--
+ MAINTAINERS                                           | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Michael
+diff --git a/Documentation/driver-api/media/drivers/vimc-devel.rst b/Documentation/driver-api/media/drivers/vimc-devel.rst
+index b2aa2ee79205..1584abba6ee0 100644
+--- a/Documentation/driver-api/media/drivers/vimc-devel.rst
++++ b/Documentation/driver-api/media/drivers/vimc-devel.rst
+@@ -9,7 +9,7 @@ Source code documentation
+ vimc-streamer
+ ~~~~~~~~~~~~~
+ 
+-.. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.h
++.. kernel-doc:: drivers/media/test_drivers/vimc/vimc-streamer.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.c
++.. kernel-doc:: drivers/media/test_drivers/vimc/vimc-streamer.c
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0cfd86594b0b..db9937643a6c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5125,7 +5125,7 @@ X:	Documentation/ABI/
+ X:	Documentation/devicetree/
+ X:	Documentation/firmware-guide/acpi/
+ X:	Documentation/i2c/
+-X:	Documentation/media/
++X:	Documentation/admin-guide/media/
+ X:	Documentation/userspace-api/media/
+ X:	Documentation/driver-api/media/
+ X:	Documentation/power/
+@@ -10609,7 +10609,7 @@ W:	https://linuxtv.org
+ Q:	http://patchwork.kernel.org/project/linux-media/list/
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/
+-F:	Documentation/media/
++X:	Documentation/admin-guide/media/
+ F:	Documentation/userspace-api/media/
+ F:	Documentation/driver-api/media/
+ F:	drivers/media/
+-- 
+2.25.2
 
-> 
-> Fixes: cc62c74749a3 ("media: allegro: add missed checks in allegro_open()")
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/staging/media/allegro-dvt/allegro-core.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-> index cb6bdabaaff3..761f2c7ff8e7 100644
-> --- a/drivers/staging/media/allegro-dvt/allegro-core.c
-> +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-> @@ -2467,6 +2467,8 @@ static int allegro_open(struct file *file)
->  	if (!channel)
->  		return -ENOMEM;
->  
-> +	v4l2_fh_init(&channel->fh, vdev);
-> +
->  	init_completion(&channel->completion);
->  	INIT_LIST_HEAD(&channel->source_shadow_list);
->  	INIT_LIST_HEAD(&channel->stream_shadow_list);
-> @@ -2588,7 +2590,6 @@ static int allegro_open(struct file *file)
->  		goto error;
->  	}
->  
-> -	v4l2_fh_init(&channel->fh, vdev);
->  	file->private_data = &channel->fh;
->  	v4l2_fh_add(&channel->fh);
->  
-> -- 
-> 2.20.1
-> 
-> 
