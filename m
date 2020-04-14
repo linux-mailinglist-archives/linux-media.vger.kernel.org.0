@@ -2,160 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5635F1A71DF
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 05:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3224A1A760A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 10:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404831AbgDNDgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 13 Apr 2020 23:36:06 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:35181 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728890AbgDNDgD (ORCPT
+        id S2436813AbgDNI2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 04:28:11 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:51605 "EHLO
+        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2436781AbgDNI2I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 13 Apr 2020 23:36:03 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id OCMgjcESClKa1OCMhjAHhK; Tue, 14 Apr 2020 05:35:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1586835359; bh=MfRixjYZ78bFRuEGFjookv5KO3sYOq1N6veVM0b6OYk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ujCwGnXE9c6icP9k/hp16EEL9jl4kAiAksj344Dp5MkLWnEfjRDkwqet9Zblsx6IO
-         9hqAJErdOYXTHsG8rnbZ7hJxfIJprA4PsRj/eh5rbEf5UNDPmxCgUJS7yoIN9Ew4Wv
-         mynro2LglH5flIcF0yxmrbJdt9b7g3CrTWEZNsgAB+KXs6+mTa86AvvnXZvURnM2A8
-         c5Wxn19Ux5WEKH1SbUA6PvNqLYMAO+7L7cBW4muiv6aqq7IXoxkA4yn3N6QGl61U/k
-         b0mtqjb3d5JW2rcodcyTtkueZy5t45JkrwxYIk3RdbQXKiWve8jRFIWryZBGmcBSkn
-         c3g2VAR9cQ8aA==
-Message-ID: <10ca73a06a7a7e442392c26b7084f7ce@smtp-cloud8.xs4all.net>
-Date:   Tue, 14 Apr 2020 05:35:58 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfFPS6/iIvi7jg1EWq6Di8QlrWRqcmH7GUvBJpOv9VNMH+6DHZ7lXJZ3pS8qkyRaMOwxZefQZ3/w4sH9kl4YLSGqg4q/C1YimRBJy76bipK6to9EP4NpL
- 6TbLqbOG/kjKYqBJRRtR+JFuDKM1zdn9BO4YezRQfxrGfPZtqHaLHjTMgD53TTmJVYztfhEp+seCwZMz01+rRmbrleGim8OapNPt2lJhOydG1I6OFLmoLTnK
+        Tue, 14 Apr 2020 04:28:08 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 63B26B34;
+        Tue, 14 Apr 2020 04:28:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 14 Apr 2020 04:28:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=JFPo3P/ogXd9mYgq1lTrnURkg3G
+        K316i1UBGh+ZNSj0=; b=Kq0iiCN6F5a0zhqu0NSJX7TiRC0KsxldKcBvWwnD4ja
+        bjT4AfoFrBGrwu87abBZls5MSTr0iaQ/44rxNgGfwCloGBTfXCWsiFvdl76cBrs3
+        N9VdKftdIJAdnmWc44flznOqmpPdO1WCOXOsF5WbVufrZyeOph1omTZSVH74s4JI
+        0RUAW0duLxDrvyWt25/iBT3G8ncETrdn6E21fczt8QsC0uQg/Tb2Uz5x5TP/823Q
+        J4k20iLE3qCoL2X+oEfM5hA4K6Z+zFO6l5Cl4p8gK1wYscKbiy12gTRMg6EfpXTS
+        fLkCVV9IayvKVkXd6JTZaBMVw68MU7eF971G+z3U+5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JFPo3P
+        /ogXd9mYgq1lTrnURkg3GK316i1UBGh+ZNSj0=; b=PBCjk96VAiWJqcoEPe+SJY
+        yWF2SnRjOjUhIn0QW60Gxvdx3cyoHKHlfabFxEgsstDkaxge40CqubetqzyUMV2n
+        zrrhBN9GuOdhXDI2pl+GggBP5U5HM3jQeQXeIzI6aKUJhTL4vPuwAGS++Hn9rCDS
+        jCX00GG09VnnybEQu6gVbQtVa3XhDBi2pbiOxhT9gFA8gP4Azew8Gcs6V11Kumg4
+        t46jMimiIySax2JtTtf6jfzAAMrHiqB5FS0XsKnFjZGL/ILvK2r/GLJAJcbmjRQ3
+        cj0DHlGXiPTLvpZl7/MpFINnUjIRLIPCldx0XxDo03mGyK+TU5B6+J9ro3+XVemQ
+        ==
+X-ME-Sender: <xms:FXSVXnuBmWR3eYET2Z9MgBfz__Q8mjY6mWJBakKIjV3kw_3KRWJ3IA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfedugddtgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
+    epuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehl
+    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvse
+    gtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:FXSVXsuYOWilsWshQSQEN5IXz0MgYBQHF47jhckdIVoQfARkluILjg>
+    <xmx:FXSVXlxdm8ZSD4qpDGkve2dzNh7DAs3FJ9VbHcQGewsFcbVZRXSUUg>
+    <xmx:FXSVXqhx1g03UCsS6Bd61q5jcCDNcm4wTyaTWOcOCVqTiwBFlvYWOA>
+    <xmx:FnSVXq0lretqr5VzwkTBOofhco5UnEPTdf_ucnMw7OuzPCv4yzm7kQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0B547328005E;
+        Tue, 14 Apr 2020 04:28:04 -0400 (EDT)
+Date:   Tue, 14 Apr 2020 10:28:03 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        dri-devel@lists.freedesktop.org,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 1/4] dt-bindings: display: convert atmel-hlcdc to DT
+ Schema
+Message-ID: <20200414082803.exblunwe7bufbiht@gilmour.lan>
+References: <20200412182012.27515-1-sam@ravnborg.org>
+ <20200412182012.27515-2-sam@ravnborg.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jmsbjzfjeb57pove"
+Content-Disposition: inline
+In-Reply-To: <20200412182012.27515-2-sam@ravnborg.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
+--jmsbjzfjeb57pove
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-date:			Tue Apr 14 05:00:08 CEST 2020
-media-tree git hash:	2632e7b618a7730969f9782593c29ca53553aa22
-media_build git hash:	5e1b2e9e12ffa812f69a15a56786f3e41277bfba
-v4l-utils git hash:	8b7e6ce9367fe09ca9398b5f3cc75bba2598b162
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: cbd8bfbab9e84c54e1f1dcf8c172c400a10126df
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+Hi Sam,
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: ERRORS
-linux-5.7-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+On Sun, Apr 12, 2020 at 08:20:09PM +0200, Sam Ravnborg wrote:
+> diff --git a/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml b/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml
+> new file mode 100644
+> index 000000000000..7eb6266a25a2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml
+> @@ -0,0 +1,102 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/atmel/hlcdc-dc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Atmel HLCDC (High LCD Controller) display controller
+> +
+> +maintainers:
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +  - Boris Brezillon <bbrezillon@kernel.org>
+> +
+> +description: |
+> +  The Atmel HLCDC Display Controller is subdevice of the HLCDC MFD device.
+> +  See ../../mfd/atmel-hlcdc.yaml for more details.
+> +
+> +properties:
+> +  compatible:
+> +    const: atmel,hlcdc-display-controller
+> +
+> +  "#address-cells":
+> +    const: 1
+> +  "#size-cells":
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +patternProperties:
+> +  "^port@[0-9]$":
+> +    type: object
+> +    description: |
+> +      A port node with endpoint definitions as defined in
+> +      ../../media/video-interfaces.txt
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      reg:
+> +        maxItems: 1
+> +        description: The virtual number of the port
+> +
+> +    patternProperties:
+> +      "^endpoint(@[0-9])$":
 
-Logs weren't copied as they are too large (1372 kB)
+I guess you meant ^endpoint(@[0-9])?$ instead?
 
-The Media Infrastructure API from this daily build is here:
+> +        type: object
+> +
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +            description: The virtual number of the endpoint
+> +
+> +          bus-width:
+> +            enum: [12, 16, 18, 24]
+> +            description:
+> +              Any endpoint node may specify a desired video interface
+> +              according to ../../media/video-interfaces.txt, specifically
+> +              Recognized values are <12>, <16>, <18> and <24>, and
+> +              override any output mode selection heuristic, forcing
+> +              "rgb444", "rgb565", "rgb666" and "rgb888" respectively.
+> +
+> +          remote-endpoint:
+> +            $ref: /schemas/types.yaml#/definitions/phandle
+> +            description:
+> +              phandle to the panel node
+> +
+> +        required:
+> +          - reg
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+And if so, reg depends on whether the unit-address is set or not, so
+you can't really enforce that.
+
+> diff --git a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.yaml b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.yaml
+> new file mode 100644
+> index 000000000000..cad14fa173a1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.yaml
+> @@ -0,0 +1,78 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/atmel-hlcdc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Device-Tree bindings for Atmel's HLCDC (High LCD Controller)
+> +
+> +maintainers:
+> +  - Sam Ravnborg <sam@ravnborg.org>
+> +  - Boris Brezillon <bbrezillon@kernel.org>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - atmel,at91sam9n12-hlcdc
+> +      - atmel,at91sam9x5-hlcdc
+> +      - atmel,sama5d2-hlcdc
+> +      - atmel,sama5d3-hlcdc
+> +      - atmel,sama5d4-hlcdc
+> +      - microchip,sam9x60-hlcdc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+
+Having descirptions of what those clocks are would be nice.
+
+> +  clock-names:
+> +    maxItems: 3
+> +    items:
+> +      - const: periph_clk
+> +      - const: sys_clk
+> +      - const: slow_clk
+> +
+> +  interrupts:
+> +    description: The HLCDC interrupt line
+> +    maxItems: 1
+> +
+> +  hlcdc_pwm:
+> +    type: object
+> +    description: |
+> +      PWM controller - used for backlight.
+> +      See ../pwm/atmel-hlcdc-pwm.yaml for details
+> +
+> +  hlcdc-display-controller:
+> +    type: object
+> +    description: |
+> +      LCD display controller
+> +      See ../display/atmel/hlcdc-dc.yaml for details
+
+I guess you could include those two schemas to make sure that it's
+valid? Otherwise, if you have an hlcdc-display-controller (or pwm)
+node without a compatible, it will not be checked here, and will not
+be checked by the hlcdc-dc.yaml schemas either since it matches on the
+compatible.
+
+Maxime
+
+--jmsbjzfjeb57pove
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpV0EwAKCRDj7w1vZxhR
+xdwLAQC4by4PgosznV+p4IdHObNQzfxqPCjqjhyEcpaRB6WTDQEA4IURhU5p2H7t
+kBc5B8X3W23gG4cKdAEc7QBEdFBZcA0=
+=9LzM
+-----END PGP SIGNATURE-----
+
+--jmsbjzfjeb57pove--
