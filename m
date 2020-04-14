@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A394F1A768D
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 10:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B8F21A768B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 10:51:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437132AbgDNIvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 04:51:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52240 "EHLO mail.kernel.org"
+        id S2437129AbgDNIve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 04:51:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437050AbgDNIvN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 04:51:13 -0400
+        id S2437090AbgDNIvQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 14 Apr 2020 04:51:16 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 22BD421582;
+        by mail.kernel.org (Postfix) with ESMTPSA id 34D5D2166E;
         Tue, 14 Apr 2020 08:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586854269;
-        bh=o2G3asvWsLABYQWZAtTrFIi+u6SVnR8zFgKNqXemdRk=;
+        bh=hGIYZuo1/EwFQnPQkALnB47QjS1z9Wht6he665ef13Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pfYQyZt9+qkxhV+Om/10PqNVu6gmfN+aDIooOwvi6bA+wW8J5r5HHOgITLBPVmIlt
-         vkT56cb/0MN48OXwnL8zkOQ4YkxRvacC8W5naJxikV9myPYWUZI8yeWmYWBBzrNvM+
-         Awxk0Dl/BzIiSlbn0ZiBuAJy9nt38HvtSKxVUAh0=
+        b=kq4q7Z28x5Rv5aLYIlNOBA1O3ZYeqCfonI45aMp9ZJdTnABHHqn/t6WrOGAAapzso
+         FFLPv/CJVF9EJE6sjDtV2h0pcUwy1c7O9P/95SES0jLRxU7n7RDiFnvMFbCu4T80iK
+         MurgkEQRhDPuxO6uhKwgpCSrq5v5gzSoGD7iw7l0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOHHf-002wzk-D8; Tue, 14 Apr 2020 10:51:07 +0200
+        id 1jOHHf-002wzp-EY; Tue, 14 Apr 2020 10:51:07 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 13/19] media: docs: get rid of obsoleted udev documentation
-Date:   Tue, 14 Apr 2020 10:50:59 +0200
-Message-Id: <c73f1a6e87bd9b6e7c7df839a367cf81715be547.1586854191.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH 14/19] media: docs: Add a master topic for the index file
+Date:   Tue, 14 Apr 2020 10:51:00 +0200
+Message-Id: <eb1b789365a5469915a6441d0f1dac320fb7919d.1586854191.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586854191.git.mchehab+huawei@kernel.org>
 References: <cover.1586854191.git.mchehab+huawei@kernel.org>
@@ -43,118 +42,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This file is very old, and doesn't match the current udev
-behavior.
+Right now, both V4L and Digital TV are shown as main titles.
 
-I wanted to preserve it, because we'll need some udev
-description some day about how to keep names unique,
-but there's nothing here to help with that...
+Instead, add a main title, in order to better display its
+output.
 
-So, be it: let's just discard this document, as it doesn't
-provide anything useful anymore.
+While here, simplify the file, as we don't need to add
+a title for the indexes, nor we need copyright info, as
+everything there is GPL, as stated by the SPDX tags.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/bt8xx.rst |  2 -
- Documentation/admin-guide/media/index.rst |  1 -
- Documentation/admin-guide/media/udev.rst  | 63 -----------------------
- 3 files changed, 66 deletions(-)
- delete mode 100644 Documentation/admin-guide/media/udev.rst
+ .../driver-api/media/drivers/index.rst        | 37 ++++---------------
+ 1 file changed, 7 insertions(+), 30 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/bt8xx.rst b/Documentation/admin-guide/media/bt8xx.rst
-index 707919f29c86..a55f4f5af042 100644
---- a/Documentation/admin-guide/media/bt8xx.rst
-+++ b/Documentation/admin-guide/media/bt8xx.rst
-@@ -74,8 +74,6 @@ Exceptions are:
- - Old TwinHan DST cards or clones with or without CA slot and not
-   containing an Eeprom.
+diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+index aafff51f7e0e..0df85fc96605 100644
+--- a/Documentation/driver-api/media/drivers/index.rst
++++ b/Documentation/driver-api/media/drivers/index.rst
+@@ -2,15 +2,12 @@
  
--People running udev please see :doc:`udev`.
--
- In the following cases overriding the PCI type detection for bttv and
- for dvb-bt8xx drivers by passing modprobe parameters may be necessary.
+ .. include:: <isonum.txt>
  
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index 11d01d681b57..04bc259f3325 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -84,7 +84,6 @@ Linux Digital TV driver-specific documentation
- 	opera-firmware
- 	technisat
- 	ttusb-dec
--	udev
- 	zr364xx
+-################################################
+-Video4Linux (V4L)  driver-specific documentation
+-################################################
++===================================
++Media driver-specific documentation
++===================================
  
- #################################
-diff --git a/Documentation/admin-guide/media/udev.rst b/Documentation/admin-guide/media/udev.rst
-deleted file mode 100644
-index ca6c9c226902..000000000000
---- a/Documentation/admin-guide/media/udev.rst
-+++ /dev/null
-@@ -1,63 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
+-.. only:: html
 -
--UDEV rules for DVB
--==================
+-    .. class:: toc-title
 -
--.. note::
+-        Table of Contents
++Video4Linux (V4L) drivers
++=========================
+ 
+ .. toctree::
+ 	:maxdepth: 5
+@@ -30,28 +27,8 @@ Video4Linux (V4L)  driver-specific documentation
+ 	vimc-devel
+ 
+ 
+-##############################################
+-Linux Digital TV driver-specific documentation
+-##############################################
 -
--   #) This documentation is outdated. Udev on modern distributions auto-detect
--      the DVB devices.
+-**Copyright** |copy| 2001-2016 : LinuxTV Developers
 -
--   #) **TODO:** change this document to explain how to make DVB devices
--      persistent, as, when a machine has multiple devices, they may be detected
--      on different orders, which could cause apps that relies on the device
--      numbers to fail.
+-This documentation is free software; you can redistribute it and/or modify it
+-under the terms of the GNU General Public License as published by the Free
+-Software Foundation version 2 of the License.
 -
--The DVB subsystem currently registers to the sysfs subsystem using the
--"class_simple" interface.
+-This program is distributed in the hope that it will be useful, but WITHOUT
+-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+-FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+-more details.
 -
--This means that only the basic information like module loading parameters
--are presented through sysfs. Other things that might be interesting are
--currently **not** available.
+-For more details see the file COPYING in the source distribution of Linux.
 -
--Nevertheless it's now possible to add proper udev rules so that the
--DVB device nodes are created automatically.
+-.. only:: html
 -
--We assume that you have udev already up and running and that have been
--creating the DVB device nodes manually up to now due to the missing sysfs
--support.
+-   .. class:: toc-title
 -
--0. Don't forget to disable your current method of creating the
--device nodes manually.
--
--1. Unfortunately, you'll need a helper script to transform the kernel
--sysfs device name into the well known dvb adapter / device naming scheme.
--The script should be called "dvb.sh" and should be placed into a script
--dir where udev can execute it, most likely /etc/udev/scripts/
--
--So, create a new file /etc/udev/scripts/dvb.sh and add the following:
--
--.. code-block:: none
--
--	#!/bin/sh
--	/bin/echo $1 | /bin/sed -e 's,dvb\([0-9]\)\.\([^0-9]*\)\([0-9]\),dvb/adapter\1/\2\3,'
--
--Don't forget to make the script executable with "chmod".
--
--1. You need to create a proper udev rule that will create the device nodes
--like you know them. All real distributions out there scan the /etc/udev/rules.d
--directory for rule files. The main udev configuration file /etc/udev/udev.conf
--will tell you the directory where the rules are, most likely it's /etc/udev/rules.d/
--
--Create a new rule file in that directory called "dvb.rule" and add the following line:
--
--.. code-block:: none
--
--	KERNEL="dvb*", PROGRAM="/etc/udev/scripts/dvb.sh %k", NAME="%c"
--
--If you want more control over the device nodes (for example a special group membership)
--have a look at "man udev".
--
--For every device that registers to the sysfs subsystem with a "dvb" prefix,
--the helper script /etc/udev/scripts/dvb.sh is invoked, which will then
--create the proper device node in your /dev/ directory.
+-	Table of Contents
++Digital TV drivers
++==================
+ 
+ .. toctree::
+ 	:maxdepth: 5
 -- 
 2.25.2
 
