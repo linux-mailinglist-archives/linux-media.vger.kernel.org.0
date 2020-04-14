@@ -2,119 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEB991A7719
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 11:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F241F1A7782
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 11:41:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437479AbgDNJML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 05:12:11 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39743 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437448AbgDNJME (ORCPT
+        id S2437708AbgDNJlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 05:41:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58090 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728305AbgDNJlF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 05:12:04 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1jOHbr-0004gm-E5; Tue, 14 Apr 2020 09:11:59 +0000
-Subject: Re: [PATCH] media: mantis: remove redundant assignment to variable
- err
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200410113913.14430-1-colin.king@canonical.com>
- <CAAEAJfCQaCCoShLPTA+EWUhMXdF6bKAxcOCj2SR5nPXMmk7LQg@mail.gmail.com>
- <20200414085922.GA1163@kadam>
-From:   Colin Ian King <colin.king@canonical.com>
-Autocrypt: addr=colin.king@canonical.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <de5e07e8-0bc7-efc5-b9cd-c0b26d9f707e@canonical.com>
-Date:   Tue, 14 Apr 2020 10:11:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 14 Apr 2020 05:41:05 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBF3D521;
+        Tue, 14 Apr 2020 11:41:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586857261;
+        bh=miBq+nuQ2bp5VTKqnb5O2c5bKi12qjGE9ER5O2SK+kY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ODVdxWPWWD2VoTmR0JVZEaDJk68UT+zY3kEFg7LgZQTTMHfHztPdo76t+uqIMoNDJ
+         2ogqF+y+BIdEyXkyHfObz2gk/ndlETLd9whBHhFTzRK0ENqe139eFgPVGMZZKcZ6LC
+         N6tkg+z5Wu2dSKqnllWEIf9wWg2GrKrTMypDfTE0=
+Date:   Tue, 14 Apr 2020 12:40:49 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <20200414094049.GE19819@pendragon.ideasonboard.com>
+References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200413202351.1359754-4-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-In-Reply-To: <20200414085922.GA1163@kadam>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200413202351.1359754-4-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/04/2020 09:59, Dan Carpenter wrote:
-> On Sat, Apr 11, 2020 at 07:53:51PM -0300, Ezequiel Garcia wrote:
->> There's a redundant err assignment right below here,
->> which you can also get rid of:
->>
->> -       err = mantis_frontend_power(mantis, POWER_ON);
->> +       mantis_frontend_power(mantis, POWER_ON);
->>
->> I can't test this, but calling mantis_frontend_power twice
->> is possibly redundant.
-> 
-> To me that code really looks like a hack-around for flakey hardware and
-> I would be afraid to delete it.  But the "err =" could be removed.
-> 
->>
->> Also, what's the gain from this cleanup? The driver is super
->> old, and it seems any modern compiler would be oblivious
->> of the redundant assignment.
-> 
-> Eventually we would like to enable that warning by default but there are
-> still thousands of pointless assignments so it will take years of
-> small fixes like this.  Generally cleaning up warnings is good.
+Hi Niklas,
 
-They are indeed trivial fixes but can allow us to later find real
-unassigned variable bugs in the future when new code gets added and does
-not set these variables.
-
-Colin
+On Mon, Apr 13, 2020 at 10:23:48PM +0200, Niklas Söderlund wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> regards,
-> dan carpenter
+> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> node. For MC-centric devices, its behaviour has always been ill-defined,
+> with drivers implementing one of the following behaviours:
 > 
+> - No support for VIDIOC_ENUM_FMT at all
+> - Enumerating all formats supported by the video node, regardless of the
+>   configuration of the pipeline
+> - Enumerating formats supported by the video node for the active
+>   configuration of the connected subdevice
+> 
+> The first behaviour is obviously useless for applications. The second
+> behaviour provides the most information, but doesn't offer a way to find
+> what formats are compatible with a given pipeline configuration. The
+> third behaviour fixes that, but with the drawback that applications
+> can't enumerate all supported formats anymore, and have to modify the
+> active configuration of the pipeline to enumerate formats.
+> 
+> The situation is messy as none of the implemented behaviours are ideal,
+> and userspace can't predict what will happen as the behaviour is
+> driver-specific.
+> 
+> To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
+> enumerating pixel formats for a given media bus code. The media bus code
+> is passed through the v4l2_fmtdesc structure in a new mbus_code field
+> (repurposed from the reserved fields). With this capability in place,
+> applications can enumerate pixel formats for a given media bus code
+> without modifying the active configuration of the device.
+> 
+> The current behaviour of the ioctl is preserved when the new mbus_code
+> field is set to 0, ensuring compatibility with existing userspace. The
+> API extension is documented as mandatory for MC-centric devices (as
+> advertised through the V4L2_CAP_IO_MC capability), allowing applications
+> and compliance tools to easily determine the availability of the
+> VIDIOC_ENUM_FMT extension.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+Should this carry a tag from you ? :-)
+
+> ---
+>  .../media/uapi/v4l/vidioc-enum-fmt.rst          | 17 ++++++++++++++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c            | 13 +++++++++++--
+>  include/uapi/linux/videodev2.h                  |  3 ++-
+>  3 files changed, 27 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> index 8ca6ab701e4ab99c..82792d8e910b2313 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+>  formats in preference order, where preferred formats are returned before
+>  (that is, with lower ``index`` value) less-preferred formats.
+>  
+> -.. note::
+> +If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
+> +:ref:`device-capabilities <capability>`, applications shall initialize the
+> +``mbus_code`` field to zero. Drivers shall enumerate all image formats supported
+> +by the device. The enumerated formats may depend on the active input or output
+> +of the device.
+>  
+> -   After switching input or output the list of enumerated image
+> -   formats may be different.
+> +If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`device-capabilities
+> +<capability>`, applications may initialize the ``mbus_code`` to a valid
+> +:ref:`v4l2_mbus_pixelcode <media bus format code>`. If the ``mbus_code` field
+> +is not zero, drivers shall restrict enumeration to only the image formats that
+> +can produce (for video output devices) or be produced from (for video capture
+> +devices) that media bus code. Regardless of the value of the ``mbus_code``
+> +field, the enumerated image formats shall not depend on the active
+> +configuration of the video device or device pipeline. Enumeration shall
+> +otherwise operate as previously described.
+>  
+>  
+>  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index afd1f427df557f71..3e7b99fa415222c6 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_fmtdesc *p = arg;
+>  
+> -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
+> +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
+>  		p->index, prt_names(p->type, v4l2_type_names),
+>  		p->flags, (p->pixelformat & 0xff),
+>  		(p->pixelformat >>  8) & 0xff,
+>  		(p->pixelformat >> 16) & 0xff,
+>  		(p->pixelformat >> 24) & 0xff,
+> +		p->mbus_code,
+>  		(int)sizeof(p->description), p->description);
+>  }
+>  
+> @@ -1472,12 +1473,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vdev = video_devdata(file);
+>  	struct v4l2_fmtdesc *p = arg;
+>  	int ret = check_fmt(file, p->type);
+> +	u32 mbus_code;
+>  	u32 cap_mask;
+>  
+>  	if (ret)
+>  		return ret;
+>  	ret = -EINVAL;
+>  
+> +	if (p->mbus_code && !(vdev->device_caps & V4L2_CAP_IO_MC))
+> +		return -EINVAL;
+> +
+> +	mbus_code = p->mbus_code;
+> +	CLEAR_AFTER_FIELD(p, type);
+> +	p->mbus_code = mbus_code;
+> +
+>  	switch (p->type) {
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> @@ -2757,7 +2766,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
+>  
+>  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
+> -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
+> +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
+>  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
+>  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index b18f3f7cde31c2e4..c3a1cf1c507f5506 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -784,7 +784,8 @@ struct v4l2_fmtdesc {
+>  	__u32               flags;
+>  	__u8		    description[32];   /* Description string */
+>  	__u32		    pixelformat;       /* Format fourcc      */
+> -	__u32		    reserved[4];
+> +	__u32		    mbus_code;		/* Media bus code    */
+> +	__u32		    reserved[3];
+>  };
+>  
+>  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
+
+-- 
+Regards,
+
+Laurent Pinchart
