@@ -2,72 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE7BF1A8815
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 19:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A4441A889E
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 20:08:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503131AbgDNR55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 13:57:57 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:37937 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729303AbgDNR5v (ORCPT
+        id S2503418AbgDNSIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 14:08:30 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33849 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2503393AbgDNSIZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 13:57:51 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k21so563070otl.5;
-        Tue, 14 Apr 2020 10:57:49 -0700 (PDT)
+        Tue, 14 Apr 2020 14:08:25 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m2so643574otr.1;
+        Tue, 14 Apr 2020 11:08:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=95VCjMOD5kZUDCbtdtoW55r/KZ/BquQ8J6EOvdKzoX8=;
-        b=TW3epxHe1A7V+NAwpfjbhvuQ4RwI/qOiYt8C7AEngbDzy+OUeucFNMOcaHW1tzwaD7
-         SmEuMVMJBTeU3blOahpUSgsMse1UpFeoP4dTkNI0egYSu7xKUvX4hLgXcvhiRSv61uC1
-         GxYKTAUyeFbe3pzMGtfmyZzJ3Zc4qWwV9P8AbXUyrNUTgrYg8yUb7A5Mw8/KrRZwMTBa
-         Su8knejVWaU6nQnKWZ5mYgbqLuLYCI7QFb4leFS9TAsE4SRsLezJxbing/W+U85vmsZX
-         FDot6+3ASszykgizaXJh0nc4zkPhzjX8/T0FpeP6LKsuicah5JQ1uDYEYvT/o3jwHYg+
-         XGkg==
-X-Gm-Message-State: AGi0PuY5u39K8OafC62cPNXULPLb22hLT5uCXG6Fz88+QDY4zAMX5Kv/
-        NtEj66kwG9a611PXdDWi8Y/GLi4=
-X-Google-Smtp-Source: APiQypKJ4nZqqd6f5jP2/fMwhxkt0Fg4V0MlsSFXXJmYhrshh6EmPivMonFEUEoKGk7x2cMHELuiKg==
-X-Received: by 2002:a9d:d0f:: with SMTP id 15mr20284590oti.161.1586887069125;
-        Tue, 14 Apr 2020 10:57:49 -0700 (PDT)
+        bh=aH6/bJSeqki/Vi5JpbdIfubPaLu43WdUQzhVPta/M28=;
+        b=taxHxQv0JhxLp/Zu6zCbrupHAGHPBncl1jdK3oj3sIqBS8FT/zORUZFYPl10tL1is/
+         iILEE0vTYGA5+SDiZMiMcXZA0QFhkd4RM3As0SuJJvnZ+C29K+Wr9Ep7vIkkkzqH3TWL
+         N5zsXsgVCzyTi6zoEkn3J9qb8ACVzlKaevzbg043Mt+aJB7YM9rT1gBrHQkWDl5OapnG
+         igg/5qBk6GpY7pmOG8p7jsjoYH4CTK64hbfYtb+s4GWExco8YGIu2dTbN1dl0ACGJGok
+         Ldfixzs5vlX3CW2o1wj3+rUPtGnq+GE0Urmu7pMI3CpwO+myAlFKATj59OmIxO+kX9pA
+         itfA==
+X-Gm-Message-State: AGi0PuaYO9ROsXMgEIziXPr4wibrzr5+8LFz86hsno+EY7B2wkN7otta
+        KJANUq5rig/nRJBfTLXifA==
+X-Google-Smtp-Source: APiQypKhRc4T3Riyr7q0PMZ9dtddK4y6BcSReW/3d5i8PAegHYWIM3ilgiExMX1m/wo3haK89CSjYg==
+X-Received: by 2002:a4a:be89:: with SMTP id o9mr13224323oop.20.1586887704452;
+        Tue, 14 Apr 2020 11:08:24 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t20sm2431322ott.51.2020.04.14.10.57.47
+        by smtp.gmail.com with ESMTPSA id 62sm5490196oty.73.2020.04.14.11.08.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 10:57:48 -0700 (PDT)
-Received: (nullmailer pid 30689 invoked by uid 1000);
-        Tue, 14 Apr 2020 17:57:47 -0000
-Date:   Tue, 14 Apr 2020 12:57:47 -0500
+        Tue, 14 Apr 2020 11:08:23 -0700 (PDT)
+Received: (nullmailer pid 31612 invoked by uid 1000);
+        Tue, 14 Apr 2020 18:08:22 -0000
+Date:   Tue, 14 Apr 2020 13:08:22 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     jacob-chen@iotwrt.com, ezequiel@collabora.com, mchehab@kernel.org,
-        robh+dt@kernel.org, heiko@sntech.de, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dt-bindings: media: rockchip-rga: add
- power-domains property
-Message-ID: <20200414175747.GA30642@bogus>
-References: <20200403130607.6138-1-jbx6244@gmail.com>
- <20200403130607.6138-2-jbx6244@gmail.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, robh+dt@kernel.org, heiko@sntech.de,
+        hverkuil-cisco@xs4all.nl, kernel@collabora.com,
+        dafna.hirschfeld@collabora.com, ezequiel@collabora.com,
+        mark.rutland@arm.com, karthik.poduval@gmail.com, jbx6244@gmail.com,
+        kishon@ti.com
+Subject: Re: [PATCH v2 5/9] dt-bindings: phy: phy-rockchip-dphy-rx0: move
+ rockchip dphy rx0 bindings out of staging
+Message-ID: <20200414180822.GA31542@bogus>
+References: <20200403161538.1375908-1-helen.koike@collabora.com>
+ <20200403161538.1375908-6-helen.koike@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200403130607.6138-2-jbx6244@gmail.com>
+In-Reply-To: <20200403161538.1375908-6-helen.koike@collabora.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri,  3 Apr 2020 15:06:07 +0200, Johan Jonker wrote:
-> In the old txt situation we add/describe only properties that are used
-> by the driver/hardware itself. With yaml it also filters things in a
-> node that are used by other drivers like 'power-domains' for rk3399,
-> so add it to 'rockchip-rga.yaml'.
+On Fri,  3 Apr 2020 13:15:34 -0300, Helen Koike wrote:
+> Move phy-rockchip-dphy-rx0 bindings to Documentation/devicetree/bindings/phy
 > 
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> Verified with:
+> make ARCH=arm64 dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+> 
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
 > ---
->  Documentation/devicetree/bindings/media/rockchip-rga.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+> 
+> V2:
+> - no changes
+> 
+>  .../devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml           | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename {drivers/staging/media/phy-rockchip-dphy-rx0/Documentation => Documentation}/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml (100%)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
