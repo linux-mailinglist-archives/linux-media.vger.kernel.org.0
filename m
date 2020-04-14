@@ -2,121 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77BA41A8B1F
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 21:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BCAC1A8B3C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 21:42:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505045AbgDNTkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 15:40:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2505032AbgDNTjv (ORCPT
+        id S2505073AbgDNTlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 15:41:00 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41189 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2505065AbgDNTk5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 15:39:51 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF0F7C061A10
-        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2020 12:39:50 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 131so697674lfh.11
-        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2020 12:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qRs5i4iVAKA4TTRujU3GhWk99mVzfuZXxL+8IzLaq00=;
-        b=HP4M9PaOeDZ5Rjcv9V2eDLSMU9Szdx7xY7b2n7tP7awEgqgz0TeBMaAZDXXw5N1MV+
-         hmsV+bZUVJAXt+2gd5lV3+jiG1SW/bbEl8TzRqf68raINWJVdyvtFGThXpgC1p+Ltyi6
-         +AGpE1Kkqct7VoUWSG4Rjk/ONitbFKHLBgHZWdvSsGFi1YJGExzK/gw1EdWCBhndMWOq
-         6Av4TdtSr5NKtYFuVm9faWi3WZvh+7DgA3PKD69Q+cCA1sK5hkmUX9B2UlcO4NlSXFaq
-         C8FyPMiO21Q+jGqFKDOZ6Gc0IJJX9toSqlxac4rzoxD2aMEiiincaZUqKyinoWN+Mycy
-         Y88Q==
+        Tue, 14 Apr 2020 15:40:57 -0400
+Received: by mail-ot1-f67.google.com with SMTP id f52so914914otf.8;
+        Tue, 14 Apr 2020 12:40:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qRs5i4iVAKA4TTRujU3GhWk99mVzfuZXxL+8IzLaq00=;
-        b=lAd339uVW9TPt7Bhcv3IKGpsbIojWF4DXc7LrIRq/6AZh2iDSkmZGIru0mEpeW4uvY
-         exRFTRe3L1AJ0DclrHhQap5O7El4ZbBjrXWeuSSlL+ECJ0prjJvCJ5Tw6nyfLNTRZJr0
-         eNfMf0xljV0sGyrlvzg+QGnXZITikNXnweTzokpW4lwwFowW/ErhB6zYJpDW5G9lnrX7
-         ofXl01+9n9xoQPovfoXHC8ovoUxKfxNfpA3kkRA9FU0FCifWTMG/nspTNTxhyOBKfoxn
-         4tu+QHcsnWvXJXOIF4nJO9KQcGTPt5p8mNbT1IkJ9g3PvbnbcH73N74aRMnSkolEobrz
-         4bZg==
-X-Gm-Message-State: AGi0PuZIvhOLz29U8d5UurmY/ijZVUIfwEos0tGdXfLJX+I9YmuVb6dB
-        mkLBB+eyAMvQ+S3puoA8IJOHXQ==
-X-Google-Smtp-Source: APiQypI+s5n9rB+qwjmjZHIypmy+J644bf/a7w1c+pOeelNxSUe1AtB3mEv6uQTT+cLbbQwbQY9Crg==
-X-Received: by 2002:a19:6b03:: with SMTP id d3mr798341lfa.209.1586893189426;
-        Tue, 14 Apr 2020 12:39:49 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 6sm10989254lfy.97.2020.04.14.12.39.48
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rA3IETH0xgn8ebwBJlBRbndhRKsHnPU2NvYNY3hNsKA=;
+        b=nZFluG9hEo7sfn8b+ldOOvfj2fhe2WTx3SjvcYS5A0qWJYOytQr42p7WhgMn3avC9m
+         WNXL4dLpQ+MBgjC1tSOVwQ29ntDd1nssIuN4CZHlbazbyaqtirEv6nSpnPDVun9I7j0B
+         qJ9WnJNr7iMIjLjoYF3I8Fcdjl1PmBnCDux0UuUWlcJrXG6XRJnjpq8jJOiscx40iFYj
+         FSw9XmwfuXuylYgpe/CpS1UGMMNfbZWLSLsZNu+SPlHtfHDbl+l1fgM46rb8gdru8a26
+         d6up8Z+KGDPHnk93sXSudBYw5qN+4HB73E+4OCaauP+DaD4gG5P7kS3vgm+2YEG8ph3N
+         P8MA==
+X-Gm-Message-State: AGi0PuZWr3MwdPckGVjBM4JAEfXZMgMVFIAzK1AiXljfIoqDyL45WHFd
+        RCSM2elKrR03/kgjMzU0uA==
+X-Google-Smtp-Source: APiQypLI/AKUFg7kJsQaGhZnEKT2eudBr8nOypqMfZWA4MgD+9PzQn1dP3iPfKOpVxnuDsfLnEXp4g==
+X-Received: by 2002:a9d:24a4:: with SMTP id z33mr18571236ota.326.1586893255888;
+        Tue, 14 Apr 2020 12:40:55 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id h14sm2044908oov.11.2020.04.14.12.40.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 12:39:48 -0700 (PDT)
-Date:   Tue, 14 Apr 2020 21:39:48 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/3] media: rcar-vin: Add support for
- MEDIA_BUS_FMT_SRGGB8_1X8 format
-Message-ID: <20200414193948.GA350588@oden.dyn.berto.se>
-References: <1583838364-12932-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200310124605.GO2975348@oden.dyn.berto.se>
- <OSBPR01MB35905FFB621C2F4222692832AAFF0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <20200310140625.GA88560@oden.dyn.berto.se>
- <CA+V-a8vsYGdx6AtgqwS0LXREn4hu-EjVh2D5Dp_rHmpazBYG5A@mail.gmail.com>
- <20200319150329.GB3192108@oden.dyn.berto.se>
- <CA+V-a8u8=H-6WfaYMLWH73zo5ehP8cu9D-tdGULk=Hkvq4KuAQ@mail.gmail.com>
- <20200330120745.GA3213219@oden.dyn.berto.se>
- <CA+V-a8vbTc0DZ15y0zZ97PH6khwQVxz=M-8_kgx1AiKkdg5QaA@mail.gmail.com>
- <20200407095620.GA1716317@oden.dyn.berto.se>
+        Tue, 14 Apr 2020 12:40:55 -0700 (PDT)
+Received: (nullmailer pid 14986 invoked by uid 1000);
+        Tue, 14 Apr 2020 19:40:54 -0000
+Date:   Tue, 14 Apr 2020 14:40:54 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 3/4] dt-bindings: media: add wiring property to
+ video-interfaces
+Message-ID: <20200414194054.GB29184@bogus>
+References: <20200412182012.27515-1-sam@ravnborg.org>
+ <20200412182012.27515-4-sam@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200407095620.GA1716317@oden.dyn.berto.se>
+In-Reply-To: <20200412182012.27515-4-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
-
-I spent all day playing with different solutions to how to move forward 
-with this. My main problem is I have no setup where I can produce RAW 
-image formats to test. But reading the datasheet I see the problem you 
-are trying to solve.
-
-I think for now the best solution might be to in rvin_crop_scale_comp() 
-add a check for if the pixelformat is RAW and cut the value written to 
-VNIS_REG in half. The bpp for the format shall still be set to 1.
-
-
-    fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
-    stride = vin->format.bytesperline / fmt->bpp;
-
-    if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
-        stride /= 2;
-
-    rvin_write(vin, stride, VNIS_REG);
-
-I would also add a nice big comment above the if () that explains why 
-the stride is cut in half for raw.
-
-On 2020-04-07 11:56:23 +0200, Niklas wrote:
-> Hi Lad,
+On Sun, Apr 12, 2020 at 08:20:11PM +0200, Sam Ravnborg wrote:
+> The wiring property is used to describe the wiring between
+> the connector and the panel. The property can be used when the
+> wiring is used to change the mode from for example
+> BGR to RGB. The first users are the at91sam9 family where
+> such a wiring trick is sometimes used.
+> The possilbe values are so far limited to what is required
+> by the at91sam9 family, but using "text" allows us to extend
+> this in the future.
 > 
-> On 2020-04-06 18:20:33 +0100, Lad, Prabhakar wrote:
-> > Did you manage to get the required information on this ?
+> There exists similar properties today:
+>  - display/tilcdc/tilcdc.txt: blue-and-red-wiring
+>  - display/atmel,lcdc.txt: atmel,lcd-wiring-mode
 > 
-> I'm still working on it, sorry for not completing it last week. I will 
-> let you know as soon as I can.
+> Neither of the above are defined as endpoint properties.
 > 
-> -- 
-> Regards,
-> Niklas Söderlund
+> The new property "wiring" has a more general name and
+> is defined as an endpoint property.
+> It will replace atmel,lcd-wiring-mode and may replace
+> blue-and-red-wiring.
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+> Cc: linux-media@vger.kernel.org
+> ---
+>  Documentation/devicetree/bindings/media/video-interfaces.txt | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+> index f884ada0bffc..c3bb87c5c9a9 100644
+> --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
+> +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+> @@ -141,6 +141,9 @@ Optional endpoint properties
+>  - link-frequencies: Allowed data bus frequencies. For MIPI CSI-2, for
+>    instance, this is the actual frequency of the bus, not bits per clock per
+>    lane value. An array of 64-bit unsigned integers.
+> +- wiring: Wiring of data lines to display.
+> +  "straight" - normal wiring.
 
--- 
-Regards,
-Niklas Söderlund
+Don't really need a property to express this...
+
+> +  "red-blue-reversed" - red and blue lines reversed.
+
+For a common property, I think this needs to be looked at in terms of 
+formats and some of the format negotiation work Boris was doing.
+
+Rob
