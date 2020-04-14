@@ -2,310 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBC5D1A8F33
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 01:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2B841A8F49
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 01:53:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731547AbgDNXg5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 19:36:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38980 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731535AbgDNXg4 (ORCPT
+        id S2634394AbgDNXrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 19:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43304 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2634364AbgDNXrn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 19:36:56 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D609521;
-        Wed, 15 Apr 2020 01:36:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586907413;
-        bh=410pistxrVxeYxDba6MRkc8SnbOI4K3P4RTAVulbulQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NZr41JCRKFqVSj9IzZrF60dei/OyLv+ishIS51M7rVZgXyWjErU1/N8TQlXLQfyRz
-         NQ5MU6eSjE9zNGwpPqpI7/y2xsHEQVe6u9aKfR2QF8nunFUliq1Bmf/hIHvTKVsQhk
-         W4qhIqZrxw8zTWR2WYs+f9f+WDHtbEnAYt3i3IGE=
-Date:   Wed, 15 Apr 2020 02:36:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
+        Tue, 14 Apr 2020 19:47:43 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14DA0C061A0E
+        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2020 16:47:43 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id y12so570672pll.2
+        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2020 16:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=d4qrGPFK1pm1Zq5e3Wm5KmbRlRyvqLmehN5SlEiK6ck=;
+        b=Jk4MTbMxyCiJs/TF0wjLAPWRlcNWwyx3XElcuh2hvjEf3LzZW12qWEtwu9+LKwGXla
+         2OSPYzYgAWn5qz4TBGnZmmLuheZn/DB9kNClGs4PU6mTSaaq1dTGBoYufl7exauFDzTc
+         p3gurbvU68HkJaIDPvnRsuyrQQYmT59TqzB2HJ8H0qilqrgTVAoy6T2j4qbKhbLXb/sC
+         zMRHOqAW904XPkfcc9nxRuaSpOpL0cCgxWbN04GJT6MPK3yuNAiK0vRlwVqhUF/uY1AF
+         aX6AE9EgT+TngY2d+pydcNJnXCeLo4uxD9gwsTaR6dPNjbd6tBIhhFF/2Uu9njPjw1mN
+         fNMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=d4qrGPFK1pm1Zq5e3Wm5KmbRlRyvqLmehN5SlEiK6ck=;
+        b=HvCofaAU4qMI3SAjx2oc8zfA7Xdi81icfJwxCC7fMMGlAgiqo0lapeWoQVTROpQzjl
+         w/GRF6ZhNPcT2oprB0D50l9v066gkucanNxlCLub9G8ZirPGNbBMTKKKsXZLCxaxKM3D
+         VdFQk6Mni160p1EmgjPLo77gMvr7z9xbd+Yj0JRJg3WtN7E4tz1IRt80Ui9TJssZ5iaE
+         4b5EK2NjOLByYvuqLe/Zrw6bmeJ6EnWQCJ84s/NISe27tw7Xc/h3EYh4tMGO6wbKVzSa
+         eTTbbxV39YlGy8GDLjVKaZ560AxkemZm+s4zTXkMndij92amQNyd4M3ttjS0KyUx4gVP
+         r9pw==
+X-Gm-Message-State: AGi0Pub5GH2WIFnGf8mrwZoW0soxNxxETxYRrK3fCMcE1dtNb2VQpRCL
+        pp1wHFpZkiyJ2uqzHsi+mFc=
+X-Google-Smtp-Source: APiQypKRxh6cVRC5G18h/UuR2mkfMVbbqPOj+vZUyGQzeJojm7rH4bD+iq2mloLoUsvB5Jz7Mn3Icg==
+X-Received: by 2002:a17:90a:a111:: with SMTP id s17mr3030976pjp.129.1586908062369;
+        Tue, 14 Apr 2020 16:47:42 -0700 (PDT)
+Received: from [192.168.1.101] (c-107-3-184-99.hsd1.ca.comcast.net. [107.3.184.99])
+        by smtp.gmail.com with ESMTPSA id i14sm11122820pgh.47.2020.04.14.16.47.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2020 16:47:41 -0700 (PDT)
+Subject: Re: [PATCH v4 09/17] media: video-mux: Create media links in bound
+ notifier
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 1/6] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
-Message-ID: <20200414233641.GU19819@pendragon.ideasonboard.com>
-References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
- <20200413202351.1359754-2-niklas.soderlund+renesas@ragnatech.se>
- <dc7219e4-6f48-40e7-59aa-77feab55a61d@xs4all.nl>
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+References: <20200303234256.8928-1-slongerbeam@gmail.com>
+ <20200303234256.8928-10-slongerbeam@gmail.com>
+ <20200414231617.GE27621@pendragon.ideasonboard.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <e1488ad1-fcd7-1049-8130-a10dc195ccb1@gmail.com>
+Date:   Tue, 14 Apr 2020 16:47:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dc7219e4-6f48-40e7-59aa-77feab55a61d@xs4all.nl>
+In-Reply-To: <20200414231617.GE27621@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Laurent,
 
-On Tue, Apr 14, 2020 at 01:42:46PM +0200, Hans Verkuil wrote:
-> On 13/04/2020 22:23, Niklas Söderlund wrote:
-> > Add a video device capability flag to indicate that its inputs and/or
-> > outputs are controlled by the Media Controller instead of the V4L2 API.
-> > When this flag is set, ioctl for enum inputs and outputs are
-> > automatically enabled and programmed to call a helper function.
-> > 
-> > Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  .../media/uapi/v4l/vidioc-querycap.rst        |  6 ++
-> >  .../media/videodev2.h.rst.exceptions          |  1 +
-> >  drivers/media/v4l2-core/v4l2-dev.c            | 25 ++++++--
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          | 57 +++++++++++++++++--
-> >  include/uapi/linux/videodev2.h                |  2 +
-> >  5 files changed, 81 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-querycap.rst b/Documentation/media/uapi/v4l/vidioc-querycap.rst
-> > index 5f9930195d624c73..497a6aa2cbebad71 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-querycap.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-querycap.rst
-> > @@ -264,6 +264,12 @@ specification the ioctl returns an ``EINVAL`` error code.
-> >      * - ``V4L2_CAP_TOUCH``
-> >        - 0x10000000
-> >        - This is a touch device.
-> > +    * - ``V4L2_CAP_IO_MC``
-> > +      - 0x20000000
-> > +      - There is only one input and/or output seen from userspace. The whole
-> > +        video topology configuration, including which I/O entity is routed to
-> > +        the input/output, is configured by userspace via the Media Controller.
-> > +        See :ref:`media_controller`.
-> >      * - ``V4L2_CAP_DEVICE_CAPS``
-> >        - 0x80000000
-> >        - The driver fills the ``device_caps`` field. This capability can
-> > diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
-> > index cb6ccf91776e6b56..a625fb90e3a989a7 100644
-> > --- a/Documentation/media/videodev2.h.rst.exceptions
-> > +++ b/Documentation/media/videodev2.h.rst.exceptions
-> > @@ -176,6 +176,7 @@ replace define V4L2_CAP_STREAMING device-capabilities
-> >  replace define V4L2_CAP_META_OUTPUT device-capabilities
-> >  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
-> >  replace define V4L2_CAP_TOUCH device-capabilities
-> > +replace define V4L2_CAP_IO_MC device-capabilities
-> >  
-> >  # V4L2 pix flags
-> >  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
-> > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> > index 97b6a3af13614639..3048811450182185 100644
-> > --- a/drivers/media/v4l2-core/v4l2-dev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> > @@ -552,6 +552,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
-> >  		       (vdev->device_caps & meta_caps);
-> >  	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
-> >  	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
-> > +	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
-> >  
-> >  	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
-> >  
-> > @@ -725,9 +726,15 @@ static void determine_valid_ioctls(struct video_device *vdev)
-> >  		SET_VALID_IOCTL(ops, VIDIOC_G_STD, vidioc_g_std);
-> >  		if (is_rx) {
-> >  			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
-> > -			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-> > -			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
-> > -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
-> > +			if (is_io_mc && !is_meta) {
-> 
-> I noticed the addition of !is_meta. Digging into the history I saw that it was
-> a request from Sakari in the v4 review. I must have missed that since I disagree
-> with that change.
-> 
-> If IO_MC is set, then this applies to video/meta/vbi. After all, vbi is just a
-> special kind of metadata (and we'd use a metadata device node if we would design
-> that today), so it makes no sense to do something different for metadata.
-> 
-> Another issue here is that video devices can be for video, for metadata, or for
-> both. So if is_io_mc is true, then you would get different behavior depending
-> on the type of video device: if it is just video, then it supports the INPUT
-> ioctls, if it supports metadata as well, then it doesn't.
+On 4/14/20 4:16 PM, Laurent Pinchart wrote:
+> Hi Steve,
+>
+> Thank you for the patch.
+>
+> On Tue, Mar 03, 2020 at 03:42:48PM -0800, Steve Longerbeam wrote:
+>> Implement a notifier bound op to register media links from the remote
+>> sub-device's source pad(s) to the video-mux sink pad(s).
+>>
+>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+>> ---
+>> Changes in v3:
+>> - this version does the work inline. The previous version called
+>>    a media_create_fwnode_links() which is removed in v3.
+>> ---
+>>   drivers/media/platform/video-mux.c | 92 ++++++++++++++++++++++++++++++
+>>   1 file changed, 92 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/video-mux.c b/drivers/media/platform/video-mux.c
+>> index f446ada82176..3991b1ea671c 100644
+>> --- a/drivers/media/platform/video-mux.c
+>> +++ b/drivers/media/platform/video-mux.c
+>> @@ -36,6 +36,12 @@ static const struct v4l2_mbus_framefmt video_mux_format_mbus_default = {
+>>   	.field = V4L2_FIELD_NONE,
+>>   };
+>>   
+>> +static inline struct video_mux *
+>> +notifier_to_video_mux(struct v4l2_async_notifier *n)
+>> +{
+>> +	return container_of(n, struct video_mux, notifier);
+>> +}
+>> +
+>>   static inline struct video_mux *v4l2_subdev_to_video_mux(struct v4l2_subdev *sd)
+>>   {
+>>   	return container_of(sd, struct video_mux, subdev);
+>> @@ -360,6 +366,90 @@ static const struct v4l2_subdev_ops video_mux_subdev_ops = {
+>>   	.video = &video_mux_subdev_video_ops,
+>>   };
+>>   
+>> +static int video_mux_notify_bound(struct v4l2_async_notifier *notifier,
+>> +				  struct v4l2_subdev *sd,
+>> +				  struct v4l2_async_subdev *asd)
+>> +{
+>> +	struct video_mux *vmux = notifier_to_video_mux(notifier);
+>> +	struct fwnode_handle *vmux_fwnode = dev_fwnode(vmux->subdev.dev);
+>> +	struct fwnode_handle *sd_fwnode = dev_fwnode(sd->dev);
+>> +	struct fwnode_handle *vmux_ep;
+> There doesn't seem to be anything in this function that is specific to
+> the video_mux driver. I think it would make sense to turn it into a
+> generic helper that creates links between two subdevs based on their
+> fwnode connections.
 
-As expressed before, I think we really should drop VIDIOC_ENUMINPUT,
-VIDIOC_G_INPUT and VIDIOC_S_INPUT for devices that have V4L2_CAP_IO_MC
-set. They can't be supported by generic video node-centric applications
-that expect those ioctls to be supported in any case, so it makes little
-sense. With V4L2_CAP_IO_MC added, the v4l2-compliance tool can ignore
-those ioctls (or, even better, report an error if they're implemented).
+Agreed, in fact I wrote imx_media_create_fwnode_pad_links(src_sd, 
+sink_sd) (patch 8 in this series), and it is completely generic, it 
+could simply be renamed v4l2_create_fwnode_pad_links() and moved to core.
 
-> I would just keep this as it was originally:
-> 
-> 			if (is_io_mc) {
-> 
-> > +				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
-> > +				set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
-> > +				set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
-> > +			} else {
-> > +				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-> > +				SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
-> > +				SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
-> > +			}
-> >  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
-> >  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
-> >  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
-> > @@ -735,9 +742,15 @@ static void determine_valid_ioctls(struct video_device *vdev)
-> >  			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
-> >  		}
-> >  		if (is_tx) {
-> > -			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-> > -			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-> > -			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-> > +			if (is_io_mc && !is_meta) {
-> 
-> Same here.
-> 
-> The remainder of the series looks good (except that an additional cx18 patch is
-> needed as Andrey pointed out on irc).
-> 
-> > +				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
-> > +				set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
-> > +				set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
-> > +			} else {
-> > +				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-> > +				SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-> > +				SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-> > +			}
-> >  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
-> >  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
-> >  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index b2ef8e60ea7da19d..afd1f427df557f71 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1085,6 +1085,32 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
-> >  	return ret;
-> >  }
-> >  
-> > +static int v4l_g_input(const struct v4l2_ioctl_ops *ops,
-> > +		       struct file *file, void *fh, void *arg)
-> > +{
-> > +	struct video_device *vfd = video_devdata(file);
-> > +
-> > +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> > +		*(int *)arg = 0;
-> > +		return 0;
-> > +	}
-> > +
-> > +	return ops->vidioc_g_input(file, fh, arg);
-> > +}
-> > +
-> > +static int v4l_g_output(const struct v4l2_ioctl_ops *ops,
-> > +		       struct file *file, void *fh, void *arg)
-> > +{
-> > +	struct video_device *vfd = video_devdata(file);
-> > +
-> > +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> > +		*(int *)arg = 0;
-> > +		return 0;
-> > +	}
-> > +
-> > +	return ops->vidioc_g_output(file, fh, arg);
-> > +}
-> > +
-> >  static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
-> >  				struct file *file, void *fh, void *arg)
-> >  {
-> > @@ -1094,12 +1120,21 @@ static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
-> >  	ret = v4l_enable_media_source(vfd);
-> >  	if (ret)
-> >  		return ret;
-> > +
-> > +	if (vfd->device_caps & V4L2_CAP_IO_MC)
-> > +		return  *(int *)arg ? -EINVAL : 0;
-> > +
-> >  	return ops->vidioc_s_input(file, fh, *(unsigned int *)arg);
-> >  }
-> >  
-> >  static int v4l_s_output(const struct v4l2_ioctl_ops *ops,
-> >  				struct file *file, void *fh, void *arg)
-> >  {
-> > +	struct video_device *vfd = video_devdata(file);
-> > +
-> > +	if (vfd->device_caps & V4L2_CAP_IO_MC)
-> > +		return  *(int *)arg ? -EINVAL : 0;
-> > +
-> >  	return ops->vidioc_s_output(file, fh, *(unsigned int *)arg);
-> >  }
-> >  
-> > @@ -1143,6 +1178,14 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
-> >  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
-> >  		p->capabilities |= V4L2_IN_CAP_STD;
-> >  
-> > +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> > +		if (p->index)
-> > +			return -EINVAL;
-> > +		strscpy(p->name, vfd->name, sizeof(p->name));
-> > +		p->type = V4L2_INPUT_TYPE_CAMERA;
-> > +		return 0;
-> > +	}
-> > +
-> >  	return ops->vidioc_enum_input(file, fh, p);
-> >  }
-> >  
-> > @@ -1161,6 +1204,14 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
-> >  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
-> >  		p->capabilities |= V4L2_OUT_CAP_STD;
-> >  
-> > +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
-> > +		if (p->index)
-> > +			return -EINVAL;
-> > +		strscpy(p->name, vfd->name, sizeof(p->name));
-> > +		p->type = V4L2_OUTPUT_TYPE_ANALOG;
-> > +		return 0;
-> > +	}
-> > +
-> >  	return ops->vidioc_enum_output(file, fh, p);
-> >  }
-> >  
-> > @@ -2683,10 +2734,8 @@ DEFINE_V4L_STUB_FUNC(expbuf)
-> >  DEFINE_V4L_STUB_FUNC(g_std)
-> >  DEFINE_V4L_STUB_FUNC(g_audio)
-> >  DEFINE_V4L_STUB_FUNC(s_audio)
-> > -DEFINE_V4L_STUB_FUNC(g_input)
-> >  DEFINE_V4L_STUB_FUNC(g_edid)
-> >  DEFINE_V4L_STUB_FUNC(s_edid)
-> > -DEFINE_V4L_STUB_FUNC(g_output)
-> >  DEFINE_V4L_STUB_FUNC(g_audout)
-> >  DEFINE_V4L_STUB_FUNC(s_audout)
-> >  DEFINE_V4L_STUB_FUNC(g_jpegcomp)
-> > @@ -2735,11 +2784,11 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
-> >  	IOCTL_INFO(VIDIOC_S_AUDIO, v4l_stub_s_audio, v4l_print_audio, INFO_FL_PRIO),
-> >  	IOCTL_INFO(VIDIOC_QUERYCTRL, v4l_queryctrl, v4l_print_queryctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_queryctrl, id)),
-> >  	IOCTL_INFO(VIDIOC_QUERYMENU, v4l_querymenu, v4l_print_querymenu, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_querymenu, index)),
-> > -	IOCTL_INFO(VIDIOC_G_INPUT, v4l_stub_g_input, v4l_print_u32, 0),
-> > +	IOCTL_INFO(VIDIOC_G_INPUT, v4l_g_input, v4l_print_u32, 0),
-> >  	IOCTL_INFO(VIDIOC_S_INPUT, v4l_s_input, v4l_print_u32, INFO_FL_PRIO),
-> >  	IOCTL_INFO(VIDIOC_G_EDID, v4l_stub_g_edid, v4l_print_edid, INFO_FL_ALWAYS_COPY),
-> >  	IOCTL_INFO(VIDIOC_S_EDID, v4l_stub_s_edid, v4l_print_edid, INFO_FL_PRIO | INFO_FL_ALWAYS_COPY),
-> > -	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_stub_g_output, v4l_print_u32, 0),
-> > +	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_g_output, v4l_print_u32, 0),
-> >  	IOCTL_INFO(VIDIOC_S_OUTPUT, v4l_s_output, v4l_print_u32, INFO_FL_PRIO),
-> >  	IOCTL_INFO(VIDIOC_ENUMOUTPUT, v4l_enumoutput, v4l_print_enumoutput, INFO_FL_CLEAR(v4l2_output, index)),
-> >  	IOCTL_INFO(VIDIOC_G_AUDOUT, v4l_stub_g_audout, v4l_print_audioout, 0),
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index 9817b7e2c968fd04..b18f3f7cde31c2e4 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -487,6 +487,8 @@ struct v4l2_capability {
-> >  
-> >  #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
-> >  
-> > +#define V4L2_CAP_IO_MC			0x20000000  /* Is input/output controlled by the media controller */
-> > +
-> >  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
-> >  
-> >  /*
+> I also wonder if it wouldn't be more efficient to create links at
+> complete() time instead of bound() time, in which case the helper would
+> create all links for a given subdevice, not links between two specific
+> subdevices (or maybe all links for a given pad direction, to be able to
+> remove the existing link check below).
 
--- 
-Regards,
+It looks like that should be possible. The bound sub-devices at 
+complete() time are available in the notifier->done list. I'll start 
+looking at that for v5.
 
-Laurent Pinchart
+Steve
+
+
+>
+>> +
+>> +	fwnode_graph_for_each_endpoint(vmux_fwnode, vmux_ep) {
+>> +		struct fwnode_handle *remote_ep, *sd_ep;
+>> +		struct media_pad *src_pad, *sink_pad;
+>> +		struct fwnode_endpoint fwep;
+>> +		int src_idx, sink_idx, ret;
+>> +		bool remote_ep_belongs;
+>> +
+>> +		ret = fwnode_graph_parse_endpoint(vmux_ep, &fwep);
+>> +		if (ret)
+>> +			continue;
+>> +
+>> +		/* only create links to the vmux sink pads */
+>> +		if (fwep.port >= vmux->subdev.entity.num_pads - 1)
+>> +			continue;
+>> +
+>> +		sink_idx = fwep.port;
+>> +		sink_pad = &vmux->subdev.entity.pads[sink_idx];
+>> +
+>> +		remote_ep = fwnode_graph_get_remote_endpoint(vmux_ep);
+>> +		if (!remote_ep)
+>> +			continue;
+>> +
+>> +		/*
+>> +		 * verify that this remote endpoint is owned by the
+>> +		 * sd, in case the sd does not check for that in its
+>> +		 * .get_fwnode_pad operation or does not implement it.
+>> +		 */
+>> +		remote_ep_belongs = false;
+>> +		fwnode_graph_for_each_endpoint(sd_fwnode, sd_ep) {
+>> +			if (sd_ep == remote_ep) {
+>> +				remote_ep_belongs = true;
+>> +				fwnode_handle_put(sd_ep);
+>> +				break;
+>> +			}
+>> +		}
+>> +		if (!remote_ep_belongs)
+>> +			continue;
+>> +
+>> +		src_idx = media_entity_get_fwnode_pad(&sd->entity, remote_ep,
+>> +						      MEDIA_PAD_FL_SOURCE);
+>> +		fwnode_handle_put(remote_ep);
+>> +
+>> +		if (src_idx < 0)
+>> +			continue;
+>> +
+>> +		src_pad = &sd->entity.pads[src_idx];
+>> +
+>> +		/* skip this link if it already exists */
+>> +		if (media_entity_find_link(src_pad, sink_pad))
+>> +			continue;
+> Have you encountered this in practice ? If we only create links for sink
+> pads this shouldn't happen.
+>
+>> +
+>> +		ret = media_create_pad_link(&sd->entity, src_idx,
+>> +					    &vmux->subdev.entity,
+>> +					    sink_idx, 0);
+>> +		if (ret) {
+>> +			dev_err(vmux->subdev.dev,
+>> +				"%s:%d -> %s:%d failed with %d\n",
+>> +				sd->entity.name, src_idx,
+>> +				vmux->subdev.entity.name, sink_idx, ret);
+>> +			fwnode_handle_put(vmux_ep);
+>> +			return ret;
+>> +		}
+>> +
+>> +		dev_dbg(vmux->subdev.dev, "%s:%d -> %s:%d\n",
+>> +			sd->entity.name, src_idx,
+>> +			vmux->subdev.entity.name, sink_idx);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct v4l2_async_notifier_operations video_mux_notify_ops = {
+>> +	.bound = video_mux_notify_bound,
+>> +};
+>> +
+>>   static int video_mux_async_register(struct video_mux *vmux,
+>>   				    unsigned int num_input_pads)
+>>   {
+>> @@ -397,6 +487,8 @@ static int video_mux_async_register(struct video_mux *vmux,
+>>   		}
+>>   	}
+>>   
+>> +	vmux->notifier.ops = &video_mux_notify_ops;
+>> +
+>>   	ret = v4l2_async_subdev_notifier_register(&vmux->subdev,
+>>   						  &vmux->notifier);
+>>   	if (ret)
+
