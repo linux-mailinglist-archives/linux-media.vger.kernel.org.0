@@ -2,297 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC6741A761B
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 10:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56B5F1A765B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 10:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436862AbgDNIaY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 04:30:24 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:43541 "EHLO
-        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2436826AbgDNIaO (ORCPT
+        id S2437029AbgDNInQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 04:43:16 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50849 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2437035AbgDNInO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 04:30:14 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id C8F08B58;
-        Tue, 14 Apr 2020 04:30:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 14 Apr 2020 04:30:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=/CfHmA7c0jO7pf77t3C7Oki3S52
-        gFaZ76bqIpouc54w=; b=M6dwhgEoBoIB2y7rp4DoAkl7KoyebJxJRYc4WPRjBGS
-        A6lt9HmBvrU+e5GSpfhsS7DUFTqI02NtpfgUBx8ao19zARJv/jVCbeWtAlr4ZdBa
-        s6nsR2Xe/9x2RkcZoEudpE3dVeaBCnDSdnACRQD5mZmO8iYZkrhZ1NpzP0zTeNca
-        0gxltG3aP1kQQ0JQs4U79aqoIBevWlSuKLIhqdBM2jqrdA88U1V1mxAsKo/xtDzP
-        fmOYFOey1FM0ULiPT1e+k778LOy0uxw37xjtm1/8Ccb2jSkHWpV1d9tkPFX8vZUl
-        gMfk2XglbjmaZFyim2ukdeKgLfO/IakxKStrUAVCk+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=/CfHmA
-        7c0jO7pf77t3C7Oki3S52gFaZ76bqIpouc54w=; b=yYFNiXlR8f1qiG4USZL8ae
-        m5g2jLSyKfP/ywlD/ISHgwfAfSEchaeMC21gQ8p1d6H2TNTKgL72PhyQUuO/S/kT
-        XpX98niE7i4/84edcIl+cWorHWQ+OZl7qE/Q/XqN1liywiOnBppmy6EnK0MFwVTU
-        jJvunYUrBSrgMN34LDm0gKMeKWuHafDZTRonTTXqzvTNUzCMwaKgtKNjt506x2C/
-        VK6soNdSYo83suzx1cwMkC/DeF63XTAch5BnwS5IyvvonueqmzPXXRDW3QUqwWkv
-        CNUD6xdk1Iid1Bu8z1SZf0sYam481Tm8OuiANzYIENp9e/HwSNusWr8uYzLZuoOA
-        ==
-X-ME-Sender: <xms:k3SVXsNFv4siq4nJowLJJumE3X7BmqiH4V-Hg7bw3Urd4ehNbLCgkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfedugddthecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
-    epuggvvhhitggvthhrvggvrdhorhhgnecukfhppeeltddrkeelrdeikedrjeeinecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvse
-    gtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:k3SVXkY40XT7yDdpznDdFSpd3c3p0CrgmYVGh45uEb3hqshgaAgzsw>
-    <xmx:k3SVXuoR4m5dLWQz6WxAr2L7Px6XIhTk1SE30E6NbF5metSJB3C_xw>
-    <xmx:k3SVXhzRcNw-02hZ06hjAZLscFrrh6rWj2Nhw588Oxqt_qZvMMjXaQ>
-    <xmx:lHSVXjLNqIRAORGVzAfiSRbavqM4snT6_ETcIITZSEQKbSPWRk1Kfw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A9EE2306005E;
-        Tue, 14 Apr 2020 04:30:11 -0400 (EDT)
-Date:   Tue, 14 Apr 2020 10:30:10 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        dri-devel@lists.freedesktop.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 2/4] dt-bindings: display: convert atmel lcdc to DT
- Schema
-Message-ID: <20200414083010.qztgtj6v6b53qgjh@gilmour.lan>
-References: <20200412182012.27515-1-sam@ravnborg.org>
- <20200412182012.27515-3-sam@ravnborg.org>
+        Tue, 14 Apr 2020 04:43:14 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id OH9wjOmO47xncOH9zj12Iv; Tue, 14 Apr 2020 10:43:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1586853791; bh=2AIFG9xoaMgRMzeBxRpSb56tQiGIH0qXlP3ZhZDnZ2E=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=RQXniPyXCSJ860XcNw7LvwFi5AW9RZsI3GhkaqLYBmlJp998RmNAIHrBiCT8XEi0I
+         T/KFmTRQaLWMM3yGXAg8UKhOwGDKhxsVyQI+Az+i+koDDessUUCm5QkCpQvyKIIe/M
+         t/GOUIjGTALRoFo8geEVV4g3cgR2Fx1NBUewxaxzxQsWMCiV95n6GkeMZ1pyry1lCR
+         +at5IpnbYOa8RN0wVvVdDlD0UbHXo+Tqm3Ho2MEEN6n1q8cT6ZYCPSl7jC1V50+Qlv
+         izGaLlCKGBo78loFdn/6RV7TDfyj9dG7cgh2fg/S3QSgVIs3ylOUGq7MXNN9G06Ddm
+         ok55bbHdCR3hw==
+Subject: Re: [PATCH] Fix broken for loop in libv4l
+To:     Hans Petter Selasky <hps@selasky.org>, linux-media@vger.kernel.org
+References: <3fc9b235-4763-546d-c9f6-5ac928a1bcff@selasky.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <db590fb6-ffbc-cc1b-9f0f-7e48de6883c8@xs4all.nl>
+Date:   Tue, 14 Apr 2020 10:43:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kpecuiezqczpcjng"
-Content-Disposition: inline
-In-Reply-To: <20200412182012.27515-3-sam@ravnborg.org>
+In-Reply-To: <3fc9b235-4763-546d-c9f6-5ac928a1bcff@selasky.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAfo+uCpKqoW9hQlgTIemptrbRhuUEJI0Iq5cabBd7vcQXuCq/xKbtd2pRmfAE7/Mzb4Ykc7zqCcNqeT0PON53RdssJ+lqpz+Q+q3MihbsLOf7XdmdkF
+ 7LS0NPCmKdpRjZyLud7VYh5zp0lk4shGjzLCnyYehVv3V29KyQFjORkep263PwN1PjeXTu7VSJjxGDPAn+/Hev96+LxvJbqm8mo=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 08/04/2020 19:17, Hans Petter Selasky wrote:
+> Hi,
+> 
+> This is one in a series of patches. Is this the right place to post 
+> patches for libv4l ?
 
---kpecuiezqczpcjng
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yes, this is the right place.
 
-On Sun, Apr 12, 2020 at 08:20:10PM +0200, Sam Ravnborg wrote:
-> Add a new binding file to describe the bindings
-> for the Atmel LCDC IP.
-> This replaces the old txt based binding.
->
-> The binding file describes the current binding,
-> including properties to specify register values etc.
-> The binding will be updated in a follow-up patch,
-> the current binding describes the actual situation.
->
-> This new binding file replaces the old .txt based
-> binding which is deleted.
->
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+I've applied this patch. Amazing that this hasn't been discovered before.
+
+Thanks!
+
+	Hans
+
+> 
+> Signed-off-by: Hans Petter Selasky <hps@selasky.org>
 > ---
->  .../bindings/display/atmel,lcdc.txt           |  88 -----------
->  .../bindings/display/atmel/lcdc.yaml          | 137 ++++++++++++++++++
->  2 files changed, 137 insertions(+), 88 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/atmel,lcdc.txt
->  create mode 100644 Documentation/devicetree/bindings/display/atmel/lcdc.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc.txt b/Documentation/devicetree/bindings/display/atmel,lcdc.txt
-> deleted file mode 100644
-> index acb5a0132127..000000000000
-> --- a/Documentation/devicetree/bindings/display/atmel,lcdc.txt
-> +++ /dev/null
-> @@ -1,88 +0,0 @@
-> -Atmel LCDC Framebuffer
-> ------------------------------------------------------
-> -
-> -Required properties:
-> -- compatible :
-> -	"atmel,at91sam9261-lcdc" ,
-> -	"atmel,at91sam9263-lcdc" ,
-> -	"atmel,at91sam9g10-lcdc" ,
-> -	"atmel,at91sam9g45-lcdc" ,
-> -	"atmel,at91sam9g45es-lcdc" ,
-> -	"atmel,at91sam9rl-lcdc" ,
-> -	"atmel,at32ap-lcdc"
-> -- reg : Should contain 1 register ranges(address and length).
-> -	Can contain an additional register range(address and length)
-> -	for fixed framebuffer memory. Useful for dedicated memories.
-> -- interrupts : framebuffer controller interrupt
-> -- display: a phandle pointing to the display node
-> -
-> -Required nodes:
-> -- display: a display node is required to initialize the lcd panel
-> -	This should be in the board dts.
-> -- default-mode: a videomode within the display with timing parameters
-> -	as specified below.
-> -
-> -Optional properties:
-> -- lcd-supply: Regulator for LCD supply voltage.
-> -
-> -Example:
-> -
-> -	fb0: fb@00500000 {
-> -		compatible = "atmel,at91sam9g45-lcdc";
-> -		reg = <0x00500000 0x1000>;
-> -		interrupts = <23 3 0>;
-> -		pinctrl-names = "default";
-> -		pinctrl-0 = <&pinctrl_fb>;
-> -		display = <&display0>;
-> -		#address-cells = <1>;
-> -		#size-cells = <1>;
-> -
-> -	};
-> -
-> -Example for fixed framebuffer memory:
-> -
-> -	fb0: fb@00500000 {
-> -		compatible = "atmel,at91sam9263-lcdc";
-> -		reg = <0x00700000 0x1000 0x70000000 0x200000>;
-> -		[...]
-> -	};
-> -
-> -Atmel LCDC Display
-> ------------------------------------------------------
-> -Required properties (as per of_videomode_helper):
-> -
-> - - atmel,dmacon: dma controller configuration
-> - - atmel,lcdcon2: lcd controller configuration
-> - - atmel,guard-time: lcd guard time (Delay in frame periods)
-> - - bits-per-pixel: lcd panel bit-depth.
-> -
-> -Optional properties (as per of_videomode_helper):
-> - - atmel,lcdcon-backlight: enable backlight
-> - - atmel,lcdcon-backlight-inverted: invert backlight PWM polarity
-> - - atmel,lcd-wiring-mode: lcd wiring mode "RGB" or "BRG"
-> - - atmel,power-control-gpio: gpio to power on or off the LCD (as many as needed)
-> -
-> -Example:
-> -	display0: display {
-> -		bits-per-pixel = <32>;
-> -		atmel,lcdcon-backlight;
-> -		atmel,dmacon = <0x1>;
-> -		atmel,lcdcon2 = <0x80008002>;
-> -		atmel,guard-time = <9>;
-> -		atmel,lcd-wiring-mode = <1>;
-> -
-> -		display-timings {
-> -			native-mode = <&timing0>;
-> -			timing0: timing0 {
-> -				clock-frequency = <9000000>;
-> -				hactive = <480>;
-> -				vactive = <272>;
-> -				hback-porch = <1>;
-> -				hfront-porch = <1>;
-> -				vback-porch = <40>;
-> -				vfront-porch = <1>;
-> -				hsync-len = <45>;
-> -				vsync-len = <1>;
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/atmel/lcdc.yaml b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-> new file mode 100644
-> index 000000000000..7dcb9a4d5902
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
-> @@ -0,0 +1,137 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/atmel/lcdc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Atmel LCDC (LCD Controller) display controller with PWM
-> +
-> +maintainers:
-> +  - Sam Ravnborg <sam@ravnborg.org>
-> +
-> +description: |
-> +  The Atmel LCDC Display Controller is display controller that
-> +  includes a PWM for backlight/contrast.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - atmel,at91sam9261-lcdc
-> +      - atmel,at91sam9263-lcdc
-> +      - atmel,at91sam9g10-lcdc
-> +      - atmel,at91sam9g45-lcdc
-> +      - atmel,at91sam9g45es-lcdc
-> +      - atmel,at91sam9g46-lcdc
-> +      - atmel,at91sam9m10-lcdc
-> +      - atmel,at91sam9m11-lcdc
-> +      - atmel,at91sam9rl-lcdc
-> +
-> +  "#address-cells":
-> +    const: 1
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  reg:
-> +    description: |
-> +      Contains 1 register range (address and length).
-> +      Can contain an additional register range (address and length)
-> +      for fixed framebuffer memory
+>   lib/libv4lconvert/rgbyuv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/lib/libv4lconvert/rgbyuv.c b/lib/libv4lconvert/rgbyuv.c
+> index 79bc0bdb..b54b4577 100644
+> --- a/lib/libv4lconvert/rgbyuv.c
+> +++ b/lib/libv4lconvert/rgbyuv.c
+> @@ -893,7 +893,7 @@ void v4lconvert_nv12_to_yuv420(const unsigned char 
+> *src, unsigned char *dest,
+>   	}
+> 
+>   	for (i = 0; i < height; i++)
+> -		for (j = 0; i < width; j++) {
+> +		for (j = 0; j < width; j++) {
+>   			*ydst++ = *ysrc++;
+>   			if (((i % 2) == 0) && ((j % 2) == 0)) {
+>   				*udst++ = *uvsrc++;
+> 
 
-So, minItems: 1 , maxItems: 2?
-
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  lcd-supply:
-> +    description: Regulator for LCD supply voltage.
-> +
-> +  display:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle to display node
-> +
-> +patternProperties:
-> +  "^display[0-9]$":
-> +    type: object
-> +    description: |
-> +      Display node is required to initialize the lcd panel.
-> +      This should be in the board dts
-> +
-> +    properties:
-> +
-> +      atmel,dmacon:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: DMA controller configuration
-> +
-> +      atmel,lcdcon2:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: LCD controller configuration
-> +
-> +      atmel,guard-time:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: LCD guard time (Delay in frame periods)
-> +
-> +      bits-per-pixel:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: LCD panel bit-depth.
-
-Those properties aren't documented anywhere?
-
-Maxime
-
---kpecuiezqczpcjng
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpV0kQAKCRDj7w1vZxhR
-xba9AQDmrxYaMT55KbrVTmc0PvlNdbW8UOTkZx6RHCf7DesFnAD/bx2BEZuSu1JQ
-/oSXtj39Ax0HAmrvnx0b6Rmn23btawE=
-=I8D4
------END PGP SIGNATURE-----
-
---kpecuiezqczpcjng--
