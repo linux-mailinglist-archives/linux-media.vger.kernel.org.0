@@ -2,72 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29C741A88F2
-	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 20:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C31CE1A8A97
+	for <lists+linux-media@lfdr.de>; Tue, 14 Apr 2020 21:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503690AbgDNSPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 14:15:02 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42335 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503671AbgDNSPB (ORCPT
+        id S2504614AbgDNTDC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 15:03:02 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47404 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2504595AbgDNTC7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 14:15:01 -0400
-Received: by mail-oi1-f196.google.com with SMTP id d7so6208789oif.9;
-        Tue, 14 Apr 2020 11:15:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=65DkFlztgppXvsQRy19eL08nR3Skwie1axX0JEZh0zY=;
-        b=XzsdHTAejPSOccwdYKT/xRkFiybbt65C4M0dVQthIjsa9Gfz1W/RYrYB2+/FY8jlnw
-         XvUbaG+/xpHQH+riMfSDQ6Wiqz/W5iXWtnmYjhT1t2BVgEG85wHgGnHX+YD3Eueidnat
-         VbNRnp1lZbuUX2/uJ1bnfepSXBg+M2gw9nxs//MWP3Nq8Y1bMvRoarsFk5HM1xVlWbII
-         8MWo+mMr94p574S+oLyBGP96xGG56L6kjNnZjWVf0J9kU6UrCK77kq595iz/FrEoULgT
-         ZH77DwpqZEljo9d8XlRUYXkOwPFiXO+wpIZ/STHR3T/8xOx4MzKT/9MAHtLez5gLcEry
-         2uww==
-X-Gm-Message-State: AGi0PuYOhTtPV+D2294deU9wtvduf2Th/ohfocRjEf08uQWOJZzUx4hi
-        LMtXjU2k1EhYBPFcUxNSVA==
-X-Google-Smtp-Source: APiQypI6GHk8xdPK5wkkeoLMN/Gum7n0XE1rJqDu/xuakTvwO6qkRDc9XPA/bZoazZ2j983VfpVHkw==
-X-Received: by 2002:aca:4243:: with SMTP id p64mr16670247oia.21.1586888100393;
-        Tue, 14 Apr 2020 11:15:00 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i17sm5660774otc.16.2020.04.14.11.14.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 11:14:59 -0700 (PDT)
-Received: (nullmailer pid 18162 invoked by uid 1000);
-        Tue, 14 Apr 2020 18:14:58 -0000
-Date:   Tue, 14 Apr 2020 13:14:58 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     skomatineni@nvidia.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi, helen.koike@collabora.com, digetx@gmail.com,
-        sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v6 8/9] dt-bindings: reset: Add ID for Tegra210 VI
- reset
-Message-ID: <20200414181458.GA18112@bogus>
-References: <1585963507-12610-1-git-send-email-skomatineni@nvidia.com>
- <1585963507-12610-9-git-send-email-skomatineni@nvidia.com>
+        Tue, 14 Apr 2020 15:02:59 -0400
+Received: from floko.floko.floko (unknown [IPv6:2804:431:e7cc:79a2:b6f7:4033:5775:cc3a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 027632A1C16;
+        Tue, 14 Apr 2020 20:02:52 +0100 (BST)
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab+huawei@kernel.org, kernel@collabora.com,
+        ezequiel@collabora.com, Helen Koike <helen.koike@collabora.com>
+Subject: [PATCH] media: Makefile: fix test drivers compilation
+Date:   Tue, 14 Apr 2020 16:02:38 -0300
+Message-Id: <20200414190238.1326598-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1585963507-12610-9-git-send-email-skomatineni@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 3 Apr 2020 18:25:06 -0700, Sowjanya Komatineni wrote:
-> This patch adds ID for Tegra210 VI controller reset to use with
-> device tree.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  include/dt-bindings/reset/tegra210-car.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
+test_drivers/ folder is not being added by media Makefile, so it is not
+being compiled.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Add test_drivers/ folder in Makefile folder's list.
+
+Fixes: 4b32216adb010 ("media: split test drivers from platform directory")
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+---
+
+ drivers/media/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/Makefile b/drivers/media/Makefile
+index f215f0a89f9e6..693b3f0bf03ee 100644
+--- a/drivers/media/Makefile
++++ b/drivers/media/Makefile
+@@ -29,6 +29,6 @@ obj-$(CONFIG_CEC_CORE) += cec/
+ # Finally, merge the drivers that require the core
+ #
+ 
+-obj-y += common/ platform/ pci/ usb/ mmc/ firewire/ spi/
++obj-y += common/ platform/ pci/ usb/ mmc/ firewire/ spi/ test_drivers/
+ obj-$(CONFIG_VIDEO_DEV) += radio/
+ 
+-- 
+2.26.0
+
