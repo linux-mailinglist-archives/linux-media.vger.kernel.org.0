@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 362381A9A97
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E668B1A9A8C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:32:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408652AbgDOKc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 06:32:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33652 "EHLO mail.kernel.org"
+        id S2408668AbgDOKcN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 06:32:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33650 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408587AbgDOKbl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S2408586AbgDOKbl (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 15 Apr 2020 06:31:41 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D39E320857;
+        by mail.kernel.org (Postfix) with ESMTPSA id CEC032078A;
         Wed, 15 Apr 2020 10:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1586946701;
-        bh=XXiwzaSAcbds9tPSVXUQN0GTxvW9D8eWFTjZyuQP4cY=;
+        bh=BMCAYOBEXBk7709Ogb1+PRVp1vR+ZXuSQgMdbDqEF2A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HpuGUxdT4dEodCCIQM9naI4LUMXERAiL0rFUAJVhNYe9Dug6RmX+T2lrwPuEr5f7q
-         ZgE2YsqiRGmixMVmxrfO/5W3T+grOPk30Nb/WsYphzwZP+KYb7UCMNKpgatK+zcC9g
-         CRiDbGtNVBY1lZ+c/r/u01lrgCabwO69/qyJjr/w=
+        b=h2W1Sjn54RrNFoUVRrBKlgtCUYsXRqbZLyFvZJW7GegZ4bBuDl32ahqu5pnN51Bq3
+         u/q6Sd+RNUQ4hNa2eYej0tc9+11DrKXQpgzhzzHmQO/iokB8abCNbEEKRllMD4diD7
+         Fv7nvvMEpIu856GuaAIDuXwzySPefWyODV8VcD8Q=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jOfKV-006gM3-3A; Wed, 15 Apr 2020 12:31:39 +0200
+        id 1jOfKV-006gM7-4i; Wed, 15 Apr 2020 12:31:39 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 1/6] media: cec: move the core to a separate directory
-Date:   Wed, 15 Apr 2020 12:31:32 +0200
-Message-Id: <e8d4d58d4269b63c53603fde978707e65ce82179.1586946605.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 2/6] media: place CEC menu before MEDIA_SUPPORT
+Date:   Wed, 15 Apr 2020 12:31:33 +0200
+Message-Id: <32565659d6778e92bd9ac7d17622149bd95973c5.1586946605.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1586946605.git.mchehab+huawei@kernel.org>
 References: <cover.1586946605.git.mchehab+huawei@kernel.org>
@@ -43,108 +43,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation for moving CEC drivers to the CEC directory,
-move the core to a separate place.
+The only item that opens at the CEC Kconfig menu is related
+to Remote Controller. Also, its support should not depend on
+media support, so it makes sense to keep both RC and CEC together.
+
+After this change, the main media menus that are visible
+under "Device Drivers" menu are:
+
+	<*> Remote Controller support  --->
+	[ ] HDMI CEC RC integration (NEW)
+	< > HDMI CEC drivers
+	<M> Multimedia support  --->
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/cec/Makefile                       | 16 +---------------
- drivers/media/cec/core/Makefile                  | 16 ++++++++++++++++
- drivers/media/cec/{ => core}/cec-adap.c          |  0
- drivers/media/cec/{ => core}/cec-api.c           |  0
- drivers/media/cec/{ => core}/cec-core.c          |  0
- drivers/media/cec/{ => core}/cec-notifier.c      |  0
- drivers/media/cec/{ => core}/cec-pin-error-inj.c |  0
- drivers/media/cec/{ => core}/cec-pin-priv.h      |  0
- drivers/media/cec/{ => core}/cec-pin.c           |  0
- drivers/media/cec/{ => core}/cec-priv.h          |  0
- 10 files changed, 17 insertions(+), 15 deletions(-)
- create mode 100644 drivers/media/cec/core/Makefile
- rename drivers/media/cec/{ => core}/cec-adap.c (100%)
- rename drivers/media/cec/{ => core}/cec-api.c (100%)
- rename drivers/media/cec/{ => core}/cec-core.c (100%)
- rename drivers/media/cec/{ => core}/cec-notifier.c (100%)
- rename drivers/media/cec/{ => core}/cec-pin-error-inj.c (100%)
- rename drivers/media/cec/{ => core}/cec-pin-priv.h (100%)
- rename drivers/media/cec/{ => core}/cec-pin.c (100%)
- rename drivers/media/cec/{ => core}/cec-priv.h (100%)
+ drivers/media/Kconfig     | 30 ++----------------------------
+ drivers/media/cec/Kconfig | 20 ++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/media/cec/Makefile b/drivers/media/cec/Makefile
-index ad8677d8c896..3fdbc22b1530 100644
---- a/drivers/media/cec/Makefile
-+++ b/drivers/media/cec/Makefile
-@@ -1,16 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
--cec-objs := cec-core.o cec-adap.o cec-api.o
+diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+index e8bd354a0f75..8694e3c6d183 100644
+--- a/drivers/media/Kconfig
++++ b/drivers/media/Kconfig
+@@ -4,19 +4,10 @@
+ #
+ 
+ #
+-# NOTE: Those symbols can't depend on MEDIA_SUPPORT, as it would cause
+-# unmatched dependencies
++# NOTE: CEC and Remote Controller support should not depend on MEDIA_SUPPORT
+ #
+-config CEC_CORE
+-	tristate
 -
--ifeq ($(CONFIG_CEC_NOTIFIER),y)
--  cec-objs += cec-notifier.o
--endif
+-config CEC_NOTIFIER
+-	bool
 -
--ifeq ($(CONFIG_CEC_PIN),y)
--  cec-objs += cec-pin.o
--endif
+-config CEC_PIN
+-	bool
 -
--ifeq ($(CONFIG_CEC_PIN_ERROR_INJ),y)
--  cec-objs += cec-pin-error-inj.o
--endif
+ source "drivers/media/rc/Kconfig"
++source "drivers/media/cec/Kconfig"
+ 
+ menuconfig MEDIA_SUPPORT
+ 	tristate "Multimedia support"
+@@ -132,17 +123,6 @@ config MEDIA_SDR_SUPPORT
+ 
+ 	  Say Y when you have a software defined radio device.
+ 
+-config MEDIA_CEC_SUPPORT
+-	bool
+-	prompt "HDMI CEC support" if MEDIA_SUPPORT_FILTER
+-	default y if !MEDIA_SUPPORT_FILTER
+-	help
+-	  Enable support for HDMI CEC (Consumer Electronics Control),
+-	  which is an optional HDMI feature.
 -
--obj-$(CONFIG_CEC_CORE) += cec.o
-+obj-y += core/
-diff --git a/drivers/media/cec/core/Makefile b/drivers/media/cec/core/Makefile
-new file mode 100644
-index 000000000000..ad8677d8c896
---- /dev/null
-+++ b/drivers/media/cec/core/Makefile
-@@ -0,0 +1,16 @@
-+# SPDX-License-Identifier: GPL-2.0
-+cec-objs := cec-core.o cec-adap.o cec-api.o
+-	  Say Y when you have an HDMI receiver, transmitter or a USB CEC
+-	  adapter that supports HDMI CEC.
+-
+ config MEDIA_PLATFORM_SUPPORT
+ 	bool
+ 	prompt "Platform-specific devices" if MEDIA_SUPPORT_FILTER
+@@ -232,12 +212,6 @@ menu "Digital TV options"
+ source "drivers/media/dvb-core/Kconfig"
+ endmenu
+ 
+-menu "HDMI CEC options"
+-	visible if CEC_CORE
+-
+-source "drivers/media/cec/Kconfig"
+-endmenu
+-
+ menu "Media drivers"
+ 
+ comment "Drivers filtered as selected at 'Filter media drivers'"
+diff --git a/drivers/media/cec/Kconfig b/drivers/media/cec/Kconfig
+index c01919713ab9..1586dd899302 100644
+--- a/drivers/media/cec/Kconfig
++++ b/drivers/media/cec/Kconfig
+@@ -1,4 +1,13 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++config CEC_CORE
++	tristate
 +
-+ifeq ($(CONFIG_CEC_NOTIFIER),y)
-+  cec-objs += cec-notifier.o
-+endif
++config CEC_NOTIFIER
++	bool
 +
-+ifeq ($(CONFIG_CEC_PIN),y)
-+  cec-objs += cec-pin.o
-+endif
++config CEC_PIN
++	bool
 +
-+ifeq ($(CONFIG_CEC_PIN_ERROR_INJ),y)
-+  cec-objs += cec-pin-error-inj.o
-+endif
+ config MEDIA_CEC_RC
+ 	bool "HDMI CEC RC integration"
+ 	depends on CEC_CORE && RC_CORE
+@@ -11,3 +20,14 @@ config CEC_PIN_ERROR_INJ
+ 	depends on CEC_PIN && DEBUG_FS
+ 	help
+ 	  This option enables CEC error injection using debugfs.
 +
-+obj-$(CONFIG_CEC_CORE) += cec.o
-diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-similarity index 100%
-rename from drivers/media/cec/cec-adap.c
-rename to drivers/media/cec/core/cec-adap.c
-diff --git a/drivers/media/cec/cec-api.c b/drivers/media/cec/core/cec-api.c
-similarity index 100%
-rename from drivers/media/cec/cec-api.c
-rename to drivers/media/cec/core/cec-api.c
-diff --git a/drivers/media/cec/cec-core.c b/drivers/media/cec/core/cec-core.c
-similarity index 100%
-rename from drivers/media/cec/cec-core.c
-rename to drivers/media/cec/core/cec-core.c
-diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/core/cec-notifier.c
-similarity index 100%
-rename from drivers/media/cec/cec-notifier.c
-rename to drivers/media/cec/core/cec-notifier.c
-diff --git a/drivers/media/cec/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
-similarity index 100%
-rename from drivers/media/cec/cec-pin-error-inj.c
-rename to drivers/media/cec/core/cec-pin-error-inj.c
-diff --git a/drivers/media/cec/cec-pin-priv.h b/drivers/media/cec/core/cec-pin-priv.h
-similarity index 100%
-rename from drivers/media/cec/cec-pin-priv.h
-rename to drivers/media/cec/core/cec-pin-priv.h
-diff --git a/drivers/media/cec/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-similarity index 100%
-rename from drivers/media/cec/cec-pin.c
-rename to drivers/media/cec/core/cec-pin.c
-diff --git a/drivers/media/cec/cec-priv.h b/drivers/media/cec/core/cec-priv.h
-similarity index 100%
-rename from drivers/media/cec/cec-priv.h
-rename to drivers/media/cec/core/cec-priv.h
++config MEDIA_CEC_SUPPORT
++	bool
++	prompt "HDMI CEC drivers"
++	default y if !MEDIA_SUPPORT_FILTER
++	help
++	  Enable support for HDMI CEC (Consumer Electronics Control),
++	  which is an optional HDMI feature.
++
++	  Say Y when you have an HDMI receiver, transmitter or a USB CEC
++	  adapter that supports HDMI CEC.
 -- 
 2.25.2
 
