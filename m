@@ -2,89 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6482C1AB186
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 21:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C48E71AB1DD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 21:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2506519AbgDOTVe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 15:21:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
+        id S2634414AbgDOTeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 15:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2506493AbgDOTVQ (ORCPT
+        by vger.kernel.org with ESMTP id S2406837AbgDOTdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 15:21:16 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB262C061A0C;
-        Wed, 15 Apr 2020 12:21:14 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id m8so5034270lji.1;
-        Wed, 15 Apr 2020 12:21:14 -0700 (PDT)
+        Wed, 15 Apr 2020 15:33:46 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E41A3C061A0C
+        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 12:33:45 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id nu11so300864pjb.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 12:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ceph2IeaEjNXlv8kF7Vc08ScVo4hOK+Niuv5P5aPoWQ=;
-        b=k6JVHoQX7gCVPi30Hb3X3dztd4RHj2MHZ80uLjW0UjXHwFwJDR6nA4BkWMhyCwYhY3
-         rPK1ckm1Lmi3UWFumP8T5PIEdgBjtHpS5sNVyXC8IPEyGUDfcZPIzgE6f2vzQFw6ESa+
-         7nYmDloEa1YOGmP2AHBSipFCv5ozM1q+eStBAV9klnEVvQac1F2H4evs2RAQFk/uMDcz
-         hIoemCK0TdCyZUQw2vlaYIv2btU/5oqMFiJQf7RWjb8S0M/6Nyispwjh8SmazvQuqycq
-         rlR/5tb51y4NgeBLTuk9imqsAKkglUELU3hpGJyXj26GsJD473ufr/a3/Uffj8OajxYZ
-         GEJw==
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:to:date:message-id:user-agent;
+        bh=DhwjFm7NO3lz1+xSJxAVKegOT+4cvg/+tKLXup9pu8M=;
+        b=JKgYDj3WnLm+i4KmF9cDrLbRzosg5ADIuIHwrxYrWTY6uyO3OXbBu62c3g6lMSDH/U
+         rqb3PfYkTY/ItPGP391y30npnhYiKm5O73DiJ7aqpbMIVUT9xdzvK/cFzvf3p2BKQiVk
+         jBtrWWfOOI3WXd9BWspvi3RgIm2SaOqHw7Gz8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ceph2IeaEjNXlv8kF7Vc08ScVo4hOK+Niuv5P5aPoWQ=;
-        b=PXzDT7IRUkb53Bo38fVCNKpu/jODfnRHlfVC0NXNkxOXuBlJ78EXKwnxw7RDnMq75C
-         4GVSqAxKjH30f8bBLC07wm+Fsfc7cxRgBtF1m0BWZTJmo2mJfU8lotSFnvWLedfSl6El
-         O0FJ2QWlM7WGrx3I8eJ6pGrvt3F805CAjLT8FX767zfWLy0QJgLJwp7KFS/w0rEFXtwZ
-         bhmISVle1V35t4R9QTMu+pqtaLbvNqw/4Kb647wfazV5i6nT6rdw3mNoBIr4OhhzE00z
-         ePT9G4m/2JVa7H+OKLeA0+Hj2jUC6p4NOmZN6IN8yp5Hq9lF20OCghy+bbtBD+Z9ByKa
-         mB9g==
-X-Gm-Message-State: AGi0PuYlpfxaEC4UZoN+vmCiIwp5bBCvCppxx8Srf5KcSxm62FZ7qRVA
-        d4mP9Nnt7AGpIThNpR9N683LKVM3
-X-Google-Smtp-Source: APiQypJKa94Wc+Qyg+6OmleCPlfwn8YZOss69+KxzmFGWV8nb0nU3agrGVoCgfA5KA61fUHD0u/l0g==
-X-Received: by 2002:a05:651c:1064:: with SMTP id y4mr4178286ljm.49.1586978473089;
-        Wed, 15 Apr 2020 12:21:13 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id l7sm14099870lfg.79.2020.04.15.12.21.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2020 12:21:12 -0700 (PDT)
-Subject: Re: [RFC PATCH v7 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com,
-        sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1586919463-30542-1-git-send-email-skomatineni@nvidia.com>
- <1586919463-30542-7-git-send-email-skomatineni@nvidia.com>
- <4118112f-f865-5460-6319-d71271fd78d1@gmail.com>
- <a69a8b34-beea-3ad0-e08e-f7df8b9e7047@nvidia.com>
- <6afa951e-d904-f3c0-053f-82a02fb18979@nvidia.com>
- <b1c78827-13ea-0c94-a575-97b5afc0ede1@nvidia.com>
- <5954a7e1-910e-7f48-56d3-e671b56ead74@nvidia.com>
- <d6a9e07c-474a-a076-8313-32f5f4ca8d64@nvidia.com>
- <786949a9-8507-7723-f29b-b91a216bfd28@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f831408b-bbf4-3047-20e3-5bebfa9fc1ad@gmail.com>
-Date:   Wed, 15 Apr 2020 22:21:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:to:date:message-id:user-agent;
+        bh=DhwjFm7NO3lz1+xSJxAVKegOT+4cvg/+tKLXup9pu8M=;
+        b=drrV0wBX/VhKrO8Y6FcPkF48wRzvxnqF8i0IEnkHTvS7g2U3UScn/+qMG9O+hClml9
+         Euohi5+lM0UjOxsx5DeibLj0+0oafw2mODYGSzTJyuVzWWrRNzzPNQVm2cE/yfWDN7da
+         Yv977Wc7DEN4UI1vri9yWArbyyiH5zaFwINaKCZNy1aX4tSGQivTk4RiV/QGLtPzU89C
+         KqhL3s1GTR2BmqzOwTT0i1+MJc1u/OI46GZH/yTdjVYMqizqTD7TOGU9Zxf9+LELJCnw
+         IKi1skS9xy/E2FFtrnp8hpFhh/YawGeNZ1cu2Btwm1UAvZHNIPAIkufFriBxvaS/6XiV
+         REhw==
+X-Gm-Message-State: AGi0PuavgXOCxJ1GPJqrO8jKKzFTrouFYuR2NFsscg/b60JNwMrUdOKG
+        khxEK57q82LZZemWqcC5cx5g1g==
+X-Google-Smtp-Source: APiQypLF9I1HGpqBY5XoRsgbjZngLXUL4G8bMPpAW97Xf9cwgyxResxh8RcnSlTgxVSFyiABXXuyKg==
+X-Received: by 2002:a17:902:8d89:: with SMTP id v9mr6512515plo.83.1586979225103;
+        Wed, 15 Apr 2020 12:33:45 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id t12sm9098856pgm.37.2020.04.15.12.33.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 12:33:44 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <786949a9-8507-7723-f29b-b91a216bfd28@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1cdc4409-2113-cfe5-7eb2-6b1a6671e262@infradead.org>
+References: <1cdc4409-2113-cfe5-7eb2-6b1a6671e262@infradead.org>
+Subject: Re: uvcvideo: shift exponent -7 is negative
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-uvc-devel@lists.sourceforge.net,
+        Fritz Koenig <frkoenig@google.com>
+Date:   Wed, 15 Apr 2020 12:33:43 -0700
+Message-ID: <158697922381.105027.9312351935387255622@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-15.04.2020 21:53, Sowjanya Komatineni пишет:
-...
->>>>>>> Have you tried to test this driver under KASAN? I suspect that
->>>>>>> you just
->>>>>>> masked the problem, instead of fixing it.
-> Tested with kmemleak scan and did not see any memory leaks
+Quoting Randy Dunlap (2020-03-29 15:43:28)
+> This is kernel version 5.6-rc6.
+>=20
+> UBSAN detected a bad shift value:
+>=20
+> [  511.693411] UBSAN: Undefined behaviour in ../drivers/media/usb/uvc/uvc=
+_ctrl.c:781:13
+> [  511.694043] shift exponent -7 is negative
 
-You should get use-after-free and not memleak.
+I saw a similar problem. This patch fixed it for me but I'm not sure if
+it's correct. The negative shift is done on the mask but we're going to
+break out of the loop in that case so it isn't going to be used. Maybe
+the loop should be a do while instead and then the mask can be
+calculated at the start?
+
+---8<----
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_c=
+trl.c
+index e399b9fad757..ea6eb68329f3 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -778,7 +778,8 @@ static s32 uvc_get_le_value(struct uvc_control_mapping =
+*mapping,
+ 		value |=3D offset > 0 ? (byte >> offset) : (byte << (-offset));
+ 		bits -=3D 8 - (offset > 0 ? offset : 0);
+ 		offset -=3D 8;
+-		mask =3D (1 << bits) - 1;
++		if (bits > 0)
++			mask =3D (1 << bits) - 1;
+ 	}
+=20
+ 	/* Sign-extend the value if needed. */
