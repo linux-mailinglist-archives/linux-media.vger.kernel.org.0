@@ -2,91 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75CD91AAA8D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 16:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C35A1AAA94
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 16:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636608AbgDOOnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 10:43:23 -0400
-Received: from mga02.intel.com ([134.134.136.20]:40777 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2636761AbgDOOnV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:43:21 -0400
-IronPort-SDR: 59zoCiIqUu0ClSAjbLYrLnGrJdR4eGek+NP3M/GYQvqerf6EbCtCF9YLuKJQtNuYv8uGCT4fMX
- upaeMnKuLqaQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 07:43:18 -0700
-IronPort-SDR: 7wa5eEDO+82IZVGkRZs2nlIh7jryIELCFaDpOZ0jox5vFgSl4nDV2h4MMcfopWcTJcN+KqCxBM
- zqTivcPKDDaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
-   d="scan'208";a="253543139"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 15 Apr 2020 07:43:17 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jOjG1-000Dqt-41; Wed, 15 Apr 2020 22:43:17 +0800
-Date:   Wed, 15 Apr 2020 22:42:47 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org
-Subject: [linuxtv-media:master 139/161] drivers/media/cec/Kconfig:27: symbol
- MEDIA_CEC_SUPPORT default is visible depending on MEDIA_SUPPORT_FILTER
-Message-ID: <202004152207.nYpn1yeG%lkp@intel.com>
+        id S2636773AbgDOOnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 10:43:55 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:38690 "EHLO
+        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S370876AbgDOOnm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:43:42 -0400
+Received: by mail-oo1-f68.google.com with SMTP id i9so880ool.5;
+        Wed, 15 Apr 2020 07:43:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aS1Is431wFo8Y/I/7OGLepWmzb0NQKhnSdzX/bpKCuI=;
+        b=B8Q96YOIJ9XJ+R+Wr5e8QhVSY8tPtC6K+vRwuLr+JgMBmXmKYH84rkW1fK38VT8tAl
+         ol7ongFAIAS1xtcwJFTE+poAOmY7PPAVzD4Ek0xncMreDETVbzwvUdWie4ALa8hJU4LE
+         kAYfUZPf54z0capKh1ns/KOd8ED+Ao7o/SOpcHf4Z/yKfgHDMIdyjVM404/0aguB7fzY
+         T16DjkVyZRpw+2Vel1AA9aRbD+Bk3gE1wc2cO1Nnnfdc8gGzFz6cEHFgbzhxSNxi0Zp+
+         ZCir0qQQP6N6F2MXTyXeFAvne+sDGqnZHdkiUBTT0kxmilmY6Qudqa5u9hlboe+vj9GL
+         WywA==
+X-Gm-Message-State: AGi0Pub/lRmtTrsjVx0mJS6AdJgYxNwAkSI0dJwVewzw05Ez1s4FxNTK
+        dte0HVd6I7HRl4HnVMFvqA==
+X-Google-Smtp-Source: APiQypJGYusZTJBkcMjHaBqRyKb0biS2xVvK01uI9ULQOUjb61LqMow83eT3yRCjWJJmofFaIfh/Rg==
+X-Received: by 2002:a4a:db7b:: with SMTP id o27mr22967195ood.25.1586961819086;
+        Wed, 15 Apr 2020 07:43:39 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id k132sm6454033oih.9.2020.04.15.07.43.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 07:43:37 -0700 (PDT)
+Received: (nullmailer pid 16201 invoked by uid 1000);
+        Wed, 15 Apr 2020 14:43:36 -0000
+Date:   Wed, 15 Apr 2020 09:43:36 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v5 5/5] media: dt-bindings: media: i2c: convert ov5645
+ bindings to json-schema
+Message-ID: <20200415144336.GA11960@bogus>
+References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1586191361-16598-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200406174346.GH16885@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20200406174346.GH16885@pendragon.ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/media_tree.git master
-head:   63735af86d645a47903f912ae89957507edd917b
-commit: 4be5e8648b0c287aefc6ac3f3a0b12c696054f43 [139/161] media: move CEC platform drivers to a separate directory
-config: s390-zfcpdump_defconfig
-compiler: s390-linux-gcc (GCC) 9.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout 4be5e8648b0c287aefc6ac3f3a0b12c696054f43
-        GCC_VERSION=9.3.0 make.cross ARCH=s390  zfcpdump_defconfig
-        GCC_VERSION=9.3.0 make.cross ARCH=s390 
+On Mon, Apr 06, 2020 at 08:43:46PM +0300, Laurent Pinchart wrote:
+> Hi Prabhakar,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Apr 06, 2020 at 05:42:41PM +0100, Lad Prabhakar wrote:
+> > Convert ov5645 bindings to json-schema.
+> > 
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov5645.txt  |  52 --------
+> >  .../devicetree/bindings/media/i2c/ov5645.yaml | 126 ++++++++++++++++++
+> >  2 files changed, 126 insertions(+), 52 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > deleted file mode 100644
+> > index a55bb728ea48..000000000000
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > +++ /dev/null
+> > @@ -1,52 +0,0 @@
+> > -* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+> > -
+> > -The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
+> > -an active array size of 2592H x 1944V. It is programmable through a serial I2C
+> > -interface.
+> > -
+> > -Required Properties:
+> > -- compatible: Value should be "ovti,ov5645".
+> > -- clocks: Reference to the xclk clock.
+> > -- clock-names: Should be "xclk".
+> > -- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+> > -  to the hardware pin PWDNB which is physically active low.
+> > -- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> > -  the hardware pin RESETB.
+> > -- vdddo-supply: Chip digital IO regulator.
+> > -- vdda-supply: Chip analog regulator.
+> > -- vddd-supply: Chip digital core regulator.
+> > -
+> > -The device node must contain one 'port' child node for its digital output
+> > -video port, in accordance with the video interface bindings defined in
+> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > -
+> > -Example:
+> > -
+> > -	&i2c1 {
+> > -		...
+> > -
+> > -		ov5645: ov5645@3c {
+> > -			compatible = "ovti,ov5645";
+> > -			reg = <0x3c>;
+> > -
+> > -			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+> > -			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
+> > -			pinctrl-names = "default";
+> > -			pinctrl-0 = <&camera_rear_default>;
+> > -
+> > -			clocks = <&clks 200>;
+> > -			clock-names = "xclk";
+> > -
+> > -			vdddo-supply = <&camera_dovdd_1v8>;
+> > -			vdda-supply = <&camera_avdd_2v8>;
+> > -			vddd-supply = <&camera_dvdd_1v2>;
+> > -
+> > -			port {
+> > -				ov5645_ep: endpoint {
+> > -					clock-lanes = <1>;
+> > -					data-lanes = <0 2>;
+> > -					remote-endpoint = <&csi0_ep>;
+> > -				};
+> > -			};
+> > -		};
+> > -	};
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+> > new file mode 100644
+> > index 000000000000..d5cdcf9a1c76
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.yaml
+> > @@ -0,0 +1,126 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ov5645.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Omnivision 1/4-Inch 5MP CMOS Digital Image Sensor
+> > +
+> > +maintainers:
+> > +  - Sakari Ailus <sakari.ailus@linux.intel.com>
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +description: |-
+> > + The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
+> > + an active array size of 2592H x 1944V. It is programmable through a serial I2C
+> > + interface.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov5645
+> > +
+> > +  reg:
+> > +    description: I2C device address
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    description: External clock frequency should range between 6MHz to 27MHz.
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: xclk
+> > +
+> > +  enable-gpios:
+> > +    description: |-
+> > +      Chip enable GPIO. This corresponds to the hardware pin PWDNB which is
+> > +      physically active low.
+> > +
+> > +  reset-gpios:
+> > +    description: Chip reset GPIO. This corresponds to the hardware pin RESETB.
+> > +
+> > +  vdddo-supply:
+> > +    description: Chip digital IO regulator.
+> > +
+> > +  vdda-supply:
+> > +    description: Chip analog regulator.
+> > +
+> > +  vddd-supply:
+> > +    description: Chip digital core regulator.
+> > +
+> > +  # See ../video-interfaces.txt for more details
+> > +  port:
+> > +    type: object
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +
+> > +        properties:
+> > +          data-lanes:
+> 
+> Don't you need
+> 
+> 		minItems: 1
+> 		maxItems: 2
+> 
+> here ?
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
+Yes.
 
-All errors (new ones prefixed by >>):
+> > +            description: |-
+> > +              The sensor supports either one-lane, or two-lane operation.
+> > +              For one-lane operation the property must be set to <1> and
+> > +              for two-lane operation the property must be set to <1 2>.
+> > +            items:
+> > +              - const: 1
+> > +              - const: 2
+> > +
+> > +          clock-lanes:
+> 
+> Same here,
+> 
+> 		maxItems: 1
+> 
+> ?
 
-   drivers/pci/Kconfig:16:error: recursive dependency detected!
-   drivers/pci/Kconfig:16: symbol PCI is selected by VIDEO_SECO_CEC
-   drivers/media/cec/platform/Kconfig:100: symbol VIDEO_SECO_CEC depends on MEDIA_CEC_SUPPORT
->> drivers/media/cec/Kconfig:27: symbol MEDIA_CEC_SUPPORT default is visible depending on MEDIA_SUPPORT_FILTER
->> drivers/media/Kconfig:25: symbol MEDIA_SUPPORT_FILTER depends on MEDIA_SUPPORT
->> drivers/media/Kconfig:12: symbol MEDIA_SUPPORT depends on HAS_IOMEM
->> arch/s390/Kconfig:721: symbol HAS_IOMEM default value contains PCI
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+No, because the default is number of entries in 'items'.
 
-vim +27 drivers/media/cec/Kconfig
+> 
+> > +            description:
+> > +              should be set to <0> (clock lane on hardware lane 0).
+> 
+> I think you can drop the description, with the items below it's clear
+> that the value has to be <0>.
+> 
+> > +            items:
+> > +              - const: 0
+> > +
+> > +          remote-endpoint: true
+> 
+> Should this be
+> 
+>              remote-endpoint:
+> 	       $ref: /schemas/types.yaml#/definitions/phandle
 
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15 @27  	default y if !MEDIA_SUPPORT_FILTER
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15  28  	help
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15  29  	  Enable support for HDMI CEC (Consumer Electronics Control),
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15  30  	  which is an optional HDMI feature.
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15  31  
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15  32  	  Say Y when you have an HDMI receiver, transmitter or a USB CEC
-46d2a3b964ddbe Mauro Carvalho Chehab 2020-04-15  33  	  adapter that supports HDMI CEC.
-4be5e8648b0c28 Mauro Carvalho Chehab 2020-04-15  34  
+No, we can assume this has a type definition already.
 
-:::::: The code at line 27 was first introduced by commit
-:::::: 46d2a3b964ddbe63605dab502c847180b1efbfb2 media: place CEC menu before MEDIA_SUPPORT
-
-:::::: TO: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Rob
