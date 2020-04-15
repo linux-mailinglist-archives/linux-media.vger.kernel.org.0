@@ -2,212 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 316C81AADA3
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:31:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B681AADDD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415495AbgDOQQY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 12:16:24 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:47512 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1415484AbgDOQQV (ORCPT
+        id S1415651AbgDOQVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 12:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56340 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1415626AbgDOQVX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:16:21 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 04747634C8B;
-        Wed, 15 Apr 2020 19:16:17 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jOki0-0000Gx-Cm; Wed, 15 Apr 2020 19:16:16 +0300
-Date:   Wed, 15 Apr 2020 19:16:16 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>,
+        Wed, 15 Apr 2020 12:21:23 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95922C061A0C
+        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 09:21:23 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1jOkmm-0005YD-EE; Wed, 15 Apr 2020 18:21:12 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1jOkmk-0004Qr-4c; Wed, 15 Apr 2020 18:21:10 +0200
+Date:   Wed, 15 Apr 2020 18:21:10 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Robert Foss <robert.foss@linaro.org>,
         Dongchun Zhu <dongchun.zhu@mediatek.com>,
         Fabio Estevam <festevam@gmail.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v6 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200415161616.GA934@valkosipuli.retiisi.org.uk>
-References: <CAG3jFysSrZJRE2TvL0bWoRFNnscgDGj8yGr-iwWBm4=1wMbJ9A@mail.gmail.com>
- <20200407163916.GL6127@valkosipuli.retiisi.org.uk>
- <CAAFQd5BGFB5znb9QyyPVL47kc809Ktu33bssvqg5eA-WwvMgOw@mail.gmail.com>
- <20200407172035.GM6127@valkosipuli.retiisi.org.uk>
- <20200408122127.i27hrmjh3pbjeulk@gilmour.lan>
- <CAAFQd5DNyQra-XksVaSfT_FCkOHTzm9mbn+tMd1vACV=pb9_8g@mail.gmail.com>
- <20200408134315.a7cemmto6bi26arg@gilmour.lan>
- <20200408152857.GO6127@valkosipuli.retiisi.org.uk>
- <20200408153051.GP6127@valkosipuli.retiisi.org.uk>
- <20200415101827.owf5babnigev2vit@gilmour.lan>
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v7 1/3] media: dt-bindings: ov8856: Document YAML bindings
+Message-ID: <20200415162110.bmorj4u4hkqohqjx@pengutronix.de>
+References: <20200408110816.2712841-1-robert.foss@linaro.org>
+ <20200408110816.2712841-2-robert.foss@linaro.org>
+ <20200415160729.GA4438@bogus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200415101827.owf5babnigev2vit@gilmour.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200415160729.GA4438@bogus>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 18:19:18 up 152 days,  7:37, 171 users,  load average: 1.12, 0.66,
+ 0.33
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 12:18:27PM +0200, Maxime Ripard wrote:
-> On Wed, Apr 08, 2020 at 06:30:51PM +0300, Sakari Ailus wrote:
-> > Cc'ing Laurent as well.
-> >
-> > On Wed, Apr 08, 2020 at 06:28:57PM +0300, Sakari Ailus wrote:
-> > > Hi Maxime,
-> > >
-> > > On Wed, Apr 08, 2020 at 03:43:15PM +0200, Maxime Ripard wrote:
-> > > > On Wed, Apr 08, 2020 at 02:35:28PM +0200, Tomasz Figa wrote:
-> > > > > On Wed, Apr 8, 2020 at 2:21 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > On Tue, Apr 07, 2020 at 08:20:35PM +0300, Sakari Ailus wrote:
-> > > > > > > On Tue, Apr 07, 2020 at 06:46:06PM +0200, Tomasz Figa wrote:
-> > > > > > > > On Tue, Apr 7, 2020 at 6:40 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > > > > > > > >
-> > > > > > > > > On Tue, Apr 07, 2020 at 05:47:41PM +0200, Robert Foss wrote:
-> > > > > > > > > > On Tue, 7 Apr 2020 at 14:32, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > > >
-> > > > > > > > > > > Hi Robert,
-> > > > > > > > > > >
-> > > > > > > > > > > On Tue, Apr 07, 2020 at 01:29:05PM +0200, Robert Foss wrote:
-> > > > > > > > > > > > On Tue, 7 Apr 2020 at 10:36, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > > > > > On Mon, Apr 06, 2020 at 11:35:07AM +0300, Sakari Ailus wrote:
-> > > > > > > > > > > > > > > But that 19.2MHz is not a limitation of the device itself, it's a
-> > > > > > > > > > > > > > > limitation of our implementation, so we can instead implement
-> > > > > > > > > > > > > > > something equivalent in Linux using a clk_set_rate to 19.2MHz (to make
-> > > > > > > > > > > > > > > sure that our parent clock is configured at the right rate) and the
-> > > > > > > > > > > > > > > clk_get_rate and compare that to 19.2MHz (to make sure that it's not
-> > > > > > > > > > > > > > > been rounded too far apart from the frequency we expect).
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > This is doing exactly the same thing, except that we don't encode our
-> > > > > > > > > > > > > > > implementation limitations in the DT, but in the driver instead.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > What I really wanted to say that a driver that doesn't get the clock
-> > > > > > > > > > > > > > frequency from DT but still sets that frequency is broken.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > This frequency is highly system specific, and in many cases only a certain
-> > > > > > > > > > > > > > frequency is usable, for a few reasons: On many SoCs, not all common
-> > > > > > > > > > > > > > frequencies can be used (e.g. 9,6 MHz, 19,2 MHz and 24 MHz; while others
-> > > > > > > > > > > > > > are being used as well), and then that frequency affects the usable CSI-2
-> > > > > > > > > > > > > > bus frequencies directly --- and of those, only safe, known-good ones
-> > > > > > > > > > > > > > should be used. IOW, getting the external clock frequency wrong typically
-> > > > > > > > > > > > > > has an effect that that none of the known-good CSI-2 bus clock frequencies
-> > > > > > > > > > > > > > are available.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > So clock-frequency is not about the "Frequency of the xvclk clock in
-> > > > > > > > > > > > > Hertz", but the frequency at which that clock must run on this
-> > > > > > > > > > > > > particular SoC / board to be functional?
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > If so, then yeah, we should definitely keep it, but the documentation
-> > > > > > > > > > > > > of the binding should be made clearer as well.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Alright so, let me summarise the desired approach then.
-> > > > > > > > > > >
-> > > > > > > > > > > There's a separate discussion on the same topic here:
-> > > > > > > > > > > https://lore.kernel.org/linux-media/20200407122106.GD4751@pendragon.ideasonboard.com/
-> > > > > > > > > >
-> > > > > > > > > > Thanks for the link.
-> > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > > ACPI:
-> > > > > > > > > > > >   - Fetch the "clock-frequency" property
-> > > > > > > > > > > >   - Verify it to be 19.2Mhz
-> > > > > > > > > > > >
-> > > > > > > > > > > > DT:
-> > > > > > > > > > > >   - Fetch the "clock-frequency" property
-> > > > > > > > > > > >   - Verify it to be 19.2Mhz
-> > > > > > > > > > > >   - Get xvclk clock
-> > > > > > > > > > > >   - Get xvclk clock rate
-> > > > > > > > > > > >   - Verify xvclk clock rate to be 19.2Mhz
-> > > > > > > > > > >
-> > > > > > > > > > > The current status is that you should
-> > > > > > > > > > > 's/clock-frequency/link-frequencies/', and in order to replace
-> > > > > > > > > > > assigned-clock-rates, you'll want to have a clk_set_rate to 19.2MHz
-> > > > > > > > > > > between steps 3 and 4
-> > > > > > > > > >
-> > > > > > > > > > Would we want to 's/clock-frequency/link-frequencies/' for ACPI too?
-> > > > > > > > > > I imagine that would cause some breakage.
-> > > > > > > > >
-> > > > > > > > > It would, yes, and it would be no more correct on DT either.
-> > > > > > > > >
-> > > > > > > > > There are basically two possibilities here; either use the clock-frequency
-> > > > > > > > > property and set the frequency, or rely on assigned-clock-rates, and get
-> > > > > > > > > the frequency instead.
-> > > > > > > > >
-> > > > > > > > > The latter, while I understand it is generally preferred, comes with having
-> > > > > > > > > to figure out the register list set that closest matches the frequency
-> > > > > > > > > obtained. The former generally gets around this silently by the clock
-> > > > > > > > > driver setting the closest frequency it can support.
-> > > > > > > >
-> > > > > > > > Wouldn't the former actually cause problems, because the closest
-> > > > > > > > frequency the clock driver can support could be pretty far from the
-> > > > > > > > one requested? (E.g. 19.2 MHz vs 24 MHz) The driver needs to check the
-> > > > > > > > resulting frequency anyway.
-> > > > > > >
-> > > > > > > That's possible, yes; in this case there wouldn't be a guarantee the
-> > > > > > > frequency wouldn't be far off.
-> > > > > >
-> > > > > > assigned-clock-rates is really fragile... There's zero guarantee on
-> > > > > > how far the actual rate is going to be from the asked one, but more
-> > > > > > importantly you have zero guarantee on the time frame that rate is
-> > > > > > going to be enforced for.
-> > > > >
-> > > > > Is there such a guarantee if clk_set_rate() is called?
-> > > >
-> > > > with clk_set_rate itself, no, but...
-> > > >
-> > > > > > It's simply going to change the rate as a one-off thing, and if
-> > > > > > there's the next millisecond someone else is going to change its rate
-> > > > > > one way or another, it's going to do so and you won't have any
-> > > > > > notification.
-> > > >
-> > > > You can get notified, and you can use clk_set_rate_exclusive if you
-> > > > *really* want to enforce it.
-> > >
-> > > Is the conclusion then we should go back to relying on the clock-frequency
-> > > property?
+On 20-04-15 11:07, Rob Herring wrote:
+> On Wed, Apr 08, 2020 at 01:08:14PM +0200, Robert Foss wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > 
+> > This patch adds documentation of device tree in YAML schema for the
+> > OV8856 CMOS image sensor.
+> > 
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > ---
+> > 
+> > - Changes since v6:
+> >   * Marco: remove qcom specifics from DT example
+> >    
+> > - Changes since v5:
+> >   * Add assigned-clocks and assigned-clock-rates
+> >   * robher: dt-schema errors
+> > 
+> > - Changes since v4:
+> >   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
+> >   * Add clock-lanes property to example
+> >   * robher: Fix syntax error in devicetree example
+> > 
+> > - Changes since v3:
+> >   * robher: Fix syntax error
+> >   * robher: Removed maxItems
+> >   * Fixes yaml 'make dt-binding-check' errors
+> > 
+> > - Changes since v2:
+> >   Fixes comments from from Andy, Tomasz, Sakari, Rob.
+> >   * Convert text documentation to YAML schema.
+> > 
+> > - Changes since v1:
+> >   Fixes comments from Sakari, Tomasz
+> >   * Add clock-frequency and link-frequencies in DT
+> > 
+> >  .../devicetree/bindings/media/i2c/ov8856.yaml | 143 ++++++++++++++++++
+> >  MAINTAINERS                                   |   1 +
+> >  2 files changed, 144 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > new file mode 100644
+> > index 000000000000..96bef5403d7e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > @@ -0,0 +1,143 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +# Copyright (c) 2019 MediaTek Inc.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Ben Kao <ben.kao@intel.com>
+> > +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > +
+> > +description: |-
+> > +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapixel, CMOS
+> > +  image sensor that delivers 3264x2448 at 30fps. It provides full-frame,
+> > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> > +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
+> > +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
+> > +  serial data output (up to 4-lane).
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov8856
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    description:
+> > +      Input clock for the sensor.
+> > +    items:
+> > +      - const: xvclk
+> > +
+> > +  assigned-clocks:
+> > +    description:
+> > +      Input clock for the sensor.
+> > +
+> > +  assigned-clock-rates:
+> > +    description:
+> > +      Frequency of the xvclk clock in Hertz.
 > 
-> clock-frequency or link-frequencies. link-frequencies seems to be a
-> better fit here, but we don't really have the choice for older
-> bindings.
+> These 2 should have a 'maxItems: 1'
 
-You can't replace one with the other as the two are different things. The
-clock-frequency refers to the external clock frequency whereas the
-link-frequencies refers to the frequencies allowed on the CSI-2 bus.
+Don't know why those properties are needed here.. IMHO this shouldn't be
+part of the binding or at least it should be optional and not required.
+All we need is the clocks and the clock-names property.
 
+> > +  dovdd-supply:
+> > +    description:
+> > +      Definition of the regulator used as interface power supply.
+> > +
+> > +  avdd-supply:
+> > +    description:
+> > +      Definition of the regulator used as analog power supply.
+> > +
+> > +  dvdd-supply:
+> > +    description:
+> > +      Definition of the regulator used as digital power supply.
+> > +
+> > +  reset-gpios:
+> > +    description:
+> > +      The phandle and specifier for the GPIO that controls sensor reset.
+> > +      This corresponds to the hardware pin XSHUTDOWN which is physically
+> > +      active low.
+> > +
+> > +  port:
+> > +    type: object
+> > +    additionalProperties: false
+> > +    description:
+> > +      A node containing input and output port nodes with endpoint definitions
 > 
-> > > This has been discussed multiple times over the years, and I don't really
-> > > disagree with the above. The frequency is typically indeed hand-picked for
-> > > the hardware, and no other frequency should be used in any circumstances.
-> > >
-> > > No sensor driver I've seen has used clk_set_rate_exclusive() but I guess
-> > > they should. The absence of practical problems has been probably because of
-> > > two factors; firstly, these are typically clocks dedicated to the sensors
-> > > and secondly, good luck.
+> Only an output, right?
 > 
-> My point was that at least with handling the clock rate within the
-> driver (as opposed to assigned-clock-rates) you have multiple options
-> in dealing with changing colck rates / parents (Modelling the sensor
-> clock as a clock itself, using clk_set_rate_exclusive, using a
-> notifier, etc).. Some are more intrusive to the rest of the system
-> than others (especially clk_set_rate_exclusive), so I'm not really
-> advocating for any here, but we should make sure we have them in the
-> first place.
-
-Using a different frequency really should not be allowed. It may be
-possible on a development system, hobbyist platform, but never in
-production. Therefore the exclusive variant sounds like the right one to
-me.
+> > +      as documented in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +
+> > +        properties:
+> > +          clock-lanes:
+> > +            maxItems: 1
+> > +
+> > +          data-lanes:
+> > +            maxItems: 1
+> > +
+> > +          remote-endpoint: true
+> > +
+> > +        required:
+> > +          - clock-lanes
+> > +          - data-lanes
+> > +          - remote-endpoint
+> > +
+> > +    required:
+> > +      - endpoint
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - assigned-clocks
+> > +  - assigned-clock-rates
+> > +  - dovdd-supply
+> > +  - avdd-supply
+> > +  - dvdd-supply
+> > +  - reset-gpios
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        ov8856: camera@10 {
+> > +            compatible = "ovti,ov8856";
+> > +            reg = <0x10>;
+> > +
+> > +            reset-gpios = <&pio 111 GPIO_ACTIVE_LOW>;
+> > +            pinctrl-names = "default";
+> > +            pinctrl-0 = <&clk_24m_cam>;
+> > +
+> > +            clocks = <&cam_osc>;
+> > +            clock-names = "xvclk";
+> > +            assigned-clocks = <&cam_osc>;
+> > +            assigned-clock-rates = <19200000>;
+> > +
+> > +            avdd-supply = <&mt6358_vcama2_reg>;
+> > +            dvdd-supply = <&mt6358_vcamd_reg>;
+> > +            dovdd-supply = <&mt6358_vcamio_reg>;
+> > +
+> > +            port {
+> > +                wcam_out: endpoint {
+> > +                    remote-endpoint = <&mipi_in_wcam>;
+> > +                    clock-lanes = <0>;
+> > +                    data-lanes = <1 2 3 4>;
+> > +                    link-frequencies = /bits/ 64 <360000000 180000000>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +...
+> > \ No newline at end of file
+> 
+> ^^^
+> 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 534a8dc4f84a..3f35c6e9700a 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -12465,6 +12465,7 @@ L:	linux-media@vger.kernel.org
+> >  T:	git git://linuxtv.org/media_tree.git
+> >  S:	Maintained
+> >  F:	drivers/media/i2c/ov8856.c
+> > +F:	Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> >  
+> >  OMNIVISION OV9650 SENSOR DRIVER
+> >  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+> > -- 
+> > 2.25.1
+> > 
+> 
 
 -- 
-Regards,
-
-Sakari Ailus
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
