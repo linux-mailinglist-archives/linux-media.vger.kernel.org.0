@@ -2,432 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 159B11A982F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 11:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C7981A98DB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 11:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895117AbgDOJPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 05:15:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54274 "EHLO
+        id S2895494AbgDOJ2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 05:28:50 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54692 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2635972AbgDOJPg (ORCPT
+        with ESMTP id S2895493AbgDOJ2q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:15:36 -0400
+        Wed, 15 Apr 2020 05:28:46 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id E4F352A1BA4
-Subject: Re: [PATCH v4] media: vimc: get pixformat info from v4l2_format_info
-To:     Carlos Eduardo Climaco Barbosa <barbosa.carlos.ec@gmail.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-References: <20200412205916.3333547-1-barbosa.carlos.ec@gmail.com>
- <00452e47-15b6-14e6-0c48-7846f9da542e@collabora.com>
- <CALBj8qeo_1d09LbRu+gqpXjXQrFkr7Gq0JBbK6UXwnLdDprVYg@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <348e5daa-bdbe-b288-5770-af5eab1034b0@collabora.com>
-Date:   Wed, 15 Apr 2020 11:15:29 +0200
+        (Authenticated sender: gtucker)
+        with ESMTPSA id 86D772A1970
+Subject: Re: media/master bisection: v4l2-compliance-vivid.device-presence on
+ qemu_x86_64
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <5e960bf5.1c69fb81.8a349.6851@mx.google.com>
+ <24564393-f229-6e29-7883-9605ed0d48b4@collabora.com>
+ <20200414233347.2a844b85@coco.lan>
+ <86feeb83-37ac-cbd6-b792-b81d17d559c9@collabora.com>
+Message-ID: <2f32345d-a818-8ec4-afd6-2b9cd9dcdf4a@collabora.com>
+Date:   Wed, 15 Apr 2020 10:28:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CALBj8qeo_1d09LbRu+gqpXjXQrFkr7Gq0JBbK6UXwnLdDprVYg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <86feeb83-37ac-cbd6-b792-b81d17d559c9@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 14/04/2020 22:43, Guillaume Tucker wrote:
+> On 14/04/2020 22:33, Mauro Carvalho Chehab wrote:
+>> Em Tue, 14 Apr 2020 22:23:52 +0100
+>> Guillaume Tucker <guillaume.tucker@collabora.com> escreveu:
+>>
+>>> Please see the bisection report below about absence of the vivid
+>>> driver, which caused v4l2-compliance to fail to run.
+>>>
+>>> Presumably we need to update the configuration fragment used by
+>>> kernelci.org to enable platform drivers.  Until now we've been
+>>> using this:
+>>>
+>>>     CONFIG_MEDIA_SUPPORT=y
+>>>     CONFIG_MEDIA_CAMERA_SUPPORT=y
+>>>     CONFIG_VIDEO_DEV=y
+>>>     CONFIG_VIDEO_V4L2=y
+>>>     CONFIG_V4L_TEST_DRIVERS=y
+>>>     CONFIG_VIDEO_VIVID=y
+>>>     CONFIG_VIDEO_VIVID_MAX_DEVS=64
+>>>
+>>> Do we simply need to add this one in v5.7 onwards?
+>>>
+>>>     CONFIG_MEDIA_PLATFORM_SUPPORT=y
+>>
+>> No, this shouldn't be needed.
+>>
+>> Helen sent us a patch that should likely fix it:
+>>
+>> 	https://git.linuxtv.org/media_tree.git/commit/?id=860b511766a3d95308a942ac09a34e4d1839e706
+>>
+>> Could you please check if this solves the issue?
+> 
+> I see, thanks.  This revision is being built and tested at the
+> moment, I'll check the results when they land in my inbox.
 
+Helen's patch was needed, but there were still a couple of
+issues.  First we need to enable this extra option now in the
+config fragment:
 
-On 14.04.20 16:03, Carlos Eduardo Climaco Barbosa wrote:
-> On Mon, Apr 13, 2020 at 10:24 AM Dafna Hirschfeld <dafna.hirschfeld@collabora.com <mailto:dafna.hirschfeld@collabora.com>> wrote:
-> 
->     Hi,
-> 
->     Thanks for tha patch!
-> 
->     On 12.04.20 22:59, Carlos E. C. Barbosa wrote:
->      > From: "Carlos E.C. Barbosa" <barbosa.carlos.ec@gmail.com <mailto:barbosa.carlos.ec@gmail.com>>
->      >
->      > There is overlapping code over two distinct lists. This repurposes
->      > vimc_pix_map for mapping formats and remaps the calls to the matching
->      > v4l2_format_info.
->      >
->      > Signed-off-by: Carlos E. C. Barbosa <barbosa.carlos.ec@gmail.com <mailto:barbosa.carlos.ec@gmail.com>>
->      >
->      > ---
->      >
->      > Changes in v2:
->      > As advised by Helen Koike and Hans Verkuil, the const qualifiers are
->      > not
->      > removed, the bayer flag is kept and the unnecessary changes are not
->      > made.
->      >
->      > Changes in v3:
->      > Change declaration order of variables and some minor style changes.
->      >
->      > Changes in v4:
->      > Unused variables were removed.
->      >
->      > v4l2-compliance -m /dev/media0 output:
->      > https://pastebin.com/F98792eW
->      > ---
->      >   drivers/media/platform/vimc/vimc-capture.c | 14 ++++++++-----
->      >   drivers/media/platform/vimc/vimc-common.c  | 23 ----------------------
->      >   drivers/media/platform/vimc/vimc-common.h  |  2 --
->      >   drivers/media/platform/vimc/vimc-debayer.c |  7 +++++--
->      >   drivers/media/platform/vimc/vimc-scaler.c  |  8 ++++++--
->      >   drivers/media/platform/vimc/vimc-sensor.c  |  9 +++++++--
->      >   6 files changed, 27 insertions(+), 36 deletions(-)
->      >
->      > diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
->      > index 23e740c1c5c0..4f85e0bb8f27 100644
->      > --- a/drivers/media/platform/vimc/vimc-capture.c
->      > +++ b/drivers/media/platform/vimc/vimc-capture.c
->      > @@ -85,6 +85,7 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
->      >                                   struct v4l2_format *f)
->      >   {
->      >       struct v4l2_pix_format *format = &f->fmt.pix;
->      > +     const struct v4l2_format_info *vinfo;
->      >       const struct vimc_pix_map *vpix;
->      >
->      >       format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
->      > @@ -94,12 +95,13 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
->      >
->      >       /* Don't accept a pixelformat that is not on the table */
->      >       vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
->      > -     if (!vpix) {
->      > +     if (!vpix)
->      >               format->pixelformat = fmt_default.pixelformat;
->      > -             vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
->      > -     }
->      > +
->      > +     vinfo = v4l2_format_info(format->pixelformat);
->      > +
->      >       /* TODO: Add support for custom bytesperline values */
->      > -     format->bytesperline = format->width * vpix->bpp;
->      > +     format->bytesperline = format->width * vinfo->bpp[0];
->      >       format->sizeimage = format->bytesperline * format->height;
->      >
->      >       if (format->field == V4L2_FIELD_ANY)
->      > @@ -386,6 +388,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
->      >                                    const char *vcfg_name)
->      >   {
->      >       struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
->      > +     const struct v4l2_format_info *vinfo;
->      >       const struct vimc_pix_map *vpix;
->      >       struct vimc_cap_device *vcap;
->      >       struct video_device *vdev;
->      > @@ -435,7 +438,8 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
->      >       /* Set default frame format */
->      >       vcap->format = fmt_default;
->      >       vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
->      > -     vcap->format.bytesperline = vcap->format.width * vpix->bpp;
->      > +     vinfo = v4l2_format_info(vpix->pixelformat);
->     you can do instead "vinfo = v4l2_format_info(vcap->format.pixelformat);"
->     and then you don't need vpix at all
->      > +     vcap->format.bytesperline = vcap->format.width * vinfo->bpp[0];
->      >       vcap->format.sizeimage = vcap->format.bytesperline *
->      >                                vcap->format.height;
->      >
->      > diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
->      > index c95c17c048f2..fc881daee627 100644
->      > --- a/drivers/media/platform/vimc/vimc-common.c
->      > +++ b/drivers/media/platform/vimc/vimc-common.c
->      > @@ -21,19 +21,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->      >       {
->      >               .code = MEDIA_BUS_FMT_BGR888_1X24,
->      >               .pixelformat = V4L2_PIX_FMT_BGR24,
->      > -             .bpp = 3,
->      >               .bayer = false,
->     I know you already removed the bayer field in the first version, I think
->     it is actually a good idea since it can be retrieved from the v4l2_format_info
->     through the .pixel_enc field and there is even a helper "v4l2_is_format_bayer".
->     Then you can add a function
->     "const struct v4l2_format_info *vimc_code_to_format_info(u32 mbus_code)"
->     that returns the vinfo directly from the code.
-> 
->     Thank,
->     Dafna
-> 
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_RGB888_1X24,
->      >               .pixelformat = V4L2_PIX_FMT_RGB24,
->      > -             .bpp = 3,
->      >               .bayer = false,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_ARGB8888_1X32,
->      >               .pixelformat = V4L2_PIX_FMT_ARGB32,
->      > -             .bpp = 4,
->      >               .bayer = false,
->      >       },
->      >
->      > @@ -41,49 +38,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->      >       {
->      >               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SBGGR8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SGBRG8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SGRBG8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SRGGB8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
->      >               .pixelformat = V4L2_PIX_FMT_SBGGR10,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
->      >               .pixelformat = V4L2_PIX_FMT_SGBRG10,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
->      >               .pixelformat = V4L2_PIX_FMT_SGRBG10,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
->      >               .pixelformat = V4L2_PIX_FMT_SRGGB10,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >
->      > @@ -91,25 +80,21 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->      >       {
->      >               .code = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SBGGR10ALAW8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SGBRG10ALAW8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SGRBG10ALAW8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SRGGB10ALAW8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >
->      > @@ -117,49 +102,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->      >       {
->      >               .code = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SBGGR10DPCM8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SGBRG10DPCM8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SGRBG10DPCM8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
->      >               .pixelformat = V4L2_PIX_FMT_SRGGB10DPCM8,
->      > -             .bpp = 1,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
->      >               .pixelformat = V4L2_PIX_FMT_SBGGR12,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
->      >               .pixelformat = V4L2_PIX_FMT_SGBRG12,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
->      >               .pixelformat = V4L2_PIX_FMT_SGRBG12,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >       {
->      >               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
->      >               .pixelformat = V4L2_PIX_FMT_SRGGB12,
->      > -             .bpp = 2,
->      >               .bayer = true,
->      >       },
->      >   };
->      > diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
->      > index 616d5a6b0754..838d5df7b9ed 100644
->      > --- a/drivers/media/platform/vimc/vimc-common.h
->      > +++ b/drivers/media/platform/vimc/vimc-common.h
->      > @@ -62,7 +62,6 @@ do {                                                                        \
->      >    * struct vimc_pix_map - maps media bus code with v4l2 pixel format
->      >    *
->      >    * @code:           media bus format code defined by MEDIA_BUS_FMT_* macros
->      > - * @bbp:             number of bytes each pixel occupies
->      >    * @pixelformat:    pixel format devined by V4L2_PIX_FMT_* macros
->      >    *
->      >    * Struct which matches the MEDIA_BUS_FMT_* codes with the corresponding
->      > @@ -70,7 +69,6 @@ do {                                                                        \
->      >    */
->      >   struct vimc_pix_map {
->      >       unsigned int code;
->      > -     unsigned int bpp;
->      >       u32 pixelformat;
->      >       bool bayer;
->      >   };
->      > diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
->      > index baf6bf9f65b5..c141a307851c 100644
->      > --- a/drivers/media/platform/vimc/vimc-debayer.c
->      > +++ b/drivers/media/platform/vimc/vimc-debayer.c
->      > @@ -303,6 +303,7 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
->      >       struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
->      >
->      >       if (enable) {
->      > +             const struct v4l2_format_info *vinfo;
->      >               const struct vimc_pix_map *vpix;
->      >               unsigned int frame_size;
->      >
->      > @@ -311,12 +312,14 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
->      >
->      >               /* Calculate the frame size of the source pad */
->      >               vpix = vimc_pix_map_by_code(vdeb->src_code);
->      > +             vinfo = v4l2_format_info(vpix->pixelformat);
->      >               frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
->      > -                             vpix->bpp;
->      > +                             vinfo->bpp[0];
->      >
->      >               /* Save the bytes per pixel of the sink */
->      >               vpix = vimc_pix_map_by_code(vdeb->sink_fmt.code);
->      > -             vdeb->sink_bpp = vpix->bpp;
->      > +             vinfo = v4l2_format_info(vpix->pixelformat);
->      > +             vdeb->sink_bpp = vinfo->bpp[0];
->      >
->      >               /* Get the corresponding pixel map from the table */
->      >               vdeb->sink_pix_map =
->      > diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
->      > index 7521439747c5..9429aeea9cee 100644
->      > --- a/drivers/media/platform/vimc/vimc-scaler.c
->      > +++ b/drivers/media/platform/vimc/vimc-scaler.c
->      > @@ -180,8 +180,10 @@ static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
->      >
->      >       /* Only accept code in the pix map table in non bayer format */
->      >       vpix = vimc_pix_map_by_code(fmt->code);
->      > -     if (!vpix || vpix->bayer)
->      > +     if (!vpix || vpix->bayer) {
->      >               fmt->code = sink_fmt_default.code;
->      > +             vpix = vimc_pix_map_by_code(fmt->code);
->      > +     }
->      >
->      >       fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
->      >                            VIMC_FRAME_MAX_WIDTH) & ~1;
->      > @@ -331,6 +333,7 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->      >       struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->      >
->      >       if (enable) {
->      > +             const struct v4l2_format_info *vinfo;
->      >               const struct vimc_pix_map *vpix;
->      >               unsigned int frame_size;
->      >
->      > @@ -339,7 +342,8 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->      >
->      >               /* Save the bytes per pixel of the sink */
->      >               vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
->      > -             vsca->bpp = vpix->bpp;
->      > +             vinfo = v4l2_format_info(vpix->pixelformat);
->      > +             vsca->bpp = vinfo->bpp[0];
->      >
->      >               /* Calculate the width in bytes of the src frame */
->      >               vsca->src_line_size = vsca->crop_rect.width *
->      > diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
->      > index 92daee58209e..fac2260b939f 100644
->      > --- a/drivers/media/platform/vimc/vimc-sensor.c
->      > +++ b/drivers/media/platform/vimc/vimc-sensor.c
->      > @@ -102,10 +102,13 @@ static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
->      >   {
->      >       const struct vimc_pix_map *vpix =
->      >                               vimc_pix_map_by_code(vsen->mbus_format.code);
->      > +     const struct v4l2_format_info *vinfo =
->      > +                             v4l2_format_info(vpix->pixelformat);
->      >
->      >       tpg_reset_source(&vsen->tpg, vsen->mbus_format.width,
->      >                        vsen->mbus_format.height, vsen->mbus_format.field);
->      > -     tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width * vpix->bpp);
->      > +     tpg_s_bytesperline(&vsen->tpg, 0,
->      > +                        vsen->mbus_format.width * vinfo->bpp[0]);
->      >       tpg_s_buf_height(&vsen->tpg, vsen->mbus_format.height);
->      >       tpg_s_fourcc(&vsen->tpg, vpix->pixelformat);
->      >       /* TODO: add support for V4L2_FIELD_ALTERNATE */
->      > @@ -198,12 +201,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->      >                               container_of(sd, struct vimc_sen_device, sd);
->      >
->      >       if (enable) {
->      > +             const struct v4l2_format_info *vinfo;
->      >               const struct vimc_pix_map *vpix;
->      >               unsigned int frame_size;
->      >
->      >               /* Calculate the frame size */
->      >               vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
->      > -             frame_size = vsen->mbus_format.width * vpix->bpp *
->      > +             vinfo = v4l2_format_info(vpix->pixelformat);
->      > +             frame_size = vsen->mbus_format.width * vinfo->bpp[0] *
->      >                            vsen->mbus_format.height;
->      >
->      >               /*
->      >
-> 
-> 
-> Hi Dafna,
-> Thank you for the feedback
-> I don't see why a "const struct v4l2_format_info *vimc_code_to_format_info(u32 mbus_code)" would be necessary, as there is the "const struct v4l2_format_info *v4l2_format_info(u32)" function.
-Hi, the function v4l2_format_info get the pixelformat as input, but in many palces in vimc we want to get the format_info
-from the v4l2_mbus_pixelcode, maybe a better name is "const struct v4l2_format_info *vimc_mbus_pixelcode_to_format_info(u32 mbus_code)"
-> I guess there could be a "inline static bool is_v4l2_format_code_bayer(u32 mbus_code)" functio which returns n that would replace the usage of v4l2_is_format_bayer(v4l2_format_info(vpix->pixelformat))
->   for a single function. But in that case, should this change be submitted by this patch?
-I don't think there is a need to add such a function,
+    CONFIG_MEDIA_TEST_SUPPORT=y
 
-you can do
+as test_drivers/Kconfig starts with "if MEDIA_TEST_SUPPORT".
 
-vinfo = vimc_mbus_pixelcode_to_format_info(mbus_code)
-v4l2_is_format_bayer(vinfo)
+Then this Kconfig was included when MEDIA_PLATFORM_SUPPORT was
+enabled rather than MEDIA_TEST_SUPPORT in media/Kconfig.  So I've
+just sent a patch to fix this dependency, and now it appears to
+be generating the correct config.  I did a full v4l2-compliance
+run with the vivid driver on my local setup and it all passed.
 
-Thanks,
-Dafna
+Guillaume
 
+>>> On 14/04/2020 20:16, kernelci.org bot wrote:
+>>>> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>>>> * This automated bisection report was sent to you on the basis  *
+>>>> * that you may be involved with the breaking commit it has      *
+>>>> * found.  No manual investigation has been done to verify it,   *
+>>>> * and the root cause of the problem may be somewhere else.      *
+>>>> *                                                               *
+>>>> * If you do send a fix, please include this trailer:            *
+>>>> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+>>>> *                                                               *
+>>>> * Hope this helps!                                              *
+>>>> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>>>>
+>>>> media/master bisection: v4l2-compliance-vivid.device-presence on qemu_x86_64
+>>>>
+>>>> Summary:
+>>>>   Start:      ba445b7ff43b3 media: dt-bindings: rockchip-vpu: Convert bindings to json-schema
+>>>>   Plain log:  https://storage.kernelci.org//media/master/v5.7-rc1-63-gba445b7ff43b/x86_64/x86_64_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_x86_64.txt
+>>>>   HTML log:   https://storage.kernelci.org//media/master/v5.7-rc1-63-gba445b7ff43b/x86_64/x86_64_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_x86_64.html
+>>>>   Result:     06b93644f4d10 media: Kconfig: add an option to filter in/out platform drivers
+>>>>
+>>>> Checks:
+>>>>   revert:     PASS
+>>>>   verify:     PASS
+>>>>
+>>>> Parameters:
+>>>>   Tree:       media
+>>>>   URL:        https://git.linuxtv.org/media_tree.git
+>>>>   Branch:     master
+>>>>   Target:     qemu_x86_64
+>>>>   CPU arch:   x86_64
+>>>>   Lab:        lab-collabora
+>>>>   Compiler:   gcc-8
+>>>>   Config:     x86_64_defconfig+virtualvideo
+>>>>   Test case:  v4l2-compliance-vivid.device-presence
+>>>>
+>>>> Breaking commit found:
+>>>>
+>>>> -------------------------------------------------------------------------------
+>>>> commit 06b93644f4d102bdfc297159121acc1de794d68d
+>>>> Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>>> Date:   Tue Mar 24 10:27:15 2020 +0100
+>>>>
+>>>>     media: Kconfig: add an option to filter in/out platform drivers
+>>>>     
+>>>>     Most systems don't need support for those, while others only
+>>>>     need those, instead of the others.
+>>>>     
+>>>>     So, add an option to filter in/out platform drivers.
+>>>>     
+>>>>     Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>>>
+>>>> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+>>>> index 9dfea5c4b6ab7..2b6ea8beb9199 100644
+>>>> --- a/drivers/media/Kconfig
+>>>> +++ b/drivers/media/Kconfig
+>>>> @@ -87,6 +87,18 @@ config MEDIA_CEC_SUPPORT
+>>>>  	  Say Y when you have an HDMI receiver, transmitter or a USB CEC
+>>>>  	  adapter that supports HDMI CEC.
+>>>>  
+>>>> +config MEDIA_PLATFORM_SUPPORT
+>>>> +	bool "Platform-specific devices support"
+>>>> +	help
+>>>> +	  Enable support for complex cameras, codecs, and other hardware
+>>>> +	  that are integrated at the CPU, GPU or on Image Signalling Processor
+>>>> +	  and don't use PCI, USB or Firewire buses.
+>>>> +
+>>>> +	  This is found on Embedded hardware (SoC), on V4L2 codecs and
+>>>> +	  on some GPU and newer CPU chipsets.
+>>>> +
+>>>> +	  Say Y when you want to be able so see such devices.
+>>>> +
+>>>>  source "drivers/media/cec/Kconfig"
+>>>>  
+>>>>  source "drivers/media/mc/Kconfig"
+>>>> @@ -161,15 +173,14 @@ source "drivers/media/dvb-core/Kconfig"
+>>>>  
+>>>>  comment "Media drivers"
+>>>>  
+>>>> -#
+>>>> -# V4L platform/mem2mem drivers
+>>>> -#
+>>>> -
+>>>>  source "drivers/media/usb/Kconfig"
+>>>>  source "drivers/media/pci/Kconfig"
+>>>> +source "drivers/media/radio/Kconfig"
+>>>> +
+>>>> +if MEDIA_PLATFORM_SUPPORT
+>>>>  source "drivers/media/platform/Kconfig"
+>>>>  source "drivers/media/mmc/Kconfig"
+>>>> -source "drivers/media/radio/Kconfig"
+>>>> +endif
+>>>>  
+>>>>  comment "Supported FireWire (IEEE 1394) Adapters"
+>>>>  	depends on DVB_CORE && FIREWIRE
+>>>> -------------------------------------------------------------------------------
+>>>>
+>>>>
+>>>> Git bisection log:
+>>>>
+>>>> -------------------------------------------------------------------------------
+>>>> git bisect start
+>>>> # good: [2632e7b618a7730969f9782593c29ca53553aa22] media: venus: firmware: Ignore secure call error on first resume
+>>>> git bisect good 2632e7b618a7730969f9782593c29ca53553aa22
+>>>> # bad: [ba445b7ff43b3e45836a9a290efdc3a36ea63941] media: dt-bindings: rockchip-vpu: Convert bindings to json-schema
+>>>> git bisect bad ba445b7ff43b3e45836a9a290efdc3a36ea63941
+>>>> # good: [29d9f30d4ce6c7a38745a54a8cddface10013490] Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
+>>>> git bisect good 29d9f30d4ce6c7a38745a54a8cddface10013490
+>>>> # good: [e109f506074152b7241bcbd3949a099e776cb802] Merge tag 'mtd/for-5.7' of git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux
+>>>> git bisect good e109f506074152b7241bcbd3949a099e776cb802
+>>>> # good: [aa1a8ce533324d12696a9f4b71dbc5eb561a2e04] Merge tag 'trace-v5.7' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace
+>>>> git bisect good aa1a8ce533324d12696a9f4b71dbc5eb561a2e04
+>>>> # good: [c7b6a566b98524baea6a244186e665d22b633545] mm/gup: Mark lock taken only after a successful retake
+>>>> git bisect good c7b6a566b98524baea6a244186e665d22b633545
+>>>> # good: [e4da01d8333e500e15a674d75885a9dfcfd31e77] Merge tag 'powerpc-5.7-2' of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux
+>>>> git bisect good e4da01d8333e500e15a674d75885a9dfcfd31e77
+>>>> # good: [6900433e0fbca146d8170bdf876271cdf3053021] Merge tag 'for-linus-5.7-1' of git://github.com/cminyard/linux-ipmi
+>>>> git bisect good 6900433e0fbca146d8170bdf876271cdf3053021
+>>>> # good: [b753101a4ac0b906064a72feec43f5b80a1fe2e5] Merge tag 'kbuild-v5.7-2' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
+>>>> git bisect good b753101a4ac0b906064a72feec43f5b80a1fe2e5
+>>>> # bad: [4b32216adb010a364f23a055c45e06e839b089f9] media: split test drivers from platform directory
+>>>> git bisect bad 4b32216adb010a364f23a055c45e06e839b089f9
+>>>> # good: [20e2aa812620439d010a3f78ba4e05bc0b3e2861] Merge tag 'perf-urgent-2020-04-12' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+>>>> git bisect good 20e2aa812620439d010a3f78ba4e05bc0b3e2861
+>>>> # good: [0785249f8b93836986e9d1bdeefd2a2c13f160af] Merge tag 'timers-urgent-2020-04-12' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+>>>> git bisect good 0785249f8b93836986e9d1bdeefd2a2c13f160af
+>>>> # good: [3b50142d8528e1efc1c07f69c540f926c58ab3ad] MAINTAINERS: sort field names for all entries
+>>>> git bisect good 3b50142d8528e1efc1c07f69c540f926c58ab3ad
+>>>> # bad: [06b93644f4d102bdfc297159121acc1de794d68d] media: Kconfig: add an option to filter in/out platform drivers
+>>>> git bisect bad 06b93644f4d102bdfc297159121acc1de794d68d
+>>>> # good: [d9d6e1f3d5bbca799910072b2110963250e0b9c6] media: dvb-usb: auto-select CYPRESS_FIRMWARE
+>>>> git bisect good d9d6e1f3d5bbca799910072b2110963250e0b9c6
+>>>> # first bad commit: [06b93644f4d102bdfc297159121acc1de794d68d] media: Kconfig: add an option to filter in/out platform drivers
+>>>> -------------------------------------------------------------------------------
+>>>>   
+>>>
+>>
+>>
+>>
+>> Thanks,
+>> Mauro
+>>
 > 
-> Thank,
-> Carlos
+
