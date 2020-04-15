@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 653331A9B3E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB961A9B40
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896575AbgDOKp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 06:45:28 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:31291 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2896462AbgDOKUI (ORCPT
+        id S2896570AbgDOKpW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 06:45:22 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:21175 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2405485AbgDOKUI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 15 Apr 2020 06:20:08 -0400
 X-IronPort-AV: E=Sophos;i="5.72,386,1580742000"; 
-   d="scan'208";a="44575661"
+   d="scan'208";a="44789381"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Apr 2020 19:19:18 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 15 Apr 2020 19:19:24 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0F1AE4004BB4;
-        Wed, 15 Apr 2020 19:19:16 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 864E7400967D;
+        Wed, 15 Apr 2020 19:19:22 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Niklas <niklas.soderlund@ragnatech.se>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -26,53 +26,51 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 0/3] media: rcar-vin: Enable MEDIA_BUS_FMT_SRGGB8_1X8 format
-Date:   Wed, 15 Apr 2020 11:19:05 +0100
-Message-Id: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 1/3] media: rcar-vin: Invalidate pipeline if conversion is not possible on input formats
+Date:   Wed, 15 Apr 2020 11:19:06 +0100
+Message-Id: <1586945948-11026-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Up until now the VIN was capable to convert any of its supported input mbus
+formats to any of it's supported output pixel formats. With the addition of
+RAW formats this is no longer true.
+This patch invalidates the pipeline by adding a check if given vin input
+format can be converted to supported output pixel format.
 
-This patch series adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for vin
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/media/platform/rcar-vin/rcar-dma.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Cheers,
---Prabhakar
-
-Changed for v4:
-* patch 1/3 is new patch which adds a check for conversion from input to
-  output.
-* patch 2/3 added a comment while setting VNIS_REG for RAW format as
-  suggested by Niklas
-
-Changes for v3:
-* Dropped patch 1/1 from v2 as this handled neatly by patches
-  https://patchwork.linuxtv.org/project/linux-media/list/?series=1974
-* Included Ack from Niklas for patch 2/2
-* Updated commit message for patch 1/1.
-
-Changes for v2:
-* Added support for matching fwnode against endpoints/nodes.
-* Separated patch for rcar-vin and rcar-csi2.c which added
-  MEDIA_BUS_FMT_SRGGB8_1X8.
-
-Lad Prabhakar (3):
-  media: rcar-vin: Invalidate pipeline if conversion is not possible on
-    input formats
-  media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
-  media: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
-
- drivers/media/platform/rcar-vin/rcar-csi2.c |  1 +
- drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++--
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
- 3 files changed, 24 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index 1a30cd036371..48bd9bfc3948 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -1109,13 +1109,17 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+ 	case MEDIA_BUS_FMT_UYVY8_1X16:
+ 	case MEDIA_BUS_FMT_UYVY8_2X8:
+ 	case MEDIA_BUS_FMT_UYVY10_2X10:
++		break;
+ 	case MEDIA_BUS_FMT_RGB888_1X24:
+-		vin->mbus_code = fmt.format.code;
++		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
++			return -EPIPE;
+ 		break;
+ 	default:
+ 		return -EPIPE;
+ 	}
+ 
++	vin->mbus_code = fmt.format.code;
++
+ 	switch (fmt.format.field) {
+ 	case V4L2_FIELD_TOP:
+ 	case V4L2_FIELD_BOTTOM:
 -- 
 2.20.1
 
