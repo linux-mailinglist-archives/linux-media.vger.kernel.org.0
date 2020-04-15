@@ -2,287 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B681AADDD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C05861AAE32
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415651AbgDOQVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 12:21:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1415626AbgDOQVX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:21:23 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95922C061A0C
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 09:21:23 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jOkmm-0005YD-EE; Wed, 15 Apr 2020 18:21:12 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jOkmk-0004Qr-4c; Wed, 15 Apr 2020 18:21:10 +0200
-Date:   Wed, 15 Apr 2020 18:21:10 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        id S1415942AbgDOQ1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 12:27:49 -0400
+Received: from mga03.intel.com ([134.134.136.65]:47706 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1415915AbgDOQ1e (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 12:27:34 -0400
+IronPort-SDR: uW+unV75qdgb2U3L5czKZHvzFBcd+OVz2xdv1KqZvh/+6GDzdW8MNMCQSEhJZcPlI6TZAlltid
+ WwtLZa9AIqqQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:27:32 -0700
+IronPort-SDR: 5eJIAnbaBUkT7vmvZkQM8f4n6QiHLKkUwZB9EHJFNVj+7PpXC3EXfK7UzRjNtMHYpKIkPPTApK
+ LtRhGUpSvepA==
+X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
+   d="scan'208";a="256907570"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:27:25 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id C6B5D20606; Wed, 15 Apr 2020 19:27:22 +0300 (EEST)
+Date:   Wed, 15 Apr 2020 19:27:22 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200415162110.bmorj4u4hkqohqjx@pengutronix.de>
-References: <20200408110816.2712841-1-robert.foss@linaro.org>
- <20200408110816.2712841-2-robert.foss@linaro.org>
- <20200415160729.GA4438@bogus>
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v5 2/5] media: i2c: ov5645: Drop reading clock-frequency
+ dt-property
+Message-ID: <20200415162722.GG27762@paasikivi.fi.intel.com>
+References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1586191361-16598-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200406165108.GA7646@kekkonen.localdomain>
+ <20200406173234.GD16885@pendragon.ideasonboard.com>
+ <20200407062241.GA8883@kekkonen.localdomain>
+ <20200407122106.GD4751@pendragon.ideasonboard.com>
+ <20200407151401.GA5206@paasikivi.fi.intel.com>
+ <20200414205552.GN19819@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200415160729.GA4438@bogus>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 18:19:18 up 152 days,  7:37, 171 users,  load average: 1.12, 0.66,
- 0.33
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20200414205552.GN19819@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20-04-15 11:07, Rob Herring wrote:
-> On Wed, Apr 08, 2020 at 01:08:14PM +0200, Robert Foss wrote:
-> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > 
-> > This patch adds documentation of device tree in YAML schema for the
-> > OV8856 CMOS image sensor.
-> > 
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > ---
-> > 
-> > - Changes since v6:
-> >   * Marco: remove qcom specifics from DT example
-> >    
-> > - Changes since v5:
-> >   * Add assigned-clocks and assigned-clock-rates
-> >   * robher: dt-schema errors
-> > 
-> > - Changes since v4:
-> >   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
-> >   * Add clock-lanes property to example
-> >   * robher: Fix syntax error in devicetree example
-> > 
-> > - Changes since v3:
-> >   * robher: Fix syntax error
-> >   * robher: Removed maxItems
-> >   * Fixes yaml 'make dt-binding-check' errors
-> > 
-> > - Changes since v2:
-> >   Fixes comments from from Andy, Tomasz, Sakari, Rob.
-> >   * Convert text documentation to YAML schema.
-> > 
-> > - Changes since v1:
-> >   Fixes comments from Sakari, Tomasz
-> >   * Add clock-frequency and link-frequencies in DT
-> > 
-> >  .../devicetree/bindings/media/i2c/ov8856.yaml | 143 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 144 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > new file mode 100644
-> > index 000000000000..96bef5403d7e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> > @@ -0,0 +1,143 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (c) 2019 MediaTek Inc.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Ben Kao <ben.kao@intel.com>
-> > +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > +
-> > +description: |-
-> > +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapixel, CMOS
-> > +  image sensor that delivers 3264x2448 at 30fps. It provides full-frame,
-> > +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
-> > +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
-> > +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
-> > +  serial data output (up to 4-lane).
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: ovti,ov8856
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    description:
-> > +      Input clock for the sensor.
-> > +    items:
-> > +      - const: xvclk
-> > +
-> > +  assigned-clocks:
-> > +    description:
-> > +      Input clock for the sensor.
-> > +
-> > +  assigned-clock-rates:
-> > +    description:
-> > +      Frequency of the xvclk clock in Hertz.
-> 
-> These 2 should have a 'maxItems: 1'
+Hi Laurent,
 
-Don't know why those properties are needed here.. IMHO this shouldn't be
-part of the binding or at least it should be optional and not required.
-All we need is the clocks and the clock-names property.
-
-> > +  dovdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as interface power supply.
-> > +
-> > +  avdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as analog power supply.
-> > +
-> > +  dvdd-supply:
-> > +    description:
-> > +      Definition of the regulator used as digital power supply.
-> > +
-> > +  reset-gpios:
-> > +    description:
-> > +      The phandle and specifier for the GPIO that controls sensor reset.
-> > +      This corresponds to the hardware pin XSHUTDOWN which is physically
-> > +      active low.
-> > +
-> > +  port:
-> > +    type: object
-> > +    additionalProperties: false
-> > +    description:
-> > +      A node containing input and output port nodes with endpoint definitions
+On Tue, Apr 14, 2020 at 11:55:52PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Only an output, right?
-> 
-> > +      as documented in
-> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +
-> > +        properties:
-> > +          clock-lanes:
-> > +            maxItems: 1
-> > +
-> > +          data-lanes:
-> > +            maxItems: 1
-> > +
-> > +          remote-endpoint: true
-> > +
-> > +        required:
-> > +          - clock-lanes
-> > +          - data-lanes
-> > +          - remote-endpoint
-> > +
-> > +    required:
-> > +      - endpoint
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-names
-> > +  - assigned-clocks
-> > +  - assigned-clock-rates
-> > +  - dovdd-supply
-> > +  - avdd-supply
-> > +  - dvdd-supply
-> > +  - reset-gpios
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        ov8856: camera@10 {
-> > +            compatible = "ovti,ov8856";
-> > +            reg = <0x10>;
-> > +
-> > +            reset-gpios = <&pio 111 GPIO_ACTIVE_LOW>;
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&clk_24m_cam>;
-> > +
-> > +            clocks = <&cam_osc>;
-> > +            clock-names = "xvclk";
-> > +            assigned-clocks = <&cam_osc>;
-> > +            assigned-clock-rates = <19200000>;
-> > +
-> > +            avdd-supply = <&mt6358_vcama2_reg>;
-> > +            dvdd-supply = <&mt6358_vcamd_reg>;
-> > +            dovdd-supply = <&mt6358_vcamio_reg>;
-> > +
-> > +            port {
-> > +                wcam_out: endpoint {
-> > +                    remote-endpoint = <&mipi_in_wcam>;
-> > +                    clock-lanes = <0>;
-> > +                    data-lanes = <1 2 3 4>;
-> > +                    link-frequencies = /bits/ 64 <360000000 180000000>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > \ No newline at end of file
-> 
-> ^^^
-> 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 534a8dc4f84a..3f35c6e9700a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12465,6 +12465,7 @@ L:	linux-media@vger.kernel.org
-> >  T:	git git://linuxtv.org/media_tree.git
-> >  S:	Maintained
-> >  F:	drivers/media/i2c/ov8856.c
-> > +F:	Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >  
-> >  OMNIVISION OV9650 SENSOR DRIVER
-> >  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-> > -- 
-> > 2.25.1
+> On Tue, Apr 07, 2020 at 06:14:01PM +0300, Sakari Ailus wrote:
+> > On Tue, Apr 07, 2020 at 03:21:06PM +0300, Laurent Pinchart wrote:
+> > > On Tue, Apr 07, 2020 at 09:22:41AM +0300, Sakari Ailus wrote:
+> > >> On Mon, Apr 06, 2020 at 08:32:34PM +0300, Laurent Pinchart wrote:
+> > >>> On Mon, Apr 06, 2020 at 07:51:08PM +0300, Sakari Ailus wrote:
+> > >>>> On Mon, Apr 06, 2020 at 05:42:38PM +0100, Lad Prabhakar wrote:
+> > >>>>> Modes in the driver are based on xvclk frequency fixed to 24MHz, but where
+> > >>>>> as the OV5645 sensor can support the xvclk frequency ranging from 6MHz to
+> > >>>>> 24MHz. So instead making clock-frequency as dt-property just let the
+> > >>>>> driver enforce the required clock frequency.
+> > >>>> 
+> > >>>> Even if some current systems where the driver is used are using 24 MHz
+> > >>>> clock, that doesn't mean there wouldn't be systems using another frequency
+> > >>>> that the driver does not support right now.
+> > >>>> 
+> > >>>> The driver really should not set the frequency unless it gets it from DT,
+> > >>>> but I think the preferred means is to use assigned-clock-rates instead, and
+> > >>>> not to involve the driver with setting the frequency.
+> > >>>> 
+> > >>>> Otherwise we'll make it impossible to support other frequencies, at least
+> > >>>> without more or less random defaults.
+> > >>> 
+> > >>> We're running in circles here.
+> > >>> 
+> > >>> As the driver only supports 24MHz at the moment, the frequency should be
+> > >>> set by the driver, as it's a driver limitation. We can then work on
+> > >>> supporting additional frequencies, which will require DT to provide a
+> > >>> list of supported frequencies for the system, but that can be done on
+> > >>> top.
+> > >> 
+> > >> I guess it would be possible to use different external clock frequencies on
+> > >> a sensor in a given system but that seems to be a bit far fetched, to the
+> > >> extent I've never seen anyone doing that in practice.
+> > >> 
+> > >> Originally, the driver set the frequency based on the clock-frequency
+> > >> property. If we're removing that but use a fixed frequency instead, then
+> > >> how is that going to work going forward when someone adds support for other
+> > >> frequencies in the driver and has a system requiring that, while there are
+> > >> some other platforms relying on the driver setting a particular frequency?
+> > > 
+> > > The standard property for this is link-frequencies, not clock-frequency.
+> > > Deprecating clock-frequency now paves the way to use the standard
+> > > property later when/if someone implements support for additional
+> > > frequencies.
 > > 
+> > The external clock frequency and link frequency are different indeed, but
+> > they are related. The link frequency has been selected in a way that it is
+> > possible to generate that exact frequency using the chosen external clock
+> > frequency. If you change the external clock frequency, chances are good
+> > there is no PLL configuration to generate that link frequency.
 > 
+> But aren't we supposed to pick the clock frequency based on the link
+> frequency specified in DT ?
+
+No. In a general case there is no reliable way to come up with an external
+clock frequency based on another, different if related, frequency.
+
+> 
+> In any case, this policy needs to be carefully documented.
+
+I thought after ten or so years this would be already an established
+practice. :-)
+
+I agree it should be documented. We don't seem to have specific
+documentation for camera sensor drivers at the moment. I can submit a
+patch...
+
+> 
+> > >> Although, if you're saying that this driver only needs to work with DT that
+> > >> comes with the kernel and you don't care about DT binary compatibility,
+> > >> this would be fine.
+> > > 
+> > > I believe this series to not break backward compatibility, as the driver
+> > > only works with a 24MHz clock, so I expect all DTs to specify that.
+> > 
+> > What you're still doing here is defining the DT bindings based on the
+> > current driver implementation, not the device properties.
+> 
+> Quite the contrary, the device doesn't require any particular input
+> clock frequency, so we're removing that from DT :-) Specifying the clock
+> frequency in DT is in my opinion a manual workaround for not computing
+> it at runtime based on the desired link frequency, while the link
+> frequency is a property of the system as it specifies the range of link
+> frequencies that are safe to use from an EMC point of view.
+
+The external clock frequency is significantly lower than the link frequency
+(usually), but it still comes out of the SoC (or a PMIC chip). The clock
+signal track on PCB as well as wiring may also be rather long, depending on
+where the camera sensor is --- quite possibly tens of centimetres.
+Therefore I wouldn't categorically rule out possible EMC issues with that
+one either.
+
+The bottom line is: use a known-good, safe frequency.
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Regards,
+
+Sakari Ailus
