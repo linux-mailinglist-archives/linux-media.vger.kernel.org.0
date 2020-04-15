@@ -2,237 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D876E1A9F8D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 14:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86CA21AA006
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 14:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S368667AbgDOMOR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 08:14:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S368576AbgDOMLd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 08:11:33 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5759C061A0C
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 05:11:33 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id l78so1152042qke.7
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 05:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1ryUjonk9Bo6/VS6Kj71zUulwTQ80F/AKeChrr6mLo8=;
-        b=Akp1fer9yVAmgP8VjIfq5WX5ZdO2GE+UmqSWAvAtSRdqeW6PqIPWPXGhYDIh8hxDLP
-         nkizW0Y91VngW4SPn+pfoUBBWiiYK7oemLUWLAuQehOlWhNvJdlkH6T/s0m+y+JSH/hv
-         BesmWX7IClKpXY2gGUaPB1SSjnx74qxx+mYI93bsB8oOH9lAO8ZdwRjCal9h7zgp1VyV
-         kRikT3Hc1uDyDVlXFr3RePkgJVApmpSQrqGYBWT9HT4hAoMVTkAFaBu125jqgo72FtIG
-         tqorH+l3Dmp9/K4hshwiOvh8ZFmy3ar7ZLhBkUpOjdl+zrzWHZ3wtgMVHNh45I/owmyH
-         kC8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1ryUjonk9Bo6/VS6Kj71zUulwTQ80F/AKeChrr6mLo8=;
-        b=W32IgnqCmBq59BLpEG28GTmt+CF4mct+K+7/uAM2ZCsw90ltIHvfDJnSPHq96fPYbE
-         9yHu1FjiqNFfJhoIASKv8KFY4c5BreZ45sKJb4HYUnkgS+uEvyzzT5QbY78hjbpsCPB/
-         XDA/pe58w29wZLpXSnOG139N9xnKs6UXPxRdyZYEva7qDqENc+Q2esXbXCsQ45jOvO3G
-         WdhaV1vcozTA1yOTCFzBp4Iw2iJ4qogWgERMilqljsFSDadqdYlQTd63477ZzaHHjYn+
-         SG0Qcl7j1nSepHxrguVv+DO/RZ5VG0R9KsxUFylIsZDL7iW5tdTt4aQIAZBlfh4yTj3j
-         FNkA==
-X-Gm-Message-State: AGi0PuYA/kgg4HeLYx488oL6pyOPbQSA1fzI/DBSDO4iGDtAMgG2sHO3
-        IgSAXuzo4zC5BLif5gFyMx4oLUi7sbAj9a35oXG9RQ==
-X-Google-Smtp-Source: APiQypJgfPJKXTdaDjJRJr3ndqin0UUnaDjqE2AyDq5NBSSQzQDFNUc9CIsSNsRjndjy+phc70+GxTlLLKlmpciMDiA=
-X-Received: by 2002:a05:620a:4f2:: with SMTP id b18mr25463065qkh.433.1586952692854;
- Wed, 15 Apr 2020 05:11:32 -0700 (PDT)
+        id S369105AbgDOMV6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 08:21:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40780 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S369099AbgDOMVw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 08:21:52 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A52E6206F9;
+        Wed, 15 Apr 2020 12:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586953311;
+        bh=NmutImGHJVt0bKoK4LeZCIkUpQBYzciAGLQ7TLAkGaU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tNtE7vP9LAUju3LtYOyPIr9UvRPulibjevCYdz67uRMQ8pQj/N1CIpyQ+9SflaBx5
+         JiZpMQ8qglMMnbK/JnrukbdHJez326rHvucOKvsrqvkFgBMNsXjiw3z9V6u369hCmj
+         eGVFxWySDOHTKjx2XKZjxSGkkOGyYSoiDdeA7abc=
+Date:   Wed, 15 Apr 2020 14:21:47 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: media/master bisection: v4l2-compliance-vivid.device-presence
+ on qemu_x86_64
+Message-ID: <20200415142147.1ed3487e@coco.lan>
+In-Reply-To: <a99d49d9-656d-6c5c-4953-6e7c56c0beba@collabora.com>
+References: <5e960bf5.1c69fb81.8a349.6851@mx.google.com>
+        <24564393-f229-6e29-7883-9605ed0d48b4@collabora.com>
+        <20200414233347.2a844b85@coco.lan>
+        <86feeb83-37ac-cbd6-b792-b81d17d559c9@collabora.com>
+        <2f32345d-a818-8ec4-afd6-2b9cd9dcdf4a@collabora.com>
+        <a99d49d9-656d-6c5c-4953-6e7c56c0beba@collabora.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1586946605.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cover.1586946605.git.mchehab+huawei@kernel.org>
-From:   Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date:   Wed, 15 Apr 2020 14:11:21 +0200
-Message-ID: <CA+M3ks4QE-eXgqwrG=_a_Esyyf5k1hGGm2_L3xGQ9hgu1HvmtQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] Move CEC drivers and menu to be out of MEDIA_SUPPORT
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Kukjin Kim <kgene@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Benson Leung <bleung@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ettore Chimenti <ek5.chimenti@gmail.com>,
-        "moderated list:ARM/S5P EXYNOS AR..." 
-        <linux-samsung-soc@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        linux-amlogic@lists.infradead.org,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-tegra@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mer. 15 avr. 2020 =C3=A0 12:31, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> a =C3=A9crit :
->
-> The CEC_CORE doesn't depend on MEDIA_SUPPORT. So, it doesn't make
-> much sense to keep it under its menu.
->
-> This series move it to be just after RC support. As a side effect, now
-> dependencies like PCI and USB are now selected, making easier to
-> enable CEC drivers.
->
-> - v2:
->   - move more CEC drivers from platform/
->   - rename kconfig options to be more coherent
->
-> Mauro Carvalho Chehab (6):
->   media: cec: move the core to a separate directory
->   media: place CEC menu before MEDIA_SUPPORT
->   media: move CEC platform drivers to a separate directory
->   media: move CEC USB drivers to a separate directory
->   media: cec: rename CEC platform drivers config options
->   media: cec: rename USB config options
->
->  arch/arm/configs/exynos_defconfig             |   2 +-
->  arch/arm/configs/multi_v7_defconfig           |   2 +-
->  drivers/media/Kconfig                         |  30 +----
->  drivers/media/cec/Kconfig                     |  25 ++++
->  drivers/media/cec/Makefile                    |  16 +--
->  drivers/media/cec/core/Makefile               |  16 +++
->  drivers/media/cec/{ =3D> core}/cec-adap.c       |   0
->  drivers/media/cec/{ =3D> core}/cec-api.c        |   0
->  drivers/media/cec/{ =3D> core}/cec-core.c       |   0
->  drivers/media/cec/{ =3D> core}/cec-notifier.c   |   0
->  .../media/cec/{ =3D> core}/cec-pin-error-inj.c  |   0
->  drivers/media/cec/{ =3D> core}/cec-pin-priv.h   |   0
->  drivers/media/cec/{ =3D> core}/cec-pin.c        |   0
->  drivers/media/cec/{ =3D> core}/cec-priv.h       |   0
->  drivers/media/cec/platform/Kconfig            | 121 +++++++++++++++++
->  drivers/media/cec/platform/Makefile           |  14 ++
->  .../{ =3D> cec}/platform/cec-gpio/Makefile      |   0
->  .../{ =3D> cec}/platform/cec-gpio/cec-gpio.c    |   0
->  drivers/media/cec/platform/cros-ec/Makefile   |   2 +
->  .../platform/cros-ec}/cros-ec-cec.c           |   0
->  drivers/media/cec/platform/meson/Makefile     |   3 +
->  .../{ =3D> cec}/platform/meson/ao-cec-g12a.c    |   0
->  .../media/{ =3D> cec}/platform/meson/ao-cec.c   |   0
->  .../s5p-cec =3D> cec/platform/s5p}/Makefile     |   2 +-
->  .../platform/s5p}/exynos_hdmi_cec.h           |   0
->  .../platform/s5p}/exynos_hdmi_cecctrl.c       |   0
->  .../s5p-cec =3D> cec/platform/s5p}/regs-cec.h   |   0
->  .../s5p-cec =3D> cec/platform/s5p}/s5p_cec.c    |   0
->  .../s5p-cec =3D> cec/platform/s5p}/s5p_cec.h    |   0
->  drivers/media/cec/platform/seco/Makefile      |   2 +
->  .../seco-cec =3D> cec/platform/seco}/seco-cec.c |   2 +-
->  .../seco-cec =3D> cec/platform/seco}/seco-cec.h |   0
->  drivers/media/cec/platform/sti/Makefile       |   2 +
->  .../sti/cec =3D> cec/platform/sti}/stih-cec.c   |   0
->  drivers/media/cec/platform/stm32/Makefile     |   2 +
->  .../{ =3D> cec}/platform/stm32/stm32-cec.c      |   0
->  drivers/media/cec/platform/tegra/Makefile     |   2 +
->  .../platform/tegra}/tegra_cec.c               |   0
->  .../platform/tegra}/tegra_cec.h               |   0
->  drivers/media/cec/usb/Kconfig                 |   6 +
->  drivers/media/cec/usb/Makefile                |   6 +
->  .../pulse8-cec =3D> cec/usb/pulse8}/Kconfig     |   5 +-
->  drivers/media/cec/usb/pulse8/Makefile         |   2 +
->  .../usb/pulse8}/pulse8-cec.c                  |   0
->  .../usb/rainshadow}/Kconfig                   |   5 +-
->  drivers/media/cec/usb/rainshadow/Makefile     |   2 +
->  .../usb/rainshadow}/rainshadow-cec.c          |   0
->  drivers/media/platform/Kconfig                | 125 ------------------
->  drivers/media/platform/Makefile               |  12 --
->  drivers/media/platform/cros-ec-cec/Makefile   |   2 -
->  drivers/media/platform/meson/Makefile         |   3 -
->  drivers/media/platform/seco-cec/Makefile      |   2 -
->  drivers/media/platform/sti/cec/Makefile       |   2 -
->  drivers/media/platform/stm32/Makefile         |   1 -
->  drivers/media/platform/tegra-cec/Makefile     |   2 -
->  drivers/media/usb/Kconfig                     |   6 -
->  drivers/media/usb/Makefile                    |   2 -
->  drivers/media/usb/pulse8-cec/Makefile         |   2 -
->  drivers/media/usb/rainshadow-cec/Makefile     |   2 -
->  59 files changed, 218 insertions(+), 212 deletions(-)
->  create mode 100644 drivers/media/cec/core/Makefile
->  rename drivers/media/cec/{ =3D> core}/cec-adap.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-api.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-core.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-notifier.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-pin-error-inj.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-pin-priv.h (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-pin.c (100%)
->  rename drivers/media/cec/{ =3D> core}/cec-priv.h (100%)
->  create mode 100644 drivers/media/cec/platform/Kconfig
->  create mode 100644 drivers/media/cec/platform/Makefile
->  rename drivers/media/{ =3D> cec}/platform/cec-gpio/Makefile (100%)
->  rename drivers/media/{ =3D> cec}/platform/cec-gpio/cec-gpio.c (100%)
->  create mode 100644 drivers/media/cec/platform/cros-ec/Makefile
->  rename drivers/media/{platform/cros-ec-cec =3D> cec/platform/cros-ec}/cr=
-os-ec-cec.c (100%)
->  create mode 100644 drivers/media/cec/platform/meson/Makefile
->  rename drivers/media/{ =3D> cec}/platform/meson/ao-cec-g12a.c (100%)
->  rename drivers/media/{ =3D> cec}/platform/meson/ao-cec.c (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/Makefile (=
-63%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/exynos_hdm=
-i_cec.h (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/exynos_hdm=
-i_cecctrl.c (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/regs-cec.h=
- (100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/s5p_cec.c =
-(100%)
->  rename drivers/media/{platform/s5p-cec =3D> cec/platform/s5p}/s5p_cec.h =
-(100%)
->  create mode 100644 drivers/media/cec/platform/seco/Makefile
->  rename drivers/media/{platform/seco-cec =3D> cec/platform/seco}/seco-cec=
-.c (99%)
->  rename drivers/media/{platform/seco-cec =3D> cec/platform/seco}/seco-cec=
-.h (100%)
->  create mode 100644 drivers/media/cec/platform/sti/Makefile
->  rename drivers/media/{platform/sti/cec =3D> cec/platform/sti}/stih-cec.c=
- (100%)
->  create mode 100644 drivers/media/cec/platform/stm32/Makefile
->  rename drivers/media/{ =3D> cec}/platform/stm32/stm32-cec.c (100%)
->  create mode 100644 drivers/media/cec/platform/tegra/Makefile
->  rename drivers/media/{platform/tegra-cec =3D> cec/platform/tegra}/tegra_=
-cec.c (100%)
->  rename drivers/media/{platform/tegra-cec =3D> cec/platform/tegra}/tegra_=
-cec.h (100%)
->  create mode 100644 drivers/media/cec/usb/Kconfig
->  create mode 100644 drivers/media/cec/usb/Makefile
->  rename drivers/media/{usb/pulse8-cec =3D> cec/usb/pulse8}/Kconfig (86%)
->  create mode 100644 drivers/media/cec/usb/pulse8/Makefile
->  rename drivers/media/{usb/pulse8-cec =3D> cec/usb/pulse8}/pulse8-cec.c (=
-100%)
->  rename drivers/media/{usb/rainshadow-cec =3D> cec/usb/rainshadow}/Kconfi=
-g (85%)
->  create mode 100644 drivers/media/cec/usb/rainshadow/Makefile
->  rename drivers/media/{usb/rainshadow-cec =3D> cec/usb/rainshadow}/rainsh=
-adow-cec.c (100%)
->  delete mode 100644 drivers/media/platform/cros-ec-cec/Makefile
->  delete mode 100644 drivers/media/platform/meson/Makefile
->  delete mode 100644 drivers/media/platform/seco-cec/Makefile
->  delete mode 100644 drivers/media/platform/sti/cec/Makefile
->  delete mode 100644 drivers/media/platform/tegra-cec/Makefile
->  delete mode 100644 drivers/media/usb/pulse8-cec/Makefile
->  delete mode 100644 drivers/media/usb/rainshadow-cec/Makefile
->
+Em Wed, 15 Apr 2020 10:36:04 +0100
+Guillaume Tucker <guillaume.tucker@collabora.com> escreveu:
 
-For sti and stm32 CEC drivers:
-Acked-by: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> On 15/04/2020 10:28, Guillaume Tucker wrote:
+> > On 14/04/2020 22:43, Guillaume Tucker wrote:  
+> >> On 14/04/2020 22:33, Mauro Carvalho Chehab wrote:  
+> >>> Em Tue, 14 Apr 2020 22:23:52 +0100
+> >>> Guillaume Tucker <guillaume.tucker@collabora.com> escreveu:
+> >>>  
+> >>>> Please see the bisection report below about absence of the vivid
+> >>>> driver, which caused v4l2-compliance to fail to run.
+> >>>>
+> >>>> Presumably we need to update the configuration fragment used by
+> >>>> kernelci.org to enable platform drivers.  Until now we've been
+> >>>> using this:
+> >>>>
+> >>>>     CONFIG_MEDIA_SUPPORT=y
+> >>>>     CONFIG_MEDIA_CAMERA_SUPPORT=y
+> >>>>     CONFIG_VIDEO_DEV=y
+> >>>>     CONFIG_VIDEO_V4L2=y
+> >>>>     CONFIG_V4L_TEST_DRIVERS=y
+> >>>>     CONFIG_VIDEO_VIVID=y
+> >>>>     CONFIG_VIDEO_VIVID_MAX_DEVS=64
+> >>>>
+> >>>> Do we simply need to add this one in v5.7 onwards?
+> >>>>
+> >>>>     CONFIG_MEDIA_PLATFORM_SUPPORT=y  
+> >>>
+> >>> No, this shouldn't be needed.
+> >>>
+> >>> Helen sent us a patch that should likely fix it:
+> >>>
+> >>> 	https://git.linuxtv.org/media_tree.git/commit/?id=860b511766a3d95308a942ac09a34e4d1839e706
+> >>>
+> >>> Could you please check if this solves the issue?  
+> >>
+> >> I see, thanks.  This revision is being built and tested at the
+> >> moment, I'll check the results when they land in my inbox.  
+> > 
+> > Helen's patch was needed, but there were still a couple of
+> > issues.  First we need to enable this extra option now in the
+> > config fragment:
+> > 
+> >     CONFIG_MEDIA_TEST_SUPPORT=y
 
-> --
-> 2.25.2
->
->
+Yes.
+
+Another option would be to do:
+
+	# MEDIA_SUPPORT_FILTER is not set
+
+With this option (enabled by default if EMBEDDED or EXPERT),
+all CONFIG_MEDIA_*_SUPPORT will be selected[1].
+
+[1] except for CONFIG_MEDIA_CEC_SUPPORT. This doesn't
+    depend on MEDIA_SUPPORT anymore.
+
+> > 
+> > as test_drivers/Kconfig starts with "if MEDIA_TEST_SUPPORT".  
+> 
+> Actually, this "if" seems redundant now in test_drivers/Kconfig
+> with my patch to include the file conditionally...  Please let me
+> know if we should also drop it and I'll send a v2, or if this
+> should be fixed in a different way.
+
+Just one "if MEDIA_TEST_SUPPORT" at the main media/Kconfig
+should be enough.
+
+Feel free to send a v2.
+
+Thanks,
+Mauro
