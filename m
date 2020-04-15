@@ -2,122 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 094D91A8FCD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 02:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26F811A9074
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 03:32:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407889AbgDOAnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 20:43:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39210 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407887AbgDOAnm (ORCPT
+        id S2392581AbgDOBbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 14 Apr 2020 21:31:02 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50072 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728332AbgDOBbA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 20:43:42 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7781521;
-        Wed, 15 Apr 2020 02:43:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586911418;
-        bh=a4tMpEbfop26maOFWO9qNYXEanaQDSNa+tMbiX5hcIo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p8FXfzk+xEvshkoNCJrNe99FMPw5QES2ukJsUHhlDHiexZxEZLaF01BUhX+cIgzbH
-         hwdvgZfaI1u9Gp8LVpxYao3tsm5TEIsMbn/1mFcU0WdKpf2T9PwW5XKbelDLSkgH4Z
-         NPhBZGSw+GDyYTuMQ1aFC+buaW+TMZNJDTp9fw7I=
-Date:   Wed, 15 Apr 2020 03:43:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v4 06/17] media: imx: mipi csi-2: Implement
- get_fwnode_pad op
-Message-ID: <20200415004326.GX19819@pendragon.ideasonboard.com>
-References: <20200303234256.8928-1-slongerbeam@gmail.com>
- <20200303234256.8928-7-slongerbeam@gmail.com>
- <20200414230729.GC27621@pendragon.ideasonboard.com>
- <20200414232036.GB27762@paasikivi.fi.intel.com>
- <6d8b82c4-be84-4722-4f5a-558b5ffe7b80@gmail.com>
+        Tue, 14 Apr 2020 21:31:00 -0400
+Received: from floko.floko.floko (unknown [IPv6:2804:431:e7cc:79a2:b6f7:4033:5775:cc3a])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id ACFE62A1BC8;
+        Wed, 15 Apr 2020 02:30:54 +0100 (BST)
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, hans.verkuil@cisco.com,
+        skhan@linuxfoundation.org, niklas.soderlund@ragnatech.se,
+        mchehab@kernel.org, Helen Koike <helen.koike@collabora.com>
+Subject: [PATCH v3 0/4] media: add v4l2_pipeline_stream_{enable,disable} helpers
+Date:   Tue, 14 Apr 2020 22:30:40 -0300
+Message-Id: <20200415013044.1778572-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6d8b82c4-be84-4722-4f5a-558b5ffe7b80@gmail.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve,
+Hi,
 
-On Tue, Apr 14, 2020 at 04:50:55PM -0700, Steve Longerbeam wrote:
-> On 4/14/20 4:20 PM, Sakari Ailus wrote:
-> > On Wed, Apr 15, 2020 at 02:07:29AM +0300, Laurent Pinchart wrote:
-> >> On Tue, Mar 03, 2020 at 03:42:45PM -0800, Steve Longerbeam wrote:
-> >>> Implement get_fwnode_pad operation. If the endpoint is owned by the MIPI
-> >>> CSI-2 receiver, return the endpoint's port number. The MIPI CSI-2 receiver
-> >>> maps port numbers and pad indexes 1:1.
-> >>>
-> >>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-> >>> ---
-> >>>   drivers/staging/media/imx/imx6-mipi-csi2.c | 28 ++++++++++++++++++++++
-> >>>   1 file changed, 28 insertions(+)
-> >>>
-> >>> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> >>> index fdd763587e6c..8500207e5ea9 100644
-> >>> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> >>> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> >>> @@ -507,9 +507,37 @@ static int csi2_registered(struct v4l2_subdev *sd)
-> >>>   				      640, 480, 0, V4L2_FIELD_NONE, NULL);
-> >>>   }
-> >>>   
-> >>> +static int csi2_get_fwnode_pad(struct media_entity *entity,
-> >>> +			       struct fwnode_endpoint *endpoint)
-> >>> +{
-> >>> +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-> >>> +	struct csi2_dev *csi2 = sd_to_dev(sd);
-> >>> +	struct fwnode_handle *csi2_ep;
-> >>> +
-> >>> +	/*
-> >>> +	 * If the endpoint is one of ours, return the endpoint's port
-> >>> +	 * number. This device maps port numbers and pad indexes 1:1.
-> >>> +	 */
-> >>> +	fwnode_graph_for_each_endpoint(dev_fwnode(csi2->dev), csi2_ep) {
-> >>> +		if (endpoint->local_fwnode == csi2_ep) {
-> >>> +			struct fwnode_endpoint fwep;
-> >>> +			int ret;
-> >>> +
-> >>> +			ret = fwnode_graph_parse_endpoint(csi2_ep, &fwep);
-> >>> +
-> >>> +			fwnode_handle_put(csi2_ep);
-> >>> +
-> >>> +			return ret ? ret : fwep.port;
-> >>> +		}
-> >>> +	}
-> >>> +
-> >>> +	return -ENXIO;
-> >>> +}
-> >>
-> >> As the 1:1 mapping is the common case, would it make sense to modify
-> >> media_entity_get_fwnode_pad() accordingly when .get_fwnode_pad is not
-> >> set ? The current behaviour is to return the first pad that matches the
-> >
-> > I also think this would make sense.
-> 
-> What do you think about https://patchwork.linuxtv.org/patch/60312/ ? I'm 
-> planning to resurrect it for v5.
+Media drivers need to iterate through the pipeline and call .s_stream()
+callbacks in the subdevices.
 
-The approach looks good to me.
+Instead of repeating code, add helpers for this.
 
-> >> requested direction, which could be preserved as a second-level fallback
-> >> if the 1:1 mapping doesn't give the right direction (but I'm not sure
-> >> there's a use case for that, the 1:1 mapping seems to be all we need if
-> >> there's no specific .get_fwnode_pad implementation).
-> >
-> > I believe at least the smiapp driver breaks if you do that, so the current
-> > behaviour should be retained (secondary to the 1:1 mapping).
+These helpers will go walk through the pipeline only visiting entities
+that participates in the stream, i.e. it follows links from sink to source
+(and not the opposite).
+
+Which means that in a topology like this https://bit.ly/3b2MxjI
+calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
+.s_stream(true) for rkisp1_resizer_selfpath.
+
+stream_count variable was added in v4l2_subdevice to handle nested calls
+to the helpers.
+This is useful when the driver allows streaming from more then one
+capture device sharing subdevices.
+
+This patch came from the error I was facing when multistreaming from
+rkisp1 driver, where stoping one capture would call s_stream(false) in
+the pipeline, causing a stall in the second capture device.
+
+Also, the vimc patch https://patchwork.kernel.org/patch/10948833/ won't
+be required with this patchset.
+
+This patchset was tested on rkisp1 and vimc drivers.
+
+Other cleanup might be possible (but I won't add in this patchset as I
+don't have the hw to test):
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/qcom/camss/camss-video.c#n430
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/omap3isp/isp.c#n697
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/stm32/stm32-dcmi.c#n680
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/xilinx/xilinx-dma.c#n97
+
+Changes in V3:
+====================
+Following up Niklas' comments in V2 https://patchwork.kernel.org/patch/11473681/#23270823
+
+* I removed the limitation in topologies with entities with multiple enabled
+links to its sink pads in the topology.
+Now it enables all subdevs in the pipeline that have an enabled link going
+from sink to source while walking from the video device, so it can be
+also useful for rcar-vin driver.
+
+To implement this, I added back in the series the patch from v1:
+    "media: mc-entity.c: add media_graph_walk_next_stream()"
+
+* "size" was renamed to "max_size" in function v4l2_pipeline_subdevs_get()
+to reflect the maximum number of elements that can fit in the subdevs array,
+with proper documentation.
+
+* v4l2_pipeline_subdevs_get() returns a negative number for error, instead
+of returning 0 and printing a warning.
+
+* I also add if defined(CONFIG_MEDIA_CONTROLLER) around helpers to avoid
+compiling errors.
+
+Overview of patches in V3:
+--------------------------
+
+Patch 1/4 adds a new iterator function to follow links from sink to
+source only.
+
+Path 2/4 adds the helpers in v4l2-common.c, allowing nested calls by
+adding stream_count in the subdevice struct.
+
+Patch 3/4 cleanup rkisp1 driver to use the helpers.
+
+Patch 4/4 cleanup vimc driver to use the helpers.
+
+Changes in V2:
+====================
+The first version was calling the s_stream() callbacks from sensor to
+capture.
+
+This was generating errors in the Scarlet Chromebook, when the sensor
+was being enabled before the ISP.
+
+It make sense to enable subdevices from capture to sensor instead (which
+is what most drivers do already).
+
+This v2 drops the changes from mc-entity.c, and re-implement helpers in
+v4l2-common.c
+
+Overview of patches in V2:
+--------------------------
+
+Path 1/3 adds the helpers in v4l2-common.c, allowing nested calls by
+adding stream_count in the subdevice struct.
+
+Patch 2/3 cleanup rkisp1 driver to use the helpers.
+
+Patch 3/3 cleanup vimc driver to use the helpers.
+
+Helen Koike (4):
+  media: mc-entity.c: add media_graph_walk_next_stream()
+  media: v4l2-common: add helper functions to call s_stream() callbacks
+  media: staging: rkisp1: use v4l2_pipeline_stream_{enable,disable}
+    helpers
+  media: vimc: use v4l2_pipeline_stream_{enable,disable} helpers
+
+ drivers/media/mc/mc-entity.c                  |  34 ++++-
+ .../media/test_drivers/vimc/vimc-capture.c    |  28 ++--
+ .../media/test_drivers/vimc/vimc-streamer.c   |  49 +------
+ drivers/media/v4l2-core/v4l2-common.c         | 125 ++++++++++++++++++
+ drivers/staging/media/rkisp1/rkisp1-capture.c |  76 +----------
+ include/media/media-entity.h                  |  15 +++
+ include/media/v4l2-common.h                   |  43 ++++++
+ include/media/v4l2-subdev.h                   |   2 +
+ 8 files changed, 242 insertions(+), 130 deletions(-)
 
 -- 
-Regards,
+2.26.0
 
-Laurent Pinchart
