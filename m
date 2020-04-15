@@ -2,337 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0751C1AA8E2
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 15:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 987261AA905
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 15:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633377AbgDONmn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 09:42:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36780 "EHLO mail.kernel.org"
+        id S1732691AbgDONsj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 09:48:39 -0400
+Received: from gofer.mess.org ([88.97.38.141]:57435 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730647AbgDONml (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 09:42:41 -0400
-Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9492E20767;
-        Wed, 15 Apr 2020 13:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586958160;
-        bh=G3ksAsgoVdvVoOXZeIFexuS2cxmkIclH0f7tRwcz0O0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=sEqXk+a9IguDdfV4+H4arsbiSyBXB5X2kIc/aRjioG0s4XzTDWQ8tG458vH2jGqph
-         ftvBbd+3vapXQaFq2P9XBOk/QhTYJjir7uYHOKZ8BjaXbdyKwKwh+m+JzuOJMMm0Rt
-         /CqWMFRT41ijrdE4lpvsMmbLmGW8q2Q6WNDbRtlY=
-Date:   Wed, 15 Apr 2020 15:42:34 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Stefan Agner <stefan@agner.ch>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] media: i2c/Kconfig: use sub-menus for I2C support
-Message-ID: <20200415154101.002be2bc@coco.lan>
-In-Reply-To: <2f31a4cb-7838-eaf1-3055-ead1ed877b9f@xs4all.nl>
-References: <ab8d95a0d04beb854accf5428c5ead2b191a269d.1586955665.git.mchehab+huawei@kernel.org>
-        <2f31a4cb-7838-eaf1-3055-ead1ed877b9f@xs4all.nl>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2633551AbgDONsf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 09:48:35 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 3219111A002; Wed, 15 Apr 2020 14:48:32 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: iguanair: rc drivers no longer need to do locking
+Date:   Wed, 15 Apr 2020 14:48:32 +0100
+Message-Id: <20200415134832.30709-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 15 Apr 2020 15:16:02 +0200
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+Since commit 4957133fe32f ("media: lirc: improve locking"), drivers
+do not need to do any of their own locking.
 
-> On 15/04/2020 15:01, Mauro Carvalho Chehab wrote:
-> > There are *lots* of I2C ancillary drivers. While we're using
-> > comments to group them, all options appear at the same menu.
-> > 
-> > It should be a lot clearer to group them into sub-menus, with
-> > may help people to go directly to the driver(s) he's needing
-> > to enable.  
-> 
-> Looks good, but I would drop the "Video and audio decoders" submenu
-> and just move everything there under "Video decoders". I don't think
-> it warrants a separate submenu.
+During suspend and resume, no processes are running so no locking is
+needed.
 
-Fair enough. Just submitted a second version.
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/iguanair.c | 36 +++---------------------------------
+ 1 file changed, 3 insertions(+), 33 deletions(-)
 
-I opted to keep "Video and audio decoders" as a comment, as, if we
-ever add some other A/V decoder, developers should place it together
-with the other ones.
+diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
+index 3c8bd13d029a..566c2816d5be 100644
+--- a/drivers/media/rc/iguanair.c
++++ b/drivers/media/rc/iguanair.c
+@@ -14,7 +14,6 @@
+ #include <linux/completion.h>
+ #include <media/rc-core.h>
+ 
+-#define DRIVER_NAME "iguanair"
+ #define BUF_SIZE 152
+ 
+ struct iguanair {
+@@ -27,8 +26,6 @@ struct iguanair {
+ 	uint8_t bufsize;
+ 	uint8_t cycle_overhead;
+ 
+-	struct mutex lock;
+-
+ 	/* receiver support */
+ 	bool receiver_on;
+ 	dma_addr_t dma_in, dma_out;
+@@ -284,8 +281,6 @@ static int iguanair_set_tx_carrier(struct rc_dev *dev, uint32_t carrier)
+ 	if (carrier < 25000 || carrier > 150000)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&ir->lock);
+-
+ 	if (carrier != ir->carrier) {
+ 		uint32_t cycles, fours, sevens;
+ 
+@@ -314,8 +309,6 @@ static int iguanair_set_tx_carrier(struct rc_dev *dev, uint32_t carrier)
+ 		ir->packet->busy4 = 110 - fours;
+ 	}
+ 
+-	mutex_unlock(&ir->lock);
+-
+ 	return 0;
+ }
+ 
+@@ -326,9 +319,7 @@ static int iguanair_set_tx_mask(struct rc_dev *dev, uint32_t mask)
+ 	if (mask > 15)
+ 		return 4;
+ 
+-	mutex_lock(&ir->lock);
+ 	ir->packet->channels = mask << 4;
+-	mutex_unlock(&ir->lock);
+ 
+ 	return 0;
+ }
+@@ -339,8 +330,6 @@ static int iguanair_tx(struct rc_dev *dev, unsigned *txbuf, unsigned count)
+ 	unsigned int i, size, p, periods;
+ 	int rc;
+ 
+-	mutex_lock(&ir->lock);
+-
+ 	/* convert from us to carrier periods */
+ 	for (i = size = 0; i < count; i++) {
+ 		periods = DIV_ROUND_CLOSEST(txbuf[i] * ir->carrier, 1000000);
+@@ -368,8 +357,6 @@ static int iguanair_tx(struct rc_dev *dev, unsigned *txbuf, unsigned count)
+ 		rc = -EOVERFLOW;
+ 
+ out:
+-	mutex_unlock(&ir->lock);
+-
+ 	return rc ? rc : count;
+ }
+ 
+@@ -378,14 +365,10 @@ static int iguanair_open(struct rc_dev *rdev)
+ 	struct iguanair *ir = rdev->priv;
+ 	int rc;
+ 
+-	mutex_lock(&ir->lock);
+-
+ 	rc = iguanair_receiver(ir, true);
+ 	if (rc == 0)
+ 		ir->receiver_on = true;
+ 
+-	mutex_unlock(&ir->lock);
+-
+ 	return rc;
+ }
+ 
+@@ -394,14 +377,10 @@ static void iguanair_close(struct rc_dev *rdev)
+ 	struct iguanair *ir = rdev->priv;
+ 	int rc;
+ 
+-	mutex_lock(&ir->lock);
+-
+ 	rc = iguanair_receiver(ir, false);
+ 	ir->receiver_on = false;
+ 	if (rc && rc != -ENODEV)
+ 		dev_warn(ir->dev, "failed to disable receiver: %d\n", rc);
+-
+-	mutex_unlock(&ir->lock);
+ }
+ 
+ static int iguanair_probe(struct usb_interface *intf,
+@@ -441,7 +420,6 @@ static int iguanair_probe(struct usb_interface *intf,
+ 	ir->rc = rc;
+ 	ir->dev = &intf->dev;
+ 	ir->udev = udev;
+-	mutex_init(&ir->lock);
+ 
+ 	init_completion(&ir->completion);
+ 	pipeout = usb_sndintpipe(udev,
+@@ -483,7 +461,7 @@ static int iguanair_probe(struct usb_interface *intf,
+ 	rc->s_tx_mask = iguanair_set_tx_mask;
+ 	rc->s_tx_carrier = iguanair_set_tx_carrier;
+ 	rc->tx_ir = iguanair_tx;
+-	rc->driver_name = DRIVER_NAME;
++	rc->driver_name = KBUILD_MODNAME;
+ 	rc->map_name = RC_MAP_RC6_MCE;
+ 	rc->min_timeout = 1;
+ 	rc->timeout = IR_DEFAULT_TIMEOUT;
+@@ -538,8 +516,6 @@ static int iguanair_suspend(struct usb_interface *intf, pm_message_t message)
+ 	struct iguanair *ir = usb_get_intfdata(intf);
+ 	int rc = 0;
+ 
+-	mutex_lock(&ir->lock);
+-
+ 	if (ir->receiver_on) {
+ 		rc = iguanair_receiver(ir, false);
+ 		if (rc)
+@@ -549,17 +525,13 @@ static int iguanair_suspend(struct usb_interface *intf, pm_message_t message)
+ 	usb_kill_urb(ir->urb_in);
+ 	usb_kill_urb(ir->urb_out);
+ 
+-	mutex_unlock(&ir->lock);
+-
+ 	return rc;
+ }
+ 
+ static int iguanair_resume(struct usb_interface *intf)
+ {
+ 	struct iguanair *ir = usb_get_intfdata(intf);
+-	int rc = 0;
+-
+-	mutex_lock(&ir->lock);
++	int rc;
+ 
+ 	rc = usb_submit_urb(ir->urb_in, GFP_KERNEL);
+ 	if (rc)
+@@ -571,8 +543,6 @@ static int iguanair_resume(struct usb_interface *intf)
+ 			dev_warn(ir->dev, "failed to enable receiver after resume\n");
+ 	}
+ 
+-	mutex_unlock(&ir->lock);
+-
+ 	return rc;
+ }
+ 
+@@ -582,7 +552,7 @@ static const struct usb_device_id iguanair_table[] = {
+ };
+ 
+ static struct usb_driver iguanair_driver = {
+-	.name =	DRIVER_NAME,
++	.name =	KBUILD_MODNAME,
+ 	.probe = iguanair_probe,
+ 	.disconnect = iguanair_disconnect,
+ 	.suspend = iguanair_suspend,
+-- 
+2.25.2
 
-> 
-> With that change:
-> 
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  drivers/media/Kconfig               |  1 -
-> >  drivers/media/dvb-frontends/Kconfig |  2 +-
-> >  drivers/media/i2c/Kconfig           | 68 +++++++++++++++++++----------
-> >  drivers/media/spi/Kconfig           |  4 +-
-> >  drivers/media/tuners/Kconfig        |  2 +-
-> >  5 files changed, 49 insertions(+), 28 deletions(-)
-> > 
-> > diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-> > index 8694e3c6d183..43012e1da108 100644
-> > --- a/drivers/media/Kconfig
-> > +++ b/drivers/media/Kconfig
-> > @@ -244,7 +244,6 @@ config MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  	default y
-> >  
-> >  menu "Media ancillary drivers"
-> > -	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config MEDIA_ATTACH
-> >  	bool
-> > diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-> > index aa24506257b3..fbadba9b328e 100644
-> > --- a/drivers/media/dvb-frontends/Kconfig
-> > +++ b/drivers/media/dvb-frontends/Kconfig
-> > @@ -2,7 +2,7 @@
-> >  
-> >  if MEDIA_DIGITAL_TV_SUPPORT
-> >  
-> > -comment "DVB Frontend drivers hidden by 'Autoselect ancillary drivers'"
-> > +comment "DVB Frontend drivers auto-selected by 'Autoselect ancillary drivers'"
-> >  	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  menu "Customise DVB Frontends"
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index efd12bf4f8eb..e4870268cbb2 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -5,6 +5,9 @@
-> >  
-> >  if VIDEO_V4L2
-> >  
-> > +comment "IR I2C driver auto-selected by 'Autoselect ancillary drivers'"
-> > +	depends on MEDIA_SUBDRV_AUTOSELECT && I2C && RC_CORE
-> > +
-> >  config VIDEO_IR_I2C
-> >  	tristate "I2C module for IR" if !MEDIA_SUBDRV_AUTOSELECT || EXPERT
-> >  	depends on I2C && RC_CORE
-> > @@ -22,17 +25,14 @@ config VIDEO_IR_I2C
-> >  # V4L2 I2C drivers that aren't related with Camera support
-> >  #
-> >  
-> > -comment "I2C drivers hidden by 'Autoselect ancillary drivers'"
-> > +comment "audio, video and radio I2C drivers auto-selected by 'Autoselect ancillary drivers'"
-> >  	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-> > -
-> > -menu "I2C Encoders, decoders, sensors and other helper chips"
-> > -	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> > -
-> >  #
-> >  # Encoder / Decoder module configuration
-> >  #
-> >  
-> > -comment "Audio decoders, processors and mixers"
-> > +menu "Audio decoders, processors and mixers"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_TVAUDIO
-> >  	tristate "Simple audio decoder chips"
-> > @@ -191,8 +191,10 @@ config VIDEO_SONY_BTF_MPX
-> >  
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called sony-btf-mpx.
-> > +endmenu
-> >  
-> > -comment "RDS decoders"
-> > +menu "RDS decoders"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_SAA6588
-> >  	tristate "SAA6588 Radio Chip RDS decoder support"
-> > @@ -205,8 +207,10 @@ config VIDEO_SAA6588
-> >  
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called saa6588.
-> > +endmenu
-> >  
-> > -comment "Video decoders"
-> > +menu "Video decoders"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_ADV7180
-> >  	tristate "Analog Devices ADV7180 decoder"
-> > @@ -459,8 +463,10 @@ config VIDEO_VPX3220
-> >  
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called vpx3220.
-> > +endmenu
-> >  
-> > -comment "Video and audio decoders"
-> > +menu "Video and audio decoders"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_SAA717X
-> >  	tristate "Philips SAA7171/3/4 audio/video decoders"
-> > @@ -473,7 +479,10 @@ config VIDEO_SAA717X
-> >  
-> >  source "drivers/media/i2c/cx25840/Kconfig"
-> >  
-> > -comment "Video encoders"
-> > +endmenu
-> > +
-> > +menu "Video encoders"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_SAA7127
-> >  	tristate "Philips SAA7127/9 digital video encoders"
-> > @@ -580,8 +589,10 @@ config VIDEO_THS8200
-> >  
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called ths8200.
-> > +endmenu
-> >  
-> > -comment "Video improvement chips"
-> > +menu "Video improvement chips"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_UPD64031A
-> >  	tristate "NEC Electronics uPD64031A Ghost Reduction"
-> > @@ -605,8 +616,10 @@ config VIDEO_UPD64083
-> >  
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called upd64083.
-> > +endmenu
-> >  
-> > -comment "Audio/Video compression chips"
-> > +menu "Audio/Video compression chips"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_SAA6752HS
-> >  	tristate "Philips SAA6752HS MPEG-2 Audio/Video Encoder"
-> > @@ -619,7 +632,10 @@ config VIDEO_SAA6752HS
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called saa6752hs.
-> >  
-> > -comment "SDR tuner chips"
-> > +endmenu
-> > +
-> > +menu "SDR tuner chips"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config SDR_MAX2175
-> >  	tristate "Maxim 2175 RF to Bits tuner"
-> > @@ -632,7 +648,11 @@ config SDR_MAX2175
-> >  	  To compile this driver as a module, choose M here; the
-> >  	  module will be called max2175.
-> >  
-> > -comment "Miscellaneous helper chips"
-> > +
-> > +endmenu
-> > +
-> > +menu "Miscellaneous helper chips"
-> > +	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  
-> >  config VIDEO_THS7303
-> >  	tristate "THS7303/53 Video Amplifier"
-> > @@ -679,16 +699,14 @@ config VIDEO_ST_MIPID02
-> >  
-> >  	  To compile this driver as a module, choose M here: the
-> >  	  module will be called st-mipid02.
-> > -
-> >  endmenu
-> >  
-> >  #
-> > -# All drivers that are related to Media Camera Support should be here
-> > +# V4L2 I2C drivers that are related with Camera support
-> >  #
-> >  
-> > -if MEDIA_CAMERA_SUPPORT
-> > -
-> > -comment "Camera sensor devices"
-> > +menu "Camera sensor devices"
-> > +	visible if MEDIA_CAMERA_SUPPORT
-> >  
-> >  config VIDEO_APTINA_PLL
-> >  	tristate
-> > @@ -1189,7 +1207,10 @@ config VIDEO_S5C73M3
-> >  	  This is a V4L2 sensor driver for Samsung S5C73M3
-> >  	  8 Mpixel camera.
-> >  
-> > -comment "Lens drivers"
-> > +endmenu
-> > +
-> > +menu "Lens drivers"
-> > +	visible if MEDIA_CAMERA_SUPPORT
-> >  
-> >  config VIDEO_AD5820
-> >  	tristate "AD5820 lens voice coil support"
-> > @@ -1232,8 +1253,10 @@ config VIDEO_DW9807_VCM
-> >  	  capability. This is designed for linear control of
-> >  	  voice coil motors, controlled via I2C serial interface.
-> >  
-> > +endmenu
-> >  
-> > -comment "Flash devices"
-> > +menu "Flash devices"
-> > +	visible if MEDIA_CAMERA_SUPPORT
-> >  
-> >  config VIDEO_ADP1653
-> >  	tristate "ADP1653 flash support"
-> > @@ -1260,7 +1283,6 @@ config VIDEO_LM3646
-> >  	help
-> >  	  This is a driver for the lm3646 dual flash controllers. It controls
-> >  	  flash, torch LEDs.
-> > -
-> > -endif # MEDIA_CAMERA_SUPPORT
-> > +endmenu
-> >  
-> >  endif # VIDEO_V4L2
-> > diff --git a/drivers/media/spi/Kconfig b/drivers/media/spi/Kconfig
-> > index bf385d503cab..857ef4ace6e9 100644
-> > --- a/drivers/media/spi/Kconfig
-> > +++ b/drivers/media/spi/Kconfig
-> > @@ -1,8 +1,8 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  if VIDEO_V4L2
-> >  
-> > -comment "SPI drivers hidden by 'Autoselect ancillary drivers'"
-> > -	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-> > +comment "SPI I2C drivers auto-selected by 'Autoselect ancillary drivers'"
-> > +	depends on MEDIA_HIDE_ANCILLARY_SUBDRV && SPI
-> >  
-> >  menu "SPI helper chips"
-> >  	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
-> > diff --git a/drivers/media/tuners/Kconfig b/drivers/media/tuners/Kconfig
-> > index e104bb7766e1..2368b0e230e5 100644
-> > --- a/drivers/media/tuners/Kconfig
-> > +++ b/drivers/media/tuners/Kconfig
-> > @@ -15,7 +15,7 @@ config MEDIA_TUNER
-> >  	select MEDIA_TUNER_TDA9887 if MEDIA_SUBDRV_AUTOSELECT
-> >  	select MEDIA_TUNER_MC44S803 if MEDIA_SUBDRV_AUTOSELECT
-> >  
-> > -comment "Tuner drivers hidden by 'Autoselect ancillary drivers'"
-> > +comment "Tuner drivers auto-selected by 'Autoselect ancillary drivers'"
-> >  	depends on MEDIA_HIDE_ANCILLARY_SUBDRV
-> >  	depends on MEDIA_ANALOG_TV_SUPPORT || MEDIA_DIGITAL_TV_SUPPORT || MEDIA_RADIO_SUPPORT || MEDIA_SDR_SUPPORT
-> >  
-> >   
-> 
-
-
-
-Thanks,
-Mauro
