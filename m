@@ -2,201 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 987261AA905
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 15:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 640A11AA9D7
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 16:26:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732691AbgDONsj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 09:48:39 -0400
-Received: from gofer.mess.org ([88.97.38.141]:57435 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2633551AbgDONsf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 09:48:35 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 3219111A002; Wed, 15 Apr 2020 14:48:32 +0100 (BST)
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] media: iguanair: rc drivers no longer need to do locking
-Date:   Wed, 15 Apr 2020 14:48:32 +0100
-Message-Id: <20200415134832.30709-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
+        id S2636592AbgDOOWs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 10:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37758 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2391838AbgDOOWn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 10:22:43 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A7DC061A0E;
+        Wed, 15 Apr 2020 07:22:43 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id r24so3885989ljd.4;
+        Wed, 15 Apr 2020 07:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yzzMWqy+OD4Sj0S39fbp3R3eS6fFNXX/dFDozNIagPM=;
+        b=KWTAORPrZ9yvy2jm6Ap6fsX3FfC6VKBcC0qtVLW22TSIvQGUqfa9ZFqAE1mcQI5H27
+         sh6X1jq0IReze++5Oioq6uIiLMUIygFHw82W/+Hsa1RBWVla9KHhjQmC6YGjkZOnEzPh
+         WzMtMStHr6tzuj6G3d9NYhLE18RqLXCBUlF038DeYkEG6h9tH7MT8Zn/BdfWGmXw2TWp
+         68GzOO8BYt1H/L6ZWeKsLsGDme7/cJAhnGR8Mfr0fTC5bMYBlQiLut+VJGwpN99brNwm
+         CKo3+PYwpg+ra/MJdYYMgEdlxKZ3SqYAOR9wFyYdNz26ECLZxIT46/U4VsLTPvBPij5x
+         g/wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yzzMWqy+OD4Sj0S39fbp3R3eS6fFNXX/dFDozNIagPM=;
+        b=eqcEd8t9S4UrhaHvDFFlxnSepII/TRx2aYQ480VQkRB5oAZF4uJZs/vDtgGR+edlBE
+         ujTc3LdgLphmGbhEm55gLS/l20pQGFvB74eMqLEliUfeDSLnvukfN3/6atj+eyZHqiP0
+         MTI+UR7mZ6g2I7y629Uiehxv6hpEYe0oH+BI3UYIGqrTiac/IuhfCXH7gMYATJfEXAoZ
+         TR/8y76Pydc8c3ShEJgv5P2b3HTzTHc/G+Yn9gf1dGOtgGiWMkFZZoTt9xrpfTozagBe
+         fcIapmI4Iq6b8uYftwus7eOkrJy/Lc18rY7t6V9bZQ3bYnJ0gRsUISPvxiwhHEUH8XFc
+         vj6g==
+X-Gm-Message-State: AGi0PuammHIfVcMMRN5yT6mZhTGYeXLwyqAt1TIoLmKOKIQY1Avbh7GG
+        W6BZTFIO5pIh4s48OcixHOB+W3kp
+X-Google-Smtp-Source: APiQypLMYU1bFrRYsDqjdUgL9OS1QiNz+30o8kG5V5EZ+R7+XtORGUcbqKGG7ZBWbfUmpihoYf9NZA==
+X-Received: by 2002:a2e:2245:: with SMTP id i66mr3534404lji.191.1586960559886;
+        Wed, 15 Apr 2020 07:22:39 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id o17sm12834558lff.70.2020.04.15.07.22.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Apr 2020 07:22:28 -0700 (PDT)
+Subject: Re: [RFC PATCH v7 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1586919463-30542-1-git-send-email-skomatineni@nvidia.com>
+ <1586919463-30542-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <4118112f-f865-5460-6319-d71271fd78d1@gmail.com>
+Date:   Wed, 15 Apr 2020 17:22:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <1586919463-30542-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit 4957133fe32f ("media: lirc: improve locking"), drivers
-do not need to do any of their own locking.
+15.04.2020 05:57, Sowjanya Komatineni пишет:
+> +static int tegra_csi_remove(struct platform_device *pdev)
+> +{
+> +	struct tegra_csi *csi = platform_get_drvdata(pdev);
+> +	int err;
+> +
+> +	err = host1x_client_unregister(&csi->client);
+> +	if (err < 0) {
+> +		dev_err(csi->dev,
+> +			"failed to unregister host1x client: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	pm_runtime_disable(csi->dev);
+> +	kfree(csi);
 
-During suspend and resume, no processes are running so no locking is
-needed.
+IIRC, the driver removal is invoked on the unbinding. Hence, I'm not
+sure how moving away from the resource-managed API helps here. Could you
+please explain in a more details?
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/iguanair.c | 36 +++---------------------------------
- 1 file changed, 3 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
-index 3c8bd13d029a..566c2816d5be 100644
---- a/drivers/media/rc/iguanair.c
-+++ b/drivers/media/rc/iguanair.c
-@@ -14,7 +14,6 @@
- #include <linux/completion.h>
- #include <media/rc-core.h>
- 
--#define DRIVER_NAME "iguanair"
- #define BUF_SIZE 152
- 
- struct iguanair {
-@@ -27,8 +26,6 @@ struct iguanair {
- 	uint8_t bufsize;
- 	uint8_t cycle_overhead;
- 
--	struct mutex lock;
--
- 	/* receiver support */
- 	bool receiver_on;
- 	dma_addr_t dma_in, dma_out;
-@@ -284,8 +281,6 @@ static int iguanair_set_tx_carrier(struct rc_dev *dev, uint32_t carrier)
- 	if (carrier < 25000 || carrier > 150000)
- 		return -EINVAL;
- 
--	mutex_lock(&ir->lock);
--
- 	if (carrier != ir->carrier) {
- 		uint32_t cycles, fours, sevens;
- 
-@@ -314,8 +309,6 @@ static int iguanair_set_tx_carrier(struct rc_dev *dev, uint32_t carrier)
- 		ir->packet->busy4 = 110 - fours;
- 	}
- 
--	mutex_unlock(&ir->lock);
--
- 	return 0;
- }
- 
-@@ -326,9 +319,7 @@ static int iguanair_set_tx_mask(struct rc_dev *dev, uint32_t mask)
- 	if (mask > 15)
- 		return 4;
- 
--	mutex_lock(&ir->lock);
- 	ir->packet->channels = mask << 4;
--	mutex_unlock(&ir->lock);
- 
- 	return 0;
- }
-@@ -339,8 +330,6 @@ static int iguanair_tx(struct rc_dev *dev, unsigned *txbuf, unsigned count)
- 	unsigned int i, size, p, periods;
- 	int rc;
- 
--	mutex_lock(&ir->lock);
--
- 	/* convert from us to carrier periods */
- 	for (i = size = 0; i < count; i++) {
- 		periods = DIV_ROUND_CLOSEST(txbuf[i] * ir->carrier, 1000000);
-@@ -368,8 +357,6 @@ static int iguanair_tx(struct rc_dev *dev, unsigned *txbuf, unsigned count)
- 		rc = -EOVERFLOW;
- 
- out:
--	mutex_unlock(&ir->lock);
--
- 	return rc ? rc : count;
- }
- 
-@@ -378,14 +365,10 @@ static int iguanair_open(struct rc_dev *rdev)
- 	struct iguanair *ir = rdev->priv;
- 	int rc;
- 
--	mutex_lock(&ir->lock);
--
- 	rc = iguanair_receiver(ir, true);
- 	if (rc == 0)
- 		ir->receiver_on = true;
- 
--	mutex_unlock(&ir->lock);
--
- 	return rc;
- }
- 
-@@ -394,14 +377,10 @@ static void iguanair_close(struct rc_dev *rdev)
- 	struct iguanair *ir = rdev->priv;
- 	int rc;
- 
--	mutex_lock(&ir->lock);
--
- 	rc = iguanair_receiver(ir, false);
- 	ir->receiver_on = false;
- 	if (rc && rc != -ENODEV)
- 		dev_warn(ir->dev, "failed to disable receiver: %d\n", rc);
--
--	mutex_unlock(&ir->lock);
- }
- 
- static int iguanair_probe(struct usb_interface *intf,
-@@ -441,7 +420,6 @@ static int iguanair_probe(struct usb_interface *intf,
- 	ir->rc = rc;
- 	ir->dev = &intf->dev;
- 	ir->udev = udev;
--	mutex_init(&ir->lock);
- 
- 	init_completion(&ir->completion);
- 	pipeout = usb_sndintpipe(udev,
-@@ -483,7 +461,7 @@ static int iguanair_probe(struct usb_interface *intf,
- 	rc->s_tx_mask = iguanair_set_tx_mask;
- 	rc->s_tx_carrier = iguanair_set_tx_carrier;
- 	rc->tx_ir = iguanair_tx;
--	rc->driver_name = DRIVER_NAME;
-+	rc->driver_name = KBUILD_MODNAME;
- 	rc->map_name = RC_MAP_RC6_MCE;
- 	rc->min_timeout = 1;
- 	rc->timeout = IR_DEFAULT_TIMEOUT;
-@@ -538,8 +516,6 @@ static int iguanair_suspend(struct usb_interface *intf, pm_message_t message)
- 	struct iguanair *ir = usb_get_intfdata(intf);
- 	int rc = 0;
- 
--	mutex_lock(&ir->lock);
--
- 	if (ir->receiver_on) {
- 		rc = iguanair_receiver(ir, false);
- 		if (rc)
-@@ -549,17 +525,13 @@ static int iguanair_suspend(struct usb_interface *intf, pm_message_t message)
- 	usb_kill_urb(ir->urb_in);
- 	usb_kill_urb(ir->urb_out);
- 
--	mutex_unlock(&ir->lock);
--
- 	return rc;
- }
- 
- static int iguanair_resume(struct usb_interface *intf)
- {
- 	struct iguanair *ir = usb_get_intfdata(intf);
--	int rc = 0;
--
--	mutex_lock(&ir->lock);
-+	int rc;
- 
- 	rc = usb_submit_urb(ir->urb_in, GFP_KERNEL);
- 	if (rc)
-@@ -571,8 +543,6 @@ static int iguanair_resume(struct usb_interface *intf)
- 			dev_warn(ir->dev, "failed to enable receiver after resume\n");
- 	}
- 
--	mutex_unlock(&ir->lock);
--
- 	return rc;
- }
- 
-@@ -582,7 +552,7 @@ static const struct usb_device_id iguanair_table[] = {
- };
- 
- static struct usb_driver iguanair_driver = {
--	.name =	DRIVER_NAME,
-+	.name =	KBUILD_MODNAME,
- 	.probe = iguanair_probe,
- 	.disconnect = iguanair_disconnect,
- 	.suspend = iguanair_suspend,
--- 
-2.25.2
-
+Have you tried to test this driver under KASAN? I suspect that you just
+masked the problem, instead of fixing it.
