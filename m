@@ -2,175 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 144831A9B64
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3091B1A9BDA
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 13:12:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896649AbgDOKsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 06:48:47 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:57123 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2896640AbgDOKsZ (ORCPT
+        id S2896756AbgDOLKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 07:10:22 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48377 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2408852AbgDOLJ5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 06:48:25 -0400
-Received: from uno.homenet.telecomitalia.it (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 68D5A240003;
-        Wed, 15 Apr 2020 10:48:13 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 6/6] media: rcar-csi2: Negotiate data lanes number
-Date:   Wed, 15 Apr 2020 12:50:03 +0200
-Message-Id: <20200415105004.2497356-7-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
-References: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
+        Wed, 15 Apr 2020 07:09:57 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id OfvEjW0aK7xncOfvHj4Xoj; Wed, 15 Apr 2020 13:09:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1586948989; bh=KvgcRhkkMIcBPhFyfvfr0ndt7euIQsGvniakb86DSHI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=ZV4QxIT6bvkSCSasI8Zij/Oetbj5jk9EkFRAmL9NsVCCPBpRACJmMpdT0TxlZ1DaD
+         Ln/5uq8wNvnoQUDoQPYP5QoAub3W+ePJgVhWnzggrwHXj4ENIJHfQhUp4zNy/PUPtt
+         MMLg11MJtiq3iZ3UMjLGjwTfdPWI0ebEK5B+Wo4VjQbMaRpfiiu2U7DSecmM7m7TLn
+         Ltkq0hHY+h2c/OP/scesKk2xXTt/gmwBq2EegbqvzlsnU4tphMhKgZ55Ey4S5VQM7+
+         Dv/H8cxtcESqSCG7weyIlGXkXIOPQMqzaSxgXNGOzB6lELA+H453M4UGjNYpD6Tx5n
+         IR5Y9MpivzNVg==
+Subject: Re: [PATCH v2 0/6] Move CEC drivers and menu to be out of
+ MEDIA_SUPPORT
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Kevin Hilman <khilman@baylibre.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Kukjin Kim <kgene@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Benson Leung <bleung@chromium.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ettore Chimenti <ek5.chimenti@gmail.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        linux-amlogic@lists.infradead.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-tegra@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+References: <cover.1586946605.git.mchehab+huawei@kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a81dee7b-2641-0d2f-c659-f08fe7af94f6@xs4all.nl>
+Date:   Wed, 15 Apr 2020 13:09:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1586946605.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAoQtOqqqoVPHMdN5oX53UyHTmQQMULnRUjFyTATs/v6GWsXgRHarqzS1ELM0muaKrF3VHksfe1o3zy75bIhrVkkxn3gbBl1BdmIN5+lcREmQFChMpoz
+ Ju9QQwCZI1BB9UntkfqJG+BgbfOeElcX/CEOIyxtYOaNE8WXyiVQwgXU08RSqvTQxpoRyl++31wJYQUdLRDMyvHnbpmZwP4DqUYw4IQp4AKSMr1T3+8u3MKh
+ OI6pngpl8MQLGEkOh5oVajnj05PyuPqp6ucSipF/SIK/u7zTN8mszOFEeKdpp0ntMC29ccEZs4n2DnbmCp1wSH/OFb4DUQ/DZrgFfRDWVm9QZbtbRhNkS5vj
+ 7Noc09ibpD7T2jTrOwru7jYQzqV+oYfBmoXZzM2Gs73fP4RzuMTv+MNFB87lsbq+64eUia/jg66F9niepDng4k63TfR+gXGKWr02QMF5Np4eAGJrb5rr14kd
+ yMEQKD/UvLPFlEi/1zuOidhRNdcFUg8bGiX7e6b+Sy/l34NdU/Tlc8ohcjplskom04uX66ChZEtb5coyIrpLOk7jyrJ5tJX/LjkTkbrezS8qELHEYc2/iLFj
+ iQhF5tS82wfwc7Y7BK4YGSC6WOToZW1pwgKX4s9vbIWx2c6L17TucLjxuSPMEG+X71NkJL8oO/OALqBd4vwvHtAGzqXXUzBq0fMo9olwSFxHHD9YscyO+LzP
+ /UKGTBJ5pucBIix9ZBK/sWlNXDD3p7RnYPQNphEKuj4VRc/T2Z8l9o3OlH3H9z/8JaHLcJ9TsOpA0+ATk8HKz/WaJuLjyKJFL4qiW51UYYbq7l/PQD+mf+Y9
+ izE2CkfYawIr9c/RD1VfwzWSATTNCym7frlNvrayUiITjutvJpc7j4RLWwO4FykV7fDjQlWYP8wvMxYkd9u9DiLzE4OR0PFSz/OXM4wIzMYG8Vp93UEcTQ0T
+ VycV0+v50PAJPn+lpTbWxBg0tZJZmrie3ujgadnEVqG+oGbz
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the newly introduced get_mbus_config() subdevice pad operation to
-retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-the number of active data lanes accordingly.
+On 15/04/2020 12:31, Mauro Carvalho Chehab wrote:
+> The CEC_CORE doesn't depend on MEDIA_SUPPORT. So, it doesn't make
+> much sense to keep it under its menu.
+> 
+> This series move it to be just after RC support. As a side effect, now
+> dependencies like PCI and USB are now selected, making easier to
+> enable CEC drivers.
 
-In order to be able to call the remote subdevice operation cache the
-index of the remote pad connected to the single CSI-2 input port.
+For this series:
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Niklas I've not been able to fully address comments as -ENOIOCTL command
-has to be handled separately as reported by email.
+Thanks!
 
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 53 +++++++++++++++++++--
- 1 file changed, 50 insertions(+), 3 deletions(-)
+	Hans
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index faa9fb23a2e9..0061d5ff37e3 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -363,6 +363,7 @@ struct rcar_csi2 {
- 	struct v4l2_async_notifier notifier;
- 	struct v4l2_async_subdev asd;
- 	struct v4l2_subdev *remote;
-+	unsigned short remote_pad;
-
- 	struct v4l2_mbus_framefmt mf;
-
-@@ -371,6 +372,7 @@ struct rcar_csi2 {
-
- 	unsigned short lanes;
- 	unsigned char lane_swap[4];
-+	unsigned short active_lanes;
- };
-
- static inline struct rcar_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
-@@ -414,7 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-
- 	/* Wait for the clock and data lanes to enter LP-11 state. */
- 	for (timeout = 0; timeout <= 20; timeout++) {
--		const u32 lane_mask = (1 << priv->lanes) - 1;
-+		const u32 lane_mask = (1 << priv->active_lanes) - 1;
-
- 		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
- 		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-@@ -471,11 +473,49 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
- 	 * bps = link_freq * 2
- 	 */
- 	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
--	do_div(mbps, priv->lanes * 1000000);
-+	do_div(mbps, priv->active_lanes * 1000000);
-
- 	return mbps;
- }
-
-+static int rcsi2_config_active_lanes(struct rcar_csi2 *priv)
-+{
-+	struct v4l2_mbus_pad_config mbus_config;
-+	int ret;
-+
-+	priv->active_lanes = priv->lanes;
-+
-+	memset(&mbus_config, 0, sizeof(mbus_config));
-+	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-+			       priv->remote_pad, &mbus_config);
-+	if (ret == -ENOIOCTLCMD) {
-+		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-+		return 0;
-+	}
-+
-+	if (ret) {
-+		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-+		return ret;
-+	}
-+
-+	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-+		dev_err(priv->dev, "Unsupported mbus type %u\n",
-+			mbus_config.type);
-+		return -EINVAL;
-+	}
-+
-+	if (mbus_config.csi2_dphy.data_lanes > priv->lanes) {
-+		dev_err(priv->dev,
-+			"Unsupported mbus config: too many data lanes %u\n",
-+			mbus_config.csi2_dphy.data_lanes);
-+		return -EINVAL;
-+	}
-+
-+	priv->active_lanes = mbus_config.csi2_dphy.data_lanes;
-+
-+	return 0;
-+}
-+
- static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- {
- 	const struct rcar_csi2_format *format;
-@@ -490,6 +530,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	/* Code is validated in set_fmt. */
- 	format = rcsi2_code_to_fmt(priv->mf.code);
-
-+	/* Get the remote mbus config to get the number of enabled lanes. */
-+	ret = rcsi2_config_active_lanes(priv);
-+	if (ret)
-+		return ret;
-+
- 	/*
- 	 * Enable all supported CSI-2 channels with virtual channel and
- 	 * data type matching.
-@@ -522,7 +567,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	}
-
- 	phycnt = PHYCNT_ENABLECLK;
--	phycnt |= (1 << priv->lanes) - 1;
-+	phycnt |= (1 << priv->active_lanes) - 1;
-
- 	mbps = rcsi2_calc_mbps(priv, format->bpp);
- 	if (mbps < 0)
-@@ -748,6 +793,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
- 	}
-
- 	priv->remote = subdev;
-+	priv->remote_pad = pad;
-
- 	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
-
-@@ -793,6 +839,7 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
- 			priv->lanes);
- 		return -EINVAL;
- 	}
-+	priv->active_lanes = priv->lanes;
-
- 	for (i = 0; i < ARRAY_SIZE(priv->lane_swap); i++) {
- 		priv->lane_swap[i] = i < priv->lanes ?
---
-2.26.0
+> 
+> - v2:
+>   - move more CEC drivers from platform/
+>   - rename kconfig options to be more coherent
+> 
+> Mauro Carvalho Chehab (6):
+>   media: cec: move the core to a separate directory
+>   media: place CEC menu before MEDIA_SUPPORT
+>   media: move CEC platform drivers to a separate directory
+>   media: move CEC USB drivers to a separate directory
+>   media: cec: rename CEC platform drivers config options
+>   media: cec: rename USB config options
+> 
+>  arch/arm/configs/exynos_defconfig             |   2 +-
+>  arch/arm/configs/multi_v7_defconfig           |   2 +-
+>  drivers/media/Kconfig                         |  30 +----
+>  drivers/media/cec/Kconfig                     |  25 ++++
+>  drivers/media/cec/Makefile                    |  16 +--
+>  drivers/media/cec/core/Makefile               |  16 +++
+>  drivers/media/cec/{ => core}/cec-adap.c       |   0
+>  drivers/media/cec/{ => core}/cec-api.c        |   0
+>  drivers/media/cec/{ => core}/cec-core.c       |   0
+>  drivers/media/cec/{ => core}/cec-notifier.c   |   0
+>  .../media/cec/{ => core}/cec-pin-error-inj.c  |   0
+>  drivers/media/cec/{ => core}/cec-pin-priv.h   |   0
+>  drivers/media/cec/{ => core}/cec-pin.c        |   0
+>  drivers/media/cec/{ => core}/cec-priv.h       |   0
+>  drivers/media/cec/platform/Kconfig            | 121 +++++++++++++++++
+>  drivers/media/cec/platform/Makefile           |  14 ++
+>  .../{ => cec}/platform/cec-gpio/Makefile      |   0
+>  .../{ => cec}/platform/cec-gpio/cec-gpio.c    |   0
+>  drivers/media/cec/platform/cros-ec/Makefile   |   2 +
+>  .../platform/cros-ec}/cros-ec-cec.c           |   0
+>  drivers/media/cec/platform/meson/Makefile     |   3 +
+>  .../{ => cec}/platform/meson/ao-cec-g12a.c    |   0
+>  .../media/{ => cec}/platform/meson/ao-cec.c   |   0
+>  .../s5p-cec => cec/platform/s5p}/Makefile     |   2 +-
+>  .../platform/s5p}/exynos_hdmi_cec.h           |   0
+>  .../platform/s5p}/exynos_hdmi_cecctrl.c       |   0
+>  .../s5p-cec => cec/platform/s5p}/regs-cec.h   |   0
+>  .../s5p-cec => cec/platform/s5p}/s5p_cec.c    |   0
+>  .../s5p-cec => cec/platform/s5p}/s5p_cec.h    |   0
+>  drivers/media/cec/platform/seco/Makefile      |   2 +
+>  .../seco-cec => cec/platform/seco}/seco-cec.c |   2 +-
+>  .../seco-cec => cec/platform/seco}/seco-cec.h |   0
+>  drivers/media/cec/platform/sti/Makefile       |   2 +
+>  .../sti/cec => cec/platform/sti}/stih-cec.c   |   0
+>  drivers/media/cec/platform/stm32/Makefile     |   2 +
+>  .../{ => cec}/platform/stm32/stm32-cec.c      |   0
+>  drivers/media/cec/platform/tegra/Makefile     |   2 +
+>  .../platform/tegra}/tegra_cec.c               |   0
+>  .../platform/tegra}/tegra_cec.h               |   0
+>  drivers/media/cec/usb/Kconfig                 |   6 +
+>  drivers/media/cec/usb/Makefile                |   6 +
+>  .../pulse8-cec => cec/usb/pulse8}/Kconfig     |   5 +-
+>  drivers/media/cec/usb/pulse8/Makefile         |   2 +
+>  .../usb/pulse8}/pulse8-cec.c                  |   0
+>  .../usb/rainshadow}/Kconfig                   |   5 +-
+>  drivers/media/cec/usb/rainshadow/Makefile     |   2 +
+>  .../usb/rainshadow}/rainshadow-cec.c          |   0
+>  drivers/media/platform/Kconfig                | 125 ------------------
+>  drivers/media/platform/Makefile               |  12 --
+>  drivers/media/platform/cros-ec-cec/Makefile   |   2 -
+>  drivers/media/platform/meson/Makefile         |   3 -
+>  drivers/media/platform/seco-cec/Makefile      |   2 -
+>  drivers/media/platform/sti/cec/Makefile       |   2 -
+>  drivers/media/platform/stm32/Makefile         |   1 -
+>  drivers/media/platform/tegra-cec/Makefile     |   2 -
+>  drivers/media/usb/Kconfig                     |   6 -
+>  drivers/media/usb/Makefile                    |   2 -
+>  drivers/media/usb/pulse8-cec/Makefile         |   2 -
+>  drivers/media/usb/rainshadow-cec/Makefile     |   2 -
+>  59 files changed, 218 insertions(+), 212 deletions(-)
+>  create mode 100644 drivers/media/cec/core/Makefile
+>  rename drivers/media/cec/{ => core}/cec-adap.c (100%)
+>  rename drivers/media/cec/{ => core}/cec-api.c (100%)
+>  rename drivers/media/cec/{ => core}/cec-core.c (100%)
+>  rename drivers/media/cec/{ => core}/cec-notifier.c (100%)
+>  rename drivers/media/cec/{ => core}/cec-pin-error-inj.c (100%)
+>  rename drivers/media/cec/{ => core}/cec-pin-priv.h (100%)
+>  rename drivers/media/cec/{ => core}/cec-pin.c (100%)
+>  rename drivers/media/cec/{ => core}/cec-priv.h (100%)
+>  create mode 100644 drivers/media/cec/platform/Kconfig
+>  create mode 100644 drivers/media/cec/platform/Makefile
+>  rename drivers/media/{ => cec}/platform/cec-gpio/Makefile (100%)
+>  rename drivers/media/{ => cec}/platform/cec-gpio/cec-gpio.c (100%)
+>  create mode 100644 drivers/media/cec/platform/cros-ec/Makefile
+>  rename drivers/media/{platform/cros-ec-cec => cec/platform/cros-ec}/cros-ec-cec.c (100%)
+>  create mode 100644 drivers/media/cec/platform/meson/Makefile
+>  rename drivers/media/{ => cec}/platform/meson/ao-cec-g12a.c (100%)
+>  rename drivers/media/{ => cec}/platform/meson/ao-cec.c (100%)
+>  rename drivers/media/{platform/s5p-cec => cec/platform/s5p}/Makefile (63%)
+>  rename drivers/media/{platform/s5p-cec => cec/platform/s5p}/exynos_hdmi_cec.h (100%)
+>  rename drivers/media/{platform/s5p-cec => cec/platform/s5p}/exynos_hdmi_cecctrl.c (100%)
+>  rename drivers/media/{platform/s5p-cec => cec/platform/s5p}/regs-cec.h (100%)
+>  rename drivers/media/{platform/s5p-cec => cec/platform/s5p}/s5p_cec.c (100%)
+>  rename drivers/media/{platform/s5p-cec => cec/platform/s5p}/s5p_cec.h (100%)
+>  create mode 100644 drivers/media/cec/platform/seco/Makefile
+>  rename drivers/media/{platform/seco-cec => cec/platform/seco}/seco-cec.c (99%)
+>  rename drivers/media/{platform/seco-cec => cec/platform/seco}/seco-cec.h (100%)
+>  create mode 100644 drivers/media/cec/platform/sti/Makefile
+>  rename drivers/media/{platform/sti/cec => cec/platform/sti}/stih-cec.c (100%)
+>  create mode 100644 drivers/media/cec/platform/stm32/Makefile
+>  rename drivers/media/{ => cec}/platform/stm32/stm32-cec.c (100%)
+>  create mode 100644 drivers/media/cec/platform/tegra/Makefile
+>  rename drivers/media/{platform/tegra-cec => cec/platform/tegra}/tegra_cec.c (100%)
+>  rename drivers/media/{platform/tegra-cec => cec/platform/tegra}/tegra_cec.h (100%)
+>  create mode 100644 drivers/media/cec/usb/Kconfig
+>  create mode 100644 drivers/media/cec/usb/Makefile
+>  rename drivers/media/{usb/pulse8-cec => cec/usb/pulse8}/Kconfig (86%)
+>  create mode 100644 drivers/media/cec/usb/pulse8/Makefile
+>  rename drivers/media/{usb/pulse8-cec => cec/usb/pulse8}/pulse8-cec.c (100%)
+>  rename drivers/media/{usb/rainshadow-cec => cec/usb/rainshadow}/Kconfig (85%)
+>  create mode 100644 drivers/media/cec/usb/rainshadow/Makefile
+>  rename drivers/media/{usb/rainshadow-cec => cec/usb/rainshadow}/rainshadow-cec.c (100%)
+>  delete mode 100644 drivers/media/platform/cros-ec-cec/Makefile
+>  delete mode 100644 drivers/media/platform/meson/Makefile
+>  delete mode 100644 drivers/media/platform/seco-cec/Makefile
+>  delete mode 100644 drivers/media/platform/sti/cec/Makefile
+>  delete mode 100644 drivers/media/platform/tegra-cec/Makefile
+>  delete mode 100644 drivers/media/usb/pulse8-cec/Makefile
+>  delete mode 100644 drivers/media/usb/rainshadow-cec/Makefile
+> 
 
