@@ -2,171 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8A81A9199
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 05:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD0541A9200
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 06:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389614AbgDODhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 14 Apr 2020 23:37:18 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:56419 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389612AbgDODhR (ORCPT
+        id S2393083AbgDOElr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 00:41:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388223AbgDOElp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 14 Apr 2020 23:37:17 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id OYrPjlw4olKa1OYrQjHhcC; Wed, 15 Apr 2020 05:37:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1586921832; bh=08DsTQgTjEOl0mijW2+DuByNkup25KPFLMBh+AyKe0k=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=mTgb8gE8oNbkpIgW/5CENr9FzttMQFHNgyswdRvMmMR/N+BeqP6JJAc3KTUxVPW/E
-         kcWwA64cliVXxNdngwCuEXcD0GMQ6cOuDeHGXdcvtAk35MH0nQ2SVEwV1s4DHh3nT+
-         gMKQ9/YHZBisJqg4qbK/ZNLQumeh0lHqQUY0YaIVWhmtXopZipE91f76xIXNHgAxPO
-         j4CqcG67jWO9bbx1WKxQzFBCm+QFSM7CHvv33XpTZPw03Vn+ReJHNnzstnB0Mb6uYv
-         Y/xn9akZqUmf8kVooV/B0mrf8mOehWSgcQIYIAo25fcYWn+SbxqGDz/A3Ta7OLd/4X
-         jWS086fNcVbig==
-Message-ID: <f668bdb178905ca7db1ed1f874253e97@smtp-cloud8.xs4all.net>
-Date:   Wed, 15 Apr 2020 05:37:10 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfK5YVTM4/B2R7BzAoPYvzgCmUVLAwXNIdUloFssrh+SstPIbwiN0miv8dVF1qtfYXedH7H3bhUGTVC3vZX57WUzeZ65EHo/2AnJ43Xle0wiFw5x+p4lq
- LR2t+jOkokqejg/IPY8WZEvCBeW3gIZIwk4RJXVdVEof46LHPnz/fhyfaXAeY6f1YSbZgMv+eeJc11ZHX2iUrfGaWoQXlRibEH9EsKo7CtF//ba/gsA9rzgW
+        Wed, 15 Apr 2020 00:41:45 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB492C061A0C
+        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2020 21:41:43 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id j4so2112019otr.11
+        for <linux-media@vger.kernel.org>; Tue, 14 Apr 2020 21:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=yuNggtIe2GcnI6FuGYRCP7sxE6PadkqmBj6CF6tR/Gs=;
+        b=OTB3RfMyrdVJ7ygI0eAB6m89DfyK7Br1DSBVEoq2OJ7g7XFVWBZQPhOzgDy4S2LXTG
+         AJMMYR4R29njK35OPsxHnQWrI4xuOC6YfmkFBSL5Y+FgN3f+0KpEoFSNwgomtJqP6l+t
+         67AkaK6noIU47090e/BLlc5lXsENljKM6uNHv5jQ8a5ZPyksi5DuPEmiD3YDvILPQnSd
+         FAtwGQFURFCCkodWA0D/g9A/wdDKxcAfw2dFzbvHNG6sP3CPa2rfBd08PS+4c+nmxokI
+         DSYZFItuasCmP6x1Ah64Othz0RVdteA6jakPuTPC+ob5HEcxFBDDGgFT1q6KPNyyuJGY
+         xFJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=yuNggtIe2GcnI6FuGYRCP7sxE6PadkqmBj6CF6tR/Gs=;
+        b=OMdT/eKAGR40uMmowQyEzxgWwrbYF+8Icm9fEDW57kIIFZksCNogCcDvHYQXoaJnLR
+         Nrk5R/BphpZOPAmToILbTaOwVxhzY1opv6pgVAAkse2dd77HgZ6MNGCOpoF27cM3syZz
+         9qmyumgP0HAwOGsa22/XOYo1Jz501KUw6b3aanO2DxplEzJdf8cOBGb9UfWE9JF1EK2U
+         0tYxdeNLKOAwY4eEdd/AK3GpOPFUqqMBzbFzBFV/RBzGIswquoTNLXoU5lGTXCQ/5bYL
+         NMu6C//wlwIJejEWmCUntD+SSeREAI8k8d3ry8ceFlGsBSeJdI6RFODAm++Wukdzgdpj
+         qKXA==
+X-Gm-Message-State: AGi0PuZJri4FKWQ2RsixBRtIZlsoBOqEUencHfwgV5zeWu95qy5dDP9R
+        ZAbDKIGYWM6qncn9P7gMCdvFyrJvJUIoheFcYGarToxt
+X-Google-Smtp-Source: APiQypLZVsuOAs/qV12E+s9L226LVjpTiUij81eio0cenUOY+4mpYMVYUEaDSaDyVC+DuicUwi+ryEMvkOkdej8Zuqw=
+X-Received: by 2002:a05:6830:20c3:: with SMTP id z3mr15050625otq.102.1586925703073;
+ Tue, 14 Apr 2020 21:41:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200414134629.54567-1-orjan.eide@arm.com> <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+In-Reply-To: <20200414142810.GA958163@kroah.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Tue, 14 Apr 2020 21:41:31 -0700
+Message-ID: <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>, nd <nd@arm.com>,
+        Anders Pedersen <anders.pedersen@arm.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        "Darren Hart (VMware)" <dvhart@infradead.org>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Apr 14, 2020 at 7:28 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Apr 14, 2020 at 04:18:47PM +0200, =C3=98rjan Eide wrote:
+> > Only sync the sg-list of an Ion dma-buf attachment when the attachment
+> > is actually mapped on the device.
+> >
+> > dma-bufs may be synced at any time. It can be reached from user space
+> > via DMA_BUF_IOCTL_SYNC, so there are no guarantees from callers on when
+> > syncs may be attempted, and dma_buf_end_cpu_access() and
+> > dma_buf_begin_cpu_access() may not be paired.
+> >
+> > Since the sg_list's dma_address isn't set up until the buffer is used
+> > on the device, and dma_map_sg() is called on it, the dma_address will b=
+e
+> > NULL if sync is attempted on the dma-buf before it's mapped on a device=
+.
+> >
+> > Before v5.0 (commit 55897af63091 ("dma-direct: merge swiotlb_dma_ops
+> > into the dma_direct code")) this was a problem as the dma-api (at least
+> > the swiotlb_dma_ops on arm64) would use the potentially invalid
+> > dma_address. How that failed depended on how the device handled physica=
+l
+> > address 0. If 0 was a valid address to physical ram, that page would ge=
+t
+> > flushed a lot, while the actual pages in the buffer would not get synce=
+d
+> > correctly. While if 0 is an invalid physical address it may cause a
+> > fault and trigger a crash.
+> >
+> > In v5.0 this was incidentally fixed by commit 55897af63091 ("dma-direct=
+:
+> > merge swiotlb_dma_ops into the dma_direct code"), as this moved the
+> > dma-api to use the page pointer in the sg_list, and (for Ion buffers at
+> > least) this will always be valid if the sg_list exists at all.
+> >
+> > But, this issue is re-introduced in v5.3 with
+> > commit 449fa54d6815 ("dma-direct: correct the physical addr in
+> > dma_direct_sync_sg_for_cpu/device") moves the dma-api back to the old
+> > behaviour and picks the dma_address that may be invalid.
+> >
+> > dma-buf core doesn't ensure that the buffer is mapped on the device, an=
+d
+> > thus have a valid sg_list, before calling the exporter's
+> > begin_cpu_access.
+> >
+> > Signed-off-by: =C3=98rjan Eide <orjan.eide@arm.com>
+> > ---
+> >  drivers/staging/android/ion/ion.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > Resubmit without disclaimer, sorry about that.
+> >
+> > This seems to be part of a bigger issue where dma-buf exporters assume
+> > that their dma-buf begin_cpu_access and end_cpu_access callbacks have a
+> > certain guaranteed behavior, which isn't ensured by dma-buf core.
+> >
+> > This patch fixes this in ion only, but it also needs to be fixed for
+> > other exporters, either handled like this in each exporter, or in
+> > dma-buf core before calling into the exporters.
+> >
+> > diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/androi=
+d/ion/ion.c
+> > index 38b51eace4f9..7b752ba0cb6d 100644
+> > --- a/drivers/staging/android/ion/ion.c
+> > +++ b/drivers/staging/android/ion/ion.c
+>
+> Now that we have the dma-buff stuff in the tree, do we even need the
+> ion code in the kernel anymore?  Can't we delete it now?
+>
 
-Results of the daily build of media_tree:
+I agree that we shouldn't be taking further (non-security/cleanup)
+patches to the ION code.
 
-date:			Wed Apr 15 05:00:09 CEST 2020
-media-tree git hash:	860b511766a3d95308a942ac09a34e4d1839e706
-media_build git hash:	59218acf14c29acea3de658b724fa511b121ca7d
-v4l-utils git hash:	d59fa43a9b531f80ebdb971484da6ae80120e0ed
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 207731f0f2373bd930d923a23a304cafb5650efb
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+I'd like to give developers a little bit of a transition period (I was
+thinking a year, but really just one LTS release that has both would
+do) where they can move their ION heaps over to dmabuf heaps and test
+both against the same tree.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: ERRORS
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+But I do think we can mark it as deprecated and let folks know that
+around the end of the year it will be deleted.
 
-Detailed results are available here:
+That sound ok?
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+thanks
+-john
