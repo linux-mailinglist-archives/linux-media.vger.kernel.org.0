@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 632DD1AA44E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 15:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D0791AA24D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 14:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408873AbgDOLe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 07:34:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54288 "EHLO mail.kernel.org"
+        id S370566AbgDOMxM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 08:53:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408860AbgDOLer (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:34:47 -0400
+        id S2897459AbgDOLm2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 07:42:28 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7506520737;
-        Wed, 15 Apr 2020 11:34:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A658B206A2;
+        Wed, 15 Apr 2020 11:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586950487;
-        bh=ic5MMHZntN33IMBrTIWsQVmdcrIefTFAyiQjjyVZ7jg=;
+        s=default; t=1586950948;
+        bh=3pmT4YkkfBFRhMwn/QUKY+tcN3RpzhDBpm4ueWUO//A=;
         h=From:To:Cc:Subject:Date:From;
-        b=cM6GbIxiSTcsD0vtJWc6VQBGC1DcfVTWzf3Qa0GEW8FCzZ9eTdxmSCrXomBAs4b7T
-         NO50eLOJ00/T1d6lkQT7b3FjbVJ+EOKFllVyw+8Cshc1XFAFPX/OB6JC2jr5R5+2ws
-         ylGqOYTFy3mVNXuz+Vgt8X+rk/Hzqkh8pXC1yMMY=
+        b=GwYxppomtrCAvpbE32ftrhXu3Vwu6r8FcNMWqigRWTQ48rAz7rBsa7URTm0u9FcNE
+         pM6Bvz8bvCc9fAqAn6X/DCobW4oGDPoqMftGhNAolJkYhjC87MBPR0UnwbOSb0fciT
+         3wQkL6gjHvO0kySaS/XfrdEZFBDjagJXuX1rxq4w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     xinhui pan <xinhui.pan@amd.com>,
@@ -30,9 +30,9 @@ Cc:     xinhui pan <xinhui.pan@amd.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.6 001/129] drm/ttm: flush the fence on the bo after we individualize the reservation object
-Date:   Wed, 15 Apr 2020 07:32:36 -0400
-Message-Id: <20200415113445.11881-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 001/106] drm/ttm: flush the fence on the bo after we individualize the reservation object
+Date:   Wed, 15 Apr 2020 07:40:41 -0400
+Message-Id: <20200415114226.13103-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 5df596fb0280c..fe420ca454e0a 100644
+index 8d91b0428af1b..1494aebb81284 100644
 --- a/drivers/gpu/drm/ttm/ttm_bo.c
 +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -498,8 +498,10 @@ static void ttm_bo_cleanup_refs_or_queue(struct ttm_buffer_object *bo)
+@@ -499,8 +499,10 @@ static void ttm_bo_cleanup_refs_or_queue(struct ttm_buffer_object *bo)
  
  		dma_resv_unlock(bo->base.resv);
  	}
