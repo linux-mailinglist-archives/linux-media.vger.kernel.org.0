@@ -2,168 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C05861AAE32
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B53A1AAE7E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415942AbgDOQ1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 12:27:49 -0400
-Received: from mga03.intel.com ([134.134.136.65]:47706 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1415915AbgDOQ1e (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:27:34 -0400
-IronPort-SDR: uW+unV75qdgb2U3L5czKZHvzFBcd+OVz2xdv1KqZvh/+6GDzdW8MNMCQSEhJZcPlI6TZAlltid
- WwtLZa9AIqqQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:27:32 -0700
-IronPort-SDR: 5eJIAnbaBUkT7vmvZkQM8f4n6QiHLKkUwZB9EHJFNVj+7PpXC3EXfK7UzRjNtMHYpKIkPPTApK
- LtRhGUpSvepA==
-X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
-   d="scan'208";a="256907570"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 09:27:25 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id C6B5D20606; Wed, 15 Apr 2020 19:27:22 +0300 (EEST)
-Date:   Wed, 15 Apr 2020 19:27:22 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        id S2410059AbgDOQkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 12:40:04 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:40560 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404533AbgDOQkC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 12:40:02 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 3FBE420026;
+        Wed, 15 Apr 2020 18:39:58 +0200 (CEST)
+Date:   Wed, 15 Apr 2020 18:39:56 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     devicetree@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v5 2/5] media: i2c: ov5645: Drop reading clock-frequency
- dt-property
-Message-ID: <20200415162722.GG27762@paasikivi.fi.intel.com>
-References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586191361-16598-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200406165108.GA7646@kekkonen.localdomain>
- <20200406173234.GD16885@pendragon.ideasonboard.com>
- <20200407062241.GA8883@kekkonen.localdomain>
- <20200407122106.GD4751@pendragon.ideasonboard.com>
- <20200407151401.GA5206@paasikivi.fi.intel.com>
- <20200414205552.GN19819@pendragon.ideasonboard.com>
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 1/4] dt-bindings: display: convert atmel-hlcdc to DT
+ Schema
+Message-ID: <20200415163956.GB7965@ravnborg.org>
+References: <20200412182012.27515-1-sam@ravnborg.org>
+ <20200412182012.27515-2-sam@ravnborg.org>
+ <20200414082803.exblunwe7bufbiht@gilmour.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200414205552.GN19819@pendragon.ideasonboard.com>
+In-Reply-To: <20200414082803.exblunwe7bufbiht@gilmour.lan>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=gEfo2CItAAAA:8
+        a=7gkXJVJtAAAA:8 a=VwQbUJbxAAAA:8 a=cP0MBsb0hliDGbVkiysA:9
+        a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19 a=tD3LE_9lYvMIQjli:21
+        a=hU8jqPLB-Mkm8DtO:21 a=CjuIK1q_8ugA:10 a=sptkURWiP4Gy88Gu7hUp:22
+        a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Maxime.
 
-On Tue, Apr 14, 2020 at 11:55:52PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On Tue, Apr 14, 2020 at 10:28:03AM +0200, Maxime Ripard wrote:
+> Hi Sam,
 > 
-> On Tue, Apr 07, 2020 at 06:14:01PM +0300, Sakari Ailus wrote:
-> > On Tue, Apr 07, 2020 at 03:21:06PM +0300, Laurent Pinchart wrote:
-> > > On Tue, Apr 07, 2020 at 09:22:41AM +0300, Sakari Ailus wrote:
-> > >> On Mon, Apr 06, 2020 at 08:32:34PM +0300, Laurent Pinchart wrote:
-> > >>> On Mon, Apr 06, 2020 at 07:51:08PM +0300, Sakari Ailus wrote:
-> > >>>> On Mon, Apr 06, 2020 at 05:42:38PM +0100, Lad Prabhakar wrote:
-> > >>>>> Modes in the driver are based on xvclk frequency fixed to 24MHz, but where
-> > >>>>> as the OV5645 sensor can support the xvclk frequency ranging from 6MHz to
-> > >>>>> 24MHz. So instead making clock-frequency as dt-property just let the
-> > >>>>> driver enforce the required clock frequency.
-> > >>>> 
-> > >>>> Even if some current systems where the driver is used are using 24 MHz
-> > >>>> clock, that doesn't mean there wouldn't be systems using another frequency
-> > >>>> that the driver does not support right now.
-> > >>>> 
-> > >>>> The driver really should not set the frequency unless it gets it from DT,
-> > >>>> but I think the preferred means is to use assigned-clock-rates instead, and
-> > >>>> not to involve the driver with setting the frequency.
-> > >>>> 
-> > >>>> Otherwise we'll make it impossible to support other frequencies, at least
-> > >>>> without more or less random defaults.
-> > >>> 
-> > >>> We're running in circles here.
-> > >>> 
-> > >>> As the driver only supports 24MHz at the moment, the frequency should be
-> > >>> set by the driver, as it's a driver limitation. We can then work on
-> > >>> supporting additional frequencies, which will require DT to provide a
-> > >>> list of supported frequencies for the system, but that can be done on
-> > >>> top.
-> > >> 
-> > >> I guess it would be possible to use different external clock frequencies on
-> > >> a sensor in a given system but that seems to be a bit far fetched, to the
-> > >> extent I've never seen anyone doing that in practice.
-> > >> 
-> > >> Originally, the driver set the frequency based on the clock-frequency
-> > >> property. If we're removing that but use a fixed frequency instead, then
-> > >> how is that going to work going forward when someone adds support for other
-> > >> frequencies in the driver and has a system requiring that, while there are
-> > >> some other platforms relying on the driver setting a particular frequency?
-> > > 
-> > > The standard property for this is link-frequencies, not clock-frequency.
-> > > Deprecating clock-frequency now paves the way to use the standard
-> > > property later when/if someone implements support for additional
-> > > frequencies.
-> > 
-> > The external clock frequency and link frequency are different indeed, but
-> > they are related. The link frequency has been selected in a way that it is
-> > possible to generate that exact frequency using the chosen external clock
-> > frequency. If you change the external clock frequency, chances are good
-> > there is no PLL configuration to generate that link frequency.
+> On Sun, Apr 12, 2020 at 08:20:09PM +0200, Sam Ravnborg wrote:
+> > diff --git a/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml b/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml
+> > new file mode 100644
+> > index 000000000000..7eb6266a25a2
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml
+> > @@ -0,0 +1,102 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/atmel/hlcdc-dc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Atmel HLCDC (High LCD Controller) display controller
+> > +
+> > +maintainers:
+> > +  - Sam Ravnborg <sam@ravnborg.org>
+> > +  - Boris Brezillon <bbrezillon@kernel.org>
+> > +
+> > +description: |
+> > +  The Atmel HLCDC Display Controller is subdevice of the HLCDC MFD device.
+> > +  See ../../mfd/atmel-hlcdc.yaml for more details.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: atmel,hlcdc-display-controller
+> > +
+> > +  "#address-cells":
+> > +    const: 1
+> > +  "#size-cells":
+> > +    const: 0
+> > +
+> > +required:
+> > +  - compatible
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +
+> > +patternProperties:
+> > +  "^port@[0-9]$":
+> > +    type: object
+> > +    description: |
+> > +      A port node with endpoint definitions as defined in
+> > +      ../../media/video-interfaces.txt
+> > +
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +      reg:
+> > +        maxItems: 1
+> > +        description: The virtual number of the port
+> > +
+> > +    patternProperties:
+> > +      "^endpoint(@[0-9])$":
 > 
-> But aren't we supposed to pick the clock frequency based on the link
-> frequency specified in DT ?
+> I guess you meant ^endpoint(@[0-9])?$ instead?
+I think "^endpoint@[0-9]$" will do the trick.
+No need for endpoints with numbers higher than 9.
 
-No. In a general case there is no reliable way to come up with an external
-clock frequency based on another, different if related, frequency.
-
-> 
-> In any case, this policy needs to be carefully documented.
-
-I thought after ten or so years this would be already an established
-practice. :-)
-
-I agree it should be documented. We don't seem to have specific
-documentation for camera sensor drivers at the moment. I can submit a
-patch...
 
 > 
-> > >> Although, if you're saying that this driver only needs to work with DT that
-> > >> comes with the kernel and you don't care about DT binary compatibility,
-> > >> this would be fine.
-> > > 
-> > > I believe this series to not break backward compatibility, as the driver
-> > > only works with a 24MHz clock, so I expect all DTs to specify that.
-> > 
-> > What you're still doing here is defining the DT bindings based on the
-> > current driver implementation, not the device properties.
+> > +        type: object
+> > +
+> > +        properties:
+> > +          reg:
+> > +            maxItems: 1
+> > +            description: The virtual number of the endpoint
+> > +
+> > +          bus-width:
+> > +            enum: [12, 16, 18, 24]
+> > +            description:
+> > +              Any endpoint node may specify a desired video interface
+> > +              according to ../../media/video-interfaces.txt, specifically
+> > +              Recognized values are <12>, <16>, <18> and <24>, and
+> > +              override any output mode selection heuristic, forcing
+> > +              "rgb444", "rgb565", "rgb666" and "rgb888" respectively.
+> > +
+> > +          remote-endpoint:
+> > +            $ref: /schemas/types.yaml#/definitions/phandle
+> > +            description:
+> > +              phandle to the panel node
+> > +
+> > +        required:
+> > +          - reg
 > 
-> Quite the contrary, the device doesn't require any particular input
-> clock frequency, so we're removing that from DT :-) Specifying the clock
-> frequency in DT is in my opinion a manual workaround for not computing
-> it at runtime based on the desired link frequency, while the link
-> frequency is a property of the system as it specifies the range of link
-> frequencies that are safe to use from an EMC point of view.
+> And if so, reg depends on whether the unit-address is set or not, so
+> you can't really enforce that.
+> 
+> > diff --git a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.yaml b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.yaml
+> > new file mode 100644
+> > index 000000000000..cad14fa173a1
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.yaml
+> > @@ -0,0 +1,78 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/mfd/atmel-hlcdc.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Device-Tree bindings for Atmel's HLCDC (High LCD Controller)
+> > +
+> > +maintainers:
+> > +  - Sam Ravnborg <sam@ravnborg.org>
+> > +  - Boris Brezillon <bbrezillon@kernel.org>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - atmel,at91sam9n12-hlcdc
+> > +      - atmel,at91sam9x5-hlcdc
+> > +      - atmel,sama5d2-hlcdc
+> > +      - atmel,sama5d3-hlcdc
+> > +      - atmel,sama5d4-hlcdc
+> > +      - microchip,sam9x60-hlcdc
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 3
+> 
+> Having descirptions of what those clocks are would be nice.
+OK, will dig them up from the data sheet
 
-The external clock frequency is significantly lower than the link frequency
-(usually), but it still comes out of the SoC (or a PMIC chip). The clock
-signal track on PCB as well as wiring may also be rather long, depending on
-where the camera sensor is --- quite possibly tens of centimetres.
-Therefore I wouldn't categorically rule out possible EMC issues with that
-one either.
+> 
+> > +  clock-names:
+> > +    maxItems: 3
+> > +    items:
+> > +      - const: periph_clk
+> > +      - const: sys_clk
+> > +      - const: slow_clk
+> > +
+> > +  interrupts:
+> > +    description: The HLCDC interrupt line
+> > +    maxItems: 1
+> > +
+> > +  hlcdc_pwm:
+> > +    type: object
+> > +    description: |
+> > +      PWM controller - used for backlight.
+> > +      See ../pwm/atmel-hlcdc-pwm.yaml for details
+> > +
+> > +  hlcdc-display-controller:
+> > +    type: object
+> > +    description: |
+> > +      LCD display controller
+> > +      See ../display/atmel/hlcdc-dc.yaml for details
+> 
+> I guess you could include those two schemas to make sure that it's
+> valid? Otherwise, if you have an hlcdc-display-controller (or pwm)
+> node without a compatible, it will not be checked here, and will not
+> be checked by the hlcdc-dc.yaml schemas either since it matches on the
+> compatible.
 
-The bottom line is: use a known-good, safe frequency.
+Good point - will fix in v2.
+Thanks for the feedback.
 
--- 
-Regards,
-
-Sakari Ailus
+	Sam
