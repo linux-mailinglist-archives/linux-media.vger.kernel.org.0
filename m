@@ -2,102 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C20911AAC04
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 17:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84E991AAC08
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 17:40:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728834AbgDOPif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 11:38:35 -0400
-Received: from mga12.intel.com ([192.55.52.136]:45711 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1414785AbgDOPi3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 11:38:29 -0400
-IronPort-SDR: d9OLHdE3NqWM6bZkf11DPH1dFV8ymjOQUPUuW2uhU4OeiYmV2XvEl/vPSfyG5UTzU+Blc54C3H
- aaBqvhWUAsiw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 08:38:28 -0700
-IronPort-SDR: 4scNxY4cYPeliG9elmEowZRslHjg629qvgLHYhYin7jaO6mdoorKZcU9yUJ8Fwmu+Li0prSIV3
- gPfbEyee+gAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
-   d="scan'208";a="253558160"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 15 Apr 2020 08:38:28 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jOk7P-000InU-AF; Wed, 15 Apr 2020 23:38:27 +0800
-Date:   Wed, 15 Apr 2020 23:37:31 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org
-Subject: [linuxtv-media:master 141/161] drivers/pci/Kconfig:16: symbol PCI is
- selected by CEC_SECO
-Message-ID: <202004152327.PxKCYuXD%lkp@intel.com>
+        id S1414794AbgDOPjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 11:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49662 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1414790AbgDOPjC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 11:39:02 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B296C061A0C;
+        Wed, 15 Apr 2020 08:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=/ubeyqDgPuZ49K2H989M1CFTSs0zxkITk8SpnN2MOgM=; b=RM65YWgB2FrwDmHMpmXId244x1
+        +bzOybXirLT9VSw15df46nYqfo23glx7t705hV6w6ybWTee9LUfGQqDT1Tpv1XNO3IhWmzKPHXRjD
+        Ztj9DnbQslWR+wZEFVSDaIHekQz0oP8A4FzG8g2IagUWB4WXb0TlzJA9rDJiH6ver+xaamP/e2WfN
+        5ABDq7PaRc5O809U/PhzrwVSp27V90fMScdhrPNrvTHUydhBAM9CjX7Veg2SWK0jvLTjctsiq12oK
+        f6dsHm7B4VE0aDWgs6jYqRTupcobu8xIn2I4fI/oT7M3nUOsw0nOaQjZOCS6x4U3PwcSKZ6Fq4jIh
+        yl549SpQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jOk7y-0005WR-6W; Wed, 15 Apr 2020 15:39:02 +0000
+Subject: Re: linux-next: Tree for Apr 15 (MEDIA Kconfig symbols)
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20200415152240.2422e06c@canb.auug.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <8e4b7065-75c4-8bcf-8ad2-ed21463c494c@infradead.org>
+Date:   Wed, 15 Apr 2020 08:39:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200415152240.2422e06c@canb.auug.org.au>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/media_tree.git master
-head:   63735af86d645a47903f912ae89957507edd917b
-commit: df823a8208c434eee6e4e9aa016c956d0968e2e2 [141/161] media: cec: rename CEC platform drivers config options
-config: s390-zfcpdump_defconfig
-compiler: s390-linux-gcc (GCC) 9.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout df823a8208c434eee6e4e9aa016c956d0968e2e2
-        GCC_VERSION=9.3.0 make.cross ARCH=s390  zfcpdump_defconfig
-        GCC_VERSION=9.3.0 make.cross ARCH=s390 
+On 4/14/20 10:22 PM, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since 20200414:
+> 
+> My fixes tree contains:
+> 
+>   6b038bdcd3d1 sh: mm: Fix build error
+> 
+> The qcom tree gained a build failure for which I reverted a commit.
+> 
+> The drm-misc tree gained conflicts against Linus' and the drm-intel trees.
+> 
+> The sound-asoc tree gained build failures so I used the version from
+> next-20200414.
+> 
+> Non-merge commits (relative to Linus' tree): 1793
+>  2505 files changed, 50786 insertions(+), 22669 deletions(-)
+> 
+> ----------------------------------------------------------------------------
+> 
+> I have created today's linux-next tree at
+> git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+> (patches at http://www.kernel.org/pub/linux/kernel/next/ ).  If you
+> are tracking the linux-next tree using git, you should not use "git pull"
+> to do so as that will try to merge the new linux-next release with the
+> old one.  You should use "git fetch" and checkout or reset to the new
+> master.
+> 
+> You can see which trees have been included by looking in the Next/Trees
+> file in the source.  There are also quilt-import.log and merge.log
+> files in the Next directory.  Between each merge, the tree was built
+> with a ppc64_defconfig for powerpc, an allmodconfig for x86_64, a
+> multi_v7_defconfig for arm and a native build of tools/perf. After
+> the final fixups (if any), I do an x86_64 modules_install followed by
+> builds for x86_64 allnoconfig, powerpc allnoconfig (32 and 64 bit),
+> ppc44x_defconfig, allyesconfig and pseries_le_defconfig and i386, sparc
+> and sparc64 defconfig and htmldocs. And finally, a simple boot test
+> of the powerpc pseries_le_defconfig kernel in qemu (with and without
+> kvm enabled).
+> 
+> Below is a summary of the state of the merge.
+> 
+> I am currently merging 317 trees (counting Linus' and 78 trees of bug
+> fix patches pending for the current merge release).
+> 
+> Stats about the size of the tree over time can be seen at
+> http://neuling.org/linux-next-size.html .
+> 
+> Status of my local build tests will be at
+> http://kisskb.ellerman.id.au/linux-next .  If maintainers want to give
+> advice about cross compilers/configs that work, we are always open to add
+> more builds.
+> 
+> Thanks to Randy Dunlap for doing many randconfig builds.  And to Paul
+> Gortmaker for triage and bug fixes.
+> 
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
+on i386 or x86_64:
 
-All errors (new ones prefixed by >>):
+WARNING: unmet direct dependencies detected for CEC_NOTIFIER
+  Depends on [n]: MEDIA_SUPPORT [=n]
+  Selected by [y]:
+  - DRM_I2C_NXP_TDA9950 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_KMS_HELPER [=y] && I2C [=y]
+  - DRM_DW_HDMI_CEC [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && DRM_DW_HDMI [=y]
 
-   drivers/pci/Kconfig:16:error: recursive dependency detected!
->> drivers/pci/Kconfig:16: symbol PCI is selected by CEC_SECO
->> drivers/media/cec/platform/Kconfig:100: symbol CEC_SECO depends on MEDIA_CEC_SUPPORT
-   drivers/media/cec/Kconfig:27: symbol MEDIA_CEC_SUPPORT default is visible depending on MEDIA_SUPPORT_FILTER
-   drivers/media/Kconfig:25: symbol MEDIA_SUPPORT_FILTER depends on MEDIA_SUPPORT
-   drivers/media/Kconfig:12: symbol MEDIA_SUPPORT depends on HAS_IOMEM
-   arch/s390/Kconfig:721: symbol HAS_IOMEM default value contains PCI
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+WARNING: unmet direct dependencies detected for CEC_CORE
+  Depends on [n]: MEDIA_SUPPORT [=n]
+  Selected by [y]:
+  - DRM_I915 [=y] && HAS_IOMEM [=y] && DRM [=y] && X86 [=y] && PCI [=y] && CEC_NOTIFIER [=y]
+  - DRM_I2C_NXP_TDA998X [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_KMS_HELPER [=y] && I2C [=y] && CEC_NOTIFIER [=y]
+  - DRM_I2C_NXP_TDA9950 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_KMS_HELPER [=y] && I2C [=y]
+  - DRM_DW_HDMI [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && CEC_NOTIFIER [=y]
+  - DRM_DW_HDMI_CEC [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && DRM_DW_HDMI [=y]
 
-vim +16 drivers/pci/Kconfig
+WARNING: unmet direct dependencies detected for CEC_NOTIFIER
+  Depends on [n]: MEDIA_SUPPORT [=n]
+  Selected by [y]:
+  - DRM_I2C_NXP_TDA9950 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_KMS_HELPER [=y] && I2C [=y]
+  - DRM_DW_HDMI_CEC [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && DRM_DW_HDMI [=y]
 
-5f8fc43217a01c Bogicevic Sasa    2016-02-03   5  
-eb01d42a77785f Christoph Hellwig 2018-11-15   6  # select this to offer the PCI prompt
-eb01d42a77785f Christoph Hellwig 2018-11-15   7  config HAVE_PCI
-eb01d42a77785f Christoph Hellwig 2018-11-15   8  	bool
-eb01d42a77785f Christoph Hellwig 2018-11-15   9  
-eb01d42a77785f Christoph Hellwig 2018-11-15  10  # select this to unconditionally force on PCI support
-eb01d42a77785f Christoph Hellwig 2018-11-15  11  config FORCE_PCI
-eb01d42a77785f Christoph Hellwig 2018-11-15  12  	bool
-eb01d42a77785f Christoph Hellwig 2018-11-15  13  	select HAVE_PCI
-eb01d42a77785f Christoph Hellwig 2018-11-15  14  	select PCI
-eb01d42a77785f Christoph Hellwig 2018-11-15  15  
-eb01d42a77785f Christoph Hellwig 2018-11-15 @16  menuconfig PCI
-eb01d42a77785f Christoph Hellwig 2018-11-15  17  	bool "PCI support"
-eb01d42a77785f Christoph Hellwig 2018-11-15  18  	depends on HAVE_PCI
-eb01d42a77785f Christoph Hellwig 2018-11-15  19  	help
-eb01d42a77785f Christoph Hellwig 2018-11-15  20  	  This option enables support for the PCI local bus, including
-eb01d42a77785f Christoph Hellwig 2018-11-15  21  	  support for PCI-X and the foundations for PCI Express support.
-eb01d42a77785f Christoph Hellwig 2018-11-15  22  	  Say 'Y' here unless you know what you are doing.
-eb01d42a77785f Christoph Hellwig 2018-11-15  23  
+WARNING: unmet direct dependencies detected for CEC_CORE
+  Depends on [n]: MEDIA_SUPPORT [=n]
+  Selected by [y]:
+  - DRM_I915 [=y] && HAS_IOMEM [=y] && DRM [=y] && X86 [=y] && PCI [=y] && CEC_NOTIFIER [=y]
+  - DRM_I2C_NXP_TDA998X [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_KMS_HELPER [=y] && I2C [=y] && CEC_NOTIFIER [=y]
+  - DRM_I2C_NXP_TDA9950 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_KMS_HELPER [=y] && I2C [=y]
+  - DRM_DW_HDMI [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && CEC_NOTIFIER [=y]
+  - DRM_DW_HDMI_CEC [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_BRIDGE [=y] && DRM_DW_HDMI [=y]
 
-:::::: The code at line 16 was first introduced by commit
-:::::: eb01d42a77785ff96b6e66a2a2e7027fc6d78e4a PCI: consolidate PCI config entry in drivers/pci
 
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Masahiro Yamada <yamada.masahiro@socionext.com>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
