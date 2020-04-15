@@ -2,120 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59B081A99F8
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B36391A9B4A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 12:48:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896181AbgDOKHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 06:07:52 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:53632 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896172AbgDOKHt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 06:07:49 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jOeuW-002gRs-NR; Wed, 15 Apr 2020 10:04:48 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jOez5-0006cZ-Sy; Wed, 15 Apr 2020 10:09:32 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.8] DVB/RC updates (#63070)
-Date:   Wed, 15 Apr 2020 10:09:30 +0000
-Message-Id: <20200415100930.25410-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415094130.GA26234@gofer.mess.org>
-References: 
+        id S2896459AbgDOKSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 06:18:43 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55244 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2896413AbgDOKR3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 06:17:29 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id D6FEC2A0C93
+Subject: Re: [PATCH v7 6/6] vimc: Make use of V4L2_CAP_IO_MC
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200413202351.1359754-7-niklas.soderlund+renesas@ragnatech.se>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a1a0bea6-d19f-4948-df0e-4477684f1082@collabora.com>
+Date:   Wed, 15 Apr 2020 12:16:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200413202351.1359754-7-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/patch/63070/
-Build log: https://builder.linuxtv.org/job/patchwork/46852/
-Build time: 00:19:13
-Link: https://lore.kernel.org/linux-media/20200415094130.GA26234@gofer.mess.org
-
-gpg: Signature made Wed 15 Apr 2020 09:15:59 AM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [full]
-
-Summary: 13 patches and/or PDF generation with issues, being 6 at build time
-
-Error/warnings:
 
 
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+On 13.04.20 22:23, Niklas Söderlund wrote:
+> Set the V4L2_CAP_IO_MC capability flag to report this vimc
+> inputs/outputs are controlled by the media graph.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> Changes since v5:
+> 
+> - Wrap line longer than 80 characters
+> - Implement mbus_code filtering for format enumeration
+> ---
+>   drivers/media/platform/vimc/vimc-capture.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> index 747ea9cc1bd7cb12..dbc827fd1b9baebb 100644
+> --- a/drivers/media/platform/vimc/vimc-capture.c
+> +++ b/drivers/media/platform/vimc/vimc-capture.c
+> @@ -149,7 +149,12 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
+>   static int vimc_cap_enum_fmt_vid_cap(struct file *file, void *priv,
+>   				     struct v4l2_fmtdesc *f)
+>   {
+> -	const struct vimc_pix_map *vpix = vimc_pix_map_by_index(f->index);
+> +	const struct vimc_pix_map *vpix;
+> +
+> +	if (f->mbus_code)
+> +		vpix = vimc_pix_map_by_code(f->mbus_code);
+Hi, if I understand correctly, the f->index should still tell us we should return the i'th format
+for the given mbus_code, right? if yes then since vimc support only one pixelformat for each mbus code
+there should be a code added here:
+if (f->index > 0)
+	return -EINVAL;
 
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+Thanks,
+Dafna
 
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-dvb-usb-make-dvb_usb_device_properties-const.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-dvb-usb-make-dvb_usb_device_properties-const.patch
-patches/0004-media-dvb-usb-make-dvb_usb_device_properties-const.patch:84: WARNING: line over 80 characters
-patches/0004-media-dvb-usb-make-dvb_usb_device_properties-const.patch:85: WARNING: line over 80 characters
-patches/0004-media-dvb-usb-make-dvb_usb_device_properties-const.patch:204: WARNING: line over 80 characters
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
+> +	else
+> +		vpix = vimc_pix_map_by_index(f->index);
+>   
+>   	if (!vpix)
+>   		return -EINVAL;
+> @@ -450,7 +455,8 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+>   
+>   	/* Initialize the video_device struct */
+>   	vdev = &vcap->vdev;
+> -	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING
+> +			  | V4L2_CAP_IO_MC;
+>   	vdev->entity.ops = &vimc_cap_mops;
+>   	vdev->release = video_device_release_empty;
+>   	vdev->fops = &vimc_cap_fops;
+> 
