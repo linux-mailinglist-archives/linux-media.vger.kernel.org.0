@@ -2,78 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7947C1A9926
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 11:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B82BE1A9937
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 11:46:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895741AbgDOJlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 05:41:39 -0400
-Received: from gofer.mess.org ([88.97.38.141]:43639 "EHLO gofer.mess.org"
+        id S2895786AbgDOJqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 05:46:24 -0400
+Received: from turbocat.net ([88.99.82.50]:60444 "EHLO mail.turbocat.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2895721AbgDOJlf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:41:35 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 1FDAC11A002; Wed, 15 Apr 2020 10:41:31 +0100 (BST)
-Date:   Wed, 15 Apr 2020 10:41:30 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.8] DVB/RC updates
-Message-ID: <20200415094130.GA26234@gofer.mess.org>
+        id S2895787AbgDOJqV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 05:46:21 -0400
+Received: from hps2020.home.selasky.org (unknown [62.141.129.235])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.turbocat.net (Postfix) with ESMTPSA id C4129260282;
+        Wed, 15 Apr 2020 11:46:17 +0200 (CEST)
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From:   Hans Petter Selasky <hps@selasky.org>
+Subject: [PATCH] [V4L-UTILS] Fix for mismatched class/struct tags
+Message-ID: <486af8b4-9feb-2f21-cfca-3f095db531f2@selasky.org>
+Date:   Wed, 15 Apr 2020 11:45:17 +0200
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 8e5b5d75e9d0a6d75e554047ad5c8d2c935447d4:
+Fix for mismatched class/struct tags.
 
-  media: Kconfig: DVB support should be enabled for Digital TV (2020-04-15 10:06:59 +0200)
+Signed-off-by: Hans Petter Selasky <hps@selasky.org>
 
-are available in the Git repository at:
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp 
+b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 372bcfb8..a746410e 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -49,8 +49,8 @@
+  #define VIVID_CID_QUEUE_ERROR		(VIVID_CID_VIVID_BASE + 70)
+  #define VIVID_CID_REQ_VALIDATE_ERROR	(VIVID_CID_VIVID_BASE + 72)
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.8a
+-static struct cv4l_fmt cur_fmt;
+-static struct cv4l_fmt cur_m2m_fmt;
++static cv4l_fmt cur_fmt;
++static cv4l_fmt cur_m2m_fmt;
+  static int stream_from_fd = -1;
+  static bool stream_use_hdr;
+  static unsigned max_bytesused[VIDEO_MAX_PLANES];
+@@ -357,7 +357,7 @@ int buffer::check(unsigned type, unsigned memory, 
+unsigned index,
+  	unsigned timestamp_src = g_timestamp_src();
+  	unsigned frame_types = 0;
+  	unsigned buf_states = 0;
+-	const struct cv4l_fmt &fmt = is_m2m ? cur_m2m_fmt : cur_fmt;
++	const cv4l_fmt &fmt = is_m2m ? cur_m2m_fmt : cur_fmt;
 
-for you to fetch changes up to 3d951d70a1ac0952d4da8a699aec18db4fbe8fed:
-
-  media: ir-rx51: Use 64-bit division macro (2020-04-15 10:11:23 +0100)
-
-----------------------------------------------------------------
-v5.8a
-
-----------------------------------------------------------------
-Christophe JAILLET (1):
-      media: m88ds3103: Add missing '\n' in log messages
-
-Colin Ian King (1):
-      media: dvb: return -EREMOTEIO on i2c transfer failure.
-
-Guru Das Srinagesh (1):
-      media: ir-rx51: Use 64-bit division macro
-
-Sean Young (3):
-      media: dvb: digitv: remove unused array element 0
-      media: rc: if kernel is built without an IR codec, don't advertise it
-      media: dvb-usb: make dvb_usb_device_properties const
-
- drivers/media/dvb-frontends/m88ds3103.c      |   2 +-
- drivers/media/rc/ir-rx51.c                   |   2 +-
- drivers/media/usb/dvb-usb/a800.c             |   6 +-
- drivers/media/usb/dvb-usb/af9005.c           |   4 +-
- drivers/media/usb/dvb-usb/az6027.c           |   4 +-
- drivers/media/usb/dvb-usb/cxusb.c            |   4 +-
- drivers/media/usb/dvb-usb/dib0700.h          |  31 ++++----
- drivers/media/usb/dvb-usb/dib0700_core.c     |   6 +-
- drivers/media/usb/dvb-usb/dibusb-mb.c        |   2 +-
- drivers/media/usb/dvb-usb/digitv.c           |  29 ++++----
- drivers/media/usb/dvb-usb/dvb-usb-common.h   |   3 +-
- drivers/media/usb/dvb-usb/dvb-usb-firmware.c |   3 +-
- drivers/media/usb/dvb-usb/dvb-usb-init.c     |   8 +--
- drivers/media/usb/dvb-usb/dvb-usb.h          |  10 +--
- drivers/media/usb/dvb-usb/dw2102.c           |   4 +-
- drivers/media/usb/dvb-usb/m920x.c            |   4 +-
- drivers/media/usb/dvb-usb/technisat-usb2.c   |   4 +-
- drivers/media/usb/dvb-usb/ttusb2.c           |   7 +-
- include/media/rc-map.h                       | 103 ++++++++++++++++++++-------
- 19 files changed, 151 insertions(+), 85 deletions(-)
+  	fail_on_test(g_type() != type);
+  	fail_on_test(g_memory() == 0);
+-- 
+2.25.0
