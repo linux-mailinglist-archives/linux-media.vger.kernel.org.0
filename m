@@ -2,87 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3BE01AA0CD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 14:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A99871A9F45
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 14:14:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S369570AbgDOMb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 08:31:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409102AbgDOLou (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 07:44:50 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 25334206A2;
-        Wed, 15 Apr 2020 11:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586951083;
-        bh=5awcBRC1vnFsSufAGrSrHlTj08tl0RW0fzavbHxoj8o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hfbfNGOtui5TfQ0KAnEDcZWrDcHpB14TSOadzAIVmkDpUyN9+Dzj+qd++OAjCS3Jo
-         ozL4enx4HsVUVoLNxyHEpc8zT3dt/X2PgB901FidvwdeLhqIIrQ985c3IEYlNAvxEv
-         C1Y+SlyTA4+MVcDwZ/hA4hwIHRnzJuBjEzrPbays=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     xinhui pan <xinhui.pan@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.4 01/84] drm/ttm: flush the fence on the bo after we individualize the reservation object
-Date:   Wed, 15 Apr 2020 07:43:18 -0400
-Message-Id: <20200415114442.14166-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S2441266AbgDOMIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 08:08:24 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:41649 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2441259AbgDOMIU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 15 Apr 2020 08:08:20 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 4300420009;
+        Wed, 15 Apr 2020 12:08:10 +0000 (UTC)
+Date:   Wed, 15 Apr 2020 14:11:14 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH 1/4] media: ov5647: Add set_fmt and get_fmt calls.
+Message-ID: <20200415121114.2bfe6lqjy57p2xlb@uno.localdomain>
+References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
+ <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1586759968.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1586759968.git.roman.kovalivskyi@globallogic.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: xinhui pan <xinhui.pan@amd.com>
+Hello Roman,
 
-[ Upstream commit 1bbcf69e42fe7fd49b6f4339c970729d0e343753 ]
+On Mon, Apr 13, 2020 at 12:17:44PM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+>
+> There's no way to query the subdevice for the supported
+> resolutions. Add set_fmt and get_fmt implementations. Since there's
+> only one format supported set_fmt does nothing and get returns single
+> format.
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
 
-As we move the ttm_bo_individualize_resv() upwards, we need flush the
-copied fence too. Otherwise the driver keeps waiting for fence.
+Looks good to me
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-run&Kill kfdtest, then perf top.
+Thanks
+  j
 
-  25.53%  [ttm]                     [k] ttm_bo_delayed_delete
-  24.29%  [kernel]                  [k] dma_resv_test_signaled_rcu
-  19.72%  [kernel]                  [k] ww_mutex_lock
-
-Fix: 378e2d5b("drm/ttm: fix ttm_bo_cleanup_refs_or_queue once more")
-Signed-off-by: xinhui pan <xinhui.pan@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/series/72339/
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index f078036998092..abf165b2f64fc 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -517,8 +517,10 @@ static void ttm_bo_cleanup_refs_or_queue(struct ttm_buffer_object *bo)
- 
- 		dma_resv_unlock(bo->base.resv);
- 	}
--	if (bo->base.resv != &bo->base._resv)
-+	if (bo->base.resv != &bo->base._resv) {
-+		ttm_bo_flush_all_fences(bo);
- 		dma_resv_unlock(&bo->base._resv);
-+	}
- 
- error:
- 	kref_get(&bo->list_kref);
--- 
-2.20.1
-
+> ---
+>  drivers/media/i2c/ov5647.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index e7d2e5b4ad4b..3e587eb0a30e 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -463,8 +463,30 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>
+> +static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_pad_config *cfg,
+> +			      struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt = &format->format;
+> +
+> +	if (format->pad != 0)
+> +		return -EINVAL;
+> +
+> +	/* Only one format is supported, so return that */
+> +	memset(fmt, 0, sizeof(*fmt));
+> +	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
+> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->width = 640;
+> +	fmt->height = 480;
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+>  	.enum_mbus_code = ov5647_enum_mbus_code,
+> +	.set_fmt =	  ov5647_set_get_fmt,
+> +	.get_fmt =	  ov5647_set_get_fmt,
+>  };
+>
+>  static const struct v4l2_subdev_ops ov5647_subdev_ops = {
+> --
+> 2.17.1
+>
