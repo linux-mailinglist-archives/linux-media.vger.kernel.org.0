@@ -2,277 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC18D1AACF7
-	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B16291AAD8B
+	for <lists+linux-media@lfdr.de>; Wed, 15 Apr 2020 18:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410206AbgDOQHf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 12:07:35 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33358 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729190AbgDOQHd (ORCPT
+        id S1415453AbgDOQPB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 12:15:01 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37329 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1415444AbgDOQOz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 12:07:33 -0400
-Received: by mail-oi1-f195.google.com with SMTP id m14so13932753oic.0;
-        Wed, 15 Apr 2020 09:07:32 -0700 (PDT)
+        Wed, 15 Apr 2020 12:14:55 -0400
+Received: by mail-ot1-f66.google.com with SMTP id z17so462372oto.4;
+        Wed, 15 Apr 2020 09:14:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uYhwLEgK1Ycm8Hcmrx9CbYR8tRwlULjhiPmaER/B1xU=;
-        b=YMjU3GwPPTmOVexmtrHoeg0K822S+qfc9UHJgVHxeYBLReaCRcd4NvRs16A6S/5G1k
-         1Pmkd+jJF6yRBglgDqUFNaKAwbNZXGt7UaZDkIMwxZQLReEVHFznvC00Uuwqp5np9deZ
-         l7gQeifdD/f9QDA/0C8mZgYwMZQsLX+D9+oX/c35KZxJKVQGTdYQvLcpgdf+EMLvQjSz
-         cMIH2hof6QngCZtaJul+Q2LxEUPH2n9Gf4+iEpTOZDTpq1AKNcIBmFwiGjrqseoO/goH
-         z4IDYd8J0y6ysAvdmnw1PfPShsMT7zRQJsGcuUJZzCsEKJq98zE2NA4mokvq2QByFmhd
-         B+Kw==
-X-Gm-Message-State: AGi0PuYMSTDe+nSnRD+j212dlKTcrkcn9fCD1e/C4GhWVObzTFER5nyE
-        n/nqtx7rLytvDx4hLtaFzQ==
-X-Google-Smtp-Source: APiQypKfMH0XUPx9NA0nmEjS5pXKHMvADDOnF1WUquydnNa3O0PCH3lvfFxqU/W7sCEPDnP0HxvTvg==
-X-Received: by 2002:aca:34c6:: with SMTP id b189mr19137555oia.63.1586966851608;
-        Wed, 15 Apr 2020 09:07:31 -0700 (PDT)
+        bh=bg5RVnsOH1/BYZ54TEf38AsDwolBNR2BfaTkytyS7Z8=;
+        b=F4B8M6HbQ2CuojScGQGbPEMi7O6Y92GDwhzBstzPNUPjByMZZU2IB9TSi8z2JZcq8E
+         sUBAlhTQ5QM4T/JYKdKLQVRxBZOVYCFNkjlcQ8jfAFKxWDdT58mGOU5KvLuAlUV11hBV
+         b9juXpsRi9w0juGuxUzyhZk844mQEtkyWWOOTr0c4oNwEikDxnFOchyKMJqdA5d873Xo
+         mfAxDMSoowL4Eb5mBW6h8PRY4Aio9/aF/zNOS0HnvfNnNCkux7VxQcTXc6HsrUN4mN1R
+         0NQJjYvcXMpRt8UzshXWlrbLQDAUP3ZPj3BvJxplL0d84QaQagTJ0MzCr0QxdlxP0eWn
+         Y/mw==
+X-Gm-Message-State: AGi0PuY5IoSZpHMd62uZs/2WHWG7ewiacLYwo4womDHbmZQI6zSV4puG
+        /GTa2LXkDhAbmxb6GHeQ/Q==
+X-Google-Smtp-Source: APiQypIlx96HhaaXRfiiMSUdYVxp6kZM1e7hlq3zvdmUNi2vlLOj0GAbBkzuY8DROgSdeQjlY4JIjg==
+X-Received: by 2002:a9d:5545:: with SMTP id h5mr23831959oti.323.1586967293897;
+        Wed, 15 Apr 2020 09:14:53 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l7sm4249117oii.26.2020.04.15.09.07.29
+        by smtp.gmail.com with ESMTPSA id 13sm2701531oiq.3.2020.04.15.09.14.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 09:07:30 -0700 (PDT)
-Received: (nullmailer pid 9753 invoked by uid 1000);
-        Wed, 15 Apr 2020 16:07:29 -0000
-Date:   Wed, 15 Apr 2020 11:07:29 -0500
+        Wed, 15 Apr 2020 09:14:53 -0700 (PDT)
+Received: (nullmailer pid 19968 invoked by uid 1000);
+        Wed, 15 Apr 2020 16:14:52 -0000
+Date:   Wed, 15 Apr 2020 11:14:51 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        broonie@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 1/3] media: dt-bindings: ov8856: Document YAML bindings
-Message-ID: <20200415160729.GA4438@bogus>
-References: <20200408110816.2712841-1-robert.foss@linaro.org>
- <20200408110816.2712841-2-robert.foss@linaro.org>
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
+        <shengnan.wang@mediatek.com>, linux-gpio@vger.kernel.org
+Subject: Re: [V6, 1/2] media: dt-bindings: media: i2c: Document OV02A10
+ bindings
+Message-ID: <20200415161451.GB4438@bogus>
+References: <20191211112849.16705-1-dongchun.zhu@mediatek.com>
+ <20191211112849.16705-2-dongchun.zhu@mediatek.com>
+ <CAAFQd5AnWZqjQEVvw8gv7JzOBHxJvsOWaGrbY8CXQ_87ap-ahA@mail.gmail.com>
+ <CAAFQd5DHL3mXZGHW+XWMXTVfekamEvaEv3bLZt4Bg2UpKPohmA@mail.gmail.com>
+ <1586437408.8804.62.camel@mhfsdcap03>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200408110816.2712841-2-robert.foss@linaro.org>
+In-Reply-To: <1586437408.8804.62.camel@mhfsdcap03>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 08, 2020 at 01:08:14PM +0200, Robert Foss wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+On Thu, Apr 09, 2020 at 09:03:28PM +0800, Dongchun Zhu wrote:
+> Hi Mauro, Sakari, Rob,
 > 
-> This patch adds documentation of device tree in YAML schema for the
-> OV8856 CMOS image sensor.
+> On Wed, 2020-04-08 at 14:49 +0200, Tomasz Figa wrote:
+> > On Tue, Dec 17, 2019 at 4:15 AM Tomasz Figa <tfiga@chromium.org> wrote:
+> > >
+> > > Hi Rob, Dongchun,
+> > >
+> > > On Wed, Dec 11, 2019 at 8:29 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+> > > >
+> > > > Add DT bindings documentation for Omnivision OV02A10 image sensor.
+> > > >
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/ov02a10.txt      | 54 ++++++++++++++++++++++
+> > > >  MAINTAINERS                                        |  7 +++
+> > > >  2 files changed, 61 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov02a10.txt b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > > > new file mode 100644
+> > > > index 0000000..18acc4f
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > > > @@ -0,0 +1,54 @@
+> > > > +* Omnivision OV02A10 MIPI CSI-2 sensor
+> > > > +
+> > > > +Required Properties:
+> > > > +- compatible: shall be "ovti,ov02a10"
+> > > > +- clocks: reference to the eclk input clock
+> > > > +- clock-names: shall be "eclk"
+> > > > +- dovdd-supply: Digital I/O voltage supply, 1.8 volts
+> > > > +- avdd-supply: Analog voltage supply, 2.8 volts
+> > > > +- dvdd-supply: Digital core voltage supply, 1.8 volts
+> > > > +- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
+> > > > +                  if any. This is an active low signal to the OV02A10.
+> > >
+> > > On the hardware level this pin is active high, i.e. the device is
+> > > powered down when the signal is high.
+> > >
+> > > > +- reset-gpios: reference to the GPIO connected to the reset pin, if any.
+> > > > +              This is an active high signal to the OV02A10.
+> > >
+> > > On the hardware level this pin is active low, i.e. the device is held
+> > > in reset when the signal is low.
+> > >
+> > > However, there is some confusion around how the polarity flag in the
+> > > GPIO specifier is supposed to be used.
+> > >
+> > > As per [1],
+> > >
+> > > "The gpio-specifier's polarity flag should represent the physical
+> > > level at the GPIO controller that achieves (or represents, for inputs)
+> > > a logically asserted value at the device. The exact definition of
+> > > logically asserted should be defined by the binding for the device."
+> > >
+> > > In this case it sounds like "logically asserted" means the device is
+> > > powered down or held in reset, respectively, which would suggest that
+> > > the specifiers should have GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW
+> > > respectively. The latter would cause the GPIO subsystem to invert the
+> > > values set by the consumers, which would then be confusing from the
+> > > driver implementation point of view.
+> > >
+> > > Should the pin be renamed to "nreset"? It would change the meaning of
+> > > "logically asserted" to "device is not held in reset" and so
+> > > GPIO_ACTIVE_HIGH (or 0) would be the right value to use.
+> > >
+> > > [1] https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree/bindings/gpio/gpio.txt#L83
+> > 
+> > + Bartosz, Linus, Sakari and the linux-gpio ML for a broader audience.
+> > 
+> > Would appreciate some feedback on what's the proper way of defining
+> > GPIO polarity. Thanks!
+> > 
+> > Best regards,
+> > Tomasz
+> > 
 > 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
-> 
-> - Changes since v6:
->   * Marco: remove qcom specifics from DT example
->    
-> - Changes since v5:
->   * Add assigned-clocks and assigned-clock-rates
->   * robher: dt-schema errors
-> 
-> - Changes since v4:
->   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
->   * Add clock-lanes property to example
->   * robher: Fix syntax error in devicetree example
-> 
-> - Changes since v3:
->   * robher: Fix syntax error
->   * robher: Removed maxItems
->   * Fixes yaml 'make dt-binding-check' errors
-> 
-> - Changes since v2:
->   Fixes comments from from Andy, Tomasz, Sakari, Rob.
->   * Convert text documentation to YAML schema.
-> 
-> - Changes since v1:
->   Fixes comments from Sakari, Tomasz
->   * Add clock-frequency and link-frequencies in DT
-> 
->  .../devicetree/bindings/media/i2c/ov8856.yaml | 143 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 144 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> new file mode 100644
-> index 000000000000..96bef5403d7e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> @@ -0,0 +1,143 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2019 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
-> +
-> +maintainers:
-> +  - Ben Kao <ben.kao@intel.com>
-> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +
-> +description: |-
-> +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapixel, CMOS
-> +  image sensor that delivers 3264x2448 at 30fps. It provides full-frame,
-> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
-> +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
-> +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
-> +  serial data output (up to 4-lane).
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov8856
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description:
-> +      Input clock for the sensor.
-> +    items:
-> +      - const: xvclk
-> +
-> +  assigned-clocks:
-> +    description:
-> +      Input clock for the sensor.
-> +
-> +  assigned-clock-rates:
-> +    description:
-> +      Frequency of the xvclk clock in Hertz.
+> I have another question about OV02A10 CMOS sensor dt-binding.
+> As its text documentation was already reviewed by Rob on earlier
+> version:
+> https://patchwork.linuxtv.org/patch/59787/
+> I wonder whether we need to convert it to DT in YAML.
 
-These 2 should have a 'maxItems: 1'
+Yes.
 
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply.
-> +
-> +  avdd-supply:
-> +    description:
-> +      Definition of the regulator used as analog power supply.
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Definition of the regulator used as digital power supply.
-> +
-> +  reset-gpios:
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor reset.
-> +      This corresponds to the hardware pin XSHUTDOWN which is physically
-> +      active low.
-> +
-> +  port:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      A node containing input and output port nodes with endpoint definitions
-
-Only an output, right?
-
-> +      as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +
-> +        properties:
-> +          clock-lanes:
-> +            maxItems: 1
-> +
-> +          data-lanes:
-> +            maxItems: 1
-> +
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - clock-lanes
-> +          - data-lanes
-> +          - remote-endpoint
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - assigned-clocks
-> +  - assigned-clock-rates
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - reset-gpios
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov8856: camera@10 {
-> +            compatible = "ovti,ov8856";
-> +            reg = <0x10>;
-> +
-> +            reset-gpios = <&pio 111 GPIO_ACTIVE_LOW>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&clk_24m_cam>;
-> +
-> +            clocks = <&cam_osc>;
-> +            clock-names = "xvclk";
-> +            assigned-clocks = <&cam_osc>;
-> +            assigned-clock-rates = <19200000>;
-> +
-> +            avdd-supply = <&mt6358_vcama2_reg>;
-> +            dvdd-supply = <&mt6358_vcamd_reg>;
-> +            dovdd-supply = <&mt6358_vcamio_reg>;
-> +
-> +            port {
-> +                wcam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_wcam>;
-> +                    clock-lanes = <0>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <360000000 180000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> \ No newline at end of file
-
-^^^
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 534a8dc4f84a..3f35c6e9700a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12465,6 +12465,7 @@ L:	linux-media@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Maintained
->  F:	drivers/media/i2c/ov8856.c
-> +F:	Documentation/devicetree/bindings/media/i2c/ov8856.yaml
->  
->  OMNIVISION OV9650 SENSOR DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-> -- 
-> 2.25.1
+> In fact, I just submitted one conversion version.
+> https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/2143922
 > 
+> Unluckily make dt_binding_check still report errors temporarily.
+> It seems there is something wrong with the port property in DT.
+> Could anyone help provide some tips?
+> $make dt_binding_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+> Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml: ignoring,
+> error in schema: properties: port: patternProperties: endpoint
+> warning: no schema found in file:
+> Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> make[2]: *** [Documentation/devicetree/bindings/processed-schema.yaml]
+> Error 255
+> make[1]: *** [dt_binding_check] Error 2
+> make: *** [sub-make] Error 2
+
+    patternProperties:
+      endpoint:
+      type: object
+      additionalProperties: false
+
+You need more indentation under 'endpoint'. Also, 'endpoint' is a fixed 
+string, so it should be under 'properties' rather than 'patternProperties'.
+
+
+> 
+> In addition, as OV02A10 use one private property to distinguish
+> different projects that adopting different register settings,
+> I would appreciate the feedback on how to add private property to DT in
+> YAML.
+
+Like any other property. Submit something for review.
+
+Rob
