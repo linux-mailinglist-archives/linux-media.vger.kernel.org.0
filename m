@@ -2,120 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 941671AC0D8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA1A1AC11A
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2635180AbgDPMOA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 08:14:00 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56865 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2635124AbgDPMN4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 08:13:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id P3Oxjcid87xncP3P0j7bs5; Thu, 16 Apr 2020 14:13:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587039234; bh=F+K4cdVq08HBBl8QpFts4+Tv330OztlyLas7ZcdXImo=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Akz6oJbUK8lsqel0fCMca2SivYxWjsbVpmwmSa1cqjyELPBi5Jc3BE/4sYODYjemX
-         izM+Vlm4lYVq+Mr7z8haBVZZQgbH5l/P8tbBQ893MTcXrWaBsdkqk6689JQ5vcjwUf
-         QH6II73vYVNWMF0UeiFor0SEuNxQkFM4bA/PqsGtTPvtaTlFbAxcDWKTIggghH2BwO
-         KEAlu36a1YG795jndFHLgYVyTnqNwHqnPNV2YBm12U5yyf+JWLGYlctx8BhXPgtHPK
-         B8otA9pt+8wrPleu6nGW1vvk29dQ+SodCa7zD2ngk8tfM3fYAY+aXkZIh3JVVn2xY1
-         rwWGRI+jvA6gg==
-Subject: Re: [RFC][PATCH] media: v4l2-ctrls: add more NULL pointer checks
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
- <c83c137b-b801-a06b-e324-09dd3bbc9daf@xs4all.nl>
- <20200416113249.GG30641@jagdpanzerIV.localdomain>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f724e17d-51ae-ad20-6c78-4be21d39180b@xs4all.nl>
-Date:   Thu, 16 Apr 2020 14:13:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S2635286AbgDPMWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 08:22:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39996 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2635261AbgDPMW2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 08:22:28 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D938A206B9;
+        Thu, 16 Apr 2020 12:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587039748;
+        bh=aZXoMiNzA9an2kHK+EolYVcLgbDTjxqS+hb404GBhBM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dSLHncbnRAt/IXrBbtB1TP4g2IWMH8iGYeVrvHlvCdrBj+lMuMY78YxqKT8SzX9I1
+         5R+MPlxnTlY42sSEWg1eSBGnPhJoQvNull9V+snBYcZ1HQ0ghHa1B8NyGowr6x7UrJ
+         pbV2Gb17JBPupfWzI6WJPK419XnaqPwxV3wiP+Jo=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jP3XF-007TDL-NO; Thu, 16 Apr 2020 14:22:25 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH RFC] media: admin-guide: improve cardlist.rst documentation
+Date:   Thu, 16 Apr 2020 14:22:22 +0200
+Message-Id: <34d6b30adb63f3525acbe6bcc3dfdf247d3f5e18.1587039739.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-In-Reply-To: <20200416113249.GG30641@jagdpanzerIV.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfK0IWwIBm1UhD1bC7T6kfB06YpW1YWFKTqxtE0O3553vKk9goK75YTEKwbaXzlIw8G3xPast7YxL+D/x1nHDGEqyQTn4CPGNXSNQwxIAwh9TsNfJR4Wg
- Zxk59URlOGRFprn+PaFVOQeIVi3LS5EsulEEM6DgZKZdygdb9xfDHz5VjvH9y8X+gNyw/8HaILe7yKe0NaFEmEJCmrXp2cMqdA+iyJEJ6kfkviT0LhGVBmwi
- F6T+KsQKFpn2g8pofyZHWAPiFoGHvLh7b4koEjcZhPke/QEiRS7z3XONkE83q1Um/T6j954mmaabHAGNCLCDYSETZefODWa1SeEFsCVakhg=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/04/2020 13:32, Sergey Senozhatsky wrote:
-> On (20/04/16 10:53), Hans Verkuil wrote:
-> [..]
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> @@ -2869,6 +2869,9 @@ EXPORT_SYMBOL(v4l2_ctrl_add_handler);
->>>  
->>>  bool v4l2_ctrl_radio_filter(const struct v4l2_ctrl *ctrl)
->>>  {
->>> +	if (WARN_ON(!ctrl))
->>> +		return false;
->>> +
->>>  	if (V4L2_CTRL_ID2WHICH(ctrl->id) == V4L2_CTRL_CLASS_FM_TX)
->>>  		return true;
->>>  	if (V4L2_CTRL_ID2WHICH(ctrl->id) == V4L2_CTRL_CLASS_FM_RX)
->>> @@ -3794,7 +3797,9 @@ s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl)
->>>  	struct v4l2_ext_control c;
->>>  
->>>  	/* It's a driver bug if this happens. */
->>> -	WARN_ON(!ctrl->is_int);
->>> +	if (WARN_ON(!ctrl || !ctrl->is_int))
->>> +		return -EINVAL;
->>
->> Just return 0 here. The return value is the control's value, not an error code.
->> So all you can do here is return 0 in the absence of anything better.
-> 
-> OK.
-> 
->>> +
->>>  	c.value = 0;
->>>  	get_ctrl(ctrl, &c);
->>>  	return c.value;
->>> @@ -4212,6 +4217,9 @@ EXPORT_SYMBOL(v4l2_s_ctrl);
->>>  
->>>  int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val)
->>>  {
->>> +	if (!ctrl)
->>
->> Change this to 'if (WARN_ON(!ctrl))'
->>
->> I don't think NULL pointers should be silently ignored: it really
->> indicates a driver bug. It it certainly a good idea to WARN instead.
-> 
-> Should WARN_ON() be only in unlocked versions of ctrl API? It probably
-> would make sense to add WARNs to both - e.g. to v4l2_ctrl_s_ctrl() and
+The cardlist section is important for some boards, because they
+may require extra modprobe parameters.
 
-Yes, it should be done for both.
+Improve the docs to mention that.
 
-> to __v4l2_ctrl_s_ctrl(). By the way, why don't locked and unlocked
-> versions live together in v4l2-ctrls.c file? Any reason for, e.g.,
-> v4l2_ctrl_s_ctrl() to be in header and __v4l2_ctrl_s_ctrl() to be C-file?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/admin-guide/media/cardlist.rst | 76 ++++++++++++++++++--
+ 1 file changed, 71 insertions(+), 5 deletions(-)
 
-The v4l2_ctrl_s_ctrl() work fine as a static inline (only compiled if
-they are actually used). But with an additional 'if (WARN_ON(!ctrl))'
-it becomes a bit questionable. I would not be opposed if these static
-inlines are now moved into the source code.
-
-Regards,
-
-	Hans
-
-> 
->> The same is true for the functions below.
-> 
-> OK.
-> 
-> 	-ss
-> 
+diff --git a/Documentation/admin-guide/media/cardlist.rst b/Documentation/admin-guide/media/cardlist.rst
+index 527188ee9697..4beef18fc46d 100644
+--- a/Documentation/admin-guide/media/cardlist.rst
++++ b/Documentation/admin-guide/media/cardlist.rst
+@@ -1,22 +1,88 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++==========
+ Cards List
+ ==========
+ 
++The media subsystem provide support for lots of PCI and USB drivers, plus
++platform-specific drivers. It also contains several ancillary I²C drivers.
++
++This section contains a list of some of those supported drivers.
++
++USB drivers
++===========
++
++The USB boards are identified by an identification called USB ID.
++
++The ``lsusb`` command allows identifying the USB IDs::
++
++    $ lsusb
++    ...
++    Bus 001 Device 015: ID 046d:082d Logitech, Inc. HD Pro Webcam C920
++    Bus 001 Device 074: ID 2040:b131 Hauppauge
++    Bus 001 Device 075: ID 2013:024f PCTV Systems nanoStick T2 290e
++    ...
++
++Unfortunately, sometimes the same USB ID is used by different products.
++So, several media drivers allow passing a ``card=`` parameter, in order
++to setup a card number that would match the correct settings for an
++specific board.
++
+ .. toctree::
+ 	:maxdepth: 1
+ 
+ 	au0828-cardlist
++	cx231xx-cardlist
++	em28xx-cardlist
++	tm6000-cardlist
++	usbvision-cardlist
++	gspca-cardlist
++
++PCI drivers
++===========
++
++The PCI boards are identified by an identification called PCI ID.
++
++The ``lspci`` command allows identifying the PCI IDs::
++
++    $ lspci -nn
++    ...
++    00:0b.0 Multimedia video controller: Brooktree Corporation Bt878 Video Capture [1822:0026] (rev 11)
++    ...
++
++Unfortunately, sometimes the same PCI ID is used by different products.
++So, several media drivers allow passing a ``card=`` parameter, in order
++to setup a card number that would match the correct settings for an
++specific board.
++
++.. toctree::
++	:maxdepth: 1
++
+ 	bttv-cardlist
+ 	cx18-cardlist
+-	cx231xx-cardlist
+ 	cx23885-cardlist
+ 	cx88-cardlist
+-	em28xx-cardlist
+ 	ivtv-cardlist
+ 	saa7134-cardlist
+ 	saa7164-cardlist
+-	tm6000-cardlist
++
++I²C drivers
++===========
++
++The I²C (Inter-Integrated Circuit) bus is a three-wires bus used internally
++at the media cards for communication between different chips. While the bus
++is not visible to the Linux Kernel, drivers need to send and receive
++commands via the bus. The Linux Kernel driver abstraction has support to
++implement different drivers for each component inside an I²C bus, as if
++the bus were visible to the main system board.
++
++One of the problems with I²C devices is that sometimes the same device may
++work with different I²C hardware. This is common, for example, on devices
++that comes with a tuner for North America market, and another one for
++Europe. Some drivers have a ``tuner=`` modprobe parameter to allow using a
++different tuner number in order to address such issue.
++
++.. toctree::
++	:maxdepth: 1
++
+ 	tuner-cardlist
+-	usbvision-cardlist
+-	gspca-cardlist
+-- 
+2.25.2
 
