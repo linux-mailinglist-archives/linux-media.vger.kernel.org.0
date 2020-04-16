@@ -2,184 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E0F61ACD92
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 18:23:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB2881ACD9E
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 18:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406087AbgDPQXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 12:23:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50818 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729633AbgDPQXG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 12:23:06 -0400
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9A03322250;
-        Thu, 16 Apr 2020 16:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587054185;
-        bh=dYe0L8knPjq4V+e3C0CynMr68uvk2h/61C1ujyYiF70=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=m92+j7PyJJqSdIZDHDYxGpMk1MSTdEN3OfxmyZ5uDz3gYONFBBkjqZfnO2V19s6L3
-         uWSFke5h6gqhJSuJUX/v4SaHaHZp1FcOjeDRIRraalXi9n50/SXBviV2xU4LGfnrd5
-         Ek5R1e51qljTWjy8yVonj+VDn0jnnD+E/Zrj+BWE=
-Received: by mail-ej1-f41.google.com with SMTP id s9so1713435eju.1;
-        Thu, 16 Apr 2020 09:23:05 -0700 (PDT)
-X-Gm-Message-State: AGi0Pub+htmOBUicEH+5GKsykiMe17NI6O3zbKw5fJhuoYhKKWaSnVMl
-        iiyvH0OSeZ6gsKPZPhfJWdV5hJ+GlP/+Qprujw==
-X-Google-Smtp-Source: APiQypJY17+s5/o0+wlz0famZC0WrI5UI7Klts8JPoOZRnB9zgY8QO2uzy/FBMWzeg9CvxriYGO6Q1j1IF4pKi5aPZw=
-X-Received: by 2002:a17:906:2ad4:: with SMTP id m20mr10975923eje.324.1587054183934;
- Thu, 16 Apr 2020 09:23:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200311165322.1594233-1-enric.balletbo@collabora.com>
- <20200311165322.1594233-5-enric.balletbo@collabora.com> <02290a21-7392-a2cf-576c-215091ec05e8@suse.com>
- <1585177534.26117.4.camel@mtksdaap41> <f3c2926a-ef92-b004-9786-5be1645af497@suse.com>
- <1585234277.12089.3.camel@mtksdaap41> <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
-In-Reply-To: <73ef0b8e-2802-a047-2a56-936b63d264cb@suse.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Fri, 17 Apr 2020 00:22:52 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
-Message-ID: <CAAOTY__EV8PHau9CzSiA8up1QAmZxfK2QnaTid0WrNOsn2Xcag@mail.gmail.com>
-Subject: Re: [PATCH v12 4/5] soc / drm: mediatek: Move routing control to
- mmsys device
-To:     Matthias Brugger <mbrugger@suse.com>
-Cc:     CK Hu <ck.hu@mediatek.com>, Mark Rutland <mark.rutland@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        David Airlie <airlied@linux.ie>,
-        Michael Turquette <mturquette@baylibre.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        ulrich.hecht+renesas@gmail.com,
-        Collabora Kernel ML <kernel@collabora.com>,
-        linux-clk@vger.kernel.org, Weiyi Lu <weiyi.lu@mediatek.com>,
-        wens@csie.org, Allison Randal <allison@lohutok.net>,
-        mtk01761 <wendell.lin@mediatek.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        Seiya Wang <seiya.wang@mediatek.com>, sean.wang@mediatek.com,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Stephen Boyd <sboyd@kernel.org>,
+        id S1732097AbgDPQ0P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 12:26:15 -0400
+Received: from mail-eopbgr140083.outbound.protection.outlook.com ([40.107.14.83]:32994
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728987AbgDPQ0N (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 12:26:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3BdR1s27uZzmOVlrwwjDDfw72acBDdM/TH3EcGetR4=;
+ b=sG4vSqV+5BmngQU1CAW1eQUyt3KJ4XIhW8CQ0Vgb1UuYyVD7D8Jv5EWYh6exGWCeaXzWOa+ymype1U3+jnsNpyj7yFDxD8xWd/Hpb3wszCJBSR9MP5jFLbRZCkzMEQ1yd5DwqNM3Bcaeiq/MRYeOYrJsLDUvb6wSiRJql+6Ck9s=
+Received: from DB6PR07CA0089.eurprd07.prod.outlook.com (2603:10a6:6:2b::27) by
+ VI1PR08MB3965.eurprd08.prod.outlook.com (2603:10a6:803:dd::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.25; Thu, 16 Apr 2020 16:26:06 +0000
+Received: from DB5EUR03FT046.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:6:2b:cafe::ea) by DB6PR07CA0089.outlook.office365.com
+ (2603:10a6:6:2b::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.5 via Frontend
+ Transport; Thu, 16 Apr 2020 16:26:05 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; vger.kernel.org; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;vger.kernel.org; dmarc=bestguesspass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT046.mail.protection.outlook.com (10.152.21.230) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2900.18 via Frontend Transport; Thu, 16 Apr 2020 16:26:05 +0000
+Received: ("Tessian outbound a45624f5910b:v50"); Thu, 16 Apr 2020 16:26:05 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: fa3ba1870b24abd5
+X-CR-MTA-TID: 64aa7808
+Received: from 5aae0455c5e3.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 21E994C9-E8E4-41D2-8AC2-F7CDD84DA639.1;
+        Thu, 16 Apr 2020 16:26:00 +0000
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 5aae0455c5e3.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 16 Apr 2020 16:26:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lGs5soOMZg1HYdXl2Iu3khPYqyWpeh3JDNAKZdJBt80epV1OwSeJ/ZC5PkJAJ/Y1dCrA+chauJ5ZlZLUjXts6DqO52eCICaeyrn2va22CXABVvx7SpdrS9df84hQKO6mDlJY6Fy4kz7X6FG/DcAobfU1N9pmIwkho0jl0gtOCI2kopyzQ8bh02ZJ6qVqrFvbIJOJxQ7lzSaY8HHe1qxTijOOGtom5L3kaVDgs5Iep6QEqbYmrTxLSJrR/8ixvx2UrednqQJUa197hqEOeU62lduAy5E3gxyEYfaPtLXBcDZ945opte3z+uW9Vtn/hiznDjJ53EHmU7P+RxppMCdyCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3BdR1s27uZzmOVlrwwjDDfw72acBDdM/TH3EcGetR4=;
+ b=IAxii/XU/sU/GeIBenOpPoVRU3gr/Qq8ZgyulYkJfcMNU0gBSzmXyWn/4mHDi2QOVwWAgiCwGGeYUf/PLaPQsOEl8UVLZS3Y5elgjPs+Jlk1SaTSVDQHOgVuow+FP/11FoeI5NC3dkingD3cnPu/w1u0RJjNJBhe6RQ+IZjMATtKUg5dl8TJvHfLQ19mhGyiFhGLeoUduIXFgZ1hpRjD/sb9kjhvWSLNIZM/ggIGbod4OCNfNyinLNecBH9BqHnouWA6qB+8ri4OHlSZ5PHxCrbXLaj1PdJQLaZONAFu0+WitmdIlwa9pdLAZMJcFLAg54Dwt6aR/6JGYN4sPSSEww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3BdR1s27uZzmOVlrwwjDDfw72acBDdM/TH3EcGetR4=;
+ b=sG4vSqV+5BmngQU1CAW1eQUyt3KJ4XIhW8CQ0Vgb1UuYyVD7D8Jv5EWYh6exGWCeaXzWOa+ymype1U3+jnsNpyj7yFDxD8xWd/Hpb3wszCJBSR9MP5jFLbRZCkzMEQ1yd5DwqNM3Bcaeiq/MRYeOYrJsLDUvb6wSiRJql+6Ck9s=
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Orjan.Eide@arm.com; 
+Received: from VI1PR08MB3885.eurprd08.prod.outlook.com (2603:10a6:803:c1::32)
+ by VI1PR08MB3821.eurprd08.prod.outlook.com (2603:10a6:803:b7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Thu, 16 Apr
+ 2020 16:25:58 +0000
+Received: from VI1PR08MB3885.eurprd08.prod.outlook.com
+ ([fe80::c198:5f6d:b7d5:d80a]) by VI1PR08MB3885.eurprd08.prod.outlook.com
+ ([fe80::c198:5f6d:b7d5:d80a%7]) with mapi id 15.20.2921.027; Thu, 16 Apr 2020
+ 16:25:58 +0000
+Date:   Thu, 16 Apr 2020 18:25:54 +0200
+From:   =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     devel@driverdev.osuosl.org, nd@arm.com,
+        Todd Kjos <tkjos@android.com>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rdunlap@infradead.org, linux-kernel <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>, matthias.bgg@kernel.org,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        john.stultz@linaro.org, anders.pedersen@arm.com,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Darren Hart (VMware)" <dvhart@infradead.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Martijn Coenen <maco@android.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Brauner <christian@brauner.io>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200416162554.GA34684@e123356-lin.trondheim.arm.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200416094955.GM1163@kadam>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200416094955.GM1163@kadam>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: LO2P123CA0067.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1::31) To VI1PR08MB3885.eurprd08.prod.outlook.com
+ (2603:10a6:803:c1::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from e123356-lin.trondheim.arm.com (217.140.106.39) by LO2P123CA0067.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend Transport; Thu, 16 Apr 2020 16:25:56 +0000
+X-Originating-IP: [217.140.106.39]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 1e305482-265a-4e0f-ad52-08d7e222dcd8
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3821:|VI1PR08MB3821:|VI1PR08MB3965:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3965F26824740D1ACCEF9C1A90D80@VI1PR08MB3965.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;OLM:7691;
+X-Forefront-PRVS: 0375972289
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR08MB3885.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(376002)(346002)(39860400002)(136003)(366004)(396003)(4326008)(16526019)(186003)(33656002)(2906002)(956004)(1076003)(66946007)(81156014)(8676002)(316002)(7416002)(66476007)(5660300002)(66556008)(86362001)(54906003)(7696005)(52116002)(478600001)(6916009)(8936002)(55016002)(26005);DIR:OUT;SFP:1101;
+Received-SPF: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: Zv8Nc5HFYTPJ9KYPU0GGQdfTY7ArLUJ8Sqej2v7WL/m1fnegNmK0S2LNPeMGb7fPX9QO5paJy2q3eH22jafSoGQvP5Trv+RJ6RkinYBYbYKj0XLrkIfNfIKF0VqYNEBgOm2301/eGKlFeYSu2pj68BqI9aOMfot7cORvma7FxUYN9q8SCw5PvgrBBVNY7IOihDlZVQ3+yzThPL6eHI2+if9esGlm+9mOLmqw7T8Q7cQxUox/ZPaAwLOOWDPpCGxzDGHsVA+VB2U2JWF3TjBVz3xSOe4Fu2siX0948Zk9Jkv6UvAhuu1EPkRx6KYA36zHIBYwxWpr7HbHnQ88oUJqnFi6Bt9dK1OfsOrrxEhMgEmCLsfgWMhI0wLpm80mK2U4cuRjc1X/Afcycz9Ca+o4YW6SwZla8igjrCLlE6c6kzewaevuA6dMYQwXjL6Nb1eb
+X-MS-Exchange-AntiSpam-MessageData: 4jV8i4ahR/9jmwAtTANWLh4TicU8nrLMmeJUs2AH7NjrYsxyUf+CYAEdJMTGe1mm4/nd18rvBFZF4SgScsQ1GalUOd/sm35gmCZ2WpNuv8v9Krze370ARXYqX+mM3WcWSphRc1mPo+KeiW8HAZ2XCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3821
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Orjan.Eide@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT046.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(39860400002)(136003)(396003)(376002)(346002)(46966005)(316002)(5660300002)(26826003)(54906003)(70586007)(2906002)(478600001)(70206006)(336012)(6862004)(186003)(16526019)(956004)(86362001)(4326008)(450100002)(55016002)(7696005)(82740400003)(1076003)(81166007)(356005)(26005)(47076004)(8676002)(33656002)(81156014)(8936002);DIR:OUT;SFP:1101;
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 06983a84-bf67-482f-f2ff-08d7e222d837
+X-Forefront-PRVS: 0375972289
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: p1316rHwHKMl/pjPd5R4RduBMZJB53khYhNMGDaLsT01WucCFCcnUfVRQvjWtiBHP27cawvlnDTpOm7N3mTRVjcnX3MNOCaj4HLENhIRVff7zWqtnbNumOUaCt8HjINYl+qPLBtu+mamw82X4SSer1mcnmrArNTlEKt+j7MKXsBbolw3xX+tSuL9xlyao4cCKyA1tAxzsp3oad1QHDGrMUkdiBlnBQIUTucosN0Dv9qwjdA+P1IIgfEWUhmr39P3kQNsMET6305xhbl6Z8Gd/Z/M90F1XL7lQ6dOck32sapsSw7GqpvMoq76Tc1mX4ngcpHeUPP4BFeETHWcELF4Du/yl8Wc3XQEGLHT8XwLuEDhowLrvlJsZiGZsY2pxbDcLEAU0QaSDKv9v8jM+q630/oRHvUPEGbTJMfCgNogMvg5V3SUhsrLbVosWgxJqJm2jU3z0q3SZfby/1bpsdBAUM/spM6RoU0m854CdlTHHll5vrkYxN4k3dbjMOTagJbSKxyO2HBMjk/fHCkGTUhnmA==
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2020 16:26:05.8077
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e305482-265a-4e0f-ad52-08d7e222dcd8
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3965
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Matthias:
+On Thu, Apr 16, 2020 at 12:49:56PM +0300, Dan Carpenter wrote:
+> On Tue, Apr 14, 2020 at 04:18:47PM +0200, Ørjan Eide wrote:
+> > @@ -238,6 +242,10 @@ static void ion_unmap_dma_buf(struct dma_buf_attachment *attachment,
+> >  			      struct sg_table *table,
+> >  			      enum dma_data_direction direction)
+> >  {
+> > +	struct ion_dma_buf_attachment *a = attachment->priv;
+> > +
+> > +	a->mapped = false;
+> 
+> Possibly a stupid question but here we're not holding a lock.  Is
+> concurrency an issue?
 
-Matthias Brugger <mbrugger@suse.com> =E6=96=BC 2020=E5=B9=B43=E6=9C=8826=E6=
-=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8811:45=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
->
->
-> On 26/03/2020 15:51, CK Hu wrote:
-> > Hi, Matthias:
-> >
-> > On Thu, 2020-03-26 at 12:54 +0100, Matthias Brugger wrote:
-> >> Hi CK,
-> >>
-> >> On 26/03/2020 00:05, CK Hu wrote:
-> >>> Hi, Matthias:
-> >>>
-> >>> On Wed, 2020-03-25 at 17:16 +0100, Matthias Brugger wrote:
-> >>>>
-> >>>> On 11/03/2020 17:53, Enric Balletbo i Serra wrote:
-> >>>>> Provide a mtk_mmsys_ddp_connect() and mtk_mmsys_disconnect() functi=
-ons to
-> >>>>> replace mtk_ddp_add_comp_to_path() and mtk_ddp_remove_comp_from_pat=
-h().
-> >>>>> Those functions will allow DRM driver and others to control the dat=
-a
-> >>>>> path routing.
-> >>>>>
-> >>>>> Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com=
->
-> >>>>> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-> >>>>> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> >>>>> Acked-by: CK Hu <ck.hu@mediatek.com>
-> >>>>
-> >>>> This patch does not apply against v5.6-rc1.
-> >>>> Please rebase as this is a quite big patch and it won't be easy to d=
-o that by hand.
-> >>>
-> >>> I think this patch depends on [1] which has been acked by me and I ha=
-ve
-> >>> not picked it. The simple way is that you pick [1] first and then pic=
-k
-> >>> this series.
-> >>>
-> >>> [1]
-> >>> https://patchwork.kernel.org/patch/11406227/
-> >>>
-> >>
-> >> You would need to provide a stable tag for me that I can merge into my=
- tree. You
-> >> can also try to merge my for-next [1] which has the newest version fro=
-m Enric.
-> >> If you see any merge conflict, then we have to do something about it :=
-)
-> >>
-> >> Regards,
-> >> Matthias
-> >>
-> >> [1]
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git=
-/log/?h=3Dfor-next
-> >>
-> >
-> > You have applied this series, so I would not apply other patches which
-> > would conflict with this series. After this series land on main stream
-> > (wish it happen in this merge window), I would rebase other patch on
-> > main stream.
-> >
->
-> I haven't (yet) send the pull request. If you want to bring in your patch=
-es in
-> v5.7 as well we can find a solution to that. Shall I provide you with a s=
-table
-> branch which you can merge? This way you can add all your patches in the =
-pull
-> request as well and we don't have to wait for v5.8 to get things into mai=
-nline.
->
-> Let me know and I'll provide you with a stable branch.
+Thanks for taking a look.
 
-This series is in linux-next but does not in main stream. So would you
-please provide a stable branch so I could pull this series?
+Here and in ion_map_dma_buf(), where mapped is set, this should be safe.
+The callers must synchronize calls to map/unmap, and ensure that they
+are called in pairs.
 
-Regards,
-Chun-Kuang.
+I think there may be a potential issue between where mapped is set here,
+and where it's read in ion_dma_buf_{begin,end}_cpu_access(). Coherency
+issues the mapped bool won't blow up, at worst the contents of the
+buffer may be invalid as cache synchronization may have been skipped.
+This is still an improvement as before it would either crash or sync the
+wrong page repeatedly.
 
->
-> Regards,
-> Matthias
->
-> > Regards,
-> > CK
-> >
-> >>> Regards,
-> >>> CK
-> >>>
-> >>>>
-> >>>> Regards,
-> >>>> Matthias
-> >>>>
-> >>>>> ---
-> >>>>>
+The mapped state is tied to the dma_map_sg() call, so we would need take
+the buffer->lock around both dma_map_sg and setting mapped to be sure
+that the buffer will always have been synced.
+
+> > +
+> >  	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
+> >  }
+> >  
+> > @@ -297,6 +305,8 @@ static int ion_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+> >  
+> >  	mutex_lock(&buffer->lock);
+> >  	list_for_each_entry(a, &buffer->attachments, list) {
+> > +		if (!a->mapped)
+> > +			continue;
+> >  		dma_sync_sg_for_cpu(a->dev, a->table->sgl, a->table->nents,
+> >  				    direction);
+> >  	}
+
+-- 
+Ørjan
