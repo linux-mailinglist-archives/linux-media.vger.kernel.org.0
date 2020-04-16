@@ -2,226 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EAEC1AC525
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 16:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDEAC1AC58C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 16:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438215AbgDPOMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 10:12:15 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:46015 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407224AbgDPOML (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 10:12:11 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 7DB971C001E;
-        Thu, 16 Apr 2020 14:12:05 +0000 (UTC)
-Date:   Thu, 16 Apr 2020 16:12:05 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hansverk@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/4] arm64: dts: rockchip: Add RGA support to the PX30
-Message-ID: <20200416141205.GK125838@aptenodytes>
-References: <20200416115047.233720-1-paul.kocialkowski@bootlin.com>
- <20200416115047.233720-3-paul.kocialkowski@bootlin.com>
- <478f0a8b-f819-62f4-83b8-27918c4c2431@gmail.com>
- <20200416132442.GI125838@aptenodytes>
- <f4ad8ea4-7904-1458-e564-2d20c87ed417@gmail.com>
- <20200416135519.GJ125838@aptenodytes>
- <f97d7661-834d-3fbf-2cd9-0b37c487e8f7@gmail.com>
+        id S2393994AbgDPOVb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 10:21:31 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:38150 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391974AbgDPOV3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 10:21:29 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jP5LV-0049SB-W8; Thu, 16 Apr 2020 14:18:26 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jP5Q7-0003ru-48; Thu, 16 Apr 2020 14:23:11 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.8] analog support (#63131)
+Date:   Thu, 16 Apr 2020 14:23:11 +0000
+Message-Id: <20200416142311.14829-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200416140338.GA18975@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="IA03tywDYuoVKXrw"
-Content-Disposition: inline
-In-Reply-To: <f97d7661-834d-3fbf-2cd9-0b37c487e8f7@gmail.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
---IA03tywDYuoVKXrw
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Pull request: https://patchwork.linuxtv.org/patch/63131/
+Build log: https://builder.linuxtv.org/job/patchwork/47020/
+Build time: 00:13:01
+Link: https://lore.kernel.org/linux-media/20200416140338.GA18975@gofer.mess.org
 
-On Thu 16 Apr 20, 16:02, Johan Jonker wrote:
-> On 4/16/20 3:55 PM, Paul Kocialkowski wrote:
-> > Hi,
-> >=20
-> > On Thu 16 Apr 20, 15:44, Johan Jonker wrote:
-> >> On 4/16/20 3:24 PM, Paul Kocialkowski wrote:
-> >>> Hi,
-> >>>
-> >>> On Thu 16 Apr 20, 15:02, Johan Jonker wrote:
-> >>>> Hi Paul,
-> >>>>
-> >>>> The conversion of rockchip-rga.txt to rockchip-rga.yaml by myself ju=
-st
-> >>>> has been approved by robh.
-> >>>
-> >>> Huh, I looked around for ongoing related work but missed it.
-> >>> I'll definitely rebase on top of your series and use the yaml descrip=
-tion
-> >>> instead. Thanks!
-> >>>
-> >>>> Maybe place dts patches at the end of a patch serie.
-> >>>> Could you include a &rga patch if your device is supported in mainli=
-ne,
-> >>>> so we can test with:
-> >>>> make ARCH=3Darm64 dtbs_check
-> >>>> DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/media/rockchip-r=
-ga.yaml
-> >>>
-> >>> I tested with the PX30 EVB so I can surely add a node there if that t=
-urns
-> >>> out necessary (see below).
-> >>>
-> >>>> Johan
-> >>>>
-> >>>> On 4/16/20 1:50 PM, Paul Kocialkowski wrote:
-> >>>>> The PX30 features a RGA block: add the necessary node to support it.
-> >>>>>
-> >>>>> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> >>>>> ---
-> >>>>>  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
-> >>>>>  1 file changed, 11 insertions(+)
-> >>>>>
-> >>>>> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/bo=
-ot/dts/rockchip/px30.dtsi
-> >>>>> index 75908c587511..4bfbee9d4123 100644
-> >>>>> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> >>>>> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> >>>>> @@ -1104,6 +1104,17 @@ vopl_mmu: iommu@ff470f00 {
-> >>>>>  		status =3D "disabled";
-> >>>>>  	};
-> >>>>> =20
-> >>>>> +	rga: rga@ff480000 {
-> >>>>> +		compatible =3D "rockchip,px30-rga";
-> >>>>> +		reg =3D <0x0 0xff480000 0x0 0x10000>;
-> >>>>> +		interrupts =3D <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
-> >>>>> +		clocks =3D <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE=
->;
-> >>>>> +		clock-names =3D "aclk", "hclk", "sclk";
-> >>>>> +		resets =3D <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
-> >>>>> +		reset-names =3D "core", "axi", "ahb";
-> >>>>> +		power-domains =3D <&power PX30_PD_VO>;
-> >>>>
-> >>>> 		status =3D "disabled";
-> >>>
-> >>> As of 5.6, the rk3399 has the node enabled by default. Did that chang=
-e?
-> >>
-> >> 'status' disappeared during review for rk3399 between v2 and v3, but
-> >> doesn't mention the reason. If someone can give more info here?
-> >>
-> >> https://lore.kernel.org/lkml/1500101920-24039-5-git-send-email-jacob-c=
-hen@iotwrt.com/
-> >>
-> >> https://lore.kernel.org/lkml/1501470460-12014-5-git-send-email-jacob-c=
-hen@iotwrt.com/
-> >>
-> >>>
-> >>> Since it's a standalone block that has no I/O dependency, I don't rea=
-lly see
-> >>> the point of disabling it by default.
-> >>
-> >> Vop, hdmi and other video devices are also disabled.
-> >> Follow the rest I think...
-> >=20
-> > Well, these blocks do have related I/O ports so it makes sense not to e=
-nable
-> > them by default because of pinmux, or because there might be no connect=
-or
-> > populated/routed.
-> >=20
-> > For a memory to memory internal block, I don't see any reason why.
-> > It's definitely not board-specific and having to add these nodes for ev=
-ery board
-> > that has them is kind of a pain and might be overlooked. This will easi=
-ly result
-> > in the feature not being available for end users without having to chan=
-ge the
-> > dt.
-> >=20
-> > Also, the vpu node is always enabled on rockchip (and sunxi) platforms.
-> > I think these are better examples to follow.
->=20
-> From PX30 TRM-Part1:
->=20
-> Power domain is shared by vop and dsi.
-> It's up to the user what blocks he/she enables and what power it uses.
->=20
-> PD_VO: VOP_M, VOP_S, RGA and DSI
+gpg: Signature made Thu 16 Apr 2020 12:17:16 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-Hum, there is no direct correlation between "node is enabled in dt" and "re=
-lated
-hardware block consumes power". And removing nodes from dt is certainly not=
- an
-appropriate way to do power management! Device-tree is a way to represent t=
-he
-hardware, not a configuration interface (well, besides the /chosen node).
+Summary: 31 patches and/or PDF generation with issues, being 15 at build time
 
-Besides, the RGA driver seems to have good runtime pm support, so be assured
-that its clocks will be off when unused.
+Error/warnings:
 
-Cheers,
 
-Paul
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
 
-> >=20
-> > Cheers,
-> >=20
-> > Paul
-> >=20
-> >>>
-> >>> What do you think?
-> >>>
-> >>> Cheers,
-> >>>
-> >>> Paul
-> >>>
-> >>>>> +	};
-> >>>>> +
-> >>>>>  	qos_gmac: qos@ff518000 {
-> >>>>>  		compatible =3D "syscon";
-> >>>>>  		reg =3D <0x0 0xff518000 0x0 0x20>;
-> >>>>>
-> >>>>
-> >>>
-> >>
-> >=20
->=20
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
 
---IA03tywDYuoVKXrw
-Content-Type: application/pgp-signature; name="signature.asc"
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
 
------BEGIN PGP SIGNATURE-----
+Error #512 when running make SPHINXDIRS=media htmldocs:
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6YZ7UACgkQ3cLmz3+f
-v9H7Bwf/dxe/z672mfjqt4PR187hrwSZUxb8QrJrY0H31hOL2NOEFEufOKHPlA8y
-U+xPF95tT1SWwB+/6cjzhYGy9CF8EvmR0FDkBf2RVSXxbNvWSUMOFAVCA6bchQ5R
-7iuxNcsjeQuEBGu6ljByelGcBFBTrk6MUQEmEKuAaH7F22lfnKTW53SlSXPvsnpD
-CAexlBFsLxN9VKECnc2QZ5qUjpNqRozzOexjDewJWm3BlPg4buAAkSKOQKlwd7q0
-h7hYNx79PY6aFfp2EpdVy7XnbJOGRyRvwWbWsMFnKQo4wSYNtKWD3vMO3y6rX8ag
-JSRQ0iYXDgYz2uvtpi37rQb4y5Z0pg==
-=u/wC
------END PGP SIGNATURE-----
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
 
---IA03tywDYuoVKXrw--
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-si2157-module-debug-option-to-wait-on-signal-l.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-si2157-module-debug-option-to-wait-on-signal-l.patch
+patches/0006-media-si2157-module-debug-option-to-wait-on-signal-l.patch:83: WARNING: line over 80 characters
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0011-media-cx231xx-Add-i2c-device-analog-tuner-support.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0011-media-cx231xx-Add-i2c-device-analog-tuner-support.patch
+patches/0011-media-cx231xx-Add-i2c-device-analog-tuner-support.patch:52: CHECK: Alignment should match open parenthesis
+patches/0011-media-cx231xx-Add-i2c-device-analog-tuner-support.patch:56: CHECK: Alignment should match open parenthesis
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0013-media-lgdt3306a-Add-CNR-v5-stat.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0013-media-lgdt3306a-Add-CNR-v5-stat.patch
+patches/0013-media-lgdt3306a-Add-CNR-v5-stat.patch:53: WARNING: line over 80 characters
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
+
+Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
+
+Error #512 when running make SPHINXDIRS=media htmldocs:
+
