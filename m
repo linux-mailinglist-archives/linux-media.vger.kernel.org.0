@@ -2,24 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E63A41AC247
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 15:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE4171AC971
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 17:25:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895221AbgDPNZW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 09:25:22 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:41735 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2895219AbgDPNYt (ORCPT
+        id S2898464AbgDPNo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 09:44:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2898433AbgDPNoa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 09:24:49 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id AF69AE0003;
-        Thu, 16 Apr 2020 13:24:42 +0000 (UTC)
-Date:   Thu, 16 Apr 2020 15:24:42 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Johan Jonker <jbx6244@gmail.com>
+        Thu, 16 Apr 2020 09:44:30 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B064C061A0C;
+        Thu, 16 Apr 2020 06:44:30 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id v8so2574131wma.0;
+        Thu, 16 Apr 2020 06:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WnOLlJGWjKKU4l6KU86petvNf/KeuBQfP8LASQRqnt8=;
+        b=NKaFl00peRLsJRd1TCpOYzHetW8sbRA+/HJn6nXHcphRgYoHcE2As4Skpd/c5OOtl3
+         aAJP6GhSIoz0w4NCFbSZJ6HKcTBmEX7IXKjNWRGHscVFHFO40s7l2Oij2g2owDoID0a5
+         7/75cQ6pZ1aQ52kQoT65AaH1sagq0kwsSQQsKV6iAsy2BwSQXEQu+AZUDJEATTyjsEvW
+         /dQmoQ710BctBOzQRsQWEq7qIyYJgrGIrl24rfwI89EL6oev6W3DzRYRUHoGWtgMTglM
+         5DlQjWI5n+jybhbO+jO01+JAbMYihB8YdAnzppfOgx7wop42LLUkMnTRf0PV4zxzyq5i
+         zrVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WnOLlJGWjKKU4l6KU86petvNf/KeuBQfP8LASQRqnt8=;
+        b=lEubnyQ/cp6fLEeDfiOQMbHMzZiBd3aDNoa+AcT1Fi9XTQjA+d3zE0t/guRpbmmNTx
+         kSXsmk8Kx7bqIYOjbFROmQ7OPLW2BBRpLkOYLJ8Wqmcfhxv4cG5NKieOqYZ92cj2ikpJ
+         RDzdKktUhiLFywVL4st851X2HA+5/ao6KcioXMDfoXyFYmo7ZM5fHDuy73sjmNPLM6KP
+         VF8EV6p7p8nic8l0X9Qn1S2GrUIZfXadFv0wXjONHLNcmsdIt8sjT0rUv1b1LcalBWrK
+         l6ptRSPUQhERa6rPCoiM3+2MgygRR8Ojjau05E7PN1oHLx+cuHNsrsRTDJlP7dhV/QZ0
+         sIBA==
+X-Gm-Message-State: AGi0PuYh6giViBV7jL1UZxPwjcpeMX3S/xDX6bqsMWEOdI+qWbLzcQQl
+        dTyjG5FaeklVpRtO63ZRcHs=
+X-Google-Smtp-Source: APiQypKHstkks+d7QKXlK1Kx2K4FOqpUNOov9QzJnGobXCUEc76Hs0tyB7U8aK6EB9CSGnwIDUH4vw==
+X-Received: by 2002:a7b:cd10:: with SMTP id f16mr5171636wmj.21.1587044668689;
+        Thu, 16 Apr 2020 06:44:28 -0700 (PDT)
+Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id z18sm21457242wrw.41.2020.04.16.06.44.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2020 06:44:27 -0700 (PDT)
+Subject: Re: [PATCH 2/4] arm64: dts: rockchip: Add RGA support to the PX30
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -31,117 +62,106 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Heiko Stuebner <heiko@sntech.de>,
         Hans Verkuil <hansverk@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 2/4] arm64: dts: rockchip: Add RGA support to the PX30
-Message-ID: <20200416132442.GI125838@aptenodytes>
 References: <20200416115047.233720-1-paul.kocialkowski@bootlin.com>
  <20200416115047.233720-3-paul.kocialkowski@bootlin.com>
  <478f0a8b-f819-62f4-83b8-27918c4c2431@gmail.com>
+ <20200416132442.GI125838@aptenodytes>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <f4ad8ea4-7904-1458-e564-2d20c87ed417@gmail.com>
+Date:   Thu, 16 Apr 2020 15:44:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="+PbGPm1eXpwOoWkI"
-Content-Disposition: inline
-In-Reply-To: <478f0a8b-f819-62f4-83b8-27918c4c2431@gmail.com>
+In-Reply-To: <20200416132442.GI125838@aptenodytes>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 4/16/20 3:24 PM, Paul Kocialkowski wrote:
+> Hi,
+> 
+> On Thu 16 Apr 20, 15:02, Johan Jonker wrote:
+>> Hi Paul,
+>>
+>> The conversion of rockchip-rga.txt to rockchip-rga.yaml by myself just
+>> has been approved by robh.
+> 
+> Huh, I looked around for ongoing related work but missed it.
+> I'll definitely rebase on top of your series and use the yaml description
+> instead. Thanks!
+> 
+>> Maybe place dts patches at the end of a patch serie.
+>> Could you include a &rga patch if your device is supported in mainline,
+>> so we can test with:
+>> make ARCH=arm64 dtbs_check
+>> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> 
+> I tested with the PX30 EVB so I can surely add a node there if that turns
+> out necessary (see below).
+> 
+>> Johan
+>>
+>> On 4/16/20 1:50 PM, Paul Kocialkowski wrote:
+>>> The PX30 features a RGA block: add the necessary node to support it.
+>>>
+>>> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>>> ---
+>>>  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
+>>>  1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
+>>> index 75908c587511..4bfbee9d4123 100644
+>>> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
+>>> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+>>> @@ -1104,6 +1104,17 @@ vopl_mmu: iommu@ff470f00 {
+>>>  		status = "disabled";
+>>>  	};
+>>>  
+>>> +	rga: rga@ff480000 {
+>>> +		compatible = "rockchip,px30-rga";
+>>> +		reg = <0x0 0xff480000 0x0 0x10000>;
+>>> +		interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
+>>> +		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
+>>> +		clock-names = "aclk", "hclk", "sclk";
+>>> +		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
+>>> +		reset-names = "core", "axi", "ahb";
+>>> +		power-domains = <&power PX30_PD_VO>;
+>>
+>> 		status = "disabled";
+> 
+> As of 5.6, the rk3399 has the node enabled by default. Did that change?
 
---+PbGPm1eXpwOoWkI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+'status' disappeared during review for rk3399 between v2 and v3, but
+doesn't mention the reason. If someone can give more info here?
 
-Hi,
+https://lore.kernel.org/lkml/1500101920-24039-5-git-send-email-jacob-chen@iotwrt.com/
 
-On Thu 16 Apr 20, 15:02, Johan Jonker wrote:
-> Hi Paul,
->=20
-> The conversion of rockchip-rga.txt to rockchip-rga.yaml by myself just
-> has been approved by robh.
+https://lore.kernel.org/lkml/1501470460-12014-5-git-send-email-jacob-chen@iotwrt.com/
 
-Huh, I looked around for ongoing related work but missed it.
-I'll definitely rebase on top of your series and use the yaml description
-instead. Thanks!
+> 
+> Since it's a standalone block that has no I/O dependency, I don't really see
+> the point of disabling it by default.
 
-> Maybe place dts patches at the end of a patch serie.
-> Could you include a &rga patch if your device is supported in mainline,
-> so we can test with:
-> make ARCH=3Darm64 dtbs_check
-> DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/media/rockchip-rga.ya=
-ml
+Vop, hdmi and other video devices are also disabled.
+Follow the rest I think...
 
-I tested with the PX30 EVB so I can surely add a node there if that turns
-out necessary (see below).
+> 
+> What do you think?
+> 
+> Cheers,
+> 
+> Paul
+> 
+>>> +	};
+>>> +
+>>>  	qos_gmac: qos@ff518000 {
+>>>  		compatible = "syscon";
+>>>  		reg = <0x0 0xff518000 0x0 0x20>;
+>>>
+>>
+> 
 
-> Johan
->=20
-> On 4/16/20 1:50 PM, Paul Kocialkowski wrote:
-> > The PX30 features a RGA block: add the necessary node to support it.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/d=
-ts/rockchip/px30.dtsi
-> > index 75908c587511..4bfbee9d4123 100644
-> > --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> > @@ -1104,6 +1104,17 @@ vopl_mmu: iommu@ff470f00 {
-> >  		status =3D "disabled";
-> >  	};
-> > =20
-> > +	rga: rga@ff480000 {
-> > +		compatible =3D "rockchip,px30-rga";
-> > +		reg =3D <0x0 0xff480000 0x0 0x10000>;
-> > +		interrupts =3D <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +		clocks =3D <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
-> > +		clock-names =3D "aclk", "hclk", "sclk";
-> > +		resets =3D <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
-> > +		reset-names =3D "core", "axi", "ahb";
-> > +		power-domains =3D <&power PX30_PD_VO>;
->=20
-> 		status =3D "disabled";
-
-As of 5.6, the rk3399 has the node enabled by default. Did that change?
-
-Since it's a standalone block that has no I/O dependency, I don't really see
-the point of disabling it by default.
-
-What do you think?
-
-Cheers,
-
-Paul
-
-> > +	};
-> > +
-> >  	qos_gmac: qos@ff518000 {
-> >  		compatible =3D "syscon";
-> >  		reg =3D <0x0 0xff518000 0x0 0x20>;
-> >=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---+PbGPm1eXpwOoWkI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6YXJoACgkQ3cLmz3+f
-v9Ho3wf/d9zxV64Bwt9TC0ABSimMOz4E7MQphqkXg/XbCpShScAkCWfzSQ71WxB4
-T0+gL2hGnJEua+rGBrWyXst54nDhfUvqmiKw2VDC+ukjpVgGwNNP1UFFWGf5rTqM
-TNY4QMIqmVhU1hvIGLYIT3iFZl66I1jlzBlywy1tM5SqC6B2N7Xy7P1FgtfVt7Wr
-iz3jUXj1tqFrSB4sFdr2HFkOV48LLhtzjfSEPJI5ZtIsgM+jh/fGYu/v38kPlDW5
-2bjcC2ZLiwHQyUpV8/+vEHFo8Ged/qocFyPrKtI1mCZd+Yd/VYRP85f551sbc0uz
-uuYKH6JbkP37Fdz/ONOdyMbAqj+dNg==
-=RgMQ
------END PGP SIGNATURE-----
-
---+PbGPm1eXpwOoWkI--
