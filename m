@@ -2,118 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF101ABD58
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 11:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 911041AC00E
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 13:47:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504368AbgDPJxI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 05:53:08 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:35600 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503852AbgDPJxD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 05:53:03 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03G9mLw6079677;
-        Thu, 16 Apr 2020 09:52:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=ORNkJh0El/FiFaNrBZ35C8htJjikUv/QO8+cVqgjYns=;
- b=TMxuolbgxTh7AfZ1jZZNYK/K8B4EvLKcEvSHnOoKKE3pd1UpDP4SogboxBc+mCqK7hZY
- 70Ou+a/w2oeJ4XEf8CoIOK8aEmlQWrm1qaJFgp9rBKNNlhJYoZvru1FAtbcMpcO2lHLR
- jxYqtLx5vQ7eOy/ZKyzQkYa48fJQEJUf4bmDBNPRLdWTtJZeXgiZWuQj1HEqH3b4QjhA
- NI/dNbj5qNPYvvpA97aypERJf8lY7k112u8pn1YL2OU1CWz9xBLn5UztR93BPKzOjj9i
- IrdT4l/61lPvXDqZO+UZQybyNvoHFPloHpVc6oDTm8pmQ4wotBQSCgNiDnRLjkT+ovmn hA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 30e0aa5x1b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 16 Apr 2020 09:52:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03G9l5h3106098;
-        Thu, 16 Apr 2020 09:50:30 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 30ememjd48-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 16 Apr 2020 09:50:30 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 03G9oAKA028024;
-        Thu, 16 Apr 2020 09:50:10 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 16 Apr 2020 02:50:10 -0700
-Date:   Thu, 16 Apr 2020 12:49:56 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>
-Cc:     devel@driverdev.osuosl.org, nd@arm.com,
+        id S2506636AbgDPLrX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 07:47:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55366 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2504827AbgDPKZO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 06:25:14 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 457552192A;
+        Thu, 16 Apr 2020 10:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587032711;
+        bh=lKwbnEdUTTba3AJVKzmuvKJ2X9FO6D210s3WkJT/zZQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W2uMPyIU+mZIh4oNdYX1OAnVqWzjphWKBN2GBWPvfUx+i38L7tiemQkppi+gxHlZW
+         JlF2YNYah1X+HwUMB3yZOQ35X0ro+n9Y78fNlVj/EfyxfoZZsOyB5MYhQSYl8R4ERW
+         H/AbdIG7irc1sh8ffKpw66MvAQ+0sft+pvgi+fyg=
+Date:   Thu, 16 Apr 2020 12:25:08 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     driverdevel <devel@driverdev.osuosl.org>, nd <nd@arm.com>,
         Todd Kjos <tkjos@android.com>,
         Lecopzer Chen <lecopzer.chen@mediatek.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-        john.stultz@linaro.org, anders.pedersen@arm.com,
         Daniel Vetter <daniel.vetter@ffwll.ch>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Anders Pedersen <anders.pedersen@arm.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         "Darren Hart (VMware)" <dvhart@infradead.org>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
         Laura Abbott <labbott@redhat.com>,
         Martijn Coenen <maco@android.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Christian Brauner <christian@brauner.io>,
         linux-media@vger.kernel.org
 Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
-Message-ID: <20200416094955.GM1163@kadam>
+Message-ID: <20200416102508.GA820251@kroah.com>
 References: <20200414134629.54567-1-orjan.eide@arm.com>
  <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+ <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200414141849.55654-1-orjan.eide@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9592 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 phishscore=0 spamscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004160067
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9592 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1011
- impostorscore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004160067
+In-Reply-To: <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 04:18:47PM +0200, Ørjan Eide wrote:
-> @@ -238,6 +242,10 @@ static void ion_unmap_dma_buf(struct dma_buf_attachment *attachment,
->  			      struct sg_table *table,
->  			      enum dma_data_direction direction)
->  {
-> +	struct ion_dma_buf_attachment *a = attachment->priv;
-> +
-> +	a->mapped = false;
+On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
+> On Tue, Apr 14, 2020 at 7:28 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Apr 14, 2020 at 04:18:47PM +0200, Ørjan Eide wrote:
+> > > Only sync the sg-list of an Ion dma-buf attachment when the attachment
+> > > is actually mapped on the device.
+> > >
+> > > dma-bufs may be synced at any time. It can be reached from user space
+> > > via DMA_BUF_IOCTL_SYNC, so there are no guarantees from callers on when
+> > > syncs may be attempted, and dma_buf_end_cpu_access() and
+> > > dma_buf_begin_cpu_access() may not be paired.
+> > >
+> > > Since the sg_list's dma_address isn't set up until the buffer is used
+> > > on the device, and dma_map_sg() is called on it, the dma_address will be
+> > > NULL if sync is attempted on the dma-buf before it's mapped on a device.
+> > >
+> > > Before v5.0 (commit 55897af63091 ("dma-direct: merge swiotlb_dma_ops
+> > > into the dma_direct code")) this was a problem as the dma-api (at least
+> > > the swiotlb_dma_ops on arm64) would use the potentially invalid
+> > > dma_address. How that failed depended on how the device handled physical
+> > > address 0. If 0 was a valid address to physical ram, that page would get
+> > > flushed a lot, while the actual pages in the buffer would not get synced
+> > > correctly. While if 0 is an invalid physical address it may cause a
+> > > fault and trigger a crash.
+> > >
+> > > In v5.0 this was incidentally fixed by commit 55897af63091 ("dma-direct:
+> > > merge swiotlb_dma_ops into the dma_direct code"), as this moved the
+> > > dma-api to use the page pointer in the sg_list, and (for Ion buffers at
+> > > least) this will always be valid if the sg_list exists at all.
+> > >
+> > > But, this issue is re-introduced in v5.3 with
+> > > commit 449fa54d6815 ("dma-direct: correct the physical addr in
+> > > dma_direct_sync_sg_for_cpu/device") moves the dma-api back to the old
+> > > behaviour and picks the dma_address that may be invalid.
+> > >
+> > > dma-buf core doesn't ensure that the buffer is mapped on the device, and
+> > > thus have a valid sg_list, before calling the exporter's
+> > > begin_cpu_access.
+> > >
+> > > Signed-off-by: Ørjan Eide <orjan.eide@arm.com>
+> > > ---
+> > >  drivers/staging/android/ion/ion.c | 12 ++++++++++++
+> > >  1 file changed, 12 insertions(+)
+> > >
+> > > Resubmit without disclaimer, sorry about that.
+> > >
+> > > This seems to be part of a bigger issue where dma-buf exporters assume
+> > > that their dma-buf begin_cpu_access and end_cpu_access callbacks have a
+> > > certain guaranteed behavior, which isn't ensured by dma-buf core.
+> > >
+> > > This patch fixes this in ion only, but it also needs to be fixed for
+> > > other exporters, either handled like this in each exporter, or in
+> > > dma-buf core before calling into the exporters.
+> > >
+> > > diff --git a/drivers/staging/android/ion/ion.c b/drivers/staging/android/ion/ion.c
+> > > index 38b51eace4f9..7b752ba0cb6d 100644
+> > > --- a/drivers/staging/android/ion/ion.c
+> > > +++ b/drivers/staging/android/ion/ion.c
+> >
+> > Now that we have the dma-buff stuff in the tree, do we even need the
+> > ion code in the kernel anymore?  Can't we delete it now?
+> >
+> 
+> I agree that we shouldn't be taking further (non-security/cleanup)
+> patches to the ION code.
+> 
+> I'd like to give developers a little bit of a transition period (I was
+> thinking a year, but really just one LTS release that has both would
+> do) where they can move their ION heaps over to dmabuf heaps and test
+> both against the same tree.
+> 
+> But I do think we can mark it as deprecated and let folks know that
+> around the end of the year it will be deleted.
 
-Possibly a stupid question but here we're not holding a lock.  Is
-concurrency an issue?
+No one ever notices "depreciated" things, they only notice if the code
+is no longer there :)
 
-> +
->  	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
->  }
->  
-> @@ -297,6 +305,8 @@ static int ion_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
->  
->  	mutex_lock(&buffer->lock);
->  	list_for_each_entry(a, &buffer->attachments, list) {
-> +		if (!a->mapped)
-> +			continue;
->  		dma_sync_sg_for_cpu(a->dev, a->table->sgl, a->table->nents,
->  				    direction);
->  	}
+So I'm all for just deleting it and seeing who even notices...
 
-regards,
-dan carpenter
+thanks,
 
-
+greg k-h
