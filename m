@@ -2,152 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D1171AC1EB
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88E7F1AC202
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 15:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2894667AbgDPM71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 08:59:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51252 "EHLO
+        id S2894762AbgDPNCu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 09:02:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2894447AbgDPM7X (ORCPT
+        by vger.kernel.org with ESMTP id S2894629AbgDPNCp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 08:59:23 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A375FC061A0F
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 05:59:23 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id n17so1206267ejh.7
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 05:59:23 -0700 (PDT)
+        Thu, 16 Apr 2020 09:02:45 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00000C061A0C;
+        Thu, 16 Apr 2020 06:02:44 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id e26so4471148wmk.5;
+        Thu, 16 Apr 2020 06:02:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Pqocv/eXd8agG6oQNiPQwe8tU9LueQq90txyZdBuL44=;
-        b=NmuMt05wm0nh5pDYjx6jFJ0hyrfOZRfh4rtC8/XsvZETXclm+D/BaNlRZO9BveAbGR
-         lXujA2tdsIMCv//33DS0v39tE/BzDr4ZuQktKV6XBouxm5jSWRR0MgXI5g0fLvBuM0kY
-         rL0gOwH+/35QQdDIXLEQ/WSZu7csyiz8qW56jw3APfWNuySnek1cPaq7Y3BVw8l48kLb
-         BSUDgOE0zeqFY3UBi6DU/xrARIijIXQTtneZdeRg3U1OSxDp+WUatnUACvILY5GawGPG
-         c1S9G8rt9VQaJGndxGxdtwhZ3i7RLa0UyrBd1u501/qqb8BCZNa/viQTVy9VHUq3Zz8M
-         P5xg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DsXbXqSR3WQQ/q3QyWRXNvBRy+VnfDMjqm/TEYscBoU=;
+        b=l9OHz4Xu8UUrVETfqDUe78B77QloOSjAuW1zUUPhF6mnjZNyfmYlTZlstQ7DTLMZXx
+         QZp/1o3zt7Pyua6lAgb+Fg8JZ+UNuL0xMB0C5Rg4lNWyh/Y0n58k3khWQmgQMgFW10vA
+         UZEt/WHoic7XKdFncgmdMdD/ERfOIihkhdAZpnaTfjz7gEfcQKaaIbuGilMxFH/Hmcnq
+         2BajeBWSbyY3UWqPnOuAa6ECF+V1+As5iLm580KPCfBt0++Ja+vZt6Yl9Pj6jFpP4SRk
+         6EYcyexDlQ2/QiQcgXyU+yM+IM2Z3TOfzzI21YEHupFpmb5JU3l3/cnQBP7SsJaWacdV
+         /X0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Pqocv/eXd8agG6oQNiPQwe8tU9LueQq90txyZdBuL44=;
-        b=jBbgBngq3T3TODQ31RiqQn2EG1Yu9JxLYFKA+5KwFOQA67M63cFk8Nkcsovxrq5i3R
-         2r8uHyiWQ/cv2XR0tAXE901hUze4pn/k2/HmeMhKRa59FI+Degx33tM6ZjyYiuDd8XiO
-         A8bwHEOEhYPnn9HeFwPND+j/8b+MHsfZsI9dOgK/hNpi1R+orweM47QOYEUhV83AJ335
-         a8vNrt6UdzHgIVpzh3/l71JqtQoOA6VZfQamLY1ERTwo2R/Vjq0hGstbJk3ce2TBKTxw
-         UJnThuHk6MBZlKA4latjY/DNqdh2Ca/VTP2xcSWfQSz4dzRDWYOzM8QOYhicjWwIUucT
-         ZCYg==
-X-Gm-Message-State: AGi0PubT1FprG5eZYSHPBFKJdkygg5kgugBDM5+rwx80zJlv96stt5Q1
-        tcrf6Tlwc7FS6nj/x5FFG8oE2qvl3XDs+bYaxKV95g==
-X-Google-Smtp-Source: APiQypJZ8a9Xj0AcqhtwU+4h7TWpCu2z8o/G+gdZiRVW5tZY0fxY1YqboCEkjK1ptgUJPvQE71pdnqe4P0py81bICVY=
-X-Received: by 2002:a17:906:af6f:: with SMTP id os15mr9748919ejb.78.1587041962281;
- Thu, 16 Apr 2020 05:59:22 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DsXbXqSR3WQQ/q3QyWRXNvBRy+VnfDMjqm/TEYscBoU=;
+        b=YjH+W+hL1At2/TEVQLR4Sj2ju5oav+deJEQYTYda1Lc98yx9XzxXF9bbfeTezsQqlQ
+         g5+vd4WeS4BXMT2UeZBEruwJEv2LMrPOVG9nDEVNnMY3PnSJLfleyAJtq6HIxJKHBlHx
+         VYDUGWm5seF3/b5BO3BV7+yvazpCjzbCVyL+rLE+ySXcLlw17ry8pXBbtC1CsKfnP+Gp
+         lQKg6Rj4I61OpX0U2NIReyqpwadaNdZa+Wh49kfG4zR/qv/LD/QskObgooGU7+1AXcIa
+         2NBrJqA3K/sr3fvi8pXmWsRu595aHXEJsVcZMK7y8rEwe2z50fVk0sH9yv6dwu2D46y9
+         ZPFA==
+X-Gm-Message-State: AGi0PuYEpUweRxu+BeDXJ7FWjC8zXEV0UTz9WV+ZbOF91gXTKBhK0dmz
+        hzkQUwgW7xon6LyIv/PDT3M=
+X-Google-Smtp-Source: APiQypJmGVgOCUB4Bi9u+4yal3fthikSw/VxSVv6cs2uWMvyqqMrS3fjb25iU4fphqExvZQpuidm6Q==
+X-Received: by 2002:a1c:7706:: with SMTP id t6mr4806123wmi.110.1587042163757;
+        Thu, 16 Apr 2020 06:02:43 -0700 (PDT)
+Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id c18sm26903597wrx.5.2020.04.16.06.02.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2020 06:02:42 -0700 (PDT)
+Subject: Re: [PATCH 2/4] arm64: dts: rockchip: Add RGA support to the PX30
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hansverk@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20200416115047.233720-1-paul.kocialkowski@bootlin.com>
+ <20200416115047.233720-3-paul.kocialkowski@bootlin.com>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <478f0a8b-f819-62f4-83b8-27918c4c2431@gmail.com>
+Date:   Thu, 16 Apr 2020 15:02:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
-In-Reply-To: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Thu, 16 Apr 2020 09:59:10 -0300
-Message-ID: <CAAEAJfCyWpNy-Ckn+6fdzUTFiDr5RqYD4V5BgUviRRBxr=ggBQ@mail.gmail.com>
-Subject: Re: [RFC][PATCH] media: v4l2-ctrls: add more NULL pointer checks
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200416115047.233720-3-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sergey,
+Hi Paul,
 
-Thanks for the patch!
+The conversion of rockchip-rga.txt to rockchip-rga.yaml by myself just
+has been approved by robh.
+Maybe place dts patches at the end of a patch serie.
+Could you include a &rga patch if your device is supported in mainline,
+so we can test with:
+make ARCH=arm64 dtbs_check
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-rga.yaml
 
-On Fri, 10 Apr 2020 at 07:35, Sergey Senozhatsky
-<sergey.senozhatsky@gmail.com> wrote:
->
-> A number of v4l2-ctrls functions gracefully handle NULL ctrl pointers,
-> for instance, v4l2_g_ctrl(), v4l2_ctrl_activate(), __v4l2_ctrl_grab()
+Johan
 
-Please note that v4l2_g_ctrl doesn't really handle
-a NULL ctrl parameter, because it doesn't have a ctrl
-parameter :-)
-
-Checking the return of a function such as v4l2_ctrl_find,
-is not the same as defensive-style parameter checking.
-
-And the thing is, the kernel doesn't really do defensive checking
-like this on internal APIs, unless there are good reasons
-allowing a NULL parameter, such as kfree.
-
-Now, maybe this is the case, maybe it should be possible
-to add controls without checking the result, or to allow
-calling the control API with a NULL ctrl.
-
-Quite frankly, I'm not convinced of this being the case,
-or just a quirk of the vivid driver.
-
-In any case...
-
-> to name a few. But not all of them. It is relatively easy to crash the
-> kernel with the NULL pointer dereference:
->
->         # modprobe vivid node_types=0x60000
->         $ v4l2-compliance
->
-> BUG: kernel NULL pointer dereference, address: 0000000000000020
-> PF: supervisor read access in kernel mode
-> PF: error_code(0x0000) - not-present page
-> PGD 0 P4D 0
-> Oops: 0000 [#1] SMP PTI
-> RIP: 0010:v4l2_ctrl_s_ctrl.isra.0+0x4/0x30 [vivid]
-> Call Trace:
->  vidioc_s_input.cold+0x1a8/0x38d [vivid]
->  __video_do_ioctl+0x372/0x3a0 [videodev]
->  ? v4l_enumstd+0x20/0x20 [videodev]
->  ? v4l_enumstd+0x20/0x20 [videodev]
->  video_usercopy+0x1cb/0x450 [videodev]
->  v4l2_ioctl+0x3f/0x50 [videodev]
->  ksys_ioctl+0x3f1/0x7e0
->  ? vfs_write+0x1c4/0x1f0
->  __x64_sys_ioctl+0x11/0x20
->  do_syscall_64+0x49/0x2c0
->  entry_SYSCALL_64_after_hwframe+0x44/0xa9
->
-> vivid driver crashes the kernel in various places, for instance,
->
->         v4l2_ctrl_modify_range(dev->brightness, ...);
-> or
->         v4l2_ctrl_s_ctrl(dev->brightness, ...);
->
-> because ->brightness (and quite likely some more controls) is NULL.
-> While we may fix the vivid driver, it would be safer to fix core
-> API. This patch adds more NULL pointer checks to ctrl API.
->
-> Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+On 4/16/20 1:50 PM, Paul Kocialkowski wrote:
+> The PX30 features a RGA block: add the necessary node to support it.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 22 ++++++++++++++++-
->  include/media/v4l2-ctrls.h           | 37 ++++++++++++++++++++++++++--
->  2 files changed, 56 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 93d33d1db4e8..02a60f67c2ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -2869,6 +2869,9 @@ EXPORT_SYMBOL(v4l2_ctrl_add_handler);
->
->  bool v4l2_ctrl_radio_filter(const struct v4l2_ctrl *ctrl)
->  {
-> +       if (WARN_ON(!ctrl))
-> +               return false;
+>  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
+> index 75908c587511..4bfbee9d4123 100644
+> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+> @@ -1104,6 +1104,17 @@ vopl_mmu: iommu@ff470f00 {
+>  		status = "disabled";
+>  	};
+>  
+> +	rga: rga@ff480000 {
+> +		compatible = "rockchip,px30-rga";
+> +		reg = <0x0 0xff480000 0x0 0x10000>;
+> +		interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
+> +		clock-names = "aclk", "hclk", "sclk";
+> +		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
+> +		reset-names = "core", "axi", "ahb";
+> +		power-domains = <&power PX30_PD_VO>;
+
+		status = "disabled";
+
+> +	};
 > +
+>  	qos_gmac: qos@ff518000 {
+>  		compatible = "syscon";
+>  		reg = <0x0 0xff518000 0x0 0x20>;
+> 
 
-.. don't think this is needed, as it's always called via v4l2_ctrl_add_handler
-which guarantess a non-NULL pointer.
-
-Thanks!
-Ezequiel
